@@ -1,17 +1,29 @@
+--------
+
+ **Help improve this page** 
+
+--------
+
+--------
+
+Want to contribute to this user guide? Scroll to the bottom of this page and select **Edit this page on GitHub**\. Your contributions will help make our user guide better for everyone\.
+
+--------
+
 # Compliance validation for Amazon Elastic Kubernetes Service<a name="compliance"></a>
 
 To learn whether an AWS service is within the scope of specific compliance programs, see [AWS services in Scope by Compliance Program](https://aws.amazon.com/compliance/services-in-scope/) and choose the compliance program that you are interested in\. For general information, see [AWS Compliance Programs](https://aws.amazon.com/compliance/programs/)\.
 
 You can download third\-party audit reports using AWS Artifact\. For more information, see [Downloading Reports in AWS Artifact](https://docs.aws.amazon.com/artifact/latest/ug/downloading-documents.html)\.
 
-Your compliance responsibility when using AWS services is determined by the sensitivity of your data, your company's compliance objectives, and applicable laws and regulations\. AWS provides the following resources to help with compliance:
-+ [Security and Compliance Quick Start Guides](https://aws.amazon.com/quickstart/?awsf.filter-tech-category=tech-category%23security-identity-compliance) – These deployment guides discuss architectural considerations and provide steps for deploying baseline environments on AWS that are security and compliance focused\.
-+ [Architecting for HIPAA Security and Compliance on Amazon Web Services](https://docs.aws.amazon.com/whitepapers/latest/architecting-hipaa-security-and-compliance-on-aws/welcome.html) – This whitepaper describes how companies can use AWS to create HIPAA\-eligible applications\.
+Your compliance responsibility when using AWS services is determined by the sensitivity of your data, your company’s compliance objectives, and applicable laws and regulations\. AWS provides the following resources to help with compliance:
++  [Security and Compliance Quick Start Guides](https://aws.amazon.com/quickstart/?awsf.filter-tech-category=tech-category%23security-identity-compliance) – These deployment guides discuss architectural considerations and provide steps for deploying baseline environments on AWS that are security and compliance focused\.
++  [Architecting for HIPAA Security and Compliance on Amazon Web Services](https://docs.aws.amazon.com/whitepapers/latest/architecting-hipaa-security-and-compliance-on-aws/welcome.html) – This whitepaper describes how companies can use AWS to create HIPAA\-eligible applications\.
 **Note**  
 Not all AWS services are HIPAA eligible\. For more information, see the [HIPAA Eligible Services Reference](https://aws.amazon.com/compliance/hipaa-eligible-services-reference/)\.
-+ [AWS Compliance Resources](https://aws.amazon.com/compliance/resources/) – This collection of workbooks and guides might apply to your industry and location\.
-+ [AWS Customer Compliance Guides](https://d1.awsstatic.com/whitepapers/compliance/AWS_Customer_Compliance_Guides.pdf) – Understand the shared responsibility model through the lens of compliance\. The guides summarize the best practices for securing AWS services and map the guidance to security controls across multiple frameworks \(including National Institute of Standards and Technology \(NIST\), Payment Card Industry Security Standards Council \(PCI\), and International Organization for Standardization \(ISO\)\)\.
-+ [Evaluating Resources with Rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html) in the *AWS Config Developer Guide* – The AWS Config service assesses how well your resource configurations comply with internal practices, industry guidelines, and regulations\.
-+ [AWS Security Hub](https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html) – This AWS service provides a comprehensive view of your security state within AWS\. Security Hub uses security controls to evaluate your AWS resources and to check your compliance against security industry standards and best practices\. For a list of supported services and controls, see [Security Hub controls reference](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-controls-reference.html)\.
-+ [Amazon GuardDuty](https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html) – This AWS service detects potential threats to your AWS accounts, workloads, containers, and data by monitoring your environment for suspicious and malicious activities\. GuardDuty can help you address various compliance requirements, like PCI DSS, by meeting intrusion detection requirements mandated by certain compliance frameworks\.
-+ [AWS Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/what-is.html) – This AWS service helps you continuously audit your AWS usage to simplify how you manage risk and compliance with regulations and industry standards\.
++  [AWS Compliance Resources](https://aws.amazon.com/compliance/resources/) – This collection of workbooks and guides might apply to your industry and location\.
++ \{https\-\-\-d1\-awsstatic\-com\-whitepapers\-compliance\-AWS\-Customer\-Compliance\-Guides\-pdf\}\[AWS Customer Compliance Guides\] – Understand the shared responsibility model through the lens of compliance\. The guides summarize the best practices for securing AWS services and map the guidance to security controls across multiple frameworks \(including National Institute of Standards and Technology \(NIST\), Payment Card Industry Security Standards Council \(PCI\), and International Organization for Standardization \(ISO\)\)\.
++  [Evaluating Resources with Rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html) in the * AWS Config Developer Guide* – The AWS Config service assesses how well your resource configurations comply with internal practices, industry guidelines, and regulations\.
++  [AWS Security Hub](https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html) – This AWS service provides a comprehensive view of your security state within AWS\. Security Hub uses security controls to evaluate your AWS resources and to check your compliance against security industry standards and best practices\. For a list of supported services and controls, see [Security Hub controls reference](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-controls-reference.html)\.
++  [Amazon GuardDuty](https://docs.aws.amazon.com/guardduty/latest/userguide/what-is-guardduty.html) – This AWS service detects potential threats to your AWS accounts, workloads, containers, and data by monitoring your environment for suspicious and malicious activities\. GuardDuty can help you address various compliance requirements, like PCI DSS, by meeting intrusion detection requirements mandated by certain compliance frameworks\.
++  [AWS Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/what-is.html) – This AWS service helps you continuously audit your AWS usage to simplify how you manage risk and compliance with regulations and industry standards\.

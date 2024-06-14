@@ -1,8 +1,20 @@
+--------
+
+ **Help improve this page** 
+
+--------
+
+--------
+
+Want to contribute to this user guide? Scroll to the bottom of this page and select **Edit this page on GitHub**\. Your contributions will help make our user guide better for everyone\.
+
+--------
+
 # Understanding Amazon EKS log file entries<a name="understanding-service-name-entries"></a>
 
-A trail is a configuration that enables delivery of events as log files to an Amazon S3 bucket that you specify\. CloudTrail log files contain one or more log entries\. An event represents a single request from any source and includes information about the requested action\. This include information such as the date and time of the action and the request parameters that were used\. CloudTrail log files aren't an ordered stack trace of the public API calls, so they don't appear in any specific order\. 
+A trail is a configuration that enables delivery of events as log files to an Amazon S3 bucket that you specify\. CloudTrail log files contain one or more log entries\. An event represents a single request from any source and includes information about the requested action\. This include information such as the date and time of the action and the request parameters that were used\. CloudTrail log files aren’t an ordered stack trace of the public API calls, so they don’t appear in any specific order\.
 
-The following example shows a CloudTrail log entry that demonstrates the [https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html) action\.
+The following example shows a CloudTrail log entry that demonstrates the [CreateCluster](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html) action\.
 
 ```
 {
@@ -28,7 +40,7 @@ The following example shows a CloudTrail log entry that demonstrates the [https:
         "subnet-4f8c5004"
       ]
     },
-    "roleArn": "arn:aws:iam::111122223333:role/AWSServiceRoleForAmazonEKS-CAC1G1VH3ZKZ",
+    "roleArn": "arn:aws:iam::111122223333:role/{aws}ServiceRoleForAmazonEKS-CAC1G1VH3ZKZ",
     "clusterName": "test"
   },
   "responseElements": {
@@ -38,7 +50,7 @@ The following example shows a CloudTrail log entry that demonstrates the [https:
       "createdAt": 1527535003.208,
       "certificateAuthority": {},
       "arn": "arn:aws:eks:region-code:111122223333:cluster/test",
-      "roleArn": "arn:aws:iam::111122223333:role/AWSServiceRoleForAmazonEKS-CAC1G1VH3ZKZ",
+      "roleArn": "arn:aws:iam::111122223333:role/{aws}ServiceRoleForAmazonEKS-CAC1G1VH3ZKZ",
       "version": "1.10",
       "resourcesVpcConfig": {
         "securityGroupIds": [],
@@ -60,9 +72,7 @@ The following example shows a CloudTrail log entry that demonstrates the [https:
 
 ## Log Entries for Amazon EKS Service Linked Roles<a name="eks-service-linked-role-ct"></a>
 
-The Amazon EKS service linked roles make API calls to AWS resources\. CloudTrail log entries with `username: AWSServiceRoleForAmazonEKS` and `username: AWSServiceRoleForAmazonEKSNodegroup` appears for calls made by the Amazon EKS service linked roles\. For more information about Amazon EKS and service linked roles, see [Using service\-linked roles for Amazon EKS](using-service-linked-roles.md)\.
-
-The following example shows a CloudTrail log entry that demonstrates a `[DeleteInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteInstanceProfile.html)` action that's made by the `AWSServiceRoleForAmazonEKSNodegroup` service linked role, noted in the `sessionContext`\.
+The following example shows a CloudTrail log entry that demonstrates a ` [DeleteInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteInstanceProfile.html) ` action that’s made by the ` AWSServiceRoleForAmazonEKSNodegroup` service linked role, noted in the `sessionContext`\.
 
 ```
 {
@@ -70,16 +80,16 @@ The following example shows a CloudTrail log entry that demonstrates a `[DeleteI
     "userIdentity": {
         "type": "AssumedRole",
         "principalId": "AROA3WHGPEZ7SJ2CW55C5:EKS",
-        "arn": "arn:aws:sts::111122223333:assumed-role/AWSServiceRoleForAmazonEKSNodegroup/EKS",
+        "arn": "arn:aws:sts::111122223333:assumed-role/{aws}ServiceRoleForAmazonEKSNodegroup/EKS",
         "accountId": "111122223333",
         "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
         "sessionContext": {
             "sessionIssuer": {
                 "type": "Role",
                 "principalId": "AROA3WHGPEZ7SJ2CW55C5",
-                "arn": "arn:aws:iam::111122223333:role/aws-service-role/eks-nodegroup.amazonaws.com/AWSServiceRoleForAmazonEKSNodegroup",
+                "arn": "arn:aws:iam::111122223333:role/aws-service-role/eks-nodegroup.amazonaws.com/{aws}ServiceRoleForAmazonEKSNodegroup",
                 "accountId": "111122223333",
-                "userName": "AWSServiceRoleForAmazonEKSNodegroup"
+                "userName": "{aws}ServiceRoleForAmazonEKSNodegroup"
             },
             "webIdFederationData": {},
             "attributes": {

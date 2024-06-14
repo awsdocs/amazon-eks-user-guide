@@ -1,73 +1,1913 @@
-# Grant Kubernetes workloads access to AWS using Kubernetes Service Accounts<a name="service-accounts"></a>
+--------
 
-A Kubernetes service account provides an identity for processes that run in a Pod\. For more information see [Managing Service Accounts](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin) in the Kubernetes documentation\. If your Pod needs access to AWS services, you can map the service account to an AWS Identity and Access Management identity to grant that access\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
+ **Help improve this page** 
+
+--------
+
+--------
+
+Want to contribute to this user guide? Scroll to the bottom of this page and select **Edit this page on GitHub**\. Your contributions will help make our user guide better for everyone\.
+
+--------
+
+# Grant Kubernetes workloads access to AWS using Kubernetes Service Accounts<a name="service-accounts"></a>
 
 ## Service account tokens<a name="service-account-tokens"></a>
 
-The [https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume) feature is enabled by default in Kubernetes versions\. This feature improves the security of service account tokens by allowing workloads running on Kubernetes to request JSON web tokens that are audience, time, and key bound\. Service account tokens have an expiration of one hour\. In earlier Kubernetes versions, the tokens didn't have an expiration\. This means that clients that rely on these tokens must refresh the tokens within an hour\. The following [Kubernetes client SDKs](https://kubernetes.io/docs/reference/using-api/client-libraries/) refresh tokens automatically within the required time frame:
+The [BoundServiceAccountTokenVolume](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume) feature is enabled by default in Kubernetes versions\. This feature improves the security of service account tokens by allowing workloads running on Kubernetes to request JSON web tokens that are audience, time, and key bound\. Service account tokens have an expiration of one hour\. In earlier Kubernetes versions, the tokens didn’t have an expiration\. This means that clients that rely on these tokens must refresh the tokens within an hour\. The following [Kubernetes client SDKs](https://kubernetes.io/docs/reference/using-api/client-libraries/) refresh tokens automatically within the required time frame:
 + Go version `0.15.7` and later
 + Python version `12.0.0` and later
 + Java version `9.0.0` and later
 + JavaScript version `0.10.3` and later
 + Ruby `master` branch
-+ Haskell version `0.3.0.0`
-+ C\# version `7.0.5` and later
++ Haskell version `0.3.0.0` 
++  C\# version `7.0.5` and later
 
-If your workload is using an earlier client version, then you must update it\. To enable a smooth migration of clients to the newer time\-bound service account tokens, Kubernetes adds an extended expiry period to the service account token over the default one hour\. For Amazon EKS clusters, the extended expiry period is 90 days\. Your Amazon EKS cluster's Kubernetes API server rejects requests with tokens that are greater than 90 days old\. We recommend that you check your applications and their dependencies to make sure that the Kubernetes client SDKs are the same or later than the versions listed previously\.
+If your workload is using an earlier client version, then you must update it\. To enable a smooth migration of clients to the newer time\-bound service account tokens, Kubernetes adds an extended expiry period to the service account token over the default one hour\. For Amazon EKS clusters, the extended expiry period is 90 days\. Your Amazon EKS cluster’s Kubernetes API server rejects requests with tokens that are greater than 90 days old\. We recommend that you check your applications and their dependencies to make sure that the Kubernetes client SDKs are the same or later than the versions listed previously\.
 
 When the API server receives requests with tokens that are greater than one hour old, it annotates the API audit log event with `annotations.authentication.k8s.io/stale-token`\. The value of the annotation looks like the following example:
 
 ```
 subject: system:serviceaccount:common:fluent-bit, seconds after warning threshold: 4185802.
-```<a name="identify-pods-using-stale-tokens"></a>
+----[[identify-pods-using-stale-tokens]]
 
-If your cluster has [control plane logging](control-plane-logs.md) enabled, then the annotations are in the audit logs\. You can use the following [CloudWatch Logs Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html) query to identify all the Pods in your Amazon EKS cluster that are using stale tokens:
+//⁂If your cluster has  <<control-plane-logs,control plane logging>> enabled, then the annotations are in the audit logs. You can use the following https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html[CloudWatch Logs Insights] query to identify all the [noloc]``Pods`` in your Amazon EKS cluster that are using stale tokens:
 
+[source,none]
 ```
+
 fields @timestamp
-| filter @logStream like /kube-apiserver-audit/
-| filter @message like /seconds after warning threshold/
-| parse @message "subject: *, seconds after warning threshold:*\"" as subject, elapsedtime
-```
-
-The `subject` refers to the service account that the Pod used\. The `elapsedtime` indicates the elapsed time \(in seconds\) after reading the latest token\. The requests to the API server are denied when the `elapsedtime` exceeds 90 days \(7,776,000 seconds\)\. You should proactively update your applications' Kubernetes client SDK to use one of the version listed previously that automatically refresh the token\. If the service account token used is close to 90 days and you don't have sufficient time to update your client SDK versions before token expiration, then you can terminate existing Pods and create new ones\. This results in refetching of the service account token, giving you an additional 90 days to update your client version SDKs\.
-
-If the Pod is part of a deployment, the suggested way to terminate Pods while keeping high availability is to perform a roll out with the following command\. Replace `my-deployment` with the name of your deployment\.
 
 ```
-kubectl rollout restart deployment/my-deployment
+The  `subject` refers to the service account that the [noloc]``Pod`` used. The  `elapsedtime` indicates the elapsed time (in seconds) after reading the latest token. The requests to the API server are denied when the `elapsedtime` exceeds 90 days (7,776,000 seconds). You should proactively update your applications' [noloc]``Kubernetes`` client SDK to use one of the version listed previously that automatically refresh the token. If the service account token used is close to 90 days and you don't have sufficient time to update your client SDK versions before token expiration, then you can terminate existing  [noloc]``Pods`` and create new ones. This results in refetching of the service account token, giving you an additional 90 days to update your client version SDKs.
+
+If the [noloc]``Pod`` is part of a deployment, the suggested way to terminate  [noloc]``Pods`` while keeping high availability is to perform a roll out with the following command. Replace  `[replaceable]``my-deployment``` with the name of your deployment.
+
+[source,bash]
 ```
 
-## Cluster add\-ons<a name="boundserviceaccounttoken-validated-add-on-versions"></a>
+kubectl rollout restart deployment/my\-deployment
 
-The following cluster add\-ons have been updated to use the Kubernetes client SDKs that automatically refetch service account tokens\. We recommend making sure that the listed versions, or later versions, are installed on your cluster\.
-+ Amazon VPC CNI plugin for Kubernetes and metrics helper plugins version `1.8.0` and later\. To check your current version or update it, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md) and [cni\-metrics\-helper](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md)\.
-+ CoreDNS version `1.8.4` and later\. To check your current version or update it, see [Working with the CoreDNS Amazon EKS add\-on](managing-coredns.md)\.
-+ AWS Load Balancer Controller version `2.0.0` and later\. To check your current version or update it, see [What is the AWS Load Balancer Controller?](aws-load-balancer-controller.md)\.
-+ A current `kube-proxy` version\. To check your current version or update it, see [Working with the Kubernetes `kube-proxy` add\-on](managing-kube-proxy.md)\.
-+ AWS for Fluent Bit version `2.25.0` or later\. To update your current version, see [Releases](https://github.com/aws/aws-for-fluent-bit/releases) on GitHub\.
-+ Fluentd image version [1\.14\.6\-1\.2](https://hub.docker.com/r/fluent/fluentd/tags?page=1&name=v1.14.6-1.2) or later and Fluentd filter plugin for Kubernetes metadata version [2\.11\.1](https://rubygems.org/gems/fluent-plugin-kubernetes_metadata_filter/versions/2.11.1) or later\. 
+```
+[[boundserviceaccounttoken-validated-add-on-versions,boundserviceaccounttoken-validated-add-on-versions.title]]
+== Cluster add-ons
 
-## Granting AWS Identity and Access Management permissions to workloads on Amazon Elastic Kubernetes Service clusters<a name="service-accounts-iam"></a>
-
-Amazon EKS provides two ways to grant AWS Identity and Access Management permissions to workloads that run in Amazon EKS clusters: *IAM roles for service accounts*, and *EKS Pod Identities*\.
-
-IAM roles for service accounts  
-*IAM roles for service accounts \(IRSA\)* configures Kubernetes applications running on AWS with fine\-grained IAM permissions to access various other AWS resources such as Amazon S3 buckets, Amazon DynamoDB tables, and more\. You can run multiple applications together in the same Amazon EKS cluster, and ensure each application has only the minimum set of permissions that it needs\. IRSA was build to support various Kubernetes deployment options supported by AWS such as Amazon EKS, Amazon EKS Anywhere, Red Hat OpenShift Service on AWS, and self managed Kubernetes clusters on Amazon EC2 instances\. Thus, IRSA was build using foundational AWS service like IAM, and did not take any direct dependency on the Amazon EKS service and the EKS API\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
-
-EKS Pod Identities  
-EKS Pod Identity offers cluster administrators a simplified workflow for authenticating applications to access various other AWS resources such as Amazon S3 buckets, Amazon DynamoDB tables, and more\. EKS Pod Identity is for EKS only, and as a result, it simplifies how cluster administrators can configure Kubernetes applications to obtain IAM permissions\. These permissions can now be easily configured with fewer steps directly through AWS Management Console, EKS API, and AWS CLI, and there isn't any action to take inside the cluster in any Kubernetes objects\. Cluster administrators don't need to switch between the EKS and IAM services, or use privileged IAM operations to configure permissions required by your applications\. IAM roles can now be used across multiple clusters without the need to update the role trust policy when creating new clusters\. IAM credentials supplied by EKS Pod Identity include role session tags, with attributes such as cluster name, namespace, service account name\. Role session tags enable administrators to author a single role that can work across service accounts by allowing access to AWS resources based on matching tags\. For more information, see [EKS Pod Identities](pod-identities.md)\.
-
-### Comparing EKS Pod Identity and IRSA<a name="service-accounts-iam-compare"></a>
-
-At a high level, both EKS Pod Identity and IRSA enables you to grant IAM permissions to applications running on Kubernetes clusters\. But they are fundamentally different in how you configure them, the limits supported, and features enabled\. Below, we compare some of the key facets of both the solutions\.
+The following cluster add-ons have been updated to use the  [noloc]``Kubernetes`` client SDKs that automatically refetch service account tokens. We recommend making sure that the listed versions, or later versions, are installed on your cluster.
 
 
-|  | EKS Pod Identity | IRSA | 
-| --- | --- | --- | 
-|  Role extensibility  |  You have to setup each role once to establish trust with the newly\-introduced Amazon EKS service principal `pods.eks.amazonaws.com`\. After this one\-time step, you don't need to update the role's trust policy each time that it is used in a new cluster\.  |  You have to update the IAM role's trust policy with the new EKS cluster OIDC provider endpoint each time you want to use the role in a new cluster\.  | 
-|  Cluster scalability  |  EKS Pod Identity doesn't require users to setup IAM OIDC provider, so this limit doesn't apply\.  |  Each EKS cluster has an OpenID Connect \(OIDC\) issuer URL associated with it\. To use IRSA, a unique OpenID Connect provider needs to be created for each EKS cluster in IAM\. IAM has a default global limit of 100 OIDC providers for each AWS account\. If you plan to have more than 100 EKS clusters for each AWS account with IRSA, then you will reach the IAM OIDC provider limit\.  | 
-|  Role scalability  |  EKS Pod Identity doesn't require users to define trust relationship between IAM role and service account in the trust policy, so this limit doesn't apply\.  |  In IRSA, you define the trust relationship between an IAM role and service account in the role's trust policy\. By default, the length of trust policy size is `2048`\. This means that you can typically define 4 trust relationships in a single trust policy\. While you can get the trust policy length limit increased, you are typically limited to a max of 8 trust relationships within a single trust policy\.  | 
-|  Role reusability  |  AWS STS temporary credentials supplied by EKS Pod Identity include role session tags, such as cluster name, namespace, service account name\. Role session tags enable administrators to author a single IAM role that can be used with multiple service accounts, with different effective permission, by allowing access to AWS resources based on tags attached to them\. This is also called attribute\-based access control \(ABAC\)\. For more information, see [Define permissions for EKS Pod Identities to assume roles based on tags](pod-id-abac.md)\.  |  AWS STS session tags are not supported\. You can reuse a role between clusters but every pod receives all of the permissions of the role\.  | 
-|  Environments supported  |  EKS Pod Identity is only available on Amazon EKS\.  |  IRSA can be used such as Amazon EKS, Amazon EKS Anywhere, Red Hat OpenShift Service on AWS, and self managed Kubernetes clusters on Amazon EC2 instances\.  | 
-|  EKS versions supported  |  EKS Kubernetes versions `1.24` or later\. For the specific platform versions, see [EKS Pod Identity cluster versions](pod-identities.md#pod-id-cluster-versions)\.  |  All of the supported EKS cluster versions\.  | 
+
+//⁂* [noloc]``Amazon VPC CNI plugin for ``[noloc]``Kubernetes`` and metrics helper plugins version  `1.8.0` and later. To check your current version or update it, see <<managing-vpc-cni,Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add-on>> and https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md[cni-metrics-helper].
+//⁂* [noloc]``CoreDNS`` version  `1.8.4` and later. To check your current version or update it, see <<managing-coredns,Working with the CoreDNS Amazon EKS add-on>>.
+//⁂* [noloc]``{aws} Load Balancer Controller`` version  `2.0.0` and later. To check your current version or update it, see <<aws-load-balancer-controller,What is the {aws} Load Balancer Controller?>>.
+//⁂* A current `kube-proxy` version. To check your current version or update it, see <<managing-kube-proxy,Working with the Kubernetes kube-proxy add-on>>.
+* {aws} for Fluent Bit version `2.25.0` or later. To update your current version, see https://github.com/aws/aws-for-fluent-bit/releases[Releases] on [noloc]``GitHub``.
+* Fluentd image version https://hub.docker.com/r/fluent/fluentd/tags?page=1&name=v1.14.6-1.2[1.14.6-1.2] or later and Fluentd filter plugin for Kubernetes metadata version {https---rubygems-org-gems-fluent-plugin-kubernetes-metadata-filter-versions-2-11-1}[2.11.1] or later.
+
+
+[[service-accounts-iam,service-accounts-iam.title]]
+== Granting {aws} Identity and Access Management permissions to workloads on Amazon Elastic Kubernetes Service clusters
+
+Amazon EKS provides two ways to grant {aws} Identity and Access Management permissions to workloads that run in Amazon EKS clusters:  __IAM roles for service accounts__, and __EKS Pod Identities__.
+
+
+
+IAM roles for service accounts::
+//⁂* _IAM roles for service accounts (IRSA)_ configures Kubernetes applications running on {aws} with fine-grained IAM permissions to access various other {aws} resources such as Amazon S3 buckets, Amazon DynamoDB tables, and more. You can run multiple applications together in the same Amazon EKS cluster, and ensure each application has only the minimum set of permissions that it needs. IRSA was build to support various [noloc]``Kubernetes`` deployment options supported by {aws} such as Amazon EKS, Amazon EKS Anywhere, Red Hat OpenShift Service on {aws}, and self managed  [noloc]``Kubernetes`` clusters on Amazon EC2 instances. Thus, IRSA was build using foundational {aws} service like IAM, and did not take any direct dependency on the Amazon EKS service and the EKS API. For more information, see  <<iam-roles-for-service-accounts,IAM roles for service accounts>>.
+
+
+EKS Pod Identities::
+//⁂* EKS Pod Identity offers cluster administrators a simplified workflow for authenticating applications to access various other {aws} resources such as Amazon S3 buckets, Amazon DynamoDB tables, and more. EKS Pod Identity is for EKS only, and as a result, it simplifies how cluster administrators can configure Kubernetes applications to obtain IAM permissions. These permissions can now be easily configured with fewer steps directly through {aws} Management Console, EKS API, and {aws} CLI, and there isn't any action to take inside the cluster in any [noloc]``Kubernetes`` objects. Cluster administrators don't need to switch between the EKS and IAM services, or use privileged IAM operations to configure permissions required by your applications. IAM roles can now be used across multiple clusters without the need to update the role trust policy when creating new clusters. IAM credentials supplied by EKS Pod Identity include role session tags, with attributes such as cluster name, namespace, service account name. Role session tags enable administrators to author a single role that can work across service accounts by allowing access to {aws} resources based on matching tags. For more information, see  <<pod-identities,EKS Pod Identities>>.
+
+
+[[service-accounts-iam-compare,service-accounts-iam-compare.title]]
+=== Comparing EKS Pod Identity and IRSA
+
+At a high level, both EKS Pod Identity and IRSA enables you to grant IAM permissions to applications running on Kubernetes clusters. But they are fundamentally different in how you configure them, the limits supported, and features enabled. Below, we compare some of the key facets of both the solutions.
+
+//⁂[cols="1,1,1", options="header"]
+//⁂|===
+//⁂|
+//⁂| EKS Pod Identity
+//⁂| IRSA
+
+
+//⁂|
+
+Role extensibility
+//⁂|
+
+You have to setup each role once to establish trust with the newly-introduced Amazon EKS service principal ``pods.eks.amazonaws.com``. After this one-time step, you don't need to update the role's trust policy each time that it is used in a new cluster.
+//⁂|
+
+You have to update the IAM role's trust policy with the new EKS cluster [noloc]``OIDC`` provider endpoint each time you want to use the role in a new cluster.
+
+//⁂|
+
+Cluster scalability
+//⁂|
+
+EKS Pod Identity doesn't require users to setup IAM OIDC provider, so this limit doesn't apply.
+//⁂|
+
+Each EKS cluster has an [noloc]``OpenID Connect`` ([noloc]``OIDC``) issuer URL associated with it. To use IRSA, a unique  [noloc]``OpenID Connect`` provider needs to be created for each EKS cluster in IAM. IAM has a default global limit of 100  [noloc]``OIDC`` providers for each {aws} account. If you plan to have more than 100 EKS clusters for each {aws} account with IRSA, then you will reach the IAM  [noloc]``OIDC`` provider limit.
+
+//⁂|
+
+Role scalability
+//⁂|
+
+EKS Pod Identity doesn't require users to define trust relationship between IAM role and service account in the trust policy, so this limit doesn't apply.
+//⁂|
+
+In IRSA, you define the trust relationship between an IAM role and service account in the role's trust policy. By default, the length of trust policy size is ``2048``. This means that you can typically define 4 trust relationships in a single trust policy. While you can get the trust policy length limit increased, you are typically limited to a max of 8 trust relationships within a single trust policy.
+
+//⁂|
+
+Role reusability
+//⁂|
+
+//⁂{aws} STS temporary credentials supplied by EKS Pod Identity include role session tags, such as cluster name, namespace, service account name. Role session tags enable administrators to author a single IAM role that can be used with multiple service accounts, with different effective permission, by allowing access to {aws} resources based on tags attached to them. This is also called attribute-based access control (ABAC). For more information, see <<pod-id-abac,Define permissions for EKS Pod Identities to assume roles based on tags>>.
+//⁂|
+
+{aws} STS session tags are not supported. You can reuse a role between clusters but every pod receives all of the permissions of the role.
+
+//⁂|
+
+Environments supported
+//⁂|
+
+EKS Pod Identity is only available on Amazon EKS.
+//⁂|
+
+IRSA can be used such as Amazon EKS, Amazon EKS Anywhere, Red Hat OpenShift Service on {aws}, and self managed [noloc]``Kubernetes`` clusters on Amazon EC2 instances.
+
+//⁂|
+
+EKS versions supported
+//⁂|
+
+//⁂EKS [noloc]``Kubernetes`` versions  `1.24` or later. For the specific platform versions, see <<pod-id-cluster-versions,EKS Pod Identity cluster versions>>.
+//⁂|
+
+All of the supported EKS cluster versions.
+//⁂|===
+
+[.topic]
+[[pod-identities,pod-identities.title]]
+== EKS Pod Identities
+
+[abstract]
+--
+Learn how applications in your [noloc]``Pods`` can access {aws} services.
+--
+
+Applications in a  [noloc]``Pod``'s containers can use an {aws} SDK or the {aws} CLI to make API requests to {aws} services using {aws} Identity and Access Management (IAM) permissions. Applications must sign their {aws} API requests with {aws} credentials.
+
+_EKS Pod Identities_ provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances. Instead of creating and distributing your {aws} credentials to the containers or using the Amazon EC2 instance's role, you associate an IAM role with a [noloc]``Kubernetes`` service account and configure your  [noloc]``Pods`` to use the service account.
+
+Each EKS Pod Identity association maps a role to a service account in a namespace in the specified cluster. If you have the same application in multiple clusters, you can make identical associations in each cluster without modifying the trust policy of the role.
+
+If a pod uses a service account that has an association, Amazon EKS sets environment variables in the containers of the pod. The environment variables configure the {aws} SDKs, including the {aws} CLI, to use the EKS Pod Identity credentials.
+
+[[pod-id-benefits,pod-id-benefits.title]]
+=== Benefits of EKS Pod Identities
+
+EKS Pod Identities provide the following benefits:
+
+
+
+* [topcom]##Least privilege## – You can scope IAM permissions to a service account, and only  [noloc]``Pods`` that use that service account have access to those permissions. This feature also eliminates the need for third-party solutions such as  `kiam` or ``kube2iam``.
+//⁂* [topcom]##Credential isolation## – A  [noloc]``Pod's`` containers can only retrieve credentials for the IAM role that's associated with the service account that the container uses. A container never has access to credentials that are used by other containers in other  [noloc]``Pods``. When using Pod Identities, the  [noloc]``Pod's`` containers also have the permissions assigned to the  <<create-node-role,Amazon EKS node IAM role>>, unless you block [noloc]``Pod`` access to the  https://docs.aws.amazon.com/{aws}EC2/latest/UserGuide/configuring-instance-metadata-service.html[Amazon EC2 Instance Metadata Service (IMDS)]. For more information, see {https---aws-github-io-aws-eks-best-practices-security-docs-iam--restrict-access-to-the-instance-profile-assigned-to-the-worker-node}[Restrict access to the instance profile assigned to the worker node].
+* [topcom]##Auditability## – Access and event logging is available through {aws} CloudTrail to help facilitate retrospective auditing.
+
+//⁂EKS Pod Identity is a simpler method than  <<iam-roles-for-service-accounts,IAM roles for service accounts>>, as this method doesn't use [noloc]``OIDC`` identity providers. EKS Pod Identity has the following enhancements:
+
+
+
+* [topcom]##Independent operations## – In many organizations, creating  [noloc]``OIDC`` identity providers is a responsibility of different teams than administering the  [noloc]``Kubernetes`` clusters. EKS Pod Identity has clean separation of duties, where all configuration of EKS Pod Identity associations is done in Amazon EKS and all configuration of the IAM permissions is done in IAM.
+* [topcom]##Reusability## – EKS Pod Identity uses a single IAM principal instead of the separate principals for each cluster that IAM roles for service accounts use. Your IAM administrator adds the following principal to the trust policy of any role to make it usable by EKS Pod Identities.
++
+[source,json]
+```
+
+```
+"Principal": {
+    "Service": "pods.eks.amazonaws.com"
+}
+```
+
+```
+//⁂* [topcom]##Scalability## – Each set of temporary credentials are assumed by the  [noloc]``EKS Auth`` service in EKS Pod Identity, instead of each {aws} SDK that you run in each pod. Then, the Amazon EKS Pod Identity Agent that runs on each node issues the credentials to the SDKs. Thus the load is reduced to once for each node and isn't duplicated in each pod. For more details of the process, see  <<pod-id-how-it-works,How EKS Pod Identity works>>.
+
+//⁂For more information to compare the two alternatives, see  <<service-accounts,Grant Kubernetes workloads access to {aws} using Kubernetes Service Accounts>>.
+
+[[pod-id-setup-overview,pod-id-setup-overview.title]]
+=== Overview of setting up EKS Pod Identities
+
+Turn on EKS Pod Identities by completing the following procedures:
+
+//⁂. <<pod-id-agent-setup,Set up the Amazon EKS Pod Identity Agent>> – You only complete this procedure once for each cluster.
+//⁂. <<pod-id-association,Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity>> – Complete this procedure for each unique set of permissions that you want an application to have.
++
+
+//⁂. <<pod-id-configure-pods,Configure Pods to use a Kubernetes service account>> – Complete this procedure for each [noloc]``Pod`` that needs access to {aws} services.
+//⁂. <<pod-id-minimum-sdk,Use a supported {aws} SDK>> – Confirm that the workload uses an {aws} SDK of a supported version and that the workload uses the default credential chain.
+
+
+[[pod-id-considerations,pod-id-considerations.title]]
+=== EKS Pod Identity considerations
+
+* You can associate one IAM role to each [noloc]``Kubernetes`` service account in each cluster. You can change which role is mapped to the service account by editing the EKS Pod Identity association.
+* You can only associate roles that are in the same {aws} account as the cluster. You can delegate access from another account to the role in this account that you configure for EKS Pod Identities to use. For a tutorial about delegating access and ``AssumeRole``, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-tutorial-cross-account-with-roles-html}[Delegate access across {aws} accounts using IAM roles] in the __IAM User Guide__.
+//⁂* The EKS Pod Identity Agent is required. It runs as a [noloc]``Kubernetes````DaemonSet`` on your nodes and only provides credentials to pods on the node that it runs on. For more information about EKS Pod Identity Agent compatibility, see the following section <<pod-id-restrictions,EKS Pod Identity restrictions>>.
+* The EKS Pod Identity Agent uses the `hostNetwork` of the node and it uses port `80` and port `2703` on a link-local address on the node. This address is `169.254.170.23` for [noloc]``IPv4`` and  `[fd00:ec2::23]` for [noloc]``IPv6`` clusters.
++
+
+//⁂If you disable `IPv6` addresses, or otherwise prevent localhost `IPv6` IP addresses, the agent can't start. To start the agent on nodes that can't use ``IPv6``, follow the steps in <<pod-id-agent-config-ipv6,Disable IPv6 in the EKS Pod Identity Agent>> to disable the `IPv6` configuration.
+
+
+[[pod-id-cluster-versions,pod-id-cluster-versions.title]]
+==== EKS Pod Identity cluster versions
+
+To use EKS Pod Identities, the cluster must have a platform version that is the same or later than the version listed in the following table, or a  [noloc]``Kubernetes`` version that is later than the versions listed in the table.
+
+//⁂[cols="1,1", frame="all", options="header"]
+//⁂|===
+//⁂| Kubernetes version
+//⁂| Platform version
+
+
+//⁂|``1.28``
+//⁂|``eks.4``
+
+//⁂|``1.27``
+//⁂|``eks.8``
+
+//⁂|``1.26``
+//⁂|``eks.9``
+
+//⁂|``1.25``
+//⁂|``eks.10``
+
+//⁂|``1.24``
+//⁂|``eks.13``
+//⁂|===
+
+[[pod-id-add-on-versions,pod-id-add-on-versions.title]]
+==== Add-on versions compatible with EKS Pod Identity
+
+[IMPORTANT]
+====
+
+To use EKS Pod Identity with an EKS Add-on, you must create the EKS Pod Identity  _association_ manually. Don't choose an IAM role in the add-on configuration in the {aws} Management Console, that role is only used with IRSA.
+
+====
+
+Amazon EKS add-ons and self-managed add-ons that need IAM credentials can use EKS Pod Identity, IRSA or the instance role. The list of add-ons that use IAM credentials that support EKS Pod Identity are:
+
+
+
+* [noloc]``Amazon VPC CNI plugin for ``[noloc]``Kubernetes````1.15.5-eksbuild.1`` or later
+* [noloc]``{aws} Load Balancer Controller````2.7.0`` or later. Note that the [noloc]``{aws} Load Balancer Controller`` isn't available as an EKS Add-on, but it is available as a self-managed add-on.
+
+
+[[pod-id-restrictions,pod-id-restrictions.title]]
+==== EKS Pod Identity restrictions
+
+EKS Pod Identities are available on the following:
+
+
+
+//⁂* Amazon EKS cluster versions listed in the previous topic <<pod-id-cluster-versions,EKS Pod Identity cluster versions>>.
+* Worker nodes in the cluster that are Linux Amazon EC2 instances.
+
+EKS Pod Identities aren't available on the following:
+
+
+
+* China Regions.
+* {aws} GovCloud (US).
+* {aws} Outposts.
+* Amazon EKS Anywhere.
+* [noloc]``Kubernetes`` clusters that you create and run on Amazon EC2. The EKS Pod Identity components are only available on Amazon EKS.
+
+You can't use EKS Pod Identities with:
+
+
+
+* Pods that run anywhere except Linux Amazon EC2 instances. Linux and Windows pods that run on {aws} Fargate (Fargate) aren't supported. Pods that run on Windows Amazon EC2 instances aren't supported.
+* _Amazon EKS add-ons_ that need IAM credentials. The EKS add-ons can only use _IAM roles for service accounts_ instead. The list of EKS add-ons that use IAM credentials include:
++
+** The [noloc]``CSI`` storage drivers: EBS CSI, EFS CSI, Amazon FSx for Lustre CSI driver, Amazon FSx for NetApp ONTAP CSI driver, Amazon FSx for OpenZFS CSI driver, Amazon File Cache CSI driver, {aws} Secrets and Configuration Provider (ASCP) for the  [noloc]``Kubernetes`` Secrets Store CSI Driver
++
+NOTE: If these controllers, drivers, and plugins are installed as self-managed add-ons instead of EKS add-ons, they support EKS Pod Identities as longas they are updated to use the latest {aws} SDKs.
+
+
+[.topic]
+[[pod-id-how-it-works,pod-id-how-it-works.title]]
+=== How EKS Pod Identity works
+
+[abstract]
+--
+Learn how EKS Pod Identity assigns credentials.
+--
+
+Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances.
+
+Amazon EKS Pod Identity provides credentials to your workloads with an additional _EKS Auth_ API and an agent pod that runs on each node.
+
+//⁂In your add-ons, such as _Amazon EKS add-ons_ and self-managed controller, operators, and other add-ons, the author needs to update their software to use the latest {aws} SDKs. For the list of compatibility between EKS Pod Identity and the add-ons produced by Amazon EKS, see the previous section <<pod-id-restrictions,EKS Pod Identity restrictions>>.
+
+[[pod-id-credentials,pod-id-credentials.title]]
+==== Using EKS Pod Identities in your code
+
+In your code, you can use the {aws} SDKs to access {aws} services. You write code to create a client for an {aws} service with an SDK, and by default the SDK searches in a chain of locations for {aws} Identity and Access Management credentials to use. After valid credentials are found, the search is stopped. For more information about the default locations used, see the  {https---docs-aws-amazon-com-sdkref-latest-guide-standardized-credentials-html-credentialProviderChain}[Credential provider chain] in the {aws} SDKs and Tools Reference Guide.
+
+EKS Pod Identities have been added to the _Container credential provider_ which is searched in a step in the default credential chain. If your workloads currently use credentials that are earlier in the chain of credentials, those credentials will continue to be used even if you configure an EKS Pod Identity association for the same workload. This way you can safely migrate from other types of credentials by creating the association first, before removing the old credentials.
+
+The container credentials provider provides temporary credentials from an agent that runs on each node. In Amazon EKS, the agent is the Amazon EKS Pod Identity Agent and on Amazon Elastic Container Service the agent is the ``amazon-ecs-agent``. The SDKs use environment variables to locate the agent to connect to.
+
+In contrast, _IAM roles for service accounts_ provides a _web identity_ token that the {aws} SDK must exchange with {aws} Security Token Service by using ``AssumeRoleWithWebIdentity``.
+
+[[pod-id-agent-pod,pod-id-agent-pod.title]]
+==== How EKS Pod Identity Agent works with a  [noloc]``Pod``
+. When Amazon EKS starts a new pod that uses a service account with an EKS Pod Identity association, the cluster adds the following content to the [noloc]``Pod`` manifest:
++
+[source,yaml]
+```
+
+```
+  env:
+  - name: {aws}_CONTAINER_AUTHORIZATION_TOKEN_FILE
+    value: "/var/run/secrets/pods.eks.amazonaws.com/serviceaccount/eks-pod-identity-token"
+  - name: {aws}_CONTAINER_CREDENTIALS_FULL_URI
+    value: "http://169.254.170.23/v1/credentials"
+  volumeMounts:
+  - mountPath: "/var/run/secrets/pods.eks.amazonaws.com/serviceaccount/"
+    name: eks-pod-identity-token
+volumes:
+- name: eks-pod-identity-token
+  projected:
+    defaultMode: 420
+    sources:
+    - serviceAccountToken:
+        audience: pods.eks.amazonaws.com
+        expirationSeconds: 86400 # 24 hours
+        path: eks-pod-identity-token
+```
+
+```
+. [noloc]``Kubernetes`` selects which node to run the pod on. Then, the Amazon EKS Pod Identity Agent on the node uses the  {https---docs-aws-amazon-com-eks-latest-APIReference-API-auth-AssumeRoleForPodIdentity-html}[AssumeRoleForPodIdentity] action to retrieve temporary credentials from the EKS Auth API.
+. The EKS Pod Identity Agent makes these credentials available for the {aws} SDKs that you run inside your containers.
+. You use the SDK in your application without specifying a credential provider to use the default credential chain. Or, you specify the container credential provider. For more information about the default locations used, see the {https---docs-aws-amazon-com-sdkref-latest-guide-standardized-credentials-html-credentialProviderChain}[Credential provider chain] in the {aws} SDKs and Tools Reference Guide.
+. The SDK uses the environment variables to connect to the EKS Pod Identity Agent and retrieve the credentials.
++
+NOTE: If your workloads currently use credentials that are earlier in the chain of credentials, those credentials will continue to be used even if you configure an EKS Pod Identity association for the same workload.
+
+
+[.topic]
+[[pod-id-agent-setup,pod-id-agent-setup.title]]
+=== Set up the Amazon EKS Pod Identity Agent
+
+[abstract]
+--
+Learn how to set up the EKS Pod Identity Agent for your cluster.
+--
+
+Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances.
+
+Amazon EKS Pod Identity provides credentials to your workloads with an additional _EKS Auth_ API and an agent pod that runs on each node.
+
+[[pod-id-agent-considerations,pod-id-agent-considerations.title]]
+==== Considerations
+
+*
+.`IPv6`
+By default, the EKS Pod Identity Agent listens on an `IPv4` and `IPv6` address for pods to request credentials. The agent uses the loopback (localhost) IP address `169.254.170.23` for `IPv4` and the localhost IP address `[fd00:ec2::23]` for ``IPv6``.
++
+
+//⁂If you disable  `IPv6` addresses, or otherwise prevent localhost `IPv6` IP addresses, the agent can't start. To start the agent on nodes that can't use ``IPv6``, follow the steps in <<pod-id-agent-config-ipv6,Disable IPv6 in the EKS Pod Identity Agent>> to disable the `IPv6` configuration.
+
+
+[[pod-id-agent-add-on-create,pod-id-agent-add-on-create.title]]
+==== Creating the Amazon EKS Pod Identity Agent
+
+[[pod-id-agent-prereqs,pod-id-agent-prereqs.title]]
+===== Agent prerequisites
+
+//⁂* An existing Amazon EKS cluster. To deploy one, see . The cluster version and platform version must be the same or later than the versions listed in <<pod-id-cluster-versions,EKS Pod Identity cluster versions>>.
+//⁂* The node role has permissions for the agent to do the `AssumeRoleForPodIdentity` action in the EKS Auth API. You can use the <<security-iam-awsmanpol-amazoneksworkernodepolicy,{aws} managed policy: AmazonEKSWorkerNodePolicy>> or add a custom policy similar to the following:
++
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Effect": "Allow", "Action": \[ "eks\-auth:AssumeRoleForPodIdentity" \], "Resource": "\*" \} \] \}
+
+```
++
+
+This action can be limited by tags to restrict which roles can be assumed by pods that use the agent.
+//⁂* The nodes can reach and download images from Amazon ECR. The container image for the add-on is in the registries listed in <<add-ons-images,Amazon container image registries>>.
++
+
+Note that you can change the image location and provide `imagePullSecrets` for EKS add-ons in the *Optional configuration settings* in the {aws} Management Console, and in the  `--configuration-values` in the {aws} CLI.
+* The nodes can reach the Amazon EKS Auth API. For private clusters, the `eks-auth` endpoint in {aws} PrivateLink is required.
+
+
+{aws} Management Console::
+.. Open the Amazon EKS console at {https---console-aws-amazon-com-eks-home--clusters}[https://console.aws.amazon.com/eks/home#/clusters].
+.. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to configure the EKS Pod Identity Agent add-on for.
+.. Choose the *Add-ons* tab.
+.. Choose **Get more add-ons**.
+.. Select the box in the top right of the add-on box for EKS Pod Identity Agent and then choose **Next**.
+.. On the *Configure selected add-ons settings* page, select any version in the  *Version* dropdown list.
+.. (Optional) Expand *Optional configuration settings* to enter additional configuration. For example, you can provide an alternative container image location and  ``ImagePullSecrets``. The [noloc]``JSON Schema`` with accepted keys is shown in  **Add-on configuration schema**.
++
+
+Enter the configuration keys and values in **Configuration values**.
+.. Choose **Next**.
+.. Confirm that the EKS Pod Identity Agent pods are running on your cluster.
++
+[source,bash]
+```
+
+kubectl get pods \-n kube\-system \| grep 'eks\-pod\-identity\-agent'
+
+```
++
+
+An example output is as follows.
++
+```
+
+eks\-pod\-identity\-agent\-`gmqp7`1/1 Running 1 \(24h ago\) 24h eks\-pod\-identity\-agent\-`prnsh`1/1 Running 1 \(24h ago\) 24h
+
+```
++
+
+//⁂You can now use EKS Pod Identity associations in your cluster. For more information, see  <<pod-id-association,Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity>>.
+
+
+{aws} CLI::
+.. Run the following {aws} CLI command. Replace `my-cluster` with the name of your cluster.
++
+[source,shell]
+```
+
+aws eks create\-addon \-\-cluster\-name my\-cluster \-\-addon\-name eks\-pod\-identity\-agent \-\-addon\-version v1\.0\.0\-eksbuild\.1
+
+```
++
+NOTE: The EKS Pod Identity Agent doesn't use the `service-account-role-arn` for __IAM roles for service accounts__. You must provide the EKS Pod Identity Agent with permissions in the node role.
+.. Confirm that the EKS Pod Identity Agent pods are running on your cluster.
++
+[source,bash]
+```
+
+kubectl get pods \-n kube\-system \| grep 'eks\-pod\-identity\-agent'
+
+```
++
+
+An example output is as follows.
++
+```
+
+eks\-pod\-identity\-agent\-`gmqp7`1/1 Running 1 \(24h ago\) 24h eks\-pod\-identity\-agent\-`prnsh`1/1 Running 1 \(24h ago\) 24h
+
+```
++
+
+//⁂You can now use EKS Pod Identity associations in your cluster. For more information, see  <<pod-id-association,Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity>>.
+
+
+[[pod-id-agent-update,pod-id-agent-update.title]]
+==== Updating the Amazon EKS Pod Identity Agent
+
+//⁂Update the Amazon EKS type of the add-on. If you haven't added the Amazon EKS type of the add-on to your cluster, see  <<pod-id-agent-add-on-create,Creating the Amazon EKS Pod Identity Agent>>.
+
+
+
+{aws} Management Console::
+.. Open the Amazon EKS console at {https---console-aws-amazon-com-eks-home--clusters}[https://console.aws.amazon.com/eks/home#/clusters].
+.. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to configure the EKS Pod Identity Agent add-on for.
+.. Choose the *Add-ons* tab.
+.. If a new version of the add-on is available, the EKS Pod Identity Agent has an *Update version* button. Select  **Update version**.
+.. On the *Configure Amazon EKS Pod Identity Agent* page, select the new version in the  *Version* dropdown list.
+.. Select **Save changes**.
++
+
+It might take several seconds for the update to complete. Then, confirm that the add-on version was updated by checking the **Status**.
+
+
+{aws} CLI::
+.. See which version of the add-on is installed on your cluster. Replace `[replaceable]``my-cluster``` with your cluster name.
++
+[source,bash]
+```
+
+aws eks describe\-addon \-\-cluster\-name my\-cluster \-\-addon\-name eks\-pod\-identity\-agent \-\-query "addon\.addonVersion" \-\-output text
+
+```
++
+
+An example output is as follows.
++
+```
+
+ `v1.0.0-eksbuild.1` 
+
+```
++
+
+//⁂You need to  <<pod-id-agent-add-on-create,create the add-on>> before you can update it with this procedure.
+//⁂.. Update your add-on using the {aws} CLI. If you want to use the {aws} Management Console or `eksctl` to update the add-on, see <<updating-an-add-on,Updating an add-on>>. Copy the command that follows to your device. Make the following modifications to the command, as needed, and then run the modified command.
++
+*** Replace `[replaceable]``my-cluster``` with the name of your cluster.
+*** Replace [replaceable]```v1.0.0-eksbuild.1``` with the your desired version.
+*** Replace [replaceable]``111122223333`` with your account ID.
+*** Run the following command:
++
+[source,bash]
+```
+
+aws eks update\-addon \-\-cluster\-name my\-cluster \-\-addon\-name eks\-pod\-identity\-agent \-\-addon\-version v1\.0\.0\-eksbuild\.1'
+
+```
++
+
+It might take several seconds for the update to complete.
+.. Confirm that the add-on version was updated. Replace `[replaceable]``my-cluster``` with the name of your cluster.
++
+[source,bash]
+```
+
+aws eks describe\-addon \-\-cluster\-name my\-cluster \-\-addon\-name eks\-pod\-identity\-agent
+
+```
++
+
+It might take several seconds for the update to complete.
++
+
+An example output is as follows.
++
+[source,json]
+```
+
+\{ "addon": \{ "addonName": "eks\-pod\-identity\-agent", "clusterName": "my\-cluster", "status": "ACTIVE", "addonVersion": "v1\.0\.0\-eksbuild\.1", "health": \{ "issues": \[\] \}, "addonArn": "arn:aws:eks:region:111122223333:addon/my\-cluster/eks\-pod\-identity\-agent/74c33d2f\-b4dc\-8718\-56e7\-9fdfa65d14a9", "createdAt": "2023\-04\-12T18:25:19\.319000\+00:00", "modifiedAt": "2023\-04\-12T18:40:28\.683000\+00:00", "tags": \{\} \} \}
+
+```
+[[pod-id-agent-config,pod-id-agent-config.title]]
+==== EKS Pod Identity Agent configuration
+
+[[pod-id-agent-config-ipv6,pod-id-agent-config-ipv6.title]]
+===== Disable  `IPv6` in the EKS Pod Identity Agent
+
+{aws} Management Console::
+.. To disable `IPv6` in the EKS Pod Identity Agent, add the following configuration to the *Optional configuration settings* of the EKS Add-on.
++
+... Open the Amazon EKS console at {https---console-aws-amazon-com-eks-home--clusters}[https://console.aws.amazon.com/eks/home#/clusters].
+... In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to configure the add-on for.
+... Choose the *Add-ons* tab.
+... Select the box in the top right of the EKS Pod Identity Agent add-on box and then choose **Edit**.
+... On the *Configure EKS Pod Identity Agent* page:
++
+.... Select the *Version* that you'd like to use. We recommend that you keep the same version as the previous step, and update the version and configuration in separate actions.
+.... Expand the **Optional configuration settings**.
+.... Enter the JSON key `"agent":` and value of a nested JSON object with a key `"additionalArgs":` in **Configuration values**. The resulting text must be a valid JSON object. If this key and value are the only data in the text box, surround the key and value with curly braces  ``{}``. The following example shows network policy is enabled:
++
+[source,json]
+```
+
+\{ "agent": \{ "additionalArgs": \{ "\-b": "169\.254\.170\.23" \} \} \}
+
+```
++
+
+This configuration sets the  `IPv4` address to be the only address used by the agent.
+... To apply the new configuration by replacing the EKS Pod Identity Agent pods, choose **Save changes**.
++
+
+Amazon EKS applies changes to the EKS Add-ons by using a _rollout_ of the [noloc]``Kubernetes````DaemonSet`` for EKS Pod Identity Agent. You can track the status of the rollout in the *Update history* of the add-on in the {aws} Management Console and with  ``kubectl rollout status daemonset/eks-pod-identity-agent --namespace kube-system``.
++
+
+`kubectl rollout` has the following commands:
++
+[source,shell]
+```
+
+$ kubectl rollout
+
+history  — View rollout history pause  — Mark the provided resource as paused restart  — Restart a resource resume  — Resume a paused resource status  — Show the status of the rollout undo  — Undo a previous rollout
+
+```
++
+
+If the rollout takes too long, Amazon EKS will undo the rollout, and a message with the type of  *Addon Update* and a status of  *Failed* will be added to the  *Update history* of the add-on. To investigate any issues, start from the history of the rollout, and run  `kubectl logs` on a EKS Pod Identity Agent pod to see the logs of EKS Pod Identity Agent.
+.. If the new entry in the *Update history* has a status of  **Successful**, then the rollout has completed and the add-on is using the new configuration in all of the EKS Pod Identity Agent pods.
+
+
+{aws} CLI::
+.. To disable `IPv6` in the EKS Pod Identity Agent, add the following configuration to the *configuration values* of the EKS Add-on.
++
+
+Run the following {aws} CLI command. Replace `my-cluster` with the name of your cluster and the IAM role ARN with the role that you are using.
++
+[source,shell]
+```
+
+aws eks update\-addon \-\-cluster\-name my\-cluster \-\-addon\-name eks\-pod\-identity\-agent \\ \-\-resolve\-conflicts PRESERVE \-\-configuration\-values '\{"agent":\{"additionalArgs": \{ "\-b": "169\.254\.170\.23"\}\}\}'
+
+```
++
+
+This configuration sets the  `IPv4` address to be the only address used by the agent.
++
+
+Amazon EKS applies changes to the EKS Add-ons by using a _rollout_ of the [noloc]``Kubernetes`` DaemonSet for EKS Pod Identity Agent. You can track the status of the rollout in the  *Update history* of the add-on in the {aws} Management Console and with  ``kubectl rollout status daemonset/eks-pod-identity-agent --namespace kube-system``.
++
+
+`kubectl rollout` has the following commands:
++
+[source,shell]
+```
+
+kubectl rollout
+
+history  — View rollout history pause  — Mark the provided resource as paused restart  — Restart a resource resume  — Resume a paused resource status  — Show the status of the rollout undo  — Undo a previous rollout
+
+```
++
+
+If the rollout takes too long, Amazon EKS will undo the rollout, and a message with the type of  *Addon Update* and a status of  *Failed* will be added to the  *Update history* of the add-on. To investigate any issues, start from the history of the rollout, and run  `kubectl logs` on a EKS Pod Identity Agent pod to see the logs of EKS Pod Identity Agent.
+
+
+[.topic]
+[[pod-id-association,pod-id-association.title]]
+=== Configure a  [noloc]``Kubernetes`` service account to assume an IAM role with EKS Pod Identity
+
+[abstract]
+--
+Learn how to configure a [noloc]``Kubernetes`` service account to assume an {aws} Identity and Access Management role.
+--
+
+This topic covers how to configure a  [noloc]``Kubernetes`` service account to assume an {aws} Identity and Access Management (IAM) role with EKS Pod Identity. Any  [noloc]``Pods`` that are configured to use the service account can then access any {aws} service that the role has permissions to access.
+
+To create an EKS Pod Identity association, there is only a single step; you create the association in EKS through the {aws} Management Console, {aws} CLI, {aws} SDKs, {aws} CloudFormation and other tools. There isn't any data or metadata about the associations inside the cluster in any [noloc]``Kubernetes`` objects and you don't add any annotations to the service accounts.
+
+
+
+//⁂* An existing cluster. If you don't have one, you can create one by following one of the <<getting-started,Getting started with Amazon EKS>> guides.
+* The IAM principal that is creating the association must have ``iam:PassRole``.
+* The latest version of the {aws} CLI installed and configured on your device or {aws} CloudShell. You can check your current version with ``aws --version | cut -d / -f2 | cut -d ' ' -f1``. Package managers such ``yum``, ``apt-get``, or [noloc]``Homebrew`` for  [noloc]``macOS`` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see  https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI] and {https---docs-aws-amazon-com-cli-latest-userguide-cli-configure-quickstart-html-cli-configure-quickstart-config}[Quick configuration with aws configure] in the {aws} Command Line Interface User Guide. The {aws} CLI version installed in the {aws} CloudShell may also be several versions behind the latest version. To update it, see {https---docs-aws-amazon-com-cloudshell-latest-userguide-vm-specs-html-install-cli-software}[Installing {aws} CLI to your home directory] in the {aws} CloudShell User Guide.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [noloc]``Kubernetes`` version of your cluster. For example, if your cluster version is  ``1.28``, you can use `kubectl` version ``1.27``, ``1.28``, or `1.29` with it. To install or upgrade ``kubectl``, see .
+* An existing `kubectl```config`` file that contains your cluster configuration. To create a `kubectl```config`` file, see .
+
+
+[[pod-id-association-create,pod-id-association-create.title]]
+==== Creating the EKS Pod Identity association
+
+{aws} Management Console::
+.. Open the Amazon EKS console at {https---console-aws-amazon-com-eks-home--clusters}[https://console.aws.amazon.com/eks/home#/clusters].
+.. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to configure the EKS Pod Identity Agent add-on for.
+.. Choose the *Access* tab.
+.. In the **Pod Identity associations**, choose  **Create**.
+.. For the **IAM role**, select the IAM role with the permissions that you want the workload to have.
++
+NOTE: The list only contains roles that have the following trust policy which allows EKS Pod Identity to use them.
++
+
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Sid": "AllowEksAuthToAssumeRoleForPodIdentity", "Effect": "Allow", "Principal": \{ "Service": "pods\.eks\.amazonaws\.com" \}, "Action": \[ "sts:AssumeRole", "sts:TagSession" \] \} \] \}
+
+```
++
+
+`sts:AssumeRole`::::
+*** EKS Pod Identity uses `AssumeRole` to assume the IAM role before passing the temporary credentials to your pods.
+
+
+`sts:TagSession`::::
+*** EKS Pod Identity uses `TagSession` to include _session tags_ in the requests to {aws} STS.
++
+
+You can use these tags in the _[noloc]``condition keys``_ in the trust policy to restrict which service accounts, namespaces, and clusters can use this role.
++
+
+For a list of Amazon EKS condition keys, see {https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-policy-keys}[Conditions defined by Amazon Elastic Kubernetes Service] in the __Service Authorization Reference__. To learn which actions and resources you can use a condition key with, see {https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-actions-as-permissions}[Actions defined by Amazon Elastic Kubernetes Service].
+.. For the **[noloc]``Kubernetes`` namespace**, select the  [noloc]``Kubernetes`` namespace that contains the service account and workload. Optionally, you can specify a namespace by name that doesn't exist in the cluster.
+.. For the **[noloc]``Kubernetes`` service account**, select the  [noloc]``Kubernetes`` service account to use. The manifest for your  [noloc]``Kubernetes`` workload must specify this service account. Optionally, you can specify a service account by name that doesn't exist in the cluster.
+.. (Optional) For the **Tags**, choose  *Add tag* to add metadata in a key and value pair. These tags are applied to the association and can be used in IAM policies.
++
+
+You can repeat this step to add multiple tags.
+.. Choose **Create**.
+
+
+{aws} CLI::
+//⁂.. If you want to associate an existing IAM policy to your IAM role, skip to the <<pod-id-create-role,next step>>.
++
+
+Create an IAM policy. You can create your own policy, or copy an {aws} managed policy that already grants some of the permissions that you need and customize it to your specific requirements. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-create-html}[Creating IAM policies] in the __IAM User Guide__.
++
+... Create a file that includes the permissions for the {aws} services that you want your [noloc]``Pods`` to access. For a list of all actions for all {aws} services, see the  https://docs.aws.amazon.com/service-authorization/latest/reference/[Service Authorization Reference].
++
+
+You can run the following command to create an example policy file that allows read-only access to an Amazon S3 bucket. You can optionally store configuration information or a bootstrap script in this bucket, and the containers in your [noloc]``Pod`` can read the file from the bucket and load it into your application. If you want to create this example policy, copy the following contents to your device. Replace  [replaceable]``my-pod-secrets-bucket`` with your bucket name and run the command.
++
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Effect": "Allow", "Action": "s3:GetObject", "Resource": "arn:aws:s3:::my\-pod\-secrets\-bucket" \} \] \} EOF
+
+```
+... Create the IAM policy.
++
+[source,bash]
+```
+
+```
+.. [[pod-id-create-role]]Create an IAM role and associate it with a  [noloc]``Kubernetes`` service account.
++
+... If you have an existing [noloc]``Kubernetes`` service account that you want to assume an IAM role, then you can skip this step.
++
+
+Create a [noloc]``Kubernetes`` service account. Copy the following contents to your device. Replace  [replaceable]``my-service-account`` with your desired name and [replaceable]``default`` with a different namespace, if necessary. If you change [replaceable]``default``, the namespace must already exist.
++
+[source,yaml]
+```
+
+apiVersion: v1 kind: ServiceAccount metadata: name: my\-service\-account namespace: default EOF kubectl apply \-f my\-service\-account\.yaml
+
+```
++
+
+Run the following command.
++
+[source,yaml]
+```
+
+kubectl apply \-f my\-service\-account\.yaml
+
+```
+... Run the following command to create a trust policy file for the IAM role.
++
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Sid": "AllowEksAuthToAssumeRoleForPodIdentity", "Effect": "Allow", "Principal": \{ "Service": "pods\.eks\.amazonaws\.com" \}, "Action": \[ "sts:AssumeRole", "sts:TagSession" \] \} \] \} EOF
+
+```
+... Create the role. Replace `[replaceable]``my-role``` with a name for your IAM role, and `[replaceable]``my-role-description``` with a description for your role.
++
+[source,bash]
+```
+
+```
+... Attach an IAM policy to your role. Replace `[replaceable]``my-role``` with the name of your IAM role and `[replaceable]``my-policy``` with the name of an existing policy that you created.
++
+[source,bash]
+```
+
+aws iam attach\-role\-policy \-\-role\-name my\-role \-\-policy\-arn=arn:aws:iam::111122223333:policy/my\-policy
+
+```
++
+NOTE: Unlike IAM roles for service accounts, EKS Pod Identity doesn't use an annotation on the service account.
+... Run the following command to create the association. Replace `my-cluster` with the name of the cluster, replace [replaceable]``my-service-account`` with your desired name and [replaceable]``default`` with a different namespace, if necessary.
++
+[source,bash]
+```
+
+aws eks create\-pod\-identity\-association \-\-cluster\-name my\-cluster \-\-role\-arn arn:aws:iam::111122223333:role/my\-role \-\-namespace default \-\-service\-account my\-service\-account
+
+```
++
+
+An example output is as follows.
++
+[source,json]
+```
+
+\{ "association": \{ "clusterName": "my\-cluster", "namespace": "default", "serviceAccount": "my\-service\-account", "roleArn": "arn:aws:iam::111122223333:role/my\-role", "associationArn": "arn:aws::111122223333:podidentityassociation/my\-cluster/a\-abcdefghijklmnop1", "associationId": "a\-abcdefghijklmnop1", "tags": \{\}, "createdAt": 1700862734\.922, "modifiedAt": 1700862734\.922 \} \}
+
+```
++
+NOTE: You can specify a namespace and service account by name that doesn't exist in the cluster. You must create the namespace, service account, and the workload that uses the service account for the EKS Pod Identity association to function.
+.. [[pod-id-confirm-role-configuration]]Confirm that the role and service account are configured correctly.
++
+... Confirm that the IAM role's trust policy is configured correctly.
++
+[source,bash]
+```
+
+aws iam get\-role \-\-role\-name my\-role \-\-query Role\.AssumeRolePolicyDocument
+
+```
++
+
+An example output is as follows.
++
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Sid": "Allow EKS Auth service to assume this role for Pod Identities", "Effect": "Allow", "Principal": \{ "Service": "pods\.eks\.amazonaws\.com" \}, "Action": \[ "sts:AssumeRole", "sts:TagSession" \] \} \] \}
+
+```
+... Confirm that the policy that you attached to your role in a previous step is attached to the role.
++
+[source,bash]
+```
+
+aws iam list\-attached\-role\-policies \-\-role\-name my\-role \-\-query AttachedPolicies\[\]\.PolicyArn \-\-output text
+
+```
++
+
+An example output is as follows.
++
+[source,json]
+```
+
+arn:aws:iam::111122223333:policy/my\-policy
+
+```
+... Set a variable to store the Amazon Resource Name (ARN) of the policy that you want to use. Replace [replaceable]``my-policy`` with the name of the policy that you want to confirm permissions for.
++
+[source,bash]
+```
+
+export policy\_arn=arn:aws:iam::111122223333:policy/my\-policy
+
+```
+... View the default version of the policy.
++
+[source,bash]
+```
+
+aws iam get\-policy \-\-policy\-arn $policy\_arn
+
+```
++
+
+An example output is as follows.
++
+[source,json]
+```
+
+\{ "Policy": \{ "PolicyName": "my\-policy", "PolicyId": "EXAMPLEBIOWGLDEXAMPLE", "Arn": "arn:aws:iam::111122223333:policy/my\-policy", "Path": "/", "DefaultVersionId": "v1", \[…​\] \} \}
+
+```
+... View the policy contents to make sure that the policy includes all the permissions that your [noloc]``Pod`` needs. If necessary, replace  [replaceable]``1`` in the following command with the version that's returned in the previous output.
++
+[source,bash]
+```
+
+aws iam get\-policy\-version \-\-policy\-arn $policy\_arn \-\-version\-id v1
+
+```
++
+
+An example output is as follows.
++
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Effect": "Allow", "Action": "s3:GetObject", "Resource": "arn:aws:s3:::my\-pod\-secrets\-bucket" \} \] \}
+
+```
++
+
+If you created the example policy in a previous step, then your output is the same. If you created a different policy, then the  [replaceable]``example`` content is different.
+
+
+.Next step
+//⁂<<pod-id-configure-pods,Configure Pods to use a Kubernetes service account>>
+
+[.topic]
+[[pod-id-configure-pods,pod-id-configure-pods.title]]
+=== Configure  [noloc]``Pods`` to use a  [noloc]``Kubernetes`` service account
+
+[abstract]
+--
+Learn how to configure your [noloc]``Pods`` to use a  [noloc]``Kubernetes`` service account that you allowed to assume an {aws} Identity and Access Management role.
+--
+
+If a  [noloc]``Pod`` needs to access {aws} services, then you must configure it to use a  [noloc]``Kubernetes`` service account. The service account must be associated to an {aws} Identity and Access Management (IAM) role that has permissions to access the {aws} services.[[pod-configuration-prerequisites]]
+
+//⁂* An existing cluster. If you don't have one, you can create one using one of the <<getting-started,Getting started with Amazon EKS>> guides.
+//⁂* An existing [noloc]``Kubernetes`` service account and an EKS Pod Identity association that associates the service account with an IAM role. The role must have an associated IAM policy that contains the permissions that you want your  [noloc]``Pods`` to have to use {aws} services. For more information about how to create the service account and role, and configure them, see  <<pod-id-association,Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity>>.
+* The latest version of the {aws} CLI installed and configured on your device or {aws} CloudShell. You can check your current version with ``aws --version | cut -d / -f2 | cut -d ' ' -f1``. Package managers such ``yum``, ``apt-get``, or [noloc]``Homebrew`` for  [noloc]``macOS`` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see  https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI] and {https---docs-aws-amazon-com-cli-latest-userguide-cli-configure-quickstart-html-cli-configure-quickstart-config}[Quick configuration with aws configure] in the {aws} Command Line Interface User Guide. The {aws} CLI version installed in the {aws} CloudShell may also be several versions behind the latest version. To update it, see {https---docs-aws-amazon-com-cloudshell-latest-userguide-vm-specs-html-install-cli-software}[Installing {aws} CLI to your home directory] in the {aws} CloudShell User Guide.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [noloc]``Kubernetes`` version of your cluster. For example, if your cluster version is  ``1.28``, you can use `kubectl` version ``1.27``, ``1.28``, or `1.29` with it. To install or upgrade ``kubectl``, see .
+* An existing `kubectl```config`` file that contains your cluster configuration. To create a `kubectl```config`` file, see .
+. Use the following command to create a deployment manifest that you can deploy a [noloc]``Pod`` to confirm configuration with. Replace the  `[replaceable]``example values``` with your own values.
++
+[source,yaml]
+```
+
+apiVersion: apps/v1 kind: Deployment metadata: name: my\-app spec: selector: matchLabels: app: my\-app template: metadata: labels: app: my\-app spec: serviceAccountName: my\-service\-account containers: \- name: my\-app image: public\.ecr\.aws/nginx/nginx:X\.XX EOF
+
+```
+. Deploy the manifest to your cluster.
++
+[source,bash]
+```
+
+kubectl apply \-f my\-deployment\.yaml
+
+```
+. Confirm that the required environment variables exist for your [noloc]``Pod``.
++
+.. View the [noloc]``Pods`` that were deployed with the deployment in the previous step.
++
+[source,bash]
+```
+
+kubectl get pods \| grep my\-app
+
+```
++
+
+An example output is as follows.
++
+```
+
+ `my-app`\-`6f4dfff6cb\-76cv9`1/1 Running 0 3m28s
+
+```
+.. Confirm that the [noloc]``Pod`` has a service account token file mount.
++
+[source,bash]
+```
+
+kubectl describe pod my\-app\-6f4dfff6cb\-76cv9 \| grep AWS\_CONTAINER\_AUTHORIZATION\_TOKEN\_FILE:
+
+```
++
+
+An example output is as follows.
++
+```
+
+ AWS\_CONTAINER\_AUTHORIZATION\_TOKEN\_FILE: /var/run/secrets/pods\.eks\.amazonaws\.com/serviceaccount/eks\-pod\-identity\-token
+
+```
+. Confirm that your [noloc]``Pods`` can interact with the {aws} services using the permissions that you assigned in the IAM policy attached to your role.
++
+//⁂NOTE: When a [noloc]``Pod`` uses {aws} credentials from an IAM role that's associated with a service account, the {aws} CLI or other SDKs in the containers for that  [noloc]``Pod`` use the credentials that are provided by that role. If you don't restrict access to the credentials that are provided to the  <<create-node-role,Amazon EKS node IAM role>>, the [noloc]``Pod`` still has access to these credentials. For more information, see  {https---aws-github-io-aws-eks-best-practices-security-docs-iam--restrict-access-to-the-instance-profile-assigned-to-the-worker-node}[Restrict access to the instance profile assigned to the worker node].
++
++
+
+If your  [noloc]``Pods`` can't interact with the services as you expected, complete the following steps to confirm that everything is properly configured.
++
+//⁂.. Confirm that your [noloc]``Pods`` use an {aws} SDK version that supports assuming an IAM role through an EKS Pod Identity association. For more information, see  <<pod-id-minimum-sdk,Use a supported {aws} SDK>>.
+.. Confirm that the deployment is using the service account.
++
+[source,bash]
+```
+
+kubectl describe deployment my\-app \| grep "Service Account"
+
+```
++
+
+An example output is as follows.
++
+```
+
+Service Account:`my\-service\-account`
+
+```
+[.topic]
+[[pod-id-abac,pod-id-abac.title]]
+=== Define permissions for EKS Pod Identities to assume roles based on tags
+
+EKS Pod Identity attaches tags to the temporary credentials to each pod with attributes such as cluster name, namespace, service account name. These role session tags enable administrators to author a single role that can work across service accounts by allowing access to {aws} resources based on matching tags. By adding support for role session tags, customers can enforce tighter security boundaries between clusters, and workloads within clusters, while reusing the same IAM roles and IAM policies.
+
+For example, the following policy allows the `s3:GetObject` action if the object is tagged with the name of the EKS cluster.
+
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Effect": "Allow", "Action": \[ "s3:ListAllMyBuckets" \], "Resource": "**" \}, \{ "Effect": "Allow", "Action": \[ "s3:GetObject", "s3:GetObjectTagging" \], "Resource": "**", "Condition": \{ "StringEquals": \{ "s3:ExistingObjectTag/eks\-cluster\-name": "$\{aws:PrincipalTag/eks\-cluster\-name\}" \} \} \} \] \}
+
+```
+[[pod-id-abac-tags,pod-id-abac-tags.title]]
+==== List of session tags added by EKS Pod Identity
+
+The following list contains all of the keys for tags that are added to the  `AssumeRole` request made by Amazon EKS. To use these tags in policies, use `${aws:PrincipalTag/` followed by the key, for example ``${aws:PrincipalTag/kubernetes-namespace}``.
+
+
+
+* `eks-cluster-arn`
+* `eks-cluster-name`
+* `kubernetes-namespace`
+* `kubernetes-service-account`
+* `kubernetes-pod-name`
+* `kubernetes-pod-uid`
+
+
+[[pod-id-abac-chaining,pod-id-abac-chaining.title]]
+==== Cross-account tags
+
+All of the session tags that are added by EKS Pod Identity are  __transitive__; the tag keys and values are passed to any `AssumeRole` actions that your workloads use to switch roles into another account. You can use these tags in policies in other accounts to limit access in cross-account scenarios. For more infromation, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-session-tags-html-id-session-tags-role-chaining}[Chaining roles with session tags] in the __IAM User Guide__.
+
+[[pod-id-abac-custom-tags,pod-id-abac-custom-tags.title]]
+==== Custom tags
+
+EKS Pod Identity can't add additional custom tags to the  `AssumeRole` action that it performs. However, tags that you apply to the IAM role are always available though the same format: `${aws:PrincipalTag/` followed by the key, for example ``${aws:PrincipalTag/MyCustomTag}``.
+
+[NOTE]
+====
+
+Tags added to the session through the `sts:AssumeRole` request take precedence in the case of conflict. For example, assume that Amazon EKS adds a key `eks-cluster-name` and value `my-cluster` to the session when EKS assume the customer role. You has also added an `eks-cluster-name` tag to the IAM role with value ``my-own-cluster``. In this case, the former takes precedence and value for the `eks-cluster-name` tag will be ``my-cluster``.
+
+====
+
+[.topic]
+[[pod-id-minimum-sdk,pod-id-minimum-sdk.title]]
+=== Use a supported {aws} SDK
+
+[IMPORTANT]
+====
+
+An earlier version of the documentation was incorrect. The {aws} SDK for Java v1 doesn't support EKS Pod Identity.
+
+====
+
+//⁂When using  <<pod-identities,EKS Pod Identities>>, the containers in your [noloc]``Pods`` must use an {aws} SDK version that supports assuming an IAM role from the EKS Pod Identity Agent. Make sure that you're using the following versions, or later, for your {aws} SDK:
+
+
+
+* Java (Version 2) – https://github.com/aws/aws-sdk-java-v2/releases/tag/2.21.30[2.21.30]
+* Go v1 – https://github.com/aws/aws-sdk-go/releases/tag/v1.47.11[v1.47.11]
+* Go v2 – https://github.com/aws/aws-sdk-go-v2/releases/tag/release-2023-11-14[release-2023-11-14]
+* Python (Boto3) – https://github.com/boto/boto3/releases/tag/1.34.41[1.34.41]
+* Python (botocore) – https://github.com/boto/botocore/releases/tag/1.34.41[1.34.41]
+* {aws} CLI – https://github.com/aws/aws-cli/releases/tag/1.30.0[1.30.0]
++
+
+{aws} CLI – https://github.com/aws/aws-cli/releases/tag/2.15.0[2.15.0]
+* JavaScript v2 – https://github.com/aws/aws-sdk-js/releases/tag/v2.1550.0[2.1550.0]
+* JavaScript v3 – https://github.com/aws/aws-sdk-js-v3/releases/tag/v3.458.0[v3.458.0]
+* Kotlin – https://github.com/awslabs/aws-sdk-kotlin/releases/tag/v1.0.1[v1.0.1]
+* Ruby – {https---github-com-aws-aws-sdk-ruby-blob-version-3-gems-aws-sdk-core-CHANGELOG-md-31880-2023-11-22}[3.188.0]
+* Rust – https://github.com/awslabs/aws-sdk-rust/releases/tag/release-2024-03-13[release-2024-03-13]
+* {cpp} – https://github.com/aws/aws-sdk-cpp/releases/tag/1.11.263[1.11.263]
+* .NET – https://github.com/aws/aws-sdk-net/releases/tag/3.7.734.0[3.7.734.0]
+* PowerShell – https://www.powershellgallery.com/packages/{aws}.Tools.Common/4.1.502[4.1.502]
+* PHP – https://github.com/aws/aws-sdk-php/releases/tag/3.287.1[3.287.1]
+
+To ensure that you're using a supported SDK, follow the installation instructions for your preferred SDK at  https://aws.amazon.com/tools/[Tools to Build on {aws}] when you build your containers.
+
+//⁂For a list of add-ons that support EKS Pod Identity, see <<pod-id-add-on-versions,Add-on versions compatible with EKS Pod Identity>>.
+
+[[pod-id-using-creds,pod-id-using-creds.title]]
+==== Using EKS Pod Identity credentials
+
+To use the credentials from a EKS Pod Identity association, your code can use any {aws} SDK to create a client for an {aws} service with an SDK, and by default the SDK searches in a chain of locations for {aws} Identity and Access Management credentials to use. The EKS Pod Identity credentials will be used if you don't specify a credential provider when you create the client or otherwise initialized the SDK.
+
+This works because EKS Pod Identities have been added to the _Container credential provider_ which is searched in a step in the default credential chain. If your workloads currently use credentials that are earlier in the chain of credentials, those credentials will continue to be used even if you configure an EKS Pod Identity association for the same workload.
+
+//⁂For more information about how EKS Pod Identities work, see <<pod-id-how-it-works,How EKS Pod Identity works>>.
+
+[.topic]
+[[pod-id-role,pod-id-role.title]]
+=== EKS Pod Identity role
+
+[abstract]
+--
+Learn how to set up the roles for use with pod EKS Pod Identity associations.
+--
+
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Sid": "AllowEksAuthToAssumeRoleForPodIdentity", "Effect": "Allow", "Principal": \{ "Service": "pods\.eks\.amazonaws\.com" \}, "Action": \[ "sts:AssumeRole", "sts:TagSession" \] \} \] \}
+
+```
+`sts:AssumeRole`::
+* EKS Pod Identity uses `AssumeRole` to assume the IAM role before passing the temporary credentials to your pods.
+
+
+`sts:TagSession`::
+* EKS Pod Identity uses `TagSession` to include _session tags_ in the requests to {aws} STS.
++
+
+You can use these tags in the _[noloc]``condition keys``_ in the trust policy to restrict which service accounts, namespaces, and clusters can use this role.
++
+
+For a list of Amazon EKS condition keys, see {https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-policy-keys}[Conditions defined by Amazon Elastic Kubernetes Service] in the __Service Authorization Reference__. To learn which actions and resources you can use a condition key with, see {https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-actions-as-permissions}[Actions defined by Amazon Elastic Kubernetes Service].
+
+
+[.topic]
+[[iam-roles-for-service-accounts,iam-roles-for-service-accounts.title]]
+== IAM roles for service accounts
+
+[abstract]
+--
+Learn how applications in your [noloc]``Pods`` can access {aws} services.
+--
+
+//⁂Applications in a  [noloc]``Pod``'s containers can use an {aws} SDK or the {aws} CLI to make API requests to {aws} services using {aws} Identity and Access Management (IAM) permissions. Applications must sign their {aws} API requests with {aws} credentials. IAM roles for service accounts provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances. Instead of creating and distributing your {aws} credentials to the containers or using the Amazon EC2 instance's role, you associate an IAM role with a  [noloc]``Kubernetes`` service account and configure your  [noloc]``Pods`` to use the service account. You can't use IAM roles for service accounts with  <<eks-outposts-local-cluster-overview,local clusters for Amazon EKS on {aws} Outposts>>.
+
+IAM roles for service accounts provide the following benefits:
+
+
+
+* [topcom]##Least privilege## – You can scope IAM permissions to a service account, and only  [noloc]``Pods`` that use that service account have access to those permissions. This feature also eliminates the need for third-party solutions such as  `kiam` or ``kube2iam``.
+//⁂* [topcom]##Credential isolation## – A  [noloc]``Pod's`` containers can only retrieve credentials for the IAM role that's associated with the service account that the container uses. A container never has access to credentials that are used by other containers in other  [noloc]``Pods``. When using IAM roles for service accounts, the  [noloc]``Pod's`` containers also have the permissions assigned to the  <<create-node-role,Amazon EKS node IAM role>>, unless you block [noloc]``Pod`` access to the  https://docs.aws.amazon.com/{aws}EC2/latest/UserGuide/configuring-instance-metadata-service.html[Amazon EC2 Instance Metadata Service (IMDS)]. For more information, see {https---aws-github-io-aws-eks-best-practices-security-docs-iam--restrict-access-to-the-instance-profile-assigned-to-the-worker-node}[Restrict access to the instance profile assigned to the worker node].
+* [topcom]##Auditability##  – Access and event logging is available through {aws} CloudTrail to help ensure retrospective auditing.
+
+Enable IAM roles for service accounts by completing the following procedures:
+
+//⁂. <<enable-iam-roles-for-service-accounts,Create an IAM OIDC provider for your cluster>> – You only complete this procedure once for each cluster.
++
+NOTE: If you enable the EKS VPC endpoint, the EKS OIDC service endpoint can't be accessed from inside that VPC. Consequently, your operations such as creating an OIDC provider with `eksctl` in the VPC will not work and will result in a timeout when attempting to request ``https://oidc.eks.[replaceable]``region``.amazonaws.com``. An example error message follows:
+```
++ server can’t find oidc\.eks\.`region`\.amazonaws\.com: NXDOMAIN
+
+```
+To complete this step, you can run the command outside the VPC, for example in {aws} CloudShell or on a computer connected to the internet.
+//⁂. <<associate-service-account-role,Configure a Kubernetes service account to assume an IAM role>> – Complete this procedure for each unique set of permissions that you want an application to have.
+//⁂. <<pod-configuration,Configure Pods to use a Kubernetes service account>> – Complete this procedure for each [noloc]``Pod`` that needs access to {aws} services.
+//⁂. <<iam-roles-for-service-accounts-minimum-sdk,Using a supported {aws} SDK>> – Confirm that the workload uses an {aws} SDK of a supported version and that the workload uses the default credential chain.
+
+
+[[irsa-oidc-background,irsa-oidc-background.title]]
+=== IAM,  [noloc]``Kubernetes``, and  [noloc]``OpenID Connect`` ([noloc]``OIDC``) background information
+
+In 2014, {aws} Identity and Access Management added support for federated identities using  [noloc]``OpenID Connect`` ([noloc]``OIDC``). This feature allows you to authenticate {aws} API calls with supported identity providers and receive a valid  [noloc]``OIDC``[noloc]``JSON`` web token ([noloc]``JWT``). You can pass this token to the {aws} STS  `AssumeRoleWithWebIdentity` API operation and receive IAM temporary role credentials. You can use these credentials to interact with any {aws} service, including Amazon S3 and DynamoDB.
+
+//⁂Each JWT token is signed by a signing key pair. The keys are served on the OIDC provider managed by Amazon EKS and the private key rotates every 7 days. Amazon EKS keeps the public keys until they expire. If you connect external OIDC clients, be aware that you need to refresh the signing keys before the public key expires. Learn how to <<irsa-fetch-keys,Fetch signing keys>>.
+
+[noloc]``Kubernetes`` has long used service accounts as its own internal identity system.  [noloc]``Pods`` can authenticate with the  [noloc]``Kubernetes`` API server using an auto-mounted token (which was a non-[noloc]``OIDC``[noloc]``JWT``) that only the  [noloc]``Kubernetes`` API server could validate. These legacy service account tokens don't expire, and rotating the signing key is a difficult process. In  [noloc]``Kubernetes`` version  ``1.12``, support was added for a new `ProjectedServiceAccountToken` feature. This feature is an [noloc]``OIDC``[noloc]``JSON`` web token that also contains the service account identity and supports a configurable audience.
+
+Amazon EKS hosts a public [noloc]``OIDC`` discovery endpoint for each cluster that contains the signing keys for the  `ProjectedServiceAccountToken`[noloc]``JSON`` web tokens so external systems, such as IAM, can validate and accept the  [noloc]``OIDC`` tokens that are issued by  [noloc]``Kubernetes``.
+
+[.topic]
+[[enable-iam-roles-for-service-accounts,enable-iam-roles-for-service-accounts.title]]
+=== Create an IAM  [noloc]``OIDC`` provider for your cluster
+
+[abstract]
+--
+Learn how to create an {aws} Identity and Access Management [noloc]``OpenID Connect`` provider for your cluster.
+--
+
+Your cluster has an  https://openid.net/connect/[OpenID Connect] ([noloc]``OIDC``) issuer URL associated with it. To use {aws} Identity and Access Management (IAM) roles for service accounts, an IAM  [noloc]``OIDC`` provider must exist for your cluster's  [noloc]``OIDC`` issuer URL.
+
+
+
+* An existing Amazon EKS cluster. To deploy one, see .
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use ````aws --version | cut -d / -f2 | cut -d ' ' -f1````. Package managers such ``yum``, ``apt-get``, or [noloc]``Homebrew`` for  [noloc]``macOS`` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see  https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI] and {https---docs-aws-amazon-com-cli-latest-userguide-cli-configure-quickstart-html-cli-configure-quickstart-config}[Quick configuration with aws configure] in the __{aws} Command Line Interface User Guide__. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see {https---docs-aws-amazon-com-cloudshell-latest-userguide-vm-specs-html-install-cli-software}[Installing {aws} CLI to your home directory] in the __{aws} CloudShell User Guide__.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [noloc]``Kubernetes`` version of your cluster. For example, if your cluster version is  ``1.28``, you can use `kubectl` version ``1.27``, ``1.28``, or `1.29` with it. To install or upgrade ``kubectl``, see .
+* An existing `kubectl```config`` file that contains your cluster configuration. To create a `kubectl```config`` file, see .
+
+You can create an IAM  [noloc]``OIDC`` provider for your cluster using  `eksctl` or the {aws} Management Console.
+
+
+
+eksctl::
+*
+.Prerequisite
+Version `0.177.0` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update ``eksctl``, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
++
+.. Determine the [noloc]``OIDC`` issuer ID for your cluster.
++
+
+Retrieve your cluster's [noloc]``OIDC`` issuer ID and store it in a variable. Replace  `[replaceable]``my-cluster``` with your own value.
++
+[source,bash]
+```
+
+cluster\_name=my\-cluster
+
+```
+[source,bash]
+```
+
+oidc\_id=$\(aws eks describe\-cluster \-\-name $cluster\_name \-\-query "cluster\.identity\.oidc\.issuer" \-\-output text \| cut \-d '/' \-f 5\)
+
+```
+[source,bash]
+```
+
+echo $oidc\_id
+
+```
+.. Determine whether an IAM [noloc]``OIDC`` provider with your cluster's issuer ID is already in your account.
++
+[source,bash]
+```
+
+aws iam list\-open\-id\-connect\-providers \| grep $oidc\_id \| cut \-d "/" \-f4
+
+```
++
+
+If output is returned, then you already have an IAM  [noloc]``OIDC`` provider for your cluster and you can skip the next step. If no output is returned, then you must create an IAM  [noloc]``OIDC`` provider for your cluster.
+.. Create an IAM [noloc]``OIDC`` identity provider for your cluster with the following command.
++
+[source,bash]
+```
+
+eksctl utils associate\-iam\-oidc\-provider \-\-cluster $cluster\_name \-\-approve
+
+```
++
+NOTE: If you enable the EKS VPC endpoint, the EKS OIDC service endpoint can't be accessed from inside that VPC. Consequently, your operations such as creating an OIDC provider with  `eksctl` in the VPC will not work and will result in a timeout when attempting to request ``https://oidc.eks.[replaceable]``region``.amazonaws.com``. An example error message follows:
+```
++ server can’t find oidc\.eks\.`region`\.amazonaws\.com: NXDOMAIN
+
+```
+To complete this step, you can run the command outside the VPC, for example in {aws} CloudShell or on a computer connected to the internet.
+
+
+{aws} Management Console::
+.. Open the Amazon EKS console at {https---console-aws-amazon-com-eks-home--clusters}[https://console.aws.amazon.com/eks/home#/clusters].
+.. In the left pane, select **Clusters**, and then select the name of your cluster on the  *Clusters* page.
+.. In the *Details* section on the  *Overview* tab, note the value of the  **OpenID Connect provider URL**.
+.. Open the IAM console at https://console.aws.amazon.com/iam/.
+.. In the left navigation pane, choose **Identity Providers** under  **Access management**. If a  **Provider** is listed that matches the URL for your cluster, then you already have a provider for your cluster. If a provider isn't listed that matches the URL for your cluster, then you must create one.
+.. To create a provider, choose **Add provider**.
+.. For **Provider type**, select  **[noloc]``OpenID Connect``**.
+.. For **Provider URL**, enter the  [noloc]``OIDC`` provider URL for your cluster, and then choose  **Get thumbprint**.
+.. For **Audience**, enter  `sts.amazonaws.com` and choose **Add provider**.
+
+
+.Next step
+//⁂<<associate-service-account-role,Configure a Kubernetes service account to assume an IAM role>>
+
+[.topic]
+[[associate-service-account-role,associate-service-account-role.title]]
+=== Configure a  [noloc]``Kubernetes`` service account to assume an IAM role
+
+[abstract]
+--
+Learn how to configure a [noloc]``Kubernetes`` service account to assume an {aws} Identity and Access Management role.
+--
+
+This topic covers how to configure a  [noloc]``Kubernetes`` service account to assume an {aws} Identity and Access Management (IAM) role. Any  [noloc]``Pods`` that are configured to use the service account can then access any {aws} service that the role has permissions to access.
+
+
+
+//⁂* An existing cluster. If you don't have one, you can create one by following one of the <<getting-started,Getting started with Amazon EKS>> guides.
+//⁂* An existing IAM [noloc]``OpenID Connect`` ([noloc]``OIDC``) provider for your cluster. To learn if you already have one or how to create one, see  <<enable-iam-roles-for-service-accounts,Create an IAM OIDC provider for your cluster>>.
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use ````aws --version | cut -d / -f2 | cut -d ' ' -f1````. Package managers such ``yum``, ``apt-get``, or [noloc]``Homebrew`` for  [noloc]``macOS`` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see  https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI] and {https---docs-aws-amazon-com-cli-latest-userguide-cli-configure-quickstart-html-cli-configure-quickstart-config}[Quick configuration with aws configure] in the __{aws} Command Line Interface User Guide__. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see {https---docs-aws-amazon-com-cloudshell-latest-userguide-vm-specs-html-install-cli-software}[Installing {aws} CLI to your home directory] in the __{aws} CloudShell User Guide__.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [noloc]``Kubernetes`` version of your cluster. For example, if your cluster version is  ``1.28``, you can use `kubectl` version ``1.27``, ``1.28``, or `1.29` with it. To install or upgrade ``kubectl``, see .
+* An existing `kubectl```config`` file that contains your cluster configuration. To create a `kubectl```config`` file, see .
+//⁂. If you want to associate an existing IAM policy to your IAM role, skip to the <<irsa-create-role,next step>>.
++
+
+Create an IAM policy. You can create your own policy, or copy an {aws} managed policy that already grants some of the permissions that you need and customize it to your specific requirements. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-create-html}[Creating IAM policies] in the __IAM User Guide__.
++
+.. Create a file that includes the permissions for the {aws} services that you want your [noloc]``Pods`` to access. For a list of all actions for all {aws} services, see the  https://docs.aws.amazon.com/service-authorization/latest/reference/[Service Authorization Reference].
++
+
+You can run the following command to create an example policy file that allows read-only access to an Amazon S3 bucket. You can optionally store configuration information or a bootstrap script in this bucket, and the containers in your [noloc]``Pod`` can read the file from the bucket and load it into your application. If you want to create this example policy, copy the following contents to your device. Replace  [replaceable]``my-pod-secrets-bucket`` with your bucket name and run the command.
++
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Effect": "Allow", "Action": "s3:GetObject", "Resource": "arn:aws:s3:::my\-pod\-secrets\-bucket" \} \] \} EOF
+
+```
+.. Create the IAM policy.
++
+[source,bash]
+```
+
+```
+. [[irsa-create-role]]Create an IAM role and associate it with a  [noloc]``Kubernetes`` service account. You can use either  `eksctl` or the {aws} CLI.
++
+
+eksctl:::
+**
+.Prerequisite
+Version `0.177.0` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update ``eksctl``, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
++
+
+Replace  [replaceable]``my-service-account`` with the name of the [noloc]``Kubernetes`` service account that you want  `eksctl` to create and associate with an IAM role. Replace [replaceable]``default`` with the namespace that you want `eksctl` to create the service account in. Replace [replaceable]``my-cluster`` with the name of your cluster. Replace [replaceable]``my-role`` with the name of the role that you want to associate the service account to. If it doesn't already exist, `eksctl` creates it for you. Replace [replaceable]``111122223333`` with your account ID and [replaceable]``my-policy`` with the name of an existing policy.
++
+[source,bash]
+```
+
+eksctl create iamserviceaccount \-\-name my\-service\-account \-\-namespace default \-\-cluster my\-cluster \-\-role\-name my\-role \\ \-\-attach\-policy\-arn arn:aws:iam::111122223333:policy/my\-policy \-\-approve
+
+```
++
+IMPORTANT: If the role or service account already exist, the previous command might fail. `eksctl` has different options that you can provide in those situations. For more information run ````eksctl create iamserviceaccount --help````.
+
+
+{aws} CLI:::
+... If you have an existing [noloc]``Kubernetes`` service account that you want to assume an IAM role, then you can skip this step.
++
+
+Create a [noloc]``Kubernetes`` service account. Copy the following contents to your device. Replace  [replaceable]``my-service-account`` with your desired name and [replaceable]``default`` with a different namespace, if necessary. If you change [replaceable]``default``, the namespace must already exist.
++
+[source,yaml]
+```
+
+apiVersion: v1 kind: ServiceAccount metadata: name: my\-service\-account namespace: default EOF kubectl apply \-f my\-service\-account\.yaml
+
+```
+... Set your {aws} account ID to an environment variable with the following command.
++
+[source,bash]
+```
+
+account\_id=$\(aws sts get\-caller\-identity \-\-query "Account" \-\-output text\)
+
+```
+... Set your cluster's [noloc]``OIDC`` identity provider to an environment variable with the following command. Replace  `[replaceable]``my-cluster``` with the name of your cluster.
++
+[source,bash]
+```
+
+oidc\_provider=$\(aws eks describe\-cluster \-\-name my\-cluster \-\-region $AWS\_REGION \-\-query "cluster\.identity\.oidc\.issuer" \-\-output text \| sed \-e "s/^https:\\/\\///"\)
+
+```
+... Set variables for the namespace and name of the service account. Replace `[replaceable]``my-service-account``` with the [noloc]``Kubernetes`` service account that you want to assume the role. Replace  [replaceable]``default`` with the namespace of the service account.
++
+[source,bash]
+```
+
+export namespace=default export service\_account=my\-service\-account
+
+```
+//⁂... Run the following command to create a trust policy file for the IAM role. If you want to allow all service accounts within a namespace to use the role, then copy the following contents to your device. Replace [replaceable]``StringEquals`` with `StringLike` and replace [replaceable]``$service_account`` with ``\*``. You can add multiple entries in the `StringEquals` or `StringLike` conditions to allow multiple service accounts or namespaces to assume the role. To allow roles from a different {aws} account than the account that your cluster is in to assume the role, see <<cross-account-access,Cross-account IAM permissions>> for more information.
++
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Effect": "Allow", "Principal": \{ "Federated": "arn:aws:iam::$account\_id:oidc\-provider/$oidc\_provider" \}, "Action": "sts:AssumeRoleWithWebIdentity", "Condition": \{ "StringEquals": \{ "$oidc\_provider:aud": "sts\.amazonaws\.com", "$oidc\_provider:sub": "system:serviceaccount:$namespace:$service\_account" \} \} \} \] \} EOF
+
+```
+... Create the role. Replace `[replaceable]``my-role``` with a name for your IAM role, and `[replaceable]``my-role-description``` with a description for your role.
++
+[source,bash]
+```
+
+```
+... Attach an IAM policy to your role. Replace `[replaceable]``my-role``` with the name of your IAM role and `[replaceable]``my-policy``` with the name of an existing policy that you created.
++
+[source,bash]
+```
+
+aws iam attach\-role\-policy \-\-role\-name my\-role \-\-policy\-arn=arn:aws:iam::$account\_id:policy/my\-policy
+
+```
+//⁂... Annotate your service account with the Amazon Resource Name (ARN) of the IAM role that you want the service account to assume. Replace `[replaceable]``my-role``` with the name of your existing IAM role. Suppose that you allowed a role from a different {aws} account than the account that your cluster is in to assume the role in a previous step. Then, make sure to specify the {aws} account and role from the other account. For more information, see <<cross-account-access,Cross-account IAM permissions>>.
++
+[source,bash]
+```
+
+kubectl annotate serviceaccount \-n $namespace $service\_account eks\.amazonaws\.com/role\-arn=arn:aws:iam::$account\_id:role/my\-role
+
+```
+. [[irsa-confirm-role-configuration]]Confirm that the role and service account are configured correctly.
++
+.. Confirm that the IAM role's trust policy is configured correctly.
++
+[source,bash]
+```
+
+aws iam get\-role \-\-role\-name my\-role \-\-query Role\.AssumeRolePolicyDocument
+
+```
++
+
+An example output is as follows.
++
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Effect": "Allow", "Principal": \{ "Federated": "arn:aws:iam::111122223333:oidc\-provider/oidc\.eks\.region\-code\.amazonaws\.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE" \}, "Action": "sts:AssumeRoleWithWebIdentity", "Condition": \{ "StringEquals": \{ "oidc\.eks\.region\-code\.amazonaws\.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:default:my\-service\-account", "oidc\.eks\.region\-code\.amazonaws\.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts\.amazonaws\.com" \} \} \} \] \}
+
+```
+.. Confirm that the policy that you attached to your role in a previous step is attached to the role.
++
+[source,bash]
+```
+
+aws iam list\-attached\-role\-policies \-\-role\-name my\-role \-\-query AttachedPolicies\[\]\.PolicyArn \-\-output text
+
+```
++
+
+An example output is as follows.
++
+```
+
+arn:aws:iam::`111122223333`:policy/`my-policy` 
+
+```
+.. Set a variable to store the Amazon Resource Name (ARN) of the policy that you want to use. Replace [replaceable]``my-policy`` with the name of the policy that you want to confirm permissions for.
++
+[source,bash]
+```
+
+export policy\_arn=arn:aws:iam::111122223333:policy/my\-policy
+
+```
+.. View the default version of the policy.
++
+[source,bash]
+```
+
+aws iam get\-policy \-\-policy\-arn $policy\_arn
+
+```
++
+
+An example output is as follows.
++
+[source,json]
+```
+
+\{ "Policy": \{ "PolicyName": "my\-policy", "PolicyId": "EXAMPLEBIOWGLDEXAMPLE", "Arn": "arn:aws:iam::111122223333:policy/my\-policy", "Path": "/", "DefaultVersionId": "v1", \[…​\] \} \}
+
+```
+.. View the policy contents to make sure that the policy includes all the permissions that your [noloc]``Pod`` needs. If necessary, replace  [replaceable]``1`` in the following command with the version that's returned in the previous output.
++
+[source,bash]
+```
+
+aws iam get\-policy\-version \-\-policy\-arn $policy\_arn \-\-version\-id v1
+
+```
++
+
+An example output is as follows.
++
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Effect": "Allow", "Action": "s3:GetObject", "Resource": "arn:aws:s3:::my\-pod\-secrets\-bucket" \} \] \}
+
+```
++
+
+If you created the example policy in a previous step, then your output is the same. If you created a different policy, then the  [replaceable]``example`` content is different.
+.. Confirm that the [noloc]``Kubernetes`` service account is annotated with the role.
++
+[source,bash]
+```
+
+kubectl describe serviceaccount my\-service\-account \-n default
+
+```
++
+
+An example output is as follows.
++
+```
+
+Name:`my\-service\-account`Namespace:`default`Annotations: eks\.amazonaws\.com/role\-arn: arn:aws:iam::`111122223333`:role/`my-role`Image pull secrets: <none> Mountable secrets:`my-service-account`\-token\-`qqjfl`Tokens:`my-service-account`\-token\-`qqjfl`\[…​\]
+
+```
+//⁂. (Optional) <<configure-sts-endpoint,Configure the {aws} Security Token Service endpoint for a service account>>. {aws} recommends using a regional {aws} STS endpoint instead of the global endpoint. This reduces latency, provides built-in redundancy, and increases session token validity.
+
+
+.Next step
+//⁂<<pod-configuration,Configure Pods to use a Kubernetes service account>>
+
+[.topic]
+[[pod-configuration,pod-configuration.title]]
+=== Configure  [noloc]``Pods`` to use a  [noloc]``Kubernetes`` service account
+
+[abstract]
+--
+Learn how to configure your [noloc]``Pods`` to use a  [noloc]``Kubernetes`` service account that you allowed to assume an {aws} Identity and Access Management role.
+--
+
+If a  [noloc]``Pod`` needs to access {aws} services, then you must configure it to use a  [noloc]``Kubernetes`` service account. The service account must be associated to an {aws} Identity and Access Management (IAM) role that has permissions to access the {aws} services.[[pod-configuration-prerequisites]]
+
+//⁂* An existing cluster. If you don't have one, you can create one using one of the <<getting-started,Getting started with Amazon EKS>> guides.
+//⁂* An existing IAM [noloc]``OpenID Connect`` ([noloc]``OIDC``) provider for your cluster. To learn if you already have one or how to create one, see  <<enable-iam-roles-for-service-accounts,Create an IAM OIDC provider for your cluster>>.
+//⁂* An existing [noloc]``Kubernetes`` service account that's associated with an IAM role. The service account must be annotated with the Amazon Resource Name (ARN) of the IAM role. The role must have an associated IAM policy that contains the permissions that you want your  [noloc]``Pods`` to have to use {aws} services. For more information about how to create the service account and role, and configure them, see  <<associate-service-account-role,Configure a Kubernetes service account to assume an IAM role>>.
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use ````aws --version | cut -d / -f2 | cut -d ' ' -f1````. Package managers such ``yum``, ``apt-get``, or [noloc]``Homebrew`` for  [noloc]``macOS`` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see  https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI] and {https---docs-aws-amazon-com-cli-latest-userguide-cli-configure-quickstart-html-cli-configure-quickstart-config}[Quick configuration with aws configure] in the __{aws} Command Line Interface User Guide__. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see {https---docs-aws-amazon-com-cloudshell-latest-userguide-vm-specs-html-install-cli-software}[Installing {aws} CLI to your home directory] in the __{aws} CloudShell User Guide__.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [noloc]``Kubernetes`` version of your cluster. For example, if your cluster version is  ``1.28``, you can use `kubectl` version ``1.27``, ``1.28``, or `1.29` with it. To install or upgrade ``kubectl``, see .
+* An existing `kubectl```config`` file that contains your cluster configuration. To create a `kubectl```config`` file, see .
+. Use the following command to create a deployment manifest that you can deploy a [noloc]``Pod`` to confirm configuration with. Replace the  `[replaceable]``example values``` with your own values.
++
+[source,yaml]
+```
+
+apiVersion: apps/v1 kind: Deployment metadata: name: my\-app spec: selector: matchLabels: app: my\-app template: metadata: labels: app: my\-app spec: serviceAccountName: my\-service\-account containers: \- name: my\-app image: public\.ecr\.aws/nginx/nginx:X\.XX EOF
+
+```
+. Deploy the manifest to your cluster.
++
+[source,bash]
+```
+
+kubectl apply \-f my\-deployment\.yaml
+
+```
+. Confirm that the required environment variables exist for your [noloc]``Pod``.
++
+.. View the [noloc]``Pods`` that were deployed with the deployment in the previous step.
++
+[source,bash]
+```
+
+kubectl get pods \| grep my\-app
+
+```
++
+
+An example output is as follows.
++
+```
+
+ `my-app`\-`6f4dfff6cb\-76cv9`1/1 Running 0 3m28s
+
+```
+.. View the ARN of the IAM role that the [noloc]``Pod`` is using.
++
+[source,bash]
+```
+
+kubectl describe pod my\-app\-6f4dfff6cb\-76cv9 \| grep AWS\_ROLE\_ARN:
+
+```
++
+
+An example output is as follows.
++
+```
+
+ AWS\_ROLE\_ARN: arn:aws:iam::`111122223333`:role/`my-role` 
+
+```
++
+
+//⁂The role ARN must match the role ARN that you annotated the existing service account with. For more about annotating the service account, see  <<associate-service-account-role,Configure a Kubernetes service account to assume an IAM role>>.
+.. Confirm that the [noloc]``Pod`` has a web identity token file mount.
++
+[source,bash]
+```
+
+kubectl describe pod my\-app\-6f4dfff6cb\-76cv9 \| grep AWS\_WEB\_IDENTITY\_TOKEN\_FILE:
+
+```
++
+
+An example output is as follows.
++
+```
+
+ AWS\_WEB\_IDENTITY\_TOKEN\_FILE: /var/run/secrets/eks\./serviceaccount/token
+
+```
++
+
+The  `kubelet` requests and stores the token on behalf of the [noloc]``Pod``. By default, the  `kubelet` refreshes the token if the token is older than 80 percent of its total time to live or older than 24 hours. You can modify the expiration duration for any account other than the default service account by using the settings in your [noloc]``Pod`` spec. For more information, see  {https---kubernetes-io-docs-tasks-configure-pod-container-configure-service-account--serviceaccount-token-volume-projection}[Service Account Token Volume Projection] in the [noloc]``Kubernetes`` documentation.
++
+
+The {https---github-com-aws-amazon-eks-pod-identity-webhook-amazon-eks-pod-identity-webhook}[Amazon EKS Pod Identity Webhook] on the cluster watches for [noloc]``Pods`` that use a service account with the following annotation:
++
+```
+
+eks\.amazonaws\.com/role\-arn: arn:aws:iam::`111122223333`:role/`my-role` 
+
+```
++
+
+//⁂The webhook applies the previous environment variables to those  [noloc]``Pods``. Your cluster doesn't need to use the webhook to configure the environment variables and token file mounts. You can manually configure  [noloc]``Pods`` to have these environment variables. The  <<iam-roles-for-service-accounts-minimum-sdk,supported versions of the {aws} SDK>> look for these environment variables first in the credential chain provider. The role credentials are used for [noloc]``Pods`` that meet this criteria.
+. Confirm that your [noloc]``Pods`` can interact with the {aws} services using the permissions that you assigned in the IAM policy attached to your role.
++
+//⁂NOTE: When a [noloc]``Pod`` uses {aws} credentials from an IAM role that's associated with a service account, the {aws} CLI or other SDKs in the containers for that  [noloc]``Pod`` use the credentials that are provided by that role. If you don't restrict access to the credentials that are provided to the  <<create-node-role,Amazon EKS node IAM role>>, the [noloc]``Pod`` still has access to these credentials. For more information, see  {https---aws-github-io-aws-eks-best-practices-security-docs-iam--restrict-access-to-the-instance-profile-assigned-to-the-worker-node}[Restrict access to the instance profile assigned to the worker node].
++
++
+
+If your  [noloc]``Pods`` can't interact with the services as you expected, complete the following steps to confirm that everything is properly configured.
++
+//⁂.. Confirm that your [noloc]``Pods`` use an {aws} SDK version that supports assuming an IAM role through an  [noloc]``OpenID Connect`` web identity token file. For more information, see  <<iam-roles-for-service-accounts-minimum-sdk,Using a supported {aws} SDK>>.
+.. Confirm that the deployment is using the service account.
++
+[source,bash]
+```
+
+kubectl describe deployment my\-app \| grep "Service Account"
+
+```
++
+
+An example output is as follows.
++
+```
+
+Service Account:`my\-service\-account`
+
+```
+//⁂.. If your [noloc]``Pods`` still can't access services, review the  <<irsa-confirm-role-configuration,steps>> that are described in <<associate-service-account-role,Configure a Kubernetes service account to assume an IAM role>> to confirm that your role and service account are configured properly.
+
+
+[.topic]
+[[configure-sts-endpoint,configure-sts-endpoint.title]]
+=== Configure the {aws} Security Token Service endpoint for a service account
+
+//⁂If you're using a  [noloc]``Kubernetes`` service account with  <<iam-roles-for-service-accounts,IAM roles for service accounts>>, then you can configure the type of {aws} Security Token Service endpoint that's used by the service account if your cluster and platform version are the same or later than those listed in the following table. If your [noloc]``Kubernetes`` or platform version are earlier than those listed in the table, then your service accounts can only use the global endpoint.
+
+//⁂[cols="1,1,1", frame="all", options="header"]
+//⁂|===
+//⁂| Kubernetes version
+//⁂| Platform version
+//⁂| Default endpoint type
+
+
+//⁂|``1.29``
+//⁂|``eks.1``
+//⁂|Regional
+
+//⁂|``1.28``
+//⁂|``eks.1``
+//⁂|Regional
+
+//⁂|``1.27``
+//⁂|``eks.1``
+//⁂|Regional
+
+//⁂|``1.26``
+//⁂|``eks.1``
+//⁂|Regional
+
+//⁂|``1.25``
+//⁂|``eks.1``
+//⁂|Regional
+
+//⁂|``1.24``
+//⁂|``eks.2``
+//⁂|Regional
+
+//⁂|``1.23``
+//⁂|``eks.1``
+//⁂|Regional
+//⁂|===
+
+{aws} recommends using the regional {aws} STS endpoints instead of the global endpoint. This reduces latency, provides built-in redundancy, and increases session token validity. The {aws} Security Token Service must be active in the {aws} Region where the  [noloc]``Pod`` is running. Moreover, your application must have built-in redundancy for a different {aws} Region in the event of a failure of the service in the {aws} Region. For more information, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-credentials-temp-enable-regions-html}[Managing {aws} STS in an {aws} Region] in the IAM User Guide.
+
+
+
+//⁂* An existing cluster. If you don't have one, you can create one using one of the <<getting-started,Getting started with Amazon EKS>> guides.
+//⁂* An existing IAM OIDC provider for your cluster. For more information, see <<enable-iam-roles-for-service-accounts,Create an IAM OIDC provider for your cluster>>.
+//⁂* An existing [noloc]``Kubernetes`` service account configured for use with the  <<iam-roles-for-service-accounts,Amazon EKS IAM for service accounts>> feature.
+
+//⁂The following examples all use the `aws-node`[noloc]``Kubernetes`` service account used by the  <<cni-iam-role,Amazon VPC CNI plugin>>. You can replace the `[replaceable]``example values``` with your own service accounts, [noloc]``Pods``, namespaces, and other resources.
+
+. Select a [noloc]``Pod`` that uses a service account that you want to change the endpoint for. Determine which {aws} Region that the  [noloc]``Pod`` runs in. Replace  `[replaceable]``aws-node-6mfgv``` with your [noloc]``Pod`` name and  `[replaceable]``kube-system``` with your [noloc]``Pod``'s namespace.
++
+[source,bash]
+```
+
+kubectl describe pod aws\-node\-6mfgv \-n kube\-system \|grep Node:
+
+```
++
+
+An example output is as follows.
++
+```
+
+ip\-192\-168\-79\-166\./192\.168\.79\.166
+
+```
++
+
+In the previous output, the  [noloc]``Pod`` is running on a node in the  us-west-2 {aws} Region.
+. Determine the endpoint type that the [noloc]``Pod's`` service account is using.
++
+[source,bash]
+```
+
+kubectl describe pod aws\-node\-6mfgv \-n kube\-system \|grep AWS\_STS\_REGIONAL\_ENDPOINTS
+
+```
++
+
+An example output is as follows.
++
+```
+
+ AWS\_STS\_REGIONAL\_ENDPOINTS:`regional`
+
+```
++
+
+If the current endpoint is global, then  `global` is returned in the output. If no output is returned, then the default endpoint type is in use and has not been overridden.
+. If your cluster or platform version are the same or later than those listed in the table, then you can change the endpoint type used by your service account from the default type to a different type with one of the following commands. Replace `[replaceable]``aws-node``` with the name of your service account and `[replaceable]``kube-system``` with the namespace for your service account.
++
+** If your default or current endpoint type is global and you want to change it to regional:
++
+[source,bash]
+```
+
+kubectl annotate serviceaccount \-n kube\-system aws\-node eks\.amazonaws\.com/sts\-regional\-endpoints=true
+
+```
++
+
+//⁂If you are using  <<iam-roles-for-service-accounts,IAM roles for service accounts>> to generate pre-signed S3 URLs in your application running in [noloc]``Pods``' containers, the format of the URL for regional endpoints is similar to the following example:
++
+[source,none]
+```
+
+```
+** If your default or current endpoint type is regional and you want to change it to global:
++
+[source,bash]
+```
+
+kubectl annotate serviceaccount \-n kube\-system aws\-node eks\.amazonaws\.com/sts\-regional\-endpoints=false
+
+```
++
+
+//⁂If your application is explicitly making requests to {aws} STS global endpoints and you don't override the default behavior of using regional endpoints in Amazon EKS clusters, then requests will fail with an error. For more information, see  <<security-iam-troubleshoot-wrong-sts-endpoint,Pod containers receive the following error: An error occurred (SignatureDoesNotMatch) when calling the GetCallerIdentity operation: Credential should be scoped to a valid region>>.
++
+
+//⁂If you're using <<iam-roles-for-service-accounts,IAM roles for service accounts>> to generate pre-signed S3 URLs in your application running in [noloc]``Pods``' containers, the format of the URL for global endpoints is similar to the following example:
++
+[source,none]
+```
+
+```
++
+
+If you have automation that expects the pre-signed URL in a certain format or if your application or downstream dependencies that use pre-signed URLs have expectations for the {aws} Region targeted, then make the necessary changes to use the appropriate {aws} STS endpoint.
+. Delete and re-create any existing [noloc]``Pods`` that are associated with the service account to apply the credential environment variables. The mutating web hook doesn't apply them to  [noloc]``Pods`` that are already running. You can replace  ``[replaceable]``[noloc]``Pods``````, ``[replaceable]``kube-system````, and `[replaceable]``-l k8s-app=aws-node``` with the information for the [noloc]``Pods`` that you set your annotation for.
++
+[source,bash]
+```
+
+kubectl delete Pods \-n kube\-system \-l k8s\-app=aws\-node
+
+```
+. Confirm that the all [noloc]``Pods`` restarted.
++
+[source,bash]
+```
+
+kubectl get Pods \-n kube\-system \-l k8s\-app=aws\-node
+
+```
+. View the environment variables for one of the [noloc]``Pods``. Verify that the  `{aws}_STS_REGIONAL_ENDPOINTS` value is what you set it to in a previous step.
++
+[source,bash]
+```
+
+kubectl describe pod aws\-node\-kzbtr \-n kube\-system \|grep AWS\_STS\_REGIONAL\_ENDPOINTS
+
+```
++
+
+An example output is as follows.
++
+```
+
+ AWS\_STS\_REGIONAL\_ENDPOINTS=`regional` 
+
+```
+[.topic]
+[[cross-account-access,cross-account-access.title]]
+=== Cross-account IAM permissions
+
+You can configure cross-account IAM permissions either by creating an identity provider from another account's cluster or by using chained  `AssumeRole` operations. In the following examples, _Account A_ owns an Amazon EKS cluster that supports IAM roles for service accounts. [noloc]``Pods`` that are running on that cluster must assume IAM permissions from  __Account B__.
+
+.Create an identity provider from another account's cluster
+====
+
+====
+
+====
+
+//⁂In this example, Account A provides Account B with the OpenID Connect (OIDC) issuer URL from their cluster. Account B follows the instructions in  <<enable-iam-roles-for-service-accounts,Create an IAM OIDC provider for your cluster>> and <<associate-service-account-role,Configure a Kubernetes service account to assume an IAM role>> using the OIDC issuer URL from Account A's cluster. Then, a cluster administrator annotates the service account in Account A's cluster to use the role from Account B ([replaceable]``444455556666``).
+
+[source,yaml]
+```
+
+apiVersion: v1 kind: ServiceAccount metadata: annotations: eks\.amazonaws\.com/role\-arn: arn:aws:iam::444455556666:role/account\-b\-role
+
+```
+====
+
+.Use chained  `AssumeRole` operations
+====
+
+====
+
+====
+
+In this example, Account B creates an IAM policy with the permissions to give to  [noloc]``Pods`` in Account A's cluster. Account B ([replaceable]``444455556666``) attaches that policy to an IAM role with a trust relationship that allows `AssumeRole` permissions to Account A ([replaceable]``111122223333``).
+
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Effect": "Allow", "Principal": \{ "AWS": "arn:aws:iam::111122223333:root" \}, "Action": "sts:AssumeRole", "Condition": \{\} \} \] \}
+
+```
+Account A creates a role with a trust policy that gets credentials from the identity provider created with the cluster's OIDC issuer address.
+
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Effect": "Allow", "Principal": \{ "Federated": "arn:aws:iam::111122223333:oidc\-provider/oidc\.eks\.region\-code\.amazonaws\.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE" \}, "Action": "sts:AssumeRoleWithWebIdentity" \} \] \}
+
+```
+Account A attaches a policy to that role with the following permissions to assume the role that Account B created.
+
+[source,json]
+```
+
+\{ "Version": "2012\-10\-17", "Statement": \[ \{ "Effect": "Allow", "Action": "sts:AssumeRole", "Resource": "arn:aws:iam::444455556666:role/account\-b\-role" \} \] \}
+
+```
+The application code for  [noloc]``Pods`` to assume Account B's role uses two profiles:  `account_b_role` and ``account_a_role``. The `account_b_role` profile uses the `account_a_role` profile as its source. For the {aws} CLI, the [path]``~/.aws/config`` file is similar to the following.
+
+[source,none]
+```
+
+source\_profile = account\_a\_role role\_arn=arn:aws:iam::444455556666:role/account\-b\-role
+
+web\_identity\_token\_file = /var/run/secrets/eks\.amazonaws\.com/serviceaccount/token role\_arn=arn:aws:iam::111122223333:role/account\-a\-role
+
+```
+To specify chained profiles for other {aws} SDKs, consult the documentation for the SDK that you're using. For more information, see  https://aws.amazon.com/developer/tools/[Tools to Build on {aws}].
+
+====
+
+[.topic]
+[[iam-roles-for-service-accounts-minimum-sdk,iam-roles-for-service-accounts-minimum-sdk.title]]
+=== Using a supported {aws} SDK
+
+//⁂When using  <<iam-roles-for-service-accounts,IAM roles for service accounts>>, the containers in your [noloc]``Pods`` must use an {aws} SDK version that supports assuming an IAM role through an  [noloc]``OpenID Connect`` web identity token file. Make sure that you're using the following versions, or later, for your {aws} SDK:
+
+
+
+* Java (Version 2) – https://github.com/aws/aws-sdk-java-v2/releases/tag/2.10.11[2.10.11]
+* Java – https://github.com/aws/aws-sdk-java/releases/tag/1.11.704[1.11.704]
+* Go – https://github.com/aws/aws-sdk-go/releases/tag/v1.23.13[1.23.13]
+* Python (Boto3) – https://github.com/boto/boto3/releases/tag/1.9.220[1.9.220]
+* Python (botocore) – https://github.com/boto/botocore/releases/tag/1.12.200[1.12.200]
+* {aws} CLI – https://github.com/aws/aws-cli/releases/tag/1.16.232[1.16.232]
+* Node – https://github.com/aws/aws-sdk-js/releases/tag/v2.525.0[2.525.0] and https://github.com/aws/aws-sdk-js-v3/releases/tag/v3.27.0[3.27.0]
+* Ruby – {https---github-com-aws-aws-sdk-ruby-blob-version-3-gems-aws-sdk-core-CHANGELOG-md-3580-2019-07-01}[3.58.0]
+* {cpp} – https://github.com/aws/aws-sdk-cpp/releases/tag/1.7.174[1.7.174]
+* .NET – https://github.com/aws/aws-sdk-net/releases/tag/3.3.659.1[3.3.659.1] – You must also include ``{aws}SDK.SecurityToken``.
+* PHP – https://github.com/aws/aws-sdk-php/releases/tag/3.110.7[3.110.7]
+
+//⁂Many popular  [noloc]``Kubernetes`` add-ons, such as the  https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler[Cluster Autoscaler], the <<aws-load-balancer-controller,What is the {aws} Load Balancer Controller?>>, and the <<cni-iam-role,Amazon VPC CNI plugin for Kubernetes>> support IAM roles for service accounts.
+
+To ensure that you're using a supported SDK, follow the installation instructions for your preferred SDK at https://aws.amazon.com/tools/[Tools to Build on {aws}] when you build your containers.
+
+.Using the credentials
+To use the credentials from IAM roles for service accounts, your code can use any {aws} SDK to create a client for an {aws} service with an SDK, and by default the SDK searches in a chain of locations for {aws} Identity and Access Management credentials to use. The IAM roles for service accounts credentials will be used if you don't specify a credential provider when you create the client or otherwise initialized the SDK.
+
+This works because IAM roles for service accounts have been added as a step in the default credential chain. If your workloads currently use credentials that are earlier in the chain of credentials, those credentials will continue to be used even if you configure an IAM roles for service accounts for the same workload.
+
+The SDK automatically exchanges the service account [noloc]``OIDC`` token for temporary credentials from {aws} Security Token Service by using the  `AssumeRoleWithWebIdentity` action. Amazon EKS and this SDK action continue to rotate the temporary credentials by renewing them before they expire.
+
+[.topic]
+[[irsa-fetch-keys,irsa-fetch-keys.title]]
+=== Fetch signing keys
+
+[abstract]
+--
+Learn how to fetch the public signing keys necessary to validate a ProjectedServiceAccountToken.
+--
+
+[noloc]``Kubernetes`` issues a  `ProjectedServiceAccountToken` to each [noloc]``Kubernetes``[noloc]``Service Account``. This token is an  [noloc]``OIDC`` token, which is further a type of  [noloc]``JSON web token (JWT)``. Amazon EKS hosts a public  [noloc]``OIDC`` endpoint for each cluster that contains the signing keys for the token so external systems can validate it.
+
+//⁂To validate a ``ProjectedServiceAccountToken``, you need to fetch the [noloc]``OIDC`` public signing keys, also called the  [noloc]``JSON Web Key Set (JWKS)``. Use these keys in your application to validate the token. For example, you can use the  https://pyjwt.readthedocs.io/en/latest/[PyJWT Python library] to validate tokens using these keys. For more information on the ``ProjectedServiceAccountToken``, see <<irsa-oidc-background,IAM Kubernetes and OpenID Connect (OIDC) background information>>.
+
+
+
+* An existing {aws} Identity and Access Management (IAM) [noloc]``OpenID Connect`` ([noloc]``OIDC``) provider for your cluster. To determine whether you already have one, or to create one, see .
+* [topcom]##{aws} CLI## – A command line tool for working with {aws} services, including Amazon EKS. For more information, see  https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI] in the {aws} Command Line Interface User Guide. After installing the {aws} CLI, we recommend that you also configure it. For more information, see {https---docs-aws-amazon-com-cli-latest-userguide-cli-configure-quickstart-html-cli-configure-quickstart-config}[Quick configuration with aws configure] in the {aws} Command Line Interface User Guide.
+. Retrieve the [noloc]``OIDC`` URL for your Amazon EKS cluster using the {aws} CLI.
++
+[source,bash]
+```
+
+$ aws eks describe\-cluster \-\-name my\-cluster \-\-query 'cluster\.identity\.oidc\.issuer' "https://oidc\.eks\.us\-east\-1\.amazonaws\.com/id/8EBDXXXX00BAE"
+
+```
+. Retrieve the public signing key using [noloc]``curl``, or a similar tool. The result is a  {https---www-rfc-editor-org-rfc-rfc7517-section-5}[JSON Web Key Set (JWKS)].
++
+IMPORTANT: Amazon EKS throttles calls to the [noloc]``OIDC`` endpoint. You should cache the public signing key. Respect the  `cache-control` header included in the response.
++
+IMPORTANT: Amazon EKS rotates the  [noloc]``OIDC`` signing key every seven days.
++
+
+[source,bash]
+```
+
+$ curl [https://oidc\.eks\.us\-east\-1\.amazonaws\.com/id/8EBDXXXX00BAE/keys](https://oidc.eks.us-east-1.amazonaws.com/id/8EBDXXXX00BAE/keys) \{"keys":\[\{"kty":"RSA","kid":"2284XXXX4a40","use":"sig","alg":"RS256","n":"wklbXXXXMVfQ","e":"AQAB"\}\]\}
+
+```
+```

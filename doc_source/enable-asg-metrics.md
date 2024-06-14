@@ -1,16 +1,26 @@
+--------
+
+ **Help improve this page** 
+
+--------
+
+--------
+
+Want to contribute to this user guide? Scroll to the bottom of this page and select **Edit this page on GitHub**\. Your contributions will help make our user guide better for everyone\.
+
+--------
+
 # Enable Auto Scaling group metrics collection<a name="enable-asg-metrics"></a>
 
-This topic describes how you can enable Auto Scaling group metrics collection using [AWS Lambda](https://aws.amazon.com/lambda) and [AWS CloudTrail](https://aws.amazon.com/cloudtrail)\. Amazon EKS doesn't automatically enable group metrics collection for Auto Scaling groups created for managed nodes\.
+This topic describes how you can enable Auto Scaling group metrics collection using [AWS Lambda](https://aws.amazon.com/lambda) and [AWS CloudTrail](https://aws.amazon.com/cloudtrail)\. Amazon EKS doesn’t automatically enable group metrics collection for Auto Scaling groups created for managed nodes\.
 
 You can use [Auto Scaling group metrics](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html) to track changes in an Auto Scaling group and to set alarms on threshold values\. Auto Scaling group metrics are available in the Auto Scaling console or the [Amazon CloudWatch](https://aws.amazon.com/cloudwatch) console\. Once enabled, the Auto Scaling group sends sampled data to Amazon CloudWatch every minute\. There is no charge for enabling these metrics\.
 
-By enabling Auto Scaling group metrics collection, you'll be able to monitor the scaling of managed node groups\. Auto Scaling group metrics report the minimum, maximum, and desired size of an Auto Scaling group\. You can create an alarm if the number of nodes in a node group falls below the minimum size, which would indicate an unhealthy node group\. Tracking node group size is also useful in adjusting the maximum count so that your data plane doesn't run out of capacity\.
+By enabling Auto Scaling group metrics collection, you’ll be able to monitor the scaling of managed node groups\. Auto Scaling group metrics report the minimum, maximum, and desired size of an Auto Scaling group\. You can create an alarm if the number of nodes in a node group falls below the minimum size, which would indicate an unhealthy node group\. Tracking node group size is also useful in adjusting the maximum count so that your data plane doesn’t run out of capacity\.
 
 When you create a managed node group, AWS CloudTrail sends a `CreateNodegroup` event to [Amazon EventBridge](https://aws.amazon.com/eventbridge)\. By creating an Amazon EventBridge rule that matches the `CreateNodegroup` event, you trigger a Lambda function to enable group metrics collection for the Auto Scaling group associated with the managed node group\.
 
 ![\[Diagram showing the managed node group, CloudTrail, and EventBridge component\]](http://docs.aws.amazon.com/eks/latest/userguide/images/enable-asg-metrics.png)
-
-**To enable Auto Scaling group metrics collection**
 
 1. Create an IAM role for Lambda\.
 
@@ -26,7 +36,7 @@ When you create a managed node group, AWS CloudTrail sends a `CreateNodegroup` e
 1. Create a policy that allows describing Amazon EKS node groups and enabling Auto Scaling group metrics collection\.
 
    ```
-   cat > /tmp/lambda-policy.json <<EOF
+   //⁂cat > /tmp/lambda-policy.json <<EOF
    {
        "Version": "2012-10-17",
        "Statement": [
@@ -45,7 +55,7 @@ When you create a managed node group, AWS CloudTrail sends a `CreateNodegroup` e
    EOF
    LAMBDA_POLICY_ARN=$(aws iam create-policy \
      --policy-name lambda-asg-enable-metrics-policy \
-     --policy-document file:///tmp/lambda-policy.json \
+   //⁂  --policy-document file:///tmp/lambda-policy.json \
      --output text \
      --query 'Policy.Arn')
    echo $LAMBDA_POLICY_ARN
@@ -59,18 +69,18 @@ When you create a managed node group, AWS CloudTrail sends a `CreateNodegroup` e
      --role-name lambda-asg-enable-metrics
    ```
 
-1. Add the `AWSLambdaBasicExecutionRole` managed policy, which has the permissions that the function needs to write logs to CloudWatch Logs\.
+1. Add the ` AWSLambdaBasicExecutionRole` managed policy, which has the permissions that the function needs to write logs to CloudWatch Logs\.
 
    ```
    aws iam attach-role-policy \
      --role-name lambda-asg-enable-metrics \
-     --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+     --policy-arn arn:aws:iam::aws:policy/service-role/{aws}LambdaBasicExecutionRole
    ```
 
 1. Create the Lambda code\.
 
    ```
-   cat > /tmp/lambda-handler.py <<EOF
+   //⁂cat > /tmp/lambda-handler.py <<EOF
    import json
    import boto3
    import time
@@ -85,14 +95,14 @@ When you create a managed node group, AWS CloudTrail sends a `CreateNodegroup` e
    def lambda_handler(event, context):
        ASG_METRICS_COLLLECTION_TAG_NAME = "ASG_METRICS_COLLLECTION_ENABLED"
        initial_retry_delay = 10
-       attempts = 0 
-       
+       attempts = 0
+   
        #print(event)
-       
+   
        if not event["detail"]["eventName"] == "CreateNodegroup":
            print("invalid event.")
            return -1
-           
+   
        clusterName = event["detail"]["requestParameters"]["name"]
        nodegroupName = event["detail"]["requestParameters"]["nodegroupName"]
        try:
@@ -100,12 +110,12 @@ When you create a managed node group, AWS CloudTrail sends a `CreateNodegroup` e
        except KeyError:
            print(ASG_METRICS_COLLLECTION_TAG_NAME, "tag not found.")
            return
-       
+   
        # Check if metrics collection is enabled in tags
        if metricsCollectionEnabled.lower() != "true":
            print("Metrics collection is not enabled in nodegroup tags.")
            return
-       
+   
        # Get the name of the associated autoscaling group
        print("Getting the autoscaling group name for nodegroup=", nodegroupName, ", cluster=", clusterName )
        for i in range(0,10):
@@ -117,9 +127,9 @@ When you create a managed node group, AWS CloudTrail sends a `CreateNodegroup` e
                time.sleep(initial_retry_delay*attempts)
            else:
                break
-       
+   
        print("Enabling metrics collection on autoscaling group ", autoScalingGroup)
-       
+   
        # Enable metrics collection in the autoscaling group
        try:
            enableMetricsCollection = autoscaling.enable_metrics_collection(AutoScalingGroupName=autoScalingGroup,Granularity="1Minute")
@@ -132,7 +142,7 @@ When you create a managed node group, AWS CloudTrail sends a `CreateNodegroup` e
 1. Create a deployment package\.
 
    ```
-   cd /tmp 
+   cd /tmp
    zip function.zip lambda-handler.py
    ```
 
@@ -153,7 +163,7 @@ When you create a managed node group, AWS CloudTrail sends a `CreateNodegroup` e
 
    ```
    RULE_ARN=$(aws events put-rule --name CreateNodegroupRuleToLambda \
-     --event-pattern "{\"source\":[\"aws.eks\"],\"detail-type\":[\"AWS API Call via CloudTrail\"],\"detail\":{\"eventName\":[\"CreateNodegroup\"],\"eventSource\":[\"eks.amazonaws.com\"]}}" \
+     --event-pattern "{\"source\":[\"aws.eks\"],\"detail-type\":[\"{aws} API Call via CloudTrail\"],\"detail\":{\"eventName\":[\"CreateNodegroup\"],\"eventSource\":[\"eks.amazonaws.com\"]}}" \
      --output text \
      --query 'RuleArn')
    echo $RULE_ARN

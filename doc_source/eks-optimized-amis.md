@@ -1,6 +1,16 @@
-# Amazon EKS optimized AMIs<a name="eks-optimized-amis"></a>
+--------
 
-You can deploy nodes with pre\-built Amazon EKS optimized [Amazon Machine Images](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) \(AMIs\) or your own custom AMIs\. For information about each type of Amazon EKS optimized AMI, see one of the following topics\. For instructions on how to create your own custom AMI, see [Amazon EKS optimized Amazon Linux AMI build script](eks-ami-build-scripts.md)\.
+ **Help improve this page** 
+
+--------
+
+--------
+
+Want to contribute to this user guide? Scroll to the bottom of this page and select **Edit this page on GitHub**\. Your contributions will help make our user guide better for everyone\.
+
+--------
+
+# Amazon EKS optimized AMIs<a name="eks-optimized-amis"></a>
 
 **Topics**
 + [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)

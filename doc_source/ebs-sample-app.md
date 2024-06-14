@@ -1,3 +1,15 @@
+--------
+
+ **Help improve this page** 
+
+--------
+
+--------
+
+Want to contribute to this user guide? Scroll to the bottom of this page and select **Edit this page on GitHub**\. Your contributions will help make our user guide better for everyone\.
+
+--------
+
 # Deploy a sample application and verify that the CSI driver is working<a name="ebs-sample-app"></a>
 
 You can test the CSI driver functionality with a sample application\. This topic shows one example, but you can also do the following:
@@ -18,14 +30,14 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    cd aws-ebs-csi-driver/examples/kubernetes/dynamic-provisioning/
    ```
 
-1. \(Optional\) The `manifests/storageclass.yaml` file provisions `gp2` Amazon EBS volumes by default\. To use `gp3` volumes instead, add `type: gp3` to `manifests/storageclass.yaml`\.
+1. \(Optional\) The ` manifests/storageclass.yaml ` file provisions `gp2` Amazon EBS volumes by default\. To use `gp3` volumes instead, add `type: gp3` to `[path]`manifests/storageclass\.yaml````\.
 
    ```
    echo "parameters:
      type: gp3" >> manifests/storageclass.yaml
    ```
 
-1. Deploy the `ebs-sc` storage class, `ebs-claim` persistent volume claim, and `app` sample application from the `manifests` directory\.
+1. Deploy the `ebs-sc` storage class, `ebs-claim` persistent volume claim, and `app` sample application from the ` manifests ` directory\.
 
    ```
    kubectl apply -f manifests/
@@ -53,7 +65,7 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    Events:                <none>
    ```
 **Note**  
-The storage class uses the `WaitForFirstConsumer` volume binding mode\. This means that volumes aren't dynamically provisioned until a Pod makes a persistent volume claim\. For more information, see [Volume Binding Mode](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) in the Kubernetes documentation\.
+The storage class uses the `WaitForFirstConsumer` volume binding mode\. This means that volumes aren’t dynamically provisioned until a Pod makes a persistent volume claim\. For more information, see [Volume Binding Mode](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) in the Kubernetes documentation\.
 
 1. Watch the Pods in the default namespace\. After a few minutes, the `app` Pod's status changes to `Running`\.
 
@@ -76,7 +88,7 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
    pvc-37717cd6-d0dc-11e9-b17f-06fad4858a5a   4Gi        RWO            Delete           Bound    default/ebs-claim   ebs-sc                  30s
    ```
 
-1. Describe the persistent volume\. Replace `pvc-37717cd6-d0dc-11e9-b17f-06fad4858a5a` with the value from the output in the previous step\.
+1. Describe the persistent volume\. Replace `pvc-37717cd6-d0dc-11e9-b17f-06fad4858a5a ` with the value from the output in the previous step\.
 
    ```
    kubectl describe pv pvc-37717cd6-d0dc-11e9-b17f-06fad4858a5a
@@ -85,8 +97,7 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
    An example output is as follows\.
 
    ```
-   Name:              pvc-37717cd6-d0dc-11e9-b17f-06fad4858a5a
-   Labels:            <none>
+   Name:              pvc-`37717cd6-d0dc-11e9-b17f-06fad4858a5a`Labels:            <none>
    Annotations:       pv.kubernetes.io/provisioned-by: ebs.csi.aws.com
    Finalizers:        [kubernetes.io/pv-protection external-attacher/ebs-csi-aws-com]
    StorageClass:      ebs-sc
@@ -98,14 +109,13 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
    Capacity:          4Gi
    Node Affinity:
      Required Terms:
-       Term 0:        topology.ebs.csi.aws.com/zone in [region-code]
+       Term 0:        topology.ebs.csi.aws.com/zone in []
    Message:
    Source:
        Type:              CSI (a Container Storage Interface (CSI) volume source)
        Driver:            ebs.csi.aws.com
-       VolumeHandle:      vol-0d651e157c6d93445
-       ReadOnly:          false
-       VolumeAttributes:      storage.kubernetes.io/csiProvisionerIdentity=1567792483192-8081-ebs.csi.aws.com
+       VolumeHandle:`vol-0d651e157c6d93445`ReadOnly:          false
+       VolumeAttributes:      storage.kubernetes.io/csiProvisionerIdentity=`1567792483192`-8081-ebs.csi.aws.com
    Events:                <none>
    ```
 
@@ -127,7 +137,7 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
    [...]
    ```
 
-1. After you're done, delete the resources for this sample application\.
+1. After you’re done, delete the resources for this sample application\.
 
    ```
    kubectl delete -f manifests/
