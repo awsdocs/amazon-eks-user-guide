@@ -209,7 +209,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
 
    ```
    aws eks update-addon --cluster-name my-cluster --addon-name coredns \
-       --resolve-conflicts PRESERVE --configuration-values '{"autoScaling":{"enabled":true}, "minReplicas": 2, "maxReplicas": 10}'
+       --resolve-conflicts PRESERVE --configuration-values '{"autoScaling":{"enabled":true,"minReplicas":2,"maxReplicas":10}}'
    ```
 
 1. Check the status of the update to the add\-on by running the following command:
