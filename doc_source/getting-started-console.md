@@ -77,7 +77,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
 1. On the **Configure cluster** page, do the following:
 
-   1. Enter a **Name** for your cluster, such as **my\-cluster**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
+   1. Enter a **Name** for your cluster, such as **my\-cluster**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
 
    1. For **Cluster Service Role**, choose *myAmazonEKSClusterRole*\.
 
@@ -394,7 +394,7 @@ When deleting a second Fargate profile, you may need to wait for the first one t
 ## Next steps<a name="gs-console-next-steps"></a>
 
 The following documentation topics help you to extend the functionality of your cluster\.
-+ The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that created the cluster is the only principal that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM principals to have access to your cluster, then you need to add them\. For more information, see [Enabling IAM principal access to your cluster](add-user-role.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
++ The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that created the cluster is the only principal that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM principals to have access to your cluster, then you need to add them\. For more information, see [Grant access to Kubernetes APIs ](grant-k8s-access.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 + Deploy a [sample application](sample-deployment.md) to your cluster\.
 + Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for [clusters](create-cluster.md) and [nodes](eks-compute.md)\. Some settings \(such as enabling SSH access to Amazon EC2 nodes\) must be made when the cluster is created\.
 + To increase security for your cluster, [configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts](cni-iam-role.md)\.

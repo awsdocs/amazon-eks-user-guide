@@ -1,10 +1,12 @@
-# Configuring the AWS Security Token Service endpoint for a service account<a name="configure-sts-endpoint"></a>
+# Configure the AWS Security Token Service endpoint for a service account<a name="configure-sts-endpoint"></a>
 
 If you're using a Kubernetes service account with [IAM roles for service accounts](iam-roles-for-service-accounts.md), then you can configure the type of AWS Security Token Service endpoint that's used by the service account if your cluster and platform version are the same or later than those listed in the following table\. If your Kubernetes or platform version are earlier than those listed in the table, then your service accounts can only use the global endpoint\.
 
 
 | Kubernetes version | Platform version | Default endpoint type | 
 | --- | --- | --- | 
+| 1\.30 | eks\.2 | Regional | 
+| 1\.29 | eks\.1 | Regional | 
 | 1\.28 | eks\.1 | Regional | 
 | 1\.27 | eks\.1 | Regional | 
 | 1\.26 | eks\.1 | Regional | 
@@ -16,7 +18,7 @@ AWS recommends using the regional AWS STS endpoints instead of the global endpoi
 
 **Prerequisites**
 + An existing cluster\. If you don't have one, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\.
-+ An existing IAM OIDC provider for your cluster\. For more information, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ An existing IAM OIDC provider for your cluster\. For more information, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + An existing Kubernetes service account configured for use with the [Amazon EKS IAM for service accounts](iam-roles-for-service-accounts.md) feature\.
 
 **To configure the endpoint type used by a Kubernetes service account**

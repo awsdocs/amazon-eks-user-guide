@@ -14,7 +14,7 @@ For example, assume that you made a cluster and specified four subnets\. In the 
 
   If you need more IP addresses than the CIDR blocks in the VPC have, you can add additional CIDR blocks by [associating additional Classless Inter\-Domain Routing \(CIDR\) blocks](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr) with your VPC\. You can associate private \(RFC 1918\) and public \(non\-RFC 1918\) CIDR blocks to your VPC either before or after you create your cluster\. It can take a cluster up to five hours for a CIDR block that you associated with a VPC to be recognized\.
 
-  You can conserve IP address utilization by using a transit gateway with a shared services VPC\. For more information, see [Isolated VPCs with shared services](https://docs.aws.amazon.com/vpc/latest/tgw/transit-gateway-isolated-shared.html) and [Amazon EKS VPC routable IP address conservation patterns in a hybrid network](http://aws.amazon.com/blogs/containers/eks-vpc-routable-ip-address-conservation/)\.
+  You can conserve IP address utilization by using a transit gateway with a shared services VPC\. For more information, see [Isolated VPCs with shared services](https://docs.aws.amazon.com/vpc/latest/tgw/transit-gateway-isolated-shared.html) and [Amazon EKS VPC routable IP address conservation patterns in a hybrid network](https://aws.amazon.com/blogs/containers/eks-vpc-routable-ip-address-conservation/)\.
 + If you want Kubernetes to assign `IPv6` addresses to Pods and services, associate an `IPv6` CIDR block with your VPC\. For more information, see [Associate an `IPv6` CIDR block with your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#vpc-associate-ipv6-cidr) in the Amazon VPC User Guide\. 
 + The VPC must have `DNS` hostname and `DNS` resolution support\. Otherwise, nodes can't register to your cluster\. For more information, see [DNS attributes for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html) in the Amazon VPC User Guide\.
 + The VPC might require VPC endpoints using AWS PrivateLink\. For more information, see [Subnet requirements and considerations](#network-requirements-subnets)\.
@@ -42,6 +42,30 @@ The [subnets](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets
 + The subnets can be a public or private\. However, we recommend that you specify private subnets, if possible\. A public subnet is a subnet with a route table that includes a route to an [internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html), whereas a private subnet is a subnet with a route table that doesn't include a route to an internet gateway\.
 + The subnets can't reside in the following Availability Zones:    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html)
+
+### IP address family usage by component<a name="network-requirements-ip-table"></a>
+
+The following table contains the IP address family used by each component of Amazon EKS\. You can use a network address translation \(NAT\) or other compatibility system to connect to these components from source IP addresses in families with the "No" value for a table entry\.
+
+Functionality can differ depending on the IP family \(`ipFamily`\) setting of the cluster\. This setting changes the type of IP addresses used for the CIDR block that Kubernetes assigns to Services\. A cluster with the setting value of IPv4 is referred to as an *IPv4 cluster*, and a cluster with the setting value of IPv6 is referred to as an *IPv6 cluster*\.
+
+
+| Component | `IPv4` addresses only | `IPv6` addresses only | Dual stack addresses | 
+| --- | --- | --- | --- | 
+| EKS API public endpoint | Yes | No | No | 
+| EKS API VPC endpoint | Yes | No | No | 
+| EKS Auth API public endpoint | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | 
+| EKS Auth API VPC endpoint | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | 
+| EKS cluster public endpoint | Yes | No | No | 
+| EKS cluster private endpoint | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
+| EKS cluster subnets | Yes[2](#cluster-immutable) | No | Yes[2](#cluster-immutable) | 
+| Node Primary IP addresses | Yes[2](#cluster-immutable) | No | Yes[2](#cluster-immutable) | 
+| Cluster CIDR range for Service IP addresses | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
+| Pod IP addresses from the VPC CNI | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
+
+**Note**  
+1 The endpoint is dual stack with both `IPv4` and `IPv6` addresses\. Your applications outside of AWS, your nodes for the cluster, and your pods inside the cluster can reach this endpoint by either `IPv4` or `IPv6`\.  
+2 You choose between an `IPv4` cluster and `IPv6` cluster in the IP family \(`ipFamily`\) setting of the cluster when you create a cluster and this can't be changed\. Instead, you must choose a different setting when you create another cluster and migrate your workloads\.
 
 ### Subnet requirements for nodes<a name="node-subnet-reqs"></a>
 

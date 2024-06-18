@@ -1,8 +1,5 @@
 # Prometheus metrics<a name="prometheus"></a>
 
-**Important**  
-Amazon Managed Service for Prometheus isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
-
 [https://prometheus.io/](https://prometheus.io/) is a monitoring and time series database that scrapes endpoints\. It provides the ability to query, aggregate, and store collected data\. You can also use it for alerting and alert aggregation\. This topic explains how to set up Prometheus as either a managed or open source option\. Monitoring Amazon EKS control plane metrics is a common use case\.
 
 Amazon Managed Service for Prometheus is a Prometheus\-compatible monitoring and alerting service that makes it easy to monitor containerized applications and infrastructure at scale\. It is a fully\-managed service that automatically scales the ingestion, storage, querying, and alerting of your metrics\. It also integrates with AWS security services to enable fast and secure access to your data\. You can use the open\-source PromQL query language to query your metrics and alert on them\.
@@ -10,6 +7,9 @@ Amazon Managed Service for Prometheus is a Prometheus\-compatible monitoring and
 For more information about how to use the Prometheus metrics after you turn them on, see the [https://docs.aws.amazon.com/prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html](https://docs.aws.amazon.com/prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html)\.
 
 ## Turn on Prometheus metrics when creating a cluster<a name="turn-on-prometheus-metrics"></a>
+
+**Important**  
+Amazon Managed Service for Prometheus resources are outside of the cluster lifecycle and need to be maintained independent of the cluster\. When you delete your cluster, make sure to also delete any applicable scrapers to stop applicable costs\. For more information, see [Find and delete scrapers](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-list-delete) in the *Amazon Managed Service for Prometheus User Guide*\.
 
 When you create a new cluster, you can turn on the option to send metrics to Prometheus\. In the AWS Management Console, this option is in the **Configure observability** step of creating a new cluster\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\.
 
@@ -76,7 +76,8 @@ After you configure Helm for your Amazon EKS cluster, you can use it to deploy P
    ```
    helm upgrade -i prometheus prometheus-community/prometheus \
        --namespace prometheus \
-       --set alertmanager.persistentVolume.storageClass="gp2",server.persistentVolume.storageClass="gp2"
+       --set alertmanager.persistence.storageClass="gp2" \
+       --set server.persistentVolume.storageClass="gp2"
    ```
 **Note**  
 If you get the error `Error: failed to download "stable/prometheus" (hint: running `helm repo update` may help)` when executing this command, run `helm repo update prometheus-community`, and then try running the Step 2 command again\.  

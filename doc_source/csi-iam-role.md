@@ -7,12 +7,12 @@ Pods will have access to the permissions that are assigned to the IAM role unles
 
 **Prerequisites**
 + An existing cluster\.
-+ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
 The following procedure shows you how to create an IAM role and attach the AWS managed policy to it\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
 
 **Note**  
-The specific steps in this procedure are written for using the driver as an Amazon EKS add\-on\. Different steps are needed to use the driver as a self\-managed add\-on\.
+The specific steps in this procedure are written for using the driver as an Amazon EKS add\-on\. Different steps are needed to use the driver as a self\-managed add\-on\. For more information, see [Set up driver permissions](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#set-up-driver-permissions) on GitHub\.
 
 ------
 #### [ eksctl ]
@@ -32,7 +32,7 @@ The specific steps in this procedure are written for using the driver as an Amaz
        --approve
    ```
 
-1. If you use a custom [KMS key](http://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
+1. If you use a custom [KMS key](https://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
 
    1. Copy and paste the following code into a new `kms-key-for-encryption-on-ebs.json` file\. Replace `custom-key-arn` with the custom [KMS key ARN](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key)\.
 
@@ -140,7 +140,7 @@ The specific steps in this procedure are written for using the driver as an Amaz
 
 1. Choose **Update policy** to finish\.
 
-1. If you use a custom [KMS key](http://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
+1. If you use a custom [KMS key](https://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
 
    1. In the left navigation pane, choose **Policies**\.
 
@@ -261,7 +261,7 @@ The specific steps in this procedure are written for using the driver as an Amaz
      --role-name AmazonEKS_EBS_CSI_DriverRole
    ```
 
-1. If you use a custom [KMS key](http://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
+1. If you use a custom [KMS key](https://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
 
    1. Copy and paste the following code into a new `kms-key-for-encryption-on-ebs.json` file\. Replace `custom-key-arn` with the custom [KMS key ARN](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key)\.
 

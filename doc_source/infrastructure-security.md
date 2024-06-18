@@ -1,6 +1,6 @@
 # Infrastructure security in Amazon EKS<a name="infrastructure-security"></a>
 
-As a managed service, Amazon Elastic Kubernetes Service is protected by AWS global network security\. For information about AWS security services and how AWS protects infrastructure, see [AWS Cloud Security](http://aws.amazon.com/security/)\. To design your AWS environment using the best practices for infrastructure security, see [Infrastructure Protection](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/infrastructure-protection.html) in *Security Pillar AWS Well‐Architected Framework*\.
+As a managed service, Amazon Elastic Kubernetes Service is protected by AWS global network security\. For information about AWS security services and how AWS protects infrastructure, see [AWS Cloud Security](https://aws.amazon.com/security/)\. To design your AWS environment using the best practices for infrastructure security, see [Infrastructure Protection](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/infrastructure-protection.html) in *Security Pillar AWS Well‐Architected Framework*\.
 
 You use AWS published API calls to access Amazon EKS through the network\. Clients must support the following:
 + Transport Layer Security \(TLS\)\. We require TLS 1\.2 and recommend TLS 1\.3\.
@@ -22,4 +22,4 @@ You can enable private access to the Kubernetes API server so that all communica
 
 For more information about modifying cluster endpoint access, see [Modifying cluster endpoint access](cluster-endpoint.md#modify-endpoint-access)\.
 
-You can implement Kubernetes *network policies* with the Amazon VPC CNI or third\-party tools such as [Project Calico](calico.md)\. For more information about using the Amazon VPC CNI for network policies, see [Configure your cluster for Kubernetes network policies](cni-network-policy.md)\. Project Calico is a third party open source project\. For more information, see the [Project Calico documentation](https://docs.projectcalico.org/v3.7/introduction/)\.
+You can implement Kubernetes *network policies* with the Amazon VPC CNI or third\-party tools such as [Project Calico](https://docs.tigera.io/calico/latest/about/)\. For more information about using the Amazon VPC CNI for network policies, see [Configure your cluster for Kubernetes network policies](cni-network-policy.md)\. Project Calico is a third party open source project\. For more information, see the [Project Calico documentation](https://docs.tigera.io/calico/latest/getting-started/kubernetes/managed-public-cloud/eks/)\.

@@ -22,7 +22,7 @@ You may see a console error message that says `Your current user or role does no
 
 ## aws\-auth `ConfigMap` does not grant access to the cluster<a name="security-iam-troubleshoot-ConfigMap"></a>
 
-[AWS IAM Authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator) does not permit a path in the role ARN used in the `ConfigMap`\. Therefore, before you specify `rolearn`, remove the path\. For example, change `arn:aws:iam::111122223333:role/team/developers/eks-admin` to `arn:aws:iam::111122223333:role/eks-admin`\.
+The [AWS IAM Authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator) doesn't permit a path in the role ARN used in the `ConfigMap`\. Therefore, before you specify `rolearn`, remove the path\. For example, change `arn:aws:iam::111122223333:role/team/developers/eks-admin` to `arn:aws:iam::111122223333:role/eks-admin`\.
 
 ## I am not authorized to perform iam:PassRole<a name="security_iam_troubleshoot-passrole"></a>
 
@@ -56,4 +56,4 @@ To learn more, consult the following:
 Your containers receive this error if your application is explicitly making requests to the AWS STS global endpoint \(`https://sts.amazonaws`\) and your Kubernetes service account is configured to use a regional endpoint\. You can resolve the issue with one of the following options:
 + Update your application code to remove explicit calls to the AWS STS global endpoint\. 
 + Update your application code to make explicit calls to regional endpoints such as `https://sts.us-west-2.amazonaws.com`\. Your application should have redundancy built in to pick a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
-+ Configure your service accounts to use the global endpoint\. All versions earlier than `1.22` used the global endpoint by default, but version `1.22` and later clusters use the regional endpoint by default\. For more information, see [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.
++ Configure your service accounts to use the global endpoint\. All versions earlier than `1.22` used the global endpoint by default, but version `1.22` and later clusters use the regional endpoint by default\. For more information, see [Configure the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.

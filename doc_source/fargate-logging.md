@@ -10,7 +10,7 @@ Amazon EKS on Fargate offers a built\-in log router based on Fluent Bit\. This m
 
 Once you've created the `ConfigMap`, Amazon EKS on Fargate automatically detects it and configures the log router with it\. Fargate uses a version of AWS for Fluent Bit, an upstream compliant distribution of Fluent Bit managed by AWS\. For more information, see [AWS for Fluent Bit](https://github.com/aws/aws-for-fluent-bit) on GitHub\.
 
-The log router allows you to use the breadth of services at AWS for log analytics and storage\. You can stream logs from Fargate directly to Amazon CloudWatch, Amazon OpenSearch Service\. You can also stream logs to destinations such as [Amazon S3](http://aws.amazon.com/s3/), [Amazon Kinesis Data Streams](http://aws.amazon.com/kinesis/data-streams/), and partner tools through [Amazon Kinesis Data Firehose](http://aws.amazon.com/kinesis/data-firehose/)\.
+The log router allows you to use the breadth of services at AWS for log analytics and storage\. You can stream logs from Fargate directly to Amazon CloudWatch, Amazon OpenSearch Service\. You can also stream logs to destinations such as [Amazon S3](https://aws.amazon.com/s3/), [Amazon Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams/), and partner tools through [Amazon Data Firehose](https://aws.amazon.com/kinesis/data-firehose/)\.
 
 **Prerequisites**
 + An existing Fargate profile that specifies an existing Kubernetes namespace that you deploy Fargate Pods to\. For more information, see [Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
@@ -186,18 +186,18 @@ You can also use Amazon Kinesis Data Streams for your log destination\. If you u
       curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json
       ```
 
-      Make sure that OpenSearch Dashboards' access control is configured properly\. The `all_access role` in OpenSearch Dashboards needs to have the Fargate Pod execution role and the IAM role mapped\. The same mapping must be done for the `security_manager` role\. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles\. For more information, see [How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?](http://aws.amazon.com/tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/)\.
+      Make sure that OpenSearch Dashboards' access control is configured properly\. The `all_access role` in OpenSearch Dashboards needs to have the Fargate Pod execution role and the IAM role mapped\. The same mapping must be done for the `security_manager` role\. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles\. For more information, see [How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?](https://aws.amazon.com/tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/)\.
 
 ------
-#### [ Kinesis Data Firehose ]
+#### [ Firehose ]
 
-   **To create a `ConfigMap` for Kinesis Data Firehose**
+   **To create a `ConfigMap` for Firehose**
 
-   You have two output options when sending logs to Kinesis Data Firehose:
+   You have two output options when sending logs to Firehose:
    + [https://docs.fluentbit.io/manual/pipeline/outputs/firehose](https://docs.fluentbit.io/manual/pipeline/outputs/firehose) – An output plugin written in C\.
    + [https://github.com/aws/amazon-kinesis-firehose-for-fluent-bit](https://github.com/aws/amazon-kinesis-firehose-for-fluent-bit) – An output plugin written in Golang\.
 
-   The following example shows you how to use the `kinesis_firehose` plugin to send logs to Kinesis Data Firehose\.
+   The following example shows you how to use the `kinesis_firehose` plugin to send logs to Firehose\.
 
    1. Save the following contents to a file named `aws-logging-firehose-configmap.yaml`\. Replace `region-code` with the AWS Region that your cluster is in\.
 
@@ -222,7 +222,7 @@ You can also use Amazon Kinesis Data Streams for your log destination\. If you u
       kubectl apply -f aws-logging-firehose-configmap.yaml
       ```
 
-   1. Download the Kinesis Data Firehose IAM policy to your computer\. You can also [view the policy](https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json) on GitHub\.
+   1. Download the Firehose IAM policy to your computer\. You can also [view the policy](https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json) on GitHub\.
 
       ```
       curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json

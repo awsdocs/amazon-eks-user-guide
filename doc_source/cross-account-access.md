@@ -5,7 +5,7 @@ You can configure cross\-account IAM permissions either by creating an identity 
 **Example Create an identity provider from another account's cluster**  
 
 **Example**  
-In this example, Account A provides Account B with the OpenID Connect \(OIDC\) issuer URL from their cluster\. Account B follows the instructions in [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) and [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md) using the OIDC issuer URL from Account A's cluster\. Then, a cluster administrator annotates the service account in Account A's cluster to use the role from Account B \(*444455556666*\)\.  
+In this example, Account A provides Account B with the OpenID Connect \(OIDC\) issuer URL from their cluster\. Account B follows the instructions in [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) and [Configure a Kubernetes service account to assume an IAM role](associate-service-account-role.md) using the OIDC issuer URL from Account A's cluster\. Then, a cluster administrator annotates the service account in Account A's cluster to use the role from Account B \(*444455556666*\)\.  
 
 ```
 apiVersion: v1
@@ -76,4 +76,4 @@ role_arn=arn:aws:iam::444455556666:role/account-b-role
 web_identity_token_file = /var/run/secrets/eks.amazonaws.com/serviceaccount/token 
 role_arn=arn:aws:iam::111122223333:role/account-a-role
 ```
-To specify chained profiles for other AWS SDKs, consult the documentation for the SDK that you're using\. For more information, see [Tools to Build on AWS](http://aws.amazon.com/developer/tools/)\.
+To specify chained profiles for other AWS SDKs, consult the documentation for the SDK that you're using\. For more information, see [Tools to Build on AWS](https://aws.amazon.com/developer/tools/)\.

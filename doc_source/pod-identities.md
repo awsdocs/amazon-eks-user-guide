@@ -1,6 +1,6 @@
 # EKS Pod Identities<a name="pod-identities"></a>
 
-Applications in a Pod's containers can use the AWS SDK or the AWS CLI to make API requests to AWS services using AWS Identity and Access Management \(IAM\) permissions\. Applications must sign their AWS API requests with AWS credentials\.
+Applications in a Pod's containers can use an AWS SDK or the AWS CLI to make API requests to AWS services using AWS Identity and Access Management \(IAM\) permissions\. Applications must sign their AWS API requests with AWS credentials\.
 
 *EKS Pod Identities* provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances\. Instead of creating and distributing your AWS credentials to the containers or using the Amazon EC2 instance's role, you associate an IAM role with a Kubernetes service account and configure your Pods to use the service account\.
 
@@ -26,27 +26,29 @@ EKS Pod Identity is a simpler method than [IAM roles for service accounts](iam-r
   ```
 + **Scalability** – Each set of temporary credentials are assumed by the EKS Auth service in EKS Pod Identity, instead of each AWS SDK that you run in each pod\. Then, the Amazon EKS Pod Identity Agent that runs on each node issues the credentials to the SDKs\. Thus the load is reduced to once for each node and isn't duplicated in each pod\. For more details of the process, see [How EKS Pod Identity works](pod-id-how-it-works.md)\.
 
-For more information to compare the two alternatives, see [Granting AWS Identity and Access Management permissions to workloads on Amazon Elastic Kubernetes Service clusters](service-accounts.md#service-accounts-iam)\.
+For more information to compare the two alternatives, see [Grant Kubernetes workloads access to AWS using Kubernetes Service Accounts](service-accounts.md)\.
 
 ## Overview of setting up EKS Pod Identities<a name="pod-id-setup-overview"></a>
 
 Turn on EKS Pod Identities by completing the following procedures:
 
-1. [Setting up the Amazon EKS Pod Identity Agent](pod-id-agent-setup.md) – You only complete this procedure once for each cluster\.
+1. [Set up the Amazon EKS Pod Identity Agent](pod-id-agent-setup.md) – You only complete this procedure once for each cluster\.
 
-1. [Configuring a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md) – Complete this procedure for each unique set of permissions that you want an application to have\.
+1. [Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md) – Complete this procedure for each unique set of permissions that you want an application to have\.
 
    
 
-1. [Configuring Pods to use a Kubernetes service account](pod-id-configure-pods.md) – Complete this procedure for each Pod that needs access to AWS services\.
+1. [Configure Pods to use a Kubernetes service account](pod-id-configure-pods.md) – Complete this procedure for each Pod that needs access to AWS services\.
 
-1. [Using a supported AWS SDK](pod-id-minimum-sdk.md) – Confirm that the workload uses an AWS SDK of a supported version and that the workload uses the default credential chain\.
+1. [Use a supported AWS SDK](pod-id-minimum-sdk.md) – Confirm that the workload uses an AWS SDK of a supported version and that the workload uses the default credential chain\.
 
 ## EKS Pod Identity considerations<a name="pod-id-considerations"></a>
 + You can associate one IAM role to each Kubernetes service account in each cluster\. You can change which role is mapped to the service account by editing the EKS Pod Identity association\.
-+ You can only associate roles that are in the same AWS account as the cluster\. You can delegate access from another account to the role in this account that you configure for EKS Pod Identities to use\. For a tutorial about delegating access and `AssumeRole`, see [https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the *IAM User Guide*\.
++ You can only associate roles that are in the same AWS account as the cluster\. You can delegate access from another account to the role in this account that you configure for EKS Pod Identities to use\. For a tutorial about delegating access and `AssumeRole`, see [Delegate access across AWS accounts using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the *IAM User Guide*\.
 + The EKS Pod Identity Agent is required\. It runs as a Kubernetes `DaemonSet` on your nodes and only provides credentials to pods on the node that it runs on\. For more information about EKS Pod Identity Agent compatibility, see the following section [EKS Pod Identity restrictions](#pod-id-restrictions)\.
 + The EKS Pod Identity Agent uses the `hostNetwork` of the node and it uses port `80` and port `2703` on a link\-local address on the node\. This address is `169.254.170.23` for IPv4 and `[fd00:ec2::23]` for IPv6 clusters\.
+
+  If you disable `IPv6` addresses, or otherwise prevent localhost `IPv6` IP addresses, the agent can't start\. To start the agent on nodes that can't use `IPv6`, follow the steps in [Disable `IPv6` in the EKS Pod Identity Agent](pod-id-agent-setup.md#pod-id-agent-config-ipv6) to disable the `IPv6` configuration\.
 
 ### EKS Pod Identity cluster versions<a name="pod-id-cluster-versions"></a>
 
@@ -55,11 +57,22 @@ Turn on EKS Pod Identities by completing the following procedures:
 
 | Kubernetes version | Platform version | 
 | --- | --- | 
+| 1\.30 | eks\.2 | 
+| 1\.29 | eks\.1 | 
 | 1\.28 | eks\.4 | 
 | 1\.27 | eks\.8 | 
 | 1\.26 | eks\.9 | 
 | 1\.25 | eks\.10 | 
 | 1\.24 | eks\.13 | 
+
+### Add\-on versions compatible with EKS Pod Identity<a name="pod-id-add-on-versions"></a>
+
+**Important**  
+To use EKS Pod Identity with an EKS Add\-on, you must create the EKS Pod Identity *association* manually\. Don't choose an IAM role in the add\-on configuration in the AWS Management Console, that role is only used with IRSA\.
+
+Amazon EKS add\-ons and self\-managed add\-ons that need IAM credentials can use EKS Pod Identity, IRSA or the instance role\. The list of add\-ons that use IAM credentials that support EKS Pod Identity are:
++ Amazon VPC CNI plugin for Kubernetes `1.15.5-eksbuild.1` or later
++ AWS Load Balancer Controller `2.7.0` or later\. Note that the AWS Load Balancer Controller isn't available as an EKS Add\-on, but it is available as a self\-managed add\-on\.
 
 ### EKS Pod Identity restrictions<a name="pod-id-restrictions"></a>
 
@@ -77,8 +90,6 @@ EKS Pod Identities aren't available on the following:
 You can't use EKS Pod Identities with:
 + Pods that run anywhere except Linux Amazon EC2 instances\. Linux and Windows pods that run on AWS Fargate \(Fargate\) aren't supported\. Pods that run on Windows Amazon EC2 instances aren't supported\.
 + *Amazon EKS add\-ons* that need IAM credentials\. The EKS add\-ons can only use *IAM roles for service accounts* instead\. The list of EKS add\-ons that use IAM credentials include:
-  + Amazon VPC CNI plugin for Kubernetes
-  + AWS Load Balancer Controller
-  + The CSI storage drivers: EBS CSI, EFS CSI, Amazon FSx for Lustre CSI driver, Amazon FSx for NetApp ONTAP CSI driver, Amazon FSx for OpenZFS CSI driver, Amazon File Cache CSI driver
+  + The CSI storage drivers: EBS CSI, EFS CSI, Amazon FSx for Lustre CSI driver, Amazon FSx for NetApp ONTAP CSI driver, Amazon FSx for OpenZFS CSI driver, Amazon File Cache CSI driver, AWS Secrets and Configuration Provider \(ASCP\) for the Kubernetes Secrets Store CSI Driver
 **Note**  
 If these controllers, drivers, and plugins are installed as self\-managed add\-ons instead of EKS add\-ons, they support EKS Pod Identities as long as they are updated to use the latest AWS SDKs\.

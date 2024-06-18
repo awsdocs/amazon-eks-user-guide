@@ -4,11 +4,9 @@ This topic provides an overview of the available options and describes what to c
 
 **Prerequisites**
 + An existing VPC and subnets that meet [Amazon EKS requirements](network_reqs.md)\. Before you deploy a cluster for production use, we recommend that you have a thorough understanding of the VPC and subnet requirements\. If you don't have a VPC and subnets, you can create them using an [Amazon EKS provided AWS CloudFormation template](creating-a-vpc.md)\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.27`, you can use `kubectl` version `1.26`, `1.27`, or `1.28` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
-+ Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line Interface \(AWS CLI\) installed and configured on your device or AWS CloudShell\. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the *AWS Command Line Interface User Guide*\. The AWS CLI version that is installed in AWS CloudShell might also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the *AWS CloudShell User Guide*\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line Interface \(AWS CLI\) installed and configured on your device or AWS CloudShell\. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the *AWS Command Line Interface User Guide*\. The AWS CLI version that is installed in AWS CloudShell might also be several versions behind the latest version\. To update it, see [Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the *AWS CloudShell User Guide*\.
 + An [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) with permissions to `create` and `describe` an Amazon EKS cluster\. For more information, see [Create a local Kubernetes cluster on an Outpost](security_iam_id-based-policy-examples.md#policy-create-local-cluster) and [List or describe all clusters](security_iam_id-based-policy-examples.md#policy_example2)\.
-
-When an Amazon EKS cluster is created, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that creates the cluster is permanently added to the Kubernetes RBAC authorization table as the administrator\. This principal has `system:masters` permissions\. This principal isn't visible in your cluster configuration\. So, it's important to note the principal that created the cluster and make sure that you never delete it\. Initially, only the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that created the server can make calls to the Kubernetes API server using `kubectl`\. If you use the console to create the cluster, you must ensure that the same IAM credentials are in the AWS SDK credential chain when you run `kubectl` commands on your cluster\. After your cluster is created, you can grant other [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) access to your cluster\.
 
 **To create an Amazon EKS cluster**
 
@@ -57,19 +55,21 @@ When an Amazon EKS cluster is created, the [IAM principal](https://docs.aws.amaz
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.164.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
+Version `0.183.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 
 **To create your cluster**  
 Create an Amazon EKS `IPv4` cluster with the Amazon EKS default Kubernetes version in your default AWS Region\. Before running command, make the following replacements:
    + Replace `region-code` with the AWS Region that you want to create your cluster in\.
-   + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
-   + Replace `1.27` with any [Amazon EKS supported version](kubernetes-versions.md)\.
+   + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
+   + Replace `1.29` with any [Amazon EKS supported version](kubernetes-versions.md)\.
+**Note**  
+To deploy a 1\.30 cluster at this time, you need to use the AWS Management Console or the AWS CLI\.
    + Change the values for `vpc-private-subnets` to meet your requirements\. You can also add additional IDs\. You must specify at least two subnet IDs\. If you'd rather specify public subnets, you can change `--vpc-private-subnets` to `--vpc-public-subnets`\. Public subnets have an associated route table with a route to an internet gateway, but private subnets don't have an associated route table\. We recommend using private subnets whenever possible\.
 
      The subnets that you choose must meet the [Amazon EKS subnet requirements](network_reqs.md#network-requirements-subnets)\. Before selecting subnets, we recommend that you're familiar with all of the [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md)\.
 
    ```
-   eksctl create cluster --name my-cluster --region region-code --version 1.27 --vpc-private-subnets subnet-ExampleID1,subnet-ExampleID2 --without-nodegroup
+   eksctl create cluster --name my-cluster --region region-code --version 1.29 --vpc-private-subnets subnet-ExampleID1,subnet-ExampleID2 --without-nodegroup
    ```
 
    Cluster provisioning takes several minutes\. While the cluster is being created, several lines of output appear\. The last line of output is similar to the following example line\.
@@ -99,7 +99,7 @@ To see the most options that you can specify when creating a cluster with `eksct
      You can only specify this option when using the `IPv4` address family and only at cluster creation\. If you don't specify this, then Kubernetes assigns service IP addresses from either the `10.100.0.0/16` or `172.20.0.0/16` CIDR blocks\.
    + If you're creating cluster and want the cluster to assign `IPv6` addresses to Pods and services instead of `IPv4` addresses, specify the [https://eksctl.io/usage/schema/#kubernetesNetworkConfig-ipFamily](https://eksctl.io/usage/schema/#kubernetesNetworkConfig-ipFamily) option\.
 
-     Kubernetes assigns `IPv4` addresses to Pods and services, by default\. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the [VPC requirements and considerations](network_reqs.md#network-requirements-vpc), [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets), [Amazon EKS security group requirements and considerations](sec-group-reqs.md), and [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md) topics\. If you choose the `IPv6` family, you can't specify an address range for Kubernetes to assign `IPv6` service addresses from like you can for the `IPv4` family\. Kubernetes assigns service addresses from the unique local address range \(`fc00::/7`\)\.
+     Kubernetes assigns `IPv4` addresses to Pods and services, by default\. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the [VPC requirements and considerations](network_reqs.md#network-requirements-vpc), [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets), [Amazon EKS security group requirements and considerations](sec-group-reqs.md), and [`IPv6` addresses for clusters, Pods, and services](cni-ipv6.md) topics\. If you choose the `IPv6` family, you can't specify an address range for Kubernetes to assign `IPv6` service addresses from like you can for the `IPv4` family\. Kubernetes assigns service addresses from the unique local address range \(`fc00::/7`\)\.
 
      
 
@@ -113,7 +113,7 @@ To see the most options that you can specify when creating a cluster with `eksct
    1. Choose **Add cluster** and then choose **Create**\.
 
    1. On the **Configure cluster** page, enter the following fields:
-      + **Name** – A name for your cluster\. It must be unique in your AWS account\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
+      + **Name** – A name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\), hyphens, and underscores\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
       + **Kubernetes version** – The version of Kubernetes to use for your cluster\. We recommend selecting the latest version, unless you need an earlier version\.
       + **Cluster service role** – Choose the Amazon EKS cluster IAM role that you created to allow the Kubernetes control plane to manage AWS resources on your behalf\.
       + **Secrets encryption** – \(Optional\) Choose to enable secrets encryption of Kubernetes secrets using a KMS key\. You can also enable this after you create your cluster\. Before you enable this capability, make sure that you're familiar with the information in [Enabling secret encryption on an existing cluster](enable-kms.md)\.
@@ -132,7 +132,7 @@ To see the most options that you can specify when creating a cluster with `eksct
         Whether you choose any security groups or not, Amazon EKS creates a security group that enables communication between your cluster and your VPC\. Amazon EKS associates this security group, and any that you choose, to the network interfaces that it creates\. For more information about the cluster security group that Amazon EKS creates, see [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\. You can modify the rules in the cluster security group that Amazon EKS creates\.
       + **Choose cluster IP address family** – You can choose either **IPv4** and **IPv6**\.
 
-        Kubernetes assigns `IPv4` addresses to Pods and services, by default\. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the [VPC requirements and considerations](network_reqs.md#network-requirements-vpc), [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets), [Amazon EKS security group requirements and considerations](sec-group-reqs.md), and [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md) topics\. If you choose the `IPv6` family, you can't specify an address range for Kubernetes to assign `IPv6` service addresses from like you can for the `IPv4` family\. Kubernetes assigns service addresses from the unique local address range \(`fc00::/7`\)\.
+        Kubernetes assigns `IPv4` addresses to Pods and services, by default\. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the [VPC requirements and considerations](network_reqs.md#network-requirements-vpc), [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets), [Amazon EKS security group requirements and considerations](sec-group-reqs.md), and [`IPv6` addresses for clusters, Pods, and services](cni-ipv6.md) topics\. If you choose the `IPv6` family, you can't specify an address range for Kubernetes to assign `IPv6` service addresses from like you can for the `IPv4` family\. Kubernetes assigns service addresses from the unique local address range \(`fc00::/7`\)\.
 
         
       + \(Optional\) Choose **Configure Kubernetes Service IP address range** and specify a **Service `IPv4` range**\.
@@ -172,8 +172,8 @@ You might receive an error that one of the Availability Zones in your request do
 
    1. Create your cluster with the command that follows\. Before running the command, make the following replacements:
       + Replace `region-code` with the AWS Region that you want to create your cluster in\.
-      + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
-      + Replace `1.28` with any [Amazon EKS supported version](kubernetes-versions.md)\. 
+      + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\), hyphens, and underscores\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
+      + Replace `1.30` with any [Amazon EKS supported version](kubernetes-versions.md)\. 
       + Replace `111122223333` with your account ID and `myAmazonEKSClusterRole` with the name of your cluster IAM role\.
       + Replace the values for `subnetIds` with your own\. You can also add additional IDs\. You must specify at least two subnet IDs\.
 
@@ -183,7 +183,7 @@ You might receive an error that one of the Availability Zones in your request do
         Whether you choose any security groups or not, Amazon EKS creates a security group that enables communication between your cluster and your VPC\. Amazon EKS associates this security group, and any that you choose, to the network interfaces that it creates\. For more information about the cluster security group that Amazon EKS creates, see [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\. You can modify the rules in the cluster security group that Amazon EKS creates\.
 
       ```
-      aws eks create-cluster --region region-code --name my-cluster --kubernetes-version 1.28 \
+      aws eks create-cluster --region region-code --name my-cluster --kubernetes-version 1.30 \
          --role-arn arn:aws:iam::111122223333:role/myAmazonEKSClusterRole \
          --resources-vpc-config subnetIds=subnet-ExampleID1,subnet-ExampleID2,securityGroupIds=sg-ExampleID1
       ```
@@ -205,7 +205,7 @@ You might receive an error that one of the Availability Zones in your request do
         You can only specify this option when using the `IPv4` address family and only at cluster creation\. If you don't specify this, then Kubernetes assigns service IP addresses from either the `10.100.0.0/16` or `172.20.0.0/16` CIDR blocks\.
       + If you're creating a cluster and want the cluster to assign `IPv6` addresses to Pods and services instead of `IPv4` addresses, add **`--kubernetes-network-config ipFamily=ipv6`** to the following command\.
 
-        Kubernetes assigns `IPv4` addresses to Pods and services, by default\. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the [VPC requirements and considerations](network_reqs.md#network-requirements-vpc), [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets), [Amazon EKS security group requirements and considerations](sec-group-reqs.md), and [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md) topics\. If you choose the `IPv6` family, you can't specify an address range for Kubernetes to assign `IPv6` service addresses from like you can for the `IPv4` family\. Kubernetes assigns service addresses from the unique local address range \(`fc00::/7`\)\.
+        Kubernetes assigns `IPv4` addresses to Pods and services, by default\. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the [VPC requirements and considerations](network_reqs.md#network-requirements-vpc), [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets), [Amazon EKS security group requirements and considerations](sec-group-reqs.md), and [`IPv6` addresses for clusters, Pods, and services](cni-ipv6.md) topics\. If you choose the `IPv6` family, you can't specify an address range for Kubernetes to assign `IPv6` service addresses from like you can for the `IPv4` family\. Kubernetes assigns service addresses from the unique local address range \(`fc00::/7`\)\.
 
         
 
@@ -252,7 +252,7 @@ If your cluster uses the `IPv4` family
 **An [IAM policy that you create](cni-iam-role.md#cni-iam-role-create-ipv6-policy)**  
 If your cluster uses the `IPv6` family
 
-   The IAM role that you attach the policy to can be the node IAM role, or a dedicated role used only for the plugin\. We recommend attaching the policy to this role\. For more information about creating the role, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md) or [Amazon EKS node IAM role](create-node-role.md)\.
+   The IAM role that you attach the policy to can be the node IAM role, or a dedicated role used only for the plugin\. We recommend attaching the policy to this role\. For more information about creating the role, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts \(IRSA\)](cni-iam-role.md) or [Amazon EKS node IAM role](create-node-role.md)\.
 
 1. If you deployed your cluster using the AWS Management Console, you can skip this step\. The AWS Management Console deploys the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` Amazon EKS add\-ons, by default\.
 
@@ -265,7 +265,7 @@ If your cluster uses the `IPv6` family
 1. If you plan to deploy workloads to your cluster that use Amazon EBS volumes , and you created a `1.23` or later cluster, then you must install the [Amazon EBS CSI driver](ebs-csi.md) to your cluster before deploying the workloads\.
 
 Recommended next steps:
-+ The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that created the cluster is the only principal that has access to the cluster\. [Grant permissions to other [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html)](add-user-role.md) so they can access your cluster\.
++ The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that created the cluster is the only principal that has access to the cluster\. [Grant permissions to other [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html)](grant-k8s-access.md) so they can access your cluster\.
 + If the IAM principal that created the cluster only has the minimum IAM permissions referenced in the [prerequisites](#create-cluster-prerequisites), then you might want to add additional Amazon EKS permissions for that principal\. For more information about granting Amazon EKS permissions to IAM principals, see [Identity and access management for Amazon EKS](security-iam.md)\.
 + If you want the IAM principal that created the cluster, or any other principals to view Kubernetes resources in the Amazon EKS console, grant the [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions) to the entities\.
 + If you want nodes and IAM principals to access your cluster from within your VPC, enable the private endpoint for your cluster\. The public endpoint is enabled by default\. You can disable the public endpoint once you've enabled the private endpoint, if desired\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.

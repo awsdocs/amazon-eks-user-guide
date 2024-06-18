@@ -1,6 +1,6 @@
 # Machine learning inference using AWS Inferentia<a name="inferentia-support"></a>
 
-This topic describes how to create an Amazon EKS cluster with nodes running [Amazon EC2 Inf1](http://aws.amazon.com/ec2/instance-types/inf1/) instances and \(optionally\) deploy a sample application\. Amazon EC2 Inf1 instances are powered by [AWS Inferentia](http://aws.amazon.com/machine-learning/inferentia/) chips, which are custom built by AWS to provide high performance and lowest cost inference in the cloud\. Machine learning models are deployed to containers using [AWS Neuron](http://aws.amazon.com/machine-learning/neuron/), a specialized software development kit \(SDK\) consisting of a compiler, runtime, and profiling tools that optimize the machine learning inference performance of Inferentia chips\. AWS Neuron supports popular machine learning frameworks such as TensorFlow, PyTorch, and MXNet\.
+This topic describes how to create an Amazon EKS cluster with nodes running [Amazon EC2 Inf1](https://aws.amazon.com/ec2/instance-types/inf1/) instances and \(optionally\) deploy a sample application\. Amazon EC2 Inf1 instances are powered by [AWS Inferentia](https://aws.amazon.com/machine-learning/inferentia/) chips, which are custom built by AWS to provide high performance and lowest cost inference in the cloud\. Machine learning models are deployed to containers using [AWS Neuron](https://aws.amazon.com/machine-learning/neuron/), a specialized software development kit \(SDK\) consisting of a compiler, runtime, and profiling tools that optimize the machine learning inference performance of Inferentia chips\. AWS Neuron supports popular machine learning frameworks such as TensorFlow, PyTorch, and MXNet\.
 
 **Note**  
 Neuron device logical IDs must be contiguous\. If a Pod requesting multiple Neuron devices is scheduled on an `inf1.6xlarge` or `inf1.24xlarge` instance type \(which have more than one Neuron device\), that Pod will fail to start if the Kubernetes scheduler selects non\-contiguous device IDs\. For more information, see [Device logical IDs must be contiguous](https://github.com/aws/aws-neuron-sdk/issues/110) on GitHub\.
@@ -14,7 +14,7 @@ Neuron device logical IDs must be contiguous\. If a Pod requesting multiple Neur
 
 **To create a cluster with Inf1 Amazon EC2 instance nodes**
 
-1. Create a cluster with Inf1 Amazon EC2 instance nodes\. You can replace `inf1.2xlarge` with any [Inf1 instance type](http://aws.amazon.com/ec2/instance-types/inf1/)\. The `eksctl` utility detects that you are launching a node group with an `Inf1` instance type and will start your nodes using one of the Amazon EKS optimized accelerated Amazon Linux AMIs\. 
+1. Create a cluster with Inf1 Amazon EC2 instance nodes\. You can replace `inf1.2xlarge` with any [Inf1 instance type](https://aws.amazon.com/ec2/instance-types/inf1/)\. The `eksctl` utility detects that you are launching a node group with an `Inf1` instance type and will start your nodes using one of the Amazon EKS optimized accelerated Amazon Linux AMIs\. 
 **Note**  
 You can't use [IAM roles for service accounts](iam-roles-for-service-accounts.md) with TensorFlow Serving\.
 

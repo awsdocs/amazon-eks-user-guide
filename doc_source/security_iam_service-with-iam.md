@@ -58,7 +58,7 @@ arn:aws:eks:region-code:account-id:cluster/cluster-name
 
 For more information about the format of ARNs, see [Amazon resource names \(ARNs\) and AWS service namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)\.
 
-For example, to specify the cluster with the name *my\-cluster* in your statement, use the following ARN:
+For example, to specify the cluster with the name `my-cluster` in your statement, use the following ARN:
 
 ```
 "Resource": "arn:aws:eks:region-code:111122223333:cluster/my-cluster"
@@ -96,7 +96,7 @@ To view examples of Amazon EKS identity\-based policies, see [Amazon EKS identit
 
 When you create an Amazon EKS cluster, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that creates the cluster is automatically granted `system:masters` permissions in the cluster's role\-based access control \(RBAC\) configuration in the Amazon EKS control plane\. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster\. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth` `ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth` `ConfigMap`\.
 
-For more information about working with the ConfigMap, see [Enabling IAM principal access to your cluster](add-user-role.md)\.
+For more information about working with the ConfigMap, see [Grant access to Kubernetes APIs ](grant-k8s-access.md)\.
 
 ## Amazon EKS resource\-based policies<a name="security_iam_service-with-iam-resource-based-policies"></a>
 

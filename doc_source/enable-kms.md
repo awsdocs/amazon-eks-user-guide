@@ -21,7 +21,6 @@ You can enable encryption in two ways:
 
   ```
   eksctl utils enable-secrets-encryption \
-  
       --cluster my-cluster \
       --key-arn arn:aws:kms:region-code:account:key/key
   ```

@@ -8,5 +8,6 @@ In addition to the services covered in other sections, Amazon EKS works with mor
 + [Deep Learning Containers](deep-learning-containers.md)
 + [Amazon VPC Lattice](integration-vpc-lattice.md)
 + [AWS Resilience Hub](integration-resilience-hub.md)
-+ [Amazon GuardDuty](integration-guardduty.md)
++ [Detect threats with Amazon GuardDuty](integration-guardduty.md)
++ [Using Amazon Security Lake with Amazon EKS](integration-securitylake.md)
 + [Amazon Detective](integration-detective.md)

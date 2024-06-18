@@ -1,19 +1,17 @@
-# Configuring Pods to use a Kubernetes service account<a name="pod-id-configure-pods"></a>
+# Configure Pods to use a Kubernetes service account<a name="pod-id-configure-pods"></a>
 
 If a Pod needs to access AWS services, then you must configure it to use a Kubernetes service account\. The service account must be associated to an AWS Identity and Access Management \(IAM\) role that has permissions to access the AWS services\.<a name="pod-configuration-prerequisites"></a>
 
 **Prerequisites**
 + An existing cluster\. If you don't have one, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\.
-+ An existing Kubernetes service account and an EKS Pod Identity association that associates the service account with an IAM role\. The role must have an associated IAM policy that contains the permissions that you want your Pods to have to use AWS services\. For more information about how to create the service account and role, and configure them, see [Configuring a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md)\.
-+ The latest version of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
-**Important**  
-The AWS CLI v2 isn't supported\. The `aws-cli` container image uses the AWS CLI v2\. This image is located at `public.ecr.aws/aws-cli/aws-cli` or `amazon/aws-cli`\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.27`, you can use `kubectl` version `1.26`, `1.27`, or `1.28` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ An existing Kubernetes service account and an EKS Pod Identity association that associates the service account with an IAM role\. The role must have an associated IAM policy that contains the permissions that you want your Pods to have to use AWS services\. For more information about how to create the service account and role, and configure them, see [Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md)\.
++ The latest version of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + An existing `kubectl` `config` file that contains your cluster configuration\. To create a `kubectl` `config` file, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 
 **To configure a Pod to use a service account**
 
-1. Use the following command to create a deployment manifest that you can deploy a Pod to confirm configuration with\. The Pod uses an existing Kubernetes service account\. The service account must be properly configured\. For more information, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\. Replace the *example values* with your own values\.
+1. Use the following command to create a deployment manifest that you can deploy a Pod to confirm configuration with\. Replace the `example values` with your own values\.
 
    ```
    cat >my-deployment.yaml <<EOF
@@ -75,7 +73,7 @@ When a Pod uses AWS credentials from an IAM role that's associated with a servic
 
    If your Pods can't interact with the services as you expected, complete the following steps to confirm that everything is properly configured\.
 
-   1. Confirm that your Pods use an AWS SDK version that supports assuming an IAM role through an EKS Pod Identity association\. For more information, see [Using a supported AWS SDK](pod-id-minimum-sdk.md)\.
+   1. Confirm that your Pods use an AWS SDK version that supports assuming an IAM role through an EKS Pod Identity association\. For more information, see [Use a supported AWS SDK](pod-id-minimum-sdk.md)\.
 
    1. Confirm that the deployment is using the service account\.
 

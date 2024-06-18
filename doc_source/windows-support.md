@@ -6,10 +6,10 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + You can use host networking on Windows nodes using `HostProcess` Pods\. For more information, see [Create a Windows `HostProcess`Pod](https://kubernetes.io/docs/tasks/configure-pod-container/create-hostprocess-pod/) in the Kubernetes documentation\.
 + Amazon EKS clusters must contain one or more Linux or Fargate nodes to run core system Pods that only run on Linux, such as CoreDNS\.
 + The `kubelet` and `kube-proxy` event logs are redirected to the `EKS` Windows Event Log and are set to a 200 MB limit\.
-+ You can't use [Tutorial: Security groups for Pods](security-groups-for-pods.md) with Pods running on Windows nodes\.
++ You can't use [Security groups for Pods](security-groups-for-pods.md) with Pods running on Windows nodes\.
 + You can't use [custom networking](cni-custom-network.md) with Windows nodes\.
 + You can't use `IPv6` with Windows nodes\.
-+ Windows nodes support one elastic network interface per node\. By default, the number of Pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Windows Instances*\.
++ Windows nodes support one elastic network interface per node\. By default, the number of Pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide*\.
 + In an Amazon EKS cluster, a single service with a load balancer can support up to 1024 back\-end Pods\. Each Pod has its own unique IP address\. The previous limit of 64 Pods is no longer the case, after [a Windows Server update](https://github.com/microsoft/Windows-Containers/issues/93) starting with [OS Build 17763\.2746](https://support.microsoft.com/en-us/topic/march-22-2022-kb5011551-os-build-17763-2746-preview-690a59cd-059e-40f4-87e8-e9139cc65de4)\.
 + Windows containers aren't supported for Amazon EKS Pods on Fargate\.
 + You can't retrieve logs from the `vpc-resource-controller` Pod\. You previously could when you deployed the controller to the data plane\.
@@ -104,12 +104,12 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
          - system:bootstrappers
          - system:nodes
          - eks:kube-proxy-windows # This group is required for Windows DNS resolution to work
-         rolearn: arn:aws:iam::111122223333:role/eksClusterRole
+         rolearn: arn:aws:iam::111122223333:role/eksNodeRole
          username: system:node:{{EC2PrivateDNSName}}
    [...]
    ```
 
-   You should see `eks:kube-proxy-windows` listed under groups\. If the group isn't specified, you need to update your `ConfigMap` or create it to include the required group\. For more information about the `aws-auth` `ConfigMap`, see [Apply the `aws-auth``ConfigMap` to your cluster](add-user-role.md#aws-auth-configmap)\.
+   You should see `eks:kube-proxy-windows` listed under groups\. If the group isn't specified, you need to update your `ConfigMap` or create it to include the required group\. For more information about the `aws-auth` `ConfigMap`, see [Apply the `aws-auth`   `ConfigMap` to your cluster](auth-configmap.md#aws-auth-configmap)\.
 
 ## Removing legacy Windows support from your data plane<a name="remove-windows-support-data-plane"></a>
 
@@ -206,7 +206,7 @@ You can use `eksctl`, a Windows client, or a macOS or Linux client to enable leg
 **To enable legacy Windows support for your cluster with `eksctl`**
 
 **Prerequisite**  
-This procedure requires `eksctl` version `0.164.0` or later\. You can check your version with the following command\.
+This procedure requires `eksctl` version `0.183.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version

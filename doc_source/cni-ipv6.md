@@ -1,10 +1,10 @@
-# Tutorial: Assigning `IPv6` addresses to Pods and services<a name="cni-ipv6"></a>
+# `IPv6` addresses for clusters, Pods, and services<a name="cni-ipv6"></a>
 
 By default, Kubernetes assigns `IPv4` addresses to your Pods and services\. Instead of assigning `IPv4` addresses to your Pods and services, you can configure your cluster to assign `IPv6` addresses to them\. Amazon EKS doesn't support dual\-stacked Pods or services, even though Kubernetes does in version `1.23` and later\. As a result, you can't assign both `IPv4` and `IPv6` addresses to your Pods and services\. 
 
-You select which IP family you want to use for your cluster when you create it\. You can't change the family after you create the cluster\.<a name="ipv6-considerations"></a>
+You select which IP family you want to use for your cluster when you create it\. You can't change the family after you create the cluster\.
 
-**Considerations for using the `IPv6` family for your cluster:**
+## Considerations for using the `IPv6` family for your cluster<a name="ipv6-considerations"></a>
 + You must create a new cluster and specify that you want to use the `IPv6` family for that cluster\. You can't enable the `IPv6` family for a cluster that you updated from a previous version\. For instructions on how to create a new cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
 + The version of the Amazon VPC CNI add\-on that you deploy to your cluster must be version `1.10.1` or later\. This version or later is deployed by default\. After you deploy the add\-on, you can't downgrade your Amazon VPC CNI add\-on to a version lower than `1.10.1` without first removing all nodes in all node groups in your cluster\.
 + Windows Pods and services aren't supported\.
@@ -14,19 +14,21 @@ You select which IP family you want to use for your cluster when you create it\.
 + The route tables that are assigned to your subnets must have routes for `IPv6` addresses\. For more information, see [Migrate to `IPv6`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\.
 + Your security groups must allow `IPv6` addresses\. For more information, see [Migrate to `IPv6`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\.
 + You can only use `IPv6` with AWS Nitro\-based Amazon EC2 or Fargate nodes\.
-+ You can't use `IPv6` with [Tutorial: Security groups for Pods](security-groups-for-pods.md) with Amazon EC2 nodes\. However, you can use it with Fargate nodes\. If you need separate security groups for individual Pods, continue using the `IPv4` family with Amazon EC2 nodes, or use Fargate nodes instead\.
++ You can't use `IPv6` with [Security groups for Pods](security-groups-for-pods.md) with Amazon EC2 nodes\. However, you can use it with Fargate nodes\. If you need separate security groups for individual Pods, continue using the `IPv4` family with Amazon EC2 nodes, or use Fargate nodes instead\.
 + If you previously used [custom networking](cni-custom-network.md) to help alleviate IP address exhaustion, you can use `IPv6` instead\. You can't use custom networking with `IPv6`\. If you use custom networking for network isolation, then you might need to continue to use custom networking and the `IPv4` family for your clusters\.
 + You can't use `IPv6` with [AWS Outposts](eks-outposts.md)\.
++ Kubernetes Services are only assigned an `IPv6` address\. They aren't assigned an `IPv4` address\.
++ Pods are assigned an IPv6 address and a host-local IPv4 address. The host-local IPv4 address is assigned by using a host-local CNI plugin chained with VPC CNI and the address is not reported to the Kubernetes control plane. It is only used when a pod needs to communicate with an external IPv4 resources in another Amazon VPC or the internet. The host-local IPv4 address gets SNATed (by VPC CNI) to the primary IPv4 address of the primary ENI of the worker node. Hence there is no need to implement NAT64 or DNS64.
 + Pods and services are only assigned an `IPv6` address\. They aren't assigned an `IPv4` address\. Because Pods are able to communicate to `IPv4` endpoints through NAT on the instance itself, [DNS64 and NAT64](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-nat64-dns64) aren't needed\. If the traffic needs a public IP address, the traffic is then source network address translated to a public IP\.
 + The source `IPv6` address of a Pod isn't source network address translated to the `IPv6` address of the node when communicating outside of the VPC\. It is routed using an internet gateway or egress\-only internet gateway\.
 + All nodes are assigned an `IPv4` and `IPv6` address\.
 + The [Amazon FSx for Lustre CSI driver](fsx-csi.md) is not supported\.
-+ You can use version `2.3.1` or later of the AWS Load Balancer Controller to load balance [application](alb-ingress.md) or [network](network-load-balancing.md) traffic to `IPv6` Pods in IP mode, but not instance mode\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\.
++ You can use version `2.3.1` or later of the AWS Load Balancer Controller to load balance [application](alb-ingress.md) or [network](network-load-balancing.md) traffic to `IPv6` Pods in IP mode, but not instance mode\. For more information, see [What is the AWS Load Balancer Controller?](aws-load-balancer-controller.md)\.
 + You must attach an `IPv6` IAM policy to your node IAM or CNI IAM role\. Between the two, we recommend that you attach it to a CNI IAM role\. For more information, see [Create IAM policy for clusters that use the `IPv6` family](cni-iam-role.md#cni-iam-role-create-ipv6-policy) and [Step 1: Create the Amazon VPC CNI plugin for Kubernetes IAM role](cni-iam-role.md#cni-iam-role-create-role)\.
 + Each Fargate Pod receives an `IPv6` address from the CIDR that's specified for the subnet that it's deployed in\. The underlying hardware unit that runs Fargate Pods gets a unique `IPv4` and `IPv6` address from the CIDRs that are assigned to the subnet that the hardware unit is deployed in\.
 + We recommend that you perform a thorough evaluation of your applications, Amazon EKS add\-ons, and AWS services that you integrate with before deploying `IPv6` clusters\. This is to ensure that everything works as expected with `IPv6`\.
 + Use of the Amazon EC2 [Instance Metadata Service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html) `IPv6` endpoint is not supported with Amazon EKS\.
-+ When creating a self\-managed node group in a cluster that uses the `IPv6` family, user\-data must include the following `BootstrapArguments` for the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file that runs at node start up\. Replace *your\-cidr* with the `IPv6` CIDR range of your cluster's VPC\.
++ When creating a self\-managed node group in a cluster that uses the `IPv6` family, user\-data must include the following `BootstrapArguments` for the [https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh) file that runs at node start up\. Replace *your\-cidr* with the `IPv6` CIDR range of your cluster's VPC\.
 
   ```
   --ip-family ipv6 --service-ipv6-cidr your-cidr
@@ -47,7 +49,7 @@ Before creating a cluster for production use, we recommend that you familiarize 
 **Prerequisites**
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.27`, you can use `kubectl` version `1.26`, `1.27`, or `1.28` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, AWS CloudFormation, a VPC, and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\.
 
 Procedures are provided to create the resources with either `eksctl` or the AWS CLI\. You can also deploy the resources using the AWS Management Console, but those instructions aren't provided in this topic for simplicity\.
@@ -56,12 +58,12 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-`eksctl` version `0.164.0` or later installed on your computer\. To install or update to it, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
+`eksctl` version `0.183.0` or later installed on your computer\. To install or update to it, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 
 **To deploy an `IPv6` cluster with `eksctl`**
 
 1. Create the `ipv6-cluster.yaml` file\. Copy the command that follows to your device\. Make the following modifications to the command as needed and then run the modified command:
-   + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
+   + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
    + Replace `region-code` with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\.
    + The value for `version` with the version of your cluster\. For more information, see [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\.
    + Replace `my-nodegroup` with a name for your node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\.
@@ -154,7 +156,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line Interface \(AWS CLI\) installed and configured on your device or AWS CloudShell\. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the *AWS Command Line Interface User Guide*\. The AWS CLI version that is installed in AWS CloudShell might also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the *AWS CloudShell User Guide*\. If you use the AWS CloudShell, you may need to [install version `2.12.3` or later or `1.27.160` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
+Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line Interface \(AWS CLI\) installed and configured on your device or AWS CloudShell\. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the *AWS Command Line Interface User Guide*\. The AWS CLI version that is installed in AWS CloudShell might also be several versions behind the latest version\. To update it, see [Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the *AWS CloudShell User Guide*\. If you use the AWS CloudShell, you may need to [install version `2.12.3` or later or `1.27.160` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
 
 **Important**  
 You must complete all steps in this procedure as the same user\. To check the current user, run the following command:  
@@ -169,7 +171,7 @@ The instructions are written for the Bash shell, and may need adjusting in other
 
 Replace all `example values` in the steps of this procedure with your own values\.
 
-1. Run the following commands to set some variables used in later steps\. Replace `region-code` with the AWS Region that you want to deploy your resources in\. The value can be any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace `my-nodegroup` with a name for your node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. Replace `111122223333` with your account ID\.
+1. Run the following commands to set some variables used in later steps\. Replace `region-code` with the AWS Region that you want to deploy your resources in\. The value can be any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\. Replace `my-nodegroup` with a name for your node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. Replace `111122223333` with your account ID\.
 
    ```
    export region_code=region-code
@@ -383,7 +385,7 @@ You might receive an error that one of the Availability Zones in your request do
           --role-name $node_role_name
       ```
 **Important**  
-For simplicity in this tutorial, the policy is attached to this IAM role\. In a production cluster however, we recommend attaching the policy to a separate IAM role\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
+For simplicity in this tutorial, the policy is attached to this IAM role\. In a production cluster however, we recommend attaching the policy to a separate IAM role\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts \(IRSA\)](cni-iam-role.md)\.
 
    1. Attach two required IAM managed policies to the IAM role\.
 

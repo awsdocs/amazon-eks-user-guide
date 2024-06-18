@@ -1,12 +1,12 @@
 # Enable Auto Scaling group metrics collection<a name="enable-asg-metrics"></a>
 
-This topic describes how you can enable Auto Scaling group metrics collection using [AWS Lambda](http://aws.amazon.com/lambda) and [AWS CloudTrail](http://aws.amazon.com/cloudtrail)\. Amazon EKS doesn't automatically enable group metrics collection for Auto Scaling groups created for managed nodes\.
+This topic describes how you can enable Auto Scaling group metrics collection using [AWS Lambda](https://aws.amazon.com/lambda) and [AWS CloudTrail](https://aws.amazon.com/cloudtrail)\. Amazon EKS doesn't automatically enable group metrics collection for Auto Scaling groups created for managed nodes\.
 
-You can use [Auto Scaling group metrics](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html) to track changes in an Auto Scaling group and to set alarms on threshold values\. Auto Scaling group metrics are available in the Auto Scaling console or the [Amazon CloudWatch](http://aws.amazon.com/cloudwatch) console\. Once enabled, the Auto Scaling group sends sampled data to Amazon CloudWatch every minute\. There is no charge for enabling these metrics\.
+You can use [Auto Scaling group metrics](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html) to track changes in an Auto Scaling group and to set alarms on threshold values\. Auto Scaling group metrics are available in the Auto Scaling console or the [Amazon CloudWatch](https://aws.amazon.com/cloudwatch) console\. Once enabled, the Auto Scaling group sends sampled data to Amazon CloudWatch every minute\. There is no charge for enabling these metrics\.
 
 By enabling Auto Scaling group metrics collection, you'll be able to monitor the scaling of managed node groups\. Auto Scaling group metrics report the minimum, maximum, and desired size of an Auto Scaling group\. You can create an alarm if the number of nodes in a node group falls below the minimum size, which would indicate an unhealthy node group\. Tracking node group size is also useful in adjusting the maximum count so that your data plane doesn't run out of capacity\.
 
-When you create a managed node group, AWS CloudTrail sends a `CreateNodegroup` event to [Amazon EventBridge](http://aws.amazon.com/eventbridge)\. By creating an Amazon EventBridge rule that matches the `CreateNodegroup` event, you trigger a Lambda function to enable group metrics collection for the Auto Scaling group associated with the managed node group\.
+When you create a managed node group, AWS CloudTrail sends a `CreateNodegroup` event to [Amazon EventBridge](https://aws.amazon.com/eventbridge)\. By creating an Amazon EventBridge rule that matches the `CreateNodegroup` event, you trigger a Lambda function to enable group metrics collection for the Auto Scaling group associated with the managed node group\.
 
 ![\[Diagram showing the managed node group, CloudTrail, and EventBridge component\]](http://docs.aws.amazon.com/eks/latest/userguide/images/enable-asg-metrics.png)
 

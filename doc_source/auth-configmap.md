@@ -1,4 +1,7 @@
-# Enabling IAM principal access to your cluster<a name="add-user-role"></a>
+# Enabling IAM principal access to your cluster<a name="auth-configmap"></a>
+
+**Important**  
+The `aws-auth` ConfigMap is deprecated\. The reccomended method to manage access to Kubernetes APIs is [Access Entries](access-entries.md)\. 
 
 Access to your cluster using [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) is enabled by the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator#readme), which runs on the Amazon EKS control plane\. The authenticator gets its configuration information from the `aws-auth` `ConfigMap`\. For all `aws-auth` `ConfigMap` settings, see [Full Configuration Format](https://github.com/kubernetes-sigs/aws-iam-authenticator#full-configuration-format) on GitHub\. 
 
@@ -156,7 +159,7 @@ We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For info
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.164.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
+Version `0.183.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 
    1. View the current mappings in the `ConfigMap`\. Replace `my-cluster` with the name of your cluster\. Replace `region-code` with the AWS Region that your cluster is in\.
 
@@ -227,7 +230,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       kubectl edit -n kube-system configmap/aws-auth
       ```
 **Note**  
-If you receive an error stating "`Error from server (NotFound): configmaps "aws-auth" not found`", then use the procedure in [Apply the `aws-auth``ConfigMap` to your cluster](#aws-auth-configmap) to apply the stock `ConfigMap`\.
+If you receive an error stating "`Error from server (NotFound): configmaps "aws-auth" not found`", then use the procedure in [Apply the `aws-auth`   `ConfigMap` to your cluster](#aws-auth-configmap) to apply the stock `ConfigMap`\.
 
    1. Add your IAM principals to the `ConfigMap`\. An IAM group isn't an IAM principal, so it can't be added to the `ConfigMap`\.
       + **To add an IAM role \(for example, for [federated users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html)\):** Add the role details to the `mapRoles` section of the `ConfigMap`, under `data`\. Add this section if it does not already exist in the file\. Each entry supports the following parameters:
@@ -277,7 +280,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
 
 ------
 
-## Apply the `aws-auth``ConfigMap` to your cluster<a name="aws-auth-configmap"></a>
+## Apply the `aws-auth`   `ConfigMap` to your cluster<a name="aws-auth-configmap"></a>
 
 The `aws-auth` `ConfigMap` is automatically created and applied to your cluster when you create a managed node group or when you create a node group using `eksctl`\. It is initially created to allow nodes to join your cluster, but you also use this `ConfigMap` to add role\-based access control \(RBAC\) access to IAM principals\. If you've launched self\-managed nodes and haven't applied the `aws-auth` `ConfigMap` to your cluster, you can do so with the following procedure\.
 

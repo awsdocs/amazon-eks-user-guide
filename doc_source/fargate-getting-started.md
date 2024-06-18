@@ -43,7 +43,7 @@ You can create a Fargate profile using `eksctl` or the AWS Management Console\.
 ------
 #### [ eksctl ]
 
-This procedure requires `eksctl` version `0.164.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.183.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -116,7 +116,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then you
 
 1. Create a Fargate profile for CoreDNS with the following command\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, `AmazonEKSFargatePodExecutionRole` with the name of your Pod execution role, and `0000000000000001`, `0000000000000002`, and `0000000000000003` with the IDs of your private subnets\. If you don't have a Pod execution role, you must [create one](#fargate-sg-pod-execution-role) first\.
 **Important**  
-The role ARN can't include a path\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\. For more information, see [aws\-auth `ConfigMap` does not grant access to the cluster](security_iam_troubleshoot.md#security-iam-troubleshoot-ConfigMap)\.
+The role ARN can't include a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`\. For example, if the name of your role is `development/apps/my-role`, you need to change it to `my-role` when specifying the ARN for the role\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\.
 
    ```
    aws eks create-fargate-profile \
@@ -148,4 +148,4 @@ The role ARN can't include a path\. The format of the role ARN must be `arn:aws:
      ```
 + Deploy the [Application load balancing on Amazon EKS](alb-ingress.md) to allow Ingress objects for your Pods running on Fargate\.
 + You can use the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to set the initial correct size of CPU and memory for your Fargate Pods, and then use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) to scale those Pods\. If you want the Vertical Pod Autoscaler to automatically re\-deploy Pods to Fargate with higher CPU and memory combinations, set the Vertical Pod Autoscaler's mode to either `Auto` or `Recreate`\. This is to ensure correct functionality\. For more information, see the [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start) documentation on GitHub\.
-+ You can set up the [AWS Distro for OpenTelemetry](http://aws.amazon.com/otel) \(ADOT\) collector for application monitoring by following [these instructions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html)\.
++ You can set up the [AWS Distro for OpenTelemetry](https://aws.amazon.com/otel) \(ADOT\) collector for application monitoring by following [these instructions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html)\.

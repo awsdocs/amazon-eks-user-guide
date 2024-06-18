@@ -107,7 +107,7 @@ We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For info
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.164.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
+Version `0.183.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 
    1. View the current mappings in the `ConfigMap`\. Replace `my-cluster` with the name of your cluster\. Replace `region-code` with the AWS Region that your cluster is in\.
 
@@ -178,7 +178,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
 ------
 #### [ Edit ConfigMap manually ]
 
-    For more information about adding users or roles to the `aws-auth` `ConfigMap`, see [Add IAM principals to your Amazon EKS cluster](add-user-role.md#aws-auth-users)\. 
+    For more information about adding users or roles to the `aws-auth` `ConfigMap`, see [Add IAM principals to your Amazon EKS cluster](auth-configmap.md#aws-auth-users)\. 
 
    1. Open the `aws-auth` `ConfigMap` for editing\.
 

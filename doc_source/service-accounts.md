@@ -1,4 +1,4 @@
-# Kubernetes service accounts<a name="service-accounts"></a>
+# Grant Kubernetes workloads access to AWS using Kubernetes Service Accounts<a name="service-accounts"></a>
 
 A Kubernetes service account provides an identity for processes that run in a Pod\. For more information see [Managing Service Accounts](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin) in the Kubernetes documentation\. If your Pod needs access to AWS services, you can map the service account to an AWS Identity and Access Management identity to grant that access\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
 
@@ -43,8 +43,8 @@ kubectl rollout restart deployment/my-deployment
 The following cluster add\-ons have been updated to use the Kubernetes client SDKs that automatically refetch service account tokens\. We recommend making sure that the listed versions, or later versions, are installed on your cluster\.
 + Amazon VPC CNI plugin for Kubernetes and metrics helper plugins version `1.8.0` and later\. To check your current version or update it, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md) and [cni\-metrics\-helper](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md)\.
 + CoreDNS version `1.8.4` and later\. To check your current version or update it, see [Working with the CoreDNS Amazon EKS add\-on](managing-coredns.md)\.
-+ AWS Load Balancer Controller version `2.0.0` and later\. To check your current version or update it, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\.
-+ A current `kube-proxy` version\. To check your current version or update it, see [Updating the Kubernetes `kube-proxy` self\-managed add\-on](managing-kube-proxy.md)\.
++ AWS Load Balancer Controller version `2.0.0` and later\. To check your current version or update it, see [What is the AWS Load Balancer Controller?](aws-load-balancer-controller.md)\.
++ A current `kube-proxy` version\. To check your current version or update it, see [Working with the Kubernetes `kube-proxy` add\-on](managing-kube-proxy.md)\.
 + AWS for Fluent Bit version `2.25.0` or later\. To update your current version, see [Releases](https://github.com/aws/aws-for-fluent-bit/releases) on GitHub\.
 + Fluentd image version [1\.14\.6\-1\.2](https://hub.docker.com/r/fluent/fluentd/tags?page=1&name=v1.14.6-1.2) or later and Fluentd filter plugin for Kubernetes metadata version [2\.11\.1](https://rubygems.org/gems/fluent-plugin-kubernetes_metadata_filter/versions/2.11.1) or later\. 
 
