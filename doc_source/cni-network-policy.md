@@ -272,6 +272,7 @@ For all other cluster versions, if you upgrade the Amazon EKS optimized Amazon L
 
    You can now deploy Kubernetes network policies to your cluster\. For more information, see [Kubernetes network policies](#network-policies-implement-policies)\.
 
+
 ## Stars demo of network policy<a name="network-policy-stars-demo"></a>
 
 This demo creates a front\-end, back\-end, and client service on your Amazon EKS cluster\. The demo also creates a management graphical user interface that shows the available ingress and egress paths between each service\. We recommend that you complete the demo on a cluster that you don't run production workloads on\. 
@@ -684,6 +685,10 @@ sudo /opt/cni/bin/aws-eks-na-cli ebpf progs
 ```
 
 To run this command, you can use any method to connect to the node\.
+
+## Disabling network policies in VPC CNI
+
+If you ever want to disable network policy in the VPC CNI then make sure that you delete all the Kubernetes network policies you configured. Removing the `EnableNetworkPolicy` value will result in `aws-node` pods entering `CrashLoopBackOff` state. 
 
 ## Kubernetes network policies<a name="network-policies-implement-policies"></a>
 
