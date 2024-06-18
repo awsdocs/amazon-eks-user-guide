@@ -1,6 +1,6 @@
 # Observability in Amazon EKS<a name="eks-observe"></a>
 
-One of the fallacies of distributed computing is that observability is optional. It's a prevalent but wrong assumption. To have a reliable and changeable system, you need to have proper observability in place. You can observe your data in Amazon EKS using many available monitoring or logging tools\. Your Amazon EKS log data can be streamed to AWS services or to partner tools for data analysis\. There are many services available in the AWS Management Console that provide data for troubleshooting your Amazon EKS issues\. You can also use an AWS\-supported open\-source solution for [monitoring Amazon EKS infrastructure](https://docs.aws.amazon.com/grafana/latest/userguide/solution-eks.html)\.
+You can observe your data in Amazon EKS using many available monitoring or logging tools\. Your Amazon EKS log data can be streamed to AWS services or to partner tools for data analysis\. There are many services available in the AWS Management Console that provide data for troubleshooting your Amazon EKS issues\. You can also use an AWS\-supported open\-source solution for [monitoring Amazon EKS infrastructure](https://docs.aws.amazon.com/grafana/latest/userguide/solution-eks.html)\.
 
 After selecting **Clusters** in the left navigation pane of the Amazon EKS console, you can view cluster health and details by selecting your cluster's name\. To view details about any existing Kubernetes resources that are deployed to your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
@@ -11,6 +11,8 @@ Monitoring is an important part of maintaining the reliability, availability, an
 + What tools do you intend to use? If you already run AWS Fargate as part of your launch, then you can use the built\-in [log router](fargate-logging.md)\.
 + Who you do intend to perform the monitoring tasks?
 + Whom do you want notifications to be sent to when something goes wrong?
+
+Note that one of the fallacies of distributed computing is that observability is optional. It's a prevalent but wrong assumption. To have a reliable and changeable system, you need to have proper observability in place. 
 
 ## Logging and monitoring on Amazon EKS<a name="logging-monitoring"></a>
 
