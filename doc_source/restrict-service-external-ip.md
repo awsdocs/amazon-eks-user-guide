@@ -14,13 +14,13 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
    ```
 
-1. Verify that the cert\-manager pods are running\.
+1. Verify that the cert\-manager Pods are running\.
 
    ```
    kubectl get pods -n cert-manager
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME                                       READY   STATUS    RESTARTS   AGE
@@ -35,7 +35,7 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
    kubectl get services -A
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAMESPACE                      NAME                                    TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)         AGE

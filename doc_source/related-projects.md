@@ -38,7 +38,7 @@ Related networking projects for Amazon EKS and Kubernetes clusters\.
 
 ### Amazon VPC CNI plugin for Kubernetes<a name="related-vpc-cni-k8s"></a>
 
-Amazon EKS supports native VPC networking through the Amazon VPC CNI plugin for Kubernetes\. The plugin assigns an IP address from your VPC to each pod\.
+Amazon EKS supports native VPC networking through the Amazon VPC CNI plugin for Kubernetes\. The plugin assigns an IP address from your VPC to each Pod\.
 + [Project URL](https://github.com/aws/amazon-vpc-cni-k8s)
 + [Project documentation](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md)
 
@@ -56,7 +56,7 @@ ExternalDNS synchronizes exposed Kubernetes services and ingresses with DNS prov
 
 ### App Mesh Controller<a name="related-app-mesh-controller"></a>
 
-The App Mesh Controller for Kubernetes helps to manage App Mesh for your cluster\. With the controller, you can manage the service mesh using custom resources within your cluster\. The controller manages the injection of networking proxy sidecars to pods to enable the mesh\.
+The App Mesh Controller for Kubernetes helps to manage App Mesh for your cluster\. With the controller, you can manage the service mesh using custom resources within your cluster\. The controller manages the injection of networking proxy sidecars to Pods to enable the mesh\.
 + [Project URL](https://github.com/aws/aws-app-mesh-controller-for-k8s)
 + [Project documentation](https://docs.aws.amazon.com/app-mesh/latest/userguide/mesh-k8s-integration.html)
 + AWS blog: [Getting started with App Mesh and Amazon EKS](http://aws.amazon.com/blogs/containers/getting-started-with-app-mesh-and-eks/)
@@ -92,7 +92,7 @@ Related auto scaling projects for Amazon EKS and Kubernetes clusters\.
 Cluster Autoscaler is a tool that automatically adjusts the size of the Kubernetes cluster based on CPU and memory pressure\.
 + [Project URL](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)
 + [Project documentation](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md)
-+ Amazon EKS workshop: [https://eksworkshop\.com/scaling/deploy\_ca/](https://eksworkshop.com/scaling/deploy_ca/)
++ Amazon EKS workshop: [https://www\.eksworkshop\.com/](https://www.eksworkshop.com/)
 
 ### Escalator<a name="related-escalator"></a>
 

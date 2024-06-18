@@ -13,14 +13,14 @@ Installing the ADOT add\-on includes the ADOT Operator, which in turn deploys th
 
 **Prerequisites**
 + You have met the [ADOT prerequisites](adot-reqts.md)\.
-+ [kubectl is installed](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)\.
++ [kubectl is installed](install-kubectl.md)\.
 + Update your `kubeconfig` if necessary using the following command\.
 
   ```
   aws eks update-kubeconfig --name my-cluster --region region-code
   ```
-+ [eksctl is installed](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html)\.
-+ [AWS CLI version `2` is installed](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)\.
++ [eksctl is installed](eksctl.md)\.
++ Version `2.12.3` or later or `1.27.160` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 + An existing Amazon EKS cluster\.
 + An existing Amazon EKS service IAM role\. If you don't have the role, you can follow [Create an IAM role](adot-iam.md) to create one\.
 
@@ -35,15 +35,25 @@ Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the followi
 
 1. Choose the **Add\-ons** tab\.
 
-1. Click **Add new** and select **AWS Distro for OpenTelemetry** from the drop\-down list\.
+1. Choose **Get more add\-ons**\.
 
-1. The default version will be selected in the **Version** drop\-down\. If deploying an ADOT Collector, make sure that the version is `v0.62.1-eksbuild.1` or greater\.
+1. On the **Select add\-ons** page, do the following:
 
-1. If a service account is already created in the cluster without an IAM role, select **Override existing configuration for this add\-on on the cluster**\.
+   1. In the **Amazon EKS\-addons** section, select the **AWS Distro for OpenTelemetry** check box\.
 
-1. \(Optional\) If deploying an ADOT Collector, provide the configuration values that match your use case for Collector deployment\. Do this under the **Optional configuration settings** drop\-down in the **Configuration values** field\. The **Add\-on configuration schema** provides the available options for your configuration values\.
+   1. Choose **Next**\.
 
-1. Click **Add**\.
+1. On the **Configure selected add\-ons settings** page, do the following:
+
+   1. The default version will be selected in the **Version** drop\-down\. Select the **Version** you'd like to use\.
+
+   1. \(Optional\) If deploying an ADOT Collector, expand **Optional configuration settings** and provide the **Configuration values** that match your use case for Collector deployment\. The **Add\-on configuration schema** provides the available options for your configuration values\.
+
+   1. If a service account is already created in the cluster without an IAM role, expand the **Optional configuration settings** and select **Override** for the **Conflict resolution method**\.
+
+   1. Choose **Next**\.
+
+1. On the **Review and add** page, choose **Create**\. After the add\-on installation is complete, you see your installed add\-on\.
 
 ------
 #### [ AWS CLI ]
@@ -85,7 +95,7 @@ Amazon EKS does not automatically update ADOT on your cluster\. You must initiat
        --query "addons[].addonVersions[].[addonVersion, compatibilities[].defaultVersion]" --output text
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    v0.58.0-eksbuild.1
@@ -105,10 +115,10 @@ Amazon EKS does not automatically update ADOT on your cluster\. You must initiat
    The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [ Kubernetes field management](kubernetes-field-management.md)\.
 
 ## Remove the AWS Distro for OpenTelemetry \(ADOT\) Operator<a name="adot-remove"></a>
-+  You must delete the ADOT Collector resource separately from the ADOT Collector\. In this command, specify the YAML file that you used to deploy the ADOT Collector:
++ You must delete the ADOT Collector resource separately from the ADOT Collector\. In this command, specify the YAML file that you used to [deploy the ADOT Collector](deploy-collector.md):
 
   ```
-  kubectl delete -f collector-config.yaml
+  kubectl delete -f collector-config-(amp|cloudwatch|xray|advanced).yaml
   ```
 + You can remove the ADOT Operator through either the AWS CLI or `eksctl`\. If you remove the ADOT Operator, you must follow the [installation instructions](#adot-install) again to reinstall:
 

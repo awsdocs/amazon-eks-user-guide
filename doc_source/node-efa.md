@@ -1,6 +1,6 @@
 # Machine learning training using Elastic Fabric Adapter<a name="node-efa"></a>
 
-This topic describes how to integrate Elastic Fabric Adapter \(EFA\) with pods deployed in your Amazon EKS cluster\. Elastic Fabric Adapter \(EFA\) is a network interface for Amazon EC2 instances that enables you to run applications requiring high levels of inter\-node communications at scale on AWS\. Its custom\-built operating system bypass hardware interface enhances the performance of inter\-instance communications, which is critical to scaling these applications\. With EFA, High Performance Computing \(HPC\) applications using the Message Passing Interface \(MPI\) and Machine Learning \(ML\) applications using NVIDIA Collective Communications Library \(NCCL\) can scale to thousands of CPUs or GPUs\. As a result, you get the application performance of on\-premises HPC clusters with the on\-demand elasticity and flexibility of the AWS cloud\. Integrating EFA with applications running on Amazon EKS clusters can reduce the time to complete large scale distributed training workloads without having to add additional instances to your cluster\. For more information about EFA, [Elastic Fabric Adapter](http://aws.amazon.com/hpc/efa/)\.
+This topic describes how to integrate Elastic Fabric Adapter \(EFA\) with Pods deployed in your Amazon EKS cluster\. Elastic Fabric Adapter \(EFA\) is a network interface for Amazon EC2 instances that enables you to run applications requiring high levels of inter\-node communications at scale on AWS\. Its custom\-built operating system bypass hardware interface enhances the performance of inter\-instance communications, which is critical to scaling these applications\. With EFA, High Performance Computing \(HPC\) applications using the Message Passing Interface \(MPI\) and Machine Learning \(ML\) applications using NVIDIA Collective Communications Library \(NCCL\) can scale to thousands of CPUs or GPUs\. As a result, you get the application performance of on\-premises HPC clusters with the on\-demand elasticity and flexibility of the AWS cloud\. Integrating EFA with applications running on Amazon EKS clusters can reduce the time to complete large scale distributed training workloads without having to add additional instances to your cluster\. For more information about EFA, [Elastic Fabric Adapter](http://aws.amazon.com/hpc/efa/)\.
 
 The EFA plugin described in this topic fully supports Amazon EC2 `[P4d](http://aws.amazon.com/ec2/instance-types/p4/)` instances, which represent the current state of the art in distributed machine learning in the cloud\. Each `p4d.24xlarge` instance has eight NVIDIA A100 GPUs, and 400 Gbps GPUDirectRDMA over EFA\. GPUDirectRDMA enables you to have direct GPU\-to\-GPU communication across nodes with CPU bypass, increasing collective communication bandwidth and lowering latency\. Amazon EKS and EFA integration with `P4d` instances provides a seamless method to take advantage of the highest performing Amazon EC2 computing instance for distributed machine learning training\.
 
@@ -8,9 +8,9 @@ The EFA plugin described in this topic fully supports Amazon EC2 `[P4d](http://a
 + An existing Amazon EKS cluster\. If you don't have an existing cluster, use one of our [Getting started with Amazon EKS](getting-started.md) guides to create one\. Your cluster must be deployed in a VPC that has at least one private subnet with enough available IP addresses to deploy nodes in\. The private subnet must have outbound internet access provided by an external device, such as a NAT gateway\.
 
   If you plan to use `eksctl` to create your node group, `eksctl` can also create a cluster for you\. 
-+ Version `2.9.9` or later or `1.27.36` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.23`, you can use `kubectl` version `1.22`,`1.23`, or `1.24` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
-+ You must have the Amazon VPC CNI plugin for Kubernetes version `1.7.10` or later installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d.24xlarge`\. For more information about updating your Amazon VPC CNI plugin for Kubernetes version, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md)\.
++ Version `2.12.3` or later or `1.27.160` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ You must have the Amazon VPC CNI plugin for Kubernetes version `1.7.10` or later installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d.24xlarge`\. For more information about updating your Amazon VPC CNI plugin for Kubernetes version, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
 
 ## Create node group<a name="efa-create-nodegroup"></a>
 
@@ -32,7 +32,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
        --query 'InstanceTypeOfferings[*].Location' --output text
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    us-west-2a    us-west-2c    us-west-2b
@@ -46,7 +46,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.124.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.156.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
    1. Copy the following contents to a file named `efa-cluster.yaml`\. Replace the `example values` with your own\. You can replace `p4d.24xlarge` with a different instance, but if you do, make sure that the values for `availabilityZones` are Availability Zones that were returned for the instance type in step 1\.
 
@@ -57,7 +57,7 @@ Version `0.124.0` or later of the `eksctl` command line tool installed on your d
       metadata:
         name: my-efa-cluster
         region: region-code
-        version: "1.19"
+        version: "1.XX"
       
       iam:
         withOIDC: true
@@ -153,7 +153,7 @@ Because the instance type used in this example has GPUs, `eksctl` automatically 
              --output text
          ```
 
-         The example output is as follows\.
+         An example output is as follows\.
 
          ```
          local
@@ -235,17 +235,17 @@ Because the instance type used in this example has GPUs, `eksctl` automatically 
 
          Don't continue until the status returned from the previous command is `ACTIVE`\. It can take several minutes for the nodes to become ready\.
 
-   1. If you deployed an instance type with a GPU, deploy the NVIDIA Kubernetes device plugin\.
+   1. If you chose a GPU instance type, you must deploy the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin)\. Replace `vX.X.X` with your desired [NVIDIA/k8s\-device\-plugin](https://github.com/NVIDIA/k8s-device-plugin/releases) version before running the following command\.
 
       ```
-      kubetl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml
+      kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/nvidia-device-plugin.yml
       ```
 
 ------
 
 1. Deploy the EFA Kubernetes device plugin\.
 
-   The EFA Kubernetes device plugin detects and advertises EFA interfaces as allocatable resources to Kubernetes\. An application can consume the extended resource type `vpc.amazonaws.com/efa` in a pod request spec just like CPU and memory\. For more information, see [Consuming extended resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#consuming-extended-resources) in the Kubernetes documentation\. Once requested, the plugin automatically assigns and mounts an EFA interface to the pod\. Using the device plugin simplifies EFA setup and does not require a pod to run in privileged mode\.
+   The EFA Kubernetes device plugin detects and advertises EFA interfaces as allocatable resources to Kubernetes\. An application can consume the extended resource type `vpc.amazonaws.com/efa` in a Pod request spec just like CPU and memory\. For more information, see [Consuming extended resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#consuming-extended-resources) in the Kubernetes documentation\. Once requested, the plugin automatically assigns and mounts an EFA interface to the Pod\. Using the device plugin simplifies EFA setup and does not require a Pod to run in privileged mode\.
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/manifest/efa-k8s-device-plugin.yml
@@ -261,7 +261,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubeflow/mpi-operator/master/
 ```
 
 **Run the multi\-node NCCL Performance Test to verify GPUDirectRDMA/EFA**  
-To verify NCCL Performance with GPUDirectRDMA over EFA, run the standard NCCL Performance test\. For more information, see the official [NCCL\-Tests](https://github.com/NVIDIA/nccl-tests.git) repo on GitHub\. You can use the sample [Dockerfile](https://github.com/aws-samples/aws-efa-eks/blob/main/Dockerfile) that comes with this test already built for both CUDA `11.2` and the latest version of EFA\. 
+To verify NCCL Performance with GPUDirectRDMA over EFA, run the standard NCCL Performance test\. For more information, see the official [NCCL\-Tests](https://github.com/NVIDIA/nccl-tests.git) repo on GitHub\. You can use the sample [Dockerfile](https://github.com/aws-samples/aws-efa-eks/blob/main/Dockerfile) that comes with this test already built for both [https://developer.nvidia.com/cuda-zone](https://developer.nvidia.com/cuda-zone) `11.2` and the latest version of EFA\. 
 
 Alternately, you can download an AWS Docker image available from an [Amazon ECR repo](https://gallery.ecr.aws/w6p6i9i7/aws-efa-nccl-rdma)\. 
 
@@ -276,17 +276,17 @@ Complete the following steps to run a two node NCCL Performance Test\. In the ex
    kubectl apply -f https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/examples/simple/nccl-efa-tests.yaml
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    mpijob\.kubeflow\.org/nccl\-tests\-efa created
 
-1. View your running pods\.
+1. View your running Pods\.
 
    ```
    kubectl get pods
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME                             READY   STATUS     RESTARTS   AGE
@@ -295,9 +295,9 @@ Complete the following steps to run a two node NCCL Performance Test\. In the ex
    nccl-tests-efa-worker-1          1/1     Running    0          2m49s
    ```
 
-   The MPI Operator creates a launcher pod and 2 worker pods \(one on each node\)\.
+   The MPI Operator creates a launcher Pod and 2 worker Pods \(one on each node\)\.
 
-1. View the log for the `efa-launcher` pod\. Replace `wzr8j` with the value from your output\.
+1. View the log for the `efa-launcher` Pod\. Replace `wzr8j` with the value from your output\.
 
    ```
    kubectl logs -f nccl-tests-efa-launcher-nbql9

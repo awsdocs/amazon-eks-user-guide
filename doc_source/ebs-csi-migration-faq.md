@@ -1,6 +1,9 @@
 # Amazon EBS CSI migration frequently asked questions<a name="ebs-csi-migration-faq"></a>
 
-The Amazon EBS container storage interface \(CSI\) migration feature is enabled by default in Amazon EKS `1.23` and later clusters\. **If you have pods running on a version `1.22` or earlier cluster, then you must install the [Amazon EBS driver](ebs-csi.md) before updating your cluster to version `1.23` to avoid service interruption\.** Select any frequently asked question to learn about the answer to it\.
+**Important**  
+ If you have Pods running on a version `1.22` or earlier cluster, then you must install the [Amazon EBS CSI driver](ebs-csi.md) before updating your cluster to version `1.23` to avoid service interruption\. 
+
+ The Amazon EBS container storage interface \(CSI\) migration feature moves responsibility for handling storage operations from the Amazon EBS in\-tree EBS storage provisioner to the [Amazon EBS CSI driver](ebs-csi.md)\. 
 
 ## What are CSI drivers?<a name="csi-migration-faq-csi-drivers"></a>
 
@@ -19,35 +22,35 @@ The Kubernetes CSI Migration feature moves responsibility for handling storage o
 
 For more information, see [Kubernetes`1.23`: Kubernetes In\-Tree to CSI Volume Migration Status Update](https://kubernetes.io/blog/2021/12/10/storage-in-tree-to-csi-migration-status-update/) on the Kubernetes blog\.
 
-To help you migrate from the in\-tree plugin to CSI drivers, the `CSIMigration` and `CSIMigrationAWS` flags are enabled by default on Amazon EKS version `1.23` and later clusters\. These flags enable your cluster to translate the in\-tree APIs to their equivalent CSI APIs\. These flags are set on the Kubernetes control plane managed by Amazon EKS and in the `kubelet` settings configured in Amazon EKS optimized AMIs\. **If you have pods using Amazon EBS volumes in your cluster, you must install the Amazon EBS CSI driver before updating your cluster to version `1.23`\.** If you don't, volume operations such as provisioning and mounting might not work as expected\. For more information, see [Amazon EBS CSI driver](ebs-csi.md)\.
+To help you migrate from the in\-tree plugin to CSI drivers, the `CSIMigration` and `CSIMigrationAWS` flags are enabled by default on Amazon EKS version `1.23` and later clusters\. These flags enable your cluster to translate the in\-tree APIs to their equivalent CSI APIs\. These flags are set on the Kubernetes control plane managed by Amazon EKS and in the `kubelet` settings configured in Amazon EKS optimized AMIs\. **If you have Pods using Amazon EBS volumes in your cluster, you must install the Amazon EBS CSI driver before updating your cluster to version `1.23`\.** If you don't, volume operations such as provisioning and mounting might not work as expected\. For more information, see [Amazon EBS CSI driver](ebs-csi.md)\.
 
 **Note**  
 The in\-tree `StorageClass` provisioner is named `kubernetes.io/aws-ebs`\. The Amazon EBS CSI `StorageClass` provisioner is named `ebs.csi.aws.com`\.
 
-## Can I mount `kubernetes.io/aws-ebs``StorageClass` volumes in version `1.23` and later clusters?<a name="csi-migration-faq-mounting-volumes"></a>
+## Can I mount `kubernetes.io/aws-ebs StorageClass` volumes in version `1.23` and later clusters?<a name="csi-migration-faq-mounting-volumes"></a>
 
 Yes, as long as the [Amazon EBS CSI driver](ebs-csi.md) is installed\. For newly created version `1.23` and later clusters, we recommend installing the Amazon EBS CSI driver as part of your cluster creation process\. We also recommend only using `StorageClasses` based on the `ebs.csi.aws.com` provisioner\.
 
-If you've updated your cluster control plane to version `1.23` and haven't yet updated your nodes to `1.23`, then the `CSIMigration` and `CSIMigrationAWS` `kubelet` flags aren't enabled\. In this case, the in\-tree driver is used to mount `kubernetes.io/aws-ebs` based volumes\. The Amazon EBS CSI driver must still be installed however, to ensure that pods using `kubernetes.io/aws-ebs` based volumes can be scheduled\. The driver is also required for other volume operations to succeed\. 
+If you've updated your cluster control plane to version `1.23` and haven't yet updated your nodes to `1.23`, then the `CSIMigration` and `CSIMigrationAWS` `kubelet` flags aren't enabled\. In this case, the in\-tree driver is used to mount `kubernetes.io/aws-ebs` based volumes\. The Amazon EBS CSI driver must still be installed however, to ensure that Pods using `kubernetes.io/aws-ebs` based volumes can be scheduled\. The driver is also required for other volume operations to succeed\. 
 
-## Can I provision `kubernetes.io/aws-ebs``StorageClass` volumes on Amazon EKS `1.23` and later clusters?<a name="csi-migration-faq-aws-ebs-volumes"></a>
+## Can I provision `kubernetes.io/aws-ebs StorageClass` volumes on Amazon EKS `1.23` and later clusters?<a name="csi-migration-faq-aws-ebs-volumes"></a>
 
 Yes, as long as the [Amazon EBS CSI driver](ebs-csi.md) is installed\.
 
-## Will the `kubernetes.io/aws-ebs``StorageClass` provisioner ever be removed from Amazon EKS?<a name="csi-migration-faq-aws-ebs-provisioner"></a>
+## Will the `kubernetes.io/aws-ebs StorageClass` provisioner ever be removed from Amazon EKS?<a name="csi-migration-faq-aws-ebs-provisioner"></a>
 
-No\. The `StorageClass` provisioner `kubernetes.io/aws-ebs` and volume type `awsElasticBlockStore` are treated as a part of the Kubernetes API\. These resources are no longer supported, but there are no plans to remove them\.
+The `kubernetes.io/aws-ebs` `StorageClass` provisioner and `awsElasticBlockStore` volume type are no longer supported, but there are no plans to remove them\. These resources are treated as a part of the Kubernetes API\.
 
 ## How do I install the Amazon EBS CSI driver?<a name="csi-migration-faq-ebs-csi-driver"></a>
 
 If you want to manage the driver yourself, you can install it using the open source [Helm chart](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/charts/aws-ebs-csi-driver)\. Alternatively, you can install the [Amazon EBS CSI driver Amazon EKS add\-on](ebs-csi.md)\. When an update is required to the Amazon EKS add\-on, you initiate the update and Amazon EKS updates the add\-on for you\.
 
 **Important**  
-The Kubernetes in\-tree Amazon EBS driver runs on the Kubernetes control plane\. It uses IAM permissions assigned to the [Amazon EKS cluster IAM role](service_IAM_role.md) to provision Amazon EBS volumes\. The Amazon EBS CSI driver runs on nodes\. The driver needs IAM permissions to provision volumes\. For more information, see [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)\.
+The Kubernetes in\-tree Amazon EBS driver runs on the Kubernetes control plane\. It uses IAM permissions assigned to the [Amazon EKS cluster IAM role](service_IAM_role.md) to provision Amazon EBS volumes\. The Amazon EBS CSI driver runs on nodes\. The driver needs IAM permissions to provision volumes\. For more information, see [Creating the Amazon EBS CSI driver IAM role](csi-iam-role.md)\.
 
 ## How can I check whether the Amazon EBS CSI driver is installed in my cluster?<a name="csi-migration-faq-check-driver"></a>
 
-Use `helm list -A` to determine whether the open source Helm chart is installed\. Use `aws eks list-addons` to determine whether the Amazon EKS add\-on is installed\.
+Use `helm list -A` to determine whether the open source Helm chart is installed\. Use `aws eks list-addons --cluster-name my-cluster` to determine whether the Amazon EKS add\-on is installed\.
 
 ## Will Amazon EKS prevent a cluster update to version `1.23` if I haven't already installed the Amazon EBS CSI driver?<a name="csi-migration-faq-update-prevention"></a>
 
@@ -67,9 +70,11 @@ No\.
 
 ## How do I migrate a persistent volume from the `kubernetes.io/aws-ebs``StorageClass` to `ebs.csi.aws.com` using snapshots?<a name="csi-migration-faq-migrate-using-snapshots"></a>
 
-To migrate a persistent volume, see [Migrating Amazon EKS clusters from gp2 to gp3 EBS volumes](http://aws.amazon.com/blogs/containers/migrating-amazon-eks-clusters-from-gp2-to-gp3-ebs-volumes/) on the AWS blog\. 
+To migrate a persistent volume, see [Migrating Amazon EKS clusters from gp2 to gp3 EBS volumes](http://aws.amazon.com/blogs/containers/migrating-amazon-eks-clusters-from-gp2-to-gp3-ebs-volumes/) on the AWS blog\.
 
+## How do I modify an Amazon EBS volume using annotations?<a name="csi-migration-faq-migrate-using-annotations"></a>
 
+Starting with `aws-ebs-csi-driver` `v1.19.0-eksbuild.2`, you can modify Amazon EBS volumes using annotations within their `PersistentVolumeClaim`s \(PVC\)\. The new [volume modification](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/modify-volume.md) feature is implemented as an additional sidecar, called `volumemodifier`\. For more information, see [Simplifying Amazon EBS volume migration and modification on Kubernetes using the EBS CSI Driver](http://aws.amazon.com/blogs/storage/simplifying-amazon-ebs-volume-migration-and-modification-using-the-ebs-csi-driver/) on the AWS blog\.
 
 ## Is migration supported for Windows workloads?<a name="csi-migration-faq-windows"></a>
 

@@ -1,6 +1,6 @@
 # Deploy the AWS Distro for OpenTelemetry Collector for CloudWatch<a name="configure-cw"></a>
 
-The AWS Distro for OpenTelemetry \(ADOT\) Collector can be deployed to receive OTLP metrics for export to Amazon CloudWatch\. This procedure downloads an example YAML file that you can apply to your cluster\.
+The AWS Distro for OpenTelemetry \(ADOT\) Collector can be deployed to receive OTLP metrics for export to Amazon CloudWatch\. This procedure downloads an example YAML file that you can apply to your cluster\. Make sure that you have satisfied the prerequisites and completed the procedure in [Install the AWS Distro for OpenTelemetry \(ADOT\) Operator](adot-manage.md#adot-install)\. 
 
 1. Download the `collector-config-cloudwatch.yaml` file to your computer\. You can also [view the file](https://github.com/aws-observability/aws-otel-community/blob/master/sample-configs/operator/collector-config-cloudwatch.yaml) on GitHub\.
 
@@ -9,7 +9,7 @@ The AWS Distro for OpenTelemetry \(ADOT\) Collector can be deployed to receive O
    ```
 
 1. In `collector-config-cloudwatch.yaml`, replace the following with your own values:
-   + `mode: deployment` \(for more information, see the ADOT Collector [installation instructions](https://aws-otel.github.io/docs/getting-started/operator#step-2-install-adot-collector-as-kubernetes-custom-resource-to-your-eks-cluster) on GitHub\)
+   + `mode: deployment` \(for more information, see [Deploy the ADOT Collector](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/installation#deploy-the-adot-collector) on GitHub\)
    + `serviceAccount: adot-collector`
    + `value: <YOUR_EKS_CLUSTER_NAME>`
    + `region: "<YOUR_AWS_REGION>"`

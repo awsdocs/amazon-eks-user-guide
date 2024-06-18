@@ -1,8 +1,14 @@
-# Launch template support<a name="launch-templates"></a>
+# Customizing managed nodes with launch templates<a name="launch-templates"></a>
 
-Managed node groups are always deployed with a launch template to be used with the Amazon EC2 Auto Scaling group\. The Amazon EKS API creates this launch template either by copying one you provide or by creating one automatically with default values in your account\. For the highest level of customization, you can deploy managed nodes using your own launch template and a custom AMI\. We don't recommend that you modify auto\-generated launch templates\. So, make sure to specify a custom one when first creating a managed node group if you want greater flexibility\.
+For the highest level of customization, you can deploy managed nodes using your own launch template\. Using a launch template allows capabilities such as the following:
++ Provide bootstrap arguments at deployment of a node, such as extra [https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) arguments\.
++ Assign IP addresses to Pods from a different CIDR block than the IP address assigned to the node\.
++ Deploy your own custom AMI to nodes\.
++ Deploy your own custom CNI to nodes\.
 
-After you deployed a managed node group with your own launch template, update it with a different version of the same launch template\. When you update your node group to a different version of your launch template, all nodes in the group are recycled to match the new configuration of the specified launch template version\. Existing node groups that don't use a custom launch template can't be updated directly\. Rather, you must create a new node group with a custom launch template to do so\.
+When you give your own launch template upon first creating a managed node group, you will also have greater flexibility later\. As long as you deploy a managed node group with your own launch template, you can iteratively update it with a different version of the same launch template\. When you update your node group to a different version of your launch template, all nodes in the group are recycled to match the new configuration of the specified launch template version\.
+
+Managed node groups are always deployed with a launch template to be used with the Amazon EC2 Auto Scaling group\. When you don't provide a launch template, the Amazon EKS API creates one automatically with default values in your account\. However, we don't recommend that you modify auto\-generated launch templates\. Furthermore, existing node groups that don't use a custom launch template can't be updated directly\. Instead, you must create a new node group with a custom launch template to do so\.
 
 ## Launch template configuration basics<a name="launch-template-basics"></a>
 
@@ -55,7 +61,7 @@ Amazon EC2 user data in launch templates that are used with managed node groups 
 **Note**  
 For more information about advanced `kubelet` customization, including manually starting it or passing in custom configuration parameters, see [Specifying an AMI](#launch-template-custom-ami)\. If a custom AMI ID is specified in a launch template, Amazon EKS doesn't merge user data\.
 
-The following details provide more information about the user data section for Amazon Linux or Bottlerocket\.
+The following details provide more information about the user data section\.
 
 ------
 #### [ Amazon Linux user data ]
@@ -96,7 +102,7 @@ memory = "100Mi"
 ephemeral-storage= "1Gi"
 ```
 
-For more information about the supported settings, see [Bottlerocket documentation](https://github.com/bottlerocket-os/bottlerocket)\. You can configure node labels and taints in your user data\. However, we recommend that you configure these within your node group instead\. Amazon EKS applies these configurations when you do so\.
+For more information about the supported settings, see [Bottlerocket documentation](https://github.com/bottlerocket-os/bottlerocket)\. You can configure node labels and [taints](node-taints-managed-node-groups.md) in your user data\. However, we recommend that you configure these within your node group instead\. Amazon EKS applies these configurations when you do so\.
 
 When user data is merged, formatting isn't preserved, but the content remains the same\. The configuration that you provide in your user data overrides any settings that are configured by Amazon EKS\. So, if you set `settings.kubernetes.max-pods` or `settings.kubernetes.cluster-dns-ip`, values in your user data are applied to the nodes\.
 
@@ -131,16 +137,17 @@ If you have either of the following requirements, then specify an AMI ID in the 
 
 ### Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized Linux/Bottlerocket AMI<a name="mng-specify-eks-ami"></a>
 
-Bootstrapping is a term used to describe adding commands that can be run when an instance starts\. You can pass arguments to the `bootstrap.sh` script by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
+Bootstrapping is a term used to describe adding commands that can be run when an instance starts\. For example, bootstrapping allows using extra [https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) arguments\. You can pass arguments to the `bootstrap.sh` script by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
 
 ------
 #### [ eksctl without specifying a launch template ]
 
 Create a file named `my-nodegroup.yaml` with the following contents\. Replace every `example value` with your own values\. The `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are optional\. However, defining them allows the `bootstrap.sh` script to avoid making a `describeCluster` call\. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently\. For more information on the `bootstrap.sh` script, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
 + The only required argument is the cluster name \(`my-cluster`\)\.
-+ To retrieve your desired value for `ami-1234567890abcdef0`, you can use the tables in the following sections:
-  + [Amazon EKS optimized Amazon Linux AMIs](eks-optimized-ami.md)
-  + [Amazon EKS optimized Bottlerocket AMIs](eks-optimized-ami-bottlerocket.md)
++ To retrieve an optimized AMI ID for `ami-1234567890abcdef0`, you can use the tables in the following sections:
+  + [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)
+  + [Retrieving Amazon EKS optimized Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)
+  + [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)
 + To retrieve the `certificate-authority` for your cluster, run the following command\.
 
   ```
@@ -157,7 +164,7 @@ Create a file named `my-nodegroup.yaml` with the following contents\. Replace ev
   aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
   ```
 + This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
-+ This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
++ This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
 
 ```
 ---
@@ -215,7 +222,7 @@ Specify the following information in the user data section of your launch templa
   aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
   ```
 + This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
-+ This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
++ This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
 
 ```
 MIME-Version: 1.0
@@ -265,6 +272,10 @@ Specify the following information in the user data section of your launch templa
   aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
   ```
 + This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
+
+  For additional arguments, see [Bootstrap script configuration parameters](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters)\.
+**Note**  
+If you're using custom service CIDR, then you need to specify it using the `-ServiceCIDR` parameter\. Otherwise, the DNS resolution for Pods in the cluster will fail\.
 
 ```
 <powershell>

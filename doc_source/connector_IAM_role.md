@@ -2,7 +2,7 @@
 
 You can connect Kubernetes clusters to view them in your AWS Management Console\. To connect to a Kubernetes cluster, create an IAM role\.
 
-## Check for an existing connector role<a name="check-connector-role"></a>
+## Check for an existing EKS connector role<a name="check-connector-role"></a>
 
 You can use the following procedure to check and see if your account already has the Amazon EKS connector role\.
 
@@ -16,7 +16,7 @@ You can use the following procedure to check and see if your account already has
 
 1. Choose **Permissions**\.
 
-1. Ensure that the **AmazonEKSClusterPolicy** managed policy is attached to the role\. If the policy is attached, your Amazon EKS cluster role is properly configured\.
+1. Ensure that the **AmazonEKSConnectorAgentPolicy** managed policy is attached to the role\. If the policy is attached, your Amazon EKS connector role is properly configured\.
 
 1. Choose **Trust relationships**, and then choose **Edit trust policy**\.
 
@@ -24,22 +24,24 @@ You can use the following procedure to check and see if your account already has
 
    ```
    {
-     "Version": "2012-10-17",
-     "Statement": [
-       {
-         "Effect": "Allow",
-         "Principal": {
-           "Service": "ssm.amazonaws.com"
-         },
-         "Action": "sts:AssumeRole"
-       }
-     ]
+       "Version": "2012-10-17",
+       "Statement": [
+           {
+               "Effect": "Allow",
+               "Principal": {
+                   "Service": [
+                       "ssm.amazonaws.com"
+                   ]
+               },
+               "Action": "sts:AssumeRole"
+           }
+       ]
    }
    ```
 
 ## Creating the Amazon EKS connector agent role<a name="create-connector-role"></a>
 
-You can use the AWS Management Console or AWS CloudFormation to create the connector agent role\. Select the tab with the name of the tool that you want to use to create the role\.
+You can use the AWS Management Console or AWS CloudFormation to create the connector agent role\.
 
 ------
 #### [ AWS CLI ]

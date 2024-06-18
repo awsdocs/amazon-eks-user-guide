@@ -17,7 +17,7 @@ Tags are a type of metadata that's separate from Kubernetes labels and annotatio
 
 ## Tag basics<a name="tag-basics"></a>
 
-A tag is a label that you assign to an AWS resource\. Each tag consists of a *key* and an optional *value*\. You define both\.
+A tag is a label that you assign to an AWS resource\. Each tag consists of a *key* and an optional *value*\.
 
 With tags, you can categorize your AWS resources\. For example, you can categorize resources by purpose, owner, or environment\. When you have many resources of the same type, you can use the tags that you assigned to a specific resource to quickly identify that resource\. For example, you can define a set of tags for your Amazon EKS clusters to help you track each cluster's owner and stack level\. We recommend that you devise a consistent set of tag keys for each resource type\. You can then search and filter the resources based on the tags that you add\.
 
@@ -41,7 +41,7 @@ You can tag these resources using the following:
 
 When you use some resource\-creating actions, you can also specify tags for the resource at the same time that you create it\. If tags can't be applied while the resource is being created, the resource fails to be created\. This mechanism ensures that resources that you intend to tag are either created with the tags that you specify or not created at all\. If you tag resources when you create them, you don't need to run custom tagging scripts after you create the resource\.
 
-Tags don't propagate to other resources that are associated with the resource that you create\. For example, Fargate profile tags don't propagate to other resources that are associated with the Fargate profile, such as the pods that are scheduled with it\.
+Tags don't propagate to other resources that are associated with the resource that you create\. For example, Fargate profile tags don't propagate to other resources that are associated with the Fargate profile, such as the Pods that are scheduled with it\.
 
 ## Tag restrictions<a name="tag-restrictions"></a>
 
@@ -73,7 +73,7 @@ Using the Amazon EKS console, you can manage the tags that are associated with n
 
 When you select a resource\-specific page in the Amazon EKS console, the page displays a list of those resources\. For example, if you select **Clusters** from the left navigation pane, the console displays a list of Amazon EKS clusters\. When you select a resource from one of these lists \(for example, a specific cluster\) that supports tags, you can view and manage its tags on the **Tags** tab\.
 
-You can also use **Tag Editor** in the AWS Management Console, which provides a unified way to manage your tags\. For more information, see [Working with Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/tag-editor.html) in the *AWS Resource Groups and Tags User Guide*\.
+You can also use **Tag Editor** in the AWS Management Console, which provides a unified way to manage your tags\. For more information, see [Tagging your AWS resources with Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/tag-editor.html) in the *AWS Tag Editor User Guide*\.
 
 ### Adding tags on a resource on creation<a name="adding-tags-creation"></a>
 

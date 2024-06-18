@@ -4,7 +4,7 @@ The sample application will generate and send OTLP data to any of the services t
 
 The sample application and traffic generator were largely taken from an example in the [ADOT Collector repository](https://github.com/aws-observability/aws-otel-collector/blob/main/examples/docker/docker-compose.yaml)\. A `docker-compose.yaml` file was translated to Kubernetes resources using the [Kompose tool](https://kompose.io/)\.
 
-To apply the traffic generator and sample application, do the following steps\.
+To apply the traffic generator and sample application, do the following steps\. Make sure that you have satisfied the prerequisites and completed the procedure in [Install the AWS Distro for OpenTelemetry \(ADOT\) Operator](adot-manage.md#adot-install)\. 
 
 1. Download the `traffic-generator.yaml` file to your computer\. You can also [view the file](https://github.com/aws-observability/aws-otel-community/blob/master/sample-configs/traffic-generator.yaml) on GitHub\.
 
@@ -12,13 +12,13 @@ To apply the traffic generator and sample application, do the following steps\.
    curl -O https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/traffic-generator.yaml
    ```
 
-1. In `traffic-generator.yaml`, make sure that the second `kind` value reflects your mode\. For more information, see the ADOT Collector [installation instructions](https://aws-otel.github.io/docs/getting-started/operator#step-2-install-adot-collector-as-kubernetes-custom-resource-to-your-eks-cluster) on GitHub\.
+1. In `traffic-generator.yaml`, make sure that the second `kind` value reflects your mode\. For more information, see [Deploy the ADOT Collector](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/installation#deploy-the-adot-collector) on GitHub\.
 
    ```
    kind: Deployment
    ```
 
-   `traffic-generator.yaml` makes `http` calls to the Kubernetes service `sample-app:4567`\. This allows the traffic generator to interact with the sample application on port `4567`\. `sample-app` resolves to the IP address of the `sample-app` pod\.
+   `traffic-generator.yaml` makes `http` calls to the Kubernetes service `sample-app:4567`\. This allows the traffic generator to interact with the sample application on port `4567`\. `sample-app` resolves to the IP address of the `sample-app` Pod\.
 
 1. Apply `traffic-generator.yaml` to your cluster\.
 

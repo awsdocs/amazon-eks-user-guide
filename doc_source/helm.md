@@ -44,7 +44,7 @@ If you get a message that `openssl` must first be installed, you can install it 
    helm version --short | cut -d + -f 1
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    v3.9.0

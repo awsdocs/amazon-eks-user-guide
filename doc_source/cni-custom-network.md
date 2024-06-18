@@ -1,20 +1,20 @@
-# Tutorial: Custom networking<a name="cni-custom-network"></a>
+# Custom networking for pods<a name="cni-custom-network"></a>
 
 By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary [elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) \(network interfaces\) for your Amazon EC2 node, it creates them in the same subnet as the node's primary network interface\. It also associates the same security groups to the secondary network interface that are associated to the primary network interface\. For one or more of the following reasons, you might want the plugin to create secondary network interfaces in a different subnet or want to associate different security groups to the secondary network interfaces, or both: 
-+ There's a limited number of `IPv4` addresses that are available in the subnet that the primary network interface is in\. This might limit the number of pods that you can create in the subnet\. By using a different subnet for secondary network interfaces, you can increase the number of available `IPv4` addresses available for pods\.
-+ For security reasons, your pods might need to use a different subnet or security groups than the node's primary network interface\.
-+ The nodes are configured in public subnets, and you want to place the pods in private subnets\. The route table associated to a public subnet includes a route to an internet gateway\. The route table associated to a private subnet doesn't include a route to an internet gateway\.
++ There's a limited number of `IPv4` addresses that are available in the subnet that the primary network interface is in\. This might limit the number of Pods that you can create in the subnet\. By using a different subnet for secondary network interfaces, you can increase the number of available `IPv4` addresses available for Pods\.
++ For security reasons, your Pods might need to use a different subnet or security groups than the node's primary network interface\.
++ The nodes are configured in public subnets, and you want to place the Pods in private subnets\. The route table associated to a public subnet includes a route to an internet gateway\. The route table associated to a private subnet doesn't include a route to an internet gateway\.
 
 **Considerations**
-+ With custom networking enabled, no IP addresses assigned to the primary network interface are assigned to pods\. Only IP addresses from secondary network interfaces are assigned to `pods`\.
++ With custom networking enabled, no IP addresses assigned to the primary network interface are assigned to Pods\. Only IP addresses from secondary network interfaces are assigned to `Pods`\.
 + If your cluster uses the `IPv6` family, you can't use custom networking\.
-+ If you plan to use custom networking only to help alleviate `IPv4` address exhaustion, you can create a cluster using the `IPv6` family instead\. For more information, see [Tutorial: Assigning `IPv6` addresses to pods and services](cni-ipv6.md)\.
-+ Even though pods deployed to subnets specified for secondary network interfaces can use different subnet and security groups than the node's primary network interface, the subnets and security groups must be in the same VPC as the node\.
++ If you plan to use custom networking only to help alleviate `IPv4` address exhaustion, you can create a cluster using the `IPv6` family instead\. For more information, see [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md)\.
++ Even though Pods deployed to subnets specified for secondary network interfaces can use different subnet and security groups than the node's primary network interface, the subnets and security groups must be in the same VPC as the node\.
 
 **Prerequisites**
-+ Familiarity with how the Amazon VPC CNI plugin for Kubernetes creates secondary network interfaces and assigns IP addresses to pods\. For more information, see [ENI Allocation](https://github.com/aws/amazon-vpc-cni-k8s#eni-allocation) on GitHub\.
-+ Version `2.9.9` or later or `1.27.36` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.23`, you can use `kubectl` version `1.22`,`1.23`, or `1.24` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ Familiarity with how the Amazon VPC CNI plugin for Kubernetes creates secondary network interfaces and assigns IP addresses to Pods\. For more information, see [ENI Allocation](https://github.com/aws/amazon-vpc-cni-k8s#eni-allocation) on GitHub\.
++ Version `2.12.3` or later or `1.27.160` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + We recommend that you complete the steps in this topic in a Bash shell\. If you aren't using a Bash shell, some script commands such as line continuation characters and the way variables are set and used require adjustment for your shell\. Additionally, the quoting and escaping rules for your shell might be different\. For more information, see [Using quotation marks with strings in the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the AWS Command Line Interface User Guide\.
 
 For this tutorial, we recommend using the `example values`, except where it's noted to replace them\. You can replace any `example value` when completing the steps for a production cluster\. We recommend completing all steps in the same terminal\. This is because variables are set and used throughout the steps and won't exist in different terminals\.
@@ -53,7 +53,7 @@ The following procedures help you create a test VPC and cluster and configure cu
       The AWS CloudFormation stack takes a few minutes to create\. To check on the stack's deployment status, run the following command\.
 
       ```
-      aws cloudformation describe-stacks --stack-name my-eks-custom-networking-vpc --query Stacks[].StackStatus --output text
+      aws cloudformation describe-stacks --stack-name my-eks-custom-networking-vpc --query Stacks\[\].StackStatus  --output text
       ```
 
       Don't continue to the next step until the output of the command is `CREATE_COMPLETE`\.
@@ -95,13 +95,13 @@ The following procedures help you create a test VPC and cluster and configure cu
       EOF
       ```
 
-   1. Create the Amazon EKS cluster IAM role\. If necessary, preface `eks-cluster-role-trust-policy.json` with the path on your computer that you wrote the file to in the previous step\. The command associates the trust policy that you created in the previous step to the role\. To create an IAM role, the IAM entity \(user or role\) that is creating the role must be assigned the following IAM action \(permission\): `iam:CreateRole`\.
+   1. Create the Amazon EKS cluster IAM role\. If necessary, preface `eks-cluster-role-trust-policy.json` with the path on your computer that you wrote the file to in the previous step\. The command associates the trust policy that you created in the previous step to the role\. To create an IAM role, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that is creating the role must be assigned the `iam:CreateRole` action \(permission\)\.
 
       ```
       aws iam create-role --role-name myCustomNetworkingAmazonEKSClusterRole --assume-role-policy-document file://"eks-cluster-role-trust-policy.json"
       ```
 
-   1. Attach the Amazon EKS managed policy named [https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy](https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy) to the role\. To attach an IAM policy to an IAM entity \(user or role\), the IAM entity that is attaching the policy must be assigned one of the following IAM actions \(permissions\): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`\.
+   1. Attach the Amazon EKS managed policy named [https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy](https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy) to the role\. To attach an IAM policy to an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html), the principal that is attaching the policy must be assigned one of the following IAM actions \(permissions\): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`\.
 
       ```
       aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy --role-name myCustomNetworkingAmazonEKSClusterRole
@@ -137,19 +137,7 @@ You might receive an error that one of the Availability Zones in your request do
 
 This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster](#custom-networking-create-cluster)\. For a production cluster, adjust the steps accordingly for your VPC by replacing all of the `example values` with your own\.
 
-1. Confirm that your currently\-installed Amazon VPC CNI plugin is the [recommended latest version](managing-vpc-cni.md#manage-vpc-cni-recommended-versions)\.
-
-   ```
-   kubectl describe daemonset aws-node -n kube-system | grep amazon-k8s-cni: | cut -d "/" -f 2
-   ```
-
-   The example output is as follows\.
-
-   ```
-   amazon-k8s-cni:vv1.10.4-eksbuild.1
-   ```
-
-   If your version is earlier than the recommended latest version, then you should update it\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md)\.
+1. Confirm that your currently\-installed Amazon VPC CNI plugin for Kubernetes is the latest version\. To determine the latest version for the Amazon EKS add\-on type and update your version to it, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\. To determine the latest version for the self\-managed add\-on type and update your version to it, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
 
 1. Retrieve the ID of your cluster VPC and store it in a variable for use in later steps\. For a production cluster, replace *`my-custom-networking-cluster`* with the name of your cluster\.
 
@@ -166,7 +154,7 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
           --query 'Vpcs[*].CidrBlockAssociationSet[*].{CIDRBlock: CidrBlock, State: CidrBlockState.State}' --out table
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       ----------------------------------
@@ -190,7 +178,7 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
       aws ec2 describe-vpcs --vpc-ids $vpc_id --query 'Vpcs[*].CidrBlockAssociationSet[*].{CIDRBlock: CidrBlock, State: CidrBlockState.State}' --out table
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       ----------------------------------
@@ -228,7 +216,7 @@ By default, your new subnets are implicitly associated with your VPC's [main rou
           --output table
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       ----------------------------------------------------------------------
@@ -263,7 +251,7 @@ By default, your new subnets are implicitly associated with your VPC's [main rou
    cluster_security_group_id=$(aws eks describe-cluster --name $cluster_name --query cluster.resourcesVpcConfig.clusterSecurityGroupId --output text)
    ```
 
-1. Create an `ENIConfig` custom resource for each subnet that you want to deploy pods in\.
+1. Create an `ENIConfig` custom resource for each subnet that you want to deploy Pods in\.
 
    1. Create a unique file for each network interface configuration\.
 
@@ -307,8 +295,8 @@ If you don't specify a valid security group for use with a production cluster an
 version `1.8.0` or later of the Amazon VPC CNI plugin for Kubernetes, then the security groups associated with the node's primary elastic network interface are used\.
 a version of the Amazon VPC CNI plugin for Kubernetes that's earlier than `1.8.0`, then the default security group for the VPC is assigned to secondary network interfaces\.
 **Important**  
-`AWS_VPC_K8S_CNI_EXTERNALSNAT=false` is a default setting in the configuration for the Amazon VPC CNI plugin for Kubernetes\. If you're using the default setting, then traffic that is destined for IP addresses that aren't within one of the CIDR blocks associated with your VPC use the security groups and subnets of your node's primary network interface\. The subnets and security groups defined in your `ENIConfigs` that are used to create secondary network interfaces aren't used for this traffic\. For more information about this setting, see [SNAT for pods](external-snat.md)\.
-If you also use security groups for pods, the security group that's specified in a `SecurityGroupPolicy` is used instead of the security group that's specified in the `ENIConfigs`\. For more information, see [Tutorial: Security groups for pods](security-groups-for-pods.md)\.
+`AWS_VPC_K8S_CNI_EXTERNALSNAT=false` is a default setting in the configuration for the Amazon VPC CNI plugin for Kubernetes\. If you're using the default setting, then traffic that is destined for IP addresses that aren't within one of the CIDR blocks associated with your VPC use the security groups and subnets of your node's primary network interface\. The subnets and security groups defined in your `ENIConfigs` that are used to create secondary network interfaces aren't used for this traffic\. For more information about this setting, see [SNAT for Pods](external-snat.md)\.
+If you also use security groups for Pods, the security group that's specified in a `SecurityGroupPolicy` is used instead of the security group that's specified in the `ENIConfigs`\. For more information, see [Tutorial: Security groups for Pods](security-groups-for-pods.md)\.
 
    1. Apply each custom resource file that you created to your cluster with the following commands\.
 
@@ -323,7 +311,7 @@ If you also use security groups for pods, the security group that's specified in
    kubectl get ENIConfigs
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME         AGE
@@ -403,11 +391,11 @@ If you also use security groups for pods, the security group that's specified in
           --role-name $node_role_name
       ```
 **Important**  
-For simplicity in this tutorial, the [https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy$jsonEditor](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy$jsonEditor) policy is attached to the node IAM role\. In a production cluster however, we recommend attaching the policy to a separate IAM role that is used only with the Amazon VPC CNI plugin for Kubernetes\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
+For simplicity in this tutorial, the [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html) policy is attached to the node IAM role\. In a production cluster however, we recommend attaching the policy to a separate IAM role that is used only with the Amazon VPC CNI plugin for Kubernetes\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
 1. Create one of the following types of node groups\. To determine the instance type that you want to deploy, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. For this tutorial, complete the **Managed**, **Without a launch template or with a launch template without an AMI ID specified** option\. If you're going to use the node group for production workloads, then we recommend that you familiarize yourself with all of the [managed](create-managed-node-group.md) and [self\-managed](worker.md) node group options before deploying the node group\.
    + **Managed** – Deploy your node group using one of the following options:
-     + **Without a launch template or with a launch template without an AMI ID specified** – Run the following command\. For this tutorial, use the `example values`\. For a production node group, replace all `example values` with your own\.
+     + **Without a launch template or with a launch template without an AMI ID specified** – Run the following command\. For this tutorial, use the `example values`\. For a production node group, replace all `example values` with your own\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\.
 
        ```
        aws eks create-nodegroup --cluster-name $cluster_name --nodegroup-name my-nodegroup \
@@ -415,7 +403,7 @@ For simplicity in this tutorial, the [https://console.aws.amazon.com/iam/home#/p
        ```
      + **With a launch template with a specified AMI ID**
 
-       1. Determine the Amazon EKS recommended number of maximum pods for your nodes\. Follow the instructions in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods), adding **`--cni-custom-networking-enabled`** to step 3 in that topic\. Note the output for use in the next step\.
+       1. Determine the Amazon EKS recommended number of maximum Pods for your nodes\. Follow the instructions in [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods), adding **`--cni-custom-networking-enabled`** to step 3 in that topic\. Note the output for use in the next step\.
 
        1. In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then [deploy the node group using a launch template](launch-templates.md) and provide the following user data in the launch template\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. You can replace `20` with either the value from the previous step \(recommended\) or your own value\.
 
@@ -426,7 +414,7 @@ For simplicity in this tutorial, the [https://console.aws.amazon.com/iam/home#/p
           If you've created a custom AMI that is not built off the Amazon EKS optimized AMI, then you need to custom create the configuration yourself\. 
    + **Self\-managed**
 
-     1. Determine the Amazon EKS recommended number of maximum pods for your nodes\. Follow the instructions in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods), adding **`--cni-custom-networking-enabled`** to step 3 in that topic\. Note the output for use in the next step\.
+     1. Determine the Amazon EKS recommended number of maximum Pods for your nodes\. Follow the instructions in [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods), adding **`--cni-custom-networking-enabled`** to step 3 in that topic\. Note the output for use in the next step\.
 
      1. Deploy the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify the following text for the **BootstrapArguments** parameter\. You can replace `20` with either the value from the previous step \(recommended\) or your own value\.
 
@@ -434,7 +422,7 @@ For simplicity in this tutorial, the [https://console.aws.amazon.com/iam/home#/p
         --use-max-pods false --kubelet-extra-args '--max-pods=20'
         ```
 **Note**  
-If you want nodes in a production cluster to support a significantly higher number of pods, run the script in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods) again\. Also, add the `--cni-prefix-delegation-enabled` option to the command\. For example, `110` is returned for an `m5.large` instance type\. For instructions on how to enable this capability, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\. You can use this capability with custom networking\.
+If you want nodes in a production cluster to support a significantly higher number of Pods, run the script in [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods) again\. Also, add the `--cni-prefix-delegation-enabled` option to the command\. For example, `110` is returned for an `m5.large` instance type\. For instructions on how to enable this capability, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\. You can use this capability with custom networking\.
 
    Node group creation takes several minutes\. You can check the status of the creation of a managed node group with the following command\.
 
@@ -454,7 +442,7 @@ If you want nodes in a production cluster to support a significantly higher numb
       kubectl get nodes
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       NAME                                          STATUS   ROLES    AGE     VERSION
@@ -469,7 +457,7 @@ If you want nodes in a production cluster to support a significantly higher numb
       --query 'Reservations[].Instances[].{AvailabilityZone: Placement.AvailabilityZone, SubnetId: SubnetId}'
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       [
@@ -487,13 +475,15 @@ If you want nodes in a production cluster to support a significantly higher numb
       kubectl annotate node ip-192-168-0-92.us-west-2.compute.internal k8s.amazonaws.com/eniConfig=EniConfigName2
       ```
 
-1. If you had nodes in a production cluster with running pods before you switched to using the custom networking feature, complete the following tasks:
+1. If you had nodes in a production cluster with running Pods before you switched to using the custom networking feature, complete the following tasks:
 
    1. Make sure that you have available nodes that are using the custom networking feature\.
 
-   1. Cordon and drain the nodes to gracefully shut down the pods\. For more information, see [Safely Drain a Node](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) in the Kubernetes documentation\.
+   1. Cordon and drain the nodes to gracefully shut down the Pods\. For more information, see [Safely Drain a Node](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) in the Kubernetes documentation\.
 
-   1. Terminate the nodes\. If the nodes are in an existing managed node group, you can delete the node group\. Replace the `example values` with your own\.
+   1. Terminate the nodes\. If the nodes are in an existing managed node group, you can delete the node group\. Copy the command that follows to your device\. Make the following modifications to the command as needed and then run the modified command:
+      + Replace `my-cluster` with the name for your cluster\.
+      + Replace `my-nodegroup` with the name for your node group\.
 
       ```
       aws eks delete-nodegroup --cluster-name my-cluster --nodegroup-name my-nodegroup
@@ -501,27 +491,27 @@ If you want nodes in a production cluster to support a significantly higher numb
 
     Only new nodes that are registered with the `k8s.amazonaws.com/eniConfig` label use the custom networking feature\.
 
-1. Confirm that pods are assigned an IP address from a CIDR block that's associated to one of the subnets that you created in a previous step\.
+1. Confirm that Pods are assigned an IP address from a CIDR block that's associated to one of the subnets that you created in a previous step\.
 
    ```
    kubectl get pods -A -o wide
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE     IP              NODE                                          NOMINATED NODE   READINESS GATES
-   kube-system   aws-node-2rkn4             1/1     Running   0          7m19s   192.168.0.93    ip-192-168-0-92.us-west-2.compute.internal    <none>           <none>
-   kube-system   aws-node-k96wp             1/1     Running   0          7m15s   192.168.0.108   ip-192-168-0-126.us-west-2.compute.internal   <none>           <none>
+   kube-system   aws-node-2rkn4             1/1     Running   0          7m19s   192.168.0.92    ip-192-168-0-92.us-west-2.compute.internal    <none>           <none>
+   kube-system   aws-node-k96wp             1/1     Running   0          7m15s   192.168.0.126   ip-192-168-0-126.us-west-2.compute.internal   <none>           <none>
    kube-system   coredns-657694c6f4-smcgr   1/1     Running   0          56m     192.168.1.23    ip-192-168-0-92.us-west-2.compute.internal    <none>           <none>
    kube-system   coredns-657694c6f4-stwv9   1/1     Running   0          56m     192.168.1.28    ip-192-168-0-92.us-west-2.compute.internal    <none>           <none>
-   kube-system   kube-proxy-jgshq           1/1     Running   0          7m19s   192.168.0.93    ip-192-168-0-92.us-west-2.compute.internal    <none>           <none>
-   kube-system   kube-proxy-wx9vk           1/1     Running   0          7m15s   192.168.0.108   ip-192-168-0-126.us-west-2.compute.internal   <none>           <none>
+   kube-system   kube-proxy-jgshq           1/1     Running   0          7m19s   192.168.0.92    ip-192-168-0-92.us-west-2.compute.internal    <none>           <none>
+   kube-system   kube-proxy-wx9vk           1/1     Running   0          7m15s   192.168.0.126   ip-192-168-0-126.us-west-2.compute.internal   <none>           <none>
    ```
 
-   You can see that the `coredns` `pods` are assigned IP addresses from the `192.168.1.0` CIDR block that you added to your VPC\. Without custom networking, they would have been assigned addresses from the `192.168.0.0` CIDR block, because it was the only CIDR block originally associated with the VPC\.
+   You can see that the `coredns` `Pods` are assigned IP addresses from the `192.168.1.0` CIDR block that you added to your VPC\. Without custom networking, they would have been assigned addresses from the `192.168.0.0` CIDR block, because it was the only CIDR block originally associated with the VPC\.
 
-   If a pod's `spec` contains `hostNetwork=true`, it's assigned the primary IP address of the node\. It isn't assigned an address from the subnets that you added\. By default, this value is set to `false`\. This value is set to `true` for the `kube-proxy` and Amazon VPC CNI plugin for Kubernetes \(`aws-node`\) pods that run on your cluster\. This is why the `kube-proxy` and the plugin's `aws-node` pods aren't assigned `192.168.1.x` addresses in the previous output\. For more information about a pod's `hostNetwork` setting, see [PodSpec v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#podspec-v1-core) in the Kubernetes API reference\.
+   If a Pod's `spec` contains `hostNetwork=true`, it's assigned the primary IP address of the node\. It isn't assigned an address from the subnets that you added\. By default, this value is set to `false`\. This value is set to `true` for the `kube-proxy` and Amazon VPC CNI plugin for Kubernetes \(`aws-node`\) Pods that run on your cluster\. This is why the `kube-proxy` and the plugin's `aws-node` Pods aren't assigned `192.168.1.x` addresses in the previous output\. For more information about a Pod's `hostNetwork` setting, see [PodSpec v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#podspec-v1-core) in the Kubernetes API reference\.
 
 ## Step 5: Delete tutorial resources<a name="custom-network-delete-resources"></a>
 

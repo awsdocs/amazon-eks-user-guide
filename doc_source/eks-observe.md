@@ -2,9 +2,9 @@
 
 You can observe your data in Amazon EKS using many available monitoring or logging tools\. Your Amazon EKS log data can be streamed to AWS services or to partner tools for data analysis\. There are many services available in the AWS Management Console that provide data for troubleshooting your Amazon EKS issues\.
 
-You can view cluster health and details by selecting your cluster's name after selecting **Clusters** in the left navigation pane of the Amazon EKS console\. To view details about any existing Kubernetes resources that are deployed to your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
+After selecting **Clusters** in the left navigation pane of the Amazon EKS console, you can view cluster health and details by selecting your cluster's name\. To view details about any existing Kubernetes resources that are deployed to your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
-Monitoring is an important part of maintaining the reliability, availability, and performance of Amazon EKS and your AWS solutions\. We recommend that you collect monitoring data from all of the parts of your AWS solution\. That way, you can more easily debug a multi\-point failure if one occurs\. Before you start monitoring Amazon EKS, make sure that a monitoring plan that addresses the following questions\.
+Monitoring is an important part of maintaining the reliability, availability, and performance of Amazon EKS and your AWS solutions\. We recommend that you collect monitoring data from all of the parts of your AWS solution\. That way, you can more easily debug a multi\-point failure if one occurs\. Before you start monitoring Amazon EKS, make sure that your monitoring plan addresses the following questions\.
 + What are your goals? Do you need real\-time notifications if your clusters scale dramatically?
 + What resources need to be observed?
 + How frequently do you need to observe these resources? Does your company want to respond quickly to risks?
@@ -12,9 +12,9 @@ Monitoring is an important part of maintaining the reliability, availability, an
 + Who you do intend to perform the monitoring tasks?
 + Whom do you want notifications to be sent to when something goes wrong?
 
-## Logging and monitoring in Amazon EKS<a name="logging-monitoring"></a>
+## Logging and monitoring on Amazon EKS<a name="logging-monitoring"></a>
 
-Amazon EKS provides built\-in tools for logging and monitoring\. Control plane logging records all API calls to your clusters, audit information capturing what users performed what actions to your clusters, and role\-based information\.
+Amazon EKS provides built\-in tools for logging and monitoring\. Control plane logging records all API calls to your clusters, audit information capturing what users performed what actions to your clusters, and role\-based information\. For more information, see [Logging and monitoring on Amazon EKS](https://docs.aws.amazon.com/prescriptive-guidance/latest/implementing-logging-monitoring-cloudwatch/amazon-eks-logging-monitoring.html) in the *AWS Prescriptive Guidance*\.
 
 Amazon EKS control plane logging provides audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs in your account\. These logs make it easy for you to secure and run your clusters\. You can select the exact log types you need, and logs are sent as log streams to a group for each Amazon EKS cluster in CloudWatch\. For more information, see [Amazon EKS control plane logging](control-plane-logs.md)\.
 
@@ -31,7 +31,7 @@ Amazon EKS is integrated with AWS CloudTrail, a service that provides a record o
 
 The Kubernetes API server exposes a number of metrics that are useful for monitoring and analysis\. For more information, see [Control plane metrics with Prometheus](prometheus.md)\.
 
-To configure Fluent Bit for custom Amazon CloudWatch logs, see [Set up Fluent Bit as a DaemonSet to send logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) in the Amazon CloudWatch User Guide\.
+To configure Fluent Bit for custom Amazon CloudWatch logs, see [Setting up Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html#Container-Insights-FluentBit-setup) in the Amazon CloudWatch User Guide\.
 
 ## Amazon EKS logging and monitoring tools<a name="eks_monitor_tools"></a>
 

@@ -3,7 +3,7 @@
 This topic describes how to create an Amazon EKS cluster with nodes running [Amazon EC2 Inf1](http://aws.amazon.com/ec2/instance-types/inf1/) instances and \(optionally\) deploy a sample application\. Amazon EC2 Inf1 instances are powered by [AWS Inferentia](http://aws.amazon.com/machine-learning/inferentia/) chips, which are custom built by AWS to provide high performance and lowest cost inference in the cloud\. Machine learning models are deployed to containers using [AWS Neuron](http://aws.amazon.com/machine-learning/neuron/), a specialized software development kit \(SDK\) consisting of a compiler, runtime, and profiling tools that optimize the machine learning inference performance of Inferentia chips\. AWS Neuron supports popular machine learning frameworks such as TensorFlow, PyTorch, and MXNet\.
 
 **Note**  
-Neuron device logical IDs must be contiguous\. If a pod requesting multiple Neuron devices is scheduled on an `inf1.6xlarge` or `inf1.24xlarge` instance type \(which have more than one Neuron device\), that pod will fail to start if the Kubernetes scheduler selects non\-contiguous device IDs\. For more information, see [Device logical IDs must be contiguous](https://github.com/aws/aws-neuron-sdk/issues/110) on GitHub\.
+Neuron device logical IDs must be contiguous\. If a Pod requesting multiple Neuron devices is scheduled on an `inf1.6xlarge` or `inf1.24xlarge` instance type \(which have more than one Neuron device\), that Pod will fail to start if the Kubernetes scheduler selects non\-contiguous device IDs\. For more information, see [Device logical IDs must be contiguous](https://github.com/aws/aws-neuron-sdk/issues/110) on GitHub\.
 
 ## Prerequisites<a name="inferentia-prerequisites"></a>
 + Have `eksctl` installed on your computer\. If you don't have it installed, see [Installing or updating `eksctl`](eksctl.md) for installation instructions\.
@@ -40,7 +40,7 @@ Note the value of the following line of the output\. It's used in a later \(opti
 
    When launching a node group with `Inf1` instances, `eksctl` automatically installs the AWS Neuron Kubernetes device plugin\. This plugin advertises Neuron devices as a system resource to the Kubernetes scheduler, which can be requested by a container\. In addition to the default Amazon EKS node IAM policies, the Amazon S3 read only access policy is added so that the sample application, covered in a later step, can load a trained model from Amazon S3\.
 
-1. Make sure that all pods have started correctly\.
+1. Make sure that all Pods have started correctly\.
 
    ```
    kubectl get pods -n kube-system
@@ -50,7 +50,7 @@ Note the value of the following line of the output\. It's used in a later \(opti
 
    ```
    NAME                                   READY   STATUS    RESTARTS   AGE
-   ...
+   [...]
    neuron-device-plugin-daemonset-6djhp   1/1     Running   0          5m
    neuron-device-plugin-daemonset-hwjsj   1/1     Running   0          5m
    ```
@@ -214,7 +214,7 @@ The number of Neuron devices allocated to your serving application can be adjust
    python3 tensorflow-model-server-infer.py
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    [[(u'n02123045', u'tabby', 0.68817204), (u'n02127052', u'lynx', 0.12701613), (u'n02123159', u'tiger_cat', 0.08736559), (u'n02124075', u'Egyptian_cat', 0.063844085), (u'n02128757', u'snow_leopard', 0.009240591)]]

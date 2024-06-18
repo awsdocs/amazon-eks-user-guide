@@ -17,11 +17,11 @@ Many of the considerations are different than the considerations for creating a 
 **Prerequisites**
 + Familiarity with the [Outposts deployment options](eks-outposts.md#outposts-overview-comparing-deployment-options), [Capacity considerations](eks-outposts-capacity-considerations.md), and [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md)\.
 + An existing Outpost\. For more information, see [What is AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html)\.
-+ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`, `1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
-+ Version `2.9.9` or later or `1.27.36` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
-+ An IAM user or role with permissions to `create` and `describe` an Amazon EKS cluster\. For more information, see [Create a local Kubernetes cluster on an Outpost](security_iam_id-based-policy-examples.md#policy-create-local-cluster) and [List or describe all clusters](security_iam_id-based-policy-examples.md#policy_example2)\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ Version `2.12.3` or later or `1.27.160` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ An [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) with permissions to `create` and `describe` an Amazon EKS cluster\. For more information, see [Create a local Kubernetes cluster on an Outpost](security_iam_id-based-policy-examples.md#policy-create-local-cluster) and [List or describe all clusters](security_iam_id-based-policy-examples.md#policy_example2)\.
 
-When a local Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is permanently added\. The IAM entity is specifically added to the Kubernetes RBAC authorization table as the administrator\. This entity has `system:masters` permissions\. The identity of this entity isn't visible in your cluster configuration\. So, it's important to note the entity that created the cluster and make sure that you never delete it\. Initially, only the IAM entity that created the server can make calls to the Kubernetes API server using `kubectl`\. If you use the console to create the cluster, make sure that the same IAM credentials are in the AWS SDK credential chain when you run `kubectl` commands on your cluster\. After your cluster is created, you can grant other IAM entities access to your cluster\.
+When a local Amazon EKS cluster is created, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that creates the cluster is permanently added\. The principal is specifically added to the Kubernetes RBAC authorization table as the administrator\. This entity has `system:masters` permissions\. The identity of this entity isn't visible in your cluster configuration\. So, it's important to note the entity that created the cluster and make sure that you never delete it\. Initially, only the principal that created the server can make calls to the Kubernetes API server using `kubectl`\. If you use the console to create the cluster, make sure that the same IAM credentials are in the AWS SDK credential chain when you run `kubectl` commands on your cluster\. After your cluster is created, you can grant other IAM principals access to your cluster\.
 
 **To create a local Amazon EKS local cluster**
 
@@ -33,7 +33,7 @@ You can create a local cluster with `eksctl`, the AWS Management Console, the [A
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.124.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\. 
+Version `0.156.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\. 
 
 **To create your cluster with `eksctl`**
 
@@ -52,7 +52,7 @@ Version `0.124.0` or later of the `eksctl` command line tool installed on your d
       metadata:
         name: my-cluster
         region: region-code
-        version: "1.21"
+        version: "1.24"
       
       vpc:
         clusterEndpoints:
@@ -64,14 +64,14 @@ Version `0.124.0` or later of the `eksctl` command line tool installed on your d
               id: "subnet-subnet-ExampleID1"
       
       outpost:
-        controlPlaneOutpostARN: arn:aws:outpost:region-code:111122223333:outpost/op-uniqueid
+        controlPlaneOutpostARN: arn:aws:outposts:region-code:111122223333:outpost/op-uniqueid
         controlPlaneInstanceType: m5.large
       EOF
       ```
 
       For a complete list of all available options and defaults, see [AWS Outposts Support](https://eksctl.io/usage/outposts/) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 
-   1. Create the cluster using the configuration file that you created in the previous step\. `Eksctl` creates a VPC and one subnet on your Outpost to deploy the cluster in\.
+   1. Create the cluster using the configuration file that you created in the previous step\. `eksctl` creates a VPC and one subnet on your Outpost to deploy the cluster in\.
 
       ```
       eksctl create cluster -f outpost-control-plane.yaml
@@ -115,13 +115,13 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
          EOF
          ```
 
-      1. Create the Amazon EKS cluster IAM role\. To create an IAM role, the IAM entity \(user or role\) that is creating the role must be assigned the following IAM action \(permission\): `iam:CreateRole`\.
+      1. Create the Amazon EKS cluster IAM role\. To create an IAM role, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that is creating the role must be assigned the `iam:CreateRole` action \(permission\)\.
 
          ```
          aws iam create-role --role-name myAmazonEKSLocalClusterRole --assume-role-policy-document file://"eks-local-cluster-role-trust-policy.json"
          ```
 
-      1. Attach the Amazon EKS managed policy named [https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSLocalOutpostClusterPolicy$jsonEditor](https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSLocalOutpostClusterPolicy$jsonEditor) to the role\. To attach an IAM policy to an IAM entity \(user or role\), the IAM entity that is attaching the policy must be assigned one of the following IAM actions \(permissions\): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`\.
+      1. Attach the Amazon EKS managed policy named [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html) to the role\. To attach an IAM policy to an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html), the principal that is attaching the policy must be assigned one of the following IAM actions \(permissions\): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`\.
 
          ```
          aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonEKSLocalOutpostClusterPolicy --role-name myAmazonEKSLocalClusterRole
@@ -149,7 +149,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
       + **Subnets** – By default, all available subnets in the VPC specified in the previous field are preselected\. The subnets that you choose must meet the requirements in [Subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-subnet-requirements)\. You can't change which subnets you want to use after cluster creation\.
 
         **Security groups** – \(Optional\) Specify one or more security groups that you want Amazon EKS to associate to the network interfaces that it creates\. Amazon EKS automatically creates a security group that enables communication between your cluster and your VPC\. Amazon EKS associates this security group, and any that you choose, to the network interfaces that it creates\. For more information about the cluster security group that Amazon EKS creates, see [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\. You can modify the rules in the cluster security group that Amazon EKS creates\. If you choose to add your own security groups, you can't change the ones that you choose after cluster creation\. For on\-premises hosts to communicate with the cluster endpoint, you must allow inbound traffic from the cluster security group\. For clusters that don't have an ingress and egress internet connection \(also knows as private clusters\), you must do one of the following:
-        + Add the security group associated with required VPC endpoints\. For more information about the required endpoints, see [VPC endpoints](eks-outposts-vpc-subnet-requirements.md#vpc-subnet-requirements-vpc-endpoints) in [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md)\.
+        + Add the security group associated with required VPC endpoints\. For more information about the required endpoints, see [interface VPC endpoints](eks-outposts-vpc-subnet-requirements.md#vpc-subnet-requirements-vpc-endpoints) in [Subnet access to AWS services](eks-outposts-vpc-subnet-requirements.md#subnet-access-to-services)\.
         + Modify the security group that Amazon EKS created to allow traffic from the security group associated with the VPC endpoints\. 
 
    1. Select **Next**\.
@@ -170,7 +170,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
    aws ec2 describe-instances --query 'Reservations[*].Instances[*].{Name:Tags[?Key==`Name`]|[0].Value}' | grep my-cluster-control-plane
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    "Name": "my-cluster-control-plane-id1"
@@ -180,13 +180,13 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
 
    Each instance is tainted with `node-role.eks-local.amazonaws.com/control-plane` so that no workloads are ever scheduled on the control plane instances\. For more information about taints, see [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the Kubernetes documentation\. Amazon EKS continuously monitors the state of local clusters\. We perform automatic management actions, such as security patches and repairing unhealthy instances\. When local clusters are disconnected from the cloud, we complete actions to ensure that the cluster is repaired to a healthy state upon reconnect\.
 
-1. If you created your cluster using `eksctl`, then you can skip this step\. `Eksctl` completes this step for you\. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` `config` file\. For instructions on how to create and update the file, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
+1. If you created your cluster using `eksctl`, then you can skip this step\. `eksctl` completes this step for you\. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` `config` file\. For instructions on how to create and update the file, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 
    ```
    aws eks update-kubeconfig --region region-code --name my-cluster
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    Added new context arn:aws:eks:region-code:111122223333:cluster/my-cluster to /home/username/.kube/config
@@ -200,7 +200,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
    kubectl get svc
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
@@ -212,7 +212,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
 ## Internal resources<a name="outposts-control-plan-internal-resources"></a>
 
 Amazon EKS creates the following resources on your cluster\. The resources are for Amazon EKS internal use\. For proper functioning of your cluster, don't edit or modify these resources\.
-+ The following [mirror pods](https://kubernetes.io/docs/reference/glossary/?all=true#term-mirror-pod):
++ The following [mirror Pods](https://kubernetes.io/docs/reference/glossary/?all=true#term-mirror-pod):
   + `aws-iam-authenticator-node-hostname`
   + `eks-certificates-controller-node-hostname`
   + `etcd-node-hostname`
@@ -233,7 +233,7 @@ Amazon EKS creates the following resources on your cluster\. The resources are f
 + In addition to the [cluster security group](sec-group-reqs.md), Amazon EKS creates a security group in your AWS account that's named `eks-local-internal-do-not-use-or-edit-cluster-name-uniqueid`\. This security group allows traffic to flow freely between Kubernetes components running on the control plane instances\.
 
 Recommended next steps:
-+ [Grant the IAM entity that created the cluster the required permissions to view Kubernetes resources in the AWS Management Console](view-kubernetes-resources.md#view-kubernetes-resources-permissions)
++ [Grant the IAM principal that created the cluster the required permissions to view Kubernetes resources in the AWS Management Console](view-kubernetes-resources.md#view-kubernetes-resources-permissions)
 + [Grant IAM entities access to your cluster](add-user-role.md)\. If you want the entities to view Kubernetes resources in the Amazon EKS console, grant the [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions) to the entities\.
 + [Configure logging for your cluster](control-plane-logs.md)
 + Familiarize yourself with what happens during [network disconnects](eks-outposts-network-disconnects.md)\.

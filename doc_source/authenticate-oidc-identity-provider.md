@@ -1,21 +1,25 @@
 # Authenticating users for your cluster from an OpenID Connect identity provider<a name="authenticate-oidc-identity-provider"></a>
 
-Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method to authenticate users to your cluster\. OIDC identity providers can be used with, or as an alternative to AWS Identity and Access Management \(IAM\)\. For more information about using IAM, see [Enabling IAM user and role access to your cluster](add-user-role.md)\. After configuring authentication to your cluster, you can create Kubernetes `roles` and `clusterroles` to assign permissions to the roles, and then bind the roles to the identities using Kubernetes `rolebindings` and `clusterrolebindings`\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
+Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method to authenticate users to your cluster\. OIDC identity providers can be used with, or as an alternative to AWS Identity and Access Management \(IAM\)\. For more information about using IAM, see [Enabling IAM principal access to your cluster](add-user-role.md)\. After configuring authentication to your cluster, you can create Kubernetes `roles` and `clusterroles` to assign permissions to the roles, and then bind the roles to the identities using Kubernetes `rolebindings` and `clusterrolebindings`\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 **Considerations**
 + You can associate one OIDC identity provider to your cluster\.
 + Kubernetes doesn't provide an OIDC identity provider\. You can use an existing public OIDC identity provider, or you can run your own identity provider\. For a list of certified providers, see [OpenID Certification](https://openid.net/certification/) on the OpenID site\.
 + The issuer URL of the OIDC identity provider must be publicly accessible, so that Amazon EKS can discover the signing keys\. Amazon EKS does not support OIDC identity providers with self\-signed certificates\.
 + You can't disable the AWS IAM authenticator on your cluster, because it is still required for joining nodes to a cluster\. For more information, see [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) on GitHub\.
-+ An Amazon EKS cluster must still be created by an AWS IAM user, rather than an OIDC identity provider user\. This is because the cluster creator interacts with the Amazon EKS APIs, rather than the Kubernetes APIs\.
++ An Amazon EKS cluster must still be created by an AWS [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html), rather than an OIDC identity provider user\. This is because the cluster creator interacts with the Amazon EKS APIs, rather than the Kubernetes APIs\.
 + OIDC identity provider\-authenticated users are listed in the cluster's audit log if CloudWatch logs are turned on for the control plane\. For more information, see [Enabling and disabling control plane logs](control-plane-logs.md#enabling-control-plane-log-export)\.
 + You can't sign in to the AWS Management Console with an account from an OIDC provider\. You can only [view Kubernetes resources](view-kubernetes-resources.md) in the console by signing into the AWS Management Console with an AWS Identity and Access Management account\.
 
 ## Associate an OIDC identity provider<a name="associate-oidc-identity-provider"></a>
 
 Before you can associate an OIDC identity provider with your cluster, you need the following information from your provider:<a name="oidc-identity-provider-required-properties"></a>
-+ **Issuer URL** – The URL of the OIDC identity provider that allows the API server to discover public signing keys for verifying tokens\. The URL must begin with `https://` and should correspond to the `iss` claim in the provider's OIDC ID tokens\. In accordance with the OIDC standard, path components are allowed but query parameters are not\. Typically the URL consists of only a host name, like `https://server.example.org` or `https://example.com`\. This URL should point to the level below `.well-known/openid-configuration` and must be publicly accessible over the internet\.
-+ **Client ID \(also known as *audience*\)** – The ID for the client application that makes authentication requests to the OIDC identity provider\.
+
+**Issuer URL**  
+The URL of the OIDC identity provider that allows the API server to discover public signing keys for verifying tokens\. The URL must begin with `https://` and should correspond to the `iss` claim in the provider's OIDC ID tokens\. In accordance with the OIDC standard, path components are allowed but query parameters are not\. Typically the URL consists of only a host name, like `https://server.example.org` or `https://example.com`\. This URL should point to the level below `.well-known/openid-configuration` and must be publicly accessible over the internet\.
+
+**Client ID \(also known as *audience*\)**  
+The ID for the client application that makes authentication requests to the OIDC identity provider\.
 
 You can associate an identity provider using `eksctl` or the AWS Management Console\.
 
@@ -90,7 +94,7 @@ Don't specify `system:`, or any portion of that string, for `groupsPrefix` or `u
 
 ## Disassociate an OIDC identity provider from your cluster<a name="disassociate-oidc-identity-provider"></a>
 
-If you disassociate an OIDC identity provider from your cluster, users included in the provider can no longer access the cluster\. However, you can still access the cluster with AWS IAM users\.
+If you disassociate an OIDC identity provider from your cluster, users included in the provider can no longer access the cluster\. However, you can still access the cluster with [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html)\.
 
 **To disassociate an OIDC identity provider from your cluster using the AWS Management Console**
 

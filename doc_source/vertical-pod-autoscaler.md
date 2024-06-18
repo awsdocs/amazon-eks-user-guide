@@ -1,6 +1,6 @@
 # Vertical Pod Autoscaler<a name="vertical-pod-autoscaler"></a>
 
-The Kubernetes [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) automatically adjusts the CPU and memory reservations for your pods to help "right size" your applications\. This adjustment can improve cluster resource utilization and free up CPU and memory for other pods\. This topic helps you to deploy the Vertical Pod Autoscaler to your cluster and verify that it is working\.
+The Kubernetes [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) automatically adjusts the CPU and memory reservations for your Pods to help "right size" your applications\. This adjustment can improve cluster resource utilization and free up CPU and memory for other Pods\. This topic helps you to deploy the Vertical Pod Autoscaler to your cluster and verify that it is working\.
 
 **Prerequisites**
 + You have an existing Amazon EKS cluster\. If you don't, see [Getting started with Amazon EKS](getting-started.md)\.
@@ -34,20 +34,20 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    ./hack/vpa-down.sh
    ```
 
-1. If your nodes don't have internet access to the `k8s.gcr.io` container registry, then you need to pull the following images and push them to your own private repository\. For more information about how to pull the images and push them to your own private repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
+1. If your nodes don't have internet access to the `registry.k8s.io` container registry, then you need to pull the following images and push them to your own private repository\. For more information about how to pull the images and push them to your own private repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 
    ```
-   k8s.gcr.io/autoscaling/vpa-admission-controller:0.10.0
-   k8s.gcr.io/autoscaling/vpa-recommender:0.10.0
-   k8s.gcr.io/autoscaling/vpa-updater:0.10.0
+   registry.k8s.io/autoscaling/vpa-admission-controller:0.10.0
+   registry.k8s.io/autoscaling/vpa-recommender:0.10.0
+   registry.k8s.io/autoscaling/vpa-updater:0.10.0
    ```
 
-   If you're pushing the images to a private Amazon ECR repository, then replace `k8s.gcr.io` in the manifests with your registry\. Replace `111122223333` with your account ID\. Replace `region-code` with the AWS Region that your cluster is in\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you'll need to change it too\.
+   If you're pushing the images to a private Amazon ECR repository, then replace `registry.k8s.io` in the manifests with your registry\. Replace `111122223333` with your account ID\. Replace `region-code` with the AWS Region that your cluster is in\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you'll need to change it too\.
 
    ```
-   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-codeamazonaws.com/' ./deploy/admission-controller-deployment.yaml
-   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr..dkr.ecr.region-codeamazonaws.com/' ./deploy/recommender-deployment.yaml
-   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr..dkr.ecr.region-codeamazonaws.com/' ./deploy/updater-deployment.yaml
+   sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-codeamazonaws.com/' ./deploy/admission-controller-deployment.yaml
+   sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-codeamazonaws.com/' ./deploy/recommender-deployment.yaml
+   sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-codeamazonaws.com/' ./deploy/updater-deployment.yaml
    ```
 
 1. Deploy the Vertical Pod Autoscaler to your cluster with the following command\.
@@ -56,17 +56,17 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    ./hack/vpa-up.sh
    ```
 
-1. Verify that the Vertical Pod Autoscaler pods have been created successfully\.
+1. Verify that the Vertical Pod Autoscaler Pods have been created successfully\.
 
    ```
    kubectl get pods -n kube-system
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME                                        READY   STATUS    RESTARTS   AGE
-   ...
+   [...]
    metrics-server-8459fc497-kfj8w              1/1     Running   0          83m
    vpa-admission-controller-68c748777d-ppspd   1/1     Running   0          7s
    vpa-recommender-6fc8c67d85-gljpl            1/1     Running   0          8s
@@ -85,34 +85,34 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    kubectl apply -f examples/hamster.yaml
    ```
 
-1. Get the pods from the `hamster` example application\.
+1. Get the Pods from the `hamster` example application\.
 
    ```
    kubectl get pods -l app=hamster
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    hamster-c7d89d6db-rglf5   1/1     Running   0          48s
    hamster-c7d89d6db-znvz5   1/1     Running   0          48s
    ```
 
-1. Describe one of the pods to view its `cpu` and `memory` reservation\. Replace `c7d89d6db-rglf5` with one of the IDs returned in your output from the previous step\.
+1. Describe one of the Pods to view its `cpu` and `memory` reservation\. Replace `c7d89d6db-rglf5` with one of the IDs returned in your output from the previous step\.
 
    ```
    kubectl describe pod hamster-c7d89d6db-rglf5
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
-   ...
+   [...]
    Containers:
      hamster:
        Container ID:  docker://e76c2413fc720ac395c33b64588c82094fc8e5d590e373d5f818f3978f577e24
-       Image:         k8s.gcr.io/ubuntu-slim:0.1
-       Image ID:      docker-pullable://k8s.gcr.io/ubuntu-slim@sha256:b6f8c3885f5880a4f1a7cf717c07242eb4858fdd5a84b5ffe35b1cf680ea17b1
+       Image:         registry.k8s.io/ubuntu-slim:0.1
+       Image ID:      docker-pullable://registry.k8s.io/ubuntu-slim@sha256:b6f8c3885f5880a4f1a7cf717c07242eb4858fdd5a84b5ffe35b1cf680ea17b1
        Port:          <none>
        Host Port:     <none>
        Command:
@@ -127,34 +127,34 @@ In this section, you deploy a sample application to verify that the Vertical Pod
        Requests:
          cpu:        100m
          memory:     50Mi
-   ...
+   [...]
    ```
 
-   You can see that the original pod reserves 100 millicpu of CPU and 50 mebibytes of memory\. For this example application, 100 millicpu is less than the pod needs to run, so it is CPU\-constrained\. It also reserves much less memory than it needs\. The Vertical Pod Autoscaler `vpa-recommender` deployment analyzes the `hamster` pods to see if the CPU and memory requirements are appropriate\. If adjustments are needed, the `vpa-updater` relaunches the pods with updated values\.
+   You can see that the original Pod reserves 100 millicpu of CPU and 50 mebibytes of memory\. For this example application, 100 millicpu is less than the Pod needs to run, so it is CPU\-constrained\. It also reserves much less memory than it needs\. The Vertical Pod Autoscaler `vpa-recommender` deployment analyzes the `hamster` Pods to see if the CPU and memory requirements are appropriate\. If adjustments are needed, the `vpa-updater` relaunches the Pods with updated values\.
 
-1. Wait for the `vpa-updater` to launch a new `hamster` pod\. This should take a minute or two\. You can monitor the pods with the following command\.
+1. Wait for the `vpa-updater` to launch a new `hamster` Pod\. This should take a minute or two\. You can monitor the Pods with the following command\.
 **Note**  
-If you are not sure that a new pod has launched, compare the pod names with your previous list\. When the new pod launches, you will see a new pod name\.
+If you are not sure that a new Pod has launched, compare the Pod names with your previous list\. When the new Pod launches, you will see a new Pod name\.
 
    ```
-   kubectl get --watch pods -l app=hamster
+   kubectl get --watch Pods -l app=hamster
    ```
 
-1. When a new `hamster` pod is started, describe it and view the updated CPU and memory reservations\.
+1. When a new `hamster` Pod is started, describe it and view the updated CPU and memory reservations\.
 
    ```
    kubectl describe pod hamster-c7d89d6db-jxgfv
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
-   ...
+   [...]
    Containers:
      hamster:
        Container ID:  docker://2c3e7b6fb7ce0d8c86444334df654af6fb3fc88aad4c5d710eac3b1e7c58f7db
-       Image:         k8s.gcr.io/ubuntu-slim:0.1
-       Image ID:      docker-pullable://k8s.gcr.io/ubuntu-slim@sha256:b6f8c3885f5880a4f1a7cf717c07242eb4858fdd5a84b5ffe35b1cf680ea17b1
+       Image:         registry.k8s.io/ubuntu-slim:0.1
+       Image ID:      docker-pullable://registry.k8s.io/ubuntu-slim@sha256:b6f8c3885f5880a4f1a7cf717c07242eb4858fdd5a84b5ffe35b1cf680ea17b1
        Port:          <none>
        Host Port:     <none>
        Command:
@@ -169,10 +169,10 @@ If you are not sure that a new pod has launched, compare the pod names with your
        Requests:
          cpu:        587m
          memory:     262144k
-   ...
+   [...]
    ```
 
-   In the previous output, you can see that the `cpu` reservation increased to 587 millicpu, which is over five times the original value\. The `memory` increased to 262,144 Kilobytes, which is around 250 mebibytes, or five times the original value\. This pod was under\-resourced, and the Vertical Pod Autoscaler corrected the estimate with a much more appropriate value\.
+   In the previous output, you can see that the `cpu` reservation increased to 587 millicpu, which is over five times the original value\. The `memory` increased to 262,144 Kilobytes, which is around 250 mebibytes, or five times the original value\. This Pod was under\-resourced, and the Vertical Pod Autoscaler corrected the estimate with a much more appropriate value\.
 
 1. Describe the `hamster-vpa` resource to view the new recommendation\.
 
@@ -180,7 +180,7 @@ If you are not sure that a new pod has launched, compare the pod names with your
    kubectl describe vpa/hamster-vpa
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    Name:         hamster-vpa

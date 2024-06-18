@@ -1,12 +1,12 @@
 # Configuring a Kubernetes service account to assume an IAM role<a name="associate-service-account-role"></a>
 
-This topic covers how to configure a Kubernetes service account to assume an AWS Identity and Access Management \(IAM\) role\. Any pods that are configured to use the service account can then access any AWS service that the role has permissions to access\.
+This topic covers how to configure a Kubernetes service account to assume an AWS Identity and Access Management \(IAM\) role\. Any Pods that are configured to use the service account can then access any AWS service that the role has permissions to access\.
 
 **Prerequisites**
 + An existing cluster\. If you don't have one, you can create one by following one of the [Getting started with Amazon EKS](getting-started.md) guides\.
 + An existing IAM OpenID Connect \(OIDC\) provider for your cluster\. To learn if you already have one or how to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ Version `2.9.9` or later or `1.27.36` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.23`, you can use `kubectl` version `1.22`,`1.23`, or `1.24` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ Version `2.12.3` or later or `1.27.160` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + An existing `kubectl` `config` file that contains your cluster configuration\. To create a `kubectl` `config` file, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 
 **To associate an IAM role with a Kubernetes service account**
@@ -15,9 +15,9 @@ This topic covers how to configure a Kubernetes service account to assume an AWS
 
    Create an IAM policy\. You can create your own policy, or copy an AWS managed policy that already grants some of the permissions that you need and customize it to your specific requirements\. For more information, see [Creating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) in the *IAM User Guide*\.
 
-   1. Create a file that includes the permissions for the AWS services that you want your pods to access\. For a list of all actions for all AWS services, see the [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/)\.
+   1. Create a file that includes the permissions for the AWS services that you want your Pods to access\. For a list of all actions for all AWS services, see the [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/)\.
 
-      You can run the following command to create an example policy file that allows read\-only access to an Amazon S3 bucket\. You can optionally store configuration information or a bootstrap script in this bucket, and the containers in your pod can read the file from the bucket and load it into your application\. If you want to create this example policy, copy the following contents to your device\. Replace *my\-pod\-secrets\-bucket* with your bucket name and run the command\. 
+      You can run the following command to create an example policy file that allows read\-only access to an Amazon S3 bucket\. You can optionally store configuration information or a bootstrap script in this bucket, and the containers in your Pod can read the file from the bucket and load it into your application\. If you want to create this example policy, copy the following contents to your device\. Replace *my\-pod\-secrets\-bucket* with your bucket name and run the command\. 
 
       ```
       cat >my-policy.json <<EOF
@@ -46,18 +46,18 @@ This topic covers how to configure a Kubernetes service account to assume an AWS
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.124.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.156.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
    Replace *my\-service\-account* with the name of the Kubernetes service account that you want `eksctl` to create and associate with an IAM role\. Replace *default* with the namespace that you want `eksctl` to create the service account in\. Replace *my\-cluster* with the name of your cluster\. Replace *my\-role* with the name of the role that you want to associate the service account to\. If it doesn't already exist, `eksctl` creates it for you\. Replace *111122223333* with your account ID and *my\-policy* with the name of an existing policy\.
 
    ```
-   eksctl create iamserviceaccount --name my-service-account --namespace default --cluster my-cluster --role-name "my-role" \
+   eksctl create iamserviceaccount --name my-service-account --namespace default --cluster my-cluster --role-name my-role \
        --attach-policy-arn arn:aws:iam::111122223333:policy/my-policy --approve
    ```
 
 **Important**  
-If the role or service account already exist, the previous command might fail\. `Eksctl` has different options that you can provide in those situations\. For more information run `eksctl create iamserviceaccount --help`\.
-Before [using the service account with a pod](pod-configuration.md), the service account that you specified or that `eksctl` created must be bound to an existing Kubernetes `role`, or `clusterrole` that includes the Kubernetes permissions that you require for the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
+If the role or service account already exist, the previous command might fail\. `eksctl` has different options that you can provide in those situations\. For more information run `eksctl create iamserviceaccount --help`\.
+Before [using the service account with a Pod](pod-configuration.md), the service account that you specified or that `eksctl` created must be bound to an existing Kubernetes `role`, or `clusterrole` that includes the Kubernetes permissions that you require for the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 ------
 #### [ AWS CLI ]
@@ -77,7 +77,7 @@ Before [using the service account with a pod](pod-configuration.md), the service
       kubectl apply -f my-service-account.yaml
       ```
 **Important**  
-Before [using the service account with a pod](pod-configuration.md), the service account that you created must be bound to an existing Kubernetes `role`, or `clusterrole` that includes the Kubernetes permissions that you require for the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
+Before [using the service account with a Pod](pod-configuration.md), the service account that you created must be bound to an existing Kubernetes `role`, or `clusterrole` that includes the Kubernetes permissions that you require for the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
    1. Set your AWS account ID to an environment variable with the following command\.
 
@@ -151,7 +151,7 @@ Before [using the service account with a pod](pod-configuration.md), the service
       aws iam get-role --role-name my-role --query Role.AssumeRolePolicyDocument
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       {
@@ -180,7 +180,7 @@ Before [using the service account with a pod](pod-configuration.md), the service
       aws iam list-attached-role-policies --role-name my-role --query AttachedPolicies[].PolicyArn --output text
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       arn:aws:iam::111122223333:policy/my-policy
@@ -198,7 +198,7 @@ Before [using the service account with a pod](pod-configuration.md), the service
       aws iam get-policy --policy-arn $policy_arn
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       {
@@ -208,18 +208,18 @@ Before [using the service account with a pod](pod-configuration.md), the service
               "Arn": "arn:aws:iam::111122223333:policy/my-policy",
               "Path": "/",
               "DefaultVersionId": "v1",
-              ...
+              [...]
           }
       }
       ```
 
-   1. View the policy contents to make sure that the policy includes all the permissions that your pod needs\. If necessary, replace *1* in the following command with the version that's returned in the previous output\.
+   1. View the policy contents to make sure that the policy includes all the permissions that your Pod needs\. If necessary, replace *1* in the following command with the version that's returned in the previous output\.
 
       ```
       aws iam get-policy-version --policy-arn $policy_arn --version-id v1
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       {
@@ -242,7 +242,7 @@ Before [using the service account with a pod](pod-configuration.md), the service
       kubectl describe serviceaccount my-service-account -n default
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       Name:                my-service-account
@@ -251,10 +251,10 @@ Before [using the service account with a pod](pod-configuration.md), the service
       Image pull secrets:  <none>
       Mountable secrets:   my-service-account-token-qqjfl
       Tokens:              my-service-account-token-qqjfl
-      ...
+      [...]
       ```
 
 1. \(Optional\) [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\. AWS recommends using a regional AWS STS endpoint instead of the global endpoint\. This reduces latency, provides built\-in redundancy, and increases session token validity\.
 
 **Next step**  
-[Configuring pods to use a Kubernetes service account](pod-configuration.md)
+[Configuring Pods to use a Kubernetes service account](pod-configuration.md)

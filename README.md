@@ -1,9 +1,15 @@
 ## Amazon EKS User Guide
 
-The open source version of the Amazon EKS user guide. You can submit feedback & requests for changes by submitting issues in this repo or by making proposed changes & submitting a pull request. You can even contribute suggested edits directly from each webpage by choosing the **Edit** button, making the suggested edits, then choosing the **Create pull request** button.
+The open source version of the [Amazon EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/). You can submit feedback & requests for changes by submitting issues in this repo or by making proposed changes & submitting a pull request.
 
 ## License Summary
 
 The documentation is made available under the Creative Commons Attribution-ShareAlike 4.0 International License. See the LICENSE file.
 
 The sample code within this documentation is made available under a modified MIT license. See the LICENSE-SAMPLECODE file.
+
+## Default branch
+
+The default branch for this repo has changed to [`main`](https://github.com/awsdocs/amazon-eks-user-guide/tree/main).
+
+If you have cloned the previous default branch, please update your local repo to use the [`main`](https://github.com/awsdocs/amazon-eks-user-guide/tree/main) branch.

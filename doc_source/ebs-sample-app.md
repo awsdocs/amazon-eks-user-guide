@@ -18,6 +18,13 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    cd aws-ebs-csi-driver/examples/kubernetes/dynamic-provisioning/
    ```
 
+1. \(Optional\) The `manifests/storageclass.yaml` file provisions `gp2` Amazon EBS volumes by default\. To use `gp3` volumes instead, add `type: gp3` to `manifests/storageclass.yaml`\.
+
+   ```
+   echo "parameters:
+     type: gp3" >> manifests/storageclass.yaml
+   ```
+
 1. Deploy the `ebs-sc` storage class, `ebs-claim` persistent volume claim, and `app` sample application from the `manifests` directory\.
 
    ```
@@ -30,7 +37,7 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    kubectl describe storageclass ebs-sc
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    Name:            ebs-sc
@@ -46,9 +53,9 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    Events:                <none>
    ```
 **Note**  
-The storage class uses the `WaitForFirstConsumer` volume binding mode\. This means that volumes aren't dynamically provisioned until a pod makes a persistent volume claim\. For more information, see [Volume Binding Mode](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) in the Kubernetes documentation\.
+The storage class uses the `WaitForFirstConsumer` volume binding mode\. This means that volumes aren't dynamically provisioned until a Pod makes a persistent volume claim\. For more information, see [Volume Binding Mode](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) in the Kubernetes documentation\.
 
-1. Watch the pods in the default namespace\. After a few minutes, the `app` pod's status changes to `Running`\.
+1. Watch the Pods in the default namespace\. After a few minutes, the `app` Pod's status changes to `Running`\.
 
    ```
    kubectl get pods --watch
@@ -62,7 +69,7 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
    kubectl get pv
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
@@ -75,7 +82,7 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
    kubectl describe pv pvc-37717cd6-d0dc-11e9-b17f-06fad4858a5a
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    Name:              pvc-37717cd6-d0dc-11e9-b17f-06fad4858a5a
@@ -104,20 +111,20 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
 
    The Amazon EBS volume ID is the value for `VolumeHandle` in the previous output\.
 
-1. Verify that the pod is writing data to the volume\.
+1. Verify that the Pod is writing data to the volume\.
 
    ```
    kubectl exec -it app -- cat /data/out.txt
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    Wed May 5 16:17:03 UTC 2021
    Wed May 5 16:17:08 UTC 2021
    Wed May 5 16:17:13 UTC 2021
    Wed May 5 16:17:18 UTC 2021
-   ...
+   [...]
    ```
 
 1. After you're done, delete the resources for this sample application\.

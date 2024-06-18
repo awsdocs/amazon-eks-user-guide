@@ -27,8 +27,8 @@ The following table compares the differences between the two options\.
 | --- | --- | --- | 
 |  Kubernetes control plane location  | AWS Region | Outpost | 
 |  Kubernetes control plane account  | AWS account | Your account | 
-| Regional availability | See [Service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region) | US East \(N\. Virginia\), US East \(Ohio\), US West \(N\. California\), US West \(Oregon\), Asia Pacific \(Tokyo\), Asia Pacific \(Seoul\), Europe \(Frankfurt\), Europe \(London\), Middle East \(Bahrain\), and South America \(São Paulo\) | 
-| Kubernetes minor versions | `1.21` and later [supported Amazon EKS versions](kubernetes-versions.md)\. | 1\.21 and later [supported Amazon EKS versions](kubernetes-versions.md)\. | 
+| Regional availability | See [Service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region) | US East \(N\. Virginia\), US East \(Ohio\), US West \(N\. California\), US West \(Oregon\), Asia Pacific \(Seoul\), Asia Pacific \(Singapore\), Asia Pacific \(Tokyo\), Asia Pacific \(Sydney\), Canada \(Central\), Europe \(Frankfurt\), Europe \(London\), Middle East \(Bahrain\), and South America \(São Paulo\) | 
+| Kubernetes minor versions |  [Supported Amazon EKS versions](kubernetes-versions.md)\. | [Supported Amazon EKS versions](kubernetes-versions.md)\. | 
 | Platform versions | See [Amazon EKS platform versions](platform-versions.md) | See [Amazon EKS local cluster platform versions](eks-outposts-platform-versions.md) | 
 | Outpost form factors | Outpost racks | Outpost racks | 
 | User interfaces | AWS Management Console, AWS CLI, Amazon EKS API, `eksctl`, AWS CloudFormation, and Terraform | AWS Management Console, AWS CLI, Amazon EKS API, eksctl, AWS CloudFormation, and Terraform | 
@@ -39,7 +39,7 @@ The following table compares the differences between the two options\.
 | Node types | Self\-managed only | Self\-managed only | 
 | Node compute types | Amazon EC2 on\-demand | Amazon EC2 on\-demand | 
 | Node storage types | Amazon EBS `gp2` and local NVMe SSD | Amazon EBS `gp2` and local NVMe SSD | 
-| Amazon EKS optimized AMIs | Amazon Linux Windows, and Bottlerocket | Amazon Linux only | 
+| Amazon EKS optimized AMIs | Amazon Linux, Windows, and Bottlerocket | Amazon Linux only | 
 | IP versions | `IPv4` only | `IPv4` only | 
 | Add\-ons | Amazon EKS add\-ons or self\-managed add\-ons | Self\-managed add\-ons only | 
 | Default Container Network Interface | Amazon VPC CNI plugin for Kubernetes | Amazon VPC CNI plugin for Kubernetes | 

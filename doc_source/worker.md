@@ -1,6 +1,6 @@
 # Self\-managed nodes<a name="worker"></a>
 
-A cluster contains one or more Amazon EC2 nodes that pods are scheduled on\. Amazon EKS nodes run in your AWS account and connect to the control plane of your cluster through the cluster API server endpoint\. You deploy one or more nodes into a node group\. A node group is one or more Amazon EC2 instances that are deployed in an [Amazon EC2 Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html)\.
+A cluster contains one or more Amazon EC2 nodes that Pods are scheduled on\. Amazon EKS nodes run in your AWS account and connect to the control plane of your cluster through the cluster API server endpoint\. You deploy one or more nodes into a node group\. A node group is one or more Amazon EC2 instances that are deployed in an [Amazon EC2 Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html)\.
 
 All instances in a node group must have the following characteristics:
 + Be the same instance type

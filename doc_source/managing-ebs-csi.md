@@ -1,6 +1,6 @@
 # Managing the Amazon EBS CSI driver as an Amazon EKS add\-on<a name="managing-ebs-csi"></a>
 
-To improve security and reduce the amount of work, you can manage the Amazon EBS CSI driver as an Amazon EKS add\-on\. For information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\. You can add the Amazon EBS CSI add\-on by following the steps in [Adding the Amazon EBS CSI add\-on](#adding-ebs-csi-eks-add-on)\.
+To improve security and reduce the amount of work, you can manage the Amazon EBS CSI driver as an Amazon EKS add\-on\. For information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\. You can add the Amazon EBS CSI add\-on by following the steps in [Adding the Amazon EBS CSI driver add\-on](#adding-ebs-csi-eks-add-on)\.
 
 If you added the Amazon EBS CSI add\-on, you can manage it by following the steps in the [Updating the Amazon EBS CSI driver as an Amazon EKS add\-on](#updating-ebs-csi-eks-add-on) and [Removing the Amazon EBS CSI add\-on](#removing-ebs-csi-eks-add-on) sections\.
 
@@ -11,8 +11,8 @@ If you added the Amazon EBS CSI add\-on, you can manage it by following the step
   aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
   ```
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ An Amazon EBS CSI driver IAM role\. If you don't satisfy this prerequisite, attempting to install the add\-on and running `kubectl describe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error\. For more information, see [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)\.
-+ If you're using a cluster wide restricted [`PodSecurityPolicy`](pod-security-policy.md), make sure that the add\-on is granted sufficient permissions to be deployed\. For the permissions required by each add\-on pod, see the [relevant add\-on manifest definition](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base) on GitHub\.
++ An Amazon EBS CSI driver IAM role\. If you don't satisfy this prerequisite, attempting to install the add\-on and running `kubectl describe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error\. For more information, see [Creating the Amazon EBS CSI driver IAM role](csi-iam-role.md)\.
++ If you're using a cluster wide restricted [`PodSecurityPolicy`](pod-security-policy.md), make sure that the add\-on is granted sufficient permissions to be deployed\. For the permissions required by each add\-on Pod, see the [relevant add\-on manifest definition](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base) on GitHub\.
 
 **Important**  
 To use the snapshot functionality of the Amazon EBS CSI driver, you must install the external snapshotter before the installation of the add\-on\. The external snapshotter components must be installed in the following order:  
@@ -21,13 +21,10 @@ To use the snapshot functionality of the Amazon EBS CSI driver, you must install
 [controller deployment](https://github.com/kubernetes-csi/external-snapshotter/blob/master/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml)
 For more information, see [CSI Snapshotter](https://github.com/kubernetes-csi/external-snapshotter) on GitHub\.
 
-**Note**  
-The Amazon EBS CSI driver version `1.12` or higher has support for Windows Server 2022\.
-
-## Adding the Amazon EBS CSI add\-on<a name="adding-ebs-csi-eks-add-on"></a>
+## Adding the Amazon EBS CSI driver add\-on<a name="adding-ebs-csi-eks-add-on"></a>
 
 **Important**  
-Before adding the Amazon EBS CSI add\-on, confirm that you don't self\-manage any settings that Amazon EKS will start managing\. To determine which settings Amazon EKS manages, see [ Kubernetes field management](kubernetes-field-management.md)\.
+Before adding the Amazon EBS driver as an Amazon EKS add\-on, confirm that you don't have a self\-managed version of the driver installed on your cluster\. If so, see [ Uninstalling a self\-managed Amazon EBS CSI driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#uninstalling-the-ebs-csi-driver) on GitHub\. 
 
 You can use `eksctl`, the AWS Management Console, or the AWS CLI to add the Amazon EBS CSI add\-on to your cluster\.
 
@@ -41,7 +38,7 @@ Run the following command\. Replace `my-cluster` with the name of your cluster, 
 eksctl create addon --name aws-ebs-csi-driver --cluster my-cluster --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole --force
 ```
 
-If you remove the `--force` option and there's a conflict with your existing settings, the command fails\. You can use the resulting error message to troubleshoot the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. This is because those settings are overwritten with this option\. For more information about managing Amazon EKS add\-ons, see [ Kubernetes field management](kubernetes-field-management.md)\.
+If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS Kubernetes field management, see [ Kubernetes field management](kubernetes-field-management.md)\.
 
 ------
 #### [ AWS Management Console ]
@@ -56,17 +53,25 @@ If you remove the `--force` option and there's a conflict with your existing set
 
 1. Choose the **Add\-ons** tab\.
 
-1. Choose **Add new**\.
+1. Choose **Get more add\-ons**\.
 
-   1. Select **Amazon EBS CSI Driver** for **Name**\.
+1. On the **Select add\-ons** page, do the following:
+
+   1. In the **Amazon EKS\-addons** section, select the **Amazon EBS CSI Driver** check box\.
+
+   1. Choose **Next**\.
+
+1. On the **Configure selected add\-ons settings** page, do the following:
 
    1. Select the **Version** you'd like to use\.
 
-   1. For **Service account role**, select the name of an IAM role that you attached the IAM policy to\.
+   1. For **Select IAM role**, select the name of an IAM role that you attached the Amazon EBS CSI driver IAM policy to\.
 
-   1. If you select **Override existing configuration for this add\-on on the cluster\.**, one or more of the settings for the existing add\-on can be overwritten with the Amazon EKS add\-on settings\. If you don't enable this option and there's a conflict with your existing settings, the operation fails\. You can use the resulting error message to troubleshoot the conflict\. Before selecting this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. For more information about managing Amazon EKS add\-ons, see [ Kubernetes field management](kubernetes-field-management.md)\.
+   1. \(Optional\) You can expand the **Optional configuration settings**\. If you select **Override** for the **Conflict resolution method**, one or more of the settings for the existing add\-on can be overwritten with the Amazon EKS add\-on settings\. If you don't enable this option and there's a conflict with your existing settings, the operation fails\. You can use the resulting error message to troubleshoot the conflict\. Before selecting this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\.
 
-   1. Choose **Add**\.
+   1. Choose **Next**\.
+
+1. On the **Review and add** page, choose **Create**\. After the add\-on installation is complete, you see your installed add\-on\.
 
 ------
 #### [ AWS CLI ]
@@ -81,12 +86,11 @@ aws eks create-addon --cluster-name my-cluster --addon-name aws-ebs-csi-driver \
 
 ------
 
+Now that you have added the Amazon EBS CSI driver as an Amazon EKS add\-on, you can continue to [Deploy a sample application and verify that the CSI driver is working](ebs-sample-app.md)\. That procedure includes setting up the storage class\.
+
 ## Updating the Amazon EBS CSI driver as an Amazon EKS add\-on<a name="updating-ebs-csi-eks-add-on"></a>
 
 Amazon EKS doesn't automatically update Amazon EBS CSI for your cluster when new versions are released or after you [update your cluster](update-cluster.md) to a new Kubernetes minor version\. To update Amazon EBS CSI on an existing cluster, you must initiate the update and then Amazon EKS updates the add\-on for you\.
-
-**Important**  
-Update your cluster and nodes to a new Kubernetes minor version before you update Amazon EBS CSI to the same minor version\.
 
 ------
 #### [ eksctl ]
@@ -99,7 +103,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
    eksctl get addon --name aws-ebs-csi-driver --cluster my-cluster
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME                    VERSION                      STATUS  ISSUES  IAMROLE UPDATE AVAILABLE
@@ -112,7 +116,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
    eksctl update addon --name aws-ebs-csi-driver --version v1.11.4-eksbuild.1 --cluster my-cluster --force
    ```
 
-   If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS kubernetes field management, see [ Kubernetes field management](kubernetes-field-management.md)\.
+   If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS Kubernetes field management, see [ Kubernetes field management](kubernetes-field-management.md)\.
 
 ------
 #### [ AWS Management Console ]
@@ -127,17 +131,19 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
 
 1. Choose the **Add\-ons** tab\.
 
-1. Select the radio button in the upper right of the **aws\-ebs\-csi\-driver** box\.
+1. Choose **Amazon EBS CSI Driver**\.
 
 1. Choose **Edit**\.
 
-   1. Select the **Version** of the Amazon EKS add\-on that you want to use\.
+1. On the **Configure Amazon EBS CSI Driver** page, do the following:
 
-   1. For **Service account role**, select the name of the IAM role that you've attached the Amazon EBS CSI driver IAM policy to\.
+   1. Select the **Version** you'd like to use\.
 
-   1. For **Conflict resolution method**, select one of the options\. For more information about Amazon EKS kubernetes field management, see [ Kubernetes field management](kubernetes-field-management.md)\.
+   1. For **Select IAM role**, select the name of an IAM role that you attached the Amazon EBS CSI driver IAM policy to\.
 
-   1. Select **Update**\.
+   1. \(Optional\) You can expand the **Optional configuration settings** and modify as needed\.
+
+   1. Choose **Save changes**\.
 
 ------
 #### [ AWS CLI ]
@@ -150,7 +156,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
    aws eks describe-addon --cluster-name my-cluster --addon-name aws-ebs-csi-driver --query "addon.addonVersion" --output text
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    v1.11.2-eksbuild.1
@@ -163,7 +169,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
      --query "addons[].addonVersions[].[addonVersion, compatibilities[].defaultVersion]" --output text
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    v1.11.4-eksbuild.1
@@ -188,7 +194,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
 ## Removing the Amazon EBS CSI add\-on<a name="removing-ebs-csi-eks-add-on"></a>
 
 You have two options for removing an Amazon EKS add\-on\.
-+ **Preserve add\-on software on your cluster** – This option removes Amazon EKS management of any settings\. It also removes the ability for Amazon EKS to notify you of updates and automatically update the Amazon EKS add\-on after you initiate an update\. However, it preserves the add\-on software on your cluster\. This option makes the add\-on a self\-managed add\-on, rather than an Amazon EKS add\-on\. With this option, there's no downtime for the add\-on\. The commands in this procedure use this option\.
++ **Preserve add\-on software on your cluster** – This option removes Amazon EKS management of any settings\. It also removes the ability for Amazon EKS to notify you of updates and automatically update the Amazon EKS add\-on after you initiate an update\. However, it preserves the add\-on software on your cluster\. This option makes the add\-on a self\-managed installation, rather than an Amazon EKS add\-on\. With this option, there's no downtime for the add\-on\. The commands in this procedure use this option\.
 + **Remove add\-on software entirely from your cluster** – We recommend that you remove the Amazon EKS add\-on from your cluster only if there are no resources on your cluster that are dependent on it\. To do this option, delete `--preserve` from the command you use in this procedure\.
 
 If the add\-on has an IAM account associated with it, the IAM account isn't removed\.
@@ -218,15 +224,17 @@ eksctl delete addon --cluster my-cluster --name aws-ebs-csi-driver --preserve
 
 1. Choose the **Add\-ons** tab\.
 
-1. Select the radio button in the upper right of the **aws\-ebs\-csi\-driver** box\.
+1. Choose **Amazon EBS CSI Driver**\.
 
 1. Choose **Remove**\.
 
-1. Select **Preserve on cluster** if you want Amazon EKS to stop managing settings for the add\-on\. Do this if you want to retain the add\-on software on your cluster\. This is so that you can manage all of the settings of the add\-on on your own\.
+1. In the **Remove: aws\-ebs\-csi\-driver** confirmation dialog box, do the following:
 
-1. Enter **`aws-ebs-csi-driver`**\.
+   1. If you want Amazon EKS to stop managing settings for the add\-on, select **Preserve on cluster**\. Do this if you want to retain the add\-on software on your cluster\. This is so that you can manage all of the settings of the add\-on on your own\.
 
-1. Select **Remove**\.
+   1. Enter **`aws-ebs-csi-driver`**\.
+
+   1. Select **Remove**\.
 
 ------
 #### [ AWS CLI ]

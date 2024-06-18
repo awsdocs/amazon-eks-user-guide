@@ -4,19 +4,15 @@ The Kubernetes Certificates API automates [X\.509](https://www.itu.int/rec/T-REC
 
 One of the built\-in signers is `kubernetes.io/legacy-unknown`\. The `v1beta1` API of CSR resource honored this legacy\-unknown signer\. However, the stable `v1` API of CSR doesn't allow the `signerName` to be set to `kubernetes.io/legacy-unknown`\.
 
-Amazon EKS version `1.21` and earlier allowed the `legacy-unknown` value as the `signerName` in `v1beta1` CSR API\. This API enables the Amazon EKS Certificate Authority \(CA\) to generate certificates\. However, in Kubernetes version `1.22`, the `v1beta1` CSR API is replaced by the `v1` CSR API\. This API doesn't support the signerName of “legacy\-unknown\.” If you want to use Amazon EKS CA for generating certificates on version `1.22` and later, you must use a custom signer\. It was introduced in Amazon EKS version `1.22`\. To use the CSR `v1` API version and generate a new certificate, you must migrate any existing manifests and API clients\. Existing certificates that were created with the existing `v1beta1` API are valid and function until the certificate expires\. This includes the following:
-
-1. Trust distribution: None\. There's no standard trust or distribution for this signer in a Kubernetes cluster\.
-
-1. Permitted subjects: Any
-
-1. Permitted x509 extensions: Honors subjectAltName and key usage extensions and discards other extensions
-
-1. Permitted key usages: Must not include usages beyond \["key encipherment", "digital signature", "server auth"\]
-
-1. Expiration/certificate lifetime: 1 year \(default and maximum\) 
-
-1. CA bit allowed/disallowed: Not allowed
+Amazon EKS version `1.21` and earlier allowed the `legacy-unknown` value as the `signerName` in `v1beta1` CSR API\. This API enables the Amazon EKS Certificate Authority \(CA\) to generate certificates\. However, in Kubernetes version `1.22`, the `v1beta1` CSR API was replaced by the `v1` CSR API\. This API doesn't support the signerName of “legacy\-unknown\.” If you want to use Amazon EKS CA for generating certificates on your clusters, you must use a custom signer\. It was introduced in Amazon EKS version `1.22`\. To use the CSR `v1` API version and generate a new certificate, you must migrate any existing manifests and API clients\. Existing certificates that were created with the existing `v1beta1` API are valid and function until the certificate expires\. This includes the following:
++ Trust distribution: None\. There's no standard trust or distribution for this signer in a Kubernetes cluster\.
++ Permitted subjects: Any
++ Permitted x509 extensions: Honors subjectAltName and key usage extensions and discards other extensions
++ Permitted key usages: Must not include usages beyond \["key encipherment", "digital signature", "server auth"\]
+**Note**  
+Client certificate signing is not supported\.
++ Expiration/certificate lifetime: 1 year \(default and maximum\) 
++ CA bit allowed/disallowed: Not allowed
 
 ## Example CSR generation with signerName<a name="csr-example"></a>
 
@@ -76,7 +72,7 @@ These steps shows how to generate a serving certificate for DNS name `myserver.d
    kubectl get csr myserver
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME       AGE     SIGNERNAME                           REQUESTOR          CONDITION
@@ -101,7 +97,7 @@ Before upgrading your cluster to `1.24`, determine whether your cluster has cert
    kubectl get csr -A
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME        AGE   SIGNERNAME                      REQUESTOR                                                  REQUESTEDDURATION   CONDITION

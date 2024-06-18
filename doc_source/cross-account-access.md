@@ -18,7 +18,7 @@ metadata:
 **Example Use chained `AssumeRole` operations**  
 
 **Example**  
-In this example, Account B creates an IAM policy with the permissions to give to pods in Account A's cluster\. Account B \(*444455556666*\) attaches that policy to an IAM role with a trust relationship that allows `AssumeRole` permissions to Account A \(*111122223333*\)\.  
+In this example, Account B creates an IAM policy with the permissions to give to Pods in Account A's cluster\. Account B \(*444455556666*\) attaches that policy to an IAM role with a trust relationship that allows `AssumeRole` permissions to Account A \(*111122223333*\)\.  
 
 ```
 {
@@ -65,7 +65,7 @@ Account A attaches a policy to that role with the following permissions to assum
     ]
 }
 ```
-The application code for pods to assume Account B's role uses two profiles: `account_b_role` and `account_a_role`\. The `account_b_role` profile uses the `account_a_role` profile as its source\. For the AWS CLI, the `~/.aws/config` file is similar to the following\.  
+The application code for Pods to assume Account B's role uses two profiles: `account_b_role` and `account_a_role`\. The `account_b_role` profile uses the `account_a_role` profile as its source\. For the AWS CLI, the `~/.aws/config` file is similar to the following\.  
 
 ```
 [profile account_b_role]

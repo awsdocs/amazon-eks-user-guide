@@ -2,6 +2,8 @@
 
 This chapter covers some common errors that you may see while using Amazon EKS and how to work around them\. If you need to troubleshoot specific Amazon EKS areas, see the separate [Troubleshooting IAM](security_iam_troubleshoot.md), [Troubleshooting issues in Amazon EKS Connector](troubleshooting-connector.md), and [Troubleshooting issues in ADOT Amazon EKS add\-on](troubleshooting-adot.md) topics\.
 
+For other troubleshooting information, see [Knowledge Center content about Amazon Elastic Kubernetes Service](https://repost.aws/tags/knowledge-center/TA4IvCeWI1TE66q4jEj4Z9zg/amazon-elastic-kubernetes-service) on *AWS re:Post*\.
+
 ## Insufficient capacity<a name="ICE"></a>
 
 If you receive the following error while attempting to create an Amazon EKS cluster, then one of the Availability Zones you specified doesn't have sufficient capacity to support a cluster\.
@@ -25,16 +27,16 @@ To identify and troubleshoot common causes that prevent worker nodes from joinin
 
 ## Unauthorized or access denied \(`kubectl`\)<a name="unauthorized"></a>
 
-If you receive one of the following errors while running  `kubectl`  commands, then your  `kubectl`  is not configured properly for Amazon EKS or the IAM user or role credentials that you are using do not map to a Kubernetes RBAC user with sufficient permissions in your Amazon EKS cluster\.
+If you receive one of the following errors while running  `kubectl`  commands, then your  `kubectl`  is not configured properly for Amazon EKS or the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) credentials that you're using don't map to a Kubernetes RBAC user with sufficient permissions in your Amazon EKS cluster\.
 + `could not get token: AccessDenied: Access denied`
 + `error: You must be logged in to the server (Unauthorized)`
 + `error: the server doesn't have a resource type "svc"`
 
-This could be because the cluster was created with one set of AWS credentials \(from an IAM user or role\), and  `kubectl`  is using a different set of credentials\.
+This could be because the cluster was created with credentials for one IAM principal and  `kubectl`  is using credentials for a different IAM principal\.
 
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.  If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
+When an Amazon EKS cluster is created, the IAM principal that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that principal can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Enabling IAM principal access to your cluster](add-user-role.md)\.  If you use the console to create the cluster, make sure that the same IAM credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
 
-If you install and configure the AWS CLI, you can configure the IAM credentials for your user\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
+If you install and configure the AWS CLI, you can configure the IAM credentials you use\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
 If you assumed a role to create the Amazon EKS cluster, you must ensure that `kubectl` is configured to assume the same role\. Use the following command to update your `kubeconfig` file to use an IAM role\. For more information, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 
@@ -45,7 +47,7 @@ aws eks update-kubeconfig \
     --role-arn arn:aws:iam::111122223333:role/role_name
 ```
 
-To map an IAM user to a Kubernetes RBAC user, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
+To map an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to a Kubernetes RBAC user, see [Enabling IAM principal access to your cluster](add-user-role.md)\.
 
 ## `aws-iam-authenticator` Not found<a name="no-auth-provider"></a>
 
@@ -66,30 +68,62 @@ Docker runs in the `172.17.0.0/16` CIDR range in Amazon EKS clusters\. We recomm
 Error: : error upgrading connection: error dialing backend: dial tcp 172.17.<nn>.<nn>:10250: getsockopt: no route to host
 ```
 
-## Managed node group errors<a name="troubleshoot-managed-node-groups"></a>
+## `Instances failed to join the kubernetes cluster`<a name="instances-failed-to-join"></a>
 
 If you receive the error `Instances failed to join the kubernetes cluster` in the AWS Management Console, ensure that either the cluster's private endpoint access is enabled, or that you have correctly configured CIDR blocks for public endpoint access\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
 
-If your managed node group encounters a hardware health issue, Amazon EKS returns an error message to help you to diagnose the issue\. These health checks don't detect software issues because they are based on [Amazon EC2 health checks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html)\. The following list shows the error messages and their associated descriptions\.
-+ **AccessDenied**: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server\. For more information about resolving this error, see [Fixing `AccessDenied` errors for managed node groups](#access-denied-managed-node-groups)\.
-+ **AmiIdNotFound**: We couldn't find the AMI Id associated with your Launch Template\. Make sure that the AMI exists and is shared with your account\.
-+ **AutoScalingGroupNotFound**: We couldn't find the Auto Scaling group associated with the managed node group\. You may be able to recreate an Auto Scaling group with the same settings to recover\.
-+ **ClusterUnreachable**: Amazon EKS or one or more of your managed nodes is unable to communicate with your Kubernetes cluster API server\. This can happen if there are network disruptions or if API servers are timing out processing requests\.
-+ **Ec2SecurityGroupNotFound**: We couldn't find the cluster security group for the cluster\. You must recreate your cluster\.
-+ **Ec2SecurityGroupDeletionFailure**: We could not delete the remote access security group for your managed node group\. Remove any dependencies from the security group\.
-+ **Ec2LaunchTemplateNotFound**: We couldn't find the Amazon EC2 launch template for your managed node group\. You must recreate your node group to recover\.
-+ **Ec2LaunchTemplateVersionMismatch**: The Amazon EC2 launch template version for your managed node group doesn't match the version that Amazon EKS created\. You may be able to revert to the version that Amazon EKS created to recover\.
-+ **IamInstanceProfileNotFound**: We couldn't find the IAM instance profile for your managed node group\. You may be able to recreate an instance profile with the same settings to recover\.
-+ **IamNodeRoleNotFound**: We couldn't find the IAM role for your managed node group\. You may be able to recreate an IAM role with the same settings to recover\.
-+ **AsgInstanceLaunchFailures**: Your Auto Scaling group is experiencing failures while attempting to launch instances\.
-+ **NodeCreationFailure**: Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [node IAM role](create-node-role.md) permissions or lack of outbound internet access for the nodes\. Your nodes must meet either of the following requirements:
-  + Able to access the internet using a public IP address\. The security group associated to the subnet the node is in must allow the communication\. For more information, see [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets) and [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\.
-  + Your nodes and VPC must meet the requirements in [Private cluster requirements](private-clusters.md)\. 
-+ **InstanceLimitExceeded**: Your AWS account is unable to launch any more instances of the specified instance type\. You may be able to request an Amazon EC2 instance limit increase to recover\.
-+ **InsufficientFreeAddresses**: One or more of the subnets associated with your managed node group doesn't have enough available IP addresses for new nodes\.
-+ **InternalFailure**: These errors are usually caused by an Amazon EKS server\-side issue\.
+## Managed node group error codes<a name="troubleshoot-managed-node-groups"></a>
 
-### Fixing `AccessDenied` errors for managed node groups<a name="access-denied-managed-node-groups"></a>
+If your managed node group encounters a hardware health issue, Amazon EKS returns an error code to help you to diagnose the issue\. These health checks don't detect software issues because they are based on [Amazon EC2 health checks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html)\. The following list describes the error codes\.
+
+**AccessDenied**  
+Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server\. For more information about resolving a common cause, see [Fixing a common cause of `AccessDenied` errors for managed node groups](#access-denied-managed-node-groups)\. Private Windows AMIs can also cause this error code alongside the `Not authorized for images` error message\. For more information, see [`Not authorized for images`](#not-authorized-for-images)\.
+
+**AmiIdNotFound**  
+We couldn't find the AMI ID associated with your launch template\. Make sure that the AMI exists and is shared with your account\.
+
+**AutoScalingGroupNotFound**  
+We couldn't find the Auto Scaling group associated with the managed node group\. You may be able to recreate an Auto Scaling group with the same settings to recover\.
+
+**ClusterUnreachable**  
+Amazon EKS or one or more of your managed nodes is unable to communicate with your Kubernetes cluster API server\. This can happen if there are network disruptions or if API servers are timing out processing requests\.
+
+**Ec2SecurityGroupNotFound**  
+We couldn't find the cluster security group for the cluster\. You must recreate your cluster\.
+
+**Ec2SecurityGroupDeletionFailure**  
+We could not delete the remote access security group for your managed node group\. Remove any dependencies from the security group\.
+
+**Ec2LaunchTemplateNotFound**  
+We couldn't find the Amazon EC2 launch template for your managed node group\. You must recreate your node group to recover\.
+
+**Ec2LaunchTemplateVersionMismatch**  
+The Amazon EC2 launch template version for your managed node group doesn't match the version that Amazon EKS created\. You may be able to revert to the version that Amazon EKS created to recover\.
+
+**IamInstanceProfileNotFound**  
+We couldn't find the IAM instance profile for your managed node group\. You may be able to recreate an instance profile with the same settings to recover\.
+
+**IamNodeRoleNotFound**  
+We couldn't find the IAM role for your managed node group\. You may be able to recreate an IAM role with the same settings to recover\.
+
+**AsgInstanceLaunchFailures**  
+Your Auto Scaling group is experiencing failures while attempting to launch instances\.
+
+**NodeCreationFailure**  
+Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [node IAM role](create-node-role.md) permissions or lack of outbound internet access for the nodes\. Your nodes must meet either of the following requirements:  
++ Able to access the internet using a public IP address\. The security group associated to the subnet the node is in must allow the communication\. For more information, see [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets) and [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\.
++ Your nodes and VPC must meet the requirements in [Private cluster requirements](private-clusters.md)\. 
+
+**InstanceLimitExceeded**  
+Your AWS account is unable to launch any more instances of the specified instance type\. You may be able to request an Amazon EC2 instance limit increase to recover\.
+
+**InsufficientFreeAddresses**  
+One or more of the subnets associated with your managed node group doesn't have enough available IP addresses for new nodes\.
+
+**InternalFailure**  
+These errors are usually caused by an Amazon EKS server\-side issue\.
+
+### Fixing a common cause of `AccessDenied` errors for managed node groups<a name="access-denied-managed-node-groups"></a>
 
 The most common cause of `AccessDenied` errors when performing operations on managed node groups is missing the `eks:node-manager` `ClusterRole` or `ClusterRoleBinding`\. Amazon EKS sets up these resources in your cluster as part of onboarding with managed node groups, and these are required for managing the node groups\.
 
@@ -215,6 +249,10 @@ kubectl apply -f eks-node-manager-role.yaml
 
 Retry the node group operation to see if that resolved your issue\.
 
+## `Not authorized for images`<a name="not-authorized-for-images"></a>
+
+One potential cause of a `Not authorized for images` error message is using a private Amazon EKS Windows AMI to launch Windows managed node groups\. After releasing new Windows AMIs, AWS makes Windows AMIs that are older than three months private within 10 days\. If your managed node group is using a private Amazon EKS Windows AMI, consider [updating your Windows managed node group](https://docs.aws.amazon.com/eks/latest/userguide/update-managed-node-group.html)\. For more information, see [Patches, security updates, and AMI IDs](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/aws-windows-ami.html#ami-patches-security-ID) in the *Amazon EC2 User Guide for Windows Instances*\.
+
 ## CNI log collection tool<a name="troubleshoot-cni"></a>
 
 The Amazon VPC CNI plugin for Kubernetes has its own troubleshooting script that is available on nodes at `/opt/cni/bin/aws-cni-support.sh`\. You can use the script to collect diagnostic logs for support cases and general troubleshooting\.
@@ -303,13 +341,13 @@ To resolve the issue, check the route table and security groups to ensure that t
 
 ## InvalidClientTokenId<a name="default-region-env-variable"></a>
 
-If you're using IAM roles for service accounts for a pod or `DaemonSet` deployed to a cluster in a China AWS Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the pod or `DaemonSet` may receive the following error: 
+If you're using IAM roles for service accounts for a Pod or `DaemonSet` deployed to a cluster in a China AWS Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the Pod or `DaemonSet` may receive the following error: 
 
 ```
 An error occurred (InvalidClientTokenId) when calling the GetCallerIdentity operation: The security token included in the request is invalid
 ```
 
-To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your pod or `DaemonSet` spec, as shown in the following example pod spec\.
+To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your Pod or `DaemonSet` spec, as shown in the following example Pod spec\.
 
 ```
 apiVersion: v1
@@ -329,13 +367,13 @@ spec:
 
 ## VPC admission webhook certificate expiration<a name="troubleshoot-vpc-admission-webhook-certificate-expiration"></a>
 
-If the certificate used to sign the VPC admission webhook expires, the status for new Windows pod deployments stays at `ContainerCreating`\. 
+If the certificate used to sign the VPC admission webhook expires, the status for new Windows Pod deployments stays at `ContainerCreating`\. 
 
 To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Enabling Windows support for your Amazon EKS cluster](windows-support.md)\.
 
 ## Node groups must match Kubernetes version before updating control plane<a name="troubleshoot-node-grups-must-match-kubernetes-version"></a>
 
-Before you update a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The EKS `update-cluster-version` API rejects requests until you update all EKS managed nodes to the current cluster version\. EKS provides APIs to update managed nodes\. For information on updating managed node group Kubernetes versions, see [Updating a managed node group](update-managed-node-group.md)\. To update the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you update your control plane\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+Before you update a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The EKS `update-cluster-version` API rejects requests until you update all EKS managed nodes to the current cluster version\. EKS provides APIs to update managed nodes\. For information on updating managed node group Kubernetes versions, see [Updating a managed node group](update-managed-node-group.md)\. To update the version of a Fargate node, delete the Pod that's represented by the node and redeploy the Pod after you update your control plane\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
 
 ## When launching many nodes, there are `Too Many Requests` errors<a name="too-many-requests"></a>
 
@@ -345,9 +383,9 @@ Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip
 
 ## HTTP 401 unauthorized error response on Kubernetes API server requests<a name="troubleshooting-boundservicetoken"></a>
 
-You see these errors if a pod's service account token has expired on a `1.21` or later cluster\.
+You see these errors if a Pod's service account token has expired on a cluster\.
 
-Your Amazon EKS version `1.21` or later cluster's Kubernetes API server rejects requests with tokens older than 90 days\. In previous Kubernetes versions, tokens did not have an expiration\. This means that clients that rely on these tokens must refresh them within an hour\. To prevent the Kubernetes API server from rejecting your request due to an invalid token, the [Kubernetes client SDK](https://kubernetes.io/docs/reference/using-api/client-libraries/) version used by your workload must be the same, or later than the following versions:
+Your Amazon EKS cluster's Kubernetes API server rejects requests with tokens older than 90 days\. In previous Kubernetes versions, tokens did not have an expiration\. This means that clients that rely on these tokens must refresh them within an hour\. To prevent the Kubernetes API server from rejecting your request due to an invalid token, the [Kubernetes client SDK](https://kubernetes.io/docs/reference/using-api/client-libraries/) version used by your workload must be the same, or later than the following versions:
 + Go version `0.15.7` and later
 + Python version `12.0.0` and later
 + Java version `9.0.0` and later
@@ -356,7 +394,7 @@ Your Amazon EKS version `1.21` or later cluster's Kubernetes API server rejects 
 + Haskell version `0.3.0.0`
 + C\# version `7.0.5` and later
 
-You can identify all existing pods in your cluster that are using stale tokens\. For more information, see [Kubernetes service accounts](service-accounts.md#identify-pods-using-stale-tokens)\.
+You can identify all existing Pods in your cluster that are using stale tokens\. For more information, see [Kubernetes service accounts](service-accounts.md#identify-pods-using-stale-tokens)\.
 
 ## Amazon EKS platform version is more than two versions behind the current platform version<a name="troubleshooting-platform-version"></a>
 
@@ -369,7 +407,7 @@ The [cluster IAM role](service_IAM_role.md) was deleted – This role was specif
 aws eks describe-cluster --name my-cluster --query cluster.roleArn --output text | cut -d / -f 2
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 eksClusterRole
@@ -385,7 +423,7 @@ A subnet specified during cluster creation was deleted – The subnets to use wi
 aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.subnetIds
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 [
@@ -402,7 +440,7 @@ vpc_id=$(aws eks describe-cluster --name my-cluster --query cluster.resourcesVpc
 aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpc_id" --query "Subnets[*].SubnetId"
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 [
@@ -422,7 +460,7 @@ A security group specified during cluster creation was deleted – If you specif
 aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.securityGroupIds
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 [
@@ -440,7 +478,7 @@ vpc_id=$(aws eks describe-cluster --name my-cluster --query cluster.resourcesVpc
 aws ec2 describe-security-groups --filters "Name=vpc-id,Values=$vpc_id" --query "SecurityGroups[*].GroupId"
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 [

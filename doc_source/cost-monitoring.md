@@ -1,12 +1,12 @@
 # Cost monitoring<a name="cost-monitoring"></a>
 
-Amazon EKS supports Kubecost, which you can use to monitor your costs broken down by Kubernetes resources including pods, nodes, namespaces, and labels\. As a Kubernetes platform administrator and finance leader, you can use Kubecost to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams\. You can provide your internal teams and business units with transparent and accurate cost data based on their actual AWS bill\. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters\. For more information about Kubecost, see the [https://guide.kubecost.com](https://guide.kubecost.com) documentation\.
+Amazon EKS supports Kubecost, which you can use to monitor your costs broken down by Kubernetes resources including Pods, nodes, namespaces, and labels\. As a Kubernetes platform administrator and finance leader, you can use Kubecost to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams\. You can provide your internal teams and business units with transparent and accurate cost data based on their actual AWS bill\. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters\. For more information about Kubecost, see the [https://guide.kubecost.com](https://guide.kubecost.com) documentation\.
 
 Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibility\. You can use your existing AWS support agreements to obtain support\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. The cluster must have Amazon EC2 nodes because you can't run Kubecost on Fargate nodes\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.23`, you can use `kubectl` version `1.22`,`1.23`, or `1.24` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + Helm version 3\.9\.0 or later configured on your device or AWS CloudShell\. To install or update Helm, see [Using Helm with Amazon EKS](helm.md)\.
 + If your cluster is version `1.23` or later, you must have the [Amazon EBS CSI driver](ebs-csi.md) installed on your cluster\.
 
@@ -22,13 +22,13 @@ Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibil
 
    Kubecost releases new versions regularly\. You can update your version using [https://helm.sh/docs/helm/helm_upgrade/](https://helm.sh/docs/helm/helm_upgrade/)\. By default, the installation includes a local Prometheus server and `kube-state-metrics`\. You can customize your deployment to use [Amazon Managed Service for Prometheus](http://aws.amazon.com/blogs/mt/integrating-kubecost-with-amazon-managed-service-for-prometheus/) by following the documentation in [Integrating with Amazon EKS cost monitoring](https://docs.aws.amazon.com/prometheus/latest/userguide/integrating-kubecost.html)\. For a list of all other settings that you can configure, see the [sample configuration file](https://github.com/kubecost/cost-analyzer-helm-chart/blob/develop/cost-analyzer/values-eks-cost-monitoring.yaml) on GitHub\.
 
-1. Make sure the required pods are running\.
+1. Make sure the required Pods are running\.
 
    ```
    kubectl get pods -n kubecost
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME                                          READY   STATUS    RESTARTS   AGE
@@ -82,7 +82,41 @@ See the following common questions and answers about using Kubecost with Amazon 
 
 ### What is the difference between the custom bundle of Kubecost and the free version of Kubecost \(also known as OpenCost\)?<a name="cost-monitoring-faq-differences"></a>
 
-AWS and Kubecost collaborated to offer a customized version of Kubecost\. This version includes a subset of commercial features at no additional charge\. In addition to all open source features of Kubecost, this version includes Cost efficiency measurements, Charge back with AWS Cost and Usage Report integration, and enterprise support\. It doesn't include unnamed and future enterprise features of Kubecost, multi\-cloud support, and business and enterprise optimization and governance\.
+AWS and Kubecost collaborated to offer a customized version of Kubecost\. This version includes a subset of commercial features at no additional charge\. See the following table for features that are included with in the custom bundle of Kubecost\.
+
+
+| Feature | Kubecost free tier | Amazon EKS optimized Kubecost custom bundle | Kubecost Enterprise | 
+| --- | --- | --- | --- | 
+| Deployment | User hosted | User hosted | User hosted or Kubecost hosted \(SaaS\) | 
+| Number of clusters supported | Unlimited | Unlimited | Unlimited | 
+| Databases supported | Local Prometheus | Local Prometheus or Amazon Managed Service for Prometheus | Prometheus, Amazon Managed Service for Prometheus, Cortex, or Thanos | 
+| Database retention support | 15 days | Unlimited historical data | Unlimited historical data | 
+| Kubecost API retention \(ETL\) | 15 days | 15 days | Unlimited historical data | 
+| Cluster cost visibility | Single clusters | Unified multi\-cluster | Unified multi\-cluster | 
+| Hybrid cloud visibility | \- | Amazon EKS and Amazon EKS Anywhere clusters | Multi\-cloud and hybrid\-cloud support | 
+| Alerts and recurring reports | \- | Efficiency alerts, budget alerts, spend change alerts, and more supported | Efficiency alerts, budget alerts, spend change alerts, and more supported | 
+| Saved reports | \- | Reports using 15 days data | Reports using unlimited historical data | 
+| Cloud billing integration | Required for each individual cluster | Custom pricing support for AWS \(including multiple clusters and multiple accounts\) | Custom pricing support for AWS \(including multiple clusters and multiple accounts\) | 
+| Savings recommendations | Single cluster insights | Single cluster insights | Multi\-cluster insights | 
+| Governance: Audits | \- | \- | Audit historical cost events | 
+| Single sign\-on \(SSO\) support | \- | Amazon Cognito supported | Okta, Auth0, PingID, KeyCloak | 
+| Role\-based access control \(RBAC\) with SAML 2\.0 | \- | \- | Okta, Auth0, PingID, Keycloak | 
+| Enterprise training and onboarding | \- | \- | Full\-service training and FinOps onboarding | 
+
+**What is the Kubecost API retention \(ETL\) feature?**  
+The Kubecost ETL feature aggregates and organizes metrics to surface cost visibility at various levels of granularity \(such as `namespace-level`, `pod-level`, and `deployment-level`\)\. For the custom Kubecost bundle, customers get data and insights from metrics for the last 15 days\.
+
+**What is the alerts and recurring reports feature? What alerts and reports does it include?**  
+Kubecost alerts allow teams to receive updates on real\-time Kubernetes spend as well as cloud spend\. Recurring reports enable teams to receive customized views of historical Kubernetes and cloud spend\. Both are configurable using the Kubecost UI or Helm values\. They support email, Slack, and Microsoft Teams\.
+
+**What do saved reports include?**  
+Kubecost saved reports are predefined views of cost and efficiency metrics\. They include cost by cluster, namespace, label, and more\.
+
+**What is cloud billing integration?**  
+Integration with AWS billing APIs allows Kubecost to display out\-of\-cluster costs \(such as Amazon S3\)\. Additionally, it allows Kubecost to reconcile Kubecost's in\-cluster predictions with actual billing data to account for spot usage, savings plans, and enterprise discounts\.
+
+**What do savings recommendations include?**  
+Kubecost provides insights and automation to help users optimize their Kubernetes infrastructure and spend\.
 
 ### Is there a charge for this functionality?<a name="cost-monitoring-faq-charge"></a>
 
@@ -106,7 +140,7 @@ No\. This version is only compatible with Amazon EKS clusters\.
 
 ### Can Kubecost track costs for Amazon EKS on AWS Fargate?<a name="cost-monitoring-faq-fargate"></a>
 
-Kubecost provides best effort to show cluster cost visibility for Amazon EKS on Fargate, but with lower accuracy than with Amazon EKS on Amazon EC2\. This is primarily due to the difference in how you're billed for your usage\. With Amazon EKS on Fargate, you're billed for consumed resources\. With Amazon EKS on Amazon EC2 nodes, you're billed for provisioned resources\. Kubecost calculates the cost of an Amazon EC2 node based on the node specification, which includes CPU, RAM, and ephemeral storage\. With Fargate, costs are calculated based on the requested resources for the Fargate pods\.
+Kubecost provides best effort to show cluster cost visibility for Amazon EKS on Fargate, but with lower accuracy than with Amazon EKS on Amazon EC2\. This is primarily due to the difference in how you're billed for your usage\. With Amazon EKS on Fargate, you're billed for consumed resources\. With Amazon EKS on Amazon EC2 nodes, you're billed for provisioned resources\. Kubecost calculates the cost of an Amazon EC2 node based on the node specification, which includes CPU, RAM, and ephemeral storage\. With Fargate, costs are calculated based on the requested resources for the Fargate Pods\.
 
 ### How can I get updates and new versions of Kubecost?<a name="cost-monitoring-faq-updates"></a>
 
@@ -118,7 +152,7 @@ Yes\. `Kubectl-cost` is an open source tool by Kubecost \(Apache 2\.0 License\) 
 
 ### Is the Kubecost user interface supported? How do I access it?<a name="cost-monitoring-faq-ui"></a>
 
-Kubecost provides a web dashboard that you can access through `kubectl` port forwarding, an ingress, or a load balancer\. You can also use the AWS Load Balancer Controller to expose Kubecost and use Amazon Cognito for authentication, authorization\. and user management\. For more information, see [How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps](http://aws.amazon.com/blogs/containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps/) on the AWS blog\.
+Kubecost provides a web dashboard that you can access through `kubectl` port forwarding, an ingress, or a load balancer\. You can also use the AWS Load Balancer Controller to expose Kubecost and use Amazon Cognito for authentication, authorization, and user management\. For more information, see [How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps](http://aws.amazon.com/blogs/containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps/) on the AWS blog\.
 
 ### Is Amazon EKS Anywhere supported?<a name="cost-monitoring-faq-eks-a"></a>
 

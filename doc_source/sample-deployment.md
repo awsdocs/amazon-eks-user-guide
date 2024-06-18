@@ -10,7 +10,7 @@ In this topic, you deploy a sample application to your cluster\.
 
 **To deploy a sample application**
 
-Though many variables are changeable in the following steps, we recommend only changing variable values where specified\. Once you have a better understanding of Kubernetes pods, deployments, and services, you can experiment with changing other values\.
+Though many variables are changeable in the following steps, we recommend only changing variable values where specified\. Once you have a better understanding of Kubernetes Pods, deployments, and services, you can experiment with changing other values\.
 
 1. Create a namespace\. A namespace allows you to group resources in Kubernetes\. For more information, see [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) in the Kubernetes documentation\. If you plan to deploy your sample application to [AWS Fargate](fargate.md), make sure that the value for `namespace` in your [AWS Fargate profile](fargate-profile.md) is `eks-sample-app`\.
 
@@ -18,7 +18,7 @@ Though many variables are changeable in the following steps, we recommend only c
    kubectl create namespace eks-sample-app
    ```
 
-1. Create a Kubernetes deployment\. This sample deployment pulls a container image from a public repository and deploys three replicas \(individual pods\) of it to your cluster\. To learn more, see [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) in the Kubernetes documentation\. You can deploy the application to Linux or Windows nodes\. If you're deploying to Fargate, then you can only deploy a Linux application\.
+1. Create a Kubernetes deployment\. This sample deployment pulls a container image from a public repository and deploys three replicas \(individual Pods\) of it to your cluster\. To learn more, see [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) in the Kubernetes documentation\. You can deploy the application to Linux or Windows nodes\. If you're deploying to Fargate, then you can only deploy a Linux application\.
 
    1. Save the following contents to a file named `eks-sample-deployment.yaml`\. The containers in the sample application don't use network storage, but you might have applications that need to\. For more information, see [Storage](storage.md)\.
 
@@ -59,7 +59,7 @@ Though many variables are changeable in the following steps, we recommend only c
                       - arm64
             containers:
             - name: nginx
-              image: public.ecr.aws/nginx/nginx:1.21
+              image: public.ecr.aws/nginx/nginx:1.23
               ports:
               - name: http
                 containerPort: 80
@@ -123,7 +123,7 @@ Though many variables are changeable in the following steps, we recommend only c
       kubectl apply -f eks-sample-deployment.yaml
       ```
 
-1. Create a service\. A service allows you to access all replicas through a single IP address or name\. For more information, see [Service](https://kubernetes.io/docs/concepts/services-networking/service/) in the Kubernetes documentation\. Though not implemented in the sample application, if you have applications that need to interact with other AWS services, we recommend that you create Kubernetes service accounts for your pods, and associate them to AWS IAM accounts\. By specifying service accounts, your pods have only the minimum permissions that you specify for them to interact with other services\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
+1. Create a service\. A service allows you to access all replicas through a single IP address or name\. For more information, see [Service](https://kubernetes.io/docs/concepts/services-networking/service/) in the Kubernetes documentation\. Though not implemented in the sample application, if you have applications that need to interact with other AWS services, we recommend that you create Kubernetes service accounts for your Pods, and associate them to AWS IAM accounts\. By specifying service accounts, your Pods have only the minimum permissions that you specify for them to interact with other services\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
 
    1. Save the following contents to a file named `eks-sample-service.yaml`\. Kubernetes assigns the service its own IP address that is accessible only from within the cluster\. To access the service from outside of your cluster, deploy the [AWS Load Balancer Controller](aws-load-balancer-controller.md) to load balance [application](alb-ingress.md) or [network](network-load-balancing.md) traffic to the service\. 
 
@@ -181,7 +181,7 @@ Though many variables are changeable in the following steps, we recommend only c
    kubectl get all -n eks-sample-app
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    If you deployed Windows resources, then all instances of `linux` in the following output are `windows`\. The other *example values* may be different from your output\.
 
@@ -201,9 +201,9 @@ Though many variables are changeable in the following steps, we recommend only c
    replicaset.apps/eks-sample-linux-deployment-776d8f8fd8    3         3         3       27m
    ```
 
-   In the output, you see the service and deployment that were specified in the sample manifests deployed in previous steps\. You also see three pods\. This is because `3` `replicas` were specified in the sample manifest\. For more information about pods, see [Pods](https://kubernetes.io/docs/concepts/workloads/pods/pod/) in the Kubernetes documentation\. Kubernetes automatically creates the `replicaset` resource, even though it isn't specified in the sample manifests\. For more information about `ReplicaSets`, see [ReplicaSet](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/) in the Kubernetes documentation\.
+   In the output, you see the service and deployment that were specified in the sample manifests deployed in previous steps\. You also see three Pods\. This is because `3` `replicas` were specified in the sample manifest\. For more information about Pods, see [Pods](https://kubernetes.io/docs/concepts/workloads/pods/pod/) in the Kubernetes documentation\. Kubernetes automatically creates the `replicaset` resource, even though it isn't specified in the sample manifests\. For more information about `ReplicaSets`, see [ReplicaSet](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/) in the Kubernetes documentation\.
 **Note**  
-Kubernetes maintains the number of replicas that are specified in the manifest\. If this were a production deployment and you wanted Kubernetes to horizontally scale the number of replicas or vertically scale the compute resources for the pods, use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) and the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to do so\.
+Kubernetes maintains the number of replicas that are specified in the manifest\. If this were a production deployment and you wanted Kubernetes to horizontally scale the number of replicas or vertically scale the compute resources for the Pods, use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) and the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to do so\.
 
 1. View the details of the deployed service\. If you deployed a Windows service, replace `linux` with **windows**\.
 
@@ -211,7 +211,7 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
    kubectl -n eks-sample-app describe service eks-sample-linux-service
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    If you deployed Windows resources, then all instances of `linux` in the following output are `windows`\. The other *example values* may be different from your output\.
 
@@ -232,9 +232,9 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
    Events:            <none>
    ```
 
-   In the previous output, the value for `IP:` is a unique IP address that can be reached from any node or pod within the cluster, but it can't be reached from outside of the cluster\. The values for `Endpoints` are IP addresses assigned from within your VPC to the pods that are part of the service\.
+   In the previous output, the value for `IP:` is a unique IP address that can be reached from any node or Pod within the cluster, but it can't be reached from outside of the cluster\. The values for `Endpoints` are IP addresses assigned from within your VPC to the Pods that are part of the service\.
 
-1. View the details of one of the pods listed in the output when you [viewed the namespace](#sample-app-view-namespace) in a previous step\. If you deployed a Windows app, replace `linux` with **windows** and replace `776d8f8fd8-78w66` with the value returned for one of your pods\.
+1. View the details of one of the Pods listed in the output when you [viewed the namespace](#sample-app-view-namespace) in a previous step\. If you deployed a Windows app, replace `linux` with **windows** and replace `776d8f8fd8-78w66` with the value returned for one of your Pods\.
 
    ```
    kubectl -n eks-sample-app describe pod eks-sample-linux-deployment-65b7669776-m6qxz
@@ -242,38 +242,38 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
 
    Abbreviated output
 
-   If you deployed Windows resources, then all instances of `linux` in the following output are `windows`\. The other *example values* may be different from your output\.
+   If you deployed Windows resources, then all instances of `linux` in the following output are `windows`\. The other `example values` may be different from your output\.
 
    ```
    Name:         eks-sample-linux-deployment-65b7669776-m6qxz
    Namespace:    eks-sample-app
    Priority:     0
    Node:         ip-192-168-45-132.us-west-2.compute.internal/192.168.45.132
-   ...
+   [...]
    IP:           192.168.63.93
    IPs:
      IP:           192.168.63.93
    Controlled By:  ReplicaSet/eks-sample-linux-deployment-65b7669776
-   ...
+   [...]
    Conditions:
      Type              Status
      Initialized       True
      Ready             True
      ContainersReady   True
      PodScheduled      True
-   ...
+   [...]
    Events:
      Type    Reason     Age    From                                                 Message
      ----    ------     ----   ----                                                 -------
      Normal  Scheduled  3m20s  default-scheduler                                    Successfully assigned eks-sample-app/eks-sample-linux-deployment-65b7669776-m6qxz to ip-192-168-45-132.us-west-2.compute.internal
-   ...
+   [...]
    ```
 
-   In the previous output, the value for `IP:` is a unique IP that's assigned to the pod from the CIDR block assigned to the subnet that the node is in\. If you prefer to assign pods IP addresses from different CIDR blocks, you can change the default behavior\. For more information, see [Tutorial: Custom networking](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the pod on the `Node` with the IP address *`192.168.45.132`*\.
+   In the previous output, the value for `IP:` is a unique IP that's assigned to the Pod from the CIDR block assigned to the subnet that the node is in\. If you prefer to assign Pods IP addresses from different CIDR blocks, you can change the default behavior\. For more information, see [Custom networking for pods](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the Pod on the `Node` with the IP address *`192.168.45.132`*\.
 **Tip**  
-Rather than using the command line, you can view many details about pods, services, deployments, and other Kubernetes resources in the AWS Management Console\. For more information, see [View Kubernetes resources](view-kubernetes-resources.md)\.
+Rather than using the command line, you can view many details about Pods, services, deployments, and other Kubernetes resources in the AWS Management Console\. For more information, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
-1. Run a shell on the pod that you described in the previous step, replacing `65b7669776-m6qxz` with the ID of one of your pods\.
+1. Run a shell on the Pod that you described in the previous step, replacing `65b7669776-m6qxz` with the ID of one of your Pods\.
 
 ------
 #### [ Linux ]
@@ -291,7 +291,7 @@ Rather than using the command line, you can view many details about pods, servic
 
 ------
 
-1. From the pod shell, view the output from the web server that was installed with your deployment in a previous step\. You only need to specify the service name\. It is resolved to the service's IP address by CoreDNS, which is deployed with an Amazon EKS cluster, by default\.
+1. From the Pod shell, view the output from the web server that was installed with your deployment in a previous step\. You only need to specify the service name\. It is resolved to the service's IP address by CoreDNS, which is deployed with an Amazon EKS cluster, by default\.
 
 ------
 #### [ Linux ]
@@ -300,14 +300,14 @@ Rather than using the command line, you can view many details about pods, servic
    curl eks-sample-linux-service
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    <!DOCTYPE html>
    <html>
    <head>
    <title>Welcome to nginx!</title>
-   ...
+   [...]
    ```
 
 ------
@@ -317,7 +317,7 @@ Rather than using the command line, you can view many details about pods, servic
    Invoke-WebRequest -uri eks-sample-windows-service/default.html -UseBasicParsing
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    StatusCode        : 200
@@ -328,7 +328,7 @@ Rather than using the command line, you can view many details about pods, servic
 
 ------
 
-1. From the pod shell, view the DNS server for the pod\.
+1. From the Pod shell, view the DNS server for the Pod\.
 
 ------
 #### [ Linux ]
@@ -337,7 +337,7 @@ Rather than using the command line, you can view many details about pods, servic
    cat /etc/resolv.conf
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    nameserver 10.100.0.10
@@ -345,7 +345,7 @@ Rather than using the command line, you can view many details about pods, servic
    options ndots:5
    ```
 
-   In the previous output, `10.100.0.10` is automatically assigned as the `nameserver` for all pods deployed to the cluster\.
+   In the previous output, `10.100.0.10` is automatically assigned as the `nameserver` for all Pods deployed to the cluster\.
 
 ------
 #### [ Windows ]
@@ -358,17 +358,17 @@ Rather than using the command line, you can view many details about pods, servic
 
    ```
    InterfaceAlias       : vEthernet
-   ...
+   [...]
    IPv4Address          : 192.168.63.14
-   ...
+   [...]
    DNSServer            : 10.100.0.10
    ```
 
-   In the previous output, `10.100.0.10` is automatically assigned as the DNS server for all pods deployed to the cluster\.
+   In the previous output, `10.100.0.10` is automatically assigned as the DNS server for all Pods deployed to the cluster\.
 
 ------
 
-1. Disconnect from the pod by typing `exit`\.
+1. Disconnect from the Pod by typing `exit`\.
 
 1. Once you're finished with the sample application, you can remove the sample namespace, service, and deployment with the following command\.
 
