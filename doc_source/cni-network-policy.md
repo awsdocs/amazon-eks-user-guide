@@ -20,7 +20,8 @@ Network policies in the Amazon VPC CNI plugin for Kubernetes are supported in th
 + 
 
 **Policy enforcement at Pod startup**  
-The Amazon VPC CNI plugin for Kubernetes configures network policies for pods in parallel with the pod provisioning\. Until all of the policies are configured for the new pod, containers in the new pod will start with a *default allow policy*\. This is called *standard mode*\. A default allow policy means that all ingress and egress traffic is allowed to and from the new pods\.
+The Amazon VPC CNI plugin for Kubernetes configures network policies for pods in parallel with the pod provisioning\. Until all of the policies are configured for the new pod, containers in the new pod will start with a *default allow policy*\. This is called *standard mode*\. A default allow policy means that all ingress and egress traffic is allowed to and from the new pods\. For example, the pods will not have any firewall rules enforced until the new pod is reconciled against active policies and so all traffic is allowed. However, once the firewall rules take effect, it will block any return traffic that isn't tracked by the probes\. For more information, see [GitHub issue #189](https://github.com/aws/aws-network-policy-agent/issues/189)\. 
+
 
   You can change this default network policy by setting the environment variable `NETWORK_POLICY_ENFORCING_MODE` to `strict` in the `aws-node` container of the VPC CNI `DaemonSet`\.
 
