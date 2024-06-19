@@ -47,7 +47,7 @@ Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibil
 
 1. Determine the version of Kubecost to install\. You can see the available versions at [kubecost/cost\-analyzer](https://gallery.ecr.aws/kubecost/cost-analyzer) in the Amazon ECR Public Gallery\. For more information about the compability of Kubecost versions and Amazon EKS, see the [Environment Requirements](https://docs.kubecost.com/install-and-configure/install/environment) in the Kubecost documentation\. 
 
-**Option 1: Helm Chart**: (Applicable for Free License with 250 Cores Limit): Install Kubecost with the following command\. Replace *kubecost\-version* with the value retreived from ECR, such as *1\.108\.1*\.
+1. Install Kubecost with the following command\. Replace *kubecost\-version* with the value retreived from ECR, such as *1\.108\.1*\.
 
    ```
    helm upgrade -i kubecost oci://public.ecr.aws/kubecost/cost-analyzer --version kubecost-version \
@@ -56,13 +56,6 @@ Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibil
    ```
 
    Kubecost releases new versions regularly\. You can update your version using [https://helm.sh/docs/helm/helm_upgrade/](https://helm.sh/docs/helm/helm_upgrade/)\. By default, the installation includes a local [https://prometheus.io/](https://prometheus.io/) server and `kube-state-metrics`\. You can customize your deployment to use [Amazon Managed Service for Prometheus](https://aws.amazon.com/blogs/mt/integrating-kubecost-with-amazon-managed-service-for-prometheus/) by following the documentation in [Integrating with Amazon EKS cost monitoring](https://docs.aws.amazon.com/prometheus/latest/userguide/integrating-kubecost.html)\. For a list of all other settings that you can configure, see the [sample configuration file](https://github.com/kubecost/cost-analyzer-helm-chart/blob/develop/cost-analyzer/values-eks-cost-monitoring.yaml) on GitHub\.
-
-**Option 1: EKS Add-on**: (Applicable for AWS Optimized License without any Limit): Install Kubecost with the following command to have it added as an EKS Add-on\. You need to replace *$YOUR_CLUSTER_NAME* and *$AWS_REGION* accordingly with your actual Amazon EKS cluster name and AWS region.
-
-   ```
-   aws eks create-addon --addon-name kubecost_kubecost --cluster-name $YOUR_CLUSTER_NAME --region $AWS_REGION
-   ```
-   For more details on the integration of Kubecost Add-on over EKS Console, explore the announcement post at: [New – AWS Marketplace for Containers Now Supports Direct Deployment to Amazon EKS Clusters](https://aws.amazon.com/blogs/aws/new-aws-marketplace-for-containers-now-supports-direct-deployment-to-amazon-eks-clusters/)
 
 1. Make sure the required Pods are running\.
 

@@ -51,6 +51,10 @@ Choose an add\-on to learn more about it and its installation requirements\.
 + **Additional information** – To learn more about `kube-proxy`, see [https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/) in the Kubernetes documentation\.
 + **Update information** – Before updating your current version, consider the following requirements:
   + `Kube-proxy` on an Amazon EKS cluster has the same [compatibility and skew policy as Kubernetes](https://kubernetes.io/releases/version-skew-policy/#kube-proxy)\.
+  + `Kube-proxy` must be the same minor version as `kubelet` on your Amazon EC2 nodes\. 
+  + `Kube-proxy` can't be later than the minor version of your cluster's control plane\.
+  + The `kube-proxy` version on your Amazon EC2 nodes can't be more than two minor versions earlier than your control plane\. For example, if your control plane is running Kubernetes 1\.30, then the `kube-proxy` minor version can't be earlier than 1\.28\.
+  + If you recently updated your cluster to a new Kubernetes minor version, then update your Amazon EC2 nodes to the same minor version *before* updating `kube-proxy` to the same minor version as your nodes\.
 
 ### Amazon EBS CSI driver<a name="add-ons-aws-ebs-csi-driver"></a>
 + **Name** – `aws-ebs-csi-driver`

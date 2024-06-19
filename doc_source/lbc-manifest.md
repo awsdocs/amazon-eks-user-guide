@@ -223,7 +223,7 @@ We recommend using the `quay.io` container registry to install `cert-manager`\. 
    1. If you downloaded the `v2_7_2_full.yaml` file, run the following command to remove the `ServiceAccount` section in the manifest\. If you don't remove this section, the required annotation that you made to the service account in a previous step is overwritten\. Removing this section also preserves the service account that you created in a previous step if you delete the controller\.
 
       ```
-      $ sed -i.bak -e '612,620d' ./v2_7_2_full.yaml
+      $ sed -i.bak -e '596,604d' ./v2_7_2_full.yaml
       ```
 
       If you downloaded a different file version, then open the file in an editor and remove the following lines\. 
