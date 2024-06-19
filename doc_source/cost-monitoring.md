@@ -4,7 +4,7 @@ Cost monitoring is an essential aspect of managing your Kubernetes clusters on A
 
 **AWS Billing split cost allocation data for Amazon EKS** — This native feature integrates seamlessly with the AWS Billing Console, allowing you to analyze and allocate costs using the same familiar interface and workflows you use for other AWS services\. With split cost allocation, you can gain insights into your Kubernetes costs directly alongside your other AWS spend, making it easier to optimize costs holistically across your AWS environment\. You can also leverage existing AWS Billing features like Cost Categories and Cost Anomaly Detection to further enhance your cost management capabilities\. For more information, see [Understanding split cost allocation data](https://docs.aws.amazon.com/cur/latest/userguide/split-cost-allocation-data.html) in the AWS Billing User Guide\.
 
-**Kubecost** — Amazon EKS supports Kubecost, a Kubernetes cost monitoring tool\. Kubecost offers a feature\-rich, Kubernetes\-native approach to cost monitoring, providing granular cost breakdowns by Kubernetes resources, cost optimization recommendations, and out\-of\-the\-box dashboards and reports\. Kubecost also retrieves accurate pricing data by integrating with the AWS Cost and Usage Report, ensuring you get a precise view of your Amazon EKS costs\. Learn how to [Install Kubecost](#install-kubecost-procedure)\.
+**Kubecost** — Amazon EKS supports Kubecost, a Kubernetes cost monitoring tool\. Kubecost offers a feature\-rich, Kubernetes\-native approach to cost monitoring, providing granular cost breakdowns by Kubernetes resources, cost optimization recommendations, and out\-of\-the\-box dashboards and reports\. Kubecost also retrieves accurate pricing data by integrating with the AWS Cost and Usage Report, ensuring you get a precise view of your Amazon EKS costs\. Learn how to [Install Kubecost](#kubecost-addon)\.
 
 ## AWS Billing — Split Cost Allocation<a name="cost-monitoring-aws"></a>
 
@@ -37,17 +37,17 @@ Amazon EKS supports Kubecost, which you can use to monitor your costs broken dow
 
 Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibility\. You can use your existing AWS support agreements to obtain support\.
 
+### Install Kubecost using Helm<a name="kubecost-helm"></a>
+
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. The cluster must have Amazon EC2 nodes because you can't run Kubecost on Fargate nodes\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + Helm version 3\.9\.0 or later configured on your device or AWS CloudShell\. To install or update Helm, see [Using Helm with Amazon EKS](helm.md)\.
 + If your cluster is version `1.23` or later, you must have the [Amazon EBS CSI driver](ebs-csi.md) installed on your cluster\.
 
-**To install Kubecost**
+1. Determine the version of Kubecost to install\. You can see the available versions at [kubecost/cost\-analyzer](https://gallery.ecr.aws/kubecost/cost-analyzer) in the Amazon ECR Public Gallery\. For more information about the compatibility of Kubecost versions and Amazon EKS, see the [Environment Requirements](https://docs.kubecost.com/install-and-configure/install/environment) in the Kubecost documentation\. 
 
-1. Determine the version of Kubecost to install\. You can see the available versions at [kubecost/cost\-analyzer](https://gallery.ecr.aws/kubecost/cost-analyzer) in the Amazon ECR Public Gallery\. For more information about the compability of Kubecost versions and Amazon EKS, see the [Environment Requirements](https://docs.kubecost.com/install-and-configure/install/environment) in the Kubecost documentation\. 
-
-1. Install Kubecost with the following command\. Replace *kubecost\-version* with the value retreived from ECR, such as *1\.108\.1*\.
+1. Install Kubecost with the following command\. Replace *kubecost\-version* with the value retrieved from ECR, such as *1\.108\.1*\.
 
    ```
    helm upgrade -i kubecost oci://public.ecr.aws/kubecost/cost-analyzer --version kubecost-version \
@@ -56,6 +56,31 @@ Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibil
    ```
 
    Kubecost releases new versions regularly\. You can update your version using [https://helm.sh/docs/helm/helm_upgrade/](https://helm.sh/docs/helm/helm_upgrade/)\. By default, the installation includes a local [https://prometheus.io/](https://prometheus.io/) server and `kube-state-metrics`\. You can customize your deployment to use [Amazon Managed Service for Prometheus](https://aws.amazon.com/blogs/mt/integrating-kubecost-with-amazon-managed-service-for-prometheus/) by following the documentation in [Integrating with Amazon EKS cost monitoring](https://docs.aws.amazon.com/prometheus/latest/userguide/integrating-kubecost.html)\. For a list of all other settings that you can configure, see the [sample configuration file](https://github.com/kubecost/cost-analyzer-helm-chart/blob/develop/cost-analyzer/values-eks-cost-monitoring.yaml) on GitHub\.
+
+   You can remove Kubecost from your cluster with the following commands\.
+
+   ```
+   helm uninstall kubecost --namespace kubecost
+   kubectl delete ns kubecost
+   ```
+
+### Install Kubecost using Amazon EKS Add\-ons<a name="kubecost-addon"></a>
+
+Amazon EKS Add\-ons reduce the complexity of upgrading Kubecost, and managing licenses\. EKS Add\-ons are integrated with the AWS marketplace\. 
+
+1. View[ Kubecost in the AWS Marketplace console](https://aws.amazon.com/marketplace/seller-profile?id=983de668-2731-4c99-a7e2-74f27d796173) and subscribe\. 
+
+1. Determine the name of your cluster, and the region\. Verify you are logged into the AWS CLI with sufficient permissions to manage EKS\. 
+
+1. Create the Kubecost addon\.
+
+   ```
+   aws eks create-addon --addon-name kubecost_kubecost --cluster-name $YOUR_CLUSTER_NAME --region $AWS_REGION
+   ```
+
+Learn how to [remove an EKS Add\-on](managing-add-ons.md#removing-an-add-on), such as Kubecost\.
+
+### Access Kubecost Dashboard<a name="kubecost-dashboard"></a>
 
 1. Make sure the required Pods are running\.
 
@@ -95,21 +120,14 @@ Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibil
 + **Cost allocation** – View monthly Amazon EKS costs and cumulative costs for each of your namespaces and other dimensions over the past seven days\. This is helpful for understanding which parts of your application are contributing to Amazon EKS spend\.
 + **Assets** – View the costs of the AWS infrastructure assets that are associated with your Amazon EKS resources\.
 
+### Learn more about Kubecost<a name="kubecost-learn"></a>
+
 **Additional features**
 + **Export cost metrics** – Amazon EKS optimized cost monitoring is deployed with Kubecost and Prometheus, which is an open\-source monitoring system and time series database\. Kubecost reads metric from Prometheus and then performs cost allocation calculations and writes the metrics back to Prometheus\. The Kubecost front\-end reads metrics from Prometheus and shows them on the Kubecost user interface\. The architecture is illustrated in the following diagram\.  
 ![\[Kubecost architecture\]](http://docs.aws.amazon.com/eks/latest/userguide/images/kubecost-architecture.png)
 
   With [https://prometheus.io/](https://prometheus.io/) pre\-installed, you can write queries to ingest Kubecost data into your current business intelligence system for further analysis\. You can also use it as a data source for your current [https://grafana.com/](https://grafana.com/) dashboard to display Amazon EKS cluster costs that your internal teams are familiar with\. To learn more about how to write Prometheus queries, see the [Prometheus Configuration](https://github.com/opencost/opencost/blob/develop/PROMETHEUS.md) `readme` file on GitHub or use the example Grafana JSON models in the [Kubecost Github repository](https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer) as references\.
 + **AWS Cost and Usage Report integration** – To perform cost allocation calculations for your Amazon EKS cluster, Kubecost retrieves the public pricing information of AWS services and AWS resources from the AWS Price List API\. You can also integrate Kubecost with **AWS Cost and Usage Report** to enhance the accuracy of the pricing information specific to your AWS account\. This information includes enterprise discount programs, reserved instance usage, savings plans, and spot usage\. To learn more about how the AWS Cost and Usage Report integration works, see [AWS Cloud Billing Integration](https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations) in the Kubecost documentation\.
-
-### Remove Kubecost<a name="cost-monitoring-remove-kubecost"></a>
-
-You can remove Kubecost from your cluster with the following commands\.
-
-```
-helm uninstall kubecost --namespace kubecost
-kubectl delete ns kubecost
-```
 
 ### Frequently asked questions<a name="cost-monitoring-faq"></a>
 

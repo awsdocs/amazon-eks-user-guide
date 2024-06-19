@@ -27,3 +27,11 @@ The metrics are meant for point\-in\-time analysis and aren't an accurate source
    NAME             READY   UP-TO-DATE   AVAILABLE   AGE
    metrics-server   1/1     1            1           6m
    ```
+
+1. Test the metrics server is working by displaying resource \(CPU/memory\) usage of nodes\. 
+
+   ```
+   kubectl top nodes
+   ```
+
+1. If you receive the error message `Error from server (Forbidden)`, you need to update your Kubernetes RBAC configuration\. Your Kubernetes RBAC identity needs sufficent permissions to read cluster metrics\. Review the[ minimum required Kubernetes API permissions for reading metrics](https://github.com/kubernetes-sigs/metrics-server/blob/e285375a49e3bf77ddd78c08a05aaa44f2249ebd/manifests/base/rbac.yaml#L5C9-L5C41) on GitHub\. Learn how to[ grant AWS IAM Identities, such as Roles, access to Kubernetes APIs](grant-k8s-access.md#authentication-modes)\. 

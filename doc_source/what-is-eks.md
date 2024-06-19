@@ -49,4 +49,4 @@ An Amazon EKS cluster consists of a control plane and the [Amazon Elastic Comput
 Pay for the instances that you use by the second, with no long\-term commitments or upfront payments\. For more information, see [Amazon EC2 On\-Demand Pricing](https://aws.amazon.com/ec2/pricing/on-demand/) and [AWS Fargate Pricing](https://aws.amazon.com/fargate/pricing/)\.
 
 **Savings Plans**  
-You can reduce your costs by making a commitment to a consistent amount of usage, in USD per hour, for a term of one or three years\. For more information, see [Pricing with Savings Plans](https://aws.amazon.com/savingsplans/pricing/)\.
+You can reduce your costs by making a commitment to a consistent amount of usage, in USD per hour, for a term of one or three years\. For more information, see [Pricing with Savings Plans](https://aws.amazon.com/savingsplans/pricing/)\. You can also use a hybrid pricing model\. For example, you can use Savings Plans to serve your regular traffic and scale up your cluster nodes with Spot instances to serve the peak demands\.

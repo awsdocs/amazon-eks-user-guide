@@ -20,7 +20,7 @@ Network policies in the Amazon VPC CNI plugin for Kubernetes are supported in th
 + 
 
 **Policy enforcement at Pod startup**  
-The Amazon VPC CNI plugin for Kubernetes configures network policies for pods in parallel with the pod provisioning\. Until all of the policies are configured for the new pod, containers in the new pod will start with a *default allow policy*\. This is called *standard mode*\. A default allow policy means that all ingress and egress traffic is allowed to and from the new pods\.
+The Amazon VPC CNI plugin for Kubernetes configures network policies for pods in parallel with the pod provisioning\. Until all of the policies are configured for the new pod, containers in the new pod will start with a *default allow policy*\. This is called *standard mode*\. A default allow policy means that all ingress and egress traffic is allowed to and from the new pods\. For example, the pods will not have any firewall rules enforced \(all traffic is allowed\) until the new pod is updated with the active policies\. 
 
   You can change this default network policy by setting the environment variable `NETWORK_POLICY_ENFORCING_MODE` to `strict` in the `aws-node` container of the VPC CNI `DaemonSet`\.
 
@@ -270,6 +270,33 @@ For all other cluster versions, if you upgrade the Amazon EKS optimized Amazon L
    If network policy is enabled, there are 2 containers in the `aws-node` pods\. In previous versions and if network policy is disabled, there is only a single container in the `aws-node` pods\.
 
    You can now deploy Kubernetes network policies to your cluster\. For more information, see [Kubernetes network policies](#network-policies-implement-policies)\.
+
+## Disable Network Policies<a name="network-policy-disable"></a>
+
+1. List all Kubernetes network policies\.
+
+   ```
+   kubectl get netpol -A
+   ```
+
+1. Delete each Kubernetes network policy\. You must delete all network policies before disabling network policies\. 
+
+   ```
+   kubectl delete netpol <policy-name>
+   ```
+
+1. Open the aws\-node DaemonSet in your editor\.
+
+   ```
+   kubectl edit daemonset -n kube-system aws-node
+   ```
+
+1. Replace the `true` with `false` in the command argument `--enable-network-policy=true` in the `args:` in the `aws-network-policy-agent` container in the VPC CNI `aws-node` daemonset manifest\.
+
+   ```
+        - args:
+           - --enable-network-policy=true
+   ```
 
 ## Stars demo of network policy<a name="network-policy-stars-demo"></a>
 
