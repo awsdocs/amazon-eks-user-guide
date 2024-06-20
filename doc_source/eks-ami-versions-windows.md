@@ -28,6 +28,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.30\-2024\.06\.17 | 1\.30\.0 | 1\.7\.14 | 1\.1\.2 | Upgraded containerd to 1\.7\.14\. | 
 | 1\.30\-2024\.05\.15 | 1\.30\.0 | 1\.6\.28 | 1\.1\.2 |  | 
 
 ------
@@ -38,6 +39,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.29\-2024\.06\.17 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 |  | 
 | 1\.29\-2024\.05\.15 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. Upgraded kubelet to 1\.29\.3\. | 
 | 1\.29\-2024\.04\.09 | 1\.29\.0 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.29\-2024\.03\.12 | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 |  | 
@@ -53,6 +55,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2024\.06\.17 | 1\.28\.8 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.28\-2024\.05\.14 | 1\.28\.8 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.28\.8\. | 
 | 1\.28\-2024\.04\.09 | 1\.28\.5 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.28\-2024\.03\.12 | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -72,6 +75,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2024\.06\.17 | 1\.27\.12 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.27\-2024\.05\.14 | 1\.27\.12 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.27\.12\. | 
 | 1\.27\-2024\.04\.09 | 1\.27\.9 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.27\-2024\.03\.12 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -98,6 +102,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2024\.06\.17 | 1\.26\.15 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.26\-2024\.05\.14 | 1\.26\.15 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.26\.15\. | 
 | 1\.26\-2024\.04\.09 | 1\.26\.12 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.26\-2024\.03\.12 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -125,6 +130,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2024\.06\.17 | 1\.25\.16 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.25\-2024\.05\.14 | 1\.25\.16 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
 | 1\.25\-2024\.04\.09 | 1\.25\.16 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.25\-2024\.03\.12 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -153,6 +159,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2024\.06\.17 | 1\.24\.17 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.24\-2024\.05\.14 | 1\.24\.17 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
 | 1\.24\-2024\.04\.09 | 1\.24\.17 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.24\-2024\.03\.12 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -191,6 +198,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.30\-2024\.06\.17 | 1\.30\.0 | 1\.7\.14 | 1\.1\.2 | Upgraded containerd to 1\.7\.14\. | 
 | 1\.30\-2024\.05\.15 | 1\.30\.0 | 1\.6\.28 | 1\.1\.2 |  | 
 
 ------
@@ -201,6 +209,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.29\-2024\.06\.17 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 |  | 
 | 1\.29\-2024\.05\.15 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. Upgraded kubelet to 1\.29\.3\. | 
 | 1\.29\-2024\.04\.09 | 1\.29\.0 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.29\-2024\.03\.12 | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 |  | 
@@ -216,6 +225,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2024\.06\.17 | 1\.28\.8 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.28\-2024\.05\.14 | 1\.28\.8 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.28\.8\. | 
 | 1\.28\-2024\.04\.09 | 1\.28\.5 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.28\-2024\.03\.12 | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -235,6 +245,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2024\.06\.17 | 1\.27\.12 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.27\-2024\.05\.14 | 1\.27\.12 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.27\.12\. | 
 | 1\.27\-2024\.04\.09 | 1\.27\.9 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.27\-2024\.03\.12 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -261,6 +272,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2024\.06\.17 | 1\.26\.15 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.26\-2024\.05\.14 | 1\.26\.15 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.26\.15\. | 
 | 1\.26\-2024\.04\.09 | 1\.26\.12 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.26\-2024\.03\.12 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -288,6 +300,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2024\.06\.17 | 1\.25\.16 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.25\-2024\.05\.14 | 1\.25\.16 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
 | 1\.25\-2024\.04\.09 | 1\.25\.16 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.25\-2024\.03\.12 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -316,6 +329,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2024\.06\.17 | 1\.24\.17 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.24\-2024\.05\.14 | 1\.24\.17 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
 | 1\.24\-2024\.04\.09 | 1\.24\.17 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.24\-2024\.03\.12 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -354,6 +368,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.30\-2024\.06\.17 | 1\.30\.0 | 1\.7\.14 | 1\.1\.2 | Upgraded containerd to 1\.7\.14\. | 
 | 1\.30\-2024\.05\.15 | 1\.30\.0 | 1\.6\.28 | 1\.1\.2 |  | 
 
 ------
@@ -364,6 +379,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.29\-2024\.06\.17 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 |  | 
 | 1\.29\-2024\.05\.15 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. Upgraded kubelet to 1\.29\.3\. | 
 | 1\.29\-2024\.04\.09 | 1\.29\.0 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.29\-2024\.03\.13 | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 |  | 
@@ -379,6 +395,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2024\.06\.17 | 1\.28\.8 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.28\-2024\.05\.14 | 1\.28\.8 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.28\.8\. | 
 | 1\.28\-2024\.04\.09 | 1\.28\.5 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.28\-2024\.03\.13 | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -398,6 +415,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2024\.06\.17 | 1\.27\.12 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.27\-2024\.05\.14 | 1\.27\.12 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.27\.12\. | 
 | 1\.27\-2024\.04\.09 | 1\.27\.9 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.27\-2024\.03\.13 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -424,6 +442,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2024\.06\.17 | 1\.26\.15 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.26\-2024\.05\.14 | 1\.26\.15 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.26\.15\. | 
 | 1\.26\-2024\.04\.09 | 1\.26\.12 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.26\-2024\.03\.13 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -451,6 +470,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2024\.06\.17 | 1\.25\.16 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.25\-2024\.05\.14 | 1\.25\.16 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
 | 1\.25\-2024\.04\.09 | 1\.25\.16 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.25\-2024\.03\.13 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -479,6 +499,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2024\.06\.17 | 1\.24\.17 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.24\-2024\.05\.14 | 1\.24\.17 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
 | 1\.24\-2024\.04\.09 | 1\.24\.17 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.24\-2024\.03\.13 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -517,6 +538,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.30\-2024\.06\.17 | 1\.30\.0 | 1\.7\.14 | 1\.1\.2 | Upgraded containerd to 1\.7\.14\. | 
 | 1\.30\-2024\.05\.15 | 1\.30\.0 | 1\.6\.28 | 1\.1\.2 |  | 
 
 ------
@@ -527,6 +549,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.29\-2024\.06\.17 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 |  | 
 | 1\.29\-2024\.05\.15 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. Upgraded kubelet to 1\.29\.3\. | 
 | 1\.29\-2024\.04\.09 | 1\.29\.0 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.29\-2024\.03\.13 | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 |  | 
@@ -542,6 +565,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2024\.06\.17 | 1\.28\.8 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.28\-2024\.05\.14 | 1\.28\.8 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.28\.8\. | 
 | 1\.28\-2024\.04\.09 | 1\.28\.5 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.28\-2024\.03\.13 | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -561,6 +585,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2024\.06\.17 | 1\.27\.12 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.27\-2024\.05\.14 | 1\.27\.12 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.27\.12\. | 
 | 1\.27\-2024\.04\.09 | 1\.27\.9 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.27\-2024\.03\.13 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -587,6 +612,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2024\.06\.17 | 1\.26\.15 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.26\-2024\.05\.14 | 1\.26\.15 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.26\.15\. | 
 | 1\.26\-2024\.04\.09 | 1\.26\.12 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.26\-2024\.03\.13 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -614,6 +640,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2024\.06\.17 | 1\.25\.16 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.25\-2024\.05\.14 | 1\.25\.16 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
 | 1\.25\-2024\.04\.09 | 1\.25\.16 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.25\-2024\.03\.13 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -642,6 +669,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2024\.06\.17 | 1\.24\.17 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.24\-2024\.05\.14 | 1\.24\.17 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
 | 1\.24\-2024\.04\.09 | 1\.24\.17 | 1\.6\.25 | 1\.1\.2 | Upgraded containerd to 1\.6\.25\. Rebuilt CNI and csi\-proxy using golang 1\.22\.1\. | 
 | 1\.24\-2024\.03\.13 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
