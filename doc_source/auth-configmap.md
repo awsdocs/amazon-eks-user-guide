@@ -1,7 +1,7 @@
 # Enabling IAM principal access to your cluster<a name="auth-configmap"></a>
 
 **Important**  
-The `aws-auth` ConfigMap is deprecated\. The reccomended method to manage access to Kubernetes APIs is [Access Entries](access-entries.md)\. 
+The `aws-auth` ConfigMap is deprecated\. The recommended method to manage access to Kubernetes APIs is [Access Entries](access-entries.md)\. 
 
 Access to your cluster using [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) is enabled by the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator#readme), which runs on the Amazon EKS control plane\. The authenticator gets its configuration information from the `aws-auth` `ConfigMap`\. For all `aws-auth` `ConfigMap` settings, see [Full Configuration Format](https://github.com/kubernetes-sigs/aws-iam-authenticator#full-configuration-format) on GitHub\. 
 
