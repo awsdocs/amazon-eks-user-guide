@@ -12,6 +12,8 @@ Monitoring is an important part of maintaining the reliability, availability, an
 + Who you do intend to perform the monitoring tasks?
 + Whom do you want notifications to be sent to when something goes wrong?
 
+Note that one of the fallacies of distributed computing is that observability is optional. It's a prevalent but wrong assumption. To have a reliable and changeable system, you need to have proper observability in place. 
+
 ## Logging and monitoring on Amazon EKS<a name="logging-monitoring"></a>
 
 Amazon EKS provides built\-in tools for logging and monitoring\. Control plane logging records all API calls to your clusters, audit information capturing what users performed what actions to your clusters, and role\-based information\. For more information, see [Logging and monitoring on Amazon EKS](https://docs.aws.amazon.com/prescriptive-guidance/latest/implementing-logging-monitoring-cloudwatch/amazon-eks-logging-monitoring.html) in the *AWS Prescriptive Guidance*\.
