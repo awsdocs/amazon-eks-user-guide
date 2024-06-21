@@ -59,14 +59,12 @@ The Amazon VPC CNI plugin for Kubernetes configures network policies for pods in
 
      1. Enter the JSON key `"enableNetworkPolicy":` and value `"true"` in **Configuration values**\. The resulting text must be a valid JSON object\. If this key and value are the only data in the text box, surround the key and value with curly braces `{}`\.
 
-        The following example has network policy feature enabled, the network policy logs enabled, the network policy logs sent to Amazon CloudWatch Logs, and the metrics and health probes are set to the default port numbers:
+        The following example has network policy feature enabled and metrics and health probes are set to the default port numbers:
 
      ```
      {
          "enableNetworkPolicy": "true",
          "nodeAgent": {
-             "enablePolicyEventLogs": "true",
-             "enableCloudWatchLogs": "true",
              "healthProbeBindAddr": "8163",
              "metricsBindAddr": "8162"
          }
@@ -267,7 +265,7 @@ For all other cluster versions, if you upgrade the Amazon EKS optimized Amazon L
    aws-node-prnsh                                          2/2     Running   1 (24h ago)   24h
    ```
 
-   If network policy is enabled, there are 2 containers in the `aws-node` pods\. In previous versions and if network policy is disabled, there is only a single container in the `aws-node` pods\.
+   There are 2 containers in the `aws-node` pods in versions `1.14` and later\. In previous versions and if network policy is disabled, there is only a single container in the `aws-node` pods\.
 
    You can now deploy Kubernetes network policies to your cluster\. For more information, see [Kubernetes network policies](#network-policies-implement-policies)\.
 
