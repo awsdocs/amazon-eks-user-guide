@@ -33,7 +33,7 @@ Amazon VPC CNI plugin for Kubernetes versions `v1.16.0` to `v1.16.1` removed com
 + 
 
 **Check version compatibility for each feature**  
-Some features of each release of the Amazon VPC CNI plugin for Kubernetes require certian Kubernetes versions\. When using different Amazon EKS features, if a specific version of the add\-on is required, then it's noted in the feature documentation\. Unless you have a specific reason for running an earlier version, we recommend running the latest version\.
+Some features of each release of the Amazon VPC CNI plugin for Kubernetes require certain Kubernetes versions\. When using different Amazon EKS features, if a specific version of the add\-on is required, then it's noted in the feature documentation\. Unless you have a specific reason for running an earlier version, we recommend running the latest version\.
 
 ## Creating the Amazon EKS add\-on<a name="vpc-add-on-create"></a>
 
