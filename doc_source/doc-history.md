@@ -4,7 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
-| [Improvements to AMI information references](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-amis.html) | We made improvements to the AMI information references, in particular for Bottlerocket\. | June 25, 2024 | 
+| [Improvements to AMI information references](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-amis.html) | We made improvements to the AMI information references, in particular for Bottlerocket\. | June 14, 2024 | 
 | [Kubernetes version `1.26`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.26) | Kubernetes version `1.26` is now in extended support\. | June 12, 2024 | 
 | [Kubernetes version `1.30`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.30) | Added Kubernetes version `1.30` support for new clusters and version upgrades\. | May 23, 2024 | 
 | [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) | This is a new platform version with security fixes and enhancements\. This includes new patch versions of Kubernetes `1.29.4`, `1.28.9`, and `1.27.13`\. | May 14, 2024 | 
