@@ -56,9 +56,9 @@ Functionality can differ depending on the IP family \(`ipFamily`\) setting of th
 | EKS API VPC endpoint | Yes | No | No | 
 | EKS Auth API public endpoint | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | 
 | EKS Auth API VPC endpoint | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | 
-| EKS cluster public endpoint | Yes | No | No | 
-| EKS cluster private endpoint | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
-| EKS cluster subnets | Yes[2](#cluster-immutable) | No | Yes[2](#cluster-immutable) | 
+| Kubernetes cluster public endpoint | Yes | No | No | 
+| Kubernetes cluster private endpoint | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
+| Kubernetes cluster subnets | Yes[2](#cluster-immutable) | No | Yes[2](#cluster-immutable) | 
 | Node Primary IP addresses | Yes[2](#cluster-immutable) | No | Yes[2](#cluster-immutable) | 
 | Cluster CIDR range for Service IP addresses | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
 | Pod IP addresses from the VPC CNI | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
