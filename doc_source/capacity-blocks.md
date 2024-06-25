@@ -43,23 +43,23 @@ You can use Capacity Blocks with Amazon EKS for provisioning and scaling your se
    The following is a sample CloudFormation template that can be used\. This example gets the `LaunchTemplateId` and `Version` of the `AWS::Amazon EC2::LaunchTemplate` resource shown in the previous example\. It also gets the values for `DesiredCapacity`, `MaxSize`, `MinSize`, and `VPCZoneIdentifier` that are declared elsewhere in the same template\.
 
    ```
-     NodeGroup:
-       Type: "AWS::AutoScaling::AutoScalingGroup"
-       Properties:
-         DesiredCapacity: !Ref NodeAutoScalingGroupDesiredCapacity
-         LaunchTemplate:
-           LaunchTemplateId: !Ref NodeLaunchTemplate
-           Version: !GetAtt NodeLaunchTemplate.LatestVersionNumber
-         MaxSize: !Ref NodeAutoScalingGroupMaxSize
-         MinSize: !Ref NodeAutoScalingGroupMinSize
-         VPCZoneIdentifier: !Ref Subnets
-         Tags:
-           - Key: Name
-             PropagateAtLaunch: true
-             Value: !Sub ${ClusterName}-${NodeGroupName}-Node
-           - Key: !Sub kubernetes.io/cluster/${ClusterName}
-             PropagateAtLaunch: true
-             Value: owned
+   NodeGroup:
+     Type: "AWS::AutoScaling::AutoScalingGroup"
+     Properties:
+       DesiredCapacity: !Ref NodeAutoScalingGroupDesiredCapacity
+       LaunchTemplate:
+         LaunchTemplateId: !Ref NodeLaunchTemplate
+         Version: !GetAtt NodeLaunchTemplate.LatestVersionNumber
+       MaxSize: !Ref NodeAutoScalingGroupMaxSize
+       MinSize: !Ref NodeAutoScalingGroupMinSize
+       VPCZoneIdentifier: !Ref Subnets
+       Tags:
+         - Key: Name
+           PropagateAtLaunch: true
+           Value: !Sub ${ClusterName}-${NodeGroupName}-Node
+         - Key: !Sub kubernetes.io/cluster/${ClusterName}
+           PropagateAtLaunch: true
+           Value: owned
    ```
 
 1. Once the node group is created successfully, make sure to record the `NodeInstanceRole` for the node group that was created\. You need this in order to make sure that when node group is scaled, the new nodes join the cluster and Kubernetes is able to recognize the nodes\. For more information, see the AWS Management Console instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
