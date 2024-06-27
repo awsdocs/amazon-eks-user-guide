@@ -65,7 +65,7 @@ In addition to the standard Amazon EKS optimized AMI configuration, the accelera
 For a list of the latest components included in the accelerated AMI, see the `amazon-eks-ami` [Releases](https://github.com/awslabs/amazon-eks-ami/releases) on GitHub\.
 
 **Note**  
-The Amazon EKS optimized accelerated AMI only supports GPU and Inferentia based instance types\. Make sure to specify these instance types in your node AWS CloudFormation template\. By using the Amazon EKS optimized accelerated AMI, you agree to [NVIDIA's user license agreement \(EULA\)](https://www.nvidia.com/en-us/drivers/nvidia-license/)\. 
+The Amazon EKS optimized accelerated AMI only supports GPU and Inferentia based instance types\. Make sure to specify these instance types in your node AWS CloudFormation template\. By using the Amazon EKS optimized accelerated AMI, you agree to [NVIDIA's Cloud End User License Agreement \(EULA\)](https://s3.amazonaws.com/EULA/NVidiaEULAforAWS.pdf)\.
 The Amazon EKS optimized accelerated AMI was previously referred to as the *Amazon EKS optimized AMI with GPU support*\. 
 Previous versions of the Amazon EKS optimized accelerated AMI installed the `nvidia-docker` repository\. The repository is no longer included in Amazon EKS AMI version `v20200529` and later\. 
 

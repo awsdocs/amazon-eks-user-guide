@@ -1,10 +1,8 @@
 # Use a supported AWS SDK<a name="pod-id-minimum-sdk"></a>
 
-**Important**  
-An earlier version of the documentation was incorrect\. The AWS SDK for Java v1 doesn't support EKS Pod Identity\.
-
 When using [EKS Pod Identities](pod-identities.md), the containers in your Pods must use an AWS SDK version that supports assuming an IAM role from the EKS Pod Identity Agent\. Make sure that you're using the following versions, or later, for your AWS SDK:
 + Java \(Version 2\) – [2\.21\.30](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.21.30)
++ Java – [1\.12\.746](https://github.com/aws/aws-sdk-java/releases/tag/1.12.746)
 + Go v1 – [v1\.47\.11](https://github.com/aws/aws-sdk-go/releases/tag/v1.47.11)
 + Go v2 – [release\-2023\-11\-14](https://github.com/aws/aws-sdk-go-v2/releases/tag/release-2023-11-14)
 + Python \(Boto3\) – [1\.34\.41](https://github.com/boto/boto3/releases/tag/1.34.41)

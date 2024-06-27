@@ -74,7 +74,7 @@ sponsored by Amazon.
       + [Deleting a managed node group](delete-managed-node-group.md)
    + [Self-managed nodes](worker.md)
       + [Launching self-managed Amazon Linux nodes](launch-workers.md)
-         + [Capacity Blocks for ML](capacity-blocks.md)
+         + [Use Capacity Blocks for ML with self-managed nodes](capacity-blocks.md)
       + [Launching self-managed Bottlerocket nodes](launch-node-bottlerocket.md)
       + [Launching self-managed Windows nodes](launch-windows-workers.md)
       + [Launching self-managed Ubuntu nodes](launch-node-ubuntu.md)

@@ -1,46 +1,58 @@
-# Capacity Blocks for ML<a name="capacity-blocks"></a>
+# Use Capacity Blocks for ML with self\-managed nodes<a name="capacity-blocks"></a>
+
+Capacity Blocks for machine learning \(ML\) allow you to reserve GPU instances on a future date to support your short duration ML workloads\. Instances that run inside a Capacity Block are automatically placed close together inside [Amazon EC2 UltraClusters](https://aws.amazon.com/ec2/ultraclusters/), so there is no need to use a cluster placement group\. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html) in the *Amazon EC2 User Guide for Linux Instances*\.
+
+## Considerations<a name="capacity-blocks-considerations"></a>
 
 **Important**  
 Capacity Blocks are only available for certain Amazon EC2 instance types and AWS Regions\. For compatibility information, see [Work with Capacity Blocks Prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-blocks-using.html#capacity-blocks-prerequisites) in the *Amazon EC2 User Guide for Linux Instances*\.
 Capacity Blocks currently cannot be used with Amazon EKS managed node groups or Karpenter\.
+If you create a self\-managed node group prior to the capacity reservation becoming active, then set the desired capacity to `0`\. 
+To allow sufficient time to gracefully drain the node\(s\), we suggest that you schedule scaling to scale to zero more than 30 minutes before the Capacity Block reservation end time\.
+In order for your Pods to be gracefully drained, we recommend that you set up AWS Node Termination Handler as explained in the example steps\.
 
-Capacity Blocks for machine learning \(ML\) allow you to reserve GPU instances on a future date to support your short duration ML workloads\. Instances that run inside a Capacity Block are automatically placed close together inside [Amazon EC2 UltraClusters](https://aws.amazon.com/ec2/ultraclusters/), so there is no need to use a cluster placement group\. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html) in the *Amazon EC2 User Guide for Linux Instances*\.
+## Use Capacity Blocks with self\-managed nodes<a name="capacity-blocks-procedure"></a>
 
-You can use Capacity Blocks with Amazon EKS for provisioning and scaling your self\-managed nodes\. The following steps give a general example overview\.
+You can use Capacity Blocks with Amazon EKS for provisioning and scaling your self\-managed nodes\. The following steps give a general example overview\. The AWS CloudFormation template examples don’t cover every aspect needed in a production workload\. Typically you’d also want a bootstrapping script to join the node to the cluster, specify the Amazon EKS accelerated AMI, and an appropriate instance profile for joining the cluster\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
 
-1. Create a launch template in the AWS Management Console\. For more information, see [Use Capacity Blocks for machine learning workloads](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-template-capacity-blocks.html) in the *Amazon EC2 Auto Scaling User Guide*\.
+1. Create a launch template that's applicable to your workload\. For more information, see [Use Capacity Blocks for machine learning workloads](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-template-capacity-blocks.html) in the *Amazon EC2 Auto Scaling User Guide*\.
 
-   Make sure to include configuration of instance type and Amazon Machine Image \(AMI\)\.
+   Make sure the `LaunchTemplateData` includes the following:
+   + `InstanceMarketOptions` with `MarketType` set to `"capacity-block"` 
+   + `CapacityReservationSpecification: CapacityReservationTarget` with `CapacityReservationId` set to the Capacity Block \(for example: `cr-02168da1478b509e0` \)
+   + `IamInstanceProfile` with the `Arn` set to the applicable `iam-instance-profile-arn`
+   + `ImageId` set to the applicable * `image-id` *
+   + `InstanceType` set to an instance type that supports Capacity Blocks \(for example: `p5.48xlarge`\)
+   + `SecurityGroupIds` set to the applicable IDs \(for example: `sg-05b1d815d1EXAMPLE`\)
+   + `UserData` set to the applicable `user-data` for your self\-managed node group
 
-1. Link the Capacity Block to a launch template using the capacity reservation ID\.
-
-   The following is an example AWS CloudFormation template to create a launch template targeting a Capacity Block:
+   The following is a partial example CloudFormation template that creates a launch template targeting a Capacity Block\.
 
    ```
    NodeLaunchTemplate:
-       Type: "AWS::EC2::LaunchTemplate"
-       Properties:
-         LaunchTemplateData:
-           InstanceMarketOptions:
-             MarketType: "capacity-block"
-           CapacityReservationSpecification:
-             CapacityReservationTarget:
-               CapacityReservationId: "cr-02168da1478b509e0"
-           IamInstanceProfile:
-             Arn: iam-instance-profile-arn
-           ImageId: image-id
-           InstanceType: p5.48xlarge
-           KeyName: key-name
-           SecurityGroupIds:
-           - sg-05b1d815d1EXAMPLE
-           UserData: user-data
+     Type: "AWS::EC2::LaunchTemplate"
+     Properties:
+       LaunchTemplateData:
+         InstanceMarketOptions:
+           MarketType: "capacity-block"
+         CapacityReservationSpecification:
+           CapacityReservationTarget:
+             CapacityReservationId: "cr-02168da1478b509e0"
+         IamInstanceProfile:
+           Arn: iam-instance-profile-arn
+         ImageId: image-id
+         InstanceType: p5.48xlarge
+         KeyName: key-name
+         SecurityGroupIds:
+         - sg-05b1d815d1EXAMPLE
+         UserData: user-data
    ```
 
    You must pass the subnet in the Availability Zone in which the reservation is made because Capacity Blocks are zonal\.
 
-1. If you are creating the self managed node group prior to the capacity reservation becoming active, then set the desired capacity to `0`\. When creating the node group, make sure that you are only specifying the respective subnet for the Availability Zone in which the capacity is reserved\.
+1. Use the launch template to create a self\-managed node group\. If you're doing this prior to the capacity reservation becoming active, then set the desired capacity to `0`\. When creating the node group, make sure that you are only specifying the respective subnet for the Availability Zone in which the capacity is reserved\.
 
-   The following is a sample CloudFormation template that can be used\. This example gets the `LaunchTemplateId` and `Version` of the `AWS::Amazon EC2::LaunchTemplate` resource shown in the previous example\. It also gets the values for `DesiredCapacity`, `MaxSize`, `MinSize`, and `VPCZoneIdentifier` that are declared elsewhere in the same template\.
+   The following is a sample CloudFormation template that you can reference when creating one that is applicable to your workload\. This example gets the `LaunchTemplateId` and `Version` of the `AWS::Amazon EC2::LaunchTemplate` resource shown in the previous step\. It also gets the values for `DesiredCapacity`, `MaxSize`, `MinSize`, and `VPCZoneIdentifier` that are declared elsewhere in the same template\.
 
    ```
    NodeGroup:

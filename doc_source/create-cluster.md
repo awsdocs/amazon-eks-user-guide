@@ -1,6 +1,9 @@
 # Creating an Amazon EKS cluster<a name="create-cluster"></a>
 
-This topic provides an overview of the available options and describes what to consider when you create an Amazon EKS cluster\. If you need to create a cluster on an AWS Outpost, see [Local clusters for Amazon EKS on AWS Outposts](eks-outposts-local-cluster-overview.md)\. If this is your first time creating an Amazon EKS cluster, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides\. These guides help you to create a simple, default cluster without expanding into all of the available options\.<a name="create-cluster-prerequisites"></a>
+This topic provides an overview of the available options and describes what to consider when you create an Amazon EKS cluster\. If you need to create a cluster on an AWS Outpost, see [Local clusters for Amazon EKS on AWS Outposts](eks-outposts-local-cluster-overview.md)\. If this is your first time creating an Amazon EKS cluster, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides\. These guides help you to create a simple, default cluster without expanding into all of the available options\.
+
+**Note**  
+New — You can disable the installation of default cluster add\-ons, such as `vpc-cni`\. [View CLI instructions\.](#barecluster)<a name="create-cluster-prerequisites"></a>
 
 **Prerequisites**
 + An existing VPC and subnets that meet [Amazon EKS requirements](network_reqs.md)\. Before you deploy a cluster for production use, we recommend that you have a thorough understanding of the VPC and subnet requirements\. If you don't have a VPC and subnets, you can create them using an [Amazon EKS provided AWS CloudFormation template](creating-a-vpc.md)\.
@@ -49,7 +52,7 @@ This topic provides an overview of the available options and describes what to c
 
 1. Create an Amazon EKS cluster\. 
 
-    You can create a cluster by using `eksctl`, the AWS Management Console, or the AWS CLI\.
+    You can create a cluster by using `eksctl`, the AWS Management Console, or the AWS CLI\.<a name="barecluster"></a>
 
 ------
 #### [ eksctl ]
@@ -157,6 +160,8 @@ To see the most options that you can specify when creating a cluster with `eksct
 
    1. On the **Select add\-ons** page, choose the add\-ons that you want to add to your cluster\. You can choose as many **Amazon EKS add\-ons** and **AWS Marketplace add\-ons** as you require\. If the **AWS Marketplace add\-ons** that you want to install isn't listed, you can search for available **AWS Marketplace add\-ons** by entering text in the search box\. You can also search by **category**, **vendor**, or **pricing model** and then choose the add\-ons from the search results\. When you're done with this page, choose **Next**\.
 
+      Some add\-ons, such as Amazon VPC CNI, CoreDNS, and kube\-proxy, are installed by default\. If you disable any of the default add\-ons, this may affect your ability to run Kubernetes applications\.
+
    1. On the **Configure selected add\-ons settings** page, select the version that you want to install\. You can always update to a later version after cluster creation\. You can update the configuration of each add\-on after cluster creation\. For more information about configuring add\-ons, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\. When you’re done with this page, choose **Next**\.
 
    1. On the **Review and create** page, review the information that you entered or selected on the previous pages\. If you need to make changes, choose **Edit**\. When you're satisfied, choose **Create**\. The **Status** field shows **CREATING** while the cluster is provisioned\.
@@ -193,6 +198,11 @@ You might receive an error that one of the Availability Zones in your request do
 **Optional settings**
 
       The following are optional settings that, if required, must be added to the previous command\. You can only enable these options when you create the cluster, not after\.
+      + By default, EKS installs multiple networking add\-ons during cluster creation\. This includes the Amazon VPC CNI, CoreDNS, and kube\-proxy\. 
+
+        If you'd like to disable the installation of these default networking add\-ons, use the parameter below\. This may be used for alternate CNIs, such as Cilium\. Review the [EKS API reference](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html) for more information\. 
+
+        `aws eks create-cluster --bootstrapSelfManagedAddons false`
       + If you want to specify which `IPv4` Classless Inter\-domain Routing \(CIDR\) block Kubernetes assigns service IP addresses from, you must specify it by adding the **`--kubernetes-network-config serviceIpv4Cidr=CIDR block`** to the following command\.
 
         Specifying your own range can help prevent conflicts between Kubernetes services and other networks peered or connected to your VPC\. Enter a range in CIDR notation\. For example: `10.2.0.0/16`\.
