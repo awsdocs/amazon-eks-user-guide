@@ -141,7 +141,7 @@ This policy grants the `AWSServiceRoleForAmazonEKSNodegroup` role permissions th
 **Permissions details**
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
-+ **`ec2`** – Work with security groups, tags, and launch templates\. This is required for Amazon EKS managed node groups to enable remote access configuration\. Additionally, Amazon EKS managed node groups create a launch template on your behalf\. This is to configure the Amazon EC2 Auto Scaling group that backs each managed node group\. 
++ **`ec2`** – Work with security groups, tags, capacity reservations, and launch templates\. This is required for Amazon EKS managed node groups to enable remote access configuration and to describe capacity reservations that can be used in managed node groups\. Additionally, Amazon EKS managed node groups create a launch template on your behalf\. This is to configure the Amazon EC2 Auto Scaling group that backs each managed node group\.
 + **`iam`** – Create a service\-linked role and pass a role\. This is required by Amazon EKS managed node groups to manage instance profiles for the role being passed when creating a managed node group\. This instance profile is used by Amazon EC2 instances launched as part of a managed node group\. Amazon EKS needs to create service\-linked roles for other services such as Amazon EC2 Auto Scaling groups\. These permissions are used in the creation of a managed node group\.
 + **`autoscaling`** – Work with security Auto Scaling groups\. This is required by Amazon EKS managed node groups to manage the Amazon EC2 Auto Scaling group that backs each managed node group\. It's also used to support functionality such as evicting Pods when nodes are terminated or recycled during node group updates\.
 
@@ -200,6 +200,7 @@ View details about updates to AWS managed policies for Amazon EKS since this ser
 
 | Change | Description | Date | 
 | --- | --- | --- | 
+| Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-AWSServiceRoleForAmazonEKSNodegroup)\. |  Added `ec2:DescribeCapacityReservations` permission to allow Amazon EKS to describe capacity reservation in user's account\. Added `autoscaling:PutScheduledUpdateGroupAction` permission to enable setting scheduled scaling on `CAPACITY_BLOCK` node groups\.  | June 27, 2024 | 
 |  [AmazonEKS\_CNI\_Policy](#security-iam-awsmanpol-AmazonEKS_CNI_Policy) – Update to an existing policy  |  Amazon EKS added new `ec2:DescribeSubnets` permissions to allow the Amazon VPC CNI plugin for Kubernetes to see the amount of free IP addresses in your Amazon VPC subnets\.  The VPC CNI can use the free IP addresses in each subnet to pick the subnets with the most free IP addresses to use when creating an elastic network interface\.  | March 4, 2024 | 
 |  [AmazonEKSWorkerNodePolicy](#security-iam-awsmanpol-AmazonEKSWorkerNodePolicy) – Update to an existing policy  |  Amazon EKS added new permissions to allow EKS Pod Identities\. The Amazon EKS Pod Identity Agent uses the node role\.  | November 26, 2023 | 
 |  Introduced [AmazonEFSCSIDriverPolicy](#security-iam-awsmanpol-AmazonEFSCSIDriverServiceRolePolicy)\.  |  AWS introduced the `AmazonEFSCSIDriverPolicy`\.  | July 26, 2023 | 
