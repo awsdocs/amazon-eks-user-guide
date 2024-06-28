@@ -1,10 +1,10 @@
-# CSI snapshot controller<a name="csi-snapshot-controller"></a>
+# Use snapshot controller with CSI storage<a name="csi-snapshot-controller"></a>
 
 The Container Storage Interface \(CSI\) snapshot controller enables the use of snapshotting functionality in compatible CSI drivers, such as the Amazon EBS CSI driver\.
 
 Here are some things to consider when using the CSI snapshot controller\. 
-+ The snapshot controller must be installed alongside a CSI driver with snapshotting functionality\. The Amazon EBS CSI driver supports creating Amazon EBS snapshots of Amazon EBS CSI managed volumes\. For installation instructions, see [Amazon EBS CSI driver](ebs-csi.md)\.
-+ Kubernetes doesn't support snapshots of volumes being served via CSI migration, such as Amazon EBS volumes using a `StorageClass` with provisioner `kubernetes.io/aws-ebs`\. Volumes must be created with a `StorageClass` that references the CSI driver provisioner, `ebs.csi.aws.com`\. For more information about CSI migration, see [Amazon EBS CSI migration frequently asked questions](ebs-csi-migration-faq.md)\.
++ The snapshot controller must be installed alongside a CSI driver with snapshotting functionality\. The Amazon EBS CSI driver supports creating Amazon EBS snapshots of Amazon EBS CSI managed volumes\. For installation instructions, see [Use Amazon EBS storage](ebs-csi.md)\.
++ Kubernetes doesn't support snapshots of volumes being served via CSI migration, such as Amazon EBS volumes using a `StorageClass` with provisioner `kubernetes.io/aws-ebs`\. Volumes must be created with a `StorageClass` that references the CSI driver provisioner, `ebs.csi.aws.com`\. 
 
 We recommend that you install the CSI snapshot controller through the Amazon EKS managed add\-on\. To add an Amazon EKS add\-on to your cluster, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\. For more information about add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 

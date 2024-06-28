@@ -1,4 +1,4 @@
-# Creating the Amazon EBS CSI driver IAM role<a name="csi-iam-role"></a>
+# Create an Amazon EBS CSI driver IAM role<a name="csi-iam-role"></a>
 
 The Amazon EBS CSI plugin requires IAM permissions to make calls to AWS APIs on your behalf\. For more information, see [Set up driver permission](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#set-up-driver-permissions) on GitHub\.
 
@@ -316,4 +316,4 @@ The specific steps in this procedure are written for using the driver as an Amaz
 
 ------
 
-Now that you have created the Amazon EBS CSI driver IAM role, you can continue to [Adding the Amazon EBS CSI driver add\-on](managing-ebs-csi.md#adding-ebs-csi-eks-add-on)\. When you deploy the plugin in that procedure, it creates and is configured to use a service account that's named `ebs-csi-controller-sa`\. The service account is bound to a Kubernetes `clusterrole` that's assigned the required Kubernetes permissions\.
+Now that you have created the Amazon EBS CSI driver IAM role, you can continue to [Get the Amazon EBS CSI driver add\-on](managing-ebs-csi.md#adding-ebs-csi-eks-add-on)\. When you deploy the plugin in that procedure, it creates and is configured to use a service account that's named `ebs-csi-controller-sa`\. The service account is bound to a Kubernetes `clusterrole` that's assigned the required Kubernetes permissions\.

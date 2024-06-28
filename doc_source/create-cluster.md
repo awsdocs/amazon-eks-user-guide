@@ -272,7 +272,7 @@ If your cluster uses the `IPv6` family
 
 1. If you enabled Prometheus metrics, you must set up your `aws-auth` `ConfigMap` to give the scraper in\-cluster permissions\. For more information, see [Configuring your Amazon EKS cluster](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup) in the *Amazon Managed Service for Prometheus User Guide*\.
 
-1. If you plan to deploy workloads to your cluster that use Amazon EBS volumes , and you created a `1.23` or later cluster, then you must install the [Amazon EBS CSI driver](ebs-csi.md) to your cluster before deploying the workloads\.
+1. If you plan to deploy workloads to your cluster that use Amazon EBS volumes , and you created a `1.23` or later cluster, then you must install the [Use Amazon EBS storage](ebs-csi.md) to your cluster before deploying the workloads\.
 
 Recommended next steps:
 + The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that created the cluster is the only principal that has access to the cluster\. [Grant permissions to other [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html)](grant-k8s-access.md) so they can access your cluster\.

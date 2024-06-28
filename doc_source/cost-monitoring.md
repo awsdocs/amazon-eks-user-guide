@@ -43,7 +43,7 @@ Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibil
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. The cluster must have Amazon EC2 nodes because you can't run Kubecost on Fargate nodes\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + Helm version 3\.9\.0 or later configured on your device or AWS CloudShell\. To install or update Helm, see [Using Helm with Amazon EKS](helm.md)\.
-+ If your cluster is version `1.23` or later, you must have the [Amazon EBS CSI driver](ebs-csi.md) installed on your cluster\.
++ If your cluster is version `1.23` or later, you must have the [Use Amazon EBS storage](ebs-csi.md) installed on your cluster\.
 
 1. Determine the version of Kubecost to install\. You can see the available versions at [kubecost/cost\-analyzer](https://gallery.ecr.aws/kubecost/cost-analyzer) in the Amazon ECR Public Gallery\. For more information about the compatibility of Kubecost versions and Amazon EKS, see the [Environment Requirements](https://docs.kubecost.com/install-and-configure/install/environment) in the Kubecost documentation\. 
 

@@ -1,4 +1,4 @@
-# Amazon FSx for Lustre CSI driver<a name="fsx-csi"></a>
+# Use Amazon FSx for Lustre storage<a name="fsx-csi"></a>
 
 The [FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of FSx for Lustre file systems\. For more information, see the [FSx for Lustre User Guide](https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html)\.
 
@@ -18,7 +18,7 @@ You must have:
 
 The following procedures help you create a simple test cluster with the FSx for Lustre CSI driver so that you can see how it works\. We don't recommend using the testing cluster for production workloads\. For this tutorial, we recommend using the `example values`, except where it's noted to replace them\. You can replace any `example value` when completing the steps for your production cluster\. We recommend completing all steps in the same terminal because variables are set and used throughout the steps and won't exist in different terminals\.
 
-**To deploy the FSx for Lustre CSI driver to an Amazon EKS cluster**
+**To deploy the FSx for Lustre CSI driver**
 
 1. Set a few variables to use in the remaining steps\. Replace `my-csi-fsx-cluster` with the name of the test cluster you want to create and `region-code` with the AWS Region that you want to create your test cluster in\.
 
@@ -118,7 +118,7 @@ You can view the content being applied in [https://github.com/kubernetes-sigs/aw
    serviceaccount/fsx-csi-controller-sa annotated
    ```
 
-**To deploy a Kubernetes storage class, persistent volume claim, and sample application to verify that the CSI driver is working**
+**To deploy a storage class, persistent volume claim, and sample app**
 
 This procedure uses the [FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) GitHub repository to consume a dynamically\-provisioned FSx for Lustre volume\.
 

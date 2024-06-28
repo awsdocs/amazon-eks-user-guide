@@ -1,4 +1,4 @@
-# Mountpoint for Amazon S3 CSI driver<a name="s3-csi"></a>
+# Use Mountpoint for Amazon S3 storage<a name="s3-csi"></a>
 
 With the [Mountpoint for Amazon S3 Container Storage Interface \(CSI\) driver](https://github.com/awslabs/mountpoint-s3-csi-driver), your Kubernetes applications can access Amazon S3 objects through a file system interface, achieving high aggregate throughput without changing any application code\. Built on [Mountpoint for Amazon S3](https://github.com/awslabs/mountpoint-s3), the CSI driver presents an Amazon S3 bucket as a volume that can be accessed by containers in Amazon EKS and self\-managed Kubernetes clusters\.  This topic shows you how to deploy the Mountpoint for Amazon S3 CSI driver to your Amazon EKS cluster\.
 
@@ -15,7 +15,7 @@ Static provisioning refers to using an existing Amazon S3 bucket that is specifi
 + Version 2\.12\.3 or later of the AWS CLI installed and configured on your device or AWS CloudShell\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 
-## Creating an IAM policy<a name="s3-create-iam-policy"></a>
+## Create an IAM policy<a name="s3-create-iam-policy"></a>
 
 The Mountpoint for Amazon S3 CSI driver requires Amazon S3 permissions to interact with your file system\. This section shows how to create an IAM policy that grants the necessary permissions\.
 
@@ -23,7 +23,7 @@ The following example policy follows the IAM permission recommendations for Moun
 
 For more information about the recommended permissions for Mountpoint, see [Mountpoint IAM permissions](https://github.com/awslabs/mountpoint-s3/blob/main/doc/CONFIGURATION.md#iam-permissions) on GitHub\.
 
-**Create an IAM policy with the IAM console**
+**To create an IAM policy with the IAM console**
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
@@ -91,7 +91,7 @@ Replace `DOC-EXAMPLE-BUCKET1` with your own Amazon S3 bucket name\.
 
 1. Choose **Create policy**\.
 
-## Creating an IAM role<a name="s3-create-iam-role"></a>
+## Create an IAM role<a name="s3-create-iam-role"></a>
 
 The Mountpoint for Amazon S3 CSI driver requires Amazon S3 permissions to interact with your file system\. This section shows how to create an IAM role to delegate these permissions\. To create this role, you can use `eksctl`, the IAM console, or the AWS CLI\.
 
@@ -269,7 +269,7 @@ When you deploy the plugin in this procedure, it creates and is configured to us
 
 ------
 
-## Installing the Mountpoint for Amazon S3 CSI driver<a name="s3-install-driver"></a>
+## Install the Mountpoint for Amazon S3 CSI driver<a name="s3-install-driver"></a>
 
 You may install the Mountpoint for Amazon S3 CSI driver through the Amazon EKS add\-on\. You can use `eksctl`, the AWS Management Console, or the AWS CLI to add the add\-on to your cluster\.
 
@@ -333,15 +333,15 @@ aws eks create-addon --cluster-name my-cluster --addon-name aws-mountpoint-s3-cs
 
 ------
 
-## Configuring Mountpoint for Amazon S3<a name="s3-configure-mountpoint"></a>
+## Configure Mountpoint for Amazon S3<a name="s3-configure-mountpoint"></a>
 
 In most cases, you can configure Mountpoint for Amazon S3 with only a bucket name\. For instructions on configuring Mountpoint for Amazon S3, see [Configuring Mountpoint for Amazon S3](https://github.com/awslabs/mountpoint-s3/blob/main/doc/CONFIGURATION.md) on GitHub\.
 
-## Deploying a sample application<a name="s3-sample-app"></a>
+## Deploy a sample application<a name="s3-sample-app"></a>
 
 You can deploy static provisioning to the driver on an existing Amazon S3 bucket\. For more information, see [Static provisioning](https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/examples/kubernetes/static_provisioning/README.md) on GitHub\.
 
-## Removing Mountpoint for Amazon S3 CSI Driver<a name="removing-s3-csi-eks-add-on"></a>
+## Remove Mountpoint for Amazon S3 CSI Driver<a name="removing-s3-csi-eks-add-on"></a>
 
 You have two options for removing an Amazon EKS add\-on\.
 + **Preserve add\-on software on your cluster** – This option removes Amazon EKS management of any settings\. It also removes the ability for Amazon EKS to notify you of updates and automatically update the Amazon EKS add\-on after you initiate an update\. However, it preserves the add\-on software on your cluster\. This option makes the add\-on a self\-managed installation, rather than an Amazon EKS add\-on\. With this option, there's no downtime for the add\-on\. The commands in this procedure use this option\.

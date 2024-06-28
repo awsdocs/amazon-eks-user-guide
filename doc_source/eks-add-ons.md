@@ -55,7 +55,7 @@ Choose an add\-on to learn more about it and its installation requirements\.
 ### Amazon EBS CSI driver<a name="add-ons-aws-ebs-csi-driver"></a>
 + **Name** – `aws-ebs-csi-driver`
 + **Description** – A Kubernetes Container Storage Interface \(CSI\) plugin that provides Amazon EBS storage for your cluster\.
-+ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md#iam-roles-for-service-accounts.title) capability of Amazon EKS\. The permissions in the [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html) AWS managed policy are required\. You can create an IAM role and attach the managed policy to it with the following command\. Replace `my-cluster` with the name of your cluster and `AmazonEKS_EBS_CSI_DriverRole` with the name for your role\. This command requires that you have [https://eksctl.io](https://eksctl.io) installed on your device\. If you need to use a different tool or you need to use a custom [KMS key](https://aws.amazon.com/kms/) for encryption, see [Creating the Amazon EBS CSI driver IAM role](csi-iam-role.md)\.
++ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md#iam-roles-for-service-accounts.title) capability of Amazon EKS\. The permissions in the [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html) AWS managed policy are required\. You can create an IAM role and attach the managed policy to it with the following command\. Replace `my-cluster` with the name of your cluster and `AmazonEKS_EBS_CSI_DriverRole` with the name for your role\. This command requires that you have [https://eksctl.io](https://eksctl.io) installed on your device\. If you need to use a different tool or you need to use a custom [KMS key](https://aws.amazon.com/kms/) for encryption, see [Create an Amazon EBS CSI driver IAM role](csi-iam-role.md)\.
 
   ```
   eksctl create iamserviceaccount \
@@ -67,12 +67,12 @@ Choose an add\-on to learn more about it and its installation requirements\.
       --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
       --approve
   ```
-+ **Additional information** – To learn more about the add\-on, see [Amazon EBS CSI driver](ebs-csi.md)\.
++ **Additional information** – To learn more about the add\-on, see [Use Amazon EBS storage](ebs-csi.md)\.
 
 ### Amazon EFS CSI driver<a name="add-ons-aws-efs-csi-driver"></a>
 + **Name** – `aws-efs-csi-driver`
 + **Description** – A Kubernetes Container Storage Interface \(CSI\) plugin that provides Amazon EFS storage for your cluster\.
-+ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md#iam-roles-for-service-accounts.title) capability of Amazon EKS\. The permissions in the [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html) AWS managed policy are required\. You can create an IAM role and attach the managed policy to it with the following commands\. Replace `my-cluster` with the name of your cluster and `AmazonEKS_EFS_CSI_DriverRole` with the name for your role\. These commands require that you have [https://eksctl.io](https://eksctl.io) installed on your device\. If you need to use a different tool, see [Creating an IAM role](efs-csi.md#efs-create-iam-resources)\.
++ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md#iam-roles-for-service-accounts.title) capability of Amazon EKS\. The permissions in the [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html) AWS managed policy are required\. You can create an IAM role and attach the managed policy to it with the following commands\. Replace `my-cluster` with the name of your cluster and `AmazonEKS_EFS_CSI_DriverRole` with the name for your role\. These commands require that you have [https://eksctl.io](https://eksctl.io) installed on your device\. If you need to use a different tool, see [Create an IAM role](efs-csi.md#efs-create-iam-resources)\.
 
   ```
   export cluster_name=my-cluster
@@ -89,14 +89,14 @@ Choose an add\-on to learn more about it and its installation requirements\.
       sed -e 's/efs-csi-controller-sa/efs-csi-*/' -e 's/StringEquals/StringLike/')
   aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRUST_POLICY"
   ```
-+ **Additional information** – To learn more about the add\-on, see [Amazon EFS CSI driver](efs-csi.md)\.
++ **Additional information** – To learn more about the add\-on, see [Use Amazon EFS storage](efs-csi.md)\.
 
 ### Mountpoint for Amazon S3 CSI Driver<a name="mountpoint-for-s3-add-on"></a>
 + **Name** – `aws-mountpoint-s3-csi-driver`
 + **Description** – A Kubernetes Container Storage Interface \(CSI\) plugin that provides Amazon S3 storage for your cluster\.
 + **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md#iam-roles-for-service-accounts.title) capability of Amazon EKS\. The IAM role that is created will require a policy that gives access to S3\. Follow the [Mountpoint IAM permissions recommendations](https://github.com/awslabs/mountpoint-s3/blob/main/doc/CONFIGURATION.md#iam-permissions) when creating the policy\. Alternatively, you may use the AWS managed policy [https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/AmazonS3FullAccess$jsonEditor](https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/AmazonS3FullAccess$jsonEditor), but this managed policy grants more permissions than are needed for Mountpoint\. 
 
-  You can create an IAM role and attach your policy to it with the following commands\. Replace *my\-cluster* with the name of your cluster, **region\-code** with the correct AWS Region code, *AmazonEKS\_S3\_CSI\_DriverRole* with the name for your role, and *AmazonEKS\_S3\_CSI\_DriverRole\_ARN* with the role ARN\. These commands require that you have [https://eksctl.io](https://eksctl.io) installed on your device\. For instructions on using the IAM console or AWS CLI, see [Creating an IAM role](s3-csi.md#s3-create-iam-role)\.
+  You can create an IAM role and attach your policy to it with the following commands\. Replace *my\-cluster* with the name of your cluster, **region\-code** with the correct AWS Region code, *AmazonEKS\_S3\_CSI\_DriverRole* with the name for your role, and *AmazonEKS\_S3\_CSI\_DriverRole\_ARN* with the role ARN\. These commands require that you have [https://eksctl.io](https://eksctl.io) installed on your device\. For instructions on using the IAM console or AWS CLI, see [Create an IAM role](s3-csi.md#s3-create-iam-role)\.
 
   ```
   CLUSTER_NAME=my-cluster
@@ -113,13 +113,13 @@ Choose an add\-on to learn more about it and its installation requirements\.
       --region $REGION \
       --role-only
   ```
-+ **Additional information** – To learn more about the add\-on, see [Mountpoint for Amazon S3 CSI driver](s3-csi.md)\.
++ **Additional information** – To learn more about the add\-on, see [Use Mountpoint for Amazon S3 storage](s3-csi.md)\.
 
 ### CSI snapshot controller<a name="addons-csi-snapshot-controller"></a>
 + **Name** – `snapshot-controller`
 + **Description** – The Container Storage Interface \(CSI\) snapshot controller enables the use of snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI driver\.
 + **Required IAM permissions** – This add\-on doesn't require any permissions\.
-+ **Additional information** – To learn more about the add\-on, see [CSI snapshot controller](csi-snapshot-controller.md)\.
++ **Additional information** – To learn more about the add\-on, see [Use snapshot controller with CSI storage](csi-snapshot-controller.md)\.
 
 ### AWS Distro for OpenTelemetry<a name="add-ons-adot"></a>
 + **Name** – `adot`
@@ -323,7 +323,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [AWS Cloud Billing Integration](https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations) in the Kubecost documentation\.
-+ If your cluster is version `1.23` or later, you must have the [Amazon EBS CSI driver](ebs-csi.md) installed on your cluster\. otherwise you will receive an error\.
++ If your cluster is version `1.23` or later, you must have the [Use Amazon EBS storage](ebs-csi.md) installed on your cluster\. otherwise you will receive an error\.
 
 ### Kasten<a name="add-on-kasten"></a>
 + **Publisher** – Kasten by Veeam

@@ -4,9 +4,10 @@ The following table describes the important changes to the documentation\. For n
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Storage chapter renamed to Store application data](https://docs.aws.amazon.com/eks/latest/userguide/storage.html) | We updated the "Storage" chapter to be more scenario\-driven and renamed it to "Store application data"\. | June 28, 2024 | 
 | [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | June 27, 2024 | 
+| [Improvements to AMI information references](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-amis.html) | We made improvements to the AMI information references, in particular for Bottlerocket\. | June 14, 2024 | 
 | [Kubernetes version `1.26`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.26) | Kubernetes version `1.26` is now in extended support\. | June 12, 2024 | 
-| [Improvements to AMI information references](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-amis.html) | We made improvements to the AMI information references, in particular for Bottlerocket\. | June 12, 2024 | 
 | [Kubernetes version `1.30`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.30) | Added Kubernetes version `1.30` support for new clusters and version upgrades\. | May 23, 2024 | 
 | [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) | This is a new platform version with security fixes and enhancements\. This includes new patch versions of Kubernetes `1.29.4`, `1.28.9`, and `1.27.13`\. | May 14, 2024 | 
 | [CoreDNS Autoscaling](https://docs.aws.amazon.com/eks/latest/userguide/coredns-autoscaling.html) | CoreDNS autoscaler will dynamically adapt the number of replicas of the CoreDNS deployment in an EKS cluster based on the number of nodes and CPU cores\. This feature works for CoreDNS `v1.9` and the latest platform version of EKS release version `1.25` and later\. | May 14, 2024 | 

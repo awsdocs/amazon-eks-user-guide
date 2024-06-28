@@ -20,7 +20,7 @@ Though many variables are changeable in the following steps, we recommend only c
 
 1. Create a Kubernetes deployment\. This sample deployment pulls a container image from a public repository and deploys three replicas \(individual Pods\) of it to your cluster\. To learn more, see [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) in the Kubernetes documentation\. You can deploy the application to Linux or Windows nodes\. If you're deploying to Fargate, then you can only deploy a Linux application\.
 
-   1. Save the following contents to a file named `eks-sample-deployment.yaml`\. The containers in the sample application don't use network storage, but you might have applications that need to\. For more information, see [Storage](storage.md)\.
+   1. Save the following contents to a file named `eks-sample-deployment.yaml`\. The containers in the sample application don't use network storage, but you might have applications that need to\. For more information, see [Store application data](storage.md)\.
 
 ------
 #### [ Linux ]

@@ -1,4 +1,4 @@
-# Amazon FSx for NetApp ONTAP CSI driver<a name="fsx-ontap"></a>
+# Use Amazon FSx for NetApp ONTAP storage<a name="fsx-ontap"></a>
 
 NetApp's Astra Trident provides dynamic storage orchestration using a Container Storage Interface \(CSI\) compliant driver\. This allows Amazon EKS clusters to manage the lifecycle of persistent volumes \(PVs\) backed by Amazon FSx for NetApp ONTAP file systems\. To get started, see [Use Astra Trident with Amazon FSx for NetApp ONTAP](https://docs.netapp.com/us-en/trident/trident-use/trident-fsx.html) in the Astra Trident documentation\.
 

@@ -1,4 +1,4 @@
-# Deploy a sample application and verify that the CSI driver is working<a name="ebs-sample-app"></a>
+# Deploy a sample application<a name="ebs-sample-app"></a>
 
 You can test the CSI driver functionality with a sample application\. This topic shows one example, but you can also do the following:
 + Deploy a sample application that uses the external snapshotter to create volume snapshots\. For more information, see [Volume Snapshots](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/snapshot) on GitHub\.
