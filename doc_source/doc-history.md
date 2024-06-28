@@ -1,6 +1,6 @@
 # Document history for Amazon EKS<a name="doc-history"></a>
 
-The following table describes the major updates and new features for the Amazon EKS User Guide\. We also update the documentation frequently to address the feedback that you send us\. 
+The following table describes the important changes to the documentation\. For notification about updates to this documentation, you can subscribe to an RSS feed\.
 
 | Change | Description | Date | 
 | --- |--- |--- |

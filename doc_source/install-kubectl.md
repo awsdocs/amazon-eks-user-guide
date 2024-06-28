@@ -173,11 +173,6 @@ You must use a `kubectl` version that is within one minor version difference of 
         ```
         curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/amd64/kubectl
         ```
-      + Kubernetes `1.30`
-
-        ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/amd64/kubectl
-        ```
       + Kubernetes `1.29`
 
         ```
@@ -227,11 +222,6 @@ You must use a `kubectl` version that is within one minor version difference of 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
 
       1. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3 using the command for your device's hardware platform\. The first link for each version is for `amd64` and the second link is for `arm64`\.
-         + Kubernetes `1.30`
-
-           ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/amd64/kubectl.sha256
-           ```
          + Kubernetes `1.30`
 
            ```
@@ -334,11 +324,6 @@ This step assumes you are using the Bash shell; if you are using another shell, 
         ```
         curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/arm64/kubectl
         ```
-      + Kubernetes `1.30`
-
-        ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/arm64/kubectl
-        ```
       + Kubernetes `1.29`
 
         ```
@@ -388,11 +373,6 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
 
       1. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3 using the command for your device's hardware platform\. The first link for each version is for `amd64` and the second link is for `arm64`\.
-         + Kubernetes `1.30`
-
-           ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/arm64/kubectl.sha256
-           ```
          + Kubernetes `1.30`
 
            ```
