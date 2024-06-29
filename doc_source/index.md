@@ -111,6 +111,7 @@ sponsored by Amazon.
       + [Create an Amazon EBS CSI driver IAM role](csi-iam-role.md)
       + [Manage the Amazon EBS CSI driver as an Amazon EKS add-on](managing-ebs-csi.md)
       + [Deploy a sample application](ebs-sample-app.md)
+      + [Amazon EBS CSI migration frequently asked questions](ebs-csi-migration-faq.md)
    + [Use Amazon EFS storage](efs-csi.md)
    + [Use Amazon FSx for Lustre storage](fsx-csi.md)
    + [Use Amazon FSx for NetApp ONTAP storage](fsx-ontap.md)
