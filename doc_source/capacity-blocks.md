@@ -1,12 +1,12 @@
 # Use Capacity Blocks for ML with self\-managed nodes<a name="capacity-blocks"></a>
 
-Capacity Blocks for machine learning \(ML\) allow you to reserve GPU instances on a future date to support your short duration ML workloads\. Instances that run inside a Capacity Block are automatically placed close together inside [Amazon EC2 UltraClusters](https://aws.amazon.com/ec2/ultraclusters/), so there is no need to use a cluster placement group\. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html) in the *Amazon EC2 User Guide for Linux Instances*\.
+Capacity Blocks for machine learning \(ML\) allow you to reserve GPU instances on a future date to support your short duration ML workloads\. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 
 ## Considerations<a name="capacity-blocks-considerations"></a>
 
 **Important**  
 Capacity Blocks are only available for certain Amazon EC2 instance types and AWS Regions\. For compatibility information, see [Work with Capacity Blocks Prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-blocks-using.html#capacity-blocks-prerequisites) in the *Amazon EC2 User Guide for Linux Instances*\.
-Capacity Blocks currently cannot be used with Amazon EKS managed node groups or Karpenter\.
+Capacity Blocks currently cannot be used with Karpenter\.
 If you create a self\-managed node group prior to the capacity reservation becoming active, then set the desired capacity to `0`\. 
 To allow sufficient time to gracefully drain the node\(s\), we suggest that you schedule scaling to scale to zero more than 30 minutes before the Capacity Block reservation end time\.
 In order for your Pods to be gracefully drained, we recommend that you set up AWS Node Termination Handler as explained in the example steps\.
@@ -26,7 +26,7 @@ You can use Capacity Blocks with Amazon EKS for provisioning and scaling your se
    + `SecurityGroupIds` set to the applicable IDs \(for example: `sg-05b1d815d1EXAMPLE`\)
    + `UserData` set to the applicable `user-data` for your self\-managed node group
 
-   The following is a partial example CloudFormation template that creates a launch template targeting a Capacity Block\.
+   The following is an excerpt of a CloudFormation template that creates a launch template targeting a Capacity Block\. 
 
    ```
    NodeLaunchTemplate:

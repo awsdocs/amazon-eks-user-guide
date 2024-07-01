@@ -4,6 +4,7 @@ The following table describes the important changes to the documentation\. For n
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Capacity Blocks for managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/capacity-blocks-mng.html) | You can now use Capacity Blocks for managed node groups\. | July 1, 2024 | 
 | [Storage chapter renamed to Store application data](https://docs.aws.amazon.com/eks/latest/userguide/storage.html) | We updated the "Storage" chapter to be more scenario\-driven and renamed it to "Store application data"\. | June 28, 2024 | 
 | [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | June 27, 2024 | 
 | [Improvements to AMI information references](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-amis.html) | We made improvements to the AMI information references, in particular for Bottlerocket\. | June 14, 2024 | 
