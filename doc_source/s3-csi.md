@@ -12,6 +12,7 @@ Static provisioning refers to using an existing Amazon S3 bucket that is specifi
 
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ An existing EFS CSI Driver is also required as storage won't be provisioned without that. Check [Related Issue.](https://github.com/awslabs/mountpoint-s3-csi-driver/issues/185#issuecomment-2097980816)
 + Version 2\.12\.3 or later of the AWS CLI installed and configured on your device or AWS CloudShell\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 
