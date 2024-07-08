@@ -1,6 +1,6 @@
-# Getting started with Amazon EKS<a name="getting-started"></a>
+# Get started with Amazon EKS<a name="getting-started"></a>
 
-Make sure that you are set up to use Amazon EKS before going through the getting started guides\. For more information, see [Setting up to use Amazon EKS](setting-up.md)\.
+Make sure that you are set up to use Amazon EKS before going through the getting started guides\. For more information, see [Set up to use Amazon EKS](setting-up.md)\.
 
 There are two getting started guides available for creating a new Kubernetes cluster with nodes in Amazon EKS:
 + [Getting started with Amazon EKS – `eksctl`](getting-started-eksctl.md) – This getting started guide helps you to install all of the required resources to get started with Amazon EKS using `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. At the end of the tutorial, you will have a running Amazon EKS cluster that you can deploy applications to\. This is the fastest and simplest way to get started with Amazon EKS\.

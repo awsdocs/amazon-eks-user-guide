@@ -12,7 +12,7 @@ When you create an Amazon EKS cluster, you specify the VPC subnets for your clus
 
 For more information about VPC considerations, see [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md)\.
 
-If you create your VPC and node groups with the AWS CloudFormation templates provided in the [Getting started with Amazon EKS](getting-started.md) walkthrough, then your control plane and node security groups are configured with our recommended settings\.
+If you create your VPC and node groups with the AWS CloudFormation templates provided in the [Get started with Amazon EKS](getting-started.md) walkthrough, then your control plane and node security groups are configured with our recommended settings\.
 
 For more information about security group considerations, see [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\. 
 

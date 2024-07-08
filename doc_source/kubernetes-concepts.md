@@ -6,7 +6,7 @@ Amazon Elastic Kubernetes Service \(Amazon EKS\) is an AWS managed service based
 
 **Topics**
 + [Why Kubernetes?](#why-kubernetes)
-+ [Clusters](#clusters)
++ [Clusters](#concepts-clusters)
 + [Workloads](#workloads)
 + [Next steps](#next-steps)
 
@@ -59,7 +59,7 @@ Amazon Elastic Kubernetes Service \(Amazon EKS\) is an AWS managed service based
 
  The following section go through details of each of these features, from the perspective of Kubernetes Clusters and Workloads\. 
 
-## Clusters<a name="clusters"></a>
+## Clusters<a name="concepts-clusters"></a>
 
  If your job is to start and manage Kubernetes clusters, you should know how Kubernetes clusters are created, enhanced, managed, and deleted\. You should also know what the components are that make up a cluster and what you need to do to maintain those components\. 
 

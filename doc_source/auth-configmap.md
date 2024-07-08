@@ -1,7 +1,7 @@
 # Enabling IAM principal access to your cluster<a name="auth-configmap"></a>
 
 **Important**  
-The `aws-auth` ConfigMap is deprecated\. The reccomended method to manage access to Kubernetes APIs is [Access Entries](access-entries.md)\. 
+The `aws-auth` ConfigMap is deprecated\. The recommended method to manage access to Kubernetes APIs is [Access Entries](access-entries.md)\. 
 
 Access to your cluster using [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) is enabled by the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator#readme), which runs on the Amazon EKS control plane\. The authenticator gets its configuration information from the `aws-auth` `ConfigMap`\. For all `aws-auth` `ConfigMap` settings, see [Full Configuration Format](https://github.com/kubernetes-sigs/aws-iam-authenticator#full-configuration-format) on GitHub\. 
 
@@ -159,7 +159,7 @@ We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For info
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.183.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
+Version `0.184.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 
    1. View the current mappings in the `ConfigMap`\. Replace `my-cluster` with the name of your cluster\. Replace `region-code` with the AWS Region that your cluster is in\.
 

@@ -7,7 +7,7 @@ Neuron device logical IDs must be contiguous\. If a Pod requesting multiple Neur
 
 ## Prerequisites<a name="inferentia-prerequisites"></a>
 + Have `eksctl` installed on your computer\. If you don't have it installed, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
-+ Have `kubectl` installed on your computer\. For more information, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ Have `kubectl` installed on your computer\. For more information, see [Set up `kubectl` and `eksctl`](install-kubectl.md)\.
 + \(Optional\) Have `python3` installed on your computer\. If you don't have it installed, then see [Python downloads](https://www.python.org/downloads/) for installation instructions\.
 
 ## Create a cluster<a name="create-cluster-inferentia"></a>

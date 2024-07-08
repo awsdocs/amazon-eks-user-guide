@@ -33,7 +33,7 @@ The default image type isn't available for Kubernetes version `1.25` and later\.
 When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add-on), you specify a valid Amazon EKS add\-on version, which might not be a version listed in this table\. This is because [Amazon EKS add\-on](eks-add-ons.md#add-ons-kube-proxy) versions don't always match container image versions specified when updating the self\-managed type of this add\-on\. When you update the self\-managed type of this add\-on, you specify a valid container image version listed in this table\. 
 
  Prerequisites
-+ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
++ An existing Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\.
 
 **Considerations**
 + `Kube-proxy` on an Amazon EKS cluster has the same [compatibility and skew policy as Kubernetes](https://kubernetes.io/releases/version-skew-policy/#kube-proxy)\. Learn how to [Retrieve addon version compatibility](managing-add-ons.md#addon-compat)\.

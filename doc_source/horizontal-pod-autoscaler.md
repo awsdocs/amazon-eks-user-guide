@@ -10,7 +10,7 @@ Use this topic to prepare the Horizontal Pod Autoscaler for your Amazon EKS clus
 This topic is based on the [Horizontal Pod autoscaler walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) in the Kubernetes documentation\.
 
 **Prerequisites**
-+ You have an existing Amazon EKS cluster\. If you don't, see [Getting started with Amazon EKS](getting-started.md)\.
++ You have an existing Amazon EKS cluster\. If you don't, see [Get started with Amazon EKS](getting-started.md)\.
 + You have the Kubernetes Metrics Server installed\. For more information, see [Installing the Kubernetes Metrics Server](metrics-server.md)\.
 + You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 

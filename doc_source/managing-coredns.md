@@ -60,7 +60,7 @@ If you're self\-managing this add\-on, the versions in the table might not be th
 Create the Amazon EKS type of the add\-on\. Check 
 
 **Prerequisites**
-+ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
++ An existing Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\.
 
 1. See which version of the add\-on is installed on your cluster\.
 

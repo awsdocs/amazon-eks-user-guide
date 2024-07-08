@@ -18,7 +18,7 @@ If you're self\-managing this add\-on, the versions in the table might not be th
 To upgrade to VPC CNI v1\.12\.0 or later, you must upgrade to VPC CNI v1\.7\.0 first\. We recommend that you update one minor version at a time\.<a name="manage-vpc-cni-add-on-on-prerequisites"></a>
 
 **Prerequisites**
-+ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
++ An existing Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\.
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + An IAM role with the [AmazonEKS\_CNI\_Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html) IAM policy \(if your cluster uses the `IPv4` family\) or an [IPv6 policy](cni-iam-role.md#cni-iam-role-create-ipv6-policy) \(if your cluster uses the `IPv6` family\) attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts \(IRSA\)](cni-iam-role.md)\.
 + If you're using version `1.7.0` or later of the Amazon VPC CNI plugin for Kubernetes and you use custom Pod security policies, see [Delete the default Amazon EKS Pod security policy](pod-security-policy.md#psp-delete-default)[Pod security policy](pod-security-policy.md)\.

@@ -6,14 +6,7 @@ The procedures in this guide create several resources for you automatically that
 
 ## Prerequisites<a name="eksctl-prereqs"></a>
 
-Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
-+ **`kubectl`** – A command line tool for working with Kubernetes clusters\. For more information, see [Installing or updating `kubectl`](install-kubectl.md)\.
-+ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. For more information, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
-+ **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, AWS CloudFormation, a VPC, and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\. To check the current user, run the following command:
-
-  ```
-  aws sts get-caller-identity
-  ```
+Before starting this tutorial, you must install and configure the AWS CLI, kubectl, and eksctl tools as described in [Set up to use Amazon EKS](setting-up.md)\.
 
 ## Step 1: Create your Amazon EKS cluster and nodes<a name="create-cluster-gs-eksctl"></a>
 

@@ -2,7 +2,7 @@
 
 **Prerequisites**
 + Familiarity with cluster access options for your Amazon EKS cluster\. For more information, see [Grant access to Kubernetes APIs ](grant-k8s-access.md)\.
-+ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. To use *access entries* and change the authentication mode of a cluster, the cluster must have a platform version that is the same or later than the version listed in the following table, or a Kubernetes version that is later than the versions listed in the table\.    
++ An existing Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\. To use *access entries* and change the authentication mode of a cluster, the cluster must have a platform version that is the same or later than the version listed in the following table, or a Kubernetes version that is later than the versions listed in the table\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/access-entries.html)
 
   You can check your current Kubernetes and platform version by replacing *my\-cluster* in the following command with the name of your cluster and then running the modified command: **aws eks describe\-cluster \-\-name *my\-cluster* \-\-query 'cluster\.\{"Kubernetes Version": version, "Platform Version": platformVersion\}'**\.
