@@ -2,7 +2,7 @@
 
 This topic describes how you can launch Amazon EKS managed node groups of nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
 
-If this is your first time launching an Amazon EKS managed node group, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides instead\. The guides provide walkthroughs for creating an Amazon EKS cluster with nodes\.
+If this is your first time launching an Amazon EKS managed node group, we recommend that you follow one of our [Get started with Amazon EKS](getting-started.md) guides instead\. The guides provide walkthroughs for creating an Amazon EKS cluster with nodes\.
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances\. You're billed based on the normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
@@ -23,7 +23,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.183.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.184.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

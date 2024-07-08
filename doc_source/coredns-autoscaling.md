@@ -17,7 +17,7 @@ For Amazon EKS to scale your CoreDNS deployment, there are three prerequisites:
 
 Autoscaling of CoreDNS is done by a new component in the cluster control plane, managed by Amazon EKS\. Because of this, you must upgrade your cluster to an EKS release that supports the minimum platform version that has the new component\.
 
-A new Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. The cluster must be Kubernetes version `1.25` or later\. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table or a later version\. Note that any Kubernetes and platform versions later than those listed are also supported\. You can check your current Kubernetes version by replacing *my\-cluster* in the following command with the name of your cluster and then running the modified command:
+A new Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\. The cluster must be Kubernetes version `1.25` or later\. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table or a later version\. Note that any Kubernetes and platform versions later than those listed are also supported\. You can check your current Kubernetes version by replacing *my\-cluster* in the following command with the name of your cluster and then running the modified command:
 
 ```
 aws eks describe-cluster

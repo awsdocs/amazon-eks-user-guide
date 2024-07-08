@@ -15,7 +15,7 @@ You can launch self\-managed Windows nodes with `eksctl` or the AWS Management C
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.183.0`\. You can check your version with the following command\.
+This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.184.0`\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -71,8 +71,8 @@ To see the available options for `eksctl` commands, enter the following command\
 #### [ AWS Management Console ]
 
 **Prerequisites**
-+ An existing Amazon EKS cluster and a Linux node group\. If you don't have these resources, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides to create them\. The guides describe how to create an Amazon EKS cluster with Linux nodes\.
-+ An existing VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md) and [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements\. Alternatively, you can also follow [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md) to create one manually\.
++ An existing Amazon EKS cluster and a Linux node group\. If you don't have these resources, we recommend that you follow one of our [Get started with Amazon EKS](getting-started.md) guides to create them\. The guides describe how to create an Amazon EKS cluster with Linux nodes\.
++ An existing VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md) and [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\. The [Get started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements\. Alternatively, you can also follow [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md) to create one manually\.
 + An existing Amazon EKS cluster that uses a VPC and security group that meets the requirements of an Amazon EKS cluster\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. If you have subnets in the AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled, those subnets must not have been passed in when you created the cluster\.
 
 **Step 1: To launch self\-managed Windows nodes using the AWS Management Console**

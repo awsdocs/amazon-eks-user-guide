@@ -25,7 +25,7 @@ For details about other features of Amazon EKS, see [Amazon EKS features](https:
 
 ## Get started with Amazon EKS<a name="how-eks-works"></a>
 
-To create your first cluster and its associated resources, see [Getting started with Amazon EKS](getting-started.md)\. In general, getting started with Amazon EKS involves the following steps\.
+To create your first cluster and its associated resources, see [Get started with Amazon EKS](getting-started.md)\. In general, getting started with Amazon EKS involves the following steps\.
 
 1. **Create a cluster** – Start by creating your cluster using `eksctl`, AWS Management Console, AWS CLI, or one of the AWS SDKs\.
 

@@ -3,7 +3,7 @@
 The Kubernetes [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) automatically adjusts the CPU and memory reservations for your Pods to help "right size" your applications\. This adjustment can improve cluster resource utilization and free up CPU and memory for other Pods\. This topic helps you to deploy the Vertical Pod Autoscaler to your cluster and verify that it is working\.
 
 **Prerequisites**
-+ You have an existing Amazon EKS cluster\. If you don't, see [Getting started with Amazon EKS](getting-started.md)\.
++ You have an existing Amazon EKS cluster\. If you don't, see [Get started with Amazon EKS](getting-started.md)\.
 + You have the Kubernetes Metrics Server installed\. For more information, see [Installing the Kubernetes Metrics Server](metrics-server.md)\.
 + You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 + OpenSSL `1.1.1` or later installed on your device\.

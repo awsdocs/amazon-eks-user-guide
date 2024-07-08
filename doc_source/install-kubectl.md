@@ -1,6 +1,12 @@
-# Installing or updating `kubectl`<a name="install-kubectl"></a>
+# Set up `kubectl` and `eksctl`<a name="install-kubectl"></a>
 
-`Kubectl` is a command line tool that you use to communicate with the Kubernetes API server\. The `kubectl` binary is available in many operating system package managers\. Using a package manager for your installation is often easier than a manual download and install process\.
+`Kubectl` is a command line tool that you use to communicate with the Kubernetes API server\. The `kubectl` binary is available in many operating system package managers\. Using a package manager for your installation is often easier than a manual download and install process\. The `eksctl` command lets you create and modify Amazon EKS clusters\.
+
+Topics on this page help you install and set up these tools:
++ [Install or update `kubectl`](#kubectl-install-update)
++ [Install `eksctl`](#eksctl-install-update)
+
+## Install or update `kubectl`<a name="kubectl-install-update"></a>
 
 This topic helps you to download and install, or update, the `kubectl` binary on your device\. The binary is identical to the [upstream community versions](https://kubernetes.io/docs/tasks/tools/#kubectl)\. The binary is not unique to Amazon EKS or AWS\.
 
@@ -173,6 +179,11 @@ You must use a `kubectl` version that is within one minor version difference of 
         ```
         curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/amd64/kubectl
         ```
+      + Kubernetes `1.30`
+
+        ```
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/amd64/kubectl
+        ```
       + Kubernetes `1.29`
 
         ```
@@ -222,6 +233,11 @@ You must use a `kubectl` version that is within one minor version difference of 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
 
       1. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3 using the command for your device's hardware platform\. The first link for each version is for `amd64` and the second link is for `arm64`\.
+         + Kubernetes `1.30`
+
+           ```
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/amd64/kubectl.sha256
+           ```
          + Kubernetes `1.30`
 
            ```
@@ -324,6 +340,11 @@ This step assumes you are using the Bash shell; if you are using another shell, 
         ```
         curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/arm64/kubectl
         ```
+      + Kubernetes `1.30`
+
+        ```
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/arm64/kubectl
+        ```
       + Kubernetes `1.29`
 
         ```
@@ -373,6 +394,11 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
 
       1. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3 using the command for your device's hardware platform\. The first link for each version is for `amd64` and the second link is for `arm64`\.
+         + Kubernetes `1.30`
+
+           ```
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/arm64/kubectl.sha256
+           ```
          + Kubernetes `1.30`
 
            ```
@@ -608,3 +634,16 @@ When first installing `kubectl`, it isn't yet configured to communicate with any
 ```
 aws eks update-kubeconfig --region region-code --name my-cluster
 ```
+
+## Install `eksctl`<a name="eksctl-install-update"></a>
+
+The `eksctl` CLI is used to working with EKS clusters\. It automates many individual tasks\. See [Installation](https://eksctl.io/installation) in the `eksctl` documentation for instructions on installing `eksctl`\.
+
+When using `eksctl` the IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, AWS CloudFormation, a VPC, and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\. To check the current user, run the following command:
+
+```
+aws sts get-caller-identity
+```
+
+## Next steps<a name="install-kubectl-next-steps"></a>
++ [Quickstart: Deploy a web app and store data](quickstart.md)

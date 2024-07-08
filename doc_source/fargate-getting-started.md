@@ -8,7 +8,7 @@ This topic describes how to get started running Pods on AWS Fargate with your Am
 If you restrict access to the public endpoint of your cluster using CIDR blocks, we recommend that you also enable private endpoint access\. This way, Fargate Pods can communicate with the cluster\. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the outbound sources from your VPC\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\. 
 
 **Prerequisite**  
-An existing cluster\. If you don't already have an Amazon EKS cluster, see [Getting started with Amazon EKS](getting-started.md)\.
+An existing cluster\. If you don't already have an Amazon EKS cluster, see [Get started with Amazon EKS](getting-started.md)\.
 
 ## Ensure that existing nodes can communicate with Fargate Pods<a name="fargate-gs-check-compatibility"></a>
 
@@ -43,7 +43,7 @@ You can create a Fargate profile using `eksctl` or the AWS Management Console\.
 ------
 #### [ eksctl ]
 
-This procedure requires `eksctl` version `0.183.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.184.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

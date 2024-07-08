@@ -7,7 +7,7 @@ Application traffic is balanced at `L7` of the OSI model\. To load balance netwo
 **Prerequisites**
 
 Before you can load balance application traffic to an application, you must meet the following requirements\.
-+ Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you need to update the version of an existing cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
++ Have an existing cluster\. If you don't have an existing cluster, see [Get started with Amazon EKS](getting-started.md)\. If you need to update the version of an existing cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
 + Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [What is the AWS Load Balancer Controller?](aws-load-balancer-controller.md)\. We recommend version `2.7.2` or later\.
 + At least two subnets in different Availability Zones\. The AWS Load Balancer Controller chooses one subnet from each Availability Zone\. When multiple tagged subnets are found in an Availability Zone, the controller chooses the subnet whose subnet ID comes first lexicographically\. Each subnet must have at least eight available IP addresses\.
 
