@@ -1,4 +1,4 @@
-# Horizontal Pod Autoscaler<a name="horizontal-pod-autoscaler"></a>
+# Scale pod deployments with Horizontal Pod Autoscaler<a name="horizontal-pod-autoscaler"></a>
 
 The Kubernetes [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) automatically scales the number of Pods in a deployment, replication controller, or replica set based on that resource's CPU utilization\. This can help your applications scale out to meet increased demand or scale in when resources are not needed, thus freeing up your nodes for other applications\. When you set a target CPU utilization percentage, the Horizontal Pod Autoscaler scales your application in or out to try to meet that target\.
 
@@ -11,7 +11,7 @@ This topic is based on the [Horizontal Pod autoscaler walkthrough](https://kuber
 
 **Prerequisites**
 + You have an existing Amazon EKS cluster\. If you don't, see [Get started with Amazon EKS](getting-started.md)\.
-+ You have the Kubernetes Metrics Server installed\. For more information, see [Installing the Kubernetes Metrics Server](metrics-server.md)\.
++ You have the Kubernetes Metrics Server installed\. For more information, see [View resource usage with the KubernetesMetrics Server](metrics-server.md)\.
 + You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 
 ## Run a Horizontal Pod Autoscaler test application<a name="hpa-sample-app"></a>

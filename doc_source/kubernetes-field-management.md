@@ -1,6 +1,6 @@
-# Kubernetes field management<a name="kubernetes-field-management"></a>
+# Customize Amazon EKS add\-on settings with field management<a name="kubernetes-field-management"></a>
 
-Amazon EKS add\-ons are installed to your cluster using standard, best practice configurations\. For more information about adding an Amazon EKS add\-on to your cluster, see [Amazon EKS add\-ons](eks-add-ons.md)\. 
+Amazon EKS add\-ons are installed to your cluster using standard, best practice configurations\. For more information about adding an Amazon EKS add\-on to your cluster, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\. 
 
 You may want to customize the configuration of an Amazon EKS add\-on to enable advanced features\. Amazon EKS uses the Kubernetes server\-side apply feature to enable management of an add\-on by Amazon EKS without overwriting your configuration for settings that aren't managed by Amazon EKS\. For more information, see [Server\-Side Apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) in the Kubernetes documentation\. To achieve this, Amazon EKS manages a minimum set of fields for every add\-on that it installs\. You can modify all fields that aren't managed by Amazon EKS, or another Kubernetes control plane process such as `kube-controller-manager`, without issue\. 
 

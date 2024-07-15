@@ -27,7 +27,7 @@ When you want to deploy custom networking to your production cluster, skip to [S
 
 **To create a cluster**
 
-The following procedures help you create a test VPC and cluster and configure custom networking for that cluster\. We don't recommend using the test cluster for production workloads because several unrelated features that you might use on your production cluster aren't covered in this topic\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\.
+The following procedures help you create a test VPC and cluster and configure custom networking for that cluster\. We don't recommend using the test cluster for production workloads because several unrelated features that you might use on your production cluster aren't covered in this topic\. For more information, see [Create an Amazon EKS cluster](create-cluster.md)\.
 
 1. Define a few variables to use in the remaining steps\.
 

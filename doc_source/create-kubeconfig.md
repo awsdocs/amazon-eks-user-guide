@@ -1,4 +1,4 @@
-# Creating or updating a `kubeconfig` file for an Amazon EKS cluster<a name="create-kubeconfig"></a>
+# Connect kubectl to an EKS cluster by creating a kubeconfig file<a name="create-kubeconfig"></a>
 
 In this topic, you create a `kubeconfig` file for your cluster \(or update an existing one\)\.
 

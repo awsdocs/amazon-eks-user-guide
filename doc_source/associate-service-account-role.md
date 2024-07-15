@@ -1,4 +1,4 @@
-# Configure a Kubernetes service account to assume an IAM role<a name="associate-service-account-role"></a>
+# Assign IAM roles to Kubernetes service accounts<a name="associate-service-account-role"></a>
 
 This topic covers how to configure a Kubernetes service account to assume an AWS Identity and Access Management \(IAM\) role\. Any Pods that are configured to use the service account can then access any AWS service that the role has permissions to access\.
 
@@ -7,7 +7,7 @@ This topic covers how to configure a Kubernetes service account to assume an AWS
 + An existing IAM OpenID Connect \(OIDC\) provider for your cluster\. To learn if you already have one or how to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line Interface \(AWS CLI\) installed and configured on your device or AWS CloudShell\. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the *AWS Command Line Interface User Guide*\. The AWS CLI version that is installed in AWS CloudShell might also be several versions behind the latest version\. To update it, see [Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the *AWS CloudShell User Guide*\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Set up `kubectl` and `eksctl`](install-kubectl.md)\.
-+ An existing `kubectl` `config` file that contains your cluster configuration\. To create a `kubectl` `config` file, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
++ An existing `kubectl` `config` file that contains your cluster configuration\. To create a `kubectl` `config` file, see [Connect kubectl to an EKS cluster by creating a kubeconfig file](create-kubeconfig.md)\.
 
 **To associate an IAM role with a Kubernetes service account**
 

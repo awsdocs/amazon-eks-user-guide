@@ -1,4 +1,4 @@
-# Tagging your Amazon EKS resources<a name="eks-using-tags"></a>
+# Organize Amazon EKS resources with tags<a name="eks-using-tags"></a>
 
 You can use *tags* to help you manage your Amazon EKS resources\. This topic provides an overview of the tags function and shows how you can create tags\.
 
@@ -77,7 +77,7 @@ You can also use **Tag Editor** in the AWS Management Console, which provides a 
 
 ### Adding tags on a resource on creation<a name="adding-tags-creation"></a>
 
-You can add tags to Amazon EKS clusters, managed node groups, and Fargate profiles when you create them\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\.
+You can add tags to Amazon EKS clusters, managed node groups, and Fargate profiles when you create them\. For more information, see [Create an Amazon EKS cluster](create-cluster.md)\.
 
 ### Adding and deleting tags on a resource<a name="adding-or-deleting-tags"></a>
 

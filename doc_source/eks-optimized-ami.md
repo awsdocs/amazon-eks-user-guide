@@ -73,7 +73,7 @@ Previous versions of the Amazon EKS optimized accelerated AMI installed the `nvi
 For details on training and inference workloads using Neuron in Amazon EKS, see the following references:
 + [Containers \- Kubernetes \- Getting Started](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html) in the *AWS Neuron Documentation*
 + [Training](https://github.com/aws-neuron/aws-neuron-eks-samples/blob/master/README.md#training) in AWS Neuron EKS Samples on GitHub
-+ [Machine learning inference using AWS Inferentia](inferentia-support.md)
++ [Deploy ML inference workloads with AWSInferentia on Amazon EKS](inferentia-support.md)
 
 **To enable GPU based workloads**
 

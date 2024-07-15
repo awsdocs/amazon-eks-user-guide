@@ -1,4 +1,4 @@
-# Enabling Windows support for your Amazon EKS cluster<a name="windows-support"></a>
+# Deploy Windows nodes on EKS clusters<a name="windows-support"></a>
 
 Before deploying Windows nodes, be aware of the following considerations\.
 
@@ -15,7 +15,8 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + You can't retrieve logs from the `vpc-resource-controller` Pod\. You previously could when you deployed the controller to the data plane\.
 + There is a cool down period before an `IPv4` address is assigned to a new Pod\. This prevents traffic from flowing to an older Pod with the same `IPv4` address due to stale `kube-proxy` rules\.
 + The source for the controller is managed on GitHub\. To contribute to, or file issues against the controller, visit the [project](https://github.com/aws/amazon-vpc-resource-controller-k8s) on GitHub\.
-+ When specifying a custom AMI ID for Windows managed node groups, add `eks:kube-proxy-windows` to your AWS IAM Authenticator configuration map\. For more information, see [Limits and conditions when specifying an AMI ID](launch-templates.md#mng-ami-id-conditions)\.<a name="windows-support-prerequisites"></a>
++ When specifying a custom AMI ID for Windows managed node groups, add `eks:kube-proxy-windows` to your AWS IAM Authenticator configuration map\. For more information, see [Limits and conditions when specifying an AMI ID](launch-templates.md#mng-ami-id-conditions)\.
++ If preserving your available IPv4 addresses is crucial for your subnet, refer to [ EKS Best Practices Guide \- Windows Networking IP Address Management](https://aws.github.io/aws-eks-best-practices/windows/docs/networking/#ip-address-management) for guidance\. <a name="windows-support-prerequisites"></a>
 
 **Prerequisites**
 + An existing cluster\. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table\. Any Kubernetes and platform versions later than those listed are also supported\. If your cluster or platform version is earlier than one of the following versions, you need to [enable legacy Windows support](#legacy-windows-support) on your cluster's data plane\. Once your cluster is at one of the following Kubernetes and platform versions, or later, you can [remove legacy Windows support](#remove-windows-support-data-plane) and [enable Windows support](#enable-windows-support) on your control plane\.    

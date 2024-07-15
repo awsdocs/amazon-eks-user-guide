@@ -311,4 +311,4 @@ We recommend using the `quay.io` container registry to install `cert-manager`\. 
 
    You receive the previous output if you deployed using Helm\. If you deployed using the Kubernetes manifest, you only have one replica\.
 
-1. Before using the controller to provision AWS resources, your cluster must meet specific requirements\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\.
+1. Before using the controller to provision AWS resources, your cluster must meet specific requirements\. For more information, see [Route application and HTTP traffic with Application Load Balancers](alb-ingress.md) and [Route TCP and UDP traffic with Network Load Balancers](network-load-balancing.md)\.

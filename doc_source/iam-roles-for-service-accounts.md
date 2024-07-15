@@ -18,7 +18,7 @@ If you enable the EKS VPC endpoint, the EKS OIDC service endpoint can't be acces
    ```
 To complete this step, you can run the command outside the VPC, for example in AWS CloudShell or on a computer connected to the internet\.
 
-1. [Configure a Kubernetes service account to assume an IAM role](associate-service-account-role.md) – Complete this procedure for each unique set of permissions that you want an application to have\.
+1. [Assign IAM roles to Kubernetes service accounts](associate-service-account-role.md) – Complete this procedure for each unique set of permissions that you want an application to have\.
 
 1. [Configure Pods to use a Kubernetes service account](pod-configuration.md) – Complete this procedure for each Pod that needs access to AWS services\.
 
@@ -28,7 +28,7 @@ To complete this step, you can run the command outside the VPC, for example in A
 
 In 2014, AWS Identity and Access Management added support for federated identities using OpenID Connect \(OIDC\)\. This feature allows you to authenticate AWS API calls with supported identity providers and receive a valid OIDC JSON web token \(JWT\)\. You can pass this token to the AWS STS `AssumeRoleWithWebIdentity` API operation and receive IAM temporary role credentials\. You can use these credentials to interact with any AWS service, including Amazon S3 and DynamoDB\. 
 
-Each JWT token is signed by a signing key pair\. The keys are served on the OIDC provider managed by Amazon EKS and the private key rotates every 7 days\. Amazon EKS keeps the public keys until they expire\. If you connect external OIDC clients, be aware that you need to refresh the signing keys before the public key expires\. Learn how to [Fetch signing keys](irsa-fetch-keys.md)\.
+Each JWT token is signed by a signing key pair\. The keys are served on the OIDC provider managed by Amazon EKS and the private key rotates every 7 days\. Amazon EKS keeps the public keys until they expire\. If you connect external OIDC clients, be aware that you need to refresh the signing keys before the public key expires\. Learn how to [Fetch signing keys to validate OIDC tokens](irsa-fetch-keys.md)\.
 
 Kubernetes has long used service accounts as its own internal identity system\. Pods can authenticate with the Kubernetes API server using an auto\-mounted token \(which was a non\-OIDC JWT\) that only the Kubernetes API server could validate\. These legacy service account tokens don't expire, and rotating the signing key is a difficult process\. In Kubernetes version `1.12`, support was added for a new `ProjectedServiceAccountToken` feature\. This feature is an OIDC JSON web token that also contains the service account identity and supports a configurable audience\.
 

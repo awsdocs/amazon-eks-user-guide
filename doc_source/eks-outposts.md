@@ -29,7 +29,7 @@ The following table compares the differences between the two options\.
 |  Kubernetes control plane account  | AWS account | Your account | 
 | Regional availability | See [Service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region) | US East \(Ohio\), US East \(N\. Virginia\), US West \(N\. California\), US West \(Oregon\), Asia Pacific \(Seoul\), Asia Pacific \(Singapore\), Asia Pacific \(Sydney\), Asia Pacific \(Tokyo\), Canada \(Central\), Europe \(Frankfurt\), Europe \(Ireland\), Europe \(London\), Middle East \(Bahrain\), and South America \(São Paulo\) | 
 | Kubernetes minor versions |  [Supported Amazon EKS versions](kubernetes-versions.md)\. | [Supported Amazon EKS versions](kubernetes-versions.md)\. | 
-| Platform versions | See [Amazon EKS platform versions](platform-versions.md) | See [Amazon EKS local cluster platform versions](eks-outposts-platform-versions.md) | 
+| Platform versions | See [View Amazon EKS platform versions for each Kubernetes version](platform-versions.md) | See [Amazon EKS local cluster platform versions](eks-outposts-platform-versions.md) | 
 | Outpost form factors | Outpost racks | Outpost racks | 
 | User interfaces | AWS Management Console, AWS CLI, Amazon EKS API, `eksctl`, AWS CloudFormation, and Terraform | AWS Management Console, AWS CLI, Amazon EKS API, eksctl, AWS CloudFormation, and Terraform | 
 | Managed policies | [AmazonEKSClusterPolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-AmazonEKSClusterPolicy) and [AmazonEKSServiceRolePolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-AmazonEKSServiceRolePolicy) | [AmazonEKSLocalOutpostClusterPolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy) and [AmazonEKSLocalOutpostServiceRolePolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy) | 
@@ -45,7 +45,7 @@ The following table compares the differences between the two options\.
 | Default Container Network Interface | Amazon VPC CNI plugin for Kubernetes | Amazon VPC CNI plugin for Kubernetes | 
 | Kubernetes control plane logs | Amazon CloudWatch Logs |  Amazon CloudWatch Logs  | 
 | Load balancing | Use the [AWS Load Balancer Controller](aws-load-balancer-controller.md) to provision Application Load Balancers only \(no Network Load Balancers\) | Use the [AWS Load Balancer Controller](aws-load-balancer-controller.md) to provision Application Load Balancers only \(no Network Load Balancers\) | 
-| Secrets envelope encryption | See [Enabling secret encryption on an existing cluster](enable-kms.md) | Not supported | 
+| Secrets envelope encryption | See [Encrypt Kubernetes secrets with AWS KMS on existing clusters](enable-kms.md) | Not supported | 
 | IAM roles for service accounts | See [IAM roles for service accounts](iam-roles-for-service-accounts.md) | Not supported | 
 | Troubleshooting | See [Amazon EKS troubleshooting](troubleshooting.md) | See [Troubleshooting local clusters for Amazon EKS on AWS Outposts](eks-outposts-troubleshooting.md) | 
 

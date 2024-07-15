@@ -46,7 +46,7 @@ If you need to limit the open ports between the cluster and nodes, you can remov
 
 You must also add rules for the following traffic:
 + Any protocol and ports that you expect your nodes to use for inter\-node communication\.
-+ Outbound internet access so that nodes can access the Amazon EKS APIs for cluster introspection and node registration at launch time\. If your nodes don't have internet access, review [Private cluster requirements](private-clusters.md) for additional considerations\.
++ Outbound internet access so that nodes can access the Amazon EKS APIs for cluster introspection and node registration at launch time\. If your nodes don't have internet access, review [Deploy private clusters with limited internet access](private-clusters.md) for additional considerations\.
 + Node access to pull container images from Amazon ECR or other container registries APIs that they need to pull images from, such as DockerHub\. For more information, see [AWS IP address ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the AWS General Reference\.
 + Node access to Amazon S3\.
 + Separate rules are required for `IPv4` and `IPv6` addresses\.

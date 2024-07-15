@@ -167,7 +167,7 @@ Update the Amazon EKS type of the add\-on\. If you haven't added the Amazon EKS 
 ## Updating the self\-managed add\-on<a name="vpc-add-on-self-managed-update"></a>
 
 **Important**  
-We recommend adding the Amazon EKS type of the add\-on to your cluster instead of using the self\-managed type of the add\-on\. If you're not familiar with the difference between the types, see [Amazon EKS add\-ons](eks-add-ons.md)\. For more information about adding an Amazon EKS add\-on to your cluster, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\. If you're unable to use the Amazon EKS add\-on, we encourage you to submit an issue about why you can't to the [Containers roadmap GitHub repository](https://github.com/aws/containers-roadmap/issues)\.
+We recommend adding the Amazon EKS type of the add\-on to your cluster instead of using the self\-managed type of the add\-on\. If you're not familiar with the difference between the types, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\. For more information about adding an Amazon EKS add\-on to your cluster, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\. If you're unable to use the Amazon EKS add\-on, we encourage you to submit an issue about why you can't to the [Containers roadmap GitHub repository](https://github.com/aws/containers-roadmap/issues)\.
 
 1. Confirm that you don't have the Amazon EKS type of the add\-on installed on your cluster\. Replace *my\-cluster* with the name of your cluster\.
 
@@ -175,7 +175,7 @@ We recommend adding the Amazon EKS type of the add\-on to your cluster instead o
    aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni --query addon.addonVersion --output text
    ```
 
-   If an error message is returned, you don't have the Amazon EKS type of the add\-on installed on your cluster\. To self\-manage the add\-on, complete the remaining steps in this procedure to update the add\-on\. If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster\. To update it, use the procedure in [Updating an add\-on](managing-add-ons.md#updating-an-add-on), rather than using this procedure\. If you're not familiar with the differences between the add\-on types, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+   If an error message is returned, you don't have the Amazon EKS type of the add\-on installed on your cluster\. To self\-manage the add\-on, complete the remaining steps in this procedure to update the add\-on\. If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster\. To update it, use the procedure in [Updating an add\-on](managing-add-ons.md#updating-an-add-on), rather than using this procedure\. If you're not familiar with the differences between the add\-on types, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\.
 
 1. See which version of the container image is currently installed on your cluster\.
 

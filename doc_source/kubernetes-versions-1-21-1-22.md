@@ -1,4 +1,4 @@
-# Release notes for versions 1\.21 and 1\.22<a name="kubernetes-versions-1-21-1-22"></a>
+# Review release notes for Kubernetes versions 1\.22 and 1\.21<a name="kubernetes-versions-1-21-1-22"></a>
 
 **Important**  
 You cannot create new clusters with these versions\.

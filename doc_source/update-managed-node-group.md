@@ -99,7 +99,7 @@ You can modify some of the configurations of a managed node group\.
    1. Edit the **Node group scaling configuration**\.
       + **Desired size** – Specify the current number of nodes that the managed node group should maintain\.
       + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
-      + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\. For the maximum number of nodes supported in a node group, see [Amazon EKS service quotas](service-quotas.md)\.
+      + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\. For the maximum number of nodes supported in a node group, see [View and manage Amazon EKS and Fargate service quotas](service-quotas.md)\.
 
    1. \(Optional\) Add or remove **Kubernetes labels** to the nodes in your node group\. The labels shown here are only the labels that you have applied with Amazon EKS\. Other labels may exist on your nodes that aren't shown here\.
 

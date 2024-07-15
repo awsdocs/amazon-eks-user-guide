@@ -1,4 +1,4 @@
-# Fetch signing keys<a name="irsa-fetch-keys"></a>
+# Fetch signing keys to validate OIDC tokens<a name="irsa-fetch-keys"></a>
 
 Kubernetes issues a `ProjectedServiceAccountToken` to each Kubernetes Service Account\. This token is an OIDC token, which is further a type of JSON web token \(JWT\)\. Amazon EKS hosts a public OIDC endpoint for each cluster that contains the signing keys for the token so external systems can validate it\. 
 

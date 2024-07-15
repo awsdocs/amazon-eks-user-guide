@@ -1,4 +1,4 @@
-# Amazon EKS platform versions<a name="platform-versions"></a>
+# View Amazon EKS platform versions for each Kubernetes version<a name="platform-versions"></a>
 
 Amazon EKS platform versions represent the capabilities of the Amazon EKS cluster control plane, such as which Kubernetes API server flags are enabled, as well as the current Kubernetes patch version\. Each Kubernetes minor version has one or more associated Amazon EKS platform versions\. The platform versions for different Kubernetes minor versions are independent\. You can [retrieve your cluster's current platform version](#get-platform-version) using the AWS CLI or AWS Management Console\. If you have a local cluster on AWS Outposts, see [Amazon EKS local cluster platform versions](eks-outposts-platform-versions.md) instead of this topic\.
 
@@ -61,7 +61,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 |  `1.28.5`  |  `eks.7`  |  New platform version with security fixes and enhancements\. | January 17, 2024 | 
 |  `1.28.4`  |  `eks.6`  |  New platform version with [access entries](access-entries.md), security fixes and enhancements\.  | December 14, 2023 | 
 |  `1.28.4`  |  `eks.5`  |  New platform version with security fixes and enhancements\.  | December 12, 2023 | 
-|  `1.28.3`  |  `eks.4`  |  New platform version with [EKS Pod Identities](pod-identities.md), security fixes and enhancements\.  | November 10, 2023 | 
+|  `1.28.3`  |  `eks.4`  |  New platform version with [Learn how EKS Pod Identity grants pods access to AWS services](pod-identities.md), security fixes and enhancements\.  | November 10, 2023 | 
 |  `1.28.3`  |  `eks.3`  |  New platform version with security fixes and enhancements\.  | November 3, 2023 | 
 |  `1.28.2`  |  `eks.2`  |  New platform version with security fixes and enhancements\.  | October 16, 2023 | 
 |  `1.28.1`  |  `eks.1`  |  Initial release of Kubernetes version `1.28` for EKS\. For more information, see [Kubernetes 1\.28](kubernetes-versions-standard.md#kubernetes-1.28)\.  | September 26, 2023 | 
@@ -83,7 +83,7 @@ The following admission controllers are enabled for all `1.27` platform versions
 |  `1.27.9`  |  `eks.11`  |  New platform version with security fixes and enhancements\. | January 17, 2024 | 
 |  `1.27.8`  |  `eks.10`  |  New platform version with [access entries](access-entries.md), security fixes and enhancements\.  | December 14, 2023 | 
 |  `1.27.8`  |  `eks.9`  |  New platform version with security fixes and enhancements\.  | December 12, 2023 | 
-|  `1.27.7`  |  `eks.8`  |  New platform version with [EKS Pod Identities](pod-identities.md), security fixes and enhancements\.  | November 10, 2023 | 
+|  `1.27.7`  |  `eks.8`  |  New platform version with [Learn how EKS Pod Identity grants pods access to AWS services](pod-identities.md), security fixes and enhancements\.  | November 10, 2023 | 
 |  `1.27.7`  |  `eks.7`  |  New platform version with security fixes and enhancements\.  | November 3, 2023 | 
 |  `1.27.6`  |  `eks.6`  |  New platform version with security fixes and enhancements\.  | October 16, 2023 | 
 |  `1.27.4`  |  `eks.5`  |  New platform version with security fixes and enhancements\.  | August 30, 2023 | 
@@ -109,7 +109,7 @@ The following admission controllers are enabled for all `1.26` platform versions
 |  `1.26.12`  |  `eks.12`  |  New platform version with security fixes and enhancements\. | January 17, 2024 | 
 |  `1.26.11`  |  `eks.11`  |  New platform version with [access entries](access-entries.md), security fixes and enhancements\.  | December 14, 2023 | 
 |  `1.26.11`  |  `eks.10`  |  New platform version with security fixes and enhancements\.  | December 12, 2023 | 
-|  `1.26.10`  |  `eks.9`  |  New platform version with [EKS Pod Identities](pod-identities.md), security fixes and enhancements\.  | November 10, 2023 | 
+|  `1.26.10`  |  `eks.9`  |  New platform version with [Learn how EKS Pod Identity grants pods access to AWS services](pod-identities.md), security fixes and enhancements\.  | November 10, 2023 | 
 |  `1.26.10`  |  `eks.8`  |  New platform version with security fixes and enhancements\.  | November 3, 2023 | 
 |  `1.26.9`  |  `eks.7`  |  New platform version with security fixes and enhancements\.  | October 16, 2023 | 
 |  `1.26.7`  |  `eks.6`  |  New platform version with security fixes and enhancements\.  | August 30, 2023 | 
@@ -136,7 +136,7 @@ The following admission controllers are enabled for all `1.25` platform versions
 |  `1.25.16`  |  `eks.13`  |  New platform version with security fixes and enhancements\. | January 17, 2024 | 
 |  `1.25.16`  |  `eks.12`  |  New platform version with [access entries](access-entries.md), security fixes and enhancements\.  | December 14, 2023 | 
 |  `1.25.16`  |  `eks.11`  |  New platform version with security fixes and enhancements\.  | December 12, 2023 | 
-|  `1.25.15`  |  `eks.10`  |  New platform version with [EKS Pod Identities](pod-identities.md), security fixes and enhancements\.  | November 10, 2023 | 
+|  `1.25.15`  |  `eks.10`  |  New platform version with [Learn how EKS Pod Identity grants pods access to AWS services](pod-identities.md), security fixes and enhancements\.  | November 10, 2023 | 
 |  `1.25.15`  |  `eks.9`  |  New platform version with security fixes and enhancements\.  | November 3, 2023 | 
 |  `1.25.14`  |  `eks.8`  |  New platform version with security fixes and enhancements\.  | October 16, 2023 | 
 |  `1.25.12`  |  `eks.7`  |  New platform version with security fixes and enhancements\.  | August 30, 2023 | 
@@ -164,7 +164,7 @@ The following admission controllers are enabled for all `1.24` platform versions
 |  `1.24.17`  |  `eks.16`  |  New platform version with security fixes and enhancements\. | January 17, 2024 | 
 |  `1.24.17`  |  `eks.15`  |  New platform version with [access entries](access-entries.md), security fixes and enhancements\.  | December 14, 2023 | 
 |  `1.24.17`  |  `eks.14`  |  New platform version with security fixes and enhancements\.  | December 12, 2023 | 
-|  `1.24.17`  |  `eks.13`  |  New platform version with [EKS Pod Identities](pod-identities.md), security fixes and enhancements\.  | November 10, 2023 | 
+|  `1.24.17`  |  `eks.13`  |  New platform version with [Learn how EKS Pod Identity grants pods access to AWS services](pod-identities.md), security fixes and enhancements\.  | November 10, 2023 | 
 |  `1.24.17`  |  `eks.12`  |  New platform version with security fixes and enhancements\.  | November 3, 2023 | 
 |  `1.24.17`  |  `eks.11`  |  New platform version with security fixes and enhancements\.  | October 16, 2023 | 
 |  `1.24.16`  |  `eks.10`  |  New platform version with security fixes and enhancements\.  | August 30, 2023 | 

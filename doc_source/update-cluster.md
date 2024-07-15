@@ -1,9 +1,9 @@
-# Updating an Amazon EKS cluster Kubernetes version<a name="update-cluster"></a>
+# Update existing cluster to new Kubernetes version<a name="update-cluster"></a>
 
 When a new Kubernetes version is available in Amazon EKS, you can update your Amazon EKS cluster to the latest version\. 
 
 **Important**  
-Once you upgrade a cluster, you can't downgrade to a previous version\. We recommend that, before you update to a new Kubernetes version, you review the information in [Amazon EKS Kubernetes versions](kubernetes-versions.md) and also review in the update steps in this topic\.
+Once you upgrade a cluster, you can't downgrade to a previous version\. We recommend that, before you update to a new Kubernetes version, you review the information in [Understand the Kubernetes version lifecycle on EKS](kubernetes-versions.md) and also review in the update steps in this topic\.
 
 New Kubernetes versions sometimes introduce significant changes\. Therefore, we recommend that you test the behavior of your applications against a new Kubernetes version before you update your production clusters\. You can do this by building a continuous integration workflow to test your application behavior before moving to a new Kubernetes version\.
 
@@ -88,7 +88,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 
    For instructions on how to install and update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 
-   Update the Kubernetes version of your Amazon EKS control plane\. Replace *`my-cluster`* with your cluster name\. Replace *1\.30* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Amazon EKS Kubernetes versions](kubernetes-versions.md)\.
+   Update the Kubernetes version of your Amazon EKS control plane\. Replace *`my-cluster`* with your cluster name\. Replace *1\.30* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Understand the Kubernetes version lifecycle on EKS](kubernetes-versions.md)\.
 
    ```
    eksctl upgrade cluster --name my-cluster --version 1.30 --approve
@@ -112,7 +112,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 ------
 #### [ AWS CLI ]
 
-   1. Update your Amazon EKS cluster with the following AWS CLI command\. Replace the *`example values`* with your own\. Replace *1\.30* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Amazon EKS Kubernetes versions](kubernetes-versions.md)\.
+   1. Update your Amazon EKS cluster with the following AWS CLI command\. Replace the *`example values`* with your own\. Replace *1\.30* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Understand the Kubernetes version lifecycle on EKS](kubernetes-versions.md)\.
 
       ```
       aws eks update-cluster-version --region region-code --name my-cluster --kubernetes-version 1.30

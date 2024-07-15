@@ -1,4 +1,4 @@
-# Amazon EKS service quotas<a name="service-quotas"></a>
+# View and manage Amazon EKS and Fargate service quotas<a name="service-quotas"></a>
 
 Amazon EKS has integrated with Service Quotas, an AWS service that you can use to view and manage your quotas from a central location\. For more information, see [What Is Service Quotas?](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html) in the *Service Quotas User Guide*\. With Service Quotas integration, you can quickly look up the value of your Amazon EKS and AWS Fargate service quotas using the AWS Management Console and AWS CLI\.
 

@@ -1,4 +1,4 @@
-# Machine learning inference using AWS Inferentia<a name="inferentia-support"></a>
+# Deploy ML inference workloads with AWSInferentia on Amazon EKS<a name="inferentia-support"></a>
 
 This topic describes how to create an Amazon EKS cluster with nodes running [Amazon EC2 Inf1](https://aws.amazon.com/ec2/instance-types/inf1/) instances and \(optionally\) deploy a sample application\. Amazon EC2 Inf1 instances are powered by [AWS Inferentia](https://aws.amazon.com/machine-learning/inferentia/) chips, which are custom built by AWS to provide high performance and lowest cost inference in the cloud\. Machine learning models are deployed to containers using [AWS Neuron](https://aws.amazon.com/machine-learning/neuron/), a specialized software development kit \(SDK\) consisting of a compiler, runtime, and profiling tools that optimize the machine learning inference performance of Inferentia chips\. AWS Neuron supports popular machine learning frameworks such as TensorFlow, PyTorch, and MXNet\.
 

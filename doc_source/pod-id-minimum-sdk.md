@@ -1,6 +1,6 @@
 # Use a supported AWS SDK<a name="pod-id-minimum-sdk"></a>
 
-When using [EKS Pod Identities](pod-identities.md), the containers in your Pods must use an AWS SDK version that supports assuming an IAM role from the EKS Pod Identity Agent\. Make sure that you're using the following versions, or later, for your AWS SDK:
+When using [Learn how EKS Pod Identity grants pods access to AWS services](pod-identities.md), the containers in your Pods must use an AWS SDK version that supports assuming an IAM role from the EKS Pod Identity Agent\. Make sure that you're using the following versions, or later, for your AWS SDK:
 + Java \(Version 2\) – [2\.21\.30](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.21.30)
 + Java – [1\.12\.746](https://github.com/aws/aws-sdk-java/releases/tag/1.12.746)
 + Go v1 – [v1\.47\.11](https://github.com/aws/aws-sdk-go/releases/tag/v1.47.11)
@@ -30,4 +30,4 @@ To use the credentials from a EKS Pod Identity association, your code can use an
 
 This works because EKS Pod Identities have been added to the *Container credential provider* which is searched in a step in the default credential chain\. If your workloads currently use credentials that are earlier in the chain of credentials, those credentials will continue to be used even if you configure an EKS Pod Identity association for the same workload\.
 
-For more information about how EKS Pod Identities work, see [How EKS Pod Identity works](pod-id-how-it-works.md)\.
+For more information about how EKS Pod Identities work, see [Understand how EKS Pod Identity works](pod-id-how-it-works.md)\.

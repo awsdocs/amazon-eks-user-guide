@@ -1,4 +1,4 @@
-# Deleting an Amazon EKS cluster<a name="delete-cluster"></a>
+# Delete a cluster<a name="delete-cluster"></a>
 
 When you're done using an Amazon EKS cluster, you should delete the resources associated with it so that you don't incur any unnecessary costs\.
 

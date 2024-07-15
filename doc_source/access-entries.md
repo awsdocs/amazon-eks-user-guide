@@ -1,7 +1,7 @@
-# Manage access entries<a name="access-entries"></a>
+# Grant IAM users access to Kubernetes with EKS access entries<a name="access-entries"></a>
 
 **Prerequisites**
-+ Familiarity with cluster access options for your Amazon EKS cluster\. For more information, see [Grant access to Kubernetes APIs ](grant-k8s-access.md)\.
++ Familiarity with cluster access options for your Amazon EKS cluster\. For more information, see [Grant IAM users and roles access to KubernetesAPIs](grant-k8s-access.md)\.
 + An existing Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\. To use *access entries* and change the authentication mode of a cluster, the cluster must have a platform version that is the same or later than the version listed in the following table, or a Kubernetes version that is later than the versions listed in the table\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/access-entries.html)
 

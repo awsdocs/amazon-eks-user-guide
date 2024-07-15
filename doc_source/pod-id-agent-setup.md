@@ -73,7 +73,7 @@ By default, the EKS Pod Identity Agent listens on an `IPv4` and `IPv6` address f
    eks-pod-identity-agent-prnsh                                          1/1     Running   1 (24h ago)   24h
    ```
 
-   You can now use EKS Pod Identity associations in your cluster\. For more information, see [Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md)\.
+   You can now use EKS Pod Identity associations in your cluster\. For more information, see [Assign an IAM role to a Kubernetes service account](pod-id-association.md)\.
 
 ------
 #### [ AWS CLI ]
@@ -99,7 +99,7 @@ The EKS Pod Identity Agent doesn't use the `service-account-role-arn` for *IAM r
    eks-pod-identity-agent-prnsh                                          1/1     Running   1 (24h ago)   24h
    ```
 
-   You can now use EKS Pod Identity associations in your cluster\. For more information, see [Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md)\.
+   You can now use EKS Pod Identity associations in your cluster\. For more information, see [Assign an IAM role to a Kubernetes service account](pod-id-association.md)\.
 
 ------
 

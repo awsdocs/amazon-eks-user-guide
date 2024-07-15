@@ -6,7 +6,7 @@ If you've added entries to the `aws-auth` `ConfigMap` on your cluster, we recomm
 Don't remove existing `aws-auth` `ConfigMap` entries that were created by Amazon EKS when you added a [managed node group](managed-node-groups.md) or a [Fargate profile](fargate-profile.md) to your cluster\. If you remove entries that Amazon EKS created in the `ConfigMap`, your cluster won't function properly\. You can however, remove any entries for [self\-managed](worker.md) node groups after you've created access entries for them\.
 
 **Prerequisites**
-+ Familiarity with access entries and access policies\. For more information, see [Manage access entries](access-entries.md) and [Associating and disassociating access policies to and from access entries](access-policies.md)\.
++ Familiarity with access entries and access policies\. For more information, see [Grant IAM users access to Kubernetes with EKS access entries](access-entries.md) and [Associating and disassociating access policies to and from access entries](access-policies.md)\.
 + An existing cluster with a platform version that is at or later than the versions listed in the Prerequisites of the [Allowing IAM roles or users access to Kubernetes objects on your Amazon EKS cluster](access-entries.md#access-entries-prerequisites) topic\.
 + Version `0.184.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 + Kubernetes permissions to modify the `aws-auth` `ConfigMap` in the `kube-system` namespace\.

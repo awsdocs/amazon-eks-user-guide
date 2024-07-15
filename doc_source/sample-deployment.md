@@ -5,7 +5,7 @@ In this topic, you deploy a sample application to your cluster\.
 **Prerequisites**
 + An existing Kubernetes cluster with at least one node\. If you don't have an existing Amazon EKS cluster, you can deploy one using one of the [Get started with Amazon EKS](getting-started.md) guides\. If you're deploying a Windows application, then you must have [Windows support](windows-support.md) enabled for your cluster and at least one Amazon EC2 Windows node\.
 + `Kubectl` installed on your computer\. For more information, see [Set up `kubectl` and `eksctl`](install-kubectl.md)\.
-+ `Kubectl` configured to communicate with your cluster\. For more information, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
++ `Kubectl` configured to communicate with your cluster\. For more information, see [Connect kubectl to an EKS cluster by creating a kubeconfig file](create-kubeconfig.md)\.
 + If you plan to deploy your sample workload to Fargate, then you must have an existing [Fargate profile](fargate-profile.md) that includes the same namespace created in this tutorial, which is `eks-sample-app`, unless you change the name\. If you used one of the [getting started guides](getting-started.md) to create your cluster, then you'll have to create a new profile, or add the namespace to your existing profile, because the profile created in the getting started guides doesn't specify the namespace used in this tutorial\. Your VPC must also have at least one private subnet\.
 
 **To deploy a sample application**
@@ -203,7 +203,7 @@ Though many variables are changeable in the following steps, we recommend only c
 
    In the output, you see the service and deployment that were specified in the sample manifests deployed in previous steps\. You also see three Pods\. This is because `3` `replicas` were specified in the sample manifest\. For more information about Pods, see [Pods](https://kubernetes.io/docs/concepts/workloads/pods/pod/) in the Kubernetes documentation\. Kubernetes automatically creates the `replicaset` resource, even though it isn't specified in the sample manifests\. For more information about `ReplicaSets`, see [ReplicaSet](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/) in the Kubernetes documentation\.
 **Note**  
-Kubernetes maintains the number of replicas that are specified in the manifest\. If this were a production deployment and you wanted Kubernetes to horizontally scale the number of replicas or vertically scale the compute resources for the Pods, use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) and the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to do so\.
+Kubernetes maintains the number of replicas that are specified in the manifest\. If this were a production deployment and you wanted Kubernetes to horizontally scale the number of replicas or vertically scale the compute resources for the Pods, use the [Scale pod deployments with Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) and the [Adjust pod resources with Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to do so\.
 
 1. View the details of the deployed service\. If you deployed a Windows service, replace `linux` with **windows**\.
 
@@ -379,5 +379,5 @@ Rather than using the command line, you can view many details about Pods, servic
 ## Next Steps<a name="next-steps"></a>
 
 After you deploy the sample application, you might want to try some of the following exercises:
-+ [Application load balancing on Amazon EKS](alb-ingress.md)
-+ [Network load balancing on Amazon EKS](network-load-balancing.md)
++ [Route application and HTTP traffic with Application Load Balancers](alb-ingress.md)
++ [Route TCP and UDP traffic with Network Load Balancers](network-load-balancing.md)

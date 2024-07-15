@@ -1,4 +1,4 @@
-# How EKS Pod Identity works<a name="pod-id-how-it-works"></a>
+# Understand how EKS Pod Identity works<a name="pod-id-how-it-works"></a>
 
 Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances\.
 

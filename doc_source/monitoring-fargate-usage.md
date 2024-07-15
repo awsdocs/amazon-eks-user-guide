@@ -13,7 +13,7 @@ For applications running on Amazon EKS and AWS Fargate, you can use the AWS Dist
 
 You can use CloudWatch usage metrics to provide visibility into your account's usage of resources\. Use these metrics to visualize your current service usage on CloudWatch graphs and dashboards\.
 
-AWS Fargate usage metrics correspond to AWS service quotas\. You can configure alarms that alert you when your usage approaches a service quota\. For more information about Fargate service quotas, see [Amazon EKS service quotas](service-quotas.md)\.
+AWS Fargate usage metrics correspond to AWS service quotas\. You can configure alarms that alert you when your usage approaches a service quota\. For more information about Fargate service quotas, see [View and manage Amazon EKS and Fargate service quotas](service-quotas.md)\.
 
 AWS Fargate publishes the following metrics in the `AWS/Usage` namespace\.
 

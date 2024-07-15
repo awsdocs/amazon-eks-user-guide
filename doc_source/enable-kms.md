@@ -1,4 +1,4 @@
-# Enabling secret encryption on an existing cluster<a name="enable-kms"></a>
+# Encrypt Kubernetes secrets with AWS KMS on existing clusters<a name="enable-kms"></a>
 
 If you enable [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/), the Kubernetes secrets are encrypted using the AWS KMS key that you select\. The KMS key must meet the following conditions:
 + Symmetric

@@ -1,6 +1,6 @@
 # Manage the Amazon EBS CSI driver as an Amazon EKS add\-on<a name="managing-ebs-csi"></a>
 
-To improve security and reduce the amount of work, you can manage the Amazon EBS CSI driver as an Amazon EKS add\-on\. For information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\. You can add the Amazon EBS CSI add\-on by following the steps in [Get the Amazon EBS CSI driver add\-on](#adding-ebs-csi-eks-add-on)\.
+To improve security and reduce the amount of work, you can manage the Amazon EBS CSI driver as an Amazon EKS add\-on\. For information about Amazon EKS add\-ons, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\. You can add the Amazon EBS CSI add\-on by following the steps in [Get the Amazon EBS CSI driver add\-on](#adding-ebs-csi-eks-add-on)\.
 
 If you added the Amazon EBS CSI add\-on, you can manage it by following the steps in the [Update the Amazon EBS CSI add\-on](#updating-ebs-csi-eks-add-on) and [Remove the Amazon EBS CSI add\-on](#removing-ebs-csi-eks-add-on) sections\.
 
@@ -38,7 +38,7 @@ Run the following command\. Replace `my-cluster` with the name of your cluster, 
 eksctl create addon --name aws-ebs-csi-driver --cluster my-cluster --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole --force
 ```
 
-If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS Kubernetes field management, see [ Kubernetes field management](kubernetes-field-management.md)\.
+If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS Kubernetes field management, see [Customize Amazon EKS add\-on settings with field management](kubernetes-field-management.md)\.
 
 ------
 #### [ AWS Management Console ]
@@ -117,7 +117,7 @@ Amazon EKS doesn't automatically update Amazon EBS CSI for your cluster when new
      --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole --force
    ```
 
-   If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS Kubernetes field management, see [ Kubernetes field management](kubernetes-field-management.md)\.
+   If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS Kubernetes field management, see [Customize Amazon EKS add\-on settings with field management](kubernetes-field-management.md)\.
 
 ------
 #### [ AWS Management Console ]
@@ -188,7 +188,7 @@ Amazon EKS doesn't automatically update Amazon EBS CSI for your cluster when new
      --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole --resolve-conflicts PRESERVE
    ```
 
-   The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [ Kubernetes field management](kubernetes-field-management.md)\.
+   The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [Customize Amazon EKS add\-on settings with field management](kubernetes-field-management.md)\.
 
 ------
 

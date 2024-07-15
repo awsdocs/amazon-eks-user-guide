@@ -1,4 +1,4 @@
-# Amazon EKS Kubernetes versions<a name="kubernetes-versions"></a>
+# Understand the Kubernetes version lifecycle on EKS<a name="kubernetes-versions"></a>
 
 Kubernetes rapidly evolves with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions \(such as `1.30`\) on average once every four months\. Amazon EKS follows the upstream release and deprecation cycle for minor versions\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\.
 
@@ -16,7 +16,7 @@ The following Kubernetes versions are currently available in Amazon EKS standard
 + `1.28`
 + `1.27`
 
-For important changes to be aware of for each version in standard support, see [Release notes for standard support versions](kubernetes-versions-standard.md)\.
+For important changes to be aware of for each version in standard support, see [Review release notes for Kubernetes versions on standard support](kubernetes-versions-standard.md)\.
 
 ## Available versions on extended support<a name="available-versions-extended"></a>
 
@@ -26,13 +26,13 @@ The following Kubernetes versions are currently available in Amazon EKS extended
 + `1.24`
 + `1.23`
 
-For important changes to be aware of for each version in extended support, see [Release notes for extended support versions](kubernetes-versions-extended.md)\.
+For important changes to be aware of for each version in extended support, see [Review release notes for Kubernetes versions on extended support](kubernetes-versions-extended.md)\.
 
 The following Kubernetes versions are currently available in Amazon EKS extended support, with the additional requirement that **you cannot create new clusters with these versions**: 
 + `1.22`
 + `1.21`
 
-  For information on these versions, see [Release notes for versions 1\.21 and 1\.22](kubernetes-versions-1-21-1-22.md)
+  For information on these versions, see [Review release notes for Kubernetes versions 1\.22 and 1\.21](kubernetes-versions-1-21-1-22.md)
 
 ## Amazon EKS Kubernetes release calendar<a name="kubernetes-release-calendar"></a>
 
@@ -99,7 +99,7 @@ Clusters running on a Kubernetes version that has completed its 26\-month lifecy
 On the end of extended support date, you can no longer create new Amazon EKS clusters with the unsupported version\. Existing control planes are automatically updated by Amazon EKS to the earliest supported version through a gradual deployment process after the end of support date\. After the automatic control plane update, make sure to manually update cluster add\-ons and Amazon EC2 nodes\. For more information, see [Update the Kubernetes version for your Amazon EKS cluster](update-cluster.md#update-existing-cluster)\.
 
 **When exactly is my control plane automatically updated after the end of extended support date?**  
-Amazon EKS can't provide specific time frames\. Automatic updates can happen at any time after the end of extended support date\. You won't receive any notification before the update\. We recommend that you proactively update your control plane without relying on the Amazon EKS automatic update process\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+Amazon EKS can't provide specific time frames\. Automatic updates can happen at any time after the end of extended support date\. You won't receive any notification before the update\. We recommend that you proactively update your control plane without relying on the Amazon EKS automatic update process\. For more information, see [Update existing cluster to new Kubernetes version](update-cluster.md)\.
 
 **Can I leave my control plane on a Kubernetes version indefinitely?**  
 No\. Cloud security at AWS is the highest priority\. Past a certain point \(usually one year\), the Kubernetes community stops releasing common vulnerabilities and exposures \(CVE\) patches and discourages CVE submission for unsupported versions\. This means that vulnerabilities specific to an older version of Kubernetes might not even be reported\. This leaves clusters exposed with no notice and no remediation options in the event of a vulnerability\. Given this, Amazon EKS doesn't allow control planes to stay on a version that reached end of extended support\.

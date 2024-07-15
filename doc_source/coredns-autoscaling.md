@@ -52,7 +52,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
 
    New Kubernetes versions sometimes introduce significant changes\. Therefore, we recommend that you test the behavior of your applications by using a separate cluster of the new Kubernetes version before you update your production clusters\.
 
-   To upgrade a cluster to a new Kubernetes version, follow the procedure in [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+   To upgrade a cluster to a new Kubernetes version, follow the procedure in [Update existing cluster to new Kubernetes version](update-cluster.md)\.
 
 1. Ensure that you have the EKS Add\-on for CoreDNS, not the self\-managed CoreDNS Deployment\.
 
@@ -149,7 +149,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
 
    New Kubernetes versions sometimes introduce significant changes\. Therefore, we recommend that you test the behavior of your applications by using a separate cluster of the new Kubernetes version before you update your production clusters\.
 
-   To upgrade a cluster to a new Kubernetes version, follow the procedure in [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+   To upgrade a cluster to a new Kubernetes version, follow the procedure in [Update existing cluster to new Kubernetes version](update-cluster.md)\.
 
 1. Ensure that you have the EKS Add\-on for CoreDNS, not the self\-managed CoreDNS Deployment\.
 

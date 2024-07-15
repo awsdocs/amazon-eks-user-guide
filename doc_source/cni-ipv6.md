@@ -5,7 +5,7 @@ By default, Kubernetes assigns `IPv4` addresses to your Pods and services\. Inst
 You select which IP family you want to use for your cluster when you create it\. You can't change the family after you create the cluster\.
 
 ## Considerations for using the `IPv6` family for your cluster<a name="ipv6-considerations"></a>
-+ You must create a new cluster and specify that you want to use the `IPv6` family for that cluster\. You can't enable the `IPv6` family for a cluster that you updated from a previous version\. For instructions on how to create a new cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
++ You must create a new cluster and specify that you want to use the `IPv6` family for that cluster\. You can't enable the `IPv6` family for a cluster that you updated from a previous version\. For instructions on how to create a new cluster, see [Create an Amazon EKS cluster](create-cluster.md)\.
 + The version of the Amazon VPC CNI add\-on that you deploy to your cluster must be version `1.10.1` or later\. This version or later is deployed by default\. After you deploy the add\-on, you can't downgrade your Amazon VPC CNI add\-on to a version lower than `1.10.1` without first removing all nodes in all node groups in your cluster\.
 + Windows Pods and services aren't supported\.
 + If you use Amazon EC2 nodes, you must configure the Amazon VPC CNI add\-on with IP prefix delegation and `IPv6`\. If you choose the `IPv6` family when creating your cluster, the `1.10.1` version of the add\-on defaults to this configuration\. This is the case for both a self\-managed or Amazon EKS add\-on\. For more information about IP prefix delegation, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
@@ -44,7 +44,7 @@ You select which IP family you want to use for your cluster when you create it\.
 
 In this tutorial, you deploy an `IPv6` Amazon VPC, an Amazon EKS cluster with the `IPv6` family, and a managed node group with Amazon EC2 Amazon Linux nodes\. You can't deploy Amazon EC2 Windows nodes in an `IPv6` cluster\. You can also deploy Fargate nodes to your cluster, though those instructions aren't provided in this topic for simplicity\. 
 
-Before creating a cluster for production use, we recommend that you familiarize yourself with all settings and deploy a cluster with the settings that meet your requirements\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md), [Managed node groups](managed-node-groups.md) and the [considerations](#ipv6-considerations) for this topic\. You can only enable some settings when creating your cluster\.
+Before creating a cluster for production use, we recommend that you familiarize yourself with all settings and deploy a cluster with the settings that meet your requirements\. For more information, see [Create an Amazon EKS cluster](create-cluster.md), [Managed node groups](managed-node-groups.md) and the [considerations](#ipv6-considerations) for this topic\. You can only enable some settings when creating your cluster\.
 
 **Prerequisites**
 

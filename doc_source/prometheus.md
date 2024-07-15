@@ -11,7 +11,7 @@ For more information about how to use the Prometheus metrics after you turn them
 **Important**  
 Amazon Managed Service for Prometheus resources are outside of the cluster lifecycle and need to be maintained independent of the cluster\. When you delete your cluster, make sure to also delete any applicable scrapers to stop applicable costs\. For more information, see [Find and delete scrapers](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-list-delete) in the *Amazon Managed Service for Prometheus User Guide*\.
 
-When you create a new cluster, you can turn on the option to send metrics to Prometheus\. In the AWS Management Console, this option is in the **Configure observability** step of creating a new cluster\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\.
+When you create a new cluster, you can turn on the option to send metrics to Prometheus\. In the AWS Management Console, this option is in the **Configure observability** step of creating a new cluster\. For more information, see [Create an Amazon EKS cluster](create-cluster.md)\.
 
 Prometheus discovers and collects metrics from your cluster through a pull\-based model called scraping\. Scrapers are set up to gather data from your cluster infrastructure and containerized applications\. 
 
@@ -53,7 +53,7 @@ For more information on using the Prometheus API, see the [Amazon Managed Servic
 
 ## Deploying Prometheus using Helm<a name="deploy-prometheus"></a>
 
-Alternatively, you can deploy Prometheus into your cluster with Helm V3\. If you already have Helm installed, you can check your version with the `helm version` command\. Helm is a package manager for Kubernetes clusters\. For more information about Helm and how to install it, see [Using Helm with Amazon EKS](helm.md)\.
+Alternatively, you can deploy Prometheus into your cluster with Helm V3\. If you already have Helm installed, you can check your version with the `helm version` command\. Helm is a package manager for Kubernetes clusters\. For more information about Helm and how to install it, see [Deploy applications with Helm on Amazon EKS](helm.md)\.
 
 After you configure Helm for your Amazon EKS cluster, you can use it to deploy Prometheus with the following steps\.
 

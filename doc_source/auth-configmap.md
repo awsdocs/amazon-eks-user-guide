@@ -1,4 +1,4 @@
-# Enabling IAM principal access to your cluster<a name="auth-configmap"></a>
+# Grant IAM users access to Kubernetes with a ConfigMap<a name="auth-configmap"></a>
 
 **Important**  
 The `aws-auth` ConfigMap is deprecated\. The recommended method to manage access to Kubernetes APIs is [Access Entries](access-entries.md)\. 

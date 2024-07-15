@@ -1,4 +1,4 @@
-# Managing Amazon EKS add\-ons<a name="managing-add-ons"></a>
+# Install or update Amazon EKS add\-ons<a name="managing-add-ons"></a>
 
 Amazon EKS add\-ons are a curated set of add\-on software for Amazon EKS clusters\. All Amazon EKS add\-ons:
 + include the latest security patches and bug fixes\.
@@ -7,7 +7,7 @@ Amazon EKS add\-ons are a curated set of add\-on software for Amazon EKS cluster
 
 The AWS Management Console notifies you when a new version is available for an Amazon EKS add\-on\. You can simply initiate the update, and Amazon EKS updates the add\-on software for you\. 
 
-For a list of available add\-ons, see [Available Amazon EKS add\-ons from Amazon EKS](eks-add-ons.md#workloads-add-ons-available-eks)\. For more information about Kubernetes field management, see [ Kubernetes field management](kubernetes-field-management.md)<a name="managing-add-ons-prerequisites"></a>
+For a list of available add\-ons, see [Available Amazon EKS add\-ons from Amazon EKS](eks-add-ons.md#workloads-add-ons-available-eks)\. For more information about Kubernetes field management, see [Customize Amazon EKS add\-on settings with field management](kubernetes-field-management.md)<a name="managing-add-ons-prerequisites"></a>
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\.

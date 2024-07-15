@@ -4,7 +4,7 @@ This topic describes how you can launch Auto Scaling groups of Amazon Linux node
 
 **Prerequisites**
 + An existing Outpost\. For more information, see [What is AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html)\.
-+ An existing Amazon EKS cluster\. To deploy a cluster on the AWS Cloud, see [Creating an Amazon EKS cluster](create-cluster.md)\. To deploy a cluster on an Outpost, see [Local clusters for Amazon EKS on AWS Outposts](eks-outposts-local-cluster-overview.md)\.
++ An existing Amazon EKS cluster\. To deploy a cluster on the AWS Cloud, see [Create an Amazon EKS cluster](create-cluster.md)\. To deploy a cluster on an Outpost, see [Local clusters for Amazon EKS on AWS Outposts](eks-outposts-local-cluster-overview.md)\.
 + Suppose that you're creating your nodes in a cluster on the AWS Cloud and you have subnets in the AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Then, those subnets must not have been passed in when you created your cluster\. If you're creating your nodes in a cluster on an Outpost, you must have passed in an Outpost subnet when creating your cluster\.
 + \(Recommended for clusters on the AWS Cloud\) The Amazon VPC CNI plugin for Kubernetes add\-on configured with its own IAM role that has the necessary IAM policy attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts \(IRSA\)](cni-iam-role.md)\. Local clusters do not support IAM roles for service accounts\. 
 
@@ -35,7 +35,7 @@ Version `0.184.0` or later of the `eksctl` command line tool installed on your d
 
    If your cluster is deployed on the AWS Cloud:
    + The node group that you deploy can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance\. For more information, see [Custom networking for pods](cni-custom-network.md)\.
-   + The node group that you deploy doesn't require outbound internet access\. For more information, see [Private cluster requirements](private-clusters.md)\.
+   + The node group that you deploy doesn't require outbound internet access\. For more information, see [Deploy private clusters with limited internet access](private-clusters.md)\.
 
    For a complete list of all available options and defaults, see [AWS Outposts Support](https://eksctl.io/usage/outposts/) in the `eksctl` documentation\.
 

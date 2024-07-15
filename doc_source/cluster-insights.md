@@ -1,4 +1,4 @@
-# Cluster insights<a name="cluster-insights"></a>
+# Prepare for Kubernetes version upgrades with cluster insights<a name="cluster-insights"></a>
 
 Amazon EKS cluster insights provide recommendations to help you follow Amazon EKS and Kubernetes best practices\. Every Amazon EKS cluster undergoes automatic, recurring checks against an Amazon EKS curated list of insights\. These insight checks are fully managed by Amazon EKS and offer recommendations on how to address any findings\. 
 

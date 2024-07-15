@@ -1,4 +1,4 @@
-# EKS Pod Identity role<a name="pod-id-role"></a>
+# Create IAM role with trust policy required by EKS Pod Identity<a name="pod-id-role"></a>
 
 ```
 {

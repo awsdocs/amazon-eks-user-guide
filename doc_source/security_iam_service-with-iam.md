@@ -96,7 +96,7 @@ To view examples of Amazon EKS identity\-based policies, see [Amazon EKS identit
 
 When you create an Amazon EKS cluster, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that creates the cluster is automatically granted `system:masters` permissions in the cluster's role\-based access control \(RBAC\) configuration in the Amazon EKS control plane\. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster\. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth` `ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth` `ConfigMap`\.
 
-For more information about working with the ConfigMap, see [Grant access to Kubernetes APIs ](grant-k8s-access.md)\.
+For more information about working with the ConfigMap, see [Grant IAM users and roles access to KubernetesAPIs](grant-k8s-access.md)\.
 
 ## Amazon EKS resource\-based policies<a name="security_iam_service-with-iam-resource-based-policies"></a>
 
@@ -104,7 +104,7 @@ Amazon EKS does not support resource\-based policies\.
 
 ## Authorization based on Amazon EKS tags<a name="security_iam_service-with-iam-tags"></a>
 
-You can attach tags to Amazon EKS resources or pass tags in a request to Amazon EKS\. To control access based on tags, you provide tag information in the [condition element](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html) of a policy using the `aws:ResourceTag/key-name`, `aws:RequestTag/key-name`, or `aws:TagKeys` condition keys\. For more information about tagging Amazon EKS resources, see [Tagging your Amazon EKS resources](eks-using-tags.md)\. For more information about which actions that you can use tags in condition keys with, see [Actions defined by Amazon EKS](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions) in the [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference.html)\.
+You can attach tags to Amazon EKS resources or pass tags in a request to Amazon EKS\. To control access based on tags, you provide tag information in the [condition element](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html) of a policy using the `aws:ResourceTag/key-name`, `aws:RequestTag/key-name`, or `aws:TagKeys` condition keys\. For more information about tagging Amazon EKS resources, see [Organize Amazon EKS resources with tags](eks-using-tags.md)\. For more information about which actions that you can use tags in condition keys with, see [Actions defined by Amazon EKS](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions) in the [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference.html)\.
 
 ## Amazon EKS IAM roles<a name="security_iam_service-with-iam-roles"></a>
 

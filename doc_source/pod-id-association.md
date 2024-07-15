@@ -1,4 +1,4 @@
-# Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity<a name="pod-id-association"></a>
+# Assign an IAM role to a Kubernetes service account<a name="pod-id-association"></a>
 
 This topic covers how to configure a Kubernetes service account to assume an AWS Identity and Access Management \(IAM\) role with EKS Pod Identity\. Any Pods that are configured to use the service account can then access any AWS service that the role has permissions to access\.
 
@@ -9,7 +9,7 @@ To create an EKS Pod Identity association, there is only a single step; you crea
 + The IAM principal that is creating the association must have `iam:PassRole`\.
 + The latest version of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Set up `kubectl` and `eksctl`](install-kubectl.md)\.
-+ An existing `kubectl` `config` file that contains your cluster configuration\. To create a `kubectl` `config` file, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
++ An existing `kubectl` `config` file that contains your cluster configuration\. To create a `kubectl` `config` file, see [Connect kubectl to an EKS cluster by creating a kubeconfig file](create-kubeconfig.md)\.
 
 ## Creating the EKS Pod Identity association<a name="pod-id-association-create"></a>
 
@@ -275,4 +275,4 @@ You can specify a namespace and service account by name that doesn't exist in th
 ------
 
 **Next step**  
-[Configure Pods to use a Kubernetes service account](pod-id-configure-pods.md)
+[Configure pods to access AWS services with service accounts](pod-id-configure-pods.md)

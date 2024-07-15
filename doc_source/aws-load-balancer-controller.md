@@ -17,7 +17,7 @@ In the past, the Kubernetes network load balancer was used for *instance* target
 
 The controller is an [open\-source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\.
 
-Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. In those topics, you will deploy a sample app that includes an AWS load balancer\. 
+Before deploying the controller, we recommend that you review the prerequisites and considerations in [Route application and HTTP traffic with Application Load Balancers](alb-ingress.md) and [Route TCP and UDP traffic with Network Load Balancers](network-load-balancing.md)\. In those topics, you will deploy a sample app that includes an AWS load balancer\. 
 
 ## Install the Controller 🚀<a name="lbc-overview"></a>
 + **Learn how to [Install the AWS Load Balancer Controller using Helm](lbc-helm.md)\. **Use this procedure if you are new to Amazon EKS\. This procedure uses [Helm](https://helm.sh), a package manager for Kubernetes, and [https://eksctl.io](https://eksctl.io) to simplify installing the LBC\. 

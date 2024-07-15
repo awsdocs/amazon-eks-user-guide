@@ -12,7 +12,7 @@ When choosing between instance types that are supported by Amazon EKS, consider 
 In general, fewer, larger instances are better, especially if you have a lot of Daemonsets\. Each instance requires API calls to the API server, so the more instances you have, the more load on the API server\.
 
 **Operating system**  
-Review the supported instance types for [Linux](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html), [Windows](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/instance-types.html), and [Bottlerocket](https://aws.amazon.com/bottlerocket/faqs/)\. Before creating Windows instances, review [Enabling Windows support for your Amazon EKS cluster](windows-support.md)\.
+Review the supported instance types for [Linux](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html), [Windows](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/instance-types.html), and [Bottlerocket](https://aws.amazon.com/bottlerocket/faqs/)\. Before creating Windows instances, review [Deploy Windows nodes on EKS clusters](windows-support.md)\.
 
 **Hardware architecture**  
 Do you need x86 or Arm? Before deploying Arm instances, review [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami)\. Do you need instances built on the Nitro System \([Linux](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) or [Windows](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/instance-types.html#ec2-nitro-instances)\) or that have [Accelerated](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/accelerated-computing-instances.html) capabilities? If you need accelerated capabilities, you can only use Linux with Amazon EKS\.

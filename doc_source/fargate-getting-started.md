@@ -5,7 +5,7 @@ AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS
 
 This topic describes how to get started running Pods on AWS Fargate with your Amazon EKS cluster\.
 
-If you restrict access to the public endpoint of your cluster using CIDR blocks, we recommend that you also enable private endpoint access\. This way, Fargate Pods can communicate with the cluster\. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the outbound sources from your VPC\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\. 
+If you restrict access to the public endpoint of your cluster using CIDR blocks, we recommend that you also enable private endpoint access\. This way, Fargate Pods can communicate with the cluster\. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the outbound sources from your VPC\. For more information, see [Control network access to cluster API server endpoint](cluster-endpoint.md)\. 
 
 **Prerequisite**  
 An existing cluster\. If you don't already have an Amazon EKS cluster, see [Get started with Amazon EKS](getting-started.md)\.
@@ -146,6 +146,6 @@ The role ARN can't include a [path](https://docs.aws.amazon.com/IAM/latest/UserG
      ```
      kubectl rollout restart -n kube-system deployment coredns
      ```
-+ Deploy the [Application load balancing on Amazon EKS](alb-ingress.md) to allow Ingress objects for your Pods running on Fargate\.
-+ You can use the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to set the initial correct size of CPU and memory for your Fargate Pods, and then use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) to scale those Pods\. If you want the Vertical Pod Autoscaler to automatically re\-deploy Pods to Fargate with higher CPU and memory combinations, set the Vertical Pod Autoscaler's mode to either `Auto` or `Recreate`\. This is to ensure correct functionality\. For more information, see the [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start) documentation on GitHub\.
++ Deploy the [Route application and HTTP traffic with Application Load Balancers](alb-ingress.md) to allow Ingress objects for your Pods running on Fargate\.
++ You can use the [Adjust pod resources with Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to set the initial correct size of CPU and memory for your Fargate Pods, and then use the [Scale pod deployments with Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) to scale those Pods\. If you want the Vertical Pod Autoscaler to automatically re\-deploy Pods to Fargate with higher CPU and memory combinations, set the Vertical Pod Autoscaler's mode to either `Auto` or `Recreate`\. This is to ensure correct functionality\. For more information, see the [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start) documentation on GitHub\.
 + You can set up the [AWS Distro for OpenTelemetry](https://aws.amazon.com/otel) \(ADOT\) collector for application monitoring by following [these instructions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html)\.

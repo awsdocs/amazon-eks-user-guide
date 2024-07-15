@@ -1,4 +1,4 @@
-# Define permissions for EKS Pod Identities to assume roles based on tags<a name="pod-id-abac"></a>
+# Grant pods access to AWS resources based on tags<a name="pod-id-abac"></a>
 
 EKS Pod Identity attaches tags to the temporary credentials to each pod with attributes such as cluster name, namespace, service account name\. These role session tags enable administrators to author a single role that can work across service accounts by allowing access to AWS resources based on matching tags\. By adding support for role session tags, customers can enforce tighter security boundaries between clusters, and workloads within clusters, while reusing the same IAM roles and IAM policies\.
 

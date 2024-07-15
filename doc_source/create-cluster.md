@@ -1,4 +1,4 @@
-# Creating an Amazon EKS cluster<a name="create-cluster"></a>
+# Create an Amazon EKS cluster<a name="create-cluster"></a>
 
 This topic provides an overview of the available options and describes what to consider when you create an Amazon EKS cluster\. If you need to create a cluster on an AWS Outpost, see [Local clusters for Amazon EKS on AWS Outposts](eks-outposts-local-cluster-overview.md)\. If this is your first time creating an Amazon EKS cluster, we recommend that you follow one of our [Get started with Amazon EKS](getting-started.md) guides\. These guides help you to create a simple, default cluster without expanding into all of the available options\.
 
@@ -119,8 +119,8 @@ To see the most options that you can specify when creating a cluster with `eksct
       + **Name** – A name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\), hyphens, and underscores\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
       + **Kubernetes version** – The version of Kubernetes to use for your cluster\. We recommend selecting the latest version, unless you need an earlier version\.
       + **Cluster service role** – Choose the Amazon EKS cluster IAM role that you created to allow the Kubernetes control plane to manage AWS resources on your behalf\.
-      + **Secrets encryption** – \(Optional\) Choose to enable secrets encryption of Kubernetes secrets using a KMS key\. You can also enable this after you create your cluster\. Before you enable this capability, make sure that you're familiar with the information in [Enabling secret encryption on an existing cluster](enable-kms.md)\.
-      + **Tags** – \(Optional\) Add any tags to your cluster\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
+      + **Secrets encryption** – \(Optional\) Choose to enable secrets encryption of Kubernetes secrets using a KMS key\. You can also enable this after you create your cluster\. Before you enable this capability, make sure that you're familiar with the information in [Encrypt Kubernetes secrets with AWS KMS on existing clusters](enable-kms.md)\.
+      + **Tags** – \(Optional\) Add any tags to your cluster\. For more information, see [Organize Amazon EKS resources with tags](eks-using-tags.md)\.
 
         When you're done with this page, choose **Next**\.
 
@@ -148,7 +148,7 @@ To see the most options that you can specify when creating a cluster with `eksct
         + Not overlap with the range of the VPC for your Amazon EKS resources\.
 
         You can only specify this option when using the `IPv4` address family and only at cluster creation\. If you don't specify this, then Kubernetes assigns service IP addresses from either the `10.100.0.0/16` or `172.20.0.0/16` CIDR blocks\.
-      + For **Cluster endpoint access**, select an option\. After your cluster is created, you can change this option\. Before selecting a non\-default option, make sure to familiarize yourself with the options and their implications\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
+      + For **Cluster endpoint access**, select an option\. After your cluster is created, you can change this option\. Before selecting a non\-default option, make sure to familiarize yourself with the options and their implications\. For more information, see [Control network access to cluster API server endpoint](cluster-endpoint.md)\.
 
         When you're done with this page, choose **Next**\.
 
@@ -229,7 +229,7 @@ You might receive an error that one of the Availability Zones in your request do
 
 ------
 
-1. If you created your cluster using `eksctl`, then you can skip this step\. This is because `eksctl` already completed this step for you\. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` `config` file\. For more information about how to create and update the file, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
+1. If you created your cluster using `eksctl`, then you can skip this step\. This is because `eksctl` already completed this step for you\. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` `config` file\. For more information about how to create and update the file, see [Connect kubectl to an EKS cluster by creating a kubeconfig file](create-kubeconfig.md)\.
 
    ```
    aws eks update-kubeconfig --region region-code --name my-cluster
@@ -254,7 +254,7 @@ You might receive an error that one of the Availability Zones in your request do
    kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   28h
    ```
 
-1. \(Recommended\) To use some Amazon EKS add\-ons, or to enable individual Kubernetes workloads to have specific AWS Identity and Access Management \(IAM\) permissions, [create an IAM OpenID Connect \(OIDC\) provider](enable-iam-roles-for-service-accounts.md) for your cluster\. You only need to create an IAM OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\. To learn more about assigning specific IAM permissions to your workloads, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. 
+1. \(Recommended\) To use some Amazon EKS add\-ons, or to enable individual Kubernetes workloads to have specific AWS Identity and Access Management \(IAM\) permissions, [create an IAM OpenID Connect \(OIDC\) provider](enable-iam-roles-for-service-accounts.md) for your cluster\. You only need to create an IAM OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\. To learn more about assigning specific IAM permissions to your workloads, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. 
 
 1. \(Recommended\) Configure your cluster for the Amazon VPC CNI plugin for Kubernetes plugin before deploying Amazon EC2 nodes to your cluster\. By default, the plugin was installed with your cluster\. When you add Amazon EC2 nodes to your cluster, the plugin is automatically deployed to each Amazon EC2 node that you add\. The plugin requires you to attach one of the following IAM policies to an IAM role:  
 **[https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html) managed IAM policy**  
@@ -266,7 +266,7 @@ If your cluster uses the `IPv6` family
 
 1. If you deployed your cluster using the AWS Management Console, you can skip this step\. The AWS Management Console deploys the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` Amazon EKS add\-ons, by default\.
 
-   If you deploy your cluster using either `eksctl` or the AWS CLI, then the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons are deployed\. You can migrate the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons that are deployed with your cluster to Amazon EKS add\-ons\. For more information, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+   If you deploy your cluster using either `eksctl` or the AWS CLI, then the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons are deployed\. You can migrate the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons that are deployed with your cluster to Amazon EKS add\-ons\. For more information, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\.
 
 1. \(Optional\) If you haven’t already done so, you can enable Prometheus metrics for your cluster\. For more information, see [Create a scraper](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-create) in the *Amazon Managed Service for Prometheus User Guide*\.
 
@@ -278,7 +278,7 @@ Recommended next steps:
 + The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that created the cluster is the only principal that has access to the cluster\. [Grant permissions to other [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html)](grant-k8s-access.md) so they can access your cluster\.
 + If the IAM principal that created the cluster only has the minimum IAM permissions referenced in the [prerequisites](#create-cluster-prerequisites), then you might want to add additional Amazon EKS permissions for that principal\. For more information about granting Amazon EKS permissions to IAM principals, see [Identity and access management for Amazon EKS](security-iam.md)\.
 + If you want the IAM principal that created the cluster, or any other principals to view Kubernetes resources in the Amazon EKS console, grant the [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions) to the entities\.
-+ If you want nodes and IAM principals to access your cluster from within your VPC, enable the private endpoint for your cluster\. The public endpoint is enabled by default\. You can disable the public endpoint once you've enabled the private endpoint, if desired\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
++ If you want nodes and IAM principals to access your cluster from within your VPC, enable the private endpoint for your cluster\. The public endpoint is enabled by default\. You can disable the public endpoint once you've enabled the private endpoint, if desired\. For more information, see [Control network access to cluster API server endpoint](cluster-endpoint.md)\.
 + [Enable secrets encryption for your cluster](enable-kms.md)\.
 + [Configure logging for your cluster](control-plane-logs.md)\.
 + [Add nodes to your cluster](eks-compute.md)\.

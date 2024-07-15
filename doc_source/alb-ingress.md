@@ -1,13 +1,13 @@
-# Application load balancing on Amazon EKS<a name="alb-ingress"></a>
+# Route application and HTTP traffic with Application Load Balancers<a name="alb-ingress"></a>
 
 When you create a Kubernetes `ingress`, an AWS Application Load Balancer \(ALB\) is provisioned that load balances application traffic\. To learn more, see [What is an Application Load Balancer?](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) in the *Application Load Balancers User Guide* and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) in the Kubernetes documentation\. ALBs can be used with Pods that are deployed to nodes or to AWS Fargate\. You can deploy an ALB to public or private subnets\.
 
-Application traffic is balanced at `L7` of the OSI model\. To load balance network traffic at `L4`, you deploy a Kubernetes `service` of the `LoadBalancer` type\. This type provisions an AWS Network Load Balancer\. For more information, see [Network load balancing on Amazon EKS](network-load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS website\. 
+Application traffic is balanced at `L7` of the OSI model\. To load balance network traffic at `L4`, you deploy a Kubernetes `service` of the `LoadBalancer` type\. This type provisions an AWS Network Load Balancer\. For more information, see [Route TCP and UDP traffic with Network Load Balancers](network-load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS website\. 
 
 **Prerequisites**
 
 Before you can load balance application traffic to an application, you must meet the following requirements\.
-+ Have an existing cluster\. If you don't have an existing cluster, see [Get started with Amazon EKS](getting-started.md)\. If you need to update the version of an existing cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
++ Have an existing cluster\. If you don't have an existing cluster, see [Get started with Amazon EKS](getting-started.md)\. If you need to update the version of an existing cluster, see [Update existing cluster to new Kubernetes version](update-cluster.md)\.
 + Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [What is the AWS Load Balancer Controller?](aws-load-balancer-controller.md)\. We recommend version `2.7.2` or later\.
 + At least two subnets in different Availability Zones\. The AWS Load Balancer Controller chooses one subnet from each Availability Zone\. When multiple tagged subnets are found in an Availability Zone, the controller chooses the subnet whose subnet ID comes first lexicographically\. Each subnet must have at least eight available IP addresses\.
 

@@ -1,9 +1,9 @@
-# Using Helm with Amazon EKS<a name="helm"></a>
+# Deploy applications with Helm on Amazon EKS<a name="helm"></a>
 
 The Helm package manager for Kubernetes helps you install and manage applications on your Kubernetes cluster\. For more information, see the [Helm documentation](https://docs.helm.sh/)\. This topic helps you install and run the Helm binaries so that you can install and manage charts using the Helm CLI on your local system\.
 
 **Important**  
-Before you can install Helm charts on your Amazon EKS cluster, you must configure  `kubectl`  to work for Amazon EKS\. If you have not already done this, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md) before proceeding\. If the following command succeeds for your cluster, you're properly configured\.  
+Before you can install Helm charts on your Amazon EKS cluster, you must configure  `kubectl`  to work for Amazon EKS\. If you have not already done this, see [Connect kubectl to an EKS cluster by creating a kubeconfig file](create-kubeconfig.md) before proceeding\. If the following command succeeds for your cluster, you're properly configured\.  
 
 ```
 kubectl get svc

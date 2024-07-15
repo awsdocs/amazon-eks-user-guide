@@ -15,7 +15,7 @@ In this topic, you learn how to significantly increase the number of IP addresse
     If you're also using [security groups for Pods](security-groups-for-pods.md), with `POD_SECURITY_GROUP_ENFORCING_MODE`=`strict`, when your `Pods` communicate with endpoints outside of your VPC, the `Pod's` security groups are used\.
 
 **Prerequisites**
-+ An existing cluster\. To deploy one, see [Creating an Amazon EKS cluster](create-cluster.md)\. 
++ An existing cluster\. To deploy one, see [Create an Amazon EKS cluster](create-cluster.md)\. 
 + The subnets that your Amazon EKS nodes are in must have sufficient contiguous `/28` \(for `IPv4` clusters\) or `/80` \(for `IPv6` clusters\) Classless Inter\-Domain Routing \(CIDR\) blocks\. You can only have Linux nodes in an `IPv6` cluster\. Using IP prefixes can fail if IP addresses are scattered throughout the subnet CIDR\. We recommend that following:
   + Using a subnet CIDR reservation so that even if any IP addresses within the reserved range are still in use, upon their release, the IP addresses aren't reassigned\. This ensures that prefixes are available for allocation without segmentation\.
   + Use new subnets that are specifically used for running the workloads that IP prefixes are assigned to\. Both Windows and Linux workloads can run in the same subnet when assigning IP prefixes\.
@@ -28,11 +28,11 @@ In this topic, you learn how to significantly increase the number of IP addresse
 
   If your cluster is configured for the `IPv6` family, you must have version `1.10.1` of the add\-on installed\. If your plugin version is earlier than the required versions, you must update it\. For more information, see the updating sections of [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
 + **For clusters with Windows nodes only**
-  + Your cluster and its platform version must be at, or later than the versions in the following table\. To upgrade your cluster version, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\. If your cluster isn't at the minimum platform version, then you can't assign IP prefixes to your nodes until Amazon EKS has updated your platform version\.    
+  + Your cluster and its platform version must be at, or later than the versions in the following table\. To upgrade your cluster version, see [Update existing cluster to new Kubernetes version](update-cluster.md)\. If your cluster isn't at the minimum platform version, then you can't assign IP prefixes to your nodes until Amazon EKS has updated your platform version\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html)
 
     You can check your current Kubernetes and platform version by replacing `my-cluster` in the following command with the name of your cluster and then running the modified command: **aws eks describe\-cluster \-\-name *my\-cluster* \-\-query 'cluster\.\{"Kubernetes Version": version, "Platform Version": platformVersion\}'**\.
-  + Windows support enabled for your cluster\. For more information, see [Enabling Windows support for your Amazon EKS cluster](windows-support.md)\.
+  + Windows support enabled for your cluster\. For more information, see [Deploy Windows nodes on EKS clusters](windows-support.md)\.
 
 **To increase the amount of available IP addresses for your Amazon EC2 nodes**
 

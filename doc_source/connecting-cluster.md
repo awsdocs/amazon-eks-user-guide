@@ -179,7 +179,7 @@ Ensure that your activation code is in the base64 format\.
 
    The output should include `status=ACTIVE`\.
 
-1. \(Optional\) Add tags to your cluster\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
+1. \(Optional\) Add tags to your cluster\. For more information, see [Organize Amazon EKS resources with tags](eks-using-tags.md)\.
 
 ------
 

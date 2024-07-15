@@ -6,7 +6,7 @@ Custom Amazon Linux AMIs in Amazon EKS can support the VT1 video transcoding ins
 
 1. After the based AMI is launched, Install the [XRT driver](https://xilinx.github.io/video-sdk/) and runtime on the node\.
 
-1. [Creating an Amazon EKS cluster](create-cluster.md)\.
+1. [Create an Amazon EKS cluster](create-cluster.md)\.
 
 1. Install the Kubernetes [FPGA plugin](https://github.com/Xilinx/FPGA_as_a_Service/tree/master/k8s-device-plugin) on your cluster\.
 

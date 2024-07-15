@@ -1,4 +1,4 @@
-# Release notes for standard support versions<a name="kubernetes-versions-standard"></a>
+# Review release notes for Kubernetes versions on standard support<a name="kubernetes-versions-standard"></a>
 
 This topic gives important changes to be aware of for each Kubernetes version in standard support\. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster\.
 
@@ -29,7 +29,7 @@ The deprecated `flowcontrol.apiserver.k8s.io/v1beta2` API version of `FlowSchema
 + In Kubernetes `1.29` to reduce potential attack surface, the `LegacyServiceAccountTokenCleanUp` feature labels legacy auto\-generated secret\-based tokens as invalid if they have not been used for a long time \(1 year by default\), and automatically removes them if use is not attempted for a long time after being marked as invalid \(1 additional year by default\)\. To identify such tokens, a you can run: 
 
   ```
-  kubectl get cm kube-apiserver-legacy-service-account-token-tracking -nkube-system
+  kubectl get cm kube-apiserver-legacy-service-account-token-tracking -n kube-system
   ```
 
 For the complete Kubernetes `1.29` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.29.md#changelog-since-v1280](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.29.md#changelog-since-v1280)\.
