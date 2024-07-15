@@ -76,6 +76,13 @@ Cluster Autoscaler is a tool that automatically adjusts the size of the Kubernet
 + [Project documentation](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md)
 + Amazon EKS workshop: [https://www\.eksworkshop\.com/](https://www.eksworkshop.com/)
 
+### Karpenter<a name="related-karpenter"></a>
+
+Karpenter is a Kubernetes Node Autoscaler built for flexibility, performance, and simplicity\.
++ [Project URL](https://github.com/kubernetes-sigs/karpenter)
++ [Project documentation](https://karpenter.sh/)
++ Amazon EKS workshop: [Karpenter](https://www.eksworkshop.com/docs/autoscaling/compute/karpenter/)
+
 ### Escalator<a name="related-escalator"></a>
 
 Escalator is a batch or job optimized horizontal autoscaler for Kubernetes\.
