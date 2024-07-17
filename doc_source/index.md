@@ -39,7 +39,7 @@ sponsored by Amazon.
    + [Understand the Kubernetes version lifecycle on EKS](kubernetes-versions.md)
       + [Review release notes for Kubernetes versions on standard support](kubernetes-versions-standard.md)
       + [Review release notes for Kubernetes versions on extended support](kubernetes-versions-extended.md)
-      + [Review release notes for Kubernetes versions 1.22 and 1.21](kubernetes-versions-1-21-1-22.md)
+      + [Review release notes for Kubernetes version 1.22](kubernetes-versions-1-21-1-22.md)
    + [View Amazon EKS platform versions for each Kubernetes version](platform-versions.md)
    + [Scale cluster compute with Karpenter and Cluster Autoscaler](autoscaling.md)
 + [Manage access](cluster-auth.md)

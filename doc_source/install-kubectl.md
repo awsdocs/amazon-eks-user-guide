@@ -501,52 +501,52 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + Kubernetes `1.30`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.29`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.3/2024-04-19/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.28`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.8/2024-04-19/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.27`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.12/2024-04-19/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.26`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-04-19/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.25`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-04-19/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.24`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-04-19/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.23`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-04-19/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.22`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-04-19/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.21`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-04-19/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-07-12/bin/windows/amd64/kubectl.exe
         ```
 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
@@ -555,52 +555,52 @@ This step assumes you are using the Bash shell; if you are using another shell, 
          + Kubernetes `1.30`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.29`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.3/2024-04-19/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.28`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.8/2024-04-19/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.27`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.12/2024-04-19/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.26`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-04-19/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.25`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-04-19/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.24`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-04-19/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.23`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-04-19/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.22`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-04-19/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.21`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-04-19/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
            ```
 
       1. Check the `SHA-256` checksum for your downloaded binary\.

@@ -30,9 +30,8 @@ For important changes to be aware of for each version in extended support, see [
 
 The following Kubernetes versions are currently available in Amazon EKS extended support, with the additional requirement that **you cannot create new clusters with these versions**: 
 + `1.22`
-+ `1.21`
 
-  For information on these versions, see [Review release notes for Kubernetes versions 1\.22 and 1\.21](kubernetes-versions-1-21-1-22.md)
+For information on these versions, see [Review release notes for Kubernetes version 1\.22](kubernetes-versions-1-21-1-22.md)
 
 ## Amazon EKS Kubernetes release calendar<a name="kubernetes-release-calendar"></a>
 

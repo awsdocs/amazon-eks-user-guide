@@ -7,12 +7,14 @@ You can use EC2 Image Builder to create custom Amazon EKS optimized Windows AMIs
 With both methods, you must create your own Image Builder recipe\. For more information, see [Create a new version of an image recipe](https://docs.aws.amazon.com/imagebuilder/latest/userguide/create-image-recipes.html) in the Image Builder User Guide\.
 
 **Important**  
-The following **Amazon\-managed** components for `eks` include patches for `CVE-2023-5528`\.  
-`1.24.3` and higher
-`1.25.2` and higher
-`1.26.2` and higher
-`1.27.0` and higher
-`1.28.0` and higher
+The following **Amazon\-managed** components for `eks` include patches for `CVE-2024-5321`\.  
+`1.24.5` and higher
+`1.25.4` and higher
+`1.26.4` and higher
+`1.27.2` and higher
+`1.28.2` and higher
+`1.29.2` and higher
+`1.30.1` and higher
 
 ## Using an Amazon EKS optimized Windows AMI as a base<a name="custom-windows-ami-as-base"></a>
 

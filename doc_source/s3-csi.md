@@ -9,6 +9,7 @@ With the [Mountpoint for Amazon S3 Container Storage Interface \(CSI\) driver](h
 **Note**  
 Static provisioning refers to using an existing Amazon S3 bucket that is specified as the `bucketName` in the `volumeAttributes` in the `PersistentVolume` object\. For more information, see [Static Provisioning](https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/examples/kubernetes/static_provisioning/README.md) on GitHub\.
 + Volumes mounted with the Mountpoint for Amazon S3 CSI driver don't support all POSIX file\-system features\. For details about file\-system behavior, see [Mountpoint for Amazon S3 file system behavior](https://github.com/awslabs/mountpoint-s3/blob/main/doc/SEMANTICS.md) on GitHub\.
++ To get `PersistentVolume` mounted while using the Mountpoint for Amazon S3 CSI driver, we require that the Amazon EFS CSI driver won't be provisioned\.
 
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
