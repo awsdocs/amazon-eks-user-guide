@@ -70,7 +70,7 @@ sponsored by Amazon.
 + [Amazon EKS nodes](eks-compute.md)
    + [Managed node groups](managed-node-groups.md)
       + [Creating a managed node group](create-managed-node-group.md)
-         + [Create a managed node group with Amazon EC2 capacity blocks for ML](capacity-blocks-mng.md)
+         + [Create a managed node group with Amazon EC2 Capacity Blocks for ML](capacity-blocks-mng.md)
       + [Updating a managed node group](update-managed-node-group.md)
          + [Managed node update behavior](managed-node-update-behavior.md)
       + [Node taints on managed node groups](node-taints-managed-node-groups.md)

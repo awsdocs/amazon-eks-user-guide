@@ -14,7 +14,7 @@ You select which IP family you want to use for your cluster when you create it\.
 + The route tables that are assigned to your subnets must have routes for `IPv6` addresses\. For more information, see [Migrate to `IPv6`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\.
 + Your security groups must allow `IPv6` addresses\. For more information, see [Migrate to `IPv6`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\.
 + You can only use `IPv6` with AWS Nitro\-based Amazon EC2 or Fargate nodes\.
-+ You can't use `IPv6` with [Security groups for Pods](security-groups-for-pods.md) with Amazon EC2 nodes\. However, you can use it with Fargate nodes\. If you need separate security groups for individual Pods, continue using the `IPv4` family with Amazon EC2 nodes, or use Fargate nodes instead\.
++ You can use `IPv6` with [Security groups for Pods](security-groups-for-pods.md) with Amazon EC2 nodes and Fargate nodes\.
 + If you previously used [custom networking](cni-custom-network.md) to help alleviate IP address exhaustion, you can use `IPv6` instead\. You can't use custom networking with `IPv6`\. If you use custom networking for network isolation, then you might need to continue to use custom networking and the `IPv4` family for your clusters\.
 + You can't use `IPv6` with [AWS Outposts](eks-outposts.md)\.
 + Kubernetes Services are only assigned an IPv6 address\. They aren't assigned an IPv4 address\. 
@@ -58,7 +58,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-`eksctl` version `0.184.0` or later installed on your computer\. To install or update to it, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
+`eksctl` version `0.187.0` or later installed on your computer\. To install or update to it, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 
 **To deploy an `IPv6` cluster with `eksctl`**
 

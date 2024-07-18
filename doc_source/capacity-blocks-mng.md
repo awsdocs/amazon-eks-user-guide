@@ -1,4 +1,4 @@
-# Create a managed node group with Amazon EC2 capacity blocks for ML<a name="capacity-blocks-mng"></a>
+# Create a managed node group with Amazon EC2 Capacity Blocks for ML<a name="capacity-blocks-mng"></a>
 
 Capacity Blocks for machine learning \(ML\) allow you to reserve GPU instances on a future date to support your short duration ML workloads\. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 
@@ -7,10 +7,10 @@ Capacity Blocks for machine learning \(ML\) allow you to reserve GPU instances o
 **Important**  
 Capacity Blocks are only available for certain Amazon EC2 instance types and AWS Regions\. For compatibility information, see [Work with Capacity Blocks Prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-blocks-using.html#capacity-blocks-prerequisites) in the *Amazon EC2 User Guide for Linux Instances*\.
 For more information, see [Use Capacity Blocks for machine learning workloads](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-template-capacity-blocks.html) in the *Amazon EC2 Auto Scaling User Guide*\.
-Managed node groups with capacity blocks can only be created with custom launch templates\.
-When upgrading managed node groups with capacity blocks, make sure that the desired size of the node group is set to `0`\.
+Managed node groups with Capacity Blocks can only be created with custom launch templates\.
+When upgrading managed node groups with Capacity Blocks, make sure that the desired size of the node group is set to `0`\.
 
-## Create a managed node group with Amazon EC2 capacity blocks<a name="capacity-blocks-mng-procedure"></a>
+## Create a managed node group with Amazon EC2 Capacity Blocks<a name="capacity-blocks-mng-procedure"></a>
 
 You can use Capacity Blocks with Amazon EKS managed node groups for provisioning and scaling GPU\-accelerated worker nodes\. The AWS CloudFormation template examples that follow don’t cover every aspect needed in a production clusters\. Typically, you’d also want a bootstrapping script to join the node to the cluster and specify the Amazon EKS accelerated AMI\. For more information, see [Creating a managed node group](create-managed-node-group.md)\.
 
@@ -57,7 +57,7 @@ You can use Capacity Blocks with Amazon EKS managed node groups for provisioning
        --launch-template id="lt-id",version=1
    ```
 
-1. Make sure that the nodes join after scale up\. Amazon EKS clusters using managed node groups with capacity blocks don't perform any validations that instances launched actually join and register with the cluster\.
+1. Make sure that the nodes join after scale up\. Amazon EKS clusters using managed node groups with Capacity Blocks don't perform any validations that instances launched actually join and register with the cluster\.
 
 1. If you set `desiredSize` to `0` at create time, then you have different options to scale up the node group when the capacity reservation becomes active:
    + Create a scheduled scaling policy for the ASG that aligns to the Capacity Block reservation start time\. For more information, see [Scheduled scaling for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scheduled-scaling.html) in the *Amazon EC2 Auto Scaling User Guide*\.

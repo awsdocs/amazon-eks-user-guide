@@ -207,7 +207,7 @@ You can use `eksctl`, a Windows client, or a macOS or Linux client to enable leg
 **To enable legacy Windows support for your cluster with `eksctl`**
 
 **Prerequisite**  
-This procedure requires `eksctl` version `0.184.0` or later\. You can check your version with the following command\.
+This procedure requires `eksctl` version `0.187.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version
