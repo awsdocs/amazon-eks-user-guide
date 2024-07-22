@@ -205,7 +205,7 @@ sponsored by Amazon.
    + [Logging Amazon EKS API calls with AWS CloudTrail](logging-using-cloudtrail.md)
       + [Amazon EKS information in CloudTrail](service-name-info-in-cloudtrail.md)
       + [Understanding Amazon EKS log file entries](understanding-service-name-entries.md)
-      + [Enable Auto Scaling group metrics collection](enable-asg-metrics.md)
+      + [Auto Scaling group metrics collection](enable-asg-metrics.md)
    + [Amazon EKS add-on support for ADOT Operator](opentelemetry.md)
 + [More AWS services integrated with Amazon EKS](eks-integrations.md)
    + [Creating Amazon EKS resources with AWS CloudFormation](creating-resources-with-cloudformation.md)

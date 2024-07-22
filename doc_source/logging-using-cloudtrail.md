@@ -9,4 +9,4 @@ To learn more about CloudTrail, see the [AWS CloudTrail User Guide](https://docs
 **Topics**
 + [Amazon EKS information in CloudTrail](service-name-info-in-cloudtrail.md)
 + [Understanding Amazon EKS log file entries](understanding-service-name-entries.md)
-+ [Enable Auto Scaling group metrics collection](enable-asg-metrics.md)
++ [Auto Scaling group metrics collection](enable-asg-metrics.md)
