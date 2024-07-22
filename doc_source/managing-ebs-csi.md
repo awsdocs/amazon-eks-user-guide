@@ -15,7 +15,7 @@ If you added the Amazon EBS CSI add\-on, you can manage it by following the step
 + If you're using a cluster wide restricted [`PodSecurityPolicy`](pod-security-policy.md), make sure that the add\-on is granted sufficient permissions to be deployed\. For the permissions required by each add\-on Pod, see the [relevant add\-on manifest definition](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base) on GitHub\.
 
 **Important**  
-To use the snapshot functionality of the Amazon EBS CSI driver, you must install the external snapshotter before the installation of the add\-on\. The external snapshotter components must be installed in the following order:  
+To use the snapshot functionality of the Amazon EBS CSI driver, you must install the external snapshotter either before or after the installation of the add\-on\. The external snapshotter components must be installed in the following order:  
 `[CustomResourceDefinition](https://github.com/kubernetes-csi/external-snapshotter/tree/master/client/config/crd)` \(CRD\) for `volumesnapshotclasses`, `volumesnapshots`, and `volumesnapshotcontents`
 [RBAC](https://github.com/kubernetes-csi/external-snapshotter/blob/master/deploy/kubernetes/snapshot-controller/rbac-snapshot-controller.yaml) \(`ClusterRole`, `ClusterRoleBinding`, and so on\)
 [controller deployment](https://github.com/kubernetes-csi/external-snapshotter/blob/master/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml)
