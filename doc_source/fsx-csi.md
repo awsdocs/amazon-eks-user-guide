@@ -73,7 +73,7 @@ The following procedures help you create a simple test cluster with the FSx for 
 
    Note the name of the AWS CloudFormation stack that was deployed\. In the previous example output, the stack is named `eksctl-my-csi-fsx-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa`\.
 
-1. Deploy the driver with the following command\. Replace `release-X.XX` with your desired branch\. The master branch isn't supported because it may contain upcoming features incompatible with the currently released stable version of the driver\. We recommend using the latest released version\. For a list of active branches, see [https://github.com/kubernetes-sigs/aws-fsx-csi-driver/branches/active](https://github.com/kubernetes-sigs/aws-fsx-csi-driver/branches/active) on GitHub\.
+1. Deploy the driver with the following command\. Replace `release-X.XX` with your desired branch\. The master branch isn't supported because it may contain upcoming features incompatible with the currently released stable version of the driver\. We recommend using the latest released version\. For a list of branches, see `aws-fsx-csi-driver` [Branches](https://github.com/kubernetes-sigs/aws-fsx-csi-driver/branches/all) on GitHub\.
 **Note**  
 You can view the content being applied in [https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/deploy/kubernetes/overlays/stable](https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/deploy/kubernetes/overlays/stable) on GitHub\.
 
