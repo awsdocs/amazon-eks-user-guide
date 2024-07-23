@@ -58,18 +58,6 @@ You can also assign `IPv6` addresses to nodes in public and private subnets\. Th
 
 1. Record the **SubnetIds** for the subnets that were created and whether you created them as public or private subnets\. You need at least two of these when you create your cluster and nodes\.
 
-1. If you created an `IPv4` VPC, skip this step\. If you created an `IPv6` VPC, you must enable the auto\-assign `IPv6` address option for the public subnets that were created by the template\. That setting is already enabled for the private subnets\. To enable the setting, complete the following steps:
-
-   1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-
-   1. In the left navigation pane, choose **Subnets**
-
-   1. Select one of your public subnets \(***stack\-name*/SubnetPublic01** or ***stack\-name*/SubnetPublic02** contains the word **public**\) and choose **Actions**, **Edit subnet settings**\.
-
-   1. Choose the **Enable auto\-assign `IPv6` address** check box and then choose **Save**\.
-
-   1. Complete the previous steps again for your other public subnet\.
-
 ------
 #### [ Only public subnets ]
 
