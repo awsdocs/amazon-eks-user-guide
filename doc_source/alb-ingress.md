@@ -167,7 +167,7 @@ If your ingress wasn't successfully created after several minutes, run the follo
    ```
 
 1. If you deployed to a public subnet, open a browser and navigate to the `ADDRESS` URL from the previous command output to see the sample application\. If you don't see anything, refresh your browser and try again\. If you deployed to a private subnet, then you'll need to view the page from a device within your VPC, such as a bastion host\. For more information, see [Linux Bastion Hosts on AWS](https://aws.amazon.com/quickstart/architecture/linux-bastion/)\.  
-![\[2048 sample application\]](http://docs.aws.amazon.com/eks/latest/userguide/images/2048.png)
+![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/2048.png)
 
 1. When you finish experimenting with your sample application, delete it by running one of the the following commands\.
    + If you applied the manifest, rather than applying a copy that you downloaded, use the following command\.
