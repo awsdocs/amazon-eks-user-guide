@@ -216,7 +216,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Use the Cisco Cloud Observability AWS Marketplace Add\-Ons](https://docs.appdynamics.com/observability/cisco-cloud-observability/en/kubernetes-and-app-service-monitoring/install-kubernetes-and-app-service-monitoring-with-amazon-elastic-kubernetes-service/use-the-cisco-cloud-observability-aws-marketplace-add-ons) in the Cisco AppDynamics documentation\.
 
-### CLOUDSOFT<a name="add-on-CLOUDSOFT"></a>
+### Cloudsoft<a name="add-on-CLOUDSOFT"></a>
 + **Publisher** – CLOUDSOFT
 + **Name** – `cloudsoft_cloudsoft-amp`
 + **Namespace** – `cloudsoft-amp`
@@ -284,6 +284,15 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Configure Kubernetes Monitoring as an Add\-on with Amazon EKS](https://grafana.com/docs/grafana-cloud/monitor-infrastructure/kubernetes-monitoring/configuration/config-aws-eks/) in the Grafana Labs documentation\.
+
+### Guance<a name="add-on-GUANCE"></a>
++ **Publisher** – GUANCE
++ **Name** – `guance_datakit`
++ **Namespace** – `datakit`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Using Amazon EKS add\-on](https://docs.guance.com/en/datakit/datakit-eks-deploy/#add-on-install) in the Guance documentation\.
 
 ### HA Proxy<a name="add-on-ha-proxy"></a>
 + **Publisher** – HA Proxy
@@ -386,6 +395,24 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Installing the Rafay Amazon EKS Add\-on](https://docs.rafay.co/clusters/import/eksaddon/) in the Rafay documentation\.
 
+### Rad Security<a name="add-on-RAD"></a>
++ **Publisher** – RAD SECURITY
++ **Name** – `rad-security_rad-security`
++ **Namespace** – `ksoc`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Installing Rad Through The AWS Marketplace](https://docs.rad.security/docs/installing-ksoc-in-the-aws-marketplace) in the Rad Security documentation\.
+
+### SolarWinds<a name="add-on-solarwinds"></a>
++ **Publisher** – SOLARWINDS
++ **Name** – `solarwinds_swo-k8s-collector-addon`
++ **Namespace** – `solarwinds`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Monitor an Amazon EKS cluster](https://documentation.solarwinds.com/en/success_center/observability/content/configure/configure-kubernetes.htm#MonitorAmazonEKS) in the SolarWinds documentation\.
+
 ### Solo\.io<a name="add-on-solo"></a>
 + **Publisher** – Solo\.io
 + **Name** – `solo-io_istio-distro`
@@ -394,6 +421,15 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Installing Istio](https://docs.solo.io/gloo-mesh-enterprise/main/setup/install/eks_addon/) in the Solo\.io documentation\.
+
+### Snyk<a name="add-on-snyk"></a>
++ **Publisher** – SNYK
++ **Name** – `snyk_runtime-sensor`
++ **Namespace** – `snyk_runtime-sensor`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Snyk runtime sensor](https://docs.snyk.io/integrate-with-snyk/snyk-runtime-sensor) in the Snyk user docs\.
 
 ### Stormforge<a name="add-on-stormforge"></a>
 + **Publisher** – Stormforge
