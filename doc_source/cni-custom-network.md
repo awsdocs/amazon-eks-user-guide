@@ -137,7 +137,7 @@ You might receive an error that one of the Availability Zones in your request do
 
 This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster](#custom-networking-create-cluster)\. For a production cluster, adjust the steps accordingly for your VPC by replacing all of the `example values` with your own\.
 
-1. Confirm that your currently\-installed Amazon VPC CNI plugin for Kubernetes is the latest version\. To determine the latest version for the Amazon EKS add\-on type and update your version to it, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\. To determine the latest version for the self\-managed add\-on type and update your version to it, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
+1. Confirm that your currently\-installed Amazon VPC CNI plugin for Kubernetes is the latest version\. To determine the latest version for the Amazon EKS add\-on type and update your version to it, see [Updating an Amazon EKS add\-on](updating-an-add-on.md)\. To determine the latest version for the self\-managed add\-on type and update your version to it, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
 
 1. Retrieve the ID of your cluster VPC and store it in a variable for use in later steps\. For a production cluster, replace *`my-custom-networking-cluster`* with the name of your cluster\.
 

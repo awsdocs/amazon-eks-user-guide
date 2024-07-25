@@ -2,7 +2,7 @@
 
 The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubernetes cluster\. You can use the controller to expose your cluster apps to the internet\. The controller provisions AWS load balancers that point to cluster Service or Ingress resources\. In other words, the controller creates a single IP address or DNS name that points to multiple pods in your cluster\. 
 
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/lbc-overview.svg)
+![\[Architecture diagram. Illustration of traffic coming from internet users, to Amazon Load Balancer. Amazon Load Balancer distributes traffic to pods in the cluster.\]](http://docs.aws.amazon.com/eks/latest/userguide/images/lbc-overview.svg)
 
 The controller watches for Kubernetes Ingress or Service resources\. In response, it creates the appropriate AWS Elastic Load Balancing resources\. You can configure the specific behavior of the load balancers by applying annotations to the Kubernetes resources\. For example, you can attach AWS security groups to load balancers using annotations\. 
 

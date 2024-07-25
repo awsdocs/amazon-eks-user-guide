@@ -1,6 +1,6 @@
 # Quickstart: Deploy a web app and store data<a name="quickstart"></a>
 
-This quickstart tutorial shows the steps to deploy the 2048 game sample application and persist its data on an Amazon EKS cluster using [eksctl](https://eksctl.io/)\. eksctl is an infrastructure\-as\-code utility leveraging [AWS CloudFormation](https://aws.amazon.com/cloudformation/), allowing you to set up a fully\-functional cluster, complete with all the essential components\. These components include a Amazon VPC and an IAM role tailored to provide permissions to the AWS services we’ve defined\. As we progress, we'll walk you through the cluster setup process, incorporating Amazon EKS [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)to power your cluster with operational capabilities\. Finally, you'll deploy a sample workload with the custom annotations required to fully integrate with AWS services\.
+This quickstart tutorial shows the steps to deploy the 2048 game sample application and persist its data on an Amazon EKS cluster using [eksctl](https://eksctl.io/)\. eksctl is an infrastructure\-as\-code utility leveraging [AWS CloudFormation](https://aws.amazon.com/cloudformation/), allowing you to set up a fully\-functional cluster, complete with all the essential components\. These components include a Amazon VPC and an IAM role tailored to provide permissions to the AWS services we’ve defined\. As we progress, we'll walk you through the cluster setup process, incorporating Amazon EKS [Amazon EKS add\-ons](eks-add-ons.md)to power your cluster with operational capabilities\. Finally, you'll deploy a sample workload with the custom annotations required to fully integrate with AWS services\.
 
 ## In this tutorial<a name="quickstart-in-tutorial"></a>
 
@@ -188,7 +188,7 @@ Now that the load balancer is set up, it's time to enable external access for co
    You’ll need to wait several minutes for the Application Load Balancer \(ALB\) to provision before you begin the following steps\.
 
 1. Open a web browser and enter the `ADDRESS` from the previous step to access the web application\. For example, `k8s-game2048-ingress2-eb379a0f83-378466616.`*`region-code`*`.elb.amazonaws.com`\. You should see the 2048 game in your browser\. Play\!  
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/quick2048.png)
+![\[Play the 2048 game\]](http://docs.aws.amazon.com/eks/latest/userguide/images/quick2048.png)
 
 ## Step 5: Persist Data using the Amazon EBS CSI Driver nodes<a name="quickstart-persist-data"></a>
 

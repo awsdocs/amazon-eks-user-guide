@@ -1,46 +1,13 @@
-# Customize Amazon EKS add\-on settings with field management<a name="kubernetes-field-management"></a>
+# Determine fields you can customize for Amazon EKS add\-ons<a name="kubernetes-field-management"></a>
 
-Amazon EKS add\-ons are installed to your cluster using standard, best practice configurations\. For more information about adding an Amazon EKS add\-on to your cluster, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\. 
+Amazon EKS add\-ons are installed to your cluster using standard, best practice configurations\. For more information about adding an Amazon EKS add\-on to your cluster, see [Amazon EKS add\-ons](eks-add-ons.md)\. 
 
 You may want to customize the configuration of an Amazon EKS add\-on to enable advanced features\. Amazon EKS uses the Kubernetes server\-side apply feature to enable management of an add\-on by Amazon EKS without overwriting your configuration for settings that aren't managed by Amazon EKS\. For more information, see [Server\-Side Apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) in the Kubernetes documentation\. To achieve this, Amazon EKS manages a minimum set of fields for every add\-on that it installs\. You can modify all fields that aren't managed by Amazon EKS, or another Kubernetes control plane process such as `kube-controller-manager`, without issue\. 
 
 **Important**  
 Modifying a field managed by Amazon EKS prevents Amazon EKS from managing the add\-on and may result in your changes being overwritten when an add\-on is updated\.
 
-## View field management status<a name="view-field-management"></a>
-
-You can use `kubectl` to see which fields are managed by Amazon EKS for any Amazon EKS add\-on\.
-
-**To see the management status of a field**
-
-1. Determine which add\-on that you want to examine\. To see all of the `deployments` and `DaemonSets` deployed to your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
-
-1. View the managed fields for an add\-on by running the following command:
-
-   ```
-   kubectl get type/add-on-name -n add-on-namespace -o yaml
-   ```
-
-   For example, you can see the managed fields for the CoreDNS add\-on with the following command\.
-
-   ```
-   kubectl get deployment/coredns -n kube-system -o yaml
-   ```
-
-   Field management is listed in the following section in the returned output\.
-
-   ```
-   [...]
-   managedFields:
-     - apiVersion: apps/v1
-       fieldsType: FieldsV1
-       fieldsV1:                        
-   [...]
-   ```
-**Note**  
-If you don't see `managedFields` in the output, add `--show-managed-fields` to the command and run it again\. The version of `kubectl` that you're using determines whether managed fields are returned by default\.
-
-## Understanding field management syntax in the Kubernetes API<a name="add-on-config-management-understanding-field-management"></a>
+## Field management syntax<a name="add-on-config-management-understanding-field-management"></a>
 
 When you view details for a Kubernetes object, both managed and unmanaged fields are returned in the output\. Managed fields can be either of the following types:
 + **Fully managed** – All keys for the field are managed by Amazon EKS\. Modifications to any value causes a conflict\.
@@ -105,3 +72,40 @@ The following portions of output for the CoreDNS add\-on illustrate the previous
   manager: eks
   [...]
   ```
+
+## Procedure<a name="view-field-management"></a>
+
+You can use `kubectl` to see which fields are managed by Amazon EKS for any Amazon EKS add\-on\. 
+
+You can modify all fields that aren't managed by Amazon EKS, or another Kubernetes control plane process such as `kube-controller-manager`, without issue\. 
+
+1. Determine which add\-on that you want to examine\. To see all of the `deployments` and `DaemonSets` deployed to your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
+
+1. View the managed fields for an add\-on by running the following command:
+
+   ```
+   kubectl get type/add-on-name -n add-on-namespace -o yaml
+   ```
+
+   For example, you can see the managed fields for the CoreDNS add\-on with the following command\.
+
+   ```
+   kubectl get deployment/coredns -n kube-system -o yaml
+   ```
+
+   Field management is listed in the following section in the returned output\.
+
+   ```
+   [...]
+   managedFields:
+     - apiVersion: apps/v1
+       fieldsType: FieldsV1
+       fieldsV1:                        
+   [...]
+   ```
+**Note**  
+If you don't see `managedFields` in the output, add `--show-managed-fields` to the command and run it again\. The version of `kubectl` that you're using determines whether managed fields are returned by default\.
+
+## Next steps<a name="view-field-management-next-steps"></a>
+
+Customize the fields not owned by AWS for you add\-on\.

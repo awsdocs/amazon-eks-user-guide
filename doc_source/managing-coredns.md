@@ -88,7 +88,7 @@ Create the Amazon EKS type of the add\-on\. Check
    kubectl get deployment coredns -n kube-system -o yaml > aws-k8s-coredns-old.yaml
    ```
 
-1. Create the add\-on using the AWS CLI\. If you want to use the AWS Management Console or `eksctl` to create the add\-on, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on) and specify `coredns` for the add\-on name\. Copy the command that follows to your device\. Make the following modifications to the command, as needed, and then run the modified command\.
+1. Create the add\-on using the AWS CLI\. If you want to use the AWS Management Console or `eksctl` to create the add\-on, see [Creating an Amazon EKS add\-on](creating-an-add-on.md) and specify `coredns` for the add\-on name\. Copy the command that follows to your device\. Make the following modifications to the command, as needed, and then run the modified command\.
    + Replace `my-cluster` with the name of your cluster\.
    + Replace *v1\.11\.1\-eksbuild\.9* with the latest version listed in the [latest version table](#coredns-versions) for your cluster version\.
 
@@ -138,7 +138,7 @@ Update the Amazon EKS type of the add\-on\. If you haven't added the Amazon EKS 
    kubectl get deployment coredns -n kube-system -o yaml > aws-k8s-coredns-old.yaml
    ```
 
-1. Update your add\-on using the AWS CLI\. If you want to use the AWS Management Console or `eksctl` to update the add\-on, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\. Copy the command that follows to your device\. Make the following modifications to the command, as needed, and then run the modified command\.
+1. Update your add\-on using the AWS CLI\. If you want to use the AWS Management Console or `eksctl` to update the add\-on, see [Updating an Amazon EKS add\-on](updating-an-add-on.md)\. Copy the command that follows to your device\. Make the following modifications to the command, as needed, and then run the modified command\.
    + Replace `my-cluster` with the name of your cluster\.
    + Replace *v1\.11\.1\-eksbuild\.9* with the latest version listed in the [latest version table](#coredns-versions) for your cluster version\.
    + The **\-\-resolve\-conflicts** *PRESERVE* option preserves existing configuration values for the add\-on\. If you've set custom values for add\-on settings, and you don't use this option, Amazon EKS overwrites your values with its default values\. If you use this option, then we recommend testing any field and value changes on a non\-production cluster before updating the add\-on on your production cluster\. If you change this value to `OVERWRITE`, all settings are changed to Amazon EKS default values\. If you've set custom values for any settings, they might be overwritten with Amazon EKS default values\. If you change this value to `none`, Amazon EKS doesn't change the value of any settings, but the update might fail\. If the update fails, you receive an error message to help you resolve the conflict\. 
@@ -183,7 +183,7 @@ Update the Amazon EKS type of the add\-on\. If you haven't added the Amazon EKS 
 ## Updating the self\-managed add\-on<a name="coredns-add-on-self-managed-update"></a>
 
 **Important**  
-We recommend adding the Amazon EKS type of the add\-on to your cluster instead of using the self\-managed type of the add\-on\. If you're not familiar with the difference between the types, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\. For more information about adding an Amazon EKS add\-on to your cluster, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\. If you're unable to use the Amazon EKS add\-on, we encourage you to submit an issue about why you can't to the [Containers roadmap GitHub repository](https://github.com/aws/containers-roadmap/issues)\.
+We recommend adding the Amazon EKS type of the add\-on to your cluster instead of using the self\-managed type of the add\-on\. If you're not familiar with the difference between the types, see [Amazon EKS add\-ons](eks-add-ons.md)\. For more information about adding an Amazon EKS add\-on to your cluster, see [Creating an Amazon EKS add\-on](creating-an-add-on.md)\. If you're unable to use the Amazon EKS add\-on, we encourage you to submit an issue about why you can't to the [Containers roadmap GitHub repository](https://github.com/aws/containers-roadmap/issues)\.
 
 1. Confirm that you have the self\-managed type of the add\-on installed on your cluster\. Replace *my\-cluster* with the name of your cluster\.
 
@@ -191,7 +191,7 @@ We recommend adding the Amazon EKS type of the add\-on to your cluster instead o
    aws eks describe-addon --cluster-name my-cluster --addon-name coredns --query addon.addonVersion --output text
    ```
 
-   If an error message is returned, you have the self\-managed type of the add\-on installed on your cluster\. Complete the remaining steps in this procedure\. If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster\. To update the Amazon EKS type of the add\-on, use the procedure in [Updating the Amazon EKS add\-on](#coredns-add-on-update), rather than using this procedure\. If you're not familiar with the differences between the add\-on types, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\.
+   If an error message is returned, you have the self\-managed type of the add\-on installed on your cluster\. Complete the remaining steps in this procedure\. If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster\. To update the Amazon EKS type of the add\-on, use the procedure in [Updating the Amazon EKS add\-on](#coredns-add-on-update), rather than using this procedure\. If you're not familiar with the differences between the add\-on types, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
 1. See which version of the container image is currently installed on your cluster\.
 

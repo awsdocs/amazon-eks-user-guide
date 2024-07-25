@@ -141,7 +141,7 @@ Update the Amazon EKS type of the add\-on\. If you haven't added the Amazon EKS 
 
    You need to [create the add\-on](#pod-id-agent-add-on-create) before you can update it with this procedure\.
 
-1. Update your add\-on using the AWS CLI\. If you want to use the AWS Management Console or `eksctl` to update the add\-on, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\. Copy the command that follows to your device\. Make the following modifications to the command, as needed, and then run the modified command\.
+1. Update your add\-on using the AWS CLI\. If you want to use the AWS Management Console or `eksctl` to update the add\-on, see [Updating an Amazon EKS add\-on](updating-an-add-on.md)\. Copy the command that follows to your device\. Make the following modifications to the command, as needed, and then run the modified command\.
    + Replace `my-cluster` with the name of your cluster\.
    + Replace *`v1.0.0-eksbuild.1`* with the your desired version\.
    + Replace *111122223333* with your account ID\.

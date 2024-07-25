@@ -194,7 +194,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 
 1. Update the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` add\-ons\. We recommend updating the add\-ons to the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
    + If you are using Amazon EKS add\-ons, select **Clusters** in the Amazon EKS console, then select the name of the cluster that you updated in the left navigation pane\. Notifications appear in the console\. They inform you that a new version is available for each add\-on that has an available update\. To update an add\-on, select the **Add\-ons** tab\. In one of the boxes for an add\-on that has an update available, select **Update now**, select an available version, and then select **Update**\.
-   + Alternately, you can use the AWS CLI or `eksctl` to update add\-ons\. For more information, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\.
+   + Alternately, you can use the AWS CLI or `eksctl` to update add\-ons\. For more information, see [Updating an Amazon EKS add\-on](updating-an-add-on.md)\.
 
 1. If necessary, update your version of `kubectl`\. You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a `1.29` `kubectl` client works with Kubernetes `1.28`, `1.29`, and `1.30` clusters\. You can check your currently installed version with the following command\.
 

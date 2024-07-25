@@ -93,7 +93,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
 1. On the **Select add\-ons** page, choose **Next**\.
 
-   For more information on add\-ons, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\.
+   For more information on add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
 1. On the **Configure selected add\-ons settings** page, choose **Next**\.
 

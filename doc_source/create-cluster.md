@@ -163,7 +163,7 @@ To see the most options that you can specify when creating a cluster with `eksct
 
       Some add\-ons, such as Amazon VPC CNI, CoreDNS, and kube\-proxy, are installed by default\. If you disable any of the default add\-ons, this may affect your ability to run Kubernetes applications\.
 
-   1. On the **Configure selected add\-ons settings** page, select the version that you want to install\. You can always update to a later version after cluster creation\. You can update the configuration of each add\-on after cluster creation\. For more information about configuring add\-ons, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\. When you’re done with this page, choose **Next**\.
+   1. On the **Configure selected add\-ons settings** page, select the version that you want to install\. You can always update to a later version after cluster creation\. You can update the configuration of each add\-on after cluster creation\. For more information about configuring add\-ons, see [Updating an Amazon EKS add\-on](updating-an-add-on.md)\. When you’re done with this page, choose **Next**\.
 
    1. On the **Review and create** page, review the information that you entered or selected on the previous pages\. If you need to make changes, choose **Edit**\. When you're satisfied, choose **Create**\. The **Status** field shows **CREATING** while the cluster is provisioned\.
 **Note**  
@@ -255,7 +255,7 @@ You might receive an error that one of the Availability Zones in your request do
    kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   28h
    ```
 
-1. \(Recommended\) To use some Amazon EKS add\-ons, or to enable individual Kubernetes workloads to have specific AWS Identity and Access Management \(IAM\) permissions, [create an IAM OpenID Connect \(OIDC\) provider](enable-iam-roles-for-service-accounts.md) for your cluster\. You only need to create an IAM OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\. To learn more about assigning specific IAM permissions to your workloads, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. 
+1. \(Recommended\) To use some Amazon EKS add\-ons, or to enable individual Kubernetes workloads to have specific AWS Identity and Access Management \(IAM\) permissions, [create an IAM OpenID Connect \(OIDC\) provider](enable-iam-roles-for-service-accounts.md) for your cluster\. You only need to create an IAM OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\. To learn more about assigning specific IAM permissions to your workloads, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. 
 
 1. \(Recommended\) Configure your cluster for the Amazon VPC CNI plugin for Kubernetes plugin before deploying Amazon EC2 nodes to your cluster\. By default, the plugin was installed with your cluster\. When you add Amazon EC2 nodes to your cluster, the plugin is automatically deployed to each Amazon EC2 node that you add\. The plugin requires you to attach one of the following IAM policies to an IAM role:  
 **[https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html) managed IAM policy**  
@@ -267,7 +267,7 @@ If your cluster uses the `IPv6` family
 
 1. If you deployed your cluster using the AWS Management Console, you can skip this step\. The AWS Management Console deploys the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` Amazon EKS add\-ons, by default\.
 
-   If you deploy your cluster using either `eksctl` or the AWS CLI, then the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons are deployed\. You can migrate the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons that are deployed with your cluster to Amazon EKS add\-ons\. For more information, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\.
+   If you deploy your cluster using either `eksctl` or the AWS CLI, then the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons are deployed\. You can migrate the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons that are deployed with your cluster to Amazon EKS add\-ons\. For more information, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
 1. \(Optional\) If you haven’t already done so, you can enable Prometheus metrics for your cluster\. For more information, see [Create a scraper](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-create) in the *Amazon Managed Service for Prometheus User Guide*\.
 

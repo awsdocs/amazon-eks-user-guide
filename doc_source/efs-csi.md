@@ -168,7 +168,7 @@ aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRU
 
 ## Get the Amazon EFS CSI driver<a name="efs-install-driver"></a>
 
-We recommend that you install the Amazon EFS CSI driver through the Amazon EKS add\-on\. To add an Amazon EKS add\-on to your cluster, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\. For more information about add\-ons, see [Use AWSAPIs to install/update cluster components with EKS add\-ons](eks-add-ons.md)\. If you're unable to use the Amazon EKS add\-on, we encourage you to submit an issue about why you can't to the [Containers roadmap GitHub repository](https://github.com/aws/containers-roadmap/issues)\.
+We recommend that you install the Amazon EFS CSI driver through the Amazon EKS add\-on\. To add an Amazon EKS add\-on to your cluster, see [Creating an Amazon EKS add\-on](creating-an-add-on.md)\. For more information about add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\. If you're unable to use the Amazon EKS add\-on, we encourage you to submit an issue about why you can't to the [Containers roadmap GitHub repository](https://github.com/aws/containers-roadmap/issues)\.
 
 Alternatively, if you want a self\-managed installation of the Amazon EFS CSI driver, see [Installation](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#installation) on GitHub\.
 
