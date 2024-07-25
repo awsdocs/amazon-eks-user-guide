@@ -37,7 +37,7 @@ For information on these versions, see [Review release notes for Kubernetes vers
 
 ## Amazon EKS Kubernetes release calendar<a name="kubernetes-release-calendar"></a>
 
-The following table shows important release and support dates to consider for each Kubernetes version\.
+The following table shows important release and support dates to consider for each Kubernetes version\. Billing for extended support starts at the beginning of the day that the version reaches end of standard support\.
 
 **Note**  
 Dates with only a month and a year are approximate and are updated with an exact date when it's known\.
