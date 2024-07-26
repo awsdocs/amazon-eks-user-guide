@@ -238,7 +238,7 @@ Because the instance type used in this example has GPUs, `eksctl` automatically 
    1. If you chose a GPU instance type, you must deploy the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin)\. Replace `vX.X.X` with your desired [NVIDIA/k8s\-device\-plugin](https://github.com/NVIDIA/k8s-device-plugin/releases) version before running the following command\.
 
       ```
-      kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/nvidia-device-plugin.yml
+      kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/deployments/static/nvidia-device-plugin.yml
       ```
 
 ------
