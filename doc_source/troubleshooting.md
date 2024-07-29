@@ -373,7 +373,7 @@ spec:
 
 If the certificate used to sign the VPC admission webhook expires, the status for new Windows Pod deployments stays at `ContainerCreating`\. 
 
-To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Deploy Windows nodes on EKS clusters](windows-support.md)\.
+To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](legacy-windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Deploy Windows nodes on EKS clusters](windows-support.md)\.
 
 ## Node groups must match Kubernetes version before upgrading control plane<a name="troubleshoot-node-grups-must-match-kubernetes-version"></a>
 

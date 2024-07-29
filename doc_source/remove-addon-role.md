@@ -1,4 +1,4 @@
-# Remove Pod Identiy associations from an Amazon EKS add\-on<a name="remove-addon-role"></a>
+# Remove Pod Identity associations from an Amazon EKS add\-on<a name="remove-addon-role"></a>
 
 Remove the Pod Identity associations from an Amazon EKS add\-on\.
 

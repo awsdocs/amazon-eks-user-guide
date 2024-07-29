@@ -6,7 +6,7 @@ This topic describes how to launch Auto Scaling groups of Windows nodes that reg
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 You can launch Windows nodes in Amazon EKS extended clusters on AWS Outposts, but you can't launch them in local clusters on AWS Outposts\. For more information, see [Amazon EKS on AWS Outposts](eks-outposts.md)\.
 
-Enable Windows support for your cluster\. We recommend that you review important considerations before you launch a Windows node group\. For more information, see [Enabling Windows support](windows-support.md#enable-windows-support)\. 
+Enable Windows support for your cluster\. We recommend that you review important considerations before you launch a Windows node group\. For more information, see [Enable Windows support](windows-support.md#enable-windows-support)\. 
 
 You can launch self\-managed Windows nodes with `eksctl` or the AWS Management Console\.
 

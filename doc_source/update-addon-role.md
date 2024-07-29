@@ -1,4 +1,4 @@
-# Use Pod Identitues to assign an IAM role to an Amazon EKS add\-on<a name="update-addon-role"></a>
+# Use Pod Identities to assign an IAM role to an Amazon EKS add\-on<a name="update-addon-role"></a>
 
 Certain Amazon EKS add\-ons need IAM roles and permissions\. Before you add update an Amazon EKS add\-on to use a Pod Identity association, verify the role and policy to use\. For more information, see [Retrieve IAM information about an Amazon EKS add\-on](retreive-iam-info.md)\.
 
