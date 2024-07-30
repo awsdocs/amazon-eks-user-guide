@@ -185,7 +185,7 @@ For all other cluster versions, if you upgrade the Amazon EKS optimized Amazon L
               ```
 
               The following screenshot shows an example of this scenario\.  
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/console-cni-config-network-policy.png)
+![\[AWS Management Console showing the VPC CNI add-on with network policy in the optional configuration.\]](http://docs.aws.amazon.com/eks/latest/userguide/images/console-cni-config-network-policy.png)
 
 ------
 #### [ AWS CLI ]
@@ -342,7 +342,7 @@ Before you create any network policies, all services can communicate bidirection
    ```
 
 1. Open the a browser to the location from the previous step\. You should see the management user interface\. The **C** node is the client service, the **F** node is the front\-end service, and the **B** node is the back\-end service\. Each node has full communication access to all other nodes, as indicated by the bold, colored lines\.  
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-default.png)
+![\[Open network policy\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-default.png)
 
 1. Apply the following network policy in both the `stars` and `client` namespaces to isolate the services from each other:
 
@@ -409,7 +409,7 @@ Before you create any network policies, all services can communicate bidirection
    ```
 
 1. Refresh your browser\. You see that the management user interface can reach the nodes again, but the nodes cannot communicate with each other\.  
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-no-traffic.png)
+![\[UI access network policy\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-no-traffic.png)
 
 1. Apply the following network policy to allow traffic from the front\-end service to the back\-end service:
 
@@ -434,7 +434,7 @@ Before you create any network policies, all services can communicate bidirection
    ```
 
 1. Refresh your browser\. You see that the front\-end can communicate with the back\-end\.  
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-front-end-back-end.png)
+![\[Front-end to back-end policy\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-front-end-back-end.png)
 
 1. Apply the following network policy to allow traffic from the client to the front\-end service:
 
@@ -459,7 +459,7 @@ Before you create any network policies, all services can communicate bidirection
    ```
 
 1. Refresh your browser\. You see that the client can communicate to the front\-end service\. The front\-end service can still communicate to the back\-end service\.  
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-final.png)
+![\[Final network policy\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-final.png)
 
 1. \(Optional\) When you are done with the demo, you can delete its resources\.
 
@@ -524,7 +524,7 @@ Network policy logs require an additional 1 vCPU for the `aws-network-policy-age
 
 The following screenshot shows an example of this scenario\.
 
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/console-cni-config-network-policy-logs.png)
+![\[AWS Management Console showing the VPC CNI add-on with network policy and CloudWatch Logs in the optional configuration.\]](http://docs.aws.amazon.com/eks/latest/userguide/images/console-cni-config-network-policy-logs.png)
 
 ------
 #### [ AWS CLI ]
@@ -638,7 +638,7 @@ Only the network policy logs are sent by the node agent\. Other logs made by the
 
 The following screenshot shows an example of this scenario\.
 
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/console-cni-config-network-policy-logs-cwl.png)
+![\[AWS Management Console showing the VPC CNI add-on with network policy and CloudWatch Logs in the optional configuration.\]](http://docs.aws.amazon.com/eks/latest/userguide/images/console-cni-config-network-policy-logs-cwl.png)
 
 ------
 #### [ AWS CLI ]

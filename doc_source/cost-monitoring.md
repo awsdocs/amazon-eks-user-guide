@@ -112,7 +112,7 @@ Learn how to [remove an EKS Add\-on](removing-an-add-on.md), such as Kubecost\.
    ```
 
    You see the Kubecost Overview page in your browser\. It might take 5–10 minutes for Kubecost to gather metrics\. You can see your Amazon EKS spend, including cumulative cluster costs, associated Kubernetes asset costs, and monthly aggregated spend\.  
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/kubecost.png)
+![\[Kubecost dashboard\]](http://docs.aws.amazon.com/eks/latest/userguide/images/kubecost.png)
 
 1. To track costs at a cluster level, tag your Amazon EKS resources for billing\. For more information, see [Tagging your resources for billing](eks-using-tags.md#tag-resources-for-billing)\.
 
@@ -124,7 +124,7 @@ Learn how to [remove an EKS Add\-on](removing-an-add-on.md), such as Kubecost\.
 
 **Additional features**
 + **Export cost metrics** – Amazon EKS optimized cost monitoring is deployed with Kubecost and Prometheus, which is an open\-source monitoring system and time series database\. Kubecost reads metric from Prometheus and then performs cost allocation calculations and writes the metrics back to Prometheus\. The Kubecost front\-end reads metrics from Prometheus and shows them on the Kubecost user interface\. The architecture is illustrated in the following diagram\.  
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/kubecost-architecture.png)
+![\[Kubecost architecture\]](http://docs.aws.amazon.com/eks/latest/userguide/images/kubecost-architecture.png)
 
   With [https://prometheus.io/](https://prometheus.io/) pre\-installed, you can write queries to ingest Kubecost data into your current business intelligence system for further analysis\. You can also use it as a data source for your current [https://grafana.com/](https://grafana.com/) dashboard to display Amazon EKS cluster costs that your internal teams are familiar with\. To learn more about how to write Prometheus queries, see the [Prometheus Configuration](https://github.com/opencost/opencost/blob/develop/PROMETHEUS.md) `readme` file on GitHub or use the example Grafana JSON models in the [Kubecost Github repository](https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer) as references\.
 + **AWS Cost and Usage Report integration** – To perform cost allocation calculations for your Amazon EKS cluster, Kubecost retrieves the public pricing information of AWS services and AWS resources from the AWS Price List API\. You can also integrate Kubecost with **AWS Cost and Usage Report** to enhance the accuracy of the pricing information specific to your AWS account\. This information includes enterprise discount programs, reserved instance usage, savings plans, and spot usage\. To learn more about how the AWS Cost and Usage Report integration works, see [AWS Cloud Billing Integration](https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations) in the Kubecost documentation\.

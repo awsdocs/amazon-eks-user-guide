@@ -2,7 +2,7 @@
 
 The add\-on name is `tetrate-io_istio-distro` and the namespace is `istio-system`\. Tetrate Io publishes the add\-on\.
 
-For information about the add\-on, seeSee the [Tetrate Istio Distro](https://tetratelabs.io/) website\.
+For information about the add\-on, see the [Tetrate Istio Distro](https://tetratelabs.io/) website\.
 
 ## Service account name<a name="add-on-tetrate-service-account-name"></a>
 

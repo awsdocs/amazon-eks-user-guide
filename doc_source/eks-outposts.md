@@ -8,7 +8,7 @@ For both deployment options, the Kubernetes control plane is fully managed by AW
 
 The following diagram shows these deployment options\.
 
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/outposts-deployment-options.png)
+![\[Outpost deployment options\]](http://docs.aws.amazon.com/eks/latest/userguide/images/outposts-deployment-options.png)
 
 ## When to use each deployment option<a name="outposts-overview-when-deployment-options"></a>
 
