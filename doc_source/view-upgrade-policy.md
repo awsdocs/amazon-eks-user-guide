@@ -1,4 +1,6 @@
-# Manage EKS extended support<a name="extended-support-control"></a>
+# View current cluster upgrade policy<a name="view-upgrade-policy"></a>
+
+The **cluster upgrade policy** determines what happens to your cluster when it leaves the standard support period\. If your upgrade policy is `EXTENDED`, the cluster will not be automatically upgraded, and will enter extended support\. If your upgrade policy is `STANDARD`, it will be automatically upgraded\.
 
 Amazon EKS controls for Kubernetes version policy allows you to choose the end of standard support behavior for your EKS clusters\. With these controls you can decide which clusters should enter extended support and which clusters should be automatically upgraded at the end of standard support for a Kubernetes version\.
 
@@ -11,62 +13,30 @@ You can set the version policy for both new and existing clusters, using the `su
 Extended support is enabled by default for new clusters, and existing clusters\. You can view if extended support is enabled for a cluster in the AWS Management Console, or by using the AWS CLI\. 
 
 **Important**  
-You must enable extended support before the end of standard support\.
+If you want your cluster to stay on its current Kubernetes version to take advantage of the extended support period, you must enable the extended support upgrade policy before the end of standard support period\.
 
 You can only set the version support policy for your clusters while its running on Kubernetes version in standard support\. Once the version enters extended support, you will not be able to change this setting until you are running on a version in standard support\. 
 
 For example, if you have set your version support policy as `standard` then you will not be able to change this setting after the Kubernetes version running on your cluster reaches the end of standard support\. If you have set your version support policy as `extended` then you will not be able to change this setting after the Kubernetes version running on your cluster reaches end of standard support\. In order to change the version support policy setting, your cluster must be running on a standard supported Kubernetes version\.
 
-## Enable extended support<a name="enable-extended-support"></a>
+## View cluster upgrade policy \(AWS Console\)<a name="view-period-console"></a>
 
-**Important**  
-You must enable extended support before the end of standard support\. If you do not enable extended support, your cluster will be automatically upgraded\. 
+1. Navigate to the **Clusters** page in the EKS section of the AWS Console\. Confirm the console is set to the same AWS region as the cluster you want to review\. 
 
-**Enable EKS extended support \(AWS Console\)**
+1. Review the **Upgrade Policy** column\. If the value is **Standard Support**, your cluster will not enter extended support\. If the value is **Extended Support**, your cluster will enter extended support\.
 
-1. Navigate to your EKS cluster in the AWS Console\. Select the **Overview** tab on the **Cluster Info** page\.
+## View cluster upgrade policy \(AWS CLI\)<a name="view-period-cli"></a>
 
-1. In the **Kubernetes version settings** section, select **Manage**\. 
+1. Verify the AWS CLI is installed and you are logged in\. [Learn how to update and install the AWS CLI\.](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
-1. Select **Extended support** and then **Save changes**\.
-
-**Enable EKS extended support \(AWS CLI\)**
-
-1. Verify the AWS CLI is installed and you are logged in\. 
-
-1. Determine the name of your EKS cluster\. 
+1. Determine the name of your EKS cluster\. Set the CLI to the same AWS region as your EKS cluster\. 
 
 1. Run the following command:
 
    ```
-   aws eks update-cluster-config \ 
+   aws eks describe-cluster \
    --name <cluster-name> \
-   --upgrade-policy supportType = EXTENDED
+   --query "cluster.upgradePolicy.supportType"
    ```
 
-## Disable extended support<a name="disable-extended-support"></a>
-
-**Important**  
-You cannot disable extended support once your cluster has entered it\. You can only disable extended support for clusters on standard support\. 
-
-**Disable EKS extended support \(AWS Console\)**
-
-1. Navigate to your EKS cluster in the AWS Console\. Select the **Overview** tab on the **Cluster Info** page\.
-
-1. In the **Kubernetes version setting** section, select **Manage**\. 
-
-1. Select **Standard support** and then **Save changes**\.
-
-**Disable EKS extended support \(AWS CLI\)**
-
-1. Verify the AWS CLI is installed and you are logged in\. 
-
-1. Determine the name of your EKS cluster\. 
-
-1. Run the following command:
-
-   ```
-   aws eks update-cluster-config \ 
-   --name <cluster-name> \
-   --upgrade-policy supportType = STANDARD
-   ```
+1. If the value is `STANDARD`, your cluster will not enter extended support\. If the value is `EXTENDED`, your cluster will enter extended support\.

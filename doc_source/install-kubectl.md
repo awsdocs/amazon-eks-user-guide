@@ -40,52 +40,52 @@ You must use a `kubectl` version that is within one minor version difference of 
       + Kubernetes `1.30`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.29`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.3/2024-04-19/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.28`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.8/2024-04-19/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.27`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.12/2024-04-19/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.26`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-04-19/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.25`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-04-19/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.24`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-04-19/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.23`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-04-19/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.22`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-04-19/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.21`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-04-19/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-07-12/bin/darwin/amd64/kubectl
         ```
 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
@@ -94,52 +94,52 @@ You must use a `kubectl` version that is within one minor version difference of 
          + Kubernetes `1.30`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.29`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.3/2024-04-19/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.28`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.8/2024-04-19/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.27`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.12/2024-04-19/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.26`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-04-19/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.25`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-04-19/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.24`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-04-19/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.23`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-04-19/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.22`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-04-19/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.21`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-04-19/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-07-12/bin/darwin/amd64/kubectl.sha256
            ```
 
       1. Check the `SHA-256` checksum for your downloaded binary\.
@@ -177,52 +177,52 @@ You must use a `kubectl` version that is within one minor version difference of 
       + Kubernetes `1.30`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.29`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.3/2024-04-19/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.28`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.8/2024-04-19/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.27`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.12/2024-04-19/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.26`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-04-19/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.25`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-04-19/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.24`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-04-19/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.23`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-04-19/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.22`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-04-19/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.21`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-04-19/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-07-12/bin/linux/amd64/kubectl
         ```
 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
@@ -231,52 +231,52 @@ You must use a `kubectl` version that is within one minor version difference of 
          + Kubernetes `1.30`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.29`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.3/2024-04-19/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.28`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.8/2024-04-19/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.27`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.12/2024-04-19/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.26`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-04-19/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.25`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-04-19/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.24`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-04-19/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.23`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-04-19/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.22`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-04-19/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.21`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-04-19/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-07-12/bin/linux/amd64/kubectl.sha256
            ```
 
       1. Check the `SHA-256` checksum for your downloaded binary with one of the following commands\.
@@ -328,52 +328,52 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + Kubernetes `1.30`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.29`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.3/2024-04-19/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.28`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.8/2024-04-19/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.27`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.12/2024-04-19/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.26`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-04-19/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.25`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-04-19/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.24`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-04-19/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.23`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-04-19/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.22`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-04-19/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.21`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-04-19/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-07-12/bin/linux/arm64/kubectl
         ```
 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
@@ -382,52 +382,52 @@ This step assumes you are using the Bash shell; if you are using another shell, 
          + Kubernetes `1.30`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.29`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.3/2024-04-19/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.28`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.8/2024-04-19/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.27`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.12/2024-04-19/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.26`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-04-19/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.25`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-04-19/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.24`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-04-19/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.23`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-04-19/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.22`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-04-19/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.21`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-04-19/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-07-12/bin/linux/arm64/kubectl.sha256
            ```
 
       1. Check the `SHA-256` checksum for your downloaded binary with one of the following commands\.

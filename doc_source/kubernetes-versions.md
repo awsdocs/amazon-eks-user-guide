@@ -4,7 +4,7 @@ Kubernetes rapidly evolves with new features, design updates, and bug fixes\. Th
 
 A minor version is under standard support in Amazon EKS for the first 14 months after it's released\. Once a version is past the end of standard support date, it enters extended support for the next 12 months\. Extended support allows you to stay at a specific Kubernetes version for longer at an additional cost per cluster hour\. If you haven’t updated your cluster before the extended support period ends, your cluster is auto\-upgraded to the oldest currently supported extended version\.
 
-Extended support is enabled by default\. [You can disable extended support\. ](extended-support-control.md#disable-extended-support)
+Extended support is enabled by default\. [You can disable extended support\. ](disable-extended-support.md)
 
 We recommend that you create your cluster with the latest available Kubernetes version supported by Amazon EKS\. If your application requires a specific version of Kubernetes, you can select older versions\. You can create new Amazon EKS clusters on any version offered in standard or extended support\.
 
@@ -93,7 +93,7 @@ You don’t have to take any action to get extended support for your Amazon EKS 
 Extended support is available for Kubernetes versions `1.23` and higher\. You can run clusters on any version for up to 12 months after the end of standard support for that version\. This means that each version will be supported for 26 months in Amazon EKS \(14 months of standard support plus 12 months of extended support\)\.
 
 **What if I don’t want to use extended support?**  
-If you don’t want to be automatically enrolled in extended support, you can upgrade your cluster to a Kubernetes version that’s in standard Amazon EKS support\. You can also [disable extended support](extended-support-control.md#disable-extended-support)\.
+If you don’t want to be automatically enrolled in extended support, you can upgrade your cluster to a Kubernetes version that’s in standard Amazon EKS support\. You can also [disable extended support](disable-extended-support.md)\.
 
 **What will happen at the end of 12 months of extended support?**  
 Clusters running on a Kubernetes version that has completed its 26\-month lifecycle \(14 months of standard support plus 12 months of extended support\) will be auto\-upgraded to the next version\.  

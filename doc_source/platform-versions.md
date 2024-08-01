@@ -235,3 +235,9 @@ The following admission controllers are enabled for all `1.23` platform versions
    ```
    "eks.10"
    ```
+
+## Change platform version<a name="change-platform-version"></a>
+
+You cannot change the platform version of an EKS cluster\. When new Amazon EKS platform versions become available for a Kubernetes version, EKS automatically upgrades all existing clusters to the latest Amazon EKS platform version for their corresponding Kubernetes version\. Automatic upgrades of existing Amazon EKS platform versions are rolled out incrementally\. You cannot use the AWS Console or CLI to change the platform version\. 
+
+If you upgrade your Kubernetes version, your cluster will move onto the most recent platform version for the Kubernetes version\. 

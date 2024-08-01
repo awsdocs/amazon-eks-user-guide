@@ -90,16 +90,6 @@ Don't specify `system:`, or any portion of that string, for `groupsPrefix` or `u
 
 ------
 
-## Disassociate an OIDC identity provider from your cluster<a name="disassociate-oidc-identity-provider"></a>
-
-If you disassociate an OIDC identity provider from your cluster, users included in the provider can no longer access the cluster\. However, you can still access the cluster with [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html)\.
-
-**To disassociate an OIDC identity provider from your cluster using the AWS Management Console**
-
-1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
-
-1. In the **OIDC Identity Providers** section, select **Disassociate**, enter the identity provider name, and then select `Disassociate`\.
-
 ## Example IAM policy<a name="oidc-identity-provider-iam-policy"></a>
 
 If you want to prevent an OIDC identity provider from being associated with a cluster, create and associate the following IAM policy to the IAM accounts of your Amazon EKS administrators\. For more information, see [Creating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) and [Adding IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console) in the IAM User Guide and [Actions, resources, and condition keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html) in the Service Authorization Reference\.

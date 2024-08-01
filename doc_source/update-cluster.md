@@ -201,3 +201,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
    ```
    kubectl version --client
    ```
+
+## Downgrade the Kubernetes version for an Amazon EKS cluster<a name="downgrade-cluster"></a>
+
+You cannot downgrade the Kubernetes of an Amazon EKS cluster\. Instead, create a new cluster on a previous Amazon EKS version and migrate the workloads\. 
