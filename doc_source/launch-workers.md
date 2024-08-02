@@ -1,4 +1,4 @@
-# Launching self\-managed Amazon Linux nodes<a name="launch-workers"></a>
+# Create self\-managed Amazon Linux nodes<a name="launch-workers"></a>
 
 This topic describes how you can launch Auto Scaling groups of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. You can also launch self\-managed Amazon Linux nodes with `eksctl` or the AWS Management Console\. If you need to launch nodes on AWS Outposts, see [Launching self\-managed Amazon Linux nodes on an Outpost](eks-outposts-self-managed-nodes.md)\.
 

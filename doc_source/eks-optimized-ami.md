@@ -165,7 +165,7 @@ For Kubernetes version `1.23`, you can use an optional bootstrap flag to enable 
 You can enable the boostrap flag by creating one of the following types of node groups\.
 
 **Self\-managed**  
-Create the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify an Amazon EKS optimized AMI and the following text for the `BootstrapArguments` parameter\.  
+Create the node group using the instructions in [Create self\-managed Amazon Linux nodes](launch-workers.md)\. Specify an Amazon EKS optimized AMI and the following text for the `BootstrapArguments` parameter\.  
 
 ```
 --container-runtime containerd
@@ -203,7 +203,7 @@ If you prefer to use a different tool to create your managed node group, you mus
 ## More information<a name="linux-more-information"></a>
 
 For more information about using Amazon EKS optimized Amazon Linux AMIs, see the following sections:
-+ To use Amazon Linux with managed node groups, see [Managed node groups](managed-node-groups.md)\.
++ To use Amazon Linux with managed node groups, see [Simplify node lifecycle with managed node groups](managed-node-groups.md)\.
 + To launch self\-managed Amazon Linux nodes, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
 + For version information, see [Amazon EKS optimized Amazon Linux AMI versions](eks-linux-ami-versions.md)\.
 + To retrieve the latest IDs of the Amazon EKS optimized Amazon Linux AMIs, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.

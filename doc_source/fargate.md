@@ -1,4 +1,4 @@
-# AWS Fargate<a name="fargate"></a>
+# Simplify compute management with AWS Fargate<a name="fargate"></a>
 
 **Important**  
 AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.

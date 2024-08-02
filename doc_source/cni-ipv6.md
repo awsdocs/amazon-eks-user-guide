@@ -44,7 +44,7 @@ You select which IP family you want to use for your cluster when you create it\.
 
 In this tutorial, you deploy an `IPv6` Amazon VPC, an Amazon EKS cluster with the `IPv6` family, and a managed node group with Amazon EC2 Amazon Linux nodes\. You can't deploy Amazon EC2 Windows nodes in an `IPv6` cluster\. You can also deploy Fargate nodes to your cluster, though those instructions aren't provided in this topic for simplicity\. 
 
-Before creating a cluster for production use, we recommend that you familiarize yourself with all settings and deploy a cluster with the settings that meet your requirements\. For more information, see [Create an Amazon EKS cluster](create-cluster.md), [Managed node groups](managed-node-groups.md) and the [considerations](#ipv6-considerations) for this topic\. You can only enable some settings when creating your cluster\.
+Before creating a cluster for production use, we recommend that you familiarize yourself with all settings and deploy a cluster with the settings that meet your requirements\. For more information, see [Create an Amazon EKS cluster](create-cluster.md), [Simplify node lifecycle with managed node groups](managed-node-groups.md) and the [considerations](#ipv6-considerations) for this topic\. You can only enable some settings when creating your cluster\.
 
 **Prerequisites**
 

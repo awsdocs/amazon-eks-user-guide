@@ -48,12 +48,13 @@ Version `0.187.0` or later of the `eksctl` command line tool installed on your d
    eksctl utils associate-iam-oidc-provider --cluster $cluster_name --approve
    ```
 **Note**  
-If you enable the EKS VPC endpoint, the EKS OIDC service endpoint can't be accessed from inside that VPC\. Consequently, your operations such as creating an OIDC provider with `eksctl` in the VPC will not work and will result in a timeout when attempting to request `https://oidc.eks.region.amazonaws.com`\. An example error message follows:  
+Before August 2024, if you enabled the EKS VPC endpoint, the EKS OIDC service endpoint couldn't be accessed from inside that VPC\. Consequently, your operations such as creating an OIDC provider with `eksctl` in the VPC will not work and will result in a timeout when attempting to request `https://oidc.eks.region.amazonaws.com`\. An example error message follows:  
 
    ```
    ** server can't find oidc.eks.region.amazonaws.com: NXDOMAIN
    ```
-To complete this step, you can run the command outside the VPC, for example in AWS CloudShell or on a computer connected to the internet\.
+To complete this step, you can run the command outside the VPC, for example in AWS CloudShell or on a computer connected to the internet\.  
+After August 2024, new clusters have a new EKS OIDC issuer URL that isn't a subdomain of this name, so this issue doesn't occur\.
 
 ------
 #### [ AWS Management Console ]<a name="create-oidc-console"></a>

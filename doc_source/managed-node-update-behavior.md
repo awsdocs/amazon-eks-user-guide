@@ -1,4 +1,4 @@
-# Managed node update behavior<a name="managed-node-update-behavior"></a>
+# Understand each phase of node updates<a name="managed-node-update-behavior"></a>
 
 The Amazon EKS managed worker node upgrade strategy has four different phases described in the following sections\.
 

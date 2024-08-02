@@ -1,6 +1,6 @@
-# Updating a managed node group<a name="update-managed-node-group"></a>
+# Update an Amazon EKS managed node group<a name="update-managed-node-group"></a>
 
-When you initiate a managed node group update, Amazon EKS automatically updates your nodes for you, completing the steps listed in [Managed node update behavior](managed-node-update-behavior.md)\. If you're using an Amazon EKS optimized AMI, Amazon EKS automatically applies the latest security patches and operating system updates to your nodes as part of the latest AMI release version\.
+When you initiate a managed node group update, Amazon EKS automatically updates your nodes for you, completing the steps listed in [Understand each phase of node updates](managed-node-update-behavior.md)\. If you're using an Amazon EKS optimized AMI, Amazon EKS automatically applies the latest security patches and operating system updates to your nodes as part of the latest AMI release version\.
 
 There are several scenarios where it's useful to update your Amazon EKS managed node group's version or configuration:
 + You have updated the Kubernetes version for your Amazon EKS cluster and want to update your nodes to use the same Kubernetes version\.
@@ -17,7 +17,7 @@ There are several scenarios where it's useful to update your Amazon EKS managed 
 
 If there's a newer AMI release version for your managed node group's Kubernetes version, you can update your node group's version to use the newer AMI version\. Similarly, if your cluster is running a Kubernetes version that's newer than your node group, you can update the node group to use the latest AMI release version to match your cluster's Kubernetes version\.
 
-When a node in a managed node group is terminated due to a scaling operation or update, the Pods in that node are drained first\. For more information, see [Managed node update behavior](managed-node-update-behavior.md)\.
+When a node in a managed node group is terminated due to a scaling operation or update, the Pods in that node are drained first\. For more information, see [Understand each phase of node updates](managed-node-update-behavior.md)\.
 
 ## Update a node group version<a name="mng-update"></a>
 
@@ -36,7 +36,7 @@ You can update a node group version with `eksctl` or the AWS Management Console\
     --region=region-code
   ```
 **Note**  
-If you're upgrading a node group that's deployed with a launch template to a new launch template version, add `--launch-template-version version-number` to the preceding command\. The launch template must meet the requirements described in [Customizing managed nodes with launch templates](launch-templates.md)\. If the launch template includes a custom AMI, the AMI must meet the requirements in [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\. When you upgrade your node group to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version that's specified\.  
+If you're upgrading a node group that's deployed with a launch template to a new launch template version, add `--launch-template-version version-number` to the preceding command\. The launch template must meet the requirements described in [Customize managed nodes with launch templates](launch-templates.md)\. If the launch template includes a custom AMI, the AMI must meet the requirements in [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\. When you upgrade your node group to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version that's specified\.  
 You can't directly upgrade a node group that's deployed without a launch template to a new launch template version\. Instead, you must deploy a new node group using the launch template to update the node group to a new launch template version\.
 
   You can upgrade a node group to the same version as the control plane's Kubernetes version\. For example, if you have a cluster running Kubernetes `1.29`, you can upgrade nodes currently running Kubernetes `1.28` to version `1.29` with the following command\.
@@ -103,7 +103,7 @@ You can modify some of the configurations of a managed node group\.
 
    1. \(Optional\) Add or remove **Kubernetes labels** to the nodes in your node group\. The labels shown here are only the labels that you have applied with Amazon EKS\. Other labels may exist on your nodes that aren't shown here\.
 
-   1. \(Optional\) Add or remove **Kubernetes taints** to the nodes in your node group\. Added taints can have the effect of either `NoSchedule`, `NoExecute`, or `PreferNoSchedule`\. For more information, see [Node taints on managed node groups](node-taints-managed-node-groups.md)\.
+   1. \(Optional\) Add or remove **Kubernetes taints** to the nodes in your node group\. Added taints can have the effect of either `NoSchedule`, `NoExecute`, or `PreferNoSchedule`\. For more information, see [Prevent Pods from being scheduled on specific nodes](node-taints-managed-node-groups.md)\.
 
    1. \(Optional\) Add or remove **Tags** from your node group resource\. These tags are only applied to the Amazon EKS node group\. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group\.
 

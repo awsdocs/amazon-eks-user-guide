@@ -27,7 +27,7 @@ If you're not familiar with Amazon EKS networking, see [De\-mystifying cluster n
 
      The returned output is a long string\.
 
-  1. Replace `cluster-endpoint` and `certificate-authority` in the following commands with the values returned in the output from the previous commands\. For more information about specifying bootstrap arguments when launching self\-managed nodes, see [Launching self\-managed Amazon Linux nodes](launch-workers.md) and [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
+  1. Replace `cluster-endpoint` and `certificate-authority` in the following commands with the values returned in the output from the previous commands\. For more information about specifying bootstrap arguments when launching self\-managed nodes, see [Create self\-managed Amazon Linux nodes](launch-workers.md) and [Create self\-managed Microsoft Windows nodes](launch-windows-workers.md)\.
   + For Linux nodes:
 
     ```

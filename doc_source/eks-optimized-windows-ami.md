@@ -108,8 +108,8 @@ The following cached container images are for the `containerd` runtime:
 ## More information<a name="windows-more-information"></a>
 
 For more information about using Amazon EKS optimized Windows AMIs, see the following sections:
-+ To use Windows with managed node groups, see [Managed node groups](managed-node-groups.md)\.
-+ To launch self\-managed Windows nodes, see [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
++ To use Windows with managed node groups, see [Simplify node lifecycle with managed node groups](managed-node-groups.md)\.
++ To launch self\-managed Windows nodes, see [Create self\-managed Microsoft Windows nodes](launch-windows-workers.md)\.
 + For version information, see [Amazon EKS optimized Windows AMI versions](eks-ami-versions-windows.md)\.
 + To retrieve the latest IDs of the Amazon EKS optimized Windows AMIs, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.
 + To use Amazon EC2 Image Builder to create custom Amazon EKS optimized Windows AMIs, see [Creating custom Amazon EKS optimized Windows AMIs](eks-custom-ami-windows.md)\.

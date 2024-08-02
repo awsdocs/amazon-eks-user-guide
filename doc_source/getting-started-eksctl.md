@@ -11,9 +11,9 @@ Before starting this tutorial, you must install and configure the AWS CLI, kubec
 ## Step 1: Create your Amazon EKS cluster and nodes<a name="create-cluster-gs-eksctl"></a>
 
 **Important**  
-To get started as simply and quickly as possible, this topic includes steps to create a cluster and nodes with default settings\. Before creating a cluster and nodes for production use, we recommend that you familiarize yourself with all settings and deploy a cluster and nodes with the settings that meet your requirements\. For more information, see [Create an Amazon EKS cluster](create-cluster.md) and [Amazon EKS nodes](eks-compute.md)\. Some settings can only be enabled when creating your cluster and nodes\.
+To get started as simply and quickly as possible, this topic includes steps to create a cluster and nodes with default settings\. Before creating a cluster and nodes for production use, we recommend that you familiarize yourself with all settings and deploy a cluster and nodes with the settings that meet your requirements\. For more information, see [Create an Amazon EKS cluster](create-cluster.md) and [Manage compute resources by using nodes](eks-compute.md)\. Some settings can only be enabled when creating your cluster and nodes\.
 
-You can create a cluster with one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
+You can create a cluster with one of the following node types\. To learn more about each type, see [Manage compute resources by using nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
 + **Fargate – Linux** – Select this type of node if you want to run Linux applications on [AWS Fargate](fargate.md)\. Fargate is a serverless compute engine that lets you deploy Kubernetes Pods without managing Amazon EC2 instances\.
 + **Managed nodes – Linux** – Select this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\.
 

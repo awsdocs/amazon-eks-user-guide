@@ -52,20 +52,28 @@ Functionality can differ depending on the IP family \(`ipFamily`\) setting of th
 
 | Component | `IPv4` addresses only | `IPv6` addresses only | Dual stack addresses | 
 | --- | --- | --- | --- | 
-| EKS API public endpoint | Yes | No | No | 
+| EKS API public endpoint | Yes[1](#dualstack-connectivity)[3](#dualstack-2024-08) | Yes[1](#dualstack-connectivity)[3](#dualstack-2024-08) | Yes[1](#dualstack-connectivity)[3](#dualstack-2024-08) | 
 | EKS API VPC endpoint | Yes | No | No | 
-| EKS Auth API public endpoint | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | 
-| EKS Auth API VPC endpoint | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | 
+| EKS Auth API public endpoint \(EKS Pod Identity\) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | 
+| EKS Auth API VPC endpoint \(EKS Pod Identity\) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | 
 | Kubernetes cluster public endpoint | Yes | No | No | 
 | Kubernetes cluster private endpoint | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
 | Kubernetes cluster subnets | Yes[2](#cluster-immutable) | No | Yes[2](#cluster-immutable) | 
 | Node Primary IP addresses | Yes[2](#cluster-immutable) | No | Yes[2](#cluster-immutable) | 
 | Cluster CIDR range for Service IP addresses | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
 | Pod IP addresses from the VPC CNI | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
+| IRSA OIDC Issuer URLs | Yes[1](#dualstack-connectivity)[3](#dualstack-2024-08) | Yes[1](#dualstack-connectivity)[3](#dualstack-2024-08) | Yes[1](#dualstack-connectivity)[3](#dualstack-2024-08) | 
 
 **Note**  
 1 The endpoint is dual stack with both `IPv4` and `IPv6` addresses\. Your applications outside of AWS, your nodes for the cluster, and your pods inside the cluster can reach this endpoint by either `IPv4` or `IPv6`\.  
-2 You choose between an `IPv4` cluster and `IPv6` cluster in the IP family \(`ipFamily`\) setting of the cluster when you create a cluster and this can't be changed\. Instead, you must choose a different setting when you create another cluster and migrate your workloads\.
+2 You choose between an `IPv4` cluster and `IPv6` cluster in the IP family \(`ipFamily`\) setting of the cluster when you create a cluster and this can't be changed\. Instead, you must choose a different setting when you create another cluster and migrate your workloads\.  
+3 The dual\-stack endpoint was introduced in August 2024\. To use the dual\-stack endpoints with the AWS CLI, see the [Dual\-stack and FIPS endpoints](https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html) configuration in the *AWS SDKs and Tools Reference Guide*\. The following lists the new endpoints:  
+
+EKS API public endpoint  
+`eks.region.api.aws`
+
+IRSA OIDC Issuer URLs  
+`oidc-eks.region.api.aws`
 
 ### Subnet requirements for nodes<a name="node-subnet-reqs"></a>
 

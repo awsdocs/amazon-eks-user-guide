@@ -12,9 +12,9 @@ When upgrading managed node groups with Capacity Blocks, make sure that the desi
 
 ## Create a managed node group with Amazon EC2 Capacity Blocks<a name="capacity-blocks-mng-procedure"></a>
 
-You can use Capacity Blocks with Amazon EKS managed node groups for provisioning and scaling GPU\-accelerated worker nodes\. The AWS CloudFormation template examples that follow don’t cover every aspect needed in a production clusters\. Typically, you’d also want a bootstrapping script to join the node to the cluster and specify the Amazon EKS accelerated AMI\. For more information, see [Creating a managed node group](create-managed-node-group.md)\.
+You can use Capacity Blocks with Amazon EKS managed node groups for provisioning and scaling GPU\-accelerated worker nodes\. The AWS CloudFormation template examples that follow don’t cover every aspect needed in a production clusters\. Typically, you’d also want a bootstrapping script to join the node to the cluster and specify the Amazon EKS accelerated AMI\. For more information, see [Create a managed node group for your cluster](create-managed-node-group.md)\.
 
-1. Create a launch template that's appropriate for your workloads and works with Amazon EKS managed node groups\. For more information, see [Customizing managed nodes with launch templates](launch-templates.md)\.
+1. Create a launch template that's appropriate for your workloads and works with Amazon EKS managed node groups\. For more information, see [Customize managed nodes with launch templates](launch-templates.md)\.
 
    In addition to the requirements in the above procedures, make sure that the `LaunchTemplateData` includes the following:
    + `InstanceMarketOptions` with `MarketType` set to `"capacity-block"` 

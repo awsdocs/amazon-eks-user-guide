@@ -90,7 +90,7 @@ For more information about installing or upgrading `eksctl`, see [Installation](
 **Important**  
 The VPC admission controller webhook is signed with a certificate that expires one year after the date of issue\. To avoid down time, make sure to renew the certificate before it expires\. For more information, see [Renewing the VPC admission webhook certificate](#windows-certificate)\. 
 
-1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
+1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Create self\-managed Microsoft Windows nodes](launch-windows-workers.md)\.
 
 ------
 #### [ Windows ]
@@ -164,7 +164,7 @@ The VPC admission controller webhook is signed with a certificate that expires o
    kubectl apply -f eks-kube-proxy-windows-crb.yaml
    ```
 
-1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
+1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Create self\-managed Microsoft Windows nodes](launch-windows-workers.md)\.
 
 ------
 #### [ macOS and Linux ]
@@ -261,7 +261,7 @@ The VPC admission controller webhook is signed with a certificate that expires o
    kubectl apply -f eks-kube-proxy-windows-crb.yaml
    ```
 
-1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
+1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Create self\-managed Microsoft Windows nodes](launch-windows-workers.md)\.
 
 ------
 

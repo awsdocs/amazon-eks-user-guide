@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [New dual\-stack endpoints for the Amazon EKS APIs with `IPv6` addresses](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) | The EKS API for creating and managing clusters, and the OIDC issuer URLs for clusters have new dual\-stack endpoints\. The new DNS name for the Amazon EKS API is `eks.region.api.aws` which resolves to `IPv4` addresses and `IPv6` addresses\. New clusters have a new dual\-stack OIDC issuer URL \(`oidc-eks.region.api.aws`\)\. | August 1, 2024 | 
 | [Capacity Blocks for managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/capacity-blocks-mng.html) | You can now use Capacity Blocks for managed node groups\. | July 1, 2024 | 
 | [Auto Scaling Group metrics collection enabled by default](https://docs.aws.amazon.com/eks/latest/userguide/enable-asg-metrics.html) | Amazon EKS managed node groups now have Amazon EC2 Auto Scaling group metrics enabled by default with no additional charge\. Previously, you had to do several steps to enable this feature\. | June 28, 2024 | 
 | [Storage chapter renamed to Store application data](https://docs.aws.amazon.com/eks/latest/userguide/storage.html) | We updated the "Storage" chapter to be more scenario\-driven and renamed it to "Store application data"\. | June 28, 2024 | 

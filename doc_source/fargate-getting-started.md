@@ -1,4 +1,4 @@
-# Getting started with AWS Fargate using Amazon EKS<a name="fargate-getting-started"></a>
+# Get started with AWS Fargate using Amazon EKS<a name="fargate-getting-started"></a>
 
 **Important**  
 AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
@@ -14,7 +14,7 @@ An existing cluster\. If you don't already have an Amazon EKS cluster, see [Get 
 
 If you're working with a new cluster with no nodes, or a cluster with only [managed node groups](managed-node-groups.md), you can skip to [Create a Fargate Pod execution role](#fargate-sg-pod-execution-role)\.
 
-Assume that you're working with an existing cluster that already has nodes that are associated with it\. Make sure that Pods on these nodes can communicate freely with the Pods that are running on Fargate\. Pods that are running on Fargate are automatically configured to use the cluster security group for the cluster that they're associated with\. Ensure that any existing nodes in your cluster can send and receive traffic to and from the cluster security group\. [Managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group as well, so you don't need to modify or check them for this compatibility\.
+Assume that you're working with an existing cluster that already has nodes that are associated with it\. Make sure that Pods on these nodes can communicate freely with the Pods that are running on Fargate\. Pods that are running on Fargate are automatically configured to use the cluster security group for the cluster that they're associated with\. Ensure that any existing nodes in your cluster can send and receive traffic to and from the cluster security group\. [Simplify node lifecycle with managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group as well, so you don't need to modify or check them for this compatibility\.
 
 For existing node groups that were created with `eksctl` or the Amazon EKS managed AWS CloudFormation templates, you can add the cluster security group to the nodes manually\. Or, alternatively, you can modify the Auto Scaling group launch template for the node group to attach the cluster security group to the instances\. For more information, see [Changing an instance's security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SG_Changing_Group_Membership) in the *Amazon VPC User Guide*\.
 
@@ -33,7 +33,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, your clu
 
 ## Create a Fargate profile for your cluster<a name="fargate-gs-create-profile"></a>
 
-Before you can schedule Pods that are running on Fargate in your cluster, you must define a Fargate profile that specifies which Pods use Fargate when they're launched\. For more information, see [AWS Fargate profile](fargate-profile.md)\.
+Before you can schedule Pods that are running on Fargate in your cluster, you must define a Fargate profile that specifies which Pods use Fargate when they're launched\. For more information, see [Define which Pods use Fargate when launched](fargate-profile.md)\.
 
 **Note**  
 If you created your cluster with `eksctl` using the `--fargate` option, then a Fargate profile is already created for your cluster with selectors for all Pods in the `kube-system` and `default` namespaces\. Use the following procedure to create Fargate profiles for any other namespaces you would like to use with Fargate\.

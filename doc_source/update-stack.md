@@ -1,14 +1,14 @@
-# Updating an existing self\-managed node group<a name="update-stack"></a>
+# Update an AWS CloudFormation node stack<a name="update-stack"></a>
 
 This topic describes how you can update an existing AWS CloudFormation self\-managed node stack with a new AMI\. You can use this procedure to update your nodes to a new version of Kubernetes following a cluster update\. Otherwise, you can update to the latest Amazon EKS optimized AMI for an existing Kubernetes version\.
 
 **Important**  
-This topic covers node updates for self\-managed nodes\. For information about using [Managed node groups](managed-node-groups.md), see [Updating a managed node group](update-managed-node-group.md)\.
+This topic covers node updates for self\-managed nodes\. For information about using [Simplify node lifecycle with managed node groups](managed-node-groups.md), see [Update an Amazon EKS managed node group](update-managed-node-group.md)\.
 
 The latest default Amazon EKS node AWS CloudFormation template is configured to launch an instance with the new AMI into your cluster before removing an old one, one at a time\. This configuration ensures that you always have your Auto Scaling group's desired count of active instances in your cluster during the rolling update\.
 
 **Note**  
-This method isn't supported for node groups that were created with `eksctl`\. If you created your cluster or node group with `eksctl`, see [Migrating to a new node group](migrate-stack.md)\.
+This method isn't supported for node groups that were created with `eksctl`\. If you created your cluster or node group with `eksctl`, see [Migrate applications to a new node group](migrate-stack.md)\.
 
 **To update an existing node group**
 

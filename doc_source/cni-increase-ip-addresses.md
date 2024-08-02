@@ -81,7 +81,7 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
         ```
 
    1. Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type\. For a list of Nitro instance types, see [Instances built on the Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) in the Amazon EC2 User Guide\. This capability is not supported on Windows\. For the options that include `110`, replace it with either the value from step 3 \(recommended\), or your own value\. 
-      + **Self\-managed** – Deploy the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify the following text for the **BootstrapArguments** parameter\.
+      + **Self\-managed** – Deploy the node group using the instructions in [Create self\-managed Amazon Linux nodes](launch-workers.md)\. Specify the following text for the **BootstrapArguments** parameter\.
 
         ```
         --use-max-pods false --kubelet-extra-args '--max-pods=110'
@@ -93,7 +93,7 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
         eksctl create nodegroup --cluster my-cluster --managed=false --max-pods-per-node 110
         ```
       + **Managed** – Deploy your node group using one of the following options:
-        + **Without a launch template or with a launch template without an AMI ID specified** – Complete the procedure in [Creating a managed node group](create-managed-node-group.md)\. Managed node groups automatically calculates the Amazon EKS recommended `max-pods` value for you\.
+        + **Without a launch template or with a launch template without an AMI ID specified** – Complete the procedure in [Create a managed node group for your cluster](create-managed-node-group.md)\. Managed node groups automatically calculates the Amazon EKS recommended `max-pods` value for you\.
         + **With a launch template with a specified AMI ID** – In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then [deploy the node group using a launch template](launch-templates.md) and provide the following user data in the launch template\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh) on GitHub\.
 
           ```
@@ -170,7 +170,7 @@ This can happen due to fragmentation of existing secondary IP addresses spread o
       -KubeletExtraArgs '--max-pods=max-pods-quantity'
       ```
 
-      If you're deploying managed node groups, this configuration needs to be added in the launch template\. For more information, see [Customizing managed nodes with launch templates](launch-templates.md)\. For more information about the configuration parameters for Windows bootstrap script, see [Bootstrap script configuration parameters](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters)\.
+      If you're deploying managed node groups, this configuration needs to be added in the launch template\. For more information, see [Customize managed nodes with launch templates](launch-templates.md)\. For more information about the configuration parameters for Windows bootstrap script, see [Bootstrap script configuration parameters](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters)\.
 
 ------
 

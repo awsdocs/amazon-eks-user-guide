@@ -1,4 +1,4 @@
-# Use Capacity Blocks for ML with self\-managed nodes<a name="capacity-blocks"></a>
+# Create self\-managed nodes with Capacity Blocks for ML<a name="capacity-blocks"></a>
 
 Capacity Blocks for machine learning \(ML\) allow you to reserve GPU instances on a future date to support your short duration ML workloads\. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 
@@ -13,7 +13,7 @@ In order for your Pods to be gracefully drained, we recommend that you set up AW
 
 ## Use Capacity Blocks with self\-managed nodes<a name="capacity-blocks-procedure"></a>
 
-You can use Capacity Blocks with Amazon EKS for provisioning and scaling your self\-managed nodes\. The following steps give a general example overview\. The AWS CloudFormation template examples don’t cover every aspect needed in a production workload\. Typically you’d also want a bootstrapping script to join the node to the cluster, specify the Amazon EKS accelerated AMI, and an appropriate instance profile for joining the cluster\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
+You can use Capacity Blocks with Amazon EKS for provisioning and scaling your self\-managed nodes\. The following steps give a general example overview\. The AWS CloudFormation template examples don’t cover every aspect needed in a production workload\. Typically you’d also want a bootstrapping script to join the node to the cluster, specify the Amazon EKS accelerated AMI, and an appropriate instance profile for joining the cluster\. For more information, see [Create self\-managed Amazon Linux nodes](launch-workers.md)\.
 
 1. Create a launch template that's applicable to your workload\. For more information, see [Use Capacity Blocks for machine learning workloads](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-template-capacity-blocks.html) in the *Amazon EC2 Auto Scaling User Guide*\.
 
@@ -74,7 +74,7 @@ You can use Capacity Blocks with Amazon EKS for provisioning and scaling your se
            Value: owned
    ```
 
-1. Once the node group is created successfully, make sure to record the `NodeInstanceRole` for the node group that was created\. You need this in order to make sure that when node group is scaled, the new nodes join the cluster and Kubernetes is able to recognize the nodes\. For more information, see the AWS Management Console instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
+1. Once the node group is created successfully, make sure to record the `NodeInstanceRole` for the node group that was created\. You need this in order to make sure that when node group is scaled, the new nodes join the cluster and Kubernetes is able to recognize the nodes\. For more information, see the AWS Management Console instructions in [Create self\-managed Amazon Linux nodes](launch-workers.md)\.
 
 1. We recommend that you create a scheduled scaling policy for the Auto Scaling group that aligns to the Capacity Block reservation times\. For more information, see [Scheduled scaling for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scheduled-scaling.html) in the *Amazon EC2 Auto Scaling User Guide*\.
 

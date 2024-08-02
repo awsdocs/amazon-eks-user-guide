@@ -1,7 +1,7 @@
 # Launching self\-managed Ubuntu nodes<a name="launch-node-ubuntu"></a>
 
 **Note**  
-Managed node groups might offer some advantages for your use case\. For more information, see [Managed node groups](managed-node-groups.md)\.
+Managed node groups might offer some advantages for your use case\. For more information, see [Simplify node lifecycle with managed node groups](managed-node-groups.md)\.
 
 This topic describes how to launch Auto Scaling groups of [Ubuntu on Amazon Elastic Kubernetes Service \(EKS\)](https://cloud-images.ubuntu.com/aws-eks/) or [Ubuntu Pro on Amazon Elastic Kubernetes Service \(EKS\)](https://ubuntu.com/blog/ubuntu-pro-for-eks-is-now-generally-available) nodes that register with your Amazon EKS cluster\. Ubuntu and Ubuntu Pro for EKS are based on the official Ubuntu Minimal LTS, include the custom AWS kernel that is jointly developed with AWS, and have been built specifically for EKS\. Ubuntu Pro adds additional security coverage by supporting EKS extended support periods, kernel livepatch, FIPS compliance and the ability to run unlimited Pro containers\.
 

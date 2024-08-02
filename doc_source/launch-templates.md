@@ -1,4 +1,4 @@
-# Customizing managed nodes with launch templates<a name="launch-templates"></a>
+# Customize managed nodes with launch templates<a name="launch-templates"></a>
 
 For the highest level of customization, you can deploy managed nodes using your own launch template\. Using a launch template allows capabilities such as the following:
 + Provide bootstrap arguments at deployment of a node, such as extra [https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) arguments\.

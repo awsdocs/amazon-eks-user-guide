@@ -1,4 +1,4 @@
-# Amazon EKS nodes<a name="eks-compute"></a>
+# Manage compute resources by using nodes<a name="eks-compute"></a>
 
 A Kubernetes node is a machine that runs containerized applications\. Each node has the following components:
 + **[Container runtime](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)** – Software that's responsible for running the containers\.
@@ -37,7 +37,7 @@ Bottlerocket has some specific differences from the general information in this 
 |  Must deploy and manage Amazon EC2 instances  |  [Yes](create-managed-node-group.md) – automated through Amazon EKS if you deployed an Amazon EKS optimized AMI\. If you deployed a custom AMI, then you must update the instance manually\.  |  Yes – Manual configuration or using Amazon EKS provided AWS CloudFormation templates to deploy [Linux \(x86\)](launch-workers.md), [Linux \(Arm\)](eks-optimized-ami.md#arm-ami), or [Windows](windows-support.md) nodes\.  |  No  | 
 |  Must secure, maintain, and patch the operating system of Amazon EC2 instances  |  Yes  |  Yes  |  No  | 
 |  Can provide bootstrap arguments at deployment of a node, such as extra [https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) arguments\.  | Yes – Using eksctl or a [launch template](launch-templates.md) with a custom AMI |  Yes – For more information, see the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh) on GitHub\.  |  No  | 
-| Can assign IP addresses to Pods from a different CIDR block than the IP address assigned to the node\. | Yes – Using a launch template with a custom AMI\. For more information, see [Customizing managed nodes with launch templates](launch-templates.md)\. | Yes – For more information, see [Custom networking for pods](cni-custom-network.md)\. | No | 
+| Can assign IP addresses to Pods from a different CIDR block than the IP address assigned to the node\. | Yes – Using a launch template with a custom AMI\. For more information, see [Customize managed nodes with launch templates](launch-templates.md)\. | Yes – For more information, see [Custom networking for pods](cni-custom-network.md)\. | No | 
 |  Can SSH into node  |  Yes  |  Yes  |  No – There's no node host operating system to SSH to\.  | 
 |  Can deploy your own custom AMI to nodes  |  Yes – Using a [launch template](launch-templates.md)  |  Yes  |  No  | 
 |  Can deploy your own custom CNI to nodes  |  Yes – Using a [launch template](launch-templates.md) with a custom AMI  |  Yes  |  No  | 

@@ -1,4 +1,4 @@
-# Launching self\-managed Windows nodes<a name="launch-windows-workers"></a>
+# Create self\-managed Microsoft Windows nodes<a name="launch-windows-workers"></a>
 
 This topic describes how to launch Auto Scaling groups of Windows nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
 

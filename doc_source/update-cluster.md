@@ -30,7 +30,7 @@ To ensure that the API server endpoint for your cluster is always accessible, Am
      kubectl get nodes
      ```
 
-   Before updating your control plane to a new Kubernetes version, make sure that the Kubernetes minor version of both the managed nodes and Fargate nodes in your cluster are the same as your control plane's version\. For example, if your control plane is running version `1.29` and one of your nodes is running version `1.28`, then you must update your nodes to version `1.29` before updating your control plane to 1\.30\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information, see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. If you have Fargate nodes with a minor version lower than the control plane version, first delete the Pod that's represented by the node\. Then update your control plane\. Any remaining Pods will update to the new version after you redeploy them\.
+   Before updating your control plane to a new Kubernetes version, make sure that the Kubernetes minor version of both the managed nodes and Fargate nodes in your cluster are the same as your control plane's version\. For example, if your control plane is running version `1.29` and one of your nodes is running version `1.28`, then you must update your nodes to version `1.29` before updating your control plane to 1\.30\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information, see [Update an Amazon EKS managed node group](update-managed-node-group.md) and [Update Amazon EKS self\-managed nodes](update-workers.md)\. If you have Fargate nodes with a minor version lower than the control plane version, first delete the Pod that's represented by the node\. Then update your control plane\. Any remaining Pods will update to the new version after you redeploy them\.
 
 1. If the Kubernetes version that you originally deployed your cluster with was Kubernetes `1.25` or later, skip this step\.
 
@@ -174,7 +174,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 
 ------
 
-1. After your cluster update is complete, update your nodes to the same Kubernetes minor version as your updated cluster\. For more information, see [Self\-managed node updates](update-workers.md) and [Updating a managed node group](update-managed-node-group.md)\. Any new Pods that are launched on Fargate have a `kubelet` version that matches your cluster version\. Existing Fargate Pods aren't changed\.
+1. After your cluster update is complete, update your nodes to the same Kubernetes minor version as your updated cluster\. For more information, see [Update Amazon EKS self\-managed nodes](update-workers.md) and [Update an Amazon EKS managed node group](update-managed-node-group.md)\. Any new Pods that are launched on Fargate have a `kubelet` version that matches your cluster version\. Existing Fargate Pods aren't changed\.
 
 1. \(Optional\) If you deployed the Kubernetes Cluster Autoscaler to your cluster before updating the cluster, update the Cluster Autoscaler to the latest version that matches the Kubernetes major and minor version that you updated to\.
 

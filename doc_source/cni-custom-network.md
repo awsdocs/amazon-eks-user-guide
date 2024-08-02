@@ -416,7 +416,7 @@ For simplicity in this tutorial, the [https://docs.aws.amazon.com/aws-managed-po
 
      1. Determine the Amazon EKS recommended number of maximum Pods for your nodes\. Follow the instructions in [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods), adding **`--cni-custom-networking-enabled`** to step 3 in that topic\. Note the output for use in the next step\.
 
-     1. Deploy the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify the following text for the **BootstrapArguments** parameter\. You can replace `20` with either the value from the previous step \(recommended\) or your own value\.
+     1. Deploy the node group using the instructions in [Create self\-managed Amazon Linux nodes](launch-workers.md)\. Specify the following text for the **BootstrapArguments** parameter\. You can replace `20` with either the value from the previous step \(recommended\) or your own value\.
 
         ```
         --use-max-pods false --kubelet-extra-args '--max-pods=20'

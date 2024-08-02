@@ -1,4 +1,4 @@
-# Migrating to a new node group<a name="migrate-stack"></a>
+# Migrate applications to a new node group<a name="migrate-stack"></a>
 
 This topic describes how you can create a new node group, gracefully migrate your existing applications to the new group, and remove the old node group from your cluster\. You can migrate to a new node group using `eksctl` or the AWS Management Console\.
 
@@ -73,7 +73,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 
 **To migrate your applications to a new node group with the AWS Management Console and AWS CLI**
 
-1. Launch a new node group by following the steps that are outlined in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
+1. Launch a new node group by following the steps that are outlined in [Create self\-managed Amazon Linux nodes](launch-workers.md)\.
 
 1. When your stack has finished creating, select it in the console and choose **Outputs**\.
 

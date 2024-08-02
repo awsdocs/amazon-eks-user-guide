@@ -1,4 +1,4 @@
-# Self\-managed nodes<a name="worker"></a>
+# Maintain nodes yourself with self\-managed nodes<a name="worker"></a>
 
 A cluster contains one or more Amazon EC2 nodes that Pods are scheduled on\. Amazon EKS nodes run in your AWS account and connect to the control plane of your cluster through the cluster API server endpoint\. You're billed for them based on Amazon EC2 prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
@@ -18,8 +18,8 @@ To add self\-managed nodes to your Amazon EKS cluster, see the topics that follo
 For more information about nodes from a general Kubernetes perspective, see [Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) in the Kubernetes documentation\.
 
 **Topics**
-+ [Launching self\-managed Amazon Linux nodes](launch-workers.md)
++ [Create self\-managed Amazon Linux nodes](launch-workers.md)
 + [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)
-+ [Launching self\-managed Windows nodes](launch-windows-workers.md)
++ [Create self\-managed Microsoft Windows nodes](launch-windows-workers.md)
 + [Launching self\-managed Ubuntu nodes](launch-node-ubuntu.md)
-+ [Self\-managed node updates](update-workers.md)
++ [Update Amazon EKS self\-managed nodes](update-workers.md)

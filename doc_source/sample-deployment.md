@@ -12,7 +12,7 @@ In this topic, you deploy a sample application to your cluster\.
 
 Though many variables are changeable in the following steps, we recommend only changing variable values where specified\. Once you have a better understanding of Kubernetes Pods, deployments, and services, you can experiment with changing other values\.
 
-1. Create a namespace\. A namespace allows you to group resources in Kubernetes\. For more information, see [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) in the Kubernetes documentation\. If you plan to deploy your sample application to [AWS Fargate](fargate.md), make sure that the value for `namespace` in your [AWS Fargate profile](fargate-profile.md) is `eks-sample-app`\.
+1. Create a namespace\. A namespace allows you to group resources in Kubernetes\. For more information, see [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) in the Kubernetes documentation\. If you plan to deploy your sample application to [Simplify compute management with AWS Fargate](fargate.md), make sure that the value for `namespace` in your [Define which Pods use Fargate when launched](fargate-profile.md) is `eks-sample-app`\.
 
    ```
    kubectl create namespace eks-sample-app
