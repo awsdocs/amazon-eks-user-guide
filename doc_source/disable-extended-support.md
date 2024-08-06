@@ -27,5 +27,5 @@ AWS recommends upgrading your cluster to a version in the standard support perio
    ```
    aws eks update-cluster-config \
    --name <cluster-name> \
-   --upgrade-policy supportType = STANDARD
+   --upgrade-policy "supportType = STANDARD"
    ```
