@@ -1,4 +1,4 @@
-# Create a managed node group with Amazon EC2 Capacity Blocks for ML<a name="capacity-blocks-mng"></a>
+# Create a managed node group with Capacity Blocks for ML<a name="capacity-blocks-mng"></a>
 
 Capacity Blocks for machine learning \(ML\) allow you to reserve GPU instances on a future date to support your short duration ML workloads\. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 

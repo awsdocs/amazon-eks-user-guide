@@ -36,7 +36,7 @@ For more information about the recommended permissions for Mountpoint, see [Moun
 
 1. Under **Policy editor**, copy and paste the following:
 **Important**  
-Replace `DOC-EXAMPLE-BUCKET1` with your own Amazon S3 bucket name\.
+Replace `amzn-s3-demo-bucket1` with your own Amazon S3 bucket name\.
 
    ```
    {
@@ -49,7 +49,7 @@ Replace `DOC-EXAMPLE-BUCKET1` with your own Amazon S3 bucket name\.
                    "s3:ListBucket"
                ],
                "Resource": [
-                   "arn:aws:s3:::DOC-EXAMPLE-BUCKET1"
+                   "arn:aws:s3:::amzn-s3-demo-bucket1"
                ]
            },
            {
@@ -62,7 +62,7 @@ Replace `DOC-EXAMPLE-BUCKET1` with your own Amazon S3 bucket name\.
                    "s3:DeleteObject"
                ],
                "Resource": [
-                   "arn:aws:s3:::DOC-EXAMPLE-BUCKET1/*"
+                   "arn:aws:s3:::amzn-s3-demo-bucket1/*"
                ]
            }
       ]
@@ -80,7 +80,7 @@ Replace `DOC-EXAMPLE-BUCKET1` with your own Amazon S3 bucket name\.
            {
                "Effect": "Allow",
                "Action": "s3express:CreateSession",
-               "Resource": "arn:aws:s3express:aws-region:111122223333:bucket/DOC-EXAMPLE-BUCKET1--az_id--x-s3"
+               "Resource": "arn:aws:s3express:aws-region:111122223333:bucket/amzn-s3-demo-bucket1--az_id--x-s3"
            }
        ]
    }

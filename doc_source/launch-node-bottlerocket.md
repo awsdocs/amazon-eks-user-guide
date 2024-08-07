@@ -1,4 +1,4 @@
-# Launching self\-managed Bottlerocket nodes<a name="launch-node-bottlerocket"></a>
+# Create self\-managed Bottlerocket nodes<a name="launch-node-bottlerocket"></a>
 
 **Note**  
 Managed node groups might offer some advantages for your use case\. For more information, see [Simplify node lifecycle with managed node groups](managed-node-groups.md)\.

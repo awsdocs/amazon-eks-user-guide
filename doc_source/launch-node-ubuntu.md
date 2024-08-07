@@ -1,4 +1,4 @@
-# Launching self\-managed Ubuntu nodes<a name="launch-node-ubuntu"></a>
+# Create self\-managed Ubuntu Linux nodes<a name="launch-node-ubuntu"></a>
 
 **Note**  
 Managed node groups might offer some advantages for your use case\. For more information, see [Simplify node lifecycle with managed node groups](managed-node-groups.md)\.

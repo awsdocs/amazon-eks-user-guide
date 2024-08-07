@@ -27,6 +27,6 @@ For more information about using Amazon EKS optimized Bottlerocket AMIs, see the
 + For details about Bottlerocket, see the [https://bottlerocket.dev/en/](https://bottlerocket.dev/en/)\.
 + For version information resources, see [Amazon EKS optimized Bottlerocket AMI versions](eks-ami-versions-bottlerocket.md)\.
 + To use Bottlerocket with managed node groups, see [Simplify node lifecycle with managed node groups](managed-node-groups.md)\.
-+ To launch self\-managed Bottlerocket nodes, see [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
++ To launch self\-managed Bottlerocket nodes, see [Create self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
 + To retrieve the latest IDs of the Amazon EKS optimized Bottlerocket AMIs, see [Retrieving Amazon EKS optimized Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)\.
 + For details on compliance support, see [Bottlerocket compliance support](bottlerocket-compliance-support.md)\.
