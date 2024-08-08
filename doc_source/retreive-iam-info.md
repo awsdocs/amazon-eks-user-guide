@@ -1,7 +1,7 @@
 # Retrieve IAM information about an Amazon EKS add\-on<a name="retreive-iam-info"></a>
 
-Before you create an add\-on, use the AWS CLI to determine;
-+ If the add\-on requires IAM perfmissions 
+Before you create an add\-on, use the AWS CLI to determine:
++ If the add\-on requires IAM permissions 
 + The suggested IAM policy to use
 
 **Retrieve IAM info about an Amazon EKS Add\-on \(AWS CLI\)**

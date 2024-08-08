@@ -83,7 +83,6 @@ EKS Pod Identities are available on the following:
 + Worker nodes in the cluster that are Linux Amazon EC2 instances\.
 
 EKS Pod Identities aren't available on the following:
-+ China Regions\.
 + AWS GovCloud \(US\)\.
 + AWS Outposts\.
 + Amazon EKS Anywhere\.

@@ -1,6 +1,6 @@
 # AWS Distro for OpenTelemetry<a name="add-ons-adot"></a>
 
-ThAWS Distro for OpenTelemetry Amazon EKS add\-on is a secure, production\-ready, AWS supported distribution of the OpenTelemetry project\. For more information, see [AWS Distro for OpenTelemetry](https://aws-otel.github.io/) on GitHub\.
+The AWS Distro for OpenTelemetry Amazon EKS add\-on is a secure, production\-ready, AWS supported distribution of the OpenTelemetry project\. For more information, see [AWS Distro for OpenTelemetry](https://aws-otel.github.io/) on GitHub\.
 
 The Amazon EKS add\-on name is `adot`\.
 

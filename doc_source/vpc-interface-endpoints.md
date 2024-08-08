@@ -15,19 +15,27 @@ For more information, see [Access AWS services through AWS PrivateLink](https://
 + You can use VPC flow logs to capture information about IP traffic going to and from network interfaces, including interface endpoints\. You can publish flow log data to Amazon CloudWatch or Amazon S3\. For more information, see [Logging IP traffic using VPC Flow Logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html) in the Amazon VPC User Guide\.
 + You can access the Amazon EKS APIs from an on\-premises data center by connecting it to a VPC that has an interface endpoint\. You can use AWS Direct Connect or AWS Site\-to\-Site VPN to connect your on\-premises sites to a VPC\.
 + You can connect other VPCs to the VPC with an interface endpoint using an AWS Transit Gateway or VPC peering\. VPC peering is a networking connection between two VPCs\. You can establish a VPC peering connection between your VPCs, or with a VPC in another account\. The VPCs can be in different AWS Regions\. Traffic between peered VPCs stays on the AWS network\. The traffic doesn't traverse the public internet\. A Transit Gateway is a network transit hub that you can use to interconnect VPCs\. Traffic between a VPC and a Transit Gateway remains on the AWS global private network\. The traffic isn't exposed to the public internet\.
-+ VPC interface endpoints for Amazon EKS are only accessible over `IPv4`\. `IPv6` isn't supported\.
++ Before August 2024, VPC interface endpoints for Amazon EKS were only accessible over `IPv4` using `eks.region.amazonaws.com`\. New VPC interface endpoints that are made after August 2024 use dual\-stack of `IPv4` and `IPv6` IP addresses and both DNS names: `eks.region.amazonaws.com` and `eks.region.api.aws`\.
 
 ## Create an interface endpoint for Amazon EKS<a name="vpc-endpoint-create"></a>
 
 You can create an interface endpoint for Amazon EKS using either the Amazon VPC console or the AWS Command Line Interface \(AWS CLI\)\. For more information, see [Create a VPC endpoint](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html#create-interface-endpoint-aws) in the *AWS PrivateLink Guide*\.
 
-Create an interface endpoint for Amazon EKS using the following service name:
+Create an interface endpoint for Amazon EKS using the following service names:
++ 
 
-```
-com.amazonaws.region-code.eks
-```
+  ```
+  com.amazonaws.region-code.eks
+  ```
++ 
 
-The private DNS feature is enabled by default when creating an interface endpoint for Amazon EKS and other AWS services\. However, you must ensure that the following VPC attributes are set to `true`: `enableDnsHostnames` and `enableDnsSupport`\. For more information, see [View and update DNS attributes for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-updating) in the Amazon VPC User Guide\. With the private DNS feature enabled for the interface endpoint:
-+ You can make any API request to Amazon EKS using its default Regional DNS name\. For example, `eks.region.amazonaws.com`\. For a list of APIs, see [Actions](https://docs.aws.amazon.com/eks/latest/APIReference/API_Operations.html) in the Amazon EKS API Reference\.
+  ```
+  com.amazonaws.region-code.eks-auth
+  ```
+
+The private DNS feature is enabled by default when creating an interface endpoint for Amazon EKS and other AWS services\. To use the private DNS feature, you must ensure that the following VPC attributes are set to `true`: `enableDnsHostnames` and `enableDnsSupport`\. For more information, see [View and update DNS attributes for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-updating) in the Amazon VPC User Guide\. With the private DNS feature enabled for the interface endpoint:
++ You can make any API request to Amazon EKS using its default Regional DNS name\. After August 2024, any new VPC interface endpoint for the Amazon EKS API have two default Regional DNS names and you can choose the `dualstack` for the IP address type\. The first DNS name is `eks.region.api.aws` which is dual\-stack\. It resolves to both `IPv4` addresses and `IPv6` addresses\. Before August 2024, Amazon EKS only used `eks.region.amazonaws.com` which resolved to `IPv4` addresses only\. If you want to use `IPv6` and dual\-stack IP addresses with an existing VPC interface endpoint, you can update the endpoint to use the `dualstack` type of IP address, but it will only have the `eks.region.amazonaws.com` DNS name\. In this configuration, the existing endpoint updates to point that name to both `IPv4` and `IPv6` IP addresses\. For a list of APIs, see [Actions](https://docs.aws.amazon.com/eks/latest/APIReference/API_Operations.html) in the Amazon EKS API Reference\.
 + You don't need to make any changes to your applications that call the EKS APIs\.
+
+  However, To use the dual\-stack endpoints with the AWS CLI, see the [Dual\-stack and FIPS endpoints](https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html) configuration in the *AWS SDKs and Tools Reference Guide*\.
 + Any call made to the Amazon EKS default service endpoint is automatically routed through the interface endpoint over the private AWS network\.

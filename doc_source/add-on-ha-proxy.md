@@ -10,7 +10,7 @@ The service account name is `customer defined`\.
 
 ## AWS managed IAM policy<a name="add-on-ha-proxy-managed-policy"></a>
 
-The managed policy is AWSLicenseManagerConsumptionPolicy\.For more information, see [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html) in the AWS Managed Policy Reference Guide\.\.
+The managed policy is AWSLicenseManagerConsumptionPolicy\. For more information, see [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html) in the AWS Managed Policy Reference Guide\.\.
 
 ## Command to create required IAM role<a name="add-on-ha-proxy-iam-command"></a>
 

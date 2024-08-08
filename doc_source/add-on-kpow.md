@@ -10,7 +10,7 @@ The service account name is `kpow`\.
 
 ## AWS managed IAM policy<a name="add-on-kpow-managed-policy"></a>
 
-The managed policy is AWSLicenseManagerConsumptionPolicy\.For more information, see [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html) in the AWS Managed Policy Reference Guide\.\.
+The managed policy is AWSLicenseManagerConsumptionPolicy\. For more information, see [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html) in the AWS Managed Policy Reference Guide\.\.
 
 ## Command to create required IAM role<a name="add-on-kpow-iam-command"></a>
 

@@ -1,10 +1,10 @@
 # Verifying Amazon EKS add\-on version compatibility with a cluster<a name="addon-compat"></a>
 
-Before you create an Amazon EKS add\-on you need to verify that the Amazon EKS add\-on version is compatable with your cluster\.
+Before you create an Amazon EKS add\-on you need to verify that the Amazon EKS add\-on version is compatible with your cluster\.
 
 Use the [`describe-addon-verisions` API ](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html)to list the available versions of EKS add\-ons, and which Kubernetes versions each addon version supports\. 
 
-**Verify add\-on compatability \(AWS CLI\)**
+**Verify add\-on compatibility \(AWS CLI\)**
 
 1. Verify the AWS CLI is installed and working with `aws sts get-caller-identity`\. If this command doesn't work, learn how to [Get started with the AWS CLI\.](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) 
 
