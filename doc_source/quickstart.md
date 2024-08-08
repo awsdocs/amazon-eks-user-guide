@@ -188,7 +188,7 @@ Now that the load balancer is set up, it's time to enable external access for co
    You’ll need to wait several minutes for the Application Load Balancer \(ALB\) to provision before you begin the following steps\.
 
 1. Open a web browser and enter the `ADDRESS` from the previous step to access the web application\. For example, `k8s-game2048-ingress2-eb379a0f83-378466616.`*`region-code`*`.elb.amazonaws.com`\. You should see the 2048 game in your browser\. Play\!  
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/quick2048.png)
+![\[Play the 2048 game\]](http://docs.aws.amazon.com/eks/latest/userguide/images/quick2048.png)
 
 ## Step 5: Persist Data using the Amazon EBS CSI Driver nodes<a name="quickstart-persist-data"></a>
 

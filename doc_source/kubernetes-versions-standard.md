@@ -3,7 +3,7 @@
 This topic gives important changes to be aware of for each Kubernetes version in standard support\. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster\.
 
 **Note**  
-For `1.24` and later clusters, officially published Amazon EKS AMIs include `containerd` as the only runtime\. Kubernetes versions earlier than `1.24` use Docker as the default runtime\. These versions have a bootstrap flag option that you can use to test out your workloads on any supported cluster with `containerd`\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
+For `1.24` and later clusters, officially published Amazon EKS AMIs include `containerd` as the only runtime\. Kubernetes versions earlier than `1.24` use Docker as the default runtime\. These versions have a bootstrap flag option that you can use to test out your workloads on any supported cluster with `containerd`\. For more information, see [Amazon EKS ended support for `dockershim`](dockershim-deprecation.md)\.
 
 ## Kubernetes 1\.30<a name="kubernetes-1.30"></a>
 

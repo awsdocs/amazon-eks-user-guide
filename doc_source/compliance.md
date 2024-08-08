@@ -6,7 +6,7 @@ You can download third\-party audit reports using AWS Artifact\. For more inform
 
 Your compliance responsibility when using AWS services is determined by the sensitivity of your data, your company's compliance objectives, and applicable laws and regulations\. AWS provides the following resources to help with compliance:
 + [Security and Compliance Quick Start Guides](https://aws.amazon.com/quickstart/?awsf.filter-tech-category=tech-category%23security-identity-compliance) – These deployment guides discuss architectural considerations and provide steps for deploying baseline environments on AWS that are security and compliance focused\.
-+ [Architecting for HIPAA Security and Compliance on Amazon Web Services](https://docs.aws.amazon.com/whitepapers/latest/architecting-hipaa-security-and-compliance-on-aws/architecting-hipaa-security-and-compliance-on-aws.html) – This whitepaper describes how companies can use AWS to create HIPAA\-eligible applications\.
++ [Architecting for HIPAA Security and Compliance on Amazon Web Services](https://docs.aws.amazon.com/whitepapers/latest/architecting-hipaa-security-and-compliance-on-aws/welcome.html) – This whitepaper describes how companies can use AWS to create HIPAA\-eligible applications\.
 **Note**  
 Not all AWS services are HIPAA eligible\. For more information, see the [HIPAA Eligible Services Reference](https://aws.amazon.com/compliance/hipaa-eligible-services-reference/)\.
 + [AWS Compliance Resources](https://aws.amazon.com/compliance/resources/) – This collection of workbooks and guides might apply to your industry and location\.

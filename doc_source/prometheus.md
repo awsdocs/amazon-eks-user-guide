@@ -111,10 +111,10 @@ If you get the error `Error: rendered manifests contain a resource that already 
 1. Point a web browser to `http://localhost:9090` to view the Prometheus console\.
 
 1. Choose a metric from the **\- insert metric at cursor** menu, then choose **Execute**\. Choose the **Graph** tab to show the metric over time\. The following image shows `container_memory_usage_bytes` over time\.  
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/prometheus-metric.png)
+![\[Prometheus metrics\]](http://docs.aws.amazon.com/eks/latest/userguide/images/prometheus-metric.png)
 
 1. From the top navigation bar, choose **Status**, then **Targets**\.  
-![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/prometheus.png)
+![\[Prometheus console\]](http://docs.aws.amazon.com/eks/latest/userguide/images/prometheus.png)
 
    All of the Kubernetes endpoints that are connected to Prometheus using service discovery are displayed\.
 

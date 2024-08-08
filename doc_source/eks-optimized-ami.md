@@ -36,7 +36,7 @@ In addition to these changes, you should be aware of the following:
   ```
 
   In AL2, the metadata from these parameters was discovered from the Amazon EKS `DescribeCluster` API call\. With AL2023, this behavior has changed since the additional API call risks throttling during large node scale ups\. This change doesn't affect you if you're using managed node groups without a launch template or if you're using Karpenter\. For more information on `certificateAuthority` and service `cidr`, see `[DescribeCluster](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeCluster.html)` in the *Amazon EKS API Reference*\.
-+ Docker isn't supported in AL2023 for all supported Amazon EKS versions\. Support for Docker has ended and been removed with Amazon EKS version `1.24` or greater in AL2\. For more information on deprecation, see [ Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
++ Docker isn't supported in AL2023 for all supported Amazon EKS versions\. Support for Docker has ended and been removed with Amazon EKS version `1.24` or greater in AL2\. For more information on deprecation, see [ Amazon EKS ended support for Dockershim](dockershim-deprecation.md)\.
 + Amazon VPC CNI version `1.16.2` or greater is required for AL2023\.
 + AL2023 requires `IMDSv2` by default\. `IMDSv2` has several benefits that help improve security posture\. It uses a session\-oriented authentication method that requires the creation of a secret token in a simple HTTP PUT request to start the session\. A session's token can be valid for anywhere between 1 second and 6 hours\. For more information on how to transition from `IMDSv1` to `IMDSv2`, see [Transition to using Instance Metadata Service Version 2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-metadata-transition-to-version-2.html) and [Get the full benefits of IMDSv2 and disable IMDSv1 across your AWS infrastructure](https://aws.amazon.com/blogs/security/get-the-full-benefits-of-imdsv2-and-disable-imdsv1-across-your-aws-infrastructure/)\. If you would like to use `IMDSv1`, you can still do so by manually overriding the settings using instance metadata option launch properties\.
 **Note**  
@@ -158,7 +158,7 @@ Arm instances deliver significant cost savings for scale\-out and Arm\-based app
 
 ## Test migration from Docker to `containerd`<a name="containerd-bootstrap"></a>
 
-Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
+Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. For more information, see [Amazon EKS ended support for `dockershim`](dockershim-deprecation.md)\.
 
 For Kubernetes version `1.23`, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized AL2 AMIs\. This feature gives you a clear path to migrate to `containerd` when updating to version `1.24` or later\. Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. The `containerd` runtime is widely adopted in the Kubernetes community and is a graduated project with the CNCF\. You can test it by adding a node group to a new or existing cluster\.
 
