@@ -1,4 +1,4 @@
-# Amazon EKS optimized Amazon Linux AMI build script<a name="eks-ami-build-scripts"></a>
+# Build a custom Amazon Linux AMI with a script<a name="eks-ami-build-scripts"></a>
 
 Amazon Elastic Kubernetes Service \(Amazon EKS\) has open\-source scripts that are used to build the Amazon EKS optimized AMI\. These build scripts are available [on GitHub](https://github.com/awslabs/amazon-eks-ami)\.
 

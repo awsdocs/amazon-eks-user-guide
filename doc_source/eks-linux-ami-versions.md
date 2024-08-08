@@ -1,4 +1,4 @@
-# Amazon EKS optimized Amazon Linux AMI versions<a name="eks-linux-ami-versions"></a>
+# Retrieve Amazon Linux AMI version information<a name="eks-linux-ami-versions"></a>
 
 Amazon EKS optimized Amazon Linux AMIs are versioned by Kubernetes version and the release date of the AMI in the following format:
 

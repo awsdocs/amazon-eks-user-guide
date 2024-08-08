@@ -180,9 +180,9 @@ Bootstrapping is a term used to describe adding commands that can be run when an
 Create a file named `my-nodegroup.yaml` with the following contents\. Replace every `example value` with your own values\. The `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are optional\. However, defining them allows the `bootstrap.sh` script to avoid making a `describeCluster` call\. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently\. For more information on the `bootstrap.sh` script, see the [https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh) file on GitHub\.
 + The only required argument is the cluster name \(`my-cluster`\)\.
 + To retrieve an optimized AMI ID for `ami-1234567890abcdef0`, you can use the tables in the following sections:
-  + [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)
-  + [Retrieving Amazon EKS optimized Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)
-  + [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)
+  + [Retrieve recommended Amazon Linux AMI IDs](retrieve-ami-id.md)
+  + [Retrieve recommended Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)
+  + [Retrieve recommended Microsoft Windows AMI IDs](retrieve-windows-ami-id.md)
 + To retrieve the `certificate-authority` for your cluster, run the following command\.
 
   ```
@@ -282,7 +282,7 @@ set -ex
 Bootstrapping is a term used to describe adding commands that can be run when an instance starts\. You can pass arguments to the `Start-EKSBootstrap.ps1` script by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
 
 If you want to specify a custom Windows AMI ID, keep in mind the following considerations:
-+ You must use a launch template and give the required bootstrap commands in the user data section\. To retrieve your desired Windows ID, you can use the table in [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md)\.
++ You must use a launch template and give the required bootstrap commands in the user data section\. To retrieve your desired Windows ID, you can use the table in [Create nodes with optimized Windows AMIs](eks-optimized-windows-ami.md)\.
 + There are several limits and conditions\. For example, you must add `eks:kube-proxy-windows` to your AWS IAM Authenticator configuration map\. For more information, see [Limits and conditions when specifying an AMI ID](#mng-ami-id-conditions)\.
 
 Specify the following information in the user data section of your launch template\. Replace every `example value` with your own values\. The `-APIServerEndpoint`, `-Base64ClusterCA`, and `-DNSClusterIP` arguments are optional\. However, defining them allows the `Start-EKSBootstrap.ps1` script to avoid making a `describeCluster` call\.

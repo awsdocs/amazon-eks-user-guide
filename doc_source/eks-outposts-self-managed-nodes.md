@@ -1,4 +1,4 @@
-# Launching self\-managed Amazon Linux nodes on an Outpost<a name="eks-outposts-self-managed-nodes"></a>
+# Create Amazon Linux nodes on AWS Outposts<a name="eks-outposts-self-managed-nodes"></a>
 
 This topic describes how you can launch Auto Scaling groups of Amazon Linux nodes on an Outpost that register with your Amazon EKS cluster\. The cluster can be on the AWS Cloud or on an Outpost\.
 
@@ -84,7 +84,7 @@ Version `0.187.0` or later of the `eksctl` command line tool installed on your d
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your node Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your node Auto Scaling group can scale out to\.
-   + **NodeInstanceType**: Choose an instance type for your nodes\. If your cluster is running on the AWS Cloud, then for more information, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. If your cluster is running on an Outpost, then you can only select an instance type that is available on your Outpost\.
+   + **NodeInstanceType**: Choose an instance type for your nodes\. If your cluster is running on the AWS Cloud, then for more information, see [Choose an optimal Amazon EC2 node instance type](choosing-instance-type.md)\. If your cluster is running on an Outpost, then you can only select an instance type that is available on your Outpost\.
    + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of a recent Amazon EKS optimized AMI for a variable Kubernetes version\. To use a different Kubernetes minor version supported with Amazon EKS, replace `1.XX` with a different [supported version](kubernetes-versions.md)\. We recommend specifying the same Kubernetes version as your cluster\.
 
      To use the Amazon EKS optimized accelerated AMI, replace `amazon-linux-2` with **amazon\-linux\-2\-gpu**\. To use the Amazon EKS optimized Arm AMI, replace `amazon-linux-2` with **amazon\-linux\-2\-arm64**\.

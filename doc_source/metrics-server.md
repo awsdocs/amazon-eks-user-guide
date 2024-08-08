@@ -3,7 +3,7 @@
 The Kubernetes Metrics Server is an aggregator of resource usage data in your cluster, and it isn't deployed by default in Amazon EKS clusters\. For more information, see [Kubernetes Metrics Server](https://github.com/kubernetes-sigs/metrics-server) on GitHub\. The Metrics Server is commonly used by other Kubernetes add ons, such as the [Scale pod deployments with Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) or the [Kubernetes Dashboard](eks-managing.md)\. For more information, see [Resource metrics pipeline](https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/) in the Kubernetes documentation\. This topic explains how to deploy the Kubernetes Metrics Server on your Amazon EKS cluster\.
 
 **Important**  
-The metrics are meant for point\-in\-time analysis and aren't an accurate source for historical analysis\. They can't be used as a monitoring solution or for other non\-auto scaling purposes\. For information about monitoring tools, see [Observability in Amazon EKS](eks-observe.md)\.
+The metrics are meant for point\-in\-time analysis and aren't an accurate source for historical analysis\. They can't be used as a monitoring solution or for other non\-auto scaling purposes\. For information about monitoring tools, see [Monitor your cluster performance and view logs](eks-observe.md)\.
 
 **Deploy the Metrics Server**
 

@@ -1,4 +1,4 @@
-# Creating custom Amazon EKS optimized Windows AMIs<a name="eks-custom-ami-windows"></a>
+# Build a custom Windows AMI with Image Builder<a name="eks-custom-ami-windows"></a>
 
 You can use EC2 Image Builder to create custom Amazon EKS optimized Windows AMIs with one of the following options:
 + [Using an Amazon EKS optimized Windows AMI as a base](#custom-windows-ami-as-base)
@@ -34,7 +34,7 @@ This option is the recommended way to build your custom Windows AMIs\. The Amazo
 
    1. Choose **Enter custom AMI ID**\.
 
-   1. Retrieve the AMI ID for the Windows OS version that you require\. For more information, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.
+   1. Retrieve the AMI ID for the Windows OS version that you require\. For more information, see [Retrieve recommended Microsoft Windows AMI IDs](retrieve-windows-ami-id.md)\.
 
    1. Enter the custom **AMI ID**\. If the AMI ID isn't found, make sure that the AWS Region for the AMI ID matches the AWS Region shown in the upper right of your console\. 
 
@@ -68,7 +68,7 @@ When using an Amazon EKS optimized Windows AMI as a base isn't viable, you can u
 
 1. Determine which option you will be using to create your custom AMI in the **Base image** section:
    + **Select managed images** – Choose **Windows** for your **Image Operating System \(OS\)**\. Then choose one of the following options for **Image origin**\.
-     + **Quick start \(Amazon\-managed\)** – In the **Image name** dropdown, choose an Amazon EKS supported Windows Server version\. For more information, see [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md)\.
+     + **Quick start \(Amazon\-managed\)** – In the **Image name** dropdown, choose an Amazon EKS supported Windows Server version\. For more information, see [Create nodes with optimized Windows AMIs](eks-optimized-windows-ami.md)\.
      + **Images owned by me** – For **Image name**, choose the ARN of your own image with your own license\. The image that you provide can't already have Amazon EKS components installed\.
    + **Enter custom AMI ID** – For AMI ID, enter the ID for your AMI with your own license\. The image that you provide can't already have Amazon EKS components installed\.
 

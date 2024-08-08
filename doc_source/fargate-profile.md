@@ -1,4 +1,4 @@
-# Define which Pods use Fargate when launched<a name="fargate-profile"></a>
+# Define which Pods use AWS Fargate when launched<a name="fargate-profile"></a>
 
 **Important**  
 AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.

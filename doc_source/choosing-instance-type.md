@@ -1,4 +1,4 @@
-# Choosing an Amazon EC2 instance type<a name="choosing-instance-type"></a>
+# Choose an optimal Amazon EC2 node instance type<a name="choosing-instance-type"></a>
 
 Amazon EC2 provides a wide selection of instance types for worker nodes\. Each instance type offers different compute, memory, storage, and network capabilities\. Each instance is also grouped in an instance family based on these capabilities\. For a list, see [Available instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes) in the *Amazon EC2 User Guide* and [Available instance types](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/instance-types.html#AvailableInstanceTypes) in the *Amazon EC2 User Guide*\. Amazon EKS releases several variations of Amazon EC2 AMIs to enable support\. To make sure that the instance type you select is compatible with Amazon EKS, consider the following criteria\.
 + All Amazon EKS AMIs don't currently support the `g5g` and `mac` families\.

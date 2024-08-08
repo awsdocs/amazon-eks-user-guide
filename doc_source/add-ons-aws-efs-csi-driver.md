@@ -26,4 +26,4 @@ aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRU
 
 ## Additional information<a name="add-ons-aws-efs-csi-driver-information"></a>
 
-To learn more about the add\-on, see [Use Amazon EFS storage](efs-csi.md)\.
+To learn more about the add\-on, see [Store an elastic file system with Amazon EFS](efs-csi.md)\.

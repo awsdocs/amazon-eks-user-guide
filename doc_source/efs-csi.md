@@ -1,4 +1,4 @@
-# Use Amazon EFS storage<a name="efs-csi"></a>
+# Store an elastic file system with Amazon EFS<a name="efs-csi"></a>
 
 [Amazon Elastic File System](https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html) \(Amazon EFS\) provides serverless, fully elastic file storage so that you can share file data without provisioning or managing storage capacity and performance\. The [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) provides a CSI interface that allows Kubernetes clusters running on AWS to manage the lifecycle of Amazon EFS file systems\. This topic shows you how to deploy the Amazon EFS CSI driver to your Amazon EKS cluster\.
 

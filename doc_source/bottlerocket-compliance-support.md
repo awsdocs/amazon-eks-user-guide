@@ -1,4 +1,4 @@
-# Bottlerocket compliance support<a name="bottlerocket-compliance-support"></a>
+# Meet compliance requirements with Bottlerocket<a name="bottlerocket-compliance-support"></a>
 
 Bottlerocket complies with recommendations defined by various organizations:
 + There is a [CIS Benchmark](https://www.cisecurity.org/benchmark/bottlerocket) defined for Bottlerocket\. In a default configuration, Bottlerocket image has most of the controls required by CIS Level 1 configuration profile\. You can implement the controls required for a CIS Level 2 configuration profile\. For more information, see [Validating Amazon EKS optimized Bottlerocket AMI against the CIS Benchmark](https://aws.amazon.com/blogs/containers/validating-amazon-eks-optimized-bottlerocket-ami-against-the-cis-benchmark/) on the AWS blog\.

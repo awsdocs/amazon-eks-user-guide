@@ -97,7 +97,7 @@ Review [Amazon EKS local cluster VPC and subnet requirements and considerations]
 
 **Common causes:**
 + AMI issues:
-  + You're using an unsupported AMI\. You must use [v20220620](https://github.com/awslabs/amazon-eks-ami/releases/tag/v20220620) or later for the [Amazon EKS optimized Amazon Linux AMIs](eks-optimized-ami.md) Amazon EKS optimized Amazon Linux\.
+  + You're using an unsupported AMI\. You must use [v20220620](https://github.com/awslabs/amazon-eks-ami/releases/tag/v20220620) or later for the [Create nodes with optimized Amazon Linux AMIs](eks-optimized-ami.md) Amazon EKS optimized Amazon Linux\.
   + If you used an AWS CloudFormation template to create your nodes, make sure it wasn't using an unsupported AMI\.
 + Missing the AWS IAM Authenticator `ConfigMap` – If it's missing, you must create it\. For more information, see [Apply the `aws-auth`   `ConfigMap` to your cluster](auth-configmap.md#aws-auth-configmap) \.
 + The wrong security group is used – Make sure to use `eks-cluster-sg-cluster-name-uniqueid` for your worker nodes' security group\. The selected security group is changed by AWS CloudFormation to allow a new security group each time the stack is used\.

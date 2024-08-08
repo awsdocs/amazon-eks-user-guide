@@ -1,12 +1,12 @@
 # Create self\-managed Amazon Linux nodes<a name="launch-workers"></a>
 
-This topic describes how you can launch Auto Scaling groups of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. You can also launch self\-managed Amazon Linux nodes with `eksctl` or the AWS Management Console\. If you need to launch nodes on AWS Outposts, see [Launching self\-managed Amazon Linux nodes on an Outpost](eks-outposts-self-managed-nodes.md)\.
+This topic describes how you can launch Auto Scaling groups of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. You can also launch self\-managed Amazon Linux nodes with `eksctl` or the AWS Management Console\. If you need to launch nodes on AWS Outposts, see [Create Amazon Linux nodes on AWS Outposts](eks-outposts-self-managed-nodes.md)\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Create an Amazon EKS cluster](create-cluster.md)\. If you have subnets in the AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled, those subnets must not have been passed in when you created your cluster\.
 + An existing IAM role for the nodes to use\. To create one, see [Amazon EKS node IAM role](create-node-role.md)\. If this role doesn't have either of the policies for the VPC CNI, the separate role that follows is required for the VPC CNI pods\.
 + \(Optional, but recommended\) The Amazon VPC CNI plugin for Kubernetes add\-on configured with its own IAM role that has the necessary IAM policy attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts \(IRSA\)](cni-iam-role.md)\.
-+ Familiarity with the considerations listed in [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. Depending on the instance type you choose, there may be additional prerequisites for your cluster and VPC\.
++ Familiarity with the considerations listed in [Choose an optimal Amazon EC2 node instance type](choosing-instance-type.md)\. Depending on the instance type you choose, there may be additional prerequisites for your cluster and VPC\.
 
 ------
 #### [ eksctl ]
@@ -23,7 +23,7 @@ Version `0.187.0` or later of the `eksctl` command line tool installed on your d
 
 1. The following command creates a node group in an existing cluster\. Replace `al-nodes` with a name for your node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. Replace `my-cluster` with the name of your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\. Replace the remaining `example value` with your own values\. The nodes are created with the same Kubernetes version as the control plane, by default\. 
 
-   Before choosing a value for `--node-type`, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
+   Before choosing a value for `--node-type`, review [Choose an optimal Amazon EC2 node instance type](choosing-instance-type.md)\.
 
    Replace `my-key` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide*\.
 
@@ -116,10 +116,10 @@ You must create the node group with a config file that specifies the subnets and
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your node Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your node Auto Scaling group can scale out to\.
-   + **NodeInstanceType**: Choose an instance type for your nodes\. For more information, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
+   + **NodeInstanceType**: Choose an instance type for your nodes\. For more information, see [Choose an optimal Amazon EC2 node instance type](choosing-instance-type.md)\.
    + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of a recent Amazon EKS optimized AMI for a variable Kubernetes version\. To use a different Kubernetes minor version supported with Amazon EKS, replace `1.XX` with a different [supported version](kubernetes-versions.md)\. We recommend specifying the same Kubernetes version as your cluster\.
 
-     You can also replace `amazon-linux-2` with a different AMI type\. For more information, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
+     You can also replace `amazon-linux-2` with a different AMI type\. For more information, see [Retrieve recommended Amazon Linux AMI IDs](retrieve-ami-id.md)\.
 **Note**  
 The Amazon EKS node AMI is based on Amazon Linux\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
    + **NodeImageId**: \(Optional\) If you're using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your AWS Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 

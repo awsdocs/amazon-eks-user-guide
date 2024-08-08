@@ -1,4 +1,4 @@
-# Amazon EKS optimized Amazon Linux AMIs<a name="eks-optimized-ami"></a>
+# Create nodes with optimized Amazon Linux AMIs<a name="eks-optimized-ami"></a>
 
 The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2 \(AL2\) and Amazon Linux 2023 \(AL2023\)\. It's configured to serve as the base image for Amazon EKS nodes\. The AMI is configured to work with Amazon EKS and it includes the following components:
 + `kubelet`
@@ -158,7 +158,7 @@ Arm instances deliver significant cost savings for scale\-out and Arm\-based app
 
 ## Test migration from Docker to `containerd`<a name="containerd-bootstrap"></a>
 
-Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. For more information, see [Amazon EKS ended support for `dockershim`](dockershim-deprecation.md)\.
+Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. For more information, see [Migrate from Dockershim to containerd](dockershim-deprecation.md)\.
 
 For Kubernetes version `1.23`, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized AL2 AMIs\. This feature gives you a clear path to migrate to `containerd` when updating to version `1.24` or later\. Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. The `containerd` runtime is widely adopted in the Kubernetes community and is a graduated project with the CNCF\. You can test it by adding a node group to a new or existing cluster\.
 
@@ -172,7 +172,7 @@ Create the node group using the instructions in [Create self\-managed Amazon Lin
 ```
 
 **Managed**  
-If you use `eksctl`, create a file named `my-nodegroup.yaml` with the following contents\. Replace every `example value` with your own values\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. To retrieve an optimized AMI ID for `ami-1234567890abcdef0`, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.  
+If you use `eksctl`, create a file named `my-nodegroup.yaml` with the following contents\. Replace every `example value` with your own values\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. To retrieve an optimized AMI ID for `ami-1234567890abcdef0`, see [Retrieve recommended Amazon Linux AMI IDs](retrieve-ami-id.md)\.  
 
 ```
 apiVersion: eksctl.io/v1alpha5
@@ -204,7 +204,7 @@ If you prefer to use a different tool to create your managed node group, you mus
 
 For more information about using Amazon EKS optimized Amazon Linux AMIs, see the following sections:
 + To use Amazon Linux with managed node groups, see [Simplify node lifecycle with managed node groups](managed-node-groups.md)\.
-+ To launch self\-managed Amazon Linux nodes, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
-+ For version information, see [Amazon EKS optimized Amazon Linux AMI versions](eks-linux-ami-versions.md)\.
-+ To retrieve the latest IDs of the Amazon EKS optimized Amazon Linux AMIs, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
-+ For open\-source scripts that are used to build the Amazon EKS optimized AMI, see [Amazon EKS optimized Amazon Linux AMI build script](eks-ami-build-scripts.md)\.
++ To launch self\-managed Amazon Linux nodes, see [Retrieve recommended Amazon Linux AMI IDs](retrieve-ami-id.md)\.
++ For version information, see [Retrieve Amazon Linux AMI version information](eks-linux-ami-versions.md)\.
++ To retrieve the latest IDs of the Amazon EKS optimized Amazon Linux AMIs, see [Retrieve recommended Amazon Linux AMI IDs](retrieve-ami-id.md)\.
++ For open\-source scripts that are used to build the Amazon EKS optimized AMI, see [Build a custom Amazon Linux AMI with a script](eks-ami-build-scripts.md)\.

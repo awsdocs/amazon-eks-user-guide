@@ -1,13 +1,13 @@
-# Store application data<a name="storage"></a>
+# Store application data for your cluster<a name="storage"></a>
 
 This chapter covers storage options for Amazon EKS clusters\.
 
 **Topics**
-+ [Use Amazon EBS storage](ebs-csi.md)
-+ [Use Amazon EFS storage](efs-csi.md)
-+ [Use Amazon FSx for Lustre storage](fsx-csi.md)
-+ [Use Amazon FSx for NetApp ONTAP storage](fsx-ontap.md)
-+ [Use Amazon FSx for OpenZFS storage](fsx-openzfs-csi.md)
-+ [Use Amazon File Cache](file-cache-csi.md)
-+ [Use Mountpoint for Amazon S3 storage](s3-csi.md)
-+ [Use snapshot controller with CSI storage](csi-snapshot-controller.md)
++ [Store Kuberentes volumes with Amazon EBS](ebs-csi.md)
++ [Store an elastic file system with Amazon EFS](efs-csi.md)
++ [Store high\-performance apps with FSx for Lustre](fsx-csi.md)
++ [Store high\-performance apps with FSx for NetApp ONTAP](fsx-ontap.md)
++ [Store data using Amazon FSx for OpenZFS](fsx-openzfs-csi.md)
++ [Minimize latency with Amazon File Cache](file-cache-csi.md)
++ [Store data with the Amazon S3 web interface](s3-csi.md)
++ [Enable snapshot functionality for CSI volumes](csi-snapshot-controller.md)

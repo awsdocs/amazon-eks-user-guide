@@ -21,4 +21,4 @@ eksctl create iamserviceaccount \
 
 ## Additional information<a name="add-ons-aws-ebs-csi-driver-information"></a>
 
-To learn more about the add\-on, see [Use Amazon EBS storage](ebs-csi.md)\.
+To learn more about the add\-on, see [Store Kuberentes volumes with Amazon EBS](ebs-csi.md)\.

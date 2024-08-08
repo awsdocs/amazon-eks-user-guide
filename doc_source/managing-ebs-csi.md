@@ -1,4 +1,4 @@
-# Manage the Amazon EBS CSI driver as an Amazon EKS add\-on<a name="managing-ebs-csi"></a>
+# Manage the Amazon EBS CSI driver as an add\-on<a name="managing-ebs-csi"></a>
 
 To improve security and reduce the amount of work, you can manage the Amazon EBS CSI driver as an Amazon EKS add\-on\. For information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\. You can add the Amazon EBS CSI add\-on by following the steps in [Get the Amazon EBS CSI driver add\-on](#adding-ebs-csi-eks-add-on)\.
 
@@ -86,7 +86,7 @@ aws eks create-addon --cluster-name my-cluster --addon-name aws-ebs-csi-driver \
 
 ------
 
-Now that you have added the Amazon EBS CSI driver as an Amazon EKS add\-on, you can continue to [Deploy a sample application](ebs-sample-app.md)\. That procedure includes setting up the storage class\.
+Now that you have added the Amazon EBS CSI driver as an Amazon EKS add\-on, you can continue to [Deploy a sample application using Amazon EBS](ebs-sample-app.md)\. That procedure includes setting up the storage class\.
 
 ## Update the Amazon EBS CSI add\-on<a name="updating-ebs-csi-eks-add-on"></a>
 

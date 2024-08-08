@@ -22,4 +22,4 @@ For more information about nodes from a general Kubernetes perspective, see [Nod
 + [Create self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)
 + [Create self\-managed Microsoft Windows nodes](launch-windows-workers.md)
 + [Create self\-managed Ubuntu Linux nodes](launch-node-ubuntu.md)
-+ [Update Amazon EKS self\-managed nodes](update-workers.md)
++ [Update self\-managed nodes for your cluster](update-workers.md)

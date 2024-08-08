@@ -1,4 +1,4 @@
-# Prometheus metrics<a name="prometheus"></a>
+# Monitor your cluster metrics with Prometheus<a name="prometheus"></a>
 
 [https://prometheus.io/](https://prometheus.io/) is a monitoring and time series database that scrapes endpoints\. It provides the ability to query, aggregate, and store collected data\. You can also use it for alerting and alert aggregation\. This topic explains how to set up Prometheus as either a managed or open source option\. Monitoring Amazon EKS control plane metrics is a common use case\.
 

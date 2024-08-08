@@ -1,4 +1,4 @@
-# Observability in Amazon EKS<a name="eks-observe"></a>
+# Monitor your cluster performance and view logs<a name="eks-observe"></a>
 
 You can observe your data in Amazon EKS using many available monitoring or logging tools\. Your Amazon EKS log data can be streamed to AWS services or to partner tools for data analysis\. There are many services available in the AWS Management Console that provide data for troubleshooting your Amazon EKS issues\. You can also use an AWS\-supported open\-source solution for [monitoring Amazon EKS infrastructure](https://docs.aws.amazon.com/grafana/latest/userguide/solution-eks.html)\.
 
@@ -16,7 +16,7 @@ Monitoring is an important part of maintaining the reliability, availability, an
 
 Amazon EKS provides built\-in tools for logging and monitoring\. Control plane logging records all API calls to your clusters, audit information capturing what users performed what actions to your clusters, and role\-based information\. For more information, see [Logging and monitoring on Amazon EKS](https://docs.aws.amazon.com/prescriptive-guidance/latest/implementing-logging-monitoring-cloudwatch/amazon-eks-logging-monitoring.html) in the *AWS Prescriptive Guidance*\.
 
-Amazon EKS control plane logging provides audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs in your account\. These logs make it easy for you to secure and run your clusters\. You can select the exact log types you need, and logs are sent as log streams to a group for each Amazon EKS cluster in CloudWatch\. For more information, see [Amazon EKS control plane logging](control-plane-logs.md)\.
+Amazon EKS control plane logging provides audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs in your account\. These logs make it easy for you to secure and run your clusters\. You can select the exact log types you need, and logs are sent as log streams to a group for each Amazon EKS cluster in CloudWatch\. For more information, see [Send control plane logs to CloudWatch Logs](control-plane-logs.md)\.
 
 **Note**  
 When you check the Amazon EKS authenticator logs in Amazon CloudWatch, the entries are displayed that contain text similar to the following example text\.  
@@ -27,9 +27,9 @@ level=info msg="mapping IAM role" groups="[]" role="arn:aws:iam::111122223333:ro
 Entries that contain this text are expected\. The `username` is an Amazon EKS internal service role that performs specific operations for managed node groups and Fargate\.  
 For low\-level, customizable logging, then [Kubernetes logging](https://kubernetes.io/docs/concepts/cluster-administration/logging/) is available\.
 
-Amazon EKS is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in Amazon EKS\. CloudTrail captures all API calls for Amazon EKS as events\. The calls captured include calls from the Amazon EKS console and code calls to the Amazon EKS API operations\. For more information, see [Logging Amazon EKS API calls with AWS CloudTrail](logging-using-cloudtrail.md)\.
+Amazon EKS is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in Amazon EKS\. CloudTrail captures all API calls for Amazon EKS as events\. The calls captured include calls from the Amazon EKS console and code calls to the Amazon EKS API operations\. For more information, see [Log API calls as AWS CloudTrail events](logging-using-cloudtrail.md)\.
 
-The Kubernetes API server exposes a number of metrics that are useful for monitoring and analysis\. For more information, see [Prometheus metrics](prometheus.md)\.
+The Kubernetes API server exposes a number of metrics that are useful for monitoring and analysis\. For more information, see [Monitor your cluster metrics with Prometheus](prometheus.md)\.
 
 To configure Fluent Bit for custom Amazon CloudWatch logs, see [Setting up Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html#Container-Insights-FluentBit-setup) in the Amazon CloudWatch User Guide\.
 

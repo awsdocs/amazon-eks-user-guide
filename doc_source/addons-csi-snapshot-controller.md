@@ -10,4 +10,4 @@ The Amazon EKS add\-on name is `snapshot-controller`\.
 
 ## Additional information<a name="add-ons-csi-snapshot-controller-information"></a>
 
-To learn more about the add\-on, see [Use snapshot controller with CSI storage](csi-snapshot-controller.md)\.
+To learn more about the add\-on, see [Enable snapshot functionality for CSI volumes](csi-snapshot-controller.md)\.

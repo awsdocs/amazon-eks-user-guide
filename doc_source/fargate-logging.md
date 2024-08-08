@@ -1,4 +1,4 @@
-# Fargate logging<a name="fargate-logging"></a>
+# Start AWS Fargate logging for your cluster<a name="fargate-logging"></a>
 
 **Important**  
 AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.

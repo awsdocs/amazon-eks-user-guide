@@ -161,7 +161,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
 
    1. On the **Configure observability** page, you can optionally choose which **Metrics** and **Control plane logging** options that you want to turn on\. By default, each log type is turned off\.
       + For more information on the Prometheus metrics option, see [Turn on Prometheus metrics when creating a cluster](prometheus.md#turn-on-prometheus-metrics)\.
-      + For more information on the **Control plane logging** options, see [Amazon EKS control plane logging](control-plane-logs.md)\.
+      + For more information on the **Control plane logging** options, see [Send control plane logs to CloudWatch Logs](control-plane-logs.md)\.
 
       When you're done with this page, choose **Next**\.
 

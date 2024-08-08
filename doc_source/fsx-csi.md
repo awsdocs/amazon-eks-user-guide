@@ -1,4 +1,4 @@
-# Use Amazon FSx for Lustre storage<a name="fsx-csi"></a>
+# Store high\-performance apps with FSx for Lustre<a name="fsx-csi"></a>
 
 The [FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of FSx for Lustre file systems\. For more information, see the [FSx for Lustre User Guide](https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html)\.
 

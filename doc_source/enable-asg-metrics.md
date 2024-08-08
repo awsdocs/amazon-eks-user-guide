@@ -1,4 +1,4 @@
-# Auto Scaling group metrics collection<a name="enable-asg-metrics"></a>
+# View metrics for Amazon EC2 Auto Scaling groups<a name="enable-asg-metrics"></a>
 
 Amazon EKS managed node groups have Amazon EC2 Auto Scaling group metrics enabled by default with no additional charge\. The Auto Scaling group sends sampled data to Amazon CloudWatch every minute\. These metrics can be refined by the name of the Auto Scaling groups\. They give you continuous visibility into the history of the Auto Scaling group powering your managed node groups, such as changes in the size of the group over time\. Auto Scaling group metrics are available in the [Amazon CloudWatch](https://aws.amazon.com/cloudwatch) or Auto Scaling console\. For more information, see [Monitor CloudWatch metrics for your Auto Scaling groups and instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html)\.
 

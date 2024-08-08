@@ -1,4 +1,4 @@
-# Fargate metrics<a name="monitoring-fargate-usage"></a>
+# Collect AWS Fargate app and usage metrics<a name="monitoring-fargate-usage"></a>
 
 **Important**  
 AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
@@ -34,7 +34,7 @@ The following dimensions are used to refine the usage metrics that are published
 
 ### Creating a CloudWatch alarm to monitor Fargate resource usage metrics<a name="service-quota-alarm"></a>
 
-AWS Fargate provides CloudWatch usage metrics that correspond to the AWS service quotas for Fargate On\-Demand resource usage\. In the Service Quotas console, you can visualize your usage on a graph\. You can also configure alarms that alert you when your usage approaches a service quota\. For more information, see [Fargate metrics](#monitoring-fargate-usage)\.
+AWS Fargate provides CloudWatch usage metrics that correspond to the AWS service quotas for Fargate On\-Demand resource usage\. In the Service Quotas console, you can visualize your usage on a graph\. You can also configure alarms that alert you when your usage approaches a service quota\. For more information, see [Collect AWS Fargate app and usage metrics](#monitoring-fargate-usage)\.
 
 Use the following steps to create a CloudWatch alarm based on the Fargate resource usage metrics\.
 

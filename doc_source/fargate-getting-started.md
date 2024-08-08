@@ -1,4 +1,4 @@
-# Get started with AWS Fargate using Amazon EKS<a name="fargate-getting-started"></a>
+# Get started with AWS Fargate for your cluster<a name="fargate-getting-started"></a>
 
 **Important**  
 AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
@@ -33,7 +33,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, your clu
 
 ## Create a Fargate profile for your cluster<a name="fargate-gs-create-profile"></a>
 
-Before you can schedule Pods that are running on Fargate in your cluster, you must define a Fargate profile that specifies which Pods use Fargate when they're launched\. For more information, see [Define which Pods use Fargate when launched](fargate-profile.md)\.
+Before you can schedule Pods that are running on Fargate in your cluster, you must define a Fargate profile that specifies which Pods use Fargate when they're launched\. For more information, see [Define which Pods use AWS Fargate when launched](fargate-profile.md)\.
 
 **Note**  
 If you created your cluster with `eksctl` using the `--fargate` option, then a Fargate profile is already created for your cluster with selectors for all Pods in the `kube-system` and `default` namespaces\. Use the following procedure to create Fargate profiles for any other namespaces you would like to use with Fargate\.

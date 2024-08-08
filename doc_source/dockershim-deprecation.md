@@ -1,4 +1,4 @@
-# Amazon EKS ended support for `dockershim`<a name="dockershim-deprecation"></a>
+# Migrate from Dockershim to containerd<a name="dockershim-deprecation"></a>
 
 Kubernetes no longer supports `dockershim`\. The Kubernetes team removed the runtime in Kubernetes version `1.24`\. For more information, see [Kubernetes is Moving on From Dockershim: Commitments and Next Steps](https://kubernetes.io/blog/2022/01/07/kubernetes-is-moving-on-from-dockershim/) on the *Kubernetes Blog*\.
 

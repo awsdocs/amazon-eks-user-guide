@@ -1,4 +1,4 @@
-# Amazon EKS optimized Windows AMIs<a name="eks-optimized-windows-ami"></a>
+# Create nodes with optimized Windows AMIs<a name="eks-optimized-windows-ami"></a>
 
 Windows Amazon EKS optimized AMIs are built on top of Windows Server 2019 and Windows Server 2022\. They are configured to serve as the base image for Amazon EKS nodes\. By default, the AMIs include the following components:
 + [https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/)
@@ -110,7 +110,7 @@ The following cached container images are for the `containerd` runtime:
 For more information about using Amazon EKS optimized Windows AMIs, see the following sections:
 + To use Windows with managed node groups, see [Simplify node lifecycle with managed node groups](managed-node-groups.md)\.
 + To launch self\-managed Windows nodes, see [Create self\-managed Microsoft Windows nodes](launch-windows-workers.md)\.
-+ For version information, see [Amazon EKS optimized Windows AMI versions](eks-ami-versions-windows.md)\.
-+ To retrieve the latest IDs of the Amazon EKS optimized Windows AMIs, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.
-+ To use Amazon EC2 Image Builder to create custom Amazon EKS optimized Windows AMIs, see [Creating custom Amazon EKS optimized Windows AMIs](eks-custom-ami-windows.md)\.
++ For version information, see [Retrieve Windows AMI version information](eks-ami-versions-windows.md)\.
++ To retrieve the latest IDs of the Amazon EKS optimized Windows AMIs, see [Retrieve recommended Microsoft Windows AMI IDs](retrieve-windows-ami-id.md)\.
++ To use Amazon EC2 Image Builder to create custom Amazon EKS optimized Windows AMIs, see [Build a custom Windows AMI with Image Builder](eks-custom-ami-windows.md)\.
 + For best practices, see [Amazon EKS optimized Windows AMI management](https://aws.github.io/aws-eks-best-practices/windows/docs/ami/) in the *EKS Best Practices Guide*\.

@@ -12,7 +12,7 @@ In this topic, you deploy a sample application to your cluster\.
 
 Though many variables are changeable in the following steps, we recommend only changing variable values where specified\. Once you have a better understanding of Kubernetes Pods, deployments, and services, you can experiment with changing other values\.
 
-1. Create a namespace\. A namespace allows you to group resources in Kubernetes\. For more information, see [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) in the Kubernetes documentation\. If you plan to deploy your sample application to [Simplify compute management with AWS Fargate](fargate.md), make sure that the value for `namespace` in your [Define which Pods use Fargate when launched](fargate-profile.md) is `eks-sample-app`\.
+1. Create a namespace\. A namespace allows you to group resources in Kubernetes\. For more information, see [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) in the Kubernetes documentation\. If you plan to deploy your sample application to [Simplify compute management with AWS Fargate](fargate.md), make sure that the value for `namespace` in your [Define which Pods use AWS Fargate when launched](fargate-profile.md) is `eks-sample-app`\.
 
    ```
    kubectl create namespace eks-sample-app
@@ -20,7 +20,7 @@ Though many variables are changeable in the following steps, we recommend only c
 
 1. Create a Kubernetes deployment\. This sample deployment pulls a container image from a public repository and deploys three replicas \(individual Pods\) of it to your cluster\. To learn more, see [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) in the Kubernetes documentation\. You can deploy the application to Linux or Windows nodes\. If you're deploying to Fargate, then you can only deploy a Linux application\.
 
-   1. Save the following contents to a file named `eks-sample-deployment.yaml`\. The containers in the sample application don't use network storage, but you might have applications that need to\. For more information, see [Store application data](storage.md)\.
+   1. Save the following contents to a file named `eks-sample-deployment.yaml`\. The containers in the sample application don't use network storage, but you might have applications that need to\. For more information, see [Store application data for your cluster](storage.md)\.
 
 ------
 #### [ Linux ]

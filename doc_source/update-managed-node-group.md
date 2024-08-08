@@ -1,13 +1,13 @@
-# Update an Amazon EKS managed node group<a name="update-managed-node-group"></a>
+# Update a managed node group for your cluster<a name="update-managed-node-group"></a>
 
 When you initiate a managed node group update, Amazon EKS automatically updates your nodes for you, completing the steps listed in [Understand each phase of node updates](managed-node-update-behavior.md)\. If you're using an Amazon EKS optimized AMI, Amazon EKS automatically applies the latest security patches and operating system updates to your nodes as part of the latest AMI release version\.
 
 There are several scenarios where it's useful to update your Amazon EKS managed node group's version or configuration:
 + You have updated the Kubernetes version for your Amazon EKS cluster and want to update your nodes to use the same Kubernetes version\.
 + A new AMI release version is available for your managed node group\. For more information about AMI versions, see these sections:
-  + [Amazon EKS optimized Amazon Linux AMI versions](eks-linux-ami-versions.md)
-  + [Amazon EKS optimized Bottlerocket AMIs](eks-optimized-ami-bottlerocket.md)
-  + [Amazon EKS optimized Windows AMI versions](eks-ami-versions-windows.md)
+  + [Retrieve Amazon Linux AMI version information](eks-linux-ami-versions.md)
+  + [Create nodes with optimized Bottlerocket AMIs](eks-optimized-ami-bottlerocket.md)
+  + [Retrieve Windows AMI version information](eks-ami-versions-windows.md)
 + You want to adjust the minimum, maximum, or desired count of the instances in your managed node group\.
 + You want to add or remove Kubernetes labels from the instances in your managed node group\.
 + You want to add or remove AWS tags from your managed node group\.

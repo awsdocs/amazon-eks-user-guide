@@ -1,4 +1,4 @@
-# Configuring VT1 for your custom Amazon Linux AMI<a name="vt1"></a>
+# Use hardware\-accelerated VT1 video transcoding<a name="vt1"></a>
 
 Custom Amazon Linux AMIs in Amazon EKS can support the VT1 video transcoding instance family for Amazon Linux 2 \(AL2\), Ubuntu 18, and Ubuntu 20\. VT1 supports the Xilinx U30 media transcoding cards with accelerated H\.264/AVC and H\.265/HEVC codecs\. To get the benefit of these accelerated instances, you must follow these steps: 
 

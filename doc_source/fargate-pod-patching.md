@@ -1,4 +1,4 @@
-# Fargate OS patching<a name="fargate-pod-patching"></a>
+# Set actions for AWS Fargate OS patching events<a name="fargate-pod-patching"></a>
 
 **Important**  
 AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.

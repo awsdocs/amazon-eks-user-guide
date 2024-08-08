@@ -1,4 +1,4 @@
-# Fargate Pod configuration<a name="fargate-pod-configuration"></a>
+# Understand Fargate Pod configuration details<a name="fargate-pod-configuration"></a>
 
 **Important**  
 AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.

@@ -1,9 +1,9 @@
-# Update Amazon EKS self\-managed nodes<a name="update-workers"></a>
+# Update self\-managed nodes for your cluster<a name="update-workers"></a>
 
 When a new Amazon EKS optimized AMI is released, consider replacing the nodes in your self\-managed node group with the new AMI\. Likewise, if you have updated the Kubernetes version for your Amazon EKS cluster, update the nodes to use nodes with the same Kubernetes version\.
 
 **Important**  
-This topic covers node updates for self\-managed nodes\. If you are using [Simplify node lifecycle with managed node groups](managed-node-groups.md), see [Update an Amazon EKS managed node group](update-managed-node-group.md)\.
+This topic covers node updates for self\-managed nodes\. If you are using [Simplify node lifecycle with managed node groups](managed-node-groups.md), see [Update a managed node group for your cluster](update-managed-node-group.md)\.
 
 There are two basic ways to update self\-managed node groups in your clusters to use a new AMI:
 

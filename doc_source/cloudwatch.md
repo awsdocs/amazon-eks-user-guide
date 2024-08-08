@@ -1,4 +1,4 @@
-# Amazon EKS add\-on support for Amazon CloudWatch<a name="cloudwatch"></a>
+# Monitor cluster data with Amazon CloudWatch<a name="cloudwatch"></a>
 
 Amazon CloudWatch Observability collects real\-time logs, metrics, and trace data\. It sends them to [Amazon CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html) and [AWS X\-Ray](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html)\. You can install this add\-on to enable both CloudWatch Application Signals and CloudWatch Container Insights with enhanced observability for Amazon EKS\. This helps you monitor the health and performance of your infrastructure and containerized applications\. The Amazon CloudWatch Observability Operator is designed to install and configure the necessary components\.
 

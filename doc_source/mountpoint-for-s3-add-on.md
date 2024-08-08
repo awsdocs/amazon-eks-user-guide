@@ -28,4 +28,4 @@ eksctl create iamserviceaccount \
 
 ## Additional information<a name="add-ons-mountpoint-for-s3-add-on-information"></a>
 
-To learn more about the add\-on, see [Use Mountpoint for Amazon S3 storage](s3-csi.md)\.
+To learn more about the add\-on, see [Store data with the Amazon S3 web interface](s3-csi.md)\.

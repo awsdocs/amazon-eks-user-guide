@@ -1,4 +1,4 @@
-# Configuring DL1 for your custom Amazon Linux 2 AMI<a name="dl1"></a>
+# Use Habana Deep Learning \(DL1\) workloads<a name="dl1"></a>
 
 Custom Amazon Linux 2 \(AL2\) AMIs in Amazon EKS can support deep learning workloads at scale through additional configuration and Kubernetes add\-ons\. This document describes the components required to set up a generic Kubernetes solution for an on\-premise setup or as a baseline in a larger cloud configuration\. To support this function, you will have to perform the following steps in your custom environment:
 + SynapaseAI® Software drivers loaded on the system – These are included in the [AMIs available on Github](https://github.com/aws-samples/aws-habana-baseami-pipeline)\.
