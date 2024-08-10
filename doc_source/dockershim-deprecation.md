@@ -1,10 +1,10 @@
-# Migrate from Dockershim to containerd<a name="dockershim-deprecation"></a>
+# Migrate from `dockershim` to `containerd`<a name="dockershim-deprecation"></a>
 
 Kubernetes no longer supports `dockershim`\. The Kubernetes team removed the runtime in Kubernetes version `1.24`\. For more information, see [Kubernetes is Moving on From Dockershim: Commitments and Next Steps](https://kubernetes.io/blog/2022/01/07/kubernetes-is-moving-on-from-dockershim/) on the *Kubernetes Blog*\.
 
 Amazon EKS also ended support for `dockershim` starting with the Kubernetes version `1.24` release\. Amazon EKS AMIs that are officially published have `containerd` as the only runtime starting with version `1.24`\. This topic covers some details, but more information is available in [All you need to know about moving to containerd on Amazon EKS](https://aws.amazon.com/blogs/containers/all-you-need-to-know-about-moving-to-containerd-on-amazon-eks/)\.
 
-There's a `kubectl` plugin that you can use to see which of your Kubernetes workloads mount the Docker socket volume\. For more information, see [Detector for Docker Socket \(DDS\)](https://github.com/aws-containers/kubectl-detector-for-docker-socket) on GitHub\. Amazon EKS AMIs that run Kubernetes versions that are earlier than `1.24` use Docker as the default runtime\. However, these Amazon EKS AMIs have a bootstrap flag option that you can use to test out your workloads on any supported cluster using `containerd`\. For more information, see [Test migration from Docker to `containerd`](eks-optimized-ami.md#containerd-bootstrap)\.
+There's a `kubectl` plugin that you can use to see which of your Kubernetes workloads mount the Docker socket volume\. For more information, see [Detector for Docker Socket \(DDS\)](https://github.com/aws-containers/kubectl-detector-for-docker-socket) on GitHub\. Amazon EKS AMIs that run Kubernetes versions that are earlier than `1.24` use Docker as the default runtime\. However, these Amazon EKS AMIs have a bootstrap flag option that you can use to test out your workloads on any supported cluster using `containerd`\. For more information, see [Test Amazon Linux 2 migration from Docker to `containerd`](#containerd-bootstrap)\.
 
 We will continue to publish AMIs for existing Kubernetes versions until the end of their support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. If you require more time to test your workloads on `containerd`, use a supported version before `1.24`\. But, when you want to upgrade official Amazon EKS AMIs to version `1.24` or later, make sure to validate that your workloads run on `containerd`\.
 
@@ -30,3 +30,45 @@ The `containerd` runtime provides more reliable performance and security\. `cont
   For the setting's activation on Amazon EKS AMIs in the `containerd` runtime, see `[install\-worker\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/scripts/install-worker.sh)` on GitHub\.
 
    
+
+## Test Amazon Linux 2 migration from Docker to `containerd`<a name="containerd-bootstrap"></a>
+
+For Kubernetes version `1.23`, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized AL2 AMIs\. This feature gives you a clear path to migrate to `containerd` when updating to version `1.24` or later\. Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. The `containerd` runtime is widely adopted in the Kubernetes community and is a graduated project with the CNCF\. You can test it by adding a node group to a new or existing cluster\.
+
+You can enable the boostrap flag by creating one of the following types of node groups\.
+
+**Self\-managed**  
+Create the node group using the instructions in [Create self\-managed Amazon Linux nodes](launch-workers.md)\. Specify an Amazon EKS optimized AMI and the following text for the `BootstrapArguments` parameter\.  
+
+```
+--container-runtime containerd
+```
+
+**Managed**  
+If you use `eksctl`, create a file named `my-nodegroup.yaml` with the following contents\. Replace every `example value` with your own values\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. To retrieve an optimized AMI ID for `ami-1234567890abcdef0`, see [Retrieve recommended Amazon Linux AMI IDs](retrieve-ami-id.md)\.  
+
+```
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: my-cluster
+  region: region-code
+  version: 1.23
+managedNodeGroups:
+  - name: my-nodegroup
+    ami: ami-1234567890abcdef0
+    overrideBootstrapCommand: |
+      #!/bin/bash
+      /etc/eks/bootstrap.sh my-cluster --container-runtime containerd
+```
+If you launch many nodes simultaneously, you may also want to specify values for the `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` bootstrap arguments to avoid errors\. For more information, see [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
+Run the following command to create the node group\.  
+
+```
+eksctl create nodegroup -f my-nodegroup.yaml
+```
+If you prefer to use a different tool to create your managed node group, you must deploy the node group using a launch template\. In your launch template, specify an [Amazon EKS optimized AMI ID](retrieve-ami-id.md), then [deploy the node group using a launch template](launch-templates.md) and provide the following user data\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh) on GitHub\.  
+
+```
+/etc/eks/bootstrap.sh my-cluster --container-runtime containerd
+```

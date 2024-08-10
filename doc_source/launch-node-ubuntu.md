@@ -9,7 +9,7 @@ After the nodes join the cluster, you can deploy containerized applications to t
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
-You can launch Ubuntu nodes in Amazon EKS extended clusters on AWS Outposts, but you can't launch them in local clusters on AWS Outposts\. For more information, see [Amazon EKS on AWS Outposts](eks-outposts.md)\.
+You can launch Ubuntu nodes in Amazon EKS extended clusters on AWS Outposts, but you can't launch them in local clusters on AWS Outposts\. For more information, see [Deploy Amazon EKS on\-premises with AWS Outposts](eks-outposts.md)\.
 You can deploy to Amazon EC2 instances with `x86` or Arm processors\. However, instances that have Inferentia chips might need to install the [Neuron SDK](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/) first\.
 
 **To launch Ubuntu for EKS or Ubuntu Pro for EKS nodes using `eksctl`**

@@ -104,27 +104,37 @@ For more information about available options see [Addons](https://eksctl.io/usag
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to create the add\-on for\.
+1. In the left navigation pane, choose **Clusters**\.
+
+1. Choose the name of the cluster that you want to create the add\-on for\.
 
 1. Choose the **Add\-ons** tab\.
 
 1. Choose **Get more add\-ons**\.
 
-1. Choose the add\-ons that you want to add to your cluster\. You can add as many **Amazon EKS add\-ons** and **AWS Marketplace add\-ons** as you require\.
+1. On the **Select add\-ons** page, choose the add\-ons that you want to add to your cluster\. You can add as many **Amazon EKS add\-ons** and **AWS Marketplace add\-ons** as you require\.
 
    For **AWS Marketplace** add\-ons the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you're using to create the add\-on must have permissions to read entitlements for the add\-on from the AWS LicenseManager\. AWS LicenseManager requires [AWSServiceRoleForAWSLicenseManagerRole](https://docs.aws.amazon.com/license-manager/latest/userguide/license-manager-role-core.html) service\-linked role \(SLR\) that allows AWS resources to manage licenses on your behalf\. The SLR is a one time requirement, per account, and you will not have to create separate SLR's for each add\-on nor each cluster\. For more information about assigning permissions to an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) see [Adding and removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html) in the IAM User Guide\.
 
    If the **AWS Marketplace add\-ons** that you want to install aren't listed, you can search for available add\-ons by entering text in the search box\. In the **Filtering options**, you can also filter by **category**, **vendor**, or **pricing model** and then choose the add\-ons from the search results\. Once you've selected the add\-ons that you want to install, choose **Next**\.
 
-1. On the **Configure selected add\-ons settings** page:
-   + Choose **View subscription options** to open the **Subscription options** form\. Review the **Pricing details** and **Legal** sections, then choose the **Subscribe** button to continue\.
-   + For **Version**, select the version that you want to install\. We recommend the version marked **latest**, unless the individual add\-on that you're creating recommends a different version\. To determine whether an add\-on has a recommended version, see the [documentation](workloads-add-ons-available-eks.md) for the add\-on that you're creating\.
-   + If all of the add\-ons that you selected have **Requires subscription** under **Status**, select **Next**\. You can't [configure those add\-ons](updating-an-add-on.md) further until you've subscribed to them after your cluster is created\. For the add\-ons that don't have **Requires subscription** under **Status**:
-     + For **Select IAM role**, accept the default option, unless the add\-on requires IAM permissions\. If the add\-on requires AWS permissions, you can use the IAM role of the node \(**Not set**\) or an existing role that you created for use with the add\-on\. If there's no role to select, then you don't have an existing role\. Regardless of which option your choose, see the [documentation](workloads-add-ons-available-eks.md) for the add\-on that you're creating to create an IAM policy and attach it to a role\. Selecting an IAM role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-     + Choose **Optional configuration settings**\.
-       + If the add\-on requires configuration, enter it in the **Configuration values** box\. To determine whether the add\-on requires configuration information, see the [documentation](workloads-add-ons-available-eks.md) for the add\-on that you're creating\.
-       + Select one of the available options for **Conflict resolution method**\.
-     + Choose **Next**\.
+1. On the **Configure selected add\-ons settings** page, do the following:
+
+   1. Choose **View subscription options** to open the **Subscription options** form\. Review the **Pricing details** and **Legal** sections, then choose the **Subscribe** button to continue\.
+
+   1. For **Version**, choose the version that you want to install\. We recommend the version marked **latest**, unless the individual add\-on that you're creating recommends a different version\. To determine whether an add\-on has a recommended version, see the [documentation](workloads-add-ons-available-eks.md) for the add\-on that you're creating\.
+
+   1. If all of the add\-ons that you selected have **Requires subscription** under **Status**, choose **Next**\. You can't [configure those add\-ons](updating-an-add-on.md) further until you've subscribed to them after your cluster is created\. For the add\-ons that don't have **Requires subscription** under **Status**, do the following:
+
+      1. For **Select IAM role**, accept the default option, unless the add\-on requires IAM permissions\. If the add\-on requires AWS permissions, you can use the IAM role of the node \(**Not set**\) or an existing role that you created for use with the add\-on\. If there's no role to select, then you don't have an existing role\. Regardless of which option your choose, see the [documentation](workloads-add-ons-available-eks.md) for the add\-on that you're creating to create an IAM policy and attach it to a role\. Selecting an IAM role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
+
+      1. Choose **Optional configuration settings**\.
+
+      1. If the add\-on requires configuration, enter it in the **Configuration values** box\. To determine whether the add\-on requires configuration information, see the [documentation](workloads-add-ons-available-eks.md) for the add\-on that you're creating\.
+
+      1. Choose one of the available options for **Conflict resolution method**\. If you choose **Override** for the **Conflict resolution method**, one or more of the settings for the existing add\-on can be overwritten with the Amazon EKS add\-on settings\. If you don't enable this option and there's a conflict with your existing settings, the operation fails\. You can use the resulting error message to troubleshoot the conflict\. Before choosing this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\.
+
+      1. Choose **Next**\.
 
 1. On the **Review and add** page, choose **Create**\. After the add\-on installation is complete, you see your installed add\-ons\.
 
@@ -248,17 +258,16 @@ Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line
    + Replace `vpc-cni` with an add\-on name returned in the output of the previous step that you want to create\.
    + Replace `version-number` with the version returned in the output of the previous step that you want to use\.
    + If the add\-on doesn't require IAM permissions, delete `<service-account-configuration>`\.
-   + If the add\-on \(1\) requires IAM permissions, and \(2\) your cluster uses EKS Pod Identities, replace `<service-account-configuration>` with the following pod identity assocation\. Replace `<service-account-name>` with the service account name used by the add\-on\. Replace `<role-arn>` with the ARN of an IAM role\. The role must have the trust policy required by EKS Pod Identities\. 
-     + 
+   + Do one of the following:
+     + If the add\-on \(1\) requires IAM permissions, and \(2\) your cluster uses EKS Pod Identities, replace `<service-account-configuration>` with the following pod identity association\. Replace `<service-account-name>` with the service account name used by the add\-on\. Replace `<role-arn>` with the ARN of an IAM role\. The role must have the trust policy required by EKS Pod Identities\.
 
        ```
        --pod-identity-associations 'serviceAccount=<service-account-name>,roleArn=<role-arn>'
        ```
-   + If the add\-on \(1\) requires IAM permissions, and \(2\) your cluster uses IRSA, replace `<service-account-configuration>` with the following IRSA configuration\. Replace `111122223333` with your account ID and `role-name` with the name of an existing IAM role that you've created\. For instructions on creating the role, see the [documentation](workloads-add-ons-available-eks.md) for the add\-on that you're creating\. Specifying a service account role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. 
-     + 
+     + If the add\-on \(1\) requires IAM permissions, and \(2\) your cluster uses IRSA, replace `<service-account-configuration>` with the following IRSA configuration\. Replace `111122223333` with your account ID and `role-name` with the name of an existing IAM role that you've created\. For instructions on creating the role, see the [documentation](workloads-add-ons-available-eks.md) for the add\-on that you're creating\. Specifying a service account role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
        ```
-       --service-account-role-arn arn:aws:iam::111122223333:role/role-name
+       --service-account-role-arn arn:aws::iam::111122223333:role/role-name
        ```
    + These example commands overwrites the `--configuration-values` option of any existing self\-managed version of the add\-on, if there is one\. Replace this with the desired configuration values, such as a string or a file input\. If you don't want to provide configuration values, then delete the `--configuration-values` option\. If you don't want the AWS CLI to overwrite the configuration of an existing self\-managed add\-on, remove the `--resolve-conflicts OVERWRITE` option\. If you remove the option, and the Amazon EKS add\-on needs to overwrite the configuration of an existing self\-managed add\-on, then creation of the Amazon EKS add\-on fails with an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.
 

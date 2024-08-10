@@ -1,4 +1,4 @@
-# Amazon EKS local cluster VPC and subnet requirements and considerations<a name="eks-outposts-vpc-subnet-requirements"></a>
+# Create a VPC and subnets for Amazon EKS clusters on AWS Outposts<a name="eks-outposts-vpc-subnet-requirements"></a>
 
 When you create a local cluster, you specify a VPC and at least one private subnet that runs on Outposts\. This topic provides an overview of the VPC and subnets requirements and considerations for your local cluster\.
 

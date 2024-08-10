@@ -50,22 +50,15 @@ If you want to migrate existing Fargate Pods to new profiles that use wildcards,
 + Create a new profile with matching selectors, then delete the old profiles\. Pods labeled with old profiles are rescheduled to new matching profiles\.
 + If you want to migrate workloads but aren't sure what Fargate labels are on each Fargate Pod, you can use the following method\. Create a new profile with a name that sorts alphanumerically first among the profiles on the same cluster\. Then, recycle the Fargate Pods that need to be migrated to new profiles\.
 
-## Creating a Fargate profile<a name="create-fargate-profile"></a>
+## Create a Fargate profile<a name="create-fargate-profile"></a>
 
-This topic describes how to create a Fargate profile\. You also must have created a Pod execution role to use for your Fargate profile\. For more information, see [Amazon EKS Pod execution IAM role](pod-execution-role.md)\. Pods that are running on Fargate are only supported on private subnets with [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) access to AWS services, but not a direct route to an Internet Gateway\. This is so that your cluster's VPC must have private subnets available\. You can create a profile with `eksctl` or the AWS Management Console\.
-
-This procedure requires `eksctl` version `0.187.0` or later\. You can check your version with the following command:
-
-```
-eksctl version
-```
-
-For instructions on how to install or upgrade `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
+This section describes how to create a Fargate profile\. You also must have created a Pod execution role to use for your Fargate profile\. For more information, see [Amazon EKS Pod execution IAM role](pod-execution-role.md)\. Pods that are running on Fargate are only supported on private subnets with [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) access to AWS services, but not a direct route to an Internet Gateway\. This is so that your cluster's VPC must have private subnets available\. You can create a profile with `eksctl` or the AWS Management Console\.
 
 ------
 #### [ eksctl ]
 
-**To create a Fargate profile with `eksctl`**  
+**To create a Fargate profile with `eksctl`**
+
 Create your Fargate profile with the following `eksctl` command, replacing every `example value` with your own values\. You're required to specify a namespace\. However, the `--labels` option isn't required\.
 
 ```
@@ -118,54 +111,5 @@ Only private subnets are supported for Pods that are running on Fargate\.
    1. Choose **Next**\.
 
 1. On the **Review and create** page, review the information for your Fargate profile and choose **Create**\.
-
-------
-
-## Deleting a Fargate profile<a name="delete-fargate-profile"></a>
-
-This topic describes how to delete a Fargate profile\. 
-
-When you delete a Fargate profile, any Pods that were scheduled onto Fargate with the profile are deleted\. If those Pods match another Fargate profile, then they're scheduled on Fargate with that profile\. If they no longer match any Fargate profiles, then they aren't scheduled onto Fargate and might remain as pending\.
-
-Only one Fargate profile in a cluster can be in the `DELETING` status at a time\. Wait for a Fargate profile to finish deleting before you can delete any other profiles in that cluster\. 
-
-You can delete a profile with `eksctl`, the AWS Management Console, or the AWS CLI\. Select the tab with the name of the tool that you want to use to delete your profile\.
-
-------
-#### [ eksctl ]
-
-**To delete a Fargate profile with `eksctl`**
-
-Use the following command to delete a profile from a cluster\. Replace every `example value` with your own values\.
-
-```
-eksctl delete fargateprofile  --name my-profile --cluster my-cluster
-```
-
-------
-#### [ AWS Management Console ]
-
-**To delete a Fargate profile from a cluster with the AWS Management Console**
-
-1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
-
-1. In the left navigation pane, choose **Clusters**\. In the list of clusters, choose the cluster that you want to delete the Fargate profile from\.
-
-1. Choose the **Compute** tab\.
-
-1. Choose the Fargate profile to delete, and then choose **Delete**\.
-
-1. On the **Delete Fargate profile** page, enter the name of the profile, and then choose **Delete**\.
-
-------
-#### [ AWS CLI ]
-
-**To delete a Fargate profile with AWS CLI**
-
-Use the following command to delete a profile from a cluster\. Replace every `example value` with your own values\.
-
-```
-aws eks delete-fargate-profile --fargate-profile-name my-profile --cluster-name my-cluster
-```
 
 ------

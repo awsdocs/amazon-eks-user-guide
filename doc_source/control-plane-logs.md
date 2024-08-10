@@ -23,7 +23,7 @@ The controller manager manages the core control loops that are shipped with Kube
 ****Scheduler** \(`scheduler`\)**  
 The scheduler component manages when and where to run Pods in your cluster\. For more information, see [kube\-scheduler](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/) in the Kubernetes documentation\.
 
-## Enabling and disabling control plane logs<a name="enabling-control-plane-log-export"></a>
+## Enable or disable control plane logs<a name="enabling-control-plane-log-export"></a>
 
 By default, cluster control plane logs aren't sent to CloudWatch Logs\. You must enable each log type individually to send logs for your cluster\. CloudWatch Logs ingestion, archive storage, and data scanning rates apply to enabled control plane logs\. For more information, see [CloudWatch pricing](https://aws.amazon.com/cloudwatch/pricing/)\.
 
@@ -121,7 +121,7 @@ The following command sends all available log types to CloudWatch Logs\.
 
 ------
 
-## Viewing cluster control plane logs<a name="viewing-control-plane-logs"></a>
+## View cluster control plane logs<a name="viewing-control-plane-logs"></a>
 
 After you have enabled any of the control plane log types for your Amazon EKS cluster, you can view them on the CloudWatch console\.
 

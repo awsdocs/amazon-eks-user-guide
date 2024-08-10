@@ -10,9 +10,9 @@ If you restrict access to the public endpoint of your cluster using CIDR blocks,
 **Prerequisite**  
 An existing cluster\. If you don't already have an Amazon EKS cluster, see [Get started with Amazon EKS](getting-started.md)\.
 
-## Ensure that existing nodes can communicate with Fargate Pods<a name="fargate-gs-check-compatibility"></a>
+## Step 1: Ensure that existing nodes can communicate with Fargate Pods<a name="fargate-gs-check-compatibility"></a>
 
-If you're working with a new cluster with no nodes, or a cluster with only [managed node groups](managed-node-groups.md), you can skip to [Create a Fargate Pod execution role](#fargate-sg-pod-execution-role)\.
+If you're working with a new cluster with no nodes, or a cluster with only [managed node groups](managed-node-groups.md), you can skip to [Step 2: Create a Fargate Pod execution role](#fargate-sg-pod-execution-role)\.
 
 Assume that you're working with an existing cluster that already has nodes that are associated with it\. Make sure that Pods on these nodes can communicate freely with the Pods that are running on Fargate\. Pods that are running on Fargate are automatically configured to use the cluster security group for the cluster that they're associated with\. Ensure that any existing nodes in your cluster can send and receive traffic to and from the cluster security group\. [Simplify node lifecycle with managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group as well, so you don't need to modify or check them for this compatibility\.
 
@@ -24,14 +24,14 @@ You can check for a security group for your cluster in the AWS Management Consol
 aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ```
 
-## Create a Fargate Pod execution role<a name="fargate-sg-pod-execution-role"></a>
+## Step 2: Create a Fargate Pod execution role<a name="fargate-sg-pod-execution-role"></a>
 
 When your cluster creates Pods on AWS Fargate, the components that run on the Fargate infrastructure must make calls to AWS APIs on your behalf\. The Amazon EKS Pod execution role provides the IAM permissions to do this\. To create an AWS Fargate Pod execution role, see [Amazon EKS Pod execution IAM role](pod-execution-role.md)\.
 
 **Note**  
 If you created your cluster with `eksctl` using the `--fargate` option, your cluster already has a Pod execution role that you can find in the IAM console with the pattern `eksctl-my-cluster-FargatePodExecutionRole-ABCDEFGHIJKL`\. Similarly, if you use `eksctl` to create your Fargate profiles, `eksctl` creates your Pod execution role if one isn't already created\.
 
-## Create a Fargate profile for your cluster<a name="fargate-gs-create-profile"></a>
+## Step 3: Create a Fargate profile for your cluster<a name="fargate-gs-create-profile"></a>
 
 Before you can schedule Pods that are running on Fargate in your cluster, you must define a Fargate profile that specifies which Pods use Fargate when they're launched\. For more information, see [Define which Pods use AWS Fargate when launched](fargate-profile.md)\.
 
@@ -107,7 +107,7 @@ Only private subnets are supported for Pods that are running on Fargate\.
 
 ------
 
-## Update CoreDNS<a name="fargate-gs-coredns"></a>
+## Step 4: Update CoreDNS<a name="fargate-gs-coredns"></a>
 
 By default, CoreDNS is configured to run on Amazon EC2 infrastructure on Amazon EKS clusters\. If you want to *only* run your Pods on Fargate in your cluster, complete the following steps\.
 

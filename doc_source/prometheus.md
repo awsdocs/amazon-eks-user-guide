@@ -6,7 +6,13 @@ Amazon Managed Service for Prometheus is a Prometheus\-compatible monitoring and
 
 For more information about how to use the Prometheus metrics after you turn them on, see the [https://docs.aws.amazon.com/prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html](https://docs.aws.amazon.com/prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html)\.
 
-## Turn on Prometheus metrics when creating a cluster<a name="turn-on-prometheus-metrics"></a>
+There are several different options for using Prometheus with Amazon EKS:
++ You can turn on Prometheus metrics when first creating an Amazon EKS cluster, which is covered by this topic\.
++ If you already have an existing Amazon EKS cluster, you can create your own Prometheus scraper\. For more information, see [https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-create](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-create)\.
++ You can deploy Prometheus using Helm\. For more information, see [Deploy Prometheus using Helm](deploy-prometheus.md)\.
++ You can view control plane raw metrics in Prometheus format\. For more information, see [View control plane raw metrics in Prometheus format](view-raw-metrics.md)\.
+
+## Step 1: Turn on Prometheus metrics when creating a cluster<a name="turn-on-prometheus-metrics"></a>
 
 **Important**  
 Amazon Managed Service for Prometheus resources are outside of the cluster lifecycle and need to be maintained independent of the cluster\. When you delete your cluster, make sure to also delete any applicable scrapers to stop applicable costs\. For more information, see [Find and delete scrapers](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-list-delete) in the *Amazon Managed Service for Prometheus User Guide*\.
@@ -43,115 +49,10 @@ Amazon Managed Service for Prometheus refers to the agentless scraper that is cr
 **Important**  
 You must set up your `aws-auth` `ConfigMap` to give the scraper in\-cluster permissions\. For more information, see [Configuring your Amazon EKS cluster](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup) in the *Amazon Managed Service for Prometheus User Guide*\.
 
-## Viewing Prometheus scraper details<a name="viewing-prometheus-scraper-details"></a>
+## Step 2: View Prometheus scraper details<a name="viewing-prometheus-scraper-details"></a>
 
 After creating a cluster with the Prometheus metrics option turned on, you can view your Prometheus scraper details\. When viewing your cluster in the AWS Management Console, choose the **Observability ** tab\. A table shows a list of scrapers for the cluster, including information such as the scraper ID, alias, status, and creation date\.
 
 To see more details about the scraper, choose a scraper ID link\. For example, you can view the scraper configuration, Amazon Resource Name \(ARN\), remote write URL, and networking information\. You can use the scraper ID as input to Amazon Managed Service for Prometheus API operations like `DescribeScraper` and `DeleteScraper`\. You can also use the API to create more scrapers\.
 
 For more information on using the Prometheus API, see the [Amazon Managed Service for Prometheus API Reference](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-APIReference.html)\.
-
-## Deploying Prometheus using Helm<a name="deploy-prometheus"></a>
-
-Alternatively, you can deploy Prometheus into your cluster with Helm V3\. If you already have Helm installed, you can check your version with the `helm version` command\. Helm is a package manager for Kubernetes clusters\. For more information about Helm and how to install it, see [Deploy applications with Helm on Amazon EKS](helm.md)\.
-
-After you configure Helm for your Amazon EKS cluster, you can use it to deploy Prometheus with the following steps\.
-
-**To deploy Prometheus using Helm**
-
-1. Create a Prometheus namespace\.
-
-   ```
-   kubectl create namespace prometheus
-   ```
-
-1. Add the `prometheus-community` chart repository\.
-
-   ```
-   helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-   ```
-
-1. Deploy Prometheus\.
-
-   ```
-   helm upgrade -i prometheus prometheus-community/prometheus \
-       --namespace prometheus \
-       --set alertmanager.persistence.storageClass="gp2" \
-       --set server.persistentVolume.storageClass="gp2"
-   ```
-**Note**  
-If you get the error `Error: failed to download "stable/prometheus" (hint: running `helm repo update` may help)` when executing this command, run `helm repo update prometheus-community`, and then try running the Step 2 command again\.  
-If you get the error `Error: rendered manifests contain a resource that already exists`, run `helm uninstall your-release-name -n namespace`, then try running the Step 3 command again\.
-
-1. Verify that all of the Pods in the `prometheus` namespace are in the `READY` state\.
-
-   ```
-   kubectl get pods -n prometheus
-   ```
-
-   An example output is as follows\.
-
-   ```
-   NAME                                             READY   STATUS    RESTARTS   AGE
-   prometheus-alertmanager-59b4c8c744-r7bgp         1/2     Running   0          48s
-   prometheus-kube-state-metrics-7cfd87cf99-jkz2f   1/1     Running   0          48s
-   prometheus-node-exporter-jcjqz                   1/1     Running   0          48s
-   prometheus-node-exporter-jxv2h                   1/1     Running   0          48s
-   prometheus-node-exporter-vbdks                   1/1     Running   0          48s
-   prometheus-pushgateway-76c444b68c-82tnw          1/1     Running   0          48s
-   prometheus-server-775957f748-mmht9               1/2     Running   0          48s
-   ```
-
-1. Use `kubectl` to port forward the Prometheus console to your local machine\.
-
-   ```
-   kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090
-   ```
-
-1. Point a web browser to `http://localhost:9090` to view the Prometheus console\.
-
-1. Choose a metric from the **\- insert metric at cursor** menu, then choose **Execute**\. Choose the **Graph** tab to show the metric over time\. The following image shows `container_memory_usage_bytes` over time\.  
-![\[Prometheus metrics\]](http://docs.aws.amazon.com/eks/latest/userguide/images/prometheus-metric.png)
-
-1. From the top navigation bar, choose **Status**, then **Targets**\.  
-![\[Prometheus console\]](http://docs.aws.amazon.com/eks/latest/userguide/images/prometheus.png)
-
-   All of the Kubernetes endpoints that are connected to Prometheus using service discovery are displayed\.
-
-## Viewing the control plane raw metrics<a name="view-raw-metrics"></a>
-
-As an alternative to deploying Prometheus, the Kubernetes API server exposes a number of metrics that are represented in a [Prometheus format](https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exposition_formats.md)\. These metrics are useful for monitoring and analysis\. They are exposed internally through a metrics endpoint that refers to the `/metrics` HTTP API\. Like other endpoints, this endpoint is exposed on the Amazon EKS control plane\. This endpoint is primarily useful for looking at a specific metric\. To analyze metrics over time, we recommend deploying Prometheus\.
-
-To view the raw metrics output, use `kubectl` with the `--raw` flag\. This command allows you to pass any HTTP path and returns the raw response\.
-
-```
-kubectl get --raw /metrics
-```
-
-An example output is as follows\.
-
-```
-[...]
-# HELP rest_client_requests_total Number of HTTP requests, partitioned by status code, method, and host.
-# TYPE rest_client_requests_total counter
-rest_client_requests_total{code="200",host="127.0.0.1:21362",method="POST"} 4994
-rest_client_requests_total{code="200",host="127.0.0.1:443",method="DELETE"} 1
-rest_client_requests_total{code="200",host="127.0.0.1:443",method="GET"} 1.326086e+06
-rest_client_requests_total{code="200",host="127.0.0.1:443",method="PUT"} 862173
-rest_client_requests_total{code="404",host="127.0.0.1:443",method="GET"} 2
-rest_client_requests_total{code="409",host="127.0.0.1:443",method="POST"} 3
-rest_client_requests_total{code="409",host="127.0.0.1:443",method="PUT"} 8
-# HELP ssh_tunnel_open_count Counter of ssh tunnel total open attempts
-# TYPE ssh_tunnel_open_count counter
-ssh_tunnel_open_count 0
-# HELP ssh_tunnel_open_fail_count Counter of ssh tunnel failed open attempts
-# TYPE ssh_tunnel_open_fail_count counter
-ssh_tunnel_open_fail_count 0
-```
-
-This raw output returns verbatim what the API server exposes\. The different metrics are listed by line, with each line including a metric name, tags, and a value\.
-
-```
-metric_name{"tag"="value"[,...]}
-            value
-```

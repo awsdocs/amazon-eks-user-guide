@@ -4,7 +4,7 @@ The add\-on name is `kubecost_kubecost` and the namespace is `kubecost`\. Kubeco
 
 For information about the add\-on, see[AWS Cloud Billing Integration](https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations) in the Kubecost documentation\.
 
-If your cluster is version `1.23` or later, you must have the [Store Kuberentes volumes with Amazon EBS](ebs-csi.md) installed on your cluster\. otherwise you will receive an error\.
+If your cluster is version `1.23` or later, you must have the [Store Kubernetes volumes with Amazon EBS](ebs-csi.md) installed on your cluster\. otherwise you will receive an error\.
 
 ## Service account name<a name="add-on-kubecost-service-account-name"></a>
 

@@ -1,4 +1,4 @@
-# Troubleshooting local clusters for Amazon EKS on AWS Outposts<a name="eks-outposts-troubleshooting"></a>
+# Troubleshoot local Amazon EKS clusters on AWS Outposts<a name="eks-outposts-troubleshooting"></a>
 
 This topic covers some common errors that you might see while using local clusters and how to troubleshoot them\. Local clusters are similar to Amazon EKS clusters in the cloud, but there are some differences in how they're managed by Amazon EKS\.
 
@@ -91,7 +91,7 @@ The most common issues are the following:
 + The Amazon EKS managed security groups are applied at the elastic network interface\. However, other configuration elements such as NACL firewall rules might conflict with the rules for the elastic network interface\.
 
 **VPC and subnet DNS configuration is misconfigured or missing**  
-Review [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md)\.
+Review [Create a VPC and subnets for Amazon EKS clusters on AWS Outposts](eks-outposts-vpc-subnet-requirements.md)\.
 
 ## Can't join nodes to a cluster<a name="outposts-troubleshooting-unable-to-join-nodes-to-a-cluster"></a>
 
@@ -110,7 +110,7 @@ Review [Amazon EKS local cluster VPC and subnet requirements and considerations]
 
 ## Collecting logs<a name="outposts-troubleshooting-collecting-logs"></a>
 
-When an Outpost gets disconnected from the AWS Region that it's associated with, the Kubernetes cluster likely will continue working normally\. However, if the cluster doesn't work properly, follow the troubleshooting steps in [Preparing for network disconnects](eks-outposts-network-disconnects.md)\. If you encounter other issues, contact AWS Support\. AWS Support can guide you on downloading and running a log collection tool\. That way, you can collect logs from your Kubernetes cluster control plane instances and send them to AWS Support support for further investigation\.
+When an Outpost gets disconnected from the AWS Region that it's associated with, the Kubernetes cluster likely will continue working normally\. However, if the cluster doesn't work properly, follow the troubleshooting steps in [Prepare local Amazon EKS clusters on AWS Outposts for network disconnects](eks-outposts-network-disconnects.md)\. If you encounter other issues, contact AWS Support\. AWS Support can guide you on downloading and running a log collection tool\. That way, you can collect logs from your Kubernetes cluster control plane instances and send them to AWS Support support for further investigation\.
 
 ## Control plane instances aren't reachable through AWS Systems Manager<a name="outposts-troubleshooting-control-plane-instances-ssm"></a>
 
@@ -120,4 +120,4 @@ When the Amazon EKS control plane instances aren't reachable through AWS Systems
 Amazon EKS control plane instances are not reachable through SSM. Please verify your SSM and network configuration, and reference the EKS on Outposts troubleshooting documentation.
 ```
 
-To resolve this issue, make sure that your VPC and subnets meet the requirements in [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md) and that you completed the steps in [Setting up Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started.html) in the AWS Systems Manager User Guide\. 
+To resolve this issue, make sure that your VPC and subnets meet the requirements in [Create a VPC and subnets for Amazon EKS clusters on AWS Outposts](eks-outposts-vpc-subnet-requirements.md) and that you completed the steps in [Setting up Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started.html) in the AWS Systems Manager User Guide\. 

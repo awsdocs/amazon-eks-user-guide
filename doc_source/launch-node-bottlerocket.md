@@ -9,7 +9,7 @@ For information about in\-place upgrades, see [Bottlerocket Update Operator](htt
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
-You can launch Bottlerocket nodes in Amazon EKS extended clusters on AWS Outposts, but you can't launch them in local clusters on AWS Outposts\. For more information, see [Amazon EKS on AWS Outposts](eks-outposts.md)\.
+You can launch Bottlerocket nodes in Amazon EKS extended clusters on AWS Outposts, but you can't launch them in local clusters on AWS Outposts\. For more information, see [Deploy Amazon EKS on\-premises with AWS Outposts](eks-outposts.md)\.
 You can deploy to Amazon EC2 instances with `x86` or Arm processors\. However, you can't deploy to instances that have Inferentia chips\.
 Bottlerocket is compatible with AWS CloudFormation\. However, there is no official CloudFormation template that can be copied to deploy Bottlerocket nodes for Amazon EKS\.
 Bottlerocket images don't come with an SSH server or a shell\. You can use out\-of\-band access methods to allow SSH enabling the admin container and to pass some bootstrapping configuration steps with user data\. For more information, see these sections in the [bottlerocket README\.md](https://github.com/bottlerocket-os/bottlerocket) on GitHub:  
@@ -81,7 +81,7 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnet
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"
    ```
 
-1. \(Optional\) Create a Kubernetes [persistent volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) on a Bottlerocket node using the [Amazon EBS CSI Plugin](https://github.com/kubernetes-sigs/aws-ebs-csi-driver)\. The default Amazon EBS driver relies on file system tools that aren't included with Bottlerocket\. For more information about creating a storage class using the driver, see [Store Kuberentes volumes with Amazon EBS](ebs-csi.md)\.
+1. \(Optional\) Create a Kubernetes [persistent volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) on a Bottlerocket node using the [Amazon EBS CSI Plugin](https://github.com/kubernetes-sigs/aws-ebs-csi-driver)\. The default Amazon EBS driver relies on file system tools that aren't included with Bottlerocket\. For more information about creating a storage class using the driver, see [Store Kubernetes volumes with Amazon EBS](ebs-csi.md)\.
 
 1. \(Optional\) By default, `kube-proxy` sets the `nf_conntrack_max` kernel parameter to a default value that may differ from what Bottlerocket originally sets at boot\. To keep Bottlerocket's [default setting](https://github.com/bottlerocket-os/bottlerocket/blob/develop/packages/release/release-sysctl.conf), edit the `kube-proxy` configuration with the following command\.
 

@@ -4,7 +4,7 @@ The add\-on name is `leaksignal_leakagent` and the namespace is `leakagent`\. Le
 
 For information about the add\-on, see [Install the LeakAgent add\-on](https://www.leaksignal.com/docs/LeakAgent/Deployment/AWS%20EKS%20Addon/) in the LeakSignal documentation
 
-If your cluster is version `1.23` or later, you must have the [Store Kuberentes volumes with Amazon EBS](ebs-csi.md) installed on your cluster\. otherwise you will receive an error\.
+If your cluster is version `1.23` or later, you must have the [Store Kubernetes volumes with Amazon EBS](ebs-csi.md) installed on your cluster\. otherwise you will receive an error\.
 
 ## Service account name<a name="add-on-leaksignal-service-account-name"></a>
 

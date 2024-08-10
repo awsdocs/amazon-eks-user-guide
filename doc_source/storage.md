@@ -3,7 +3,8 @@
 This chapter covers storage options for Amazon EKS clusters\.
 
 **Topics**
-+ [Store Kuberentes volumes with Amazon EBS](ebs-csi.md)
++ [Store Kubernetes volumes with Amazon EBS](ebs-csi.md)
++ [Amazon EBS CSI migration frequently asked questions](ebs-csi-migration-faq.md)
 + [Store an elastic file system with Amazon EFS](efs-csi.md)
 + [Store high\-performance apps with FSx for Lustre](fsx-csi.md)
 + [Store high\-performance apps with FSx for NetApp ONTAP](fsx-ontap.md)

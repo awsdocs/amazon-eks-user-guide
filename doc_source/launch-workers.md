@@ -50,7 +50,7 @@ You must create the node group with a config file that specifies the subnets and
    + can assign a significantly higher number of IP addresses to Pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
    + can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see [Custom networking for pods](cni-custom-network.md)\.
    + can assign `IPv6` addresses to Pods and services, see [`IPv6` addresses for clusters, Pods, and services](cni-ipv6.md)\.
-   + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Test migration from Docker to `containerd`](eks-optimized-ami.md#containerd-bootstrap)\.
+   + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Test Amazon Linux 2 migration from Docker to `containerd`](dockershim-deprecation.md#containerd-bootstrap)\.
    + don't have outbound internet access, see [Deploy private clusters with limited internet access](private-clusters.md)\.
 
    For a complete list of all available options and defaults, enter the following command\.
@@ -134,7 +134,7 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
      + can assign a significantly higher number of IP addresses to Pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
      + can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see [Custom networking for pods](cni-custom-network.md)\.
      + can assign `IPv6` addresses to Pods and services, see [`IPv6` addresses for clusters, Pods, and services](cni-ipv6.md)\.
-     + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Test migration from Docker to `containerd`](eks-optimized-ami.md#containerd-bootstrap)\.
+     + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Test Amazon Linux 2 migration from Docker to `containerd`](dockershim-deprecation.md#containerd-bootstrap)\.
      + don't have outbound internet access, see [Deploy private clusters with limited internet access](private-clusters.md)\.
    + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and Pods in the node group from using MDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
    + **VpcId**: Enter the ID for the [VPC](creating-a-vpc.md) that you created\.

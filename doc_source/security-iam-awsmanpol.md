@@ -47,7 +47,7 @@ To view the latest version of the JSON policy document, see [AmazonEKSClusterPol
 
 ## AWS managed policy: AmazonEKSFargatePodExecutionRolePolicy<a name="security-iam-awsmanpol-AmazonEKSFargatePodExecutionRolePolicy"></a>
 
-You can attach `AmazonEKSFargatePodExecutionRolePolicy` to your IAM entities\. Before you can create a Fargate profile, you must create a Fargate Pod execution role and attach this policy to it\. For more information, see [Create a Fargate Pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role) and [Define which Pods use AWS Fargate when launched](fargate-profile.md)\.
+You can attach `AmazonEKSFargatePodExecutionRolePolicy` to your IAM entities\. Before you can create a Fargate profile, you must create a Fargate Pod execution role and attach this policy to it\. For more information, see [Step 2: Create a Fargate Pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role) and [Define which Pods use AWS Fargate when launched](fargate-profile.md)\.
 
 This policy grants the role the permissions that provide access to other AWS service resources that are required to run Amazon EKS Pods on Fargate\.
 

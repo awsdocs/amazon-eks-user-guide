@@ -1,4 +1,4 @@
-# Creating a local cluster on an Outpost<a name="eks-outposts-local-cluster-create"></a>
+# Deploy an Amazon EKS cluster on AWS Outposts<a name="eks-outposts-local-cluster-create"></a>
 
 This topic provides an overview of what to consider when running a local cluster on an Outpost\. The topic also provides instructions for how to deploy a local cluster on an Outpost\.
 
@@ -15,7 +15,7 @@ Many of the considerations are different than the considerations for creating a 
 + Amazon EBS backed Kubernetes `PersistentVolumes` are supported using the Amazon EBS CSI driver\.
 
 **Prerequisites**
-+ Familiarity with the [Outposts deployment options](eks-outposts.md#outposts-overview-comparing-deployment-options), [Capacity considerations](eks-outposts-capacity-considerations.md), and [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md)\.
++ Familiarity with the [Outposts deployment options](eks-outposts.md#outposts-overview-comparing-deployment-options), [Select instance types and placement groups for Amazon EKS clusters on AWS Outposts based on capacity considerations](eks-outposts-capacity-considerations.md), and [Create a VPC and subnets for Amazon EKS clusters on AWS Outposts](eks-outposts-vpc-subnet-requirements.md)\.
 + An existing Outpost\. For more information, see [What is AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html)\.
 + The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Set up `kubectl` and `eksctl`](install-kubectl.md)\.
 + Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line Interface \(AWS CLI\) installed and configured on your device or AWS CloudShell\. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the *AWS Command Line Interface User Guide*\. The AWS CLI version that is installed in AWS CloudShell might also be several versions behind the latest version\. To update it, see [Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the *AWS CloudShell User Guide*\.
@@ -40,9 +40,9 @@ Version `0.187.0` or later of the `eksctl` command line tool installed on your d
    1. Copy the contents that follow to your device\. Replace the following values and then run the modified command to create the `outpost-control-plane.yaml` file:
       + Replace `region-code` with the [supported AWS Region](eks-outposts-local-cluster-overview.md#outposts-control-plane-supported-regions) that you want to create your cluster in\.
       + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
-      + Replace `vpc-ExampleID1` and `subnet-ExampleID1` with the IDs of your existing VPC and subnet\. The VPC and subnet must meet the requirements in [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md)\.
+      + Replace `vpc-ExampleID1` and `subnet-ExampleID1` with the IDs of your existing VPC and subnet\. The VPC and subnet must meet the requirements in [Create a VPC and subnets for Amazon EKS clusters on AWS Outposts](eks-outposts-vpc-subnet-requirements.md)\.
       + Replace `uniqueid` with the ID of your Outpost\.
-      + Replace `m5.large` with an instance type available on your Outpost\. Before choosing an instance type, see [Capacity considerations](eks-outposts-capacity-considerations.md)\. Three control plane instances are deployed\. You can't change this number\.
+      + Replace `m5.large` with an instance type available on your Outpost\. Before choosing an instance type, see [Select instance types and placement groups for Amazon EKS clusters on AWS Outposts based on capacity considerations](eks-outposts-capacity-considerations.md)\. Three control plane instances are deployed\. You can't change this number\.
 
       ```
       cat >outpost-control-plane.yaml <<EOF
@@ -92,7 +92,7 @@ To see the most options that you can specify when creating a cluster with `eksct
 #### [ AWS Management Console ]
 
 **Prerequisite**  
-An existing VPC and subnet that meet Amazon EKS requirements\. For more information, see [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md)\.
+An existing VPC and subnet that meet Amazon EKS requirements\. For more information, see [Create a VPC and subnets for Amazon EKS clusters on AWS Outposts](eks-outposts-vpc-subnet-requirements.md)\.
 
 **To create your cluster with the AWS Management Console**
 
@@ -138,7 +138,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
    1. On the **Configure cluster** page, enter or select values for the following fields:
       + **Kubernetes control plane location** – Choose AWS Outposts\.
       + **Outpost ID** – Choose the ID of the Outpost that you want to create your control plane on\.
-      + **Instance type** – Select an instance type\. Only the instance types available in your Outpost are displayed\. In the dropdown list, each instance type describes how many nodes the instance type is recommended for\. Before choosing an instance type, see [Capacity considerations](eks-outposts-capacity-considerations.md)\. All replicas are deployed using the same instance type\. You can't change the instance type after your cluster is created\. Three control plane instances are deployed\. You can't change this number\.
+      + **Instance type** – Select an instance type\. Only the instance types available in your Outpost are displayed\. In the dropdown list, each instance type describes how many nodes the instance type is recommended for\. Before choosing an instance type, see [Select instance types and placement groups for Amazon EKS clusters on AWS Outposts based on capacity considerations](eks-outposts-capacity-considerations.md)\. All replicas are deployed using the same instance type\. You can't change the instance type after your cluster is created\. Three control plane instances are deployed\. You can't change this number\.
       + **Name** – A name for your cluster\. It must be unique in your AWS account\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
       + **Kubernetes version** – Choose the Kubernetes version that you want to use for your cluster\. We recommend selecting the latest version, unless you need to use an earlier version\.
       + **Cluster service role** – Choose the Amazon EKS cluster IAM role that you created in a previous step to allow the Kubernetes control plane to manage AWS resources\.
@@ -160,7 +160,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
       When you're done with this page, choose **Next**\.
 
    1. On the **Configure observability** page, you can optionally choose which **Metrics** and **Control plane logging** options that you want to turn on\. By default, each log type is turned off\.
-      + For more information on the Prometheus metrics option, see [Turn on Prometheus metrics when creating a cluster](prometheus.md#turn-on-prometheus-metrics)\.
+      + For more information on the Prometheus metrics option, see [Step 1: Turn on Prometheus metrics when creating a cluster](prometheus.md#turn-on-prometheus-metrics)\.
       + For more information on the **Control plane logging** options, see [Send control plane logs to CloudWatch Logs](control-plane-logs.md)\.
 
       When you're done with this page, choose **Next**\.
@@ -214,7 +214,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
    kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   28h
    ```
 
-1. \(Optional\) Test authentication to your local cluster when it's in a disconnected state from the AWS Cloud\. For instructions, see [Preparing for network disconnects](eks-outposts-network-disconnects.md)\.
+1. \(Optional\) Test authentication to your local cluster when it's in a disconnected state from the AWS Cloud\. For instructions, see [Prepare local Amazon EKS clusters on AWS Outposts for network disconnects](eks-outposts-network-disconnects.md)\.
 
 ## Internal resources<a name="outposts-control-plan-internal-resources"></a>
 

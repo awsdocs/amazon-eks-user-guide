@@ -13,8 +13,8 @@ Once you've created the `ConfigMap`, Amazon EKS on Fargate automatically detects
 The log router allows you to use the breadth of services at AWS for log analytics and storage\. You can stream logs from Fargate directly to Amazon CloudWatch, Amazon OpenSearch Service\. You can also stream logs to destinations such as [Amazon S3](https://aws.amazon.com/s3/), [Amazon Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams/), and partner tools through [Amazon Data Firehose](https://aws.amazon.com/kinesis/data-firehose/)\.
 
 **Prerequisites**
-+ An existing Fargate profile that specifies an existing Kubernetes namespace that you deploy Fargate Pods to\. For more information, see [Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
-+ An existing Fargate Pod execution role\. For more information, see [Create a Fargate Pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\.
++ An existing Fargate profile that specifies an existing Kubernetes namespace that you deploy Fargate Pods to\. For more information, see [Step 3: Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
++ An existing Fargate Pod execution role\. For more information, see [Step 2: Create a Fargate Pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\.
 
 ## Log router configuration<a name="fargate-logging-log-router-configuration"></a>
 
@@ -236,7 +236,7 @@ You can also use Amazon Kinesis Data Streams for your log destination\. If you u
    aws iam create-policy --policy-name eks-fargate-logging-policy --policy-document file://permissions.json
    ```
 
-1. Attach the IAM policy to the pod execution role specified for your Fargate profile with the following command\. Replace `111122223333` with your account ID\. Replace `AmazonEKSFargatePodExecutionRole` with your Pod execution role \(for more information, see [Create a Fargate Pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\)\.
+1. Attach the IAM policy to the pod execution role specified for your Fargate profile with the following command\. Replace `111122223333` with your account ID\. Replace `AmazonEKSFargatePodExecutionRole` with your Pod execution role \(for more information, see [Step 2: Create a Fargate Pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\)\.
 
    ```
    aws iam attach-role-policy \

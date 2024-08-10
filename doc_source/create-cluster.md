@@ -1,6 +1,6 @@
 # Create an Amazon EKS cluster<a name="create-cluster"></a>
 
-This topic provides an overview of the available options and describes what to consider when you create an Amazon EKS cluster\. If you need to create a cluster on an AWS Outpost, see [Local clusters for Amazon EKS on AWS Outposts](eks-outposts-local-cluster-overview.md)\. If this is your first time creating an Amazon EKS cluster, we recommend that you follow one of our [Get started with Amazon EKS](getting-started.md) guides\. These guides help you to create a simple, default cluster without expanding into all of the available options\.
+This topic provides an overview of the available options and describes what to consider when you create an Amazon EKS cluster\. If you need to create a cluster on an AWS Outpost, see [Create local Amazon EKS clusters on AWS Outposts for high availability](eks-outposts-local-cluster-overview.md)\. If this is your first time creating an Amazon EKS cluster, we recommend that you follow one of our [Get started with Amazon EKS](getting-started.md) guides\. These guides help you to create a simple, default cluster without expanding into all of the available options\.
 
 **Note**  
 New — You can disable the installation of default cluster add\-ons, such as `vpc-cni`\. [View CLI instructions\.](#barecluster)<a name="create-cluster-prerequisites"></a>
@@ -154,7 +154,7 @@ To see the most options that you can specify when creating a cluster with `eksct
         When you're done with this page, choose **Next**\.
 
    1. \(Optional\) On the **Configure observability** page, choose which **Metrics** and **Control plane logging** options to turn on\. By default, each log type is turned off\.
-      + For more information about the Prometheus metrics option, see [Turn on Prometheus metrics when creating a cluster](prometheus.md#turn-on-prometheus-metrics)\.
+      + For more information about the Prometheus metrics option, see [Step 1: Turn on Prometheus metrics when creating a cluster](prometheus.md#turn-on-prometheus-metrics)\.
       + For more information about the **Control plane logging** options, see [Send control plane logs to CloudWatch Logs](control-plane-logs.md)\.
 
       When you're done with this page, choose **Next**\.
@@ -273,7 +273,7 @@ If your cluster uses the `IPv6` family
 
 1. If you enabled Prometheus metrics, you must set up your `aws-auth` `ConfigMap` to give the scraper in\-cluster permissions\. For more information, see [Configuring your Amazon EKS cluster](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup) in the *Amazon Managed Service for Prometheus User Guide*\.
 
-1. If you plan to deploy workloads to your cluster that use Amazon EBS volumes , and you created a `1.23` or later cluster, then you must install the [Store Kuberentes volumes with Amazon EBS](ebs-csi.md) to your cluster before deploying the workloads\.
+1. If you plan to deploy workloads to your cluster that use Amazon EBS volumes , and you created a `1.23` or later cluster, then you must install the [Store Kubernetes volumes with Amazon EBS](ebs-csi.md) to your cluster before deploying the workloads\.
 
 Recommended next steps:
 + The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that created the cluster is the only principal that has access to the cluster\. [Grant permissions to other [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html)](grant-k8s-access.md) so they can access your cluster\.

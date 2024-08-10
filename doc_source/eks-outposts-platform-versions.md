@@ -1,4 +1,4 @@
-# Amazon EKS local cluster platform versions<a name="eks-outposts-platform-versions"></a>
+# Learn Kubernetes and Amazon EKS platform versions for AWS Outposts<a name="eks-outposts-platform-versions"></a>
 
 Local cluster platform versions represent the capabilities of the Amazon EKS cluster on AWS Outposts\. The versions include the components that run on the Kubernetes control plane, which Kubernetes API server flags are enabled\. They also include the current Kubernetes patch version\. Each Kubernetes minor version has one or more associated platform versions\. The platform versions for different Kubernetes minor versions are independent\. The platform versions for local clusters and Amazon EKS clusters in the cloud are independent\.
 

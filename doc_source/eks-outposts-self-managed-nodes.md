@@ -4,7 +4,7 @@ This topic describes how you can launch Auto Scaling groups of Amazon Linux node
 
 **Prerequisites**
 + An existing Outpost\. For more information, see [What is AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html)\.
-+ An existing Amazon EKS cluster\. To deploy a cluster on the AWS Cloud, see [Create an Amazon EKS cluster](create-cluster.md)\. To deploy a cluster on an Outpost, see [Local clusters for Amazon EKS on AWS Outposts](eks-outposts-local-cluster-overview.md)\.
++ An existing Amazon EKS cluster\. To deploy a cluster on the AWS Cloud, see [Create an Amazon EKS cluster](create-cluster.md)\. To deploy a cluster on an Outpost, see [Create local Amazon EKS clusters on AWS Outposts for high availability](eks-outposts-local-cluster-overview.md)\.
 + Suppose that you're creating your nodes in a cluster on the AWS Cloud and you have subnets in the AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Then, those subnets must not have been passed in when you created your cluster\. If you're creating your nodes in a cluster on an Outpost, you must have passed in an Outpost subnet when creating your cluster\.
 + \(Recommended for clusters on the AWS Cloud\) The Amazon VPC CNI plugin for Kubernetes add\-on configured with its own IAM role that has the necessary IAM policy attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts \(IRSA\)](cni-iam-role.md)\. Local clusters do not support IAM roles for service accounts\. 
 
@@ -39,7 +39,7 @@ Version `0.187.0` or later of the `eksctl` command line tool installed on your d
 
    For a complete list of all available options and defaults, see [AWS Outposts Support](https://eksctl.io/usage/outposts/) in the `eksctl` documentation\.
 
-   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Can't join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshooting local clusters for Amazon EKS on AWS Outposts](eks-outposts-troubleshooting.md)\.
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Can't join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshoot local Amazon EKS clusters on AWS Outposts](eks-outposts-troubleshooting.md)\.
 
    An example output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
 
@@ -175,7 +175,7 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
 
-   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Can't join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshooting local clusters for Amazon EKS on AWS Outposts](eks-outposts-troubleshooting.md)\.
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Can't join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshoot local Amazon EKS clusters on AWS Outposts](eks-outposts-troubleshooting.md)\.
 
 1. Install the Amazon EBS CSI driver\. For more information, see [Installation](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md) on GitHub\. In the **Set up driver permission** section, make sure to follow the instruction for the **Using IAM instance profile** option\. You must use the `gp2` storage class\. The `gp3` storage class isn't supported\.
 

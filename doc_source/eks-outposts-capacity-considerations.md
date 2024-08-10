@@ -1,4 +1,4 @@
-# Capacity considerations<a name="eks-outposts-capacity-considerations"></a>
+# Select instance types and placement groups for Amazon EKS clusters on AWS Outposts based on capacity considerations<a name="eks-outposts-capacity-considerations"></a>
 
 This topic provides guidance for selecting the Kubernetes control plane instance type and \(optionally\) using placement groups to meet high\-availability requirements for your local Amazon EKS cluster on an Outpost\.
 

@@ -16,7 +16,7 @@ Utilize the [t3\.medium instance type](choosing-instance-type.md)\. This instanc
 Establish the IRSA mappings to facilitate communication between Kubernetes pods and AWS services\. The template is configured to set up an [OpenID Connect \(OIDC\) endpoint](enable-iam-roles-for-service-accounts.md) for authentication and authorization\. It also establishes a service account for the [AWS Load Balancer Controller \(LBC\)](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/), a controller responsible for exposing applications and managing traffic\.
 
 **Data Persistence**  
-Integrate the [AWS EBS CSI Driver](managing-ebs-csi.md) managed add\-on to ensure the persistence of application data, even in scenarios involving pod restarts or failures\. The template is configured to install the add\-on and establish a service account
+Integrate the [AWS EBS CSI Driver](ebs-csi.md#managing-ebs-csi) managed add\-on to ensure the persistence of application data, even in scenarios involving pod restarts or failures\. The template is configured to install the add\-on and establish a service account
 
 **External App Access**  
 Set up and integrate with the AWS Load Balancer Controller \(LBC\) add\-on to expose the [2048 game application](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.6.0/docs/examples/2048/2048_full.yaml), using the LBC to dynamically provision an Application Load Balancer \(ALB\)\.
@@ -27,7 +27,7 @@ Set up and integrate with the AWS Load Balancer Controller \(LBC\) add\-on to ex
 
 ## Step 1: Configure the cluster<a name="quickstart-config-cluster"></a>
 
-In this section, you’ll create a managed node group\-based cluster using [t3\.medium](https://aws.amazon.com/ec2/instance-types/) instances containing two nodes\. The configuration includes a service account for [AWS Load Balancer Controller \(LBC\)](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/deploy/installation/) add\-on, and installation of the latest version of the [AWS Amazon EBS CSI driver](managing-ebs-csi.md#managing-ebs-csi.title)\. For all available `eksctl` add\-ons, see [Discovering addons](https://eksctl.io/usage/addons/#discovering-addons) in `eksctl` documentation\.
+In this section, you’ll create a managed node group\-based cluster using [t3\.medium](https://aws.amazon.com/ec2/instance-types/) instances containing two nodes\. The configuration includes a service account for [AWS Load Balancer Controller \(LBC\)](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/deploy/installation/) add\-on, and installation of the latest version of the [AWS Amazon EBS CSI driver](ebs-csi.md#managing-ebs-csi.title)\. For all available `eksctl` add\-ons, see [Discovering addons](https://eksctl.io/usage/addons/#discovering-addons) in `eksctl` documentation\.
 + Create a `cluster-config.yaml` file and paste the following contents into it\. Replace *region\-code* with a valid region, such as `us-east-1`
 
   Example output is as follows:

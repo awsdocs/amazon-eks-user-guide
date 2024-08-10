@@ -50,7 +50,7 @@ If the Amazon EKS service is using the role when you try to delete the resources
 
 1. In the left navigation pane, choose **Clusters**\.
 
-1. If your cluster has any node groups or Fargate profiles, you must delete them before you can delete the cluster\. For more information, see [Delete a managed node group from your cluster](delete-managed-node-group.md) and [Deleting a Fargate profile](fargate-profile.md#delete-fargate-profile)\.
+1. If your cluster has any node groups or Fargate profiles, you must delete them before you can delete the cluster\. For more information, see [Delete a managed node group from your cluster](delete-managed-node-group.md) and [Delete a Fargate profile](delete-fargate-profile.md)\.
 
 1. On the **Clusters** page, choose the cluster that you want to delete and choose **Delete**\.
 

@@ -1,6 +1,6 @@
 # Amazon EKS VPC and subnet requirements and considerations<a name="network_reqs"></a>
 
-When you create a cluster, you specify a [VPC](https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html) and at least two subnets that are in different Availability Zones\. This topic provides an overview of Amazon EKS specific requirements and considerations for the VPC and subnets that you use with your cluster\. If you don't have a VPC to use with Amazon EKS, you can [create one using an Amazon EKS provided AWS CloudFormation template](creating-a-vpc.md)\. If you're creating a local or extended cluster on AWS Outposts, see [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md) instead of this topic\.
+When you create a cluster, you specify a [VPC](https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html) and at least two subnets that are in different Availability Zones\. This topic provides an overview of Amazon EKS specific requirements and considerations for the VPC and subnets that you use with your cluster\. If you don't have a VPC to use with Amazon EKS, you can [create one using an Amazon EKS provided AWS CloudFormation template](creating-a-vpc.md)\. If you're creating a local or extended cluster on AWS Outposts, see [Create a VPC and subnets for Amazon EKS clusters on AWS Outposts](eks-outposts-vpc-subnet-requirements.md) instead of this topic\.
 
 ## VPC requirements and considerations<a name="network-requirements-vpc"></a>
 
