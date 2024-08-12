@@ -73,7 +73,7 @@ When a Pod uses AWS credentials from an IAM role that's associated with a servic
 
    If your Pods can't interact with the services as you expected, complete the following steps to confirm that everything is properly configured\.
 
-   1. Confirm that your Pods use an AWS SDK version that supports assuming an IAM role through an EKS Pod Identity association\. For more information, see [Use a supported AWS SDK](pod-id-minimum-sdk.md)\.
+   1. Confirm that your Pods use an AWS SDK version that supports assuming an IAM role through an EKS Pod Identity association\. For more information, see [Use pod identity with the AWS SDK](pod-id-minimum-sdk.md)\.
 
    1. Confirm that the deployment is using the service account\.
 

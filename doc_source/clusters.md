@@ -1,4 +1,4 @@
-# Amazon EKS clusters<a name="clusters"></a>
+# Organize workloads with Amazon EKS clusters<a name="clusters"></a>
 
 An Amazon EKS cluster consists of two primary components:
 + The Amazon EKS control plane
@@ -21,7 +21,7 @@ Amazon EKS nodes run in your AWS account and connect to your cluster's control p
 
 **Note**  
 You can find out how the different components of Amazon EKS work in [Amazon EKS networking](eks-networking.md)\. 
-For connected clusters, see [Amazon EKS Connector](eks-connector.md)\.
+For connected clusters, see [Connect a Kubernetes cluster to an Amazon EKS Management Console with Amazon EKS Connector](eks-connector.md)\.
 
 **Topics**
 + [Create an Amazon EKS cluster](create-cluster.md)

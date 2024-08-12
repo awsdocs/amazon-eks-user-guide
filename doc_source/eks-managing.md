@@ -1,4 +1,4 @@
-# Cluster management<a name="eks-managing"></a>
+# Organize and monitor cluster resources<a name="eks-managing"></a>
 
 This chapter includes the following topics to help you manage your cluster\. You can also view information about your [Kubernetes resources](view-kubernetes-resources.md) with the AWS Management Console\.
 + The Kubernetes Dashboard is a general purpose, web\-based UI for Kubernetes clusters\. It allows users to manage applications running in the cluster and troubleshoot them, as well as manage the cluster itself\. For more information, see The [Kubernetes Dashboard](https://github.com/kubernetes/dashboard) GitHub repository\.

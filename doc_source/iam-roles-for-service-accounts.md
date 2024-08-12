@@ -22,7 +22,7 @@ To complete this step, you can run the command outside the VPC, for example in A
 
 1. [Configure Pods to use a Kubernetes service account](pod-configuration.md) – Complete this procedure for each Pod that needs access to AWS services\.
 
-1. [Using a supported AWS SDK](iam-roles-for-service-accounts-minimum-sdk.md) – Confirm that the workload uses an AWS SDK of a supported version and that the workload uses the default credential chain\.
+1. [Use IRSA with the AWS SDK](iam-roles-for-service-accounts-minimum-sdk.md) – Confirm that the workload uses an AWS SDK of a supported version and that the workload uses the default credential chain\.
 
 ## IAM, Kubernetes, and OpenID Connect \(OIDC\) background information<a name="irsa-oidc-background"></a>
 

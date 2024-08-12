@@ -15,7 +15,7 @@ Your cluster's API server is the control plane component that exposes the Kubern
 Kubernetes audit logs provide a record of the individual users, administrators, or system components that have affected your cluster\. For more information, see [Auditing](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/) in the Kubernetes documentation\.
 
 ****Authenticator** \(`authenticator`\)**  
-Authenticator logs are unique to Amazon EKS\. These logs represent the control plane component that Amazon EKS uses for Kubernetes [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) \(RBAC\) authentication using IAM credentials\. For more information, see [Cluster management](eks-managing.md)\.
+Authenticator logs are unique to Amazon EKS\. These logs represent the control plane component that Amazon EKS uses for Kubernetes [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) \(RBAC\) authentication using IAM credentials\. For more information, see [Organize and monitor cluster resources](eks-managing.md)\.
 
 ****Controller manager** \(`controllerManager`\)**  
 The controller manager manages the core control loops that are shipped with Kubernetes\. For more information, see [kube\-controller\-manager](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/) in the Kubernetes documentation\.

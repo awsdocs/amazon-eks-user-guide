@@ -34,7 +34,7 @@ By default, the EKS Pod Identity Agent listens on an `IPv4` and `IPv6` address f
   ```
 
   This action can be limited by tags to restrict which roles can be assumed by pods that use the agent\.
-+ The nodes can reach and download images from Amazon ECR\. The container image for the add\-on is in the registries listed in [Amazon container image registries](add-ons-images.md)\.
++ The nodes can reach and download images from Amazon ECR\. The container image for the add\-on is in the registries listed in [View Amazon container image registries for Amazon EKS add\-ons](add-ons-images.md)\.
 
   Note that you can change the image location and provide `imagePullSecrets` for EKS add\-ons in the **Optional configuration settings** in the AWS Management Console, and in the `--configuration-values` in the AWS CLI\.
 + The nodes can reach the Amazon EKS Auth API\. For private clusters, the `eks-auth` endpoint in AWS PrivateLink is required\.

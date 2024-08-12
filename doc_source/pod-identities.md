@@ -42,7 +42,7 @@ Turn on EKS Pod Identities by completing the following procedures:
 
 1. [Configure pods to access AWS services with service accounts](pod-id-configure-pods.md) – Complete this procedure for each Pod that needs access to AWS services\.
 
-1. [Use a supported AWS SDK](pod-id-minimum-sdk.md) – Confirm that the workload uses an AWS SDK of a supported version and that the workload uses the default credential chain\.
+1. [Use pod identity with the AWS SDK](pod-id-minimum-sdk.md) – Confirm that the workload uses an AWS SDK of a supported version and that the workload uses the default credential chain\.
 
 ## EKS Pod Identity considerations<a name="pod-id-considerations"></a>
 + You can associate one IAM role to each Kubernetes service account in each cluster\. You can change which role is mapped to the service account by editing the EKS Pod Identity association\.

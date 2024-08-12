@@ -1,4 +1,4 @@
-# Deregistering a cluster<a name="deregister-connected-cluster"></a>
+# Deregister a Kubernetes cluster from the Amazon EKS console<a name="deregister-connected-cluster"></a>
 
 If you are finished using a connected cluster, you can deregister it\. After it's deregistered, the cluster is no longer visible in the Amazon EKS console\.
 
@@ -41,7 +41,7 @@ aws eks deregister-cluster \
 #### [ eksctl ]
 
 **Prerequisites**
-+ `eksctl` version `0.68` or later must be installed\. To install or upgrade it, see [Getting started with Amazon EKS – `eksctl`](getting-started-eksctl.md)\.
++ `eksctl` version `0.68` or later must be installed\. To install or upgrade it, see [Get started with Amazon EKS – `eksctl`](getting-started-eksctl.md)\.
 + Ensure the Amazon EKS Connector agent role was created\. \.
 
 **To deregister your cluster with `eksctl`**
@@ -72,6 +72,6 @@ aws eks deregister-cluster \
    kubectl delete -f eks-connector.yaml
    ```
 
-1. If you created `clusterrole` or `clusterrolebindings` for additional [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to access the cluster, delete them from your Kubernetes cluster\.
+1. If you created `clusterrole` or `clusterrolebindings` for additional [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) to access the cluster, delete them from your Kubernetes cluster\.
 
 ------

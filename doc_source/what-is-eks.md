@@ -37,7 +37,7 @@ To create your first cluster and its associated resources, see [Get started with
 
 1. **Management** – Oversee your workloads, integrating AWS services to streamline operations and enhance workload performance\. You can view information about your workloads using the AWS Management Console\.
 
-The following diagram shows a basic flow of running Amazon EKS in the cloud\. To learn about other Kubernetes deployment options, see [Deployment options](eks-deployment-options.md)\.
+The following diagram shows a basic flow of running Amazon EKS in the cloud\. To learn about other Kubernetes deployment options, see [Deploy Amazon EKS clusters across cloud and on\-premises environments](eks-deployment-options.md)\.
 
 ![\[A basic flow diagram of the steps described previously.\]](http://docs.aws.amazon.com/eks/latest/userguide/images/what-is-eks.png)
 

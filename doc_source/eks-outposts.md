@@ -47,6 +47,6 @@ The following table compares the differences between the two options\.
 | Load balancing | Use the [AWS Load Balancer Controller](aws-load-balancer-controller.md) to provision Application Load Balancers only \(no Network Load Balancers\) | Use the [AWS Load Balancer Controller](aws-load-balancer-controller.md) to provision Application Load Balancers only \(no Network Load Balancers\) | 
 | Secrets envelope encryption | See [Encrypt Kubernetes secrets with AWS KMS on existing clusters](enable-kms.md) | Not supported | 
 | IAM roles for service accounts | See [IAM roles for service accounts](iam-roles-for-service-accounts.md) | Not supported | 
-| Troubleshooting | See [Amazon EKS troubleshooting](troubleshooting.md) | See [Troubleshoot local Amazon EKS clusters on AWS Outposts](eks-outposts-troubleshooting.md) | 
+| Troubleshooting | See [Troubleshoot problems with Amazon EKS clusters and nodes](troubleshooting.md) | See [Troubleshoot local Amazon EKS clusters on AWS Outposts](eks-outposts-troubleshooting.md) | 
 
 **Topics**

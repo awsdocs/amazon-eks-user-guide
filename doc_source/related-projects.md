@@ -1,4 +1,4 @@
-# Related projects<a name="related-projects"></a>
+# Extend Amazon EKS capabilities with open source projects<a name="related-projects"></a>
 
 These open\-source projects extend the functionality of Kubernetes clusters running on or outside of AWS, including clusters managed by Amazon EKS\.
 

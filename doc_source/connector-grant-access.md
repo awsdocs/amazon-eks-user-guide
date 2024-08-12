@@ -1,10 +1,10 @@
-# Granting access to an IAM principal to view Kubernetes resources on a cluster<a name="connector-grant-access"></a>
+# Grant access to view Kubernetes cluster resources on an Amazon EKS console<a name="connector-grant-access"></a>
 
-Grant [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) access to the Amazon EKS console to view information about Kubernetes resources running on your connected cluster\.
+Grant [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) access to the Amazon EKS console to view information about Kubernetes resources running on your connected cluster\.
 
 ## Prerequisites<a name="connector-grant-access-prereqs"></a>
 
-The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you use to access the AWS Management Console must meet the following requirements:
+The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) that you use to access the AWS Management Console must meet the following requirements:
 + It must have the `eks:AccessKubernetesApi` IAM permission\.
 + The Amazon EKS Connector service account can impersonate the IAM principal in the cluster\. This allows the Amazon EKS Connector to map the IAM principal to a Kubernetes user\.
 

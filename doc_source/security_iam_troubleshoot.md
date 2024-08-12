@@ -4,7 +4,7 @@ This topic covers some common errors that you may see while using Amazon EKS wit
 
 ## AccessDeniedException<a name="iam-error"></a>
 
-If you receive an `AccessDeniedException` when calling an AWS API operation, then the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) credentials that you're using don't have the required permissions to make that call\. 
+If you receive an `AccessDeniedException` when calling an AWS API operation, then the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) credentials that you're using don't have the required permissions to make that call\. 
 
 ```
 An error occurred (AccessDeniedException) when calling the DescribeCluster operation: 
@@ -18,7 +18,7 @@ For more general information about IAM, see [Controlling access using policies](
 
 ## Can't see **Nodes** on the **Compute** tab or anything on the **Resources** tab and you receive an error in the AWS Management Console<a name="security-iam-troubleshoot-cannot-view-nodes-or-workloads"></a>
 
-You may see a console error message that says `Your current user or role does not have access to Kubernetes objects on this EKS cluster`\. Make sure that the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) user that you're using the AWS Management Console with has the necessary permissions\. For more information, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
+You may see a console error message that says `Your current user or role does not have access to Kubernetes objects on this EKS cluster`\. Make sure that the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) user that you're using the AWS Management Console with has the necessary permissions\. For more information, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 
 ## aws\-auth `ConfigMap` does not grant access to the cluster<a name="security-iam-troubleshoot-ConfigMap"></a>
 

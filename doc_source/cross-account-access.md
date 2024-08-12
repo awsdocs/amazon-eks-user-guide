@@ -1,4 +1,4 @@
-# Cross\-account IAM permissions<a name="cross-account-access"></a>
+# Authenticate to another account with IRSA<a name="cross-account-access"></a>
 
 You can configure cross\-account IAM permissions either by creating an identity provider from another account's cluster or by using chained `AssumeRole` operations\. In the following examples, *Account A* owns an Amazon EKS cluster that supports IAM roles for service accounts\. Pods that are running on that cluster must assume IAM permissions from *Account B*\.
 

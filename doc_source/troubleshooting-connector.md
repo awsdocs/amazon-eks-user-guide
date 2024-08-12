@@ -1,4 +1,4 @@
-# Troubleshooting issues in Amazon EKS Connector<a name="troubleshooting-connector"></a>
+# Troubleshoot Amazon EKS Connector issues<a name="troubleshooting-connector"></a>
 
 This topic covers some of the common errors that you might encounter while using the Amazon EKS Connector, including instructions on how to resolve them and workarounds\.
 
@@ -91,7 +91,7 @@ If the cluster gets stuck in the `Pending` state on the Amazon EKS console after
 
 ## Console error: `User “system:serviceaccount:eks-connector:eks-connector” can't impersonate resource “users” in API group “”` at cluster scope<a name="symp-imp"></a>
 
-The Amazon EKS Connector uses Kubernetes [user impersonation](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation) to act on behalf of [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) from the AWS Management Console\. Each principal that accesses the Kubernetes API from the AWS `eks-connector` service account must be granted permission to impersonate the corresponding Kubernetes user with an IAM ARN as its Kubernetes user name\. In the following examples, the IAM ARN is mapped to a Kubernetes user\.
+The Amazon EKS Connector uses Kubernetes [user impersonation](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation) to act on behalf of [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) from the AWS Management Console\. Each principal that accesses the Kubernetes API from the AWS `eks-connector` service account must be granted permission to impersonate the corresponding Kubernetes user with an IAM ARN as its Kubernetes user name\. In the following examples, the IAM ARN is mapped to a Kubernetes user\.
 + IAM user `john` from AWS account `111122223333` is mapped to a Kubernetes user\. [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) recommend that you grant permissions to roles instead of users\.
 
   ```
@@ -105,7 +105,7 @@ The Amazon EKS Connector uses Kubernetes [user impersonation](https://kubernetes
 
   The result is an IAM role ARN, instead of the AWS STS session ARN\.
 
-For instructions on how to configure the `ClusterRole` and `ClusterRoleBinding` to grant the `eks-connector` service account privilege to impersonate the mapped user, see [Granting access to an IAM principal to view Kubernetes resources on a cluster](connector-grant-access.md)\. Make sure that in the template, `%IAM_ARN%` is replaced with the IAM ARN of the AWS Management Console IAM principal\. 
+For instructions on how to configure the `ClusterRole` and `ClusterRoleBinding` to grant the `eks-connector` service account privilege to impersonate the mapped user, see [Grant access to view Kubernetes cluster resources on an Amazon EKS console](connector-grant-access.md)\. Make sure that in the template, `%IAM_ARN%` is replaced with the IAM ARN of the AWS Management Console IAM principal\. 
 
 ## Console error: `[...] is forbidden: User [...] cannot list resource “[...] in API group”` at the cluster scope<a name="symp-rbac"></a>
 
@@ -119,7 +119,7 @@ helm upgrade eks-connector oci://public.ecr.aws/eks-connector/eks-connector-char
     --set 'authentication.allowedUserARNs={userARN1,userARN2}'
 ```
 
- Or, as the cluster administrator, grant the appropriate level of RBAC privileges to individual Kubernetes users\. For more information and examples, see [Granting access to an IAM principal to view Kubernetes resources on a cluster](connector-grant-access.md)\. 
+ Or, as the cluster administrator, grant the appropriate level of RBAC privileges to individual Kubernetes users\. For more information and examples, see [Grant access to view Kubernetes cluster resources on an Amazon EKS console](connector-grant-access.md)\. 
 
 ## Console error: **Amazon EKS can't communicate with your Kubernetes cluster API server\. The cluster must be in an ACTIVE state for successful connection\. Try again in few minutes\.**<a name="symp-con"></a>
 

@@ -3,7 +3,7 @@
 You can view the Kubernetes resources deployed to your cluster with the AWS Management Console\. You can't view Kubernetes resources with the AWS CLI or [https://eksctl.io/](https://eksctl.io/)\. To view Kubernetes resources using a command\-line tool, use [`kubectl`](install-kubectl.md)\.
 
 **Prerequisite**  
-To view the **Resources** tab and **Nodes** section on the **Compute** tab in the AWS Management Console, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you're using must have specific IAM and Kubernetes permissions\. For more information, see [Required permissions](#view-kubernetes-resources-permissions)\.
+To view the **Resources** tab and **Nodes** section on the **Compute** tab in the AWS Management Console, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) that you're using must have specific IAM and Kubernetes permissions\. For more information, see [Required permissions](#view-kubernetes-resources-permissions)\.
 
 **To view Kubernetes resources with the AWS Management Console**
 
@@ -23,7 +23,7 @@ To view the **Resources** tab and **Nodes** section on the **Compute** tab in th
 
 ## Required permissions<a name="view-kubernetes-resources-permissions"></a>
 
-To view the **Resources** tab and **Nodes** section on the **Compute** tab in the AWS Management Console, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you're using must have specific minimum IAM and Kubernetes permissions\. Complete the following steps to assign the required permissions to your IAM principals\.
+To view the **Resources** tab and **Nodes** section on the **Compute** tab in the AWS Management Console, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) that you're using must have specific minimum IAM and Kubernetes permissions\. Complete the following steps to assign the required permissions to your IAM principals\.
 
 1. Make sure that the `eks:AccessKubernetesApi`, and other necessary IAM permissions to view Kubernetes resources, are assigned to the IAM principal that you're using\. For more information about how to edit permissions for an IAM principal, see [Controlling access for principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_controlling.html#access_controlling-principals) in the IAM User Guide\. For more information about how to edit permissions for a role, see [Modifying a role permissions policy \(console\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-modify_permissions-policy) in the IAM User Guide\.
 
@@ -59,7 +59,7 @@ To view the **Resources** tab and **Nodes** section on the **Compute** tab in th
    }
    ```
 
-   To view nodes in [connected clusters](eks-connector.md), the [Amazon EKS connector IAM role](connector_IAM_role.md) should be able to impersonate the principal in the cluster\. This allows the [Amazon EKS Connector](eks-connector.md) to map the principal to a Kubernetes user\.
+   To view nodes in [connected clusters](eks-connector.md), the [Amazon EKS connector IAM role](connector_IAM_role.md) should be able to impersonate the principal in the cluster\. This allows the [Connect a Kubernetes cluster to an Amazon EKS Management Console with Amazon EKS Connector](eks-connector.md) to map the principal to a Kubernetes user\.
 
 1. Create a Kubernetes `rolebinding` or `clusterrolebinding` that is bound to a Kubernetes `role` or `clusterrole` that has the necessary permissions to view the Kubernetes resources\. To learn more about Kubernetes roles and role bindings, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. You can apply one of the following manifests to your cluster that create a `role` and `rolebinding` or a `clusterrole` and `clusterrolebinding` with the necessary Kubernetes permissions:  
 **View Kubernetes resources in all namespaces**  
@@ -99,7 +99,7 @@ The namespace in this file is `default`\. The group name in the file is `eks-con
       kubectl apply -f eks-console-restricted-access.yaml
       ```
 
-1. Map the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to the Kubernetes user or group in the `aws-auth` `ConfigMap`\. You can use a tool such as `eksctl` to update the `ConfigMap` or you can update it manually by editing it\.
+1. Map the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) to the Kubernetes user or group in the `aws-auth` `ConfigMap`\. You can use a tool such as `eksctl` to update the `ConfigMap` or you can update it manually by editing it\.
 **Important**  
 We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For information about other tools you can use, see [Use tools to make changes to the `aws-auth``ConfigMap`](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#use-tools-to-make-changes-to-the-aws-auth-configmap) in the Amazon EKS best practices guides\. An improperly formatted `aws-auth` `ConfigMap` can cause you to lose access to your cluster\. 
 
@@ -186,7 +186,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       kubectl edit -n kube-system configmap/aws-auth
       ```
 
-   1. Add the mappings to the `aws-auth` `ConfigMap`, but don't replace any of the existing mappings\. The following example adds mappings between [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) with permissions added in the first step and the Kubernetes groups created in the previous step:
+   1. Add the mappings to the `aws-auth` `ConfigMap`, but don't replace any of the existing mappings\. The following example adds mappings between [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) with permissions added in the first step and the Kubernetes groups created in the previous step:
       + The `my-console-viewer-role` role and the `eks-console-dashboard-full-access-group`\.
       + The `my-user` user and the `eks-console-dashboard-restricted-access-group`\.
 

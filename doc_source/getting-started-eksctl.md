@@ -1,8 +1,8 @@
-# Getting started with Amazon EKS – `eksctl`<a name="getting-started-eksctl"></a>
+# Get started with Amazon EKS – `eksctl`<a name="getting-started-eksctl"></a>
 
 This guide helps you to create all of the required resources to get started with Amazon Elastic Kubernetes Service \(Amazon EKS\) using `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to\. 
 
-The procedures in this guide create several resources for you automatically that you have to create manually when you create your cluster using the AWS Management Console\. If you'd rather manually create most of the resources to better understand how they interact with each other, then use the AWS Management Console to create your cluster and compute\. For more information, see [Getting started with Amazon EKS – AWS Management Console and AWS CLI](getting-started-console.md)\.
+The procedures in this guide create several resources for you automatically that you have to create manually when you create your cluster using the AWS Management Console\. If you'd rather manually create most of the resources to better understand how they interact with each other, then use the AWS Management Console to create your cluster and compute\. For more information, see [Get started with Amazon EKS – AWS Management Console and AWS CLI](getting-started-console.md)\.
 
 ## Prerequisites<a name="eksctl-prereqs"></a>
 
@@ -124,6 +124,6 @@ eksctl delete cluster --name my-cluster --region region-code
 
 The following documentation topics help you to extend the functionality of your cluster\.
 + Deploy a [sample application](sample-deployment.md) to your cluster\.
-+ The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that created the cluster is the only principal that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM principals to have access to your cluster, then you need to add them\. For more information, see [Grant IAM users and roles access to Kubernetes APIs](grant-k8s-access.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
++ The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) that created the cluster is the only principal that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM principals to have access to your cluster, then you need to add them\. For more information, see [Grant IAM users and roles access to Kubernetes APIs](grant-k8s-access.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 + Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for [clusters](create-cluster.md) and [nodes](eks-compute.md)\. Some settings \(such as enabling SSH access to Amazon EC2 nodes\) must be made when the cluster is created\.
 + To increase security for your cluster, [configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts](cni-iam-role.md)\.

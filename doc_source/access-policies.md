@@ -1,4 +1,4 @@
-# Associating and disassociating access policies to and from access entries<a name="access-policies"></a>
+# Associate access policies with access entries<a name="access-policies"></a>
 
 You can assign one or more access policies to *access entries* of *type* `STANDARD`\. Amazon EKS automatically grants the other types of access entries the permissions required to function properly in your cluster\. Amazon EKS access policies include Kubernetes permissions, not IAM permissions\. Before associating an access policy to an access entry, make sure that you're familiar with the Kubernetes permissions included in each access policy\. For more information, see [Access policy permissions](#access-policy-permissions)\. If none of the access policies meet your requirements, then don't associate an access policy to an access entry\. Instead, specify one or more *group names* for the access entry and create and manage Kubernetes role\-based access control objects\. For more information, see [Create access entries](creating-access-entries.md)\.
 

@@ -94,7 +94,7 @@ For a list of Amazon EKS condition keys, see [Conditions defined by Amazon Elast
 
 To view examples of Amazon EKS identity\-based policies, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
-When you create an Amazon EKS cluster, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that creates the cluster is automatically granted `system:masters` permissions in the cluster's role\-based access control \(RBAC\) configuration in the Amazon EKS control plane\. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster\. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth` `ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth` `ConfigMap`\.
+When you create an Amazon EKS cluster, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) that creates the cluster is automatically granted `system:masters` permissions in the cluster's role\-based access control \(RBAC\) configuration in the Amazon EKS control plane\. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster\. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth` `ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth` `ConfigMap`\.
 
 For more information about working with the ConfigMap, see [Grant IAM users and roles access to Kubernetes APIs](grant-k8s-access.md)\.
 
@@ -118,13 +118,13 @@ Amazon EKS supports using temporary credentials\.
 
 ### Service\-linked roles<a name="security_iam_service-with-iam-roles-service-linked"></a>
 
-[Service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role) allow AWS services to access resources in other services to complete an action on your behalf\. Service\-linked roles appear in your IAM account and are owned by the service\. An administrator can view but can't edit the permissions for service\-linked roles\.
+[Service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create-service-linked-role.html) allow AWS services to access resources in other services to complete an action on your behalf\. Service\-linked roles appear in your IAM account and are owned by the service\. An administrator can view but can't edit the permissions for service\-linked roles\.
 
 Amazon EKS supports service\-linked roles\. For details about creating or managing Amazon EKS service\-linked roles, see [Using service\-linked roles for Amazon EKS](using-service-linked-roles.md)\.
 
 ### Service roles<a name="security_iam_service-with-iam-roles-service"></a>
 
-This feature allows a service to assume a [service role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-role) on your behalf\. This role allows the service to access resources in other services to complete an action on your behalf\. Service roles appear in your IAM account and are owned by the account\. This means that an IAM administrator can change the permissions for this role\. However, doing so might break the functionality of the service\.
+This feature allows a service to assume a [service role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_services.html) on your behalf\. This role allows the service to access resources in other services to complete an action on your behalf\. Service roles appear in your IAM account and are owned by the account\. This means that an IAM administrator can change the permissions for this role\. However, doing so might break the functionality of the service\.
 
 Amazon EKS supports service roles\. For more information, see [Amazon EKS cluster IAM role](service_IAM_role.md) and [Amazon EKS node IAM role](create-node-role.md)\.
 

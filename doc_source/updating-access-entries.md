@@ -25,7 +25,7 @@ You can update an access entry using the AWS Management Console or the AWS CLI\.
 
 1. Choose **Save changes**\.
 
-1. If you want to associate an access policy to the entry, see [Associating and disassociating access policies to and from access entries](access-policies.md)\.
+1. If you want to associate an access policy to the entry, see [Associate access policies with access entries](access-policies.md)\.
 
 ------
 #### [ AWS CLI ]

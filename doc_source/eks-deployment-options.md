@@ -1,4 +1,4 @@
-# Deployment options<a name="eks-deployment-options"></a>
+# Deploy Amazon EKS clusters across cloud and on\-premises environments<a name="eks-deployment-options"></a>
 
 You can deploy Amazon EKS using any of the following options:
 

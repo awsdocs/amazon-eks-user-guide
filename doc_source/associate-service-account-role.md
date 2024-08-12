@@ -95,7 +95,7 @@ If the role or service account already exist, the previous command might fail\. 
       export service_account=my-service-account
       ```
 
-   1. Run the following command to create a trust policy file for the IAM role\. If you want to allow all service accounts within a namespace to use the role, then copy the following contents to your device\. Replace *StringEquals* with **StringLike** and replace *$service\_account* with **\***\. You can add multiple entries in the `StringEquals` or `StringLike` conditions to allow multiple service accounts or namespaces to assume the role\. To allow roles from a different AWS account than the account that your cluster is in to assume the role, see [Cross\-account IAM permissions](cross-account-access.md) for more information\.
+   1. Run the following command to create a trust policy file for the IAM role\. If you want to allow all service accounts within a namespace to use the role, then copy the following contents to your device\. Replace *StringEquals* with **StringLike** and replace *$service\_account* with **\***\. You can add multiple entries in the `StringEquals` or `StringLike` conditions to allow multiple service accounts or namespaces to assume the role\. To allow roles from a different AWS account than the account that your cluster is in to assume the role, see [Authenticate to another account with IRSA](cross-account-access.md) for more information\.
 
       ```
       cat >trust-relationship.json <<EOF
@@ -132,7 +132,7 @@ If the role or service account already exist, the previous command might fail\. 
       aws iam attach-role-policy --role-name my-role --policy-arn=arn:aws:iam::$account_id:policy/my-policy
       ```
 
-   1. Annotate your service account with the Amazon Resource Name \(ARN\) of the IAM role that you want the service account to assume\. Replace `my-role` with the name of your existing IAM role\. Suppose that you allowed a role from a different AWS account than the account that your cluster is in to assume the role in a previous step\. Then, make sure to specify the AWS account and role from the other account\. For more information, see [Cross\-account IAM permissions](cross-account-access.md)\.
+   1. Annotate your service account with the Amazon Resource Name \(ARN\) of the IAM role that you want the service account to assume\. Replace `my-role` with the name of your existing IAM role\. Suppose that you allowed a role from a different AWS account than the account that your cluster is in to assume the role in a previous step\. Then, make sure to specify the AWS account and role from the other account\. For more information, see [Authenticate to another account with IRSA](cross-account-access.md)\.
 
       ```
       kubectl annotate serviceaccount -n $namespace $service_account eks.amazonaws.com/role-arn=arn:aws:iam::$account_id:role/my-role

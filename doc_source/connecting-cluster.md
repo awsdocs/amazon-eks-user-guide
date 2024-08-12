@@ -1,4 +1,4 @@
-# Connecting an external cluster<a name="connecting-cluster"></a>
+# Connect an external Kubernetes cluster to the Amazon EKS Management Console<a name="connecting-cluster"></a>
 
 You can connect an external Kubernetes cluster to Amazon EKS by using multiple methods in the following process\. This process involves two steps: Registering the cluster with Amazon EKS and installing the `eks-connector` agent in the cluster\.
 
@@ -90,7 +90,7 @@ The command or manifest file can be used only once for the registered cluster\. 
 #### [ eksctl ]
 
 **Prerequisites**
-+ `eksctl` version `0.68` or later must be installed\. To install or upgrade it, see [Getting started with Amazon EKS – `eksctl`](getting-started-eksctl.md)\.
++ `eksctl` version `0.68` or later must be installed\. To install or upgrade it, see [Get started with Amazon EKS – `eksctl`](getting-started-eksctl.md)\.
 
 **To register your cluster with `eksctl`**
 
@@ -185,6 +185,6 @@ Ensure that your activation code is in the base64 format\.
 
 ## Next steps<a name="eks-connector-next"></a>
 
-If you have any issues with these steps, see [Troubleshooting issues in Amazon EKS Connector](troubleshooting-connector.md)\.
+If you have any issues with these steps, see [Troubleshoot Amazon EKS Connector issues](troubleshooting-connector.md)\.
 
-To grant additional [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) access to the Amazon EKS console to view Kubernetes resources in a connected cluster, see [Granting access to an IAM principal to view Kubernetes resources on a cluster](connector-grant-access.md)\.
+To grant additional [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) access to the Amazon EKS console to view Kubernetes resources in a connected cluster, see [Grant access to view Kubernetes cluster resources on an Amazon EKS console](connector-grant-access.md)\.

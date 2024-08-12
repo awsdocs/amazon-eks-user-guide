@@ -1,4 +1,4 @@
-# Frequently asked questions<a name="tsc-faq"></a>
+# AWS Connector frequently asked questions<a name="tsc-faq"></a>
 
 **Q: How does the underlying technology behind the Amazon EKS Connector work?**  
 A: The Amazon EKS Connector is based on the AWS Systems Manager \(Systems Manager\) agent\. The Amazon EKS Connector runs as a `StatefulSet` on your Kubernetes cluster\. It establishes a connection and proxies the communication between the API server of your cluster and Amazon Web Services\. It does this to display cluster data in the Amazon EKS console until you disconnect the cluster from AWS\. The Systems Manager agent is an open source project\. For more information about this project, see the [GitHub project page](https://github.com/aws/amazon-ssm-agent)\.

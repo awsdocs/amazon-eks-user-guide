@@ -4,7 +4,7 @@ By default, IAM users and roles don't have permission to create or modify Amazon
 
 To learn how to create an IAM identity\-based policy using these example JSON policy documents, see [Creating policies on the JSON tab](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html#access_policies_create-json-editor) in the *IAM User Guide*\.
 
-When you create an Amazon EKS cluster, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that creates the cluster is automatically granted `system:masters` permissions in the cluster's role\-based access control \(RBAC\) configuration in the Amazon EKS control plane\. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster\. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth` `ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth` `ConfigMap`\.
+When you create an Amazon EKS cluster, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) that creates the cluster is automatically granted `system:masters` permissions in the cluster's role\-based access control \(RBAC\) configuration in the Amazon EKS control plane\. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster\. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth` `ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth` `ConfigMap`\.
 
 For more information about working with the ConfigMap, see [Grant IAM users and roles access to Kubernetes APIs](grant-k8s-access.md)\.
 
@@ -30,7 +30,7 @@ For more information about best practices in IAM, see [Security best practices i
 
 ## Using the Amazon EKS console<a name="security_iam_id-based-policy-examples-console"></a>
 
-To access the Amazon EKS console, an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html), must have a minimum set of permissions\. These permissions allow the principal to list and view details about the Amazon EKS resources in your AWS account\. If you create an identity\-based policy that is more restrictive than the minimum required permissions, the console won't function as intended for principals with that policy attached to them\.
+To access the Amazon EKS console, an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html), must have a minimum set of permissions\. These permissions allow the principal to list and view details about the Amazon EKS resources in your AWS account\. If you create an identity\-based policy that is more restrictive than the minimum required permissions, the console won't function as intended for principals with that policy attached to them\.
 
 To ensure that your IAM principals can still use the Amazon EKS console, create a policy with your own unique name, such as `AmazonEKSAdminPolicy`\. Attach the policy to the principals\. For more information, see [Adding and removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html) in the *IAM User Guide*\.
 
@@ -205,7 +205,7 @@ This example policy includes the minimum permission required to update a cluster
 
 ## List or describe all clusters<a name="policy_example2"></a>
 
-This example policy includes the minimum permissions required to list and describe all clusters in your account\. An [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) must be able to list and describe clusters to use the `update-kubeconfig` AWS CLI command\.
+This example policy includes the minimum permissions required to list and describe all clusters in your account\. An [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) must be able to list and describe clusters to use the `update-kubeconfig` AWS CLI command\.
 
 ```
 {

@@ -1,4 +1,11 @@
-# Using a supported AWS SDK<a name="iam-roles-for-service-accounts-minimum-sdk"></a>
+# Use IRSA with the AWS SDK<a name="iam-roles-for-service-accounts-minimum-sdk"></a>
+
+**Using the credentials**  
+To use the credentials from IAM roles for service accounts, your code can use any AWS SDK to create a client for an AWS service with an SDK, and by default the SDK searches in a chain of locations for AWS Identity and Access Management credentials to use\. The IAM roles for service accounts credentials will be used if you don't specify a credential provider when you create the client or otherwise initialized the SDK\.
+
+This works because IAM roles for service accounts have been added as a step in the default credential chain\. If your workloads currently use credentials that are earlier in the chain of credentials, those credentials will continue to be used even if you configure an IAM roles for service accounts for the same workload\.
+
+The SDK automatically exchanges the service account OIDC token for temporary credentials from AWS Security Token Service by using the `AssumeRoleWithWebIdentity` action\. Amazon EKS and this SDK action continue to rotate the temporary credentials by renewing them before they expire\.
 
 When using [IAM roles for service accounts](iam-roles-for-service-accounts.md), the containers in your Pods must use an AWS SDK version that supports assuming an IAM role through an OpenID Connect web identity token file\. Make sure that you're using the following versions, or later, for your AWS SDK:
 + Java \(Version 2\) – [2\.10\.11](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.10.11)
@@ -16,10 +23,3 @@ When using [IAM roles for service accounts](iam-roles-for-service-accounts.md), 
 Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), the [What is the AWS Load Balancer Controller?](aws-load-balancer-controller.md), and the [Amazon VPC CNI plugin for Kubernetes](cni-iam-role.md) support IAM roles for service accounts\.
 
 To ensure that you're using a supported SDK, follow the installation instructions for your preferred SDK at [Tools to Build on AWS](https://aws.amazon.com/tools/) when you build your containers\. 
-
-**Using the credentials**  
-To use the credentials from IAM roles for service accounts, your code can use any AWS SDK to create a client for an AWS service with an SDK, and by default the SDK searches in a chain of locations for AWS Identity and Access Management credentials to use\. The IAM roles for service accounts credentials will be used if you don't specify a credential provider when you create the client or otherwise initialized the SDK\.
-
-This works because IAM roles for service accounts have been added as a step in the default credential chain\. If your workloads currently use credentials that are earlier in the chain of credentials, those credentials will continue to be used even if you configure an IAM roles for service accounts for the same workload\.
-
-The SDK automatically exchanges the service account OIDC token for temporary credentials from AWS Security Token Service by using the `AssumeRoleWithWebIdentity` action\. Amazon EKS and this SDK action continue to rotate the temporary credentials by renewing them before they expire\.

@@ -8,7 +8,7 @@ For more information about how to use the Prometheus metrics after you turn them
 
 There are several different options for using Prometheus with Amazon EKS:
 + You can turn on Prometheus metrics when first creating an Amazon EKS cluster, which is covered by this topic\.
-+ If you already have an existing Amazon EKS cluster, you can create your own Prometheus scraper\. For more information, see [https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-create](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-create)\.
++ If you already have an existing Amazon EKS cluster, you can create your own Prometheus scraper\. For more information, see [Create a scraper](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-create) in the *Amazon Managed Service for Prometheus User Guide*\.
 + You can deploy Prometheus using Helm\. For more information, see [Deploy Prometheus using Helm](deploy-prometheus.md)\.
 + You can view control plane raw metrics in Prometheus format\. For more information, see [View control plane raw metrics in Prometheus format](view-raw-metrics.md)\.
 
