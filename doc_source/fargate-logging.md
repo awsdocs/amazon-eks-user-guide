@@ -79,7 +79,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 
    Create a `ConfigMap` using the example for your desired log destination\.
 **Note**  
-You can also use Amazon Kinesis Data Streams for your log destination\. If you use Kinesis Data Streams, make sure that the pod execution role has been granted the `kinesis:PutRecords` permission\. For more information, see Amazon Kinesis Data Streams [Permissions](https://docs.fluentbit.io/manual/pipeline/outputs/kinesis) in the *Fluent Bit: Official Manual*\.
+You can also use Amazon Kinesis Data Streams for your log destination\. If you use Kinesis Data Streams, make sure that the pod execution role has been granted the `kinesis:PutRecords` permission\. For more information, see Amazon Kinesis Data Streams [Permissions](https://docs.fluentbit.io/manual/pipeline/outputs/kinesis#permissions) in the *Fluent Bit: Official Manual*\.
 
 ------
 #### [ CloudWatch ]
