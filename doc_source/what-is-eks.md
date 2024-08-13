@@ -39,7 +39,7 @@ To create your first cluster and its associated resources, see [Get started with
 
 The following diagram shows a basic flow of running Amazon EKS in the cloud\. To learn about other Kubernetes deployment options, see [Deploy Amazon EKS clusters across cloud and on\-premises environments](eks-deployment-options.md)\.
 
-![\[A basic flow diagram of the steps described previously.\]](http://docs.aws.amazon.com/eks/latest/userguide/images/what-is-eks.png)
+![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/what-is-eks.png)
 
 ## Pricing for Amazon EKS<a name="eks-pricing"></a>
 

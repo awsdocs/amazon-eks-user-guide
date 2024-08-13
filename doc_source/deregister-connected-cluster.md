@@ -72,6 +72,6 @@ aws eks deregister-cluster \
    kubectl delete -f eks-connector.yaml
    ```
 
-1. If you created `clusterrole` or `clusterrolebindings` for additional [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) to access the cluster, delete them from your Kubernetes cluster\.
+1. If you created `clusterrole` or `clusterrolebindings` for additional [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-principal) to access the cluster, delete them from your Kubernetes cluster\.
 
 ------

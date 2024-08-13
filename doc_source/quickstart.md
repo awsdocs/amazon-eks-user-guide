@@ -188,7 +188,7 @@ Now that the load balancer is set up, it's time to enable external access for co
    You’ll need to wait several minutes for the Application Load Balancer \(ALB\) to provision before you begin the following steps\.
 
 1. Open a web browser and enter the `ADDRESS` from the previous step to access the web application\. For example, `k8s-game2048-ingress2-eb379a0f83-378466616.`*`region-code`*`.elb.amazonaws.com`\. You should see the 2048 game in your browser\. Play\!  
-![\[Play the 2048 game\]](http://docs.aws.amazon.com/eks/latest/userguide/images/quick2048.png)
+![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/quick2048.png)
 
 ## Step 5: Persist Data using the Amazon EBS CSI Driver nodes<a name="quickstart-persist-data"></a>
 
@@ -292,7 +292,7 @@ Upon completion, you should see the following response output:
 ## Next steps<a name="quickstart-next-steps"></a>
 
 The following documetation topics help you to extend the functionality of your cluster:
-+ The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) that created the cluster is the only principal that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM principals to have access to your cluster, then you need to add them\. For more information, see [Grant IAM users and roles access to Kubernetes APIs](grant-k8s-access.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
++ The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-principal) that created the cluster is the only principal that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM principals to have access to your cluster, then you need to add them\. For more information, see [Grant IAM users and roles access to Kubernetes APIs](grant-k8s-access.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 + Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for [clusters](create-cluster.md) and [nodes](eks-compute.md)\. Some settings \(such as enabling SSH access to Amazon EC2 nodes\) must be made when the cluster is created\.
 + To increase security for your cluster, [configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 

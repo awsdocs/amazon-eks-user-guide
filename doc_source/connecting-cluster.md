@@ -187,4 +187,4 @@ Ensure that your activation code is in the base64 format\.
 
 If you have any issues with these steps, see [Troubleshoot Amazon EKS Connector issues](troubleshooting-connector.md)\.
 
-To grant additional [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) access to the Amazon EKS console to view Kubernetes resources in a connected cluster, see [Grant access to view Kubernetes cluster resources on an Amazon EKS console](connector-grant-access.md)\.
+To grant additional [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-principal) access to the Amazon EKS console to view Kubernetes resources in a connected cluster, see [Grant access to view Kubernetes cluster resources on an Amazon EKS console](connector-grant-access.md)\.

@@ -33,4 +33,4 @@ Using the Amazon EKS Connector requires the following two IAM roles:
 + The [Amazon EKS Connector](using-service-linked-roles-eks-connector.md) service\-linked role is created when you register a cluster for the first time\.
 + You must create the Amazon EKS Connector agent IAM role\. See [Amazon EKS connector IAM role](connector_IAM_role.md) for details\.
 
-To enable cluster and workload view permission for [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html), apply the `eks-connector` and Amazon EKS Connector cluster roles to your cluster\. Follow the steps in [Grant access to view Kubernetes cluster resources on an Amazon EKS console](connector-grant-access.md)\.
+To enable cluster and workload view permission for [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-principal), apply the `eks-connector` and Amazon EKS Connector cluster roles to your cluster\. Follow the steps in [Grant access to view Kubernetes cluster resources on an Amazon EKS console](connector-grant-access.md)\.

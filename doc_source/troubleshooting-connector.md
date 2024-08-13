@@ -71,7 +71,7 @@ The following commands are useful to retrieve information that you need to troub
   kubectl get nodes -o wide --show-labels
   ```
 
-## Helm issue: 403 Forbidden<a name="w755aac63c33b9"></a>
+## Helm issue: 403 Forbidden<a name="w653aac63c33b9"></a>
 
 If you received the following error when running helm install commands:
 
@@ -91,7 +91,7 @@ If the cluster gets stuck in the `Pending` state on the Amazon EKS console after
 
 ## Console error: `User “system:serviceaccount:eks-connector:eks-connector” can't impersonate resource “users” in API group “”` at cluster scope<a name="symp-imp"></a>
 
-The Amazon EKS Connector uses Kubernetes [user impersonation](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation) to act on behalf of [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) from the AWS Management Console\. Each principal that accesses the Kubernetes API from the AWS `eks-connector` service account must be granted permission to impersonate the corresponding Kubernetes user with an IAM ARN as its Kubernetes user name\. In the following examples, the IAM ARN is mapped to a Kubernetes user\.
+The Amazon EKS Connector uses Kubernetes [user impersonation](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation) to act on behalf of [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-principal) from the AWS Management Console\. Each principal that accesses the Kubernetes API from the AWS `eks-connector` service account must be granted permission to impersonate the corresponding Kubernetes user with an IAM ARN as its Kubernetes user name\. In the following examples, the IAM ARN is mapped to a Kubernetes user\.
 + IAM user `john` from AWS account `111122223333` is mapped to a Kubernetes user\. [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) recommend that you grant permissions to roles instead of users\.
 
   ```
