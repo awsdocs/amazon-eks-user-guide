@@ -19,18 +19,12 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + If preserving your available IPv4 addresses is crucial for your subnet, refer to [ EKS Best Practices Guide \- Windows Networking IP Address Management](https://aws.github.io/aws-eks-best-practices/windows/docs/networking/#ip-address-management) for guidance\. <a name="windows-support-prerequisites"></a>
 
 **Prerequisites**
-+ An existing cluster\. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table\. Any Kubernetes and platform versions later than those listed are also supported\. If your cluster or platform version is earlier than one of the following versions, you need to [enable legacy Windows support](legacy-windows-support.md) on your cluster's data plane\. Once your cluster is at one of the following Kubernetes and platform versions, or later, you can [remove legacy Windows support](legacy-windows-support.md#remove-windows-support-data-plane) and [enable Windows support](#enable-windows-support) on your control plane\.    
++ An existing cluster\. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table\. Any Kubernetes and platform versions later than those listed are also supported\.    
 <a name="windows-support-platform-versions"></a>[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/windows-support.html)
 + Your cluster must have at least one \(we recommend at least two\) Linux node or Fargate Pod to run CoreDNS\. If you enable legacy Windows support, you must use a Linux node \(you can't use a Fargate Pod\) to run CoreDNS\.
 + An existing [Amazon EKS cluster IAM role](service_IAM_role.md)\.
 
 ## Enable Windows support<a name="enable-windows-support"></a>
-
-If your cluster isn't at, or later, than one of the Kubernetes and platform versions listed in the [Prerequisites](#windows-support-prerequisites), you must enable legacy Windows support instead\. For more information, see [Legacy cluster support for Windows nodes](legacy-windows-support.md)\.
-
-If you've never enabled Windows support on your cluster, skip to the next step\.
-
-If you enabled Windows support on a cluster that is earlier than a Kubernetes or platform version listed in the [Prerequisites](#windows-support-prerequisites), then you must first [remove the `vpc-resource-controller` and `vpc-admission-webhook` from your data plane](legacy-windows-support.md#remove-windows-support-data-plane)\. They're deprecated and no longer needed\.
 
 **To enable Windows support for your cluster**
 

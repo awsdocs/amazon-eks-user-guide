@@ -36,7 +36,6 @@ sponsored by Amazon.
    + [Encrypt Kubernetes secrets with AWS KMS on existing clusters](enable-kms.md)
    + [Deploy Windows nodes on EKS clusters](windows-support.md)
    + [Disable Windows support](disable-windows-support.md)
-   + [Legacy cluster support for Windows nodes](legacy-windows-support.md)
    + [Deploy private clusters with limited internet access](private-clusters.md)
    + [Understand the Kubernetes version lifecycle on EKS](kubernetes-versions.md)
       + [Review release notes for Kubernetes versions on standard support](kubernetes-versions-standard.md)

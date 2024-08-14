@@ -32,7 +32,6 @@ For connected clusters, see [Connect a Kubernetes cluster to an Amazon EKS Manag
 + [Encrypt Kubernetes secrets with AWS KMS on existing clusters](enable-kms.md)
 + [Deploy Windows nodes on EKS clusters](windows-support.md)
 + [Disable Windows support](disable-windows-support.md)
-+ [Legacy cluster support for Windows nodes](legacy-windows-support.md)
 + [Deploy private clusters with limited internet access](private-clusters.md)
 + [Understand the Kubernetes version lifecycle on EKS](kubernetes-versions.md)
 + [View Amazon EKS platform versions for each Kubernetes version](platform-versions.md)

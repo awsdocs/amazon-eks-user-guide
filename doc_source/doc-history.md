@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [EKS Pod Identity in AWS GovCloud \(US\)](https://docs.aws.amazon.com/eks/latest/userguide/pod-identites.html) | Amazon EKS Pod Identities associate an IAM role with a Kubernetes service account\. With this feature, you no longer need to provide extended permissions to the node IAM role\. This way, Pods on that node can call AWS APIs\. Unlike IAM roles for service accounts, EKS Pod Identities are completely inside EKS; you don't need an OIDC identity provider\. | August 14, 2024 | 
 | [Scenario\-driven content updates](#doc-history) | We renamed and updated topics to be more scenario\-driven throughout the entire guide\. | August 9, 2024 | 
 | [Dual\-stack VPC interface endpoints for Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/vpc-interface-endpoints.html) | You can now create dual\-stack VPC interface endpoints for Amazon EKS with both `IPv4` and `IPv6` IP addresses and DNS names\.  | August 7, 2024 | 
 | [New dual\-stack endpoints for the Amazon EKS APIs with `IPv6` addresses](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) | The EKS API for creating and managing clusters, and the OIDC issuer URLs for clusters have new dual\-stack endpoints\. The new DNS name for the Amazon EKS API is `eks.region.api.aws` which resolves to `IPv4` addresses and `IPv6` addresses\. New clusters have a new dual\-stack OIDC issuer URL \(`oidc-eks.region.api.aws`\)\. | August 1, 2024 | 

@@ -369,12 +369,6 @@ spec:
       value: "region-code"
 ```
 
-## VPC admission webhook certificate expiration<a name="troubleshoot-vpc-admission-webhook-certificate-expiration"></a>
-
-If the certificate used to sign the VPC admission webhook expires, the status for new Windows Pod deployments stays at `ContainerCreating`\. 
-
-To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](legacy-windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Deploy Windows nodes on EKS clusters](windows-support.md)\.
-
 ## Node groups must match Kubernetes version before upgrading control plane<a name="troubleshoot-node-grups-must-match-kubernetes-version"></a>
 
 Before you upgrade a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The Amazon EKS `update-cluster-version` API rejects requests until you upgrade all Amazon EKS managed nodes to the current cluster version\. Amazon EKS provides APIs to upgrade managed nodes\. For information on upgrading a managed node group's Kubernetes version, see [Update a managed node group for your cluster](update-managed-node-group.md)\. To upgrade the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you upgrade your control plane\. For more information, see [Update existing cluster to new Kubernetes version](update-cluster.md)\.
