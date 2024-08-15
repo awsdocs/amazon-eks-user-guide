@@ -1,4 +1,4 @@
-# Deep Learning Containers<a name="deep-learning-containers"></a>
+# Train and serve TensorFlow models on EKS with Deep Learning Containers<a name="deep-learning-containers"></a>
 
 AWS Deep Learning Containers are a set of Docker images for training and serving models in TensorFlow on Amazon EKS and Amazon Elastic Container Service \(Amazon ECS\)\. Deep Learning Containers provide optimized environments with [https://www.tensorflow.org/](https://www.tensorflow.org/), [https://developer.nvidia.com/cuda-zone](https://developer.nvidia.com/cuda-zone) \(for GPU instances\), and [Intel MKL](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) \(for CPU instances\) libraries and are available in Amazon ECR\.
 

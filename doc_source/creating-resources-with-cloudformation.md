@@ -1,4 +1,4 @@
-# Creating Amazon EKS resources with AWS CloudFormation<a name="creating-resources-with-cloudformation"></a>
+# Create Amazon EKS resources with AWS CloudFormation<a name="creating-resources-with-cloudformation"></a>
 
 Amazon EKS is integrated with AWS CloudFormation, a service that helps you model and set up your AWS resources so that you can spend less time creating and managing your resources and infrastructure\. You create a template that describes all the AWS resources that you want, for example an Amazon EKS cluster, and AWS CloudFormation takes care of provisioning and configuring those resources for you\. 
 

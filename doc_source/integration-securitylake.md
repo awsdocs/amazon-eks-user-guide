@@ -1,4 +1,4 @@
-# Using Amazon Security Lake with Amazon EKS<a name="integration-securitylake"></a>
+# Centralize and analyze EKS security data with Security Lake<a name="integration-securitylake"></a>
 
 Amazon Security Lake is a fully managed security data lake service that allows you to centralize security data from various sources, including Amazon EKS\. By integrating Amazon EKS with Security Lake, you can gain deeper insights into the activities performed on your Kubernetes resources and enhance the security posture of your Amazon EKS clusters\.
 

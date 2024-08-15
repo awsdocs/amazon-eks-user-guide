@@ -7,5 +7,5 @@ There are two getting started guides available for creating a new Kubernetes clu
 + [Get started with Amazon EKS – AWS Management Console and AWS CLI](getting-started-console.md) – This getting started guide helps you to create all of the required resources to get started with Amazon EKS using the AWS Management Console and AWS CLI\. At the end of the tutorial, you will have a running Amazon EKS cluster that you can deploy applications to\. In this guide, you manually create each resource required for an Amazon EKS cluster\. The procedures give you visibility into how each resource is created and how they interact with each other\.
 
 We also offer the following references:
-+ For a curated collection of hands\-on tutorials, see [Navigating Amazon EKS](https://community.aws/tutorials/navigating-amazon-eks) on *AWS Community*\.
++ For a collection of hands\-on tutorials, see [EKS Cluster Setup ](https://community.aws/tags/eks-cluster-setup) on *AWS Community*\.
 + For code examples, see [Code examples for Amazon EKS using AWS SDKs](https://docs.aws.amazon.com/code-library/latest/ug/eks_code_examples.html)\.

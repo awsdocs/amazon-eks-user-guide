@@ -28,6 +28,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.30\-2024\.08\.13 | 1\.30\.2 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.30\-2024\.07\.10 | 1\.30\.2 | 1\.7\.14 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.30\-2024\.06\.17 | 1\.30\.0 | 1\.7\.14 | 1\.1\.2 | Upgraded containerd to 1\.7\.14\. | 
 | 1\.30\-2024\.05\.15 | 1\.30\.0 | 1\.6\.28 | 1\.1\.2 |  | 
@@ -40,6 +41,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.29\-2024\.08\.13 | 1\.29\.6 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.29\-2024\.07\.10 | 1\.29\.6 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.29\-2024\.06\.17 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 |  | 
 | 1\.29\-2024\.05\.15 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. Upgraded kubelet to 1\.29\.3\. | 
@@ -57,6 +59,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2024\.08\.13 | 1\.28\.11 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.28\-2024\.07\.10 | 1\.28\.11 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.28\-2024\.06\.17 | 1\.28\.8 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.28\-2024\.05\.14 | 1\.28\.8 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.28\.8\. | 
@@ -78,6 +81,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2024\.08\.13 | 1\.27\.15 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.27\-2024\.07\.10 | 1\.27\.15 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.27\-2024\.06\.17 | 1\.27\.12 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.27\-2024\.05\.14 | 1\.27\.12 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.27\.12\. | 
@@ -106,6 +110,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2024\.08\.13 | 1\.26\.15 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.26\-2024\.07\.10 | 1\.26\.15 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.26\-2024\.06\.17 | 1\.26\.15 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.26\-2024\.05\.14 | 1\.26\.15 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.26\.15\. | 
@@ -135,6 +140,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2024\.08\.13 | 1\.25\.16 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.25\-2024\.07\.10 | 1\.25\.16 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.25\-2024\.06\.17 | 1\.25\.16 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.25\-2024\.05\.14 | 1\.25\.16 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
@@ -165,6 +171,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2024\.08\.13 | 1\.24\.17 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.24\-2024\.07\.10 | 1\.24\.17 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.24\-2024\.06\.17 | 1\.24\.17 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.24\-2024\.05\.14 | 1\.24\.17 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
@@ -205,6 +212,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.30\-2024\.08\.13 | 1\.30\.2 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.30\-2024\.07\.10 | 1\.30\.2 | 1\.7\.14 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.30\-2024\.06\.17 | 1\.30\.0 | 1\.7\.14 | 1\.1\.2 | Upgraded containerd to 1\.7\.14\. | 
 | 1\.30\-2024\.05\.15 | 1\.30\.0 | 1\.6\.28 | 1\.1\.2 |  | 
@@ -217,6 +225,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.29\-2024\.08\.13 | 1\.29\.6 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.29\-2024\.07\.10 | 1\.29\.6 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.29\-2024\.06\.17 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 |  | 
 | 1\.29\-2024\.05\.15 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. Upgraded kubelet to 1\.29\.3\. | 
@@ -234,6 +243,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2024\.08\.13 | 1\.28\.11 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.28\-2024\.07\.10 | 1\.28\.11 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.28\-2024\.06\.17 | 1\.28\.8 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.28\-2024\.05\.14 | 1\.28\.8 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.28\.8\. | 
@@ -255,6 +265,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2024\.08\.13 | 1\.27\.15 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.27\-2024\.07\.10 | 1\.27\.15 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.27\-2024\.06\.17 | 1\.27\.12 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.27\-2024\.05\.14 | 1\.27\.12 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.27\.12\. | 
@@ -283,6 +294,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2024\.08\.13 | 1\.26\.15 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.26\-2024\.07\.10 | 1\.26\.15 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.26\-2024\.06\.17 | 1\.26\.15 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.26\-2024\.05\.14 | 1\.26\.15 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.26\.15\. | 
@@ -312,6 +324,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2024\.08\.13 | 1\.25\.16 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.25\-2024\.07\.10 | 1\.25\.16 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.25\-2024\.06\.17 | 1\.25\.16 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.25\-2024\.05\.14 | 1\.25\.16 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
@@ -342,6 +355,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2024\.08\.13 | 1\.24\.17 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.24\-2024\.07\.10 | 1\.24\.17 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.24\-2024\.06\.17 | 1\.24\.17 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.24\-2024\.05\.14 | 1\.24\.17 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
@@ -382,6 +396,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.30\-2024\.08\.13 | 1\.30\.2 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.30\-2024\.07\.10 | 1\.30\.2 | 1\.7\.14 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.30\-2024\.06\.17 | 1\.30\.0 | 1\.7\.14 | 1\.1\.2 | Upgraded containerd to 1\.7\.14\. | 
 | 1\.30\-2024\.05\.15 | 1\.30\.0 | 1\.6\.28 | 1\.1\.2 |  | 
@@ -394,6 +409,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.29\-2024\.08\.13 | 1\.29\.6 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.29\-2024\.07\.10 | 1\.29\.6 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.29\-2024\.06\.17 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 |  | 
 | 1\.29\-2024\.05\.15 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. Upgraded kubelet to 1\.29\.3\. | 
@@ -411,6 +427,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2024\.08\.13 | 1\.28\.11 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.28\-2024\.07\.10 | 1\.28\.11 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.28\-2024\.06\.17 | 1\.28\.8 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.28\-2024\.05\.14 | 1\.28\.8 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.28\.8\. | 
@@ -432,6 +449,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2024\.08\.13 | 1\.27\.15 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.27\-2024\.07\.10 | 1\.27\.15 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.27\-2024\.06\.17 | 1\.27\.12 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.27\-2024\.05\.14 | 1\.27\.12 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.27\.12\. | 
@@ -460,6 +478,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2024\.08\.13 | 1\.26\.15 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.26\-2024\.07\.10 | 1\.26\.15 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.26\-2024\.06\.17 | 1\.26\.15 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.26\-2024\.05\.14 | 1\.26\.15 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.26\.15\. | 
@@ -489,6 +508,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2024\.08\.13 | 1\.25\.16 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.25\-2024\.07\.10 | 1\.25\.16 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.25\-2024\.06\.17 | 1\.25\.16 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.25\-2024\.05\.14 | 1\.25\.16 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
@@ -519,6 +539,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2024\.08\.13 | 1\.24\.17 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.24\-2024\.07\.10 | 1\.24\.17 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.24\-2024\.06\.17 | 1\.24\.17 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.24\-2024\.05\.14 | 1\.24\.17 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
@@ -559,6 +580,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.30\-2024\.08\.13 | 1\.30\.2 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.30\-2024\.07\.10 | 1\.30\.2 | 1\.7\.14 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.30\-2024\.06\.17 | 1\.30\.0 | 1\.7\.14 | 1\.1\.2 | Upgraded containerd to 1\.7\.14\. | 
 | 1\.30\-2024\.05\.15 | 1\.30\.0 | 1\.6\.28 | 1\.1\.2 |  | 
@@ -571,6 +593,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.29\-2024\.08\.13 | 1\.29\.6 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.29\-2024\.07\.10 | 1\.29\.6 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.29\-2024\.06\.17 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 |  | 
 | 1\.29\-2024\.05\.15 | 1\.29\.3 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. Upgraded kubelet to 1\.29\.3\. | 
@@ -588,6 +611,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2024\.08\.13 | 1\.28\.11 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.28\-2024\.07\.10 | 1\.28\.11 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.28\-2024\.06\.17 | 1\.28\.8 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.28\-2024\.05\.14 | 1\.28\.8 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.28\.8\. | 
@@ -609,6 +633,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2024\.08\.13 | 1\.27\.15 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.27\-2024\.07\.10 | 1\.27\.15 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.27\-2024\.06\.17 | 1\.27\.12 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.27\-2024\.05\.14 | 1\.27\.12 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.27\.12\. | 
@@ -637,6 +662,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2024\.08\.13 | 1\.26\.15 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.26\-2024\.07\.10 | 1\.26\.15 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.26\-2024\.06\.17 | 1\.26\.15 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.26\-2024\.05\.14 | 1\.26\.15 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. Upgraded kubelet to 1\.26\.15\. | 
@@ -666,6 +692,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2024\.08\.13 | 1\.25\.16 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.25\-2024\.07\.10 | 1\.25\.16 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.25\-2024\.06\.17 | 1\.25\.16 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.25\-2024\.05\.14 | 1\.25\.16 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 
@@ -696,6 +723,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2024\.08\.13 | 1\.24\.17 | 1\.7\.14 | 1\.1\.3 |  | 
 | 1\.24\-2024\.07\.10 | 1\.24\.17 | 1\.7\.11 | 1\.1\.2 | Includes patches for CVE\-2024\-5321\. | 
 | 1\.24\-2024\.06\.17 | 1\.24\.17 | 1\.7\.11 | 1\.1\.2 | Upgraded containerd to 1\.7\.11\. | 
 | 1\.24\-2024\.05\.14 | 1\.24\.17 | 1\.6\.28 | 1\.1\.2 | Upgraded containerd to 1\.6\.28\. | 

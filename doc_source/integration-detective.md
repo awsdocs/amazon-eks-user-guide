@@ -1,4 +1,4 @@
-# Amazon Detective<a name="integration-detective"></a>
+# Analyze security events on EKS with Amazon Detective<a name="integration-detective"></a>
 
 [Amazon Detective](https://aws.amazon.com/detective/) helps you analyze, investigate, and quickly identify the root cause of security findings or suspicious activities\. Detective automatically collects log data from your AWS resources\. It then uses machine learning, statistical analysis, and graph theory to generate visualizations that help you to conduct faster and more efficient security investigations\. The Detective prebuilt data aggregations, summaries, and context help you to quickly analyze and determine the nature and extent of possible security issues\. For more information, see the [https://docs.aws.amazon.com/detective/latest/adminguide/what-is-detective.html](https://docs.aws.amazon.com/detective/latest/adminguide/what-is-detective.html)\.
 
