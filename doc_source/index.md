@@ -231,6 +231,7 @@ sponsored by Amazon.
    + [Monitor and optimize Amazon EKS cluster costs](cost-monitoring.md)
       + [View costs by pod in AWS billing with split cost allocation](cost-monitoring-aws.md)
       + [Install Kubecost and access dashboard](cost-monitoring-kubecost.md)
+      + [Learn more about Kubecost](cost-monitoring-kubecost-bundles.md)
    + [View resource usage with the KubernetesMetrics Server](metrics-server.md)
    + [Deploy applications with Helm on Amazon EKS](helm.md)
    + [Organize Amazon EKS resources with tags](eks-using-tags.md)

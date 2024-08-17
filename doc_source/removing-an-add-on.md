@@ -16,7 +16,7 @@ When you remove an Amazon EKS add\-on from a cluster:
 Complete the following before you create an add\-on:
 + An existing Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\.
 + Check if your add\-on requires an IAM role\. For more information, see 
-+ Version `0.187.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.\.
++ Version `0.188.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.\.
 
 ## Procedure<a name="removing-an-add-on-procedure"></a>
 
@@ -86,7 +86,7 @@ For more information about removing add\-ons, see [Deleting addons](https://eksc
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `0.187.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
+Version `0.188.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 
 **To remove an Amazon EKS add\-on using the AWS CLI**
 

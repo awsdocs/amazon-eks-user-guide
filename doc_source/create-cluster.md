@@ -58,7 +58,7 @@ New — You can disable the installation of default cluster add\-ons, such as `v
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.187.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
+Version `0.188.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 
 **To create your cluster**  
 Create an Amazon EKS `IPv4` cluster with the Amazon EKS default Kubernetes version in your default AWS Region\. Before running command, make the following replacements:
