@@ -399,7 +399,7 @@ You can identify all existing Pods in your cluster that are using stale tokens\.
 This can happen when Amazon EKS isn't able to automatically update your cluster's [platform version](platform-versions.md)\. Though there are many causes for this, some of the common causes follow\. If any of these problems apply to your cluster, it may still function, its platform version just won't be updated by Amazon EKS\.
 
 **Problem**  
-The [cluster IAM role](service_IAM_role.md) was deleted – This role was specified when the cluster was created\. You can see which role was specified with the following command\. Replace *my\-cluster* with the name of your cluster\.
+The [cluster IAM role](cluster_IAM_role.md) was deleted – This role was specified when the cluster was created\. You can see which role was specified with the following command\. Replace *my\-cluster* with the name of your cluster\.
 
 ```
 aws eks describe-cluster --name my-cluster --query cluster.roleArn --output text | cut -d / -f 2
@@ -412,7 +412,7 @@ eksClusterRole
 ```
 
 **Solution**  
-Create a new [cluster IAM role](service_IAM_role.md) with the same name\.
+Create a new [cluster IAM role](cluster_IAM_role.md) with the same name\.
 
 **Problem**  
 A subnet specified during cluster creation was deleted – The subnets to use with the cluster were specified during cluster creation\. You can see which subnets were specified with the following command\. Replace *my\-cluster* with the name of your cluster\.

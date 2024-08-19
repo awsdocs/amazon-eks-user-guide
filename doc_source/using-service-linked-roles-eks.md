@@ -13,7 +13,7 @@ For information about other services that support service\-linked roles, see [AW
 Amazon EKS uses the service\-linked role named `AWSServiceRoleForAmazonEKS` – The role allows Amazon EKS to manage clusters in your account\. The attached policies allow the role to manage the following resources: network interfaces, security groups, logs, and VPCs\.
 
 **Note**  
-The `AWSServiceRoleForAmazonEKS` service\-linked role is distinct from the role required for cluster creation\. For more information, see [Amazon EKS cluster IAM role](service_IAM_role.md)\.
+The `AWSServiceRoleForAmazonEKS` service\-linked role is distinct from the role required for cluster creation\. For more information, see [Amazon EKS cluster IAM role](cluster_IAM_role.md)\.
 
 The `AWSServiceRoleForAmazonEKS` service\-linked role trusts the following services to assume the role:
 + `eks.amazonaws.com`

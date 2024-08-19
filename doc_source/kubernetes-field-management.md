@@ -79,7 +79,7 @@ You can use `kubectl` to see which fields are managed by Amazon EKS for any Amaz
 
 You can modify all fields that aren't managed by Amazon EKS, or another Kubernetes control plane process such as `kube-controller-manager`, without issue\. 
 
-1. Determine which add\-on that you want to examine\. To see all of the `deployments` and `DaemonSets` deployed to your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
+1. Determine which add\-on that you want to examine\. To see all of the `deployments` and `DaemonSets` deployed to your cluster, see [View Kubernetes resources in the AWS Management Console](view-kubernetes-resources.md)\.
 
 1. View the managed fields for an add\-on by running the following command:
 

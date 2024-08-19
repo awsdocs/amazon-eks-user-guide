@@ -50,4 +50,4 @@ The namespace in this file is `default`, so if you want to specify a different n
    kubectl apply -f eks-connector-console-dashboard-full-access-group.yaml
    ```
 
-To view Kubernetes resources in your connected cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\. Data for some resource types on the **Resources** tab isn't available for connected clusters\.
+To view Kubernetes resources in your connected cluster, see [View Kubernetes resources in the AWS Management Console](view-kubernetes-resources.md)\. Data for some resource types on the **Resources** tab isn't available for connected clusters\.

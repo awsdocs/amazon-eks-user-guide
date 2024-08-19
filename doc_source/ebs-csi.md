@@ -27,7 +27,7 @@ For more information, see [CSI Snapshotter](https://github.com/kubernetes-csi/ex
 The Amazon EBS CSI plugin requires IAM permissions to make calls to AWS APIs on your behalf\. If you don't do these steps, attempting to install the add\-on and running `kubectl describe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error\. For more information, see [Set up driver permission](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#set-up-driver-permissions) on GitHub\. 
 
 **Note**  
-Pods will have access to the permissions that are assigned to the IAM role unless you block access to IMDS\. For more information, see [Security best practices for Amazon EKS](security-best-practices.md)\.
+Pods will have access to the permissions that are assigned to the IAM role unless you block access to IMDS\. For more information, see [Secure Amazon EKS clusters with best practices](security-best-practices.md)\.
 
 The following procedure shows you how to create an IAM role and attach the AWS managed policy to it\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
 

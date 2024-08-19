@@ -22,13 +22,13 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + An existing cluster\. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table\. Any Kubernetes and platform versions later than those listed are also supported\.    
 <a name="windows-support-platform-versions"></a>[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/windows-support.html)
 + Your cluster must have at least one \(we recommend at least two\) Linux node or Fargate Pod to run CoreDNS\. If you enable legacy Windows support, you must use a Linux node \(you can't use a Fargate Pod\) to run CoreDNS\.
-+ An existing [Amazon EKS cluster IAM role](service_IAM_role.md)\.
++ An existing [Amazon EKS cluster IAM role](cluster_IAM_role.md)\.
 
 ## Enable Windows support<a name="enable-windows-support"></a>
 
 **To enable Windows support for your cluster**
 
-1. If you don't have Amazon Linux nodes in your cluster and use security groups for Pods, skip to the next step\. Otherwise, confirm that the `AmazonEKSVPCResourceController` managed policy is attached to your [cluster role](service_IAM_role.md)\. Replace `eksClusterRole` with your cluster role name\.
+1. If you don't have Amazon Linux nodes in your cluster and use security groups for Pods, skip to the next step\. Otherwise, confirm that the `AmazonEKSVPCResourceController` managed policy is attached to your [cluster role](cluster_IAM_role.md)\. Replace `eksClusterRole` with your cluster role name\.
 
    ```
    aws iam list-attached-role-policies --role-name eksClusterRole
@@ -53,7 +53,7 @@ Before deploying Windows nodes, be aware of the following considerations\.
 
    If the policy is attached, as it is in the previous output, skip the next step\.
 
-1. Attach the **[AmazonEKSVPCResourceController](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html)** managed policy to your [Amazon EKS cluster IAM role](service_IAM_role.md)\. Replace `eksClusterRole` with your cluster role name\.
+1. Attach the **[AmazonEKSVPCResourceController](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html)** managed policy to your [Amazon EKS cluster IAM role](cluster_IAM_role.md)\. Replace `eksClusterRole` with your cluster role name\.
 
    ```
    aws iam attach-role-policy \

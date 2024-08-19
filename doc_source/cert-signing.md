@@ -1,4 +1,4 @@
-# Certificate signing<a name="cert-signing"></a>
+# Secure workloads with Kubernetes certificates<a name="cert-signing"></a>
 
 The Kubernetes Certificates API automates [X\.509](https://www.itu.int/rec/T-REC-X.509) credential provisioning\. The API features a command line interface for Kubernetes API clients to request and obtain [X\.509 certificates](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/) from a Certificate Authority \(CA\)\. You can use the `CertificateSigningRequest` \(CSR\) resource to request that a denoted signer sign the certificate\. Your requests are either approved or denied before they're signed\. Kubernetes supports both built\-in signers and custom signers with well\-defined behaviors\. This way, clients can predict what happens to their CSRs\. To learn more about certificate signing, see [signing requests](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/)\.
 

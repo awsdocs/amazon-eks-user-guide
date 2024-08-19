@@ -42,7 +42,7 @@ New — You can disable the installation of default cluster add\-ons, such as `v
       aws iam create-role --role-name myAmazonEKSClusterRole --assume-role-policy-document file://"eks-cluster-role-trust-policy.json"
       ```
 
-   1. You can assign either the Amazon EKS managed policy or create your own custom policy\. For the minimum permissions that you must use in your custom policy, see [Amazon EKS cluster IAM role](service_IAM_role.md)\.
+   1. You can assign either the Amazon EKS managed policy or create your own custom policy\. For the minimum permissions that you must use in your custom policy, see [Amazon EKS cluster IAM role](cluster_IAM_role.md)\.
 
       Attach the Amazon EKS managed policy named [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html#AmazonEKSClusterPolicy-json](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html#AmazonEKSClusterPolicy-json) to the role\. To attach an IAM policy to an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-principal), the principal that is attaching the policy must be assigned one of the following IAM actions \(permissions\): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`\.
 

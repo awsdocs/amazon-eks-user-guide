@@ -1,4 +1,4 @@
-# Pod security policy \(PSP\) removal FAQ<a name="pod-security-policy-removal-faq"></a>
+# Migrate from legacy pod security policies \(PSP\)<a name="pod-security-policy-removal-faq"></a>
 
 `PodSecurityPolicy` was [deprecated in Kubernetes`1.21`](https://kubernetes.io/blog/2021/04/06/podsecuritypolicy-deprecation-past-present-and-future/), and has been removed in Kubernetes`1.25`\. If you are using PodSecurityPolicy in your cluster, **then you must migrate to the built\-in Kubernetes Pod Security Standards \(PSS\) or to a policy\-as\-code solution before upgrading your cluster to version `1.25` to avoid interruptions to your workloads\.** Select any frequently asked question to learn more\.
 

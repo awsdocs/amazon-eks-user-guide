@@ -1,4 +1,4 @@
-# Using AWS Secrets Manager secrets with Kubernetes<a name="manage-secrets"></a>
+# Use AWS Secrets Manager secrets with Amazon EKS pods<a name="manage-secrets"></a>
 
 To show secrets from Secrets Manager and parameters from Parameter Store as files mounted in Amazon EKS Pods, you can use the AWS Secrets and Configuration Provider \(ASCP\) for the [Kubernetes Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/)\.
 

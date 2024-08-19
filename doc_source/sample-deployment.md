@@ -271,7 +271,7 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
 
    In the previous output, the value for `IP:` is a unique IP that's assigned to the Pod from the CIDR block assigned to the subnet that the node is in\. If you prefer to assign Pods IP addresses from different CIDR blocks, you can change the default behavior\. For more information, see [Custom networking for pods](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the Pod on the `Node` with the IP address *`192.168.45.132`*\.
 **Tip**  
-Rather than using the command line, you can view many details about Pods, services, deployments, and other Kubernetes resources in the AWS Management Console\. For more information, see [View Kubernetes resources](view-kubernetes-resources.md)\.
+Rather than using the command line, you can view many details about Pods, services, deployments, and other Kubernetes resources in the AWS Management Console\. For more information, see [View Kubernetes resources in the AWS Management Console](view-kubernetes-resources.md)\.
 
 1. Run a shell on the Pod that you described in the previous step, replacing `65b7669776-m6qxz` with the ID of one of your Pods\.
 

@@ -76,7 +76,7 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 
 ------
 
-   For more information about what you see in the output, see [View Kubernetes resources](view-kubernetes-resources.md)\.
+   For more information about what you see in the output, see [View Kubernetes resources in the AWS Management Console](view-kubernetes-resources.md)\.
 
 1. View the workloads running on your cluster\.
 
@@ -110,7 +110,7 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 
 ------
 
-   For more information about what you see in the output, see [View Kubernetes resources](view-kubernetes-resources.md)\.
+   For more information about what you see in the output, see [View Kubernetes resources in the AWS Management Console](view-kubernetes-resources.md)\.
 
 ## Step 3: Delete your cluster and nodes<a name="gs-eksctl-clean-up"></a>
 

@@ -7,7 +7,7 @@ A Kubernetes node is a machine that runs containerized applications\. Each node 
 
 For more information, see [Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) in the Kubernetes documentation\.
 
-Your Amazon EKS cluster can schedule Pods on any combination of [self\-managed nodes](worker.md), [Amazon EKS managed node groups](managed-node-groups.md), and [AWS Fargate](fargate.md)\. To learn more about nodes deployed in your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
+Your Amazon EKS cluster can schedule Pods on any combination of [self\-managed nodes](worker.md), [Amazon EKS managed node groups](managed-node-groups.md), and [AWS Fargate](fargate.md)\. To learn more about nodes deployed in your cluster, see [View Kubernetes resources in the AWS Management Console](view-kubernetes-resources.md)\.
 
 **Important**  
 AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.

@@ -1,4 +1,4 @@
-# Pod security policy<a name="pod-security-policy"></a>
+# Understand Amazon EKS created pod security policies \(PSP\)<a name="pod-security-policy"></a>
 
 The Kubernetes Pod security policy admission controller validates Pod creation and update requests against a set of rules\. By default, Amazon EKS clusters ship with a fully permissive security policy with no restrictions\. For more information, see [Pod Security Policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) in the Kubernetes documentation\.
 

@@ -29,7 +29,6 @@ For connected clusters, see [Connect a Kubernetes cluster to an Amazon EKS Manag
 + [Update existing cluster to new Kubernetes version](update-cluster.md)
 + [Delete a cluster](delete-cluster.md)
 + [Control network access to cluster API server endpoint](cluster-endpoint.md)
-+ [Encrypt Kubernetes secrets with AWS KMS on existing clusters](enable-kms.md)
 + [Deploy Windows nodes on EKS clusters](windows-support.md)
 + [Disable Windows support](disable-windows-support.md)
 + [Deploy private clusters with limited internet access](private-clusters.md)

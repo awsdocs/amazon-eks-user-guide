@@ -106,7 +106,7 @@ Review [Create a VPC and subnets for Amazon EKS clusters on AWS Outposts](eks-ou
   + The CoreDNS and Amazon VPC CNI plugin for Kubernetes Daemonsets must run on nodes for nodes to join and communicate with the cluster\.
   + The Amazon VPC CNI plugin for Kubernetes requires some privileged networking features to work properly\. You can view the privileged networking features with the following command: `kubectl describe psp eks.privileged`\.
 
-  We don't recommend modifying the default pod security policy\. For more information, see [Pod security policy](pod-security-policy.md)\.
+  We don't recommend modifying the default pod security policy\. For more information, see [Understand Amazon EKS created pod security policies \(PSP\)](pod-security-policy.md)\.
 
 ## Collecting logs<a name="outposts-troubleshooting-collecting-logs"></a>
 

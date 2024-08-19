@@ -6,6 +6,8 @@ Learn how to manage access to your Amazon EKS cluster\. Using Amazon EKS require
 
 **[Grant IAM users and roles access to Kubernetes APIs](grant-k8s-access.md)— **Learn how to enable applications or users to authenticate to the Kubernetes API\. You can use access entries, the aws\-auth ConfigMap, or an external OIDC provider\. 
 
+**[View Kubernetes resources in the AWS Management Console](view-kubernetes-resources.md) — **Learn how to configure the AWS Management Console to communicate with your Amazon EKS cluster\. Use the console to view Kubernetes resources in the cluster, such as namespaces, nodes, and Pods\.
+
 **[Connect kubectl to an EKS cluster by creating a kubeconfig file](create-kubeconfig.md) — **Learn how to configure kubectl to communicate with your Amazon EKS cluster\. Use the AWS CLI to create a kubeconfig file\. 
 
 **[Grant Kubernetes workloads access to AWS using Kubernetes Service Accounts](service-accounts.md) —** Learn how to associate a Kubernetes service account with AWS IAM Roles\. You can use Pod Identity or IAM Roles for Service Accounts \(IRSA\)\. 

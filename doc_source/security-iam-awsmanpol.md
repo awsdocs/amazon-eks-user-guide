@@ -34,7 +34,7 @@ To view the latest version of the JSON policy document, see [AmazonEKS\_CNI\_Pol
 
 ## AWS managed policy: AmazonEKSClusterPolicy<a name="security-iam-awsmanpol-AmazonEKSClusterPolicy"></a>
 
-You can attach `AmazonEKSClusterPolicy` to your IAM entities\. Before creating a cluster, you must have a [cluster IAM role](service_IAM_role.md) with this policy attached\. Kubernetes clusters that are managed by Amazon EKS make calls to other AWS services on your behalf\. They do this to manage the resources that you use with the service\.
+You can attach `AmazonEKSClusterPolicy` to your IAM entities\. Before creating a cluster, you must have a [cluster IAM role](cluster_IAM_role.md) with this policy attached\. Kubernetes clusters that are managed by Amazon EKS make calls to other AWS services on your behalf\. They do this to manage the resources that you use with the service\.
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
 + **`autoscaling`** – Read and update the configuration of an Auto Scaling group\. These permissions aren't used by Amazon EKS but remain in the policy for backwards compatibility\.
@@ -106,7 +106,7 @@ To view the latest version of the JSON policy document, see [AmazonEKSServiceRol
 
 ## AWS managed policy: AmazonEKSVPCResourceController<a name="security-iam-awsmanpol-AmazonEKSVPCResourceController"></a>
 
-You can attach the `AmazonEKSVPCResourceController` policy to your IAM identities\. If you're using [security groups for Pods](security-groups-for-pods.md), you must attach this policy to your [Amazon EKS cluster IAM role](service_IAM_role.md) to perform actions on your behalf\. 
+You can attach the `AmazonEKSVPCResourceController` policy to your IAM identities\. If you're using [security groups for Pods](security-groups-for-pods.md), you must attach this policy to your [Amazon EKS cluster IAM role](cluster_IAM_role.md) to perform actions on your behalf\. 
 
 This policy grants the cluster role permissions to manage Elastic Network Interfaces and IP addresses for nodes\. 
 
@@ -161,7 +161,7 @@ To view the latest version of the JSON policy document, see [AmazonEFSCSIDriverS
 
 ## AWS managed policy: AmazonEKSLocalOutpostClusterPolicy<a name="security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy"></a>
 
-You can attach this policy to IAM entities\. Before creating a local cluster, you must attach this policy to your [cluster role](service_IAM_role.md)\. Kubernetes clusters that are managed by Amazon EKS make calls to other AWS services on your behalf\. They do this to manage the resources that you use with the service\.
+You can attach this policy to IAM entities\. Before creating a local cluster, you must attach this policy to your [cluster role](cluster_IAM_role.md)\. Kubernetes clusters that are managed by Amazon EKS make calls to other AWS services on your behalf\. They do this to manage the resources that you use with the service\.
 
 The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
 + **`ec2`** – Required permissions for Amazon EC2 instances to successfully join the cluster as control plane instances\.

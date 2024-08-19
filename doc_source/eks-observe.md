@@ -2,7 +2,7 @@
 
 You can observe your data in Amazon EKS using many available monitoring or logging tools\. Your Amazon EKS log data can be streamed to AWS services or to partner tools for data analysis\. There are many services available in the AWS Management Console that provide data for troubleshooting your Amazon EKS issues\. You can also use an AWS\-supported open\-source solution for [monitoring Amazon EKS infrastructure](https://docs.aws.amazon.com/grafana/latest/userguide/solution-eks.html)\.
 
-After selecting **Clusters** in the left navigation pane of the Amazon EKS console, you can view cluster health and details by selecting your cluster's name\. To view details about any existing Kubernetes resources that are deployed to your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
+After selecting **Clusters** in the left navigation pane of the Amazon EKS console, you can view cluster health and details by selecting your cluster's name\. To view details about any existing Kubernetes resources that are deployed to your cluster, see [View Kubernetes resources in the AWS Management Console](view-kubernetes-resources.md)\.
 
 Monitoring is an important part of maintaining the reliability, availability, and performance of Amazon EKS and your AWS solutions\. We recommend that you collect monitoring data from all of the parts of your AWS solution\. That way, you can more easily debug a multi\-point failure if one occurs\. Before you start monitoring Amazon EKS, make sure that your monitoring plan addresses the following questions\.
 + What are your goals? Do you need real\-time notifications if your clusters scale dramatically?

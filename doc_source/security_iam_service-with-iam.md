@@ -126,8 +126,8 @@ Amazon EKS supports service\-linked roles\. For details about creating or managi
 
 This feature allows a service to assume a [service role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-service-role) on your behalf\. This role allows the service to access resources in other services to complete an action on your behalf\. Service roles appear in your IAM account and are owned by the account\. This means that an IAM administrator can change the permissions for this role\. However, doing so might break the functionality of the service\.
 
-Amazon EKS supports service roles\. For more information, see [Amazon EKS cluster IAM role](service_IAM_role.md) and [Amazon EKS node IAM role](create-node-role.md)\.
+Amazon EKS supports service roles\. For more information, see [Amazon EKS cluster IAM role](cluster_IAM_role.md) and [Amazon EKS node IAM role](create-node-role.md)\.
 
 ### Choosing an IAM role in Amazon EKS<a name="security_iam_service-with-iam-roles-choose"></a>
 
-When you create a cluster resource in Amazon EKS, you must choose a role to allow Amazon EKS to access several other AWS resources on your behalf\. If you have previously created a service role, then Amazon EKS provides you with a list of roles to choose from\. It's important to choose a role that has the Amazon EKS managed policies attached to it\. For more information, see [Check for an existing cluster role](service_IAM_role.md#check-service-role) and [Check for an existing node role](create-node-role.md#check-worker-node-role)\.
+When you create a cluster resource in Amazon EKS, you must choose a role to allow Amazon EKS to access several other AWS resources on your behalf\. If you have previously created a service role, then Amazon EKS provides you with a list of roles to choose from\. It's important to choose a role that has the Amazon EKS managed policies attached to it\. For more information, see [Check for an existing cluster role](cluster_IAM_role.md#check-service-role) and [Check for an existing node role](create-node-role.md#check-worker-node-role)\.
