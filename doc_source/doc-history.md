@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Kubernetes version 1\.29 is now available for local clusters on AWS Outposts](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-platform-versions.html) | You can now create an Amazon EKS local cluster on an AWS Outposts using Kubernetes version 1\.29\. | August 20, 2024 | 
 | [EKS Pod Identity in AWS GovCloud \(US\)](https://docs.aws.amazon.com/eks/latest/userguide/pod-identites.html) | Amazon EKS Pod Identities associate an IAM role with a Kubernetes service account\. With this feature, you no longer need to provide extended permissions to the node IAM role\. This way, Pods on that node can call AWS APIs\. Unlike IAM roles for service accounts, EKS Pod Identities are completely inside EKS; you don't need an OIDC identity provider\. | August 14, 2024 | 
 | [Scenario\-driven content updates](#doc-history) | We renamed and updated topics to be more scenario\-driven throughout the entire guide\. | August 9, 2024 | 
 | [Dual\-stack VPC interface endpoints for Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/vpc-interface-endpoints.html) | You can now create dual\-stack VPC interface endpoints for Amazon EKS with both `IPv4` and `IPv6` IP addresses and DNS names\.  | August 7, 2024 | 

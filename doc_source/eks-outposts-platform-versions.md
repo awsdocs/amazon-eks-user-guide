@@ -2,7 +2,7 @@
 
 Local cluster platform versions represent the capabilities of the Amazon EKS cluster on AWS Outposts\. The versions include the components that run on the Kubernetes control plane, which Kubernetes API server flags are enabled\. They also include the current Kubernetes patch version\. Each Kubernetes minor version has one or more associated platform versions\. The platform versions for different Kubernetes minor versions are independent\. The platform versions for local clusters and Amazon EKS clusters in the cloud are independent\.
 
-When a new Kubernetes minor version is available for local clusters, such as `1.28`, the initial platform version for that Kubernetes minor version starts at `eks-local-outposts.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
+When a new Kubernetes minor version is available for local clusters, such as `1.29`, the initial platform version for that Kubernetes minor version starts at `eks-local-outposts.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
 
 When new local cluster platform versions become available for a minor version:
 + The platform version number is incremented \(`eks-local-outposts.n+1`\)\.
@@ -14,6 +14,15 @@ New platform versions don't introduce breaking changes or cause service interrup
 Local clusters are always created with the latest available platform version \(`eks-local-outposts.n`\) for the specified Kubernetes version\.
 
 The current and recent platform versions are described in the following tables\.
+
+## Kubernetes version `1.29`<a name="platform-versions-1.29"></a>
+
+The following admission controllers are enabled for all `1.29` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`\.
+
+
+|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
+| --- | --- | --- | --- | 
+| 1\.29\.6 | eks\-local\-outposts\.1 | Initial release of Kubernetes version v1\.29\. for local Amazon EKS clusters on Outpost | August 20, 2024 | 
 
 ## Kubernetes version `1.28`<a name="platform-versions-1.28"></a>
 
