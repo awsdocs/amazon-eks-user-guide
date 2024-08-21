@@ -115,6 +115,11 @@ The AWS Load Balancer Controller \(LBC\) leverages Custom Resource Definitions \
    ```
    helm repo update eks
    ```
+   
+1. Ensure your kubeconfig file is correctly configured for the cluster:
+   ```
+   aws eks --region region-code update-kubeconfig --name web-quickstart
+   ```
 
 1. Run the following [Helm](https://helm.sh/docs/intro/install/) command to simultaneously install the Custom Resource Definitions \(CRDs\) and the main controller for the AWS Load Balancer Controller \(AWS LBC\)\. To skip the CRD installation, pass the `--skip-crds` flag, which might be useful if the CRDs are already installed, if specific version compatibility is required, or in environments with strict access control and customization needs\.
 
