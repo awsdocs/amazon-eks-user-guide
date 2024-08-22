@@ -10,7 +10,7 @@ The following table lists the latest version of the Amazon EKS add\-on type for 
 
 | Kubernetes version | `1.30` | `1.29` | `1.28` | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | 
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | 
-|  | v1\.30\.0\-eksbuild\.3 | v1\.29\.3\-eksbuild\.5 | v1\.28\.8\-eksbuild\.5 | v1\.27\.12\-eksbuild\.5 | v1\.26\.15\-eksbuild\.5 | v1\.25\.16\-eksbuild\.8 | v1\.24\.17\-eksbuild\.8 | v1\.23\.17\-eksbuild\.9 | 
+|  | v1\.30\.3\-eksbuild\.3 | v1\.29\.7\-eksbuild\.2 | v1\.28\.12\-eksbuild\.2 | v1\.27\.16\-eksbuild\.3 | v1\.26\.15\-eksbuild\.5 | v1\.25\.16\-eksbuild\.8 | v1\.24\.17\-eksbuild\.15 | v1\.23\.17\-eksbuild\.16 | 
 
 **Important**  
 An earlier version of the documentation was incorrect\. `kube-proxy` versions `v1.28.5`, `v1.27.9`, and `v1.26.12` aren't available\.  

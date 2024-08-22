@@ -75,7 +75,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
    An example output is as follows\.
 
    ```
-   v1.10.1-eksbuild.11
+   v1.10.1-eksbuild.13
    ```
 
    Compare this version with the minimum EKS Add\-on version in the previous section\. If needed, upgrade the EKS Add\-on to a higher version by following the procedure [Update the CoreDNS Amazon EKS add\-on](coredns-add-on-update.md)\.
@@ -172,7 +172,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
    An example output is as follows\.
 
    ```
-   v1.10.1-eksbuild.11
+   v1.10.1-eksbuild.13
    ```
 
    Compare this version with the minimum EKS Add\-on version in the previous section\. If needed, upgrade the EKS Add\-on to a higher version by following the procedure [Update the CoreDNS Amazon EKS add\-on](coredns-add-on-update.md)\.
