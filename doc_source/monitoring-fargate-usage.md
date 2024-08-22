@@ -18,14 +18,14 @@ AWS Fargate usage metrics correspond to AWS service quotas\. You can configure a
 AWS Fargate publishes the following metrics in the `AWS/Usage` namespace\.
 
 
-|  Metric  |  Description  | 
+| Metric | Description | 
 | --- | --- | 
 |  `ResourceCount`  |  The total number of the specified resource running on your account\. The resource is defined by the dimensions associated with the metric\.  | 
 
 The following dimensions are used to refine the usage metrics that are published by AWS Fargate\.
 
 
-|  Dimension  |  Description  | 
+| Dimension | Description | 
 | --- | --- | 
 |  `Service`  |  The name of the AWS service containing the resource\. For AWS Fargate usage metrics, the value for this dimension is `Fargate`\.  | 
 |  `Type`  |  The type of entity that's being reported\. Currently, the only valid value for AWS Fargate usage metrics is `Resource`\.  | 

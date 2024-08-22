@@ -108,8 +108,6 @@ You can add or delete the tags that are associated with your clusters directly f
 Use the following AWS CLI commands or Amazon EKS API operations to add, update, list, and delete the tags for your resources\. You can only use `eksctl` to add tags while simultaneously creating the new resources with one command\.
 
 
-**Tagging support for Amazon EKS resources**  
-
 | Task | AWS CLI | AWS Tools for Windows PowerShell | API action | 
 | --- | --- | --- | --- | 
 |  Add or overwrite one or more tags\.  |  [https://docs.aws.amazon.com/cli/latest/reference/eks/tag-resource.html](https://docs.aws.amazon.com/cli/latest/reference/eks/tag-resource.html)  |  [https://docs.aws.amazon.com/powershell/latest/reference/items/Add-EKSResourceTag.html](https://docs.aws.amazon.com/powershell/latest/reference/items/Add-EKSResourceTag.html)  |  [https://docs.aws.amazon.com/eks/latest/APIReference/API_TagResource.html](https://docs.aws.amazon.com/eks/latest/APIReference/API_TagResource.html)  | 

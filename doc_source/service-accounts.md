@@ -60,10 +60,10 @@ EKS Pod Identity offers cluster administrators a simplified workflow for authent
 
 ### Comparing EKS Pod Identity and IRSA<a name="service-accounts-iam-compare"></a>
 
-At a high level, both EKS Pod Identity and IRSA enables you to grant IAM permissions to applications running on Kubernetes clusters\. But they are fundamentally different in how you configure them, the limits supported, and features enabled\. Below, we compare some of the key facets of both the solutions\.
+At a high level, both EKS Pod Identity and IRSA enables you to grant IAM permissions to applications running on Kubernetes clusters\. But they are fundamentally different in how you configure them, the limits supported, and features enabled\. Below, we compare some of the key facets of both solutions\.
 
 
-|  | EKS Pod Identity | IRSA | 
+| Attribute | EKS Pod Identity | IRSA | 
 | --- | --- | --- | 
 |  Role extensibility  |  You have to setup each role once to establish trust with the newly\-introduced Amazon EKS service principal `pods.eks.amazonaws.com`\. After this one\-time step, you don't need to update the role's trust policy each time that it is used in a new cluster\.  |  You have to update the IAM role's trust policy with the new EKS cluster OIDC provider endpoint each time you want to use the role in a new cluster\.  | 
 |  Cluster scalability  |  EKS Pod Identity doesn't require users to setup IAM OIDC provider, so this limit doesn't apply\.  |  Each EKS cluster has an OpenID Connect \(OIDC\) issuer URL associated with it\. To use IRSA, a unique OpenID Connect provider needs to be created for each EKS cluster in IAM\. IAM has a default global limit of 100 OIDC providers for each AWS account\. If you plan to have more than 100 EKS clusters for each AWS account with IRSA, then you will reach the IAM OIDC provider limit\.  | 

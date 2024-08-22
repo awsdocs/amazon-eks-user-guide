@@ -5,15 +5,9 @@ You can connect an external Kubernetes cluster to Amazon EKS by using multiple m
 **Important**  
 You must complete the second step within 3 days of completing the first step, before the registration expires\.
 
-## Connector methods<a name="connector-methods"></a>
+## Considerations<a name="connecting-cluster-considerations"></a>
 
-Not all of the methods to install the agent can be used after each of the methods to register the cluster\. The following table lists each of the registration method and which methods for installing the agent can be used\.
-
-
-| Step | Methods | 
-| --- | --- | 
-| Register the cluster | AWS Management Console | AWS Command Line Interface | eksctl | 
-| Install the agent | Helm, YAML manifests | Helm, YAML manifests | YAML manifests | 
+You can use YAML manifests when installing the agent\. Alternatively, you can use Helm if you register the cluster with the AWS Management Console or AWS Command Line Interface\. However, you cannot use Helm to install the agent if you register the cluster with `eksctl`\.
 
 ## Prerequisites<a name="connector-prereqs"></a><a name="connecting-cluster-prerequisites"></a>
 + Ensure the Amazon EKS Connector agent role was created\. Follow the steps in [Creating the Amazon EKS connector agent role](connector_IAM_role.md#create-connector-role)\.
@@ -126,6 +120,9 @@ The command or manifest file can be used only once for the registered cluster\. 
 
 ------
 #### [ Helm chart ]
+
+**Note**  
+If you registered the cluster with `eksctl`, use the YAML manifest method instead of the Helm chart method\.
 
 1. If you used the AWS CLI in the previous step, replace the `ACTIVATION_CODE` and `ACTIVATION_ID` in the following command with the `activationId`, and `activationCode` values respectively\. Replace the `aws-region` with the AWS Region that you used in the previous step\. Then run the command to install the `eks-connector` agent on the registering cluster:
 

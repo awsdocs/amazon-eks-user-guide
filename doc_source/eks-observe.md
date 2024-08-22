@@ -37,8 +37,8 @@ To configure Fluent Bit for custom Amazon CloudWatch logs, see [Setting up Fluen
 
 Amazon Web Services provides various tools that you can use to monitor Amazon EKS\. You can configure some tools to set up automatic monitoring, but some require manual calls\. We recommend that you automate monitoring tasks as much as your environment and existing toolset allows\.
 
+The following table describes various logging tool options\.
 
-**Logging Tools**  
 
 | Areas | Tool | Description | Setup | 
 | --- | --- | --- | --- | 
@@ -46,8 +46,8 @@ Amazon Web Services provides various tools that you can use to monitor Amazon EK
 |  Control plane  |  [AWS CloudTrail](logging-using-cloudtrail.md)  |  It logs API calls by a user, role, or service\.  |  [Setup procedure](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail.html)  | 
 |  Multiple areas for AWS Fargate instances  |  [AWS Fargate log router](fargate-logging.md)  |  For AWS Fargate instances, it streams logs to AWS services or partner tools\. Uses [AWS for Fluent Bit](https://github.com/aws/aws-for-fluent-bit)\. Logs can be streamed to other AWS services or partner tools\.  |  [Setup procedure](fargate-logging.md)  | 
 
+The following table describes various monitoring tool options\.
 
-**Monitoring Tools**  
 
 | Areas | Tool | Description | Setup | 
 | --- | --- | --- | --- | 

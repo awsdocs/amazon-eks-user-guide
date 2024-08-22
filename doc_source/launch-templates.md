@@ -26,7 +26,7 @@ The following table lists the settings that are prohibited in a launch template\
 The following table lists the prohibited settings in a managed node group configuration\. It also lists similar settings, if any are available, which are required in a launch template\. The listed settings are the settings that appear in the console\. They might have similar names in the AWS CLI and SDK\.
 
 
-| Amazon EKS node group configuration – Prohibited |  Launch template | 
+| Amazon EKS node group configuration – Prohibited | Launch template | 
 | --- | --- | 
 |  \(Only if you specified a custom AMI in a launch template\) **AMI type** under **Node group compute configuration** on **Set compute and scaling configuration** page – Console displays **Specified in launch template** and the AMI ID that was specified\. If **Application and OS Images \(Amazon Machine Image\)** wasn't specified in the launch template, you can select an AMI in the node group configuration\.  |  **Application and OS Images \(Amazon Machine Image\)** under **Launch template contents** – You must specify an ID if you have either of the following requirements: [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)  | 
 | Disk size under Node group compute configuration on Set compute and scaling configuration page – Console displays Specified in launch template\. | Size under Storage \(Volumes\) \(Add new volume\)\. You must specify this in the launch template\. | 

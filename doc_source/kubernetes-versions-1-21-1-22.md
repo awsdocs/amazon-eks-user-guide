@@ -10,7 +10,7 @@ This topic gives important changes to be aware of for version `1.22`\. When upgr
 The following admission controllers are enabled for all `1.22` platform versions: `DefaultStorageClass`, `DefaultTolerationSeconds`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `ResourceQuota`, `ServiceAccount`, `ValidatingAdmissionWebhook`, `PodSecurityPolicy`, `TaintNodesByCondition`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `ExtendedResourceToleration`, `CertificateApproval`, `PodPriority`, `CertificateSigning`, `CertificateSubjectRestriction`, `RuntimeClass`, and `DefaultIngressClass`\.
 
 
-|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | Amazon EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 |  `1.22.17`  |  `eks.28`  |  New platform version with security fixes and enhancements\.  | May 16, 2024 | 
 |  `1.22.17`  |  `eks.26`  |  New platform version with security fixes and enhancements\.  | April 1, 2024 | 

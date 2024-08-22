@@ -25,7 +25,7 @@ If you don't specify a vCPU and memory combination, then the smallest available 
 The following table shows the vCPU and memory combinations that are available for Pods running on Fargate\. 
 
 
-|  vCPU value  |  Memory value  | 
+| vCPU value | Memory value | 
 | --- | --- | 
 |  \.25 vCPU  |  0\.5 GB, 1 GB, 2 GB  | 
 |  \.5 vCPU  |  1 GB, 2 GB, 3 GB, 4 GB  | 

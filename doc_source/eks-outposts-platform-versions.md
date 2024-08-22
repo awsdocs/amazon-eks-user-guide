@@ -20,7 +20,7 @@ The current and recent platform versions are described in the following tables\.
 The following admission controllers are enabled for all `1.29` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`\.
 
 
-|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | Amazon EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 | 1\.29\.6 | eks\-local\-outposts\.1 | Initial release of Kubernetes version v1\.29\. for local Amazon EKS clusters on Outpost | August 20, 2024 | 
 
@@ -29,7 +29,7 @@ The following admission controllers are enabled for all `1.29` platform versions
 The following admission controllers are enabled for all `1.28` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`\.
 
 
-|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | Amazon EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 | 1\.28\.6 | eks\-local\-outposts\.5 | Updated Bottlerocket version to v1\.19\.3 containing newest bugfixes to support local boot in Outposts\. | April 18, 2024 | 
 | 1\.28\.6 | eks\-local\-outposts\.4 | New platform version with security fixes and enhancements\. Restored support or local boot in Outposts\. Downgraded Bottlerocket version to v1\.15\.1 for compatibility\. | April 2, 2024 | 
@@ -42,7 +42,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 The following admission controllers are enabled for all `1.27` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`\.
 
 
-|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | Amazon EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 | 1\.27\.10 | eks\-local\-outposts\.5 | New platform with security fixes and enhancements\. | April 2, 2024 | 
 | 1\.27\.10 | eks\-local\-outposts\.4 | New platform with security fixes and enhancements\. kube\-proxy updated to v1\.27\.10\. AWS IAM Authenticator updated to v0\.6\.17\. Updated Bottlerocket version to v1\.19\.2\. | March 22, 2024 | 
@@ -55,7 +55,7 @@ The following admission controllers are enabled for all `1.27` platform versions
 The following admission controllers are enabled for all `1.26` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`\.
 
 
-|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | Amazon EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 | 1\.26\.13 | eks\-local\-outposts\.5 | New platform version with security fixes and enhancements\. kube\-proxy updated to v1\.26\.13\. AWS IAM Authenticator updated to v0\.6\.17\. Updated Bottlerocket version to v1\.19\.2\. | March 22, 2024 | 
 
@@ -64,7 +64,7 @@ The following admission controllers are enabled for all `1.26` platform versions
 The following admission controllers are enabled for all `1.25` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, and `ValidatingAdmissionWebhook`\.
 
 
-|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | Amazon EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 | 1\.25\.16 | eks\-local\-outposts\.7 | New platform version with security fixes and enhancements\. kube\-proxy updated to v1\.25\.16\. AWS IAM Authenticator updated to v0\.6\.17\. Updated Bottlerocket version to v1\.19\.2\. | March 22, 2024 | 
 | 1\.25\.11 | eks\-local\-outposts\.6 | New platform version with security fixes and enhancements\. kube\-proxy updated to v1\.25\.11\. Amazon VPC CNI plugin for Kubernetes updated to v1\.13\.2\. | July 14, 2023 | 
@@ -79,7 +79,7 @@ The following admission controllers are enabled for all `1.25` platform versions
 The following admission controllers are enabled for all `1.24` platform versions: `DefaultStorageClass`, `DefaultTolerationSeconds`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `ResourceQuota`, `ServiceAccount`, `ValidatingAdmissionWebhook`, `PodSecurityPolicy`, `TaintNodesByCondition`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `ExtendedResourceToleration`, `CertificateApproval`, `PodPriority`, `CertificateSigning`, `CertificateSubjectRestriction`, `RuntimeClass`, and `DefaultIngressClass`\.
 
 
-|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | Amazon EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 | 1\.24\.17 | eks\-local\-outposts\.7 | New platform version with security fixes and enhancements\. kube\-proxy updated to v1\.25\.16\. AWS IAM Authenticator updated v0\.6\.17\. Updated Bottlerocket version to v1\.19\.2\. | March 22, 2024 | 
 | 1\.24\.15 | eks\-local\-outposts\.6 | New platform version with security fixes and enhancements\. kube\-proxy updated to v1\.24\.15\. Amazon VPC CNI plugin for Kubernetes updated to v1\.13\.2\. | July 14, 2023 | 
@@ -94,7 +94,7 @@ The following admission controllers are enabled for all `1.24` platform versions
 The following admission controllers are enabled for all `1.23` platform versions: `DefaultStorageClass`, `DefaultTolerationSeconds`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `ResourceQuota`, `ServiceAccount`, `ValidatingAdmissionWebhook`, `PodSecurityPolicy`, `TaintNodesByCondition`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `ExtendedResourceToleration`, `CertificateApproval`, `PodPriority`, `CertificateSigning`, `CertificateSubjectRestriction`, `RuntimeClass`, and `DefaultIngressClass`\.
 
 
-|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | Amazon EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 | 1\.23\.17 | eks\-local\-outposts\.6 | New platform version with security fixes and enhancements\. | July 13, 2023 | 
 | 1\.23\.17 | eks\-local\-outposts\.5 | New platform version with security fixes and enhancements\. kube\-proxy updated to v1\.23\.17\. Updated Bottlerocket version to v1\.14\.1\. | July 6, 2023 | 

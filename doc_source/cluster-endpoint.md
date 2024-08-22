@@ -18,8 +18,6 @@ You can define your API server endpoint access requirements when you create a ne
 Use the procedures in this section to modify the endpoint access for an existing cluster\. The following table shows the supported API server endpoint access combinations and their associated behavior\.
 
 
-**API server endpoint access options**  
-
 | Endpoint public access | Endpoint private access | Behavior | 
 | --- | --- | --- | 
 | Enabled | Disabled |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)  | 

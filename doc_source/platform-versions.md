@@ -25,7 +25,7 @@ AWS recently disabled some platform versions published in June 2024\. The platfo
 The following admission controllers are enabled for all `1.30` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
 
 
-|  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 |  `1.30.3`  |  `eks.6`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.30.2`  |  `eks.5`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
@@ -36,7 +36,7 @@ The following admission controllers are enabled for all `1.30` platform versions
 The following admission controllers are enabled for all `1.29` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
 
 
-|  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 |  `1.29.7`  |  `eks.11`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.29.6`  |  `eks.10`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
@@ -52,7 +52,7 @@ The following admission controllers are enabled for all `1.29` platform versions
 The following admission controllers are enabled for all `1.28` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
 
 
-|  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 |  `1.28.11`  |  `eks.17`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.28.11`  |  `eks.16`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
@@ -74,7 +74,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 The following admission controllers are enabled for all `1.27` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
 
 
-|  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 |  `1.27.16`  |  `eks.21`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.27.15`  |  `eks.20`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
@@ -100,7 +100,7 @@ The following admission controllers are enabled for all `1.27` platform versions
 The following admission controllers are enabled for all `1.26` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
 
 
-|  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 |  `1.26.15`  |  `eks.22`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.26.15`  |  `eks.21`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
@@ -127,7 +127,7 @@ The following admission controllers are enabled for all `1.26` platform versions
 The following admission controllers are enabled for all `1.25` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
 
 
-|  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 |  `1.25.16`  |  `eks.23`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.25.16`  |  `eks.22`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
@@ -155,7 +155,7 @@ The following admission controllers are enabled for all `1.25` platform versions
 The following admission controllers are enabled for all `1.24` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurityPolicy`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, and `ValidatingAdmissionWebhook`\.
 
 
-|  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 |  `1.24.17`  |  `eks.26`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.24.17`  |  `eks.25`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
@@ -186,7 +186,7 @@ The following admission controllers are enabled for all `1.24` platform versions
 The following admission controllers are enabled for all `1.23` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurityPolicy`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, and `ValidatingAdmissionWebhook`\.
 
 
-|  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
+| Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
 |  `1.23.17`  |  `eks.28`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.23.17`  |  `eks.27`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
