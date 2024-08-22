@@ -20,6 +20,6 @@ When using [IAM roles for service accounts](iam-roles-for-service-accounts.md), 
 + \.NET – [3\.3\.659\.1](https://github.com/aws/aws-sdk-net/releases/tag/3.3.659.1) – You must also include `AWSSDK.SecurityToken`\.
 + PHP – [3\.110\.7](https://github.com/aws/aws-sdk-php/releases/tag/3.110.7)
 
-Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), the [What is the AWS Load Balancer Controller?](aws-load-balancer-controller.md), and the [Amazon VPC CNI plugin for Kubernetes](cni-iam-role.md) support IAM roles for service accounts\.
+Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), the [Route internet traffic with AWS Load Balancer Controller](aws-load-balancer-controller.md), and the [Amazon VPC CNI plugin for Kubernetes](cni-iam-role.md) support IAM roles for service accounts\.
 
 To ensure that you're using a supported SDK, follow the installation instructions for your preferred SDK at [Tools to Build on AWS](https://aws.amazon.com/tools/) when you build your containers\. 

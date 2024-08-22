@@ -1,12 +1,12 @@
-# Migrate from Deprecated Controller<a name="lbc-remove"></a>
+# Migrate apps from deprecated AWSIngress Controller<a name="lbc-remove"></a>
 
 This topic describes how to migrate from deprecated controller versions\. More specifically, it describes how to remove deprecated versions of the AWS Load Balancer Controller\. 
-+ Deprecated versions cannot be upgraded\. They must be removed and a current version of the LBC installed\. 
++ Deprecated versions cannot be upgraded\. You must remove them first, and then install a current version\.
 + <a name="lbc-deprecated-list"></a>Deprecated versions include:
   + AWS ALB Ingress Controller for Kubernetes \("Ingress Controller"\), a predecessor to the AWS Load Balancer Controller\.
   + Any `0.1.x` version of the AWS Load Balancer Controller 
 
-## Remove Deprecated Controller Version<a name="lbc-remove-desc"></a>
+## Remove the deprecated controller version<a name="lbc-remove-desc"></a>
 
 **Note**  
 You may have installed the deprecated version using Helm or manually with Kubernetes manifests\. Complete the procedure using the tool that you originally installed it with\.
@@ -59,11 +59,11 @@ To migrate from the ALB Ingress Controller for Kubernetes to the AWS Load Balanc
 
 1. [Install the AWS Load Balancer Controller\.](aws-load-balancer-controller.md#lbc-overview) 
 
-1. Add an additional policy to the IAM Role used by the LBC\. This policy permits the LBC to manage resources created by the ALB Ingress Controller for Kubernetes\.
+1. Add an additional policy to the IAM Role used by the AWS Load Balancer Controller\. This policy permits the LBC to manage resources created by the ALB Ingress Controller for Kubernetes\.
 
 **Add Migration Policy to AWS Load Balancer Controller IAM role\.**
 
-1. Download the IAM policy\. This policy permits the LBC to manage resources created by the ALB Ingress Controller for Kubernetes\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\.
+1. Download the IAM policy\. This policy permits the AWS Load Balancer Controller to manage resources created by the ALB Ingress Controller for Kubernetes\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\.
 
    ```
    $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy_v1_to_v2_additional.json
@@ -83,7 +83,7 @@ To migrate from the ALB Ingress Controller for Kubernetes to the AWS Load Balanc
      --policy-document file://iam_policy_v1_to_v2_additional.json
    ```
 
-1. Attach the IAM policy to the IAM role used by the LBC\. Replace `your-role-name` with the name of the role, such as `AmazonEKSLoadBalancerControllerRole`\. 
+1. Attach the IAM policy to the IAM role used by the AWS Load Balancer Controller\. Replace `your-role-name` with the name of the role, such as `AmazonEKSLoadBalancerControllerRole`\. 
 
    If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation) and select the **eksctl\-*my\-cluster*\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 

@@ -9,5 +9,5 @@ You can't create managed node groups or Fargate nodes in Local Zones with Amazon
 
 **Network architecture**
 + The Amazon EKS managed Kubernetes control plane always runs in the AWS Region\. The Amazon EKS managed Kubernetes control plane can't run in the Local Zone\. Because Local Zones appear as a subnet within your VPC, Kubernetes sees your Local Zone resources as part of that subnet\. 
-+ The Amazon EKS Kubernetes cluster communicates with the Amazon EC2 instances you run in the AWS Region or Local Zone using Amazon EKS managed [elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html)\. To learn more about Amazon EKS networking architecture, see [Amazon EKS networking](eks-networking.md)\.
++ The Amazon EKS Kubernetes cluster communicates with the Amazon EC2 instances you run in the AWS Region or Local Zone using Amazon EKS managed [elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html)\. To learn more about Amazon EKS networking architecture, see [Configure networking for Amazon EKS clusters](eks-networking.md)\.
 + Unlike regional subnets, Amazon EKS can't place network interfaces into your Local Zone subnets\. This means that you must not specify Local Zone subnets when you create your cluster\.

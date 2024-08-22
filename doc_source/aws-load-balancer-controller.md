@@ -1,4 +1,4 @@
-# What is the AWS Load Balancer Controller?<a name="aws-load-balancer-controller"></a>
+# Route internet traffic with AWS Load Balancer Controller<a name="aws-load-balancer-controller"></a>
 
 The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubernetes cluster\. You can use the controller to expose your cluster apps to the internet\. The controller provisions AWS load balancers that point to cluster Service or Ingress resources\. In other words, the controller creates a single IP address or DNS name that points to multiple pods in your cluster\. 
 
@@ -19,18 +19,20 @@ The controller is an [open\-source project](https://github.com/kubernetes-sigs/a
 
 Before deploying the controller, we recommend that you review the prerequisites and considerations in [Route application and HTTP traffic with Application Load Balancers](alb-ingress.md) and [Route TCP and UDP traffic with Network Load Balancers](network-load-balancing.md)\. In those topics, you will deploy a sample app that includes an AWS load balancer\. 
 
-## Install the Controller 🚀<a name="lbc-overview"></a>
-+ **Learn how to [Install the AWS Load Balancer Controller using Helm](lbc-helm.md)\. **Use this procedure if you are new to Amazon EKS\. This procedure uses [Helm](https://helm.sh), a package manager for Kubernetes, and [https://eksctl.io](https://eksctl.io) to simplify installing the LBC\. 
-+ Alternatively, [Install the AWS Load Balancer Controller add\-on using Kubernetes Manifests](lbc-manifest.md)\. This procedure is appropriate for advanced cluster configurations\. This includes clusters with restricted network access to public container registries\. 
+## Install the controller<a name="lbc-overview"></a>
 
-## Migrate from Deprecated Controller Versions<a name="lbc-deprecated"></a>
-+ If you have deprecated versions of the AWS Load Balancer Controller installed, learn how to [Migrate from Deprecated Controller](lbc-remove.md)\.
+You can use one of the following procedures to install the AWS Load Balancer Controller:
++ If you are new to Amazon EKS we recommend that you use Helm for the installation because it simplifies the AWS Load Balancer Controller installation\. For more information, see [Install AWS Load Balancer Controller with Helm](lbc-helm.md)\. 
++ For advanced configurations, such as clusters with restricted network access to public container registries, use Kubernetes Manifests\. For more information, see [Install AWS Load Balancer Controller with manifests](lbc-manifest.md)\.
+
+## Migrate from deprecated controller versions<a name="lbc-deprecated"></a>
++ If you have deprecated versions of the AWS Load Balancer Controller installed, learn how to [Migrate apps from deprecated AWSIngress Controller](lbc-remove.md)\.
 + Deprecated versions cannot be upgraded\. They must be removed and a current version of the AWS Load Balancer Controller installed\. 
 + <a name="lbc-deprecated-list"></a>Deprecated versions include:
   + AWS ALB Ingress Controller for Kubernetes \("Ingress Controller"\), a predecessor to the AWS Load Balancer Controller\.
   + Any `0.1.x` version of the AWS Load Balancer Controller 
 
-## Legacy Cloud Provider<a name="lbc-legacy"></a>
+## Legacy cloud provider<a name="lbc-legacy"></a>
 
 Kubernetes includes a legacy cloud provider for AWS\. The legacy cloud provider is capable of provisioning AWS load balancers, similar to the AWS Load Balancer Controller\. The legacy cloud provider creates Classic Load Balancers\. If you do not install the AWS Load Balancer Controller, Kubernetes will default to using the legacy cloud provider\. You should install the AWS Load Balancer Controller and avoid using the legacy cloud provider\. 
 

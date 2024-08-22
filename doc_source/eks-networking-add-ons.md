@@ -1,4 +1,4 @@
-# Amazon EKS networking add\-ons<a name="eks-networking-add-ons"></a>
+# Manage networking add\-ons for Amazon EKS clusters<a name="eks-networking-add-ons"></a>
 
 Several networking add\-ons are available for your Amazon EKS cluster\.
 
@@ -9,13 +9,13 @@ If you create clusters in any way except by using the console, each cluster come
 We recommend adding the Amazon EKS type of the add\-on to your cluster instead of using the self\-managed type of the add\-on\. If you create clusters in the console, the Amazon EKS type of these add\-ons is installed\.
 
 **Amazon VPC CNI plugin for Kubernetes**  
-This CNI add\-on creates elastic network interfaces and attaches them to your Amazon EC2 nodes\. The add\-on also assigns a private `IPv4` or `IPv6` address from your VPC to each Pod and service\. This add\-on is installed, by default, on your cluster\. For more information, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
+This CNI add\-on creates elastic network interfaces and attaches them to your Amazon EC2 nodes\. The add\-on also assigns a private `IPv4` or `IPv6` address from your VPC to each Pod and service\. This add\-on is installed, by default, on your cluster\. For more information, see [Assign IPs to Pods with the Amazon VPC CNI](managing-vpc-cni.md)\.
 
 **CoreDNS**  
-CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. CoreDNS provides name resolution for all Pods in the cluster\. This add\-on is installed, by default, on your cluster\. For more information, see [Working with the CoreDNS Amazon EKS add\-on](managing-coredns.md)\.
+CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. CoreDNS provides name resolution for all Pods in the cluster\. This add\-on is installed, by default, on your cluster\. For more information, see [Manage CoreDNS for DNS in Amazon EKS clusters](managing-coredns.md)\.
 
 **`kube-proxy`**  
-This add\-on maintains network rules on your Amazon EC2 nodes and enables network communication to your Pods\. This add\-on is installed, by default, on your cluster\. For more information, see [Working with the Kubernetes `kube-proxy` add\-on](managing-kube-proxy.md)\.
+This add\-on maintains network rules on your Amazon EC2 nodes and enables network communication to your Pods\. This add\-on is installed, by default, on your cluster\. For more information, see [Manage `kube-proxy` in Amazon EKS clusters](managing-kube-proxy.md)\.
 
 ## Optional AWS networking add\-ons<a name="eks-networking-add-ons-optional"></a>
 

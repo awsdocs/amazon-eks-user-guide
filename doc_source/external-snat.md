@@ -1,6 +1,8 @@
-# SNAT for Pods<a name="external-snat"></a>
+# Enable outbound internet access for pods<a name="external-snat"></a>
 
-If you deployed your cluster using the `IPv6` family, then the information in this topic isn't applicable to your cluster, because `IPv6` addresses are not network translated\. For more information about using `IPv6` with your cluster, see [`IPv6` addresses for clusters, Pods, and services](cni-ipv6.md)\.
+**Applies to**: Linux `IPv4` Fargate nodes, Linux nodes with Amazon EC2 instances 
+
+If you deployed your cluster using the `IPv6` family, then the information in this topic isn't applicable to your cluster, because `IPv6` addresses are not network translated\. For more information about using `IPv6` with your cluster, see [Assign IPv6 addresses to clusters, pods, and services](cni-ipv6.md)\.
 
 By default, each Pod in your cluster is assigned a [private](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html#concepts-private-addresses) `IPv4` address from a classless inter\-domain routing \(CIDR\) block that is associated with the VPC that the Pod is deployed in\. Pods in the same VPC communicate with each other using these private IP addresses as end points\. When a Pod communicates to any `IPv4` address that isn't within a CIDR block that's associated to your VPC, the Amazon VPC CNI plugin \(for both [https://github.com/aws/amazon-vpc-cni-k8s#amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s#amazon-vpc-cni-k8s) or [https://github.com/aws/amazon-vpc-cni-plugins/tree/master/plugins/vpc-bridge](https://github.com/aws/amazon-vpc-cni-plugins/tree/master/plugins/vpc-bridge)\) translates the Pod's `IPv4` address to the primary private `IPv4` address of the primary [elastic network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#eni-basics) of the node that the Pod is running on, by default [\*](#snat-exception)\.
 

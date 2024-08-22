@@ -20,7 +20,7 @@ kubectl get --raw=/metrics | grep "apiserver_storage_size_bytes"
 Amazon EKS nodes run in your AWS account and connect to your cluster's control plane via the API server endpoint and a certificate file that is created for your cluster\.
 
 **Note**  
-You can find out how the different components of Amazon EKS work in [Amazon EKS networking](eks-networking.md)\. 
+You can find out how the different components of Amazon EKS work in [Configure networking for Amazon EKS clusters](eks-networking.md)\. 
 For connected clusters, see [Connect a Kubernetes cluster to an Amazon EKS Management Console with Amazon EKS Connector](eks-connector.md)\.
 
 **Topics**

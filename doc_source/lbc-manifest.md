@@ -1,4 +1,4 @@
-# Install the AWS Load Balancer Controller add\-on using Kubernetes Manifests<a name="lbc-manifest"></a>
+# Install AWS Load Balancer Controller with manifests<a name="lbc-manifest"></a>
 
 This topic describes how to install the controller by downloading and applying Kubernetes manifests\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. 
 
@@ -16,7 +16,7 @@ Before starting this tutorial, you must install and configure the following tool
 ## Step 1: Configure IAM<a name="lbc-iam"></a>
 
 **Note**  
-You only need to create an IAM Role for the AWS Load Balancer Controller one per AWS account\. Check if `AmazonEKSLoadBalancerControllerRole` exists in the [IAM Console](https://console.aws.amazon.com/iam)\. If this role exists, skip to [Step 2: Install `cert-manager`](#lbc-cert)\.<a name="lbc-iam.step1"></a>
+You only need to create a role for the AWS Load Balancer Controller one per AWS account\. Check if `AmazonEKSLoadBalancerControllerRole` exists in the [IAM Console](https://console.aws.amazon.com/iam)\. If this role exists, skip to [Step 2: Install `cert-manager`](#lbc-cert)\.<a name="lbc-iam.step1"></a>
 
 **Create an IAM policy\.**
 

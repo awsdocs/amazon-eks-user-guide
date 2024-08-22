@@ -1,4 +1,4 @@
-# Install the AWS Load Balancer Controller using Helm<a name="lbc-helm"></a>
+# Install AWS Load Balancer Controller with Helm<a name="lbc-helm"></a>
 
 This topic describes how to install the AWS Load Balancer Controller using Helm, a package manager for Kubernetes, and `eksctl`\. The controller is installed with default options\. For more information about the controller, including details on configuring it with annotations, see the [AWS Load Balancer Controller Documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) on GitHub\. 
 

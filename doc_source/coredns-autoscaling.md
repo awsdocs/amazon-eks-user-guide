@@ -1,4 +1,4 @@
-# Autoscaling CoreDNS<a name="coredns-autoscaling"></a>
+# Scale CoreDNSPods for high DNS traffic<a name="coredns-autoscaling"></a>
 
 When you launch an Amazon EKS cluster with at least one node, a Deployment of two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster\. The CoreDNS Pods provide name resolution for all Pods in the cluster\. Applications use name resolution to connect to pods and services in the cluster as well as connecting to services outside the cluster\. As the number of requests for name resolution \(queries\) from pods increase, the CoreDNS pods can get overwhelmed and slow down, and reject requests that the pods can’t handle\.
 
@@ -62,7 +62,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
    aws eks describe-addon --cluster-name my-cluster --addon-name coredns --query addon.addonVersion --output text
    ```
 
-   If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster and you can continue with the next step\. If an error is returned, you don't have the Amazon EKS type of the add\-on installed on your cluster\. Complete the remaining steps of the procedure [Creating the Amazon EKS add\-on](managing-coredns.md#coredns-add-on-create) to replace the self\-managed version with the Amazon EKS add\-on\.
+   If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster and you can continue with the next step\. If an error is returned, you don't have the Amazon EKS type of the add\-on installed on your cluster\. Complete the remaining steps of the procedure [Create the CoreDNS Amazon EKS add\-on](coredns-add-on-create.md) to replace the self\-managed version with the Amazon EKS add\-on\.
 
 1. Ensure that your EKS Add\-on for CoreDNS is at a version the same or higher than the minimum EKS Add\-on version\.
 
@@ -78,7 +78,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
    v1.10.1-eksbuild.11
    ```
 
-   Compare this version with the minimum EKS Add\-on version in the previous section\. If needed, upgrade the EKS Add\-on to a higher version by following the procedure [Updating the Amazon EKS add\-on](managing-coredns.md#coredns-add-on-update)\.
+   Compare this version with the minimum EKS Add\-on version in the previous section\. If needed, upgrade the EKS Add\-on to a higher version by following the procedure [Update the CoreDNS Amazon EKS add\-on](coredns-add-on-update.md)\.
 
 1. Add the autoscaling configuration to the **Optional configuration settings** of the EKS Add\-on\.
 
@@ -159,7 +159,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
    aws eks describe-addon --cluster-name my-cluster --addon-name coredns --query addon.addonVersion --output text
    ```
 
-   If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster\. If an error is returned, you don't have the Amazon EKS type of the add\-on installed on your cluster\. Complete the remaining steps of the procedure [Creating the Amazon EKS add\-on](managing-coredns.md#coredns-add-on-create) to replace the self\-managed version with the Amazon EKS add\-on\.
+   If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster\. If an error is returned, you don't have the Amazon EKS type of the add\-on installed on your cluster\. Complete the remaining steps of the procedure [Create the CoreDNS Amazon EKS add\-on](coredns-add-on-create.md) to replace the self\-managed version with the Amazon EKS add\-on\.
 
 1. Ensure that your EKS Add\-on for CoreDNS is at a version the same or higher than the minimum EKS Add\-on version\.
 
@@ -175,7 +175,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
    v1.10.1-eksbuild.11
    ```
 
-   Compare this version with the minimum EKS Add\-on version in the previous section\. If needed, upgrade the EKS Add\-on to a higher version by following the procedure [Updating the Amazon EKS add\-on](managing-coredns.md#coredns-add-on-update)\.
+   Compare this version with the minimum EKS Add\-on version in the previous section\. If needed, upgrade the EKS Add\-on to a higher version by following the procedure [Update the CoreDNS Amazon EKS add\-on](coredns-add-on-update.md)\.
 
 1. Add the autoscaling configuration to the **Optional configuration settings** of the EKS Add\-on\.
 

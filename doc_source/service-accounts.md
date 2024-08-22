@@ -41,10 +41,10 @@ kubectl rollout restart deployment/my-deployment
 ## Cluster add\-ons<a name="boundserviceaccounttoken-validated-add-on-versions"></a>
 
 The following cluster add\-ons have been updated to use the Kubernetes client SDKs that automatically refetch service account tokens\. We recommend making sure that the listed versions, or later versions, are installed on your cluster\.
-+ Amazon VPC CNI plugin for Kubernetes and metrics helper plugins version `1.8.0` and later\. To check your current version or update it, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md) and [cni\-metrics\-helper](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md)\.
-+ CoreDNS version `1.8.4` and later\. To check your current version or update it, see [Working with the CoreDNS Amazon EKS add\-on](managing-coredns.md)\.
-+ AWS Load Balancer Controller version `2.0.0` and later\. To check your current version or update it, see [What is the AWS Load Balancer Controller?](aws-load-balancer-controller.md)\.
-+ A current `kube-proxy` version\. To check your current version or update it, see [Working with the Kubernetes `kube-proxy` add\-on](managing-kube-proxy.md)\.
++ Amazon VPC CNI plugin for Kubernetes and metrics helper plugins version `1.8.0` and later\. To check your current version or update it, see [Assign IPs to Pods with the Amazon VPC CNI](managing-vpc-cni.md) and [cni\-metrics\-helper](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md)\.
++ CoreDNS version `1.8.4` and later\. To check your current version or update it, see [Manage CoreDNS for DNS in Amazon EKS clusters](managing-coredns.md)\.
++ AWS Load Balancer Controller version `2.0.0` and later\. To check your current version or update it, see [Route internet traffic with AWS Load Balancer Controller](aws-load-balancer-controller.md)\.
++ A current `kube-proxy` version\. To check your current version or update it, see [Manage `kube-proxy` in Amazon EKS clusters](managing-kube-proxy.md)\.
 + AWS for Fluent Bit version `2.25.0` or later\. To update your current version, see [Releases](https://github.com/aws/aws-for-fluent-bit/releases) on GitHub\.
 + Fluentd image version [1\.14\.6\-1\.2](https://hub.docker.com/r/fluent/fluentd/tags?page=1&name=v1.14.6-1.2) or later and Fluentd filter plugin for Kubernetes metadata version [2\.11\.1](https://rubygems.org/gems/fluent-plugin-kubernetes_metadata_filter/versions/2.11.1) or later\. 
 

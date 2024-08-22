@@ -6,7 +6,7 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + You can use host networking on Windows nodes using `HostProcess` Pods\. For more information, see [Create a Windows `HostProcess`Pod](https://kubernetes.io/docs/tasks/configure-pod-container/create-hostprocess-pod/) in the Kubernetes documentation\.
 + Amazon EKS clusters must contain one or more Linux or Fargate nodes to run core system Pods that only run on Linux, such as CoreDNS\.
 + The `kubelet` and `kube-proxy` event logs are redirected to the `EKS` Windows Event Log and are set to a 200 MB limit\.
-+ You can't use [Security groups for Pods](security-groups-for-pods.md) with Pods running on Windows nodes\.
++ You can't use [Assign security groups to individual pods](security-groups-for-pods.md) with Pods running on Windows nodes\.
 + You can't use [custom networking](cni-custom-network.md) with Windows nodes\.
 + You can't use `IPv6` with Windows nodes\.
 + Windows nodes support one elastic network interface per node\. By default, the number of Pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide*\.
@@ -144,4 +144,4 @@ You can enable higher Pod density on Windows nodes by enabling IP prefix delegat
 (Number of private IPv4 addresses assigned to the interface attached to the node - 1) * 16
 ```
 
-With this significantly larger number of available IP addresses, available IP addresses shouldn't limit your ability to scale the number of Pods on your nodes\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
+With this significantly larger number of available IP addresses, available IP addresses shouldn't limit your ability to scale the number of Pods on your nodes\. For more information, see [Assign more IP addresses to Amazon EKS nodes with prefixes](cni-increase-ip-addresses.md)\.

@@ -1,4 +1,4 @@
-# Amazon EKS VPC and subnet requirements and considerations<a name="network_reqs"></a>
+# View Amazon EKS networking requirements for VPC and subnets<a name="network_reqs"></a>
 
 When you create a cluster, you specify a [VPC](https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html) and at least two subnets that are in different Availability Zones\. This topic provides an overview of Amazon EKS specific requirements and considerations for the VPC and subnets that you use with your cluster\. If you don't have a VPC to use with Amazon EKS, you can [create one using an Amazon EKS provided AWS CloudFormation template](creating-a-vpc.md)\. If you're creating a local or extended cluster on AWS Outposts, see [Create a VPC and subnets for Amazon EKS clusters on AWS Outposts](eks-outposts-vpc-subnet-requirements.md) instead of this topic\.
 
@@ -116,6 +116,6 @@ You can use *VPC sharing* to share subnets with other AWS accounts within the sa
   + Cluster IAM role and Node IAM roles must be created in that account\. For more information, see [Amazon EKS cluster IAM role](cluster_IAM_role.md) and [Amazon EKS node IAM role](create-node-role.md)\.
   + All nodes must be made by the same participant, including managed node groups\.
 + The shared VPC owner cannot view, update or delete a cluster that a participant creates in the shared subnet\. This is in addition to the VPC resources that each account has different access to\. For more information, see [Responsibilities and permissions for owners and participants](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html#vpc-share-limitations) in the *Amazon VPC User Guide*\.
-+ If you use the *custom networking* feature of the Amazon VPC CNI plugin for Kubernetes, you need to use the Availability Zone ID mappings listed in the owner account to create each `ENIConfig`\. For more information, see [Custom networking for pods](cni-custom-network.md)\.
++ If you use the *custom networking* feature of the Amazon VPC CNI plugin for Kubernetes, you need to use the Availability Zone ID mappings listed in the owner account to create each `ENIConfig`\. For more information, see [Deploy pods in alternate subnets with custom networking](cni-custom-network.md)\.
 
 For more information about VPC subnet sharing, see [Share your VPC with other accounts](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html#vpc-share-limitations) in the *Amazon VPC User Guide*\.

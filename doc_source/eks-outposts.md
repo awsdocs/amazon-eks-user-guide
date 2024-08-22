@@ -33,7 +33,7 @@ The following table compares the differences between the two options\.
 | Outpost form factors | Outpost racks | Outpost racks | 
 | User interfaces | AWS Management Console, AWS CLI, Amazon EKS API, `eksctl`, AWS CloudFormation, and Terraform | AWS Management Console, AWS CLI, Amazon EKS API, eksctl, AWS CloudFormation, and Terraform | 
 | Managed policies | [AmazonEKSClusterPolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-AmazonEKSClusterPolicy) and [AmazonEKSServiceRolePolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-AmazonEKSServiceRolePolicy) | [AmazonEKSLocalOutpostClusterPolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy) and [AmazonEKSLocalOutpostServiceRolePolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy) | 
-| Cluster VPC and subnets | See [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md) | See [Create a VPC and subnets for Amazon EKS clusters on AWS Outposts](eks-outposts-vpc-subnet-requirements.md) | 
+| Cluster VPC and subnets | See [View Amazon EKS networking requirements for VPC and subnets](network_reqs.md) | See [Create a VPC and subnets for Amazon EKS clusters on AWS Outposts](eks-outposts-vpc-subnet-requirements.md) | 
 | Cluster endpoint access | Public or private or both | Private only | 
 | Kubernetes API server authentication | AWS Identity and Access Management \(IAM\) and OIDC | IAM and `x.509` certificates | 
 | Node types | Self\-managed only | Self\-managed only | 

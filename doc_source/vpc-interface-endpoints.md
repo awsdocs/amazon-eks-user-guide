@@ -1,4 +1,4 @@
-# Access the Amazon Elastic Kubernetes Service using an interface endpoint \(AWS PrivateLink\)<a name="vpc-interface-endpoints"></a>
+# Access the Amazon EKS using AWS PrivateLink<a name="vpc-interface-endpoints"></a>
 
 You can use AWS PrivateLink to create a private connection between your VPC and Amazon Elastic Kubernetes Service\. You can access Amazon EKS as if it were in your VPC, without the use of an internet gateway, NAT device, VPN connection, or AWS Direct Connect connection\. Instances in your VPC don't need public IP addresses to access Amazon EKS\.
 

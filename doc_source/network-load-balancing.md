@@ -12,16 +12,16 @@ An AWS Network Load Balancer can load balance network traffic to Pods deployed t
 
 Before you can load balance network traffic using the AWS Load Balancer Controller, you must meet the following requirements\.
 + Have an existing cluster\. If you don't have an existing cluster, see [Get started with Amazon EKS](getting-started.md)\. If you need to update the version of an existing cluster, see [Update existing cluster to new Kubernetes version](update-cluster.md)\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [What is the AWS Load Balancer Controller?](aws-load-balancer-controller.md)\. We recommend version `2.7.2` or later\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Route internet traffic with AWS Load Balancer Controller](aws-load-balancer-controller.md)\. We recommend version `2.7.2` or later\.
 + At least one subnet\. If multiple tagged subnets are found in an Availability Zone, the controller chooses the first subnet whose subnet ID comes first lexicographically\. The subnet must have at least eight available IP addresses\.
 + If you're using the AWS Load Balancer Controller version `2.1.1` or earlier, subnets must be tagged as follows\. If using version `2.1.2` or later, this tag is optional\. You might want to tag a subnet if you have multiple clusters running in the same VPC, or multiple AWS services sharing subnets in a VPC, and want more control over where load balancers are provisioned for each cluster\. If you explicitly specify subnet IDs as an annotation on a service object, then Kubernetes and the AWS Load Balancer Controller use those subnets directly to create the load balancer\. Subnet tagging isn't required if you choose to use this method for provisioning load balancers and you can skip the following private and public subnet tagging requirements\. Replace `my-cluster` with your cluster name\.
   + **Key** – `kubernetes.io/cluster/my-cluster`
   + **Value** – `shared` or `owned`
 + Your public and private subnets must meet the following requirements, unless you explicitly specify subnet IDs as an annotation on a service or ingress object\. If you provision load balancers by explicitly specifying subnet IDs as an annotation on a service or ingress object, then Kubernetes and the AWS Load Balancer Controller use those subnets directly to create the load balancer and the following tags aren't required\.
-  + **Private subnets** – Must be tagged in the following format\. This is so that Kubernetes and the AWS Load Balancer Controller know that the subnets can be used for internal load balancers\. If you use `eksctl` or an Amazon EKS AWS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md)\.
+  + **Private subnets** – Must be tagged in the following format\. This is so that Kubernetes and the AWS Load Balancer Controller know that the subnets can be used for internal load balancers\. If you use `eksctl` or an Amazon EKS AWS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS AWS CloudFormation VPC templates, see [Create an Amazon VPC for your Amazon EKS cluster](creating-a-vpc.md)\.
     + **Key** – `kubernetes.io/role/internal-elb`
     + **Value** – `1`
-  + **Public subnets** – Must be tagged in the following format\. This is so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(based on the lexicographical order of the subnet IDs\)\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md)\.
+  + **Public subnets** – Must be tagged in the following format\. This is so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(based on the lexicographical order of the subnet IDs\)\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Create an Amazon VPC for your Amazon EKS cluster](creating-a-vpc.md)\.
     + **Key** – `kubernetes.io/role/elb`
     + **Value** – `1`
 
@@ -116,7 +116,7 @@ Do not edit the annotations after creating your service\. If you need to modify 
 
 **Prerequisites**
 + At least one public or private subnet in your cluster VPC\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [What is the AWS Load Balancer Controller?](aws-load-balancer-controller.md)\. We recommend version `2.7.2` or later\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Route internet traffic with AWS Load Balancer Controller](aws-load-balancer-controller.md)\. We recommend version `2.7.2` or later\.
 
 **To deploy a sample application**
 
