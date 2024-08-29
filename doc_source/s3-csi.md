@@ -1,4 +1,4 @@
-# Store data with the Amazon S3 web interface<a name="s3-csi"></a>
+# Access Amazon S3 objects with Mountpoint for Amazon S3 CSI driver<a name="s3-csi"></a>
 
 With the [Mountpoint for Amazon S3 Container Storage Interface \(CSI\) driver](https://github.com/awslabs/mountpoint-s3-csi-driver), your Kubernetes applications can access Amazon S3 objects through a file system interface, achieving high aggregate throughput without changing any application code\. Built on [Mountpoint for Amazon S3](https://github.com/awslabs/mountpoint-s3), the CSI driver presents an Amazon S3 bucket as a volume that can be accessed by containers in Amazon EKS and self\-managed Kubernetes clusters\.  This topic shows you how to deploy the Mountpoint for Amazon S3 CSI driver to your Amazon EKS cluster\.
 
