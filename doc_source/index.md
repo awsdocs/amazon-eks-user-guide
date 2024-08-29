@@ -132,7 +132,7 @@ sponsored by Amazon.
    + [Store high-performance apps with FSx for NetApp ONTAP](fsx-ontap.md)
    + [Store data using Amazon FSx for OpenZFS](fsx-openzfs-csi.md)
    + [Minimize latency with Amazon File Cache](file-cache-csi.md)
-   + [Store data with the Amazon S3 web interface](s3-csi.md)
+   + [Access Amazon S3 objects with Mountpoint for Amazon S3 CSI driver](s3-csi.md)
    + [Enable snapshot functionality for CSI volumes](csi-snapshot-controller.md)
 + [Configure networking for Amazon EKS clusters](eks-networking.md)
    + [View Amazon EKS networking requirements for VPC and subnets](network_reqs.md)

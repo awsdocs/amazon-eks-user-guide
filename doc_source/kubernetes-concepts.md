@@ -22,7 +22,7 @@ Amazon Elastic Kubernetes Service \(Amazon EKS\) is an AWS managed service based
 +  Allocate resources between containers 
 +  Balance traffic across machines 
 
- Having Kubernetes automate these types of complex tasks allows an application developers to focus on building and improving their application workloads, rather than worrying about infrastructure\. The developer typically creates configuration files, formatted as YAML files, that describe the desired state of the application\. This could include which containers to run, resource limits, number of Pod replicas, CPU/memory allocation, affinity rules, and more\. 
+ Having Kubernetes automate these types of complex tasks allows an application developer to focus on building and improving their application workloads, rather than worrying about infrastructure\. The developer typically creates configuration files, formatted as YAML files, that describe the desired state of the application\. This could include which containers to run, resource limits, number of Pod replicas, CPU/memory allocation, affinity rules, and more\. 
 
 ### Attributes of Kubernetes<a name="attributes-of-kubernetes"></a>
 
