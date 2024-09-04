@@ -19,7 +19,7 @@ When the API server receives requests with tokens that are greater than one hour
 
 ```
 subject: system:serviceaccount:common:fluent-bit, seconds after warning threshold: 4185802.
-```<a name="identify-pods-using-stale-tokens"></a>
+```
 
 If your cluster has [control plane logging](control-plane-logs.md) enabled, then the annotations are in the audit logs\. You can use the following [CloudWatch Logs Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html) query to identify all the Pods in your Amazon EKS cluster that are using stale tokens:
 

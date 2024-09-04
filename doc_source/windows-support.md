@@ -16,7 +16,7 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + There is a cool down period before an `IPv4` address is assigned to a new Pod\. This prevents traffic from flowing to an older Pod with the same `IPv4` address due to stale `kube-proxy` rules\.
 + The source for the controller is managed on GitHub\. To contribute to, or file issues against the controller, visit the [project](https://github.com/aws/amazon-vpc-resource-controller-k8s) on GitHub\.
 + When specifying a custom AMI ID for Windows managed node groups, add `eks:kube-proxy-windows` to your AWS IAM Authenticator configuration map\. For more information, see [Limits and conditions when specifying an AMI ID](launch-templates.md#mng-ami-id-conditions)\.
-+ If preserving your available IPv4 addresses is crucial for your subnet, refer to [ EKS Best Practices Guide \- Windows Networking IP Address Management](https://aws.github.io/aws-eks-best-practices/windows/docs/networking/#ip-address-management) for guidance\. <a name="windows-support-prerequisites"></a>
++ If preserving your available IPv4 addresses is crucial for your subnet, refer to [ EKS Best Practices Guide \- Windows Networking IP Address Management](https://aws.github.io/aws-eks-best-practices/windows/docs/networking/#ip-address-management) for guidance\. 
 
 **Prerequisites**
 + An existing cluster\. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table\. Any Kubernetes and platform versions later than those listed are also supported\.    

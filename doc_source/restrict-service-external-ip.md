@@ -55,7 +55,7 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
    curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/docs/externalip-webhook.yaml
    ```
 
-1. <a name="restrict-external-ip-addresses-cidr-block"></a>Specify CIDR blocks\. Open the downloaded file in your editor and remove the `#` at the start of the following lines\.
+1. Specify CIDR blocks\. Open the downloaded file in your editor and remove the `#` at the start of the following lines\.
 
    ```
    #args:
@@ -78,4 +78,4 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
    kubectl apply -f externalip-webhook.yaml
    ```
 
-   An attempt to deploy a service to your cluster with an IP address specified for `externalIPs` that is not contained in the blocks that you specified in the [Specify CIDR blocks](#restrict-external-ip-addresses-cidr-block) step will fail\.
+   An attempt to deploy a service to your cluster with an IP address specified for `externalIPs` that is not contained in the blocks that you specified in the Specify CIDR blocks step will fail\.

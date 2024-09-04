@@ -66,7 +66,7 @@ For a list of Amazon EKS condition keys, see [Conditions defined by Amazon Elast
 ------
 #### [ AWS CLI ]
 
-1. If you want to associate an existing IAM policy to your IAM role, skip to the [next step](#pod-id-create-role)\.
+1. If you want to associate an existing IAM policy to your IAM role, skip to the next step\.
 
    Create an IAM policy\. You can create your own policy, or copy an AWS managed policy that already grants some of the permissions that you need and customize it to your specific requirements\. For more information, see [Creating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) in the *IAM User Guide*\.
 

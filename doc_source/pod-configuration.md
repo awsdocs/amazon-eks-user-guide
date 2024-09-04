@@ -1,6 +1,6 @@
 # Configure Pods to use a Kubernetes service account<a name="pod-configuration"></a>
 
-If a Pod needs to access AWS services, then you must configure it to use a Kubernetes service account\. The service account must be associated to an AWS Identity and Access Management \(IAM\) role that has permissions to access the AWS services\.<a name="pod-configuration-prerequisites"></a>
+If a Pod needs to access AWS services, then you must configure it to use a Kubernetes service account\. The service account must be associated to an AWS Identity and Access Management \(IAM\) role that has permissions to access the AWS services\.
 
 **Prerequisites**
 + An existing cluster\. If you don't have one, you can create one using one of the [Get started with Amazon EKS](getting-started.md) guides\.

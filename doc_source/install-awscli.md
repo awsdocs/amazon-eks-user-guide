@@ -6,7 +6,11 @@ The [AWS CLI](https://aws.amazon.com/cli/) is a command line tool for working wi
 
 1. Sign into the [AWS Management Console](https://console.aws.amazon.com/)\.
 
-1. In the top right, choose your AWS user name to open the navigation menu\. For example, choose **`webadmin`**\. Then choose **Security credentials**\.
+1. For single\-user or multiple\-user accounts:
+   + **Single\-user account –** In the top right, choose your AWS user name to open the navigation menu\. For example, choose **`webadmin`**\.
+   + **Multiple\-user account –** Choose IAM from the list of services\. From the IAM Dashboard, select **Users**, and choose the name of the user\.
+
+1. Choose **Security credentials**\.
 
 1. Under **Access keys**, choose **Create access key**\.
 

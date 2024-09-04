@@ -2,9 +2,6 @@
 
 This topic provides an overview of the available options and describes what to consider when you create an Amazon EKS cluster\. If you need to create a cluster on an AWS Outpost, see [Create local Amazon EKS clusters on AWS Outposts for high availability](eks-outposts-local-cluster-overview.md)\. If this is your first time creating an Amazon EKS cluster, we recommend that you follow one of our [Get started with Amazon EKS](getting-started.md) guides\. These guides help you to create a simple, default cluster without expanding into all of the available options\.
 
-**Note**  
-New — You can disable the installation of default cluster add\-ons, such as `vpc-cni`\. [View CLI instructions\.](#barecluster)<a name="create-cluster-prerequisites"></a>
-
 **Prerequisites**
 + An existing VPC and subnets that meet [Amazon EKS requirements](network_reqs.md)\. Before you deploy a cluster for production use, we recommend that you have a thorough understanding of the VPC and subnet requirements\. If you don't have a VPC and subnets, you can create them using an [Amazon EKS provided AWS CloudFormation template](creating-a-vpc.md)\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Set up `kubectl` and `eksctl`](install-kubectl.md)\.
@@ -52,7 +49,7 @@ New — You can disable the installation of default cluster add\-ons, such as `v
 
 1. Create an Amazon EKS cluster\. 
 
-    You can create a cluster by using `eksctl`, the AWS Management Console, or the AWS CLI\.<a name="barecluster"></a>
+    You can create a cluster by using `eksctl`, the AWS Management Console, or the AWS CLI\.
 
 ------
 #### [ eksctl ]
@@ -277,7 +274,7 @@ If your cluster uses the `IPv6` family
 
 Recommended next steps:
 + The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-principal) that created the cluster is the only principal that has access to the cluster\. [Grant permissions to other [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-principal)](grant-k8s-access.md) so they can access your cluster\.
-+ If the IAM principal that created the cluster only has the minimum IAM permissions referenced in the [prerequisites](#create-cluster-prerequisites), then you might want to add additional Amazon EKS permissions for that principal\. For more information about granting Amazon EKS permissions to IAM principals, see [Identity and access management for Amazon EKS](security-iam.md)\.
++ If the IAM principal that created the cluster only has the minimum IAM permissions referenced in the prerequisites, then you might want to add additional Amazon EKS permissions for that principal\. For more information about granting Amazon EKS permissions to IAM principals, see [Identity and access management for Amazon EKS](security-iam.md)\.
 + If you want the IAM principal that created the cluster, or any other principals to view Kubernetes resources in the Amazon EKS console, grant the [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions) to the entities\.
 + If you want nodes and IAM principals to access your cluster from within your VPC, enable the private endpoint for your cluster\. The public endpoint is enabled by default\. You can disable the public endpoint once you've enabled the private endpoint, if desired\. For more information, see [Control network access to cluster API server endpoint](cluster-endpoint.md)\.
 + [Enable secrets encryption for your cluster](enable-kms.md)\.

@@ -9,7 +9,7 @@ Monitoring is an important part of maintaining the reliability, availability, an
 + What resources need to be observed?
 + How frequently do you need to observe these resources? Does your company want to respond quickly to risks?
 + What tools do you intend to use? If you already run AWS Fargate as part of your launch, then you can use the built\-in [log router](fargate-logging.md)\.
-+ Who you do intend to perform the monitoring tasks?
++ Who do you intend to perform the monitoring tasks?
 + Whom do you want notifications to be sent to when something goes wrong?
 
 ## Logging and monitoring on Amazon EKS<a name="logging-monitoring"></a>

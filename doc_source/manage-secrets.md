@@ -6,4 +6,7 @@ With the ASCP, you can store and manage your secrets in Secrets Manager and then
 
 If you use Secrets Manager automatic rotation for your secrets, you can also use the Secrets Store CSI Driver rotation reconciler feature to ensure you are retrieving the latest secret from Secrets Manager\.
 
+**Note**  
+AWS Fargate \(Fargate\) node groups are not supported\.
+
 For more information, see [Using Secrets Manager secrets in Amazon EKS](https://docs.aws.amazon.com/secretsmanager/latest/userguide/integrating_csi_driver.html) in the AWS Secrets Manager User Guide\.

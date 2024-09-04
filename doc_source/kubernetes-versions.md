@@ -30,11 +30,6 @@ The following Kubernetes versions are currently available in Amazon EKS extended
 
 For important changes to be aware of for each version in extended support, see [Review release notes for Kubernetes versions on extended support](kubernetes-versions-extended.md)\.
 
-The following Kubernetes versions are currently available in Amazon EKS extended support, with the additional requirement that **you cannot create new clusters with these versions**: 
-+ `1.22`
-
-For information on these versions, see [Review release notes for Kubernetes version 1\.22](kubernetes-versions-1-21-1-22.md)
-
 ## Amazon EKS Kubernetes release calendar<a name="kubernetes-release-calendar"></a>
 
 The following table shows important release and support dates to consider for each Kubernetes version\. Billing for extended support starts at the beginning of the day that the version reaches end of standard support\.
@@ -53,13 +48,11 @@ Dates with only a month and a year are approximate and are updated with an exact
 | 1\.25 | August 23, 2022 | February 22, 2023 | May 1, 2024 | May 1, 2025 | 
 | 1\.24 | May 3, 2022 | November 15, 2022 | January 31, 2024 | January 31, 2025 | 
 | 1\.23 | December 7, 2021 | August 11, 2022 | October 11, 2023 | October 11, 2024 | 
-| 1\.22 | August 4, 2021 | April 4, 2022 | June 4, 2023 | September 1, 2024 | 
-| 1\.21 | April 8, 2021 | July 19, 2021 | February 16, 2023 | July 15, 2024 | <a name="version-deprecation"></a>
 
 ## Amazon EKS version FAQs<a name="version-faqs"></a>
 
 **How many Kubernetes versions are available in standard support?**  
-In line with the Kubernetes community support for Kubernetes versions, Amazon EKS is committed to offering standard support for at least four production\-ready versions of Kubernetes at any given time\. We will announce the end of standard support date of a given Kubernetes minor version at least 60 days in advance\. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the end of standard support date of a Kubernetes version on Amazon EKS will be on or after the date that the Kubernetes project stops supporting the version upstream\.
+In line with the Kubernetes community support for Kubernetes versions, Amazon EKS is committed to offering support for at least four production\-ready versions of Kubernetes at any given time\. We will announce the end of standard support date of a given Kubernetes minor version at least 60 days in advance\. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the end of standard support date of a Kubernetes version on Amazon EKS will be on or after the date that the Kubernetes project stops supporting the version upstream\.
 
 **How long does a Kubernetes receive standard support by Amazon EKS?**  
 A Kubernetes version received standard support for 14 months after first being available on Amazon EKS\. This is true even if upstream Kubernetes no longer support a version that's available on Amazon EKS\. We backport security patches that are applicable to the Kubernetes versions that are supported on Amazon EKS\.

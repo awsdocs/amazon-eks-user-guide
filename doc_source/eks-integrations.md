@@ -4,10 +4,10 @@ In addition to the services covered in other sections, Amazon EKS works with mor
 
 **Topics**
 + [Create Amazon EKS resources with AWS CloudFormation](creating-resources-with-cloudformation.md)
-+ [Launch low\-latency EKS clusters with AWS Local Zones](local-zones.md)
 + [Train and serve TensorFlow models on EKS with Deep Learning Containers](deep-learning-containers.md)
-+ [Enable secure cross\-cluster connectivity with Amazon VPC Lattice](integration-vpc-lattice.md)
-+ [Assess EKS cluster resiliency with AWS Resilience Hub](integration-resilience-hub.md)
-+ [Detect threats with Amazon GuardDuty](integration-guardduty.md)
-+ [Centralize and analyze EKS security data with Security Lake](integration-securitylake.md)
 + [Analyze security events on EKS with Amazon Detective](integration-detective.md)
++ [Detect threats with Amazon GuardDuty](integration-guardduty.md)
++ [Assess EKS cluster resiliency with AWS Resilience Hub](integration-resilience-hub.md)
++ [Centralize and analyze EKS security data with Security Lake](integration-securitylake.md)
++ [Enable secure cross\-cluster connectivity with Amazon VPC Lattice](integration-vpc-lattice.md)
++ [Launch low\-latency EKS clusters with AWS Local Zones](local-zones.md)
