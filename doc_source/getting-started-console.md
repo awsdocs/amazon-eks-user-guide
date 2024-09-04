@@ -107,6 +107,8 @@ You might receive an error that one of the Availability Zones in your request do
 
 In this section, you create a `kubeconfig` file for your cluster\. The settings in this file enable the `kubectl` CLI to communicate with your cluster\.
 
+Before proceeding, be sure that your cluster creation completed successfully in Step 1\.
+
 **To configure your computer to communicate with your cluster**
 
 1. Create or update a `kubeconfig` file for your cluster\. Replace `region-code` with the AWS Region that you created your cluster in\. Replace `my-cluster` with the name of your cluster\.
