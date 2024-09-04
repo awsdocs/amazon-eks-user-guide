@@ -16,11 +16,11 @@ In the previous example message, the user does not have permissions to call the 
 
 For more general information about IAM, see [Controlling access using policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_controlling.html) in the *IAM User Guide*\.
 
-## Can't see **Nodes** on the **Compute** tab or anything on the **Resources** tab and you receive an error in the AWS Management Console<a name="security-iam-troubleshoot-cannot-view-nodes-or-workloads"></a>
+## Can't see **Nodes** on the **Compute** tab or anything on the **Resources** tab and you receive an error in the AWS Management Console<a name="security_iam_troubleshoot-cannot-view-nodes-or-workloads"></a>
 
 You may see a console error message that says `Your current user or role does not have access to Kubernetes objects on this EKS cluster`\. Make sure that the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-principal) user that you're using the AWS Management Console with has the necessary permissions\. For more information, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 
-## aws\-auth `ConfigMap` does not grant access to the cluster<a name="security-iam-troubleshoot-ConfigMap"></a>
+## aws\-auth `ConfigMap` does not grant access to the cluster<a name="security_iam_troubleshoot-configmap"></a>
 
 The [AWS IAM Authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator) doesn't permit a path in the role ARN used in the `ConfigMap`\. Therefore, before you specify `rolearn`, remove the path\. For example, change `arn:aws:iam::111122223333:role/team/developers/eks-admin` to `arn:aws:iam::111122223333:role/eks-admin`\.
 
@@ -51,7 +51,7 @@ To learn more, consult the following:
 + To learn how to provide access through identity federation, see [Providing access to externally authenticated users \(identity federation\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_federated-users.html) in the *IAM User Guide*\.
 + To learn the difference between using roles and resource\-based policies for cross\-account access, see [Cross account resource access in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html) in the *IAM User Guide*\.
 
-## Pod containers receive the following error: `An error occurred (SignatureDoesNotMatch) when calling the GetCallerIdentity operation: Credential should be scoped to a valid region`<a name="security-iam-troubleshoot-wrong-sts-endpoint"></a>
+## Pod containers receive the following error: `An error occurred (SignatureDoesNotMatch) when calling the GetCallerIdentity operation: Credential should be scoped to a valid region`<a name="security_iam_troubleshoot-wrong-sts-endpoint"></a>
 
 Your containers receive this error if your application is explicitly making requests to the AWS STS global endpoint \(`https://sts.amazonaws`\) and your Kubernetes service account is configured to use a regional endpoint\. You can resolve the issue with one of the following options:
 + Update your application code to remove explicit calls to the AWS STS global endpoint\. 

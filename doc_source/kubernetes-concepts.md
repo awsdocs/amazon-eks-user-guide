@@ -83,7 +83,7 @@ Amazon Elastic Kubernetes Service \(Amazon EKS\) is an AWS managed service based
 
  Kubernetes cluster components are divided into two major areas: control plane and worker nodes\. [Control Plane Components](https://kubernetes.io/docs/concepts/overview/components/#control-plane-components) manage the cluster and provide access to its APIs\. Worker nodes \(sometimes just referred to as Nodes\) provide the places where the actual workloads are run\. [Node Components](https://kubernetes.io/docs/concepts/overview/components/#node-components) consist of services that run on each node to communicate with the control plane and run containers\. The set of worker nodes for you cluster is referred to as the *Data Plane*\. 
 
-#### Control plane<a name="control-plane"></a>
+#### Control plane<a name="concepts-control-plane"></a>
 
  The control plane consists of a set of services that manage the cluster\. These services may all be running on a single computer or may be spread across multiple computers\. Internally, these are referred to as Control Plane Instances \(CPIs\)\. How CPIs are run depends on the size of the cluster and requirements for high availability\. As demand increase in the cluster, a control plane service can scale to provide more instances of that service, with requests being load balanced between the instances\. 
 

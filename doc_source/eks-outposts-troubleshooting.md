@@ -73,7 +73,7 @@ The following table lists errors from other AWS services that are presented in t
 
 ## Unable to create or modify clusters<a name="outposts-troubleshooting-unable-to-create-or-modify-clusters"></a>
 
-Local clusters require different permissions and policies than Amazon EKS clusters that are hosted in the cloud\. When a cluster fails to create and produces an `InvalidPermissions` error, double check that the cluster role that you're using has the [AmazonEKSLocalOutpostClusterPolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy) managed policy attached to it\. All other API calls require the same set of permissions as Amazon EKS clusters in the cloud\.
+Local clusters require different permissions and policies than Amazon EKS clusters that are hosted in the cloud\. When a cluster fails to create and produces an `InvalidPermissions` error, double check that the cluster role that you're using has the [AmazonEKSLocalOutpostClusterPolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy) managed policy attached to it\. All other API calls require the same set of permissions as Amazon EKS clusters in the cloud\.
 
 ## Cluster is stuck in `CREATING` state<a name="outposts-troubleshooting-cluster-stuck-in-creating-state"></a>
 
@@ -84,7 +84,7 @@ The most common issues are the following:
 **AWS Systems Manager \(Systems Manager\) encounters the following issues:**
 + Your cluster can't connect to the control plane instance from the AWS Region that Systems Manager is in\. You can verify this by calling `aws ssm start-session --target instance-id` from an in\-Region bastion host\. If that command doesn't work, check if Systems Manager is running on the control plane instance\. Or, another work around is to delete the cluster and then recreate it\.
 + Systems Manager control plane instances might not have internet access\. Check if the subnet that you provided when you created the cluster has a NAT gateway and a VPC with an internet gateway\. Use VPC reachability analyzer to verify that the control plane instance can reach the internet gateway\. For more information, see [Getting started with VPC Reachability Analyzer](https://docs.aws.amazon.com/vpc/latest/reachability/getting-started.html)\.
-+ The role ARN that you provided is missing policies\. Check if the [AWS managed policy: AmazonEKSLocalOutpostClusterPolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy) was removed from the role\. This can also occur if an AWS CloudFormation stack is misconfigured\.
++ The role ARN that you provided is missing policies\. Check if the [AWS managed policy: AmazonEKSLocalOutpostClusterPolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy) was removed from the role\. This can also occur if an AWS CloudFormation stack is misconfigured\.
 
 **Multiple subnets are misconfigured and specified when a cluster is created:**
 + All the provided subnets must be associated with the same Outpost and must reach each other\. When multiple subnets are specified when a cluster is created, Amazon EKS attempts to spread the control plane instances across multiple subnets\. 

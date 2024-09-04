@@ -14,8 +14,8 @@ For more information about working with the ConfigMap, see [Grant IAM users and 
 + [Allow IAM users to view their own permissions](#security_iam_id-based-policy-examples-view-own-permissions)
 + [Create a Kubernetes cluster on the AWS Cloud](#policy-create-cluster)
 + [Create a local Kubernetes cluster on an Outpost](#policy-create-local-cluster)
-+ [Update a Kubernetes cluster](#policy_example1)
-+ [List or describe all clusters](#policy_example2)
++ [Update a Kubernetes cluster](#policy-example1)
++ [List or describe all clusters](#policy-example2)
 
 ## Policy best practices<a name="security_iam_service-with-iam-policy-best-practices"></a>
 
@@ -186,7 +186,7 @@ This example policy includes the minimum permissions required to create an Amazo
 }
 ```
 
-## Update a Kubernetes cluster<a name="policy_example1"></a>
+## Update a Kubernetes cluster<a name="policy-example1"></a>
 
 This example policy includes the minimum permission required to update a cluster named *my\-cluster* in the us\-west\-2 AWS Region\.
 
@@ -203,7 +203,7 @@ This example policy includes the minimum permission required to update a cluster
 }
 ```
 
-## List or describe all clusters<a name="policy_example2"></a>
+## List or describe all clusters<a name="policy-example2"></a>
 
 This example policy includes the minimum permissions required to list and describe all clusters in your account\. An [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-principal) must be able to list and describe clusters to use the `update-kubeconfig` AWS CLI command\.
 

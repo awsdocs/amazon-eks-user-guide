@@ -155,9 +155,9 @@ Access policies include `rules` that contain Kubernetes `verbs` \(permissions\) 
 
 Choose any access policy to see its contents\. Each row of each table in each access policy is a separate rule\.
 
-### AmazonEKSAdminPolicy<a name="access-policy-permissions-AmazonEKSAdminPolicy"></a>
+### AmazonEKSAdminPolicy<a name="access-policy-permissions-amazoneksadminpolicy"></a>
 
-This access policy includes permissions that grant an IAM principal most permissions to resources\. When associated to an access entry, its access scope is typically one or more Kubernetes namespaces\. If you want an IAM principal to have administrator access to all resources on your cluster, associate the [AmazonEKSClusterAdminPolicy](#access-policy-permissions-AmazonEKSClusterAdminPolicy) access policy to your access entry instead\.
+This access policy includes permissions that grant an IAM principal most permissions to resources\. When associated to an access entry, its access scope is typically one or more Kubernetes namespaces\. If you want an IAM principal to have administrator access to all resources on your cluster, associate the [AmazonEKSClusterAdminPolicy](#access-policy-permissions-amazoneksclusteradminpolicy) access policy to your access entry instead\.
 
 **ARN** – `arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy`
 
@@ -187,9 +187,9 @@ This access policy includes permissions that grant an IAM principal most permiss
 |  | bindings, events, limitranges, namespaces/status, pods/log, pods/status, replicationcontrollers/status, resourcequotas, resourcequotas/status | get, list, watch | 
 |  | namespaces | get,list, watch | 
 
-### AmazonEKSClusterAdminPolicy<a name="access-policy-permissions-AmazonEKSClusterAdminPolicy"></a>
+### AmazonEKSClusterAdminPolicy<a name="access-policy-permissions-amazoneksclusteradminpolicy"></a>
 
-This access policy includes permissions that grant an IAM principal administrator access to a cluster\. When associated to an access entry, its access scope is typically the cluster, rather than a Kubernetes namespace\. If you want an IAM principal to have a more limited administrative scope, consider associating the [AmazonEKSAdminPolicy](#access-policy-permissions-AmazonEKSAdminPolicy) access policy to your access entry instead\.
+This access policy includes permissions that grant an IAM principal administrator access to a cluster\. When associated to an access entry, its access scope is typically the cluster, rather than a Kubernetes namespace\. If you want an IAM principal to have a more limited administrative scope, consider associating the [AmazonEKSAdminPolicy](#access-policy-permissions-amazoneksadminpolicy) access policy to your access entry instead\.
 
 **ARN** – `arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy`
 
@@ -199,7 +199,7 @@ This access policy includes permissions that grant an IAM principal administrato
 | \* |  | \* | \* | 
 |  | \* |  | \* | 
 
-### AmazonEKSAdminViewPolicy<a name="access-policy-permissions-AmazonEKSAdminViewPolicy"></a>
+### AmazonEKSAdminViewPolicy<a name="access-policy-permissions-amazoneksadminviewpolicy"></a>
 
 This access policy includes permissions that grant an IAM principal access to list/view all resources in a cluster\. Note this includes [Kubernetes Secrets\.](https://kubernetes.io/docs/concepts/configuration/secret/)
 
@@ -210,7 +210,7 @@ This access policy includes permissions that grant an IAM principal access to li
 | --- | --- | --- | 
 | \* | \* | get, list, watch | 
 
-### AmazonEKSEditPolicy<a name="access-policy-permissions-AmazonEKSEditPolicy"></a>
+### AmazonEKSEditPolicy<a name="access-policy-permissions-amazonekseditpolicy"></a>
 
 This access policy includes permissions that allow an IAM principal to edit most Kubernetes resources\.
 
@@ -240,7 +240,7 @@ This access policy includes permissions that allow an IAM principal to edit most
 |  | configmaps, endpoints, persistentvolumeclaims, persistentvolumeclaims/status, pods, replicationcontrollers, replicationcontrollers/scale, serviceaccounts, services, services/status | get, list, watch | 
 |  | bindings, events, limitranges, namespaces/status, pods/log, pods/status, replicationcontrollers/status, resourcequotas, resourcequotas/status | get, list, watch | 
 
-### AmazonEKSViewPolicy<a name="access-policy-permissions-AmazonEKSViewPolicy.json"></a>
+### AmazonEKSViewPolicy<a name="access-policy-permissions-amazoneksviewpolicy.json"></a>
 
 This access policy includes permissions that allow an IAM principal to view most Kubernetes resources\.
 

@@ -1,4 +1,4 @@
-# Rad Security<a name="add-on-RAD"></a>
+# Rad Security<a name="add-on-rad"></a>
 + **Publisher** – RAD SECURITY
 + **Name** – `rad-security_rad-security`
 + **Namespace** – `ksoc`

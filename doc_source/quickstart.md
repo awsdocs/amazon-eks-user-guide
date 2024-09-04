@@ -7,7 +7,7 @@ This quickstart tutorial shows the steps to deploy the 2048 game sample applicat
 Using the eksctl cluster template that follows, you'll build an Amazon EKS cluster with managed node groups\. It configures the following components:
 
 **VPC Configuration**  
-When using the eksctl cluster template that follows, eksctl automatically creates an IPv4 Virtual Private Cloud \(VPC\) for the cluster\. By default, eksctl configures a VPC that addresses all [networking requirements](network_reqs.md), in addition to creating both public and private endpoints\.
+When using the eksctl cluster template that follows, eksctl automatically creates an IPv4 Virtual Private Cloud \(VPC\) for the cluster\. By default, eksctl configures a VPC that addresses all [networking requirements](network-reqs.md), in addition to creating both public and private endpoints\.
 
 **Instance type**  
 Utilize the [t3\.medium instance type](choosing-instance-type.md)\. This instance type offers a well\-balanced combination of compute, memory, and network resources—ideal for applications with moderate CPU usage that may experience occasional spikes in demand\.

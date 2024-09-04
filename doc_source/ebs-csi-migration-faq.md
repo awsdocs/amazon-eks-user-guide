@@ -46,7 +46,7 @@ The `kubernetes.io/aws-ebs` `StorageClass` provisioner and `awsElasticBlockStore
 We recommend installing the [Amazon EBS CSI driver Amazon EKS add\-on](ebs-csi.md)\. When an update is required to the Amazon EKS add\-on, you initiate the update and Amazon EKS updates the add\-on for you\. If you want to manage the driver yourself, you can install it using the open source [Helm chart](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/charts/aws-ebs-csi-driver)\.
 
 **Important**  
-The Kubernetes in\-tree Amazon EBS driver runs on the Kubernetes control plane\. It uses IAM permissions assigned to the [Amazon EKS cluster IAM role](cluster_IAM_role.md) to provision Amazon EBS volumes\. The Amazon EBS CSI driver runs on nodes\. The driver needs IAM permissions to provision volumes\. For more information, see [Step 1: Create an IAM role](ebs-csi.md#csi-iam-role)\.
+The Kubernetes in\-tree Amazon EBS driver runs on the Kubernetes control plane\. It uses IAM permissions assigned to the [Amazon EKS cluster IAM role](cluster-iam-role.md) to provision Amazon EBS volumes\. The Amazon EBS CSI driver runs on nodes\. The driver needs IAM permissions to provision volumes\. For more information, see [Step 1: Create an IAM role](ebs-csi.md#csi-iam-role)\.
 
 ## How can I check whether the Amazon EBS CSI driver is installed in my cluster?<a name="csi-migration-faq-check-driver"></a>
 

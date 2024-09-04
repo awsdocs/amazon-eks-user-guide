@@ -107,7 +107,7 @@ The following procedures help you create a test VPC and cluster and configure cu
          --resources-vpc-config subnetIds=$subnet_id_1","$subnet_id_2
       ```
 **Note**  
-You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient capacity](troubleshooting.md#ICE)\.
+You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient capacity](troubleshooting.md#ice)\.
 
    1. The cluster takes several minutes to create\. To check on the cluster's deployment status, run the following command\.
 

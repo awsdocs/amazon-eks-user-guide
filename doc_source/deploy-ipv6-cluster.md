@@ -227,7 +227,7 @@ Replace all `example values` in the steps of this procedure with your own values
    1. Retrieve the ARN of the IAM role and store it in a variable for a later step\.
 
       ```
-      cluster_iam_role=$(aws iam get-role --role-name $cluster_role_name --query="Role.Arn" --output text)
+      CLUSTER_IAM_ROLE=$(aws iam get-role --role-name $cluster_role_name --query="Role.Arn" --output text)
       ```
 
    1. Attach the required Amazon EKS managed IAM policy to the role\.
@@ -240,13 +240,13 @@ Replace all `example values` in the steps of this procedure with your own values
 
    ```
    aws eks create-cluster --region $region_code --name $cluster_name --kubernetes-version 1.XX \
-      --role-arn $cluster_iam_role --resources-vpc-config subnetIds=$subnets,securityGroupIds=$security_groups \
+      --role-arn $CLUSTER_IAM_ROLE --resources-vpc-config subnetIds=$subnets,securityGroupIds=$security_groups \
       --kubernetes-network-config ipFamily=ipv6
    ```
 
    1. 
 **Note**  
-You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient capacity](troubleshooting.md#ICE)\.
+You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient capacity](troubleshooting.md#ice)\.
 
      The cluster takes several minutes to create\. Run the following command\. Don't continue to the next step until the output from the command is `ACTIVE`\.
 

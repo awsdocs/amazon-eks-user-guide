@@ -10,7 +10,7 @@ Additionally, requests must be signed by using an access key ID and a secret acc
 
 When you create an Amazon EKS cluster, you specify the VPC subnets for your cluster to use\. Amazon EKS requires subnets in at least two Availability Zones\. We recommend a VPC with public and private subnets so that Kubernetes can create public load balancers in the public subnets that load balance traffic to Pods running on nodes that are in private subnets\.
 
-For more information about VPC considerations, see [View Amazon EKS networking requirements for VPC and subnets](network_reqs.md)\.
+For more information about VPC considerations, see [View Amazon EKS networking requirements for VPC and subnets](network-reqs.md)\.
 
 If you create your VPC and node groups with the AWS CloudFormation templates provided in the [Get started with Amazon EKS](getting-started.md) walkthrough, then your control plane and node security groups are configured with our recommended settings\.
 

@@ -1,4 +1,4 @@
-# Amazon EKS connector IAM role<a name="connector_IAM_role"></a>
+# Amazon EKS connector IAM role<a name="connector-iam-role"></a>
 
 You can connect Kubernetes clusters to view them in your AWS Management Console\. To connect to a Kubernetes cluster, create an IAM role\.
 

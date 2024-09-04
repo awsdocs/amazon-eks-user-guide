@@ -10,7 +10,7 @@ You must complete the second step within 3 days of completing the first step, be
 You can use YAML manifests when installing the agent\. Alternatively, you can use Helm if you register the cluster with the AWS Management Console or AWS Command Line Interface\. However, you cannot use Helm to install the agent if you register the cluster with `eksctl`\.
 
 ## Prerequisites<a name="connector-prereqs"></a><a name="connecting-cluster-prerequisites"></a>
-+ Ensure the Amazon EKS Connector agent role was created\. Follow the steps in [Creating the Amazon EKS connector agent role](connector_IAM_role.md#create-connector-role)\.
++ Ensure the Amazon EKS Connector agent role was created\. Follow the steps in [Creating the Amazon EKS connector agent role](connector-iam-role.md#create-connector-role)\.
 + You must have the following permissions to register a cluster:
   + `eks:RegisterCluster`
   + `ssm:CreateActivation`

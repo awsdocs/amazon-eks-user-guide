@@ -1,4 +1,4 @@
-# Amazon EKS cluster IAM role<a name="cluster_IAM_role"></a>
+# Amazon EKS cluster IAM role<a name="cluster-iam-role"></a>
 
 A Amazon EKS cluster IAM role is required for each cluster\. Kubernetes clusters managed by Amazon EKS use this role to manage nodes and the [legacy Cloud Provider](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider) uses this role to create load balancers with Elastic Load Balancing for services\.
 

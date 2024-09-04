@@ -33,7 +33,7 @@ The Kubernetes API server exposes a number of metrics that are useful for monito
 
 To configure Fluent Bit for custom Amazon CloudWatch logs, see [Setting up Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html#Container-Insights-FluentBit-setup) in the Amazon CloudWatch User Guide\.
 
-## Amazon EKS logging and monitoring tools<a name="eks_monitor_tools"></a>
+## Amazon EKS logging and monitoring tools<a name="eks-monitor-tools"></a>
 
 Amazon Web Services provides various tools that you can use to monitor Amazon EKS\. You can configure some tools to set up automatic monitoring, but some require manual calls\. We recommend that you automate monitoring tasks as much as your environment and existing toolset allows\.
 

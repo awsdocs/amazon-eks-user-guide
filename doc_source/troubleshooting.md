@@ -4,7 +4,7 @@ This chapter covers some common errors that you may see while using Amazon EKS a
 
 For other troubleshooting information, see [Knowledge Center content about Amazon Elastic Kubernetes Service](https://repost.aws/tags/knowledge-center/TA4IvCeWI1TE66q4jEj4Z9zg/amazon-elastic-kubernetes-service) on *AWS re:Post*\.
 
-## Insufficient capacity<a name="ICE"></a>
+## Insufficient capacity<a name="ice"></a>
 
 If you receive the following error while attempting to create an Amazon EKS cluster, then one of the Availability Zones you specified doesn't have sufficient capacity to support a cluster\.
 
@@ -12,7 +12,7 @@ If you receive the following error while attempting to create an Amazon EKS clus
 
 Retry creating your cluster with subnets in your cluster VPC that are hosted in the Availability Zones returned by this error message\.
 
-There are Availability Zones that a cluster can't reside in\. Compare the Availability Zones that your subnets are in with the list of Availability Zones in the [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets)\.
+There are Availability Zones that a cluster can't reside in\. Compare the Availability Zones that your subnets are in with the list of Availability Zones in the [Subnet requirements and considerations](network-reqs.md#network-requirements-subnets)\.
 
 ## Nodes fail to join cluster<a name="worker-node-fail"></a>
 
@@ -99,7 +99,7 @@ Your Auto Scaling group is experiencing failures while attempting to launch inst
 
 **NodeCreationFailure**  
 Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [node IAM role](create-node-role.md) permissions or lack of outbound internet access for the nodes\. Your nodes must meet either of the following requirements:  
-+ Able to access the internet using a public IP address\. The security group associated to the subnet the node is in must allow the communication\. For more information, see [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets) and [View Amazon EKS security group requirements for clusters](sec-group-reqs.md)\.
++ Able to access the internet using a public IP address\. The security group associated to the subnet the node is in must allow the communication\. For more information, see [Subnet requirements and considerations](network-reqs.md#network-requirements-subnets) and [View Amazon EKS security group requirements for clusters](sec-group-reqs.md)\.
 + Your nodes and VPC must meet the requirements in [Deploy private clusters with limited internet access](private-clusters.md)\. 
 
 **InstanceLimitExceeded**  
@@ -399,7 +399,7 @@ You can identify all existing Pods in your cluster that are using stale tokens\.
 This can happen when Amazon EKS isn't able to automatically update your cluster's [platform version](platform-versions.md)\. Though there are many causes for this, some of the common causes follow\. If any of these problems apply to your cluster, it may still function, its platform version just won't be updated by Amazon EKS\.
 
 **Problem**  
-The [cluster IAM role](cluster_IAM_role.md) was deleted – This role was specified when the cluster was created\. You can see which role was specified with the following command\. Replace *my\-cluster* with the name of your cluster\.
+The [cluster IAM role](cluster-iam-role.md) was deleted – This role was specified when the cluster was created\. You can see which role was specified with the following command\. Replace *my\-cluster* with the name of your cluster\.
 
 ```
 aws eks describe-cluster --name my-cluster --query cluster.roleArn --output text | cut -d / -f 2
@@ -412,7 +412,7 @@ eksClusterRole
 ```
 
 **Solution**  
-Create a new [cluster IAM role](cluster_IAM_role.md) with the same name\.
+Create a new [cluster IAM role](cluster-iam-role.md) with the same name\.
 
 **Problem**  
 A subnet specified during cluster creation was deleted – The subnets to use with the cluster were specified during cluster creation\. You can see which subnets were specified with the following command\. Replace *my\-cluster* with the name of your cluster\.

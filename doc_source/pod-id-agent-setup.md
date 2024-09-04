@@ -16,7 +16,7 @@ By default, the EKS Pod Identity Agent listens on an `IPv4` and `IPv6` address f
 
 ### Agent prerequisites<a name="pod-id-agent-prereqs"></a>
 + An existing Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\. The cluster version and platform version must be the same or later than the versions listed in [EKS Pod Identity cluster versions](pod-identities.md#pod-id-cluster-versions)\.
-+ The node role has permissions for the agent to do the `AssumeRoleForPodIdentity` action in the EKS Auth API\. You can use the [AWS managed policy: AmazonEKSWorkerNodePolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-AmazonEKSWorkerNodePolicy) or add a custom policy similar to the following:
++ The node role has permissions for the agent to do the `AssumeRoleForPodIdentity` action in the EKS Auth API\. You can use the [AWS managed policy: AmazonEKSWorkerNodePolicy](security-iam-awsmanpol.md#security-iam-awsmanpol-amazoneksworkernodepolicy) or add a custom policy similar to the following:
 
   ```
   {

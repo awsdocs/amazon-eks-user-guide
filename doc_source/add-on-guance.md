@@ -1,4 +1,4 @@
-# Guance<a name="add-on-GUANCE"></a>
+# Guance<a name="add-on-guance"></a>
 + **Publisher** – GUANCE
 + **Name** – `guance_datakit`
 + **Namespace** – `datakit`

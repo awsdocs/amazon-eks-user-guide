@@ -1,4 +1,4 @@
-# View Amazon EKS networking requirements for VPC and subnets<a name="network_reqs"></a>
+# View Amazon EKS networking requirements for VPC and subnets<a name="network-reqs"></a>
 
 When you create a cluster, you specify a [VPC](https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html) and at least two subnets that are in different Availability Zones\. This topic provides an overview of Amazon EKS specific requirements and considerations for the VPC and subnets that you use with your cluster\. If you don't have a VPC to use with Amazon EKS, you can [create one using an Amazon EKS provided AWS CloudFormation template](creating-a-vpc.md)\. If you're creating a local or extended cluster on AWS Outposts, see [Create a VPC and subnets for Amazon EKS clusters on AWS Outposts](eks-outposts-vpc-subnet-requirements.md) instead of this topic\.
 
@@ -41,7 +41,7 @@ The [subnets](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets
 + The subnets can't reside in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. However, if you have them in your VPC, you can deploy [self\-managed nodes](worker.md) and Kubernetes resources to these types of subnets\.
 + The subnets can be a public or private\. However, we recommend that you specify private subnets, if possible\. A public subnet is a subnet with a route table that includes a route to an [internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html), whereas a private subnet is a subnet with a route table that doesn't include a route to an internet gateway\.
 + The subnets can't reside in the following Availability Zones:    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html)
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/network-reqs.html)
 
 ### IP address family usage by component<a name="network-requirements-ip-table"></a>
 
@@ -85,9 +85,9 @@ You can deploy nodes and Kubernetes resources to the same subnets that you speci
 + If the subnet that you deploy a node to is a private subnet and its route table doesn't include a route to a network address translation [\(NAT\) device](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat.html) \(`IPv4`\) or an [egress\-only gateway](https://docs.aws.amazon.com/vpc/latest/userguide/egress-only-internet-gateway.html) \(`IPv6`\), add VPC endpoints using AWS PrivateLink to your VPC\. VPC endpoints are needed for all the AWS services that your nodes and Pods need to communicate with\. Examples include Amazon ECR, Elastic Load Balancing, Amazon CloudWatch, AWS Security Token Service, and Amazon Simple Storage Service \(Amazon S3\)\. The endpoint must include the subnet that the nodes are in\. Not all AWS services support VPC endpoints\. For more information, see [What is AWS PrivateLink?](https://docs.aws.amazon.com/vpc/latest/privatelink/what-is-privatelink.html) and [AWS services that integrate with AWS PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/aws-services-privatelink-support.html)\. For a list of more Amazon EKS requirements, see [Deploy private clusters with limited internet access](private-clusters.md)\.
 + If you want to deploy load balancers to a subnet, the subnet must have the following tag:
   + Private subnets    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html)
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/network-reqs.html)
   + Public subnets    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html)
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/network-reqs.html)
 
 When a Kubernetes cluster that's version `1.18` and earlier was created, Amazon EKS added the following tag to all of the subnets that were specified\.
 
@@ -113,7 +113,7 @@ You can use *VPC sharing* to share subnets with other AWS accounts within the sa
 + You can't launch resources using the default security group for the VPC because it belongs to the owner\. Additionally, participants can't launch resources using security groups that are owned by other participants or the owner\.
 + In a shared subnet, the participant and the owner separately controls the security groups within each respective account\. The subnet owner can see security groups that are created by the participants but cannot perform any actions on them\. If the subnet owner wants to remove or modify these security groups, the participant that created the security group must take the action\.
 + If a cluster is created by a participant, the following considerations apply:
-  + Cluster IAM role and Node IAM roles must be created in that account\. For more information, see [Amazon EKS cluster IAM role](cluster_IAM_role.md) and [Amazon EKS node IAM role](create-node-role.md)\.
+  + Cluster IAM role and Node IAM roles must be created in that account\. For more information, see [Amazon EKS cluster IAM role](cluster-iam-role.md) and [Amazon EKS node IAM role](create-node-role.md)\.
   + All nodes must be made by the same participant, including managed node groups\.
 + The shared VPC owner cannot view, update or delete a cluster that a participant creates in the shared subnet\. This is in addition to the VPC resources that each account has different access to\. For more information, see [Responsibilities and permissions for owners and participants](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html#vpc-share-limitations) in the *Amazon VPC User Guide*\.
 + If you use the *custom networking* feature of the Amazon VPC CNI plugin for Kubernetes, you need to use the Availability Zone ID mappings listed in the owner account to create each `ENIConfig`\. For more information, see [Deploy pods in alternate subnets with custom networking](cni-custom-network.md)\.

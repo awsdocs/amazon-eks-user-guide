@@ -20,7 +20,7 @@ For more information, see [AWS managed policies](https://docs.aws.amazon.com/IAM
 
 
 
-## AWS managed policy: AmazonEKS\_CNI\_Policy<a name="security-iam-awsmanpol-AmazonEKS_CNI_Policy"></a>
+## AWS managed policy: AmazonEKS\_CNI\_Policy<a name="security-iam-awsmanpol-amazoneks-cni-policy"></a>
 
 You can attach the `AmazonEKS_CNI_Policy` to your IAM entities\. Before you create an Amazon EC2 node group, this policy must be attached to either the [node IAM role](create-node-role.md), or to an IAM role that's used specifically by the Amazon VPC CNI plugin for Kubernetes\. This is so that it can perform actions on your behalf\. We recommend that you attach the policy to a role that's used only by the plugin\. For more information, see [Assign IPs to Pods with the Amazon VPC CNI](managing-vpc-cni.md) and [Configure Amazon VPC CNI plugin to use IRSA](cni-iam-role.md)\.
 
@@ -32,9 +32,9 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see [AmazonEKS\_CNI\_Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html#AmazonEKS_CNI_Policy-json) in the AWS Managed Policy Reference Guide\.
 
-## AWS managed policy: AmazonEKSClusterPolicy<a name="security-iam-awsmanpol-AmazonEKSClusterPolicy"></a>
+## AWS managed policy: AmazonEKSClusterPolicy<a name="security-iam-awsmanpol-amazoneksclusterpolicy"></a>
 
-You can attach `AmazonEKSClusterPolicy` to your IAM entities\. Before creating a cluster, you must have a [cluster IAM role](cluster_IAM_role.md) with this policy attached\. Kubernetes clusters that are managed by Amazon EKS make calls to other AWS services on your behalf\. They do this to manage the resources that you use with the service\.
+You can attach `AmazonEKSClusterPolicy` to your IAM entities\. Before creating a cluster, you must have a [cluster IAM role](cluster-iam-role.md) with this policy attached\. Kubernetes clusters that are managed by Amazon EKS make calls to other AWS services on your behalf\. They do this to manage the resources that you use with the service\.
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
 + **`autoscaling`** – Read and update the configuration of an Auto Scaling group\. These permissions aren't used by Amazon EKS but remain in the policy for backwards compatibility\.
@@ -45,7 +45,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see [AmazonEKSClusterPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html#AmazonEKSClusterPolicy-json) in the AWS Managed Policy Reference Guide\.
 
-## AWS managed policy: AmazonEKSFargatePodExecutionRolePolicy<a name="security-iam-awsmanpol-AmazonEKSFargatePodExecutionRolePolicy"></a>
+## AWS managed policy: AmazonEKSFargatePodExecutionRolePolicy<a name="security-iam-awsmanpol-amazoneksfargatepodexecutionrolepolicy"></a>
 
 You can attach `AmazonEKSFargatePodExecutionRolePolicy` to your IAM entities\. Before you can create a Fargate profile, you must create a Fargate Pod execution role and attach this policy to it\. For more information, see [Step 2: Create a Fargate Pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role) and [Define which Pods use AWS Fargate when launched](fargate-profile.md)\.
 
@@ -58,7 +58,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see [AmazonEKSFargatePodExecutionRolePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSFargatePodExecutionRolePolicy.html#AmazonEKSFargatePodExecutionRolePolicy-json) in the AWS Managed Policy Reference Guide\.
 
-## AWS managed policy: AmazonEKSForFargateServiceRolePolicy<a name="security-iam-awsmanpol-AmazonEKSForFargateServiceRolePolicy"></a>
+## AWS managed policy: AmazonEKSForFargateServiceRolePolicy<a name="security-iam-awsmanpol-amazoneksforfargateservicerolepolicy"></a>
 
 You can't attach `AmazonEKSForFargateServiceRolePolicy` to your IAM entities\. This policy is attached to a service\-linked role that allows Amazon EKS to perform actions on your behalf\. For more information, see AWSServiceRoleforAmazonEKSForFargate\.
 
@@ -71,9 +71,9 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see [AmazonEKSForFargateServiceRolePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSForFargateServiceRolePolicy.html#AmazonEKSForFargateServiceRolePolicy-json) in the AWS Managed Policy Reference Guide\.
 
-## AWS managed policy: AmazonEKSServicePolicy<a name="security-iam-awsmanpol-AmazonEKSServicePolicy"></a>
+## AWS managed policy: AmazonEKSServicePolicy<a name="security-iam-awsmanpol-amazoneksservicepolicy"></a>
 
-You can attach `AmazonEKSServicePolicy` to your IAM entities\. Clusters that were created before April 16, 2020, required you to create an IAM role and attach this policy to it\. Clusters that were created on or after April 16, 2020, don't require you to create a role and don't require you to assign this policy\. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, the [AWSServiceRoleforAmazonEKS](using-service-linked-roles-eks.md#service-linked-role-permissions-eks) service\-linked role is automatically created for you\. The service\-linked role has the [AWS managed policy: AmazonEKSServiceRolePolicy](#security-iam-awsmanpol-AmazonEKSServiceRolePolicy) attached to it\.
+You can attach `AmazonEKSServicePolicy` to your IAM entities\. Clusters that were created before April 16, 2020, required you to create an IAM role and attach this policy to it\. Clusters that were created on or after April 16, 2020, don't require you to create a role and don't require you to assign this policy\. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, the [AWSServiceRoleforAmazonEKS](using-service-linked-roles-eks.md#service-linked-role-permissions-eks) service\-linked role is automatically created for you\. The service\-linked role has the [AWS managed policy: AmazonEKSServiceRolePolicy](#security-iam-awsmanpol-amazoneksservicerolepolicy) attached to it\.
 
 This policy allows Amazon EKS to create and manage the necessary resources to operate Amazon EKS clusters\. 
 
@@ -88,7 +88,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see [AmazonEKSServicePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html#AmazonEKSServicePolicy-json) in the AWS Managed Policy Reference Guide\.
 
-## AWS managed policy: AmazonEKSServiceRolePolicy<a name="security-iam-awsmanpol-AmazonEKSServiceRolePolicy"></a>
+## AWS managed policy: AmazonEKSServiceRolePolicy<a name="security-iam-awsmanpol-amazoneksservicerolepolicy"></a>
 
 You can't attach `AmazonEKSServiceRolePolicy` to your IAM entities\. This policy is attached to a service\-linked role that allows Amazon EKS to perform actions on your behalf\. For more information, see [Service\-linked role permissions for Amazon EKS](using-service-linked-roles-eks.md#service-linked-role-permissions-eks)\. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, the [AWSServiceRoleforAmazonEKS](using-service-linked-roles-eks.md#service-linked-role-permissions-eks) service\-linked role is automatically created for you and this policy is attached to it\.
 
@@ -104,9 +104,9 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see [AmazonEKSServiceRolePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html#AmazonEKSServiceRolePolicy-json) in the AWS Managed Policy Reference Guide\.
 
-## AWS managed policy: AmazonEKSVPCResourceController<a name="security-iam-awsmanpol-AmazonEKSVPCResourceController"></a>
+## AWS managed policy: AmazonEKSVPCResourceController<a name="security-iam-awsmanpol-amazoneksvpcresourcecontroller"></a>
 
-You can attach the `AmazonEKSVPCResourceController` policy to your IAM identities\. If you're using [security groups for Pods](security-groups-for-pods.md), you must attach this policy to your [Amazon EKS cluster IAM role](cluster_IAM_role.md) to perform actions on your behalf\. 
+You can attach the `AmazonEKSVPCResourceController` policy to your IAM identities\. If you're using [security groups for Pods](security-groups-for-pods.md), you must attach this policy to your [Amazon EKS cluster IAM role](cluster-iam-role.md) to perform actions on your behalf\. 
 
 This policy grants the cluster role permissions to manage Elastic Network Interfaces and IP addresses for nodes\. 
 
@@ -117,7 +117,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see [AmazonEKSVPCResourceController](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html#AmazonEKSVPCResourceController-json) in the AWS Managed Policy Reference Guide\.
 
-## AWS managed policy: AmazonEKSWorkerNodePolicy<a name="security-iam-awsmanpol-AmazonEKSWorkerNodePolicy"></a>
+## AWS managed policy: AmazonEKSWorkerNodePolicy<a name="security-iam-awsmanpol-amazoneksworkernodepolicy"></a>
 
 You can attach the `AmazonEKSWorkerNodePolicy` to your IAM entities\. You must attach this policy to a [node IAM role](create-node-role.md) that you specify when you create Amazon EC2 nodes that allow Amazon EKS to perform actions on your behalf\. If you create a node group using `eksctl`, it creates the node IAM role and attaches this policy to the role automatically\.
 
@@ -132,7 +132,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see [AmazonEKSWorkerNodePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html#AmazonEKSWorkerNodePolicy-json) in the AWS Managed Policy Reference Guide\.
 
-## AWS managed policy: AWSServiceRoleForAmazonEKSNodegroup<a name="security-iam-awsmanpol-AWSServiceRoleForAmazonEKSNodegroup"></a>
+## AWS managed policy: AWSServiceRoleForAmazonEKSNodegroup<a name="security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup"></a>
 
 You can't attach `AWSServiceRoleForAmazonEKSNodegroup` to your IAM entities\. This policy is attached to a service\-linked role that allows Amazon EKS to perform actions on your behalf\. For more information, see [Service\-linked role permissions for Amazon EKS](using-service-linked-roles-eks-nodegroups.md#service-linked-role-permissions-eks-nodegroups)\.
 
@@ -147,21 +147,21 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see [AWSServiceRoleForAmazonEKSNodegroup](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html#AWSServiceRoleForAmazonEKSNodegroup-json) in the AWS Managed Policy Reference Guide\.
 
-## AWS managed policy: AmazonEBSCSIDriverPolicy<a name="security-iam-awsmanpol-AmazonEBSCSIDriverServiceRolePolicy"></a>
+## AWS managed policy: AmazonEBSCSIDriverPolicy<a name="security-iam-awsmanpol-amazonebscsidriverservicerolepolicy"></a>
 
 The `AmazonEBSCSIDriverPolicy` policy allows the Amazon EBS Container Storage Interface \(CSI\) driver to create, modify, attach, detach, and delete volumes on your behalf\. It also grants the EBS CSI driver permissions to create and delete snapshots, and to list your instances, volumes, and snapshots\.
 
 To view the latest version of the JSON policy document, see [AmazonEBSCSIDriverServiceRolePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html#AmazonEBSCSIDriverPolicy-json) in the AWS Managed Policy Reference Guide\.
 
-## AWS managed policy: AmazonEFSCSIDriverPolicy<a name="security-iam-awsmanpol-AmazonEFSCSIDriverServiceRolePolicy"></a>
+## AWS managed policy: AmazonEFSCSIDriverPolicy<a name="security-iam-awsmanpol-amazonefscsidriverservicerolepolicy"></a>
 
 The `AmazonEFSCSIDriverPolicy` policy allows the Amazon EFS Container Storage Interface \(CSI\) to create and delete access points on your behalf\. It also grants the Amazon EFS CSI driver permissions to list your access points file systems, mount targets, and Amazon EC2 availability zones\.
 
 To view the latest version of the JSON policy document, see [AmazonEFSCSIDriverServiceRolePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html#AmazonEFSCSIDriverPolicy-json) in the AWS Managed Policy Reference Guide\.
 
-## AWS managed policy: AmazonEKSLocalOutpostClusterPolicy<a name="security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy"></a>
+## AWS managed policy: AmazonEKSLocalOutpostClusterPolicy<a name="security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy"></a>
 
-You can attach this policy to IAM entities\. Before creating a local cluster, you must attach this policy to your [cluster role](cluster_IAM_role.md)\. Kubernetes clusters that are managed by Amazon EKS make calls to other AWS services on your behalf\. They do this to manage the resources that you use with the service\.
+You can attach this policy to IAM entities\. Before creating a local cluster, you must attach this policy to your [cluster role](cluster-iam-role.md)\. Kubernetes clusters that are managed by Amazon EKS make calls to other AWS services on your behalf\. They do this to manage the resources that you use with the service\.
 
 The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
 + **`ec2`** – Required permissions for Amazon EC2 instances to successfully join the cluster as control plane instances\.
@@ -172,7 +172,7 @@ The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
 
 To view the latest version of the JSON policy document, see [AmazonEKSLocalOutpostClusterPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html#AmazonEKSLocalOutpostClusterPolicy-json) in the AWS Managed Policy Reference Guide\.
 
-## AWS managed policy: AmazonEKSLocalOutpostServiceRolePolicy<a name="security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy"></a>
+## AWS managed policy: AmazonEKSLocalOutpostServiceRolePolicy<a name="security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy"></a>
 
 You can't attach this policy to your IAM entities\. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, Amazon EKS automatically creates the [`AWSServiceRoleforAmazonEKSLocalOutpost`](using-service-linked-roles-eks-outpost.md) service\-linked role for you and attaches this policy to it\. This policy allows the service\-linked role to call AWS services on your behalf for local clusters\. 
 
@@ -200,20 +200,20 @@ View details about updates to AWS managed policies for Amazon EKS since this ser
 
 | Change | Description | Date | 
 | --- | --- | --- | 
-|  Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-AWSServiceRoleForAmazonEKSNodegroup)\.  |  Added `autoscaling:ResumeProcesses` and `autoscaling:SuspendProcesses` permissions to allow Amazon EKS to suspend and resume `AZRebalance` in Amazon EKS\-managed Auto Scaling groups\.  | August 21, 2024 | 
-| Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-AWSServiceRoleForAmazonEKSNodegroup)\. |  Added `ec2:DescribeCapacityReservations` permission to allow Amazon EKS to describe capacity reservation in user's account\. Added `autoscaling:PutScheduledUpdateGroupAction` permission to enable setting scheduled scaling on `CAPACITY_BLOCK` node groups\.  | June 27, 2024 | 
-|  [AmazonEKS\_CNI\_Policy](#security-iam-awsmanpol-AmazonEKS_CNI_Policy) – Update to an existing policy  |  Amazon EKS added new `ec2:DescribeSubnets` permissions to allow the Amazon VPC CNI plugin for Kubernetes to see the amount of free IP addresses in your Amazon VPC subnets\.  The VPC CNI can use the free IP addresses in each subnet to pick the subnets with the most free IP addresses to use when creating an elastic network interface\.  | March 4, 2024 | 
-|  [AmazonEKSWorkerNodePolicy](#security-iam-awsmanpol-AmazonEKSWorkerNodePolicy) – Update to an existing policy  |  Amazon EKS added new permissions to allow EKS Pod Identities\. The Amazon EKS Pod Identity Agent uses the node role\.  | November 26, 2023 | 
-|  Introduced [AmazonEFSCSIDriverPolicy](#security-iam-awsmanpol-AmazonEFSCSIDriverServiceRolePolicy)\.  |  AWS introduced the `AmazonEFSCSIDriverPolicy`\.  | July 26, 2023 | 
-|  Added permissions to [AmazonEKSClusterPolicy](#security-iam-awsmanpol-AmazonEKSClusterPolicy)\.  |   Added `ec2:DescribeAvailabilityZones` permission to allow Amazon EKS to get the AZ details during subnet auto\-discovery while creating load balancers\.  | February 7, 2023 | 
-|  Updated policy conditions in [AmazonEBSCSIDriverPolicy](#security-iam-awsmanpol-AmazonEBSCSIDriverServiceRolePolicy)\.  |  Removed invalid policy conditions with wildcard characters in the `StringLike` key field\. Also added a new condition `ec2:ResourceTag/kubernetes.io/created-for/pvc/name: "*"` to `ec2:DeleteVolume`, which allows the EBS CSI driver to delete volumes created by the in\-tree plugin\.  | November 17, 2022 | 
-|  Added permissions to [AmazonEKSLocalOutpostServiceRolePolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy)\.  | Added `ec2:DescribeVPCAttribute`, `ec2:GetConsoleOutput` and `ec2:DescribeSecret` to allow better prerequisite validation and managed lifecycle control\. Also added `ec2:DescribePlacementGroups` and `"arn:aws:ec2:*:*:placement-group/*"` to `ec2:RunInstances` to support placement control of the control plane Amazon EC2 instances on Outposts\. | October 24, 2022 | 
-|  Update Amazon Elastic Container Registry permissions in [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  |  Moved action `ecr:GetDownloadUrlForLayer` from all resource sections to a scoped section\. Added resource `arn:aws:ecr:*:*:repository/eks/*`\. Removed resource `arn:aws:ecr:*:*:repository/eks/eks-certificates-controller-public`\. This resource is covered by the added `arn:aws:ecr:*:*:repository/eks/*` resource\.  | October 20, 2022 | 
-|  Added permissions to [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  |  Added the `arn:aws:ecr:*:*:repository/kubelet-config-updater` Amazon Elastic Container Registry repository so the cluster control plane instances can update some `kubelet` arguments\.  | August 31, 2022 | 
-|  Introduced [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  |  AWS introduced the `AmazonEKSLocalOutpostClusterPolicy`\.  | August 24, 2022 | 
-|  Introduced [AmazonEKSLocalOutpostServiceRolePolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy)\.  |  AWS introduced the `AmazonEKSLocalOutpostServiceRolePolicy`\.  | August 23, 2022 | 
-|  Introduced [AmazonEBSCSIDriverPolicy](#security-iam-awsmanpol-AmazonEBSCSIDriverServiceRolePolicy)\.  |  AWS introduced the `AmazonEBSCSIDriverPolicy`\.  | April 4, 2022 | 
-|  Added permissions to [AmazonEKSWorkerNodePolicy](#security-iam-awsmanpol-AmazonEKSWorkerNodePolicy)\.  |  Added `ec2:DescribeInstanceTypes` to enable Amazon EKS\-optimized AMIs that can auto discover instance level properties\.  | March 21, 2022 | 
-|  Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-AWSServiceRoleForAmazonEKSNodegroup)\.  |  Added `autoscaling:EnableMetricsCollection` permission to allow Amazon EKS to enable metrics collection\.  | December 13, 2021 | 
-|  Added permissions to [AmazonEKSClusterPolicy](#security-iam-awsmanpol-AmazonEKSClusterPolicy)\.  |  Added `ec2:DescribeAccountAttributes`, `ec2:DescribeAddresses`, and `ec2:DescribeInternetGateways` permissions to allow Amazon EKS to create a service\-linked role for a Network Load Balancer\.  | June 17, 2021 | 
+|  Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup)\.  |  Added `autoscaling:ResumeProcesses` and `autoscaling:SuspendProcesses` permissions to allow Amazon EKS to suspend and resume `AZRebalance` in Amazon EKS\-managed Auto Scaling groups\.  | August 21, 2024 | 
+| Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup)\. |  Added `ec2:DescribeCapacityReservations` permission to allow Amazon EKS to describe capacity reservation in user's account\. Added `autoscaling:PutScheduledUpdateGroupAction` permission to enable setting scheduled scaling on `CAPACITY_BLOCK` node groups\.  | June 27, 2024 | 
+|  [AmazonEKS\_CNI\_Policy](#security-iam-awsmanpol-amazoneks-cni-policy) – Update to an existing policy  |  Amazon EKS added new `ec2:DescribeSubnets` permissions to allow the Amazon VPC CNI plugin for Kubernetes to see the amount of free IP addresses in your Amazon VPC subnets\.  The VPC CNI can use the free IP addresses in each subnet to pick the subnets with the most free IP addresses to use when creating an elastic network interface\.  | March 4, 2024 | 
+|  [AmazonEKSWorkerNodePolicy](#security-iam-awsmanpol-amazoneksworkernodepolicy) – Update to an existing policy  |  Amazon EKS added new permissions to allow EKS Pod Identities\. The Amazon EKS Pod Identity Agent uses the node role\.  | November 26, 2023 | 
+|  Introduced [AmazonEFSCSIDriverPolicy](#security-iam-awsmanpol-amazonefscsidriverservicerolepolicy)\.  |  AWS introduced the `AmazonEFSCSIDriverPolicy`\.  | July 26, 2023 | 
+|  Added permissions to [AmazonEKSClusterPolicy](#security-iam-awsmanpol-amazoneksclusterpolicy)\.  |   Added `ec2:DescribeAvailabilityZones` permission to allow Amazon EKS to get the AZ details during subnet auto\-discovery while creating load balancers\.  | February 7, 2023 | 
+|  Updated policy conditions in [AmazonEBSCSIDriverPolicy](#security-iam-awsmanpol-amazonebscsidriverservicerolepolicy)\.  |  Removed invalid policy conditions with wildcard characters in the `StringLike` key field\. Also added a new condition `ec2:ResourceTag/kubernetes.io/created-for/pvc/name: "*"` to `ec2:DeleteVolume`, which allows the EBS CSI driver to delete volumes created by the in\-tree plugin\.  | November 17, 2022 | 
+|  Added permissions to [AmazonEKSLocalOutpostServiceRolePolicy](#security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy)\.  | Added `ec2:DescribeVPCAttribute`, `ec2:GetConsoleOutput` and `ec2:DescribeSecret` to allow better prerequisite validation and managed lifecycle control\. Also added `ec2:DescribePlacementGroups` and `"arn:aws:ec2:*:*:placement-group/*"` to `ec2:RunInstances` to support placement control of the control plane Amazon EC2 instances on Outposts\. | October 24, 2022 | 
+|  Update Amazon Elastic Container Registry permissions in [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy)\.  |  Moved action `ecr:GetDownloadUrlForLayer` from all resource sections to a scoped section\. Added resource `arn:aws:ecr:*:*:repository/eks/*`\. Removed resource `arn:aws:ecr:*:*:repository/eks/eks-certificates-controller-public`\. This resource is covered by the added `arn:aws:ecr:*:*:repository/eks/*` resource\.  | October 20, 2022 | 
+|  Added permissions to [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy)\.  |  Added the `arn:aws:ecr:*:*:repository/kubelet-config-updater` Amazon Elastic Container Registry repository so the cluster control plane instances can update some `kubelet` arguments\.  | August 31, 2022 | 
+|  Introduced [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy)\.  |  AWS introduced the `AmazonEKSLocalOutpostClusterPolicy`\.  | August 24, 2022 | 
+|  Introduced [AmazonEKSLocalOutpostServiceRolePolicy](#security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy)\.  |  AWS introduced the `AmazonEKSLocalOutpostServiceRolePolicy`\.  | August 23, 2022 | 
+|  Introduced [AmazonEBSCSIDriverPolicy](#security-iam-awsmanpol-amazonebscsidriverservicerolepolicy)\.  |  AWS introduced the `AmazonEBSCSIDriverPolicy`\.  | April 4, 2022 | 
+|  Added permissions to [AmazonEKSWorkerNodePolicy](#security-iam-awsmanpol-amazoneksworkernodepolicy)\.  |  Added `ec2:DescribeInstanceTypes` to enable Amazon EKS\-optimized AMIs that can auto discover instance level properties\.  | March 21, 2022 | 
+|  Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup)\.  |  Added `autoscaling:EnableMetricsCollection` permission to allow Amazon EKS to enable metrics collection\.  | December 13, 2021 | 
+|  Added permissions to [AmazonEKSClusterPolicy](#security-iam-awsmanpol-amazoneksclusterpolicy)\.  |  Added `ec2:DescribeAccountAttributes`, `ec2:DescribeAddresses`, and `ec2:DescribeInternetGateways` permissions to allow Amazon EKS to create a service\-linked role for a Network Load Balancer\.  | June 17, 2021 | 
 |  Amazon EKS started tracking changes\.  |  Amazon EKS started tracking changes for its AWS managed policies\.  | June 17, 2021 | 
