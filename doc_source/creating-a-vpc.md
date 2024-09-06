@@ -148,6 +148,6 @@ This VPC has three private subnets that are deployed into different Availability
 
 1. Record the **SubnetIds** for the subnets that were created\. You need at least two of these when you create your cluster and nodes\.
 
-1. \(Optional\) Any cluster that you deploy to this VPC can assign private `IPv4` addresses to your Pods and services\. If you want deploy clusters to this VPC to assign private `IPv6` addresses to your Pods and services, make updates to your VPC, subnet, route tables, and security groups\. For more information, see [Migrate existing VPCs from `IPv4` to `IPv6`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\. Amazon EKS requires that your subnets have the `Auto-assign` `IPv6` addresses option enabled \(it's disabled by default\)\.
+1. \(Optional\) Any cluster that you deploy to this VPC can assign private `IPv4` addresses to your Pods and services\. If you want deploy clusters to this VPC to assign private `IPv6` addresses to your Pods and services, make updates to your VPC, subnet, route tables, and security groups\. For more information, see [Migrate existing VPCs from `IPv4` to `IPv6`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\. Amazon EKS requires that your subnets have the `Auto-assign IPv6` addresses option enabled \(it's disabled by default\)\.
 
 ------
