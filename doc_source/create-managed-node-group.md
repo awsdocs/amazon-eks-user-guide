@@ -172,7 +172,7 @@ For Windows, this command doesn't enable SSH\. Instead, it associates your Amazo
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
 
-   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting chapter\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

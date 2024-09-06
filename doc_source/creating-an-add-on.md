@@ -248,7 +248,7 @@ Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line
          cpu: 100m
    ```
 
-1. Determine if the add\-on requires IAM permissions\. If so, you need to \(1\) determine if you want to use EKS Pod Identities or IAM Roles for Service Accounts \(IRSA\), \(2\) determine the ARN of the IAM role to use with the add\-on, and \(3\) determine the name of the Kubernetes service account used by the add\-on\. You can find this information in the documentation or using the AWS API, see [Retrieve IAM info about an Add\-on](retreive-iam-info.md)\. 
+1. Determine if the add\-on requires IAM permissions\. If so, you need to \(1\) determine if you want to use EKS Pod Identities or IAM Roles for Service Accounts \(IRSA\), \(2\) determine the ARN of the IAM role to use with the add\-on, and \(3\) determine the name of the Kubernetes service account used by the add\-on\. For more information, see [Retrieve IAM information about an Amazon EKS add\-on](retreive-iam-info.md)\.
    + Amazon EKS suggests using EKS Pod Identities if the add\-on supports it\. This requires the [ Pod Identity Agent is installed on your cluster](pod-identities.md)\. For more information about using Pod Identities with Add\-ons, see [IAM roles for Amazon EKS add\-ons](add-ons-iam.md)\.
    + If the add\-on or your cluster is not setup for EKS Pod Identities, use IRSA\. [Confirm IRSA is setup on your cluster\. ](iam-roles-for-service-accounts.md)
    + [Review the Amazon EKS Add\-ons documentation to determine if the add\-on requires IAM permissions and the name of the associated Kubernetes service account\. ](eks-add-ons.md)
