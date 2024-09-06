@@ -49,7 +49,7 @@ Your nodes must have Linux kernel version `5.10` or later\. You can check your k
 
 The Amazon VPC CNI plugin for Kubernetes configures network policies for pods in parallel with the pod provisioning\. Until all of the policies are configured for the new pod, containers in the new pod will start with a *default allow policy*\. This is called *standard mode*\. A default allow policy means that all ingress and egress traffic is allowed to and from the new pods\. For example, the pods will not have any firewall rules enforced \(all traffic is allowed\) until the new pod is updated with the active policies\. 
 
-With the `NETWORK_POLICY_ENFORCING_MODE` variable set to `strict`, pods that use the VPC CNI start with a *default deny policy*, then policies are configured\. This is called *strict mode*\. In strict mode, you must have a network policy for every endpoint that your pods need to access in your cluster\. Note that this requirement applies to the CoreDNS pods\. The default deny policy isn’t configured for pods with Host networking\.
+With the `NETWORK_POLICY_ENFORCING_MODE` variable set to `strict`, pods that use the VPC CNI start with a *default deny policy*, then policies are configured\. This is called *strict mode*\. In strict mode, you must have a network policy for every endpoint that your pods need to access in your cluster\. Note that this requirement applies to the CoreDNS pods\. The default deny policy isn't configured for pods with Host networking\.
 
 You can change the default network policy by setting the environment variable `NETWORK_POLICY_ENFORCING_MODE` to `strict` in the `aws-node` container of the VPC CNI `DaemonSet`\.
 

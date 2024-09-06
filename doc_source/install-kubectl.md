@@ -609,11 +609,13 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    kubectl version --client
    ```
 
-When first installing `kubectl`, it isn't yet configured to communicate with any server\. We will cover this configuration as needed in other procedures\. If you ever need to update the configuration to communicate with a particular cluster, you can run the following command\. Replace `region-code` with the AWS Region that your cluster is in\. Replace `my-cluster` with the name of your cluster\.
+1. When first installing `kubectl`, it isn't yet configured to communicate with any server\. We will cover this configuration as needed in other procedures\. If you ever need to update the configuration to communicate with a particular cluster, you can run the following command\. Replace `region-code` with the AWS Region that your cluster is in\. Replace `my-cluster` with the name of your cluster\.
 
-```
-aws eks update-kubeconfig --region region-code --name my-cluster
-```
+   ```
+   aws eks update-kubeconfig --region region-code --name my-cluster
+   ```
+
+1. Consider configuring auto completion, which lets you use the tab key to complete `kubectl` subcommands after typing the first few letters\. See [Kubectl autocomplete](https://kubernetes.io/docs/reference/kubectl/quick-reference/#kubectl-autocomplete) in the Kubernetes documentation for details\. 
 
 ## Install `eksctl`<a name="eksctl-install-update"></a>
 

@@ -1,6 +1,6 @@
 # Quickstart: Deploy a web app and store data<a name="quickstart"></a>
 
-This quickstart tutorial shows the steps to deploy the 2048 game sample application and persist its data on an Amazon EKS cluster using [eksctl](https://eksctl.io/)\. eksctl is an infrastructure\-as\-code utility leveraging [AWS CloudFormation](https://aws.amazon.com/cloudformation/), allowing you to set up a fully\-functional cluster, complete with all the essential components\. These components include a Amazon VPC and an IAM role tailored to provide permissions to the AWS services we’ve defined\. As we progress, we'll walk you through the cluster setup process, incorporating Amazon EKS [Amazon EKS add\-ons](eks-add-ons.md)to power your cluster with operational capabilities\. Finally, you'll deploy a sample workload with the custom annotations required to fully integrate with AWS services\.
+This quickstart tutorial shows the steps to deploy the 2048 game sample application and persist its data on an Amazon EKS cluster using [eksctl](https://eksctl.io/)\. eksctl is an infrastructure\-as\-code utility leveraging [AWS CloudFormation](https://aws.amazon.com/cloudformation/), allowing you to set up a fully\-functional cluster, complete with all the essential components\. These components include a Amazon VPC and an IAM role tailored to provide permissions to the AWS services we've defined\. As we progress, we'll walk you through the cluster setup process, incorporating Amazon EKS [Amazon EKS add\-ons](eks-add-ons.md)to power your cluster with operational capabilities\. Finally, you'll deploy a sample workload with the custom annotations required to fully integrate with AWS services\.
 
 ## In this tutorial<a name="quickstart-in-tutorial"></a>
 
@@ -27,7 +27,7 @@ Set up and integrate with the AWS Load Balancer Controller \(LBC\) add\-on to ex
 
 ## Step 1: Configure the cluster<a name="quickstart-config-cluster"></a>
 
-In this section, you’ll create a managed node group\-based cluster using [t3\.medium](https://aws.amazon.com/ec2/instance-types/) instances containing two nodes\. The configuration includes a service account for [AWS Load Balancer Controller \(LBC\)](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/deploy/installation/) add\-on, and installation of the latest version of the [AWS Amazon EBS CSI driver](ebs-csi.md#managing-ebs-csi.title)\. For all available `eksctl` add\-ons, see [Discovering addons](https://eksctl.io/usage/addons/#discovering-addons) in `eksctl` documentation\.
+In this section, you'll create a managed node group\-based cluster using [t3\.medium](https://aws.amazon.com/ec2/instance-types/) instances containing two nodes\. The configuration includes a service account for [AWS Load Balancer Controller \(LBC\)](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/deploy/installation/) add\-on, and installation of the latest version of the [AWS Amazon EBS CSI driver](ebs-csi.md#managing-ebs-csi.title)\. For all available `eksctl` add\-ons, see [Discovering addons](https://eksctl.io/usage/addons/#discovering-addons) in `eksctl` documentation\.
 + Create a `cluster-config.yaml` file and paste the following contents into it\. Replace *region\-code* with a valid region, such as `us-east-1`
 
   Example output is as follows:
@@ -74,7 +74,7 @@ Now, we're ready to create our Amazon EKS cluster\. This process takes several m
   eksctl create cluster -f cluster-config.yaml
   ```
 **Note**  
-If you receive an `Error: checking STS access` in the response, make sure that you’re using the correct user identity for the current shell session\. You may also need to specify a named profile \(for example, `--profile clusteradmin`\) or get a new security token for the AWS CLI\.
+If you receive an `Error: checking STS access` in the response, make sure that you're using the correct user identity for the current shell session\. You may also need to specify a named profile \(for example, `--profile clusteradmin`\) or get a new security token for the AWS CLI\.
 
   Upon completion, you should see the following response output:
 
@@ -84,7 +84,7 @@ If you receive an `Error: checking STS access` in the response, make sure that y
 
 ## Step 3: Set up external access to applications using the AWS Load Balancer Controller \(LBC\)<a name="quickstart-lbc"></a>
 
-With the cluster operational, our next step is making its containerized applications accessible externally\. This is accomplished by deploying an [Application Load Balancer \(ALB\)](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) to direct traffic outside the cluster to our services, in other words, our applications\. When we created our cluster, we established an [IAM Roles for Service Accounts \(IRSA\)](https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-enable-IAM.html) for the [ Load Balancer Controller \(LBC\)](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/) with the permissions needed to dynamically create ALBs, facilitating external traffic routing to our Kubernetes services\. In this section, we’ll set up the AWS LBC on our cluster\.
+With the cluster operational, our next step is making its containerized applications accessible externally\. This is accomplished by deploying an [Application Load Balancer \(ALB\)](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) to direct traffic outside the cluster to our services, in other words, our applications\. When we created our cluster, we established an [IAM Roles for Service Accounts \(IRSA\)](https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-enable-IAM.html) for the [ Load Balancer Controller \(LBC\)](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/) with the permissions needed to dynamically create ALBs, facilitating external traffic routing to our Kubernetes services\. In this section, we'll set up the AWS LBC on our cluster\.
 
 **To configure environment variables**
 
@@ -185,7 +185,7 @@ Now that the load balancer is set up, it's time to enable external access for co
    ingress-2048   alb     *       k8s-game2048-ingress2-eb379a0f83-378466616.region-code.elb.amazonaws.com   80      31s
    ```
 
-   You’ll need to wait several minutes for the Application Load Balancer \(ALB\) to provision before you begin the following steps\.
+   You'll need to wait several minutes for the Application Load Balancer \(ALB\) to provision before you begin the following steps\.
 
 1. Open a web browser and enter the `ADDRESS` from the previous step to access the web application\. For example, `k8s-game2048-ingress2-eb379a0f83-378466616.`*`region-code`*`.elb.amazonaws.com`\. You should see the 2048 game in your browser\. Play\!  
 ![\[\]](http://docs.aws.amazon.com/eks/latest/userguide/images/quick2048.png)

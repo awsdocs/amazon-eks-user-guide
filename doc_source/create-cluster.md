@@ -160,7 +160,7 @@ To see the most options that you can specify when creating a cluster with `eksct
 
       Some add\-ons, such as Amazon VPC CNI, CoreDNS, and kube\-proxy, are installed by default\. If you disable any of the default add\-ons, this may affect your ability to run Kubernetes applications\.
 
-   1. On the **Configure selected add\-ons settings** page, select the version that you want to install\. You can always update to a later version after cluster creation\. You can update the configuration of each add\-on after cluster creation\. For more information about configuring add\-ons, see [Updating an Amazon EKS add\-on](updating-an-add-on.md)\. When you’re done with this page, choose **Next**\.
+   1. On the **Configure selected add\-ons settings** page, select the version that you want to install\. You can always update to a later version after cluster creation\. You can update the configuration of each add\-on after cluster creation\. For more information about configuring add\-ons, see [Updating an Amazon EKS add\-on](updating-an-add-on.md)\. When you're done with this page, choose **Next**\.
 
    1. On the **Review and create** page, review the information that you entered or selected on the previous pages\. If you need to make changes, choose **Edit**\. When you're satisfied, choose **Create**\. The **Status** field shows **CREATING** while the cluster is provisioned\.
 **Note**  
@@ -266,7 +266,7 @@ If your cluster uses the `IPv6` family
 
    If you deploy your cluster using either `eksctl` or the AWS CLI, then the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons are deployed\. You can migrate the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons that are deployed with your cluster to Amazon EKS add\-ons\. For more information, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
-1. \(Optional\) If you haven’t already done so, you can enable Prometheus metrics for your cluster\. For more information, see [Create a scraper](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-create) in the *Amazon Managed Service for Prometheus User Guide*\.
+1. \(Optional\) If you haven't already done so, you can enable Prometheus metrics for your cluster\. For more information, see [Create a scraper](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-create) in the *Amazon Managed Service for Prometheus User Guide*\.
 
 1. If you enabled Prometheus metrics, you must set up your `aws-auth` `ConfigMap` to give the scraper in\-cluster permissions\. For more information, see [Configuring your Amazon EKS cluster](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup) in the *Amazon Managed Service for Prometheus User Guide*\.
 

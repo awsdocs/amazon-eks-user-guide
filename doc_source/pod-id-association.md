@@ -181,98 +181,100 @@ Unlike IAM roles for service accounts, EKS Pod Identity doesn't use an annotatio
 **Note**  
 You can specify a namespace and service account by name that doesn't exist in the cluster\. You must create the namespace, service account, and the workload that uses the service account for the EKS Pod Identity association to function\.
 
-1. Confirm that the role and service account are configured correctly\.
-
-   1. Confirm that the IAM role's trust policy is configured correctly\.
-
-      ```
-      aws iam get-role --role-name my-role --query Role.AssumeRolePolicyDocument
-      ```
-
-      An example output is as follows\.
-
-      ```
-      {
-          "Version": "2012-10-17",
-          "Statement": [
-              {
-                  "Sid": "Allow EKS Auth service to assume this role for Pod Identities",
-                  "Effect": "Allow",
-                  "Principal": {
-                      "Service": "pods.eks.amazonaws.com"
-                  },
-                  "Action": [
-                      "sts:AssumeRole",
-                      "sts:TagSession"
-                  ]
-              }
-          ]
-      }
-      ```
-
-   1. Confirm that the policy that you attached to your role in a previous step is attached to the role\.
-
-      ```
-      aws iam list-attached-role-policies --role-name my-role --query AttachedPolicies[].PolicyArn --output text
-      ```
-
-      An example output is as follows\.
-
-      ```
-      arn:aws:iam::111122223333:policy/my-policy
-      ```
-
-   1. Set a variable to store the Amazon Resource Name \(ARN\) of the policy that you want to use\. Replace *my\-policy* with the name of the policy that you want to confirm permissions for\.
-
-      ```
-      export policy_arn=arn:aws:iam::111122223333:policy/my-policy
-      ```
-
-   1. View the default version of the policy\.
-
-      ```
-      aws iam get-policy --policy-arn $policy_arn
-      ```
-
-      An example output is as follows\.
-
-      ```
-      {
-          "Policy": {
-              "PolicyName": "my-policy",
-              "PolicyId": "EXAMPLEBIOWGLDEXAMPLE",
-              "Arn": "arn:aws:iam::111122223333:policy/my-policy",
-              "Path": "/",
-              "DefaultVersionId": "v1",
-              [...]
-          }
-      }
-      ```
-
-   1. View the policy contents to make sure that the policy includes all the permissions that your Pod needs\. If necessary, replace *1* in the following command with the version that's returned in the previous output\.
-
-      ```
-      aws iam get-policy-version --policy-arn $policy_arn --version-id v1
-      ```
-
-      An example output is as follows\.
-
-      ```
-      {
-          "Version": "2012-10-17",
-          "Statement": [
-              {
-                  "Effect": "Allow",
-                  "Action": "s3:GetObject",
-                  "Resource": "arn:aws:s3:::my-pod-secrets-bucket"
-              }
-          ]
-      }
-      ```
-
-      If you created the example policy in a previous step, then your output is the same\. If you created a different policy, then the *example* content is different\.
-
 ------
+
+## >Confirm configuration<a name="pod-id-confirm-role-configuration"></a>
+
+**Confirm that the role and service account are configured correctly\.**
+
+1. Confirm that the IAM role's trust policy is configured correctly\.
+
+   ```
+   aws iam get-role --role-name my-role --query Role.AssumeRolePolicyDocument
+   ```
+
+   An example output is as follows\.
+
+   ```
+   {
+       "Version": "2012-10-17",
+       "Statement": [
+           {
+               "Sid": "Allow EKS Auth service to assume this role for Pod Identities",
+               "Effect": "Allow",
+               "Principal": {
+                   "Service": "pods.eks.amazonaws.com"
+               },
+               "Action": [
+                   "sts:AssumeRole",
+                   "sts:TagSession"
+               ]
+           }
+       ]
+   }
+   ```
+
+1. Confirm that the policy that you attached to your role in a previous step is attached to the role\.
+
+   ```
+   aws iam list-attached-role-policies --role-name my-role --query AttachedPolicies[].PolicyArn --output text
+   ```
+
+   An example output is as follows\.
+
+   ```
+   arn:aws:iam::111122223333:policy/my-policy
+   ```
+
+1. Set a variable to store the Amazon Resource Name \(ARN\) of the policy that you want to use\. Replace *my\-policy* with the name of the policy that you want to confirm permissions for\.
+
+   ```
+   export policy_arn=arn:aws:iam::111122223333:policy/my-policy
+   ```
+
+1. View the default version of the policy\.
+
+   ```
+   aws iam get-policy --policy-arn $policy_arn
+   ```
+
+   An example output is as follows\.
+
+   ```
+   {
+       "Policy": {
+           "PolicyName": "my-policy",
+           "PolicyId": "EXAMPLEBIOWGLDEXAMPLE",
+           "Arn": "arn:aws:iam::111122223333:policy/my-policy",
+           "Path": "/",
+           "DefaultVersionId": "v1",
+           [...]
+       }
+   }
+   ```
+
+1. View the policy contents to make sure that the policy includes all the permissions that your Pod needs\. If necessary, replace *1* in the following command with the version that's returned in the previous output\.
+
+   ```
+   aws iam get-policy-version --policy-arn $policy_arn --version-id v1
+   ```
+
+   An example output is as follows\.
+
+   ```
+   {
+       "Version": "2012-10-17",
+       "Statement": [
+           {
+               "Effect": "Allow",
+               "Action": "s3:GetObject",
+               "Resource": "arn:aws:s3:::my-pod-secrets-bucket"
+           }
+       ]
+   }
+   ```
+
+   If you created the example policy in a previous step, then your output is the same\. If you created a different policy, then the *example* content is different\.
 
 **Next step**  
 [Configure pods to access AWS services with service accounts](pod-id-configure-pods.md)

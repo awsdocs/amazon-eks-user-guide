@@ -13,7 +13,7 @@ In order for your Pods to be gracefully drained, we recommend that you set up AW
 
 ## Use Capacity Blocks with self\-managed nodes<a name="capacity-blocks-procedure"></a>
 
-You can use Capacity Blocks with Amazon EKS for provisioning and scaling your self\-managed nodes\. The following steps give a general example overview\. The AWS CloudFormation template examples don’t cover every aspect needed in a production workload\. Typically you’d also want a bootstrapping script to join the node to the cluster, specify the Amazon EKS accelerated AMI, and an appropriate instance profile for joining the cluster\. For more information, see [Create self\-managed Amazon Linux nodes](launch-workers.md)\.
+You can use Capacity Blocks with Amazon EKS for provisioning and scaling your self\-managed nodes\. The following steps give a general example overview\. The AWS CloudFormation template examples don't cover every aspect needed in a production workload\. Typically you'd also want a bootstrapping script to join the node to the cluster, specify the Amazon EKS accelerated AMI, and an appropriate instance profile for joining the cluster\. For more information, see [Create self\-managed Amazon Linux nodes](launch-workers.md)\.
 
 1. Create a launch template that's applicable to your workload\. For more information, see [Use Capacity Blocks for machine learning workloads](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-template-capacity-blocks.html) in the *Amazon EC2 Auto Scaling User Guide*\.
 

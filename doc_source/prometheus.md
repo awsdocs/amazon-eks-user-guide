@@ -33,7 +33,7 @@ Service access
 This section summarizes the permissions you grant when sending Prometheus metrics:  
 + Allow Amazon Managed Service for Prometheus to describe the scraped Amazon EKS cluster
 + Allow remote writing to the Amazon Managed Prometheus workspace
-If the `AmazonManagedScraperRole` already exists, the scraper uses it\. Choose the `AmazonManagedScraperRole` link to see the **Permission details**\. If the `AmazonManagedScraperRole` doesn’t exist already, choose the **View permission** details link to see the specific permissions you are granting by sending Prometheus metrics\.
+If the `AmazonManagedScraperRole` already exists, the scraper uses it\. Choose the `AmazonManagedScraperRole` link to see the **Permission details**\. If the `AmazonManagedScraperRole` doesn't exist already, choose the **View permission** details link to see the specific permissions you are granting by sending Prometheus metrics\.
 
 Subnets  
 View the subnets that the scraper will inherit\. If you need to change them, go back to the create cluster **Specify networking** step\.

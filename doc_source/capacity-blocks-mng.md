@@ -12,7 +12,7 @@ When upgrading managed node groups with Capacity Blocks, make sure that the desi
 
 ## Create a managed node group with Amazon EC2 Capacity Blocks<a name="capacity-blocks-mng-procedure"></a>
 
-You can use Capacity Blocks with Amazon EKS managed node groups for provisioning and scaling GPU\-accelerated worker nodes\. The AWS CloudFormation template examples that follow don’t cover every aspect needed in a production clusters\. Typically, you’d also want a bootstrapping script to join the node to the cluster and specify the Amazon EKS accelerated AMI\. For more information, see [Create a managed node group for your cluster](create-managed-node-group.md)\.
+You can use Capacity Blocks with Amazon EKS managed node groups for provisioning and scaling GPU\-accelerated worker nodes\. The AWS CloudFormation template examples that follow don't cover every aspect needed in a production clusters\. Typically, you'd also want a bootstrapping script to join the node to the cluster and specify the Amazon EKS accelerated AMI\. For more information, see [Create a managed node group for your cluster](create-managed-node-group.md)\.
 
 1. Create a launch template that's appropriate for your workloads and works with Amazon EKS managed node groups\. For more information, see [Customize managed nodes with launch templates](launch-templates.md)\.
 
@@ -41,9 +41,9 @@ You can use Capacity Blocks with Amazon EKS managed node groups for provisioning
    The following is an example create node group command for Capacity Blocks\. Replace `example-values` with ones applicable to your cluster\.
 
    When creating the Capacity Block managed node group, do the following:
-   + Set the `capacity-type` to `"CAPACITY_BLOCK"`\. If the capacity type isn’t set to `"CAPACITY_BLOCK"` or any of the other above required launch template values are missing, then the create request will be rejected\.
+   + Set the `capacity-type` to `"CAPACITY_BLOCK"`\. If the capacity type isn't set to `"CAPACITY_BLOCK"` or any of the other above required launch template values are missing, then the create request will be rejected\.
    + When specifying `subnets` in the create request, make sure to only specify the subnet in the same Availability Zone as the capacity reservation\.
-   + If you specify a non\-zero `desiredSize` in the create request, Amazon EKS will honor that when creating the Auto Scaling group \(ASG\)\. However, if the create request is made before the capacity reservation is active, then the ASG won’t be able to launch Amazon EC2 instances until it becomes active\. As a result, ASG scaling activities will have launch errors\. Whenever the reservation becomes active, then the launch of instances will succeed and the ASG will be scaled up to the `desiredSize` mentioned at create time\.
+   + If you specify a non\-zero `desiredSize` in the create request, Amazon EKS will honor that when creating the Auto Scaling group \(ASG\)\. However, if the create request is made before the capacity reservation is active, then the ASG won't be able to launch Amazon EC2 instances until it becomes active\. As a result, ASG scaling activities will have launch errors\. Whenever the reservation becomes active, then the launch of instances will succeed and the ASG will be scaled up to the `desiredSize` mentioned at create time\.
 
    ```
    aws eks create-nodegroup \

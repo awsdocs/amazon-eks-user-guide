@@ -30,7 +30,7 @@ The following table lists the latest available self\-managed `kube-proxy` contai
 
 **Important**  
 The default image type isn't available for Kubernetes version `1.25` and later\. You must use the minimal image type\.
-When you [update an Amazon EKS add\-on type](updating-an-add-on.md), you specify a valid Amazon EKS add\-on version, which might not be a version listed in this table\. This is because [Amazon EKS add\-on](add-ons-kube-proxy.md) versions don't always match container image versions specified when updating the self\-managed type of this add\-on\. When you update the self\-managed type of this add\-on, you specify a valid container image version listed in this table\. 
+When you [update an Amazon EKS add\-on type](updating-an-add-on.md), you specify a valid Amazon EKS add\-on version, which might not be a version listed in this table\. This is because [Amazon EKS add\-on](workloads-add-ons-available-eks.md#add-ons-kube-proxy) versions don't always match container image versions specified when updating the self\-managed type of this add\-on\. When you update the self\-managed type of this add\-on, you specify a valid container image version listed in this table\. 
 
  Prerequisites
 + An existing Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\.

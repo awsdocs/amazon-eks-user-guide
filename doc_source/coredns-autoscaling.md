@@ -1,6 +1,6 @@
 # Scale CoreDNSPods for high DNS traffic<a name="coredns-autoscaling"></a>
 
-When you launch an Amazon EKS cluster with at least one node, a Deployment of two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster\. The CoreDNS Pods provide name resolution for all Pods in the cluster\. Applications use name resolution to connect to pods and services in the cluster as well as connecting to services outside the cluster\. As the number of requests for name resolution \(queries\) from pods increase, the CoreDNS pods can get overwhelmed and slow down, and reject requests that the pods can’t handle\.
+When you launch an Amazon EKS cluster with at least one node, a Deployment of two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster\. The CoreDNS Pods provide name resolution for all Pods in the cluster\. Applications use name resolution to connect to pods and services in the cluster as well as connecting to services outside the cluster\. As the number of requests for name resolution \(queries\) from pods increase, the CoreDNS pods can get overwhelmed and slow down, and reject requests that the pods can't handle\.
 
 To handle the increased load on the CoreDNS pods, consider an autoscaling system for CoreDNS\. Amazon EKS can manage the autoscaling of the CoreDNS Deployment in the EKS Add\-on version of CoreDNS\. This CoreDNS autoscaler continuously monitors the cluster state, including the number of nodes and CPU cores\. Based on that information, the controller will dynamically adapt the number of replicas of the CoreDNS deployment in an EKS cluster\. This feature works for CoreDNS `v1.9` and EKS release version `1.25` and later\. For more information about which versions are compatible with CoreDNS Autoscaling, see the following section\.
 
@@ -48,7 +48,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
 
 1. Ensure that your cluster is at or above the minimum cluster version\.
 
-   Amazon EKS upgrades clusters between platform versions of the same Kubernetes version automatically, and you can’t start this process yourself\. Instead, you can upgrade your cluster to the next Kubernetes version, and the cluster will be upgraded to that K8s version and the latest platform version\. For example, if you upgrade from `1.25` to `1.26`, the cluster will upgrade to `1.26.15 eks.18`\.
+   Amazon EKS upgrades clusters between platform versions of the same Kubernetes version automatically, and you can't start this process yourself\. Instead, you can upgrade your cluster to the next Kubernetes version, and the cluster will be upgraded to that K8s version and the latest platform version\. For example, if you upgrade from `1.25` to `1.26`, the cluster will upgrade to `1.26.15 eks.18`\.
 
    New Kubernetes versions sometimes introduce significant changes\. Therefore, we recommend that you test the behavior of your applications by using a separate cluster of the new Kubernetes version before you update your production clusters\.
 
@@ -145,7 +145,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
 
 1. Ensure that your cluster is at or above the minimum cluster version\.
 
-   Amazon EKS upgrades clusters between platform versions of the same Kubernetes version automatically, and you can’t start this process yourself\. Instead, you can upgrade your cluster to the next Kubernetes version, and the cluster will be upgraded to that K8s version and the latest platform version\. For example, if you upgrade from `1.25` to `1.26`, the cluster will upgrade to `1.26.15 eks.18`\.
+   Amazon EKS upgrades clusters between platform versions of the same Kubernetes version automatically, and you can't start this process yourself\. Instead, you can upgrade your cluster to the next Kubernetes version, and the cluster will be upgraded to that K8s version and the latest platform version\. For example, if you upgrade from `1.25` to `1.26`, the cluster will upgrade to `1.26.15 eks.18`\.
 
    New Kubernetes versions sometimes introduce significant changes\. Therefore, we recommend that you test the behavior of your applications by using a separate cluster of the new Kubernetes version before you update your production clusters\.
 

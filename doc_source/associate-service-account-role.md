@@ -9,6 +9,8 @@ This topic covers how to configure a Kubernetes service account to assume an AWS
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Set up `kubectl` and `eksctl`](install-kubectl.md)\.
 + An existing `kubectl` `config` file that contains your cluster configuration\. To create a `kubectl` `config` file, see [Connect kubectl to an EKS cluster by creating a kubeconfig file](create-kubeconfig.md)\.
 
+## Assign IAM roles to Kubernetes service accounts<a name="irsa-associate-role-procedure"></a>
+
 **To associate an IAM role with a Kubernetes service account**
 
 1. If you want to associate an existing IAM policy to your IAM role, skip to the next step\.
@@ -140,118 +142,120 @@ If the role or service account already exist, the previous command might fail\. 
 
 ------
 
-1. Confirm that the role and service account are configured correctly\.
-
-   1. Confirm that the IAM role's trust policy is configured correctly\.
-
-      ```
-      aws iam get-role --role-name my-role --query Role.AssumeRolePolicyDocument
-      ```
-
-      An example output is as follows\.
-
-      ```
-      {
-          "Version": "2012-10-17",
-          "Statement": [
-              {
-                  "Effect": "Allow",
-                  "Principal": {
-                      "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
-                  },
-                  "Action": "sts:AssumeRoleWithWebIdentity",
-                  "Condition": {
-                      "StringEquals": {
-                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:default:my-service-account",
-                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
-                      }
-                  }
-              }
-          ]
-      }
-      ```
-
-   1. Confirm that the policy that you attached to your role in a previous step is attached to the role\.
-
-      ```
-      aws iam list-attached-role-policies --role-name my-role --query AttachedPolicies[].PolicyArn --output text
-      ```
-
-      An example output is as follows\.
-
-      ```
-      arn:aws:iam::111122223333:policy/my-policy
-      ```
-
-   1. Set a variable to store the Amazon Resource Name \(ARN\) of the policy that you want to use\. Replace *my\-policy* with the name of the policy that you want to confirm permissions for\.
-
-      ```
-      export policy_arn=arn:aws:iam::111122223333:policy/my-policy
-      ```
-
-   1. View the default version of the policy\.
-
-      ```
-      aws iam get-policy --policy-arn $policy_arn
-      ```
-
-      An example output is as follows\.
-
-      ```
-      {
-          "Policy": {
-              "PolicyName": "my-policy",
-              "PolicyId": "EXAMPLEBIOWGLDEXAMPLE",
-              "Arn": "arn:aws:iam::111122223333:policy/my-policy",
-              "Path": "/",
-              "DefaultVersionId": "v1",
-              [...]
-          }
-      }
-      ```
-
-   1. View the policy contents to make sure that the policy includes all the permissions that your Pod needs\. If necessary, replace *1* in the following command with the version that's returned in the previous output\.
-
-      ```
-      aws iam get-policy-version --policy-arn $policy_arn --version-id v1
-      ```
-
-      An example output is as follows\.
-
-      ```
-      {
-          "Version": "2012-10-17",
-          "Statement": [
-              {
-                  "Effect": "Allow",
-                  "Action": "s3:GetObject",
-                  "Resource": "arn:aws:s3:::my-pod-secrets-bucket"
-              }
-          ]
-      }
-      ```
-
-      If you created the example policy in a previous step, then your output is the same\. If you created a different policy, then the *example* content is different\.
-
-   1. Confirm that the Kubernetes service account is annotated with the role\.
-
-      ```
-      kubectl describe serviceaccount my-service-account -n default
-      ```
-
-      An example output is as follows\.
-
-      ```
-      Name:                my-service-account
-      Namespace:           default
-      Annotations:         eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/my-role
-      Image pull secrets:  <none>
-      Mountable secrets:   my-service-account-token-qqjfl
-      Tokens:              my-service-account-token-qqjfl
-      [...]
-      ```
-
 1. \(Optional\) [Configure the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\. AWS recommends using a regional AWS STS endpoint instead of the global endpoint\. This reduces latency, provides built\-in redundancy, and increases session token validity\.
+
+## Confirm configuration<a name="irsa-confirm-role-configuration"></a>
+
+**Confirm that the role and service account are configured correctly\.**
+
+1. Confirm that the IAM role's trust policy is configured correctly\.
+
+   ```
+   aws iam get-role --role-name my-role --query Role.AssumeRolePolicyDocument
+   ```
+
+   An example output is as follows\.
+
+   ```
+   {
+       "Version": "2012-10-17",
+       "Statement": [
+           {
+               "Effect": "Allow",
+               "Principal": {
+                   "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+               },
+               "Action": "sts:AssumeRoleWithWebIdentity",
+               "Condition": {
+                   "StringEquals": {
+                       "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:default:my-service-account",
+                       "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
+                   }
+               }
+           }
+       ]
+   }
+   ```
+
+1. Confirm that the policy that you attached to your role in a previous step is attached to the role\.
+
+   ```
+   aws iam list-attached-role-policies --role-name my-role --query AttachedPolicies[].PolicyArn --output text
+   ```
+
+   An example output is as follows\.
+
+   ```
+   arn:aws:iam::111122223333:policy/my-policy
+   ```
+
+1. Set a variable to store the Amazon Resource Name \(ARN\) of the policy that you want to use\. Replace *my\-policy* with the name of the policy that you want to confirm permissions for\.
+
+   ```
+   export policy_arn=arn:aws:iam::111122223333:policy/my-policy
+   ```
+
+1. View the default version of the policy\.
+
+   ```
+   aws iam get-policy --policy-arn $policy_arn
+   ```
+
+   An example output is as follows\.
+
+   ```
+   {
+       "Policy": {
+           "PolicyName": "my-policy",
+           "PolicyId": "EXAMPLEBIOWGLDEXAMPLE",
+           "Arn": "arn:aws:iam::111122223333:policy/my-policy",
+           "Path": "/",
+           "DefaultVersionId": "v1",
+           [...]
+       }
+   }
+   ```
+
+1. View the policy contents to make sure that the policy includes all the permissions that your Pod needs\. If necessary, replace *1* in the following command with the version that's returned in the previous output\.
+
+   ```
+   aws iam get-policy-version --policy-arn $policy_arn --version-id v1
+   ```
+
+   An example output is as follows\.
+
+   ```
+   {
+       "Version": "2012-10-17",
+       "Statement": [
+           {
+               "Effect": "Allow",
+               "Action": "s3:GetObject",
+               "Resource": "arn:aws:s3:::my-pod-secrets-bucket"
+           }
+       ]
+   }
+   ```
+
+   If you created the example policy in a previous step, then your output is the same\. If you created a different policy, then the *example* content is different\.
+
+1. Confirm that the Kubernetes service account is annotated with the role\.
+
+   ```
+   kubectl describe serviceaccount my-service-account -n default
+   ```
+
+   An example output is as follows\.
+
+   ```
+   Name:                my-service-account
+   Namespace:           default
+   Annotations:         eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/my-role
+   Image pull secrets:  <none>
+   Mountable secrets:   my-service-account-token-qqjfl
+   Tokens:              my-service-account-token-qqjfl
+   [...]
+   ```
 
 **Next step**  
 [Configure Pods to use a Kubernetes service account](pod-configuration.md)

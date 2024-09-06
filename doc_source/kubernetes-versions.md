@@ -2,7 +2,7 @@
 
 Kubernetes rapidly evolves with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions \(such as `1.30`\) on average once every four months\. Amazon EKS follows the upstream release and deprecation cycle for minor versions\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\.
 
-A minor version is under standard support in Amazon EKS for the first 14 months after it's released\. Once a version is past the end of standard support date, it enters extended support for the next 12 months\. Extended support allows you to stay at a specific Kubernetes version for longer at an additional cost per cluster hour\. If you haven’t updated your cluster before the extended support period ends, your cluster is auto\-upgraded to the oldest currently supported extended version\.
+A minor version is under standard support in Amazon EKS for the first 14 months after it's released\. Once a version is past the end of standard support date, it enters extended support for the next 12 months\. Extended support allows you to stay at a specific Kubernetes version for longer at an additional cost per cluster hour\. If you haven't updated your cluster before the extended support period ends, your cluster is auto\-upgraded to the oldest currently supported extended version\.
 
 Extended support is enabled by default\. [You can disable extended support\. ](disable-extended-support.md)
 
@@ -80,13 +80,13 @@ If you update the control plane, you must still update the Fargate nodes yoursel
 Standard support for a Kubernetes version in Amazon EKS begins when a Kubernetes version is released on Amazon EKS, and will end 14 months after the release date\. Extended support for a Kubernetes version will begin immediately after the end of standard support, and will end after the next 12 months\. For example, standard support for version `1.23` in Amazon EKS ends on October 11, 2023\. Extended support for version `1.23` began on October 12, 2023 and will end on October 11, 2024\.
 
 **What do I need to do to get extended support for Amazon EKS clusters?**  
-You don’t have to take any action to get extended support for your Amazon EKS clusters\. Standard support will begin when a Kubernetes version is released on Amazon EKS, and will end 14 months after the release date\. Extended support for a Kubernetes version will begin immediately after the end of standard support, and will end after the next 12 months\. 
+You don't have to take any action to get extended support for your Amazon EKS clusters\. Standard support will begin when a Kubernetes version is released on Amazon EKS, and will end 14 months after the release date\. Extended support for a Kubernetes version will begin immediately after the end of standard support, and will end after the next 12 months\. 
 
 **For which Kubernetes versions can I get extended support?**  
 Extended support is available for Kubernetes versions `1.23` and higher\. You can run clusters on any version for up to 12 months after the end of standard support for that version\. This means that each version will be supported for 26 months in Amazon EKS \(14 months of standard support plus 12 months of extended support\)\.
 
-**What if I don’t want to use extended support?**  
-If you don’t want to be automatically enrolled in extended support, you can upgrade your cluster to a Kubernetes version that’s in standard Amazon EKS support\. You can also [disable extended support](disable-extended-support.md)\.
+**What if I don't want to use extended support?**  
+If you don't want to be automatically enrolled in extended support, you can upgrade your cluster to a Kubernetes version that's in standard Amazon EKS support\. You can also [disable extended support](disable-extended-support.md)\.
 
 **What will happen at the end of 12 months of extended support?**  
 Clusters running on a Kubernetes version that has completed its 26\-month lifecycle \(14 months of standard support plus 12 months of extended support\) will be auto\-upgraded to the next version\.  
