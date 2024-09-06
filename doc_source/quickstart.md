@@ -192,7 +192,7 @@ Now that the load balancer is set up, it's time to enable external access for co
 
 ## Step 5: Persist Data using the Amazon EBS CSI Driver nodes<a name="quickstart-persist-data"></a>
 
-Now that the 2048 game is up and running on your Amazon EKS cluster, it's time to ensure that your game data is safely persisted using the [Amazon EBS CSI Driver](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html?sc_channel=el&sc_campaign=appswave&sc_content=eks-cluster-high-traffic&sc_geo=mult&sc_country=mult&sc_outcome=acq) managed add\-on\. This add\-on was installed on our cluster during the creation process\. This integration is essential for preserving game progress and data even as Kubernetes pods or nodes are restarted or replaced\.
+Now that the 2048 game is up and running on your Amazon EKS cluster, it's time to ensure that your game data is safely persisted using the [Amazon EBS CSI Driver](ebs-csi.md) managed add\-on\. This add\-on was installed on our cluster during the creation process\. This integration is essential for preserving game progress and data even as Kubernetes pods or nodes are restarted or replaced\.
 
 1. Create a [Storage Class](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/examples/kubernetes/dynamic-provisioning/manifests/storageclass.yaml) for the EBS CSI Driver:
 
