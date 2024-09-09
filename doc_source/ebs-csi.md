@@ -7,11 +7,7 @@ The [Amazon Elastic Block Store \(Amazon EBS\) Container Storage Interface \(CSI
 + You can run the Amazon EBS CSI controller on Fargate nodes, but the Amazon EBS CSI node DaemonSet can only run on Amazon EC2 instances\.
 
 **Important**  
-To use the snapshot functionality of the Amazon EBS CSI driver, you must install the external snapshotter either before or after the installation of the add\-on\. The external snapshotter components must be installed in the following order:  
-`[CustomResourceDefinition](https://github.com/kubernetes-csi/external-snapshotter/tree/master/client/config/crd)` \(CRD\) for `volumesnapshotclasses`, `volumesnapshots`, and `volumesnapshotcontents`
-[RBAC](https://github.com/kubernetes-csi/external-snapshotter/blob/master/deploy/kubernetes/snapshot-controller/rbac-snapshot-controller.yaml) \(`ClusterRole`, `ClusterRoleBinding`, and so on\)
-[controller deployment](https://github.com/kubernetes-csi/external-snapshotter/blob/master/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml)
-For more information, see [CSI Snapshotter](https://github.com/kubernetes-csi/external-snapshotter) on GitHub\.
+To use the snapshot functionality of the Amazon EBS CSI driver, you must first install the CSI snapshot controller\. For more information, see [Enable snapshot functionality for CSI volumes](csi-snapshot-controller.md)\.
 
 ## Prerequisites<a name="ebs-csi-prereqs"></a>
 + An existing cluster\. To see the required platform version, run the following command\.
