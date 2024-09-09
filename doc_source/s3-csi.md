@@ -288,7 +288,7 @@ eksctl create addon --name aws-mountpoint-s3-csi-driver --cluster my-cluster \
 
 If you remove the ***\-\-force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS Kubernetes field management, see [Determine fields you can customize for Amazon EKS add\-ons](kubernetes-field-management.md)\.
 
-You can customize `eksctl` through configuration files\. For more information, see Working with configuration values in the `eksctl` documentation\. The following example shows how to tolerate all taints\.
+You can customize `eksctl` through configuration files\. For more information, see [Working with configuration values](https://eksctl.io/usage/addons/#working-with-configuration-values) in the `eksctl` documentation\. The following example shows how to tolerate all taints\.
 
 ```
 # config.yaml
