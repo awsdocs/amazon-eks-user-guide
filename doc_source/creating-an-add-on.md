@@ -13,7 +13,7 @@ Complete the following before you create an add\-on:
 + The cluster must exist before you create an add\-on for it\. For more information, see [Create an Amazon EKS cluster](create-cluster.md)\.
 + Check if your add\-on requires an IAM role\. For more information, see [Verifying Amazon EKS add\-on version compatibility with a cluster](addon-compat.md)\. 
 + Verify that the Amazon EKS add\-on version is compatabile with your cluster\. For more information, see [Verifying Amazon EKS add\-on version compatibility with a cluster](addon-compat.md)\.
-+ Verify that version 0\.189\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. For more information, see [Installation](https://eksctl.io/installation/) on the `eksctl` website\.
++ Verify that version 0\.190\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. For more information, see [Installation](https://eksctl.io/installation/) on the `eksctl` website\.
 
 ## Procedure<a name="creating-an-add-on-procedure"></a>
 
