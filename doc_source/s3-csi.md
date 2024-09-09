@@ -2,7 +2,7 @@
 
 With the [Mountpoint for Amazon S3 Container Storage Interface \(CSI\) driver](https://github.com/awslabs/mountpoint-s3-csi-driver), your Kubernetes applications can access Amazon S3 objects through a file system interface, achieving high aggregate throughput without changing any application code\. Built on [Mountpoint for Amazon S3](https://github.com/awslabs/mountpoint-s3), the CSI driver presents an Amazon S3 bucket as a volume that can be accessed by containers in Amazon EKS and self\-managed Kubernetes clusters\.  This topic shows you how to deploy the Mountpoint for Amazon S3 CSI driver to your Amazon EKS cluster\.
 
-**Considerations**
+## Considerations<a name="s3-csi-considerations"></a>
 + The Mountpoint for Amazon S3 CSI driver isn't presently compatible with Windows\-based container images\.
 + The Mountpoint for Amazon S3 CSI driver doesn't support AWS Fargate\. However, containers that are running in Amazon EC2 \(either with Amazon EKS or a custom Kubernetes installation\) are supported\.
 + The Mountpoint for Amazon S3 CSI driver supports only static provisioning\. Dynamic provisioning, or creation of new buckets, isn't supported\.
@@ -10,7 +10,7 @@ With the [Mountpoint for Amazon S3 Container Storage Interface \(CSI\) driver](h
 Static provisioning refers to using an existing Amazon S3 bucket that is specified as the `bucketName` in the `volumeAttributes` in the `PersistentVolume` object\. For more information, see [Static Provisioning](https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/examples/kubernetes/static_provisioning/README.md) on GitHub\.
 + Volumes mounted with the Mountpoint for Amazon S3 CSI driver don't support all POSIX file\-system features\. For details about file\-system behavior, see [Mountpoint for Amazon S3 file system behavior](https://github.com/awslabs/mountpoint-s3/blob/main/doc/SEMANTICS.md) on GitHub\.
 
-**Prerequisites**
+## Prerequisites<a name="s3-csi-prereqs"></a>
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + Version 2\.12\.3 or later of the AWS CLI installed and configured on your device or AWS CloudShell\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Set up `kubectl` and `eksctl`](install-kubectl.md)\.
@@ -138,7 +138,7 @@ eksctl create iamserviceaccount \
 
    1. For **Identity provider**, choose the **OpenID Connect provider URL** for your cluster \(as shown under **Overview** in Amazon EKS\)\.
 
-      If no URLs are shown, review the [Prerequisites](#prereqs) section\.
+      If no URLs are shown, review the [Prerequisites](#s3-csi-prereqs)\.
 
    1. For **Audience**, choose `sts.amazonaws.com`\.
 
@@ -187,7 +187,7 @@ This policy was created in the previous section\.
 
 **To create your Mountpoint for Amazon S3 CSI driver IAM role with the AWS CLI**
 
-1. View the OIDC provider URL for your cluster\. Replace `my-cluster` with the name of your cluster\. If the output from the command is `None`, review the [Prerequisites](#prereqs)\.
+1. View the OIDC provider URL for your cluster\. Replace `my-cluster` with the name of your cluster\. If the output from the command is `None`, review the [Prerequisites](#s3-csi-prereqs)\.
 
    ```
    aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
