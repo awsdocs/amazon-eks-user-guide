@@ -271,9 +271,9 @@ When you deploy the plugin in this procedure, it creates and is configured to us
 
 ## Install the Mountpoint for Amazon S3 CSI driver<a name="s3-install-driver"></a>
 
-You may install the Mountpoint for Amazon S3 CSI driver through the Amazon EKS add\-on\. You can use `eksctl`, the AWS Management Console, or the AWS CLI to add the add\-on to your cluster\.
+You may install the Mountpoint for Amazon S3 CSI driver through the Amazon EKS add\-on\. You can use `eksctl`, the AWS Management Console, or the AWS CLI to add the add\-on to your cluster\. Alternatively, you may install Mountpoint for Amazon S3 CSI driver as a self\-managed installation\. For instructions on doing a self\-managed installation, see [Installation](https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/docs/install.md#deploy-driver) on GitHub\.
 
-You may optionally install Mountpoint for Amazon S3 CSI driver as a self\-managed installation\. For instructions on doing a self\-managed installation, see [Installation](https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/docs/install.md#deploy-driver) on GitHub\.
+Starting from `v1.8.0`, you can configure taints to tolerate for the CSI driver's Pods\. To do this, either specify a custom set of taints to tolerate with `node.tolerations` or tolorate all taints with `node.tolerateAllTaints`\. For more information, see [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the Kubernetes documentation\.
 
 ------
 #### [ eksctl ]
@@ -282,10 +282,25 @@ You may optionally install Mountpoint for Amazon S3 CSI driver as a self\-manage
 Run the following command\. Replace `my-cluster` with the name of your cluster, `111122223333` with your account ID, and `AmazonEKS_S3_CSI_DriverRole` with the name of the [IAM role created earlier](#s3-create-iam-role)\.
 
 ```
-eksctl create addon --name aws-mountpoint-s3-csi-driver --cluster my-cluster --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_S3_CSI_DriverRole --force
+eksctl create addon --name aws-mountpoint-s3-csi-driver --cluster my-cluster \
+  --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_S3_CSI_DriverRole --force
 ```
 
 If you remove the ***\-\-force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS Kubernetes field management, see [Determine fields you can customize for Amazon EKS add\-ons](kubernetes-field-management.md)\.
+
+You can customize `eksctl` through configuration files\. For more information, see [Working with configuration values](https://eksctl.io/usage/addons/#working-with-configuration-values) in the eksctl documentation\. The following example shows how to tolerate all taints\.
+
+```
+# config.yaml
+...
+
+addons:
+- name: aws-mountpoint-s3-csi-driver
+  serviceAccountRoleARN: arn:aws:iam::111122223333:role/AmazonEKS_S3_CSI_DriverRole
+  configurationValues: |-
+    node:
+      tolerateAllTaints: true
+```
 
 ------
 #### [ AWS Management Console ]
@@ -314,7 +329,9 @@ If you remove the ***\-\-force*** option and any of the Amazon EKS add\-on setti
 
    1. For **Select IAM role**, select the name of an IAM role that you attached the Mountpoint for Amazon S3 CSI driver IAM policy to\.
 
-   1. \(Optional\) You can expand the **Optional configuration settings**\. If you select **Override** for the **Conflict resolution method**, one or more of the settings for the existing add\-on can be overwritten with the Amazon EKS add\-on settings\. If you don't enable this option and there's a conflict with your existing settings, the operation fails\. You can use the resulting error message to troubleshoot the conflict\. Before selecting this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\.
+   1. \(Optional\) Update the **Conflict resolution method** after expanding the **Optional configuration settings**\. If you select **Override**, one or more of the settings for the existing add\-on can be overwritten with the Amazon EKS add\-on settings\. If you don't enable this option and there's a conflict with your existing settings, the operation fails\. You can use the resulting error message to troubleshoot the conflict\. Before selecting this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\.
+
+   1. \(Optional\) Configure tolerations in the **Configuration values** field after expanding the **Optional configuration settings**\.
 
    1. Choose **Next**\.
 
@@ -329,6 +346,13 @@ Run the following command\. Replace `my-cluster` with the name of your cluster, 
 ```
 aws eks create-addon --cluster-name my-cluster --addon-name aws-mountpoint-s3-csi-driver \
   --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_S3_CSI_DriverRole
+```
+
+You can customize the command with the `--configuration-values` flag\. The following alternative example shows how to tolerate all taints\.
+```
+aws eks create-addon --cluster-name my-cluster --addon-name aws-mountpoint-s3-csi-driver \
+  --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_S3_CSI_DriverRole \
+  --configuration-values '{"node":{"tolerateAllTaints":true}}'
 ```
 
 ------
