@@ -207,6 +207,7 @@ Now that the 2048 game is up and running on your Amazon EKS cluster, it's time t
    kind: PersistentVolumeClaim
    metadata:
      name: game-data-pvc
+     namespace: game-2048
    spec:
      accessModes:
        - ReadWriteOnce
