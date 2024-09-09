@@ -5,7 +5,9 @@ We recommend adding the Amazon EKS type of the add\-on to your cluster instead o
 
 The `kube-proxy` add\-on is deployed on each Amazon EC2 node in your Amazon EKS cluster\. It maintains network rules on your nodes and enables network communication to your Pods\. The add\-on isn't deployed to Fargate nodes in your cluster\. For more information, see [https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/) in the Kubernetes documentation\.
 
-The following table lists the latest version of the Amazon EKS add\-on type for each Kubernetes version\.<a name="kube-proxy-versions"></a>
+## `kube-proxy` versions<a name="kube-proxy-versions"></a>
+
+The following table lists the latest version of the Amazon EKS add\-on type for each Kubernetes version\.
 
 
 | Kubernetes version | `1.30` | `1.29` | `1.28` | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | 
@@ -15,6 +17,8 @@ The following table lists the latest version of the Amazon EKS add\-on type for 
 **Important**  
 An earlier version of the documentation was incorrect\. `kube-proxy` versions `v1.28.5`, `v1.27.9`, and `v1.26.12` aren't available\.  
 If you're self\-managing this add\-on, the versions in the table might not be the same as the available self\-managed versions\.
+
+## `kube-proxy` container image migration<a name="managing-kube-proxy-images"></a>
 
 There are two types of the `kube-proxy` container image available for each Amazon EKS cluster version:
 + **Default** – This image type is based on a Debian\-based Docker image that is maintained by the Kubernetes upstream community\.
@@ -31,9 +35,3 @@ The following table lists the latest available self\-managed `kube-proxy` contai
 **Important**  
 The default image type isn't available for Kubernetes version `1.25` and later\. You must use the minimal image type\.
 When you [update an Amazon EKS add\-on type](updating-an-add-on.md), you specify a valid Amazon EKS add\-on version, which might not be a version listed in this table\. This is because [Amazon EKS add\-on](workloads-add-ons-available-eks.md#add-ons-kube-proxy) versions don't always match container image versions specified when updating the self\-managed type of this add\-on\. When you update the self\-managed type of this add\-on, you specify a valid container image version listed in this table\. 
-
- Prerequisites
-+ An existing Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\.
-
-**Considerations**
-+ `Kube-proxy` on an Amazon EKS cluster has the same [compatibility and skew policy as Kubernetes](https://kubernetes.io/releases/version-skew-policy/#kube-proxy)\. Learn how to [Verifying Amazon EKS add\-on version compatibility with a cluster](addon-compat.md)\.<a name="managing-kube-proxy-procedure"></a>

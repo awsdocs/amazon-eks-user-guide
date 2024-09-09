@@ -52,17 +52,17 @@ Functionality can differ depending on the IP family \(`ipFamily`\) setting of th
 
 | Component | `IPv4` addresses only | `IPv6` addresses only | Dual stack addresses | 
 | --- | --- | --- | --- | 
-| EKS API public endpoint | Yes[1](#dualstack-connectivity)[3](#dualstack-2024-08) | Yes[1](#dualstack-connectivity)[3](#dualstack-2024-08) | Yes[1](#dualstack-connectivity)[3](#dualstack-2024-08) | 
+| EKS API public endpoint | Yes1,3 | Yes1,3 | Yes1,3 | 
 | EKS API VPC endpoint | Yes | No | No | 
-| EKS Auth API public endpoint \(EKS Pod Identity\) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | 
-| EKS Auth API VPC endpoint \(EKS Pod Identity\) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | Yes[1](#dualstack-connectivity) | 
+| EKS Auth API public endpoint \(EKS Pod Identity\) | Yes1 | Yes1 | Yes1 | 
+| EKS Auth API VPC endpoint \(EKS Pod Identity\) | Yes1 | Yes1 | Yes1 | 
 | Kubernetes cluster public endpoint | Yes | No | No | 
-| Kubernetes cluster private endpoint | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
-| Kubernetes cluster subnets | Yes[2](#cluster-immutable) | No | Yes[2](#cluster-immutable) | 
-| Node Primary IP addresses | Yes[2](#cluster-immutable) | No | Yes[2](#cluster-immutable) | 
-| Cluster CIDR range for Service IP addresses | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
-| Pod IP addresses from the VPC CNI | Yes[2](#cluster-immutable) | Yes[2](#cluster-immutable) | No | 
-| IRSA OIDC Issuer URLs | Yes[1](#dualstack-connectivity)[3](#dualstack-2024-08) | Yes[1](#dualstack-connectivity)[3](#dualstack-2024-08) | Yes[1](#dualstack-connectivity)[3](#dualstack-2024-08) | 
+| Kubernetes cluster private endpoint | Yes2 | Yes2 | No | 
+| Kubernetes cluster subnets | Yes2 | No | Yes2 | 
+| Node Primary IP addresses | Yes2 | No | Yes2 | 
+| Cluster CIDR range for Service IP addresses | Yes2 | Yes2 | No | 
+| Pod IP addresses from the VPC CNI | Yes2 | Yes2 | No | 
+| IRSA OIDC Issuer URLs | Yes1,3 | Yes1,3 | Yes1,3 | 
 
 **Note**  
 1 The endpoint is dual stack with both `IPv4` and `IPv6` addresses\. Your applications outside of AWS, your nodes for the cluster, and your pods inside the cluster can reach this endpoint by either `IPv4` or `IPv6`\.  

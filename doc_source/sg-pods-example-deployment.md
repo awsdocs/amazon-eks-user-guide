@@ -10,7 +10,7 @@ If you have a Pod with Amazon EC2 instances, you must configure the plugin befor
    kubectl create namespace my-namespace
    ```
 
-1. Deploy an Amazon EKS `SecurityGroupPolicy` to your cluster\.
+1. <a name="deploy-securitygrouppolicy"></a>Deploy an Amazon EKS `SecurityGroupPolicy` to your cluster\.
 
    1. Copy the following contents to your device\. You can replace *podSelector* with **serviceAccountSelector** if you'd rather select Pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all Pods in the namespace\. You can change *my\-role* to the name of your role\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You can replace *my\-security\-group\-policy* with a name for your `SecurityGroupPolicy` and *my\-namespace* with the namespace that you want to create the `SecurityGroupPolicy` in\. 
 

@@ -241,7 +241,7 @@ By default, your new subnets are implicitly associated with your VPC's [main rou
    cluster_security_group_id=$(aws eks describe-cluster --name $cluster_name --query cluster.resourcesVpcConfig.clusterSecurityGroupId --output text)
    ```
 
-1. Create an `ENIConfig` custom resource for each subnet that you want to deploy Pods in\.
+1. <a name="custom-networking-create-eniconfig"></a>Create an `ENIConfig` custom resource for each subnet that you want to deploy Pods in\.
 
    1. Create a unique file for each network interface configuration\.
 
@@ -323,7 +323,7 @@ If you also use security groups for Pods, the security group that's specified in
 
       If output is returned, the annotation exists\. If no output is returned, then the variable is not set\. For a production cluster, you can use either this setting or the setting in the following step\. If you use this setting, it overrides the setting in the following step\. In this tutorial, the setting in the next step is used\.
 
-   1. Update your `aws-node` `DaemonSet` to automatically apply the `ENIConfig` for an Availability Zone to any new Amazon EC2 nodes created in your cluster\.
+   1. <a name="custom-networking-automatically-apply-eniconfig"></a>Update your `aws-node` `DaemonSet` to automatically apply the `ENIConfig` for an Availability Zone to any new Amazon EC2 nodes created in your cluster\.
 
       ```
       kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=topology.kubernetes.io/zone
@@ -422,7 +422,7 @@ If you want nodes in a production cluster to support a significantly higher numb
 
    Don't continue to the next step until the output returned is `ACTIVE`\.
 
-1. For the tutorial, you can skip this step\.
+1. <a name="custom-networking-annotate-eniconfig"></a>For the tutorial, you can skip this step\.
 
    For a production cluster, if you didn't name your `ENIConfigs` the same as the Availability Zone that you're using them for, then you must annotate your nodes with the `ENIConfig` name that should be used with the node\. This step isn't necessary if you only have one subnet in each Availability Zone and you named your `ENIConfigs` with the same names as your Availability Zones\. This is because the Amazon VPC CNI plugin for Kubernetes automatically associates the correct `ENIConfig` with the node for you when you enabled it to do so in a [previous step](#custom-networking-automatically-apply-eniconfig)\. 
 
@@ -465,7 +465,7 @@ If you want nodes in a production cluster to support a significantly higher numb
       kubectl annotate node ip-192-168-0-92.us-west-2.compute.internal k8s.amazonaws.com/eniConfig=EniConfigName2
       ```
 
-1. If you had nodes in a production cluster with running Pods before you switched to using the custom networking feature, complete the following tasks:
+1. <a name="custom-networking-terminate-existing-nodes"></a>If you had nodes in a production cluster with running Pods before you switched to using the custom networking feature, complete the following tasks:
 
    1. Make sure that you have available nodes that are using the custom networking feature\.
 

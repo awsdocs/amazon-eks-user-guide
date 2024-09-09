@@ -172,7 +172,7 @@ sponsored by Amazon.
          + [Scale CoreDNSPods for high DNS traffic](coredns-autoscaling.md)
          + [Monitor Kubernetes DNS resolution with CoreDNS metrics](coredns-metrics.md)
       + [Manage kube-proxy in Amazon EKS clusters](managing-kube-proxy.md)
-         + [Updating the Kubernetes kube-proxy add-on](kube-proxy-add-on-self-managed-update.md)
+         + [Update the Kubernetes kube-proxy self-managed add-on](kube-proxy-add-on-self-managed-update.md)
 + [Learn how to deploy workloads and add-ons to Amazon EKS](eks-workloads.md)
    + [Deploy a sample application](sample-deployment.md)
    + [Adjust pod resources with Vertical Pod Autoscaler](vertical-pod-autoscaler.md)

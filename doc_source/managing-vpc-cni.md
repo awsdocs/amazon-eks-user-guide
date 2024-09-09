@@ -4,7 +4,9 @@ The Amazon VPC CNI plugin for Kubernetes add\-on is deployed on each Amazon EC2 
 
 A version of the add\-on is deployed with each Fargate node in your cluster, but you don't update it on Fargate nodes\. [Other compatible CNI plugins](alternate-cni-plugins.md) are available for use on Amazon EKS clusters, but this is the only CNI plugin supported by Amazon EKS\.
 
-The following table lists the latest available version of the Amazon EKS add\-on type for each Kubernetes version\.<a name="vpc-cni-latest-available-version"></a>
+The following table lists the latest available version of the Amazon EKS add\-on type for each Kubernetes version\.
+
+## Amazon VPC CNI versions<a name="vpc-cni-latest-available-version"></a>
 
 
 | Kubernetes version | `1.30` | `1.29` | `1.28` | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | 

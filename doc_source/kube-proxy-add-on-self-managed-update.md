@@ -1,4 +1,13 @@
-# Updating the Kubernetes `kube-proxy` add\-on<a name="kube-proxy-add-on-self-managed-update"></a>
+# Update the Kubernetes `kube-proxy` self\-managed add\-on<a name="kube-proxy-add-on-self-managed-update"></a>
+
+**Important**  
+We recommend adding the Amazon EKS type of the add\-on to your cluster instead of using the self\-managed type of the add\-on\. If you're not familiar with the difference between the types, see [Amazon EKS add\-ons](eks-add-ons.md)\. For more information about adding an Amazon EKS add\-on to your cluster, see [Creating an Amazon EKS add\-on](creating-an-add-on.md)\. If you're unable to use the Amazon EKS add\-on, we encourage you to submit an issue about why you can't to the [Containers roadmap GitHub repository](https://github.com/aws/containers-roadmap/issues)\.
+
+## Prerequisites<a name="managing-kube-proxy-prereqs"></a>
++ An existing Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\.
+
+## Considerations<a name="managing-kube-proxy-considerations"></a>
++ `Kube-proxy` on an Amazon EKS cluster has the same [compatibility and skew policy as Kubernetes](https://kubernetes.io/releases/version-skew-policy/#kube-proxy)\. Learn how to [Verifying Amazon EKS add\-on version compatibility with a cluster](addon-compat.md)\.
 
 1. Confirm that you have the self\-managed type of the add\-on installed on your cluster\. Replace *my\-cluster* with the name of your cluster\.
 
@@ -22,7 +31,9 @@
 
    In the example output, *v1\.29\.1\-eksbuild\.2* is the version installed on the cluster\.
 
-1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. in the previous step Replace *`v1.30.0-eksbuild.3`* with the `kube-proxy` version listed in the [Latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version](managing-kube-proxy.md#kube-proxy-latest-tags) table\. You can specify a version number for the *default* or *minimal* image type\.
+1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. in the previous step Replace *`v1.30.0-eksbuild.3`* with the `kube-proxy` version listed in the [Latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version](managing-kube-proxy.md#kube-proxy-latest-tags) table\.
+**Important**  
+The manifests for each image type are different and not compatible between the *default* or *minimal* image types\. You must use the same image type as the previous image, so that the entrypoint and arguments match\.
 
    ```
    kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.30.0-eksbuild.3
