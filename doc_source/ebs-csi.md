@@ -5,6 +5,7 @@ The [Amazon Elastic Block Store \(Amazon EBS\) Container Storage Interface \(CSI
 ## Considerations<a name="ebs-csi-considerations"></a>
 + You can't mount Amazon EBS volumes to Fargate Pods\.
 + You can run the Amazon EBS CSI controller on Fargate nodes, but the Amazon EBS CSI node DaemonSet can only run on Amazon EC2 instances\.
++ Support will be provided for the latest add\-on version and one prior version\. Bugs or vulnerabilities found in the latest version will be backported to the previous release in a new minor version\.
 
 **Important**  
 To use the snapshot functionality of the Amazon EBS CSI driver, you must first install the CSI snapshot controller\. For more information, see [Enable snapshot functionality for CSI volumes](csi-snapshot-controller.md)\.
