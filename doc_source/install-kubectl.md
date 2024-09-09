@@ -8,7 +8,7 @@ Topics on this page help you install and set up these tools:
 
 ## Install or update `kubectl`<a name="kubectl-install-update"></a>
 
-This topic helps you to download and install, or update, the `kubectl` binary on your device\. The binary is identical to the [upstream community versions](https://kubernetes.io/docs/tasks/tools/#kubectl)\. The binary is not unique to Amazon EKS or AWS\.
+This topic helps you to download and install, or update, the `kubectl` binary on your device\. The binary is identical to the [upstream community versions](https://kubernetes.io/docs/tasks/tools/#kubectl)\. The binary is not unique to Amazon EKS or AWS\. Use the steps below to get the specific version of `kubectl` that you need, although many builders simply run `brew install kubectl` to install it\.
 
 **Note**  
 You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a `1.29` `kubectl` client works with Kubernetes `1.28`, `1.29`, and `1.30` clusters\.
