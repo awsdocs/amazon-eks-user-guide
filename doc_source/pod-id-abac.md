@@ -51,4 +51,7 @@ All of the session tags that are added by EKS Pod Identity are *transitive*; the
 EKS Pod Identity can't add additional custom tags to the `AssumeRole` action that it performs\. However, tags that you apply to the IAM role are always available though the same format: `${aws:PrincipalTag/` followed by the key, for example `${aws:PrincipalTag/MyCustomTag}`\.
 
 **Note**  
-Tags added to the session through the `sts:AssumeRole` request take precedence in the case of conflict\. For example, assume that Amazon EKS adds a key `eks-cluster-name` and value `my-cluster` to the session when EKS assumes the customer role\. Then assume that you added an `eks-cluster-name` tag to the IAM role with value `my-own-cluster`\. In this case, the former takes precedence and value for the `eks-cluster-name` tag will be `my-cluster`\.
+Tags added to the session through the `sts:AssumeRole` request take precedence in the case of conflict\. For example, say that:  
+Amazon EKS adds a key `eks-cluster-name` and value `my-cluster` to the session when EKS assumes the customer role and
+You add an `eks-cluster-name` tag to the IAM role with the value `my-own-cluster`\.
+In this case, the former takes precedence and the value for the `eks-cluster-name` tag will be `my-cluster`\.
