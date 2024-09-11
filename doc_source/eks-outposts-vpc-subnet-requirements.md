@@ -20,13 +20,15 @@ When you create the cluster, specify at least one private subnet\. If you specif
 
 ## Subnet access to AWS services<a name="subnet-access-to-services"></a>
 
-The local cluster's private subnets on Outposts must be able to communicate with Regional AWS services\. You can achieve this by using a [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) for outbound internet access or, if you want to keep all traffic private within your VPC, using [interface VPC endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html)\. 
+The local cluster's private subnets on Outposts must be able to communicate with Regional AWS services\. You can achieve this by using a [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) for outbound internet access or, if you want to keep all traffic private within your VPC, using [interface VPC endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html)\.
 
-**Using a NAT gateway**  
+### Using a NAT gateway<a name="subnet-access-nat-gateway"></a>
+
 The local cluster's private subnets on Outposts must have an associated route table that has a route to a NAT gateway in a public subnet that is in the Outpost's parent Availability Zone\. The public subnet must have a route to an [internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html)\. The NAT gateway enables outbound internet access and prevents unsolicited inbound connections from the internet to instances on the Outpost\.
 
-**Using interface VPC endpoints**  
-If the local cluster's private subnets on Outposts don't have an outbound internet connection, or if you want to keep all traffic private within your VPC, then you must create the following interface VPC endpoints and [gateway endpoint](https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.html) in a Regional subnet before creating your cluster\.<a name="vpc-subnet-requirements-vpc-endpoints"></a>
+### Using interface VPC endpoints<a name="vpc-subnet-requirements-vpc-endpoints"></a>
+
+If the local cluster's private subnets on Outposts don't have an outbound internet connection, or if you want to keep all traffic private within your VPC, then you must create the following interface VPC endpoints and [gateway endpoint](https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.html) in a Regional subnet before creating your cluster\.
 
 
 | Endpoint | Endpoint type | 

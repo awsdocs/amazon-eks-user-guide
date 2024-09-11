@@ -22,7 +22,7 @@ If you're self\-managing this add\-on, the versions in the table might not be th
 
 There are two types of the `kube-proxy` container image available for each Amazon EKS cluster version:
 + **Default** – This image type is based on a Debian\-based Docker image that is maintained by the Kubernetes upstream community\.
-+ **Minimal** – This image type is based on a [minimal base image](https://gallery.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base-iptables) maintained by Amazon EKS Distro, which contains minimal packages and doesn't have shells\. For more information, see [Amazon EKS Distro](https://distro.eks.amazonaws.com/)\.<a name="kube-proxy-latest-versions-table"></a><a name="kube-proxy-latest-tags"></a>
++ **Minimal** – This image type is based on a [minimal base image](https://gallery.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base-iptables) maintained by Amazon EKS Distro, which contains minimal packages and doesn't have shells\. For more information, see [Amazon EKS Distro](https://distro.eks.amazonaws.com/)\.
 
 The following table lists the latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version\.
 

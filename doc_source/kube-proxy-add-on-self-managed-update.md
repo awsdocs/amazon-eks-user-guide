@@ -31,7 +31,7 @@ We recommend adding the Amazon EKS type of the add\-on to your cluster instead o
 
    In the example output, *v1\.29\.1\-eksbuild\.2* is the version installed on the cluster\.
 
-1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. in the previous step Replace *`v1.30.0-eksbuild.3`* with the `kube-proxy` version listed in the [Latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version](managing-kube-proxy.md#kube-proxy-latest-tags) table\.
+1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. in the previous step Replace *`v1.30.0-eksbuild.3`* with the `kube-proxy` version listed in the [Latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version](managing-kube-proxy.md#managing-kube-proxy-images) table\.
 **Important**  
 The manifests for each image type are different and not compatible between the *default* or *minimal* image types\. You must use the same image type as the previous image, so that the entrypoint and arguments match\.
 
