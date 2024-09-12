@@ -89,10 +89,10 @@ You must complete this step before updating to CoreDNS version `1.7.0`, but it's
    [...]
    ```
 
-1. Update the CoreDNS add\-on by replacing `602401143452` and `region-code` with the values from the output returned in a previous step\. Replace *`v1.11.1-eksbuild.11`* with the CoreDNS version listed in the [latest versions table](managing-coredns.md#coredns-versions) for your Kubernetes version\.
+1. Update the CoreDNS add\-on by replacing `602401143452` and `region-code` with the values from the output returned in a previous step\. Replace *`v1.11.3-eksbuild.1`* with the CoreDNS version listed in the [latest versions table](managing-coredns.md#coredns-versions) for your Kubernetes version\.
 
    ```
-   kubectl set image deployment.apps/coredns -n kube-system  coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.11.1-eksbuild.11
+   kubectl set image deployment.apps/coredns -n kube-system  coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.11.3-eksbuild.1
    ```
 
    An example output is as follows\.
@@ -110,5 +110,5 @@ You must complete this step before updating to CoreDNS version `1.7.0`, but it's
    An example output is as follows\.
 
    ```
-   v1.11.1-eksbuild.11
+   v1.11.3-eksbuild.1
    ```

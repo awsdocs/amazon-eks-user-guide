@@ -49,11 +49,11 @@ After you complete the prerequisites, use the following steps to create the add\
 
 1. Create the add\-on using the AWS CLI\. If you want to use the AWS Management Console or `eksctl` to create the add\-on, see [Creating an Amazon EKS add\-on](creating-an-add-on.md) and specify `vpc-cni` for the add\-on name\. Copy the command that follows to your device\. Make the following modifications to the command, as needed, and then run the modified command\.
    + Replace `my-cluster` with the name of your cluster\.
-   + Replace *`v1.18.3-eksbuild.2`* with the latest version listed in the [latest version table](managing-vpc-cni.md#vpc-cni-latest-available-version) for your cluster version\.
+   + Replace *`v1.18.3-eksbuild.3`* with the latest version listed in the [latest version table](managing-vpc-cni.md#vpc-cni-latest-available-version) for your cluster version\.
    + Replace *111122223333* with your account ID and *AmazonEKSVPCCNIRole* with the name of an [existing IAM role](cni-iam-role.md#cni-iam-role-create-role) that you've created\. Specifying a role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. 
 
    ```
-   aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.18.3-eksbuild.2 \
+   aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.18.3-eksbuild.3 \
        --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
    ```
 
@@ -70,7 +70,7 @@ After you complete the prerequisites, use the following steps to create the add\
    An example output is as follows\.
 
    ```
-   v1.18.3-eksbuild.2
+   v1.18.3-eksbuild.3
    ```
 
 1. If you made custom settings to your original add\-on, before you created the Amazon EKS add\-on, use the configuration that you saved in a previous step to [update](vpc-add-on-update.md) the Amazon EKS add\-on with your custom settings\.

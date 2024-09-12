@@ -30,10 +30,10 @@ Create the CoreDNS Amazon EKS add\-on\. You must have a cluster before you creat
 
 1. Create the add\-on using the AWS CLI\. If you want to use the AWS Management Console or `eksctl` to create the add\-on, see [Creating an Amazon EKS add\-on](creating-an-add-on.md) and specify `coredns` for the add\-on name\. Copy the command that follows to your device\. Make the following modifications to the command, as needed, and then run the modified command\.
    + Replace `my-cluster` with the name of your cluster\.
-   + Replace *v1\.11\.1\-eksbuild\.11* with the latest version listed in the [latest version table](managing-coredns.md#coredns-versions) for your cluster version\.
+   + Replace *v1\.11\.3\-eksbuild\.1* with the latest version listed in the [latest version table](managing-coredns.md#coredns-versions) for your cluster version\.
 
    ```
-   aws eks create-addon --cluster-name my-cluster --addon-name coredns --addon-version v1.11.1-eksbuild.11
+   aws eks create-addon --cluster-name my-cluster --addon-name coredns --addon-version v1.11.3-eksbuild.1
    ```
 
    If you've applied custom settings to your current add\-on that conflict with the default settings of the Amazon EKS add\-on, creation might fail\. If creation fails, you receive an error that can help you resolve the issue\. Alternatively, you can add **\-\-resolve\-conflicts OVERWRITE** to the previous command\. This allows the add\-on to overwrite any existing custom settings\. Once you've created the add\-on, you can update it with your custom settings\.
@@ -49,7 +49,7 @@ Create the CoreDNS Amazon EKS add\-on\. You must have a cluster before you creat
    An example output is as follows\.
 
    ```
-   v1.11.1-eksbuild.11
+   v1.11.3-eksbuild.1
    ```
 
 1. If you made custom settings to your original add\-on, before you created the Amazon EKS add\-on, use the configuration that you saved in a previous step to [update](coredns-add-on-update.md) the Amazon EKS add\-on with your custom settings\.

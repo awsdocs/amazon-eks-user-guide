@@ -12,7 +12,7 @@ The following table lists the latest version of the Amazon EKS add\-on type for 
 
 | Kubernetes version | `1.30` | `1.29` | `1.28` | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | 
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | 
-|  | v1\.30\.3\-eksbuild\.3 | v1\.29\.7\-eksbuild\.2 | v1\.28\.12\-eksbuild\.2 | v1\.27\.16\-eksbuild\.3 | v1\.26\.15\-eksbuild\.5 | v1\.25\.16\-eksbuild\.8 | v1\.24\.17\-eksbuild\.15 | v1\.23\.17\-eksbuild\.16 | 
+|  | v1\.30\.3\-eksbuild\.5 | v1\.29\.7\-eksbuild\.5 | v1\.28\.12\-eksbuild\.5 | v1\.27\.16\-eksbuild\.3 | v1\.26\.15\-eksbuild\.10 | v1\.25\.16\-eksbuild\.13 | v1\.24\.17\-eksbuild\.19 | v1\.23\.17\-eksbuild\.16 | 
 
 **Important**  
 An earlier version of the documentation was incorrect\. `kube-proxy` versions `v1.28.5`, `v1.27.9`, and `v1.26.12` aren't available\.  
@@ -30,7 +30,7 @@ The following table lists the latest available self\-managed `kube-proxy` contai
 | Image type | `1.30` | `1.29` | `1.28` | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | 
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | 
 | kube\-proxy \(default type\) | Only minimal type is available | Only minimal type is available | Only minimal type is available | Only minimal type is available | Only minimal type is available | Only minimal type is available | v1\.24\.10\-eksbuild\.2 | v1\.23\.16\-eksbuild\.2 | 
-| kube\-proxy \(minimal type\) | v1\.30\.0\-minimal\-eksbuild\.3 | v1\.29\.3\-minimal\-eksbuild\.5 | v1\.28\.8\-minimal\-eksbuild\.5 | v1\.27\.12\-minimal\-eksbuild\.5 | v1\.26\.15\-minimal\-eksbuild\.5 | v1\.25\.16\-minimal\-eksbuild\.8 | v1\.24\.17\-minimal\-eksbuild\.4 | v1\.23\.17\-minimal\-eksbuild\.5 | 
+| kube\-proxy \(minimal type\) | v1\.30\.3\-minimal\-eksbuild\.5 | v1\.29\.7\-minimal\-eksbuild\.5 | v1\.28\.12\-minimal\-eksbuild\.5 | v1\.27\.16\-minimal\-eksbuild\.3 | v1\.26\.15\-minimal\-eksbuild\.10 | v1\.25\.16\-minimal\-eksbuild\.8 | v1\.24\.17\-minimal\-eksbuild\.4 | v1\.23\.17\-minimal\-eksbuild\.5 | 
 
 **Important**  
 The default image type isn't available for Kubernetes version `1.25` and later\. You must use the minimal image type\.
