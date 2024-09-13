@@ -13,6 +13,7 @@ Many of the considerations are different than the considerations for creating a 
 + Local clusters require the use of Amazon EBS on Outposts\. Your Outpost must have Amazon EBS available for the Kubernetes control plane storage\.
 + Local clusters use Amazon EBS on Outposts\. Your Outpost must have Amazon EBS available for the Kubernetes control plane storage\. Outposts support Amazon EBS `gp2` volumes only\.
 + Amazon EBS backed Kubernetes `PersistentVolumes` are supported using the Amazon EBS CSI driver\.
++ The control plane instances of local clusters are set up in [stacked highly available topology](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/). Two out of the three control plane instances must be healthy at all times to maintain quorum. If quorum is lost, contact AWS EKS engineering, as some service-side actions will be required to enable the new managed instances\.
 
 **Prerequisites**
 + Familiarity with the [Outposts deployment options](eks-outposts.md#outposts-overview-comparing-deployment-options), [Select instance types and placement groups for Amazon EKS clusters on AWS Outposts based on capacity considerations](eks-outposts-capacity-considerations.md), and [Create a VPC and subnets for Amazon EKS clusters on AWS Outposts](eks-outposts-vpc-subnet-requirements.md)\.
