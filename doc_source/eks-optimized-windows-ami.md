@@ -20,7 +20,7 @@ Amazon EKS offers AMIs that are optimized for Windows containers in the followin
 The Amazon EKS\-optimized Windows Server 20H2 Core AMI is deprecated\. No new versions of this AMI will be released\.
 To ensure that you have the latest security updates by default, Amazon EKS maintains optimized Windows AMIs for the last 4 months\. Each new AMI will be available for 4 months from the time of initial release\. After this period, older AMIs are made private and are no longer accessible\. We encourage using the latest AMIs to avoid security vulnerabilities and losing access to older AMIs which have reached the end of their supported lifetime\. While we can't guarantee that we can provide access to AMIs that have been made private, you can request access by filing a ticket with AWS Support\.
 
-## Release calendar<a name="windows-ami--release-calendar"></a>
+## Release calendar<a name="windows-ami-release-calendar"></a>
 
 The following table lists the release and end of support dates for Windows versions on Amazon EKS\. If an end date is blank, it's because the version is still supported\.
 

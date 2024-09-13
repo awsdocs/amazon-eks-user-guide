@@ -103,7 +103,7 @@ The following `eks-optimized-ami-windows` build component versions require `eksc
 
 ## Retrieving information about `eks-optimized-ami-windows` component versions<a name="custom-windows-ami-component-versions"></a>
 
-You can retrieve specific information regarding what is installed with each component\. For example, you can verify what `kubelet` version is installed\. The components go through functional testing on the Amazon EKS supported Windows operating systems versions\. For more information, see [Release calendar](eks-optimized-windows-ami.md#windows-ami--release-calendar)\. Any other Windows OS versions that aren't listed as supported or have reached end of support might not be compatible with the component\.
+You can retrieve specific information regarding what is installed with each component\. For example, you can verify what `kubelet` version is installed\. The components go through functional testing on the Amazon EKS supported Windows operating systems versions\. For more information, see [Release calendar](eks-optimized-windows-ami.md#windows-ami-release-calendar)\. Any other Windows OS versions that aren't listed as supported or have reached end of support might not be compatible with the component\.
 
 1. Open the EC2 Image Builder console at [https://console\.aws\.amazon\.com/imagebuilder](https://console.aws.amazon.com/imagebuilder)\.
 
