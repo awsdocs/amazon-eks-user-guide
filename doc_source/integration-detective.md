@@ -9,7 +9,7 @@ Detective organizes Kubernetes and AWS data into findings such as:
 
 Amazon EKS audit logs is an optional data source package that can be added to your Detective behavior graph\. You can view the available optional source packages, and their status in your account\. For more information, see [Amazon EKS audit logs for Detective](https://docs.aws.amazon.com/detective/latest/adminguide/source-data-types-EKS.html) in the *Amazon Detective User Guide*\.
 
-## Use Amazon Detective with Amazon EKS<a name="integration-detective"></a>
+## Use Amazon Detective with Amazon EKS<a name="integration-detective-use"></a>
 
 **To review findings for an Amazon EKS cluster**
 

@@ -29,7 +29,7 @@ You don't need to manually create a service\-linked role\. When you create a clu
 
 If you delete this service\-linked role, and then need to create it again, you can use the same process to recreate the role in your account\. When you create a cluster, Amazon EKS creates the service\-linked role for you again\. 
 
-## Editing a service\-linked role for Amazon EKS<a name="edit-service-linked-role-eks-outpost"></a>
+## Editing a service\-linked role for Amazon EKS<a name="service-linked-role-permissions"></a>
 
 Amazon EKS does not allow you to edit the `AWSServiceRoleForAmazonEKSLocalOutpost` service\-linked role\. After you create a service\-linked role, you can't change the name of the role because various entities might reference the role\. However, you can edit the description of the role using IAM\. For more information, see [Editing a service\-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#edit-service-linked-role) in the *IAM User Guide*\.
 
