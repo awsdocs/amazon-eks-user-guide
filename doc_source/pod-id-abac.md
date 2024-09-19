@@ -11,7 +11,7 @@ For example, the following policy allows the `s3:GetObject` action if the object
         {
             "Effect": "Allow",
             "Action": [
-                "s3:ListAllMyBuckets"
+                "s3:ListBucket"
             ],
             "Resource": "*"
         },

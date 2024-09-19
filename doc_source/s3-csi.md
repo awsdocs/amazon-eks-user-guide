@@ -79,7 +79,7 @@ Replace `amzn-s3-demo-bucket1` with your own Amazon S3 bucket name\.
            {
                "Effect": "Allow",
                "Action": "s3express:CreateSession",
-               "Resource": "arn:aws:s3express:aws-region:111122223333:bucket/amzn-s3-demo-bucket1--az_id--x-s3"
+               "Resource": "arn:aws:s3express:aws-region:111122223333:bucket/amzn-s3-demo-bucket1--usw2-az1--x-s3"
            }
        ]
    }
