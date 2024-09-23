@@ -38,7 +38,7 @@ Amazon EKS can create its network interfaces in any subnet that you specify when
 
 The [subnets](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html#subnet-types) that you specify when you create or update a cluster must meet the following requirements:
 + The subnets must each have at least six IP addresses for use by Amazon EKS\. However, we recommend at least 16 IP addresses\.
-+ The subnets must locate at least two different Availability Zones.
++ The subnets must be in at least two different Availability Zones.
 + The subnets can't reside in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. However, if you have them in your VPC, you can deploy [self\-managed nodes](worker.md) and Kubernetes resources to these types of subnets\.
 + The subnets can be a public or private\. However, we recommend that you specify private subnets, if possible\. A public subnet is a subnet with a route table that includes a route to an [internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html), whereas a private subnet is a subnet with a route table that doesn't include a route to an internet gateway\.
 + The subnets can't reside in the following Availability Zones:    
