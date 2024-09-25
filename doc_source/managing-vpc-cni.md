@@ -1,6 +1,6 @@
 # Assign IPs to Pods with the Amazon VPC CNI<a name="managing-vpc-cni"></a>
 
-The Amazon VPC CNI plugin for Kubernetes add\-on is deployed on each Amazon EC2 node in your Amazon EKS cluster\. The add\-on creates [elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) and attaches them to your Amazon EC2 nodes\. The add\-on also assigns a private `IPv4` or `IPv6` address from your VPC to each Pod and service\.
+The Amazon VPC CNI plugin for Kubernetes add\-on is deployed on each Amazon EC2 node in your Amazon EKS cluster\. The add\-on creates [elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) and attaches them to your Amazon EC2 nodes\. The add\-on also assigns a private `IPv4` or `IPv6` address from your VPC to each Pod\.
 
 A version of the add\-on is deployed with each Fargate node in your cluster, but you don't update it on Fargate nodes\. [Other compatible CNI plugins](alternate-cni-plugins.md) are available for use on Amazon EKS clusters, but this is the only CNI plugin supported by Amazon EKS\.
 
