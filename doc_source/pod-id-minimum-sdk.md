@@ -29,5 +29,3 @@ When using [Learn how EKS Pod Identity grants pods access to AWS services](pod-i
 + PHP – [3\.287\.1](https://github.com/aws/aws-sdk-php/releases/tag/3.287.1)
 
 To ensure that you're using a supported SDK, follow the installation instructions for your preferred SDK at [Tools to Build on AWS](https://aws.amazon.com/tools/) when you build your containers\.
-
-For a list of add\-ons that support EKS Pod Identity, see [Add\-on versions compatible with EKS Pod Identity](pod-identities.md#pod-id-add-on-versions)\.

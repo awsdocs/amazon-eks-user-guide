@@ -74,9 +74,13 @@ To complete this step, you can run the command outside the VPC, for example in A
 
 1. For **Provider type**, select **OpenID Connect**\.
 
-1. For **Provider URL**, enter the OIDC provider URL for your cluster, and then choose **Get thumbprint**\.
+1. For **Provider URL**, enter the OIDC provider URL for your cluster\.
 
-1. For **Audience**, enter **sts\.amazonaws\.com** and choose **Add provider**\.
+1. For **Audience**, enter **sts\.amazonaws\.com**\. 
+
+1. \(Optional\) Add any tags, for example a tag to identify which cluster is for this provider\.
+
+1. Choose **Add provider**\.
 
 ------
 

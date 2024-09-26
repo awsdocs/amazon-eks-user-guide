@@ -47,7 +47,7 @@ Turn on EKS Pod Identities by completing the following procedures:
 ## EKS Pod Identity considerations<a name="pod-id-considerations"></a>
 + You can associate one IAM role to each Kubernetes service account in each cluster\. You can change which role is mapped to the service account by editing the EKS Pod Identity association\.
 + You can only associate roles that are in the same AWS account as the cluster\. You can delegate access from another account to the role in this account that you configure for EKS Pod Identities to use\. For a tutorial about delegating access and `AssumeRole`, see [Delegate access across AWS accounts using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the *IAM User Guide*\.
-+ The EKS Pod Identity Agent is required\. It runs as a Kubernetes `DaemonSet` on your nodes and only provides credentials to pods on the node that it runs on\. For more information about EKS Pod Identity Agent compatibility, see the following section [EKS Pod Identity restrictions](#pod-id-restrictions)\.
++ The EKS Pod Identity Agent is required\. It runs as a Kubernetes `DaemonSet` on your nodes and only provides credentials to pods on the node that it runs on\. 
 + The EKS Pod Identity Agent uses the `hostNetwork` of the node and it uses port `80` and port `2703` on a link\-local address on the node\. This address is `169.254.170.23` for IPv4 and `[fd00:ec2::23]` for IPv6 clusters\.
 
   If you disable `IPv6` addresses, or otherwise prevent localhost `IPv6` IP addresses, the agent can't start\. To start the agent on nodes that can't use `IPv6`, follow the steps in [Disable `IPv6` in the EKS Pod Identity Agent](pod-id-agent-config-ipv6.md) to disable the `IPv6` configuration\.
@@ -66,30 +66,3 @@ Turn on EKS Pod Identities by completing the following procedures:
 | 1\.26 | eks\.9 | 
 | 1\.25 | eks\.10 | 
 | 1\.24 | eks\.13 | 
-
-### Add\-on versions compatible with EKS Pod Identity<a name="pod-id-add-on-versions"></a>
-
-**Important**  
-To use EKS Pod Identity with an EKS Add\-on, you must create the EKS Pod Identity *association* manually\. Don't choose an IAM role in the add\-on configuration in the AWS Management Console, that role is only used with IRSA\.
-
-Amazon EKS add\-ons and self\-managed add\-ons that need IAM credentials can use EKS Pod Identity, IRSA or the instance role\. The list of add\-ons that use IAM credentials that support EKS Pod Identity are:
-+ Amazon VPC CNI plugin for Kubernetes `1.15.5-eksbuild.1` or later
-+ AWS Load Balancer Controller `2.7.0` or later\. Note that the AWS Load Balancer Controller isn't available as an EKS Add\-on, but it is available as a self\-managed add\-on\.
-
-### EKS Pod Identity restrictions<a name="pod-id-restrictions"></a>
-
-EKS Pod Identities are available on the following:
-+ Amazon EKS cluster versions listed in the previous topic [EKS Pod Identity cluster versions](#pod-id-cluster-versions)\.
-+ Worker nodes in the cluster that are Linux Amazon EC2 instances\.
-
-EKS Pod Identities aren't available on the following:
-+ AWS Outposts\.
-+ Amazon EKS Anywhere\.
-+ Kubernetes clusters that you create and run on Amazon EC2\. The EKS Pod Identity components are only available on Amazon EKS\.
-
-You can't use EKS Pod Identities with:
-+ Pods that run anywhere except Linux Amazon EC2 instances\. Linux and Windows pods that run on AWS Fargate \(Fargate\) aren't supported\. Pods that run on Windows Amazon EC2 instances aren't supported\.
-+ *Amazon EKS add\-ons* that need IAM credentials\. The EKS add\-ons can only use *IAM roles for service accounts* instead\. The list of EKS add\-ons that use IAM credentials include:
-  + The CSI storage drivers: EBS CSI, EFS CSI, Amazon FSx for Lustre CSI driver, Amazon FSx for NetApp ONTAP CSI driver, Amazon FSx for OpenZFS CSI driver, Amazon File Cache CSI driver, AWS Secrets and Configuration Provider \(ASCP\) for the Kubernetes Secrets Store CSI Driver
-**Note**  
-If these controllers, drivers, and plugins are installed as self\-managed add\-ons instead of EKS add\-ons, they support EKS Pod Identities as long as they are updated to use the latest AWS SDKs\.

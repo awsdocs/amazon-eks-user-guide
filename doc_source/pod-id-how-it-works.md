@@ -4,7 +4,7 @@ Amazon EKS Pod Identity associations provide the ability to manage credentials f
 
 Amazon EKS Pod Identity provides credentials to your workloads with an additional *EKS Auth* API and an agent pod that runs on each node\.
 
-In your add\-ons, such as *Amazon EKS add\-ons* and self\-managed controller, operators, and other add\-ons, the author needs to update their software to use the latest AWS SDKs\. For the list of compatibility between EKS Pod Identity and the add\-ons produced by Amazon EKS, see the previous section [EKS Pod Identity restrictions](pod-identities.md#pod-id-restrictions)\.
+In your add\-ons, such as *Amazon EKS add\-ons* and self\-managed controller, operators, and other add\-ons, the author needs to update their software to use the latest AWS SDKs\.
 
 ## Using EKS Pod Identities in your code<a name="pod-id-credentials"></a>
 
