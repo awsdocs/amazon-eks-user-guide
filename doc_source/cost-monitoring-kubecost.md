@@ -15,7 +15,7 @@ For more information about Kubecost, see the [https://guide.kubecost.com](https:
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Get started with Amazon EKS](getting-started.md)\. The cluster must have Amazon EC2 nodes because you can't run Kubecost on Fargate nodes\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it\. To install or upgrade `kubectl`, see [Set up `kubectl` and `eksctl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.30`, you can use `kubectl` version `1.29`, `1.30`, or `1.31` with it\. To install or upgrade `kubectl`, see [Set up `kubectl` and `eksctl`](install-kubectl.md)\.
 + Helm version 3\.9\.0 or later configured on your device or AWS CloudShell\. To install or update Helm, see [Deploy applications with Helm on Amazon EKS](helm.md)\.
 + If your cluster is version `1.23` or later, you must have the [Store Kubernetes volumes with Amazon EBS](ebs-csi.md) installed on your cluster\.
 

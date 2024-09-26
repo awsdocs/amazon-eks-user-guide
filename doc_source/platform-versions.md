@@ -2,7 +2,7 @@
 
 Amazon EKS platform versions represent the capabilities of the Amazon EKS cluster control plane, such as which Kubernetes API server flags are enabled, as well as the current Kubernetes patch version\. Each Kubernetes minor version has one or more associated Amazon EKS platform versions\. The platform versions for different Kubernetes minor versions are independent\. You can [retrieve your cluster's current platform version](#get-platform-version) using the AWS CLI or AWS Management Console\. If you have a local cluster on AWS Outposts, see [Learn Kubernetes and Amazon EKS platform versions for AWS Outposts](eks-outposts-platform-versions.md) instead of this topic\.
 
-When a new Kubernetes minor version is available in Amazon EKS, such as 1\.30, the initial Amazon EKS platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
+When a new Kubernetes minor version is available in Amazon EKS, such as 1\.31, the initial Amazon EKS platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
 
 When new Amazon EKS platform versions become available for a minor version:
 + The Amazon EKS platform version number is incremented \(`eks.n+1`\)\.
@@ -20,6 +20,15 @@ The current and recent Amazon EKS platform versions are described in the followi
 **Note**  
 AWS recently disabled some platform versions published in June 2024\. The platform versions had stability issues\. No action is needed\. 
 
+## Kubernetes version `1.31`<a name="platform-versions-1.31"></a>
+
+The following admission controllers are enabled for all `1.31` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
+
+
+| Kubernetes version | EKS platform version | Release notes | Release date | 
+| --- | --- | --- | --- | 
+|  `1.31.0`  |  `eks.2`  |  Initial release of Kubernetes version `1.31` for EKS\. For more information, see [Kubernetes 1\.31](kubernetes-versions-standard.md#kubernetes-1.31)\.  | September 26, 2024 | 
+
 ## Kubernetes version `1.30`<a name="platform-versions-1.30"></a>
 
 The following admission controllers are enabled for all `1.30` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
@@ -27,6 +36,8 @@ The following admission controllers are enabled for all `1.30` platform versions
 
 | Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
+|  `1.30.4`  |  `eks.8`  |  New platform version with security fixes and enhancements\. | September 3, 2024 | 
+|  `1.30.3`  |  `eks.7`  |  New platform version with security fixes and enhancements\. | August 28, 2024 | 
 |  `1.30.3`  |  `eks.6`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.30.2`  |  `eks.5`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
 |  `1.30.0`  |  `eks.2`  |  Initial release of Kubernetes version `1.30` for EKS\. For more information, see [Kubernetes 1\.30](kubernetes-versions-standard.md#kubernetes-1.30)\.  | May 23, 2024 | 
@@ -38,6 +49,8 @@ The following admission controllers are enabled for all `1.29` platform versions
 
 | Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
+|  `1.29.8`  |  `eks.13`  |  New platform version with security fixes and enhancements\. | September 3, 2024 | 
+|  `1.29.7`  |  `eks.12`  |  New platform version with security fixes and enhancements\. | August 28, 2024 | 
 |  `1.29.7`  |  `eks.11`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.29.6`  |  `eks.10`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
 |  `1.29.4`  |  `eks.7`  |  New platform version with CoreDNS autoscaling, security fixes and enhancements\. For more information about CoreDNS autoscaling, see [Scale CoreDNSPods for high DNS traffic](coredns-autoscaling.md)\.  | May 16, 2024 | 
@@ -54,6 +67,8 @@ The following admission controllers are enabled for all `1.28` platform versions
 
 | Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
+|  `1.28.13`  |  `eks.19`  |  New platform version with security fixes and enhancements\. | September 3, 2024 | 
+|  `1.28.12`  |  `eks.18`  |  New platform version with security fixes and enhancements\. | August 28, 2024 | 
 |  `1.28.11`  |  `eks.17`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.28.11`  |  `eks.16`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
 |  `1.28.9`  |  `eks.13`  |  New platform version with CoreDNS autoscaling, security fixes and enhancements\. For more information about CoreDNS autoscaling, see [Scale CoreDNSPods for high DNS traffic](coredns-autoscaling.md)\.  | May 16, 2024 | 
@@ -76,6 +91,8 @@ The following admission controllers are enabled for all `1.27` platform versions
 
 | Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
+|  `1.27.16`  |  `eks.23`  |  New platform version with security fixes and enhancements\. | September 3, 2024 | 
+|  `1.27.16`  |  `eks.22`  |  New platform version with security fixes and enhancements\. | August 28, 2024 | 
 |  `1.27.16`  |  `eks.21`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.27.15`  |  `eks.20`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
 |  `1.27.13`  |  `eks.17`  |  New platform version with CoreDNS autoscaling, security fixes and enhancements\. For more information about CoreDNS autoscaling, see [Scale CoreDNSPods for high DNS traffic](coredns-autoscaling.md)\.  | May 16, 2024 | 
@@ -102,6 +119,8 @@ The following admission controllers are enabled for all `1.26` platform versions
 
 | Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
+|  `1.26.15`  |  `eks.24`  |  New platform version with security fixes and enhancements\. | September 3, 2024 | 
+|  `1.26.15`  |  `eks.23`  |  New platform version with security fixes and enhancements\. | August 28, 2024 | 
 |  `1.26.15`  |  `eks.22`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.26.15`  |  `eks.21`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
 |  `1.26.15`  |  `eks.18`  |  New platform version with CoreDNS autoscaling, security fixes and enhancements\. For more information about CoreDNS autoscaling, see [Scale CoreDNSPods for high DNS traffic](coredns-autoscaling.md)\.  | May 16, 2024 | 
@@ -129,6 +148,8 @@ The following admission controllers are enabled for all `1.25` platform versions
 
 | Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
+|  `1.25.16`  |  `eks.25`  |  New platform version with security fixes and enhancements\. | September 3, 2024 | 
+|  `1.25.16`  |  `eks.24`  |  New platform version with security fixes and enhancements\. | August 28, 2024 | 
 |  `1.25.16`  |  `eks.23`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.25.16`  |  `eks.22`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
 |  `1.25.16`  |  `eks.19`  |  New platform version with CoreDNS autoscaling, security fixes and enhancements\. For more information about CoreDNS autoscaling, see [Scale CoreDNSPods for high DNS traffic](coredns-autoscaling.md)\.  | May 16, 2024 | 
@@ -157,6 +178,8 @@ The following admission controllers are enabled for all `1.24` platform versions
 
 | Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
+|  `1.24.17`  |  `eks.28`  |  New platform version with security fixes and enhancements\. | September 3, 2024 | 
+|  `1.24.17`  |  `eks.27`  |  New platform version with security fixes and enhancements\. | August 28, 2024 | 
 |  `1.24.17`  |  `eks.26`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.24.17`  |  `eks.25`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
 |  `1.24.17`  |  `eks.22`  |  New platform version with security fixes and enhancements\. | May 16, 2024 | 
@@ -188,6 +211,8 @@ The following admission controllers are enabled for all `1.23` platform versions
 
 | Kubernetes version | EKS platform version | Release notes | Release date | 
 | --- | --- | --- | --- | 
+|  `1.23.17`  |  `eks.30`  |  New platform version with security fixes and enhancements\. | September 3, 2024 | 
+|  `1.23.17`  |  `eks.29`  |  New platform version with security fixes and enhancements\. | August 28, 2024 | 
 |  `1.23.17`  |  `eks.28`  |  New platform version with security fixes and enhancements\. | August 9, 2024 | 
 |  `1.23.17`  |  `eks.27`  |  New platform version with security fixes and enhancements\. | July 2, 2024 | 
 |  `1.23.17`  |  `eks.24`  |  New platform version with security fixes and enhancements\. | May 16, 2024 | 

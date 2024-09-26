@@ -20,7 +20,7 @@ aws ssm get-parameter --name /aws/service/bottlerocket/aws-k8s-kubernetes-versio
 Here's an example command after placeholder replacements have been made\.
 
 ```
-aws ssm get-parameter --name /aws/service/bottlerocket/aws-k8s-1.30/x86_64/latest/image_id \
+aws ssm get-parameter --name /aws/service/bottlerocket/aws-k8s-1.31/x86_64/latest/image_id \
     --region us-west-2 --query "Parameter.Value" --output text
 ```
 

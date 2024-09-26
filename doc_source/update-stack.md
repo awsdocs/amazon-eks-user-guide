@@ -65,13 +65,13 @@ This method isn't supported for node groups that were created with `eksctl`\. If
 The supported instance types for the latest version of the [https://github.com/aws/amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s) are shown in [vpc\_ip\_resource\_limit\.go](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/pkg/vpc/vpc_ip_resource_limit.go) on GitHub\. You might need to update your Amazon VPC CNI plugin for Kubernetes version to use the latest supported instance types\. For more information, see [Assign IPs to Pods with the Amazon VPC CNI](managing-vpc-cni.md)\.
 **Important**  
 Some instance types might not be available in all AWS Regions\.
-   + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS optimized AMI for Kubernetes version `1.30`\.
+   + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS optimized AMI for Kubernetes version `1.31`\.
 
      ```
-     /aws/service/eks/optimized-ami/1.30/amazon-linux-2/recommended/image_id
+     /aws/service/eks/optimized-ami/1.31/amazon-linux-2/recommended/image_id
      ```
 
-     You can replace `1.30` with a [supported Kubernetes version](platform-versions.md) that's the same\. Or, it should be up to one version earlier than the Kubernetes version running on your control plane\. We recommend that you keep your nodes at the same version as your control plane\. You can also replace `amazon-linux-2` with a different AMI type\. For more information, see [Retrieve recommended Amazon Linux AMI IDs](retrieve-ami-id.md)\.
+     You can replace `1.31` with a [supported Kubernetes version](platform-versions.md) that's the same\. Or, it should be up to one version earlier than the Kubernetes version running on your control plane\. We recommend that you keep your nodes at the same version as your control plane\. You can also replace `amazon-linux-2` with a different AMI type\. For more information, see [Retrieve recommended Amazon Linux AMI IDs](retrieve-ami-id.md)\.
 **Note**  
 Using the Amazon EC2 Systems Manager parameter enables you to update your nodes in the future without having to look up and specify an AMI ID\. If your AWS CloudFormation stack is using this value, any stack update always launches the latest recommended Amazon EKS optimized AMI for your specified Kubernetes version\. This is even the case even if you don't change any values in the template\.
    + **NodeImageId** – To use your own custom AMI, enter the ID for the AMI to use\.

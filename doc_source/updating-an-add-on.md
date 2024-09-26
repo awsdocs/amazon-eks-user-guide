@@ -141,10 +141,10 @@ Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line
    v1.10.4-eksbuild.1
    ```
 
-1. Determine which versions of the add\-on are available for your cluster's version\. Replace `1.30` with your cluster's version and `vpc-cni` with the name of the add\-on that you want to update\.
+1. Determine which versions of the add\-on are available for your cluster's version\. Replace `1.31` with your cluster's version and `vpc-cni` with the name of the add\-on that you want to update\.
 
    ```
-   aws eks describe-addon-versions --kubernetes-version 1.30 --addon-name vpc-cni \
+   aws eks describe-addon-versions --kubernetes-version 1.31 --addon-name vpc-cni \
        --query 'addons[].addonVersions[].{Version: addonVersion, Defaultversion: compatibilities[0].defaultVersion}' --output table
    ```
 

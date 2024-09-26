@@ -16,6 +16,21 @@ k8s_major_version.k8s_minor_version-release_date
 **Note**  
 Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs\.
 
+**Note**  
+The layout of this page is being updated\.
+
+## EKS Optimized Windows AMIs for Kubernetes 1\.31<a name="eks-ami-versions-windows-1-31"></a>
+
+The following table lists the different Windows AMI versions for Kubernetes version 1\.31\.
+
+
+| AMI version | Kubelet | Containerd | csi\-proxy | 
+| --- |--- |--- |--- |
+| Windows\_Server\-2019\-English\-Core\-EKS\_Optimized\-1\.31\-2024\.09\.10 | 1\.31\.0 | 1\.7\.20 | 1\.1\.3 | 
+| Windows\_Server\-2019\-English\-Full\-EKS\_Optimized\-1\.31\-2024\.09\.10 | 1\.31\.0 | 1\.7\.20 | 1\.1\.3 | 
+| Windows\_Server\-2022\-English\-Core\-EKS\_Optimized\-1\.31\-2024\.09\.10 | 1\.31\.0 | 1\.7\.20 | 1\.1\.3 | 
+| Windows\_Server\-2022\-English\-Full\-EKS\_Optimized\-1\.31\-2024\.09\.10 | 1\.31\.0 | 1\.7\.20 | 1\.1\.3 | 
+
 ## Amazon EKS optimized Windows Server 2022 Core AMI<a name="eks-ami-versions-windows-2022-core"></a>
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Core AMI\.

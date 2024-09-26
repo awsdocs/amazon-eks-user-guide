@@ -39,14 +39,14 @@ You can update a node group version with `eksctl` or the AWS Management Console\
 If you're upgrading a node group that's deployed with a launch template to a new launch template version, add `--launch-template-version version-number` to the preceding command\. The launch template must meet the requirements described in [Customize managed nodes with launch templates](launch-templates.md)\. If the launch template includes a custom AMI, the AMI must meet the requirements in [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\. When you upgrade your node group to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version that's specified\.  
 You can't directly upgrade a node group that's deployed without a launch template to a new launch template version\. Instead, you must deploy a new node group using the launch template to update the node group to a new launch template version\.
 
-  You can upgrade a node group to the same version as the control plane's Kubernetes version\. For example, if you have a cluster running Kubernetes `1.29`, you can upgrade nodes currently running Kubernetes `1.28` to version `1.29` with the following command\.
+  You can upgrade a node group to the same version as the control plane's Kubernetes version\. For example, if you have a cluster running Kubernetes `1.31`, you can upgrade nodes currently running Kubernetes `1.30` to version `1.31` with the following command\.
 
   ```
   eksctl upgrade nodegroup \
     --name=node-group-name \
     --cluster=my-cluster \
     --region=region-code \
-    --kubernetes-version=1.29
+    --kubernetes-version=1.31
   ```
 
 ------
@@ -107,15 +107,11 @@ You can modify some of the configurations of a managed node group\.
 
    1. \(Optional\) Add or remove **Tags** from your node group resource\. These tags are only applied to the Amazon EKS node group\. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group\.
 
-   1. \(Optional\) Edit the **Node Group update configuration**\. Select either **Number** or **Percentage**\. 
+   1. \(Optional\) Edit the **Node Group update configuration**\. Select either **Number** or **Percentage**\.
       + **Number** – Select and specify the number of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\.
       + **Percentage** – Select and specify the percentage of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have many nodes in your node group\.
 
    1. When you're finished editing, choose **Save changes**\.
 
-   **Important**
-   Modifying the [NodegroupScalingConfig](https://docs.aws.amazon.com/eks/latest/APIReference/API_NodegroupScalingConfig.html) by updating the node group configuration does not
-   respect Pod Disruption Budgets (PDBs). Unlike the [Update Nodegroup](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-update-behavior.html) process, which drains
-   nodes and respects PDBs during the upgrade phase, updating the scaling configuration causes nodes to be terminated immediately through an Auto Scaling Group (ASG) scale-down
-   call. This happens without considering PDBs, regardless of the target size you're scaling down to. That means when you reduce the desiredSize of an EKS Managed Node Group, pods
-   are evicted as soon as the nodes are terminated, without honoring any Pod Disruption Budgets.
+**Important**  
+When updating the node group configuration, modifying the [NodegroupScalingConfig](https://docs.aws.amazon.com/eks/latest/APIReference/API_NodegroupScalingConfig.html) does not respect Pod disruption budgets \(PDBs\)\. Unlike the [Update Nodegroup](managed-node-update-behavior.md) process \(which drains nodes and respects PDBs during the upgrade phase\), updating the scaling configuration causes nodes to be terminated immediately through an Auto Scaling Group \(ASG\) scale\-down call\. This happens without considering PDBs, regardless of the target size you're scaling down to\. That means when you reduce the `desiredSize` of an Amazon EKS managed node group, Pods are evicted as soon as the nodes are terminated, without honoring any PDBs\.

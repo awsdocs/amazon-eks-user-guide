@@ -38,7 +38,7 @@ eksctl create iamserviceaccount --name aws-node --namespace kube-system --cluste
 
 ### Update information<a name="add-ons-vpc-cni-update-information"></a>
 
-You can only update one minor version at a time\. For example, if your current version is `1.28.x-eksbuild.y` and you want to update to `1.30.x-eksbuild.y`, then you must update your current version to `1.29.x-eksbuild.y` and then update it again to `1.30.x-eksbuild.y`\. For more information about updating the add\-on, see [Updating the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](vpc-add-on-update.md)\.
+You can only update one minor version at a time\. For example, if your current version is `1.29.x-eksbuild.y` and you want to update to `1.31.x-eksbuild.y`, then you must update your current version to `1.30.x-eksbuild.y` and then update it again to `1.31.x-eksbuild.y`\. For more information about updating the add\-on, see [Updating the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](vpc-add-on-update.md)\.
 
 ## CoreDNS<a name="add-ons-coredns"></a>
 
@@ -243,4 +243,4 @@ This add\-on users permissions from the [Amazon EKS node IAM role](create-node-r
 
 ### Update information<a name="add-ons-pod-id-update-information"></a>
 
-You can only update one minor version at a time\. For example, if your current version is `1.28.x-eksbuild.y` and you want to update to `1.30.x-eksbuild.y`, then you must update your current version to `1.29.x-eksbuild.y` and then update it again to `1.30.x-eksbuild.y`\. For more information about updating the add\-on, see [Updating the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](vpc-add-on-update.md)\.
+You can only update one minor version at a time\. For example, if your current version is `1.29.x-eksbuild.y` and you want to update to `1.31.x-eksbuild.y`, then you must update your current version to `1.30.x-eksbuild.y` and then update it again to `1.31.x-eksbuild.y`\. For more information about updating the add\-on, see [Updating the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](vpc-add-on-update.md)\.

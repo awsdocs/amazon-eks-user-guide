@@ -20,7 +20,7 @@ aws ssm get-parameter --name /aws/service/ami-windows-latest/Windows_Server-rele
 Here's an example command after placeholder replacements have been made\.
 
 ```
-aws ssm get-parameter --name /aws/service/ami-windows-latest/Windows_Server-2022-English-Core-EKS_Optimized-1.30/image_id \
+aws ssm get-parameter --name /aws/service/ami-windows-latest/Windows_Server-2022-English-Core-EKS_Optimized-1.31/image_id \
     --region us-west-2 --query "Parameter.Value" --output text
 ```
 

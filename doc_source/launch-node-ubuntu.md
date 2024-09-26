@@ -14,7 +14,7 @@ You can deploy to Amazon EC2 instances with `x86` or Arm processors\. However, i
 
 **To launch Ubuntu for EKS or Ubuntu Pro for EKS nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.190.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.191.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -37,7 +37,7 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnet
    metadata:
      name: my-cluster
      region: region-code
-     version: '1.30'
+     version: '1.31'
    
    iam:
      withOIDC: true

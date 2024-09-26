@@ -5,6 +5,18 @@ This topic gives important changes to be aware of for each Kubernetes version in
 **Note**  
 For `1.24` and later clusters, officially published Amazon EKS AMIs include `containerd` as the only runtime\. Kubernetes versions earlier than `1.24` use Docker as the default runtime\. These versions have a bootstrap flag option that you can use to test out your workloads on any supported cluster with `containerd`\. For more information, see [Migrate from `dockershim` to `containerd`](dockershim-deprecation.md)\.
 
+## Kubernetes 1\.31<a name="kubernetes-1.31"></a>
+
+Kubernetes `1.31` is now available in Amazon EKS\. For more information about Kubernetes `1.31`, see the [official release announcement](https://kubernetes.io/blog/2024/08/13/kubernetes-v1-31-release/)\.
+
+**Important**  
+The kubelet flag `--keep-terminated-pod-volumes` deprecated since 2017 has been removed as part of the `v1.31` release\. This change impacts how terminated pod volumes are handled by the kubelet\. If you are using this flag in your node configurations, you must update your bootstrap scripts and launch templates to remove it before upgrading\.
++ The beta `VolumeAttributesClass` feature gate and API resource is enabled in Amazon EKS `v1.31`\. This feature allows cluster operators to modify mutable properties of Persistent Volumes \(PVs\) managed by compatible CSI Drivers, including the [Amazon EBS CSI Driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html)\. To leverage this feature, ensure that your CSI Driver supports the `VolumeAttributesClass` feature \(for the Amazon EBS CSI Driver, upgrade to version v1\.35\.0 or later to automatically enable the feature\)\. You will be able to create `VolumeAttributesClass` objects to define the desired volume attributes, such as volume type and throughput, and associate them with your Persistent Volume Claims \(PVCs\)\. See the [official Kubernetes documentation](https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/) as well as the documentation of your CSI driver for more information\.
++ Kubernetes support for [AppArmor](https://apparmor.net/) has graduated to stable and is now generally available for public use\. This feature allows you to protect your containers with AppArmor by setting the `appArmorProfile.type` field in the container's `securityContext`\. Prior to Kubernetes `v1.30`, AppArmor was controlled by annotations\. Starting with `v1.30`, it is controlled using fields\. To leverage this feature, we recommend migrating away from annotations and using the `appArmorProfile.type` field to ensure that your workloads are compatible\.
++ The PersistentVolume last phase transition time feature has graduated to stable and is now generally available for public use in Kubernetes v1\.31\. This feature introduces a new field, `.status.lastTransitionTime`, in the PersistentVolumeStatus, which provides a timestamp of when a PersistentVolume last transitioned to a different phase\. This enhancement allows for better tracking and management of PersistentVolumes, particularly in scenarios where understanding the lifecycle of volumes is important\.
+
+For the complete Kubernetes `1.31` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.31.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.31.md)\.
+
 ## Kubernetes 1\.30<a name="kubernetes-1.30"></a>
 
 Kubernetes `1.30` is now available in Amazon EKS\. For more information about Kubernetes `1.30`, see the [official release announcement](https://kubernetes.io/blog/2024/04/17/kubernetes-v1-30-release/)\.

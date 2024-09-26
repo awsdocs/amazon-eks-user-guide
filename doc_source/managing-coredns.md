@@ -7,9 +7,9 @@ CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cl
 The following table lists the latest version of the Amazon EKS add\-on type for each Kubernetes version\.
 
 
-| Kubernetes version | `1.30` | `1.29` | `1.28` | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | 
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | 
-|  | v1\.11\.3\-eksbuild\.1 | v1\.11\.3\-eksbuild\.1 | v1\.10\.1\-eksbuild\.13 | v1\.10\.1\-eksbuild\.13 | v1\.9\.3\-eksbuild\.17 | v1\.9\.3\-eksbuild\.17 | v1\.9\.3\-eksbuild\.17 | v1\.8\.7\-eksbuild\.16 | 
+| Kubernetes version | `1.31` | `1.30` | `1.29` | `1.28` | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | 
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | 
+|  | v1\.11\.3\-eksbuild\.1 | v1\.11\.3\-eksbuild\.1 | v1\.11\.3\-eksbuild\.1 | v1\.10\.1\-eksbuild\.13 | v1\.10\.1\-eksbuild\.13 | v1\.9\.3\-eksbuild\.17 | v1\.9\.3\-eksbuild\.17 | v1\.9\.3\-eksbuild\.17 | v1\.8\.7\-eksbuild\.16 | 
 
 **Important**  
 If you're self\-managing this add\-on, the versions in the table might not be the same as the available self\-managed versions\. For more information about updating the self\-managed type of this add\-on, see [Update the CoreDNS Amazon EKS self\-managed add\-on](coredns-add-on-self-managed-update.md)\.
