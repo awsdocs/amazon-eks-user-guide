@@ -112,3 +112,10 @@ You can modify some of the configurations of a managed node group\.
       + **Percentage** – Select and specify the percentage of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have many nodes in your node group\.
 
    1. When you're finished editing, choose **Save changes**\.
+
+   **Important**
+   Modifying the [NodegroupScalingConfig](https://docs.aws.amazon.com/eks/latest/APIReference/API_NodegroupScalingConfig.html) by updating the node group configuration does not
+   respect Pod Disruption Budgets (PDBs). Unlike the [Update Nodegroup](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-update-behavior.html) process, which drains
+   nodes and respects PDBs during the upgrade phase, updating the scaling configuration causes nodes to be terminated immediately through an Auto Scaling Group (ASG) scale-down
+   call. This happens without considering PDBs, regardless of the target size you're scaling down to. That means when you reduce the desiredSize of an EKS Managed Node Group, pods
+   are evicted as soon as the nodes are terminated, without honoring any Pod Disruption Budgets.
