@@ -54,3 +54,4 @@ Here are some things to consider about using Fargate on Amazon EKS\.
         restartPolicy: Never
     ttlSecondsAfterFinished: 60 # <-- TTL controller
   ```
++ Amazon EKS doesn't support Fargate Spot\. 
