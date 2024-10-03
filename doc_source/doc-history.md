@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [AWS managed policy updates \- New policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS added a new AWS managed policy\. | October 3, 2024 | 
 | [Kubernetes version `1.31`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.31) | Added Kubernetes version `1.31` support for new clusters and version upgrades\. | September 24, 2024 | 
 | [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | August 21, 2024 | 
 | [Kubernetes version 1\.29 is now available for local clusters on AWS Outposts](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-platform-versions.html) | You can now create an Amazon EKS local cluster on an AWS Outposts using Kubernetes version 1\.29\. | August 20, 2024 | 

@@ -132,6 +132,19 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see [AmazonEKSWorkerNodePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html#AmazonEKSWorkerNodePolicy-json) in the AWS Managed Policy Reference Guide\.
 
+## AWS managed policy: AmazonEKSWorkerNodeMinimalPolicy<a name="security-iam-awsmanpol-AmazonEKSWorkerNodeMinimalPolicy"></a>
+
+You can attach the `AmazonEKSWorkerNodeMinimalPolicy` to your IAM entities\. You may attach this policy to a [node IAM role](create-node-role.md) that you specify when you create Amazon EC2 nodes that allow Amazon EKS to perform actions on your behalf\. 
+
+This policy grants Amazon EKS Amazon EC2 nodes permissions to connect to Amazon EKS clusters\. This policy has fewer permissions compared to `AmazonEKSWorkerNodePolicy`\.
+
+**Permissions details**
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
++ **`eks-auth:AssumeRoleForPodIdentity`** – Allow retrieving credentials for EKS workloads on the node\. This is required for EKS Pod Identity to function properly\.
+
+To view the latest version of the JSON policy document, see [AmazonEKSWorkerNodePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodeMinimalPolicy.html#AmazonEKSWorkerNodeMinimalPolicy-json) in the AWS Managed Policy Reference Guide\.
+
 ## AWS managed policy: AWSServiceRoleForAmazonEKSNodegroup<a name="security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup"></a>
 
 You can't attach `AWSServiceRoleForAmazonEKSNodegroup` to your IAM entities\. This policy is attached to a service\-linked role that allows Amazon EKS to perform actions on your behalf\. For more information, see [Service\-linked role permissions for Amazon EKS](using-service-linked-roles-eks-nodegroups.md#service-linked-role-permissions-eks-nodegroups)\.
@@ -200,6 +213,7 @@ View details about updates to AWS managed policies for Amazon EKS since this ser
 
 | Change | Description | Date | 
 | --- | --- | --- | 
+|  Introduced [AmazonEKSWorkerNodeMinimalPolicy](#security-iam-awsmanpol-AmazonEKSWorkerNodeMinimalPolicy)\.  |  AWS introduced the `AmazonEKSWorkerNodeMinimalPolicy`\.  | October 3, 2024 | 
 |  Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup)\.  |  Added `autoscaling:ResumeProcesses` and `autoscaling:SuspendProcesses` permissions to allow Amazon EKS to suspend and resume `AZRebalance` in Amazon EKS\-managed Auto Scaling groups\.  | August 21, 2024 | 
 | Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup)\. |  Added `ec2:DescribeCapacityReservations` permission to allow Amazon EKS to describe capacity reservation in user's account\. Added `autoscaling:PutScheduledUpdateGroupAction` permission to enable setting scheduled scaling on `CAPACITY_BLOCK` node groups\.  | June 27, 2024 | 
 |  [AmazonEKS\_CNI\_Policy](#security-iam-awsmanpol-amazoneks-cni-policy) – Update to an existing policy  |  Amazon EKS added new `ec2:DescribeSubnets` permissions to allow the Amazon VPC CNI plugin for Kubernetes to see the amount of free IP addresses in your Amazon VPC subnets\.  The VPC CNI can use the free IP addresses in each subnet to pick the subnets with the most free IP addresses to use when creating an elastic network interface\.  | March 4, 2024 | 
