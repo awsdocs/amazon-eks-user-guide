@@ -101,8 +101,6 @@ To see the most options that you can specify when creating a cluster with `eksct
 
      Kubernetes assigns `IPv4` addresses to Pods and services, by default\. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the [VPC requirements and considerations](network-reqs.md#network-requirements-vpc), [Subnet requirements and considerations](network-reqs.md#network-requirements-subnets), [View Amazon EKS security group requirements for clusters](sec-group-reqs.md), and [Assign IPv6 addresses to clusters, pods, and services](cni-ipv6.md) topics\. If you choose the `IPv6` family, you can't specify an address range for Kubernetes to assign `IPv6` service addresses from like you can for the `IPv4` family\. Kubernetes assigns service addresses from the unique local address range \(`fc00::/7`\)\.
 
-     
-
 ------
 #### [ AWS Management Console ]
 
@@ -134,8 +132,6 @@ To see the most options that you can specify when creating a cluster with `eksct
       + **Choose cluster IP address family** – You can choose either **IPv4** and **IPv6**\.
 
         Kubernetes assigns `IPv4` addresses to Pods and services, by default\. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the [VPC requirements and considerations](network-reqs.md#network-requirements-vpc), [Subnet requirements and considerations](network-reqs.md#network-requirements-subnets), [View Amazon EKS security group requirements for clusters](sec-group-reqs.md), and [Assign IPv6 addresses to clusters, pods, and services](cni-ipv6.md) topics\. If you choose the `IPv6` family, you can't specify an address range for Kubernetes to assign `IPv6` service addresses from like you can for the `IPv4` family\. Kubernetes assigns service addresses from the unique local address range \(`fc00::/7`\)\.
-
-        
       + \(Optional\) Choose **Configure Kubernetes Service IP address range** and specify a **Service `IPv4` range**\.
 
         Specifying your own range can help prevent conflicts between Kubernetes services and other networks peered or connected to your VPC\. Enter a range in CIDR notation\. For example: `10.2.0.0/16`\.
@@ -214,8 +210,6 @@ You might receive an error that one of the Availability Zones in your request do
       + If you're creating a cluster and want the cluster to assign `IPv6` addresses to Pods and services instead of `IPv4` addresses, add **`--kubernetes-network-config ipFamily=ipv6`** to the following command\.
 
         Kubernetes assigns `IPv4` addresses to Pods and services, by default\. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the [VPC requirements and considerations](network-reqs.md#network-requirements-vpc), [Subnet requirements and considerations](network-reqs.md#network-requirements-subnets), [View Amazon EKS security group requirements for clusters](sec-group-reqs.md), and [Assign IPv6 addresses to clusters, pods, and services](cni-ipv6.md) topics\. If you choose the `IPv6` family, you can't specify an address range for Kubernetes to assign `IPv6` service addresses from like you can for the `IPv4` family\. Kubernetes assigns service addresses from the unique local address range \(`fc00::/7`\)\.
-
-        
 
    1. It takes several minutes to provision the cluster\. You can query the status of your cluster with the following command\. 
 
