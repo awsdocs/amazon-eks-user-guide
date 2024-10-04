@@ -45,47 +45,47 @@ You must use a `kubectl` version that is within one minor version difference of 
       + Kubernetes `1.30`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.29`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.28`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.27`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.26`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.25`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.24`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.23`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-09-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.22`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-09-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.21`
 
@@ -104,47 +104,47 @@ You must use a `kubectl` version that is within one minor version difference of 
          + Kubernetes `1.30`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.29`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.28`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.27`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.26`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.25`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.24`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.23`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-09-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.22`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-09-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.21`
 
@@ -192,47 +192,47 @@ You must use a `kubectl` version that is within one minor version difference of 
       + Kubernetes `1.30`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.29`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.28`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.27`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.26`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.25`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.24`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.23`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-09-11/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.22`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-09-11/bin/linux/amd64/kubectl
         ```
       + Kubernetes `1.21`
 
@@ -251,47 +251,47 @@ You must use a `kubectl` version that is within one minor version difference of 
          + Kubernetes `1.30`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.29`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.28`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.27`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.26`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.25`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.24`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.23`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-09-11/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.22`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-09-11/bin/linux/amd64/kubectl.sha256
            ```
          + Kubernetes `1.21`
 
@@ -353,47 +353,47 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + Kubernetes `1.30`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.29`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.28`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.27`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.26`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.25`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.24`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.23`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-09-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.22`
 
         ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-09-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.21`
 
@@ -412,47 +412,47 @@ This step assumes you are using the Bash shell; if you are using another shell, 
          + Kubernetes `1.30`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.29`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.28`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.27`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.26`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.25`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.24`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.23`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-09-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.22`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-09-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.21`
 
@@ -516,47 +516,47 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + Kubernetes `1.30`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.29`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.28`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.27`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.26`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.25`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.24`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.23`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-09-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.22`
 
         ```
-        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/windows/amd64/kubectl.exe
+        curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-09-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.21`
 
@@ -575,47 +575,47 @@ This step assumes you are using the Bash shell; if you are using another shell, 
          + Kubernetes `1.30`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.2/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.29`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.6/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.28`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.11/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.27`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.15/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.26`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.25`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.24`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.23`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.17/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.22`
 
            ```
-           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-07-12/bin/windows/amd64/kubectl.exe.sha256
+           curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.21`
 
