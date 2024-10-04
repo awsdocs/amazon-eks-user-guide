@@ -46,8 +46,7 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnet
      - name: ng-ubuntu
        instanceType: m5.large
        desiredCapacity: 3
-       amiFamily: Ubuntu22.04
-       ami: auto-ssm
+       amiFamily: Ubuntu2204
        iam:
           attachPolicyARNs:
              - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
