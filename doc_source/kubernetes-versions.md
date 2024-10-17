@@ -27,7 +27,6 @@ The following Kubernetes versions are currently available in Amazon EKS extended
 + `1.26`
 + `1.25`
 + `1.24`
-+ `1.23`
 
 For important changes to be aware of for each version in extended support, see [Review release notes for Kubernetes versions on extended support](kubernetes-versions-extended.md)\.
 
