@@ -31,5 +31,5 @@ If you do not enable extended support, your cluster will be automatically upgrad
    ```
    aws eks update-cluster-config \
    --name <cluster-name> \
-   --upgrade-policy supportType = EXTENDED
+   --upgrade-policy supportType=EXTENDED
    ```
