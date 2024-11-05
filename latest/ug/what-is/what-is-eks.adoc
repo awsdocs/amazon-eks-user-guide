@@ -1,0 +1,88 @@
+//!!NODE_ROOT <chapter>
+include::../attributes.txt[]
+[.topic]
+[[what-is-eks,what-is-eks.title]]
+= What is Amazon EKS?
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: What is Amazon EKS?
+:info_titleabbrev: What is Amazon EKS?
+:keywords: Amazon Elastic Kubernetes Service, Amazon EKS, about, summary, description
+:info_abstract: Learn to manage containerized applications with Amazon EKS
+
+[abstract]
+--
+Learn to manage containerized applications with Amazon EKS
+--
+
+Amazon Elastic Kubernetes Service (Amazon EKS) is a managed service that eliminates the need to install, operate, and maintain your own [.noloc]`Kubernetes` control plane on Amazon Web Services ({aws}). https://kubernetes.io/docs/concepts/overview/[Kubernetes] is an open-source system that automates the management, scaling, and deployment of containerized applications.
+
+[[eks-features,eks-features.title]]
+== Features of Amazon EKS
+
+The following are key features of Amazon EKS:
+
+*Secure networking and authentication*::
+Amazon EKS integrates your [.noloc]`Kubernetes` workloads with {aws}   link:eks/latest/userguide/eks-networking[ networking,type="documentation"] and security services. It also integrates with {aws} Identity and Access Management (IAM) to provide  link:eks/latest/userguide/cluster-auth[authentication,type="documentation"] for your [.noloc]`Kubernetes` clusters.
+
+
+*Easy cluster scaling*::
+Amazon EKS enables you to scale your [.noloc]`Kubernetes` clusters up and down easily based on the demand of your workloads. Amazon EKS supports   link:eks/latest/userguide/horizontal-pod-autoscaler[horizontal Pod autoscaling,type="documentation"] based on CPU or custom metrics, and  link:eks/latest/userguide/autoscaling[cluster autoscaling,type="documentation"] based on the demand of the entire workload.
+
+
+*Managed [.noloc]`Kubernetes` experience*::
+You can make changes to your [.noloc]`Kubernetes` clusters using ``https://eksctl.io/[eksctl]``, link:eks/[{aws-management-console},type="console"], https://awscli.amazonaws.com/v2/documentation/api/latest/reference/eks/index.html[{aws} Command Line Interface ({aws} CLI)],  link:eks/latest/APIReference/Welcome.html[the API,type="documentation"],  link:eks/latest/userguide/install-kubectl[kubectl,type="documentation"], and https://tf-eks-workshop.workshop.aws/[Terraform].
+
+
+*High availability*::
+Amazon EKS provides  link:eks/latest/userguide/disaster-recovery-resiliency[high availability,type="documentation"] for your control plane across multiple Availability Zones.
+
+
+*Integration with {aws} services*::
+Amazon EKS integrates with other  link:eks/latest/userguide/eks-integrations[{aws} services,type="documentation"], providing a comprehensive platform for deploying and managing your containerized applications. You can also more easily troubleshoot your [.noloc]`Kubernetes` workloads with various   link:eks/latest/userguide/eks-observe[observability,type="documentation"] tools.
+
+For details about other features of Amazon EKS, see link:eks/features[Amazon EKS features,type="marketing"].
+
+[[how-eks-works,how-eks-works.title]]
+== Get started with Amazon EKS
+
+To create your first cluster and its associated resources, see <<getting-started>>. In general, getting started with Amazon EKS involves the following steps.
+
+. *Create a cluster* – Start by creating your cluster using `eksctl`, {aws-management-console}, {aws} CLI, or one of the {aws} SDKs.
+. *Choose your approach to compute resources* – Decide between {aws} Fargate, [.noloc]`Karpenter`, managed node groups, and self-managed nodes.
+. *Setup* – Set up the necessary controllers, drivers, and services.  
+. *Deploy workloads* – Tailor your [.noloc]`Kubernetes` workloads to best utilize the resources and capabilities of your chosen node type.
+. *Management* – Oversee your workloads, integrating {aws} services to streamline operations and enhance workload performance. You can view information about your workloads using the {aws-management-console}.
+
+The following diagram shows a basic flow of running Amazon EKS in the cloud. To learn about other [.noloc]`Kubernetes` deployment options, see <<eks-deployment-options>>.
+
+
+
+image::images/what-is-eks.png[A basic flow diagram of the steps described previously.,scaledwidth=100%]
+
+
+[[eks-pricing,eks-pricing.title]]
+== Pricing for Amazon EKS
+
+An Amazon EKS cluster consists of a control plane and the link:ec2/[Amazon Elastic Compute Cloud,type="marketing"] (Amazon EC2) or Fargate compute that you run [.noloc]`Pods` on. For more information about pricing for the control plane, see link:eks/pricing[Amazon EKS pricing,type="marketing"]. Both Amazon EC2 and Fargate provide:
+
+*On-Demand Instances*::
+Pay for the instances that you use by the second, with no long-term commitments or upfront payments.For more information, see link:ec2/pricing/on-demand/[Amazon EC2 On-Demand Pricing,type="marketing"] and link:fargate/pricing/[{aws} Fargate Pricing,type="marketing"].
+
+*Savings Plans*::
+You can reduce your costs by making a commitment to a consistent amount of usage, in USD per hour, for a term of one or three years.For more information, see link:savingsplans/pricing/[Pricing with Savings Plans,type="marketing"]. You can also use a hybrid pricing model. For example, you can use Savings Plans to serve your regular traffic and scale up your cluster nodes with Spot instances to serve the peak demands.
+
+include::common-use-cases.adoc[leveloffset=+1]
+
+include::eks-architecture.adoc[leveloffset=+1]
+
+include::kubernetes-concepts.adoc[leveloffset=+1]
+
+include::eks-deployment-options.adoc[leveloffset=+1]

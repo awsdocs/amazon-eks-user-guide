@@ -1,0 +1,151 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[learn-eks,learn-eks.title]]
+= Learn Amazon EKS by example
+:info_doctype: section
+:info_title: Learn Amazon EKS by example
+:info_titleabbrev: Learn Amazon EKS
+:keywords: tutorial, workshop, developer, learn
+:info_abstract: Find learning paths to extend your knowledge of Amazon EKS.
+
+[abstract]
+--
+Find learning paths to extend your knowledge of Amazon EKS.
+--
+
+[[overview,overview.title]]
+== Overview
+
+This Amazon EKS User Guide contains general-purpose procedures to create your first EKS cluster from the  <<getting-started-eksctl,command line>> or <<getting-started-console,{aws-management-console}>> and a solid reference for all major Amazon EKS components. However, as an Amazon EKS cluster administrator or developer, you can gain a deeper understanding of Amazon EKS by following learning paths that exist in sites outside of this guide. These sites can help you:
+
+
+
+* *Set up specific types of clusters*. Specific cluster types can be based on your workload types or security requirements. For example, you may want to tune a cluster to run batch, machine learning, or compute-intensive workloads.
+* *Enhance your clusters*. You can add advanced features to your cluster to provide things like observability,flexible storage, autoscaling, or specialized cluster networking. 
+* *Automate updates*. Using features like GitOps, you can set up to provision cluster infrastructure and workloads automatically, based on changes that occur to those components in your Git repositories.
+* *Use advanced cluster setup tools*. While `eksctl` provides a quick way to create a cluster, there are other tools that can make it easier to configure and upgrade more complex clusters. These include tools like https://www.terraform.io/[Terraform] and link:cloudformation/[CloudFormation,type="marketing"].
+
+To start out on your Amazon EKS learning path, I recommend that you visit some of the sites described on this page. If you run into problems along the way, there are also resources to help you get through them. For example, the https://repost.aws/search/content?globalSearch=EKS[Re:post Knowledge Center] lets you search the support database for Amazon EKS-related support issues. Also the https://aws.github.io/aws-eks-best-practices/[Amazon EKS Best Practices Guide] offers tips on the best ways to set up your production-grade clusters.
+
+[[eks-workshop,eks-workshop.title]]
+== Amazon EKS Workshop
+
+Starting with a basic understanding of Kubernetes and containers, the https://www.eksworkshop.com/[Amazon EKS workshop] is a learning platform for walking a cluster administrator through important features of Amazon EKS. Here are ways you can engage with the Amazon EKS workshop:
+
+
+
+* *Amazon EKS Basics*: Watch the video on the https://www.eksworkshop.com/docs/introduction[Introduction] page to learn about how Amazon EKS implements Kubernetes features on the {aws} cloud. If you need an even more basic understanding of Kubernetes, watch the https://www.youtube.com/watch?v=a2gfpZE8vXY[What is Kubernetes] video.
+* *Amazon EKS Setup*: If you have an {aws} account, the https://www.eksworkshop.com/docs/introduction/setup/[Setup] section helps you set up a CloudShell environment to you for creating a cluster. It offers a choice of https://www.eksworkshop.com/docs/introduction/setup/your-account/using-eksctl[eksctl] (a simple cluster creation command line) and https://www.eksworkshop.com/docs/introduction/setup/your-account/using-terraform[Terraform] (a more infrastructure-as-code approach to creating a cluster) for creating your Amazon EKS cluster.
+* *Amazon EKS Getting started*: Try out a simple web store from the https://www.eksworkshop.com/docs/introduction/getting-started/about[Sample application] section. You can use this throughout the other exercises. In this section, you can also learn about https://www.eksworkshop.com/docs/introduction/getting-started/packaging-application[packaging container images] and how microservices are managed using Kubernetes Pods, Deployments, Services, StatefulSets and Namespaces. Then use Kustomize to deploy changes to Kubernetes manifests.
+* *Amazon EKS Fundamentals*: Using {aws} features such as the https://www.eksworkshop.com/docs/fundamentals/exposing/aws-lb-controller[{aws} Load Balancer Controller], the workshop shows you how to expose your applications to the outside world. For storage, the workshop showcases how to use https://www.eksworkshop.com/docs/fundamentals/storage/ebs/[Amazon EBS] for block storage, https://www.eksworkshop.com/docs/fundamentals/storage/efs/[Amazon EFS] for filesystem storage, and Amazon FSx for NetApp ONTAP to manage ONTAP file systems in {aws}. For node management, the workshop helps you set up https://www.eksworkshop.com/docs/fundamentals/managed-node-groups/[Managed Node Groups].
+* *Amazon EKS advanced features*: More advanced features offered through the Amazon EKS workshop include labs for setting up:
++
+** Autoscaling: This includes node autoscaling (with https://www.eksworkshop.com/docs/autoscaling/compute/cluster-autoscaler/[Cluster Autoscaler] or https://www.eksworkshop.com/docs/autoscaling/compute/karpenter/[Karpenter]) and workload autoscaling (with https://www.eksworkshop.com/docs/autoscaling/workloads/horizontal-pod-autoscaler/[Horizontal Pod Autoscaler] and https://www.eksworkshop.com/docs/autoscaling/workloads/cluster-proportional-autoscaler/[Cluster Proportional Autoscaler]).
+** Observability: Learn about https://www.eksworkshop.com/docs/observability/logging/[Logging], https://www.eksworkshop.com/docs/observability/opensearch/[OpenSearch], https://www.eksworkshop.com/docs/observability/container-insights/[Container Insights on Amazon EKS], and https://www.eksworkshop.com/docs/observability/kubecost/[Cost Visibility with Kubecost] in a set of https://www.eksworkshop.com/docs/observability/[Observability labs].
+** Security: This set of https://www.eksworkshop.com/docs/security/[Security labs] let you explore https://www.eksworkshop.com/docs/security/secrets-management/[Secrets Management], https://www.eksworkshop.com/docs/security/guardduty/[Amazon GuardDuty], https://www.eksworkshop.com/docs/security/pod-security-standards/[Pod Security Standards], and https://www.eksworkshop.com/docs/security/kyverno/[Kyverno policy management].
+** Networking: Learn networking features for Amazon EKS from https://www.eksworkshop.com/docs/networking/[Networking] labs that include https://www.eksworkshop.com/docs/networking/vpc-cni/[Amazon VPC CNI] (supporting network plugins) and https://www.eksworkshop.com/docs/networking/vpc-lattice/[Amazon VPC Lattice] (for configuring clusters across VC and user accounts).
+** Automation: Labs on https://www.eksworkshop.com/docs/automation/[Automation] step you through https://www.eksworkshop.com/docs/automation/gitops/[GitOps] methods of managing your clusters and projects like https://www.eksworkshop.com/docs/automation/controlplanes/ack/[{aws} Controllers for Kubernetes] and https://www.eksworkshop.com/docs/automation/controlplanes/crossplane/[Crossplane] for managing Amazon EKS control planes.
+
+
+[[eks-hands-on-cluster-setup-tutorials,eks-hands-on-cluster-setup-tutorials.title]]
+== Amazon EKS hands-on cluster setup tutorials
+
+A set of https://community.aws/tags/eks-cluster-setup[Amazon EKS Cluster Setup tutorials] on the {aws} Community site can help you create special-purpose Amazon EKS clusters and enhance those clusters in various ways. The tutorials are divided into three different types:
+
+_Building clusters_
+
+These tutorials help you build clusters that can be used for special purposes. These special purposes include the ability to run:
+
+
+
+* https://community.aws/tutorials/navigating-amazon-eks/eks-cluster-ipv6-globally-scalable[Globally scalable applications based on IPv6]
+* https://community.aws/tutorials/navigating-amazon-eks/eks-cluster-batch-processing[Asynchronous batch tasks]
+* https://community.aws/tutorials/navigating-amazon-eks/eks-cluster-high-traffic[High traffic microservices]
+* https://community.aws/tutorials/navigating-amazon-eks/eks-karpenter-fargate[Autoscaling with Karpenter on Fargate]
+* https://community.aws/tutorials/navigating-amazon-eks/eks-cluster-financial-workload[Financial workloads]
+* https://community.aws/tutorials/navigating-amazon-eks/eks-cluster-windows-fargate[Windows Managed Node Groups]
+
+_Enhancing clusters_
+
+Once you have an existing cluster, you can extend and enhance that cluster in ways that allow it to run specialized workloads and otherwise enhance the clusters. These tutorials include ways to:
+
+
+
+* https://community.aws/tutorials/navigating-amazon-eks/eks-with-efs-add-on/[Provide storage solutions with EFS CSI]
+* https://community.aws/tutorials/navigating-amazon-eks/eks-dynamic-db-storage-ebs-csi[Provide dynamic database storage with EBS CSI]
+* https://community.aws/tutorials/navigating-amazon-eks/eks-cluster-load-balancer-ipv4[Expose applications on IPv4 clusters using the {aws} Load Balancer Controller]
+* https://community.aws/tutorials/navigating-amazon-eks/eks-cluster-load-balancer-ipv6[Expose applications on IPv6 clusters using the {aws} Load Balancer Controller]
+
+_Optimizing {aws} services_
+
+Using these tutorials, you can better integrate your clusters with {aws} services. These tutorials include those that help you:
+
+
+
+* https://community.aws/tutorials/navigating-amazon-eks/automating-dns-records-for-microservices-using-externaldns/[Manage DNS records for microservices with ExternalDNS]
+* https://community.aws/tutorials/navigating-amazon-eks/eks-monitor-containerized-applications[Monitor applications with CloudWatch]
+* https://community.aws/tutorials/navigating-amazon-eks/managing-high-volume-batch-sqs-eks[Manage asynchronous tasks with SQS and EFS storage]
+* https://community.aws/tutorials/navigating-amazon-eks/eks-integrate-secrets-manager[Consume {aws} Secrets Manager Secrets from workloads]
+* https://community.aws/tutorials/navigating-amazon-eks/eks-fargate-mtls-nginx-controller[Set up mTLS with Fargate, NGINX, and ACM PCA]
+
+
+[[eks-samples,eks-samples.title]]
+== Amazon EKS Samples
+
+The https://github.com/aws-samples/aws-eks-se-samples[Amazon EKS Samples] repository stores manifests to use with Amazon EKS. These manifests give you the opportunity to try out different kinds of applications in Amazon EKS or create specific types of Amazon EKS clusters. Samples include manifests to:
+
+
+
+* https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/eksctl/how-to-eks-fargate[Create an {aws} Amazon EKS Fargate cluster]
+* https://github.com/aws-samples/aws-eks-se-samples/blob/main/examples/eksctl/how-to-existing-iamrole/existing-role.yaml[Create a cluster with an existing IAM role]
+* https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/eksctl/how-to-ubuntu-nodegroups[Add and Ubuntu Managed Node Group to a cluster]
+* https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/kubernetes/how-to-backup-restore-ebs-pvc[Backup and restore Pod storage with volume snapshots]
+* https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/kubernetes/how-to-dr-multi-account[Recover EBS volumes mounted as PVCs with multiple accounts]
+* https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/kubernetes/how-to-enable-proxy-procotcol-clb[Enable proxy protocol for NGINX Ingress Controller with Classic Load Balancers]
+* https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/kubernetes/how-to-logging-eks-fargate-opensearch[Configure Logging on Fargate to {aws} OpenSearch]
+* https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/kubernetes/how-to-python-sdk-containers[Run Python SDK with a web federated identity provider]
+* https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/kubernetes/how-to-setup-nfs-csi-eks[Deploy a sample app on an NFS CSI controller]
+* https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/kubernetes/how-to-snapshot-restore-resize-sts[Use volume snapshots for StatefulSets]
+* https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/kubernetes/how-to-topology-awareness-hints[Deploy pods across nodes on different availability zones]
+
+Keep in mind that these samples are for learning and testing purposes only and are not intended to be used in production.
+
+[[aws-tutorials,aws-tutorials.title]]
+== {aws} Tutorials
+
+The link:tutorials[{aws} Tutorials,type="marketing"] site publishes a few Amazon EKS tutorials, but also offers a search tool to find other tutorials published on {aws} sites (such as the {aws} Community site). Amazon EKS tutorials published directly on this site include:
+
+
+
+* link:tutorials/deploy-webapp-eks/[Deploy a Container Web App on Amazon EKS,type="marketing"]
+* link:tutorials/amazon-eks-with-spot-instances/[Run Kubernetes clusters for less (Amazon EKS and Spot instances),type="marketing"]
+* link:tutorials/cost-optimize-jenkins/[How to cost optimize Jenkins jobs on Kubernetes,type="marketing"]
+
+
+[[developers-workshop,developers-workshop.title]]
+== Developers Workshop
+
+If you are a software developer, looking to create or refactor applications to run on Amazon EKS, the http://developers.eksworkshop.com[Amazon EKS Developers workshop]is a good place to start. The workshop not only helps you build containerized applications, but also helps you deploy those containers to a container registry (link:ecr/[ECR,type="marketing"]) and from there to an Amazon EKS cluster.
+
+Start with the https://developers.eksworkshop.com/docs/introduction/python/about-workshop[Amazon EKS Python Workshop] to go through the process of refactoring a python application, then set up your development environment to prepare for deploying the application. Step through sections on Containers, Kubernetes, and Amazon EKS to prepare to run your containerized applications in those environments.
+
+[[terraform-workshop,terraform-workshop.title]]
+== Terraform Workshop
+
+While `eksctl` is a simple tool for creating a cluster, for more complex infrastructure-as-code types of Amazon EKS deployments, https://www.terraform.io/[Terraform] is a popular Amazon EKS cluster creation and management tool. The https://catalog.us-east-1.prod.workshops.aws/workshops/afee4679-89af-408b-8108-44f5b1065cc7/en-US[Terraform Amazon EKS Workshop] teaches how to use Terraform to build an {aws} VPC, create Amazon EKS clusters, and add optional enhancements to your cluster. In particular, there is a section for creating a https://catalog.us-east-1.prod.workshops.aws/workshops/afee4679-89af-408b-8108-44f5b1065cc7/en-US/500-eks-terraform-workshop[private Amazon EKS cluster]
+
+[[aws-eks-training,aws-eks-training.title]]
+== {aws} Amazon EKS Training
+
+{aws} offers formal training for learning about Amazon EKS. A three-day training course entitled link:training/classroom/running-containers-on-amazon-elastic-kubernetes-service-amazon-eks/[Running Containers on Amazon Elastic Kubernetes Service,type="marketing"] teaches:
+
+
+
+* Kubernetes and Amazon EKS fundamentals
+* How to build Amazon EKS clusters
+* Securing Amazon EKS with {aws} IAM and Kubernetes RBAC authorization
+* GitOps automation tools
+* Monitoring tools
+* Techniques for improving cost, efficiency, and resiliency

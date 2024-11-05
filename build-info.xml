@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildinfo>
+ <docsets>
+  <docset id="eks">
+   <pathslug>eks</pathslug>
+   <title>Amazon EKS</title>
+   <forumID>303</forumID>
+   <feedbackCTI>Amazon EKS</feedbackCTI>
+   <options>
+    <!-- The following option seems to break region-specific-images -->
+    <!-- <referenced-images-only>enabled</referenced-images-only> -->
+    <!-- <region-specific-images region="BJS">enabled</region-specific-images> -->
+    <simple-localization-handoff>enabled</simple-localization-handoff>
+    <hide-github-link>0</hide-github-link>
+   </options>
+   <guides>
+    <guide id="eks-ug">
+     <pathslug>userguide</pathslug>
+     <basename>eks-ug</basename>
+     <title>User Guide</title>
+     <abbr>eks</abbr>
+     <api>latest</api>
+     <version>latest</version>
+     <!-- <source>latest/ug</source> -->
+     <asciidoc-source>latest/ug</asciidoc-source>
+     <locale>en_us</locale>
+     <profile>
+      <features>mesh-gs-eks</features>
+     </profile>
+   
+     <!-- <github>
+      <user>awsdocs</user>
+      <repo>amazon-eks-user-guide</repo>
+      <branch>main</branch>
+      <source-folder>doc_source</source-folder>
+     </github> -->
+     <builds>
+      <html><rss>
+       <title>Amazon EKS Document History</title>
+       <filename>doc-history</filename>
+      </rss></html>
+      <pdf/>
+      <!-- kindle>
+       <asin>B07GQDSDPZ</asin>
+      </kindle -->
+      <asciidoc>
+       <include-html-profiling>1</include-html-profiling>
+      </asciidoc> 
+      <!-- For final cutover, remove the next three lines. -->
+      <!--<markdown>
+       <include-html-profiling>1</include-html-profiling>
+      </markdown>-->
+     </builds>
+    </guide>
+    <!-- <guide id="hp">
+     <pathslug>console</pathslug>
+     <title>Help Panel</title>
+     <basename>EKS-hp</basename>
+     <source>latest/help_panel</source>
+     <locale>en_us</locale>
+     <version>latest</version>
+     <api>latest</api>
+     <options/>
+     <profile>
+      <revision>release</revision>
+     </profile>
+     <builds>
+      <help-panel>
+       <include-stylesheets>0</include-stylesheets>
+      </help-panel>
+     </builds>
+    </guide> -->
+   </guides>
+  </docset>
+ </docsets>
+</buildinfo>

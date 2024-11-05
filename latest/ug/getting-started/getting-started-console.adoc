@@ -1,0 +1,391 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[getting-started-console,getting-started-console.title]]
+= Get started with Amazon EKS – {aws-management-console} and {aws} CLI
+:info_doctype: section
+:info_title: Get started with Amazon EKS – {aws-management-console} and \
+            {aws} CLI
+:info_titleabbrev: Create your first cluster – {aws-management-console}
+:keywords: using, {aws-management-console}, {aws} CLI, getting, started, tutorial
+:info_abstract: Learn how to create your first Amazon EKS cluster with nodes using the {aws-management-console} and \
+                {aws} CLI.
+
+[abstract]
+--
+Learn how to create your first Amazon EKS cluster with nodes using the {aws-management-console} and {aws} CLI.
+--
+
+This guide helps you to create all of the required resources to get started with Amazon Elastic Kubernetes Service (Amazon EKS) using the {aws-management-console} and the {aws} CLI. In this guide, you manually create each resource. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to.  
+
+The procedures in this guide give you complete visibility into how each resource is created and how the resources interact with each other. If you'd rather have most of the resources created for you automatically, use the `eksctl` CLI to create your cluster and nodes. For more information, see <<getting-started-eksctl>>.
+
+[[eks-prereqs,eks-prereqs.title]]
+== Prerequisites
+
+Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster.
+
+
+
+* *{aws} CLI*
+ – A command line tool for working with {aws} services, including Amazon EKS. For more information, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide. After installing the {aws} CLI, we recommend that you also configure it. For more information, see  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide. Note that {aws} CLI v2 is required to use the *update-kubeconfig* option shown in this page.
+* *`kubectl`*
+ – A command line tool for working with [.noloc]`Kubernetes` clusters. For more information, see <<install-kubectl>>.
+* *Required IAM permissions*
+ – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, {aws} CloudFormation, a VPC, and related resources. For more information, see   link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] and link:IAM/latest/UserGuide/using-service-linked-roles.html[Using service-linked roles,type="documentation"] in the IAM User Guide. You must complete all steps in this guide as the same user. To check the current user, run the following command:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws sts get-caller-identity
+----
+
+We recommend that you complete the steps in this topic in a Bash shell. If you aren't using a Bash shell, some script commands such as line continuation characters and the way variables are set and used require adjustment for your shell. Additionally, the quoting and escaping rules for your shell might be different. For more information, see link:cli/latest/userguide/cli-usage-parameters-quoting-strings.html[Using quotation marks with strings in the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
+
+
+[[eks-create-cluster,eks-create-cluster.title]]
+== Step 1: Create your Amazon EKS cluster
+
+[IMPORTANT]
+====
+
+To get started as simply and quickly as possible, this topic includes steps to create a cluster with default settings. Before creating a cluster for production use, we recommend that you familiarize yourself with all settings and deploy a cluster with the settings that meet your requirements. For more information, see <<create-cluster>>. Some settings can only be enabled when creating your cluster.
+
+====
+. Create an Amazon VPC with public and private subnets that meets Amazon EKS requirements. Replace [.replaceable]`region-code` with any {aws} Region that is supported by Amazon EKS. For a list of {aws} Regions, see link:general/latest/gr/eks.html[Amazon EKS endpoints and quotas,type="documentation"] in the {aws} General Reference guide. You can replace [.replaceable]`my-eks-vpc-stack` with any name you choose.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws cloudformation create-stack \
+  --region region-code \
+  --stack-name my-eks-vpc-stack \
+  --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
+----
++
+TIP: For a list of all the resources the previous command creates, open the {aws} CloudFormation console at link:cloudformation/[cloudformation,type="console"]. Choose the [.replaceable]`my-eks-vpc-stack` stack and then choose the *Resources* tab.
+. Create a cluster IAM role and attach the required Amazon EKS IAM managed policy to it. [.noloc]`Kubernetes` clusters managed by Amazon EKS make calls to other {aws} services on your behalf to manage the resources that you use with the service.
++
+.. Copy the following contents to a file named [.replaceable]`eks-cluster-role-trust-policy.json`.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "eks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+----
+.. Create the role.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam create-role \
+  --role-name myAmazonEKSClusterRole \
+  --assume-role-policy-document file://"eks-cluster-role-trust-policy.json"
+----
+.. Attach the required Amazon EKS managed IAM policy to the role.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonEKSClusterPolicy \
+  --role-name myAmazonEKSClusterRole
+----
+. Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters].
++
+Make sure that the {aws} Region shown in the upper right of your console is the {aws} Region that you want to create your cluster in. If it's not, choose the dropdown next to the {aws} Region name and choose the {aws} Region that you want to use.
+. Choose *Add cluster*, and then choose  *Create*. If you don't see this option, then choose  *Clusters* in the left navigation pane first.
+. On the *Configure cluster* page, do the following:
++
+.. Enter a *Name* for your cluster, such as `my-cluster`. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
+.. For *Cluster Service Role*, choose [.replaceable]`myAmazonEKSClusterRole`.
+.. Leave the remaining settings at their default values and choose *Next*.
+. On the *Specify networking* page, do the following:
++
+.. Choose the ID of the VPC that you created in a previous step from the *VPC* dropdown list. It is something like [.replaceable]`vpc-00x0000x000x0x000` | [.replaceable]`my-eks-vpc-stack-VPC`.
+.. Leave the remaining settings at their default values and choose *Next*.
+. On the *Configure observability* page, choose  *Next*.
+. On the *Select add-ons* page, choose  *Next*.
++
+For more information on add-ons, see <<eks-add-ons>>.
+. On the *Configure selected add-ons settings* page, choose  *Next*.
+. On the *Review and create* page, choose  *Create*.
++
+To the right of the cluster's name, the cluster status is *Creating* for several minutes until the cluster provisioning process completes. Don't continue to the next step until the status is  *Active*.
++
+NOTE: You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster. If this happens, the error output contains the Availability Zones that can support a new cluster. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account. For more information, see <<ice>>.
+
+
+[[eks-configure-kubectl,eks-configure-kubectl.title]]
+== Step 2: Configure your computer to communicate with your cluster
+
+In this section, you create a `kubeconfig` file for your cluster. The settings in this file enable the `kubectl` CLI to communicate with your cluster.
+
+Before proceeding, be sure that your cluster creation completed successfully in Step 1.
+
+. Create or update a `kubeconfig` file for your cluster. Replace [.replaceable]`region-code` with the {aws} Region that you created your cluster in. Replace [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks update-kubeconfig --region region-code --name my-cluster
+----
++
+By default, the `config` file is created in `~/.kube` or the new cluster's configuration is added to an existing `config` file in `~/.kube`.
+. Test your configuration.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get svc
+----
++
+NOTE: If you receive any authorization or resource type errors, see <<unauthorized>> in the troubleshooting topic.
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
+----
+
+
+[[eks-launch-workers,eks-launch-workers.title]]
+== Step 3: Create nodes
+
+[IMPORTANT]
+====
+
+To get started as simply and quickly as possible, this topic includes steps to create nodes with default settings. Before creating nodes for production use, we recommend that you familiarize yourself with all settings and deploy nodes with the settings that meet your requirements. For more information, see <<eks-compute>>. Some settings can only be enabled when creating your nodes.
+
+====
+
+You can create a cluster with one of the following node types. To learn more about each type, see <<eks-compute>>. After your cluster is deployed, you can add other node types.
+
+* *Fargate – [.noloc]``Linux``* – Choose this type of node if you want to run [.noloc]``Linux`` applications on  <<fargate>>. Fargate is a serverless compute engine that lets you deploy [.noloc]``Kubernetes``[.noloc]``Pods`` without managing Amazon EC2 instances.
+* *Managed nodes – [.noloc]``Linux``* –  Choose this type of node if you want to run Amazon Linux applications on Amazon EC2 instances.  Though not covered in this guide, you can also add <<launch-windows-workers,Windows self-managed>> and <<launch-node-bottlerocket,Bottlerocket>> nodes to your cluster.
+
+====
+[role="tablist"]
+Fargate - [.noloc]`Linux`::
+
+Create a Fargate profile. When [.noloc]``Kubernetes``[.noloc]``Pods`` are deployed with criteria that matches the criteria defined in the profile, the [.noloc]``Pods`` are deployed to Fargate.
++
+*To create a Fargate profile*
++
+. Create an IAM role and attach the required Amazon EKS IAM managed policy to it. When your cluster creates [.noloc]``Pods`` on Fargate infrastructure, the components running on the Fargate infrastructure must make calls to {aws} APIs on your behalf. This is so that they can do actions such as pull container images from Amazon ECR or route logs to other {aws} services. The Amazon EKS [.noloc]``Pod`` execution role provides the IAM permissions to do this.  
+
+.. Copy the following contents to a file named `pod-execution-role-trust-policy.json`. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace [.replaceable]`region-code` with ``\*``. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with ``\*``.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Condition": {
+         "ArnLike": {
+            "aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*"
+         }
+      },
+      "Principal": {
+        "Service": "eks-fargate-pods.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+----
+
+.. Create a [.noloc]``Pod`` execution IAM role.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam create-role \
+  --role-name AmazonEKSFargatePodExecutionRole \
+  --assume-role-policy-document file://"pod-execution-role-trust-policy.json"
+----
+
+.. Attach the required Amazon EKS managed IAM policy to the role.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy \
+  --role-name AmazonEKSFargatePodExecutionRole
+----
+.. Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters].
+.. On the *Clusters* page, choose the [.replaceable]`my-cluster` cluster.
+.. On the *[.replaceable]`my-cluster`* page, do the following:
++
+.. Choose the *Compute* tab.
+.. Under *Fargate Profiles*, choose  *Add Fargate Profile*.
+. On the *Configure Fargate Profile* page, do the following:
++
+.. For *Name*, enter a unique name for your Fargate profile, such as         [.replaceable]`my-profile`.
+.. For *Pod execution role*, choose the  *AmazonEKSFargatePodExecutionRole* that you created in a previous step.
+.. Choose the *Subnets* dropdown and deselect any subnet with `Public` in its name. Only private subnets are supported for [.noloc]``Pods`` that are running on Fargate.
+.. Choose *Next*.
+. On the *Configure [.noloc]``Pod`` selection* page, do the following:
++
+.. For *Namespace*, enter ``default``.
+.. Choose *Next*.
+. On the *Review and create* page, review the information for your Fargate profile and choose  *Create*.
+. After a few minutes, the *Status* in the  *Fargate Profile configuration* section will change from  *Creating* to  *Active*. Don't continue to the next step until the status is  *Active*.
+. If you plan to deploy all [.noloc]``Pods`` to Fargate (none to Amazon EC2 nodes), do the following to create another Fargate profile and run the default name resolver ([.noloc]`CoreDNS`) on Fargate.
++
+NOTE: If you don't do this, you won't have any nodes at this time.
++
+.. On the *Fargate Profile* page, choose [.replaceable]``my-profile``.
+.. Under *Fargate profiles*, choose  *Add Fargate Profile*.
+.. For *Name*, enter [.noloc]``CoreDNS``.
+.. For *Pod execution role*, choose the  *AmazonEKSFargatePodExecutionRole* that you created in a previous step.
+.. Choose the *Subnets* dropdown and deselect any subnet with `Public` in its name. Only private subnets are supported for [.noloc]``Pods`` running on Fargate.
+.. Choose *Next*.
+.. For *Namespace*, enter ``kube-system``.
+.. Choose *Match labels*, and then choose  *Add label*.
+.. Enter `k8s-app` for *Key* and `kube-dns` for value. This is necessary for the default name resolver ([.noloc]``CoreDNS``) to deploy to Fargate.
+.. Choose *Next*.
+.. On the *Review and create* page, review the information for your Fargate profile and choose  *Create*.
+.. Run the following command to remove the default `eks.amazonaws.com/compute-type : ec2` annotation from the [.noloc]``CoreDNS``[.noloc]``Pods``.  
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl patch deployment coredns \
+    -n kube-system \
+    --type json \
+    -p='[{"op": "remove", "path": "/spec/template/metadata/annotations/eks.amazonaws.com~1compute-type"}]'
+----
++
+NOTE: The system creates and deploys two nodes based on the Fargate profile label you added. You won't see anything listed in *Node groups* because they aren't applicable for Fargate nodes, but you will see the new nodes listed in the  *Overview* tab.
+
+
+Managed nodes - [.noloc]`Linux`::
+
+Create a managed node group, specifying the subnets and node IAM role that you created in previous steps.
++
+*To create your {ec2} [.noloc]`Linux` managed node group*
++
+. Create a node IAM role and attach the required Amazon EKS IAM managed policy to it. The Amazon EKS node `kubelet` daemon makes calls to {aws} APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies.
++
+.. Copy the following contents to a file named `node-role-trust-policy.json`.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+----
+.. Create the node IAM role.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam create-role \
+  --role-name myAmazonEKSNodeRole \
+  --assume-role-policy-document file://"node-role-trust-policy.json"
+----
+.. Attach the required managed IAM policies to the role.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonEKSWorkerNodePolicy \
+  --role-name myAmazonEKSNodeRole
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonEC2ContainerRegistryReadOnly \
+  --role-name myAmazonEKSNodeRole
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonEKS_CNI_Policy \
+  --role-name myAmazonEKSNodeRole
+----
+.. Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters].
+.. Choose the name of the cluster that you created in <<eks-create-cluster,Step 1: Create your Amazon EKS cluster>>, such as [.replaceable]`my-cluster`.
+.. On the *[.replaceable]`my-cluster`* page, do the following:
++
+.. Choose the *Compute* tab.
+.. Choose *Add Node Group*.
+. On the *Configure Node Group* page, do the following:
++
+.. For *Name*, enter a unique name for your managed node group, such as [.replaceable]`my-nodegroup`. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters.
+.. For *Node IAM role name*, choose [.replaceable]``myAmazonEKSNodeRole`` role that you created in a previous step. We recommend that each node group use its own unique IAM role.
+.. Choose *Next*.
+. On the *Set compute and scaling configuration* page, accept the default values and choose  *Next*.
+. On the *Specify networking* page, accept the default values and choose  *Next*.  
+. On the *Review and create* page, review your managed node group configuration and choose  *Create*.
+. After several minutes, the *Status* in the  *Node Group configuration* section will change from  *Creating* to  *Active*. Don't continue to the next step until the status is  *Active*.
+====
+
+[[gs-view-resources,gs-view-resources.title]]
+
+== Step 4: View resources
+
+You can view your nodes and [.noloc]`Kubernetes` workloads.
+
+. In the left navigation pane, choose *Clusters*. In the list of  *Clusters*, choose the name of the cluster that you created, such as [.replaceable]`my-cluster`.
+. On the *[.replaceable]`my-cluster`* page, choose the following:
++
+.. *Compute*
+ tab – You see the list of  *Nodes* that were deployed for the cluster. You can choose the name of a node to see more information about it.
+.. *Resources* tab
+ – You see all of the [.noloc]`Kubernetes` resources that are deployed by default to an Amazon EKS cluster. Select any resource type in the console to learn more about it.
+
+
+[[gs-console-clean-up,gs-console-clean-up.title]]
+== Step 5: Delete resources
+
+After you've finished with the cluster and nodes that you created for this tutorial, you should delete the resources that you created. If you want to do more with this cluster before you delete the resources, see <<gs-console-next-steps>>.
+
+. Delete any node groups or Fargate profiles that you created.
++
+.. Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters].
+.. In the left navigation pane, choose *Clusters*. In the list of clusters, choose [.replaceable]`my-cluster`.
+.. Choose the *Compute* tab.
+.. If you created a node group, choose the [.replaceable]`my-nodegroup` node group and then choose *Delete*. Enter [.replaceable]`my-nodegroup`, and then choose *Delete*.
+.. For each Fargate profile that you created, choose it and then choose *Delete*. Enter the name of the profile, and then choose  *Delete*.
++
+NOTE: When deleting a second Fargate profile, you may need to wait for the first one to finish deleting.
+.. Don't continue until the node group or Fargate profiles are deleted.
+. Delete the cluster.
++
+.. In the left navigation pane, choose *Clusters*. In the list of clusters, choose [.replaceable]`my-cluster`.
+.. Choose *Delete cluster*.
+.. Enter [.replaceable]`my-cluster` and then choose *Delete*. Don't continue until the cluster is deleted.
+. Delete the VPC {aws} CloudFormation stack that you created.
++
+.. Open the link:cloudformation/[{aws} CloudFormation console,type="console"].
+.. Choose the [.replaceable]`my-eks-vpc-stack` stack, and then choose *Delete*.
+.. In the *Delete [.replaceable]`my-eks-vpc-stack`* confirmation dialog box, choose  *Delete stack*.
+. Delete the IAM roles that you created.
++
+.. Open the IAM console at https://console.aws.amazon.com/iam/.
+.. In the left navigation pane, choose *Roles*.
+.. Select each role you created from the list (*[.replaceable]`myAmazonEKSClusterRole`*, as well as  *AmazonEKSFargatePodExecutionRole* or [.replaceable]`myAmazonEKSNodeRole`). Choose *Delete*, enter the requested confirmation text, then choose  *Delete*.
+
+
+[[gs-console-next-steps,gs-console-next-steps.title]]
+== Next steps
+
+The following documentation topics help you to extend the functionality of your cluster.
+
+
+
+* The  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that created the cluster is the only principal that can make calls to the [.noloc]`Kubernetes` API server with `kubectl` or the {aws-management-console}. If you want other IAM principals to have access to your cluster, then you need to add them. For more information, see <<grant-k8s-access>> and <<view-kubernetes-resources-permissions>>.
+* Deploy a <<sample-deployment,sample application>> to your cluster.
+* Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for <<create-cluster,clusters>> and <<eks-compute,nodes>>. Some settings (such as enabling SSH access to Amazon EC2 nodes) must be made when the cluster is created.
+* To increase security for your cluster, <<cni-iam-role,configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts>>.

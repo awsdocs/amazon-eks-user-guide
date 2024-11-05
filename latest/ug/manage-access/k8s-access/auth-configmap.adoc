@@ -1,0 +1,371 @@
+
+[.topic]
+[[auth-configmap,auth-configmap.title]]
+= Grant [.noloc]`IAM` users access to [.noloc]`Kubernetes` with a [.noloc]`ConfigMap`
+
+include::../../attributes.txt[]
+
+
+[abstract]
+--
+Learn how to manage IAM principal access to your Amazon EKS cluster using the aws-auth ConfigMap and Kubernetes RBAC, allowing authorized users and roles to interact with the cluster securely.
+--
+
+[IMPORTANT]
+====
+
+The `aws-auth ConfigMap`  is deprecated. For the recommended method to manage access to [.noloc]`Kubernetes` APIs, see <<access-entries>>. 
+
+====
+
+Access to your cluster using   link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] is enabled by the https://github.com/kubernetes-sigs/aws-iam-authenticator#readme[{aws} IAM Authenticator for Kubernetes], which runs on the Amazon EKS control plane. The authenticator gets its configuration information from the `aws-auth` `ConfigMap`. For all `aws-auth` `ConfigMap` settings, see https://github.com/kubernetes-sigs/aws-iam-authenticator#full-configuration-format[Full Configuration Format] on [.noloc]`GitHub`.  
+
+[[aws-auth-users,aws-auth-users.title]]
+== Add IAM principals to your Amazon EKS cluster
+
+When you create an Amazon EKS cluster, the   link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that creates the cluster is automatically granted `system:masters` permissions in the cluster's role-based access control (RBAC) configuration in the Amazon EKS control plane. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth ConfigMap` within [.noloc]`Kubernetes` and create a [.noloc]`Kubernetes` `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth ConfigMap`.
+
+[NOTE]
+====
+
+For more information about [.noloc]`Kubernetes` role-based access control (RBAC) configuration, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the [.noloc]`Kubernetes` documentation.  
+
+====
+. Determine which credentials `kubectl` is using to access your cluster. On your computer, you can see which credentials `kubectl` uses with the following command. Replace [.replaceable]`~/.kube/config` with the path to your `kubeconfig` file if you don't use the default path.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+cat ~/.kube/config
+----
++
+An example output is as follows.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+[...]
+contexts:
+- context:
+    cluster: my-cluster.region-code.eksctl.io
+    user: admin@my-cluster.region-code.eksctl.io
+  name: admin@my-cluster.region-code.eksctl.io
+current-context: admin@my-cluster.region-code.eksctl.io
+[...]
+----
++
+In the previous example output, the credentials for a user named [.replaceable]`admin` are configured for a cluster named [.replaceable]`my-cluster`. If this is the user that created the cluster, then it already has access to your cluster. If it's not the user that created the cluster, then you need to complete the remaining steps to enable cluster access for other IAM principals.  link:IAM/latest/UserGuide/id_users.html[IAM best practices,type="documentation"] recommend that you grant permissions to roles instead of users. You can see which other principals currently have access to your cluster with the following command:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe -n kube-system configmap/aws-auth
+----
++
+An example output is as follows.
++
+[source,subs="verbatim,attributes"]
+....
+Name:         aws-auth
+Namespace:    kube-system
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+mapRoles:
+----
+- groups:
+  - system:bootstrappers
+  - system:nodes
+  rolearn: {arn-aws}iam::111122223333:role/my-node-role
+  username: system:node:{{EC2PrivateDNSName}}
+
+
+BinaryData
+====
+
+Events:  <none>
+....
++
+The previous example is a default `aws-auth` `ConfigMap`. Only the node instance role has access to the cluster.
+. Make sure that you have existing [.noloc]`Kubernetes` `roles` and `rolebindings` or `clusterroles` and `clusterrolebindings` that you can map IAM principals to. For more information about these resources, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the [.noloc]`Kubernetes` documentation.
++
+.. View your existing [.noloc]`Kubernetes` `roles` or `clusterroles`. `Roles` are scoped to a `namespace`, but `clusterroles` are scoped to the cluster. 
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get roles -A
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get clusterroles
+----
+.. View the details of any `role` or `clusterrole` returned in the previous output and confirm that it has the permissions (`rules`) that you want your IAM principals to have in your cluster.
++
+Replace [.replaceable]`role-name` with a `role` name returned in the output from the previous command. Replace [.replaceable]`kube-system` with the namespace of the `role`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe role role-name -n kube-system
+----
++
+Replace [.replaceable]`cluster-role-name` with a `clusterrole` name returned in the output from the previous command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe clusterrole cluster-role-name
+----
+.. View your existing [.noloc]`Kubernetes` `rolebindings` or `clusterrolebindings`. `Rolebindings` are scoped to a `namespace`, but `clusterrolebindings` are scoped to the cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get rolebindings -A
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get clusterrolebindings
+----
+.. View the details of any `rolebinding` or `clusterrolebinding` and confirm that it has a `role` or `clusterrole` from the previous step listed as a `roleRef` and a group name listed for `subjects`.
++
+Replace [.replaceable]`role-binding-name` with a `rolebinding` name returned in the output from the previous command. Replace [.replaceable]`kube-system` with the `namespace` of the `rolebinding`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe rolebinding role-binding-name -n kube-system
+----
++
+An example output is as follows.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: eks-console-dashboard-restricted-access-role-binding
+  namespace: default
+subjects:
+- kind: Group
+  name: eks-console-dashboard-restricted-access-group
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: eks-console-dashboard-restricted-access-role
+  apiGroup: rbac.authorization.k8s.io
+----
++
+Replace [.replaceable]`cluster-role-binding-name` with a `clusterrolebinding` name returned in the output from the previous command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe clusterrolebinding cluster-role-binding-name
+----
++
+An example output is as follows.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eks-console-dashboard-full-access-binding
+subjects:
+- kind: Group
+  name: eks-console-dashboard-full-access-group
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: eks-console-dashboard-full-access-clusterrole
+  apiGroup: rbac.authorization.k8s.io
+----
++
+. Edit the `aws-auth` `ConfigMap`. You can use a tool such as `eksctl` to update the `ConfigMap` or you can update it manually by editing it.
++
+IMPORTANT: We recommend using `eksctl`, or another tool, to edit the `ConfigMap`. For information about other tools you can use, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#use-tools-to-make-changes-to-the-aws-auth-configmap[Use tools to make changes to the aws-authConfigMap] in the Amazon EKS best practices guides. An improperly formatted `aws-auth` `ConfigMap` can cause you to lose access to your cluster. 
++
+** View steps to xref:configmap-eksctl[edit configmap with eksctl].
+** View steps to xref:configmap-manual[edit configmap manually].
+
+[[configmap-eksctl,configmap-eksctl.title]]
+=== Edit Configmap with Eksctl
+
+. You need version {eksctl-min-version} or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
++
+. View the current mappings in the `ConfigMap`. Replace [.replaceable]`my-cluster` with the name of your cluster. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl get iamidentitymapping --cluster my-cluster --region=region-code
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+ARN                                                                                             USERNAME                                GROUPS                          ACCOUNT
+{arn-aws}iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
+----
+. Add a mapping for a role. Replace [.replaceable]`my-role` with your role name. Replace [.replaceable]`eks-console-dashboard-full-access-group` with the name of the group specified in your [.noloc]`Kubernetes` `RoleBinding` or `ClusterRoleBinding` object. Replace [.replaceable]`111122223333` with your account ID. You can replace [.replaceable]`admin` with any name you choose.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamidentitymapping --cluster my-cluster --region=region-code \
+    --arn {arn-aws}iam::111122223333:role/my-role --username admin --group eks-console-dashboard-full-access-group \
+    --no-duplicate-arns
+----
++
+IMPORTANT: The role ARN can't include a path such as `role/my-team/developers/my-role`. The format of the ARN must be `{arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``my-role```. In this example, `my-team/developers/` needs to be removed.
++
+An example output is as follows.
++
+[literal]
+----
+[...]
+2022-05-09 14:51:20 [ℹ]  adding identity "{arn-aws}iam::111122223333:role/my-role" to auth ConfigMap
+----
+. Add a mapping for a user.  link:IAM/latest/UserGuide/id_users.html[IAM best practices,type="documentation"] recommend that you grant permissions to roles instead of users. Replace [.replaceable]`my-user` with your user name. Replace [.replaceable]`eks-console-dashboard-restricted-access-group` with the name of the group specified in your [.noloc]`Kubernetes` `RoleBinding` or `ClusterRoleBinding` object. Replace [.replaceable]`111122223333` with your account ID. You can replace [.replaceable]`my-user` with any name you choose.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamidentitymapping --cluster my-cluster --region=region-code \
+    --arn {arn-aws}iam::111122223333:user/my-user --username my-user --group eks-console-dashboard-restricted-access-group \
+    --no-duplicate-arns
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+[...]
+2022-05-09 14:53:48 [ℹ]  adding identity "{arn-aws}iam::111122223333:user/my-user" to auth ConfigMap
+----
+. View the mappings in the `ConfigMap` again.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl get iamidentitymapping --cluster my-cluster --region=region-code
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+ARN                                                                                             USERNAME                                GROUPS                                  ACCOUNT
+{arn-aws}iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
+{arn-aws}iam::111122223333:role/admin                                                            my-role                                 eks-console-dashboard-full-access-group
+{arn-aws}iam::111122223333:user/my-user                                                          my-user                                 eks-console-dashboard-restricted-access-group
+----
+
+[[configmap-manual,configmap-manual.title]]
+=== Edit Configmap manually
+. Open the `ConfigMap` for editing.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl edit -n kube-system configmap/aws-auth
+----
++
+NOTE: If you receive an error stating "``Error from server (NotFound): configmaps "aws-auth" not found``", then use the procedure in <<aws-auth-configmap,Apply the aws-auth   ConfigMap to your cluster>> to apply the stock `ConfigMap`.
+. Add your IAM principals to the `ConfigMap`. An IAM group isn't an IAM principal, so it can't be added to the `ConfigMap`.
++
+** *To add an IAM role (for example, for  link:IAM/latest/UserGuide/id_roles_providers.html[federated users,type="documentation"]):* Add the role details to the `mapRoles` section of the `ConfigMap`, under `data`. Add this section if it does not already exist in the file. Each entry supports the following parameters:
++
+*** *rolearn*: The ARN of the IAM role to add. This value can't include a path. For example, you can't specify an ARN such as `{arn-aws}iam::[.replaceable]``111122223333``:role/my-team/developers/[.replaceable]``role-name```. The ARN needs to be `{arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``role-name``` instead.
+*** *username*: The user name within [.noloc]`Kubernetes` to map to the IAM role.
+*** *groups*: The group or list of [.noloc]`Kubernetes` groups to map the role to. The group can be a default group, or a group specified in a `clusterrolebinding` or `rolebinding`. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings[Default roles and role bindings] in the [.noloc]`Kubernetes` documentation.
+** *To add an IAM user:*
+ link:IAM/latest/UserGuide/id_users.html[IAM best practices,type="documentation"] recommend that you grant permissions to roles instead of users. Add the user details to the `mapUsers` section of the `ConfigMap`, under `data`. Add this section if it does not already exist in the file. Each entry supports the following parameters:
++
+*** *userarn*: The ARN of the IAM user to add.
+*** *username*: The user name within [.noloc]`Kubernetes` to map to the IAM user.
+*** *groups*: The group, or list of [.noloc]`Kubernetes` groups to map the user to. The group can be a default group, or a group specified in a `clusterrolebinding` or `rolebinding`. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings[Default roles and role bindings] in the [.noloc]`Kubernetes` documentation.
++
+. For example, the following YAML block contains:
+** A `mapRoles` section that maps the IAM node instance to [.noloc]`Kubernetes` groups so that nodes can register themselves with the cluster and the `my-console-viewer-role` IAM role that is mapped to a [.noloc]`Kubernetes` group that can view all [.noloc]`Kubernetes` resources for all clusters. For a list of the IAM and [.noloc]`Kubernetes` group permissions required for the `my-console-viewer-role` IAM role, see <<view-kubernetes-resources-permissions>>.
+** A `mapUsers` section that maps the `admin` IAM user from the default {aws} account to the `system:masters` [.noloc]`Kubernetes` group and the `my-user` user from a different {aws} account that is mapped to a [.noloc]`Kubernetes` group that can view [.noloc]`Kubernetes` resources for a specific namespace. For a list of the IAM and [.noloc]`Kubernetes` group permissions required for the `my-user` IAM user, see <<view-kubernetes-resources-permissions>>.
++
+Add or remove lines as necessary and replace all [.replaceable]`example values` with your own values.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+data:
+  mapRoles: |
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: {arn-aws}iam::111122223333:role/my-role
+      username: system:node:{{EC2PrivateDNSName}}
+    - groups:
+      - eks-console-dashboard-full-access-group
+      rolearn: {arn-aws}iam::111122223333:role/my-console-viewer-role
+      username: my-console-viewer-role
+  mapUsers: |
+    - groups:
+      - system:masters
+      userarn: {arn-aws}iam::111122223333:user/admin
+      username: admin
+    - groups:
+      - eks-console-dashboard-restricted-access-group      
+      userarn: {arn-aws}iam::444455556666:user/my-user
+      username: my-user
+----
+. Save the file and exit your text editor.
+
+
+[[aws-auth-configmap,aws-auth-configmap.title]]
+== Apply the `aws-auth`   `ConfigMap` to your cluster
+
+The `aws-auth` `ConfigMap` is automatically created and applied to your cluster when you create a managed node group or when you create a node group using `eksctl`. It is initially created to allow nodes to join your cluster, but you also use this `ConfigMap` to add role-based access control (RBAC) access to IAM principals. If you've launched self-managed nodes and haven't applied the `aws-auth` `ConfigMap` to your cluster, you can do so with the following procedure.
+
+. Check to see if you've already applied the `aws-auth` `ConfigMap`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe configmap -n kube-system aws-auth
+----
++
+If you receive an error stating "``Error from server (NotFound): configmaps "aws-auth" not found``", then proceed with the following steps to apply the stock `ConfigMap`.
+. Download, edit, and apply the {aws} authenticator configuration map.
++
+.. Download the configuration map.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
+----
+.. In the ``aws-auth-cm.yaml`` file, set the `rolearn` to the Amazon Resource Name (ARN) of the IAM role associated with your nodes. You can do this with a text editor, or by replacing [.replaceable]`my-node-instance-role` and running the following command:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+sed -i.bak -e 's|<ARN of instance role (not instance profile)>|my-node-instance-role|' aws-auth-cm.yaml
+----
++
+Don't modify any other lines in this file.
++
+IMPORTANT: The role ARN can't include a path such as `role/my-team/developers/my-role`. The format of the ARN must be `{arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``my-role```. In this example, `my-team/developers/` needs to be removed.
++
+You can inspect the {aws} CloudFormation stack outputs for your node groups and look for the following values:
++
+*** *InstanceRoleARN* – For node groups that were created with `eksctl`
+*** *NodeInstanceRole* – For node groups that were created with Amazon EKS vended {aws} CloudFormation templates in the {aws-management-console}
+.. Apply the configuration. This command may take a few minutes to finish.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f aws-auth-cm.yaml
+----
++
+NOTE: If you receive any authorization or resource type errors, see <<unauthorized>> in the troubleshooting topic.
+. Watch the status of your nodes and wait for them to reach the `Ready` status.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get nodes --watch
+----
++
+Enter `Ctrl`+``C`` to return to a shell prompt.
+

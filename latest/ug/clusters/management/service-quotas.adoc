@@ -1,0 +1,92 @@
+//!!NODE_ROOT <section>
+include::../../attributes.txt[]
+
+[.topic]
+[[service-quotas,service-quotas.title]]
+= View and manage Amazon EKS and [.noloc]`Fargate` service quotas
+:info_doctype: section
+:info_title: View and manage Amazon EKS and Fargate service quotas
+:info_titleabbrev: Service quotas
+:info_abstract: Use Service Quotas to view and manage Amazon EKS and {aws} Fargate quotas from the {aws-management-console} or {aws} CLI.
+
+[abstract]
+--
+Use Service Quotas to view and manage Amazon EKS and {aws} Fargate quotas from the {aws-management-console} or {aws} CLI.
+--
+
+Amazon EKS has integrated with Service Quotas, an {aws} service that you can use to view and manage your quotas from a central location. For more information, see link:servicequotas/latest/userguide/intro.html[What Is Service Quotas?,type="documentation"] in the _Service Quotas User Guide_. With Service Quotas integration, you can quickly look up the value of your Amazon EKS and {aws} Fargate service quotas using the {aws-management-console} and {aws} CLI.
+
+
+[[service-quotas-console,service-quotas-console.title]]
+== View EKS service quotas in the {aws} Management Console
+
+. Open the link:servicequotas/home/services/eks/quotas["Service Quotas console",type="console"].
+. In the left navigation pane, choose *{aws} services*.
+. From the *{aws} services* list, search for and select  *Amazon Elastic Kubernetes Service (Amazon EKS)* or  *{aws} Fargate*.
++
+In the *Service quotas* list, you can see the service quota name, applied value (if it's available), {aws} default quota, and whether the quota value is adjustable.
+. To view additional information about a service quota, such as the description, choose the quota name.
+. (Optional) To request a quota increase, select the quota that you want to increase, select *Request quota increase*, enter or select the required information, and select  *Request*.
+
+
+To work more with service quotas using the {aws-management-console}, see the link:servicequotas/latest/userguide/intro.html[Service Quotas User Guide,type="documentation"]. To request a quota increase, see link:servicequotas/latest/userguide/request-quota-increase.html[Requesting a Quota Increase,type="documentation"] in the _Service Quotas User Guide_.
+
+
+== View EKS service quotas with the {aws} CLI
+
+Run the following command to view your Amazon EKS quotas.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws service-quotas list-aws-default-service-quotas \
+    --query 'Quotas[*].{Adjustable:Adjustable,Name:QuotaName,Value:Value,Code:QuotaCode}' \
+    --service-code eks \
+    --output table
+----
+
+Run the following command to view your Fargate quotas.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws service-quotas list-aws-default-service-quotas \
+    --query 'Quotas[*].{Adjustable:Adjustable,Name:QuotaName,Value:Value,Code:QuotaCode}' \
+    --service-code fargate \
+    --output table
+----
+
+NOTE: The quota returned is the number of Amazon ECS tasks or Amazon EKS [.noloc]`Pods` that can run concurrently on Fargate in this account in the current {aws} Region.
+
+To work more with service quotas using the {aws} CLI, see link:cli/latest/reference/service-quotas/index.html[service-quotas,type="documentation"] in the _{aws} CLI Command Reference_. To request a quota increase, see the link:cli/latest/reference/service-quotas/request-service-quota-increase.html[request-service-quota-increase,type="documentation"] command in the _{aws} CLI Command Reference_.
+
+
+[[sq-text,sq-text.title]]
+== Amazon EKS service quotas
+
+{aws} recommends using the {aws} management console to view your current quotas. For more information, see <<service-quotas-console>>.
+
+To view the default EKS service quotas, see link:general/latest/gr/eks.html#limits_eks["Amazon Elastic Kubernetes Service endpoints and quotas",type="documentation"] in the _{aws} General Reference_.
+
+These service quotas are listed under  *Amazon Elastic Kubernetes Service (Amazon EKS)* in the Service Quotas console. To request a quota increase for values that are shown as adjustable, see link:servicequotas/latest/userguide/request-quota-increase.html[Requesting a quota increase,type="documentation"] in the _Service Quotas User Guide_.
+
+[NOTE]
+====
+The following quota isn't available in Service Quotas: Pod Identity associations per cluster is [.noloc]`1000` in each supported region and this quota isn't adjustable.
+====
+
+[[service-quotas-eks-fargate,service-quotas-eks-fargate.title]]
+== {aws} Fargate service quotas
+
+The  *{aws} Fargate* service in the Service Quotas console lists several service quotas. You can configure alarms that alert you when your usage approaches a service quota. For more information, see <<service-quota-alarm>>.
+
+New {aws} accounts might have lower initial quotas that can increase over time. Fargate constantly monitors the account usage within each {aws} Region, and then automatically increases the quotas based on the usage. You can also request a quota increase for values that are shown as adjustable. For more information, see link:servicequotas/latest/userguide/request-quota-increase.html[Requesting a quota increase,type="documentation"] in the _Service Quotas User Guide_.
+
+{aws} reccomends using the {aws} management console to view your current quotas. For more information, see <<service-quotas-console>>.
+
+To view default {aws} Fargate on EKS service quotas, see link:general/latest/gr/eks.html#service-quotas-eks-fargate["Fargate service quotas",type="documentation"] in the _{aws} General Reference_.
+
+[NOTE]
+====
+
+Fargate additionally enforces Amazon ECS tasks and Amazon EKS [.noloc]`Pods` launch rate quotas. For more information, see link:AmazonECS/latest/developerguide/throttling.html[{aws} Fargate throttling quotas,type="documentation"] in the _Amazon ECS guide_.
+
+====

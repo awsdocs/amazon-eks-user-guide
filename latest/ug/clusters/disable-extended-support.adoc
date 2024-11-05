@@ -1,0 +1,38 @@
+include::../attributes.txt[]
+[.topic]
+[[disable-extended-support,disable-extended-support.title]]
+= Prevent increased cluster costs by disabling EKS extended support
+:info_titleabbrev: Disable extended support 
+
+This topic describes how to set the  _upgrade policy_ of an EKS cluster to disable extended support. The upgrade policy of an EKS cluster determines what happens when a cluster reaches the end of the standard _support period_. If a cluster upgrade policy has extended support disabled, it will be automatically upgraded to the next [.noloc]`Kubernetes` version.  
+
+For more information about upgrade policies, see <<view-upgrade-policy>>.
+
+[IMPORTANT]
+====
+
+You cannot disable extended support once your cluster has entered it. You can only disable extended support for clusters on standard support. 
+
+{aws} recommends upgrading your cluster to a version in the standard support period.
+
+====
+
+[[disable-support-policy-console,disable-support-policy-console.title]]
+== Disable EKS extended support ({aws} Console)
+. Navigate to your EKS cluster in the {aws} Console. Select the *Overview* tab on the  *Cluster Info* page.
+. In the *Kubernetes version setting* section, select  *Manage*.  
+. Select *Standard support* and then  *Save changes*.
+
+
+[[disable-support-policy-cli,disable-support-policy-cli.title]]
+== Disable EKS extended support ({aws} CLI)
+. Verify the {aws} CLI is installed and you are logged in.  link:cli/latest/userguide/getting-started-install.html[Learn how to update and install the {aws} CLI.,type="documentation"]
+. Determine the name of your EKS cluster. 
+. Run the following command:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks update-cluster-config \
+--name <cluster-name> \
+--upgrade-policy supportType=STANDARD
+----

@@ -1,0 +1,154 @@
+//!!NODE_ROOT <chapter>
+include::../attributes.txt[]
+[[eks-observe,eks-observe.title]]
+= Monitor your cluster performance and view logs
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: Monitor your cluster performance and view logs
+:info_titleabbrev: Monitor clusters
+:keywords: observability, monitoring, logging, logs, data
+:info_abstract: You can observe your data in Amazon EKS using many available monitoring or logging \
+                tools.
+
+[abstract]
+--
+You can observe your data in Amazon EKS using many available monitoring or logging tools.
+--
+
+You can observe your data in Amazon EKS using many available monitoring or logging tools. Your Amazon EKS log data can be streamed to {aws} services or to partner tools for data analysis. There are many services available in the {aws-management-console} that provide data for troubleshooting your Amazon EKS issues. You can also use an {aws}-supported open-source solution for link:grafana/latest/userguide/solution-eks.html[monitoring Amazon EKS infrastructure,type="documentation"].
+
+After selecting *Clusters* in the left navigation pane of the Amazon EKS console, you can view cluster health and details by selecting your cluster's name. To view details about any existing [.noloc]`Kubernetes` resources that are deployed to your cluster, see <<view-kubernetes-resources>>.
+
+Monitoring is an important part of maintaining the reliability, availability, and performance of Amazon EKS and your {aws} solutions. We recommend that you collect monitoring data from all of the parts of your {aws} solution. That way, you can more easily debug a multi-point failure if one occurs. Before you start monitoring Amazon EKS, make sure that your monitoring plan addresses the following questions.
+
+* What are your goals? Do you need real-time notifications if your clusters scale dramatically?
+* What resources need to be observed?
+* How frequently do you need to observe these resources? Does your company want to respond quickly to risks?
+* What tools do you intend to use? If you already run {aws} Fargate as part of your launch, then you can use the built-in <<fargate-logging,log router>>.
+* Who do you intend to perform the monitoring tasks?
+* Whom do you want notifications to be sent to when something goes wrong?
+
+[[logging-monitoring,logging-monitoring.title]]
+== Monitoring and logging on Amazon EKS
+
+Amazon EKS provides built-in tools for monitoring and logging. Control plane logging records all API calls to your clusters, audit information capturing what users performed what actions to your clusters, and role-based information. For more information, see link:prescriptive-guidance/latest/implementing-logging-monitoring-cloudwatch/amazon-eks-logging-monitoring.html[Logging and monitoring on Amazon EKS,type="documentation"] in the _{aws} Prescriptive Guidance_.
+
+Amazon EKS control plane logging  provides audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs in your account. These logs make it easy for you to secure and run your clusters. You can select the exact log types you need, and logs are sent as log streams to a group for each Amazon EKS cluster in CloudWatch. For more information, see <<control-plane-logs>>.
+
+[NOTE]
+====
+
+When you check the Amazon EKS authenticator logs in Amazon CloudWatch, the entries are displayed that contain text similar to the following example text.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+level=info msg="mapping IAM role" groups="[]" role="{arn-aws}iam::111122223333:role/XXXXXXXXXXXXXXXXXX-NodeManagerRole-XXXXXXXX" username="eks:node-manager"
+----
+
+Entries that contain this text are expected. The `username` is an Amazon EKS internal service role that performs specific operations for managed node groups and Fargate.
+
+For low-level, customizable logging, then https://kubernetes.io/docs/concepts/cluster-administration/logging/[Kubernetes logging] is available.
+
+====
+
+Amazon EKS is integrated with {aws} CloudTrail, a service that provides a record of actions taken by a user, role, or an {aws} service in Amazon EKS. CloudTrail captures all API calls for Amazon EKS as events. The calls captured include calls from the Amazon EKS console and code calls to the Amazon EKS API operations. For more information, see <<logging-using-cloudtrail>>.
+
+The [.noloc]`Kubernetes` API server exposes a number of metrics that are useful for monitoring and analysis. For more information, see <<prometheus>>.
+
+To configure [.noloc]`Fluent Bit` for custom Amazon CloudWatch logs, see   link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html#Container-Insights-FluentBit-setup[Setting up Fluent Bit,type="documentation"] in the Amazon CloudWatch User Guide.
+
+[[eks-monitor-tools,eks-monitor-tools.title]]
+== Amazon EKS monitoring and logging tools
+
+Amazon Web Services provides various tools that you can use to monitor Amazon EKS. You can configure some tools to set up automatic monitoring, but some require manual calls. We recommend that you automate monitoring tasks as much as your environment and existing toolset allows.
+
+The following table describes various monitoring tool options.
+
+[cols="1,1,1,1", options="header"]
+|===
+
+|Areas
+|Tool
+|Description
+|Setup
+
+|Applications / control plane
+|link:prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html[Prometheus,type="documentation"]
+|[.noloc]`Prometheus` can be used to monitor metrics and alerts for applications and the control plane.
+|<<prometheus,Setup procedure>>
+
+|Applications
+|link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[CloudWatch Container Insights,type="documentation"]
+|CloudWatch Container Insights collects, aggregates, and summarizes metrics and logs from your containerized applications and microservices.
+|link:AmazonCloudWatch/latest/monitoring/deploy-container-insights-EKS.html[Setup procedure,type="documentation"]
+
+|Applications
+|https://aws-otel.github.io/docs/introduction[{aws} Distro for OpenTelemetry (ADOT)]
+|ADOT can collect and sends correlated metrics, trace data, and metadata to {aws} monitoring services or partners. It can be set up through CloudWatch Container Insights.
+|<<opentelemetry,Setup procedure>>
+
+|Applications
+|link:about-aws/whats-new/2021/11/amazon-devops-guru-coverage-amazon-eks-metrics-cluster/[Amazon DevOps Guru,type="marketing"]
+|Amazon DevOps Guru detects node-level operational performance and availability.
+|link:AmazonCloudWatch/latest/monitoring/deploy-container-insights-EKS.html[Setup procedure,type="documentation"]
+
+|Applications
+|link:xray/latest/devguide/aws-xray.html[{aws} X-Ray,type="documentation"]
+|{aws} X-Ray receives trace data about your application. This trace data includes ingoing and outgoing requests and metadata about the requests. For Amazon EKS, the implementation requires the [.noloc]`OpenTelemetry` add-on.
+|link:xray/latest/devguide/xray-instrumenting-your-app.html[Setup procedure,type="documentation"]
+
+|Applications
+|link:AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html[Amazon CloudWatch Observability Operator,type="documentation"]
+|The Amazon CloudWatch Observability Operator collects metrics, logs, and trace data. It sends them to Amazon CloudWatch and {aws} X-Ray.
+|link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Setup procedure,type="documentation"]
+
+|===
+
+The following table describes various logging tool options.
+
+[cols="1,1,1,1", options="header"]
+|===
+
+|Areas
+|Tool
+|Description
+|Setup
+
+|Applications
+|link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[Amazon CloudWatch Container Insights,type="documentation"]
+|Amazon CloudWatch Container Insights collects, aggregates, and summarizes metrics and logs from your containerized applications and microservices.
+|link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-EKS-quickstart.html[Setup procedure,type="documentation"]
+
+|Control plane
+|link:AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html[Amazon CloudWatch Logs,type="documentation"]
+|You can send audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs in your account.
+|<<control-plane-logs,Setup procedure>>
+
+|Control plane
+|<<logging-using-cloudtrail,{aws} CloudTrail>>
+|It logs API calls by a user, role, or service.
+|link:awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail.html[Setup procedure,type="documentation"]
+
+|Multiple areas for {aws} Fargate instances
+|<<fargate-logging,{aws} Fargate log router>>
+|For {aws} Fargate instances, the log router streams logs to {aws} services or partner tools. It uses https://github.com/aws/aws-for-fluent-bit[{aws} for Fluent Bit]. Logs can be streamed to other {aws} services or partner tools.
+|<<fargate-logging,Setup procedure>>
+
+|===
+
+include::prometheus.adoc[leveloffset=+1]
+
+include::cloudwatch.adoc[leveloffset=+1]
+
+include::control-plane-logs.adoc[leveloffset=+1]
+
+include::logging-using-cloudtrail.adoc[leveloffset=+1]
+
+include::opentelemetry.adoc[leveloffset=+1]

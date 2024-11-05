@@ -1,0 +1,26 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+[.topic]
+[[vt1,vt1.title]]
+= Use hardware-accelerated [.noloc]`VT1` video transcoding
+:info_titleabbrev: Video transcoding
+
+[abstract]
+--
+Custom Amazon Linux AMIs in Amazon EKS can support the [.noloc]`VT1` video transcoding instance family for Amazon Linux 2 (AL2),  
+--
+
+Custom Amazon Linux AMIs in Amazon EKS can support the VT1 video transcoding instance family for Amazon Linux 2 (AL2), [.noloc]`Ubuntu` 18, and [.noloc]`Ubuntu` 20. [.noloc]`VT1` supports the [.noloc]`Xilinx` U30 media transcoding cards with accelerated H.264/AVC and H.265/HEVC codecs. To get the benefit of these accelerated instances, you must follow these steps:  
+
+. Create and launch a base AMI from AL2, [.noloc]`Ubuntu` 18, or [.noloc]`Ubuntu` 20.
+. After the based AMI is launched, Install the https://xilinx.github.io/video-sdk/[XRT driver] and runtime on the node.
+. <<create-cluster,Create an Amazon EKS cluster>>.
+. Install the [.noloc]`Kubernetes` https://github.com/Xilinx/FPGA_as_a_Service/tree/master/k8s-device-plugin[FPGA plugin] on your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f fpga-device-plugin.yml
+----
+
+The plugin will now advertise [.noloc]`Xilinx` U30 devices per node on your Amazon EKS cluster. You can use the [.noloc]`FFMPEG` docker image to run example video transcoding workloads on your Amazon EKS cluster.
+

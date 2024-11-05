@@ -1,0 +1,171 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[getting-started-eksctl,getting-started-eksctl.title]]
+= Get started with Amazon EKS – `eksctl`
+:info_doctype: section
+:info_title: Get started with Amazon EKS – \
+            eksctl
+:info_titleabbrev: Create your first cluster – eksctl
+:keywords: using, eksctl, getting, started, tutorial
+:info_abstract: Learn how to create your first Amazon EKS cluster with nodes using the eksctl command \
+                line tool.
+
+[abstract]
+--
+Learn how to create your first Amazon EKS cluster with nodes using the `eksctl` command line tool.
+--
+
+This guide helps you to create all of the required resources to get started with Amazon Elastic Kubernetes Service (Amazon EKS) using `eksctl`, a simple command line utility for creating and managing [.noloc]`Kubernetes` clusters on Amazon EKS. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to.  
+
+The procedures in this guide create several resources for you automatically that you have to create manually when you create your cluster using the {aws-management-console}. If you'd rather manually create most of the resources to better understand how they interact with each other, then use the {aws-management-console} to create your cluster and compute. For more information, see <<getting-started-console>>.
+
+[[eksctl-prereqs,eksctl-prereqs.title]]
+== Prerequisites
+
+Before starting this tutorial, you must install and configure the {aws} CLI, kubectl, and eksctl tools as described in  <<setting-up,Set up to use Amazon EKS>>.
+
+[[create-cluster-gs-eksctl,create-cluster-gs-eksctl.title]]
+== Step 1: Create your Amazon EKS cluster and nodes
+
+[IMPORTANT]
+====
+
+To get started as simply and quickly as possible, this topic includes steps to create a cluster and nodes with default settings. Before creating a cluster and nodes for production use, we recommend that you familiarize yourself with all settings and deploy a cluster and nodes with the settings that meet your requirements. For more information, see <<create-cluster>> and <<eks-compute>>. Some settings can only be enabled when creating your cluster and nodes.
+
+====
+
+You can create a cluster with one of the following node types. To learn more about each type, see <<eks-compute>>. After your cluster is deployed, you can add other node types.
+
+
+* *Fargate – [.noloc]``Linux``* – Select this type of node if you want to run [.noloc]``Linux`` applications on  <<fargate>>. Fargate is a serverless compute engine that lets you deploy [.noloc]``Kubernetes`` [.noloc]``Pods`` without managing Amazon EC2 instances.
+* *Managed nodes – [.noloc]``Linux``* – Select this type of node if you want to run Amazon Linux applications on Amazon EC2 instances. Though not covered in this guide, you can also add  <<launch-windows-workers,Windows self-managed>> and <<launch-node-bottlerocket,Bottlerocket>> nodes to your cluster.
+
+Create your Amazon EKS cluster with the following command. You can replace [.replaceable]`my-cluster` with your own value. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in. Replace [.replaceable]`region-code` with any {aws} Region that is supported by Amazon EKS. For a list of {aws} Regions, see link:general/latest/gr/eks.html[Amazon EKS endpoints and quotas,type="documentation"] in the {aws} General Reference guide.
+
+====
+[role="tablist"]
+Fargate - [.noloc]`Linux`::
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create cluster --name my-cluster --region region-code --fargate
+----
+
+Managed nodes - [.noloc]`Linux`::
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create cluster --name my-cluster --region region-code
+----
+====
+
+
+Cluster creation takes several minutes. During creation you'll see several lines of output. The last line of output is similar to the following example line.
+
+----
+[...]
+[✓]  EKS cluster "my-cluster" in "`region-code`" region is ready
+----
+
+`eksctl` created a `kubectl` config file in `~/.kube/config` or added the new cluster's configuration within an existing config file in `~/.kube/config` on your computer.
+
+After cluster creation is complete, view the {aws} CloudFormation stack named `eksctl-[.replaceable]``my-cluster``-cluster` in the {aws} CloudFormation link:cloudformation/[console,type="console"] to see all of the resources that were created.
+
+[[gs-eksctl-view-resources,gs-eksctl-view-resources.title]]
+
+
+== Step 2: View [.noloc]`Kubernetes` resources
+. View your cluster nodes.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get nodes -o wide
+----
++
+An example output is as follows.
++
+====
+[role="tablist"]
+Fargate - [.noloc]`Linux`::
++
+[source,none,subs="verbatim,attributes,quotes"]
+----
+NAME                                                STATUS   ROLES    AGE     VERSION              INTERNAL-IP   EXTERNAL-IP   OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
+fargate-ip-192-0-2-0.region-code.compute.internal   Ready    <none>   8m3s    v1.2.3-eks-1234567   192.0.2.0     <none>        Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
+fargate-ip-192-0-2-1.region-code.compute.internal   Ready    <none>   7m30s   v1.2.3-eks-1234567   192-0-2-1     <none>        Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
+----
+
+Managed nodes - [.noloc]`Linux`::
++
+[source,none,subs="verbatim,attributes,quotes"]
+----
+NAME                                        STATUS   ROLES    AGE    VERSION              INTERNAL-IP   EXTERNAL-IP   OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
+ip-192-0-2-0.region-code.compute.internal   Ready    <none>   6m7s   v1.2.3-eks-1234567   192.0.2.0     192.0.2.2     Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
+ip-192-0-2-1.region-code.compute.internal   Ready    <none>   6m4s   v1.2.3-eks-1234567   192.0.2.1     192.0.2.3     Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
+----
+====
++
+For more information about what you see in the output, see  <<view-kubernetes-resources>>.
+
+. View the workloads running on your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get pods -A -o wide
+----
++
+An example output is as follows.
++
+====
+[role="tablist"]
+Fargate - [.noloc]`Linux`::
++
+[source,none,subs="verbatim,attributes,quotes"]
+----
+NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE   IP          NODE                                                NOMINATED NODE   READINESS GATES
+kube-system   coredns-1234567890-abcde   1/1     Running   0          18m   192.0.2.0   fargate-ip-192-0-2-0.region-code.compute.internal   <none>           <none>
+kube-system   coredns-1234567890-12345   1/1     Running   0          18m   192.0.2.1   fargate-ip-192-0-2-1.region-code.compute.internal   <none>           <none>
+----
+
+Managed nodes - [.noloc]`Linux`::
++
+[source,none,subs="verbatim,attributes,quotes"]
+----
+NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE     IP          NODE                                        NOMINATED NODE   READINESS GATES
+kube-system   aws-node-12345             1/1     Running   0          7m43s   192.0.2.1   ip-192-0-2-1.region-code.compute.internal   <none>           <none>
+kube-system   aws-node-67890             1/1     Running   0          7m46s   192.0.2.0   ip-192-0-2-0.region-code.compute.internal   <none>           <none>
+kube-system   coredns-1234567890-abcde   1/1     Running   0          14m     192.0.2.3   ip-192-0-2-3.region-code.compute.internal   <none>           <none>
+kube-system   coredns-1234567890-12345   1/1     Running   0          14m     192.0.2.4   ip-192-0-2-4.region-code.compute.internal   <none>           <none>
+kube-system   kube-proxy-12345           1/1     Running   0          7m46s   192.0.2.0   ip-192-0-2-0.region-code.compute.internal   <none>           <none>
+kube-system   kube-proxy-67890           1/1     Running   0          7m43s   192.0.2.1   ip-192-0-2-1.region-code.compute.internal   <none>           <none>
+----
+====
++
+For more information about what you see in the output, see  <<view-kubernetes-resources>>.
+
+
+[[gs-eksctl-clean-up,gs-eksctl-clean-up.title]]
+
+== Step 3: Delete your cluster and nodes
+
+After you've finished with the cluster and nodes that you created for this tutorial, you should clean up by deleting the cluster and nodes with the following command. If you want to do more with this cluster before you clean up, see <<gs-eksctl-next-steps>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl delete cluster --name my-cluster --region region-code
+----
+
+
+[[gs-eksctl-next-steps,gs-eksctl-next-steps.title]]
+== Next steps
+
+The following documentation topics help you to extend the functionality of your cluster.
+
+
+
+* Deploy a <<sample-deployment,sample application>> to your cluster.
+* The  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that created the cluster is the only principal that can make calls to the [.noloc]`Kubernetes` API server with `kubectl` or the {aws-management-console}. If you want other IAM principals to have access to your cluster, then you need to add them. For more information, see <<grant-k8s-access>> and <<view-kubernetes-resources-permissions>>.
+* Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for <<create-cluster,clusters>> and <<eks-compute,nodes>>. Some settings (such as enabling SSH access to Amazon EC2 nodes) must be made when the cluster is created.
+* To increase security for your cluster, <<cni-iam-role,configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts>>.

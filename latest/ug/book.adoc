@@ -1,0 +1,83 @@
+//!!NODE_ROOT <book>
+include::attributes.txt[]
+[[top]]
+= Amazon EKS
+:doctype: book
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:info_doctype: book
+:info_title: Amazon EKS
+:info_subtitle: User Guide
+:info_abstract: This is official Amazon Web Services ({aws}) documentation for Amazon Elastic Kubernetes Service (Amazon EKS). Amazon EKS is a managed \
+    service that makes it easy for you to run Kubernetes on {aws} without needing to install and operate \
+    your own Kubernetes clusters. Kubernetes is an open-source system for automating the deployment, scaling, \
+    and management of containerized applications.
+:info_corpauthor: Amazon Web Services
+:info_publisher: Amazon Web Services
+:info_copyright: 2024 \
+Amazon Web Services, Inc. and/or its affiliates. All rights reserved.
+:info_legalnotice: Amazon's trademarks and trade dress may not be used in \
+connection with any product or service that is not Amazon's, \
+in any manner that is likely to cause confusion among customers, \
+or in any manner that disparages or discredits Amazon. All other \
+trademarks not owned by Amazon are the property of their respective \
+owners, who may or may not be affiliated with, connected to, or \
+sponsored by Amazon.
+:keywords: EKS, Amazon EKS, Kubernetes, K8s, Cluster, Pod
+
+[abstract]
+--
+This is official Amazon Web Services ({aws}) documentation for Amazon Elastic Kubernetes Service (Amazon EKS). Amazon EKS is a managed service that makes it easy for you to run [.noloc]`Kubernetes` on {aws} without needing to install and operate your own [.noloc]`Kubernetes` clusters. [.noloc]`Kubernetes` is an open-source system for automating the deployment, scaling, and management of containerized applications.
+--
+:sectnums:
+////
+[.banner.info]
+*Help improve this page*
+
+[.banner.info]
+Want to contribute to this user guide? Scroll to the bottom of this page and select *Edit this page on GitHub*. Your contributions will help make our user guide better for everyone.  
+////
+include::what-is/what-is-eks.adoc[leveloffset=+1]
+
+include::getting-started/setting-up.adoc[leveloffset=+1]
+
+include::quickstart.adoc[leveloffset=+1]
+
+include::getting-started/getting-started.adoc[leveloffset=+1]
+
+include::clusters/clusters.adoc[leveloffset=+1]
+
+include::manage-access/cluster-auth.adoc[leveloffset=+1]
+
+include::nodes/eks-compute.adoc[leveloffset=+1]
+
+include::storage/storage.adoc[leveloffset=+1]
+
+include::networking/eks-networking.adoc[leveloffset=+1]
+
+include::workloads/eks-workloads.adoc[leveloffset=+1]
+
+include::clusters/management/eks-managing.adoc[leveloffset=+1]
+
+include::security/security.adoc[leveloffset=+1]
+
+include::observability/eks-observe.adoc[leveloffset=+1]
+
+include::integrations/eks-integrations.adoc[leveloffset=+1]
+
+include::troubleshooting/troubleshooting.adoc[leveloffset=+1]
+
+include::connector/eks-connector.adoc[leveloffset=+1]
+
+include::outposts/eks-outposts.adoc[leveloffset=+1]
+
+include::related-projects.adoc[leveloffset=+1]
+
+include::roadmap.adoc[leveloffset=+1]
+
+include::doc-history.adoc[leveloffset=+1]
+
+include::contribute/contribute.adoc[leveloffset=+1]

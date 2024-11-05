@@ -1,0 +1,2069 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[eks-add-ons,eks-add-ons.title]]
+= Amazon EKS add-ons
+:info_doctype: section
+:info_title: Amazon EKS add-ons
+:info_titleabbrev: Amazon EKS add-ons
+:keywords: managed, add-ons, plugins
+:info_abstract: Learn how to manage operational software add-ons on Amazon EKS clusters with Amazon EKS add-ons for observability, networking, storage, and security from {aws} and third-party vendors.
+
+include::../attributes.txt[]
+
+include::add-ons-iam.adoc[leveloffset=+1]
+
+include::kubernetes-field-management.adoc[leveloffset=+1]
+
+[abstract]
+--
+Learn how to manage operational software add-ons on Amazon EKS clusters with Amazon EKS add-ons for observability, networking, storage, and security from {aws} and third-party vendors..
+--
+
+An add-on is software that provides supporting operational capabilities to [.noloc]`Kubernetes` applications, but is not specific to the application. This includes software like observability agents or [.noloc]`Kubernetes` drivers that allow the cluster to interact with underlying {aws} resources for networking, compute, and storage. Add-on software is typically built and maintained by the [.noloc]`Kubernetes` community, cloud providers like {aws}, or third-party vendors. Amazon EKS automatically installs self-managed add-ons such as the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, `kube-proxy`, and [.noloc]`CoreDNS` for every cluster. You can change the default configuration of the add-ons and update them when desired.
+
+Amazon EKS add-ons provide installation and management of a curated set of add-ons for Amazon EKS clusters. All Amazon EKS add-ons include the latest security patches, bug fixes, and are validated by {aws} to work with Amazon EKS. Amazon EKS add-ons allow you to consistently ensure that your Amazon EKS clusters are secure and stable and reduce the amount of work that you need to do in order to install, configure, and update add-ons. If a self-managed add-on, such as `kube-proxy` is already running on your cluster and is available as an Amazon EKS add-on, then you can install the `kube-proxy` Amazon EKS add-on to start benefiting from the capabilities of Amazon EKS add-ons.
+
+You can update specific Amazon EKS managed configuration fields for Amazon EKS add-ons through the Amazon EKS API. You can also modify configuration fields not managed by Amazon EKS directly within the [.noloc]`Kubernetes` cluster once the add-on starts. This includes defining specific configuration fields for an add-on where applicable. These changes are not overridden by Amazon EKS once they are made. This is made possible using the [.noloc]`Kubernetes` server-side apply feature. For more information, see <<kubernetes-field-management>>.
+
+You can use Amazon EKS add-ons with any Amazon EKS node type. For more information, see <<eks-compute>>.
+
+You can add, update, or delete Amazon EKS add-ons using the Amazon EKS API, {aws-management-console}, {aws} CLI, and `eksctl`. You can also create Amazon EKS add-ons using link:AWSCloudFormation/latest/UserGuide/aws-resource-eks-addon.html[{aws} CloudFormation,type="documentation"].
+
+[[eks-add-ons-considerations,eks-add-ons-considerations.title]]
+== Considerations
+
+Consider the following when you use Amazon EKS add-ons:
+
+
+
+* To configure add-ons for the cluster your  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] must have IAM permissions to work with add-ons. For more information, see the actions with `Addon` in their name in  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"].
+* Amazon EKS add-ons run on the nodes that you provision or configure for your cluster. Node types include Amazon EC2 instances and Fargate.
+* You can modify fields that aren't managed by Amazon EKS to customize the installation of an Amazon EKS add-on. For more information, see <<kubernetes-field-management>>.
+* If you create a cluster with the {aws-management-console}, the Amazon EKS `kube-proxy`, [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`, and [.noloc]`CoreDNS` Amazon EKS add-ons are automatically added to your cluster. If you use `eksctl` to create your cluster with a `config` file, `eksctl` can also create the cluster with Amazon EKS add-ons. If you create your cluster using `eksctl` without a `config` file or with any other tool, the self-managed `kube-proxy`, [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`, and [.noloc]`CoreDNS` add-ons are installed, rather than the Amazon EKS add-ons. You can either manage them yourself or add the Amazon EKS add-ons manually after cluster creation.
+* The `eks:addon-cluster-admin` `ClusterRoleBinding` binds the `cluster-admin` `ClusterRole` to the `eks:addon-manager` [.noloc]`Kubernetes` identity. The role has the necessary permissions for the `eks:addon-manager` identity to create [.noloc]`Kubernetes` namespaces and install add-ons into namespaces. If the `eks:addon-cluster-admin` `ClusterRoleBinding` is removed, the Amazon EKS cluster will continue to function, however Amazon EKS is no longer able to manage any add-ons. All clusters starting with the following platform versions use the new `ClusterRoleBinding`.
++
+[cols="1,1", options="header"]
+|===
+|Kubernetes version
+|EKS platform version
+
+
+|1.20
+|eks.12
+
+|1.21
+|eks.14
+
+|1.22
+|eks.9
+
+|1.23
+|eks.5
+
+|1.24
+|eks.3
+|===
+
+
+[.topic]
+[[workloads-add-ons-available-eks,workloads-add-ons-available-eks.title]]
+== Available Amazon EKS add-ons from {aws}
+
+[abstract]
+--
+Learn about the availabe Amazon EKS add-ons from {aws}.
+--
+
+The following Amazon EKS add-ons are available to create on your cluster. You can view the most current list of available add-ons using `eksctl`, the {aws-management-console}, or the {aws} CLI. To see all available add-ons or to install an add-on, see <<creating-an-add-on>>. If an add-on requires IAM permissions, then you must have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one, or to create one, see <<enable-iam-roles-for-service-accounts>>. You can an create or delete an add-on after you've installed it. For more information, see <<updating-an-add-on>> or <<removing-an-add-on>>.
+
+You can use any of the following Amazon EKS add-ons.
+
+[cols="1,1", options="header"]
+|===
+|Description
+|Learn more
+
+
+| Provide native VPC networking for your cluster
+|<<add-ons-vpc-cni>>
+
+| A flexible, extensible DNS server that can serve as the [.noloc]`Kubernetes` cluster DNS
+|<<add-ons-coredns>>
+
+|Maintain network rules on each Amazon EC2 node
+|<<add-ons-kube-proxy>>
+
+|Provide Amazon EBS storage for your cluster
+|<<add-ons-aws-ebs-csi-driver>>
+
+|Provide Amazon EFS storage for your cluster
+|<<add-ons-aws-efs-csi-driver>>
+
+|Provide Amazon S3 storage for your cluster
+|<<mountpoint-for-s3-add-on>>
+
+|Enable the use of snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI driver
+|<<addons-csi-snapshot-controller>>
+
+|Secure, production-ready, {aws} supported distribution of the OpenTelemetry project
+|<<add-ons-adot>>
+
+|Security monitoring service that analyzes and processes foundational data sources including {aws} CloudTrail management events and Amazon VPC flow logs. Amazon GuardDuty also processes features, such as [.noloc]`Kubernetes` audit logs and runtime monitoring
+|<<add-ons-guard-duty>>
+
+|Monitoring and observability service provided by {aws}. This add-on installs the CloudWatch Agent and enables both CloudWatch Application Signals and CloudWatch Container Insights with enhanced observability for Amazon EKS
+|<<amazon-cloudwatch-observability>>
+
+|Ability to manage credentials for your applications, similar to the way that EC2 instance profiles provide credentials to EC2 instances
+|<<add-ons-pod-id>>
+|===
+
+[[add-ons-vpc-cni,add-ons-vpc-cni.title]]
+=== Amazon VPC CNI plugin for Kubernetes
+
+[abstract]
+--
+Learn about the vpc-cni Amazon EKS add-on.
+--
+
+The [.noloc]`Amazon VPC CNI plugin for Kubernetes` Amazon EKS add-on is a [.noloc]`Kubernetes` container network interface (CNI) plugin that provides native VPC networking for your cluster. The self-managed or managed type of this add-on is installed on each Amazon EC2 node, by default. For more information, see https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/[Kubernetes container network interface (CNI) plugin].
+
+The Amazon EKS add-on name is `vpc-cni`.
+
+[[add-ons-vpc-cni-iam-permissions,add-ons-vpc-cni-iam-permissions.title]]
+==== Required IAM permissions
+
+This add-on uses the  IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. 
+
+If your cluster uses the `IPv4` family, the permissions in the  link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html[AmazonEKS_CNI_Policy,type="documentation"] are required. If your cluster uses the `IPv6` family, you must  link:IAM/latest/UserGuide/access_policies_create.html[create an IAM policy,type="documentation"] with the permissions in https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/iam-policy.md#ipv6-mode[IPv6 mode]. You can create an IAM role, attach one of the policies to it, and annotate the [.noloc]`Kubernetes` service account used by the add-on with the following command.  
+
+Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKSVPCCNIRole` with the name for your role. If your cluster uses the `IPv6` family, then replace [.replaceable]`AmazonEKS_CNI_Policy` with the name of the policy that you created. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool to create the role, attach the policy to it, and annotate the [.noloc]`Kubernetes` service account, see <<associate-service-account-role>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamserviceaccount --name aws-node --namespace kube-system --cluster my-cluster --role-name AmazonEKSVPCCNIRole \
+    --role-only --attach-policy-arn {arn-aws}iam::aws:policy/AmazonEKS_CNI_Policy --approve
+----
+
+
+[[add-ons-vpc-cni-update-information,add-ons-vpc-cni-update-information.title]]
+==== Update information
+
+You can only update one minor version at a time. For example, if your current version is `1.28.[.replaceable]``x``-eksbuild.[.replaceable]``y``` and you want to update to `1.30.[.replaceable]``x``-eksbuild.[.replaceable]``y```, then you must update your current version to `1.29.[.replaceable]``x``-eksbuild.[.replaceable]``y``` and then update it again to `1.30.[.replaceable]``x``-eksbuild.[.replaceable]``y```. For more information about updating the add-on, see <<vpc-add-on-update>>.
+
+[[add-ons-coredns,add-ons-coredns.title]]
+=== CoreDNS
+
+[abstract]
+--
+Learn about the CoreDNS Amazon EKS add-on.
+--
+
+The CoreDNS Amazon EKS add-on is a flexible, extensible DNS server that can serve as the [.noloc]`Kubernetes` cluster DNS. The self-managed or managed type of this add-on was installed, by default, when you created your cluster. When you launch an Amazon EKS cluster with at least one node, two replicas of the [.noloc]`CoreDNS` image are deployed by default, regardless of the number of nodes deployed in your cluster. The [.noloc]`CoreDNS` [.noloc]`Pods` provide name resolution for all [.noloc]`Pods` in the cluster. You can deploy the [.noloc]`CoreDNS` [.noloc]`Pods` to Fargate nodes if your cluster includes a fargate profile with a namespace that matches the namespace for the [.noloc]`CoreDNS` deployment. For more information, see <<fargate-profile>>
+
+The Amazon EKS add-on name is `coredns`.
+
+[[add-ons-coredns-iam-permissions,add-ons-coredns-iam-permissions.title]]
+==== Required IAM permissions
+
+This add-on doesn't require any permissions.
+
+[[add-ons-coredns-information,add-ons-coredns-information.title]]
+==== Additional information
+
+To learn more about CoreDNS, see https://kubernetes.io/docs/tasks/administer-cluster/coredns/[Using CoreDNS for Service Discovery] and https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/[Customizing DNS Service] in the [.noloc]`Kubernetes` documentation.
+
+[[add-ons-kube-proxy,add-ons-kube-proxy.title]]
+=== `Kube-proxy`
+
+[abstract]
+--
+Learn about the Kube-proxy Amazon EKS add-on.
+--
+
+The `Kube-proxy` Amazon EKS add-on maintains network rules on each Amazon EC2 node. It enables network communication to your [.noloc]`Pods`. The self-managed or managed type of this add-on is installed on each Amazon EC2 node in your cluster, by default.
+
+The Amazon EKS add-on name is `kube-proxy`.
+
+[[add-ons-kube-proxy-iam-permissions,add-ons-kube-proxy-iam-permissions.title]]
+==== Required IAM permissions
+
+This add-on doesn't require any permissions.
+
+[[add-ons-kube-proxy-update-information,add-ons-kube-proxy-update-information.title]]
+==== Update information
+
+Before updating your current version, consider the following requirements:
+
+
+
+* `Kube-proxy` on an Amazon EKS cluster has the same https://kubernetes.io/releases/version-skew-policy/#kube-proxy[compatibility and skew policy as Kubernetes].
+
+
+[[add-ons-kube-proxy-information,add-ons-kube-proxy-information.title]]
+==== Additional information
+
+To learn more about `kube-proxy`, see https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/[kube-proxy] in the [.noloc]`Kubernetes` documentation.
+
+[[add-ons-aws-ebs-csi-driver,add-ons-aws-ebs-csi-driver.title]]
+=== Amazon EBS CSI driver
+
+[abstract]
+--
+Learn about the Amazon EBS CSI driver Amazon EKS add-on.
+--
+
+The Amazon EBS CSI driver Amazon EKS add-on is a [.noloc]`Kubernetes` Container Storage Interface (CSI) plugin that provides Amazon EBS storage for your cluster.
+
+The Amazon EKS add-on name is `aws-ebs-csi-driver`.
+
+[[add-ons-aws-ebs-csi-driver-iam-permissions,add-ons-aws-ebs-csi-driver-iam-permissions.title]]
+==== Required IAM permissions
+
+This add-on utilizes the IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. The permissions in the link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html[AmazonEBSCSIDriverPolicy,type="documentation"] {aws} managed policy are required. You can create an IAM role and attach the managed policy to it with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKS_EBS_CSI_DriverRole` with the name for your role. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool or you need to use a custom link:kms/[KMS key,type="marketing"] for encryption, see <<csi-iam-role>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamserviceaccount \
+    --name ebs-csi-controller-sa \
+    --namespace kube-system \
+    --cluster my-cluster \
+    --role-name AmazonEKS_EBS_CSI_DriverRole \
+    --role-only \
+    --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+    --approve
+----
+
+
+[[add-ons-aws-ebs-csi-driver-information,add-ons-aws-ebs-csi-driver-information.title]]
+==== Additional information
+
+To learn more about the add-on, see <<ebs-csi>>.
+
+[[add-ons-aws-efs-csi-driver,add-ons-aws-efs-csi-driver.title]]
+=== Amazon EFS CSI driver
+
+[abstract]
+--
+Learn about the Amazon EFS CSI driver Amazon EKS add-on.
+--
+
+The Amazon EFS CSI driver Amazon EKS add-on is a [.noloc]`Kubernetes` Container Storage Interface (CSI) plugin that provides Amazon EFS storage for your cluster.
+
+The Amazon EKS add-on name is `aws-efs-csi-driver`.
+
+[[add-ons-aws-efs-csi-driver-iam-permissions,add-ons-aws-efs-csi-driver-iam-permissions.title]]
+==== Required IAM permissions
+
+*Required IAM permissions* – This add-on utilizes the IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. The permissions in the link:aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html[AmazonEFSCSIDriverPolicy,type="documentation"] {aws} managed policy are required. You can create an IAM role and attach the managed policy to it with the following commands. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKS_EFS_CSI_DriverRole` with the name for your role. These commands require that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool, see <<efs-create-iam-resources>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+export cluster_name=my-cluster
+export role_name=AmazonEKS_EFS_CSI_DriverRole
+eksctl create iamserviceaccount \
+    --name efs-csi-controller-sa \
+    --namespace kube-system \
+    --cluster $cluster_name \
+    --role-name $role_name \
+    --role-only \
+    --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
+    --approve
+TRUST_POLICY=$(aws iam get-role --role-name $role_name --query 'Role.AssumeRolePolicyDocument' | \
+    sed -e 's/efs-csi-controller-sa/efs-csi-*/' -e 's/StringEquals/StringLike/')
+aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRUST_POLICY"
+----
+
+
+[[add-ons-aws-efs-csi-driver-information,add-ons-aws-efs-csi-driver-information.title]]
+==== Additional information
+
+To learn more about the add-on, see <<efs-csi>>.
+
+[[mountpoint-for-s3-add-on,mountpoint-for-s3-add-on.title]]
+=== [.noloc]`Mountpoint` for Amazon S3 CSI Driver
+
+[abstract]
+--
+Learn about the [.noloc]`Mountpoint` for Amazon S3 CSI Driver Amazon EKS add-on.
+--
+
+The [.noloc]`Mountpoint` for Amazon S3 CSI Driver Amazon EKS add-on is a [.noloc]`Kubernetes` Container Storage Interface (CSI) plugin that provides Amazon S3 storage for your cluster.
+
+The Amazon EKS add-on name is `aws-mountpoint-s3-csi-driver`.
+
+[[add-ons-mountpoint-for-s3-add-on-iam-permissions,add-ons-mountpoint-for-s3-add-on-iam-permissions.title]]
+==== Required IAM permissions
+
+This add-on uses the  IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>.
+
+The IAM role that is created will require a policy that gives access to S3. Follow the https://github.com/awslabs/mountpoint-s3/blob/main/doc/CONFIGURATION.md#iam-permissions[Mountpoint IAM permissions recommendations] when creating the policy. Alternatively, you may use the {aws} managed policy link:iam/home?#/policies/arn:aws:iam::aws:policy/AmazonS3FullAccess$jsonEditor[AmazonS3FullAccess,type="console"], but this managed policy grants more permissions than are needed for [.noloc]`Mountpoint`.  
+
+You can create an IAM role and attach your policy to it with the following commands. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`region-code` with the correct {aws} Region code, [.replaceable]`AmazonEKS_S3_CSI_DriverRole` with the name for your role, and [.replaceable]`AmazonEKS_S3_CSI_DriverRole_ARN` with the role ARN. These commands require that you have https://eksctl.io[eksctl] installed on your device. For instructions on using the IAM console or {aws} CLI, see <<s3-create-iam-role>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+CLUSTER_NAME=my-cluster
+REGION=region-code
+ROLE_NAME=AmazonEKS_S3_CSI_DriverRole
+POLICY_ARN=AmazonEKS_S3_CSI_DriverRole_ARN
+eksctl create iamserviceaccount \
+    --name s3-csi-driver-sa \
+    --namespace kube-system \
+    --cluster $CLUSTER_NAME \
+    --attach-policy-arn $POLICY_ARN \
+    --approve \
+    --role-name $ROLE_NAME \
+    --region $REGION \
+    --role-only
+----
+
+
+[[add-ons-mountpoint-for-s3-add-on-information,add-ons-mountpoint-for-s3-add-on-information.title]]
+==== Additional information
+
+To learn more about the add-on, see <<s3-csi>>.
+
+[[addons-csi-snapshot-controller,addons-csi-snapshot-controller.title]]
+=== CSI snapshot controller
+
+[abstract]
+--
+Learn about the CSI snapshot controller Amazon EKS add-on.
+--
+
+The Container Storage Interface (CSI) snapshot controller enables the use of snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI driver.
+
+The Amazon EKS add-on name is `snapshot-controller`.
+
+[[add-ons-csi-snapshot-controller-iam-permissions,add-ons-csi-snapshot-controller-iam-permissions.title]]
+==== Required IAM permissions
+
+This add-on doesn't require any permissions.
+
+[[add-ons-csi-snapshot-controller-information,add-ons-csi-snapshot-controller-information.title]]
+==== Additional information
+
+To learn more about the add-on, see <<csi-snapshot-controller>>.
+
+[[add-ons-adot,add-ons-adot.title]]
+=== {aws} Distro for OpenTelemetry
+
+[abstract]
+--
+Learn about the {aws} Distro for OpenTelemetry Amazon EKS add-on.
+--
+
+The {aws} Distro for OpenTelemetry Amazon EKS add-on is a secure, production-ready, {aws} supported distribution of the OpenTelemetry project. For more information, see https://aws-otel.github.io/[{aws} Distro for OpenTelemetry] on GitHub.
+
+The Amazon EKS add-on name is `adot`.
+
+[[add-ons-adot-iam-permissions,add-ons-adot-iam-permissions.title]]
+==== Required IAM permissions
+
+This add-on only requires IAM permissions if you're using one of the preconfigured custom resources that can be opted into through advanced configuration.
+
+[[add-ons-adot-information,add-ons-adot-information.title]]
+==== Additional information
+
+For more information, see https://aws-otel.github.io/docs/getting-started/adot-eks-add-on[Getting Started with {aws} Distro for OpenTelemetry using EKS Add-Ons] in the {aws} Distro for [.noloc]`OpenTelemetry` documentation.
+
+ADOT requires that `cert-manager` is deployed on the cluster as a prerequisite, otherwise this add-on won't work if deployed directly using the https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest[Amazon EKS Terraform]``cluster_addons`` property. For more requirements, see https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/requirements[Requirements for Getting Started with {aws} Distro for OpenTelemetry using EKS Add-Ons] in the {aws} Distro for [.noloc]`OpenTelemetry` documentation.
+
+[[add-ons-guard-duty,add-ons-guard-duty.title]]
+=== Amazon GuardDuty agent
+
+[abstract]
+--
+Learn about the Amazon GuardDuty agent Amazon EKS add-on.
+--
+
+The Amazon GuardDuty agent Amazon EKS add-on is a security monitoring service that analyzes and processes   link:guardduty/latest/ug/guardduty_data-sources.html[foundational data sources,type="documentation"] including {aws} CloudTrail management events and Amazon VPC flow logs. Amazon GuardDuty also processes link:guardduty/latest/ug/guardduty-features-activation-model.html[features,type="documentation"], such as [.noloc]`Kubernetes` audit logs and runtime monitoring.
+
+The Amazon EKS add-on name is `aws-guardduty-agent`.
+
+[[add-ons-guard-duty-iam-permissions,add-ons-guard-duty-iam-permissions.title]]
+==== Required IAM permissions
+
+This add-on doesn't require any permissions.
+
+[[add-ons-guard-duty-information,add-ons-guard-duty-information.title]]
+==== Additional information
+
+For more information, see link:guardduty/latest/ug/how-runtime-monitoring-works-eks.html[Runtime Monitoring for Amazon EKS clusters in Amazon GuardDuty,type="documentation"].
+
+
+
+* To detect potential security threats in your Amazon EKS clusters, enable Amazon GuardDuty runtime monitoring and deploy the GuardDuty security agent to your Amazon EKS clusters.
+
+
+[[amazon-cloudwatch-observability,amazon-cloudwatch-observability.title]]
+=== Amazon CloudWatch Observability agent
+
+[abstract]
+--
+Learn about the Amazon CloudWatch Observability agent Amazon EKS add-on.
+--
+
+The Amazon CloudWatch Observability agent Amazon EKS add-on the monitoring and observability service provided by {aws}. This add-on installs the CloudWatch Agent and enables both CloudWatch Application Signals and CloudWatch Container Insights with enhanced observability for Amazon EKS. For more information, see link:AmazonCloudWatch/latest/monitoring/Install-CloudWatch-Agent.html[Amazon CloudWatch Agent,type="documentation"].
+
+The Amazon EKS add-on name is `amazon-cloudwatch-observability`.
+
+[[amazon-cloudwatch-observability-iam-permissions,amazon-cloudwatch-observability-iam-permissions.title]]
+==== Required IAM permissions
+
+This add-on uses the  IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. The permissions in the link:iam/home#/policies/arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess[AWSXrayWriteOnlyAccess,type="console"] and link:iam/home#/policies/arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy[CloudWatchAgentServerPolicy,type="console"] {aws} managed policies are required. You can create an IAM role, attach the managed policies to it, and annotate the [.noloc]`Kubernetes` service account used by the add-on with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKS_Observability_role` with the name for your role. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool to create the role, attach the policy to it, and annotate the [.noloc]`Kubernetes` service account, see <<associate-service-account-role>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamserviceaccount \
+    --name cloudwatch-agent \
+    --namespace amazon-cloudwatch \
+    --cluster my-cluster \
+    --role-name AmazonEKS_Observability_Role \
+    --role-only \
+    --attach-policy-arn {arn-aws}iam::aws:policy/AWSXrayWriteOnlyAccess \
+    --attach-policy-arn {arn-aws}iam::aws:policy/CloudWatchAgentServerPolicy \
+    --approve
+----
+
+
+[[amazon-cloudwatch-observability-information,amazon-cloudwatch-observability-information.title]]
+==== Additional information
+
+For more information, see link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Install the CloudWatch agent,type="documentation"].
+
+[[add-ons-pod-id,add-ons-pod-id.title]]
+=== EKS Pod Identity Agent
+
+[abstract]
+--
+Learn about the EKS Pod Identity Agent Amazon EKS add-on.
+--
+
+The Amazon EKS Pod Identity Agent Amazon EKS add-on provides the ability to manage credentials for your applications, similar to the way that EC2 instance profiles provide credentials to EC2 instances.
+
+The Amazon EKS add-on name is `eks-pod-identity-agent`.
+
+[[add-ons-pod-id-iam-permissions,add-ons-pod-id-iam-permissions.title]]
+==== Required IAM permissions
+
+This add-on users permissions from the  <<create-node-role,Amazon EKS node IAM role>>.
+
+[[add-ons-pod-id-update-information,add-ons-pod-id-update-information.title]]
+==== Update information
+
+You can only update one minor version at a time. For example, if your current version is `1.28.x-eksbuild.y` and you want to update to `1.30.x-eksbuild.y`, then you must update your current version to `1.29.x-eksbuild.y` and then update it again to `1.30.x-eksbuild.y`. For more information about updating the add-on, see <<vpc-add-on-update>>.
+
+[.topic]
+[[workloads-add-ons-available-vendors,workloads-add-ons-available-vendors.title]]
+== Additional Amazon EKS add-ons from independent software vendors
+
+[abstract]
+--
+Learn about the Amazon EKS add-ons from independent software vendors.
+--
+
+In addition to the previous list of Amazon EKS add-ons, you can also add a wide selection of operational software Amazon EKS add-ons from independent software vendors. Choose an add-on to learn more about it and its installation requirements.
+
+
+
+video::IIPj119mspc[youtube,align = center,height = 405,fileref = https://www.youtube.com/embed/IIPj119mspc,width = 720]
+
+
+[[add-on-accuknox,add-on-accuknox.title]]
+=== [.noloc]`Accuknox`
+
+[abstract]
+--
+Learn about the [.noloc]`Accuknox` Amazon EKS add-on.
+--
+
+The add-on name is `accuknox_kubearmor` and the namespace is `kubearmor`. [.noloc]`Accuknox` publishes the add-on.
+
+For information about the add-on, see https://docs.kubearmor.io/kubearmor/quick-links/deployment_guide[Getting Started with KubeArmor] in the KubeArmor documentation.
+
+[[add-on-accuknox-service-account-name,add-on-accuknox-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-accuknox-managed-policy,add-on-accuknox-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-accuknox-custom-permissions,add-on-accuknox-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-akuity,add-on-akuity.title]]
+=== [.noloc]`Akuity`
+
+[abstract]
+--
+Learn about the [.noloc]`Akuity` Amazon EKS add-on.
+--
+
+The add-on name is `akuity_agent` and the namespace is `akuity`. [.noloc]`Akuity` publishes the add-on.
+
+For information about how the add-on, see https://docs.akuity.io/tutorials/eks-addon-agent-install/[Installing the Akuity Agent on Amazon EKS with the Akuity EKS add-on] in the Akuity Platform documentation.
+
+[[add-on-akuity-service-account-name,add-on-akuity-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-akuity-managed-policy,add-on-akuity-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-akuity-custom-permissions,add-on-akuity-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-calyptia,add-on-calyptia.title]]
+=== [.noloc]`Calyptia`
+
+[abstract]
+--
+Learn about the [.noloc]`Calyptia` Amazon EKS add-on.
+--
+
+The add-on name is `calyptia_fluent-bit` and the namespace is `calytia-fluentbit`. [.noloc]`Calyptia` publishes the add-on.
+
+For information about the add-on, see https://docs.akuity.io/tutorials/eks-addon-agent-install/[Getting Started with Calyptia Core Agent] on the Calyptia documentation website.
+
+[[add-on-calyptia-service-account-name,add-on-calyptia-service-account-name.title]]
+==== Service account name
+
+The service account name is  `clyptia-fluentbit`.
+
+[[add-on-calyptia-managed-policy,add-on-calyptia-managed-policy.title]]
+==== {aws} managed IAM policy
+
+This add-on uses the `AWSMarketplaceMeteringRegisterUsage` managed policy. For more information, see link:aws-managed-policy/latest/reference/AWSMarketplaceMeteringRegisterUsage.html[AWSMarketplaceMeteringRegisterUsage,type="documentation"] in the {aws} Managed Policy Reference Guide.
+
+[[add-on-calyptia-custom-permissions,add-on-calyptia-custom-permissions.title]]
+==== Command to create required IAM role
+
+The following command requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one, or to create one, see <<enable-iam-roles-for-service-accounts>>. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`my-calyptia-role` with the name for your role. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool to create the role and annotate the [.noloc]`Kubernetes` service account, see <<associate-service-account-role>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamserviceaccount --name service-account-name  --namespace calyptia-fluentbit --cluster my-cluster --role-name my-calyptia-role \
+    --role-only --attach-policy-arn {arn-aws}iam::aws:policy/AWSMarketplaceMeteringRegisterUsage --approve
+----
+
+
+[[add-on-cisco-collector,add-on-cisco-collector.title]]
+=== [.noloc]`Cisco Observability Collector`
+
+[abstract]
+--
+Learn about the [.noloc]`Cisco Observability Collector` Amazon EKS add-on.
+--
+
+The add-on name is `cisco_cisco-cloud-observability-collectors` and the namespace is `appdynamics`. [.noloc]`Cisco` pubishes the add-on.
+
+For information about the add-on, see https://docs.appdynamics.com/observability/cisco-cloud-observability/en/kubernetes-and-app-service-monitoring/install-kubernetes-and-app-service-monitoring-with-amazon-elastic-kubernetes-service/use-the-cisco-cloud-observability-aws-marketplace-add-ons[Use the Cisco Cloud Observability {aws} Marketplace Add-Ons] in the Cisco AppDynamics documentation.
+
+[[add-on-cisco-collector-service-account-name,add-on-cisco-collector-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-cisco-collector-managed-policy,add-on-cisco-collector-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-cisco-collector-custom-permissions,add-on-cisco-collector-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-cisco-operator,add-on-cisco-operator.title]]
+=== [.noloc]`Cisco Observability Operator`
+
+[abstract]
+--
+Learn about the [.noloc]`Cisco Observability Operator` Amazon EKS add-on.
+--
+
+The add-on name is `cisco_cisco-cloud-observability-operators` and the namespace is `appdynamics`. [.noloc]`Cisco` publishes the add-on.
+
+For information about the add-on, see https://docs.appdynamics.com/observability/cisco-cloud-observability/en/kubernetes-and-app-service-monitoring/install-kubernetes-and-app-service-monitoring-with-amazon-elastic-kubernetes-service/use-the-cisco-cloud-observability-aws-marketplace-add-ons[Use the Cisco Cloud Observability {aws} Marketplace Add-Ons] in the Cisco AppDynamics documentation.
+
+[[add-on-cisco-operator-service-account-name,add-on-cisco-operator-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-cisco-operator-managed-policy,add-on-cisco-operator-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-cisco-operator-custom-permissions,add-on-cisco-operator-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-cloudsoft,add-on-cloudsoft.title]]
+=== [.noloc]`CLOUDSOFT`
+
+[abstract]
+--
+Learn about the [.noloc]`CLOUDSOFT` Amazon EKS add-on.
+--
+
+The add-on name is `cloudsoft_cloudsoft-amp` and the namespace is `cloudsoft-amp`. [.noloc]`CLOUDSOFT` publishes the add-on.
+
+For information about the add-on, see https://docs.cloudsoft.io/operations/configuration/aws-eks-addon.html[Amazon EKS ADDON] in the CLOUDSOFT documentation.
+
+[[add-on-cloudsoft-service-account-name,add-on-cloudsoft-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-cloudsoft-managed-policy,add-on-cloudsoft-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-cloudsoft-custom-permissions,add-on-cloudsoft-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-cribl,add-on-cribl.title]]
+=== [.noloc]`Cribl`
+
+[abstract]
+--
+Learn about the [.noloc]`Cribl` Amazon EKS add-on.
+--
+
+The add-on name is `cribl_cribledge` and the namespace is `cribledge`. [.noloc]`Cribl` publishes the add-on.
+
+For information about the add-on, see https://docs.cribl.io/edge/usecase-edge-aws-eks/[Installing the Cribl Amazon EKS Add-on for Edge] in the Cribl documentation
+
+[[add-on-cribl-service-account-name,add-on-cribl-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-cribl-managed-policy,add-on-cribl-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-cribl-custom-permissions,add-on-cribl-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-dynatrace,add-on-dynatrace.title]]
+=== [.noloc]`Dynatrace`
+
+[abstract]
+--
+Learn about the [.noloc]`Dynatrace` Amazon EKS add-on.
+--
+
+The add-on name is `dynatrace_dynatrace-operator` and the namespace is `dynatrace`. [.noloc]`Dynatrace` publishes the add-on.
+
+For information about the add-on, see https://www.dynatrace.com/technologies/kubernetes-monitoring/[Kubernetes monitoring] in the [.noloc]`dynatrace` documentation.
+
+[[add-on-dynatrace-service-account-name,add-on-dynatrace-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-dynatrace-managed-policy,add-on-dynatrace-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-dynatrace-custom-permissions,add-on-dynatrace-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-datree-pro,add-on-datree-pro.title]]
+=== [.noloc]`Datree`
+
+[abstract]
+--
+Learn about the [.noloc]`Datree` Amazon EKS add-on.
+--
+
+The add-on name is `datree_engine-pro` and the namespace is `datree`. [.noloc]`Datree` publishes the add-on.
+
+For information about the add-on, see https://hub.datree.io/integrations/eks-integration[Amazon EKS-intergration] in the Datree documentation.
+
+[[add-on-datree-pro-service-account-name,add-on-datree-pro-service-account-name.title]]
+==== Service account name
+
+The service account name is datree-webhook-server-awsmp.
+
+[[add-on-datree-pro-managed-policy,add-on-datree-pro-managed-policy.title]]
+==== {aws} managed IAM policy
+
+The managed policy is AWSLicenseManagerConsumptionPolicy. For more information, see link:aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html[AWSLicenseManagerConsumptionPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide..
+
+[[add-on-datree-pro-iam-command,add-on-datree-pro-iam-command.title]]
+==== Command to create required IAM role
+
+The following command requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one, or to create one, see <<enable-iam-roles-for-service-accounts>>. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`my-datree-role` with the name for your role. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool to create the role and annotate the [.noloc]`Kubernetes` service account, see <<associate-service-account-role>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamserviceaccount --name datree-webhook-server-awsmp --namespace datree --cluster my-cluster --role-name my-datree-role \
+    --role-only --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
+----
+
+
+[[add-on-datree-pro-custom-permissions,add-on-datree-pro-custom-permissions.title]]
+==== Custom permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-datadog,add-on-datadog.title]]
+=== [.noloc]`Datadog`
+
+[abstract]
+--
+Learn about the [.noloc]`Datadog` Amazon EKS add-on.
+--
+
+The add-on name is `datadog_operator` and the namespace is `datadog-agent`. [.noloc]`Datadog` publishes the add-on.
+
+For information about the add-on, see https://docs.datadoghq.com/containers/guide/operator-eks-addon/?tab=console[Installing the Datadog Agent on Amazon EKS with the Datadog Operator Add-on] in the Datadog documentation.
+
+[[add-on-datadog-service-account-name,add-on-datadog-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-datadog-managed-policy,add-on-datadog-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-datadog-custom-permissions,add-on-datadog-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-groundcover,add-on-groundcover.title]]
+=== [.noloc]`Groundcover`
+
+[abstract]
+--
+Learn about the [.noloc]`Groundcover` Amazon EKS add-on.
+--
+
+The add-on name is `groundcover_agent` and the namespace is `groundcover`. [.noloc]`groundcover` publishes the add-on.
+
+For information about the add-on, see https://docs.groundcover.com/docs/~/changes/VhDDAl1gy1VIO3RIcgxD/configuration/customization-guide/customize-deployment/eks-add-on[Installing the groundcover Amazon EKS Add-on] in the groundcover documentation.
+
+[[add-on-groundcover-service-account-name,add-on-groundcover-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-groundcover-managed-policy,add-on-groundcover-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-groundcover-custom-permissions,add-on-groundcover-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-grafana,add-on-grafana.title]]
+=== [.noloc]`Grafana Labs`
+
+[abstract]
+--
+Learn about the [.noloc]`Grafana Labs` Amazon EKS add-on.
+--
+
+The add-on name is `grafana-labs_kubernetes-monitoring` and the namespace is `monitoring`. [.noloc]`Grafana Labs` publishes the add-on.
+
+For information about the add-on, see https://grafana.com/docs/grafana-cloud/monitor-infrastructure/kubernetes-monitoring/configuration/config-aws-eks/[Configure Kubernetes Monitoring as an Add-on with Amazon EKS] in the Grafana Labs documentation.
+
+[[add-on-grafana-service-account-name,add-on-grafana-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-grafana-managed-policy,add-on-grafana-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-grafana-custom-permissions,add-on-grafana-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-guance,add-on-guance.title]]
+=== [.noloc]`Guance`
+
+* *Publisher* – [.noloc]`GUANCE`
+* *Name* – `guance_datakit`
+* *Namespace* – `datakit`
+* *Service account name* – A service account isn't used with this add-on.
+* *{aws} managed IAM policy* – A managed policy isn't used with this add-on.
+* *Custom IAM permissions* – Custom permissions aren't used with this add-on.
+* *Setup and usage instructions* – See https://docs.guance.com/en/datakit/datakit-eks-deploy/#add-on-install[Using Amazon EKS add-on] in the Guance documentation.
+
+
+[[add-on-ha-proxy,add-on-ha-proxy.title]]
+=== [.noloc]`HA Proxy`
+
+[abstract]
+--
+Learn about the [.noloc]`HA Proxy` Amazon EKS add-on.
+--
+
+The name is `haproxy-technologies_kubernetes-ingress-ee` and the namespace is `haproxy-controller`. [.noloc]`HA Proxy` publishes the add-on.
+
+For information about the add-on, see https://hub.datree.io/integrations/eks-integration[Amazon EKS-intergration] in the Datree documentation.
+
+[[add-on-ha-proxy-service-account-name,add-on-ha-proxy-service-account-name.title]]
+==== Service account name
+
+The service account name is `customer defined`.
+
+[[add-on-ha-proxy-managed-policy,add-on-ha-proxy-managed-policy.title]]
+==== {aws} managed IAM policy
+
+The managed policy is AWSLicenseManagerConsumptionPolicy. For more information, see link:aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html[AWSLicenseManagerConsumptionPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide..
+
+[[add-on-ha-proxy-iam-command,add-on-ha-proxy-iam-command.title]]
+==== Command to create required IAM role
+
+The following command requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one, or to create one, see <<enable-iam-roles-for-service-accounts>>. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`my-haproxy-role` with the name for your role. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool to create the role and annotate the [.noloc]`Kubernetes` service account, see <<associate-service-account-role>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamserviceaccount --name service-account-name  --namespace haproxy-controller --cluster my-cluster --role-name my-haproxy-role \
+    --role-only --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
+----
+
+
+[[add-on-ha-proxy-custom-permissions,add-on-ha-proxy-custom-permissions.title]]
+==== Custom permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-kpow,add-on-kpow.title]]
+=== [.noloc]`Kpow`
+
+[abstract]
+--
+Learn about the [.noloc]`Kpow` Amazon EKS add-on.
+--
+
+The add-on name is `factorhouse_kpow` and the namespace is `factorhouse`. [.noloc]`Factorhouse` publishes the add-on.
+
+For information about the add-on, see https://docs.kpow.io/installation/aws-marketplace-lm/[{aws} Marketplace LM] in the [.noloc]`Kpow` documentation.
+
+[[add-on-kpow-service-account-name,add-on-kpow-service-account-name.title]]
+==== Service account name
+
+The service account name is `kpow`.
+
+[[add-on-kpow-managed-policy,add-on-kpow-managed-policy.title]]
+==== {aws} managed IAM policy
+
+The managed policy is AWSLicenseManagerConsumptionPolicy. For more information, see link:aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html[AWSLicenseManagerConsumptionPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide..
+
+[[add-on-kpow-iam-command,add-on-kpow-iam-command.title]]
+==== Command to create required IAM role
+
+The following command requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one, or to create one, see <<enable-iam-roles-for-service-accounts>>. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`my-kpow-role` with the name for your role. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool to create the role and annotate the [.noloc]`Kubernetes` service account, see <<associate-service-account-role>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamserviceaccount --name kpow --namespace factorhouse --cluster my-cluster --role-name my-kpow-role \
+    --role-only --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
+----
+
+
+[[add-on-kpow-custom-permissions,add-on-kpow-custom-permissions.title]]
+==== Custom permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-kubecost,add-on-kubecost.title]]
+=== [.noloc]`Kubecost`
+
+[abstract]
+--
+Learn about the [.noloc]`Kubecost` Amazon EKS add-on.
+--
+
+The add-on name is `kubecost_kubecost` and the namespace is `kubecost`. [.noloc]`Kubecost` publishes the add-on.
+
+For information about the add-on, see https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations[{aws} Cloud Billing Integration] in the [.noloc]`Kubecost` documentation.
+
+If your cluster is version `1.23` or later, you must have the <<ebs-csi,Store Kubernetes volumes with Amazon EBS>> installed on your cluster. otherwise you will receive an error.
+
+[[add-on-kubecost-service-account-name,add-on-kubecost-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-kubecost-managed-policy,add-on-kubecost-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-kubecost-custom-permissions,add-on-kubecost-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-kasten,add-on-kasten.title]]
+=== [.noloc]`Kasten`
+
+[abstract]
+--
+Learn about the [.noloc]`Kasten` Amazon EKS add-on.
+--
+
+The add-on name is `kasten_k10` and the namespace is `kasten-io`. [.noloc]`Kasten by Veeam` publishes the add-on.
+
+For information about the add-on, see https://docs.kasten.io/latest/install/aws-eks-addon/aws-eks-addon.html[Installing K10 on {aws} using Amazon EKS Add-on] in the Kasten documentation.
+
+If your Amazon EKS cluster is version [.noloc]`Kubernetes` `1.23` or later, you must have the Amazon EBS CSI driver installed on your cluster with a default `StorageClass`.
+
+[[add-on-kasten-service-account-name,add-on-kasten-service-account-name.title]]
+==== Service account name
+
+The service account name is  `k10-k10`.
+
+[[add-on-kasten-managed-policy,add-on-kasten-managed-policy.title]]
+==== {aws} managed IAM policy
+
+The managed policy is AWSLicenseManagerConsumptionPolicy. For more information, see link:aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html[AWSLicenseManagerConsumptionPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide..
+
+[[add-on-kasten-iam-command,add-on-kasten-iam-command.title]]
+==== Command to create required IAM role
+
+The following command requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one, or to create one, see <<enable-iam-roles-for-service-accounts>>. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`my-kasten-role` with the name for your role. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool to create the role and annotate the [.noloc]`Kubernetes` service account, see <<associate-service-account-role>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamserviceaccount --name k10-k10 --namespace kasten-io --cluster my-cluster --role-name my-kasten-role \
+    --role-only --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
+----
+
+
+[[add-on-kasten-custom-permissions,add-on-kasten-custom-permissions.title]]
+==== Custom permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-kong,add-on-kong.title]]
+=== [.noloc]`Kong`
+
+[abstract]
+--
+Learn about the [.noloc]`Kong` Amazon EKS add-on.
+--
+
+The add-on name is `kong_konnect-ri` and the namespace is `kong`. [.noloc]`Kong` publishes the add-on.
+
+For information about the add-on, see https://kong.github.io/aws-marketplace-addon-kong-gateway/[Installing the Kong Gateway EKS Add-on] in the Kong documentation.
+
+If your cluster is version `1.23` or later, you must have the <<ebs-csi,Store Kubernetes volumes with Amazon EBS>> installed on your cluster. otherwise you will receive an error.
+
+[[add-on-kong-service-account-name,add-on-kong-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-kong-managed-policy,add-on-kong-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-kong-custom-permissions,add-on-kong-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-leaksignal,add-on-leaksignal.title]]
+=== [.noloc]`LeakSignal`
+
+[abstract]
+--
+Learn about the [.noloc]`LeakSignal` Amazon EKS add-on.
+--
+
+The add-on name is `leaksignal_leakagent` and the namespace is `leakagent`. [.noloc]`LeakSignal` publishes the add-on.
+
+For information about the add-on, see https://www.leaksignal.com/docs/LeakAgent/Deployment/{aws}%20EKS%20Addon/[Install the LeakAgent add-on] in the LeakSignal documentation
+
+If your cluster is version `1.23` or later, you must have the <<ebs-csi,Store Kubernetes volumes with Amazon EBS>> installed on your cluster. otherwise you will receive an error.
+
+[[add-on-leaksignal-service-account-name,add-on-leaksignal-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-leaksignal-managed-policy,add-on-leaksignal-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-leaksignal-custom-permissions,add-on-leaksignal-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-netapp,add-on-netapp.title]]
+=== [.noloc]`NetApp`
+
+[abstract]
+--
+Learn about the [.noloc]`NetApp` Amazon EKS add-on.
+--
+
+The add-on name is `netapp_trident-operator` and the namespace is `trident`. [.noloc]`NetApp` publishes the add-on.
+
+For information about the add-on, see https://docs.netapp.com/us-en/trident/trident-use/trident-aws-addon.html[Configure the Astra Trident EKS add-on] in the NetApp documentation.
+
+[[add-on-netapp-service-account-name,add-on-netapp-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-netapp-managed-policy,add-on-netapp-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-netapp-custom-permissions,add-on-netapp-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-new-relic,add-on-new-relic.title]]
+=== [.noloc]`New Relic`
+
+[abstract]
+--
+Learn about the [.noloc]`New Relic` Amazon EKS add-on.
+--
+
+The add-on name is `new-relic_kubernetes-operator` and the namespace is `newrelic`. [.noloc]`New Relic` publishes the add-on.
+
+For information about the add-on, see https://docs.newrelic.com/docs/infrastructure/amazon-integrations/connect/eks-add-on[Installing the New Relic Add-on for EKS] in the New Relic documentation.
+
+[[add-on-new-relic-service-account-name,add-on-new-relic-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-new-relic-managed-policy,add-on-new-relic-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-new-relic-custom-permissions,add-on-new-relic-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-rafay,add-on-rafay.title]]
+=== [.noloc]`Rafay`
+
+[abstract]
+--
+Learn about the [.noloc]`Rafay` Amazon EKS add-on.
+--
+
+The add-on name is `rafay-systems_rafay-operator` and the namespace is `rafay-system`. [.noloc]`Rafay` publishes the add-on.
+
+For information about the add-on, see https://docs.rafay.co/clusters/import/eksaddon/[Installing the Rafay Amazon EKS Add-on] in the Rafay documentation.
+
+[[add-on-rafay-service-account-name,add-on-rafay-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-rafay-managed-policy,add-on-rafay-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-rafay-custom-permissions,add-on-rafay-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-rad,add-on-rad.title]]
+=== [.noloc]`Rad Security`
+
+* *Publisher* – [.noloc]`RAD SECURITY`
+* *Name* – `rad-security_rad-security`
+* *Namespace* – `ksoc`
+* *Service account name* – A service account isn't used with this add-on.
+* *{aws} managed IAM policy* – A managed policy isn't used with this add-on.
+* *Custom IAM permissions* – Custom permissions aren't used with this add-on.
+* *Setup and usage instructions* – See https://docs.rad.security/docs/installing-ksoc-in-the-aws-marketplace[Installing Rad Through The {aws} Marketplace] in the Rad Security documentation.
+
+
+[[add-on-solarwinds,add-on-solarwinds.title]]
+=== [.noloc]`SolarWinds`
+
+* *Publisher* – [.noloc]`SOLARWINDS`
+* *Name* – `solarwinds_swo-k8s-collector-addon`
+* *Namespace* – `solarwinds`
+* *Service account name* – A service account isn't used with this add-on.
+* *{aws} managed IAM policy* – A managed policy isn't used with this add-on.
+* *Custom IAM permissions* – Custom permissions aren't used with this add-on.
+* *Setup and usage instructions* – See https://documentation.solarwinds.com/en/success_center/observability/content/configure/configure-kubernetes.htm#MonitorAmazonEKS[Monitor an Amazon EKS cluster] in the SolarWinds documentation.
+
+
+[[add-on-solo,add-on-solo.title]]
+=== [.noloc]`Solo`
+
+[abstract]
+--
+Learn about the [.noloc]`Solo` Amazon EKS add-on.
+--
+
+The add-on name is `solo-io_istio-distro` and the namespace is `istio-system`. [.noloc]`Solo` publishes the add-on.
+
+For information about the add-on, see https://docs.solo.io/gloo-mesh-enterprise/main/setup/install/eks_addon/[Installing Istio] in the Solo.io documentation..
+
+[[add-on-solo-service-account-name,add-on-solo-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-solo-managed-policy,add-on-solo-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-solo-custom-permissions,add-on-solo-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-snyk,add-on-snyk.title]]
+=== [.noloc]`Snyk`
+
+* *Publisher* – [.noloc]`SNYK`
+* *Name* – `snyk_runtime-sensor`
+* *Namespace* – `snyk_runtime-sensor`
+* *Service account name* – A service account isn't used with this add-on.
+* *{aws} managed IAM policy* – A managed policy isn't used with this add-on.
+* *Custom IAM permissions* – Custom permissions aren't used with this add-on.
+* *Setup and usage instructions* – See https://docs.snyk.io/integrate-with-snyk/snyk-runtime-sensor[Snyk runtime sensor] in the Snyk user docs.
+
+
+[[add-on-stormforge,add-on-stormforge.title]]
+=== [.noloc]`Stormforge`
+
+[abstract]
+--
+Learn about the [.noloc]`Stormforge` Amazon EKS add-on.
+--
+
+The add-on name is `stormforge_optimize-Live` and the namespace is `stormforge-system`. [.noloc]`Stormforge` publishes the add-on.
+
+For information about the add-on, see https://docs.stormforge.io/optimize-live/getting-started/install-v2/[Installing the StormForge Agent] in the StormForge documentation.
+
+[[add-on-stormforge-service-account-name,add-on-stormforge-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-stormforge-managed-policy,add-on-stormforge-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-stormforge-custom-permissions,add-on-stormforge-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-splunk,add-on-splunk.title]]
+=== [.noloc]`Splunk`
+
+[abstract]
+--
+Learn about the [.noloc]`Splunk` Amazon EKS add-on.
+--
+
+The add-on name is `splunk_splunk-otel-collector-chart` and the namespace is `splunk-monitoring`. [.noloc]`Splunk` publishes the add-on.
+
+For information about the add-on, see https://docs.splunk.com/observability/en/gdi/opentelemetry/install-k8s-addon-eks.html[Install the Splunk add-on for Amazon EKS] in the Splunk documentation.
+
+[[add-on-splunk-service-account-name,add-on-splunk-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-splunk-managed-policy,add-on-splunk-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-splunk-custom-permissions,add-on-splunk-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-teleport,add-on-teleport.title]]
+=== [.noloc]`Teleport`
+
+[abstract]
+--
+Learn about the [.noloc]`Teleport` Amazon EKS add-on.
+--
+
+The add-on name is `teleport_teleport` and the namespace is `teleport`. [.noloc]`Teleport` publishes the add-on.
+
+For information about the add-on, see https://goteleport.com/how-it-works/[How Teleport Works] in the [.noloc]`Teleport` documentation.
+
+[[add-on-teleport-service-account-name,add-on-teleport-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-teleport-managed-policy,add-on-teleport-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-teleport-custom-permissions,add-on-teleport-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-tetrate,add-on-tetrate.title]]
+=== [.noloc]`Tetrate`
+
+[abstract]
+--
+Learn about the [.noloc]`Tetrate` Amazon EKS add-on.
+--
+
+The add-on name is `tetrate-io_istio-distro` and the namespace is `istio-system`. [.noloc]`Tetrate Io` publishes the add-on.
+
+For information about the add-on, see the https://tetratelabs.io/[Tetrate Istio Distro] website.
+
+[[add-on-tetrate-service-account-name,add-on-tetrate-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-tetrate-managed-policy,add-on-tetrate-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-tetrate-custom-permissions,add-on-tetrate-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-upbound,add-on-upbound.title]]
+=== [.noloc]`Upbound Universal Crossplane`
+
+[abstract]
+--
+Learn about the [.noloc]`Upbound Universal Crossplane` Amazon EKS add-on.
+--
+
+The add-on name is `upbound_universal-crossplane` and the namespace is `upbound-system`. [.noloc]`Upbound` publishes the add-on.
+
+For information about the add-on, see https://docs.upbound.io/uxp/[Upbound Universal Crossplane (UXP)] in the Upbound documentation.
+
+[[add-on-upbound-service-account-name,add-on-upbound-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-upbound-managed-policy,add-on-upbound-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-upbound-custom-permissions,add-on-upbound-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[[add-on-upwind,add-on-upwind.title]]
+=== [.noloc]`Upwind`
+
+[abstract]
+--
+Learn about the [.noloc]`Upwind` Amazon EKS add-on.
+--
+
+The add-on name is `upwind` and the namespace is `upwind`. [.noloc]`Upwind` publishes the add-on.
+
+For information about the add-on, see https://docs.upwind.io/install-sensor/kubernetes/install?installation-method=amazon-eks-addon[Upwind documentation].
+
+[[add-on-upwind-service-account-name,add-on-upwind-service-account-name.title]]
+==== Service account name
+
+A service account isn't used with this add-on.
+
+[[add-on-upwind-managed-policy,add-on-upwind-managed-policy.title]]
+==== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[[add-on-upwind-custom-permissions,add-on-upwind-custom-permissions.title]]
+==== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
+[.topic]
+[[creating-an-add-on,creating-an-add-on.title]]
+== Creating an Amazon EKS add-on
+
+[abstract]
+--
+Learn how to create an add-on for your Amazon EKS cluster.
+--
+
+Amazon EKS add-ons are add-on software for Amazon EKS clusters. All Amazon EKS add-ons:
+
+
+
+* Include the latest security patches and bug fixes.
+* Are validated by {aws} to work with Amazon EKS.
+* Reduce the amount of work required to manage the add-on software.
+
+You can create an Amazon EKS add-on using `eksctl`, the {aws-management-console}, or the {aws} CLI. If the add-on requires an IAM role, see the details for the specific add-on in <<eks-add-ons,Amazon EKS add-ons>> for details about creating the role.
+
+[[creating-an-add-on-prereq,creating-an-add-on-prereq.title]]
+=== Prerequisites
+
+Complete the following before you create an add-on:
+
+
+
+* The cluster must exist before you create an add-on for it. For more information, see <<create-cluster>>.
+* Check if your add-on requires an IAM role. For more information, see <<addon-compat>>. 
+* Verify that the Amazon EKS add-on version is compatabile with your cluster. For more information, see <<addon-compat>>.
+* Verify that version 0.190.0 or later of the `eksctl` command line tool installed on your computer or {aws} CloudShell. For more information, see https://eksctl.io/installation/[Installation] on the `eksctl` website.
+
+
+[[creating-an-add-on-procedure,creating-an-add-on-procedure.title]]
+=== Procedure
+
+You can create an Amazon EKS add-on using `eksctl`, the {aws-management-console}, or the {aws} CLI. If the add-on requires an IAM role, see the details for the specific add-on in <<workloads-add-ons-available-eks,Available Amazon EKS add-ons from {aws}>> for details about creating the role.
+
+
+
+=== Create add-on (eksctl)
+
+. View the names of add-ons available for a cluster version. Replace [.replaceable]`1.30` with the version of your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl utils describe-addon-versions --kubernetes-version 1.30 | grep AddonName
+----
++
+An example output is as follows.  
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+"AddonName": "aws-ebs-csi-driver",
+                        "AddonName": "coredns",
+                        "AddonName": "kube-proxy",
+                        "AddonName": "vpc-cni",
+                        "AddonName": "adot",
+                        "AddonName": "dynatrace_dynatrace-operator",
+                        "AddonName": "upbound_universal-crossplane",
+                        "AddonName": "teleport_teleport",
+                        "AddonName": "factorhouse_kpow",
+                        [...]
+----
+. View the versions available for the add-on that you would like to create. Replace [.replaceable]`1.30` with the version of your cluster. Replace [.replaceable]`name-of-addon` with the name of the add-on you want to view the versions for. The name must be one of the names returned in the previous step.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl utils describe-addon-versions --kubernetes-version 1.30 --name name-of-addon | grep AddonVersion
+----
++
+The following output is an example of what is returned for the add-on named `vpc-cni`. You can see that the add-on has several available versions.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+"AddonVersions": [
+    "AddonVersion": "v1.12.0-eksbuild.1",
+    "AddonVersion": "v1.11.4-eksbuild.1",
+    "AddonVersion": "v1.10.4-eksbuild.1",
+    "AddonVersion": "v1.9.3-eksbuild.1",
+----
+.. Determine whether the add-on you want to create is an Amazon EKS or {aws} Marketplace add-on. The {aws} Marketplace has third party add-ons that require you to complete additional steps to create the add-on.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl utils describe-addon-versions --kubernetes-version 1.30 --name name-of-addon | grep ProductUrl
+----
++
+If no output is returned, then the add-on is an Amazon EKS. If output is returned, then the add-on is an {aws} Marketplace add-on. The following output is for an add-on named `teleport_teleport`. 
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+"ProductUrl": "https://aws.amazon.com/marketplace/pp?sku=3bda70bb-566f-4976-806c-f96faef18b26"
+----
++
+You can learn more about the add-on in the {aws} Marketplace with the returned URL. If the add-on requires a subscription, you can subscribe to the add-on through the {aws} Marketplace. If you're going to create an add-on from the {aws} Marketplace, then the   link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that you're using to create the add-on must have permission to create the link:license-manager/latest/userguide/license-manager-role-core.html[AWSServiceRoleForAWSLicenseManagerRole,type="documentation"] service-linked role. For more information about assigning permissions to an IAM entity, see  link:IAM/latest/UserGuide/access_policies_manage-attach-detach.html[Adding and removing IAM identity permissions,type="documentation"] in the IAM User Guide.
+. Create an Amazon EKS add-on. Copy the command and replace the [.replaceable]`user-data` as follows:
++
+** Replace [.replaceable]`my-cluster` with the name of your cluster.
+** Replace [.replaceable]`name-of-addon` with the name of the add-on that you want to create.
+** If you want a version of the add-on that's earlier than the latest version, then replace [.replaceable]`latest` with the version number returned in the output of a previous step that you want to use.
+** If the add-on uses a service account role, replace [.replaceable]`111122223333` with your account ID and replace [.replaceable]`role-name` with the name of the role. For instructions on creating a role for your service account, see the documentation for the add-on that you're creating. For a list of add-ons, see <<workloads-add-ons-available-eks>>. Specifying a service account role requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>.
++
+If the add-on doesn't use a service account role, delete `--service-account-role-arn{arn-aws}iam::111122223333:role/role-name`.
+** This example command overwrites the configuration of any existing self-managed version of the add-on, if there is one. If you don't want to overwrite the configuration of an existing self-managed add-on, remove the [.replaceable]`--force` option. If you remove the option, and the Amazon EKS add-on needs to overwrite the configuration of an existing self-managed add-on, then creation of the Amazon EKS add-on fails with an error message to help you resolve the conflict. Before specifying this option, make sure that the Amazon EKS add-on doesn't manage settings that you need to manage, because those settings are overwritten with this option.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create addon --cluster my-cluster --name name-of-addon --version latest \
+    --service-account-role-arn {arn-aws}iam::111122223333:role/role-name --force
+----
++
+You can see a list of all available options for the command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create addon --help
+----
++
+For more information about available options see https://eksctl.io/usage/addons/[Addons] in the `eksctl` documentation.
+
+=== Create add-on ({aws} Console)
+
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. In the left navigation pane, choose *Clusters*.
+. Choose the name of the cluster that you want to create the add-on for.
+. Choose the *Add-ons* tab.
+. Choose *Get more add-ons*.
+. On the *Select add-ons* page, choose the add-ons that you want to add to your cluster. You can add as many  *Amazon EKS add-ons* and  *{aws} Marketplace add-ons* as you require.
++
+For *{aws} Marketplace* add-ons the   link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that you're using to create the add-on must have permissions to read entitlements for the add-on from the {aws} LicenseManager. {aws} LicenseManager requires link:license-manager/latest/userguide/license-manager-role-core.html[AWSServiceRoleForAWSLicenseManagerRole,type="documentation"] service-linked role (SLR) that allows {aws} resources to manage licenses on your behalf. The SLR is a one time requirement, per account, and you will not have to create separate SLR's for each add-on nor each cluster. For more information about assigning permissions to an  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] see  link:IAM/latest/UserGuide/access_policies_manage-attach-detach.html[Adding and removing IAM identity permissions,type="documentation"] in the IAM User Guide.
++
+If the *{aws} Marketplace add-ons* that you want to install aren't listed, you can search for available add-ons by entering text in the search box. In the  *Filtering options*, you can also filter by  *category*,  *vendor*, or  *pricing model* and then choose the add-ons from the search results. Once you've selected the add-ons that you want to install, choose  *Next*.
+. On the *Configure selected add-ons settings* page, do the following:
++
+.. Choose *View subscription options* to open the  *Subscription options* form. Review the  *Pricing details* and  *Legal* sections, then choose the  *Subscribe* button to continue.
+.. For *Version*, choose the version that you want to install. We recommend the version marked  *latest*, unless the individual add-on that you're creating recommends a different version. To determine whether an add-on has a recommended version, see the documentation for the add-on that you're creating. For a list of add-ons, see <<workloads-add-ons-available-eks>>.
+.. If all of the add-ons that you selected have *Requires subscription* under  *Status*, choose  *Next*. You can't  <<updating-an-add-on,configure those add-ons>> further until you've subscribed to them after your cluster is created. For the add-ons that don't have *Requires subscription* under  *Status*, do the following:
++
+... For *Select IAM role*, accept the default option, unless the add-on requires IAM permissions. If the add-on requires {aws} permissions, you can use the IAM role of the node (*Not set*) or an existing role that you created for use with the add-on. If there's no role to select, then you don't have an existing role. Regardless of which option your choose, see the documentation for the add-on that you're creating to create an IAM policy and attach it to a role. For a list of add-ons, see <<workloads-add-ons-available-eks>>. Selecting an IAM role requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+... Choose *Optional configuration settings*.
+... If the add-on requires configuration, enter it in the *Configuration values* box. To determine whether the add-on requires configuration information, see the documentation for the add-on that you're creating. For a list of add-ons, see <<workloads-add-ons-available-eks>>.
+... Choose one of the available options for *Conflict resolution method*. If you choose  *Override* for the  *Conflict resolution method*, one or more of the settings for the existing add-on can be overwritten with the Amazon EKS add-on settings. If you don't enable this option and there's a conflict with your existing settings, the operation fails. You can use the resulting error message to troubleshoot the conflict. Before choosing this option, make sure that the Amazon EKS add-on doesn't manage settings that you need to self-manage.
+... Choose *Next*.
+. On the *Review and add* page, choose  *Create*. After the add-on installation is complete, you see your installed add-ons.
+. If any of the add-ons that you installed require a subscription, complete the following steps:
++
+.. Choose the *Subscribe* button in the lower right corner for the add-on. You're taken to the page for the add-on in the {aws} Marketplace. Read the information about the add-on such as its  *Product Overview* and  *Pricing Information*.
+.. Select the *Continue to Subscribe* button on the top right of the add-on page.
+.. Read through the *Terms and Conditions*. If you agree to them, choose  *Accept Terms*. It may take several minutes to process the subscription. While the subscription is processing, the  *Return to Amazon EKS Console* button is grayed out.  
+.. Once the subscription has finished processing, the *Return to Amazon EKS Console* button is no longer grayed out. Choose the button to go back to the Amazon EKS console  *Add-ons* tab for your cluster.
+.. For the add-on that you subscribed to, choose *Remove and reinstall* and then choose  *Reinstall add-on*. Installation of the add-on can take several minutes. When Installation is complete, you can configure the add-on.
+
+
+=== Create add-on ({aws} CLI)
+. You need version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
++
+. Determine which add-ons are available. You can see all available add-ons, their type, and their publisher. You can also see the URL for add-ons that are available through the {aws} Marketplace. Replace [.replaceable]`1.30` with the version of your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-addon-versions --kubernetes-version 1.30 \
+    --query 'addons[].{MarketplaceProductUrl: marketplaceInformation.productUrl, Name: addonName, Owner: owner Publisher: publisher, Type: type}' --output table
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+|                                                                 DescribeAddonVersions                                                                 |
++---------------------------------------------------------------+-------------------------------+------------------+--------------+---------------------+
+|                     MarketplaceProductUrl                     |             Name              |      Owner       |  Publisher   |        Type         |
++---------------------------------------------------------------+-------------------------------+------------------+--------------+---------------------+
+|  None                                                         |  aws-ebs-csi-driver           |  aws             |  eks         |  storage            |
+|  None                                                         |  coredns                      |  aws             |  eks         |  networking         |
+|  None                                                         |  kube-proxy                   |  aws             |  eks         |  networking         |
+|  None                                                         |  vpc-cni                      |  aws             |  eks         |  networking         |
+|  None                                                         |  adot                         |  aws             |  eks         |  observability      |
+| https://aws.amazon.com/marketplace/pp/prodview-brb73nceicv7u |  dynatrace_dynatrace-operator |  aws-marketplace |  dynatrace   |  monitoring         |
+| https://aws.amazon.com/marketplace/pp/prodview-uhc2iwi5xysoc |  upbound_universal-crossplane |  aws-marketplace |  upbound     |  infra-management   |
+| https://aws.amazon.com/marketplace/pp/prodview-hd2ydsrgqy4li |  teleport_teleport            |  aws-marketplace |  teleport    |  policy-management  |
+| https://aws.amazon.com/marketplace/pp/prodview-vgghgqdsplhvc |  factorhouse_kpow             |  aws-marketplace |  factorhouse |  monitoring         |
+|  [...]                                                        |  [...]                        |  [...]           |  [...]       |  [...]              |
++---------------------------------------------------------------+-------------------------------+------------------+--------------+---------------------+
+----
++
+Your output might be different. In this example output, there are three different add-ons available of type `networking` and five add-ons with a publisher of type `eks`. The add-ons with `aws-marketplace` in the `Owner` column may require a subscription before you can install them. You can visit the URL to learn more about the add-on and to subscribe to it.
+. You can see which versions are available for each add-on. Replace [.replaceable]`1.30` with the version of your cluster and replace [.replaceable]`vpc-cni` with the name of an add-on returned in the previous step.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-addon-versions --kubernetes-version 1.30 --addon-name vpc-cni \
+    --query 'addons[].addonVersions[].{Version: addonVersion, Defaultversion: compatibilities[0].defaultVersion}' --output table
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+------------------------------------------
+|          DescribeAddonVersions         |
++-----------------+----------------------+
+| Defaultversion  |       Version        |
++-----------------+----------------------+
+|  False          |  v1.12.0-eksbuild.1  |
+|  True           |  v1.11.4-eksbuild.1  |
+|  False          |  v1.10.4-eksbuild.1  |
+|  False          |  v1.9.3-eksbuild.1   |
++-----------------+----------------------+
+----
++
+The version with `True` in the `Defaultversion` column is the version that the add-on is created with, by default.
+. (Optional) Find the configuration options for your chosen add-on by running the following command: 
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-addon-configuration --addon-name vpc-cni --addon-version v1.12.0-eksbuild.1
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+{
+    "addonName": "vpc-cni",
+    "addonVersion": "v1.12.0-eksbuild.1",
+    "configurationSchema": "{\"$ref\":\"#/definitions/VpcCni\",\"$schema\":\"http://json-schema.org/draft-06/schema#\",\"definitions\":{\"Cri\":{\"additionalProperties\":false,\"properties\":{\"hostPath\":{\"$ref\":\"#/definitions/HostPath\"}},\"title\":\"Cri\",\"type\":\"object\"},\"Env\":{\"additionalProperties\":false,\"properties\":{\"ADDITIONAL_ENI_TAGS\":{\"type\":\"string\"},\"AWS_VPC_CNI_NODE_PORT_SUPPORT\":{\"format\":\"boolean\",\"type\":\"string\"},\"AWS_VPC_ENI_MTU\":{\"format\":\"integer\",\"type\":\"string\"},\"AWS_VPC_K8S_CNI_CONFIGURE_RPFILTER\":{\"format\":\"boolean\",\"type\":\"string\"},\"AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG\":{\"format\":\"boolean\",\"type\":\"string\"},\"AWS_VPC_K8S_CNI_EXTERNALSNAT\":{\"format\":\"boolean\",\"type\":\"string\"},\"AWS_VPC_K8S_CNI_LOGLEVEL\":{\"type\":\"string\"},\"AWS_VPC_K8S_CNI_LOG_FILE\":{\"type\":\"string\"},\"AWS_VPC_K8S_CNI_RANDOMIZESNAT\":{\"type\":\"string\"},\"AWS_VPC_K8S_CNI_VETHPREFIX\":{\"type\":\"string\"},\"AWS_VPC_K8S_PLUGIN_LOG_FILE\":{\"type\":\"string\"},\"AWS_VPC_K8S_PLUGIN_LOG_LEVEL\":{\"type\":\"string\"},\"DISABLE_INTROSPECTION\":{\"format\":\"boolean\",\"type\":\"string\"},\"DISABLE_METRICS\":{\"format\":\"boolean\",\"type\":\"string\"},\"DISABLE_NETWORK_RESOURCE_PROVISIONING\":{\"format\":\"boolean\",\"type\":\"string\"},\"ENABLE_POD_ENI\":{\"format\":\"boolean\",\"type\":\"string\"},\"ENABLE_PREFIX_DELEGATION\":{\"format\":\"boolean\",\"type\":\"string\"},\"WARM_ENI_TARGET\":{\"format\":\"integer\",\"type\":\"string\"},\"WARM_PREFIX_TARGET\":{\"format\":\"integer\",\"type\":\"string\"}},\"title\":\"Env\",\"type\":\"object\"},\"HostPath\":{\"additionalProperties\":false,\"properties\":{\"path\":{\"type\":\"string\"}},\"title\":\"HostPath\",\"type\":\"object\"},\"Limits\":{\"additionalProperties\":false,\"properties\":{\"cpu\":{\"type\":\"string\"},\"memory\":{\"type\":\"string\"}},\"title\":\"Limits\",\"type\":\"object\"},\"Resources\":{\"additionalProperties\":false,\"properties\":{\"limits\":{\"$ref\":\"#/definitions/Limits\"},\"requests\":{\"$ref\":\"#/definitions/Limits\"}},\"title\":\"Resources\",\"type\":\"object\"},\"VpcCni\":{\"additionalProperties\":false,\"properties\":{\"cri\":{\"$ref\":\"#/definitions/Cri\"},\"env\":{\"$ref\":\"#/definitions/Env\"},\"resources\":{\"$ref\":\"#/definitions/Resources\"}},\"title\":\"VpcCni\",\"type\":\"object\"}}}"
+}
+----
++
+The output is a standard JSON schema.
++
+Here is an example of valid configuration values, in JSON format, that works with the schema above.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+{
+  "resources": {
+    "limits": {
+      "cpu": "100m"
+    }
+  }
+}
+
+----
++
+Here is an example of valid configuration values, in YAML format, that works with the schema above.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+  resources: 
+    limits: 
+      cpu: 100m
+----
+. Determine if the add-on requires IAM permissions. If so, you need to (1) determine if you want to use EKS Pod Identities or IAM Roles for Service Accounts (IRSA), (2) determine the ARN of the IAM role to use with the add-on, and (3) determine the name of the Kubernetes service account used by the add-on. For more information, see <<retreive-iam-info>>.
++
+** Amazon EKS suggests using EKS Pod Identities if the add-on supports it. This requires the <<pod-identities, Pod Identity Agent is installed on your cluster>>. For more information about using Pod Identities with Add-ons, see <<add-ons-iam>>.
+** If the add-on or your cluster is not setup for EKS Pod Identities, use IRSA. <<iam-roles-for-service-accounts,Confirm IRSA is setup on your cluster. >>
+** <<eks-add-ons,Review the Amazon EKS Add-ons documentation to determine if the add-on requires IAM permissions and the name of the associated Kubernetes service account. >>
+.. Create an Amazon EKS add-on. Copy the command that follows to your device. Make the following modifications to the command as needed and then run the modified command:
++
+** Replace [.replaceable]`my-cluster` with the name of your cluster.
+** Replace [.replaceable]`vpc-cni` with an add-on name returned in the output of the previous step that you want to create.
+** Replace [.replaceable]`version-number` with the version returned in the output of the previous step that you want to use.
+** If the add-on doesn't require IAM permissions, delete [.replaceable]`<service-account-configuration>`.
+** Do one of the following:
++
+*** If the add-on (1) requires IAM permissions, and (2) your cluster uses EKS Pod Identities, replace [.replaceable]`<service-account-configuration>` with the following pod identity association. Replace [.replaceable]`<service-account-name>` with the service account name used by the add-on. Replace [.replaceable]`<role-arn>` with the ARN of an IAM role. The role must have the trust policy required by EKS Pod Identities.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+--pod-identity-associations 'serviceAccount=<service-account-name>,roleArn=<role-arn>'
+----
+*** If the add-on (1) requires IAM permissions, and (2) your cluster uses IRSA, replace [.replaceable]`<service-account-configuration>` with the following IRSA configuration. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`role-name` with the name of an existing IAM role that you've created. For instructions on creating the role, see the documentation for the add-on that you're creating. For a list of add-ons, see <<workloads-add-ons-available-eks>>. Specifying a service account role requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+--service-account-role-arn {arn-aws}:iam::111122223333:role/role-name
+----
+** These example commands overwrites the `--configuration-values` option of any existing self-managed version of the add-on, if there is one. Replace this with the desired configuration values, such as a string or a file input. If you don't want to provide configuration values, then delete the `--configuration-values` option. If you don't want the {aws} CLI to overwrite the configuration of an existing self-managed add-on, remove the [.replaceable]`--resolve-conflicts OVERWRITE` option. If you remove the option, and the Amazon EKS add-on needs to overwrite the configuration of an existing self-managed add-on, then creation of the Amazon EKS add-on fails with an error message to help you resolve the conflict. Before specifying this option, make sure that the Amazon EKS add-on doesn't manage settings that you need to manage, because those settings are overwritten with this option.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
+     <service-account-configuration> --configuration-values '{"resources":{"limits":{"cpu":"100m"}}}' --resolve-conflicts OVERWRITE
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
+    <service-account-configuration> --configuration-values 'file://example.yaml' --resolve-conflicts OVERWRITE
+----
++
+For a full list of available options, see `link:cli/latest/reference/eks/create-addon.html[create-addon,type="documentation"]` in the Amazon EKS Command Line Reference. If the add-on that you created has `aws-marketplace` listed in the `Owner` column of a previous step, then creation may fail, and you may receive an error message similar to the following error.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "addon": {
+        "addonName": "addon-name",
+        "clusterName": "my-cluster",
+        "status": "CREATE_FAILED",
+        "addonVersion": "version",
+        "health": {
+            "issues": [
+                {
+                    "code": "AddonSubscriptionNeeded",
+                    "message": "You are currently not subscribed to this add-on. To subscribe, visit the {aws} Marketplace console, agree to the seller EULA, select the pricing type if required, then re-install the add-on"
+                }
+            ]
+        }
+    }
+}
+
+----
++
+If you receive an error similar to the error in the previous output, visit the URL in the output of a previous step to subscribe to the add-on. Once subscribed, run the `create-addon` command again.
+
+
+[.topic]
+[[updating-an-add-on,updating-an-add-on.title]]
+== Updating an Amazon EKS add-on
+
+[abstract]
+--
+Learn how to update your Amazon EKS add-on to a new version.
+--
+
+Amazon EKS doesn't automatically update an add-on when new versions are released or after you update your cluster to a new [.noloc]`Kubernetes` minor version. To update an add-on for an existing cluster, you must initiate the update. After you initiate the update, Amazon EKS updates the add-on for you. Before updating an add-on, review the current documentation for the add-on. For a list of available add-ons, see <<workloads-add-ons-available-eks>>. If the add-on requires an IAM role, see the details for the specific add-on in <<workloads-add-ons-available-eks,Available Amazon EKS add-ons from {aws}>> for details about creating the role.
+
+[[updating-an-add-on-prereq,updating-an-add-on-prereq.title]]
+=== Prerequisites
+
+Complete the following before you create an add-on:
+
+
+
+* Check if your add-on requires an IAM role. For more information, see <<eks-add-ons>>. 
+* Verify that the Amazon EKS add-on version is compatible with your cluster. For more information, see <<addon-compat>>.
+
+
+[[updating-an-add-on-procedure,updating-an-add-on-procedure.title]]
+=== Procedure
+
+You can update an Amazon EKS add-on using `eksctl`, the {aws-management-console}, or the {aws} CLI.
+
+
+
+=== Update add-on (eksctl)
+
+. Determine the current add-ons and add-on versions installed on your cluster. Replace [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl get addon --cluster my-cluster
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME        VERSION              STATUS  ISSUES  IAMROLE  UPDATE AVAILABLE
+coredns     v1.8.7-eksbuild.2    ACTIVE  0
+kube-proxy  v1.23.7-eksbuild.1   ACTIVE  0                v1.23.8-eksbuild.2
+vpc-cni     v1.10.4-eksbuild.1   ACTIVE  0                v1.12.0-eksbuild.1,v1.11.4-eksbuild.1,v1.11.3-eksbuild.1,v1.11.2-eksbuild.1,v1.11.0-eksbuild.1
+----
++
+Your output might look different, depending on which add-ons and versions that you have on your cluster. You can see that in the previous example output, two existing add-ons on the cluster have newer versions available in the `UPDATE AVAILABLE` column.
+. Update the add-on.
++
+.. Copy the command that follows to your device. Make the following modifications to the command as needed:
++
+*** Replace [.replaceable]`my-cluster` with the name of your cluster.
+*** Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
+*** Replace [.replaceable]`vpc-cni` with the name of an add-on returned in the output of the previous step that you want to update.
+*** If you want to update to a version earlier than the latest available version, then replace [.replaceable]`latest` with the version number returned in the output of the previous step that you want to use. Some add-ons have recommended versions. For more information, see the documentation for the add-on that you're updating. For a list of add-ons, see <<workloads-add-ons-available-eks>>.*** If the add-on uses a [.noloc]`Kubernetes` service account and IAM role, replace [.replaceable]`111122223333` with your account ID and [.replaceable]`role-name` with the name of an existing IAM role that you've created. For instructions on creating the role, see the documentation for the add-on that you're creating. For a list of add-ons, see <<workloads-add-ons-available-eks>>. Specifying a service account role requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>.
++
+If the add-on doesn't use a [.noloc]`Kubernetes` service account and IAM role, delete the `serviceAccountRoleARN: {arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``role-name``` line.
+*** The [.replaceable]`preserve` option preserves existing values for the add-on. If you have set custom values for add-on settings, and you don't use this option, Amazon EKS overwrites your values with its default values. If you use this option, then we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your production cluster. If you change this value to `overwrite`, all settings are changed to Amazon EKS default values. If you've set custom values for any settings, they might be overwritten with Amazon EKS default values. If you change this value to `none`, Amazon EKS doesn't change the value of any settings, but the update might fail. If the update fails, you receive an error message to help you resolve the conflict.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+cat >update-addon.yaml <<EOF
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: my-cluster
+  region: region-code
+
+addons:
+- name: vpc-cni
+  version: latest
+  serviceAccountRoleARN: {arn-aws}iam::111122223333:role/role-name
+  resolveConflicts: preserve
+EOF
+----
+.. Run the modified command to create the `update-addon.yaml` file.
+.. Apply the config file to your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl update addon -f update-addon.yaml
+----
+
++
+For more information about updating add-ons, see https://eksctl.io/usage/addons/#updating-addons[Updating addons] in the `eksctl` documentation.
+
+
+=== Update add-on ({aws} Console)
+
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. In the left navigation pane, choose *Clusters*.
+. Choose the name of the cluster that you want to update the add-on for.
+. Choose the *Add-ons* tab.
+. Choose the add-on that you want to update.
+. Choose *Edit*.
+. On the *Configure [.replaceable]`name of addon`* page, do the following:
++
+.. Choose the *Version* that you'd like to use. The add-on might have a recommended version. For more information, see the documentation for the add-on that you're updating. For a list of add-ons, see <<workloads-add-ons-available-eks>>... For *Select IAM role*, you can use the IAM role of the node (*Not set*) or an existing role that you created for use with the add-on. If there's no role to select, then you don't have an existing role. Regardless of which option your choose, see the documentation for the add-on that you're creating to create an IAM policy and attach it to a role. For a list of add-ons, see <<workloads-add-ons-available-eks>>. Selecting an IAM role requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+.. Expand the *Optional configuration settings*.
+.. In *Configuration values*, enter any add-on specific configuration information. For more information, see the documentation for the add-on that you're updating. For a list of add-ons, see <<workloads-add-ons-available-eks>>... For *Conflict resolution method*, select one of the options. If you have set custom values for add-on settings, we recommend the  *Preserve* option. If you don't choose this option, Amazon EKS overwrites your values with its default values. If you use this option, then we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your production cluster.
+. Choose *Save changes*.
+
+
+=== Update add-on ({aws} CLI)
+. You need version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
++
+. See a list of installed add-ons. Replace [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks list-addons --cluster-name my-cluster
+----
++
+An example output is as follows.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "addons": [
+        "coredns",
+        "kube-proxy",
+        "vpc-cni"
+    ]
+}
+----
+. View the current version of the add-on that you want to update. Replace [.replaceable]`my-cluster` with your cluster name and [.replaceable]`vpc-cni` with the name of the add-on that you want to update.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni --query "addon.addonVersion" --output text
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+v1.10.4-eksbuild.1
+----
+. Determine which versions of the add-on are available for your cluster's version. Replace [.replaceable]`1.30` with your cluster's version and [.replaceable]`vpc-cni` with the name of the add-on that you want to update.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-addon-versions --kubernetes-version 1.30 --addon-name vpc-cni \
+    --query 'addons[].addonVersions[].{Version: addonVersion, Defaultversion: compatibilities[0].defaultVersion}' --output table
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+------------------------------------------
+|          DescribeAddonVersions         |
++-----------------+----------------------+
+| Defaultversion  |       Version        |
++-----------------+----------------------+
+|  False          |  v1.12.0-eksbuild.1  |
+|  True           |  v1.11.4-eksbuild.1  |
+|  False          |  v1.10.4-eksbuild.1  |
+|  False          |  v1.9.3-eksbuild.1   |
++-----------------+----------------------+
+----
++
+The version with `True` in the `Defaultversion` column is the version that the add-on is created with, by default.
+. Update your add-on. Copy the command that follows to your device. Make the following modifications to the command, as needed, and then run the modified command. For more information about this command, see link:cli/latest/reference/eks/update-addon.html[update-addon,type="documentation"] in the Amazon EKS Command Line Reference.
++
+*** Replace [.replaceable]`my-cluster` with the name of your cluster.
+*** Replace [.replaceable]`vpc-cni` with the name of the add-on that you want to update that was returned in the output of a previous step.
+*** Replace [.replaceable]`version-number` with the version returned in the output of the previous step that you want to update to. Some add-ons have recommended versions. For more information, see the documentation for the add-on that you're updating. For a list of add-ons, see <<workloads-add-ons-available-eks>>.*** If the add-on uses a [.noloc]`Kubernetes` service account and IAM role, replace [.replaceable]`111122223333` with your account ID and [.replaceable]`role-name` with the name of an existing IAM role that you've created. For instructions on creating the role, see the documentation for the add-on that you're creating. For a list of add-ons, see <<workloads-add-ons-available-eks>>. Specifying a service account role requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>.
++
+If the add-on doesn't use a [.noloc]`Kubernetes` service account and IAM role, delete the `serviceAccountRoleARN: {arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``role-name``` line.
+*** The `--resolve-conflicts PRESERVE` option preserves existing values for the add-on. If you have set custom values for add-on settings, and you don't use this option, Amazon EKS overwrites your values with its default values. If you use this option, then we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your production cluster. If you change this value to `OVERWRITE`, all settings are changed to Amazon EKS default values. If you've set custom values for any settings, they might be overwritten with Amazon EKS default values. If you change this value to `NONE`, Amazon EKS doesn't change the value of any settings, but the update might fail. If the update fails, you receive an error message to help you resolve the conflict.
+*** If you want to remove all custom configuration then perform the update using the [.replaceable]`--configuration-values '{}'` option. This sets all custom configuration back to the default values. If you don't want to change your custom configuration, don't provide the [.replaceable]`--configuration-values` flag. If you want to adjust a custom configuration then replace [.replaceable]`{}` with the new parameters. 
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
+    --service-account-role-arn {arn-aws}iam::111122223333:role/role-name --configuration-values '{}' --resolve-conflicts PRESERVE
+----
+. Check the status of the update. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`vpc-cni` with the name of the add-on you're updating.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni
+----
++
+An example output is as follows.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "addon": {
+        "addonName": "vpc-cni",
+        "clusterName": "my-cluster",
+        "status": "UPDATING",
+    }
+}
+----
++
+The update is complete when the status is `ACTIVE`.
+
+
+[.topic]
+[[addon-compat,addon-compat.title]]
+== Verifying Amazon EKS add-on version compatibility with a cluster
+
+[abstract]
+--
+Learn how to verify the Amazon EKS add-on compatibility with your cluster before you create or update an Amazon EKS add-on.
+--
+
+Before you create an Amazon EKS add-on you need to verify that the Amazon EKS add-on version is compatible with your cluster.
+
+Use the  link:eks/latest/APIReference/API_DescribeAddonVersions.html[describe-addon-verisions API,type="documentation"] to list the available versions of EKS add-ons, and which Kubernetes versions each addon version supports. 
+
+. Verify the {aws} CLI is installed and working with `aws sts get-caller-identity`. If this command doesn't work, learn how to link:cli/latest/userguide/cli-chap-getting-started.html[Get started with the {aws} CLI.,type="documentation"]
+. Determine the name of the add-on you want to retrieve version compatibility information for, such as `amazon-cloudwatch-observability`.
+. Determine the Kubernetes version of your cluster, such as `1.28`.
+. Use the {aws} CLI to retrieve the addon versions that are compatible with the Kubernetes version of your cluster. 
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-addon-versions --addon-name amazon-cloudwatch-observability --kubernetes-version 1.29
+----
++
+An example output is as follows.  
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "addons": [
+        {
+            "addonName": "amazon-cloudwatch-observability",
+            "type": "observability",
+            "addonVersions": [
+                {
+                    "addonVersion": "v1.5.0-eksbuild.1",
+                    "architecture": [
+                        "amd64",
+                        "arm64"
+                    ],
+                    "compatibilities": [
+                        {
+                            "clusterVersion": "1.28",
+                            "platformVersions": [
+                                "*"
+                            ],
+                            "defaultVersion": true
+                        }
+                    ],
+                }
+            ]
+        }
+    ]
+}
+----
++
+This output shows that addon version `v1.5.0-eksbuild.1` is compatible with Kubernetes cluster version `1.28`.
+
+
+[.topic]
+[[removing-an-add-on,removing-an-add-on.title]]
+== Removing an Amazon EKS add-on from a cluster
+
+[abstract]
+--
+Learn how to remove an Amazon EKS add-on.
+--
+
+You can remove an Amazon EKS add-on from your cluster using `eksctl`, the {aws-management-console}, or the {aws} CLI.
+
+When you remove an Amazon EKS add-on from a cluster:
+
+
+
+* There is no downtime for the functionality that the add-on provides.
+* If you are using IAM Roles for Service Accounts (IRSA) and the add-on has an IAM role associated with it, the IAM role isn't removed.
+* If you are using Pod Identities, any Pod Identity Associations owned by the add-on are removed. If you specify the `--preserve` option to the {aws} CLI, the associations are preserved.
+* Amazon EKS stops managing settings for the add-on.
+* The console stops notifying you when new versions are available.
+* You can't update the add-on using any {aws} tools or APIs.
+* You can choose to leave the add-on software on your cluster so that you can self-manage it, or you can remove the add-on software from your cluster. You should only remove the add-on software from your cluster if there are no resources on your cluster are dependent on the functionality that the add-on provides.
+
+
+[[removing-an-add-on-prereq,removing-an-add-on-prereq.title]]
+=== Prerequisites
+
+Complete the following before you create an add-on:
+
+
+
+* An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
+* Check if your add-on requires an IAM role. For more information, see 
+* Version {eksctl-min-version} or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation..
+
+
+[[removing-an-add-on-procedure,removing-an-add-on-procedure.title]]
+=== Procedure
+
+You have two options when removing an Amazon EKS add-on.
+
+* *Preserve add-on software on your cluster* – This option removes Amazon EKS management of any settings. It also removes the ability for Amazon EKS to notify you of updates and automatically update the Amazon EKS add-on after you initiate an update. However, it preserves the add-on software on your cluster. This option makes the add-on a self-managed installation, rather than an Amazon EKS add-on. With this option, there's no downtime for the add-on.
+* *Remove add-on software entirely from your cluster* – We recommend that you remove the Amazon EKS add-on from your cluster only if there are no resources on your cluster that are dependent on it.
+
+You can remove an Amazon EKS add-on using `eksctl`, the {aws-management-console}, or the {aws} CLI. 
+
+==== Remove add-on (eksctl)
+
+. Determine the current add-ons installed on your cluster. Replace [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl get addon --cluster my-cluster
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME        VERSION              STATUS  ISSUES  IAMROLE  UPDATE AVAILABLE
+coredns     v1.8.7-eksbuild.2    ACTIVE  0
+kube-proxy  v1.23.7-eksbuild.1   ACTIVE  0                
+vpc-cni     v1.10.4-eksbuild.1   ACTIVE  0
+[...]
+----
++
+Your output might look different, depending on which add-ons and versions that you have on your cluster.
+. Remove the add-on. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`name-of-add-on` with the name of the add-on returned in the output of the previous step that you want to remove. If you remove the [.replaceable]`--preserve` option, in addition to Amazon EKS no longer managing the add-on, the add-on software is deleted from your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl delete addon --cluster my-cluster --name name-of-addon --preserve
+----
+
++
+For more information about removing add-ons, see https://eksctl.io/usage/addons/#deleting-addons[Deleting addons] in the `eksctl` documentation.
+
+
+==== Remove add-on ({aws} Console)
+
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. In the left navigation pane, choose *Clusters*.
+. Choose the name of the cluster that you want to remove the Amazon EKS add-on for.
+. Choose the *Add-ons* tab.
+. Choose the add-on that you want to remove.
+. Choose *Remove*.
+. In the *Remove: [.replaceable]`name of addon`* confirmation dialog box, do the following:
++
+.. If you want Amazon EKS to stop managing settings for the add-on, select *Preserve on cluster*. Do this if you want to retain the add-on software on your cluster. This is so that you can manage all of the settings of the add-on on your own.
+.. Enter the add-on name.
+.. Choose *Remove*.
+
+
+==== Remove add-on ({aws} CLI)
+
+. You need version {eksctl-min-version} or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
++
+. See a list of installed add-ons. Replace [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks list-addons --cluster-name my-cluster
+----
++
+An example output is as follows.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "addons": [
+        "coredns",
+        "kube-proxy",
+        "vpc-cni",
+        "name-of-addon"
+    ]
+}
+----
+. Remove the installed add-on. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`name-of-add-on` with the name of the add-on that you want to remove. Removing [.replaceable]`--preserve` deletes the add-on software from your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks delete-addon --cluster-name my-cluster --addon-name name-of-addon --preserve
+----
++
+The abbreviated example output is as follows.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "addon": {
+        "addonName": "name-of-add-on",
+        "clusterName": "my-cluster",
+        "status": "DELETING",
+    }
+}
+----
+. Check the status of the removal. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`name-of-addon` with the name of the add-on that you're removing.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-addon --cluster-name my-cluster --addon-name name-of-addon
+----
++
+After the add-on is removed, the example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+An error occurred (ResourceNotFoundException) when calling the DescribeAddon operation: No addon: name-of-addon found in cluster: my-cluster
+----
+

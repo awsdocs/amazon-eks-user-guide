@@ -1,0 +1,420 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[s3-csi,s3-csi.title]]
+= Access Amazon S3 objects with Mountpoint for Amazon S3 CSI driver
+:info_doctype: section
+:info_title: Access Amazon S3 objects with Mountpoint for Amazon S3 CSI driver
+:info_titleabbrev: Mountpoint for Amazon S3
+:keywords: Mountpoint for Amazon S3 CSI driver, storage
+:info_abstract: Learn about the Amazon S3 Container Storage Interface (CSI) driver, which provides a \
+                CSI interface for managing Amazon S3 files and buckets.
+
+[abstract]
+--
+Learn about the Amazon S3 Container Storage Interface (CSI) driver, which provides a CSI interface for managing Amazon S3 files and buckets.
+--
+
+With the https://github.com/awslabs/mountpoint-s3-csi-driver[Mountpoint for Amazon S3 Container Storage Interface (CSI) driver], your [.noloc]`Kubernetes` applications can access Amazon S3 objects through a file system interface, achieving high aggregate throughput without changing any application code. Built on https://github.com/awslabs/mountpoint-s3[Mountpoint for Amazon S3], the CSI driver presents an Amazon S3 bucket as a volume that can be accessed by containers in Amazon EKS and self-managed [.noloc]`Kubernetes` clusters. This topic shows you how to deploy the [.noloc]`Mountpoint` for Amazon S3 CSI driver to your Amazon EKS cluster.
+
+[[s3-csi-considerations,s3-csi-considerations.title]]
+== Considerations
+
+* The [.noloc]`Mountpoint` for Amazon S3 CSI driver isn't presently compatible with Windows-based container images.
+* The [.noloc]`Mountpoint` for Amazon S3 CSI driver doesn't support {aws} Fargate. However, containers that are running in Amazon EC2 (either with Amazon EKS or a custom [.noloc]`Kubernetes` installation) are supported.
+* The [.noloc]`Mountpoint` for Amazon S3 CSI driver supports only static provisioning. Dynamic provisioning, or creation of new buckets, isn't supported.
++
+NOTE: Static provisioning refers to using an existing Amazon S3 bucket that is specified as the `bucketName` in the `volumeAttributes` in the `PersistentVolume` object. For more information, see https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/examples/kubernetes/static_provisioning/README.md[Static Provisioning] on [.noloc]`GitHub`.
+* Volumes mounted with the [.noloc]`Mountpoint` for Amazon S3 CSI driver don't support all POSIX file-system features. For details about file-system behavior, see https://github.com/awslabs/mountpoint-s3/blob/main/doc/SEMANTICS.md[Mountpoint for Amazon S3 file system behavior] on [.noloc]`GitHub`.
+
+
+[[s3-csi-prereqs,s3-csi-prereqs.title]]
+== Prerequisites
+
+* An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* Version 2.12.3 or later of the {aws} CLI installed and configured on your device or {aws} CloudShell.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
+
+
+[[s3-create-iam-policy,s3-create-iam-policy.title]]
+== Create an IAM policy
+
+The [.noloc]`Mountpoint` for Amazon S3 CSI driver requires Amazon S3 permissions to interact with your file system. This section shows how to create an IAM policy that grants the necessary permissions.
+
+The following example policy follows the IAM permission recommendations for [.noloc]`Mountpoint`. Alternatively, you can use the {aws} managed policy link:iam/home?#/policies/arn:aws:iam::aws:policy/AmazonS3FullAccess$jsonEditor[AmazonS3FullAccess,type="console"], but this managed policy grants more permissions than are needed for [.noloc]`Mountpoint`.  
+
+For more information about the recommended permissions for [.noloc]`Mountpoint`, see https://github.com/awslabs/mountpoint-s3/blob/main/doc/CONFIGURATION.md#iam-permissions[Mountpoint IAM permissions] on [.noloc]`GitHub`.
+
+. Open the IAM console at https://console.aws.amazon.com/iam/.
+. In the left navigation pane, choose *Policies*.
+. On the *Policies* page, choose *Create policy*.
+. For *Policy editor*, choose *JSON*.
+. Under *Policy editor*, copy and paste the following:
++
+IMPORTANT: Replace `amzn-s3-demo-bucket1` with your own Amazon S3 bucket name.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+   "Version": "2012-10-17",
+   "Statement": [
+        {
+            "Sid": "MountpointFullBucketAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "{arn-aws}s3:::amzn-s3-demo-bucket1"
+            ]
+        },
+        {
+            "Sid": "MountpointFullObjectAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:AbortMultipartUpload",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "{arn-aws}s3:::amzn-s3-demo-bucket1/*"
+            ]
+        }
+   ]
+}
+----
++
+Directory buckets, introduced with the Amazon S3 Express One Zone storage class, use a different authentication mechanism from general purpose buckets. Instead of using `s3:*` actions, you should use the `s3express:CreateSession` action. For information about directory buckets, see link:AmazonS3/latest/userguide/directory-buckets-overview.html[Directory buckets,type="documentation"] in the _Amazon S3 User Guide_.
++
+Below is an example of least-privilege policy that you would use for a directory bucket.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3express:CreateSession",
+            "Resource": "{arn-aws}s3express:us-west-2:111122223333:bucket/amzn-s3-demo-bucket1--usw2-az1--x-s3"
+        }
+    ]
+}
+----
+. Choose *Next*.
+. On the *Review and create* page, name your policy. This example walkthrough uses the name `AmazonS3CSIDriverPolicy`.
+. Choose *Create policy*.
+
+
+[[s3-create-iam-role,s3-create-iam-role.title]]
+== Create an IAM role
+
+The [.noloc]`Mountpoint` for Amazon S3 CSI driver requires Amazon S3 permissions to interact with your file system. This section shows how to create an IAM role to delegate these permissions. To create this role, you can use one of these tools:
+
+* <<eksctl_s3_store_app_data>>
+* <<console_s3_store_app_data>>
+* <<awscli_s3_store_app_data>>
+
+[NOTE]
+====
+
+The IAM policy `AmazonS3CSIDriverPolicy` was created in the previous section.
+
+====
+
+=== [.noloc]`eksctl` [[eksctl_s3_store_app_data]]
+
+*To create your [.noloc]`Mountpoint` for Amazon S3 CSI driver IAM role with `eksctl`*
+
+To create the IAM role and the [.noloc]`Kubernetes` service account, run the following commands. These commands also attach the `AmazonS3CSIDriverPolicy` IAM policy to the role, annotate the [.noloc]`Kubernetes` service account (`s3-csi-controller-sa`) with the IAM role's Amazon Resource Name (ARN), and add the [.noloc]`Kubernetes` service account name to the trust policy for the IAM role.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+CLUSTER_NAME=my-cluster
+REGION=region-code
+ROLE_NAME=AmazonEKS_S3_CSI_DriverRole
+POLICY_ARN=AmazonEKS_S3_CSI_DriverRole_ARN
+eksctl create iamserviceaccount \
+    --name s3-csi-driver-sa \
+    --namespace kube-system \
+    --cluster $CLUSTER_NAME \
+    --attach-policy-arn $POLICY_ARN \
+    --approve \
+    --role-name $ROLE_NAME \
+    --region $REGION \
+    --role-only
+----
+
+
+=== {aws-management-console} [[console_s3_store_app_data]]
+. Open the IAM console at https://console.aws.amazon.com/iam/.
+. In the left navigation pane, choose *Roles*.
+. On the *Roles* page, choose  *Create role*.
+. On the *Select trusted entity* page, do the following:
++
+.. In the *Trusted entity type* section, choose  *Web identity*.
+.. For *Identity provider*, choose the  *[.noloc]`OpenID Connect` provider URL* for your cluster (as shown under  *Overview* in Amazon EKS).
++
+If no URLs are shown, review the <<s3-csi-prereqs,Prerequisites>>.
+.. For *Audience*, choose `sts.amazonaws.com`.
+.. Choose *Next*.
+. On the *Add permissions* page, do the following:
++
+.. In the *Filter policies* box, enter [.noloc]`AmazonS3CSIDriverPolicy`.
++
+NOTE: This policy was created in the previous section.
+.. Select the check box to the left of the `AmazonS3CSIDriverPolicy` result that was returned in the search.
+.. Choose *Next*.
+. On the *Name, review, and create* page, do the following:
++
+.. For *Role name*, enter a unique name for your role, such as [.noloc]`AmazonEKS_S3_CSI_DriverRole`.
+.. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see   link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
+.. Choose *Create role*.
+. After the role is created, choose the role in the console to open it for editing.
+. Choose the *Trust relationships* tab, and then choose  *Edit trust policy*.
+. Find the line that looks similar to the following:
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+"oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
+----
++
+Add a comma to the end of the previous line, and then add the following line after it.  Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` with your cluster's OIDC provider ID.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+"oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:s3-csi-*"
+----
+. Change the `Condition` operator from `"StringEquals"` to `"StringLike"`.
+. Choose *Update policy* to finish.
+
+=== {aws} CLI [[awscli_s3_store_app_data]]
+. View the OIDC provider URL for your cluster. Replace [.replaceable]`my-cluster` with the name of your cluster. If the output from the command is `None`,  review the <<s3-csi-prereqs,Prerequisites>>.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
+----
+. Create the IAM role, granting the [.noloc]`Kubernetes` service account the `AssumeRoleWithWebIdentity` action.
++
+.. Copy the following contents to a file named `aws-s3-csi-driver-trust-policy.json`. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` and [.replaceable]`region-code` with the values returned in the previous step.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "{arn-aws}iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringLike": {
+          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:s3-csi-*",
+          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
+        }
+      }
+    }
+  ]
+}
+----
+.. Create the role. You can change [.replaceable]`AmazonEKS_S3_CSI_DriverRole` to a different name, but if you do, make sure to change it in later steps too.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam create-role \
+  --role-name AmazonEKS_S3_CSI_DriverRole \
+  --assume-role-policy-document file://"aws-s3-csi-driver-trust-policy.json"
+----
+. Attach the previously created IAM policy to the role with the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonS3CSIDriverPolicy \
+  --role-name AmazonEKS_S3_CSI_DriverRole
+----
++
+NOTE: The IAM policy `AmazonS3CSIDriverPolicy` was created in the previous section.
+. Skip this step if you're installing the driver as an Amazon EKS add-on. For self-managed installations of the driver, create [.noloc]`Kubernetes` service accounts that are annotated with the ARN of the IAM role that you created.
++
+.. Save the following contents to a file named `mountpoint-s3-service-account.yaml`. Replace [.replaceable]`111122223333` with your account ID.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/name: aws-mountpoint-s3-csi-driver
+  name: mountpoint-s3-csi-controller-sa
+  namespace: kube-system
+  annotations:
+    eks.amazonaws.com/role-arn: {arn-aws}iam::111122223333:role/AmazonEKS_S3_CSI_DriverRole
+----
+.. Create the [.noloc]`Kubernetes` service account on your cluster. The [.noloc]`Kubernetes` service account (`mountpoint-s3-csi-controller-sa`) is annotated with the IAM role that you created named [.replaceable]`AmazonEKS_S3_CSI_DriverRole`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f mountpoint-s3-service-account.yaml
+----
++
+NOTE: When you deploy the plugin in this procedure, it creates and is configured to use a service account named `s3-csi-driver-sa`. 
+
+
+[[s3-install-driver,s3-install-driver.title]]
+== Install the [.noloc]`Mountpoint` for Amazon S3 CSI driver
+
+You may install the [.noloc]`Mountpoint` for Amazon S3 CSI driver through the Amazon EKS add-on. You can use the following tools to add the add-on to your cluster:  
+
+* <<eksctl_s3_add_store_app_data>>
+* <<console_s3_add_store_app_data>>
+* <<awscli_s3_add_store_app_data>>
+
+Alternatively, you may install [.noloc]`Mountpoint` for Amazon S3 CSI driver as a self-managed installation. For instructions on doing a self-managed installation, see https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/docs/install.md#deploy-driver[Installation] on [.noloc]`GitHub`.
+
+Starting from `v1.8.0`, you can configure taints to tolerate for the CSI driver's [.noloc]`Pods`. To do this, either specify a custom set of taints to tolerate with `node.tolerations` or tolorate all taints with `node.tolerateAllTaints`. For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the [.noloc]`Kubernetes` documentation.
+
+
+=== [.noloc]`eksctl` [[eksctl_s3_add_store_app_data]]
+
+*To add the Amazon S3 CSI add-on using `eksctl`*
+
+Run the following command. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your account ID, and [.replaceable]`AmazonEKS_S3_CSI_DriverRole` with the name of the <<s3-create-iam-role,IAM role created earlier>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create addon --name aws-mountpoint-s3-csi-driver --cluster my-cluster \
+  --service-account-role-arn {arn-aws}iam::111122223333:role/AmazonEKS_S3_CSI_DriverRole --force
+----
+
+If you remove the [.replaceable]`--force` option and any of the Amazon EKS add-on settings conflict with your existing settings, then updating the Amazon EKS add-on fails, and you receive an error message to help you resolve the conflict. Before specifying this option, make sure that the Amazon EKS add-on doesn't manage settings that you need to manage, because those settings are overwritten with this option. For more information about other options for this setting, see https://eksctl.io/usage/addons/[Addons] in the `eksctl` documentation. For more information about Amazon EKS [.noloc]`Kubernetes` field management, see <<kubernetes-field-management>>.
+
+You can customize `eksctl` through configuration files. For more information, see https://eksctl.io/usage/addons/#working-with-configuration-values[Working with configuration values] in the `eksctl` documentation. The following example shows how to tolerate all taints.
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+# config.yaml
+...
+
+addons:
+- name: aws-mountpoint-s3-csi-driver
+  serviceAccountRoleARN: {arn-aws}iam::111122223333:role/AmazonEKS_S3_CSI_DriverRole
+  configurationValues: |-
+    node:
+      tolerateAllTaints: true
+----
+
+=== {aws-management-console} [[console_s3_add_store_app_data]]
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. In the left navigation pane, choose *Clusters*.
+. Choose the name of the cluster that you want to configure the [.noloc]`Mountpoint` for Amazon S3 CSI add-on for.
+. Choose the *Add-ons* tab.
+. Choose *Get more add-ons*.
+. On the *Select add-ons* page, do the following:
++
+.. In the *Amazon EKS-addons* section, select the  *[.noloc]`Mountpoint` for Amazon S3 CSI Driver* check box.
+.. Choose *Next*.
+. On the *Configure selected add-ons settings* page, do the following:
++
+.. Select the *Version* you'd like to use.
+.. For *Select IAM role*, select the name of an IAM role that you attached the [.noloc]`Mountpoint` for Amazon S3 CSI driver IAM policy to.
+.. (Optional) Update the *Conflict resolution method* after expanding the  *Optional configuration settings*. If you select  *Override*, one or more of the settings for the existing add-on can be overwritten with the Amazon EKS add-on settings. If you don't enable this option and there's a conflict with your existing settings, the operation fails. You can use the resulting error message to troubleshoot the conflict. Before selecting this option, make sure that the Amazon EKS add-on doesn't manage settings that you need to self-manage.
+.. (Optional) Configure tolerations in the *Configuration values* field after expanding the  *Optional configuration settings*.
+.. Choose *Next*.
+. On the *Review and add* page, choose  *Create*. After the add-on installation is complete, you see your installed add-on.
+
+=== {aws} CLI [[awscli_s3_add_store_app_data]]
+
+*To add the [.noloc]`Mountpoint` for Amazon S3 CSI add-on using the {aws} CLI*
+
+Run the following command. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your account ID, and [.replaceable]`AmazonEKS_S3_CSI_DriverRole` with the name of the role that was created earlier.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks create-addon --cluster-name my-cluster --addon-name aws-mountpoint-s3-csi-driver \
+  --service-account-role-arn {arn-aws}iam::111122223333:role/AmazonEKS_S3_CSI_DriverRole
+----
+
+You can customize the command with the `--configuration-values` flag. The following alternative example shows how to tolerate all taints.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks create-addon --cluster-name my-cluster --addon-name aws-mountpoint-s3-csi-driver \
+  --service-account-role-arn {arn-aws}iam::111122223333:role/AmazonEKS_S3_CSI_DriverRole \
+  --configuration-values '{"node":{"tolerateAllTaints":true}}'
+----
+
+
+[[s3-configure-mountpoint,s3-configure-mountpoint.title]]
+== Configure [.noloc]`Mountpoint` for Amazon S3
+
+In most cases, you can configure [.noloc]`Mountpoint` for Amazon S3 with only a bucket name. For instructions on configuring [.noloc]`Mountpoint` for Amazon S3, see https://github.com/awslabs/mountpoint-s3/blob/main/doc/CONFIGURATION.md[Configuring Mountpoint for Amazon S3] on [.noloc]`GitHub`.
+
+[[s3-sample-app,s3-sample-app.title]]
+== Deploy a sample application
+
+You can deploy static provisioning to the driver on an existing Amazon S3 bucket. For more information, see https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/examples/kubernetes/static_provisioning/README.md[Static provisioning] on [.noloc]`GitHub`.
+
+[[removing-s3-csi-eks-add-on,removing-s3-csi-eks-add-on.title]]
+== Remove [.noloc]`Mountpoint` for Amazon S3 CSI Driver
+
+You have two options for removing an Amazon EKS add-on.
+
+* *Preserve add-on software on your cluster* – This option removes Amazon EKS management of any settings. It also removes the ability for Amazon EKS to notify you of updates and automatically update the Amazon EKS add-on after you initiate an update. However, it preserves the add-on software on your cluster. This option makes the add-on a self-managed installation, rather than an Amazon EKS add-on. With this option, there's no downtime for the add-on. The commands in this procedure use this option.
+* *Remove add-on software entirely from your cluster* – We recommend that you remove the Amazon EKS add-on from your cluster only if there are no resources on your cluster that are dependent on it. To do this option, delete `--preserve` from the command you use in this procedure.
+
+If the add-on has an IAM account associated with it, the IAM account isn't removed.
+
+You can use the following tools to remove the Amazon S3 CSI add-on:
+
+* <<eksctl_s3_remove_store_app_data>>
+* <<console_s3_remove_store_app_data>>
+* <<awscli_s3_remove_store_app_data>>
+
+=== [.noloc]`eksctl` [[eksctl_s3_remove_store_app_data]]
+
+*To remove the Amazon S3 CSI add-on using `eksctl`*
+
+Replace [.replaceable]`my-cluster` with the name of your cluster, and then run the following command.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl delete addon --cluster my-cluster --name aws-mountpoint-s3-csi-driver --preserve
+----
+
+=== {aws-management-console} [[console_s3_remove_store_app_data]]
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. In the left navigation pane, choose *Clusters*.
+. Choose the name of the cluster that you want to remove the Amazon EBS CSI add-on for.
+. Choose the *Add-ons* tab.
+. Choose *[.noloc]`Mountpoint` for Amazon S3 CSI Driver*.
+. Choose *Remove*.
+. In the *Remove: aws-mountpoint-s3-csi-driver* confirmation dialog box, do the following:
++
+.. If you want Amazon EKS to stop managing settings for the add-on, select *Preserve on cluster*. Do this if you want to retain the add-on software on your cluster. This is so that you can manage all of the settings of the add-on on your own.
+.. Enter `aws-mountpoint-s3-csi-driver`.
+.. Select *Remove*.
+
+=== {aws} CLI [[awscli_s3_remove_store_app_data]]
+
+*To remove the Amazon S3 CSI add-on using the {aws} CLI*
+
+Replace [.replaceable]`my-cluster` with the name of your cluster, and then run the following command.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks delete-addon --cluster-name my-cluster --addon-name aws-mountpoint-s3-csi-driver --preserve
+----

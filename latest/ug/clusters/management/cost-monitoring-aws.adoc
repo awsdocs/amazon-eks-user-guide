@@ -1,0 +1,29 @@
+include::../../attributes.txt[]
+
+[.topic]
+[[cost-monitoring-aws,cost-monitoring-aws.title]]
+= View costs by pod in {aws} billing with split cost allocation
+:info_doctype: section
+
+.Cost monitoring using {aws} split cost allocation data for Amazon EKS
+You can use {aws} split cost allocation data for Amazon EKS to get granular cost visibility for your Amazon EKS clusters. This enables you to analyze, optimize, and chargeback cost and usage for your [.noloc]`Kubernetes` applications. You allocate application costs to individual business units and teams based on Amazon EC2 CPU and memory resources consumed by your [.noloc]`Kubernetes` application. Split cost allocation data for Amazon EKS gives visibility into cost per Pod, and enables you to aggregate the cost data per Pod using namespace, cluster, and other [.noloc]`Kubernetes` primitives. The following are examples of [.noloc]`Kubernetes` primitives that you can use to analyze Amazon EKS cost allocation data.  
+
+* Cluster name 
+* Deployment 
+* Namespace 
+* Node 
+* Workload Name 
+* Workload Type 
+
+For more information about using split cost allocation data, see link:cur/latest/userguide/split-cost-allocation-data.html[Understanding split cost allocation data,type="documentation"] in the {aws} Billing User Guide.
+
+[[task-cur-setup,task-cur-setup.title]]
+== Set up Cost and Usage Reports
+
+You can turn on Split Cost Allocation Data for EKS in the Cost Management Console, {aws} Command Line Interface, or the {aws} SDKs.
+
+Use the following for _Split Cost Allocation Data_:
+
+. Opt in to Split Cost Allocation Data. For more information, see link:cur/latest/userguide/enabling-split-cost-allocation-data.html[Enabling split cost allocation data,type="documentation"] in the {aws} Cost and Usage Report User Guide.
+. Include the data in a new or existing report.
+. View the report. You can use the Billing and Cost Management console or view the report files in Amazon Simple Storage Service.

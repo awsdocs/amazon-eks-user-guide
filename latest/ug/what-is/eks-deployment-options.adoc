@@ -1,0 +1,77 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[eks-deployment-options,eks-deployment-options.title]]
+= Deploy Amazon EKS clusters across cloud and on-premises environments
+:info_doctype: section
+:info_title: Deploy Amazon EKS clusters across cloud and on-premises environments
+:info_titleabbrev: Deployment options
+:keywords: Amazon Elastic Kubernetes Service, Amazon EKS, deployment, options, comparison
+:info_abstract: Learn to deploy Kubernetes clusters with Amazon EKS across cloud and on-premises environments to meet your operational needs, while leveraging {aws} services and support.
+
+[abstract]
+--
+Learn to deploy [.noloc]`Kubernetes` clusters with Amazon EKS across cloud and on-premises environments to meet your operational needs, while leveraging {aws} services and support.
+--
+
+You can deploy Amazon EKS using any of the following options:
+
+
+
+*Amazon EKS in the cloud*::
+You can run [.noloc]`Kubernetes` in the {aws} cloud without needing to install, operate, and maintain your own [.noloc]`Kubernetes` control plane or nodes. This option is what is covered in this guide.
+
+
+*Amazon EKS on Outposts*::
+{aws} Outposts enables native {aws} services, infrastructure, and operating models in your on-premises facilities. With Amazon EKS on Outposts, you can choose to run extended or local clusters. With extended clusters, the [.noloc]`Kubernetes` control plane runs in an {aws} Region, and the nodes run on Outposts. With local clusters, the entire [.noloc]`Kubernetes` cluster runs locally on Outposts, including both the [.noloc]`Kubernetes` control plane and nodes. For more information, see <<eks-outposts>>.
+
+
+*Amazon EKS Anywhere*::
+Amazon EKS Anywhere is a deployment option for Amazon EKS that enables you to easily create and operate [.noloc]`Kubernetes` clusters on-premises. Both Amazon EKS and Amazon EKS Anywhere are built on the https://distro.eks.amazonaws.com/[Amazon EKS Distro]. To learn more about Amazon EKS Anywhere, and its differences with Amazon EKS, see https://anywhere.eks.amazonaws.com/docs/overview[Overview] and https://anywhere.eks.amazonaws.com/docs/concepts/eksafeatures/#comparing-amazon-eks-anywhere-to-amazon-eks[Comparing Amazon EKS Anywhere to Amazon EKS] in the Amazon EKS Anywhere documentation. For answers to some common questions, see link:eks/eks-anywhere/faqs/[Amazon EKS Anywhere FAQs,type="marketing"].
+
+
+*Amazon EKS Distro*::
+Amazon EKS Distro is a distribution of the same open-source [.noloc]`Kubernetes` software and dependencies deployed by Amazon EKS in the cloud. Amazon EKS Distro follows the same [.noloc]`Kubernetes` version release cycle as Amazon EKS and is provided as an open-source project. To learn more, see https://distro.eks.amazonaws.com/[Amazon EKS Distro]. You can also view and download the source code for the https://github.com/aws/eks-distro[Amazon EKS Distro] on [.noloc]`GitHub`.
+
+When choosing which deployment options to use for your [.noloc]`Kubernetes` cluster, consider the following:
+
+[cols="1,1,1,1,1", options="header"]
+|===
+|Feature
+|Amazon EKS
+|Amazon EKS on Outposts
+|Amazon EKS Anywhere
+|Amazon EKS Distro
+
+
+|Hardware
+|{aws}-supplied
+|{aws}-supplied
+|Supplied by you
+|Supplied by you
+
+|Deployment location
+|{aws} cloud
+|Your data center
+|Your data center
+|Your data center
+
+|[.noloc]`Kubernetes` control plane location
+|{aws} cloud
+|{aws} cloud or your data center
+|Your data center
+|Your data center
+
+|[.noloc]`Kubernetes` data plane location
+|{aws} cloud
+|Your data center
+|Your data center
+|Your data center
+
+|Support
+|{aws} Support
+|{aws} Support
+|{aws} Support
+|OSS community support
+|===

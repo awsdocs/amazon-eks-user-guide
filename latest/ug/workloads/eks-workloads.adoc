@@ -1,0 +1,66 @@
+//!!NODE_ROOT <chapter>
+include::../attributes.txt[]
+[[eks-workloads,eks-workloads.title]]
+= Learn how to deploy workloads and add-ons to Amazon EKS
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: Learn how to deploy workloads and add-ons to Amazon EKS
+:info_titleabbrev: Workloads
+
+Your workloads are deployed in containers, which are deployed in [.noloc]`Pods` in [.noloc]`Kubernetes`. A [.noloc]`Pod` includes one or more containers. Typically, one or more [.noloc]`Pods` that provide the same service are deployed in a [.noloc]`Kubernetes` service. Once you've deployed multiple [.noloc]`Pods` that provide the same service, you can:
+
+
+
+* <<view-kubernetes-resources,View information about the workloads>> running on each of your clusters using the {aws-management-console}.
+* Vertically scale [.noloc]`Pods` up or down with the [.noloc]`Kubernetes` <<vertical-pod-autoscaler,Vertical Pod Autoscaler>>.
+* Horizontally scale the number of [.noloc]`Pods` needed to meet demand up or down with the [.noloc]`Kubernetes` <<horizontal-pod-autoscaler,Horizontal Pod Autoscaler>>.
+* Create an external (for internet-accessible [.noloc]`Pods`) or an internal (for private [.noloc]`Pods`)  <<network-load-balancing,network load balancer>> to balance network traffic across [.noloc]`Pods`. The load balancer routes traffic at Layer 4 of the OSI model.
+* Create an <<alb-ingress,Application Load Balancer>> to balance application traffic across [.noloc]`Pods`. The application load balancer routes traffic at Layer 7 of the OSI model.
+* If you're new to [.noloc]`Kubernetes`, this topic helps you  <<sample-deployment,Deploy a sample application>>.
+* You can <<restrict-service-external-ip,restrict IP addresses that can be assigned to a service>> with `externalIPs`.
+
+
+include::sample-deployment.adoc[leveloffset=+1]
+
+
+include::sample-deployment-windows.adoc[leveloffset=+1]
+
+
+include::vertical-pod-autoscaler.adoc[leveloffset=+1]
+
+
+include::horizontal-pod-autoscaler.adoc[leveloffset=+1]
+
+
+include::network-load-balancing.adoc[leveloffset=+1]
+
+
+include::alb-ingress.adoc[leveloffset=+1]
+
+
+include::restrict-service-external-ip.adoc[leveloffset=+1]
+
+
+include::copy-image-to-repository.adoc[leveloffset=+1]
+
+
+include::add-ons-images.adoc[leveloffset=+1]
+
+
+include::eks-add-ons.adoc[leveloffset=+1]
+
+
+include::image-verification.adoc[leveloffset=+1]
+
+
+include::node-efa.adoc[leveloffset=+1]
+
+
+include::inferentia-support.adoc[leveloffset=+1]

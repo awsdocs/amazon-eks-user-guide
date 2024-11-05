@@ -1,0 +1,191 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[delete-cluster,delete-cluster.title]]
+= Delete a cluster
+:info_doctype: section
+:info_title: Delete a cluster
+:info_titleabbrev: Delete a cluster
+:info_abstract: Learn how to delete Amazon EKS clusters, including managed and self-managed node groups, Fargate profiles, related services, and {aws} CloudFormation stacks using eksctl, {aws-management-console}, or {aws} CLI for cost optimization and resource cleanup.
+
+[abstract]
+--
+Learn how to delete Amazon EKS clusters, including managed and self-managed node groups, Fargate profiles, related services, and {aws} CloudFormation stacks using eksctl, {aws-management-console}, or {aws} CLI for cost optimization and resource cleanup.
+--
+
+When you're done using an Amazon EKS cluster, you should delete the resources associated with it so that you don't incur any unnecessary costs.
+
+To remove a connected cluster, see <<deregister-connected-cluster>>
+
+[IMPORTANT]
+====
+
+
+* If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC.
+* If you receive an error because the cluster creator has been removed, see link:premiumsupport/knowledge-center/eks-api-server-unauthorized-error[this article,type="marketing"] to resolve.
+* Amazon Managed Service for Prometheus resources are outside of the cluster lifecycle and need to be maintained independent of the cluster. When you delete your cluster, make sure to also delete any applicable scrapers to stop applicable costs. For more information, see  link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-list-delete[Find and delete scrapers,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
+
+====
+
+You can delete a cluster with `eksctl`, the {aws-management-console}, or the {aws} CLI.
+
+
+
+== Delete cluster (eksctl)
+
+This procedure requires `eksctl` version {eksctl-min-version} or later. You can check your version with the following command:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl version
+----
+
+For instructions on how to install or upgrade `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
+
+. List all services running in your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get svc --all-namespaces
+----
+.. Delete any services that have an associated `EXTERNAL-IP` value. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in [.noloc]`Kubernetes` to allow the load balancer and associated resources to be properly released.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl delete svc service-name
+----
+. Delete the cluster and its associated nodes with the following command, replacing [.replaceable]`prod` with your cluster name.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl delete cluster --name prod
+----
++
+Output:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+[ℹ]  using region region-code
+[ℹ]  deleting EKS cluster "prod"
+[ℹ]  will delete stack "eksctl-prod-nodegroup-standard-nodes"
+[ℹ]  waiting for stack "eksctl-prod-nodegroup-standard-nodes" to get deleted
+[ℹ]  will delete stack "eksctl-prod-cluster"
+[✔]  the following EKS cluster resource(s) for "prod" will be deleted: cluster. If in doubt, check CloudFormation console
+----
+
+
+== Delete cluster ({aws} console)
+. List all services running in your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get svc --all-namespaces
+----
+. Delete any services that have an associated `EXTERNAL-IP` value. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in [.noloc]`Kubernetes` to allow the load balancer and associated resources to be properly released.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl delete svc service-name
+----
+. Delete all node groups and Fargate profiles.
++
+.. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+.. In the left navigation pane, choose Amazon EKS *Clusters*, and then in the tabbed list of clusters, choose the name of the cluster that you want to delete.
+.. Choose the *Compute* tab and choose a node group to delete. Choose  *Delete*, enter the name of the node group, and then choose  *Delete*. Delete all node groups in the cluster.
++
+NOTE: The node groups listed are xref:managed-node-groups[managed node groups,linkend=managed-node-groups] only.
+.. Choose a *Fargate Profile* to delete, select  *Delete*, enter the name of the profile, and then choose  *Delete*. Delete all Fargate profiles in the cluster.
+. Delete all self-managed node {aws} CloudFormation stacks.
++
+.. Open the link:cloudformation/[{aws} CloudFormation console,type="console"].
+.. Choose the node stack to delete, and then choose *Delete*.
+.. In the *Delete stack* confirmation dialog box, choose  *Delete stack*. Delete all self-managed node stacks in the cluster.
+. Delete the cluster.
++
+.. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+.. choose the cluster to delete and choose *Delete*.
+.. On the delete cluster confirmation screen, choose *Delete*.
+. (Optional) Delete the VPC {aws} CloudFormation stack.
++
+.. Open the link:cloudformation/[{aws} CloudFormation console,type="console"].
+.. Select the VPC stack to delete, and then choose *Delete*.
+.. In the *Delete stack* confirmation dialog box, choose  *Delete stack*.
+
+
+== Delete cluster ({aws} CLI)
+
+. List all services running in your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get svc --all-namespaces
+----
+. Delete any services that have an associated `EXTERNAL-IP` value. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in [.noloc]`Kubernetes` to allow the load balancer and associated resources to be properly released.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl delete svc service-name
+----
+. Delete all node groups and Fargate profiles.
++
+.. List the node groups in your cluster with the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks list-nodegroups --cluster-name my-cluster
+----
++
+NOTE: The node groups listed are xref:managed-node-groups[managed node groups,linkend=managed-node-groups] only.
+.. Delete each node group with the following command. Delete all node groups in the cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks delete-nodegroup --nodegroup-name my-nodegroup --cluster-name my-cluster
+----
+.. List the Fargate profiles in your cluster with the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks list-fargate-profiles --cluster-name my-cluster
+----
+.. Delete each Fargate profile with the following command. Delete all Fargate profiles in the cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks delete-fargate-profile --fargate-profile-name my-fargate-profile --cluster-name my-cluster
+----
+. Delete all self-managed node {aws} CloudFormation stacks.
++
+.. List your available {aws} CloudFormation stacks with the following command. Find the node template name in the resulting output.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws cloudformation list-stacks --query "StackSummaries[].StackName"
+----
+.. Delete each node stack with the following command, replacing [.replaceable]`node-stack` with your node stack name. Delete all self-managed node stacks in the cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws cloudformation delete-stack --stack-name node-stack
+----
+. Delete the cluster with the following command, replacing [.replaceable]`my-cluster` with your cluster name.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks delete-cluster --name my-cluster
+----
+. (Optional) Delete the VPC {aws} CloudFormation stack.
++
+.. List your available {aws} CloudFormation stacks with the following command. Find the VPC template name in the resulting output.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws cloudformation list-stacks --query "StackSummaries[].StackName"
+----
+.. Delete the VPC stack with the following command, replacing [.replaceable]`my-vpc-stack` with your VPC stack name.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws cloudformation delete-stack --stack-name my-vpc-stack
+----

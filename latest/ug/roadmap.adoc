@@ -1,0 +1,24 @@
+//!!NODE_ROOT <chapter>
+include::attributes.txt[]
+[.topic]
+[[roadmap,roadmap.title]]
+= Learn about Amazon EKS new features and roadmap
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: Learn about Amazon EKS new features and roadmap
+:info_titleabbrev: New features and roadmap
+:info_abstract: Follow the What's New feed and public roadmap to help plan for new and future Amazon EKS developments.
+
+[abstract]
+--
+Follow the What's New feed and public roadmap to help plan for new and future Amazon EKS developments.
+--
+
+You can learn about new Amazon EKS features by scrolling to the What's New feed on the  link:new/?whats-new-content-all.sort-by=item.additionalFields.postDateTime&whats-new-content-all.sort-order=desc&awsf.whats-new-compute=*all&awsf.whats-new-containers=general-products%23amazon-eks[What's New with {aws},type="marketing"] page. You can also review the https://github.com/aws/containers-roadmap/projects/1?card_filter_query=eks[roadmap] on [.noloc]`GitHub`, which lets you know about upcoming features and priorities so that you can plan how you want to use Amazon EKS in the future. You can provide direct feedback to us about the roadmap priorities.

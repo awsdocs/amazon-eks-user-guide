@@ -1,0 +1,16 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+[.topic]
+[[eks-partner-amis,eks-partner-amis.title]]
+= Create nodes with optimized [.noloc]`Ubuntu Linux` AMIs
+:info_titleabbrev: Ubuntu Linux
+
+[abstract]
+--
+Canonical has partnered with Amazon EKS to create node AMIs that you can use in your clusters.
+--
+
+Canonical has partnered with Amazon EKS to create node AMIs that you can use in your clusters.
+
+https://www.canonical.com/[Canonical] delivers a built-for-purpose [.noloc]`Kubernetes` Node OS image. This minimized [.noloc]`Ubuntu` image is optimized for Amazon EKS and includes the custom {aws} kernel that is jointly developed with {aws}. For more information, see https://cloud-images.ubuntu.com/aws-eks/[Ubuntu on Amazon Elastic Kubernetes Service (EKS)] and <<launch-node-ubuntu>> . For information about support, see the link:premiumsupport/faqs/#Third-party_software[Third-party software,type="marketing"] section of the _{aws} Premium Support FAQs_.
+

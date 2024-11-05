@@ -1,0 +1,252 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[cluster-endpoint,cluster-endpoint.title]]
+= Control network access to cluster API server endpoint
+:info_doctype: section
+:info_title: Control network access to cluster API server endpoint
+:info_titleabbrev: Configure endpoint access
+:info_abstract: Learn how to enable private access and limit public access to the Amazon EKS cluster Kubernetes API server endpoint for enhanced security with your Amazon EKS cluster.
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn how to enable private access and limit public access to the Amazon EKS cluster Kubernetes API server endpoint for enhanced security with your Amazon EKS cluster.
+--
+
+This topic helps you to enable private access for your Amazon EKS cluster's [.noloc]`Kubernetes` API server endpoint and limit, or completely disable, public access from the internet.
+
+When you create a new cluster, Amazon EKS creates an endpoint for the managed [.noloc]`Kubernetes` API server that you use to communicate with your cluster (using [.noloc]`Kubernetes` management tools such as `kubectl`). By default, this API server endpoint is public to the internet, and access to the API server is secured using a combination of {aws} Identity and Access Management (IAM) and native [.noloc]`Kubernetes` https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Role Based Access Control] (RBAC). This endpoint is known as the _cluster public endpoint_. Also there is a _cluster private endpoint_. For more information about the cluster private endpoint, see the folowing section <<cluster-endpoint-private>>.
+
+[[cluster-endpoint-ipv6,cluster-endpoint-ipv6.title]]
+== `IPv6` cluster endpoint format
+
+EKS creates a unique dual-stack endpoint in the following format for new `IPv6` clusters that are made after October 2024. An _IPv6 cluster_ is a cluster that you select `IPv6` in the IP family (`ipFamily`) setting of the cluster.
+
+====
+[role="tablist"]
+{aws}::
+EKS cluster public/private endpoint:
+`eks-cluster.[.replaceable]``region``.api.aws`
+
+{aws} GovCloud (US)::
+EKS cluster public/private endpoint:
+`eks-cluster.[.replaceable]``region``.api.aws`
+
+{amazon-web-services} in China::
+EKS cluster public/private endpoint:
+`eks-cluster.[.replaceable]``region``.api.amazonwebservices.com.cn`
+
+====
+
+[NOTE]
+====
+The dual-stack cluster endpoint was introduced in October 2024. For more information about `IPv6` clusters, see <<cni-ipv6>>. Clusters made before October 2024, use following endpoint format instead.
+====
+
+[[cluster-endpoint-ipv4,cluster-endpoint-ipv4.title]]
+== `IPv4` cluster endpoint format
+
+EKS creates a unique endpoint in the following format for each cluster that select `IPv4` in the IP family (ipFamily) setting of the cluster:
+
+====
+[role="tablist"]
+{aws}::
+EKS cluster public/private endpoint
+`eks-cluster.[.replaceable]``region``.eks.amazonaws.com`
+
+{aws} GovCloud (US)::
+EKS cluster public/private endpoint
+`eks-cluster.[.replaceable]``region``.eks.amazonaws.com`
+
+{amazon-web-services} in China::
+EKS cluster public/private endpoint
+`eks-cluster.[.replaceable]``region``.api.amazonwebservices.com.cn`
+
+====
+
+[NOTE]
+====
+Before October 2024, `IPv6` clusters used this endpoint format also. For those clusters, both the public endpoint and the private endpoint have only `IPv4` addresses resolve from this endpoint.
+====
+
+[[cluster-endpoint-private,cluster-endpoint-private.title]]
+== Cluster private endpoint
+
+You can enable private access to the [.noloc]`Kubernetes` API server so that all communication between your nodes and the API server stays within your VPC. You can limit the IP addresses that can access your API server from the internet, or completely disable internet access to the API server.
+
+[NOTE]
+====
+
+Because this endpoint is for the [.noloc]`Kubernetes` API server and not a traditional {aws} PrivateLink endpoint for communicating with an {aws} API, it doesn't appear as an endpoint in the Amazon VPC console.
+
+====
+
+When you enable endpoint private access for your cluster, Amazon EKS creates a Route 53 private hosted zone on your behalf and associates it with your cluster's VPC. This private hosted zone is managed by Amazon EKS, and it doesn't appear in your account's Route 53 resources. In order for the private hosted zone to properly route traffic to your API server, your VPC must have `enableDnsHostnames` and `enableDnsSupport` set to `true`, and the DHCP options set for your VPC must include `AmazonProvidedDNS` in its domain name servers list. For more information, see  link:vpc/latest/userguide/vpc-dns.html#vpc-dns-updating[Updating DNS support for your VPC,type="documentation"] in the _Amazon VPC User Guide_.
+
+You can define your API server endpoint access requirements when you create a new cluster, and you can update the API server endpoint access for a cluster at any time. 
+
+[[modify-endpoint-access,modify-endpoint-access.title]]
+== Modifying cluster endpoint access
+
+Use the procedures in this section to modify the endpoint access for an existing cluster. The following table shows the supported API server endpoint access combinations and their associated behavior.
+
+[cols="1,1,1", options="header"]
+|===
+|Endpoint public access
+|Endpoint private access
+|Behavior
+
+
+|Enabled
+|Disabled
+a|
+
+* This is the default behavior for new Amazon EKS clusters.
+* [.noloc]`Kubernetes` API requests that originate from within your cluster's VPC (such as node to control plane communication) leave the VPC but not Amazon's network.
+* Your cluster API server is accessible from the internet. You can, optionally, limit the CIDR blocks that can access the public endpoint. If you limit access to specific CIDR blocks, then it is recommended that you also enable the private endpoint, or ensure that the CIDR blocks that you specify include the addresses that nodes and Fargate [.noloc]`Pods` (if you use them) access the public endpoint from.
+
+
+|Enabled
+|Enabled
+a|
+
+* [.noloc]`Kubernetes` API requests within your cluster's VPC (such as node to control plane communication) use the private VPC endpoint.
+* Your cluster API server is accessible from the internet. You can, optionally, limit the CIDR blocks that can access the public endpoint.
+
+
+|Disabled
+|Enabled
+a|
+
+* All traffic to your cluster API server must come from within your cluster's VPC or a link:whitepapers/latest/aws-vpc-connectivity-options/introduction.html[connected network,type="documentation"].
+* There is no public access to your API server from the internet. Any `kubectl` commands must come from within the VPC or a connected network. For connectivity options, see <<private-access>>.
+* The cluster's API server endpoint is resolved by public DNS servers to a private IP address from the VPC. In the past, the endpoint could only be resolved from within the VPC.
++
+If your endpoint does not resolve to a private IP address within the VPC for an existing cluster, you can:
++
+** Enable public access and then disable it again. You only need to do so once for a cluster and the endpoint will resolve to a private IP address from that point forward.
+** <<update-cluster,Update>> your cluster.
+
+|===
+
+
+You can modify your cluster API server endpoint access using the {aws-management-console} or {aws} CLI.
+
+
+== Configure endpoint access - {aws} console
+
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. Choose the name of the cluster to display your cluster information.
+. Choose the *Networking* tab and choose  *Update*.
+. For *Private access*, choose whether to enable or disable private access for your cluster's [.noloc]`Kubernetes` API server endpoint. If you enable private access, [.noloc]`Kubernetes` API requests that originate from within your cluster's VPC use the private VPC endpoint. You must enable private access to disable public access.
+. For *Public access*, choose whether to enable or disable public access for your cluster's [.noloc]`Kubernetes` API server endpoint. If you disable public access, your cluster's [.noloc]`Kubernetes` API server can only receive requests from within the cluster VPC.
+. (Optional) If you've enabled *Public access*, you can specify which addresses from the internet can communicate to the public endpoint. Select  *Advanced Settings*. Enter a CIDR block, such as [.replaceable]`203.0.113.5/32`. The block cannot include https://en.wikipedia.org/wiki/Reserved_IP_addresses[reserved addresses]. You can enter additional blocks by selecting *Add Source*. There is a maximum number of CIDR blocks that you can specify. For more information, see <<service-quotas>>. If you specify no blocks, then the public API server endpoint receives requests from all (`0.0.0.0/0`) IP addresses. If you restrict access to your public endpoint using CIDR blocks, it is recommended that you also enable private endpoint access so that nodes and Fargate [.noloc]`Pods` (if you use them) can communicate with the cluster. Without the private endpoint enabled, your public access endpoint CIDR sources must include the egress sources from your VPC. For example, if you have a node in a private subnet that communicates to the internet through a NAT Gateway, you will need to add the outbound IP address of the NAT gateway as part of an allowed CIDR block on your public endpoint.
+. Choose *Update* to finish.
+
+
+== Configure endpoint access - {aws} CLI 
+
+Complete the following steps using the {aws} CLI version `1.27.160` or later. You can check your current version with `aws --version`. To install or upgrade the {aws} CLI, see link:cli/latest/userguide/cli-chap-install.html[Installing the {aws} CLI,type="documentation"].
+
+. Update your cluster API server endpoint access with the following {aws} CLI command. Substitute your cluster name and desired endpoint access values. If you set `endpointPublicAccess=true`, then you can (optionally) enter single CIDR block, or a comma-separated list of CIDR blocks for `publicAccessCidrs`. The blocks cannot include https://en.wikipedia.org/wiki/Reserved_IP_addresses[reserved addresses]. If you specify CIDR blocks, then the public API server endpoint will only receive requests from the listed blocks. There is a maximum number of CIDR blocks that you can specify. For more information, see <<service-quotas>>. If you restrict access to your public endpoint using CIDR blocks, it is recommended that you also enable private endpoint access so that nodes and Fargate [.noloc]`Pods` (if you use them) can communicate with the cluster. Without the private endpoint enabled, your public access endpoint CIDR sources must include the egress sources from your VPC. For example, if you have a node in a private subnet that communicates to the internet through a NAT Gateway, you will need to add the outbound IP address of the NAT gateway as part of an allowed CIDR block on your public endpoint. If you specify no CIDR blocks, then the public API server endpoint receives requests from all (0.0.0.0/0) IP addresses.
++
+NOTE: The following command enables private access and public access from a single IP address for the API server endpoint. Replace [.replaceable]`203.0.113.5/32` with a single CIDR block, or a comma-separated list of CIDR blocks that you want to restrict network access to.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks update-cluster-config \
+    --region region-code \
+    --name my-cluster \
+    --resources-vpc-config endpointPublicAccess=true,publicAccessCidrs="203.0.113.5/32",endpointPrivateAccess=true
+----
++
+An example output is as follows.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "update": {
+        "id": "e6f0905f-a5d4-4a2a-8c49-EXAMPLE00000",
+        "status": "InProgress",
+        "type": "EndpointAccessUpdate",
+        "params": [
+            {
+                "type": "EndpointPublicAccess",
+                "value": "true"
+            },
+            {
+                "type": "EndpointPrivateAccess",
+                "value": "true"
+            },
+            {
+                "type": "publicAccessCidrs",
+                "value": "[\203.0.113.5/32\"]"
+            }
+        ],
+        "createdAt": 1576874258.137,
+        "errors": []
+    }
+}
+----
+. Monitor the status of your endpoint access update with the following command, using the cluster name and update ID that was returned by the previous command. Your update is complete when the status is shown as `Successful`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-update \
+    --region region-code \
+    --name my-cluster \
+    --update-id e6f0905f-a5d4-4a2a-8c49-EXAMPLE00000
+----
++
+An example output is as follows.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "update": {
+        "id": "e6f0905f-a5d4-4a2a-8c49-EXAMPLE00000",
+        "status": "Successful",
+        "type": "EndpointAccessUpdate",
+        "params": [
+            {
+                "type": "EndpointPublicAccess",
+                "value": "true"
+            },
+            {
+                "type": "EndpointPrivateAccess",
+                "value": "true"
+            },
+            {
+                "type": "publicAccessCidrs",
+                "value": "[\203.0.113.5/32\"]"
+            }
+        ],
+        "createdAt": 1576874258.137,
+        "errors": []
+    }
+}
+----
+
+
+[[private-access,private-access.title]]
+== Accessing a private only API server
+
+If you have disabled public access for your cluster's [.noloc]`Kubernetes` API server endpoint, you can only access the API server from within your VPC or a link:whitepapers/latest/aws-vpc-connectivity-options/introduction.html[connected network,type="documentation"]. Here are a few possible ways to access the [.noloc]`Kubernetes` API server endpoint:
+
+
+
+*Connected network*::
+Connect your network to the VPC with an link:vpc/latest/tgw/what-is-transit-gateway.html[{aws} transit gateway,type="documentation"] or other link:aws-technical-content/latest/aws-vpc-connectivity-options/introduction.html[connectivity,type="documentation"] option and then use a computer in the connected network. You must ensure that your Amazon EKS control plane security group contains rules to allow ingress traffic on port 443 from your connected network.
+
+
+*Amazon EC2 bastion host*::
+You can launch an Amazon EC2 instance into a public subnet in your cluster's VPC and then log in via SSH into that instance to run `kubectl` commands. For more information, see link:quickstart/architecture/linux-bastion/[Linux bastion hosts on {aws},type="marketing"]. You must ensure that your Amazon EKS control plane security group contains rules to allow ingress traffic on port 443 from your bastion host. For more information, see <<sec-group-reqs>>.
++
+When you configure `kubectl` for your bastion host, be sure to use {aws} credentials that are already mapped to your cluster's RBAC configuration, or add the  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that your bastion will use to the RBAC configuration before you remove endpoint public access. For more information, see <<grant-k8s-access>> and <<unauthorized>>.
+
+
+*{aws} Cloud9 IDE*::
+{aws} Cloud9 is a cloud-based integrated development environment (IDE) that lets you write, run, and debug your code with just a browser. You can create an {aws} Cloud9 IDE in your cluster's VPC and use the IDE to communicate with your cluster. For more information, see link:cloud9/latest/user-guide/create-environment.html[Creating an environment in {aws} Cloud9,type="documentation"]. You must ensure that your Amazon EKS control plane security group contains rules to allow ingress traffic on port 443 from your IDE security group. For more information, see <<sec-group-reqs>>.
++
+When you configure `kubectl` for your {aws} Cloud9 IDE, be sure to use {aws} credentials that are already mapped to your cluster's RBAC configuration, or add the IAM principal that your IDE will use to the RBAC configuration before you remove endpoint public access. For more information, see <<grant-k8s-access>> and <<unauthorized>>.

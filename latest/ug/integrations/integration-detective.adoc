@@ -1,0 +1,39 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[integration-detective,integration-detective.title]]
+= Analyze security events on EKS with Amazon Detective
+:info_doctype: section
+:info_title: Analyze security events on EKS with Amazon Detective
+:info_abstract: Amazon Detective helps you analyze, investigate, and quickly identify the root cause \
+                of security findings or suspicious activities.
+:keywords: Amazon Detective
+
+[abstract]
+--
+Amazon Detective helps you analyze, investigate, and quickly identify the root cause of security findings or suspicious activities.
+--
+
+link:detective/[Amazon Detective,type="marketing"] helps you analyze, investigate, and quickly identify the root cause of security findings or suspicious activities. Detective automatically collects log data from your {aws} resources. It then uses machine learning, statistical analysis, and graph theory to generate visualizations that help you to conduct faster and more efficient security investigations. The Detective prebuilt data aggregations, summaries, and context help you to quickly analyze and determine the nature and extent of possible security issues. For more information, see the link:detective/latest/adminguide/what-is-detective.html[Amazon Detective User Guide,type="documentation"].
+
+Detective organizes [.noloc]`Kubernetes` and {aws} data into findings such as:
+
+
+
+* Amazon EKS cluster details, including the IAM identity that created the cluster and the service role of the cluster. You can investigate the {aws} and [.noloc]`Kubernetes` API activity of these IAM identities with Detective.
+* Container details, such as the image and security context. You can also review details for terminated [.noloc]`Pods`.
+* [.noloc]`Kubernetes` API activity, including both overall trends in API activity and details on specific API calls. For example, you can show the number of successful and failed [.noloc]`Kubernetes` API calls that were issued during a selected time range. Additionally, the section on newly observed API calls might be helpful to identify suspicious activity.
+
+Amazon EKS audit logs is an optional data source package that can be added to your Detective behavior graph. You can view the available optional source packages, and their status in your account. For more information, see link:detective/latest/adminguide/source-data-types-EKS.html[Amazon EKS audit logs for Detective,type="documentation"] in the _Amazon Detective User Guide_.
+
+[[integration-detective-use,integration-detective-use.title]]
+== Use Amazon Detective with Amazon EKS
+
+Before you can review findings, Detective must be enabled for at least 48 hours in the same {aws} Region that your cluster is in. For more information, see link:detective/latest/adminguide/detective-setup.html[Setting up Amazon Detective,type="documentation"] in the _Amazon Detective User Guide_.
+
+. Open the Detective console at https://console.aws.amazon.com/detective/.
+. From the left navigation pane, select *Search*.
+. Select *Choose type* and then select  *EKS cluster*.
+. Enter the cluster name or ARN and then choose *Search*.
+. In the search results, choose the name of the cluster that you want to view activity for. For more information about what you can view, see link:detective/latest/userguide/profile-panel-drilldown-kubernetes-api-volume.html[Overall Kubernetes API activity involving an Amazon EKS cluster,type="documentation"] in the _Amazon Detective User Guide_.

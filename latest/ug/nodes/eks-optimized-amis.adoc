@@ -1,0 +1,33 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[eks-optimized-amis,eks-optimized-amis.title]]
+= Create nodes with pre-built optimized images
+:info_doctype: section
+:info_title: Create nodes with pre-built optimized images
+:info_titleabbrev: Pre-built optimized AMIs
+:keywords: optimized, custom, AMI
+:info_abstract: You can deploy nodes with pre-built Amazon EKS optimized Amazon Machine Images (AMIs) or your own custom \
+                                AMIs
+
+include::../attributes.txt[]
+
+[abstract]
+--
+You can deploy nodes with pre-built Amazon EKS optimized link:AWSEC2/latest/UserGuide/AMIs.html[Amazon Machine Images,type="documentation"] (AMIs) or your own custom AMIs
+--
+
+You can deploy nodes with pre-built Amazon EKS optimized link:AWSEC2/latest/UserGuide/AMIs.html[Amazon Machine Images,type="documentation"] (AMIs) or your own custom AMIs. For information about each type of Amazon EKS optimized AMI, see one of the following topics. For instructions on how to create your own custom AMI, see <<eks-ami-build-scripts>>.
+
+[.topiclist]
+[[Topic List]]
+
+[.topic]
+include::dockershim-deprecation.adoc[leveloffset=+1]
+
+include::eks-optimized-ami.adoc[leveloffset=+1]
+
+include::eks-optimized-ami-bottlerocket.adoc[leveloffset=+1]
+
+include::eks-partner-amis.adoc[leveloffset=+1]
+
+include::eks-optimized-windows-ami.adoc[leveloffset=+1]

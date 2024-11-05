@@ -1,0 +1,98 @@
+{
+    // Place your snippets for asciidoc here. Each snippet is defined under a snippet name and has a prefix, body and 
+    // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+    // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+    // same ids are connected.
+    // Example:
+    // "Print to console": {
+    // 	"prefix": "log",
+    // 	"body": [
+    // 		"console.log('$1');",
+    // 		"$2"
+    // 	],
+    // 	"description": "Log output to console"
+    // }
+    // https://code.visualstudio.com/docs/editor/userdefinedsnippets
+    // https://www.freecodecamp.org/news/definitive-guide-to-snippets-visual-studio-code/
+    "adoc include w offset": {
+        "prefix": "include-custom",
+        "body": [
+            "include::$0.adoc[leveloffeset=+1]"
+        ],
+        "description": "adoc include"
+    },
+    "adoc tablist": {
+        "prefix": "tablist",
+        "body": [
+            "====",
+            "[role=\"tablist\"]",
+            "${1:Fargate - [.noloc]`Linux`}::",
+            "+",
+            "[source,bash,subs=\"verbatim,attributes\"]",
+            "----",
+            "eksctl create cluster --name my-cluster --region region-code --fargate",
+            "----\n",
+            "${2:Managed nodes - [.noloc]`Linux`}::",
+            "+",
+            "[source,bash,subs=\"verbatim,attributes\"]",
+            "----",
+            "eksctl create cluster --name my-cluster --region region-code",
+            "----",
+            "eksctl create cluster --name my-cluster --region region-code",
+            "----\n",
+            "===="
+        ],
+        "description": "adoc tablist"
+    },
+    "adoc step tablist": {
+        "prefix": "tab-step",
+        "body": [
+            "====",
+            "[role=\"tablist\"]",
+            "${1:{aws-management-console}`}::",
+            "+",
+            "[source,bash,subs=\"verbatim,attributes\"]",
+            "----",
+            "eksctl create cluster --name my-cluster --region region-code --fargate",
+            "----\n",
+            "${2:[.noloc]`eksctl`}::",
+            "+",
+            "[source,bash,subs=\"verbatim,attributes\"]",
+            "----",
+            "eksctl create cluster --name my-cluster --region region-code",
+            "----\n",
+            "${3:{aws} CLI}::",
+            "+",
+            "[source,bash,subs=\"verbatim,attributes\"]",
+            "----",
+            "eksctl create cluster --name my-cluster --region region-code",
+            "----\n",
+            "${3:{aws} CloudFormation}::",
+            "+",
+            "[source,bash,subs=\"verbatim,attributes\"]",
+            "----",
+            "eksctl create cluster --name my-cluster --region region-code",
+            "----\n",
+            "===="
+        ],
+        "description": "adoc step tablist"
+    },
+    "adoc region tablist": {
+        "prefix": "tab-region",
+        "body": [
+            "====",
+            "[role=\"tablist\"]",
+            "${1:{aws}`}::",
+            "`eks-cluster.[.replaceable]``region``.api.aws`",
+            "\n",
+            "${2:{aws} GovCloud (US)}::",
+            "`eks-cluster.[.replaceable]``region``.api.aws`",
+            "\n",
+            "${3:{amazon-web-services} in China::",
+            "`eks-cluster.[.replaceable]``region``.api.amazonwebservices.com.cn`",
+            "\n",
+            "===="
+        ],
+        "description": "adoc region tablist"
+    },
+}

@@ -1,0 +1,261 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[network-policies-troubleshooting,network-policies-troubleshooting.title]]
+= Troubleshooting [.noloc]`Kubernetes` network policies For Amazon EKS
+:info_titleabbrev: Troubleshooting
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn how to troubleshoot and investigate network connections that use network policies.
+--
+
+You can troubleshoot and investigate network connections that use network policies by reading the  <<network-policies-troubleshooting-flowlogs,Network policy logs>> and by running tools from the <<network-policies-ebpf-sdk,eBPF SDK>>.
+
+[[network-policies-troubleshooting-flowlogs,network-policies-troubleshooting-flowlogs.title]]
+== Network policy logs
+
+Whether connections are allowed or denied by a network policies is logged in  _flow logs_. The network policy logs on each node include the flow logs for every pod that has a network policy. Network policy logs are stored at `/var/log/aws-routed-eni/network-policy-agent.log`. The following example is from a `network-policy-agent.log` file:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+{"level":"info","timestamp":"2023-05-30T16:05:32.573Z","logger":"ebpf-client","msg":"Flow Info: ","Src
+IP":"192.168.87.155","Src Port":38971,"Dest IP":"64.6.160","Dest
+Port":53,"Proto":"UDP","Verdict":"ACCEPT"}
+----
+
+Network policy logs are disabled by default. To enable the network policy logs, follow these steps:
+
+[NOTE]
+====
+
+Network policy logs require an additional 1 vCPU for the `aws-network-policy-agent` container in the VPC CNI `aws-node` daemonset manifest.
+
+====
+
+[[cni-network-policy-flowlogs-addon,cni-network-policy-flowlogs-addon.title]]
+=== Amazon EKS add-on
+
+*{aws-management-console}*::
+
+.. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+.. In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
+.. Choose the *Add-ons* tab.
+.. Select the box in the top right of the add-on box and then choose *Edit*.
+.. On the *Configure [.replaceable]`name of addon`* page:
++
+... Select a `v1.14.0-eksbuild.3` or later version in the *Version* dropdown list.
+... Expand the *Optional configuration settings*.
+... Enter the top-level JSON key `"nodeAgent":` and value is an object with a key `"enablePolicyEventLogs":` and value of `"true"` in *Configuration values*. The resulting text must be a valid JSON object. The following example shows network policy and the network policy logs are enabled, and the network policy logs are sent to CloudWatch Logs:
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "enableNetworkPolicy": "true",
+    "nodeAgent": {
+        "enablePolicyEventLogs": "true"
+    }
+}
+----
+
+The following screenshot shows an example of this scenario.
+
+image::images/console-cni-config-network-policy-logs.png[{aws-management-console} showing the VPC CNI add-on with network policy and CloudWatch Logs in the optional configuration.,scaledwidth=80%]
+
+
+{aws} CLI::
+.. Run the following {aws} CLI command. Replace `my-cluster` with the name of your cluster and replace the IAM role ARN with the role that you are using.
++
+[source,shell,subs="verbatim,attributes,quotes"]
+----
+aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.14.0-eksbuild.3 \
+    --service-account-role-arn {arn-aws}iam::123456789012:role/AmazonEKSVPCCNIRole \
+    --resolve-conflicts PRESERVE --configuration-values '{"nodeAgent": {"enablePolicyEventLogs": "true"}}'
+----
+
+
+[[cni-network-policy-flowlogs-selfmanaged,cni-network-policy-flowlogs-selfmanaged.title]]
+=== Self-managed add-on
+
+Helm::
+
+If you have installed the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` through `helm`, you can update the configuration to write the network policy logs.
+
+.. Run the following command to enable network policy.
++
+[source,shell,subs="verbatim,attributes,quotes"]
+----
+helm upgrade --set nodeAgent.enablePolicyEventLogs=true aws-vpc-cni --namespace kube-system eks/aws-vpc-cni
+----
+
+
+[.noloc]`kubectl`::
+
+If you have installed the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` through `kubectl`, you can update the configuration to write the network policy logs.
+
+.. Open the `aws-node` `DaemonSet` in your editor.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl edit daemonset -n kube-system aws-node
+----
+.. Replace the `false` with `true` in the command argument `--enable-policy-event-logs=false` in the `args:` in the `aws-network-policy-agent` container in the VPC CNI `aws-node` daemonset manifest.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+     - args:
+        - --enable-policy-event-logs=true
+----
+
+
+[[network-policies-cloudwatchlogs,network-policies-cloudwatchlogs.title]]
+== Send network policy logs to Amazon CloudWatch Logs
+
+You can monitor the network policy logs using services such as Amazon CloudWatch Logs. You can use the following methods to send the network policy logs to CloudWatch Logs.
+
+For EKS clusters, the policy logs will be located under ``/aws/eks/[.replaceable]`cluster-name`/cluster/`` and for self-managed K8S clusters, the logs will be placed under `/aws/k8s-cluster/cluster`/.
+
+[[network-policies-cwl-agent,network-policies-cwl-agent.title]]
+=== Send network policy logs with [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`
+
+If you enable network policy, a second container is add to the `aws-node` pods for a _node agent_. This node agent can send the network policy logs to CloudWatch Logs.
+
+[NOTE]
+====
+
+Only the network policy logs are sent by the node agent. Other logs made by the VPC CNI aren't included.
+
+====
+
+[[cni-network-policy-cwl-agent-prereqs,cni-network-policy-cwl-agent-prereqs.title]]
+==== Prerequisites
+
+* Add the following permissions as a stanza or separate policy to the IAM role that you are using for the VPC CNI.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "logs:DescribeLogGroups",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+----
+
+
+[[cni-network-policy-cwl-agent-addon,cni-network-policy-cwl-agent-addon.title]]
+==== Amazon EKS add-on
+
+*{aws-management-console}*::
+
+.. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+.. In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
+.. Choose the *Add-ons* tab.
+.. Select the box in the top right of the add-on box and then choose *Edit*.
+.. On the *Configure [.replaceable]`name of addon`* page:
++
+... Select a `v1.14.0-eksbuild.3` or later version in the *Version* dropdown list.
+... Expand the *Optional configuration settings*.
+... Enter the top-level JSON key `"nodeAgent":` and value is an object with a key `"enableCloudWatchLogs":` and value of `"true"` in *Configuration values*. The resulting text must be a valid JSON object. The following example shows network policy and the network policy logs are enabled, and the logs are sent to CloudWatch Logs:
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "enableNetworkPolicy": "true",
+    "nodeAgent": {
+        "enablePolicyEventLogs": "true",
+        "enableCloudWatchLogs": "true",
+    }
+}
+----
+
++
+The following screenshot shows an example of this scenario.
++
+image::images/console-cni-config-network-policy-logs-cwl.png[{aws-management-console} showing the VPC CNI add-on with network policy and CloudWatch Logs in the optional configuration.,scaledwidth=80%]
+
+
+{aws} CLI::
+.. Run the following {aws} CLI command. Replace `my-cluster` with the name of your cluster and replace the IAM role ARN with the role that you are using.
++
+[source,shell,subs="verbatim,attributes,quotes"]
+----
+aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.14.0-eksbuild.3 \
+    --service-account-role-arn {arn-aws}iam::123456789012:role/AmazonEKSVPCCNIRole \
+    --resolve-conflicts PRESERVE --configuration-values '{"nodeAgent": {"enablePolicyEventLogs": "true", "enableCloudWatchLogs": "true"}}'
+----
+
+
+[[cni-network-policy-cwl-agent-selfmanaged,cni-network-policy-cwl-agent-selfmanaged.title]]
+==== Self-managed add-on
+
+Helm::
+
+If you have installed the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` through `helm`, you can update the configuration to send network policy logs to CloudWatch Logs.
+
+.. Run the following command to enable network policy logs and send them to CloudWatch Logs.
++
+[source,shell,subs="verbatim,attributes,quotes"]
+----
+helm upgrade --set nodeAgent.enablePolicyEventLogs=true --set nodeAgent.enableCloudWatchLogs=true aws-vpc-cni --namespace kube-system eks/aws-vpc-cni
+----
+
+
+[.noloc]`kubectl`::
+.. Open the `aws-node` `DaemonSet` in your editor.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl edit daemonset -n kube-system aws-node
+----
+.. Replace the `false` with `true` in two command arguments `--enable-policy-event-logs=false` and `--enable-cloudwatch-logs=false` in the `args:` in the `aws-network-policy-agent` container in the VPC CNI `aws-node` daemonset manifest.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+     - args:
+        - --enable-policy-event-logs=true
+        - --enable-cloudwatch-logs=true
+----
+
+
+[[network-policies-cwl-fluentbit,network-policies-cwl-fluentbit.title]]
+=== Send network policy logs with a [.noloc]`Fluent Bit` daemonset
+
+If you are using [.noloc]`Fluent Bit` in a daemonset to send logs from your nodes, you can add configuration to include the network policy logs from network policies. You can use the following example configuration:
+
+[source,toml,subs="verbatim,attributes,quotes"]
+----
+    [INPUT]
+        Name              tail
+        Tag               eksnp.*
+        Path              /var/log/aws-routed-eni/network-policy-agent*.log
+        Parser            json
+        DB                /var/log/aws-routed-eni/flb_npagent.db
+        Mem_Buf_Limit     5MB
+        Skip_Long_Lines   On
+        Refresh_Interval  10
+----
+
+
+[[network-policies-ebpf-sdk,network-policies-ebpf-sdk.title]]
+== Included [.noloc]`eBPF` SDK
+
+The [.noloc]`Amazon VPC CNI plugin for Kubernetes` installs [.noloc]`eBPF` SDK collection of tools on the nodes. You can use the [.noloc]`eBPF` SDK tools to identify issues with network policies. For example, the following command lists the programs that are running on the node.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+sudo /opt/cni/bin/aws-eks-na-cli ebpf progs
+----
+
+To run this command, you can use any method to connect to the node.

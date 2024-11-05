@@ -1,0 +1,56 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+[.topic]
+[[delete-fargate-profile,delete-fargate-profile.title]]
+= Delete a Fargate profile
+:info_titleabbrev: Delete profiles
+
+[abstract]
+--
+When you delete a Fargate profile, any [.noloc]`Pods` that were scheduled onto Fargate with the profile are deleted.
+--
+
+This topic describes how to delete a Fargate profile. When you delete a Fargate profile, any [.noloc]`Pods` that were scheduled onto Fargate with the profile are deleted. If those [.noloc]`Pods` match another Fargate profile, then they're scheduled on Fargate with that profile. If they no longer match any Fargate profiles, then they aren't scheduled onto Fargate and might remain as pending.
+
+Only one Fargate profile in a cluster can be in the `DELETING` status at a time. Wait for a Fargate profile to finish deleting before you can delete any other profiles in that cluster. 
+
+You can delete a profile with any of the following tools:
+
+* <<eksctl_delete_a_fargate_profile>>
+* <<console_delete_a_fargate_profile>>
+* <<awscli_delete_a_fargate_profile>>
+
+== `eksctl` [[eksctl_delete_a_fargate_profile]]
+
+*Delete a Fargate profile with `eksctl`*
+
+Use the following command to delete a profile from a cluster. Replace every [.replaceable]`example value` with your own values.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl delete fargateprofile  --name my-profile --cluster my-cluster
+----
+
+== {aws-management-console} [[console_delete_a_fargate_profile]]
+
+*Delete a Fargate profile with {aws-management-console}*
+
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. In the left navigation pane, choose *Clusters*. In the list of clusters, choose the cluster that you want to delete the Fargate profile from.
+. Choose the *Compute* tab.
+. Choose the Fargate profile to delete, and then choose *Delete*.
+. On the *Delete Fargate profile* page, enter the name of the profile, and then choose  *Delete*.
+
+
+== {aws} CLI [[awscli_delete_a_fargate_profile]]
+
+*Delete a Fargate profile with {aws} CLI*
+
+Use the following command to delete a profile from a cluster. Replace every [.replaceable]`example value` with your own values.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks delete-fargate-profile --fargate-profile-name my-profile --cluster-name my-cluster
+----
+
+

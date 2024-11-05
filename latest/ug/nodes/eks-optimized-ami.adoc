@@ -1,0 +1,172 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[eks-optimized-ami,eks-optimized-ami.title]]
+= Create nodes with optimized Amazon Linux AMIs
+:info_titleabbrev: Amazon Linux
+
+include::../attributes.txt[]
+
+include::al2023.adoc[leveloffset=+1]
+
+include::eks-linux-ami-versions.adoc[leveloffset=+1]
+
+include::retrieve-ami-id.adoc[leveloffset=+1]
+
+include::eks-ami-build-scripts.adoc[leveloffset=+1]
+
+[abstract]
+--
+The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2 (AL2) and Amazon Linux 2023 (AL2023). It's configured to serve as the base image for Amazon EKS nodes.
+--
+
+The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2 (AL2) and Amazon Linux 2023 (AL2023). It's configured to serve as the base image for Amazon EKS nodes. The AMI is configured to work with Amazon EKS and it includes the following components:
+
+
+
+* `kubelet`
+* {aws} IAM Authenticator
+* [.noloc]`Docker` (Amazon EKS version `1.23` and earlier)
+* `containerd`
+
+
+[NOTE]
+====
+
+
+* You can track security or privacy events for Amazon Linux at the https://alas.aws.amazon.com/[Amazon Linux security center] by choosing the tab for your desired version. You can also subscribe to the applicable RSS feed. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue.
+* Before deploying an accelerated or [.noloc]`Arm` AMI, review the information in  <<gpu-ami,Amazon EKS optimized accelerated Amazon Linux AMIs>> and <<arm-ami>>.
+* For [.noloc]`Kubernetes` version `1.23`, you can use an optional bootstrap flag to test migration from [.noloc]`Docker` to `containerd`. For more information, see <<containerd-bootstrap>>.
+* Amazon EC2 `P2` instances aren't supported on Amazon EKS because they require `NVIDIA` driver version 470 or earlier.
+* Any newly created managed node groups in clusters on version `1.30` or newer will automatically default to using AL2023 as the node operating system. Previously, new node groups would default to AL2. You can continue to use AL2 by choosing it as the AMI type when creating a new node group.
+* Support for AL2 will end on June 30th, 2025. For more information, see link:amazon-linux-2/faqs/[Amazon Linux 2 FAQs,type="marketing"].
+
+====
+
+[[gpu-ami,gpu-ami.title]]
+== Amazon EKS optimized accelerated Amazon Linux AMIs
+
+The Amazon EKS optimized accelerated Amazon Linux AMI is built on top of the standard Amazon EKS optimized Amazon Linux AMI. It's configured to serve as an optional image for Amazon EKS nodes to support GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
+
+In addition to the standard Amazon EKS optimized AMI configuration, the accelerated AMI includes the following:
+
+
+
+* [.noloc]`NVIDIA` drivers
+* `nvidia-container-toolkit`
+* {aws} [.noloc]`Neuron` driver
+
+For a list of the latest components included in the accelerated AMI, see the `amazon-eks-ami` https://github.com/awslabs/amazon-eks-ami/releases[Releases] on [.noloc]`GitHub`.
+
+[NOTE]
+====
+
+
+* The Amazon EKS optimized accelerated AMI only supports GPU and [.noloc]`Inferentia` based instance types. Make sure to specify these instance types in your node {aws} CloudFormation template. By using the Amazon EKS optimized accelerated AMI, you agree to https://s3.amazonaws.com/EULA/NVidiaEULAforAWS.pdf[NVIDIA's Cloud End User License Agreement (EULA)].
+* The Amazon EKS optimized accelerated AMI was previously referred to as the _Amazon EKS optimized AMI with GPU support_. 
+* Previous versions of the Amazon EKS optimized accelerated AMI installed the `nvidia-docker` repository. The repository is no longer included in Amazon EKS AMI version `v20200529` and later. 
+
+====
+
+.To enable {aws} Neuron (ML accelerator) based workloads
+For details on training and inference workloads using [.noloc]`Neuron` in Amazon EKS, see the following references:
+
+* https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html[Containers - Kubernetes - Getting Started] in the _{aws} [.noloc]`Neuron` Documentation_
+* https://github.com/aws-neuron/aws-neuron-eks-samples/blob/master/README.md#training[Training] in {aws} [.noloc]`Neuron` EKS Samples on GitHub
+* <<inferentia-support,Deploy ML inference workloads with AWSInferentia on Amazon EKS>>
+
+The following procedure describes how to run a workload on a GPU based instance with the Amazon EKS optimized accelerated AMI.
+
+. After your GPU nodes join your cluster, you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/deployments/static/nvidia-device-plugin.yml
+----
+. You can verify that your nodes have allocatable GPUs with the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get nodes "-o=custom-columns=NAME:.metadata.name,GPU:.status.allocatable.nvidia\.com/gpu"
+----
+. Create a file named `nvidia-smi.yaml` with the following contents. Replace [.replaceable]`tag` with your desired tag for https://hub.docker.com/r/nvidia/cuda/tags[nvidia/cuda]. This manifest launches an https://developer.nvidia.com/cuda-zone[NVIDIA CUDA] container that runs `nvidia-smi` on a node.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nvidia-smi
+spec:
+  restartPolicy: OnFailure
+  containers:
+  - name: nvidia-smi
+    image: nvidia/cuda:tag
+    args:
+    - "nvidia-smi"
+    resources:
+      limits:
+        nvidia.com/gpu: 1
+----
+. Apply the manifest with the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f nvidia-smi.yaml
+----
+. After the [.noloc]`Pod` has finished running, view its logs with the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl logs nvidia-smi
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+Mon Aug  6 20:23:31 20XX
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI XXX.XX                 Driver Version: XXX.XX                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Tesla V100-SXM2...  On   | 00000000:00:1C.0 Off |                    0 |
+| N/A   46C    P0    47W / 300W |      0MiB / 16160MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+----
+
+
+[[arm-ami,arm-ami.title]]
+== Amazon EKS optimized [.noloc]`Arm` Amazon Linux AMIs
+
+Arm instances deliver significant cost savings for scale-out and [.noloc]`Arm`-based applications such as web servers, containerized microservices, caching fleets, and distributed data stores. When adding [.noloc]`Arm` nodes to your cluster, review the following considerations.
+
+
+
+* If your cluster was deployed before August 17, 2020, you must do a one-time upgrade of critical cluster add-on manifests. This is so that [.noloc]`Kubernetes` can pull the correct image for each hardware architecture in use in your cluster. For more information about updating cluster add-ons, see <<update-existing-cluster>>. If you deployed your cluster on or after August 17, 2020, then your [.noloc]`CoreDNS`, `kube-proxy`, and [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` add-ons are already multi-architecture capable.  
+* Applications deployed to [.noloc]`Arm` nodes must be compiled for Arm.
+* If you have [.noloc]`DaemonSets` that are deployed in an existing cluster, or you want to deploy them to a new cluster that you also want to deploy [.noloc]`Arm` nodes in, then verify that your [.noloc]`DaemonSet` can run on all hardware architectures in your cluster.  
+* You can run [.noloc]`Arm` node groups and x86 node groups in the same cluster. If you do, consider deploying multi-architecture container images to a container repository such as Amazon Elastic Container Registry and then adding node selectors to your manifests so that [.noloc]`Kubernetes` knows what hardware architecture a [.noloc]`Pod` can be deployed to. For more information, see link:AmazonECR/latest/userguide/docker-push-multi-architecture-image.html[Pushing a multi-architecture image,type="documentation"] in the _Amazon ECR User Guide_ and the link:containers/introducing-multi-architecture-container-images-for-amazon-ecr[Introducing multi-architecture container images for Amazon ECR,type="blog"] blog post.
+
+
+[[linux-more-information,linux-more-information.title]]
+== More information
+
+For more information about using Amazon EKS optimized Amazon Linux AMIs, see the following sections:
+
+
+
+* To use Amazon Linux with managed node groups, see <<managed-node-groups>>.
+* To launch self-managed Amazon Linux nodes, see <<retrieve-ami-id>>.
+* For version information, see <<eks-linux-ami-versions>>.
+* To retrieve the latest IDs of the Amazon EKS optimized Amazon Linux AMIs, see <<retrieve-ami-id>>.
+* For open-source scripts that are used to build the Amazon EKS optimized AMI, see <<eks-ami-build-scripts>>.
+
+

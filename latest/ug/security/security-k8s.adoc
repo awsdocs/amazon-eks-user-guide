@@ -1,0 +1,857 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[security-k8s,security-k8s.title]]
+= Security considerations for [.noloc]`Kubernetes`
+:info_doctype: section
+:info_title: Security considerations for Kubernetes
+:info_titleabbrev: Considerations for Kubernetes
+:info_abstract: Configure Kubernetes to meet your security and compliance objectives, and learn \
+                how to use other {aws} services that help you to secure your Kubernetes \
+                resources.
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Configure [.noloc]`Kubernetes` to meet your security and compliance objectives, and learn how to use other {aws} services that help you to secure your [.noloc]`Kubernetes` resources.
+--
+
+The following are considerations for security in the cloud, as they affect [.noloc]`Kubernetes` in Amazon EKS clusters. For an in-depth review of security controls and practices in [.noloc]`Kubernetes`, see https://kubernetes.io/docs/concepts/security/cloud-native-security/[Cloud Native Security and Kubernetes] in the [.noloc]`Kubernetes` documentation.
+
+[.topiclist]
+[[Topic List]]
+
+[.topic]
+[[cert-signing,cert-signing.title]]
+== Secure workloads with [.noloc]`Kubernetes` certificates
+
+[abstract]
+--
+Learn how to request and obtain X.509 certificates from the Certificate Authority (CA) using Certificate Signing Requests (CSRs) in Amazon EKS, including details on migrating from legacy signers, generating CSRs, approving requests, and handling certificate signing considerations before upgrading to Kubernetes 1.24.
+--
+
+The [.noloc]`Kubernetes` Certificates API automates https://www.itu.int/rec/T-REC-X.509[X.509] credential provisioning. The API features a command line interface for [.noloc]`Kubernetes` API clients to request and obtain https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/[X.509 certificates] from a Certificate Authority (CA). You can use the `CertificateSigningRequest` (CSR) resource to request that a denoted signer sign the certificate. Your requests are either approved or denied before they're signed. [.noloc]`Kubernetes` supports both built-in signers and custom signers with well-defined behaviors. This way, clients can predict what happens to their CSRs. To learn more about certificate signing, see https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/[signing requests].
+
+One of the built-in signers is `kubernetes.io/legacy-unknown`. The `v1beta1` API of CSR resource honored this legacy-unknown signer. However, the stable `v1` API of CSR doesn't allow the `signerName` to be set to `kubernetes.io/legacy-unknown`.
+
+Amazon EKS version `1.21` and earlier allowed the `legacy-unknown` value as the `signerName` in `v1beta1` CSR API. This API enables the Amazon EKS Certificate Authority (CA) to generate certificates. However, in [.noloc]`Kubernetes` version `1.22`, the `v1beta1` CSR API was replaced by the `v1` CSR API. This API doesn't support the signerName of "`legacy-unknown.`" If you want to use Amazon EKS CA for generating certificates on your clusters, you must use a custom signer. It was introduced in Amazon EKS version `1.22`. To use the CSR `v1` API version and generate a new certificate, you must migrate any existing manifests and API clients. Existing certificates that were created with the existing `v1beta1` API are valid and function until the certificate expires. This includes the following:
+
+
+
+* Trust distribution: None. There's no standard trust or distribution for this signer in a [.noloc]`Kubernetes` cluster.
+* Permitted subjects: Any
+* Permitted x509 extensions: Honors subjectAltName and key usage extensions and discards other extensions
+* Permitted key usages: Must not include usages beyond ["key encipherment", "digital signature", "server auth"]
++
+NOTE: Client certificate signing is not supported.
+* Expiration/certificate lifetime: 1 year (default and maximum) 
+* CA bit allowed/disallowed: Not allowed
+
+
+[[csr-example,csr-example.title]]
+=== Example CSR generation with signerName
+
+These steps shows how to generate a serving certificate for DNS name `myserver.default.svc` using `signerName: beta.eks.amazonaws.com/app-serving`. Use this as a guide for your own environment.
+
+. Run the `openssl genrsa -out myserver.key 2048` command to generate an RSA private key.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+openssl genrsa -out myserver.key 2048
+----
+. Run the following command to generate a certificate request.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+openssl req -new -key myserver.key -out myserver.csr -subj "/CN=myserver.default.svc"
+----
+. Generate a `base64` value for the CSR request and store it in a variable for use in a later step.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+base_64=$(cat myserver.csr | base64 -w 0 | tr -d "\n")
+----
+. Run the following command to create a file named `mycsr.yaml`. In the following example, `beta.eks.amazonaws.com/app-serving` is the `signerName`.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+cat >mycsr.yaml <<EOF
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: myserver
+spec:
+  request: $base_64
+  signerName: beta.eks.amazonaws.com/app-serving
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+EOF
+----
+. Submit the CSR.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f mycsr.yaml
+----
+. Approve the serving certificate.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl certificate approve myserver
+----
+. Verify that the certificate was issued.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get csr myserver
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME       AGE     SIGNERNAME                           REQUESTOR          CONDITION
+myserver   3m20s   beta.eks.amazonaws.com/app-serving   kubernetes-admin   Approved,Issued
+----
+. Export the issued certificate.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get csr myserver -o jsonpath='{.status.certificate}'| base64 -d > myserver.crt
+----
+
+
+[[csr-considerations,csr-considerations.title]]
+=== Certificate signing considerations before upgrading your cluster to [.noloc]`Kubernetes` 1.24
+
+In [.noloc]`Kubernetes` `1.23` and earlier, `kubelet` serving certificates with unverifiable IP and DNS Subject Alternative Names (SANs) are automatically issued with unverifiable SANs. The SANs are omitted from the provisioned certificate. In `1.24` and later clusters, `kubelet` serving certificates aren't issued if a SAN can't be verified. This prevents the `kubectl exec` and `kubectl logs` commands from working.
+
+Before upgrading your cluster to `1.24`, determine whether your cluster has certificate signing requests (CSR) that haven't been approved by completing the following steps:
+
+. Run the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get csr -A
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME        AGE   SIGNERNAME                      REQUESTOR                                                  REQUESTEDDURATION   CONDITION
+csr-7znmf   90m   kubernetes.io/kubelet-serving   system:node:ip-192-168-42-149.region.compute.internal      <none>              Approved
+csr-9xx5q   90m   kubernetes.io/kubelet-serving   system:node:ip-192-168-65-38.region.compute.internal      <none>              Approved, Issued
+----
++
+If the returned output shows a CSR with a https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#kubernetes-signers[kubernetes.io/kubelet-serving] signer that's `Approved` but not `Issued` for a node, then you need to approve the request.
+. Manually approve the CSR. Replace `csr-[.replaceable]``7znmf``` with your own value.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl certificate approve csr-7znmf
+----
+
+To auto-approve CSRs in the future, we recommend that you write an approving controller that can automatically validate and approve CSRs that contain IP or DNS SANs that Amazon EKS can't verify.
+
+[.topic]
+[[default-roles-users,default-roles-users.title]]
+== Understand Amazon EKS created RBAC roles and users
+
+[abstract]
+--
+Learn about the Kubernetes roles and users that Amazon EKS creates for cluster components and add-ons. Amazon EKS uses these role-based authorization control (RBAC) identities to operate the cluster.
+--
+
+When you create a [.noloc]`Kubernetes` cluster, several default [.noloc]`Kubernetes` identities are created on that cluster for the proper functioning of [.noloc]`Kubernetes`. Amazon EKS creates [.noloc]`Kubernetes` identities for each of its default components. The identities provide [.noloc]`Kubernetes` role-based authorization control (RBAC) for the cluster components. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the [.noloc]`Kubernetes` documentation.  
+
+When you install optional <<eks-add-ons,add-ons>> to your cluster, additional [.noloc]`Kubernetes` identities might be added to your cluster. For more information about identities not addressed by this topic, see the documentation for the add-on.
+
+You can view the list of Amazon EKS created [.noloc]`Kubernetes` identities on your cluster using the {aws-management-console} or `kubectl` command line tool. All of the user identities appear in the `kube` audit logs available to you through Amazon CloudWatch.
+
+
+
+*{aws-management-console}*::
+
+.Prerequisite
+The  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that you use must have the permissions described in <<view-kubernetes-resources-permissions,Required permissions>>.
++
+.. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+.. In the *Clusters* list, choose the cluster that contains the identities that you want to view.
+.. Choose the *Resources* tab.
+.. Under *Resource types*, choose  *Authorization*.
+.. Choose, *ClusterRoles*,  *ClusterRoleBindings*,  *Roles*, or  *RoleBindings*. All resources prefaced with  *eks* are created by Amazon EKS. Additional Amazon EKS created identity resources are:
++
+*** The *ClusterRole* and  *ClusterRoleBinding* named  *aws-node*. The  *aws-node* resources support the  <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, which Amazon EKS installs on all clusters. 
+*** A *ClusterRole* named  *vpc-resource-controller-role* and a  *ClusterRoleBinding* named  *vpc-resource-controller-rolebinding*. These resources support the https://github.com/aws/amazon-vpc-resource-controller-k8s[Amazon VPC resource controller], which Amazon EKS installs on all clusters. 
+
++
+In addition to the resources that you see in the console, the following special user identities exist on your cluster, though they're not visible in the cluster's configuration:
++
+*** *`eks:cluster-bootstrap`* – Used for `kubectl` operations during cluster bootstrap.
+*** *`eks:support-engineer`* – Used for cluster management operations.
+.. Choose a specific resource to view details about it. By default, you're shown information in *Structured view*. In the top-right corner of the details page you can choose  *Raw view* to see all information for the resource.
+
+
+*Kubectl*::
+
+.Prerequisite
+The entity that you use ({aws} Identity and Access Management (IAM) or [.noloc]`OpenID Connect` ([.noloc]`OIDC`)) to list the [.noloc]`Kubernetes` resources on the cluster must be authenticated by IAM or your [.noloc]`OIDC` identity provider. The entity must be granted permissions to use the [.noloc]`Kubernetes` `get` and `list` verbs for the `Role`, `ClusterRole`, `RoleBinding`, and `ClusterRoleBinding` resources on your cluster that you want the entity to work with. For more information about granting IAM entities access to your cluster, see <<grant-k8s-access>>. For more information about granting entities authenticated by your own [.noloc]`OIDC` provider access to your cluster, see <<authenticate-oidc-identity-provider>>.
+.To view Amazon EKS created identities using `kubectl`
+Run the command for the type of resource that you want to see. All returned resources that are prefaced with *eks* are created by Amazon EKS. In addition to the resources returned in the output from the commands, the following special user identities exist on your cluster, though they're not visible in the cluster's configuration:
++
+** *`eks:cluster-bootstrap`* – Used for `kubectl` operations during cluster bootstrap.
+** *`eks:support-engineer`* – Used for cluster management operations.
++
+*ClusterRoles* – `ClusterRoles` are scoped to your cluster, so any permission granted to a role applies to resources in any [.noloc]`Kubernetes` namespace on the cluster.
++
+The following command returns all of the Amazon EKS created [.noloc]`Kubernetes` `ClusterRoles` on your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get clusterroles | grep eks
+----
++
+In addition to the `ClusterRoles` returned in the output that are prefaced with, the following `ClusterRoles` exist.
++
+** *`aws-node`* – This `ClusterRole` supports the <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, which Amazon EKS installs on all clusters.
+** *`vpc-resource-controller-role`* – This `ClusterRole` supports the https://github.com/aws/amazon-vpc-resource-controller-k8s[Amazon VPC resource controller], which Amazon EKS installs on all clusters. 
+
++
+To see the specification for a `ClusterRole`, replace [.replaceable]`eks:k8s-metrics` in the following command with a `ClusterRole` returned in the output of the previous command. The following example returns the specification for the [.replaceable]`eks:k8s-metrics` `ClusterRole`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe clusterrole eks:k8s-metrics
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+Name:         eks:k8s-metrics
+Labels:       <none>
+Annotations:  <none>
+PolicyRule:
+  Resources         Non-Resource URLs  Resource Names  Verbs
+  ---------         -----------------  --------------  -----
+                    [/metrics]         []              [get]
+  endpoints         []                 []              [list]
+  nodes             []                 []              [list]
+  pods              []                 []              [list]
+  deployments.apps  []                 []              [list]
+----
++
+*ClusterRoleBindings* – `ClusterRoleBindings` are scoped to your cluster. 
++
+The following command returns all of the Amazon EKS created [.noloc]`Kubernetes` `ClusterRoleBindings` on your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get clusterrolebindings | grep eks
+----
++
+In addition to the `ClusterRoleBindings` returned in the output, the following `ClusterRoleBindings` exist.
++
+** *`aws-node`* – This `ClusterRoleBinding` supports the <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, which Amazon EKS installs on all clusters. 
+** *`vpc-resource-controller-rolebinding`* – This `ClusterRoleBinding` supports the https://github.com/aws/amazon-vpc-resource-controller-k8s[Amazon VPC resource controller], which Amazon EKS installs on all clusters. 
+
++
+To see the specification for a `ClusterRoleBinding`, replace [.replaceable]`eks:k8s-metrics` in the following command with a `ClusterRoleBinding` returned in the output of the previous command. The following example returns the specification for the [.replaceable]`eks:k8s-metrics` `ClusterRoleBinding`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe clusterrolebinding eks:k8s-metrics
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+Name:         eks:k8s-metrics
+Labels:       <none>
+Annotations:  <none>
+Role:
+  Kind:  ClusterRole
+  Name:  eks:k8s-metrics
+Subjects:
+  Kind  Name             Namespace
+  ----  ----             ---------
+  User  eks:k8s-metrics
+----
++
+*Roles* – `Roles` are scoped to a [.noloc]`Kubernetes` namespace. All Amazon EKS created `Roles` are scoped to the `kube-system` namespace.
++
+The following command returns all of the Amazon EKS created [.noloc]`Kubernetes` `Roles` on your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get roles -n kube-system | grep eks
+----
++
+To see the specification for a `Role`, replace [.replaceable]`eks:k8s-metrics` in the following command with the name of a `Role` returned in the output of the previous command. The following example returns the specification for the [.replaceable]`eks:k8s-metrics` `Role`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe role eks:k8s-metrics -n kube-system
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+Name:         eks:k8s-metrics
+Labels:       <none>
+Annotations:  <none>
+PolicyRule:
+  Resources         Non-Resource URLs  Resource Names             Verbs
+  ---------         -----------------  --------------             -----
+  daemonsets.apps   []                 [aws-node]                 [get]
+  deployments.apps  []                 [vpc-resource-controller]  [get]
+----
++
+*RoleBindings* – `RoleBindings` are scoped to a [.noloc]`Kubernetes` namespace. All Amazon EKS created `RoleBindings` are scoped to the `kube-system` namespace.
++
+The following command returns all of the Amazon EKS created [.noloc]`Kubernetes` `RoleBindings` on your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get rolebindings -n kube-system | grep eks
+----
++
+To see the specification for a `RoleBinding`, replace [.replaceable]`eks:k8s-metrics` in the following command with a `RoleBinding` returned in the output of the previous command. The following example returns the specification for the [.replaceable]`eks:k8s-metrics```RoleBinding``.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe rolebinding eks:k8s-metrics -n kube-system
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+Name:         eks:k8s-metrics
+Labels:       <none>
+Annotations:  <none>
+Role:
+  Kind:  Role
+  Name:  eks:k8s-metrics
+Subjects:
+  Kind  Name             Namespace
+  ----  ----             ---------
+  User  eks:k8s-metrics
+----
+
+
+[.topic]
+[[pod-security-policy,pod-security-policy.title]]
+== Understand Amazon EKS created pod security policies [.noloc]`(PSP)`
+
+[abstract]
+--
+Learn about the Pod Security Policies [.noloc]`(PSP)` that Amazon EKS creates by default. PSP was deprecated in [.noloc]`Kubernetes` version `1.21` and removed in [.noloc]`Kubernetes` `1.25`.
+--
+
+The [.noloc]`Kubernetes` [.noloc]`Pod` security policy admission controller validates [.noloc]`Pod` creation and update requests against a set of rules. By default, Amazon EKS clusters ship with a fully permissive security policy with no restrictions. For more information, see https://kubernetes.io/docs/concepts/policy/pod-security-policy/[Pod Security Policies] in the [.noloc]`Kubernetes` documentation.
+
+[NOTE]
+====
+
+The `PodSecurityPolicy` ([.noloc]`PSP`) was deprecated in [.noloc]`Kubernetes` version `1.21` and removed in [.noloc]`Kubernetes` `1.25`. [.noloc]`PSPs` are being replaced with https://kubernetes.io/docs/concepts/security/pod-security-admission/[Pod Security Admission (PSA)], a built-in admission controller that implements the security controls outlined in the https://kubernetes.io/docs/concepts/security/pod-security-standards/[Pod Security Standards (PSS)]. PSA and PSS have both reached beta feature states, and are enabled in Amazon EKS by default. To address [.noloc]`PSP` removal in `1.25`, we recommend that you implement PSS in Amazon EKS. For more information, see link:containers/implementing-pod-security-standards-in-amazon-eks[Implementing Pod Security Standards in Amazon EKS,type="blog"] on the {aws} blog.
+
+====
+
+[[default-psp,default-psp.title]]
+=== Amazon EKS default [.noloc]`Pod` security policy
+
+Amazon EKS clusters with [.noloc]`Kubernetes` version `1.13` or higher have a default [.noloc]`Pod` security policy named `eks.privileged`. This policy has no restriction on what kind of [.noloc]`Pod` can be accepted into the system, which is equivalent to running [.noloc]`Kubernetes` with the `PodSecurityPolicy` controller disabled.
+
+[NOTE]
+====
+
+This policy was created to maintain backwards compatibility with clusters that did not have the `PodSecurityPolicy` controller enabled. You can create more restrictive policies for your cluster and for individual namespaces and service accounts and then delete the default policy to enable the more restrictive policies.
+
+====
+
+You can view the default policy with the following command.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get psp eks.privileged
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME             PRIV   CAPS   SELINUX    RUNASUSER   FSGROUP    SUPGROUP   READONLYROOTFS   VOLUMES
+eks.privileged   true   *      RunAsAny   RunAsAny    RunAsAny   RunAsAny   false            *
+----
+
+For more details, you can describe the policy with the following command.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe psp eks.privileged
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+Name:  eks.privileged
+
+Settings:
+  Allow Privileged:                       true
+  Allow Privilege Escalation:             0xc0004ce5f8
+  Default Add Capabilities:               <none>
+  Required Drop Capabilities:             <none>
+  Allowed Capabilities:                   *
+  Allowed Volume Types:                   *
+  Allow Host Network:                     true
+  Allow Host Ports:                       0-65535
+  Allow Host PID:                         true
+  Allow Host IPC:                         true
+  Read Only Root Filesystem:              false
+  SELinux Context Strategy: RunAsAny
+    User:                                 <none>
+    Role:                                 <none>
+    Type:                                 <none>
+    Level:                                <none>
+  Run As User Strategy: RunAsAny
+    Ranges:                               <none>
+  FSGroup Strategy: RunAsAny
+    Ranges:                               <none>
+  Supplemental Groups Strategy: RunAsAny
+    Ranges:                               <none>
+----
+
+You can view the full YAML file for the `eks.privileged` [.noloc]`Pod` security policy, its cluster role, and cluster role binding in  <<psp-install-or-restore-default,Install or restore the default Pod security policy>>.
+
+[[psp-delete-default,psp-delete-default.title]]
+=== Delete the default Amazon EKS [.noloc]`Pod` security policy
+
+If you create more restrictive policies for your [.noloc]`Pods`, then after doing so, you can delete the default Amazon EKS `eks.privileged` [.noloc]`Pod` security policy to enable your custom policies.
+
+[IMPORTANT]
+====
+
+If you are using version `1.7.0` or later of the CNI plugin and you assign a custom [.noloc]`Pod` security policy to the `aws-node` [.noloc]`Kubernetes` service account used for the `aws-node` [.noloc]`Pods` deployed by the Daemonset, then the policy must have `NET_ADMIN` in its `allowedCapabilities` section along with `hostNetwork: true` and `privileged: true` in the policy's `spec`.
+
+====
+. Create a file named [.replaceable]`privileged-podsecuritypolicy.yaml` with the contents in the example file in <<psp-install-or-restore-default,Install or restore the default Pod security policy>>.
+. Delete the YAML with the following command. This deletes the default [.noloc]`Pod` security policy, the `ClusterRole`, and the `ClusterRoleBinding` associated with it.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl delete -f privileged-podsecuritypolicy.yaml
+----
+
+
+[[psp-install-or-restore-default,psp-install-or-restore-default.title]]
+=== Install or restore the default [.noloc]`Pod` security policy
+
+If you are upgrading from an earlier version of [.noloc]`Kubernetes`, or have modified or deleted the default Amazon EKS `eks.privileged` [.noloc]`Pod` security policy, you can restore it with the following steps.
+
+. Create a file called `privileged-podsecuritypolicy.yaml` with the following contents.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: eks.privileged
+  annotations:
+    kubernetes.io/description: 'privileged allows full unrestricted access to
+      Pod features, as if the PodSecurityPolicy controller was not enabled.'
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+  labels:
+    kubernetes.io/cluster-service: "true"
+    eks.amazonaws.com/component: pod-security-policy
+spec:
+  privileged: true
+  allowPrivilegeEscalation: true
+  allowedCapabilities:
+  - '*'
+  volumes:
+  - '*'
+  hostNetwork: true
+  hostPorts:
+  - min: 0
+    max: 65535
+  hostIPC: true
+  hostPID: true
+  runAsUser:
+    rule: 'RunAsAny'
+  seLinux:
+    rule: 'RunAsAny'
+  supplementalGroups:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+  readOnlyRootFilesystem: false
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: eks:podsecuritypolicy:privileged
+  labels:
+    kubernetes.io/cluster-service: "true"
+    eks.amazonaws.com/component: pod-security-policy
+rules:
+- apiGroups:
+  - policy
+  resourceNames:
+  - eks.privileged
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - use
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eks:podsecuritypolicy:authenticated
+  annotations:
+    kubernetes.io/description: 'Allow all authenticated users to create privileged Pods.'
+  labels:
+    kubernetes.io/cluster-service: "true"
+    eks.amazonaws.com/component: pod-security-policy
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: eks:podsecuritypolicy:privileged
+subjects:
+  - kind: Group
+    apiGroup: rbac.authorization.k8s.io
+    name: system:authenticated
+----
+. Apply the YAML with the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f privileged-podsecuritypolicy.yaml
+----
+
+
+[.topic]
+[[pod-security-policy-removal-faq,pod-security-policy-removal-faq.title]]
+== Migrate from legacy pod security policies (PSP)
+
+[abstract]
+--
+Learn about the Pod Security Policy [.noloc]`(PSPs)` removal in [.noloc]`Kubernetes` `1.25`. Migrate to Pod Security Standards (PSS) or policy-as-code solutions before upgrading Amazon EKS clusters to [.noloc]`Kubernetes` 1.25 to avoid workload interruptions and maintain pod security controls.
+--
+
+`PodSecurityPolicy` was https://kubernetes.io/blog/2021/04/06/podsecuritypolicy-deprecation-past-present-and-future/[deprecated in Kubernetes1.21], and has been removed in [.noloc]`Kubernetes` `1.25`. If you are using PodSecurityPolicy in your cluster, *then you must migrate to the built-in [.noloc]`Kubernetes` Pod Security Standards [.noloc]`(PSS)` or to a policy-as-code solution before upgrading your cluster to version `*1.25*` to avoid interruptions to your workloads.* Select any frequently asked question to learn more.
+
+
+[[pod-security-policy-removal-what-is,pod-security-policy-removal-what-is.title]]
+.What is a [.noloc]`PSP`?
+[%collapsible]
+====
+
+https://kubernetes.io/docs/concepts/security/pod-security-policy/[PodSecurityPolicy] is a built-in admission controller that allows a cluster administrator to control security-sensitive aspects of [.noloc]`Pod` specification. If a [.noloc]`Pod` meets the requirements of its [.noloc]`PSP`, the [.noloc]`Pod` is admitted to the cluster as usual. If a [.noloc]`Pod` doesn't meet the [.noloc]`PSP` requirements, the [.noloc]`Pod` is rejected and can't run.
+====
+
+[[pod-security-policy-removal-specific,pod-security-policy-removal-specific.title]]
+.Is the [.noloc]`PSP` removal specific to Amazon EKS or is it being removed in upstream [.noloc]`Kubernetes`?
+[%collapsible]
+====
+
+This is an upstream change in the [.noloc]`Kubernetes` project, and not a change made in Amazon EKS. [.noloc]`PSP` was deprecated in [.noloc]`Kubernetes` `1.21` and  removed in [.noloc]`Kubernetes` `1.25`. The [.noloc]`Kubernetes` community identified serious usability problems with [.noloc]`PSP`. These included accidentally granting broader permissions than intended and difficulty in inspecting which [.noloc]`PSPs` apply in a given situation. These issues couldn't be addressed without making breaking changes. This is the primary reason why the [.noloc]`Kubernetes` community https://kubernetes.io/blog/2021/04/06/podsecuritypolicy-deprecation-past-present-and-future/#why-is-podsecuritypolicy-going-away[decided to remove PSP]. 
+====
+
+[[pod-security-policy-removal-check,pod-security-policy-removal-check.title]]
+.How can I check if I'm using [.noloc]`PSPs` in my Amazon EKS clusters?  
+[%collapsible]
+====
+
+To check if you're using [.noloc]`PSPs` in your cluster, you can run the following command:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get psp
+----
+
+To see the [.noloc]`Pods` that the [.noloc]`PSPs` in your cluster are impacting, run the following command. This command outputs the [.noloc]`Pod` name, namespace, and [.noloc]`PSPs`:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get pod -A -o jsonpath='{range.items[?(@.metadata.annotations.kubernetes\.io/psp)]}{.metadata.name}{"\t"}{.metadata.namespace}{"\t"}{.metadata.annotations.kubernetes\.io/psp}{"\n"}'
+----
+====
+
+[[pod-security-policy-removal-what-can,pod-security-policy-removal-what-can.title]]
+.If I'm using [.noloc]`PSPs` in my Amazon EKS cluster, what can I do?
+[%collapsible]
+====
+
+Before upgrading your cluster to `1.25`, you must migrate your [.noloc]`PSPs` to either one of these alternatives:
+
+
+
+* [.noloc]`Kubernetes` [.noloc]`PSS`.
+
+
+* Policy-as-code solutions from the [.noloc]`Kubernetes` environment.
+
+In response to the [.noloc]`PSP` deprecation and the ongoing need to control [.noloc]`Pod` security from the start, the [.noloc]`Kubernetes` community created a built-in solution with https://kubernetes.io/docs/concepts/security/pod-security-standards/[(PSS)] and https://kubernetes.io/docs/concepts/security/pod-security-admission/[Pod Security Admission (PSA)]. The PSA webhook implements the controls that are defined in the [.noloc]`PSS`.
+
+You can review best practices for migrating [.noloc]`PSPs` to the built-in [.noloc]`PSS` in the https://aws.github.io/aws-eks-best-practices/security/docs/pods/#pod-security-standards-pss-and-pod-security-admission-psa[EKS Best Practices Guide]. We also recommend reviewing our blog on link:containers/implementing-pod-security-standards-in-amazon-eks[Implementing Pod Security Standards in Amazon EKS,type="blog"]. Additional references include https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/[Migrate from PodSecurityPolicy to the Built-In PodSecurity Admission Controller] and https://kubernetes.io/docs/reference/access-authn-authz/psp-to-pod-security-standards/[Mapping PodSecurityPolicies to Pod Security Standards].
+
+Policy-as-code solutions provide guardrails to guide cluster users and prevents unwanted behaviors through prescribed automated controls. Policy-as-code solutions typically use https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/[Kubernetes Dynamic Admission Controllers] to intercept the [.noloc]`Kubernetes` API server request flow using a webhook call. Policy-as-code solutions mutate and validate request payloads based on policies written and stored as code.  
+
+There are several open source policy-as-code solutions available for [.noloc]`Kubernetes`. To review best practices for migrating [.noloc]`PSPs` to a policy-as-code solution, see the https://aws.github.io/aws-eks-best-practices/security/docs/pods/#policy-as-code-pac[Policy-as-code] section of the Pod Security page on GitHub.
+====
+
+[[pod-security-policy-removal-privileged,pod-security-policy-removal-privileged.title]]
+.I see a [.noloc]`PSP` called `eks.privileged` in my cluster. What is it and what can I do about it?
+[%collapsible]
+====
+
+Amazon EKS clusters with [.noloc]`Kubernetes` version `1.13` or higher have a default [.noloc]`PSP` that's named `eks.privileged`. This policy is created in `1.24` and earlier clusters. It isn't used in `1.25` and later clusters. Amazon EKS automatically migrates this [.noloc]`PSP` to a [.noloc]`PSS`-based enforcement. No action is needed on your part.  
+====
+
+[[pod-security-policy-removal-prevent,pod-security-policy-removal-prevent.title]]
+.Will Amazon EKS make any changes to [.noloc]`PSPs` present in my existing cluster when I update my cluster to version `1.25`?
+[%collapsible]
+====
+
+No. Besides `eks.privileged`, which is a [.noloc]`PSP` created by Amazon EKS, no changes are made to other [.noloc]`PSPs` in your cluster when you upgrade to `1.25`.
+====
+
+[[pod-security-policy-removal-migrate,pod-security-policy-removal-migrate.title]]
+.Will Amazon EKS prevent a cluster update to version `1.25` if I haven't migrated off of [.noloc]`PSP`?
+[%collapsible]
+====
+
+No. Amazon EKS won't prevent a cluster update to version `1.25` if you didn't migrate off of [.noloc]`PSP` yet.
+====
+
+[[pod-security-policy-removal-forget,pod-security-policy-removal-forget.title]]
+.What if I forget to migrate my [.noloc]`PSPs` to [.noloc]`PSS/PSA` or to a policy-as-code solution before I update my cluster to version `1.25`? Can I migrate after updating my cluster?
+[%collapsible]
+====
+
+When a cluster that contains a [.noloc]`PSP` is upgraded to [.noloc]`Kubernetes` version `1.25`, the API server doesn't recognize the [.noloc]`PSP` resource in `1.25`. This might result in [.noloc]`Pods` getting incorrect security scopes. For an exhaustive list of implications, see https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/[Migrate from PodSecurityPolicy to the Built-In PodSecurity Admission Controller].
+====
+
+[[pod-security-policy-removal-impact,pod-security-policy-removal-impact.title]]
+.How does this change impact pod security for Windows workloads?
+[%collapsible]
+====
+
+We don't expect any specific impact to Windows workloads. PodSecurityContext has a field called `windowsOptions` in the `PodSpec v1` API for Windows [.noloc]`Pods`. This uses [.noloc]`PSS` in [.noloc]`Kubernetes` `1.25`. For more information and best practices about enforcing [.noloc]`PSS` for Windows workloads, see the https://aws.github.io/aws-eks-best-practices/windows/docs/security/#pod-security-contexts[EKS Best Practices Guide] and [.noloc]`Kubernetes` https://kubernetes.io/docs/tasks/configure-pod-container/configure-runasusername/[documentation].
+====
+
+[.topic]
+[[enable-kms,enable-kms.title]]
+== Encrypt Kubernetes secrets with {aws} KMS on existing clusters
+
+[abstract]
+--
+Learn how to enable Kubernetes secrets encryption with {aws} KMS on an existing Amazon EKS cluster, ensuring secure storage of sensitive data.
+--
+
+If you enable https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption], the [.noloc]`Kubernetes` secrets are encrypted using the {aws} KMS key that you select. The KMS key must meet the following conditions:
+
+
+
+* Symmetric
+* Can encrypt and decrypt data
+* Created in the same {aws} Region as the cluster
+* If the KMS key was created in a different account, the  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] must have access to the KMS key.
+
+For more information, see link:kms/latest/developerguide/key-policy-modifying-external-accounts.html[Allowing IAM principals in other accounts to use a KMS key,type="documentation"] in the _link:kms/latest/developerguide/[{aws} Key Management Service Developer Guide,type="documentation"]_.
+
+[WARNING]
+====
+
+You can't disable secrets encryption after enabling it. This action is irreversible.
+
+====
+
+eksctl ::
+
+You can enable encryption in two ways:
+
+** Add encryption to your cluster with a single command.
++
+To automatically re-encrypt your secrets, run the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl utils enable-secrets-encryption \
+    --cluster my-cluster \
+    --key-arn {arn-aws}kms:region-code:account:key/key
+----
++
+To opt-out of automatically re-encrypting your secrets, run the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl utils enable-secrets-encryption 
+    --cluster my-cluster \
+    --key-arn {arn-aws}kms:region-code:account:key/key \
+    --encrypt-existing-secrets=false
+----
+** Add encryption to your cluster with a ``kms-cluster.yaml`` file.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: my-cluster
+  region: region-code
+  
+secretsEncryption:
+  keyARN: {arn-aws}kms:region-code:account:key/key
+----
++
+To have your secrets re-encrypt automatically, run the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl utils enable-secrets-encryption -f kms-cluster.yaml
+----
++
+To opt out of automatically re-encrypting your secrets, run the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl utils enable-secrets-encryption -f kms-cluster.yaml --encrypt-existing-secrets=false
+----
+
+
+{aws-management-console}::
+.. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+.. Choose the cluster that you want to add KMS encryption to.
+.. Choose the *Overview* tab (this is selected by default).
+.. Scroll down to the *Secrets encryption* section and choose *Enable*.
+.. Select a key from the dropdown list and choose the *Enable* button. If no keys are listed, you must create one first. For more information, see link:kms/latest/developerguide/create-keys.html[Creating keys,type="documentation"]
+.. Choose the *Confirm* button to use the chosen key.
+
+
+{aws} CLI::
+.. Associate the https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] configuration with your cluster using the following {aws} CLI command. Replace the [.replaceable]`example values` with your own.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks associate-encryption-config \
+    --cluster-name my-cluster \
+    --encryption-config '[{"resources":["secrets"],"provider":{"keyArn":"{arn-aws}kms:region-code:account:key/key"}}]'
+----
++
+An example output is as follows.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+  "update": {
+    "id": "3141b835-8103-423a-8e68-12c2521ffa4d",
+    "status": "InProgress",
+    "type": "AssociateEncryptionConfig",
+    "params": [
+      {
+        "type": "EncryptionConfig",
+        "value": "[{\"resources\":[\"secrets\"],\"provider\":{\"keyArn\":\"{arn-aws}kms:region-code:account:key/key\"}}]"
+      }
+    ],
+    "createdAt": 1613754188.734,
+    "errors": []
+  }
+}
+----
+.. You can monitor the status of your encryption update with the following command. Use the specific `cluster name` and `update ID` that was returned in the previous output. When a `Successful` status is displayed, the update is complete.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-update \
+    --region region-code \
+    --name my-cluster \
+    --update-id 3141b835-8103-423a-8e68-12c2521ffa4d
+----
++
+An example output is as follows.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+  "update": {
+    "id": "3141b835-8103-423a-8e68-12c2521ffa4d",
+    "status": "Successful",
+    "type": "AssociateEncryptionConfig",
+    "params": [
+      {
+        "type": "EncryptionConfig",
+        "value": "[{\"resources\":[\"secrets\"],\"provider\":{\"keyArn\":\"{arn-aws}kms:region-code:account:key/key\"}}]"
+      }
+    ],
+    "createdAt": 1613754188.734>,
+    "errors": []
+  }
+}
+----
+.. To verify that encryption is enabled in your cluster, run the `describe-cluster` command. The response contains an `EncryptionConfig` string. 
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-cluster --region region-code --name my-cluster
+----
+
+After you enabled encryption on your cluster, you must encrypt all existing secrets with the new key:
+
+[NOTE]
+====
+
+If you use `eksctl`, running the following command is necessary only if you opt out of re-encrypting your secrets automatically.
+
+====
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get secrets --all-namespaces -o json | kubectl annotate --overwrite -f - kms-encryption-timestamp="time value"
+----
+
+[WARNING]
+====
+
+If you enable https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] for an existing cluster and the KMS key that you use is ever deleted, then there's no way to recover the cluster. If you delete the KMS key, you permanently put the cluster in a degraded state. For more information, see link:kms/latest/developerguide/deleting-keys.html[Deleting {aws} KMS keys,type="documentation"].
+
+====
+
+[NOTE]
+====
+
+By default, the `create-key` command creates a link:kms/latest/developerguide/symmetric-asymmetric.html[symmetric encryption KMS key,type="documentation"] with a key policy that gives the account root admin access on {aws} KMS actions and resources. If you want to scope down the permissions, make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the policy for the principal that calls the `create-cluster` API.
+
+
+For clusters using KMS Envelope Encryption, `kms:CreateGrant` permissions are required. The condition `kms:GrantIsForAWSResource` is not supported for the CreateCluster action, and should not be used in KMS policies to control `kms:CreateGrant` permissions for users performing CreateCluster.
+
+====
+
+[.topic]
+[[manage-secrets,manage-secrets.title]]
+== Use {aws} Secrets Manager secrets with Amazon EKS pods
+
+To show secrets from Secrets Manager and parameters from Parameter Store as files mounted in Amazon EKS [.noloc]`Pods`, you can use the {aws} Secrets and Configuration Provider (ASCP) for the https://secrets-store-csi-driver.sigs.k8s.io/[Kubernetes Secrets Store CSI Driver].
+
+With the ASCP, you can store and manage your secrets in Secrets Manager and then retrieve them through your workloads running on Amazon EKS. You can use IAM roles and policies to limit access to your secrets to specific [.noloc]`Kubernetes` [.noloc]`Pods` in a cluster. The ASCP retrieves the [.noloc]`Pod` identity and exchanges the identity for an IAM role. ASCP assumes the IAM role of the [.noloc]`Pod`, and then it can retrieve secrets from Secrets Manager that are authorized for that role.
+
+If you use Secrets Manager automatic rotation for your secrets, you can also use the Secrets Store CSI Driver rotation reconciler feature to ensure you are retrieving the latest secret from Secrets Manager.
+
+[NOTE]
+====
+
+{aws} Fargate (Fargate) node groups are not supported.
+
+====
+
+For more information, see   link:secretsmanager/latest/userguide/integrating_csi_driver.html[Using Secrets Manager secrets in Amazon EKS,type="documentation"] in the {aws} Secrets Manager User Guide.

@@ -1,0 +1,53 @@
+//!!NODE_ROOT <section>
+include::../../attributes.txt[]
+
+[.topic]
+[[metrics-server,metrics-server.title]]
+= View resource usage with the [.noloc]`Kubernetes` [.noloc]`Metrics Server`
+:info_doctype: section
+:info_title: View resource usage with the KubernetesMetrics Server
+:info_titleabbrev: Metrics server
+:info_abstract: Use the Kubernetes Metrics Server to view resource usage data on your Amazon EKS cluster for autoscaling and monitoring.
+
+[abstract]
+--
+Use the Kubernetes Metrics Server to view resource usage data on your Amazon EKS cluster for autoscaling and monitoring.
+--
+
+The [.noloc]`Kubernetes` Metrics Server is an aggregator of resource usage data in your cluster, and it isn't deployed by default in Amazon EKS clusters. For more information, see https://github.com/kubernetes-sigs/metrics-server[Kubernetes Metrics Server] on [.noloc]`GitHub`. The Metrics Server is commonly used by other [.noloc]`Kubernetes` add ons, such as the  <<horizontal-pod-autoscaler,Scale pod deployments with Horizontal Pod Autoscaler>> or the <<eks-managing,Kubernetes Dashboard>>. For more information, see https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/[Resource metrics pipeline] in the [.noloc]`Kubernetes` documentation. This topic explains how to deploy the [.noloc]`Kubernetes` Metrics Server on your Amazon EKS cluster.
+
+[IMPORTANT]
+====
+
+The metrics are meant for point-in-time analysis and aren't an accurate source for historical analysis. They can't be used as a monitoring solution or for other non-auto scaling purposes. For information about monitoring tools, see <<eks-observe>>.
+
+====
+. Deploy the Metrics Server with the following command:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+----
++
+If you are using Fargate, you will need to change this file. In the default configuration, the metrics server uses port 10250. This port is reserved on Fargate. Replace references to port 10250 in components.yaml with another port, such as 10251.  
+. Verify that the `metrics-server` deployment is running the desired number of [.noloc]`Pods` with the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get deployment metrics-server -n kube-system
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+metrics-server   1/1     1            1           6m
+----
+. Test the metrics server is working by displaying resource (CPU/memory) usage of nodes. 
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl top nodes
+----
+. If you receive the error message `Error from server (Forbidden)`, you need to update your Kubernetes RBAC configuration. Your Kubernetes RBAC identity needs sufficent permissions to read cluster metrics. Review thehttps://github.com/kubernetes-sigs/metrics-server/blob/e285375a49e3bf77ddd78c08a05aaa44f2249ebd/manifests/base/rbac.yaml#L5C9-L5C41[minimum required Kubernetes API permissions for reading metrics] on GitHub. Learn how to<<authentication-modes, grant {aws} IAM Identities such as Roles access to Kubernetes APIs>>. 

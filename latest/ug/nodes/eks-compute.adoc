@@ -1,0 +1,460 @@
+//!!NODE_ROOT <chapter>
+include::../attributes.txt[]
+[[eks-compute,eks-compute.title]]
+= Manage compute resources by using nodes
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: Manage compute resources by using nodes
+:info_titleabbrev: Manage compute
+:keywords: nodes, node groups
+:info_abstract: Your Amazon EKS cluster can schedule Pods on any combination of self-managed nodes, \
+                Amazon EKS managed node groups, and Fargate.
+
+[abstract]
+--
+Your Amazon EKS cluster can schedule [.noloc]`Pods` on any combination of self-managed nodes, Amazon EKS managed node groups, and Fargate.
+--
+
+A [.noloc]`Kubernetes` node is a machine that runs containerized applications. Each node has the following components:
+
+
+
+* *https://kubernetes.io/docs/setup/production-environment/container-runtimes/[Container runtime]* – Software that's responsible for running the containers.
+* *https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet]* – Makes sure that containers are healthy and running within their associated [.noloc]`Pod`.
+* *https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/[kube-proxy]* – Maintains network rules that allow communication to your [.noloc]`Pods`.
+
+For more information, see https://kubernetes.io/docs/concepts/architecture/nodes/[Nodes] in the [.noloc]`Kubernetes` documentation.
+
+Your Amazon EKS cluster can schedule [.noloc]`Pods` on any combination of <<worker,self-managed nodes>>, <<managed-node-groups,Amazon EKS managed node groups>>, and <<fargate,{aws} Fargate>>. To learn more about nodes deployed in your cluster, see <<view-kubernetes-resources>>.
+
+[IMPORTANT]
+====
+
+{aws} Fargate with Amazon EKS isn't available in {aws} GovCloud (US-East) and {aws} GovCloud (US-West).
+
+====
+
+[NOTE]
+====
+
+Nodes must be in the same VPC as the subnets you selected when you created the cluster. However, the nodes don't have to be in the same subnets.
+
+====
+
+The following table provides several criteria to evaluate when deciding which options best meet your requirements. This table doesn't include  <<eks-connector,connected nodes>> that were created outside of Amazon EKS, which can only be viewed.
+
+[NOTE]
+====
+
+[.noloc]`Bottlerocket` has some specific differences from the general information in this table. For more information, see the [.noloc]`Bottlerocket` https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md[documentation] on [.noloc]`GitHub`.
+
+====
+
+[cols="1,1,1,1", options="header"]
+|===
+|Criteria
+|EKS managed node groups
+|Self managed nodes
+|{aws} Fargate
+
+
+|
+
+Can be deployed to link:outposts/latest/userguide/what-is-outposts.html[{aws} Outposts,type="documentation"]
+|
+
+No
+|
+
+Yes
+|
+
+No
+
+|
+
+Can be deployed to an link:about-aws/global-infrastructure/localzones/[{aws} Local Zone,type="marketing"]
+|
+
+No
+|
+
+Yes – For more information, see <<local-zones>>.
+|
+
+No
+
+|
+
+Can run containers that require [.noloc]`Windows`
+|
+
+Yes
+|
+
+<<windows-support,Yes>> – Your cluster still requires at least one (two recommended for availability) [.noloc]`Linux` node though.
+|
+
+No
+
+|
+
+Can run containers that require [.noloc]`Linux`
+|
+
+Yes
+|
+
+Yes
+|
+
+Yes
+
+|
+
+Can run workloads that require the Inferentia chip
+|
+
+<<inferentia-support,Yes>> – Amazon Linux nodes only
+|
+
+<<inferentia-support,Yes>> – Amazon Linux only
+|
+
+No
+
+|
+
+Can run workloads that require a GPU
+|
+
+<<gpu-ami,Yes>> – Amazon Linux nodes only
+|
+
+<<gpu-ami,Yes>> – Amazon Linux only
+|No
+
+|
+
+Can run workloads that require Arm processors
+|
+
+<<arm-ami,Yes>>
+|
+
+<<arm-ami,Yes>>
+|
+
+No
+
+|Can run {aws} link:bottlerocket/[Bottlerocket,type="marketing"]
+|
+
+Yes
+|
+
+<<launch-node-bottlerocket,Yes>>
+|
+
+No
+
+|Pods share a kernel runtime environment with other [.noloc]`Pods`
+|
+
+Yes – All of your [.noloc]`Pods` on each of your nodes
+|
+
+Yes – All of your [.noloc]`Pods` on each of your nodes
+|
+
+No – Each [.noloc]`Pod` has a dedicated kernel
+
+|
+
+Pods share CPU, memory, storage, and network resources with other [.noloc]`Pods`.
+|
+
+Yes – Can result in unused resources on each node
+|
+
+Yes – Can result in unused resources on each node
+|
+
+No – Each [.noloc]`Pod` has dedicated resources and can be sized independently to maximize resource utilization.  
+
+|
+
+Pods can use more hardware and memory than requested in [.noloc]`Pod` specs
+|
+
+Yes – If the [.noloc]`Pod` requires more resources than requested, and resources are available on the node, the [.noloc]`Pod` can use additional resources.
+|Yes – If the [.noloc]`Pod` requires more resources than requested, and resources are available on the node, the [.noloc]`Pod` can use additional resources.
+|
+
+No – The [.noloc]`Pod` can be re-deployed using a larger vCPU and memory configuration though.
+
+|
+
+Must deploy and manage Amazon EC2 instances
+|
+
+<<create-managed-node-group,Yes>> – automated through Amazon EKS if you deployed an Amazon EKS optimized AMI. If you deployed a custom AMI, then you must update the instance manually.
+|
+
+Yes – Manual configuration or using Amazon EKS provided {aws} CloudFormation templates to deploy <<launch-workers,Linux (x86)>>, <<arm-ami,Linux (Arm)>>, or <<windows-support,Windows>> nodes.
+|
+
+No
+
+|
+
+Must secure, maintain, and patch the operating system of Amazon EC2 instances
+|
+
+Yes
+|
+
+Yes
+|
+
+No
+
+|
+
+Can provide bootstrap arguments at deployment of a node, such as extra https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet] arguments.
+|Yes – Using `eksctl` or a <<launch-templates,launch template>> with a custom AMI
+|
+
+Yes – For more information, see the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap script usage information] on [.noloc]`GitHub`.
+|
+
+No
+
+|Can assign IP addresses to [.noloc]`Pods` from a different CIDR block than the IP address assigned to the node.
+|Yes – Using a launch template with a custom AMI. For more information, see <<launch-templates>>.
+|Yes – For more information, see <<cni-custom-network>>.
+|No
+
+|
+
+Can SSH into node
+|
+
+Yes
+|
+
+Yes
+|
+
+No – There's no node host operating system to SSH to.
+
+|
+
+Can deploy your own custom AMI to nodes
+|
+
+Yes – Using a <<launch-templates,launch template>>
+|
+
+Yes
+|
+
+No
+
+|
+
+Can deploy your own custom CNI to nodes
+|
+
+Yes – Using a <<launch-templates,launch template>> with a custom AMI
+|
+
+Yes
+|
+
+No
+
+|
+
+Must update node AMI on your own
+|
+
+<<update-managed-node-group,Yes>> – If you deployed an Amazon EKS optimized AMI, you're notified in the Amazon EKS console when updates are available. You can perform the update with one-click in the console. If you deployed a custom AMI, you're not notified in the Amazon EKS console when updates are available. You must perform the update on your own.
+|
+
+<<update-stack,Yes>> – Using tools other than the Amazon EKS console. This is because self-managed nodes can't be managed with the Amazon EKS console.
+|
+
+No
+
+|Must update node [.noloc]`Kubernetes` version on your own
+|
+
+<<update-managed-node-group,Yes>> – If you deployed an Amazon EKS optimized AMI, you're notified in the Amazon EKS console when updates are available. You can perform the update with one-click in the console. If you deployed a custom AMI, you're not notified in the Amazon EKS console when updates are available. You must perform the update on your own.
+|
+
+<<update-stack,Yes>> – Using tools other than the Amazon EKS console. This is because self-managed nodes can't be managed with the Amazon EKS console.
+|No – You don't manage nodes.
+
+|
+
+Can use Amazon EBS storage with [.noloc]`Pods`
+|
+
+<<ebs-csi,Yes>>
+|
+
+<<ebs-csi,Yes>>
+|
+
+No
+
+|
+
+Can use Amazon EFS storage with [.noloc]`Pods`
+|
+
+<<efs-csi,Yes>>
+|
+
+<<efs-csi,Yes>>
+|
+
+<<efs-csi,Yes>>
+
+|
+
+Can use Amazon FSx for Lustre storage with [.noloc]`Pods`
+|
+
+<<fsx-csi,Yes>>
+|
+
+<<fsx-csi,Yes>>
+|
+
+No
+
+|
+
+Can use Network Load Balancer for services
+|
+
+<<network-load-balancing,Yes>>
+|
+
+<<network-load-balancing,Yes>>
+|
+
+Yes, when using the <<network-load-balancer,Create a network load balancer>>
+
+|
+
+Pods can run in a public subnet
+|
+
+Yes
+|
+
+Yes
+|
+
+No
+
+|
+
+Can assign different VPC security groups to individual [.noloc]`Pods`
+|
+
+<<security-groups-for-pods,Yes>> – [.noloc]`Linux` nodes only
+|<<security-groups-for-pods,Yes>> – [.noloc]`Linux` nodes only
+|
+
+Yes
+
+|
+
+Can run [.noloc]`Kubernetes` [.noloc]`DaemonSets`
+|
+
+Yes
+|
+
+Yes
+|
+
+No
+
+|
+
+Support `HostPort` and `HostNetwork` in the [.noloc]`Pod` manifest
+|
+
+Yes
+|
+
+Yes
+|
+
+No
+
+|
+
+{aws} Region availability
+|
+
+link:general/latest/gr/eks.html[All Amazon EKS supported regions,type="documentation"]
+|
+
+link:general/latest/gr/eks.html[All Amazon EKS supported regions,type="documentation"]
+|
+
+<<fargate,Some Amazon EKS supported regions>>
+
+|
+
+Can run containers on Amazon EC2 dedicated hosts
+|
+
+Yes
+|
+
+Yes
+|
+
+No
+
+|
+
+Pricing
+|
+
+Cost of Amazon EC2 instance that runs multiple [.noloc]`Pods`. For more information, see link:ec2/pricing/[Amazon EC2 pricing,type="marketing"].
+|
+
+Cost of Amazon EC2 instance that runs multiple [.noloc]`Pods`. For more information, see link:ec2/pricing/[Amazon EC2 pricing,type="marketing"].
+|
+
+Cost of an individual Fargate memory and CPU configuration. Each [.noloc]`Pod` has its own cost. For more information, see link:fargate/pricing/[{aws} Fargate pricing,type="marketing"].
+|===
+
+include::managed-node-groups.adoc[leveloffset=+1]
+
+
+include::worker.adoc[leveloffset=+1]
+
+
+include::fargate.adoc[leveloffset=+1]
+
+
+include::choosing-instance-type.adoc[leveloffset=+1]
+
+
+include::eks-optimized-amis.adoc[leveloffset=+1]

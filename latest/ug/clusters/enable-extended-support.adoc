@@ -1,0 +1,43 @@
+include::../attributes.txt[]
+[.topic]
+[[enable-extended-support,enable-extended-support.title]]
+= Add flexibility to plan Kubernetes version upgrades by enabling EKS extended support
+:info_titleabbrev: Enable extended support
+
+This topic describes how to set the  _upgrade policy_ of an EKS cluster to enable extended support. The upgrade policy of an EKS cluster determines what happens when a cluster reaches the end of the standard _support period_. If a cluster upgrade policy has extended support enabled, it will enter the extended support period at the end of the standard support period. The cluster will not be automatically upgraded at the end of the standard support period. 
+
+Clusters actually in the _extended support period_ incur higher costs. If a cluster merely has the upgrade policy set to enable extended support, and is otherwise in the _standard support period_, it incurs standard costs. 
+
+EKS Clusters have the upgrade policy set to enable extended support by default. 
+
+For more information about upgrade policies, see <<view-upgrade-policy>>.
+
+[IMPORTANT]
+====
+
+If you want your cluster to stay on its current [.noloc]`Kubernetes` version to take advantage of the extended support period, you must enable the extended support upgrade policy before the end of standard support period.
+
+If you do not enable extended support, your cluster will be automatically upgraded. 
+
+====
+
+[[enable-support-policy-console,enable-support-policy-console.title]]
+== Enable EKS extended support ({aws} Console)
+. Navigate to your EKS cluster in the {aws} Console. Select the *Overview* tab on the  *Cluster Info* page.
+. In the *Kubernetes version settings* section, select  *Manage*.  
+. Select *Extended support* and then  *Save changes*.
+
+
+[[enable-support-policy-cli,enable-support-policy-cli.title]]
+== Enable EKS extended support ({aws} CLI)
+. Verify the {aws} CLI is installed and you are logged in.  link:cli/latest/userguide/getting-started-install.html[Learn how to update and install the {aws} CLI.,type="documentation"]
+. Determine the name of your EKS cluster. 
+. Run the following command:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks update-cluster-config \
+--name <cluster-name> \
+--upgrade-policy supportType=EXTENDED
+----
+

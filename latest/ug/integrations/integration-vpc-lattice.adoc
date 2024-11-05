@@ -1,0 +1,10 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[integration-vpc-lattice,integration-vpc-lattice.title]]
+= Enable secure cross-cluster connectivity with Amazon VPC Lattice
+:info_doctype: section
+:info_title: Enable secure cross-cluster connectivity with Amazon VPC Lattice
+
+Amazon VPC Lattice is a fully managed application networking service built directly into the {aws} networking infrastructure that you can use to connect, secure, and monitor your services across multiple accounts and Virtual Private Clouds (VPCs). With Amazon EKS, you can leverage Amazon VPC Lattice through the use of the {aws} Gateway API Controller, an implementation of the Kubernetes https://gateway-api.sigs.k8s.io/[Gateway API]. Using Amazon VPC Lattice, you can set up cross-cluster connectivity with standard [.noloc]`Kubernetes` semantics in a simple and consistent manner. To get started using Amazon VPC Lattice with Amazon EKS see the https://www.gateway-api-controller.eks.aws.dev/[{aws} Gateway API Controller User Guide].

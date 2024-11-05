@@ -1,0 +1,50 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[retrieve-windows-ami-id,retrieve-windows-ami-id.title]]
+= Retrieve recommended [.noloc]`Microsoft Windows` AMI IDs
+:info_titleabbrev: Get latest IDs
+
+include::../attributes.txt[]
+
+[abstract]
+--
+You can programmatically retrieve the Amazon Machine Image (AMI) ID for Amazon EKS optimized AMIs by querying the {aws} Systems Manager Parameter Store API.
+--
+
+You can programmatically retrieve the Amazon Machine Image (AMI) ID for Amazon EKS optimized AMIs by querying the {aws} Systems Manager Parameter Store API. This parameter eliminates the need for you to manually look up Amazon EKS optimized AMI IDs. For more information about the Systems Manager Parameter Store API, see   link:systems-manager/latest/APIReference/API_GetParameter.html[GetParameter,type="documentation"]. The  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that you use must have the `ssm:GetParameter` IAM permission to retrieve the Amazon EKS optimized AMI metadata.
+
+You can retrieve the image ID of the latest recommended Amazon EKS optimized [.noloc]`Windows` AMI with the following command, which uses the sub-parameter `image_id`. Make the following modifications to the command as needed and then run the modified command:
+
+* Replace [.replaceable]`release` with one of the following options.
++
+** Use [.replaceable]`2022` for [.noloc]`Windows` Server 2022, but only if you're using [.noloc]`Kubernetes` version `1.24` or later.
+** Use [.replaceable]`2019` for [.noloc]`Windows` Server 2019.
+* Replace [.replaceable]`installation-option` with one of the following options. For more information, see https://learn.microsoft.com/en-us/windows-server/administration/server-core/what-is-server-core[What is the Server Core installation option in Windows Server].
++
+** Use [.replaceable]`Core` for a minimal installation with a smaller attack surface.
+** Use [.replaceable]`Full` to include the [.noloc]`Windows` desktop experience.
+* Replace [.replaceable]`kubernetes-version` with a supported <<platform-versions,Amazon EKS version>>.
+* Replace [.replaceable]`region-code` with an link:general/latest/gr/eks.html[Amazon EKS supported {aws} Region,type="documentation"] for which you want the AMI ID.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws ssm get-parameter --name /aws/service/ami-windows-latest/Windows_Server-[.replaceable]`release`-English-[.replaceable]`installation-option`-EKS_Optimized-[.replaceable]`kubernetes-version`/image_id \
+    --region [.replaceable]`region-code` --query "Parameter.Value" --output text
+----
+
+Here's an example command after placeholder replacements have been made.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws ssm get-parameter --name /aws/service/ami-windows-latest/Windows_Server-[.replaceable]`2022`-English-[.replaceable]`Core`-EKS_Optimized-[.replaceable]`1.31`/image_id \
+    --region [.replaceable]`us-west-2` --query "Parameter.Value" --output text
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+ami-[.replaceable]`1234567890abcdef0`
+----
+
+

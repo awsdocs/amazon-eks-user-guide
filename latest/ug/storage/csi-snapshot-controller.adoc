@@ -1,0 +1,31 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[csi-snapshot-controller,csi-snapshot-controller.title]]
+= Enable snapshot functionality for CSI volumes
+:info_doctype: section
+:info_title: Enable snapshot functionality for CSI volumes
+:info_titleabbrev: CSI snapshot controller
+:keywords: CSI, snapshot, controller
+:info_abstract: The Container Storage Interface (CSI) snapshot controller enables the use of \
+                snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI \
+                driver.
+
+[abstract]
+--
+The Container Storage Interface (CSI) snapshot controller enables the use of snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI driver.
+--
+
+Snapshot functionality allows for point-in-time copies of your data. For this capability to work in [.noloc]`Kubernetes`, you need both a CSI driver with snapshot support (such as the Amazon EBS CSI driver) and a CSI snapshot controller. The snapshot controller is available either as an Amazon EKS managed add-on or as a self-managed installation.
+
+Here are some things to consider when using the CSI snapshot controller.
+
+
+
+* The snapshot controller must be installed alongside a CSI driver with snapshot functionality. For installation instructions of the Amazon EBS CSI driver, see <<ebs-csi>>.
+* [.noloc]`Kubernetes` doesn't support snapshots of volumes being served via CSI migration, such as Amazon EBS volumes using a `StorageClass` with provisioner `kubernetes.io/aws-ebs`. Volumes must be created with a `StorageClass` that references the CSI driver provisioner, `ebs.csi.aws.com`. For more information about CSI migration, see <<ebs-csi-migration-faq>>.
+
+We recommend that you install the CSI snapshot controller through the Amazon EKS managed add-on. This add-on includes the custom resource definitions (CRDs) that are needed to create and manage snapshots on Amazon EKS. To add an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. For more information about add-ons, see <<eks-add-ons>>.
+
+Alternatively, if you want a self-managed installation of the CSI snapshot controller, see https://github.com/kubernetes-csi/external-snapshotter/blob/master/README.md#usage[Usage] in the upstream [.noloc]`Kubernetes` `external-snapshotter` on [.noloc]`GitHub`.

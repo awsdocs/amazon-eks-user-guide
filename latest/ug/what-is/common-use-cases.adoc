@@ -1,0 +1,51 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[common-use-cases,common-use-cases.title]]
+= Common use cases in Amazon EKS
+:info_doctype: section
+:info_title: Common use cases in Amazon EKS
+:info_titleabbrev: Common use cases
+:keywords: Amazon Elastic Kubernetes Service, Amazon EKS, use cases, summary, description
+:info_abstract: Discover how Amazon EKS helps deploy highly available containerized applications, build microservices architectures, automate software release processes, run serverless applications, execute machine learning workloads, deploy consistently on-premises and in the cloud, process big data cost-effectively, and ensure security and compliance.
+
+[abstract]
+--
+Discover how Amazon EKS helps deploy highly available containerized applications, build microservices architectures, automate software release processes, run serverless applications, execute machine learning workloads, deploy consistently on-premises and in the cloud, process big data cost-effectively, and ensure security and compliance.
+--
+
+Amazon EKS offers robust managed [.noloc]`Kubernetes` services on {aws}, designed to optimize containerized applications. The following are a few of the most common use cases of Amazon EKS, helping you leverage its strengths for your specific needs.
+
+
+
+*Deploying high-availability applications*::
+Using link:elasticloadbalancing/[Elastic Load Balancing,type="marketing"], you can make sure that your applications are highly available across multiple link:about-aws/global-infrastructure/regions_az/[Availability Zones,type="marketing"].
+
+
+*Building microservices architectures*::
+Use [.noloc]`Kubernetes` service discovery features with link:cloud-map/[{aws} Cloud Map,type="marketing"] or link:vpc/lattice/[Amazon VPC Lattice,type="marketing"] to build resilient systems.
+
+
+*Automating software release process*::
+Manage continuous integration and continuous deployment (CICD) pipelines that simplify the process of automated building, testing, and deployment of applications.
+
+
+*Running serverless applications*::
+Use link:fargate/[{aws} Fargate,type="marketing"] with Amazon EKS to run serverless applications. This means you can focus solely on application development, while Amazon EKS and Fargate handle the underlying infrastructure.
+
+
+*Executing machine learning workloads*::
+Amazon EKS is compatible with popular machine learning frameworks such as https://www.tensorflow.org/[TensorFlow], https://mxnet.apache.org/[MXNet], and https://pytorch.org/[PyTorch]. With GPU support, you can handle even complex machine learning tasks effectively.
+
+
+*Deploying consistently on premises and in the cloud*::
+Use link:eks/eks-anywhere/[Amazon EKS Anywhere,type="marketing"] to operate [.noloc]`Kubernetes` clusters on your own infrastructure using tools that are consistent with Amazon EKS in the cloud.
+
+
+*Running cost-effective batch processing and big data workloads*::
+Utilize link:ec2/spot/[Spot Instances,type="marketing"] to run your batch processing and big data workloads such as link:emr/details/hadoop/what-is-hadoop/[Apache Hadoop,type="marketing"] and link:big-data/what-is-spark/[Spark,type="marketing"], at a fraction of the cost. This lets you take advantage of unused Amazon EC2 capacity at discounted prices.
+
+
+*Securing application and ensuring compliance*::
+Implement strong security practices and maintain compliance with Amazon EKS, which integrates with {aws} security services such as link:iam/[{aws} Identity and Access Management,type="marketing"] (IAM), link:vpc/[Amazon Virtual Private Cloud,type="marketing"] (Amazon VPC), and link:kms/[{aws} Key Management Service,type="marketing"] ({aws} KMS). This ensures data privacy and protection as per industry standards.

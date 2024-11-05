@@ -1,0 +1,27 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+[.topic]
+[[service-name-info-in-cloudtrail,service-name-info-in-cloudtrail.title]]
+= View helpful references for {aws} CloudTrail
+:info_titleabbrev: References
+
+[abstract]
+--
+When any activity occurs in Amazon EKS, that activity is recorded in a CloudTrail event. 
+--
+
+When you create your {aws} account, CloudTrail is also enabled on your {aws} account. When any activity occurs in Amazon EKS, that activity is recorded in a CloudTrail event along with other {aws} service events in  *Event history*. You can view, search, and download recent events in your {aws} account. For more information, see link:awscloudtrail/latest/userguide/view-cloudtrail-events.html[Viewing events with CloudTrail event history,type="documentation"]. 
+
+For an ongoing record of events in your {aws} account, including events for Amazon EKS, create a trail. A _trail_ enables CloudTrail to deliver log files to an Amazon S3 bucket. By default, when you create a trail in the console, the trail applies to all {aws} Regions. The trail logs events from all {aws} Regions in the {aws} partition and delivers the log files to the Amazon S3 bucket that you specify. Additionally, you can configure other {aws} services to further analyze and act upon the event data that's collected in CloudTrail logs. For more information, see the following resources.
+
+* link:awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail.html[Overview for creating a trail,type="documentation"]
+*  link:awscloudtrail/latest/userguide/cloudtrail-aws-service-specific-topics.html#cloudtrail-aws-service-specific-topics-integrations[CloudTrail supported services and integrations,type="documentation"]
+*  link:awscloudtrail/latest/userguide/getting_notifications_top_level.html[Configuring Amazon SNS notifications for CloudTrail,type="documentation"]
+* link:awscloudtrail/latest/userguide/receive-cloudtrail-log-files-from-multiple-regions.html[Receiving CloudTrail log files from multiple regions,type="documentation"] and link:awscloudtrail/latest/userguide/cloudtrail-receive-logs-from-multiple-accounts.html[Receiving CloudTrail log files from multiple accounts,type="documentation"]
+
+All Amazon EKS actions are logged by CloudTrail and are documented in the link:eks/latest/APIReference/[Amazon EKS API Reference,type="documentation"]. For example, calls to the  link:eks/latest/APIReference/API_CreateCluster.html[CreateCluster,type="documentation"],  link:eks/latest/APIReference/API_ListClusters.html[ListClusters,type="documentation"] and  link:eks/latest/APIReference/API_DeleteCluster.html[DeleteCluster,type="documentation"] sections generate entries in the CloudTrail log files.
+
+Every event or log entry contains information about the type of IAM identity that made the request, and which credentials were used. If temporary credentials were used, the entry shows how the credentials were obtained.
+
+For more information, see the link:awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html[CloudTrail userIdentity element,type="documentation"].
+

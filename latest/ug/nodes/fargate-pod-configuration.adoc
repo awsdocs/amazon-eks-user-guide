@@ -1,0 +1,143 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[fargate-pod-configuration,fargate-pod-configuration.title]]
+= Understand Fargate [.noloc]`Pod` configuration details
+:info_titleabbrev: Pod configuration details
+
+[abstract]
+--
+This section describes some of the unique [.noloc]`Pod` configuration details for running [.noloc]`Kubernetes` [.noloc]`Pods` on {aws} Fargate.
+--
+
+[IMPORTANT]
+====
+
+{aws} Fargate with Amazon EKS isn't available in {aws} GovCloud (US-East) and {aws} GovCloud (US-West).
+
+====
+
+This section describes some of the unique [.noloc]`Pod` configuration details for running [.noloc]`Kubernetes` [.noloc]`Pods` on {aws} Fargate.
+
+[[fargate-cpu-and-memory,fargate-cpu-and-memory.title]]
+== [.noloc]`Pod` CPU and memory
+
+With [.noloc]`Kubernetes`, you can define requests, a minimum vCPU amount, and memory resources that are allocated to each container in a [.noloc]`Pod`. [.noloc]`Pods` are scheduled by [.noloc]`Kubernetes` to ensure that at least the requested resources for each [.noloc]`Pod` are available on the compute resource. For more information, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/[Managing compute resources for containers] in the [.noloc]`Kubernetes` documentation.
+
+[NOTE]
+====
+
+Since Amazon EKS Fargate runs only one [.noloc]`Pod` per node, the scenario of evicting [.noloc]`Pods` in case of fewer resources doesn't occur. All Amazon EKS Fargate [.noloc]`Pods` run with guaranteed priority, so the requested CPU and memory must be equal to the limit for all of the containers. For more information, see https://kubernetes.io/docs/tasks/configure-pod-container/quality-service-pod/[Configure Quality of Service for Pods] in the [.noloc]`Kubernetes` documentation.
+
+====
+
+When [.noloc]`Pods` are scheduled on Fargate, the vCPU and memory reservations within the [.noloc]`Pod` specification determine how much CPU and memory to provision for the [.noloc]`Pod`.
+
+
+
+* The maximum request out of any Init containers is used to determine the Init request vCPU and memory requirements.
+* Requests for all long-running containers are added up to determine the long-running request vCPU and memory requirements.
+* The larger of the previous two values is chosen for the vCPU and memory request to use for your [.noloc]`Pod`.
+* Fargate adds 256 MB to each [.noloc]`Pod's` memory reservation for the required [.noloc]`Kubernetes` components (``kubelet``, `kube-proxy`, and `containerd`).
+
+Fargate rounds up to the following compute configuration that most closely matches the sum of vCPU and memory requests in order to ensure [.noloc]`Pods` always have the resources that they need to run.
+
+If you don't specify a vCPU and memory combination, then the smallest available combination is used (.25 vCPU and 0.5 GB memory).
+
+The following table shows the vCPU and memory combinations that are available for [.noloc]`Pods` running on Fargate.  
+
+[cols="1,1", options="header"]
+|===
+|vCPU value
+|Memory value
+
+
+|
+
+.25 vCPU
+|
+
+0.5 GB, 1 GB, 2 GB
+
+|
+
+.5 vCPU
+|
+
+1 GB, 2 GB, 3 GB, 4 GB
+
+|
+
+1 vCPU
+|
+
+2 GB, 3 GB, 4 GB, 5 GB, 6 GB, 7 GB, 8 GB
+
+|
+
+2 vCPU
+|
+
+Between 4 GB and 16 GB in 1-GB increments
+
+|
+
+4 vCPU
+|
+
+Between 8 GB and 30 GB in 1-GB increments
+
+|
+
+8 vCPU
+|
+
+Between 16 GB and 60 GB in 4-GB increments
+
+|
+
+16 vCPU
+|
+
+Between 32 GB and 120 GB in 8-GB increments
+|===
+
+The additional memory reserved for the [.noloc]`Kubernetes` components can cause a Fargate task with more vCPUs than requested to be provisioned. For example, a request for 1 vCPU and 8 GB memory will have 256 MB added to its memory request, and will provision a Fargate task with 2 vCPUs and 9 GB memory, since no task with 1 vCPU and 9 GB memory is available.
+
+There is no correlation between the size of the [.noloc]`Pod` running on Fargate and the node size reported by [.noloc]`Kubernetes` with `kubectl get nodes`. The reported node size is often larger than the [.noloc]`Pod's` capacity. You can verify [.noloc]`Pod` capacity with the following command. Replace [.replaceable]`default` with your [.noloc]`Pod's` namespace and [.replaceable]`pod-name` with the name of your [.noloc]`Pod`.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe pod --namespace default pod-name
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+[...]
+annotations:
+    CapacityProvisioned: 0.25vCPU 0.5GB
+[...]
+----
+
+The `CapacityProvisioned` annotation represents the enforced [.noloc]`Pod` capacity and it determines the cost of your [.noloc]`Pod` running on Fargate. For pricing information for the compute configurations, see link:fargate/pricing/[{aws} Fargate Pricing,type="marketing"].
+
+[[fargate-storage,fargate-storage.title]]
+== Fargate storage
+
+A [.noloc]`Pod` running on Fargate automatically mounts an Amazon EFS file system. You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning. For more information, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md[Amazon EFS CSI Driver] on GitHub.
+
+When provisioned, each [.noloc]`Pod` running on Fargate receives a default 20 GiB of ephemeral storage. This type of storage is deleted after a [.noloc]`Pod` stops. New [.noloc]`Pods` launched onto Fargate have encryption of the ephemeral storage volume enabled by default. The ephemeral [.noloc]`Pod` storage is encrypted with an AES-256 encryption algorithm using {aws} Fargate managed keys.
+
+[NOTE]
+====
+
+The default usable storage for Amazon EKS [.noloc]`Pods` that run on Fargate is less than 20 GiB. This is because some space is used by the `kubelet` and other [.noloc]`Kubernetes` modules that are loaded inside the [.noloc]`Pod`.
+
+====
+
+You can increase the total amount of ephemeral storage up to a maximum of 175 GiB. To configure the size with [.noloc]`Kubernetes`, specify the requests of `ephemeral-storage` resource to each container in a [.noloc]`Pod`. When [.noloc]`Kubernetes` schedules [.noloc]`Pods`, it ensures that the sum of the resource requests for each [.noloc]`Pod` is less than the capacity of the Fargate task. For more information, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/[Resource Management for Pods and Containers] in the [.noloc]`Kubernetes` documentation.
+
+Amazon EKS Fargate provisions more ephemeral storage than requested for the purposes of system use. For example, a request of 100 GiB will provision a Fargate task with 115 GiB ephemeral storage. 

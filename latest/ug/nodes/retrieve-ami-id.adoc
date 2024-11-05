@@ -1,0 +1,51 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[retrieve-ami-id,retrieve-ami-id.title]]
+= Retrieve recommended Amazon Linux AMI IDs
+:info_titleabbrev: Get latest IDs
+
+include::../attributes.txt[]
+
+[abstract]
+--
+You can programmatically retrieve the Amazon Machine Image (AMI) ID for Amazon EKS optimized AMIs by querying the {aws} Systems Manager Parameter Store API.
+--
+
+You can programmatically retrieve the Amazon Machine Image (AMI) ID for Amazon EKS optimized AMIs by querying the {aws} Systems Manager Parameter Store API. This parameter eliminates the need for you to manually look up Amazon EKS optimized AMI IDs. For more information about the Systems Manager Parameter Store API, see   link:systems-manager/latest/APIReference/API_GetParameter.html[GetParameter,type="documentation"]. The  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that you use must have the `ssm:GetParameter` IAM permission to retrieve the Amazon EKS optimized AMI metadata.
+
+You can retrieve the image ID of the latest recommended Amazon EKS optimized Amazon Linux AMI with the following command, which uses the sub-parameter `image_id`. Make the following modifications to the command as needed and then run the modified command:
+
+* Replace [.replaceable]`kubernetes-version` with a supported <<platform-versions,Amazon EKS version>>.
+* Replace [.replaceable]`ami-type` with one of the following options. For information about the types of Amazon EC2 instances, see link:AWSEC2/latest/UserGuide/instance-types.html[Amazon EC2 instance types,type="documentation"].
++
+** Use [.replaceable]`amazon-linux-2023/x86_64/standard` for Amazon Linux 2023 (AL2023) `x86` based instances.
+** Use [.replaceable]`amazon-linux-2023/arm64/standard` for AL2023 ARM instances.
+** Use [.replaceable]`amazon-linux-2023/x86_64/nvidia` for the latest approved AL2023 NVIDIA instances.
+** Use [.replaceable]`amazon-linux-2023/x86_64/neuron` for the latest AL2023 link:machine-learning/neuron/[{aws} Neuron,type="marketing"] instances.
+** Use [.replaceable]`amazon-linux-2` for Amazon Linux 2 (AL2) `x86` based instances.
+** Use [.replaceable]`amazon-linux-2-arm64` for AL2 ARM instances, such as link:ec2/graviton/[{aws} Graviton,type="marketing"] based instances.
+** Use [.replaceable]`amazon-linux-2-gpu` for AL2 link:AWSEC2/latest/UserGuide/accelerated-computing-instances.html[hardware accelerated,type="documentation"] `x86` based instances for [.noloc]`NVIDIA` GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
+* Replace [.replaceable]`region-code` with an link:general/latest/gr/eks.html[Amazon EKS supported {aws} Region,type="documentation"] for which you want the AMI ID.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws ssm get-parameter --name /aws/service/eks/optimized-ami/[.replaceable]`kubernetes-version`/[.replaceable]`ami-type`/recommended/image_id \
+    --region [.replaceable]`region-code` --query "Parameter.Value" --output text
+----
+
+Here's an example command after placeholder replacements have been made.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws ssm get-parameter --name /aws/service/eks/optimized-ami/[.replaceable]`1.31`/[.replaceable]`amazon-linux-2023`/[.replaceable]`x86_64/standard`/recommended/image_id \
+    --region [.replaceable]`us-west-2` --query "Parameter.Value" --output text
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+ami-[.replaceable]`1234567890abcdef0`
+----
+
+

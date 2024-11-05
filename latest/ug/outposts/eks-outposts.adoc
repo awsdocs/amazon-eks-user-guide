@@ -1,0 +1,232 @@
+//!!NODE_ROOT <chapter>
+include::../attributes.txt[]
+[[eks-outposts,eks-outposts.title]]
+= Deploy Amazon EKS on-premises with {aws} Outposts
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: Deploy Amazon EKS on-premises with {aws} Outposts
+:info_titleabbrev: Amazon EKS on {aws} Outposts
+:keywords: Amazon EKS, {aws} Outposts, extended clusters, local clusters
+:info_abstract: Learn to deploy Amazon EKS on {aws} Outposts for local or extended clusters to run on-premises Kubernetes applications with a fully managed control plane.
+
+[abstract]
+--
+Learn to deploy Amazon EKS on {aws} Outposts for local or extended clusters to run on-premises [.noloc]`Kubernetes` applications with a fully managed control plane.
+--
+
+You can use Amazon EKS to run on-premises [.noloc]`Kubernetes` applications on {aws} Outposts. You can deploy Amazon EKS on Outposts in the following ways:
+
+
+
+* *Extended clusters* – Run the [.noloc]`Kubernetes` control plane in an {aws} Region and nodes on your Outpost.
+* *Local clusters* – Run the [.noloc]`Kubernetes` control plane and nodes on your Outpost.
+
+For both deployment options, the [.noloc]`Kubernetes` control plane is fully managed by {aws}. You can use the same Amazon EKS APIs, tools, and console that you use in the cloud to create and run Amazon EKS on Outposts.
+
+The following diagram shows these deployment options.
+
+
+
+image::images/outposts-deployment-options.png[Outpost deployment options ,scaledwidth=100%]
+
+
+[[outposts-overview-when-deployment-options,outposts-overview-when-deployment-options.title]]
+== When to use each deployment option
+
+Both local and extended clusters are general-purpose deployment options and can be used for a range of applications.  
+
+With local clusters, you can run the entire Amazon EKS cluster locally on Outposts. This option can mitigate the risk of application downtime that might result from temporary network disconnects to the cloud. These network disconnects can be caused by fiber cuts or weather events. Because the entire Amazon EKS cluster runs locally on Outposts, applications remain available. You can perform cluster operations during network disconnects to the cloud. For more information, see <<eks-outposts-network-disconnects>>. If you're concerned about the quality of the network connection from your Outposts to the parent {aws} Region and require high availability through network disconnects, use the local cluster deployment option.
+
+With extended clusters, you can conserve capacity on your Outpost because the [.noloc]`Kubernetes` control plane runs in the parent {aws} Region. This option is suitable if you can invest in reliable, redundant network connectivity from your Outpost to the {aws} Region. The quality of the network connection is critical for this option. The way that [.noloc]`Kubernetes` handles network disconnects between the [.noloc]`Kubernetes` control plane and nodes might lead to application downtime. For more information on the behavior of [.noloc]`Kubernetes`, see https://kubernetes.io/docs/concepts/scheduling-eviction/[Scheduling, Preemption, and Eviction] in the [.noloc]`Kubernetes` documentation.
+
+[[outposts-overview-comparing-deployment-options,outposts-overview-comparing-deployment-options.title]]
+== Comparing the deployment options
+
+The following table compares the differences between the two options.
+
+[cols="1,1,1", options="header"]
+|===
+|Feature
+|Extended cluster
+|Local cluster
+
+
+|
+
+[.noloc]`Kubernetes` control plane location
+|
+
+{aws} Region
+|Outpost
+
+|
+
+[.noloc]`Kubernetes` control plane account
+|
+
+{aws} account
+|Your account
+
+|
+
+Regional availability
+|See  link:general/latest/gr/eks.html#eks_region[Service endpoints,type="documentation"]
+|
+
+US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Middle East (Bahrain), and South America (São Paulo)
+
+|
+
+Kubernetes minor versions
+|
+
+<<kubernetes-versions,Supported Amazon EKS versions>>.
+|
+
+<<kubernetes-versions,Supported Amazon EKS versions>>.
+
+|
+
+Platform versions
+|See <<platform-versions>>
+|See <<eks-outposts-platform-versions>>
+
+|
+
+Outpost form factors
+|Outpost racks
+|Outpost racks
+
+|
+
+User interfaces
+|
+
+{aws-management-console}, {aws} CLI, Amazon EKS API, `eksctl`, {aws} CloudFormation, and Terraform
+|{aws-management-console}, {aws} CLI, Amazon EKS API, `eksctl`, {aws} CloudFormation, and Terraform
+
+|
+
+Managed policies
+|<<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>> and <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
+|<<security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy,AmazonEKSLocalOutpostClusterPolicy>> and <<security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy>>
+
+|
+
+Cluster VPC and subnets
+|See <<network-reqs>>
+|See <<eks-outposts-vpc-subnet-requirements>>
+
+|
+
+Cluster endpoint access
+|Public or private or both
+|Private only
+
+|
+
+[.noloc]`Kubernetes` API server authentication
+|
+
+{aws} Identity and Access Management (IAM) and [.noloc]`OIDC`
+|
+
+IAM and `x.509` certificates
+
+|
+
+Node types
+|Self-managed only
+|Self-managed only
+
+|
+
+Node compute types
+|
+
+Amazon EC2 on-demand
+|Amazon EC2 on-demand
+
+|Node storage types
+|
+
+Amazon EBS `gp2` and local NVMe SSD
+|
+
+Amazon EBS `gp2` and local NVMe SSD
+
+|
+
+Amazon EKS optimized AMIs
+|Amazon Linux, Windows, and Bottlerocket
+|Amazon Linux only
+
+|
+
+IP versions
+|
+
+`IPv4` only
+|
+
+`IPv4` only
+
+|
+
+Add-ons
+|Amazon EKS add-ons or self-managed add-ons
+|Self-managed add-ons only
+
+|
+
+Default Container Network Interface
+|
+
+[.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`
+|[.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`
+
+|
+
+Kubernetes control plane logs
+|
+
+Amazon CloudWatch Logs
+|
+
+Amazon CloudWatch Logs
+
+|
+
+Load balancing
+|Use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to provision Application Load Balancers only (no Network Load Balancers)
+|Use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to provision Application Load Balancers only (no Network Load Balancers)
+
+|Secrets envelope encryption
+|See <<enable-kms>>
+|Not supported
+
+|IAM roles for service accounts
+|See <<iam-roles-for-service-accounts>>
+|Not supported
+
+|
+
+Troubleshooting
+|See <<troubleshooting>>
+|See <<eks-outposts-troubleshooting>>
+|===
+
+[.topiclist]
+[[Topic List]]
+
+include::eks-outposts-local-cluster-overview.adoc[leveloffset=+1]
+
+
+include::eks-outposts-self-managed-nodes.adoc[leveloffset=+1]

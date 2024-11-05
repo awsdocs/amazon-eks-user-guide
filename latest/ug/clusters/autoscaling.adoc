@@ -1,0 +1,32 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[autoscaling,autoscaling.title]]
+= Scale cluster compute with [.noloc]`Karpenter` and [.noloc]`Cluster Autoscaler`
+:info_doctype: section
+:info_title: Scale cluster compute with Karpenter and Cluster Autoscaler
+:info_titleabbrev: Autoscaling
+:info_abstract: Discover how Amazon EKS integrates Kubernetes autoscaling with {aws}, empowering rapid and efficient scaling of compute resources to meet application demands using Karpenter and Cluster Autoscaler.
+
+[abstract]
+--
+Discover how Amazon EKS integrates Kubernetes autoscaling with {aws}, empowering rapid and efficient scaling of compute resources to meet application demands using Karpenter and Cluster Autoscaler.
+--
+
+Autoscaling is a function that automatically scales your resources out and in to meet changing demands. This is a major [.noloc]`Kubernetes` function that would otherwise require extensive human resources to perform manually.
+
+Amazon EKS supports two autoscaling products:
+
+
+
+*[.noloc]`Karpenter`*::
+[.noloc]`Karpenter` is a flexible, high-performance [.noloc]`Kubernetes` cluster autoscaler that helps improve application availability and cluster efficiency. [.noloc]`Karpenter` launches right-sized compute resources (for example, Amazon EC2 instances) in response to changing application load in under a minute. Through integrating [.noloc]`Kubernetes` with {aws}, [.noloc]`Karpenter` can provision just-in-time compute resources that precisely meet the requirements of your workload. [.noloc]`Karpenter` automatically provisions new compute resources based on the specific requirements of cluster workloads. These include compute, storage, acceleration, and scheduling requirements. Amazon EKS supports clusters using [.noloc]`Karpenter`, although [.noloc]`Karpenter` works with any conformant [.noloc]`Kubernetes` cluster. For more information, see the https://karpenter.sh/docs/[Karpenter] documentation.
++
+[IMPORTANT]
+====
+Karpenter is open-source software which {aws} customers are responsible for installing, configuring, and managing in their Kubernetes clusters. {aws} provides technical support when Karpenter is run unmodified using a compatible version in Amazon EKS clusters. It is essential that customers maintain the availability and security of the Karpenter controller as well as appropriate testing procedures when upgrading it or the Kubernetes cluster in which it's running, just like any other customer-managed software. There is no {aws} Service Level Agreement (SLA) for Karpenter and customers are responsible for ensuring that the EC2 instances launched by Karpenter meet their business requirements.
+====
+
+*Cluster Autoscaler*::
+The [.noloc]`Kubernetes` Cluster Autoscaler automatically adjusts the number of nodes in your cluster when pods fail or are rescheduled onto other nodes. The Cluster Autoscaler uses Auto Scaling groups. For more information, see https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler on {aws}].

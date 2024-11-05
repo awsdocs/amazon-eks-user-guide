@@ -1,0 +1,104 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[private-clusters,private-clusters.title]]
+= Deploy private clusters with limited internet access
+:info_doctype: section
+:info_title: Deploy private clusters with limited internet access
+:info_titleabbrev: Private clusters
+:info_abstract: Learn how to deploy and operate an Amazon EKS cluster without outbound internet access, including requirements for private container registries, endpoint access control, and VPC interface endpoints for {aws} services.
+
+[abstract]
+--
+Learn how to deploy and operate an Amazon EKS cluster without outbound internet access, including requirements for private container registries, endpoint access control, and VPC interface endpoints for {aws} services.
+--
+
+This topic describes how to deploy an Amazon EKS cluster that is deployed on the {aws} Cloud, but doesn't have outbound internet access. If you have a local cluster on {aws} Outposts, see <<eks-outposts-self-managed-nodes>>, instead of this topic.
+
+If you're not familiar with Amazon EKS networking, see link:containers/de-mystifying-cluster-networking-for-amazon-eks-worker-nodes[De-mystifying cluster networking for Amazon EKS worker nodes,type="blog"]. If your cluster doesn't have outbound internet access, then it must meet the following requirements:
+
+
+
+* Your cluster must pull images from a container registry that's in your VPC. You can create an Amazon Elastic Container Registry in your VPC and copy container images to it for your nodes to pull from. For more information, see <<copy-image-to-repository>>.
+* Your cluster must have endpoint private access enabled. This is required for nodes to register with the cluster endpoint. Endpoint public access is optional. For more information, see <<cluster-endpoint>>.
+* Self-managed [.noloc]`Linux` and [.noloc]`Windows` nodes must include the following bootstrap arguments before they're launched. These arguments bypass Amazon EKS introspection and don't require access to the Amazon EKS API from within the VPC.
++
+.. Determine the value of your cluster's endpoint with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-cluster --name my-cluster --query cluster.endpoint --output text
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+https://EXAMPLE108C897D9B2F1B21D5EXAMPLE.sk1.region-code.eks.amazonaws.com
+----
+.. Determine the value of your cluster's certificate authority with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-cluster --name my-cluster --query cluster.certificateAuthority --output text
+----
++
+The returned output is a long string.
+.. Replace [.replaceable]`cluster-endpoint` and [.replaceable]`certificate-authority` in the following commands with the values returned in the output from the previous commands. For more information about specifying bootstrap arguments when launching self-managed nodes, see <<launch-workers>> and <<launch-windows-workers>>.
++
+** For [.noloc]`Linux` nodes:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+--apiserver-endpoint cluster-endpoint --b64-cluster-ca certificate-authority
+----
++
+For additional arguments, see the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap script] on [.noloc]`GitHub`.
+** For [.noloc]`Windows` nodes:
++
+NOTE: If you're using custom service CIDR, then you need to specify it using the `-ServiceCIDR` parameter. Otherwise, the DNS resolution for [.noloc]`Pods` in the cluster will fail.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+-APIServerEndpoint cluster-endpoint -Base64ClusterCA certificate-authority
+----
++
+For additional arguments, see <<bootstrap-script-configuration-parameters>>.
+* Your cluster's `aws-auth` `ConfigMap` must be created from within your VPC. For more information about creating and adding entries to the `aws-auth` `ConfigMap`, enter `eksctl create iamidentitymapping --help` in your terminal. If the `ConfigMap` doesn't exist on your server, `eksctl` will create it when you use the command to add an identity mapping.
+* [.noloc]`Pods` configured with  xref:iam-roles-for-service-accounts[IAM roles for service accounts,linkend=iam-roles-for-service-accounts] acquire credentials from an {aws} Security Token Service ({aws} STS) API call. If there is no outbound internet access, you must create and use an {aws} STS VPC endpoint in your VPC. Most {aws} `v1` SDKs use the global {aws} STS endpoint by default (`sts.amazonaws.com`), which doesn't use the {aws} STS VPC endpoint. To use the {aws} STS VPC endpoint, you might need to configure your SDK to use the regional {aws} STS endpoint (``sts.[.replaceable]`region-code`.amazonaws.com``). For more information, see <<configure-sts-endpoint>>.
+* Your cluster's VPC subnets must have a VPC interface endpoint for any {aws} services that your [.noloc]`Pods` need access to. For more information, see   link:vpc/latest/privatelink/create-interface-endpoint.html[Access an {aws} service using an interface VPC endpoint,type="documentation"]. Some commonly-used services and endpoints are listed in the following table. For a complete list of endpoints, see  link:vpc/latest/privatelink/aws-services-privatelink-support.html[{aws} services that integrate with {aws} PrivateLink,type="documentation"] in the  link:vpc/latest/privatelink/[{aws} PrivateLink Guide,type="documentation"].
++
+[cols="1,1", options="header"]
+|===
+|Service
+|Endpoint
+
+
+|Amazon EC2
+|com.amazonaws.[.replaceable]`region-code`.ec2
+
+|Amazon Elastic Container Registry (for pulling container images)
+|com.amazonaws.[.replaceable]`region-code`.ecr.api, com.amazonaws.[.replaceable]`region-code`.ecr.dkr, and com.amazonaws.[.replaceable]`region-code`.s3
+
+|Application Load Balancers and Network Load Balancers
+|com.amazonaws.[.replaceable]`region-code`.elasticloadbalancing
+
+|{aws} X-Ray
+|com.amazonaws.[.replaceable]`region-code`.xray
+
+|Amazon CloudWatch Logs
+|com.amazonaws.[.replaceable]`region-code`.logs
+
+|{aws} Security Token Service (required when using IAM roles for service accounts)
+|com.amazonaws.[.replaceable]`region-code`.sts 
+|===
+
+
+* Any self-managed nodes must be deployed to subnets that have the VPC interface endpoints that you require. If you create a managed node group, the VPC interface endpoint security group must allow the CIDR for the subnets, or you must add the created node security group to the VPC interface endpoint security group.
+* If your [.noloc]`Pods` use Amazon EFS volumes, then before deploying the  <<efs-csi,Store an elastic file system with Amazon EFS>>, the driver's https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/deploy/kubernetes/overlays/stable/kustomization.yaml[kustomization.yaml] file must be changed to set the container images to use the same {aws} Region as the Amazon EKS cluster.
+* You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to deploy {aws} Application Load Balancers (ALB) and Network Load Balancers to your private cluster. When deploying it, you should use https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/deploy/configurations/#controller-command-line-flags[command line flags] to set `enable-shield`, `enable-waf`, and `enable-wafv2` to false. https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/ingress/cert_discovery/#discover-via-ingress-rule-host[Certificate discovery] with hostnames from Ingress objects isn't supported. This is because the controller needs to reach {aws} Certificate Manager, which doesn't have a VPC interface endpoint.
++
+The controller supports network load balancers with IP targets, which are required for use with Fargate. For more information, see <<alb-ingress>> and <<network-load-balancer>>.
+* https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler] is supported. When deploying Cluster Autoscaler [.noloc]`Pods`, make sure that the command line includes `--aws-use-static-instance-list=true`. For more information, see https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#use-static-instance-list[Use Static Instance List] on [.noloc]`GitHub`. The worker node VPC must also include the {aws} STS VPC endpoint and autoscaling VPC endpoint.
+* Some container software products use API calls that access the {aws} Marketplace Metering Service to monitor usage. Private clusters do not allow these calls, so you can't use these container types in private clusters.

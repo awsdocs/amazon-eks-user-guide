@@ -1,0 +1,111 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+[.topic]
+[[monitoring-fargate-usage,monitoring-fargate-usage.title]]
+= Collect {aws} Fargate app and usage metrics
+:info_titleabbrev: Collect metrics
+
+[abstract]
+--
+You can collect system metrics and CloudWatch usage metrics for {aws} Fargate.
+--
+
+[IMPORTANT]
+====
+
+{aws} Fargate with Amazon EKS isn't available in {aws} GovCloud (US-East) and {aws} GovCloud (US-West).
+
+====
+
+You can collect system metrics and CloudWatch usage metrics for {aws} Fargate.
+
+[[fargate-application-metrics,fargate-application-metrics.title]]
+== Application metrics
+
+For applications running on Amazon EKS and {aws} Fargate, you can use the {aws} Distro for [.noloc]`OpenTelemetry` (ADOT). ADOT allows you to collect system metrics and send them to CloudWatch Container Insights dashboards. To get started with ADOT for applications running on Fargate, see https://aws-otel.github.io/docs/getting-started/container-insights[Using CloudWatch Container Insights with {aws} Distro for OpenTelemetry] in the ADOT documentation.
+
+[[fargate-usage-metrics,fargate-usage-metrics.title]]
+== Usage metrics
+
+You can use CloudWatch usage metrics to provide visibility into your account's usage of resources. Use these metrics to visualize your current service usage on CloudWatch graphs and dashboards.
+
+{aws} Fargate usage metrics correspond to {aws} service quotas. You can configure alarms that alert you when your usage approaches a service quota. For more information about Fargate service quotas, see <<service-quotas>>.
+
+{aws} Fargate publishes the following metrics in the `{aws}/Usage` namespace.
+
+[cols="1,1", options="header"]
+|===
+|Metric
+|Description
+
+
+|
+
+`ResourceCount`
+|
+
+The total number of the specified resource running on your account. The resource is defined by the dimensions associated with the metric.
+|===
+
+The following dimensions are used to refine the usage metrics that are published by {aws} Fargate.
+
+[cols="1,1", options="header"]
+|===
+|Dimension
+|Description
+
+
+|
+
+`Service`
+|
+
+The name of the {aws} service containing the resource. For {aws} Fargate usage metrics, the value for this dimension is `Fargate`.
+
+|
+
+`Type`
+|
+
+The type of entity that's being reported. Currently, the only valid value for {aws} Fargate usage metrics is `Resource`.
+
+|
+
+`Resource`
+|
+
+The type of resource that's running.
+
+Currently, {aws} Fargate returns information on your Fargate On-Demand usage. The resource value for Fargate On-Demand usage is `OnDemand`.
+
+[NOTE]
+====
+
+Fargate On-Demand usage combines Amazon EKS [.noloc]`Pods` using Fargate, Amazon ECS tasks using the Fargate launch type and Amazon ECS tasks using the `FARGATE` capacity provider.
+
+====
+
+|
+
+`Class`
+|
+
+The class of resource being tracked. Currently, {aws} Fargate doesn't use the class dimension.
+|===
+
+[[service-quota-alarm,service-quota-alarm.title]]
+=== Creating a CloudWatch alarm to monitor Fargate resource usage metrics
+
+{aws} Fargate provides CloudWatch usage metrics that correspond to the {aws} service quotas for Fargate On-Demand resource usage. In the Service Quotas console, you can visualize your usage on a graph. You can also configure alarms that alert you when your usage approaches a service quota. For more information, see <<monitoring-fargate-usage>>.
+
+Use the following steps to create a CloudWatch alarm based on the Fargate resource usage metrics.
+
+. Open the Service Quotas console at https://console.aws.amazon.com/servicequotas/.
+. In the left navigation pane, choose *{aws} services*.
+. From the *{aws} services* list, search for and select  *{aws} Fargate*.
+. In the *Service quotas* list, choose the Fargate usage quota you want to create an alarm for.
+. In the Amazon CloudWatch alarms section, choose *Create*.
+. For *Alarm threshold*, choose the percentage of your applied quota value that you want to set as the alarm value.
+. For *Alarm name*, enter a name for the alarm and then choose  *Create*.
+
+

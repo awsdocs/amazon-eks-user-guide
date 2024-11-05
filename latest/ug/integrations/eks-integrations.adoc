@@ -1,0 +1,43 @@
+//!!NODE_ROOT <chapter>
+include::../attributes.txt[]
+[[eks-integrations,eks-integrations.title]]
+= Enhance EKS with integrated {aws} services
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: Enhance EKS with integrated {aws} services
+:info_titleabbrev: Working with other services
+
+In addition to the services covered in other sections, Amazon EKS works with more {aws} services to provide additional solutions. This topic identifies some of the other services that either use Amazon EKS to add functionality, or services that Amazon EKS uses to perform tasks.
+
+[.topiclist]
+[[Topic List]]
+
+include::creating-resources-with-cloudformation.adoc[leveloffset=+1]
+
+
+include::deep-learning-containers.adoc[leveloffset=+1]
+
+
+include::integration-detective.adoc[leveloffset=+1]
+
+
+include::integration-guardduty.adoc[leveloffset=+1]
+
+
+include::integration-resilience-hub.adoc[leveloffset=+1]
+
+
+include::integration-securitylake.adoc[leveloffset=+1]
+
+
+include::integration-vpc-lattice.adoc[leveloffset=+1]
+
+
+include::local-zones.adoc[leveloffset=+1]

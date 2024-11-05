@@ -1,0 +1,263 @@
+//!!NODE_ROOT <section>
+include::../../attributes.txt[]
+
+[.topic]
+[[eks-using-tags,eks-using-tags.title]]
+= Organize Amazon EKS resources with tags
+:info_doctype: section
+:info_title: Organize Amazon EKS resources with tags
+:info_titleabbrev: Tagging your resources
+:keywords: metadata, tag, resources
+:info_abstract: Learn how to use tags to categorize and manage your Amazon EKS resources like clusters, managed node groups, and Fargate profiles for billing, cost allocation, and resource identification.
+
+[abstract]
+--
+Learn how to use tags to categorize and manage your Amazon EKS resources like clusters, managed node groups, and Fargate profiles for billing, cost allocation, and resource identification.
+--
+
+You can use  _tags_ to help you manage your Amazon EKS resources. This topic provides an overview of the tags function and shows how you can create tags.
+
+[.topiclist]
+[[Topic List]]
+
+[NOTE]
+====
+
+Tags are a type of metadata that's separate from [.noloc]`Kubernetes` labels and annotations. For more information about these other metadata types, see the following sections in the [.noloc]`Kubernetes` documentation:
+
+
+
+* https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/[Labels and Selectors]
+* https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/[Annotations]
+
+====
+
+[[tag-basics,tag-basics.title]]
+== Tag basics
+
+A tag is a label that you assign to an {aws} resource. Each tag consists of a  _key_ and an optional _value_.
+
+With tags, you can categorize your {aws} resources. For example, you can categorize resources by purpose, owner, or environment. When you have many resources of the same type, you can use the tags that you assigned to a specific resource to quickly identify that resource. For example, you can define a set of tags for your Amazon EKS clusters to help you track each cluster's owner and stack level. We recommend that you devise a consistent set of tag keys for each resource type. You can then search and filter the resources based on the tags that you add.
+
+After you add a tag, you can edit tag keys and values or remove tags from a resource at any time. If you delete a resource, any tags for the resource are also deleted.
+
+Tags don't have any semantic meaning to Amazon EKS and are interpreted strictly as a string of characters. You can set the value of a tag to an empty string. However, you can't set the value of a tag to null. If you add a tag that has the same key as an existing tag on that resource, the new value overwrites the earlier value.
+
+If you use {aws} Identity and Access Management (IAM), you can control which users in your {aws} account have permission to manage tags.
+
+[[tag-resources,tag-resources.title]]
+== Tagging your resources
+
+The following Amazon EKS resources support tags:
+
+
+
+* clusters
+* managed node groups
+* Fargate profiles
+
+You can tag these resources using the following:
+
+
+
+* If you're using the Amazon EKS console, you can apply tags to new or existing resources at any time. You can do this by using the *Tags* tab on the relevant resource page. For more information, see <<tag-resources-console>>.
+* If you're using `eksctl`, you can apply tags to resources when they're created using the `--tags` option.
+* If you're using the {aws} CLI, the Amazon EKS API, or an {aws} SDK, you can apply tags to new resources using the `tags` parameter on the relevant API action. You can apply tags to existing resources using the `TagResource` API action. For more information, see  link:eks/latest/APIReference/API_TagResource.html[TagResource,type="documentation"].
+
+When you use some resource-creating actions, you can also specify tags for the resource at the same time that you create it. If tags can't be applied while the resource is being created, the resource fails to be created. This mechanism ensures that resources that you intend to tag are either created with the tags that you specify or not created at all. If you tag resources when you create them, you don't need to run custom tagging scripts after you create the resource.
+
+Tags don't propagate to other resources that are associated with the resource that you create. For example, Fargate profile tags don't propagate to other resources that are associated with the Fargate profile, such as the [.noloc]`Pods` that are scheduled with it.
+
+[[tag-restrictions,tag-restrictions.title]]
+== Tag restrictions
+
+The following restrictions apply to tags:
+
+
+
+* A maximum of 50 tags can be associated with a resource.
+* Tag keys can't be repeated for one resource. Each tag key must be unique, and can only have one value.
+* Keys can be up to 128 characters long in UTF-8.
+* Values can be up to 256 characters long in UTF-8.
+* If multiple {aws} services and resources use your tagging schema, limit the types of characters you use. Some services might have restrictions on allowed characters. Generally, allowed characters are letters, numbers, spaces, and the following characters: `+` `-` `=` `.` `_` `:` `/` `@`.
+* Tag keys and values are case sensitive.
+* Don't use `aws:`, `{aws}:`, or any upper or lowercase combination of such as a prefix for either keys or values. These are reserved only for {aws} use. You can't edit or delete tag keys or values with this prefix. Tags with this prefix don't count against your tags-per-resource limit.
+
+
+[[tag-resources-for-billing,tag-resources-for-billing.title]]
+== Tagging your resources for billing
+
+When you apply tags to Amazon EKS clusters, you can use them for cost allocation in your  *Cost & Usage Reports*. The metering data in your  *Cost & Usage Reports* shows usage across all of your Amazon EKS clusters. For more information, see link:awsaccountbilling/latest/aboutv2/billing-reports-costusage.html[{aws} cost and usage report,type="documentation"] in the _{aws} Billing User Guide_.
+
+The {aws} generated cost allocation tag, specifically `aws:eks:cluster-name`, lets you break down Amazon EC2 instance costs by individual Amazon EKS cluster in *Cost Explorer*. However, this tag doesn't capture the control plane expenses. The tag is automatically added to Amazon EC2 instances that participate in an Amazon EKS cluster. This behavior happens regardless of whether the instances are provisioned using Amazon EKS managed node groups, [.noloc]`Karpenter`, or directly with Amazon EC2. This specific tag doesn't count towards the 50 tags limit. To use the tag, the account owner must activate it in the {aws} Billing console or by using the API. When an {aws} Organizations management account owner activates the tag, it's also activated for all organization member accounts.
+
+You can also organize your billing information based on resources that have the same tag key values. For example, you can tag several resources with a specific application name, and then organize your billing information. That way, you can see the total cost of that application across several services. For more information about setting up a cost allocation report with tags, see link:awsaccountbilling/latest/aboutv2/configurecostallocreport.html[The Monthly Cost Allocation Report,type="documentation"] in the _{aws} Billing User Guide_.
+
+[NOTE]
+====
+
+If you just enabled reporting, data for the current month is available for viewing after 24 hours.
+
+====
+
+*Cost Explorer*  is a reporting tool that's available as part of the {aws} Free Tier. You can use  *Cost Explorer* to view charts of your Amazon EKS resources from the last 13 months. You can also forecast how much you're likely to spend for the next three months. You can see patterns in how much you spend on {aws} resources over time. For example, you can use it to identify areas that need further inquiry and see trends that you can use to understand your costs. You also can specify time ranges for the data, and view time data by day or by month.
+
+[[tag-resources-console,tag-resources-console.title]]
+== Working with tags using the console
+
+Using the Amazon EKS console, you can manage the tags that are associated with new or existing clusters and managed node groups.
+
+When you select a resource-specific page in the Amazon EKS console, the page displays a list of those resources. For example, if you select *Clusters* from the left navigation pane, the console displays a list of Amazon EKS clusters. When you select a resource from one of these lists (for example, a specific cluster) that supports tags, you can view and manage its tags on the  *Tags* tab.
+
+You can also use *Tag Editor* in the {aws-management-console}, which provides a unified way to manage your tags. For more information, see link:ARG/latest/userguide/tag-editor.html[Tagging your {aws} resources with Tag Editor,type="documentation"] in the _{aws} Tag Editor User Guide_.
+
+[[adding-tags-creation,adding-tags-creation.title]]
+=== Adding tags on a resource on creation
+
+You can add tags to Amazon EKS clusters, managed node groups, and Fargate profiles when you create them. For more information, see <<create-cluster>>.
+
+[[adding-or-deleting-tags,adding-or-deleting-tags.title]]
+=== Adding and deleting tags on a resource
+
+You can add or delete the tags that are associated with your clusters directly from the resource's page.  
+
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. On the navigation bar, select the {aws} Region to use.
+. In the left navigation pane, choose *Clusters*.
+. Choose a specific cluster.
+. Choose the *Tags* tab, and then choose  *Manage tags*.
+. On the *Manage tags* page, add or delete your tags as necessary.
++
+** To add a tag, choose *Add tag*. Then specify the key and value for each tag.
+** To delete a tag, choose *Remove tag*.
+. Repeat this process for each tag that you want to add or delete.
+. Choose *Update* to finish.
+
+
+[[tag-resources-api-sdk,tag-resources-api-sdk.title]]
+== Working with tags using the CLI, API, or `eksctl`
+
+Use the following {aws} CLI commands or Amazon EKS API operations to add, update, list, and delete the tags for your resources. You can only use `eksctl` to add tags while simultaneously creating the new resources with one command.
+[[tag-eks-resources-table]]
+[cols="1,1,1,1", options="header"]
+|===
+|Task
+|{aws} CLI
+|{aws} Tools for Windows PowerShell
+|API action
+
+
+|
+
+Add or overwrite one or more tags.
+|
+
+link:cli/latest/reference/eks/tag-resource.html[tag-resource,type="documentation"]
+|
+
+link:powershell/latest/reference/items/Add-EKSResourceTag.html[Add-EKSResourceTag,type="documentation"]
+|
+
+ link:eks/latest/APIReference/API_TagResource.html[TagResource,type="documentation"]
+
+|
+
+Delete one or more tags.
+|
+
+link:cli/latest/reference/eks/untag-resource.html[untag-resource,type="documentation"]
+|
+
+link:powershell/latest/reference/items/Remove-EKSResourceTag.html[Remove-EKSResourceTag,type="documentation"]
+|
+
+ link:eks/latest/APIReference/API_UntagResource.html[UntagResource,type="documentation"]
+|===
+
+The following examples show how to tag or untag resources using the {aws} CLI.
+
+.Example 1: Tag an existing cluster
+The following command tags an existing cluster.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks tag-resource --resource-arn resource_ARN --tags team=devs
+----
+
+.Example 2: Untag an existing cluster
+The following command deletes a tag from an existing cluster.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks untag-resource --resource-arn resource_ARN --tag-keys tag_key
+----
+
+.Example 3: List tags for a resource
+The following command lists the tags that are associated with an existing resource.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks list-tags-for-resource --resource-arn resource_ARN
+----
+
+When you use some resource-creating actions, you can specify tags at the same time that you create the resource. The following actions support specifying a tag when you create a resource.
+
+[cols="1,1,1,1,1", options="header"]
+|===
+|Task
+|{aws} CLI
+|{aws} Tools for Windows PowerShell
+|API action
+|eksctl
+
+
+|
+
+Create a cluster
+|
+
+link:cli/latest/reference/eks/create-cluster.html[create-cluster,type="documentation"]
+|
+
+link:powershell/latest/reference/items/New-EKSCluster.html[New-EKSCluster,type="documentation"]
+|
+
+ link:eks/latest/APIReference/API_CreateCluster.html[CreateCluster,type="documentation"]
+|
+
+`create cluster`
+
+|
+
+Create a managed node group*
+|
+
+link:cli/latest/reference/eks/create-nodegroup.html[create-nodegroup,type="documentation"]
+|
+
+link:powershell/latest/reference/items/New-EKSNodegroup.html[New-EKSNodegroup,type="documentation"]
+|
+
+ link:eks/latest/APIReference/API_CreateNodegroup.html[CreateNodegroup,type="documentation"]
+|
+
+`create nodegroup`
+
+|
+
+Create a Fargate profile
+|
+
+link:cli/latest/reference/eks/create-fargate-profile.html[create-fargate-profile,type="documentation"]
+|
+
+link:powershell/latest/reference/items/New-EKSFargateProfile.html[New-EKSFargateProfile,type="documentation"]
+|
+
+ link:eks/latest/APIReference/API_CreateFargateProfile.html[CreateFargateProfile.html,type="documentation"]
+|
+
+`create fargateprofile`
+|===
+
+* If you want to also tag the Amazon EC2 instances when you create a managed node group, create the managed node group using a launch template. For more information, see <<launch-template-tagging>>. If your instances already exist, you can manually tag the instances. For more information, see  link:AWSEC2/latest/UserGuide/Using_Tags.html#tag-resources[Tagging your resources,type="documentation"] in the Amazon EC2 User Guide.

@@ -1,0 +1,251 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+[.topic]
+[[launch-workers,launch-workers.title]]
+= Create self-managed Amazon Linux nodes
+:info_titleabbrev: Amazon Linux
+
+[abstract]
+--
+This topic describes how you can launch Auto Scaling groups of [.noloc]`Linux` nodes that register with your Amazon EKS cluster.
+--
+
+This topic describes how you can launch Auto Scaling groups of [.noloc]`Linux` nodes that register with your Amazon EKS cluster. After the nodes join the cluster, you can deploy [.noloc]`Kubernetes` applications to them. You can also launch self-managed Amazon Linux nodes with `eksctl` or the {aws-management-console}. If you need to launch nodes on {aws} Outposts, see <<eks-outposts-self-managed-nodes>>.
+
+
+
+* An existing Amazon EKS cluster. To deploy one, see <<create-cluster>>. If you have subnets in the {aws} Region where you have {aws} Outposts, {aws} Wavelength, or {aws} Local Zones enabled, those subnets must not have been passed in when you created your cluster.
+* An existing IAM role for the nodes to use. To create one, see <<create-node-role>>. If this role doesn't have either of the policies for the VPC CNI, the separate role that follows is required for the VPC CNI pods.
+* (Optional, but recommended) The [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` add-on configured with its own IAM role that has the necessary IAM policy attached to it. For more information, see <<cni-iam-role>>.
+* Familiarity with the considerations listed in <<choosing-instance-type,Choose an optimal Amazon EC2 node instance type>>. Depending on the instance type you choose, there may be additional prerequisites for your cluster and VPC.
+
+You can launch self-managed Linux nodes using either of the following:
+
+* <<eksctl_create_managed_amazon_linux>>
+* <<console_create_managed_amazon_linux>>
+
+== `eksctl` [[eksctl_create_managed_amazon_linux]]
+
+*Launch self-managed Linux nodes using `eksctl`*`
+
+NOTE: `eksctl` doesn't support Amazon Linux 2023 at this time. 
+
+. Install version {eksctl-min-version} or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
+
+. (Optional) If the *AmazonEKS_CNI_Policy* managed IAM policy is attached to your  <<create-node-role,Amazon EKS node IAM role>>, we recommend assigning it to an IAM role that you associate to the [.noloc]`Kubernetes` `aws-node` service account instead. For more information, see <<cni-iam-role>>.
+. The following command creates a node group in an existing cluster. Replace [.replaceable]`al-nodes` with a name for your node group. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters. Replace [.replaceable]`my-cluster` with the name of your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in. Replace the remaining [.replaceable]`example value` with your own values. The nodes are created with the same [.noloc]`Kubernetes` version as the control plane, by default.  
++
+Before choosing a value for `--node-type`, review <<choosing-instance-type,Choose an optimal Amazon EC2 node instance type>>.
++
+Replace [.replaceable]`my-key` with the name of your Amazon EC2 key pair or public key. This key is used to SSH into your nodes after they launch. If you don't already have an Amazon EC2 key pair, you can create one in the {aws-management-console}. For more information, see link:AWSEC2/latest/UserGuide/ec2-key-pairs.html[Amazon EC2 key pairs,type="documentation"] in the _Amazon EC2 User Guide_.
++
+Create your node group with the following command.
++
+[IMPORTANT]
+====
+If you want to deploy a node group to {aws} Outposts, Wavelength, or Local Zone subnets, there are additional considerations:
+
+*** The subnets must not have been passed in when you created the cluster.
+*** You must create the node group with a config file that specifies the subnets and ``https://eksctl.io/usage/schema/#nodeGroups-volumeType[volumeType]: gp2``. For more information, see https://eksctl.io/usage/nodegroups/#creating-a-nodegroup-from-a-config-file[Create a nodegroup from a config file] and https://eksctl.io/usage/schema/[Config file schema] in the `eksctl` documentation.
+====
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create nodegroup \
+  --cluster my-cluster \
+  --name al-nodes \
+  --node-type t3.medium \
+  --nodes 3 \
+  --nodes-min 1 \
+  --nodes-max 4 \
+  --ssh-access \
+  --managed=false \
+  --ssh-public-key my-key
+----
+To deploy a node group that:
+**** can assign a significantly higher number of IP addresses to [.noloc]`Pods` than the default configuration, see <<cni-increase-ip-addresses>>.
+**** can assign `IPv4` addresses to [.noloc]`Pods` from a different [.noloc]`CIDR` block than that of the instance, see <<cni-custom-network>>.
+**** can assign `IPv6` addresses to [.noloc]`Pods` and services, see <<cni-ipv6>>.
+**** use the `containerd` runtime, you must deploy the node group using a `config` file. For more information, see <<containerd-bootstrap>>.
+**** don't have outbound internet access, see <<private-clusters>>.
++
+For a complete list of all available options and defaults, enter the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create nodegroup --help
+----
++
+If nodes fail to join the cluster, then see <<worker-node-fail>> in the Troubleshooting chapter.
++
+An example output is as follows. Several lines are output while the nodes are created. One of the last lines of output is the following example line.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+[✔]  created 1 nodegroup(s) in cluster "my-cluster"
+----
+. (Optional) Deploy a <<sample-deployment,sample application>> to test your cluster and [.noloc]`Linux` nodes.
+. We recommend blocking [.noloc]`Pod` access to IMDS if the following conditions are true:
++
+*** You plan to assign IAM roles to all of your [.noloc]`Kubernetes` service accounts so that [.noloc]`Pods` only have the minimum permissions that they need.
+*** No [.noloc]`Pods` in the cluster require access to the Amazon EC2 instance metadata service (IMDS) for other reasons, such as retrieving the current {aws} Region.
+
++
+For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
+
+== {aws-management-console} [[console_create_managed_amazon_linux]]
+
+*Step 1: Launch self-managed Linux nodes using {aws-management-console}*`
+
+. Download the latest version of the {aws} CloudFormation template.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
+----
+. Wait for your cluster status to show as `ACTIVE`. If you launch your nodes before the cluster is active, the nodes fail to register with the cluster and you will have to relaunch them.
+. Open the link:cloudformation/[{aws} CloudFormation console,type="console"].
+. Choose *Create stack* and then select  *With new resources (standard)*.
+. For *Specify template*, select  *Upload a template file* and then select  *Choose file*.
+. Select the ``amazon-eks-nodegroup.yaml`` file that you downloaded.
+. Select *Next*.
+. On the *Specify stack details* page, enter the following parameters accordingly, and then choose  *Next*:
++
+** *Stack name*: Choose a stack name for your {aws} CloudFormation stack. For example, you can call it [.replaceable]`my-cluster-nodes`. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
+** *ClusterName*: Enter the name that you used when you created your Amazon EKS cluster. This name must equal the cluster name or your nodes can't join the cluster.
+** *ClusterControlPlaneSecurityGroup*: Choose the  *SecurityGroups* value from the {aws} CloudFormation output that you generated when you created your  <<creating-a-vpc,VPC>>.
++
+The following steps show one operation to retrieve the applicable group.
++
+.. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+.. Choose the name of the cluster.
+.. Choose the *Networking* tab.
+.. Use the *Additional security groups* value as a reference when selecting from the  *ClusterControlPlaneSecurityGroup* dropdown list.
+** *NodeGroupName*: Enter a name for your node group. This name can be used later to identify the Auto Scaling node group that's created for your nodes. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters.
+** *NodeAutoScalingGroupMinSize*: Enter the minimum number of nodes that your node Auto Scaling group can scale in to.
+** *NodeAutoScalingGroupDesiredCapacity*: Enter the desired number of nodes to scale to when your stack is created.
+** *NodeAutoScalingGroupMaxSize*: Enter the maximum number of nodes that your node Auto Scaling group can scale out to.
+** *NodeInstanceType*: Choose an instance type for your nodes. For more information, see <<choosing-instance-type>>.
+** *NodeImageIdSSMParam*: Pre-populated with the Amazon EC2 Systems Manager parameter of a recent Amazon EKS optimized AMI for a variable [.noloc]`Kubernetes` version. To use a different [.noloc]`Kubernetes` minor version supported with Amazon EKS, replace [.replaceable]`1.XX` with a different <<kubernetes-versions,supported version>>. We recommend specifying the same [.noloc]`Kubernetes` version as your cluster.
++
+You can also replace [.replaceable]`amazon-linux-2` with a different AMI type. For more information, see <<retrieve-ami-id>>.
++
+NOTE: The Amazon EKS node AMI is based on Amazon Linux. You can track security or privacy events for Amazon Linux 2 at the https://alas.aws.amazon.com/alas2.html[Amazon Linux Security Center] or subscribe to the associated https://alas.aws.amazon.com/AL2/alas.rss[RSS feed]. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue.
+** *NodeImageId*: (Optional) If you're using your own custom AMI (instead of the Amazon EKS optimized AMI), enter a node AMI ID for your {aws} Region. If you specify a value here, it overrides any values in the  *NodeImageIdSSMParam* field.  
+** *NodeVolumeSize*: Specify a root volume size for your nodes, in GiB.
+** *NodeVolumeType*: Specify a root volume type for your nodes.
+** *KeyName*: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch. If you don't already have an Amazon EC2 key pair, you can create one in the {aws-management-console}. For more information, see link:AWSEC2/latest/UserGuide/ec2-key-pairs.html[Amazon EC2 key pairs,type="documentation"] in the _Amazon EC2 User Guide_.
++
+NOTE: If you don't provide a key pair here, the {aws} CloudFormation stack creation fails.
+** *BootstrapArguments*: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments. For more information, view the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap script usage information] on [.noloc]`GitHub`.
++
+To deploy a node group that:
++
+*** can assign a significantly higher number of IP addresses to [.noloc]`Pods` than the default configuration, see <<cni-increase-ip-addresses>>.
+*** can assign `IPv4` addresses to [.noloc]`Pods` from a different [.noloc]`CIDR` block than that of the instance, see <<cni-custom-network>>.
+*** can assign `IPv6` addresses to [.noloc]`Pods` and services, see <<cni-ipv6>>.
+*** use the `containerd` runtime, you must deploy the node group using a `config` file. For more information, see <<containerd-bootstrap>>.
+*** don't have outbound internet access, see <<private-clusters>>.
+** *DisableIMDSv1*: By default, each node supports the Instance Metadata Service Version 1 (IMDSv1) and IMDSv2. You can disable IMDSv1. To prevent future nodes and [.noloc]`Pods` in the node group from using MDSv1, set  *DisableIMDSv1* to  *true*. For more information about IMDS, see link:AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html[Configuring the instance metadata service,type="documentation"]. For more information about restricting access to it on your nodes, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
+** *VpcId*: Enter the ID for the  <<creating-a-vpc,VPC>> that you created.
+** *Subnets*: Choose the subnets that you created for your VPC. If you created your VPC using the steps that are described in  <<creating-a-vpc,Create an Amazon VPC for your Amazon EKS cluster>>, specify only the private subnets within the VPC for your nodes to launch into. You can see which subnets are private by opening each subnet link from the *Networking* tab of your cluster.
++
+[IMPORTANT]
+==== 
+*** If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled. If the setting isn't enabled for the public subnet, then any nodes that you deploy to that public subnet won't be assigned a public IP address and won't be able to communicate with the cluster or other {aws} services. If the subnet was deployed before March 26, 2020 using either of the <<creating-a-vpc,Amazon EKS {aws} CloudFormation VPC templates>>, or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets. For information about how to enable public IP address assignment for a subnet, see  link:vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip[Modifying the public IPv4 addressing attribute for your subnet,type="documentation"]. If the node is deployed to a private subnet, then it's able to communicate with the cluster and other {aws} services through a NAT gateway.
+*** If the subnets don't have internet access, make sure that you're aware of the considerations and extra steps in <<private-clusters,Deploy private clusters with limited internet access>>.
+*** If you select {aws} Outposts, Wavelength, or Local Zone subnets, the subnets must not have been passed in when you created the cluster.
+====
+. Select your desired choices on the *Configure stack options* page, and then choose  *Next*.
+. Select the check box to the left of *I acknowledge that {aws} CloudFormation might create IAM resources.*, and then choose  *Create stack*.
+. When your stack has finished creating, select it in the console and choose *Outputs*.
+. Record the *NodeInstanceRole* for the node group that was created. You need this when you configure your Amazon EKS nodes.
+
+*Step 2: Enable nodes to join your cluster*
+
+[NOTE]
+====
+If you launched nodes inside a private VPC without outbound internet access, make sure to enable nodes to join your cluster from within the VPC.
+====
+
+. Check to see if you already have an `aws-auth` `ConfigMap`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe configmap -n kube-system aws-auth
+----
+. If you are shown an `aws-auth` `ConfigMap`, then update it as needed.
++
+.. Open the `ConfigMap` for editing.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl edit -n kube-system configmap/aws-auth
+----
+.. Add a new `mapRoles` entry as needed. Set the `rolearn` value to the *NodeInstanceRole* value that you recorded in the previous procedure.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+[...]
+data:
+  mapRoles: |
+    - rolearn: <ARN of instance role (not instance profile)>
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+[...]
+----
+.. Save the file and exit your text editor.
+. If you received an error stating "``Error from server (NotFound): configmaps "aws-auth" not found``, then apply the stock `ConfigMap`.
++
+.. Download the configuration map.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
+----
+.. In the ``aws-auth-cm.yaml`` file, set the `rolearn` value to the *NodeInstanceRole* value that you recorded in the previous procedure. You can do this with a text editor, or by replacing [.replaceable]`my-node-instance-role` and running the following command:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+sed -i.bak -e 's|<ARN of instance role (not instance profile)>|my-node-instance-role|' aws-auth-cm.yaml
+----
+.. Apply the configuration. This command may take a few minutes to finish.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f aws-auth-cm.yaml
+----
+. Watch the status of your nodes and wait for them to reach the `Ready` status.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get nodes --watch
+----
++
+Enter `Ctrl`+``C`` to return to a shell prompt.
++
+NOTE: If you receive any authorization or resource type errors, see <<unauthorized>> in the troubleshooting topic.
++
+If nodes fail to join the cluster, then see <<worker-node-fail>> in the Troubleshooting chapter.
+. (GPU nodes only) If you chose a GPU instance type and the Amazon EKS optimized accelerated AMI, you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/deployments/static/nvidia-device-plugin.yml
+----
+
+*Step 3: Additional actions*
+
+. (Optional) Deploy a <<sample-deployment,sample application>> to test your cluster and [.noloc]`Linux` nodes.
+. (Optional) If the *AmazonEKS_CNI_Policy* managed IAM policy (if you have an `IPv4` cluster) or the [.replaceable]`AmazonEKS_CNI_IPv6_Policy` (that you <<cni-iam-role-create-ipv6-policy,created yourself>> if you have an `IPv6` cluster) is attached to your <<create-node-role,Amazon EKS node IAM role>>, we recommend assigning it to an IAM role that you associate to the [.noloc]`Kubernetes` `aws-node` service account instead. For more information, see <<cni-iam-role>>.
+. We recommend blocking [.noloc]`Pod` access to IMDS if the following conditions are true:
++
+** You plan to assign IAM roles to all of your [.noloc]`Kubernetes` service accounts so that [.noloc]`Pods` only have the minimum permissions that they need.
+** No [.noloc]`Pods` in the cluster require access to the Amazon EC2 instance metadata service (IMDS) for other reasons, such as retrieving the current {aws} Region.
+
++
+For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
+
+

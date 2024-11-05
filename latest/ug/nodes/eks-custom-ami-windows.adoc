@@ -1,0 +1,116 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+[.topic]
+[[eks-custom-ami-windows,eks-custom-ami-windows.title]]
+= Build a custom [.noloc]`Windows` AMI with Image Builder
+:info_titleabbrev: Custom builds
+
+[abstract]
+--
+You can use EC2 Image Builder to create custom Amazon EKS optimized [.noloc]`Windows` AMIs.
+--
+
+You can use EC2 Image Builder to create custom Amazon EKS optimized [.noloc]`Windows` AMIs with one of the following options:
+
+
+
+* <<custom-windows-ami-as-base,Using an Amazon EKS optimized Windows AMI as a base>>
+* <<custom-windows-ami-build-component,Using the Amazon-managed build component>>
+
+With both methods, you must create your own Image Builder recipe. For more information, see link:imagebuilder/latest/userguide/create-image-recipes.html[Create a new version of an image recipe,type="documentation"] in the Image Builder User Guide.
+
+[IMPORTANT]
+====
+
+The following *Amazon-managed* components for `eks` include patches for `CVE-2024-5321`.
+
+* `1.24.5` and higher
+* `1.25.4` and higher
+* `1.26.4` and higher
+* `1.27.2` and higher
+* `1.28.2` and higher
+* `1.29.2` and higher
+* `1.30.1` and higher
+
+====
+
+[[custom-windows-ami-as-base,custom-windows-ami-as-base.title]]
+== Using an Amazon EKS optimized [.noloc]`Windows` AMI as a base
+
+This option is the recommended way to build your custom [.noloc]`Windows` AMIs. The Amazon EKS optimized [.noloc]`Windows` AMIs we provide are more frequently updated than the Amazon-managed build component.
+
+. Start a new Image Builder recipe.
++
+.. Open the EC2 Image Builder console at https://console.aws.amazon.com/imagebuilder.
+.. In the left navigation pane, choose *Image recipes*.
+.. Choose *Create image recipe*.
+. In the *Recipe details* section, enter a  *Name* and  *Version*.
+. Specify the ID of the Amazon EKS optimized [.noloc]`Windows` AMI in the  *Base image* section.
++
+.. Choose *Enter custom AMI ID*.
+.. Retrieve the AMI ID for the [.noloc]`Windows` OS version that you require. For more information, see <<retrieve-windows-ami-id>>.
+.. Enter the custom *AMI ID*. If the AMI ID isn't found, make sure that the {aws} Region for the AMI ID matches the {aws} Region shown in the upper right of your console.  
+. (Optional) To get the latest security updates, add the `update-windows` component in the *Build components -* section.
++
+.. From the dropdown list to the right of the *Find components by name* search box, choose *Amazon-managed*.
+.. In the *Find components by name* search box, enter `update-windows`.
+.. Select the check box of the *`update-windows`* search result. This component includes the latest [.noloc]`Windows` patches for the operating system.
+. Complete the remaining image recipe inputs with your required configurations. For more information, see  link:imagebuilder/latest/userguide/create-image-recipes.html#create-image-recipe-version-console[Create a new image recipe version (console),type="documentation"] in the Image Builder User Guide.
+. Choose *Create recipe*.
+. Use the new image recipe in a new or existing image pipeline. Once your image pipeline runs successfully, your custom AMI will be listed as an output image and is ready for use. For more information, see link:imagebuilder/latest/userguide/start-build-image-pipeline.html[Create an image pipeline using the EC2 Image Builder console wizard,type="documentation"].
+
+
+[[custom-windows-ami-build-component,custom-windows-ami-build-component.title]]
+== Using the Amazon-managed build component
+
+When using an Amazon EKS optimized [.noloc]`Windows` AMI as a base isn't viable, you can use the Amazon-managed build component instead. This option may lag behind the most recent supported [.noloc]`Kubernetes` versions.
+
+. Start a new Image Builder recipe.
++
+.. Open the EC2 Image Builder console at https://console.aws.amazon.com/imagebuilder.
+.. In the left navigation pane, choose *Image recipes*.
+.. Choose *Create image recipe*.
+. In the *Recipe details* section, enter a  *Name* and  *Version*.
+. Determine which option you will be using to create your custom AMI in the *Base image* section:
++
+** *Select managed images* – Choose  *Windows* for your  *Image Operating System (OS)*. Then choose one of the following options for  *Image origin*.
++
+*** *Quick start (Amazon-managed)* – In the  *Image name* dropdown, choose an Amazon EKS supported [.noloc]`Windows` Server version. For more information, see <<eks-optimized-windows-ami>>.
+*** *Images owned by me* – For  *Image name*, choose the ARN of your own image with your own license. The image that you provide can't already have Amazon EKS components installed.
+** *Enter custom AMI ID* – For AMI ID, enter the ID for your AMI with your own license. The image that you provide can't already have Amazon EKS components installed.
+. In the *Build components - Windows* section, do the following:
++
+.. From the dropdown list to the right of the *Find components by name* search box, choose  *Amazon-managed*.
+.. In the *Find components by name* search box, enter `eks`.
+.. Select the check box of the *`eks-optimized-ami-windows`* search result, even though the result returned may not be the version that you want.
+.. In the *Find components by name* search box, enter `update-windows` .
+.. Select the check box of the *update-windows* search result. This component includes the latest [.noloc]`Windows` patches for the operating system.
+. In the *Selected components* section, do the following:
++
+.. Choose *Versioning options* for  *`eks-optimized-ami-windows`*.
+.. Choose *Specify component version*.
+.. In the *Component Version* field, enter [.replaceable]`version.x`, replacing [.replaceable]`version` with a supported [.noloc]`Kubernetes` version. Entering an [.replaceable]`x` for part of the version number indicates to use the latest component version that also aligns with the part of the version you explicitly define. Pay attention to the console output as it will advise you on whether your desired version is available as a managed component. Keep in mind that the most recent [.noloc]`Kubernetes` versions may not be available for the build component. For more information about available versions, see <<custom-windows-ami-component-versions>>.
++
+NOTE: The following `eks-optimized-ami-windows` build component versions require `eksctl` version `0.129` or lower:
+
+*** `1.24.0`
+
+. Complete the remaining image recipe inputs with your required configurations. For more information, see  link:imagebuilder/latest/userguide/create-image-recipes.html#create-image-recipe-version-console[Create a new image recipe version (console),type="documentation"] in the Image Builder User Guide.
+. Choose *Create recipe*.
+. Use the new image recipe in a new or existing image pipeline. Once your image pipeline runs successfully, your custom AMI will be listed as an output image and is ready for use. For more information, see link:imagebuilder/latest/userguide/start-build-image-pipeline.html[Create an image pipeline using the EC2 Image Builder console wizard,type="documentation"].
+
+
+[[custom-windows-ami-component-versions,custom-windows-ami-component-versions.title]]
+== Retrieving information about `eks-optimized-ami-windows` component versions
+
+You can retrieve specific information regarding what is installed with each component. For example, you can verify what `kubelet` version is installed. The components go through functional testing on the Amazon EKS supported [.noloc]`Windows` operating systems versions. For more information, see <<windows-ami-release-calendar>>. Any other [.noloc]`Windows` OS versions that aren't listed as supported or have reached end of support might not be compatible with the component.
+
+. Open the EC2 Image Builder console at https://console.aws.amazon.com/imagebuilder.
+. In the left navigation pane, choose *Components*.
+. From the dropdown list to the right of the *Find components by name* search box, change  *Owned by me* to  *Quick start (Amazon-managed)*.
+. In the *Find components by name* box, enter `eks`.
+. (Optional) If you are using a recent version, sort the *Version* column in descending order by choosing it twice.
+. Choose the *`eks-optimized-ami-windows`* link with a desired version.
+
+The  *Description* in the resulting page shows the specific information.
+

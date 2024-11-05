@@ -1,0 +1,73 @@
+//!!NODE_ROOT <chapter>
+include::../attributes.txt[]
+[.topic]
+[[cluster-auth,cluster-auth.title]]
+= Learn how access control works in Amazon EKS
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: Learn how access control works in Amazon EKS
+:info_titleabbrev: Manage access
+:info_abstract: Learn how to manage access to your EKS cluster. First, this includes granting \
+                developers or external services access to Kubernetes. Second, this includes granting \
+                Kubernetes workloads access to {aws} services.
+
+[abstract]
+--
+Learn how to manage access to your EKS cluster. First, this includes granting developers or external services access to Kubernetes. Second, this includes granting Kubernetes workloads access to {aws} services.
+--
+
+Learn how to manage access to your Amazon EKS cluster. Using Amazon EKS requires knowledge of how both [.noloc]`Kubernetes` and {aws} Identity and Access Management ({aws} IAM) handle access control.  
+
+*This section includes:*
+
+*xref:grant-k8s-access[Grant IAM users and roles access to Kubernetes APIs,linkend=grant-k8s-access]* -- Learn how to enable applications or users to authenticate to the [.noloc]`Kubernetes` API. You can use access entries, the aws-auth ConfigMap, or an external OIDC provider.  
+
+*<<view-kubernetes-resources,View Kubernetes resources in the {aws-management-console}>>* -- Learn how to configure the {aws-management-console} to communicate with your Amazon EKS cluster. Use the console to view [.noloc]`Kubernetes` resources in the cluster, such as namespaces, nodes, and [.noloc]`Pods`.
+
+*<<create-kubeconfig,Connect kubectl to an EKS cluster by creating a kubeconfig file>>* -- Learn how to configure kubectl to communicate with your Amazon EKS cluster. Use the {aws} CLI to create a kubeconfig file. 
+
+*xref:service-accounts[Grant Kubernetes workloads access to {aws} using Kubernetes Service Accounts,linkend=service-accounts]* -- Learn how to associate a [.noloc]`Kubernetes` service account with {aws} IAM Roles. You can use Pod Identity or IAM Roles for Service Accounts (IRSA).  
+
+== Common Tasks
+
+
+* Grant developers access to the [.noloc]`Kubernetes` API. View [.noloc]`Kubernetes` resources in the {aws-management-console}.  
++
+** Solution: <<access-entries,Use Access Entries>> to associate [.noloc]`Kubernetes` RBAC permissions with {aws} IAM Users or Roles.
+* Configure kubectl to talk to an Amazon EKS cluster using {aws} Credentials. 
++
+** Solution: Use the {aws} CLI to<<create-kubeconfig, create a kubeconfig file>>. 
+* Use an external identity provider, such as Ping Identity, to authenticate users to the [.noloc]`Kubernetes` API.
++
+** Solution: <<authenticate-oidc-identity-provider,Link an external OIDC provider>>.
+* Grant workloads on your [.noloc]`Kubernetes` cluster the ability to call {aws} APIs.  
++
+** Solution: <<pod-identities,Use Pod Identity>> to associate an {aws} IAM Role to a [.noloc]`Kubernetes` Service Account.  
+
+== Background
+
+
+
+* https://kubernetes.io/docs/concepts/security/service-accounts/[Learn how Kubernetes Service Accounts work.]
+* https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Review the Kubernetes Role Based Access Control (RBAC) Model]
+* For more information about managing access to {aws} resources, see the link:IAM/latest/UserGuide/intro-structure.html[{aws} IAM User Guide,type="documentation"]. Alternatively, take a free https://explore.skillbuilder.aws/learn/course/external/view/elearning/120/introduction-to-aws-identity-and-access-management-iam[introductory training on using {aws} IAM]. 
+
+
+
+include::k8s-access/grant-k8s-access.adoc[leveloffset=+1]
+
+
+include::view-kubernetes-resources.adoc[leveloffset=+1]
+
+
+include::create-kubeconfig.adoc[leveloffset=+1]
+
+
+include::aws-access/service-accounts.adoc[leveloffset=+1]

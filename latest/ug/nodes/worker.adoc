@@ -1,0 +1,60 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[worker,worker.title]]
+= Maintain nodes yourself with self-managed nodes
+:info_doctype: section
+:info_title: Maintain nodes yourself with self-managed nodes
+:info_titleabbrev: Self-managed nodes
+:keywords: self-managed, node
+:info_abstract: A cluster contains one or more Amazon EC2 nodes that Pods are scheduled on.
+
+[abstract]
+--
+A cluster contains one or more Amazon EC2 nodes that [.noloc]`Pods` are scheduled on.
+--
+
+A cluster contains one or more Amazon EC2 nodes that [.noloc]`Pods` are scheduled on. Amazon EKS nodes run in your {aws} account and connect to the control plane of your cluster through the cluster API server endpoint. You're billed for them based on Amazon EC2 prices. For more information, see link:ec2/pricing/[Amazon EC2 pricing,type="marketing"].
+
+A cluster can contain several node groups. Each node group contains one or more nodes that are deployed in an link:autoscaling/ec2/userguide/AutoScalingGroup.html[Amazon EC2 Auto Scaling group,type="documentation"]. The instance type of the nodes within the group can vary, such as when using link:AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html[attribute-based instance type selection,type="documentation"] with https://karpenter.sh/[Karpenter]. All instances in a node group must use the <<create-node-role,Amazon EKS node IAM role>>.
+
+Amazon EKS provides specialized Amazon Machine Images (AMIs) that are called Amazon EKS optimized AMIs. The AMIs are configured to work with Amazon EKS. Their components include `containerd`, `kubelet`, and the {aws} IAM Authenticator. The AMIs also contain a specialized https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap script] that allows it to discover and connect to your cluster's control plane automatically.
+
+If you restrict access to the public endpoint of your cluster using CIDR blocks, we recommend that you also enable private endpoint access. This is so that nodes can communicate with the cluster. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the egress sources from your VPC. For more information, see <<cluster-endpoint>>. 
+
+To add self-managed nodes to your Amazon EKS cluster, see the topics that follow. If you launch self-managed nodes manually, add the following tag to each node. For more information, see  link:AWSEC2/latest/UserGuide/Using_Tags.html#adding-or-deleting-tags[Adding and deleting tags on an individual resource,type="documentation"]. If you follow the steps in the guides that follow, the required tag is automatically added to nodes for you. 
+
+[cols="1,1", options="header"]
+|===
+|Key
+|Value
+
+
+|
+
+`kubernetes.io/cluster/[.replaceable]`my-cluster``
+|
+
+`owned`
+|===
+
+For more information about nodes from a general [.noloc]`Kubernetes` perspective, see https://kubernetes.io/docs/concepts/architecture/nodes/[Nodes] in the [.noloc]`Kubernetes` documentation.
+
+[.topiclist]
+[[Topic List]]
+
+[.topic]
+include::launch-workers.adoc[leveloffset=+1]
+
+include::capacity-blocks.adoc[leveloffset=+1]
+
+include::launch-node-bottlerocket.adoc[leveloffset=+1]
+
+include::launch-windows-workers.adoc[leveloffset=+1]
+
+include::launch-node-ubuntu.adoc[leveloffset=+1]
+
+include::update-workers.adoc[leveloffset=+1]
+
+

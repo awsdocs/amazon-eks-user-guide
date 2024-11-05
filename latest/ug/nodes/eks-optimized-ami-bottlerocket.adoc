@@ -1,0 +1,62 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+[.topic]
+[[eks-optimized-ami-bottlerocket,eks-optimized-ami-bottlerocket.title]]
+= Create nodes with optimized [.noloc]`Bottlerocket` AMIs
+:info_titleabbrev: Bottlerocket
+
+[abstract]
+--
+[.noloc]`Bottlerocket` is an open source [.noloc]`Linux` distribution that's sponsored and supported by {aws}. [.noloc]`Bottlerocket` includes only the essential software to run containers, which improves resource usage, reduces security threats, and lowers management overhead.
+--
+
+link:bottlerocket/[Bottlerocket,type="marketing"] is an open source [.noloc]`Linux` distribution that's sponsored and supported by {aws}. [.noloc]`Bottlerocket` is purpose-built for hosting container workloads. With [.noloc]`Bottlerocket`, you can improve the availability of containerized deployments and reduce operational costs by automating updates to your container infrastructure. [.noloc]`Bottlerocket` includes only the essential software to run containers, which improves resource usage, reduces security threats, and lowers management overhead. The [.noloc]`Bottlerocket` AMI includes `containerd`, `kubelet`, and {aws} IAM Authenticator. In addition to managed node groups and self-managed nodes, [.noloc]`Bottlerocket` is also supported by https://karpenter.sh/[Karpenter].
+
+[[bottlerocket-advantages,bottlerocket-advantages.title]]
+== Advantages
+
+Using [.noloc]`Bottlerocket` with your Amazon EKS cluster has the following advantages:
+
+
+
+* *Higher uptime with lower operational cost and lower management complexity* – [.noloc]`Bottlerocket` has a smaller resource footprint, shorter boot times, and is less vulnerable to security threats than other [.noloc]`Linux` distributions. [.noloc]`Bottlerocket's` smaller footprint helps to reduce costs by using less storage, compute, and networking resources.
+* *Improved security from automatic OS updates* – Updates to [.noloc]`Bottlerocket` are applied as a single unit which can be rolled back, if necessary. This removes the risk of corrupted or failed updates that can leave the system in an unusable state. With [.noloc]`Bottlerocket`, security updates can be automatically applied as soon as they're available in a minimally disruptive manner and be rolled back if failures occur.
+* *Premium support* – {aws} provided builds of [.noloc]`Bottlerocket` on Amazon EC2 is covered under the same {aws} Support plans that also cover {aws} services such as Amazon EC2, Amazon EKS, and Amazon ECR.
+
+
+[[bottlerocket-considerations,bottlerocket-considerations.title]]
+== Considerations
+
+Consider the following when using [.noloc]`Bottlerocket` for your AMI type:
+
+
+
+* [.noloc]`Bottlerocket` supports Amazon EC2 instances with `x86_64` and `arm64` processors. The [.noloc]`Bottlerocket` AMI isn't recommended for use with Amazon EC2 instances with an Inferentia chip.
+* [.noloc]`Bottlerocket` images don't include an SSH server or a shell. You can employ out-of-band access methods to allow SSH. These approaches enable the admin container and to pass some bootstrapping configuration steps with user data. For more information, refer to the following sections in https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md[Bottlerocket OS] on [.noloc]`GitHub`:
++
+** https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md#exploration[Exploration]
+** https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md#admin-container[Admin container]
+** https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md#kubernetes-settings[Kubernetes settings]
+* [.noloc]`Bottlerocket` uses different container types:
++
+** By default, a https://github.com/bottlerocket-os/bottlerocket-control-container[control container] is enabled. This container runs the https://github.com/aws/amazon-ssm-agent[{aws} Systems Manager agent] that you can use to run commands or start shell sessions on Amazon EC2 [.noloc]`Bottlerocket` instances. For more information, see link:systems-manager/latest/userguide/session-manager-getting-started.html[Setting up Session Manager,type="documentation"] in the _{aws} Systems Manager User Guide_.
+** If an SSH key is given when creating the node group, an admin container is enabled. We recommend using the admin container only for development and testing scenarios. We don't recommend using it for production environments. For more information, see https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md#admin-container[Admin container] on [.noloc]`GitHub`.
+
+
+[[bottlerocket-more-information,bottlerocket-more-information.title]]
+== More information
+
+For more information about using Amazon EKS optimized [.noloc]`Bottlerocket` AMIs, see the following sections:
+
+* For details about [.noloc]`Bottlerocket`, see the https://bottlerocket.dev/en/[Bottlerocket Documentation].
+* For version information resources, see <<eks-ami-versions-bottlerocket>>.
+* To use [.noloc]`Bottlerocket` with managed node groups, see <<managed-node-groups>>.
+* To launch self-managed [.noloc]`Bottlerocket` nodes, see <<launch-node-bottlerocket>>.
+* To retrieve the latest IDs of the Amazon EKS optimized [.noloc]`Bottlerocket` AMIs, see <<retrieve-ami-id-bottlerocket>>.
+* For details on compliance support, see <<bottlerocket-compliance-support>>.
+
+include::eks-ami-versions-bottlerocket.adoc[leveloffset=+1]
+
+include::retrieve-ami-id-bottlerocket.adoc[leveloffset=+1]
+
+include::bottlerocket-compliance-support.adoc[leveloffset=+1]

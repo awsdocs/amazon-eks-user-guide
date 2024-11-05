@@ -1,0 +1,1326 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[eks-outposts-local-cluster-overview,eks-outposts-local-cluster-overview.title]]
+= Create local Amazon EKS clusters on {aws} Outposts for high availability
+:info_doctype: section
+:info_title: Create local Amazon EKS clusters on {aws} Outposts for high availability
+:info_titleabbrev: Run local clusters
+:info_abstract: Learn to create and manage local Amazon EKS clusters on {aws} Outposts for high availability across multiple regions.
+
+[abstract]
+--
+Learn to create and manage local Amazon EKS clusters on {aws} Outposts for high availability across multiple regions.
+--
+
+You can use local clusters to run your entire Amazon EKS cluster locally on {aws} Outposts. This helps mitigate the risk of application downtime that might result from temporary network disconnects to the cloud. These disconnects can be caused by fiber cuts or weather events. Because the entire [.noloc]`Kubernetes` cluster runs locally on Outposts, applications remain available. You can perform cluster operations during network disconnects to the cloud. For more information, see <<eks-outposts-network-disconnects>>. The following diagram shows a local cluster deployment.
+
+
+
+image::images/outposts-local-cluster.png[Outpost local cluster,scaledwidth=100%]
+
+Local clusters are generally available for use with Outposts racks.
+
+[[outposts-control-plane-supported-regions,outposts-control-plane-supported-regions.title]]
+== Supported {aws} Regions
+
+You can create local clusters in the following {aws} Regions: US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Middle East (Bahrain), and South America (São Paulo). For detailed information about supported features, see <<outposts-overview-comparing-deployment-options>>.
+
+[.topiclist]
+[[Topic List]]
+
+[.topic]
+[[eks-outposts-local-cluster-create,eks-outposts-local-cluster-create.title]]
+== Deploy an Amazon EKS cluster on {aws} Outposts
+
+[abstract]
+--
+Learn to create a local Amazon EKS cluster on {aws} Outposts.
+--
+
+This topic provides an overview of what to consider when running a local cluster on an Outpost. The topic also provides instructions for how to deploy a local cluster on an Outpost.
+
+
+[IMPORTANT]
+====
+* These considerations aren't replicated in related Amazon EKS documentation. If other Amazon EKS documentation topics conflict with the considerations here, follow the considerations here.
+* These considerations are subject to change and might change frequently. So, we recommend that you regularly review this topic.
+* Many of the considerations are different than the considerations for creating a cluster on the {aws} Cloud.
+====
+
+* Local clusters support Outpost racks only. A single local cluster can run across multiple physical Outpost racks that comprise a single logical Outpost. A single local cluster can't run across multiple logical Outposts. Each logical Outpost has a single Outpost ARN.
+* Local clusters run and manage the [.noloc]`Kubernetes` control plane in your account on the Outpost. You can't run workloads on the [.noloc]`Kubernetes` control plane instances or modify the [.noloc]`Kubernetes` control plane components. These nodes are managed by the Amazon EKS service. Changes to the [.noloc]`Kubernetes` control plane don't persist through automatic Amazon EKS management actions, such as patching.
+* Local clusters support self-managed add-ons and self-managed Amazon Linux node groups. The <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, <<managing-kube-proxy,kube-proxy>>, and <<managing-coredns,CoreDNS>> add-ons are automatically installed on local clusters. 
+* Local clusters require the use of Amazon EBS on Outposts. Your Outpost must have Amazon EBS available for the [.noloc]`Kubernetes` control plane storage.
+* Local clusters use Amazon EBS on Outposts. Your Outpost must have Amazon EBS available for the [.noloc]`Kubernetes` control plane storage. Outposts support Amazon EBS `gp2` volumes only.
+* Amazon EBS backed [.noloc]`Kubernetes` `PersistentVolumes` are supported using the Amazon EBS CSI driver.
+* The control plane instances of local clusters are set up in https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/[stacked highly available topology]. Two out of the three control plane instances must be healthy at all times to maintain quorum. If quorum is lost, contact {aws} support, as some service-side actions will be required to enable the new managed instances.
+
+**Prerequisites**
+
+* Familiarity with the <<outposts-overview-comparing-deployment-options,Outposts deployment options>>, <<eks-outposts-capacity-considerations,Select instance types and placement groups for Amazon EKS clusters on {aws} Outposts based on capacity considerations>>, and <<eks-outposts-vpc-subnet-requirements,VPC requirements and considerations>>.
+* An existing Outpost. For more information, see link:outposts/latest/userguide/what-is-outposts.html[What is {aws} Outposts,type="documentation"].
+* The `kubectl` command line tool is installed on your computer or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
+* An IAM principal (user or role) with permissions to `create` and `describe` an Amazon EKS cluster. For more information, see <<policy-create-local-cluster>> and <<policy-example2>>.
+
+When a local Amazon EKS cluster is created, the   link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that creates the cluster is permanently added. The principal is specifically added to the [.noloc]`Kubernetes` RBAC authorization table as the administrator. This entity has `system:masters` permissions. The identity of this entity isn't visible in your cluster configuration. So, it's important to note the entity that created the cluster and make sure that you never delete it. Initially, only the principal that created the server can make calls to the [.noloc]`Kubernetes` API server using `kubectl`. If you use the console to create the cluster, make sure that the same IAM credentials are in the {aws} SDK credential chain when you run `kubectl` commands on your cluster. After your cluster is created, you can grant other IAM principals access to your cluster.
+
+== Create an Amazon EKS local cluster
+You can create a local cluster with the following tools described in this page:
+
+* <<eksctl_create_cluster_outpost>>
+* <<console_create_cluster_outpost>>
+
+You could also use the link:cli/latest/reference/eks/create-cluster.html[{aws} CLI,type="documentation"], the link:eks/latest/APIReference/API_CreateCluster.html[Amazon EKS API,type="documentation"], the link:developer/tools/[{aws} SDKs,type="marketing"], link:AWSCloudFormation/latest/UserGuide/aws-properties-eks-cluster-outpostconfig.html[{aws} CloudFormation,type="documentation"] or https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest[Terraform] to create clusters on Outposts.
+
+=== `eksctl` [[eksctl_create_cluster_outpost]]
+
+*To create a local cluster with `eksctl`*
+ 
+. Install version {eksctl-min-version} or later of the `eksctl` command line tool on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation. 
+
+. Copy the contents that follow to your device. Replace the following values and then run the modified command to create the `outpost-control-plane.yaml` file:
++
+* Replace [.replaceable]`region-code` with the <<outposts-control-plane-supported-regions,supported {aws} Region>> that you want to create your cluster in.
+* Replace [.replaceable]`my-cluster` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
+* Replace [.replaceable]`vpc-ExampleID1` and [.replaceable]`subnet-ExampleID1` with the IDs of your existing VPC and subnet. The VPC and subnet must meet the requirements in <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts>>.
+* Replace [.replaceable]`uniqueid` with the ID of your Outpost.
+* Replace [.replaceable]`m5.large` with an instance type available on your Outpost. Before choosing an instance type, see <<eks-outposts-capacity-considerations>>. Three control plane instances are deployed. You can't change this number.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+cat >outpost-control-plane.yaml <<EOF
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: my-cluster
+  region: region-code
+  version: "1.24"
+
+vpc:
+  clusterEndpoints:
+    privateAccess: true
+  id: "vpc-vpc-ExampleID1"
+  subnets:
+    private:
+      outpost-subnet-1:
+        id: "subnet-subnet-ExampleID1"
+
+outpost:
+  controlPlaneOutpostARN: {arn-aws}outposts:region-code:111122223333:outpost/op-uniqueid
+  controlPlaneInstanceType: m5.large
+EOF
+----
++
+For a complete list of all available options and defaults, see https://eksctl.io/usage/outposts/[{aws} Outposts Support] and https://eksctl.io/usage/schema/[Config file schema] in the `eksctl` documentation.
+. Create the cluster using the configuration file that you created in the previous step. `eksctl` creates a VPC and one subnet on your Outpost to deploy the cluster in.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create cluster -f outpost-control-plane.yaml
+----
++
+Cluster provisioning takes several minutes. While the cluster is being created, several lines of output appear. The last line of output is similar to the following example line.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+[✓]  EKS cluster "my-cluster" in "region-code" region is ready
+----
++
+[TIP]
+====
+To see the most options that you can specify when creating a cluster with `eksctl`, use the `eksctl create cluster --help` command. To see all the available options, you can use a `config` file. For more information, see https://eksctl.io/usage/creating-and-managing-clusters/#using-config-files[Using config files] and the https://eksctl.io/usage/schema/[config file schema] in the `eksctl` documentation. You can find https://github.com/weaveworks/eksctl/tree/master/examples[config file examples] on [.noloc]`GitHub`.
+====
++
+The `eksctl` command automatically created an <<access-entries,access entry>> for the IAM principal (user or role) that created the cluster and granted the IAM principal administrator permissions to [.noloc]`Kubernetes` objects on the cluster. If you don't want the cluster creator to have administrator access to [.noloc]`Kubernetes` objects on the cluster, add the following text to the previous configuration file: `bootstrapClusterCreatorAdminPermissions: false` (at the same level as `metadata`, `vpc`, and `outpost`). If you added the option, then after cluster creation, you need to create an access entry for at least one IAM principal, or no IAM principals will have access to [.noloc]`Kubernetes` objects on the cluster.
+
+=== {aws-management-console} [[console_create_cluster_outpost]]
+
+*To create your cluster with the {aws-management-console}*
+
+. You need an existing VPC and subnet that meet Amazon EKS requirements. For more information, see <<eks-outposts-vpc-subnet-requirements>>.
+. If you already have a local cluster IAM role, or you're going to create your cluster with `eksctl`, then you can skip this step. By default, `eksctl` creates a role for you.
+.. Run the following command to create an IAM trust policy JSON file. 
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+cat >eks-local-cluster-role-trust-policy.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+----
+.. Create the Amazon EKS cluster IAM role. To create an IAM role, the  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that is creating the role must be assigned the `iam:CreateRole` action (permission).
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam create-role --role-name myAmazonEKSLocalClusterRole --assume-role-policy-document file://"eks-local-cluster-role-trust-policy.json"
+----
+.. Attach the Amazon EKS managed policy named link:aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html[AmazonEKSLocalOutpostClusterPolicy,type="documentation"] to the role. To attach an IAM policy to an  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"], the principal that is attaching the policy must be assigned one of the following IAM actions (permissions): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam attach-role-policy --policy-arn {arn-aws}iam::aws:policy/AmazonEKSLocalOutpostClusterPolicy --role-name myAmazonEKSLocalClusterRole
+----
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. At the top of the console screen, make sure that you have selected a <<outposts-control-plane-supported-regions,supported {aws} Region>>.
+. Choose *Add cluster* and then choose  *Create*.
+. On the *Configure cluster* page, enter or select values for the following fields:
++
+* *[.noloc]`Kubernetes` control plane location* – Choose {aws} Outposts.
+* *Outpost ID* – Choose the ID of the Outpost that you want to create your control plane on.
+* *Instance type* – Select an instance type. Only the instance types available in your Outpost are displayed. In the dropdown list, each instance type describes how many nodes the instance type is recommended for. Before choosing an instance type, see <<eks-outposts-capacity-considerations>>. All replicas are deployed using the same instance type. You can't change the instance type after your cluster is created. Three control plane instances are deployed. You can't change this number.
+* *Name* – A name for your cluster. It must be unique in your {aws} account. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
+* *[.noloc]`Kubernetes` version* – Choose the [.noloc]`Kubernetes` version that you want to use for your cluster. We recommend selecting the latest version, unless you need to use an earlier version.
+* *Cluster service role* – Choose the Amazon EKS cluster IAM role that you created in a previous step to allow the [.noloc]`Kubernetes` control plane to manage {aws} resources.
+* *[.noloc]`Kubernetes` cluster administrator access* – If you want the IAM principal (role or user) that's creating the cluster to have administrator access to the [.noloc]`Kubernetes` objects on the cluster, accept the default (allow). Amazon EKS creates an access entry for the IAM principal and grants cluster administrator permissions to the access entry. For more information about access entries, see <<access-entries>>.
++
+If you want a different IAM principal than the principal creating the cluster to have administrator access to [.noloc]`Kubernetes` cluster objects, choose the disallow option. After cluster creation, any IAM principal that has IAM permissions to create access entries can add an access entries for any IAM principals that need access to [.noloc]`Kubernetes` cluster objects. For more information about the required IAM permissions, see   link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference. If you choose the disallow option and don't create any access entries, then no IAM principals will have access to the [.noloc]`Kubernetes` objects on the cluster.  
+* *Tags* – (Optional) Add any tags to your cluster. For more information, see <<eks-using-tags>>. When you're done with this page, choose  *Next*.
+. On the *Specify networking* page, select values for the following fields:
++
+* *VPC* – Choose an existing VPC. The VPC must have a sufficient number of IP addresses available for the cluster, any nodes, and other [.noloc]`Kubernetes` resources that you want to create. Your VPC must meet the requirements in  <<outposts-vpc-requirements,VPC requirements and considerations>>.
+* *Subnets* – By default, all available subnets in the VPC specified in the previous field are preselected. The subnets that you choose must meet the requirements in  <<outposts-subnet-requirements,Subnet requirements and considerations>>.
+* *Security groups* – (Optional) Specify one or more security groups that you want Amazon EKS to associate to the network interfaces that it creates. Amazon EKS automatically creates a security group that enables communication between your cluster and your VPC. Amazon EKS associates this security group, and any that you choose, to the network interfaces that it creates. For more information about the cluster security group that Amazon EKS creates, see <<sec-group-reqs>>. You can modify the rules in the cluster security group that Amazon EKS creates. If you choose to add your own security groups, you can't change the ones that you choose after cluster creation. For on-premises hosts to communicate with the cluster endpoint, you must allow inbound traffic from the cluster security group. For clusters that don't have an ingress and egress internet connection (also knows as private clusters), you must do one of the following:
++
+** Add the security group associated with required VPC endpoints. For more information about the required endpoints, see <<vpc-subnet-requirements-vpc-endpoints>> in <<subnet-access-to-services,Subnet access to {aws} services>>.
++
+** Modify the security group that Amazon EKS created to allow traffic from the security group associated with the VPC endpoints. When you're done with this page, choose  *Next*.
+. On the *Configure observability* page, you can optionally choose which  *Metrics* and  *Control plane logging* options that you want to turn on. By default, each log type is turned off.
++
+**** For more information on the [.noloc]`Prometheus` metrics option, see <<turn-on-prometheus-metrics>>.
+**** For more information on the *Control plane logging* options, see <<control-plane-logs>>. When you're done with this page, choose  *Next*.
+. On the *Review and create* page, review the information that you entered or selected on the previous pages. If you need to make changes, choose  *Edit*. When you're satisfied, choose  *Create*. The  *Status* field shows  *CREATING* while the cluster is provisioned.
++
+Cluster provisioning takes several minutes.
+
+== View your Amazon EKS local cluster
+
+. After your cluster is created, you can view the Amazon EC2 control plane instances that were created.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws ec2 describe-instances --query 'Reservations[*].Instances[*].{Name:Tags[?Key==`Name`]|[0].Value}' | grep my-cluster-control-plane
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+"Name": "my-cluster-control-plane-id1"
+"Name": "my-cluster-control-plane-id2"
+"Name": "my-cluster-control-plane-id3"
+----
++
+Each instance is tainted with `node-role.eks-local.amazonaws.com/control-plane` so that no workloads are ever scheduled on the control plane instances. For more information about taints, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the [.noloc]`Kubernetes` documentation. Amazon EKS continuously monitors the state of local clusters. We perform automatic management actions, such as security patches and repairing unhealthy instances. When local clusters are disconnected from the cloud, we complete actions to ensure that the cluster is repaired to a healthy state upon reconnect.
+. If you created your cluster using `eksctl`, then you can skip this step. `eksctl` completes this step for you. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` `config` file. For instructions on how to create and update the file, see <<create-kubeconfig>>.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks update-kubeconfig --region region-code --name my-cluster
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+Added new context {arn-aws}eks:region-code:111122223333:cluster/my-cluster to /home/username/.kube/config
+----
+. To connect to your local cluster's [.noloc]`Kubernetes` API server, have access to the local gateway for the subnet, or connect from within the VPC. For more information about connecting an Outpost rack to your on-premises network, see link:outposts/latest/userguide/how-racks-work.html[How local gateways for racks work,type="documentation"] in the {aws} Outposts User Guide. If you use Direct VPC Routing and the Outpost subnet has a route to your local gateway, the private IP addresses of the [.noloc]`Kubernetes` control plane instances are automatically broadcasted over your local network. The local cluster's [.noloc]`Kubernetes` API server endpoint is hosted in Amazon Route 53 (Route 53). The API service endpoint can be resolved by public DNS servers to the Kubernetes API servers' private IP addresses.  
++
+Local clusters' [.noloc]`Kubernetes` control plane instances are configured with static elastic network interfaces with fixed private IP addresses that don't change throughout the cluster lifecycle. Machines that interact with the [.noloc]`Kubernetes` API server might not have connectivity to Route 53 during network disconnects. If this is the case, we recommend configuring `/etc/hosts` with the static private IP addresses for continued operations. We also recommend setting up local DNS servers and connecting them to your Outpost. For more information, see the  link:outposts/latest/userguide/how-outposts-works.html#dns[{aws} Outposts documentation,type="documentation"]. Run the following command to confirm that communication's established with your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get svc
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   28h
+----
+. (Optional) Test authentication to your local cluster when it's in a disconnected state from the {aws} Cloud. For instructions, see <<eks-outposts-network-disconnects>>.
+
+
+[[outposts-control-plan-internal-resources,outposts-control-plan-internal-resources.title]]
+=== Internal resources
+
+Amazon EKS creates the following resources on your cluster. The resources are for Amazon EKS internal use. For proper functioning of your cluster, don't edit or modify these resources.
+
+
+
+* The following https://kubernetes.io/docs/reference/glossary/?all=true#term-mirror-pod[mirror Pods]:
++
+** `aws-iam-authenticator-[.replaceable]``node-hostname```
+** `eks-certificates-controller-[.replaceable]``node-hostname```
+** `etcd-[.replaceable]``node-hostname```
+** `kube-apiserver-[.replaceable]``node-hostname```
+** `kube-controller-manager-[.replaceable]``node-hostname```
+** `kube-scheduler-[.replaceable]``node-hostname```
+* The following self-managed add-ons:
++
+** `kube-system/coredns`
+** `kube-system/` `kube-proxy` (not created until you add your first node)
+** `kube-system/aws-node` (not created until you add your first node). Local clusters use the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` plugin for cluster networking. Do not change the configuration for control plane instances (Pods named `aws-node-controlplane-*`). There are configuration variables that you can use to change the default value for when the plugin creates new network interfaces. For more information, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md[documentation] on GitHub.
+* The following services:
++
+** `default/kubernetes`
+** `kube-system/kube-dns`
+* A `PodSecurityPolicy` named `eks.system`
+* A `ClusterRole` named `eks:system:podsecuritypolicy`
+* A `ClusterRoleBinding` named `eks:system`
+* A default <<default-psp,PodSecurityPolicy>>
+* In addition to the <<sec-group-reqs,cluster security group>>, Amazon EKS creates a security group in your {aws} account that's named `eks-local-internal-do-not-use-or-edit-[.replaceable]``cluster-name``-[.replaceable]``uniqueid```. This security group allows traffic to flow freely between [.noloc]`Kubernetes` components running on the control plane instances.
+
+Recommended next steps:
+
+* <<view-kubernetes-resources-permissions,Grant the IAM principal that created the cluster the required permissions to view Kubernetes resources in the {aws-management-console}>>
+* <<grant-k8s-access,Grant IAM entities access to your cluster>>. If you want the entities to view [.noloc]`Kubernetes` resources in the Amazon EKS console, grant the  <<view-kubernetes-resources-permissions,Required permissions>> to the entities.
+* <<control-plane-logs,Configure logging for your cluster>>
+* Familiarize yourself with what happens during <<eks-outposts-network-disconnects,network disconnects>>.
+* <<eks-outposts-self-managed-nodes,Add nodes to your cluster>>
+* Consider setting up a backup plan for your `etcd`. Amazon EKS doesn't support automated backup and restore of `etcd` for local clusters. For more information, see https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster[Backing up an etcd cluster] in the [.noloc]`Kubernetes` documentation. The two main options are using `etcdctl` to automate taking snapshots or using Amazon EBS storage volume backup.
+
+
+[.topic]
+[[eks-outposts-platform-versions,eks-outposts-platform-versions.title]]
+== Learn [.noloc]`Kubernetes` and Amazon EKS platform versions for {aws} Outposts
+
+[abstract]
+--
+Learn the relationship between Amazon EKS and [.noloc]`Kubernetes` versions available on {aws} Outposts.  
+--
+
+Local cluster platform versions represent the capabilities of the Amazon EKS cluster on {aws} Outposts. The versions include the components that run on the [.noloc]`Kubernetes` control plane, which [.noloc]`Kubernetes` API server flags are enabled. They also include the current [.noloc]`Kubernetes` patch version. Each [.noloc]`Kubernetes` minor version has one or more associated platform versions. The platform versions for different [.noloc]`Kubernetes` minor versions are independent. The platform versions for local clusters and Amazon EKS clusters in the cloud are independent.
+
+When a new [.noloc]`Kubernetes` minor version is available for local clusters, such as `1.29`, the initial platform version for that [.noloc]`Kubernetes` minor version starts at `eks-local-outposts.1`. However, Amazon EKS releases new platform versions periodically to enable new [.noloc]`Kubernetes` control plane settings and to provide security fixes.
+
+When new local cluster platform versions become available for a minor version:
+
+
+
+* The platform version number is incremented (`eks-local-outposts.n+1`).
+* Amazon EKS automatically updates all existing local clusters to the latest platform version for their corresponding [.noloc]`Kubernetes` minor version. Automatic updates of existing platform versions are rolled out incrementally. The roll-out process might take some time. If you need the latest platform version features immediately, we recommend that you create a new local cluster.  
+* Amazon EKS might publish a new node AMI with a corresponding patch version. All patch versions are compatible between the [.noloc]`Kubernetes` control plane and node AMIs for a single [.noloc]`Kubernetes` minor version.
+
+New platform versions don't introduce breaking changes or cause service interruptions.
+
+Local clusters are always created with the latest available platform version (`eks-local-outposts.n`) for the specified [.noloc]`Kubernetes` version.
+
+The current and recent platform versions are described in the following tables.
+
+[[outposts-platform-versions-1.29,outposts-platform-versions-1.29.title]]
+=== [.noloc]`Kubernetes` version `1.29`
+
+The following admission controllers are enabled for all `1.29` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
+
+[cols="1,1,1,1", options="header"]
+|===
+|Kubernetes version
+|Amazon EKS platform version
+|Release notes
+|Release date
+
+
+|`1.29.6`
+|`eks-local-outposts.1`
+|Initial release of Kubernetes version `v1.29`. for local Amazon EKS clusters on Outpost
+|August 20, 2024
+|===
+
+[[outposts-platform-versions-1.28,outposts-platform-versions-1.28.title]]
+=== [.noloc]`Kubernetes` version `1.28`
+
+The following admission controllers are enabled for all `1.28` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
+
+[cols="1,1,1,1", options="header"]
+|===
+|Kubernetes version
+|Amazon EKS platform version
+|Release notes
+|Release date
+
+
+|`1.28.6`
+|`eks-local-outposts.5`
+|Updated Bottlerocket version to v1.19.3 containing newest bugfixes to support local boot in Outposts.
+|April 18, 2024
+
+|`1.28.6`
+|`eks-local-outposts.4`
+|New platform version with security fixes and enhancements. Restored support or local boot in Outposts. Downgraded [.noloc]`Bottlerocket` version to `v1.15.1` for compatibility.
+|April 2, 2024
+
+|`1.28.6`
+|`eks-local-outposts.3`
+|New platform version with security fixes and enhancements.
+|March 22, 2024
+
+|`1.28.6`
+|`eks-local-outposts.2`
+|New platform version with security fixes and enhancements kube-proxy updated to `v1.28.6`. {aws} IAM Authenticator updated to `v0.6.17`. Amazon VPC CNI plugin for Kubernetes downgraded to `v1.13.2` for compatibility reasons. Updated [.noloc]`Bottlerocket` version to `v1.19.2`.
+|March 8, 2024
+
+|`1.28.1`
+|`eks-local-outposts.1`
+|Initial release of Kubernetes version `v1.28`. for local Amazon EKS clusters on Outpost
+|October 4, 2023
+|===
+
+[[outposts-platform-versions-1.27,outposts-platform-versions-1.27.title]]
+=== [.noloc]`Kubernetes` version `1.27`
+
+The following admission controllers are enabled for all `1.27` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
+
+[cols="1,1,1,1", options="header"]
+|===
+|Kubernetes version
+|Amazon EKS platform version
+|Release notes
+|Release date
+
+
+|`1.27.10`
+|`eks-local-outposts.5`
+|New platform with security fixes and enhancements.
+|April 2, 2024
+
+|`1.27.10`
+|`eks-local-outposts.4`
+|New platform with security fixes and enhancements. kube-proxy updated to `v1.27.10`. {aws} IAM Authenticator updated to `v0.6.17`. Updated [.noloc]`Bottlerocket` version to `v1.19.2`.
+|March 22, 2024
+
+|`1.27.3`
+|`eks-local-outposts.3`
+|New platform version with security fixes and enhancements. `kube-proxy` updated to `v1.27.3`. Amazon VPC CNI plugin for Kubernetes updated to `v1.13.2`.
+|July 14, 2023
+
+|`1.27.1`
+|`eks-local-outposts.2`
+|Updated CoreDNS image to `v1.10.1`
+|June 22, 2023
+
+|`1.27.1`
+|`eks-local-outposts.1`
+|Initial release of Kubernetes version `1.27` for local Amazon EKS clusters on Outposts.
+|May 30, 2023
+|===
+
+[[outposts-platform-versions-1.26,outposts-platform-versions-1.26.title]]
+=== [.noloc]`Kubernetes` version `1.26`
+
+The following admission controllers are enabled for all `1.26` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
+
+[cols="1,1,1,1", options="header"]
+|===
+|Kubernetes version
+|Amazon EKS platform version
+|Release notes
+|Release date
+
+
+|`1.26.13`
+|`eks-local-outposts.5`
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.26.13`. {aws} IAM Authenticator updated to `v0.6.17`. Updated [.noloc]`Bottlerocket` version to `v1.19.2`.
+|March 22, 2024
+|===
+
+[[outposts-platform-versions-1.25,outposts-platform-versions-1.25.title]]
+=== [.noloc]`Kubernetes` version `1.25`
+
+The following admission controllers are enabled for all `1.25` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, and `ValidatingAdmissionWebhook`.
+
+[cols="1,1,1,1", options="header"]
+|===
+|Kubernetes version
+|Amazon EKS platform version
+|Release notes
+|Release date
+
+
+|`1.25.16`
+|`eks-local-outposts.7`
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.25.16`. {aws} IAM Authenticator updated to `v0.6.17`. Updated [.noloc]`Bottlerocket` version to `v1.19.2`.
+|March 22, 2024
+
+|`1.25.11`
+|`eks-local-outposts.6`
+|New platform version with security fixes and enhancements. `kube-proxy` updated to `v1.25.11`. Amazon VPC CNI plugin for Kubernetes updated to `v1.13.2`.
+|July 14, 2023
+
+|`1.25.9`
+|`eks-local-outposts.5`
+|New platform version with security fixes and enhancements.
+|July 13, 2023
+
+|`1.25.6`
+|`eks-local-outposts.4`
+|Updated Bottlerocket version to `1.13.2`
+|May 2, 2023
+
+|`1.25.6`
+|`eks-local-outposts.3`
+|Amazon EKS control plane instance operating system updated to Bottlerocket version `v1.13.1` and Amazon VPC CNI plugin for Kubernetes updated to version `v1.12.6`.
+|April 14, 2023
+
+|`1.25.6`
+|`eks-local-outposts.2`
+|Improved diagnostics collection for Kubernetes control plane instances.
+|March 8, 2023
+
+|`1.25.6`
+|`eks-local-outposts.1`
+|Initial release of Kubernetes version `1.25` for local Amazon EKS clusters on Outposts.
+|March 1, 2023
+|===
+
+[[outposts-platform-versions-1.24,outposts-platform-versions-1.24.title]]
+=== [.noloc]`Kubernetes` version `1.24`
+
+The following admission controllers are enabled for all `1.24` platform versions: `DefaultStorageClass`, `DefaultTolerationSeconds`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `ResourceQuota`, `ServiceAccount`, `ValidatingAdmissionWebhook`, `PodSecurityPolicy`, `TaintNodesByCondition`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `ExtendedResourceToleration`, `CertificateApproval`, `PodPriority`, `CertificateSigning`, `CertificateSubjectRestriction`, `RuntimeClass`, and `DefaultIngressClass`.
+
+[cols="1,1,1,1", options="header"]
+|===
+|Kubernetes version
+|Amazon EKS platform version
+|Release notes
+|Release date
+
+
+|`1.24.17`
+|`eks-local-outposts.7`
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.25.16`. {aws} IAM Authenticator updated `v0.6.17`. Updated [.noloc]`Bottlerocket` version to `v1.19.2`.
+|March 22, 2024
+
+|`1.24.15`
+|`eks-local-outposts.6`
+|New platform version with security fixes and enhancements. `kube-proxy` updated to `v1.24.15`. Amazon VPC CNI plugin for Kubernetes updated to `v1.13.2`.
+|July 14, 2023
+
+|`1.24.13`
+|`eks-local-outposts.5`
+|New platform version with security fixes and enhancements.
+|July 13, 2023
+
+|`1.24.9`
+|`eks-local-outposts.4`
+|Updated Bottlerocket version to `1.13.2`
+|May 2, 2023
+
+|`1.24.9`
+|`eks-local-outposts.3`
+|Amazon EKS control plane instance operating system updated to Bottlerocket version `v1.13.1` and Amazon VPC CNI plugin for Kubernetes updated to version `v1.12.6`.
+|April 14, 2023
+
+|`1.24.9`
+|`eks-local-outposts.2`
+|Improved diagnostics collection for Kubernetes control plane instances.
+|March 8, 2023
+
+|`1.24.9`
+|`eks-local-outposts.1`
+|Initial release of Kubernetes version `1.24` for local Amazon EKS clusters on Outposts.
+|January 17, 2023
+|===
+
+[[outposts-platform-versions-1.23,outposts-platform-versions-1.23.title]]
+=== [.noloc]`Kubernetes` version `1.23`
+
+The following admission controllers are enabled for all `1.23` platform versions: `DefaultStorageClass`, `DefaultTolerationSeconds`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `ResourceQuota`, `ServiceAccount`, `ValidatingAdmissionWebhook`, `PodSecurityPolicy`, `TaintNodesByCondition`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `ExtendedResourceToleration`, `CertificateApproval`, `PodPriority`, `CertificateSigning`, `CertificateSubjectRestriction`, `RuntimeClass`, and `DefaultIngressClass`.
+
+[cols="1,1,1,1", options="header"]
+|===
+|Kubernetes version
+|Amazon EKS platform version
+|Release notes
+|Release date
+
+
+|`1.23.17`
+|`eks-local-outposts.6`
+|New platform version with security fixes and enhancements.
+|July 13, 2023
+
+|`1.23.17`
+|`eks-local-outposts.5`
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.23.17`. Updated [.noloc]`Bottlerocket` version to `v1.14.1`.
+|July 6, 2023
+
+|`1.23.15`
+|`eks-local-outposts.4`
+|Amazon EKS control plane instance operating system updated to Bottlerocket version `v1.13.1` and Amazon VPC CNI plugin for Kubernetes updated to version `v1.12.6`.
+|April 14, 2023
+
+|`1.23.15`
+|`eks-local-outposts.3`
+|Improved diagnostics collection for Kubernetes control plane instances.
+|March 8, 2023
+
+|`1.23.15`
+|`eks-local-outposts.2`
+|Initial release of Kubernetes version `1.23` for local Amazon EKS clusters on Outposts.
+|January 17, 2023
+|===
+
+[.topic]
+[[eks-outposts-vpc-subnet-requirements,eks-outposts-vpc-subnet-requirements.title]]
+== Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts
+
+[abstract]
+--
+Learn about VPC and subnet requirements and considerations, then to create a VPC and subnets for Amazon EKS local clusters on {aws} Outposts.
+--
+
+When you create a local cluster, you specify a VPC and at least one private subnet that runs on Outposts. This topic provides an overview of the VPC and subnets requirements and considerations for your local cluster.
+
+[[outposts-vpc-requirements,outposts-vpc-requirements.title]]
+=== VPC requirements and considerations
+
+When you create a local cluster, the VPC that you specify must meet the following requirements and considerations:
+
+
+
+* Make sure that the VPC has enough IP addresses for the local cluster, any nodes, and other [.noloc]`Kubernetes` resources that you want to create. If the VPC that you want to use doesn't have enough IP addresses, increase the number of available IP addresses. You can do this by   link:vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr[associating additional Classless Inter-Domain Routing (CIDR) blocks,type="documentation"] with your VPC. You can associate private (RFC 1918) and public (non-RFC 1918) CIDR blocks to your VPC either before or after you create your cluster. It can take a cluster up to 5 hours for a CIDR block that you associated with a VPC to be recognized.
+* The VPC can't have assigned IP prefixes or IPv6 CIDR blocks. Because of these constraints, the information that's covered in <<cni-increase-ip-addresses,Assign more IP addresses to Amazon EKS nodes with prefixes>> and <<cni-ipv6>> isn't applicable to your VPC.
+* The VPC has a DNS hostname and DNS resolution enabled. Without these features, the local cluster fails to create, and you need to enable the features and recreate your cluster. For more information, see link:vpc/latest/userguide/vpc-dns.html[DNS attributes for your VPC,type="documentation"] in the Amazon VPC User Guide.
+* To access your local cluster over your local network, the VPC must be associated with your Outpost's local gateway route table. For more information, see  link:outposts/latest/userguide/outposts-local-gateways.html#vpc-associations[VPC associations,type="documentation"] in the {aws} Outposts User Guide.
+
+
+[[outposts-subnet-requirements,outposts-subnet-requirements.title]]
+=== Subnet requirements and considerations
+
+When you create the cluster, specify at least one private subnet. If you specify more than one subnet, the [.noloc]`Kubernetes` control plane instances are evenly distributed across the subnets. If more than one subnet is specified, the subnets must exist on the same Outpost. Moreover, the subnets must also have proper routes and security group permissions to communicate with each other. When you create a local cluster, the subnets that you specify must meet the following requirements:
+
+
+
+* The subnets are all on the same logical Outpost.
+* The subnets together have at least three available IP addresses for the [.noloc]`Kubernetes` control plane instances. If three subnets are specified, each subnet must have at least one available IP address. If two subnets are specified, each subnet must have at least two available IP addresses. If one subnet is specified, the subnet must have at least three available IP addresses.  
+* The subnets have a route to the Outpost rack's link:outposts/latest/userguide/outposts-local-gateways.html[local gateway,type="documentation"] to access the [.noloc]`Kubernetes` API server over your local network. If the subnets don't have a route to the Outpost rack's local gateway, you must communicate with your [.noloc]`Kubernetes` API server from within the VPC.
+* The subnets must use IP address-based naming. Amazon EC2  link:AWSEC2/latest/UserGuide/ec2-instance-naming.html#instance-naming-rbn[resource-based naming,type="documentation"] isn't supported by Amazon EKS.
+
+
+[[subnet-access-to-services,subnet-access-to-services.title]]
+=== Subnet access to {aws} services
+
+The local cluster's private subnets on Outposts must be able to communicate with Regional {aws} services. You can achieve this by using a link:vpc/latest/userguide/vpc-nat-gateway.html[NAT gateway,type="documentation"] for outbound internet access or, if you want to keep all traffic private within your VPC, using link:vpc/latest/privatelink/create-interface-endpoint.html[interface VPC endpoints,type="documentation"].
+
+[[subnet-access-nat-gateway,subnet-access-nat-gateway.title]]
+==== Using a NAT gateway
+
+The local cluster's private subnets on Outposts must have an associated route table that has a route to a NAT gateway in a public subnet that is in the Outpost's parent Availability Zone. The public subnet must have a route to an   link:vpc/latest/userguide/VPC_Internet_Gateway.html[internet gateway,type="documentation"]. The NAT gateway enables outbound internet access and prevents unsolicited inbound connections from the internet to instances on the Outpost.
+
+[[vpc-subnet-requirements-vpc-endpoints,vpc-subnet-requirements-vpc-endpoints.title]]
+==== Using interface VPC endpoints
+
+If the local cluster's private subnets on Outposts don't have an outbound internet connection, or if you want to keep all traffic private within your VPC, then you must create the following interface VPC endpoints and link:vpc/latest/privatelink/gateway-endpoints.html[gateway endpoint,type="documentation"] in a Regional subnet before creating your cluster.
+
+[cols="1,1", options="header"]
+|===
+|Endpoint
+|Endpoint type
+
+
+|`com.amazonaws.[.replaceable]``region-code``.ssm`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.ssmmessages`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.ec2messages`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.ec2`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.secretsmanager`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.logs`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.sts`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.ecr.api`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.ecr.dkr`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.s3`
+|Gateway
+|===
+
+The endpoints must meet the following requirements:
+
+
+
+* Created in a private subnet located in your Outpost's parent Availability Zone
+* Have private DNS names enabled
+* Have an attached security group that permits inbound HTTPS traffic from the CIDR range of the private outpost subnet.
+
+Creating endpoints incurs charges. For more information, see link:privatelink/pricing/[{aws} PrivateLink pricing,type="marketing"]. If your [.noloc]`Pods` need access to other {aws} services, then you need to create additional endpoints. For a comprehensive list of endpoints, see link:vpc/latest/privatelink/aws-services-privatelink-support.html[{aws} services that integrate with {aws} PrivateLink,type="documentation"].
+
+[[outposts-create-vpc,outposts-create-vpc.title]]
+=== Create a VPC
+
+You can create a VPC that meets the previous requirements using one of the following {aws} CloudFormation templates:
+
+
+
+* *https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-09-20/amazon-eks-local-outposts-vpc-subnet.yaml[Template 1]* – This template creates a VPC with one private subnet on the Outpost and one public subnet in the {aws} Region. The private subnet has a route to an internet through a NAT Gateway that resides in the public subnet in the {aws} Region. This template can be used to create a local cluster in a subnet with egress internet access.
+* *https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2023-03-20/amazon-eks-local-outposts-fully-private-vpc-subnet.yaml[Template 2]* – This template creates a VPC with one private subnet on the Outpost and the minimum set of VPC Endpoints required to create a local cluster in a subnet that doesn't have ingress or egress internet access (also referred to as a private subnet).
+
+
+[.topic]
+[[eks-outposts-network-disconnects,eks-outposts-network-disconnects.title]]
+== Prepare local Amazon EKS clusters on {aws} Outposts for network disconnects
+
+[abstract]
+--
+Learn how to prepare your Amazon EKS local cluster on {aws} Outposts for network disconnects, including x.509 certificate authentication, monitoring, scaling, and storage options.
+--
+
+If your local network has lost connectivity with the {aws} Cloud, you can continue to use your local Amazon EKS cluster on an Outpost. This topic covers how you can prepare your local cluster for network disconnects and related considerations.
+
+
+
+* Local clusters enable stability and continued operations during temporary, unplanned network disconnects. {aws} Outposts remains a fully connected offering that acts as an extension of the {aws} Cloud in your data center. In the event of network disconnects between your Outpost and {aws} Cloud, we recommend attempting to restore your connection. For instruction, see link:outposts/latest/userguide/network-troubleshoot.html[{aws} Outposts rack network troubleshooting checklist,type="documentation"] in the _{aws} Outposts User Guide_. For more information about how to troubleshoot issues with local clusters, see <<eks-outposts-troubleshooting>>.
+* Outposts emit a `ConnectedStatus` metric that you can use to monitor the connectivity state of your Outpost. For more information, see  link:outposts/latest/userguide/outposts-cloudwatch-metrics.html#outposts-metrics[Outposts Metrics,type="documentation"] in the _{aws} Outposts User Guide_.
+* Local clusters use IAM as the default authentication mechanism using the https://github.com/kubernetes-sigs/aws-iam-authenticator[{aws} Identity and Access Management authenticator for Kubernetes]. IAM isn't available during network disconnects. So, local clusters support an alternative authentication mechanism using `x.509` certificates that you can use to connect to your cluster during network disconnects. For information about how to obtain and use an `x.509` certificate for your cluster, see <<outposts-network-disconnects-authentication>>.
+* If you can't access Route 53 during network disconnects, consider using local DNS servers in your on-premises environment. The [.noloc]`Kubernetes` control plane instances use static IP addresses. You can configure the hosts that you use to connect to your cluster with the endpoint hostname and IP addresses as an alternative to using local DNS servers. For more information, see   link:outposts/latest/userguide/how-outposts-works.html#dns[DNS,type="documentation"] in the _{aws} Outposts User Guide_.
+* If you expect increases in application traffic during network disconnects, you can provision spare compute capacity in your cluster when connected to the cloud. Amazon EC2 instances are included in the price of {aws} Outposts. So, running spare instances doesn't impact your {aws} usage cost.
+* During network disconnects to enable create, update, and scale operations for workloads, your application's container images must be accessible over the local network and your cluster must have enough capacity. Local clusters don't host a container registry for you. If the [.noloc]`Pods` have previously run on those nodes, container images are cached on the nodes. If you typically pull your application's container images from Amazon ECR in the cloud, consider running a local cache or registry. A local cache or registry is helpful if you require create, update, and scale operations for workload resources during network disconnects.
+* Local clusters use Amazon EBS as the default storage class for persistent volumes and the Amazon EBS CSI driver to manage the lifecycle of Amazon EBS persistent volumes. During network disconnects, [.noloc]`Pods` that are backed by Amazon EBS can't be created, updated, or scaled. This is because these operations require calls to the Amazon EBS API in the cloud. If you're deploying stateful workloads on local clusters and require create, update, or scale operations during network disconnects, consider using an alternative storage mechanism.
+* Amazon EBS snapshots can't be created or deleted if {aws} Outposts can't access the relevant {aws} in-region APIs (such as the APIs for Amazon EBS or Amazon S3).
+* When integrating ALB (Ingress) with {aws} Certificate Manager (ACM), certificates are pushed and stored in memory of the {aws} Outposts ALB Compute instance. Current TLS termination will continue to operate in the event of a disconnect from the {aws} Region. Mutating operations in this context will fail (such as new ingress definitions, new ACM based certificates API operations, ALB compute scale, or certificate rotation). For more information, see link:acm/latest/userguide/troubleshooting-renewal.html[Troubleshooting managed certificate renewal,type="documentation"] in the _{aws} Certificate Manager User Guide_.
+* The Amazon EKS control plane logs are cached locally on the [.noloc]`Kubernetes` control plane instances during network disconnects. Upon reconnect, the logs are sent to CloudWatch Logs in the parent {aws} Region. You can use https://prometheus.io/[Prometheus], https://grafana.com/[Grafana], or Amazon EKS partner solutions to monitor the cluster locally using the [.noloc]`Kubernetes` API server's metrics endpoint or using [.noloc]`Fluent Bit` for logs.
+* If you're using the [.noloc]`{aws} Load Balancer Controller` on Outposts for application traffic, existing [.noloc]`Pods` fronted by the [.noloc]`{aws} Load Balancer Controller` continue to receive traffic during network disconnects. New [.noloc]`Pods` created during network disconnects don't receive traffic until the Outpost is reconnected to the {aws} Cloud. Consider setting the replica count for your applications while connected to the {aws} Cloud to accommodate your scaling needs during network disconnects.
+* The [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` defaults to https://aws.github.io/aws-eks-best-practices/networking/vpc-cni/#overview[secondary IP mode]. It's configured with `WARM_ENI_TARGET`=``1``, which allows the plugin to keep "a full elastic network interface" of available IP addresses available. Consider changing `WARM_ENI_TARGET`, `WARM_IP_TARGET`, and `MINIMUM_IP_TARGET` values according to your scaling needs during a disconnected state. For more information, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md[readme] file for the plugin on GitHub. For a list of the maximum number of [.noloc]`Pods` that's supported by each instance type, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/misc/eni-max-pods.txt[eni-max-pods.txt] file on GitHub.
+
+
+[[outposts-network-disconnects-authentication,outposts-network-disconnects-authentication.title]]
+=== Authenticating to your local cluster during a network disconnect
+
+[abstract]
+--
+Learn how to work with your cluster during a network disconnect.
+--
+
+{aws} Identity and Access Management (IAM) isn't available during network disconnects. You can't authenticate to your local cluster using IAM credentials while disconnected. However, you can connect to your cluster over your local network using `x509` certificates when disconnected. You need to download and store a client `X509` certificate to use during disconnects. In this topic, you learn how to create and use the certificate to authenticate to your cluster when it's in a disconnected state.
+
+. Create a certificate signing request.
++
+.. Generate a certificate signing request.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+openssl req -new -newkey rsa:4096 -nodes -days 365 \
+    -keyout admin.key -out admin.csr -subj "/CN=admin"
+----
+.. Create a certificate signing request in [.noloc]`Kubernetes`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+BASE64_CSR=$(cat admin.csr | base64 -w 0)
+cat << EOF > admin-csr.yaml
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: admin-csr
+spec:
+  signerName: kubernetes.io/kube-apiserver-client
+  request: ${BASE64_CSR}
+  usages:
+  - client auth
+EOF
+----
+. Create a certificate signing request using `kubectl`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl create -f admin-csr.yaml
+----
+. Check the status of the certificate signing request.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get csr admin-csr
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME       AGE   REQUESTOR                       CONDITION
+admin-csr  11m   kubernetes-admin                Pending
+----
++
+[.noloc]`Kubernetes` created the certificate signing request.
+. Approve the certificate signing request.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl certificate approve admin-csr
+----
+. Recheck the certificate signing request status for approval.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get csr admin-csr
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME       AGE   REQUESTOR                     CONDITION
+admin-csr  11m   kubernetes-admin              Approved
+----
+. Retrieve and verify the certificate.
++
+.. Retrieve the certificate.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get csr admin-csr -o jsonpath='{.status.certificate}' | base64 --decode > admin.crt
+----
+.. Verify the certificate.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+cat admin.crt
+----
+. Create a cluster role binding for an `admin` user.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl create clusterrolebinding admin --clusterrole=cluster-admin \
+    --user=admin --group=system:masters
+----
+. Generate a user-scoped kubeconfig for a disconnected state. 
++
+You can generate a `kubeconfig` file using the downloaded `admin` certificates. Replace [.replaceable]`my-cluster` and [.replaceable]`apiserver-endpoint` in the following commands.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-cluster --name my-cluster \
+    --query "cluster.certificateAuthority" \
+    --output text | base64 --decode > ca.crt
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl config --kubeconfig admin.kubeconfig set-cluster my-cluster \
+    --certificate-authority=ca.crt --server apiserver-endpoint --embed-certs
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl config --kubeconfig admin.kubeconfig set-credentials admin \
+    --client-certificate=admin.crt --client-key=admin.key --embed-certs
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl config --kubeconfig admin.kubeconfig set-context admin@my-cluster \
+    --cluster my-cluster --user admin
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl config --kubeconfig admin.kubeconfig use-context admin@my-cluster
+----
+. View your `kubeconfig` file.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get nodes --kubeconfig admin.kubeconfig
+----
+. If you have services already in production on your Outpost, skip this step. If Amazon EKS is the only service running on your Outpost and the Outpost isn't currently in production, you can simulate a network disconnect. Before you go into production with your local cluster, simulate a disconnect to make sure that you can access your cluster when it's in a disconnected state. 
++
+.. Apply firewall rules on the networking devices that connect your Outpost to the {aws} Region. This disconnects the service link of the Outpost. You can't create any new instances. Currently running instances lose connectivity to the {aws} Region and the internet.
+.. You can test the connection to your local cluster while disconnected using the `x509` certificate. Make sure to change your `kubeconfig` to the `admin.kubeconfig` that you created in a previous step. Replace [.replaceable]`my-cluster` with the name of your local cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl config use-context admin@my-cluster --kubeconfig admin.kubeconfig
+----
+
++
+If you notice any issues with your local clusters while they're in a disconnected state, we recommend opening a support ticket.
+
+
+[.topic]
+[[eks-outposts-capacity-considerations,eks-outposts-capacity-considerations.title]]
+== Select instance types and placement groups for Amazon EKS clusters on {aws} Outposts based on capacity considerations
+
+[abstract]
+--
+Learn how to select instance types and optionally use placement groups to meet high availability requirements for your Amazon EKS local cluster on {aws} Outposts.
+--
+
+This topic provides guidance for selecting the [.noloc]`Kubernetes` control plane instance type and (optionally) using placement groups to meet high-availability requirements for your local Amazon EKS cluster on an Outpost.
+
+Before you select an instance type (such as `m5`, `c5`, or `r5`) to use for your local cluster's [.noloc]`Kubernetes` control plane on Outposts, confirm the instance types that are available on your Outpost configuration. After you identify the available instance types, select the instance size (such as `large`, `xlarge`, or `2xlarge`) based on the number of nodes that your workloads require. The following table provides recommendations for choosing an instance size.
+
+[NOTE]
+====
+
+The instance sizes must be slotted on your Outposts. Make sure that you have enough capacity for three instances of the size available on your Outposts for the lifetime of your local cluster. For a list of the available Amazon EC2 instance types, see the Compute and storage sections in link:outposts/rack/features/[{aws} Outposts rack features,type="marketing"].
+
+====
+
+[cols="1,1", options="header"]
+|===
+|Number of nodes
+|Kubernetes control plane instance size
+
+
+|1–20
+|
+
+`large`
+
+|21–100
+|
+
+`xlarge`
+
+|101–250
+|
+
+`2xlarge`
+
+|251–500
+|
+
+`4xlarge`
+|===
+
+The storage for the [.noloc]`Kubernetes` control plane requires 246 GB of Amazon EBS storage for each local cluster to meet the required IOPS for `etcd`. When the local cluster is created, the Amazon EBS volumes are provisioned automatically for you.
+
+[[outpost-capacity-considerations-control-plane-placement,outpost-capacity-considerations-control-plane-placement.title]]
+=== Control plane placement
+
+When you don't specify a placement group with the `OutpostConfig.ControlPlanePlacement.GroupName` property, the Amazon EC2 instances provisioned for your [.noloc]`Kubernetes` control plane don't receive any specific hardware placement enforcement across the underlying capacity available on your Outpost.
+
+You can use placement groups to meet the high-availability requirements for your local Amazon EKS cluster on an Outpost. By specifying a placement group during cluster creation, you influence the placement of the [.noloc]`Kubernetes` control plane instances. The instances are spread across independent underlying hardware (racks or hosts), minimizing correlated instance impact on the event of hardware failures.
+
+
+
+
+The type of spread that you can configure depends on the number of Outpost racks you have in your deployment.
+
+* *Deployments with one or two physical racks in a single logical Outpost* – You must have at least three hosts that are configured with the instance type that you choose for your [.noloc]`Kubernetes` control plane instances. A  _spread_ placement group using _host-level spread_ ensures that all [.noloc]`Kubernetes` control plane instances run on distinct hosts within the underlying racks available in your Outpost deployment.
+* *Deployments with three or more physical racks in a single logical Outpost* – You must have at least three hosts configured with the instance type you choose for your [.noloc]`Kubernetes` control plane instances. A  _spread_ placement group using _rack-level spread_ ensures that all [.noloc]`Kubernetes` control plane instances run on distinct racks in your Outpost deployment. You can alternatively use the  _host-level spread_ placement group as described in the previous option.
+
+You are responsible for creating the desired placement group. You specify the placement group when calling the `CreateCluster` API. For more information about placement groups and how to create them, see link:AWSEC2/latest/UserGuide/placement-groups.html[Placement Groups,type="documentation"] in the Amazon EC2 User Guide.
+
+
+
+* When a placement group is specified, there must be available slotted capacity on your Outpost to successfully create a local Amazon EKS cluster. The capacity varies based on whether you use the host or rack spread type. If there isn't enough capacity, the cluster remains in the `Creating` state. You are able to check the `Insufficient Capacity Error` on the health field of the link:eks/latest/APIReference/API_DescribeCluster.html[DescribeCluster,type="documentation"] API response. You must free capacity for the creation process to progress.
+* During Amazon EKS local cluster platform and version updates, the [.noloc]`Kubernetes` control plane instances from your cluster are replaced by new instances using a rolling update strategy. During this replacement process, each control plane instance is terminated, freeing up its respective slot. A new updated instance is provisioned in its place. The updated instance might be placed in the slot that was released. If the slot is consumed by another unrelated instance and there is no more capacity left that respects the required spread topology requirement, then the cluster remains in the `Updating` state. You are able to see the respective `Insufficient Capacity Error` on the health field of the link:eks/latest/APIReference/API_DescribeCluster.html[DescribeCluster,type="documentation"] API response. You must free capacity so the update process can progress and reestablish prior high availability levels.
+* You can create a maximum of 500 placement groups per account in each {aws} Region. For more information, see  link:AWSEC2/latest/UserGuide/placement-groups.html#placement-groups-limitations-general[General rules and limitations,type="documentation"] in the Amazon EC2 User Guide.
+
+
+[.topic]
+[[eks-outposts-troubleshooting,eks-outposts-troubleshooting.title]]
+== Troubleshoot local Amazon EKS clusters on {aws} Outposts
+
+[abstract]
+--
+Learn how to troubleshoot common issues with Amazon EKS local clusters on {aws} Outposts, including cluster creation failures, node join problems, and control plane instance reachability issues through {aws} Systems Manager.
+--
+
+This topic covers some common errors that you might see while using local clusters and how to troubleshoot them. Local clusters are similar to Amazon EKS clusters in the cloud, but there are some differences in how they're managed by Amazon EKS.
+
+
+[[outposts-troubleshooting-api-behavior,outposts-troubleshooting-api-behavior.title]]
+.API behavior
+[%collapsible]
+====
+
+Local clusters are created through the Amazon EKS API, but are run in an asynchronous manner. This means that requests to the Amazon EKS API return immediately for local clusters. However, these requests might succeed, fail fast because of input validation errors, or fail and have descriptive validation errors. This behavior is similar to the [.noloc]`Kubernetes` API.
+
+Local clusters don't transition to a `FAILED` status. Amazon EKS attempts to reconcile the cluster state with the user-requested desired state in a continuous manner. As a result, a local cluster might remain in the `CREATING` state for an extended period of time until the underlying issue is resolved.
+====
+
+[[outposts-troubleshooting-describe-cluster-health-field,outposts-troubleshooting-describe-cluster-health-field.title]]
+.Describe cluster health field
+[%collapsible]
+====
+
+Local cluster issues can be discovered using the link:cli/latest/reference/eks/describe-cluster.html[describe-cluster,type="documentation"] Amazon EKS {aws} CLI command. Local cluster issues are surfaced by the `cluster.health` field of the `describe-cluster` command's response. The message contained in this field includes an error code, descriptive message, and related resource IDs. This information is available through the Amazon EKS API and {aws} CLI only. In the following example, replace [.replaceable]`my-cluster` with the name of your local cluster.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-cluster --name my-cluster --query 'cluster.health'
+----
+
+An example output is as follows.
+
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "issues": [
+        {
+            "code": "ConfigurationConflict",
+            "message": "The instance type 'm5.large' is not supported in Outpost 'my-outpost-arn'.",
+            "resourceIds": [
+                "my-cluster-arn"
+            ]
+        }
+    ]
+}
+----
+
+If the problem is beyond repair, you might need to delete the local cluster and create a new one. For example, trying to provision a cluster with an instance type that's not available on your Outpost. The following table includes common health related errors.
+
+[cols="1,1,1,1", options="header"]
+|===
+|Error scenario
+|Code
+|Message
+|ResourceIds
+
+
+|
+
+Provided subnets couldn't be found.
+|
+
+`ResourceNotFound`
+|
+
+`The subnet ID [.replaceable]``subnet-id`` does not exist`
+|All provided subnet IDs
+
+|
+
+Provided subnets don't belong to the same VPC.
+|
+
+`ConfigurationConflict`
+|
+
+`Subnets specified must belong to the same VPC`
+|All provided subnet IDs
+
+|
+
+Some provided subnets don't belong to the specified Outpost.
+|
+
+`ConfigurationConflict`
+|
+
+`Subnet [.replaceable]``subnet-id`` expected to be in [.replaceable]``outpost-arn``, but is in [.replaceable]``other-outpost-arn```
+|Problematic subnet ID
+
+|
+
+Some provided subnets don't belong to any Outpost.
+|
+
+`ConfigurationConflict`
+|
+
+`Subnet [.replaceable]``subnet-id`` is not part of any Outpost`
+|Problematic subnet ID
+
+|
+
+Some provided subnets don't have enough free addresses to create elastic network interfaces for control plane instances.
+|
+
+`ResourceLimitExceeded`
+|
+
+`The specified subnet does not have enough free addresses to satisfy the request.`
+|Problematic subnet ID
+
+|
+
+The specified control plane instance type isn't supported on your Outpost.
+|
+
+`ConfigurationConflict`
+|
+
+`The instance type [.replaceable]``type`` is not supported in Outpost [.replaceable]``outpost-arn```
+|Cluster ARN
+
+|You terminated a control plane Amazon EC2 instance or `run-instance` succeeded, but the state observed changes to `Terminated`. This can happen for a period of time after your Outpost reconnects and Amazon EBS internal errors cause an Amazon EC2 internal work flow to fail.
+|
+
+`InternalFailure`
+|
+
+`EC2 instance state "Terminated" is unexpected`
+|Cluster ARN
+
+|
+
+You have insufficient capacity on your Outpost. This can also happen when a cluster is being created if an Outpost is disconnected from the {aws} Region.
+|
+
+`ResourceLimitExceeded`
+|
+
+`There is not enough capacity on the Outpost to launch or start the instance.`
+|Cluster ARN
+
+|Your account exceeded your security group quota.
+|
+
+`ResourceLimitExceeded`
+|Error message returned by Amazon EC2 API
+|Target VPC ID
+
+|Your account exceeded your elastic network interface quota.
+|
+
+`ResourceLimitExceeded`
+|Error message returned by Amazon EC2 API
+|Target subnet ID
+
+|
+
+Control plane instances weren't reachable through {aws} Systems Manager. For resolution, see <<outposts-troubleshooting-control-plane-instances-ssm>>.
+|
+
+`ClusterUnreachable`
+|
+
+Amazon EKS control plane instances are not reachable through SSM. Please verify your SSM and network configuration, and reference the EKS on Outposts troubleshooting documentation.
+|Amazon EC2 instance IDs
+
+|An error occurred while getting details for a managed security group or elastic network interface.
+|
+
+Based on Amazon EC2 client error code.
+|Error message returned by Amazon EC2 API
+|All managed security group IDs
+
+|An error occurred while authorizing or revoking security group ingress rules. This applies to both the cluster and control plane security groups.
+|Based on Amazon EC2 client error code.
+|Error message returned by Amazon EC2 API
+|Problematic security group ID
+
+|An error occurred while deleting an elastic network interface for a control plane instance.
+|Based on Amazon EC2 client error code.
+|Error message returned by Amazon EC2 API
+|Problematic elastic network interface ID
+|===
+
+The following table lists errors from other {aws} services that are presented in the health field of the `describe-cluster` response.
+
+[cols="1,1,1", options="header"]
+|===
+|Amazon EC2 error code
+|Cluster health issue code
+|Description
+
+
+|
+
+`AuthFailure`
+|
+
+`AccessDenied`
+|This error can occur for a variety of reasons. The most common reason is that you accidentally removed a tag that the service uses to scope down the service linked role policy from the control plane. If this occurs, Amazon EKS can no longer manage and monitor these {aws} resources.
+
+|
+
+`UnauthorizedOperation`
+|
+
+`AccessDenied`
+|This error can occur for a variety of reasons. The most common reason is that you accidentally removed a tag that the service uses to scope down the service linked role policy from the control plane. If this occurs, Amazon EKS can no longer manage and monitor these {aws} resources.
+
+|
+
+`InvalidSubnetID.NotFound`
+|
+
+`ResourceNotFound`
+|
+
+This error occurs when subnet ID for the ingress rules of a security group can't be found.
+
+|
+
+`InvalidPermission.NotFound`
+|
+
+`ResourceNotFound`
+|This error occurs when the permissions for the ingress rules of a security group aren't correct.
+
+|
+
+`InvalidGroup.NotFound`
+|
+
+`ResourceNotFound`
+|This error occurs when the group of the ingress rules of a security group can't be found.
+
+|
+
+`InvalidNetworkInterfaceID.NotFound`
+|
+
+`ResourceNotFound`
+|This error occurs when the network interface ID for the ingress rules of a security group can't be found.
+
+|
+
+`InsufficientFreeAddressesInSubnet`
+|
+
+`ResourceLimitExceeded`
+|This error occurs when the subnet resource quota is exceeded.
+
+|
+
+`InsufficientCapacityOnOutpost`
+|
+
+`ResourceLimitExceeded`
+|This error occurs when the outpost capacity quota is exceeded.
+
+|
+
+`NetworkInterfaceLimitExceeded`
+|
+
+`ResourceLimitExceeded`
+|
+
+This error occurs when the elastic network interface quota is exceeded.
+
+|
+
+`SecurityGroupLimitExceeded`
+|
+
+`ResourceLimitExceeded`
+|This error occurs when the security group quota is exceeded.
+
+|
+
+`VcpuLimitExceeded`
+|
+
+`ResourceLimitExceeded`
+|This is observed when creating an Amazon EC2 instance in a new account. The error might be similar to the following: "``You have requested more vCPU capacity than your current vCPU limit of 32 allows for the instance bucket that the specified instance type belongs to. Please visit http://aws.amazon.com/contact-us/ec2-request to request an adjustment to this limit."``
+
+|
+
+`InvalidParameterValue`
+|
+
+`ConfigurationConflict`
+|
+
+Amazon EC2 returns this error code if the specified instance type isn't supported on the Outpost.
+
+|All other failures
+|
+
+`InternalFailure`
+|None
+|===
+====
+
+[[outposts-troubleshooting-unable-to-create-or-modify-clusters,outposts-troubleshooting-unable-to-create-or-modify-clusters.title]]
+.Unable to create or modify clusters
+[%collapsible]
+====
+
+Local clusters require different permissions and policies than Amazon EKS clusters that are hosted in the cloud. When a cluster fails to create and produces an `InvalidPermissions` error, double check that the cluster role that you're using has the <<security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy,AmazonEKSLocalOutpostClusterPolicy>> managed policy attached to it. All other API calls require the same set of permissions as Amazon EKS clusters in the cloud.
+====
+
+[[outposts-troubleshooting-cluster-stuck-in-creating-state,outposts-troubleshooting-cluster-stuck-in-creating-state.title]]
+.Cluster is stuck in `CREATING` state
+[%collapsible]
+====
+
+The amount of time it takes to create a local cluster varies depending on several factors. These factors include your network configuration, Outpost configuration, and the cluster's configuration. In general, a local cluster is created and changes to the `ACTIVE` status within 15–20 minutes. If a local cluster remains in the `CREATING` state, you can call `describe-cluster` for information about the cause in the `cluster.health` output field. 
+
+The most common issues are the following:
+
+
+
+* Your cluster can't connect to the control plane instance from the {aws} Region that Systems Manager is in. You can verify this by calling `aws ssm start-session --target [.replaceable]``instance-id``` from an in-Region bastion host. If that command doesn't work, check if Systems Manager is running on the control plane instance. Or, another work around is to delete the cluster and then recreate it.
+* Systems Manager control plane instances might not have internet access. Check if the subnet that you provided when you created the cluster has a NAT gateway and a VPC with an internet gateway. Use VPC reachability analyzer to verify that the control plane instance can reach the internet gateway. For more information, see link:vpc/latest/reachability/getting-started.html[Getting started with VPC Reachability Analyzer,type="documentation"].
+* The role ARN that you provided is missing policies. Check if the <<security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy,{aws} managed policy: AmazonEKSLocalOutpostClusterPolicy>> was removed from the role. This can also occur if an {aws} CloudFormation stack is misconfigured.
+
+
+* All the provided subnets must be associated with the same Outpost and must reach each other. When multiple subnets are specified when a cluster is created, Amazon EKS attempts to spread the control plane instances across multiple subnets. 
+* The Amazon EKS managed security groups are applied at the elastic network interface. However, other configuration elements such as NACL firewall rules might conflict with the rules for the elastic network interface.
+
+
+.VPC and subnet DNS configuration is misconfigured or missing
+Review <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts>>.
+====
+
+[[outposts-troubleshooting-unable-to-join-nodes-to-a-cluster,outposts-troubleshooting-unable-to-join-nodes-to-a-cluster.title]]
+.Can't join nodes to a cluster
+[%collapsible]
+====
+
+* AMI issues:
++
+** You're using an unsupported AMI. You must use https://github.com/awslabs/amazon-eks-ami/releases/tag/v20220620[v20220620] or later for the <<eks-optimized-ami,Create nodes with optimized Amazon Linux AMIs>> Amazon EKS optimized Amazon Linux.
+** If you used an {aws} CloudFormation template to create your nodes, make sure it wasn't using an unsupported AMI.
+* Missing the {aws} IAM Authenticator `ConfigMap` – If it's missing, you must create it. For more information, see <<aws-auth-configmap>> .
+* The wrong security group is used – Make sure to use `eks-cluster-sg-[.replaceable]``cluster-name``-[.replaceable]``uniqueid``` for your worker nodes' security group. The selected security group is changed by {aws} CloudFormation to allow a new security group each time the stack is used.
+* Following unexpected private link VPC steps – Wrong CA data (`--b64-cluster-ca`) or API Endpoint (`--apiserver-endpoint`) are passed.
+* Misconfigured [.noloc]`Pod` security policy:
++
+** The [.noloc]`CoreDNS` and [.noloc]`Amazon VPC CNI plugin for Kubernetes` Daemonsets must run on nodes for nodes to join and communicate with the cluster.
+** The [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` requires some privileged networking features to work properly. You can view the privileged networking features with the following command: `kubectl describe psp eks.privileged`.
+
++
+We don't recommend modifying the default pod security policy. For more information, see <<pod-security-policy>>.
+
+====
+
+[[outposts-troubleshooting-collecting-logs,outposts-troubleshooting-collecting-logs.title]]
+.Collecting logs
+[%collapsible]
+====
+
+When an Outpost gets disconnected from the {aws} Region that it's associated with, the [.noloc]`Kubernetes` cluster likely will continue working normally. However, if the cluster doesn't work properly, follow the troubleshooting steps in  <<eks-outposts-network-disconnects,Prepare local Amazon EKS clusters on {aws} Outposts for network disconnects>>. If you encounter other issues, contact {aws} Support. {aws} Support can guide you on downloading and running a log collection tool. That way, you can collect logs from your [.noloc]`Kubernetes` cluster control plane instances and send them to {aws} Support support for further investigation.
+====
+
+[[outposts-troubleshooting-control-plane-instances-ssm,outposts-troubleshooting-control-plane-instances-ssm.title]]
+.Control plane instances aren't reachable through {aws} Systems Manager
+[%collapsible]
+====
+
+When the Amazon EKS control plane instances aren't reachable through {aws} Systems Manager (Systems Manager), Amazon EKS displays the following error for your cluster.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+Amazon EKS control plane instances are not reachable through SSM. Please verify your SSM and network configuration, and reference the EKS on Outposts troubleshooting documentation.
+----
+
+To resolve this issue, make sure that your VPC and subnets meet the requirements in  <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts>> and that you completed the steps in link:systems-manager/latest/userguide/session-manager-getting-started.html[Setting up Session Manager,type="documentation"] in the {aws} Systems Manager User Guide. 
+====

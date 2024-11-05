@@ -1,0 +1,40 @@
+//!!NODE_ROOT <chapter>
+[[eks-networking,eks-networking.title]]
+= Configure networking for Amazon EKS clusters
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: Configure networking for Amazon EKS clusters
+:info_titleabbrev: Configure networking
+:info_abstract: Learn how to configure networking for your Amazon EKS cluster using a VPC, subnets, \
+                security groups, and networking add-ons to ensure secure and efficient \
+                communication.
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn how to configure networking for your Amazon EKS cluster using a VPC, subnets, security groups, and networking add-ons to ensure secure and efficient communication.
+--
+
+Your Amazon EKS cluster is created in a VPC. Pod networking is provided by the Amazon VPC Container Network Interface (CNI) plugin. This chapter includes the following topics for learning more about networking for your cluster.
+
+[.topiclist]
+[[Topic List]]
+
+include::network-reqs.adoc[leveloffset=+1]
+
+
+include::creating-a-vpc.adoc[leveloffset=+1]
+
+
+include::sec-group-reqs.adoc[leveloffset=+1]
+
+
+include::eks-networking-add-ons.adoc[leveloffset=+1]

@@ -1,0 +1,92 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[prometheus,prometheus.title]]
+= Monitor your cluster metrics with [.noloc]`Prometheus`
+:info_doctype: section
+:info_title: Monitor your cluster metrics with Prometheus
+:info_titleabbrev: Prometheus metrics
+:keywords: Prometheus, metrics, control plane
+:info_abstract: This topic explains how to deploy Prometheus and some of the ways \
+                that you can use it to view and analyze what your cluster is doing.
+
+[abstract]
+--
+This topic explains how to deploy [.noloc]`Prometheus` and some of the ways that you can use it to view and analyze what your cluster is doing.
+--
+
+https://prometheus.io/[Prometheus] is a monitoring and time series database that scrapes endpoints. It provides the ability to query, aggregate, and store collected data. You can also use it for alerting and alert aggregation. This topic explains how to set up [.noloc]`Prometheus` as either a managed or open source option. Monitoring Amazon EKS control plane metrics is a common use case.
+
+Amazon Managed Service for Prometheus is a [.noloc]`Prometheus`-compatible monitoring and alerting service that makes it easy to monitor containerized applications and infrastructure at scale. It is a fully-managed service that automatically scales the ingestion, storage, querying, and alerting of your metrics. It also integrates with {aws} security services to enable fast and secure access to your data. You can use the open-source PromQL query language to query your metrics and alert on them. Also, you can use alert manager in Amazon Managed Service for Prometheus to set up alerting rules for critical alerts. You can then send these critical alerts as notifications to an Amazon SNS topic.
+
+There are several different options for using [.noloc]`Prometheus` with Amazon EKS:
+
+* You can turn on [.noloc]`Prometheus` metrics when first creating an Amazon EKS cluster or you can create your own [.noloc]`Prometheus` scraper for existing clusters. Both of these options are covered by this topic.
+* You can deploy [.noloc]`Prometheus` using [.noloc]`Helm`. For more information, see <<deploy-prometheus>>.
+* You can view control plane raw metrics in [.noloc]`Prometheus` format. For more information, see <<view-raw-metrics>>.
+
+[[turn-on-prometheus-metrics,turn-on-prometheus-metrics.title]]
+== Step 1: Turn on [.noloc]`Prometheus` metrics
+
+[IMPORTANT]
+====
+
+Amazon Managed Service for [.noloc]`Prometheus` resources are outside of the cluster lifecycle and need to be maintained independent of the cluster. When you delete your cluster, make sure to also delete any applicable scrapers to stop applicable costs. For more information, see link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-list-delete[Find and delete scrapers,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
+
+====
+
+[.noloc]`Prometheus` discovers and collects metrics from your cluster through a pull-based model called scraping. Scrapers are set up to gather data from your cluster infrastructure and containerized applications. When you turn on the option to send [.noloc]`Prometheus` metrics, Amazon Managed Service for [.noloc]`Prometheus` provides a fully managed agentless scraper.
+
+If you haven't created the cluster yet, you can turn on the option to send metrics to [.noloc]`Prometheus` when first creating the cluster. In the Amazon EKS console, this option is in the *Configure observability* step of creating a new cluster. For more information, see <<create-cluster>>.
+
+If you already have an existing cluster, you can create your own [.noloc]`Prometheus` scraper. To do this in the Amazon EKS console, navigate to your cluster's *Observability* tab and choose the *Add scraper* button. If you would rather do so with the {aws} API or {aws} CLI, see link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-create[Create a scraper,type="documentation"] in the _Amazon Managed Service for [.noloc]`Prometheus` User Guide_.
+
+The following options are available when creating the scraper with the Amazon EKS console.
+
+*Scraper alias*::
+(Optional) Enter a unique alias for the scraper.
+
+*Destination*::
+Choose an Amazon Managed Service for [.noloc]`Prometheus` workspace. A workspace is a logical space dedicated to the storage and querying of [.noloc]`Prometheus` metrics. With this workspace, you will be able to view [.noloc]`Prometheus` metrics across the accounts that have access to it. The *Create new workspace* option tells Amazon EKS to create a workspace on your behalf using the  *Workspace alias* you provide. With the *Select existing workspace* option, you can select an existing workspace from a dropdown list. For more information about workspaces, see link:prometheus/latest/userguide/AMP-manage-ingest-query.html[Managing workspaces,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
+
+*Service access*::
+This section summarizes the permissions you grant when sending [.noloc]`Prometheus` metrics:
++
+** Allow Amazon Managed Service for Prometheus to describe the scraped Amazon EKS cluster
+** Allow remote writing to the Amazon Managed [.noloc]`Prometheus` workspace
+
++
+If the `AmazonManagedScraperRole` already exists, the scraper uses it. Choose the `AmazonManagedScraperRole` link to see the *Permission details*. If the `AmazonManagedScraperRole` doesn't exist already, choose the *View permission details* link to see the specific permissions you are granting by sending [.noloc]`Prometheus` metrics.
+
+*Subnets*::
+Modify the subnets that the scraper will inherit as needed. If you need to add a grayed out subnet option, go back to the create cluster *Specify networking* step.
+
+*Scraper configuration*::
+Modify the scraper configuration in YAML format as needed. To do so, use the form or upload a replacement YAML file. For more information, see  link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration[Scraper configuration,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
+
+Amazon Managed Service for Prometheus refers to the agentless scraper that is created alongside the cluster as an {aws} managed collector. For more information about {aws} managed collectors, see link:prometheus/latest/userguide/AMP-collector.html[Ingest metrics with {aws} managed collectors,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
+
+[IMPORTANT]
+====
+
+If you create a [.noloc]`Prometheus` scraper using the {aws} CLI or {aws} API, you need to adjust its configuration to give the scraper in-cluster permissions. For more information, see link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup[Configuring your Amazon EKS cluster,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
+
+====
+
+[[use-prometheus-metrics,use-prometheus-metrics.title]]
+== Step 2: Use the [.noloc]`Prometheus` metrics
+
+For more information about how to use the [.noloc]`Prometheus` metrics after you turn them on for your cluster, see the link:prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html[Amazon Managed Service for Prometheus User Guide,type="documentation"].
+
+[[viewing-prometheus-scraper-details,viewing-prometheus-scraper-details.title]]
+== Step 3: Manage [.noloc]`Prometheus` scrapers
+
+To manage scrapers, choose the *Observability* tab in the Amazon EKS console. A table shows a list of scrapers for the cluster, including information such as the scraper ID, alias, status, and creation date. You can add more scrapers, delete scrapers, or view more information about the current scrapers. 
+
+To see more details about a scraper, choose the scraper ID link. For example, you can view the ARN, environment, workspace ID, IAM role, configuration, and networking information. You can use the scraper ID as input to Amazon Managed Service for Prometheus API operations like `DescribeScraper` and `DeleteScraper`. For more information on using the [.noloc]`Prometheus` API, see the link:prometheus/latest/userguide/AMP-APIReference.html[Amazon Managed Service for Prometheus API Reference,type="documentation"].
+
+include::deploy-prometheus.adoc[leveloffset=+1]
+
+include::view-raw-metrics.adoc[leveloffset=+1]
+

@@ -1,0 +1,20 @@
+[[contribute,contribute.title]]
+# Contribute to the EKS User Guide
+:info_titleabbrev: Contribute
+
+include::../attributes.txt[]
+
+
+{aws} is building an improved contribution experience for the EKS User Guide.
+
+The previous GitHub repository at `awsdocs/amazon-eks-user-guide` is temporarily unavailable while we prepare the new contribution system.
+
+The updated experience will use AsciiDoc, a powerful authoring language similar to markdown. AsciiDoc combines simple syntax with enterprise documentation features like advanced formatting, cross-referencing, and security controls.
+
+When the EKS User Guide returns to GitHub in mid-November, you'll be able to edit the documentation source files directly. Our streamlined process includes:
+
+* Faster pull request processing
+* Reduced manual steps 
+* Automated content quality checks
+
+We look forward to your contributions.

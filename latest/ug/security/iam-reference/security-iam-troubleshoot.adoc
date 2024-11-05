@@ -1,0 +1,78 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[security-iam-troubleshoot,security-iam-troubleshoot.title]]
+= Troubleshooting IAM
+:info_titleabbrev: Troubleshooting
+
+include::../../attributes.txt[]
+
+This topic covers some common errors that you may see while using Amazon EKS with IAM and how to work around them.
+
+[[iam-error,iam-error.title]]
+== AccessDeniedException
+
+If you receive an `AccessDeniedException` when calling an {aws} API operation, then the  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] credentials that you're using don't have the required permissions to make that call. 
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+An error occurred (AccessDeniedException) when calling the DescribeCluster operation: 
+User: {arn-aws}iam::111122223333:user/user_name is not authorized to perform: 
+eks:DescribeCluster on resource: {arn-aws}eks:region:111122223333:cluster/my-cluster
+----
+
+In the previous example message, the user does not have permissions to call the Amazon EKS `DescribeCluster` API operation. To provide Amazon EKS admin permissions to an IAM principal, see <<security-iam-id-based-policy-examples>>.
+
+For more general information about IAM, see  link:IAM/latest/UserGuide/access_controlling.html[Controlling access using policies,type="documentation"] in the _IAM User Guide_.
+
+[[security-iam-troubleshoot-cannot-view-nodes-or-workloads,security-iam-troubleshoot-cannot-view-nodes-or-workloads.title]]
+== Can't see  *Nodes* on the  *Compute* tab or anything on the  *Resources* tab and you receive an error in the {aws-management-console}
+:info_titleabbrev: Can't see anything on Nodes or Compute tabs in console
+
+You may see a console error message that says ``Your current user or role does not have access to [.noloc]`Kubernetes` objects on this EKS cluster``. Make sure that the  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] user that you're using the {aws-management-console} with has the necessary permissions. For more information, see <<view-kubernetes-resources-permissions>>.
+
+[[security-iam-troubleshoot-configmap,security-iam-troubleshoot-configmap.title]]
+== aws-auth `ConfigMap` does not grant access to the cluster
+
+The https://github.com/kubernetes-sigs/aws-iam-authenticator[{aws} IAM Authenticator] doesn't permit a path in the role ARN used in the `ConfigMap`. Therefore, before you specify `rolearn`, remove the path. For example, change `{arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``team``/[.replaceable]``developers``/[.replaceable]``eks-admin``` to `{arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``eks-admin```.
+
+[[security-iam-troubleshoot-passrole,security-iam-troubleshoot-passrole.title]]
+== I am not authorized to perform iam:PassRole
+
+If you receive an error that you're not authorized to perform the `iam:PassRole` action, your policies must be updated to allow you to pass a role to Amazon EKS.
+
+Some {aws} services allow you to pass an existing role to that service instead of creating a new service role or service-linked role. To do this, you must have permissions to pass the role to the service.
+
+The following example error occurs when an IAM user named `marymajor` tries to use the console to perform an action in Amazon EKS. However, the action requires the service to have permissions that are granted by a service role. Mary does not have permissions to pass the role to the service.
+
+[source]
+----
+User: {arn-aws}iam::123456789012:user/marymajor is not authorized to perform: iam:PassRole
+----
+
+In this case, Mary's policies must be updated to allow her to perform the `iam:PassRole` action.
+
+If you need help, contact your {aws} administrator. Your administrator is the person who provided you with your sign-in credentials.
+
+[[security-iam-troubleshoot-cross-account-access,security-iam-troubleshoot-cross-account-access.title]]
+== I want to allow people outside of my {aws} account to access my Amazon EKS resources
+:info_titleabbrev: Allow external IAM principals to access resources
+
+You can create a role that users in other accounts or people outside of your organization can use to access your resources. You can specify who is trusted to assume the role. For services that support resource-based policies or access control lists (ACLs), you can use those policies to grant people access to your resources.
+
+To learn more, consult the following:
+
+* To learn whether Amazon EKS supports these features, see <<security-iam-service-with-iam>>.
+* To learn how to provide access to your resources across {aws} accounts that you own, see  link:IAM/latest/UserGuide/id_roles_common-scenarios_aws-accounts.html[Providing access to an IAM user in another {aws} account that you own,type="documentation"] in the _IAM User Guide_.
+* To learn how to provide access to your resources to third-party {aws} accounts, see  link:IAM/latest/UserGuide/id_roles_common-scenarios_third-party.html[Providing access to {aws} accounts owned by third parties,type="documentation"] in the _IAM User Guide_.
+* To learn how to provide access through identity federation, see  link:IAM/latest/UserGuide/id_roles_common-scenarios_federated-users.html[Providing access to externally authenticated users (identity federation),type="documentation"] in the _IAM User Guide_.
+* To learn the difference between using roles and resource-based policies for cross-account access, see  link:IAM/latest/UserGuide/access_policies-cross-account-resource-access.html[Cross account resource access in IAM,type="documentation"] in the _IAM User Guide_.
+
+[[security-iam-troubleshoot-wrong-sts-endpoint,security-iam-troubleshoot-wrong-sts-endpoint.title]]
+== Pod containers receive the following error: `An error occurred (SignatureDoesNotMatch) when calling the GetCallerIdentity operation: Credential should be scoped to a valid region`
+:info_titleabbrev: Credential should be scoped to a valid region error
+
+Your containers receive this error if your application is explicitly making requests to the {aws} STS global endpoint (`https://sts.amazonaws`) and your [.noloc]`Kubernetes` service account is configured to use a regional endpoint. You can resolve the issue with one of the following options:
+
+* Update your application code to remove explicit calls to the {aws} STS global endpoint. 
+* Update your application code to make explicit calls to regional endpoints such as `https://sts.us-west-2.amazonaws.com`. Your application should have redundancy built in to pick a different {aws} Region in the event of a failure of the service in the {aws} Region. For more information, see  link:IAM/latest/UserGuide/id_credentials_temp_enable-regions.html[Managing {aws} STS in an {aws} Region,type="documentation"] in the IAM User Guide.
+* Configure your service accounts to use the global endpoint. All versions earlier than `1.22` used the global endpoint by default, but version `1.22` and later clusters use the regional endpoint by default. For more information, see <<configure-sts-endpoint>>.

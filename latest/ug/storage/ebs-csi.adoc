@@ -1,0 +1,358 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[ebs-csi,ebs-csi.title]]
+= Store [.noloc]`Kubernetes` volumes with Amazon EBS
+:info_doctype: section
+:info_title: Store Kubernetes volumes with Amazon EBS
+:info_titleabbrev: Amazon EBS
+:keywords: Amazon EBS CSI driver, storage
+:info_abstract: The Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver manages the \
+                lifecycle of Amazon EBS volumes as storage for Kubernetes Volumes.
+
+[abstract]
+--
+The Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver manages the lifecycle of Amazon EBS volumes as storage for Kubernetes Volumes.
+--
+
+The https://github.com/kubernetes-sigs/aws-ebs-csi-driver/[Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver] manages the lifecycle of Amazon EBS volumes as storage for the Kubernetes Volumes that you create. The Amazon EBS CSI driver makes Amazon EBS volumes for these types of [.noloc]`Kubernetes` volumes: generic https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/[ephemeral volumes] and https://kubernetes.io/docs/concepts/storage/persistent-volumes/[persistent volumes].
+
+[[ebs-csi-considerations,ebs-csi-considerations.title]]
+== Considerations
+
+* You can't mount Amazon EBS volumes to Fargate [.noloc]`Pods`.
+* You can run the Amazon EBS CSI controller on Fargate nodes, but the Amazon EBS CSI node [.noloc]`DaemonSet` can only run on Amazon EC2 instances.
+* Support will be provided for the latest add-on version and one prior version. Bugs or vulnerabilities found in the latest version will be backported to the previous release in a new minor version.
+
+
+[IMPORTANT]
+====
+
+To use the snapshot functionality of the Amazon EBS CSI driver, you must first install the CSI snapshot controller. For more information, see <<csi-snapshot-controller>>.
+
+====
+
+[[ebs-csi-prereqs,ebs-csi-prereqs.title]]
+== Prerequisites
+
+* An existing cluster. To see the required platform version, run the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
+----
+* An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* If you're using a cluster wide restricted <<pod-security-policy,PodSecurityPolicy>>, make sure that the add-on is granted sufficient permissions to be deployed. For the permissions required by each add-on [.noloc]`Pod`, see the https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base[relevant add-on manifest definition] on GitHub.
+
+
+[[csi-iam-role,csi-iam-role.title]]
+== Step 1: Create an IAM role
+
+The Amazon EBS CSI plugin requires IAM permissions to make calls to {aws} APIs on your behalf. If you don't do these steps, attempting to install the add-on and running `kubectl describe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error. For more information, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#set-up-driver-permissions[Set up driver permission] on [.noloc]`GitHub`.  
+
+[NOTE]
+====
+
+[.noloc]`Pods` will have access to the permissions that are assigned to the IAM role unless you block access to IMDS. For more information, see <<security-best-practices>>.
+
+====
+
+The following procedure shows you how to create an IAM role and attach the {aws} managed policy to it. To implement this procedure, you can use one of these tools:
+
+* <<eksctl_store_app_data>>
+* <<console_store_app_data>>
+* <<awscli_store_app_data>>
+
+
+[NOTE]
+====
+
+The specific steps in this procedure are written for using the driver as an Amazon EKS add-on. Different steps are needed to use the driver as a self-managed add-on. For more information, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#set-up-driver-permissions[Set up driver permissions] on [.noloc]`GitHub`.
+
+====
+
+=== `eksctl` [[eksctl_store_app_data]]
+. Create an IAM role and attach a policy. {aws} maintains an {aws} managed policy or you can create your own custom policy. You can create an IAM role and attach the {aws} managed policy with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster. The command deploys an {aws} CloudFormation stack that creates an IAM role and attaches the IAM policy to it. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `arn:aws:` with `arn:aws-us-gov:`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamserviceaccount \
+        --name ebs-csi-controller-sa \
+        --namespace kube-system \
+        --cluster my-cluster \
+        --role-name AmazonEKS_EBS_CSI_DriverRole \
+        --role-only \
+        --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+        --approve
+----
+. If you use a custom link:kms/[KMS key,type="marketing"] for encryption on your Amazon EBS volumes, customize the IAM role as needed. For example, do the following:
++
+.. Copy and paste the following code into a new `kms-key-for-encryption-on-ebs.json` file. Replace [.replaceable]`custom-key-arn` with the custom  link:service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key[KMS key ARN,type="documentation"].
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "kms:CreateGrant",
+            "kms:ListGrants",
+            "kms:RevokeGrant"
+          ],
+          "Resource": ["custom-key-arn"],
+          "Condition": {
+            "Bool": {
+              "kms:GrantIsForAWSResource": "true"
+            }
+          }
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+            "kms:Encrypt",
+            "kms:Decrypt",
+            "kms:ReEncrypt*",
+            "kms:GenerateDataKey*",
+            "kms:DescribeKey"
+          ],
+          "Resource": ["custom-key-arn"]
+        }
+      ]
+    }
+----
+.. Create the policy. You can change [.replaceable]`KMS_Key_For_Encryption_On_EBS_Policy` to a different name. However, if you do, make sure to change it in later steps, too.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam create-policy \
+      --policy-name KMS_Key_For_Encryption_On_EBS_Policy \
+      --policy-document file://kms-key-for-encryption-on-ebs.json
+----
+.. Attach the IAM policy to the role with the following command. Replace [.replaceable]`111122223333` with your account ID. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `arn:aws:` with `arn:aws-us-gov:`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam attach-role-policy \
+      --policy-arn {arn-aws}iam::111122223333:policy/KMS_Key_For_Encryption_On_EBS_Policy \
+      --role-name AmazonEKS_EBS_CSI_DriverRole
+----
+
+=== {aws-management-console} [[console_store_app_data]]
+. Open the IAM console at https://console.aws.amazon.com/iam/.
+. In the left navigation pane, choose *Roles*.
+. On the *Roles* page, choose  *Create role*.
+. On the *Select trusted entity* page, do the following:
++
+.. In the *Trusted entity type* section, choose  *Web identity*.
+.. For *Identity provider*, choose the  *[.noloc]`OpenID Connect` provider URL* for your cluster (as shown under  *Overview* in Amazon EKS).
+.. For *Audience*, choose `sts.amazonaws.com`.
+.. Choose *Next*.
+. On the *Add permissions* page, do the following:
++
+.. In the *Filter policies* box, enter `AmazonEBSCSIDriverPolicy`.
+.. Select the check box to the left of the `AmazonEBSCSIDriverPolicy` returned in the search.
+.. Choose *Next*.
+. On the *Name, review, and create* page, do the following:
++
+.. For *Role name*, enter a unique name for your role, such as [.replaceable]`AmazonEKS_EBS_CSI_DriverRole`.
+.. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see   link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
+.. Choose *Create role*.
+. After the role is created, choose the role in the console to open it for editing.
+. Choose the *Trust relationships* tab, and then choose  *Edit trust policy*.
+. Find the line that looks similar to the following line:
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+"oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
+----
++
+Add a comma to the end of the previous line, and then add the following line after the previous line.  Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` with your cluster's OIDC provider ID.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+"oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+----
+. Choose *Update policy* to finish.
+. If you use a custom link:kms/[KMS key,type="marketing"] for encryption on your Amazon EBS volumes, customize the IAM role as needed. For example, do the following:
++
+.. In the left navigation pane, choose *Policies*.
+.. On the *Policies* page, choose  *Create Policy*.
+.. On the *Create policy* page, choose the  *JSON* tab.
+.. Copy and paste the following code into the editor, replacing [.replaceable]`custom-key-arn` with the custom  link:service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key[KMS key ARN,type="documentation"].
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "kms:CreateGrant",
+            "kms:ListGrants",
+            "kms:RevokeGrant"
+          ],
+          "Resource": ["custom-key-arn"],
+          "Condition": {
+            "Bool": {
+              "kms:GrantIsForAWSResource": "true"
+            }
+          }
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+            "kms:Encrypt",
+            "kms:Decrypt",
+            "kms:ReEncrypt*",
+            "kms:GenerateDataKey*",
+            "kms:DescribeKey"
+          ],
+          "Resource": ["custom-key-arn"]
+        }
+      ]
+    }
+----
+.. Choose *Next: Tags*.
+.. On the *Add tags (Optional)* page, choose  *Next: Review*.
+.. For *Name*, enter a unique name for your policy (for example, [.replaceable]`KMS_Key_For_Encryption_On_EBS_Policy`).
+.. Choose *Create policy*.
+.. In the left navigation pane, choose *Roles*.
+.. Choose the *[.replaceable]`AmazonEKS_EBS_CSI_DriverRole`* in the console to open it for editing.
+.. From the *Add permissions* dropdown list, choose  *Attach policies*.
+.. In the *Filter policies* box, enter [.replaceable]`KMS_Key_For_Encryption_On_EBS_Policy`.
+.. Select the check box to the left of the [.replaceable]`KMS_Key_For_Encryption_On_EBS_Policy` that was returned in the search.
+.. Choose *Attach policies*.
+
+=== {aws} CLI [[awscli_store_app_data]]
+. View your cluster's OIDC provider URL. Replace [.replaceable]`my-cluster` with your cluster name. If the output from the command is `None`, review the *Prerequisites*.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
+----
+. Create the IAM role, granting the `AssumeRoleWithWebIdentity` action.
++
+.. Copy the following contents to a file that's named `aws-ebs-csi-driver-trust-policy.json`. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` and [.replaceable]`region-code` with the values returned in the previous step.  If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `arn:aws:` with `arn:aws-us-gov:`.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "Federated": "{arn-aws}iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+          },
+          "Action": "sts:AssumeRoleWithWebIdentity",
+          "Condition": {
+            "StringEquals": {
+              "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com",
+              "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+            }
+          }
+        }
+      ]
+    }
+----
+.. Create the role. You can change [.replaceable]`AmazonEKS_EBS_CSI_DriverRole` to a different name. If you change it, make sure to change it in later steps.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam create-role \
+      --role-name AmazonEKS_EBS_CSI_DriverRole \
+      --assume-role-policy-document file://"aws-ebs-csi-driver-trust-policy.json"
+----
+. Attach a policy. {aws} maintains an {aws} managed policy or you can create your own custom policy. Attach the {aws} managed policy to the role with the following command. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `arn:aws:` with `arn:aws-us-gov:`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam attach-role-policy \
+      --policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+      --role-name AmazonEKS_EBS_CSI_DriverRole
+----
+. If you use a custom link:kms/[KMS key,type="marketing"] for encryption on your Amazon EBS volumes, customize the IAM role as needed. For example, do the following:
++
+.. Copy and paste the following code into a new `kms-key-for-encryption-on-ebs.json` file. Replace [.replaceable]`custom-key-arn` with the custom  link:service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key[KMS key ARN,type="documentation"].
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "kms:CreateGrant",
+            "kms:ListGrants",
+            "kms:RevokeGrant"
+          ],
+          "Resource": ["custom-key-arn"],
+          "Condition": {
+            "Bool": {
+              "kms:GrantIsForAWSResource": "true"
+            }
+          }
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+            "kms:Encrypt",
+            "kms:Decrypt",
+            "kms:ReEncrypt*",
+            "kms:GenerateDataKey*",
+            "kms:DescribeKey"
+          ],
+          "Resource": ["custom-key-arn"]
+        }
+      ]
+    }
+----
+.. Create the policy. You can change [.replaceable]`KMS_Key_For_Encryption_On_EBS_Policy` to a different name. However, if you do, make sure to change it in later steps, too.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam create-policy \
+      --policy-name KMS_Key_For_Encryption_On_EBS_Policy \
+      --policy-document file://kms-key-for-encryption-on-ebs.json
+----
+.. Attach the IAM policy to the role with the following command. Replace [.replaceable]`111122223333` with your account ID. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `arn:aws:` with `arn:aws-us-gov:`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam attach-role-policy \
+      --policy-arn {arn-aws}iam::111122223333:policy/KMS_Key_For_Encryption_On_EBS_Policy \
+      --role-name AmazonEKS_EBS_CSI_DriverRole
+----
+
+Now that you have created the Amazon EBS CSI driver IAM role, you can continue to the next section. When you deploy the add-on with this IAM role, it creates and is configured to use a service account that's named `ebs-csi-controller-sa`. The service account is bound to a [.noloc]`Kubernetes` `clusterrole` that's assigned the required [.noloc]`Kubernetes` permissions.
+
+[[managing-ebs-csi,managing-ebs-csi.title]]
+== Step 2: Get the Amazon EBS CSI driver
+
+We recommend that you install the Amazon EBS CSI driver through the Amazon EKS add-on to improve security and reduce the amount of work. To add an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. For more information about add-ons, see <<eks-add-ons>>.
+
+[IMPORTANT]
+====
+
+Before adding the Amazon EBS driver as an Amazon EKS add-on, confirm that you don't have a self-managed version of the driver installed on your cluster. If so, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#uninstalling-the-ebs-csi-driver[Uninstalling a self-managed Amazon EBS CSI driver] on [.noloc]`GitHub`.  
+
+====
+
+Alternatively, if you want a self-managed installation of the Amazon EBS CSI driver, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md[Installation] on [.noloc]`GitHub`.
+
+[[ebs-sample-app,ebs-sample-app.title]]
+== Step 3: Deploy a sample application
+
+You can deploy a variety of sample apps and modify them as needed. For more information, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes[Kubernetes Examples] on [.noloc]`GitHub`.

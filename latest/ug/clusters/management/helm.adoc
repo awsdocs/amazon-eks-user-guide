@@ -1,0 +1,77 @@
+//!!NODE_ROOT <section>
+include::../../attributes.txt[]
+
+[.topic]
+[[helm,helm.title]]
+= Deploy applications with [.noloc]`Helm` on Amazon EKS
+:info_doctype: section
+:info_title: Deploy applications with Helm on Amazon EKS
+:info_titleabbrev: Deploy apps with Helm
+:info_abstract: Learn how to install and use Helm, a package manager for Kubernetes, with your Amazon EKS cluster to manage and deploy applications seamlessly.
+
+[abstract]
+--
+Learn how to install and use Helm, a package manager for Kubernetes, with your Amazon EKS cluster to manage and deploy applications seamlessly.
+--
+
+The Helm package manager for [.noloc]`Kubernetes` helps you install and manage applications on your [.noloc]`Kubernetes` cluster. For more information, see the https://docs.helm.sh/[Helm documentation]. This topic helps you install and run the Helm binaries so that you can install and manage charts using the Helm CLI on your local system.
+
+[IMPORTANT]
+====
+
+Before you can install Helm charts on your Amazon EKS cluster, you must configure `kubectl`  to work for Amazon EKS. If you have not already done this, see <<create-kubeconfig>> before proceeding. If the following command succeeds for your cluster, you're properly configured.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get svc
+----
+
+====
+. Run the appropriate command for your client operating system.
++
+** If you're using macOS with https://brew.sh/[Homebrew], install the binaries with the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+brew install helm
+----
+** If you're using [.noloc]`Windows` with https://chocolatey.org/[Chocolatey], install the binaries with the following command.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+choco install kubernetes-helm
+----
+** If you're using [.noloc]`Linux`, install the binaries with the following commands.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+chmod 700 get_helm.sh
+./get_helm.sh
+----
++
+NOTE: If you get a message that `openssl` must first be installed, you can install it with the following command. 
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+sudo yum install openssl
+----
+. To pick up the new binary in your `PATH`, Close your current terminal window and open a new one.
+. See the version of Helm that you installed.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+helm version | cut -d + -f 1
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+v3.9.0
+----
+. At this point, you can run any Helm commands (such as ``helm install [.replaceable]`chart-name```) to install, modify, delete, or query Helm charts in your cluster. If you're new to Helm and don't have a specific chart to install, you can:
++
+** Experiment by installing an example chart. See https://helm.sh/docs/intro/quickstart#install-an-example-chart[Install an example chart] in the Helm https://helm.sh/docs/intro/quickstart/[Quickstart guide].
+** Create an example chart and push it to Amazon ECR. For more information, see link:AmazonECR/latest/userguide/push-oci-artifact.html[Pushing a Helm chart,type="documentation"] in the _Amazon Elastic Container Registry User Guide_.
+** Install an Amazon EKS chart from the https://github.com/aws/eks-charts#eks-charts[eks-charts][.noloc]`GitHub` repo or from https://artifacthub.io/packages/search?page=1&repo=aws[ArtifactHub].

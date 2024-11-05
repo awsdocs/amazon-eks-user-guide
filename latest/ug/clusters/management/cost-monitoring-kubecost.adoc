@@ -1,0 +1,115 @@
+
+[.topic]
+[[cost-monitoring-kubecost,cost-monitoring-kubecost.title]]
+= Install Kubecost and access dashboard
+:info_doctype: section
+
+include::../../attributes.txt[]
+
+Amazon EKS supports [.noloc]`Kubecost`, which you can use to monitor your costs broken down by [.noloc]`Kubernetes` resources including [.noloc]`Pods`, nodes, namespaces, and labels. This topic covers installing [.noloc]`Kubecost`, and accessing the [.noloc]`Kubecost` dashboard.  
+
+Amazon EKS provides an {aws} optimized bundle of [.noloc]`Kubecost` for cluster cost visibility. You can use your existing {aws} support agreements to obtain support. For more information about the available versions of [.noloc]`Kubecost`, see <<cost-monitoring-kubecost-bundles>>.
+
+As a [.noloc]`Kubernetes` platform administrator and finance leader, you can use [.noloc]`Kubecost` to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams. You can provide your internal teams and business units with transparent and accurate cost data based on their actual {aws} bill. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters.  
+
+[NOTE]
+====
+
+Kubecost v2 introduces several major new features. <<kubecost-v2,Learn more about Kubecost v2. >>
+
+====
+
+For more information about [.noloc]`Kubecost`, see the https://guide.kubecost.com[Kubecost] documentation.
+
+
+[[kubecost-addon,kubecost-addon.title]]
+== Install Kubecost using Amazon EKS Add-ons
+
+[NOTE]
+====
+Install Kubecost as an Amazon EKS Add-on and benefit from additional features at no additional cost with the Amazon EKS optimized Kubecost bundle. For more information, see <<kubecost-v2>>.
+====
+
+Amazon EKS Add-ons reduce the complexity of upgrading Kubecost, and managing licenses. EKS Add-ons are integrated with the {aws} marketplace.  
+
+. View link:marketplace/seller-profile?id=983de668-2731-4c99-a7e2-74f27d796173[Kubecost in the {aws} Marketplace console,type="marketing"] and subscribe. 
+. Determine the name of your cluster, and the region. Verify you are logged into the {aws} CLI with sufficient permissions to manage EKS. 
+. Create the Kubecost addon.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks create-addon --addon-name kubecost_kubecost --cluster-name $YOUR_CLUSTER_NAME --region $AWS_REGION
+----
+
+Learn how to  <<removing-an-add-on,remove an EKS Add-on>>, such as Kubecost.
+
+[[kubecost-helm,kubecost-helm.title]]
+== Install Kubecost using Helm
+
+* An existing Amazon EKS cluster. To deploy one, see <<getting-started>>. The cluster must have Amazon EC2 nodes because you can't run [.noloc]`Kubecost` on Fargate nodes.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
+* Helm version 3.9.0 or later configured on your device or {aws} CloudShell. To install or update Helm, see <<helm>>.
+* If your cluster is version `1.23` or later, you must have the <<ebs-csi,Store Kubernetes volumes with Amazon EBS>> installed on your cluster.
+. Determine the version of [.noloc]`Kubecost` to install. You can see the available versions at https://gallery.ecr.aws/kubecost/cost-analyzer[kubecost/cost-analyzer] in the Amazon ECR Public Gallery. For more information about the compatibility of [.noloc]`Kubecost` versions and Amazon EKS, see the https://docs.kubecost.com/install-and-configure/install/environment[Environment Requirements] in the Kubecost documentation. 
+. Install [.noloc]`Kubecost` with the following command. Replace [.replaceable]`kubecost-version` with the value retrieved from ECR, such as [.replaceable]`1.108.1`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+helm upgrade -i kubecost oci://public.ecr.aws/kubecost/cost-analyzer --version kubecost-version \
+    --namespace kubecost --create-namespace \
+    -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-eks-cost-monitoring.yaml
+----
++
+[.noloc]`Kubecost` releases new versions regularly. You can update your version using https://helm.sh/docs/helm/helm_upgrade/[helm upgrade]. By default, the installation includes a local https://prometheus.io/[Prometheus] server and `kube-state-metrics`. You can customize your deployment to use link:mt/integrating-kubecost-with-amazon-managed-service-for-prometheus[Amazon Managed Service for Prometheus,type="blog"] by following the documentation in link:prometheus/latest/userguide/integrating-kubecost.html[Integrating with Amazon EKS cost monitoring,type="documentation"]. For a list of all other settings that you can configure, see the https://github.com/kubecost/cost-analyzer-helm-chart/blob/develop/cost-analyzer/values-eks-cost-monitoring.yaml[sample configuration file] on GitHub.
++
+You can remove [.noloc]`Kubecost` from your cluster with the following commands.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+helm uninstall kubecost --namespace kubecost
+kubectl delete ns kubecost
+----
+
+
+
+[[kubecost-dashboard,kubecost-dashboard.title]]
+== Access Kubecost Dashboard
+. Make sure the required [.noloc]`Pods` are running.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get pods -n kubecost
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME                                          READY   STATUS    RESTARTS   AGE
+kubecost-cost-analyzer-b9788c99f-5vj5b        2/2     Running   0          3h27m
+kubecost-kube-state-metrics-99bb8c55b-bn2br   1/1     Running   0          3h27m
+kubecost-prometheus-server-7d9967bfc8-9c8p7   2/2     Running   0          3h27m
+----
+. On your device, enable port-forwarding to expose the [.noloc]`Kubecost` dashboard.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl port-forward --namespace kubecost deployment/kubecost-cost-analyzer 9090
+----
++
+Alternatively, you can use the  <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to expose [.noloc]`Kubecost `and use Amazon Cognito for authentication, authorization, and user management. For more information, see link:containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps[How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps,type="blog"].
+. On the same device that you completed the previous step on, open a web browser and enter the following address.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+http://localhost:9090
+----
++
+You see the [.noloc]`Kubecost` Overview page in your browser. It might take 5–10 minutes for [.noloc]`Kubecost` to gather metrics. You can see your Amazon EKS spend, including cumulative cluster costs, associated [.noloc]`Kubernetes` asset costs, and monthly aggregated spend.
++
+image::images/kubecost.png[Kubecost dashboard,scaledwidth=100%]
+. To track costs at a cluster level, tag your Amazon EKS resources for billing. For more information, see <<tag-resources-for-billing>>.
+
+
+* *Cost allocation* – View monthly Amazon EKS costs and cumulative costs for each of your namespaces and other dimensions over the past seven days. This is helpful for understanding which parts of your application are contributing to Amazon EKS spend.
+* *Assets* – View the costs of the {aws} infrastructure assets that are associated with your Amazon EKS resources.

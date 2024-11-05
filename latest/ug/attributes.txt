@@ -1,0 +1,233 @@
+//EKS-specific attributes
+
+:my-cluster: pass:q[[.replaceable]`my-cluster`]
+:eksctl-min-version: pass:q[`0.194.0`]
+
+
+// ROSA-specific attributes
+
+:rosa-service-name-in-code: rosa 
+:rosa-hcplong: ROSA with hosted control planes 
+:rosa-hcp: ROSA with HCP 
+:rosa-classic: ROSA classic 
+:red-hat-openshift: Red Hat OpenShift 
+:red-hat: Red Hat
+:red-hat-console: Red Hat Hybrid Cloud Console
+:openshift-cluster-manager: Openshift Cluster Manager
+:ocm: OCM
+:user_guide_name_long: {rosa-service-name-long} User Guide 
+:user_guide_name_short: User Guide 
+
+// AWS shared content
+
+// Region specific
+// Entities that differ depending on the Region build such as BJS
+// https://code.amazon.com/packages/AWSSharedContentXML/blobs/mainline/--/src/en_us/common/phrases-shared-services.shared
+:arn-aws: pass:q[[.shared]``region.arn``]
+
+// Service names
+:amazon-cloudwatch: pass:q[[.shared]``CWlong``]
+:amazon-rds: pass:q[[.shared]``RDS``]
+:amazon-route-53: pass:q[[.shared]``R53long``]
+:amazon-route-53-resolver: pass:q[[.shared]``R53Rlong``]
+:amazon-s3: pass:q[[.shared]``S3``]
+:amazon-virtual-private-cloud: pass:q[[.shared]``VPClong``]
+:amazon-vpc: pass:q[[.shared]``VPC``]
+:amazon-elastic-block-store: pass:q[[.shared]``EBSlong``]
+:amazon-elastic-file-system: pass:q[[.shared]``EFSlong``]
+:amazon-efs: pass:q[[.shared]``EFS``]
+:amazon-web-services: pass:q[[.shared]``AWSlong``]
+:aws: pass:q[[.shared]``AWS``]
+:application-load-balancer: pass:q[[.shared]``ALB``]
+:application-load-balancers: pass:q[[.shared]``ALBs``]
+:aws-account: pass:q[[.shared]``AWS-account``]
+:aws-accounts: pass:q[[.shared]``AWS-accounts``]
+:aws-always: pass:q[[.shared]``AWS-always``]
+:aws-artifact: pass:q[[.shared]``ART``]
+:aws-billing: pass:q[[.shared]``Billinglong``]
+:aws-billing-cost-management: pass:q[[.shared]``ABlong``]
+:aws-cloud: pass:q[[.shared]``AWS-Cloud``]
+:aws-cloudtrail: pass:q[[.shared]``CTlong``]
+:aws-command-line-interface: pass:q[[.shared]``CLIlong``]
+:aws-config: pass:q[[.shared]``CC``]
+:aws-cost-explorer: pass:q[[.shared]``AWSCostExplorerServicelong``]
+:aws-direct-connect: pass:q[[.shared]``AWS-DC``]
+:aws-identity-and-access-management: pass:q[[.shared]``IAMlong``]
+:aws-kms: pass:q[[.shared]``KMS``]
+:aws-key-management-service: pass:q[[.shared]``KMSlong``]
+:aws-kms-key: pass:q[[.shared]``kms-key-long``]
+:aws-kms-keys: pass:q[[.shared]``kms-keys-long``]
+:aws-license-manager: pass:q[[.shared]``LIClong``]
+:aws-management-console: pass:q[[.shared]``consolelong``]
+:aws-organizations: pass:q[[.shared]``AOlong``]
+:aws-marketplace: pass:q[[.shared]``MKT``]
+:aws-region: pass:q[[.shared]``AWS-Region``]
+:aws-regions: pass:q[[.shared]``AWS-Regions``]
+:aws-security-token-service: pass:q[[.shared]``STSlong``]
+:aws-service: pass:q[[.shared]``AWS-service``]
+:aws-services: pass:q[[.shared]``AWS-services``]
+:aws-service-quotas: pass:q[[.shared]``SQ``]
+:aws-support: pass:q[[.shared]``SUP``]
+:aws-sts: pass:q[[.shared]``STS``]
+:aws-transit-gateway: pass:q[[.shared]``AWSTGlong``]
+:aws-vpn: pass:q[[.shared]``VPN``]
+:classic-load-balancer: pass:q[[.shared]``CLB``]
+:classic-load-balancers: pass:q[[.shared]``CLBs``]
+:cli: pass:q[[.shared]``CLI``]
+:cloudtrail: pass:q[[.shared]``CT``]
+:cloudwatch: pass:q[[.shared]``CW``]
+:cluster: pass:q[[.shared]``cluster``]
+:cluster-cap: pass:q[[.shared]``Cluster``]
+:ebs: pass:q[[.shared]``EBS``]
+:ec2: pass:q[[.shared]``EC2``]
+:ec2-auto-scaling: pass:q[[.shared]``ASlong``]
+:elastic-load-balancing: pass:q[[.shared]``ELB``]
+:iam: pass:q[[.shared]``IAM``]
+:kms-key: pass:q[[.shared]``kms-key``]
+:kms-keys: pass:q[[.shared]``kms-keys``]
+:license-manager: pass:q[[.shared]``LIC``]
+:organizations: pass:q[[.shared]``AO``]
+:privatelink: pass:q[[.shared]``privatelink``]
+:rosa-service-name-long: pass:q[[.shared]``ROSAlong``]
+:rosa-service-name-short: pass:q[[.shared]``ROSA``]
+:route-53: pass:q[[.shared]``R53``]
+:route-53-resolver: pass:q[[.shared]``R53R``]
+:sts: pass:q[[.shared]``STSshort``]
+:transit-gateway: pass:q[[.shared]``AWSSTG``]
+:cloudformation: pass:q[[.shared]``CFN``]
+
+//AWS Regions 
+
+:us-east-1-name: US East (N. Virginia) Region 
+:us-east-1-region: US East (N. Virginia)
+:us-east-1-code: us-east-1
+
+:us-east-2-name: US East (Ohio) Region
+:us-east-2-region: US East (Ohio)
+:us-east-2-code: us-east-2
+
+:us-west-1-name: US West (N. California) Region
+:us-west-1-region: US West (N. California)
+:us-west-1-code: us-west-1
+
+:us-west-2-name: US West (Oregon) Region
+:us-west-2-region: US West (Oregon)
+:us-west-2-code: us-west-2
+
+:af-capetown-name: Africa (Cape Town) Region
+:af-capetown-region: Africa (Cape Town)
+:af-capetown-code: af-south-1
+
+:ap-hongkong-name: Asia Pacific (Hong Kong) Region
+:ap-hongkong-region: Asia Pacific (Hong Kong)
+:ap-hongkong-code: ap-east-1
+
+:ap-hyderabad-name: Asia Pacific (Hyderabad) Region
+:ap-hyderabad-region: Asia Pacific (Hyderabad)
+:ap-hyderabad-code: ap-south-2
+
+:ap-jakarta-name: Asia Pacific (Jakarta) Region
+:ap-jakarta-region: Asia Pacific (Jakarta) 
+:ap-jakarta-code: ap-southeast-3 
+
+:ap-melbourne-name: Asia Pacific (Melbourne) Region
+:ap-melbourne-region: Asia Pacific (Melbourne)
+:ap-melbourne-code: ap-southeast-4
+
+:ap-mumbai-name: Asia Pacific (Mumbai) Region
+:ap-mumbai-region: Asia Pacific (Mumbai)
+:ap-mumbai-code: ap-south-1
+
+:ap-osaka-name: Asia Pacific (Osaka) Region
+:ap-osaka-region: Asia Pacific (Osaka)
+:ap-osaka-code: ap-northeast-3
+
+:ap-seoul-name: Asia Pacific (Seoul) Region
+:ap-seoul-region: Asia Pacific (Seoul)
+:ap-seoul-code: ap-northeast-2
+
+:ap-singapore-name: Asia Pacific (Singapore) Region
+:ap-singapore-region: Asia Pacific (Singapore)
+:ap-singapore-code: ap-southeast-1
+
+:ap-sydney-name: Asia Pacific (Sydney) Region
+:ap-sydney-region: Asia Pacific (Sydney)
+:ap-sydney-code: ap-southeast-2
+
+:ap-tokyo-name: Asia Pacific (Tokyo) Region
+:ap-tokyo-region: Asia Pacific (Tokyo)
+:ap-tokyo-code: ap-northeast-1
+
+:ca-central-name: Canada (Central) Region
+:ca-central-region: Canada (Central)
+:ca-central-code: ca-central-1
+
+:eu-frankfort-name: Europe (Frankfort) Region
+:eu-frankfort-region: Europe (Frankfort)
+:eu-frankfort-code: eu-central-1
+
+:eu-ireland-name: Europe (Ireland) Region
+:eu-ireland-region: Europe (Ireland)
+:eu-ireland-code: eu-west-1
+
+:eu-london-name: Europe (London) Region
+:eu-london-region: Europe (London)
+:eu-london-code: eu-west-2
+
+:eu-milan-name: Europe (Milan) Region
+:eu-milan-region: Europe (Milan)
+:eu-milan-code: eu-south-1
+
+:eu-paris-name: Europe (Paris) Region
+:eu-paris-region: Europe (Paris)
+:eu-paris-code: eu-west-3
+
+:eu-spain-name: Europe (Spain) Region
+:eu-spain-region: Europe (Spain)
+:eu-spain-code: eu-south-2
+
+:eu-stockholm-name: Europe (Stockholm) Region
+:eu-stockholm-region: Europe (Stockholm)
+:eu-stockholm-code: eu-north-1
+
+:eu-zurich-name: Europe (Zurich) Region
+:eu-zurich-region: Europe (Zurich)
+:eu-zurich-code: eu-central-2
+
+:me-bahrain-name: Middle East (Bahrain) Region
+:me-bahrain-region: Middle East (Bahrain)
+:me-bahrain-code: me-south-1
+
+:me-uae-name: Middle East (UAE) Region
+:me-uae-region: Middle East (UAE)
+:me-uae-code: me-central-1
+
+:sa-saopaulo-name: South America (São Paulo) Region
+:sa-saopaulo-region: South America (São Paulo)
+:sa-saopaulo-code: sa-east-1
+
+:govcloud-us: {aws} GovCloud (US)
+
+:us-gov-east-1-name: {aws} GovCloud (US-East) Region
+:us-gov-east-1-region: {aws} GovCloud (US-East)
+:us-gov-east-1-code: us-gov-east-1
+
+:us-gov-west-1-name: {aws} GovCloud (US-West) Region
+:us-gov-east-1-region: {aws} GovCloud (US-West)
+:us-gov-east-1-code: us-gov-west-1
+
+// Re-usable links (this section must occur after the AWS shared content section, due to order of appearance of links)
+
+//AWS
+
+:rosa-aws-console-link: link:console.aws.amazon.com/rosa[{rosa-service-name-short} console,type="console"]
+:rosa-marketing-page: link:rosa/[{rosa-service-name-long} product page,type="marketing"]
+
+//Red Hat
+:rosa-red-hat-console-link: https://console.redhat.com/openshift/create/rosa/wizard[OpenShift Cluster Manager (OCM) {rosa-service-name-short} cluster creation wizard]
+
+
+// ROSA re-usable content (this section must occur after the AWS shared content and re-usable links sections, due to order of appearance of links)
+
+:rosa-aws-console-para: Open the {rosa-service-name-long} console at {rosa-aws-console-link}.
+

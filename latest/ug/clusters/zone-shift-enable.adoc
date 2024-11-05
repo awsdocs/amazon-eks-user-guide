@@ -1,0 +1,64 @@
+[.topic]
+[[zone-shift-enable,zone-shift-enable.title]]
+= Enable EKS Zonal Shift to avoid impaired Availability Zones
+:info_doctype: section
+:info_titleabbrev: Enable Zonal Shift
+:aws: pass:q[[.shared]``AWS``]
+
+
+
+
+Amazon Application Recovery Controller (ARC) helps you manage and coordinate recovery for your applications across Availability Zones (AZs) and works with many services, including Amazon EKS. With EKS support for ARC zonal shift, you can shift in-cluster network traffic away from an impaired AZ. You can also authorize {aws} to monitor the health of your AZs and temporarily shift network traffic away from an unhealthy AZ on your behalf.
+
+*How to use EKS Zonal Shift:*
+
+. Enable your EKS cluster with Amazon Application Recovery Controller (ARC). This is done at the cluster level using the Amazon EKS Console, the {aws} CLI, CloudFormation, or eksctl.
+. Once enabled, you can manage zonal shifts or zonal autoshifts using the ARC Console, the {aws} CLI, or the Zonal Shift and Zonal Autoshift APIs.
+
+Note that after you register an EKS cluster with ARC, you still need to configure ARC. For example, you can use the ARC console to configure Zonal Autoshift. 
+
+For more detailed information about how EKS Zonal Shift works, and how to design your workloads to handle impaired availability zones, see <<zone-shift>>.
+
+== What is Amazon Application Recovery Controller?
+
+Amazon Application Recovery Controller (ARC) helps you prepare for and accomplish faster recovery for applications running on {aws}. Zonal shift enables you to quickly recover from Availability Zone (AZ) impairments, by temporarily moving traffic for a supported resource away from an AZ, to healthy AZs in the {aws} Region. 
+
+link:r53recovery/latest/dg/what-is-route53-recovery.html["Learn more about Amazon Application Recovery Controller (ARC)", type="documentation"]
+
+== What is zonal shift?
+
+Zonal shift is a capability in ARC that allows you to move traffic for a resource like an EKS cluster or an Elastic Load Balancer away from an Availability Zone in an {aws} Region to quickly mitigate an issue and quickly recover your application. You might choose to shift traffic, for example, because a bad deployment is causing latency issues, or because the Availability Zone is impaired. A zonal shift requires no advance configuration steps. 
+
+link:r53recovery/latest/dg/arc-zonal-shift.how-it-works.html["Learn more about ARC Zonal Shift", type="documentation"]
+
+== What is zonal autoshift?
+
+Zonal autoshift is a capability in ARC that you can enable to authorize {aws} to shift traffic away from an AZ for supported resources, on your behalf, to healthy AZs in the {aws} Region. {aws} starts an autoshift when internal telemetry indicates that there is an impairment in one AZ in a Region that could potentially impact customers. The internal telemetry incorporates metrics from multiple sources, including the {aws} network, and the Amazon EC2 and Elastic Load Balancing services.
+
+{aws} ends autoshifts when indicators show that there is no longer an issue or potential issue.
+
+link:r53recovery/latest/dg/arc-zonal-autoshift.how-it-works.html["Learn more about ARC Zonal Autoshift", type="documentation"]
+
+== What does EKS do during an autoshift?
+
+EKS updates networking configurations to avoid directing traffic to impaired AZs. Additionally, if you are using Managed Node Groups, EKS will only launch new nodes in the healthy AZs during a zonal shift. When the shift expires or gets cancelled, the networking configurations will be restored to include the AZ that was previously detected as unhealthy. 
+
+xref:zone-shift[Learn more about EKS Zonal Shift].
+
+[[zone-shift-enable-steps,zone-shift-enable-steps.title]]
+== Register EKS cluster with Amazon Application Recovery Controller (ARC) ({aws} console)
+
+. Find the name and region of the EKS cluster you want to register with ARC.
+. Navigate to the link:eks[EKS console,type="console"] in that region, and select your cluster. 
+. On the *Cluster info* page, select the *Overview* tab. 
+. Under the *Zonal shift* heading, select the *Manage* button. 
+. Select *enable* or *disable* for _EKS Zonal Shift_.
+
+Now your EKS cluster is registered with ARC. 
+
+If you want {aws} to detect and avoid impaired availability zones, you need to configure ARC Zonal Autoshift. For example, you can do this in the ARC console. 
+
+== Next Steps
+
+* Learn how to link:r53recovery/latest/dg/arc-zonal-autoshift.start-cancel.html["enable zonal autoshift",type="documentation"]
+* Learn how to manually link:r53recovery/latest/dg/arc-zonal-shift.start-cancel.html["start a zonal shift",type="documentation"]

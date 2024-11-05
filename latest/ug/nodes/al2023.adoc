@@ -1,0 +1,53 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+[.topic]
+[[al2023,al2023.title]]
+= Upgrade from Amazon Linux 2 to Amazon Linux 2023
+:info_titleabbrev: Upgrade from AL2 to AL2023
+
+[abstract]
+--
+AL2023 is a new Linux-based operating system designed to provide a secure, stable, and high-performance environment for your cloud applications. 
+--
+
+The Amazon EKS optimized AMI is available in two families based on AL2 and AL2023. AL2023 is a new Linux-based operating system designed to provide a secure, stable, and high-performance environment for your cloud applications. It's the next generation of Amazon Linux from Amazon Web Services and is available across all supported Amazon EKS versions, including versions `1.23` and `1.24` in extended support.
+
+AL2023 offers several improvements over AL2. For a full comparison, see link:linux/al2023/ug/compare-with-al2.html[Comparing AL2 and Amazon Linux 2023,type="documentation"] in the _Amazon Linux 2023 User Guide_. Several packages have been added, upgraded, and removed from AL2. It's highly recommended to test your applications with AL2023 before upgrading. For a list of all package changes in AL2023, see link:linux/al2023/release-notes/compare-packages.html[Package changes in Amazon Linux 2023,type="documentation"] in the _Amazon Linux 2023 Release Notes_.
+
+In addition to these changes, you should be aware of the following:
+
+
+
+* AL2023 introduces a new node initialization process `nodeadm` that uses a YAML configuration schema. If you're using self-managed node groups or an AMI with a launch template, you'll now need to provide additional cluster metadata explicitly when creating a new node group. An https://awslabs.github.io/amazon-eks-ami/nodeadm/[example] of the minimum required parameters is as follows, where `apiServerEndpoint`, `certificateAuthority`, and service `cidr` are now required:
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+---
+apiVersion: node.eks.aws/v1alpha1
+kind: NodeConfig
+spec:
+  cluster:
+    name: my-cluster
+    apiServerEndpoint: https://example.com
+    certificateAuthority: Y2VydGlmaWNhdGVBdXRob3JpdHk=
+    cidr: 10.100.0.0/16
+----
++
+In AL2, the metadata from these parameters was discovered from the Amazon EKS `DescribeCluster` API call. With AL2023, this behavior has changed since the additional API call risks throttling during large node scale ups. This change doesn't affect you if you're using managed node groups without a launch template or if you're using [.noloc]`Karpenter`. For more information on `certificateAuthority` and service `cidr`, see ` link:eks/latest/APIReference/API_DescribeCluster.html[DescribeCluster,type="documentation"]` in the _Amazon EKS API Reference_.
+* [.noloc]`Docker` isn't supported in AL2023 for all supported Amazon EKS versions. Support for [.noloc]`Docker` has ended and been removed with Amazon EKS version `1.24` or greater in AL2. For more information on deprecation, see <<dockershim-deprecation>>.
+* Amazon VPC CNI version `1.16.2` or greater is required for AL2023.
+* AL2023 requires `IMDSv2` by default. `IMDSv2` has several benefits that help improve security posture. It uses a session-oriented authentication method that requires the creation of a secret token in a simple HTTP PUT request to start the session. A session's token can be valid for anywhere between 1 second and 6 hours. For more information on how to transition from `IMDSv1` to `IMDSv2`, see link:AWSEC2/latest/UserGuide/instance-metadata-transition-to-version-2.html[Transition to using Instance Metadata Service Version 2,type="documentation"] and link:security/get-the-full-benefits-of-imdsv2-and-disable-imdsv1-across-your-aws-infrastructure[Get the full benefits of IMDSv2 and disable IMDSv1 across your {aws} infrastructure,type="blog"]. If you would like to use `IMDSv1`, you can still do so by manually overriding the settings using instance metadata option launch properties.
++
+NOTE: For `IMDSv2`, the default hop count for managed node groups is set to 1. This means that containers won't have access to the node's credentials using IMDS. If you require container access to the node's credentials, you can still do so by manually overriding the `HttpPutResponseHopLimit` in a link:AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-metadataoptions.html[custom Amazon EC2 launch template,type="documentation"], increasing it to 2.Alternatively, you can use <<pod-identities, Amazon EKS Pod Identity>> to provide credentials instead of `IMDSv2`.
+* AL2023 features the next generation of unified control group hierarchy (`cgroupv2`). `cgroupv2` is used to implement a container runtime, and by `systemd`. While AL2023 still includes code that can make the system run using `cgroupv1`, this isn't a recommended or supported configuration. This configuration will be completely removed in a future major release of Amazon Linux.
+* `eksctl` version `0.176.0` or greater is required for `eksctl` to support AL2023.
+
+For previously existing managed node groups, you can either perform an in-place upgrade or a blue/green upgrade depending on how you're using a launch template:
+
+
+
+* If you're using a custom AMI with a managed node group, you can perform an in-place upgrade by swapping the AMI ID in the launch template. You should ensure that your applications and any user data transfer over to AL2023 first before performing this upgrade strategy.
+* If you're using managed node groups with either the standard launch template or with a custom launch template that doesn't specify the AMI ID, you're required to upgrade using a blue/green strategy. A blue/green upgrade is typically more complex and involves creating an entirely new node group where you would specify AL2023 as the AMI type. The new node group will need to then be carefully configured to ensure that all custom data from the AL2 node group is compatible with the new OS. Once the new node group has been tested and validated with your applications, [.noloc]`Pods` can be migrated from the old node group to the new node group. Once the migration is completed, you can delete the old node group.
+
+If you're using [.noloc]`Karpenter` and want to use AL2023, you'll need to modify the `EC2NodeClass` `amiFamily` field with AL2023. By default, Drift is enabled in [.noloc]`Karpenter`. This means that once the `amiFamily` field has been changed, [.noloc]`Karpenter` will automatically update your worker nodes to the latest AMI when available.
+

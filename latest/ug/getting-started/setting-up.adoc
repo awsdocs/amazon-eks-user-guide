@@ -1,0 +1,47 @@
+//!!NODE_ROOT <chapter>
+include::../attributes.txt[]
+[[setting-up,setting-up.title]]
+= Set up to use Amazon EKS
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: Set up to use Amazon EKS
+:info_titleabbrev: Set up
+:keywords: setting up, setup
+:info_abstract: Set up the tools needed for creating and working with an Amazon EKS cluster.
+
+[abstract]
+--
+Set up the tools needed for creating and working with an Amazon EKS cluster.
+--
+
+To prepare for the command-line management of your Amazon EKS clusters, you need to install several tools. Use the following to set up credentials, create and modify clusters, and work with clusters once they are running:
+
+
+
+* <<install-awscli,Set up {aws} CLI>> – Get the {aws} CLI to set up and manage the services you need to work with Amazon EKS clusters. In particular, you need {aws} CLI to configure credentials, but you also need it with other {aws} services.
+* <<install-kubectl,Set up kubectl and eksctl>> – The `eksctl` CLI interacts with {aws} to create, modify, and delete Amazon EKS clusters. Once a cluster is up, use the open source `kubectl` command to manage Kubernetes objects within your Amazon EKS clusters.
+* Set up a development environment (optional)– Consider adding the following tools:
++
+** *Local deployment tool* – If you're new to [.noloc]`Kubernetes`, consider installing a local deployment tool like https://minikube.sigs.k8s.io/docs/[minikube] or https://kind.sigs.k8s.io/[kind]. These tools allow you to have an Amazon EKS cluster on your local machine for testing applications.
+** *Package manager* – https://helm.sh/docs/intro/install/[Helm] is a popular package manager for [.noloc]`Kubernetes` that simplifies the installation and management of complex packages. With [.noloc]`Helm`, it's easier to install and manage packages like the {aws} Load Balancer Controller on your Amazon EKS cluster.
+
+
+[[setting-up-next-steps,setting-up-next-steps.title]]
+== Next steps
+
+* <<install-awscli,Set up {aws} CLI>>
+* <<install-kubectl,Set up kubectl and eksctl>>
+* <<quickstart,Quickstart: Deploy a web app and store data>>
+
+
+include::install-awscli.adoc[leveloffset=+1]
+
+
+include::install-kubectl.adoc[leveloffset=+1]

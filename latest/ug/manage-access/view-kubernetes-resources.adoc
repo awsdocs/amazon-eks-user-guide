@@ -1,0 +1,236 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[view-kubernetes-resources,view-kubernetes-resources.title]]
+= View [.noloc]`Kubernetes` resources in the {aws-management-console}
+:info_doctype: section
+:info_title: View Kubernetes resources in the {aws-management-console}
+:info_titleabbrev: Access cluster resources with console
+:info_abstract: Learn how to view Kubernetes resources in the {aws-management-console}.
+
+[abstract]
+--
+Learn how to view [.noloc]`Kubernetes` resources in the {aws-management-console}.
+--
+
+You can view the [.noloc]`Kubernetes` resources deployed to your cluster with the {aws-management-console}. You can't view [.noloc]`Kubernetes` resources with the {aws} CLI or https://eksctl.io/[eksctl]. To view [.noloc]`Kubernetes` resources using a command-line tool, use  <<install-kubectl,kubectl>>.
+
+[NOTE]
+====
+To view the *Resources* tab and  *Nodes* section on the  *Compute* tab in the {aws-management-console}, the   link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that you're using must have specific IAM and [.noloc]`Kubernetes` permissions. For more information, see <<view-kubernetes-resources-permissions>>.
+====
+
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. In the *Clusters* list, select the cluster that contains the [.noloc]`Kubernetes` resources that you want to view.
+. Select the *Resources* tab.
+. Select a *Resource type* group that you want to view resources for, such as  *Workloads*. You see a list of resource types in that group.
+. Select a resource type, such as *Deployments*, in the  *Workloads* group. You see a description of the resource type, a link to the [.noloc]`Kubernetes` documentation for more information about the resource type, and a list of resources of that type that are deployed on your cluster. If the list is empty, then there are no resources of that type deployed to your cluster.
+. Select a resource to view more information about it. Try the following examples:
++
+** Select the *Workloads* group, select the  *Deployments* resource type, and then select the  *coredns* resource. When you select a resource, you are in  *Structured view*, by default. For some resource types, you see a  *Pods* section in  *Structured view*. This section lists the [.noloc]`Pods` managed by the workload. You can select any [.noloc]`Pod` listed to view information about the [.noloc]`Pod`. Not all resource types display information in  *Structured View*. If you select  *Raw view* in the top right corner of the page for the resource, you see the complete JSON response from the [.noloc]`Kubernetes` API for the resource.
+** Select the *Cluster* group and then select the  *Nodes* resource type. You see a list of all nodes in your cluster. The nodes can be any  <<eks-compute,Amazon EKS node type>>. This is the same list that you see in the *Nodes* section when you select the  *Compute* tab for your cluster. Select a node resource from the list. In  *Structured view*, you also see a  *Pods* section. This section shows you all [.noloc]`Pods` running on the node.
+
+
+[[view-kubernetes-resources-permissions,view-kubernetes-resources-permissions.title]]
+== Required permissions
+
+To view the  *Resources* tab and  *Nodes* section on the  *Compute* tab in the {aws-management-console}, the   link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that you're using must have specific minimum IAM and [.noloc]`Kubernetes` permissions. Complete the following steps to assign the required permissions to your IAM principals.
+
+. Make sure that the `eks:AccessKubernetesApi`, and other necessary IAM permissions to view [.noloc]`Kubernetes` resources, are assigned to the IAM principal that you're using. For more information about how to edit permissions for an IAM principal, see   link:IAM/latest/UserGuide/access_controlling.html#access_controlling-principals[Controlling access for principals,type="documentation"] in the IAM User Guide. For more information about how to edit permissions for a role, see  link:IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-modify_permissions-policy[Modifying a role permissions policy (console),type="documentation"] in the IAM User Guide.
++
+The following example policy includes the necessary permissions for a principal to view [.noloc]`Kubernetes` resources for all clusters in your account. Replace [.replaceable]`111122223333` with your {aws} account ID. 
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:ListFargateProfiles",
+                "eks:DescribeNodegroup",
+                "eks:ListNodegroups",
+                "eks:ListUpdates",
+                "eks:AccessKubernetesApi",
+                "eks:ListAddons",
+                "eks:DescribeCluster",
+                "eks:DescribeAddonVersions",
+                "eks:ListClusters",
+                "eks:ListIdentityProviderConfigs",
+                "iam:ListRoles"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ssm:GetParameter",
+            "Resource": "{arn-aws}ssm:*:111122223333:parameter/*"
+        }
+    ]
+}
+----
++
+To view nodes in  <<eks-connector,connected clusters>>, the <<connector-iam-role,Amazon EKS connector IAM role>> should be able to impersonate the principal in the cluster. This allows the <<eks-connector,Connect a Kubernetes cluster to an Amazon EKS Management Console with Amazon EKS Connector>> to map the principal to a [.noloc]`Kubernetes` user.
+. Create a [.noloc]`Kubernetes` `rolebinding` or `clusterrolebinding` that is bound to a [.noloc]`Kubernetes` `role` or `clusterrole` that has the necessary permissions to view the [.noloc]`Kubernetes` resources. To learn more about [.noloc]`Kubernetes` roles and role bindings, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the [.noloc]`Kubernetes` documentation. You can apply one of the following manifests to your cluster that create a `role` and `rolebinding` or a `clusterrole` and `clusterrolebinding` with the necessary [.noloc]`Kubernetes` permissions:
++
+View [.noloc]`Kubernetes` resources in all namespaces:::
+** The group name in the file is `eks-console-dashboard-full-access-group`. Apply the manifest to your cluster with the following command:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
+----
+
+
+View [.noloc]`Kubernetes` resources in a specific namespace:::
+** The namespace in this file is `default`. The group name in the file is `eks-console-dashboard-restricted-access-group`. Apply the manifest to your cluster with the following command:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
+----
++
+If you need to change the [.noloc]`Kubernetes` group name, namespace, permissions, or any other configuration in the file, then download the file and edit it before applying it to your cluster:
++
+.. Download the file with one of the following commands:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
+----
+.. Edit the file as necessary.
+.. Apply the manifest to your cluster with one of the following commands:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f eks-console-full-access.yaml
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f eks-console-restricted-access.yaml
+----
+. Map the  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] to the [.noloc]`Kubernetes` user or group in the `aws-auth` `ConfigMap`. You can use a tool such as `eksctl` to update the `ConfigMap` or you can update it manually by editing it.
++
+IMPORTANT: We recommend using `eksctl`, or another tool, to edit the `ConfigMap`. For information about other tools you can use, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#use-tools-to-make-changes-to-the-aws-auth-configmap[Use tools to make changes to the aws-authConfigMap] in the Amazon EKS best practices guides. An improperly formatted `aws-auth` `ConfigMap` can cause you to lose access to your cluster. 
+
+
+=== Edit with eksctl
+
+. You need version {eksctl-min-version} or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
++
+. View the current mappings in the `ConfigMap`. Replace [.replaceable]`my-cluster` with the name of your cluster. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl get iamidentitymapping --cluster my-cluster --region=region-code
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+ARN                                                                                             USERNAME                                GROUPS                          ACCOUNT
+{arn-aws}iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
+----
+. Add a mapping for a role. This example assume that you attached the IAM permissions in the first step to a role named [.replaceable]`my-console-viewer-role`. Replace [.replaceable]`111122223333` with your account ID.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamidentitymapping \
+    --cluster my-cluster \
+    --region=region-code \
+    --arn {arn-aws}iam::111122223333:role/my-console-viewer-role \
+    --group eks-console-dashboard-full-access-group \
+    --no-duplicate-arns
+----
++
+IMPORTANT: The role ARN can't include a path such as `role/my-team/developers/my-role`. The format of the ARN must be `{arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``my-role```. In this example, `my-team/developers/` needs to be removed.
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+[...]
+2022-05-09 14:51:20 [ℹ]  adding identity "{arn-aws}iam::111122223333:role/my-console-viewer-role" to auth ConfigMap
+----
+. Add a mapping for a user.  link:IAM/latest/UserGuide/id_users.html[IAM best practices,type="documentation"] recommend that you grant permissions to roles instead of users. This example assume that you attached the IAM permissions in the first step to a user named [.replaceable]`my-user`. Replace [.replaceable]`111122223333` with your account ID.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamidentitymapping \
+    --cluster my-cluster \
+    --region=region-code \
+    --arn {arn-aws}iam::111122223333:user/my-user \
+    --group eks-console-dashboard-restricted-access-group \
+    --no-duplicate-arns
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+[...]
+2022-05-09 14:53:48 [ℹ]  adding identity "{arn-aws}iam::111122223333:user/my-user" to auth ConfigMap
+----
+. View the mappings in the `ConfigMap` again.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl get iamidentitymapping --cluster my-cluster --region=region-code
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+ARN                                                                                             USERNAME                                GROUPS                                  ACCOUNT
+{arn-aws}iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
+{arn-aws}iam::111122223333:role/my-console-viewer-role                                                                                   eks-console-dashboard-full-access-group
+{arn-aws}iam::111122223333:user/my-user                                                                                                  eks-console-dashboard-restricted-access-group
+----
+
+
+=== Edit ConfigMap manually
+
+For more information about adding users or roles to the `aws-auth` `ConfigMap`, see <<aws-auth-users>>. 
+
+
+. Open the `aws-auth` `ConfigMap` for editing.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl edit -n kube-system configmap/aws-auth
+----
+. Add the mappings to the `aws-auth` `ConfigMap`, but don't replace any of the existing mappings. The following example adds mappings between  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] with permissions added in the first step and the [.noloc]`Kubernetes` groups created in the previous step:
++
+** The [.replaceable]`my-console-viewer-role` role and the `eks-console-dashboard-full-access-group`.
+** The [.replaceable]`my-user` user and the `eks-console-dashboard-restricted-access-group`.
++
+These examples assume that you attached the IAM permissions in the first step to a role named [.replaceable]`my-console-viewer-role` and a user named [.replaceable]`my-user`. Replace [.replaceable]`111122223333` with your {aws} account ID.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: v1
+data:
+mapRoles: |
+  - groups:
+    - eks-console-dashboard-full-access-group
+    rolearn: {arn-aws}iam::111122223333:role/my-console-viewer-role
+    username: my-console-viewer-role        
+mapUsers: |
+  - groups:
+    - eks-console-dashboard-restricted-access-group
+    userarn: {arn-aws}iam::111122223333:user/my-user
+    username: my-user
+----
++
+IMPORTANT: The role ARN can't include a path such as `role/my-team/developers/my-console-viewer-role`. The format of the ARN must be `{arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``my-console-viewer-role```. In this example, `my-team/developers/` needs to be removed.
+. Save the file and exit your text editor.

@@ -1,0 +1,33 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[logging-using-cloudtrail,logging-using-cloudtrail.title]]
+= Log API calls as {aws} CloudTrail events
+:info_doctype: section
+:info_title: Log API calls as {aws} CloudTrail events
+:info_titleabbrev: {aws} CloudTrail
+:keywords: logging, API calls, {aws} CloudTrail
+:info_abstract: Learn about logging Amazon EKS with {aws} CloudTrail.
+
+[abstract]
+--
+Learn about logging Amazon EKS with {aws} CloudTrail.
+--
+
+Amazon EKS is integrated with {aws} CloudTrail. CloudTrail is a service that provides a record of actions by a user, role, or an {aws} service in Amazon EKS. CloudTrail captures all API calls for Amazon EKS as events. This includes calls from the Amazon EKS console and from code calls to the Amazon EKS API operations.
+
+If you create a trail, you can enable continuous delivery of CloudTrail events to an Amazon S3 bucket. This includes events for Amazon EKS. If you don't configure a trail, you can still view the most recent events in the CloudTrail console in *Event history*. Using the information that CloudTrail collects, you can determine several details about a request. For example, you can determine when the request was made to Amazon EKS, the IP address where the request was made from, and who made the request.  
+
+To learn more about CloudTrail, see the link:awscloudtrail/latest/userguide/[{aws} CloudTrail User Guide,type="documentation"].
+
+[.topiclist]
+[[Topic List]]
+
+[.topic]
+include::service-name-info-in-cloudtrail.adoc[leveloffset=+1]
+
+include::understanding-service-name-entries.adoc[leveloffset=+1]
+
+include::enable-asg-metrics.adoc[leveloffset=+1]
+

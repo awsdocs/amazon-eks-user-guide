@@ -1,0 +1,52 @@
+include::../attributes.txt[]
+[.topic]
+[[view-upgrade-policy,view-upgrade-policy.title]]
+= View current cluster upgrade policy
+:info_titleabbrev: View upgrade policy
+
+The  *cluster upgrade policy* determines what happens to your cluster when it leaves the standard support period. If your upgrade policy is `EXTENDED`, the cluster will not be automatically upgraded, and will enter extended support. If your upgrade policy is `STANDARD`, it will be automatically upgraded.
+
+Amazon EKS controls for [.noloc]`Kubernetes` version policy allows you to choose the end of standard support behavior for your EKS clusters. With these controls you can decide which clusters should enter extended support and which clusters should be automatically upgraded at the end of standard support for a [.noloc]`Kubernetes` version.
+
+A minor version is under standard support in Amazon EKS for the first 14 months after it's released. Once a version is past the end of standard support date, it enters extended support for the next 12 months. Extended support allows you to stay at a specific [.noloc]`Kubernetes` version for longer at an additional cost per cluster hour. You can enable or disable extended support for an EKS Cluster. If you disable extended support, {aws} will automatically upgrade your cluster to the next version at the end of standard support. If you enable extended support, you can stay at the current version for an additional cost for a limited period of time. Plan to regularly upgrade your [.noloc]`Kubernetes` cluster, even if you use extended support.  
+
+You can set the version policy for both new and existing clusters, using the `supportType` property. There are two options that can be used to set the version support policy:
+
+
+
+* `*STANDARD*` -- Your EKS cluster eligible for automatic upgrade at the end of standard support. You will not incur extended support charges with this setting but you EKS cluster will automatically upgrade to the next supported [.noloc]`Kubernetes` version in standard support.
+* `*EXTENDED*` -- Your EKS cluster will enter into extended support once the [.noloc]`Kubernetes` version reaches end of standard support. You will incur extended support charges with this setting. You can upgrade your cluster to a standard supported [.noloc]`Kubernetes` version to stop incurring extended support charges. Clusters running on extended support will be eligible for automatic upgrade at the end of extended support.
+
+Extended support is enabled by default for new clusters, and existing clusters. You can view if extended support is enabled for a cluster in the {aws-management-console}, or by using the {aws} CLI.  
+
+[IMPORTANT]
+====
+
+If you want your cluster to stay on its current [.noloc]`Kubernetes` version to take advantage of the extended support period, you must enable the extended support upgrade policy before the end of standard support period.
+
+====
+
+You can only set the version support policy for your clusters while its running on Kubernetes version in standard support. Once the version enters extended support, you will not be able to change this setting until you are running on a version in standard support.  
+
+For example, if you have set your version support policy as `standard` then you will not be able to change this setting after the Kubernetes version running on your cluster reaches the end of standard support. If you have set your version support policy as `extended` then you will not be able to change this setting after the Kubernetes version running on your cluster reaches end of standard support. In order to change the version support policy setting, your cluster must be running on a standard supported Kubernetes version.
+
+[[view-period-console,view-period-console.title]]
+== View cluster upgrade policy ({aws} Console)
+. Navigate to the *Clusters* page in the EKS section of the {aws} Console. Confirm the console is set to the same {aws} region as the cluster you want to review.  
+. Review the *Upgrade Policy* column. If the value is  *Standard Support*, your cluster will not enter extended support. If the value is  *Extended Support*, your cluster will enter extended support.
+
+
+[[view-period-cli,view-period-cli.title]]
+== View cluster upgrade policy ({aws} CLI)
+. Verify the {aws} CLI is installed and you are logged in.  link:cli/latest/userguide/getting-started-install.html[Learn how to update and install the {aws} CLI.,type="documentation"]
+. Determine the name of your EKS cluster. Set the CLI to the same {aws} region as your EKS cluster. 
+. Run the following command:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-cluster \
+--name <cluster-name> \
+--query "cluster.upgradePolicy.supportType"
+----
+. If the value is `STANDARD`, your cluster will not enter extended support. If the value is `EXTENDED`, your cluster will enter extended support.
+

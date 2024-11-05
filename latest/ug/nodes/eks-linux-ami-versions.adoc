@@ -1,0 +1,21 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+[.topic]
+[[eks-linux-ami-versions,eks-linux-ami-versions.title]]
+= Retrieve Amazon Linux AMI version information
+:info_titleabbrev: Get version information
+
+[abstract]
+--
+This topic gives the location of Amazon EKS optimized Amazon Linux AMIs version information.
+--
+
+Amazon EKS optimized Amazon Linux AMIs are versioned by [.noloc]`Kubernetes` version and the release date of the AMI in the following format:
+
+[source,none,subs="verbatim,attributes,quotes"]
+----
+k8s_major_version.k8s_minor_version.k8s_patch_version-release_date
+----
+
+Each AMI release includes various versions of https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet], the [.noloc]`Linux` kernel, and https://containerd.io/[containerd]. The accelerated AMI also includes various versions of the [.noloc]`NVIDIA` driver. You can find this version information in the https://github.com/awslabs/amazon-eks-ami/blob/main/CHANGELOG.md[Changelog] on [.noloc]`GitHub`.
+

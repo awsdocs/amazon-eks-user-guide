@@ -1,0 +1,5 @@
+= Diagram Source Files
+
+Diagram source files have moved to Amazon Workdocs. 
+
+View the https://amazon.awsapps.com/workdocs-amazon/index.html#/folder/c87506fb95055627a2e80046310a1df2b0dfe8f66f185bea4c1d7e423a4a7f8b[AmazonEKSDocs-diagrams] folder. This folder is owned by `eks-docs`.

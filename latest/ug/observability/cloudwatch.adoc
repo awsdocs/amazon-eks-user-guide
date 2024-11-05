@@ -1,0 +1,28 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[cloudwatch,cloudwatch.title]]
+= Monitor cluster data with Amazon CloudWatch
+:info_doctype: section
+:info_title: Monitor cluster data with Amazon CloudWatch
+:info_titleabbrev: Amazon CloudWatch
+:keywords: CloudWatch, observability, operator, add-on
+:info_abstract: Amazon CloudWatch Observability collects real-time logs, metrics, and trace \
+                data. The Amazon CloudWatch Observability Operator is designed to install and \
+                configure the necessary components.
+
+[abstract]
+--
+[.noloc]`Amazon CloudWatch Observability` collects real-time logs, metrics, and trace data. The [.noloc]`Amazon CloudWatch Observability Operator` is designed to install and configure the necessary components.
+--
+
+[.noloc]`Amazon CloudWatch Observability` collects real-time logs, metrics, and trace data. It sends them to link:AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html[Amazon CloudWatch,type="documentation"] and link:xray/latest/devguide/aws-xray.html[{aws} X-Ray,type="documentation"]. You can install this add-on to enable both CloudWatch Application Signals and CloudWatch [.noloc]`Container Insights` with enhanced observability for Amazon EKS. This helps you monitor the health and performance of your infrastructure and containerized applications. The [.noloc]`Amazon CloudWatch Observability Operator` is designed to install and configure the necessary components.
+
+Amazon EKS supports [.noloc]`Amazon CloudWatch Observability Operator` as an <<eks-add-ons,Amazon EKS add-on>>. The add-on allows [.noloc]`Container Insights` on both [.noloc]`Linux` and [.noloc]`Windows` worker nodes in the cluster. To enable [.noloc]`Container Insights` on [.noloc]`Windows`, the Amazon EKS add-on version must be `1.5.0` or higher. Currently, CloudWatch Application Signals isn't supported on Amazon EKS [.noloc]`Windows`.
+
+The topics below describe how to get started using [.noloc]`Amazon CloudWatch Observability Operator` for your Amazon EKS cluster.
+
+* For instructions on installing this add-on, see link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Install the CloudWatch agent with the Amazon CloudWatch Observability EKS add-on or the Helm chart,type="documentation"] in the _Amazon CloudWatch User Guide_.
+* For more information about CloudWatch Application Signals, see link:AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Monitoring-Sections.html[Application Signals,type="documentation"] in the _Amazon CloudWatch User Guide_.
+* For more information about [.noloc]`Container Insights`, see link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[Using Container Insights,type="documentation"] in the _Amazon CloudWatch User Guide_.

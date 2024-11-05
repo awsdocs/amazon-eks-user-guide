@@ -1,0 +1,52 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+[.topic]
+[[self-managed-windows-server-2022,self-managed-windows-server-2022.title]]
+= Create self-managed [.noloc]`Windows` Server 2022 nodes with `eksctl`
+:info_titleabbrev: Create Windows Server 2022 nodes
+
+[abstract]
+--
+This topic includes a YAML file as reference for creating self-managed [.noloc]`Windows` Server 2022 nodes.
+--
+
+You can use the following `test-windows-2022.yaml` as reference for creating self-managed [.noloc]`Windows` Server 2022 nodes. Replace every [.replaceable]`example value` with your own values.
+
+[NOTE]
+====
+
+You must use `eksctl` version https://github.com/weaveworks/eksctl/releases/tag/v0.116.0[0.116.0] or later to run self-managed [.noloc]`Windows` Server 2022 nodes.
+
+====
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: windows-2022-cluster
+  region: region-code
+  version: '1.31'
+
+nodeGroups:
+  - name: windows-ng
+    instanceType: m5.2xlarge
+    amiFamily: WindowsServer2022FullContainer
+    volumeSize: 100
+    minSize: 2
+    maxSize: 3
+  - name: linux-ng
+    amiFamily: AmazonLinux2
+    minSize: 2
+    maxSize: 3
+----
+
+The node groups can then be created using the following command.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create cluster -f test-windows-2022.yaml
+----
+
+

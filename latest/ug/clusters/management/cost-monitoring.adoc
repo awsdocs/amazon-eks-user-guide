@@ -1,0 +1,30 @@
+//!!NODE_ROOT <section>
+
+
+[.topic]
+[[cost-monitoring,cost-monitoring.title]]
+= Monitor and optimize Amazon EKS cluster costs
+:info_doctype: section
+:info_title: Monitor and optimize Amazon EKS cluster costs
+:info_titleabbrev: Cost monitoring
+:keywords: cost, monitoring, watch
+:info_abstract: Learn how to monitor and optimize costs for your Amazon EKS clusters using {aws} Billing split cost allocation data or Kubecost, a Kubernetes-native cost monitoring tool integrated with {aws}.
+
+include::../../attributes.txt[]
+
+[abstract]
+--
+Learn how to monitor and optimize costs for your Amazon EKS clusters using {aws} Billing split cost allocation data or Kubecost, a Kubernetes-native cost monitoring tool integrated with {aws}.
+--
+
+Cost monitoring is an essential aspect of managing your [.noloc]`Kubernetes` clusters on Amazon EKS. By gaining visibility into your cluster costs, you can optimize resource utilization, set budgets, and make data-driven decisions about your deployments. Amazon EKS provides two cost monitoring solutions, each with its own unique advantages, to help you track and allocate your costs effectively:
+
+*{aws} Billing split cost allocation data for Amazon EKS* -- This native feature integrates seamlessly with the {aws} Billing Console, allowing you to analyze and allocate costs using the same familiar interface and workflows you use for other {aws} services. With split cost allocation, you can gain insights into your [.noloc]`Kubernetes` costs directly alongside your other {aws} spend, making it easier to optimize costs holistically across your {aws} environment. You can also leverage existing {aws} Billing features like Cost Categories and Cost Anomaly Detection to further enhance your cost management capabilities. For more information, see link:cur/latest/userguide/split-cost-allocation-data.html[Understanding split cost allocation data,type="documentation"] in the {aws} Billing User Guide.
+
+*[.noloc]`Kubecost`* -- Amazon EKS supports Kubecost, a Kubernetes cost monitoring tool. Kubecost offers a feature-rich, Kubernetes-native approach to cost monitoring, providing granular cost breakdowns by Kubernetes resources, cost optimization recommendations, and out-of-the-box dashboards and reports. Kubecost also retrieves accurate pricing data by integrating with the {aws} Cost and Usage Report, ensuring you get a precise view of your Amazon EKS costs. Learn how to <<kubecost-addon,Install Kubecost>>.
+
+include::cost-monitoring-aws.adoc[leveloffset=+1]
+
+include::cost-monitoring-kubecost.adoc[leveloffset=+1]
+
+include::cost-monitoring-kubecost-bundles.adoc[leveloffset=+1]
