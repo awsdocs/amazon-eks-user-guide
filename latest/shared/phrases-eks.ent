@@ -1,0 +1,871 @@
+<!--  Use https://w.amazon.com/bin/view/AWSDocs/common-tasks/use-region-friendly-entities/ wherever possible. The US gov regions (not ADC) have their own values however that the entities referenced in that page don't cover, so you may still need to accommodate for that.-->
+<!-- https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/using-govcloud.html -->
+
+<!-- Exists because security templates reference it. -->
+<!ENTITY SERVICENAME '&EKS;'>
+
+<!-- Exists because security templates reference it. -->
+<!ENTITY SERVICENAMElong '&EKSlong;'>
+
+<!--  This entity is used on the AMI page only. While US Gov has its own console, using
+type="console" with a link doesn't resolve to this, which is why this entity is used.-->
+<!ENTITY url-console-domain-us-gov 'https://console.amazonaws-us-gov.com/'>
+
+<!ENTITY external-cluster 'external cluster'>
+
+<!-- Exists because it's easy to mistype Kubernetes, and it's shorter. -->
+<!ENTITY k8s '<noloc>Kubernetes</noloc>'>
+
+<!ENTITY kubectl '<code>kubectl</code>'>
+<!ENTITY kubelet '<code>kubelet</code>'>
+
+<!--  These exist because they don't exist in the global shared entity file. Over time, they may be
+added to the global entity file and could be removed from here (if the same name is used). -->
+<!ENTITY ARNlong 'Amazon Resource Name (ARN)'>
+<!ENTITY ARN 'ARN'>
+<!ENTITY AZ 'Availability Zone'>
+<!ENTITY LZ 'Local Zone'>
+<!ENTITY LZlong '&AWS; Local Zone'>
+<!ENTITY EKS-A '&EKS; Anywhere'>
+<!ENTITY EKSD '&EKS; Distro'>
+<!ENTITY EKSDshort 'EKS-D'>
+<!ENTITY EKSDlong '&EKSD; (&EKSDshort;)'>
+<!ENTITY ALBshort 'ALB'>
+<!ENTITY OIDC '<noloc>OIDC</noloc>' >
+<!ENTITY OIDClong '<noloc>OpenID Connect</noloc>' >
+<!ENTITY ENIlong 'elastic network interface' > <!--  style guide says you always have to spell this out (first use) -->
+<!ENTITY ENI 'network interface' > <!--  style guide says you always have to spell this out -->
+<!ENTITY ASG '&AS; group'>
+
+<!ENTITY github '<noloc>GitHub</noloc>'>
+<!ENTITY ipv4 '<code>IPv4</code>'>
+<!ENTITY ipv6 '<code>IPv6</code>'>
+<!ENTITY ubuntu '<noloc>Ubuntu</noloc>'>
+<!ENTITY ubuntu-pro '<noloc>Ubuntu Pro</noloc>'>
+<!ENTITY ubuntu-cloud-images '<ulink url="https://cloud-images.ubuntu.com/aws-eks/">&ubuntu; on &EKSlong;
+            (EKS)</ulink>'>
+<!ENTITY ubuntu-pro-announce '<ulink url="https://ubuntu.com/blog/ubuntu-pro-for-eks-is-now-generally-available">&ubuntu-pro; on &EKSlong;
+            (EKS)</ulink>'>
+
+<!-- These are for display, not building working URLs. For URLs to the API Guide, use &url-eks-api; -->
+<!-- this exists !ENTITY api-domain 'amazonaws.com'> -->
+<!ENTITY api-domain-eks-api '<code>eks.<replaceable>region</replaceable>.&api-domain;</code>' >
+<!ENTITY api-domain-eks-cluster '<code><replaceable>region</replaceable>.eks.&api-domain;</code>' >
+<!ENTITY api-domain-eks-oidc '<code>oidc.eks.<replaceable>region</replaceable>.&api-domain;</code>' >
+<!ENTITY api-domain-eks-pod-id '<code>eks-auth.<replaceable>region</replaceable>.&api-domain-dualstack;</code>' >
+<!-- dualstack domain for ADCs unknown -->
+<!ENTITY api-domain-dualstack '<phrase region="SEA;IAD">api.aws</phrase><phrase region="BJS">api.amazonwebservices.com.cn</phrase><phrase region="DCA"></phrase><phrase region="LCK"></phrase>'>
+<!ENTITY api-domain-dualstack-eks-api '<code>eks.<replaceable>region</replaceable>.&api-domain-dualstack;</code>' >
+<!ENTITY api-domain-dualstack-eks-cluster '<code>eks-cluster.<replaceable>region</replaceable>.&api-domain-dualstack;</code>' >
+<!ENTITY api-domain-dualstack-eks-oidc '<code>oidc-eks.<replaceable>region</replaceable>.&api-domain-dualstack;</code>' >
+<!ENTITY api-domain-dualstack-eks-pod-id '&api-domain-eks-pod-id;' >
+<!ENTITY cli-dualstack 'To use the dual-stack endpoints with the &CLI;, see the <ulink
+                        type="documentation" url="sdkref/latest/guide/feature-endpoints.html"
+                        >Dual-stack and FIPS endpoints</ulink> configuration in the
+                        <emphasis>&guide-sdk-tools-ref;</emphasis>.' >
+
+<!-- Note: When a new Kubernetes version is released, a new CLI version isn&apos;t needed because no API change is made. -->
+<!--  Jazmine: As of 11-22-22, 1.27.14 and 2.9.0 are the latest available versions (and they don't
+support Sleek). So, Jim added the next version numbers (assuming they'll be released during
+re:Invent and assuming that those versions will support Sleek). As soon as doc changes can be made
+again, these versions should be updated to the latest versions that support Sleek.-->
+<!ENTITY awscli-min-version '<code>1.27.160</code>'>
+<!ENTITY awscli-min-version-2 '<code>2.12.3</code>'>
+<!ENTITY awscli-min-version-get-token '<code>1.16.156</code>'>
+<!ENTITY command-line-conventions 'The commands in this topic are formatted using the conventions
+listed in <ulink type="documentation" url="cli/latest/userguide/welcome-examples.html">Using the
+&CLI; examples</ulink>.'>
+<!ENTITY command-line-region-code 'If you&apos;re running commands from the command line against
+resources that are in a different &AWS-Region; than the default &AWS-Region; defined in the &CLI;
+<ulink type="documentation"
+url="cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-profiles">profile</ulink>
+that you&apos;re using, then you need to add <userinput>--region
+<replaceable>region-code</replaceable></userinput> to the commands.'>
+<!-- Whenever the following entity is updated, the instructions that include the awk command in
+install-iam-authenticator.xml must be confirmed to ensure that the string remained the same in the
+updated checksums file. The full URL in that file must also be validated to make sure that it hasn't
+changed. Version releases are at https://github.com/kubernetes-sigs/aws-iam-authenticator/releases -->
+<!ENTITY latest-iam-authenticator-version '0.6.11'>
+                                       
+<!ENTITY eksctl '<code>eksctl</code>'>
+<!--  Set this to the latest available non-RC version. Do NOT comment this entity out. -->
+<!ENTITY eksctl-min-version '0.191.0'>
+<!--  There are three options for the following entity, which is referenced in the create-cluster
+topic. The first option can be used until either an RC or GA version of eksctl is available that
+supports the new Kubernetes version. The second option can be used to reference an RC version until
+a GA version is released that supports the new Kubernetes version. When the note isn't required, the
+third option is used so that the entity doesn't have to be removed from the create-cluster topic. -->
+<!ENTITY eksctl-latest-kubernetes-version '<note><para>To deploy a &k8s-n; cluster at this
+time, you need to use the &console; or the &CLI;.</para></note>'>
+<!--<!ENTITY eksctl-latest-kubernetes-version '<note><para>To deploy a &k8s-n; cluster with
+<code>eksctl</code>, you need to use <code>eksctl</code> version <ulink
+url="https://github.com/eksctl-io/eksctl/releases"><code>0.143.0-rc.0</code> or
+later</ulink>.</para></note>'>--> 
+<!--<!ENTITY eksctl-latest-kubernetes-version ''>--> 
+<!ENTITY eksctl-min-version-rc-tag-note ' The <code>GitTag</code> version should be at least
+<code>&eksctl-min-version;</code>. If not, check your terminal output for any installation or
+upgrade errors, or manually download an archive of the release from '>
+<!ENTITY eksctl-install-caveat '<para>This procedure requires &eksctl; version
+<code>&eksctl-min-version;</code> or later. You can check your version with the following
+command:</para><programlisting language="bash"><userinput>eksctl version
+</userinput></programlisting><para>For instructions on how to install or upgrade &eksctl;, see
+<ulink url="https://eksctl.io/installation">Installation</ulink> in the &eksctl; documentation.</para>'>
+<!ENTITY eksctl-options '<para>For more available flags and their descriptions, see <ulink url="https://eksctl.io/">https://eksctl.io/</ulink>.</para>'>
+
+<!ENTITY helm-min-version '3.9.0'>
+
+<!--  There are separate entities because when a new Kubernetes version launches, eksctl is often
+behind for a day or two, so the eksctl entities need to be updated when the version that can deploy
+the newer Kubernetes version is released. These aren't wrapped in code blocks because these entities
+are used in URLs and it seems to break the build. Manually wrap them in code blocks when they're not
+used in URLs.-->
+<!ENTITY k8s-n '1.31'>
+<!ENTITY k8s-n-1 '1.30'>
+<!ENTITY k8s-n-2 '1.29'>
+<!ENTITY k8s-n-3 '1.28'>
+<!ENTITY k8s-n-eksctl '1.31'>
+<!ENTITY k8s-n-1-eksctl '1.30'>
+
+<!--  URL suffixes - Note that for service principals such as eks.amazonaws.com that are used in IAM
+role trust policies and on Kubernetes service account annotations, only &url-suffix-iad; is used for
+SEA, IAD, DCA, and LCK. This was confirmed with engineering (yixinz) on 3/30/22. -->
+<!ENTITY url-suffix-iad '&api-domain;'>
+<!-- &api-domain; varies by partition. The English version has .cn at the end of it for the BJS
+partition, but possibly doesn't for the Chinese translation. Changing this to static text so it
+works consistently for all partitions/translations: https://issues.amazon.com/issues/AWSDocsSchedule-20876 -->
+<!ENTITY url-suffix-bjs 'amazonaws.com.cn'>
+<!ENTITY url-suffix-apa 'c2s.ic.gov'>
+<!ENTITY url-suffix-dca 'c2s.ic.gov'>
+<!ENTITY url-suffix-lck 'sc2s.sgov.gov'>
+<!ENTITY url-suffix-profiled '<phrase region="SEA;IAD">&url-suffix-iad;</phrase><phrase
+region="BJS">&url-suffix-bjs;</phrase><phrase region="DCA">&url-suffix-dca;</phrase><phrase region="LCK">&url-suffix-lck;</phrase>'>
+
+<!--  Regions profiled -->
+<!ENTITY replace-region-profiled '<phrase region="SEA;IAD;BJS">Replace
+<code><replaceable>region-code</replaceable></code> with the &AWS-Region; that your cluster is in.</phrase>'>
+<!ENTITY regions-profiled '<phrase
+region="SEA;IAD;BJS"><replaceable>region-code</replaceable></phrase><phrase
+region="DCA">&dca-region;</phrase><phrase region="LCK">&lck-region;</phrase>'>
+<!ENTITY regions-specific-profiled '<phrase region="SEA;IAD">us-west-2</phrase><phrase
+region="BJS">cn-north-1</phrase><phrase region="DCA">&dca-region;</phrase><phrase region="LCK">&lck-region;</phrase>'>
+<!ENTITY us-gov-arn 'arn:aws-us-gov:'>
+<!ENTITY us-gov-regions-arn '<phrase region="SEA;IAD">If your cluster is in the
+&region-gov-us-east-1; or &region-gov-us-west-1; &AWS-Regions;, then replace <code>arn:aws:</code>
+with <code>&us-gov-arn;</code>.</phrase>'>
+
+<!-- ADC regions -->
+<!ENTITY apa-region 'us-iso-west-1'>
+<!ENTITY dca-region 'us-iso-east-1'>
+<!ENTITY lck-region 'us-isob-east-1'>
+
+<!--  Partial S3 bucket resource URL roots -->
+<!ENTITY eks-artifact-curl-url-iad 'https://s3.us-west-2.&url-suffix-iad;/amazon-eks/'>
+<!ENTITY eks-artifact-curl-url-bjs 'https://s3.cn-north-1.&url-suffix-bjs;/amazon-eks/'>
+<!ENTITY eks-artifact-curl-url-dca 'https://s3.&dca-region;.&url-suffix-dca;/amazon-eks/'>
+<!ENTITY eks-artifact-curl-url-lck 'https://s3.&lck-region;.&url-suffix-lck;/amazon-eks/'>
+<!ENTITY eks-artifact-curl-url-profiled '<phrase
+region="SEA;IAD">&eks-artifact-curl-url-iad;</phrase><phrase
+region="BJS">&eks-artifact-curl-url-bjs;</phrase><phrase
+region="DCA">&eks-artifact-curl-url-dca;</phrase><phrase region="LCK">&eks-artifact-curl-url-lck;</phrase>'>
+
+<!-- Full S3 bucket URLs that are used in multiple places -->
+<!ENTITY cfn-amazon-eks-nodegroup '&eks-artifact-curl-url-profiled;cloudformation/2022-12-23/amazon-eks-nodegroup.yaml'>
+<!ENTITY cfn-amazon-eks-private-subnets '&eks-artifact-curl-url-profiled;cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml'>
+<!ENTITY cfn-aws-auth-cm '&eks-artifact-curl-url-profiled;cloudformation/2020-10-29/aws-auth-cm.yaml'>
+
+<!--  Regional container image URLs -->
+<!--  Ask the PM when adding a new region. For instructions, see: https://quip-amazon.com/zcGOARwLveMS/EKS-recurring-tech-writer-tasks#temp:C:AUZ7e5d6daaf9934344a8f9a0c6a -->
+<!ENTITY container-image-middle '.dkr.ecr.'>
+<!ENTITY container-image-iad-account '602401143452'>
+<!ENTITY container-image-apa-account '608367168043'>
+<!ENTITY container-image-dca-account '725322719131'>
+<!ENTITY container-image-lck-account '187977181151'>
+<!ENTITY container-image-bjs-account '918309763551'><!-- For cn-north-1 -->
+<!ENTITY container-image-cgk-account '296578399912'><!-- For ap-southeast-3 -->
+<!ENTITY container-image-accounts-profiled '<phrase
+region="SEA;IAD"><replaceable>&container-image-iad-account;</replaceable></phrase><phrase
+region="DCA">&container-image-dca-account;</phrase><phrase
+region="LCK">&container-image-lck-account;</phrase><phrase region="BJS"><replaceable>&container-image-bjs-account;</replaceable></phrase>'>
+
+<!ENTITY managed-policy-tracking-intro-date 'June 17, 2021'>
+
+<!--  Add-ons -->
+
+<!--  Default installed cluster add-ons -->
+<!ENTITY CoreDNS '<noloc>CoreDNS</noloc>'>
+<!ENTITY core-add-ons-introduction-date 'May 19, 2021'>
+<!ENTITY dns-n   'v1.11.3-eksbuild.1'> <!-- only k8s 1.29 and 1.30 -->
+<!ENTITY dns-n-1 'v1.10.1-eksbuild.13'>
+<!ENTITY dns-n-2 'v1.9.3-eksbuild.17'>
+<!ENTITY dns-n-3 'v1.8.7-eksbuild.16'>
+
+<!ENTITY cni-plugin-name '<noloc>&VPC; CNI plugin for </noloc>&k8s;'>
+<!ENTITY vpc-cnilong     '<noloc>&VPC; CNI plugin for </noloc>&k8s;'>
+<!ENTITY vpc-cni '<noloc>&VPC; CNI</noloc>'>
+<!ENTITY self-managed-add-on-deprecation-text-link 'vpc-cni-eks-add-on'>
+<!ENTITY self-managed-add-on-latest-minor-version 'v1.18'>
+<!ENTITY self-managed-add-on-latest-previous-minor-version 'v1.17'>
+<!ENTITY self-managed-add-on-recommend 'we recommend
+                updating to the same <code>major</code>.<code>minor</code>.<code>patch</code>
+                version listed in the <link linkend="vpc-cni-latest-available-version">latest
+                    available versions table</link>, even if later versions are available on
+                GitHub.'>
+<!ENTITY k8s-n-cni-version-n-latest-self-managed 'v1.18.5'>
+<!-- This entire URL can change from version to version, so can't assume only the version number changes.-->
+<!ENTITY k8s-n-cni-version-n-latest-self-managed-url 'https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.18.5/config/master/aws-k8s-cni.yaml'>
+<!ENTITY k8s-n-cni-version-n-latest 'v1.18.5-eksbuild.1'>
+<!ENTITY k8s-n-cni-version-n-1-latest 'v1.17.1-eksbuild.1'>
+<!ENTITY k8s-n-cni-version-n-2-latest 'v1.16.4-eksbuild.2'>
+<!ENTITY k8s-n-cni-version-n-default 'v1.12.6-eksbuild.2'> <!-- default VPC CNI version is different for each k8s version, replaced all uses of this with k8s-n-cni-version-n-2-latest -->
+<!ENTITY cni-metrics-helper '<para>(Optional) Install the <code>cni-metrics-helper</code> to your cluster. It scrapes
+elastic network interface and IP address information, aggregates it at a cluster level, and publishes the
+metrics to &CWlong;. For more information, see <ulink
+url="https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md">cni-metrics-helper</ulink>
+on GitHub.</para>'>
+
+<!ENTITY kube-proxy '<code>kube-proxy</code>'>
+<!-- EKS managed add-on entities. Isengard accounts get wrong info and internal versions. Do NOT use aws eks describe-addon-versions !!-->
+<!ENTITY kube-proxy-1.30 'v1.30.3-eksbuild.5'>
+<!ENTITY kube-proxy-1.29 'v1.29.7-eksbuild.5'>
+<!ENTITY kube-proxy-1.28 'v1.28.12-eksbuild.5'>
+<!ENTITY kube-proxy-1.27 'v1.27.16-eksbuild.3'>
+<!ENTITY kube-proxy-1.26 'v1.26.15-eksbuild.10'>
+<!ENTITY kube-proxy-1.25 'v1.25.16-eksbuild.13'>
+<!ENTITY kube-proxy-1.24 'v1.24.17-eksbuild.19'>
+<!ENTITY kube-proxy-1.23 'v1.23.17-eksbuild.16'>
+<!-- Self-managed add-on entities. -->
+<!ENTITY kube-proxy-n 'v1.30.0-eksbuild.3'> <!-- This should reflect the latest kube-proxy version of the kubernetes version -->
+<!ENTITY kube-proxy-n-previous-minor-version 'v1.29.1-eksbuild.2'> <!-- This should reflect the latest version of the previous kubernetes version -->
+
+<!ENTITY lbc '<noloc>&AWS; Load Balancer Controller</noloc>'>
+<!ENTITY aws-load-balancer-controller-version '2.7.2'>
+<!ENTITY aws-load-balancer-controller-version-short '2.7'>
+<!ENTITY aws-load-balancer-controller-version-filename-root '2_7_2'>
+<!ENTITY aws-load-balancer-controller-version-filename 'v&aws-load-balancer-controller-version-filename-root;_full.yaml'>
+<!ENTITY aws-load-balancer-controller-params-filename 'v&aws-load-balancer-controller-version-filename-root;_ingclass.yaml'>
+<!--  The legacy Cloud Provider in Cloud Controller Manager (CCM) makes CLBs for k8s services, reads
+VPC subnets and route tables to identify which subnets are public or private for the
+internal/external toggle in the CLB, and adds/removes nodes from the CLB target group. All things
+that AWS LBC replaces. BUT it also does a bunch of node health stuff, reads EC2 to find nodes by
+tags, and I don't know what else. CCM is being removed from K8s to be a separate repo but wasn't
+complete last I looked (fincd, 8/2023) -->
+<!ENTITY legacy-cloud-provider '<ulink
+url="https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider">legacy
+Cloud Provider</ulink>'>
+<!ENTITY cert-manager '<code>cert-manager</code>'>
+<!ENTITY cert-manager-version 'v1.13.5'>
+
+<!-- CA is officially capitalized, noloc b/c k8s official docs for CA aren't translated yet -->
+<!ENTITY cluster-autoscaler '<noloc>Cluster Autoscaler</noloc>' >
+
+<!-- The link for BJS breaks build. -->
+<!-- <!ENTITY ipv6-icp-china 'You must have an ICP exception to use <code>IPv6</code> because the &AWS;
+<code>IPv6</code> CIDRs are from a public IP address range. For more information, see <ulink
+type="marketing" url="china-gateway/icp/">Download China ICP guide</ulink>. You can <ulink
+url="https://cathaya-aws.aka.amazon.com/approvalprocess/initiate_request">initiate the
+request</ulink> in the &console;.'> -->
+
+<!ENTITY block-pod-imds '<para>We recommend blocking <noloc>Pod</noloc> access to IMDS if the
+following conditions are true:</para><itemizedlist><listitem><para>You plan to assign &IAM; roles to
+all of your &k8s; service accounts so that <noloc>Pods</noloc> only have the minimum permissions
+that they need.</para></listitem><listitem><para>No <noloc>Pods</noloc> in the cluster require
+access to the &EC2; instance metadata service (IMDS) for other reasons, such as retrieving the
+current &AWS-Region;.</para></listitem></itemizedlist><para>For more information, see &restrict-access-to-imds;.</para>'>
+
+<!ENTITY fargate-availability "&FARGATElong; with &EKS; isn't available in &region-gov-us-east-1;
+and &region-gov-us-west-1;.">
+<!--CAUTION: If you use the following entity, make sure the whole itemizedlist is filtered with region="SEA;IAD;BJS" or make sure it has at least one bullet that is not. -->
+<!ENTITY fargate-ebs-support '<listitem region="SEA;IAD;BJS">
+            <remark>https://sim.amazon.com/issues/AWSDocsSchedule-29816</remark>
+            <para>You can&apos;t mount &EBS; volumes to &FARGATE; <noloc>Pods</noloc>.</para>
+        </listitem>
+        <listitem region="SEA;IAD;BJS">
+            <remark>https://sim.amazon.com/issues/AWSDocsSchedule-29816</remark>
+            <para>You can run the &EBS; CSI controller on &FARGATE; nodes, but the &EBS; CSI node
+            <noloc>DaemonSet</noloc> can only run on &EC2; instances.</para>
+        </listitem>'>
+
+<!ENTITY cni-policy-assignment 'If the <guilabel>AmazonEKS_CNI_Policy</guilabel> managed &IAM;
+policy (if you have an <code>IPv4</code> cluster) or the
+<code><replaceable>AmazonEKS_CNI_IPv6_Policy</replaceable></code> (that you <link
+linkend="cni-iam-role-create-ipv6-policy">created yourself</link> if you have an <code>IPv6</code>
+cluster) is attached to your <xref linkend="create-node-role"/>, we recommend assigning it to an
+&IAM; role that you associate to the &k8s; <code>aws-node</code> service account instead. For more
+information, see <xref linkend="cni-iam-role" endterm="cni-iam-role.title"/>.'>
+<!ENTITY prereq-kubeconfig 'An existing &kubectl; <code>config</code> file that contains your
+cluster configuration. To create a &kubectl; <code>config</code> file, see <xref
+linkend="create-kubeconfig" endterm="create-kubeconfig.title"/>.'>
+<!ENTITY prereq-iam-oidc-provider 'An existing &IAMlong; (&IAM;) &OIDClong; (&OIDC;) provider for
+your cluster. To determine whether you already have one, or to create one, see <xref
+linkend="enable-iam-roles-for-service-accounts" endterm="enable-iam-roles-for-service-accounts.title"/>.'>           
+<!ENTITY prereq-kubectl 'The &kubectl; command line tool is installed on your device or &CShell;.
+The version can be the same as or up to one minor version earlier or later than the &k8s; version of
+your cluster. For example, if your cluster version is <code>&k8s-n-1;</code>, you can use &kubectl;
+version <code>&k8s-n-2;</code>, <code>&k8s-n-1;</code>, or <code>&k8s-n;</code> with it. To install
+or upgrade &kubectl;, see <xref linkend="install-kubectl" endterm="install-kubectl.title"/>.'>
+<!ENTITY prereq-eksctl 'Version <code>&eksctl-min-version;</code> or later of the &eksctl; command
+line tool installed on your device or &CShell;. To install or update &eksctl;, see <ulink
+url="https://eksctl.io/installation">Installation</ulink> in the &eksctl; documentation.'>
+<!--  this doesn't make sense to use, as each feature has different minimum versions - and cli v2
+never will work on launch day -->
+<!ENTITY prereq-cli 'Version &awscli-min-version-2; or later or version &awscli-min-version; or
+later of the &CLIlong; (&CLI;) installed and configured on your device or &CShell;. To check your
+current version, use <code><userinput>aws --version | cut -d / -f2 | cut -d &#39; &#39;
+-f1</userinput></code>. Package managers such <code>yum</code>, <code>apt-get</code>, or
+<noloc>Homebrew</noloc> for <noloc>macOS</noloc> are often several versions behind the latest
+version of the &CLI;. To install the latest version, see <ulink type="documentation"
+url="cli/latest/userguide/cli-chap-install.html">Installing, updating, and uninstalling the
+&CLI;</ulink> and <ulink type="documentation"
+url="cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config">Quick
+configuration with <noloc>aws configure</noloc></ulink> in the <emphasis>&guide-cli-ug;</emphasis>.
+The &CLI; version that is installed in &CShell; might also be several versions behind the latest
+version. To update it, see <ulink type="documentation"
+url="cloudshell/latest/userguide/vm-specs.html#install-cli-software">Installing &CLI; to your home
+directory</ulink> in the <emphasis>&guide-cshell-user;</emphasis>.'>
+<!ENTITY cli-v2-no '<important><para>The &CLI; v2 isn&apos;t supported. The <code>aws-cli</code>
+container image uses the &CLI; v2. This image is located at
+<code>public.ecr.aws/aws-cli/aws-cli</code> or <code>amazon/aws-cli</code>.</para></important>'>
+<!ENTITY prereq-cli-v1-GA 'The latest version of the &CLI; v1 installed and configured on your
+device or &CShell;. &CLI; v2 doesn&apos;t support new features for a few days. You can check your
+current version with <code>aws --version | cut -d / -f2 | cut -d &#39; &#39; -f1</code>. Package
+managers such <code>yum</code>, <code>apt-get</code>, or <noloc>Homebrew</noloc> for
+<noloc>macOS</noloc> are often several versions behind the latest version of the &CLI;. To install
+the latest version, see <ulink type="documentation"
+url="cli/latest/userguide/cli-chap-install.html">Installing, updating, and uninstalling the
+&CLI;</ulink> and <ulink type="documentation"
+url="cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config">Quick
+configuration with <code>aws configure</code></ulink> in the &guide-cli-ug;. The &CLI; version
+installed in the &CShell; may also be several versions behind the latest version. To update it, see
+<ulink type="documentation"
+url="cloudshell/latest/userguide/vm-specs.html#install-cli-software">Installing &CLI; to your home
+directory</ulink> in the &guide-cshell-user;.'>
+<!ENTITY prereq-cluster 'An existing &EKS; cluster. To deploy one, see <xref linkend="getting-started" endterm="getting-started.title"/>.'>
+<!ENTITY prereq-cluster-advanced 'An existing &EKS; cluster. To deploy one, see <xref linkend="create-cluster" endterm="create-cluster.title"/>.'>
+<!-- Its rare but sometimes a new feature is only available for new clusters, until the PV with the
+feature is released (or EKS silently upgrades clusters for the previous PV) -->
+<!ENTITY prereq-cluster-new 'A new &EKS; cluster. To deploy one, see <xref linkend="getting-started" endterm="getting-started.title"/>.'>
+<!ENTITY prereq-node-role 'An existing &IAM; role for the nodes to use. To create one, see <xref
+linkend="create-node-role" endterm="create-node-role.title"/>. If this role doesn&apos;t have either
+of the policies for the VPC CNI, the separate role that follows is required for the VPC CNI pods.'>
+<!ENTITY prereq-nodes 'At least one node in your cluster. For more information about nodes see <xref linkend="eks-compute"/>.'>
+<!ENTITY prereq-existing-cni-iam-role 'The &cni-plugin-name; add-on configured with its own &IAM;
+role that has the necessary &IAM; policy attached to it. For more information, see <xref
+linkend="cni-iam-role" endterm="cni-iam-role.title"/>.'>
+<!ENTITY prereq-instance-types 'Familiarity with the considerations listed in <xref
+linkend="choosing-instance-type" endterm="choosing-instance-type.title"/>. Depending on the instance
+type you choose, there may be additional prerequisites for your cluster and VPC.'>
+<!ENTITY prereq-openssl 'OpenSSL installed and configured on your device or &CShell;. If you need to
+install and configure OpenSSL, follow the instructions at <ulink url="&url-iam-user;id_roles_providers_create_oidc_verify-thumbprint.html#oidc-install-openssl">Install
+OpenSSL</ulink> and <ulink url="&url-iam-user;id_roles_providers_create_oidc_verify-thumbprint.html#oidc-configure-openssl">Configure
+OpenSSL.</ulink> in the &guide-iam-user;.'>
+<!ENTITY prereq-helm 'Helm version &helm-min-version; or later configured on your device or
+&CShell;. To install or update Helm, see <xref linkend="helm"/>.'>
+<!ENTITY prereq-bash 'We recommend that you complete the steps in this topic in a Bash shell. If you
+aren&apos;t using a Bash shell, some script commands such as line continuation characters and the
+way variables are set and used require adjustment for your shell. Additionally, the quoting and
+escaping rules for your shell might be different. For more information, see <ulink
+type="documentation" url="cli/latest/userguide/cli-usage-parameters-quoting-strings.html">Using
+quotation marks with strings in the &CLI;</ulink> in the &guide-cli-ug;.'>           
+<!ENTITY prereq-ebs-csi-driver 'If your cluster is version <code>1.23</code> or later, you must have
+the <xref linkend="ebs-csi"/> installed on your cluster.'>
+
+<!-- OIDC IRSAv1 -->
+<!-- EMR-on-EKS, a bunch of blogs, Medium posts, SA content all use the acronym, making it official-->
+<!ENTITY irsafirst '&IAM; roles for service accounts (IRSA)'>
+<!ENTITY irsa 'IRSA'>
+<!ENTITY iam-oidc-provider-check-console-step-1 ' &EKSConsole_switch; '>
+<!ENTITY iam-oidc-provider-check-console-step-2 ' <para>Select the name of your cluster.</para> '>
+<!ENTITY iam-oidc-provider-check-console-step-3 ' <para>In the <guilabel>Details</guilabel> section
+on the <guilabel>Overview</guilabel> tab, note the value of the <guilabel>OpenID Connect provider URL</guilabel>.</para> '>
+<!ENTITY iam-oidc-provider-check-console-step-4 ' &IAMConsole_switch; '>
+<!ENTITY iam-oidc-provider-check-console-step-5 ' <para>In the left navigation pane, choose
+<guilabel>Identity Providers</guilabel> under <guilabel>Access management</guilabel>. If a
+<guilabel>Provider</guilabel> is listed that matches the URL for your cluster, then you already have
+a provider for your cluster. If a provider isn&apos;t listed that matches the URL for your cluster,
+then you must create one.</para> '>
+
+<!ENTITY create-irsa-role-1 '<para>In the left navigation pane, choose <guilabel>Roles</guilabel>. Then choose <guilabel>Create role</guilabel>.</para>'>
+<!ENTITY create-irsa-role-2 '<para>In the <guilabel>Trusted entity type</guilabel> section, choose <guilabel>Web identity</guilabel>.</para>'>
+<!ENTITY create-irsa-role-4 '<para>Choose <guilabel>Next</guilabel>.</para>'>
+<!ENTITY create-irsa-role-5 'In the <guilabel>Filter policies</guilabel> box, enter'>
+<!ENTITY create-irsa-role-6 '<para>Choose <guilabel>Next</guilabel>.</para>'>
+<!ENTITY create-irsa-role-7 '<para>Under <guilabel>Add tags (Optional)</guilabel>, add metadata to
+the role by attaching tags as key-value pairs. For more information about using tags in &IAM;, see
+<ulink url="&url-iam-user;id_tags.html">Tagging &IAM; resources</ulink> in the <emphasis>&guide-iam-user;</emphasis>.</para>'>
+<!--  The next entity is intended to be the start a sentence. -->
+<!ENTITY create-irsa-role-8 'For <guilabel>Role name</guilabel>, enter a unique name for your role'>
+<!ENTITY create-irsa-role-9 'Choose <guilabel>Create role</guilabel>.'>
+<!ENTITY create-irsa-role-10 '<para>After the role is created, choose the role in the console to open it for editing.</para>'>
+<!ENTITY create-irsa-role-11 '<para>Choose the <guilabel>Trust relationships</guilabel> tab, and
+then choose <guilabel>Edit trust policy</guilabel>.</para>'>
+<!ENTITY create-irsa-role-13 '<para>Choose <guilabel>Update policy</guilabel> to finish.</para>'>
+
+<!ENTITY private-cluster-oidc '<note><para>If you enabled the EKS VPC endpoint, the EKS OIDC service
+endpoint couldn&apos;t be accessed from inside that VPC. Consequently, your
+operations such as creating an OIDC provider with <code>eksctl</code> in the VPC will not work and will result in
+a timeout when attempting to request <code>https://oidc.eks.<replaceable>region</replaceable>.amazonaws.com</code>.
+An example error message follows:</para>
+<programlisting language="bash" role="nocopy">** server can&apos;t find oidc.eks.<replaceable>region</replaceable>.amazonaws.com: NXDOMAIN</programlisting>
+<para>To complete this step, you can run the command outside the VPC, for example in &CShell; or on
+a computer connected to the internet. Alternatively, you can create a split-horizon conditional
+resolver in the VPC, such as &R53R; to use a different resolver for the OIDC Issuer URL and not
+use the VPC DNS for it. For an example of conditional forwarding in &CoreDNS;, see the <ulink
+url="https://github.com/aws/containers-roadmap/issues/2038"
+>&EKS; feature request</ulink> on <noloc>GitHub</noloc>.</para></note>' >
+
+<!ENTITY vpc-cfn-public-ip-address-change-date 'March 26, 2020'>
+<!ENTITY vpc-cfn-public-ip-address-change-date-mng 'April 22, 2020'>
+<!ENTITY important-vpc-public-ip-self-managed-workers '
+<para>If any of the subnets are public subnets, then they must have the automatic public IP address
+assignment setting enabled. If the setting isn&apos;t enabled for the public subnet, then any nodes
+that you deploy to that public subnet won&apos;t be assigned a public IP address and won&apos;t be
+able to communicate with the cluster or other &AWS; services. If the subnet was deployed before
+&vpc-cfn-public-ip-address-change-date; using either of the <link linkend="creating-a-vpc">&EKS;
+&CFN; VPC templates</link>, or by using &eksctl;, then automatic public IP address assignment is
+disabled for public subnets. For information about how to enable public IP address assignment for a
+subnet, see <ulink url="&url-vpc-user;vpc-ip-addressing.html#subnet-public-ip">Modifying the public
+<code>IPv4</code> addressing attribute for your subnet</ulink>. If the node is deployed to a private
+subnet, then it&apos;s able to communicate with the cluster and other &AWS; services through a NAT gateway.</para> '>
+<!ENTITY eks-vpc-considerations-intro '<para>When you create an &EKS; cluster, you specify the VPC
+subnets for your cluster to use. &EKS; requires subnets in at least two &AZ;s. We recommend a VPC
+with public and private subnets so that &k8s; can create public load balancers in the public subnets
+that load balance traffic to <noloc>Pods</noloc> running on nodes that are in private subnets.</para> '>
+<!ENTITY vpc-general '<para>&VPClong; (&VPC;) enables you to launch &AWS; resources into a virtual network
+                that you have defined. This virtual network closely resembles a traditional network
+                that you would operate in your own data center, with the benefits of using the
+                scalable infrastructure of &AWS;.</para>
+            <itemizedlist>
+                <title>&VPC; terms</title>
+                <!-- varlists dont work in help panels, <phrase role="topcom" either -->
+                <listitem>
+                    <para><emphasis>VPC</emphasis> &endash; A virtual private cloud (VPC) is a
+                        virtual network dedicated to your &AWS-account;.</para>
+                </listitem>
+                <listitem>
+                    <para><emphasis>subnet</emphasis> &endash; A subnet is a range of IP addresses
+                        in your VPC. Subnets are a broadcast domain, similar to a VLAN.</para>
+                </listitem>
+            </itemizedlist>'>
+
+<!ENTITY cluster-single-tenant 'Each &EKS; cluster control plane is single-tenant and unique, and
+runs on its own set of &EC2; instances.'>
+<!ENTITY cluster-autoscaler-az '<para>If you are running a stateful application across multiple
+&AZ;s that is backed by &EBS; volumes and using the &k8s; <xref linkend="autoscaling" endterm="autoscaling.title"/>, 
+you should configure multiple node groups, each scoped to a single &AZ;. In addition, you should
+enable the <code>--balance-similar-node-groups</code> feature.</para>'>
+<!ENTITY enabled-admission-controllers '<code>DefaultStorageClass</code>,
+<code>DefaultTolerationSeconds</code>, <code>LimitRanger</code>,
+<code>MutatingAdmissionWebhook</code>, <code>NamespaceLifecycle</code>,
+<code>NodeRestriction</code>, <code>ResourceQuota</code>, <code>ServiceAccount</code>, <code>ValidatingAdmissionWebhook</code>'>
+
+<!ENTITY managed-node-support-para '<para><xref linkend="managed-node-groups"
+endterm="managed-node-groups.title"/> are supported on &EKS; clusters beginning with &k8s; version
+<code>1.14</code> and <link linkend="platform-versions">platform version</link> <code>eks.3</code>.
+Existing clusters can update to version <code>1.14</code> or later to take advantage of this
+feature. For more information, see <xref linkend="update-cluster" endterm="update-cluster.title"/>.</para>'>
+
+<!ENTITY nvidia-device-plugin-url
+'https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/<replaceable>vX.X.X</replaceable>/deployments/static/nvidia-device-plugin.yml'>
+<!ENTITY gpu-ami-avaiability '<!--<para>* accelerated instance types aren&apos;t available in this
+&AWS-Region;, so &EKS; doesn&apos;t currently publish the &EKS; optimized accelerated AMI here.</para>-->'>
+<!ENTITY instance-availability '<para>Some instance types might not be available in all &AWS-Regions;.</para>'>
+<!ENTITY ami-security-blurb '<para>The &EKS; node AMI is based on &AL;. You can track security or
+privacy events for &AL2; at the <ulink url="https://alas.aws.amazon.com/alas2.html">&AL; Security
+Center</ulink> or subscribe to the associated <ulink
+url="https://alas.aws.amazon.com/AL2/alas.rss">RSS feed</ulink>. Security and privacy events include
+an overview of the issue, what packages are affected, and how to update your instances to correct the issue.</para>'>
+<!ENTITY no-auth-aws-error '<para>If you receive any authorization or resource type errors, see
+<xref linkend="unauthorized" endterm="unauthorized.title"/> in the troubleshooting topic.</para>'>
+<!ENTITY ice-error '<para>You might receive an error that one of the &AZ;s in your request
+doesn&apos;t have sufficient capacity to create an &EKS; cluster. If this happens, the error output contains the &AZ;s that can
+support a new cluster. Retry creating your cluster with at least two subnets that are located in the
+supported &AZ;s for your account. For more information, see <xref linkend="ice" endterm="ice.title"/>.</para>'>
+
+<!-- Entities shared with security node content -->
+<!ENTITY eks-control-plane-log-intro '&EKS; control plane logging  provides audit and diagnostic
+logs directly from the &EKS; control plane to &CWL; in your account. These logs make it easy for you
+to secure and run your clusters. You can select the exact log types you need, and logs are sent as
+log streams to a group for each &EKS; cluster in &CW;.'>
+<!ENTITY eks-cloud-trail-intro '&SERVICENAME; is integrated with &CTlong;, a service that provides a
+record of actions taken by a user, role, or an &AWS; service in &SERVICENAME;. &CT; captures all API
+calls for &SERVICENAME; as events. The calls captured include calls from the
+&SERVICENAME; console and code calls to the &SERVICENAME; API operations.'>
+<!ENTITY eks-k8s-auth '<para>When you create an &EKS; cluster, the &iam-principal; that creates the
+cluster is automatically granted <code>system:masters</code> permissions in the cluster&apos;s
+role-based access control (RBAC) configuration in the &EKS; control plane. This principal
+doesn&apos;t appear in any visible configuration, so make sure to keep track of which principal
+originally created the cluster. To grant additional &iam-principals-no-link; the ability
+to interact with your cluster, edit the <code>aws-auth ConfigMap</code> within &k8s;
+and create a &k8s; <code>rolebinding</code> or <code>clusterrolebinding</code> with the name of a
+<code>group</code> that you specify in the <code>aws-auth ConfigMap</code>.</para> '>
+<!ENTITY eks-k8s-auth-reference '<para>For more information about working with the ConfigMap, see
+<xref endterm="grant-k8s-access.title" linkend="grant-k8s-access" />.</para> '>
+<!ENTITY eks-az '<para>&EKS; runs and scales the &k8s; control plane across multiple &AWS; &AZ;s to
+ensure high availability. &EKS; automatically scales control plane instances based on load, detects
+and replaces unhealthy control plane instances, and automatically patches the control plane. After
+you initiate a version update, &EKS; updates your control plane for you, maintaining high
+availability of the control plane during the update.</para>'>
+<!ENTITY eks-ha '<para>This control plane consists of at least two API server instances and three
+<code>etcd</code> instances that run across three &AZ;s within an &AWS-Region;.
+&EKS;:</para><itemizedlist><listitem><para>Actively monitors the load on control plane instances and
+automatically scales them to ensure high performance.</para></listitem><listitem><para>Automatically
+detects and replaces unhealthy control plane instances, restarting them across the &AZ;s within the
+&AWS-Region; as needed.</para></listitem><listitem><para>Leverages the architecture of &AWS-Regions;
+in order to maintain high availability. Because of this, &EKS; is able to offer an <ulink
+type="marketing" url="eks/sla">SLA for API server endpoint availability</ulink>.</para></listitem></itemizedlist>'>   
+<!ENTITY eks-cluster-endpoint '<para>When you create a new cluster, &EKS; creates an endpoint for
+the managed &k8s; API server that you use to communicate with your cluster (using &k8s; management
+tools such as &kubectl;). By default, this API server endpoint is public to the internet, and access
+to the API server is secured using a combination of &IAMlong; (&IAM;) and native &k8s; <ulink
+url="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Role Based Access
+Control</ulink> (RBAC).</para><para>You can enable private access to the &k8s; API server so that
+all communication between your nodes and the API server stays within your VPC. You can limit the IP
+addresses that can access your API server from the internet, or completely disable internet access
+to the API server.</para>'>
+<!ENTITY eks-security-group-intro '<para>If you create your VPC and node groups with the &CFN;
+templates provided in the <xref endterm="getting-started.title" linkend="getting-started"/>
+walkthrough, then your control plane and node security groups are configured with our recommended settings.</para> '>
+<!ENTITY security-groups-for-pods 'If you plan to use <link linkend="security-groups-for-pods"
+endterm="security-groups-for-pods.title"/>, then make sure to specify a supported &EC2; instance
+type. For more information, see <xref linkend="supported-instance-types" endterm="supported-instance-types.title"/>.'>
+
+<!-- This isn't currently being used. -->
+<!ENTITY eks-default-region-china 'cn-north-1'>
+
+<!-- Entities used for Identity and Access Management -->
+<!ENTITY AA-SERVICE-LIST-URL '&SERVICE-LIST-URL;'>
+<!ENTITY SERVICE-LIST-URL '<ulink type="documentation"
+url="service-authorization/latest/reference/list_amazonelastickubernetesservice.html">Actions,
+resources, and condition keys for &SERVICElong;</ulink>'>
+<!ENTITY AA-SERVICE-ACTIONS-URL '&SERVICE-ACTIONS-URL;'>
+<!ENTITY SERVICE-ACTIONS-URL '<ulink type="documentation"
+url="service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions">Actions
+defined by &SERVICENAMElong;</ulink>'>
+<!ENTITY AA-SERVICE-RESOURCES-URL '&SERVICE-RESOURCES-URL;'>
+<!ENTITY SERVICE-RESOURCES-URL '<ulink type="documentation"
+url="service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-resources-for-iam-policies">Resources
+defined by &SERVICElong;</ulink>'>
+<!ENTITY AA-SERVICE-CONDITIONS-URL '&SERVICE-CONDITIONS-URL;'>
+<!ENTITY SERVICE-CONDITIONS-URL '<ulink type="documentation"
+url="service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-policy-keys">Conditions
+defined by &SERVICElong;</ulink>'>
+<!ENTITY AA-SERVICENAMElong '&SERVICElong;'>
+<!ENTITY SERVICENAMElong '&SERVICElong;'>
+<!ENTITY SERVICElong '&EKSlong;'>
+<!ENTITY AA-SERVICENAME '&SERVICE;'>
+<!ENTITY SERVICE '&EKS;'>
+<!ENTITY AA-SERVICEPREFIX '&SERVICEPREFIX;'>
+<!ENTITY SERVICEPREFIX 'eks'>
+<!ENTITY sec-iam-support-identity-based-policies '&sec-iam-green-yes;'>
+<!ENTITY sec-iam-support-resource-based-policies '&sec-iam-red-no;'>
+<!ENTITY sec-iam-support-policy-actions '&sec-iam-green-yes;'>
+<!ENTITY sec-iam-support-policy-resources '&sec-iam-green-yes;'>
+<!ENTITY sec-iam-support-policy-condition-keys '&sec-iam-green-yes;'>
+<!ENTITY sec-iam-support-acls '&sec-iam-red-no;'>
+<!ENTITY sec-iam-support-abac '&sec-iam-green-yes;'>
+<!ENTITY sec-iam-support-temp-creds '&sec-iam-green-yes;'>
+<!ENTITY sec-iam-support-principal-permissions '&sec-iam-green-yes;'>
+<!ENTITY sec-iam-support-service-roles '&sec-iam-green-yes;'>
+<!ENTITY sec-iam-support-service-linked-roles '&sec-iam-green-yes;'>
+
+<!ENTITY launch-node-group-note '<para>&EKS; nodes are standard &EC2; instances, and you are billed
+for them based on normal &EC2; instance prices. For more information, see <ulink
+url="&url-mkt-domain;ec2/pricing/">&EC2; pricing</ulink>.</para>'>
+<!ENTITY arm-caveats 'If specifying an Arm &EC2; instance type, then review the considerations in
+<xref linkend="arm-ami" endterm="arm-ami.title"/> before deploying.'>
+<!ENTITY launch-node-group-failure-note ' <para>If nodes fail to join the cluster, then see <xref
+linkend="worker-node-fail" endterm="worker-node-fail.title"/> in the Troubleshooting chapter.</para> '>
+<!ENTITY worker-node-instance-type 'Each &EC2; instance type supports a maximum number of elastic
+network interfaces (network interface) and each network interface supports a maximum number of IP
+addresses. Because each worker node and <noloc>Pod</noloc> ,is assigned its own IP address,
+it&apos;s important to choose an instance type that will
+support the maximum number of <noloc>Pods</noloc> that you want to run on each &EC2; node. For a
+list of the number of network interfaces and IP addresses supported by instance types, see <ulink
+type="documentation" url="AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI">
+IP addresses per network interface per instance type</ulink>. For example, the <code>m5.large</code>
+instance type supports a maximum of 30 IP addresses for the worker node and <noloc>Pods</noloc>.'>
+<!ENTITY vpc-cidr-block 'Each node, <noloc>Pod</noloc>, and load balancer that you deploy is
+assigned an <code>IPv4</code> address from this block. The default <code>IPv4</code> values provide
+enough IP addresses for most implementations, but if it doesn&apos;t, then you can change it. For
+more information, see <ulink type="documentation"
+url="vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing">VPC and subnet sizing</ulink> in the &VPC;
+User Guide. You can also add additional CIDR blocks to the VPC once it&apos;s created.'>
+<!ENTITY subnet-cidr-block 'The default value provides enough IP addresses for most implementations,
+but if it doesn&apos;t, then you can change it.'>
+<!ENTITY eksctl-create 'Each &EC2; instance type supports a maximum number of elastic network
+interfaces (network interfaces) and each network interface supports a maximum number of IP
+addresses. Since each node and <noloc>Pod</noloc> is assigned its own IP address, for
+<code>--node-type</code>, it&apos;s important to specify an instance type that will support the
+maximum number of <noloc>Pods</noloc> that you want to run on each worker node. For a list of the
+number of network interfaces and IP addresses supported by instance types, see <ulink
+type="documentation" url="AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI">IP addresses per
+network interface per instance type</ulink>. For example, the <code>t3.medium</code> instance type
+supports a maximum of 18 IP addresses for the worker node and <noloc>Pods</noloc>. Some instance
+types might not be available in all &AWS-Regions;. The default CIDR used to create the VPC is
+<code>192.168.0.0/16</code>. If you need to use a different CIDR, add the <code>--vpc-cidr</code>
+option to the command and specify a CIDR block supported by &VPC;. For more information, see <ulink
+type="documentation" url="vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing">VPC and subnet
+sizing</ulink> in the &link-vpc-user;. You can also add additional CIDR blocks to the VPC once
+it&apos;s created.'>
+<!ENTITY node-group-next-steps1 '<para>The &iam-principal; that created the cluster is the only
+principal that can make calls to the &k8s; API server with &kubectl; or the &console;. If you want
+other &iam-principals-no-link; to have access to your cluster, then you need to add them. For more
+information, see <xref linkend="grant-k8s-access" endterm="grant-k8s-access.title"/> and <xref
+linkend="view-kubernetes-resources-permissions" endterm="view-kubernetes-resources-permissions.title" />.</para> '>
+<!ENTITY node-group-next-steps3 '<para><xref linkend="autoscaling" endterm="autoscaling.title"/>
+&endash; Configure the &k8s; Cluster Autoscaler to automatically adjust the number of nodes in your node groups.</para> '>
+<!ENTITY node-group-next-steps4 '<para>Deploy a <link linkend="sample-deployment">sample application</link> to your cluster.</para> '>
+<!ENTITY node-group-next-steps5 '<para><xref linkend="eks-managing" endterm="eks-managing.title"/>
+&endash; Learn how to use important tools for managing your cluster.</para> '>
+<!ENTITY node-group-next-steps6 '<para>Before deploying a cluster for production use, we recommend
+familiarizing yourself with all of the settings for <link linkend="create-cluster">clusters</link>
+and <link linkend="eks-compute">nodes</link>. Some settings (such as enabling SSH access to &EC2;
+nodes) must be made when the cluster is created.</para>'>
+<!ENTITY node-group-next-steps7 '<para>To increase security for your cluster, <link
+linkend="cni-iam-role">configure the &VPC; Container Networking Interface plugin to use &IAM; roles
+for service accounts</link>.</para>'>
+
+<!ENTITY eks-best-practices-url 'https://aws.github.io/aws-eks-best-practices/'>
+<!ENTITY restrict-access-to-imds '<ulink
+url="&eks-best-practices-url;security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node">Restrict
+access to the instance profile assigned to the worker node</ulink>'>
+<!ENTITY cni-psp '<para>If you are using version <code>1.7.0</code> or later of the CNI plugin and
+you assign a custom <noloc>Pod</noloc> security policy to the <code>aws-node</code> &k8s; service
+account used for the <code>aws-node</code> <noloc>Pods</noloc> deployed by the Daemonset, then the
+policy must have <code>NET_ADMIN</code> in its <code>allowedCapabilities</code> section along with
+<code>hostNetwork: true</code> and <code>privileged: true</code> in the policy&apos;s <code>spec</code>.</para>'>
+<!ENTITY create-ipv6-policy '<para>Create the &IAM; policy.</para>
+<programlisting language="bash"><userinput>aws iam create-policy --policy-name <replaceable>AmazonEKS_CNI_IPv6_Policy</replaceable> --policy-document file://vpc-cni-ipv6-policy.json
+</userinput></programlisting>'>
+<!ENTITY create-node-iam-role-trust-policy '<para>Run the following command to create the
+<filename>node-role-trust-relationship.json</filename> file.</para>
+<programlisting language="json"><userinput>cat >node-role-trust-relationship.json &lt;&lt;EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+</userinput></programlisting>'>
+<!ENTITY eksctl-cluster-name '&cfn-stack-name;'>
+<!-- CFN doesn't allow underscores in the name, which means eksctl doesn't work with underscores in
+the name, so this text is used even though EKS allows underscores in the name. Furthermore, CFN allows 128 characters, but EKS only allows 100 characters in the cluster name. The following text is a hybrid of those constraints. -->
+<!-- in the CFNdoc itself, append 'Note that underscores can&apos;t be used in &CFN;.' -->
+<!ENTITY cfn-stack-name 'The name can contain only alphanumeric characters (case-sensitive) and
+hyphens. It must start with an alphanumeric character and can&apos;t be longer than 100 characters.
+The name must be unique within the &AWS-Region; and &AWS-account; that you&apos;re creating the cluster in.'>
+<!-- The normal cluster name constraint applies to Console and CLI. -->
+<!ENTITY cluster-name-constraint 'The name can contain only alphanumeric characters (case-sensitive),
+hyphens, and underscores. It must start with an alphanumeric character and can&apos;t be longer than
+100 characters. The name must be unique within the &AWS-Region; and &AWS-account; that you&apos;re 
+creating the cluster in.'>
+
+<!-- lowercase MNG, Style is not to capitalize resource names. -->
+<!ENTITY MNG 'managed node group'>
+<!ENTITY MNGs 'managed node groups'>
+<!ENTITY node-group-name "The node group name can't be longer than 63 characters. It must start with
+letter or digit, but can also include hyphens and underscores for the remaining characters.">
+
+<!ENTITY configure-sts-endpoint '<para>(Optional) Configure the &STSlong; endpoint type used by your
+&k8s; service account. For more information, see <xref linkend="configure-sts-endpoint" endterm="configure-sts-endpoint.title"/>.</para>'>
+<!ENTITY isolated-regions-amazon-certificates '<important><para>Rather than applying the following
+manifest you&apos;ll need to download it, modify it to mount Amazon self-signed certificates, and
+then apply it. For more information, see <xref linkend="isolated-regions-amazon-certificates" endterm="isolated-regions-amazon-certificates.title"/>.</para></important>'>
+
+<!ENTITY oidc-url-profiled 'oidc.eks.<phrase
+region="SEA;IAD;BJS"><replaceable>region-code</replaceable></phrase><phrase
+region="DCA">&dca-region;</phrase><phrase region="LCK">&lck-region;</phrase>.&url-suffix-profiled;/id/<replaceable>EXAMPLED539D4633E53DE1B71EXAMPLE</replaceable>'>
+<!ENTITY isolated-regions-pod-spec-text1 'Add a <code>hostPath</code> volume mount configured to use
+Amazon self-signed certificates to the <noloc>Pod</noloc> spec. If you don&apos;t mount the correct
+certificates, <noloc>Pods</noloc> will fail with self-signed certificate errors.'>
+<!ENTITY isolated-regions-pod-spec-text2 'Add the <code><userinput>following
+lines</userinput></code> to the sections listed in your <noloc>Pod</noloc> spec. If a section
+doesn&apos;t exist, then you&apos;ll need to create it. This example assumes that you are using an
+&AWS; provided base AMI with the following certificate location: <code>/etc/pki/tls/certs/ca-bundle.crt</code>.'>
+<!--  The following entity is used for any topic that has the customer pull a container image that
+accesses other &AWS; services. Exceptions are the VPC CNI, CoreDNS, and kube-proxy, because the ADC
+team automatically injects the certificates into these images. -->
+<!ENTITY isolated-regions-pod-spec '<programlisting language="yaml" region="DCA;LCK">spec:
+  [...]
+  containers:      
+  [...]
+      env:
+   <userinput>    - name: AWS_DEFAULT_REGION
+          value: <phrase region="DCA">&dca-region;</phrase><phrase region="LCK">&lck-region;</phrase>
+        - name: AWS_CA_BUNDLE
+          value: /etc/pki/tls/certs/ca-bundle.crt</userinput>
+      [...]
+      volumeMounts:
+  <userinput>   - mountPath: /etc/pki/tls/certs/ca-bundle.crt
+        name: ca-bundle</userinput>
+  [...]
+  volumes:
+<userinput> - name: ca-bundle 
+    hostPath:
+      path: /etc/pki/tls/certs/ca-bundle.crt
+      type: File</userinput></programlisting>
+'>
+<!ENTITY bound-service-token-min-client-sdk-versions '
+ <itemizedlist>
+     <listitem><para>Go version <code>0.15.7</code> and later</para></listitem>
+     <listitem><para>Python version <code>12.0.0</code> and later</para></listitem>
+     <listitem><para>Java version <code>9.0.0</code> and later</para></listitem>
+     <listitem><para>JavaScript version <code>0.10.3</code> and later</para></listitem>
+     <listitem><para>Ruby <code>master</code> branch</para></listitem>
+     <listitem><para>Haskell version <code>0.3.0.0</code></para></listitem>
+     <listitem><para><noloc>C#</noloc> version <code>7.0.5</code> and later</para></listitem>
+</itemizedlist>
+'>
+ 
+<!-- This isn't currently being used. -->
+<!ENTITY bound-service-token-validated-services '
+If your cluster is version 1.21 or later, confirm that your default cluster add-ons are at the
+minimum versions listed in <link
+linkend="boundserviceaccounttoken-validated-add-on-versions">Service account tokens</link>.
+'>
+
+<!--  Required IAM permissions for different tasks. -->
+<!ENTITY perms-create-iam-policy 'To create an &IAM; policy, the &iam-principal; creating the policy
+must be assigned the <code>iam:CreatePolicy</code> action (permission).'>
+ 
+<!-- This isn't currently being used. -->
+<!ENTITY perms-create-iam-role 'To create an &IAM; role, the &iam-principal; that is creating the
+role must be assigned the <code>iam:CreateRole</code> action (permission).'>
+<!ENTITY perms-associate-policy-to-iam-entity 'To attach an &IAM; policy to an &iam-principal;, the
+principal that is attaching the policy must be assigned one of the following &IAM; actions
+(permissions): <code>iam:AttachUserPolicy</code> or <code>iam:AttachRolePolicy</code>.'>
+ 
+<!-- These entities are used in procedures and help panels for creating clusters. -->
+<!ENTITY create-cluster-service-ipv4-range '
+<para>Specifying your own range can help prevent conflicts between &k8s; services and other networks peered
+or connected to your VPC. Enter a range in CIDR notation. For example: <code>10.2.0.0/16</code>.</para>
+
+<para>The CIDR block must meet the following requirements:</para>
+<itemizedlist>
+<listitem><para>Be within one of the following ranges: <code>10.0.0.0/8</code>,
+<code>172.16.0.0/12</code>, or <code>192.168.0.0/16</code>.</para></listitem>
+<listitem><para>Have a minimum size of <code>/24</code> and a maximum size of <code>/12</code>.</para></listitem>
+<listitem><para>Not overlap with the range of the VPC for your &EKS; resources.</para></listitem>
+</itemizedlist>  
+<para>You can only specify this option when using the <code>IPv4</code> address family and only at
+cluster creation. If you don&apos;t specify this, then &k8s; assigns service IP addresses from
+either the <code>10.100.0.0/16</code> or <code>172.20.0.0/16</code> CIDR blocks.</para>'>
+
+<!ENTITY create-cluster-specify-subnet '<para>The subnets that you choose must meet the <link linkend="network-requirements-subnets">&EKS;
+ subnet requirements</link>. Before selecting subnets, we recommend that you&apos;re familiar with
+ all of the <link linkend="network-reqs">&EKS; VPC and subnet requirements and considerations</link>.</para>'>
+<!ENTITY create-cluster-specify-security-groups '<para>Whether you choose any security groups or
+not, &EKS; creates a security group that enables communication between your cluster and your VPC.
+&EKS; associates this security group, and any that you choose, to the network interfaces that it
+creates. For more information about the cluster security group that &EKS; creates, see <xref
+linkend="sec-group-reqs"/>. You can modify the rules in the cluster security group that &EKS; creates.</para>'>
+<!ENTITY create-cluster-specify-ip-family '<para>&k8s; assigns <code>IPv4</code> addresses to
+<noloc>Pods</noloc> and services, by default. Before deciding to use the <code>IPv6</code> family,
+make sure that you&apos;re familiar with all of the considerations and requirements in the <xref
+linkend="network-requirements-vpc"/>, <xref linkend="network-requirements-subnets"/>, <xref
+linkend="sec-group-reqs"/>, and <xref linkend="cni-ipv6"/> topics. If you choose the
+<code>IPv6</code> family, you can&apos;t specify an address range for &k8s; to assign
+<code>IPv6</code> service addresses from like you can for the <code>IPv4</code> family. &k8s;
+assigns service addresses from the unique local address range (<code>fc00::/7</code>).</para>'>
+<!ENTITY example-output-text 'An example output is as follows.'>
+<!ENTITY example-output-text-abbreviated 'An abbreviated example output is as follows.'>
+<!ENTITY example-values 'Replace every <code><replaceable>example value</replaceable></code> with your own values.'>
+<!ENTITY outposts-local-clusters-supported-regions '&region-us-east-2;, &region-us-east-1;,
+&region-us-west-1;, &region-us-west-2;, &region-ap-northeast-2;, &region-ap-southeast-1;,
+&region-ap-southeast-2;, &region-ap-northeast-1;, &region-ca-central-1;, &region-eu-central-1;,
+&region-eu-west-1;, &region-eu-west-2;, &region-me-south-1;, and &region-sa-east-1;'>
+
+<!--  This originally said we were deprecating the self-managed add-on procedure on 7/1/23. It was
+based on the premise (according to mikestef) that all settings anyone would want to manage could be
+set through the MAO. On 3/28/23, Srini informed me that not all settings can be managed with the MAO
+and that there was no date as to when this would be possible, so the message was changed to the
+following message.-->
+<!ENTITY self-managed-add-on-deprecation-text '<important><para>We recommend adding the &EKS; type
+of the add-on to your cluster instead of using the self-managed type of the add-on. If you&apos;re
+not familiar with the difference between the types, see <xref linkend="eks-add-ons"/>. For more
+information about adding an &EKS; add-on to your cluster, see <xref linkend="creating-an-add-on"/>.
+If you&apos;re unable to use the &EKS; add-on, we encourage you to submit an issue about why you
+can&apos;t to the <ulink url="https://github.com/aws/containers-roadmap/issues">Containers roadmap
+GitHub repository</ulink>.</para></important>'>
+<!ENTITY iam-principal '<ulink url="&url-iam-user;id_roles.html#iam-term-principal">&IAM; principal</ulink>'>
+
+<!-- Add-ons Advanced Config aka 'Optional configuration options' in the console. Doesn't have user guide docs yet.
+     This entity is used in the help panels, which cant do variablelists -->
+<!ENTITY add-on-conflict-modes '<para>Conflict resolution determines how &EKS; applies an &EKS; add-on to your cluster.</para>
+        <itemizedlist>
+            <title>Conflict resolution options</title>
+            <!-- varlists don&apos;t work in help panels, <phrase role="topcom" either -->
+            <listitem>
+                <para><emphasis>None</emphasis> &endash; When applying an add-on, existing
+                    conflicting resources on the cluster will conflict with the operation and a
+                    conflict error will be returned.</para>
+            </listitem>
+            <listitem>
+                <para><emphasis>Override</emphasis> &endash; If a conflict occurs, any differences
+                    on the cluster will be overwritten with the new changes. This could potentially
+                    delete or change conflicting resources present on the cluster.</para>
+            </listitem>
+            <listitem>
+                <para><emphasis>Preserve</emphasis> &endash; This is a hybrid of the two previous
+                    options. This is only available if you are updating an add-on. &EKS; will attempt to
+                    preserve any differences by maintaining what is already present on the cluster
+                    and will only apply changes to non-conflicting resources.</para>
+            </listitem>
+        </itemizedlist>'>
+
+<!ENTITY iam-principal '<ulink type="documentation"
+url="IAM/latest/UserGuide/id_roles_terms-and-concepts.html">&IAM; principal</ulink>'>
+<!ENTITY iam-principal-no-link '&IAM; principal'>
+<!ENTITY iam-principals '<ulink url="&url-iam-user;id_roles.html#iam-term-principal">&IAM; principals</ulink>'>
+<!ENTITY iam-principals-no-link '&IAM; principals'>
+<!ENTITY iam-best-practices-sentence '<ulink url="&url-iam-user;id_users.html">&IAM; best practices</ulink> recommend that you grant
+permissions to roles instead of users.'>
+<!ENTITY cluster-version-platform-version-check '<para>You can check your current &k8s; and platform
+version by replacing <code><replaceable>my-cluster</replaceable></code> in the following command
+with the name of your cluster and then running the modified command: <userinput>aws eks
+describe-cluster &#45;-name <replaceable>my-cluster</replaceable> &#45;-query
+&#39;cluster.&#123;"Kubernetes Version": version, "Platform Version": platformVersion}&#39;</userinput>.</para>'>                   
+
+<!-- same pod id entites as both DocModels, keep in sync -->
+<!ENTITY pod-id 'EKS Pod Identity'>
+<!ENTITY pod-ids 'EKS Pod Identities'>
+<!ENTITY pod-id-agentlong 'Amazon EKS Pod Identity Agent'>
+<!ENTITY pod-id-agent 'EKS Pod Identity Agent'>
+<!ENTITY assoclong 'EKS Pod Identity association'>
+<!ENTITY assocslong 'EKS Pod Identity associations'>
+<!ENTITY assoc 'association'>
+<!ENTITY assocs 'associations'>
+<!ENTITY assoc-desc 'Amazon &assocslong; provide the ability to manage credentials for your
+applications, similar to the way that &EC2; instance profiles provide credentials to &EC2; instances.'>
+<!ENTITY example-assoc-id 'a-abcdefghijklmnop1'>
+<!ENTITY role-change-expiry 'The temporary &AWS; credentials from the previous &IAM; role session
+might still be valid until the session expiry. If you need to immediately revoke the temporary
+session credentials, then go to the role in the &IAM; console.'>
+<!ENTITY pod-id-update 'Only the &IAM; role can be changed; an &assoc; can&apos;t be moved between
+clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you
+need to delete the association and then create a new association with your desired settings.'>
+<!-- pod id entity only for API -->
+<!ENTITY pod-id-summary-diff '<!-- whats different about PodIdentityAssociationSummary -->
+<para>Each summary is simplified by removing these fields compared to the full <code><xref linkend="PodIdentityAssociation"/></code>:</para>
+<itemizedlist>
+    <listitem><para>The &IAM; role: <code>roleArn</code></para></listitem>
+    <listitem><para>The timestamp that the &assoc; was created at: <code>createdAt</code></para></listitem>
+    <listitem><para>The most recent timestamp that the &assoc; was modified at:. <code>modifiedAt</code></para></listitem>
+    <listitem><para>The tags on the &assoc;: <code>tags</code></para></listitem>
+</itemizedlist>'>
+
+<!-- Observability -->
+<!ENTITY prometheus-delete-scrapers
+'<remark>https://sim.amazon.com/issues/AWSDocsSchedule-33977</remark><para>&PRO; resources are
+outside of the cluster lifecycle and need to be maintained independent of the cluster. When you
+delete your cluster, make sure to also delete any applicable scrapers to stop applicable costs. For
+more information, see <ulink type="documentation"
+url="prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-list-delete">Find and
+delete scrapers</ulink> in the <emphasis>&PROlong; User Guide</emphasis>.</para>'>
