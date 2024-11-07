@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [[capacity-blocks,capacity-blocks.title]]
 = Create self-managed nodes with Capacity Blocks for ML
-:info_titleabbrev: Capacity Blocks for ML
+:info_titleabbrev: Reserve GPUs 
 
 [abstract]
 --
@@ -46,7 +46,6 @@ Make sure the `LaunchTemplateData` includes the following:
 
 +
 The following is an excerpt of a CloudFormation template that creates a launch template targeting a Capacity Block.  
-+
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
 NodeLaunchTemplate:
@@ -67,7 +66,6 @@ NodeLaunchTemplate:
       - sg-05b1d815d1EXAMPLE
       UserData: user-data
 ----
-+
 You must pass the subnet in the Availability Zone in which the reservation is made because Capacity Blocks are zonal.
 . Use the launch template to create a self-managed node group. If you're doing this prior to the capacity reservation becoming active, then set the desired capacity to `0`. When creating the node group, make sure that you are only specifying the respective subnet for the Availability Zone in which the capacity is reserved.
 +

@@ -19,8 +19,6 @@ include::update-managed-node-group.adoc[leveloffset=+1]
 
 include::managed-node-update-behavior.adoc[leveloffset=+1]
 
-include::node-taints-managed-node-groups.adoc[leveloffset=+1]
-
 include::launch-templates.adoc[leveloffset=+1]
 
 include::delete-managed-node-group.adoc[leveloffset=+1]

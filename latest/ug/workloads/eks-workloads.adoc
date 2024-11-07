@@ -59,8 +59,3 @@ include::eks-add-ons.adoc[leveloffset=+1]
 
 include::image-verification.adoc[leveloffset=+1]
 
-
-include::node-efa.adoc[leveloffset=+1]
-
-
-include::inferentia-support.adoc[leveloffset=+1]

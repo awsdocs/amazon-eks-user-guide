@@ -49,8 +49,6 @@ The Amazon EKS optimized accelerated Amazon Linux AMI is built on top of the sta
 
 In addition to the standard Amazon EKS optimized AMI configuration, the accelerated AMI includes the following:
 
-
-
 * [.noloc]`NVIDIA` drivers
 * `nvidia-container-toolkit`
 * {aws} [.noloc]`Neuron` driver
@@ -60,87 +58,13 @@ For a list of the latest components included in the accelerated AMI, see the `am
 [NOTE]
 ====
 
-
 * The Amazon EKS optimized accelerated AMI only supports GPU and [.noloc]`Inferentia` based instance types. Make sure to specify these instance types in your node {aws} CloudFormation template. By using the Amazon EKS optimized accelerated AMI, you agree to https://s3.amazonaws.com/EULA/NVidiaEULAforAWS.pdf[NVIDIA's Cloud End User License Agreement (EULA)].
-* The Amazon EKS optimized accelerated AMI was previously referred to as the _Amazon EKS optimized AMI with GPU support_. 
-* Previous versions of the Amazon EKS optimized accelerated AMI installed the `nvidia-docker` repository. The repository is no longer included in Amazon EKS AMI version `v20200529` and later. 
+* The Amazon EKS optimized accelerated AMI was previously referred to as the _Amazon EKS optimized AMI with GPU support_.
+* Previous versions of the Amazon EKS optimized accelerated AMI installed the `nvidia-docker` repository. The repository is no longer included in Amazon EKS AMI version `v20200529` and later.
 
 ====
 
-.To enable {aws} Neuron (ML accelerator) based workloads
-For details on training and inference workloads using [.noloc]`Neuron` in Amazon EKS, see the following references:
-
-* https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html[Containers - Kubernetes - Getting Started] in the _{aws} [.noloc]`Neuron` Documentation_
-* https://github.com/aws-neuron/aws-neuron-eks-samples/blob/master/README.md#training[Training] in {aws} [.noloc]`Neuron` EKS Samples on GitHub
-* <<inferentia-support,Deploy ML inference workloads with AWSInferentia on Amazon EKS>>
-
-The following procedure describes how to run a workload on a GPU based instance with the Amazon EKS optimized accelerated AMI.
-
-. After your GPU nodes join your cluster, you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
-+
-[source,bash,subs="verbatim,attributes,quotes"]
-----
-kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/deployments/static/nvidia-device-plugin.yml
-----
-. You can verify that your nodes have allocatable GPUs with the following command.
-+
-[source,bash,subs="verbatim,attributes,quotes"]
-----
-kubectl get nodes "-o=custom-columns=NAME:.metadata.name,GPU:.status.allocatable.nvidia\.com/gpu"
-----
-. Create a file named `nvidia-smi.yaml` with the following contents. Replace [.replaceable]`tag` with your desired tag for https://hub.docker.com/r/nvidia/cuda/tags[nvidia/cuda]. This manifest launches an https://developer.nvidia.com/cuda-zone[NVIDIA CUDA] container that runs `nvidia-smi` on a node.
-+
-[source,yaml,subs="verbatim,attributes,quotes"]
-----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nvidia-smi
-spec:
-  restartPolicy: OnFailure
-  containers:
-  - name: nvidia-smi
-    image: nvidia/cuda:tag
-    args:
-    - "nvidia-smi"
-    resources:
-      limits:
-        nvidia.com/gpu: 1
-----
-. Apply the manifest with the following command.
-+
-[source,bash,subs="verbatim,attributes,quotes"]
-----
-kubectl apply -f nvidia-smi.yaml
-----
-. After the [.noloc]`Pod` has finished running, view its logs with the following command.
-+
-[source,bash,subs="verbatim,attributes,quotes"]
-----
-kubectl logs nvidia-smi
-----
-+
-An example output is as follows.
-+
-[source,bash,subs="verbatim,attributes,quotes"]
-----
-Mon Aug  6 20:23:31 20XX
-+-----------------------------------------------------------------------------+
-| NVIDIA-SMI XXX.XX                 Driver Version: XXX.XX                    |
-|-------------------------------+----------------------+----------------------+
-| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|===============================+======================+======================|
-|   0  Tesla V100-SXM2...  On   | 00000000:00:1C.0 Off |                    0 |
-| N/A   46C    P0    47W / 300W |      0MiB / 16160MiB |      0%      Default |
-+-------------------------------+----------------------+----------------------+
-+-----------------------------------------------------------------------------+
-| Processes:                                                       GPU Memory |
-|  GPU       PID   Type   Process name                             Usage      |
-|=============================================================================|
-|  No running processes found                                                 |
-+-----------------------------------------------------------------------------+
-----
+For details on running workloads on EKS optimized accelerated Amazon Linux AMIs, see <<ml-eks-optimized-ami>>.
 
 
 [[arm-ami,arm-ami.title]]

@@ -3,12 +3,16 @@ include::../attributes.txt[]
 [.topic]
 [[node-taints-managed-node-groups,node-taints-managed-node-groups.title]]
 = Prevent [.noloc]`Pods` from being scheduled on specific nodes
-:info_titleabbrev: Node taints
+:info_titleabbrev: Taint GPU nodes
 
 [abstract]
 --
-Taints and tolerations work together to ensure that [.noloc]`Pods` aren't scheduled onto inappropriate nodes.
+Taints and tolerations work together to ensure that [.noloc]`Pods` aren't scheduled onto inappropriate nodes. This can be particularly useful for nodes running on GPU hardware.
 --
+
+Nodes with specialized processors, such as GPUs, can be more expensive to run than nodes running on more standard machines.
+For that reason, you may want to protect those nodes from having workloads that don't require special hardware from being deployed to those nodes.
+One way to do that is with taints.
 
 Amazon EKS supports configuring [.noloc]`Kubernetes` taints through managed node groups. Taints and tolerations work together to ensure that [.noloc]`Pods` aren't scheduled onto inappropriate nodes. One or more taints can be applied to a node. This marks that the node shouldn't accept any [.noloc]`Pods` that don't tolerate the taints. Tolerations are applied to [.noloc]`Pods` and allow, but don't require, the [.noloc]`Pods` to schedule onto nodes with matching taints. For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the [.noloc]`Kubernetes` documentation.
 

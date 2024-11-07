@@ -1,0 +1,74 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[ml-tutorials,ml-tutorials.title]]
+= Try tutorials for deploying Machine Learning workloads on EKS
+:info_doctype: section
+:info_title: Try tutorials for deploying Machine Learning workloads and platforms on EKS
+:info_titleabbrev: Try tutorials for ML on EKS
+:info_abstract: Learn how to deploy Machine Learning workloads on EKS
+
+include::../attributes.txt[]
+
+If you are interested in setting up Machine Learning platforms and frameworks in EKS, explore the tutorials described in this page.
+These tutorials cover everything from patterns for making the best use of GPU processors to choosing modeling tools to building frameworks for specialized industries.
+
+== Build generative AI platforms on EKS
+
+*  https://aws.amazon.com/blogs/containers/deploy-generative-ai-models-on-amazon-eks/[Deploy Generative AI Models on Amazon EKS]
+*  https://aws.amazon.com/blogs/containers/building-multi-tenant-jupyterhub-platforms-on-amazon-eks/[Building multi-tenant JupyterHub Platforms on Amazon EKS]
+*  https://aws.amazon.com/blogs/containers/run-spark-rapids-ml-workloads-with-gpus-on-amazon-emr-on-eks/[Run Spark-RAPIDS ML workloads with GPUs on Amazon EMR on EKS]
+
+== Run specialized generative AI frameworks on EKS
+
+* https://aws.amazon.com/blogs/hpc/accelerate-drug-discovery-with-nvidia-bionemo-framework-on-amazon-eks/[Accelerate drug discovery with NVIDIA BioNeMo Framework on Amazon EKS]
+* https://aws.amazon.com/blogs/containers/host-the-whisper-model-with-streaming-mode-on-amazon-eks-and-ray-serve/[Host the Whisper Model with Streaming Mode on Amazon EKS and Ray Serve]
+* https://aws.amazon.com/blogs/machine-learning/accelerate-your-generative-ai-distributed-training-workloads-with-the-nvidia-nemo-framework-on-amazon-eks/[Accelerate your generative AI distributed training workloads with the NVIDIA NeMo Framework on Amazon EKS]
+*  https://aws.amazon.com/blogs/publicsector/virtualizing-satcom-operations-aws/[Virtualizing satellite communication operations with {aws}]
+*  https://aws.amazon.com/blogs/opensource/running-torchserve-on-amazon-elastic-kubernetes-service/[Running TorchServe on Amazon Elastic Kubernetes Service]
+
+== Maximize NVIDIA CPU performance for ML on EKS
+
+* Implement GPU sharing to efficiently use NVIDIA GPUs for your EKS clusters:
++
+https://aws.amazon.com/blogs/containers/gpu-sharing-on-amazon-eks-with-nvidia-time-slicing-and-accelerated-ec2-instances/[GPU sharing on Amazon EKS with NVIDIA time-slicing and accelerated EC2 instances]
+
+* Use Multi-Instance GPUs (MIGs) and NIM microservices to run more pods per GPU on your EKS clusters:
++
+https://aws.amazon.com/blogs/containers/maximizing-gpu-utilization-with-nvidias-multi-instance-gpu-mig-on-amazon-eks-running-more-pods-per-gpu-for-enhanced-performance/[Maximizing GPU utilization with NVIDIA’s Multi-Instance GPU (MIG) on Amazon EKS: Running more pods per GPU for enhanced performance]
+
+* Leverage NVIDIA NIM microservices to optimize inference workloads using optimized microservices to deploy AI models at scale:
++
+https://aws.amazon.com/blogs/hpc/deploying-generative-ai-applications-with-nvidia-nims-on-amazon-eks/[Part 1: Deploying generative AI applications with NVIDIA NIMs on Amazon EKS]
++
+https://aws.amazon.com/blogs/hpc/deploying-generative-ai-applications-with-nvidia-nim-microservices-on-amazon-elastic-kubernetes-service-amazon-eks-part-2/[Part 2: Deploying Generative AI Applications with NVIDIA NIM Microservices on Amazon Elastic Kubernetes Service (Amazon EKS)]
+
+* https://aws.amazon.com/blogs/containers/scaling-a-large-language-model-with-nvidia-nim-on-amazon-eks-with-karpenter/[Scaling a Large Language Model with NVIDIA NIM on Amazon EKS with Karpenter]
+
+
+*  https://aws.amazon.com/blogs/machine-learning/build-and-deploy-a-scalable-machine-learning-system-on-kubernetes-with-kubeflow-on-aws/[Build and deploy a scalable machine learning system on Kubernetes with Kubeflow on {aws}]
+
+== Run video encoding workloads on EKS
+
+* https://aws.amazon.com/blogs/containers/delivering-video-content-with-fractional-gpus-in-containers-on-amazon-eks/[Delivering video content with fractional GPUs in containers on Amazon EKS]
+
+== Testimonials for ML on EKS
+
+* https://aws.amazon.com/blogs/containers/how-h2o-ai-optimized-and-secured-their-ai-ml-infrastructure-with-karpenter-and-bottlerocket/[How H2O.ai optimized and secured their AI/ML infrastructure with Karpenter and Bottlerocket]
+*  https://aws.amazon.com/blogs/containers/quora-3x-faster-machine-learning-25-lower-costs-with-nvidia-triton-on-amazon-eks/[Quora achieved 3x lower latency and 25% lower Costs by modernizing model serving with Nvidia Triton on Amazon EKS]
+
+== Monitoring ML workloads
+
+* https://aws.amazon.com/blogs/mt/monitoring-gpu-workloads-on-amazon-eks-using-aws-managed-open-source-services/[Monitoring GPU workloads on Amazon EKS using {aws} managed open-source services]
+* https://aws.amazon.com/blogs/machine-learning/enable-pod-based-gpu-metrics-in-amazon-cloudwatch/[Enable pod-based GPU metrics in Amazon CloudWatch]
+
+== Announcements for ML on EKS
+
+* https://aws.amazon.com/blogs/containers/announcing-nvidia-gpu-support-for-bottlerocket-on-amazon-ecs/[Announcing NVIDIA GPU support for Bottlerocket on Amazon ECS]
+* https://aws.amazon.com/blogs/containers/bottlerocket-support-for-nvidia-gpus/[Bottlerocket support for NVIDIA GPUs]
+* https://aws.amazon.com/blogs/aws/new-ec2-instances-g5-with-nvidia-a10g-tensor-core-gpus/[New – EC2 Instances (G5) with NVIDIA A10G Tensor Core GPUs]
+* https://aws.amazon.com/blogs/containers/utilizing-nvidia-multi-instance-gpu-mig-in-amazon-ec2-p4d-instances-on-amazon-elastic-kubernetes-service-eks/[Utilizing NVIDIA Multi-Instance GPU (MIG) in Amazon EC2 P4d Instances on Amazon Elastic Kubernetes Service]
+* https://aws.amazon.com/blogs/aws/new-gpu-equipped-ec2-p4-instances-for-machine-learning-hpc/[New – GPU-Equipped EC2 P4 Instances for Machine Learning & HPC]
+* https://aws.amazon.com/blogs/machine-learning/amazon-ec2-p5e-instances-are-generally-available/[Amazon EC2 P5e instances are generally available]
+* https://aws.amazon.com/blogs/containers/deploying-managed-p4d-instances-in-amazon-elastic-kubernetes-service/[Deploying managed P4d Instances in Amazon Elastic Kubernetes Service with NVIDIA GPUDirectRDMA]
+* https://aws.amazon.com/blogs/machine-learning/establishing-an-ai-ml-center-of-excellence/[Establishing an AI/ML center of excellence]
