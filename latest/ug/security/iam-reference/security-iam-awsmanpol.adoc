@@ -360,6 +360,10 @@ View details about updates to {aws} managed policies for Amazon EKS since this s
 |Date
 
 |Introduced <<security-iam-awsmanpol-AmazonEKSComputePolicy>>.
+|EKS updated {aws} managed policy `AmazonEKSComputePolicy`. Updated resource permissions for the `iam:AddRoleToInstanceProfile` action.
+|November 7, 2024
+
+|Introduced <<security-iam-awsmanpol-AmazonEKSComputePolicy>>.
 |{aws} introduced the `AmazonEKSComputePolicy`.
 |November 1, 2024
 

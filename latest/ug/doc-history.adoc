@@ -31,6 +31,15 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
+
+[.update,date="2024-11-07"]
+=== {aws} managed policy updates
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
+
+EKS updated {aws} managed policy `AmazonEKSComputePolicy`. Updated resource permissions for the `iam:AddRoleToInstanceProfile` action.
+
+
 [.update,date="2024-11-01"]
 === {aws} managed policy updates
 [.update-ulink]
