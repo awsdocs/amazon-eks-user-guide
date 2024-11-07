@@ -1,0 +1,150 @@
+<redirects>
+    <redirect from="^/eks/latest/userguide/configure-kubectl\.html" to="/eks/latest/userguide/create-kubeconfig.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/IAM_policies\.html" to="/eks/latest/userguide/security-iam.html#security-iam-access-manage" flags="[NE,L,R]"/>
+    <redirect from="^/eks/latest/userguide/iam-policy-structure\.html" to="/eks/latest/userguide/security_iam_service-with-iam.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/EKS_IAM_user_policies\.html" to="/eks/latest/userguide/security_iam_id-based-policy-examples.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/SERVICENAME-compliance\.html" to="/eks/latest/userguide/compliance.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/shared-responsibility\.html" to="/eks/latest/userguide/security.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/worker_node__IAM_role\.html" to="/eks/latest/userguide/worker_node_IAM_role.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/service_limits\.html" to="/eks/latest/userguide/service-quotas.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/mesh-gs-k8s\.html" to="/app-mesh/latest/userguide/getting-started-kubernetes.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/deploy-mesh-connected-service\.html" to="/app-mesh/latest/userguide/getting-started-kubernetes.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/appmesh-getting-started\.html" to="/app-mesh/latest/userguide/getting-started-kubernetes.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/mesh-k8s-integration.html\.html" to="/app-mesh/latest/userguide/getting-started-kubernetes.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/eks-guestbook\.html" to="/eks/latest/userguide/sample-deployment.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/gpu-ami\.html" to="/eks/latest/userguide/eks-optimized-ami.html#gpu-ami" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/arm-support\.html" to="/eks/latest/userguide/eks-optimized-ami.html#arm-ami" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/restrict-ec2-credential-access\.html" to="/eks/latest/userguide/security-best-practices.html" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/best-practices-security\.html" to="/eks/latest/userguide/security-best-practices.html" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/iam-roles-for-service-accounts-cni-walkthrough\.html" to="/eks/latest/userguide/cni-iam-role.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/eks-applications\.html" to="/eks/latest/userguide/eks-workloads.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/cni-env-vars\.html" to="/eks/latest/userguide/pod-networking.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/load-balancing\.html" to="/eks/latest/userguide/network-load-balancing.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/aws-connector\.html" to="/eks/latest/userguide/eks-connector.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/eks-distro\.html" to="/eks/latest/userguide/eks-deployment-options.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/eks-anywhere\.html" to="/eks/latest/userguide/eks-deployment-options.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/cluster-autoscaler\.html" to="/eks/latest/userguide/autoscaling.html#cluster-autoscaler" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/create-public-private-vpc\.html" to="/eks/latest/userguide/creating-a-vpc" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/view-workloads\.html" to="/eks/latest/userguide/view-kubernetes-resources.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/view-nodes\.html" to="/eks/latest/userguide/view-kubernetes-resources.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/pod-networking\.html" to="/eks/latest/userguide/managing-vpc-cni.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/iam-roles-for-service-accounts-technical-overview\.html" to="/eks/latest/userguide/iam-roles-for-service-accounts.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/troubleshooting_iam\.html" to="/eks/latest/userguide/security_iam_troubleshoot.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/logging-monitoring\.html" to="/eks/latest/userguide/eks-observe.html#logging-monitoring" flags="[NE,L,R]" />
+    <!-- Merged sections. -->
+    <redirect from="^/eks/latest/userguide/api-server-flags\.html"
+        to="/eks/latest/userguide/control-plane-logs.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/add-ons-configuration\.html"
+        to="/eks/latest/userguide/kubernetes-field-management.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/cni-metrics-helper\.html"
+        to="/eks/latest/userguide/managing-vpc-cni.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/dashboard-tutorial\.html"
+        to="/eks/latest/userguide/eks-managing.html" flags="[L,R]"/>
+    <!-- Correction to id typo. -->
+    <redirect from="^/eks/latest/userguide/kubernetes-version-standard\.html"
+        to="/eks/latest/userguide/kubernetes-versions-standard.html" flags="[L,R]"/>
+    <!-- ADOT child topic pages that have been deprecated. -->
+    <redirect from="^/eks/latest/userguide/troubleshooting-adot\.html"
+        to="/eks/latest/userguide/opentelemetry.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/adot-reqts\.html"
+        to="/eks/latest/userguide/opentelemetry.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/adot-iam\.html"
+        to="/eks/latest/userguide/opentelemetry.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/adot-manage\.html"
+        to="/eks/latest/userguide/opentelemetry.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/sample-app\.html"
+        to="/eks/latest/userguide/opentelemetry.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/deploy-collector\.html"
+        to="/eks/latest/userguide/opentelemetry.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/deploy-collector-advanced-configuration\.html"
+        to="/eks/latest/userguide/opentelemetry.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/deploy-deployment\.html"
+        to="/eks/latest/userguide/opentelemetry.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/configure-cw\.html"
+        to="/eks/latest/userguide/opentelemetry.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/configure-xray\.html"
+        to="/eks/latest/userguide/opentelemetry.html" flags="[L,R]"/>
+    <!-- Deprecated page in favor of new setting up topic -->
+    <redirect from="^/eks/latest/userguide/eksctl\.html"
+        to="/eks/latest/userguide/setting-up.html" flags="[L,R]"/>
+    <redirect from="^/eks/latest/userguide/managing-auth\.html" to="/eks/latest/userguide/cluster-auth.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/calico\.html" to="/eks/latest/userguide/cni-network-policy.html" flags="[L,R]" />
+    
+    <!-- renamed extended support control page -->
+    <redirect from="^/eks/latest/userguide/extended-support-control\.html" to="/eks/latest/userguide/view-upgrade-policy.html" flags="[L,R]" />
+    
+    <!-- removed legacy windows support -->
+    <redirect from="^/eks/latest/userguide/legacy-windows-support\.html" to="/eks/latest/userguide/windows-support.html" flags="[L,R]" />
+    
+    <!-- Tachyon placeholder -->
+    <redirect from="^/eks/latest/userguide/console-deploy-app\.html" to="/eks/latest/userguide/quickstart.html#quickstart-deploy-game" flags="[NE,L,R]" />
+    
+    <!-- Add-ons -->
+    <redirect from="^/eks/latest/userguide/managing-add-ons\.html" to="/eks/latest/userguide/eks-add-ons.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-CLOUDSOFT\.html" to="/eks/latest/userguide/add-on-cloudsoft.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-GUANCE\.html" to="/eks/latest/userguide/add-on-guance.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-RAD\.html" to="/eks/latest/userguide/add-on-rad.html" flags="[L,R]" />
+    
+    <!-- redirect addons from pages to sections - 3rd party -->
+    <redirect from="^/eks/latest/userguide/add-on-accuknox\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-accuknox" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-akuity\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-akuity" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-calyptia\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-calyptia" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-cisco-collector\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-cisco-collector" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-cisco-operator\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-cisco-operator" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-cloudsoft\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-cloudsoft" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-cribl\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-cribl" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-dynatrace\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-dynatrace" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-datree-pro\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-datree-pro" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-datadog\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-datadog" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-groundcover\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-groundcover" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-grafana\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-grafana" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-guance\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-guance" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-ha-proxy\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-ha-proxy" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-kpow\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-kpow" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-kubecost\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-kubecost" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-kasten\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-kasten" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-kong\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-kong" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-leaksignal\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-leaksignal" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-netapp\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-netapp" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-new-relic\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-new-relic" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-rafay\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-rafay" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-rad\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-rad" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-solarwinds\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-solarwinds" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-solo\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-solo" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-snyk\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-snyk" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-stormforge\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-stormforge" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-splunk\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-splunk" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-teleport\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-teleport" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-tetrate\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-tetrate" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-upbound\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-upbound" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-on-upwind\.html" to="/eks/latest/userguide/workloads-add-ons-available-vendors.html#add-on-upwind" flags="[NE,L,R]" />
+    
+    <!-- redirect addons from pages to sections - 1st party -->
+    <redirect from="^/eks/latest/userguide/add-ons-vpc-cni\.html" to="/eks/latest/userguide/workloads-add-ons-available-eks.html#add-ons-vpc_cni" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-ons-coredns\.html" to="/eks/latest/userguide/workloads-add-ons-available-eks.html#add-ons-coredns" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-ons-kube-proxy\.html" to="/eks/latest/userguide/workloads-add-ons-available-eks.html#add-ons-kube_proxy" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-ons-aws-ebs-csi-driver\.html" to="/eks/latest/userguide/workloads-add-ons-available-eks.html#add-ons-aws_ebs_csi_driver" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-ons-aws-efs-csi-driver\.html" to="/eks/latest/userguide/workloads-add-ons-available-eks.html#add-ons-aws_efs_csi_driver" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/mountpoint-for-s3-add-on\.html" to="/eks/latest/userguide/workloads-add-ons-available-eks.html#add-ons-mountpoint_for_s3_add_on" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/addons-csi-snapshot-controller\.html" to="/eks/latest/userguide/workloads-add-ons-available-eks.html#add-ons-addons_csi_snapshot_controller" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-ons-adot\.html" to="/eks/latest/userguide/workloads-add-ons-available-eks.html#add-ons-adot" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-ons-guard-duty\.html" to="/eks/latest/userguide/workloads-add-ons-available-eks.html#add-ons-guard_duty" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/amazon-cloudwatch-observability\.html" to="/eks/latest/userguide/workloads-add-ons-available-eks.html#add-ons-amazon_cloudwatch_observability" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/add-ons-pod-id\.html" to="/eks/latest/userguide/workloads-add-ons-available-eks.html#add-ons-pod_id" flags="[NE,L,R]" />
+
+    <!-- Amazon EKS Connector -->
+    <redirect from="^/eks/latest/userguide/connector_IAM_role\.html" to="/eks/latest/userguide/connector-iam-role.html" flags="[L,R]" />
+
+    <!-- Configure networking -->
+    <redirect from="^/eks/latest/userguide/network_reqs\.html" to="/eks/latest/userguide/network-reqs.html" flags="[L,R]" />
+
+    <!-- Security -->
+    <!-- rename page since EKS hasnt had a service role in many years, this is the cluster role -->
+    <redirect from="^/eks/latest/userguide/service_IAM_role\.html" to="/eks/latest/userguide/cluster-iam-role.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/cluster_IAM_role\.html" to="/eks/latest/userguide/cluster-iam-role.html" flags="[L,R]" />
+    
+    <!-- Store app data -->
+    <redirect from="^/eks/latest/userguide/csi-iam-role\.html" to="/eks/latest/userguide/ebs-csi.html#csi-iam-role" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/managing-ebs-csi\.html" to="/eks/latest/userguide/ebs-csi.html#managing-ebs-csi" flags="[NE,L,R]" />
+    <redirect from="^/eks/latest/userguide/ebs-sample-app\.html" to="/eks/latest/userguide/ebs-csi.html#ebs-sample-app" flags="[NE,L,R]" />
+</redirects>
