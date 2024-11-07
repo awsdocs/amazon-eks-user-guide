@@ -34,7 +34,7 @@ As you compare instance types to choose between them, consider the number of EFA
 
 An _Elastic Fabric Adapter (EFA)_ is a network interface that combines the capabilities of an Elastic Network Adapter (ENA) and an OS-bypass interface, powered by the {AWS} Scalable Reliable Datagram (SRD) protocol. The EFA functionalities allow applications to communicate directly with the hardware for low-latency transport. You can choose to access only the EFA capabilities using _EFA-only_ interfaces, limiting communication to interfaces within the same Availability Zone.
 
-To create nodes that can have EFA-only interfaces, you must use a custom EC2 Launch Template and set the `InterfaceType` to `efa-only`. In your custom Launch Template, you can't set the network card `0` to an EFA-only interface, as that is the primary network card and network interface of the EC2 instance. 
+To create nodes that can have EFA-only interfaces, you must use a custom EC2 Launch Template and set the `InterfaceType` to `efa-only`. In your custom Launch Template, you can't set the network card `0` to an EFA-only interface, as that is the primary network card and network interface of the EC2 instance. You must have VPC CNI version `1.18.5` or later for EFA-only interfaces. If you are using Amazon Linux 2, ami version has to be `v20240928` or later for EfA-only interfaces.
 
 The following procedure guides you to create an EKS cluster with `eksctl` with nodes that have [.noloc]`nVidia` GPUs and EFA interfaces. You can't use `eksctl` to create nodes and node groups that use EFA-only interfaces.
 
