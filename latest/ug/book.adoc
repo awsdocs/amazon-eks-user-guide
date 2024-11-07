@@ -74,6 +74,8 @@ include::connector/eks-connector.adoc[leveloffset=+1]
 
 include::outposts/eks-outposts.adoc[leveloffset=+1]
 
+include::ml/machine-learning-on-eks.adoc[leveloffset=+1]
+
 include::related-projects.adoc[leveloffset=+1]
 
 include::roadmap.adoc[leveloffset=+1]

@@ -47,8 +47,6 @@ For more information about nodes from a general [.noloc]`Kubernetes` perspective
 [.topic]
 include::launch-workers.adoc[leveloffset=+1]
 
-include::capacity-blocks.adoc[leveloffset=+1]
-
 include::launch-node-bottlerocket.adoc[leveloffset=+1]
 
 include::launch-windows-workers.adoc[leveloffset=+1]

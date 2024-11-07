@@ -1,0 +1,51 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[ml-get-started,ml-get-started.title]]
+= Get started with ML
+:info_doctype: section
+:info_title: Get started deploying Machine Learning tools on EKS
+:info_titleabbrev: Get started with ML
+:info_abstract: Choose the Machine Learning on EKS tools and platforms that best suit your needs, then use quick start procedures to deploy them to the {aws} cloud.
+
+include::../attributes.txt[]
+
+
+[abstract]
+--
+Choose the Machine Learning on EKS tools and platforms that best suit your needs, then use quick start procedures to deploy ML workloads and EKS clusters to the {aws} cloud.
+--
+
+To jump into Machine Learning on EKS, start by choosing from these prescriptive patterns to quickly get an EKS cluster and ML software and hardware ready to begin running ML workloads. Most of these patterns are based on Terraform blueprints that are available from the https://awslabs.github.io/data-on-eks/docs/introduction/intro[Data on Amazon EKS] site. Before you begin, here are few things to keep in mind:
+
+* GPUs or Neuron instances are required to run these procedures. Lack of availability of these resources can cause these procedures to fail during cluster creation or node autoscaling.
+* Neuron SDK (Tranium and Inferentia-based instances) can save money and are more available than NVIDIA GPUs. So, when your worloads permit it, we recommend that you consider using Neutron for your Machine Learning workloads (see https://awsdocs-neuron.readthedocs-hosted.com/en/latest/[Welcome to {aws} Neuron]).
+* Some of the getting started experiences here require that you get data via your own https://huggingface.co/[Hugging Face] account.
+
+To get started, choose from the following selection of patterns that are designed to get you started setting up infrastructure to run your Machine Learning workloads:
+
+* *https://awslabs.github.io/data-on-eks/docs/blueprints/ai-ml/jupyterhub[JupyterHub on EKS]*: Explore the https://awslabs.github.io/data-on-eks/docs/blueprints/ai-ml/jupyterhub[JupyterHub blueprint], which showcases Time Slicing and MIG features, as well as multi-tenant configurations with profiles. This is ideal for deploying large-scale JupyterHub platforms on EKS.
+* *https://aws.amazon.com/ai/machine-learning/neuron/[Large Language Models on {aws} Neuron and RayServe]*: Use https://aws.amazon.com/ai/machine-learning/neuron/[{aws} Neuron] to run large language models (LLMs) on Amazon EKS and {aws} Trainium and {aws} Inferentia accelerators. See https://awslabs.github.io/data-on-eks/docs/gen-ai/inference/Neuron/vllm-ray-inf2[Serving LLMs with RayServe and vLLM on {aws} Neuron] for instructions on setting up a platform for making inference requests, with components that include:
++
+** {aws} Neuron SDK toolkit for deep learning
+** {aws} Inferentia and Trainium accelerators
+** vLLM - variable-length language model (see the https://docs.vllm.ai/en/latest/[vLLM] documentation site)
+** RayServe scalable model serving library (see the https://docs.ray.io/en/latest/serve/index.html[Ray Serve: Scalable and Programmable Serving] site)
+** Llama-3 language model, using your own https://huggingface.co/[Hugging Face] account.
+** Observability with {aws} CloudWatch and Neuron Monitor
+** Open WebUI
+* *https://awslabs.github.io/data-on-eks/docs/gen-ai/inference/GPUs/vLLM-NVIDIATritonServer[Large Language Models on NVIDIA and Triton]*: Deploy multiple large language models (LLMs) on Amazon EKS and NVIDIA GPUs. See https://awslabs.github.io/data-on-eks/docs/gen-ai/inference/GPUs/vLLM-NVIDIATritonServer[Deploying Multiple Large Language Models with NVIDIA Triton Server and vLLM] for instructions for setting up a platform for making inference requests, with components that include:
++
+** NVIDIA Triton Inference Server (see the https://github.com/triton-inference-server/server[Triton Inference Server] GitHub site)
+** vLLM - variable-length language model (see the https://docs.vllm.ai/en/latest/[vLLM] documentation site)
+** Two language models: mistralai/Mistral-7B-Instruct-v0.2 and meta-llama/Llama-2-7b-chat-hf, using your own https://huggingface.co/[Hugging Face] account.
+
+=== Continuing with ML on EKS
+
+Along with choosing from the blueprints described on this page, there are other ways you can proceed through the ML on EKS documentation if you prefer. For example, you can:
+
+* *Try tutorials for ML on EKS* – Run other end-to-end tutorials for building and running your own Machine Learning models on EKS. See <<ml-tutorials>>.
+
+To improve your work with ML on EKS, refer to the following:
+
+* *Prepare for ML* – Learn how to prepare for ML on EKS with features like custom AMIs and GPU reservations. See <<ml-prepare-for-cluster>>.

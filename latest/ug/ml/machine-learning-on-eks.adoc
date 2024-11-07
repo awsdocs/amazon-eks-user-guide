@@ -1,0 +1,68 @@
+//!!NODE_ROOT <chapter>
+include::../attributes.txt[]
+[.topic]
+[[machine-learning-on-eks,machine-learning-on-eks.title]]
+= Overview of Machine Learning on Amazon EKS
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: Machine Learning on Amazon EKS Overview
+:info_titleabbrev: Machine Learning on EKS
+:keywords: Machine Learning, Amazon EKS, Artificial Intelligence
+:info_abstract: Learn to manage containerized applications with Amazon EKS
+
+[abstract]
+--
+Complete guide for running Machine Learning applications on Amazon EKS. This includes everything from provisioning infrastructure to choosing and deploying Machine Learning workloads on Amazon EKS.
+--
+
+[[ml-features,ml-features.title]]
+
+Machine Learning (ML) is an area of Artificial Intelligence (AI) where machines process large amounts of data to look for patterns and make connections between the data. This can expose new relationships and help predict outcomes that might not have been apparent otherwise.
+
+For large-scale ML projects, data centers must be able to store large amounts of data, process data quickly, and integrate data from many sources. The platforms running ML applications must be reliable and secure, but also offer resiliency to recover from data center outages and application failures. {aws} Elastic Kubernetes Service (EKS), running in the {aws} cloud, is particularly suited for ML workloads. 
+
+The primary goal of this section of the EKS User Guide is to help you put together the hardware and software component to build platforms to run Machine Learning workloads in an EKS cluster.
+We start by explaining the features and services available to you in EKS and the {aws} cloud, then provide you with tutorials to help you work with ML platforms, frameworks, and models.
+
+=== Advantages of Machine Learning on EKS and the {aws} cloud
+
+Amazon Elastic Kubernetes Service (EKS) is a powerful, managed Kubernetes platform that has become a cornerstone for deploying and managing AI/ML workloads in the cloud. With its ability to handle complex, resource-intensive tasks, Amazon EKS provides a scalable and flexible foundation for running AI/ML models, making it an ideal choice for organizations aiming to harness the full potential of machine learning.
+
+Key Advantages of AI/ML Platforms on Amazon EKS include:
+
+* *Scalability and Flexibility*
+Amazon EKS enables organizations to scale AI/ML workloads seamlessly. Whether you're training large language models that require vast amounts of compute power or deploying inference pipelines that need to handle unpredictable traffic patterns, EKS scales up and down efficiently, optimizing resource use and cost.
+
+* *High Performance with GPUs and Neuron Instances*
+Amazon EKS supports a wide range of compute options, including GPUs and {aws}} Neuron instances, which are essential for accelerating AI/ML workloads. This support allows for high-performance training and low-latency inference, ensuring that models run efficiently in production environments.
+
+* *Integration with AI/ML Tools*
+Amazon EKS integrates seamlessly with popular AI/ML tools and frameworks like TensorFlow, PyTorch, and Ray, providing a familiar and robust ecosystem for data scientists and engineers. These integrations enable users to leverage existing tools while benefiting from the scalability and management capabilities of Kubernetes.
+
+* *Automation and Management*
+Kubernetes on Amazon EKS automates many of the operational tasks associated with managing AI/ML workloads. Features like automatic scaling, rolling updates, and self-healing ensure that your applications remain highly available and resilient, reducing the overhead of manual intervention.
+
+* *Security and Compliance*
+Running AI/ML workloads on Amazon EKS provides robust security features, including fine-grained IAM roles, encryption, and network policies, ensuring that sensitive data and models are protected. EKS also adheres to various compliance standards, making it suitable for enterprises with strict regulatory requirements.
+
+=== Why Choose Amazon EKS for AI/ML?
+Amazon EKS offers a comprehensive, managed environment that simplifies the deployment of AI/ML models while providing the performance, scalability, and security needed for production workloads. With its ability to integrate with a variety of AI/ML tools and its support for advanced compute resources, EKS empowers organizations to accelerate their AI/ML initiatives and deliver innovative solutions at scale.
+
+By choosing Amazon EKS, you gain access to a robust infrastructure that can handle the complexities of modern AI/ML workloads, allowing you to focus on innovation and value creation rather than managing underlying systems. Whether you are deploying simple models or complex AI systems, Amazon EKS provides the tools and capabilities needed to succeed in a competitive and rapidly evolving field.
+
+=== Start using Machine Learning on EKS
+
+To begin planning for and using Machine Learning platforms and workloads on EKS on the {aws} cloud, proceed to the <<ml-get-started>> section.
+
+include::ml-get-started.adoc[leveloffset=+1]
+
+include::ml-prepare-for-cluster.adoc[leveloffset=+1]
+
+include::ml-tutorials.adoc[leveloffset=+1]

@@ -5,9 +5,9 @@
 [[node-efa,node-efa.title]]
 = Run machine learning training on Amazon EKS with [.noloc]`Elastic Fabric Adapter`
 :info_doctype: section
-:info_title: Run machine learning training on Amazon EKS with Elastic Fabric \
-                Adapter
-:info_titleabbrev: Machine learning training
+:info_title: Add Elastic Fabric \
+                Adapter to EKS clusters for ML training
+:info_titleabbrev: Add EFA to ML clusters
 :info_abstract: Learn how to integrate Elastic Fabric Adapter (EFA) with Amazon EKS to run machine \
                 learning training workloads requiring high inter-node communications at scale using \
                 p4d instances with GPUDirect RDMA and NVIDIA Collective Communications Library \
@@ -61,7 +61,7 @@ An important consideration required for adopting EFA with [.noloc]`Kubernetes` i
 
 The following procedure helps you create a node group with a `p4d.24xlarge` backed node group with EFA interfaces and GPUDirect RDMA, and run an example NVIDIA Collective Communications Library (NCCL) test for multi-node NCCL Performance using EFAs. The example can be used a template for distributed deep learning training on Amazon EKS using EFAs.
 
-. Determine which Amazon EC2 instance types that support EFA are available in the {aws} Region that you want to deploy nodes in.Replace [.replaceable]`region-code` with the {aws} Region that you want to deploy your node group in.
+. Determine which Amazon EC2 instance types that support EFA are available in the {aws} Region that you want to deploy nodes in. Replace [.replaceable]`region-code` with the {aws} Region that you want to deploy your node group in.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
