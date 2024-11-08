@@ -147,4 +147,8 @@
     <redirect from="^/eks/latest/userguide/csi-iam-role\.html" to="/eks/latest/userguide/ebs-csi.html#csi-iam-role" flags="[NE,L,R]" />
     <redirect from="^/eks/latest/userguide/managing-ebs-csi\.html" to="/eks/latest/userguide/ebs-csi.html#managing-ebs-csi" flags="[NE,L,R]" />
     <redirect from="^/eks/latest/userguide/ebs-sample-app\.html" to="/eks/latest/userguide/ebs-csi.html#ebs-sample-app" flags="[NE,L,R]" />
+
+    <!-- vt and dl1 custom builds -->
+    <redirect from="^/eks/latest/userguide/vt1\.html" to="/eks/latest/userguide/eks-ami-build-scripts.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/dl1\.html" to="/eks/latest/userguide/eks-ami-build-scripts.html" flags="[L,R]" />
 </redirects>
