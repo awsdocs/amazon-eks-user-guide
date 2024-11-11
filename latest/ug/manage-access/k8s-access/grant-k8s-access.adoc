@@ -887,7 +887,7 @@ Don't remove existing `aws-auth` `ConfigMap` entries that were created by Amazon
 
 * Familiarity with access entries and access policies. For more information, see <<access-entries>> and <<access-policies>>.
 * An existing cluster with a platform version that is at or later than the versions listed in the Prerequisites of the <<access-entries,Allowing IAM roles or users access to Kubernetes objects on your Amazon EKS cluster>> topic.
-* Version {eksctl-min-version} or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
+* Version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
 * [.noloc]`Kubernetes` permissions to modify the `aws-auth` `ConfigMap` in the `kube-system` namespace.
 * An {aws} Identity and Access Management role or user with the following permissions: `CreateAccessEntry` and `ListAccessEntries`. For more information, see  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference.
 . View the existing entries in your `aws-auth ConfigMap`. Replace [.replaceable]`my-cluster` with the name of your cluster.

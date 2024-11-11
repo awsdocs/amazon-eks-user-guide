@@ -74,7 +74,7 @@ You can create a cluster by using:
 [[step2-eksctl,step2-eksctl.title]]
 === Create cluster - eksctl
 
-. You need version {eksctl-min-version} or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
+. You need version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
 . Create an Amazon EKS `IPv4` cluster with the Amazon EKS default [.noloc]`Kubernetes` version in your default {aws} Region. Before running command, make the following replacements:
 . Replace [.replaceable]`region-code` with the {aws} Region that you want to create your cluster in.
 . Replace [.replaceable]`my-cluster` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.

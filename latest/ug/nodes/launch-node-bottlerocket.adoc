@@ -37,7 +37,7 @@ For information about in-place upgrades, see https://github.com/bottlerocket-os/
 
 ====
 
-This procedure requires `eksctl` version {eksctl-min-version} or later. You can check your version with the following command:
+This procedure requires `eksctl` version `{eksctl-min-version}` or later. You can check your version with the following command:
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----

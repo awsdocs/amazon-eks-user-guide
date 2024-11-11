@@ -79,7 +79,7 @@ You could also use the link:cli/latest/reference/eks/create-cluster.html[{aws} C
 
 *To create a local cluster with `eksctl`*
  
-. Install version {eksctl-min-version} or later of the `eksctl` command line tool on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation. 
+. Install version `{eksctl-min-version}` or later of the `eksctl` command line tool on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation. 
 
 . Copy the contents that follow to your device. Replace the following values and then run the modified command to create the `outpost-control-plane.yaml` file:
 +

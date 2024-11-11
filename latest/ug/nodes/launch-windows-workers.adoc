@@ -32,7 +32,7 @@ You can launch self-managed [.noloc]`Windows` nodes with either of the following
 
 *Launch self-managed Windows nodes using `eksctl`*`
 
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least {eksctl-min-version}. You can check your version with the following command.
+This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `{eksctl-min-version}`. You can check your version with the following command.
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----

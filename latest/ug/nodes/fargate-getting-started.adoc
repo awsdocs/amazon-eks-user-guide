@@ -72,7 +72,7 @@ You can create a Fargate profile using either of these tools:
 
 === `eksctl` [[eksctl_fargate_profile_create]]
 
-This procedure requires `eksctl` version {eksctl-min-version} or later. You can check your version with the following command:
+This procedure requires `eksctl` version `{eksctl-min-version}` or later. You can check your version with the following command:
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----

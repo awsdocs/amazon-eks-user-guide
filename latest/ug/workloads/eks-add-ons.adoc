@@ -45,9 +45,9 @@ Consider the following when you use Amazon EKS add-ons:
 +
 [cols="1,1", options="header"]
 |===
+
 |Kubernetes version
 |EKS platform version
-
 
 |1.20
 |eks.12
@@ -63,12 +63,14 @@ Consider the following when you use Amazon EKS add-ons:
 
 |1.24
 |eks.3
+
 |===
 
 
 [.topic]
 [[workloads-add-ons-available-eks,workloads-add-ons-available-eks.title]]
 == Available Amazon EKS add-ons from {aws}
+:info_titleabbrev: From {aws}
 
 [abstract]
 --
@@ -81,9 +83,9 @@ You can use any of the following Amazon EKS add-ons.
 
 [cols="1,1", options="header"]
 |===
+
 |Description
 |Learn more
-
 
 | Provide native VPC networking for your cluster
 |<<add-ons-vpc-cni>>
@@ -117,6 +119,7 @@ You can use any of the following Amazon EKS add-ons.
 
 |Ability to manage credentials for your applications, similar to the way that EC2 instance profiles provide credentials to EC2 instances
 |<<add-ons-pod-id>>
+
 |===
 
 [[add-ons-vpc-cni,add-ons-vpc-cni.title]]
@@ -459,6 +462,7 @@ You can only update one minor version at a time. For example, if your current ve
 [.topic]
 [[workloads-add-ons-available-vendors,workloads-add-ons-available-vendors.title]]
 == Additional Amazon EKS add-ons from independent software vendors
+:info_titleabbrev: From indepdendent software vendors
 
 [abstract]
 --
@@ -1341,7 +1345,8 @@ Custom permissions aren't used with this add-on.
 
 [.topic]
 [[creating-an-add-on,creating-an-add-on.title]]
-== Creating an Amazon EKS add-on
+== Create an Amazon EKS add-on
+:info_titleabbrev: Create
 
 [abstract]
 --
@@ -1658,7 +1663,8 @@ If you receive an error similar to the error in the previous output, visit the U
 
 [.topic]
 [[updating-an-add-on,updating-an-add-on.title]]
-== Updating an Amazon EKS add-on
+== Update an Amazon EKS add-on
+:info_titleabbrev: Update
 
 [abstract]
 --
@@ -1682,8 +1688,6 @@ Complete the following before you create an add-on:
 === Procedure
 
 You can update an Amazon EKS add-on using `eksctl`, the {aws-management-console}, or the {aws} CLI.
-
-
 
 === Update add-on (eksctl)
 
@@ -1861,7 +1865,8 @@ The update is complete when the status is `ACTIVE`.
 
 [.topic]
 [[addon-compat,addon-compat.title]]
-== Verifying Amazon EKS add-on version compatibility with a cluster
+== Verify Amazon EKS add-on version compatibility with a cluster
+:info_titleabbrev: Verify compatibility
 
 [abstract]
 --
@@ -1874,7 +1879,7 @@ Use the  link:eks/latest/APIReference/API_DescribeAddonVersions.html[describe-ad
 
 . Verify the {aws} CLI is installed and working with `aws sts get-caller-identity`. If this command doesn't work, learn how to link:cli/latest/userguide/cli-chap-getting-started.html[Get started with the {aws} CLI.,type="documentation"]
 . Determine the name of the add-on you want to retrieve version compatibility information for, such as `amazon-cloudwatch-observability`.
-. Determine the Kubernetes version of your cluster, such as `1.29`.
+. Determine the Kubernetes version of your cluster, such as `{k8s-n}`.
 . Use the {aws} CLI to retrieve the addon versions that are compatible with the Kubernetes version of your cluster. 
 +
 [source,bash,subs="verbatim,attributes,quotes"]
@@ -1893,7 +1898,7 @@ An example output is as follows.
             "type": "observability",
             "addonVersions": [
                 {
-                    "addonVersion": "v1.5.0-eksbuild.1",
+                    "addonVersion": "vX.X.X-eksbuild.X",
                     "architecture": [
                         "amd64",
                         "arm64"
@@ -1914,12 +1919,13 @@ An example output is as follows.
 }
 ----
 +
-This output shows that addon version `v1.5.0-eksbuild.1` is compatible with Kubernetes cluster version `{k8s-n}`.
+This output shows that addon version `vX.X.X-eksbuild.X` is compatible with Kubernetes cluster version `{k8s-n}`.
 
 
 [.topic]
 [[removing-an-add-on,removing-an-add-on.title]]
-== Removing an Amazon EKS add-on from a cluster
+== Remove an Amazon EKS add-on from a cluster
+:info_titleabbrev: Remove
 
 [abstract]
 --
@@ -1950,7 +1956,7 @@ Complete the following before you create an add-on:
 
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
 * Check if your add-on requires an IAM role. For more information, see 
-* Version {eksctl-min-version} or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation..
+* Version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation..
 
 
 [[removing-an-add-on-procedure,removing-an-add-on-procedure.title]]
@@ -2012,7 +2018,7 @@ For more information about removing add-ons, see https://eksctl.io/usage/addons/
 
 ==== Remove add-on ({aws} CLI)
 
-. You need version {eksctl-min-version} or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
+. You need version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
 +
 . See a list of installed add-ons. Replace [.replaceable]`my-cluster` with the name of your cluster.
 +

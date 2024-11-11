@@ -188,7 +188,7 @@ IMPORTANT: We recommend using `eksctl`, or another tool, to edit the `ConfigMap`
 [[configmap-eksctl,configmap-eksctl.title]]
 === Edit Configmap with Eksctl
 
-. You need version {eksctl-min-version} or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
+. You need version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
 +
 . View the current mappings in the `ConfigMap`. Replace [.replaceable]`my-cluster` with the name of your cluster. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
 +

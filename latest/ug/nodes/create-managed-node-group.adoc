@@ -39,7 +39,7 @@ You can create a managed node group with either of the following:
 
 *Create a managed node group with eksctl*
 
-This procedure requires `eksctl` version {eksctl-min-version} or later. You can check your version with the following command:
+This procedure requires `eksctl` version `{eksctl-min-version}` or later. You can check your version with the following command:
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----

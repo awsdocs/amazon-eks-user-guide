@@ -1,8 +1,7 @@
 // EKS-specific attributes
 
-:my-cluster: pass:q[[.replaceable]`my-cluster`]
-:eksctl-min-version: pass:q[`0.194.0`]
-:k8s-n: pass:q[`1.31`]
+:eksctl-min-version: 0.194.0
+:k8s-n: 1.31
 
 // AWS shared content
 

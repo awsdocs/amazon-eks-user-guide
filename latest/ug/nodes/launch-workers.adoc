@@ -30,7 +30,7 @@ You can launch self-managed Linux nodes using either of the following:
 
 NOTE: `eksctl` doesn't support Amazon Linux 2023 at this time. 
 
-. Install version {eksctl-min-version} or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
+. Install version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
 
 . (Optional) If the *AmazonEKS_CNI_Policy* managed IAM policy is attached to your  <<create-node-role,Amazon EKS node IAM role>>, we recommend assigning it to an IAM role that you associate to the [.noloc]`Kubernetes` `aws-node` service account instead. For more information, see <<cni-iam-role>>.
 . The following command creates a node group in an existing cluster. Replace [.replaceable]`al-nodes` with a name for your node group. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters. Replace [.replaceable]`my-cluster` with the name of your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in. Replace the remaining [.replaceable]`example value` with your own values. The nodes are created with the same [.noloc]`Kubernetes` version as the control plane, by default.  
