@@ -1,28 +1,13 @@
-//EKS-specific attributes
+// EKS-specific attributes
 
 :my-cluster: pass:q[[.replaceable]`my-cluster`]
 :eksctl-min-version: pass:q[`0.194.0`]
-
-
-// ROSA-specific attributes
-
-:rosa-service-name-in-code: rosa 
-:rosa-hcplong: ROSA with hosted control planes 
-:rosa-hcp: ROSA with HCP 
-:rosa-classic: ROSA classic 
-:red-hat-openshift: Red Hat OpenShift 
-:red-hat: Red Hat
-:red-hat-console: Red Hat Hybrid Cloud Console
-:openshift-cluster-manager: Openshift Cluster Manager
-:ocm: OCM
-:user_guide_name_long: {rosa-service-name-long} User Guide 
-:user_guide_name_short: User Guide 
+:k8s-n: pass:q[`1.31`]
 
 // AWS shared content
 
 // Region specific
 // Entities that differ depending on the Region build such as BJS
-// https://code.amazon.com/packages/AWSSharedContentXML/blobs/mainline/--/src/en_us/common/phrases-shared-services.shared
 :arn-aws: pass:q[[.shared]``region.arn``]
 
 // Service names
@@ -215,19 +200,3 @@
 :us-gov-west-1-name: {aws} GovCloud (US-West) Region
 :us-gov-east-1-region: {aws} GovCloud (US-West)
 :us-gov-east-1-code: us-gov-west-1
-
-// Re-usable links (this section must occur after the AWS shared content section, due to order of appearance of links)
-
-//AWS
-
-:rosa-aws-console-link: link:console.aws.amazon.com/rosa[{rosa-service-name-short} console,type="console"]
-:rosa-marketing-page: link:rosa/[{rosa-service-name-long} product page,type="marketing"]
-
-//Red Hat
-:rosa-red-hat-console-link: https://console.redhat.com/openshift/create/rosa/wizard[OpenShift Cluster Manager (OCM) {rosa-service-name-short} cluster creation wizard]
-
-
-// ROSA re-usable content (this section must occur after the AWS shared content and re-usable links sections, due to order of appearance of links)
-
-:rosa-aws-console-para: Open the {rosa-service-name-long} console at {rosa-aws-console-link}.
-

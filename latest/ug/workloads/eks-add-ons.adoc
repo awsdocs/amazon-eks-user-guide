@@ -160,7 +160,7 @@ You can only update one minor version at a time. For example, if your current ve
 Learn about the CoreDNS Amazon EKS add-on.
 --
 
-The CoreDNS Amazon EKS add-on is a flexible, extensible DNS server that can serve as the [.noloc]`Kubernetes` cluster DNS. The self-managed or managed type of this add-on was installed, by default, when you created your cluster. When you launch an Amazon EKS cluster with at least one node, two replicas of the [.noloc]`CoreDNS` image are deployed by default, regardless of the number of nodes deployed in your cluster. The [.noloc]`CoreDNS` [.noloc]`Pods` provide name resolution for all [.noloc]`Pods` in the cluster. You can deploy the [.noloc]`CoreDNS` [.noloc]`Pods` to Fargate nodes if your cluster includes a fargate profile with a namespace that matches the namespace for the [.noloc]`CoreDNS` deployment. For more information, see <<fargate-profile>>
+The CoreDNS Amazon EKS add-on is a flexible, extensible DNS server that can serve as the [.noloc]`Kubernetes` cluster DNS. The self-managed or managed type of this add-on was installed, by default, when you created your cluster. When you launch an Amazon EKS cluster with at least one node, two replicas of the [.noloc]`CoreDNS` image are deployed by default, regardless of the number of nodes deployed in your cluster. The [.noloc]`CoreDNS` [.noloc]`Pods` provide name resolution for all [.noloc]`Pods` in the cluster. You can deploy the [.noloc]`CoreDNS` [.noloc]`Pods` to Fargate nodes if your cluster includes a Fargate profile with a namespace that matches the namespace for the [.noloc]`CoreDNS` deployment. For more information, see <<fargate-profile>>
 
 The Amazon EKS add-on name is `coredns`.
 
@@ -1874,12 +1874,12 @@ Use the  link:eks/latest/APIReference/API_DescribeAddonVersions.html[describe-ad
 
 . Verify the {aws} CLI is installed and working with `aws sts get-caller-identity`. If this command doesn't work, learn how to link:cli/latest/userguide/cli-chap-getting-started.html[Get started with the {aws} CLI.,type="documentation"]
 . Determine the name of the add-on you want to retrieve version compatibility information for, such as `amazon-cloudwatch-observability`.
-. Determine the Kubernetes version of your cluster, such as `1.28`.
+. Determine the Kubernetes version of your cluster, such as `1.29`.
 . Use the {aws} CLI to retrieve the addon versions that are compatible with the Kubernetes version of your cluster. 
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-aws eks describe-addon-versions --addon-name amazon-cloudwatch-observability --kubernetes-version 1.29
+aws eks describe-addon-versions --addon-name amazon-cloudwatch-observability --kubernetes-version {k8s-n}
 ----
 +
 An example output is as follows.  
@@ -1900,7 +1900,7 @@ An example output is as follows.
                     ],
                     "compatibilities": [
                         {
-                            "clusterVersion": "1.28",
+                            "clusterVersion": "{k8s-n}",
                             "platformVersions": [
                                 "*"
                             ],
@@ -1914,7 +1914,7 @@ An example output is as follows.
 }
 ----
 +
-This output shows that addon version `v1.5.0-eksbuild.1` is compatible with Kubernetes cluster version `1.28`.
+This output shows that addon version `v1.5.0-eksbuild.1` is compatible with Kubernetes cluster version `{k8s-n}`.
 
 
 [.topic]
