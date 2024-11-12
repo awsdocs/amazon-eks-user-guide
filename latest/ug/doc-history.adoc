@@ -32,6 +32,22 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
+[.update,date="2024-11-21"]
+=== {aws} managed policy updates
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
+
+EKS updated {aws} managed policy `AmazonEKSLocalOutpostClusterPolicy`. Added `ec2:DescribeAvailabilityZones` permission so the {aws} Cloud Controller Manager on the cluster control plane can identify the Availability Zone that each node is in.
+
+
+[.update,date="2024-11-21"]
+=== [.noloc]`Kubernetes` version 1.30 is now available for local clusters on {aws} Outposts
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-platform-versions.html
+
+You can now create an Amazon EKS local cluster on an {aws} Outposts using [.noloc]`Kubernetes` version 1.30.
+
+
 [.update,date="2024-11-20"]
 === [.noloc]`Bottlerocket` AMIs that use FIPS 140-3
 [.update-ulink]
