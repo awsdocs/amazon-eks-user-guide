@@ -188,7 +188,7 @@ Alternatively, if you want a self-managed installation of the Amazon EFS CSI dri
 [NOTE]
 ====
 
-This step isn't needed for {aws} Fargate. A [.noloc]`Pod` running on Fargate automatically mounts an Amazon EFS file system.
+This step isn't needed for {aws} Fargate. A [.noloc]`Pod` running on Fargate automatically mounts an Amazon EFS file system, without needing manual driver installation steps.
 
 ====
 

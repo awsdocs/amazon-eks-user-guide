@@ -55,7 +55,7 @@ Using Amazon EKS doesn't change your responsibilities under the <<security,share
 * You can't deploy Fargate [.noloc]`Pods` to {aws} Outposts, {aws} Wavelength, or {aws} Local Zones.
 * Amazon EKS must periodically patch Fargate [.noloc]`Pods` to keep them secure. We attempt the updates in a way that reduces impact, but there are times when [.noloc]`Pods` must be deleted if they aren't successfully evicted. There are some actions you can take to minimize disruption. For more information, see <<fargate-pod-patching>>.
 * The https://github.com/aws/amazon-vpc-cni-plugins[Amazon VPC CNI plugin for Amazon EKS] is installed on Fargate nodes. You can't use <<alternate-cni-plugins,Alternate CNI plugins for Amazon EKS clusters>> with Fargate nodes.
-* A [.noloc]`Pod` running on Fargate automatically mounts an Amazon EFS file system. You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning.
+* A [.noloc]`Pod` running on Fargate automatically mounts an Amazon EFS file system, without needing manual driver installation steps. You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning.
 * Amazon EKS doesn't support Fargate Spot.
 * You can't mount Amazon EBS volumes to Fargate [.noloc]`Pods`.
 * You can run the Amazon EBS CSI controller on Fargate nodes, but the Amazon EBS CSI node [.noloc]`DaemonSet` can only run on Amazon EC2 instances.
