@@ -218,7 +218,7 @@ The following table describes the scheduler and controller manager metrics that 
 == Deploy a Prometheus scraper to consistently scrape metrics
 
 To deploy a Prometheus scraper to consistently scrape the metrics, use the following configuration:
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim"]
 ----
 ---
 apiVersion: v1
