@@ -70,7 +70,9 @@ Amazon Managed Service for Prometheus refers to the agentless scraper that is cr
 [IMPORTANT]
 ====
 
-If you create a [.noloc]`Prometheus` scraper using the {aws} CLI or {aws} API, you need to adjust its configuration to give the scraper in-cluster permissions. For more information, see link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup[Configuring your Amazon EKS cluster,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
+* If you create a [.noloc]`Prometheus` scraper using the {aws} CLI or {aws} API, you need to adjust its configuration to give the scraper in-cluster permissions. For more information, see link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup[Configuring your Amazon EKS cluster,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
+
+* If you have a [.noloc]`Prometheus` scraper created before November 11, 2024 that uses the `aws-auth` `ConfigMap` instead of access entries, you need to update it to access additional metrics from the Amazon EKS cluster control plane. For the updated configuration, see link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-manual-setup[Manually configuring Amazon EKS for scraper access,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
 
 ====
 

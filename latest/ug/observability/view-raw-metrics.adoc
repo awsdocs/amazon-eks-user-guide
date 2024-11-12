@@ -2,17 +2,33 @@
 include::../attributes.txt[]
 [.topic]
 [[view-raw-metrics,view-raw-metrics.title]]
-= View control plane raw metrics in [.noloc]`Prometheus` format
+= Fetch control plane raw metrics in [.noloc]`Prometheus` format
 :info_titleabbrev: Control plane
 
 [abstract]
 --
-As an alternative to deploying [.noloc]`Prometheus`, the [.noloc]`Kubernetes` API server exposes a number of metrics that are represented in a [.noloc]`Prometheus` format.
+The [.noloc]`Kubernetes` control plane exposes a number of metrics that are represented in a [.noloc]`Prometheus` format.
 --
 
-As an alternative to deploying [.noloc]`Prometheus`, the [.noloc]`Kubernetes` API server exposes a number of metrics that are represented in a https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exposition_formats.md[Prometheus format]. These metrics are useful for monitoring and analysis. They are exposed internally through a metrics endpoint that refers to the `/metrics` HTTP API. Like other endpoints, this endpoint is exposed on the Amazon EKS control plane. This endpoint is primarily useful for looking at a specific metric. To analyze metrics over time, we recommend deploying [.noloc]`Prometheus`.
+The [.noloc]`Kubernetes` control plane exposes a number of metrics that are represented in a https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exposition_formats.md[Prometheus format]. These metrics are useful for monitoring and analysis. They are exposed internally through metrics endpoints, and can be accessed without fully deploying [.noloc]`Prometheus`. However, deploying [.noloc]`Prometheus` more easily allows analyzing metrics over time.
 
-To view the raw metrics output, use `kubectl` with the `--raw` flag. This command allows you to pass any HTTP path and returns the raw response.
+To view the raw metrics output, run the following command.
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get --raw [.replaceable]`endpoint`
+----
+
+This command allows you to pass any endpoint path and returns the raw response. The output lists different metrics line-by-line, with each line including a metric name, tags, and a value.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+metric_name{tag="value"[,...]} value
+----
+
+[[fetch-metrics,fetch-metrics.title]]
+== Fetch metrics from the API server
+ 
+The general API server endpoint is exposed on the Amazon EKS control plane. This endpoint is primarily useful when looking at a specific metric.
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -41,11 +57,292 @@ ssh_tunnel_open_count 0
 ssh_tunnel_open_fail_count 0
 ----
 
-This raw output returns verbatim what the API server exposes. The different metrics are listed by line, with each line including a metric name, tags, and a value.
+This raw output returns verbatim what the API server exposes.
+
+[[fetch-metrics-prometheus,fetch-metrics-prometheus.title]]
+== Fetch control plane metrics with `metrics.eks.amazonaws.com`
+
+For new clusters that are [.noloc]`Kubernetes` version `1.28` and above, Amazon EKS also exposes metrics under the API group `metrics.eks.amazonaws.com`. These metrics include control plane components such as `kube-scheduler` and `kube-controller-manager`. These metrics are also available for existing clusters that have a platform version that is the same or later compared to the following table.
+
+[cols="1,1", options="header"]
+|===
+|Kubernetes version
+|Platform version
+
+|`1.31`
+|`eks.10`
+
+|`1.30`
+|`eks.18`
+
+|`1.29`
+|`eks.21`
+
+|`1.28`
+|`eks.27`
+
+|===
+
+[[fetch-metrics-scheduler,fetch-metrics-scheduler.title]]
+=== Fetch `kube-scheduler` metrics
+
+To retrieve `kube-scheduler` metrics, use the following command.
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-metric_name{"tag"="value"[,...]}
-            value
+kubectl get --raw "/apis/metrics.eks.amazonaws.com/v1/ksh/container/metrics"
 ----
 
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+# TYPE scheduler_pending_pods gauge
+scheduler_pending_pods{queue="active"} 0
+scheduler_pending_pods{queue="backoff"} 0
+scheduler_pending_pods{queue="gated"} 0
+scheduler_pending_pods{queue="unschedulable"} 18
+# HELP scheduler_pod_scheduling_attempts [STABLE] Number of attempts to successfully schedule a pod.
+# TYPE scheduler_pod_scheduling_attempts histogram
+scheduler_pod_scheduling_attempts_bucket{le="1"} 79
+scheduler_pod_scheduling_attempts_bucket{le="2"} 79
+scheduler_pod_scheduling_attempts_bucket{le="4"} 79
+scheduler_pod_scheduling_attempts_bucket{le="8"} 79
+scheduler_pod_scheduling_attempts_bucket{le="16"} 79
+scheduler_pod_scheduling_attempts_bucket{le="+Inf"} 81
+[...]
+----
+
+[[fetch-metrics-controller,fetch-metrics-controller.title]]
+=== Fetch `kube-controller-manager` metrics
+
+To retrieve `kube-controller-manager` metrics, use the following command.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get --raw "/apis/metrics.eks.amazonaws.com/v1/kcm/container/metrics"
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+[...]
+workqueue_work_duration_seconds_sum{name="pvprotection"} 0
+workqueue_work_duration_seconds_count{name="pvprotection"} 0
+workqueue_work_duration_seconds_bucket{name="replicaset",le="1e-08"} 0
+workqueue_work_duration_seconds_bucket{name="replicaset",le="1e-07"} 0
+workqueue_work_duration_seconds_bucket{name="replicaset",le="1e-06"} 0
+workqueue_work_duration_seconds_bucket{name="replicaset",le="9.999999999999999e-06"} 0
+workqueue_work_duration_seconds_bucket{name="replicaset",le="9.999999999999999e-05"} 19
+workqueue_work_duration_seconds_bucket{name="replicaset",le="0.001"} 109
+workqueue_work_duration_seconds_bucket{name="replicaset",le="0.01"} 139
+workqueue_work_duration_seconds_bucket{name="replicaset",le="0.1"} 181
+workqueue_work_duration_seconds_bucket{name="replicaset",le="1"} 191
+workqueue_work_duration_seconds_bucket{name="replicaset",le="10"} 191
+workqueue_work_duration_seconds_bucket{name="replicaset",le="+Inf"} 191
+workqueue_work_duration_seconds_sum{name="replicaset"} 4.265655885000002
+[...]
+----
+
+[[scheduler-controller-metrics,scheduler-controller-metrics.title]]
+=== Understand the scheduler and controller manager metrics
+
+The following table describes the scheduler and controller manager metrics that are made available for [.noloc]`Prometheus` style scraping. For more information about these metrics, see https://kubernetes.io/docs/reference/instrumentation/metrics/[Kubernetes Metrics Reference] in the [.noloc]`Kubernetes` documentation.
+
+[cols="1,1,1", options="header"]
+|===
+|Metric
+|Control plane component
+|Description
+
+|scheduler_pending_pods
+|scheduler
+|The number of Pods that are waiting to be scheduled onto a node for execution.
+
+|scheduler_schedule_attempts_total
+|scheduler
+|The number of attempts made to schedule Pods.
+
+|scheduler_preemption_attempts_total
+|scheduler
+|The number of attempts made by the scheduler to schedule higher priority Pods by evicting lower priority ones.
+
+|scheduler_preemption_victims
+|scheduler
+|The number of Pods that have been selected for eviction to make room for higher priority Pods.
+
+|scheduler_pod_scheduling_attempts
+|scheduler
+|The number of attempts to successfully schedule a Pod.
+
+|scheduler_scheduling_attempt_duration_seconds
+|scheduler
+|Indicates how quickly or slowly the scheduler is able to find a suitable place for a Pod to run based on various factors like resource availability and scheduling rules.
+
+|scheduler_pod_scheduling_sli_duration_seconds
+|scheduler
+|The end-to-end latency for a Pod being scheduled, from the time the Pod enters the scheduling queue. This might involve multiple scheduling attempts.
+
+|kube_pod_resource_request
+|scheduler
+|The resources requested by workloads on the cluster, broken down by Pod. This shows the resource usage the scheduler and kubelet expect per Pod for resources along with the unit for the resource if any.
+
+|kube_pod_resource_limit
+|scheduler
+|The resources limit for workloads on the cluster, broken down by Pod. This shows the resource usage the scheduler and kubelet expect per Pod for resources along with the unit for the resource if any.
+
+|cronjob_controller_job_creation_skew_duration_seconds
+|controller manager
+|The time between when a cronjob is scheduled to be run, and when the corresponding job is created.
+
+|workqueue_depth
+|controller manager
+|The current depth of queue.
+
+|workqueue_adds_total
+|controller manager
+|The total number of adds handled by workqueue.
+
+|workqueue_queue_duration_seconds
+|controller manager
+|The time in seconds an item stays in workqueue before being requested.
+
+|workqueue_work_duration_seconds
+|controller manager
+|The time in seconds processing an item from workqueue takes.
+
+|===
+
+[[deploy-prometheus-scraper,deploy-prometheus-scraper.title]]
+=== Deploy a Prometheus scraper to consistently scrape metrics
+
+To deploy a Prometheus scraper to consistently scrape the metrics, use the following configuration:
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-conf
+data:
+  prometheus.yml: |-
+    global:
+      scrape_interval: 30s
+    scrape_configs:    
+    # apiserver metrics
+    - job_name: apiserver-metrics
+      kubernetes_sd_configs:
+      - role: endpoints
+      scheme: https
+      tls_config:
+        ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        insecure_skip_verify: true
+      bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      relabel_configs:
+      - source_labels:
+          [
+            __meta_kubernetes_namespace,
+            __meta_kubernetes_service_name,
+            __meta_kubernetes_endpoint_port_name,
+          ]
+        action: keep
+        regex: default;kubernetes;https
+    # Scheduler metrics
+    - job_name: 'ksh-metrics'
+      kubernetes_sd_configs:
+      - role: endpoints
+      metrics_path: /apis/metrics.eks.amazonaws.com/v1/ksh/container/metrics
+      scheme: https
+      tls_config:
+        ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        insecure_skip_verify: true
+      bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      relabel_configs:
+      - source_labels:
+          [
+            __meta_kubernetes_namespace,
+            __meta_kubernetes_service_name,
+            __meta_kubernetes_endpoint_port_name,
+          ]
+        action: keep
+        regex: default;kubernetes;https
+    # Controller Manager metrics
+    - job_name: 'kcm-metrics'
+      kubernetes_sd_configs:
+      - role: endpoints
+      metrics_path: /apis/metrics.eks.amazonaws.com/v1/kcm/container/metrics
+      scheme: https
+      tls_config:
+        ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        insecure_skip_verify: true
+      bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      relabel_configs:
+      - source_labels:
+          [
+            __meta_kubernetes_namespace,
+            __meta_kubernetes_service_name,
+            __meta_kubernetes_endpoint_port_name,
+          ]
+        action: keep
+        regex: default;kubernetes;https
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: prom-pod
+spec:
+  containers:
+  - name: prom-container
+    image: prom/prometheus
+    ports:
+    - containerPort: 9090
+    volumeMounts:
+    - name: config-volume
+      mountPath: /etc/prometheus/
+  volumes:
+  - name: config-volume
+    configMap:
+      name: prometheus-conf
+----
+
+The permission that follows is required for the Pod to access the new metrics endpoint.
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{ 
+  "effect": "allow", 
+  "apiGroups": [ 
+    "metrics.eks.amazonaws.com" 
+  ], 
+  "resources": [ 
+    "kcm/metrics", 
+    "ksh/metrics" 
+  ], 
+  "verbs": [ 
+    "get" 
+  ] },
+----
+
+To patch the role being used, you can use the following command.
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl patch clusterrole <role-name> --type=json -p='[
+  {
+    "op": "add",
+    "path": "/rules/-",
+    "value": {
+      "verbs": ["get"],
+      "apiGroups": ["metrics.eks.amazonaws.com"],
+      "resources": ["kcm/metrics", "ksh/metrics"]
+    }
+  }
+]'
+----
+
+Then you can view the [.noloc]`Prometheus` dashboard by proxying the port of the [.noloc]`Prometheus` scraper to your local port.
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl port-forward pods/prom-pod 9090:9090
+----
+
+For your Amazon EKS cluster, the core Kubernetes control plane metrics are also ingested into Amazon CloudWatch Metrics under the `AWS/EKS` namespace. To view them, open the link:cloudwatch/home#logs:prefix=/aws/eks[CloudWatch console,type="console"] and select *All metrics* from the left navigation pane. On the *Metrics* selection page, choose the `AWS/EKS` namespace and a metrics dimension for your cluster.

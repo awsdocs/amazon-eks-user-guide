@@ -32,6 +32,14 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
+[.update,date="2024-11-11"]
+=== New metrics are available 
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/view-raw-metrics.html
+
+There are new metrics available under the API group `metrics.eks.amazonaws.com`.
+
+
 [.update,date="2024-11-07"]
 === {aws} managed policy updates
 [.update-ulink]
@@ -46,7 +54,6 @@ EKS updated {aws} managed policy `AmazonEKSComputePolicy`. Updated resource perm
 https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 
 EKS added a new {aws} managed policy: `AmazonEKSComputePolicy`
-
 
 
 [.update,date="2024-11-01"]
@@ -64,12 +71,14 @@ https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 
 EKS added a new {aws} managed policy: `AmazonEKSBlockStoragePolicy`
 
+
 [.update,date="2024-10-30"]
 === {aws} managed policy updates
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 
 EKS added a new {aws} managed policy: `AmazonEKSLoadBalancingPolicy`
+
 
 [.update,date="2024-10-29"]
 === {aws} managed policy updates
@@ -78,12 +87,14 @@ https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 
 Added `cloudwatch:PutMetricData` permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to publish metrics to Amazon CloudWatch.
 
+
 [.update,date="2024-10-28"]
 === {aws} managed policy updates
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 
 EKS added a new {aws} managed policy: `AmazonEKSNetworkingPolicy`
+
 
 [.update,date="2024-10-21"]
 === {aws} managed policy updates
@@ -482,7 +493,7 @@ You can modify the `PodDisruptionBudget` of the EKS add-on for [.noloc]`CoreDNS`
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/cni-network-policy.html
 
-You can use [.noloc]`Kubernetes` _network policy_ in existing clusters with the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`, instead of requiring a third party solution.
+You can use [.noloc]`Kubernetes`_network policy_ in existing clusters with the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`, instead of requiring a third party solution.
 
 
 [.update,date="2023-09-07"]
@@ -506,7 +517,7 @@ Added new link:eks/latest/userguide/common-use-cases.html[Common use cases,type=
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/cni-network-policy.html
 
-You can use [.noloc]`Kubernetes` _network policy_ with the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`, instead of requiring a third party solution.
+You can use [.noloc]`Kubernetes`_network policy_ with the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`, instead of requiring a third party solution.
 
 
 [.update,date="2023-08-01"]
@@ -992,7 +1003,7 @@ You can now add multiple network interfaces to a [.noloc]`Pod` using Multus.
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
 
-You can now add significantly more IP addresses to your [.noloc]`Linux` Amazon EC2 nodes. This means that you can run a higher density of [.noloc]`Pods` on each node.
+You can now add significantly more IP addresses to your [.noloc]`Linux` Amazon EC2 nodes. This means that you can run a higher density of [.noloc]`Pods`on each node.
 
 
 [.update,date="2021-07-19"]
