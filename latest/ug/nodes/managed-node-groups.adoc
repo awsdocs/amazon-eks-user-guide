@@ -13,8 +13,6 @@ include::../attributes.txt[]
 
 include::create-managed-node-group.adoc[leveloffset=+1]
 
-include::capacity-blocks-mng.adoc[leveloffset=+1]
-
 include::update-managed-node-group.adoc[leveloffset=+1]
 
 include::managed-node-update-behavior.adoc[leveloffset=+1]

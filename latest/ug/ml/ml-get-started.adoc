@@ -19,7 +19,7 @@ Choose the Machine Learning on EKS tools and platforms that best suit your needs
 To jump into Machine Learning on EKS, start by choosing from these prescriptive patterns to quickly get an EKS cluster and ML software and hardware ready to begin running ML workloads. Most of these patterns are based on Terraform blueprints that are available from the https://awslabs.github.io/data-on-eks/docs/introduction/intro[Data on Amazon EKS] site. Before you begin, here are few things to keep in mind:
 
 * GPUs or Neuron instances are required to run these procedures. Lack of availability of these resources can cause these procedures to fail during cluster creation or node autoscaling.
-* Neuron SDK (Tranium and Inferentia-based instances) can save money and are more available than NVIDIA GPUs. So, when your worloads permit it, we recommend that you consider using Neutron for your Machine Learning workloads (see https://awsdocs-neuron.readthedocs-hosted.com/en/latest/[Welcome to {aws} Neuron]).
+* Neuron SDK (Tranium and Inferentia-based instances) can save money and are more available than NVIDIA GPUs. So, when your workloads permit it, we recommend that you consider using Neutron for your Machine Learning workloads (see https://awsdocs-neuron.readthedocs-hosted.com/en/latest/[Welcome to {aws} Neuron]).
 * Some of the getting started experiences here require that you get data via your own https://huggingface.co/[Hugging Face] account.
 
 To get started, choose from the following selection of patterns that are designed to get you started setting up infrastructure to run your Machine Learning workloads:

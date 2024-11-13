@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [[capacity-blocks,capacity-blocks.title]]
 = Create self-managed nodes with Capacity Blocks for ML
-:info_titleabbrev: Reserve GPUs 
+:info_titleabbrev: Reserve GPUs for SMN
 
 [abstract]
 --
@@ -43,13 +43,13 @@ Make sure the `LaunchTemplateData` includes the following:
 ** `InstanceType` set to an instance type that supports Capacity Blocks (for example: [.replaceable]`p5.48xlarge`)
 ** `SecurityGroupIds` set to the applicable IDs (for example: [.replaceable]`sg-05b1d815d1EXAMPLE`)
 ** `UserData` set to the applicable [.replaceable]`user-data` for your self-managed node group
-
 +
-The following is an excerpt of a CloudFormation template that creates a launch template targeting a Capacity Block.  
+The following is an excerpt of a CloudFormation template that creates a launch template targeting a Capacity Block. 
++ 
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
 NodeLaunchTemplate:
-  Type: "{aws}::EC2::LaunchTemplate"
+  Type: "aws::EC2::LaunchTemplate"
   Properties:
     LaunchTemplateData:
       InstanceMarketOptions:

@@ -27,7 +27,7 @@ These tutorials cover everything from patterns for making the best use of GPU pr
 *  https://aws.amazon.com/blogs/publicsector/virtualizing-satcom-operations-aws/[Virtualizing satellite communication operations with {aws}]
 *  https://aws.amazon.com/blogs/opensource/running-torchserve-on-amazon-elastic-kubernetes-service/[Running TorchServe on Amazon Elastic Kubernetes Service]
 
-== Maximize NVIDIA CPU performance for ML on EKS
+== Maximize NVIDIA GPU performance for ML on EKS
 
 * Implement GPU sharing to efficiently use NVIDIA GPUs for your EKS clusters:
 +
@@ -52,9 +52,12 @@ https://aws.amazon.com/blogs/hpc/deploying-generative-ai-applications-with-nvidi
 
 * https://aws.amazon.com/blogs/containers/delivering-video-content-with-fractional-gpus-in-containers-on-amazon-eks/[Delivering video content with fractional GPUs in containers on Amazon EKS]
 
-== Testimonials for ML on EKS
+== Accelerate image loading for inference workloads
 
 * https://aws.amazon.com/blogs/containers/how-h2o-ai-optimized-and-secured-their-ai-ml-infrastructure-with-karpenter-and-bottlerocket/[How H2O.ai optimized and secured their AI/ML infrastructure with Karpenter and Bottlerocket]
+
+== Testimonials for ML on EKS
+
 *  https://aws.amazon.com/blogs/containers/quora-3x-faster-machine-learning-25-lower-costs-with-nvidia-triton-on-amazon-eks/[Quora achieved 3x lower latency and 25% lower Costs by modernizing model serving with Nvidia Triton on Amazon EKS]
 
 == Monitoring ML workloads
@@ -64,7 +67,6 @@ https://aws.amazon.com/blogs/hpc/deploying-generative-ai-applications-with-nvidi
 
 == Announcements for ML on EKS
 
-* https://aws.amazon.com/blogs/containers/announcing-nvidia-gpu-support-for-bottlerocket-on-amazon-ecs/[Announcing NVIDIA GPU support for Bottlerocket on Amazon ECS]
 * https://aws.amazon.com/blogs/containers/bottlerocket-support-for-nvidia-gpus/[Bottlerocket support for NVIDIA GPUs]
 * https://aws.amazon.com/blogs/aws/new-ec2-instances-g5-with-nvidia-a10g-tensor-core-gpus/[New – EC2 Instances (G5) with NVIDIA A10G Tensor Core GPUs]
 * https://aws.amazon.com/blogs/containers/utilizing-nvidia-multi-instance-gpu-mig-in-amazon-ec2-p4d-instances-on-amazon-elastic-kubernetes-service-eks/[Utilizing NVIDIA Multi-Instance GPU (MIG) in Amazon EC2 P4d Instances on Amazon Elastic Kubernetes Service]
