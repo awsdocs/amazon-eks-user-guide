@@ -35,6 +35,8 @@ In particular, this will help you:
 
 include::ml-eks-optimized-ami.adoc[leveloffset=+1]
 
+include::capacity-blocks-mng.adoc[leveloffset=+1]
+
 include::capacity-blocks.adoc[leveloffset=+1]
 
 include::node-taints-managed-node-groups.adoc[leveloffset=+1]

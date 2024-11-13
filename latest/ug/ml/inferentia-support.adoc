@@ -3,10 +3,10 @@ include::../attributes.txt[]
 
 [.topic]
 [[inferentia-support,inferentia-support.title]]
-= Use {aws} [.noloc]`Inferentia` workloads with Amazon EKS for Machine Learning
+= Use {aws} [.noloc]`Inferentia` instances with Amazon EKS for Machine Learning
 :info_doctype: section
-:info_title: Use {aws} Inferentia workloads with your EKS cluster for Machine Learning 
-:info_titleabbrev: Create {aws} Inferentia cluster
+:info_title: Use {aws} Inferentia instances with your EKS cluster for Machine Learning 
+:info_titleabbrev: Prepare Inferentia clusters
 :info_abstract: Learn how to create an Amazon EKS cluster with nodes running Amazon EC2 Inf1 instances for machine learning inference using {aws} Inferentia chips and deploy a TensorFlow Serving application.
 
 [abstract]

@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [[capacity-blocks-mng,capacity-blocks-mng.title]]
 = Create a managed node group with Capacity Blocks for ML
-:info_titleabbrev: Capacity Blocks for ML
+:info_titleabbrev: Reserve GPUs for MNG
 
 [abstract]
 --
@@ -38,7 +38,6 @@ In addition to the requirements in the above procedures, make sure that the `Lau
 ** `InstanceMarketOptions` with `MarketType` set to `"capacity-block"`
 ** `CapacityReservationSpecification: CapacityReservationTarget` with `CapacityReservationId` set to the Capacity Block (for example: `cr-[.replaceable]`02168da1478b509e0`` )
 ** `InstanceType` set to an instance type that supports Capacity Blocks (for example: [.replaceable]`p5.48xlarge`)
-
 +
 The following is an excerpt of a CloudFormation template that creates a launch template targeting a Capacity Block. To  create a custom AMI managed node group, you can also add `ImageId` and `UserData` parameters.
 +

@@ -7,7 +7,7 @@
 :info_doctype: section
 :info_title: Add Elastic Fabric \
                 Adapter to EKS clusters for ML training
-:info_titleabbrev: Add EFA to ML clusters
+:info_titleabbrev: Prepare training clusters with EFA
 :info_abstract: Learn how to integrate Elastic Fabric Adapter (EFA) with Amazon EKS to run machine \
                 learning training workloads requiring high inter-node communications at scale using \
                 p4d instances with GPUDirect RDMA and NVIDIA Collective Communications Library \
