@@ -17,7 +17,7 @@
     "adoc include w offset": {
         "prefix": "include-custom",
         "body": [
-            "include::$0.adoc[leveloffeset=+1]"
+            "include::$0.adoc[leveloffset=+1]"
         ],
         "description": "adoc include"
     },
