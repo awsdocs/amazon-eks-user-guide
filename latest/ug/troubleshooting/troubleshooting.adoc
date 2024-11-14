@@ -56,12 +56,8 @@ If the nodes are self-managed, and you haven't created <<access-entries,access e
 |Value
 
 
-|
-
-`kubernetes.io/cluster/[.replaceable]``my-cluster```
-|
-
-`owned`
+|`kubernetes.io/cluster/[.replaceable]``my-cluster```
+|`owned`
 |===
 * The nodes may not be able to access the cluster using a public IP address. Ensure that nodes deployed in public subnets are assigned a public IP address. If not, you can associate an Elastic IP address to a node after it's launched. For more information, see  link:AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating[Associating an Elastic IP address with a running instance or network interface,type="documentation"]. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting. For more information, see  link:vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip[Modifying the public IPv4 addressing attribute for your subnet,type="documentation"]. If the node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it.
 * The {aws} STS endpoint for the {aws} Region that you're deploying the nodes to is not enabled for your account. To enable the region, see  link:IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate[Activating and deactivating {aws} STS in an {aws} Region,type="documentation"].
@@ -656,12 +652,8 @@ The first two columns are what are needed for API response values. The third fie
 |Cluster Recoverable?
 
 
-|
-
-[.noloc]`SUBNET_NOT_FOUND`
-|
-
-We couldn't find one or more subnets currently associated with your cluster. Call Amazon EKS [.noloc]`update-cluster-config` API to update subnets.
+|[.noloc]`SUBNET_NOT_FOUND`
+|We couldn't find one or more subnets currently associated with your cluster. Call Amazon EKS [.noloc]`update-cluster-config` API to update subnets.
 |Subnet Ids
 |Yes
 
@@ -685,79 +677,43 @@ We couldn't find one or more subnets currently associated with your cluster. Cal
 |The cluster IAM role
 |Yes
 
-|
-
-[.noloc]`PERMISSION_ACCESS_DENIED`
+|[.noloc]`PERMISSION_ACCESS_DENIED`
 |Your cluster is not using the Amazon EKS service-linked-role. The role associated with your cluster does not grant sufficient permissions for Amazon EKS to perform required management operations. Check the policies attached to the cluster role and if any separate deny policies are applied.
 |The cluster IAM role
 |Yes
 
-|
-
-[.noloc]`ASSUME_ROLE_ACCESS_DENIED_USING_SLR`
+|[.noloc]`ASSUME_ROLE_ACCESS_DENIED_USING_SLR`
 |We couldn't assume the Amazon EKS cluster management service-linked-role. Check the role exists and has the required trust policy.
 |The Amazon EKS service-linked-role
 |Yes
 
-|
-
-[.noloc]`PERMISSION_ACCESS_DENIED_USING_SLR`
-|
-
-The Amazon EKS cluster management service-linked-role does not grant sufficient permissions for Amazon EKS to perform required management operations. Check the policies attached to the cluster role and if any separate deny policies are applied.
-|
-
-The Amazon EKS service-linked-role
+|[.noloc]`PERMISSION_ACCESS_DENIED_USING_SLR`
+|The Amazon EKS cluster management service-linked-role does not grant sufficient permissions for Amazon EKS to perform required management operations. Check the policies attached to the cluster role and if any separate deny policies are applied.
+|The Amazon EKS service-linked-role
 |Yes
 
-|
-
-[.noloc]`OPT_IN_REQUIRED`
-|
-
-Your account doesn't have an Amazon EC2 service subscription. Update your account subscriptions in your account settings page.
+|[.noloc]`OPT_IN_REQUIRED`
+|Your account doesn't have an Amazon EC2 service subscription. Update your account subscriptions in your account settings page.
 |N/A
 |Yes
 
-|
-
-[.noloc]`STS_REGIONAL_ENDPOINT_DISABLED`
-|
-
-The [.noloc]`STS` regional endpoint is disabled. Enable the endpoint for Amazon EKS to perform required cluster management operations.
+|[.noloc]`STS_REGIONAL_ENDPOINT_DISABLED`
+|The [.noloc]`STS` regional endpoint is disabled. Enable the endpoint for Amazon EKS to perform required cluster management operations.
 |N/A
 |Yes
 
-|
-
-[.noloc]`KMS_KEY_DISABLED`
-|
-
-The {aws} KMS Key associated with your cluster is disabled. Re-enable the key to recover your cluster.
-|
-
-The [.noloc]`KMS Key Arn`
+|[.noloc]`KMS_KEY_DISABLED`
+|The {aws} KMS Key associated with your cluster is disabled. Re-enable the key to recover your cluster.
+|The [.noloc]`KMS Key Arn`
 |Yes
 
-|
-
-[.noloc]`KMS_KEY_NOT_FOUND`
-|
-
-We couldn't find the {aws} KMS key associated with your cluster. You must delete and recreate the cluster.
-|
-
-The [.noloc]`KMS Key ARN`
+|[.noloc]`KMS_KEY_NOT_FOUND`
+|We couldn't find the {aws} KMS key associated with your cluster. You must delete and recreate the cluster.
+|The [.noloc]`KMS Key ARN`
 |No
 
-|
-
-[.noloc]`KMS_GRANT_REVOKED`
-|
-
-Grants for the {aws} KMS Key associated with your cluster are revoked. You must delete and recreate the cluster.
-|
-
-The [.noloc]`KMS Key Arn`
+|[.noloc]`KMS_GRANT_REVOKED`
+|Grants for the {aws} KMS Key associated with your cluster are revoked. You must delete and recreate the cluster.
+|The [.noloc]`KMS Key Arn`
 |No
 |===

@@ -33,31 +33,17 @@ When you create a cluster, Amazon EKS creates a security group that's named ``ek
 |Destination
 
 
-|
-
-Inbound
-|
-
-All
-|
-
-All
+|Inbound
+|All
+|All
 |Self 
 |
 
+|Outbound
+|All
+|All
 |
-
-Outbound
-|
-
-All
-|
-
-All
-|
-|
-
-0.0.0.0/0(`IPv4`) or ::/0 (`IPv6`)
+|0.0.0.0/0(`IPv4`) or ::/0 (`IPv6`)
 |===
 
 [IMPORTANT]
@@ -117,21 +103,13 @@ If you need to limit the open ports between the cluster and nodes, you can remov
 
 |Outbound
 |TCP
-|
-
-443
-|
-
-Cluster security group
+|443
+|Cluster security group
 
 |Outbound
 |TCP
-|
-
-10250
-|
-
-Cluster security group
+|10250
+|Cluster security group
 
 |Outbound (DNS)
 |TCP and UDP

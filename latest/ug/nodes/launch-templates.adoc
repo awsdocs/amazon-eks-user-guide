@@ -54,14 +54,10 @@ The following table lists the prohibited settings in a managed node group config
 |Launch template
 
 
-|
-
-(Only if you specified a custom AMI in a launch template) *AMI type* under  *Node group compute configuration* on  *Set compute and scaling configuration* page – Console displays  *Specified in launch template* and the AMI ID that was specified.
+|(Only if you specified a custom AMI in a launch template) *AMI type* under  *Node group compute configuration* on  *Set compute and scaling configuration* page – Console displays  *Specified in launch template* and the AMI ID that was specified.
 
 If *Application and OS Images (Amazon Machine Image)* wasn't specified in the launch template, you can select an AMI in the node group configuration.
-|
-
-*Application and OS Images (Amazon Machine Image)* under  *Launch template contents* – You must specify an ID if you have either of the following requirements:
+|*Application and OS Images (Amazon Machine Image)* under  *Launch template contents* – You must specify an ID if you have either of the following requirements:
 
 
 

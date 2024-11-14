@@ -39,12 +39,8 @@ You can use CloudWatch usage metrics to provide visibility into your account's u
 |Description
 
 
-|
-
-`ResourceCount`
-|
-
-The total number of the specified resource running on your account. The resource is defined by the dimensions associated with the metric.
+|`ResourceCount`
+|The total number of the specified resource running on your account. The resource is defined by the dimensions associated with the metric.
 |===
 
 The following dimensions are used to refine the usage metrics that are published by {aws} Fargate.
@@ -55,26 +51,14 @@ The following dimensions are used to refine the usage metrics that are published
 |Description
 
 
-|
+|`Service`
+|The name of the {aws} service containing the resource. For {aws} Fargate usage metrics, the value for this dimension is `Fargate`.
 
-`Service`
-|
+|`Type`
+|The type of entity that's being reported. Currently, the only valid value for {aws} Fargate usage metrics is `Resource`.
 
-The name of the {aws} service containing the resource. For {aws} Fargate usage metrics, the value for this dimension is `Fargate`.
-
-|
-
-`Type`
-|
-
-The type of entity that's being reported. Currently, the only valid value for {aws} Fargate usage metrics is `Resource`.
-
-|
-
-`Resource`
-|
-
-The type of resource that's running.
+|`Resource`
+|The type of resource that's running.
 
 Currently, {aws} Fargate returns information on your Fargate On-Demand usage. The resource value for Fargate On-Demand usage is `OnDemand`.
 
@@ -85,12 +69,8 @@ Fargate On-Demand usage combines Amazon EKS [.noloc]`Pods` using Fargate, Amazon
 
 ====
 
-|
-
-`Class`
-|
-
-The class of resource being tracked. Currently, {aws} Fargate doesn't use the class dimension.
+|`Class`
+|The class of resource being tracked. Currently, {aws} Fargate doesn't use the class dimension.
 |===
 
 [[service-quota-alarm,service-quota-alarm.title]]

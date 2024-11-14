@@ -143,57 +143,25 @@ The following features have metric limits:
 |Kubecost Enterprise 2.0
 
 
-|
+|Cluster size
+|Limited to 250 cores
+|Unlimited
+|Unlimited
 
-Cluster size
-|
+|Metric retention
+|15 days
+|15 days
+|Unlimited
 
-Limited to 250 cores
-|
+|Multi-cluster support
+|Not available
+|Available
+|Available
 
-Unlimited
-|
-
-Unlimited
-
-|
-
-Metric retention
-|
-
-15 days
-|
-
-15 days
-|
-
-Unlimited
-
-|
-
-Multi-cluster support
-|
-
-Not available
-|
-
-Available
-|
-
-Available
-
-|
-
-Core limits
-|
-
-250 cores per cluster
-|
-
-No core limits
-|
-
-No core limits
+|Core limits
+|250 cores per cluster
+|No core limits
+|No core limits
 |===
 
 [[kubecost-v1,kubecost-v1.title]]

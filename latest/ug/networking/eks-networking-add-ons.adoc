@@ -1388,26 +1388,14 @@ aws eks describe-cluster
 |Platform version
 
 
-|
+|`1.27.4`
+|`eks.5`
 
-`1.27.4`
-|
+|`1.26.7`
+|`eks.6`
 
-`eks.5`
-
-|
-
-`1.26.7`
-|
-
-`eks.6`
-
-|
-
-`1.25.12`
-|
-
-`eks.7`
+|`1.25.12`
+|`eks.7`
 |===
 * 
 .Minimum VPC CNI version
@@ -3052,41 +3040,21 @@ Amazon EKS maintains relationships with a network of partners that offer support
 |Documentation
 
 
-|
-
-Tigera
-|
-
-https://www.tigera.io/partners/aws/[Calico]
-|
-
-https://docs.projectcalico.org/getting-started/kubernetes/managed-public-cloud/eks[Installation instructions]
+|Tigera
+|https://www.tigera.io/partners/aws/[Calico]
+|https://docs.projectcalico.org/getting-started/kubernetes/managed-public-cloud/eks[Installation instructions]
 
 |Isovalent
-|
-
-https://cilium.io[Cilium]
-|
-
-https://docs.cilium.io/en/stable/gettingstarted/k8s-install-default/[Installation instructions]
+|https://cilium.io[Cilium]
+|https://docs.cilium.io/en/stable/gettingstarted/k8s-install-default/[Installation instructions]
 
 |Juniper
-|
+|https://www.juniper.net/us/en/products/sdn-and-orchestration/contrail/cloud-native-contrail-networking.html[Cloud-Native Contrail Networking (CN2)]
+|https://www.juniper.net/documentation/us/en/software/cn-cloud-native23.2/cn-cloud-native-eks-install-and-lcm/index.html[Installation instructions]
 
-https://www.juniper.net/us/en/products/sdn-and-orchestration/contrail/cloud-native-contrail-networking.html[Cloud-Native Contrail Networking (CN2)]
-|
-
-https://www.juniper.net/documentation/us/en/software/cn-cloud-native23.2/cn-cloud-native-eks-install-and-lcm/index.html[Installation instructions]
-
-|
-
-VMware
-|
-
-https://antrea.io/[Antrea]
-|
-
-https://antrea.io/docs/main/docs/eks-installation[Installation instructions]
+|VMware
+|https://antrea.io/[Antrea]
+|https://antrea.io/docs/main/docs/eks-installation[Installation instructions]
 |===
 
 Amazon EKS aims to give you a wide selection of options to cover all use cases.
@@ -4161,40 +4129,20 @@ aws eks describe-cluster
 |Platform version
 
 
-|
+|`1.29.3`
+|`eks.7`
 
-`1.29.3`
-|
+|`1.28.8`
+|`eks.13`
 
-`eks.7`
+|`1.27.12`
+|`eks.17`
 
-|
+|`1.26.15`
+|`eks.18`
 
-`1.28.8`
-|
-
-`eks.13`
-
-|
-
-`1.27.12`
-|
-
-`eks.17`
-
-|
-
-`1.26.15`
-|
-
-`eks.18`
-
-|
-
-`1.25.16`
-|
-
-`eks.19`
+|`1.25.16`
+|`eks.19`
 |===
 
 [NOTE]

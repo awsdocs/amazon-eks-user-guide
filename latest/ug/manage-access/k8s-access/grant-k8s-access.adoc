@@ -215,15 +215,11 @@ You can't change the type after the access entry is created.
 
 |User
 |`STANDARD`
-|
-
-The ARN of the user. Example: `{arn-aws}iam::<111122223333>:user/<my-user>`
+|The ARN of the user. Example: `{arn-aws}iam::<111122223333>:user/<my-user>`
 
 |Role
 |`STANDARD`
-|
-
-The STS ARN of the role when it's assumed. Amazon EKS appends `{{SessionName}}` to the role. 
+|The STS ARN of the role when it's assumed. Amazon EKS appends `{{SessionName}}` to the role. 
 
 Example: `{arn-aws}sts::<111122223333>:assumed-role/<my-role>/{{SessionName}}`
 
@@ -231,15 +227,11 @@ If the ARN of the role that you specified contained a path, Amazon EKS removes i
 
 |Role
 |`EC2_Linux` or `EC2_Windows`
-|
-
-`system:node:{{EC2PrivateDNSName}}`
+|`system:node:{{EC2PrivateDNSName}}`
 
 |Role
 |`FARGATE_LINUX`
-|
-
-`system:node:{{SessionName}}`
+|`system:node:{{SessionName}}`
 |===
 +
 You can change the username after the access entry is created.
@@ -861,12 +853,8 @@ View details about updates to access policies, since they were introduced. For a
 |Add a new policy for expanded view access, including resources like Secrets.
 |April 23, 2024
 
-|
-
-Access policies introduced.
-|
-
-Amazon EKS introduced access policies.
+|Access policies introduced.
+|Amazon EKS introduced access policies.
 |May 29, 2023
 |===
 
@@ -1101,15 +1089,9 @@ Amazon EKS maintains relationships with a network of partners that offer support
 |Documentation
 
 
-|
-
-PingIdentity
-|
-
-https://docs.pingidentity.com/r/en-us/pingoneforenterprise/p14e_landing[PingOne for Enterprise]
-|
-
-https://docs.pingidentity.com/r/en-us/solution-guides/htg_config_oidc_authn_aws_eks_custers[Installation instructions]
+|PingIdentity
+|https://docs.pingidentity.com/r/en-us/pingoneforenterprise/p14e_landing[PingOne for Enterprise]
+|https://docs.pingidentity.com/r/en-us/solution-guides/htg_config_oidc_authn_aws_eks_custers[Installation instructions]
 |===
 
 Amazon EKS aims to give you a wide selection of options to cover all use cases. If you develop a commercially supported [.noloc]`OIDC` compatible identity provider that is not listed here, then contact our partner team at  link:mailto:aws-container-partners@amazon.com[aws-container-partners@amazon.com] for more information.

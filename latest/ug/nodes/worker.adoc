@@ -31,12 +31,8 @@ To add self-managed nodes to your Amazon EKS cluster, see the topics that follow
 |Value
 
 
-|
-
-`kubernetes.io/cluster/[.replaceable]`my-cluster``
-|
-
-`owned`
+|`kubernetes.io/cluster/[.replaceable]`my-cluster``
+|`owned`
 |===
 
 For more information about nodes from a general [.noloc]`Kubernetes` perspective, see https://kubernetes.io/docs/concepts/architecture/nodes/[Nodes] in the [.noloc]`Kubernetes` documentation.

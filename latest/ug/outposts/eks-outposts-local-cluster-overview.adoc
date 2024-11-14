@@ -893,24 +893,16 @@ The instance sizes must be slotted on your Outposts. Make sure that you have eno
 
 
 |1–20
-|
-
-`large`
+|`large`
 
 |21–100
-|
-
-`xlarge`
+|`xlarge`
 
 |101–250
-|
-
-`2xlarge`
+|`2xlarge`
 
 |251–500
-|
-
-`4xlarge`
+|`4xlarge`
 |===
 
 The storage for the [.noloc]`Kubernetes` control plane requires 246 GB of Amazon EBS storage for each local cluster to meet the required IOPS for `etcd`. When the local cluster is created, the Amazon EBS volumes are provisioned automatically for you.
@@ -1000,121 +992,63 @@ If the problem is beyond repair, you might need to delete the local cluster and 
 |ResourceIds
 
 
-|
-
-Provided subnets couldn't be found.
-|
-
-`ResourceNotFound`
-|
-
-`The subnet ID [.replaceable]``subnet-id`` does not exist`
+|Provided subnets couldn't be found.
+|`ResourceNotFound`
+|`The subnet ID [.replaceable]``subnet-id`` does not exist`
 |All provided subnet IDs
 
-|
-
-Provided subnets don't belong to the same VPC.
-|
-
-`ConfigurationConflict`
-|
-
-`Subnets specified must belong to the same VPC`
+|Provided subnets don't belong to the same VPC.
+|`ConfigurationConflict`
+|`Subnets specified must belong to the same VPC`
 |All provided subnet IDs
 
-|
-
-Some provided subnets don't belong to the specified Outpost.
-|
-
-`ConfigurationConflict`
-|
-
-`Subnet [.replaceable]``subnet-id`` expected to be in [.replaceable]``outpost-arn``, but is in [.replaceable]``other-outpost-arn```
+|Some provided subnets don't belong to the specified Outpost.
+|`ConfigurationConflict`
+|`Subnet [.replaceable]``subnet-id`` expected to be in [.replaceable]``outpost-arn``, but is in [.replaceable]``other-outpost-arn```
 |Problematic subnet ID
 
-|
-
-Some provided subnets don't belong to any Outpost.
-|
-
-`ConfigurationConflict`
-|
-
-`Subnet [.replaceable]``subnet-id`` is not part of any Outpost`
+|Some provided subnets don't belong to any Outpost.
+|`ConfigurationConflict`
+|`Subnet [.replaceable]``subnet-id`` is not part of any Outpost`
 |Problematic subnet ID
 
-|
-
-Some provided subnets don't have enough free addresses to create elastic network interfaces for control plane instances.
-|
-
-`ResourceLimitExceeded`
-|
-
-`The specified subnet does not have enough free addresses to satisfy the request.`
+|Some provided subnets don't have enough free addresses to create elastic network interfaces for control plane instances.
+|`ResourceLimitExceeded`
+|`The specified subnet does not have enough free addresses to satisfy the request.`
 |Problematic subnet ID
 
-|
-
-The specified control plane instance type isn't supported on your Outpost.
-|
-
-`ConfigurationConflict`
-|
-
-`The instance type [.replaceable]``type`` is not supported in Outpost [.replaceable]``outpost-arn```
+|The specified control plane instance type isn't supported on your Outpost.
+|`ConfigurationConflict`
+|`The instance type [.replaceable]``type`` is not supported in Outpost [.replaceable]``outpost-arn```
 |Cluster ARN
 
 |You terminated a control plane Amazon EC2 instance or `run-instance` succeeded, but the state observed changes to `Terminated`. This can happen for a period of time after your Outpost reconnects and Amazon EBS internal errors cause an Amazon EC2 internal work flow to fail.
-|
-
-`InternalFailure`
-|
-
-`EC2 instance state "Terminated" is unexpected`
+|`InternalFailure`
+|`EC2 instance state "Terminated" is unexpected`
 |Cluster ARN
 
-|
-
-You have insufficient capacity on your Outpost. This can also happen when a cluster is being created if an Outpost is disconnected from the {aws} Region.
-|
-
-`ResourceLimitExceeded`
-|
-
-`There is not enough capacity on the Outpost to launch or start the instance.`
+|You have insufficient capacity on your Outpost. This can also happen when a cluster is being created if an Outpost is disconnected from the {aws} Region.
+|`ResourceLimitExceeded`
+|`There is not enough capacity on the Outpost to launch or start the instance.`
 |Cluster ARN
 
 |Your account exceeded your security group quota.
-|
-
-`ResourceLimitExceeded`
+|`ResourceLimitExceeded`
 |Error message returned by Amazon EC2 API
 |Target VPC ID
 
 |Your account exceeded your elastic network interface quota.
-|
-
-`ResourceLimitExceeded`
+|`ResourceLimitExceeded`
 |Error message returned by Amazon EC2 API
 |Target subnet ID
 
-|
-
-Control plane instances weren't reachable through {aws} Systems Manager. For resolution, see <<outposts-troubleshooting-control-plane-instances-ssm>>.
-|
-
-`ClusterUnreachable`
-|
-
-Amazon EKS control plane instances are not reachable through SSM. Please verify your SSM and network configuration, and reference the EKS on Outposts troubleshooting documentation.
+|Control plane instances weren't reachable through {aws} Systems Manager. For resolution, see <<outposts-troubleshooting-control-plane-instances-ssm>>.
+|`ClusterUnreachable`
+|Amazon EKS control plane instances are not reachable through SSM. Please verify your SSM and network configuration, and reference the EKS on Outposts troubleshooting documentation.
 |Amazon EC2 instance IDs
 
 |An error occurred while getting details for a managed security group or elastic network interface.
-|
-
-Based on Amazon EC2 client error code.
+|Based on Amazon EC2 client error code.
 |Error message returned by Amazon EC2 API
 |All managed security group IDs
 
@@ -1138,112 +1072,56 @@ The following table lists errors from other {aws} services that are presented in
 |Description
 
 
-|
-
-`AuthFailure`
-|
-
-`AccessDenied`
+|`AuthFailure`
+|`AccessDenied`
 |This error can occur for a variety of reasons. The most common reason is that you accidentally removed a tag that the service uses to scope down the service linked role policy from the control plane. If this occurs, Amazon EKS can no longer manage and monitor these {aws} resources.
 
-|
-
-`UnauthorizedOperation`
-|
-
-`AccessDenied`
+|`UnauthorizedOperation`
+|`AccessDenied`
 |This error can occur for a variety of reasons. The most common reason is that you accidentally removed a tag that the service uses to scope down the service linked role policy from the control plane. If this occurs, Amazon EKS can no longer manage and monitor these {aws} resources.
 
-|
+|`InvalidSubnetID.NotFound`
+|`ResourceNotFound`
+|This error occurs when subnet ID for the ingress rules of a security group can't be found.
 
-`InvalidSubnetID.NotFound`
-|
-
-`ResourceNotFound`
-|
-
-This error occurs when subnet ID for the ingress rules of a security group can't be found.
-
-|
-
-`InvalidPermission.NotFound`
-|
-
-`ResourceNotFound`
+|`InvalidPermission.NotFound`
+|`ResourceNotFound`
 |This error occurs when the permissions for the ingress rules of a security group aren't correct.
 
-|
-
-`InvalidGroup.NotFound`
-|
-
-`ResourceNotFound`
+|`InvalidGroup.NotFound`
+|`ResourceNotFound`
 |This error occurs when the group of the ingress rules of a security group can't be found.
 
-|
-
-`InvalidNetworkInterfaceID.NotFound`
-|
-
-`ResourceNotFound`
+|`InvalidNetworkInterfaceID.NotFound`
+|`ResourceNotFound`
 |This error occurs when the network interface ID for the ingress rules of a security group can't be found.
 
-|
-
-`InsufficientFreeAddressesInSubnet`
-|
-
-`ResourceLimitExceeded`
+|`InsufficientFreeAddressesInSubnet`
+|`ResourceLimitExceeded`
 |This error occurs when the subnet resource quota is exceeded.
 
-|
-
-`InsufficientCapacityOnOutpost`
-|
-
-`ResourceLimitExceeded`
+|`InsufficientCapacityOnOutpost`
+|`ResourceLimitExceeded`
 |This error occurs when the outpost capacity quota is exceeded.
 
-|
+|`NetworkInterfaceLimitExceeded`
+|`ResourceLimitExceeded`
+|This error occurs when the elastic network interface quota is exceeded.
 
-`NetworkInterfaceLimitExceeded`
-|
-
-`ResourceLimitExceeded`
-|
-
-This error occurs when the elastic network interface quota is exceeded.
-
-|
-
-`SecurityGroupLimitExceeded`
-|
-
-`ResourceLimitExceeded`
+|`SecurityGroupLimitExceeded`
+|`ResourceLimitExceeded`
 |This error occurs when the security group quota is exceeded.
 
-|
-
-`VcpuLimitExceeded`
-|
-
-`ResourceLimitExceeded`
+|`VcpuLimitExceeded`
+|`ResourceLimitExceeded`
 |This is observed when creating an Amazon EC2 instance in a new account. The error might be similar to the following: "``You have requested more vCPU capacity than your current vCPU limit of 32 allows for the instance bucket that the specified instance type belongs to. Please visit http://aws.amazon.com/contact-us/ec2-request to request an adjustment to this limit."``
 
-|
-
-`InvalidParameterValue`
-|
-
-`ConfigurationConflict`
-|
-
-Amazon EC2 returns this error code if the specified instance type isn't supported on the Outpost.
+|`InvalidParameterValue`
+|`ConfigurationConflict`
+|Amazon EC2 returns this error code if the specified instance type isn't supported on the Outpost.
 
 |All other failures
-|
-
-`InternalFailure`
+|`InternalFailure`
 |None
 |===
 ====
