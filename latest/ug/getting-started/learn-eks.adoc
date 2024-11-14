@@ -129,7 +129,7 @@ The link:tutorials[{aws} Tutorials,type="marketing"] site publishes a few Amazon
 
 If you are a software developer, looking to create or refactor applications to run on Amazon EKS, the http://developers.eksworkshop.com[Amazon EKS Developers workshop]is a good place to start. The workshop not only helps you build containerized applications, but also helps you deploy those containers to a container registry (link:ecr/[ECR,type="marketing"]) and from there to an Amazon EKS cluster.
 
-Start with the https://developers.eksworkshop.com/docs/introduction/python/about-workshop[Amazon EKS Python Workshop] to go through the process of refactoring a python application, then set up your development environment to prepare for deploying the application. Step through sections on Containers, Kubernetes, and Amazon EKS to prepare to run your containerized applications in those environments.
+Start with the https://developers.eksworkshop.com/docs/python/[Amazon EKS Python Workshop] to go through the process of refactoring a python application, then set up your development environment to prepare for deploying the application. Step through sections on Containers, Kubernetes, and Amazon EKS to prepare to run your containerized applications in those environments.
 
 [[terraform-workshop,terraform-workshop.title]]
 == Terraform Workshop
