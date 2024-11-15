@@ -67,9 +67,9 @@ The following table provides several criteria to evaluate when deciding which op
 |Yes
 |No
 
-|Can be deployed to an link:about-aws/global-infrastructure/localzones/[{aws} Local Zone,type="marketing"]
-|No
-|Yes – For more information, see <<local-zones>>.
+|Can be deployed to an <<local-zones,{aws} Local Zone>>
+|Yes
+|Yes
 |No
 
 |Can run containers that require [.noloc]`Windows`

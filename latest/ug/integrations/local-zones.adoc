@@ -7,13 +7,11 @@ include::../attributes.txt[]
 :info_doctype: section
 :info_title: Launch low-latency EKS clusters with {aws} Local Zones
 
-An {aws} Local Zone is an extension of an {aws} Region in geographic proximity to your users. Local Zones have their own connections to the internet and support {aws} Direct Connect. Resources created in a Local Zone can serve local users with low-latency communications. For more information, see   link:AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones[Local Zones,type="documentation"]. 
+An link:about-aws/global-infrastructure/localzones/[{aws} Local Zone,type="marketing"] is an extension of an {aws} Region in geographic proximity to your users. Local Zones have their own connections to the internet and support link:directconnect/[{aws} Direct Connect,type="marketing"]. Resources created in a Local Zone can serve local users with low-latency communications. For more information, see the link:local-zones/latest/ug/what-is-aws-local-zones.html[{aws} Local Zones User Guide,type="documentation"] and link:AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones[Local Zones,type="documentation"] in the _Amazon EC2 User Guide_. 
 
-Amazon EKS supports certain resources in Local Zones. This includes <<worker,self-managed Amazon EC2 nodes>>, Amazon EBS volumes, and Application Load Balancers (ALBs). We recommend that you consider the following when using Local Zones as part of your Amazon EKS cluster. 
+Amazon EKS supports certain resources in Local Zones. This includes <<managed-node-groups,managed node groups>>, <<worker,self-managed Amazon EC2 nodes>>, Amazon EBS volumes, and Application Load Balancers (ALBs). We recommend that you consider the following when using Local Zones as part of your Amazon EKS cluster. 
 
-.Nodes
-You can't create managed node groups or Fargate nodes in Local Zones with Amazon EKS. However, you can create self-managed Amazon EC2 nodes in Local Zones using the Amazon EC2 API, {aws} CloudFormation, or `eksctl`. For more information, see <<worker>>.
-
+* You can't create Fargate nodes in Local Zones with Amazon EKS.
 * The Amazon EKS managed [.noloc]`Kubernetes` control plane always runs in the {aws} Region. The Amazon EKS managed [.noloc]`Kubernetes` control plane can't run in the Local Zone. Because Local Zones appear as a subnet within your VPC, [.noloc]`Kubernetes` sees your Local Zone resources as part of that subnet.  
 * The Amazon EKS [.noloc]`Kubernetes` cluster communicates with the Amazon EC2 instances you run in the {aws} Region or Local Zone using Amazon EKS managed link:AWSEC2/latest/UserGuide/using-eni.html[elastic network interfaces,type="documentation"]. To learn more about Amazon EKS networking architecture, see <<eks-networking>>.
 * Unlike regional subnets, Amazon EKS can't place network interfaces into your Local Zone subnets. This means that you must not specify Local Zone subnets when you create your cluster.

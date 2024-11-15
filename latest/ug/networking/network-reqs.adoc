@@ -76,7 +76,7 @@ The   link:vpc/latest/userguide/configure-subnets.html#subnet-types[subnets,type
 
 * The subnets must each have at least six IP addresses for use by Amazon EKS. However, we recommend at least 16 IP addresses.
 * The subnets must be in at least two different Availability Zones.
-* The subnets can't reside in {aws} Outposts, {aws} Wavelength, or an {aws} Local Zone. However, if you have them in your VPC, you can deploy <<worker,self-managed nodes>> and [.noloc]`Kubernetes` resources to these types of subnets.
+* The subnets can't reside in {aws} Outposts or {aws} Wavelength. However, if you have them in your VPC, you can deploy <<worker,self-managed nodes>> and [.noloc]`Kubernetes` resources to these types of subnets.
 * The subnets can be a public or private. However, we recommend that you specify private subnets, if possible. A public subnet is a subnet with a route table that includes a route to an  link:vpc/latest/userguide/VPC_Internet_Gateway.html[internet gateway,type="documentation"], whereas a private subnet is a subnet with a route table that doesn't include a route to an internet gateway.
 * The subnets can't reside in the following Availability Zones:
 +
