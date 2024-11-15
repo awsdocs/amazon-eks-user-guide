@@ -4397,13 +4397,13 @@ The following table lists the latest version of the Amazon EKS add-on type for e
 [options="header"]
 |===
 | Kubernetes version | `kube-proxy` version
-| 1.31 | v1.31.1-eksbuild.2
-| 1.30 | v1.30.5-eksbuild.2
-| 1.29 | v1.29.9-eksbuild.1
-| 1.28 | v1.28.12-eksbuild.9
-| 1.27 | v1.27.16-eksbuild.9
-| 1.26 | v1.26.15-eksbuild.14
-| 1.25 | v1.25.16-eksbuild.17
+| 1.31 | v1.31.2-eksbuild.2
+| 1.30 | v1.30.6-eksbuild.2
+| 1.29 | v1.29.10-eksbuild.2
+| 1.28 | v1.28.15-eksbuild.3
+| 1.27 | v1.27.16-eksbuild.13
+| 1.26 | v1.26.15-eksbuild.18
+| 1.25 | v1.25.16-eksbuild.21
 | 1.24 | v1.24.17-eksbuild.19
 | 1.23 | v1.23.17-eksbuild.20
 |===
@@ -4434,15 +4434,15 @@ The following table lists the latest available self-managed `kube-proxy` contain
 [options="header"]
 |===
 | Version | kube-proxy (default type) | kube-proxy (minimal type)
-| 1.31 | Only minimal type is available | v1.31.1-minimal-eksbuild.2
-| 1.30 | Only minimal type is available | v1.30.5-minimal-eksbuild.2
-| 1.29 | Only minimal type is available | v1.29.9-minimal-eksbuild.1
-| 1.28 | Only minimal type is available | v1.28.12-minimal-eksbuild.9
-| 1.27 | Only minimal type is available | v1.27.16-minimal-eksbuild.9
-| 1.26 | Only minimal type is available | v1.26.15-minimal-eksbuild.14
-| 1.25 | Only minimal type is available | v1.25.16-minimal-eksbuild.17
-| 1.24 | v1.24.10-eksbuild.2 | v1.24.17-minimal-eksbuild.4
-| 1.23 | v1.23.16-eksbuild.2 | v1.23.17-minimal-eksbuild.5
+| 1.31 | Only minimal type is available | v1.31.2-minimal-eksbuild.2
+| 1.30 | Only minimal type is available | v1.30.6-minimal-eksbuild.2
+| 1.29 | Only minimal type is available | v1.29.10-minimal-eksbuild.2
+| 1.28 | Only minimal type is available | v1.28.15-minimal-eksbuild.3
+| 1.27 | Only minimal type is available | v1.27.16-minimal-eksbuild.13
+| 1.26 | Only minimal type is available | v1.26.15-minimal-eksbuild.18
+| 1.25 | Only minimal type is available | v1.25.16-minimal-eksbuild.21
+| 1.24 | v1.24.10-eksbuild.2 | v1.24.17-minimal-eksbuild.19
+| 1.23 | v1.23.16-eksbuild.2 | v1.23.17-minimal-eksbuild.20
 |===
 
 
