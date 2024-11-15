@@ -31,6 +31,12 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
+[.update,date="2024-11-15"]
+=== New role creation in console for add-ons that support EKS Pod Identities 
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html#creating-an-add-on
+
+There are new steps when using the console to create or update add-ons that support EKS Pod Identities where you can automatically generate IAM roles with the appropriate name, role policy, and trust policy for the add-on.
 
 [.update,date="2024-11-11"]
 === New metrics are available 
