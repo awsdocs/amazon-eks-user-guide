@@ -173,10 +173,16 @@ When you're done with this page, choose *Next*.
 
 +
 When you're done with this page, choose  *Next*.
-. On the *Select add-ons* page, choose the add-ons that you want to add to your cluster. You can choose as many  *Amazon EKS add-ons* and  *{aws} Marketplace add-ons* as you require. If the  *{aws} Marketplace add-ons* that you want to install isn't listed, you can search for available  *{aws} Marketplace add-ons* by entering text in the search box. You can also search by  *category*,  *vendor*, or  *pricing model* and then choose the add-ons from the search results. When you're done with this page, choose  *Next*.
+. On the *Select add-ons* page, choose the add-ons that you want to add to your cluster. Certain add-ons are pre-selected. You can choose as many  *Amazon EKS add-ons* and  *{aws} Marketplace add-ons* as you require. If the  *{aws} Marketplace add-ons* that you want to install isn't listed, you can click the page numbering to view additional page results or search for available *{aws} Marketplace add-ons* by entering text in the search box. You can also filter by  *category*,  *vendor*, or  *pricing model* and then choose the add-ons from the search results. When creating a cluster, you can view, select, and install any add-on that supports EKS Pod Identities as detailed in <<pod-identities>>. 
++
+When you're done with this page, choose  *Next*.
 +
 Some add-ons, such as Amazon VPC CNI, CoreDNS, and kube-proxy, are installed by default. If you disable any of the default add-ons, this may affect your ability to run Kubernetes applications.
-. On the *Configure selected add-ons settings* page, select the version that you want to install. You can always update to a later version after cluster creation. You can update the configuration of each add-on after cluster creation. For more information about configuring add-ons, see <<updating-an-add-on>>. When you're done with this page, choose *Next*.
+. On the *Configure selected add-ons settings* page, select the version that you want to install. You can always update to a later version after cluster creation. 
++
+For the steps to use the console to create roles for add-ons that support EKS Pod Identities, see <<_create_add_on_console>>. If an add-on does not support EKS Pod Identity, a message displays with instructions to use the wizard to create the IAM roles for service accounts (IRSA) after the cluster is created.
++
+You can update the configuration of each add-on after cluster creation. For more information about configuring add-ons, see <<updating-an-add-on>>. When you're done with this page, choose *Next*.
 . On the *Review and create* page, review the information that you entered or selected on the previous pages. If you need to make changes, choose  *Edit*. When you're satisfied, choose  *Create*. The  *Status* field shows  *CREATING* while the cluster is provisioned.
 +
 NOTE: You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster. If this happens, the error output contains the Availability Zones that can support a new cluster. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account. For more information, see <<ice>>.
