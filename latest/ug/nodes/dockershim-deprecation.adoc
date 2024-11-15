@@ -44,9 +44,8 @@ If the output is `0`, then run either of the following commands to activate the 
 ** `sysctl -w net.ipv4.ip_forward=1`
 ** `echo 1 > /proc/sys/net/ipv4/ip_forward`
 
-+
 For the setting's activation on Amazon EKS AMIs for Amazon Linux 2 in the `containerd` runtime, see `https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/provisioners/install-worker.sh[install-worker.sh]` on [.noloc]`GitHub`.
-+
+
 [[containerd-bootstrap,containerd-bootstrap.title]]
 == Test Amazon Linux 2 migration from [.noloc]`Docker` to `containerd`
 
