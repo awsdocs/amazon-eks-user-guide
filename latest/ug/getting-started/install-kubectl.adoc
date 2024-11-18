@@ -76,49 +76,49 @@ Install or update `kubectl` on one of the following operating systems:
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.2/2024-11-15/bin/darwin/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.30`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.6/2024-11-15/bin/darwin/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.29`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-11-15/bin/darwin/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.28`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-11-15/bin/darwin/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.27`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-11-15/bin/darwin/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.26`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-11-15/bin/darwin/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.25`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-11-15/bin/darwin/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.24`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-11-15/bin/darwin/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.23`
 +
@@ -146,49 +146,49 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-09-11/bin/dar
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.2/2024-11-15/bin/darwin/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.30`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.6/2024-11-15/bin/darwin/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.29`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-11-15/bin/darwin/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.28`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-11-15/bin/darwin/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.27`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-11-15/bin/darwin/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.26`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-11-15/bin/darwin/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.25`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-11-15/bin/darwin/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.24`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-11-15/bin/darwin/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.23`
 +
@@ -242,49 +242,49 @@ echo 'export PATH=$HOME/bin:$PATH' >> ~/.bash_profile
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.2/2024-11-15/bin/linux/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.30`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.6/2024-11-15/bin/linux/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.29`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-11-15/bin/linux/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.28`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-11-15/bin/linux/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.27`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-11-15/bin/linux/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.26`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-11-15/bin/linux/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.25`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-11-15/bin/linux/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.24`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-11-15/bin/linux/amd64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.23`
 +
@@ -312,49 +312,49 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-09-11/bin/lin
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.2/2024-11-15/bin/linux/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.30`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.6/2024-11-15/bin/linux/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.29`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-11-15/bin/linux/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.28`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-11-15/bin/linux/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.27`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-11-15/bin/linux/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.26`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-11-15/bin/linux/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.25`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-11-15/bin/linux/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.24`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-11-15/bin/linux/amd64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.23`
 +
@@ -415,49 +415,49 @@ echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.2/2024-11-15/bin/linux/arm64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.30`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.6/2024-11-15/bin/linux/arm64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.29`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-11-15/bin/linux/arm64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.28`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-11-15/bin/linux/arm64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.27`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-11-15/bin/linux/arm64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.26`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-11-15/bin/linux/arm64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.25`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-11-15/bin/linux/arm64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.24`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-11-15/bin/linux/arm64/kubectl
 ----
 **** [.noloc]`Kubernetes` `1.23`
 +
@@ -485,49 +485,49 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-09-11/bin/lin
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.2/2024-11-15/bin/linux/arm64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.30`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.6/2024-11-15/bin/linux/arm64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.29`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-11-15/bin/linux/arm64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.28`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-11-15/bin/linux/arm64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.27`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-11-15/bin/linux/arm64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.26`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-11-15/bin/linux/arm64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.25`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-11-15/bin/linux/arm64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.24`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-11-15/bin/linux/arm64/kubectl.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.23`
 +
@@ -589,49 +589,49 @@ echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.2/2024-11-15/bin/windows/amd64/kubectl.exe
 ----
 **** [.noloc]`Kubernetes` `1.30`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.6/2024-11-15/bin/windows/amd64/kubectl.exe
 ----
 **** [.noloc]`Kubernetes` `1.29`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-11-15/bin/windows/amd64/kubectl.exe
 ----
 **** [.noloc]`Kubernetes` `1.28`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-11-15/bin/windows/amd64/kubectl.exe
 ----
 **** [.noloc]`Kubernetes` `1.27`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-11-15/bin/windows/amd64/kubectl.exe
 ----
 **** [.noloc]`Kubernetes` `1.26`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-11-15/bin/windows/amd64/kubectl.exe
 ----
 **** [.noloc]`Kubernetes` `1.25`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-11-15/bin/windows/amd64/kubectl.exe
 ----
 **** [.noloc]`Kubernetes` `1.24`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-11-15/bin/windows/amd64/kubectl.exe
 ----
 **** [.noloc]`Kubernetes` `1.23`
 +
@@ -659,49 +659,49 @@ curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-09-11/bin
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.0/2024-09-12/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.2/2024-11-15/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.30`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.4/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.6/2024-11-15/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.29`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.8/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-11-15/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.28`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.13/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-11-15/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.27`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.16/2024-11-15/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.26`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-11-15/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.25`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.16/2024-11-15/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.24`
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-09-11/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.17/2024-11-15/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** [.noloc]`Kubernetes` `1.23`
 +
