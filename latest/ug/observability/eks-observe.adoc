@@ -24,7 +24,7 @@ You can observe your data in Amazon EKS using many available monitoring or loggi
 
 You can observe your data in Amazon EKS using many available monitoring or logging tools. Your Amazon EKS log data can be streamed to {aws} services or to partner tools for data analysis. There are many services available in the {aws-management-console} that provide data for troubleshooting your Amazon EKS issues. You can also use an {aws}-supported open-source solution for link:grafana/latest/userguide/solution-eks.html[monitoring Amazon EKS infrastructure,type="documentation"].
 
-After selecting *Clusters* in the left navigation pane of the Amazon EKS console, you can view cluster health and details by selecting your cluster's name. To view details about any existing [.noloc]`Kubernetes` resources that are deployed to your cluster, see <<view-kubernetes-resources>>.
+After selecting *Clusters* in the left navigation pane of the Amazon EKS console, you can view cluster health and details by choosing your cluster's name and choosing the *Observability* tab. To view details about any existing [.noloc]`Kubernetes` resources that are deployed to your cluster, see <<view-kubernetes-resources>>.
 
 Monitoring is an important part of maintaining the reliability, availability, and performance of Amazon EKS and your {aws} solutions. We recommend that you collect monitoring data from all of the parts of your {aws} solution. That way, you can more easily debug a multi-point failure if one occurs. Before you start monitoring Amazon EKS, make sure that your monitoring plan addresses the following questions.
 
@@ -38,7 +38,9 @@ Monitoring is an important part of maintaining the reliability, availability, an
 [[logging-monitoring,logging-monitoring.title]]
 == Monitoring and logging on Amazon EKS
 
-Amazon EKS provides built-in tools for monitoring and logging. Control plane logging records all API calls to your clusters, audit information capturing what users performed what actions to your clusters, and role-based information. For more information, see link:prescriptive-guidance/latest/implementing-logging-monitoring-cloudwatch/amazon-eks-logging-monitoring.html[Logging and monitoring on Amazon EKS,type="documentation"] in the _{aws} Prescriptive Guidance_.
+Amazon EKS provides built-in tools for monitoring and logging. For supported versions, the observability dashboard gives visibility into the performance of your cluster. It helps you to quickly detect, troubleshoot, and remediate issues.  In addition to monitoring features, it includes lists based on the control plane audit logs. The Kubernetes control plane exposes a number of metrics that that can also be scraped outside of the console.
+
+Control plane logging records all API calls to your clusters, audit information capturing what users performed what actions to your clusters, and role-based information. For more information, see link:prescriptive-guidance/latest/implementing-logging-monitoring-cloudwatch/amazon-eks-logging-monitoring.html[Logging and monitoring on Amazon EKS,type="documentation"] in the _{aws} Prescriptive Guidance_.
 
 Amazon EKS control plane logging  provides audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs in your account. These logs make it easy for you to secure and run your clusters. You can select the exact log types you need, and logs are sent as log streams to a group for each Amazon EKS cluster in CloudWatch. For more information, see <<control-plane-logs>>.
 
@@ -62,7 +64,7 @@ Amazon EKS is integrated with {aws} CloudTrail, a service that provides a record
 
 The [.noloc]`Kubernetes` API server exposes a number of metrics that are useful for monitoring and analysis. For more information, see <<prometheus>>.
 
-To configure [.noloc]`Fluent Bit` for custom Amazon CloudWatch logs, see   link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html#Container-Insights-FluentBit-setup[Setting up Fluent Bit,type="documentation"] in the Amazon CloudWatch User Guide.
+To configure [.noloc]`Fluent Bit` for custom Amazon CloudWatch logs, see link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html#Container-Insights-FluentBit-setup[Setting up Fluent Bit,type="documentation"] in the _Amazon CloudWatch User Guide_.
 
 [[eks-monitor-tools,eks-monitor-tools.title]]
 == Amazon EKS monitoring and logging tools
@@ -78,6 +80,11 @@ The following table describes various monitoring tool options.
 |Tool
 |Description
 |Setup
+
+|Control plane
+|<<observability-dashboard,Observability dashboard>>
+|For supported versions, the observability dashboard gives visibility into the performance of your cluster. It helps you to quickly detect, troubleshoot, and remediate issues.
+|<<observability-dashboard,Setup procedure>>
 
 |Applications / control plane
 |link:prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html[Prometheus,type="documentation"]
@@ -105,9 +112,9 @@ The following table describes various monitoring tool options.
 |link:xray/latest/devguide/xray-instrumenting-your-app.html[Setup procedure,type="documentation"]
 
 |Applications
-|link:AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html[Amazon CloudWatch Observability Operator,type="documentation"]
-|The Amazon CloudWatch Observability Operator collects metrics, logs, and trace data. It sends them to Amazon CloudWatch and {aws} X-Ray.
-|link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Setup procedure,type="documentation"]
+|link:AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html[Amazon CloudWatch,type="documentation"]
+|CloudWatch provides some basic Amazon EKS metrics for free on supported versions. You can expand this functionality with the CloudWatch Observability Operator to handle collecting metrics, logs, and trace data.
+|<<cloudwatch,Setup procedure>>
 
 |===
 
@@ -120,6 +127,11 @@ The following table describes various logging tool options.
 |Tool
 |Description
 |Setup
+
+|Control plane
+|<<observability-dashboard,Observability dashboard>>
+|For supported versions, the observability dashboard shows lists based on the control plane audit logs. It also includes links to control plane logs in Amazon CloudWatch.
+|<<observability-dashboard,Setup procedure>>
 
 |Applications
 |link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[Amazon CloudWatch Container Insights,type="documentation"]
@@ -142,6 +154,8 @@ The following table describes various logging tool options.
 |<<fargate-logging,Setup procedure>>
 
 |===
+
+include::observability-dashboard.adoc[leveloffset=+1]
 
 include::prometheus.adoc[leveloffset=+1]
 

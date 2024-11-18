@@ -32,6 +32,14 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
+[.update,date="2024-11-18"]
+=== Observability dashboard
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/observability-dashboard.html
+
+The observability dashboard helps you to quickly detect, troubleshoot, and remediate issues. There are also new link:eks/latest/userguide/cloudwatch.html[CloudWatch vended metrics,type="documentation"] available in the `AWS/EKS` namespace. 
+
+
 [.update,date="2024-11-15"]
 === Managed node groups in {aws} Local Zones
 [.update-ulink]
@@ -50,9 +58,10 @@ There are new steps when using the console to create or update add-ons that supp
 [.update,date="2024-11-11"]
 === New metrics are available 
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/view-raw-metrics.html#fetch-metrics-prometheus
+https://docs.aws.amazon.com/eks/latest/userguide/view-raw-metrics.html
 
 There are new metrics available under the API group `metrics.eks.amazonaws.com`.
+
 
 
 [.update,date="2024-11-07"]
@@ -87,12 +96,14 @@ https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 EKS added a new {aws} managed policy: `AmazonEKSBlockStoragePolicy`
 
 
+
 [.update,date="2024-10-30"]
 === {aws} managed policy updates
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 
 EKS added a new {aws} managed policy: `AmazonEKSLoadBalancingPolicy`
+
 
 
 [.update,date="2024-10-29"]
@@ -103,12 +114,14 @@ https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 Added `cloudwatch:PutMetricData` permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to publish metrics to Amazon CloudWatch.
 
 
+
 [.update,date="2024-10-28"]
 === {aws} managed policy updates
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 
 EKS added a new {aws} managed policy: `AmazonEKSNetworkingPolicy`
+
 
 
 [.update,date="2024-10-21"]
@@ -277,7 +290,7 @@ This is a new platform version with security fixes and enhancements. This includ
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/cloudwatch.html
 
-The [.noloc]`Amazon CloudWatch Observability Operator` add-on now also allows [.noloc]`Container Insights` on [.noloc]`Windows` worker nodes in the cluster.
+The Amazon CloudWatch Observability Operator add-on now also allows [.noloc]`Container Insights` on [.noloc]`Windows` worker nodes in the cluster.
 
 
 [.update,date="2024-04-05"]
@@ -509,6 +522,7 @@ You can modify the `PodDisruptionBudget` of the EKS add-on for [.noloc]`CoreDNS`
 https://docs.aws.amazon.com/eks/latest/userguide/cni-network-policy.html
 
 You can use [.noloc]`Kubernetes`_network policy_ in existing clusters with the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`, instead of requiring a third party solution.
+You can use [.noloc]`Kubernetes`_network policy_ in existing clusters with the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`, instead of requiring a third party solution.
 
 
 [.update,date="2023-09-07"]
@@ -532,6 +546,7 @@ Added new link:eks/latest/userguide/common-use-cases.html[Common use cases,type=
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/cni-network-policy.html
 
+You can use [.noloc]`Kubernetes`_network policy_ with the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`, instead of requiring a third party solution.
 You can use [.noloc]`Kubernetes`_network policy_ with the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`, instead of requiring a third party solution.
 
 
@@ -1018,6 +1033,7 @@ You can now add multiple network interfaces to a [.noloc]`Pod` using Multus.
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
 
+You can now add significantly more IP addresses to your [.noloc]`Linux` Amazon EC2 nodes. This means that you can run a higher density of [.noloc]`Pods`on each node.
 You can now add significantly more IP addresses to your [.noloc]`Linux` Amazon EC2 nodes. This means that you can run a higher density of [.noloc]`Pods`on each node.
 
 

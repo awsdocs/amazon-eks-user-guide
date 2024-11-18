@@ -1,0 +1,132 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[observability-dashboard,observability-dashboard.title]]
+= Monitor your cluster with the observability dashboard
+:info_doctype: section
+:info_titleabbrev: Observability dashboard
+:keywords: observability, dashboard
+:info_abstract: Learn how to configure logging for your Amazon EKS cluster.
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn how to configure logging for your Amazon EKS cluster.
+--
+
+The Amazon EKS console includes an observability dashboard that gives visibility into the performance of your cluster. The information in this dashboard helps you to quickly detect, troubleshoot, and remediate issues. You can open the applicable section of the dashboard by choosing an item in the *Health and performance summary*. This summary is included in several places, including the *Observability* tab.
+
+The dashboard is split into several tabs.
+
+[[observability-summary,observability-summary.title]]
+== Summary
+
+The *Health and performance summary* lists the quantity of items in various categories. Each number acts as a hyperlink to a location in the dashboard with a list for that category.
+
+[[observability-cluster-health,observability-cluster-health.title]]
+== Cluster health issues
+
+*Cluster health issues* are important notifications to be aware of, some of which you may need to take action on as soon as possible. With this list, you can see descriptions and the affected resources. To refresh the status, choose the refresh button ( ↻ ).
+
+For more information, see <<cluster-health-status>>.
+
+[[observability-control-plane,observability-control-plane.title]]
+== Control plane monitoring
+
+The *Control plane monitoring* tab is divided into three sections, each of which help you to monitor and troubleshoot your cluster's control plane.
+
+[[observability-metrics,observability-metrics.title]]
+=== Metrics
+The *Metrics* section shows graphs of several metrics gathered for various control plane components. This specific feature is only available for new clusters and previous clusters with a platform version that is the same or later compared to the following table.
+
+[cols="1,1", options="header"]
+|===
+|Kubernetes version
+|Platform version
+
+|`1.31`
+|`eks.12`
+
+|`1.30`
+|`eks.20`
+
+|`1.29`
+|`eks.23`
+
+|`1.28`
+|`eks.29`
+
+|===
+
+You can set the time period used by the X-axis of every graph by making selections at the top of the section. You can refresh data with the refresh button ( ↻ ). For each separate graph, the vertical ellipses button ( ⋮ ) opens a menu with options from CloudWatch.
+
+These metrics and more are automatically available as basic monitoring metrics in CloudWatch under the `AWS/EKS` namespace. For more information, see link:AmazonCloudWatch/latest/monitoring/cloudwatch-metrics-basic-detailed.html[Basic monitoring and detailed monitoring,type="documentation"] in the _Amazon CloudWatch User Guide_. To get more detailed metrics, visualization, and insights, see link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[Container Insights,type="documentation"] in the _Amazon CloudWatch User Guide_. Or if you prefer [.noloc]`Prometheus` based monitoring, see <<prometheus>>.
+
+The following table describes available metrics.
+
+[cols="1,1", options="header"]
+|===
+|Metric
+|Description
+
+|APIServer Requests
+|The requests per minute made to the API server.
+
+|APIServer Total Requests 4XX
+|The count of API server requests per minute that had HTTP 4XX response codes (client-side errors).
+
+|APIServer Total Requests 5XX
+|The count of API server requests per minute that had HTTP 5XX response codes (server-side errors).
+
+|APIServer Total Requests 429
+|The count of API server requests per minute that had HTTP 429 response codes (too many requests).
+
+|Storage size
+|The storage database (`etcd`) size.
+
+|Scheduler attempts
+|The number of attempts to schedule pods by results "unschedulable" "error", and "scheduled".
+
+|Pending pods
+|The number of pending pods by queue type of "active", "backoff", "unschedulable", and "gated".
+
+|API server request latency
+|The latency for API server requests.
+
+|API server current inflight requests
+|The current in-flight requests for the API server.
+
+|Webhook requests
+|The webhook requests per minute.
+
+|Webhook request rejections
+|The count of webhook requests that were rejected.
+
+|Webhook request latency P99
+|The 99th percentile latency of external, third-party webhook requests.
+
+|===
+
+[[observability-log-insights,observability-log-insights.title]]
+=== CloudWatch Log Insights
+The *CloudWatch Log Insights* section shows various lists based on the control plane audit logs. The Amazon EKS control plane logs need to be turned on to use this feature, which you can do from the *View control plane logs in CloudWatch* section.
+
+When enough time has passed to collect data, you can *Run all queries* or choose *Run query* for a single list at a time. An additional cost will incur from CloudWatch whenever you run queries. Choose the time period of results you want to view at the top of the section. If you want more advanced control for any query, you can choose *View in CloudWatch*. This will allow you to update a query in CloudWatch to fit your needs.
+
+For more information, see link:AmazonCloudWatch/latest/logs/AnalyzingLogData.html[Analyzing log data with CloudWatch Logs Insights,type="documentation"] in the Amazon CloudWatch Logs User Guide.
+
+[[observability-cp-logs,observability-cp-logs.title]]
+=== View control plane logs in CloudWatch
+Choose *Manage logging* to update the log types that are available. It takes several minutes for the logs to appear in CloudWatch Logs after you enable logging. When enough time has passed, choose any of the *View* links in this section to navigate to the applicable log.
+
+For more information, see <<control-plane-logs>>.
+
+[[observability-cluster-insights,observability-cluster-insights.title]]
+== Cluster insights
+
+The *Upgrade insights* table both surfaces issues and recommends corrective actions, accelerating the validation process for upgrading to new Kubernetes versions. Amazon EKS automatically scans clusters against a list of potential Kubernetes version upgrade impacting issues. The *Upgrade insights* table lists the insight checks performed by Amazon EKS against this cluster, along with their associated statuses.
+
+Amazon EKS maintains and periodically refreshes the list of insight checks to be performed based on evaluations of changes in the Kubernetes project as well as Amazon EKS service changes tied to new versions. The Amazon EKS console automatically refreshes the status of each insight, which can be seen in the last refresh time column.
+
+For more information, see <<cluster-insights>>.

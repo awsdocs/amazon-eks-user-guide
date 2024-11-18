@@ -1,27 +1,150 @@
 //!!NODE_ROOT <section>
-include::../attributes.txt[]
 
 [.topic]
 [[cloudwatch,cloudwatch.title]]
 = Monitor cluster data with Amazon CloudWatch
-:info_doctype: section
-:info_title: Monitor cluster data with Amazon CloudWatch
 :info_titleabbrev: Amazon CloudWatch
 :keywords: CloudWatch, observability, operator, add-on
-:info_abstract: Amazon CloudWatch Observability collects real-time logs, metrics, and trace \
-                data. The Amazon CloudWatch Observability Operator is designed to install and \
-                configure the necessary components.
+
+include::../attributes.txt[]
 
 [abstract]
 --
-[.noloc]`Amazon CloudWatch Observability` collects real-time logs, metrics, and trace data. The [.noloc]`Amazon CloudWatch Observability Operator` is designed to install and configure the necessary components.
+With Amazon CloudWatch, you can view metrics, real-time logs, and trace data.
 --
 
-[.noloc]`Amazon CloudWatch Observability` collects real-time logs, metrics, and trace data. It sends them to link:AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html[Amazon CloudWatch,type="documentation"] and link:xray/latest/devguide/aws-xray.html[{aws} X-Ray,type="documentation"]. You can install this add-on to enable both CloudWatch Application Signals and CloudWatch [.noloc]`Container Insights` with enhanced observability for Amazon EKS. This helps you monitor the health and performance of your infrastructure and containerized applications. The [.noloc]`Amazon CloudWatch Observability Operator` is designed to install and configure the necessary components.
+Amazon CloudWatch is a monitoring service that collects metrics and logs from your cloud resources. CloudWatch provides some basic Amazon EKS metrics for free when using a new cluster that is version `1.28` and above. However, when using the CloudWatch Observability Operator as an Amazon EKS add-on, you can gain enhanced observability features.
 
-Amazon EKS supports [.noloc]`Amazon CloudWatch Observability Operator` as an <<eks-add-ons,Amazon EKS add-on>>. The add-on allows [.noloc]`Container Insights` on both [.noloc]`Linux` and [.noloc]`Windows` worker nodes in the cluster. To enable [.noloc]`Container Insights` on [.noloc]`Windows`, the Amazon EKS add-on version must be `1.5.0` or higher. Currently, CloudWatch Application Signals isn't supported on Amazon EKS [.noloc]`Windows`.
+[[cloudwatch-basic-metrics,cloudwatch-basic-metrics.title]]
+== Basic metrics in Amazon CloudWatch
 
-The topics below describe how to get started using [.noloc]`Amazon CloudWatch Observability Operator` for your Amazon EKS cluster.
+For new clusters that are [.noloc]`Kubernetes` version `1.28` and above, you get CloudWatch vended metrics for free in the `AWS/EKS` namespace. Basic metrics are also available for existing clusters that have a platform version that is the same or later compared to the following table.
+
+[cols="1,1", options="header"]
+|===
+|Kubernetes version
+|Platform version
+
+|`1.31`
+|`eks.12`
+
+|`1.30`
+|`eks.20`
+
+|`1.29`
+|`eks.23`
+
+|`1.28`
+|`eks.29`
+
+|===
+
+The following table gives a list of the basic metrics that are available for the supported versions. Every metric listed has a frequency of one minute.
+
+[cols="1,1,1,1,1,1", options="header"]
+|===
+
+|Metric name
+|Description
+|Unit
+|Metric dimension
+|Metric type
+|Source [.noloc]`Kubernetes` metric
+
+|`APIServerRequests`
+|The number of times requests were made to the API server.
+|Count
+|Cluster Name
+|Traffic
+|`kube-apiserver :: apiserver_request_total`
+
+|`APIServerRequestsHTTP4XX`
+|The number of API Server requests that had an HTTP 4XX error response (client-side error).
+|Count
+|Cluster Name
+|Error
+|`kube-apiserver :: apiserver_request_total`
+
+|`APIServerRequestsHTTP429`
+|The number of API Server requests that had an HTTP 429 error response (too many requests).
+|Count
+|Cluster Name
+|Error
+|`kube-apiserver :: apiserver_request_total`
+
+|`APIServerRequestsHTTP5XX`
+|The number of API Server requests that had an HTTP 5XX error response (server-side error).
+|Count
+|Cluster Name
+|Error
+|`kube-apiserver :: apiserver_request_total`
+
+|`APIServerRequestLatency`
+|The average amount of seconds taken by `APIServer` to respond to requests.
+|Seconds
+|Cluster Name, Verb
+|Latency
+|`kube-apiserver :: apiserver_request_duration_seconds`
+
+|`APIServerCurrentInflightRequests`
+|The number of requests that are being actively served.
+|Count
+|Cluster Name, Request Kind {mutating, readOnly}
+|Saturation
+|`kube-apiserver :: apiserver_current_inflight_requests`
+
+|`APIServerStorageSize`
+|The size of the storage database.
+|Bytes
+|Cluster Name
+|Saturation
+|`kube-apiserver :: apiserver_storage_size_bytes`
+
+|`SchedulerAttempts`
+|The number of attempts to schedule Pods.
+|Count
+|Cluster Name, Result {unschedulable, error, scheduled}
+|Latency
+|`kube-scheduler :: scheduler_schedule_attempts_total`
+
+|`PendingPods`
+|The number of Pods that are pending to be scheduled.
+|Count
+|Cluster Name, Queue {activeQ unschedulable, backoff, gated}
+|Latency
+|`kube-scheduler :: scheduler_pending_pods`
+
+|`APIServerWebhookRequests`
+|The number of admission webhook requests made.
+|Count
+|Cluster Name, Admission Type (validating, admit)
+|Traffic
+|`kube-apiserver :: apiserver_admission_webhook_request_total`
+
+|`APIServerWebhookRejections`
+|The number of admission webhook rejections.
+|Count
+|Cluster Name, Admission Type (validating, admit)
+|Error
+|`kube-apiserver :: apiserver_admission_webhook_rejection_count`
+
+|`APIServerWebhookLatencyP99`
+|The 99th percentile latency of external, third-party admission webhooks.
+|Seconds
+|Cluster Name, Admission Type (validating, admit)
+|Latency
+|`kube-apiserver :: apiserver_admission_webhook_admission_duration_seconds`
+
+|===
+
+[[cloudwatch-operator,cloudwatch-operator.title]]
+== [.noloc]`Amazon CloudWatch Observability Operator`
+
+[.noloc]`Amazon CloudWatch Observability` collects real-time logs, metrics, and trace data. It sends them to link:AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html[Amazon CloudWatch,type="documentation"] and link:xray/latest/devguide/aws-xray.html[{aws} X-Ray,type="documentation"]. You can install this add-on to enable both CloudWatch Application Signals and CloudWatch [.noloc]`Container Insights` with enhanced observability for Amazon EKS. This helps you monitor the health and performance of your infrastructure and containerized applications. The Amazon CloudWatch Observability Operator is designed to install and configure the necessary components.
+
+Amazon EKS supports the CloudWatch Observability Operator as an <<eks-add-ons,Amazon EKS add-on>>. The add-on allows [.noloc]`Container Insights` on both [.noloc]`Linux` and [.noloc]`Windows` worker nodes in the cluster. To enable [.noloc]`Container Insights` on [.noloc]`Windows`, the Amazon EKS add-on version must be `1.5.0` or higher. Currently, CloudWatch Application Signals isn't supported on Amazon EKS [.noloc]`Windows`.
+
+The topics below describe how to get started using CloudWatch Observability Operator for your Amazon EKS cluster.
 
 * For instructions on installing this add-on, see link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Install the CloudWatch agent with the Amazon CloudWatch Observability EKS add-on or the Helm chart,type="documentation"] in the _Amazon CloudWatch User Guide_.
 * For more information about CloudWatch Application Signals, see link:AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Monitoring-Sections.html[Application Signals,type="documentation"] in the _Amazon CloudWatch User Guide_.
