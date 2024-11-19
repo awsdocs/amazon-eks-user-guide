@@ -32,7 +32,7 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
-[.update,date="2024-11-19"]
+[.update,date="2024-11-20"]
 === {aws} managed policy updates
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
