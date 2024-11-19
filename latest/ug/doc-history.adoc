@@ -62,6 +62,14 @@ https://docs.aws.amazon.com/eks/latest/userguide/creating-an-add-on.html#_create
 
 There are new steps when using the console to create or update add-ons that support EKS Pod Identities where you can automatically generate IAM roles with the appropriate name, role policy, and trust policy for the add-on.
 
+[.update,date="2024-11-15"]
+=== {aws} managed policy updates
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
+
+EKS updated {aws} managed policy `AmazonEKSServiceRolePolicy`. Added permissions for EKS access policies, load balancer management, and automated cluster resource cleanup.
+
+
 [.update,date="2024-11-11"]
 === New metrics are available 
 [.update-ulink]

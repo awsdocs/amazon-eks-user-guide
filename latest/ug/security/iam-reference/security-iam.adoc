@@ -570,13 +570,9 @@ The `AWSServiceRoleForAmazonEKS` service-linked role is distinct from the role r
 
 The `AWSServiceRoleForAmazonEKS` service-linked role trusts the following services to assume the role:
 
-
-
 * `eks.amazonaws.com`
 
 The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
-
-
 
 * link:aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html[AmazonEKSServiceRolePolicy,type="documentation"]
 

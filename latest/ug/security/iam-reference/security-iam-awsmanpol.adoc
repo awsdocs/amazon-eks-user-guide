@@ -226,6 +226,12 @@ This policy includes the following permissions that allow Amazon EKS to complete
 * *Associate a VPC with a hosted zone* – This is required by Amazon EKS to enable private endpoint networking for your [.noloc]`Kubernetes` cluster API server.
 * *Log event* – This is required so that Amazon EKS can ship [.noloc]`Kubernetes` control plane logs to CloudWatch.
 * *Put metric* – This is required so that Amazon EKS can ship [.noloc]`Kubernetes` control plane logs to CloudWatch.
+* *`eks`* - Manage cluster access entries and policies, allowing fine-grained control over who can access EKS resources and what actions they can perform. This includes associating standard access policies for compute, networking, load balancing, and storage operations.
+* *`elasticloadbalancing`* - Create, manage, and delete load balancers and their components (listeners, target groups, certificates) that are associated with EKS clusters. View load balancer attributes and health status.
+* *`events`* - Create and manage EventBridge rules for monitoring EC2 and {aws} Health events related to EKS clusters, enabling automated responses to infrastructure changes and health alerts.
+* *`iam`* - Manage EC2 instance profiles with the "eks" prefix, including creation, deletion, and role association, which is necessary for EKS node management.
+* *`pricing`* & *`shield`* - Access {aws} pricing information and Shield protection status, enabling cost management and advanced security features for EKS resources.
+* **Resource cleanup** - Safely delete EKS-tagged resources including volumes, snapshots, launch templates, and network interfaces during cluster cleanup operations.
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html#AmazonEKSServiceRolePolicy-json[AmazonEKSServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
@@ -361,9 +367,9 @@ View details about updates to {aws} managed policies for Amazon EKS since this s
 |Description
 |Date
 
-|Added permissions to <<security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup>>.
-|Added permissions to `AWSServiceRoleForAmazonEKSNodegroup`. Added permissions to reboot and tag EC2 instances. 
-| November 15, 2024
+|Added permissions to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>.
+|EKS updated {aws} managed policy `AmazonEKSServiceRolePolicy`. Added permissions for EKS access policies, load balancer management, and automated cluster resource cleanup.
+|November 16, 2024
 
 |Introduced <<security-iam-awsmanpol-AmazonEKSComputePolicy>>.
 |EKS updated {aws} managed policy `AmazonEKSComputePolicy`. Updated resource permissions for the `iam:AddRoleToInstanceProfile` action.
