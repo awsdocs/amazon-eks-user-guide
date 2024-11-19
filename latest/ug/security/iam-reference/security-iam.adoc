@@ -559,7 +559,7 @@ For information about other services that support service-linked roles, see  lin
 [[service-linked-role-permissions-eks,service-linked-role-permissions-eks.title]]
 ==== Service-linked role permissions for Amazon EKS
 
-Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKS` – The role allows Amazon EKS to manage clusters in your account. The attached policies allow the role to manage the following resources: network interfaces, security groups, logs, and VPCs.
+Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKS`. The role allows Amazon EKS to manage clusters in your account. The attached policies allow the role to manage the following resources: network interfaces, security groups, logs, and VPCs.
 
 [NOTE]
 ====
@@ -644,17 +644,13 @@ For information about other services that support service-linked roles, see  lin
 [[service-linked-role-permissions-eks-nodegroups,service-linked-role-permissions-eks-nodegroups.title]]
 ==== Service-linked role permissions for Amazon EKS
 
-Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKSNodegroup` – The role allows Amazon EKS to manage node groups in your account. The attached policies allow the role to manage the following resources: Auto Scaling groups, security groups, launch templates and IAM instance profiles..
+Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKSNodegroup`. The role allows Amazon EKS to manage node groups in your account. The attached `AWSServiceRoleForAmazonEKSNodegroup` policy allows the role to manage the following resources: Auto Scaling groups, security groups, launch templates, and IAM instance profiles. For more information, see <<security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup>>.
 
 The `AWSServiceRoleForAmazonEKSNodegroup` service-linked role trusts the following services to assume the role:
-
-
 
 * `eks-nodegroup.amazonaws.com`
 
 The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
-
-
 
 * link:aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html[AWSServiceRoleForAmazonEKSNodegroup,type="documentation"]
 
@@ -738,17 +734,13 @@ For information about other services that support service-linked roles, see  lin
 [[service-linked-role-permissions-eks-fargate,service-linked-role-permissions-eks-fargate.title]]
 ==== Service-linked role permissions for Amazon EKS
 
-Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKSForFargate` – The role allows Amazon EKS Fargate to configure VPC networking required for Fargate [.noloc]`Pods`. The attached policies allow the role to create and delete elastic network interfaces and describe elastic network Interfaces and resources.
+Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKSForFargate`. The role allows Amazon EKS Fargate to configure VPC networking required for Fargate [.noloc]`Pods`. The attached policies allow the role to create and delete elastic network interfaces and describe elastic network Interfaces and resources.
 
 The `AWSServiceRoleForAmazonEKSForFargate` service-linked role trusts the following services to assume the role:
-
-
 
 * `eks-fargate.amazonaws.com`
 
 The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
-
-
 
 * link:aws-managed-policy/latest/reference/AmazonEKSForFargateServiceRolePolicy.html[AmazonEKSForFargateServiceRolePolicy,type="documentation"]
 
@@ -833,17 +825,13 @@ For information about other services that support service-linked roles, see  lin
 [[service-linked-role-permissions-eks-connector,service-linked-role-permissions-eks-connector.title]]
 ==== Service-linked role permissions for Amazon EKS
 
-Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKSConnector` – The role allows Amazon EKS to connect [.noloc]`Kubernetes` clusters. The attached policies allow the role to manage necessary resources to connect to your registered [.noloc]`Kubernetes` cluster.
+Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKSConnector`. The role allows Amazon EKS to connect [.noloc]`Kubernetes` clusters. The attached policies allow the role to manage necessary resources to connect to your registered [.noloc]`Kubernetes` cluster.
 
 The `AWSServiceRoleForAmazonEKSConnector` service-linked role trusts the following services to assume the role:
-
-
 
 * `eks-connector.amazonaws.com`
 
 The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
-
-
 
 * link:aws-managed-policy/latest/reference/AmazonEKSConnectorServiceRolePolicy.html[AmazonEKSConnectorServiceRolePolicy,type="documentation"]
 
@@ -908,7 +896,7 @@ For information about other services that support service-linked roles, see  lin
 [[service-linked-role-permissions,service-linked-role-permissions.title]]
 ==== Service-linked role permissions for Amazon EKS
 
-Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKSLocalOutpost` – The role allows Amazon EKS to manage local clusters in your account. The attached policies allow the role to manage the following resources: network interfaces, security groups, logs, and Amazon EC2 instances.
+Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKSLocalOutpost`. The role allows Amazon EKS to manage local clusters in your account. The attached policies allow the role to manage the following resources: network interfaces, security groups, logs, and Amazon EC2 instances.
 
 [NOTE]
 ====

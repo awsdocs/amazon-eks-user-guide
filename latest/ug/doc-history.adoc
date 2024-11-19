@@ -31,12 +31,13 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
-[.update,date="2024-11-15"]
+
+[.update,date="2024-11-19"]
 === {aws} managed policy updates
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 
-Added permissions to `AWSServiceRoleForAmazonEKSNodegroup`. Added permissions to reboot and tag EC2 instances. 
+Added permissions to `AWSServiceRoleForAmazonEKSNodegroup`. Added permissions to reboot and tag EC2 instances.
 
 
 [.update,date="2024-11-18"]
@@ -47,12 +48,12 @@ https://docs.aws.amazon.com/eks/latest/userguide/observability-dashboard.html
 The observability dashboard helps you to quickly detect, troubleshoot, and remediate issues. There are also new link:eks/latest/userguide/cloudwatch.html[CloudWatch vended metrics,type="documentation"] available in the `AWS/EKS` namespace. 
 
 
-[.update,date="2024-11-15"]
-=== Managed node groups in {aws} Local Zones
+[.update,date="2024-11-16"]
+=== {aws} managed policy updates
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/local-zones.html
+https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 
-Managed node groups can now be created in {aws} Local Zones.
+EKS updated {aws} managed policy `AmazonEKSServiceRolePolicy`. Added permissions for EKS access policies, load balancer management, and automated cluster resource cleanup.
 
 
 [.update,date="2024-11-15"]
@@ -62,12 +63,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/creating-an-add-on.html#_create
 
 There are new steps when using the console to create or update add-ons that support EKS Pod Identities where you can automatically generate IAM roles with the appropriate name, role policy, and trust policy for the add-on.
 
-[.update,date="2024-11-15"]
-=== {aws} managed policy updates
-[.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 
-EKS updated {aws} managed policy `AmazonEKSServiceRolePolicy`. Added permissions for EKS access policies, load balancer management, and automated cluster resource cleanup.
+[.update,date="2024-11-15"]
+=== Managed node groups in {aws} Local Zones
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/local-zones.html
+
+Managed node groups can now be created in {aws} Local Zones.
 
 
 [.update,date="2024-11-11"]
@@ -76,7 +78,6 @@ EKS updated {aws} managed policy `AmazonEKSServiceRolePolicy`. Added permissions
 https://docs.aws.amazon.com/eks/latest/userguide/view-raw-metrics.html
 
 There are new metrics available under the API group `metrics.eks.amazonaws.com`.
-
 
 
 [.update,date="2024-11-07"]

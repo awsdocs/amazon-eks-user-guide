@@ -367,6 +367,10 @@ View details about updates to {aws} managed policies for Amazon EKS since this s
 |Description
 |Date
 
+|Added permissions to <<security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup>>.
+|Added permissions to `AWSServiceRoleForAmazonEKSNodegroup`. Added permissions to reboot and tag EC2 instances. 
+| November 19, 2024
+
 |Added permissions to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>.
 |EKS updated {aws} managed policy `AmazonEKSServiceRolePolicy`. Added permissions for EKS access policies, load balancer management, and automated cluster resource cleanup.
 |November 16, 2024
