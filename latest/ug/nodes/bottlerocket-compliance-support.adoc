@@ -12,10 +12,9 @@ include::../attributes.txt[]
 
 [.noloc]`Bottlerocket` complies with recommendations defined by various organizations:
 
-
-
 * There is a https://www.cisecurity.org/benchmark/bottlerocket[CIS Benchmark] defined for [.noloc]`Bottlerocket`. In a default configuration, [.noloc]`Bottlerocket` image has most of the controls required by CIS Level 1 configuration profile. You can implement the controls required for a CIS Level 2 configuration profile. For more information, see link:containers/validating-amazon-eks-optimized-bottlerocket-ami-against-the-cis-benchmark[Validating Amazon EKS optimized Bottlerocket AMI against the CIS Benchmark,type="blog"] on the {aws} blog.
 * The optimized feature set and reduced attack surface means that [.noloc]`Bottlerocket` instances require less configuration to satisfy PCI DSS requirements. The https://www.cisecurity.org/benchmark/bottlerocket[CIS Benchmark for Bottlerocket] is an excellent resource for hardening guidance, and supports your requirements for secure configuration standards under PCI DSS requirement 2.2. You can also leverage https://opensearch.org/blog/technical-post/2022/07/bottlerocket-k8s-fluent-bit/[Fluent Bit] to support your requirements for operating system level audit logging under PCI DSS requirement 10.2. {aws} publishes new (patched) [.noloc]`Bottlerocket` instances periodically to help you meet PCI DSS requirement 6.2 (for v3.2.1) and requirement 6.3.3 (for v4.0).
 * [.noloc]`Bottlerocket` is an HIPAA-eligible feature authorized for use with regulated workloads for both Amazon EC2 and Amazon EKS. For more information, see the link:pdfs/whitepapers/latest/architecting-hipaa-security-and-compliance-on-amazon-eks/architecting-hipaa-security-and-compliance-on-amazon-eks.pdf[Architecting for HIPAA Security and Compliance on Amazon EKS,type="documentation"] whitepaper.
+* [.noloc]`Bottlerocket` AMIs are available that are preconfigured to use FIPS 140-3 validated cryptographic modules. This includes the Amazon Linux 2023 Kernel Crypto API Cryptographic Module and the AWS-LC Cryptographic Module. For more information on selecting FIPS-enabled variants, see <<retrieve-ami-id-bottlerocket>>.
 
 

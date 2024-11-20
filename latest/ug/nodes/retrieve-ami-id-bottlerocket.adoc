@@ -11,7 +11,7 @@ include::../attributes.txt[]
 You can retrieve the Amazon Machine Image (AMI) ID for Amazon EKS optimized AMIs by querying the {aws} Systems Manager Parameter Store API. 
 --
 
-You can retrieve the Amazon Machine Image (AMI) ID for Amazon EKS optimized AMIs by querying the {aws} Systems Manager Parameter Store API. Using this parameter, you don't need to manually look up Amazon EKS optimized AMI IDs. For more information about the Systems Manager Parameter Store API, see   link:systems-manager/latest/APIReference/API_GetParameter.html[GetParameter,type="documentation"]. The  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that you use must have the `ssm:GetParameter` IAM permission to retrieve the Amazon EKS optimized AMI metadata.
+When deploying nodes, you can specify an ID for a pre-built Amazon EKS optimized Amazon Machine Image (AMI). To retrieve an AMI ID that fits your desired configuration, query the {aws} Systems Manager Parameter Store API. Using this API eliminates the need to manually look up Amazon EKS optimized AMI IDs. For more information, see link:systems-manager/latest/APIReference/API_GetParameter.html[GetParameter,type="documentation"]. The link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that you use must have the `ssm:GetParameter` IAM permission to retrieve the Amazon EKS optimized AMI metadata.
 
 You can retrieve the image ID of the latest recommended Amazon EKS optimized [.noloc]`Bottlerocket` AMI with the following {aws} CLI command, which uses the sub-parameter `image_id`. Make the following modifications to the command as needed and then run the modified command:
 
@@ -20,6 +20,7 @@ You can retrieve the image ID of the latest recommended Amazon EKS optimized [.n
 +
 ** Remove [.replaceable]`-flavor` for variants without a GPU.
 ** Use [.replaceable]`-nvidia` for GPU-enabled variants.
+** Use [.replaceable]`-fips` for FIPS-enabled variants.
 * Replace [.replaceable]`architecture` with one of the following options.
 +
 ** Use [.replaceable]`x86_64` for `x86` based instances.

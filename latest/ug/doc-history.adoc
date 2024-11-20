@@ -33,6 +33,14 @@ The following table describes the major updates and new features for the Amazon 
 
 
 [.update,date="2024-11-20"]
+=== [.noloc]`Bottlerocket` AMIs that use FIPS 140-3
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/retrieve-ami-id-bottlerocket.html
+
+[.noloc]`Bottlerocket` AMIs are available that are preconfigured to use FIPS 140-3 validated cryptographic modules. This includes the Amazon Linux 2023 Kernel Crypto API Cryptographic Module and the AWS-LC Cryptographic Module.
+
+
+[.update,date="2024-11-20"]
 === {aws} managed policy updates
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
