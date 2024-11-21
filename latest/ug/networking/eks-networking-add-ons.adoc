@@ -1451,7 +1451,7 @@ Use the following procedure to enable the network policy parameter for the add-o
 +
 ... Select a `v1.14.0-eksbuild.3` or later version in the *Version* list.
 ... Expand the *Optional configuration settings*.
-... Enter the JSON key `"enableNetworkPolicy":` and value `"true"` in *Configuration values*. The resulting text must be a valid JSON object. If this key and value are the only data in the text box, surround the key and value with curly braces `{}`.
+... Enter the JSON key `"enableNetworkPolicy":` and value `"true"` in *Configuration values*. The resulting text must be a valid JSON object. If this key and value are the only data in the text box, surround the key and value with curly braces `{ }`.
 +
 The following example has network policy feature enabled and metrics and health probes are set to the default port numbers:
 +
@@ -1538,7 +1538,7 @@ Configure the cluster to use [.noloc]`Kubernetes` network policies. You can set 
 +
 ... Select a `v1.14.0-eksbuild.3` or later version in the *Version* list.
 ... Expand the *Optional configuration settings*.
-... Enter the JSON key `"enableNetworkPolicy":` and value `"true"` in *Configuration values*. The resulting text must be a valid JSON object. If this key and value are the only data in the text box, surround the key and value with curly braces `{}`. The following example shows network policy is enabled:
+... Enter the JSON key `"enableNetworkPolicy":` and value `"true"` in *Configuration values*. The resulting text must be a valid JSON object. If this key and value are the only data in the text box, surround the key and value with curly braces `{ }`. The following example shows network policy is enabled:
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -2258,7 +2258,7 @@ kube-system   kube-proxy-wx9vk           1/1     Running   0          7m15s   19
 +
 You can see that the coredns [.noloc]`Pods` are assigned IP addresses from the `192.168.1.0` CIDR block that you added to your VPC. Without custom networking, they would have been assigned addresses from the `192.168.0.0` CIDR block, because it was the only CIDR block originally associated with the VPC.
 +
-If a [.noloc]`Pod's` `spec` contains `hostNetwork=true`, it's assigned the primary IP address of the node. It isn't assigned an address from the subnets that you added. By default, this value is set to `false`. This value is set to `true` for the `kube-proxy` and [.noloc]`Amazon VPC CNI plugin for Kubernetes` (`aws-node`) [.noloc]`Pods` that run on your cluster. This is why the `kube-proxy` and the plugin's `aws-node` [.noloc]`Pods` aren't assigned `192.168.1._x_` addresses in the previous output. For more information about a [.noloc]`Pod's` `hostNetwork` setting, see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#podspec-v1-core[PodSpec v1 core] in the [.noloc]`Kubernetes` API reference.
+If a [.noloc]`Pod's` `spec` contains `hostNetwork=true`, it's assigned the primary IP address of the node. It isn't assigned an address from the subnets that you added. By default, this value is set to `false`. This value is set to `true` for the `kube-proxy` and [.noloc]`Amazon VPC CNI plugin for Kubernetes` (`aws-node`) [.noloc]`Pods` that run on your cluster. This is why the `kube-proxy` and the plugin's `aws-node` [.noloc]`Pods` aren't assigned `192.168.1.[.replaceable]``x``` addresses in the previous output. For more information about a [.noloc]`Pod's` `hostNetwork` setting, see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#podspec-v1-core[PodSpec v1 core] in the [.noloc]`Kubernetes` API reference.
 
 
 [[custom-network-delete-resources,custom-network-delete-resources.title]]
@@ -3127,7 +3127,7 @@ You can use one of the following procedures to install the [.noloc]`{aws} Load B
 * Deprecated versions include:
 +
 ** {aws} ALB Ingress Controller for [.noloc]`Kubernetes` ("Ingress Controller"), a predecessor to the [.noloc]`{aws} Load Balancer Controller`.
-** Any `0.1._x_` version of the [.noloc]`{aws} Load Balancer Controller`
+** Any `0.1.[.replaceable]``x``` version of the [.noloc]`{aws} Load Balancer Controller`
 
 
 [[lbc-legacy,lbc-legacy.title]]
@@ -3642,7 +3642,7 @@ This topic describes how to migrate from deprecated controller versions. More sp
 * Deprecated versions include:
 +
 ** {aws} ALB Ingress Controller for [.noloc]`Kubernetes` ("Ingress Controller"), a predecessor to the [.noloc]`{aws} Load Balancer Controller`.
-** Any `0.1._x_` version of the [.noloc]`{aws} Load Balancer Controller`
+** Any `0.1.[.replaceable]``x``` version of the [.noloc]`{aws} Load Balancer Controller`
 
 
 [[lbc-remove-desc,lbc-remove-desc.title]]
@@ -3660,7 +3660,7 @@ You may have installed the deprecated version using Helm or manually with [.nolo
 ----
 $ helm delete aws-alb-ingress-controller -n kube-system
 ----
-. If you have version `0.1._x_` of the `eks-charts/aws-load-balancer-controller` chart installed, uninstall it. The upgrade from `0.1._x_` to version `1.0.0` doesn't work due to incompatibility with the webhook API version. 
+. If you have version `0.1.[.replaceable]``x``` of the `eks-charts/aws-load-balancer-controller` chart installed, uninstall it. The upgrade from `0.1.[.replaceable]``x``` to version `1.0.0` doesn't work due to incompatibility with the webhook API version. 
 +
 [source,shell,subs="verbatim,attributes"]
 ----
@@ -4228,7 +4228,7 @@ Compare this version with the minimum EKS Add-on version in the previous section
 +
 ... Select the *Version* that you'd like to use. We recommend that you keep the same version as the previous step, and update the version and configuration in separate actions.
 ... Expand the *Optional configuration settings*.
-... Enter the JSON key `"autoscaling":` and value of a nested JSON object with a key `"enabled":` and value `true` in *Configuration values*. The resulting text must be a valid JSON object. If this key and value are the only data in the text box, surround the key and value with curly braces `{}`. The following example shows autoscaling is enabled:
+... Enter the JSON key `"autoscaling":` and value of a nested JSON object with a key `"enabled":` and value `true` in *Configuration values*. The resulting text must be a valid JSON object. If this key and value are the only data in the text box, surround the key and value with curly braces `{ }`. The following example shows autoscaling is enabled:
 +
 [source,json,subs="verbatim,attributes"]
 ----
