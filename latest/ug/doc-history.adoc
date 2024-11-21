@@ -32,6 +32,14 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
+[.update,date="2024-11-22"]
+=== Amazon EKS platform version update
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html
+
+This is a new platform version with security fixes and enhancements. This includes new patch versions of Kubernetes `1.31.2`, `1.30.6`, `1.29.10`, and `1.28.15`.
+
+
 [.update,date="2024-11-21"]
 === {aws} managed policy updates
 [.update-ulink]
