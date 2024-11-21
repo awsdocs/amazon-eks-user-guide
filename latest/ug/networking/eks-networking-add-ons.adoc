@@ -78,14 +78,14 @@ The following table lists the latest available version of the Amazon EKS add-on 
 [options="header"]
 |===
 | Kubernetes version | Amazon EKS type of VPC CNI version
-| 1.31 | v1.18.6-eksbuild.1
-| 1.30 | v1.18.6-eksbuild.1
-| 1.29 | v1.18.6-eksbuild.1
-| 1.28 | v1.18.6-eksbuild.1
-| 1.27 | v1.18.6-eksbuild.1
-| 1.26 | v1.18.6-eksbuild.1
-| 1.25 | v1.18.6-eksbuild.1
-| 1.24 | v1.18.6-eksbuild.1
+| 1.31 | v1.19.0-eksbuild.1
+| 1.30 | v1.19.0-eksbuild.1
+| 1.29 | v1.19.0-eksbuild.1
+| 1.28 | v1.19.0-eksbuild.1
+| 1.27 | v1.19.0-eksbuild.1
+| 1.26 | v1.19.0-eksbuild.1
+| 1.25 | v1.19.0-eksbuild.1
+| 1.24 | v1.19.0-eksbuild.1
 | 1.23 | v1.18.5-eksbuild.1
 |===
 
@@ -179,12 +179,12 @@ kubectl get daemonset aws-node -n kube-system -o yaml > aws-k8s-cni-old.yaml
 . Create the add-on using the {aws} CLI. If you want to use the {aws-management-console} or `eksctl` to create the add-on, see <<creating-an-add-on>> and specify `vpc-cni` for the add-on name. Copy the command that follows to your device. Make the following modifications to the command, as needed, and then run the modified command.
 +
 ** Replace [.replaceable]`my-cluster` with the name of your cluster.
-** Replace [.replaceable]`v1.18.6-eksbuild.1` with the latest version listed in the latest version table for your cluster version. For the latest version table, see <<vpc-cni-latest-available-version>>.
+** Replace [.replaceable]`v1.19.0-eksbuild.1` with the latest version listed in the latest version table for your cluster version. For the latest version table, see <<vpc-cni-latest-available-version>>.
 ** Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`AmazonEKSVPCCNIRole` with the name of an <<cni-iam-role-create-role,existing IAM role>> that you've created. Specifying a role requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>. 
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.18.6-eksbuild.1 \
+aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.19.0-eksbuild.1 \
     --service-account-role-arn {arn-aws}iam::111122223333:role/AmazonEKSVPCCNIRole
 ----
 +
@@ -202,7 +202,7 @@ An example output is as follows.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-v1.18.6-eksbuild.1
+v1.19.0-eksbuild.1
 ----
 . If you made custom settings to your original add-on, before you created the Amazon EKS add-on, use the configuration that you saved in a previous step to update the EKS add-on with your custom settings. Follow the steps in <<vpc-add-on-update>>.
 . (Optional) Install the `cni-metrics-helper` to your cluster. It scrapes elastic network interface and IP address information, aggregates it at a cluster level, and publishes the metrics to Amazon CloudWatch. For more information, see https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md[cni-metrics-helper] on GitHub.
@@ -238,14 +238,14 @@ kubectl get daemonset aws-node -n kube-system -o yaml > aws-k8s-cni-old.yaml
 . Update your add-on using the {aws} CLI. If you want to use the {aws-management-console} or `eksctl` to update the add-on, see <<updating-an-add-on>>. Copy the command that follows to your device. Make the following modifications to the command, as needed, and then run the modified command.
 +
 ** Replace [.replaceable]`my-cluster` with the name of your cluster.
-** Replace [.replaceable]`v1.18.6-eksbuild.1` with the latest version listed in the latest version table for your cluster version.
+** Replace [.replaceable]`v1.19.0-eksbuild.1` with the latest version listed in the latest version table for your cluster version.
 ** Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`AmazonEKSVPCCNIRole` with the name of an existing IAM role that you've created. To create an IAM role for the VPC CNI, see <<cni-iam-role-create-role>>. Specifying a role requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>. 
 ** The `--resolve-conflicts PRESERVE` option preserves existing configuration values for the add-on. If you've set custom values for add-on settings, and you don't use this option, Amazon EKS overwrites your values with its default values. If you use this option, then we recommend testing any field and value changes on a non-production cluster before updating the add-on on your production cluster. If you change this value to `OVERWRITE`, all settings are changed to Amazon EKS default values. If you've set custom values for any settings, they might be overwritten with Amazon EKS default values. If you change this value to `none`, Amazon EKS doesn't change the value of any settings, but the update might fail. If the update fails, you receive an error message to help you resolve the conflict. 
-** If you're not updating a configuration setting, remove ``--configuration-values '{[.replaceable]`"env":{"AWS_VPC_K8S_CNI_EXTERNALSNAT":"true"}`}'`` from the command. If you're updating a configuration setting, replace [.replaceable]`"env":{"AWS_VPC_K8S_CNI_EXTERNALSNAT":"true"}` with the setting that you want to set. In this example, the `AWS_VPC_K8S_CNI_EXTERNALSNAT` environment variable is set to `true`. The value that you specify must be valid for the configuration schema. If you don't know the configuration schema, run ``aws eks describe-addon-configuration --addon-name vpc-cni --addon-version [.replaceable]`v1.18.6-eksbuild.1```, replacing [.replaceable]`v1.18.6-eksbuild.1` with the version number of the add-on that you want to see the configuration for. The schema is returned in the output. If you have any existing custom configuration, want to remove it all, and set the values for all settings back to Amazon EKS defaults, remove [.replaceable]`"env":{"AWS_VPC_K8S_CNI_EXTERNALSNAT":"true"}` from the command, so that you have empty `{}`. For an explanation of each setting, see https://github.com/aws/amazon-vpc-cni-k8s#cni-configuration-variables[CNI Configuration Variables] on GitHub.
+** If you're not updating a configuration setting, remove ``--configuration-values '{[.replaceable]`"env":{"AWS_VPC_K8S_CNI_EXTERNALSNAT":"true"}`}'`` from the command. If you're updating a configuration setting, replace [.replaceable]`"env":{"AWS_VPC_K8S_CNI_EXTERNALSNAT":"true"}` with the setting that you want to set. In this example, the `AWS_VPC_K8S_CNI_EXTERNALSNAT` environment variable is set to `true`. The value that you specify must be valid for the configuration schema. If you don't know the configuration schema, run ``aws eks describe-addon-configuration --addon-name vpc-cni --addon-version [.replaceable]`v1.19.0-eksbuild.1```, replacing [.replaceable]`v1.19.0-eksbuild.1` with the version number of the add-on that you want to see the configuration for. The schema is returned in the output. If you have any existing custom configuration, want to remove it all, and set the values for all settings back to Amazon EKS defaults, remove [.replaceable]`"env":{"AWS_VPC_K8S_CNI_EXTERNALSNAT":"true"}` from the command, so that you have empty `{}`. For an explanation of each setting, see https://github.com/aws/amazon-vpc-cni-k8s#cni-configuration-variables[CNI Configuration Variables] on GitHub.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.18.6-eksbuild.1 \
+aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.19.0-eksbuild.1 \
     --service-account-role-arn {arn-aws}iam::111122223333:role/AmazonEKSVPCCNIRole \
     --resolve-conflicts PRESERVE --configuration-values '{"env":{"AWS_VPC_K8S_CNI_EXTERNALSNAT":"true"}}'
 ----
@@ -269,7 +269,7 @@ An example output is as follows.
         "addonName": "vpc-cni",
         "clusterName": "my-cluster",
         "status": "ACTIVE",
-        "addonVersion": "v1.18.6-eksbuild.1",
+        "addonVersion": "v1.19.0-eksbuild.1",
         "health": {
             "issues": []
         },
@@ -326,11 +326,11 @@ kubectl get daemonset aws-node -n kube-system -o yaml > aws-k8s-cni-old.yaml
 To review the available versions and familiarize yourself with the changes in the version that you want to update to, see https://github.com/aws/amazon-vpc-cni-k8s/releases[releases] on [.noloc]`GitHub`. Note that we recommend updating to the same `major`.``minor``.``patch`` version listed in the latest available versions table, even if later versions are available on GitHub. For the latest available version table, see <<vpc-cni-latest-available-version>>. The build versions listed in the table aren't specified in the self-managed versions listed on GitHub. Update your version by completing the tasks in one of the following options:
 +
 ** If you don't have any custom settings for the add-on, then run the command under the `To apply this release:` heading on GitHub for the https://github.com/aws/amazon-vpc-cni-k8s/releases[release] that you're updating to.
-** If you have custom settings, download the manifest file with the following command. Change [.replaceable]`https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.18.6/config/master/aws-k8s-cni.yaml` to the URL for the release on GitHub that you're updating to.
+** If you have custom settings, download the manifest file with the following command. Change [.replaceable]`https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.19.0/config/master/aws-k8s-cni.yaml` to the URL for the release on GitHub that you're updating to.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.18.6/config/master/aws-k8s-cni.yaml
+curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.19.0/config/master/aws-k8s-cni.yaml
 ----
 +
 If necessary, modify the manifest with the custom settings from the backup you made in a previous step and then apply the modified manifest to your cluster. If your nodes don't have access to the private Amazon EKS Amazon ECR repositories that the images are pulled from (see the lines that start with `image:` in the manifest), then you'll have to download the images, copy them to your own repository, and modify the manifest to pull the images from your repository. For more information, see <<copy-image-to-repository>>.
@@ -350,7 +350,7 @@ An example output is as follows.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-v1.18.6
+v1.19.0
 ----
 . (Optional) Install the `cni-metrics-helper` to your cluster. It scrapes elastic network interface and IP address information, aggregates it at a cluster level, and publishes the metrics to Amazon CloudWatch. For more information, see https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md[cni-metrics-helper] on GitHub.
 
@@ -4399,13 +4399,13 @@ The following table lists the latest version of the Amazon EKS add-on type for e
 [options="header"]
 |===
 | Kubernetes version | `kube-proxy` version
-| 1.31 | v1.31.2-eksbuild.2
-| 1.30 | v1.30.6-eksbuild.2
-| 1.29 | v1.29.10-eksbuild.2
-| 1.28 | v1.28.15-eksbuild.3
-| 1.27 | v1.27.16-eksbuild.13
-| 1.26 | v1.26.15-eksbuild.18
-| 1.25 | v1.25.16-eksbuild.21
+| 1.31 | v1.31.2-eksbuild.3
+| 1.30 | v1.30.6-eksbuild.3
+| 1.29 | v1.29.10-eksbuild.3
+| 1.28 | v1.28.15-eksbuild.4
+| 1.27 | v1.27.16-eksbuild.14
+| 1.26 | v1.26.15-eksbuild.19
+| 1.25 | v1.25.16-eksbuild.22
 | 1.24 | v1.24.17-eksbuild.19
 | 1.23 | v1.23.17-eksbuild.20
 |===
@@ -4436,13 +4436,13 @@ The following table lists the latest available self-managed `kube-proxy` contain
 [options="header"]
 |===
 | Version | kube-proxy (default type) | kube-proxy (minimal type)
-| 1.31 | Only minimal type is available | v1.31.2-minimal-eksbuild.2
-| 1.30 | Only minimal type is available | v1.30.6-minimal-eksbuild.2
-| 1.29 | Only minimal type is available | v1.29.10-minimal-eksbuild.2
-| 1.28 | Only minimal type is available | v1.28.15-minimal-eksbuild.3
-| 1.27 | Only minimal type is available | v1.27.16-minimal-eksbuild.13
-| 1.26 | Only minimal type is available | v1.26.15-minimal-eksbuild.18
-| 1.25 | Only minimal type is available | v1.25.16-minimal-eksbuild.21
+| 1.31 | Only minimal type is available | v1.31.2-minimal-eksbuild.3
+| 1.30 | Only minimal type is available | v1.30.6-minimal-eksbuild.3
+| 1.29 | Only minimal type is available | v1.29.10-minimal-eksbuild.3
+| 1.28 | Only minimal type is available | v1.28.15-minimal-eksbuild.4
+| 1.27 | Only minimal type is available | v1.27.16-minimal-eksbuild.14
+| 1.26 | Only minimal type is available | v1.26.15-minimal-eksbuild.19
+| 1.25 | Only minimal type is available | v1.25.16-minimal-eksbuild.22
 | 1.24 | v1.24.10-eksbuild.2 | v1.24.17-minimal-eksbuild.19
 | 1.23 | v1.23.16-eksbuild.2 | v1.23.17-minimal-eksbuild.20
 |===
@@ -4501,13 +4501,13 @@ Image:    602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.29.1-
 ----
 +
 In the example output, [.replaceable]`v1.29.1-eksbuild.2` is the version installed on the cluster.
-. Update the `kube-proxy` add-on by replacing [.replaceable]`602401143452` and [.replaceable]`region-code` with the values from your output. in the previous step Replace [.replaceable]`v1.30.0-eksbuild.3` with the `kube-proxy` version listed in the <<managing-kube-proxy-images,Latest available self-managed kube-proxy container image version for each Amazon EKS cluster version>> table.
+. Update the `kube-proxy` add-on by replacing [.replaceable]`602401143452` and [.replaceable]`region-code` with the values from your output in the previous step. Replace [.replaceable]`v1.30.6-eksbuild.3` with the `kube-proxy` version listed in the <<managing-kube-proxy-images,Latest available self-managed kube-proxy container image version for each Amazon EKS cluster version>> table.
 +
 IMPORTANT: The manifests for each image type are different and not compatible between the _default_ or _minimal_ image types. You must use the same image type as the previous image, so that the entrypoint and arguments match.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.30.0-eksbuild.3
+kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.30.6-eksbuild.3
 ----
 +
 An example output is as follows.

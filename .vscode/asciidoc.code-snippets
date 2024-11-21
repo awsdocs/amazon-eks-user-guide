@@ -14,13 +14,6 @@
     // }
     // https://code.visualstudio.com/docs/editor/userdefinedsnippets
     // https://www.freecodecamp.org/news/definitive-guide-to-snippets-visual-studio-code/
-    "adoc include w offset": {
-        "prefix": "include-custom",
-        "body": [
-            "include::$0.adoc[leveloffset=+1]"
-        ],
-        "description": "adoc include"
-    },
     "adoc tablist": {
         "prefix": "tablist",
         "body": [

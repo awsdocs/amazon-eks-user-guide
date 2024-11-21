@@ -6,7 +6,7 @@
 // AWS shared content
 
 // Region specific
-// Entities that differ depending on the Region build such as BJS
+// Entities that differ depending on the Region build such as China
 :arn-aws: pass:q[[.shared]``region.arn``]
 
 // Service names
@@ -79,6 +79,8 @@
 :sts: pass:q[[.shared]``STSshort``]
 :transit-gateway: pass:q[[.shared]``AWSSTG``]
 :cloudformation: pass:q[[.shared]``CFN``]
+:outposts: pass:q[[.shared]``OUTlong``]
+:eks-a: pass:q[[.shared]``EKS-A``]
 
 //AWS Regions 
 
