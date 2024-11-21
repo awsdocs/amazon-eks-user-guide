@@ -17,7 +17,7 @@ Before you create any network policies, all services can communicate bidirection
 
 . Apply the front-end, back-end, client, and management user interface services:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/namespace.yaml
 kubectl apply -f https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/management-ui.yaml
@@ -27,7 +27,7 @@ kubectl apply -f https://eksworkshop.com/beginner/120_network-policies/calico/st
 ----
 . View all [.noloc]`Pods` on the cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -A
 ----
@@ -36,7 +36,7 @@ An example output is as follows.
 +
 In your output, you should see pods in the namespaces shown in the following output. The [.replaceable]`NAMES` of your pods and the number of pods in the `READY` column are different than those in the following output. Don't continue until you see pods with similar names and they all have `Running` in the `STATUS` column.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAMESPACE         NAME                                       READY   STATUS    RESTARTS   AGE
 [...]
@@ -49,7 +49,7 @@ stars             frontend-cscnf                             1/1     Running   0
 ----
 . To connect to the management user interface, connect to the `EXTERNAL-IP` of the service running on your cluster:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get service/management-ui -n management-ui
 ----
@@ -58,7 +58,7 @@ kubectl get service/management-ui -n management-ui
 image::images/stars-default.png[Open network policy,scaledwidth=100%]
 . Apply the following network policy in both the `stars` and `client` namespaces to isolate the services from each other:
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
@@ -71,7 +71,7 @@ spec:
 +
 You can use the following commands to apply the policy to both namespaces:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -n stars -f https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/apply_network_policies.files/default-deny.yaml
 kubectl apply -n client -f https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/apply_network_policies.files/default-deny.yaml
@@ -79,7 +79,7 @@ kubectl apply -n client -f https://eksworkshop.com/beginner/120_network-policies
 . Refresh your browser. You see that the management user interface can no longer reach any of the nodes, so they don't show up in the user interface.
 . Apply the following different network policies to allow the management user interface to access the services. Apply this policy to allow the UI:
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
@@ -98,7 +98,7 @@ spec:
 +
 Apply this policy to allow the client:
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
@@ -117,7 +117,7 @@ spec:
 +
 You can use the following commands to apply both policies:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/apply_network_policies.files/allow-ui.yaml
 kubectl apply -f https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/apply_network_policies.files/allow-ui-client.yaml
@@ -127,7 +127,7 @@ kubectl apply -f https://eksworkshop.com/beginner/120_network-policies/calico/st
 image::images/stars-no-traffic.png[UI access network policy,scaledwidth=100%]
 . Apply the following network policy to allow traffic from the front-end service to the back-end service:
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
@@ -152,7 +152,7 @@ spec:
 image::images/stars-front-end-back-end.png[Front-end to back-end policy,scaledwidth=100%]
 . Apply the following network policy to allow traffic from the client to the front-end service:
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
@@ -177,7 +177,7 @@ spec:
 image::images/stars-final.png[Final network policy,scaledwidth=100%]
 . (Optional) When you are done with the demo, you can delete its resources.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl delete -f https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/client.yaml
 kubectl delete -f https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/frontend.yaml

@@ -20,7 +20,7 @@ In addition to these changes, you should be aware of the following:
 
 * AL2023 introduces a new node initialization process `nodeadm` that uses a YAML configuration schema. If you're using self-managed node groups or an AMI with a launch template, you'll now need to provide additional cluster metadata explicitly when creating a new node group. An https://awslabs.github.io/amazon-eks-ami/nodeadm/[example] of the minimum required parameters is as follows, where `apiServerEndpoint`, `certificateAuthority`, and service `cidr` are now required:
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 ---
 apiVersion: node.eks.aws/v1alpha1

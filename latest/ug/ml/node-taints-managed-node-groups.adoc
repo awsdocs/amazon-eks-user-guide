@@ -23,7 +23,7 @@ Amazon EKS supports configuring [.noloc]`Kubernetes` taints through managed node
 * For information on creating a node group with a taint using the {aws-management-console}, see <<create-managed-node-group>>.
 * The following is an example of creating a node group with a taint using the {aws} CLI:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks create-nodegroup \
  --cli-input-json '
@@ -53,9 +53,9 @@ For more information and examples of usage, see https://kubernetes.io/docs/refer
 
 
 * Taints can be updated after you create the node group using the `UpdateNodegroupConfig` API.
-* The taint key must begin with a letter or number. It can contain letters, numbers, hyphens (`-`), periods (````.````), and underscores (````\_````). It can be up to 63 characters long.
+* The taint key must begin with a letter or number. It can contain letters, numbers, hyphens (`-`), periods (`.`), and underscores (`_`). It can be up to 63 characters long.
 * Optionally, the taint key can begin with a DNS subdomain prefix and a single `/`. If it begins with a DNS subdomain prefix, it can be 253 characters long.
-* The value is optional and must begin with a letter or number. It can contain letters, numbers, hyphens (````-````), periods (````.````), and underscores (````\_````). It can be up to 63 characters long.
+* The value is optional and must begin with a letter or number. It can contain letters, numbers, hyphens (`-`), periods (`.`), and underscores (`_`). It can be up to 63 characters long.
 * When using [.noloc]`Kubernetes` directly or the {aws-management-console}, the taint effect must be `NoSchedule`, `PreferNoSchedule`, or `NoExecute`. However, when using the {aws} CLI or API, the taint effect must be `NO_SCHEDULE`, `PREFER_NO_SCHEDULE`, or `NO_EXECUTE`.
 * A maximum of 50 taints are allowed per node group.
 * If taints that were created using a managed node group are removed manually from a node, then Amazon EKS doesn't add the taints back to the node. This is true even if the taints are specified in the managed node group configuration.

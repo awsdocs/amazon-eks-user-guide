@@ -279,7 +279,7 @@ You can use any of the following examples to create access entries:
 +
 ** Create an access entry for a self-managed Amazon EC2 Linux node group. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`EKS-my-cluster-self-managed-ng-1` with the name of your <<create-node-role,node IAM role>>. If your node group is a Windows node group, then replace [.replaceable]`EC2_Linux` with `EC2_Windows`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks create-access-entry --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/EKS-my-cluster-self-managed-ng-1 --type EC2_Linux
 ----
@@ -287,13 +287,13 @@ aws eks create-access-entry --cluster-name my-cluster --principal-arn {arn-aws}i
 You can't use the `--kubernetes-groups` option when you specify a type other than `STANDARD`. You can't associate an access policy to this access entry, because its type is a value other than `STANDARD`.
 ** Create an access entry that allows an IAM role that's not used for an Amazon EC2 self-managed node group, that you want [.noloc]`Kubernetes` to authorize access to your cluster with. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`my-role` with the name of your IAM role. Replace [.replaceable]`Viewers` with the name of a group that you've specified in a [.noloc]`Kubernetes` `RoleBinding` or `ClusterRoleBinding` object on your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks create-access-entry --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/my-role --type STANDARD --user Viewers --kubernetes-groups Viewers
 ----
 ** Create an access entry that allows an IAM user to authenticate to your cluster. This example is provided because this is possible, though IAM best practices recommend accessing your cluster using IAM _roles_ that have short-term credentials, rather than IAM _users_ that have long-term credentials. For more information, see  link:IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp[Require human users to use federation with an identity provider to access {aws} using temporary credentials,type="documentation"] in the IAM User Guide.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks create-access-entry --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:user/my-user --type STANDARD --username my-user
 ----
@@ -327,7 +327,7 @@ You can update an access entry using the {aws-management-console} or the {aws} C
 . To update an access entry
 Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`EKS-my-cluster-my-namespace-Viewers` with the name of an IAM role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks update-access-entry --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/EKS-my-cluster-my-namespace-Viewers --kubernetes-groups Viewers
 ----
@@ -359,7 +359,7 @@ You can delete an access entry using the {aws-management-console} or the {aws} C
 . To delete an access entry
 Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`my-role` with the name of the IAM role that you no longer want to have access to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks delete-access-entry --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/my-role
 ----
@@ -374,7 +374,7 @@ aws eks delete-access-entry --cluster-name my-cluster --principal-arn {arn-aws}i
 Learn how to associate and disassociate Amazon EKS access policies to and from access entries to grant Kubernetes permissions to IAM principals.
 --
 
-You can assign one or more access policies to  _access entries_ of _type_``STANDARD``. Amazon EKS automatically grants the other types of access entries the permissions required to function properly in your cluster. Amazon EKS access policies include [.noloc]`Kubernetes` permissions, not IAM permissions. Before associating an access policy to an access entry, make sure that you're familiar with the [.noloc]`Kubernetes` permissions included in each access policy. For more information, see <<access-policy-permissions>>. If none of the access policies meet your requirements, then don't associate an access policy to an access entry. Instead, specify one or more _group names_ for the access entry and create and manage [.noloc]`Kubernetes` role-based access control objects. For more information, see <<creating-access-entries>>.
+You can assign one or more access policies to  _access entries_ of _type_ `STANDARD`. Amazon EKS automatically grants the other types of access entries the permissions required to function properly in your cluster. Amazon EKS access policies include [.noloc]`Kubernetes` permissions, not IAM permissions. Before associating an access policy to an access entry, make sure that you're familiar with the [.noloc]`Kubernetes` permissions included in each access policy. For more information, see <<access-policy-permissions>>. If none of the access policies meet your requirements, then don't associate an access policy to an access entry. Instead, specify one or more _group names_ for the access entry and create and manage [.noloc]`Kubernetes` role-based access control objects. For more information, see <<creating-access-entries>>.
 
 
 
@@ -390,7 +390,7 @@ Before associating access policies with access entries, consider the following r
 * You can change the _access scope_ for an access policy after you associate it to an access entry. If you've scoped the access policy to [.noloc]`Kubernetes` namespaces, you can add and remove namespaces for the association, as necessary.
 * If you associate an access policy to an access entry that also has _group names_ specified, then the IAM principal has all the permissions in all associated access policies. It also has all the permissions in any [.noloc]`Kubernetes` `Role` or `ClusterRole` object that is specified in any [.noloc]`Kubernetes` `Role` and `RoleBinding` objects that specify the group names.
 * If you run the `kubectl auth can-i --list` command, you won't see any [.noloc]`Kubernetes` permissions assigned by access policies associated with an access entry for the IAM principal you're using when you run the command. The command only shows [.noloc]`Kubernetes` permissions if you've granted them in [.noloc]`Kubernetes` `Role` or `ClusterRole` objects that you've bound to the group names or username that you specified for an access entry.
-* If you impersonate a [.noloc]`Kubernetes` user or group when interacting with [.noloc]`Kubernetes` objects on your cluster, such as using the `kubectl` command with `--as [.replaceable]`username`` or ``--as-group [.replaceable]`group-name```, you're forcing the use of [.noloc]`Kubernetes` RBAC authorization. As a result, the IAM principal has no permissions assigned by any access policies associated to the access entry. The only [.noloc]`Kubernetes` permissions that the user or group that the IAM principal is impersonating has are the [.noloc]`Kubernetes` permissions that you've granted them in [.noloc]`Kubernetes` `Role` or `ClusterRole` objects that you've bound to the group names or user name. For your IAM principal to have the permissions in associated access policies, don't impersonate a [.noloc]`Kubernetes` user or group. The IAM principal will still also have any permissions that you've granted them in the [.noloc]`Kubernetes` `Role` or `ClusterRole` objects that you've bound to the group names or user name that you specified for the access entry. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation[User impersonation] in the [.noloc]`Kubernetes` documentation.
+* If you impersonate a [.noloc]`Kubernetes` user or group when interacting with [.noloc]`Kubernetes` objects on your cluster, such as using the `kubectl` command with `--as [.replaceable]``username``` or `--as-group [.replaceable]``group-name```, you're forcing the use of [.noloc]`Kubernetes` RBAC authorization. As a result, the IAM principal has no permissions assigned by any access policies associated to the access entry. The only [.noloc]`Kubernetes` permissions that the user or group that the IAM principal is impersonating has are the [.noloc]`Kubernetes` permissions that you've granted them in [.noloc]`Kubernetes` `Role` or `ClusterRole` objects that you've bound to the group names or user name. For your IAM principal to have the permissions in associated access policies, don't impersonate a [.noloc]`Kubernetes` user or group. The IAM principal will still also have any permissions that you've granted them in the [.noloc]`Kubernetes` `Role` or `ClusterRole` objects that you've bound to the group names or user name that you specified for the access entry. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation[User impersonation] in the [.noloc]`Kubernetes` documentation.
 
 You can associate an access policy to an access entry using the {aws-management-console} or the {aws} CLI.
 
@@ -439,14 +439,14 @@ An example output is as follows.
 To view the permissions included in each policy, see <<access-policy-permissions>>.
 . View your existing access entries. Replace [.replaceable]`my-cluster` with the name of your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks list-access-entries --cluster-name my-cluster
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 {
     "accessEntries": [
@@ -457,7 +457,7 @@ An example output is as follows.
 ----
 . Associate an access policy to an access entry. The following example associates the `AmazonEKSViewPolicy` access policy to an access entry. Whenever the [.replaceable]`my-role` IAM role attempts to access [.noloc]`Kubernetes` objects on the cluster, Amazon EKS will authorize the role to use the permissions in the policy to access [.noloc]`Kubernetes` objects in the [.replaceable]`my-namespace1` and [.replaceable]`my-namespace2` [.noloc]`Kubernetes` namespaces only. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`my-role` with the name of the IAM role that you want Amazon EKS to authorize access to [.noloc]`Kubernetes` cluster objects for.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks associate-access-policy --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/my-role \
     --access-scope type=namespace,namespaces=my-namespace1,my-namespace2 --policy-arn {arn-aws}eks::aws:cluster-access-policy/AmazonEKSViewPolicy
@@ -468,14 +468,14 @@ If you want the IAM principal to have the permissions cluster-wide, replace `typ
 NOTE: If you later want to change the scope of an associated access policy, run the previous command again with the new scope. For example, if you wanted to remove [.replaceable]`my-namespace2`, you'd run the command again using `type=namespace,namespaces=[.replaceable]``my-namespace1``` only. If you wanted to change the scope from `namespace` to `cluster`, you'd run the command again using `type=cluster`, removing `type=namespace,namespaces=[.replaceable]``my-namespace1``,[.replaceable]``my-namespace2```.
 . Determine which access policies are associated to an access entry.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks list-associated-access-policies --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/my-role
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 {
     "clusterName": "my-cluster",
@@ -509,7 +509,7 @@ An example output is as follows.
 In the previous example, the IAM principal for this access entry has view permissions across all namespaces on the cluster, and administrator permissions to two [.noloc]`Kubernetes` namespaces.  
 . Disassociate an access policy from an access entry. In this example, the `AmazonEKSAdminPolicy` policy is disassociated from an access entry. The IAM principal retains the permissions in the `AmazonEKSViewPolicy` access policy for objects in the [.replaceable]`my-namespace1` and [.replaceable]`my-namespace2` namespaces however, because that access policy is not disassociated from the access entry.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks disassociate-access-policy --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/my-role \
     --policy-arn {arn-aws}eks::aws:cluster-access-policy/AmazonEKSAdminPolicy
@@ -880,14 +880,14 @@ Don't remove existing `aws-auth` `ConfigMap` entries that were created by Amazon
 * An {aws} Identity and Access Management role or user with the following permissions: `CreateAccessEntry` and `ListAccessEntries`. For more information, see  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference.
 . View the existing entries in your `aws-auth ConfigMap`. Replace [.replaceable]`my-cluster` with the name of your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl get iamidentitymapping --cluster my-cluster
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 ARN                                                                                             USERNAME                                GROUPS                                                  ACCOUNT
 {arn-aws}iam::111122223333:role/EKS-my-cluster-Admins                                            Admins                                  system:masters
@@ -900,7 +900,7 @@ ARN                                                                             
 . <<creating-access-entries,Create access entries>> for any of the `ConfigMap` entries that you created returned in the previous output. When creating the access entries, make sure to specify the same values for `ARN`, `USERNAME`, `GROUPS`, and `ACCOUNT` returned in your output. In the example output, you would create access entries for all entries except the last two entries, since those entries were created by Amazon EKS for a Fargate profile and a managed node group. 
 . Delete the entries from the `ConfigMap` for any access entries that you created. If you don't delete the entry from the `ConfigMap`, the settings for the access entry for the IAM principal ARN override the `ConfigMap` entry. Replace [.replaceable]`111122223333` with your {aws} account ID and [.replaceable]`EKS-my-cluster-my-namespace-Viewers` with the name of the role in the entry in your `ConfigMap`. If the entry you're removing is for an IAM user, rather than an IAM role, replace `role` with `user` and [.replaceable]`EKS-my-cluster-my-namespace-Viewers` with the user name.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl delete iamidentitymapping --arn {arn-aws}iam::111122223333:role/EKS-my-cluster-my-namespace-Viewers --cluster my-cluster
 ----
@@ -952,7 +952,7 @@ You can associate an identity provider using `eksctl` or the {aws-management-con
 
 . Create a file named [.replaceable]`associate-identity-provider.yaml` with the following contents. Replace the [.replaceable]`example values` with your own. The values in the `identityProviders` section are obtained from your [.noloc]`OIDC` identity provider. Values are only required for the `name`, `type`, `issuerUrl`, and `clientId` settings under `identityProviders`.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 ---
 apiVersion: eksctl.io/v1alpha5
@@ -980,7 +980,7 @@ identityProviders:
 IMPORTANT: Don't specify `system:`, or any portion of that string, for `groupsPrefix` or `usernamePrefix`.
 . Create the provider.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl associate identityprovider -f associate-identity-provider.yaml
 ----
@@ -1011,7 +1011,7 @@ eksctl associate identityprovider -f associate-identity-provider.yaml
 
 If you want to prevent an [.noloc]`OIDC` identity provider from being associated with a cluster, create and associate the following IAM policy to the IAM accounts of your Amazon EKS administrators. For more information, see   link:IAM/latest/UserGuide/access_policies_create.html[Creating IAM policies,type="documentation"] and  link:IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console[Adding IAM identity permissions,type="documentation"] in the IAM User Guide and  link:service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference.
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -1039,7 +1039,7 @@ If you want to prevent an [.noloc]`OIDC` identity provider from being associated
 
 The following example policy allows [.noloc]`OIDC` identity provider association if the `clientID` is `kubernetes` and the `issuerUrl` is `https://cognito-idp.us-west-2amazonaws.com/*`.
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",

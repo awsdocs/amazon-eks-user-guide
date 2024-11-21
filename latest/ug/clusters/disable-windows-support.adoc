@@ -11,7 +11,7 @@ include::../attributes.txt[]
 +
 Remove the `AmazonVPCResourceController` managed IAM policy from your <<cluster-iam-role,cluster role>>. Replace [.replaceable]`eksClusterRole` with the name of your cluster role and [.replaceable]`111122223333` with your account ID.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam detach-role-policy \
     --role-name eksClusterRole \
@@ -19,7 +19,7 @@ aws iam detach-role-policy \
 ----
 . Disable [.noloc]`Windows` IPAM in the `amazon-vpc-cni` ConfigMap.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl patch configmap/amazon-vpc-cni \
                     -n kube-system \

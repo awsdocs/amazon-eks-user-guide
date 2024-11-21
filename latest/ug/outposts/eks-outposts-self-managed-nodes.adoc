@@ -23,7 +23,7 @@ This topic describes how you can launch Auto Scaling groups of Amazon Linux node
 * An existing Outpost. For more information, see link:outposts/latest/userguide/what-is-outposts.html[What is {aws} Outposts,type="documentation"].
 * An existing Amazon EKS cluster. To deploy a cluster on the {aws} Cloud, see <<create-cluster>>. To deploy a cluster on an Outpost, see <<eks-outposts-local-cluster-overview>>.
 * Suppose that you're creating your nodes in a cluster on the {aws} Cloud and you have subnets in the {aws} Region where you have {aws} Outposts, {aws} Wavelength, or {aws} Local Zones enabled. Then, those subnets must not have been passed in when you created your cluster. If you're creating your nodes in a cluster on an Outpost, you must have passed in an Outpost subnet when creating your cluster.
-* (Recommended for clusters on the {aws} Cloud) The [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` add-on configured with its own IAM role that has the necessary IAM policy attached to it. For more information, see <<cni-iam-role>>. Local clusters do not support IAM roles for service accounts. 
+* (Recommended for clusters on the {aws} Cloud) The [.noloc]`Amazon VPC CNI plugin for Kubernetes` add-on configured with its own IAM role that has the necessary IAM policy attached to it. For more information, see <<cni-iam-role>>. Local clusters do not support IAM roles for service accounts. 
 
 You can create a self-managed Amazon Linux node group with `eksctl` or the {aws-management-console} (with an {aws} CloudFormation template). You can also use https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest[Terraform].
 
@@ -47,7 +47,7 @@ Replace [.replaceable]`my-key` with the name of your Amazon EC2 key pair or publ
 +
 Create your node group with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup --cluster my-cluster --name al-nodes --node-type instance-type \
     --nodes 3 --nodes-min 1 --nodes-max 4 --managed=false --node-volume-type gp2 --subnet-ids subnet-id
@@ -63,7 +63,7 @@ For a complete list of all available options and defaults, see https://eksctl.io
 ** If nodes fail to join the cluster, then see <<worker-node-fail>> in <<troubleshooting,Troubleshoot problems with Amazon EKS clusters and nodes>> and <<outposts-troubleshooting-unable-to-join-nodes-to-a-cluster>> in <<eks-outposts-troubleshooting,Troubleshoot local Amazon EKS clusters on {aws} Outposts>>.
 ** An example output is as follows. Several lines are output while the nodes are created. One of the last lines of output is the following example line.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [✔]  created 1 nodegroup(s) in cluster "my-cluster"
 ----
@@ -76,7 +76,7 @@ For a complete list of all available options and defaults, see https://eksctl.io
 
 . Download the latest version of the {aws} CloudFormation template.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
 ----
@@ -113,7 +113,7 @@ NOTE: The Amazon EKS node AMI is based on Amazon Linux. You can track security o
 NOTE: If you don't provide a key pair here, the {aws} CloudFormation stack creation fails.
 ** *BootstrapArguments*: There are several optional arguments that you can pass to your nodes. For more information, view the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap script usage information] on [.noloc]`GitHub`. If you're adding nodes to an Amazon EKS Local Cluster on {aws} Outposts (where the [.noloc]`Kubernetes` control plane instances run on {aws} Outposts) and the cluster doesn't have ingress and egress internet connection (also known as private clusters), then you must provide the following bootstrap arguments (as a single line).
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 --b64-cluster-ca ${CLUSTER_CA} --apiserver-endpoint https://${APISERVER_ENDPOINT} --enable-local-outpost true --cluster-id ${CLUSTER_ID}
 ----
@@ -129,7 +129,7 @@ NOTE: If you don't provide a key pair here, the {aws} CloudFormation stack creat
 
 . Check to see if you already have an `aws-auth` `ConfigMap`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe configmap -n kube-system aws-auth
 ----
@@ -137,13 +137,13 @@ kubectl describe configmap -n kube-system aws-auth
 +
 .. Open the `ConfigMap` for editing.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl edit -n kube-system configmap/aws-auth
 ----
 .. Add a new `mapRoles` entry as needed. Set the `rolearn` value to the *NodeInstanceRole* value that you recorded in the previous procedure.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 [...]
 data:
@@ -160,25 +160,25 @@ data:
 +
 .. Download the configuration map.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
 ----
 .. In the ``aws-auth-cm.yaml`` file, set the `rolearn` to the *NodeInstanceRole* value that you recorded in the previous procedure. You can do this with a text editor, or by replacing [.replaceable]`my-node-instance-role` and running the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 sed -i.bak -e 's|<ARN of instance role (not instance profile)>|my-node-instance-role|' aws-auth-cm.yaml
 ----
 .. Apply the configuration. This command may take a few minutes to finish.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f aws-auth-cm.yaml
 ----
 . Watch the status of your nodes and wait for them to reach the `Ready` status.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get nodes --watch
 ----
@@ -194,7 +194,7 @@ To create a `gp2` storage class on your cluster, complete the following steps.
 +
 .. Run the following command to create the `gp2-storage-class.yaml` file.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 cat >gp2-storage-class.yaml <<EOF
 apiVersion: storage.k8s.io/v1
@@ -213,13 +213,13 @@ EOF
 ----
 .. Apply the manifest to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f gp2-storage-class.yaml
 ----
 . (GPU nodes only) If you chose a GPU instance type and the Amazon EKS optimized accelerated AMI, you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/deployments/static/nvidia-device-plugin.yml
 ----

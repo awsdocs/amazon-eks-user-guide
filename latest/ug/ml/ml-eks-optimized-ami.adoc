@@ -20,19 +20,19 @@ The following procedure describes how to run a workload on a GPU based instance 
 
 . After your GPU nodes join your cluster, you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/deployments/static/nvidia-device-plugin.yml
 ----
 . You can verify that your nodes have allocatable GPUs with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get nodes "-o=custom-columns=NAME:.metadata.name,GPU:.status.allocatable.nvidia\.com/gpu"
 ----
 . Create a file named `nvidia-smi.yaml` with the following contents. Replace [.replaceable]`tag` with your desired tag for https://hub.docker.com/r/nvidia/cuda/tags[nvidia/cuda]. This manifest launches an https://developer.nvidia.com/cuda-zone[NVIDIA CUDA] container that runs `nvidia-smi` on a node.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: v1
 kind: Pod
@@ -51,20 +51,20 @@ spec:
 ----
 . Apply the manifest with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f nvidia-smi.yaml
 ----
 . After the [.noloc]`Pod` has finished running, view its logs with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl logs nvidia-smi
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Mon Aug  6 20:23:31 20XX
 +-----------------------------------------------------------------------------+

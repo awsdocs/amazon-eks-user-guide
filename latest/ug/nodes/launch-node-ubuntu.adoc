@@ -33,7 +33,7 @@ After the nodes join the cluster, you can deploy containerized applications to t
 
 This procedure requires `eksctl` version `{eksctl-min-version}` or later. You can check your version with the following command:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl version
 ----
@@ -44,7 +44,7 @@ For instructions on how to install or upgrade `eksctl`, see https://eksctl.io/in
 +
 IMPORTANT: To deploy a node group to {aws} Outposts, {aws} Wavelength, or {aws} Local Zone subnets, don't pass {aws} Outposts, {aws} Wavelength, or {aws} Local Zone subnets when you create the cluster. You must specify the subnets in the following example. For more information see https://eksctl.io/usage/nodegroups/#creating-a-nodegroup-from-a-config-file[Create a nodegroup from a config file] and https://eksctl.io/usage/schema/[Config file schema] in the `eksctl` documentation. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 cat >ubuntu.yaml <<EOF
 ---
@@ -80,7 +80,7 @@ EOF
 To create an [.noloc]`Ubuntu Pro` node group, just change the `amiFamily` value to `UbuntuPro2204`.
 . Deploy your nodes with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup --config-file=ubuntu.yaml
 ----
@@ -89,7 +89,7 @@ An example output is as follows.
 +
 Several lines are output while the nodes are created. One of the last lines of output is the following example line.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [✔]  created 1 nodegroup(s) in cluster "my-cluster"
 ----

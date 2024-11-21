@@ -42,7 +42,7 @@ For example, if you have set your version support policy as `standard` then you 
 . Determine the name of your EKS cluster. Set the CLI to the same {aws} region as your EKS cluster. 
 . Run the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster \
 --name <cluster-name> \

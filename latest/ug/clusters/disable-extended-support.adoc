@@ -30,7 +30,7 @@ You cannot disable extended support once your cluster has entered it. You can on
 . Determine the name of your EKS cluster. 
 . Run the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks update-cluster-config \
 --name <cluster-name> \

@@ -76,14 +76,14 @@ Before deploying [.noloc]`Windows` nodes, be aware of the following consideratio
 == Enable [.noloc]`Windows` support
 . If you don't have Amazon Linux nodes in your cluster and use security groups for [.noloc]`Pods`, skip to the next step. Otherwise, confirm that the `AmazonEKSVPCResourceController` managed policy is attached to your <<cluster-iam-role,cluster role>>. Replace [.replaceable]`eksClusterRole` with your cluster role name.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam list-attached-role-policies --role-name eksClusterRole
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 {
     "AttachedPolicies": [
@@ -102,7 +102,7 @@ An example output is as follows.
 If the policy is attached, as it is in the previous output, skip the next step.
 . Attach the *link:aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html[AmazonEKSVPCResourceController,type="documentation"]* managed policy to your  <<cluster-iam-role,Amazon EKS cluster IAM role>>. Replace [.replaceable]`eksClusterRole` with your cluster role name.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
   --role-name eksClusterRole \
@@ -110,7 +110,7 @@ aws iam attach-role-policy \
 ----
 . Create a file named [.replaceable]`vpc-resource-controller-configmap.yaml` with the following contents.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: v1
 kind: ConfigMap
@@ -122,20 +122,20 @@ data:
 ----
 . Apply the `ConfigMap` to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f vpc-resource-controller-configmap.yaml
 ----
 . Verify that your `aws-auth` `ConfigMap` contains a mapping for the instance role of the [.noloc]`Windows` node to include the `eks:kube-proxy-windows` RBAC permission group. You can verify by running the following command. 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get configmap aws-auth -n kube-system -o yaml
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 apiVersion: v1
 kind: ConfigMap
@@ -163,7 +163,7 @@ When you deploy Pods to your cluster, you need to specify the operating system t
 
 For [.noloc]`Linux` [.noloc]`Pods`, use the following node selector text in your manifests.
 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 nodeSelector:
         kubernetes.io/os: linux
@@ -172,7 +172,7 @@ nodeSelector:
 
 For [.noloc]`Windows` [.noloc]`Pods`, use the following node selector text in your manifests.
 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 nodeSelector:
         kubernetes.io/os: windows
@@ -186,7 +186,7 @@ You can deploy a  <<sample-deployment,sample application>> to see the node selec
 
 In Amazon EKS, each [.noloc]`Pod` is allocated an `IPv4` address from your VPC. Due to this, the number of [.noloc]`Pods` that you can deploy to a node is constrained by the available IP addresses, even if there are sufficient resources to run more [.noloc]`Pods` on the node. Since only one elastic network interface is supported by a Windows node, by default, the maximum number of available IP addresses on a Windows node is equal to:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Number of private IPv4 addresses for each interface on the node - 1
 ----
@@ -195,7 +195,7 @@ One IP address is used as the primary IP address of the network interface, so it
 
 You can enable higher [.noloc]`Pod` density on Windows nodes by enabling IP prefix delegation. This feature enables you to assign a `/28` `IPv4` prefix to the primary network interface, instead of assigning secondary `IPv4` addresses. Assigning an IP prefix increases the maximum available `IPv4` addresses on the node to:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 (Number of private IPv4 addresses assigned to the interface attached to the node - 1) * 16
 ----

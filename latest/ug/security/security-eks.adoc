@@ -83,7 +83,7 @@ For more information, see link:vpc/latest/privatelink/privatelink-access-aws-ser
 * You can use VPC flow logs to capture information about IP traffic going to and from network interfaces, including interface endpoints. You can publish flow log data to Amazon CloudWatch or Amazon S3. For more information, see link:vpc/latest/userguide/flow-logs.html[Logging IP traffic using VPC Flow Logs,type="documentation"] in the Amazon VPC User Guide.
 * You can access the Amazon EKS APIs from an on-premises data center by connecting it to a VPC that has an interface endpoint. You can use {aws} Direct Connect or {aws} Site-to-Site VPN to connect your on-premises sites to a VPC.
 * You can connect other VPCs to the VPC with an interface endpoint using an {aws} Transit Gateway or VPC peering. VPC peering is a networking connection between two VPCs. You can establish a  VPC peering connection between your VPCs, or with a VPC in another account. The VPCs can be in different {aws} Regions. Traffic between peered VPCs stays on the {aws} network. The traffic doesn't traverse the public internet. A Transit Gateway is a network transit hub that you can use to interconnect VPCs. Traffic between a VPC and a Transit Gateway remains on the {aws} global private network. The traffic isn't exposed to the public internet.
-* Before August 2024, VPC interface endpoints for Amazon EKS were only accessible over `IPv4` using `eks.[.replaceable]``region``.amazonaws.com`. New VPC interface endpoints that are made after August 2024 use dual-stack of `IPv4` and `IPv6` IP addresses and both DNS names: `eks.[.replaceable]``region``.amazonaws.com``` and `eks.[.replaceable]``region``.api.aws```.
+* Before August 2024, VPC interface endpoints for Amazon EKS were only accessible over `IPv4` using `eks.[.replaceable]``region``.amazonaws.com`. New VPC interface endpoints that are made after August 2024 use dual-stack of `IPv4` and `IPv6` IP addresses and both DNS names: `eks.[.replaceable]``region``.amazonaws.com` and `eks.[.replaceable]``region``.api.aws`.
 * {aws} PrivateLink support for the EKS API isn't available in the Asia Pacific (Malaysia) {aws} Region. {aws} PrivateLink support for `eks-auth` for EKS Pod Identity is available in the Asia Pacific (Malaysia) {aws} Region. 
 
 
@@ -97,12 +97,12 @@ Create an interface endpoint for Amazon EKS using the following service names:
 
 
 * 
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 com.amazonaws.region-code.eks
 ----
 * 
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 com.amazonaws.region-code.eks-auth
 ----

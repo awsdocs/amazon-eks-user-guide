@@ -20,20 +20,20 @@ To learn more about [.noloc]`Kubernetes` services, see https://kubernetes.io/doc
 
 . Deploy `cert-manager` to manage webhook certificates. For more information, see the https://cert-manager.io/docs/[cert-manager] documentation.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
 ----
 . Verify that the `cert-manager` [.noloc]`Pods` are running.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n cert-manager
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME                                       READY   STATUS    RESTARTS   AGE
 cert-manager-58c8844bb8-nlx7q              1/1     Running   0          15s
@@ -42,14 +42,14 @@ cert-manager-webhook-67cc76975b-4v4nk      1/1     Running   0          14s
 ----
 . Review your existing services to ensure that none of them have external IP addresses assigned to them that aren't contained within the CIDR block you want to limit addresses to.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get services -A
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAMESPACE                      NAME                                    TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)         AGE
 cert-manager                   cert-manager                            ClusterIP      10.100.102.137   <none>          9402/TCP        20m
@@ -63,13 +63,13 @@ my-namespace                   my-service                              ClusterIP
 If any of the values are IP addresses that are not within the block you want to restrict access to, you'll need to change the addresses to be within the block, and redeploy the services. For example, the `my-service` service in the previous output has an external IP address assigned to it that isn't within the CIDR block example in step 5. 
 . Download the external IP webhook manifest. You can also view the https://github.com/kubernetes-sigs/externalip-webhook[source code for the webhook] on [.noloc]`GitHub`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/docs/externalip-webhook.yaml
 ----
 . Specify CIDR blocks. Open the downloaded file in your editor and remove the `\#` at the start of the following lines.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 #args:
 #- --allowed-external-ip-cidrs=10.0.0.0/8
@@ -78,7 +78,7 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/docs/externalip-webhook.ya
 Replace `10.0.0.0/8` with your own CIDR block. You can specify as many blocks as you like. If specifying mutiple blocks, add a comma between blocks.
 . If your cluster is not in the `us-west-2` {aws} Region, then replace `us-west-2`, `602401143452`, and `amazonaws.com` in the file with the following commands. Before running the commands, replace [.replaceable]`region-code` and [.replaceable]`111122223333` with the value for your {aws} Region from the list in <<add-ons-images,View Amazon container image registries for Amazon EKS add-ons>>.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 sed -i.bak -e 's|602401143452|111122223333|' externalip-webhook.yaml
 sed -i.bak -e 's|us-west-2|region-code|' externalip-webhook.yaml
@@ -86,7 +86,7 @@ sed -i.bak -e 's|amazonaws.com||' externalip-webhook.yaml
 ----
 . Apply the manifest to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f externalip-webhook.yaml
 ----

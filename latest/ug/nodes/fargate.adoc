@@ -63,7 +63,7 @@ Using Amazon EKS doesn't change your responsibilities under the <<security,share
 +
 To automatically delete the related [.noloc]`Pods` after a [.noloc]`Job` completes or fails, you can specify a time period using the time-to-live (TTL) controller. The following example shows specifying `.spec.ttlSecondsAfterFinished` in your [.noloc]`Job` manifest.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: batch/v1
 kind: Job

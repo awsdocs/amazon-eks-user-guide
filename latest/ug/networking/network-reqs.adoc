@@ -106,7 +106,7 @@ The   link:vpc/latest/userguide/configure-subnets.html#subnet-types[subnets,type
 
 The following table contains the IP address family used by each component of Amazon EKS. You can use a network address translation (NAT) or other compatibility system to connect to these components from source IP addresses in families with the [.noloc]`"No"` value for a table entry.
 
-Functionality can differ depending on the [.noloc]`IP family` (`ipFamily`) setting of the cluster. This setting changes the type of IP addresses used for the [.noloc]`CIDR` block that [.noloc]`Kubernetes` assigns to [.noloc]`Services`. A cluster with the setting value of [.noloc]`IPv4` is referred to as an [.noloc]`_IPv4 cluster_`, and a cluster with the setting value of [.noloc]`IPv6` is referred to as an [.noloc]`_IPv6 cluster_`.
+Functionality can differ depending on the [.noloc]`IP family` (`ipFamily`) setting of the cluster. This setting changes the type of IP addresses used for the [.noloc]`CIDR` block that [.noloc]`Kubernetes` assigns to [.noloc]`Services`. A cluster with the setting value of [.noloc]`IPv4` is referred to as an _IPv4 cluster_, and a cluster with the setting value of [.noloc]`IPv6` is referred to as an _IPv6 cluster_.
 
 [cols="1,1,1,1", options="header"]
 |===
@@ -285,6 +285,6 @@ You can use  _VPC sharing_ to share subnets with other {aws} accounts within the
 ** Cluster IAM role and Node IAM roles must be created in that account. For more information, see <<cluster-iam-role>> and <<create-node-role>>.
 ** All nodes must be made by the same participant, including managed node groups.
 * The shared VPC owner cannot view, update or delete a cluster that a participant creates in the shared subnet. This is in addition to the VPC resources that each account has different access to. For more information, see  link:vpc/latest/userguide/vpc-sharing.html#vpc-share-limitations[Responsibilities and permissions for owners and participants,type="documentation"] in the _Amazon VPC User Guide_.
-* If you use the _custom networking_ feature of the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`, you need to use the Availability Zone ID mappings listed in the owner account to create each `ENIConfig`. For more information, see <<cni-custom-network>>.
+* If you use the _custom networking_ feature of the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, you need to use the Availability Zone ID mappings listed in the owner account to create each `ENIConfig`. For more information, see <<cni-custom-network>>.
 
 For more information about VPC subnet sharing, see   link:vpc/latest/userguide/vpc-sharing.html#vpc-share-limitations[Share your VPC with other accounts,type="documentation"] in the _Amazon VPC User Guide_.

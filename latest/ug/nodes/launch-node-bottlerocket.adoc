@@ -39,7 +39,7 @@ For information about in-place upgrades, see https://github.com/bottlerocket-os/
 
 This procedure requires `eksctl` version `{eksctl-min-version}` or later. You can check your version with the following command:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl version
 ----
@@ -52,7 +52,7 @@ If specifying an Arm Amazon EC2 instance type, then review the considerations in
 +
 IMPORTANT: To deploy a node group to {aws} Outposts, {aws} Wavelength, or {aws} Local Zone subnets, don't pass {aws} Outposts, {aws} Wavelength, or {aws} Local Zone subnets when you create the cluster. You must specify the subnets in the following example. For more information see https://eksctl.io/usage/nodegroups/#creating-a-nodegroup-from-a-config-file[Create a nodegroup from a config file] and https://eksctl.io/usage/schema/[Config file schema] in the `eksctl` documentation. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 cat >bottlerocket.yaml <<EOF
 ---
@@ -86,7 +86,7 @@ EOF
 ----
 . Deploy your nodes with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup --config-file=bottlerocket.yaml
 ----
@@ -95,21 +95,21 @@ An example output is as follows.
 +
 Several lines are output while the nodes are created. One of the last lines of output is the following example line.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [✔]  created 1 nodegroup(s) in cluster "my-cluster"
 ----
 . (Optional) Create a [.noloc]`Kubernetes` https://kubernetes.io/docs/concepts/storage/persistent-volumes/[persistent volume] on a [.noloc]`Bottlerocket` node using the https://github.com/kubernetes-sigs/aws-ebs-csi-driver[Amazon EBS CSI Plugin]. The default Amazon EBS driver relies on file system tools that aren't included with [.noloc]`Bottlerocket`. For more information about creating a storage class using the driver, see <<ebs-csi>>.
 . (Optional) By default, `kube-proxy` sets the `nf_conntrack_max` kernel parameter to a default value that may differ from what [.noloc]`Bottlerocket` originally sets at boot. To keep [.noloc]`Bottlerocket`'s https://github.com/bottlerocket-os/bottlerocket/blob/develop/packages/release/release-sysctl.conf[default setting], edit the `kube-proxy` configuration with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl edit -n kube-system daemonset kube-proxy
 ----
 +
 Add `--conntrack-max-per-core` and `--conntrack-min` to the `kube-proxy` arguments that are in the following example. A setting of `0` implies no change.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
       containers:
       - command:

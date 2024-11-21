@@ -62,7 +62,7 @@ If the subnet role tags aren't explicitly added, the [.noloc]`Kubernetes` servic
 
 * The https://github.com/kubernetes-sigs/aws-load-balancer-controller[{aws} Load Balancer Controller] creates ALBs and the necessary supporting {aws} resources whenever a [.noloc]`Kubernetes` ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation. The ingress resource configures the ALB to route HTTP or HTTPS traffic to different [.noloc]`Pods` within the cluster. To ensure that your ingress objects use the [.noloc]`{aws} Load Balancer Controller`, add the following annotation to your [.noloc]`Kubernetes` ingress specification. For more information, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/ingress/spec/[Ingress specification] on [.noloc]`GitHub`.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 annotations:
     kubernetes.io/ingress.class: alb
@@ -70,7 +70,7 @@ annotations:
 +
 NOTE: If you're load balancing to `IPv6` [.noloc]`Pods`, add the following annotation to your ingress spec. You can only load balance over `IPv6` to IP targets, not instance targets. Without this annotation, load balancing is over `IPv4`.
 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 alb.ingress.kubernetes.io/ip-address-type: dualstack
 ----
@@ -92,7 +92,7 @@ You can share an application load balancer across multiple service resources usi
 
 To join an ingress to a group, add the following annotation to a [.noloc]`Kubernetes` ingress resource specification.  
 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 alb.ingress.kubernetes.io/group.name: my-group
 ----
@@ -118,7 +118,7 @@ Specify an ingress group for an ingress only when all the [.noloc]`Kubernetes` u
 
 You can add an order number of your ingress resource.
 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 alb.ingress.kubernetes.io/group.order: '10'
 ----
@@ -142,7 +142,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
 
 . If you're not deploying to Fargate, skip this step. If you're deploying to Fargate, create a Fargate profile. You can create the profile by running the following command or in the <<create-fargate-profile,{aws-management-console}>> using the same values for `name` and `namespace` that are in the command. Replace the [.replaceable]`example values` with your own.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create fargateprofile \
     --cluster my-cluster \
@@ -157,7 +157,7 @@ eksctl create fargateprofile \
 *** *Public*::
 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/examples/2048/2048_full.yaml
 ----
@@ -166,7 +166,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-bala
 +
 .... Download the manifest.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/examples/2048/2048_full.yaml
 ----
@@ -174,7 +174,7 @@ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-cont
 .... Change [.replaceable]`internet-facing` to `internal` and save the file.
 .... Apply the manifest to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f 2048_full.yaml
 ----
@@ -182,34 +182,34 @@ kubectl apply -f 2048_full.yaml
 +
 ... Download the manifest.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/examples/2048/2048_full.yaml
 ----
 ... Open the file in an editor and add the following line to the annotations in the ingress spec.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 alb.ingress.kubernetes.io/ip-address-type: dualstack
 ----
-... If you're load balancing to internal [.noloc]`Pods`, rather than internet facing [.noloc]`Pods`, change the line that says `alb.ingress.kubernetes.io/scheme: [.replaceable]`internet-facing`` to `alb.ingress.kubernetes.io/scheme: ` `internal```
+... If you're load balancing to internal [.noloc]`Pods`, rather than internet facing [.noloc]`Pods`, change the line that says `alb.ingress.kubernetes.io/scheme: [.replaceable]``internet-facing``` to `alb.ingress.kubernetes.io/scheme: internal`
 ... Save the file.
 ... Apply the manifest to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f 2048_full.yaml
 ----
 . After a few minutes, verify that the ingress resource was created with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get ingress/ingress-2048 -n game-2048
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME           CLASS    HOSTS   ADDRESS                                                                   PORTS   AGE
 ingress-2048   <none>   *       k8s-game2048-ingress2-xxxxxxxxxx-yyyyyyyyyy.region-code.elb.amazonaws.com   80      2m32s
@@ -219,7 +219,7 @@ NOTE: If you created the load balancer in a private subnet, the value under `ADD
 
 If your ingress wasn't successfully created after several minutes, run the following command to view the [.noloc]`{aws} Load Balancer Controller` logs. These logs might contain error messages that you can use to diagnose issues with your deployment.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl logs -f -n kube-system -l app.kubernetes.io/instance=aws-load-balancer-controller
 ----
@@ -230,13 +230,13 @@ image::images/2048.png[2048 sample application,scaledwidth=100%]
 +
 ** If you applied the manifest, rather than applying a copy that you downloaded, use the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/examples/2048/2048_full.yaml
 ----
 ** If you downloaded and edited the manifest, use the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl delete -f 2048_full.yaml
 ----

@@ -49,7 +49,7 @@ The version that you update to can’t be greater than the control plane’s ver
 
 Update a managed node group to the latest AMI release of the same [.noloc]`Kubernetes` version that's currently deployed on the nodes with the following command. Replace every [.replaceable]`example value` with your own values.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl upgrade nodegroup \
   --name=node-group-name \
@@ -57,13 +57,13 @@ eksctl upgrade nodegroup \
   --region=region-code
 ----
 
-NOTE: If you're upgrading a node group that's deployed with a launch template to a new launch template version, add `--launch-template-version [.replaceable]`version-number`` to the preceding command. The launch template must meet the requirements described in <<launch-templates,Customize managed nodes with launch templates>>. If the launch template includes a custom AMI, the AMI must meet the requirements in <<launch-template-custom-ami,Specifying an AMI>>. When you upgrade your node group to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version that's specified.
+NOTE: If you're upgrading a node group that's deployed with a launch template to a new launch template version, add `--launch-template-version [.replaceable]``version-number``` to the preceding command. The launch template must meet the requirements described in <<launch-templates,Customize managed nodes with launch templates>>. If the launch template includes a custom AMI, the AMI must meet the requirements in <<launch-template-custom-ami,Specifying an AMI>>. When you upgrade your node group to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version that's specified.
 
 You can't directly upgrade a node group that's deployed without a launch template to a new launch template version. Instead, you must deploy a new node group using the launch template to update the node group to a new launch template version.
 
 You can upgrade a node group to the same version as the control plane's [.noloc]`Kubernetes` version. For example, if you have a cluster running [.noloc]`Kubernetes` `1.29`, you can upgrade nodes currently running [.noloc]`Kubernetes` `1.28` to version `1.29` with the following command.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl upgrade nodegroup \
   --name=node-group-name \

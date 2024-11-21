@@ -111,7 +111,7 @@ Now, we're ready to create our Amazon EKS cluster. This process takes several mi
 
 . Create the Amazon EKS cluster and specify the cluster-config.yaml.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create cluster -f cluster-config.yaml
 ----
@@ -119,10 +119,11 @@ eksctl create cluster -f cluster-config.yaml
 NOTE: If you receive an `Error: checking STS access` in the response, make sure that you're using the correct user identity for the current shell session. You may also need to specify a named profile (for example, `--profile clusteradmin`) or get a new security token for the {aws} CLI.
 +
 Upon completion, you should see the following response output:
+// Not using subs="quotes" with "[.replaceable]`region-code`" because the double quotes interfere with the replaceable rendering.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
-2024-07-04 21:47:53 [✔]  EKS cluster "web-quickstart" in "[.replaceable]`region-code`" region is ready
+2024-07-04 21:47:53 [✔]  EKS cluster "web-quickstart" in "region-code" region is ready
 ----
 
 
@@ -141,7 +142,7 @@ export CLUSTER_REGION=[.replaceable]`region-code`
 ----
 . Set the `CLUSTER_VPC` environment variable for your Amazon EKS cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 export CLUSTER_VPC=$(aws eks describe-cluster --name web-quickstart --region $CLUSTER_REGION --query "cluster.resourcesVpcConfig.vpcId" --output text)
 ----
@@ -152,19 +153,19 @@ The {aws} Load Balancer Controller (LBC) leverages Custom Resource Definitions (
 
 . Use https://helm.sh/docs/intro/install/[Helm] to add the Amazon EKS chart repository to Helm.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm repo add eks https://aws.github.io/eks-charts
 ----
 . Update the repositories to ensure Helm is aware of the latest versions of the charts:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm repo update eks
 ----
 . Run the following https://helm.sh/docs/intro/install/[Helm] command to simultaneously install the Custom Resource Definitions (CRDs) and the main controller for the {aws} Load Balancer Controller ({aws} LBC). To skip the CRD installation, pass the `--skip-crds` flag, which might be useful if the CRDs are already installed, if specific version compatibility is required, or in environments with strict access control and customization needs.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
     --namespace kube-system \
@@ -177,7 +178,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 +
 You should see the following response output:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME: aws-load-balancer-controller
 LAST DEPLOYED: Wed July 3 19:43:12 2024
@@ -197,27 +198,27 @@ Now that the load balancer is set up, it's time to enable external access for co
 
 . Create a Kubernetes namespace called `game-2048` with the `--save-config` flag.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl create namespace game-2048 --save-config
 ----
 +
 You should see the following response output:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 namespace/game-2048 created
 ----
 . Deploy the https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.8.0/docs/examples/2048/2048_full.yaml[2048 Game Sample application].
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -n game-2048 -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.8.0/docs/examples/2048/2048_full.yaml
 ----
 +
 This manifest sets up a Kubernetes Deployment, Service, and Ingress for the `game-2048` namespace, creating the necessary resources to deploy and expose the `game-2048` application within the cluster. It includes the creation of a service named `service-2048` that exposes the deployment on port `80`, and an Ingress resource named `ingress-2048` that defines routing rules for incoming HTTP traffic and annotations for an internet-facing Application Load Balancer (ALB). You should see the following response output: 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 namespace/game-2048 configured
 deployment.apps/deployment-2048 created
@@ -226,7 +227,7 @@ ingress.networking.k8s.io/ingress-2048 created
 ----
 . Run the following command to get the Ingress resource for the `game-2048` namespace.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get ingress -n game-2048
 ----
@@ -259,13 +260,13 @@ Now that the 2048 game is up and running on your Amazon EKS cluster, it's time t
 
 . Create a https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/examples/kubernetes/dynamic-provisioning/manifests/storageclass.yaml[Storage Class] for the EBS CSI Driver:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -n game-2048 -f https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/master/examples/kubernetes/dynamic-provisioning/manifests/storageclass.yaml
 ----
 . Create a Persistent Volume Claim (PVC) to request storage for your game data. Create a file named `ebs-pvc.yaml` and add the following content to it:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -281,20 +282,20 @@ spec:
 ----
 . Apply the PVC to your cluster:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f ebs-pvc.yaml
 ----
 +
 You should see the following response output:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 persistentvolumeclaim/game-data-pvc created
 ----
 . Now, you need to update your 2048 game deployment to use this PVC for storing data. The following deployment is configured to use the PVC for storing game data. Create a file named `ebs-deployment.yaml` and add the following contents to it:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 apiVersion: apps/v1
 kind: Deployment
@@ -327,14 +328,14 @@ spec:
 ----
 . Apply the updated deployment:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f ebs-deployment.yaml
 ----
 +
 You should see the following response output:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 deployment.apps/deployment-2048 configured
 ----
@@ -348,14 +349,14 @@ If you liked this tutorial, let us know by providing feedback so we're able to p
 
 After you've finished with the cluster and nodes that you created for this tutorial, you should clean up by deleting the cluster and nodes with the following command. If you want to do more with this cluster before you clean up, see <<quickstart-next-steps,Next steps>>.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl delete cluster -f ./cluster-config.yaml
 ----
 
 Upon completion, you should see the following response output:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 2024-07-05 17:26:44 [✔] all cluster resources were deleted
 ----

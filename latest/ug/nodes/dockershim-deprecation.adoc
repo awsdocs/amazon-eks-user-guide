@@ -58,7 +58,7 @@ You can enable the boostrap flag by creating one of the following types of node 
 *Self-managed*::
 Create the node group using the instructions in <<launch-workers,Create self-managed Amazon Linux nodes>>. Specify an Amazon EKS optimized AMI and the following text for the `BootstrapArguments` parameter.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 --container-runtime containerd
 ----
@@ -67,7 +67,7 @@ Create the node group using the instructions in <<launch-workers,Create self-man
 *Managed*::
 If you use `eksctl`, create a file named `my-nodegroup.yaml` with the following contents. Replace every [.replaceable]`example value` with your own values. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters. To retrieve an optimized AMI ID for `ami-[.replaceable]``1234567890abcdef0```, see <<retrieve-ami-id>>.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -87,14 +87,14 @@ NOTE: If you launch many nodes simultaneously, you may also want to specify valu
 +
 Run the following command to create the node group.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup -f my-nodegroup.yaml
 ----
 +
 If you prefer to use a different tool to create your managed node group, you must deploy the node group using a launch template. In your launch template, specify an  <<retrieve-ami-id,Amazon EKS optimized AMI ID>>, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data. This user data passes arguments into the `bootstrap.sh` file. For more information about the bootstrap file, see https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] on [.noloc]`GitHub`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 /etc/eks/bootstrap.sh my-cluster --container-runtime containerd
 ----

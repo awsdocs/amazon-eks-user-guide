@@ -55,25 +55,25 @@ These steps shows how to generate a serving certificate for DNS name `myserver.d
 
 . Run the `openssl genrsa -out myserver.key 2048` command to generate an RSA private key.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 openssl genrsa -out myserver.key 2048
 ----
 . Run the following command to generate a certificate request.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 openssl req -new -key myserver.key -out myserver.csr -subj "/CN=myserver.default.svc"
 ----
 . Generate a `base64` value for the CSR request and store it in a variable for use in a later step.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 base_64=$(cat myserver.csr | base64 -w 0 | tr -d "\n")
 ----
 . Run the following command to create a file named `mycsr.yaml`. In the following example, `beta.eks.amazonaws.com/app-serving` is the `signerName`.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 cat >mycsr.yaml <<EOF
 apiVersion: certificates.k8s.io/v1
@@ -91,33 +91,33 @@ EOF
 ----
 . Submit the CSR.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f mycsr.yaml
 ----
 . Approve the serving certificate.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl certificate approve myserver
 ----
 . Verify that the certificate was issued.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get csr myserver
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME       AGE     SIGNERNAME                           REQUESTOR          CONDITION
 myserver   3m20s   beta.eks.amazonaws.com/app-serving   kubernetes-admin   Approved,Issued
 ----
 . Export the issued certificate.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get csr myserver -o jsonpath='{.status.certificate}'| base64 -d > myserver.crt
 ----
@@ -132,14 +132,14 @@ Before upgrading your cluster to `1.24`, determine whether your cluster has cert
 
 . Run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get csr -A
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME        AGE   SIGNERNAME                      REQUESTOR                                                  REQUESTEDDURATION   CONDITION
 csr-7znmf   90m   kubernetes.io/kubelet-serving   system:node:ip-192-168-42-149.region.compute.internal      <none>              Approved
@@ -149,7 +149,7 @@ csr-9xx5q   90m   kubernetes.io/kubelet-serving   system:node:ip-192-168-65-38.r
 If the returned output shows a CSR with a https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#kubernetes-signers[kubernetes.io/kubelet-serving] signer that's `Approved` but not `Issued` for a node, then you need to approve the request.
 . Manually approve the CSR. Replace `csr-[.replaceable]``7znmf``` with your own value.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl certificate approve csr-7znmf
 ----
@@ -209,7 +209,7 @@ Run the command for the type of resource that you want to see. All returned reso
 +
 The following command returns all of the Amazon EKS created [.noloc]`Kubernetes` `ClusterRoles` on your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get clusterroles | grep eks
 ----
@@ -222,14 +222,14 @@ In addition to the `ClusterRoles` returned in the output that are prefaced with,
 +
 To see the specification for a `ClusterRole`, replace [.replaceable]`eks:k8s-metrics` in the following command with a `ClusterRole` returned in the output of the previous command. The following example returns the specification for the [.replaceable]`eks:k8s-metrics` `ClusterRole`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe clusterrole eks:k8s-metrics
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Name:         eks:k8s-metrics
 Labels:       <none>
@@ -248,7 +248,7 @@ PolicyRule:
 +
 The following command returns all of the Amazon EKS created [.noloc]`Kubernetes` `ClusterRoleBindings` on your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get clusterrolebindings | grep eks
 ----
@@ -261,14 +261,14 @@ In addition to the `ClusterRoleBindings` returned in the output, the following `
 +
 To see the specification for a `ClusterRoleBinding`, replace [.replaceable]`eks:k8s-metrics` in the following command with a `ClusterRoleBinding` returned in the output of the previous command. The following example returns the specification for the [.replaceable]`eks:k8s-metrics` `ClusterRoleBinding`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe clusterrolebinding eks:k8s-metrics
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Name:         eks:k8s-metrics
 Labels:       <none>
@@ -286,21 +286,21 @@ Subjects:
 +
 The following command returns all of the Amazon EKS created [.noloc]`Kubernetes` `Roles` on your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get roles -n kube-system | grep eks
 ----
 +
 To see the specification for a `Role`, replace [.replaceable]`eks:k8s-metrics` in the following command with the name of a `Role` returned in the output of the previous command. The following example returns the specification for the [.replaceable]`eks:k8s-metrics` `Role`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe role eks:k8s-metrics -n kube-system
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Name:         eks:k8s-metrics
 Labels:       <none>
@@ -316,21 +316,21 @@ PolicyRule:
 +
 The following command returns all of the Amazon EKS created [.noloc]`Kubernetes` `RoleBindings` on your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get rolebindings -n kube-system | grep eks
 ----
 +
-To see the specification for a `RoleBinding`, replace [.replaceable]`eks:k8s-metrics` in the following command with a `RoleBinding` returned in the output of the previous command. The following example returns the specification for the [.replaceable]`eks:k8s-metrics```RoleBinding``.
+To see the specification for a `RoleBinding`, replace [.replaceable]`eks:k8s-metrics` in the following command with a `RoleBinding` returned in the output of the previous command. The following example returns the specification for the [.replaceable]`eks:k8s-metrics` `RoleBinding`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe rolebinding eks:k8s-metrics -n kube-system
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Name:         eks:k8s-metrics
 Labels:       <none>
@@ -377,14 +377,14 @@ This policy was created to maintain backwards compatibility with clusters that d
 
 You can view the default policy with the following command.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get psp eks.privileged
 ----
 
 An example output is as follows.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME             PRIV   CAPS   SELINUX    RUNASUSER   FSGROUP    SUPGROUP   READONLYROOTFS   VOLUMES
 eks.privileged   true   *      RunAsAny   RunAsAny    RunAsAny   RunAsAny   false            *
@@ -392,14 +392,14 @@ eks.privileged   true   *      RunAsAny   RunAsAny    RunAsAny   RunAsAny   fals
 
 For more details, you can describe the policy with the following command.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe psp eks.privileged
 ----
 
 An example output is as follows.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Name:  eks.privileged
 
@@ -444,7 +444,7 @@ If you are using version `1.7.0` or later of the CNI plugin and you assign a cus
 . Create a file named [.replaceable]`privileged-podsecuritypolicy.yaml` with the contents in the example file in <<psp-install-or-restore-default,Install or restore the default Pod security policy>>.
 . Delete the YAML with the following command. This deletes the default [.noloc]`Pod` security policy, the `ClusterRole`, and the `ClusterRoleBinding` associated with it.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl delete -f privileged-podsecuritypolicy.yaml
 ----
@@ -457,7 +457,7 @@ If you are upgrading from an earlier version of [.noloc]`Kubernetes`, or have mo
 
 . Create a file called `privileged-podsecuritypolicy.yaml` with the following contents.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
@@ -532,7 +532,7 @@ subjects:
 ----
 . Apply the YAML with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f privileged-podsecuritypolicy.yaml
 ----
@@ -573,14 +573,14 @@ This is an upstream change in the [.noloc]`Kubernetes` project, and not a change
 
 To check if you're using [.noloc]`PSPs` in your cluster, you can run the following command:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get psp
 ----
 
 To see the [.noloc]`Pods` that the [.noloc]`PSPs` in your cluster are impacting, run the following command. This command outputs the [.noloc]`Pod` name, namespace, and [.noloc]`PSPs`:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pod -A -o jsonpath='{range.items[?(@.metadata.annotations.kubernetes\.io/psp)]}{.metadata.name}{"\t"}{.metadata.namespace}{"\t"}{.metadata.annotations.kubernetes\.io/psp}{"\n"}'
 ----
@@ -684,7 +684,7 @@ You can enable encryption in two ways:
 +
 To automatically re-encrypt your secrets, run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl utils enable-secrets-encryption \
     --cluster my-cluster \
@@ -693,7 +693,7 @@ eksctl utils enable-secrets-encryption \
 +
 To opt-out of automatically re-encrypting your secrets, run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl utils enable-secrets-encryption 
     --cluster my-cluster \
@@ -702,7 +702,7 @@ eksctl utils enable-secrets-encryption
 ----
 ** Add encryption to your cluster with a ``kms-cluster.yaml`` file.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -717,14 +717,14 @@ secretsEncryption:
 +
 To have your secrets re-encrypt automatically, run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl utils enable-secrets-encryption -f kms-cluster.yaml
 ----
 +
 To opt out of automatically re-encrypting your secrets, run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl utils enable-secrets-encryption -f kms-cluster.yaml --encrypt-existing-secrets=false
 ----
@@ -742,7 +742,7 @@ eksctl utils enable-secrets-encryption -f kms-cluster.yaml --encrypt-existing-se
 {aws} CLI::
 .. Associate the https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] configuration with your cluster using the following {aws} CLI command. Replace the [.replaceable]`example values` with your own.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks associate-encryption-config \
     --cluster-name my-cluster \
@@ -751,7 +751,7 @@ aws eks associate-encryption-config \
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "update": {
@@ -771,7 +771,7 @@ An example output is as follows.
 ----
 .. You can monitor the status of your encryption update with the following command. Use the specific `cluster name` and `update ID` that was returned in the previous output. When a `Successful` status is displayed, the update is complete.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-update \
     --region region-code \
@@ -781,7 +781,7 @@ aws eks describe-update \
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "update": {
@@ -801,7 +801,7 @@ An example output is as follows.
 ----
 .. To verify that encryption is enabled in your cluster, run the `describe-cluster` command. The response contains an `EncryptionConfig` string. 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --region region-code --name my-cluster
 ----
@@ -815,7 +815,7 @@ If you use `eksctl`, running the following command is necessary only if you opt 
 
 ====
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get secrets --all-namespaces -o json | kubectl annotate --overwrite -f - kms-encryption-timestamp="time value"
 ----

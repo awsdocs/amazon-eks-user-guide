@@ -35,7 +35,7 @@ For existing node groups that were created with `eksctl` or the Amazon EKS manag
 
 You can check for a security group for your cluster in the {aws-management-console} under the *Networking* section for the cluster. Or, you can do this using the following {aws} CLI command. When using this command, replace [.replaceable]`my-cluster` with the name of your cluster.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ----
@@ -74,7 +74,7 @@ You can create a Fargate profile using either of these tools:
 
 This procedure requires `eksctl` version `{eksctl-min-version}` or later. You can check your version with the following command:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl version
 ----
@@ -85,7 +85,7 @@ For instructions on how to install or upgrade `eksctl`, see https://eksctl.io/in
 
 Create your Fargate profile with the following `eksctl` command, replacing every [.replaceable]`example value` with your own values. You're required to specify a namespace. However, the `--labels` option isn't required.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create fargateprofile \
     --cluster my-cluster \
@@ -142,7 +142,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then you
 +
 IMPORTANT: The role ARN can't include a  link:IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names[path,type="documentation"] other than `/`. For example, if the name of your role is `development/apps/my-role`, you need to change it to `my-role` when specifying the ARN for the role. The format of the role ARN must be `{arn-aws}iam::111122223333:role/role-name`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks create-fargate-profile \
     --fargate-profile-name coredns \
@@ -153,7 +153,7 @@ aws eks create-fargate-profile \
 ----
 . Run the following command to remove the `eks.amazonaws.com/compute-type : ec2` annotation from the [.noloc]`CoreDNS` [.noloc]`Pods`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl patch deployment coredns \
     -n kube-system \
@@ -170,7 +170,7 @@ kubectl patch deployment coredns \
 .. <<create-fargate-profile>> that matches your application's [.noloc]`Kubernetes` namespace and [.noloc]`Kubernetes` labels.
 .. Delete and re-create any existing [.noloc]`Pods` so that they're scheduled on Fargate. For example, the following command triggers a rollout of the `coredns` deployment. You can modify the namespace and deployment type to update your specific [.noloc]`Pods`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl rollout restart -n kube-system deployment coredns
 ----

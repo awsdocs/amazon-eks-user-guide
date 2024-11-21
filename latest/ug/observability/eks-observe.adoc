@@ -49,7 +49,7 @@ Amazon EKS control plane logging  provides audit and diagnostic logs directly fr
 
 When you check the Amazon EKS authenticator logs in Amazon CloudWatch, the entries are displayed that contain text similar to the following example text.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 level=info msg="mapping IAM role" groups="[]" role="{arn-aws}iam::111122223333:role/XXXXXXXXXXXXXXXXXX-NodeManagerRole-XXXXXXXX" username="eks:node-manager"
 ----

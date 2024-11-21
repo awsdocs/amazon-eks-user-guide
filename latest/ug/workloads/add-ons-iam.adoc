@@ -50,7 +50,7 @@ Before you create an add-on, use the {aws} CLI to determine:
 . Determine the name of the add-on you want to install, and the [.noloc]`Kubernetes` version of your cluster. For more information about add-ons, see <<eks-add-ons>>. 
 . Use the {aws} CLI to determine if the add-on requires IAM permissions. 
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 aws eks describe-addon-versions \
 --addon-name <addon-name> \
@@ -59,7 +59,7 @@ aws eks describe-addon-versions \
 +
 For example:
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 aws eks describe-addon-versions \
 --addon-name aws-ebs-csi-driver \
@@ -68,7 +68,7 @@ aws eks describe-addon-versions \
 +
 Review the following sample output. Note that `requiresIamPermissions` is `true`, and the default add-on version. You need to specify the add-on version when retrieving the recommended IAM policy.
 +
-[source,text,subs="verbatim,attributes,quotes"]
+[source,text,subs="verbatim,attributes"]
 ----
 {
     "addons": [
@@ -98,7 +98,7 @@ Review the following sample output. Note that `requiresIamPermissions` is `true`
 ----
 . If the add-on requires IAM permissions, use the {aws} CLI to retrieve a recommended IAM policy. 
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 aws eks describe-addon-configuration \
 --query podIdentityConfiguration \
@@ -108,7 +108,7 @@ aws eks describe-addon-configuration \
 +
 For example:
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 aws eks describe-addon-configuration \
 --query podIdentityConfiguration \
@@ -118,7 +118,7 @@ aws eks describe-addon-configuration \
 +
 Review the following output. Note the `recommendedManagedPolicies`.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 [
     {
@@ -188,7 +188,7 @@ Certain Amazon EKS add-ons need IAM roles and permissions. Before you add update
 ** `iam-role-arn` – The ARN of an IAM role with sufficient permissions for the add-on. The role must have the required trust policy for EKS Pod Identity. For more information see <<pod-id-association-create>>.
 . Update the add-on using the {aws} CLI. You can also specify Pod Identity associations when creating an add-on, using the same `--pod-identity-assocations` syntax. Note that when you specify pod identity associations while updating an add-on, all previous pod identity associations are overwritten. 
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 aws eks update-addon --cluster-name <cluster-name> \
 --addon-name <addon-name> \
@@ -197,7 +197,7 @@ aws eks update-addon --cluster-name <cluster-name> \
 +
 For example:
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 aws eks update-addon --cluster-name mycluster \
 --addon-name aws-ebs-csi-driver \
@@ -205,14 +205,14 @@ aws eks update-addon --cluster-name mycluster \
 ----
 . Validate the Pod Identity association was created:
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 aws eks list-pod-identity-associations --cluster-name <cluster-name>
 ----
 +
 If successful, you should see output similar to the following. Note the OwnerARN of the EKS add-on.  
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "associations": [
@@ -246,7 +246,7 @@ Remove the Pod Identity associations from an Amazon EKS add-on.
 ** `addon-name` - The name of the Amazon EKS add-on to install.
 . Update the addon to specify an empty array of pod identity associations. 
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 aws eks update-addon --cluster-name <cluster-name> \
 --addon-name <addon-name> \
@@ -274,7 +274,7 @@ If your add-ons are encountering errors while attempting {aws} API, SDK, or CLI 
 +
 ** Use the {aws} CLI to retrieve the associations for the service account name used by the add-on. 
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 aws eks list-pod-identity-associations --cluster-name <cluster-name>
 ----
@@ -282,7 +282,7 @@ aws eks list-pod-identity-associations --cluster-name <cluster-name>
 +
 ** Use the {aws} CLI to retrieve the trust policy for an add-on. 
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 aws iam get-role --role-name <role-name> --query Role.AssumeRolePolicyDocument
 ----

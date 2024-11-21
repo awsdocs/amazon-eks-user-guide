@@ -26,7 +26,7 @@ This section describes steps to diagnose Amazon EKS Connector issues.
 
 To check the Amazon EKS Connector status, type:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n eks-connector
 ----
@@ -41,21 +41,21 @@ The Amazon EKS Connector [.noloc]`Pod` consists of three containers. To retrieve
 
 * `connector-init`
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl logs eks-connector-0 --container connector-init -n eks-connector
 kubectl logs eks-connector-1 --container connector-init -n eks-connector
 ----
 * `connector-proxy`
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl logs eks-connector-0 --container connector-proxy -n eks-connector
 kubectl logs eks-connector-1 --container connector-proxy -n eks-connector
 ----
 * `connector-agent`
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl exec eks-connector-0 --container connector-agent -n eks-connector -- cat /var/log/amazon/ssm/amazon-ssm-agent.log
 kubectl exec eks-connector-1 --container connector-agent -n eks-connector -- cat /var/log/amazon/ssm/amazon-ssm-agent.log
@@ -67,7 +67,8 @@ kubectl exec eks-connector-1 --container connector-agent -n eks-connector -- cat
 
 Amazon EKS clusters are uniquely identified by `clusterName` within a single {aws} account and {aws} Region. If you have multiple connected clusters in Amazon EKS, you can confirm which Amazon EKS cluster that the current [.noloc]`Kubernetes` cluster is registered to. To do this, enter the following to find out the `clusterName` of the current cluster. 
 
-[source,bash,subs="verbatim,attributes,quotes"]
+// Not using subs="quotes" here with [.replaceable]`region-code` because the * characters get dropped.
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl exec eks-connector-0 --container connector-agent -n eks-connector \
   -- cat /var/log/amazon/ssm/amazon-ssm-agent.log | grep -m1 -oE "eks_c:[a-zA-Z0-9_-]+" | sed -E "s/^.*eks_c:([a-zA-Z0-9_-]+)_[a-zA-Z0-9]+.*$/\1/"
@@ -81,29 +82,28 @@ kubectl exec eks-connector-1 --container connector-agent -n eks-connector \
 
 The following commands are useful to retrieve information that you need to troubleshoot issues.
 
-
-
 * Use the following command to gather images that's used by [.noloc]`Pods` in Amazon EKS Connector.
+// Not using subs="quotes" here with [.replaceable]`region-code` because the * characters get dropped.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n eks-connector -o jsonpath="{.items[*].spec.containers[*].image}" | tr -s '[[:space:]]' '\n'
 ----
 * Use the following command to determine the node names that Amazon EKS Connector is running on.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n eks-connector -o jsonpath="{.items[*].spec.nodeName}" | tr -s '[[:space:]]' '\n'
 ----
 * Run the following command to get your [.noloc]`Kubernetes` client and server versions.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl version
 ----
 * Run the following command to get information about your nodes.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get nodes -o wide --show-labels
 ----
@@ -114,14 +114,14 @@ kubectl get nodes -o wide --show-labels
 
 If you received the following error when running helm install commands:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Error: INSTALLATION FAILED: unexpected status from HEAD request to https://public.ecr.aws/v2/eks-connector/eks-connector-chart/manifests/0.0.6: 403 Forbidden
 ----
 
 You can run the following line to fix it:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 docker logout public.ecr.aws
 ----
@@ -140,13 +140,13 @@ The Amazon EKS Connector uses [.noloc]`Kubernetes` https://kubernetes.io/docs/re
 
 * IAM user [.replaceable]`john` from {aws} account [.replaceable]`111122223333` is mapped to a [.noloc]`Kubernetes` user.   link:IAM/latest/UserGuide/id_users.html[IAM best practices,type="documentation"] recommend that you grant permissions to roles instead of users.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 {arn-aws}iam::111122223333:user/john
 ----
 * IAM role [.replaceable]`admin` from {aws} account [.replaceable]`111122223333` is mapped to a [.noloc]`Kubernetes` user:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 {arn-aws}iam::111122223333:role/admin
 ----
@@ -162,7 +162,7 @@ Consider the following problem. The Amazon EKS Connector has successfully impers
 
 To resolve this issue, there are two methods to give permissions to additional users. If you previously installed eks-connector via helm chart, you can easily grant users access by running the following command. Replace the `userARN1` and `userARN2` with a list of the ARNs of the IAM roles to give access to view the [.noloc]`Kubernetes` resources:
 
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 helm upgrade eks-connector oci://public.ecr.aws/eks-connector/eks-connector-chart \
     --reuse-values \
@@ -186,14 +186,14 @@ To resolve this problem, check the  <<tsc-logs,Amazon EKS Connector logs>>. If y
 
 There are many reasons that can cause an Amazon EKS connector [.noloc]`Pod` to enter the `CrashLoopBackOff` status. This issue likely involves the `connector-init` container. Check the status of the Amazon EKS connector [.noloc]`Pod`.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n eks-connector
 ----
 
 An example output is as follows.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME              READY   STATUS                  RESTARTS   AGE
 eks-connector-0   0/2     Init:CrashLoopBackOff   1          7s
@@ -206,7 +206,7 @@ If your output is similar to the previous output, see <<tsc-logs>> to troublesho
 
 When you start the Amazon EKS Connector for the first time, it registers an `activationId` and `activationCode` with Amazon Web Services. The registration might fail, which can cause the `connector-init` container to crash with an error similar to the following error.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 F1116 20:30:47.261469       1 init.go:43] failed to initiate eks-connector: InvalidActivation:
 ----
@@ -218,14 +218,14 @@ To troubleshoot this issue, consider the following causes and recommended fixes:
 * Registration might have failed because the `activationId` and `activationCode` aren't in your manifest file. If this is the case, make sure that they are the correct values that were returned from the `RegisterCluster` API operation, and that the `activationCode` is in the manifest file. The `activationCode` is added to [.noloc]`Kubernetes` secrets, so it must be `base64` encoded. For more information, see <<connector-connecting>>.
 * Registration might have failed because your activation expired. This is because, for security reasons, you must activate the Amazon EKS Connector within three days after registering the cluster. To resolve this issue, make sure that the Amazon EKS Connector manifest is applied to the target [.noloc]`Kubernetes` cluster before the expiry date and time. To confirm your activation expiry date, call the `DescribeCluster` API operation.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --name my-cluster
 ----
 +
 In the following example response, the expiry date and time is recorded as `2021-11-12T22:28:51.101000-08:00`. 
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 
 {
@@ -259,14 +259,14 @@ To work properly, the Amazon EKS Connector requires outbound connectivity to sev
 
 If you run the `get pods` command and [.noloc]`Pods` are in the `ImagePullBackOff` state, they can't work properly. If the Amazon EKS Connector [.noloc]`Pods` are in the `ImagePullBackOff` state, they can't work properly. Check the status of your Amazon EKS Connector [.noloc]`Pods`.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n eks-connector
 ----
 
 An example output is as follows.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME              READY   STATUS                  RESTARTS   AGE
 eks-connector-0   0/2     Init:ImagePullBackOff   0          4s

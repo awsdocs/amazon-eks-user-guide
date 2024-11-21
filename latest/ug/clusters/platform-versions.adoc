@@ -798,14 +798,14 @@ The following admission controllers are enabled for all `1.24` platform versions
 . Determine the *Name* of the cluster you want to check the platform version of.  
 . Run the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --name my-cluster --query cluster.platformVersion
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 "eks.10"
 ----

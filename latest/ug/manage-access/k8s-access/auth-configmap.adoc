@@ -33,14 +33,14 @@ For more information about [.noloc]`Kubernetes` role-based access control (RBAC)
 ====
 . Determine which credentials `kubectl` is using to access your cluster. On your computer, you can see which credentials `kubectl` uses with the following command. Replace [.replaceable]`~/.kube/config` with the path to your `kubeconfig` file if you don't use the default path.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 cat ~/.kube/config
 ----
 +
 An example output is as follows.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 [...]
 contexts:
@@ -54,7 +54,7 @@ current-context: admin@my-cluster.region-code.eksctl.io
 +
 In the previous example output, the credentials for a user named [.replaceable]`admin` are configured for a cluster named [.replaceable]`my-cluster`. If this is the user that created the cluster, then it already has access to your cluster. If it's not the user that created the cluster, then you need to complete the remaining steps to enable cluster access for other IAM principals.  link:IAM/latest/UserGuide/id_users.html[IAM best practices,type="documentation"] recommend that you grant permissions to roles instead of users. You can see which other principals currently have access to your cluster with the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe -n kube-system configmap/aws-auth
 ----
@@ -90,12 +90,12 @@ The previous example is a default `aws-auth` `ConfigMap`. Only the node instance
 +
 .. View your existing [.noloc]`Kubernetes` `roles` or `clusterroles`. `Roles` are scoped to a `namespace`, but `clusterroles` are scoped to the cluster. 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get roles -A
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get clusterroles
 ----
@@ -103,25 +103,25 @@ kubectl get clusterroles
 +
 Replace [.replaceable]`role-name` with a `role` name returned in the output from the previous command. Replace [.replaceable]`kube-system` with the namespace of the `role`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe role role-name -n kube-system
 ----
 +
 Replace [.replaceable]`cluster-role-name` with a `clusterrole` name returned in the output from the previous command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe clusterrole cluster-role-name
 ----
 .. View your existing [.noloc]`Kubernetes` `rolebindings` or `clusterrolebindings`. `Rolebindings` are scoped to a `namespace`, but `clusterrolebindings` are scoped to the cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get rolebindings -A
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get clusterrolebindings
 ----
@@ -129,14 +129,14 @@ kubectl get clusterrolebindings
 +
 Replace [.replaceable]`role-binding-name` with a `rolebinding` name returned in the output from the previous command. Replace [.replaceable]`kube-system` with the `namespace` of the `rolebinding`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe rolebinding role-binding-name -n kube-system
 ----
 +
 An example output is as follows.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -155,14 +155,14 @@ roleRef:
 +
 Replace [.replaceable]`cluster-role-binding-name` with a `clusterrolebinding` name returned in the output from the previous command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe clusterrolebinding cluster-role-binding-name
 ----
 +
 An example output is as follows.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -192,21 +192,21 @@ IMPORTANT: We recommend using `eksctl`, or another tool, to edit the `ConfigMap`
 +
 . View the current mappings in the `ConfigMap`. Replace [.replaceable]`my-cluster` with the name of your cluster. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl get iamidentitymapping --cluster my-cluster --region=region-code
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 ARN                                                                                             USERNAME                                GROUPS                          ACCOUNT
 {arn-aws}iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
 ----
 . Add a mapping for a role. Replace [.replaceable]`my-role` with your role name. Replace [.replaceable]`eks-console-dashboard-full-access-group` with the name of the group specified in your [.noloc]`Kubernetes` `RoleBinding` or `ClusterRoleBinding` object. Replace [.replaceable]`111122223333` with your account ID. You can replace [.replaceable]`admin` with any name you choose.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create iamidentitymapping --cluster my-cluster --region=region-code \
     --arn {arn-aws}iam::111122223333:role/my-role --username admin --group eks-console-dashboard-full-access-group \
@@ -224,7 +224,7 @@ An example output is as follows.
 ----
 . Add a mapping for a user.  link:IAM/latest/UserGuide/id_users.html[IAM best practices,type="documentation"] recommend that you grant permissions to roles instead of users. Replace [.replaceable]`my-user` with your user name. Replace [.replaceable]`eks-console-dashboard-restricted-access-group` with the name of the group specified in your [.noloc]`Kubernetes` `RoleBinding` or `ClusterRoleBinding` object. Replace [.replaceable]`111122223333` with your account ID. You can replace [.replaceable]`my-user` with any name you choose.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create iamidentitymapping --cluster my-cluster --region=region-code \
     --arn {arn-aws}iam::111122223333:user/my-user --username my-user --group eks-console-dashboard-restricted-access-group \
@@ -233,21 +233,21 @@ eksctl create iamidentitymapping --cluster my-cluster --region=region-code \
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [...]
 2022-05-09 14:53:48 [ℹ]  adding identity "{arn-aws}iam::111122223333:user/my-user" to auth ConfigMap
 ----
 . View the mappings in the `ConfigMap` again.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl get iamidentitymapping --cluster my-cluster --region=region-code
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 ARN                                                                                             USERNAME                                GROUPS                                  ACCOUNT
 {arn-aws}iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
@@ -259,7 +259,7 @@ ARN                                                                             
 === Edit Configmap manually
 . Open the `ConfigMap` for editing.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl edit -n kube-system configmap/aws-auth
 ----
@@ -285,7 +285,7 @@ NOTE: If you receive an error stating "``Error from server (NotFound): configmap
 +
 Add or remove lines as necessary and replace all [.replaceable]`example values` with your own values.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 # Please edit the object below. Lines beginning with a '#' will be ignored,
 # and an empty file will abort the edit. If an error occurs while saving this file will be
@@ -323,7 +323,7 @@ The `aws-auth` `ConfigMap` is automatically created and applied to your cluster 
 
 . Check to see if you've already applied the `aws-auth` `ConfigMap`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe configmap -n kube-system aws-auth
 ----
@@ -333,13 +333,13 @@ If you receive an error stating "``Error from server (NotFound): configmaps "aws
 +
 .. Download the configuration map.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
 ----
 .. In the ``aws-auth-cm.yaml`` file, set the `rolearn` to the Amazon Resource Name (ARN) of the IAM role associated with your nodes. You can do this with a text editor, or by replacing [.replaceable]`my-node-instance-role` and running the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 sed -i.bak -e 's|<ARN of instance role (not instance profile)>|my-node-instance-role|' aws-auth-cm.yaml
 ----
@@ -354,7 +354,7 @@ You can inspect the {aws} CloudFormation stack outputs for your node groups and 
 *** *NodeInstanceRole* – For node groups that were created with Amazon EKS vended {aws} CloudFormation templates in the {aws-management-console}
 .. Apply the configuration. This command may take a few minutes to finish.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f aws-auth-cm.yaml
 ----
@@ -362,7 +362,7 @@ kubectl apply -f aws-auth-cm.yaml
 NOTE: If you receive any authorization or resource type errors, see <<unauthorized>> in the troubleshooting topic.
 . Watch the status of your nodes and wait for them to reach the `Ready` status.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get nodes --watch
 ----

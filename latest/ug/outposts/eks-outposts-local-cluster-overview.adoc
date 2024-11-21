@@ -89,7 +89,7 @@ You could also use the link:cli/latest/reference/eks/create-cluster.html[{aws} C
 * Replace [.replaceable]`uniqueid` with the ID of your Outpost.
 * Replace [.replaceable]`m5.large` with an instance type available on your Outpost. Before choosing an instance type, see <<eks-outposts-capacity-considerations>>. Three control plane instances are deployed. You can't change this number.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 cat >outpost-control-plane.yaml <<EOF
 apiVersion: eksctl.io/v1alpha5
@@ -118,14 +118,14 @@ EOF
 For a complete list of all available options and defaults, see https://eksctl.io/usage/outposts/[{aws} Outposts Support] and https://eksctl.io/usage/schema/[Config file schema] in the `eksctl` documentation.
 . Create the cluster using the configuration file that you created in the previous step. `eksctl` creates a VPC and one subnet on your Outpost to deploy the cluster in.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create cluster -f outpost-control-plane.yaml
 ----
 +
 Cluster provisioning takes several minutes. While the cluster is being created, several lines of output appear. The last line of output is similar to the following example line.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [✓]  EKS cluster "my-cluster" in "region-code" region is ready
 ----
@@ -145,7 +145,7 @@ The `eksctl` command automatically created an <<access-entries,access entry>> fo
 . If you already have a local cluster IAM role, or you're going to create your cluster with `eksctl`, then you can skip this step. By default, `eksctl` creates a role for you.
 .. Run the following command to create an IAM trust policy JSON file. 
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 cat >eks-local-cluster-role-trust-policy.json <<EOF
 {
@@ -164,13 +164,13 @@ EOF
 ----
 .. Create the Amazon EKS cluster IAM role. To create an IAM role, the  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that is creating the role must be assigned the `iam:CreateRole` action (permission).
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-role --role-name myAmazonEKSLocalClusterRole --assume-role-policy-document file://"eks-local-cluster-role-trust-policy.json"
 ----
 .. Attach the Amazon EKS managed policy named link:aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html[AmazonEKSLocalOutpostClusterPolicy,type="documentation"] to the role. To attach an IAM policy to an  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"], the principal that is attaching the policy must be assigned one of the following IAM actions (permissions): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy --policy-arn {arn-aws}iam::aws:policy/AmazonEKSLocalOutpostClusterPolicy --role-name myAmazonEKSLocalClusterRole
 ----
@@ -210,14 +210,14 @@ Cluster provisioning takes several minutes.
 
 . After your cluster is created, you can view the Amazon EC2 control plane instances that were created.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws ec2 describe-instances --query 'Reservations[*].Instances[*].{Name:Tags[?Key==`Name`]|[0].Value}' | grep my-cluster-control-plane
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 "Name": "my-cluster-control-plane-id1"
 "Name": "my-cluster-control-plane-id2"
@@ -227,14 +227,14 @@ An example output is as follows.
 Each instance is tainted with `node-role.eks-local.amazonaws.com/control-plane` so that no workloads are ever scheduled on the control plane instances. For more information about taints, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the [.noloc]`Kubernetes` documentation. Amazon EKS continuously monitors the state of local clusters. We perform automatic management actions, such as security patches and repairing unhealthy instances. When local clusters are disconnected from the cloud, we complete actions to ensure that the cluster is repaired to a healthy state upon reconnect.
 . If you created your cluster using `eksctl`, then you can skip this step. `eksctl` completes this step for you. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` `config` file. For instructions on how to create and update the file, see <<create-kubeconfig>>.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks update-kubeconfig --region region-code --name my-cluster
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Added new context {arn-aws}eks:region-code:111122223333:cluster/my-cluster to /home/username/.kube/config
 ----
@@ -242,14 +242,14 @@ Added new context {arn-aws}eks:region-code:111122223333:cluster/my-cluster to /h
 +
 Local clusters' [.noloc]`Kubernetes` control plane instances are configured with static elastic network interfaces with fixed private IP addresses that don't change throughout the cluster lifecycle. Machines that interact with the [.noloc]`Kubernetes` API server might not have connectivity to Route 53 during network disconnects. If this is the case, we recommend configuring `/etc/hosts` with the static private IP addresses for continued operations. We also recommend setting up local DNS servers and connecting them to your Outpost. For more information, see the  link:outposts/latest/userguide/how-outposts-works.html#dns[{aws} Outposts documentation,type="documentation"]. Run the following command to confirm that communication's established with your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get svc
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   28h
@@ -276,7 +276,7 @@ Amazon EKS creates the following resources on your cluster. The resources are fo
 +
 ** `kube-system/coredns`
 ** `kube-system/` `kube-proxy` (not created until you add your first node)
-** `kube-system/aws-node` (not created until you add your first node). Local clusters use the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` plugin for cluster networking. Do not change the configuration for control plane instances (Pods named `aws-node-controlplane-*`). There are configuration variables that you can use to change the default value for when the plugin creates new network interfaces. For more information, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md[documentation] on GitHub.
+** `kube-system/aws-node` (not created until you add your first node). Local clusters use the [.noloc]`Amazon VPC CNI plugin for Kubernetes` plugin for cluster networking. Do not change the configuration for control plane instances (Pods named `aws-node-controlplane-*`). There are configuration variables that you can use to change the default value for when the plugin creates new network interfaces. For more information, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md[documentation] on GitHub.
 * The following services:
 +
 ** `default/kubernetes`
@@ -711,7 +711,7 @@ If your local network has lost connectivity with the {aws} Cloud, you can contin
 * When integrating ALB (Ingress) with {aws} Certificate Manager (ACM), certificates are pushed and stored in memory of the {aws} Outposts ALB Compute instance. Current TLS termination will continue to operate in the event of a disconnect from the {aws} Region. Mutating operations in this context will fail (such as new ingress definitions, new ACM based certificates API operations, ALB compute scale, or certificate rotation). For more information, see link:acm/latest/userguide/troubleshooting-renewal.html[Troubleshooting managed certificate renewal,type="documentation"] in the _{aws} Certificate Manager User Guide_.
 * The Amazon EKS control plane logs are cached locally on the [.noloc]`Kubernetes` control plane instances during network disconnects. Upon reconnect, the logs are sent to CloudWatch Logs in the parent {aws} Region. You can use https://prometheus.io/[Prometheus], https://grafana.com/[Grafana], or Amazon EKS partner solutions to monitor the cluster locally using the [.noloc]`Kubernetes` API server's metrics endpoint or using [.noloc]`Fluent Bit` for logs.
 * If you're using the [.noloc]`{aws} Load Balancer Controller` on Outposts for application traffic, existing [.noloc]`Pods` fronted by the [.noloc]`{aws} Load Balancer Controller` continue to receive traffic during network disconnects. New [.noloc]`Pods` created during network disconnects don't receive traffic until the Outpost is reconnected to the {aws} Cloud. Consider setting the replica count for your applications while connected to the {aws} Cloud to accommodate your scaling needs during network disconnects.
-* The [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` defaults to https://aws.github.io/aws-eks-best-practices/networking/vpc-cni/#overview[secondary IP mode]. It's configured with `WARM_ENI_TARGET`=``1``, which allows the plugin to keep "a full elastic network interface" of available IP addresses available. Consider changing `WARM_ENI_TARGET`, `WARM_IP_TARGET`, and `MINIMUM_IP_TARGET` values according to your scaling needs during a disconnected state. For more information, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md[readme] file for the plugin on GitHub. For a list of the maximum number of [.noloc]`Pods` that's supported by each instance type, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/misc/eni-max-pods.txt[eni-max-pods.txt] file on GitHub.
+* The [.noloc]`Amazon VPC CNI plugin for Kubernetes` defaults to https://aws.github.io/aws-eks-best-practices/networking/vpc-cni/#overview[secondary IP mode]. It's configured with `WARM_ENI_TARGET`=``1``, which allows the plugin to keep "a full elastic network interface" of available IP addresses available. Consider changing `WARM_ENI_TARGET`, `WARM_IP_TARGET`, and `MINIMUM_IP_TARGET` values according to your scaling needs during a disconnected state. For more information, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md[readme] file for the plugin on GitHub. For a list of the maximum number of [.noloc]`Pods` that's supported by each instance type, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/misc/eni-max-pods.txt[eni-max-pods.txt] file on GitHub.
 
 
 [[outposts-network-disconnects-authentication,outposts-network-disconnects-authentication.title]]
@@ -728,14 +728,14 @@ Learn how to work with your cluster during a network disconnect.
 +
 .. Generate a certificate signing request.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 openssl req -new -newkey rsa:4096 -nodes -days 365 \
     -keyout admin.key -out admin.csr -subj "/CN=admin"
 ----
 .. Create a certificate signing request in [.noloc]`Kubernetes`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 BASE64_CSR=$(cat admin.csr | base64 -w 0)
 cat << EOF > admin-csr.yaml
@@ -752,20 +752,20 @@ EOF
 ----
 . Create a certificate signing request using `kubectl`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl create -f admin-csr.yaml
 ----
 . Check the status of the certificate signing request.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get csr admin-csr
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME       AGE   REQUESTOR                       CONDITION
 admin-csr  11m   kubernetes-admin                Pending
@@ -774,20 +774,20 @@ admin-csr  11m   kubernetes-admin                Pending
 [.noloc]`Kubernetes` created the certificate signing request.
 . Approve the certificate signing request.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl certificate approve admin-csr
 ----
 . Recheck the certificate signing request status for approval.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get csr admin-csr
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME       AGE   REQUESTOR                     CONDITION
 admin-csr  11m   kubernetes-admin              Approved
@@ -796,19 +796,19 @@ admin-csr  11m   kubernetes-admin              Approved
 +
 .. Retrieve the certificate.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get csr admin-csr -o jsonpath='{.status.certificate}' | base64 --decode > admin.crt
 ----
 .. Verify the certificate.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 cat admin.crt
 ----
 . Create a cluster role binding for an `admin` user.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl create clusterrolebinding admin --clusterrole=cluster-admin \
     --user=admin --group=system:masters
@@ -817,38 +817,38 @@ kubectl create clusterrolebinding admin --clusterrole=cluster-admin \
 +
 You can generate a `kubeconfig` file using the downloaded `admin` certificates. Replace [.replaceable]`my-cluster` and [.replaceable]`apiserver-endpoint` in the following commands.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --name my-cluster \
     --query "cluster.certificateAuthority" \
     --output text | base64 --decode > ca.crt
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl config --kubeconfig admin.kubeconfig set-cluster my-cluster \
     --certificate-authority=ca.crt --server apiserver-endpoint --embed-certs
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl config --kubeconfig admin.kubeconfig set-credentials admin \
     --client-certificate=admin.crt --client-key=admin.key --embed-certs
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl config --kubeconfig admin.kubeconfig set-context admin@my-cluster \
     --cluster my-cluster --user admin
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl config --kubeconfig admin.kubeconfig use-context admin@my-cluster
 ----
 . View your `kubeconfig` file.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get nodes --kubeconfig admin.kubeconfig
 ----
@@ -857,7 +857,7 @@ kubectl get nodes --kubeconfig admin.kubeconfig
 .. Apply firewall rules on the networking devices that connect your Outpost to the {aws} Region. This disconnects the service link of the Outpost. You can't create any new instances. Currently running instances lose connectivity to the {aws} Region and the internet.
 .. You can test the connection to your local cluster while disconnected using the `x509` certificate. Make sure to change your `kubeconfig` to the `admin.kubeconfig` that you created in a previous step. Replace [.replaceable]`my-cluster` with the name of your local cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl config use-context admin@my-cluster --kubeconfig admin.kubeconfig
 ----
@@ -960,14 +960,14 @@ Local clusters don't transition to a `FAILED` status. Amazon EKS attempts to rec
 
 Local cluster issues can be discovered using the link:cli/latest/reference/eks/describe-cluster.html[describe-cluster,type="documentation"] Amazon EKS {aws} CLI command. Local cluster issues are surfaced by the `cluster.health` field of the `describe-cluster` command's response. The message contained in this field includes an error code, descriptive message, and related resource IDs. This information is available through the Amazon EKS API and {aws} CLI only. In the following example, replace [.replaceable]`my-cluster` with the name of your local cluster.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --name my-cluster --query 'cluster.health'
 ----
 
 An example output is as follows.
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "issues": [
@@ -1173,7 +1173,7 @@ Review <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazo
 * Misconfigured [.noloc]`Pod` security policy:
 +
 ** The [.noloc]`CoreDNS` and [.noloc]`Amazon VPC CNI plugin for Kubernetes` Daemonsets must run on nodes for nodes to join and communicate with the cluster.
-** The [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` requires some privileged networking features to work properly. You can view the privileged networking features with the following command: `kubectl describe psp eks.privileged`.
+** The [.noloc]`Amazon VPC CNI plugin for Kubernetes` requires some privileged networking features to work properly. You can view the privileged networking features with the following command: `kubectl describe psp eks.privileged`.
 
 +
 We don't recommend modifying the default pod security policy. For more information, see <<pod-security-policy>>.
@@ -1195,7 +1195,7 @@ When an Outpost gets disconnected from the {aws} Region that it's associated wit
 
 When the Amazon EKS control plane instances aren't reachable through {aws} Systems Manager (Systems Manager), Amazon EKS displays the following error for your cluster.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Amazon EKS control plane instances are not reachable through SSM. Please verify your SSM and network configuration, and reference the EKS on Outposts troubleshooting documentation.
 ----

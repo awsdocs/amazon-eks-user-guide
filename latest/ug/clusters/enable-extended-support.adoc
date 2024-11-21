@@ -34,7 +34,7 @@ If you do not enable extended support, your cluster will be automatically upgrad
 . Determine the name of your EKS cluster. 
 . Run the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks update-cluster-config \
 --name <cluster-name> \

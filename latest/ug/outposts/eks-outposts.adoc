@@ -127,8 +127,8 @@ The following table compares the differences between the two options.
 |Self-managed add-ons only
 
 |Default Container Network Interface
-|[.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`
-|[.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`
+|[.noloc]`Amazon VPC CNI plugin for Kubernetes`
+|[.noloc]`Amazon VPC CNI plugin for Kubernetes`
 
 |Kubernetes control plane logs
 |Amazon CloudWatch Logs

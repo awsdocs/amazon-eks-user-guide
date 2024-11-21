@@ -43,14 +43,14 @@ The following procedures help you create a simple test cluster with the FSx for 
 
 . Set a few variables to use in the remaining steps. Replace [.replaceable]`my-csi-fsx-cluster` with the name of the test cluster you want to createand [.replaceable]`region-code` with the {aws} Region that you want to create your test cluster in.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 export cluster_name=my-csi-fsx-cluster
 export region_code=region-code
 ----
 . Create a test cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create cluster \
   --name $cluster_name \
@@ -62,13 +62,13 @@ eksctl create cluster \
 +
 Cluster provisioning takes several minutes. During cluster creation, you'll see several lines of output. The last line of output is similar to the following example line.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [✓]  EKS cluster "my-csi-fsx-cluster" in "region-code" region is ready
 ----
 . Create a [.noloc]`Kubernetes` service account for the driver and attach the `AmazonFSxFullAccess` {aws}-managed policy to the service account with the following command. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create iamserviceaccount \
   --name fsx-csi-controller-sa \
@@ -82,7 +82,7 @@ eksctl create iamserviceaccount \
 +
 You'll see several lines of output as the service account is created. The last lines of output are similar to the following.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [ℹ]  1 task: { 
     2 sequential sub-tasks: { 
@@ -101,14 +101,14 @@ Note the name of the {aws} CloudFormation stack that was deployed. In the previo
 +
 NOTE: You can view the content being applied in https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/deploy/kubernetes/overlays/stable[aws-fsx-csi-driver/deploy/kubernetes/overlays/stable] on [.noloc]`GitHub`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -k "github.com/kubernetes-sigs/aws-fsx-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-X.XX"
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 serviceaccount/fsx-csi-controller-sa created
 serviceaccount/fsx-csi-node-sa created
@@ -128,7 +128,7 @@ csidriver.storage.k8s.io/fsx.csi.aws.com created
 .. Select the *Outputs* tab. The  *Role1* ARN is listed on the  *Outputs (1)* page.
 . Patch the driver deployment to add the service account that you created earlier with the following command. Replace the ARN with the ARN that you noted. Replace [.replaceable]`111122223333` with your account ID. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl annotate serviceaccount -n kube-system fsx-csi-controller-sa \
   eks.amazonaws.com/role-arn={arn-aws}iam::111122223333:role/AmazonEKSFSxLustreCSIDriverFullAccess --overwrite=true
@@ -136,7 +136,7 @@ kubectl annotate serviceaccount -n kube-system fsx-csi-controller-sa \
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 serviceaccount/fsx-csi-controller-sa annotated
 ----
@@ -145,20 +145,20 @@ This procedure uses the https://github.com/kubernetes-sigs/aws-fsx-csi-driver[FS
 
 . Note the security group for your cluster. You can see it in the {aws-management-console} under the *Networking* section or by using the following {aws} CLI command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --name $cluster_name --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ----
 . Create a security group for your Amazon FSx file system according to the criteria shown in  link:fsx/latest/LustreGuide/limit-access-security-groups.html#fsx-vpc-security-groups[Amazon VPC Security Groups,type="documentation"] in the Amazon FSx for Lustre User Guide. For the *VPC*, select the VPC of your cluster as shown under the  *Networking* section. For "the security groups associated with your Lustre clients", use your cluster security group. You can leave the outbound rules alone to allow  *All traffic*.
 . Download the storage class manifest with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
 ----
 . Edit the parameters section of the `storageclass.yaml` file. Replace every [.replaceable]`example value` with your own values.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 parameters:
   subnetId: subnet-0eabfaa81fb22bcaf
@@ -182,26 +182,26 @@ parameters:
 ** *other parameters (optional)* – For information about the other parameters, see https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning#edit-storageclass[Edit StorageClass] on [.noloc]`GitHub`.
 . Create the storage class manifest.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f storageclass.yaml
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 storageclass.storage.k8s.io/fsx-sc created
 ----
 . Download the persistent volume claim manifest.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/claim.yaml
 ----
 . (Optional) Edit the `claim.yaml` file. Change [.replaceable]`1200Gi` to one of the following increment values, based on your storage requirements and the `deploymentType` that you selected in a previous step.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 storage: 1200Gi
 ----
@@ -210,27 +210,27 @@ storage: 1200Gi
 ** `SCRATCH_1` – `1.2 TiB`, `2.4 TiB`, `3.6 TiB`, or increments of 3.6 TiB over 3.6 TiB.
 . Create the persistent volume claim.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f claim.yaml
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 persistentvolumeclaim/fsx-claim created
 ----
 . Confirm that the file system is provisioned.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe pvc
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Name:          fsx-claim
 Namespace:     default
@@ -242,34 +242,34 @@ Status:        Bound
 NOTE: The `Status` may show as `Pending` for 5-10 minutes, before changing to `Bound`. Don't continue with the next step until the `Status` is `Bound`. If the `Status` shows `Pending` for more than 10 minutes, use warning messages in the `Events` as reference for addressing any problems.
 . Deploy the sample application.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/pod.yaml
 ----
 . Verify that the sample application is running.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME      READY   STATUS              RESTARTS   AGE
 fsx-app   1/1     Running             0          8s
 ----
 . Verify that the file system is mounted correctly by the application.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl exec -ti fsx-app -- df -h
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Filesystem                   Size  Used Avail Use% Mounted on
 overlay                       80G  4.0G   77G   5% /
@@ -284,14 +284,14 @@ tmpfs                        3.8G     0  3.8G   0% /sys/firmware
 ----
 . Verify that data was written to the FSx for Lustre file system by the sample app.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl exec -it fsx-app -- ls /data
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 out.txt
 ----

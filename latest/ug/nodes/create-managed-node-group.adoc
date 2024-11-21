@@ -26,7 +26,7 @@ If this is your first time launching an Amazon EKS managed node group, we recomm
 
 * An existing Amazon EKS cluster. To deploy one, see <<create-cluster>>.
 * An existing IAM role for the nodes to use. To create one, see <<create-node-role>>. If this role doesn't have either of the policies for the VPC CNI, the separate role that follows is required for the VPC CNI pods.
-* (Optional, but recommended) The [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` add-on configured with its own IAM role that has the necessary IAM policy attached to it. For more information, see <<cni-iam-role>>.
+* (Optional, but recommended) The [.noloc]`Amazon VPC CNI plugin for Kubernetes` add-on configured with its own IAM role that has the necessary IAM policy attached to it. For more information, see <<cni-iam-role>>.
 * Familiarity with the considerations listed in <<choosing-instance-type,Choose an optimal Amazon EC2 node instance type>>. Depending on the instance type you choose, there may be additional prerequisites for your cluster and VPC.
 * To add a [.noloc]`Windows` managed node group, you must first enable [.noloc]`Windows` support for your cluster. For more information, see <<windows-support>>.
 
@@ -41,7 +41,7 @@ You can create a managed node group with either of the following:
 
 This procedure requires `eksctl` version `{eksctl-min-version}` or later. You can check your version with the following command:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl version
 ----
@@ -51,7 +51,7 @@ For instructions on how to install or upgrade `eksctl`, see https://eksctl.io/in
 . (Optional) If the *AmazonEKS_CNI_Policy* managed IAM policy is attached to your  <<create-node-role,Amazon EKS node IAM role>>, we recommend assigning it to an IAM role that you associate to the [.noloc]`Kubernetes` `aws-node` service account instead. For more information, see <<cni-iam-role>>.
 . Create a managed node group with or without using a custom launch template. Manually specifying a launch template allows for greater customization of a node group. For example, it can allow deploying a custom AMI or providing arguments to the `boostrap.sh` script in an Amazon EKS optimized AMI. For a complete list of every available option and default, enter the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup --help
 ----
@@ -83,7 +83,7 @@ For more information, see https://aws.github.io/aws-eks-best-practices/security/
 
 If you want to block [.noloc]`Pod` access to IMDS, then add the `--disable-pod-imds` option to the following command.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup \
   --cluster my-cluster \
@@ -118,7 +118,7 @@ If you want to block [.noloc]`Pod` access to IMDS, then specify the necessary se
 [loweralpha]
 .. Copy the following contents to your device. Replace the [.replaceable]`example values` and then run the modified command to create the `eks-nodegroup.yaml` file. Several settings that you specify when deploying without a launch template are moved into the launch template. If you don't specify a `version`, the template's default version is used.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 cat >eks-nodegroup.yaml <<EOF
 apiVersion: eksctl.io/v1alpha5
@@ -142,7 +142,7 @@ If you specified an AMI ID in your launch template, specify the maximum number o
 
 .. Deploy the nodegroup with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup --config-file eks-nodegroup.yaml
 ----
@@ -225,13 +225,13 @@ NOTE: For [.noloc]`Windows`, this command doesn't enable SSH. Instead, it associ
 If nodes fail to join the cluster, then see <<worker-node-fail>> in the Troubleshooting chapter.
 . Watch the status of your nodes and wait for them to reach the `Ready` status.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get nodes --watch
 ----
 . (GPU nodes only) If you chose a GPU instance type and the Amazon EKS optimized accelerated AMI, then you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/deployments/static/nvidia-device-plugin.yml
 ----

@@ -61,13 +61,13 @@ If the subnet role tags aren't explicitly added, the [.noloc]`Kubernetes` servic
 * When using the <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, the [.noloc]`{aws} Load Balancer Controller` can load balance to Amazon EC2 IP or instance targets and Fargate IP targets. When using  <<alternate-cni-plugins,Alternate compatible CNI plugins>>, the controller can only load balance to instance targets. For more information about Network Load Balancer target types, see  link:elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type[Target type,type="documentation"] in the User Guide for Network Load Balancers
 * If you want to add tags to the load balancer when or after it's created, add the following annotation in your service specification. For more information, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#aws-resource-tags[{aws} Resource Tags] in the [.noloc]`{aws} Load Balancer Controller` documentation.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags
 ----
 * You can assign link:AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html[Elastic IP addresses,type="documentation"] to the Network Load Balancer by adding the following annotation. Replace the [.replaceable]`example values` with the `Allocation IDs` of your Elastic IP addresses. The number of `Allocation IDs` must match the number of subnets that are used for the load balancer. For more information, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#eip-allocations[{aws} Load Balancer Controller] documentation.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-xxxxxxxxxxxxxxxxx,eipalloc-yyyyyyyyyyyyyyyyy
 ----
@@ -92,7 +92,7 @@ You can create a network load balancer with IP or instance targets.
 +
 To create a load balancer that uses IP targets, add the following annotations to a service manifest and deploy your service. The `external` value for `aws-load-balancer-type` is what causes the [.noloc]`{aws} Load Balancer Controller`, rather than the {aws} cloud provider load balancer controller, to create the Network Load Balancer. You can view a  <<network-load-balancing-service-sample-manifest,sample service manifest>> with the annotations.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 service.beta.kubernetes.io/aws-load-balancer-type: "external"
 service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
@@ -100,7 +100,7 @@ service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
 +
 NOTE: If you're load balancing to `IPv6` [.noloc]`Pods`, add the following annotation. You can only load balance over `IPv6` to IP targets, not instance targets. Without this annotation, load balancing is over `IPv4`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 service.beta.kubernetes.io/aws-load-balancer-ip-address-type: dualstack
 ----
@@ -111,7 +111,7 @@ Network Load Balancers are created with the `internal` `aws-load-balancer-scheme
 +
 If you want to create a Network Load Balancer in a public subnet to load balance to Amazon EC2 nodes (Fargate can only be private), specify `internet-facing` with the following annotation:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
 ----
@@ -127,7 +127,7 @@ IMPORTANT: Do not edit the annotations after creating your service. If you need 
 +
 To deploy a Network Load Balancer to a private subnet, your service specification must have the following annotations. You can view a <<network-load-balancing-service-sample-manifest,sample service manifest>> with the annotations. The `external` value for `aws-load-balancer-type` is what causes the {aws} Load Balancer Controller, rather than the {aws} cloud provider load balancer controller, to create the Network Load Balancer.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 service.beta.kubernetes.io/aws-load-balancer-type: "external"
 service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
@@ -137,7 +137,7 @@ Network Load Balancers are created with the `internal` `aws-load-balancer-scheme
 +
 If you want to create an Network Load Balancer in a public subnet to load balance to Amazon EC2 nodes, specify `internet-facing` with the following annotation:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
 ----
@@ -152,7 +152,7 @@ IMPORTANT: Do not edit the annotations after creating your service. If you need 
 * Have the [.noloc]`{aws} Load Balancer Controller` deployed on your cluster. For more information, see <<aws-load-balancer-controller>>. We recommend version `2.7.2` or later.
 . If you're deploying to Fargate, make sure you have an available private subnet in your VPC and create a Fargate profile. If you're not deploying to Fargate, skip this step. You can create the profile by running the following command or in the <<create-fargate-profile,{aws-management-console}>> using the same values for `name` and `namespace` that are in the command. Replace the [.replaceable]`example values` with your own.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create fargateprofile \
     --cluster my-cluster \
@@ -164,13 +164,13 @@ eksctl create fargateprofile \
 +
 .. Create a namespace for the application.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl create namespace nlb-sample-app
 ----
 .. Save the following contents to a file named [.replaceable]`sample-deployment`.yaml` file on your computer.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: apps/v1
 kind: Deployment
@@ -196,7 +196,7 @@ spec:
 ----
 .. Apply the manifest to the cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f sample-deployment.yaml
 ----
@@ -204,7 +204,7 @@ kubectl apply -f sample-deployment.yaml
 +
 .. [[network-load-balancing-service-sample-manifest]]Save the following contents to a file named [.replaceable]`sample-service`.yaml` file on your computer. If you're deploying to Fargate nodes, remove the `service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing` line.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: v1
 kind: Service
@@ -226,20 +226,20 @@ spec:
 ----
 .. Apply the manifest to the cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f sample-service.yaml
 ----
 . [[nlb-sample-app-verify-deployment]]Verify that the service was deployed.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get svc nlb-sample-service -n nlb-sample-app
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME            TYPE           CLUSTER-IP         EXTERNAL-IP                                                                    PORT(S)        AGE
 sample-service  LoadBalancer   10.100.240.137   k8s-nlbsampl-nlbsampl-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.region-code.amazonaws.com  80:32400/TCP   16h
@@ -250,14 +250,14 @@ NOTE: The values for [.replaceable]`10.100.240.137` and [.replaceable]`xxxxxxxxx
 . Select the *Target group* and then select the  *Targets* tab. Under  *Registered targets*, you should see three IP addresses of the three replicas deployed in a previous step. Wait until the status of all targets is  *healthy* before continuing. It might take several minutes before all targets are `healthy`. The targets might be in an `unhealthy` state before changing to a `healthy` state.
 . Send traffic to the service replacing [.replaceable]`xxxxxxxxxx-xxxxxxxxxxxxxxxx` and [.replaceable]`us-west-2` with the values returned in the output for a <<nlb-sample-app-verify-deployment,previous step>> for `EXTERNAL-IP`. If you deployed to a private subnet, then you'll need to view the page from a device within your VPC, such as a bastion host. For more information, see link:quickstart/architecture/linux-bastion/[Linux Bastion Hosts on {aws},type="marketing"].
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl k8s-default-samplese-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.region-code.amazonaws.com
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 <!DOCTYPE html>
 <html>
@@ -267,7 +267,7 @@ An example output is as follows.
 ----
 . When you're finished with the sample deployment, service, and namespace, remove them.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl delete namespace nlb-sample-app
 ----

@@ -73,8 +73,6 @@ Tags don't propagate to other resources that are associated with the resource th
 
 The following restrictions apply to tags:
 
-
-
 * A maximum of 50 tags can be associated with a resource.
 * Tag keys can't be repeated for one resource. Each tag key must be unique, and can only have one value.
 * Keys can be up to 128 characters long in UTF-8.
@@ -163,7 +161,7 @@ The following examples show how to tag or untag resources using the {aws} CLI.
 .Example 1: Tag an existing cluster
 The following command tags an existing cluster.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks tag-resource --resource-arn resource_ARN --tags team=devs
 ----
@@ -171,7 +169,7 @@ aws eks tag-resource --resource-arn resource_ARN --tags team=devs
 .Example 2: Untag an existing cluster
 The following command deletes a tag from an existing cluster.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks untag-resource --resource-arn resource_ARN --tag-keys tag_key
 ----
@@ -179,7 +177,7 @@ aws eks untag-resource --resource-arn resource_ARN --tag-keys tag_key
 .Example 3: List tags for a resource
 The following command lists the tags that are associated with an existing resource.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks list-tags-for-resource --resource-arn resource_ARN
 ----

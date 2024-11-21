@@ -94,7 +94,7 @@ manager: eks
 +
 In the following output, you can see that both the `name` key and `name` field are managed. Adding or modifying any container name causes a conflict with this managed key. 
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 [...]
 f:containers:
@@ -117,21 +117,21 @@ You can modify all fields that aren't managed by Amazon EKS, or another [.noloc]
 . Determine which add-on that you want to examine. To see all of the `deployments` and [.noloc]`DaemonSets` deployed to your cluster, see <<view-kubernetes-resources>>.
 . View the managed fields for an add-on by running the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get type/add-on-name -n add-on-namespace -o yaml
 ----
 +
 For example, you can see the managed fields for the [.noloc]`CoreDNS` add-on with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get deployment/coredns -n kube-system -o yaml
 ----
 +
 Field management is listed in the following section in the returned output.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 [...]
 managedFields:

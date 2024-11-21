@@ -22,7 +22,7 @@ For more information, see  link:IAM/latest/UserGuide/access_policies_managed-vs-
 == {aws} managed policy: AmazonEKS_CNI_Policy
 :info_titleabbrev: AmazonEKS_CNI_Policy
 
-You can attach the `AmazonEKS_CNI_Policy` to your IAM entities. Before you create an Amazon EC2 node group, this policy must be attached to either the <<create-node-role,node IAM role>>, or to an IAM role that's used specifically by the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`. This is so that it can perform actions on your behalf. We recommend that you attach the policy to a role that's used only by the plugin. For more information, see <<managing-vpc-cni>> and <<cni-iam-role>>.
+You can attach the `AmazonEKS_CNI_Policy` to your IAM entities. Before you create an Amazon EC2 node group, this policy must be attached to either the <<create-node-role,node IAM role>>, or to an IAM role that's used specifically by the [.noloc]`Amazon VPC CNI plugin for Kubernetes`. This is so that it can perform actions on your behalf. We recommend that you attach the policy to a role that's used only by the plugin. For more information, see <<managing-vpc-cni>> and <<cni-iam-role>>.
 
 *Permissions details*
 
@@ -420,7 +420,7 @@ View details about updates to {aws} managed policies for Amazon EKS since this s
 |June 27, 2024
 
 |<<security-iam-awsmanpol-amazoneks-cni-policy,AmazonEKS_CNI_Policy>> – Update to an existing policy
-|Amazon EKS added new `ec2:DescribeSubnets` permissions to allow the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` to see the amount of free IP addresses in your Amazon VPC subnets. The VPC CNI can use the free IP addresses in each subnet to pick the subnets with the most free IP addresses to use when creating an elastic network interface.
+|Amazon EKS added new `ec2:DescribeSubnets` permissions to allow the [.noloc]`Amazon VPC CNI plugin for Kubernetes` to see the amount of free IP addresses in your Amazon VPC subnets. The VPC CNI can use the free IP addresses in each subnet to pick the subnets with the most free IP addresses to use when creating an elastic network interface.
 |March 4, 2024
 
 |<<security-iam-awsmanpol-amazoneksworkernodepolicy,AmazonEKSWorkerNodePolicy>> – Update to an existing policy

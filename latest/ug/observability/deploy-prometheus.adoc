@@ -16,19 +16,19 @@ After you configure [.noloc]`Helm` for your Amazon EKS cluster, you can use it t
 
 . Create a [.noloc]`Prometheus` namespace.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl create namespace prometheus
 ----
 . Add the `prometheus-community` chart repository.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 ----
 . Deploy [.noloc]`Prometheus`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm upgrade -i prometheus prometheus-community/prometheus \
     --namespace prometheus \
@@ -38,18 +38,18 @@ helm upgrade -i prometheus prometheus-community/prometheus \
 +
 NOTE: If you get the error `Error: failed to download "stable/prometheus" (hint: running `helm repo update` may help)` when executing this command, run `helm repo update prometheus-community`, and then try running the Step 2 command again.
 +
-If you get the error `Error: rendered manifests contain a resource that already exists`, run `helm uninstall _your-release-name_ -n _namespace_`, then try running the Step 3 command again.
+If you get the error `Error: rendered manifests contain a resource that already exists`, run `helm uninstall [.replaceable]``your-release-name`` -n [.replaceable]``namespace```, then try running the Step 3 command again.
 +
 . Verify that all of the [.noloc]`Pods` in the `prometheus` namespace are in the `READY` state.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n prometheus
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME                                             READY   STATUS    RESTARTS   AGE
 prometheus-alertmanager-59b4c8c744-r7bgp         1/2     Running   0          48s
@@ -62,7 +62,7 @@ prometheus-server-775957f748-mmht9               1/2     Running   0          48
 ----
 . Use `kubectl` to port forward the [.noloc]`Prometheus` console to your local machine.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090
 ----

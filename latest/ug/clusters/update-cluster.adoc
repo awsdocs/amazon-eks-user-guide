@@ -43,13 +43,13 @@ To ensure that the API server endpoint for your cluster is always accessible, Am
 +
 ** Get the [.noloc]`Kubernetes` version of your cluster control plane.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl version
 ----
 ** Get the [.noloc]`Kubernetes` version of your nodes. This command returns all self-managed and managed Amazon EC2 and Fargate nodes. Each Fargate [.noloc]`Pod` is listed as its own node.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get nodes
 ----
@@ -60,14 +60,14 @@ Before updating your control plane to a new [.noloc]`Kubernetes` version, make s
 +
 By default, the [.noloc]`Pod` security policy admission controller is enabled on Amazon EKS clusters. Before updating your cluster, ensure that the proper [.noloc]`Pod` security policies are in place. This is to avoid potential security issues. You can check for the default policy with the `kubectl get psp eks.privileged` command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get psp eks.privileged
 ----
 +
 If you receive the following error, see <<default-psp>> before proceeding.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
 ----
@@ -77,7 +77,7 @@ You might need to remove a discontinued term from your [.noloc]`CoreDNS` manifes
 +
 .. Check to see if your [.noloc]`CoreDNS` manifest has a line that only has the word `upstream`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get configmap coredns -n kube-system -o jsonpath='{$.data.Corefile}' | grep upstream
 ----
@@ -85,7 +85,7 @@ kubectl get configmap coredns -n kube-system -o jsonpath='{$.data.Corefile}' | g
 If no output is returned, this means that your manifest doesn't have the line. If this is the case, skip to the next step. If the word `upstream` is returned, remove the line.
 .. Remove the line near the top of the file that only has the word `upstream` in the configmap file. Don't change anything else in the file. After the line is removed, save the changes.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl edit configmap coredns -n kube-system -o yaml
 ----
@@ -101,7 +101,7 @@ kubectl edit configmap coredns -n kube-system -o yaml
 ** If the `kubelet` on your managed and Fargate nodes is on [.noloc]`Kubernetes` version `1.25` or newer, you can update your cluster up to three versions ahead without updating the `kubelet` version. For example, if the `kubelet` is on version `1.25`, you can update your Amazon EKS cluster version from `1.25` to `1.26`, to `1.27`, and to `1.28` while the `kubelet` remains on version `1.25`. 
 ** If the `kubelet` on your managed and Fargate nodes is on [.noloc]`Kubernetes` version `1.24` or older, it may only be up to two minor versions older than the `kube-apiserver`. In other words, if the `kubelet` is version `1.24` or older, you can only update your cluster up to two versions ahead. For example, if the `kubelet` is on version `1.21`, you can update your Amazon EKS cluster version from `1.21` to `1.22`, and to `1.23`, but you will not be able to update the cluster to `1.24` while the `kubelet` remains on `1.21`. 
 * As a best practice before starting an update, make sure that the `kubelet` on your nodes is at the same [.noloc]`Kubernetes` version as your control plane.  
-* If your cluster is configured with a version of the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` that is earlier than `1.8.0`, then we recommend that you update the plugin to the latest version before updating your cluster. To update the plugin, see <<managing-vpc-cni>>.
+* If your cluster is configured with a version of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` that is earlier than `1.8.0`, then we recommend that you update the plugin to the latest version before updating your cluster. To update the plugin, see <<managing-vpc-cni>>.
 * If you're updating your cluster to version `1.25` or later and have the [.noloc]`{aws} Load Balancer Controller` deployed in your cluster, then update the controller to version `2.4.7` or later _before_ updating your cluster version to `1.25`. For more information, see the xref:kubernetes-1.25[Kubernetes 1.25,linkend=kubernetes-1.25] release notes.
 
 == Step 3: Update cluster control plane
@@ -117,7 +117,7 @@ You can submit the request to upgrade your EKS control plane version using:
 
 This procedure requires `eksctl` version `{eksctl-min-version}` or later. You can check your version with the following command:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl version
 ----
@@ -126,7 +126,7 @@ For instructions on how to install and update `eksctl`, see https://eksctl.io/in
 
 Update the [.noloc]`Kubernetes` version of your Amazon EKS control plane. Replace [.replaceable]`my-cluster` with your cluster name. Replace [.replaceable]`1.30` with the Amazon EKS supported version number that you want to update your cluster to. For a list of supported version numbers, see <<kubernetes-versions>>.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl upgrade cluster --name my-cluster --version 1.30 --approve
 ----
@@ -151,14 +151,14 @@ The update takes several minutes to complete.
 
 . Update your Amazon EKS cluster with the following {aws} CLI command. Replace the [.replaceable]`example values` with your own. Replace [.replaceable]`1.30` with the Amazon EKS supported version number that you want to update your cluster to. For a list of supported version numbers, see <<kubernetes-versions>>.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks update-cluster-version --region region-code --name my-cluster --kubernetes-version 1.30
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 {
     "update": {
@@ -183,14 +183,14 @@ An example output is as follows.
 
 . Monitor the status of your cluster update with the following command. Use the cluster name and update ID that the previous command returned. When a `Successful` status is displayed, the update is complete. The update takes several minutes to complete.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-update --region region-code --name my-cluster --update-id b5f0ba18-9a87-4450-b5a0-825e6e84496f
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 {
     "update": {
@@ -223,23 +223,23 @@ An example output is as follows.
 .. Open the Cluster Autoscaler https://github.com/kubernetes/autoscaler/releases[releases] page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's [.noloc]`Kubernetes` major and minor version. For example, if your cluster's [.noloc]`Kubernetes` version is `1.30` find the latest Cluster Autoscaler release that begins with `1.30`. Record the semantic version number (``1.30.n``, for example) for that release to use in the next step.
 .. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command. If necessary, replace [.replaceable]`1.30`.[.replaceable]`n`` with your own value.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=registry.k8s.io/autoscaling/cluster-autoscaler:v1.30.n
 ----
 . (Clusters with GPU nodes only) If your cluster has node groups with GPU support (for example, `p3.2xlarge`), you must update the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes][.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/deployments/static/nvidia-device-plugin.yml
 ----
-. Update the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`, [.noloc]`CoreDNS`, and `kube-proxy` add-ons. We recommend updating the add-ons to the minimum versions listed in <<boundserviceaccounttoken-validated-add-on-versions,Service account tokens>>.
+. Update the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, [.noloc]`CoreDNS`, and `kube-proxy` add-ons. We recommend updating the add-ons to the minimum versions listed in <<boundserviceaccounttoken-validated-add-on-versions,Service account tokens>>.
 +
 ** If you are using Amazon EKS add-ons, select *Clusters* in the Amazon EKS console, then select the name of the cluster that you updated in the left navigation pane. Notifications appear in the console. They inform you that a new version is available for each add-on that has an available update. To update an add-on, select the  *Add-ons* tab. In one of the boxes for an add-on that has an update available, select  *Update now*, select an available version, and then select  *Update*.
 ** Alternately, you can use the {aws} CLI or `eksctl` to update add-ons. For more information, see <<updating-an-add-on>>.
 . If necessary, update your version of `kubectl`. You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane. For example, a `1.29` `kubectl` client works with [.noloc]`Kubernetes` `1.28`, `1.29`, and `1.30` clusters. You can check your currently installed version with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl version --client
 ----

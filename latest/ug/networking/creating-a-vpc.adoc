@@ -42,13 +42,13 @@ You can also assign `IPv6` addresses to nodes in public and private subnets. The
 
 *** `IPv4`
 
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
 ----
 *** `IPv4` and `IPv6`
 
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-ipv6-vpc-public-private-subnets.yaml
 ----
@@ -83,7 +83,7 @@ This VPC has three public subnets that are deployed into different Availability 
 .. Under *Prepare template*, make sure that  *Template is ready* is selected and then under  *Template source*, select  *Amazon S3 URL*.
 .. Paste the following URL into the text area under *Amazon S3 URL* and choose  *Next*:
 
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
 ----
@@ -111,7 +111,7 @@ This VPC has three private subnets that are deployed into different Availability
 .. Under *Prepare template*, make sure that  *Template is ready* is selected and then under  *Template source*, select  *Amazon S3 URL*.
 .. Paste the following URL into the text area under *Amazon S3 URL* and choose  *Next*:
 
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml
 ----

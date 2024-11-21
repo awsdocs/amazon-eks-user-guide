@@ -79,7 +79,7 @@ With the CDK for [.noloc]`Kubernetes` (cdk8s), you can define [.noloc]`Kubernete
 Related networking projects for Amazon EKS and [.noloc]`Kubernetes` clusters.
 
 [[related-vpc-cni-k8s,related-vpc-cni-k8s.title]]
-=== [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`
+=== [.noloc]`Amazon VPC CNI plugin for Kubernetes`
 
 Amazon EKS supports native VPC networking through the [.noloc]`Amazon VPC CNI plugin for Kubernetes`. The plugin assigns an IP address from your VPC to each [.noloc]`Pod`.
 

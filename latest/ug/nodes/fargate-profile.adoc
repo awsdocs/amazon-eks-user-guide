@@ -100,7 +100,7 @@ You can create a profile with the following:
 
 Create your Fargate profile with the following `eksctl` command, replacing every [.replaceable]`example value` with your own values. You're required to specify a namespace. However, the `--labels` option isn't required.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create fargateprofile \
     --cluster my-cluster \

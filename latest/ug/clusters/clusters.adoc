@@ -35,7 +35,7 @@ In the Amazon EKS environment, `etcd` storage is limited to 8 GiB as per https:/
 * [.noloc]`Kubernetes` version `1.27` and `1.26` – `apiserver_storage_db_total_size_in_bytes`
 * [.noloc]`Kubernetes` version `1.25` and below – `etcd_db_total_size_in_bytes`
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get --raw=/metrics | grep "apiserver_storage_size_bytes"
 ----

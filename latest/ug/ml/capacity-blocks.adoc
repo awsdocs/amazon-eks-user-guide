@@ -37,7 +37,7 @@ You can use Capacity Blocks with Amazon EKS for provisioning and scaling your se
 Make sure the `LaunchTemplateData` includes the following:
 +
 ** `InstanceMarketOptions` with `MarketType` set to `"capacity-block"`
-** `CapacityReservationSpecification: CapacityReservationTarget` with `CapacityReservationId` set to the Capacity Block (for example: [.replaceable]`cr-02168da1478b509e0` )
+** `CapacityReservationSpecification: CapacityReservationTarget` with `CapacityReservationId` set to the Capacity Block (for example: `cr-[.replaceable]``02168da1478b509e0``` )
 ** `IamInstanceProfile` with the `Arn` set to the applicable [.replaceable]`iam-instance-profile-arn`
 ** `ImageId` set to the applicable [.replaceable]`image-id`
 ** `InstanceType` set to an instance type that supports Capacity Blocks (for example: [.replaceable]`p5.48xlarge`)
@@ -46,7 +46,7 @@ Make sure the `LaunchTemplateData` includes the following:
 +
 The following is an excerpt of a CloudFormation template that creates a launch template targeting a Capacity Block. 
 + 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 NodeLaunchTemplate:
   Type: "aws::EC2::LaunchTemplate"
@@ -71,7 +71,7 @@ You must pass the subnet in the Availability Zone in which the reservation is ma
 +
 The following is a sample CloudFormation template that you can reference when creating one that is applicable to your workload. This example gets the `LaunchTemplateId` and `Version` of the `{aws}::Amazon EC2::LaunchTemplate` resource shown in the previous step. It also gets the values for `DesiredCapacity`, `MaxSize`, `MinSize`, and `VPCZoneIdentifier` that are declared elsewhere in the same template.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 NodeGroup:
   Type: "{aws}::AutoScaling::AutoScalingGroup"

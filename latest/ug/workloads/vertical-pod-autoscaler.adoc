@@ -32,25 +32,25 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster.
 . Open a terminal window and navigate to a directory where you would like to download the Vertical Pod Autoscaler source code. 
 . Clone the https://github.com/kubernetes/autoscaler[kubernetes/autoscaler][.noloc]`GitHub` repository.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 git clone https://github.com/kubernetes/autoscaler.git
 ----
 . Change to the `vertical-pod-autoscaler` directory.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 cd autoscaler/vertical-pod-autoscaler/
 ----
 . (Optional) If you have already deployed another version of the Vertical Pod Autoscaler, remove it with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 ./hack/vpa-down.sh
 ----
 . If your nodes don't have internet access to the `registry.k8s.io` container registry, then you need to pull the following images and push them to your own private repository. For more information about how to pull the images and push them to your own private repository, see <<copy-image-to-repository>>.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 registry.k8s.io/autoscaling/vpa-admission-controller:0.10.0
 registry.k8s.io/autoscaling/vpa-recommender:0.10.0
@@ -59,7 +59,7 @@ registry.k8s.io/autoscaling/vpa-updater:0.10.0
 +
 If you're pushing the images to a private Amazon ECR repository, then replace `registry.k8s.io` in the manifests with your registry. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. The following commands assume that you named your repository the same as the repository name in the manifest. If you named your repository something different, then you'll need to change it too.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/admission-controller-deployment.yaml
 sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/recommender-deployment.yaml
@@ -67,20 +67,20 @@ sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-code.amazonaws.com/
 ----
 . Deploy the Vertical Pod Autoscaler to your cluster with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 ./hack/vpa-up.sh
 ----
 . Verify that the Vertical Pod Autoscaler [.noloc]`Pods` have been created successfully.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n kube-system
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME                                        READY   STATUS    RESTARTS   AGE
 [...]
@@ -98,34 +98,34 @@ In this section, you deploy a sample application to verify that the Vertical Pod
 
 . Deploy the `hamster.yaml` Vertical Pod Autoscaler example with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f examples/hamster.yaml
 ----
 . Get the [.noloc]`Pods` from the `hamster` example application.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -l app=hamster
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 hamster-c7d89d6db-rglf5   1/1     Running   0          48s
 hamster-c7d89d6db-znvz5   1/1     Running   0          48s
 ----
 . Describe one of the [.noloc]`Pods` to view its `cpu` and `memory` reservation. Replace [.replaceable]`c7d89d6db-rglf5` with one of the IDs returned in your output from the previous step.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe pod hamster-c7d89d6db-rglf5
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [...]
 Containers:
@@ -155,20 +155,20 @@ You can see that the original [.noloc]`Pod` reserves 100 millicpu of CPU and 50 
 +
 NOTE: If you are not sure that a new [.noloc]`Pod` has launched, compare the [.noloc]`Pod` names with your previous list. When the new [.noloc]`Pod` launches, you will see a new [.noloc]`Pod` name.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get --watch Pods -l app=hamster
 ----
 . When a new [.noloc]`hamster` [.noloc]`Pods` is started, describe it and view the updated CPU and memory reservations.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe pod hamster-c7d89d6db-jxgfv
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [...]
 Containers:
@@ -196,14 +196,14 @@ Containers:
 In the previous output, you can see that the `cpu` reservation increased to 587 millicpu, which is over five times the original value. The `memory` increased to 262,144 Kilobytes, which is around 250 mebibytes, or five times the original value. This [.noloc]`Pod` was under-resourced, and the Vertical Pod Autoscaler corrected the estimate with a much more appropriate value.
 . Describe the `hamster-vpa` resource to view the new recommendation.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe vpa/hamster-vpa
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Name:         hamster-vpa
 Namespace:    default
@@ -247,7 +247,7 @@ Events:          <none>
 ----
 . When you finish experimenting with the example application, you can delete it with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl delete -f examples/hamster.yaml
 ----

@@ -41,7 +41,7 @@ After installing the {aws} CLI, do the following steps to configure it. For more
 
 . In a terminal window, enter the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws configure
 ----
@@ -49,7 +49,7 @@ aws configure
 Optionally, you can configure a named profile, such as `--profile cluster-admin`. If you configure a named profile in the {aws} CLI, you must *always* pass this flag in subsequent commands.
 . Enter your {aws} credentials. For example:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
 Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
@@ -65,14 +65,14 @@ If needed, run the following command to get a new security token for the {aws} C
 
 By default, the token is valid for 15 minutes. To change the default session timeout, pass the `--duration-seconds` flag. For example:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws sts get-session-token --duration-seconds 3600
 ----
 
 This command returns the temporary security credentials for an {aws} CLI session. You should see the following response output:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 {
     "Credentials": {
@@ -90,14 +90,14 @@ This command returns the temporary security credentials for an {aws} CLI session
 
 If needed, run the following command to verify the {aws} credentials for your IAM user identity (such as [.replaceable]`ClusterAdmin`) for the terminal session.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws sts get-caller-identity
 ----
 
 This command returns the Amazon Resource Name (ARN) of the IAM entity that's configured for the {aws} CLI. You should see the following example response output:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 {
     "UserId": "AKIAIOSFODNN7EXAMPLE",

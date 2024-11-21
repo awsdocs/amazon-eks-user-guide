@@ -146,7 +146,7 @@ You can combine multiple user data blocks together into a single MIME multi-part
 +
 The following is an example of a MIME multi-part file that you can use to create your own.
 +
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
@@ -164,7 +164,7 @@ echo "Running custom user data script"
 *Amazon Linux 2023 user data*::
 Amazon Linux 2023 (AL2023) introduces a new node initialization process `nodeadm` that uses a YAML configuration schema. If you're using self-managed node groups or an AMI with a launch template, you'll now need to provide additional cluster metadata explicitly when creating a new node group. An https://awslabs.github.io/amazon-eks-ami/nodeadm/[example] of the minimum required parameters is as follows, where `apiServerEndpoint`, `certificateAuthority`, and service `cidr` are now required:
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 ---
 apiVersion: node.eks.aws/v1alpha1
@@ -179,7 +179,7 @@ spec:
 +
 You'll typically set this configuration in your user data, either as-is or embedded within a MIME multi-part document:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 MIME-Version: 1.0 
 Content-Type: multipart/mixed; boundary="BOUNDARY"
@@ -200,7 +200,7 @@ In AL2, the metadata from these parameters was discovered from the Amazon EKS `D
 *[.noloc]`Bottlerocket` user data*::
 [.noloc]`Bottlerocket` structures user data in the TOML format. You can provide user data to be merged with the user data provided by Amazon EKS. For example, you can provide additional `kubelet` settings.
 +
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 [settings.kubernetes.system-reserved]
 cpu = "10m"
@@ -228,7 +228,7 @@ NOTE: When no AMI ID is specified in the launch template, don't use the Windows 
 +
 Example user data is as follows.
 +
-[source,xml,subs="verbatim,attributes,quotes"]
+[source,xml,subs="verbatim,attributes"]
 ----
 <powershell>
 Write-Host "Running custom user data script"
@@ -262,25 +262,25 @@ Create a file named [.replaceable]`my-nodegroup.yaml` with the following content
 *** <<retrieve-windows-ami-id,Retrieve recommended Microsoft Windows AMI IDs>>
 ** To retrieve the [.replaceable]`certificate-authority` for your cluster, run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --query "cluster.certificateAuthority.data" --output text --name my-cluster --region region-code
 ----
 ** To retrieve the [.replaceable]`api-server-endpoint` for your cluster, run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --query "cluster.endpoint" --output text --name my-cluster --region region-code
 ----
 ** The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end. To retrieve the [.replaceable]`service-cidr` for your cluster, run the following command. For example, if the returned value for is `ipv4 10.100.0.0/16`, then your value is [.replaceable]`10.100.0.10`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
 ----
 ** This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters. For help with selecting [.replaceable]`my-max-pods-value`, see <<determine-max-pods>>.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 ---
 apiVersion: eksctl.io/v1alpha5
@@ -311,7 +311,7 @@ For every available `eksctl` `config` file option, see https://eksctl.io/usage/s
 +
 Create a node group with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup --config-file=my-nodegroup.yaml
 ----
@@ -323,25 +323,25 @@ Specify the following information in the user data section of your launch templa
 ** The only required argument is the cluster name ([.replaceable]`my-cluster`).
 ** To retrieve the [.replaceable]`certificate-authority` for your cluster, run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --query "cluster.certificateAuthority.data" --output text --name my-cluster --region region-code
 ----
 ** To retrieve the [.replaceable]`api-server-endpoint` for your cluster, run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --query "cluster.endpoint" --output text --name my-cluster --region region-code
 ----
 ** The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end. To retrieve the [.replaceable]`service-cidr` for your cluster, run the following command. For example, if the returned value for is `ipv4 10.100.0.0/16`, then your value is [.replaceable]`10.100.0.10`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
 ----
 ** This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI. For help with selecting [.replaceable]`my-max-pods-value`, see <<determine-max-pods>>.
 +
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
@@ -384,19 +384,19 @@ Specify the following information in the user data section of your launch templa
 * The only required argument is the cluster name ([.replaceable]`my-cluster`).
 * To retrieve the [.replaceable]`certificate-authority` for your cluster, run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --query "cluster.certificateAuthority.data" --output text --name my-cluster --region region-code
 ----
 * To retrieve the [.replaceable]`api-server-endpoint` for your cluster, run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --query "cluster.endpoint" --output text --name my-cluster --region region-code
 ----
 * The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end. To retrieve the [.replaceable]`service-cidr` for your cluster, run the following command. For example, if the returned value for is `ipv4 10.100.0.0/16`, then your value is [.replaceable]`10.100.0.10`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
 ----
@@ -405,7 +405,7 @@ aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cid
 NOTE: If you're using custom service CIDR, then you need to specify it using the `-ServiceCIDR` parameter. Otherwise, the DNS resolution for [.noloc]`Pods` in the cluster will fail.
 
 
-[source,xml,subs="verbatim,attributes,quotes"]
+[source,xml,subs="verbatim,attributes"]
 ----
 <powershell>
 [string]$EKSBootstrapScriptFile = "$env:ProgramFiles\Amazon\EKS\Start-EKSBootstrap.ps1"
@@ -451,13 +451,13 @@ The following are the limits and conditions involved with specifying an AMI ID w
 +
 .. Open the {aws} IAM Authenticator configuration map for editing.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl edit -n kube-system cm aws-auth
 ----
 .. Add this entry to the `groups` list under each `rolearn` associated with [.noloc]`Windows` nodes. Your configuration map should look similar to https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml[aws-auth-cm-windows.yaml].
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 - eks:kube-proxy-windows
 ----

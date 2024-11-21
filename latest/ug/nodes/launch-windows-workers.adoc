@@ -34,7 +34,7 @@ You can launch self-managed [.noloc]`Windows` nodes with either of the following
 
 This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `{eksctl-min-version}`. You can check your version with the following command.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl version
 ----
@@ -53,7 +53,7 @@ Create your node group with the following command. Replace [.replaceable]`region
 +
 IMPORTANT: To deploy a node group to {aws} Outposts, {aws} Wavelength, or {aws} Local Zone subnets, don't pass the {aws} Outposts, Wavelength, or Local Zone subnets when you create the cluster. Create the node group with a config file, specifying the {aws} Outposts, Wavelength, or Local Zone subnets. For more information, see https://eksctl.io/usage/nodegroups/#creating-a-nodegroup-from-a-config-file[Create a nodegroup from a config file] and https://eksctl.io/usage/schema/[Config file schema] in the `eksctl` documentation.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup \
     --region region-code \
@@ -72,7 +72,7 @@ eksctl create nodegroup \
 ** If nodes fail to join the cluster, see <<worker-node-fail>> in the Troubleshooting guide.
 ** To see the available options for `eksctl` commands, enter the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl command -help
 ----
@@ -80,7 +80,7 @@ eksctl command -help
 +
 An example output is as follows. Several lines are output while the nodes are created. One of the last lines of output is the following example line.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [✔]  created 1 nodegroup(s) in cluster "my-cluster"
 ----
@@ -109,7 +109,7 @@ For more information, see https://aws.github.io/aws-eks-best-practices/security/
 . For *Specify template*, select  *Amazon S3 URL*.
 . Copy the following URL and paste it into *Amazon S3 URL*.
 +
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2023-02-09/amazon-eks-windows-nodegroup.yaml
 ----
@@ -163,7 +163,7 @@ NOTE: If you don't provide a key pair here, the {aws} CloudFormation stack fails
 
 . Check to see if you already have an `aws-auth` `ConfigMap`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe configmap -n kube-system aws-auth
 ----
@@ -171,13 +171,13 @@ kubectl describe configmap -n kube-system aws-auth
 +
 .. Open the `ConfigMap` for editing.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl edit -n kube-system configmap/aws-auth
 ----
 .. Add new `mapRoles` entries as needed. Set the `rolearn` values to the *NodeInstanceRole* values that you recorded in the previous procedures.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 [...]
 data:
@@ -200,13 +200,13 @@ data:
 +
 .. Download the configuration map.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
 ----
 .. In the ``aws-auth-cm-windows.yaml`` file, set the `rolearn` values to the applicable *NodeInstanceRole* values that you recorded in the previous procedures. You can do this with a text editor, or by replacing the [.replaceable]`example values` and running the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 sed -i.bak -e 's|<ARN of linux instance role (not instance profile)>|my-node-linux-instance-role|' \
     -e 's|<ARN of windows instance role (not instance profile)>|my-node-windows-instance-role|' aws-auth-cm-windows.yaml
@@ -219,13 +219,13 @@ sed -i.bak -e 's|<ARN of linux instance role (not instance profile)>|my-node-lin
 ====
 .. Apply the configuration. This command might take a few minutes to finish.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f aws-auth-cm-windows.yaml
 ----
 . Watch the status of your nodes and wait for them to reach the `Ready` status.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get nodes --watch
 ----

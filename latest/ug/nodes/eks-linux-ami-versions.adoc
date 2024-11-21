@@ -12,7 +12,7 @@ This topic gives the location of Amazon EKS optimized Amazon Linux AMIs version 
 
 Amazon EKS optimized Amazon Linux AMIs are versioned by [.noloc]`Kubernetes` version and the release date of the AMI in the following format:
 
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 k8s_major_version.k8s_minor_version.k8s_patch_version-release_date
 ----

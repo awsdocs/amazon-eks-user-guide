@@ -38,7 +38,7 @@ Neuron device logical IDs must be contiguous. If a [.noloc]`Pod` requesting mult
 +
 NOTE: You can't use <<iam-roles-for-service-accounts,IAM roles for service accounts>> with TensorFlow Serving.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create cluster \
     --name inferentia \
@@ -55,7 +55,7 @@ eksctl create cluster \
 +
 NOTE: Note the value of the following line of the output. It's used in a later (optional) step.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [9]  adding identity "{arn-aws}iam::111122223333:role/eksctl-inferentia-nodegroup-ng-in-NodeInstanceRole-FI7HIYS3BS09" to auth ConfigMap
 ----
@@ -63,14 +63,14 @@ NOTE: Note the value of the following line of the output. It's used in a later (
 When launching a node group with `Inf1` instances, `eksctl` automatically installs the {aws} Neuron [.noloc]`Kubernetes` device plugin. This plugin advertises Neuron devices as a system resource to the [.noloc]`Kubernetes` scheduler, which can be requested by a container. In addition to the default Amazon EKS node IAM policies, the Amazon S3 read only access policy is added so that the sample application, covered in a later step, can load a trained model from Amazon S3.
 . Make sure that all [.noloc]`Pods` have started correctly.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n kube-system
 ----
 +
 Abbreviated output:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME                                   READY   STATUS    RESTARTS   AGE
 [...]
@@ -90,7 +90,7 @@ The number of Neuron devices allocated to your serving application can be adjust
 
 . Add the `AmazonS3ReadOnlyAccess` IAM policy to the node instance role that was created in step 1 of <<create-cluster-inferentia,Create a cluster>>. This is necessary so that the sample application can load a trained model from Amazon S3.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
     --policy-arn {arn-aws}iam::aws:policy/AmazonS3ReadOnlyAccess \
@@ -98,12 +98,12 @@ aws iam attach-role-policy \
 ----
 . Create a file named `rn50_deployment.yaml` with the following contents. Update the region-code and model path to match your desired settings. The model name is for identification purposes when a client makes a request to the TensorFlow server. This example uses a model name to match a sample ResNet50 client script that will be used in a later step for sending prediction requests. 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws ecr list-images --repository-name neuron-rtd --registry-id 790709498068 --region us-west-2
 ----
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 kind: Deployment
 apiVersion: apps/v1
@@ -164,13 +164,13 @@ spec:
 ----
 . Deploy the model.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f rn50_deployment.yaml
 ----
 . Create a file named `rn50_service.yaml` with the following contents. The HTTP and gRPC ports are opened for accepting prediction requests.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 kind: Service
 apiVersion: v1
@@ -193,7 +193,7 @@ spec:
 ----
 . Create a [.noloc]`Kubernetes` service for your TensorFlow model Serving application.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f rn50_service.yaml
 ----
@@ -203,13 +203,13 @@ kubectl apply -f rn50_service.yaml
 == (Optional) Make predictions against your TensorFlow Serving service
 . To test locally, forward the gRPC port to the `eks-neuron-test` service.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl port-forward service/eks-neuron-test 8500:8500 &
 ----
 . Create a Python script called `tensorflow-model-server-infer.py` with the following content. This script runs inference via gRPC, which is service framework.
 +
-[source,python,subs="verbatim,attributes,quotes"]
+[source,python,subs="verbatim,attributes"]
 ----
 import numpy as np
    import grpc
@@ -238,14 +238,14 @@ import numpy as np
 ----
 . Run the script to submit predictions to your service.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 python3 tensorflow-model-server-infer.py
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [[(u'n02123045', u'tabby', 0.68817204), (u'n02127052', u'lynx', 0.12701613), (u'n02123159', u'tiger_cat', 0.08736559), (u'n02124075', u'Egyptian_cat', 0.063844085), (u'n02128757', u'snow_leopard', 0.009240591)]]
 ----

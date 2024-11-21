@@ -156,14 +156,14 @@ Policy actions in Amazon EKS use the following prefix before the action: `eks:`.
 
 To specify multiple actions in a single statement, separate them with commas as follows:
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 "Action": ["eks:action1", "eks:action2"]
 ----
 
 You can specify multiple actions using wildcards (*). For example, to specify all actions that begin with the word `Describe`, include the following action:
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 "Action": "eks:Describe*"
 ----
@@ -187,7 +187,7 @@ For actions that don't support resource-level permissions, such as listing opera
 
 The Amazon EKS cluster resource has the following ARN.
 
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 {arn-aws}eks:region-code:account-id:cluster/cluster-name
 ----
@@ -196,21 +196,21 @@ For more information about the format of ARNs, see link:general/latest/gr/aws-ar
 
 For example, to specify the cluster with the name [.replaceable]`my-cluster` in your statement, use the following ARN:
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 "Resource": "{arn-aws}eks:region-code:111122223333:cluster/my-cluster"
 ----
 
 To specify all clusters that belong to a specific account and {aws} Region, use the wildcard (*):
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 "Resource": "{arn-aws}eks:region-code:111122223333:cluster/*"
 ----
 
 Some Amazon EKS actions, such as those for creating resources, can't be performed on a specific resource. In those cases, you must use the wildcard (*).
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 "Resource": "*"
 ----
@@ -246,7 +246,7 @@ Amazon EKS does not support resource-based policies.
 [[security-iam-service-with-iam-tags,security-iam-service-with-iam-tags.title]]
 === Authorization based on Amazon EKS tags
 
-You can attach tags to Amazon EKS resources or pass tags in a request to Amazon EKS. To control access based on tags, you provide tag information in the   link:IAM/latest/UserGuide/reference_policies_elements_condition.html[condition element,type="documentation"] of a policy using the ``aws:ResourceTag/[.replaceable]``key-name````, ``aws:RequestTag/[.replaceable]``key-name````, or `aws:TagKeys` condition keys. For more information about tagging Amazon EKS resources, see <<eks-using-tags>>. For more information about which actions that you can use tags in condition keys with, see  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon EKS,type="documentation"] in the link:service-authorization/latest/reference/reference.html[Service Authorization Reference,type="documentation"].
+You can attach tags to Amazon EKS resources or pass tags in a request to Amazon EKS. To control access based on tags, you provide tag information in the link:IAM/latest/UserGuide/reference_policies_elements_condition.html[condition element,type="documentation"] of a policy using the `aws:ResourceTag/[.replaceable]``key-name```, `aws:RequestTag/[.replaceable]``key-name```, or `aws:TagKeys` condition keys. For more information about tagging Amazon EKS resources, see <<eks-using-tags>>. For more information about which actions that you can use tags in condition keys with, see  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon EKS,type="documentation"] in the link:service-authorization/latest/reference/reference.html[Service Authorization Reference,type="documentation"].
 
 [[security-iam-service-with-iam-roles,security-iam-service-with-iam-roles.title]]
 === Amazon EKS IAM roles
@@ -323,7 +323,7 @@ The following example policy allows a principal to view information on the *Conf
 
 ====
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -356,7 +356,7 @@ You don't need to allow minimum console permissions for principals that are maki
 
 This example shows how you might create a policy that allows IAM users to view the inline and managed policies that are attached to their user identity. This policy includes permissions to complete this action on the console or programmatically using the {aws} CLI or {aws} API.
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -398,7 +398,7 @@ This example shows how you might create a policy that allows IAM users to view t
 
 This example policy includes the minimum permissions required to create an Amazon EKS cluster named [.replaceable]`my-cluster` in the [.replaceable]`us-west-2` {aws} Region. You can replace the {aws} Region with the {aws} Region that you want to create a cluster in. If you see a warning that says *The actions in your policy do not support resource-level permissions and require you to choose `All resources`* in the {aws-management-console}, it can be safely ignored. If your account already has the [.replaceable]`AWSServiceRoleForAmazonEKS` role, you can remove the `iam:CreateServiceLinkedRole` action from the policy. If you've ever created an Amazon EKS cluster in your account then this role already exists, unless you deleted it.
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -433,7 +433,7 @@ This example policy includes the minimum permissions required to create an Amazo
 
 This example policy includes the minimum permissions required to create an Amazon EKS local cluster named [.replaceable]`my-cluster` on an Outpost in the [.replaceable]`us-west-2` {aws} Region. You can replace the {aws} Region with the {aws} Region that you want to create a cluster in. If you see a warning that says *The actions in your policy do not support resource-level permissions and require you to choose `All resources`* in the {aws-management-console}, it can be safely ignored. If your account already has the `AWSServiceRoleForAmazonEKSLocalOutpost` role, you can remove the `iam:CreateServiceLinkedRole` action from the policy. If you've ever created an Amazon EKS local cluster on an Outpost in your account then this role already exists, unless you deleted it.
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -487,7 +487,7 @@ This example policy includes the minimum permissions required to create an Amazo
 
 This example policy includes the minimum permission required to update a cluster named [.replaceable]`my-cluster` in the us-west-2 {aws} Region.
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -507,7 +507,7 @@ This example policy includes the minimum permission required to update a cluster
 
 This example policy includes the minimum permissions required to list and describe all clusters in your account. An   link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] must be able to list and describe clusters to use the `update-kubeconfig` {aws} CLI command.
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -983,7 +983,7 @@ Before you can create Amazon EKS clusters, you must create an IAM role with eith
 * link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy,type="documentation"]
 * A custom IAM policy. The minimal permissions that follow allows the [.noloc]`Kubernetes` cluster to manage nodes, but doesn't allow the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] to create load balancers with Elastic Load Balancing. Your custom IAM policy must have at least the following permissions:
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -1040,7 +1040,7 @@ You can use the following procedure to check and see if your account already has
 . Choose *Trust relationships*, and then choose  *Edit trust policy*.
 . Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the  *Edit trust policy* window and choose  *Update policy*.  
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -1079,7 +1079,7 @@ You can use the {aws-management-console} or the {aws} CLI to create the cluster 
 {aws} CLI::
 .. Copy the following contents to a file named [.replaceable]`cluster-trust-policy.json`. 
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -1096,7 +1096,7 @@ You can use the {aws-management-console} or the {aws} CLI to create the cluster 
 ----
 .. Create the role. You can replace [.replaceable]`eksClusterRole` with any name that you choose.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-role \
   --role-name eksClusterRole \
@@ -1104,7 +1104,7 @@ aws iam create-role \
 ----
 .. Attach the required IAM policy to the role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKSClusterPolicy \
@@ -1156,7 +1156,7 @@ NOTE: If the *AmazonEKS_CNI_Policy* policy is attached to the role, we recommend
 . Choose *Trust relationships*, and then choose  *Edit trust policy*.
 . Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the  *Edit trust policy* window and choose  *Update policy*.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -1210,7 +1210,7 @@ Either the *AmazonEKS_CNI_Policy* managed policy, or an  <<cni-iam-role-create-i
 {aws} CLI::
 .. Run the following command to create the `node-role-trust-relationship.json` file.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 cat >node-role-trust-relationship.json <<EOF
 {
@@ -1229,7 +1229,7 @@ EOF
 ----
 .. Create the IAM role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-role \
   --role-name AmazonEKSNodeRole \
@@ -1237,7 +1237,7 @@ aws iam create-role \
 ----
 .. Attach two required IAM managed policies to the IAM role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKSWorkerNodePolicy \
@@ -1246,11 +1246,11 @@ aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEC2ContainerRegistryPullOnly \
   --role-name AmazonEKSNodeRole
 ----
-.. Attach one of the following IAM policies to the IAM role depending on which IP family you created your cluster with. The policy must be attached to this role or to a role associated to the [.noloc]`Kubernetes` `aws-node` service account that's used for the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes`. We recommend assigning the policy to the role associated to the [.noloc]`Kubernetes` service account. To assign the policy to the role associated to the [.noloc]`Kubernetes` service account, see <<cni-iam-role>>.
+.. Attach one of the following IAM policies to the IAM role depending on which IP family you created your cluster with. The policy must be attached to this role or to a role associated to the [.noloc]`Kubernetes` `aws-node` service account that's used for the [.noloc]`Amazon VPC CNI plugin for Kubernetes`. We recommend assigning the policy to the role associated to the [.noloc]`Kubernetes` service account. To assign the policy to the role associated to the [.noloc]`Kubernetes` service account, see <<cni-iam-role>>.
 +
 *** IPv4
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKS_CNI_Policy \
@@ -1260,7 +1260,7 @@ aws iam attach-role-policy \
 +
 .... Copy the following text and save it to a file named `vpc-cni-ipv6-policy.json`.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -1290,13 +1290,13 @@ aws iam attach-role-policy \
 ----
 .... Create the IAM policy.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-policy --policy-name AmazonEKS_CNI_IPv6_Policy --policy-document file://vpc-cni-ipv6-policy.json
 ----
 .... Attach the IAM policy to the IAM role. Replace [.replaceable]`111122223333` with your account ID.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::111122223333:policy/AmazonEKS_CNI_IPv6_Policy \
@@ -1345,7 +1345,7 @@ You can use the following procedure to check and see if your account already has
 .. Choose *Edit trust policy*.
 . On the *Edit trust policy* page, verify that the trust relationship contains the following policy and has a line for Fargate profiles on your cluster. If so, choose  *Cancel*.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -1368,7 +1368,7 @@ You can use the following procedure to check and see if your account already has
 +
 If the policy matches but doesn't have a line specifying the Fargate profiles on your cluster, you can add the following line at the top of the `ArnLike` object. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in, [.replaceable]`111122223333` with your account ID, and [.replaceable]`my-cluster` with the name of your cluster.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 "aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*",
 ----
@@ -1408,7 +1408,7 @@ If you don't already have the Amazon EKS [.noloc]`Pod` execution role for your c
 +
 ... Copy and paste the following contents into the *Edit trust policy* form. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace [.replaceable]`region-code` with `\*`. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with `\*`.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -1434,7 +1434,7 @@ If you don't already have the Amazon EKS [.noloc]`Pod` execution role for your c
 {aws} CLI::
 .. Copy and paste the following contents to a file named `pod-execution-role-trust-policy.json`. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace [.replaceable]`region-code` with `\*`. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with `\*`.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -1456,7 +1456,7 @@ If you don't already have the Amazon EKS [.noloc]`Pod` execution role for your c
 ----
 .. Create a [.noloc]`Pod` execution IAM role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-role \
   --role-name AmazonEKSFargatePodExecutionRole \
@@ -1464,7 +1464,7 @@ aws iam create-role \
 ----
 .. Attach the required Amazon EKS managed IAM policy to the role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy \
@@ -1491,7 +1491,7 @@ You can use the following procedure to check and see if your account already has
 . Choose *Trust relationships*, and then choose  *Edit trust policy*.
 . Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the  *Edit trust policy* window and choose  *Update policy*.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -1518,7 +1518,7 @@ You can use the {aws-management-console} or {aws} CloudFormation to create the c
 {aws} CLI::
 .. Create a file named `eks-connector-agent-trust-policy.json` that contains the following JSON to use for the IAM role.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -1537,7 +1537,7 @@ You can use the {aws-management-console} or {aws} CloudFormation to create the c
 ----
 .. Create a file named `eks-connector-agent-policy.json` that contains the following JSON to use for the IAM role.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -1565,7 +1565,7 @@ You can use the {aws-management-console} or {aws} CloudFormation to create the c
 ----
 .. Create the Amazon EKS Connector agent role using the trust policy and policy you created in the previous list items.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-role \
      --role-name AmazonEKSConnectorAgentRole \
@@ -1573,7 +1573,7 @@ aws iam create-role \
 ----
 .. Attach the policy to your Amazon EKS Connector agent role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam put-role-policy \
      --role-name AmazonEKSConnectorAgentRole \
@@ -1587,7 +1587,7 @@ aws iam put-role-policy \
 +
 NOTE: This template also creates the service-linked role that would otherwise be created when the `registerCluster` API is called. See <<using-service-linked-roles-eks-connector>> for details.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 ---
 AWSTemplateFormatVersion: '2010-09-09'

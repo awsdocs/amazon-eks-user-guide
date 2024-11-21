@@ -24,7 +24,7 @@ Though many variables are changeable in the following steps, we recommend only c
 
 A namespace allows you to group resources in [.noloc]`Kubernetes`. For more information, see https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/[Namespaces] in the [.noloc]`Kubernetes` documentation. If you plan to deploy your sample application to  <<fargate,Simplify compute management with {aws} Fargate>>, make sure that the value for `namespace` in your <<fargate-profile,Define which Pods use {aws} Fargate when launched>> is `eks-sample-app`.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl create namespace eks-sample-app
 ----
@@ -38,7 +38,7 @@ This sample deployment pulls a container image from a public repository and depl
 +
 ** The `kubernetes.io/os: windows` `nodeSelector` means that if you had [.noloc]`Windows` and [.noloc]`Linux` nodes (for example) in your cluster, the image would only be deployed to [.noloc]`Windows` nodes. For more information, see https://kubernetes.io/docs/reference/labels-annotations-taints/[Well-Known Labels, Annotations and Taints] in the [.noloc]`Kubernetes` documentation.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: apps/v1
 kind: Deployment
@@ -82,7 +82,7 @@ spec:
 ----
 . Apply the deployment manifest to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f eks-sample-deployment.yaml
 ----
@@ -93,7 +93,7 @@ A service allows you to access all replicas through a single IP address or name.
 
 . Save the following contents to a file named `eks-sample-service.yaml`. [.noloc]`Kubernetes` assigns the service its own IP address that is accessible only from within the cluster. To access the service from outside of your cluster, deploy the  <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to load balance <<alb-ingress,application>> or <<network-load-balancing,network>> traffic to the service. 
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: v1
 kind: Service
@@ -112,7 +112,7 @@ spec:
 ----
 . Apply the service manifest to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f eks-sample-service.yaml
 ----
@@ -122,14 +122,14 @@ kubectl apply -f eks-sample-service.yaml
 
 . View all resources that exist in the `eks-sample-app` namespace.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get all -n eks-sample-app
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME                                               READY   STATUS    RESTARTS   AGE
 pod/eks-sample-windows-deployment-65b7669776-m6qxz   1/1     Running   0          27m
@@ -151,14 +151,14 @@ In the output, you see the service and deployment that were specified in the sam
 NOTE: [.noloc]`Kubernetes` maintains the number of replicas that are specified in the manifest. If this were a production deployment and you wanted [.noloc]`Kubernetes` to horizontally scale the number of replicas or vertically scale the compute resources for the [.noloc]`Pods`, use the  <<horizontal-pod-autoscaler,Scale pod deployments with Horizontal Pod Autoscaler>> and the <<vertical-pod-autoscaler,Adjust pod resources with Vertical Pod Autoscaler>> to do so.
 . View the details of the deployed service.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl -n eks-sample-app describe service eks-sample-windows-service
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Name:              eks-sample-windows-service
 Namespace:         eks-sample-app
@@ -179,14 +179,14 @@ Events:            <none>
 In the previous output, the value for `IP:` is a unique IP address that can be reached from any node or [.noloc]`Pod` within the cluster, but it can't be reached from outside of the cluster. The values for `Endpoints` are IP addresses assigned from within your VPC to the [.noloc]`Pods` that are part of the service.
 . View the details of one of the [.noloc]`Pods` listed in the output when you  <<sample-app-view-namespace,viewed the namespace>> in a previous step. Replace [.replaceable]`776d8f8fd8-78w66` with the value returned for one of your [.noloc]`Pods`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl -n eks-sample-app describe pod eks-sample-windows-deployment-65b7669776-m6qxz
 ----
 +
 Abbreviated example output
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Name:         eks-sample-windows-deployment-65b7669776-m6qxz
 Namespace:    eks-sample-app
@@ -220,20 +220,20 @@ TIP: Rather than using the command line, you can view many details about [.noloc
 
 . Run a shell on the [.noloc]`Pod` that you described in the previous step, replacing [.replaceable]`65b7669776-m6qxz` with the ID of one of your [.noloc]`Pods`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl exec -it eks-sample-windows-deployment-65b7669776-m6qxz -n eks-sample-app -- powershell.exe
 ----
 . From the [.noloc]`Pod` shell, view the output from the web server that was installed with your deployment in a previous step. You only need to specify the service name. It is resolved to the service's IP address by [.noloc]`CoreDNS`, which is deployed with an Amazon EKS cluster, by default.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Invoke-WebRequest -uri eks-sample-windows-service/default.html -UseBasicParsing
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 StatusCode        : 200
 StatusDescription : OK
@@ -242,14 +242,14 @@ Content           : < h t m l > < b o d y > < b r / > < b r / > < m a r q u e e 
 ----
 . From the [.noloc]`Pod` shell, view the DNS server for the [.noloc]`Pod`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 Get-NetIPConfiguration
 ----
 +
 Abbreviated output
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 InterfaceAlias       : vEthernet
 [...]
@@ -262,7 +262,7 @@ In the previous output, `10.100.0.10` is automatically assigned as the DNS serve
 . Disconnect from the [.noloc]`Pod` by typing `exit`.
 . Once you're finished with the sample application, you can remove the sample namespace, service, and deployment with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl delete namespace eks-sample-app
 ----

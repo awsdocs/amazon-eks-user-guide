@@ -36,12 +36,12 @@ You can use Capacity Blocks with Amazon EKS managed node groups for provisioning
 In addition to the requirements in the above procedures, make sure that the `LaunchTemplateData` includes the following:
 +
 ** `InstanceMarketOptions` with `MarketType` set to `"capacity-block"`
-** `CapacityReservationSpecification: CapacityReservationTarget` with `CapacityReservationId` set to the Capacity Block (for example: `cr-[.replaceable]`02168da1478b509e0`` )
+** `CapacityReservationSpecification: CapacityReservationTarget` with `CapacityReservationId` set to the Capacity Block (for example: `cr-[.replaceable]``02168da1478b509e0``` )
 ** `InstanceType` set to an instance type that supports Capacity Blocks (for example: [.replaceable]`p5.48xlarge`)
 +
 The following is an excerpt of a CloudFormation template that creates a launch template targeting a Capacity Block. To  create a custom AMI managed node group, you can also add `ImageId` and `UserData` parameters.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 NodeLaunchTemplate:
   Type: "{aws}::EC2::LaunchTemplate"
@@ -64,7 +64,7 @@ When creating the Capacity Block managed node group, do the following:
 ** When specifying `subnets` in the create request, make sure to only specify the subnet in the same Availability Zone as the capacity reservation.
 ** If you specify a non-zero `desiredSize` in the create request, Amazon EKS will honor that when creating the Auto Scaling group (ASG). However, if the create request is made before the capacity reservation is active, then the ASG won't be able to launch Amazon EC2 instances until it becomes active. As a result, ASG scaling activities will have launch errors. Whenever the reservation becomes active, then the launch of instances will succeed and the ASG will be scaled up to the `desiredSize` mentioned at create time.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 aws eks create-nodegroup \
     --cluster-name my-cluster \

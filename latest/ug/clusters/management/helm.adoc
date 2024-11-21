@@ -21,7 +21,7 @@ The Helm package manager for [.noloc]`Kubernetes` helps you install and manage a
 
 Before you can install Helm charts on your Amazon EKS cluster, you must configure `kubectl`  to work for Amazon EKS. If you have not already done this, see <<create-kubeconfig>> before proceeding. If the following command succeeds for your cluster, you're properly configured.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get svc
 ----
@@ -31,19 +31,19 @@ kubectl get svc
 +
 ** If you're using macOS with https://brew.sh/[Homebrew], install the binaries with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 brew install helm
 ----
 ** If you're using [.noloc]`Windows` with https://chocolatey.org/[Chocolatey], install the binaries with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 choco install kubernetes-helm
 ----
 ** If you're using [.noloc]`Linux`, install the binaries with the following commands.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
 chmod 700 get_helm.sh
@@ -52,21 +52,21 @@ chmod 700 get_helm.sh
 +
 NOTE: If you get a message that `openssl` must first be installed, you can install it with the following command. 
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 sudo yum install openssl
 ----
 . To pick up the new binary in your `PATH`, Close your current terminal window and open a new one.
 . See the version of Helm that you installed.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm version | cut -d + -f 1
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 v3.9.0
 ----

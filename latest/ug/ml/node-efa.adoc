@@ -46,7 +46,7 @@ The following procedure guides you to create an EKS cluster with `eksctl` with n
 If you plan to use `eksctl` to create your node group, `eksctl` can also create a cluster for you. 
 * Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
-* You must have the [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` version `1.7.10` or later installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d` or `p5`. For more information about updating your [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` version, see <<managing-vpc-cni>>.
+* You must have the [.noloc]`Amazon VPC CNI plugin for Kubernetes` version `1.7.10` or later installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d` or `p5`. For more information about updating your [.noloc]`Amazon VPC CNI plugin for Kubernetes` version, see <<managing-vpc-cni>>.
 
 
 [IMPORTANT]
@@ -63,7 +63,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 
 . Determine which Amazon EC2 instance types that support EFA are available in the {aws} Region that you want to deploy nodes in. Replace [.replaceable]`region-code` with the {aws} Region that you want to deploy your node group in.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws ec2 describe-instance-types --region region-code \
     --filters Name=network-info.efa-supported,Values=true \
@@ -73,7 +73,7 @@ aws ec2 describe-instance-types --region region-code \
 When you deploy nodes, the instance type that you want to deploy must be available in the {aws} Region that your cluster is in.
 . Determine which Availability Zones that the instance type that you want to deploy is available in. In this tutorial, the `p5.48xlarge` instance type is used and must be returned in the output for the {aws} Region that you specified in the previous step. When you deploy nodes in a production cluster, replace [.replaceable]`p5.48xlarge` with any instance type returned in the previous step. 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws ec2 describe-instance-type-offerings --region region-code \
     --location-type availability-zone --filters Name=instance-type,Values=p4d.24xlarge,p5.48xlarge \
@@ -82,7 +82,7 @@ aws ec2 describe-instance-type-offerings --region region-code \
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 us-west-2a    us-west-2c    us-west-2b
 ----
@@ -92,7 +92,7 @@ Note the Availability Zones returned for use in later steps. When you deploy nod
 +
 .. Copy the following contents to a file named [.replaceable]`efa-cluster.yaml`. Replace the [.replaceable]`example values` with your own. You can replace [.replaceable]`p5.48xlarge` with a different instance, but if you do, make sure that the values for `availabilityZones` are Availability Zones that were returned for the instance type in step 1.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -120,14 +120,14 @@ managedNodeGroups:
 ----
 .. Create a managed node group in an existing cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup -f efa-cluster.yaml
 ----
 +
 If you don't have an existing cluster, you can run the following command to create a cluster and the node group.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create cluster -f efa-cluster.yaml
 ----
@@ -137,7 +137,7 @@ NOTE: Because the instance type used in this example has GPUs, `eksctl` automati
 +
 The EFA Kubernetes device plugin detects and advertises EFA interfaces as allocatable resources to Kubernetes. An application can consume the extended resource type `vpc.amazonaws.com/efa` in a [.noloc]`Pod` request spec just like CPU and memory. For more information, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#consuming-extended-resources[Consuming extended resources] in the [.noloc]`Kubernetes` documentation. Once requested, the plugin automatically assigns and mounts an EFA interface to the [.noloc]`Pod`. Using the device plugin simplifies EFA setup and does not require a [.noloc]`Pod` to run in privileged mode.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm repo add eks https://aws.github.io/eks-charts
 helm install aws-efa-k8s-device-plugin --namespace kube-system eks/aws-efa-k8s-device-plugin
@@ -162,7 +162,7 @@ Complete the following steps to run a two node [.noloc]`NCCL Performance Test`. 
 +
 Copy the following to a file named `nccl-tests.yaml`:
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: kubeflow.org/v2beta1
 kind: MPIJob
@@ -273,14 +273,14 @@ spec:
 +
 Submit the `MPIJob` by applying the manifest. This will create two `p5.48xlarge` Amazon EC2 instances.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f nccl-tests.yaml
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 mpijob.kubeflow.org/nccl-tests created
 ----
@@ -288,14 +288,14 @@ mpijob.kubeflow.org/nccl-tests created
 +
 View your running [.noloc]`Pods`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME                             READY   STATUS     RESTARTS   AGE
 nccl-tests-launcher-nbql9    0/1     Init:0/1   0          2m49s
@@ -308,7 +308,7 @@ The MPI Operator creates a launcher [.noloc]`Pod` and 2 worker [.noloc]`Pods` (o
 +
 View the log for the `nccl-tests-launcher` [.noloc]`Pod`. Replace [.replaceable]`nbql9` with the value from your output.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl logs -f nccl-tests-launcher-nbql9
 ----

@@ -16,7 +16,7 @@ This topic describes how you can launch Auto Scaling groups of [.noloc]`Linux` n
 
 * An existing Amazon EKS cluster. To deploy one, see <<create-cluster>>. If you have subnets in the {aws} Region where you have {aws} Outposts, {aws} Wavelength, or {aws} Local Zones enabled, those subnets must not have been passed in when you created your cluster.
 * An existing IAM role for the nodes to use. To create one, see <<create-node-role>>. If this role doesn't have either of the policies for the VPC CNI, the separate role that follows is required for the VPC CNI pods.
-* (Optional, but recommended) The [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` add-on configured with its own IAM role that has the necessary IAM policy attached to it. For more information, see <<cni-iam-role>>.
+* (Optional, but recommended) The [.noloc]`Amazon VPC CNI plugin for Kubernetes` add-on configured with its own IAM role that has the necessary IAM policy attached to it. For more information, see <<cni-iam-role>>.
 * Familiarity with the considerations listed in <<choosing-instance-type,Choose an optimal Amazon EC2 node instance type>>. Depending on the instance type you choose, there may be additional prerequisites for your cluster and VPC.
 
 You can launch self-managed Linux nodes using either of the following:
@@ -49,7 +49,7 @@ If you want to deploy a node group to {aws} Outposts, Wavelength, or Local Zone 
 *** You must create the node group with a config file that specifies the subnets and ``https://eksctl.io/usage/schema/#nodeGroups-volumeType[volumeType]: gp2``. For more information, see https://eksctl.io/usage/nodegroups/#creating-a-nodegroup-from-a-config-file[Create a nodegroup from a config file] and https://eksctl.io/usage/schema/[Config file schema] in the `eksctl` documentation.
 ====
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup \
   --cluster my-cluster \
@@ -71,7 +71,7 @@ To deploy a node group that:
 +
 For a complete list of all available options and defaults, enter the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup --help
 ----
@@ -80,7 +80,7 @@ If nodes fail to join the cluster, then see <<worker-node-fail>> in the Troubles
 +
 An example output is as follows. Several lines are output while the nodes are created. One of the last lines of output is the following example line.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [✔]  created 1 nodegroup(s) in cluster "my-cluster"
 ----
@@ -99,7 +99,7 @@ For more information, see https://aws.github.io/aws-eks-best-practices/security/
 
 . Download the latest version of the {aws} CloudFormation template.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
 ----
@@ -170,7 +170,7 @@ If you launched nodes inside a private VPC without outbound internet access, mak
 
 . Check to see if you already have an `aws-auth` `ConfigMap`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe configmap -n kube-system aws-auth
 ----
@@ -178,13 +178,13 @@ kubectl describe configmap -n kube-system aws-auth
 +
 .. Open the `ConfigMap` for editing.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl edit -n kube-system configmap/aws-auth
 ----
 .. Add a new `mapRoles` entry as needed. Set the `rolearn` value to the *NodeInstanceRole* value that you recorded in the previous procedure.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 [...]
 data:
@@ -201,25 +201,25 @@ data:
 +
 .. Download the configuration map.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
 ----
 .. In the ``aws-auth-cm.yaml`` file, set the `rolearn` value to the *NodeInstanceRole* value that you recorded in the previous procedure. You can do this with a text editor, or by replacing [.replaceable]`my-node-instance-role` and running the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 sed -i.bak -e 's|<ARN of instance role (not instance profile)>|my-node-instance-role|' aws-auth-cm.yaml
 ----
 .. Apply the configuration. This command may take a few minutes to finish.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f aws-auth-cm.yaml
 ----
 . Watch the status of your nodes and wait for them to reach the `Ready` status.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get nodes --watch
 ----
@@ -231,7 +231,7 @@ NOTE: If you receive any authorization or resource type errors, see <<unauthoriz
 If nodes fail to join the cluster, then see <<worker-node-fail>> in the Troubleshooting chapter.
 . (GPU nodes only) If you chose a GPU instance type and the Amazon EKS optimized accelerated AMI, you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/deployments/static/nvidia-device-plugin.yml
 ----

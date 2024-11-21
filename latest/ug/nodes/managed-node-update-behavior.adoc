@@ -43,16 +43,16 @@ For example, if your node group has five Availability Zones and `maxUnavailable`
 +
 These are the Amazon EKS applied labels on the worker nodes in a regular node group:
 +
-*** `eks.amazonaws.com/nodegroup-image=[.replaceable]`$amiName``
-*** `eks.amazonaws.com/nodegroup=[.replaceable]`$nodeGroupName``
+*** `eks.amazonaws.com/nodegroup-image=[.replaceable]``$amiName```
+*** `eks.amazonaws.com/nodegroup=[.replaceable]``$nodeGroupName```
 
 +
 These are the Amazon EKS applied labels on the worker nodes in a custom launch template or AMI node group:
 +
-*** `eks.amazonaws.com/nodegroup-image=[.replaceable]`$amiName``
-*** `eks.amazonaws.com/nodegroup=[.replaceable]`$nodeGroupName``
-*** `eks.amazonaws.com/sourceLaunchTemplateId=[.replaceable]`$launchTemplateId``
-*** `eks.amazonaws.com/sourceLaunchTemplateVersion=[.replaceable]`$launchTemplateVersion``
+*** `eks.amazonaws.com/nodegroup-image=[.replaceable]``$amiName```
+*** `eks.amazonaws.com/nodegroup=[.replaceable]``$nodeGroupName```
+*** `eks.amazonaws.com/sourceLaunchTemplateId=[.replaceable]``$launchTemplateId```
+*** `eks.amazonaws.com/sourceLaunchTemplateVersion=[.replaceable]``$launchTemplateVersion```
 . It marks nodes as unschedulable to avoid scheduling new [.noloc]`Pods`. It also labels nodes with `node.kubernetes.io/exclude-from-external-load-balancers=true` to remove the nodes from load balancers before terminating the nodes.
 
 The following are known reasons which lead to a `NodeCreationFailure` error in this phase:

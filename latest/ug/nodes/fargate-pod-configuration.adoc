@@ -79,14 +79,14 @@ The additional memory reserved for the [.noloc]`Kubernetes` components can cause
 
 There is no correlation between the size of the [.noloc]`Pod` running on Fargate and the node size reported by [.noloc]`Kubernetes` with `kubectl get nodes`. The reported node size is often larger than the [.noloc]`Pod's` capacity. You can verify [.noloc]`Pod` capacity with the following command. Replace [.replaceable]`default` with your [.noloc]`Pod's` namespace and [.replaceable]`pod-name` with the name of your [.noloc]`Pod`.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl describe pod --namespace default pod-name
 ----
 
 An example output is as follows.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [...]
 annotations:

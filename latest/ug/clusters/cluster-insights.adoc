@@ -55,14 +55,14 @@ Cluster insights update periodically. You cannot manually refresh cluster insigh
 ** Replace [.replaceable]`region-code` with the code for your {aws} Region.
 ** Replace [.replaceable]`my-cluster` with the name of your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks list-insights --region region-code --cluster-name my-cluster
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 {
     "insights": [
@@ -88,14 +88,14 @@ An example output is as follows.
 ** Replace [.replaceable]`123e4567-e89b-42d3-a456-579642341238` with the insight ID retrieved from listing the cluster insights.
 ** Replace [.replaceable]`my-cluster` with the name of your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-insight --region region-code --id 123e4567-e89b-42d3-a456-579642341238 --cluster-name my-cluster
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 {
     "insight": {

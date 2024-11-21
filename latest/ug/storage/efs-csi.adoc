@@ -58,7 +58,7 @@ The specific steps in this procedure are written for using the driver as an Amaz
 === `eksctl` [[eksctl_efs_store_app_data]]
 Run the following commands to create an IAM role with `eksctl`. Replace [.replaceable]`my-cluster` with your cluster name and [.replaceable]`AmazonEKS_EFS_CSI_DriverRole` with the name for your role.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 export cluster_name=my-cluster
 export role_name=AmazonEKS_EFS_CSI_DriverRole
@@ -101,14 +101,14 @@ Run the following to create an IAM role with {aws-management-console}.
 . Choose the *Trust relationships* tab, and then choose  *Edit trust policy*.
 . Find the line that looks similar to the following line:
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
 ----
 +
 Add the following line above the previous line.  Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` with your cluster's OIDC provider ID.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:efs-csi-*",
 ----
@@ -121,14 +121,14 @@ Run the following commands to create an IAM role with {aws} CLI.
 
 . View your cluster's OIDC provider URL. Replace [.replaceable]`my-cluster` with your cluster name. If the output from the command is `None`, review the *Prerequisites*.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
 ----
@@ -136,7 +136,7 @@ https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
 +
 .. Copy the following contents to a file named [.replaceable]`aws-efs-csi-driver-trust-policy`.json``. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` and [.replaceable]`region-code` with the values returned in the previous step.  If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -159,7 +159,7 @@ https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
 ----
 .. Create the role. You can change [.replaceable]`AmazonEKS_EFS_CSI_DriverRole` to a different name, but if you do, make sure to change it in later steps too.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-role \
   --role-name AmazonEKS_EFS_CSI_DriverRole \
@@ -167,7 +167,7 @@ aws iam create-role \
 ----
 . Attach the required {aws} managed policy to the role with the following command. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \

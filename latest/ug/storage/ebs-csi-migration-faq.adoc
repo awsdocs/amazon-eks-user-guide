@@ -97,14 +97,14 @@ The [.noloc]`Kubernetes` in-tree Amazon EBS driver runs on the [.noloc]`Kubernet
 
 To determine whether the driver is installed on your cluster, run the following command:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get csidriver ebs.csi.aws.com
 ----
 
 To check if that installation is managed by Amazon EKS, run the following command:
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks list-addons --cluster-name my-cluster
 ----

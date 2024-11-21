@@ -20,7 +20,7 @@ kubectl get --raw [.replaceable]`endpoint`
 
 This command allows you to pass any endpoint path and returns the raw response. The output lists different metrics line-by-line, with each line including a metric name, tags, and a value.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 metric_name{tag="value"[,...]} value
 ----
@@ -30,14 +30,14 @@ metric_name{tag="value"[,...]} value
  
 The general API server endpoint is exposed on the Amazon EKS control plane. This endpoint is primarily useful when looking at a specific metric.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get --raw /metrics
 ----
 
 An example output is as follows.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [...]
 # HELP rest_client_requests_total Number of HTTP requests, partitioned by status code, method, and host.
@@ -88,14 +88,14 @@ For new clusters that are [.noloc]`Kubernetes` version `1.28` and above, Amazon 
 
 To retrieve `kube-scheduler` metrics, use the following command.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get --raw "/apis/metrics.eks.amazonaws.com/v1/ksh/container/metrics"
 ----
 
 An example output is as follows.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 # TYPE scheduler_pending_pods gauge
 scheduler_pending_pods{queue="active"} 0
@@ -118,14 +118,14 @@ scheduler_pod_scheduling_attempts_bucket{le="+Inf"} 81
 
 To retrieve `kube-controller-manager` metrics, use the following command.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get --raw "/apis/metrics.eks.amazonaws.com/v1/kcm/container/metrics"
 ----
 
 An example output is as follows.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 [...]
 workqueue_work_duration_seconds_sum{name="pvprotection"} 0
@@ -307,7 +307,7 @@ spec:
 ----
 
 The permission that follows is required for the Pod to access the new metrics endpoint.
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 { 
   "effect": "allow", 
@@ -324,7 +324,7 @@ The permission that follows is required for the Pod to access the new metrics en
 ----
 
 To patch the role being used, you can use the following command.
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl patch clusterrole <role-name> --type=json -p='[
   {
@@ -340,7 +340,7 @@ kubectl patch clusterrole <role-name> --type=json -p='[
 ----
 
 Then you can view the [.noloc]`Prometheus` dashboard by proxying the port of the [.noloc]`Prometheus` scraper to your local port.
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl port-forward pods/prom-pod 9090:9090
 ----

@@ -80,7 +80,7 @@ For the complete [.noloc]`Kubernetes` `1.30` changelog, see https://github.com/k
 * The `.status.kubeProxyVersion` field for node objects is now deprecated, and the [.noloc]`Kubernetes` project is proposing to remove that field in a future release. The deprecated field is not accurate and has historically been managed by `kubelet` - which does not actually know the `kube-proxy` version, or even whether `kube-proxy` is running. If you've been using this field in client software, stop - the information isn't reliable and the field is now deprecated.
 * In [.noloc]`Kubernetes` `1.29` to reduce potential attack surface, the `LegacyServiceAccountTokenCleanUp` feature labels legacy auto-generated secret-based tokens as invalid if they have not been used for a long time (1 year by default), and automatically removes them if use is not attempted for a long time after being marked as invalid (1 additional year by default). To identify such tokens, a you can run: 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get cm kube-apiserver-legacy-service-account-token-tracking -n kube-system
 ----

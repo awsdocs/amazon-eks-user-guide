@@ -29,27 +29,27 @@ This method isn't supported for node groups that were created with `eksctl`. If 
 ====
 . Determine the DNS provider for your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get deployments -l k8s-app=kube-dns -n kube-system
 ----
 +
 An example output is as follows. This cluster is using [.noloc]`CoreDNS` for DNS resolution, but your cluster might return `kube-dns` instead. Your output might look different depending on the version of `kubectl` that you're using.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 coredns   1         1         1            1           31m
 ----
 . If your current deployment is running fewer than two replicas, scale out the deployment to two replicas. Replace [.replaceable]`coredns` with `kube-dns` if your previous command output returned that instead.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl scale deployments/coredns --replicas=2 -n kube-system
 ----
 . (Optional) If you're using the [.noloc]`Kubernetes` https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler], scale the deployment down to zero (0) replicas to avoid conflicting scaling actions.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
 ----
@@ -63,7 +63,7 @@ kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
 . Select *Replace current template* and select  *Amazon S3 URL*.
 . For *Amazon S3 URL*, paste the following URL into the text area to ensure that you're using the latest version of the node {aws} CloudFormation template. Then, choose  *Next*:
 +
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
 ----
@@ -78,7 +78,7 @@ NOTE: The supported instance types for the latest version of the https://github.
 IMPORTANT: Some instance types might not be available in all {aws} Regions.
 ** *NodeImageIdSSMParam* – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to. The following value uses the latest Amazon EKS optimized AMI for [.noloc]`Kubernetes` version `1.30`.
 +
-[source,none,subs="verbatim,attributes,quotes"]
+[source,none,subs="verbatim,attributes"]
 ----
 /aws/service/eks/optimized-ami/1.30/amazon-linux-2/recommended/image_id
 ----
@@ -96,15 +96,15 @@ IMPORTANT: This value overrides any value specified for *NodeImageIdSSMParam*. I
 NOTE: The update of each node in the cluster takes several minutes. Wait for the update of all nodes to complete before performing the next steps.
 . If your cluster's DNS provider is `kube-dns`, scale in the `kube-dns` deployment to one replica.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl scale deployments/kube-dns --replicas=1 -n kube-system
 ----
 . (Optional) If you are using the [.noloc]`Kubernetes` https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler], scale the deployment back to your desired amount of replicas.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
 ----
-. (Optional) Verify that you're using the latest version of the https://github.com/aws/amazon-vpc-cni-k8s[Amazon VPC CNI plugin for Kubernetes]. You might need to update your [.noloc]`Amazon VPC CNI plugin for` [.noloc]`Kubernetes` version to use the latest supported instance types. For more information, see <<managing-vpc-cni>>.
+. (Optional) Verify that you're using the latest version of the https://github.com/aws/amazon-vpc-cni-k8s[Amazon VPC CNI plugin for Kubernetes]. You might need to update your [.noloc]`Amazon VPC CNI plugin for Kubernetes` version to use the latest supported instance types. For more information, see <<managing-vpc-cni>>.
 

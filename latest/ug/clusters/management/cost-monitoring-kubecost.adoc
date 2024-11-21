@@ -36,7 +36,7 @@ Amazon EKS Add-ons reduce the complexity of upgrading Kubecost, and managing lic
 . Determine the name of your cluster, and the region. Verify you are logged into the {aws} CLI with sufficient permissions to manage EKS. 
 . Create the Kubecost addon.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks create-addon --addon-name kubecost_kubecost --cluster-name $YOUR_CLUSTER_NAME --region $AWS_REGION
 ----
@@ -53,7 +53,7 @@ Learn how to  <<removing-an-add-on,remove an EKS Add-on>>, such as Kubecost.
 . Determine the version of [.noloc]`Kubecost` to install. You can see the available versions at https://gallery.ecr.aws/kubecost/cost-analyzer[kubecost/cost-analyzer] in the Amazon ECR Public Gallery. For more information about the compatibility of [.noloc]`Kubecost` versions and Amazon EKS, see the https://docs.kubecost.com/install-and-configure/install/environment[Environment Requirements] in the Kubecost documentation. 
 . Install [.noloc]`Kubecost` with the following command. Replace [.replaceable]`kubecost-version` with the value retrieved from ECR, such as [.replaceable]`1.108.1`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm upgrade -i kubecost oci://public.ecr.aws/kubecost/cost-analyzer --version kubecost-version \
     --namespace kubecost --create-namespace \
@@ -64,7 +64,7 @@ helm upgrade -i kubecost oci://public.ecr.aws/kubecost/cost-analyzer --version k
 +
 You can remove [.noloc]`Kubecost` from your cluster with the following commands.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm uninstall kubecost --namespace kubecost
 kubectl delete ns kubecost
@@ -76,14 +76,14 @@ kubectl delete ns kubecost
 == Access Kubecost Dashboard
 . Make sure the required [.noloc]`Pods` are running.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n kubecost
 ----
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME                                          READY   STATUS    RESTARTS   AGE
 kubecost-cost-analyzer-b9788c99f-5vj5b        2/2     Running   0          3h27m
@@ -92,15 +92,15 @@ kubecost-prometheus-server-7d9967bfc8-9c8p7   2/2     Running   0          3h27m
 ----
 . On your device, enable port-forwarding to expose the [.noloc]`Kubecost` dashboard.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl port-forward --namespace kubecost deployment/kubecost-cost-analyzer 9090
 ----
 +
-Alternatively, you can use the  <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to expose [.noloc]`Kubecost `and use Amazon Cognito for authentication, authorization, and user management. For more information, see link:containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps[How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps,type="blog"].
+Alternatively, you can use the  <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to expose [.noloc]`Kubecost` and use Amazon Cognito for authentication, authorization, and user management. For more information, see link:containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps[How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps,type="blog"].
 . On the same device that you completed the previous step on, open a web browser and enter the following address.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 http://localhost:9090
 ----

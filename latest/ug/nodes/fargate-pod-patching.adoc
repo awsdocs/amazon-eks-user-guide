@@ -36,7 +36,7 @@ When the eviction for a [.noloc]`Pod` fails, Amazon EKS sends an event to your a
 
 The following is a sample event received when the [.noloc]`Pod` eviction fails. It contains details about the cluster, [.noloc]`Pod` name, [.noloc]`Pod` namespace, Fargate profile, and the scheduled termination time.
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "version": "0",
@@ -62,14 +62,14 @@ The following is a sample event received when the [.noloc]`Pod` eviction fails. 
 
 In addition, having multiple PDBs associated with a [.noloc]`Pod` can cause an eviction failure event. This event returns the following error message.
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 "evictErrorMessage": "This pod has multiple PodDisruptionBudget, which the eviction subresource does not support",
 ----
 
 You can create a desired action based on this event. For example, you can adjust your [.noloc]`Pod` disruption budget (PDB) to control how the [.noloc]`Pods` are evicted. More specifically, suppose that you start with a PDB that specifies the target percentage of [.noloc]`Pods` that are available. Before your [.noloc]`Pods` are force terminated during an upgrade, you can adjust the PDB to a different percentage of [.noloc]`Pods`. To receive this event, you must create an Amazon EventBridge rule in the {aws} account and {aws} Region that the cluster belongs to. The rule must use the following  *Custom pattern*. For more information, see link:eventbridge/latest/userguide/eb-create-rule.html[Creating Amazon EventBridge rules that react to events,type="documentation"] in the _Amazon EventBridge User Guide_.
 
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "source": ["aws.eks"],

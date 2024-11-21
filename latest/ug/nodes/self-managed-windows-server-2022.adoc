@@ -19,7 +19,7 @@ You must use `eksctl` version https://github.com/weaveworks/eksctl/releases/tag/
 
 ====
 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -44,7 +44,7 @@ nodeGroups:
 
 The node groups can then be created using the following command.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create cluster -f test-windows-2022.yaml
 ----

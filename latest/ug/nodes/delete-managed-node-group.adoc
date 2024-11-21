@@ -34,7 +34,7 @@ You can delete a managed node group with:
 
 Enter the following command. Replace every [.replaceable]`example value` with your own values.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl delete nodegroup \
   --cluster my-cluster \
@@ -61,7 +61,7 @@ For more options, see https://eksctl.io/usage/nodegroups/#deleting-and-draining-
 
 . Enter the following command. Replace every [.replaceable]`example value` with your own values.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks delete-nodegroup \
   --cluster-name my-cluster \

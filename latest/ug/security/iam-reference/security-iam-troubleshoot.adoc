@@ -13,7 +13,7 @@ This topic covers some common errors that you may see while using Amazon EKS wit
 
 If you receive an `AccessDeniedException` when calling an {aws} API operation, then the  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] credentials that you're using don't have the required permissions to make that call. 
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 An error occurred (AccessDeniedException) when calling the DescribeCluster operation: 
 User: {arn-aws}iam::111122223333:user/user_name is not authorized to perform: 

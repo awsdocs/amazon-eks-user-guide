@@ -35,7 +35,7 @@ Before starting this tutorial, you must install and configure the following tool
 * *Required IAM permissions*
  – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, {aws} CloudFormation, a VPC, and related resources. For more information, see   link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] and link:IAM/latest/UserGuide/using-service-linked-roles.html[Using service-linked roles,type="documentation"] in the IAM User Guide. You must complete all steps in this guide as the same user. To check the current user, run the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws sts get-caller-identity
 ----
@@ -54,7 +54,7 @@ To get started as simply and quickly as possible, this topic includes steps to c
 ====
 . Create an Amazon VPC with public and private subnets that meets Amazon EKS requirements. Replace [.replaceable]`region-code` with any {aws} Region that is supported by Amazon EKS. For a list of {aws} Regions, see link:general/latest/gr/eks.html[Amazon EKS endpoints and quotas,type="documentation"] in the {aws} General Reference guide. You can replace [.replaceable]`my-eks-vpc-stack` with any name you choose.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws cloudformation create-stack \
   --region region-code \
@@ -67,7 +67,7 @@ TIP: For a list of all the resources the previous command creates, open the {aws
 +
 .. Copy the following contents to a file named [.replaceable]`eks-cluster-role-trust-policy.json`.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -84,7 +84,7 @@ TIP: For a list of all the resources the previous command creates, open the {aws
 ----
 .. Create the role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-role \
   --role-name myAmazonEKSClusterRole \
@@ -92,7 +92,7 @@ aws iam create-role \
 ----
 .. Attach the required Amazon EKS managed IAM policy to the role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKSClusterPolicy \
@@ -132,7 +132,7 @@ Before proceeding, be sure that your cluster creation completed successfully in 
 
 . Create or update a `kubeconfig` file for your cluster. Replace [.replaceable]`region-code` with the {aws} Region that you created your cluster in. Replace [.replaceable]`my-cluster` with the name of your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks update-kubeconfig --region region-code --name my-cluster
 ----
@@ -140,7 +140,7 @@ aws eks update-kubeconfig --region region-code --name my-cluster
 By default, the `config` file is created in `~/.kube` or the new cluster's configuration is added to an existing `config` file in `~/.kube`.
 . Test your configuration.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get svc
 ----
@@ -149,7 +149,7 @@ NOTE: If you receive any authorization or resource type errors, see <<unauthoriz
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
@@ -183,7 +183,7 @@ Create a Fargate profile. When [.noloc]``Kubernetes``[.noloc]``Pods`` are deploy
 
 .. Copy the following contents to a file named `pod-execution-role-trust-policy.json`. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace [.replaceable]`region-code` with ``\*``. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with ``\*``.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -206,7 +206,7 @@ Create a Fargate profile. When [.noloc]``Kubernetes``[.noloc]``Pods`` are deploy
 
 .. Create a [.noloc]``Pod`` execution IAM role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-role \
   --role-name AmazonEKSFargatePodExecutionRole \
@@ -215,7 +215,7 @@ aws iam create-role \
 
 .. Attach the required Amazon EKS managed IAM policy to the role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy \
@@ -256,7 +256,7 @@ NOTE: If you don't do this, you won't have any nodes at this time.
 .. On the *Review and create* page, review the information for your Fargate profile and choose  *Create*.
 .. Run the following command to remove the default `eks.amazonaws.com/compute-type : ec2` annotation from the [.noloc]``CoreDNS``[.noloc]``Pods``.  
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl patch deployment coredns \
     -n kube-system \
@@ -277,7 +277,7 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 +
 .. Copy the following contents to a file named `node-role-trust-policy.json`.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -294,7 +294,7 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 ----
 .. Create the node IAM role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-role \
   --role-name myAmazonEKSNodeRole \
@@ -302,7 +302,7 @@ aws iam create-role \
 ----
 .. Attach the required managed IAM policies to the role.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKSWorkerNodePolicy \
