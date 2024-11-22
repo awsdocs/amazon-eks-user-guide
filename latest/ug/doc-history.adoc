@@ -69,7 +69,7 @@ https://docs.aws.amazon.com/eks/latest/userguide/retrieve-ami-id-bottlerocket.ht
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
 
-Added permissions to `AWSServiceRoleForAmazonEKSNodegroup`. Added permissions to reboot and tag EC2 instances.
+Updated `AWSServiceRoleForAmazonEKSNodegroup` policy to allow `ec2:RebootInstances` for instances created by Amazon EKS managed node groups. Restricted the `ec2:CreateTags` permissions for Amazon EC2 resources.
 
 
 [.update,date="2024-11-18"]

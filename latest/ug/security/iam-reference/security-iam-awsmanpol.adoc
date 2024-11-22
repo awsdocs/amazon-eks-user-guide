@@ -301,8 +301,6 @@ This policy includes the following permissions that allow Amazon EKS to complete
 * *`ec2`* – Work with security groups, tags, capacity reservations, and launch templates. This is required for Amazon EKS managed node groups to enable remote access configuration and to describe capacity reservations that can be used in managed node groups. Additionally, Amazon EKS managed node groups create a launch template on your behalf. This is to configure the Amazon EC2 Auto Scaling group that backs each managed node group.
 * *`iam`* – Create a service-linked role and pass a role. This is required by Amazon EKS managed node groups to manage instance profiles for the role being passed when creating a managed node group. This instance profile is used by Amazon EC2 instances launched as part of a managed node group. Amazon EKS needs to create service-linked roles for other services such as Amazon EC2 Auto Scaling groups. These permissions are used in the creation of a managed node group.
 * *`autoscaling`* – Work with security Auto Scaling groups. This is required by Amazon EKS managed node groups to manage the Amazon EC2 Auto Scaling group that backs each managed node group. It's also used to support functionality such as evicting [.noloc]`Pods` when nodes are terminated or recycled during node group updates.
-* *`ec2:RebootInstances`* - Enable Amazon EKS managed node groups to reboot EC2 instances tagged with the nodegroup name
-* *`ec2:CreateTags`* - Create specific EKS and Kubernetes-related tags on EC2 resources (security groups, launch templates, instances, volumes, network interfaces) with enhanced conditions to control when and where tags can be applied 
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html#AWSServiceRoleForAmazonEKSNodegroup-json[AWSServiceRoleForAmazonEKSNodegroup,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
@@ -372,8 +370,8 @@ View details about updates to {aws} managed policies for Amazon EKS since this s
 |November 21, 2024
 
 |Added permissions to <<security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup>>.
-|Added permissions to `AWSServiceRoleForAmazonEKSNodegroup`. Added permissions to reboot and tag EC2 instances. 
-| November 20, 2024
+|Updated `AWSServiceRoleForAmazonEKSNodegroup` policy to allow `ec2:RebootInstances` for instances created by Amazon EKS managed node groups. Restricted the `ec2:CreateTags` permissions for Amazon EC2 resources.
+|November 20, 2024
 
 |Added permissions to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>.
 |EKS updated {aws} managed policy `AmazonEKSServiceRolePolicy`. Added permissions for EKS access policies, load balancer management, and automated cluster resource cleanup.
