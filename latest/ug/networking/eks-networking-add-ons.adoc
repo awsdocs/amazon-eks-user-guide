@@ -2922,7 +2922,7 @@ my-deployment-5df6f7687b-zmb42   1/1     Running   0          7m51s   192.168.63
 ====
 Try these tips if any [.noloc]`Pods` are stuck.
 
-* If any [.noloc]`Pods` are stuck in the `Waiting` state, then run `kubectl describe pod [.replaceable]``my-deployment-xxxxxxxxxx-xxxxx`` -n [.replaceable]`my-namespace```. If you see `Insufficient permissions: Unable to create Elastic Network Interface.`, confirm that you added the IAM policy to the IAM cluster role in a previous step.
+* If any [.noloc]`Pods` are stuck in the `Waiting` state, then run `kubectl describe pod [.replaceable]``my-deployment-xxxxxxxxxx-xxxxx`` -n [.replaceable]``my-namespace```. If you see `Insufficient permissions: Unable to create Elastic Network Interface.`, confirm that you added the IAM policy to the IAM cluster role in a previous step.
 * If any [.noloc]`Pods` are stuck in the `Pending` state, confirm that your node instance type is listed in https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go[limits.go] and that the product of the maximum number of branch network interfaces supported by the instance type multiplied times the number of nodes in your node group hasn't already been met. For example, an `m5.large` instance supports nine branch network interfaces. If your node group has five nodes, then a maximum of 45 branch network interfaces can be created for the node group. The 46th [.noloc]`Pod` that you attempt to deploy will sit in `Pending` state until another [.noloc]`Pod` that has associated security groups is deleted.
 
 ====
