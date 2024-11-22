@@ -33,6 +33,14 @@ The following table describes the major updates and new features for the Amazon 
 
 
 [.update,date="2024-11-22"]
+=== {aws} managed policy updates
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html
+ 
+Updated `AWSServiceRoleForAmazonEKSNodegroup` for compatibility with China regions.
+
+
+[.update,date="2024-11-22"]
 === Amazon EKS platform version update
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html
