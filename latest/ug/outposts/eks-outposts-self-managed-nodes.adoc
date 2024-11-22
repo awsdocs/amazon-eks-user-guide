@@ -18,8 +18,6 @@ Learn how to launch Auto Scaling groups of Amazon Linux nodes on an Outpost that
 
 This topic describes how you can launch Auto Scaling groups of Amazon Linux nodes on an Outpost that register with your Amazon EKS cluster. The cluster can be on the {aws} Cloud or on an Outpost.
 
-
-
 * An existing Outpost. For more information, see link:outposts/latest/userguide/what-is-outposts.html[What is {aws} Outposts,type="documentation"].
 * An existing Amazon EKS cluster. To deploy a cluster on the {aws} Cloud, see <<create-cluster>>. To deploy a cluster on an Outpost, see <<eks-outposts-local-cluster-overview>>.
 * Suppose that you're creating your nodes in a cluster on the {aws} Cloud and you have subnets in the {aws} Region where you have {aws} Outposts, {aws} Wavelength, or {aws} Local Zones enabled. Then, those subnets must not have been passed in when you created your cluster. If you're creating your nodes in a cluster on an Outpost, you must have passed in an Outpost subnet when creating your cluster.

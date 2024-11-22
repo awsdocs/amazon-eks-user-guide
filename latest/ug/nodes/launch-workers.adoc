@@ -12,8 +12,6 @@ This topic describes how you can launch Auto Scaling groups of [.noloc]`Linux` n
 
 This topic describes how you can launch Auto Scaling groups of [.noloc]`Linux` nodes that register with your Amazon EKS cluster. After the nodes join the cluster, you can deploy [.noloc]`Kubernetes` applications to them. You can also launch self-managed Amazon Linux nodes with `eksctl` or the {aws-management-console}. If you need to launch nodes on {aws} Outposts, see <<eks-outposts-self-managed-nodes>>.
 
-
-
 * An existing Amazon EKS cluster. To deploy one, see <<create-cluster>>. If you have subnets in the {aws} Region where you have {aws} Outposts, {aws} Wavelength, or {aws} Local Zones enabled, those subnets must not have been passed in when you created your cluster.
 * An existing IAM role for the nodes to use. To create one, see <<create-node-role>>. If this role doesn't have either of the policies for the VPC CNI, the separate role that follows is required for the VPC CNI pods.
 * (Optional, but recommended) The [.noloc]`Amazon VPC CNI plugin for Kubernetes` add-on configured with its own IAM role that has the necessary IAM policy attached to it. For more information, see <<cni-iam-role>>.
