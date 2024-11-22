@@ -2827,17 +2827,19 @@ spec:
 EOF
 ----
 +
-IMPORTANT: 
-
+[IMPORTANT]
+====
 The security group or groups that you specify for your [.noloc]`Pods` must meet the following criteria:
 
-*** They must exist. If they don't exist, then, when you deploy a [.noloc]`Pod` that matches the selector, your [.noloc]`Pod` remains stuck in the creation process. If you describe the [.noloc]`Pod`, you'll see an error message similar to the following one: `An error occurred (InvalidSecurityGroupID.NotFound) when calling the CreateNetworkInterface operation: The securityGroup ID '[.replaceable]``sg-05b1d815d1EXAMPLE``' does not exist`.
-*** They must allow inbound communication from the security group applied to your nodes (for `kubelet`) over any ports that you've configured probes for.
-*** They must allow outbound communication over `TCP` and `UDP` ports 53 to a security group assigned to the [.noloc]`Pods` (or nodes that the [.noloc]`Pods` run on) running [.noloc]`CoreDNS`. The security group for your [.noloc]`CoreDNS` [.noloc]`Pods` must allow inbound `TCP` and `UDP` port 53 traffic from the security group that you specify.
-*** They must have necessary inbound and outbound rules to communicate with other [.noloc]`Pods` that they need to communicate with.
-*** They must have rules that allow the [.noloc]`Pods` to communicate with the [.noloc]`Kubernetes` control plane if you're using the security group with Fargate. The easiest way to do this is to specify the cluster security group as one of the security groups.
+* They must exist. If they don't exist, then, when you deploy a [.noloc]`Pod` that matches the selector, your [.noloc]`Pod` remains stuck in the creation process. If you describe the [.noloc]`Pod`, you'll see an error message similar to the following one: `An error occurred (InvalidSecurityGroupID.NotFound) when calling the CreateNetworkInterface operation: The securityGroup ID '[.replaceable]``sg-05b1d815d1EXAMPLE``' does not exist`.
+* They must allow inbound communication from the security group applied to your nodes (for `kubelet`) over any ports that you've configured probes for.
+* They must allow outbound communication over `TCP` and `UDP` ports 53 to a security group assigned to the [.noloc]`Pods` (or nodes that the [.noloc]`Pods` run on) running [.noloc]`CoreDNS`. The security group for your [.noloc]`CoreDNS` [.noloc]`Pods` must allow inbound `TCP` and `UDP` port 53 traffic from the security group that you specify.
+* They must have necessary inbound and outbound rules to communicate with other [.noloc]`Pods` that they need to communicate with.
+* They must have rules that allow the [.noloc]`Pods` to communicate with the [.noloc]`Kubernetes` control plane if you're using the security group with Fargate. The easiest way to do this is to specify the cluster security group as one of the security groups.
 
 Security group policies only apply to newly scheduled [.noloc]`Pods`. They do not affect running [.noloc]`Pods`.
+====
+
 .. Deploy the policy.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -2916,10 +2918,14 @@ my-deployment-5df6f7687b-rjxcz   1/1     Running   0          7m51s   192.168.73
 my-deployment-5df6f7687b-zmb42   1/1     Running   0          7m51s   192.168.63.27    ip-192-168-33-28.region-code.compute.internal   <none>           <none>
 ----
 +
-NOTE: 
-** If any [.noloc]`Pods` are stuck in the `Waiting` state, then run ``kubectl describe pod [.replaceable]`my-deployment-xxxxxxxxxx-xxxxx` -n [.replaceable]`my-namespace```. If you see `Insufficient permissions: Unable to create Elastic Network Interface.`, confirm that you added the IAM policy to the IAM cluster role in a previous step.
-** If any [.noloc]`Pods` are stuck in the `Pending` state, confirm that your node instance type is listed in https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go[limits.go] and that the product of the maximum number of branch network interfaces supported by the instance type multiplied times the number of nodes in your node group hasn't already been met. For example, an `m5.large` instance supports nine branch network interfaces. If your node group has five nodes, then a maximum of 45 branch network interfaces can be created for the node group. The 46th [.noloc]`Pod` that you attempt to deploy will sit in `Pending` state until another [.noloc]`Pod` that has associated security groups is deleted.
+[NOTE]
+====
+Try these tips if any [.noloc]`Pods` are stuck.
 
+* If any [.noloc]`Pods` are stuck in the `Waiting` state, then run `kubectl describe pod [.replaceable]``my-deployment-xxxxxxxxxx-xxxxx`` -n [.replaceable]`my-namespace```. If you see `Insufficient permissions: Unable to create Elastic Network Interface.`, confirm that you added the IAM policy to the IAM cluster role in a previous step.
+* If any [.noloc]`Pods` are stuck in the `Pending` state, confirm that your node instance type is listed in https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go[limits.go] and that the product of the maximum number of branch network interfaces supported by the instance type multiplied times the number of nodes in your node group hasn't already been met. For example, an `m5.large` instance supports nine branch network interfaces. If your node group has five nodes, then a maximum of 45 branch network interfaces can be created for the node group. The 46th [.noloc]`Pod` that you attempt to deploy will sit in `Pending` state until another [.noloc]`Pod` that has associated security groups is deleted.
+
+====
 +
 If you run `kubectl describe pod [.replaceable]``my-deployment-xxxxxxxxxx-xxxxx`` -n [.replaceable]``my-namespace``` and see a message similar to the following message, then it can be safely ignored. This message might appear when the [.noloc]`Amazon VPC CNI plugin for Kubernetes` tries to set up host networking and fails while the network interface is being created. The plugin logs this event until the network interface is created.
 +
@@ -2945,7 +2951,7 @@ curl my-app
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes"]
+[source,html,subs="verbatim"]
 ----
 <!DOCTYPE html>
 <html>
@@ -3003,8 +3009,6 @@ Learn how to use Multus CNI to attach multiple network interfaces to a [.noloc]`
 Multus CNI is a container network interface (CNI) plugin for Amazon EKS that enables attaching multiple network interfaces to a [.noloc]`Pod`. For more information, see the https://github.com/k8snetworkplumbingwg/multus-cni[Multus-CNI] documentation on [.noloc]`GitHub`.  
 
 In Amazon EKS, each [.noloc]`Pod` has one network interface assigned by the Amazon VPC CNI plugin. With Multus, you can create a multi-homed [.noloc]`Pod` that has multiple interfaces. This is accomplished by Multus acting as a "meta-plugin"; a CNI plugin that can call multiple other CNI plugins. {aws} support for Multus comes configured with the Amazon VPC CNI plugin as the default delegate plugin.
-
-
 
 * Amazon EKS won't be building and publishing single root I/O virtualization (SR-IOV) and Data Plane Development Kit (DPDK) CNI plugins. However, you can achieve packet acceleration by connecting directly to Amazon EC2 Elastic Network Adapters (ENA) through Multus managed host-device and `ipvlan` plugins.
 * Amazon EKS is supporting Multus, which provides a generic process that enables simple chaining of additional CNI plugins. Multus and the process of chaining is supported, but {aws} won't provide support for all compatible CNI plugins that can be chained, or issues that may arise in those CNI plugins that are unrelated to the chaining configuration.

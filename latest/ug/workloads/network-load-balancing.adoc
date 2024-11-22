@@ -257,7 +257,7 @@ curl k8s-default-samplese-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.region-code.amazonaws.
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes"]
+[source,html,subs="verbatim"]
 ----
 <!DOCTYPE html>
 <html>

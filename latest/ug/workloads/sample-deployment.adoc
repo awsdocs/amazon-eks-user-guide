@@ -232,7 +232,7 @@ curl eks-sample-linux-service
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes"]
+[source,html,subs="verbatim"]
 ----
 <!DOCTYPE html>
 <html>
