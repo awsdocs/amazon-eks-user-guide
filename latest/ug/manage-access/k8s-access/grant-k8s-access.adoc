@@ -42,13 +42,13 @@ The https://github.com/kubernetes-sigs/aws-iam-authenticator#readme[{aws} IAM Au
 
 
 * *Creating access entries*
- – If your cluster is at or later than the platform version listed in the  <<access-entries,Prerequisites>> section for your cluster's [.noloc]`Kubernetes` version, we recommend that you use this option.
+ – If your cluster is at or later than the platform version listed in the  link:eks/latest/userguide/access-entries.html[Prerequisites,type="documentation"] section for your cluster's [.noloc]`Kubernetes` version, we recommend that you use this option.
 +
 Use _access entries_ to manage the [.noloc]`Kubernetes` permissions of IAM principals from outside the cluster. You can add and manage access to the cluster by using the EKS API, {aws} Command Line Interface, {aws} SDKs, {aws} CloudFormation, and {aws-management-console}. This means you can manage users with the same tools that you created the cluster with.
 +
-To get started, follow <<setting-up-access-entries,Change authentication mode to use access entries>>, then <<migrating-access-entries,Migrating existing aws-auth ConfigMap entries to access entries>>.
+To get started, follow link:eks/latest/userguide/setting-up-access-entries.html[Change authentication mode to use access entries,type="documentation"], then link:eks/latest/userguide/migrating-access-entries.html[Migrating existing aws-auth ConfigMap entries to access entries,type="documentation"].
 * *Adding entries to the `aws-auth` `ConfigMap`*
- – If your cluster's platform version is earlier than the version listed in the  <<access-entries,Prerequisites>> section, then you must use this option. If your cluster's platform version is at or later than the platform version listed in the <<access-entries,Prerequisites>> section for your cluster's [.noloc]`Kubernetes` version, and you've added entries to the `ConfigMap`, then we recommend that you migrate those entries to access entries. You can't migrate entries that Amazon EKS added to the `ConfigMap` however, such as entries for IAM roles used with managed node groups or Fargate profiles. For more information, see <<grant-k8s-access>>.
+ – If your cluster's platform version is earlier than the version listed in the link:eks/latest/userguide/access-entries.html[Prerequisites,type="documentation"] section, then you must use this option. If your cluster's platform version is at or later than the platform version listed in the link:eks/latest/userguide/access-entries.html[Prerequisites,type="documentation"] section for your cluster's [.noloc]`Kubernetes` version, and you've added entries to the `ConfigMap`, then we recommend that you migrate those entries to access entries. You can't migrate entries that Amazon EKS added to the `ConfigMap` however, such as entries for IAM roles used with managed node groups or Fargate profiles. For more information, see <<grant-k8s-access>>.
 +
 ** If you have to use the `aws-auth` `ConfigMap` option, you can add entries to the `ConfigMap` using the `eksctl create iamidentitymapping` command. For more information, see https://eksctl.io/usage/iam-identity-mappings/[Manage IAM users and roles] in the `eksctl` documentation.
 
@@ -145,7 +145,7 @@ You can check your current [.noloc]`Kubernetes` and platform version by replacin
 IMPORTANT: After Amazon EKS updates your cluster to the platform version listed in the table, Amazon EKS creates an access entry with administrator permissions to the cluster for the IAM principal that originally created the cluster. If you don't want that IAM principal to have administrator permissions to the cluster, remove the access entry that Amazon EKS created.
 
 For clusters with platform versions that are earlier than those listed in the previous table, the cluster creator is always a cluster administrator. It's not possible to remove cluster administrator permissions from the IAM user or role that created the cluster.
-* An IAM principal with the following permissions for your cluster: `CreateAccessEntry`, `ListAccessEntries`, `DescribeAccessEntry`, `DeleteAccessEntry`, and `UpdateAccessEntry`. For more information about Amazon EKS permissions, see  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference.
+* An IAM principal with the following permissions for your cluster: `CreateAccessEntry`, `ListAccessEntries`, `DescribeAccessEntry`, `DeleteAccessEntry`, and `UpdateAccessEntry`. For more information about Amazon EKS permissions, see  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the _Service Authorization Reference_.
 * An existing IAM principal to create an access entry for, or an existing access entry to update or delete.
 
 
@@ -171,7 +171,7 @@ To begin using access entries, you must change the authentication mode of the cl
 [[access-setup-cli,access-setup-cli.title]]
 ==== {aws} CLI
 
-. Install the {aws} CLI, as described in  link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
+. Install the {aws} CLI, as described in  link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the _{aws} Command Line Interface User Guide_.
 . Run the following command. Replace [.replaceable]`my-cluster` with the name of your cluster. If you want to disable the `ConfigMap` method permanently, replace `API_AND_CONFIG_MAP` with `API`.
 +
 Amazon EKS begins to update the cluster, the status of the cluster changes to [.noloc]`UPDATING`, and the change is recorded in the  [command]*aws eks list-updates*.
@@ -193,7 +193,7 @@ Before creating access entries, consider the following:
 * A properly set authentication mode. See <<setting-up-access-entries>>.
 * An _access entry_ includes the Amazon Resource Name (ARN) of one, and only one, existing IAM principal. An IAM principal can't be included in more than one access entry. Additional considerations for the ARN that you specify:
 +
-** IAM best practices recommend accessing your cluster using IAM _roles_ that have short-term credentials, rather than IAM _users_ that have long-term credentials. For more information, see  link:IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp[Require human users to use federation with an identity provider to access {aws} using temporary credentials,type="documentation"] in the IAM User Guide.
+** IAM best practices recommend accessing your cluster using IAM _roles_ that have short-term credentials, rather than IAM _users_ that have long-term credentials. For more information, see  link:IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp[Require human users to use federation with an identity provider to access {aws} using temporary credentials,type="documentation"] in the _IAM User Guide_.
 ** If the ARN is for an IAM role, it _can_ include a path. ARNs in `aws-auth` `ConfigMap` entries, _can't_ include a path. For example, your ARN can be `{arn-aws}iam::<111122223333>:role/<development/apps/my-role>` or `{arn-aws}iam::<111122223333>:role/<my-role>`.
 ** If the type of the access entry is anything other than `STANDARD` (see next consideration about types), the ARN must be in the same {aws} account that your cluster is in. If the type is `STANDARD`, the ARN can be in the same, or different, {aws} account than the account that your cluster is in.
 ** You can't change the IAM principal after the access entry is created.
@@ -240,7 +240,7 @@ You can change the username after the access entry is created.
 IMPORTANT: Amazon EKS doesn't confirm that any [.noloc]`Kubernetes` RBAC objects that exist on your cluster include any of the group names that you specify.
 +
 Instead of, or in addition to, [.noloc]`Kubernetes` authorizing the IAM principal access to [.noloc]`Kubernetes` objects on your cluster, you can associate Amazon EKS  _access policies_ to an access entry. Amazon EKS authorizes IAM principals to access [.noloc]`Kubernetes` objects on your cluster with the permissions in the access policy. You can scope an access policy's permissions to [.noloc]`Kubernetes` namespaces that you specify. Use of access policies don't require you to manage [.noloc]`Kubernetes` RBAC objects. For more information, see <<access-policies>>.
-* If you create an access entry with type `EC2_Linux` or `EC2_Windows`, the IAM principal creating the access entry must have the `iam:PassRole` permission. For more information, see  link:IAM/latest/UserGuide/id_roles_use_passrole.html[Granting a user permissions to pass a role to an {aws} service,type="documentation"] in the IAM User Guide.
+* If you create an access entry with type `EC2_Linux` or `EC2_Windows`, the IAM principal creating the access entry must have the `iam:PassRole` permission. For more information, see  link:IAM/latest/UserGuide/id_roles_use_passrole.html[Granting a user permissions to pass a role to an {aws} service,type="documentation"] in the _IAM User Guide_.
 * Similar to standard  link:IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency[IAM behavior,type="documentation"], access entry creation and updates are eventually consistent, and may take several seconds to be effective after the initial API call returns successfully. You must design your applications to account for these potential delays. We recommend that you don't include access entry creates or updates in the critical, high- availability code paths of your application. Instead, make changes in a separate initialization or setup routine that you run less frequently. Also, be sure to verify that the changes have been propagated before production workflows depend on them. 
 * Access entries do not support link:IAM/latest/UserGuide/using-service-linked-roles.html[service linked roles,type="documentation"]. You cannot create access entries where the principal ARN is a service linked role. You can identify service linked roles by their ARN, which is in the format `{arn-aws}iam::*:role/aws-service-role/*`. 
 
@@ -253,7 +253,7 @@ You can create an access entry using the {aws-management-console} or the {aws} C
 . Choose the name of the cluster that you want to create an access entry in.
 . Choose the *Access* tab.
 . Choose *Create access entry*.
-. For *IAM principal*, select an existing IAM role or user. IAM best practices recommend accessing your cluster using IAM  _roles_ that have short-term credentials, rather than IAM _users_ that have long-term credentials. For more information, see  link:IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp[Require human users to use federation with an identity provider to access {aws} using temporary credentials,type="documentation"] in the IAM User Guide.
+. For *IAM principal*, select an existing IAM role or user. IAM best practices recommend accessing your cluster using IAM  _roles_ that have short-term credentials, rather than IAM _users_ that have long-term credentials. For more information, see  link:IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp[Require human users to use federation with an identity provider to access {aws} using temporary credentials,type="documentation"] in the _IAM User Guide_.
 . For *Type*, if the access entry is for the node role used for self-managed Amazon EC2 nodes, select  *EC2 Linux* or  *EC2 Windows*. Otherwise, accept the default (*Standard*).
 . If the *Type* you chose is  *Standard* and you want to specify a  *Username*, enter the username.
 . If the *Type* you chose is  *Standard* and you want to use [.noloc]`Kubernetes` RBAC authorization for the IAM principal, specify one or more names for  *Groups*. If you don't specify any group names and want to use Amazon EKS authorization, you can associate an access policy in a later step, or after the access entry is created.
@@ -277,7 +277,7 @@ You can create an access entry using the {aws-management-console} or the {aws} C
 . To create an access entry
 You can use any of the following examples to create access entries:
 +
-** Create an access entry for a self-managed Amazon EC2 Linux node group. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`EKS-my-cluster-self-managed-ng-1` with the name of your <<create-node-role,node IAM role>>. If your node group is a Windows node group, then replace [.replaceable]`EC2_Linux` with `EC2_Windows`.
+** Create an access entry for a self-managed Amazon EC2 Linux node group. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`EKS-my-cluster-self-managed-ng-1` with the name of your link:eks/latest/userguide/create-node-role.html[node IAM role,type="documentation"]. If your node group is a Windows node group, then replace [.replaceable]`EC2_Linux` with `EC2_Windows`.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -291,7 +291,7 @@ You can't use the `--kubernetes-groups` option when you specify a type other tha
 ----
 aws eks create-access-entry --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/my-role --type STANDARD --user Viewers --kubernetes-groups Viewers
 ----
-** Create an access entry that allows an IAM user to authenticate to your cluster. This example is provided because this is possible, though IAM best practices recommend accessing your cluster using IAM _roles_ that have short-term credentials, rather than IAM _users_ that have long-term credentials. For more information, see  link:IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp[Require human users to use federation with an identity provider to access {aws} using temporary credentials,type="documentation"] in the IAM User Guide.
+** Create an access entry that allows an IAM user to authenticate to your cluster. This example is provided because this is possible, though IAM best practices recommend accessing your cluster using IAM _roles_ that have short-term credentials, rather than IAM _users_ that have long-term credentials. For more information, see  link:IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp[Require human users to use federation with an identity provider to access {aws} using temporary credentials,type="documentation"] in the _IAM User Guide_.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -379,7 +379,7 @@ You can assign one or more access policies to  _access entries_ of _type_ `STAND
 
 
 * An existing access entry. To create one, see <<creating-access-entries>>.
-* An {aws} Identity and Access Management role or user with the following permissions: `ListAccessEntries`, `DescribeAccessEntry`, `UpdateAccessEntry`, `ListAccessPolicies`, `AssociateAccessPolicy`, and `DisassociateAccessPolicy`. For more information, see  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference.
+* An {aws} Identity and Access Management role or user with the following permissions: `ListAccessEntries`, `DescribeAccessEntry`, `UpdateAccessEntry`, `ListAccessPolicies`, `AssociateAccessPolicy`, and `DisassociateAccessPolicy`. For more information, see  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the _Service Authorization Reference_.
 
 Before associating access policies with access entries, consider the following requirements:
 
@@ -529,7 +529,7 @@ Choose any access policy to see its contents. Each row of each table in each acc
 [%collapsible]
 ====
 
-This access policy includes permissions that grant an IAM principal most permissions to resources. When associated to an access entry, its access scope is typically one or more [.noloc]`Kubernetes` namespaces. If you want an IAM principal to have administrator access to all resources on your cluster, associate the  <<access-policy-permissions-amazoneksclusteradminpolicy,AmazonEKSClusterAdminPolicy>> access policy to your access entry instead.
+This access policy includes permissions that grant an IAM principal most permissions to resources. When associated to an access entry, its access scope is typically one or more [.noloc]`Kubernetes` namespaces. If you want an IAM principal to have administrator access to all resources on your cluster, associate the <<access-policy-permissions-amazoneksclusteradminpolicy>> access policy to your access entry instead.
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSAdminPolicy`
 
@@ -635,7 +635,7 @@ This access policy includes permissions that grant an IAM principal most permiss
 [%collapsible]
 ====
 
-This access policy includes permissions that grant an IAM principal administrator access to a cluster. When associated to an access entry, its access scope is typically the cluster, rather than a [.noloc]`Kubernetes` namespace. If you want an IAM principal to have a more limited administrative scope, consider associating the  <<access-policy-permissions-amazoneksadminpolicy,AmazonEKSAdminPolicy>> access policy to your access entry instead.
+This access policy includes permissions that grant an IAM principal administrator access to a cluster. When associated to an access entry, its access scope is typically the cluster, rather than a [.noloc]`Kubernetes` namespace. If you want an IAM principal to have a more limited administrative scope, consider associating the  <<access-policy-permissions-amazoneksadminpolicy>> access policy to your access entry instead.
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy`
 
@@ -864,20 +864,27 @@ View details about updates to access policies, since they were introduced. For a
 
 //GDC: problems with xrefs
 
-If you've added entries to the `aws-auth` `ConfigMap` on your cluster, we recommend that you create access entries for the existing entries in your `aws-auth` `ConfigMap`. After creating the access entries, you can remove the entries from your `ConfigMap`. You can't associate xref:access-policies[access policies,linkend=access-policies] to entries in the `aws-auth` `ConfigMap`. If you want to associate access polices to your IAM principals, create access entries.
+If you've added entries to the `aws-auth` `ConfigMap` on your cluster, we recommend that you create access entries for the existing entries in your `aws-auth` `ConfigMap`. After creating the access entries, you can remove the entries from your `ConfigMap`. You can't associate link:eks/latest/userguide/access-policies.html[access policies,type="documentation"] to entries in the `aws-auth` `ConfigMap`. If you want to associate access polices to your IAM principals, create access entries.
 
 [IMPORTANT]
 ====
 
-Don't remove existing `aws-auth` `ConfigMap` entries that were created by Amazon EKS when you added a <<managed-node-groups,managed node group>> or a <<fargate-profile,Fargate profile>> to your cluster. If you remove entries that Amazon EKS created in the `ConfigMap`, your cluster won't function properly. You can however, remove any entries for <<worker,self-managed>> node groups after you've created access entries for them.
+Don't remove existing `aws-auth` `ConfigMap` entries that were created by Amazon EKS when you added a link:eks/latest/userguide/managed-node-groups.html[managed node group,type="documentation"] or a link:eks/latest/userguide/fargate-profile.html["Fargate profile",type="documentation"] to your cluster. If you remove entries that Amazon EKS created in the `ConfigMap`, your cluster won't function properly. You can however, remove any entries for link:eks/latest/userguide/worker.html["self-managed",type="documentation"] node groups after you've created access entries for them.
 
 ====
 
+
+=== Prerequisites [[migrating_access_entries_prereq]]
+
 * Familiarity with access entries and access policies. For more information, see <<access-entries>> and <<access-policies>>.
-* An existing cluster with a platform version that is at or later than the versions listed in the Prerequisites of the <<access-entries,Allowing IAM roles or users access to Kubernetes objects on your Amazon EKS cluster>> topic.
+* An existing cluster with a platform version that is at or later than the versions listed in the Prerequisites of the <<access-entries>> topic.
 * Version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
 * [.noloc]`Kubernetes` permissions to modify the `aws-auth` `ConfigMap` in the `kube-system` namespace.
 * An {aws} Identity and Access Management role or user with the following permissions: `CreateAccessEntry` and `ListAccessEntries`. For more information, see  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference.
+
+
+=== `eksctl` [[migrating_access_entries_eksctl]]
+
 . View the existing entries in your `aws-auth ConfigMap`. Replace [.replaceable]`my-cluster` with the name of your cluster.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -897,7 +904,7 @@ ARN                                                                             
 {arn-aws}iam::111122223333:role/EKS-my-cluster-fargateprofile1                                   system:node:{{SessionName}}             system:bootstrappers,system:nodes,system:node-proxier
 {arn-aws}iam::111122223333:role/EKS-my-cluster-managed-ng                                        system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
 ----
-. <<creating-access-entries,Create access entries>> for any of the `ConfigMap` entries that you created returned in the previous output. When creating the access entries, make sure to specify the same values for `ARN`, `USERNAME`, `GROUPS`, and `ACCOUNT` returned in your output. In the example output, you would create access entries for all entries except the last two entries, since those entries were created by Amazon EKS for a Fargate profile and a managed node group. 
+. <<creating-access-entries>> for any of the `ConfigMap` entries that you created returned in the previous output. When creating the access entries, make sure to specify the same values for `ARN`, `USERNAME`, `GROUPS`, and `ACCOUNT` returned in your output. In the example output, you would create access entries for all entries except the last two entries, since those entries were created by Amazon EKS for a Fargate profile and a managed node group. 
 . Delete the entries from the `ConfigMap` for any access entries that you created. If you don't delete the entry from the `ConfigMap`, the settings for the access entry for the IAM principal ARN override the `ConfigMap` entry. Replace [.replaceable]`111122223333` with your {aws} account ID and [.replaceable]`EKS-my-cluster-my-namespace-Viewers` with the name of the role in the entry in your `ConfigMap`. If the entry you're removing is for an IAM user, rather than an IAM role, replace `role` with `user` and [.replaceable]`EKS-my-cluster-my-namespace-Viewers` with the user name.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -927,7 +934,7 @@ Amazon EKS supports using [.noloc]`OpenID Connect` ([.noloc]`OIDC`) identity pro
 * You can't disable IAM authentication to your cluster, because it's still required for joining nodes to a cluster.
 * An Amazon EKS cluster must still be created by an {aws}  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"], rather than an [.noloc]`OIDC` identity provider user. This is because the cluster creator interacts with the Amazon EKS APIs, rather than the [.noloc]`Kubernetes` APIs.
 * [.noloc]`OIDC` identity provider-authenticated users are listed in the cluster's audit log if CloudWatch logs are turned on for the control plane. For more information, see <<enabling-control-plane-log-export>>.
-* You can't sign in to the {aws-management-console} with an account from an [.noloc]`OIDC` provider. You can only  <<view-kubernetes-resources,view Kubernetes resources>> in the console by signing into the {aws-management-console} with an {aws} Identity and Access Management account.
+* You can't sign in to the {aws-management-console} with an account from an [.noloc]`OIDC` provider. You can only  <<view-kubernetes-resources>> by signing into the {aws-management-console} with an {aws} Identity and Access Management account.
 
 
 [[associate-oidc-identity-provider,associate-oidc-identity-provider.title]]
@@ -1009,7 +1016,7 @@ eksctl associate identityprovider -f associate-identity-provider.yaml
 [[oidc-identity-provider-iam-policy,oidc-identity-provider-iam-policy.title]]
 === Example IAM policy
 
-If you want to prevent an [.noloc]`OIDC` identity provider from being associated with a cluster, create and associate the following IAM policy to the IAM accounts of your Amazon EKS administrators. For more information, see   link:IAM/latest/UserGuide/access_policies_create.html[Creating IAM policies,type="documentation"] and  link:IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console[Adding IAM identity permissions,type="documentation"] in the IAM User Guide and  link:service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference.
+If you want to prevent an [.noloc]`OIDC` identity provider from being associated with a cluster, create and associate the following IAM policy to the IAM accounts of your Amazon EKS administrators. For more information, see   link:IAM/latest/UserGuide/access_policies_create.html[Creating IAM policies,type="documentation"] and  link:IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console[Adding IAM identity permissions,type="documentation"] in the _IAM User Guide_ and  link:service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference.
 
 [source,json,subs="verbatim,attributes"]
 ----

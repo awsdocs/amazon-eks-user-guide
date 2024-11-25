@@ -43,7 +43,7 @@ Learn how to manage access to your Amazon EKS cluster. Using Amazon EKS requires
 ** Solution: <<access-entries,Use Access Entries>> to associate [.noloc]`Kubernetes` RBAC permissions with {aws} IAM Users or Roles.
 * Configure kubectl to talk to an Amazon EKS cluster using {aws} Credentials. 
 +
-** Solution: Use the {aws} CLI to<<create-kubeconfig, create a kubeconfig file>>. 
+** Solution: Use the {aws} CLI to <<create-kubeconfig, create a kubeconfig file>>. 
 * Use an external identity provider, such as Ping Identity, to authenticate users to the [.noloc]`Kubernetes` API.
 +
 ** Solution: <<authenticate-oidc-identity-provider,Link an external OIDC provider>>.
