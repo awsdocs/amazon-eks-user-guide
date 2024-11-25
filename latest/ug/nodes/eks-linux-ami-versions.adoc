@@ -17,5 +17,5 @@ Amazon EKS optimized Amazon Linux AMIs are versioned by [.noloc]`Kubernetes` ver
 k8s_major_version.k8s_minor_version.k8s_patch_version-release_date
 ----
 
-Each AMI release includes various versions of https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet], the [.noloc]`Linux` kernel, and https://containerd.io/[containerd]. The accelerated AMI also includes various versions of the [.noloc]`NVIDIA` driver. You can find this version information in the https://github.com/awslabs/amazon-eks-ami/blob/main/CHANGELOG.md[Changelog] on [.noloc]`GitHub`.
+Each AMI release includes various versions of https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet], the [.noloc]`Linux` kernel, and https://containerd.io/[containerd]. The accelerated AMIs also include various versions of the [.noloc]`NVIDIA` driver. You can find this version information in the https://github.com/awslabs/amazon-eks-ami/blob/main/CHANGELOG.md[Changelog] on [.noloc]`GitHub`.
 

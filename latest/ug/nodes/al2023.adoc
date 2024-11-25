@@ -1,22 +1,21 @@
 //!!NODE_ROOT <section>
-include::../attributes.txt[]
 [.topic]
 [[al2023,al2023.title]]
 = Upgrade from Amazon Linux 2 to Amazon Linux 2023
 :info_titleabbrev: Upgrade from AL2 to AL2023
+
+include::../attributes.txt[]
 
 [abstract]
 --
 AL2023 is a new Linux-based operating system designed to provide a secure, stable, and high-performance environment for your cloud applications. 
 --
 
-The Amazon EKS optimized AMI is available in two families based on AL2 and AL2023. AL2023 is a new Linux-based operating system designed to provide a secure, stable, and high-performance environment for your cloud applications. It's the next generation of Amazon Linux from Amazon Web Services and is available across all supported Amazon EKS versions, including versions `1.23` and `1.24` in extended support.
+The Amazon EKS optimized AMIs are available in two families based on AL2 and AL2023. AL2023 is a new Linux-based operating system designed to provide a secure, stable, and high-performance environment for your cloud applications. It's the next generation of Amazon Linux from Amazon Web Services and is available across all supported Amazon EKS versions, including versions `1.23` and `1.24` in extended support.
 
 AL2023 offers several improvements over AL2. For a full comparison, see link:linux/al2023/ug/compare-with-al2.html[Comparing AL2 and Amazon Linux 2023,type="documentation"] in the _Amazon Linux 2023 User Guide_. Several packages have been added, upgraded, and removed from AL2. It's highly recommended to test your applications with AL2023 before upgrading. For a list of all package changes in AL2023, see link:linux/al2023/release-notes/compare-packages.html[Package changes in Amazon Linux 2023,type="documentation"] in the _Amazon Linux 2023 Release Notes_.
 
 In addition to these changes, you should be aware of the following:
-
-
 
 * AL2023 introduces a new node initialization process `nodeadm` that uses a YAML configuration schema. If you're using self-managed node groups or an AMI with a launch template, you'll now need to provide additional cluster metadata explicitly when creating a new node group. An https://awslabs.github.io/amazon-eks-ami/nodeadm/[example] of the minimum required parameters is as follows, where `apiServerEndpoint`, `certificateAuthority`, and service `cidr` are now required:
 +
@@ -43,8 +42,6 @@ NOTE: For `IMDSv2`, the default hop count for managed node groups is set to 1. T
 * `eksctl` version `0.176.0` or greater is required for `eksctl` to support AL2023.
 
 For previously existing managed node groups, you can either perform an in-place upgrade or a blue/green upgrade depending on how you're using a launch template:
-
-
 
 * If you're using a custom AMI with a managed node group, you can perform an in-place upgrade by swapping the AMI ID in the launch template. You should ensure that your applications and any user data transfer over to AL2023 first before performing this upgrade strategy.
 * If you're using managed node groups with either the standard launch template or with a custom launch template that doesn't specify the AMI ID, you're required to upgrade using a blue/green strategy. A blue/green upgrade is typically more complex and involves creating an entirely new node group where you would specify AL2023 as the AMI type. The new node group will need to then be carefully configured to ensure that all custom data from the AL2 node group is compatible with the new OS. Once the new node group has been tested and validated with your applications, [.noloc]`Pods` can be migrated from the old node group to the new node group. Once the migration is completed, you can delete the old node group.

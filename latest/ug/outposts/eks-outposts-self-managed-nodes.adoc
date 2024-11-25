@@ -100,10 +100,10 @@ The following steps show one operation to retrieve the applicable group.
 ** *NodeInstanceType*: Choose an instance type for your nodes. If your cluster is running on the {aws} Cloud, then for more information, see <<choosing-instance-type>>. If your cluster is running on an Outpost, then you can only select an instance type that is available on your Outpost.
 ** *NodeImageIdSSMParam*: Pre-populated with the Amazon EC2 Systems Manager parameter of a recent Amazon EKS optimized AMI for a variable [.noloc]`Kubernetes` version. To use a different [.noloc]`Kubernetes` minor version supported with Amazon EKS, replace [.replaceable]`1.XX` with a different <<kubernetes-versions,supported version>>. We recommend specifying the same [.noloc]`Kubernetes` version as your cluster.
 +
-To use the Amazon EKS optimized accelerated AMI, replace [.replaceable]`amazon-linux-2` with `amazon-linux-2-gpu`. To use the Amazon EKS optimized Arm AMI, replace [.replaceable]`amazon-linux-2` with `amazon-linux-2-arm64`.
+To use an Amazon EKS optimized accelerated AMI, replace [.replaceable]`amazon-linux-2` with `amazon-linux-2-gpu`. To use an Amazon EKS optimized Arm AMI, replace [.replaceable]`amazon-linux-2` with `amazon-linux-2-arm64`.
 +
-NOTE: The Amazon EKS node AMI is based on Amazon Linux. You can track security or privacy events for Amazon Linux at the https://alas.aws.amazon.com/[Amazon Linux security center] by choosing the tab for your desired version. You can also subscribe to the applicable RSS feed. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue.
-** *NodeImageId*: (Optional) If you're using your own custom AMI (instead of the Amazon EKS optimized AMI), enter a node AMI ID for your {aws} Region. If you specify a value here, it overrides any values in the  *NodeImageIdSSMParam* field.  
+NOTE: The Amazon EKS node AMIs are based on Amazon Linux. You can track security or privacy events for Amazon Linux at the https://alas.aws.amazon.com/[Amazon Linux security center] by choosing the tab for your desired version. You can also subscribe to the applicable RSS feed. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue.
+** *NodeImageId*: (Optional) If you're using your own custom AMI (instead of an Amazon EKS optimized AMI), enter a node AMI ID for your {aws} Region. If you specify a value here, it overrides any values in the  *NodeImageIdSSMParam* field.  
 ** *NodeVolumeSize*: Specify a root volume size for your nodes, in GiB.
 ** *NodeVolumeType*: Specify a root volume type for your nodes.
 ** *KeyName*: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch. If you don't already have an Amazon EC2 key pair, you can create one in the {aws-management-console}. For more information, see link:AWSEC2/latest/UserGuide/ec2-key-pairs.html[Amazon EC2 key pairs,type="documentation"] in the _Amazon EC2 User Guide_.
@@ -215,7 +215,7 @@ EOF
 ----
 kubectl apply -f gp2-storage-class.yaml
 ----
-. (GPU nodes only) If you chose a GPU instance type and the Amazon EKS optimized accelerated AMI, you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
+. (GPU nodes only) If you chose a GPU instance type and an Amazon EKS optimized accelerated AMI, you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

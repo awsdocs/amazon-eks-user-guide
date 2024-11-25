@@ -6,7 +6,7 @@
 
 include::../attributes.txt[]
 
-The Amazon EKS optimized accelerated Amazon Linux AMI is built on top of the standard Amazon EKS optimized Amazon Linux AMI. For details on these AMIs, see <<gpu-ami>>.
+The Amazon EKS optimized accelerated Amazon Linux AMIs are built on top of the standard Amazon EKS optimized Amazon Linux AMIs. For details on these AMIs, see <<gpu-ami>>.
 The following text describes how to enable {aws} Neuron-based workloads.
 
 .To enable {aws} Neuron (ML accelerator) based workloads
@@ -16,7 +16,7 @@ For details on training and inference workloads using [.noloc]`Neuron` in Amazon
 * https://github.com/aws-neuron/aws-neuron-eks-samples/blob/master/README.md#training[Training] in {aws} [.noloc]`Neuron` EKS Samples on GitHub
 * <<inferentia-support,Deploy ML inference workloads with AWSInferentia on Amazon EKS>>
 
-The following procedure describes how to run a workload on a GPU based instance with the Amazon EKS optimized accelerated AMI.
+The following procedure describes how to run a workload on a GPU based instance with the Amazon EKS optimized accelerated AMIs.
 
 . After your GPU nodes join your cluster, you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
 +

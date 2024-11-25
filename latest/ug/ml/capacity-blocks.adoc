@@ -30,7 +30,7 @@ Capacity Blocks for machine learning (ML) allow you to reserve GPU instances on 
 [[capacity-blocks-procedure,capacity-blocks-procedure.title]]
 == Use Capacity Blocks with self-managed nodes
 
-You can use Capacity Blocks with Amazon EKS for provisioning and scaling your self-managed nodes. The following steps give a general example overview. The {aws} CloudFormation template examples don't cover every aspect needed in a production workload. Typically you'd also want a bootstrapping script to join the node to the cluster, specify the Amazon EKS accelerated AMI, and an appropriate instance profile for joining the cluster. For more information, see <<launch-workers>>.
+You can use Capacity Blocks with Amazon EKS for provisioning and scaling your self-managed nodes. The following steps give a general example overview. The {aws} CloudFormation template examples don't cover every aspect needed in a production workload. Typically you'd also want a bootstrapping script to join the node to the cluster, specify an Amazon EKS accelerated AMI, and an appropriate instance profile for joining the cluster. For more information, see <<launch-workers>>.
 
 . Create a launch template that's applicable to your workload. For more information, see link:autoscaling/ec2/userguide/launch-template-capacity-blocks.html[Use Capacity Blocks for machine learning workloads,type="documentation"] in the _Amazon EC2 Auto Scaling User Guide_.
 +

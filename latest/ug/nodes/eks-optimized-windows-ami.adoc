@@ -1,9 +1,10 @@
 //!!NODE_ROOT <section>
-include::../attributes.txt[]
 [.topic]
 [[eks-optimized-windows-ami,eks-optimized-windows-ami.title]]
 = Create nodes with optimized [.noloc]`Windows` AMIs
 :info_titleabbrev: Windows
+
+include::../attributes.txt[]
 
 [abstract]
 --
@@ -11,8 +12,6 @@ include::../attributes.txt[]
 --
 
 [.noloc]`Windows` Amazon EKS optimized AMIs are built on top of [.noloc]`Windows` Server 2019 and [.noloc]`Windows` Server 2022. They are configured to serve as the base image for Amazon EKS nodes. By default, the AMIs include the following components:
-
-
 
 * https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet]
 * https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/[kube-proxy]
@@ -30,8 +29,6 @@ You can track security or privacy events for [.noloc]`Windows` Server with the h
 
 Amazon EKS offers AMIs that are optimized for [.noloc]`Windows` containers in the following variants:
 
-
-
 * Amazon EKS-optimized [.noloc]`Windows` Server 2019 Core AMI
 * Amazon EKS-optimized [.noloc]`Windows` Server 2019 Full AMI
 * Amazon EKS-optimized [.noloc]`Windows` Server 2022 Core AMI
@@ -40,7 +37,6 @@ Amazon EKS offers AMIs that are optimized for [.noloc]`Windows` containers in th
 
 [IMPORTANT]
 ====
-
 
 * The Amazon EKS-optimized [.noloc]`Windows` Server [.noloc]`20H2` Core AMI is deprecated. No new versions of this AMI will be released.
 * To ensure that you have the latest security updates by default, Amazon EKS maintains optimized [.noloc]`Windows` AMIs for the last 4 months. Each new AMI will be available for 4 months from the time of initial release. After this period, older AMIs are made private and are no longer accessible. We encourage using the latest AMIs to avoid security vulnerabilities and losing access to older AMIs which have reached the end of their supported lifetime. While we can't guarantee that we can provide access to AMIs that have been made private, you can request access by filing a ticket with {aws} Support.
@@ -95,8 +91,6 @@ When you create a [.noloc]`Windows` node, there's a script on the node that allo
 
 The script includes the following command-line parameters:
 
-
-
 * `-EKSClusterName` – Specifies the Amazon EKS cluster name for this worker node to join.
 * `-KubeletExtraArgs` – Specifies extra arguments for `kubelet` (optional).
 * `-KubeProxyExtraArgs` – Specifies extra arguments for `kube-proxy` (optional).
@@ -110,8 +104,6 @@ In addition to the command line parameters, you can also specify some environmen
 
 The script takes into account the following environment variables:
 
-
-
 * `SERVICE_IPV4_CIDR` – Refer to the `ServiceCIDR` command line parameter for the definition. 
 * `EXCLUDED_SNAT_CIDRS` – Should be a comma separated string. Refer to the `ExcludedSnatCIDRs` command line parameter for the definition.
 
@@ -120,8 +112,6 @@ The script takes into account the following environment variables:
 === [.noloc]`gMSA` authentication support
 
 Amazon EKS Windows [.noloc]`Pods` allow different types of group Managed Service Account ([.noloc]`gMSA`) authentication.
-
-
 
 * Amazon EKS supports [.noloc]`Active Directory` domain identities for authentication. For more information on domain-joined [.noloc]`gMSA`, see link:containers/windows-authentication-on-amazon-eks-windows-pods[Windows Authentication on Amazon EKS Windowspods,type="blog"] on the {aws} blog.
 * Amazon EKS offers a plugin that enables non-domain-joined [.noloc]`Windows` nodes to retrieve [.noloc]`gMSA` credentials with a portable user identity. For more information on domainless [.noloc]`gMSA`, see link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[Domainless Windows Authentication for Amazon EKS Windowspods,type="blog"] on the {aws} blog.
@@ -134,19 +124,14 @@ Amazon EKS Windows optimized AMIs have certain container images cached for the `
 
 The following cached container images are for the `containerd` runtime:
 
-
-
 * `amazonaws.com/eks/pause-windows`
 * `mcr.microsoft.com/windows/nanoserver`
 * `mcr.microsoft.com/windows/servercore`
-
 
 [[windows-more-information,windows-more-information.title]]
 == More information
 
 For more information about using Amazon EKS optimized [.noloc]`Windows` AMIs, see the following sections:
-
-
 
 * To use [.noloc]`Windows` with managed node groups, see <<managed-node-groups>>.
 * To launch self-managed [.noloc]`Windows` nodes, see <<launch-windows-workers>>.

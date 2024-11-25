@@ -16,22 +16,18 @@ include::eks-ami-build-scripts.adoc[leveloffset=+1]
 
 [abstract]
 --
-The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2 (AL2) and Amazon Linux 2023 (AL2023). It's configured to serve as the base image for Amazon EKS nodes.
+The Amazon EKS optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (AL2) and Amazon Linux 2023 (AL2023). They are configured to serve as the base images for Amazon EKS nodes.
 --
 
-The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2 (AL2) and Amazon Linux 2023 (AL2023). It's configured to serve as the base image for Amazon EKS nodes. The AMI is configured to work with Amazon EKS and it includes the following components:
-
-
+The Amazon EKS optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (AL2) and Amazon Linux 2023 (AL2023). They are configured to serve as the base images for Amazon EKS nodes. The AMIs are configured to work with Amazon EKS and they include the following components:
 
 * `kubelet`
 * {aws} IAM Authenticator
 * [.noloc]`Docker` (Amazon EKS version `1.23` and earlier)
 * `containerd`
 
-
 [NOTE]
 ====
-
 
 * You can track security or privacy events for Amazon Linux at the https://alas.aws.amazon.com/[Amazon Linux security center] by choosing the tab for your desired version. You can also subscribe to the applicable RSS feed. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue.
 * Before deploying an accelerated or [.noloc]`Arm` AMI, review the information in  <<gpu-ami,Amazon EKS optimized accelerated Amazon Linux AMIs>> and <<arm-ami>>.
@@ -45,26 +41,26 @@ The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2 (AL2
 [[gpu-ami,gpu-ami.title]]
 == Amazon EKS optimized accelerated Amazon Linux AMIs
 
-The Amazon EKS optimized accelerated Amazon Linux AMI is built on top of the standard Amazon EKS optimized Amazon Linux AMI. It's configured to serve as an optional image for Amazon EKS nodes to support GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
+The Amazon EKS optimized accelerated Amazon Linux AMIs are built on top of the standard Amazon EKS optimized Amazon Linux AMIs. They are configured to serve as optional images for Amazon EKS nodes to support GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
 
-In addition to the standard Amazon EKS optimized AMI configuration, the accelerated AMI includes the following:
+In addition to the standard Amazon EKS optimized AMI configuration, the accelerated AMIs include the following:
 
 * [.noloc]`NVIDIA` drivers
 * `nvidia-container-toolkit`
 * {aws} [.noloc]`Neuron` driver
 
-For a list of the latest components included in the accelerated AMI, see the `amazon-eks-ami` https://github.com/awslabs/amazon-eks-ami/releases[Releases] on [.noloc]`GitHub`.
+For a list of the latest components included in the accelerated AMIs, see the `amazon-eks-ami` https://github.com/awslabs/amazon-eks-ami/releases[Releases] on [.noloc]`GitHub`.
 
 [NOTE]
 ====
 
-* The Amazon EKS optimized accelerated AMI only supports GPU and [.noloc]`Inferentia` based instance types. Make sure to specify these instance types in your node {aws} CloudFormation template. By using the Amazon EKS optimized accelerated AMI, you agree to https://s3.amazonaws.com/EULA/NVidiaEULAforAWS.pdf[NVIDIA's Cloud End User License Agreement (EULA)].
-* The Amazon EKS optimized accelerated AMI was previously referred to as the _Amazon EKS optimized AMI with GPU support_.
-* Previous versions of the Amazon EKS optimized accelerated AMI installed the `nvidia-docker` repository. The repository is no longer included in Amazon EKS AMI version `v20200529` and later.
+* Make sure to specify the applicable instance type in your node {aws} CloudFormation template. By using the Amazon EKS optimized accelerated AMIs, you agree to https://s3.amazonaws.com/EULA/NVidiaEULAforAWS.pdf[NVIDIA's Cloud End User License Agreement (EULA)].
+* The Amazon EKS optimized accelerated AMIs were previously referred to as the _Amazon EKS optimized AMIs with GPU support_.
+* Previous versions of the Amazon EKS optimized accelerated AMIs installed the `nvidia-docker` repository. The repository is no longer included in Amazon EKS AMI version `v20200529` and later.
 
 ====
 
-For details on running workloads on EKS optimized accelerated Amazon Linux AMIs, see <<ml-eks-optimized-ami>>.
+For details on running workloads on Amazon EKS optimized accelerated Amazon Linux AMIs, see <<ml-eks-optimized-ami>>.
 
 [[arm-ami,arm-ami.title]]
 == Amazon EKS optimized [.noloc]`Arm` Amazon Linux AMIs
@@ -85,6 +81,6 @@ For more information about using Amazon EKS optimized Amazon Linux AMIs, see the
 * To launch self-managed Amazon Linux nodes, see <<retrieve-ami-id>>.
 * For version information, see <<eks-linux-ami-versions>>.
 * To retrieve the latest IDs of the Amazon EKS optimized Amazon Linux AMIs, see <<retrieve-ami-id>>.
-* For open-source scripts that are used to build the Amazon EKS optimized AMI, see <<eks-ami-build-scripts>>.
+* For open-source scripts that are used to build the Amazon EKS optimized AMIs, see <<eks-ami-build-scripts>>.
 
 

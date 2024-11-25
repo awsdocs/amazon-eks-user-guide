@@ -128,8 +128,8 @@ The following steps show one operation to retrieve the applicable group.
 +
 You can also replace [.replaceable]`amazon-linux-2` with a different AMI type. For more information, see <<retrieve-ami-id>>.
 +
-NOTE: The Amazon EKS node AMI is based on Amazon Linux. You can track security or privacy events for Amazon Linux 2 at the https://alas.aws.amazon.com/alas2.html[Amazon Linux Security Center] or subscribe to the associated https://alas.aws.amazon.com/AL2/alas.rss[RSS feed]. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue.
-** *NodeImageId*: (Optional) If you're using your own custom AMI (instead of the Amazon EKS optimized AMI), enter a node AMI ID for your {aws} Region. If you specify a value here, it overrides any values in the  *NodeImageIdSSMParam* field.  
+NOTE: The Amazon EKS node AMIs are based on Amazon Linux. You can track security or privacy events for Amazon Linux 2 at the https://alas.aws.amazon.com/alas2.html[Amazon Linux Security Center] or subscribe to the associated https://alas.aws.amazon.com/AL2/alas.rss[RSS feed]. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue.
+** *NodeImageId*: (Optional) If you're using your own custom AMI (instead of an Amazon EKS optimized AMI), enter a node AMI ID for your {aws} Region. If you specify a value here, it overrides any values in the  *NodeImageIdSSMParam* field.  
 ** *NodeVolumeSize*: Specify a root volume size for your nodes, in GiB.
 ** *NodeVolumeType*: Specify a root volume type for your nodes.
 ** *KeyName*: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch. If you don't already have an Amazon EC2 key pair, you can create one in the {aws-management-console}. For more information, see link:AWSEC2/latest/UserGuide/ec2-key-pairs.html[Amazon EC2 key pairs,type="documentation"] in the _Amazon EC2 User Guide_.

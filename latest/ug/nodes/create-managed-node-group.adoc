@@ -1,9 +1,10 @@
 //!!NODE_ROOT <section>
-include::../attributes.txt[]
 [.topic]
 [[create-managed-node-group,create-managed-node-group.title]]
 = Create a managed node group for your cluster
 :info_titleabbrev: Create
+
+include::../attributes.txt[]
 
 [abstract]
 --
@@ -16,7 +17,6 @@ If this is your first time launching an Amazon EKS managed node group, we recomm
 
 [IMPORTANT]
 ====
-
 
 * Amazon EKS nodes are standard Amazon EC2 instances. You're billed based on the normal Amazon EC2 prices. For more information, see link:ec2/pricing/[Amazon EC2 Pricing,type="marketing"].
 * You can't create managed nodes in an {aws} Region where you have {aws} Outposts or {aws} Wavelength enabled. You can create self-managed nodes instead. For more information, see <<launch-workers>>, <<launch-windows-workers>>, and <<launch-node-bottlerocket>>. You can also create a self-managed Amazon Linux node group on an Outpost. For more information, see <<eks-outposts-self-managed-nodes>>.
@@ -147,7 +147,6 @@ If you specified an AMI ID in your launch template, specify the maximum number o
 eksctl create nodegroup --config-file eks-nodegroup.yaml
 ----
 
-
 == {aws-management-console} [[console_create_managed_nodegroup]]
 
 *Create a managed node group using the {aws-management-console}*
@@ -229,7 +228,7 @@ If nodes fail to join the cluster, then see <<worker-node-fail>> in the Troubles
 ----
 kubectl get nodes --watch
 ----
-. (GPU nodes only) If you chose a GPU instance type and the Amazon EKS optimized accelerated AMI, then you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
+. (GPU nodes only) If you chose a GPU instance type and an Amazon EKS optimized accelerated AMI, then you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -238,8 +237,6 @@ kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X
 
 == Install Kubernetes add-ons
 Now that you have a working Amazon EKS cluster with nodes, you're ready to start installing [.noloc]`Kubernetes` add-ons and deploying applications to your cluster. The following documentation topics help you to extend the functionality of your cluster.
-
-
 
 * The  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that created the cluster is the only principal that can make calls to the [.noloc]`Kubernetes` API server with `kubectl` or the {aws-management-console}. If you want other IAM principals to have access to your cluster, then you need to add them. For more information, see <<grant-k8s-access>> and <<view-kubernetes-resources-permissions>>.
 * We recommend blocking [.noloc]`Pod` access to IMDS if the following conditions are true:
@@ -252,5 +249,3 @@ For more information, see https://aws.github.io/aws-eks-best-practices/security/
 * Configure the [.noloc]`Kubernetes` https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler] to automatically adjust the number of nodes in your node groups.
 * Deploy a <<sample-deployment,sample application>> to your cluster.
 * <<eks-managing,Organize and monitor cluster resources>> with important tools for managing your cluster.
-
-

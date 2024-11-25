@@ -29,7 +29,7 @@ Capacity Blocks for machine learning (ML) allow you to reserve GPU instances on 
 [[capacity-blocks-mng-procedure,capacity-blocks-mng-procedure.title]]
 == Create a managed node group with Amazon EC2 Capacity Blocks
 
-You can use Capacity Blocks with Amazon EKS managed node groups for provisioning and scaling GPU-accelerated worker nodes. The {aws} CloudFormation template examples that follow don't cover every aspect needed in a production clusters. Typically, you'd also want a bootstrapping script to join the node to the cluster and specify the Amazon EKS accelerated AMI. For more information, see <<create-managed-node-group>>.
+You can use Capacity Blocks with Amazon EKS managed node groups for provisioning and scaling GPU-accelerated worker nodes. The {aws} CloudFormation template examples that follow don't cover every aspect needed in a production clusters. Typically, you'd also want a bootstrapping script to join the node to the cluster and specify an Amazon EKS accelerated AMI. For more information, see <<create-managed-node-group>>.
 
 . Create a launch template that's appropriate for your workloads and works with Amazon EKS managed node groups. For more information, see <<launch-templates>>.
 +
