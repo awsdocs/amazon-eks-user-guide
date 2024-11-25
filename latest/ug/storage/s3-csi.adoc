@@ -185,9 +185,9 @@ Add a comma to the end of the previous line, and then add the following line aft
 +
 [source,json,subs="verbatim,attributes"]
 ----
-"oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:s3-csi-*"
+"oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:s3-csi-driver-sa"
 ----
-. Change the `Condition` operator from `"StringEquals"` to `"StringLike"`.
+. Ensure that the `Condition` operator is set to `"StringEquals"`.
 . Choose *Update policy* to finish.
 
 === {aws} CLI [[awscli_s3_store_app_data]]
@@ -220,8 +220,8 @@ https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
       },
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
-        "StringLike": {
-          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:s3-csi-*",
+        "StringEquals": {
+          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:s3-csi-driver-sa",
           "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
         }
       }
