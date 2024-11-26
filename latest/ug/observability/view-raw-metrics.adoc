@@ -83,6 +83,11 @@ For new clusters that are [.noloc]`Kubernetes` version `1.28` and above, Amazon 
 
 |===
 
+[NOTE]
+====
+If you have a webhook configuration that could block the creation of the new `APIService` resource `v1.metrics.eks.amazonaws.com` on your cluster, the metrics endpoint feature might not be available. You can verify that in the `kube-apiserver` audit log by searching for the `v1.metrics.eks.amazonaws.com` keyword.
+====
+
 [[fetch-metrics-scheduler,fetch-metrics-scheduler.title]]
 === Fetch `kube-scheduler` metrics
 
