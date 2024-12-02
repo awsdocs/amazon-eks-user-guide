@@ -1,200 +1,113 @@
 //!!NODE_ROOT <chapter>
-include::attributes.txt[]
 [.topic]
 [[quickstart,quickstart.title]]
 = Quickstart: Deploy a web app and store data
-:doctype: book
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_doctype: chapter
 :info_title: Quickstart: Deploy a web app and store data
 :info_titleabbrev: Quickstart
 :keywords: quickstart, web, cluster
 :info_abstract: Deploy a game application and persist its data on Amazon EKS
 
+include::attributes.txt[]
+
 [abstract]
 --
 Deploy a game application and persist its data on Amazon EKS
 --
 
-This quickstart tutorial shows the steps to deploy the 2048 game sample application and persist its data on an Amazon EKS cluster using https://eksctl.io/[eksctl]. eksctl is an infrastructure-as-code utility leveraging link:cloudformation/[{aws} CloudFormation,type="marketing"], allowing you to set up a fully-functional cluster, complete with all the essential components. These components include an Amazon VPC and an IAM role tailored to provide permissions to the {aws} services we've defined. As we progress, we'll walk you through the cluster setup process, incorporating <<eks-add-ons,Amazon EKS add-ons>> to power your cluster with operational capabilities. Finally, you'll deploy a sample workload with the custom annotations required to fully integrate with {aws} services.
+// GDC: this page will need to check if builds
 
-[[quickstart-in-tutorial,quickstart-in-tutorial.title]]
-== In this tutorial
+Deploy a game application and persist its data on Amazon EKS
 
-Using the `eksctl` cluster template that follows, you'll build an Amazon EKS cluster with managed node groups. It configures the following components:
+This quickstart tutorial shows the steps to deploy the 2048 game sample application and persist its data on an Amazon EKS Auto Mode cluster using https://eksctl.io/[eksctl]. Amazon EKS Auto Mode automates routine tasks for cluster block storage, networking, load balancing, and compute autoscaling. 
 
+As we progress, we'll walk you through the cluster setup process. Amazon EKS Auto Mode will automate tasks for creating a node using an EC2 managed instance, creating an application load balancer, and creating an EBS volume. 
 
+Overall, you'll deploy a sample workload with the custom annotations required to fully integrate with {aws} services.
 
-*VPC Configuration*::
-When using the eksctl cluster template that follows, eksctl automatically creates an IPv4 Virtual Private Cloud (VPC) for the cluster. By default, eksctl configures a VPC that addresses all <<network-reqs,networking requirements>>, in addition to creating both public and private endpoints.
+## In this tutorial
 
+Using the `eksctl` cluster template that follows, you'll build a cluster with EKS Auto Mode for automated node provisioning. 
 
-*Instance type*::
-Utilize the <<choosing-instance-type,t3.medium instance type>>. This instance type offers a well-balanced combination of compute, memory, and network resources--ideal for applications with moderate CPU usage that may experience occasional spikes in demand.
+**VPC Configuration**  
+When using the eksctl cluster template that follows, eksctl automatically creates an IPv4 Virtual Private Cloud (VPC) for the cluster. By default, eksctl configures a VPC that addresses all networking requirements, in addition to creating both public and private endpoints.
 
+**Instance Management**  
+EKS Auto Mode dynamically adds or removes nodes in your EKS cluster based on the demands of your Kubernetes applications.
 
-*Authentication*::
-Establish the IRSA mappings to facilitate communication between Kubernetes pods and {aws} services. The template is configured to set up an <<enable-iam-roles-for-service-accounts,OpenID Connect (OIDC) endpoint>> for authentication and authorization. It also establishes a service account for the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/[{aws} Load Balancer Controller (LBC)], a controller responsible for exposing applications and managing traffic.
+**Data Persistence**  
+Use the block storage capability of EKS Auto Mode to ensure the persistence of application data, even in scenarios involving pod restarts or failures. 
 
+**External App Access**  
+Use the load balancing capability of EKS Auto Mode to dynamically provision an Application Load Balancer (ALB).
 
-*Data Persistence*::
-Integrate the <<managing-ebs-csi,{aws} EBS CSI Driver>> managed add-on to ensure the persistence of application data, even in scenarios involving pod restarts or failures. The template is configured to install the add-on and establish a service account
+## Prerequisites
 
+Before you begin, ensure you have the following prerequisites set up to use Amazon EKS:
 
-*External App Access*::
-Set up and integrate with the {aws} Load Balancer Controller (LBC) add-on to expose the https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.6.0/docs/examples/2048/2048_full.yaml[2048 game application], using the LBC to dynamically provision an Application Load Balancer (ALB).
+* Set up {aws} CLI and configure credentials
+* Install eksctl
+* Install kubectl
 
+For more information, see <<setting-up>>. 
 
-[[quickstart-prereqs,quickstart-prereqs.title]]
-== Prerequisites
+## Configure the cluster
 
-Before you begin, ensure you have the following prerequisites set up to use Amazon EKS.
+In this section, you'll create a cluster using EKS Auto Mode for dynamic node provisioning.
 
-* <<setting-up,Set up to use Amazon EKS>>
-* https://helm.sh/docs/intro/install/[Install Helm]
+Create a `cluster-config.yaml` file and paste the following contents into it. Replace `region-code` with a valid Region, such as `us-east-1`:
 
-
-[[quickstart-config-cluster,quickstart-config-cluster.title]]
-== Step 1: Configure the cluster
-
-In this section, you'll create a managed node group-based cluster using link:ec2/instance-types/[t3.medium,type="marketing"] instances containing two nodes. The configuration includes a service account for https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/deploy/installation/[{aws} Load Balancer Controller (LBC)] add-on, and installation of the latest version of the <<managing-ebs-csi.title,{aws} Amazon EBS CSI driver>>. For all available `eksctl` add-ons, see https://eksctl.io/usage/addons/#discovering-addons[Discovering addons] in `eksctl` documentation.
-
-. Create a `cluster-config.yaml` file and paste the following contents into it. Replace [.replaceable]`region-code` with a valid Region, such as `us-east-1`
-+
-Example output is as follows:
-+
-[source,yaml,subs="verbatim,attributes,quotes"]
-----
+```yaml
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
   name: web-quickstart
-  region: [.replaceable]`region-code`
+  region: <region-code>
 
-managedNodeGroups:
-  - name: eks-mng
-    instanceType: t3.medium
-    desiredCapacity: 2
+autoModeConfig:
+  enabled: true
+```
+Now, we're ready to create the cluster. 
 
-iam:
-  withOIDC: true
-  serviceAccounts:
-  - metadata:
-      name: aws-load-balancer-controller
-      namespace: kube-system
-    wellKnownPolicies:
-      awsLoadBalancerController: true
+Create the Amazon EKS cluster:
 
-addons:
-  - name: aws-ebs-csi-driver
-    wellKnownPolicies: # Adds an IAM service account
-      ebsCSIController: true
-      
-cloudWatch:
- clusterLogging:
-   enableTypes: ["*"]
-   logRetentionInDays: 30
-----
-
-
-[[quickstart-create-cluster,quickstart-create-cluster.title]]
-== Step 2: Create the cluster
-
-Now, we're ready to create our Amazon EKS cluster. This process takes several minutes to complete. If you'd like to monitor the status, see the link:cloudformation[{aws} CloudFormation,type="console"] console.
-
-. Create the Amazon EKS cluster and specify the cluster-config.yaml.
-+
-[source,bash,subs="verbatim,attributes"]
-----
+```bash
 eksctl create cluster -f cluster-config.yaml
-----
-+
-NOTE: If you receive an `Error: checking STS access` in the response, make sure that you're using the correct user identity for the current shell session. You may also need to specify a named profile (for example, `--profile clusteradmin`) or get a new security token for the {aws} CLI.
-+
-Upon completion, you should see the following response output:
-// Not using subs="quotes" with "[.replaceable]`region-code`" because the double quotes interfere with the replaceable rendering.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-2024-07-04 21:47:53 [✔]  EKS cluster "web-quickstart" in "region-code" region is ready
-----
+```
+
+[IMPORTANT]
+====
+If you do not use eksctl to create the cluster, you need to manually tag the VPC subnets. 
+====
 
 
-[[quickstart-lbc,quickstart-lbc.title]]
-== Step 3: Set up external access to applications using the [.noloc]`{aws} Load Balancer Controller` (LBC)
+## Create IngressClass
 
-With the cluster operational, our next step is making its containerized applications accessible externally. This is accomplished by deploying an link:elasticloadbalancing/latest/application/introduction.html[Application Load Balancer (ALB),type="documentation"] to direct traffic outside the cluster to our services, in other words, our applications. When we created our cluster, we established an link:emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-enable-IAM.html[IAM Roles for Service Accounts (IRSA),type="documentation"] for the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/[Load Balancer Controller (LBC)] with the permissions needed to dynamically create ALBs, facilitating external traffic routing to our Kubernetes services. In this section, we'll set up the {aws} LBC on our cluster.
+Create a Kubernetes `IngressClass` for EKS Auto Mode. The IngressClass defines how EKS Auto Mode handles Ingress resources. This step configures the load balancing capability of EKS Auto Mode. When you create Ingress resources for your applications, EKS Auto Mode uses this IngressClass to automatically provision and manage load balancers, integrating your Kubernetes applications with {aws} load balancing services.
 
-*To configure environment variables*
+Save the following yaml file as `ingressclass.yaml`:
 
-. Set the `CLUSTER_REGION` environment variable for your Amazon EKS cluster. Replace the sample value for [.replaceable]`region-code`.
-+
-[source,bash,subs="verbatim,attributes,quotes"]
-----
-export CLUSTER_REGION=[.replaceable]`region-code`
-----
-. Set the `CLUSTER_VPC` environment variable for your Amazon EKS cluster.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-export CLUSTER_VPC=$(aws eks describe-cluster --name web-quickstart --region $CLUSTER_REGION --query "cluster.resourcesVpcConfig.vpcId" --output text)
-----
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: alb
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "true" 
+spec:
+  controller: eks.amazonaws.com/alb
+```
 
-*To install the {aws} Load Balancer Controller (LBC)*
+Apply the IngressClass to your cluster:
 
-The {aws} Load Balancer Controller (LBC) leverages Custom Resource Definitions (CRDs) in Kubernetes to manage {aws} Elastic Load Balancers (ELBs). These CRDs define custom resources such as load balancers and TargetGroupBindings, enabling the [.noloc]`Kubernetes` cluster to recognize and manage them.
+```cli
+kubectl apply -f ingressclass.yaml
+```
 
-. Use https://helm.sh/docs/intro/install/[Helm] to add the Amazon EKS chart repository to Helm.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-helm repo add eks https://aws.github.io/eks-charts
-----
-. Update the repositories to ensure Helm is aware of the latest versions of the charts:
-+
-[source,bash,subs="verbatim,attributes"]
-----
-helm repo update eks
-----
-. Run the following https://helm.sh/docs/intro/install/[Helm] command to simultaneously install the Custom Resource Definitions (CRDs) and the main controller for the {aws} Load Balancer Controller ({aws} LBC). To skip the CRD installation, pass the `--skip-crds` flag, which might be useful if the CRDs are already installed, if specific version compatibility is required, or in environments with strict access control and customization needs.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
-    --namespace kube-system \
-    --set clusterName=web-quickstart \
-    --set serviceAccount.create=false \
-    --set region=${CLUSTER_REGION} \
-    --set vpcId=${CLUSTER_VPC} \
-    --set serviceAccount.name=aws-load-balancer-controller
-----
-+
-You should see the following response output:
-+
-[source,bash,subs="verbatim,attributes"]
-----
-NAME: aws-load-balancer-controller
-LAST DEPLOYED: Wed July 3 19:43:12 2024
-NAMESPACE: kube-system
-STATUS: deployed
-REVISION: 1
-TEST SUITE: None
-NOTES:
-{aws} Load Balancer controller installed!
-----
+##  Deploy the 2048 game sample application
 
-
-[[quickstart-deploy-game,quickstart-deploy-game.title]]
-== Step 4: Deploy the 2048 game sample application
-
-Now that the load balancer is set up, it's time to enable external access for containerized applications in the cluster. In this section, we walk you through the steps to deploy the popular "`2048 game`" as a sample application within the cluster. The provided manifest includes custom annotations for the Application Load Balancer (ALB), specifically the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/guide/ingress/ingress_class/#specscheme['scheme' annotation] and https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/guide/ingress/annotations/#target-type['target-type' annotation]. These annotations integrate with and instruct the {aws} Load Balancer Controller (LBC) to handle incoming HTTP traffic as "internet-facing" and route it to the appropriate service in the 'game-2048' namespace using the target type "ip". For more annotations, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.8/guide/ingress/annotations/[Annotations] in the {aws} LBC documentation.
+In this section, we walk you through the steps to deploy the popular "`2048 game`" as a sample application within the cluster. The provided manifest includes custom annotations for the Application Load Balancer (ALB). These annotations integrate with and instruct the EKS to handle incoming HTTP traffic as "internet-facing" and route it to the appropriate service in the 'game-2048' namespace using the target type "ip". 
 
 . Create a Kubernetes namespace called `game-2048` with the `--save-config` flag.
 +
@@ -253,16 +166,31 @@ You should see the 2048 game in your browser. Play!
 image::images/quick2048.png[Play the 2048 game,scaledwidth=25%]
 
 
-[[quickstart-persist-data,quickstart-persist-data.title]]
-== Step 5: Persist Data using the Amazon EBS CSI Driver nodes
+## Persist Data using Amazon EKS Auto Mode
 
-Now that the 2048 game is up and running on your Amazon EKS cluster, it's time to ensure that your game data is safely persisted using the  <<ebs-csi,Amazon EBS CSI Driver>> managed add-on. This add-on was installed on our cluster during the creation process. This integration is essential for preserving game progress and data even as Kubernetes pods or nodes are restarted or replaced.
+Now that the 2048 game is up and running on your Amazon EKS cluster, it's time to ensure that your game data is safely persisted using the block storage capability of Amazon EKS Auto Mode. 
 
-. Create a https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/examples/kubernetes/dynamic-provisioning/manifests/storageclass.yaml[Storage Class] for the EBS CSI Driver:
+. Create a file named `storage-class.yaml`:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,yaml]
 ----
-kubectl apply -n game-2048 -f https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/master/examples/kubernetes/dynamic-provisioning/manifests/storageclass.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: auto-ebs-sc
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: ebs.csi.eks.amazonaws.com
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  type: gp3
+  encrypted: "true"
+----
+. Apply the StorageClass:
++
+[source,bash]
+----
+kubectl apply -f storage-class.yaml
 ----
 . Create a Persistent Volume Claim (PVC) to request storage for your game data. Create a file named `ebs-pvc.yaml` and add the following content to it:
 +
@@ -278,7 +206,7 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  storageClassName: ebs-sc
+  storageClassName: auto-ebs-sc
 ----
 . Apply the PVC to your cluster:
 +
@@ -340,41 +268,17 @@ You should see the following response output:
 deployment.apps/deployment-2048 configured
 ----
 
-With these steps, your 2048 game on Amazon EKS is now set up to persist data using the Amazon EBS CSI Driver. This ensures that your game progress and data are safe even in the event of pod or node failures. 
+With these steps, your 2048 game on the cluster is now set up to persist data using the block storage capability of Amazon EKS Auto Mode. This ensures that your game progress and data are safe even in the event of pod or node failures. 
 
 If you liked this tutorial, let us know by providing feedback so we're able to provide you with more use case-specific quickstart tutorials like this one.
 
-[[quickstart-delete-cluster,quickstart-delete-cluster.title]]
-== Step 6: Delete your cluster and nodes
 
-After you've finished with the cluster and nodes that you created for this tutorial, you should clean up by deleting the cluster and nodes with the following command. If you want to do more with this cluster before you clean up, see <<quickstart-next-steps,Next steps>>.
+## Delete your cluster and nodes
 
-[source,bash,subs="verbatim,attributes"]
-----
+After you've finished with the cluster that you created for this tutorial, you should clean up by deleting the cluster with the following command. If you want to do more with this cluster before you clean up, see Next steps.
+
+```bash
 eksctl delete cluster -f ./cluster-config.yaml
-----
+```
 
-Upon completion, you should see the following response output:
-
-[source,bash,subs="verbatim,attributes"]
-----
-2024-07-05 17:26:44 [✔] all cluster resources were deleted
-----
-
-
-[[quickstart-next-steps,quickstart-next-steps.title]]
-== Next steps
-
-The following documetation topics help you to extend the functionality of your cluster:
-
-
-
-* The  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that created the cluster is the only principal that can make calls to the [.noloc]`Kubernetes` API server with `kubectl` or the {aws-management-console}. If you want other IAM principals to have access to your cluster, then you need to add them. For more information, see <<grant-k8s-access>> and <<view-kubernetes-resources-permissions>>.
-* Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for <<create-cluster,clusters>> and <<eks-compute,nodes>>. Some settings (such as enabling SSH access to Amazon EC2 nodes) must be made when the cluster is created.
-* To increase security for your cluster, <<cni-iam-role,configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts>>.
-
-To explore ways to create different types of clusters:
-
-
-
-* https://community.aws/tags/eks-cluster-setup[EKS Cluster Setup on {aws} Community]
+EKS will automatically clean up any nodes it provisioned when the cluster is deleted.

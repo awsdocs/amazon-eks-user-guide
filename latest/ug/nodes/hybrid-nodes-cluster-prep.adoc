@@ -1,0 +1,111 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[hybrid-nodes-cluster-prep,hybrid-nodes-cluster-prep.title]]
+= Prepare cluster access for hybrid nodes
+:info_title: Prepare cluster access for hybrid nodes
+:info_titleabbrev: Prepare cluster access
+:info_abstract:  Prepare cluster access for hybrid nodes
+
+[abstract]
+--
+Prepare cluster access for Amazon EKS hybrid nodes
+--
+
+include::../attributes.txt[]
+
+Before connecting hybrid nodes to your Amazon EKS cluster, you must enable your Hybrid Nodes IAM Role with Kubernetes permissions to join the cluster. See <<hybrid-nodes-creds>> for information on how to create the Hybrid Nodes IAM role. Amazon EKS supports two ways to associate IAM principals with Kubernetes Role-Based Access Control (RBAC), Amazon EKS access entries and the `aws-auth` ConfigMap. For more information on Amazon EKS access management, see <<grant-k8s-access>>.
+
+Use the procedures below to associate your Hybrid Nodes IAM role with Kubernetes permissions. To use Amazon EKS access entries, your cluster must have been created with the `API` or `API_AND_CONFIG_MAP` authentication modes. To use the `aws-auth` ConfigMap, your cluster must have been created with the `API_AND_CONFIG_MAP` authentication mode. The `CONFIG_MAP`-only authentication mode is not supported for hybrid nodes-enabled Amazon EKS clusters.
+
+== Using Amazon EKS access entries for Hybrid Nodes IAM role
+
+There is an Amazon EKS access entry type for hybrid nodes named HYBRID_LINUX that can be used with an IAM role. With this access entry type, the username is automatically set to system:node:{{SessionName}}. For more information on creating access entries, see <<creating-access-entries>>.
+
+=== {aws} CLI
+
+. You must have the latest version of the {aws} CLI installed and configured on your device. To check your current version, use `aws --version`. Package managers such yum, apt-get, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see Installing and Quick configuration with aws configure in the {aws} Command Line Interface User Guide.
+
+. Create your access entry with the following command. Replace CLUSTER_NAME with the name of your cluster and HYBRID_NODES_ROLE_ARN with the ARN of the role you created in the steps for <<hybrid-nodes-creds>>.
++
+[source,shell,subs="verbatim,attributes,quotes"]
+----
+aws eks create-access-entry --cluster-name CLUSTER_NAME \ 
+    --principal-arn HYBRID_NODES_ROLE_ARN \
+    --type HYBRID_LINUX
+----
+
+=== {aws} Management Console
+
+. Open the Amazon EKS console at link:eks/home#/clusters[Amazon EKS console,type="console"].
+
+. Choose the name of your hybrid nodes-enabled cluster.
+
+. Choose the *Access* tab.
+
+. Choose *Create access entry*.
+
+. For *IAM principal*, select the Hybrid Nodes IAM role you created in the steps for <<hybrid-nodes-creds>>.
+
+. For *Type*, select *Hybrid Linux*.
+
+. (Optional) For *Tags*, assign labels to the access entry. For example, to make it easier to find all resources with the same tag.
+
+. Choose *Skip to review and create*. You cannot add policies to the Hybrid Linux access entry or change its access scope.
+
+. Review the configuration for your access entry. If anything looks incorrect, choose *Previous* to go back through the steps and correct the error. If the configuration is correct, choose *Create*.
+
+
+== Using aws-auth ConfigMap for Hybrid Nodes IAM role
+
+In the following steps, you will create or update the `aws-auth` ConfigMap with the ARN of the Hybrid Nodes IAM Role you created in the steps for <<hybrid-nodes-creds>>. 
+
+. Check to see if you have an existing `aws-auth` ConfigMap for your cluster. Note that if you are using a specific `kubeconfig` file, use the `--kubeconfig` flag.
++
+[source,shell,subs="verbatim,attributes,quotes"]
+----
+kubectl describe configmap -n kube-system aws-auth
+----
+
+. If you are shown an `aws-auth` ConfigMap, then update it as needed.
++
+.. Open the ConfigMap for editing.
++
+[source,shell,subs="verbatim,attributes,quotes"]
+----
+kubectl edit -n kube-system configmap/aws-auth
+----
+
+.. Add a new `mapRoles` entry as needed. Replace `HYBRID_NODES_ROLE_ARN` with the ARN of your Hybrid Nodes IAM role. Note, `{{SessionName}}` is the correct template format to save in the ConfigMap. Do not replace it with other values.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+data:
+  mapRoles: |
+  - groups:
+    - system:bootstrappers
+    - system:nodes
+    rolearn: HYBRID_NODES_ROLE_ARN
+    username: system:node:{{SessionName}}
+----
+
+.. Save the file and exit your text editor.
+
+. If there is not an existing `aws-auth` ConfigMap for your cluster, create it with the following command. Replace `HYBRID_NODES_ROLE_ARN` with the ARN of your Hybrid Nodes IAM role. Note that `{{SessionName}}` is the correct template format to save in the ConfigMap. Do not replace it with other values.
++
+[source,shell,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f=/dev/stdin <<-EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+  - groups:
+    - system:bootstrappers
+    - system:nodes
+    rolearn: HYBRID_NODES_ROLE_ARN
+    username: system:node:{{SessionName}}
+EOF
+----

@@ -25,6 +25,7 @@ Here are some things to consider when using the CSI snapshot controller.
 
 * The snapshot controller must be installed alongside a CSI driver with snapshot functionality. For installation instructions of the Amazon EBS CSI driver, see <<ebs-csi>>.
 * [.noloc]`Kubernetes` doesn't support snapshots of volumes being served via CSI migration, such as Amazon EBS volumes using a `StorageClass` with provisioner `kubernetes.io/aws-ebs`. Volumes must be created with a `StorageClass` that references the CSI driver provisioner, `ebs.csi.aws.com`. For more information about CSI migration, see <<ebs-csi-migration-faq>>.
+* Amazon EKS Auto Mode does not include the snapshot controller. The storage capability of EKS Auto Mode is compatible with the snapshot controller. 
 
 We recommend that you install the CSI snapshot controller through the Amazon EKS managed add-on. This add-on includes the custom resource definitions (CRDs) that are needed to create and manage snapshots on Amazon EKS. To add an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. For more information about add-ons, see <<eks-add-ons>>.
 

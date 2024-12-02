@@ -1,0 +1,38 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[auto-disable,auto-disable.title]]
+= Disable EKS Auto Mode
+:info_doctype: section
+
+include::../attributes.txt[]
+
+You can disable EKS Auto Mode on an existing EKS Cluster. This is a destructive operation. 
+
+* EKS will terminate all EC2 instances operated by EKS Auto Mode.
+* EKS will delete all Load Balancers operated by EKS Auto Mode.
+
+== Disable EKS Auto Mode ({aws} Console)
+
+. Open your cluster overview page in the {aws} Management Console. 
+. Under *EKS Auto Mode* select *Manage*
+. Toggle *EKS Auto Mode* to `off`. 
+
+== Disable EKS Auto Mode ({aws} CLI)
+
+Use the following command to disable {eam} on an existing cluster. 
+
+You need to have the `aws` CLI installed, and be logged in with sufficent permissions to manage EKS clusters. For more information, see <<setting-up>>. 
+
+[NOTE]
+====
+The compute, block storage, and load balancing capabilities must all be enabled or disabled in the same request. 
+====
+
+[source,cli]
+----
+aws eks update-cluster-config \
+ --name $CLUSTER_NAME \
+ --compute-config enabled=false \
+ --kubernetes-network-config '{"elasticLoadBalancing":{"enabled": false}}' \
+ --storage-config '{"blockStorage":{"enabled": false}}'
+----

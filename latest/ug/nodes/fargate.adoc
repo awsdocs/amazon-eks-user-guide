@@ -29,7 +29,7 @@ You can control which [.noloc]`Pods` start on Fargate and how they run with  <<f
 This topic describes the different components of [.noloc]`Pods` that run on Fargate, and calls out special considerations for using Fargate with Amazon EKS.
 
 [[fargate-considerations,fargate-considerations.title]]
-= {aws} Fargate considerations
+== {aws} Fargate considerations
 
 Here are some things to consider about using Fargate on Amazon EKS.
 
@@ -79,6 +79,10 @@ spec:
       restartPolicy: Never
   ttlSecondsAfterFinished: 60 # <-- TTL controller
 ----
+
+== Fargate Comparison Table
+
+include::fargate-table.adoc[]
 
 
 [.topic]

@@ -1,7 +1,23 @@
 // EKS-specific attributes
 
 :eksctl-min-version: 0.194.0
-:k8s-n: 1.31
+
+// EKS Auto Mode
+:auto-cli-v2-version: 2.12.3
+:auto-cli-v1-version: 1.27.160
+
+// Words Geoffrey often spells wrong or doesn't like to type
+
+:ret: retrieve
+:resp: responsibility
+:det: determine
+:cap: capability
+:caps: capabilites
+:recd: recommended
+:config: configuration
+:ind: indicate
+:ena: enable
+:dis: disable
 
 // AWS shared content
 
@@ -201,3 +217,14 @@
 :us-gov-west-1-name: {aws} GovCloud (US-West) Region
 :us-gov-east-1-region: {aws} GovCloud (US-West)
 :us-gov-east-1-code: us-gov-west-1
+
+// EKS Auto Mode attributes
+
+:yec: your EKS Auto Mode cluster
+:yaa: your {aws} account
+:emi: EC2 managed instance
+:eam: EKS Auto Mode
+:mng: managed node group
+:e2i: EC2 Instance
+:k8s: Kubernetes
+:k8s-n: 1.31

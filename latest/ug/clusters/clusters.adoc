@@ -16,8 +16,6 @@ include::../attributes.txt[]
 
 An Amazon EKS cluster consists of two primary components:
 
-
-
 * The Amazon EKS control plane
 * Amazon EKS nodes that are registered with the control plane
 
@@ -55,6 +53,8 @@ Amazon EKS nodes run in your {aws} account and connect to your cluster's control
 
 [.topiclist]
 [[Topic List]]
+
+include::create-cluster-auto.adoc[leveloffset=+1]
 
 include::create-cluster.adoc[leveloffset=+1]
 

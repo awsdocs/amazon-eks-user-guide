@@ -1,0 +1,33 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[tag-subnets,tag-subnets.title]]
+= Tag VPC Subnets for Load Balancer Deployment
+:info_doctype: section
+
+include::../../attributes.txt[]
+
+This topic explains how to tag your VPC subnets to enable load balancer deployment using the {aws} Management Console.
+
+## Required Tags
+
+Your subnets require specific tags based on their intended use:
+
+[options="header",cols="1,2,1"]
+|===
+|Subnet Type |Tag Key |Tag Value
+|Private Subnet |`kubernetes.io/role/internal-elb` |`1`
+|Public Subnet |`kubernetes.io/role/elb` |`1`
+|===
+
+## Adding Tags in the Console
+
+1. Sign in to the {aws} Management Console
+2. Navigate to **VPC** +>+ **Subnets**
+3. Select the subnet you want to tag
+4. Select the **Tags** tab in the lower panel
+5. Choose **Add/Edit Tags**
+6. Click **Add Tag** and enter:
+   - For private subnets: Key = `kubernetes.io/role/internal-elb`, Value = `1`
+   - For public subnets: Key = `kubernetes.io/role/elb`, Value = `1`
+7. Click **Save**
+

@@ -1,0 +1,148 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[create-vpc-console,create-vpc-console.title]]
+# Create a VPC for Amazon EKS with the web console
+:info_doctype: section
+
+include::../../attributes.txt[]
+
+This guide walks you through creating a Virtual Private Cloud (VPC) that's optimized for Amazon Elastic Kubernetes Service (EKS) clusters using the {aws} Management Console.
+
+## Overview
+
+When creating a VPC for EKS, you'll need to configure specific networking requirements to ensure proper cluster functionality, including:
+- Public and private subnets across multiple Availability Zones
+- NAT gateways for outbound internet access from private subnets
+- Appropriate CIDR ranges to accommodate pod and service IP addresses
+- Required VPC endpoints for EKS functionality
+
+## Prerequisites
+
+- An {aws} account
+- Access to the {aws} Management Console
+- IAM permissions for VPC and EKS resource creation
+- Planned CIDR ranges for your VPC, pods, and services
+
+## Creation Steps
+
+### Step 1: Access the VPC Creation Page
+1. Sign in to the {aws} Management Console
+2. Navigate to the VPC Dashboard
+3. Click "Create VPC"
+
+### Step 2: Configure Basic VPC Settings
+1. Under "VPC settings", select "VPC and more"
+2. Enter a name tag in the "Name tag auto-generation" field
+   - Example: "eks-cluster-vpc"
+   - This will auto-generate names for all resources with the prefix
+
+### Step 3: Configure Network Settings
+1. IPv4 CIDR block:
+   - Enter your VPC CIDR (recommended: 10.0.0.0/16)
+   - Ensure the CIDR is large enough to accommodate:
+     - EKS nodes
+     - Pods (default CNI: up to 250 pods per node)
+     - Services (default: 10.100.0.0/16)
+
+2. Set Availability Zones:
+   - Select at least two AZs (recommended: 3 for production)
+   - EKS requires a minimum of two AZs for high availability
+
+3. Configure Subnets:
+   - Public subnets: Set to 2 or 3 (matching your AZ count)
+     - Required for public-facing load balancers
+     - Used for NAT gateways
+   - Private subnets: Set to 2 or 3 (matching your AZ count)
+     - Will host your EKS nodes
+     - Must have outbound internet access via NAT
+
+### Step 4: Configure NAT Gateways
+1. Choose "1 per AZ" for production environments
+   - While more expensive, this provides high availability for node outbound traffic
+   - For dev/test, you can use "In 1 AZ" to reduce costs
+
+### Step 5: Configure VPC Endpoints
+1. Select "S3 Gateway"
+   - Required for pulling container images from Amazon ECR
+2. Consider adding these endpoints later for enhanced security:
+   - com.amazonaws.[region].ecr.api
+   - com.amazonaws.[region].ecr.dkr
+   - com.amazonaws.[region].eks
+   - com.amazonaws.[region].elasticloadbalancing
+   - com.amazonaws.[region].logs
+
+### Step 6: Configure DNS Options
+1. Enable both options:
+   - DNS hostnames (required for EKS)
+   - DNS resolution (required for EKS)
+
+### Step 7: Review and Create
+1. Review the preview panel to ensure:
+   - All subnets are properly distributed across AZs
+   - CIDR ranges don't overlap
+2. Click "Create VPC"
+
+## Post-Creation Configuration
+
+### Step 1: Tag Subnets for EKS
+After VPC creation, add these required tags to your subnets:
+
+For public subnets:
+```
+kubernetes.io/cluster/<cluster-name> = shared
+kubernetes.io/role/elb = 1
+```
+
+For private subnets:
+```
+kubernetes.io/cluster/<cluster-name> = shared
+kubernetes.io/role/internal-elb = 1
+```
+
+### Step 2: Security Group Configuration
+1. Create a cluster security group that allows:
+   - All inbound traffic from within the VPC
+   - Required outbound traffic for node communication
+
+## Best Practices
+
+1. Networking:
+   - Use private subnets for worker nodes
+   - Use public subnets only for load balancers
+   - Ensure sufficient IP addresses for pods and services
+
+2. High Availability:
+   - Use 3 AZs for production environments
+   - Deploy NAT Gateways in each AZ
+   - Size subnets appropriately for expected growth
+
+3. Security:
+   - Implement VPC endpoints for {aws} services
+   - Use security groups to control traffic
+   - Follow the principle of least privilege
+
+## Next Steps
+
+1. Create your EKS cluster using this VPC
+2. Configure additional VPC endpoints as needed
+3. Set up monitoring for NAT gateway bandwidth
+4. Plan IP address management for pods and services
+
+## Troubleshooting Tips
+
+1. Common Issues:
+   - Insufficient IP addresses for pods
+   - Missing required subnet tags
+   - NAT gateway connectivity issues
+
+2. Validation Steps:
+   - Verify subnet tags
+   - Check route tables
+   - Confirm security group rules
+
+## Additional Resources
+
+- EKS VPC Requirements Documentation
+- EKS Best Practices Guide
+- VPC Pricing Calculator
+- EKS Networking Documentation

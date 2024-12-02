@@ -1,0 +1,344 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[hybrid-nodes-cluster-create,hybrid-nodes-cluster-create.title]]
+= Create an Amazon EKS cluster with hybrid nodes
+:info_doctype: section
+:info_title: Create an Amazon EKS cluster with hybrid nodes
+:info_titleabbrev: Create cluster
+:keywords: on-premises, hybrid
+:info_abstract: Create an Amazon EKS cluster with hybrid nodes
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Create hybrid nodes cluster
+--
+
+This topic provides an overview of the available options and describes what to consider when you create a hybrid nodes-enabled Amazon EKS cluster. If you are not planning to use hybrid nodes, see <<create-cluster>>.
+
+
+[[hybrid-nodes-cluster-create-prep,hybrid-nodes-cluster-create-prep.title]]
+== Prerequisites
+
+* The <<hybrid-nodes-prereqs>> completed. Before you create your hybrid nodes-enabled cluster, you must have your on-premises node and optionally pod CIDRs identified, your VPC and subnets created according to the EKS requirements, and hybrid nodes requirements, and your security group with inbound rules for your on-premises and optionally pod CIDRs. For more information on these prerequisites, see <<hybrid-nodes-networking>>.
+* The latest version of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device. To check your current version, use `aws --version`. Package managers such yum, apt-get, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/getting-started-install.html[Installing or updating to the last version of the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Configuring settings for the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
+* An link:IAM/latest/UserGuide/id_roles#iam-term-principal[IAM principal,type="documentation"] with permissions to create IAM roles and attach policies, and create and describe EKS clusters
+
+
+[[hybrid-nodes-cluster-create-consider,hybrid-nodes-cluster-create-consider.title]]
+== Considerations
+
+* Your cluster must use either `API` or `API_AND_CONFIG_MAP` for the cluster authentication mode.
+* Your cluster must use IPv4 address family.
+* Your cluster must use either Public or Private cluster endpoint connectivity. Your cluster cannot use “Public and Private” cluster endpoint connectivity, because the Amazon EKS Kubernetes API server endpoint will resolve to the public IPs for hybrid nodes running outside of your VPC.
+* Currently, hybrid nodes must be enabled during cluster creation. You cannot change your `RemoteNodeNetwork` or `RemotePodNetwork` after cluster creation.
+
+
+[[hybrid-nodes-cluster-create-iam,hybrid-nodes-cluster-create-iam.title]]
+== Step 1: Create cluster IAM role
+
+If you already have a cluster IAM role, or you’re going to create your cluster with `eksctl` or {aws} CloudFormation, then you can skip this step. By default, `eksctl` and the {aws} CloudFormation template create the cluster IAM role for you.
+
+. Run the following command to create an IAM trust policy JSON file.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+cat >eks-cluster-role-trust-policy.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "eks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+----
+
+. Create the Amazon EKS cluster IAM role. If necessary, preface eks-cluster-role-trust-policy.json with the path on your computer that you wrote the file to in the previous step. The command associates the trust policy that you created in the previous step to the role. To create an IAM role, the link:IAM/latest/UserGuide/id_roles#iam-term-principal[IAM principal,type="documentation"] that is creating the role must be assigned the `iam:CreateRole` action (permission).
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam create-role \
+    --role-name myAmazonEKSClusterRole \
+    --assume-role-policy-document file://"eks-cluster-role-trust-policy.json"
+----
+
+. You can assign either the Amazon EKS managed policy or create your own custom policy. For the minimum permissions that you must use in your custom policy, see <<create-node-role>>. Attach the Amazon EKS managed policy named `AmazonEKSClusterPolicy` to the role. To attach an IAM policy to an link:IAM/latest/UserGuide/id_roles#iam-term-principal[IAM principal,type="documentation"], the principal that is attaching the policy must be assigned one of the following IAM actions (permissions): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam attach-role-policy \
+    --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy \
+    --role-name myAmazonEKSClusterRole
+----
+
+
+[[hybrid-nodes-cluster-create-cluster,hybrid-nodes-cluster-create-cluster.title]]
+== Step 2: Create hybrid nodes-enabled cluster
+
+You can create a cluster by using:
+
+* <<hybrid-nodes-cluster-create-eksctl,eksctl>>
+* <<hybrid-nodes-cluster-create-cfn,{aws} CloudFormation>>
+* <<hybrid-nodes-cluster-create-cli,{cli}>>
+* <<hybrid-nodes-cluster-create-console,{aws-management-console}>>
+
+
+[[hybrid-nodes-cluster-create-eksctl,hybrid-nodes-cluster-create-eksctl.title]]
+=== Create hybrid nodes-enabled cluster - eksctl
+
+You need to install the latest version of the `eksctl` command line tool. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
+
+. Create `cluster-config.yaml` to define a hybrid nodes-enabled Amazon EKS IPv4 cluster. Make the following replacements in your `cluster-config.yaml`. For a full list of settings, see the https://eksctl.io/getting-started/[eksctl documentation].
+.. Replace `CLUSTER_NAME` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you’re creating the cluster in.
+.. Replace `AWS_REGION` with the {aws} Region that you want to create your cluster in.
+.. Replace `K8S_VERSION` with any <<kubernetes-versions,Amazon EKS supported version>>.
+.. Replace `CREDS_PROVIDER` with `ssm` or `ira` based on the credential provider you configured in the steps for <<hybrid-nodes-creds>>.
+.. Replace `CA_BUNDLE_CERT` if your credential provider is set to `ira`, which uses {aws} IAM Roles Anywhere as the credential provider. The CA_BUNDLE_CERT is the certificate authority (CA) certificate body and depends on your choice of CA. The certificate must be in Privacy Enhanced Mail (PEM) format.
+.. Replace `GATEWAY_ID` with the ID of your virtual private gateway or transit gateway to be attached to your VPC.
+.. Replace `REMOTE_NODE_CIDRS` with the on-premises node CIDR for your hybrid nodes.
+.. Replace `REMOTE_POD_CIDRS` with the on-premises pod CIDR for workloads running on hybrid nodes or remove the line from your configuration if you are not running webhooks on hybrid nodes. You must configure your `REMOTE_POD_CIDRS` if your CNI does not use Network Address Translation (NAT) or masquerading for pod IP addresses when pod traffic leaves your on-premises hosts. You must configure `REMOTE_POD_CIDRS` if you are running webhooks on hybrid nodes.
+.. Your on-premises node and pod CIDR blocks must meet the following requirements:
+... Be within one of the IPv4 RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
+... Not overlap with each other, the `VPC CIDR` for your cluster, or your Kubernetes service IPv4 CIDR
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: CLUSTER_NAME
+  region: AWS_REGION
+  version: "K8S_VERSION"
+
+remoteNetworkConfig:
+  iam:
+    provider: CREDS_PROVIDER # default SSM, can also be set to IRA
+    # caBundleCert: CA_BUNDLE_CERT
+  vpcGatewayID: GATEWAY_ID 
+  remoteNodeNetworks:
+  - cidrs: ["REMOTE_NODE_CIDRS"]
+  remotePodNetworks:
+  - cidrs: ["REMOTE_POD_CIDRS"]
+----
+
+. Run the following command:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+eksctl create cluster -f cluster-config.yaml
+----
++
+Cluster provisioning takes several minutes. While the cluster is being created, several lines of output appear. The last line of output is similar to the following example line.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+[✓]  EKS cluster "CLUSTER_NAME" in "REGION" region is ready
+----
+
+. Continue with <<hybrid-nodes-cluster-create-kubeconfig>>.
+
+
+[[hybrid-nodes-cluster-create-cfn,hybrid-nodes-cluster-create-cfn.title]]
+=== Create hybrid nodes-enabled cluster - {aws} CloudFormation
+
+The CloudFormation stack creates the EKS cluster IAM role and an EKS cluster with the `RemoteNodeNetwork` and `RemotePodNetwork` you specify. Modify the CloudFormation template If you need to customize settings for your EKS cluster that are not exposed in the CloudFormation template.
+
+. Download the CloudFormation template.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/example/hybrid-eks-cfn.yaml'
+----
+
+. Create a `cfn-eks-parameters.json` and specify your configuration for each value.
+.. `CLUSTER_NAME`: name of the EKS cluster to be created
+.. `CLUSTER_ROLE_NAME`: name of the EKS cluster IAM role to be created. The default in the template is “EKSClusterRole”.
+.. `SUBNET1_ID`: the ID of the first subnet you created in the prerequisite steps
+.. `SUBNET2_ID`: the ID of the second subnet you created in the prerequisite steps
+.. `SG_ID`: the security group ID you created in the prerequisite steps
+.. `REMOTE_NODE_CIDRS`: the on-premises node CIDR for your hybrid nodes
+.. `REMOTE_POD_CIDRS`: the on-premises pod CIDR for workloads running on hybrid nodes. You must configure your `REMOTE_POD_CIDRS` if your CNI does not use Network Address Translation (NAT) or masquerading for pod IP addresses when pod traffic leaves your on-premises hosts. You must configure `REMOTE_POD_CIDRS` if you are running webhooks on hybrid nodes.
+.. Your on-premises node and pod CIDR blocks must meet the following requirements:
+... Be within one of the IPv4 RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
+... Not overlap with each other, the `VPC CIDR` for your cluster, or your Kubernetes service IPv4 CIDR.
+.. `CLUSTER_AUTH`: the cluster authentication mode for your cluster. Valid values are `API` and `API_AND_CONFIG_MAP`. The default in the template is `API_AND_CONFIG_MAP`.
+.. `CLUSTER_ENDPOINT`: the cluster endpoint connectivity for your cluster. Valid values are “Public” and “Private”. The default in the template is Private, which means you will only be able to connect to the Kubernetes API endpoint from within your VPC.
+.. `K8S_VERSION`: the Kubernetes version to use for your cluster. See <<kubernetes-versions,Amazon EKS supported versions>>.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+{
+  "Parameters": {
+    "ClusterName": "CLUSTER_NAME",
+    "ClusterRoleName": "CLUSTER_ROLE_NAME",
+    "SubnetId1": "SUBNET1_ID",
+    "SubnetId2": "SUBNET2_ID",
+    "SecurityGroupId" "SG_ID",
+    "RemoteNodeCIDR": "REMOTE_NODE_CIDRS",
+    "RemotePodCIDR": "REMOTE_POD_CIDRS",
+    "ClusterAuthMode": "CLUSTER_AUTH",
+    "ClusterEndpointConnectivity": "CLUSTER_ENDPOINT",
+    "K8sVersion": "K8S_VERSION"
+  }
+ }
+----
+
+. Deploy the CloudFormation stack. Replace `STACK_NAME` with your name for the CloudFormation stack and AWS_REGION with your desired {aws} Region where the cluster will be created.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws cloudformation deploy \
+    --stack-name STACK_NAME \
+    --region AWS_REGION \
+    --template-file hybrid-eks-cfn.yaml \
+    --parameter-overrides file://cfn-eks-parameters.json \
+    --capabilities CAPABILITY_NAMED_IAM
+----
++
+Cluster provisioning takes several minutes. You can check the status of your stack with the following command. Replace `STACK_NAME` with your name for the CloudFormation stack and `AWS_REGION` with your desired {aws} Region where the cluster will be created.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws cloudformation describe-stacks \
+    --stack-name STACK_NAME \
+    --region AWS_REGION \
+    --query 'Stacks[].StackStatus'
+----
+
+. Continue with <<hybrid-nodes-cluster-create-kubeconfig>>.
+
+
+[[hybrid-nodes-cluster-create-cli,hybrid-nodes-cluster-create-cli.title]]
+=== Create hybrid nodes-enabled cluster - {aws} CLI
+
+. Run the following command to create a hybrid nodes-enabled EKS cluster. Before running the command, replace the following with your desired settings. For a full list of settings, see the <<create-cluster>> documentation.
+.. `CLUSTER_NAME`: name of the EKS cluster to be created
+.. `AWS_REGION`: {aws} Region where the cluster will be created. 
+.. `K8S_VERSION`: the Kubernetes version to use for your cluster. See Amazon EKS supported versions.
+.. `ROLE_ARN`: the Amazon EKS cluster role you configured for your cluster. See Amazon EKS cluster IAM role for more information.
+.. `SUBNET1_ID`: the ID of the first subnet you created in the prerequisite steps
+.. `SUBNET2_ID`: the ID of the second subnet you created in the prerequisite steps
+.. `SG_ID`: the security group ID you created in the prerequisite steps
+.. You can use `API` and `API_AND_CONFIG_MAP` for your cluster access authentication mode. In the command below, the cluster access authentication mode is set to `API_AND_CONFIG_MAP`.
+.. You can use the `endpointPublicAccess` and `endpointPrivateAccess` parameters to enable or disable public and private access to your cluster’s Kubernetes API server endpoint. In the command below `endpointPublicAccess` is set to false and `endpointPrivateAccess` is set to true.
+.. `REMOTE_NODE_CIDRS`: the on-premises node CIDR for your hybrid nodes. 
+.. `REMOTE_POD_CIDRS` (optional): the on-premises pod CIDR for workloads running on hybrid nodes.
+.. Your on-premises node and pod CIDR blocks must meet the following requirements:
+... Be within one of the IPv4 RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
+... Not overlap with each other, the `VPC CIDR` for your Amazon EKS cluster, or your Kubernetes service IPv4 CIDR.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks create-cluster \
+    --name CLUSTER_NAME \
+    --region AWS_REGION \
+    --kubernetes-version K8S_VERSION \
+    --role-arn ROLE_ARN \ 
+    --resources-vpc-config subnetIds=SUBNET1_ID,SUBNET2_ID,securityGroupIds=SG_ID,endpointPrivateAccess=true,endpointPublicAccess=false \
+    --access-config authenticationMode=API_AND_CONFIG_MAP \
+    --remote-network-config '{"remoteNodeNetworks":[{"cidrs":["REMOTE_NODE_CIDRS"]}],"remotePodNetworks":[{"cidrs":["REMOTE_POD_CIDRS"]}]}' 
+----
+
+. It takes several minutes to provision the cluster. You can query the status of your cluster with the following command. Replace `CLUSTER_NAME` with the name of the cluster you are creating and `AWS_REGION` with the {aws} Region where the cluster is creating. Don't proceed to the next step until the output returned is `ACTIVE`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-cluster \
+    --name CLUSTER_NAME \
+    --region AWS_REGION \
+    --query "cluster.status"
+----
+
+. Continue with <<hybrid-nodes-cluster-create-kubeconfig>>.
+
+[[hybrid-nodes-cluster-create-console,hybrid-nodes-cluster-create-console.title]]
+=== Create hybrid nodes-enabled cluster - {aws} Management Console
+
+. Open the Amazon EKS console at link:eks/home#/clusters[Amazon EKS console,type="console"].
+. Choose Add cluster and then choose Create.
+. On the Configure cluster page, enter the following fields:
+.. *Name* – A name for your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you’re creating the cluster in.
+.. *Cluster IAM role* – Choose the Amazon EKS cluster IAM role that you created to allow the Kubernetes control plane to manage {aws} resources on your behalf.
+.. *Kubernetes version* – The version of Kubernetes to use for your cluster. We recommend selecting the latest version, unless you need an earlier version.
+.. *Upgrade policy* - Choose either Extended or Standard.
+... *Extended:* This option supports the Kubernetes version for 26 months after the release date. The extended support period has an additional hourly cost that begins after the standard support period ends. When extended support ends, your cluster will be auto upgraded to the next version.
+... *Standard:* This option supports the Kubernetes version for 14 months after the release date. There is no additional cost. When standard support ends, your cluster will be auto upgraded to the next version.
+.. *Cluster access* - choose to allow or disallow cluster administrator access and select an authentication mode. The following authentication modes are supported for hybrid nodes-enabled clusters.
+... *EKS API*: The cluster will source authenticated IAM principals only from EKS access entry APIs.
+... *EKS API and ConfigMap*: The cluster will source authenticated IAM principals from both EKS access entry APIs and the `aws-auth` ConfigMap.
+.. *Secrets encryption* – (Optional) Choose to enable secrets encryption of Kubernetes secrets using a KMS key. You can also enable this after you create your cluster. Before you enable this capability, make sure that you’re familiar with the information in <<enable-kms>>.
+.. *ARC Zonal Shift* - If enabled, EKS will register your cluster with ARC zonal shift to enable you to use zonal shift to shift application traffic away from an AZ.
+.. *Tags* – (Optional) Add any tags to your cluster. For more information, see <<eks-using-tags>>.
+.. When you’re done with this page, choose *Next*.
+. On the *Specify networking* page, select values for the following fields:
+.. *VPC* – Choose an existing VPC that meets <<network-reqs>> and <<hybrid-nodes-prereqs, Amazon EKS Hybrid Nodes requirements>>. Before choosing a VPC, we recommend that you’re familiar with all of the requirements and considerations in View Amazon EKS networking requirements for VPC, subnets, and hybrid nodes. You can't change which VPC you want to use after cluster creation. If no VPCs are listed, then you need to create one first. For more information, see <<creating-a-vpc>> and the <<hybrid-nodes-prereqs,Amazon EKS Hybrid Nodes networking requirements>>.
+.. *Subnets* – By default, all available subnets in the VPC specified in the previous field are preselected. You must select at least two.
+.. *Security groups* – (Optional) Specify one or more security groups that you want Amazon EKS to associate to the network interfaces that it creates. At least one of the security groups you specify must have inbound rules for your on-premises node and optionally pod CIDRs. See the <<hybrid-nodes-networking,Amazon EKS Hybrid Nodes networking requirements>> for more information. Whether you choose any security groups or not, Amazon EKS creates a security group that enables communication between your cluster and your VPC. Amazon EKS associates this security group, and any that you choose, to the network interfaces that it creates. For more information about the cluster security group that Amazon EKS creates, see <<sec-group-reqs>> You can modify the rules in the cluster security group that Amazon EKS creates.
+.. *Choose cluster IP address family* – You must choose IPv4 for hybrid nodes-enabled clusters.
+.. (Optional) Choose *Configure Kubernetes Service IP address range* and specify a *Service IPv4 range*.
+.. *Choose Configure remote networks to enable hybrid nodes* and specify your on-premises node and pod CIDRs for hybrid nodes.
+.. You must configure your remote pod CIDR if your CNI does not use Network Address Translation (NAT) or masquerading for pod IP addresses when pod traffic leaves your on-premises hosts. You must configure the remote pod CIDR if you are running webhooks on hybrid nodes.
+.. Your on-premises node and pod CIDR blocks must meet the following requirements:
+... Be within one of the IPv4 RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
+... Not overlap with each other, the `VPC CIDR` for your cluster, or your Kubernetes service IPv4 CIDR
+.. For *Cluster endpoint access*, select an option. After your cluster is created, you can change this option. For hybrid nodes-enabled clusters, you must choose either Public or Private. Before selecting a non-default option, make sure to familiarize yourself with the options and their implications. For more information, see <<cluster-endpoint>>.
+.. When you’re done with this page, choose *Next*.
+. (Optional) On the *Configure* observability page, choose which Metrics and Control plane logging options to turn on. By default, each log type is turned off.
+.. For more information about the Prometheus metrics option, see <<prometheus>>.
+.. For more information about the EKS control logging options, see <<control-plane-logs>>.
+.. When you’re done with this page, choose *Next*.
+. On the *Select add-ons* page, choose the add-ons that you want to add to your cluster.
+.. You can choose as many *Amazon EKS add-ons* and *{aws} Marketplace add-ons* as you require. Amazon EKS add-ons that are not compatible with hybrid nodes are marked with “Not compatible with Hybrid Nodes” and the add-ons have an anti-affinity rule to prevent them from running on hybrid nodes. See Configuring add-ons for hybrid nodes for more information. If the *{aws} Marketplace* add-ons that you want to install isn't listed, you can search for available *{aws} Marketplace add-ons* by entering text in the search box. You can also search by *category*, *vendor*, or *pricing model* and then choose the add-ons from the search results.
+.. Some add-ons, such as CoreDNS and kube-proxy, are installed by default. If you disable any of the default add-ons, this may affect your ability to run Kubernetes applications.
+.. When you’re done with this page, choose `Next`.
+. On the *Configure selected add-ons settings* page, select the version that you want to install. 
+.. You can always update to a later version after cluster creation. You can update the configuration of each add-on after cluster creation. For more information about configuring add-ons, see <<updating-an-add-on>>. For the add-ons versions that are compatible with hybrid nodes, see <<hybrid-nodes-add-ons>>. 
+.. When you’re done with this page, choose Next.
+. On the *Review and create* page, review the information that you entered or selected on the previous pages. If you need to make changes, choose *Edit*. When you’re satisfied, choose *Create*. The *Status* field shows *CREATING* while the cluster is provisioned. Cluster provisioning takes several minutes.
+. Continue with <<hybrid-nodes-cluster-create-kubeconfig>>.
+
+[[hybrid-nodes-cluster-create-kubeconfig,hybrid-nodes-cluster-create-kubeconfig.title]]
+== Step 3: Update kubeconfig
+
+If you created your cluster using `eksctl`, then you can skip this step. This is because `eksctl` already completed this step for you. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` config file. For more information about how to create and update the file, see <<create-kubeconfig>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks update-kubeconfig --name CLUSTER_NAME --region AWS_REGION
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+Added new context arn:aws:eks:AWS_REGION:111122223333:cluster/CLUSTER_NAME to /home/username/.kube/config
+----
+
+Confirm communication with your cluster by running the following command.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get svc
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   28h
+----
+
+
+== Step 4: Cluster setup
+
+As a next step, see <<hybrid-nodes-cluster-prep>> to enable access for your hybrid nodes to join your cluster.
+

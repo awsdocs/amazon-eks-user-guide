@@ -16,7 +16,17 @@ include::../attributes.txt[]
 Learn how to create an Amazon EKS cluster to run Kubernetes applications, including prerequisites, networking options, and add-on configurations. 
 --
 
-This topic provides an overview of the available options and describes what to consider when you create an Amazon EKS cluster. If you need to create a cluster on an {aws} Outpost, see <<eks-outposts-local-cluster-overview>>. If this is your first time creating an Amazon EKS cluster, we recommend that you follow one of our guides in <<getting-started>>. These guides help you to create a simple, default cluster without expanding into all of the available options.
+[NOTE]
+====
+This topic covers creating EKS clusters without EKS Auto Mode. 
+
+For detailed instructions on creating an EKS Auto Mode cluster, see <<create-cluster-auto>>.
+
+To get started with EKS Auto Mode, see <<getting-started-automode>>. 
+====
+
+
+This topic provides an overview of the available options and describes what to consider when you create an Amazon EKS cluster. If you need to create a cluster with your on-premises infrastructure as the compute for nodes, see <<hybrid-nodes-cluster-create,Create an EKS cluster with hybrid nodes>>. If this is your first time creating an Amazon EKS cluster, we recommend that you follow one of our guides in <<getting-started>>. These guides help you to create a simple, default cluster without expanding into all of the available options.
 
 == Prerequisites
 
@@ -127,14 +137,22 @@ You can only specify this option when using the `IPv4` address family and only a
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose *Add cluster* and then choose  *Create*.
+. Under *Configuration options* select *Custom configuration*
+** For information about quickly creating a cluster wih EKS Auto Mode, see <<automode-get-started-console>>.
+. Under *EKS Auto Mode*, toggle *Use EKS Auto Mode* off. 
+** For information about creating an EKS Auto Mode cluster with custom configuration, see <<create-cluster-auto>>. 
 . On the *Configure cluster* page, enter the following fields:
 +
 ** *Name* – A name for your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
+** *Cluster IAM role* – Choose the Amazon EKS cluster IAM role that you created to allow the [.noloc]`Kubernetes` control plane to manage {aws} resources on your behalf.
 ** *[.noloc]`Kubernetes` version* – The version of [.noloc]`Kubernetes` to use for your cluster. We recommend selecting the latest version, unless you need an earlier version.
 ** *Support type* -- The [.noloc]`Kubernetes` version policy you would like to set for your cluster. If you want your cluster to only run on a standard support version, you can choose  *Standard support*. If you want your cluster to enter extended support at the end of standard support for a version, you can choose  *Extended support*. If you select a [.noloc]`Kubernetes` version that is currently in extended support, you can not select standard support as an option.
-** *Cluster service role* – Choose the Amazon EKS cluster IAM role that you created to allow the [.noloc]`Kubernetes` control plane to manage {aws} resources on your behalf.
 ** *Secrets encryption* – (Optional) Choose to enable secrets encryption of [.noloc]`Kubernetes` secrets using a KMS key. You can also enable this after you create your cluster. Before you enable this capability, make sure that you're familiar with the information in  xref:enable-kms[Encrypt Kubernetes secrets with {aws} KMS on existing clusters,linkend=enable-kms].
 ** *Tags* – (Optional) Add any tags to your cluster. For more information, see <<eks-using-tags>>.
+** *ARC Zonal shift* - (Optional) You can use Route53 Application Recovery controller to mitigate impaired availability zones. For more information, see <<zone-shift>>.  
+. In the *Cluster access* section of the configure cluster page, enter the following fields:
+** *Bootstrap cluster administrator access* -- The cluster creator is automatically a Kubernetes administrator. If you want to disable this, select *Disallow cluster administrator access*. 
+** *Cluster authentication mode* -- Determine how you want to grant IAM users and roles access to Kubernetes APIs. For more information, see <<set-cam>>. 
 +
 When you're done with this page, choose *Next*.
 . On the *Specify networking* page, select values for the following fields:

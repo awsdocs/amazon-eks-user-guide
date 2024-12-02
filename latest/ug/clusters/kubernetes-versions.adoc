@@ -164,6 +164,10 @@ No. We strongly recommend running Fargate [.noloc]`Pods` as part of a replicatio
 IMPORTANT: If you update the control plane, you must still update the Fargate nodes yourself. To update Fargate nodes, delete the Fargate [.noloc]`Pod` represented by the node and redeploy the [.noloc]`Pod`. The new [.noloc]`Pod` is deployed with a `kubelet` version that's the same version as your cluster.
 
 
+*What Kubernetes versions are supported for hybrid nodes?*::
+Amazon EKS Hybrid Nodes supports the same Kubernetes versions as Amazon EKS clusters with other node compute types, including standard and extended Kubernetes version support. Hybrid nodes are not automatically upgraded when you upgrade your control plane version and you are responsible for upgrading your hybrid nodes. For more information, see <<hybrid-nodes-upgrade>>.
+
+
 [[extended-support-faqs,extended-support-faqs.title]]
 == Amazon EKS extended support FAQs
 

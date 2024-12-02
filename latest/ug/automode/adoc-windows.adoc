@@ -1,0 +1,98 @@
+# Configure an AsciiDoc Authoring Environment on Windows using Visual Studio Code
+
+## Prereqs
+
+* Visual Studio Code installed from Microsoft Website
+* Connected to Amazon VPN
+* Know your Cloud Dev Desktop Hostname, such as `http://dev-dsk-mcngs-2a-f991a827.us-west-2.amazon.com/`
+* Amazon Windows Image
+
+## Step 1: Clear SSH Keys
+
+[IMPORTANT]
+====
+Do not complete this step if you use SSH to access remote devices not managed by Amazon Corporate.
+====
+
+. Open PowerShell:
+** Press Windows key + X
+** Select "Windows PowerShell (Admin)" or "Windows Terminal (Admin)"
+** If prompted by User Account Control, click "Yes"
+
+. Backup existing SSH keys:
+** Navigate to your SSH directory by typing: `cd ~\.ssh`
+** Create a backup folder: `mkdir ~\ssh_backup`
+** Copy all files to the backup location: `Copy-Item -Path ~\.ssh\* -Destination ~\ssh_backup -Recurse`
+** Verify the backup by checking the contents: `dir ~\ssh_backup`
+
+. Remove existing SSH keys:
+** Make sure you're in the SSH directory: `cd ~\.ssh`
+** Delete all files in the .ssh folder: `Remove-Item -Path ~\.ssh\* -Recurse -Force`
+** Verify the directory is empty: `dir`
+** If the .ssh directory itself is causing issues, you can remove it entirely: `Remove-Item ~\.ssh -Recurse -Force`
+
+[NOTE]
+====
+If you need to restore your keys later, you can copy them back from the backup folder using:
+`Copy-Item -Path ~\ssh_backup\* -Destination ~\.ssh -Recurse`
+====
+
+## Step 2: Create new ECDSA SSH Key
+
+. `ssh-keygen -t ecdsa`
+
+## Step 3: Use Midway to Sign SSH Key
+
+. `mwinit` -- WITHOUT options
+. You will need to run this step periodically from windows powershell. 
+** You need to run mwinit from each device, including your laptop and CDD. 
+
+## Step 4: Test SSH 
+
+. Run `ssh <alias>@git.amazon.com -v `
+. Review output
+. If you don't see a success message, sent the output to Geoffrey
+
+## Step 5: Configure VS Code
+
+. Open VS Code
+. Open the extension panel in the left sidebar (tetris style icon)
+. Search for "SSH" remote extension and install
+. Open the remote panel in the left sidebar (computer monitor icon with circular icon in bottom right)
+. Mouse over `SSH` and then press the plus icon
+. Insert the following value: `ssh <alias>@<cdd-hostname>`
+. Press enter and follow the prompts
+. If the VS Code Window shows your CDD hostname in blue in the botton left of the window, that VS Code Window is connected to your CDD
+. Once it is connect, use `ctrl-`` to open a terminal window. 
+
+## Step 6: Clone Package on Cloud Dev Desktop
+
+[source,bash]
+----
+brazil ws create --name eks
+cd eks
+brazil ws use -vs AWSDevDocsAlpha/alpha
+brazil ws use AmazonEKSDocs
+cd src/AmazonEKSDocs
+pwd
+----
+
+In the AmazonEKSDocs package root is a file called `eks-docs.code-workspace`, use the output of `pwd` and this file name to determine the full path to the code workspace.
+
+## Step 7: Open Code Workspace
+
+From a SSH connected VS Code Window, go to "file" and then "open workspace from file". Use the path to the code workspace file.
+
+Using this file, VS code will automatically configure itself for authoring asciidoc. 
+
+## To reconnect
+
+. Connect to VPN
+. Use powershell to run mwinit
+. Open VS Code
+. Select the `eks-docs` workspace from recently opened workspaces, verify the hostname of your CDD is shown by the workspace name on the home screen
+. Alternatively, open the Remote Explorer panel in the left sidebar
+. Find your CDD and the eks-docs workspace under it, mouse over it
+. Use the right arrow icon to open the workspace in the curent window, or the plus icon to open in a new window 
+
+

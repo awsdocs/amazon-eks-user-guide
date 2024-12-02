@@ -22,6 +22,7 @@ With the https://github.com/awslabs/mountpoint-s3-csi-driver[Mountpoint for Amaz
 == Considerations
 
 * The [.noloc]`Mountpoint` for Amazon S3 CSI driver isn't presently compatible with Windows-based container images.
+* The Mountpoint for Amazon S3 CSI driver isn't presently compatible with Amazon EKS Hybrid Nodes.
 * The [.noloc]`Mountpoint` for Amazon S3 CSI driver doesn't support {aws} Fargate. However, containers that are running in Amazon EC2 (either with Amazon EKS or a custom [.noloc]`Kubernetes` installation) are supported.
 * The [.noloc]`Mountpoint` for Amazon S3 CSI driver supports only static provisioning. Dynamic provisioning, or creation of new buckets, isn't supported.
 +

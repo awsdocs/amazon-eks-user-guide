@@ -1,0 +1,100 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[create-node-class,create-node-class.title]]
+= Create a Node Class for Amazon EKS
+:info_doctype: section
+:info_titleabbrev: Create node class
+
+include::../attributes.txt[]
+
+Amazon EKS Node Classes provide granular control over the configuration of your {eam} managed nodes. A Node Class defines infrastructure-level settings that apply to groups of nodes in your EKS cluster, including network configuration, storage settings, and resource tagging. This topic explains how to create and configure a Node Class to meet your specific operational requirements.
+
+When you need to customize how {eam} provisions and configures EC2 instances beyond the default settings, creating a Node Class gives you precise control over critical infrastructure parameters. For example, you can specify private subnet placement for enhanced security, configure instance ephemeral storage for performance-sensitive workloads, or apply custom tagging for cost allocation.
+
+## Create a Node Class
+
+To create a Node Class, follow these steps:
+
+. Create a YAML file (for example, `nodeclass.yaml`) with your Node Class configuration
+. Apply the configuration to your cluster using `kubectl`
+. Reference the Node Class in your Node Pool configuration. For more information, see <<create-node-pool>>.
+
+You need `kubectl` installed and configured. For more information, see <<setting-up>>.
+
+### Basic Node Class Example
+
+Here's an example Node Class:
+
+```yaml
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: private-compute
+spec:
+  ephemeralStorage:
+    size: "160Gi" 
+```
+
+This NodeClass increases the amount of ephemeral storage on the node. 
+
+Apply this configuration using:
+
+```bash
+kubectl apply -f nodeclass.yaml
+```
+
+Next, reference the Node Class in your Node Pool configuration. For more information, see <<create-node-pool>>.
+
+== Node Class Specification 
+
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: default
+spec:
+
+  # Required: Subnet selection for node placement
+  subnetSelectorTerms:
+    - tags:
+        Name: "<tag-name>"
+        kubernetes.io/role/internal-elb: "1"
+    # Alternative using direct subnet ID
+    # - id: "subnet-0123456789abcdef0"
+  
+  # Required: Security group selection for nodes
+  securityGroupSelectorTerms:
+    - tags:
+        Name: "eks-cluster-node-sg"
+    # Alternative approaches:
+    # - id: "sg-0123456789abcdef0"
+    # - name: "eks-cluster-node-security-group"
+  
+  # Optional: Configure SNAT policy (defaults to Random)
+  snatPolicy: Random  # or Disabled
+  
+  # Optional: Network policy configuration (defaults to DefaultAllow)
+  networkPolicy: DefaultAllow  # or DefaultDeny
+  
+  # Optional: Network policy event logging (defaults to Disabled)
+  networkPolicyEventLogs: Disabled  # or Enabled
+  
+  # Optional: Configure ephemeral storage (shown with default values)
+  ephemeralStorage:
+    size: "80Gi"    # Range: 1-59000Gi or 1-64000G or 1-58Ti or 1-64T
+    iops: 3000      # Range: 3000-16000
+    throughput: 125 # Range: 125-1000
+  
+  # Optional: Additional EC2 tags
+  tags:
+    Environment: "production"
+    Team: "platform"
+----
+
+*Considerations:*
+
+* If you change the Node IAM Role associated with a NodeClass, you will need to create a new Access Entry. EKS automatically creates an Access Entry for the Node IAM Role during cluster creation. The Node IAM Role requires the `AmazonEKSAutoNodePolicy` EKS Access Policy. For more information, see <<access-entries>>.
+* EKS limits the maximum number of pods on a node to 110. This limit is applied after the existing max pods calculation. For more information, see <<choosing-instance-type>>. 
+* If you want to propagate tags from Kubernetes to EC2, you need to configure additional IAM permissions. For more information, see <<auto-learn-iam>>. 

@@ -1,6 +1,4 @@
 //!!NODE_ROOT <section>
-include::../attributes.txt[]
-
 [.topic]
 [[network-load-balancing,network-load-balancing.title]]
 = Route [.noloc]`TCP` and [.noloc]`UDP` traffic with [.noloc]`Network Load Balancers`
@@ -9,10 +7,21 @@ include::../attributes.txt[]
 :info_titleabbrev: Network load balancing
 :info_abstract: Use the {aws} Load Balancer Controller to create network load balancers for Amazon EKS workloads, supporting IP and instance targets with {aws} Network Load Balancers.
 
+include::../attributes.txt[]
+
 [abstract]
 --
 Use the {aws} Load Balancer Controller to create network load balancers for Amazon EKS workloads, supporting IP and instance targets with {aws} Network Load Balancers.
 --
+
+[NOTE]
+====
+*New:* Amazon EKS Auto Mode automates routine tasks for load balancing. For more information, see:
+
+* <<auto-elb-example>>
+* <<auto-configure-nlb>>
+
+====
 
 Network traffic is load balanced at `L4` of the OSI model. To load balance application traffic at `L7`, you deploy a [.noloc]`Kubernetes` `ingress`, which provisions an {aws} Application Load Balancer. For more information, see <<alb-ingress>>. To learn more about the differences between the two types of load balancing, see link:elasticloadbalancing/features/[Elastic Load Balancing features,type="marketing"] on the {aws} website. 
 
@@ -20,7 +29,7 @@ When you create a [.noloc]`Kubernetes` `Service` of type `LoadBalancer`, the {aw
 
 We recommend that you use version `2.7.2` or later of the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> instead of the {aws} cloud provider load balancer controller. The [.noloc]`{aws} Load Balancer Controller` creates {aws} Network Load Balancers, but doesn't create {aws} Classic Load Balancers. The remainder of this topic is about using the {aws} Load Balancer Controller.
 
-An {aws} Network Load Balancer can load balance network traffic to [.noloc]`Pods` deployed to Amazon EC2 IP and instance   link:elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type[targets,type="documentation"] or to {aws} Fargate IP targets. For more information, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/targetgroupbinding/targetgroupbinding/#targettype[{aws} Load Balancer Controller] on [.noloc]`GitHub`.
+An {aws} Network Load Balancer can load balance network traffic to [.noloc]`Pods` deployed to Amazon EC2 IP and instance   link:elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type[targets,type="documentation"], to {aws} Fargate IP targets, or to Amazon EKS Hybrid Nodes as IP targets. For more information, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/targetgroupbinding/targetgroupbinding/#targettype[{aws} Load Balancer Controller] on [.noloc]`GitHub`.
 
 
 == Prerequisites
@@ -58,7 +67,7 @@ If the subnet role tags aren't explicitly added, the [.noloc]`Kubernetes` servic
 == Considerations 
 
 * The configuration of your load balancer is controlled by annotations that are added to the manifest for your service. Service annotations are different when using the [.noloc]`{aws} Load Balancer Controller` than they are when using the {aws} cloud provider load balancer controller. Make sure to review the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/[annotations] for the [.noloc]`{aws} Load Balancer Controller` before deploying services.
-* When using the <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, the [.noloc]`{aws} Load Balancer Controller` can load balance to Amazon EC2 IP or instance targets and Fargate IP targets. When using  <<alternate-cni-plugins,Alternate compatible CNI plugins>>, the controller can only load balance to instance targets. For more information about Network Load Balancer target types, see  link:elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type[Target type,type="documentation"] in the User Guide for Network Load Balancers
+* When using the <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, the [.noloc]`{aws} Load Balancer Controller` can load balance to Amazon EC2 IP or instance targets and Fargate IP targets. When using <<alternate-cni-plugins,Alternate compatible CNI plugins>>, the controller can only load balance to instance targets, unless you are load balancing to Amazon EKS Hybrid Nodes. For hybrid nodes, the controller can load balance IP targets. For more information about Network Load Balancer target types, see  link:elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type[Target type,type="documentation"] in the User Guide for Network Load Balancers
 * If you want to add tags to the load balancer when or after it's created, add the following annotation in your service specification. For more information, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#aws-resource-tags[{aws} Resource Tags] in the [.noloc]`{aws} Load Balancer Controller` documentation.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -88,7 +97,7 @@ You can create a network load balancer with IP or instance targets.
 
 === Create network load balancer -- IP Targets
 
-* You can use IP targets with [.noloc]`Pods` deployed to Amazon EC2 nodes or Fargate. Your [.noloc]`Kubernetes` service must be created as type `LoadBalancer`. For more information, see https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer[Type LoadBalancer] in the [.noloc]`Kubernetes` documentation.  
+* You can use IP targets with [.noloc]`Pods` deployed to Amazon EC2 nodes, Fargate, or Amazon EKS Hybrid Nodes. Your [.noloc]`Kubernetes` service must be created as type `LoadBalancer`. For more information, see https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer[Type LoadBalancer] in the [.noloc]`Kubernetes` documentation.  
 +
 To create a load balancer that uses IP targets, add the following annotations to a service manifest and deploy your service. The `external` value for `aws-load-balancer-type` is what causes the [.noloc]`{aws} Load Balancer Controller`, rather than the {aws} cloud provider load balancer controller, to create the Network Load Balancer. You can view a  <<network-load-balancing-service-sample-manifest,sample service manifest>> with the annotations.
 +

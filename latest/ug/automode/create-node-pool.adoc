@@ -1,0 +1,185 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[create-node-pool,create-node-pool.title]]
+= Create a Node Pool for EKS Auto Mode
+:info_doctype: section
+:info_titleabbrev: Create node pool
+
+include::../attributes.txt[]
+
+Amazon EKS node pools provide a flexible way to manage compute resources in your Kubernetes cluster. This topic demonstrates how to create and configure node pools using Karpenter, a node provisioning tool that helps optimize cluster scaling and resource utilization. With Karpenter's NodePool resource, you can define specific requirements for your compute resources, including instance types, availability zones, architectures, and capacity types.
+
+The NodePool specification allows for fine-grained control over your EKS cluster's compute resources through various supported labels and requirements. These include options for specifying EC2 instance categories, CPU configurations, availability zones, architectures (ARM64/AMD64), and capacity types (spot/on-demand). You can also set resource limits for CPU and memory usage, ensuring your cluster stays within desired operational boundaries. 
+
+EKS Auto Mode leverages well-known Kubernetes labels to provide consistent and standardized ways of identifying node characteristics. These labels, such as `topology.kubernetes.io/zone` for availability zones and `kubernetes.io/arch` for CPU architecture, follow established Kubernetes conventions. Additionally, EKS-specific labels (prefixed with `eks.amazonaws.com/`) extend this functionality with {aws}-specific attributes like instance types, CPU manufacturers, GPU capabilities, and networking specifications. This standardized labeling system enables seamless integration with existing Kubernetes tooling while providing deep {aws} infrastructure integration.
+
+## Create a NodePool
+
+Follow these steps to create a NodePool for your Amazon EKS cluster:
+
+. Create a YAML file named `nodepool.yaml` with your desired NodePool configuration. You can use the sample configuration below. 
+. Validate your NodePool configuration:
++
+```bash
+kubectl validate -f nodepool.yaml
+```
+. Apply the NodePool to your cluster:
++
+```bash
+kubectl apply -f nodepool.yaml
+```
+. Verify that the NodePool was created successfully:
++
+```bash
+kubectl get nodepools
+```
+. (Optional) Monitor the NodePool status:
++
+```bash
+kubectl describe nodepool default
+```
+
+Ensure that your NodePool references a valid NodeClass that exists in your cluster. The NodeClass defines {aws}-specific configurations for your compute resources. For more information, see <<create-node-class>>.
+
+== Sample NodePool
+
+[source,yaml]
+----
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: default
+spec:
+  template:
+    metadata:
+      labels:
+        billing-team: my-team
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: default
+
+      requirements:
+        - key: "eks.amazonaws.com/instance-category"
+          operator: In
+          values: ["c", "m", "r"]
+        - key: "eks.amazonaws.com/instance-cpu"
+          operator: In
+          values: ["4", "8", "16", "32"]
+        - key: "topology.kubernetes.io/zone"
+          operator: In
+          values: ["us-west-2a", "us-west-2b"]
+        - key: "kubernetes.io/arch"
+          operator: In
+          values: ["arm64", "amd64"]
+
+  limits:
+    cpu: "1000"
+    memory: 1000Gi
+----
+
+
+== {eam} Supported
+
+{eam} supports the following well known labels.
+
+[role="no-scroll"]
+[cols="3,1,4",options="header"]
+|===
+|Label |Example |Description
+
+|topology.kubernetes.io/zone
+|us-east-2a
+|{aws} region
+
+|node.kubernetes.io/instance-type
+|g4dn.8xlarge
+|{aws} instance type
+
+
+|kubernetes.io/arch
+|amd64
+|Architectures are defined by link:https://github.com/golang/go/blob/master/src/go/build/syslist.go#L50[GOARCH values] on the instance
+
+|karpenter.sh/capacity-type
+|spot
+|Capacity types include `spot`, `on-demand`
+
+|eks.amazonaws.com/instance-hypervisor
+|nitro
+|Instance types that use a specific hypervisor
+
+|eks.amazonaws.com/compute-type
+|auto
+|Identifies EKS Auto Mode managed nodes 
+
+|eks.amazonaws.com/instance-encryption-in-transit-supported
+|true
+|Instance types that support (or not) in-transit encryption
+
+|eks.amazonaws.com/instance-category
+|g
+|Instance types of the same category, usually the string before the generation number
+
+|eks.amazonaws.com/instance-generation
+|4
+|Instance type generation number within an instance category
+
+|eks.amazonaws.com/instance-family
+|g4dn
+|Instance types of similar properties but different resource quantities
+
+|eks.amazonaws.com/instance-size
+|8xlarge
+|Instance types of similar resource quantities but different properties
+
+|eks.amazonaws.com/instance-cpu
+|32
+|Number of CPUs on the instance
+
+|eks.amazonaws.com/instance-cpu-manufacturer
+|aws
+|Name of the CPU manufacturer
+
+|eks.amazonaws.com/instance-memory
+|131072
+|Number of mebibytes of memory on the instance
+
+|eks.amazonaws.com/instance-ebs-bandwidth
+|9500
+|Number of link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html#ebs-optimization-performance[maximum megabits] of EBS available on the instance
+
+|eks.amazonaws.com/instance-network-bandwidth
+|131072
+|Number of link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html[baseline megabits] available on the instance
+
+|eks.amazonaws.com/instance-gpu-name
+|t4
+|Name of the GPU on the instance, if available
+
+|eks.amazonaws.com/instance-gpu-manufacturer
+|nvidia
+|Name of the GPU manufacturer
+
+|eks.amazonaws.com/instance-gpu-count
+|1
+|Number of GPUs on the instance
+
+|eks.amazonaws.com/instance-gpu-memory
+|16384
+|Number of mebibytes of memory on the GPU
+
+|eks.amazonaws.com/instance-local-nvme
+|900
+|Number of gibibytes of local nvme storage on the instance
+|===
+
+== {eam} Not Supported
+
+{eam} does not support the following labels. 
+
+* {eam} only supports Linux
+** `node.kubernetes.io/windows-build`
+** `kubernetes.io/os`
+

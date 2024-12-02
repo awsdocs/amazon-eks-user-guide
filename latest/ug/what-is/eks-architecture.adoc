@@ -46,7 +46,8 @@ Amazon EKS uses Amazon Virtual Private Cloud (Amazon VPC) to limit traffic betwe
 
 In addition to the control plane, an Amazon EKS cluster has a set of worker machines called nodes. Selecting the appropriate Amazon EKS cluster node type is crucial for meeting your specific requirements and optimizing resource utilization. Amazon EKS offers the following primary node types:
 
-
+*EKS Auto Mode*::
+xref:automode[EKS Auto Mode] extends {aws} management beyond the control plane to include the data plane, automating cluster infrastructure management. It integrates core Kubernetes capabilities as built-in components, including compute autoscaling, networking, load balancing, DNS, storage, and GPU support. EKS Auto Mode dynamically manages nodes based on workload demands, using immutable AMIs with enhanced security features. It automates updates and upgrades while respecting Pod Disruption Budgets, and includes managed components that would otherwise require add-on management. This option is ideal for users who want to leverage {aws} expertise for day-to-day operations, minimize operational overhead, and focus on application development rather than infrastructure management.
 
 *{aws} Fargate*::
 <<fargate,Fargate>> is a serverless compute engine for containers that eliminates the need to manage the underlying instances. With Fargate, you specify your application's resource needs, and {aws} automatically provisions, scales, and maintains the infrastructure. This option is ideal for users who prioritize ease-of-use and want to concentrate on application development and deployment rather than managing infrastructure.
@@ -62,3 +63,6 @@ https://karpenter.sh/[Karpenter] is a flexible, high-performance [.noloc]`Kubern
 
 *Self-managed nodes*::
 <<worker,Self-managed nodes>> offer full control over your Amazon EC2 instances within an Amazon EKS cluster. You are in charge of managing, scaling, and maintaining the nodes, giving you total control over the underlying infrastructure. This option is suitable for users who need granular control and customization of their nodes and are ready to invest time in managing and maintaining their infrastructure.
+
+*Amazon EKS Hybrid Nodes*::
+With <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>>, you can use your on-premises and edge infrastructure as nodes in Amazon EKS clusters. Amazon EKS Hybrid Nodes unifies Kubernetes management across environments and offloads Kubernetes control plane management to {aws} for your on-premises and edge applications.

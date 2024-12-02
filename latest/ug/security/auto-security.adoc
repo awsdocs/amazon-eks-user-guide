@@ -1,0 +1,105 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[auto-security,auto-security.title]]
+= Security considerations for Amazon EKS Auto Mode
+:info_doctype: section
+:info_titleabbrev: Considerations for EKS Auto
+
+include::../attributes.txt[]
+
+This topic describes the security architecture, controls, and best practices for Amazon EKS Auto Mode. As organizations deploy containerized applications at scale, maintaining a strong security posture becomes increasingly complex. EKS Auto Mode implements automated security controls and integrates with {aws} security services to help you protect your cluster infrastructure, workloads, and data. Through built-in security features like enforced node lifecycle management and automated patch deployment, EKS Auto Mode helps you maintain security best practices while reducing operational overhead.
+
+Before proceeding with this topic, make sure that you're familiar with basic EKS Auto Mode concepts and have reviewed the prerequisites for enabling EKS Auto Mode on your clusters. For general information about Amazon EKS security, see <<security>>.
+
+Amazon EKS Auto Mode builds upon the existing security foundations of Amazon EKS while introducing additional automated security controls for EC2 managed instances.
+
+## API security and authentication
+
+Amazon EKS Auto Mode uses {aws} platform security mechanisms to secure and authenticate calls to the Amazon EKS API.
+
+* Access to the Kubernetes API is secured through EKS access entries, which integrate with {aws} IAM identities. 
+** For more information, see link:eks/latest/userguide/access-entries.html["Grant IAM users access to Kubernetes with EKS access entries",type="documentation"].
+* Customers can implement fine-grained access control to the Kubernetes API endpoint through configuration of EKS access entries.
+
+## Network security
+
+Amazon EKS Auto Mode supports multiple layers of network security:
+
+* **VPC integration**
+** Operates within your Amazon Virtual Private Cloud (VPC)
+** Supports custom VPC configurations and subnet layouts
+** Enables private networking between cluster components
+** For more information, see link:vpc/latest/userguide/security.html["Managing security responsibilities for Amazon Virtual Private Cloud",type="documentation"]
+* **Network Policies**
+** Native support for Kubernetes Network Policies
+** Ability to define granular network traffic rules
+** For more information, see link:eks/latest/userguide/cni-network-policy.html["Limit pod traffic with Kubernetes network policies",type="documentation"]
+
+## EC2 managed instance security
+
+Amazon EKS Auto Mode operates EC2 managed instances with the following security controls:
+
+### EC2 security
+
+* EC2 managed instances maintain the security features of Amazon EC2. 
+* For more information about EC2 managed instances, see link:AWSEC2/latest/UserGuide/ec2-security.html["Security in Amazon EC2",type="documentation"]. 
+
+### Instance lifecycle management
+
+EC2 managed instances operated by EKS Auto Mode have maximum lifetime of 21 days. Amazon EKS Auto Mode automatically terminates instances exceeding this lifetime. This lifecycle limit helps prevent configuration drift and maintains security posture. 
+
+### Data protection 
+
+* Amazon EC2 Instance Storage is encrypted, this is storage directly attached to the instance. For more information, see link:AWSEC2/latest/UserGuide/data-protection.html["Data protection in Amazon EC2",type="documentation"]. 
+* EKS Auto Mode manages the volumes attached to EC2 instances at creation time, including root and data volumes. EKS Auto Mode does not fully manage EBS volumes created using Kubernetes persistent storage features. 
+
+### Patch management
+
+* Amazon EKS Auto Mode automatically applies patches to managed instances.
+* Patches include:
+** Operating system updates
+** Security patches
+** Amazon EKS Auto Mode components
+
+[NOTE]
+====
+Customers retain responsibility for securing and updating workloads running on these instances.
+====
+
+
+### Access controls
+
+* Direct instance access is restricted:
+** SSH access is not available.
+** {aws} Systems Manager Session Manager (SSM) access is not available.
+* Management operations are performed through the Amazon EKS API and Kubernetes API.
+
+## Automated resource management
+
+Amazon EKS Auto Mode does not fully manage Amazon Elastic Block Store (Amazon EBS) Volumes created using Kubernetes persistent storage features. EKS Auto Mode also does not manage Elastic Load Balancers (ELB). Amazon EKS Auto Mode automates routine tasks for these resources. 
+
+### Storage security
+
+* {aws} recommends that you enable encryption for EBS Volumes provisionsed by Kubernetes persistent storage features. For more information, see <<create-storage-class>>.
+* Encryption at rest using {aws} KMS
+* You can configure your {aws} account to enforce the encryption of the new EBS volumes and snapshot copies that you create. For more information, see link:ebs/latest/userguide/encryption-by-default.html["Enable Amazon EBS encryption by default",type="documentation"] in the Amazon EBS User Guide.
+* For more information, see link:ebs/latest/userguide/security.html["Security in Amazon EBS",type="documentation"].
+
+### Load balancer security
+
+* Automated configuration of Elastic Load Balancers
+* SSL/TLS certificate management through {aws} Certificate Manager integration
+* Security group automation for load balancer access control
+* For more information, see link:elasticloadbalancing/latest/userguide/security.html["Security in Elastic Load Balancing",type="documentation"].
+
+[[auto-security-bp,auto-security-bp.title]]
+## Security best practices
+
+The following section describes security best practices for Amazon EKS Auto Mode. 
+
+* Regularly review {aws} IAM policies and EKS access entries.
+* Implement least privilege access patterns for workloads.
+* Monitor cluster activity through {aws} CloudTrail and Amazon CloudWatch. For more information, see link:eks/latest/userguide/logging-using-cloudtrail.html["Log API calls as CloudTrail events",type="documentation"] and link:eks/latest/userguide/cloudwatch.html["Monitor cluster data with Amazon CloudWatch",type="documentation"]. 
+* Use {aws} Security Hub for security posture assessment.
+* Implement pod security standards appropriate for your workloads.
+

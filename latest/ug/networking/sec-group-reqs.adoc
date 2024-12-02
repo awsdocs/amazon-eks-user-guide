@@ -126,6 +126,7 @@ You must also add rules for the following traffic:
 * Node access to pull container images from Amazon ECR or other container registries APIs that they need to pull images from, such as [.noloc]`DockerHub`. For more information, see link:general/latest/gr/aws-ip-ranges.html[{aws} IP address ranges,type="documentation"] in the {aws} General Reference.
 * Node access to Amazon S3.
 * Separate rules are required for `IPv4` and `IPv6` addresses.
+* If you are using hybrid nodes, you must add an additional security group to your cluster to allow communication with your on-premises nodes and pods. For more information, see <<hybrid-nodes-networking>>.
 
 If you're considering limiting the rules, we recommend that you thoroughly test all of your [.noloc]`Pods` before you apply your changed rules to a production cluster.
 

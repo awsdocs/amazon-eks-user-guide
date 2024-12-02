@@ -1,0 +1,2308 @@
+//!!NODE_ROOT <section>
+include::../../attributes.txt[]
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-credentials-temp-enable-regions-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-common-scenarios-federated-users-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_federated-users.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-common-scenarios-third-party-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_third-party.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-common-scenarios-aws-accounts-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_aws-accounts.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-controlling-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_controlling.html
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSHybridRolePolicy-html-AmazonEKSHybridRolePolicy-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSHybridRolePolicy.html#AmazonEKSHybridRolePolicy-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSLocalOutpostServiceRolePolicy-html-AmazonEKSLocalOutpostServiceRolePolicy-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSLocalOutpostServiceRolePolicy.html#AmazonEKSLocalOutpostServiceRolePolicy-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSLocalOutpostClusterPolicy-html-AmazonEKSLocalOutpostClusterPolicy-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html#AmazonEKSLocalOutpostClusterPolicy-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEFSCSIDriverPolicy-html-AmazonEFSCSIDriverPolicy-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html#AmazonEFSCSIDriverPolicy-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEBSCSIDriverPolicy-html-AmazonEBSCSIDriverPolicy-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html#AmazonEBSCSIDriverPolicy-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AWSServiceRoleForAmazonEKSNodegroup-html-AWSServiceRoleForAmazonEKSNodegroup-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html#AWSServiceRoleForAmazonEKSNodegroup-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSWorkerNodePolicy-html-AmazonEKSWorkerNodePolicy-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html#AmazonEKSWorkerNodePolicy-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSVPCResourceController-html-AmazonEKSVPCResourceController-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html#AmazonEKSVPCResourceController-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSServiceRolePolicy-html-AmazonEKSServiceRolePolicy-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html#AmazonEKSServiceRolePolicy-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSServicePolicy-html-AmazonEKSServicePolicy-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html#AmazonEKSServicePolicy-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSForFargateServiceRolePolicy-html-AmazonEKSForFargateServiceRolePolicy-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSForFargateServiceRolePolicy.html#AmazonEKSForFargateServiceRolePolicy-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSFargatePodExecutionRolePolicy-html-AmazonEKSFargatePodExecutionRolePolicy-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSFargatePodExecutionRolePolicy.html#AmazonEKSFargatePodExecutionRolePolicy-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSClusterPolicy-html-AmazonEKSClusterPolicy-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html#AmazonEKSClusterPolicy-json
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKS-CNI-Policy-html-AmazonEKS-CNI-Policy-json: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html#AmazonEKS_CNI_Policy-json
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-managed-vs-inline-html-customer-managed-policies: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html#customer-managed-policies
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-tags-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html
+:https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKS-CNI-Policy-html: https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html
+:https---kubernetes-sigs-github-io-aws-load-balancer-controller-v2-7-guide-service-annotations--legacy-cloud-provider: https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-troubleshoot-roles-html-troubleshoot-roles-new-role-appeared: https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_roles.html#troubleshoot_roles_new-role-appeared
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-delete-service-linked-role: https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#delete-service-linked-role
+:https---console-aws-amazon-com-eks-home--clusters: https://console.aws.amazon.com/eks/home#/clusters
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-edit-service-linked-role: https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#edit-service-linked-role
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-service-linked-role-permissions: https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#service-linked-role-permissions
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-manage-attach-detach-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-credentials-mfa-configure-api-require-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_configure-api-require.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-job-functions-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-managed-vs-inline-html-aws-managed-policies: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html#aws-managed-policies
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-create-html-access-policies-create-json-editor: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html#access_policies_create-json-editor
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-service-role: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-service-role
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-service-linked-role: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-service-linked-role
+:https---docs-aws-amazon-com-STS-latest-APIReference-API-GetFederationToken-html: https://docs.aws.amazon.com/STS/latest/APIReference/API_GetFederationToken.html
+:https---docs-aws-amazon-com-STS-latest-APIReference-API-AssumeRole-html: https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-policies-elements-condition-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-principal: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-principal
+:https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-policy-keys: https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-policy-keys
+:https---docs-aws-amazon-com-AWSEC2-latest-UserGuide-ExamplePolicies-EC2-html-iam-example-region: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-region
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-policies-condition-keys-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html
+:https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-resources-for-iam-policies: https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-resources-for-iam-policies
+:https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-actions-as-permissions: https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-policies-elements-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-aws-services-that-work-with-iam-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-policies-evaluation-logic-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-html-policies-session: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session
+:https---docs-aws-amazon-com-organizations-latest-userguide-orgs-manage-policies-scps-html: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-boundaries-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-policies-elements-principal-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-managed-vs-inline-html-choosing-managed-or-inline: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html#choosing-managed-or-inline
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-create-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-html-access-policies-json: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policies-json
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-html-id-which-to-choose-role: https://docs.aws.amazon.com/IAM/latest/UserGuide/id.html#id_which-to-choose_role
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-use-switch-role-ec2-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-create-for-service-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-service.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-forward-access-sessions-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_forward_access_sessions.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-cross-account-resource-access-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-create-for-idp-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-idp.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-use-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-use-switch-role-console-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-console.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-html-id-which-to-choose: https://docs.aws.amazon.com/IAM/latest/UserGuide/id.html#id_which-to-choose
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-groups-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-best-practices-html-rotate-credentials: https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#rotate-credentials
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-users-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-root-user-html-root-user-tasks: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#root-user-tasks
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-id-credentials-mfa-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html
+:https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-aws-signing-html: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html
+
+[.topic]
+[[security-iam,security-iam.title]]
+= Identity and access management for Amazon EKS
+:info_doctype: section
+:info_title: Identity and access management for Amazon EKS
+:info_titleabbrev: IAM Reference
+:info_abstract: How to authenticate requests and manage access your Amazon EKS \
+            resources.
+
+[abstract]
+--
+How to authenticate requests and manage access your Amazon EKS resources.
+--
+
+{aws} Identity and Access Management (IAM) is an {aws} service that helps an administrator securely control access to {aws} resources. IAM administrators control who can be  _authenticated_ (signed in) and _authorized_ (have permissions) to use Amazon EKS resources. IAM is an {aws} service that you can use with no additional charge.
+
+[[security-iam-audience,security-iam-audience.title]]
+== Audience
+
+How you use {aws} Identity and Access Management (IAM) differs, depending on the work that you do in Amazon EKS.
+
+*Service user* – If you use the Amazon EKS service to do your job, then your administrator provides you with the credentials and permissions that you need. As you use more Amazon EKS features to do your work, you might need additional permissions. Understanding how access is managed can help you request the right permissions from your administrator. If you cannot access a feature in Amazon EKS, see xref:security-iam-troubleshoot[Troubleshooting IAM,linkend=security-iam-troubleshoot].
+
+*Service administrator* – If you're in charge of Amazon EKS resources at your company, you probably have full access to Amazon EKS. It's your job to determine which Amazon EKS features and resources your service users should access. You must then submit requests to your IAM administrator to change the permissions of your service users. Review the information on this page to understand the basic concepts of IAM. To learn more about how your company can use IAM with Amazon EKS, see xref:security-iam-service-with-iam[How Amazon EKS works with IAM,linkend=security-iam-service-with-iam].
+
+*IAM administrator* – If you're an IAM administrator, you might want to learn details about how you can write policies to manage access to Amazon EKS. To view example Amazon EKS identity-based policies that you can use in IAM, see xref:security-iam-id-based-policy-examples[Amazon EKS identity-based policy examples,linkend=security-iam-id-based-policy-examples].
+
+[[security-iam-authentication,security-iam-authentication.title]]
+== Authenticating with identities
+
+Authentication is how you sign in to {aws} using your identity credentials. You must be  __authenticated__ (signed in to {aws}) as the {aws} account root user, as an IAM user, or by assuming an IAM role.
+
+You can sign in to {aws} as a federated identity by using credentials provided through an identity source. {aws} IAM Identity Center (IAM Identity Center) users, your company's single sign-on authentication, and your Google or Facebook credentials are examples of federated identities. When you sign in as a federated identity, your administrator previously set up identity federation using IAM roles. When you access {aws} by using federation, you are indirectly assuming a role.
+
+Depending on the type of user you are, you can sign in to the {aws-management-console} or the {aws} access portal. For more information about signing in to {aws}, see https://docs.aws.amazon.com/signin/latest/userguide/how-to-sign-in.html[How to sign in to your {aws} account] in the __{aws} Sign-In User Guide__.
+
+If you access {aws} programmatically, {aws} provides a software development kit (SDK) and a command line interface (CLI) to cryptographically sign your requests by using your credentials. If you don't use {aws} tools, you must sign requests yourself. For more information about using the recommended method to sign requests yourself, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-aws-signing-html}[Signing {aws} API requests] in the __IAM User Guide__.
+
+Regardless of the authentication method that you use, you might be required to provide additional security information. For example, {aws} recommends that you use multi-factor authentication (MFA) to increase the security of your account. To learn more, see https://docs.aws.amazon.com/singlesignon/latest/userguide/enable-mfa.html[Multi-factor authentication] in the __{aws} IAM Identity Center User Guide__ and {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-credentials-mfa-html}[Using multi-factor authentication (MFA) in {aws}] in the __IAM User Guide__.
+
+[[security-iam-authentication-rootuser,security-iam-authentication-rootuser.title]]
+=== {aws} account root user
+
+When you create an {aws} account, you begin with one sign-in identity that has complete access to all {aws} services and resources in the account. This identity is called the {aws} account  _root user_ and is accessed by signing in with the email address and password that you used to create the account. We strongly recommend that you don't use the root user for your everyday tasks. Safeguard your root user credentials and use them to perform the tasks that only the root user can perform. For the complete list of tasks that require you to sign in as the root user, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-root-user-html-root-user-tasks}[Tasks that require root user credentials] in the __IAM User Guide__. 
+
+[[security-iam-authentication-iamuser,security-iam-authentication-iamuser.title]]
+=== IAM users and groups
+
+An  _{https---docs-aws-amazon-com-IAM-latest-UserGuide-id-users-html}[IAM user]_ is an identity within your {aws} account that has specific permissions for a single person or application. Where possible, we recommend relying on temporary credentials instead of creating IAM users who have long-term credentials such as passwords and access keys. However, if you have specific use cases that require long-term credentials with IAM users, we recommend that you rotate access keys. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-best-practices-html-rotate-credentials}[Rotate access keys regularly for use cases that require long-term credentials] in the __IAM User Guide__.
+
+An {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-groups-html}[IAM group] is an identity that specifies a collection of IAM users. You can't sign in as a group. You can use groups to specify permissions for multiple users at a time. Groups make permissions easier to manage for large sets of users. For example, you could have a group named _IAMAdmins_ and give that group permissions to administer IAM resources.
+
+Users are different from roles. A user is uniquely associated with one person or application, but a role is intended to be assumable by anyone who needs it. Users have permanent long-term credentials, but roles provide temporary credentials. To learn more, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-html-id-which-to-choose}[When to create an IAM user (instead of a role)] in the __IAM User Guide__.
+
+[[security-iam-authentication-iamrole,security-iam-authentication-iamrole.title]]
+=== IAM roles
+
+An  _{https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html}[IAM role]_ is an identity within your {aws} account that has specific permissions. It is similar to an IAM user, but is not associated with a specific person. You can temporarily assume an IAM role in the {aws-management-console} by {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-use-switch-role-console-html}[switching roles]. You can assume a role by calling an {aws} CLI or {aws} API operation or by using a custom URL. For more information about methods for using roles, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-use-html}[Using IAM roles] in the __IAM User Guide__.
+
+IAM roles with temporary credentials are useful in the following situations:
+
+
+
+* *Federated user access* – To assign permissions to a federated identity, you create a role and define permissions for the role. When a federated identity authenticates, the identity is associated with the role and is granted the permissions that are defined by the role. For information about roles for federation, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-create-for-idp-html}[Creating a role for a third-party Identity Provider] in the __IAM User Guide__. If you use IAM Identity Center, you configure a permission set. To control what your identities can access after they authenticate, IAM Identity Center correlates the permission set to a role in IAM. For information about permissions sets, see https://docs.aws.amazon.com/singlesignon/latest/userguide/permissionsetsconcept.html[Permission sets] in the __{aws} IAM Identity Center User Guide__.
+* *Temporary IAM user permissions* – An IAM user or role can assume an IAM role to temporarily take on different permissions for a specific task.
+* *Cross-account access* – You can use an IAM role to allow someone (a trusted principal) in a different account to access resources in your account. Roles are the primary way to grant cross-account access. However, with some {aws} services, you can attach a policy directly to a resource (instead of using a role as a proxy). To learn the difference between roles and resource-based policies for cross-account access, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-cross-account-resource-access-html}[Cross account resource access in IAM] in the __IAM User Guide__.
+* *Cross-service access* – Some {aws} services use features in other {aws} services. For example, when you make a call in a service, it's common for that service to run applications in Amazon EC2 or store objects in Amazon S3. A service might do this using the calling principal's permissions, using a service role, or using a service-linked role. 
++
+** *Forward access sessions (FAS)* – When you use an IAM user or role to perform actions in {aws}, you are considered a principal. When you use some services, you might perform an action that then initiates another action in a different service. FAS uses the permissions of the principal calling an {aws} service, combined with the requesting {aws} service to make requests to downstream services. FAS requests are only made when a service receives a request that requires interactions with other {aws} services or resources to complete. In this case, you must have permissions to perform both actions. For policy details when making FAS requests, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-forward-access-sessions-html}[Forward access sessions]. 
+** *Service role* – A service role is an {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html}[IAM role] that a service assumes to perform actions on your behalf. An IAM administrator can create, modify, and delete a service role from within IAM. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-create-for-service-html}[Creating a role to delegate permissions to an {aws} service] in the __IAM User Guide__. 
+** *Service-linked role* – A service-linked role is a type of service role that is linked to an {aws} service. The service can assume the role to perform an action on your behalf. Service-linked roles appear in your {aws} account and are owned by the service. An IAM administrator can view, but not edit the permissions for service-linked roles. 
+* *Applications running on Amazon EC2* – You can use an IAM role to manage temporary credentials for applications that are running on an EC2 instance and making {aws} CLI or {aws} API requests. This is preferable to storing access keys within the EC2 instance. To assign an {aws} role to an EC2 instance and make it available to all of its applications, you create an instance profile that is attached to the instance. An instance profile contains the role and enables programs that are running on the EC2 instance to get temporary credentials. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-use-switch-role-ec2-html}[Using an IAM role to grant permissions to applications running on Amazon EC2 instances] in the __IAM User Guide__. 
+
+To learn whether to use IAM roles or IAM users, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-html-id-which-to-choose-role}[When to create an IAM role (instead of a user)] in the __IAM User Guide__.
+
+[[security-iam-access-manage,security-iam-access-manage.title]]
+== Managing access using policies
+
+You control access in {aws} by creating policies and attaching them to {aws} identities or resources. A policy is an object in {aws} that, when associated with an identity or resource, defines their permissions. {aws} evaluates these policies when a principal (user, root user, or role session) makes a request. Permissions in the policies determine whether the request is allowed or denied. Most policies are stored in {aws} as JSON documents. For more information about the structure and contents of JSON policy documents, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-html-access-policies-json}[Overview of JSON policies] in the __IAM User Guide__.
+
+Administrators can use {aws} JSON policies to specify who has access to what. That is, which *principal* can perform *actions* on what **resources**, and under what **conditions**.
+
+By default, users and roles have no permissions. To grant users permission to perform actions on the resources that they need, an IAM administrator can create IAM policies. The administrator can then add the IAM policies to roles, and users can assume the roles.
+
+IAM policies define permissions for an action regardless of the method that you use to perform the operation. For example, suppose that you have a policy that allows the `iam:GetRole` action. A user with that policy can get role information from the {aws-management-console}, the {aws} CLI, or the {aws} API.
+
+[[security-iam-access-manage-id-based-policies,security-iam-access-manage-id-based-policies.title]]
+=== Identity-based policies
+
+Identity-based policies are JSON permissions policy documents that you can attach to an identity, such as an IAM user, group of users, or role. These policies control what actions users and roles can perform, on which resources, and under what conditions. To learn how to create an identity-based policy, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-create-html}[Creating IAM policies] in the __IAM User Guide__.
+
+Identity-based policies can be further categorized as _inline policies_ or __managed policies__. Inline policies are embedded directly into a single user, group, or role. Managed policies are standalone policies that you can attach to multiple users, groups, and roles in your {aws} account. Managed policies include {aws} managed policies and customer managed policies. To learn how to choose between a managed policy or an inline policy, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-managed-vs-inline-html-choosing-managed-or-inline}[Choosing between managed policies and inline policies] in the __IAM User Guide__.
+
+[[security-iam-access-manage-resource-based-policies,security-iam-access-manage-resource-based-policies.title]]
+=== Resource-based policies
+
+Resource-based policies are JSON policy documents that you attach to a resource. Examples of resource-based policies are IAM  _role trust policies_ and Amazon S3 __bucket policies__. In services that support resource-based policies, service administrators can use them to control access to a specific resource. For the resource where the policy is attached, the policy defines what actions a specified principal can perform on that resource and under what conditions. You must {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-policies-elements-principal-html}[specify a principal] in a resource-based policy. Principals can include accounts, users, roles, federated users, or {aws} services.
+
+Resource-based policies are inline policies that are located in that service. You can't use {aws} managed policies from IAM in a resource-based policy.
+
+[[security-iam-access-manage-acl,security-iam-access-manage-acl.title]]
+=== Access control lists (ACLs)
+
+Access control lists (ACLs) control which principals (account members, users, or roles) have permissions to access a resource. ACLs are similar to resource-based policies, although they do not use the JSON policy document format.
+
+Amazon S3, {aws} WAF, and Amazon VPC are examples of services that support ACLs. To learn more about ACLs, see https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html[Access control list (ACL) overview] in the __Amazon Simple Storage Service Developer Guide__.
+
+[[security-iam-access-manage-other-policies,security-iam-access-manage-other-policies.title]]
+=== Other policy types
+
+{aws} supports additional, less-common policy types. These policy types can set the maximum permissions granted to you by the more common policy types.  
+
+
+
+* *Permissions boundaries* – A permissions boundary is an advanced feature in which you set the maximum permissions that an identity-based policy can grant to an IAM entity (IAM user or role). You can set a permissions boundary for an entity. The resulting permissions are the intersection of an entity's identity-based policies and its permissions boundaries. Resource-based policies that specify the user or role in the `Principal` field are not limited by the permissions boundary. An explicit deny in any of these policies overrides the allow. For more information about permissions boundaries, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-boundaries-html}[Permissions boundaries for IAM entities] in the __IAM User Guide__.
+* *Service control policies (SCPs)* – SCPs are JSON policies that specify the maximum permissions for an organization or organizational unit (OU) in {aws} Organizations. {aws} Organizations is a service for grouping and centrally managing multiple {aws} accounts that your business owns. If you enable all features in an organization, then you can apply service control policies (SCPs) to any or all of your accounts. The SCP limits permissions for entities in member accounts, including each {aws} account root user. For more information about Organizations and SCPs, see {https---docs-aws-amazon-com-organizations-latest-userguide-orgs-manage-policies-scps-html}[Service control policies] in the __{aws} Organizations User Guide__.
+* *Session policies* – Session policies are advanced policies that you pass as a parameter when you programmatically create a temporary session for a role or federated user. The resulting session's permissions are the intersection of the user or role's identity-based policies and the session policies. Permissions can also come from a resource-based policy. An explicit deny in any of these policies overrides the allow. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-html-policies-session}[Session policies] in the __IAM User Guide__. 
+
+
+[[security-iam-access-manage-multiple-policies,security-iam-access-manage-multiple-policies.title]]
+=== Multiple policy types
+
+When multiple types of policies apply to a request, the resulting permissions are more complicated to understand. To learn how {aws} determines whether to allow a request when multiple policy types are involved, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-policies-evaluation-logic-html}[Policy evaluation logic] in the __IAM User Guide__.
+
+[.topic]
+[[security-iam-service-with-iam,security-iam-service-with-iam.title]]
+== How Amazon EKS works with IAM
+
+Before you use IAM to manage access to Amazon EKS, you should understand what IAM features are available to use with Amazon EKS. To get a high-level view of how Amazon EKS and other {aws} services work with IAM, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-aws-services-that-work-with-iam-html}[{aws} services that work with IAM] in the __IAM User Guide__.
+
+[.topiclist]
+[[Topic List]]
+
+[[security-iam-service-with-iam-id-based-policies,security-iam-service-with-iam-id-based-policies.title]]
+=== Amazon EKS identity-based policies
+
+With IAM identity-based policies, you can specify allowed or denied actions and resources as well as the conditions under which actions are allowed or denied. Amazon EKS supports specific actions, resources, and condition keys. To learn about all of the elements that you use in a JSON policy, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-policies-elements-html}[IAM JSON policy elements reference] in the __IAM User Guide__.
+
+[[security-iam-service-with-iam-id-based-policies-actions,security-iam-service-with-iam-id-based-policies-actions.title]]
+==== Actions
+
+Administrators can use {aws} JSON policies to specify who has access to what. That is, which  *principal* can perform *actions* on what **resources**, and under what **conditions**.
+
+The `Action` element of a JSON policy describes the actions that you can use to allow or deny access in a policy. Policy actions usually have the same name as the associated {aws} API operation. There are some exceptions, such as _permission-only actions_ that don't have a matching API operation. There are also some operations that require multiple actions in a policy. These additional actions are called __dependent actions__.
+
+Include actions in a policy to grant permissions to perform the associated operation.
+
+Policy actions in Amazon EKS use the following prefix before the action: ``eks:``. For example, to grant someone permission to get descriptive information about an Amazon EKS cluster, you include the `DescribeCluster` action in their policy. Policy statements must include either an `Action` or `NotAction` element. 
+
+To specify multiple actions in a single statement, separate them with commas as follows:
+
+[source,json]
+----
+"Action": ["eks:action1", "eks:action2"]
+----
+
+You can specify multiple actions using wildcards (*). For example, to specify all actions that begin with the word  ``Describe``, include the following action:
+
+[source,json]
+----
+"Action": "eks:Describe*"
+----
+
+
+To see a list of Amazon EKS actions, see {https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-actions-as-permissions}[Actions defined by Amazon Elastic Kubernetes Service] in the __Service Authorization Reference__.
+
+[[security-iam-service-with-iam-id-based-policies-resources,security-iam-service-with-iam-id-based-policies-resources.title]]
+==== Resources
+
+Administrators can use {aws} JSON policies to specify who has access to what. That is, which  *principal* can perform *actions* on what **resources**, and under what **conditions**.
+
+The `Resource` JSON policy element specifies the object or objects to which the action applies. Statements must include either a `Resource` or a `NotResource` element. As a best practice, specify a resource using its https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html[Amazon Resource Name (ARN)]. You can do this for actions that support a specific resource type, known as __resource-level permissions__.
+
+For actions that don't support resource-level permissions, such as listing operations, use a wildcard (*) to indicate that the statement applies to all resources.
+
+[source]
+----
+"Resource": "*"
+----
+
+The Amazon EKS cluster resource has the following ARN.
+
+[source,none]
+----
+arn:aws:eks:region-code:account-id:cluster/cluster-name
+----
+
+For more information about the format of ARNs, see  https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html[Amazon resource names (ARNs) and {aws} service namespaces].
+
+For example, to specify the cluster with the name [.replaceable]`my-cluster` in your statement, use the following ARN:
+
+[source,json]
+----
+"Resource": "arn:aws:eks:region-code:111122223333:cluster/my-cluster"
+----
+
+To specify all clusters that belong to a specific account and {aws} Region, use the wildcard (*):
+
+[source,json]
+----
+"Resource": "arn:aws:eks:region-code:111122223333:cluster/*"
+----
+
+Some Amazon EKS actions, such as those for creating resources, can't be performed on a specific resource. In those cases, you must use the wildcard (*).
+
+[source,json]
+----
+"Resource": "*"
+----
+
+To see a list of Amazon EKS resource types and their ARNs, see  {https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-resources-for-iam-policies}[Resources defined by Amazon Elastic Kubernetes Service] in the __Service Authorization Reference__. To learn with which actions you can specify the ARN of each resource, see {https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-actions-as-permissions}[Actions defined by Amazon Elastic Kubernetes Service].
+
+[[security-iam-service-with-iam-id-based-policies-conditionkeys,security-iam-service-with-iam-id-based-policies-conditionkeys.title]]
+==== Condition keys
+
+Amazon EKS defines its own set of condition keys and also supports using some global condition keys. To see all {aws} global condition keys, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-policies-condition-keys-html}[{aws} Global Condition Context Keys] in the __IAM User Guide__.
+
+You can set condition keys when associating an [noloc]``OpenID Connect`` provider to your cluster. For more information, see  xref:oidc-identity-provider-iam-policy[Example IAM policy,linkend=oidc-identity-provider-iam-policy].
+
+All Amazon EC2 actions support the `aws:RequestedRegion` and `ec2:Region` condition keys. For more information, see {https---docs-aws-amazon-com-AWSEC2-latest-UserGuide-ExamplePolicies-EC2-html-iam-example-region}[Example: Restricting Access to a Specific {aws} Region]. 
+
+For a list of Amazon EKS condition keys, see {https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-policy-keys}[Conditions defined by Amazon Elastic Kubernetes Service] in the __Service Authorization Reference__. To learn which actions and resources you can use a condition key with, see {https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-actions-as-permissions}[Actions defined by Amazon Elastic Kubernetes Service].
+
+[[security-iam-service-with-iam-id-based-policies-examples,security-iam-service-with-iam-id-based-policies-examples.title]]
+==== Examples
+
+
+To view examples of Amazon EKS identity-based policies, see xref:security-iam-id-based-policy-examples[Amazon EKS identity-based policy examples,linkend=security-iam-id-based-policy-examples].
+
+When you create an Amazon EKS cluster, the {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-principal}[IAM principal] that creates the cluster is automatically granted `system:masters` permissions in the cluster's role-based access control (RBAC) configuration in the Amazon EKS control plane. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth ConfigMap` within [noloc]``Kubernetes`` and create a  [noloc]``Kubernetes````rolebinding`` or `clusterrolebinding` with the name of a ``group`` that you specify in the ``aws-auth ConfigMap``.
+
+For more information about working with the ConfigMap, see xref:grant-k8s-access[Grant IAM users and roles access to Kubernetes APIs,linkend=grant-k8s-access].
+
+[[security-iam-service-with-iam-resource-based-policies,security-iam-service-with-iam-resource-based-policies.title]]
+=== Amazon EKS resource-based policies
+
+Amazon EKS does not support resource-based policies.
+
+[[security-iam-service-with-iam-tags,security-iam-service-with-iam-tags.title]]
+=== Authorization based on Amazon EKS tags
+
+You can attach tags to Amazon EKS resources or pass tags in a request to Amazon EKS. To control access based on tags, you provide tag information in the  {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-policies-elements-condition-html}[condition element] of a policy using the ``aws:ResourceTag/[replaceable]``key-name````, ``aws:RequestTag/[replaceable]``key-name````, or `aws:TagKeys` condition keys. For more information about tagging Amazon EKS resources, see xref:eks-using-tags[Organize Amazon EKS resources with tags,linkend=eks-using-tags]. For more information about which actions that you can use tags in condition keys with, see {https---docs-aws-amazon-com-service-authorization-latest-reference-list-amazonelastickubernetesservice-html-amazonelastickubernetesservice-actions-as-permissions}[Actions defined by Amazon EKS] in the https://docs.aws.amazon.com/service-authorization/latest/reference/reference.html[Service Authorization Reference].
+
+[[security-iam-service-with-iam-roles,security-iam-service-with-iam-roles.title]]
+=== Amazon EKS IAM roles
+
+An  {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html}[IAM role] is an entity within your {aws} account that has specific permissions.
+
+[[security-iam-service-with-iam-roles-tempcreds,security-iam-service-with-iam-roles-tempcreds.title]]
+==== Using temporary credentials with Amazon EKS
+
+You can use temporary credentials to sign in with federation, assume an IAM role, or to assume a cross-account role. You obtain temporary security credentials by calling {aws} STS API operations such as  {https---docs-aws-amazon-com-STS-latest-APIReference-API-AssumeRole-html}[AssumeRole] or {https---docs-aws-amazon-com-STS-latest-APIReference-API-GetFederationToken-html}[GetFederationToken]. 
+
+Amazon EKS supports using temporary credentials. 
+
+[[security-iam-service-with-iam-roles-service-linked,security-iam-service-with-iam-roles-service-linked.title]]
+==== Service-linked roles
+
+{https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-service-linked-role}[Service-linked roles] allow {aws} services to access resources in other services to complete an action on your behalf. Service-linked roles appear in your IAM account and are owned by the service. An administrator can view but can't edit the permissions for service-linked roles.
+
+Amazon EKS supports service-linked roles. For details about creating or managing Amazon EKS service-linked roles, see xref:using-service-linked-roles[Using service-linked roles for Amazon EKS,linkend=using-service-linked-roles].
+
+[[security-iam-service-with-iam-roles-service,security-iam-service-with-iam-roles-service.title]]
+==== Service roles
+
+This feature allows a service to assume a  {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-service-role}[service role] on your behalf. This role allows the service to access resources in other services to complete an action on your behalf. Service roles appear in your IAM account and are owned by the account. This means that an IAM administrator can change the permissions for this role. However, doing so might break the functionality of the service.
+
+Amazon EKS supports service roles. For more information, see xref:cluster-iam-role[Amazon EKS cluster IAM role,linkend=cluster-iam-role] and xref:create-node-role[Amazon EKS node IAM role,linkend=create-node-role].
+
+[[security-iam-service-with-iam-roles-choose,security-iam-service-with-iam-roles-choose.title]]
+==== Choosing an IAM role in Amazon EKS
+
+When you create a cluster resource in Amazon EKS, you must choose a role to allow Amazon EKS to access several other {aws} resources on your behalf. If you have previously created a service role, then Amazon EKS provides you with a list of roles to choose from. It's important to choose a role that has the Amazon EKS managed policies attached to it. For more information, see  xref:check-service-role[Check for an existing cluster role,linkend=check-service-role] and xref:check-worker-node-role[Check for an existing node role,linkend=check-worker-node-role].
+
+[.topic]
+[[security-iam-id-based-policy-examples,security-iam-id-based-policy-examples.title]]
+== Amazon EKS identity-based policy examples
+
+By default, IAM users and roles don't have permission to create or modify Amazon EKS resources. They also can't perform tasks using the {aws-management-console}, {aws} CLI, or {aws} API. An IAM administrator must create IAM policies that grant users and roles permission to perform specific API operations on the specified resources they need. The administrator must then attach those policies to the IAM users or groups that require those permissions.
+
+To learn how to create an IAM identity-based policy using these example JSON policy documents, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-create-html-access-policies-create-json-editor}[Creating policies on the JSON tab] in the __IAM User Guide__.
+
+When you create an Amazon EKS cluster, the {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-principal}[IAM principal] that creates the cluster is automatically granted `system:masters` permissions in the cluster's role-based access control (RBAC) configuration in the Amazon EKS control plane. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth ConfigMap` within [noloc]``Kubernetes`` and create a  [noloc]``Kubernetes````rolebinding`` or `clusterrolebinding` with the name of a ``group`` that you specify in the ``aws-auth ConfigMap``.
+
+For more information about working with the ConfigMap, see xref:grant-k8s-access[Grant IAM users and roles access to Kubernetes APIs,linkend=grant-k8s-access].
+
+[.topiclist]
+[[Topic List]]
+
+[[security-iam-service-with-iam-policy-best-practices,security-iam-service-with-iam-policy-best-practices.title]]
+=== Policy best practices
+
+Identity-based policies determine whether someone can create, access, or delete Amazon EKS resources in your account. These actions can incur costs for your {aws} account. When you create or edit identity-based policies, follow these guidelines and recommendations:
+
+
+
+* *Get started with {aws} managed policies and move toward least-privilege permissions* – To get started granting permissions to your users and workloads, use the _{aws} managed policies_ that grant permissions for many common use cases. They are available in your {aws} account. We recommend that you reduce permissions further by defining {aws} customer managed policies that are specific to your use cases. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-managed-vs-inline-html-aws-managed-policies}[{aws} managed policies] or {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-job-functions-html}[{aws} managed policies for job functions] in the __IAM User Guide__.
+* *Apply least-privilege permissions* – When you set permissions with IAM policies, grant only the permissions required to perform a task. You do this by defining the actions that can be taken on specific resources under specific conditions, also known as __least-privilege permissions__. For more information about using IAM to apply permissions, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-html}[Policies and permissions in IAM] in the __IAM User Guide__.
+* *Use conditions in IAM policies to further restrict access* – You can add a condition to your policies to limit access to actions and resources. For example, you can write a policy condition to specify that all requests must be sent using SSL. You can also use conditions to grant access to service actions if they are used through a specific {aws} service, such as {aws} CloudFormation. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-policies-elements-condition-html}[IAM JSON policy elements: Condition] in the __IAM User Guide__.
+* *Use IAM Access Analyzer to validate your IAM policies to ensure secure and functional permissions* – IAM Access Analyzer validates new and existing policies so that the policies adhere to the IAM policy language (JSON) and IAM best practices. IAM Access Analyzer provides more than 100 policy checks and actionable recommendations to help you author secure and functional policies. For more information, see https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-policy-validation.html[IAM Access Analyzer policy validation] in the __IAM User Guide__.
+* *Require multi-factor authentication (MFA)* – If you have a scenario that requires IAM users or a root user in your {aws} account, turn on MFA for additional security. To require MFA when API operations are called, add MFA conditions to your policies. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-credentials-mfa-configure-api-require-html}[Configuring MFA-protected API access] in the __IAM User Guide__.
+
+For more information about best practices in IAM, see  https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html[Security best practices in IAM] in the __IAM User Guide__.
+
+[[security-iam-id-based-policy-examples-console,security-iam-id-based-policy-examples-console.title]]
+=== Using the Amazon EKS console
+
+To access the Amazon EKS console, an  {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-principal}[IAM principal], must have a minimum set of permissions. These permissions allow the principal to list and view details about the Amazon EKS resources in your {aws} account. If you create an identity-based policy that is more restrictive than the minimum required permissions, the console won't function as intended for principals with that policy attached to them.
+
+To ensure that your IAM principals can still use the Amazon EKS console, create a policy with your own unique name, such as ``AmazonEKSAdminPolicy``. Attach the policy to the principals. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-manage-attach-detach-html}[Adding and removing IAM identity permissions] in the __IAM User Guide__.
+
+[IMPORTANT]
+====
+
+The following example policy allows a principal to view information on the *Configuration* tab in the console. To view information on the  *Overview* and  *Resources* tabs in the {aws-management-console}, the principal also needs  [noloc]``Kubernetes`` permissions. For more information, see  xref:view-kubernetes-resources-permissions[Required permissions,linkend=view-kubernetes-resources-permissions].
+
+====
+
+[source,json]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "iam:PassedToService": "eks.amazonaws.com"
+                }
+            }
+        }
+    ]
+}
+----
+
+You don't need to allow minimum console permissions for principals that are making calls only to the {aws} CLI or the {aws} API. Instead, allow access to only the actions that match the API operation that you're trying to perform.  
+
+[[security-iam-id-based-policy-examples-view-own-permissions,security-iam-id-based-policy-examples-view-own-permissions.title]]
+=== Allow IAM users to view their own permissions
+
+This example shows how you might create a policy that allows IAM users to view the inline and managed policies that are attached to their user identity. This policy includes permissions to complete this action on the console or programmatically using the {aws} CLI or {aws} API.
+
+[source,json]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ViewOwnUserInfo",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetUserPolicy",
+                "iam:ListGroupsForUser",
+                "iam:ListAttachedUserPolicies",
+                "iam:ListUserPolicies",
+                "iam:GetUser"
+            ],
+            "Resource": ["arn:aws:iam::*:user/${aws:username}"]
+        },
+        {
+            "Sid": "NavigateInConsole",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetGroupPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetPolicy",
+                "iam:ListAttachedGroupPolicies",
+                "iam:ListGroupPolicies",
+                "iam:ListPolicyVersions",
+                "iam:ListPolicies",
+                "iam:ListUsers"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+----
+
+
+[[policy-create-cluster,policy-create-cluster.title]]
+=== Create a  [noloc]``Kubernetes`` cluster on the {aws} Cloud
+
+This example policy includes the minimum permissions required to create an Amazon EKS cluster named  [replaceable]``my-cluster`` in the [replaceable]``us-west-2`` {aws} Region. You can replace the {aws} Region with the {aws} Region that you want to create a cluster in. If you see a warning that says *The actions in your policy do not support resource-level permissions and require you to choose `All resources`* in the {aws-management-console}, it can be safely ignored. If your account already has the  [replaceable]``AWSServiceRoleForAmazonEKS`` role, you can remove the `iam:CreateServiceLinkedRole` action from the policy. If you've ever created an Amazon EKS cluster in your account then this role already exists, unless you deleted it.
+
+[source,json]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "eks:CreateCluster",
+            "Resource": "arn:aws:eks:us-west-2:111122223333:cluster/my-cluster"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "arn:aws:iam::111122223333:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS",
+            "Condition": {
+                "ForAnyValue:StringEquals": {
+                    "iam:AWSServiceName": "eks"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::111122223333:role/cluster-role-name"
+        }
+    ]
+}
+----
+
+
+[[policy-create-local-cluster,policy-create-local-cluster.title]]
+=== Create a local  [noloc]``Kubernetes`` cluster on an Outpost
+
+This example policy includes the minimum permissions required to create an Amazon EKS local cluster named  [replaceable]``my-cluster`` on an Outpost in the [replaceable]``us-west-2`` {aws} Region. You can replace the {aws} Region with the {aws} Region that you want to create a cluster in. If you see a warning that says *The actions in your policy do not support resource-level permissions and require you to choose `All resources`* in the {aws-management-console}, it can be safely ignored. If your account already has the  `AWSServiceRoleForAmazonEKSLocalOutpost` role, you can remove the `iam:CreateServiceLinkedRole` action from the policy. If you've ever created an Amazon EKS local cluster on an Outpost in your account then this role already exists, unless you deleted it.
+
+[source,json]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "eks:CreateCluster",
+            "Resource": "arn:aws:eks:us-west-2:111122223333:cluster/my-cluster"
+        },
+        {
+            "Action": [
+                "ec2:DescribeSubnets",
+                "ec2:DescribeVpcs",
+                "iam:GetRole"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "arn:aws:iam::111122223333:role/aws-service-role/outposts.eks-local.amazonaws.com/AWSServiceRoleForAmazonEKSLocalOutpost"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole",
+                "iam:ListAttachedRolePolicies"
+            ]
+            "Resource": "arn:aws:iam::111122223333:role/cluster-role-name"
+        },
+        {
+            "Action": [
+                "iam:CreateInstanceProfile",
+                "iam:TagInstanceProfile",
+                "iam:AddRoleToInstanceProfile",
+                "iam:GetInstanceProfile",
+                "iam:DeleteInstanceProfile",
+                "iam:RemoveRoleFromInstanceProfile"
+            ],
+            "Resource": "arn:aws:iam::*:instance-profile/eks-local-*",
+            "Effect": "Allow"
+        },
+    ]
+}
+----
+
+
+[[policy-example1,policy-example1.title]]
+=== Update a  [noloc]``Kubernetes`` cluster
+
+This example policy includes the minimum permission required to update a cluster named  [replaceable]``my-cluster`` in the us-west-2 {aws} Region.
+
+[source,json]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "eks:UpdateClusterVersion",
+            "Resource": "arn:aws:eks:us-west-2:111122223333:cluster/my-cluster"
+        }
+    ]
+}
+----
+
+
+[[policy-example2,policy-example2.title]]
+=== List or describe all clusters
+
+This example policy includes the minimum permissions required to list and describe all clusters in your account. An  {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-principal}[IAM principal] must be able to list and describe clusters to use the `update-kubeconfig` {aws} CLI command.
+
+[source,json]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:DescribeCluster",
+                "eks:ListClusters"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+----
+
+
+[.topic]
+[[using-service-linked-roles,using-service-linked-roles.title]]
+== Using service-linked roles for Amazon EKS
+
+[abstract]
+--
+How to use service-linked roles to give Amazon EKS access to resources in your {aws} account.
+--
+
+Amazon Elastic Kubernetes Service uses {aws} Identity and Access Management (IAM)  {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-service-linked-role}[service-linked roles]. A service-linked role is a unique type of IAM role that is linked directly to Amazon EKS. Service-linked roles are predefined by Amazon EKS and include all the permissions that the service requires to call other {aws} services on your behalf. 
+
+[.topiclist]
+[[Topic List]]
+
+[.topic]
+[[using-service-linked-roles-eks,using-service-linked-roles-eks.title]]
+=== Using roles for Amazon EKS clusters
+
+[abstract]
+--
+How to use service-linked roles to give Amazon EKS access to resources in your {aws} account.
+--
+
+Amazon Elastic Kubernetes Service uses {aws} Identity and Access Management (IAM){https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-service-linked-role}[service-linked roles]. A service-linked role is a unique type of IAM role that is linked directly to Amazon EKS. Service-linked roles are predefined by Amazon EKS and include all the permissions that the service requires to call other {aws} services on your behalf. 
+
+A service-linked role makes setting up Amazon EKS easier because you don't have to manually add the necessary permissions. Amazon EKS defines the permissions of its service-linked roles, and unless defined otherwise, only Amazon EKS can assume its roles. The defined permissions include the trust policy and the permissions policy, and that permissions policy cannot be attached to any other IAM entity.
+
+You can delete a service-linked role only after first deleting their related resources. This protects your Amazon EKS resources because you can't inadvertently remove permission to access the resources.
+
+For information about other services that support service-linked roles, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-aws-services-that-work-with-iam-html}[{aws} services that work with IAM] and look for the services that have **Yes **in the *Service-linked role* column. Choose a *Yes* with a link to view the service-linked role documentation for that service.
+
+[[service-linked-role-permissions-eks,service-linked-role-permissions-eks.title]]
+==== Service-linked role permissions for Amazon EKS
+
+Amazon EKS uses the service-linked role named  `AWSServiceRoleForAmazonEKS` – The role allows Amazon EKS to manage clusters in your account. The attached policies allow the role to manage the following resources: network interfaces, security groups, logs, and VPCs.
+
+[NOTE]
+====
+
+The `AWSServiceRoleForAmazonEKS` service-linked role is distinct from the role required for cluster creation. For more information, see xref:cluster-iam-role[Amazon EKS cluster IAM role,linkend=cluster-iam-role].
+
+====
+
+The  `AWSServiceRoleForAmazonEKS` service-linked role trusts the following services to assume the role:
+
+
+
+* `eks.amazonaws.com`
+
+The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
+
+
+
+* https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html[AmazonEKSServiceRolePolicy]
+
+You must configure permissions to allow an IAM entity (such as a user, group, or role) to create, edit, or delete a service-linked role. For more information, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-service-linked-role-permissions}[Service-linked role permissions] in the __IAM User Guide__.
+
+[[create-service-linked-role-eks,create-service-linked-role-eks.title]]
+==== Creating a service-linked role for Amazon EKS
+
+You don't need to manually create a service-linked role. When you create a cluster in the {aws-management-console}, the {aws} CLI, or the {aws} API, Amazon EKS creates the service-linked role for you.  
+
+If you delete this service-linked role, and then need to create it again, you can use the same process to recreate the role in your account. When you create a cluster, Amazon EKS creates the service-linked role for you again. 
+
+[[edit-service-linked-role-eks,edit-service-linked-role-eks.title]]
+==== Editing a service-linked role for Amazon EKS
+
+Amazon EKS does not allow you to edit the  `AWSServiceRoleForAmazonEKS` service-linked role. After you create a service-linked role, you cannot change the name of the role because various entities might reference the role. However, you can edit the description of the role using IAM. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-edit-service-linked-role}[Editing a service-linked role] in the __IAM User Guide__.
+
+[[delete-service-linked-role-eks,delete-service-linked-role-eks.title]]
+==== Deleting a service-linked role for Amazon EKS
+
+If you no longer need to use a feature or service that requires a service-linked role, we recommend that you delete that role. That way you don't have an unused entity that is not actively monitored or maintained. However, you must clean up your service-linked role before you can manually delete it.
+
+[[service-linked-role-review-before-delete-eks,service-linked-role-review-before-delete-eks.title]]
+===== Cleaning up a service-linked role
+
+Before you can use IAM to delete a service-linked role, you must first delete any resources used by the role.
+
+[NOTE]
+====
+
+If the Amazon EKS service is using the role when you try to delete the resources, then the deletion might fail. If that happens, wait for a few minutes and try the operation again.
+
+====
+. Open the Amazon EKS console at {https---console-aws-amazon-com-eks-home--clusters}[https://console.aws.amazon.com/eks/home#/clusters].
+. In the left navigation pane, choose **Clusters**.
+. If your cluster has any node groups or Fargate profiles, you must delete them before you can delete the cluster. For more information, see xref:delete-managed-node-group[Delete a managed node group from your cluster,linkend=delete-managed-node-group] and xref:delete-fargate-profile[Delete a Fargate profile,linkend=delete-fargate-profile].
+. On the *Clusters* page, choose the cluster that you want to delete and choose  **Delete**.
+. Type the name of the cluster in the deletion confirmation window, and then choose **Delete**.
+. Repeat this procedure for any other clusters in your account. Wait for all of the delete operations to finish.
+
+
+[[slr-manual-delete-eks,slr-manual-delete-eks.title]]
+===== Manually delete the service-linked role
+
+Use the IAM console, the {aws} CLI, or the {aws} API to delete the  `AWSServiceRoleForAmazonEKS` service-linked role. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-delete-service-linked-role}[Deleting a service-linked role] in the __IAM User Guide__.
+
+[[slr-regions-eks,slr-regions-eks.title]]
+==== Supported regions for Amazon EKS service-linked roles
+
+Amazon EKS supports using service-linked roles in all of the regions where the service is available. For more information, see  https://docs.aws.amazon.com/general/latest/gr/eks.html[Amazon EKS endpoints and quotas].
+
+[.topic]
+[[using-service-linked-roles-eks-nodegroups,using-service-linked-roles-eks-nodegroups.title]]
+=== Using roles for Amazon EKS node groups
+
+[abstract]
+--
+How to use service-linked roles to give Amazon EKS access to resources in your {aws} account.
+--
+
+Amazon EKS uses {aws} Identity and Access Management (IAM){https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-service-linked-role}[service-linked roles]. A service-linked role is a unique type of IAM role that is linked directly to Amazon EKS. Service-linked roles are predefined by Amazon EKS and include all the permissions that the service requires to call other {aws} services on your behalf. 
+
+A service-linked role makes setting up Amazon EKS easier because you don't have to manually add the necessary permissions. Amazon EKS defines the permissions of its service-linked roles, and unless defined otherwise, only Amazon EKS can assume its roles. The defined permissions include the trust policy and the permissions policy, and that permissions policy cannot be attached to any other IAM entity.
+
+You can delete a service-linked role only after first deleting their related resources. This protects your Amazon EKS resources because you can't inadvertently remove permission to access the resources.
+
+For information about other services that support service-linked roles, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-aws-services-that-work-with-iam-html}[{aws} services that work with IAM] and look for the services that have **Yes **in the *Service-linked role* column. Choose a *Yes* with a link to view the service-linked role documentation for that service.
+
+[[service-linked-role-permissions-eks-nodegroups,service-linked-role-permissions-eks-nodegroups.title]]
+==== Service-linked role permissions for Amazon EKS
+
+Amazon EKS uses the service-linked role named  `AWSServiceRoleForAmazonEKSNodegroup` – The role allows Amazon EKS to manage node groups in your account. The attached policies allow the role to manage the following resources: Auto Scaling groups, security groups, launch templates and IAM instance profiles..
+
+The `AWSServiceRoleForAmazonEKSNodegroup` service-linked role trusts the following services to assume the role:
+
+
+
+* `eks-nodegroup.amazonaws.com`
+
+The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
+
+
+
+* https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html[AWSServiceRoleForAmazonEKSNodegroup]
+
+You must configure permissions to allow an IAM entity (such as a user, group, or role) to create, edit, or delete a service-linked role. For more information, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-service-linked-role-permissions}[Service-linked role permissions] in the __IAM User Guide__.
+
+[[create-service-linked-role-eks-nodegroups,create-service-linked-role-eks-nodegroups.title]]
+==== Creating a service-linked role for Amazon EKS
+
+You don't need to manually create a service-linked role. When you CreateNodegroup in the {aws-management-console}, the {aws} CLI, or the {aws} API, Amazon EKS creates the service-linked role for you.  
+
+[IMPORTANT]
+====
+
+This service-linked role can appear in your account if you completed an action in another service that uses the features supported by this role. If you were using the Amazon EKS service before January 1, 2017, when it began supporting service-linked roles, then Amazon EKS created the AWSServiceRoleForAmazonEKSNodegroup role in your account. To learn more, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-troubleshoot-roles-html-troubleshoot-roles-new-role-appeared}[A new role appeared in my IAM account].
+
+====
+
+[[create-service-linked-role-service-api-eks-nodegroups,create-service-linked-role-service-api-eks-nodegroups.title]]
+===== Creating a service-linked role in Amazon EKS ({aws} API)
+
+You don't need to manually create a service-linked role. When you create a managed node group in the {aws-management-console}, the {aws} CLI, or the {aws} API, Amazon EKS creates the service-linked role for you.  
+
+If you delete this service-linked role, and then need to create it again, you can use the same process to recreate the role in your account. When you create another managed node group, Amazon EKS creates the service-linked role for you again.  
+
+[[edit-service-linked-role-eks-nodegroups,edit-service-linked-role-eks-nodegroups.title]]
+==== Editing a service-linked role for Amazon EKS
+
+Amazon EKS does not allow you to edit the  `AWSServiceRoleForAmazonEKSNodegroup` service-linked role. After you create a service-linked role, you cannot change the name of the role because various entities might reference the role. However, you can edit the description of the role using IAM. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-edit-service-linked-role}[Editing a service-linked role] in the __IAM User Guide__.
+
+[[delete-service-linked-role-eks-nodegroups,delete-service-linked-role-eks-nodegroups.title]]
+==== Deleting a service-linked role for Amazon EKS
+
+If you no longer need to use a feature or service that requires a service-linked role, we recommend that you delete that role. That way you don't have an unused entity that is not actively monitored or maintained. However, you must clean up your service-linked role before you can manually delete it.
+
+[[service-linked-role-review-before-delete-eks-nodegroups,service-linked-role-review-before-delete-eks-nodegroups.title]]
+===== Cleaning up a service-linked role
+
+Before you can use IAM to delete a service-linked role, you must first delete any resources used by the role.
+
+[NOTE]
+====
+
+If the Amazon EKS service is using the role when you try to delete the resources, then the deletion might fail. If that happens, wait for a few minutes and try the operation again.
+
+====
+. Open the Amazon EKS console at {https---console-aws-amazon-com-eks-home--clusters}[https://console.aws.amazon.com/eks/home#/clusters].
+. In the left navigation pane, choose **Clusters**.
+. Select the *Compute* tab.
+. In the *Node groups* section, choose the node group to delete.
+. Type the name of the node group in the deletion confirmation window, and then choose **Delete**.
+. Repeat this procedure for any other node groups in the cluster. Wait for all of the delete operations to finish.
+
+
+[[slr-manual-delete-eks-nodegroups,slr-manual-delete-eks-nodegroups.title]]
+===== Manually delete the service-linked role
+
+Use the IAM console, the {aws} CLI, or the {aws} API to delete the  `AWSServiceRoleForAmazonEKSNodegroup` service-linked role. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-delete-service-linked-role}[Deleting a service-linked role] in the __IAM User Guide__.
+
+[[slr-regions-eks-nodegroups,slr-regions-eks-nodegroups.title]]
+==== Supported regions for Amazon EKS service-linked roles
+
+Amazon EKS supports using service-linked roles in all of the regions where the service is available. For more information, see  https://docs.aws.amazon.com/general/latest/gr/eks.html[Amazon EKS endpoints and quotas].
+
+[.topic]
+[[using-service-linked-roles-eks-fargate,using-service-linked-roles-eks-fargate.title]]
+=== Using roles for Amazon EKS Fargate profiles
+
+[abstract]
+--
+How to use service-linked roles to give Amazon EKS access to resources in your {aws} account.
+--
+
+Amazon EKS uses {aws} Identity and Access Management (IAM){https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-service-linked-role}[service-linked roles]. A service-linked role is a unique type of IAM role that is linked directly to Amazon EKS. Service-linked roles are predefined by Amazon EKS and include all the permissions that the service requires to call other {aws} services on your behalf. 
+
+A service-linked role makes setting up Amazon EKS easier because you don't have to manually add the necessary permissions. Amazon EKS defines the permissions of its service-linked roles, and unless defined otherwise, only Amazon EKS can assume its roles. The defined permissions include the trust policy and the permissions policy, and that permissions policy cannot be attached to any other IAM entity.
+
+You can delete a service-linked role only after first deleting their related resources. This protects your Amazon EKS resources because you can't inadvertently remove permission to access the resources.
+
+For information about other services that support service-linked roles, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-aws-services-that-work-with-iam-html}[{aws} services that work with IAM] and look for the services that have **Yes **in the *Service-linked role* column. Choose a *Yes* with a link to view the service-linked role documentation for that service.
+
+[[service-linked-role-permissions-eks-fargate,service-linked-role-permissions-eks-fargate.title]]
+==== Service-linked role permissions for Amazon EKS
+
+Amazon EKS uses the service-linked role named  `AWSServiceRoleForAmazonEKSForFargate` – The role allows Amazon EKS Fargate to configure VPC networking required for Fargate [noloc]``Pods``. The attached policies allow the role to create and delete elastic network interfaces and describe elastic network Interfaces and resources.
+
+The `AWSServiceRoleForAmazonEKSForFargate` service-linked role trusts the following services to assume the role:
+
+
+
+* `eks-fargate.amazonaws.com`
+
+The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
+
+
+
+* https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSForFargateServiceRolePolicy.html[AmazonEKSForFargateServiceRolePolicy]
+
+You must configure permissions to allow an IAM entity (such as a user, group, or role) to create, edit, or delete a service-linked role. For more information, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-service-linked-role-permissions}[Service-linked role permissions] in the __IAM User Guide__.
+
+[[create-service-linked-role-eks-fargate,create-service-linked-role-eks-fargate.title]]
+==== Creating a service-linked role for Amazon EKS
+
+You don't need to manually create a service-linked role. When you create a Fargate profile in the {aws-management-console}, the {aws} CLI, or the {aws} API, Amazon EKS creates the service-linked role for you.  
+
+[IMPORTANT]
+====
+
+This service-linked role can appear in your account if you completed an action in another service that uses the features supported by this role. If you were using the Amazon EKS service before December 13, 2019, when it began supporting service-linked roles, then Amazon EKS created the AWSServiceRoleForAmazonEKSForFargate role in your account. To learn more, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-troubleshoot-roles-html-troubleshoot-roles-new-role-appeared}[A New role appeared in my IAM account].
+
+====
+
+[[create-service-linked-role-service-api-eks-fargate,create-service-linked-role-service-api-eks-fargate.title]]
+===== Creating a service-linked role in Amazon EKS ({aws} API)
+
+You don't need to manually create a service-linked role. When you create a Fargate profile in the {aws-management-console}, the {aws} CLI, or the {aws} API, Amazon EKS creates the service-linked role for you.  
+
+If you delete this service-linked role, and then need to create it again, you can use the same process to recreate the role in your account. When you create another managed node group, Amazon EKS creates the service-linked role for you again.  
+
+[[edit-service-linked-role-eks-fargate,edit-service-linked-role-eks-fargate.title]]
+==== Editing a service-linked role for Amazon EKS
+
+Amazon EKS does not allow you to edit the  `AWSServiceRoleForAmazonEKSForFargate` service-linked role. After you create a service-linked role, you cannot change the name of the role because various entities might reference the role. However, you can edit the description of the role using IAM. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-edit-service-linked-role}[Editing a service-linked role] in the __IAM User Guide__.
+
+[[delete-service-linked-role-eks-fargate,delete-service-linked-role-eks-fargate.title]]
+==== Deleting a service-linked role for Amazon EKS
+
+If you no longer need to use a feature or service that requires a service-linked role, we recommend that you delete that role. That way you don't have an unused entity that is not actively monitored or maintained. However, you must clean up your service-linked role before you can manually delete it.
+
+[[service-linked-role-review-before-delete-eks-fargate,service-linked-role-review-before-delete-eks-fargate.title]]
+===== Cleaning up a service-linked role
+
+Before you can use IAM to delete a service-linked role, you must first delete any resources used by the role.
+
+[NOTE]
+====
+
+If the Amazon EKS service is using the role when you try to delete the resources, then the deletion might fail. If that happens, wait for a few minutes and try the operation again.
+
+====
+. Open the Amazon EKS console at {https---console-aws-amazon-com-eks-home--clusters}[https://console.aws.amazon.com/eks/home#/clusters].
+. In the left navigation pane, choose **Clusters**.
+. On the *Clusters* page, select your cluster.
+. Select the *Compute* tab.
+. If there are any Fargate profiles in the *Fargate profiles* section, select each one individually, and then choose  **Delete**.
+. Type the name of the profile in the deletion confirmation window, and then choose **Delete**.
+. Repeat this procedure for any other Fargate profiles in the cluster and for any other clusters in your account.
+
+
+[[slr-manual-delete-eks-fargate,slr-manual-delete-eks-fargate.title]]
+===== Manually delete the service-linked role
+
+Use the IAM console, the {aws} CLI, or the {aws} API to delete the AWSServiceRoleForAmazonEKSForFargate service-linked role. For more information, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-delete-service-linked-role}[Deleting a service-linked role] in the __IAM User Guide__.
+
+[[slr-regions-eks-fargate,slr-regions-eks-fargate.title]]
+==== Supported regions for Amazon EKS service-linked roles
+
+Amazon EKS supports using service-linked roles in all of the regions where the service is available. For more information, see  https://docs.aws.amazon.com/general/latest/gr/eks.html[Amazon EKS endpoints and quotas].
+
+[.topic]
+[[using-service-linked-roles-eks-connector,using-service-linked-roles-eks-connector.title]]
+=== Using roles to connect a  [noloc]``Kubernetes`` cluster to Amazon EKS
+
+[abstract]
+--
+How to use service-linked roles to give Amazon EKS access to resources in your {aws} account.
+--
+
+Amazon EKS uses {aws} Identity and Access Management (IAM){https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-service-linked-role}[service-linked roles]. A service-linked role is a unique type of IAM role that is linked directly to Amazon EKS. Service-linked roles are predefined by Amazon EKS and include all the permissions that the service requires to call other {aws} services on your behalf. 
+
+A service-linked role makes setting up Amazon EKS easier because you don't have to manually add the necessary permissions. Amazon EKS defines the permissions of its service-linked roles, and unless defined otherwise, only Amazon EKS can assume its roles. The defined permissions include the trust policy and the permissions policy, and that permissions policy cannot be attached to any other IAM entity.
+
+You can delete a service-linked role only after first deleting their related resources. This protects your Amazon EKS resources because you can't inadvertently remove permission to access the resources.
+
+For information about other services that support service-linked roles, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-aws-services-that-work-with-iam-html}[{aws} services that work with IAM] and look for the services that have **Yes **in the *Service-linked role* column. Choose a *Yes* with a link to view the service-linked role documentation for that service.
+
+[[service-linked-role-permissions-eks-connector,service-linked-role-permissions-eks-connector.title]]
+==== Service-linked role permissions for Amazon EKS
+
+Amazon EKS uses the service-linked role named  `AWSServiceRoleForAmazonEKSConnector` – The role allows Amazon EKS to connect [noloc]``Kubernetes`` clusters. The attached policies allow the role to manage necessary resources to connect to your registered  [noloc]``Kubernetes`` cluster.
+
+The `AWSServiceRoleForAmazonEKSConnector` service-linked role trusts the following services to assume the role:
+
+
+
+* `eks-connector.amazonaws.com`
+
+The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
+
+
+
+* https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSConnectorServiceRolePolicy.html[AmazonEKSConnectorServiceRolePolicy]
+
+You must configure permissions to allow an IAM entity (such as a user, group, or role) to create, edit, or delete a service-linked role. For more information, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-service-linked-role-permissions}[Service-linked role permissions] in the __IAM User Guide__.
+
+[[create-service-linked-role-eks-connector,create-service-linked-role-eks-connector.title]]
+==== Creating a service-linked role for Amazon EKS
+
+You don't need to manually create a service-linked role to connect a cluster. When you connect a cluster in the {aws-management-console}, the {aws} CLI,  ``eksctl``, or the {aws} API, Amazon EKS creates the service-linked role for you.
+
+If you delete this service-linked role, and then need to create it again, you can use the same process to recreate the role in your account. When you connect a cluster, Amazon EKS creates the service-linked role for you again. 
+
+[[edit-service-linked-role-eks-connector,edit-service-linked-role-eks-connector.title]]
+==== Editing a service-linked role for Amazon EKS
+
+Amazon EKS does not allow you to edit the  `AWSServiceRoleForAmazonEKSConnector` service-linked role. After you create a service-linked role, you cannot change the name of the role because various entities might reference the role. However, you can edit the description of the role using IAM. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-edit-service-linked-role}[Editing a service-linked role] in the __IAM User Guide__.
+
+[[delete-service-linked-role-eks-connector,delete-service-linked-role-eks-connector.title]]
+==== Deleting a service-linked role for Amazon EKS
+
+If you no longer need to use a feature or service that requires a service-linked role, we recommend that you delete that role. That way you don't have an unused entity that is not actively monitored or maintained. However, you must clean up your service-linked role before you can manually delete it.
+
+[[service-linked-role-review-before-delete-eks-connector,service-linked-role-review-before-delete-eks-connector.title]]
+===== Cleaning up a service-linked role
+
+Before you can use IAM to delete a service-linked role, you must first delete any resources used by the role.
+
+[NOTE]
+====
+
+If the Amazon EKS service is using the role when you try to delete the resources, then the deletion might fail. If that happens, wait for a few minutes and try the operation again.
+
+====
+. Open the Amazon EKS console at {https---console-aws-amazon-com-eks-home--clusters}[https://console.aws.amazon.com/eks/home#/clusters].
+. In the left navigation pane, choose **Clusters**.
+. On the *Clusters* page, select your cluster.
+. Select the *Deregister* tab and then select the  *Ok* tab.
+
+
+[[slr-manual-delete-eks-connector,slr-manual-delete-eks-connector.title]]
+===== Manually delete the service-linked role
+
+Use the IAM console, the {aws} CLI, or the {aws} API to delete the AWSServiceRoleForAmazonEKSConnector service-linked role. For more information, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-delete-service-linked-role}[Deleting a service-linked role] in the __IAM User Guide__.
+
+[.topic]
+[[using-service-linked-roles-eks-outpost,using-service-linked-roles-eks-outpost.title]]
+=== Using roles for Amazon EKS local clusters on Outpost
+
+[abstract]
+--
+How to use service-linked roles to give Amazon EKS access to resources in your {aws} account.
+--
+
+Amazon Elastic Kubernetes Service uses {aws} Identity and Access Management (IAM){https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-service-linked-role}[service-linked roles]. A service-linked role is a unique type of IAM role that is linked directly to Amazon EKS. Service-linked roles are predefined by Amazon EKS and include all the permissions that the service requires to call other {aws} services on your behalf. 
+
+A service-linked role makes setting up Amazon EKS easier because you don't have to manually add the necessary permissions. Amazon EKS defines the permissions of its service-linked roles, and unless defined otherwise, only Amazon EKS can assume its roles. The defined permissions include the trust policy and the permissions policy, and that permissions policy cannot be attached to any other IAM entity.
+
+You can delete a service-linked role only after first deleting their related resources. This protects your Amazon EKS resources because you can't inadvertently remove permission to access the resources.
+
+For information about other services that support service-linked roles, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-aws-services-that-work-with-iam-html}[{aws} services that work with IAM] and look for the services that have **Yes **in the *Service-linked role* column. Choose a *Yes* with a link to view the service-linked role documentation for that service.
+
+[[service-linked-role-permissions,service-linked-role-permissions.title]]
+==== Service-linked role permissions for Amazon EKS
+
+Amazon EKS uses the service-linked role named  `AWSServiceRoleForAmazonEKSLocalOutpost` – The role allows Amazon EKS to manage local clusters in your account. The attached policies allow the role to manage the following resources: network interfaces, security groups, logs, and Amazon EC2 instances.
+
+[NOTE]
+====
+
+The `AWSServiceRoleForAmazonEKSLocalOutpost` service-linked role is distinct from the role required for cluster creation. For more information, see xref:cluster-iam-role[Amazon EKS cluster IAM role,linkend=cluster-iam-role].
+
+====
+
+The  `AWSServiceRoleForAmazonEKSLocalOutpost` service-linked role trusts the following services to assume the role:
+
+
+
+* `outposts.eks-local.amazonaws.com`
+
+The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
+
+
+
+* https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html[AmazonEKSServiceRolePolicy]
+
+You must configure permissions to allow an IAM entity (such as a user, group, or role) to create, edit, or delete a service-linked role. For more information, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-service-linked-role-permissions}[Service-linked role permissions] in the __IAM User Guide__.
+
+[[create-service-linked-role-eks-outpost,create-service-linked-role-eks-outpost.title]]
+==== Creating a service-linked role for Amazon EKS
+
+You don't need to manually create a service-linked role. When you create a cluster in the {aws-management-console}, the {aws} CLI, or the {aws} API, Amazon EKS creates the service-linked role for you.  
+
+If you delete this service-linked role, and then need to create it again, you can use the same process to recreate the role in your account. When you create a cluster, Amazon EKS creates the service-linked role for you again. 
+
+[[edit-service-linked-role-eks-outpost,edit-service-linked-role-eks-outpost.title]]
+==== Editing a service-linked role for Amazon EKS
+
+Amazon EKS does not allow you to edit the  `AWSServiceRoleForAmazonEKSLocalOutpost` service-linked role. After you create a service-linked role, you can't change the name of the role because various entities might reference the role. However, you can edit the description of the role using IAM. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-edit-service-linked-role}[Editing a service-linked role] in the __IAM User Guide__.
+
+[[delete-service-linked-role-eks-outpost,delete-service-linked-role-eks-outpost.title]]
+==== Deleting a service-linked role for Amazon EKS
+
+If you no longer need to use a feature or service that requires a service-linked role, we recommend that you delete that role. That way you don't have an unused entity that is not actively monitored or maintained. However, you must clean up your service-linked role before you can manually delete it.
+
+[[service-linked-role-review-before-delete-eks-outpost,service-linked-role-review-before-delete-eks-outpost.title]]
+===== Cleaning up a service-linked role
+
+Before you can use IAM to delete a service-linked role, you must first delete any resources used by the role.
+
+[NOTE]
+====
+
+If the Amazon EKS service is using the role when you try to delete the resources, then the deletion might fail. If that happens, wait for a few minutes and try the operation again.
+
+====
+. Open the Amazon EKS console at {https---console-aws-amazon-com-eks-home--clusters}[https://console.aws.amazon.com/eks/home#/clusters].
+. In the left navigation pane, choose Amazon EKS **Clusters**.
+. If your cluster has any node groups or Fargate profiles, you must delete them before you can delete the cluster. For more information, see xref:delete-managed-node-group[Delete a managed node group from your cluster,linkend=delete-managed-node-group] and xref:delete-fargate-profile[Delete a Fargate profile,linkend=delete-fargate-profile].
+. On the *Clusters* page, choose the cluster that you want to delete and choose  **Delete**.
+. Type the name of the cluster in the deletion confirmation window, and then choose **Delete**.
+. Repeat this procedure for any other clusters in your account. Wait for all of the delete operations to finish.
+
+
+[[slr-manual-delete-eks-outpost,slr-manual-delete-eks-outpost.title]]
+===== Manually delete the service-linked role
+
+Use the IAM console, the {aws} CLI, or the {aws} API to delete the  `AWSServiceRoleForAmazonEKSLocalOutpost` service-linked role. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-delete-service-linked-role}[Deleting a service-linked role] in the __IAM User Guide__.
+
+[[slr-regions-eks-connector,slr-regions-eks-connector.title]]
+==== Supported regions for Amazon EKS service-linked roles
+
+Amazon EKS supports using service-linked roles in all of the regions where the service is available. For more information, see  https://docs.aws.amazon.com/general/latest/gr/eks.html[Amazon EKS endpoints and quotas].
+
+[.topic]
+[[using-service-linked-roles-eks-hybrid-nodes,using-service-linked-roles-eks-hybrid-nodes.title]]
+=== Using roles for Amazon EKS hybrid nodes
+
+[abstract]
+--
+How to use service-linked roles to give Amazon EKS access to resources in your AWS account.
+--
+
+Amazon Elastic Kubernetes Service uses AWS Identity and Access Management (IAM){https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-service-linked-role}[service-linked roles]. A service-linked role is a unique type of IAM role that is linked directly to Amazon EKS. Service-linked roles are predefined by Amazon EKS and include all the permissions that the service requires to call other AWS services on your behalf. 
+
+A service-linked role makes setting up Amazon EKS easier because you don't have to manually add the necessary permissions. Amazon EKS defines the permissions of its service-linked roles, and unless defined otherwise, only Amazon EKS can assume its roles. The defined permissions include the trust policy and the permissions policy, and that permissions policy cannot be attached to any other IAM entity.
+
+You can delete a service-linked role only after first deleting their related resources. This protects your Amazon EKS resources because you can't inadvertently remove permission to access the resources.
+
+For information about other services that support service-linked roles, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-reference-aws-services-that-work-with-iam-html}[AWS services that work with IAM] and look for the services that have **Yes **in the *Service-linked role* column. Choose a *Yes* with a link to view the service-linked role documentation for that service.
+
+[[edit-service-linked-role-eks-hybrid-nodes,edit-service-linked-role-eks-hybrid-nodes.title]]
+==== Service-linked role permissions for Amazon EKS
+
+Amazon EKS uses the service-linked role named  `AWSServiceRoleForAmazonEKSHybrid` – The role allows Amazon EKS to manage hybrid nodes in your account. The attached policies allow the role to manage the following resources: EKS access entries and Amazon EC2 instances.
+
+The `AWSServiceRoleForAmazonEKSHybrid` service-linked role trusts the following services to assume the role:
+
+
+
+* `eks-hybrid.amazonaws.com`
+
+The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
+
+
+
+* https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSHybridRolePolicy.html[AmazonEKSHybridRolePolicy]
+
+You must configure permissions to allow an IAM entity (such as a user, group, or role) to create, edit, or delete a service-linked role. For more information, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-service-linked-role-permissions}[Service-linked role permissions] in the __IAM User Guide__.
+
+[[create-service-linked-role-eks-hybrid-nodes,create-service-linked-role-eks-hybrid-nodes.title]]
+==== Creating a service-linked role for Amazon EKS
+
+You don't need to manually create a service-linked role. When you attach hybrid nodes in the AWS Management Console, the AWS CLI, or the AWS API, Amazon EKS creates the service-linked role for you.  
+
+If you delete this service-linked role, and then need to create it again, you can use the same process to recreate the role in your account. When you attach hybrid nodes, Amazon EKS creates the service-linked role for you again. 
+
+[[edit-service-linked-role-eks-hybrid-nodes,edit-service-linked-role-eks-hybrid-nodes.title]]
+==== Editing a service-linked role for Amazon EKS
+
+Amazon EKS does not allow you to edit the  `AWSServiceRoleForAmazonEKSHybrid` service-linked role. After you create a service-linked role, you can't change the name of the role because various entities might reference the role. However, you can edit the description of the role using IAM. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-edit-service-linked-role}[Editing a service-linked role] in the __IAM User Guide__.
+
+[[delete-service-linked-role-eks-hybrid-nodes,delete-service-linked-role-eks-hybrid-nodes.title]]
+==== Deleting a service-linked role for Amazon EKS
+
+If you no longer need to use a feature or service that requires a service-linked role, we recommend that you delete that role. That way you don't have an unused entity that is not actively monitored or maintained. However, you must clean up your service-linked role before you can manually delete it.
+
+[[service-linked-role-review-before-delete-eks-hybrid-nodes,service-linked-role-review-before-delete-eks-hybrid-nodes.title]]
+===== Cleaning up a service-linked role
+
+Before you can use IAM to delete a service-linked role, you must first delete any resources used by the role.
+
+[NOTE]
+====
+
+If the Amazon EKS service is using the role when you try to delete the resources, then the deletion might fail. If that happens, wait for a few minutes and try the operation again.
+
+====
+. Open the Amazon EKS console at {https---console-aws-amazon-com-eks-home--clusters}[https://console.aws.amazon.com/eks/home#/clusters].
+. In the left navigation pane, choose Amazon EKS **Clusters**.
+. If your cluster has any node groups or Fargate profiles, you must delete them before you can delete the cluster. For more information, see xref:delete-managed-node-group[Delete a managed node group from your cluster,linkend=delete-managed-node-group] and xref:delete-fargate-profile[Delete a Fargate profile,linkend=delete-fargate-profile].
+. On the *Clusters* page, choose the cluster that you want to delete and choose  **Delete**.
+. Type the name of the cluster in the deletion confirmation window, and then choose **Delete**.
+. Repeat this procedure for any other clusters in your account. Wait for all of the delete operations to finish.
+
+
+[[slr-manual-delete-eks-hybrid-nodes,slr-manual-delete-eks-hybrid-nodes.title]]
+===== Manually delete the service-linked role
+
+Use the IAM console, the AWS CLI, or the AWS API to delete the  `AWSServiceRoleForAmazonEKSHybrid` service-linked role. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-using-service-linked-roles-html-delete-service-linked-role}[Deleting a service-linked role] in the __IAM User Guide__.
+
+[[slr-regions-eks-connector,slr-regions-eks-connector.title]]
+==== Supported regions for Amazon EKS service-linked roles
+
+Amazon EKS supports using service-linked roles in all of the regions where the service is available. For more information, see  https://docs.aws.amazon.com/general/latest/gr/eks.html[Amazon EKS endpoints and quotas].
+
+[.topic]
+[[cluster-iam-role,cluster-iam-role.title]]
+== Amazon EKS cluster IAM role
+
+[abstract]
+--
+Learn how to create and configure the required {aws} Identity and Access Management role for Amazon EKS clusters to manage nodes and load balancers using managed or custom IAM policies.
+--
+
+A Amazon EKS cluster IAM role is required for each cluster.  [noloc]``Kubernetes`` clusters managed by Amazon EKS use this role to manage nodes and the  {https---kubernetes-sigs-github-io-aws-load-balancer-controller-v2-7-guide-service-annotations--legacy-cloud-provider}[legacy Cloud Provider] uses this role to create load balancers with Elastic Load Balancing for services.
+
+Before you can create Amazon EKS clusters, you must create an IAM role with either of the following IAM policies:
+
+
+
+* [path]``https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy]``
+* A custom IAM policy. The minimal permissions that follow allows the [noloc]``Kubernetes`` cluster to manage nodes, but doesn't allow the  {https---kubernetes-sigs-github-io-aws-load-balancer-controller-v2-7-guide-service-annotations--legacy-cloud-provider}[legacy Cloud Provider] to create load balancers with Elastic Load Balancing. Your custom IAM policy must have at least the following permissions:
++
+[source,json]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateTags"
+      ],
+      "Resource": "arn:aws:ec2:*:*:instance/*",
+      "Condition": {
+        "ForAnyValue:StringLike": {
+          "aws:TagKeys": "kubernetes.io/cluster/*"
+        }
+      }
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeInstances",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DescribeVpcs",
+        "ec2:DescribeDhcpOptions",
+        "ec2:DescribeAvailabilityZones",
+        "kms:DescribeKey"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+----
+
+
+[NOTE]
+====
+
+Prior to October 3, 2023,  https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy] was required on the IAM role for each cluster.
+
+Prior to April 16, 2020, https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html[AmazonEKSServicePolicy] and https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy] was required and the suggested name for the role was ``eksServiceRole``. With the `AWSServiceRoleForAmazonEKS` service-linked role, the https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html[AmazonEKSServicePolicy] policy is no longer required for clusters created on or after April 16, 2020.
+
+====
+
+[[check-service-role,check-service-role.title]]
+=== Check for an existing cluster role
+
+You can use the following procedure to check and see if your account already has the Amazon EKS cluster role.
+
+. Open the IAM console at https://console.aws.amazon.com/iam/.
+. In the left navigation pane, choose **Roles**.  
+. Search the list of roles for ``eksClusterRole``. If a role that includes `eksClusterRole` doesn't exist, then see xref:create-service-role[Creating the Amazon EKS cluster role,linkend=create-service-role] to create the role. If a role that includes `eksClusterRole` does exist, then select the role to view the attached policies.
+. Choose **Permissions**.
+. Ensure that the *AmazonEKSClusterPolicy* managed policy is attached to the role. If the policy is attached, your Amazon EKS cluster role is properly configured.
+. Choose **Trust relationships**, and then choose  **Edit trust policy**.
+. Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose **Cancel**. If the trust relationship doesn't match, copy the policy into the  *Edit trust policy* window and choose  **Update policy**.  
++
+[source,json]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "eks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+----
+
+
+[[create-service-role,create-service-role.title]]
+=== Creating the Amazon EKS cluster role
+
+You can use the {aws-management-console} or the {aws} CLI to create the cluster role.
+
+
+
+{aws-management-console}::
+.. Open the IAM console at https://console.aws.amazon.com/iam/.
+.. Choose **Roles**, then  **Create role**.
+.. Under **Trusted entity type**, select  **{aws} service**.
+.. From the *Use cases for other {aws} services* dropdown list, choose  **EKS**.
+.. Choose *EKS - Cluster* for your use case, and then choose  **Next**.
+.. On the *Add permissions* tab, choose  **Next**.
+.. For **Role name**, enter a unique name for your role, such as  ``eksClusterRole``.
+.. For **Description**, enter descriptive text such as  ``Amazon EKS - Cluster role``.
+.. Choose **Create role**.
+
+
+{aws} CLI::
+.. Copy the following contents to a file named [.replaceable]`cluster-trust-policy.json`. 
++
+[source,json]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "eks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+----
+.. Create the role. You can replace [.replaceable]`eksClusterRole` with any name that you choose.
++
+[source,bash]
+----
+aws iam create-role \
+  --role-name eksClusterRole \
+  --assume-role-policy-document file://"cluster-trust-policy.json"
+----
+.. Attach the required IAM policy to the role.
++
+[source,bash]
+----
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy \
+  --role-name eksClusterRole
+----
+
+
+[.topic]
+[[create-node-role,create-node-role.title]]
+== Amazon EKS node IAM role
+
+The Amazon EKS node  `kubelet` daemon makes calls to {aws} APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched. This requirement applies to nodes launched with the Amazon EKS optimized AMI provided by Amazon, or with any other node AMIs that you intend to use. Additionally, this requirement applies to both managed node groups and self-managed nodes.
+
+[NOTE]
+====
+
+You can't use the same role that is used to create any clusters.
+
+====
+
+Before you create nodes, you must create an IAM role with the following permissions:
+
+
+
+* Permissions for the `kubelet` to describe Amazon EC2 resources in the VPC, such as provided by the [path]``https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html[AmazonEKSWorkerNodePolicy]`` policy. This policy also provides the permissions for the Amazon EKS Pod Identity Agent.
+* Permissions for the `kubelet` to use container images from Amazon Elastic Container Registry (Amazon ECR), such as provided by the [path]``https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEC2ContainerRegistryReadOnly.html[AmazonEC2ContainerRegistryReadOnly]`` policy. The permissions to use container images from Amazon Elastic Container Registry (Amazon ECR) are required because the built-in add-ons for networking run pods that use container images from Amazon ECR.
+* (Optional) Permissions for the Amazon EKS Pod Identity Agent to use the `eks-auth:AssumeRoleForPodIdentity` action to retrieve credentials for pods. If you don't use the https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html[AmazonEKSWorkerNodePolicy], then you must provide this permission in addition to the EC2 permissions to use EKS Pod Identity.`* (Optional) If you don't use IRSA or EKS Pod Identity to give permissions to the VPC CNI pods, then you must provide  permissions for the VPC CNI on the instance role. You can use either the [path]``{https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKS-CNI-Policy-html}[AmazonEKS_CNI_Policy]`` managed policy (if you created your cluster with the  IPv4` family) or an xref:cni-iam-role-create-ipv6-policy[IPv6 policy that you create,linkend=cni-iam-role-create-ipv6-policy] (if you created your cluster with the `IPv6` family). Rather than attaching the policy to this role however, we recommend that you attach the policy to a separate role used specifically for the Amazon VPC CNI add-on. For more information about creating a separate role for the Amazon VPC CNI add-on, see xref:cni-iam-role[Configure Amazon VPC CNI plugin to use IRSA,linkend=cni-iam-role].
+
+
+[NOTE]
+====
+
+Prior to October 3, 2023,  [path]``https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html[AmazonEKSWorkerNodePolicy]`` and  [path]``https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEC2ContainerRegistryReadOnly.html[AmazonEC2ContainerRegistryReadOnly]`` were required on the IAM role for each managed node group.
+
+The Amazon EC2 node groups must have a different IAM role than the Fargate profile. For more information, see xref:pod-execution-role[Amazon EKS Pod execution IAM role,linkend=pod-execution-role].
+
+====
+
+[[check-worker-node-role,check-worker-node-role.title]]
+=== Check for an existing node role
+
+You can use the following procedure to check and see if your account already has the Amazon EKS node role.
+
+. Open the IAM console at https://console.aws.amazon.com/iam/.
+. In the left navigation pane, choose **Roles**.  
+. Search the list of roles for ``eksNodeRole``, ``AmazonEKSNodeRole``, or ``NodeInstanceRole``. If a role with one of those names doesn't exist, then see xref:create-worker-node-role[Creating the Amazon EKS node IAM role,linkend=create-worker-node-role] to create the role. If a role that contains ``eksNodeRole``, ``AmazonEKSNodeRole``, or `NodeInstanceRole` does exist, then select the role to view the attached policies.
+. Choose **Permissions**.
+. Ensure that the *AmazonEKSWorkerNodePolicy* and  *AmazonEC2ContainerRegistryReadOnly* managed policies are attached to the role or a custom policy is attached with the minimal permissions.
++
+NOTE: If the *AmazonEKS_CNI_Policy* policy is attached to the role, we recommend removing it and attaching it to an IAM role that is mapped to the  `aws-node[.noloc]`Kubernetes` service account instead. For more information, see  xref:cni-iam-role[Configure Amazon VPC CNI plugin to use IRSA,linkend=cni-iam-role].
+. Choose **Trust relationships**, and then choose  **Edit trust policy**.
+. Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose **Cancel**. If the trust relationship doesn't match, copy the policy into the  *Edit trust policy* window and choose  **Update policy**.
++
+[source,json]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+----
+
+
+[[create-worker-node-role,create-worker-node-role.title]]
+=== Creating the Amazon EKS node IAM role
+
+You can create the node IAM role with the {aws-management-console} or the {aws} CLI.
+
+
+
+{aws-management-console}::
+.. Open the IAM console at https://console.aws.amazon.com/iam/.
+.. In the left navigation pane, choose **Roles**.
+.. On the *Roles* page, choose  **Create role**.
+.. On the *Select trusted entity* page, do the following:
++
+... In the *Trusted entity type* section, choose  **{aws} service**.  
+... Under **Use case**, choose  **EC2**.
+... Choose **Next**.
+.. On the *Add permissions* page, attach a custom policy or do the following:
++
+... In the *Filter policies* box, enter  ``AmazonEKSWorkerNodePolicy``.
+... Select the check box to the left of *AmazonEKSWorkerNodePolicy* in the search results.
+... Choose **Clear filters**.  
+... In the *Filter policies* box, enter  ``AmazonEC2ContainerRegistryReadOnly``.
+... Select the check box to the left of *AmazonEC2ContainerRegistryReadOnly* in the search results.
++
+Either the *AmazonEKS_CNI_Policy* managed policy, or an  xref:cni-iam-role-create-ipv6-policy[IPv6 policy,linkend=cni-iam-role-create-ipv6-policy] that you create must also be attached to either this role or to a different role that's mapped to the `aws-node[.noloc]`Kubernetes` service account. We recommend assigning the policy to the role associated to the  [noloc]``Kubernetes`` service account instead of assigning it to this role. For more information, see  xref:cni-iam-role[Configure Amazon VPC CNI plugin to use IRSA,linkend=cni-iam-role].
+... Choose **Next**.
+.. On the *Name, review, and create* page, do the following:
++
+... For **Role name**, enter a unique name for your role, such as  ``AmazonEKSNodeRole``.
+... For **Description**, replace the current text with descriptive text such as  ``Amazon EKS - Node role``.
+... Under **Add tags (Optional)**, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-tags-html}[Tagging IAM resources] in the __IAM User Guide__.
+... Choose **Create role**.
+
+
+{aws} CLI::
+.. Run the following command to create the [path]``node-role-trust-relationship.json`` file.
++
+[source,json]
+----
+cat >node-role-trust-relationship.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+----
+.. Create the IAM role.
++
+[source,bash]
+----
+aws iam create-role \
+  --role-name AmazonEKSNodeRole \
+  --assume-role-policy-document file://"node-role-trust-relationship.json"
+----
+.. Attach two required IAM managed policies to the IAM role.
++
+[source,bash]
+----
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy \
+  --role-name AmazonEKSNodeRole
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly \
+  --role-name AmazonEKSNodeRole
+----
+.. Attach one of the following IAM policies to the IAM role depending on which IP family you created your cluster with. The policy must be attached to this role or to a role associated to the [noloc]``Kubernetes````aws-node`` service account that's used for the [noloc]``Amazon VPC CNI plugin for [.noloc]`Kubernetes`. We recommend assigning the policy to the role associated to the  [noloc]``Kubernetes`` service account. To assign the policy to the role associated to the  [noloc]``Kubernetes`` service account, see  xref:cni-iam-role[Configure Amazon VPC CNI plugin to use IRSA,linkend=cni-iam-role].
++
+*** IPv4
++
+[source,bash]
+----
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy \
+  --role-name AmazonEKSNodeRole
+----
+*** IPv6
++
+.... Copy the following text and save it to a file named [path]``vpc-cni-ipv6-policy.json``.
++
+[source,json]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AssignIpv6Addresses",
+                "ec2:DescribeInstances",
+                "ec2:DescribeTags",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeInstanceTypes"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateTags"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:network-interface/*"
+            ]
+        }
+    ]
+}
+----
+.... Create the IAM policy.
++
+[source,bash]
+----
+aws iam create-policy --policy-name AmazonEKS_CNI_IPv6_Policy --policy-document file://vpc-cni-ipv6-policy.json
+----
+.... Attach the IAM policy to the IAM role. Replace [.replaceable]`111122223333` with your account ID.
++
+[source,bash]
+----
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_CNI_IPv6_Policy \
+  --role-name AmazonEKSNodeRole
+----
+
+
+[.topic]
+[[pod-execution-role,pod-execution-role.title]]
+== Amazon EKS  [noloc]``Pod`` execution IAM role
+
+The Amazon EKS  [noloc]``Pod`` execution role is required to run  [noloc]``Pods`` on {aws} Fargate infrastructure.
+
+When your cluster creates [noloc]``Pods`` on {aws} Fargate infrastructure, the components running on the Fargate infrastructure must make calls to {aws} APIs on your behalf. This is so that they can do actions such as pull container images from Amazon ECR or route logs to other {aws} services. The Amazon EKS  [noloc]``Pod`` execution role provides the IAM permissions to do this.
+
+When you create a Fargate profile, you must specify a [noloc]``Pod`` execution role for the Amazon EKS components that run on the Fargate infrastructure using the profile. This role is added to the cluster's  [noloc]``Kubernetes``https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Role based access control] (RBAC) for authorization. This allows the `kubelet` that's running on the Fargate infrastructure to register with your Amazon EKS cluster so that it can appear in your cluster as a node.
+
+[NOTE]
+====
+
+The Fargate profile must have a different IAM role than Amazon EC2 node groups.
+
+====
+
+[IMPORTANT]
+====
+
+The containers running in the Fargate  [noloc]``Pod`` can't assume the IAM permissions associated with a  [noloc]``Pod`` execution role. To give the containers in your Fargate  [noloc]``Pod`` permissions to access other {aws} services, you must use  xref:iam-roles-for-service-accounts[IAM roles for service accounts,linkend=iam-roles-for-service-accounts].
+
+====
+
+Before you create a Fargate profile, you must create an IAM role with the  [path]``https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSFargatePodExecutionRolePolicy.html[AmazonEKSFargatePodExecutionRolePolicy]``.
+[[check-pod-execution-role,check-pod-execution-role.title]]
+=== Check for a correctly configured existing [noloc]``Pod`` execution role
+
+You can use the following procedure to check and see if your account already has a correctly configured Amazon EKS  [noloc]``Pod`` execution role. To avoid a confused deputy security problem, it's important that the role restricts access based on  ``SourceArn``. You can modify the execution role as needed to include support for Fargate profiles on other clusters.
+
+. Open the IAM console at https://console.aws.amazon.com/iam/.
+. In the left navigation pane, choose **Roles**.  
+. On the *Roles* page, search the list of roles for  **AmazonEKSFargatePodExecutionRole**. If the role doesn't exist, see  xref:create-pod-execution-role[Creating the Amazon EKS Pod execution role,linkend=create-pod-execution-role] to create the role. If the role does exist, choose the role.
+. On the *AmazonEKSFargatePodExecutionRole* page, do the following:
++
+.. Choose **Permissions**.
+.. Ensure that the *AmazonEKSFargatePodExecutionRolePolicy* Amazon managed policy is attached to the role.
+.. Choose **Trust relationships**.
+.. Choose **Edit trust policy**.
+. On the *Edit trust policy* page, verify that the trust relationship contains the following policy and has a line for Fargate profiles on your cluster. If so, choose  **Cancel**.
++
+[source,json]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Condition": {
+         "ArnLike": {
+            "aws:SourceArn": "arn:aws:eks:region-code:111122223333:fargateprofile/my-cluster/*"
+         }
+      },
+      "Principal": {
+        "Service": "eks-fargate-pods.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+----
++
+If the policy matches but doesn't have a line specifying the Fargate profiles on your cluster, you can add the following line at the top of the  `ArnLike` object. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in, [.replaceable]`111122223333` with your account ID, and [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,json]
+----
+"aws:SourceArn": "arn:aws:eks:region-code:111122223333:fargateprofile/my-cluster/*",
+----
++
+If the policy doesn't match, copy the full previous policy into the form and choose  **Update policy**. Replace  [.replaceable]`region-code` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace [replaceable]``region-code`` with  ``\*``. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with ``\*``.
+
+
+[[create-pod-execution-role,create-pod-execution-role.title]]
+=== Creating the Amazon EKS  [noloc]``Pod`` execution role
+
+If you don't already have the Amazon EKS  [noloc]``Pod`` execution role for your cluster, you can use the {aws-management-console} or the {aws} CLI to create it.
+
+
+
+{aws-management-console}::
+.. Open the IAM console at https://console.aws.amazon.com/iam/.
+.. In the left navigation pane, choose **Roles**.
+.. On the *Roles* page, choose  **Create role**.
+.. On the *Select trusted entity* page, do the following:
++
+... In the *Trusted entity type* section, choose  **{aws} service**.  
+... From the *Use cases for other {aws} services* dropdown list, choose  **EKS**.
+... Choose **EKS - Fargate [noloc]``Pod``**.
+... Choose **Next**.
+.. On the *Add permissions* page, choose  **Next**.
+.. On the *Name, review, and create* page, do the following:
++
+... For **Role name**, enter a unique name for your role, such as  ``AmazonEKSFargatePodExecutionRole``.
+... Under **Add tags (Optional)**, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see  {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-tags-html}[Tagging IAM resources] in the __IAM User Guide__.
+... Choose **Create role**.
+.. On the *Roles* page, search the list of roles for  **AmazonEKSFargatePodExecutionRole**. Choose the role.
+.. On the *AmazonEKSFargatePodExecutionRole* page, do the following:
++
+... Choose **Trust relationships**.
+... Choose **Edit trust policy**.
+.. On the *Edit trust policy* page, do the following:
++
+... Copy and paste the following contents into the *Edit trust policy* form. Replace  [replaceable]``region-code`` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace  [replaceable]``region-code`` with  ``\*``. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with ``\*``.
++
+[source,json]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Condition": {
+         "ArnLike": {
+            "aws:SourceArn": "arn:aws:eks:region-code:111122223333:fargateprofile/my-cluster/*"
+         }
+      },
+      "Principal": {
+        "Service": "eks-fargate-pods.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+----
+... Choose **Update policy**.
+
+
+{aws} CLI::
+.. Copy and paste the following contents to a file named [path]``pod-execution-role-trust-policy.json``. Replace  [replaceable]``region-code`` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace  [replaceable]``region-code`` with  ``\*``. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with ``\*``.
++
+[source,json]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Condition": {
+         "ArnLike": {
+            "aws:SourceArn": "arn:aws:eks:region-code:111122223333:fargateprofile/my-cluster/*"
+         }
+      },
+      "Principal": {
+        "Service": "eks-fargate-pods.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+----
+.. Create a [noloc]``Pod`` execution IAM role.
++
+[source,bash]
+----
+aws iam create-role \
+  --role-name AmazonEKSFargatePodExecutionRole \
+  --assume-role-policy-document file://"pod-execution-role-trust-policy.json"
+----
+.. Attach the required Amazon EKS managed IAM policy to the role.
++
+[source,bash]
+----
+aws iam attach-role-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy \
+  --role-name AmazonEKSFargatePodExecutionRole
+----
+
+
+[.topic]
+[[connector-iam-role,connector-iam-role.title]]
+== Amazon EKS connector IAM role
+
+You can connect  [noloc]``Kubernetes`` clusters to view them in your {aws-management-console}. To connect to a  [noloc]``Kubernetes`` cluster, create an IAM role.
+
+[[check-connector-role,check-connector-role.title]]
+=== Check for an existing EKS connector role
+
+You can use the following procedure to check and see if your account already has the Amazon EKS connector role.
+
+. Open the IAM console at https://console.aws.amazon.com/iam/.
+. In the left navigation pane, choose **Roles**.  
+. Search the list of roles for ``AmazonEKSConnectorAgentRole``. If a role that includes `AmazonEKSConnectorAgentRole` doesn't exist, then see xref:create-connector-role[Creating the Amazon EKS connector agent role,linkend=create-connector-role] to create the role. If a role that includes `AmazonEKSConnectorAgentRole` does exist, then select the role to view the attached policies.
+. Choose **Permissions**.
+. Ensure that the *AmazonEKSConnectorAgentPolicy* managed policy is attached to the role. If the policy is attached, your Amazon EKS connector role is properly configured.
+. Choose **Trust relationships**, and then choose  **Edit trust policy**.
+. Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose **Cancel**. If the trust relationship doesn't match, copy the policy into the  *Edit trust policy* window and choose  **Update policy**.
++
+[source,json]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": [
+                    "ssm.amazonaws.com"
+                ]
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+----
+
+
+[[create-connector-role,create-connector-role.title]]
+=== Creating the Amazon EKS connector agent role
+
+You can use the {aws-management-console} or {aws} CloudFormation to create the connector agent role.
+
+
+
+{aws} CLI::
+.. Create a file named `eks-connector-agent-trust-policy.json` that contains the following JSON to use for the IAM role.
++
+[source,json]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": [
+                    "ssm.amazonaws.com"
+                ]
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+----
+.. Create a file named `eks-connector-agent-policy.json` that contains the following JSON to use for the IAM role.
++
+[source,json]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "SsmControlChannel",
+            "Effect": "Allow",
+            "Action": [
+                "ssmmessages:CreateControlChannel"
+            ],
+            "Resource": "arn:aws:eks:*:*:cluster/*"
+        },
+        {
+            "Sid": "ssmDataplaneOperations",
+            "Effect": "Allow",
+            "Action": [
+                "ssmmessages:CreateDataChannel",
+                "ssmmessages:OpenDataChannel",
+                "ssmmessages:OpenControlChannel"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+----
+.. Create the Amazon EKS Connector agent role using the trust policy and policy you created in the previous list items.
++
+[source,bash]
+----
+aws iam create-role \
+     --role-name AmazonEKSConnectorAgentRole \
+     --assume-role-policy-document file://eks-connector-agent-trust-policy.json
+----
+.. Attach the policy to your Amazon EKS Connector agent role.
++
+[source,bash]
+----
+aws iam put-role-policy \
+     --role-name AmazonEKSConnectorAgentRole \
+     --policy-name AmazonEKSConnectorAgentPolicy \
+     --policy-document file://eks-connector-agent-policy.json
+----
+
+
+{aws} CloudFormation::
+.. Save the following {aws} CloudFormation template to a text file on your local system.
++
+NOTE: This template also creates the service-linked role that would otherwise be created when the `registerCluster` API is called. See xref:using-service-linked-roles-eks-connector[Using roles to connect a Kubernetes cluster to Amazon EKS,linkend=using-service-linked-roles-eks-connector] for details.
++
+[source,yaml]
+----
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Provisions necessary resources needed to register clusters in EKS'
+Parameters: {}
+Resources:
+  EKSConnectorSLR:
+    Type: {aws}::IAM::ServiceLinkedRole
+    Properties:
+      AWSServiceName: eks-connector.amazonaws.com
+
+  EKSConnectorAgentRole:
+    Type: {aws}::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: [ 'sts:AssumeRole' ]
+            Principal:
+              Service: 'ssm.amazonaws.com'
+
+  EKSConnectorAgentPolicy:
+    Type: {aws}::IAM::Policy
+    Properties:
+      PolicyName: EKSConnectorAgentPolicy
+      Roles:
+        - {Ref: 'EKSConnectorAgentRole'}
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Action: [ 'ssmmessages:CreateControlChannel' ]
+            Resource:
+            - Fn::Sub: 'arn:${{aws}::Partition}:eks:*:*:cluster/*'
+          - Effect: 'Allow'
+            Action: [ 'ssmmessages:CreateDataChannel', 'ssmmessages:OpenDataChannel', 'ssmmessages:OpenControlChannel' ]
+            Resource: "*"
+Outputs:
+  EKSConnectorAgentRoleArn:
+    Description: The agent role that EKS connector uses to communicate with {aws} services.
+    Value: !GetAtt EKSConnectorAgentRole.Arn
+----
+.. Open the {aws} CloudFormation console at https://console.aws.amazon.com/cloudformation/[https://console.aws.amazon.com/cloudformation].
+.. Choose *Create stack* (either with new resources or existing resources.
+.. For **Specify template**, select  **Upload a template file**, and then choose  **Choose file**.
+.. Choose the file you created earlier, and then choose **Next**.
+.. For **Stack name**, enter a name for your role, such as  ``eksConnectorAgentRole``, and then choose **Next**.
+.. On the *Configure stack options* page, choose  **Next**.
+.. On the *Review* page, review your information, acknowledge that the stack might create IAM resources, and then choose  **Create stack**.
+
+
+[.topic]
+[[security-iam-awsmanpol,security-iam-awsmanpol.title]]
+== {aws} managed policies for Amazon Elastic Kubernetes Service
+
+[abstract]
+--
+Learn about {aws} managed policies for Amazon EKS and recent changes to those policies.
+--
+
+
+
+An {aws} managed policy is a standalone policy that is created and administered by {aws}. {aws} managed policies are designed to provide permissions for many common use cases so that you can start assigning permissions to users, groups, and roles.
+
+Keep in mind that {aws} managed policies might not grant least-privilege permissions for your specific use cases because they're available for all {aws} customers to use. We recommend that you reduce permissions further by defining {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-managed-vs-inline-html-customer-managed-policies}[customer managed policies] that are specific to your use cases.
+
+You cannot change the permissions defined in {aws} managed policies. If {aws} updates the permissions defined in an {aws} managed policy, the update affects all principal identities (users, groups, and roles) that the policy is attached to. {aws} is most likely to update an {aws} managed policy when a new {aws} service is launched or new API operations become available for existing services.
+
+For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-managed-vs-inline-html-aws-managed-policies}[{aws} managed policies] in the __IAM User Guide__.
+
+
+
+
+
+
+[[security-iam-awsmanpol-amazoneks-cni-policy,security-iam-awsmanpol-amazoneks-cni-policy.title]]
+=== {aws} managed policy: AmazonEKS_CNI_Policy
+
+You can attach the  `AmazonEKS_CNI_Policy` to your IAM entities. Before you create an Amazon EC2 node group, this policy must be attached to either the xref:create-node-role[node IAM role,linkend=create-node-role], or to an IAM role that's used specifically by the [noloc]``Amazon VPC CNI plugin for [.noloc]`Kubernetes`. This is so that it can perform actions on your behalf. We recommend that you attach the policy to a role that's used only by the plugin. For more information, see  xref:managing-vpc-cni[Assign IPs to Pods with the Amazon VPC CNI,linkend=managing-vpc-cni] and xref:cni-iam-role[Configure Amazon VPC CNI plugin to use IRSA,linkend=cni-iam-role].
+
+*Permissions details*
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
+
+
+
+* [topcom]##`ec2:*NetworkInterface` and `ec2:*PrivateIpAddresses`## – Allows the Amazon VPC CNI plugin to perform actions such as provisioning Elastic Network Interfaces and IP addresses for  [noloc]``Pods`` to provide networking for applications that run in Amazon EKS.
+* [topcom]##`ec2` read actions## – Allows the Amazon VPC CNI plugin to perform actions such as describe instances and subnets to see the amount of free IP addresses in your Amazon VPC subnets. The VPC CNI can use the free IP addresses in each subnet to pick the subnets with the most free IP addresses to use when creating an elastic network interface.
+
+To view the latest version of the JSON policy document, see  {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKS-CNI-Policy-html-AmazonEKS-CNI-Policy-json}[AmazonEKS_CNI_Policy] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-amazoneksclusterpolicy,security-iam-awsmanpol-amazoneksclusterpolicy.title]]
+=== {aws} managed policy: AmazonEKSClusterPolicy
+
+You can attach  `AmazonEKSClusterPolicy` to your IAM entities. Before creating a cluster, you must have a xref:cluster-iam-role[cluster IAM role,linkend=cluster-iam-role] with this policy attached. [noloc]``Kubernetes`` clusters that are managed by Amazon EKS make calls to other {aws} services on your behalf. They do this to manage the resources that you use with the service.
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
+
+
+
+* [topcom]##`autoscaling`## – Read and update the configuration of an Auto Scaling group. These permissions aren't used by Amazon EKS but remain in the policy for backwards compatibility.
+* [topcom]##`ec2`## – Work with volumes and network resources that are associated to Amazon EC2 nodes. This is required so that the  [noloc]``Kubernetes`` control plane can join instances to a cluster and dynamically provision and manage Amazon EBS volumes that are requested by  [noloc]``Kubernetes`` persistent volumes.  
+* [topcom]##`elasticloadbalancing`## – Work with Elastic Load Balancers and add nodes to them as targets. This is required so that the  [noloc]``Kubernetes`` control plane can dynamically provision Elastic Load Balancers requested by  [noloc]``Kubernetes`` services.
+* [topcom]##`iam`## – Create a service-linked role. This is required so that the  [noloc]``Kubernetes`` control plane can dynamically provision Elastic Load Balancers that are requested by  [noloc]``Kubernetes`` services.
+* [topcom]##`kms`## – Read a key from {aws} KMS. This is required for the  [noloc]``Kubernetes`` control plane to support  https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] of [noloc]``Kubernetes`` secrets stored in  ``etcd``.
+
+To view the latest version of the JSON policy document, see  {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSClusterPolicy-html-AmazonEKSClusterPolicy-json}[AmazonEKSClusterPolicy] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-amazoneksfargatepodexecutionrolepolicy,security-iam-awsmanpol-amazoneksfargatepodexecutionrolepolicy.title]]
+=== {aws} managed policy: AmazonEKSFargatePodExecutionRolePolicy
+
+You can attach  `AmazonEKSFargatePodExecutionRolePolicy` to your IAM entities. Before you can create a Fargate profile, you must create a Fargate [noloc]``Pod`` execution role and attach this policy to it. For more information, see  xref:fargate-sg-pod-execution-role[Step 2: Create a Fargate Pod execution role,linkend=fargate-sg-pod-execution-role] and xref:fargate-profile[Define which Pods use {aws} Fargate when launched,linkend=fargate-profile].
+
+This policy grants the role the permissions that provide access to other {aws} service resources that are required to run Amazon EKS [noloc]``Pods`` on Fargate.
+
+*Permissions details*
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
+
+
+
+* [topcom]##`ecr`## – Allows Pods that are running on Fargate to pull container images that are stored in Amazon ECR.
+
+To view the latest version of the JSON policy document, see  {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSFargatePodExecutionRolePolicy-html-AmazonEKSFargatePodExecutionRolePolicy-json}[AmazonEKSFargatePodExecutionRolePolicy] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-amazoneksforfargateservicerolepolicy,security-iam-awsmanpol-amazoneksforfargateservicerolepolicy.title]]
+=== {aws} managed policy: AmazonEKSForFargateServiceRolePolicy
+
+You can't attach  `AmazonEKSForFargateServiceRolePolicy` to your IAM entities. This policy is attached to a service-linked role that allows Amazon EKS to perform actions on your behalf. For more information, see AWSServiceRoleforAmazonEKSForFargate.
+
+This policy grants necessary permissions to Amazon EKS to run Fargate tasks. The policy is only used if you have Fargate nodes.
+
+*Permissions details*
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks.
+
+
+
+* [topcom]##`ec2`## – Create and delete Elastic Network Interfaces and describe Elastic Network Interfaces and resources. This is required so that the Amazon EKS Fargate service can configure the VPC networking that's required for Fargate Pods.
+
+To view the latest version of the JSON policy document, see  {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSForFargateServiceRolePolicy-html-AmazonEKSForFargateServiceRolePolicy-json}[AmazonEKSForFargateServiceRolePolicy] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-amazoneksservicepolicy,security-iam-awsmanpol-amazoneksservicepolicy.title]]
+=== {aws} managed policy: AmazonEKSServicePolicy
+
+You can attach  `AmazonEKSServicePolicy` to your IAM entities. Clusters that were created before April 16, 2020, required you to create an IAM role and attach this policy to it. Clusters that were created on or after April 16, 2020, don't require you to create a role and don't require you to assign this policy. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, the xref:service-linked-role-permissions-eks[AWSServiceRoleforAmazonEKS,linkend=service-linked-role-permissions-eks] service-linked role is automatically created for you. The service-linked role has the xref:security-iam-awsmanpol-amazoneksservicerolepolicy[{aws} managed policy: AmazonEKSServiceRolePolicy,linkend=security-iam-awsmanpol-amazoneksservicerolepolicy] attached to it.
+
+This policy allows Amazon EKS to create and manage the necessary resources to operate Amazon EKS clusters. 
+
+*Permissions details*
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks.
+
+
+
+* [topcom]##`eks`## – Update the  [noloc]``Kubernetes`` version of your cluster after you initiate an update. This permission isn't used by Amazon EKS but remains in the policy for backwards compatibility.
+* [topcom]##`ec2`## – Work with Elastic Network Interfaces and other network resources and tags. This is required by Amazon EKS to configure networking that facilitates communication between nodes and the  [noloc]``Kubernetes`` control plane.
+* [topcom]##`route53`## – Associate a VPC with a hosted zone. This is required by Amazon EKS to enable private endpoint networking for your  [noloc]``Kubernetes`` cluster API server.
+* [topcom]##`logs`## – Log events. This is required so that Amazon EKS can ship  [noloc]``Kubernetes`` control plane logs to CloudWatch.
+* [topcom]##`iam`## – Create a service-linked role. This is required so that Amazon EKS can create the  xref:service-linked-role-permissions-eks[AWSServiceRoleForAmazonEKS,linkend=service-linked-role-permissions-eks] service-linked role on your behalf.
+
+To view the latest version of the JSON policy document, see  {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSServicePolicy-html-AmazonEKSServicePolicy-json}[AmazonEKSServicePolicy] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-amazoneksservicerolepolicy,security-iam-awsmanpol-amazoneksservicerolepolicy.title]]
+=== {aws} managed policy: AmazonEKSServiceRolePolicy
+
+You can't attach  `AmazonEKSServiceRolePolicy` to your IAM entities. This policy is attached to a service-linked role that allows Amazon EKS to perform actions on your behalf. For more information, see xref:service-linked-role-permissions-eks[Service-linked role permissions for Amazon EKS,linkend=service-linked-role-permissions-eks]. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, the xref:service-linked-role-permissions-eks[AWSServiceRoleforAmazonEKS,linkend=service-linked-role-permissions-eks] service-linked role is automatically created for you and this policy is attached to it.
+
+This policy allows the service-linked role to call {aws} services on your behalf. 
+
+*Permissions details*
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks.
+
+
+
+* [topcom]##`ec2`## – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the  xref:sec-group-reqs[cluster security group,linkend=sec-group-reqs], and VPC that are required to create a cluster.
+* [topcom]##`iam`## – List all of the managed policies that attached to an IAM role. This is required so that Amazon EKS can list and validate all managed policies and permissions required to create a cluster.
+* [topcom]##Associate a VPC with a hosted zone## – This is required by Amazon EKS to enable private endpoint networking for your  [noloc]``Kubernetes`` cluster API server.
+* [topcom]##Log event## – This is required so that Amazon EKS can ship  [noloc]``Kubernetes`` control plane logs to CloudWatch.
+
+To view the latest version of the JSON policy document, see  {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSServiceRolePolicy-html-AmazonEKSServiceRolePolicy-json}[AmazonEKSServiceRolePolicy] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-amazoneksvpcresourcecontroller,security-iam-awsmanpol-amazoneksvpcresourcecontroller.title]]
+=== {aws} managed policy: AmazonEKSVPCResourceController
+
+You can attach the  `AmazonEKSVPCResourceController` policy to your IAM identities. If you're using xref:security-groups-for-pods[security groups for Pods,linkend=security-groups-for-pods], you must attach this policy to your xref:cluster-iam-role[Amazon EKS cluster IAM role,linkend=cluster-iam-role] to perform actions on your behalf. 
+
+This policy grants the cluster role permissions to manage Elastic Network Interfaces and IP addresses for nodes. 
+
+*Permissions details*
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
+
+
+
+* [topcom]##`ec2`## – Manage Elastic Network Interfaces and IP addresses to support  [noloc]``Pod`` security groups and  [noloc]``Windows`` nodes.
+
+To view the latest version of the JSON policy document, see  {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSVPCResourceController-html-AmazonEKSVPCResourceController-json}[AmazonEKSVPCResourceController] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-amazoneksworkernodepolicy,security-iam-awsmanpol-amazoneksworkernodepolicy.title]]
+=== {aws} managed policy: AmazonEKSWorkerNodePolicy
+
+You can attach the  `AmazonEKSWorkerNodePolicy` to your IAM entities. You must attach this policy to a xref:create-node-role[node IAM role,linkend=create-node-role] that you specify when you create Amazon EC2 nodes that allow Amazon EKS to perform actions on your behalf. If you create a node group using ``eksctl``, it creates the node IAM role and attaches this policy to the role automatically.
+
+This policy grants Amazon EKS Amazon EC2 nodes permissions to connect to Amazon EKS clusters. 
+
+*Permissions details*
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
+
+
+
+* [topcom]##`ec2`## – Read instance volume and network information. This is required so that  [noloc]``Kubernetes`` nodes can describe information about Amazon EC2 resources that are required for the node to join the Amazon EKS cluster.
+* [topcom]##`eks`## – Optionally describe the cluster as part of node bootstrapping.
+* [topcom]##`eks-auth:AssumeRoleForPodIdentity`## – Allow retrieving credentials for EKS workloads on the node. This is required for EKS Pod Identity to function properly.
+
+To view the latest version of the JSON policy document, see  {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSWorkerNodePolicy-html-AmazonEKSWorkerNodePolicy-json}[AmazonEKSWorkerNodePolicy] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup,security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup.title]]
+=== {aws} managed policy: AWSServiceRoleForAmazonEKSNodegroup
+
+You can't attach  `AWSServiceRoleForAmazonEKSNodegroup` to your IAM entities. This policy is attached to a service-linked role that allows Amazon EKS to perform actions on your behalf. For more information, see xref:service-linked-role-permissions-eks-nodegroups[Service-linked role permissions for Amazon EKS,linkend=service-linked-role-permissions-eks-nodegroups].
+
+This policy grants the `AWSServiceRoleForAmazonEKSNodegroup` role permissions that allow it to create and manage Amazon EC2 node groups in your account. 
+
+*Permissions details*
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
+
+
+
+* [topcom]##`ec2`## – Work with security groups, tags, capacity reservations, and launch templates. This is required for Amazon EKS managed node groups to enable remote access configuration and to describe capacity reservations that can be used in managed node groups. Additionally, Amazon EKS managed node groups create a launch template on your behalf. This is to configure the Amazon EC2 Auto Scaling group that backs each managed node group.
+* [topcom]##`iam`## – Create a service-linked role and pass a role. This is required by Amazon EKS managed node groups to manage instance profiles for the role being passed when creating a managed node group. This instance profile is used by Amazon EC2 instances launched as part of a managed node group. Amazon EKS needs to create service-linked roles for other services such as Amazon EC2 Auto Scaling groups. These permissions are used in the creation of a managed node group.
+* [topcom]##`autoscaling`## – Work with security Auto Scaling groups. This is required by Amazon EKS managed node groups to manage the Amazon EC2 Auto Scaling group that backs each managed node group. It's also used to support functionality such as evicting  [noloc]``Pods`` when nodes are terminated or recycled during node group updates.
+
+To view the latest version of the JSON policy document, see  {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AWSServiceRoleForAmazonEKSNodegroup-html-AWSServiceRoleForAmazonEKSNodegroup-json}[AWSServiceRoleForAmazonEKSNodegroup] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-amazonebscsidriverservicerolepolicy,security-iam-awsmanpol-amazonebscsidriverservicerolepolicy.title]]
+=== {aws} managed policy: AmazonEBSCSIDriverPolicy
+
+The  `AmazonEBSCSIDriverPolicy` policy allows the Amazon EBS Container Storage Interface (CSI) driver to create, modify, attach, detach, and delete volumes on your behalf. It also grants the EBS CSI driver permissions to create and delete snapshots, and to list your instances, volumes, and snapshots.
+
+To view the latest version of the JSON policy document, see {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEBSCSIDriverPolicy-html-AmazonEBSCSIDriverPolicy-json}[AmazonEBSCSIDriverServiceRolePolicy] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-amazonefscsidriverservicerolepolicy,security-iam-awsmanpol-amazonefscsidriverservicerolepolicy.title]]
+=== {aws} managed policy: AmazonEFSCSIDriverPolicy
+
+The  `AmazonEFSCSIDriverPolicy` policy allows the Amazon EFS Container Storage Interface (CSI) to create and delete access points on your behalf. It also grants the Amazon EFS CSI driver permissions to list your access points file systems, mount targets, and Amazon EC2 availability zones.
+
+To view the latest version of the JSON policy document, see {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEFSCSIDriverPolicy-html-AmazonEFSCSIDriverPolicy-json}[AmazonEFSCSIDriverServiceRolePolicy] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy,security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy.title]]
+=== {aws} managed policy: AmazonEKSLocalOutpostClusterPolicy
+
+You can attach this policy to IAM entities. Before creating a local cluster, you must attach this policy to your  xref:cluster-iam-role[cluster role,linkend=cluster-iam-role]. [noloc]``Kubernetes`` clusters that are managed by Amazon EKS make calls to other {aws} services on your behalf. They do this to manage the resources that you use with the service.
+
+The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
+
+
+
+* [topcom]##`ec2`## – Required permissions for Amazon EC2 instances to successfully join the cluster as control plane instances.
+* [topcom]##`ssm`## – Allows Amazon EC2 Systems Manager connection to the control plane instance, which is used by Amazon EKS to communicate and manage the local cluster in your account.
+* [topcom]##`logs`## – Allows instances to push logs to Amazon CloudWatch.
+* [topcom]##`secretsmanager`## – Allows instances to get and delete bootstrap data for the control plane instances securely from {aws} Secrets Manager.
+* [topcom]##`ecr`## – Allows  [noloc]``Pods`` and containers that are running on the control plane instances to pull container images that are stored in Amazon Elastic Container Registry.
+
+To view the latest version of the JSON policy document, see  {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSLocalOutpostClusterPolicy-html-AmazonEKSLocalOutpostClusterPolicy-json}[AmazonEKSLocalOutpostClusterPolicy] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy,security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy.title]]
+=== {aws} managed policy: AmazonEKSLocalOutpostServiceRolePolicy
+
+You can't attach this policy to your IAM entities. When you create a cluster using an IAM principal that has the  `iam:CreateServiceLinkedRole` permission, Amazon EKS automatically creates the xref:using-service-linked-roles-eks-outpost[AWSServiceRoleforAmazonEKSLocalOutpost,linkend=using-service-linked-roles-eks-outpost] service-linked role for you and attaches this policy to it. This policy allows the service-linked role to call {aws} services on your behalf for local clusters. 
+
+The `AmazonEKSLocalOutpostServiceRolePolicy` includes the following permissions:
+
+
+
+* [topcom]##`ec2`## – Allows Amazon EKS to work with security, network, and other resources to successfully launch and manage control plane instances in your account.
+* [topcom]##`ssm`## – Allows Amazon EC2 Systems Manager connection to the control plane instances, which is used by Amazon EKS to communicate and manage the local cluster in your account.
+* [topcom]##`iam`## – Allows Amazon EKS to manage the instance profile associated with the control plane instances.
+* [topcom]##`secretsmanager`## – Allows Amazon EKS to put bootstrap data for the control plane instances into {aws} Secrets Manager so it can be securely referenced during instance bootstrapping.
+* [topcom]##`outposts`## – Allows Amazon EKS to get Outpost information from your account to successfully launch a local cluster in an Outpost.
+
+To view the latest version of the JSON policy document, see  {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSLocalOutpostServiceRolePolicy-html-AmazonEKSLocalOutpostServiceRolePolicy-json}[AmazonEKSLocalOutpostServiceRolePolicy] in the {aws} Managed Policy Reference Guide.
+
+[[security-iam-awsmanpol-amazonekshybridrolepolicy,security-iam-awsmanpol-amazonekshybridrolepolicy.title]]
+=== AWS managed policy: AmazonEKSHybridRolePolicy
+
+
+
+You can't attach AmazonEKSHybridRolePolicy to your IAM entities. This policy is attached to a service-linked role that allows Amazon EKS to perform actions on your behalf. For more information, see xref:using-service-linked-roles-eks-hybrid-nodes[Using roles for Amazon EKS hybrid nodes,linkend=using-service-linked-roles-eks-hybrid-nodes].
+
+
+This policy grants EKS permissions that allow it to manage hybrid nodes in your account. The attached policies allow the role to manage the following resources: EKS access entries and Amazon EC2 instances.
+
+
+*Permissions details*
+
+This policy includes the following permissions.
+
+
+
+
+
+
+* `eks` – Allows EKS to make and manage an access entry in each cluster to list nodes.
+* `ec2` – Allows EKS to list instances in Amazon EC2. This is required so that EKS can determine if a node is running on Amazon EC2.
+
+To view the latest version of the JSON policy document, see  {https---docs-aws-amazon-com-aws-managed-policy-latest-reference-AmazonEKSHybridRolePolicy-html-AmazonEKSHybridRolePolicy-json}[AmazonEKSLocalOutpostServiceRolePolicy] in the AWS Managed Policy Reference Guide.
+
+
+
+
+[[security-iam-awsmanpol-updates,security-iam-awsmanpol-updates.title]]
+=== Amazon EKS updates to {aws} managed policies
+
+
+View details about updates to {aws} managed policies for Amazon EKS since this service began tracking these changes. For automatic alerts about changes to this page, subscribe to the RSS feed on the Amazon EKS Document history page.
+
+
+
+[cols="1,1,1", options="header"]
+|===
+| Change
+| Description
+| Date
+
+
+|
+
+Added permissions to xref:security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup[AWSServiceRoleForAmazonEKSNodegroup,linkend=security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup].
+|
+
+Added `autoscaling:ResumeProcesses` and `autoscaling:SuspendProcesses` permissions to allow Amazon EKS to suspend and resume `AZRebalance` in Amazon EKS-managed Auto Scaling groups.
+|August 21, 2024
+
+|
+
+Added permissions to xref:security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup[AWSServiceRoleForAmazonEKSNodegroup,linkend=security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup].
+|
+
+Added `ec2:DescribeCapacityReservations` permission to allow Amazon EKS to describe capacity reservation in user's account. Added `autoscaling:PutScheduledUpdateGroupAction` permission to enable setting scheduled scaling on `CAPACITY_BLOCK` node groups.
+|June 27, 2024
+
+|
+
+xref:security-iam-awsmanpol-amazoneks-cni-policy[AmazonEKS_CNI_Policy,linkend=security-iam-awsmanpol-amazoneks-cni-policy] – Update to an existing policy
+|
+
+Amazon EKS added new `ec2:DescribeSubnets` permissions to allow the [noloc]``Amazon VPC CNI plugin for [.noloc]`Kubernetes` to see the amount of free IP addresses in your Amazon VPC subnets.
+
+The VPC CNI can use the free IP addresses in each subnet to pick the subnets with the most free IP addresses to use when creating an elastic network interface.
+|March 4, 2024
+
+|
+
+xref:security-iam-awsmanpol-amazoneksworkernodepolicy[AmazonEKSWorkerNodePolicy,linkend=security-iam-awsmanpol-amazoneksworkernodepolicy] – Update to an existing policy
+|
+
+Amazon EKS added new permissions to allow EKS Pod Identities.
+
+The Amazon EKS Pod Identity Agent uses the node role.
+|November 26, 2023
+
+|
+
+Introduced xref:security-iam-awsmanpol-amazonefscsidriverservicerolepolicy[AmazonEFSCSIDriverPolicy,linkend=security-iam-awsmanpol-amazonefscsidriverservicerolepolicy].
+|
+
+{aws} introduced the ``AmazonEFSCSIDriverPolicy``.
+|July 26, 2023
+
+|
+
+Added permissions to xref:security-iam-awsmanpol-amazoneksclusterpolicy[AmazonEKSClusterPolicy,linkend=security-iam-awsmanpol-amazoneksclusterpolicy].
+|
+
+Added `ec2:DescribeAvailabilityZones` permission to allow Amazon EKS to get the AZ details during subnet auto-discovery while creating load balancers.
+|February 7, 2023
+
+|
+
+Updated policy conditions in xref:security-iam-awsmanpol-amazonebscsidriverservicerolepolicy[AmazonEBSCSIDriverPolicy,linkend=security-iam-awsmanpol-amazonebscsidriverservicerolepolicy].
+|
+
+Removed invalid policy conditions with wildcard characters in the `StringLike` key field. Also added a new condition `ec2:ResourceTag/kubernetes.io/created-for/pvc/name: "*"` to ``ec2:DeleteVolume``, which allows the EBS CSI driver to delete volumes created by the in-tree plugin.
+|November 17, 2022
+
+|
+
+Added permissions to xref:security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy[AmazonEKSLocalOutpostServiceRolePolicy,linkend=security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy].
+|
+
+Added ``ec2:DescribeVPCAttribute``, `ec2:GetConsoleOutput` and `ec2:DescribeSecret` to allow better prerequisite validation and managed lifecycle control. Also added `ec2:DescribePlacementGroups` and `"arn:aws:ec2:*:*:placement-group/*"` to `ec2:RunInstances` to support placement control of the control plane Amazon EC2 instances on Outposts.
+|October 24, 2022
+
+|
+
+Update Amazon Elastic Container Registry permissions in xref:security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy[AmazonEKSLocalOutpostClusterPolicy,linkend=security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy].
+|
+
+Moved action `ecr:GetDownloadUrlForLayer` from all resource sections to a scoped section. Added resource ``arn:aws:ecr:*:*:repository/eks/*``. Removed resource ``arn:aws:ecr:*:*:repository/eks/eks-certificates-controller-public``. This resource is covered by the added `arn:aws:ecr:*:*:repository/eks/*` resource.
+|October 20, 2022
+
+|
+
+Added permissions to xref:security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy[AmazonEKSLocalOutpostClusterPolicy,linkend=security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy].
+|
+
+Added the `arn:aws:ecr:*:*:repository/kubelet-config-updater` Amazon Elastic Container Registry repository so the cluster control plane instances can update some `kubelet` arguments.
+|August 31, 2022
+
+|
+
+Introduced xref:security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy[AmazonEKSLocalOutpostClusterPolicy,linkend=security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy].
+|
+
+{aws} introduced the ``AmazonEKSLocalOutpostClusterPolicy``.
+|August 24, 2022
+
+|
+
+Introduced xref:security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy[AmazonEKSLocalOutpostServiceRolePolicy,linkend=security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy].
+|
+
+{aws} introduced the ``AmazonEKSLocalOutpostServiceRolePolicy``.
+|August 23, 2022
+
+|
+
+Introduced xref:security-iam-awsmanpol-amazonebscsidriverservicerolepolicy[AmazonEBSCSIDriverPolicy,linkend=security-iam-awsmanpol-amazonebscsidriverservicerolepolicy].
+|
+
+{aws} introduced the ``AmazonEBSCSIDriverPolicy``.
+|April 4, 2022
+
+|
+
+Added permissions to xref:security-iam-awsmanpol-amazoneksworkernodepolicy[AmazonEKSWorkerNodePolicy,linkend=security-iam-awsmanpol-amazoneksworkernodepolicy].
+|
+
+Added `ec2:DescribeInstanceTypes` to enable Amazon EKS-optimized AMIs that can auto discover instance level properties.
+|March 21, 2022
+
+|
+
+Added permissions to xref:security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup[AWSServiceRoleForAmazonEKSNodegroup,linkend=security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup].
+|
+
+Added `autoscaling:EnableMetricsCollection` permission to allow Amazon EKS to enable metrics collection.
+|
+
+December 13, 2021
+
+|
+
+Added permissions to xref:security-iam-awsmanpol-amazoneksclusterpolicy[AmazonEKSClusterPolicy,linkend=security-iam-awsmanpol-amazoneksclusterpolicy].
+|
+
+Added ``ec2:DescribeAccountAttributes``, ``ec2:DescribeAddresses``, and `ec2:DescribeInternetGateways` permissions to allow Amazon EKS to create a service-linked role for a Network Load Balancer.
+|June 17, 2021
+
+|
+
+Amazon EKS started tracking changes.
+|
+
+Amazon EKS started tracking changes for its {aws} managed policies.
+|June 17, 2021
+|===
+
+[.topic]
+[[security-iam-troubleshoot,security-iam-troubleshoot.title]]
+== Troubleshooting IAM
+
+This topic covers some common errors that you may see while using Amazon EKS with IAM and how to work around them.
+
+[[iam-error,iam-error.title]]
+=== AccessDeniedException
+
+If you receive an  `AccessDeniedException` when calling an {aws} API operation, then the {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-principal}[IAM principal] credentials that you're using don't have the required permissions to make that call. 
+
+[source,bash]
+----
+An error occurred (AccessDeniedException) when calling the DescribeCluster operation: 
+User: arn:aws:iam::111122223333:user/user_name is not authorized to perform: 
+eks:DescribeCluster on resource: arn:aws:eks:region:111122223333:cluster/my-cluster
+----
+
+In the previous example message, the user does not have permissions to call the Amazon EKS  `DescribeCluster` API operation. To provide Amazon EKS admin permissions to an IAM principal, see xref:security-iam-id-based-policy-examples[Amazon EKS identity-based policy examples,linkend=security-iam-id-based-policy-examples].
+
+For more general information about IAM, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-controlling-html}[Controlling access using policies] in the __IAM User Guide__.
+
+[[security-iam-troubleshoot-cannot-view-nodes-or-workloads,security-iam-troubleshoot-cannot-view-nodes-or-workloads.title]]
+=== Can't see  *Nodes* on the  *Compute* tab or anything on the  *Resources* tab and you receive an error in the {aws-management-console}
+
+You may see a console error message that says  ``Your current user or role does not have access to [noloc]``Kubernetes`` objects on this EKS cluster``. Make sure that the {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-html-iam-term-principal}[IAM principal] user that you're using the {aws-management-console} with has the necessary permissions. For more information, see xref:view-kubernetes-resources-permissions[Required permissions,linkend=view-kubernetes-resources-permissions].
+
+[[security-iam-troubleshoot-configmap,security-iam-troubleshoot-configmap.title]]
+=== aws-auth  `ConfigMap` does not grant access to the cluster
+
+The  https://github.com/kubernetes-sigs/aws-iam-authenticator[{aws} IAM Authenticator] doesn't permit a path in the role ARN used in the ``ConfigMap``. Therefore, before you specify ``rolearn``, remove the path. For example, change `arn:aws:iam::[replaceable]``111122223333``:role/[replaceable]``team``/[replaceable]``developers``/[replaceable]``eks-admin``` to ``arn:aws:iam::[replaceable]``111122223333``:role/[replaceable]``eks-admin````.
+
+[[security-iam-troubleshoot-passrole,security-iam-troubleshoot-passrole.title]]
+=== I am not authorized to perform iam:PassRole
+
+If you receive an error that you're not authorized to perform the  `iam:PassRole` action, your policies must be updated to allow you to pass a role to Amazon EKS.
+
+Some {aws} services allow you to pass an existing role to that service instead of creating a new service role or service-linked role. To do this, you must have permissions to pass the role to the service.
+
+The following example error occurs when an IAM user named `marymajor` tries to use the console to perform an action in Amazon EKS. However, the action requires the service to have permissions that are granted by a service role. Mary does not have permissions to pass the role to the service.
+
+[source]
+----
+User: arn:aws:iam::123456789012:user/marymajor is not authorized to perform: iam:PassRole
+----
+
+In this case, Mary's policies must be updated to allow her to perform the  `iam:PassRole` action.
+
+If you need help, contact your {aws} administrator. Your administrator is the person who provided you with your sign-in credentials.
+
+[[security-iam-troubleshoot-cross-account-access,security-iam-troubleshoot-cross-account-access.title]]
+=== I want to allow people outside of my {aws} account to access my Amazon EKS resources
+
+You can create a role that users in other accounts or people outside of your organization can use to access your resources. You can specify who is trusted to assume the role. For services that support resource-based policies or access control lists (ACLs), you can use those policies to grant people access to your resources.
+
+To learn more, consult the following:
+
+
+
+* To learn whether Amazon EKS supports these features, see xref:security-iam-service-with-iam[How Amazon EKS works with IAM,linkend=security-iam-service-with-iam].
+* To learn how to provide access to your resources across {aws} accounts that you own, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-common-scenarios-aws-accounts-html}[Providing access to an IAM user in another {aws} account that you own] in the __IAM User Guide__.
+* To learn how to provide access to your resources to third-party {aws} accounts, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-common-scenarios-third-party-html}[Providing access to {aws} accounts owned by third parties] in the __IAM User Guide__.
+* To learn how to provide access through identity federation, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-roles-common-scenarios-federated-users-html}[Providing access to externally authenticated users (identity federation)] in the __IAM User Guide__.
+* To learn the difference between using roles and resource-based policies for cross-account access, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-access-policies-cross-account-resource-access-html}[Cross account resource access in IAM] in the __IAM User Guide__.
+
+
+[[security-iam-troubleshoot-wrong-sts-endpoint,security-iam-troubleshoot-wrong-sts-endpoint.title]]
+=== Pod containers receive the following error:  `An error occurred (SignatureDoesNotMatch) when calling the GetCallerIdentity operation: Credential should be scoped to a valid region`
+
+Your containers receive this error if your application is explicitly making requests to the {aws} STS global endpoint (``https://sts.amazonaws``) and your [noloc]``Kubernetes`` service account is configured to use a regional endpoint. You can resolve the issue with one of the following options:
+
+
+
+* Update your application code to remove explicit calls to the {aws} STS global endpoint. 
+* Update your application code to make explicit calls to regional endpoints such as ``https://sts.us-west-2.amazonaws.com``. Your application should have redundancy built in to pick a different {aws} Region in the event of a failure of the service in the {aws} Region. For more information, see {https---docs-aws-amazon-com-IAM-latest-UserGuide-id-credentials-temp-enable-regions-html}[Managing {aws} STS in an {aws} Region] in the IAM User Guide.
+* Configure your service accounts to use the global endpoint. All versions earlier than `1.22` used the global endpoint by default, but version `1.22` and later clusters use the regional endpoint by default. For more information, see xref:configure-sts-endpoint[Configure the {aws} Security Token Service endpoint for a service account,linkend=configure-sts-endpoint].
+

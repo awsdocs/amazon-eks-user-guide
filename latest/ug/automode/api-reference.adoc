@@ -1,0 +1,191 @@
+
+[.topic]
+= EKA Auto Mode API Reference WIP
+:info_doctype: section
+
+:ind: indicate
+:Ind: Indicate
+:ena: enable
+:dis: disable
+:cap: capability
+:caps: capabilities
+:yec: your EKS Auto Mode cluster
+:yaa: your {aws} account
+:emi: EC2 Managed Instance
+:eam: EKS Auto Mode
+:lbi: load balancing
+:bs: block storage
+
+:fmis: For more information, see 
+:in-guide: in the EKS User Guide
+
+:generic-update-request: For example, enable the capability.
+:generic-status-request: For example, if the {cap} is {ena}d or {dis}d.
+:generic-describe-cap: {Ind}s the current configuration of the {cap} on {yec}. {generic-status-request} 
+:generic-config-request: Request to update the configuration of the
+
+:comp-cap-desc: If the compute {cap} is enabled, {eam} will create and delete {emi}s in {yaa}.
+:comp-cap-link: {fmis} {eam} compute {cap} {in-guide}.
+
+:lb-cap-desc: If the load balancing {cap} is enabled, {eam} will create and delete {emi}s in {yaa}.
+:lb-cap-link: {fmis} {eam} load balancing {cap} {in-guide}.
+
+:ebs-cap-desc: If the {bs} {cap} is enabled, {eam} will create and delete EBS volumes in {yaa}.
+:ebs-cap-link: {fmis} {eam} {bs} {cap} {in-guide}.
+
+:iam-link: {fmis} the IAM Reference {in-guide}. 
+
+:launch-limitation: Currently, you cannot selectively enable or disable {eam} {caps}. The compute {cap}, {bs} {cap}, and {lbi} {cap} must all be enabled or disabled. You must enable or disable all three capabilities in the same API request. 
+
+== Capabilities 
+
+
+// Load Balancing
+* ElasticLoadBalancing
+** {generic-describe-cap} {lb-cap-link}
+
+
+
+// Storage
+* BlockStorage
+** {generic-describe-cap} {ebs-cap-link}
+
+// Storage
+* BlockStorage$controllerRole
+** The IAM role used by {eam} to manage EBS volumes. {iam-link}
+
+
+// missing compute cap?
+
+
+== $enabled
+
+
+// Load Balancing
+* ElasticLoadBalancing$enabled
+** {ind}s if the {lbi} {cap} is enabled on {yec}. {lb-cap-desc} 
+
+
+// Storage
+* BlockStorage$enabled
+** {ind}s if the {bs} {cap} is enabled on {yec}. {ebs-cap-desc}
+
+
+//missing compute cap?
+
+== CreateClusterRequest
+
+
+// Compute
+* CreateClusterRequest$computeConfig
+** Enable or disable the compute {cap} of {eam} when creating {yec}. {comp-cap-desc}
+
+
+// Storage
+* CreateClusterRequest$storageConfig
+** Enable or disable the {bs} {cap} of {eam} when creating {yec}. {ebs-cap-desc}
+
+
+== Cluster$ Config
+
+
+// Compute
+* Cluster$computeConfig
+** {generic-describe-cap} {comp-cap-desc} {comp-cap-link}
+
+
+// Storage
+* Cluster$storageConfig
+** {generic-describe-cap} {ebs-cap-desc} {ebs-cap-link}
+
+
+== ConfigRequest
+
+* ComputeConfigRequest
+** {generic-config-request} the compute {cap} of your {eam}. {generic-update-request} {comp-cap-link}
+
+* StorageConfigRequest
+** {generic-config-request} the storage {cap} of your {eam}. {generic-update-request} {ebs-cap-link}
+
+
+=== Load Balancing
+
+
+* KubernetesNetworkConfigRequest$elasticLoadBalancing
+** Request to {ena} or {dis} the {lbi} {cap} on {yec}. {lb-cap-link}
+
+=== Compute
+
+
+* ComputeConfigRequest$enabled
+** Request to {ena} or {dis} the compute {cap} on {yec}. {comp-cap-desc} 
+
+
+* ComputeConfigRequest$nodePools
+** Configuration for node pools that defines the compute resources for {yec}. {fmis} {eam} Node Pools {in-guide}.
+
+* ComputeConfigRequest$nodeRoleArn
+** The ARN of the IAM Role EKS will assign to {emi}s in {yec}. This value cannot be changed after the compute {cap} of {eam} is enabled. {iam-link}
+
+=== Storage
+
+
+* StorageConfigRequest$blockStorage
+** Request to configure EBS Block Storage settings for {yec}.
+
+
+== ConfigResponse
+:status-of-request: the status of the request to update
+
+// Compute
+* ComputeConfigResponse
+** {ind}s {status-of-request} the compute {cap} of {yec}.
+
+
+// Storage
+* StorageConfigResponse
+** {ind}s {status-of-request} the {bs} {cap} of {yec}.
+
+=== Response pointers to objects
+
+
+// Storage
+* StorageConfigResponse$blockStorage
+** {ind}s the current configuration of the {bs} {cap} on {yec}. {generic-status-request}
+
+// Load Balancing
+* $elasticLoadBalancing
+** {ind}s the current configuration of the {lbi} {cap} on {yec}. {generic-status-request}
+
+
+=== Compute Details
+
+
+// Compute
+* ComputeConfigResponse$enabled
+** {ind}s if the compute {cap} is enabled on {yec}. {comp-cap-desc}
+
+
+// Compute
+* ComputeConfigResponse$nodePools
+** {ind}s the current configuration of node pools in {yec}. {fmis} {eam} Node Pools {in-guide}.
+
+// Compute
+* ComputeConfigResponse$nodeRoleArn
+** The ARN of the IAM Role EKS will assign to {emi}s in {yec}. 
+
+
+== UpdateClusterConfigRequest
+:update-config: Update the configuration of
+
+// Storage
+* UpdateClusterConfigRequest$storageConfig
+** {update-config} the {bs} {cap} of {yec}. {generic-update-request}
+
+// Compute
+* UpdateClusterConfigRequest$computeConfig
+** {update-config} the compute {cap} of {yec}. {generic-update-request}
+
+//where is LB?
+
+

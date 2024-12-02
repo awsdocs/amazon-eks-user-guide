@@ -1,0 +1,113 @@
+//!!NODE_ROOT <chapter>
+[.topic]
+include::../attributes.txt[]
+[[settings-auto,settings-auto.title]]
+= Configure EKS Auto Mode settings
+:info_doctype: section
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_title: Change EKS Auto cluster settings
+:info_titleabbrev: Configure
+:info_abstract: Change EKS Auto cluster settings
+
+[abstract]
+--
+Change EKS Auto cluster settings
+--
+
+This chapter describes how to configure specific aspects of your Amazon Elastic Kubernetes Service (EKS) Auto Mode clusters. While EKS Auto Mode manages most infrastructure components automatically, you can customize certain features to meet your workload requirements.
+
+Using the configuration options described in this topic, you can modify networking settings, compute resources, and load balancing behaviors while maintaining the benefits of automated infrastructure management. Before making any configuration changes, review the available options in the following sections to determine which approach best suits your needs.
+
+[role="no-scroll"]
+[cols="1,1"]
+|===
+|What features do you want to configure? |Configuration option
+
+a|
+*Node networking and storage*
+
+- Configure node placement across public and private subnets
+- Define custom security groups for node access control
+- Customize network address translation (SNAT) policies
+- Enable detailed network policy logging and monitoring
+- Set ephemeral storage parameters (size, IOPS, throughput)
+- Configure encrypted ephemeral storage with custom KMS keys
+|<<create-node-class>>
+
+a|
+*Node compute resources*
+
+- Select specific EC2 instance types and families
+- Define CPU architectures (x86_64, ARM64)
+- Configure capacity types (On-Demand, Spot)
+- Specify Availability Zones
+- Configure node taints and labels
+- Set minimum and maximum node counts
+|<<create-node-pool>>
+
+a|
+*Application Load Balancer settings*
+
+- Deploy internal or internet-facing load balancers
+- Configure cross-zone load balancing
+- Set idle timeout periods
+- Enable HTTP/2 and WebSocket support
+- Configure health check parameters
+- Specify TLS certificate settings
+- Define target group attributes
+- Set IP address type (IPv4, dual-stack)
+|<<auto-configure-alb>>
+
+a|
+*Network Load Balancer settings*
+
+- Configure direct pod IP routing
+- Enable cross-zone load balancing
+- Set connection idle timeout
+- Configure health check parameters
+- Specify subnet placement
+- Set IP address type (IPv4, dual-stack)
+- Configure preserve client source IP
+- Define target group attributes
+|<<auto-configure-nlb>>
+
+
+a|
+*Storage Class settings*
+
+- Define EBS volume types (gp3, io1, io2, etc.)
+- Configure volume encryption and KMS key usage
+- Set IOPS and throughput parameters
+- Set as default storage class
+- Define custom tags for provisioned volumes
+|<<create-storage-class>>
+
+|===
+
+
+
+include::create-node-class.adoc[leveloffset=+1]
+
+include::create-node-pool.adoc[leveloffset=+1]
+
+include::auto-configure-alb.adoc[leveloffset=+1]
+
+include::auto-configure-nlb.adoc[leveloffset=+1]
+
+include::create-storage-class.adoc[leveloffset=+1]
+
+include::auto-disable.adoc[leveloffset=+1]
+
+include::auto-upgrade.adoc[leveloffset=+1]
+
+include::set-builtin-node-pools.adoc[leveloffset=+1]
+
+include::associate-workload.adoc[leveloffset=+1]
+
+include::critical-workload.adoc[leveloffset=+1]
+
+include::auto-net-pol.adoc[leveloffset=+1]

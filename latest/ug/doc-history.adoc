@@ -26,10 +26,26 @@ include::attributes.txt[]
 Important updates to the Amazon EKS documentation, sorted by date, with brief descriptions of each update and when they occurred.
 --
 
-The following table describes the major updates and new features for the Amazon EKS User Guide. We also update the documentation frequently to address the feedback that you send us.  
+The following table describes the major updates and new features for the Amazon EKS User Guide. We also update the documentation frequently to address the feedback that you send us.
 
 [.updates]
 == Updates
+
+
+[.update,date="2024-12-01"]
+=== Amazon EKS Hybrid Nodes
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-overview.html
+
+You can now run node on-premises connected to Amazon EKS clusters. With Amazon EKS Hybrid Nodes, you can use your on-premises and edge infrastructure as nodes in Amazon EKS clusters. {aws} manages the {aws}-hosted Kubernetes control plane of the Amazon EKS cluster, and you manage the hybrid nodes that run in your on-premises or edge environments.
+
+
+[.update,date="2024-12-01"]
+=== Amazon EKS Auto Mode
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/automode.html
+
+Amazon EKS Auto Mode fully automates Kubernetes cluster infrastructure management for compute, storage, and networking on {aws}. It simplifies Kubernetes management by automatically provisioning infrastructure, selecting optimal compute instances, dynamically scaling resources, continuously optimizing costs, patching operating systems, and integrating with {aws} security services.
 
 
 [.update,date="2024-11-22"]

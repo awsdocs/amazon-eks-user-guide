@@ -46,7 +46,11 @@ include::getting-started/setting-up.adoc[leveloffset=+1]
 
 include::quickstart.adoc[leveloffset=+1]
 
+include::getting-started/learn-eks.adoc[leveloffset=+1]
+
 include::getting-started/getting-started.adoc[leveloffset=+1]
+
+include::automode/automode.adoc[leveloffset=+1]
 
 include::clusters/clusters.adoc[leveloffset=+1]
 

@@ -40,7 +40,7 @@ Learn how to manage access to your Amazon EKS cluster. Using Amazon EKS requires
 
 * Grant developers access to the [.noloc]`Kubernetes` API. View [.noloc]`Kubernetes` resources in the {aws-management-console}.  
 +
-** Solution: <<access-entries,Use Access Entries>> to associate [.noloc]`Kubernetes` RBAC permissions with {aws} IAM Users or Roles.
+** Solution: <<access-entries,Use access entries>> to associate [.noloc]`Kubernetes` RBAC permissions with {aws} IAM Users or Roles.
 * Configure kubectl to talk to an Amazon EKS cluster using {aws} Credentials. 
 +
 ** Solution: Use the {aws} CLI to <<create-kubeconfig, create a kubeconfig file>>. 
@@ -59,7 +59,17 @@ Learn how to manage access to your Amazon EKS cluster. Using Amazon EKS requires
 * https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Review the Kubernetes Role Based Access Control (RBAC) Model]
 * For more information about managing access to {aws} resources, see the link:IAM/latest/UserGuide/intro-structure.html[{aws} IAM User Guide,type="documentation"]. Alternatively, take a free https://explore.skillbuilder.aws/learn/course/external/view/elearning/120/introduction-to-aws-identity-and-access-management-iam[introductory training on using {aws} IAM]. 
 
+== Considerations for EKS Auto Mode
 
+EKS Auto Mode integrates with EKS Pod Identity and EKS EKS access entries. 
+
+* EKS Auto Mode uses access entries to grant the EKS control plane Kubernetes permissions. For example, the access policies enable EKS Auto Mode to read information about network endpoints and services. 
+** You cannot disable access entries on an EKS Auto Mode cluster.
+** You can optionally enable the `aws-auth` `ConfigMap`.
+** The access entries for EKS Auto Mode are automatically configured. You can view these access entries, but you cannot modify them. 
+** If you use a NodeClass to create a custom Node IAM Role, you need to create an access entry for the role using the AmazonEKSAutoNodePolicy access policy. 
+* If you want to grant workloads permissions for {aws} services, use EKS Pod Identity.
+** You do not need to install the Pod Identity agent on EKS Auto Mode clusters. 
 
 include::k8s-access/grant-k8s-access.adoc[leveloffset=+1]
 

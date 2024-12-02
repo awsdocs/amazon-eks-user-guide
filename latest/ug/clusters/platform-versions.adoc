@@ -51,7 +51,7 @@ The following admission controllers are enabled for all `1.31` platform versions
 
 | `1.31.2`
 | `eks.12`
-| New platform version security fixes and enhancements to control plane observability. To learn more about the control plane observability, see link:blogs/containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"].
+| New platform version with Amazon EKS Hybrid Nodes support and enhancements to control plane observability. See <<hybrid-nodes-overview>> and see link:blogs/containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"], respectively.
 | November 15, 2024
 
 | `1.31.1`
@@ -81,7 +81,7 @@ The following admission controllers are enabled for all `1.30` platform versions
 
 | `1.30.6`
 | `eks.20`
-| New platform version security fixes and enhancements to control plane observability. To learn more about the control plane observability, see link:blogs/containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"].
+| New platform version with Amazon EKS Hybrid Nodes support and enhancements to control plane observability. See <<hybrid-nodes-overview>> and see link:blogs/containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"], respectively.
 | November 15, 2024
 
 | `1.30.5`
@@ -130,7 +130,7 @@ The following admission controllers are enabled for all `1.29` platform versions
 
 | `1.29.10`
 | `eks.23`
-| New platform version security fixes and enhancements to control plane observability. To learn more about the control plane observability, see link:blogs/containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"].
+| New platform version with Amazon EKS Hybrid Nodes support and enhancements to control plane observability. See <<hybrid-nodes-overview>> and see link:blogs/containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"], respectively.
 | November 15, 2024
 
 | `1.29.9`
@@ -204,7 +204,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 
 | `1.28.15`
 | `eks.29`
-| New platform version security fixes and enhancements to control plane observability. To learn more about the control plane observability, see link:blogs/containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"].
+| New platform version with Amazon EKS Hybrid Nodes support and enhancements to control plane observability. See <<hybrid-nodes-overview>> and see link:blogs/containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"], respectively.
 | November 15, 2024
 
 | `1.28.14`
@@ -307,7 +307,7 @@ The following admission controllers are enabled for all `1.27` platform versions
 
 | `1.27.16`
 | `eks.33`
-| New platform version with security fixes and enhancements.
+| New platform version with Amazon EKS Hybrid Nodes support, security fixes and enhancements. For more information about Amazon EKS Hybrid Nodes, see <<hybrid-nodes-overview>>.
 | November 15, 2024
 
 | `1.27.16`
@@ -430,7 +430,7 @@ The following admission controllers are enabled for all `1.26` platform versions
 
 | `1.26.15`
 | `eks.35`
-| New platform version with security fixes and enhancements.
+| New platform version with Amazon EKS Hybrid Nodes support, security fixes and enhancements. For more information about Amazon EKS Hybrid Nodes, see <<hybrid-nodes-overview>>.
 | November 15, 2024
 
 | `1.26.15`
@@ -558,7 +558,7 @@ The following admission controllers are enabled for all `1.25` platform versions
 
 | `1.25.16`
 | `eks.35`
-| New platform version with security fixes and enhancements.
+| New platform version with Amazon EKS Hybrid Nodes support, security fixes and enhancements. For more information about Amazon EKS Hybrid Nodes, see <<hybrid-nodes-overview>>.
 | November 15, 2024
 
 | `1.25.16`

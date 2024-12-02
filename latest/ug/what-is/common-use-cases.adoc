@@ -40,7 +40,7 @@ Amazon EKS is compatible with popular machine learning frameworks such as https:
 
 
 *Deploying consistently on premises and in the cloud*::
-Use link:eks/eks-anywhere/[Amazon EKS Anywhere,type="marketing"] to operate [.noloc]`Kubernetes` clusters on your own infrastructure using tools that are consistent with Amazon EKS in the cloud.
+To simplify running Kubernetes in on-premises environments, you can use the same Amazon EKS clusters, features, and tools to run self-managed nodes on <<eks-outposts,{aws} Outposts>> or can use <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>> with your own infrastructure. For self-contained, air-gapped environments, you can use link:eks/eks-anywhere/[Amazon EKS Anywhere,type="marketing"] to automate Kubernetes cluster lifecycle management on your own infrastructure.
 
 
 *Running cost-effective batch processing and big data workloads*::

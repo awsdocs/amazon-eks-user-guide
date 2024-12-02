@@ -169,5 +169,17 @@
             "include::${1:filename}.adoc[leveloffset=+1]$0"
         ],
         "description": "Creates an include statement with leveloffset=+1, automatically adding .adoc extension"
+    },
+    "AsciiDoc Collapsible Section": {
+        "prefix": "adoc-collapse",
+        "body": [
+            "[[${1:collapsible-section-id},${1:collapsible-section-id}.title]]",
+            ".${2:Section Title}",
+            "[%collapsible, expand-section=\"_collapse_all_\"]",
+            "====",
+            "${3:This is where the text to collapse goes.}",
+            "===="
+        ],
+        "description": "Creates a collapsible section in AsciiDoc"
     }
 }

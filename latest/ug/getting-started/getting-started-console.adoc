@@ -17,6 +17,14 @@ include::../attributes.txt[]
 Learn how to create your first Amazon EKS cluster with nodes using the {aws-management-console} and {aws} CLI.
 --
 
+
+[NOTE]
+====
+This topic covers getting started *without* EKS Auto Mode. 
+
+EKS Auto Mode automates routine tasks for cluster compute, storage, and networking. xref:getting-started-automode[Learn how to get started with Amazon EKS Auto Mode. ]
+====
+
 This guide helps you to create all of the required resources to get started with Amazon Elastic Kubernetes Service (Amazon EKS) using the {aws-management-console} and the {aws} CLI. In this guide, you manually create each resource. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to.  
 
 The procedures in this guide give you complete visibility into how each resource is created and how the resources interact with each other. If you'd rather have most of the resources created for you automatically, use the `eksctl` CLI to create your cluster and nodes. For more information, see <<getting-started-eksctl>>.

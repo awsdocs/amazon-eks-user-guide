@@ -63,7 +63,9 @@ Each cluster has an  _authentication mode_. The authentication mode determines w
 
 Once the access entry method is enabled, it cannot be disabled. 
 
-If the `ConfigMap` method is not enabled during cluster creation, it cannot be enabled later. All clusters created before the introduction of access entries have the `ConfigMap` method enabled. 
+If the `ConfigMap` method is not enabled during cluster creation, it cannot be enabled later. All clusters created before the introduction of access entries have the `ConfigMap` method enabled.
+
+If you are using hybrid nodes with your cluster, you must use the `API` or `API_AND_CONFIG_MAP` cluster authentication modes.
 
 ====
 
@@ -96,6 +98,12 @@ Each access entry has a _type_ and you can use the combination of an _access sco
 |EKS API only (`API`)
 |access entries in the EKS API, {aws} Command Line Interface, {aws} SDKs, {aws} CloudFormation, and {aws-management-console}
 |===
+
+[NOTE]
+====
+Amazon EKS Auto Mode requires Access entries. 
+====
+
 
 [.topic]
 [[access-entries,access-entries.title]]
@@ -198,7 +206,7 @@ Before creating access entries, consider the following:
 ** If the type of the access entry is anything other than `STANDARD` (see next consideration about types), the ARN must be in the same {aws} account that your cluster is in. If the type is `STANDARD`, the ARN can be in the same, or different, {aws} account than the account that your cluster is in.
 ** You can't change the IAM principal after the access entry is created.
 ** If you ever delete the IAM principal with this ARN, the access entry isn't automatically deleted. We recommend that you delete the access entry with an ARN for an IAM principal that you delete. If you don't delete the access entry and ever recreate the IAM principal, even if it has the same ARN, the access entry won't work. This is because even though the ARN is the same for the recreated IAM principal, the `roleID` or `userID` (you can see this with the `aws sts get-caller-identity` {aws} CLI command) is different for the recreated IAM principal than it was for the original IAM principal. Even though you don't see the IAM principal's `roleID` or `userID` for an access entry, Amazon EKS stores it with the access entry.
-* Each access entry has a _type_. You can specify `EC2_Linux` (for an IAM role used with Linux or Bottlerocket self-managed nodes), `EC2_Windows` (for an IAM roles used with Windows self-managed nodes), `FARGATE_LINUX` (for an IAM roles used with {aws} Fargate (Fargate)), or `STANDARD` as a type. If you don't specify a type, Amazon EKS automatically sets the type to `STANDARD`. It's unnecessary to create an access entry for an IAM role that's used for a managed node group or a Fargate profile, because Amazon EKS adds entries for these roles to the `aws-auth` `ConfigMap`, regardless of which platform version your cluster is at. 
+* Each access entry has a _type_. You can specify `EC2_Linux` (for an IAM role used with Linux or Bottlerocket self-managed nodes), `EC2_Windows` (for an IAM role used with Windows self-managed nodes), `FARGATE_LINUX` (for an IAM role used with {aws} Fargate (Fargate)), `HYBRID_LINUX` (for an IAM role used with hybrid nodes) or `STANDARD` as a type. If you don't specify a type, Amazon EKS automatically sets the type to `STANDARD`. It's unnecessary to create an access entry for an IAM role that's used for a managed node group or a Fargate profile, because Amazon EKS adds entries for these roles to the `aws-auth` `ConfigMap`, regardless of which platform version your cluster is at. 
 +
 You can't change the type after the access entry is created.
 * If the type of the access entry is `STANDARD`, you can specify a _username_ for the access entry. If you don't specify a value for username, Amazon EKS sets one of the following values for you, depending on the type of the access entry and whether the IAM principal that you specified is an IAM role or IAM user. Unless you have a specific reason for specifying your own username, we recommend that don't specify one and let Amazon EKS auto-generate it for you. If you specify your own username:
@@ -231,6 +239,10 @@ If the ARN of the role that you specified contained a path, Amazon EKS removes i
 
 |Role
 |`FARGATE_LINUX`
+|`system:node:{{SessionName}}`
+
+|Role
+|`HYBRID_LINUX`
 |`system:node:{{SessionName}}`
 |===
 +
@@ -515,348 +527,7 @@ aws eks disassociate-access-policy --cluster-name my-cluster --principal-arn {ar
     --policy-arn {arn-aws}eks::aws:cluster-access-policy/AmazonEKSAdminPolicy
 ----
 
-
-[[access-policy-permissions,access-policy-permissions.title]]
-=== Access policy permissions
-
-Access policies include `rules` that contain [.noloc]`Kubernetes` `verbs` (permissions) and `resources`. Access policies don't include IAM permissions or resources. Similar to [.noloc]`Kubernetes` `Role` and `ClusterRole` objects, access policies only include `allow` `rules`. You can't modify the contents of an access policy. You can't create your own access policies. If the permissions in the access policies don't meet your needs, then create [.noloc]`Kubernetes` RBAC objects and specify  _group names_ for your access entries. For more information, see <<creating-access-entries>>. The permissions contained in access policies are similar to the permissions in the [.noloc]`Kubernetes` user-facing cluster roles. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles[User-facing roles] in the [.noloc]`Kubernetes` documentation.  
-
-Choose any access policy to see its contents. Each row of each table in each access policy is a separate rule.
-
-
-[[access-policy-permissions-amazoneksadminpolicy,access-policy-permissions-amazoneksadminpolicy.title]]
-.AmazonEKSAdminPolicy
-[%collapsible]
-====
-
-This access policy includes permissions that grant an IAM principal most permissions to resources. When associated to an access entry, its access scope is typically one or more [.noloc]`Kubernetes` namespaces. If you want an IAM principal to have administrator access to all resources on your cluster, associate the <<access-policy-permissions-amazoneksclusteradminpolicy>> access policy to your access entry instead.
-
-*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSAdminPolicy`
-
-[cols="1,1,1", options="header"]
-|===
-|Kubernetes API groups
-|Kubernetes resources
-|Kubernetes verbs (permissions)
-
-
-|`apps`
-|`daemonsets`, `deployments`, `deployments/rollback`, `deployments/scale`, `replicasets`, `replicasets/scale`, `statefulsets`, `statefulsets/scale`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|`apps`
-|`controllerrevisions`, `daemonsets`, `daemonsets/status`, `deployments`, `deployments/scale`, `deployments/status`, `replicasets`, `replicasets/scale`, `replicasets/status`, `statefulsets`, `statefulsets/scale`, `statefulsets/status`
-|`get`, `list`, `watch`
-
-|`authorization.k8s.io`
-|`localsubjectaccessreviews`
-|`create`
-
-|`autoscaling`
-|`horizontalpodautoscalers`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|`autoscaling`
-|`horizontalpodautoscalers`, `horizontalpodautoscalers/status`
-|`get`, `list`, `watch`
-
-|`batch`
-|`cronjobs`, `jobs`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|`batch`
-|`cronjobs`, `cronjobs/status`, `jobs`, `jobs/status`
-|`get`, `list`, `watch`
-
-|`discovery.k8s.io`
-|`endpointslices`
-|`get`, `list`, `watch`
-
-|`extensions`
-|`daemonsets`, `deployments`, `deployments/rollback`, `deployments/scale`, `ingresses`, `networkpolicies`, `replicasets`, `replicasets/scale`, `replicationcontrollers/scale`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|`extensions`
-|`daemonsets`, `daemonsets/status`, `deployments`, `deployments/scale`, `deployments/status`, `ingresses`, `ingresses/status`, `networkpolicies`, `replicasets`, `replicasets/scale`, `replicasets/status`, `replicationcontrollers/scale`
-|`get`, `list`, `watch`
-
-|`networking.k8s.io`
-|`ingresses`, `ingresses/status`, `networkpolicies`
-|`get`, `list`, `watch`
-
-|`networking.k8s.io`
-|`ingresses`, `networkpolicies`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|`policy`
-|`poddisruptionbudgets`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|`policy`
-|`poddisruptionbudgets`, `poddisruptionbudgets/status`
-|`get`, `list`, `watch`
-
-|`rbac.authorization.k8s.io`
-|`rolebindings`, `roles`
-|`create`, `delete`, `deletecollection`, `get`, `list`, `patch`, `update`, `watch`
-
-|
-|`configmaps`, `endpoints`, `persistentvolumeclaims`, `persistentvolumeclaims/status`, `pods`, `replicationcontrollers`, `replicationcontrollers/scale`, `serviceaccounts`, `services`, `services/status`
-|`get`,``list``, `watch`
-
-|
-|``pods/attach``, `pods/exec`, `pods/portforward`, `pods/proxy`, `secrets`, `services/proxy`
-|`get`, `list`, `watch`
-
-|
-|`configmaps`, `events`, `persistentvolumeclaims`, `replicationcontrollers`, `replicationcontrollers/scale`, `secrets`, `serviceaccounts`, `services`, `services/proxy`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|
-|`pods`, `pods/attach`, `pods/exec`, `pods/portforward`, `pods/proxy`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|
-|`serviceaccounts`
-|`impersonate`
-
-|
-|`bindings`, `events`, `limitranges`, `namespaces/status`, `pods/log`, `pods/status`, `replicationcontrollers/status`, `resourcequotas`, `resourcequotas/status`
-|`get`, `list`, `watch`
-
-|
-|`namespaces`
-|`get`,``list``, `watch`
-|===
-====
-
-[[access-policy-permissions-amazoneksclusteradminpolicy,access-policy-permissions-amazoneksclusteradminpolicy.title]]
-.AmazonEKSClusterAdminPolicy
-[%collapsible]
-====
-
-This access policy includes permissions that grant an IAM principal administrator access to a cluster. When associated to an access entry, its access scope is typically the cluster, rather than a [.noloc]`Kubernetes` namespace. If you want an IAM principal to have a more limited administrative scope, consider associating the  <<access-policy-permissions-amazoneksadminpolicy>> access policy to your access entry instead.
-
-*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy`
-
-[cols="1,1,1,1", options="header"]
-|===
-|Kubernetes API groups
-|Kubernetes nonResourceURLs
-|Kubernetes resources
-|Kubernetes verbs (permissions)
-
-
-|``\*``
-|
-|``\*``
-|``\*``
-
-|
-|``\*``
-|
-|``\*``
-|===
-====
-
-[[access-policy-permissions-amazoneksadminviewpolicy,access-policy-permissions-amazoneksadminviewpolicy.title]]
-.AmazonEKSAdminViewPolicy
-[%collapsible]
-====
-
-This access policy includes permissions that grant an IAM principal access to list/view all resources in a cluster. Note this includes https://kubernetes.io/docs/concepts/configuration/secret/[Kubernetes Secrets.]
-
-*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy`
-
-[cols="1,1,1", options="header"]
-|===
-|Kubernetes API groups
-|Kubernetes resources
-|Kubernetes verbs (permissions)
-
-
-|``\*``
-|``\*``
-|````get``, `list`, `watch```
-|===
-====
-
-[[access-policy-permissions-amazonekseditpolicy,access-policy-permissions-amazonekseditpolicy.title]]
-.AmazonEKSEditPolicy
-[%collapsible]
-====
-
-This access policy includes permissions that allow an IAM principal to edit most [.noloc]`Kubernetes` resources.
-
-*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSEditPolicy`
-
-[cols="1,1,1", options="header"]
-|===
-|Kubernetes API groups
-|Kubernetes resources
-|Kubernetes verbs (permissions)
-
-
-|`apps`
-|`daemonsets`, `deployments`, `deployments/rollback`, `deployments/scale`, `replicasets`, `replicasets/scale`, `statefulsets`, `statefulsets/scale`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|`apps`
-|`controllerrevisions`, `daemonsets`, `daemonsets/status`, `deployments`, `deployments/scale`, `deployments/status`, `replicasets`, `replicasets/scale`, `replicasets/status`, `statefulsets`, `statefulsets/scale`, `statefulsets/status`
-|`get`, `list`, `watch`
-
-|`autoscaling`
-|`horizontalpodautoscalers`, `horizontalpodautoscalers/status`
-|`get`, `list`, `watch`
-
-|`autoscaling`
-|`horizontalpodautoscalers`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|`batch`
-|`cronjobs`, `jobs`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|`batch`
-|`cronjobs`, `cronjobs/status`, `jobs`, `jobs/status`
-|`get`, `list`, `watch`
-
-|`discovery.k8s.io`
-|`endpointslices`
-|`get`, `list`, `watch`
-
-|`extensions`
-|`daemonsets`, `deployments`, `deployments/rollback`, `deployments/scale`, `ingresses`, `networkpolicies`, `replicasets`, `replicasets/scale`, `replicationcontrollers/scale`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|`extensions`
-|`daemonsets`, `daemonsets/status`, `deployments`, `deployments/scale`, `deployments/status`, `ingresses`, `ingresses/status`, `networkpolicies`, `replicasets`, `replicasets/scale`, `replicasets/status`, `replicationcontrollers/scale`
-|`get`, `list`, `watch`
-
-|`networking.k8s.io`
-|`ingresses`, `networkpolicies`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|`networking.k8s.io`
-|`ingresses`, `ingresses/status`, `networkpolicies`
-|`get`, `list`, `watch`
-
-|`policy`
-|`poddisruptionbudgets`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|`policy`
-|`poddisruptionbudgets`, `poddisruptionbudgets/status`
-|`get`, `list`, `watch`
-
-|
-|`namespaces`
-|`get`, `list`, `watch`
-
-|
-|``pods/attach``, `pods/exec`, `pods/portforward`, `pods/proxy`, `secrets`, `services/proxy`
-|`get`, `list`, `watch`
-
-|
-|`serviceaccounts`
-|`impersonate`
-
-|
-|`pods`, `pods/attach`, `pods/exec`, `pods/portforward`, `pods/proxy`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|
-|`configmaps`, `events`, `persistentvolumeclaims`, `replicationcontrollers`, `replicationcontrollers/scale`, `secrets`, `serviceaccounts`, `services`, `services/proxy`
-|`create`, `delete`, `deletecollection`, `patch`, `update`
-
-|
-|`configmaps`, `endpoints`, `persistentvolumeclaims`, `persistentvolumeclaims/status`, `pods`, `replicationcontrollers`, `replicationcontrollers/scale`, `serviceaccounts`, `services`, `services/status`
-|`get`, `list`, `watch`
-
-|
-|`bindings`, `events`, `limitranges`, `namespaces/status`, `pods/log`, `pods/status`, `replicationcontrollers/status`, `resourcequotas`, `resourcequotas/status`
-|`get`, `list`, `watch`
-|===
-====
-
-[[access-policy-permissions-amazoneksviewpolicy.json,access-policy-permissions-amazoneksviewpolicy.json.title]]
-.AmazonEKSViewPolicy
-[%collapsible]
-====
-
-This access policy includes permissions that allow an IAM principal to view most [.noloc]`Kubernetes` resources.
-
-*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSViewPolicy`
-
-[cols="1,1,1", options="header"]
-|===
-|Kubernetes API groups
-|Kubernetes resources
-|Kubernetes verbs (permissions)
-
-
-|`apps`
-|`controllerrevisions`, `daemonsets`, `daemonsets/status`, `deployments`, `deployments/scale`, `deployments/status`, `replicasets`, `replicasets/scale`, `replicasets/status`, `statefulsets`, `statefulsets/scale`, `statefulsets/status`
-|`get`, `list`, `watch`
-
-|`autoscaling`
-|`horizontalpodautoscalers`, `horizontalpodautoscalers/status`
-|`get`, `list`, `watch`
-
-|`batch`
-|`cronjobs`, `cronjobs/status`, `jobs`, `jobs/status`
-|`get`, `list`, `watch`
-
-|`discovery.k8s.io`
-|`endpointslices`
-|`get`, `list`, `watch`
-
-|`extensions`
-|`daemonsets`, `daemonsets/status`, `deployments`, `deployments/scale`, `deployments/status`, `ingresses`, `ingresses/status`, `networkpolicies`, `replicasets`, `replicasets/scale`, `replicasets/status`, `replicationcontrollers/scale`
-|`get`, `list`, `watch`
-
-|`networking.k8s.io`
-|`ingresses`, `ingresses/status`, `networkpolicies`
-|`get`, `list`, `watch`
-
-|`policy`
-|`poddisruptionbudgets`, `poddisruptionbudgets/status`
-|`get`, `list`, `watch`
-
-|
-|`configmaps`, `endpoints`, `persistentvolumeclaims`, `persistentvolumeclaims/status`, `pods`, `replicationcontrollers`, `replicationcontrollers/scale`, `serviceaccounts`, `services`, `services/status`
-|`get`, `list`, `watch`
-
-|
-|`bindings`, `events`, `limitranges`, `namespaces/status`, `pods/log`, `pods/status`, `replicationcontrollers/status`, `resourcequotas`, r``esourcequotas/status``
-|`get`, `list`, `watch`
-
-|
-|`namespaces`
-|`get`, `list`, `watch`
-|===
-====
-
-[[access-policy-updates,access-policy-updates.title]]
-=== Access policy updates
-
-View details about updates to access policies, since they were introduced. For automatic alerts about changes to this page, subscribe to the RSS feed in <<doc-history>>.
-
-[cols="1,1,1", options="header"]
-|===
-|Change
-|Description
-|Date
-
-
-|Add `AmazonEKSAdminViewPolicy`
-|Add a new policy for expanded view access, including resources like Secrets.
-|April 23, 2024
-
-|Access policies introduced.
-|Amazon EKS introduced access policies.
-|May 29, 2023
-|===
+To list available access policies, see <<access-policy-permissions>>. 
 
 [.topic]
 [[migrating-access-entries,migrating-access-entries.title]]
@@ -1111,3 +782,5 @@ If you disassociate an [.noloc]`OIDC` identity provider from your cluster, users
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the *[.noloc]`OIDC` Identity Providers* section, select  *Disassociate*, enter the identity provider name, and then select `Disassociate`.
+
+include::access-policy-reference.adoc[leveloffset=+1]

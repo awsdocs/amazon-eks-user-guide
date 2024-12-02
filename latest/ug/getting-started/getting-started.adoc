@@ -38,10 +38,9 @@ We also offer the following references:
 * For code examples, see  link:code-library/latest/ug/eks_code_examples.html[Code examples for Amazon EKS using {aws} SDKs,type="documentation"].
 
 
-include::getting-started-eksctl.adoc[leveloffset=+1]
+include::getting-started-automode.adoc[leveloffset=+1]
 
+include::getting-started-eksctl.adoc[leveloffset=+1]
 
 include::getting-started-console.adoc[leveloffset=+1]
 
-
-include::learn-eks.adoc[leveloffset=+1]

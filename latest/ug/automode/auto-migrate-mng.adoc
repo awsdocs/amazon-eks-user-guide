@@ -1,0 +1,33 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[auto-migrate-mng,auto-migrate-mng.title]]
+= Migrate from EKS Managed Node Groups to EKS Auto Mode
+:info_doctype: section
+:info_title: Migrate from EKS Managed Node Groups to EKS Auto Mode
+:info_titleabbrev: Migrate from Managed Node Groups
+:info_abstract:  Migrate from EKS Managed Node Groups
+
+include::../attributes.txt[]
+
+When transitioning your Amazon EKS cluster to use EKS auto mode, you can smoothly migrate your existing workloads from managed node groups using the eksctl CLI tool. This process ensures continuous application availability while EKS auto mode optimizes your compute resources. The migration can be performed with minimal disruption to your running applications.
+
+This topic walks you through the steps to safely drain pods from your existing managed node groups and allow EKS auto mode to reschedule them on newly provisioned instances. By following this procedure, you can take advantage of EKS auto mode's intelligent workload consolidation while maintaining your application's availability throughout the migration.
+
+== Prerequisites
+
+* Cluster with {eam} enabled
+* `eksctl` CLI installed and connected to your cluster. For more information, see <<setting-up>>. 
+* Karpenter is not installed on the cluster. 
+
+== Procedure
+
+Use the following `eksctl` CLI command to initiate draining pods from the existing {mng} instances. {eam} will create new nodes to back the displaced pods. 
+
+[source,cli]
+----
+eksctl update auto-mode-config --drain-nodegroup
+----
+
+
+

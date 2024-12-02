@@ -20,6 +20,7 @@ Learn how to manage networking add-ons for your Amazon EKS cluster, including bu
 
 Several networking add-ons are available for your Amazon EKS cluster.
 
+
 [[eks-networking-add-ons-built-in,eks-networking-add-ons-built-in.title]]
 == Built-in add-ons
 
@@ -31,7 +32,7 @@ We recommend adding the Amazon EKS type of the add-on to your cluster instead of
 ====
 
 *[.noloc]`Amazon VPC CNI plugin for Kubernetes`*::
-This CNI add-on creates elastic network interfaces and attaches them to your Amazon EC2 nodes. The add-on also assigns a private `IPv4` or `IPv6` address from your VPC to each [.noloc]`Pod` and service. This add-on is installed, by default, on your cluster. For more information, see <<managing-vpc-cni>>.
+This CNI add-on creates elastic network interfaces and attaches them to your Amazon EC2 nodes. The add-on also assigns a private `IPv4` or `IPv6` address from your VPC to each [.noloc]`Pod` and service. This add-on is installed, by default, on your cluster. For more information, see <<managing-vpc-cni>>. If you are using hybrid nodes, the VPC CNI is still installed by default but it is prevented from running on your hybrid nodes with an anti-affinity rule. For more information about your CNI options for hybrid nodes, see <<hybrid-nodes-cni>>.
 
 
 *[.noloc]`CoreDNS`*::
@@ -54,6 +55,7 @@ This controller lets you connect services across multiple [.noloc]`Kubernetes` c
 
 For more information about add-ons, see <<eks-add-ons>>.
 
+
 [.topic]
 [[managing-vpc-cni,managing-vpc-cni.title]]
 == Amazon VPC CNI
@@ -66,9 +68,16 @@ For more information about add-ons, see <<eks-add-ons>>.
 Discover how the [.noloc]`Amazon VPC CNI plugin for Kubernetes` add-on works to assign private IP addresses and create network interfaces for [.noloc]`Pods` and services in your Amazon EKS cluster.
 --
 
+[TIP]
+====
+With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-ons. Auto Mode includes pod networking and load balancing capabilities. 
+
+For more information, see <<automode>>.
+====
+
 The [.noloc]`Amazon VPC CNI plugin for Kubernetes` add-on is deployed on each Amazon EC2 node in your Amazon EKS cluster. The add-on creates link:AWSEC2/latest/UserGuide/using-eni.html[elastic network interfaces,type="documentation"] and attaches them to your Amazon EC2 nodes. The add-on also assigns a private `IPv4` or `IPv6` address from your VPC to each [.noloc]`Pod`.
 
-A version of the add-on is deployed with each Fargate node in your cluster, but you don't update it on Fargate nodes. Other compatible CNI plugins are available for use on Amazon EKS clusters, but this is the only CNI plugin supported by Amazon EKS. For more information about the other compatible CNI plugins, see <<alternate-cni-plugins>>.
+A version of the add-on is deployed with each Fargate node in your cluster, but you don't update it on Fargate nodes. Other compatible CNI plugins are available for use on Amazon EKS clusters, but this is the only CNI plugin supported by Amazon EKS for nodes that run on {aws} infrastructure. For more information about the other compatible CNI plugins, see <<alternate-cni-plugins>>. The VPC CNI isn't supported for use with hybrid nodes. For more information about your CNI options for hybrid nodes, see <<hybrid-nodes-cni>>.
 
 The following table lists the latest available version of the Amazon EKS add-on type for each [.noloc]`Kubernetes` version.
 
@@ -103,6 +112,7 @@ To upgrade to VPC CNI v1.12.0 or later, you must upgrade to VPC CNI v1.7.0 first
 
 ====
 
+
 [[manage-vpc-cni-add-on-on-considerations,manage-vpc-cni-add-on-on-considerations.title]]
 === Considerations
 
@@ -121,6 +131,7 @@ The following are considerations for using the feature.
 Use the following steps to create the [.noloc]`Amazon VPC CNI plugin for Kubernetes` Amazon EKS add-on.
 
 Before you begin, review the considerations. For more information, see <<manage-vpc-cni-add-on-on-considerations>>.
+
 
 [[vpc-add-on-create-prerequisites,vpc-add-on-create-prerequisites.title]]
 ==== Prerequisites
@@ -2747,7 +2758,7 @@ NOTE: The trunk network interface is included in the maximum number of network i
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ kubectl get cninode -A
+kubectl get cninode -A
      NAME FEATURES
      ip-192-168-64-141.us-west-2.compute.internal [{"name":"SecurityGroupsForPods"}]
      ip-192-168-7-203.us-west-2.compute.internal [{"name":"SecurityGroupsForPods"}]
@@ -3026,6 +3037,7 @@ In Amazon EKS, each [.noloc]`Pod` has one network interface assigned by the Amaz
 
 For an implementation walk through, see the https://github.com/aws-samples/eks-install-guide-for-multus/blob/main/README.md[Multus Setup Guide] on [.noloc]`GitHub`.
 
+
 [.topic]
 [[alternate-cni-plugins,alternate-cni-plugins.title]]
 == Alternate CNI plugins for Amazon EKS clusters
@@ -3035,7 +3047,7 @@ For an implementation walk through, see the https://github.com/aws-samples/eks-i
 Learn how to use alternate network and security plugins on Amazon EKS to customize networking for your [.noloc]`Kubernetes` clusters on Amazon EC2 nodes.
 --
 
-The https://github.com/aws/amazon-vpc-cni-plugins[Amazon VPC CNI plugin for Kubernetes] is the only CNI plugin supported by Amazon EKS. Amazon EKS runs upstream [.noloc]`Kubernetes`, so you can install alternate compatible CNI plugins to Amazon EC2 nodes in your cluster. If you have Fargate nodes in your cluster, the [.noloc]`Amazon VPC CNI plugin for Kubernetes` is already on your Fargate nodes. It's the only CNI plugin you can use with Fargate nodes. An attempt to install an alternate CNI plugin on Fargate nodes fails.
+The https://github.com/aws/amazon-vpc-cni-plugins[Amazon VPC CNI plugin for Kubernetes] is the only CNI plugin supported by Amazon EKS with Amazon EC2 nodes. Amazon EKS supports the core capabilities of Cilium and Calico for Amazon EKS Hybrid Nodes. Amazon EKS runs upstream [.noloc]`Kubernetes`, so you can install alternate compatible CNI plugins to Amazon EC2 nodes in your cluster. If you have Fargate nodes in your cluster, the [.noloc]`Amazon VPC CNI plugin for Kubernetes` is already on your Fargate nodes. It's the only CNI plugin you can use with Fargate nodes. An attempt to install an alternate CNI plugin on Fargate nodes fails.
 
 If you plan to use an alternate CNI plugin on Amazon EC2 nodes, we recommend that you obtain commercial support for the plugin or have the in-house expertise to troubleshoot and contribute fixes to the CNI plugin project. 
 
@@ -3067,6 +3079,7 @@ Amazon EKS maintains relationships with a network of partners that offer support
 
 Amazon EKS aims to give you a wide selection of options to cover all use cases.
 
+
 [[alternate-network-policy-plugins,alternate-network-policy-plugins.title]]
 === Alternate compatible network policy plugins
 
@@ -3075,6 +3088,10 @@ https://www.tigera.io/project-calico[Calico] is a widely adopted solution for co
 Traffic flow to and from [.noloc]`Pods` with associated security groups are not subjected to [.noloc]`Calico` network policy enforcement and are limited to Amazon VPC security group enforcement only.  
 
 If you use [.noloc]`Calico` network policy enforcement, we recommend that you set the environment variable `ANNOTATE_POD_IP` to `true` to avoid a known issue with [.noloc]`Kubernetes`. To use this feature, you must add `patch` permission for pods to the `aws-node` [.noloc]`ClusterRole`. Note that adding patch permissions to the `aws-node` [.noloc]`DaemonSet` increases the security scope for the plugin. For more information, see https://github.com/aws/amazon-vpc-cni-k8s/?tab=readme-ov-file#annotate_pod_ip-v193[ANNOTATE_POD_IP] in the VPC CNI repo on GitHub.
+
+=== Considerations for Amazon EKS Auto Mode
+
+Amazon EKS Auto Mode does not support alternate CNI plugins or network policy plugins. For more information, see <<automode>>.
 
 [.topic]
 [[aws-load-balancer-controller,aws-load-balancer-controller.title]]
@@ -3109,6 +3126,7 @@ In the past, the [.noloc]`Kubernetes` network load balancer was used for  _insta
 The controller is an https://github.com/kubernetes-sigs/aws-load-balancer-controller[open-source project] managed on [.noloc]`GitHub`.
 
 Before deploying the controller, we recommend that you review the prerequisites and considerations in <<alb-ingress,Route application and HTTP traffic with Application Load Balancers>> and <<network-load-balancing>>. In those topics, you will deploy a sample app that includes an {aws} load balancer. 
+
 
 [[lbc-overview,lbc-overview.title]]
 === Install the controller
@@ -3146,6 +3164,7 @@ In versions 2.5 and newer, the [.noloc]`{aws} Load Balancer Controller` becomes 
 
 ====
 
+
 [.topic]
 [[lbc-helm,lbc-helm.title]]
 === Install [.noloc]`{aws} Load Balancer Controller` with [.noloc]`Helm`
@@ -3154,6 +3173,13 @@ In versions 2.5 and newer, the [.noloc]`{aws} Load Balancer Controller` becomes 
 --
 Learn how to install the [.noloc]`{aws} Load Balancer Controller` on Amazon EKS using Helm to manage K8s load balancing with {aws} Cloud. Discover the prerequisites and steps for creating an IAM role, installing with Helm, and verifying the controller deployment.
 --
+
+[TIP]
+====
+With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-ons. Auto Mode includes pod networking and load balancing capabilities. 
+
+For more information, see <<automode>>.
+====
 
 This topic describes how to install the [.noloc]`{aws} Load Balancer Controller` using Helm, a package manager for [.noloc]`Kubernetes`, and `eksctl`. The controller is installed with default options. For more information about the controller, including details on configuring it with annotations, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller/[{aws} Load Balancer Controller Documentation] on [.noloc]`GitHub`.  
 
@@ -3182,34 +3208,40 @@ Before starting this tutorial, you must install and configure the following tool
 [NOTE]
 ====
 
-You only need to create an IAM Role for the [.noloc]`{aws} Load Balancer Controller` one per {aws} account. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-helm-install,Step 2: Install {aws} Load Balancer Controller>>.
+You only need to create an IAM Role for the [.noloc]`{aws} Load Balancer Controller` once per {aws-account}. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-helm-install,Step 2: Install {aws} Load Balancer Controller>>.
 
 ====
+
 . Download an IAM policy for the [.noloc]`{aws} Load Balancer Controller` that allows it to make calls to {aws} APIs on your behalf.  
 +
+====
+[role="tablist"]
 {aws}:::
-** 
++
 [source,shell,subs="verbatim,attributes"]
 ----
-$ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy.json
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy.json
 ----
 
 
 {aws} GovCloud (US):::
-** 
++
 [source,shell,subs="verbatim,attributes"]
 ----
-$ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy_us-gov.json
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy_us-gov.json
 ----
++
 [source,shell,subs="verbatim,attributes"]
 ----
-$ mv iam_policy_us-gov.json iam_policy.json
+mv iam_policy_us-gov.json iam_policy.json
 ----
+====
++
 . Create an IAM policy using the policy downloaded in the previous step. 
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ aws iam create-policy \
+aws iam create-policy \
     --policy-name AWSLoadBalancerControllerIAMPolicy \
     --policy-document file://iam_policy.json
 ----
@@ -3219,7 +3251,7 @@ NOTE: If you view the policy in the {aws-management-console}, the console shows 
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ eksctl create iamserviceaccount \
+eksctl create iamserviceaccount \
   --cluster=my-cluster \
   --namespace=kube-system \
   --name=aws-load-balancer-controller \
@@ -3231,19 +3263,25 @@ $ eksctl create iamserviceaccount \
 
 [[lbc-helm-install,lbc-helm-install.title]]
 ==== Step 2: Install [.noloc]`{aws} Load Balancer Controller`
+
 . Add the `eks-charts` Helm chart repository. {aws} maintains https://github.com/aws/eks-charts[this repository] on GitHub.
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ helm repo add eks https://aws.github.io/eks-charts
+helm repo add eks https://aws.github.io/eks-charts
 ----
 . Update your local repo to make sure that you have the most recent charts.
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ helm repo update eks
+helm repo update eks
 ----
-. Install the [.noloc]`{aws} Load Balancer Controller`.  
+. Install the [.noloc]`{aws} Load Balancer Controller`.
++
+If you're deploying the controller to Amazon EC2 nodes that have https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[restricted access to the Amazon EC2 instance metadata service (IMDS)], or if you're deploying to Fargate or Amazon EKS Hybrid Nodes, then add the following flags to the `helm` command that follows:
++
+*** ``--set region=[.replaceable]`region-code` ``
+*** ``--set vpcId=[.replaceable]`vpc-xxxxxxxx` ``
 +
 Replace [.replaceable]`my-cluster` with the name of your cluster. In the following command, `aws-load-balancer-controller` is the [.noloc]`Kubernetes` service account that you created in a previous step.
 +
@@ -3251,25 +3289,18 @@ For more information about configuring the helm chart, see https://github.com/aw
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   -n kube-system \
   --set clusterName=my-cluster \
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller
 ----
-+
-.. If you're deploying the controller to Amazon EC2 nodes that have https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[restricted access to the Amazon EC2 instance metadata service (IMDS)], or if you're deploying to Fargate, then add the following flags to the `helm` command that follows:
-+
-*** ``--set region=[.replaceable]`region-code` ``
-*** ``--set vpcId=[.replaceable]`vpc-xxxxxxxx` ``
-.. To view the available versions of the Helm Chart and Load Balancer Controller, use the following command:
-+
-[source,bash,subs="verbatim,attributes"]
-----
-helm search repo eks/aws-load-balancer-controller --versions
-----
-+
-IMPORTANT: The deployed chart doesn't receive security updates automatically. You need to manually upgrade to a newer chart when it becomes available. When upgrading, change [.replaceable]`install` to `upgrade` in the previous command.
+
+
+[IMPORTANT]
+====
+The deployed chart doesn't receive security updates automatically. You need to manually upgrade to a newer chart when it becomes available. When upgrading, change [.replaceable]`install` to `upgrade` in the previous command.
+====
 
 The `helm install` command automatically installs the custom resource definitions ([.noloc]`CRDs`) for the controller. The `helm upgrade` command does not. If you use `helm upgrade,` you must manually install the [.noloc]`CRDs`. Run the following command to install the [.noloc]`CRDs`:
 
@@ -3286,7 +3317,7 @@ kubectl apply -f crds.yaml
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ kubectl get deployment -n kube-system aws-load-balancer-controller
+kubectl get deployment -n kube-system aws-load-balancer-controller
 ----
 +
 An example output is as follows.
@@ -3300,6 +3331,7 @@ aws-load-balancer-controller   2/2     2            2           84s
 You receive the previous output if you deployed using Helm. If you deployed using the [.noloc]`Kubernetes` manifest, you only have one replica.
 . Before using the controller to provision {aws} resources, your cluster must meet specific requirements. For more information, see <<alb-ingress>> and <<network-load-balancing>>.
 
+// GDC Must Fix
 
 [.topic]
 [[lbc-manifest,lbc-manifest.title]]
@@ -3309,6 +3341,13 @@ You receive the previous output if you deployed using Helm. If you deployed usin
 --
 Install the [.noloc]`{aws} Load Balancer Controller` add-on for Amazon EKS using [.noloc]`Kubernetes` manifests to provision Elastic Load Balancing resources. Configure IAM role and install `cert-manager` before applying controller manifest.
 --
+
+[TIP]
+====
+With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-ons. Auto Mode includes pod networking and load balancing capabilities. 
+
+For more information, see <<automode>>.
+====
 
 This topic describes how to install the controller by downloading and applying [.noloc]`Kubernetes` manifests. You can view the full https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/[documentation] for the controller on [.noloc]`GitHub`.  
 
@@ -3337,31 +3376,30 @@ Before starting this tutorial, you must install and configure the following tool
 You only need to create a role for the [.noloc]`{aws} Load Balancer Controller` one per {aws} account. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-cert,Step 2: Install cert-manager>>.
 
 ====
+
 . Download an IAM policy for the [.noloc]`{aws} Load Balancer Controller` that allows it to make calls to {aws} APIs on your behalf.  
+** {aws}
 +
-{aws}:::
-** 
 [source,shell,subs="verbatim,attributes"]
 ----
-$ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy.json
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy.json
 ----
-
-
-{aws} GovCloud (US):::
-** 
+** {aws} GovCloud (US)
++
 [source,shell,subs="verbatim,attributes"]
 ----
-$ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy_us-gov.json
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy_us-gov.json
 ----
++
 [source,shell,subs="verbatim,attributes"]
 ----
-$ mv iam_policy_us-gov.json iam_policy.json
+mv iam_policy_us-gov.json iam_policy.json
 ----
 . Create an IAM policy using the policy downloaded in the previous step. 
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ aws iam create-policy \
+aws iam create-policy \
     --policy-name AWSLoadBalancerControllerIAMPolicy \
     --policy-document file://iam_policy.json
 ----
@@ -3374,7 +3412,7 @@ eksctl::
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ eksctl create iamserviceaccount \
+eksctl create iamserviceaccount \
   --cluster=my-cluster \
   --namespace=kube-system \
   --name=aws-load-balancer-controller \
@@ -3461,7 +3499,7 @@ EOF
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ kubectl apply -f aws-load-balancer-controller-service-account.yaml
+kubectl apply -f aws-load-balancer-controller-service-account.yaml
 ----
 
 
@@ -3480,7 +3518,7 @@ We recommend using the `quay.io` container registry to install `cert-manager`. I
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ kubectl apply \
+kubectl apply \
     --validate=false \
     -f https://github.com/jetstack/cert-manager/releases/download/v1.13.5/cert-manager.yaml
 ----
@@ -3506,13 +3544,13 @@ quay.io/jetstack/cert-manager-webhook:v1.13.5
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ sed -i.bak -e 's|quay.io|111122223333.dkr.ecr.region-code.amazonaws.com|' ./cert-manager.yaml
+sed -i.bak -e 's|quay.io|111122223333.dkr.ecr.region-code.amazonaws.com|' ./cert-manager.yaml
 ----
 .. Apply the manifest.
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ kubectl apply \
+kubectl apply \
     --validate=false \
     -f ./cert-manager.yaml
 ----
@@ -3532,7 +3570,7 @@ curl -Lo v2_7_2_full.yaml https://github.com/kubernetes-sigs/aws-load-balancer-c
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ sed -i.bak -e '612,620d' ./v2_7_2_full.yaml
+sed -i.bak -e '612,620d' ./v2_7_2_full.yaml
 ----
 +
 If you downloaded a different file version, then open the file in an editor and remove the following lines.  
@@ -3553,7 +3591,7 @@ metadata:
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ sed -i.bak -e 's|your-cluster-name|my-cluster|' ./v2_7_2_full.yaml
+sed -i.bak -e 's|your-cluster-name|my-cluster|' ./v2_7_2_full.yaml
 ----
 .. If your nodes don't have access to the Amazon EKS Amazon ECR image repositories, then you need to pull the following image and push it to a repository that your nodes have access to. For more information on how to pull, tag, and push an image to your own repository, see <<copy-image-to-repository>>.
 +
@@ -3566,11 +3604,11 @@ Add your registry's name to the manifest. The following command assumes that you
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ sed -i.bak -e 's|public.ecr.aws/eks/aws-load-balancer-controller|111122223333.dkr.ecr.region-code.amazonaws.com/eks/aws-load-balancer-controller|' ./v2_7_2_full.yaml
+sed -i.bak -e 's|public.ecr.aws/eks/aws-load-balancer-controller|111122223333.dkr.ecr.region-code.amazonaws.com/eks/aws-load-balancer-controller|' ./v2_7_2_full.yaml
 ----
 .. (Required only for Fargate or Restricted IMDS) 
 +
-If you're deploying the controller to Amazon EC2 nodes that have https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[restricted access to the Amazon EC2 instance metadata service (IMDS)], or if you're deploying to Fargate, then add the `following parameters` under `- args:`.
+If you're deploying the controller to Amazon EC2 nodes that have https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[restricted access to the Amazon EC2 instance metadata service (IMDS)], or if you're deploying to Fargate or Amazon EKS Hybrid Nodes, then add the `following parameters` under `- args:`.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -3590,19 +3628,19 @@ spec:
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ kubectl apply -f v2_7_2_full.yaml
+kubectl apply -f v2_7_2_full.yaml
 ----
 . Download the `IngressClass` and `IngressClassParams` manifest to your cluster.
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ curl -Lo v2_7_2_ingclass.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.7.2/v2_7_2_ingclass.yaml
+curl -Lo v2_7_2_ingclass.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.7.2/v2_7_2_ingclass.yaml
 ----
 . Apply the manifest to your cluster.
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ kubectl apply -f v2_7_2_ingclass.yaml
+kubectl apply -f v2_7_2_ingclass.yaml
 ----
 
 
@@ -3612,7 +3650,7 @@ $ kubectl apply -f v2_7_2_ingclass.yaml
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ kubectl get deployment -n kube-system aws-load-balancer-controller
+kubectl get deployment -n kube-system aws-load-balancer-controller
 ----
 +
 An example output is as follows.
@@ -3662,19 +3700,19 @@ You may have installed the deprecated version using Helm or manually with [.nolo
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ helm delete aws-alb-ingress-controller -n kube-system
+helm delete aws-alb-ingress-controller -n kube-system
 ----
 . If you have version `0.1.[.replaceable]``x``` of the `eks-charts/aws-load-balancer-controller` chart installed, uninstall it. The upgrade from `0.1.[.replaceable]``x``` to version `1.0.0` doesn't work due to incompatibility with the webhook API version. 
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ helm delete aws-load-balancer-controller -n kube-system
+helm delete aws-load-balancer-controller -n kube-system
 ----
 . Check to see if the controller is currently installed.
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ kubectl get deployment -n kube-system alb-ingress-controller
+kubectl get deployment -n kube-system alb-ingress-controller
 ----
 +
 This is the output if the controller isn't installed.  
@@ -3691,7 +3729,7 @@ alb-ingress-controller 1/1   1          1         122d
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/alb-ingress-controller.yaml
+kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/alb-ingress-controller.yaml
 kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/rbac-role.yaml
 ----
 
@@ -3708,19 +3746,19 @@ To migrate from the ALB Ingress Controller for [.noloc]`Kubernetes` to the [.nol
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy_v1_to_v2_additional.json
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy_v1_to_v2_additional.json
 ----
 . If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`..
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ sed -i.bak -e 's|{arn-aws}|arn:aws-us-gov:|' iam_policy_v1_to_v2_additional.json
+sed -i.bak -e 's|{arn-aws}|arn:aws-us-gov:|' iam_policy_v1_to_v2_additional.json
 ----
 . Create the IAM policy and note the ARN that is returned.
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ aws iam create-policy \
+aws iam create-policy \
   --policy-name AWSLoadBalancerControllerAdditionalIAMPolicy \
   --policy-document file://iam_policy_v1_to_v2_additional.json
 ----
@@ -3730,7 +3768,7 @@ If you created the role using `eksctl`, then to find the role name that was crea
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ aws iam attach-role-policy \
+aws iam attach-role-policy \
   --role-name your-role-name \
   --policy-arn {arn-aws}iam::111122223333:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
 ----
@@ -3744,6 +3782,13 @@ $ aws iam attach-role-policy \
 --
 Learn how to manage the [.noloc]`CoreDNS` Amazon EKS add-on for DNS service discovery in [.noloc]`Kubernetes` clusters with configuration updates and version upgrades.
 --
+
+[TIP]
+====
+With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-ons. Auto Mode includes pod networking and load balancing capabilities. 
+
+For more information, see <<automode>>.
+====
 
 [.noloc]`CoreDNS` is a flexible, extensible DNS server that can serve as the [.noloc]`Kubernetes` cluster DNS. When you launch an Amazon EKS cluster with at least one node, two replicas of the [.noloc]`CoreDNS` image are deployed by default, regardless of the number of nodes deployed in your cluster. The [.noloc]`CoreDNS` [.noloc]`Pods` provide name resolution for all [.noloc]`Pods` in the cluster. The [.noloc]`CoreDNS` [.noloc]`Pods` can be deployed to Fargate nodes if your cluster includes a Fargate Profile with a namespace that matches the namespace for the [.noloc]`CoreDNS` `deployment`. For more information on Fargate Profiles, see <<fargate-profile>>. For more information about [.noloc]`CoreDNS`, see https://kubernetes.io/docs/tasks/administer-cluster/coredns/[Using CoreDNS for Service Discovery] in the [.noloc]`Kubernetes` documentation.
 
@@ -4264,7 +4309,7 @@ Amazon EKS applies changes to the EKS Add-ons by using a _rollout_ of the [.nolo
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-$ kubectl rollout
+kubectl rollout
                             
 history  -- View rollout history
 pause    -- Mark the provided resource as paused
@@ -4386,14 +4431,22 @@ For an example _scrape configuration_ that is compatible with both Prometheus an
 Learn how to manage the `kube-proxy` add-on on your Amazon EKS cluster to manage network rules and enable network communication to your Pods.
 --
 
-[IMPORTANT]
+[TIP]
 ====
+With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-ons. Auto Mode includes pod networking and load balancing capabilities. 
+
+For more information, see <<automode>>.
+====
+
+//GDC: Need DF to review
+
 
 We recommend adding the Amazon EKS type of the add-on to your cluster instead of using the self-managed type of the add-on. If you're not familiar with the difference between the types, see <<eks-add-ons>>. For more information about adding an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. If you're unable to use the Amazon EKS add-on, we encourage you to submit an issue about why you can't to the https://github.com/aws/containers-roadmap/issues[Containers roadmap GitHub repository].
 
-====
-
 The `kube-proxy` add-on is deployed on each Amazon EC2 node in your Amazon EKS cluster. It maintains network rules on your nodes and enables network communication to your [.noloc]`Pods`. The add-on isn't deployed to Fargate nodes in your cluster. For more information, see https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/[kube-proxy] in the [.noloc]`Kubernetes` documentation.
+
+=== Install as Amazon EKS Add-on
+
 
 [[kube-proxy-versions,kube-proxy-versions.title]]
 === `kube-proxy` versions
@@ -4414,7 +4467,7 @@ The following table lists the latest version of the Amazon EKS add-on type for e
 | 1.23 | v1.23.17-eksbuild.20
 |===
 
-[IMPORTANT]
+[NOTE]
 ====
 
 An earlier version of the documentation was incorrect. `kube-proxy` versions `v1.28.5`, `v1.27.9`, and `v1.26.12` aren't available.
@@ -4452,14 +4505,9 @@ The following table lists the latest available self-managed `kube-proxy` contain
 |===
 
 
-[IMPORTANT]
-====
-
-
 * The default image type isn't available for [.noloc]`Kubernetes` version `1.25` and later. You must use the minimal image type.
 * When you  <<updating-an-add-on,update an Amazon EKS add-on type>>, you specify a valid Amazon EKS add-on version, which might not be a version listed in this table. This is because <<add-ons-kube-proxy,Amazon EKS add-on>> versions don't always match container image versions specified when updating the self-managed type of this add-on. When you update the self-managed type of this add-on, you specify a valid container image version listed in this table. 
 
-====
 
 [.topic]
 [[kube-proxy-add-on-self-managed-update,kube-proxy-add-on-self-managed-update.title]]

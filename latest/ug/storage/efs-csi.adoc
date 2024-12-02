@@ -29,6 +29,7 @@ link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation
 * Version https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-1.x.md#v142[1.4.2] or later of this driver supports using FIPS for mounting file systems.
 * Take note of the resource quotas for Amazon EFS. For example, there's a quota of 1000 access points that can be created for each Amazon EFS file system. For more information, see  link:efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region[Amazon EFS resource quotas that you cannot change,type="documentation"].
 * Starting in version https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-2.x.md#v200[2.0.0], this driver switched from using `stunnel` to `efs-proxy` for TLS connections. When `efs-proxy` is used, it will open a number of threads equal to one plus the number of cores for the node it's running on.
+* The Amazon EFS CSI driver isn't compatible with Amazon EKS Hybrid Nodes.
 
 
 [[efs-csi.prereqs,efs-csi.prereqs.title]]

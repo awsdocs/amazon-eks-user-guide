@@ -1,0 +1,5 @@
+- summarize IAM policy
+- short paras for start of page
+- short procedures for existing tasks
+- comparison table
+- 

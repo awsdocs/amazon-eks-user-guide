@@ -1,0 +1,150 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[hybrid-nodes-upgrade,hybrid-nodes-upgrade.title]]
+= Upgrade hybrid nodes for your cluster
+:info_doctype: section
+:info_title: Upgrade hybrid nodes for your cluster
+:info_titleabbrev: Upgrade hybrid nodes
+:keywords: upgrade on-premises nodes, upgrade hybrid nodes
+:info_abstract: Upgrade Kubernetes versions on hybrid nodes
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Upgrade Kubernetes versions on hybrid nodes
+--
+
+The guidance for upgrading hybrid nodes is similar to self-managed Amazon EKS nodes that run in Amazon EC2. It is recommended to can create new hybrid nodes on your target Kubernetes version, gracefully migrate your existing applications to the hybrid nodes on the new Kubernetes version, and remove the hybrid nodes on the old Kubernetes version from your cluster. Be sure to review the link:eks/latest/best-practices/cluster-upgrades.html[Amazon EKS Best Practices,type="documentation"] for upgrades before initiating an upgrade. Amazon EKS Hybrid Nodes have the same <<kubernetes-versions,Kubernetes version support>> for Amazon EKS clusters with cloud nodes, including standard and extended support. 
+
+Amazon EKS Hybrid Nodes follow the same https://kubernetes.io/releases/version-skew-policy/#supported-version-skew[version skew policy] for nodes as upstream Kubernetes. Amazon EKS Hybrid Nodes cannot be on a newer version than the Amazon EKS control plane, and hybrid nodes may be up to three Kubernetes minor versions older than the Amazon EKS control plane minor version.
+
+If you do not have spare capacity to create new hybrid nodes on your target Kubernetes version for a cutover migration upgrade strategy, you can alternatively use the Amazon EKS Hybrid Nodes CLI (`nodeadm`) to upgrade the Kubernetes version of your hybrid nodes in-place. 
+
+[IMPORTANT]
+====
+If you are upgrading your hybrid nodes in-place with `nodeadm`, there is downtime for the node during the process where the older version of the Kubernetes components are shut down and the new Kubernetes version components are installed and started.
+====
+
+== Prerequisites
+
+Before upgrading, make sure you have completed the following prerequisites.
+
+* The target Kubernetes version for your hybrid nodes upgrade must be equal to or less than the Amazon EKS control plane version.
+* If you are following a cutover migration upgrade strategy, the new hybrid nodes you are installing on your target Kubernetes version must meet the <<hybrid-nodes-prereqs>> requirements. This includes having IP addresses within the Remote Node Network CIDR you passed during Amazon EKS cluster creation.
+* For both cutover migration and in-place upgrades, the hybrid nodes must have access to the <<hybrid-nodes-networking-on-prem,required domains>> to pull the new versions of the hybrid nodes dependencies. 
+* You must have kubectl installed on your local machine or instance you are using to interact with your Amazon EKS Kubernetes API endpoint.
+* The version of your CNI must support the Kubernetes version you are upgrading to. If it does not, upgrade your CNI version before upgrading your hybrid nodes. See <<hybrid-nodes-cni>> for more information.
+
+== Cutover migration upgrades
+
+Cutover migration upgrades refer to the process of creating new hybrid nodes on new hosts with your target Kubernetes version, gracefully migrating your existing applications to the new hybrid nodes on your target Kubernetes version, and removing the hybrid nodes on the old Kubernetes version from your cluster.
+
+. Connect your new hosts as hybrid nodes following the <<hybrid-nodes-join>> steps. When running the `nodeadm install` command, use your target Kubernetes version.
+. Enable communication between the new hybrid nodes on the target Kubernetes version and your hybrid nodes on the old Kubernetes version. This configuration allows pods to communicate with each other while you are migrating your workload to the hybrid nodes on the target Kubernetes version.
+. Confirm your hybrid nodes on your target Kubernetes version successfully joined your cluster and have status Ready.
+. Use the following command to taint each of the nodes that you want to remove with `NoSchedule`. This is so that new pods aren't scheduled or rescheduled on the nodes that you are replacing. For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the Kubernetes documentation. Replace `NODE_NAME` with the name of the hybrid nodes on the old Kubernetes version.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+kubectl taint nodes [.replaceable]`NODE_NAME` key=value:NoSchedule
+----
++
+You can identify and taint all of the nodes of a particular Kubernetes version (in this case, `1.28`) with the following code snippet.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+K8S_VERSION=1.28
+nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
+for node in ${nodes[@]}
+do
+    echo "Tainting $node"
+    kubectl taint nodes $node key=value:NoSchedule
+done
+----
+. If your current deployment is running fewer than two CoreDNS replicas on your hybrid nodes, scale out the deployment to at least two replicas. It is recommended to run at least two CoreDNS replicas on hybrid nodes for resiliency during normal operations.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+kubectl scale deployments/coredns --replicas=2 -n kube-system
+----
+. Drain each of the hybrid nodes on the old Kubernetes version that you want to remove from your cluster with the following command. For more information on draining nodes, see https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/[Safely Drain a Node] in the Kubernetes documentation. Replace `NODE_NAME` with the name of the hybrid nodes on the old Kubernetes version.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+kubectl drain [.replaceable]`NODE_NAME` --ignore-daemonsets --delete-emptydir-data
+----
++
+You can identify and drain all of the nodes of a particular Kubernetes version (in this case, `1.28`) with the following code snippet.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+K8S_VERSION=1.28
+nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
+for node in ${nodes[@]}
+do
+    echo "Draining $node"
+    kubectl drain $node --ignore-daemonsets --delete-emptydir-data
+done
+----
+. You can use `nodeadm` to stop and remove the hybrid nodes artifacts from the host. You must run `nodeadm` with a user that has root/sudo privileges. By default, `nodeadm uninstall` will not proceed if there are pods remaining on the node. For more information see <<hybrid-nodes-nodeadm>>.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+nodeadm uninstall
+----
+
+. With the hybrid nodes artifacts stopped and uninstalled, remove the node resource from your cluster.
+
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+kubectl delete node [.replaceable]`node-name`
+----
++
+You can identify and delete all of the nodes of a particular Kubernetes version (in this case, `1.28`) with the following code snippet.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+K8S_VERSION=1.28
+nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
+for node in ${nodes[@]}
+do
+    echo "Deleting $node"
+    kubectl delete node $node 
+done
+----
+
+. Depending on your choice of CNI, there may be artifacts remaining on your hybrid nodes after running the above steps. See <<hybrid-nodes-cni>> for more information.
+
+== In-place upgrades
+
+The in-place upgrade process refers to using `nodeadm upgrade` to upgrade the Kubernetes version for hybrid nodes without using new physical or virtual hosts and a cutover migration strategy. The `nodeadm upgrade` process shuts down the existing older Kubernetes components running on the hybrid node, uninstalls the existing older Kubernetes components, installs the new target Kubernetes components, and starts the new target Kubernetes components. It is strongly recommend to upgrade one node at a time to minimize impact to applications running on the hybrid nodes. The duration of this process depends on your network bandwidth and latency.
+
+. Use the following command to taint the node you are upgrading with `NoSchedule`. This is so that new pods aren't scheduled or rescheduled on the node that you are upgrading. For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the Kubernetes documentation. Replace `NODE_NAME` with the name of the hybrid node you are upgrading
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+kubectl taint nodes NODE_NAME key=value:NoSchedule
+----
+
+. Drain the node you are upgrading with the following command. For more information on draining nodes, see https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/[Safely Drain a Node] in the Kubernetes documentation. Replace `NODE_NAME` with the name of the hybrid node you are upgrading.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+kubectl drain NODE_NAME --ignore-daemonsets --delete-emptydir-data
+----
+
+. Run `nodeadm upgrade` on the hybrid node you are upgrading. You must run `nodeadm` with a user that has root/sudo privileges. The name of the node is preserved through upgrade for both {aws} SSM and {aws} IAM Roles Anywhere credential providers. You cannot change credentials providers during the upgrade process. See <<hybrid-nodes-nodeadm>> for configuration values for `nodeConfig.yaml`. Replace `K8S_VERSION` with the target Kubernetes version you upgrading to.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+nodeadm upgrade K8S_VERSION -c file://nodeConfig.yaml
+----
+
+. Watch the status of your hybrid nodes and wait for your nodes to shutdown and restart on the new Kubernetes version with the Ready status.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+kubectl get nodes -o -w
+----

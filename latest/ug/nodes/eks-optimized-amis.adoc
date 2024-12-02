@@ -13,10 +13,12 @@ include::../attributes.txt[]
 
 [abstract]
 --
-You can deploy nodes with pre-built Amazon EKS optimized link:AWSEC2/latest/UserGuide/AMIs.html[Amazon Machine Images,type="documentation"] (AMIs) or your own custom AMIs
+You can deploy nodes with pre-built Amazon EKS optimized link:AWSEC2/latest/UserGuide/AMIs.html[Amazon Machine Images,type="documentation"] (AMIs) or your own custom AMIs.
 --
 
-You can deploy nodes with pre-built Amazon EKS optimized link:AWSEC2/latest/UserGuide/AMIs.html[Amazon Machine Images,type="documentation"] (AMIs) or your own custom AMIs. For information about each type of Amazon EKS optimized AMI, see one of the following topics. For instructions on how to create your own custom AMI, see <<eks-ami-build-scripts>>.
+You can deploy nodes with pre-built Amazon EKS optimized link:AWSEC2/latest/UserGuide/AMIs.html[Amazon Machine Images,type="documentation"] (AMIs) or your own custom AMIs when you use managed node groups or self-managed nodes. If you are running hybrid nodes, see <<hybrid-nodes-os>>. For information about each type of Amazon EKS optimized AMI, see one of the following topics. For instructions on how to create your own custom AMI, see <<eks-ami-build-scripts>>.
+
+With Amazon EKS Auto Mode, EKS manages the EC2 instance including selecting and updating the AMI. 
 
 [.topiclist]
 [[Topic List]]

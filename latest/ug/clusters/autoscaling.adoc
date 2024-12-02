@@ -16,7 +16,19 @@ Discover how Amazon EKS integrates Kubernetes autoscaling with {aws}, empowering
 
 Autoscaling is a function that automatically scales your resources out and in to meet changing demands. This is a major [.noloc]`Kubernetes` function that would otherwise require extensive human resources to perform manually.
 
-Amazon EKS supports two autoscaling products:
+== EKS Auto Mode
+
+Amazon EKS Auto Mode automatically scales cluster compute resources. If a pod can't fit onto existing nodes, EKS Auto Mode creates a new one. EKS Auto Mode also consolidates workloads and deletes nodes. EKS Auto Mode builds upon Karpenter. 
+
+For more information, see:
+
+* <<automode>>
+* <<create-node-pool>>
+* <<automode-workload>>
+
+== Additional Solutions
+
+Amazon EKS supports two additional autoscaling products:
 
 
 

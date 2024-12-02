@@ -1,0 +1,212 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[auto-configure-alb,auto-configure-alb.title]]
+= Create an IngressClass to configure an Application Load Balancer
+:info_doctype: section
+:info_titleabbrev: Create ingress class
+
+include::../attributes.txt[]
+
+EKS Auto Mode automates routine tasks for load balancing, including exposing cluster apps to the internet. 
+
+{aws} suggests using Application Load Balancers (ALB) to serve HTTP and HTTPS traffic. Application Load Balancers can route requests based on the content of the request. For more information on Application Load Balancers, see link:elasticloadbalancing/latest/userguide/what-is-load-balancing.html["What is Elastic Load Balancing?",type="documentation"]
+
+EKS Auto Mode creates and configures Application Load Balancers (ALBs). For example, EKS Auto Mode creates a load balancer when you create an `Ingress` Kubernetes objects and configures it to route traffic to your cluster workload. 
+
+**Overview**
+
+. Create an `IngressClassParams` resource, specifying {aws} specific configuration values such as the certificate to use for SSL/TLS and VPC Subnets. 
+. Create an `IngressClass` resource, specifying that EKS Auto Mode will be the controller for the resource.
+. Create an `Ingress` resource that associates a HTTP path and port with a cluster workload. 
+. EKS Auto Mode will create an Application Load Balancer that points to the workload specified in the `Ingress` resource, using the load balancer configuration specified in the `IngressClassParams` resource. 
+
+## Prerequisites
+
+* EKS Auto Mode Enabled on an Amazon EKS Cluster
+* Kubectl configured to connect to your cluster
+** You can use `kubectl apply -f <filename>` to apply the sample configuration YAML files below to your cluster.
+
+## Step 1: Create IngressClassParams
+
+Create an `IngressClassParams` object to specify {aws} specific configuration options for the Application Load Balancer. Use the reference below to update the sample YAML file. 
+
+Note the name you set for the `IngressClassParams` resource, you will need it in the next step. 
+
+```yaml
+apiVersion: eks.amazonaws.com/v1
+kind: IngressClassParams
+metadata:
+  name: alb 
+spec:
+  scheme: internet-facing
+```
+
+
+
+## Step 2: Create IngressClass
+
+Create an `IngressClass` that references the {aws} specific configuration values set in the `IngressClassParams` resource. Note the name of the `IngressClass` . In this example, both the `IngressClass` and `IngressClassParams` are named `alb`.
+
+Use the `is-default-class` annotation to control if `Ingress` resources should use this class by default. 
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: alb
+  annotations:
+    # Use this annotation to set an IngressClass as Default
+    # If an Ingress doesn't specify a class, it will use the Default
+    ingressclass.kubernetes.io/is-default-class: "true" 
+spec:
+  # Configures the IngressClass to use EKS Auto Mode
+  controller: eks.amazonaws.com/alb
+  parameters:
+    apiGroup: eks.amazonaws.com
+    kind: IngressClassParams
+    # Use the name of the IngressClassParams set in the previous step
+    name: alb 
+```
+
+For more information on configuration options, see <<ingress-reference>>. 
+
+## Step 3: Create Ingress
+
+Create an `Ingress` resource. The purpose of this resource is to associate paths and ports on the Application Load Balancer with workloads in your cluster. 
+
+For more information about configuring this resource, see https://kubernetes.io/docs/concepts/services-networking/ingress/[Ingress] in the Kubernetes Documentation. 
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: 2048-ingress
+spec:
+  # this matches the name of IngressClass.  
+  # this can be omitted if you have a default ingressClass in cluster: the one with ingressclass.kubernetes.io/is-default-class: "true"  annotation
+  ingressClassName: alb 
+  rules:
+    - http:
+        paths:
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: <your-service>
+                port:
+                  number: 80
+```
+
+
+
+## Step 4: Check Status
+
+Use `kubectl` to find the status of the `Ingress`. It can take a few minutes for the load balancer to become available.
+
+Use the name of the `Ingress` resource you set in the previous step. 
+
+```
+kubectl get ingress <ingress-name>
+```
+
+Once the resource is ready, retrieve the domain name of the load balancer.
+
+```
+kubectl get ingress api-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+```
+
+To view the service in a web browser, review the port and path specified in the `Ingress` rescue. 
+
+## Step 5: Cleanup
+
+To clean up the load balancer, use the following command:
+
+```
+kubectl delete ingress <ingress-name>
+```
+
+EKS Auto Mode will automatically delete the associated load balancer in your {aws} account. 
+
+[[ingress-reference,ingress-reference.title]]
+== IngressClassParams Reference
+
+The table below is a quick reference for commonly used configuration options. 
+
+[cols="3*", options="header"]
+|===
+|Field |Description |Example Value
+|`scheme`
+|Defines whether the ALB is internal or internet-facing
+|`internet-facing`
+|`namespaceSelector`
+|Restricts which namespaces can use this IngressClass
+|`environment: prod`
+|`group.name`
+|Groups multiple Ingresses to share a single ALB
+|`retail-apps`
+|`ipAddressType`
+|Sets IP address type for the ALB
+|`dualstack`
+|`subnets.ids`
+|List of subnet IDs for ALB deployment
+|`subnet-xxxx, subnet-yyyy`
+|`subnets.tags`
+|Tag filters to select subnets for ALB
+|`Environment: prod`
+|`certificateARNs`
+|ARNs of SSL certificates to use
+|`arn:aws:acm:region:account:certificate/id`
+|`tags`
+|Custom tags for {aws} resources
+|`Environment: prod, Team: platform`
+|`loadBalancerAttributes`
+|Load balancer specific attributes
+|`idle_timeout.timeout_seconds: 60`
+|===
+
+
+== Considerations
+
+* You cannot use Annotations on an IngressClass to configure load balancers with EKS Auto Mode.
+* The following options are not supported:
+** `group.name` on `IngressClassParams`
+* You must update the Cluster IAM Role to enable tag propagation from Kubernetes to {aws} Load Balancer resources. For more information, see <<tag-prop>>.
+* For information about associating resources with either EKS Auto Mode or the self-managed {aws} Load Balancer Controller, see <<migration-reference>>.
+* For information about fixing issues with load balancers, see <<auto-troubleshoot>>. 
+* For more considerations about using the load balancing capability of EKS Auto Mode, see <<auto-lb-consider>>. 
+
+The following tables provide a detailed comparison of changes in IngressClassParams, Ingress annotations, and TargetGroupBinding configurations for EKS Auto Mode. These tables highlight the key differences between the load balancing capability of EKS Auto Mode and the open source load balancer controller, including API version changes, deprecated features, and updated parameter names.
+
+=== IngressClassParams 
+
+[options="header"]
+|===
+| Previous | New | Description
+| `elbv2.k8s.aws/v1beta1` | `eks.amazonaws.com/v1` | API version change
+| `spec.certificateArn` | `spec.certificateARNs` | Support for multiple certificate ARNs
+| `spec.subnets.tags` | `spec.subnets.matchTags` | Changed subnet matching schema
+| `spec.listeners.listenerAttributes` | `spec.listeners.attributes` | Simplified attribute naming
+|===
+
+=== Ingress annotations
+
+[options="header"]
+|===
+| Previous | New | Description
+| `kubernetes.io/ingress.class` | Not supported | Use `spec.ingressClassName` on Ingress objects
+| `alb.ingress.kubernetes.io/group.name` | Not supported | Specify groups in IngressClass only
+| `alb.ingress.kubernetes.io/waf-acl-id` | Not supported | Use WAF v2 instead
+| `alb.ingress.kubernetes.io/web-acl-id` | Not supported | Use WAF v2 instead
+| `alb.ingress.kubernetes.io/shield-advanced-protection` | Not supported | Shield integration disabled
+|===
+
+=== TargetGroupBinding
+
+[options="header"]
+|===
+| Previous | New | Description
+| `elbv2.k8s.aws/v1beta1` | `eks.amazonaws.com/v1` | API version change
+| `spec.targetType` optional | `spec.targetType` required | Explicit target type specification
+| `spec.networking.ingress.from` | Not supported | No longer supports NLB without security groups
+|===
+

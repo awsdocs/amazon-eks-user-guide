@@ -1,0 +1,75 @@
+[.topic]
+= Glossary
+:info_doctype: section
+:info_title: Glossary of terms for EKS Auto Mode
+:info_titleabbrev: Glossary
+:info_abstract: Glossary of terms for EKS Auto Mode
+
+
+include::../attributes.txt[]
+
+IAM Role::
+An IAM identity that you can create in your {aws} account that has specific permissions. You can use IAM roles to delegate access to users, applications, or services that don't normally have access to your {aws} resources.
+
+* You can attach {aws} IAM Policies to the role.
+* You can also use EKS access entries to attach Kubernetes RBAC permissions to the role. 
+
+Kubernetes Role::
+A Kubernetes resource that defines a set of permission rules within a namespace. Roles specify which operations (verbs) are allowed on which resources in the Kubernetes API.
+
+{aws} Managed IAM Policy::
+A standalone policy that is created and administered by {aws}. {aws} managed policies are designed to provide permissions for many common use cases and are maintained by {aws}.
+
+EKS Access Policy::
+A set of Kubernetes permissions that are managed by Amazon EKS. You can associate an EKS access policy with an IAM role to control access to your Amazon EKS cluster.
+
+EKS Access Entry::
+The connection between an EKS access policy and an IAM role. An access entry gives an IAM role specific permissions on your Amazon EKS cluster.
+
+EKS Managed Node Group::
+//Find something from Alex?
+
+Fargate Pod::
+A pod that runs on {aws} Fargate. Each pod runs in its own isolated compute environment, and components such as the kernel, CPU resources, and memory resources are not shared with other pods.
+
+Self managed nodes::
+Amazon EC2 instances that you manage as part of your Amazon EKS cluster. You are responsible for security patches, system updates, and all maintenance tasks.
+
+Node Group::
+A collection of Amazon EC2 instances that are configured to work with Amazon EKS. Node groups contain instances with the same configuration.
+
+Node Class::
+A template that defines the compute infrastructure for your nodes. Node classes specify settings such as instance types, storage configuration, and networking options.
+
+Node Pool::
+A Kubernetes custom resource that connects your workloads to a node class. Node pools determine which pods run on which types of nodes.
+
+EKS Node Class for EKS Auto Mode::
+A node class that is optimized for Amazon EKS. This class uses Amazon EKS-optimized AMIs and integrates with {aws} services for security, monitoring, and maintenance.
+
+EC2 Node Class for Karpenter::
+A node class that works with Karpenter, an open-source node provisioning project. This class provides direct control over Amazon EC2 instance configuration without using managed node groups.
+
+Amazon EKS Auto Mode Managed Node::
+An Amazon EC2 instance that is configured and managed by Amazon EKS Auto Mode. These nodes receive automatic updates and are optimized for running Kubernetes workloads.
+
+EKS Auto Mode Managed Node Pools::
+The default node pools that are included with every Amazon EKS Auto Mode cluster. These pools are preconfigured for different workload types.
+
+EKS Auto Mode Managed Node Pool -- General Purpose::
+A default node pool that is suitable for most workloads. This pool provides balanced compute and memory resources.
+
+EKS Auto Mode Managed Node Pool -- System::
+A default node pool that is optimized for running system workloads and cluster components.
+
+EKS Auto Mode Managed EC2 Instance::
+An Amazon EC2 instance that is managed as part of Amazon EKS Auto Mode. {aws} maintains these instances and automatically applies security patches and updates.
+
+EKS Auto Mode -- Compute Capability::
+A feature that automatically manages compute resources in Amazon EKS Auto Mode clusters. This capability handles tasks such as scaling nodes and selecting instance types based on workload requirements.
+
+EKS Auto Mode -- Block Storage Capability::
+A feature that manages Amazon EBS volumes in Amazon EKS Auto Mode clusters. This capability automatically handles volume provisioning and lifecycle management for pods that need persistent storage.
+
+EKS Auto Mode -- Load Balancing Capability::
+A feature that manages Application Load Balancers and Network Load Balancers in Amazon EKS Auto Mode clusters. This capability automatically configures load balancers based on your service requirements.

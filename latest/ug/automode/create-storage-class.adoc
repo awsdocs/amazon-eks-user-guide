@@ -1,0 +1,239 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[create-storage-class,create-storage-class.title]]
+= Create a Storage Class
+:info_doctype: section
+:info_titleabbrev: Create storage class
+
+
+include::../attributes.txt[]
+
+A StorageClass in Amazon EKS Auto Mode defines how Amazon EBS volumes are automatically provisioned when applications request persistent storage. This page explains how to create and configure a StorageClass that works with the Amazon EKS Auto Mode to provision EBS volumes.
+
+By configuring a StorageClass, you can specify default settings for your EBS volumes including volume type, encryption, IOPS, and other storage parameters. You can also configure the StorageClass to use {aws} KMS keys for encryption management.
+
+{eam} does not create a StorageClass for you. You must create a StorageClass referencing `ebs.csi.eks.amazonaws.com` to use the storage capability of {eam}.
+
+First, create a file named `storage-class.yaml`:
+
+[source,yaml]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: auto-ebs-sc
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: ebs.csi.eks.amazonaws.com
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  type: gp3
+  encrypted: "true"
+----
+
+Second, apply the storage class to your cluster. 
+
+[source,bash]
+----
+kubectl apply -f storage-class.yaml
+----
+
+*Key components:*
+
+- `provisioner: ebs.csi.eks.amazonaws.com` - Uses {eam}
+- `volumeBindingMode: WaitForFirstConsumer` - Delays volume creation until a pod needs it
+- `type: gp3` - Specifies the EBS volume type
+- `encrypted: "true"` - EBS will encrypt any volumes created using the StorageClass. EBS will use the default `aws/ebs` key alias. For more information, see link:ebs/latest/userguide/how-ebs-encryption-works.html["How Amazon EBS encryption works",type="documentation"] in the Amazon EBS User Guide. This value is optional but suggested. 
+- `storageclass.kubernetes.io/is-default-class: "true"` - Kubernetes will use this storage class by default, unless you specify a different volume class on a persistent volume claim. This value is optional. Use caution when setting this value if you are migrating from a different storage controller. 
+
+== Use self-managed KMS key to encrypt EBS volumes
+
+To use a self-managed KMS key to encrypt EBS volumes automated by EKS Auto Mode, you need to:
+
+. Create a self-managed KMS key.
+** For more information, see link:kms/latest/developerguide/create-symmetric-cmk.html["Create a symmetric encryption KMS key",type="documentation"] or link:kms/latest/developerguide/services-ebs.html["How Amazon Elastic Block Store (Amazon EBS) uses KMS",type="documentation"] in the KMS User Guide.
+. Create a new policy that permits access to the KMS key.
+** Use the sample IAM policy below to create the policy. Insert the ARN of the new self-managed KMS key. For more information, see 
+link:IAM/latest/UserGuide/access_policies_job-functions_create-policies.html["Creating roles and attaching policies (console)",type="documentation"] in the {aws} IAM User Guide. 
+. Attach the policy to the EKS Cluster Role.
+** Use the {aws} console to find the ARN of the EKS Cluster Role. The role information is visible in the *Overview* section. For more information, see <<cluster-iam-role>>. 
+. Update the `StorageClass` to reference the KMS Key ID at the `parameters.kmsKeyId` field.
+
+=== Sample self-managed KMS IAM Policy
+
+Update the following values in the policy below:
+
+* `<account-id>` -- Your {aws} account ID, such as `111122223333`
+* `<aws-region>` -- The {aws} region of your cluster, such as `us-west-2`
+
+[source,json]
+----
+{
+  "Version": "2012-10-17",
+  "Id": "key-auto-policy-3",
+  "Statement": [
+      {
+          "Sid": "Enable IAM User Permissions",
+          "Effect": "Allow",
+          "Principal": {
+              "AWS": "arn:aws:iam::<account-id>:root"
+          },
+          "Action": "kms:*",
+          "Resource": "*"
+      },
+      {
+        "Sid": "Allow access through EBS for all principals in the account that are authorized to use EBS",
+        "Effect": "Allow",
+        "Principal": {
+            "AWS": "*"
+        },
+        "Action": [
+            "kms:Encrypt",
+            "kms:Decrypt",
+            "kms:ReEncrypt*",
+            "kms:GenerateDataKey*",
+            "kms:CreateGrant",
+            "kms:DescribeKey"
+        ],
+        "Resource": "*",
+        "Condition": {
+            "StringEquals": {
+                "kms:CallerAccount": "<account-id>",
+                "kms:ViaService": "ec2.<aws-region>.amazonaws.com"
+            }
+        }
+    }
+  ]
+}
+----
+
+=== Sample self-managed KMS StorageClass
+
+[source,yaml]
+----
+parameters:
+  type: gp3
+  encrypted: "true"
+  kmsKeyId: <custom-key-arn>
+----
+
+
+== StorageClass Parameters Reference
+
+For general information on the Kubernetes `StorageClass` resources, see https://kubernetes.io/docs/concepts/storage/storage-classes/[Storage Classes] in the Kubernetes Documentation.
+
+THe `parameters` section of the `StorageClass` resource is specific to {aws}. Use the following table to review available options. 
+
+[role="no-scroll"]
+[cols="4*", options="header"]
+|===
+|Parameters |Values |Default |Description
+|"csi.storage.k8s.io/fstype"
+|xfs, ext2, ext3, ext4
+|ext4
+|File system type that will be formatted during volume creation. This parameter is case sensitive!
+|"type"
+|io1, io2, gp2, gp3, sc1, st1, standard, sbp1, sbg1
+|gp3
+|EBS volume type.
+|"iopsPerGB"
+|
+|
+|I/O operations per second per GiB. Can be specified for IO1, IO2, and GP3 volumes.
+|"allowAutoIOPSPerGBIncrease"
+|true, false
+|false
+|When `"true"`, the CSI driver increases IOPS for a volume when `iopsPerGB * <volume size>` is too low to fit into IOPS range supported by {aws}. This allows dynamic provisioning to always succeed, even when user specifies too small PVC capacity or `iopsPerGB` value. On the other hand, it may introduce additional costs, as such volumes have higher IOPS than requested in `iopsPerGB`.
+|"iops"
+|
+|
+|I/O operations per second. Can be specified for IO1, IO2, and GP3 volumes.
+|"throughput"
+|
+|125
+|Throughput in MiB/s. Only effective when gp3 volume type is specified. 
+|"encrypted"
+|true, false
+|false
+|Whether the volume should be encrypted or not. Valid values are "true" or "false".
+|"blockExpress"
+|true, false
+|false
+|Enables the creation of io2 Block Express volumes.
+|"kmsKeyId"
+|
+|
+|The full ARN of the key to use when encrypting the volume. If not specified, {aws} will use the default KMS key for the region the volume is in. This will be an auto-generated key called `/aws/ebs` if not changed.
+|"blockSize"
+|
+|
+|The block size to use when formatting the underlying filesystem. Only supported on linux nodes and with fstype `ext2`, `ext3`, `ext4`, or `xfs`.
+|"inodeSize"
+|
+|
+|The inode size to use when formatting the underlying filesystem. Only supported on linux nodes and with fstype `ext2`, `ext3`, `ext4`, or `xfs`.
+|"bytesPerInode"
+|
+|
+|The `bytes-per-inode` to use when formatting the underlying filesystem. Only supported on linux nodes and with fstype `ext2`, `ext3`, `ext4`.
+|"numberOfInodes"
+|
+|
+|The `number-of-inodes` to use when formatting the underlying filesystem. Only supported on linux nodes and with fstype `ext2`, `ext3`, `ext4`.
+|"ext4BigAlloc"
+|true, false
+|false
+|Changes the `ext4` filesystem to use clustered block allocation by enabling the `bigalloc` formatting option. Warning: `bigalloc` may not be fully supported with your node's Linux kernel. 
+|"ext4ClusterSize"
+|
+|
+|The cluster size to use when formatting an `ext4` filesystem when the `bigalloc` feature is enabled. Note: The `ext4BigAlloc` parameter must be set to true. 
+|===
+
+For more information, see the https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/parameters.md[{aws} EBS CSI Driver] on GitHub.
+
+== Considerations
+
+The block storage capability of EKS Auto Mode is different from the EBS CSI Driver.
+
+* Static Provisioning
+** If you want to use externally-created EBS volumes with EKS Auto Mode, you need to manually add an {aws} tag with the key `eks:eks-cluster-name` and the value of the cluster name. 
+* Node Startup Taint
+** You cannot use the node startup taint feature to prevent pod scheduling before storage capability readiness
+* Custom Tags on Dynamically Provisioned Volumes
+** You cannot use the extra-tag CLI flag to configure custom tags on dynamically provisioned EBS volumes
+** You can use StorageClass Tagging to add custom tags. EKS Auto Mode will add tags to the associated {aws} resources. You will need to update the Cluster IAM Role for custom tags. For more information, see <<tag-prop>>.
+* EBS Detailed Performance Metrics
+** You cannot access Prometheus metrics for EBS detailed performance 
+
+== Install CSI Snapshot Controller add-on
+
+EKS Auto Mode is compatible with the CSI Snapshot Controller Amazon EKS add-on.
+
+{aws} suggests you configure this add-on to run on the built-in `system` node pool. 
+
+For more information, see:
+
+* <<critical-workload>> 
+* <<set-builtin-node-pools>>
+* <<csi-snapshot-controller>>
+
+[discrete]
+#### To install snapshot controller in system node pool
+
+. Open your EKS cluster in the {aws} console
+. From the *Add-ons* tab, select *Get more add-ons*
+. Select the *CSI Snapshot Controller* and then *Next*
+. On the *Configure selected add-ons settings* page, select *Optional configuration settings* to view the *Add-on configuration schema*
+.. Insert the following yaml to associate the snapshot controller with the `system` node pool. The snapshot controller includes a toleration for the `CriticalAddonsOnly` taint. 
++
+[source,yaml]
+----
+{
+        "nodeSelector": {
+            "karpenter.sh/nodepool": "system"
+        }
+}
+----
+.. Select *Next*
+. Review the add-on configuration and then select *Create*

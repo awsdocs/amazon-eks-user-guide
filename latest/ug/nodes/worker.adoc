@@ -37,10 +37,15 @@ To add self-managed nodes to your Amazon EKS cluster, see the topics that follow
 
 For more information about nodes from a general [.noloc]`Kubernetes` perspective, see https://kubernetes.io/docs/concepts/architecture/nodes/[Nodes] in the [.noloc]`Kubernetes` documentation.
 
+== Feature comparison table
+
+include::smn-table.adoc[]
+
 [.topiclist]
 [[Topic List]]
 
 [.topic]
+
 include::launch-workers.adoc[leveloffset=+1]
 
 include::launch-node-bottlerocket.adoc[leveloffset=+1]

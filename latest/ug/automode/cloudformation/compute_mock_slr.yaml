@@ -1,0 +1,109 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Amazon EKS Karpenter Mock SLR Role'
+Resources:
+  EKSNodeOperatorMockSLR:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: EKSNodeOperatorMockSLR
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action:
+              - sts:AssumeRole
+              - sts:TagSession
+            Effect: Allow
+            Principal:
+              Service: eks.amazonaws.com
+      ManagedPolicyArns:
+        - Ref: EKSNodeOperatorMockSLRPolicy
+  EKSNodeOperatorMockSLRPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: EKSNodeOperatorMockSLRPolicy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - ec2:DescribeImages
+              - ec2:DescribeInstances
+              - ec2:DescribeInstanceTypeOfferings
+              - ec2:DescribeInstanceTypes
+              - ec2:DescribeLaunchTemplates
+              - ec2:DescribeSecurityGroups
+              - ec2:DescribeSpotPriceHistory
+              - ec2:DescribeSubnets
+              - pricing:GetProducts
+              - eks:DescribeCluster
+            Effect: Allow
+            Resource: "*"
+          - Action: eks:DescribeAccessEntry
+            Condition:
+              StringEquals:
+                eks:accessEntryType:
+                  - MANAGED_EC2_LINUX
+            Effect: Allow
+            Resource: "*"
+          - Action: events:PutRule
+            Effect: Allow
+            Resource: arn:*:events:*:*:rule/EKSComputeManagedRule
+          - Action: events:PutTargets
+            Condition:
+              StringLike:
+                events:TargetArn: "arn:*:eks-compute:*:::"
+            Effect: Allow
+            Resource: arn:*:events:*:*:rule/EKSComputeManagedRule
+          - Action:
+              - iam:GetInstanceProfile
+              - iam:CreateInstanceProfile
+              - iam:DeleteInstanceProfile
+              - iam:TagInstanceProfile
+              - iam:RemoveRoleFromInstanceProfile
+            Effect: Allow
+            Resource: arn:*:iam::*:instance-profile/eks-compute-*
+          - Action:
+              - ec2:TerminateInstances
+            Condition:
+              StringEquals:
+                ec2:ManagedResourceOperator: eks.amazonaws.com
+                aws:ResourceTag/eks:operator-name: compute
+            Effect: Allow
+            Resource: "*"
+          - Action:
+            - ec2:DeleteLaunchTemplate
+            Condition:
+              StringEquals:
+                aws:ResourceTag/eks:operator-name: compute
+            Effect: Allow
+            Resource: "*"
+          - Action: eks:ListAssociatedAccessPolicies
+            Effect: Allow
+            Resource: arn:*:eks:*:*:access-entry/*/role/*/EKSNodeOperatorMockSLR/*
+          - Action:
+              - eks:CreateAccessEntry
+              - eks:DeleteAccessEntry
+            Condition:
+              ArnLike:
+                eks:principalArn: arn:*:iam::*:role/EKSNodeOperatorMockSLR
+              StringEquals:
+                eks:accessEntryType: STANDARD
+            Effect: Allow
+            Resource: "*"
+          - Action:
+              - eks:AssociateAccessPolicy
+              - eks:DisassociateAccessPolicy
+            Condition:
+              ArnLike:
+                eks:policyArn:
+                  - arn:*:eks::aws:cluster-access-policy/AmazonEKSNodeOperatorClusterPolicy
+                  - arn:*:eks::aws:cluster-access-policy/AmazonEKSNodeOperatorPolicy
+            Effect: Allow
+            Resource: arn:*:eks:*:*:access-entry/*/role/*/EKSNodeOperatorMockSLR/*
+          - Action: eks:TagResource
+            Effect: Allow
+            Resource: arn:*:eks:*:*:access-entry/*/role/*/EKSNodeOperatorMockSLR/*
+Outputs:
+  RoleArn:
+    Description: The role that EKS will use to mock the compute SLR
+    Value: !GetAtt EKSNodeOperatorMockSLR.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-RoleArn"

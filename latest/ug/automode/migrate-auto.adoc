@@ -1,0 +1,81 @@
+//!!NODE_ROOT <section>
+[.topic]
+include::../attributes.txt[]
+[[migrate-auto,migrate-auto.title]]
+= Enable EKS Auto Mode on existing EKS clusters
+:info_doctype: section
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_title: Enable EKS Auto Mode on existing EKS clusters
+:info_titleabbrev: Enable existing clusters
+:info_abstract: Learn about the tools needed to migrate an Amazon EKS cluster to EKS Auto Mode.
+
+[abstract]
+--
+Learn about the tools needed for creating and working with an Amazon EKS cluster in EKS Auto Mode.
+--
+
+You can enable EKS Auto Mode on existing EKS Clusters. 
+
+[NOTE]
+====
+EKS Auto Mode requires Kubernetes version 1.29 or greater. 
+====
+
+*{aws} supports the following migrations:*
+
+* Migrating from Karpenter to EKS Auto Mode Nodes
+** Learn how to <<auto-migrate-karpenter>>
+* Migrating from EKS Managed Node Groups to EKS Auto Mode Nodes
+** Learn how to <<auto-migrate-mng>>
+* Migrating from EKS Fargate to EKS Auto Mode Nodes
+
+*{aws} does not support the following migrations:*
+
+* Migrating volumes from the EBS CSI Controller to EKS Auto Mode Block Storage
+** You can install the EBS CSI controller on an Amazon EKS Auto Mode cluster. Use a `StorageClass` to associate volumes with either the EBS CSI Controller or EKS Auto Mode. 
+* Migrating load balancers from the {aws} Load Balancer Controller to EKS Auto Mode 
+** You can install the {aws} Load Balancer Controller on an Amazon EKS Auto Mode cluster. Use the `IngressClass` or `loadBalancerClass` options to associate Service and Ingress resources with either the Load Balancer Controller or EKS Auto Mode. 
+* Migrating EKS Clusters with alternative CNIs or other unsupported networking configurations
+
+== Migration Reference
+
+Use the following migration reference to configure Kubernetes Resources to be owned by either self-managed controllers or EKS Auto Mode. 
+
+[%header,cols="1,1,1,1,1"]
+|===
+
+| Capability | Resource | Field | Self Managed | EKS Auto Mode
+
+| Block Storage | StorageClass | provisioner | kubernetes.io/aws-ebs | ebs.csi.eks.amazonaws.com
+
+| Load Balancing | Service | loadBalancerClass | service.k8s.aws/nlb | eks.amazonaws.com/nlb
+
+| Load Balancing | IngressClass | controller | ingress.k8s.aws/alb | eks.amazonaws.com/alb
+
+
+
+|Load Balancing | IngressClassParams |apiversion |elbv2.k8s.aws/v1beta1 |eks.amazonaws.com/v1
+
+|Load Balancing | TargetGroupBinding |apiversion |elbv2.k8s.aws/v1beta1 |eks.amazonaws.com/v1
+
+| Compute | NodeClass | apiVersion | karpenter.sh/v1alpha5 | eks.amazonaws.com/v1
+
+|===
+
+== Load Balancer Migration
+
+You cannot directly transfer existing load balancers from the self-managed {aws} load balancer controller to EKS Auto Mode. Instead, you must implement a blue-green deployment strategy. This involves maintaining your existing load balancer configuration while creating new load balancers under the managed controller.
+
+To minimize service disruption, we recommend a DNS-based traffic shifting approach. First, create new load balancers using EKS Auto Mode while keeping your existing configuration operational. Then, use DNS routing (such as Route 53) to gradually shift traffic from the old load balancers to the new ones. Once traffic has been successfully migrated and you've verified the new configuration, you can decommission the old load balancers and self-managed controller.
+
+include::auto-enable-existing.adoc[leveloffset=+1]
+
+include::auto-migrate-karpenter.adoc[leveloffset=+1]
+
+include::auto-migrate-mng.adoc[leveloffset=+1]
+
+

@@ -4,11 +4,18 @@ include::../attributes.txt[]
 [.topic]
 [[learn-eks,learn-eks.title]]
 = Learn Amazon EKS by example
-:info_doctype: section
+:info_doctype: chapter
 :info_title: Learn Amazon EKS by example
 :info_titleabbrev: Learn Amazon EKS
 :keywords: tutorial, workshop, developer, learn
 :info_abstract: Find learning paths to extend your knowledge of Amazon EKS.
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
 
 [abstract]
 --

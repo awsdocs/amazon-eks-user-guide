@@ -1,6 +1,4 @@
 //!!NODE_ROOT <section>
-include::../attributes.txt[]
-
 [.topic]
 [[alb-ingress,alb-ingress.title]]
 = Route application and [.noloc]`HTTP` traffic with [.noloc]`Application Load Balancers`
@@ -9,10 +7,21 @@ include::../attributes.txt[]
 :info_titleabbrev: Application load balancing
 :info_abstract: Learn how to use Application Load Balancing on Amazon EKS to load balance application traffic at L7 with {aws} Load Balancer Controller.
 
+include::../attributes.txt[]
+
 [abstract]
 --
 Learn how to use Application Load Balancing on Amazon EKS to load balance application traffic at L7 with {aws} Load Balancer Controller.
 --
+
+[NOTE]
+====
+*New:* Amazon EKS Auto Mode automates routine tasks for load balancing. For more information, see:
+
+* <<auto-elb-example>>
+* <<auto-configure-alb>>
+
+====
 
 When you create a [.noloc]`Kubernetes` `ingress`, an {aws} Application Load Balancer (ALB) is provisioned that load balances application traffic. To learn more, see link:elasticloadbalancing/latest/application/introduction.html[What is an Application Load Balancer?,type="documentation"] in the _Application Load Balancers User Guide_ and https://kubernetes.io/docs/concepts/services-networking/ingress/[Ingress] in the [.noloc]`Kubernetes` documentation. ALBs can be used with [.noloc]`Pods` that are deployed to nodes or to {aws} Fargate. You can deploy an ALB to public or private subnets.
 
@@ -81,7 +90,7 @@ alb.ingress.kubernetes.io/ip-address-type: dualstack
 +
 NOTE: Your [.noloc]`Kubernetes` service must specify the `NodePort` or "LoadBalancer" type to use this traffic mode.
 ** *IP*
- – Registers [.noloc]`Pods` as targets for the ALB. Traffic reaching the ALB is directly routed to [.noloc]`Pods` for your service. You must specify the `alb.ingress.kubernetes.io/target-type: ip` annotation to use this traffic mode. The IP target type is required when target [.noloc]`Pods` are running on Fargate.
+ – Registers [.noloc]`Pods` as targets for the ALB. Traffic reaching the ALB is directly routed to [.noloc]`Pods` for your service. You must specify the `alb.ingress.kubernetes.io/target-type: ip` annotation to use this traffic mode. The IP target type is required when target [.noloc]`Pods` are running on Fargate or Amazon EKS Hybrid Nodes.
 * To tag ALBs created by the controller, add the following annotation to the controller: `alb.ingress.kubernetes.io/tags`. For a list of all available annotations supported by the [.noloc]`{aws} Load Balancer Controller`, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/ingress/annotations/[Ingress annotations] on [.noloc]`GitHub`.
 * Upgrading or downgrading the ALB controller version can introduce breaking changes for features that rely on it. For more information about the breaking changes that are introduced in each release, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases[ALB controller release notes] on [.noloc]`GitHub`.
 

@@ -1,0 +1,48 @@
+//!!NODE_ROOT <chapter>
+[.topic]
+include::../attributes.txt[]
+[[create-auto,create-auto.title]]
+= Create a cluster with Amazon EKS Auto Mode
+:info_doctype: section
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_title: Create cluster with EKS Auto Mode
+:info_titleabbrev: Create cluster
+:info_abstract: Learn about the tools needed for creating and working with an Amazon EKS cluster in EKS Auto Mode.
+:keywords: getting, started, tutorials, quick, start
+
+[abstract]
+--
+Learn about the tools needed for creating and working with an Amazon EKS cluster in EKS Auto Mode.
+--
+
+
+
+This chapter explains how to create an Amazon EKS cluster with Auto Mode enabled using various tools and interfaces. Auto Mode simplifies cluster creation by automatically configuring and managing the cluster's compute, networking, and storage infrastructure. You'll learn how to create an Auto Mode cluster using the {aws} CLI, {aws} Management Console, or the eksctl command line tool.
+
+[NOTE]
+====
+EKS Auto Mode requires Kubernetes version 1.29 or greater. 
+====
+
+
+Choose your preferred tool based on your needs: The {aws} Management Console provides a visual interface ideal for learning about EKS Auto Mode features and creating individual clusters. The {aws} CLI is best suited for scripting and automation tasks, particularly when integrating cluster creation into existing workflows or CI/CD pipelines. The eksctl CLI offers a Kubernetes-native experience and is recommended for users familiar with Kubernetes tooling who want simplified command line operations with sensible defaults.
+
+Before you begin, ensure you have the necessary prerequisites installed and configured, including appropriate IAM permissions to create EKS clusters. To learn how to install CLI tools such as `kubectl`, `aws`, and `eksctl`, see <<setting-up>>.
+
+You can use the {aws} CLI, {aws} Management Console, or eksctl CLI to create a cluster with Amazon EKS Auto Mode.
+
+[.topiclist]
+[[Topic List]]
+
+include::automode-get-started-eksctl.adoc[leveloffset=+1]
+
+include::automode-get-started-cli.adoc[leveloffset=+1]
+
+include::automode-get-started-console.adoc[leveloffset=+1]
+
+
+

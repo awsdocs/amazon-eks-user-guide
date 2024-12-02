@@ -1,0 +1,85 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[automode-get-started-eksctl,automode-get-started-eksctl.title]]
+= Create an EKS Auto Mode Cluster with the eksctl CLI
+:info_doctype: section
+:config: configuration
+:info_title: Create an EKS Auto Mode Cluster with the eksctl CLI
+:info_titleabbrev: eksctl CLI
+:info_abstract: Create an EKS Auto Mode cluster with the eksctl CLI
+
+
+include::../attributes.txt[]
+
+This topic shows you how to create an Amazon EKS Auto Mode cluster using the eksctl command line interface (CLI). You can create an Auto Mode cluster either by running a single CLI command or by applying a YAML configuration file. Both methods provide the same functionality, with the YAML approach offering more granular control over cluster settings.
+
+The eksctl CLI simplifies the process of creating and managing EKS Auto Mode clusters by handling the underlying {aws} resource creation and configuration. Before proceeding, ensure you have the necessary {aws} credentials and permissions configured on your local machine. This guide assumes you're familiar with basic Amazon EKS concepts and have already installed the required CLI tools.
+
+[NOTE]
+====
+You must install version `0.195.0` or greater of eksctl. For more information, see https://github.com/eksctl-io/eksctl/releases[eksctl releases] on GitHub. 
+====
+
+
+== Create an {eam} cluster with a CLI command
+
+You must have the `aws` and `eksctl` tools installed. You must be logged into the {aws} CLI with sufficent permissions to manage {aws} resources including: EC2 instances, EC2 networking, EKS clusters, and IAM roles. For more information, see <<setting-up>>. 
+
+Run the following command to create a new {eam} cluster with 
+
+[source,cli]
+----
+eksctl create cluster --name=<cluster-name> --enable-auto-mode
+----
+
+//Cluster IAM Role?
+//Update kubeconfig?
+
+== Create an {eam} cluster with a YAML file
+:enai: enabling 
+
+You must have the `aws` and `eksctl` tools installed. You must be logged into the {aws} CLI with sufficent permissions to manage {aws} resources including:  EC2 instances, EC2 networking, EKS clusters, and IAM roles. For more information, see <<setting-up>>. 
+
+Review the {eam} configuration options in the sample ClusterConfig resource below. For the full ClusterConfig specification, see the https://eksctl.io/usage/creating-and-managing-clusters/[eksctl documentation].
+
+{aws} suggests {enai} {eam}. If this is your first time creating an {eam} cluster, leave the `nodeRoleARN` unspecified to create a Node IAM Role for {eam}. If you already have a Node IAM Role in {yaa}, {aws} suggests reusing it. 
+
+{aws} suggests not specifying any value for `nodePools`. {eam} will create default node pools. You can use the Kubernetes API to create additional node pools. 
+
+[source,yaml]
+----
+# cluster.yaml
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: <cluster-name>
+  region: <aws-region>
+
+iam:
+  # ARN of the Cluster IAM Role
+  # optional, eksctl creates a new role if not supplied
+  # suggested to use one Cluster IAM Role per account
+  serviceRoleARN: <arn-cluster-iam-role>
+
+autoModeConfig:
+  # defaults to false
+  enabled: boolean 
+  # optional, defaults to [general-purpose, system]. 
+  # suggested to leave unspecified 
+  # To disable creation of nodePools, set it to the empty array ([]). 
+  nodePools: []string 
+  # optional, eksctl creates a new role if this is not supplied
+  # and nodePools are present.
+  nodeRoleARN: string 
+----
+
+Save the `ClusterConfig` file as `cluster.yaml`, and use the following command to create the cluster:
+
+[source,cli]
+----
+eksctl create cluster -f cluster.yaml
+----
+
+

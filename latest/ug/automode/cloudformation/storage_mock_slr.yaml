@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Amazon EKS Storage Mock SLR Role'
+Resources:
+  EKSStorageOperatorMockSLRPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: EKSStorageOperatorMockSLRPolicy
+      PolicyDocument:
+        Statement:
+          - Action: eks:ListAssociatedAccessPolicies
+            Effect: Allow
+            Resource: arn:*:eks:*:*:access-entry/*/role/*/EKSStorageOperatorMockSLR/*
+          - Action:
+              - eks:CreateAccessEntry
+              - eks:DeleteAccessEntry
+            Condition:
+              ArnLike:
+                eks:principalArn: arn:*:iam::*:role/EKSStorageOperatorMockSLR
+              StringEquals:
+                eks:accessEntryType: STANDARD
+            Effect: Allow
+            Resource: "*"
+          - Action:
+              - eks:AssociateAccessPolicy
+              - eks:DisassociateAccessPolicy
+            Condition:
+              ArnLike:
+                eks:policyArn:
+                  - arn:*:eks::aws:cluster-access-policy/AmazonEKSStorageOperatorEbsCsiControllerClusterPolicy
+                  - arn:*:eks::aws:cluster-access-policy/AmazonEKSStorageOperatorEbsCsiControllerPolicy
+                  - arn:*:eks::aws:cluster-access-policy/AmazonEKSStorageOperatorSnapshotControllerClusterPolicy
+                  - arn:*:eks::aws:cluster-access-policy/AmazonEKSStorageOperatorSnapshotControllerPolicy
+            Effect: Allow
+            Resource: arn:*:eks:*:*:access-entry/*/role/*/EKSStorageOperatorMockSLR/*
+          - Action: eks:TagResource
+            Effect: Allow
+            Resource: arn:*:eks:*:*:access-entry/*/role/*/EKSStorageOperatorMockSLR/*
+        Version: "2012-10-17"
+  EKSStorageOperatorMockSLR:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+              - sts:TagSession
+            Effect: Allow
+            Principal:
+              Service: eks.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Ref: EKSStorageOperatorMockSLRPolicy
+      RoleName: EKSStorageOperatorMockSLR
+Outputs:
+  RoleArn:
+    Description: The role that EKS will use to mock the storage SLR
+    Value: !GetAtt   EKSStorageOperatorMockSLR.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-RoleArn"

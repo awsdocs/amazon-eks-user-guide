@@ -1,0 +1,153 @@
+
+//!!NODE_ROOT <section>
+[.topic]
+[[auto-mng,auto-mng.title]]
+= Compare EKS Auto Mode with EKS managed node groups
+:info_doctype: section
+:info_title: Compare EKS Auto Mode with EKS managed node groups
+:info_titleabbrev: Compare with Managed Node Groups
+:info_abstract: Compare EKS Auto Mode with EKS managed node groups
+
+
+include::../attributes.txt[]
+
+[IMPORTANT]
+====
+*{aws} Internal:* The table below will be used to update the larger table at <<eks-compute>> 
+====
+
+
+
+[cols="3*", options="header"]
+|===
+|Criteria |EKS managed node groups |EKS Auto Mode
+
+|Can be deployed to {aws} Outposts
+|No
+|No
+
+|Can be deployed to an {aws} Local Zone
+|Yes 
+|No
+
+|Can run containers that require Windows
+|Yes
+|No
+
+|Can run containers that require Linux
+|Yes
+|Yes
+
+|Can run workloads that require the Inferentia chip
+|Yes – Amazon Linux nodes only
+|Yes
+
+|Can run workloads that require a GPU
+|Yes – Amazon Linux nodes only
+|Yes
+
+|Can run workloads that require Arm processors
+|Yes
+|Yes
+
+|Can run {aws} Bottlerocket
+|Yes
+|Yes - Required
+
+|Pods share a kernel runtime environment with other Pods
+|Yes – All of your Pods on each of your nodes
+|Yes
+
+|Pods share CPU, memory, storage, and network resources with other Pods.
+|Yes – Can result in unused resources on each node
+|Yes
+
+|Pods can use more hardware and memory than requested in Pod specs
+|Yes – If the Pod requires more resources than requested, and resources are available on the node, the Pod can use additional resources.
+|Yes
+
+|Must deploy and manage Amazon EC2 instances
+|Yes
+|No
+
+|Supports Custom Machine Images (AMIs)
+|Yes
+|No
+
+|Must secure, maintain, and patch the operating system of Amazon EC2 instances
+|Yes
+|No
+
+|Can provide bootstrap arguments at deployment of a node, such as extra kubelet arguments.
+|Yes – Using eksctl or a launch template with a custom AMI
+|No - Use a `NodeClass` to configure nodes
+
+|Can assign IP addresses to Pods from a different CIDR block than the IP address assigned to the node.
+|Yes – Using a launch template with a custom AMI. For more information, see Customize managed nodes with launch templates.
+|No
+
+|Can SSH into node
+|Yes
+|No
+
+|Can deploy your own custom AMI to nodes
+|Yes – Using a launch template
+|No
+
+|Can deploy your own custom CNI to nodes
+|Yes – Using a launch template with a custom AMI
+|No
+
+|Must update node AMI on your own
+|Yes – If you deployed an Amazon EKS optimized AMI, you’re notified in the Amazon EKS console when updates are available. You can perform the update with one-click in the console. If you deployed a custom AMI, you’re not notified in the Amazon EKS console when updates are available. You must perform the update on your own.
+|No
+
+|Must update node Kubernetes version on your own
+|Yes – If you deployed an Amazon EKS optimized AMI, you’re notified in the Amazon EKS console when updates are available. You can perform the update with one-click in the console. If you deployed a custom AMI, you’re not notified in the Amazon EKS console when updates are available. You must perform the update on your own.
+|No
+
+|Can use Amazon EBS storage with Pods
+|Yes
+|Yes
+
+|Can use Amazon EFS storage with Pods
+|Yes
+|Yes
+
+|Can use Amazon FSx for Lustre storage with Pods
+|Yes
+|Yes
+
+|Can use Network Load Balancer for services
+|Yes
+|Yes
+
+|Pods can run in a public subnet
+|Yes
+|Yes
+
+|Can assign different VPC security groups to individual Pods
+|Yes – Linux nodes only
+|No
+
+|Can run Kubernetes DaemonSets
+|Yes
+|Yes
+
+|Support HostPort and HostNetwork in the Pod manifest
+|Yes
+|Yes
+
+|{aws} Region availability
+|All Amazon EKS supported regions
+|All Amazon EKS supported regions
+
+|Can run containers on Amazon EC2 dedicated hosts
+|Yes
+|No
+
+|Pricing
+|Cost of Amazon EC2 instance that runs multiple Pods. For more information, see Amazon EC2 pricing.
+| When EKS Auto Mode is enabled in your cluster, you pay a separate fee, in addition to the standard EC2 instance charges, for the instances launched using Auto Mode's compute capability. The amount varies with the instance type launched and the {aws} region where your cluster is located. For more information, see link:eks/pricing/["Amazon EKS pricing",type="marketing"].
+
+|===

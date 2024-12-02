@@ -1,0 +1,102 @@
+
+include::../attributes.txt[]
+
+[cols="1,1", options="header"]
+|===
+|Criteria
+|Self managed nodes
+
+|Can be deployed to link:outposts/latest/userguide/what-is-outposts.html[{aws} Outposts,type="documentation"]
+|Yes
+
+|Can be deployed to an <<local-zones,{aws} Local Zone>>
+|Yes
+
+|Can run containers that require [.noloc]`Windows`
+|<<windows-support,Yes>> – Your cluster still requires at least one (two recommended for availability) [.noloc]`Linux` node though.
+
+|Can run containers that require [.noloc]`Linux`
+|Yes
+
+|Can run workloads that require the Inferentia chip
+|<<inferentia-support,Yes>> – Amazon Linux only
+
+|Can run workloads that require a GPU
+|<<gpu-ami,Yes>> – Amazon Linux only
+
+|Can run workloads that require Arm processors
+|<<arm-ami,Yes>>
+
+|Can run {aws} link:bottlerocket/[Bottlerocket,type="marketing"]
+|<<launch-node-bottlerocket,Yes>>
+
+|Pods share a kernel runtime environment with other [.noloc]`Pods`
+|Yes – All of your [.noloc]`Pods` on each of your nodes
+
+|Pods share CPU, memory, storage, and network resources with other [.noloc]`Pods`.
+|Yes – Can result in unused resources on each node 
+
+|Pods can use more hardware and memory than requested in [.noloc]`Pod` specs
+|Yes – If the [.noloc]`Pod` requires more resources than requested, and resources are available on the node, the [.noloc]`Pod` can use additional resources.
+
+|Must deploy and manage Amazon EC2 instances
+|Yes – Manual configuration or using Amazon EKS provided {aws} CloudFormation templates to deploy <<launch-workers,Linux (x86)>>, <<arm-ami,Linux (Arm)>>, or <<windows-support,Windows>> nodes.
+
+|Must secure, maintain, and patch the operating system of Amazon EC2 instances
+|Yes
+
+|Can provide bootstrap arguments at deployment of a node, such as extra https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet] arguments.
+|Yes – For more information, see the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap script usage information] on [.noloc]`GitHub`.
+
+|Can assign IP addresses to [.noloc]`Pods` from a different CIDR block than the IP address assigned to the node.
+|Yes – For more information, see <<cni-custom-network>>.
+
+|Can SSH into node
+|Yes
+
+|Can deploy your own custom AMI to nodes
+|Yes
+
+|Can deploy your own custom CNI to nodes
+|Yes
+
+|Must update node AMI on your own
+|<<update-stack,Yes>> – Using tools other than the Amazon EKS console. This is because self-managed nodes can't be managed with the Amazon EKS console.
+
+|Must update node [.noloc]`Kubernetes` version on your own
+|<<update-stack,Yes>> – Using tools other than the Amazon EKS console. This is because self-managed nodes can't be managed with the Amazon EKS console.
+
+|Can use Amazon EBS storage with [.noloc]`Pods`
+|<<ebs-csi,Yes>>
+
+|Can use Amazon EFS storage with [.noloc]`Pods`
+|<<efs-csi,Yes>>
+
+|Can use Amazon FSx for Lustre storage with [.noloc]`Pods`
+|<<fsx-csi,Yes>>
+
+|Can use Network Load Balancer for services
+|<<network-load-balancing,Yes>>
+
+|Pods can run in a public subnet
+|Yes
+
+|Can assign different VPC security groups to individual [.noloc]`Pods`
+|<<security-groups-for-pods,Yes>> – [.noloc]`Linux` nodes only
+
+|Can run [.noloc]`Kubernetes` [.noloc]`DaemonSets`
+|Yes
+
+|Support `HostPort` and `HostNetwork` in the [.noloc]`Pod` manifest
+|Yes
+
+|{aws} Region availability
+|link:general/latest/gr/eks.html[All Amazon EKS supported regions,type="documentation"]
+
+|Can run containers on Amazon EC2 dedicated hosts
+|Yes
+
+|Pricing
+|Cost of Amazon EC2 instance that runs multiple [.noloc]`Pods`. For more information, see link:ec2/pricing/[Amazon EC2 pricing,type="marketing"].
+
+|===

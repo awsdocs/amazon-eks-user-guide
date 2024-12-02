@@ -1,0 +1,105 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[troubleshoot-lbc,troubleshoot-lbc.title]]
+# Troubleshooting Amazon EKS Auto Mode Load Balancer Controller
+:info_doctype: section
+
+[NOTE]
+====
+This resource is not ready for publication. 
+====
+
+
+include::../attributes.txt[]
+
+This guide helps you troubleshoot issues with the {aws} Load Balancer Controller when using Amazon EKS Auto Mode.
+
+## Verify Ingress Resources
+
+Check the status of your Ingress resources:
+
+```bash
+kubectl get ingress --all-namespaces
+kubectl describe ingress <ingress-name> -n <namespace>
+```
+
+Look for:
+
+- Proper annotations
+- ALB DNS name in the Address field
+- Events indicating any issues
+
+## Check {aws} Resources
+
+Verify these resources in the {aws} Management Console or using {aws} CLI:
+
+- Application Load Balancers
+- Target Groups
+- Security Groups
+
+## Common Issues
+
+### Ingress Not Creating ALB
+
+1. Verify Ingress annotations
+2. Check security group configuration
+3. Validate subnet configuration
+4. Review target group settings
+
+### Target Group Health Check Failures
+
+1. Ensure security group allows health check traffic
+2. Verify application endpoints are responding
+3. Check health check path and settings
+
+### Networking Issues
+
+1. Verify subnet tagging:
+   - Public subnets: `kubernetes.io/role/elb: 1`
+   - Private subnets: `kubernetes.io/role/internal-elb: 1`
+2. Check VPC internet connectivity for public ALBs
+3. Review route tables and NAT gateway configuration
+
+### Security Group Problems
+
+1. Verify inbound rules allow traffic on required ports
+2. Ensure outbound rules allow health check traffic
+3. Check security group associations
+
+## Advanced Troubleshooting
+
+### Version Compatibility
+
+Ensure compatibility between:
+- Kubernetes version
+- EKS version
+- {aws} SDK version
+
+### Resource Cleanup
+
+For stuck resources:
+
+1. Remove finalizers:
+   ```bash
+   kubectl patch ingress <ingress-name> -p '{"metadata":{"finalizers":[]}}' --type=merge
+   ```
+2. Check for orphaned {aws} resources (ALBs, target groups, listener rules)
+
+## Best Practices
+
+1. Regularly review Ingress events and {aws} resource synchronization
+2. Document custom annotations and maintain troubleshooting runbooks
+3. Test changes in non-production environments first
+
+## Considerations for EKS Auto Mode
+
+- Limited customization options
+- {aws} manages controller updates
+- IAM permissions are handled automatically
+- Focus on monitoring {aws} resources and Ingress events
+
+## Additional Resources
+
+- link:https://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html[{aws} EKS Troubleshooting]
+- link:https://console.aws.amazon.com/support/home[{aws} Support Center]
+- link:https://status.aws.amazon.com/[{aws} Service Health Dashboard]

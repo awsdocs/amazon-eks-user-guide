@@ -1,0 +1,234 @@
+## Components that EKS Auto Mode manages
+
+The following features are used to further automate the operation and scaling of your EKS cluster.
+
+### Compute
+
+When it comes to compute, EKS Auto Mode takes control of the configuration and management of the nodes in your cluster. It will choose your AMIs and instance types and lock them down for security. It will put node autoscaling in place to simplify spinning nodes up and down, while emphasizing cost savings and ease-of-use for the nodes managed by your EKS Auto Mode clusters. To do these things, policies are put in place that allow EKS Auto Mode to make most of these decisions without intervention.
+
+Here are compute-related components that you should know about:
+
+#### Choosing AMIs
+
+EKS Auto Mode chooses the AMIs installed on your EKS clusters for you. Those AMIs are based on https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami-bottlerocket.html[BottleRocket], a Linux-based operating system that was designed for running container. These EKS-optimized AMIs are built to run securely and without customer intervention. 
+
+As someone using these AMIs for EKS Auto Mode clusters, you can think of these operating system images as though they were appliances. EKS Auto Mode takes full control of these AMIs as they run on your cluster nodes by controlling them in the following ways:
+
+* Locking down the root filesystem, providing only read-only access.
+* Not allowing SSH or session manager access to the nodes. So you can’t log in directly to these nodes, change binaries or data, or access logs directly.
+* Fully managing operating system patches and upgrades. A 14-day lifetime maximum for these nodes insures that the latest operating systems software and APIs are in use.
+
+If you need to add services to manage your nodes, consider adding them to your cluster using Kubernetes daemonsets. For example, you might do this by running agents for logging and monitoring daemonsets on host computers. A daemonset is designed to run on every node in your cluster and provides a particularly good way to track what is happening on your clusters. See the Monitoring section later for more on {aws} supported monitoring and logging software for EKS.
+
+Another feature of these AMIs is the software that is integrated into them. Having the following services built into your AMIs makes it so you don’t need to install and manage those services yourself. Most of the following services run as Linux systemd services on your EKS Auto Mode cluster nodes:
+
+* **IPAMD daemon**: The IP Address Management (IPAM) daemon manages the pool of available IP addresses that are assigned to Pods.
+* **CNI/Network Policy Agent (aws-network-policy-agent)**: A fully managed Amazon VPC CNI for Pod networking that enforces network policies against Pods. 
+* **CoreDNS (coredns)**: A Domain Name System (DNS) service that is configured as a node local DNS server. 
+* **EKS Pod Identity Agent (eks-pod-identity-agent)**: Simplifies means of getting Kubernetes applications to get IAM permissions to authenticate to {aws} resources.
+* **Kubernetes network proxy agent (kube-proxy)**: This network proxy provides the network rules from within the cluster and from outside of the cluster to direct traffic to Pod service endpoints. Run in iptables mode to packet-forward packets between Pods.
+* **GPU Drivers (neuron-device-plugin & nvidia-device-plugin)**: Offers GPU plug-in support for Neuron and NVIDIA.
+* **EKS Health Checker**: Provides bridges from endpoints and liveliness probes to watchdog service. This service listens for heart beats and can restart on failure.
+* **Node Monitoring Agent (eks-node-monitoring-agent)**: Provides a Kubernetes service for problem detection and node repair.
+* **EBS CSI Driver (eks-auto-ebs-csi-cs)**: The EBS CSI driver, managed by EKS Auto Mode, creates a new storage class at launch and manages EBS storage. 
+* **Network policy controller (np-node-agent)**: An agent that runs on every node in the cluster to monitor and enforce local network policies.
+
+#### Node autoscaling
+
+EKS Auto Mode uses Karpenter to provide autoscaling services. From a high level, EKS Auto Mode uses Karpenter to do the following: 
+
+#### Node autoscaling
+
+Under the hood, EKS Auto Mode uses https://karpenter.sh/[Karpenter]to provide node auto scaling to its clusters. In many cases, the default Karpenter configuration for EKS Auto Mode will handle general purpose workloads without customer intervention. What Karpenter does is:
+
+* Watch for Pods that are not able to be scheduled by existing nodes.
+* Look at the scheduling constraints for those Pods.
+* Provision nodes that meet the Pods’ requirements.
+* Watch the nodes and the Pods running on those nodes and disrupt the nodes if they are no longer needed.
+
+EKS Auto Mode provides a default https://karpenter.sh/docs/concepts/nodepools/[NodePool]and https://karpenter.sh/docs/concepts/nodeclasses/[EKSNodeClass]to direct the features and limitations of how Karpenter configures nodes and handles Pod workloads. Although the default NodePool and EKSNodeClass will work for many cases, there are reasons why you might want to create your own. For example, you might want to create your own NodePool if you want to:
+
+* Use instances with accelerated processors.
+* Take advantage of EC2 Spot instances.
+* Isolate hardware for special purposes.
+* Isolate workloads for security purposes.
+* Separate teams for cost tracking or to avoid disturbances from other teams.
+* Bring  your own NodePools that you have already refined for your workloads.
+* Provide different priorities and order of compute resources.
+
+You might want to create your own EKSNodeClass if you need to:
+
+* Select you own subnets.
+* Configure ephemeral storage, including IOPs, storage size, and throughput.
+* Enable network policy event logs.
+* Choose security group selector terms.
+* Set the SNAT policy.
+* Set tags.
+* Choose different AMIs.
+
+There are also EKS Auto Mode settings for autoscaling that you cannot change. See the https://karpenter.sh/docs/[Karpenter documentation] for a description of these features:
+
+* https://karpenter.sh/v1.0/concepts/nodeclasses/#eviction-thresholds[Eviction thresholds]
+* https://karpenter.sh/v1.0/concepts/nodeclasses/#reserved-resources[Kubernetes and system reserved resources]
+* https://karpenter.sh/docs/concepts/nodeclasses/#max-pods[Max Pods]
+* https://karpenter.sh/v1.0/reference/settings/[QPS settings]
+* https://karpenter.sh/v1.0/concepts/nodeclasses/#raid0[Instance storage device (RAID0 by default for ephemeral storage)]
+* https://karpenter.sh/v1.0/concepts/nodeclasses/[gp3 file system type]
+
+#### Node configuration
+
+Although EKS Auto Mode can take over most of the EKS cluster infrastructure, you do have some ability to change how EKS Auto Mode nodes are configured. As noted previously, you can create your own NodePools and NodeClasses to direct how nodes are created.
+
+You can also change nodes by modifying them through Kubernetes objects. Keep in mind, however, that when you change Kubernetes objects, EKS Auto Mode is still in charge. For example, if you were to use `kubectl` to delete a node, EKS Auto Mode would try to create a new node to replace it. The way to prevent that from happening would be to delete the workloads that required the node.
+
+Also, keep in mind that if you were to directly modify an existing node using dashboards or CLI tools, if that node became unhealthy or otherwise needed to be replaced, EKS Auto Mode would bring up a new node that would not include the modifications you made to the old one.
+
+### Authentication
+
+In order to do its job, EKS Auto Mode must be granted the proper permissions. Some IAM permissions must be provided by the customer and passed to EKS Auto Mode. Other permissions are granted to EKS Auto Mode through a service-linked role (SLR). Here are the roles that are needed:
+
+* **Node Role**: The node role is what ultimately configures Kubernetes RBAC permissions to allow you to use tools such as `kubectl` to change cluster features that impact {aws} services (like deleting a node or manage storage). There is an EKS Auto Mode  console experience for that, that has some new minimal permissions.
+* **Cluster Role**: Need help here. (Feel free to add your own text here)
+* **Service-linked role**: Need help here. (Feel free to add your own text here)
+
+### Networking
+
+EKS Auto Mode simplifies the creation and management of critical cluster networking components. These components are needed for service discovery, 427routing in-cluster,  Pod networking, and load balancing. Subnets are specified during cluster creation so that nodes andPods can be deployed to those subnets. However, you are free to modify some network setting by creating custom NodePools and NodeClasses as described earlier. For example, if  you were to add subnets to a new NodeClass, those subnets would be used the next time EKS Auto Mode created a node from that NodeClass.
+
+If you are using security groups to restrict Pod access to {aws} resources, we suggest  you transition instead  to NodeClass API and Kubernetes scheduling constraints instead. Using this method, you can group applications on specific nodes,  to control access in a way that aligns with EKS Auto Mode architecture. Ways of extending VPC capabilities include:
+
+* Creating IPv4 or IPv6 clusters
+* Using secondary CIDR and non-routable subnets to extend IP space
+* Combining Kubernetes and Karpenter scheduling mechanisms to implement isolation and network security
+* Using shared subnets
+
+To extend application networking, EKS Auto Mode supports:
+
+* Using Lattice to provide cross-cluster, multi-account, and multi-VPC application connectivity.
+* Using sidecar and sidecar less service mesh configurations.
+
+### Storage
+
+By default, EKS Auto Mode creates a managed node group to let you immediately begin deploying workloads. If default settings don’t suit you, using NodeClasses, you can change Ephemeral storage setting that are used on nodes managed by EKS Auto Mode. These settings  include: the names of two block devices, whether or not to delete the storage on termination, whether to encrypt the storage or not, the type of volume, and the volume size. You are also allowed to attach existing storage class to EKS Auto Mode clusters.
+
+Because EKS Auto Mode is compliant with CSI storage, you can install CSI EFS and S3 storage on the cluster as EKS add-ons. This can be configured with the managed system NodePool and the controller and agents run on managed EC2 instances. Customers can install and update EKS add-on APIs under the shared responsibility model. Outside of EKS add-ons, available storage features include that you can use with an EKS Auto Mode cluster include Amazon FSx for Lustre CSI Driver, Amazon FSx for NetApp ONTAP, and Amazon FSx for OpenZFS.
+
+### Load balancing controller
+
+For EKS Auto mode, the https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/[{aws} Load Balancer Controller] runs on an account and infrastructure managed by Amazon EKS. Its integration allows EKS Auto mode to manage responsibilities such as version updates, security patches, and scaling. It is an opinionated integration for Ingress and service configurations.
+
+For Layer 4 load balancer services, you only need to specify if want to make  the load balancer public. Here is an example of a Layer 4 service integration:
+
+```
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-service
+  annotations:
+    http://service.beta.kubernetes.io/aws-load-balancer-nlb-target-type[service.beta.kubernetes.io/aws-load-balancer-nlb-target-type]: "ip"
+    http://service.beta.kubernetes.io/aws-load-balancer-scheme[service.beta.kubernetes.io/aws-load-balancer-scheme]: "internet-facing"
+spec:
+  type: LoadBalancer
+  loadBalancerClass: “elbv2.eks.aws/nlb”
+  selector:
+    app: nginx
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+    targetPort: 80
+```
+
+For Layer 7 Ingress, it is a bit more complicated. You need to create an Ingress class first as the default. After that, you can create Ingresses as normal. Here is an example of a Layer 7 Ingress integration (see https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/ingress_class/[IngressClass] for details):
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: game-2048
+  name: ingress-2048
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: “elbv2.eks.aws/alb”
+  rules:
+  - http:
+    paths: 
+    - path: /
+      pathType: Prefix
+      backend:
+        service:
+        name: service-2048
+        port:
+          number: 80
+```
+
+### Monitoring
+
+There are several choices available for monitoring your EKS Auto Mode clusters. For {aws} native services, you can use https://aws.amazon.com/about-aws/whats-new/2019/11/announcing-amazon-cloudwatch-servicelens/[CloudWatch ServiceLens]. For an open source {aws} managed service, see https://docs.aws.amazon.com/grafana/latest/userguide/solution-eks.html[Managed Grafana]. If you are interested in DIY open source solution for {aws}, see https://docs.aws.amazon.com/solutions/latest/centralized-logging-with-opensearch/amazon-eks-cluster.html[Amazon OpenSearch Service], https://aws.amazon.com/prometheus/[Amazon Managed Service for Prometheus], and https://aws.amazon.com/what-is/jaeger/[Jaeger and Zipkin Tracing].  For collectors and SDKs, {aws} offers https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-metrics.html[Cloudwatch Agent], https://github.com/aws-samples/aws-xray-kubernetes[{aws} X-Ray Agent], and {aws} Distro for https://aws.amazon.com/otel/[Open Telemetry].
+
+On EKS Auto Mode cluster nodes, you can run monitoring loops and publish conditions and events, as well as run customer tasks. EKS Auto Mode monitors activities on each node and publishes events and conditions. EKS Auto Mode also offers the Controller Pod Health dashboard, which shows:
+
+    * {aws} Distro for Open Telemetry
+    * How the network is performing in the clusters
+    * How many healthy pods there are for each of the controllers running.
+    * If any pods are going into crash and restart.
+    * Controllers memory usage in each of the namespaces.
+    * The number of secondary IPs and Free IPs for IPAM.
+
+Customers can store logs themselves or push them to {aws} storage for {aws} to interpret.
+
+### Troubleshooting
+
+Not allowing direct (SSH) access to EKS Auto Mode nodes limits direct access to systemd service logs running directly on nodes. There are, however, other tools you can use to troubleshoot problems with your EKS Auto Node clusters:
+
+* **Check your NodeClaims**: Each node that is managed by EKS Auto Mode is represented by a NodeClaim. Using Kubernetes tools (such as kubectl), you can view the status of each NodeClaim to see if there are problems with the node. Because you can’t change NodeClaims, the typical correction would be to delete the node and wait for a new one to replace it. Here’s an example of how you can list all of your cluster’s nodeclaims, then view details about a selected one:
+
+```
+$ kubectl get nodeclaims 
+$ kubectl describe nodeclaim/<node-claim>
+```
+
+```
+$ kubectl get events
+Events:
+  Type   Reason   Age   From   Message
+  ----   ------   ---   ----   --------
+  Normal Unconsolidatable 7m54s (x52 over 12h)
+         \karpenter Can not replace with a cheaper node
+```
+
+* **Check console output**: Using the instance-id of the node you want to query, run the aws CLI to display console output:
+
+```
+$ aws ec2 get-console-output —instance-id i-024f78cfdcb30d803
+```
+
+* **Use Node Diagnostics CRD to store logs in S3**: Use something like the following example to capture node diagnostic information for a selected node to a chosen HTTP destination. Then use kubectl to view that diagnostic information:
+
+```
+---
+apiVersion: node.eks.aws/v1alpha1
+kind: NodeDiagnostic
+metadata:
+  name: <node-name>
+spec:
+  logCapture:
+  destination: <http-put-destination>
+```
+
+```
+$ kubectl describe nodediagnostics/node-name
+```
+
+* **Get events for managed controllers**: Although you cand display complete log files for each controller, you can output event information using the following command:
+
+```
+$ kubectl get events
+```
+
+
+
+
+

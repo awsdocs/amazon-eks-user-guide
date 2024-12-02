@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inflate-stateful
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inflate-stateful
+  template:
+    metadata:
+      labels:
+        app: inflate-stateful
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        eks.amazonaws.com/compute-type: eks-managed
+      containers:
+        - name: bash
+          image: public.ecr.aws/docker/library/bash:4.4
+          command: ["/usr/local/bin/bash"]
+          args: ["-c", "while true; do echo $(date -u) >> /data/out.txt; sleep 60; done"]
+          resources:
+            requests:
+              cpu: "1"
+          volumeMounts:
+            - name: persistent-storage
+              mountPath: /data
+      volumes:
+        - name: persistent-storage
+          persistentVolumeClaim:
+            claimName: tachyon-ebs-claim
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tachyon-ebs-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: tachyon-ebs-sc
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: tachyon-ebs-sc
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  type: gp3

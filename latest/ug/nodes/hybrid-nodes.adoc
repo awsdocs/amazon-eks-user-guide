@@ -1,0 +1,100 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[hybrid-nodes-overview,hybrid-nodes-overview.title]]
+= Amazon EKS Hybrid Nodes overview
+:info_doctype: section
+:info_title: Amazon EKS Hybrid Nodes overview
+:info_titleabbrev: Hybrid nodes
+:keywords: on-premises, hybrid
+:info_abstract: Amazon EKS Hybrid Nodes overview
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Join nodes from your data centers to Amazon EKS [.noloc]`Kubernetes` clusters with Amazon EKS Hybrid Nodes.
+--
+
+With _Amazon EKS Hybrid Nodes_, you can use your on-premises and edge infrastructure as nodes in Amazon EKS clusters. {aws} manages the {aws}-hosted Kubernetes control plane of the Amazon EKS cluster, and you manage the hybrid nodes that run in your on-premises or edge environments. This unifies Kubernetes management across your environments and offloads Kubernetes control plane management to {aws} for your on-premises and edge applications.
+
+Amazon EKS Hybrid Nodes works with any on-premises hardware or virtual machines, bringing the efficiency, scalability, and availability of Amazon EKS to wherever your applications need to run. You can use a wide range of Amazon EKS features with Amazon EKS Hybrid Nodes including Amazon EKS add-ons, Amazon EKS [.noloc]`Pod` Identity, cluster access entries, cluster insights, and extended Kubernetes version support. Amazon EKS Hybrid Nodes natively integrates with {aws-services} including {aws} Systems Manager, {aws} IAM Roles Anywhere, Amazon Managed Service for Prometheus, Amazon CloudWatch, and Amazon GuardDuty for centralized monitoring, logging, and identity management.
+
+With Amazon EKS Hybrid Nodes, there are no upfront commitments or minimum fees, and you are charged per hour for the vCPU resources of your hybrid nodes when they are attached to your Amazon EKS clusters. For more pricing information, see link:eks/pricing/[Amazon EKS Pricing,type="marketing"].
+
+For an overview of the other Amazon EKS options for on-premises and edge deployments, see <<eks-deployment-options>>.
+
+
+[[hybrid-nodes-general,hybrid-nodes-general.title]]
+== General concepts of Amazon EKS Hybrid Nodes
+
+* Amazon EKS Hybrid Nodes must have a reliable connection between your on-premises environment and {aws}. Amazon EKS Hybrid Nodes aren't a fit for disconnected, disrupted, intermittent or limited (DDIL) environments. If you are running in a DDIL environment, consider link:eks/eks-anywhere/[Amazon EKS Anywhere,type="marketing"].
+* Running Amazon EKS Hybrid Nodes on cloud infrastructure, including {aws-regions}, {aws} Local Zones, {outposts}, or in other clouds, is not supported. Use Amazon EKS Auto Mode, Karpenter, Amazon EC2 managed node groups, self-managed nodes, or {aws} Fargate when running in {aws-regions}. Use Amazon EC2 managed node groups or Amazon EC2 self-managed nodes when running on {aws} Local Zones. Only Amazon EC2 self-managed nodes can be used on {outposts} or {aws} Wavelength Zones.
+* A single Amazon EKS cluster can be used to run hybrid nodes and nodes in {aws-regions}, {aws} Local Zones, or {outposts}.
+* Amazon EKS Hybrid Nodes is available in all {aws-regions}, except the {aws} GovCloud (US) Regions and the {aws} China Regions.
+* You will be charged the hybrid nodes fee if you run hybrid nodes on Amazon EC2 instances.
+* Billing for hybrid nodes starts when the nodes join the Amazon EKS cluster and stops when the nodes are removed from the cluster. Be sure to remove your hybrid nodes from your Amazon EKS cluster if you are not using them.
+
+*Infrastructure Management*
+
+* Amazon EKS Hybrid Nodes follows a _bring your own infrastructure_ approach where it is your responsibility to provision and manage the physical or virtual machines and the operating system you use for hybrid nodes. 
+* Amazon EKS Hybrid Nodes are agnostic to the infrastructure they run on. You can run hybrid nodes on physical or virtual machines, and x86 and ARM architectures.
+
+*Operating Systems for hybrid nodes*
+
+* *Amazon Linux 2023 (AL2023)*: You can use Amazon Linux 2023 (AL2023) as the node operating system for hybrid nodes, but only in virtualized environments such as VMWare, KVM, and Hyper-V. {aws} supports the integration of hybrid nodes with AL2023, but AL2023 isn't covered by the {aws} Support Plans when you run it outside of Amazon EC2.
+* *Ubuntu*: You can use Ubuntu 20.04, Ubuntu 22.04, and Ubuntu 24.04 as the node operating system for hybrid nodes.
+* *Red Hat Enterprise Linux (RHEL)*: You can use RHEL 8 and RHEL 9 as the node operating system for hybrid nodes.
+
+
+*Kubernetes and platform versions*
+
+* Amazon EKS Hybrid Nodes supports the same Kubernetes versions and deprecation schedule as Amazon EKS, including standard and extended Kubernetes version support. For more information on Kubernetes versions in Amazon EKS, see <<kubernetes-versions>>. For more information about Amazon EKS platform versions, see <<platform-versions>>.
+* You must create new Amazon EKS clusters to use Amazon EKS Hybrid Nodes. Hybrid nodes can't be used with existing Amazon EKS clusters.
+
+*Networking*
+
+* The communication between the Amazon EKS control plane and hybrid nodes is routed through the VPC and subnets you pass during cluster creation, which builds on the link:eks/latest/best-practices/subnets.html[existing mechanism,type="documentation"] in Amazon EKS for control plane to node networking. 
+* Amazon EKS Hybrid Nodes is flexible to your preferred method of connecting your on-premises networks to a VPC in {aws}. There are several link:whitepapers/latest/aws-vpc-connectivity-options/network-to-amazon-vpc-connectivity-options.html[documented options,type="documentation"] available including {aws} Site-to-Site VPN and {aws} Direct Connect, and you can choose the method that best fits your use case.
+* *IP address family*: Hybrid nodes can be used with Amazon EKS clusters configured with the `IPv4` IP address family only. You can't use Amazon EKS clusters configured with the `IPv6` IP address family. Similarly, your on-premises node and [.noloc]`Pod` CIDRs must be `IPv4` RFC1918 CIDR blocks.
+* You must enable the required domains, protocols, and ports for Amazon EKS Hybrid Nodes in your on-premises environments and firewalls. For more information, including minimum networking requirements, see <<hybrid-nodes-networking>>.
+* *Cluster endpoint access*: You can use “Public” or “Private” cluster endpoint access. You should not use “Public and Private” cluster endpoint access, as the endpoint DNS resolution will always resolve to the public addresses for queries originating from your on-premises environment.
+* For information and best practices during scenarios where there are network disconnections between hybrid nodes and the {aws-region}, see the link:eks/latest/best-practices/hybrid-nodes.html[hybrid nodes,type="documentation"] section of the _Amazon EKS Best Practices Guide_.
+* *Application load balancing*: Kubernetes has a https://kubernetes.io/docs/concepts/services-networking/service/[Service] object to define the names and domain names for your applications and resolve and load balance to them. By default, the `type:LoadBalancer` type of Service additionally creates an {aws} Classic Load Balancer for traffic from outside the cluster. You can change this behavior with add-ons. Specifically, we recommend the {aws} Application Load Balancer and {aws} Network Load Balancer which are created by the {aws} Load Balancer Controller, instead of the {aws} Classic Load Balancer. For steps to install the {aws} Load Balancer Controller in a hybrid environment, see <<hybrid-nodes-add-ons-lbc>>.
+
+*Security for hybrid nodes*
+
+* Amazon EKS Hybrid Nodes use temporary IAM credentials to authenticate with your Amazon EKS cluster. You can use either {aws} IAM Roles Anywhere or {aws} Systems Manager (SSM) hybrid activations for provisioning the on-premises IAM credentials for hybrid nodes. It is recommended to use {aws} SSM hybrid activations if you do not have existing Public Key Infrastructure (PKI) with a Certificate Authority (CA) and certificates for your on-premises environments. If you do have existing PKI and certificates on-premises, use {aws} IAM Roles Anywhere.
+* You can use `API` or `API_AND_CONFIG_MAP` cluster authentication modes for your hybrid nodes-enabled Amazon EKS clusters. Use the cluster access entry type called `HYBRID_LINUX` with your hybrid nodes IAM role to enable hybrid nodes to join the Amazon EKS cluster.
+* OIDC authentication is supported for hybrid nodes-enabled Amazon EKS clusters.
+* You can use Amazon EKS [.noloc]`Pod` Identities and IAM Roles for Service Accounts (IRSA) with applications running on hybrid nodes to enable granular access for your [.noloc]`Pods` running on hybrid nodes with other {aws-services}.
+* You can use Amazon GuardDuty EKS Protection with hybrid nodes-enabled Amazon EKS clusters to analyze activities of users and applications accessing your cluster.
+
+*Add-ons for hybrid nodes*
+
+For detailed information, see <<hybrid-nodes-add-ons>>.
+
+* *Container Networking Interface (CNI)*: The {aws} VPC CNI can't be used with hybrid nodes. The core capabilities of [.noloc]`Cilium` and [.noloc]`Calico` are supported for use with hybrid nodes. You can manage your CNI with your choice of tooling such as [.noloc]`Helm`. For more information, see <<hybrid-nodes-cni>>.
+* *`kube-proxy` and CoreDNS*: `kube-proxy` and CoreDNS are installed automatically when hybrid nodes join the Amazon EKS cluster. These add-ons can be managed as Amazon EKS add-ons after cluster creation.
+* *Ingress and Load Balancing*: You can use the {aws} Load Balancer Controller and Application Load Balancer (ALB) or Network Load Balancer (NLB) with the target type `ip` for workloads on hybrid nodes connected with {aws} Direct Connect or {aws} Site-to-Site VPN. You can alternatively use your choice of Ingress controller or load balancer for application traffic that stays local to your on-premises environment.
+* *Metrics*: You can use Amazon Managed Prometheus (AMP) agent-less scrapers, {aws} Distro for Open Telemetry (ADOT), and the Amazon CloudWatch Observability Agent with hybrid nodes. To use AMP agent-less scrapers for [.noloc]`Pod` metrics on hybrid nodes, your [.noloc]`Pods` must be accessible from the VPC that you use for the Amazon EKS cluster.
+* *Logs*: You can enable Amazon EKS control plane logging for hybrid nodes-enabled clusters. You can use the ADOT EKS add-on and the Amazon CloudWatch Observability Agent EKS add-on for hybrid node and [.noloc]`Pod` logging.
+
+*User interfaces*
+
+* *Node management*: The Amazon EKS Hybrid Nodes CLI is called `nodeadm` and is run on each on-premises host to simplify the installation, configuration, registration, and uninstall of the hybrid nodes components. The hybrid nodes `nodeadm` version is different than the `nodeadm` version used in the AL2023 Amazon EKS-optimized AMIs. You should not use the hybrid nodes `nodeadm` version for nodes running in Amazon EC2.
+* *Cluster management*: The Amazon EKS user interfaces for cluster management are the same with hybrid nodes-enabled Amazon EKS clusters. This includes the {aws-management-console}, {AWS} API, {aws} SDKs, {cli}, [.noloc]`eksctl` CLI, {cloudformation}, and Terraform.
+
+
+include::hybrid-nodes-prereqs.adoc[leveloffset=+1]
+
+include::hybrid-nodes-tutorial.adoc[leveloffset=+1]
+
+include::hybrid-nodes-cni.adoc[leveloffset=+1]
+
+include::hybrid-nodes-add-ons.adoc[leveloffset=+1]
+
+include::hybrid-nodes-proxy.adoc[leveloffset=+1]
+
+include::hybrid-nodes-nodeadm.adoc[leveloffset=+1]
+
+include::hybrid-nodes-troubleshooting.adoc[leveloffset=+1]

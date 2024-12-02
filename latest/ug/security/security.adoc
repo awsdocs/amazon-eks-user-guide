@@ -66,6 +66,9 @@ include::security-eks.adoc[leveloffset=+1]
 include::security-k8s.adoc[leveloffset=+1]
 
 
+include::auto-security.adoc[leveloffset=+1]
+
+
 [.topic]
 [[security-best-practices,security-best-practices.title]]
 == Secure Amazon EKS clusters with best practices

@@ -113,6 +113,7 @@ a|
 
 * [.noloc]`Kubernetes` API requests within your cluster's VPC (such as node to control plane communication) use the private VPC endpoint.
 * Your cluster API server is accessible from the internet. You can, optionally, limit the CIDR blocks that can access the public endpoint.
+* If you are using hybrid nodes with your Amazon EKS cluster, it is not recommended to have both Public and Private cluster endpoint access enabled. Because your hybrid nodes are running outside of your VPC, they will resolve the cluster endpoint to the public IP addresses. It is recommended to use either Public or Private cluster endpoint access for clusters with hybrid nodes.
 
 
 |Disabled

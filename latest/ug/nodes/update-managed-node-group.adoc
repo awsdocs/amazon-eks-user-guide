@@ -42,7 +42,7 @@ You can update a node group version with either of the following:
 * <<eksctl_update_managed_nodegroup>>
 * <<console_update_managed_nodegroup>>
 
-The version that you update to can’t be greater than the control plane’s version.
+The version that you update to can't be greater than the control plane’s version.
 
 == `eksctl` [[eksctl_update_managed_nodegroup]]
 

@@ -1,0 +1,586 @@
+
+//!!NODE_ROOT <section>
+[.topic]
+[[access-policy-permissions,access-policy-permissions.title]]
+= Review access policy permissions
+:info_doctype: section
+:toc:
+
+include::../../attributes.txt[]
+
+Access policies include `rules` that contain [.noloc]`Kubernetes` `verbs` (permissions) and `resources`. Access policies don't include IAM permissions or resources. Similar to [.noloc]`Kubernetes` `Role` and `ClusterRole` objects, access policies only include `allow` `rules`. You can't modify the contents of an access policy. You can't create your own access policies. If the permissions in the access policies don't meet your needs, then create [.noloc]`Kubernetes` RBAC objects and specify  _group names_ for your access entries. For more information, see <<creating-access-entries>>. The permissions contained in access policies are similar to the permissions in the [.noloc]`Kubernetes` user-facing cluster roles. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles[User-facing roles] in the [.noloc]`Kubernetes` documentation.  
+
+Choose any access policy to see its contents. Each row of each table in each access policy is a separate rule.
+
+
+[[access-policy-permissions-amazoneksadminpolicy,access-policy-permissions-amazoneksadminpolicy.title]]
+== AmazonEKSAdminPolicy
+
+
+This access policy includes permissions that grant an IAM principal most permissions to resources. When associated to an access entry, its access scope is typically one or more [.noloc]`Kubernetes` namespaces. If you want an IAM principal to have administrator access to all resources on your cluster, associate the  <<access-policy-permissions-amazoneksclusteradminpolicy>> access policy to your access entry instead.
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSAdminPolicy`
+
+[cols="1,1,1", options="header"]
+|===
+|Kubernetes API groups
+|Kubernetes resources
+|Kubernetes verbs (permissions)
+
+
+|`apps`
+|`daemonsets`, `deployments`, `deployments/rollback`, `deployments/scale`, `replicasets`, `replicasets/scale`, `statefulsets`, `statefulsets/scale`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|`apps`
+|`controllerrevisions`, `daemonsets`, `daemonsets/status`, `deployments`, `deployments/scale`, `deployments/status`, `replicasets`, `replicasets/scale`, `replicasets/status`, `statefulsets`, `statefulsets/scale`, `statefulsets/status`
+|`get`, `list`, `watch`
+
+|`authorization.k8s.io`
+|`localsubjectaccessreviews`
+|`create`
+
+|`autoscaling`
+|`horizontalpodautoscalers`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|`autoscaling`
+|`horizontalpodautoscalers`, `horizontalpodautoscalers/status`
+|`get`, `list`, `watch`
+
+|`batch`
+|`cronjobs`, `jobs`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|`batch`
+|`cronjobs`, `cronjobs/status`, `jobs`, `jobs/status`
+|`get`, `list`, `watch`
+
+|`discovery.k8s.io`
+|`endpointslices`
+|`get`, `list`, `watch`
+
+|`extensions`
+|`daemonsets`, `deployments`, `deployments/rollback`, `deployments/scale`, `ingresses`, `networkpolicies`, `replicasets`, `replicasets/scale`, `replicationcontrollers/scale`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|`extensions`
+|`daemonsets`, `daemonsets/status`, `deployments`, `deployments/scale`, `deployments/status`, `ingresses`, `ingresses/status`, `networkpolicies`, `replicasets`, `replicasets/scale`, `replicasets/status`, `replicationcontrollers/scale`
+|`get`, `list`, `watch`
+
+|`networking.k8s.io`
+|`ingresses`, `ingresses/status`, `networkpolicies`
+|`get`, `list`, `watch`
+
+|`networking.k8s.io`
+|`ingresses`, `networkpolicies`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|`policy`
+|`poddisruptionbudgets`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|`policy`
+|`poddisruptionbudgets`, `poddisruptionbudgets/status`
+|`get`, `list`, `watch`
+
+|`rbac.authorization.k8s.io`
+|`rolebindings`, `roles`
+|`create`, `delete`, `deletecollection`, `get`, `list`, `patch`, `update`, `watch`
+
+|
+|`configmaps`, `endpoints`, `persistentvolumeclaims`, `persistentvolumeclaims/status`, `pods`, `replicationcontrollers`, `replicationcontrollers/scale`, `serviceaccounts`, `services`, `services/status`
+|`get`,``list``, `watch`
+
+|
+|``pods/attach``, `pods/exec`, `pods/portforward`, `pods/proxy`, `secrets`, `services/proxy`
+|`get`, `list`, `watch`
+
+|
+|`configmaps`, `events`, `persistentvolumeclaims`, `replicationcontrollers`, `replicationcontrollers/scale`, `secrets`, `serviceaccounts`, `services`, `services/proxy`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|
+|`pods`, `pods/attach`, `pods/exec`, `pods/portforward`, `pods/proxy`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|
+|`serviceaccounts`
+|`impersonate`
+
+|
+|`bindings`, `events`, `limitranges`, `namespaces/status`, `pods/log`, `pods/status`, `replicationcontrollers/status`, `resourcequotas`, `resourcequotas/status`
+|`get`, `list`, `watch`
+
+|
+|`namespaces`
+|`get`,``list``, `watch`
+|===
+
+
+[[access-policy-permissions-amazoneksclusteradminpolicy,access-policy-permissions-amazoneksclusteradminpolicy.title]]
+== AmazonEKSClusterAdminPolicy
+
+
+This access policy includes permissions that grant an IAM principal administrator access to a cluster. When associated to an access entry, its access scope is typically the cluster, rather than a [.noloc]`Kubernetes` namespace. If you want an IAM principal to have a more limited administrative scope, consider associating the  <<access-policy-permissions-amazoneksadminpolicy>> access policy to your access entry instead.
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy`
+
+[cols="1,1,1,1", options="header"]
+|===
+|Kubernetes API groups
+|Kubernetes nonResourceURLs
+|Kubernetes resources
+|Kubernetes verbs (permissions)
+
+
+|``\*``
+|
+|``\*``
+|``\*``
+
+|
+|``\*``
+|
+|``\*``
+|===
+
+
+[[access-policy-permissions-amazoneksadminviewpolicy,access-policy-permissions-amazoneksadminviewpolicy.title]]
+== AmazonEKSAdminViewPolicy
+
+This access policy includes permissions that grant an IAM principal access to list/view all resources in a cluster. Note this includes https://kubernetes.io/docs/concepts/configuration/secret/[Kubernetes Secrets.]
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy`
+
+[cols="1,1,1", options="header"]
+|===
+|Kubernetes API groups
+|Kubernetes resources
+|Kubernetes verbs (permissions)
+
+
+|``\*``
+|``\*``
+|````get``, `list`, `watch```
+|===
+
+
+[[access-policy-permissions-amazonekseditpolicy,access-policy-permissions-amazonekseditpolicy.title]]
+== AmazonEKSEditPolicy
+
+
+This access policy includes permissions that allow an IAM principal to edit most [.noloc]`Kubernetes` resources.
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSEditPolicy`
+
+[cols="1,1,1", options="header"]
+|===
+|Kubernetes API groups
+|Kubernetes resources
+|Kubernetes verbs (permissions)
+
+
+|`apps`
+|`daemonsets`, `deployments`, `deployments/rollback`, `deployments/scale`, `replicasets`, `replicasets/scale`, `statefulsets`, `statefulsets/scale`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|`apps`
+|`controllerrevisions`, `daemonsets`, `daemonsets/status`, `deployments`, `deployments/scale`, `deployments/status`, `replicasets`, `replicasets/scale`, `replicasets/status`, `statefulsets`, `statefulsets/scale`, `statefulsets/status`
+|`get`, `list`, `watch`
+
+|`autoscaling`
+|`horizontalpodautoscalers`, `horizontalpodautoscalers/status`
+|`get`, `list`, `watch`
+
+|`autoscaling`
+|`horizontalpodautoscalers`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|`batch`
+|`cronjobs`, `jobs`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|`batch`
+|`cronjobs`, `cronjobs/status`, `jobs`, `jobs/status`
+|`get`, `list`, `watch`
+
+|`discovery.k8s.io`
+|`endpointslices`
+|`get`, `list`, `watch`
+
+|`extensions`
+|`daemonsets`, `deployments`, `deployments/rollback`, `deployments/scale`, `ingresses`, `networkpolicies`, `replicasets`, `replicasets/scale`, `replicationcontrollers/scale`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|`extensions`
+|`daemonsets`, `daemonsets/status`, `deployments`, `deployments/scale`, `deployments/status`, `ingresses`, `ingresses/status`, `networkpolicies`, `replicasets`, `replicasets/scale`, `replicasets/status`, `replicationcontrollers/scale`
+|`get`, `list`, `watch`
+
+|`networking.k8s.io`
+|`ingresses`, `networkpolicies`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|`networking.k8s.io`
+|`ingresses`, `ingresses/status`, `networkpolicies`
+|`get`, `list`, `watch`
+
+|`policy`
+|`poddisruptionbudgets`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|`policy`
+|`poddisruptionbudgets`, `poddisruptionbudgets/status`
+|`get`, `list`, `watch`
+
+|
+|`namespaces`
+|`get`, `list`, `watch`
+
+|
+|``pods/attach``, `pods/exec`, `pods/portforward`, `pods/proxy`, `secrets`, `services/proxy`
+|`get`, `list`, `watch`
+
+|
+|`serviceaccounts`
+|`impersonate`
+
+|
+|`pods`, `pods/attach`, `pods/exec`, `pods/portforward`, `pods/proxy`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|
+|`configmaps`, `events`, `persistentvolumeclaims`, `replicationcontrollers`, `replicationcontrollers/scale`, `secrets`, `serviceaccounts`, `services`, `services/proxy`
+|`create`, `delete`, `deletecollection`, `patch`, `update`
+
+|
+|`configmaps`, `endpoints`, `persistentvolumeclaims`, `persistentvolumeclaims/status`, `pods`, `replicationcontrollers`, `replicationcontrollers/scale`, `serviceaccounts`, `services`, `services/status`
+|`get`, `list`, `watch`
+
+|
+|`bindings`, `events`, `limitranges`, `namespaces/status`, `pods/log`, `pods/status`, `replicationcontrollers/status`, `resourcequotas`, `resourcequotas/status`
+|`get`, `list`, `watch`
+|===
+
+
+[[access-policy-permissions-amazoneksviewpolicy.json,access-policy-permissions-amazoneksviewpolicy.json.title]]
+== AmazonEKSViewPolicy
+
+This access policy includes permissions that allow an IAM principal to view most [.noloc]`Kubernetes` resources.
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSViewPolicy`
+
+[cols="1,1,1", options="header"]
+|===
+|Kubernetes API groups
+|Kubernetes resources
+|Kubernetes verbs (permissions)
+
+
+|`apps`
+|`controllerrevisions`, `daemonsets`, `daemonsets/status`, `deployments`, `deployments/scale`, `deployments/status`, `replicasets`, `replicasets/scale`, `replicasets/status`, `statefulsets`, `statefulsets/scale`, `statefulsets/status`
+|`get`, `list`, `watch`
+
+|`autoscaling`
+|`horizontalpodautoscalers`, `horizontalpodautoscalers/status`
+|`get`, `list`, `watch`
+
+|`batch`
+|`cronjobs`, `cronjobs/status`, `jobs`, `jobs/status`
+|`get`, `list`, `watch`
+
+|`discovery.k8s.io`
+|`endpointslices`
+|`get`, `list`, `watch`
+
+|`extensions`
+|`daemonsets`, `daemonsets/status`, `deployments`, `deployments/scale`, `deployments/status`, `ingresses`, `ingresses/status`, `networkpolicies`, `replicasets`, `replicasets/scale`, `replicasets/status`, `replicationcontrollers/scale`
+|`get`, `list`, `watch`
+
+|`networking.k8s.io`
+|`ingresses`, `ingresses/status`, `networkpolicies`
+|`get`, `list`, `watch`
+
+|`policy`
+|`poddisruptionbudgets`, `poddisruptionbudgets/status`
+|`get`, `list`, `watch`
+
+|
+|`configmaps`, `endpoints`, `persistentvolumeclaims`, `persistentvolumeclaims/status`, `pods`, `replicationcontrollers`, `replicationcontrollers/scale`, `serviceaccounts`, `services`, `services/status`
+|`get`, `list`, `watch`
+
+|
+|`bindings`, `events`, `limitranges`, `namespaces/status`, `pods/log`, `pods/status`, `replicationcontrollers/status`, `resourcequotas`, r``esourcequotas/status``
+|`get`, `list`, `watch`
+
+|
+|`namespaces`
+|`get`, `list`, `watch`
+|===
+
+
+== AmazonEKSAutoNodePolicy
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSAutoNodePolicy`
+
+This policy includes the following permissions that allow Amazon EKS components to complete the following tasks:
+
+* `kube-proxy` – Monitor network endpoints and services, and manage related events. This enables cluster-wide network proxy functionality.
+* `ipamd` – Manage {aws} VPC networking resources and container network interfaces (CNI). This allows the IP address management daemon to handle pod networking.
+* `coredns` – Access service discovery resources like endpoints and services. This enables DNS resolution within the cluster.
+* `ebs-csi-driver` – Work with storage-related resources for Amazon EBS volumes. This allows dynamic provisioning and attachment of persistent volumes.
+* `neuron` – Monitor nodes and pods for {aws} Neuron devices. This enables management of {aws} Inferentia and Trainium accelerators.
+* `node-monitoring-agent` – Access node diagnostics and events. This enables cluster health monitoring and diagnostics collection.
+
+Each component uses a dedicated service account and is restricted to only the permissions required for its specific function.
+
+If you manually specifiy a Node IAM role in a NodeClass, you need to create an Access Entry that associates the new Node IAM role with this Access Policy.
+
+
+== AmazonEKSBlockStoragePolicy
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSBlockStoragePolicy`
+
+This policy includes permissions that allow Amazon EKS to manage leader election and coordination resources for storage operations:
+
+* `coordination.k8s.io` – Create and manage lease objects for leader election. This enables EKS storage components to coordinate their activities across the cluster through a leader election mechanism.
+
+The policy is scoped to specific lease resources used by the EKS storage components to prevent conflicting access to other coordination resources in the cluster.
+
+Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the block storage capability to function properly.
+
+
+== AmazonEKSLoadBalancingPolicy
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSLoadBalancingPolicy`
+
+This policy includes permissions that allow Amazon EKS to manage leader election resources for load balancing:
+
+* `coordination.k8s.io` – Create and manage lease objects for leader election. This enables EKS load balancing components to coordinate activities across multiple replicas by electing a leader.
+
+The policy is scoped specifically to load balancing lease resources to ensure proper coordination while preventing access to other lease resources in the cluster.
+
+Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the networking capability to function properly.
+
+
+== AmazonEKSNetworkingPolicy
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSNetworkingPolicy`
+
+
+This policy includes permissions that allow Amazon EKS to manage leader election resources for networking:
+
+* `coordination.k8s.io` – Create and manage lease objects for leader election. This enables EKS networking components to coordinate IP address allocation activities by electing a leader.
+
+The policy is scoped specifically to networking lease resources to ensure proper coordination while preventing access to other lease resources in the cluster.
+
+Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the networking capability to function properly.
+
+
+== AmazonEKSComputePolicy
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSComputePolicy`
+
+This policy includes permissions that allow Amazon EKS to manage leader election resources for compute operations:
+
+* `coordination.k8s.io` – Create and manage lease objects for leader election. This enables EKS compute components to coordinate node scaling activities by electing a leader.
+
+The policy is scoped specifically to compute management lease resources while allowing basic read access (`get`, `watch`) to all lease resources in the cluster.
+
+Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the networking capability to function properly.
+
+== AmazonEKSBlockStorageClusterPolicy
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSBlockStorageClusterPolicy`
+
+This policy grants permissions necessary for the block storage capability of Amazon EKS Auto Mode. It enables efficient management of block storage resources within Amazon EKS clusters. The policy includes the following permissions:
+
+CSI Driver Management:
+
+- Create, read, update, and delete CSI drivers, specifically for block storage.
+
+Volume Management:
+
+- List, watch, create, update, patch, and delete persistent volumes.
+- List, watch, and update persistent volume claims.
+- Patch persistent volume claim statuses.
+
+Node and Pod Interaction:
+
+- Read node and pod information.
+- Manage events related to storage operations.
+
+Storage Classes and Attributes:
+
+- Read storage classes and CSI nodes.
+- Read volume attribute classes.
+
+Volume Attachments:
+
+- List, watch, and modify volume attachments and their statuses.
+
+Snapshot Operations:
+
+- Manage volume snapshots, snapshot contents, and snapshot classes.
+- Handle operations for volume group snapshots and related resources.
+
+This policy is designed to support comprehensive block storage management within Amazon EKS clusters running in Auto Mode. It combines permissions for various operations including provisioning, attaching, resizing, and snapshotting of block storage volumes.
+
+Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the block storage capability to function properly.
+
+== AmazonEKSComputeClusterPolicy
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSComputeClusterPolicy`
+
+This policy grants permissions necessary for the compute management capability of Amazon EKS Auto Mode. It enables efficient orchestration and scaling of compute resources within Amazon EKS clusters. The policy includes the following permissions:
+
+Node Management:
+
+- Create, read, update, delete, and manage status of NodePools and NodeClaims.
+- Manage NodeClasses, including creation, modification, and deletion.
+
+Scheduling and Resource Management:
+
+- Read access to pods, nodes, persistent volumes, persistent volume claims, replication controllers, and namespaces.
+- Read access to storage classes, CSI nodes, and volume attachments.
+- List and watch deployments, daemon sets, replica sets, and stateful sets.
+- Read pod disruption budgets.
+
+Event Handling:
+
+- Create, read, and manage cluster events.
+
+Node Deprovisioning and Pod Eviction:
+
+- Update, patch, and delete nodes.
+- Create pod evictions and delete pods when necessary.
+
+Custom Resource Definition (CRD) Management:
+
+- Create new CRDs.
+- Manage specific CRDs related to node management (NodeClasses, NodePools, NodeClaims, and NodeDiagnostics).
+
+This policy is designed to support comprehensive compute management within Amazon EKS clusters running in Auto Mode. It combines permissions for various operations including node provisioning, scheduling, scaling, and resource optimization.
+
+Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the compute management capability to function properly.
+
+== AmazonEKSLoadBalancingClusterPolicy
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSLoadBalancingClusterPolicy`
+
+This policy grants permissions necessary for the load balancing capability of Amazon EKS Auto Mode. It enables efficient management and configuration of load balancing resources within Amazon EKS clusters. The policy includes the following permissions:
+
+Event and Resource Management:
+
+- Create and patch events.
+- Read access to pods, nodes, endpoints, and namespaces.
+- Update pod statuses.
+
+Service and Ingress Management:
+
+- Full management of services and their statuses.
+- Comprehensive control over ingresses and their statuses.
+- Read access to endpoint slices and ingress classes.
+
+Target Group Bindings:
+
+- Create and modify target group bindings and their statuses.
+- Read access to ingress class parameters.
+
+Custom Resource Definition (CRD) Management:
+
+- Create and read all CRDs.
+- Specific management of targetgroupbindings.eks.amazonaws.com and ingressclassparams.eks.amazonaws.com CRDs.
+
+Webhook Configuration:
+
+- Create and read mutating and validating webhook configurations.
+- Manage the eks-load-balancing-webhook configuration.
+
+This policy is designed to support comprehensive load balancing management within Amazon EKS clusters running in Auto Mode. It combines permissions for various operations including service exposure, ingress routing, and integration with {aws} load balancing services.
+
+Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the load balancing capability to function properly.
+
+== AmazonEKSNetworkingClusterPolicy
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSNetworkingClusterPolicy`
+
+AmazonEKSNetworkingClusterPolicy
+
+This policy grants permissions necessary for the networking capability of Amazon EKS Auto Mode. It enables efficient management and configuration of networking resources within Amazon EKS clusters. The policy includes the following permissions:
+
+Node and Pod Management:
+
+- Read access to NodeClasses and their statuses.
+- Read access to NodeClaims and their statuses.
+- Read access to pods.
+
+CNI Node Management:
+
+- Permissions for CNINodes and their statuses, including create, read, update, delete, and patch.
+
+Custom Resource Definition (CRD) Management:
+
+- Create and read all CRDs.
+- Specific management (update, patch, delete) of the cninodes.eks.amazonaws.com CRD.
+
+Event Management:
+
+- Create and patch events.
+
+This policy is designed to support comprehensive networking management within Amazon EKS clusters running in Auto Mode. It combines permissions for various operations including node networking configuration, CNI (Container Network Interface) management, and related custom resource handling.
+
+The policy allows the networking components to interact with node-related resources, manage CNI-specific node configurations, and handle custom resources critical for networking operations in the cluster.
+
+Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the networking capability to function properly.
+
+[[access-policy-permissions-amazonekshybridpolicy,access-policy-permissions-amazonekshybridpolicy.title]]
+== AmazonEKSHybridPolicy
+
+
+This access policy includes permissions that grant EKS access to the nodes of a cluster. When associated to an access entry, its access scope is typically the cluster, rather than a  [noloc]``Kubernetes`` namespace. This policy is used by Amazon EKS hybrid nodes.
+
+*ARN* – `arn:aws:eks::aws:cluster-access-policy/AmazonEKSHybridPolicy`
+
+[cols="1,1,1,1", options="header"]
+|===
+| Kubernetes API groups
+| Kubernetes nonResourceURLs
+| Kubernetes resources
+| Kubernetes verbs (permissions)
+
+
+|``+*+``
+|
+|``nodes``
+|``list``
+|===
+
+
+[[access-policy-updates,access-policy-updates.title]]
+== Access policy updates
+
+View details about updates to access policies, since they were introduced. For automatic alerts about changes to this page, subscribe to the RSS feed in <<doc-history>>.
+
+[cols="1,1,1", options="header"]
+|===
+|Change
+|Description
+|Date
+
+|Add policies for Amazon EKS Hybrid
+|Publish `AmazonEKSHybridPolicy`
+|December 2, 2024
+
+|Add policies for Amazon EKS Auto Mode
+|These access policies give the Cluster IAM Role and Node IAM Role permission to call Kubernetes APIs. {aws} uses these to automate routine tasks for storage, compute, and networking resources. 
+|December 2, 2024
+
+|Add `AmazonEKSAdminViewPolicy`
+|Add a new policy for expanded view access, including resources like Secrets.
+|April 23, 2024
+
+|Access policies introduced.
+|Amazon EKS introduced access policies.
+|May 29, 2023
+|===

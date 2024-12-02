@@ -1,0 +1,62 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[set-builtin-node-pools,set-builtin-node-pools.title]]
+= Enable or Disable Built-in NodePools
+:info_doctype: section
+:info_titleabbrev: Review built-in node pools
+
+include::../attributes.txt[]
+
+{eam} has two built-in NodePools. You can enable or disable these NodePools using the {aws} console, CLI, or API. 
+
+== Built-in NodePool Reference
+
+* `system`
+** This NodePool has a `CriticalAddonsOnly` taint. Many EKS addons, such as CoreDNS, tolerate this taint. Use this system node pool to segregate cluster-critical applications. 
+** Supports both `amd64` and `arm64` architectures.
+* `general-purpose`
+** This NodePool provides support for launching nodes for general purpose workloads in your cluster.
+** Uses only `amd64` architecture. 
+
+Both built-in NodePools:
+
+* Use the default EKS NodeClass
+* Use only on-demand EC2 capacity
+* Use the C, M, and R EC2 instance families
+* Require generation 5 or newer EC2 instances
+
+## Prerequisites
+
+* The latest version of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device. To check your current version, use `aws --version`. To install the latest version, see link:cli/latest/userguide/getting-started-install.html["Installing",type="documentation"] and link:cli/latest/userguide/cli-chap-configure.html#cli-configure-quickstart-config["Quick configuration",type="documentation"] with aws configure in the {aws} Command Line Interface User Guide.
+** Login to the CLI with sufficent IAM permissions to create {aws} resources including IAM Policies, IAM Roles, and EKS Clusters. 
+
+== Enable with {aws} CLI
+
+Use the following command to enable both built-in NodePools:
+
+[source,cli]
+----
+aws eks update-cluster-config \
+  --name <cluster-name> \
+  --compute-config '{
+    "nodeRoleArn": "<node-role-arn>",
+    "nodePools": ["general-purpose", "system"]
+  }'
+
+----
+
+You can modify the command to selectively enable the NodePools. 
+
+== Disable with {aws} CLI 
+
+Use the following command to disable both built-in NodePools:
+
+[source,cli]
+----
+aws eks update-cluster-config \
+  --name <cluster-name> \
+  --compute-config '{"nodePools": []}'
+----
+
+
+

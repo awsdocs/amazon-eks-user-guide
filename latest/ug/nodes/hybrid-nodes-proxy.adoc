@@ -1,0 +1,119 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[hybrid-nodes-proxy,hybrid-nodes-proxy.title]]
+= Configure proxy for hybrid nodes
+:info_doctype: section
+:info_title: Configure proxy for hybrid nodes
+:info_titleabbrev: Configure proxy 
+:keywords: on-premises proxy, hybrid proxy
+:info_abstract: Configure HTTP/S proxies for Amazon EKS hybrid nodes 
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Configure HTTP/S proxies for Amazon EKS hybrid nodes 
+--
+
+If you are using a proxy server in your on-premises environment for traffic leaving your data center or edge environment, you need to configure your operating system, `containerd`, `kubelet`, and `kube-proxy` to use your proxy server. You must configure `kube-proxy` after creating your Amazon EKS cluster. You can make the changes for your operating system, `containerd`, and the `kubelet` during the build process for your operating system images or before you run `nodeadm init` on each hybrid node.
+
+== Node-level configuration
+
+The configurations in this section must be applied in your operating system images or before running `nodeadm init` on each hybrid node.
+
+=== `containerd` proxy configuration
+
+`containerd` is the default container management runtime for Kubernetes. If you are using a proxy for internet access, you must configure `containerd` so it can pull the container images required by Kubernetes and Amazon EKS.
+
+Create a file on each hybrid node called `http-proxy.conf` in the `/etc/systemd/system/containerd.service` directory with the following contents. Replace `proxy-domain` and `port` with the values for your environment.
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+[Service]
+Environment="HTTP_PROXY=http://proxy-domain:port“
+Environment="HTTPS_PROXY=http://proxy-domain:port“
+Environment="NO_PROXY=localhost"
+----
+
+=== Kubelet proxy configuration
+
+`kubelet` is the Kubernetes node agent that runs on each Kubernetes node and is responsible for managing the node and pods running on it. If you are using a proxy in your on-premises environment, you must configure the `kubelet` so it can communicate with your Amazon EKS cluster's public or private endpoints.
+
+Create a file on each hybrid node called `http-proxy.conf` in the `/etc/systemd/system/kubelet.service.d/` directory with the following content. Replace `proxy-domain` and `port` with the values for your environment.
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+[Service]
+Environment="HTTP_PROXY=http://proxy-domain:port“
+Environment="HTTPS_PROXY=http://proxy-domain:port“
+Environment="NO_PROXY=localhost"
+----
+
+=== Operating system proxy configuration
+
+If you are using a proxy for internet access, you must configure your operating system to be able to pull the hybrid nodes dependencies from your operating systems’ package manager.
+
+*Ubuntu*
+
+. Configure `snap` to use your proxy with the following commands:
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+sudo snap set system proxy.https=http://proxy-domain:port
+sudo snap set system proxy.http=http://proxy-domain:port
+----
+
+. To enable proxy for `apt`, create a file called `apt.conf` in the `/etc/apt/` directory. Replace proxy-domain and port with the values for your environment.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+Acquire::http::Proxy "http://proxy-domain:port";
+Acquire::https::Proxy "http://proxy-domain:port";
+----
+
+*Amazon Linux 2023 and Red Hat Enterprise Linux*
+
+. Configure `yum` to use your proxy. Create a file `/etc/yum.conf` with the proxy-domain and port values for your environment.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+proxy=http://proxy-domain:port
+----
+
+== Cluster wide configuration
+
+The configurations in this section must be applied after you create your Amazon EKS cluster and before running `nodeadm init` on each hybrid node.
+
+=== kube-proxy proxy configuration
+
+Amazon EKS automatically installs `kube-proxy` on each hybrid node as a DaemonSet when your hybrid nodes join the cluster. `kube-proxy` enables routing across services that are backed by pods on Amazon EKS clusters. To configure each host, `kube-proxy` requires DNS resolution for your Amazon EKS cluster endpoint. 
+
+. Edit the `kube-proxy` DaemonSet with the following command
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+kubectl -n kube-system edit ds kube-proxy
+----
++
+This will open the `kube-proxy` DaemonSet definition on your configured editor.
+
+. Add the environment variables for `HTTP_PROXY` and `HTTPS_PROXY`. Note the `NODE_NAME` environment variable should already exist in your configuration. Replace `proxy-domain` and `port` with values for your environment.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+containers:
+  - command:
+    - kube-proxy
+    - --v=2
+    - --config=/var/lib/kube-proxy-config/config - --hostname-override=$(NODE_NAME)
+    env:
+    - name: HTTP_PROXY
+      value: http://proxy-domain:port
+    - name: HTTPS_PROXY
+      value: http://proxy-domain:port
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: spec.nodeName
+----

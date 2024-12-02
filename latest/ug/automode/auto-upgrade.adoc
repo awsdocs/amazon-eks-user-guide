@@ -1,0 +1,39 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[auto-upgrade,auto-upgrade.title]]
+= Update the Kubernetes Version of an EKS Auto Mode cluster
+:info_doctype: section
+:info_titleabbrev: Update Kubernetes Version
+
+include::../attributes.txt[]
+
+This topic explains how to update the Kubernetes version of your Auto Mode cluster. Auto Mode simplifies the version update process by handling the coordination of control plane updates with node replacements, while maintaining workload availability through pod disruption budgets.
+
+When upgrading an Auto Mode cluster, many components that traditionally required manual updates are now managed as part of the service. Understanding the automated aspects of the upgrade process and your responsibilities helps ensure a smooth version transition for your cluster.
+
+== Learn about updates with EKS Auto Mode 
+
+After you initiate a control plane upgrade, {eam} begins replacing nodes in your cluster. The new nodes have the corresponding new Kubernetes version. {eam} observes pod disruption budgets when upgrading nodes. 
+
+Additionally, you no longer need to update components like:
+
+* CoreDNS
+* KubeProxy
+* {aws} Load Balancer Controller
+* Karpenter
+* {aws} EBS CSI Driver
+
+{eam} replaces these components with service functionality. 
+
+You are still responsible for updating:
+
+* Apps and workloads deployed to your cluster
+* Self-managed add-ons and controllers
+* Amazon EKS Add-ons 
+** Learn how to <<updating-an-add-on>>
+
+Learn link:eks/latest/best-practices/cluster-upgrades.html["Best Practices for Cluster Upgrades",type="documentation"]
+
+== Start Cluster Update
+
+To start a cluster update, see <<update-cluster>>. 

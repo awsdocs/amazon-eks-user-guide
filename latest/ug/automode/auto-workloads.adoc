@@ -1,0 +1,35 @@
+//!!NODE_ROOT <chapter>
+[.topic]
+include::../attributes.txt[]
+[[auto-workloads,auto-workloads.title]]
+= Run sample workloads in EKS Auto Mode clusters
+:info_doctype: section
+:info_title: Run workloads in EKS Auto Mode clusters
+:info_titleabbrev: Run workloads
+:info_abstract: Run workloads in EKS Auto Mode clusters
+
+[abstract]
+--
+Run workloads in EKS Auto Mode clusters
+--
+
+This chapter provides examples of how to deploy different types of workloads to Amazon EKS clusters running in Auto Mode. The examples demonstrate key workload patterns including sample applications, load-balanced web applications, stateful workloads using persistent storage, and workloads with specific node placement requirements. Each example includes complete manifests and step-by-step deployment instructions that you can use as templates for your own applications.
+
+Before proceeding with the examples, ensure that you have an EKS cluster running in Auto Mode and that you have installed the {aws} CLI and kubectl. For more information, see <<setting-up>>. The examples assume basic familiarity with Kubernetes concepts and kubectl commands.
+
+You can use these use case-based samples to run workloads in EKS Auto Mode clusters.
+
+<<automode-workload>>:: Shows how to deploy a sample workload to an EKS Auto Mode cluster using `kubectl` commands.
+<<auto-elb-example>>:: Shows how to deploy a containerized version of the 2048 game on Amazon EKS.
+<<sample-storage-workload>>:: Shows how to deploy a sample stateful application to an EKS Auto Mode cluster.
+<<associate-workload>>:: Shows how to use an annotation to control if a workload is deployed to nodes managed by EKS Auto Mode.
+
+
+include::automode-workload.adoc[leveloffset=+1]
+
+include::auto-elb-example.adoc[leveloffset=+1]
+
+include::sample-storage-workload.adoc[leveloffset=+1]
+
+
+

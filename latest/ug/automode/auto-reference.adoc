@@ -1,0 +1,39 @@
+//!!NODE_ROOT <chapter>
+[.topic]
+include::../attributes.txt[]
+[[auto-reference,auto-reference.title]]
+= Learn how EKS Auto Mode works
+:info_doctype: section
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_title: Learn how EKS Auto Mode works
+:info_titleabbrev: How it works
+:info_abstract: Learn how EKS Auto Mode works
+
+[abstract]
+--
+Reference information for EKS Auto Mode
+--
+
+Use this chapter to learn how the components of Amazon EKS Auto Mode clusters work. 
+
+[.topiclist]
+[[Topic List]]
+
+include::automode-learn-instances.adoc[leveloffset=+1]
+
+include::auto-learn-iam.adoc[leveloffset=+1]
+
+include::auto-networking.adoc[leveloffset=+1]
+
+//include::auto-mng.adoc[leveloffset=+1]
+
+//include::auto-security.adoc[leveloffset=+1]
+
+//include::term-reference.adoc[leveloffset=+1]
+
+//include::auto-glossary.adoc[leveloffset=+1]
+

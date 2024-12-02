@@ -1,0 +1,93 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[auto-troubleshoot,auto-troubleshoot.title]]
+= Troubleshoot EKS Auto Mode
+:info_doctype: section
+:info_title: Troubleshoot EKS Auto Mode
+:info_titleabbrev: Troubleshoot
+:info_abstract: Troubleshoot EKS Auto Mode
+
+include::../attributes.txt[]
+
+
+With {eam}, {aws} assumes more {resp} for {e2i}s in {yaa}. EKS assumes {resp} for the container runtime on nodes, the operating system on the nodes, and certain controllers. This includes a block storage controller, a load balancing controller, and a compute controller. 
+
+You must use {aws} and {k8s} APIs to troubleshoot nodes. You can:
+
+* Use a Kubernetes `NodeDiagnostic` resource to {ret} node logs. 
+* Use the {aws} EC2 CLI command `get-console-output` to {ret} console output from nodes. 
+
+[NOTE]
+====
+{eam} uses {emi}s. You cannot directly access {emi}s, including by SSH.
+====
+
+If you have a problem with a controller, you should research:
+
+* If the resources associated with that controller are properly formatted and valid. 
+* If the {aws} IAM and Kubernetes RBAC resources are properly configured for your cluster. For more information, see <<auto-learn-iam>>.
+
+== Node Monitoring Agent
+
+{eam} includes the Amazon EKS Node Monitoring Agent. You can use this agent to view troubleshooting and debugging information about nodes. The node monitoring agent publishes Kubernetes `events` and node `conditions`. 
+
+Learn how to xref:learn-status-conditions[view findings from the Node Monitoring Agent]. 
+
+== Get console output from an {emi} by using the {aws} EC2 CLI 
+
+This procedure helps with troubleshooting boot-time or kernel-level issues. 
+
+First, you need to {det} the EC2 Instance ID of the instance associated with your workload. Second, use the {aws} CLI to {ret} the console output. 
+
+. Confirm you have `kubectl` installed and connected to your cluster
+. (Optional) Use the name of a Kubernetes Deployment to list the associated pods. 
++
+[source,cli]
+----
+kubectl get pods -l app=<deployment-name>
+----
+. Use the name of the Kubernetes Pod to determine the EC2 instance ID of the associated node.
++
+[source,cli]
+----
+kubectl get pod <pod-name> -o wide
+----
+. Use the EC2 instance ID to {ret} the console output. 
++
+[source,cli]
+----
+aws ec2 get-console-output --instance-id <instance id> --latest --output text
+----
+
+== Get node logs by using the kubectl CLI
+
+For information about getting node logs, see <<auto-get-logs>>.
+
+== View resources associated with {eam} in the {aws} Console
+
+You can use the {aws} console to view the status of resources associated with {yec}. 
+
+* link:ec2/home#Volumes["EBS Volumes",type="console"]
+** View EKS Auto Mode volumes by searching for the tag key `eks:eks-cluster-name`
+* link:ec2/home#LoadBalancers["Load Balancers",type="console"]
+** View EKS Auto Mode load balancers by searching for the tag key `eks:eks-cluster-name`
+* link:ec2/home#Instances["EC2 Instances",type="console"]
+** View EKS Auto Mode instances by searching for the tag key `eks:eks-cluster-name` 
+
+== View IAM Errors in {yaa}
+
+. Navigate to CloudTrail console
+. Select "Event History" from the left navigation pane
+. Apply error code filters:
+** AccessDenied
+** UnauthorizedOperation
+** InvalidClientTokenId
+
+Look for errors related to your EKS cluster. Use the error messages to update your EKS access entries, Cluster IAM Role, or Node IAM Role. You may need to attach a new policy these roles with permissions for {eam}.
+
+//Ensure you are running the latest version of the {aws} CLI, eksctl, etc. 
+
+include::learn-status-conditions.adoc[leveloffset=+1]
+
+include::auto-get-logs.adoc[leveloffset=+1]

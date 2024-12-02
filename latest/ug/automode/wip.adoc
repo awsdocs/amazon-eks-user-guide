@@ -1,0 +1,22 @@
+//!!NODE_ROOT <chapter>
+[.topic]
+
+[[auto-wip,auto-wip.title]]
+= EKS Auto Mode: Revisions to existing pages WIP
+:info_doctype: section
+:toc: left
+
+
+include::../attributes.txt[]
+
+This section contains in-progress revisions for existing pages in other chapters. 
+
+//include::wip/quickstart-v2.adoc[leveloffset=+1]
+
+//include::wip/create-cluster-v2.adoc[leveloffset=+1]
+
+//include::wip/auto-migrate-karpenter-v2.adoc[leveloffset=+1]
+
+//include::wip/auto-cluster-iam-role.adoc[leveloffset=+1]
+
+//include::wip/auto-create-node-role.adoc[leveloffset=+1]

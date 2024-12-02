@@ -1,0 +1,70 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[auto-networking,auto-networking.title]]
+= Learn about VPC Networking and Load Balancing in EKS Auto Mode
+:info_doctype: section
+:info_title: Learn about VPC networking and load balancing in EKS Auto Mode
+:info_titleabbrev: Networking
+:info_abstract: Learn about VPC networking and load balancing in EKS Auto Mode.
+
+
+include::../attributes.txt[]
+
+
+This topic explains how to configure Virtual Private Cloud (VPC) networking and load balancing features in EKS Auto Mode. While EKS Auto Mode manages most networking components automatically, you can still customize certain aspects of your cluster's networking configuration through NodeClass resources and load balancer annotations.
+
+When you use EKS Auto Mode, {aws} manages the VPC Container Network Interface (CNI) configuration and load balancer provisioning for your cluster. You can influence networking behaviors by defining NodeClass objects and applying specific annotations to your Service and Ingress resources, while maintaining the automated operational model that EKS Auto Mode provides.
+
+== VPC CNI networking
+
+With {eam}, you do not directly configure the {aws} VPC CNI. {aws} manages node and pod networking. Instead, you create a `NodeClass` Kubernetes object. 
+
+=== Configure VPC CNI with NodeClass
+
+The NodeClass resource in EKS Auto Mode allows you to customize certain aspects of the VPC Container Network Interface (CNI) configuration without directly managing the CNI plugin. Through NodeClass, you can specify security group selections, control node placement across VPC subnets, set SNAT policies, configure network policies, and enable network event logging. This approach maintains the automated operational model of EKS Auto Mode while providing flexibility for network customization.
+
+You can use a NodeClass to:
+
+* Select a Security Group for Nodes
+* Control how nodes are placed on VPC Subnets
+* Set the Node SNAT Policy to `random` or `disabled`
+* Set the Network Policy to Default Deny or Default Allow
+* Enable Network Event Logging to a file. 
+
+Learn how to xref:create-node-class[Create an Amazon EKS NodeClass]. 
+
+=== Considerations
+
+{eam} supports:
+
+* EKS Network Policies.
+* The `HostPort` and `HostNetwork` options for Kubernetes Pods.
+* Pods in public or private subnets.
+
+{eam} does *not* support:
+
+* Security Groups per Pod (SGPP).
+* Custom Networking. The IP Addresses of Pods and Nodes must be from the same CIDR Block.
+* Warm IP, warm prefix, and warm ENI configurations.
+* Minimum IP targets configuration.
+* Enabling or disabling prefix delegation.
+* Other configurations supported by the open-source {aws} CNI.
+* Network Policy configurations such as conntrack timer customization (default is 300s).
+* Exporting network event logs to CloudWatch.
+
+
+[[auto-lb-consider,auto-lb-consider.title]]
+== Load balancing
+
+You configure {aws} Elastic Load Balancers provisioned by {eam} using annotations on Service and Ingress resources. 
+
+For more information, see <<auto-configure-alb>> or <<auto-configure-nlb>>.
+
+=== Considerations for load balancing with {eam}
+
+* The default targeting mode is IP Mode, not Instance Mode.
+* {eam} only supports Security Group Mode for Network Load Balancers. 
+* {aws} does not support migrating load balancers from the self managed {aws} load balancer controller to management by {eam}.
+* The `networking.ingress.ipBlock` field in `TargetGroupBinding` spec is not supported. 
+* If your worker nodes use custom security groups (not `+eks-cluster-sg-*+` naming pattern), your cluster role needs additional IAM permissions.  The default EKS-managed policy only allows EKS to modify security groups named `+eks-cluster-sg-*+`. Without permission to modify your custom security groups, EKS cannot add the required ingress rules that allow ALB/NLB traffic to reach your pods.
+* You cannot bring your own target groups. 

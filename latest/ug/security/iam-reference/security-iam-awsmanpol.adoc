@@ -328,7 +328,7 @@ You can attach this policy to IAM entities. Before creating a local cluster, you
 
 The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
 
-* *`ec2` read actions* – Allows control plane instances to describe Availability Zone, route table, instance, and network interface properties.Required permissions for Amazon EC2 instances to successfully join the cluster as control plane instances.
+* *`ec2` read actions* – Allows control plane instances to describe Availability Zone, route table, instance, and network interface properties. Required permissions for Amazon EC2 instances to successfully join the cluster as control plane instances.
 * *`ssm`* – Allows Amazon EC2 Systems Manager connection to the control plane instance, which is used by Amazon EKS to communicate and manage the local cluster in your account.
 * *`logs`* – Allows instances to push logs to Amazon CloudWatch.
 * *`secretsmanager`* – Allows instances to get and delete bootstrap data for the control plane instances securely from {aws} Secrets Manager.

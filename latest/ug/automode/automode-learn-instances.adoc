@@ -1,0 +1,111 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[automode-learn-instances,automode-learn-instances.title]]
+= Learn about Amazon EKS Auto Mode Managed instances
+:info_doctype: section
+:am: EKS Auto Mode
+:aam: Amazon {am}
+:ec2i: EC2 Instance
+:mi: managed instance
+:emi: EC2 managed instance
+:emi: EC2 {mi}
+:emng: EKS Managed Node Group
+:info_title: Learn about Amazon EKS Auto Mode managed instances 
+:info_titleabbrev: Managed instances
+:info_abstract:  Learn about Amazon EKS Auto Mode managed instances
+
+include::../attributes.txt[]
+
+
+This topic explains how {aam} manages Amazon EC2 instances in your EKS cluster. When you enable {am}, your cluster's compute resources are automatically provisioned and managed by EKS, changing how you interact with the EC2 instances that serve as nodes in your cluster.
+
+Understanding how {aam} manages instances is essential for planning your workload deployment strategy and operational procedures. Unlike traditional EC2 instances or managed node groups, these instances follow a different lifecycle model where EKS assumes responsibility for many operational aspects, while restricting certain types of access and customization.
+
+{aam} automates routine tasks for creating new {ec2i}s, and attaches them as nodes to your EKS cluster. {am} detects when a workload can't fit onto existing nodes, and creates a new {ec2i}. 
+
+{aam} is responsible for creating, deleting, and patching {ec2i}s. You are responsible for the containers and pods deployed on the instance. 
+
+{ec2i}s created by {am} are different from other {ec2i}s, they are {mi}s. These {mi}s are owned by EKS and are more restricted. You can't directly access or install software on instances managed by {am}. 
+
+{aws} suggests running either {eam} or self-managed Karpenter. You can install both during a migration or in an advanced configuration. If you have both installed, configure your node pools so that workloads are associated with either Karpenter or {eam}. 
+
+For more information, see link:AWSEC2/latest/UserGuide/amazon-ec2-managed-instances.html["Amazon EC2 managed instances",type="documentation"] in the Amazon EC2 user guide. 
+
+== Comparison table
+
+[cols="1,1", options="header"]  
+|=== 
+
+| Standard {ec2i}
+| {am} {mi}
+
+| You are responsible for patching and updating the instance.
+| {aws} automatically patches and updates the instance.
+
+| EKS is not responsible for the software on the instance.
+| EKS is responsible for certain software on the instance, such as `kubelet`, the container runtime, and the operating system. 
+
+| You can delete the {ec2i} using the EC2 API. 
+| EKS determines the number of instances deployed in your account. If you delete a workload, EKS will reduce the number of instances in your account. 
+
+| You can use SSH to access the {ec2i}. 
+| You can deploy pods and containers to the {mi}. 
+
+| You determine the operating system and image (AMI).
+| {aws} determines the operating system and image. 
+
+| You can deploy workloads that rely on Windows or Ubuntu functionality.  
+| You can deploy containers based on Linux, but without specific OS dependencies. 
+
+| You determine what instance type and family to launch.
+| {aws} determines what instance type and family to launch. You can use a Node Pool to limit the instance types {eam} selects from. 
+
+|=== 
+
+
+The following functionality works for both Managed instances and Standard EC2 instances: 
+
+* You can view the instance in the {aws} console. 
+* You can use instance storage as ephemeral storage for workloads. 
+
+== Supported instance reference
+
+// Source: https://code.amazon.com/packages/EKSKarpenterController/blobs/a56aeb0ddc3e8a54406421e8f3a091e8e13abea1/--/pkg/providers/instancetype/instancetype.go#L43-L49
+
+EKS Auto Mode supports the following instance types: 
+
+[cols="1,4",options="header"]
+|===
+|Family |Instance Types
+
+|Compute Optimized (C )
+|c8g, c7a, c7g, c7gn, c7gd, c7i, c7i-flex, c6a, c6g, c6i, c6gn, c6id, c6in, c6gd, c5, c5a, c5d, c5ad, c5n, c4
+
+|General Purpose (M)
+|m8g, m7i, m7a, m7g, m7gd, m7i-flex, m6a, m6i, m6in, m6g, m6idn, m6id, m6gd, m5, m5a, m5ad, m5n, m5dn, m5d, m5zn, m4
+
+|Memory Optimized (R )
+|r8g, r7a, r7iz, r7gd, r7i, r7g, r6a, r6i, r6id, r6in, r6idn, r6g, r6gd, r5, r5n, r5a, r5dn, r5b, r5ad, r5d, r4
+
+|Burstable (T)
+|t4g, t3, t3a, t2
+
+|High Memory (Z/X)
+|z1d, x8g, x2gd
+
+|Storage Optimized (I/D)
+|i4g, i4i, i3, i3en, is4gen, d3, d3en, im4gn
+
+|Accelerated Computing (P/G/Inf/Trn)
+|p5, p4d, p3, p3dn, gr6, g6, g6e, g5g, g5, g4dn, inf2, inf1, trn1, trn1n
+
+|High Performance Computing (X2)
+|x2iezn, x2iedn, x2idn
+|===
+
+== Considerations
+
+* Amazon EKS Auto Mode does not support {aws} Fault Injection Service. For more information, see link:resilience-hub/latest/userguide/testing.html["Managing Fault Injection Service experiments",type="documentation"] in the {aws} Resilience Hub User Guide. 
+* You do not need to install the `Neuron Device Plugin` on EKS Auto Mode nodes. 
+** If you have other types of nodes in your cluster, you need to configure the Neuron Device plugin to not run on auto mode nodes. For more information, see <<associate-workload>>.

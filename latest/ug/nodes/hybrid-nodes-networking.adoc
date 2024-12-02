@@ -1,0 +1,411 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[hybrid-nodes-networking,hybrid-nodes-networking.title]]
+= Prepare networking for hybrid nodes
+:info_doctype: section
+:info_title: Prepare networking for hybrid nodes
+:info_titleabbrev: Prepare networking
+:keywords: on-premises, hybrid
+:info_abstract: Prepare networking
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn about and configure the VPC and on-premises networking for joining nodes from your data centers to Amazon EKS [.noloc]`Kubernetes` clusters with Amazon EKS Hybrid Nodes.
+--
+
+This topic provides an overview of the networking setup you must have configured before creating your Amazon EKS cluster and attaching hybrid nodes. This guide assumes you have met the prerequisite requirements for hybrid network connectivity using link:vpn/latest/s2svpn/SetUpVPNConnections.html[{aws} Site-to-Site VPN,type="documentation"], link:directconnect/latest/UserGuide/Welcome.html[{aws} Direct Connect,type="documentation"], or your own VPN solution.
+
+image::images/hybrid-prereq-diagram.png[Hybrid node network connectivity.,scaledwidth=50%]
+
+
+[[hybrid-nodes-networking-on-prem,hybrid-nodes-networking-on-prem.title]]
+== On-premises networking configuration
+
+*Minimum network requirements*
+
+For an optimal experience, {aws} recommends reliable network connectivity of at least 100 Mbps and a maximum of 200ms round trip latency for the hybrid nodes connection to the {aws-region}. The bandwidth and latency requirements can vary depending on the number of hybrid nodes and your workload characteristics such as application image size, application elasticity, monitoring and logging configurations, and application dependencies on accessing data stored in other {aws-services}.
+
+*On-premises node and pod CIDRs*
+
+Identify the node and pod CIDRs you will use for your hybrid nodes and the workloads running on them. The node CIDR is allocated from your on-premises network and the pod CIDR is allocated from your Container Network Interface (CNI) if you are using an overlay network for your CNI. You pass your on-premises node CIDRs and optionally pod CIDRs as inputs when you create your Amazon EKS cluster with the `RemoteNodeNetwork` and `RemotePodNetwork` fields.
+
+The on-premises node and pod CIDR blocks must meet the following requirements:
+
+1. Be within one of the following `IPv4` RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
+2. Not overlap with each other, the VPC CIDR for your Amazon EKS cluster, or your Kubernetes service `IPv4` CIDR.
+
+If your CNI performs Network Address Translation (NAT) for pod traffic as it leaves your on-premises hosts, you do not need to advertise your pod CIDR to your on-premises network or configure your Amazon EKS cluster with your _remote pod network_ for hybrid nodes to become ready to workloads. If your CNI does not use NAT for pod traffic as it leaves your on-premises hosts, you must advertise your pod CIDR with your on-premises network and you must configure your Amazon EKS cluster with your remote pod network for hybrid nodes to become ready to workloads. If you are running webhooks on your hybrid nodes, you must advertise your pod CIDR to your on-premises network and configure your Amazon EKS cluster with your remote pod network so the Amazon EKS control plane can directly connect to the webhooks running on hybrid nodes.
+
+*Access required during hybrid node installation and upgrade*
+
+You must have access to the following domains during the installation process where you install the hybrid nodes dependencies on your hosts. This process can be done once when you are building your operating system images or it can be done on each host at runtime. This includes initial installation and when you upgrade the Kubernetes version of your hybrid nodes.
+
+[cols="1,1,1,1", options="header"]
+|===
+|Component
+|URL
+|Protocol
+|Port
+
+|EKS node artifacts (S3)
+|\https://hybrid-assets.eks.amazonaws.com
+|HTTPS
+|443
+
+|link:general/latest/gr/eks.html[EKS service endpoints,type="documentation"]
+|\https://eks.[.replaceable]`region`.amazonaws.com
+|HTTPS
+|443
+
+|EKS ECR endpoints
+|See <<add-ons-images>> for regional endpoints.
+|HTTPS
+|443
+
+|SSM binary endpoint ^1^
+|\https://amazon-ssm-[.replaceable]`region`.s3.[.replaceable]`region`.amazonaws.com
+|HTTPS
+|443
+
+|link:general/latest/gr/ssm.html[SSM service endpoint,type="documentation"] ^1^
+|\https://ssm.[.replaceable]`region`.amazonaws.com
+|HTTPS
+|443
+
+|IAM Anywhere binary endpoint ^2^
+|\https://rolesanywhere.amazonaws.com
+|HTTPS
+|443
+
+|link:general/latest/gr/rolesanywhere.html[IAM Anywhere service endpoint,type="documentation"] ^2^
+|\https://rolesanywhere.[.replaceable]`region`.amazonaws.com
+|HTTPS
+|443
+|===
+
+[NOTE]
+====
+^1^ Access to the {aws} SSM endpoints are only required if you are using {aws} SSM hybrid activations for your on-premises IAM credential provider.
+
+^2^ Access to the {aws} IAM endpoints are only required if you are using {aws} IAM Roles Anywhere for your on-premises IAM credential provider. 
+====
+
+*Access required for ongoing cluster operations*
+
+The following network access for your on-premises firewall is required for ongoing cluster operations.
+
+[IMPORTANT]
+====
+Depending on your choice of CNI, you need to configure additional network access rules for the CNI ports. See the link:https://docs.cilium.io/en/stable/operations/system_requirements/#firewall-rules[Cilium documentation] and the link:https://docs.tigera.io/calico/latest/getting-started/kubernetes/requirements#network-requirements[Calico documentation] for details.
+====
+
+[cols="1,1,1,1,1,1,1", options="header"]
+|===
+|Type
+|Protocol
+|Direction
+|Port
+|Source
+|Destination
+|Usage
+
+|HTTPS
+|TCP
+|Outbound
+|443
+|Remote Node CIDR(s)
+|EKS cluster IPs ^1^
+|[.noloc]`kubelet` to Kubernetes API server
+
+|HTTPS
+|TCP
+|Outbound
+|443
+|Remote [.noloc]`Pod` CIDR(s)
+|EKS cluster IPs ^1^
+|[.noloc]`Pod` to Kubernetes API server
+
+|HTTPS
+|TCP
+|Outbound
+|443
+|Remote Node CIDR(s)
+|link:general/latest/gr/ssm.html[SSM service endpoint,type="documentation"]
+|SSM hybrid activations credential refresh and SSM heartbeats every 5 minutes
+
+|HTTPS
+|TCP
+|Outbound
+|443
+|Remote Node CIDR(s)
+|link:general/latest/gr/rolesanywhere.html[IAM Anywhere service endpoint,type="documentation"]
+|IAM Roles Anywhere credential refresh
+
+|HTTPS
+|TCP
+|Outbound
+|443
+|Remote [.noloc]`Pod` CIDR(s)
+|link:general/latest/gr/sts.html[STS Regional Endpoint,type="documentation"]
+|[.noloc]`Pod` to STS endpoint, only required for IRSA
+
+|HTTPS
+|TCP
+|Outbound
+|443
+|Remote Node CIDR(s)
+|link:general/latest/gr/eks.html[Amazon EKS Auth service endpoint,type="documentation"]
+|Node to Amazon EKS Auth endpoint, only required for Amazon EKS [.noloc]`Pod` Identity
+
+|HTTPS
+|TCP
+|Inbound
+|10250
+|EKS cluster IPs ^1^
+|Remote Node CIDR(s)
+|[.noloc]`kubelet` to Kubernetes API server
+
+|HTTPS
+|TCP
+|Inbound
+|Webhook ports
+|EKS cluster IPs ^1^
+|Remote [.noloc]`Pod` CIDR(s)
+|Kubernetes API server to webhooks
+
+|HTTPS
+|TCP,UDP
+|Inbound,Outbound
+|53
+|Remote [.noloc]`Pod` CIDR(s)
+|Remote [.noloc]`Pod` CIDR(s)
+|[.noloc]`Pod` to CoreDNS. If you run at least 1 replica of CoreDNS in the cloud, you must allow DNS traffic to the VPC where CoreDNS is running.
+
+|User-defined
+|User-defined
+|Inbound,Outbound
+|App ports
+|Remote [.noloc]`Pod` CIDR(s)
+|Remote [.noloc]`Pod` CIDR(s)
+|[.noloc]`Pod` to [.noloc]`Pod`
+|===
+
+[NOTE]
+====
+^1^ The IPs of the Amazon EKS cluster. See the following section on Amazon EKS elastic network interfaces.
+====
+
+*Amazon EKS network interfaces*
+
+Amazon EKS attaches network interfaces to the subnets in the VPC you pass during cluster creation to enable the communication between the Amazon EKS control plane and your VPC. The network interfaces that Amazon EKS creates can be found after cluster creation in the Amazon EC2 console or with the {cli}. The original network interfaces are deleted and new network interfaces are created when changes are applied on your Amazon EKS cluster, such as Kubernetes version upgrades. You can restrict the IP range for the Amazon EKS network interfaces by using constrained subnet sizes for the subnets you pass during cluster creation, which makes it easier to configure your on-premises firewall to allow inbound/outbound connectivity to this known, constrained set of IPs. To control which subnets network interfaces are created in, you can limit the number of subnets you specify when you create a cluster or you can update the subnets after creating the cluster.
+
+The network interfaces provisioned by Amazon EKS have a description of the format `Amazon EKS [.replaceable]``your-cluster-name```. See the example below for an {cli} command you can use to find the IP addresses of the network interfaces that Amazon EKS provisions. Replace `VPC_ID` with the ID of the VPC you pass during cluster creation.
+
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 describe-network-interfaces \
+--query 'NetworkInterfaces[?(VpcId == [.replaceable]`VPC_ID` && contains(Description,`Amazon EKS`))].PrivateIpAddress'
+----
+
+
+[[hybrid-nodes-networking-vpc,hybrid-nodes-networking-vpc.title]]
+== {aws} VPC and subnet setup
+
+The existing <<network-reqs,VPC and subnet requirements>> for Amazon EKS apply to clusters with hybrid nodes. Additionally, your VPC CIDR can't overlap with your on-premises node and pod CIDRs. You must configure routes in your VPC routing table for your on-premises node and optionally pod CIDRs. These routes must be setup to route traffic to the gateway you are using for your hybrid network connectivity, which is commonly a virtual private gateway (VGW) or transit gateway (TGW). If you are using TGW or VGW to connect your VPC with your on-premises environment, you must create a TGW or VGW attachment for your VPC. Your VPC must have DNS hostname and DNS resolution support.
+
+The following steps use the {cli}. You can also create these resources in the {aws-management-console} or with other interfaces such as {aws} CloudFormation, {aws} CDK, or Terraform.
+
+=== Step 1: Create VPC
+
+. Run the following command to create a VPC. Replace `VPC_CIDR` with an `IPv4` RFC-1918 (private) or non-RFC-1918 (public) CIDR range (for example `10.0.0.0/16`).
+Note: DNS resolution, which is an EKS requirement, is enabled for the VPC by default.
++
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 create-vpc --cidr-block [.replaceable]`VPC_CIDR`  
+----
+. Enable DNS hostnames for your VPC. Note, DNS resolution is enabled for the VPC by default. Replace `VPC_ID` with the ID of the VPC you created in the previous step.
++
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 modify-vpc-attribute --vpc-id [.replaceable]`VPC_ID` --enable-dns-hostnames
+----
+
+=== Step 2: Create subnets
+
+Create at least 2 subnets. Amazon EKS uses these subnets for the cluster network interfaces. For more information, see the <<network-requirements-subnets,Subnets requirements and considerations>>.
+
+. You can find the availability zones for an {aws-region} with the following command. Replace `us-west-2` with your region.
++
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 describe-availability-zones \
+     --query 'AvailabilityZones[?(RegionName == `us-west-2`)].ZoneName'
+----
+. Create a subnet. Replace `VPC_ID` with the ID of the VPC. Replace `SUBNET_CIDR` with the CIDR block for your subnet (for example 10.0.1.0/24 ). Replace `AZ` with the availability zone where the subnet will be created (for example us-west-2a). The subnets you create must be in at least 2 different availability zones. 
++
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 create-subnet \
+    --vpc-id [.replaceable]`VPC_ID` \
+    --cidr-block [.replaceable]`SUBNET_CIDR` \
+    --availability-zone [.replaceable]`AZ`
+----
+
+=== (Optional) Step 3: Attach VPC with {amazon-vpc} Transit Gateway (TGW) or {aws-direct-connect} virtual private gateway (VGW)
+
+If you are using a TGW or VGW, attach your VPC to the TGW or VGW. For more information, see link:vpc/latest/tgw/tgw-vpc-attachments.html[{amazon-vpc} attachments in {amazon-vpc} Transit Gateways,type="documentation"] or link:vpn/latest/s2svpn/how_it_works.html#VPNGateway[{aws} Direct Connect virtual private gateway associations,type="documentation"].
+
+
+*Transit Gateway*
+
+Run the following command to attach a Transit Gateway. Replace `VPC_ID` with the ID of the VPC. Replace `SUBNET_ID1` and `SUBNET_ID2` with the IDs of the subnets you created in the previous step. Replace `TGW_ID` with the ID of your TGW.
+
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 create-transit-gateway-vpc-attachment \
+    --vpc-id [.replaceable]`VPC_ID` \
+    --subnet-ids [.replaceable]`SUBNET_ID1 SUBNET_ID2` \
+    --transit-gateway-id [.replaceable]`TGW_ID`
+----
+
+
+*Virtual Private Gateway*
+
+Run the following command to attach a Transit Gateway. Replace `VPN_ID` with the ID of your VGW. Replace `VPC_ID` with the ID of the VPC.
+
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 attach-vpn-gateway \
+    --vpn-gateway-id [.replaceable]`VPN_ID` \
+    --vpc-id [.replaceable]`VPC_ID`
+----
+
+
+=== (Optional) Step 4: Create route table
+
+You can modify the main route table for the VPC or you can create a custom route table. The following steps create a custom route table with the routes to on-premises node and pod CIDRs. For more information, see link:vpc/latest/userguide/subnet-route-tables.html[Subnet route tables,type="documentation"]. Replace `VPC_ID` with the ID of the VPC.
+
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 create-route-table --vpc-id [.replaceable]`VPC_ID`
+----
+
+
+=== Step 5: Create routes for on-premises nodes and pods
+
+Create routes in the route table for each of your on-premises remote nodes. You can modify the main route table for the VPC or use the custom route table you created in the previous step.
+
+The examples below show how to create routes for your on-premises node and pod CIDRs. In the examples, a transit gateway (TGW) is used to connect the VPC with the on-premises environment. If you have multiple on-premises node and pods CIDRs, repeat the steps for each CIDR.
+
+* If you are using an internet gateway or a virtual private gateway (VGW) replace `--transit-gateway-id` with `--gateway-id`.
+* Replace `RT_ID` with the ID of the route table you created in the previous step.
+* Replace `REMOTE_NODE_CIDR` with the CIDR range you will use for your hybrid nodes.
+* Replace `REMOTE_POD_CIDR` with the CIDR range you will use for the pods running on hybrid nodes. The pod CIDR range corresponds to the Container Networking Interface (CNI) configuration, which most commonly uses an overlay network on-premises. For more information, see <<hybrid-nodes-cni>>.
+* Replace `TGW_ID` with the ID of your TGW.
+
+*Remote node network*
+
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 create-route \
+    --route-table-id [.replaceable]`RT_ID` \
+    --destination-cidr-block [.replaceable]`REMOTE_NODE_CIDR` \
+    --transit-gateway-id [.replaceable]`TGW_ID`
+----
+
+
+*Remote [.noloc]`Pod` network*
+
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 create-route \
+    --route-table-id [.replaceable]`RT_ID` \
+    --destination-cidr-block [.replaceable]`REMOTE_POD_CIDR` \
+    --transit-gateway-id [.replaceable]`TGW_ID`
+----
+
+
+=== (Optional) Step 6: Associate subnets with route table
+
+If you created a custom route table in the previous step, associate each of the subnets you created in the previous step with your custom route table. If you are modifying the VPC main route table, the subnets are automatically associated with the main route table of the VPC and you can skip this step.
+
+Run the following command for each of the subnets you created in the previous steps. Replace `RT_ID` with the route table you created in the previous step. Replace `SUBNET_ID` with the ID of a subnet.
+
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 associate-route-table --route-table-id [.replaceable]`RT_ID` --subnet-id [.replaceable]`SUBNET_ID`
+----
+
+
+[[hybrid-nodes-networking-cluster-sg,hybrid-nodes-networking-cluster-sg.title]]
+== Cluster security group configuration
+
+The following access for your Amazon EKS cluster security group is required for ongoing cluster operations. 
+
+[cols="1,1,1,1,1,1,1", options="header"]
+|===
+|Type
+|Protocol
+|Direction
+|Port
+|Source
+|Destination
+|Usage
+
+|HTTPS
+|TCP
+|Inbound
+|443
+|Remote Node CIDR(s)
+|N/A
+|Kubelet to Kubernetes API server
+
+|HTTPS
+|TCP
+|Inbound
+|443
+|Remote Pod CIDR(s)
+|N/A
+|Pods requiring access to K8s API server when the CNI is not using NAT for the pod traffic.
+
+|HTTPS
+|TCP
+|Outbound
+|10250
+|N/A
+|Remote Node CIDR(s)
+|Kubernetes API server to Kubelet
+
+|HTTPS
+|TCP
+|Outbound
+|Webhook ports
+|N/A
+|Remote Pod CIDR(s)
+|Kubernetes API server to webhook (if running webhooks on hybrid nodes)
+|===
+
+To create a security group with the inbound access rules, run the following commands. This security group must be passed when you create your Amazon EKS cluster. By default, the command below creates a security group that allows all outbound access. You can restrict outbound access to include only the rules above. If you’re considering limiting the outbound rules, we recommend that you thoroughly test all of your applications and pod connectivity before you apply your changed rules to a production cluster.
+
+* In the first command, replace SG_NAME with a name for your security group
+* In the first command, replace VPC_ID with the ID of the VPC you created in the previous step
+* In the second command, replace SG_ID with the ID of the security group you create in the first command
+* In the second command, replace REMOTE_NODE_CIDR and REMOTE_POD_CIDR with the values for your hybrid nodes and on-premises network.
+
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 create-security-group \
+    --group-name [.replaceable]`SG_NAME` \
+    --description "security group for hybrid nodes" \
+    --vpc-id [.replaceable]`VPC_ID`
+----
+
+[source,cli,subs="verbatim,attributes,quotes"]
+----
+aws ec2 authorize-security-group-ingress \
+    --group-id [.replaceable]`SG_ID` \
+    --ip-permissions '[{"IpProtocol": "tcp", "FromPort": 443, "ToPort": 443, "IpRanges": [{"CidrIp": "REMOTE_NODE_CIDR"}, {"CidrIp": "REMOTE_POD_CIDR"}]}]'
+----

@@ -1,0 +1,138 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[auto-get-logs,auto-get-logs.title]]
+= Retrieve Node Logs for an EKS Auto Mode Managed Node using Kubectl and S3
+:info_doctype: section
+:info_titleabbrev: Get node logs
+
+
+:info_title: Retrieve Node Logs for an EKS Auto Mode Managed Node using Kubectl and S3
+:info_titleabbrev: Logs
+:info_abstract: Retrieve Node Logs for an EKS Auto Mode Managed Node using Kubectl and S3
+
+include::../attributes.txt[]
+
+Learn how to retrieve node logs for EC2 instances managed by {eam}.
+
+== Prerequisites
+
+Make sure you have the following:
+
+* An existing Amazon EKS cluster with {eam} enabled.
+* The `kubectl` command-line tool installed and configured to
+communicate with your EKS cluster.
+* The {aws} CLI installed, and logged in with sufficent permissions to
+create S3 buckets and objects.
+
+== Step 1: Create S3 bucket destination (optional)
+
+If you don't already have an S3 bucket to store the logs, create one. Use the following {aws} CLI command. The bucket defaults to the `private` access control list. 
+
+[source,bash]
+----
+# Replace <bucket-name> with your chosen unique bucket name
+aws s3api create-bucket --bucket <bucket-name>
+----
+
+== Step 2: Create pre-signed S3 URL for HTTP Put
+
+EKS returns the node logs by doing a HTTP PUT operation to a URL you specify. In this tutorial, we will generate a pre-signed S3 HTTP PUT URL. 
+
+The logs will be returned as a gzip tarball, with the `.tar.gz` extension.
+
+[NOTE]
+====
+You must use the {aws} API or a SDK to create the pre-signed S3 upload URL for EKS to upload the log file. You cannot create a pre-signed S3 upload URL using the {aws} cli.  
+====
+
+=== Prerequisites
+
+* {aws} CLI installed and logged in with permissions to manage S3 buckets.
+* A recent version of Python 3 installed 
+* The {aws} SDK for Python 3, Boto 3, installed. 
+
+=== Procedure
+
+. Determine where in the bucket you want to store the logs. For example, you might use `2024-11-12/logs1.tar.gz` as the key. 
+. Save the following Python code to the file `presign-upload.py`. Replace `<bucket-name>` and `<key>`. The key should end with `.tar.gz`.
++
+[source,python]
+----
+import boto3; print(boto3.client('s3').generate_presigned_url(
+   ClientMethod='put_object',
+   Params={'Bucket': '<bucket-name>', 'Key': '<key>'},
+   ExpiresIn=1000
+))
+----
+. Run the script with
++
+[source,cli]
+----
+python presign-upload.py
+----
+. Note the URL output, use this value in the next step as the `<http-put-destination>`.
+
+
+
+For more information, see https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-presigned-urls.html#generating-a-presigned-url-to-upload-a-file[Generate a presigned URL to upload a file] in the {aws} Boto3 SDK for Python Documentation.
+
+== Step 3: Create NodeDiagnostic resource
+
+Identify the name of the node you want to collect logs from.
+
+Create a `NodeDiagnostic` manifest that uses the name of the node as the
+resource's name, and providing a HTTP PUT URL destination. 
+
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1alpha1
+kind: NodeDiagnostic
+metadata:
+    name: <node-name>
+spec:
+    logCapture:
+        destination: <http-put-destination>
+----
+
+Apply the manifest to the cluster.
+
+[source,shell]
+----
+kubectl apply -f nodediagnostic.yaml
+----
+
+You can check on the Status of the collection by describing the
+`NodeDiagnostic` resource:
+
+* A status of `Success` or `SuccessWithErrors`, means the task
+  completed and the logs uploaded to the provided destination
+  (`SuccessWithErrors` indicates that some logs might be missing)
+* If the status is Failure, confirm the upload URL is well-formed and not expired.
+
+[source,shell]
+----
+kubectl describe nodediagnostics.eks.amazonaws.com/<node-name>
+----
+
+== Step 4: Download logs from S3
+
+Wait approximately one minute before attempting to download the logs. Then, use the S3 CLI to download the logs. 
+
+[source,bash]
+----
+# Once NodeDiagnostic shows Success status, download the logs
+aws s3 cp s3://<bucket-name>/<key> ./node-logs.tar.gz
+----
+
+== Step 5: Clean up NodeDiagnostic resource
+
+* `NodeDiagnostic` resources do not get automatically deleted, you
+should clean these up on your own after you have obtained your log
+artifacts
+
+[source,bash]
+----
+# Delete the NodeDiagnostic resource
+kubectl delete nodediagnostics.eks.amazonaws.com/<node-name>
+----

@@ -17,10 +17,10 @@ include::kubernetes-field-management.adoc[leveloffset=+1]
 
 [abstract]
 --
-Learn how to manage operational software add-ons on Amazon EKS clusters with Amazon EKS add-ons for observability, networking, storage, and security from {aws} and third-party vendors..
+Learn how to manage operational software add-ons on Amazon EKS clusters with Amazon EKS add-ons for observability, networking, storage, and security from {aws} and third-party vendors.
 --
 
-An add-on is software that provides supporting operational capabilities to [.noloc]`Kubernetes` applications, but is not specific to the application. This includes software like observability agents or [.noloc]`Kubernetes` drivers that allow the cluster to interact with underlying {aws} resources for networking, compute, and storage. Add-on software is typically built and maintained by the [.noloc]`Kubernetes` community, cloud providers like {aws}, or third-party vendors. Amazon EKS automatically installs self-managed add-ons such as the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, `kube-proxy`, and [.noloc]`CoreDNS` for every cluster. You can change the default configuration of the add-ons and update them when desired.
+An add-on is software that provides supporting operational capabilities to [.noloc]`Kubernetes` applications, but is not specific to the application. This includes software like observability agents or [.noloc]`Kubernetes` drivers that allow the cluster to interact with underlying {aws} resources for networking, compute, and storage. Add-on software is typically built and maintained by the [.noloc]`Kubernetes` community, cloud providers like {aws}, or third-party vendors. Amazon EKS automatically installs self-managed add-ons such as the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, `kube-proxy`, and [.noloc]`CoreDNS` for every cluster. Note that the VPC CNI add-on isn't compatible with Amazon EKS Hybrid Nodes and doesn't deploy to hybrid nodes. You can change the default configuration of the add-ons and update them when desired.
 
 Amazon EKS add-ons provide installation and management of a curated set of add-ons for Amazon EKS clusters. All Amazon EKS add-ons include the latest security patches, bug fixes, and are validated by {aws} to work with Amazon EKS. Amazon EKS add-ons allow you to consistently ensure that your Amazon EKS clusters are secure and stable and reduce the amount of work that you need to do in order to install, configure, and update add-ons. If a self-managed add-on, such as `kube-proxy` is already running on your cluster and is available as an Amazon EKS add-on, then you can install the `kube-proxy` Amazon EKS add-on to start benefiting from the capabilities of Amazon EKS add-ons.
 
@@ -38,10 +38,11 @@ Consider the following when you use Amazon EKS add-ons:
 
 
 * To configure add-ons for the cluster your  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] must have IAM permissions to work with add-ons. For more information, see the actions with `Addon` in their name in  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"].
-* Amazon EKS add-ons run on the nodes that you provision or configure for your cluster. Node types include Amazon EC2 instances and Fargate.
+* Amazon EKS add-ons run on the nodes that you provision or configure for your cluster. Node types include Amazon EC2 instances, Fargate, and hybrid nodes.
 * You can modify fields that aren't managed by Amazon EKS to customize the installation of an Amazon EKS add-on. For more information, see <<kubernetes-field-management>>.
-* If you create a cluster with the {aws-management-console}, the Amazon EKS `kube-proxy`, [.noloc]`Amazon VPC CNI plugin for Kubernetes`, and [.noloc]`CoreDNS` Amazon EKS add-ons are automatically added to your cluster. If you use `eksctl` to create your cluster with a `config` file, `eksctl` can also create the cluster with Amazon EKS add-ons. If you create your cluster using `eksctl` without a `config` file or with any other tool, the self-managed `kube-proxy`, [.noloc]`Amazon VPC CNI plugin for Kubernetes`, and [.noloc]`CoreDNS` add-ons are installed, rather than the Amazon EKS add-ons. You can either manage them yourself or add the Amazon EKS add-ons manually after cluster creation.
+* If you create a cluster with the {aws-management-console}, the Amazon EKS `kube-proxy`, [.noloc]`Amazon VPC CNI plugin for Kubernetes`, and [.noloc]`CoreDNS` Amazon EKS add-ons are automatically added to your cluster. If you use `eksctl` to create your cluster with a `config` file, `eksctl` can also create the cluster with Amazon EKS add-ons. If you create your cluster using `eksctl` without a `config` file or with any other tool, the self-managed `kube-proxy`, [.noloc]`Amazon VPC CNI plugin for Kubernetes`, and [.noloc]`CoreDNS` add-ons are installed, rather than the Amazon EKS add-ons. You can either manage them yourself or add the Amazon EKS add-ons manually after cluster creation. Regardless of the method that you use to create your cluster, the VPC CNI add-on doesn't install on hybrid nodes.
 * The `eks:addon-cluster-admin` `ClusterRoleBinding` binds the `cluster-admin` `ClusterRole` to the `eks:addon-manager` [.noloc]`Kubernetes` identity. The role has the necessary permissions for the `eks:addon-manager` identity to create [.noloc]`Kubernetes` namespaces and install add-ons into namespaces. If the `eks:addon-cluster-admin` `ClusterRoleBinding` is removed, the Amazon EKS cluster will continue to function, however Amazon EKS is no longer able to manage any add-ons. All clusters starting with the following platform versions use the new `ClusterRoleBinding`.
+* A subset of EKS add-ons from {aws} have been validated for compatibility with Amazon EKS Hybrid Nodes. For more information, see the compatibility table on <<workloads-add-ons-available-eks>>.
 +
 [cols="1,1", options="header"]
 |===
@@ -66,6 +67,32 @@ Consider the following when you use Amazon EKS add-ons:
 
 |===
 
+[[addon-consider-auto,addon-consider-auto.title]]
+== Considerations for Amazon EKS Auto Mode
+
+Amazon EKS Auto mode includes capabilities that deliver essential cluster functionality, including:
+
+* Pod networking
+* Service networking
+* Cluster DNS
+* Autoscaling
+* Block storage
+* Load balancer controller
+* Pod Identity agent
+* Node monitoring agent
+
+With Auto mode compute, many commonly used EKS add-ons become redundant, such as:
+
+* Amazon VPC CNI
+* kube-proxy
+* CoreDNS
+* Amazon EBS CSI Driver
+* EKS Pod Identity Agent
+
+However, if your cluster combines Auto mode with other compute options like self-managed EC2 instances, Managed Node Groups, or {aws} Fargate, these add-ons remain necessary. {aws} has enhanced EKS add-ons with anti-affinity rules that automatically ensure add-on pods are scheduled only on supported compute types. Furthermore, users can now leverage the EKS add-ons `DescribeAddonVersions` API to verify the supported computeTypes for each add-on and its specific versions. Additionally, with EKS Auto mode, the controllers listed above run on {aws} owned infrastructure. So, you many not even see them in your accounts unless you are using EKS auto mode with other types of compute in which case, you will see the controllers you installed on your cluster.
+
+If you are planning to enable EKS Auto Mode on an existing cluster, you may need to upgrade the version of certain addons. For more information, see <<auto-addons-required>> for EKS Auto Mode. 
+
 
 [.topic]
 [[workloads-add-ons-available-eks,workloads-add-ons-available-eks.title]]
@@ -77,48 +104,61 @@ Consider the following when you use Amazon EKS add-ons:
 Learn about the availabe Amazon EKS add-ons from {aws}.
 --
 
-The following Amazon EKS add-ons are available to create on your cluster. You can view the most current list of available add-ons using `eksctl`, the {aws-management-console}, or the {aws} CLI. To see all available add-ons or to install an add-on, see <<creating-an-add-on>>. If an add-on requires IAM permissions, then you must have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one, or to create one, see <<enable-iam-roles-for-service-accounts>>. You can an create or delete an add-on after you've installed it. For more information, see <<updating-an-add-on>> or <<removing-an-add-on>>.
+The following Amazon EKS add-ons are available to create on your cluster. You can view the most current list of available add-ons using `eksctl`, the {aws-management-console}, or the {aws} CLI. To see all available add-ons or to install an add-on, see <<creating-an-add-on>>. If an add-on requires IAM permissions, then you must have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one, or to create one, see <<enable-iam-roles-for-service-accounts>>. You can an create or delete an add-on after you've installed it. For more information, see <<updating-an-add-on>> or <<removing-an-add-on>>. For more information about considerations specific to running EKS add-ons with Amazon EKS Hybrid Nodes, see <<hybrid-nodes-add-ons>>.
 
 You can use any of the following Amazon EKS add-ons.
 
-[cols="1,1", options="header"]
+[role="no-scroll"]
+[cols="1,1,1", options="header"]
 |===
 
 |Description
 |Learn more
+|Compatible compute types
 
 | Provide native VPC networking for your cluster
 |<<add-ons-vpc-cni>>
+|EC2
 
 | A flexible, extensible DNS server that can serve as the [.noloc]`Kubernetes` cluster DNS
 |<<add-ons-coredns>>
+|EC2, Fargate, EKS Auto Mode, Amazon EKS Hybrid Nodes
 
 |Maintain network rules on each Amazon EC2 node
 |<<add-ons-kube-proxy>>
+|EC2, Amazon EKS Hybrid Nodes
 
 |Provide Amazon EBS storage for your cluster
 |<<add-ons-aws-ebs-csi-driver>>
+|EC2
 
 |Provide Amazon EFS storage for your cluster
 |<<add-ons-aws-efs-csi-driver>>
+|EC2, EKS Auto Mode
 
 |Provide Amazon S3 storage for your cluster
 |<<mountpoint-for-s3-add-on>>
+|EC2, EKS Auto Mode
 
 |Enable the use of snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI driver
 |<<addons-csi-snapshot-controller>>
+|EC2, Fargate, EKS Auto Mode, Amazon EKS Hybrid Nodes
 
 |Secure, production-ready, {aws} supported distribution of the OpenTelemetry project
 |<<add-ons-adot>>
+|EC2, Fargate, EKS Auto Mode, Amazon EKS Hybrid Nodes
 
 |Security monitoring service that analyzes and processes foundational data sources including {aws} CloudTrail management events and Amazon VPC flow logs. Amazon GuardDuty also processes features, such as [.noloc]`Kubernetes` audit logs and runtime monitoring
 |<<add-ons-guard-duty>>
+|EC2, EKS Auto Mode
 
 |Monitoring and observability service provided by {aws}. This add-on installs the CloudWatch Agent and enables both CloudWatch Application Signals and CloudWatch Container Insights with enhanced observability for Amazon EKS
 |<<amazon-cloudwatch-observability>>
+|EC2, EKS Auto Mode, Amazon EKS Hybrid Nodes
 
 |Ability to manage credentials for your applications, similar to the way that EC2 instance profiles provide credentials to EC2 instances
 |<<add-ons-pod-id>>
+|EC2, Amazon EKS Hybrid Nodes
 
 |===
 
@@ -131,6 +171,12 @@ Learn about the vpc-cni Amazon EKS add-on.
 --
 
 The [.noloc]`Amazon VPC CNI plugin for Kubernetes` Amazon EKS add-on is a [.noloc]`Kubernetes` container network interface (CNI) plugin that provides native VPC networking for your cluster. The self-managed or managed type of this add-on is installed on each Amazon EC2 node, by default. For more information, see https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/[Kubernetes container network interface (CNI) plugin].
+
+[NOTE]
+====
+You do not need to install this add-on on Amazon EKS Auto Mode clusters. For more information, see <<addon-consider-auto>>. 
+====
+
 
 The Amazon EKS add-on name is `vpc-cni`.
 
@@ -165,6 +211,11 @@ Learn about the CoreDNS Amazon EKS add-on.
 
 The CoreDNS Amazon EKS add-on is a flexible, extensible DNS server that can serve as the [.noloc]`Kubernetes` cluster DNS. The self-managed or managed type of this add-on was installed, by default, when you created your cluster. When you launch an Amazon EKS cluster with at least one node, two replicas of the [.noloc]`CoreDNS` image are deployed by default, regardless of the number of nodes deployed in your cluster. The [.noloc]`CoreDNS` [.noloc]`Pods` provide name resolution for all [.noloc]`Pods` in the cluster. You can deploy the [.noloc]`CoreDNS` [.noloc]`Pods` to Fargate nodes if your cluster includes a Fargate profile with a namespace that matches the namespace for the [.noloc]`CoreDNS` deployment. For more information, see <<fargate-profile>>
 
+[NOTE]
+====
+You do not need to install this add-on on Amazon EKS Auto Mode clusters. For more information, see <<addon-consider-auto>>. 
+====
+
 The Amazon EKS add-on name is `coredns`.
 
 [[add-ons-coredns-iam-permissions,add-ons-coredns-iam-permissions.title]]
@@ -186,6 +237,11 @@ Learn about the Kube-proxy Amazon EKS add-on.
 --
 
 The `Kube-proxy` Amazon EKS add-on maintains network rules on each Amazon EC2 node. It enables network communication to your [.noloc]`Pods`. The self-managed or managed type of this add-on is installed on each Amazon EC2 node in your cluster, by default.
+
+[NOTE]
+====
+You do not need to install this add-on on Amazon EKS Auto Mode clusters. For more information, see <<addon-consider-auto>>. 
+====
 
 The Amazon EKS add-on name is `kube-proxy`.
 
@@ -218,6 +274,11 @@ Learn about the Amazon EBS CSI driver Amazon EKS add-on.
 --
 
 The Amazon EBS CSI driver Amazon EKS add-on is a [.noloc]`Kubernetes` Container Storage Interface (CSI) plugin that provides Amazon EBS storage for your cluster.
+
+[NOTE]
+====
+You do not need to install this add-on on Amazon EKS Auto Mode clusters. Auto Mode includes a block storage capability. For more information, see <<sample-storage-workload>>.
+====
 
 The Amazon EKS add-on name is `aws-ebs-csi-driver`.
 
@@ -446,6 +507,11 @@ Learn about the EKS Pod Identity Agent Amazon EKS add-on.
 --
 
 The Amazon EKS Pod Identity Agent Amazon EKS add-on provides the ability to manage credentials for your applications, similar to the way that EC2 instance profiles provide credentials to EC2 instances.
+
+[NOTE]
+====
+You do not need to install this add-on on Amazon EKS Auto Mode clusters. Amazon EKS Auto Mode integrates with EKS Pod Identity. For more information, see <<addon-consider-auto>>. 
+====
 
 The Amazon EKS add-on name is `eks-pod-identity-agent`.
 
@@ -1482,7 +1548,7 @@ If the *{aws} Marketplace add-ons* that you want to install aren't listed, you c
 .. For *Version*, choose the version that you want to install. We recommend the version marked  *latest*, unless the individual add-on that you're creating recommends a different version. To determine whether an add-on has a recommended version, see the documentation for the add-on that you're creating. For a list of add-ons, see <<workloads-add-ons-available-eks>>.
 .. You have two options for configuring roles for add-ons: EKS Pod Identities IAM role and IAM roles for service accounts (IRSA). Follow the appropriate step below for your preferred option. If all of the add-ons that you selected have *Requires subscription* under  *Status*, choose  *Next*. You can't  <<updating-an-add-on,configure those add-ons>> further until you've subscribed to them after your cluster is created. For the add-ons that don't have *Requires subscription* under  *Status*, do the following:
 +
-... For *Pod Identity IAM role for service account*, you can either use an existing EKS Pod Identity IAM role or create one using the *Create Recommended Role* button. This field will only provide options with the appropriate trust policy. If there’s no role to select, then you don’t have an existing role with a matching trust policy. To configure an EKS Pod Identity IAM role for service accounts of the selected add-on, choose *Create recommended role*. The role creation wizard opens in a separate window. The wizard will automatically populate the role information as follows. For each add-on where you want to create the EKS Pod Identity IAM role, complete the steps in the IAM wizard as follows.
+... For *Pod Identity IAM role for service account*, you can either use an existing EKS Pod Identity IAM role or create one using the *Create Recommended Role* button. This field will only provide options with the appropriate trust policy. If there’s no role to select, then you don't have an existing role with a matching trust policy. To configure an EKS Pod Identity IAM role for service accounts of the selected add-on, choose *Create recommended role*. The role creation wizard opens in a separate window. The wizard will automatically populate the role information as follows. For each add-on where you want to create the EKS Pod Identity IAM role, complete the steps in the IAM wizard as follows.
 * On the *Select trusted entity* step, the {aws} service option for *EKS* and the use case for *EKS - Pod Identity* are preselected, and the appropriate trust policy will be automatically populated for the add-on. For example, the role will be created with the appropriate trust policy containing the pods.eks.amazonaws.com IAM Principal as detailed in <<pod-id-benefits>>. Choose *Next*.
 * On the *Add permissions* step, the appropriate managed policy for the role policy is preselected for the add-on. For example, for the Amazon VPC CNI add-on, the role will be created with the managed policy ` AmazonEKS_CNI_Policy` as detailed in <<add-ons-vpc-cni>>. Choose *Next*.
 * On the *Name, review, and create* step, in *Role name*, the default role name is automatically populated for the add-on. For example, for the *Amazon VPC CNI* add-on, the role will be created with the name *AmazonEKSPodIdentityAmazonVPCCNIRole*. In *Description*, the default description is automatically populated with the appropriate description for the add-on. For example, for the Amazon VPC CNI add-on, the role will be created with the description *Allows pods running in Amazon EKS cluster* to access {aws} resources. In *Trust policy*, view the populated trust policy for the add-on. Choose *Create role*.
@@ -1770,7 +1836,7 @@ For more information about updating add-ons, see https://eksctl.io/usage/addons/
 .. Choose the *Version* that you'd like to use. The add-on might have a recommended version. For more information, see the documentation for the add-on that you're updating. For a list of add-ons, see <<workloads-add-ons-available-eks>>.
 .. You have two options for configuring roles for add-ons: EKS Pod Identities IAM role and IAM roles for service accounts (IRSA). Follow the appropriate step below for your preferred option. If all of the add-ons that you selected have *Requires subscription* under  *Status*, choose  *Next*. For the add-ons that don't have *Requires subscription* under  *Status*, do the following:
 +
-... For *Pod Identity IAM role for service account*, you can either use an existing EKS Pod Identity IAM role or create one using the *Create Recommended Role* button. This field will only provide options with the appropriate trust policy. If there’s no role to select, then you don’t have an existing role with a matching trust policy. To configure an EKS Pod Identity IAM role for service accounts of the selected add-on, choose *Create recommended role*. The role creation wizard opens in a separate window. The wizard will automatically populate the role information as follows. For each add-on where you want to create the EKS Pod Identity IAM role, complete the steps in the IAM wizard as follows.
+... For *Pod Identity IAM role for service account*, you can either use an existing EKS Pod Identity IAM role or create one using the *Create Recommended Role* button. This field will only provide options with the appropriate trust policy. If there’s no role to select, then you don't have an existing role with a matching trust policy. To configure an EKS Pod Identity IAM role for service accounts of the selected add-on, choose *Create recommended role*. The role creation wizard opens in a separate window. The wizard will automatically populate the role information as follows. For each add-on where you want to create the EKS Pod Identity IAM role, complete the steps in the IAM wizard as follows.
 * On the *Select trusted entity* step, the {aws} service option for *EKS* and the use case for *EKS - Pod Identity* are preselected, and the appropriate trust policy will be automatically populated for the add-on. For example, the role will be created with the appropriate trust policy containing the pods.eks.amazonaws.com IAM Principal as detailed in <<pod-id-benefits>>. Choose *Next*.
 * On the *Add permissions* step, the appropriate managed policy for the role policy is preselected for the add-on. For example, for the Amazon VPC CNI add-on, the role will be created with the managed policy ` AmazonEKS_CNI_Policy` as detailed in <<add-ons-vpc-cni>>. Choose *Next*.
 * On the *Name, review, and create* step, in *Role name*, the default role name is automatically populated for the add-on. For example, for the *Amazon VPC CNI* add-on, the role will be created with the name *AmazonEKSPodIdentityAmazonVPCCNIRole*. In *Description*, the default description is automatically populated with the appropriate description for the add-on. For example, for the Amazon VPC CNI add-on, the role will be created with the description *Allows pods running in Amazon EKS cluster* to access {aws} resources. In *Trust policy*, view the populated trust policy for the add-on. Choose *Create role*.
@@ -1921,6 +1987,11 @@ An example output is as follows.
                         "amd64",
                         "arm64"
                     ],
+                    "computeTypes": [
+                        "ec2",
+                        "auto",
+                        "hybrid"
+                    ],
                     "compatibilities": [
                         {
                             "clusterVersion": "{k8s-n}",
@@ -1938,6 +2009,12 @@ An example output is as follows.
 ----
 +
 This output shows that addon version `vX.X.X-eksbuild.X` is compatible with Kubernetes cluster version `{k8s-n}`.
+
+=== Add-on compatibility with compute types
+
+The `computeTypes` field in the `describe-addon-versions` output indicates an add-on's compatibility with EKS Auto Mode Managed Nodes or Hybrid Nodes. Add-ons marked `auto` work with EKS Auto Mode's cloud-based, {aws}-managed infrastructure, while those marked `hybrid` can run on on-premises nodes connected to the EKS cloud control plane.
+
+For more information, see <<addon-consider-auto>>. 
 
 
 [.topic]

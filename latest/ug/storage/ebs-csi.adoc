@@ -16,13 +16,21 @@ include::../attributes.txt[]
 The Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver manages the lifecycle of Amazon EBS volumes as storage for Kubernetes Volumes.
 --
 
+[NOTE]
+====
+*New:* Amazon EKS Auto Mode automates routine tasks for block storage. Learn how to <<sample-storage-workload>>.
+====
+
+
 The https://github.com/kubernetes-sigs/aws-ebs-csi-driver/[Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver] manages the lifecycle of Amazon EBS volumes as storage for the Kubernetes Volumes that you create. The Amazon EBS CSI driver makes Amazon EBS volumes for these types of [.noloc]`Kubernetes` volumes: generic https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/[ephemeral volumes] and https://kubernetes.io/docs/concepts/storage/persistent-volumes/[persistent volumes].
 
 [[ebs-csi-considerations,ebs-csi-considerations.title]]
 == Considerations
 
+* You do not need to install the Amazon EBS CSI controller on EKS Auto Mode clusters. 
 * You can't mount Amazon EBS volumes to Fargate [.noloc]`Pods`.
 * You can run the Amazon EBS CSI controller on Fargate nodes, but the Amazon EBS CSI node [.noloc]`DaemonSet` can only run on Amazon EC2 instances.
+* Amazon EBS volumes and the Amazon EBS CSI driver are not compatible with Amazon EKS Hybrid Nodes.
 * Support will be provided for the latest add-on version and one prior version. Bugs or vulnerabilities found in the latest version will be backported to the previous release in a new minor version.
 
 

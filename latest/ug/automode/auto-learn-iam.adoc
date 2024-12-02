@@ -1,0 +1,127 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[auto-learn-iam,auto-learn-iam.title]]
+= Learn about identity and access in EKS Auto Mode
+:info_titleabbrev: Identity & access
+:info_doctype: section
+
+include::../attributes.txt[]
+
+
+This topic describes the Identity and Access Management (IAM) roles and permissions required to use EKS Auto Mode. EKS Auto Mode uses two primary IAM roles: a Cluster IAM Role and a Node IAM Role. These roles work in conjunction with EKS Pod Identity and EKS access entries to provide comprehensive access management for your EKS clusters.
+
+When you configure EKS Auto Mode, you will need to set up these IAM roles with specific permissions that allow {aws} services to interact with your cluster resources. This includes permissions for managing compute resources, storage volumes, load balancers, and networking components. Understanding these role configurations is essential for proper cluster operation and security.
+
+In EKS Auto Mode, {aws} IAM roles are automatically mapped to Kubernetes permissions through EKS access entries, removing the need for manual configuration of `aws-auth` ConfigMaps or custom bindings. When you create a new auto mode cluster, EKS automatically creates the corresponding Kubernetes permissions using Access entries, ensuring that {aws} services and cluster components have the appropriate access levels within both the {aws} and Kubernetes authorization systems. This automated integration reduces configuration complexity and helps prevent permission-related issues that commonly occur when managing EKS clusters.
+
+== Cluster IAM role
+
+The Cluster IAM role is an {aws} Identity and Access Management (IAM) role used by Amazon EKS to manage permissions for Kubernetes clusters. This role grants Amazon EKS the necessary permissions to interact with other {aws} services on behalf of your cluster, and is automatically configured with Kubernetes permissions using EKS access entries.
+
+* You must attach {aws} IAM policies to this role.
+* {eam} attaches Kubernetes permissions to this role automatically using EKS access entries. 
+* With {eam}, {aws} suggests creating a single Cluster IAM Role per {aws} account. 
+* {aws} suggests naming this role `AmazonEKSAutoClusterRole`.
+* This role requires permissions for multiple {aws} services to manage resources including EBS volumes, Elastic Load Balancers, and EC2 instances. 
+* The suggested configuration for this role includes multiple {aws} managed IAM policies, related to the different {caps} of {eam}.
+** `AmazonEKSComputePolicy`
+** `AmazonEKSBlockStoragePolicy`
+** `AmazonEKSLoadBalancingPolicy`
+** `AmazonEKSNetworkingPolicy`
+** `AmazonEKSClusterPolicy`
+
+For more information about the Cluster IAM Role and {aws} managed IAM policies, see:
+
+* <<security-iam-awsmanpol>>
+* <<cluster-iam-role>>
+
+For more information about Kubernetes access, see:
+
+* <<access-policy-permissions>>
+
+== Node IAM role
+
+The Node IAM role is an {aws} Identity and Access Management (IAM) role used by Amazon EKS to manage permissions for worker nodes in Kubernetes clusters. This role grants EC2 instances running as Kubernetes nodes the necessary permissions to interact with {aws} services and resources, and is automatically configured with Kubernetes RBAC permissions using EKS access entries.
+
+* You must attach {aws} IAM policies to this role.
+* {eam} attaches Kubernetes RBAC permissions to this role automatically using EKS access entries. 
+* {aws} suggests naming this role `AmazonEKSAutoNodeRole`.
+* With {eam}, {aws} suggests creating a single Node IAM Role per {aws} account. 
+* This role has limited permissions. The key permissions include assuming a Pod Identity Role, and pulling images from ECR. 
+* {aws} suggests the following {aws} managed IAM policies:
+** `AmazonEKSWorkerNodeMinimalPolicy`
+** `AmazonEC2ContainerRegistryPullOnly`
+
+For more information about the Cluster IAM Role and {aws} managed IAM policies, see:
+
+* <<security-iam-awsmanpol>>
+* <<create-node-role>>
+
+For more information about Kubernetes access, see:
+
+* <<access-policy-permissions>>
+
+== Service-linked role
+
+Amazon EKS uses a service-linked role (SLR) for certain operations. A service-linked role is a unique type of IAM role that is linked directly to Amazon EKS. Service-linked roles are predefined by Amazon EKS and include all the permissions that the service requires to call other {aws} services on your behalf.
+
+{aws} automatically creates and configures the SLR. You can delete an SLR only after first deleting their related resources. This protects your Amazon EKS resources because you can't inadvertently remove permission to access the resources.
+
+The SLR policy grants Amazon EKS permissions to observe and delete core infrastructure components: EC2 resources (instances, network interfaces, security groups), ELB resources (load balancers, target groups), CloudWatch capabilities (logging and metrics), and IAM roles with "eks" prefix. It also enables private endpoint networking through VPC/hosted zone association and includes permissions for EventBridge monitoring and cleanup of EKS-tagged resources.
+
+For more information, see:
+
+* <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
+* <<service-linked-role-permissions-eks>>
+
+
+[[tag-prop,tag-prop.title]]
+== Custom {aws} tags for EKS Auto resources 
+
+By default, the managed policies related to {eam} do not permit {aws} tag modification. {eam} supports custom {aws} tags, copying tags from Kubernetes resources to the associated {aws} resources. 
+
+If you want to tag {aws} resources, you must attach additional policies to the Node IAM Role and Cluster IAM Role with sufficient permissions to modify tags on {aws} resources. 
+
+[[auto-tag-policy,auto-tag-policy.title]]
+.View custom tag policy example
+[%collapsible, expand-section="_collapse_all_"]
+====
+[source,json]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "EC2TaggingPermissions",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateTags",
+                "ec2:DeleteTags",
+                "ec2:DescribeTags"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:instance/*",
+                "arn:aws:ec2:*:*:volume/*",
+                "arn:aws:elasticloadbalancing:*:*:loadbalancer/*"
+            ]
+        },
+        {
+            "Sid": "EC2DescribeResources",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeInstances",
+                "ec2:DescribeVolumes",
+                "elasticloadbalancing:DescribeLoadBalancers"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+----
+====
+
+
+== Access Policy Reference
+
+For more information about the Kubernetes permissions used by EKS Auto Mode, see <<access-policy-permissions>>.

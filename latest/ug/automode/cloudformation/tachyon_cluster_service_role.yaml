@@ -1,0 +1,157 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Amazon EKS Tachyon Cluster Service Role'
+Resources:
+  TachyonClusterServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: TachyonClusterServiceRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action:
+              - sts:AssumeRole
+              - sts:TagSession
+            Effect: Allow
+            Principal:
+              Service: eks.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+        - arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy
+        - Ref: EKSNodeOperatorMockPolicy
+        - Ref: EKSNetworkOperatorMockPolicy
+  EKSNodeOperatorMockPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: EKSNodeOperatorMockPolicy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action:
+              - ec2:CreateFleet
+              - ec2:RunInstances
+            Condition:
+              StringEquals:
+                aws:PrincipalTag/eks:operator-name: compute
+            Effect: Allow
+            Resource:
+              - arn:*:ec2:*::image/*
+              - arn:*:ec2:*:*:security-group/*
+              - arn:*:ec2:*:*:subnet/*
+          - Action:
+              - ec2:CreateFleet
+              - ec2:RunInstances
+            Condition:
+              StringEquals:
+                aws:PrincipalTag/eks:operator-name: compute
+#                ec2:ManagedResourceOperator: eks.amazonaws.com
+                aws:ResourceTag/eks:eks-cluster-name: ${aws:PrincipalTag/eks:eks-cluster-name}
+                aws:ResourceTag/eks:operator-name: compute
+            Effect: Allow
+            Resource: arn:*:ec2:*:*:launch-template/*
+          - Action:
+              - ec2:CreateFleet
+              - ec2:RunInstances
+              - ec2:CreateLaunchTemplate
+            Condition:
+              StringEquals:
+                aws:PrincipalTag/eks:operator-name: compute
+                aws:RequestTag/eks:eks-cluster-name: ${aws:PrincipalTag/eks:eks-cluster-name}
+                aws:RequestTag/eks:operator-name: compute
+              StringLike:
+                aws:RequestTag/eks:kubernetes-node-class-name: "*"
+                aws:RequestTag/eks:kubernetes-node-pool-name: "*"
+              ForAllValues:StringLike:
+                aws:TagKeys:
+                  - eks:eks-cluster-name
+                  - eks:operator-name
+                  - eks:kubernetes-node-class-name
+                  - eks:kubernetes-node-pool-name
+                  - kubernetes.io/cluster/*
+                  - karpenter.sh/nodepool
+                  - eks.amazonaws.com/nodeclass
+                  - eks.amazonaws.com/cluster
+            Effect: Allow
+            Resource: "*"
+          - Action: ec2:CreateTags
+            Condition:
+              StringEquals:
+                aws:PrincipalTag/eks:operator-name: compute
+                ec2:CreateAction:
+                  - CreateFleet
+                  - RunInstances
+                  - CreateLaunchTemplate
+            Effect: Allow
+            Resource: "*"
+          - Action: iam:AddRoleToInstanceProfile
+            Condition:
+              StringEquals:
+                aws:PrincipalTag/eks:operator-name: compute
+            Effect: Allow
+            Resource: arn:*:iam::*:instance-profile/eks-compute-*
+          - Action: iam:PassRole
+            Condition:
+              StringEquals:
+                aws:PrincipalTag/eks:operator-name: compute
+                iam:PassedToService:
+                  - ec2.amazonaws.com
+            Effect: Allow
+            Resource: "*"
+  EKSNetworkOperatorMockPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: EKSNetworkOperatorMockPolicy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action: ec2:CreateNetworkInterface
+            Condition:
+              StringEquals:
+                aws:PrincipalTag/eks:operator-name: network
+                aws:RequestTag/eks:operator-name: network
+                aws:RequestTag/eks:eks-cluster-name: ${aws:PrincipalTag/eks:eks-cluster-name}
+              StringLike:
+                aws:RequestTag/eks:kubernetes-cni-node-name: "*"
+              ForAllValues:StringEquals:
+                aws:TagKeys:
+                  - eks:eks-cluster-name
+                  - eks:operator-name
+                  - eks:kubernetes-cni-node-name
+            Effect: Allow
+            Resource: "*"
+          - Action: ec2:CreateNetworkInterface
+            Condition:
+              StringEquals:
+                aws:PrincipalTag/eks:operator-name: network
+            Effect: Allow
+            Resource:
+              - arn:*:ec2:*:*:security-group/*
+              - arn:*:ec2:*:*:subnet/*
+          - Action: ec2:CreateTags
+            Condition:
+              StringEquals:
+                aws:PrincipalTag/eks:operator-name: network
+                ec2:CreateAction: CreateNetworkInterface
+            Effect: Allow
+            Resource: "*"
+          - Action:
+              - ec2:AttachNetworkInterface
+              - ec2:DetachNetworkInterface
+              - ec2:UnassignPrivateIpAddresses
+              - ec2:UnassignIpv6Addresses
+              - ec2:AssignPrivateIpAddresses
+              - ec2:AssignIpv6Addresses
+            Condition:
+              StringEquals:
+                aws:PrincipalTag/eks:operator-name: network
+                aws:ResourceTag/eks:operator-name:
+                  - network
+                  - compute
+                aws:ResourceTag/eks:eks-cluster-name: ${aws:PrincipalTag/eks:eks-cluster-name}
+            Effect: Allow
+            Resource: "*"
+Outputs:
+  RoleArn:
+    Description: The role that EKS will use for operating the cluster control plane
+    Value: !GetAtt TachyonClusterServiceRole.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-RoleArn"

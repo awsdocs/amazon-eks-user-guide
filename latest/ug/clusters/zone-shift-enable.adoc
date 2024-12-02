@@ -19,6 +19,10 @@ Note that after you register an EKS cluster with ARC, you still need to configur
 
 For more detailed information about how EKS Zonal Shift works, and how to design your workloads to handle impaired availability zones, see <<zone-shift>>.
 
+*Considerations:*
+
+* EKS Auto Mode does not support Amazon Application Recovery Controller, Zonal Shift, and Zonal Autoshift
+
 == What is Amazon Application Recovery Controller?
 
 Amazon Application Recovery Controller (ARC) helps you prepare for and accomplish faster recovery for applications running on {aws}. Zonal shift enables you to quickly recover from Availability Zone (AZ) impairments, by temporarily moving traffic for a supported resource away from an AZ, to healthy AZs in the {aws} Region. 

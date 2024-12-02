@@ -1,0 +1,149 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[hybrid-nodes-prereqs,hybrid-nodes-prereqs.title]]
+= Prerequisite setup for hybrid nodes
+:info_doctype: section
+:info_title: Prerequisite setup for hybrid nodes
+:info_titleabbrev: Prerequisites
+:keywords: on-premises prerequisites, hybrid prerequisites
+:info_abstract: Prerequisites and requirements for Amazon EKS hybrid nodes
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn about the prerequisites and requirements for joining nodes from your data centers to Amazon EKS [.noloc]`Kubernetes` clusters with Amazon EKS Hybrid Nodes.
+--
+
+To use Amazon EKS Hybrid Nodes, you must have private connectivity from your on-premises environment to/from {aws}, bare metal servers or virtual machines with a supported operating system, and {aws} IAM Roles Anywhere or {aws} Systems Manager (SSM) hybrid activations configured. You are responsible for managing these prerequisites throughout the hybrid nodes lifecycle.
+
+* Hybrid network connectivity from your on-premises environment to/from {aws}
+* Infrastructure in the form of physical or virtual machines
+* Operating system that is compatible with hybrid nodes
+* On-premises IAM credentials provider configured
+
+image::images/hybrid-prereq-diagram.png[Hybrid node network connectivity.,scaledwidth=50%]
+
+
+[[hybrid-nodes-prereqs-connect,hybrid-nodes-prereqs-connect.title]]
+== Hybrid network connectivity
+
+The communication between the Amazon EKS control plane and hybrid nodes is routed through the VPC and subnets you pass during cluster creation, which builds on the https://aws.github.io/aws-eks-best-practices/networking/subnets/[existing mechanism] in Amazon EKS for control plane to node networking. There are several https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/network-to-amazon-vpc-connectivity-options.html[documented options] available for you to connect your on-premises environment with your VPC including {aws} Site-to-Site VPN, {aws} Direct Connect, or your own VPN connection. Reference the https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html[{aws} Site-to-Site VPN] and https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html[{aws} Direct Connect] user guides for more information on how to use those solutions for your hybrid network connection.
+
+For an optimal experience, {aws} recommends reliable network connectivity of at least 100 Mbps and a maximum of 200ms round trip latency for the hybrid nodes connection to the {aws} Region. The bandwidth and latency requirements can vary depending on the number of hybrid nodes and your workload characteristics, such as application image size, application elasticity, monitoring and logging configurations, and application dependencies on accessing data stored in other {aws} services. We recommend that you test with your own applications and environments before deploying to production to validate that your networking setup meets the requirements for your workloads.
+
+
+[[hybrid-nodes-prereqs-onprem,hybrid-nodes-prereqs-onprem.title]]
+== On-premises network configuration
+
+You must enable inbound network access from the Amazon EKS control plane to your on-premises environment to allow the Amazon EKS control plane to communicate with the `kubelet` running on hybrid nodes and optionally with webhooks running on your hybrid nodes. Additionally, you must enable outbound network access for your hybrid nodes and components running on them to communicate with the Amazon EKS control plane. You can configure this communication to stay fully private to your {aws} Direct Connect, {aws} Site-to-Site VPN, or your own VPN connection. For a full list of the required ports and protocols that you must enable in your firewall and on-premises environment, see <<hybrid-nodes-networking>>.
+
+The Classless Inter-Domain Routing (CIDR) ranges you use for your on-premises node and pod networks must use IPv4 RFC1918 address ranges. When you create your hybrid nodes-enabled Amazon EKS cluster, you pass your on-premises node and optionally pod CIDRs to enable communication from the Amazon EKS control plane to your hybrid nodes and the resources running on them. Your on-premises router must be configured with routes to your on-premises nodes and optionally pods. You can use Border Gateway Protocol (BGP) or static configurations to advertise pod IPs to your router.
+
+
+
+[[hybrid-nodes-prereqs-cluster,hybrid-nodes-prereqs-cluster.title]]
+== EKS cluster configuration
+
+To minimize latency, it is recommended to create your Amazon EKS cluster in the {aws} Region closest to your on-premises or edge environment. You pass your on-premises node and pod CIDRs during Amazon EKS cluster creation via two API fields: `RemoteNodeNetwork` and `RemotePodNetwork`. You may need to discuss with your on-premises network team to identify your on-premises node and pod CIDRs. The node CIDR is allocated from your on-premises network and the pod CIDR is allocated from the Container Network Interface (CNI) you use if you are using an overlay network for your CNI.
+
+The on-premises node and pod CIDRs are used to configure the Amazon EKS control plane to route traffic through your VPC to the `kubelet` and the pods running on your hybrid nodes. Your on-premises node and pod CIDRs cannot overlap with each other, the VPC CIDR you pass during cluster creation, or the service IPv4 configuration for your Amazon EKS cluster. The pod CIDR is optional. You must configure your pod CIDR if your CNI does not use Network Address Translation (NAT) or masquerading for pod IP addresses when pod traffic leaves your on-premises hosts. You additionally must configure your pod CIDR if you are running _Kubernetes webhooks_ on hybrid nodes. For example, {aws} Distro for Open Telemetry (ADOT) uses webhooks.
+
+It is recommended to use either public or private endpoint access for the Amazon EKS Kubernetes API server endpoint. If you choose “Public and Private”, the Amazon EKS Kubernetes API server endpoint will always resolve to the public IPs for hybrid nodes running outside of your VPC, which can prevent your hybrid nodes from joining the cluster. You can use either public or private endpoint access for the Amazon EKS Kubernetes API server endpoint. You cannot choose “Public and Private”. When you use public endpoint access, the Kubernetes API server endpoint is resolved to public IPs and the communication from hybrid nodes to the Amazon EKS control plane will be routed over the internet. When you choose private endpoint access, the Kubernetes API server endpoint is resolved to private IPs and the communication from hybrid nodes to the Amazon EKS control plane will be routed over your private connectivity link, in most cases {aws} Direct Connect or {aws} Site-to-Site VPN.
+
+
+[[hybrid-nodes-prereqs-vpc,hybrid-nodes-prereqs-vpc.title]]
+== VPC configuration
+
+You must configure the VPC you pass during Amazon EKS cluster creation with routes in its routing table for your on-premises node and optionally pod networks with your virtual private gateway (VGW) or transit gateway (TGW) as the target. An example is shown below. Replace `REMOTE_NODE_CIDR` and `REMOTE_POD_CIDR` with the values for your on-premises network.
+
+
+[cols="1,1,1", options="header"]
+|===
+|Destination
+|Target
+|Description
+
+|10.226.0.0/16
+|local   
+|Traffic local to the VPC routes within the VPC
+
+|REMOTE_NODE_CIDR
+|tgw-abcdef123456
+|On-prem node CIDR, route traffic to the TGW
+
+|REMODE_POD_CIDR
+|tgw-abcdef123456
+|On-prem pod CIDR, route traffic to the TGW
+|===
+
+
+[[hybrid-nodes-prereqs-sg,hybrid-nodes-prereqs-sg.title]]
+== Security group configuration
+
+When you create a cluster, Amazon EKS creates a security group that’s named `eks-cluster-sg-<cluster-name>-<uniqueID>`. You cannot alter the inbound rules of this Cluster Security Group but you can restrict the outbound rules. You must add an additional security group to your cluster to enable the kubelet and optionally webhooks running on your hybrid nodes to contact the Amazon EKS control plane. The required inbound rules for this additional security group are shown below. Replace `REMOTE_NODE_CIDR` and `REMOTE_POD_CIDR` with the values for your on-premises network.
+
+[cols="1,1,1,1,1,1,1", options="header"]
+|===
+|Name
+|Security group rule ID
+|IP version
+|Type
+|Protocol
+|Port range
+|Source
+
+|On-prem node inbound
+|sgr-abcdef123456
+|IPv4
+|HTTPS
+|TCP
+|443
+|REMOTE_NODE_CIDR
+
+|On-prem pod inbound
+|sgr-abcdef654321
+|IPv4
+|HTTPS
+|TCP
+|443
+|REMOTE_POD_CIDR
+|===
+
+
+[[hybrid-nodes-prereqs-infra,hybrid-nodes-prereqs-infra.title]]
+== Infrastructure
+
+You must have bare metal servers or virtual machines available to use as hybrid nodes. Hybrid nodes are agnostic to the underlying infrastructure and support x86 and ARM architectures. Amazon EKS Hybrid Nodes follows a “bring your own infrastructure” approach, where you are responsible for provisioning and managing the bare metal servers or virtual machines that you use for hybrid nodes. While there is not a strict minimum resource requirement, it is recommended to use hosts with at least 1 vCPU and 1GiB RAM for hybrid nodes.
+
+
+[[hybrid-nodes-prereqs-os,hybrid-nodes-prereqs-os.title]]
+== Operating system
+
+Amazon Linux 2023 (AL2023), Ubuntu, and RHEL are validated on an ongoing basis for use as the node operating system for hybrid nodes. {aws} supports the hybrid nodes integration with these operating systems but does not provide support for the operating systems itself. AL2023 is not covered by {aws} Support Plans when run outside of Amazon EC2. AL2023 can only be used in on-premises virtualized environments, see the link:linux/al2023/ug/outside-ec2.html[Amazon Linux 2023 User Guide,type="documentation"] for more information.
+
+You are responsible for operating system provisioning and management. When you are testing hybrid nodes for the first time, it is easiest to run the Amazon EKS Hybrid Nodes CLI (`nodeadm`) on an already provisioned host. For production deployments, it is recommended to include `nodeadm` in your golden operating system images with it configured to run as a systemd service to automatically join hosts to Amazon EKS clusters at host startup.
+
+
+[[hybrid-nodes-prereqs-iam,hybrid-nodes-prereqs-iam.title]]
+== On-premises IAM credentials provider
+
+Amazon EKS Hybrid Nodes use temporary IAM credentials provisioned by {aws} SSM hybrid activations or {aws} IAM Roles Anywhere to authenticate with the Amazon EKS cluster. You must use either {aws} SSM hybrid activations or {aws} IAM Roles Anywhere with the Amazon EKS Hybrid Nodes CLI (`nodeadm`). It is recommended to use {aws} SSM hybrid activations if you do not have existing Public Key Infrastructure (PKI) with a Certificate Authority (CA) and certificates for your on-premises environments. If you do have existing PKI and certificates on-premises, use {aws} IAM Roles Anywhere.
+
+Similar to the <<create-node-role>> for nodes running on Amazon EC2, you will create a Hybrid Nodes IAM Role with the required permissions to join hybrid nodes to Amazon EKS clusters. If you are using {aws} IAM Roles Anywhere, configure a trust policy that allows {aws} IAM Roles Anywhere to assume the Hybrid Nodes IAM Role and configure your {aws} IAM Roles Anywhere profile with the Hybrid Nodes IAM Role as an assumable role. If you are using {aws} SSM, configure a trust policy that allows {aws} SSM to assume the Hybrid Nodes IAM Role and create the hybrid activation with the Hybrid Nodes IAM Role. See <<hybrid-nodes-creds>> for how to create the Hybrid Nodes IAM Role with the required permissions.
+
+
+include::hybrid-nodes-networking.adoc[leveloffset=+1]
+
+
+include::hybrid-nodes-os.adoc[leveloffset=+1]
+
+
+include::hybrid-nodes-creds.adoc[leveloffset=+1]
+
+
+include::hybrid-nodes-cluster-create.adoc[leveloffset=+1]
+
+
+include::hybrid-nodes-cluster-prep.adoc[leveloffset=+1]
+

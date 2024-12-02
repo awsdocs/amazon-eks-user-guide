@@ -19,7 +19,7 @@ Learn how to enable and manage Windows support for your Amazon EKS cluster to ru
 Before deploying [.noloc]`Windows` nodes, be aware of the following considerations.
 
 
-
+* EKS Auto Mode does not support Windows nodes
 * You can use host networking on Windows nodes using `HostProcess` Pods. For more information, see https://kubernetes.io/docs/tasks/configure-pod-container/create-hostprocess-pod/[Create a Windows HostProcessPod] in the [.noloc]`Kubernetes` documentation.
 * Amazon EKS clusters must contain one or more [.noloc]`Linux` or Fargate nodes to run core system [.noloc]`Pods` that only run on [.noloc]`Linux`, such as [.noloc]`CoreDNS`.
 * The `kubelet` and `kube-proxy` event logs are redirected to the `EKS Windows` Event Log and are set to a 200 MB limit.
@@ -29,6 +29,7 @@ Before deploying [.noloc]`Windows` nodes, be aware of the following consideratio
 * [.noloc]`Windows` nodes support one elastic network interface per node. By default, the number of [.noloc]`Pods` that you can run per [.noloc]`Windows` node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one. For more information, see   link:AWSEC2/latest/WindowsGuide/using-eni.html#AvailableIpPerENI[IP addresses per network interface per instance type,type="documentation"] in the _Amazon EC2 User Guide_.
 * In an Amazon EKS cluster, a single service with a load balancer can support up to 1024 back-end [.noloc]`Pods`. Each [.noloc]`Pod` has its own unique IP address. The previous limit of 64 [.noloc]`Pods` is no longer the case, after https://github.com/microsoft/Windows-Containers/issues/93[a Windows Server update] starting with https://support.microsoft.com/en-us/topic/march-22-2022-kb5011551-os-build-17763-2746-preview-690a59cd-059e-40f4-87e8-e9139cc65de4[OS Build 17763.2746].
 * Windows containers aren't supported for Amazon EKS [.noloc]`Pods` on Fargate.
+* You can't use Amazon EKS Hybrid Nodes with Windows as the operating system for the host.
 * You can't retrieve logs from the `vpc-resource-controller` Pod. You previously could when you deployed the controller to the data plane.
 * There is a cool down period before an `IPv4` address is assigned to a new Pod. This prevents traffic from flowing to an older Pod with the same `IPv4` address due to stale `kube-proxy` rules.
 * The source for the controller is managed on [.noloc]`GitHub`. To contribute to, or file issues against the controller, visit the https://github.com/aws/amazon-vpc-resource-controller-k8s[project] on [.noloc]`GitHub`.

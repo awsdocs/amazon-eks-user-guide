@@ -16,21 +16,23 @@ Learn how to delete Amazon EKS clusters, including managed and self-managed node
 
 When you're done using an Amazon EKS cluster, you should delete the resources associated with it so that you don't incur any unnecessary costs.
 
-To remove a connected cluster, see <<deregister-connected-cluster>>
 
-[IMPORTANT]
-====
 
+You can delete a cluster with `eksctl`, the {aws-management-console}, or the {aws} CLI.
+
+== Considerations
 
 * If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC.
 * If you receive an error because the cluster creator has been removed, see link:premiumsupport/knowledge-center/eks-api-server-unauthorized-error[this article,type="marketing"] to resolve.
 * Amazon Managed Service for Prometheus resources are outside of the cluster lifecycle and need to be maintained independent of the cluster. When you delete your cluster, make sure to also delete any applicable scrapers to stop applicable costs. For more information, see  link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-list-delete[Find and delete scrapers,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
+* To remove a connected cluster, see <<deregister-connected-cluster>>
 
-====
+=== Considerations for EKS Auto Mode
 
-You can delete a cluster with `eksctl`, the {aws-management-console}, or the {aws} CLI.
+* Any EKS Auto Mode Nodes will be deleted, including the EC2 managed instances
+* All load balancers will be deleted
 
-
+For more information, see <<auto-disable>>. 
 
 == Delete cluster (eksctl)
 

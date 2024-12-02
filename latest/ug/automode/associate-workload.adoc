@@ -1,0 +1,52 @@
+//!!NODE_ROOT <section>
+
+include::../attributes.txt[]
+
+[.topic]
+[[associate-workload,associate-workload.title]]
+= Control if a workload is deployed on EKS Auto Mode nodes
+:info_doctype: section
+:info_title: Control if a workload is deployed on EKS Auto Mode nodes
+:info_titleabbrev: Control workload deployment
+:info_abstract: Control if a workload is deployed on EKS Auto Mode nodes
+
+When running workloads in an EKS cluster with {eam}, you might need to control whether specific workloads run on {eam} nodes or other compute types. This topic describes how to use node selectors and affinity rules to ensure your workloads are scheduled on the intended compute infrastructure.
+
+The examples in this topic demonstrate how to use the `eks.amazonaws.com/compute-type` label to either require or prevent workload deployment on {eam} nodes. This is particularly useful in mixed-mode clusters where you're running both {eam} and other compute types, such as self-managed Karpenter provisioners or EKS Managed Node Groups.
+
+{eam} nodes have set the value of the label `eks.amazonaws.com/compute-type` to `auto`. You can use this label to control if a workload is deployed to nodes managed by {eam}.
+
+== Require a workload is deployed to {eam} nodes
+
+[note]
+====
+This `nodeSelector` value is not required for {eam}. This `nodeSelector` value is only relevant if you are running a cluster in a mixed mode, node types not managed by {eam}. For example, you may have static compute capacity deployed to your cluster with EKS Managed Node Groups, and have dynamic compute capacity managed by {eam}.
+====
+
+You can add this `nodeSelector` to Deployments or other workloads to require Kubernetes schedule them onto {eam} nodes. 
+
+[source,yaml]
+----
+apiVersion: apps/v1
+kind: Deployment
+spec:
+      nodeSelector:
+        eks.amazonaws.com/compute-type: auto
+----
+
+== Require a workload is not deployed to {eam} nodes
+
+You can add this `nodeAffinity` to Deployments or other workloads to require Kubernetes *not* schedule them onto {eam} nodes. 
+
+[source,yaml]
+----
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: NotIn
+            values:
+            - auto
+----
