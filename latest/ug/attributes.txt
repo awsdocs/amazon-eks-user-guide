@@ -1,6 +1,6 @@
 // EKS-specific attributes
 
-:eksctl-min-version: 0.194.0
+:eksctl-min-version: 0.197.0
 
 // EKS Auto Mode
 :auto-cli-v2-version: 2.12.3
