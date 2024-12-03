@@ -114,7 +114,7 @@ helm repo add cilium https://helm.cilium.io/
 +
 By default, Cilium masquerades the source IP address of all pod traffic leaving the cluster to the IP address of the node. This makes it possible for Cilium to run with Amazon EKS clusters that have remote pod networks configured and with clusters that don't have remote pod networks configured. If you disable masquerading for your Cilium deployment, then you must configure your Amazon EKS cluster with your remote pod networks and you must advertise your pod addresses with your on-premises network. If you are running webhooks on your hybrid nodes, you must configure your cluster with your remote pod networks and you must advertise your pod addresses with your on-premises network.
 +
-A common way to advertise pod addresses with your on-premises network is by using BGP. To use BGP with Cilium, you must set `bgpControlPlane.enabled: true`. For more information on Cilium’s BGP support, see https://docs.cilium.io/en/stable/network/bgp-control-plane/bgp-control-plane/[Cilium BGP Control Plane] in the Cilium documentation.
+A common way to advertise pod addresses with your on-premises network is by using BGP. To use BGP with Cilium, you must set `bgpControlPlane.enabled: true`. For more information on Cilium's BGP support, see https://docs.cilium.io/en/stable/network/bgp-control-plane/bgp-control-plane/[Cilium BGP Control Plane] in the Cilium documentation.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----

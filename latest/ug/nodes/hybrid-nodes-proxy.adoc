@@ -51,7 +51,7 @@ Environment="NO_PROXY=localhost"
 
 === Operating system proxy configuration
 
-If you are using a proxy for internet access, you must configure your operating system to be able to pull the hybrid nodes dependencies from your operating systems’ package manager.
+If you are using a proxy for internet access, you must configure your operating system to be able to pull the hybrid nodes dependencies from your operating systems' package manager.
 
 *Ubuntu*
 

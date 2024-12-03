@@ -388,7 +388,7 @@ The following access for your Amazon EKS cluster security group is required for 
 |Kubernetes API server to webhook (if running webhooks on hybrid nodes)
 |===
 
-To create a security group with the inbound access rules, run the following commands. This security group must be passed when you create your Amazon EKS cluster. By default, the command below creates a security group that allows all outbound access. You can restrict outbound access to include only the rules above. If you’re considering limiting the outbound rules, we recommend that you thoroughly test all of your applications and pod connectivity before you apply your changed rules to a production cluster.
+To create a security group with the inbound access rules, run the following commands. This security group must be passed when you create your Amazon EKS cluster. By default, the command below creates a security group that allows all outbound access. You can restrict outbound access to include only the rules above. If you're considering limiting the outbound rules, we recommend that you thoroughly test all of your applications and pod connectivity before you apply your changed rules to a production cluster.
 
 * In the first command, replace SG_NAME with a name for your security group
 * In the first command, replace VPC_ID with the ID of the VPC you created in the previous step

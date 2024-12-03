@@ -22,7 +22,7 @@ This topic describes how to delete hybrid nodes from your Amazon EKS cluster. Yo
 Removing nodes is disruptive to workloads running on the node. Before deleting hybrid nodes, it is recommended to first drain the node to move pods to another active node. For more information on draining nodes, see https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/[Safely Drain a Node] in the Kubernetes documentation.
 ====
 
-Run the kubectl steps below from your local machine or instance that you use to interact with the Amazon EKS cluster’s Kubernetes API endpoint. If you are using a specific `kubeconfig` file, use the `--kubeconfig` flag.
+Run the kubectl steps below from your local machine or instance that you use to interact with the Amazon EKS cluster's Kubernetes API endpoint. If you are using a specific `kubeconfig` file, use the `--kubeconfig` flag.
 
 == Step 1: List your nodes
 

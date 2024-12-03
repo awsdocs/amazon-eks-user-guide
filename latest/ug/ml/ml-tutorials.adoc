@@ -35,7 +35,7 @@ https://aws.amazon.com/blogs/containers/gpu-sharing-on-amazon-eks-with-nvidia-ti
 
 * Use Multi-Instance GPUs (MIGs) and NIM microservices to run more pods per GPU on your EKS clusters:
 +
-https://aws.amazon.com/blogs/containers/maximizing-gpu-utilization-with-nvidias-multi-instance-gpu-mig-on-amazon-eks-running-more-pods-per-gpu-for-enhanced-performance/[Maximizing GPU utilization with NVIDIA’s Multi-Instance GPU (MIG) on Amazon EKS: Running more pods per GPU for enhanced performance]
+https://aws.amazon.com/blogs/containers/maximizing-gpu-utilization-with-nvidias-multi-instance-gpu-mig-on-amazon-eks-running-more-pods-per-gpu-for-enhanced-performance/[Maximizing GPU utilization with NVIDIA's Multi-Instance GPU (MIG) on Amazon EKS: Running more pods per GPU for enhanced performance]
 
 * Leverage NVIDIA NIM microservices to optimize inference workloads using optimized microservices to deploy AI models at scale:
 +

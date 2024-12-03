@@ -99,11 +99,11 @@ include::../attributes.txt[]
 |No
 
 |Must update node AMI on your own
-|Yes – If you deployed an Amazon EKS optimized AMI, you’re notified in the Amazon EKS console when updates are available. You can perform the update with one-click in the console. If you deployed a custom AMI, you’re not notified in the Amazon EKS console when updates are available. You must perform the update on your own.
+|Yes – If you deployed an Amazon EKS optimized AMI, you're notified in the Amazon EKS console when updates are available. You can perform the update with one-click in the console. If you deployed a custom AMI, you're not notified in the Amazon EKS console when updates are available. You must perform the update on your own.
 |No
 
 |Must update node Kubernetes version on your own
-|Yes – If you deployed an Amazon EKS optimized AMI, you’re notified in the Amazon EKS console when updates are available. You can perform the update with one-click in the console. If you deployed a custom AMI, you’re not notified in the Amazon EKS console when updates are available. You must perform the update on your own.
+|Yes – If you deployed an Amazon EKS optimized AMI, you're notified in the Amazon EKS console when updates are available. You can perform the update with one-click in the console. If you deployed a custom AMI, you're not notified in the Amazon EKS console when updates are available. You must perform the update on your own.
 |No
 
 |Can use Amazon EBS storage with Pods

@@ -182,7 +182,7 @@ Failed to contact API server when waiting for CSINode publishing: Get ... no suc
 
 *Can't view hybrid nodes in the EKS console*
 
-If you have registered your hybrid nodes but are unable to view them in the EKS console, check the permissions of the IAM principal you are using to view the console. The IAM principal you’re using must have specific minimum IAM and Kubernetes permissions to view resources in the console. For more information, see <<view-kubernetes-resources>>.
+If you have registered your hybrid nodes but are unable to view them in the EKS console, check the permissions of the IAM principal you are using to view the console. The IAM principal you're using must have specific minimum IAM and Kubernetes permissions to view resources in the console. For more information, see <<view-kubernetes-resources>>.
 
 == Running hybrid nodes troubleshooting
 
@@ -254,7 +254,7 @@ dial tcp <ip-address>:443: connect: no route to host
 [[hybrid-nodes-troubleshooting-cni,hybrid-nodes-troubleshooting-cni.title]]
 == Hybrid nodes CNI troubleshooting
 
-If you run into issues with initially starting Cilium or Calico with hybrid nodes, it is most often due to networking issues between hybrid nodes or the CNI pods running on hybrid nodes, and the EKS control plane. Make sure your environment meets the requirements in Prepare networking for hybrid nodes. It’s useful to break down the problem into parts.
+If you run into issues with initially starting Cilium or Calico with hybrid nodes, it is most often due to networking issues between hybrid nodes or the CNI pods running on hybrid nodes, and the EKS control plane. Make sure your environment meets the requirements in Prepare networking for hybrid nodes. It's useful to break down the problem into parts.
 
 EKS cluster configuration:: Are the RemoteNodeNetwork and RemotePodNetwork configurations correct?
 VPC configuration:: Are there routes for the RemoteNodeNetwork and RemotePodNetwork in the VPC routing table with the target of the Transit Gateway or Virtual Private Gateway?
@@ -288,7 +288,7 @@ If the Cilium operator is running and some of your Cilium agents are running but
 
 If you are using Cilium BGP Control Plane to advertise your pod or service addresses to your on-premises network, you can use the following Cilium CLI commands to check if BGP is advertising the routes to your resources. For steps to install the Cilium CLI, see https://docs.cilium.io/en/stable/gettingstarted/k8s-install-default/#install-the-cilium-cli[Install the Cilium CLI] in the Cilium documentation.
 
-If BGP is working correctly, you should your hybrid nodes with Session State `established` in the output. You may need to work with your networking team to identify the correct values for your environment’s Local AS, Peer AS, and Peer Address.
+If BGP is working correctly, you should your hybrid nodes with Session State `established` in the output. You may need to work with your networking team to identify the correct values for your environment's Local AS, Peer AS, and Peer Address.
 
 [source,bash,subs="verbatim,attributes"]
 ----

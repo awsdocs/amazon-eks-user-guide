@@ -439,7 +439,7 @@ The `nodeadm debug` command can be used to troubleshoot unhealthy or misconfigur
 * The node has network access to the EKS Kubernetes API endpoint and the validity of the EKS Kubernetes API endpoint certificate,
 * The node is able to authenticate with the EKS cluster, its identity in the cluster is valid, and that the node has access to the EKS cluster through the VPC configured for the EKS cluster.
 
-If errors are found, the command’s output suggests troubleshooting steps. Certain validation steps show child processes. If these fail, the output is showed in a stderr section under the validation error.
+If errors are found, the command's output suggests troubleshooting steps. Certain validation steps show child processes. If these fail, the output is showed in a stderr section under the validation error.
 
 ==== Usage
 [source,yaml,subs="verbatim,attributes,quotes"]

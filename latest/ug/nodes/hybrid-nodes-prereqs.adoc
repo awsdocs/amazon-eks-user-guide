@@ -81,7 +81,7 @@ You must configure the VPC you pass during Amazon EKS cluster creation with rout
 [[hybrid-nodes-prereqs-sg,hybrid-nodes-prereqs-sg.title]]
 == Security group configuration
 
-When you create a cluster, Amazon EKS creates a security group that’s named `eks-cluster-sg-<cluster-name>-<uniqueID>`. You cannot alter the inbound rules of this Cluster Security Group but you can restrict the outbound rules. You must add an additional security group to your cluster to enable the kubelet and optionally webhooks running on your hybrid nodes to contact the Amazon EKS control plane. The required inbound rules for this additional security group are shown below. Replace `REMOTE_NODE_CIDR` and `REMOTE_POD_CIDR` with the values for your on-premises network.
+When you create a cluster, Amazon EKS creates a security group that's named `eks-cluster-sg-<cluster-name>-<uniqueID>`. You cannot alter the inbound rules of this Cluster Security Group but you can restrict the outbound rules. You must add an additional security group to your cluster to enable the kubelet and optionally webhooks running on your hybrid nodes to contact the Amazon EKS control plane. The required inbound rules for this additional security group are shown below. Replace `REMOTE_NODE_CIDR` and `REMOTE_POD_CIDR` with the values for your on-premises network.
 
 [cols="1,1,1,1,1,1,1", options="header"]
 |===

@@ -46,7 +46,7 @@ The table below represents the operating system versions that are compatible and
 
 === Containerd
 
-* Containerd is the standard Kubernetes container runtime and is a dependency for hybrid nodes, as well as all Amazon EKS node compute types. The Amazon EKS Hybrid Nodes CLI (`nodeadm`) attempts to install containerd during the `nodeadm install` process. You can configure the containerd installation at `nodeadm install` runtime with the `--containerd-source` command line option. Valid options are `none`, `distro`, and `docker`. If you are using RHEL, `distro` is not a valid option and you can either configure `nodeadm` to install the containerd build from Docker’s repos or you can manually install containerd. When using AL2023 or Ubuntu, `nodeadm` defaults to installing containerd from the operating system distribution. If you do not want nodeadm to install containerd, use the `--containerd-source none` option.
+* Containerd is the standard Kubernetes container runtime and is a dependency for hybrid nodes, as well as all Amazon EKS node compute types. The Amazon EKS Hybrid Nodes CLI (`nodeadm`) attempts to install containerd during the `nodeadm install` process. You can configure the containerd installation at `nodeadm install` runtime with the `--containerd-source` command line option. Valid options are `none`, `distro`, and `docker`. If you are using RHEL, `distro` is not a valid option and you can either configure `nodeadm` to install the containerd build from Docker's repos or you can manually install containerd. When using AL2023 or Ubuntu, `nodeadm` defaults to installing containerd from the operating system distribution. If you do not want nodeadm to install containerd, use the `--containerd-source none` option.
 
 === Ubuntu
 

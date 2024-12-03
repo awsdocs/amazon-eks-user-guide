@@ -38,7 +38,7 @@ This topic provides an overview of the available options and describes what to c
 [[hybrid-nodes-cluster-create-iam,hybrid-nodes-cluster-create-iam.title]]
 == Step 1: Create cluster IAM role
 
-If you already have a cluster IAM role, or you’re going to create your cluster with `eksctl` or {aws} CloudFormation, then you can skip this step. By default, `eksctl` and the {aws} CloudFormation template create the cluster IAM role for you.
+If you already have a cluster IAM role, or you're going to create your cluster with `eksctl` or {aws} CloudFormation, then you can skip this step. By default, `eksctl` and the {aws} CloudFormation template create the cluster IAM role for you.
 
 . Run the following command to create an IAM trust policy JSON file.
 +
@@ -96,7 +96,7 @@ You can create a cluster by using:
 You need to install the latest version of the `eksctl` command line tool. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
 
 . Create `cluster-config.yaml` to define a hybrid nodes-enabled Amazon EKS IPv4 cluster. Make the following replacements in your `cluster-config.yaml`. For a full list of settings, see the https://eksctl.io/getting-started/[eksctl documentation].
-.. Replace `CLUSTER_NAME` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you’re creating the cluster in.
+.. Replace `CLUSTER_NAME` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
 .. Replace `AWS_REGION` with the {aws} Region that you want to create your cluster in.
 .. Replace `K8S_VERSION` with any <<kubernetes-versions,Amazon EKS supported version>>.
 .. Replace `CREDS_PROVIDER` with `ssm` or `ira` based on the credential provider you configured in the steps for <<hybrid-nodes-creds>>.
@@ -228,7 +228,7 @@ aws cloudformation describe-stacks \
 .. `SUBNET2_ID`: the ID of the second subnet you created in the prerequisite steps
 .. `SG_ID`: the security group ID you created in the prerequisite steps
 .. You can use `API` and `API_AND_CONFIG_MAP` for your cluster access authentication mode. In the command below, the cluster access authentication mode is set to `API_AND_CONFIG_MAP`.
-.. You can use the `endpointPublicAccess` and `endpointPrivateAccess` parameters to enable or disable public and private access to your cluster’s Kubernetes API server endpoint. In the command below `endpointPublicAccess` is set to false and `endpointPrivateAccess` is set to true.
+.. You can use the `endpointPublicAccess` and `endpointPrivateAccess` parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. In the command below `endpointPublicAccess` is set to false and `endpointPrivateAccess` is set to true.
 .. `REMOTE_NODE_CIDRS`: the on-premises node CIDR for your hybrid nodes. 
 .. `REMOTE_POD_CIDRS` (optional): the on-premises pod CIDR for workloads running on hybrid nodes.
 .. Your on-premises node and pod CIDR blocks must meet the following requirements:
@@ -265,7 +265,7 @@ aws eks describe-cluster \
 . Open the Amazon EKS console at link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose Add cluster and then choose Create.
 . On the Configure cluster page, enter the following fields:
-.. *Name* – A name for your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you’re creating the cluster in.
+.. *Name* – A name for your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
 .. *Cluster IAM role* – Choose the Amazon EKS cluster IAM role that you created to allow the Kubernetes control plane to manage {aws} resources on your behalf.
 .. *Kubernetes version* – The version of Kubernetes to use for your cluster. We recommend selecting the latest version, unless you need an earlier version.
 .. *Upgrade policy* - Choose either Extended or Standard.
@@ -274,12 +274,12 @@ aws eks describe-cluster \
 .. *Cluster access* - choose to allow or disallow cluster administrator access and select an authentication mode. The following authentication modes are supported for hybrid nodes-enabled clusters.
 ... *EKS API*: The cluster will source authenticated IAM principals only from EKS access entry APIs.
 ... *EKS API and ConfigMap*: The cluster will source authenticated IAM principals from both EKS access entry APIs and the `aws-auth` ConfigMap.
-.. *Secrets encryption* – (Optional) Choose to enable secrets encryption of Kubernetes secrets using a KMS key. You can also enable this after you create your cluster. Before you enable this capability, make sure that you’re familiar with the information in <<enable-kms>>.
+.. *Secrets encryption* – (Optional) Choose to enable secrets encryption of Kubernetes secrets using a KMS key. You can also enable this after you create your cluster. Before you enable this capability, make sure that you're familiar with the information in <<enable-kms>>.
 .. *ARC Zonal Shift* - If enabled, EKS will register your cluster with ARC zonal shift to enable you to use zonal shift to shift application traffic away from an AZ.
 .. *Tags* – (Optional) Add any tags to your cluster. For more information, see <<eks-using-tags>>.
-.. When you’re done with this page, choose *Next*.
+.. When you're done with this page, choose *Next*.
 . On the *Specify networking* page, select values for the following fields:
-.. *VPC* – Choose an existing VPC that meets <<network-reqs>> and <<hybrid-nodes-prereqs, Amazon EKS Hybrid Nodes requirements>>. Before choosing a VPC, we recommend that you’re familiar with all of the requirements and considerations in View Amazon EKS networking requirements for VPC, subnets, and hybrid nodes. You can't change which VPC you want to use after cluster creation. If no VPCs are listed, then you need to create one first. For more information, see <<creating-a-vpc>> and the <<hybrid-nodes-prereqs,Amazon EKS Hybrid Nodes networking requirements>>.
+.. *VPC* – Choose an existing VPC that meets <<network-reqs>> and <<hybrid-nodes-prereqs, Amazon EKS Hybrid Nodes requirements>>. Before choosing a VPC, we recommend that you're familiar with all of the requirements and considerations in View Amazon EKS networking requirements for VPC, subnets, and hybrid nodes. You can't change which VPC you want to use after cluster creation. If no VPCs are listed, then you need to create one first. For more information, see <<creating-a-vpc>> and the <<hybrid-nodes-prereqs,Amazon EKS Hybrid Nodes networking requirements>>.
 .. *Subnets* – By default, all available subnets in the VPC specified in the previous field are preselected. You must select at least two.
 .. *Security groups* – (Optional) Specify one or more security groups that you want Amazon EKS to associate to the network interfaces that it creates. At least one of the security groups you specify must have inbound rules for your on-premises node and optionally pod CIDRs. See the <<hybrid-nodes-networking,Amazon EKS Hybrid Nodes networking requirements>> for more information. Whether you choose any security groups or not, Amazon EKS creates a security group that enables communication between your cluster and your VPC. Amazon EKS associates this security group, and any that you choose, to the network interfaces that it creates. For more information about the cluster security group that Amazon EKS creates, see <<sec-group-reqs>> You can modify the rules in the cluster security group that Amazon EKS creates.
 .. *Choose cluster IP address family* – You must choose IPv4 for hybrid nodes-enabled clusters.
@@ -290,19 +290,19 @@ aws eks describe-cluster \
 ... Be within one of the IPv4 RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
 ... Not overlap with each other, the `VPC CIDR` for your cluster, or your Kubernetes service IPv4 CIDR
 .. For *Cluster endpoint access*, select an option. After your cluster is created, you can change this option. For hybrid nodes-enabled clusters, you must choose either Public or Private. Before selecting a non-default option, make sure to familiarize yourself with the options and their implications. For more information, see <<cluster-endpoint>>.
-.. When you’re done with this page, choose *Next*.
+.. When you're done with this page, choose *Next*.
 . (Optional) On the *Configure* observability page, choose which Metrics and Control plane logging options to turn on. By default, each log type is turned off.
 .. For more information about the Prometheus metrics option, see <<prometheus>>.
 .. For more information about the EKS control logging options, see <<control-plane-logs>>.
-.. When you’re done with this page, choose *Next*.
+.. When you're done with this page, choose *Next*.
 . On the *Select add-ons* page, choose the add-ons that you want to add to your cluster.
 .. You can choose as many *Amazon EKS add-ons* and *{aws} Marketplace add-ons* as you require. Amazon EKS add-ons that are not compatible with hybrid nodes are marked with “Not compatible with Hybrid Nodes” and the add-ons have an anti-affinity rule to prevent them from running on hybrid nodes. See Configuring add-ons for hybrid nodes for more information. If the *{aws} Marketplace* add-ons that you want to install isn't listed, you can search for available *{aws} Marketplace add-ons* by entering text in the search box. You can also search by *category*, *vendor*, or *pricing model* and then choose the add-ons from the search results.
 .. Some add-ons, such as CoreDNS and kube-proxy, are installed by default. If you disable any of the default add-ons, this may affect your ability to run Kubernetes applications.
-.. When you’re done with this page, choose `Next`.
+.. When you're done with this page, choose `Next`.
 . On the *Configure selected add-ons settings* page, select the version that you want to install. 
 .. You can always update to a later version after cluster creation. You can update the configuration of each add-on after cluster creation. For more information about configuring add-ons, see <<updating-an-add-on>>. For the add-ons versions that are compatible with hybrid nodes, see <<hybrid-nodes-add-ons>>. 
-.. When you’re done with this page, choose Next.
-. On the *Review and create* page, review the information that you entered or selected on the previous pages. If you need to make changes, choose *Edit*. When you’re satisfied, choose *Create*. The *Status* field shows *CREATING* while the cluster is provisioned. Cluster provisioning takes several minutes.
+.. When you're done with this page, choose Next.
+. On the *Review and create* page, review the information that you entered or selected on the previous pages. If you need to make changes, choose *Edit*. When you're satisfied, choose *Create*. The *Status* field shows *CREATING* while the cluster is provisioned. Cluster provisioning takes several minutes.
 . Continue with <<hybrid-nodes-cluster-create-kubeconfig>>.
 
 [[hybrid-nodes-cluster-create-kubeconfig,hybrid-nodes-cluster-create-kubeconfig.title]]
