@@ -148,21 +148,25 @@ nodeadm install 1.31 --credential-provider iam-ra
 
 |SSM Agent
 |On Ubuntu - /snap/amazon-ssm-agent/current/amazon-ssm-agent
+
 On RHEL & AL2023 - /usr/bin/amazon-ssm-agent
 
 |Containerd
 |On Ubuntu & AL2023 - /usr/bin/containerd
+
 On RHEL - /bin/containerd
 
 |Iptables
 |On Ubuntu & AL2023 - /usr/sbin/iptables
+
 On RHEL - /sbin/iptables
 
 |CNI plugins
-/opt/cni/bin
+|/opt/cni/bin
 
 |installed artifacts tracker
-| /opt/nodeadm/tracker
+|/opt/nodeadm/tracker
+
 |===
 
 === Config check

@@ -24,6 +24,7 @@ You are responsible for operating system provisioning and management. When you a
 The table below represents the operating system versions that are compatible and validated to use as the node operating system for hybrid nodes. If you are using other operating system variants or versions that are not included in this table, then the compatibility of hybrid nodes with your operating system variant or version is not covered by {aws} Support. Hybrid nodes are agnostic to the underlying infrastructure and support x86 and ARM architectures. 
 [cols="1,1", options="header"]
 |===
+
 |Operating System
 |Versions
 
@@ -35,6 +36,7 @@ The table below represents the operating system versions that are compatible and
 
 |Red Hat Enterprise Linux
 |RHEL 8, RHEL 9
+
 |===
 
 == Operating system considerations
@@ -79,6 +81,7 @@ The following environment variables must be set for building images with all ope
 
 [cols="1,1,1", options="header"]
 |===
+
 |Environment Variable
 |Type
 |Description
@@ -104,7 +107,9 @@ The following environment variables must be set for building images with all ope
 |Kubernetes version for hybrid nodes (for example `1.31`). For supported Kubernetes versions, see <<kubernetes-versions>>.
 
 |NODEADM_ARCH
-|String	Architecture for `nodeadm install`. Select `amd` or `arm`.
+|String
+|Architecture for `nodeadm install`. Select `amd` or `arm`.
+
 |===
 
 *RHEL*
@@ -129,6 +134,7 @@ If you are using RHEL, the following environment variables must be set.
 |RHEL_VERSION
 |String
 |Rhel iso version being used. Valid values are `8` or `9`.
+
 |===
 
 *Ubuntu*
@@ -141,6 +147,7 @@ If you are building a VMware vSphere OVA, the following environment variables mu
 
 [cols="1,1,1", options="header"]
 |===
+
 |Environment Variable
 |Type
 |Description
@@ -176,6 +183,7 @@ If you are building a VMware vSphere OVA, the following environment variables mu
 |VSPHERE_OUTPUT_FOLDER
 |String
 |vSphere output folder for the templates
+
 |===
 
 *QEMU*
@@ -190,6 +198,7 @@ If you are building a VMware vSphere OVA, the following environment variables mu
 |PACKER_OUTPUT_FORMAT
 |String
 |Output format for the QEMU builder. Valid values are `qcow2` and `raw`.
+
 |===
 
 *Validate template*
