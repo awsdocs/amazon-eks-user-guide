@@ -519,7 +519,7 @@ spec:
       privateKeyPath:  # Path to the private key file for the certificate
 ----
 
-==== (Optional) Kubelet configuration
+=== (Optional) Kubelet configuration
 
 You can pass kubelet configuration and flags in your `nodeadm` configuration. See the example below for how to add an additional node label `abc.amazonaws.com/test-label` and config for setting `shutdownGracePeriod` to 30 seconds.
 
@@ -542,7 +542,7 @@ spec:
       activationId:   # SSM hybrid activation id
 ----
 
-==== (Optional) Containerd configuration
+=== (Optional) Containerd configuration
 
 You can pass custom containerd configuration in your `nodeadm` configuration. The containerd configuration for `nodeadm` accepts in-line TOML. See the example below for how to configure containerd to disable deletion of unpacked image layers in the containerd content store. 
 

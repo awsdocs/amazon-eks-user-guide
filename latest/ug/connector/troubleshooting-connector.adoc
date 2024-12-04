@@ -1,6 +1,4 @@
 //!!NODE_ROOT <section>
-include::../attributes.txt[]
-
 [.topic]
 [[troubleshooting-connector,troubleshooting-connector.title]]
 = Troubleshoot Amazon EKS Connector issues
@@ -8,6 +6,8 @@ include::../attributes.txt[]
 :info_title: Troubleshoot Amazon EKS Connector issues
 :info_titleabbrev: Troubleshoot Amazon EKS Connector
 :info_abstract: Troubleshoot and resolve common issues when using Amazon EKS Connector to connect your Kubernetes clusters to Amazon EKS.
+
+include::../attributes.txt[]
 
 [abstract]
 --

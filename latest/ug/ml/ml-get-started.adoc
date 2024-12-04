@@ -40,7 +40,7 @@ To get started, choose from the following selection of patterns that are designe
 ** vLLM - variable-length language model (see the https://docs.vllm.ai/en/latest/[vLLM] documentation site)
 ** Two language models: mistralai/Mistral-7B-Instruct-v0.2 and meta-llama/Llama-2-7b-chat-hf, using your own https://huggingface.co/[Hugging Face] account.
 
-=== Continuing with ML on EKS
+== Continuing with ML on EKS
 
 Along with choosing from the blueprints described on this page, there are other ways you can proceed through the ML on EKS documentation if you prefer. For example, you can:
 

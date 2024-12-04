@@ -1704,7 +1704,7 @@ include::network-policy-stars-demo.adoc[leveloffset=+1]
 
 [.topic]
 [[cni-custom-network,cni-custom-network.title]]
-==== Deploy [.noloc]`pods` in alternate subnets with custom networking
+=== Deploy [.noloc]`pods` in alternate subnets with custom networking
 
 [abstract]
 --
@@ -1723,7 +1723,7 @@ By default, when the [.noloc]`Amazon VPC CNI plugin for Kubernetes` creates seco
 
 
 [[cni-custom-network-considerations,cni-custom-network-considerations.title]]
-===== Considerations
+==== Considerations
 
 The following are considerations for using the feature.
 
@@ -1738,7 +1738,7 @@ The following are considerations for using the feature.
 
 [.topic]
 [[cni-custom-network-tutorial,cni-custom-network-tutorial.title]]
-===== Customizing the secondary network interface in Amazon EKS nodes
+==== Customizing the secondary network interface in Amazon EKS nodes
 
 [abstract]
 --
@@ -1762,7 +1762,7 @@ The commands in this topic are formatted using the conventions listed in link:cl
 When you want to deploy custom networking to your production cluster, skip to <<custom-networking-configure-vpc,Step 2: Configure your VPC>>.
 
 [[custom-networking-create-cluster,custom-networking-create-cluster.title]]
-====== Step 1: Create a test VPC and cluster
+===== Step 1: Create a test VPC and cluster
 
 The following procedures help you create a test VPC and cluster and configure custom networking for that cluster. We don't recommend using the test cluster for production workloads because several unrelated features that you might use on your production cluster aren't covered in this topic. For more information, see <<create-cluster>>.
 
@@ -1874,7 +1874,7 @@ aws eks update-kubeconfig --name my-custom-networking-cluster
 
 
 [[custom-networking-configure-vpc,custom-networking-configure-vpc.title]]
-====== Step 2: Configure your VPC
+===== Step 2: Configure your VPC
 
 This tutorial requires the VPC created in <<custom-networking-create-cluster,Step 1: Create a test VPC and cluster>>. For a production cluster, adjust the steps accordingly for your VPC by replacing all of the [.replaceable]`example values` with your own.
 
@@ -1982,7 +1982,7 @@ You can see the subnets in the `192.168.1.0` CIDR block that you created are in 
 
 
 [[custom-networking-configure-kubernetes,custom-networking-configure-kubernetes.title]]
-====== Step 3: Configure [.noloc]`Kubernetes` resources
+===== Step 3: Configure [.noloc]`Kubernetes` resources
 . Set the `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG` environment variable to `true` in the `aws-node` [.noloc]`DaemonSet`.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -2091,7 +2091,7 @@ kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=topology.
 
 
 [[custom-networking-deploy-nodes,custom-networking-deploy-nodes.title]]
-====== Step 4: Deploy Amazon EC2 nodes
+===== Step 4: Deploy Amazon EC2 nodes
 . Create a node IAM role.
 +
 .. Run the following command to create an IAM trust policy JSON file.
@@ -2273,7 +2273,7 @@ If a [.noloc]`Pod's` `spec` contains `hostNetwork=true`, it's assigned the prima
 
 
 [[custom-network-delete-resources,custom-network-delete-resources.title]]
-====== Step 5: Delete tutorial resources
+===== Step 5: Delete tutorial resources
 
 After you complete the tutorial, we recommend that you delete the resources that you created. You can then adjust the steps to enable custom networking for a production cluster.
 
@@ -2364,7 +2364,7 @@ aws cloudformation delete-stack --stack-name my-eks-custom-networking-vpc
 
 [.topic]
 [[cni-increase-ip-addresses,cni-increase-ip-addresses.title]]
-==== Assign more IP addresses to Amazon EKS nodes with prefixes
+=== Assign more IP addresses to Amazon EKS nodes with prefixes
 
 [abstract]
 --
@@ -2380,7 +2380,7 @@ Each Amazon EC2 instance supports a maximum number of elastic network interfaces
 You can increase the number of IP addresses that nodes can assign to `Pods` by assigning IP prefixes, rather than assigning individual secondary IP addresses to your nodes. Each prefix includes several IP addresses. If you don't configure your cluster for IP prefix assignment, your cluster must make more Amazon EC2 application programming interface (API) calls to configure network interfaces and IP addresses necessary for [.noloc]`Pod` connectivity. As clusters grow to larger sizes, the frequency of these API calls can lead to longer [.noloc]`Pod` and instance launch times. This results in scaling delays to meet the demand of large and spiky workloads, and adds cost and management overhead because you need to provision additional clusters and VPCs to meet scaling requirements. For more information, see https://github.com/kubernetes/community/blob/master/sig-scalability/configs-and-limits/thresholds.md[Kubernetes Scalability thresholds] on GitHub.
 
 [[cni-increase-ip-addresses-compatability,cni-increase-ip-addresses-compatability.title]]
-===== Compatibility with [.noloc]`Amazon VPC CNI plugin for Kubernetes` features
+==== Compatibility with [.noloc]`Amazon VPC CNI plugin for Kubernetes` features
 
 You can use IP prefixes with the following features:
 
@@ -2400,7 +2400,7 @@ The following list provides information about the Amazon VPC CNI plugin settings
 
 
 [[cni-increase-ip-addresses-considerations,cni-increase-ip-addresses-considerations.title]]
-===== Considerations
+==== Considerations
 
 Consider the following when you use this feature:
 
@@ -2422,7 +2422,7 @@ If you're also using <<security-groups-for-pods,security groups for Pods>>, with
 
 [.topic]
 [[cni-increase-ip-addresses-procedure,cni-increase-ip-addresses-procedure.title]]
-===== Increase the available IP addresses for your Amazon EKS node
+==== Increase the available IP addresses for your Amazon EKS node
 
 You can increase the number of IP addresses that nodes can assign to [.noloc]`Pods` by assigning IP prefixes, rather than assigning individual secondary IP addresses to your nodes.
 
@@ -2645,7 +2645,7 @@ In the previous output, `110` is the maximum number of [.noloc]`Pods` that [.nol
 
 [.topic]
 [[security-groups-for-pods,security-groups-for-pods.title]]
-==== Assign security groups to individual [.noloc]`pods`
+=== Assign security groups to individual [.noloc]`pods`
 
 [abstract]
 --
@@ -2659,7 +2659,7 @@ Learn how to configure security groups for [.noloc]`Pods` on Amazon EKS, integra
 Security groups for [.noloc]`Pods` integrate Amazon EC2 security groups with [.noloc]`Kubernetes` [.noloc]`Pods`. You can use Amazon EC2 security groups to define rules that allow inbound and outbound network traffic to and from [.noloc]`Pods` that you deploy to nodes running on many Amazon EC2 instance types and Fargate. For a detailed explanation of this capability, see the link:containers/introducing-security-groups-for-pods[Introducing security groups for Pods,type="blog"] blog post.
 
 [[security-groups-for-pods-compatability,security-groups-for-pods-compatability.title]]
-===== Compatibility with [.noloc]`Amazon VPC CNI plugin for Kubernetes` features
+==== Compatibility with [.noloc]`Amazon VPC CNI plugin for Kubernetes` features
 
 You can use security groups for [.noloc]`Pods` with the following features:
 
@@ -2671,7 +2671,7 @@ You can use security groups for [.noloc]`Pods` with the following features:
 
 
 [[sg-pods-considerations,sg-pods-considerations.title]]
-===== Considerations
+==== Considerations
 
 Before deploying security groups for [.noloc]`Pods`, consider the following limitations and conditions:
 
@@ -2711,7 +2711,7 @@ If you set `POD_SECURITY_GROUP_ENFORCING_MODE=standard` and `AWS_VPC_K8S_CNI_EXT
 
 [.topic]
 [[security-groups-pods-deployment,security-groups-pods-deployment.title]]
-===== Configure the [.noloc]`Amazon VPC CNI plugin for Kubernetes` for security groups for Amazon EKS [.noloc]`Pods`
+==== Configure the [.noloc]`Amazon VPC CNI plugin for Kubernetes` for security groups for Amazon EKS [.noloc]`Pods`
 
 If you use [.noloc]`Pods` with Amazon EC2 instances, you need to configure the [.noloc]`Amazon VPC CNI plugin for Kubernetes` for security groups
 
@@ -2802,7 +2802,7 @@ IMPORTANT:
 
 [.topic]
 [[sg-pods-example-deployment,sg-pods-example-deployment.title]]
-===== Use a security group policy for an Amazon EKS [.noloc]`Pod`
+==== Use a security group policy for an Amazon EKS [.noloc]`Pod`
 
 To use security groups for [.noloc]`Pods`, you must have an existing security group. The following steps show you how to use the security group policy for a [.noloc]`Pod`. Unless otherwise noted, complete all steps from the same terminal because variables are used in the following steps that don't persist across terminals.
 
@@ -3010,7 +3010,7 @@ aws ec2 delete-security-group --group-id $my_pod_security_group_id
 
 [.topic]
 [[pod-multiple-network-interfaces,pod-multiple-network-interfaces.title]]
-==== Attach multiple network interfaces to [.noloc]`Pods` with [.noloc]`Multus`
+=== Attach multiple network interfaces to [.noloc]`Pods` with [.noloc]`Multus`
 
 [abstract]
 --

@@ -1,12 +1,12 @@
 //!!NODE_ROOT <section>
 [.topic]
 [[eksctl-docs,eksctl-docs.title]]
-# EKS Auto Mode
+= EKS Auto Mode
 :info_doctype: section
 
 include::../../attributes.txt[]
 
-## Introduction
+== Introduction
 
 eksctl supports xref:automode[EKS Auto Mode], a feature that extends {aws} management of Kubernetes clusters beyond the cluster itself,
 to allow {aws} to also set up and manage the infrastructure that enables the smooth operation of your workloads.
@@ -14,7 +14,7 @@ This allows you to delegate key infrastructure decisions and leverage the expert
 Cluster infrastructure managed by {aws} includes many Kubernetes capabilities as core components, as opposed to add-ons,
 such as compute autoscaling, pod and service networking, application load balancing, cluster DNS, block storage, and GPU support.
 
-## Creating an EKS cluster with Auto Mode enabled
+== Creating an EKS cluster with Auto Mode enabled
 
 `eksctl` has added a new `autoModeConfig` field to enable and configure Auto Mode. The shape of the `autoModeConfig` field is
 
@@ -67,7 +67,7 @@ autoModeConfig:
     nodePools: [] # disables creation of default node pools.
 ```
 
-## Updating an EKS cluster to use Auto Mode
+== Updating an EKS cluster to use Auto Mode
 To update an existing EKS cluster to use Auto Mode, run
 
 ```yaml
@@ -95,7 +95,7 @@ eksctl disallows this to avoid having Auto Mode launch worker nodes in public su
 ====
 
 
-## Disabling Auto Mode
+== Disabling Auto Mode
 To disable Auto Mode, set `autoModeConfig.enabled: false` and run
 
 ```yaml
@@ -114,6 +114,6 @@ autoModeConfig:
 $ eksctl update auto-mode-config -f cluster.yaml
 ```
 
-## Further information
+== Further information
 
 - xref:automode[EKS Auto Mode]

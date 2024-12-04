@@ -218,8 +218,9 @@ For more information, see:
 * <<set-builtin-node-pools>>
 * <<csi-snapshot-controller>>
 
-[discrete]
-#### To install snapshot controller in system node pool
+
+[[auto-install-snapshot-controller,auto-install-snapshot-controller.title]]
+=== To install snapshot controller in system node pool
 
 . Open your EKS cluster in the {aws} console
 . From the *Add-ons* tab, select *Get more add-ons*

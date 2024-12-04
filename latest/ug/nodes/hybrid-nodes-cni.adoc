@@ -17,7 +17,7 @@ Configure a CNI for Amazon EKS hybrid nodes
 
 Cilium and Calico are supported as the Container Networking Interfaces (CNIs) for Amazon EKS Hybrid Nodes. You must install a CNI for hybrid nodes to become ready to serve workloads. Hybrid nodes appear with status `Not Ready` until a CNI is running. You can manage these CNIs with your choice of tooling such as Helm. The Amazon VPC CNI is not compatible with hybrid nodes and the VPC CNI is configured with anti-affinity for the `eks.amazonaws.com/compute-type: hybrid` label. 
 
-=== Version compatibility
+== Version compatibility
 
 The table below represents the Cilium and Calico versions that are compatible and validated for each Kubernetes version supported in Amazon EKS.
 
@@ -56,7 +56,7 @@ The table below represents the Cilium and Calico versions that are compatible an
 |3.29.x
 |===
 
-=== Supported capabilities
+== Supported capabilities
 
 {aws} supports the following capabilities of Cilium and Calico for use with hybrid nodes. If you plan to use functionality outside the scope of {aws} support, we recommend that you obtain commercial support for the plugin or have the in-house expertise to troubleshoot and contribute fixes to the CNI plugin project.
 
@@ -100,7 +100,7 @@ The table below represents the Cilium and Calico versions that are compatible an
 |Yes
 |===
 
-=== Install Cilium on hybrid nodes
+== Install Cilium on hybrid nodes
 
 . Ensure that you have installed the helm CLI on your command-line environment. See the https://helm.sh/docs/intro/quickstart/[Helm documentation] for installation instructions.
 . Install the Cilium Helm repo.
@@ -266,7 +266,7 @@ kubectl apply -f cilium-bgp-advertisement.yaml
 +
 You can confirm the BGP peering worked with the https://docs.cilium.io/en/stable/gettingstarted/k8s-install-default/#install-the-cilium-cli[Cilium CLI] by using the `cilium bgp peers` command. You should see the correct values in the output for your environment and the Session State as `established`. See the https://docs.cilium.io/en/latest/network/bgp-control-plane/bgp-control-plane/#troubleshooting-and-operation-guide[Troubleshooting and Operations Guide] in the Cilium documentation for more information on troubleshooting.
 
-=== Upgrade Cilium on hybrid nodes
+== Upgrade Cilium on hybrid nodes
 
 Before upgrading your Cilium deployment, carefully review the https://docs.cilium.io/en/v1.16/operations/upgrade/[Cilium upgrade documentation] and the upgrade notes to understand the changes in the target Cilium version.
 
@@ -344,7 +344,7 @@ helm history cilium --namespace kube-system
 helm rollback cilium [REVISION] --namespace kube-system
 ----
 
-=== Delete Cilium from hybrid nodes
+== Delete Cilium from hybrid nodes
 
 . Run the following command to uninstall all Cilium components from your cluster. Note, uninstalling the CNI may impact the health of nodes and pods and shouldn't be performed on production clusters.
 +
@@ -364,7 +364,7 @@ The interfaces and routes configured by Cilium are not removed by default when t
 kubectl get crds -oname | grep "cilium" | xargs kubectl delete
 ----
 
-=== Install Calico on hybrid nodes
+== Install Calico on hybrid nodes
 
 . Ensure that you have installed the helm CLI on your command-line environment. See the https://helm.sh/docs/intro/quickstart/[Helm documentation] for installation instructions.
 . Install the Cilium Helm repo.
@@ -517,7 +517,7 @@ kube-system        tigera-operator-55f9d9d565-jj9bg           1/1     Running   
 
 If you encountered issues during these steps, see the https://docs.tigera.io/calico/latest/operations/troubleshoot/vpp[troubleshooting guidance] in the Calico documentation.
 
-=== Upgrade Calico on hybrid nodes
+== Upgrade Calico on hybrid nodes
 
 Before upgrading your Calico deployment, carefully review the https://docs.tigera.io/calico/latest/operations/upgrading/kubernetes-upgrade[Calico upgrade documentation] and the https://docs.tigera.io/calico/latest/release-notes/[release notes] to understand the changes in the target Calico version. The upgrade steps vary based on whether you are using Helm, the Calico operator, and the type of datastore. The steps below assume use of Helm.
 
@@ -539,7 +539,7 @@ helm upgrade calico projectcalico/tigera-operator \
     -f calico-values.yaml
 ----
 
-=== Delete Calico from hybrid nodes
+== Delete Calico from hybrid nodes
 
 . Run the following command to uninstall Calico components from your cluster. Note that uninstalling the CNI may impact the health of nodes and pods and should not be performed on production clusters. If you installed Calico in a namespace other than `kube-system` change the namespace in the command below. 
 +

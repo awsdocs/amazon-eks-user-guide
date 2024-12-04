@@ -1,5 +1,4 @@
 //!!NODE_ROOT <chapter>
-include::../attributes.txt[]
 [[troubleshooting,troubleshooting.title]]
 = Troubleshoot problems with Amazon EKS clusters and nodes
 :doctype: book
@@ -16,6 +15,8 @@ include::../attributes.txt[]
 :keywords: troubleshooting, help, FAQ
 :info_abstract: This chapter covers some common errors that you may see while using Amazon EKS and how \
                 to work around them.
+
+include::../attributes.txt[]
 
 [abstract]
 --

@@ -15,6 +15,7 @@ When you configure EKS Auto Mode, you will need to set up these IAM roles with s
 
 In EKS Auto Mode, {aws} IAM roles are automatically mapped to Kubernetes permissions through EKS access entries, removing the need for manual configuration of `aws-auth` ConfigMaps or custom bindings. When you create a new auto mode cluster, EKS automatically creates the corresponding Kubernetes permissions using Access entries, ensuring that {aws} services and cluster components have the appropriate access levels within both the {aws} and Kubernetes authorization systems. This automated integration reduces configuration complexity and helps prevent permission-related issues that commonly occur when managing EKS clusters.
 
+[[auto-learn-cluster-iam-role,auto-learn-cluster-iam-role.title]]
 == Cluster IAM role
 
 The Cluster IAM role is an {aws} Identity and Access Management (IAM) role used by Amazon EKS to manage permissions for Kubernetes clusters. This role grants Amazon EKS the necessary permissions to interact with other {aws} services on behalf of your cluster, and is automatically configured with Kubernetes permissions using EKS access entries.
@@ -40,6 +41,7 @@ For more information about Kubernetes access, see:
 
 * <<access-policy-permissions>>
 
+[[auto-learn-node-iam-role,auto-learn-node-iam-role.title]]
 == Node IAM role
 
 The Node IAM role is an {aws} Identity and Access Management (IAM) role used by Amazon EKS to manage permissions for worker nodes in Kubernetes clusters. This role grants EC2 instances running as Kubernetes nodes the necessary permissions to interact with {aws} services and resources, and is automatically configured with Kubernetes RBAC permissions using EKS access entries.

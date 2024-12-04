@@ -8,7 +8,7 @@ include::../../attributes.txt[]
 
 This topic explains how to tag your VPC subnets to enable load balancer deployment using the {aws} Management Console.
 
-## Required Tags
+== Required Tags
 
 Your subnets require specific tags based on their intended use:
 
@@ -19,7 +19,7 @@ Your subnets require specific tags based on their intended use:
 |Public Subnet |`kubernetes.io/role/elb` |`1`
 |===
 
-## Adding Tags in the Console
+== Adding Tags in the Console
 
 1. Sign in to the {aws} Management Console
 2. Navigate to **VPC** +>+ **Subnets**

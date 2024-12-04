@@ -1,13 +1,13 @@
-# Configure an AsciiDoc Authoring Environment on Windows using Visual Studio Code
+= Configure an AsciiDoc Authoring Environment on Windows using Visual Studio Code
 
-## Prereqs
+== Prereqs
 
 * Visual Studio Code installed from Microsoft Website
 * Connected to Amazon VPN
 * Know your Cloud Dev Desktop Hostname, such as `http://dev-dsk-mcngs-2a-f991a827.us-west-2.amazon.com/`
 * Amazon Windows Image
 
-## Step 1: Clear SSH Keys
+== Step 1: Clear SSH Keys
 
 [IMPORTANT]
 ====
@@ -37,23 +37,23 @@ If you need to restore your keys later, you can copy them back from the backup f
 `Copy-Item -Path ~\ssh_backup\* -Destination ~\.ssh -Recurse`
 ====
 
-## Step 2: Create new ECDSA SSH Key
+== Step 2: Create new ECDSA SSH Key
 
 . `ssh-keygen -t ecdsa`
 
-## Step 3: Use Midway to Sign SSH Key
+== Step 3: Use Midway to Sign SSH Key
 
 . `mwinit` -- WITHOUT options
 . You will need to run this step periodically from windows powershell. 
 ** You need to run mwinit from each device, including your laptop and CDD. 
 
-## Step 4: Test SSH 
+== Step 4: Test SSH 
 
 . Run `ssh <alias>@git.amazon.com -v `
 . Review output
 . If you don't see a success message, sent the output to Geoffrey
 
-## Step 5: Configure VS Code
+== Step 5: Configure VS Code
 
 . Open VS Code
 . Open the extension panel in the left sidebar (tetris style icon)
@@ -65,7 +65,7 @@ If you need to restore your keys later, you can copy them back from the backup f
 . If the VS Code Window shows your CDD hostname in blue in the botton left of the window, that VS Code Window is connected to your CDD
 . Once it is connect, use `ctrl-`` to open a terminal window. 
 
-## Step 6: Clone Package on Cloud Dev Desktop
+== Step 6: Clone Package on Cloud Dev Desktop
 
 [source,bash]
 ----
@@ -79,13 +79,13 @@ pwd
 
 In the AmazonEKSDocs package root is a file called `eks-docs.code-workspace`, use the output of `pwd` and this file name to determine the full path to the code workspace.
 
-## Step 7: Open Code Workspace
+== Step 7: Open Code Workspace
 
 From a SSH connected VS Code Window, go to "file" and then "open workspace from file". Use the path to the code workspace file.
 
 Using this file, VS code will automatically configure itself for authoring asciidoc. 
 
-## To reconnect
+== To reconnect
 
 . Connect to VPN
 . Use powershell to run mwinit

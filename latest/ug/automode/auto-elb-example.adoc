@@ -14,13 +14,13 @@ include::../attributes.txt[]
 
 This guide walks you through deploying a containerized version of the 2048 game on Amazon EKS, complete with load balancing and internet accessibility.
 
-## Prerequisites
+== Prerequisites
 
 * An EKS Auto Mode cluster
 * `kubectl` configured to interact with your cluster
 * Appropriate IAM permissions for creating ALB resources
 
-## Step 1: Create the Namespace
+== Step 1: Create the Namespace
 
 First, create a dedicated namespace for the 2048 game application.
 
@@ -41,7 +41,7 @@ Apply the namespace configuration:
 kubectl apply -f 01-namespace.yaml
 ----
 
-## Step 2: Deploy the Application
+== Step 2: Deploy the Application
 
 The application runs multiple replicas of the 2048 game container.
 
@@ -89,7 +89,7 @@ Apply the deployment:
 kubectl apply -f 02-deployment.yaml
 ----
 
-## Step 3: Create the Service
+== Step 3: Create the Service
 
 The service exposes the deployment to the cluster network.
 
@@ -125,7 +125,7 @@ Apply the service:
 kubectl apply -f 03-service.yaml
 ----
 
-## Step 4: Configure Load Balancing
+== Step 4: Configure Load Balancing
 
 You will set up an ingress to expose the application to the internet.
 
@@ -184,7 +184,7 @@ kubectl apply -f 04-ingressclass.yaml
 kubectl apply -f 05-ingress.yaml
 ----
 
-## Step 5: Verify the Deployment
+== Step 5: Verify the Deployment
 
 . Check that all pods are running:
 +
@@ -207,11 +207,11 @@ kubectl get ingress -n game-2048
 
 The ADDRESS field in the ingress output will show your ALB endpoint. Wait 2-3 minutes for the ALB to provision and register all targets.
 
-## Step 6: Access the Game
+== Step 6: Access the Game
 
 Open your web browser and browse to the ALB endpoint URL from the earlier step. You should see the 2048 game interface.
 
-## Step 7: Cleanup
+== Step 7: Cleanup
 
 To remove all resources created in this tutorial:
 
@@ -222,7 +222,7 @@ kubectl delete namespace game-2048
 
 This will delete all resources in the namespace, including the deployment, service, and ingress resources.
 
-## What's Happening Behind the Scenes
+== What's Happening Behind the Scenes
 
 . The deployment creates 5 pods running the 2048 game
 . The service provides stable network access to these pods
@@ -231,7 +231,8 @@ This will delete all resources in the namespace, including the deployment, servi
 ** Configures target groups for the pods
 ** Sets up routing rules to direct traffic to the service
 
-## Troubleshooting
+[[auto-elb-troubleshooting,auto-elb-troubleshooting.title]]
+== Troubleshooting
 
 If the game doesn't load:
 

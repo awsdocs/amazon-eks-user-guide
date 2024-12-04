@@ -63,8 +63,8 @@ Sample output:
 [[auto-mode-create-roles,auto-mode-create-roles.title]]
 == IAM Roles for EKS Auto Mode Clusters
 
-[discrete]
-#### **Cluster IAM Role**
+[[auto-roles-cluster-iam-role,auto-roles-cluster-iam-role.title]]
+=== Cluster IAM Role
 
 EKS Auto Mode requires a Cluster IAM Role to perform actions in your {aws} account, such as provisioning new EC2 instances. You must create this role to grant EKS the necessary permissions. {aws} recommends attaching the following {aws} managed policies to the Cluster IAM Role:
 
@@ -74,8 +74,8 @@ EKS Auto Mode requires a Cluster IAM Role to perform actions in your {aws} accou
 * xref:security-iam-awsmanpol-AmazonEKSNetworkingPolicy[AmazonEKSNetworkingPolicy]
 * xref:security-iam-awsmanpol-amazoneksclusterpolicy[AmazonEKSClusterPolicy]
 
-[discrete]
-#### **Node IAM Role**
+[[auto-roles-node-iam-role,auto-roles-node-iam-role.title]]
+=== Node IAM Role
 
 When you create an EKS Auto Mode cluster, you specify a Node IAM Role. When EKS Auto Mode creates nodes to process pending workloads, each new EC2 instance node is assigned the Node IAM Role. This role allows the node to communicate with EKS but is generally not accessed by workloads running on the node. 
 

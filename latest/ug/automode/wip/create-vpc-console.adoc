@@ -1,14 +1,14 @@
 //!!NODE_ROOT <section>
 [.topic]
 [[create-vpc-console,create-vpc-console.title]]
-# Create a VPC for Amazon EKS with the web console
+= Create a VPC for Amazon EKS with the web console
 :info_doctype: section
 
 include::../../attributes.txt[]
 
 This guide walks you through creating a Virtual Private Cloud (VPC) that's optimized for Amazon Elastic Kubernetes Service (EKS) clusters using the {aws} Management Console.
 
-## Overview
+== Overview
 
 When creating a VPC for EKS, you'll need to configure specific networking requirements to ensure proper cluster functionality, including:
 - Public and private subnets across multiple Availability Zones
@@ -16,27 +16,27 @@ When creating a VPC for EKS, you'll need to configure specific networking requir
 - Appropriate CIDR ranges to accommodate pod and service IP addresses
 - Required VPC endpoints for EKS functionality
 
-## Prerequisites
+== Prerequisites
 
 - An {aws} account
 - Access to the {aws} Management Console
 - IAM permissions for VPC and EKS resource creation
 - Planned CIDR ranges for your VPC, pods, and services
 
-## Creation Steps
+== Creation Steps
 
-### Step 1: Access the VPC Creation Page
+=== Step 1: Access the VPC Creation Page
 1. Sign in to the {aws} Management Console
 2. Navigate to the VPC Dashboard
 3. Click "Create VPC"
 
-### Step 2: Configure Basic VPC Settings
+=== Step 2: Configure Basic VPC Settings
 1. Under "VPC settings", select "VPC and more"
 2. Enter a name tag in the "Name tag auto-generation" field
    - Example: "eks-cluster-vpc"
    - This will auto-generate names for all resources with the prefix
 
-### Step 3: Configure Network Settings
+=== Step 3: Configure Network Settings
 1. IPv4 CIDR block:
    - Enter your VPC CIDR (recommended: 10.0.0.0/16)
    - Ensure the CIDR is large enough to accommodate:
@@ -56,12 +56,12 @@ When creating a VPC for EKS, you'll need to configure specific networking requir
      - Will host your EKS nodes
      - Must have outbound internet access via NAT
 
-### Step 4: Configure NAT Gateways
+=== Step 4: Configure NAT Gateways
 1. Choose "1 per AZ" for production environments
    - While more expensive, this provides high availability for node outbound traffic
    - For dev/test, you can use "In 1 AZ" to reduce costs
 
-### Step 5: Configure VPC Endpoints
+=== Step 5: Configure VPC Endpoints
 1. Select "S3 Gateway"
    - Required for pulling container images from Amazon ECR
 2. Consider adding these endpoints later for enhanced security:
@@ -71,20 +71,20 @@ When creating a VPC for EKS, you'll need to configure specific networking requir
    - com.amazonaws.[region].elasticloadbalancing
    - com.amazonaws.[region].logs
 
-### Step 6: Configure DNS Options
+=== Step 6: Configure DNS Options
 1. Enable both options:
    - DNS hostnames (required for EKS)
    - DNS resolution (required for EKS)
 
-### Step 7: Review and Create
+=== Step 7: Review and Create
 1. Review the preview panel to ensure:
    - All subnets are properly distributed across AZs
    - CIDR ranges don't overlap
 2. Click "Create VPC"
 
-## Post-Creation Configuration
+== Post-Creation Configuration
 
-### Step 1: Tag Subnets for EKS
+=== Step 1: Tag Subnets for EKS
 After VPC creation, add these required tags to your subnets:
 
 For public subnets:
@@ -99,12 +99,12 @@ kubernetes.io/cluster/<cluster-name> = shared
 kubernetes.io/role/internal-elb = 1
 ```
 
-### Step 2: Security Group Configuration
+=== Step 2: Security Group Configuration
 1. Create a cluster security group that allows:
    - All inbound traffic from within the VPC
    - Required outbound traffic for node communication
 
-## Best Practices
+== Best Practices
 
 1. Networking:
    - Use private subnets for worker nodes
@@ -121,14 +121,14 @@ kubernetes.io/role/internal-elb = 1
    - Use security groups to control traffic
    - Follow the principle of least privilege
 
-## Next Steps
+== Next Steps
 
 1. Create your EKS cluster using this VPC
 2. Configure additional VPC endpoints as needed
 3. Set up monitoring for NAT gateway bandwidth
 4. Plan IP address management for pods and services
 
-## Troubleshooting Tips
+== Troubleshooting Tips
 
 1. Common Issues:
    - Insufficient IP addresses for pods
@@ -140,7 +140,7 @@ kubernetes.io/role/internal-elb = 1
    - Check route tables
    - Confirm security group rules
 
-## Additional Resources
+== Additional Resources
 
 - EKS VPC Requirements Documentation
 - EKS Best Practices Guide

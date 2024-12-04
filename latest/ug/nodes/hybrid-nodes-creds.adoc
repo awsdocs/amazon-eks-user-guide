@@ -17,7 +17,7 @@ Prepare credentials to authenticate hybrid nodes with Amazon EKS clusters
 
 Amazon EKS Hybrid Nodes use temporary IAM credentials provisioned by {aws} SSM hybrid activations or {aws} IAM Roles Anywhere to authenticate with the Amazon EKS cluster. You must use either {aws} SSM hybrid activations or {aws} IAM Roles Anywhere with the Amazon EKS Hybrid Nodes CLI (`nodeadm`). You should not use both {aws} SSM hybrid activations and {aws} IAM Roles Anywhere. It is recommended to use {aws} SSM hybrid activations if you do not have existing Public Key Infrastructure (PKI) with a Certificate Authority (CA) and certificates for your on-premises environments. If you do have existing PKI and certificates on-premises, use {aws} IAM Roles Anywhere.
 
-=== Hybrid Nodes IAM Role
+== Hybrid Nodes IAM Role
 
 Before you can connect hybrid nodes to your Amazon EKS cluster, you must create an IAM role that will be used with {aws} SSM hybrid activations or {aws} IAM Roles Anywhere for your hybrid nodes credentials. After cluster creation, you will use this role with an Amazon EKS access entry or `aws-auth` ConfigMap entry to map the IAM role to Kubernetes Role-Based Access Control (RBAC). For more information on associating the Hybrid Nodes IAM role with Kubernetes RBAC, see <<hybrid-nodes-cluster-prep>>.
 
@@ -31,7 +31,7 @@ link:aws-managed-policy/latest/reference/AmazonSSMManagedInstanceCore.html[,Amaz
 * If using {aws} SSM, permissions to use the `ssm:DeregisterManagedInstance` action and `ssm:DescribeInstanceInformation` action for `nodeadm uninstall` to deregister instances.
 * (Optional) Permissions for the Amazon EKS Pod Identity Agent to use the `eks-auth:AssumeRoleForPodIdentity` action to retrieve credentials for pods.
 
-=== Setup {aws} SSM hybrid activations
+== Setup {aws} SSM hybrid activations
 
 Before setting up {aws} SSM hybrid activations, you must have a Hybrid Nodes IAM role created and configured. For more information, see <<hybrid-nodes-creds#_create_the_hybrid_nodes_iam_role>>. Follow the instructions at link:systems-manager/latest/userguide/hybrid-activation-managed-nodes.html[Create a hybrid activation to register nodes with Systems Manager,type="documentation"] in the {aws} Systems Manager User Guide to create an {aws} SSM hybrid activation for your hybrid nodes. The Activation Code and ID you receive is used with `nodeadm` when you register your hosts as hybrid nodes with your Amazon EKS cluster. You can come back to this step at a later point after you have created and prepared your Amazon EKS clusters for hybrid nodes.
 
@@ -59,7 +59,7 @@ aws ssm create-activation \
 
 Review the instructions on link:systems-manager/latest/userguide/hybrid-activation-managed-nodes.html[Create a hybrid activation to register nodes with Systems Manager,type="documentation"] for more information about the available configuration settings for {aws} SSM hybrid activations.
 
-=== Setup {aws} IAM Roles Anywhere
+== Setup {aws} IAM Roles Anywhere
 
 Follow the instructions at link:rolesanywhere/latest/userguide/getting-started.html[Getting started with IAM Roles Anywhere,type="documentation"] in the IAM Roles Anywhere User Guide to set up the trust anchor and profile you will use for temporary IAM credentials for your Hybrid Nodes IAM role. When you create your profile, you can create it without adding any roles. You can create this profile, return to these steps to create your Hybrid Nodes IAM role, and then add your role to your profile after it is created. You can alternatively use the {aws} CloudFormation steps later on this page to complete your IAM Roles Anywhere setup for hybrid nodes.
 
@@ -69,7 +69,7 @@ You can configure the credential validity duration with {aws} IAM Roles Anywhere
 
 The per-machine certificates and keys you generate from your certificate authority (CA) must be placed in the `/etc/iam/pki` directory on each hybrid node with the file names `server.pem` for the certificate and `server.key` for the key.
 
-=== Create the Hybrid Nodes IAM role
+== Create the Hybrid Nodes IAM role
 
 To run the steps in this section, the IAM principal using the {aws} console or {aws} CLI must have the following permissions.
 
@@ -81,7 +81,7 @@ To run the steps in this section, the IAM principal using the {aws} console or {
 ** `rolesanywhere:CreateProfile`
 ** `iam:PassRole`
 
-==== {aws} CloudFormation
+=== {aws} CloudFormation
 
 Install and configure the {aws} CLI, if you haven't already. See link:cli/latest/userguide/getting-started-install.html[Installing or updating to the last version of the {aws} CLI,type="documentation"].
 
@@ -379,7 +379,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
 ----
 
-==== {aws} Management Console
+=== {aws} Management Console
 
 *Create EKS Describe Cluster Policy*
 
