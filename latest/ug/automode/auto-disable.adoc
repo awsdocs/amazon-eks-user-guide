@@ -10,6 +10,7 @@ You can disable EKS Auto Mode on an existing EKS Cluster. This is a destructive 
 
 * EKS will terminate all EC2 instances operated by EKS Auto Mode.
 * EKS will delete all Load Balancers operated by EKS Auto Mode.
+* EKS will *not* delete EBS volumes provisioned by EKS Auto Mode. 
 
 == Disable EKS Auto Mode ({aws} Console)
 

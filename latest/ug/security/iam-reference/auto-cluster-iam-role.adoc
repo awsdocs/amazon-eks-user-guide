@@ -52,10 +52,14 @@ You can use the following procedure to check and see if your account already has
 }
 ----
 
+[NOTE]
+====
+{aws} does not require the name `AmazonEKSAutoClusterRole` for this role. 
+====
+
 == Creating the Amazon EKS cluster role
 
 You can use the {aws-management-console} or the {aws} CLI to create the cluster role.
-
 
 
 === {aws-management-console}

@@ -62,6 +62,7 @@ The following is a list of data plane components that are automated:
 * *Load balancing*: EKS Auto Mode streamlines load balancing by integrating with Amazon's Elastic Load Balancing service, automating the provisioning and configuration of load balancers for Kubernetes Services and Ingress resources. It supports advanced features for both Application and Network Load Balancers, manages their lifecycle, and scales them to match cluster demands. This integration provides a production-ready load balancing solution adhering to {aws} best practices, allowing you to focus on applications rather than infrastructure management.
 * *Storage*: EKS Auto Mode configures ephemeral storage for you by setting up volume types, volume sizes, encryption policies, and deletion policies upon node termination.
 * *Networking*: EKS Auto Mode automates critical networking tasks for Pod and service connectivity. This includes IPv4/IPv6 support and the use of secondary CIDR blocks for extending IP address spaces.
+* *Identity and Access Management*: You do not have to install the EKS Pod Identity Agent on EKS Auto Mode clusters. 
 
 For more information about these components, see <<auto-reference>>.
 

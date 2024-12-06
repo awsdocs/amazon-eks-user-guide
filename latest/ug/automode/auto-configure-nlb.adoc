@@ -28,7 +28,7 @@ metadata:
   name: echoserver
   annotations:
     # Specify the load balancer scheme as internet-facing to create a public-facing Network Load Balancer (NLB)
-    aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
 spec:
   selector:
     app: echoserver
@@ -46,7 +46,11 @@ spec:
 
 The following table lists commonly used annotations supported by EKS Auto Mode. Note that EKS Auto Mode may not support all annotations. 
 
+[TIP]
+====
 All of the following annotations need to be prefixed with `service.beta.kubernetes.io/`
+====
+
 
 [role="no-scroll"]
 [cols="1,1,1", options="header"]

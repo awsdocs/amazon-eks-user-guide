@@ -26,6 +26,8 @@ You need `kubectl` installed and configured. For more information, see <<setting
 
 Here's an example Node Class:
 
+//GDC: need to update this with IAM role and subnet selector
+
 ```yaml
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
@@ -55,6 +57,9 @@ kind: NodeClass
 metadata:
   name: default
 spec:
+
+  # Required: IAM Role for Nodes 
+  role: "arn:aws:iam::123456789012:role/MyNodeRole"
 
   # Required: Subnet selection for node placement
   subnetSelectorTerms:

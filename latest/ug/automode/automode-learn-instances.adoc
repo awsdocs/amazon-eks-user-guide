@@ -106,6 +106,7 @@ EKS Auto Mode supports the following instance types:
 
 == Considerations
 
+* EKS Auto Mode automatically formats and configures NVMe local storage on supported instance types. For nodes with multiple NVMe drives, EKS sets up a RAID 0 array. This automation eliminates the need for manual formatting and RAID configuration of local NVMe storage in EKS clusters.
 * Amazon EKS Auto Mode does not support {aws} Fault Injection Service. For more information, see link:resilience-hub/latest/userguide/testing.html["Managing Fault Injection Service experiments",type="documentation"] in the {aws} Resilience Hub User Guide. 
 * You do not need to install the `Neuron Device Plugin` on EKS Auto Mode nodes. 
 ** If you have other types of nodes in your cluster, you need to configure the Neuron Device plugin to not run on auto mode nodes. For more information, see <<associate-workload>>.

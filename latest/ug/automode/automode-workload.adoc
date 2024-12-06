@@ -124,7 +124,7 @@ Use `kubectl` to delete the sample deployment
 
 [source,cli]
 ----
-kubectl delete -f deployment.yaml
+kubectl delete -f inflate.yaml
 ----
 
 If you have no other workloads deployed to your cluster, the node created by EKS Auto Mode will be empty. 
