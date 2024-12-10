@@ -1113,7 +1113,7 @@ Learn about the [.noloc]`NetApp` Amazon EKS add-on.
 
 The add-on name is `netapp_trident-operator` and the namespace is `trident`. [.noloc]`NetApp` publishes the add-on.
 
-For information about the add-on, see https://docs.netapp.com/us-en/trident/trident-use/trident-aws-addon.html[Configure the Astra Trident EKS add-on] in the NetApp documentation.
+For information about the add-on, see https://docs.netapp.com/us-en/trident/trident-use/trident-aws-addon.html[Configure the Trident EKS add-on] in the NetApp documentation.
 
 [[add-on-netapp-service-account-name,add-on-netapp-service-account-name.title]]
 ==== Service account name
