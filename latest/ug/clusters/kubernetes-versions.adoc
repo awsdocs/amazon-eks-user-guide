@@ -41,7 +41,6 @@ The following [.noloc]`Kubernetes` versions are currently available in Amazon EK
 * `1.31`
 * `1.30`
 * `1.29`
-* `1.28`
 
 For important changes to be aware of for each version in standard support, see <<kubernetes-versions-standard>>.
 
@@ -51,7 +50,7 @@ For important changes to be aware of for each version in standard support, see <
 The following [.noloc]`Kubernetes` versions are currently available in Amazon EKS extended support:
 
 
-
+* `1.28`
 * `1.27`
 * `1.26`
 * `1.25`
@@ -188,7 +187,7 @@ If you don't want to be automatically enrolled in extended support, you can upgr
 
 
 *What will happen at the end of 12 months of extended support?*::
-Clusters running on a [.noloc]`Kubernetes` version that has completed its 26-month lifecycle (14 months of standard support plus 12 months of extended support) will be auto-upgraded to the next version.
+Clusters running on a [.noloc]`Kubernetes` version that has completed its 26-month lifecycle (14 months of standard support plus 12 months of extended support) will be auto-upgraded to the next version. The auto-upgrade includes only the Kubernetes control plane. If you have EKS Auto Mode nodes, they may automatically update. Self managed nodes and EKS Managed Node Groups will remain on the previous version.
 +
 On the end of extended support date, you can no longer create new Amazon EKS clusters with the unsupported version. Existing control planes are automatically updated by Amazon EKS to the earliest supported version through a gradual deployment process after the end of support date. After the automatic control plane update, make sure to manually update cluster add-ons and Amazon EC2 nodes. For more information, see <<update-cluster>>.
 

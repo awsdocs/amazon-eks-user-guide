@@ -83,7 +83,7 @@ For more information, see:
 
 By default, the managed policies related to {eam} do not permit {aws} tag modification. {eam} supports custom {aws} tags, copying tags from Kubernetes resources to the associated {aws} resources. 
 
-If you want to tag {aws} resources, you must attach additional policies to the Node IAM Role and Cluster IAM Role with sufficient permissions to modify tags on {aws} resources. 
+If you want to tag {aws} resources, you must attach additional policies to the Cluster IAM Role with sufficient permissions to modify tags on {aws} resources. 
 
 [[auto-tag-policy,auto-tag-policy.title]]
 .View custom tag policy example
