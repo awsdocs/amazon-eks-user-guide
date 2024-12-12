@@ -58,8 +58,8 @@ metadata:
   name: default
 spec:
 
-  # Required: IAM Role for Nodes 
-  role: "arn:aws:iam::123456789012:role/MyNodeRole"
+  # Required: Name of IAM Role for Nodes
+  role: "MyNodeRole"
 
   # Required: Subnet selection for node placement
   subnetSelectorTerms:
