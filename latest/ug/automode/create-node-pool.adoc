@@ -18,11 +18,6 @@ EKS Auto Mode leverages well-known Kubernetes labels to provide consistent and s
 Follow these steps to create a NodePool for your Amazon EKS cluster:
 
 . Create a YAML file named `nodepool.yaml` with your desired NodePool configuration. You can use the sample configuration below. 
-. Validate your NodePool configuration:
-+
-```bash
-kubectl validate -f nodepool.yaml
-```
 . Apply the NodePool to your cluster:
 +
 ```bash

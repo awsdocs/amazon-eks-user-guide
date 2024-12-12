@@ -81,9 +81,7 @@ For more information, see:
 [[tag-prop,tag-prop.title]]
 == Custom {aws} tags for EKS Auto resources 
 
-By default, the managed policies related to {eam} do not permit {aws} tag modification. {eam} supports custom {aws} tags, copying tags from Kubernetes resources to the associated {aws} resources. 
-
-If you want to tag {aws} resources, you must attach additional policies to the Cluster IAM Role with sufficient permissions to modify tags on {aws} resources. 
+By default, the managed policies related to EKS Auto Mode do not permit applying user defined tags to Auto Mode provisioned {aws} resources. If you want to apply user defined tags to {aws} resources, you must attach additional permissions to the Cluster IAM Role with sufficient permissions to create and modify tags on {aws} resources. Below is an example of a policy that will allow unrestricted tagging access: 
 
 [[auto-tag-policy,auto-tag-policy.title]]
 .View custom tag policy example

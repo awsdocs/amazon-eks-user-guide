@@ -168,8 +168,6 @@ The table below is a quick reference for commonly used configuration options.
 == Considerations
 
 * You cannot use Annotations on an IngressClass to configure load balancers with EKS Auto Mode.
-* The following options are not supported:
-** `group.name` on `IngressClassParams`
 * You must update the Cluster IAM Role to enable tag propagation from Kubernetes to {aws} Load Balancer resources. For more information, see <<tag-prop>>.
 * For information about associating resources with either EKS Auto Mode or the self-managed {aws} Load Balancer Controller, see <<migration-reference>>.
 * For information about fixing issues with load balancers, see <<auto-troubleshoot>>. 
