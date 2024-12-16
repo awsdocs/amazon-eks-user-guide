@@ -8,12 +8,14 @@ include::../attributes.txt[]
 
 include::learn-status-conditions.adoc[leveloffset=+1]
 
+include::auto-get-logs.adoc[leveloffset=+1]
+
 [abstract]
 --
 You can use the node monitoring agent to show health issues and use node auto repair to automatically replace nodes when issues are detected.
 --
 
-Node health refers to the operational status and capability of a node to effectively run workloads. A healthy node maintains expected connectivity, has sufficient resources, and can successfully run Pods without disruption. For information on getting details about your nodes, see <<learn-status-conditions>>.
+Node health refers to the operational status and capability of a node to effectively run workloads. A healthy node maintains expected connectivity, has sufficient resources, and can successfully run Pods without disruption. For information on getting details about your nodes, see <<learn-status-conditions>> and <<auto-get-logs>>.
 
 To help with maintaining healthy nodes, Amazon EKS offers the node monitoring agent and node auto repair.
 
