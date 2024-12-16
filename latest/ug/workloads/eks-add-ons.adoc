@@ -140,6 +140,10 @@ You can use any of the following Amazon EKS add-ons.
 |<<mountpoint-for-s3-add-on>>
 |EC2, EKS Auto Mode
 
+|Detect additional node health issues
+|<<add-ons-eks-node-monitoring-agent>>
+|EC2
+
 |Enable the use of snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI driver
 |<<addons-csi-snapshot-controller>>
 |EC2, Fargate, EKS Auto Mode, Amazon EKS Hybrid Nodes
@@ -410,6 +414,30 @@ This add-on doesn't require any permissions.
 ==== Additional information
 
 To learn more about the add-on, see <<csi-snapshot-controller>>.
+
+
+[[add-ons-eks-node-monitoring-agent,add-ons-eks-node-monitoring-agent.title]]
+=== Node monitoring agent
+
+The node monitoring agent Amazon EKS add-on can detect additional node health issues. These extra health signals can also be leveraged by the optional node auto repair feature to automatically replace nodes as needed.
+
+[NOTE]
+====
+You do not need to install this add-on on Amazon EKS Auto Mode clusters. For more information, see <<addon-consider-auto>>. 
+====
+
+The Amazon EKS add-on name is `eks-node-monitoring-agent`.
+
+[[add-ons-eks-node-monitoring-agent-iam-permissions,add-ons-eks-node-monitoring-agent-iam-permissions.title]]
+==== Required IAM permissions
+
+This add-on doesn't require additional permissions.
+
+[[add-ons-eks-node-monitoring-agent-information,add-ons-eks-node-monitoring-agent-information.title]]
+==== Additional information
+
+For more information, see <<node-health>>.
+
 
 [[add-ons-adot,add-ons-adot.title]]
 === {aws} Distro for OpenTelemetry

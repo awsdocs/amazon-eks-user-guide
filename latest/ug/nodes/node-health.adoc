@@ -1,0 +1,392 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[node-health,node-health.title]]
+= Enable node auto repair and investigate node health issues
+:info_titleabbrev: Node health
+
+include::../attributes.txt[]
+
+include::learn-status-conditions.adoc[leveloffset=+1]
+
+[abstract]
+--
+You can use the node monitoring agent to show health issues and use node auto repair to automatically replace nodes when issues are detected.
+--
+
+Node health refers to the operational status and capability of a node to effectively run workloads. A healthy node maintains expected connectivity, has sufficient resources, and can successfully run Pods without disruption. For information on getting details about your nodes, see <<learn-status-conditions>>.
+
+To help with maintaining healthy nodes, Amazon EKS offers the node monitoring agent and node auto repair.
+
+[[node-monitoring-agent,node-monitoring-agent.title]]
+== Node monitoring agent
+
+The node monitoring agent automatically reads node logs to detect certain health issues. It parses through node logs to detect failures and surfaces various status information about worker nodes. A dedicated `NodeCondition` is applied on the worker nodes for each category of issues detected, such as storage and networking issues. Descriptions of detected health issues are made available in the observability dashboard. For more information, see <<observability-node-health-issues>>.
+
+The node monitoring agent is included as a capability for all Amazon EKS Auto Mode clusters. For other cluster types, you can add the monitoring agent as an Amazon EKS add-on. For more information, see <<creating-an-add-on>>.
+
+[[node-auto-repair,node-auto-repair.title]]
+== Node auto repair
+
+Node auto repair is an additional feature that continuously monitors the health of nodes, automatically reacting to detected problems and replacing nodes when possible. This helps overall availability of the cluster with minimal manual intervention. If a health check fails, the node is automatically cordoned so that no new Pods are scheduled on the node.
+
+By itself, node auto repair can react to the `Ready` condition of the `kubelet` and any node objects that are manually deleted. When paired with the node monitoring agent, node auto repair can react to more conditions that wouldn't be detected otherwise. These additional conditions include `KernelReady`, `NetworkingReady`, and `StorageReady`.
+
+This automated node recovery automatically addresses intermittent node issues such as failures to join the cluster, unresponsive kubelets, and increased accelerator (device) errors. The improved reliability helps reduce application downtime and improve cluster operations. Node auto repair cannot handle certain problems that are reported such as `DiskPressure`, `MemoryPressure`, and `PIDPressure`. Amazon EKS waits 10 minutes before acting on the `AcceleratedHardwareReady` `NodeConditions`, and 30 minutes for all other conditions.
+
+Managed node groups will also automatically disable node repairs for safety reasons under two scenarios. Any repair operations that are previously in progress will continue for both situations.
+
+* If a zonal shift for your cluster has been triggered through the Application Recovery Controller (ARC), all subsequent repair operations are halted.
+* If your node group has more than five nodes and more than 20% of the nodes in your node group are in an unhealthy state, repair operations are halted.
+
+You can enable node auto repair when creating or editing a managed node group.
+
+* When using the Amazon EKS console, activate the *Enable node auto repair* checkbox for the managed node group. For more information, see link:https://quip-amazon.com/wVBsAyVloQdb#temp:C:GBJ0902fb9d71fa47d1b160bd74e[Update to existing user guide topic: Create a managed node group for your cluster].
+
+* When using the {aws} CLI, add the `--node-repair-config enabled=true` to the link:cli/latest/reference/eks/create-nodegroup.html[`eks create nodegroup`,type="documentation"] or link:cli/latest/reference/eks/update-nodegroup-config.html[`eks update-nodegroup-config`, type="documentation"] command.
+
+* For an example `eksctl` `ClusterConfig` that uses a managed node group with node auto repair, see link:https://github.com/eksctl-io/eksctl/blob/main/examples/44-node-repair.yaml[44-node-repair.yaml] on GitHub.
+
+[[node-health-issues,node-health-issues.title]]
+== Node health issues
+
+The following tables describe node health issues that can be detected by the node monitoring agent. There are two types of issues:
+
+* Condition – A terminal issue that warrants a remediation action like an instance replacement or reboot. When auto repair is enabled, Amazon EKS will do a repair action, either as a node replacement or reboot. For more information, see <<status-node-conditions>>.
+
+* Event – A temporary issue or sub-optimal node configuration. No auto repair action will take place. For more information, see <<status-node-events>>.
+
+[[node-health-kernel,node-health-kernel.title]]
+=== Kernel node health issues
+
+[cols="3", options="header"]
+|===
+
+|Name
+|Severity
+|Description
+
+|ForkFailedOutOfPID
+|Condition
+|A fork or exec call has failed due to the system being out of process IDs or memory, which may be caused by zombie processes or physical memory exhaustion.
+
+|AppBlocked
+|Event
+|The task has been blocked for a long period of time from scheduling, usually caused by being blocked on input or output.
+
+|AppCrash
+|Event
+|An application on the node has crashed.
+
+|ApproachingKernelPidMax
+|Event
+|The number of processes is approaching the maximum number of PIDs that are available per the current kernel.pid_max setting, after which no more processes can be launched.
+
+|ApproachingMaxOpenFiles
+|Event
+|The number of open files is approaching the maximum number of possible open files given the current kernel settings, after which opening new files will fail.
+
+|ConntrackExceededKernel
+|Event
+|Connection tracking exceeded the maximum for the kernel and new connections could not be established, which can result in packet loss.
+
+|ExcessiveZombieProcesses
+|Event
+|Processes which can't be fully reclaimed are accumulating in large numbers, which indicates application issues and may lead to reaching system process limits.
+
+|KernelBug
+|Event
+|A kernel bug was detected and reported by the Linux kernel itself, though this may sometimes be caused by nodes with high CPU or memory usage leading to delayed event processing.
+
+|LargeEnvironment
+|Event
+|The number of environment variables for this process is larger than expected, potentially caused by many services with enableServiceLinks set to true, which may cause performance issues.
+
+|RapidCron
+|Event
+|A cron job is running faster than every five minutes on this node, which may impact performance if the job consumes significant resources.
+
+|SoftLockup
+|Event
+|The CPU stalled for a given amount of time.
+
+|===
+
+[[node-health-networking,node-health-networking.title]]
+=== Networking node health issues
+
+[cols="3", options="header"]
+|===
+
+|Name
+|Severity
+|Description
+
+|InterfaceNotRunning
+|Condition
+|This interface appears to not be running or there are network issues.
+
+|InterfaceNotUp
+|Condition
+|This interface appears to not be up or there are network issues.
+
+|IPAMDNotReady
+|Condition
+|IPAMD fails to connect to the API server.
+
+|IPAMDNotRunning
+|Condition
+|The `aws-k8s-agent` process was not found to be running.
+
+|MissingLoopbackInterface
+|Condition
+|The loopback interface is missing from this instance, causing failure of services depending on local connectivity.
+
+|BandwidthInExceeded
+|Event
+|Packets have been queued or dropped because the inbound aggregate bandwidth exceeded the maximum for the instance.
+
+|BandwidthOutExceeded
+|Event
+|Packets have been queued or dropped because the outbound aggregate bandwidth exceeded the maximum for the instance.
+
+|ConntrackExceeded
+|Event
+|Connection tracking exceeded the maximum for the instance and new connections could not be established, which can result in packet loss.
+
+|IPAMDNoIPs
+|Event
+|IPAM-D is out of IP addresses.
+
+|IPAMDRepeatedlyRestart
+|Event
+|Multiple restarts in the IPAMD service have occurred.
+
+|KubeProxyNotReady
+|Event
+|Kube-proxy failed to watch or list resources.
+
+|LinkLocalExceeded
+|Event
+|Packets were dropped because the PPS of traffic to local proxy services exceeded the network interface maximum.
+
+|MissingDefaultRoutes
+|Event
+|There are missing default route rules.
+
+|MissingIPRules, MissingIPRoutes
+|Event
+|There are missing route rules for the following Pod IPs from the route table.
+
+|NetworkSysctl
+|Event
+|This node's network sysctl settings are potentially incorrect.
+
+|PortConflict
+|Event
+|If a Pod uses hostPort, it can write iptables rules that override the host's already bound ports, potentially preventing API server access to `kubelet`.
+
+|PPSExceeded
+|Event
+|Packets have been queued or dropped because the bidirectional PPS exceeded the maximum for the instance.
+
+|UnexpectedRejectRule
+|Event
+|An unexpected `REJECT`` or `DROP` rule was found in the iptables, potentially blocking expected traffic.
+
+|===
+
+[[node-health-neuron,node-health-neuron.title]]
+=== Neuron node health issues
+
+[cols="3", options="header"]
+|===
+
+|Name
+|Severity
+|Description
+
+|NeuronDMAError
+|Condition
+|A DMA engine encountered an unrecoverable error.
+
+|NeuronHBMUncorrectableError
+|Condition
+|An HBM encountered an uncorrectable error and produced incorrect results.
+
+|NeuronNCUncorrectableError
+|Condition
+|A Neuron Core uncorrectable memory error was detected.
+
+|NeuronSRAMUncorrectableError
+|Condition
+|An on-chip SRAM encountered a parity error and produced incorrect results.
+
+|===
+
+[[node-health-nvidia,node-health-nvidia.title]]
+=== NVIDIA node health issues
+
+If auto repair is enabled, the repair actions that are listed start 10 minutes after the issue is detected. For more information on XID errors, see link:https://docs.nvidia.com/deploy/xid-errors/index.html#topic_5_1[Xid Errors] in the _NVIDIA GPU Deployment and Management Documentation_. For more information on the individual XID messages, see link:https://docs.nvidia.com/deploy/gpu-debug-guidelines/index.html#understanding-xid-messages[Understanding Xid Messages] in the _NVIDIA GPU Deployment and Management Documentation_.
+
+[cols="3", options="header"]
+|===
+
+|Name
+|Severity
+|Description
+|Repair action
+
+|NvidiaDoubleBitError
+|Condition
+|A double bit error was produced by the GPU driver.
+|Replace
+
+|NvidiaNVLinkError
+|Condition
+|NVLink errors were reported by the GPU driver.
+|Replace
+
+|NvidiaXID13Error
+|Condition
+|There is a graphics engine exception.
+|Reboot
+
+|NvidiaXID31Error
+|Condition
+|There are suspected hardware problems.
+|Reboot
+
+|NvidiaXID48Error
+|Condition
+|Double bit ECC errors are reported by the driver.
+|Reboot
+
+|NvidiaXID63Error
+|Condition
+|There's a page retirement or row remap.
+|Reboot
+
+|NvidiaXID64Error
+|Condition
+|There are failures trying to retire a page or perform a node remap.
+|Reboot
+
+|NvidiaXID74Error
+|Condition
+|There is a problem with a connection from the GPU to another GPU or NVSwitch over NVLink. This may indicate a hardware failure with the link itself or may indicate a problem with the device at the remote end of the link.
+|Replace
+
+|NvidiaXID79Error
+|Condition
+|The GPU driver attempted to access the GPU over its PCI Express connection and found that the GPU is not accessible.
+|Replace
+
+|NvidiaXID94Error
+|Condition
+|There are ECC memory errors.
+|Reboot
+
+|NvidiaXID95Error
+|Condition
+|There are ECC memory errors.
+|Reboot
+
+|NvidiaXID119Error
+|Condition
+|The GSP timed out responding to RPC requests from other bits in the driver.
+|Replace
+
+|NvidiaXID120Error
+|Condition
+|The GSP has responded in time, but with an error.
+|Replace
+
+|NvidiaXID121Error
+|Condition
+|C2C is chip interconnect. It enables sharing memory between CPUs, accelerators, and more.
+|Replace
+
+|NvidiaXID140Error
+|Condition
+|The GPU driver may have observed uncorrectable errors in GPU memory, in such a way as to interrupt the GPU driver's ability to mark the pages for dynamic page offlining or row remapping.
+|Replace
+
+|NvidiaPageRetirement
+|Event
+|The GPU driver has marked a memory page for retirement. This may occur if there is a single double bit error or two single bit errors are encountered at the same address.
+|None
+
+|NvidiaXID[Code]Warning
+|Event
+|Any occurrences of XIDs other than the ones defined in this list result in this event.
+|None
+
+|===
+
+[[node-health-runtime,node-health-runtime.title]]
+=== Runtime node health issues
+
+[cols="3", options="header"]
+|===
+
+|Name
+|Severity
+|Description
+
+|PodStuckTerminating
+|Condition
+|A Pod is or was stuck terminating for an excessive amount of time, which can be caused by CRI errors preventing pod state progression.
+
+|%sRepeatedRestart
+|Event
+|Restarts of any systemd service on the node (formatted using the title-cased unit name).
+
+|ContainerRuntimeFailed
+|Event
+|The container runtime has failed to create a container, likely related to any reported issues if occurring repeatedly.
+
+|KubeletFailed
+|Event
+|The kubelet entered a failed state.
+
+|LivenessProbeFailures
+|Event
+|A liveness probe failure was detected, potentially indicating application code issues or insufficient timeout values if occurring repeatedly.
+
+|ReadinessProbeFailures
+|Event
+|A readiness probe failure was detected, potentially indicating application code issues or insufficient timeout values if occurring repeatedly.
+
+|ServiceFailedToStart
+|Event
+|A systemd unit failed to start.
+
+|===
+
+[[node-health-storage,node-health-storage.title]]
+=== Storage node health issues
+
+[cols="3", options="header"]
+|===
+
+|Name
+|Severity
+|Description
+
+|XFSSmallAverageClusterSize
+|Condition
+|The XFS Average Cluster size is small, indicating excessive free space fragmentation that can prevent file creation despite available inodes or free space.
+
+|EtcHostsMountFailed
+|Event
+|Mounting of the kubelet generated `/etc/hosts` failed due to userdata remounting `/var/lib/kubelet/pods` during kubelet-container operation.
+
+|IODelays
+|Event
+|Input or output delay detected in a process, potentially indicating insufficient input-output provisioning if excessive.
+
+|KubeletDiskUsageSlow
+|Event
+|Kubelet is reporting slow disk usage while trying to access the filesystem, potentially indicating insufficient disk input-output or filesystem issues.
+
+|===

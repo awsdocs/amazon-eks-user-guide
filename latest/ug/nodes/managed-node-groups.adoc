@@ -32,7 +32,9 @@ With Amazon EKS managed node groups, you don't need to separately provision or r
 
 Every managed node is provisioned as part of an Amazon EC2 Auto Scaling group that's managed for you by Amazon EKS. Every resource including the instances and Auto Scaling groups runs within your {aws} account. Each node group runs across multiple Availability Zones that you define.
 
-You can add a managed node group to new or existing clusters using the Amazon EKS console, `eksctl`, {aws} CLI; {aws} API, or infrastructure as code tools including {aws} CloudFormation. Nodes launched as part of a managed node group are automatically tagged for auto-discovery by the [.noloc]`Kubernetes` https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler]. You can use the node group to apply [.noloc]`Kubernetes` labels to nodes and update them at any time.
+Managed node groups can also optionally leverage node auto repair, which continuously monitors the health of nodes, automatically reacting to detected problems and replacing nodes when possible. This helps overall availability of the cluster with minimal manual intervention. For more information, see <<node-health>>.
+
+You can add a managed node group to new or existing clusters using the Amazon EKS console, `eksctl`, {aws} CLI, {aws} API, or infrastructure as code tools including {aws} CloudFormation. Nodes launched as part of a managed node group are automatically tagged for auto-discovery by the [.noloc]`Kubernetes` https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler]. You can use the node group to apply [.noloc]`Kubernetes` labels to nodes and update them at any time.
 
 There are no additional costs to use Amazon EKS managed node groups, you only pay for the {aws} resources you provision. These include Amazon EC2 instances, Amazon EBS volumes, Amazon EKS cluster hours, and any other {aws} infrastructure. There are no minimum fees and no upfront commitments.
 

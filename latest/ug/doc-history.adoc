@@ -32,6 +32,14 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
+[.update,date="2024-12-16"]
+=== Node monitoring agent and auto repair
+[.update-ulink]
+https://docs.aws.amazon.com/eks/latest/userguide/node-health.html
+
+You can use the new `eks-node-monitoring-agent` as an Amazon EKS add-on to detect and show health issues. You can also enable node auto repair to automatically replace nodes when issues are detected.
+
+
 [.update,date="2024-12-01"]
 === Amazon EKS Hybrid Nodes
 [.update-ulink]
@@ -85,7 +93,7 @@ You can now create an Amazon EKS local cluster on an {aws} Outposts using [.nolo
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/retrieve-ami-id-bottlerocket.html
 
-[.noloc]`Bottlerocket` AMIs are available that are preconfigured to use FIPS 140-3 validated cryptographic modules. This includes the Amazon Linux 2023 Kernel Crypto API Cryptographic Module and the AWS-LC Cryptographic Module.
+[.noloc]`Bottlerocket` AMIs are available that are preconfigured to use FIPS 140-3 validated cryptographic modules. This includes the Amazon Linux 2023 Kernel Crypto API Cryptographic Module and the {aws}-LC Cryptographic Module.
 
 
 [.update,date="2024-11-20"]

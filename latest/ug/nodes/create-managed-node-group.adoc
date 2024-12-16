@@ -197,6 +197,7 @@ NOTE: Amazon EKS doesn't automatically scale your node group in or out. However,
 +
 **** *Number* – Select and specify the number of nodes in your node group that can be updated in parallel.
 **** *Percentage* – Select and specify the percentage of nodes in your node group that can be updated in parallel. This is useful if you have a large number of nodes in your node group.
+*** *Node auto repair configuration* – (Optional) If you activate the *Enable node auto repair* checkbox, Amazon EKS will automatically replace nodes when detected issues occur. For more information, see <<node-health>>.
 . On the *Specify networking* page, fill out the parameters accordingly, and then choose  *Next*.
 +
 *** *Subnets* – Choose the subnets to launch your managed nodes into.  
