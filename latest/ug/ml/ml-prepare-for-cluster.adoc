@@ -24,7 +24,7 @@ Following pages in this section will help you:
 
 In particular, this will help you:
 
-* *Choose AMIs*: {aws} offers multiple customized AMIs for running ML workloads on EKS. See <<ml-eks-optimized-ami>>.
+* *Choose AMIs*: {aws} offers multiple customized AMIs for running ML workloads on EKS. See <<ml-eks-optimized-ami>> and  <<ml-eks-windows-optimized-ami>>.
 * *Customize AMIs*: You can further modify {aws} custom AMIs to add other software and drivers needed for your particular use cases. See <<capacity-blocks>>.
 * *Reserve GPUs*: Because of the demand for GPUs, to ensure that the GPUs you need are available when you need them, you can reserve the GPUs you need in advance. See <<node-taints-managed-node-groups>>.
 * *Add EFA*: Add the Elastic Fabric Adapter to improve network performance for inter-node cluster communications. See <<node-efa>>.
@@ -34,6 +34,8 @@ In particular, this will help you:
 [[Topic List]]
 
 include::ml-eks-optimized-ami.adoc[leveloffset=+1]
+
+include::ml-eks-windows-optimized-ami.adoc[leveloffset=+1]
 
 include::capacity-blocks-mng.adoc[leveloffset=+1]
 

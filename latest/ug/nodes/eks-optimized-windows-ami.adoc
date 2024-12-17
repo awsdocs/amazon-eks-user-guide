@@ -133,6 +133,7 @@ The following cached container images are for the `containerd` runtime:
 
 For more information about using Amazon EKS optimized [.noloc]`Windows` AMIs, see the following sections:
 
+* For details on running workloads on Amazon EKS optimized accelerated Windows AMIs, see <<ml-eks-windows-optimized-ami>>.
 * To use [.noloc]`Windows` with managed node groups, see <<managed-node-groups>>.
 * To launch self-managed [.noloc]`Windows` nodes, see <<launch-windows-workers>>.
 * For version information, see <<eks-ami-versions-windows>>.

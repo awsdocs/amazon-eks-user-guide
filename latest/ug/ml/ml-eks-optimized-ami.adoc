@@ -1,8 +1,8 @@
 //!!NODE_ROOT <section>
 [.topic]
 [[ml-eks-optimized-ami,ml-eks-optimized-ami.title]]
-= Create nodes with EKS optimized accelerated Amazon Linux AMIs
-:info_titleabbrev: Run GPU AMIs
+= Run GPU-accelerated containers (Linux on EC2)
+:info_titleabbrev: Run Linux GPU AMIs
 
 include::../attributes.txt[]
 

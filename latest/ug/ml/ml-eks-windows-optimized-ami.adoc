@@ -1,0 +1,223 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[ml-eks-windows-optimized-ami,ml-eks-windows-optimized-ami.title]]
+= Run GPU-accelerated containers (Windows on EC2 G-Series)
+:info_titleabbrev: Run Windows GPU AMIs
+
+include::../attributes.txt[]
+
+[IMPORTANT]
+====
+The https://github.com/TensorWorks/DirectX-Device-Plugins[Kubernetes Device Plugin for DirectX] by TensorWorks is a third-party tool that is not endorsed, supported, or maintained by {aws}. {aws} assumes no responsibility for the security, reliability, or performance of this plugin.
+====
+
+Learn how to run GPU-accelerated Windows container workloads on Amazon EKS (Elastic Kubernetes Service) using NVIDIA GPUs with the Kubernetes Device Plugin for DirectX by TensorWorks. For more information, see https://github.com/TensorWorks/DirectX-Device-Plugins[Kubernetes Device Plugin for DirectX].
+
+There are two main approaches to setting up GPU-acceleration for your Windows containers:
+
+* **Option 1**: <<eks-custom-ami-windows,Build a custom EKS Windows Optimized AMI>> with the required GPU drivers pre-installed. 
+** Use this approach when you need a consistent, pre-configured environment ready to run GPU-accelerated Windows containers, and you're able to invest the additional effort to build and maintain the custom AMI.
+* **Option 2**: Install the necessary GPU drivers on your EKS worker nodes after launching your instance.
+** Use this approach when you want a simpler setup process and don't mind installing the GPU drivers on each new worker node. More suited to a development environment when you are evaluating or prototyping GPU-accelerated workloads.
+
+Both approaches can be leveraged using the steps detailed in this guide.
+
+== Considerations
+
+This guide provides steps to install and set up GPU-acceleration for your Windows containers using NVIDIA GPUs, NVIDIA GRID drivers, and the https://github.com/TensorWorks/DirectX-Device-Plugins[Kubernetes Device Plugin for DirectX] by TensorWorks. The steps have been tested and verified to provide GPU-acceleration for your Windows container workloads on Amazon EKS. See <<ml-eks-windows-ami-known-limitations>> for more information on compatible drivers and device plugins. Before proceeding, note the following:
+
+* Only G-family instance types with link:AWSEC2/latest/UserGuide/install-nvidia-driver#nvidia-GRID-driver[NVIDIA GRID drivers,type="documentation"] have been tested and verified to work with this guide. While other instance types and driver combinations may also be capable of running GPU-accelerated Windows containers, they may require additional configuration steps not covered in this guide.
+* Only DirectX-based workloads have been tested and verified to work with this guide. While other GPU APIs like OpenGL, Vulkan, and OpenCL may potentially be compatible to run GPU-accelerated Windows containers, they may require additional configuration steps not covered in this guide.
+* There are some known limitations to be aware of before running GPU-accelerated Windows containers. Please see the <<ml-eks-windows-ami-known-limitations>> section for more information.
+
+
+[[ml-eks-windows-ami-prerequisites,ml-eks-windows-ami-prerequisites.title]]
+== Prerequisites
+
+To enable GPU acceleration for your Windows containers on Amazon EKS, you'll need to prepare the following requirements before proceeding:
+
+* Launch an Amazon EKS cluster with Kubernetes v1.27 or newer.
+* Provision Windows nodes with Windows Server 2022 or newer.
+* Provision Windows nodes in the G-family of instance types, such as link:ec2/instance-types/g4/[G4,type="marketing"] or link:ec2/instance-types/g5/[G5,type="marketing"].
+* Provision Windows nodes with a container runtime with containerd `1.7.x` or `2.x.x`. (See <<eks-ami-versions-windows>> to verify the containerd version in your Amazon EKS Optimized AMI.) 
+
+[[ml-eks-windows-ami-install-gpu-driver,ml-eks-windows-ami-install-gpu-driver.title]]
+== Install the GPU driver on each Windows Windows node
+
+To install the NVIDIA GRID drivers on your EKS worker nodes, follow the steps outlined in link:AWSEC2/latest/UserGuide/install-nvidia-driver.html[NVIDIA drivers for your Amazon EC2 instance,type="documentation"].
+Navigate to link:AWSEC2/latest/UserGuide/install-nvidia-driver#nvidia-GRID-driver[Installation options - Option 3: GRID drivers,type="documentation"] and follow the installation steps. 
+
+**Install for Windows Server Core**
+
+For Windows Server Core, which doesn’t have a desktop experience, install NVIDIA GRID drivers silently by using the following commands:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+$nvidiaInstallerFilePath = nvidia-driver-installer.exe # Replace with path to installer
+$installerArguments = "-s -clean -noreboot -noeula"
+Start-Process -FilePath $nvidiaInstallerFilePath -ArgumentList $installerArguments -Wait -NoNewWindow -PassThru
+----
+
+**Verify your installation**
+
+Run the following PowerShell command to show diagnostic information about the GPUs on the instance:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+nvidia-smi
+----
+
+This command displays the NVIDIA driver version, as well as information about the GPU hardware. Ensure that the output of this command matches the NVIDIA GRID driver version you expected to be installed.
+
+[[ml-eks-windows-ami-deploy-gpu-driver,ml-eks-windows-ami-deploy-gpu-driver.title]]
+== Deploy the GPU device plugin on each node
+
+To enable discovery and exposure of the GPU resources to containers on your Windows nodes, you will need a device plugin.
+Deploy the https://github.com/TensorWorks/DirectX-Device-Plugins[DirectX Device Plugin] by Tensorworks on each worker node by running it as a DaemonSet in your EKS cluster.
+Follow the installation guide specified in the https://github.com/TensorWorks/DirectX-Device-Plugins/blob/main/README.md[README.md], which will entail the following steps. It is recommended to:
+
+* Deploy the device plugin in the `kube-system` namespace.
+* Set appropriate resource limits for the DaemonSet to ensure it does not consume excessive resources on your nodes.
+
+[Note]
+====
+The device plugin DaemonSet will run on every node as a host process container with elevated privileges. It is recommended to implement RBAC controls to restrict access to this DaemonSet so only authorized users can execute privileged commands.
+====
+
+When running GPU-accelerated containers, the device plugin supports two modes:
+
+* **Single-tenancy mode**: This mode dedicates all GPU resources to a single container on the instance. Install the device plugins with single-tenancy support using the following command. See README.md for more information.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f "https://raw.githubusercontent.com/TensorWorks/directx-device-plugins/main/deployments/default-daemonsets.yml"
+----
+
+* **Multi-tenancy mode**: This mode allows sharing GPU resources among multiple containers on the instance. Install the device plugins with multi-tenancy support using the following command. See README.md for more information.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f "https://raw.githubusercontent.com/TensorWorks/directx-device-plugins/main/deployments/multitenancy-inline.yml"
+----
++
+Alternatively, use a ConfigMap to specify the multi-tenancy.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f "https://raw.githubusercontent.com/TensorWorks/directx-device-plugins/main/deployments/multitenancy-configmap.yml"
+----
+
+
+[[ml-eks-windows-ami-verify-device-plugin,ml-eks-windows-ami-verify-device-plugin.title]]
+=== Verifying the device plugin deployment
+
+After you have deployed the device plugin, run the following command to verify the DirectX Device Plugin is running correctly on your all your Windows nodes.
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get ds device-plugin-wddm -n [.replaceable]`<namespace>`   
+----
+
+
+[[ml-eks-windows-ami-verify-container-deployment,ml-eks-windows-ami-verify-container-deployment.title]]
+=== Verifying containers are ready for deployment
+
+Once the device plugin DaemonSet is running on the GPU-powered Windows worker nodes, use the following command to verify that each node has allocatable GPUs. The corresponding number should match the number of DirectX devices on each node.
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get nodes "-o=custom-columns=NAME:.metadata.name,DirectX:.status.allocatable.directx\.microsoft\.com/display"
+----
+
+
+[[ml-eks-windows-ami-run-with-gpu-acceleration,ml-eks-windows-ami-run-with-gpu-acceleration.title]]
+== Running Windows containers with GPU-acceleration
+
+Before launching your pods, specify the resource name `directx.microsoft.com/display` in `.spec.containers[].resources`.
+This will indicate that your containers require GPU-enabled capabilities, and the `kube-scheduler` will attempt to place your pods on your pre-configured Windows node with available GPU resources.
+
+As an example, see the sample command below which launches a `Job` to run Monte Carlo simulation to estimate the value of pi. This example is from the https://github.com/TensorWorks/DirectX-Device-Plugins[Kubernetes Device Plugins for DirectX] GitHub repository, which has https://github.com/TensorWorks/DirectX-Device-Plugins/tree/main/examples[multiple examples] to choose from that you can run to test your Windows node GPU capabilities.
+
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+cat <<EOF | kubectl apply -f -
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: example-cuda-montecarlo-wddm
+spec:
+  template:
+    spec:
+      containers:
+      - name: example-cuda-montecarlo-wddm
+        image: "index.docker.io/tensorworks/example-cuda-montecarlo:0.0.1"
+        resources:
+          limits:
+            directx.microsoft.com/display: 1
+      nodeSelector:
+        "kubernetes.io/os": windows
+      restartPolicy: Never
+  backoffLimit: 0
+EOF
+----
+
+
+[[ml-eks-windows-ami-known-limitations,ml-eks-windows-ami-known-limitations.title]]
+== Known limitations
+
+[[ml-eks-windows-ami-gpus-usable,ml-eks-windows-ami-gpus-usable.title]]
+=== All GPUs are usable
+All the GPUs on the instance will be usable by each running container on the host, even when you request a specific number of GPUs for a given container. Additionally, the default behavior is that all containers running on the host will use the GPU with index 0, even if there are multiple GPUs available on the node. Thus, for multi-GPU tasks to operate correctly, you must explicitly designate the specific GPU device to be utilized within your application's code.
+
+The exact implementation to allocate a device to use for the application will depend on the programming language or framework you are using. For example, if you're using CUDA programming, to select a specific GPU, you can explicitly specify the device to use in your application code by using the function https://docs.nvidia.com/cuda/cuda-runtime-api/group_%5FCUDART%5F_DEVICE.html[cudaSetDevice()].
+
+The need to explicitly specify the device is due to a known issue affecting Windows containers. You can track the progress on resolving this issue in the https://github.com/microsoft/Windows-Containers/issues/333[microsoft/Windows-Containers issue #333]. 
+The following table represents a visual representation and practical example of this GPU allocation behavior.
+
+Consider a scenario whereby there is a single Windows node of EC2 instance type `g4dn.12xlarge`, which comes with four GPUs. Consider a scenario where three pods are launched on this instance. The table shows that regardless of the number of GPUs requested by each container, all three pods have access to all four GPUs on the instance, and by default will utilize the GPU with device index 0. 
+
+[cols="1,1,1,1,1,1", options="header"]
+|===
+|Pod
+|Requested GPUs	
+|Actual GPU Access
+|Default GPU Usage
+|Available GPU Indices	
+|Total Instance GPUs
+
+|Pod 1
+|1 GPU
+|All 4 GPUs
+|GPU with index 0
+|0, 1, 2, 3
+|4
+
+|Pod 2	
+|2 GPUs	
+|All 4 GPUs	
+|GPU with index 0	
+|0, 1, 2, 3
+|4
+
+|Pod 3	
+|1 GPU	
+|All 4 GPUs	
+|GPU with index 0	
+|0, 1, 2, 3
+|4
+|===
+
+[[ml-eks-windows-ami-device-plugin-support,ml-eks-windows-ami-device-plugin-support.title]]
+=== Kubernetes device plugin support
+NVIDIA's official implementation of the https://github.com/NVIDIA/k8s-device-plugin[Kubernetes device plugin] does not support Windows. You can track the progress on adding official Windows support in the https://github.com/NVIDIA/k8s-device-plugin/issues/419[NVIDIA/k8s-device-plugin issue #419].
+
+[[ml-eks-windows-ami-compute-instance-limitations,ml-eks-windows-ami-compute-instance-limitations.title]]
+=== GPU compute instance limitations
+Depending on your {aws} account configuration, you may have service limits on the number and types of Amazon EC2 GPU compute instances that you can launch. If you require additional capacity, you can link:servicequotas/latest/userguide/request-quota-increase.html[Request a quota increase,type="documentation"].
+
+[[ml-eks-windows-ami-build-gpu-ami,ml-eks-windows-ami-build-gpu-ami.title]]
+=== Must build a Windows GPU Optimized AMI
+There is no EKS Windows GPU Optimized AMI or EC2 Image Builder managed component provided by Amazon EKS. You will need to follow the steps in this guide to build a custom EKS Windows Optimized AMI with the required GPU drivers pre-installed, or install the necessary GPU drivers on your EKS worker nodes after launching your instances.
+
+[[ml-eks-windows-ami-inferentia-tranium-support,ml-eks-windows-ami-inferentia-tranium-support.title]]
+=== Inferentia and Trainium not supported
+{aws} link:ai/machine-learning/inferentia/[Inferentia,type="marketing"] and {aws} link:ai/machine-learning/trainium/[Trainium,type="marketing"] based workloads are not supported on Windows.
