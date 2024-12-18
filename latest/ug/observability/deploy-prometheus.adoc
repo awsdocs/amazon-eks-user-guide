@@ -77,3 +77,4 @@ image::images/prometheus.png[Prometheus console,scaledwidth=100%]
 All of the [.noloc]`Kubernetes` endpoints that are connected to [.noloc]`Prometheus` using service discovery are displayed.
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;deploy-prometheus,&type=code[Edit this page on GitHub]

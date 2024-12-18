@@ -76,3 +76,6 @@ Your containers receive this error if your application is explicitly making requ
 * Update your application code to remove explicit calls to the {aws} STS global endpoint. 
 * Update your application code to make explicit calls to regional endpoints such as `https://sts.us-west-2.amazonaws.com`. Your application should have redundancy built in to pick a different {aws} Region in the event of a failure of the service in the {aws} Region. For more information, see  link:IAM/latest/UserGuide/id_credentials_temp_enable-regions.html[Managing {aws} STS in an {aws} Region,type="documentation"] in the IAM User Guide.
 * Configure your service accounts to use the global endpoint. All versions earlier than `1.22` used the global endpoint by default, but version `1.22` and later clusters use the regional endpoint by default. For more information, see <<configure-sts-endpoint>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;security-iam-troubleshoot,&type=code[Edit this page on GitHub]

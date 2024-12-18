@@ -68,3 +68,6 @@ To update a workload to run on the `system` node pool, you need to:
 . Deploy the updated workload to your cluster with `kubectl apply`
 
 After updating the workload, it will run on dedicated nodes. 
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;critical-workload,&type=code[Edit this page on GitHub]

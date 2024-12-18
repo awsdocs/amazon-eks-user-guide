@@ -1311,3 +1311,5 @@ Outputs:
 .. On the *Configure stack options* page, choose  *Next*.
 .. On the *Review* page, review your information, acknowledge that the stack might create IAM resources, and then choose  *Create stack*.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;security-iam,&type=code[Edit this page on GitHub]

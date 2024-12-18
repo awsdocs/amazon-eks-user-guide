@@ -50,3 +50,5 @@ aws eks describe-cluster \
 ----
 . If the value is `STANDARD`, your cluster will not enter extended support. If the value is `EXTENDED`, your cluster will enter extended support.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;view-upgrade-policy,&type=code[Edit this page on GitHub]

@@ -41,3 +41,5 @@ aws eks update-cluster-config \
 --upgrade-policy supportType=EXTENDED
 ----
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;enable-extended-support,&type=code[Edit this page on GitHub]

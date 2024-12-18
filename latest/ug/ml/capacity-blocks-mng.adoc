@@ -88,3 +88,4 @@ aws eks create-nodegroup \
 Amazon EC2 starts shutting down the instances 30 minutes before reservation end time. As a result, Amazon EKS will setup a scheduled scale down on the node group 40 minutes prior to their reservation end in order to safely and gracefully evict [.noloc]`Pods`.
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;capacity-blocks-mng,&type=code[Edit this page on GitHub]

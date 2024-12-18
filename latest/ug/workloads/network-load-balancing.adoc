@@ -280,3 +280,6 @@ An example output is as follows.
 ----
 kubectl delete namespace nlb-sample-app
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;network-load-balancing,&type=code[Edit this page on GitHub]

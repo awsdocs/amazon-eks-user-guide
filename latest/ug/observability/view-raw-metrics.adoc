@@ -351,3 +351,6 @@ kubectl port-forward pods/prom-pod 9090:9090
 ----
 
 For your Amazon EKS cluster, the core Kubernetes control plane metrics are also ingested into Amazon CloudWatch Metrics under the `AWS/EKS` namespace. To view them, open the link:cloudwatch/home#logs:prefix=/aws/eks[CloudWatch console,type="console"] and select *All metrics* from the left navigation pane. On the *Metrics* selection page, choose the `AWS/EKS` namespace and a metrics dimension for your cluster.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;view-raw-metrics,&type=code[Edit this page on GitHub]

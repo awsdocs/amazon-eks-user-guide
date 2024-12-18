@@ -49,3 +49,6 @@ Along with choosing from the blueprints described on this page, there are other 
 To improve your work with ML on EKS, refer to the following:
 
 * *Prepare for ML* – Learn how to prepare for ML on EKS with features like custom AMIs and GPU reservations. See <<ml-prepare-for-cluster>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;ml-get-started,&type=code[Edit this page on GitHub]

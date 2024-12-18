@@ -161,3 +161,6 @@ For example, you should see the initial API server flags for the cluster when vi
 NOTE: If you don't see the API server logs at the beginning of the log stream, then it is likely that the API server log file was rotated on the server before you enabled API server logging on the server. Any log files that are rotated before API server logging is enabled can't be exported to CloudWatch. 
 
 However, you can create a new cluster with the same [.noloc]`Kubernetes` version and enable the API server logging when you create the cluster. Clusters with the same platform version have the same flags enabled, so your flags should match the new cluster's flags. When you finish viewing the flags for the new cluster in CloudWatch, you can delete the new cluster.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;control-plane-logs,&type=code[Edit this page on GitHub]

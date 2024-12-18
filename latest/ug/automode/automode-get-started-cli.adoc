@@ -330,4 +330,4 @@ kubectl get nodepools
 * Learn how to xref:automode-workload[deploy a sample workload] to your new EKS Auto Mode cluster.
 
 
-
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;automode-get-started-cli,&type=code[Edit this page on GitHub]

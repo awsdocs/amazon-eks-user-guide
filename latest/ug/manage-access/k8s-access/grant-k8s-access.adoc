@@ -784,3 +784,6 @@ If you disassociate an [.noloc]`OIDC` identity provider from your cluster, users
 . In the *[.noloc]`OIDC` Identity Providers* section, select  *Disassociate*, enter the identity provider name, and then select `Disassociate`.
 
 include::access-policy-reference.adoc[leveloffset=+1]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;grant-k8s-access,&type=code[Edit this page on GitHub]

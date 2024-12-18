@@ -115,3 +115,5 @@ You can use the <<eks-connector,Amazon EKS Connector>> to register and connect a
 
 https://aws.amazon.com/eks/eks-distro/[Amazon EKS Distro] is the {aws} distribution of the underlying Kubernetes components that power all Amazon EKS offerings. It includes the core components required for a functioning Kubernetes cluster such as Kubernetes control plane components (etcd, kube-apiserver, kube-scheduler, kube-controller-manager) and networking components (CoreDNS, kube-proxy, CNI plugins). Amazon EKS Distro can be used to self-manage Kubernetes clusters with your choice of tooling. Amazon EKS Distro deployments are not covered by {aws} Support Plans.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-deployment-options,&type=code[Edit this page on GitHub]

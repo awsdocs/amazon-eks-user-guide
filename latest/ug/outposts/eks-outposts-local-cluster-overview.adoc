@@ -1221,3 +1221,6 @@ Amazon EKS control plane instances are not reachable through SSM. Please verify 
 
 To resolve this issue, make sure that your VPC and subnets meet the requirements in  <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts>> and that you completed the steps in link:systems-manager/latest/userguide/session-manager-getting-started.html[Setting up Session Manager,type="documentation"] in the {aws} Systems Manager User Guide. 
 ====
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-outposts-local-cluster-overview,&type=code[Edit this page on GitHub]

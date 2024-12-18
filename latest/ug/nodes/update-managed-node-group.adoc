@@ -127,3 +127,5 @@ Unlike the <<managed-node-update-behavior,update node group>> process (which dra
 This happens without considering PDBs, regardless of the target size you're scaling down to. 
 That means when you reduce the `desiredSize` of an Amazon EKS managed node group, [.noloc]`Pods` are evicted as soon as the nodes are terminated, without honoring any PDBs.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;update-managed-node-group,&type=code[Edit this page on GitHub]

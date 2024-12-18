@@ -282,3 +282,6 @@ eksctl delete cluster -f ./cluster-config.yaml
 ```
 
 EKS will automatically clean up any nodes it provisioned when the cluster is deleted.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;quickstart,&type=code[Edit this page on GitHub]

@@ -148,3 +148,6 @@ nodeadm upgrade K8S_VERSION -c file://nodeConfig.yaml
 ----
 kubectl get nodes -o -w
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;hybrid-nodes-upgrade,&type=code[Edit this page on GitHub]

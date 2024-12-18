@@ -51,3 +51,6 @@ metrics-server   1/1     1            1           6m
 kubectl top nodes
 ----
 . If you receive the error message `Error from server (Forbidden)`, you need to update your Kubernetes RBAC configuration. Your Kubernetes RBAC identity needs sufficent permissions to read cluster metrics. Review thehttps://github.com/kubernetes-sigs/metrics-server/blob/e285375a49e3bf77ddd78c08a05aaa44f2249ebd/manifests/base/rbac.yaml#L5C9-L5C41[minimum required Kubernetes API permissions for reading metrics] on GitHub. Learn how to<<authentication-modes, grant {aws} IAM Identities such as Roles access to Kubernetes APIs>>. 
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;metrics-server,&type=code[Edit this page on GitHub]

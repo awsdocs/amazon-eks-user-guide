@@ -250,3 +250,6 @@ For more information, see https://aws.github.io/aws-eks-best-practices/security/
 * Configure the [.noloc]`Kubernetes` https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler] to automatically adjust the number of nodes in your node groups.
 * Deploy a <<sample-deployment,sample application>> to your cluster.
 * <<eks-managing,Organize and monitor cluster resources>> with important tools for managing your cluster.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;create-managed-node-group,&type=code[Edit this page on GitHub]

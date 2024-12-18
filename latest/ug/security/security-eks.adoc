@@ -140,3 +140,6 @@ This control plane consists of at least two API server instances and three `etcd
 * Leverages the architecture of {aws} Regions in order to maintain high availability. Because of this, Amazon EKS is able to offer an link:eks/sla[SLA for API server endpoint availability,type="marketing"].
 
 For more information about {aws} Regions and Availability Zones, see link:about-aws/global-infrastructure/[{aws} global infrastructure,type="marketing"].
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;security-eks,&type=code[Edit this page on GitHub]

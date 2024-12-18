@@ -42,3 +42,6 @@ Karpenter is open-source software which {aws} customers are responsible for inst
 
 *Cluster Autoscaler*::
 The [.noloc]`Kubernetes` Cluster Autoscaler automatically adjusts the number of nodes in your cluster when pods fail or are rescheduled onto other nodes. The Cluster Autoscaler uses Auto Scaling groups. For more information, see https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler on {aws}].
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;autoscaling,&type=code[Edit this page on GitHub]

@@ -855,3 +855,6 @@ If you use Secrets Manager automatic rotation for your secrets, you can also use
 ====
 
 For more information, see   link:secretsmanager/latest/userguide/integrating_csi_driver.html[Using Secrets Manager secrets in Amazon EKS,type="documentation"] in the {aws} Secrets Manager User Guide.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;security-k8s,&type=code[Edit this page on GitHub]

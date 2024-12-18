@@ -91,3 +91,6 @@ include::autoscaling.adoc[leveloffset=+1]
 include::zone-shift.adoc[leveloffset=+1]
 
 include::zone-shift-enable.adoc[leveloffset=+1]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;clusters,&type=code[Edit this page on GitHub]

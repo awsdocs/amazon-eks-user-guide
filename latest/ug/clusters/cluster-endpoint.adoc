@@ -251,3 +251,6 @@ When you configure `kubectl` for your bastion host, be sure to use {aws} credent
 {aws} Cloud9 is a cloud-based integrated development environment (IDE) that lets you write, run, and debug your code with just a browser. You can create an {aws} Cloud9 IDE in your cluster's VPC and use the IDE to communicate with your cluster. For more information, see link:cloud9/latest/user-guide/create-environment.html[Creating an environment in {aws} Cloud9,type="documentation"]. You must ensure that your Amazon EKS control plane security group contains rules to allow ingress traffic on port 443 from your IDE security group. For more information, see <<sec-group-reqs>>.
 +
 When you configure `kubectl` for your {aws} Cloud9 IDE, be sure to use {aws} credentials that are already mapped to your cluster's RBAC configuration, or add the IAM principal that your IDE will use to the RBAC configuration before you remove endpoint public access. For more information, see <<grant-k8s-access>> and <<unauthorized>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cluster-endpoint,&type=code[Edit this page on GitHub]

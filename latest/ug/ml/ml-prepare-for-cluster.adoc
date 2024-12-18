@@ -46,3 +46,6 @@ include::node-taints-managed-node-groups.adoc[leveloffset=+1]
 include::node-efa.adoc[leveloffset=+1]
 
 include::inferentia-support.adoc[leveloffset=+1]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;ml-prepare-for-cluster,&type=code[Edit this page on GitHub]

@@ -49,3 +49,4 @@ ami-[.replaceable]`1234567890abcdef0`
 ----
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;retrieve-ami-id,&type=code[Edit this page on GitHub]

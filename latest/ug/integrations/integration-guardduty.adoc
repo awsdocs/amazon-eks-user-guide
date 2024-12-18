@@ -34,3 +34,6 @@ When you enable _Runtime Monitoring_ and install the GuardDuty agent in your Ama
 To configure _Runtime Monitoring_, you install the GuardDuty agent to your cluster as an _Amazon EKS add-on_. For more information the add-on, see <<workloads-add-ons-available-eks>>.
 +
 For more information, see link:guardduty/latest/ug/runtime-monitoring.html[Runtime Monitoring,type="documentation"] in the Amazon GuardDuty User Guide.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;integration-guardduty,&type=code[Edit this page on GitHub]

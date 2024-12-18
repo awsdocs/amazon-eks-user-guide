@@ -208,3 +208,5 @@ The following tables provide a detailed comparison of changes in IngressClassPar
 | `spec.networking.ingress.from` | Not supported | No longer supports NLB without security groups
 |===
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-configure-alb,&type=code[Edit this page on GitHub]

@@ -49,3 +49,6 @@ Utilize link:ec2/spot/[Spot Instances,type="marketing"] to run your batch proces
 
 *Securing application and ensuring compliance*::
 Implement strong security practices and maintain compliance with Amazon EKS, which integrates with {aws} security services such as link:iam/[{aws} Identity and Access Management,type="marketing"] (IAM), link:vpc/[Amazon Virtual Private Cloud,type="marketing"] (Amazon VPC), and link:kms/[{aws} Key Management Service,type="marketing"] ({aws} KMS). This ensures data privacy and protection as per industry standards.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;common-use-cases,&type=code[Edit this page on GitHub]

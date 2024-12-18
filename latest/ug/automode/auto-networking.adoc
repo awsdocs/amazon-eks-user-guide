@@ -68,3 +68,6 @@ For more information, see <<auto-configure-alb>> or <<auto-configure-nlb>>.
 * The `networking.ingress.ipBlock` field in `TargetGroupBinding` spec is not supported. 
 * If your worker nodes use custom security groups (not `+eks-cluster-sg-*+` naming pattern), your cluster role needs additional IAM permissions.  The default EKS-managed policy only allows EKS to modify security groups named `+eks-cluster-sg-*+`. Without permission to modify your custom security groups, EKS cannot add the required ingress rules that allow ALB/NLB traffic to reach your pods.
 * You cannot bring your own target groups. 
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-networking,&type=code[Edit this page on GitHub]

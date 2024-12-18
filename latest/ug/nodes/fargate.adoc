@@ -198,3 +198,5 @@ include::monitoring-fargate-usage.adoc[leveloffset=+1]
 
 include::fargate-logging.adoc[leveloffset=+1]
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;fargate,&type=code[Edit this page on GitHub]

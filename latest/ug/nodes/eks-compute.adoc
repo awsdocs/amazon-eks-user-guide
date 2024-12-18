@@ -232,3 +232,6 @@ include::eks-optimized-amis.adoc[leveloffset=+1]
 include::node-health.adoc[leveloffset=+1]
 
 include::hybrid-nodes.adoc[leveloffset=+1]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-compute,&type=code[Edit this page on GitHub]

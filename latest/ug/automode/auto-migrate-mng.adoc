@@ -30,4 +30,4 @@ eksctl update auto-mode-config --drain-all-nodegroups
 ----
 
 
-
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-migrate-mng,&type=code[Edit this page on GitHub]

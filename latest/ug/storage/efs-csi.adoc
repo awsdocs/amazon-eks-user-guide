@@ -199,3 +199,6 @@ To create an Amazon EFS file system, see https://github.com/kubernetes-sigs/aws-
 == Step 4: Deploy a sample application
 
 You can deploy a variety of sample apps and modify them as needed. For more information, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#examples[Examples] on [.noloc]`GitHub`.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;efs-csi,&type=code[Edit this page on GitHub]

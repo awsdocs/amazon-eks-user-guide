@@ -20,3 +20,6 @@ This section contains in-progress revisions for existing pages in other chapters
 //include::wip/auto-cluster-iam-role.adoc[leveloffset=+1]
 
 //include::wip/auto-create-node-role.adoc[leveloffset=+1]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-wip,&type=code[Edit this page on GitHub]

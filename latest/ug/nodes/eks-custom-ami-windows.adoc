@@ -114,3 +114,5 @@ You can retrieve specific information regarding what is installed with each comp
 
 The  *Description* in the resulting page shows the specific information.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-custom-ami-windows,&type=code[Edit this page on GitHub]

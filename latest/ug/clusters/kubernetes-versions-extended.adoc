@@ -146,3 +146,6 @@ The [.noloc]`PSP` admission controller enforces [.noloc]`Pod` security standards
 * The https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/[goaway-chance] option in the [.noloc]`Kubernetes` API server helps prevent `HTTP/2` client connections from being stuck on a single API server instance, by randomly closing a connection. When the connection is closed, the client will try to reconnect, and will likely land on a different API server as a result of load balancing. Amazon EKS version `1.23` has enabled `goaway-chance` flag. If your workload running on Amazon EKS cluster uses a client that is not compatible with https://www.rfc-editor.org/rfc/rfc7540#section-6.8[HTTP GOAWAY], we recommend that you update your client to handle `GOAWAY` by reconnecting on connection termination.
 
 For the complete [.noloc]`Kubernetes` `1.23` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.23.md#changelog-since-v1220.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;kubernetes-versions-extended,&type=code[Edit this page on GitHub]

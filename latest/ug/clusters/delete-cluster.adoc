@@ -191,3 +191,6 @@ aws cloudformation list-stacks --query "StackSummaries[].StackName"
 ----
 aws cloudformation delete-stack --stack-name my-vpc-stack
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;delete-cluster,&type=code[Edit this page on GitHub]

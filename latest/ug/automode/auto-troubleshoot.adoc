@@ -86,3 +86,6 @@ You can use the {aws} console to view the status of resources associated with {y
 Look for errors related to your EKS cluster. Use the error messages to update your EKS access entries, Cluster IAM Role, or Node IAM Role. You may need to attach a new policy these roles with permissions for {eam}.
 
 //Ensure you are running the latest version of the {aws} CLI, eksctl, etc. 
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-troubleshoot,&type=code[Edit this page on GitHub]

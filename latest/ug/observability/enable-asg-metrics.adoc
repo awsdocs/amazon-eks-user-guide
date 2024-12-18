@@ -16,3 +16,5 @@ With Auto Scaling group metrics collection, you're able to monitor the scaling o
 
 If you would prefer to not have these metrics collected, you can choose to disable all or only some of them. For example, you can do this to avoid noise in your CloudWatch dashboards. For more information, see link:autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html[Amazon CloudWatch metrics for Amazon EC2 Auto Scaling,type="documentation"].
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;enable-asg-metrics,&type=code[Edit this page on GitHub]

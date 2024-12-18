@@ -22,3 +22,6 @@ Follow the What's New feed and public roadmap to help plan for new and future Am
 --
 
 You can learn about new Amazon EKS features by scrolling to the What's New feed on the  link:new/?whats-new-content-all.sort-by=item.additionalFields.postDateTime&whats-new-content-all.sort-order=desc&awsf.whats-new-compute=*all&awsf.whats-new-containers=general-products%23amazon-eks[What's New with {aws},type="marketing"] page. You can also review the https://github.com/aws/containers-roadmap/projects/1?card_filter_query=eks[roadmap] on [.noloc]`GitHub`, which lets you know about upcoming features and priorities so that you can plan how you want to use Amazon EKS in the future. You can provide direct feedback to us about the roadmap priorities.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;roadmap,&type=code[Edit this page on GitHub]

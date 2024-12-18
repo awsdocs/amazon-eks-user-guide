@@ -19,3 +19,5 @@ k8s_major_version.k8s_minor_version.k8s_patch_version-release_date
 
 Each AMI release includes various versions of https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet], the [.noloc]`Linux` kernel, and https://containerd.io/[containerd]. The accelerated AMIs also include various versions of the [.noloc]`NVIDIA` driver. You can find this version information in the https://github.com/awslabs/amazon-eks-ami/blob/main/CHANGELOG.md[Changelog] on [.noloc]`GitHub`.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-linux-ami-versions,&type=code[Edit this page on GitHub]

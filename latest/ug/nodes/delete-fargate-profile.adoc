@@ -54,3 +54,4 @@ aws eks delete-fargate-profile --fargate-profile-name my-profile --cluster-name 
 ----
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;delete-fargate-profile,&type=code[Edit this page on GitHub]

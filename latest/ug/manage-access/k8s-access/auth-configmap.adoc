@@ -369,3 +369,5 @@ kubectl get nodes --watch
 +
 Enter `Ctrl`+``C`` to return to a shell prompt.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auth-configmap,&type=code[Edit this page on GitHub]

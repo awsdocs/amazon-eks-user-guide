@@ -36,3 +36,6 @@ aws eks update-cluster-config \
 --name <cluster-name> \
 --upgrade-policy supportType=STANDARD
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;disable-extended-support,&type=code[Edit this page on GitHub]

@@ -202,3 +202,6 @@ You can enable higher [.noloc]`Pod` density on Windows nodes by enabling IP pref
 ----
 
 With this significantly larger number of available IP addresses, available IP addresses shouldn't limit your ability to scale the number of [.noloc]`Pods` on your nodes. For more information, see <<cni-increase-ip-addresses>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;windows-support,&type=code[Edit this page on GitHub]

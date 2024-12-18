@@ -14,3 +14,5 @@ Each [.noloc]`Bottlerocket` AMI release includes various versions of https://kub
 
 The _Bottlerocket Documentation_ can sometimes lag behind the versions that are available on GitHub. You can find a list of changes for the latest versions in the https://github.com/bottlerocket-os/bottlerocket/releases[releases] on [.noloc]`GitHub`.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-ami-versions-bottlerocket,&type=code[Edit this page on GitHub]

@@ -147,3 +147,5 @@ include::hybrid-nodes-cluster-create.adoc[leveloffset=+1]
 
 include::hybrid-nodes-cluster-prep.adoc[leveloffset=+1]
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;hybrid-nodes-prereqs,&type=code[Edit this page on GitHub]

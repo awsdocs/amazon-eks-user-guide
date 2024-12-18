@@ -103,3 +103,4 @@ If you want to instead scale up manually whenever the capacity reservation becom
 If you don't setup a Node Termination Handler, we recommend that you start draining your [.noloc]`Pods` manually before hitting the 30 minute window so that they have enough time to be gracefully drained.
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;capacity-blocks,&type=code[Edit this page on GitHub]

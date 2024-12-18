@@ -187,3 +187,6 @@ kubectl delete -f https://eksworkshop.com/beginner/120_network-policies/calico/s
 ----
 +
 Even after deleting the resources, there can still be network policy endpoints on the nodes that might interfere in unexpected ways with networking in your cluster. The only sure way to remove these rules is to reboot the nodes or terminate all of the nodes and recycle them. To terminate all nodes, either set the Auto Scaling Group desired count to 0, then back up to the desired number, or just terminate the nodes.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;network-policy-stars-demo,&type=code[Edit this page on GitHub]

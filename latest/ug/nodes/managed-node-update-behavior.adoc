@@ -105,3 +105,5 @@ The scale down phase decrements the Auto Scaling group maximum size and desired 
 
 If the Upgrade workflow determines that the Cluster Autoscaler is scaling up the node group during the scale down phase of the workflow, it exits immediately without bringing the node group back to its original size.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;managed-node-update-behavior,&type=code[Edit this page on GitHub]

@@ -108,3 +108,5 @@ kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
 ----
 . (Optional) Verify that you're using the latest version of the https://github.com/aws/amazon-vpc-cni-k8s[Amazon VPC CNI plugin for Kubernetes]. You might need to update your [.noloc]`Amazon VPC CNI plugin for Kubernetes` version to use the latest supported instance types. For more information, see <<managing-vpc-cni>>.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;update-stack,&type=code[Edit this page on GitHub]

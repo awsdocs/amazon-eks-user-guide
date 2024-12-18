@@ -74,3 +74,6 @@ https://aws.amazon.com/blogs/hpc/deploying-generative-ai-applications-with-nvidi
 * https://aws.amazon.com/blogs/machine-learning/amazon-ec2-p5e-instances-are-generally-available/[Amazon EC2 P5e instances are generally available]
 * https://aws.amazon.com/blogs/containers/deploying-managed-p4d-instances-in-amazon-elastic-kubernetes-service/[Deploying managed P4d Instances in Amazon Elastic Kubernetes Service with NVIDIA GPUDirectRDMA]
 * https://aws.amazon.com/blogs/machine-learning/establishing-an-ai-ml-center-of-excellence/[Establishing an AI/ML center of excellence]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;ml-tutorials,&type=code[Edit this page on GitHub]

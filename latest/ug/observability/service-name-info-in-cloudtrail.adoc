@@ -25,3 +25,5 @@ Every event or log entry contains information about the type of IAM identity tha
 
 For more information, see the link:awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html[CloudTrail userIdentity element,type="documentation"].
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;service-name-info-in-cloudtrail,&type=code[Edit this page on GitHub]

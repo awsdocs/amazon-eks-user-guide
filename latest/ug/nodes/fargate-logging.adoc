@@ -427,3 +427,5 @@ Events:
 
 The [.noloc]`Pod` events are ephemeral with a time period depending on the settings. You can also view a [.noloc]`Pod's` annotations using `kubectl describe pod [.replaceable]``pod-name```. In the [.noloc]`Pod` annotation, there is information about whether the logging feature is enabled or disabled and the reason.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;fargate-logging,&type=code[Edit this page on GitHub]

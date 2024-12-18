@@ -148,3 +148,6 @@ For more information, see <<updating-an-add-on>>.
 
 * To migrate Manage Node Group workloads, see <<auto-migrate-mng>>.
 * To migrate from Self-Managed Karpenter, see <<auto-migrate-karpenter>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-enable-existing,&type=code[Edit this page on GitHub]

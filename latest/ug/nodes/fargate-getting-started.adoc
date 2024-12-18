@@ -179,3 +179,4 @@ kubectl rollout restart -n kube-system deployment coredns
 * You can set up the link:otel[{aws} Distro for OpenTelemetry,type="marketing"] (ADOT) collector for application monitoring by following link:AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html[these instructions,type="documentation"].
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;fargate-getting-started,&type=code[Edit this page on GitHub]

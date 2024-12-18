@@ -74,3 +74,6 @@ A feature that manages Amazon EBS volumes in Amazon EKS Auto Mode clusters. This
 
 EKS Auto Mode -- Load Balancing Capability::
 A feature that manages Application Load Balancers and Network Load Balancers in Amazon EKS Auto Mode clusters. This capability automatically configures load balancers based on your service requirements.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-glossary,&type=code[Edit this page on GitHub]

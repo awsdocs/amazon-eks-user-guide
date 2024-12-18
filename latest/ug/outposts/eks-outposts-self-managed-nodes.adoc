@@ -226,3 +226,6 @@ kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X
 
 . (Optional) Deploy a <<sample-deployment,sample application>> to test your cluster and [.noloc]`Linux` nodes.
 . If your cluster is deployed on an Outpost, then skip this step. If your cluster is deployed on the {aws} Cloud, the following information is optional. If the *AmazonEKS_CNI_Policy* managed IAM policy is attached to your  <<create-node-role,Amazon EKS node IAM role>>, we recommend assigning it to an IAM role that you associate to the [.noloc]`Kubernetes` `aws-node` service account instead. For more information, see <<cni-iam-role>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-outposts-self-managed-nodes,&type=code[Edit this page on GitHub]

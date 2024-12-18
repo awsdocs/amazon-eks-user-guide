@@ -75,3 +75,6 @@ v3.9.0
 ** Experiment by installing an example chart. See https://helm.sh/docs/intro/quickstart#install-an-example-chart[Install an example chart] in the Helm https://helm.sh/docs/intro/quickstart/[Quickstart guide].
 ** Create an example chart and push it to Amazon ECR. For more information, see link:AmazonECR/latest/userguide/push-oci-artifact.html[Pushing a Helm chart,type="documentation"] in the _Amazon Elastic Container Registry User Guide_.
 ** Install an Amazon EKS chart from the https://github.com/aws/eks-charts#eks-charts[eks-charts][.noloc]`GitHub` repo or from https://artifacthub.io/packages/search?page=1&repo=aws[ArtifactHub].
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;helm,&type=code[Edit this page on GitHub]

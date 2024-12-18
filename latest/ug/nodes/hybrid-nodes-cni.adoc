@@ -561,3 +561,6 @@ kubectl get crds -oname | grep "calico" | xargs kubectl delete
 ----
 kubectl get crds -oname | grep "tigera" | xargs kubectl delete
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;hybrid-nodes-cni,&type=code[Edit this page on GitHub]

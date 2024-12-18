@@ -288,3 +288,6 @@ You can use  _VPC sharing_ to share subnets with other {aws} accounts within the
 * If you use the _custom networking_ feature of the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, you need to use the Availability Zone ID mappings listed in the owner account to create each `ENIConfig`. For more information, see <<cni-custom-network>>.
 
 For more information about VPC subnet sharing, see   link:vpc/latest/userguide/vpc-sharing.html#vpc-share-limitations[Share your VPC with other accounts,type="documentation"] in the _Amazon VPC User Guide_.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;network-reqs,&type=code[Edit this page on GitHub]

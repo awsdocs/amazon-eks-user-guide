@@ -104,3 +104,6 @@ We recommend that you link:vpc/latest/privatelink/interface-endpoints.html#enabl
 The controller supports network load balancers with IP targets, which are required for use with Fargate. For more information, see <<alb-ingress>> and <<network-load-balancer>>.
 * https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler] is supported. When deploying Cluster Autoscaler [.noloc]`Pods`, make sure that the command line includes `--aws-use-static-instance-list=true`. For more information, see https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#use-static-instance-list[Use Static Instance List] on [.noloc]`GitHub`. The worker node VPC must also include the {aws} STS VPC endpoint and autoscaling VPC endpoint.
 * Some container software products use API calls that access the {aws} Marketplace Metering Service to monitor usage. Private clusters do not allow these calls, so you can't use these container types in private clusters.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;private-clusters,&type=code[Edit this page on GitHub]

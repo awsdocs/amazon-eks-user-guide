@@ -26,3 +26,6 @@ kubectl patch configmap/amazon-vpc-cni \
                     --type merge \
                     -p '{"data":{"enable-windows-ipam":"false"}}'
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;disable-windows-support,&type=code[Edit this page on GitHub]

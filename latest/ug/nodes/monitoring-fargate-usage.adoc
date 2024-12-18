@@ -89,3 +89,4 @@ Use the following steps to create a CloudWatch alarm based on the Fargate resour
 . For *Alarm name*, enter a name for the alarm and then choose  *Create*.
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;monitoring-fargate-usage,&type=code[Edit this page on GitHub]

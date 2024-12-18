@@ -126,3 +126,6 @@ artifacts
 # Delete the NodeDiagnostic resource
 kubectl delete nodediagnostics.eks.amazonaws.com/[.replaceable]`node-name`
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-get-logs,&type=code[Edit this page on GitHub]

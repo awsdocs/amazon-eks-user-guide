@@ -584,3 +584,6 @@ View details about updates to access policies, since they were introduced. For a
 |Amazon EKS introduced access policies.
 |May 29, 2023
 |===
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;access-policy-permissions,&type=code[Edit this page on GitHub]

@@ -109,3 +109,6 @@ data:
     username: system:node:{{SessionName}}
 EOF
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;hybrid-nodes-cluster-prep,&type=code[Edit this page on GitHub]

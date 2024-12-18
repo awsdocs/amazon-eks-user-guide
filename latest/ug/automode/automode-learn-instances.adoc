@@ -110,3 +110,6 @@ EKS Auto Mode supports the following instance types:
 * Amazon EKS Auto Mode does not support {aws} Fault Injection Service. For more information, see link:resilience-hub/latest/userguide/testing.html["Managing Fault Injection Service experiments",type="documentation"] in the {aws} Resilience Hub User Guide. 
 * You do not need to install the `Neuron Device Plugin` on EKS Auto Mode nodes. 
 ** If you have other types of nodes in your cluster, you need to configure the Neuron Device plugin to not run on auto mode nodes. For more information, see <<associate-workload>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;automode-learn-instances,&type=code[Edit this page on GitHub]

@@ -117,3 +117,6 @@ containers:
           apiVersion: v1
           fieldPath: spec.nodeName
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;hybrid-nodes-proxy,&type=code[Edit this page on GitHub]

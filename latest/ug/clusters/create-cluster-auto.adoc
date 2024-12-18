@@ -334,3 +334,6 @@ aws eks describe-cluster --region region-code --name my-cluster --query "cluster
 * <<enable-kms,Enable secrets encryption for your cluster>>.
 * <<control-plane-logs,Configure logging for your cluster>>.
 * <<eks-compute,Add nodes to your cluster>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;create-cluster-auto,&type=code[Edit this page on GitHub]

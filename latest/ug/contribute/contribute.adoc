@@ -18,3 +18,6 @@ When the EKS User Guide returns to GitHub in mid-November, you'll be able to edi
 * Automated content quality checks
 
 We look forward to your contributions.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;contribute,&type=code[Edit this page on GitHub]

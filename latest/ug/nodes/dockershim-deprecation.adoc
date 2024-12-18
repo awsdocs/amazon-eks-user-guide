@@ -100,3 +100,4 @@ If you prefer to use a different tool to create your managed node group, you mus
 ----
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;dockershim-deprecation,&type=code[Edit this page on GitHub]

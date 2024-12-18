@@ -36,3 +36,6 @@ To learn more about {aws} CloudFormation, see the following resources:
 * link:cloudformation/[{aws} CloudFormation,type="marketing"]
 * link:AWSCloudFormation/latest/UserGuide/Welcome.html[{aws} CloudFormation User Guide,type="documentation"]
 * link:cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html[{aws} CloudFormation Command Line Interface User Guide,type="documentation"]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;creating-resources-with-cloudformation,&type=code[Edit this page on GitHub]

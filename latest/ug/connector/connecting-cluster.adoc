@@ -214,3 +214,6 @@ The output should include `status=ACTIVE`.
 If you have any issues with these steps, see <<troubleshooting-connector>>.
 
 To grant additional  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] access to the Amazon EKS console to view [.noloc]`Kubernetes` resources in a connected cluster, see <<connector-grant-access>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;connecting-cluster,&type=code[Edit this page on GitHub]

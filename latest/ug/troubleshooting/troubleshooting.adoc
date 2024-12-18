@@ -718,3 +718,6 @@ The first two columns are what are needed for API response values. The third fie
 |The [.noloc]`KMS Key Arn`
 |No
 |===
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;troubleshooting,&type=code[Edit this page on GitHub]

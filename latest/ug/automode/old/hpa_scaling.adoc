@@ -240,3 +240,6 @@ helm uninstall metrics-server -n kube-system
 kubectl delete hpa retail-store-sample-ui-hpa
 kubectl delete load-generator
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-hpa-scaling,&type=code[Edit this page on GitHub]

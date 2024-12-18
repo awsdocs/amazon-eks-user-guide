@@ -37,3 +37,6 @@ Learn link:eks/latest/best-practices/cluster-upgrades.html["Best Practices for C
 == Start Cluster Update
 
 To start a cluster update, see <<update-cluster>>. 
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-upgrade,&type=code[Edit this page on GitHub]

@@ -397,3 +397,6 @@ The following documentation topics help you to extend the functionality of your 
 * Deploy a <<sample-deployment,sample application>> to your cluster.
 * Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for <<create-cluster,clusters>> and <<eks-compute,nodes>>. Some settings (such as enabling SSH access to Amazon EC2 nodes) must be made when the cluster is created.
 * To increase security for your cluster, <<cni-iam-role,configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;getting-started-console,&type=code[Edit this page on GitHub]

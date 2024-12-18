@@ -134,3 +134,4 @@ In the default configration, EKS Auto Mode detects nodes that have been empty fo
 Use `kubectl` or the EC2 console to confirm the associated instance has been deleted. 
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;automode-workload,&type=code[Edit this page on GitHub]

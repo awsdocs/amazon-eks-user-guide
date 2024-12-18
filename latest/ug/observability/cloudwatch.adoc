@@ -149,3 +149,6 @@ The topics below describe how to get started using CloudWatch Observability Oper
 * For instructions on installing this add-on, see link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Install the CloudWatch agent with the Amazon CloudWatch Observability EKS add-on or the Helm chart,type="documentation"] in the _Amazon CloudWatch User Guide_.
 * For more information about CloudWatch Application Signals, see link:AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Monitoring-Sections.html[Application Signals,type="documentation"] in the _Amazon CloudWatch User Guide_.
 * For more information about [.noloc]`Container Insights`, see link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[Using Container Insights,type="documentation"] in the _Amazon CloudWatch User Guide_.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cloudwatch,&type=code[Edit this page on GitHub]

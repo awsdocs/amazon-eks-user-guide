@@ -29,3 +29,6 @@ that include setting up components to:
 * Choose default settings that determine things like the size and speed of node storage and Pod network configuration.
 
 For details on what you get with EKS Auto Mode clusters, see <<automode>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;getting-started-automode,&type=code[Edit this page on GitHub]

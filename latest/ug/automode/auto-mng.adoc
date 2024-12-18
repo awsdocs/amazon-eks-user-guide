@@ -151,3 +151,6 @@ include::../attributes.txt[]
 | When EKS Auto Mode is enabled in your cluster, you pay a separate fee, in addition to the standard EC2 instance charges, for the instances launched using Auto Mode's compute capability. The amount varies with the instance type launched and the {aws} region where your cluster is located. For more information, see link:eks/pricing/["Amazon EKS pricing",type="marketing"].
 
 |===
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-mng,&type=code[Edit this page on GitHub]

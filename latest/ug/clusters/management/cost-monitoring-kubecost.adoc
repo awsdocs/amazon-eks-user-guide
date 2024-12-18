@@ -113,3 +113,6 @@ image::images/kubecost.png[Kubecost dashboard,scaledwidth=100%]
 
 * *Cost allocation* – View monthly Amazon EKS costs and cumulative costs for each of your namespaces and other dimensions over the past seven days. This is helpful for understanding which parts of your application are contributing to Amazon EKS spend.
 * *Assets* – View the costs of the {aws} infrastructure assets that are associated with your Amazon EKS resources.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cost-monitoring-kubecost,&type=code[Edit this page on GitHub]

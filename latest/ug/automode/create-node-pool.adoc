@@ -178,3 +178,5 @@ spec:
 ** `node.kubernetes.io/windows-build`
 ** `kubernetes.io/os`
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;create-node-pool,&type=code[Edit this page on GitHub]

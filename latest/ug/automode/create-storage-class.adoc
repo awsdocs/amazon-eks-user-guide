@@ -238,3 +238,6 @@ For more information, see:
 ----
 .. Select *Next*
 . Review the add-on configuration and then select *Create*
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;create-storage-class,&type=code[Edit this page on GitHub]

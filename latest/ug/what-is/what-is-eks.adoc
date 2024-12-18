@@ -95,3 +95,6 @@ include::eks-architecture.adoc[leveloffset=+1]
 include::kubernetes-concepts.adoc[leveloffset=+1]
 
 include::eks-deployment-options.adoc[leveloffset=+1]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;what-is-eks,&type=code[Edit this page on GitHub]

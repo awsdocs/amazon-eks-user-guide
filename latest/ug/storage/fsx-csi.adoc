@@ -305,3 +305,6 @@ This example output shows that the sample app successfully wrote the `out.txt` f
 Before deleting the cluster, make sure to delete the FSx for Lustre file system. For more information, see link:fsx/latest/LustreGuide/getting-started-step4.html[Clean up resources,type="documentation"] in the _FSx for Lustre User Guide_.
 
 ====
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;fsx-csi,&type=code[Edit this page on GitHub]

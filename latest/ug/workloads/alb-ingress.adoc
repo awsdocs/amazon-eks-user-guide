@@ -249,3 +249,6 @@ kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-bal
 ----
 kubectl delete -f 2048_full.yaml
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;alb-ingress,&type=code[Edit this page on GitHub]

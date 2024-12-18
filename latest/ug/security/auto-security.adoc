@@ -103,3 +103,5 @@ The following section describes security best practices for Amazon EKS Auto Mode
 * Use {aws} Security Hub for security posture assessment.
 * Implement pod security standards appropriate for your workloads.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-security,&type=code[Edit this page on GitHub]

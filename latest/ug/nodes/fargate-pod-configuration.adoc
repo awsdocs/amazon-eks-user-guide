@@ -113,3 +113,6 @@ The default usable storage for Amazon EKS [.noloc]`Pods` that run on Fargate is 
 You can increase the total amount of ephemeral storage up to a maximum of 175 GiB. To configure the size with [.noloc]`Kubernetes`, specify the requests of `ephemeral-storage` resource to each container in a [.noloc]`Pod`. When [.noloc]`Kubernetes` schedules [.noloc]`Pods`, it ensures that the sum of the resource requests for each [.noloc]`Pod` is less than the capacity of the Fargate task. For more information, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/[Resource Management for Pods and Containers] in the [.noloc]`Kubernetes` documentation.
 
 Amazon EKS Fargate provisions more ephemeral storage than requested for the purposes of system use. For example, a request of 100 GiB will provision a Fargate task with 115 GiB ephemeral storage. 
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;fargate-pod-configuration,&type=code[Edit this page on GitHub]

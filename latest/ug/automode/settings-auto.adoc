@@ -111,3 +111,6 @@ include::associate-workload.adoc[leveloffset=+1]
 include::critical-workload.adoc[leveloffset=+1]
 
 include::auto-net-pol.adoc[leveloffset=+1]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;settings-auto,&type=code[Edit this page on GitHub]

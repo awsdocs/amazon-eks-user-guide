@@ -115,3 +115,6 @@ EKS Auto Mode limits the number of pods on nodes to the lower of:
 
 * 110 pods hard cap
 * The result of the max pods calculation described above. 
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;choosing-instance-type,&type=code[Edit this page on GitHub]

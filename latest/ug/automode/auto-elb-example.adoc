@@ -239,3 +239,6 @@ If the game doesn't load:
 - Ensure all pods are running: `kubectl get pods -n game-2048`
 - Check ingress status: `kubectl describe ingress -n game-2048`
 - Verify ALB health checks: Check the target group health in {aws} Console
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-elb-example,&type=code[Edit this page on GitHub]

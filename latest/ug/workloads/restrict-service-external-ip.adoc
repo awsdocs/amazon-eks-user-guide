@@ -92,3 +92,6 @@ kubectl apply -f externalip-webhook.yaml
 ----
 +
 An attempt to deploy a service to your cluster with an IP address specified for `externalIPs` that is not contained in the blocks that you specified in the Specify CIDR blocks step will fail.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;restrict-service-external-ip,&type=code[Edit this page on GitHub]

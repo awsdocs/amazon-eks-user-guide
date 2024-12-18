@@ -273,3 +273,6 @@ eks-connector-0   0/2     Init:ImagePullBackOff   0          4s
 ----
 
 The default Amazon EKS Connector manifest file references images from the https://gallery.ecr.aws/[Amazon ECR Public Gallery]. It's possible that the target [.noloc]`Kubernetes` cluster can't pull images from the Amazon ECR Public Gallery. Either resolve the Amazon ECR Public Gallery image pull issue, or consider mirroring the images in the private container registry of your choice.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;troubleshooting-connector,&type=code[Edit this page on GitHub]

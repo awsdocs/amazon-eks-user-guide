@@ -84,3 +84,4 @@ For more information about using Amazon EKS optimized Amazon Linux AMIs, see the
 * For open-source scripts that are used to build the Amazon EKS optimized AMIs, see <<eks-ami-build-scripts>>.
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-optimized-ami,&type=code[Edit this page on GitHub]

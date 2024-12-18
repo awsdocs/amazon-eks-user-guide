@@ -66,3 +66,6 @@ include::ml-get-started.adoc[leveloffset=+1]
 include::ml-prepare-for-cluster.adoc[leveloffset=+1]
 
 include::ml-tutorials.adoc[leveloffset=+1]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;machine-learning-on-eks,&type=code[Edit this page on GitHub]

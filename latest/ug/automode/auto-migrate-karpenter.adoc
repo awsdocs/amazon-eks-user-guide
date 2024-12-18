@@ -134,3 +134,6 @@ spec:
 ## Step 8: Uninstall Karpenter from your cluster 
 
 The steps to remove Karpenter depend on how you installed it. For more information, see the https://karpenter.sh/docs/getting-started/getting-started-with-karpenter/#create-a-cluster-and-add-karpenter[Karpenter install instructions] and the https://helm.sh/docs/helm/helm_uninstall/[Helm Uninstall command].
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-migrate-karpenter,&type=code[Edit this page on GitHub]

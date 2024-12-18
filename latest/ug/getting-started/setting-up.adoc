@@ -45,3 +45,6 @@ include::install-awscli.adoc[leveloffset=+1]
 
 
 include::install-kubectl.adoc[leveloffset=+1]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;setting-up,&type=code[Edit this page on GitHub]

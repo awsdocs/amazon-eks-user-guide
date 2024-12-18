@@ -671,3 +671,6 @@ ldd --version
 sudo apt update && apt install libc6
 sudo apt install glibc-source
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;hybrid-nodes-troubleshooting,&type=code[Edit this page on GitHub]

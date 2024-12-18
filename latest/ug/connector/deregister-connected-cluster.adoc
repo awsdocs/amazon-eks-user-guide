@@ -91,3 +91,6 @@ helm -n eks-connector uninstall eks-connector
 kubectl delete -f eks-connector.yaml
 ----
 . If you created `clusterrole` or `clusterrolebindings` for additional  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] to access the cluster, delete them from your [.noloc]`Kubernetes` cluster.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;deregister-connected-cluster,&type=code[Edit this page on GitHub]

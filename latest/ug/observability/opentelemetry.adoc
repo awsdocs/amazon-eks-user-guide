@@ -20,3 +20,6 @@ The {aws} Distro for OpenTelemetry (ADOT) Operator makes it easier to enable you
 Amazon EKS supports using the {aws-management-console}, {aws} CLI and Amazon EKS API to install and manage the https://aws-otel.github.io/[{aws} Distro for OpenTelemetry (ADOT)] Operator. This makes it easier to enable your applications running on Amazon EKS to send metric and trace data to multiple monitoring service options like link:cloudwatch[Amazon CloudWatch,type="console"], link:prometheus[Prometheus,type="console"], and link:xray[X-Ray,type="console"].
 
 For more information, see https://aws-otel.github.io/docs/getting-started/adot-eks-add-on[Getting Started with {aws} Distro for OpenTelemetry using EKS Add-Ons] in the {aws} Distro for [.noloc]`OpenTelemetry` documentation.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;opentelemetry,&type=code[Edit this page on GitHub]

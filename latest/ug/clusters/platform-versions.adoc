@@ -857,3 +857,6 @@ An example output is as follows.
 You cannot change the platform version of an EKS cluster. When new Amazon EKS platform versions become available for a [.noloc]`Kubernetes` version, EKS automatically upgrades all existing clusters to the latest Amazon EKS platform version for their corresponding [.noloc]`Kubernetes` version. Automatic upgrades of existing Amazon EKS platform versions are rolled out incrementally. You cannot use the {aws} Console or CLI to change the platform version.  
 
 If you upgrade your [.noloc]`Kubernetes` version, your cluster will move onto the most recent platform version for the [.noloc]`Kubernetes` version.  
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;platform-versions,&type=code[Edit this page on GitHub]

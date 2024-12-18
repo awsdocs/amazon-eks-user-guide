@@ -261,3 +261,6 @@ Understanding basic [.noloc]`Kubernetes` concepts and how they relate to Amazon 
 * <<create-cluster,Create a more complex cluster>>
 * <<sample-deployment,Deploy a sample application>>
 * <<eks-managing,Explore ways of managing your cluster>>
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;kubernetes-concepts,&type=code[Edit this page on GitHub]

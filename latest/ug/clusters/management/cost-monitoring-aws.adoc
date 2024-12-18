@@ -27,3 +27,6 @@ Use the following for _Split Cost Allocation Data_:
 . Opt in to Split Cost Allocation Data. For more information, see link:cur/latest/userguide/enabling-split-cost-allocation-data.html[Enabling split cost allocation data,type="documentation"] in the {aws} Cost and Usage Report User Guide.
 . Include the data in a new or existing report.
 . View the report. You can use the Billing and Cost Management console or view the report files in Amazon Simple Storage Service.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cost-monitoring-aws,&type=code[Edit this page on GitHub]

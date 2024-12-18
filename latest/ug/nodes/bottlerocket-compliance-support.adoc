@@ -18,3 +18,4 @@ include::../attributes.txt[]
 * [.noloc]`Bottlerocket` AMIs are available that are preconfigured to use FIPS 140-3 validated cryptographic modules. This includes the Amazon Linux 2023 Kernel Crypto API Cryptographic Module and the {aws}-LC Cryptographic Module. For more information on selecting FIPS-enabled variants, see <<retrieve-ami-id-bottlerocket>>.
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;bottlerocket-compliance-support,&type=code[Edit this page on GitHub]

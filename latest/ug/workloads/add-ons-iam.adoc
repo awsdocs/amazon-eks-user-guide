@@ -292,3 +292,6 @@ aws iam get-role --role-name <role-name> --query Role.AssumeRolePolicyDocument
 * The service account name in the pod identity association matches the service account name used by the add-on. 
 +
 ** For information about the available add-ons, see <<workloads-add-ons-available-eks>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;add-ons-iam,&type=code[Edit this page on GitHub]

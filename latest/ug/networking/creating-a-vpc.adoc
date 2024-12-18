@@ -128,3 +128,6 @@ https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-e
 .. Record the *VpcId* for the VPC that was created. You need this when you create your cluster and nodes.
 .. Record the *SubnetIds* for the subnets that were created. You need at least two of these when you create your cluster and nodes.
 .. (Optional) Any cluster that you deploy to this VPC can assign private `IPv4` addresses to your [.noloc]`Pods` and [.noloc]`services`. If you want deploy clusters to this VPC to assign private `IPv6` addresses to your [.noloc]`Pods` and [.noloc]`services`, make updates to your VPC, subnet, route tables, and security groups. For more information, see link:vpc/latest/userguide/vpc-migrate-ipv6.html[Migrate existing VPCs from IPv4 to IPv6,type="documentation"] in the Amazon VPC User Guide. Amazon EKS requires that your subnets have the `Auto-assign IPv6` addresses option enabled (it's disabled by default).
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;creating-a-vpc,&type=code[Edit this page on GitHub]

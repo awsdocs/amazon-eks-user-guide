@@ -25,3 +25,6 @@ A: The Amazon EKS Connector sends technical information that's necessary for you
 
 .Q: Can I connect a cluster outside of an {aws} Region?
 A: Yes, you can connect a cluster from any location to Amazon EKS. Moreover, your Amazon EKS service can be located in any {aws} public commercial {aws} Region. This works with a valid network connection from your cluster to the target {aws} Region. We recommend that you pick an {aws} Region that is closest to your cluster location for UI performance optimization. For example, if you have a cluster running in Tokyo, connect your cluster to the {aws} Region in Tokyo (that is, the `ap-northeast-1` {aws} Region) for low latency. You can connect a cluster from any location to Amazon EKS in any of the public commercial {aws} Regions, except the China or GovCloud {aws} Regions.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;tsc-faq,&type=code[Edit this page on GitHub]

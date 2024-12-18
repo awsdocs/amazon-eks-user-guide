@@ -229,3 +229,6 @@ deletionPolicy: Delete
 ----
 
 https://github.com/kubernetes-csi/external-snapshotter/blob/master/README.md#usage[Learn more about the Kubernetes CSI Snapshotter.]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;sample-storage-workload,&type=code[Edit this page on GitHub]

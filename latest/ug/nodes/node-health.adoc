@@ -392,3 +392,6 @@ If auto repair is enabled, the repair actions that are listed start 10 minutes a
 |Kubelet is reporting slow disk usage while trying to access the filesystem, potentially indicating insufficient disk input-output or filesystem issues.
 
 |===
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;node-health,&type=code[Edit this page on GitHub]

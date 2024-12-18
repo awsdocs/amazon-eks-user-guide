@@ -52,3 +52,6 @@ You must be logged into the {aws} management console with sufficent permissions 
 * Learn how to xref:sample-storage-workload[Deploy a Sample Workload to {yec}]
 
 //call out refactored IAM
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;automode-get-started-console,&type=code[Edit this page on GitHub]

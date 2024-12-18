@@ -59,4 +59,4 @@ aws eks update-cluster-config \
 ----
 
 
-
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;set-builtin-node-pools,&type=code[Edit this page on GitHub]

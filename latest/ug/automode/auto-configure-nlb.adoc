@@ -154,3 +154,6 @@ This consolidated format provides a more consistent and flexible way to configur
 | `spec.targetType` optional | `spec.targetType` required | Explicit target type specification
 | `spec.networking.ingress.from` | Not supported | No longer supports NLB without security groups
 |===
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-configure-nlb,&type=code[Edit this page on GitHub]

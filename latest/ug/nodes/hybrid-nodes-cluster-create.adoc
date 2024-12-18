@@ -342,3 +342,5 @@ kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   28h
 
 As a next step, see <<hybrid-nodes-cluster-prep>> to enable access for your hybrid nodes to join your cluster.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;hybrid-nodes-cluster-create,&type=code[Edit this page on GitHub]

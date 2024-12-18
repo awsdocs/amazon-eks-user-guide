@@ -93,3 +93,6 @@ To view default {aws} Fargate on EKS service quotas, see link:general/latest/gr/
 Fargate additionally enforces Amazon ECS tasks and Amazon EKS [.noloc]`Pods` launch rate quotas. For more information, see link:AmazonECS/latest/developerguide/throttling.html[{aws} Fargate throttling quotas,type="documentation"] in the _Amazon ECS guide_.
 
 ====
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;service-quotas,&type=code[Edit this page on GitHub]

@@ -234,3 +234,6 @@ mapUsers: |
 +
 IMPORTANT: The role ARN can't include a path such as `role/my-team/developers/my-console-viewer-role`. The format of the ARN must be `{arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``my-console-viewer-role```. In this example, `my-team/developers/` needs to be removed.
 . Save the file and exit your text editor.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;view-kubernetes-resources,&type=code[Edit this page on GitHub]

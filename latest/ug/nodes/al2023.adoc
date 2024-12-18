@@ -48,3 +48,5 @@ For previously existing managed node groups, you can either perform an in-place 
 
 If you're using [.noloc]`Karpenter` and want to use AL2023, you'll need to modify the `EC2NodeClass` `amiFamily` field with AL2023. By default, Drift is enabled in [.noloc]`Karpenter`. This means that once the `amiFamily` field has been changed, [.noloc]`Karpenter` will automatically update your worker nodes to the latest AMI when available.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;al2023,&type=code[Edit this page on GitHub]

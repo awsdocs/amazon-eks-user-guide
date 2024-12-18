@@ -129,3 +129,4 @@ Add `--conntrack-max-per-core` and `--conntrack-min` to the `kube-proxy` argumen
 For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;launch-node-bottlerocket,&type=code[Edit this page on GitHub]

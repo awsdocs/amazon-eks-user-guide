@@ -73,3 +73,6 @@ kubectl apply -f eks-connector-console-dashboard-full-access-group.yaml
 ----
 
 To view [.noloc]`Kubernetes` resources in your connected cluster, see <<view-kubernetes-resources>>. Data for some resource types on the *Resources* tab isn't available for connected clusters.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;connector-grant-access,&type=code[Edit this page on GitHub]

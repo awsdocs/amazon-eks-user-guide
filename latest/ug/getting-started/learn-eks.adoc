@@ -156,3 +156,6 @@ While `eksctl` is a simple tool for creating a cluster, for more complex infrast
 * GitOps automation tools
 * Monitoring tools
 * Techniques for improving cost, efficiency, and resiliency
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;learn-eks,&type=code[Edit this page on GitHub]

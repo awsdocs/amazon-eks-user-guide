@@ -4614,3 +4614,6 @@ Add the following `Affinity Rule` to the [.noloc]`DaemonSet`spec`` section of th
   values:
   - fargate
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-networking-add-ons,&type=code[Edit this page on GitHub]

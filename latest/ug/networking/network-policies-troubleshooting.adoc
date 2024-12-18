@@ -259,3 +259,6 @@ sudo /opt/cni/bin/aws-eks-na-cli ebpf progs
 ----
 
 To run this command, you can use any method to connect to the node.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;network-policies-troubleshooting,&type=code[Edit this page on GitHub]

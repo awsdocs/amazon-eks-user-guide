@@ -80,3 +80,6 @@ You can create a desired action based on this event. For example, you can adjust
 A suitable target can be set for the event to capture it. For a complete list of available targets, see link:eventbridge/latest/userguide/eb-targets.html[Amazon EventBridge targets,type="documentation"] in the _Amazon EventBridge User Guide_. You can also create a notification configuration in {aws} User Notifications. When using the {aws-management-console} to create the notification, under *Event Rules*, choose  *Elastic Kubernetes Service (EKS)* for *{aws} service name* and  *EKS Fargate Pod Scheduled Termination* for  *Event type*. For more information, see link:notifications/latest/userguide/getting-started.html[Getting started with {aws} User Notifications,type="documentation"] in the {aws} User Notifications User Guide.
 
 See https://repost.aws/knowledge-center/fargate-pod-eviction-notice[FAQs: Fargate Pod eviction notice] in _{aws} re:Post_ for frequently asked questions regarding EKS Pod Evictions.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;fargate-pod-patching,&type=code[Edit this page on GitHub]

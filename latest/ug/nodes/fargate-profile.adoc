@@ -143,3 +143,4 @@ NOTE: Only private subnets are supported for [.noloc]`Pods` that are running on 
 . On the *Review and create* page, review the information for your Fargate profile and choose  *Create*.
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;fargate-profile,&type=code[Edit this page on GitHub]

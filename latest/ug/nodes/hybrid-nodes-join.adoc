@@ -148,3 +148,5 @@ Your nodes will have status `Not Ready`, which is expected and is due to the lac
 
 To make your hybrid nodes ready to run applications, continue with the steps on <<hybrid-nodes-cni>>.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;hybrid-nodes-join,&type=code[Edit this page on GitHub]

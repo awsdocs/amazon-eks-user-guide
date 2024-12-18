@@ -103,3 +103,6 @@ spec:
 * If you change the Node IAM Role associated with a NodeClass, you will need to create a new Access Entry. EKS automatically creates an Access Entry for the Node IAM Role during cluster creation. The Node IAM Role requires the `AmazonEKSAutoNodePolicy` EKS Access Policy. For more information, see <<access-entries>>.
 * EKS limits the maximum number of pods on a node to 110. This limit is applied after the existing max pods calculation. For more information, see <<choosing-instance-type>>. 
 * If you want to propagate tags from Kubernetes to EC2, you need to configure additional IAM permissions. For more information, see <<auto-learn-iam>>. 
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;create-node-class,&type=code[Edit this page on GitHub]

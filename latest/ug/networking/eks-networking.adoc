@@ -38,3 +38,6 @@ include::sec-group-reqs.adoc[leveloffset=+1]
 
 
 include::eks-networking-add-ons.adoc[leveloffset=+1]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-networking,&type=code[Edit this page on GitHub]

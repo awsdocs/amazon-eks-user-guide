@@ -197,3 +197,5 @@ aws iam attach-role-policy \
   --role-name AmazonEKSNodeRole
 ----
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;create-node-role,&type=code[Edit this page on GitHub]

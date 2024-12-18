@@ -254,3 +254,6 @@ kubectl version --client
 == Downgrade the [.noloc]`Kubernetes` version for an Amazon EKS cluster
 
 You cannot downgrade the [.noloc]`Kubernetes` of an Amazon EKS cluster. Instead, create a new cluster on a previous Amazon EKS version and migrate the workloads.  
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;update-cluster,&type=code[Edit this page on GitHub]

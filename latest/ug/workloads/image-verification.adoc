@@ -28,3 +28,6 @@ If you use link:signer/latest/developerguide/Welcome.html[{aws} Signer,type="doc
 Before verifying container image signatures, configure the https://github.com/notaryproject/notation#readme[Notation] trust store and trust policy, as required by your selected admission controller.
 
 ====
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;image-verification,&type=code[Edit this page on GitHub]

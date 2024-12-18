@@ -177,3 +177,6 @@ The following documentation topics help you to extend the functionality of your 
 * The  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that created the cluster is the only principal that can make calls to the [.noloc]`Kubernetes` API server with `kubectl` or the {aws-management-console}. If you want other IAM principals to have access to your cluster, then you need to add them. For more information, see <<grant-k8s-access>> and <<view-kubernetes-resources-permissions>>.
 * Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for <<create-cluster,clusters>> and <<eks-compute,nodes>>. Some settings (such as enabling SSH access to Amazon EC2 nodes) must be made when the cluster is created.
 * To increase security for your cluster, <<cni-iam-role,configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;getting-started-eksctl,&type=code[Edit this page on GitHub]
