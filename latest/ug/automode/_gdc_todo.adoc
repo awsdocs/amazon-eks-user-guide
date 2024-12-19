@@ -1,8 +1,0 @@
-= GDC notes
-
-* updated 27NOV2024
-* remove non-public files
-* check for -0- error
-* image error in quickstart
-* update LBC not supported table
-* tagging steps
