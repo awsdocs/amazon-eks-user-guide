@@ -33,13 +33,13 @@ sponsored by Amazon.
 This is official Amazon Web Services ({aws}) documentation for Amazon Elastic Kubernetes Service (Amazon EKS). Amazon EKS is a managed service that makes it easy for you to run [.noloc]`Kubernetes` on {aws} without needing to install and operate your own [.noloc]`Kubernetes` clusters. [.noloc]`Kubernetes` is an open-source system for automating the deployment, scaling, and management of containerized applications.
 --
 :sectnums:
-////
+
 [.banner.info]
 *Help improve this page*
 
 [.banner.info]
 Want to contribute to this user guide? Scroll to the bottom of this page and select *Edit this page on GitHub*. Your contributions will help make our user guide better for everyone.  
-////
+
 include::what-is/what-is-eks.adoc[leveloffset=+1]
 
 include::getting-started/setting-up.adoc[leveloffset=+1]
