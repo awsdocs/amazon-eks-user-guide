@@ -55,7 +55,7 @@ For more information, see <<setting-up>>.
 
 In this section, you'll create a cluster using EKS Auto Mode for dynamic node provisioning.
 
-Create a `cluster-config.yaml` file and paste the following contents into it. Replace `region-code` with a valid Region, such as `us-east-1`:
+Create a `cluster-config.yaml` file and paste the following contents into it. Replace `<region-code>` with a valid [Region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions), such as `us-east-1`:
 
 ```yaml
 apiVersion: eksctl.io/v1alpha5
@@ -64,10 +64,10 @@ kind: ClusterConfig
 metadata:
   name: web-quickstart
   region: <region-code>
-
-autoModeConfig:
-  enabled: true
 ```
+
+For more config options, read the `eksctl` [config schema](https://eksctl.io/usage/schema/).
+
 Now, we're ready to create the cluster. 
 
 Create the Amazon EKS cluster:
