@@ -40,7 +40,7 @@ For `1.24` and later clusters, officially published Amazon EKS AMIs include `con
 * Kubernetes support for https://apparmor.net/[AppArmor] has graduated to stable and is now generally available for public use. This feature allows you to protect your containers with AppArmor by setting the `appArmorProfile.type` field in the container's `securityContext`. Prior to Kubernetes `v1.30`, AppArmor was controlled by annotations. Starting with `v1.30`, it is controlled using fields. To leverage this feature, we recommend migrating away from annotations and using the `appArmorProfile.type` field to ensure that your workloads are compatible.
 * The PersistentVolume last phase transition time feature has graduated to stable and is now generally available for public use in Kubernetes `v1.31`. This feature introduces a new field, `.status.lastTransitionTime`, in the PersistentVolumeStatus, which provides a timestamp of when a PersistentVolume last transitioned to a different phase. This enhancement allows for better tracking and management of PersistentVolumes, particularly in scenarios where understanding the lifecycle of volumes is important.
 
-For the complete [.noloc]`Kubernetes` `1.30` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.31.md 
+For the complete [.noloc]`Kubernetes` `1.31` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.31.md 
 
 [[kubernetes-1.30,kubernetes-1.30.title]]
 == [.noloc]`Kubernetes` 1.30
