@@ -77,13 +77,29 @@ Node disk pressure, memory pressure, and similar conditions can lead to a node n
 [[managed-node-update-upgrade,managed-node-update-upgrade.title]]
 == Upgrade phase
 
-The upgrade phase has these steps:
+The upgrade phase behaves in two different ways, depending on the _update strategy_. There are two update strategies: *default* and *minimal*.
 
+We recommend the default strategy in most scenarios. It creates new nodes before terminating the old ones, so that the available capacity is maintained during the upgrade phase.
+The minimal strategy is useful in scenarios where you are constrained to resources or costs, for example with hardware accelerators such as GPUs. It terminating the old nodes before creating the new ones, so that total capacity never increases beyond your configured quantity.
+
+The _default_ update strategy has these steps:
+
+. It increases the quantity of nodes (desired count) in the Auto Scaling Group, causing the node group to create additional nodes.
 . It randomly selects a node that needs to be upgraded, up to the maximum unavailable configured for the node group.
 . It drains the [.noloc]`Pods` from the node. If the [.noloc]`Pods` don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the [.noloc]`Pods`.
 . It cordons the node after every [.noloc]`Pod` is evicted and waits for 60 seconds. This is done so that the service controller doesn't send any new requests to this node and removes this node from its list of active nodes.
 . It sends a termination request to the Auto Scaling Group for the cordoned node.
 . It repeats the previous upgrade steps until there are no nodes in the node group that are deployed with the earlier version of the launch template.
+
+The _minimal_ update strategy has these steps:
+
+. It randomly selects a node that needs to be upgraded, up to the maximum unavailable configured for the node group.
+. It drains the [.noloc]`Pods` from the node. If the [.noloc]`Pods` don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the [.noloc]`Pods`.
+. It cordons the node after every [.noloc]`Pod` is evicted and waits for 60 seconds. This is done so that the service controller doesn't send any new requests to this node and removes this node from its list of active nodes.
+. It sends a termination request to the Auto Scaling Group for the cordoned node. The Auto Scaling Group creates a new node to replace the missing capacity.
+. It repeats the previous upgrade steps until there are no nodes in the node group that are deployed with the earlier version of the launch template.
+
+=== `PodEvictionFailure` errors during the upgrade phase
 
 The following are known reasons which lead to a `PodEvictionFailure` error in this phase:
 
