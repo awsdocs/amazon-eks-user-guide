@@ -52,11 +52,11 @@ To use a self-managed KMS key to encrypt EBS volumes automated by EKS Auto Mode,
 
 . Create a self-managed KMS key.
 ** For more information, see link:kms/latest/developerguide/create-symmetric-cmk.html["Create a symmetric encryption KMS key",type="documentation"] or link:kms/latest/developerguide/services-ebs.html["How Amazon Elastic Block Store (Amazon EBS) uses KMS",type="documentation"] in the KMS User Guide.
-. Create a new policy that permits access to the KMS key.
-** Use the sample IAM policy below to create the policy. Insert the ARN of the new self-managed KMS key. For more information, see 
-link:IAM/latest/UserGuide/access_policies_job-functions_create-policies.html["Creating roles and attaching policies (console)",type="documentation"] in the {aws} IAM User Guide. 
-. Attach the policy to the EKS Cluster Role.
-** Use the {aws} console to find the ARN of the EKS Cluster Role. The role information is visible in the *Overview* section. For more information, see <<cluster-iam-role>>. 
+. Create a new key policy that permits access to the KMS key.
+** Use the sample IAM policy below to create the key policy, taking care to insert the correct account ID and region. For more information, see 
+link:kms/latest/developerguide/key-policies.html["Key policies in AWS KMS",type="documentation"] in the KMS User Guide. 
+. Attach the policy to the KMS key.
+** Use the {aws} KMS console to find the key you created. In the *Key Policy* tab, select *Edit*, copy in your policy from the previous step, and save your changes.
 . Update the `StorageClass` to reference the KMS Key ID at the `parameters.kmsKeyId` field.
 
 === Sample self-managed KMS IAM Policy
