@@ -65,6 +65,12 @@ sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-code.amazonaws.com/
 sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/recommender-deployment.yaml
 sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/updater-deployment.yaml
 ----
+. Generate certs for the VPA Admission Controller with the following command.
++
+[source,bash,subs="verbatim,attributes"]
+----
+./pkg/admission-controller/gencerts.sh
+----
 . Deploy the Vertical Pod Autoscaler to your cluster with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
