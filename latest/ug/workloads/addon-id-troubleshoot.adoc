@@ -1,0 +1,42 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[addon-id-troubleshoot,addon-id-troubleshoot.title]]
+= Troubleshoot Pod Identities for EKS add-ons
+:info_titleabbrev: Troubleshoot Pod Identities
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn how to troubleshoot Pod Identities for EKS add-ons.
+--
+
+If your add-ons are encountering errors while attempting {aws} API, SDK, or CLI operations, confirm the following:
+
+
+
+* The Pod Identity Agent is installed in your cluster. 
++
+** For information about how to install the Pod Identity Agent, see <<pod-id-agent-setup>>. 
+* The Add-on has a valid Pod Identity association.
++
+** Use the {aws} CLI to retrieve the associations for the service account name used by the add-on. 
++
+[source,shell,subs="verbatim,attributes"]
+----
+aws eks list-pod-identity-associations --cluster-name <cluster-name>
+----
+* The IAM role has the required trust policy for Pod Identities. 
++
+** Use the {aws} CLI to retrieve the trust policy for an add-on. 
++
+[source,shell,subs="verbatim,attributes"]
+----
+aws iam get-role --role-name <role-name> --query Role.AssumeRolePolicyDocument
+----
+* The  IAM role has the necessary permissions for the add-on.
++
+** Use {aws} CloudTrail to review `AccessDenied` or `UnauthorizedOperation` events .
+* The service account name in the pod identity association matches the service account name used by the add-on. 
++
+** For information about the available add-ons, see <<workloads-add-ons-available-eks>>.

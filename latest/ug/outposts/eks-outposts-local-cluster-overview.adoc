@@ -1,0 +1,40 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[eks-outposts-local-cluster-overview,eks-outposts-local-cluster-overview.title]]
+= Create local Amazon EKS clusters on {aws} Outposts for high availability
+:info_titleabbrev: Run local clusters
+
+include::eks-outposts-local-cluster-create.adoc[leveloffset=+1]
+
+include::eks-outposts-platform-versions.adoc[leveloffset=+1]
+
+include::eks-outposts-vpc-subnet-requirements.adoc[leveloffset=+1]
+
+include::eks-outposts-network-disconnects.adoc[leveloffset=+1]
+
+include::eks-outposts-capacity-considerations.adoc[leveloffset=+1]
+
+include::eks-outposts-troubleshooting.adoc[leveloffset=+1]
+
+[abstract]
+--
+Learn to create and manage local Amazon EKS clusters on {aws} Outposts for high availability across multiple regions.
+--
+
+You can use local clusters to run your entire Amazon EKS cluster locally on {aws} Outposts. This helps mitigate the risk of application downtime that might result from temporary network disconnects to the cloud. These disconnects can be caused by fiber cuts or weather events. Because the entire [.noloc]`Kubernetes` cluster runs locally on Outposts, applications remain available. You can perform cluster operations during network disconnects to the cloud. For more information, see <<eks-outposts-network-disconnects>>. The following diagram shows a local cluster deployment.
+
+
+
+image::images/outposts-local-cluster.png[Outpost local cluster,scaledwidth=100%]
+
+Local clusters are generally available for use with Outposts racks.
+
+[[outposts-control-plane-supported-regions,outposts-control-plane-supported-regions.title]]
+== Supported {aws} Regions
+
+You can create local clusters in the following {aws} Regions: US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Middle East (Bahrain), and South America (São Paulo). For detailed information about supported features, see <<outposts-overview-comparing-deployment-options>>.
+
+[.topiclist]
+[[Topic List]]

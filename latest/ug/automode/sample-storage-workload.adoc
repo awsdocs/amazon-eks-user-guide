@@ -1,0 +1,231 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[sample-storage-workload,sample-storage-workload.title]]
+= Deploy a sample stateful workload to EKS Auto Mode
+:info_doctype: section
+:info_title: Deploy a sample stateful workload to EKS Auto Mode
+:info_titleabbrev: Deploy stateful workload
+:info_abstract: Deploy a sample stateful workload to EKS Auto Mode
+
+include::../attributes.txt[]
+
+This tutorial will guide you through deploying a sample stateful application to your EKS Auto Mode cluster. The application writes timestamps to a persistent volume, demonstrating EKS Auto Mode's automatic EBS volume provisioning and persistence capabilities.
+
+## Prerequisites
+
+* An EKS Auto Mode cluster
+* The {aws} CLI configured with appropriate permissions
+* `kubectl` installed and configured
+** For more information, see <<setting-up>>.
+
+## Step 1: Configure your environment
+
+. Set your environment variables:
++
+[source,bash]
+----
+export CLUSTER_NAME=my-auto-cluster
+export AWS_REGION="us-west-2"
+----
+. Update your kubeconfig:
++
+[source,bash]
+----
+aws eks update-kubeconfig --name "${CLUSTER_NAME}"
+----
+
+## Step 2: Create the storage class
+
+The StorageClass defines how EKS Auto Mode will provision EBS volumes.
+
+{eam} does not create a StorageClass for you. You must create a StorageClass referencing `ebs.csi.eks.amazonaws.com` to use the storage capability of {eam}.
+
+. Create a file named `storage-class.yaml`:
++
+[source,yaml]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: auto-ebs-sc
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: ebs.csi.eks.amazonaws.com
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  type: gp3
+  encrypted: "true"
+----
+. Apply the StorageClass:
++
+[source,bash]
+----
+kubectl apply -f storage-class.yaml
+----
+
+*Key components:*
+
+- `provisioner: ebs.csi.eks.amazonaws.com` - Uses {eam}
+- `volumeBindingMode: WaitForFirstConsumer` - Delays volume creation until a pod needs it
+- `type: gp3` - Specifies the EBS volume type
+- `encrypted: "true"` - EBS will use the default `aws/ebs` key to encrypt volumes created with this class. This is optional, but reccomended. 
+- `storageclass.kubernetes.io/is-default-class: "true"` - Kubernetes will use this storage class by default, unless you specify a different volume class on a persistent volume claim. Use caution when setting this value if you are migrating from another storage controller. (optional)
+
+## Step 3: Create the persistent volume claim
+
+The PVC requests storage from the StorageClass.
+
+. Create a file named `pvc.yaml`:
++
+[source,yaml]
+----
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: auto-ebs-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: auto-ebs-sc
+  resources:
+    requests:
+      storage: 8Gi
+----
+. Apply the PVC:
++
+[source,bash]
+----
+kubectl apply -f pvc.yaml
+----
+
+*Key components:*
+
+- `accessModes: ReadWriteOnce` - Volume can be mounted by one node at a time
+- `storage: 8Gi` - Requests an 8 GiB volume
+- `storageClassName: auto-ebs-sc` - References the StorageClass we created
+
+## Step 4: Deploy the Application
+
+The Deployment runs a container that writes timestamps to the persistent volume.
+
+. Create a file named `deployment.yaml`:
++
+[source,yaml]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inflate-stateful
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inflate-stateful
+  template:
+    metadata:
+      labels:
+        app: inflate-stateful
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        eks.amazonaws.com/compute-type: auto
+      containers:
+        - name: bash
+          image: public.ecr.aws/docker/library/bash:4.4
+          command: ["/usr/local/bin/bash"]
+          args: ["-c", "while true; do echo $(date -u) >> /data/out.txt; sleep 60; done"]
+          resources:
+            requests:
+              cpu: "1"
+          volumeMounts:
+            - name: persistent-storage
+              mountPath: /data
+      volumes:
+        - name: persistent-storage
+          persistentVolumeClaim:
+            claimName: auto-ebs-claim
+----
+. Apply the Deployment:
++
+[source,bash]
+----
+kubectl apply -f deployment.yaml
+----
+
+*Key components:*
+
+- Simple bash container that writes timestamps to a file
+- Mounts the PVC at `/data`
+- Requests 1 CPU core
+- Uses node selector for EKS managed nodes
+
+## Step 5: Verify the Setup
+
+. Check that the pod is running:
++
+[source,bash]
+----
+kubectl get pods -l app=inflate-stateful
+----
+. Verify the PVC is bound:
++
+[source,bash]
+----
+kubectl get pvc auto-ebs-claim
+----
+. Check the EBS volume:
++
+[source,bash]
+----
+# Get the PV name
+PV_NAME=$(kubectl get pvc auto-ebs-claim -o jsonpath='{.spec.volumeName}')
+# Describe the EBS volume
+aws ec2 describe-volumes \
+  --filters Name=tag:CSIVolumeName,Values=${PV_NAME}
+----
+. Verify data is being written:
++
+[source,bash]
+----
+kubectl exec "$(kubectl get pods -l app=inflate-stateful \
+  -o=jsonpath='{.items[0].metadata.name}')" -- \
+  cat /data/out.txt
+----
+
+## Step 6: Cleanup 
+
+Run the following command to remove all resources created in this tutorial:
+
+[source,bash]
+----
+# Delete all resources in one command
+kubectl delete deployment/inflate-stateful pvc/auto-ebs-claim storageclass/auto-ebs-sc
+----
+
+## What's Happening Behind the Scenes
+
+. The PVC requests storage from the StorageClass
+. When the Pod is scheduled:
+.. EKS Auto Mode provisions an EBS volume
+.. Creates a PersistentVolume
+.. Attaches the volume to the node
+. The Pod mounts the volume and begins writing timestamps
+
+== Snapshot Controller
+
+{eam} is compatible with the Kubernetes CSI Snapshotter, also known as the snapshot controller. However, {eam} does not include the snapshot controller. You are responsible for installing and configuring the snapshot controller. For more information, see <<csi-snapshot-controller>>.
+
+Review the following `VolumeSnapshotClass` that references the storage capability of {eam}. 
+
+[source,yaml]
+----
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: auto-ebs-vsclass
+driver: ebs.csi.eks.amazonaws.com
+deletionPolicy: Delete
+----
+
+https://github.com/kubernetes-csi/external-snapshotter/blob/master/README.md#usage[Learn more about the Kubernetes CSI Snapshotter.]

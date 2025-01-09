@@ -1,0 +1,76 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[community-addons,community-addons.title]]
+= Community add-ons 
+:info_doctype: section
+
+include::../attributes.txt[]
+
+You can use {aws} APIs to install community add-ons, such as the Kubernetes Metrics Server. You may choose to install community add-ons as Amazon EKS Add-ons to reduce the complexity of maintaining the software on multiple clusters. 
+
+For example, you can use the {aws} API, CLI, or Management Console to install community add-ons. You can install a community add-on during cluster creation. 
+
+You manage community add-ons just like existing Amazon EKS Add-ons. Community add-ons are different from existing add-ons in that they have a unique scope of support. 
+
+Community add-ons are built and validated by {aws}. Importantly, {aws} does not provide full support for community add-ons. {aws} supports only lifecycle operations done using {aws} APIs, such as installing add-ons or deleting add-ons. 
+
+If you require support for a community add-on, utilize the existing project resources. For example, you may create a GitHub issue on the repo for the project.
+
+== Determine add-on type
+
+You can use the {aws} CLI to determine the type of an Amazon EKS Add-on. 
+
+Use the following CLI command to retrieve information about an add-on. You can replace `metrics-server` with the name of any add-on. 
+
+```bash
+aws eks describe-addon-versions --addon-name metrics-server
+```
+
+Review the CLI output for the `owner` field.
+
+```
+{
+    "addons": [
+        {
+            "addonName": "metrics-server",
+            "type": "observability",
+            "owner": "community", 
+            "addonVersions": [
+```
+
+If the value of `owner` is `community`, then the add-on is a community add-on. {aws} only provides support for installing, updating, and removing the add-on. If you have questions about the functionality and operation of the add-on itself, use community resources like GitHub issues. 
+
+
+== Install or update community add-on
+
+You install or update community add-ons in the same way as other Amazon EKS Add-ons. 
+
+* <<creating-an-add-on>>
+* <<updating-an-add-on>>
+* <<removing-an-add-on>>
+
+== Available community add-ons
+
+The following community add-ons are availalbe from Amazon EKS. 
+
+=== [.noloc]`Kubernetes Metrics Server`
+
+The Kubernetes Metrics Server is a scalable and efficient source of container resource metrics for Kubernetes built-in autoscaling pipelines. It collects resource metrics from Kubelets and exposes them in Kubernetes apiserver through Metrics API for use by Horizontal Pod Autoscaler and Vertical Pod Autoscaler.
+
+|===
+|Property | Value
+
+|Add-on name | `metrics-server`
+
+|Namespace | `kube-system`
+
+|Documentation | https://github.com/kubernetes-sigs/metrics-server[GitHub Readme]
+
+|Service account name | None
+
+|Managed IAM policy | None
+
+|Custom IAM permissions | None
+|===
+
+link:samples/attributions-md.zip[View license attributions for this add-on. ]

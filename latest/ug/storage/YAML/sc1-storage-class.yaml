@@ -1,0 +1,10 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: sc1
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: sc1
+reclaimPolicy: Retain
+mountOptions:
+  - debug

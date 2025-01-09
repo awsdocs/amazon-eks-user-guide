@@ -1,0 +1,44 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[security-connector,security-connector.title]]
+= Understand security in Amazon EKS Connector
+:info_doctype: section
+:info_title: Understand security in Amazon EKS Connector
+:info_titleabbrev: Security considerations
+:info_abstract: Learn how the open-source EKS Connector affects security, and understand {aws} and \
+                customer security responsibilities for connectivity, cluster management, and IAM \
+                access control.
+
+[abstract]
+--
+Learn how the open-source EKS Connector affects security, and understand {aws} and customer security responsibilities for connectivity, cluster management, and IAM access control.
+--
+
+The Amazon EKS Connector is an open source component that runs on your [.noloc]`Kubernetes` cluster. This cluster can be located outside of the {aws} environment. This creates additional considerations for security responsibilities. This configuration can be illustrated by the following diagram. Orange represents {aws} responsibilities, and blue represents customer responsibilities:
+
+
+
+image::images/connector-model.png[EKS Connector Responsibilities,scaledwidth=100%]
+
+This topic describes the differences in the responsibility model if the connected cluster is outside of {aws}.
+
+[[connect-aws-resp,connect-aws-resp.title]]
+== {aws} responsibilities
+
+* Maintaining, building, and delivering Amazon EKS Connector, which is an https://github.com/aws/amazon-eks-connector[open source component] that runs on a customer's [.noloc]`Kubernetes` cluster and communicates with {aws}.
+* Maintaining transport and application layer communication security between the connected [.noloc]`Kubernetes` cluster and {aws} services.
+
+
+[[connect-cust-resp,connect-cust-resp.title]]
+== Customer responsibilities
+
+* [.noloc]`Kubernetes` cluster specific security, specifically along the following lines:
++
+** [.noloc]`Kubernetes` secrets must be properly encrypted and protected.
+** Lock down access to the `eks-connector` namespace.
+* Configuring role-based access control (RBAC) permissions to manage  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] access from {aws}. For instructions, see <<connector-grant-access>>.
+* Installing and upgrading Amazon EKS Connector.
+* Maintaining the hardware, software, and infrastructure that supports the connected [.noloc]`Kubernetes` cluster.
+* Securing their {aws} accounts (for example, through safeguarding your  link:IAM/latest/UserGuide/best-practices.html#lock-away-credentials[root user credentials,type="documentation"]).

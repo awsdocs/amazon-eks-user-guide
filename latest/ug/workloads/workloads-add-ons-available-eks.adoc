@@ -1,0 +1,515 @@
+//!!NODE_ROOT <section>
+
+include::../attributes.txt[]
+
+[.topic]
+[[workloads-add-ons-available-eks,workloads-add-ons-available-eks.title]]
+= {aws} Add-ons
+:info_titleabbrev: {aws} Add-ons
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn about the availabe Amazon EKS add-ons from {aws}.
+--
+
+The following Amazon EKS add-ons are available to create on your cluster. You can view the most current list of available add-ons using `eksctl`, the {aws-management-console}, or the {aws} CLI. To see all available add-ons or to install an add-on, see <<creating-an-add-on>>. If an add-on requires IAM permissions, then you must have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one, or to create one, see <<enable-iam-roles-for-service-accounts>>. You can an create or delete an add-on after you've installed it. For more information, see <<updating-an-add-on>> or <<removing-an-add-on>>. For more information about considerations specific to running EKS add-ons with Amazon EKS Hybrid Nodes, see <<hybrid-nodes-add-ons>>.
+
+You can use any of the following Amazon EKS add-ons.
+
+[role="no-scroll"]
+[cols="1,1,1", options="header"]
+|===
+
+|Description
+|Learn more
+|Compatible compute types
+
+| Provide native VPC networking for your cluster
+|<<add-ons-vpc-cni>>
+|EC2
+
+| A flexible, extensible DNS server that can serve as the [.noloc]`Kubernetes` cluster DNS
+|<<add-ons-coredns>>
+|EC2, Fargate, EKS Auto Mode, Amazon EKS Hybrid Nodes
+
+|Maintain network rules on each Amazon EC2 node
+|<<add-ons-kube-proxy>>
+|EC2, Amazon EKS Hybrid Nodes
+
+|Provide Amazon EBS storage for your cluster
+|<<add-ons-aws-ebs-csi-driver>>
+|EC2
+
+|Provide Amazon EFS storage for your cluster
+|<<add-ons-aws-efs-csi-driver>>
+|EC2, EKS Auto Mode
+
+|Provide Amazon S3 storage for your cluster
+|<<mountpoint-for-s3-add-on>>
+|EC2, EKS Auto Mode
+
+|Detect additional node health issues
+|<<add-ons-eks-node-monitoring-agent>>
+|EC2
+
+|Enable the use of snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI driver
+|<<addons-csi-snapshot-controller>>
+|EC2, Fargate, EKS Auto Mode, Amazon EKS Hybrid Nodes
+
+|SageMaker HyperPod task governance optimizes compute resource allocation and usage across teams in Amazon EKS clusters, addressing inefficiencies in task prioritization and resource sharing.
+|<<addons-hyperpod>>
+|EC2, EKS Auto Mode, 
+
+|A Kubernetes agent that collects and reports network flow data to Amazon CloudWatch, enabling comprehensive monitoring of TCP connections across cluster nodes.
+|<<addons-network-flow>>
+|EC2, EKS Auto Mode
+
+|Secure, production-ready, {aws} supported distribution of the OpenTelemetry project
+|<<add-ons-adot>>
+|EC2, Fargate, EKS Auto Mode, Amazon EKS Hybrid Nodes
+
+|Security monitoring service that analyzes and processes foundational data sources including {aws} CloudTrail management events and Amazon VPC flow logs. Amazon GuardDuty also processes features, such as [.noloc]`Kubernetes` audit logs and runtime monitoring
+|<<add-ons-guard-duty>>
+|EC2, EKS Auto Mode
+
+|Monitoring and observability service provided by {aws}. This add-on installs the CloudWatch Agent and enables both CloudWatch Application Signals and CloudWatch Container Insights with enhanced observability for Amazon EKS
+|<<amazon-cloudwatch-observability>>
+|EC2, EKS Auto Mode, Amazon EKS Hybrid Nodes
+
+|Ability to manage credentials for your applications, similar to the way that EC2 instance profiles provide credentials to EC2 instances
+|<<add-ons-pod-id>>
+|EC2, Amazon EKS Hybrid Nodes
+
+|===
+
+[[add-ons-vpc-cni,add-ons-vpc-cni.title]]
+== Amazon VPC CNI plugin for Kubernetes
+
+[abstract]
+--
+Learn about the vpc-cni Amazon EKS add-on.
+--
+
+The [.noloc]`Amazon VPC CNI plugin for Kubernetes` Amazon EKS add-on is a [.noloc]`Kubernetes` container network interface (CNI) plugin that provides native VPC networking for your cluster. The self-managed or managed type of this add-on is installed on each Amazon EC2 node, by default. For more information, see https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/[Kubernetes container network interface (CNI) plugin].
+
+[NOTE]
+====
+You do not need to install this add-on on Amazon EKS Auto Mode clusters. For more information, see <<addon-consider-auto>>. 
+====
+
+
+The Amazon EKS add-on name is `vpc-cni`.
+
+[[add-ons-vpc-cni-iam-permissions,add-ons-vpc-cni-iam-permissions.title]]
+=== Required IAM permissions
+
+This add-on uses the  IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. 
+
+If your cluster uses the `IPv4` family, the permissions in the  link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html[AmazonEKS_CNI_Policy,type="documentation"] are required. If your cluster uses the `IPv6` family, you must  link:IAM/latest/UserGuide/access_policies_create.html[create an IAM policy,type="documentation"] with the permissions in https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/iam-policy.md#ipv6-mode[IPv6 mode]. You can create an IAM role, attach one of the policies to it, and annotate the [.noloc]`Kubernetes` service account used by the add-on with the following command.  
+
+Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKSVPCCNIRole` with the name for your role. If your cluster uses the `IPv6` family, then replace [.replaceable]`AmazonEKS_CNI_Policy` with the name of the policy that you created. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool to create the role, attach the policy to it, and annotate the [.noloc]`Kubernetes` service account, see <<associate-service-account-role>>.
+
+[source,bash,subs="verbatim,attributes"]
+----
+eksctl create iamserviceaccount --name aws-node --namespace kube-system --cluster my-cluster --role-name AmazonEKSVPCCNIRole \
+    --role-only --attach-policy-arn {arn-aws}iam::aws:policy/AmazonEKS_CNI_Policy --approve
+----
+
+
+[[add-ons-vpc-cni-update-information,add-ons-vpc-cni-update-information.title]]
+=== Update information
+
+You can only update one minor version at a time. For example, if your current version is `1.28.[.replaceable]``x``-eksbuild.[.replaceable]``y``` and you want to update to `1.30.[.replaceable]``x``-eksbuild.[.replaceable]``y```, then you must update your current version to `1.29.[.replaceable]``x``-eksbuild.[.replaceable]``y``` and then update it again to `1.30.[.replaceable]``x``-eksbuild.[.replaceable]``y```. For more information about updating the add-on, see <<vpc-add-on-update>>.
+
+[[add-ons-coredns,add-ons-coredns.title]]
+== CoreDNS
+
+[abstract]
+--
+Learn about the CoreDNS Amazon EKS add-on.
+--
+
+The CoreDNS Amazon EKS add-on is a flexible, extensible DNS server that can serve as the [.noloc]`Kubernetes` cluster DNS. The self-managed or managed type of this add-on was installed, by default, when you created your cluster. When you launch an Amazon EKS cluster with at least one node, two replicas of the [.noloc]`CoreDNS` image are deployed by default, regardless of the number of nodes deployed in your cluster. The [.noloc]`CoreDNS` [.noloc]`Pods` provide name resolution for all [.noloc]`Pods` in the cluster. You can deploy the [.noloc]`CoreDNS` [.noloc]`Pods` to Fargate nodes if your cluster includes a Fargate profile with a namespace that matches the namespace for the [.noloc]`CoreDNS` deployment. For more information, see <<fargate-profile>>
+
+[NOTE]
+====
+You do not need to install this add-on on Amazon EKS Auto Mode clusters. For more information, see <<addon-consider-auto>>. 
+====
+
+The Amazon EKS add-on name is `coredns`.
+
+[[add-ons-coredns-iam-permissions,add-ons-coredns-iam-permissions.title]]
+=== Required IAM permissions
+
+This add-on doesn't require any permissions.
+
+[[add-ons-coredns-information,add-ons-coredns-information.title]]
+=== Additional information
+
+To learn more about CoreDNS, see https://kubernetes.io/docs/tasks/administer-cluster/coredns/[Using CoreDNS for Service Discovery] and https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/[Customizing DNS Service] in the [.noloc]`Kubernetes` documentation.
+
+[[add-ons-kube-proxy,add-ons-kube-proxy.title]]
+== `Kube-proxy`
+
+[abstract]
+--
+Learn about the Kube-proxy Amazon EKS add-on.
+--
+
+The `Kube-proxy` Amazon EKS add-on maintains network rules on each Amazon EC2 node. It enables network communication to your [.noloc]`Pods`. The self-managed or managed type of this add-on is installed on each Amazon EC2 node in your cluster, by default.
+
+[NOTE]
+====
+You do not need to install this add-on on Amazon EKS Auto Mode clusters. For more information, see <<addon-consider-auto>>. 
+====
+
+The Amazon EKS add-on name is `kube-proxy`.
+
+[[add-ons-kube-proxy-iam-permissions,add-ons-kube-proxy-iam-permissions.title]]
+=== Required IAM permissions
+
+This add-on doesn't require any permissions.
+
+[[add-ons-kube-proxy-update-information,add-ons-kube-proxy-update-information.title]]
+=== Update information
+
+Before updating your current version, consider the following requirements:
+
+
+
+* `Kube-proxy` on an Amazon EKS cluster has the same https://kubernetes.io/releases/version-skew-policy/#kube-proxy[compatibility and skew policy as Kubernetes].
+
+
+[[add-ons-kube-proxy-information,add-ons-kube-proxy-information.title]]
+=== Additional information
+
+To learn more about `kube-proxy`, see https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/[kube-proxy] in the [.noloc]`Kubernetes` documentation.
+
+[[add-ons-aws-ebs-csi-driver,add-ons-aws-ebs-csi-driver.title]]
+== Amazon EBS CSI driver
+
+[abstract]
+--
+Learn about the Amazon EBS CSI driver Amazon EKS add-on.
+--
+
+The Amazon EBS CSI driver Amazon EKS add-on is a [.noloc]`Kubernetes` Container Storage Interface (CSI) plugin that provides Amazon EBS storage for your cluster.
+
+[NOTE]
+====
+You do not need to install this add-on on Amazon EKS Auto Mode clusters. Auto Mode includes a block storage capability. For more information, see <<sample-storage-workload>>.
+====
+
+The Amazon EKS add-on name is `aws-ebs-csi-driver`.
+
+[[add-ons-aws-ebs-csi-driver-iam-permissions,add-ons-aws-ebs-csi-driver-iam-permissions.title]]
+=== Required IAM permissions
+
+This add-on utilizes the IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. The permissions in the link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html[AmazonEBSCSIDriverPolicy,type="documentation"] {aws} managed policy are required. You can create an IAM role and attach the managed policy to it with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKS_EBS_CSI_DriverRole` with the name for your role. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool or you need to use a custom link:kms/[KMS key,type="marketing"] for encryption, see <<csi-iam-role>>.
+
+[source,bash,subs="verbatim,attributes"]
+----
+eksctl create iamserviceaccount \
+    --name ebs-csi-controller-sa \
+    --namespace kube-system \
+    --cluster my-cluster \
+    --role-name AmazonEKS_EBS_CSI_DriverRole \
+    --role-only \
+    --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+    --approve
+----
+
+
+[[add-ons-aws-ebs-csi-driver-information,add-ons-aws-ebs-csi-driver-information.title]]
+=== Additional information
+
+To learn more about the add-on, see <<ebs-csi>>.
+
+[[add-ons-aws-efs-csi-driver,add-ons-aws-efs-csi-driver.title]]
+== Amazon EFS CSI driver
+
+[abstract]
+--
+Learn about the Amazon EFS CSI driver Amazon EKS add-on.
+--
+
+The Amazon EFS CSI driver Amazon EKS add-on is a [.noloc]`Kubernetes` Container Storage Interface (CSI) plugin that provides Amazon EFS storage for your cluster.
+
+The Amazon EKS add-on name is `aws-efs-csi-driver`.
+
+[[add-ons-aws-efs-csi-driver-iam-permissions,add-ons-aws-efs-csi-driver-iam-permissions.title]]
+=== Required IAM permissions
+
+*Required IAM permissions* – This add-on utilizes the IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. The permissions in the link:aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html[AmazonEFSCSIDriverPolicy,type="documentation"] {aws} managed policy are required. You can create an IAM role and attach the managed policy to it with the following commands. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKS_EFS_CSI_DriverRole` with the name for your role. These commands require that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool, see <<efs-create-iam-resources>>.
+
+[source,bash,subs="verbatim,attributes"]
+----
+export cluster_name=my-cluster
+export role_name=AmazonEKS_EFS_CSI_DriverRole
+eksctl create iamserviceaccount \
+    --name efs-csi-controller-sa \
+    --namespace kube-system \
+    --cluster $cluster_name \
+    --role-name $role_name \
+    --role-only \
+    --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
+    --approve
+TRUST_POLICY=$(aws iam get-role --role-name $role_name --query 'Role.AssumeRolePolicyDocument' | \
+    sed -e 's/efs-csi-controller-sa/efs-csi-*/' -e 's/StringEquals/StringLike/')
+aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRUST_POLICY"
+----
+
+
+[[add-ons-aws-efs-csi-driver-information,add-ons-aws-efs-csi-driver-information.title]]
+=== Additional information
+
+To learn more about the add-on, see <<efs-csi>>.
+
+[[mountpoint-for-s3-add-on,mountpoint-for-s3-add-on.title]]
+== [.noloc]`Mountpoint` for Amazon S3 CSI Driver
+
+[abstract]
+--
+Learn about the [.noloc]`Mountpoint` for Amazon S3 CSI Driver Amazon EKS add-on.
+--
+
+The [.noloc]`Mountpoint` for Amazon S3 CSI Driver Amazon EKS add-on is a [.noloc]`Kubernetes` Container Storage Interface (CSI) plugin that provides Amazon S3 storage for your cluster.
+
+The Amazon EKS add-on name is `aws-mountpoint-s3-csi-driver`.
+
+[[add-ons-mountpoint-for-s3-add-on-iam-permissions,add-ons-mountpoint-for-s3-add-on-iam-permissions.title]]
+=== Required IAM permissions
+
+This add-on uses the  IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>.
+
+The IAM role that is created will require a policy that gives access to S3. Follow the https://github.com/awslabs/mountpoint-s3/blob/main/doc/CONFIGURATION.md#iam-permissions[Mountpoint IAM permissions recommendations] when creating the policy. Alternatively, you may use the {aws} managed policy link:iam/home?#/policies/arn:aws:iam::aws:policy/AmazonS3FullAccess$jsonEditor[AmazonS3FullAccess,type="console"], but this managed policy grants more permissions than are needed for [.noloc]`Mountpoint`.  
+
+You can create an IAM role and attach your policy to it with the following commands. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`region-code` with the correct {aws} Region code, [.replaceable]`AmazonEKS_S3_CSI_DriverRole` with the name for your role, and [.replaceable]`AmazonEKS_S3_CSI_DriverRole_ARN` with the role ARN. These commands require that you have https://eksctl.io[eksctl] installed on your device. For instructions on using the IAM console or {aws} CLI, see <<s3-create-iam-role>>.
+
+[source,bash,subs="verbatim,attributes"]
+----
+CLUSTER_NAME=my-cluster
+REGION=region-code
+ROLE_NAME=AmazonEKS_S3_CSI_DriverRole
+POLICY_ARN=AmazonEKS_S3_CSI_DriverRole_ARN
+eksctl create iamserviceaccount \
+    --name s3-csi-driver-sa \
+    --namespace kube-system \
+    --cluster $CLUSTER_NAME \
+    --attach-policy-arn $POLICY_ARN \
+    --approve \
+    --role-name $ROLE_NAME \
+    --region $REGION \
+    --role-only
+----
+
+
+[[add-ons-mountpoint-for-s3-add-on-information,add-ons-mountpoint-for-s3-add-on-information.title]]
+=== Additional information
+
+To learn more about the add-on, see <<s3-csi>>.
+
+[[addons-csi-snapshot-controller,addons-csi-snapshot-controller.title]]
+== CSI snapshot controller
+
+[abstract]
+--
+Learn about the CSI snapshot controller Amazon EKS add-on.
+--
+
+The Container Storage Interface (CSI) snapshot controller enables the use of snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI driver.
+
+The Amazon EKS add-on name is `snapshot-controller`.
+
+[[add-ons-csi-snapshot-controller-iam-permissions,add-ons-csi-snapshot-controller-iam-permissions.title]]
+=== Required IAM permissions
+
+This add-on doesn't require any permissions.
+
+[[add-ons-csi-snapshot-controller-information,add-ons-csi-snapshot-controller-information.title]]
+=== Additional information
+
+To learn more about the add-on, see <<csi-snapshot-controller>>.
+
+
+[[addons-hyperpod,addons-hyperpod.title]]
+== Amazon SageMaker HyperPod task governance
+
+SageMaker HyperPod task governance is a robust management system designed to streamline resource allocation and ensure efficient utilization of compute resources across teams and projects for your Amazon EKS clusters. This provides administrators with the capability to set:
+
+* Priority levels for various tasks
+* Compute allocation for each team
+* How each team lends and borrows idle compute
+* If a team preempts their own tasks
+
+HyperPod task governance also provides Amazon EKS cluster Observability, offering real-time visibility into cluster capacity. This includes compute availability and usage, team allocation and utilization, and task run and wait time information, setting you up for informed decision-making and proactive resource management.
+
+The Amazon EKS add-on name is `amazon-sagemaker-hyperpod-taskgovernance`.
+
+=== Required IAM permissions
+
+This add-on doesn't require any permissions.
+
+=== Additional information
+
+To learn more about the add-on, see link:sagemaker/latest/dg/sagemaker-hyperpod-eks-operate-console-ui-governance.html["SageMaker HyperPod task governance",type="documentation"]
+
+[[addons-network-flow,addons-network-flow.title]]
+== {aws} Network Flow Monitor Agent
+
+The Amazon CloudWatch Network Flow Monitor Agent is a Kubernetes application that collects TCP connection statistics from all nodes in a cluster and publishes network flow reports to Amazon CloudWatch Network Flow Monitor Ingestion APIs.
+
+The Amazon EKS add-on name is `aws-network-flow-monitoring-agent`.
+
+=== Required IAM permissions
+
+This add-on does require IAM permissions.
+
+You need to attach the `CloudWatchNetworkFlowMonitorAgentPublishPolicy` managed policy to the add-on.
+
+For more information on the required IAM setup, see https://github.com/aws/network-flow-monitor-agent?tab=readme-ov-file#iam-policy[IAM Policy] on the Amazon CloudWatch Network Flow Monitor Agent GitHub repo. 
+
+For more information about the managed policy, see link:AmazonCloudWatch/latest/monitoring/security-iam-awsmanpol-network-flow-monitor.html#security-iam-awsmanpol-CloudWatchNetworkFlowMonitorAgentPublishPolicy["CloudWatchNetworkFlowMonitorAgentPublishPolicy",type="documentation"] in the Amazon CloudWatch User Guide. 
+
+=== Additional information
+
+To learn more about the add-on, see the https://github.com/aws/network-flow-monitor-agent?tab=readme-ov-file[Amazon CloudWatch Network Flow Monitor Agent GitHub repo]. 
+
+[[add-ons-eks-node-monitoring-agent,add-ons-eks-node-monitoring-agent.title]]
+== Node monitoring agent
+
+The node monitoring agent Amazon EKS add-on can detect additional node health issues. These extra health signals can also be leveraged by the optional node auto repair feature to automatically replace nodes as needed.
+
+[NOTE]
+====
+You do not need to install this add-on on Amazon EKS Auto Mode clusters. For more information, see <<addon-consider-auto>>. 
+====
+
+The Amazon EKS add-on name is `eks-node-monitoring-agent`.
+
+[[add-ons-eks-node-monitoring-agent-iam-permissions,add-ons-eks-node-monitoring-agent-iam-permissions.title]]
+=== Required IAM permissions
+
+This add-on doesn't require additional permissions.
+
+[[add-ons-eks-node-monitoring-agent-information,add-ons-eks-node-monitoring-agent-information.title]]
+=== Additional information
+
+For more information, see <<node-health>>.
+
+
+[[add-ons-adot,add-ons-adot.title]]
+== {aws} Distro for OpenTelemetry
+
+[abstract]
+--
+Learn about the {aws} Distro for OpenTelemetry Amazon EKS add-on.
+--
+
+The {aws} Distro for OpenTelemetry Amazon EKS add-on is a secure, production-ready, {aws} supported distribution of the OpenTelemetry project. For more information, see https://aws-otel.github.io/[{aws} Distro for OpenTelemetry] on GitHub.
+
+The Amazon EKS add-on name is `adot`.
+
+[[add-ons-adot-iam-permissions,add-ons-adot-iam-permissions.title]]
+=== Required IAM permissions
+
+This add-on only requires IAM permissions if you're using one of the preconfigured custom resources that can be opted into through advanced configuration.
+
+[[add-ons-adot-information,add-ons-adot-information.title]]
+=== Additional information
+
+For more information, see https://aws-otel.github.io/docs/getting-started/adot-eks-add-on[Getting Started with {aws} Distro for OpenTelemetry using EKS Add-Ons] in the {aws} Distro for [.noloc]`OpenTelemetry` documentation.
+
+ADOT requires that `cert-manager` is deployed on the cluster as a prerequisite, otherwise this add-on won't work if deployed directly using the https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest[Amazon EKS Terraform]``cluster_addons`` property. For more requirements, see https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/requirements[Requirements for Getting Started with {aws} Distro for OpenTelemetry using EKS Add-Ons] in the {aws} Distro for [.noloc]`OpenTelemetry` documentation.
+
+[[add-ons-guard-duty,add-ons-guard-duty.title]]
+== Amazon GuardDuty agent
+
+[abstract]
+--
+Learn about the Amazon GuardDuty agent Amazon EKS add-on.
+--
+
+The Amazon GuardDuty agent Amazon EKS add-on is a security monitoring service that analyzes and processes   link:guardduty/latest/ug/guardduty_data-sources.html[foundational data sources,type="documentation"] including {aws} CloudTrail management events and Amazon VPC flow logs. Amazon GuardDuty also processes link:guardduty/latest/ug/guardduty-features-activation-model.html[features,type="documentation"], such as [.noloc]`Kubernetes` audit logs and runtime monitoring.
+
+The Amazon EKS add-on name is `aws-guardduty-agent`.
+
+[[add-ons-guard-duty-iam-permissions,add-ons-guard-duty-iam-permissions.title]]
+=== Required IAM permissions
+
+This add-on doesn't require any permissions.
+
+[[add-ons-guard-duty-information,add-ons-guard-duty-information.title]]
+=== Additional information
+
+For more information, see link:guardduty/latest/ug/how-runtime-monitoring-works-eks.html[Runtime Monitoring for Amazon EKS clusters in Amazon GuardDuty,type="documentation"].
+
+
+
+* To detect potential security threats in your Amazon EKS clusters, enable Amazon GuardDuty runtime monitoring and deploy the GuardDuty security agent to your Amazon EKS clusters.
+
+
+[[amazon-cloudwatch-observability,amazon-cloudwatch-observability.title]]
+== Amazon CloudWatch Observability agent
+
+[abstract]
+--
+Learn about the Amazon CloudWatch Observability agent Amazon EKS add-on.
+--
+
+The Amazon CloudWatch Observability agent Amazon EKS add-on the monitoring and observability service provided by {aws}. This add-on installs the CloudWatch Agent and enables both CloudWatch Application Signals and CloudWatch Container Insights with enhanced observability for Amazon EKS. For more information, see link:AmazonCloudWatch/latest/monitoring/Install-CloudWatch-Agent.html[Amazon CloudWatch Agent,type="documentation"].
+
+The Amazon EKS add-on name is `amazon-cloudwatch-observability`.
+
+[[amazon-cloudwatch-observability-iam-permissions,amazon-cloudwatch-observability-iam-permissions.title]]
+=== Required IAM permissions
+
+This add-on uses the  IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. The permissions in the link:iam/home#/policies/arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess[AWSXrayWriteOnlyAccess,type="console"] and link:iam/home#/policies/arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy[CloudWatchAgentServerPolicy,type="console"] {aws} managed policies are required. You can create an IAM role, attach the managed policies to it, and annotate the [.noloc]`Kubernetes` service account used by the add-on with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKS_Observability_role` with the name for your role. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool to create the role, attach the policy to it, and annotate the [.noloc]`Kubernetes` service account, see <<associate-service-account-role>>.
+
+[source,bash,subs="verbatim,attributes"]
+----
+eksctl create iamserviceaccount \
+    --name cloudwatch-agent \
+    --namespace amazon-cloudwatch \
+    --cluster my-cluster \
+    --role-name AmazonEKS_Observability_Role \
+    --role-only \
+    --attach-policy-arn {arn-aws}iam::aws:policy/AWSXrayWriteOnlyAccess \
+    --attach-policy-arn {arn-aws}iam::aws:policy/CloudWatchAgentServerPolicy \
+    --approve
+----
+
+
+[[amazon-cloudwatch-observability-information,amazon-cloudwatch-observability-information.title]]
+=== Additional information
+
+For more information, see link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Install the CloudWatch agent,type="documentation"].
+
+[[add-ons-pod-id,add-ons-pod-id.title]]
+== EKS Pod Identity Agent
+
+[abstract]
+--
+Learn about the EKS Pod Identity Agent Amazon EKS add-on.
+--
+
+The Amazon EKS Pod Identity Agent Amazon EKS add-on provides the ability to manage credentials for your applications, similar to the way that EC2 instance profiles provide credentials to EC2 instances.
+
+[NOTE]
+====
+You do not need to install this add-on on Amazon EKS Auto Mode clusters. Amazon EKS Auto Mode integrates with EKS Pod Identity. For more information, see <<addon-consider-auto>>. 
+====
+
+The Amazon EKS add-on name is `eks-pod-identity-agent`.
+
+[[add-ons-pod-id-iam-permissions,add-ons-pod-id-iam-permissions.title]]
+=== Required IAM permissions
+
+This add-on users permissions from the  <<create-node-role,Amazon EKS node IAM role>>.
+
+[[add-ons-pod-id-update-information,add-ons-pod-id-update-information.title]]
+=== Update information
+
+You can only update one minor version at a time. For example, if your current version is `1.28.x-eksbuild.y` and you want to update to `1.30.x-eksbuild.y`, then you must update your current version to `1.29.x-eksbuild.y` and then update it again to `1.30.x-eksbuild.y`. For more information about updating the add-on, see <<vpc-add-on-update>>.

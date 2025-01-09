@@ -1,0 +1,54 @@
+//!!NODE_ROOT <section>
+
+include::../attributes.txt[]
+
+[.topic]
+[[automode-get-started-console,automode-get-started-console.title]]
+= Create an EKS Auto Mode Cluster with the {aws} Management Console
+:info_doctype: section
+:info_title: Create an EKS Auto Mode Cluster with the {aws} Management Console
+:info_titleabbrev: Management console
+:info_abstract: Create an EKS Auto Mode cluster with the {aws} Management Console
+
+Creating an {eam} cluster in the {aws} Management Console requires less {config} than other options. EKS integrates with {aws} IAM and VPC Networking to help you create the resources associated with an EKS cluster.
+
+You have two options to create a cluster in the console:
+
+* Quick {config} (with EKS Auto Mode)
+* Custom {config} 
+
+In this topic, you will learn how to create an {eam} cluster using the Quick {config} option. 
+
+== Create an EKS Auto Mode using the quick {config} option
+
+You must be logged into the {aws} management console with sufficent permissions to manage {aws} resources including: EC2 instances, EC2 networking, EKS clusters, and IAM roles. 
+
+. Navigate to the EKS Console
+. Click *Create cluster*
+. Confirm the *Quick {config}* option is selected
+. Determine the following values, or use the defaults for a test cluster.
+** Cluster *Name*
+** Kubernetes Version
+. Select the Cluster IAM Role. If this is your first time creating an {eam} cluster, use the *Create {recd} role* option. 
+** Optionally, you can reuse a single Cluster IAM Role in {yaa} for all {eam} clusters. 
+** The Cluster IAM Role includes required permissions for {eam} to manage resources including EC2 instances, EBS volumes, and EC2 load balancers. 
+** The *Create {recd} role* option pre-fills all fields with {recd} values. Select *Next* and then *Create*. The role will use the suggested `AmazonEKSAutoClusterRole` name. 
+** If you recently created a new role, use the *Refresh* icon to reload the role selection dropdown. 
+. Select the Node IAM Role. If this is your first time creating an {eam} cluster, use the *Create {recd} role* option. 
+** Optionally, you can reuse a single Node IAM Role in {yaa} for all {eam} clusters. 
+** The Node IAM Role includes required permissions for Auto Mode nodes to connect to the cluster. The Node IAM Role must include permissions to {ret} ECR images for your containers. 
+** The *Create {recd} role* option pre-fills all fields with {recd} values. Select *Next* and then *Create*. The role will use the suggested `AmazonEKSAutoNodeRole` name. 
+** If you recently created a new role, use the *Refresh* icon to reload the role selection dropdown. 
+. Select the VPC for {yec}. Choose the *Create VPC* to create a new VPC for EKS, or choose a VPC you previously created for EKS. 
+** If you use the VPC Console to create a new VPC, {aws} suggests you create at least one NAT Gateway per Availability Zone. Otherwise, you can use all other defaults. 
+** For more information and details of IPv6 cluster requirements, see <<creating-a-vpc>>.
+. (optional) {eam} automatically populates the private subnets for your selected VPC. You can remove unwanted subnets. 
+** EKS automatically selects private subnets from the VPC following best practices. You can optionally select additional subnets from the VPC, such as public subnets.
+. (optional) Select *View quick configuration defaults* to review all {config} values for the new cluster. The table indicates some values are not editable after the cluster is created. 
+. Select *Create cluster* . Note it may take fifteen minutes for cluster creation to complete.
+
+== Next Steps
+
+* Learn how to xref:sample-storage-workload[Deploy a Sample Workload to {yec}]
+
+//call out refactored IAM

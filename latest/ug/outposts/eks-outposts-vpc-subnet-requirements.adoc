@@ -1,0 +1,112 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[eks-outposts-vpc-subnet-requirements,eks-outposts-vpc-subnet-requirements.title]]
+= Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts
+:info_titleabbrev: Create a VPC and subnets
+
+[abstract]
+--
+Learn about VPC and subnet requirements and considerations, then to create a VPC and subnets for Amazon EKS local clusters on {aws} Outposts.
+--
+
+When you create a local cluster, you specify a VPC and at least one private subnet that runs on Outposts. This topic provides an overview of the VPC and subnets requirements and considerations for your local cluster.
+
+[[outposts-vpc-requirements,outposts-vpc-requirements.title]]
+== VPC requirements and considerations
+
+When you create a local cluster, the VPC that you specify must meet the following requirements and considerations:
+
+
+
+* Make sure that the VPC has enough IP addresses for the local cluster, any nodes, and other [.noloc]`Kubernetes` resources that you want to create. If the VPC that you want to use doesn't have enough IP addresses, increase the number of available IP addresses. You can do this by   link:vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr[associating additional Classless Inter-Domain Routing (CIDR) blocks,type="documentation"] with your VPC. You can associate private (RFC 1918) and public (non-RFC 1918) CIDR blocks to your VPC either before or after you create your cluster. It can take a cluster up to 5 hours for a CIDR block that you associated with a VPC to be recognized.
+* The VPC can't have assigned IP prefixes or IPv6 CIDR blocks. Because of these constraints, the information that's covered in <<cni-increase-ip-addresses,Assign more IP addresses to Amazon EKS nodes with prefixes>> and <<cni-ipv6>> isn't applicable to your VPC.
+* The VPC has a DNS hostname and DNS resolution enabled. Without these features, the local cluster fails to create, and you need to enable the features and recreate your cluster. For more information, see link:vpc/latest/userguide/vpc-dns.html[DNS attributes for your VPC,type="documentation"] in the Amazon VPC User Guide.
+* To access your local cluster over your local network, the VPC must be associated with your Outpost's local gateway route table. For more information, see  link:outposts/latest/userguide/outposts-local-gateways.html#vpc-associations[VPC associations,type="documentation"] in the {aws} Outposts User Guide.
+
+
+[[outposts-subnet-requirements,outposts-subnet-requirements.title]]
+== Subnet requirements and considerations
+
+When you create the cluster, specify at least one private subnet. If you specify more than one subnet, the [.noloc]`Kubernetes` control plane instances are evenly distributed across the subnets. If more than one subnet is specified, the subnets must exist on the same Outpost. Moreover, the subnets must also have proper routes and security group permissions to communicate with each other. When you create a local cluster, the subnets that you specify must meet the following requirements:
+
+
+
+* The subnets are all on the same logical Outpost.
+* The subnets together have at least three available IP addresses for the [.noloc]`Kubernetes` control plane instances. If three subnets are specified, each subnet must have at least one available IP address. If two subnets are specified, each subnet must have at least two available IP addresses. If one subnet is specified, the subnet must have at least three available IP addresses.  
+* The subnets have a route to the Outpost rack's link:outposts/latest/userguide/outposts-local-gateways.html[local gateway,type="documentation"] to access the [.noloc]`Kubernetes` API server over your local network. If the subnets don't have a route to the Outpost rack's local gateway, you must communicate with your [.noloc]`Kubernetes` API server from within the VPC.
+* The subnets must use IP address-based naming. Amazon EC2  link:AWSEC2/latest/UserGuide/ec2-instance-naming.html#instance-naming-rbn[resource-based naming,type="documentation"] isn't supported by Amazon EKS.
+
+
+[[subnet-access-to-services,subnet-access-to-services.title]]
+== Subnet access to {aws} services
+
+The local cluster's private subnets on Outposts must be able to communicate with Regional {aws} services. You can achieve this by using a link:vpc/latest/userguide/vpc-nat-gateway.html[NAT gateway,type="documentation"] for outbound internet access or, if you want to keep all traffic private within your VPC, using link:vpc/latest/privatelink/create-interface-endpoint.html[interface VPC endpoints,type="documentation"].
+
+[[subnet-access-nat-gateway,subnet-access-nat-gateway.title]]
+=== Using a NAT gateway
+
+The local cluster's private subnets on Outposts must have an associated route table that has a route to a NAT gateway in a public subnet that is in the Outpost's parent Availability Zone. The public subnet must have a route to an   link:vpc/latest/userguide/VPC_Internet_Gateway.html[internet gateway,type="documentation"]. The NAT gateway enables outbound internet access and prevents unsolicited inbound connections from the internet to instances on the Outpost.
+
+[[vpc-subnet-requirements-vpc-endpoints,vpc-subnet-requirements-vpc-endpoints.title]]
+=== Using interface VPC endpoints
+
+If the local cluster's private subnets on Outposts don't have an outbound internet connection, or if you want to keep all traffic private within your VPC, then you must create the following interface VPC endpoints and link:vpc/latest/privatelink/gateway-endpoints.html[gateway endpoint,type="documentation"] in a Regional subnet before creating your cluster.
+
+[cols="1,1", options="header"]
+|===
+|Endpoint
+|Endpoint type
+
+
+|`com.amazonaws.[.replaceable]``region-code``.ssm`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.ssmmessages`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.ec2messages`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.ec2`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.secretsmanager`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.logs`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.sts`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.ecr.api`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.ecr.dkr`
+|Interface
+
+|`com.amazonaws.[.replaceable]``region-code``.s3`
+|Gateway
+|===
+
+The endpoints must meet the following requirements:
+
+
+
+* Created in a private subnet located in your Outpost's parent Availability Zone
+* Have private DNS names enabled
+* Have an attached security group that permits inbound HTTPS traffic from the CIDR range of the private outpost subnet.
+
+Creating endpoints incurs charges. For more information, see link:privatelink/pricing/[{aws} PrivateLink pricing,type="marketing"]. If your [.noloc]`Pods` need access to other {aws} services, then you need to create additional endpoints. For a comprehensive list of endpoints, see link:vpc/latest/privatelink/aws-services-privatelink-support.html[{aws} services that integrate with {aws} PrivateLink,type="documentation"].
+
+[[outposts-create-vpc,outposts-create-vpc.title]]
+== Create a VPC
+
+You can create a VPC that meets the previous requirements using one of the following {aws} CloudFormation templates:
+
+
+
+* *https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-09-20/amazon-eks-local-outposts-vpc-subnet.yaml[Template 1]* – This template creates a VPC with one private subnet on the Outpost and one public subnet in the {aws} Region. The private subnet has a route to an internet through a NAT Gateway that resides in the public subnet in the {aws} Region. This template can be used to create a local cluster in a subnet with egress internet access.
+* *https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2023-03-20/amazon-eks-local-outposts-fully-private-vpc-subnet.yaml[Template 2]* – This template creates a VPC with one private subnet on the Outpost and the minimum set of VPC Endpoints required to create a local cluster in a subnet that doesn't have ingress or egress internet access (also referred to as a private subnet).

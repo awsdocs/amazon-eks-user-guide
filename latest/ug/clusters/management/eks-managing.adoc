@@ -1,0 +1,40 @@
+//!!NODE_ROOT <chapter>
+include::../../attributes.txt[]
+[[eks-managing,eks-managing.title]]
+= Organize and monitor cluster resources
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: Organize and monitor cluster resources
+:info_titleabbrev: Cluster management
+
+This chapter includes the following topics to help you manage your cluster. You can also view information about your <<view-kubernetes-resources,Kubernetes resources>> with the {aws-management-console}.
+
+
+
+* The [.noloc]`Kubernetes` Dashboard is a general purpose, web-based UI for [.noloc]`Kubernetes` clusters. It allows users to manage applications running in the cluster and troubleshoot them, as well as manage the cluster itself. For more information, see The https://github.com/kubernetes/dashboard[Kubernetes Dashboard] GitHub repository.
+* <<metrics-server>> – The [.noloc]`Kubernetes` Metrics Server is an aggregator of resource usage data in your cluster. It isn't deployed by default in your cluster, but is used by [.noloc]`Kubernetes` add-ons, such as the [.noloc]`Kubernetes` Dashboard and <<horizontal-pod-autoscaler>>. In this topic you learn how to install the Metrics Server.
+* <<helm>> – The Helm package manager for [.noloc]`Kubernetes` helps you install and manage applications on your [.noloc]`Kubernetes` cluster. This topic helps you install and run the Helm binaries so that you can install and manage charts using the Helm CLI on your local computer.  
+* <<eks-using-tags>> – To help you manage your Amazon EKS resources, you can assign your own metadata to each resource in the form of _tags_. This topic describes tags and shows you how to create them. 
+* <<service-quotas>> – Your {aws} account has default quotas, formerly referred to as limits, for each {aws} service. Learn about the quotas for Amazon EKS and how to increase them.
+
+
+include::cost-monitoring.adoc[leveloffset=+1]
+
+
+include::metrics-server.adoc[leveloffset=+1]
+
+
+include::helm.adoc[leveloffset=+1]
+
+
+include::eks-using-tags.adoc[leveloffset=+1]
+
+
+include::service-quotas.adoc[leveloffset=+1]

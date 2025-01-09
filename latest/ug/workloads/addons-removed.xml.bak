@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  DO NOT PUBLISH - GCLINE@
+-->
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "file://zonbook/docbookx.dtd"
+ [
+  <!ENTITY % xinclude SYSTEM "file://AWSShared/common/xinclude.mod">
+  %xinclude;
+  <!ENTITY % phrases-shared SYSTEM "file://AWSShared/common/phrases-shared.ent">
+  %phrases-shared;
+  <!ENTITY % phrases-eks SYSTEM "../../shared/phrases-eks.ent"> 
+  %phrases-eks;
+  <!ENTITY  AWSMarketplaceMeteringRegisterUsage 'AWSMarketplaceMeteringRegisterUsage'>
+ ]>
+<!--
+  Content maintained by: gcline
+  Engineering contact: eks-addons-config & eks-addons-team Slack channels
+  PM contact: sriramgr
+-->
+<block>
+    <section id="add-on-datree-free" region="SEA;IAD">
+        <info>
+            <title id="add-on-datree-free.title"><noloc>Datree Free</noloc></title>
+        </info>
+        <itemizedlist>
+            <listitem>
+                <para><phrase role="topcom">Publisher</phrase> &endash;
+                    <noloc>Datree</noloc></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Name</phrase> &endash;
+                    <code>datree.engine-free</code></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Version</phrase> &endash;
+                    <code>1.0.1-rc.1</code></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Namespace</phrase> &endash;
+                    <code>datree</code></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Service account name</phrase> &endash; A service
+                    account isn't used with this add-on.</para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">&AWS; managed &IAM; policy</phrase> &endash; A
+                    managed policy isn't used with this add-on.</para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Custom &IAM; permissions</phrase> &endash; Custom
+                    permissions aren't used with this add-on</para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Setup and usage instructions</phrase> &endash;
+                    None.</para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section id="add-on-datree-pro" region="SEA;IAD">
+        <info>
+            <title id="add-on-datree-pro.title"><noloc>Datree Pro</noloc></title>
+        </info>
+        <itemizedlist>
+            <listitem>
+                <para><phrase role="topcom">Publisher</phrase> &endash;
+                    <noloc>Datree</noloc></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Name</phrase> &endash;
+                    <code>datree.engine-pro</code></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Version</phrase> &endash;
+                    <code>1.0.2-rc.1</code></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Namespace</phrase> &endash;
+                    <code>datree</code></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Service account name</phrase> &endash; TBD.</para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">&AWS; managed &IAM; policy</phrase> &endash; <ulink
+                    type="documentation"
+                    url="aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html"
+                    >AWSLicenseManagerConsumptionPolicy</ulink></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Command to create required &IAM; role</phrase>
+                    &endash; The following command requires that you have an &IAM; &OIDClong;
+                    (&OIDC;) provider for your cluster. To determine whether you have one, or to
+                    create one, see <xref endterm="enable-iam-roles-for-service-accounts.title" linkend="enable-iam-roles-for-service-accounts"/>.
+                    Replace <code><replaceable>my-cluster</replaceable></code> with the name of your cluster
+                    and <code><replaceable>my-datree-pro-role</replaceable></code> with the name for your
+                    role. This command requires that you have <ulink
+                        url="https://eksctl.io">&eksctl;</ulink> installed on your device. If you need to use a
+                    different tool to create the role and annotate the &k8s; service account,
+                    see <xref endterm="associate-service-account-role.title" linkend="associate-service-account-role"/>.</para>
+                <programlisting language="bash"><userinput>eksctl create iamserviceaccount &;#8211;-name tbd &;#8211;-namespace datree &;#8211;-cluster <replaceable>my-cluster</replaceable> &;#8211;-role-name "<replaceable>my-datree-pro-role</replaceable>" \
+    &;#8211;-role-only &;#8211;-attach-policy-arn &region-arn;iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy &;#8211;-approve
+</userinput></programlisting>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Custom &IAM; permissions</phrase> &endash; Custom
+                    permissions aren't used with this add-on.</para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Setup and usage instructions</phrase> &endash;
+                    None.</para>
+            </listitem>
+        </itemizedlist>
+    </section> 
+    <section id="add-on-ha-proxy" region="SEA;IAD">
+        <info>
+            <title id="add-on-ha-proxy.title"><noloc>HAProxy</noloc></title>
+        </info>
+        <itemizedlist>
+            <listitem>
+                <para><phrase role="topcom">Publisher</phrase> &endash; TBD</para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Name</phrase> &endash; <code>TBD</code></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Version</phrase> &endash; <code>TBD</code></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Namespace</phrase> &endash; TBD</para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Service account name</phrase> &endash; TBD.</para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">&AWS; managed &IAM; policy</phrase> &endash;
+                    TBD</para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Custom &IAM; permissions</phrase> &endash;
+                    TBD</para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Setup and usage instructions</phrase> &endash;
+                    TBD.</para>
+            </listitem>
+        </itemizedlist>
+    </section> 
+    <section id="add-on-nirmata" region="SEA;IAD">
+        <info>
+            <title id="add-on-nirmata.title"><noloc>Kyverno Enterprise</noloc></title>
+        </info>
+        <itemizedlist>
+            <listitem>
+                <para><phrase role="topcom">Publisher</phrase> &endash;
+                    <noloc>Nirmata</noloc></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Name</phrase> &endash;
+                    <code>nirmata_kyverno</code></para>
+            </listitem>                    
+            <listitem>
+                <para><phrase role="topcom">Namespace</phrase> &endash;
+                    <code>kyverno</code></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Service account name</phrase> &endash;
+                    <code>kyverno</code></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">&AWS; managed &IAM; policy</phrase> &endash;
+                    <ulink type="documentation"
+                        url="aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html"
+                        >AWSLicenseManagerConsumptionPolicy</ulink></para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Command to create required &IAM; role</phrase>
+                    &endash; The following command requires that you have an &IAM;
+                    &OIDClong; (&OIDC;) provider for your cluster. To determine whether you
+                    have one, or to create one, see <xref
+                        endterm="enable-iam-roles-for-service-accounts.title" linkend="enable-iam-roles-for-service-accounts"/>. Replace
+                    <code><replaceable>my-cluster</replaceable></code> with the name of your cluster
+                    and <code><replaceable>my-kyverno-role</replaceable></code> with the name for your
+                    role. This command requires that you have <ulink
+                        url="https://eksctl.io">&eksctl;</ulink> installed on your device. If you need to
+                    use a different tool to create the role and annotate the &k8s; service
+                    account, see <xref endterm="associate-service-account-role.title" linkend="associate-service-account-role"/>.</para>
+                <programlisting language="bash"><userinput>eksctl create iamserviceaccount --name kyverno --namespace kyverno --cluster <replaceable>my-cluster</replaceable> --role-name <replaceable>my-kyverno-role</replaceable> \
+    --role-only --attach-policy-arn &region-arn;iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
+</userinput></programlisting>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Custom &IAM; permissions</phrase> &endash;
+                    Custom permissions aren't used with this add-on.</para>
+            </listitem>
+            <listitem>
+                <para><phrase role="topcom">Setup and usage instructions</phrase> &endash;
+                    See <ulink url="https://docs.nirmata.io/n4k/">Nirmata Kyverno
+                        Enterprise</ulink> in the <noloc>Nirmata</noloc>
+                    documenation.</para>
+            </listitem>
+        </itemizedlist>
+    </section>
+</block>
+
+        

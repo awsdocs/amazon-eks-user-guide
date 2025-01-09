@@ -1,0 +1,127 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[learn-status-conditions,learn-status-conditions.title]]
+= View the health status of your nodes
+:info_titleabbrev: View node health
+
+include::../attributes.txt[]
+
+[abstract]
+--
+This topic explains the tools and methods available for monitoring node health status in Amazon EKS clusters.
+--
+
+This topic explains the tools and methods available for monitoring node health status in Amazon EKS clusters. The information covers node conditions, events, and detection cases that help you identify and diagnose node-level issues. Use the commands and patterns described here to inspect node health resources, interpret status conditions, and analyze node events for operational troubleshooting.
+
+You can get some node health information with [.noloc]`Kubernetes` commands for all nodes. And if you use the node monitoring agent through Amazon EKS Auto Mode or the Amazon EKS managed add-on, you will get a wider variety of node signals to help troubleshoot. Descriptions of detected health issues by the node monitoring agent are also made available in the observability dashboard. For more information, see <<node-health>>.
+
+[[status-node-conditions,status-node-conditions.title]]
+== Node conditions
+
+Node conditions represent terminal issues requiring remediation actions like instance replacement or reboot.
+
+*To get conditions for all nodes:*
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get nodes -o 'custom-columns=NAME:.metadata.name,CONDITIONS:.status.conditions[*].type,STATUS:.status.conditions[*].status'
+----
+
+*To get detailed conditions for a specific node*
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe node [.replaceable]`node-name`
+----
+
+*Example condition output of a healthy node:*
+
+[source,yaml,subs="verbatim,attributes"]
+----
+  - lastHeartbeatTime: "2024-11-21T19:07:40Z"
+    lastTransitionTime: "2024-11-08T03:57:40Z"
+    message: Monitoring for the Networking system is active
+    reason: NetworkingIsReady
+    status: "True"
+    type: NetworkingReady
+----
+
+*Example condition of a unhealthy node with a networking problem:*
+
+[source,yaml,subs="verbatim,attributes"]
+----
+  - lastHeartbeatTime: "2024-11-21T19:12:29Z"
+    lastTransitionTime: "2024-11-08T17:04:17Z"
+    message: IPAM-D has failed to connect to API Server which could be an issue with
+      IPTable rules or any other network configuration.
+    reason: IPAMDNotReady
+    status: "False"
+    type: NetworkingReady
+----
+
+[[status-node-events,status-node-events.title]]
+== Node events
+
+Node events indicate temporary issues or sub-optimal configurations.
+
+*To get all events reported by the node monitoring agent*
+
+When the node monitoring agent is available, you can run the following command.
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get events --field-selector=reportingComponent=eks-node-monitoring-agent
+----
+
+Sample output:
+
+[source,bash,subs="verbatim,attributes"]
+----
+LAST SEEN   TYPE      REASON       OBJECT                                              MESSAGE
+4s          Warning   SoftLockup   node/ip-192-168-71-251.us-west-2.compute.internal   CPU stuck for 23s
+----
+
+*To get events for all nodes*
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get events --field-selector involvedObject.kind=Node
+----
+
+*To get events for a specific node*
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get events --field-selector involvedObject.kind=Node,involvedObject.name=[.replaceable]`node-name`
+----
+
+*To watch events in real-time*
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get events -w --field-selector involvedObject.kind=Node
+----
+
+*Example event output:*
+
+[source,bash,subs="verbatim,attributes"]
+----
+LAST SEEN   TYPE     REASON           OBJECT         MESSAGE
+2m          Warning  MemoryPressure   Node/node-1    Node experiencing memory pressure
+5m          Normal   NodeReady        Node/node-1    Node became ready
+----
+
+[[status-node-troubleshooting,status-node-troubleshooting.title]]
+== Common troubleshooting commands
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+# Get comprehensive node status
+kubectl get node [.replaceable]`node-name` -o yaml
+
+# Watch node status changes
+kubectl get nodes -w
+
+# Get node metrics
+kubectl top node
+----

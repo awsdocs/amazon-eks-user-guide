@@ -1,0 +1,30 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[image-verification,image-verification.title]]
+= Validate container image signatures during deployment
+:info_doctype: section
+:info_title: Validate container image signatures during deployment
+:info_titleabbrev: Verify container images
+:info_abstract: Learn how to verify signed container images during deployment on Amazon EKS using admission controllers like Gatekeeper with Ratify or Kyverno configured with {aws} Signer plugins for validating image signatures.
+
+[abstract]
+--
+Learn how to verify signed container images during deployment on Amazon EKS using admission controllers like Gatekeeper with Ratify or Kyverno configured with {aws} Signer plugins for validating image signatures.
+--
+
+If you use link:signer/latest/developerguide/Welcome.html[{aws} Signer,type="documentation"] and want to verify signed container images at the time of deployment, you can use one of the following solutions:
+
+
+
+* https://ratify.dev/docs/1.0/quickstarts/ratify-on-aws[Gatekeeper and Ratify] – Use Gatekeeper as the admission controller and Ratify configured with an {aws} Signer plugin as a web hook for validating signatures.
+* https://github.com/nirmata/kyverno-notation-aws[Kyverno] – A [.noloc]`Kubernetes` policy engine configured with an {aws} Signer plugin for validating signatures.
+
+
+[NOTE]
+====
+
+Before verifying container image signatures, configure the https://github.com/notaryproject/notation#readme[Notation] trust store and trust policy, as required by your selected admission controller.
+
+====

@@ -1,0 +1,70 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[critical-workload,critical-workload.title]]
+= Run critical add-ons on dedicated instances
+:info_doctype: section
+:info_titleabbrev: Run critical add-ons
+
+include::../attributes.txt[]
+
+In this topic, you will learn how to deploy a workload with a `CriticalAddonsOnly` toleration so EKS Auto Mode will schedule it onto the `system` node pool.
+
+EKS Auto Mode's built-in `system` node pool is designed for running critical add-ons on dedicated instances. This segregation ensures essential components have dedicated resources and are isolated from general workloads, enhancing overall cluster stability and performance.
+
+This guide demonstrates how to deploy add-ons to the `system` node pool by utilizing the `CriticalAddonsOnly` toleration and appropriate node selectors. By following these steps, you can ensure that your critical applications are scheduled onto the dedicated `system` nodes, leveraging the isolation and resource allocation benefits provided by EKS Auto Mode's specialized node pool structure.
+
+EKS Auto Mode has two built-in node pools: `general-purpose` and `system`. For more information, see <<set-builtin-node-pools>>. 
+
+The purpose of the `system` node pool is to segregate critical add-ons onto different nodes. Nodes provisioned by the `system` node pool have a `CriticalAddonsOnly` Kubernetes taint. Kubernetes will only schedule pods onto these nodes if they have a corresponding toleration. For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the Kubernetes documentation. 
+
+
+== Prerequisites
+
+* EKS Auto Mode Cluster with the built-in `system` node pool enabled. For more information, see <<set-builtin-node-pools>>
+* `kubectl` installed and configured. For more information, see <<setting-up>>. 
+
+== Procedure
+
+Review the example yaml below. Note the following configurations:
+
+* `nodeSelector` -- This associates the workload with the built-in `system` node pool. This node pool must be enabled with the {aws} API. For more information, see <<set-builtin-node-pools>>.
+* `tolerations` -- This toleration overcomes the `CriticalAddonsOnly` taint on nodes in the `system` node pool. 
+
+[source,yaml]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sample-app
+  template:
+    metadata:
+      labels:
+        app: sample-app
+    spec:
+      nodeSelector:
+        karpenter.sh/nodepool: system
+      tolerations:
+      - key: "CriticalAddonsOnly"
+        operator: "Exists"
+      containers:
+      - name: app
+        image: nginx:latest
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+----
+
+To update a workload to run on the `system` node pool, you need to: 
+
+. Update the existing workload to add the following configurations described above:
+** `nodeSelector`
+** `tolerations`
+. Deploy the updated workload to your cluster with `kubectl apply`
+
+After updating the workload, it will run on dedicated nodes. 

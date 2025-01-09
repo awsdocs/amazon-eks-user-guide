@@ -1,0 +1,35 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Convert and Open AsciiDoc",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "asciidoctor ${file} && open ${fileDirname}/${fileBasenameNoExtension}.html"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "currentFile",
+            "type": "command",
+            "command": "extension.commandvariable.file.filePath"
+        }
+    ]
+}

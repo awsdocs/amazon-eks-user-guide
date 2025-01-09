@@ -1,0 +1,53 @@
+//!!NODE_ROOT <chapter>
+include::../attributes.txt[]
+[[storage,storage.title]]
+= Store application data for your cluster
+:doctype: book
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+:idprefix:
+:idseparator: -
+:sourcedir: .
+:info_doctype: chapter
+:info_title: Store application data for your cluster
+:info_titleabbrev: Store app data
+:keywords: persistent, data, app, storage
+:info_abstract: This chapter covers storage options for Amazon EKS clusters.
+
+[abstract]
+--
+This chapter covers storage options for Amazon EKS clusters.
+--
+
+This chapter covers storage options for Amazon EKS clusters.
+
+[.topiclist]
+[[Topic List]]
+
+include::ebs-csi.adoc[leveloffset=+1]
+
+
+include::ebs-csi-migration-faq.adoc[leveloffset=+1]
+
+
+include::efs-csi.adoc[leveloffset=+1]
+
+
+include::fsx-csi.adoc[leveloffset=+1]
+
+
+include::fsx-ontap.adoc[leveloffset=+1]
+
+
+include::fsx-openzfs-csi.adoc[leveloffset=+1]
+
+
+include::file-cache-csi.adoc[leveloffset=+1]
+
+
+include::s3-csi.adoc[leveloffset=+1]
+
+
+include::csi-snapshot-controller.adoc[leveloffset=+1]

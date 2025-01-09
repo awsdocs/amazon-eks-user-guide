@@ -1,0 +1,10 @@
+EKS
+eksctl
+Fargate
+Bottlerocket
+EBS
+StorageClass
+PersistentVolume
+CSI
+Karpenter
+VPC

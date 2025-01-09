@@ -1,0 +1,32 @@
+# default rule, unless a more specific rule applies
+* @eks-admins
+
+# lower approval for specific non-content folders
+/.vscode/ fincd@amazon.com
+
+# default rule for user guide
+/latest/ug/ @eks-contributors
+
+# guide section assignments
+/latest/ug/clusters/ gcline@amazon.com
+/latest/ug/manage-access/ gcline@amazon.com
+/latest/ug/workloads/ gcline@amazon.com
+/latest/ug/networking/ fincd@amazon.com
+/latest/ug/storage/ pgasca@amazon.com
+/latest/ug/nodes/ pgasca@amazon.com
+/latest/ug/connector/ fincd@amazon.com
+/latest/ug/contribute/ gcline@amazon.com
+/latest/ug/getting-started/ mcngs@amazon.com
+/latest/ug/integrations/ gcline@amazon.com
+/latest/ug/observability/ pgasca@amazon.com
+/latest/ug/outposts/ fincd@amazon.com
+/latest/ug/security/ fincd@amazon.com
+/latest/ug/what-is/ mcngs@amazon.com
+
+# use default rule 
+# /latest/ug/troubleshooting/
+# /latest/ug/images/
+# /latest/ug/images_BJS/
+# /latest/ug/YAML
+# /latest/ug/iam_policies/
+# /latest/ug/diagrams/

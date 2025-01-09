@@ -1,0 +1,75 @@
+//!!NODE_ROOT <section>
+
+[.topic]
+[[addon-compat,addon-compat.title]]
+= Verify Amazon EKS add-on version compatibility with a cluster
+:info_titleabbrev: Verify compatibility
+
+include::../attributes.txt[]
+
+
+[abstract]
+--
+Learn how to verify the Amazon EKS add-on compatibility with your cluster before you create or update an Amazon EKS add-on.
+--
+
+Before you create an Amazon EKS add-on you need to verify that the Amazon EKS add-on version is compatible with your cluster.
+
+Use the  link:eks/latest/APIReference/API_DescribeAddonVersions.html[describe-addon-verisions API,type="documentation"] to list the available versions of EKS add-ons, and which Kubernetes versions each addon version supports. 
+
+. Verify the {aws} CLI is installed and working with `aws sts get-caller-identity`. If this command doesn't work, learn how to link:cli/latest/userguide/cli-chap-getting-started.html[Get started with the {aws} CLI.,type="documentation"]
+. Determine the name of the add-on you want to retrieve version compatibility information for, such as `amazon-cloudwatch-observability`.
+. Determine the Kubernetes version of your cluster, such as `{k8s-n}`.
+. Use the {aws} CLI to retrieve the addon versions that are compatible with the Kubernetes version of your cluster. 
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks describe-addon-versions --addon-name amazon-cloudwatch-observability --kubernetes-version {k8s-n}
+----
++
+An example output is as follows.  
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "addons": [
+        {
+            "addonName": "amazon-cloudwatch-observability",
+            "type": "observability",
+            "addonVersions": [
+                {
+                    "addonVersion": "vX.X.X-eksbuild.X",
+                    "architecture": [
+                        "amd64",
+                        "arm64"
+                    ],
+                    "computeTypes": [
+                        "ec2",
+                        "auto",
+                        "hybrid"
+                    ],
+                    "compatibilities": [
+                        {
+                            "clusterVersion": "{k8s-n}",
+                            "platformVersions": [
+                                "*"
+                            ],
+                            "defaultVersion": true
+                        }
+                    ],
+                }
+            ]
+        }
+    ]
+}
+----
++
+This output shows that addon version `vX.X.X-eksbuild.X` is compatible with Kubernetes cluster version `{k8s-n}`.
+
+== Add-on compatibility with compute types
+
+The `computeTypes` field in the `describe-addon-versions` output indicates an add-on's compatibility with EKS Auto Mode Managed Nodes or Hybrid Nodes. Add-ons marked `auto` work with EKS Auto Mode's cloud-based, {aws}-managed infrastructure, while those marked `hybrid` can run on on-premises nodes connected to the EKS cloud control plane.
+
+For more information, see <<addon-consider-auto>>. 
+
+

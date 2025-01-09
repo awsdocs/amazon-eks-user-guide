@@ -1,0 +1,3 @@
+# list of versionsets to run Dry-run Builds in. Used when you make or update a CR.
+AWSDevDocs/public
+AWSDevDocsBJS/public

@@ -1,0 +1,63 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[auto-disable,auto-disable.title]]
+= Disable EKS Auto Mode
+:info_doctype: section
+
+include::../attributes.txt[]
+
+You can disable EKS Auto Mode on an existing EKS Cluster. This is a destructive operation. 
+
+* EKS will terminate all EC2 instances operated by EKS Auto Mode.
+* EKS will delete all Load Balancers operated by EKS Auto Mode.
+* EKS will *not* delete EBS volumes provisioned by EKS Auto Mode. 
+
+EKS Auto Mode is designed to fully manage the resources that it creates.
+Manual interventions could result in EKS Auto Mode failing to completely clean up those resources when it is disabled.
+For example, if you referred to a managed Security Group from external Security Group rules,
+and forget to remove that reference before you disable EKS Auto Mode for a cluster, the
+managed Security Group will leak (not be deleted).
+Steps below describe how to remove a leaked Security Group if that should happen.
+
+== Disable EKS Auto Mode ({aws} Console)
+
+. Open your cluster overview page in the {aws} Management Console. 
+. Under *EKS Auto Mode* select *Manage*
+. Toggle *EKS Auto Mode* to `off`. 
+
+If any managed Security Group is not deleted at the end of this process, you can delete it manually using descriptions from link:vpc/latest/userguide/deleting-security-groups.html[Delete a security group,type="documentation"].
+
+== Disable EKS Auto Mode ({aws} CLI)
+
+Use the following command to disable {eam} on an existing cluster. 
+
+You need to have the `aws` CLI installed, and be logged in with sufficent permissions to manage EKS clusters. For more information, see <<setting-up>>. 
+
+[NOTE]
+====
+The compute, block storage, and load balancing capabilities must all be enabled or disabled in the same request. 
+====
+
+[source,cli]
+----
+aws eks update-cluster-config \
+ --name $CLUSTER_NAME \
+ --compute-config enabled=false \
+ --kubernetes-network-config '{"elasticLoadBalancing":{"enabled": false}}' \
+ --storage-config '{"blockStorage":{"enabled": false}}'
+----
+
+You can check if a leaked EKS Auto Mode Security Group failed to be deleted after disabling EKS Auto Mode as follows:
+
+[source,cli]
+----
+aws ec2 describe-security-groups \
+    --filters Name=tag:eks:eks-cluster-name,Values=<cluster-Name> Name=tag-key,Values=ingress.eks.amazonaws.com/resource,service.eks.amazonaws.com/resource --query "SecurityGroups[*].[GroupName]"
+----
+
+To then delete the Security Group:
+
+[source,cli]
+----
+aws ec2 delete-security-group --group-name=<sg-name>
+----

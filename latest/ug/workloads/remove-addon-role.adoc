@@ -1,0 +1,27 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[remove-addon-role,remove-addon-role.title]]
+=  Remove Pod Identity associations from an Amazon EKS add-on
+:info_titleabbrev: Remove Pod Identity associations
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn how to remove a Pod Identity from an Amazon EKS add-on.
+--
+
+Remove the Pod Identity associations from an Amazon EKS add-on.
+
+. Determine:
++
+** `cluster-name` - The name of the EKS cluster to install the add-on onto.
+** `addon-name` - The name of the Amazon EKS add-on to install.
+. Update the addon to specify an empty array of pod identity associations. 
++
+[source,shell,subs="verbatim,attributes"]
+----
+aws eks update-addon --cluster-name <cluster-name> \
+--addon-name <addon-name> \
+--pod-identity-associations "[]"
+----

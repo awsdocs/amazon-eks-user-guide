@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildinfo>
+ <docsets>
+  <docset id="eks">
+   <pathslug>eks</pathslug>
+   <title>Amazon EKS</title>
+   <forumID>303</forumID>
+   <feedbackCTI>Amazon EKS</feedbackCTI>
+   <options>
+    <!-- The following option seems to break region-specific-images -->
+    <!-- <referenced-images-only>enabled</referenced-images-only> -->
+    <!-- <region-specific-images region="BJS">enabled</region-specific-images> -->
+    <simple-localization-handoff>enabled</simple-localization-handoff>
+    <hide-github-link>0</hide-github-link>
+   </options>
+   <guides>
+    <guide id="eks-ug">
+     <pathslug>userguide</pathslug>
+     <basename>eks-ug</basename>
+     <title>User Guide</title>
+     <abbr>eks</abbr>
+     <api>latest</api>
+     <version>latest</version>
+     <asciidoc-source>latest/ug</asciidoc-source>
+     <locale>en_us</locale>
+     <profile>
+      <features>mesh-gs-eks</features>
+     </profile>
+     <github>
+      <user>awsdocs</user>
+      <repo>amazon-eks-user-guide</repo>
+      <branch>mainline</branch>
+      <source-folder>latest/ug</source-folder>
+     </github>
+     <builds>
+      <html><rss>
+       <title>Amazon EKS Document History</title>
+       <filename>doc-history</filename>
+      </rss></html>
+      <pdf/>
+      <asciidoc>
+       <include-html-profiling>1</include-html-profiling>
+      </asciidoc> 
+     </builds>
+    </guide>
+   </guides>
+  </docset>
+ </docsets>
+</buildinfo>
