@@ -1,11 +1,13 @@
 //!!NODE_ROOT <section>
 
+include::../attributes.txt[]
+
 [.topic]
 [[workloads-add-ons-available-vendors,workloads-add-ons-available-vendors.title]]
 = {aws} Marketplace add-ons
 :info_titleabbrev: Marketplace add-ons
 
-include::../attributes.txt[]
+
 
 
 [abstract]
