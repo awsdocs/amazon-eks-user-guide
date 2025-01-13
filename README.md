@@ -2,15 +2,13 @@
 
 Welcome to the Amazon EKS User Guide repository. This repository contains the open source version of the [Amazon EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/).
 
-## Important Update
+## New Contribution Experience 
 
-This repository will be temporarily taken down to prepare for a new contributor experience. The repository will return at the same url by mid-November. 
+You can now edit the EKS User Guide source directly. The AsciiDoc markup language meets the needs of the AWS Platform, while also being easy to learn. 
 
-## New Contribution Experience Coming Soon
+Use the "Edit this page on GitHub" links in the right sidebar of the EKS User Guide to submit changes. 
 
-We are temporarily taking down the current GitHub repository to prepare for an enhanced contribution experience. The new version will be available in mid-November with the following improvements:
-
-- **AsciiDoc-Powered Documentation**: The guide will use AsciiDoc, an intuitive yet powerful authoring language similar to Markdown that offers:
+- **AsciiDoc-Powered Documentation**: The docs now use AsciiDoc, an intuitive yet powerful authoring language similar to Markdown that offers:
   - Advanced formatting capabilities
   - Robust cross-referencing
   - Enhanced security controls
@@ -26,9 +24,7 @@ We are temporarily taking down the current GitHub repository to prepare for an e
 
 For more information about the new experience, see [Contribute](https://docs.aws.amazon.com/eks/latest/userguide/contribute.html) in the Amazon EKS User Guide.
 
-We look forward to your contributions when we launch the new GitHub experience. The improved platform will make it easier than ever to help us enhance the Amazon EKS documentation.
-
-
+We look forward to your contributions with the new GitHub experience. The improved platform makes it easier than ever to help us enhance the Amazon EKS documentation.
 
 ## License Summary
 
