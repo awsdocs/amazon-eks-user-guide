@@ -12,6 +12,19 @@ This topic gives important changes to be aware of for each [.noloc]`Kubernetes` 
 
 This topic gives important changes to be aware of for each [.noloc]`Kubernetes` version in extended support. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster.
 
+[[kubernetes-1.28,kubernetes-1.28.title]]
+== [.noloc]`Kubernetes` 1.28
+
+[.noloc]`Kubernetes` `1.28` is now available in Amazon EKS. For more information about [.noloc]`Kubernetes` `1.28`, see the https://kubernetes.io/blog/2023/08/15/kubernetes-v1-28-release/[official release announcement].
+
+
+
+* [.noloc]`Kubernetes` `v1.28` expanded the supported skew between core node and control plane components by one minor version, from `n-2` to `n-3`, so that node components (``kubelet`` and `kube-proxy`) for the oldest supported minor version can work with control plane components (``kube-apiserver``, `kube-scheduler`, `kube-controller-manager`, `cloud-controller-manager`) for the newest supported minor version.
+* Metrics `force_delete_pods_total` and `force_delete_pod_errors_total` in the `Pod GC Controller` are enhanced to account for all forceful pods deletion. A reason is added to the metric to indicate whether the pod is forcefully deleted because it's terminated, orphaned, terminating with the out-of-service taint, or terminating and unscheduled.
+* The `PersistentVolume (PV)` controller has been modified to automatically assign a default `StorageClass` to any unbound `PersistentVolumeClaim` with the `storageClassName` not set. Additionally, the `PersistentVolumeClaim` admission validation mechanism within the API server has been adjusted to allow changing values from an unset state to an actual `StorageClass` name.
+
+For the complete [.noloc]`Kubernetes` `1.28` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.28.md#changelog-since-v1270.
+
 [[kubernetes-1.27,kubernetes-1.27.title]]
 == [.noloc]`Kubernetes` 1.27
 
