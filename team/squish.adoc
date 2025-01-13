@@ -1,0 +1,126 @@
+= AmazonEKSDocs Git History Squish Procedure
+:toc:
+
+== Overview
+This procedure outlines the steps to clear the history of the "mainline" branch while maintaining a backup. The backup branch will be named with the current date (e.g., `13JAN2025-mainline`).
+
+== Prerequisites
+* Ensure you have the latest version of the repository
+* Have appropriate permissions to push to mainline
+* Verify you can build and deploy to alpha environment
+
+== How to: Squish
+
+* Only one person needs to do the branch work
+* Then everyone needs to reset mainline on their devices
+
+=== Initial Setup Steps
+
+[source,bash]
+----
+# Sync and checkout mainline:
+git fetch origin
+git checkout mainline
+git pull origin mainline
+
+# Create a backup branch:
+git checkout -b 13JAN2025-mainline
+git push origin 13JAN2025-mainline
+----
+
+=== History Clean-up Steps
+
+[source,bash]
+----
+# Create new orphan branch:
+git checkout --orphan new/mainline
+
+# Stage and commit all files:
+git add .
+git commit -m "Fresh start: History squish for mainline branch"
+----
+
+Verify build functionality:
+* Build the project locally
+
+[source,bash]
+----
+# Push the new branch:
+git push origin new/mainline
+----
+
+NOTE: If a branch with this name already exists, deprecate it first
+
+Deploy to alpha environment. Verify all functionality works as expected.
+
+=== Production Switch
+
+. After alpha verification, deprecate mainline on code.amazon.com
+
+[source,bash]
+----
+# Clean up local branches:
+git branch -D mainline
+git checkout new/mainline
+
+# Rename and establish new mainline:
+git checkout -b mainline
+git push origin mainline
+----
+
+=== Troubleshooting
+* If you encounter push errors, ensure you've properly deprecated the old branches
+* If build fails, verify all files were properly carried over in the orphan branch
+* For any issues, consult with the team lead before proceeding
+
+=== Rollback Plan
+If issues arise, the backup branch (`13JAN2025-mainline`) can be used to restore the previous state.
+
+== How to: update local copy
+
+All team members must execute these steps to sync with the new mainline:
+
+[source,bash]
+----
+# Switch to the new branch structure:
+git checkout new/mainline
+
+# Remove old mainline reference:
+git branch -D mainline
+
+# Update and switch to new mainline:
+git fetch
+git checkout mainline
+----
+
+== How to: Deprecate branch of code.amazon.com
+
+. Open package on code.amazon.com
+. In Repo info tab, scroll down to "Deprecate branch" dropdown menu
+. Select the name of the branch and choose deprecate
+
+NOTE: The branch is just archived and hidden, and it can be restored.
+
+== How to: Add github remote
+
+Ensure your SSH is configured with GitHub
+
+[source,bash]
+----
+git remote add github git@github.com:awsdocs/amazon-eks-user-guide.git
+----
+
+
+== How to: Merge in GitHub changes
+
+[source,bash]
+----
+git fetch github/mainline
+----
+
+== How to: Publish changes to github
+
+[source,bash]
+----
+git push github
+----
