@@ -93,15 +93,13 @@ If pods are not being scheduled onto an auto mode node, verify if your pod/deplo
 
 == Node not joining cluster
 
-Run `kubectl get nodeclaim` to check for nodeclaims that are Ready = False.
+Run `kubectl get nodeclaim` to check for nodeclaims that are `Ready = False`.
 
 Proceed to run `kubectl describe nodeclaim <node_claim>` and look under *Status* to find any issues preventing the node from joining the cluster.
-Some issues you may come across:
 
-- "Error getting launch template configs"
+*Common error messages:*
 
-You may receive this error if you are setting custom tags in the NodeClass with the default cluster IAM role permissions. See <<auto-learn-iam>>.
-
-- "Error creating fleet"
-
-There may be some authorization issue with calling the RunInstances API call. Check CloudTrail for errors and see <<auto-cluster-iam-role>> for the required IAM permissions.
+* "Error getting launch template configs"
+** You may receive this error if you are setting custom tags in the NodeClass with the default cluster IAM role permissions. See <<auto-learn-iam>>.
+* "Error creating fleet"
+** There may be some authorization issue with calling the RunInstances API call. Check CloudTrail for errors and see <<auto-cluster-iam-role>> for the required IAM permissions.
