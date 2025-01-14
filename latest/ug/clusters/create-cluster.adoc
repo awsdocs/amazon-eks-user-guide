@@ -73,6 +73,16 @@ Attach the Amazon EKS managed policy named  link:aws-managed-policy/latest/refer
 aws iam attach-role-policy --policy-arn {arn-aws}iam::aws:policy/AmazonEKSClusterPolicy --role-name myAmazonEKSClusterRole
 ----
 
+=== Service Linked Role
+
+Amazon EKS automatically creates a service linked role called `AWSServiceRoleForAmazonEKS`. 
+
+This is in addition to the cluster IAM role. A service-linked role is a unique type of IAM role that is linked directly to Amazon EKS. The role allows Amazon EKS to manage clusters in your account. For more information, see <<using-service-linked-roles-eks>>. 
+
+The IAM Identity you use to create the EKS cluster must have permission to create the service-linked role. This includes the `iam:CreateServiceLinkedRole` permission. 
+
+If the service linked role doesn't already exist, and your current IAM role doesn't have sufficient permissions to create it, the cluster create operation will fail. 
+
 == Step 2: Create cluster
 
 You can create a cluster by using:
