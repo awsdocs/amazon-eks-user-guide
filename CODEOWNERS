@@ -1,13 +1,14 @@
 # default rule, unless a more specific rule applies
-* @eks-admins
+* @awsdocs/eks-admins
 
 # lower approval for specific non-content folders
 /.vscode/ fincd@amazon.com
 
 # default rule for user guide
-/latest/ug/ @eks-contributors
+/latest/ug/ @awsdocs/eks-contributors
 
 # guide section assignments
+/latest/ug/automode/ gcline@amazon.com
 /latest/ug/clusters/ gcline@amazon.com
 /latest/ug/manage-access/ gcline@amazon.com
 /latest/ug/workloads/ gcline@amazon.com
