@@ -30,7 +30,18 @@ Environment="HTTP_PROXY=http://proxy-domain:port"
 Environment="HTTPS_PROXY=http://proxy-domain:port"
 Environment="NO_PROXY=localhost"
 ----
-
+==== From userdata
+The `containerd.service.d` directory will need to be created for this file. You will need to reload systemd to pick up the configuration file without a reboot. In AL2023, the service will likely already be running when your script executes, so you will also need to restart it. 
+[source,yaml,subs="vabatim,attributes,quotes"]
+----
+mkdir -p /etc/systemd/system/containerd.service.d
+echo '[Service]' > /etc/systemd/system/containerd.service.d
+echo 'Environment="HTTP_PROXY=http://proxy-domain:port"' >> /etc/systemd/system/containerd.service.d
+echo 'Environment="HTTPS_PROXY=http://proxy-domain:port"' >> /etc/systemd/system/containerd.service.d
+echo 'Environment="NO_PROXY=localhost"' >> /etc/systemd/system/containerd.service.d
+systemctl daemon-reload
+systemctl restart containerd
+----
 === Kubelet proxy configuration
 
 `kubelet` is the Kubernetes node agent that runs on each Kubernetes node and is responsible for managing the node and pods running on it. If you are using a proxy in your on-premises environment, you must configure the `kubelet` so it can communicate with your Amazon EKS cluster's public or private endpoints.
@@ -43,6 +54,18 @@ Create a file on each hybrid node called `http-proxy.conf` in the `/etc/systemd/
 Environment="HTTP_PROXY=http://proxy-domain:port"
 Environment="HTTPS_PROXY=http://proxy-domain:port"
 Environment="NO_PROXY=localhost"
+----
+==== From userdata
+The `kubelet.service.d` directory will need to be created for this file. You will need to reload systemd to pick up the configuration file without a reboot. In AL2023, the service will likely already be running when your script executes, so you will also need to restart it. 
+[source,yaml,subs="vabatim,attributes,quotes"]
+----
+mkdir -p /etc/systemd/system/kubelet.service.d
+echo '[Service]' > /etc/systemd/system/kubelet.service.d
+echo 'Environment="HTTP_PROXY=http://proxy-domain:port"' >> /etc/systemd/system/kubelet.service.d
+echo 'Environment="HTTPS_PROXY=http://proxy-domain:port"' >> /etc/systemd/system/kubelet.service.d
+echo 'Environment="NO_PROXY=localhost"' >> /etc/systemd/system/kubelet.service.d
+systemctl daemon-reload
+systemctl restart containerd
 ----
 
 === Operating system proxy configuration
