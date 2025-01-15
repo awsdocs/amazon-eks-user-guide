@@ -31,6 +31,10 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
+[.update,date="2025-01-14"]
+=== Amazon EKS {aws} Region expansion
+Amazon EKS is now available in the Asia Pacific (Thailand) Region (`ap-southeast-7`) and Mexico (Central) (`mx-central-1`) {aws} Regions. EKS Auto Mode and VPC Endpoints for the EKS API aren't available in either Region.
+
 [.update,date="2025-01-13"]
 === {aws} managed policy updates
 [.update-ulink]

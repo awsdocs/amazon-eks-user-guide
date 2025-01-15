@@ -45,6 +45,9 @@ When you deploy  <<workloads-add-ons-available-eks,{aws} Amazon EKS add-ons>> to
 |ap-southeast-2
 |602401143452.dkr.ecr.ap-southeast-2.amazonaws.com
 
+| ap-southeast-7
+| 121268973566.dkr.ecr.ap-southeast-7.amazonaws.com
+
 |ap-northeast-1
 |602401143452.dkr.ecr.ap-northeast-1.amazonaws.com
 
@@ -80,6 +83,9 @@ When you deploy  <<workloads-add-ons-available-eks,{aws} Amazon EKS add-ons>> to
 
 |il-central-1
 |066635153087.dkr.ecr.il-central-1.amazonaws.com
+
+|mx-central-1
+|730335286997.dkr.ecr.mx-central-1.amazonaws.com
 
 |me-south-1
 |558608220178.dkr.ecr.me-south-1.amazonaws.com

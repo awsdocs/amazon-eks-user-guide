@@ -25,7 +25,7 @@ This chapter explains how to create an Amazon EKS cluster with Auto Mode enabled
 
 [NOTE]
 ====
-EKS Auto Mode requires Kubernetes version 1.29 or greater. 
+EKS Auto Mode requires Kubernetes version 1.29 or greater. EKS Auto Mode isn't available in the `ap-southeast-7` or `mx-central-1` {aws} Regions.
 ====
 
 
