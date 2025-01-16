@@ -132,8 +132,8 @@ The following table indicates if certain Amazon EKS add-ons support EKS Pod Iden
 | N/A
 
 | xref:amazon-cloudwatch-observability[Amazon CloudWatch Observability agent] 
-| No 
-| N/A
+| Yes 
+| v3.1.0-eksbuild.1
 
 |===
 
