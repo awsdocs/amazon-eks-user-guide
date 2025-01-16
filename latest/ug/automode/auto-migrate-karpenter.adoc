@@ -61,7 +61,7 @@ spec:
           effect: "NoSchedule"
 ```
 
-Update the requirements for the node pool to match the Karpenter configuration you are migrating form. You need at least one requirement. 
+Update the requirements for the node pool to match the Karpenter configuration you are migrating from. You need at least one requirement. 
 
 ## Step 3: Update workloads for migration
 
