@@ -1,0 +1,28 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[using-service-linked-roles,using-service-linked-roles.title]]
+= Using service-linked roles for Amazon EKS
+:info_titleabbrev: Service-linked roles
+
+include::../../attributes.txt[]
+
+include::using-service-linked-roles-eks.adoc[leveloffset=+1]
+
+include::using-service-linked-roles-eks-nodegroups.adoc[leveloffset=+1]
+
+include::using-service-linked-roles-eks-fargate.adoc[leveloffset=+1]
+
+include::using-service-linked-roles-eks-connector.adoc[leveloffset=+1]
+
+include::using-service-linked-roles-eks-outpost.adoc[leveloffset=+1]
+
+[abstract]
+--
+How to use service-linked roles to give Amazon EKS access to resources in your {aws} account.
+--
+
+Amazon Elastic Kubernetes Service uses {aws} Identity and Access Management (IAM)   link:IAM/latest/UserGuide/id_roles.html#iam-term-service-linked-role[service-linked roles,type="documentation"]. A service-linked role is a unique type of IAM role that is linked directly to Amazon EKS. Service-linked roles are predefined by Amazon EKS and include all the permissions that the service requires to call other {aws} services on your behalf. 
+
+[.topiclist]
+[[Topic List]]
+

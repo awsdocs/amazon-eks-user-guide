@@ -1,0 +1,171 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[connector-iam-role,connector-iam-role.title]]
+= Amazon EKS connector IAM role
+:info_titleabbrev: Connector IAM role
+
+include::../../attributes.txt[]
+
+You can connect [.noloc]`Kubernetes` clusters to view them in your {aws-management-console}. To connect to a [.noloc]`Kubernetes` cluster, create an IAM role.
+
+[[check-connector-role,check-connector-role.title]]
+== Check for an existing EKS connector role
+
+You can use the following procedure to check and see if your account already has the Amazon EKS connector role.
+
+. Open the IAM console at https://console.aws.amazon.com/iam/.
+. In the left navigation pane, choose *Roles*.  
+. Search the list of roles for `AmazonEKSConnectorAgentRole`. If a role that includes `AmazonEKSConnectorAgentRole` doesn't exist, then see <<create-connector-role>> to create the role. If a role that includes `AmazonEKSConnectorAgentRole` does exist, then select the role to view the attached policies.
+. Choose *Permissions*.
+. Ensure that the *AmazonEKSConnectorAgentPolicy* managed policy is attached to the role. If the policy is attached, your Amazon EKS connector role is properly configured.
+. Choose *Trust relationships*, and then choose  *Edit trust policy*.
+. Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the  *Edit trust policy* window and choose  *Update policy*.
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": [
+                    "ssm.amazonaws.com"
+                ]
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+----
+
+
+[[create-connector-role,create-connector-role.title]]
+== Creating the Amazon EKS connector agent role
+
+You can use the {aws-management-console} or {aws} CloudFormation to create the connector agent role.
+
+{aws} CLI::
+.. Create a file named `eks-connector-agent-trust-policy.json` that contains the following JSON to use for the IAM role.
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": [
+                    "ssm.amazonaws.com"
+                ]
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+----
+.. Create a file named `eks-connector-agent-policy.json` that contains the following JSON to use for the IAM role.
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "SsmControlChannel",
+            "Effect": "Allow",
+            "Action": [
+                "ssmmessages:CreateControlChannel"
+            ],
+            "Resource": "{arn-aws}eks:*:*:cluster/*"
+        },
+        {
+            "Sid": "ssmDataplaneOperations",
+            "Effect": "Allow",
+            "Action": [
+                "ssmmessages:CreateDataChannel",
+                "ssmmessages:OpenDataChannel",
+                "ssmmessages:OpenControlChannel"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+----
+.. Create the Amazon EKS Connector agent role using the trust policy and policy you created in the previous list items.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws iam create-role \
+     --role-name AmazonEKSConnectorAgentRole \
+     --assume-role-policy-document file://eks-connector-agent-trust-policy.json
+----
+.. Attach the policy to your Amazon EKS Connector agent role.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws iam put-role-policy \
+     --role-name AmazonEKSConnectorAgentRole \
+     --policy-name AmazonEKSConnectorAgentPolicy \
+     --policy-document file://eks-connector-agent-policy.json
+----
+
+
+{aws} CloudFormation::
+.. Save the following {aws} CloudFormation template to a text file on your local system.
++
+NOTE: This template also creates the service-linked role that would otherwise be created when the `registerCluster` API is called. See <<using-service-linked-roles-eks-connector>> for details.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Provisions necessary resources needed to register clusters in EKS'
+Parameters: {}
+Resources:
+  EKSConnectorSLR:
+    Type: {aws}::IAM::ServiceLinkedRole
+    Properties:
+      AWSServiceName: eks-connector.amazonaws.com
+
+  EKSConnectorAgentRole:
+    Type: {aws}::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: [ 'sts:AssumeRole' ]
+            Principal:
+              Service: 'ssm.amazonaws.com'
+
+  EKSConnectorAgentPolicy:
+    Type: {aws}::IAM::Policy
+    Properties:
+      PolicyName: EKSConnectorAgentPolicy
+      Roles:
+        - {Ref: 'EKSConnectorAgentRole'}
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Action: [ 'ssmmessages:CreateControlChannel' ]
+            Resource:
+            - Fn::Sub: 'arn:${{aws}::Partition}:eks:*:*:cluster/*'
+          - Effect: 'Allow'
+            Action: [ 'ssmmessages:CreateDataChannel', 'ssmmessages:OpenDataChannel', 'ssmmessages:OpenControlChannel' ]
+            Resource: "*"
+Outputs:
+  EKSConnectorAgentRoleArn:
+    Description: The agent role that EKS connector uses to communicate with {aws} services.
+    Value: !GetAtt EKSConnectorAgentRole.Arn
+----
+.. Open the link:cloudformation/[{aws} CloudFormation console,type="console"].
+.. Choose *Create stack* with new resources (standard).
+.. For *Specify template*, select *Upload a template file*, and then choose *Choose file*.
+.. Choose the file you created earlier, and then choose *Next*.
+.. For *Stack name*, enter a name for your role, such as `eksConnectorAgentRole`, and then choose *Next*.
+.. On the *Configure stack options* page, choose  *Next*.
+.. On the *Review* page, review your information, acknowledge that the stack might create IAM resources, and then choose  *Create stack*.
+

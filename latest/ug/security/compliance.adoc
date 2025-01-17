@@ -5,10 +5,6 @@
 :info_doctype: section
 :info_title: Compliance validation for Amazon EKS clusters
 :info_titleabbrev: Validate compliance
-:info_abstract: Discover compliance resources and services for Amazon Elastic Kubernetes Service \
-                to help secure your {aws} workloads, meet regulatory requirements like HIPAA, and \
-                validate adherence to security standards like NIST, PCI, and ISO using {aws} Config, \
-                Security Hub, GuardDuty, and Audit Manager.
 
 include::../attributes.txt[]
 

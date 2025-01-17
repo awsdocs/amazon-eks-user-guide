@@ -1,0 +1,16 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[security-best-practices,security-best-practices.title]]
+= Secure Amazon EKS clusters with best practices
+:info_titleabbrev: Best practices
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn how to secure your Amazon EKS clusters by following the best practices from the community.
+--
+
+The Amazon EKS security best practices are in the link:eks/latest/best-practices/security.html[Best Practices for Security,type="documentation"] in the _Amazon EKS Best Practices Guide_.
+
+

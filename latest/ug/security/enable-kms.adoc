@@ -1,0 +1,190 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[enable-kms,enable-kms.title]]
+= Encrypt Kubernetes secrets with {aws} KMS on existing clusters
+:info_titleabbrev: Enable secret encryption
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn how to enable Kubernetes secrets encryption with {aws} KMS on an existing Amazon EKS cluster, ensuring secure storage of sensitive data.
+--
+
+If you enable https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption], the [.noloc]`Kubernetes` secrets are encrypted using the {aws} KMS key that you select. The KMS key must meet the following conditions:
+
+* Symmetric
+* Can encrypt and decrypt data
+* Created in the same {aws} Region as the cluster
+* If the KMS key was created in a different account, the  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] must have access to the KMS key.
+
+For more information, see link:kms/latest/developerguide/key-policy-modifying-external-accounts.html[Allowing IAM principals in other accounts to use a KMS key,type="documentation"] in the _link:kms/latest/developerguide/[{aws} Key Management Service Developer Guide,type="documentation"]_.
+
+[WARNING]
+====
+
+You can't disable secrets encryption after enabling it. This action is irreversible.
+
+====
+
+eksctl ::
+
+You can enable encryption in two ways:
+
+** Add encryption to your cluster with a single command.
++
+To automatically re-encrypt your secrets, run the following command.
++
+[source,bash,subs="verbatim,attributes"]
+----
+eksctl utils enable-secrets-encryption \
+    --cluster my-cluster \
+    --key-arn {arn-aws}kms:region-code:account:key/key
+----
++
+To opt-out of automatically re-encrypting your secrets, run the following command.
++
+[source,bash,subs="verbatim,attributes"]
+----
+eksctl utils enable-secrets-encryption 
+    --cluster my-cluster \
+    --key-arn {arn-aws}kms:region-code:account:key/key \
+    --encrypt-existing-secrets=false
+----
+** Add encryption to your cluster with a `kms-cluster.yaml` file.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: my-cluster
+  region: region-code
+  
+secretsEncryption:
+  keyARN: {arn-aws}kms:region-code:account:key/key
+----
++
+To have your secrets re-encrypt automatically, run the following command.
++
+[source,bash,subs="verbatim,attributes"]
+----
+eksctl utils enable-secrets-encryption -f kms-cluster.yaml
+----
++
+To opt out of automatically re-encrypting your secrets, run the following command.
++
+[source,bash,subs="verbatim,attributes"]
+----
+eksctl utils enable-secrets-encryption -f kms-cluster.yaml --encrypt-existing-secrets=false
+----
+
+
+{aws-management-console}::
+.. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+.. Choose the cluster that you want to add KMS encryption to.
+.. Choose the *Overview* tab (this is selected by default).
+.. Scroll down to the *Secrets encryption* section and choose *Enable*.
+.. Select a key from the dropdown list and choose the *Enable* button. If no keys are listed, you must create one first. For more information, see link:kms/latest/developerguide/create-keys.html[Creating keys,type="documentation"]
+.. Choose the *Confirm* button to use the chosen key.
+
+
+{aws} CLI::
+.. Associate the https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] configuration with your cluster using the following {aws} CLI command. Replace the [.replaceable]`example values` with your own.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks associate-encryption-config \
+    --cluster-name my-cluster \
+    --encryption-config '[{"resources":["secrets"],"provider":{"keyArn":"{arn-aws}kms:region-code:account:key/key"}}]'
+----
++
+An example output is as follows.
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "update": {
+    "id": "3141b835-8103-423a-8e68-12c2521ffa4d",
+    "status": "InProgress",
+    "type": "AssociateEncryptionConfig",
+    "params": [
+      {
+        "type": "EncryptionConfig",
+        "value": "[{\"resources\":[\"secrets\"],\"provider\":{\"keyArn\":\"{arn-aws}kms:region-code:account:key/key\"}}]"
+      }
+    ],
+    "createdAt": 1613754188.734,
+    "errors": []
+  }
+}
+----
+.. You can monitor the status of your encryption update with the following command. Use the specific `cluster name` and `update ID` that was returned in the previous output. When a `Successful` status is displayed, the update is complete.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks describe-update \
+    --region region-code \
+    --name my-cluster \
+    --update-id 3141b835-8103-423a-8e68-12c2521ffa4d
+----
++
+An example output is as follows.
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "update": {
+    "id": "3141b835-8103-423a-8e68-12c2521ffa4d",
+    "status": "Successful",
+    "type": "AssociateEncryptionConfig",
+    "params": [
+      {
+        "type": "EncryptionConfig",
+        "value": "[{\"resources\":[\"secrets\"],\"provider\":{\"keyArn\":\"{arn-aws}kms:region-code:account:key/key\"}}]"
+      }
+    ],
+    "createdAt": 1613754188.734>,
+    "errors": []
+  }
+}
+----
+.. To verify that encryption is enabled in your cluster, run the `describe-cluster` command. The response contains an `EncryptionConfig` string. 
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks describe-cluster --region region-code --name my-cluster
+----
+
+After you enabled encryption on your cluster, you must encrypt all existing secrets with the new key:
+
+[NOTE]
+====
+
+If you use `eksctl`, running the following command is necessary only if you opt out of re-encrypting your secrets automatically.
+
+====
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get secrets --all-namespaces -o json | kubectl annotate --overwrite -f - kms-encryption-timestamp="time value"
+----
+
+[WARNING]
+====
+
+If you enable https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] for an existing cluster and the KMS key that you use is ever deleted, then there's no way to recover the cluster. If you delete the KMS key, you permanently put the cluster in a degraded state. For more information, see link:kms/latest/developerguide/deleting-keys.html[Deleting {aws} KMS keys,type="documentation"].
+
+====
+
+[NOTE]
+====
+
+By default, the `create-key` command creates a link:kms/latest/developerguide/symmetric-asymmetric.html[symmetric encryption KMS key,type="documentation"] with a key policy that gives the account root admin access on {aws} KMS actions and resources. If you want to scope down the permissions, make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the policy for the principal that calls the `create-cluster` API.
+
+
+For clusters using KMS Envelope Encryption, `kms:CreateGrant` permissions are required. The condition `kms:GrantIsForAWSResource` is not supported for the CreateCluster action, and should not be used in KMS policies to control `kms:CreateGrant` permissions for users performing CreateCluster.
+
+====
+

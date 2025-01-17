@@ -11,13 +11,23 @@
 :idseparator: -
 :sourcedir: .
 :info_doctype: chapter
-:info_title: Security in Amazon EKS
 :info_titleabbrev: Security
-:info_abstract: Configure Amazon EKS to meet your security and compliance objectives, and learn \
-                how to use other {aws} services that help you to secure your Amazon EKS \
-                resources.
 
 include::../attributes.txt[]
+
+include::security-best-practices.adoc[leveloffset=+1]
+
+include::configuration-vulnerability-analysis.adoc[leveloffset=+1]
+
+include::compliance.adoc[leveloffset=+1]
+
+include::security-eks.adoc[leveloffset=+1]
+
+include::security-k8s.adoc[leveloffset=+1]
+
+include::auto-security.adoc[leveloffset=+1]
+
+include::iam-reference/security-iam.adoc[leveloffset=+1]
 
 [abstract]
 --
@@ -27,8 +37,6 @@ Configure Amazon EKS to meet your security and compliance objectives, and learn 
 Cloud security at {aws} is the highest priority. As an {aws} customer, you benefit from a data center and network architecture that is built to meet the requirements of the most security-sensitive organizations.
 
 Security is a shared responsibility between {aws} and you. The link:compliance/shared-responsibility-model/[shared responsibility model,type="marketing"] describes this as security _of_ the cloud and security _in_ the cloud:
-
-
 
 * *Security of the cloud* – {aws} is responsible for protecting the infrastructure that runs {aws} services in the {aws} Cloud. For Amazon EKS, {aws} is responsible for the [.noloc]`Kubernetes` control plane, which includes the control plane nodes and `etcd` database. Third-party auditors regularly test and verify the effectiveness of our security as part of the link:compliance/programs/[{aws} compliance programs,type="marketing"]. To learn about the compliance programs that apply to Amazon EKS, see link:compliance/services-in-scope/[{aws} Services in Scope by Compliance Program,type="marketing"].
 * *Security in the cloud* – Your responsibility includes the following areas.
@@ -53,31 +61,3 @@ This documentation helps you understand how to apply the shared responsibility m
 
 [.topiclist]
 [[Topic List]]
-
-include::configuration-vulnerability-analysis.adoc[leveloffset=+1]
-
-
-include::compliance.adoc[leveloffset=+1]
-
-
-include::security-eks.adoc[leveloffset=+1]
-
-
-include::security-k8s.adoc[leveloffset=+1]
-
-
-include::auto-security.adoc[leveloffset=+1]
-
-
-[.topic]
-[[security-best-practices,security-best-practices.title]]
-== Secure Amazon EKS clusters with best practices
-
-[abstract]
---
-Learn how to secure your Amazon EKS clusters by following the best practices from the community.
---
-
-The Amazon EKS security best practices are in the link:eks/latest/best-practices/security.html[Best Practices for Security,type="documentation"] in the _Amazon EKS Best Practices Guide_.
-
-include::iam-reference/security-iam.adoc[leveloffset=+1]

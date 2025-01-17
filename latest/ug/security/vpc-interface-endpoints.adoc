@@ -1,0 +1,63 @@
+//!!NODE_ROOT <section>
+include::../attributes.txt[]
+
+[.topic]
+[[vpc-interface-endpoints,vpc-interface-endpoints.title]]
+= Access the Amazon EKS using {aws} PrivateLink
+:info_titleabbrev: {aws} PrivateLink
+
+[abstract]
+--
+Learn how to securely access Amazon Elastic Kubernetes Service (Amazon EKS) APIs from within your VPC using {aws} PrivateLink, avoiding public internet exposure while benefiting from private connectivity, routing optimization, and built-in security controls for enhanced cluster management.
+--
+
+You can use {aws} PrivateLink to create a private connection between your VPC and Amazon Elastic Kubernetes Service. You can access Amazon EKS as if it were in your VPC, without the use of an internet gateway, NAT device, VPN connection, or {aws} Direct Connect connection. Instances in your VPC don't need public IP addresses to access Amazon EKS.
+
+You establish this private connection by creating an interface endpoint powered by {aws} PrivateLink. We create an endpoint network interface in each subnet that you enable for the interface endpoint. These are requester-managed network interfaces that serve as the entry point for traffic destined for Amazon EKS.
+
+For more information, see link:vpc/latest/privatelink/privatelink-access-aws-services.html[Access {aws} services through {aws} PrivateLink,type="documentation"] in the _{aws} PrivateLink Guide_.
+
+[[vpc-endpoint-considerations,vpc-endpoint-considerations.title]]
+== Considerations for Amazon EKS
+
+* Before you set up an interface endpoint for Amazon EKS, review  link:vpc/latest/privatelink/create-interface-endpoint.html#considerations-interface-endpoints[Considerations,type="documentation"] in the _{aws} PrivateLink Guide_.
+* Amazon EKS supports making calls to all of its API actions through the interface endpoint, but not to the [.noloc]`Kubernetes` APIs. The [.noloc]`Kubernetes` API server already supports a  <<cluster-endpoint,private endpoint>>. The [.noloc]`Kubernetes` API server private endpoint creates a private endpoint for the [.noloc]`Kubernetes` API server that you use to communicate with your cluster (using [.noloc]`Kubernetes` management tools such as `kubectl`). You can enable <<private-clusters,private access>> to the [.noloc]`Kubernetes` API server so that all communication between your nodes and the API server stays within your VPC. {aws} PrivateLink for the Amazon EKS API helps you call the Amazon EKS APIs from your VPC without exposing traffic to the public internet.
+* You can't configure Amazon EKS to only be accessed through an interface endpoint.
+* Standard pricing for {aws} PrivateLink applies for interface endpoints for Amazon EKS. You are billed for every hour that an interface endpoint is provisioned in each Availability Zone and for data processed through the interface endpoint. For more information, see link:privatelink/pricing/[{aws} PrivateLink pricing,type="marketing"].
+* VPC endpoint policies are not supported for Amazon EKS. By default, full access to Amazon EKS is allowed through the interface endpoint. Alternatively, you can associate a security group with the endpoint network interfaces to control traffic to Amazon EKS through the interface endpoint.
+* You can use VPC flow logs to capture information about IP traffic going to and from network interfaces, including interface endpoints. You can publish flow log data to Amazon CloudWatch or Amazon S3. For more information, see link:vpc/latest/userguide/flow-logs.html[Logging IP traffic using VPC Flow Logs,type="documentation"] in the Amazon VPC User Guide.
+* You can access the Amazon EKS APIs from an on-premises data center by connecting it to a VPC that has an interface endpoint. You can use {aws} Direct Connect or {aws} Site-to-Site VPN to connect your on-premises sites to a VPC.
+* You can connect other VPCs to the VPC with an interface endpoint using an {aws} Transit Gateway or VPC peering. VPC peering is a networking connection between two VPCs. You can establish a  VPC peering connection between your VPCs, or with a VPC in another account. The VPCs can be in different {aws} Regions. Traffic between peered VPCs stays on the {aws} network. The traffic doesn't traverse the public internet. A Transit Gateway is a network transit hub that you can use to interconnect VPCs. Traffic between a VPC and a Transit Gateway remains on the {aws} global private network. The traffic isn't exposed to the public internet.
+* Before August 2024, VPC interface endpoints for Amazon EKS were only accessible over `IPv4` using `eks.[.replaceable]``region``.amazonaws.com`. New VPC interface endpoints that are made after August 2024 use dual-stack of `IPv4` and `IPv6` IP addresses and both DNS names: `eks.[.replaceable]``region``.amazonaws.com` and `eks.[.replaceable]``region``.api.aws`.
+* {aws} PrivateLink support for the EKS API isn't available in the Asia Pacific (Malaysia) (`ap-southeast-5`), Asia Pacific (Thailand) (`ap-southeast-7`), and Mexico (Central) (`mx-central-1`) {aws} Regions. {aws} PrivateLink support for `eks-auth` for EKS Pod Identity is available in the the Asia Pacific (Malaysia) (`ap-southeast-5`) Region.
+
+
+[[vpc-endpoint-create,vpc-endpoint-create.title]]
+== Create an interface endpoint for Amazon EKS
+
+You can create an interface endpoint for Amazon EKS using either the Amazon VPC console or the {aws} Command Line Interface ({aws} CLI). For more information, see   link:vpc/latest/privatelink/create-interface-endpoint.html#create-interface-endpoint-aws[Create a VPC endpoint,type="documentation"] in the _{aws} PrivateLink Guide_.
+
+Create an interface endpoint for Amazon EKS using the following service names:
+
+* EKS API
+[source,none,subs="verbatim,attributes"]
+----
+com.amazonaws.region-code.eks
+----
+* EKS Auth API (EKS Pod Identity)
+[source,none,subs="verbatim,attributes"]
+----
+com.amazonaws.region-code.eks-auth
+----
+
+The private DNS feature is enabled by default when creating an interface endpoint for Amazon EKS and other {aws} services. To use the private DNS feature, you must ensure that the following VPC attributes are set to `true`: `enableDnsHostnames` and `enableDnsSupport`. For more information, see  link:vpc/latest/userguide/vpc-dns.html#vpc-dns-updating[View and update DNS attributes for your VPC,type="documentation"] in the Amazon VPC User Guide. With the private DNS feature enabled for the interface endpoint:
+
+
+
+* You can make any API request to Amazon EKS using its default Regional DNS name. After August 2024, any new VPC interface endpoint for the Amazon EKS API have two default Regional DNS names and you can choose the `dualstack` for the IP address type. The first DNS name is `eks.[.replaceable]``region``.api.aws` which is dual-stack. It resolves to both `IPv4` addresses and `IPv6` addresses. Before August 2024, Amazon EKS only used `eks.[.replaceable]``region``.amazonaws.com` which resolved to `IPv4` addresses only. If you want to use `IPv6` and dual-stack IP addresses with an existing VPC interface endpoint, you can update the endpoint to use the `dualstack` type of IP address, but it will only have the `eks.[.replaceable]``region``.amazonaws.com` DNS name. In this configuration, the existing endpoint updates to point that name to both `IPv4` and `IPv6` IP addresses. For a list of APIs, see   link:eks/latest/APIReference/API_Operations.html[Actions,type="documentation"] in the Amazon EKS API Reference.
+* You don't need to make any changes to your applications that call the EKS APIs.
++
+However, To use the dual-stack endpoints with the {aws} CLI, see the link:sdkref/latest/guide/feature-endpoints.html[Dual-stack and FIPS endpoints,type="documentation"] configuration in the _{aws} SDKs and Tools Reference Guide_.
+* Any call made to the Amazon EKS default service endpoint is automatically routed through the interface endpoint over the private {aws} network.
+
+

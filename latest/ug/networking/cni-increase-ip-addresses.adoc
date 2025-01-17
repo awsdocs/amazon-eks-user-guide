@@ -1,3 +1,4 @@
+//!!NODE_ROOT <section>
 [.topic]
 [[cni-increase-ip-addresses,cni-increase-ip-addresses.title]]
 = Assign more IP addresses to Amazon EKS nodes with prefixes
@@ -60,6 +61,4 @@ Consider the following when you use this feature:
 +
 If you're also using <<security-groups-for-pods,security groups for Pods>>, with `POD_SECURITY_GROUP_ENFORCING_MODE`=``strict``, when your `Pods` communicate with endpoints outside of your VPC, the `Pod's` security groups are used.
 
-
-[.topic]
 

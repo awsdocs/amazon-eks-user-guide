@@ -1,0 +1,172 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[pod-execution-role,pod-execution-role.title]]
+= Amazon EKS [.noloc]`Pod` execution IAM role
+:info_titleabbrev: Pod execution IAM role
+
+include::../../attributes.txt[]
+
+The Amazon EKS [.noloc]`Pod` execution role is required to run [.noloc]`Pods` on {aws} Fargate infrastructure.
+
+When your cluster creates [.noloc]`Pods` on {aws} Fargate infrastructure, the components running on the Fargate infrastructure must make calls to {aws} APIs on your behalf. This is so that they can do actions such as pull container images from Amazon ECR or route logs to other {aws} services. The Amazon EKS [.noloc]`Pod` execution role provides the IAM permissions to do this.
+
+When you create a Fargate profile, you must specify a [.noloc]`Pod` execution role for the Amazon EKS components that run on the Fargate infrastructure using the profile. This role is added to the cluster's [.noloc]`Kubernetes` https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Role based access control] (RBAC) for authorization. This allows the `kubelet` that's running on the Fargate infrastructure to register with your Amazon EKS cluster so that it can appear in your cluster as a node.
+
+[NOTE]
+====
+
+The Fargate profile must have a different IAM role than Amazon EC2 node groups.
+
+====
+
+[IMPORTANT]
+====
+
+The containers running in the Fargate [.noloc]`Pod` can't assume the IAM permissions associated with a [.noloc]`Pod` execution role. To give the containers in your Fargate [.noloc]`Pod` permissions to access other {aws} services, you must use  <<iam-roles-for-service-accounts,IAM roles for service accounts>>.
+
+====
+
+Before you create a Fargate profile, you must create an IAM role with the link:aws-managed-policy/latest/reference/AmazonEKSFargatePodExecutionRolePolicy.html[AmazonEKSFargatePodExecutionRolePolicy,type="documentation"].
+[[check-pod-execution-role,check-pod-execution-role.title]]
+== Check for a correctly configured existing [.noloc]`Pod` execution role
+
+You can use the following procedure to check and see if your account already has a correctly configured Amazon EKS [.noloc]`Pod` execution role. To avoid a confused deputy security problem, it's important that the role restricts access based on `SourceArn`. You can modify the execution role as needed to include support for Fargate profiles on other clusters.
+
+. Open the IAM console at https://console.aws.amazon.com/iam/.
+. In the left navigation pane, choose *Roles*.  
+. On the *Roles* page, search the list of roles for  *AmazonEKSFargatePodExecutionRole*. If the role doesn't exist, see <<create-pod-execution-role>> to create the role. If the role does exist, choose the role.
+. On the *AmazonEKSFargatePodExecutionRole* page, do the following:
++
+.. Choose *Permissions*.
+.. Ensure that the *AmazonEKSFargatePodExecutionRolePolicy* Amazon managed policy is attached to the role.
+.. Choose *Trust relationships*.
+.. Choose *Edit trust policy*.
+. On the *Edit trust policy* page, verify that the trust relationship contains the following policy and has a line for Fargate profiles on your cluster. If so, choose  *Cancel*.
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Condition": {
+         "ArnLike": {
+            "aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*"
+         }
+      },
+      "Principal": {
+        "Service": "eks-fargate-pods.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+----
++
+If the policy matches but doesn't have a line specifying the Fargate profiles on your cluster, you can add the following line at the top of the `ArnLike` object. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in, [.replaceable]`111122223333` with your account ID, and [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,json,subs="verbatim,attributes"]
+----
+"aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*",
+----
++
+If the policy doesn't match, copy the full previous policy into the form and choose  *Update policy*. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace [.replaceable]`region-code` with `{asterisk}`. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with `{asterisk}`.
+
+
+[[create-pod-execution-role,create-pod-execution-role.title]]
+== Creating the Amazon EKS [.noloc]`Pod` execution role
+
+If you don't already have the Amazon EKS [.noloc]`Pod` execution role for your cluster, you can use the {aws-management-console} or the {aws} CLI to create it.
+
+
+
+{aws-management-console}::
+.. Open the IAM console at https://console.aws.amazon.com/iam/.
+.. In the left navigation pane, choose *Roles*.
+.. On the *Roles* page, choose  *Create role*.
+.. On the *Select trusted entity* page, do the following:
++
+... In the *Trusted entity type* section, choose  *{aws} service*.  
+... From the *Use cases for other {aws} services* dropdown list, choose  *EKS*.
+... Choose *EKS - Fargate [.noloc]`Pod`*.
+... Choose *Next*.
+.. On the *Add permissions* page, choose  *Next*.
+.. On the *Name, review, and create* page, do the following:
++
+... For *Role name*, enter a unique name for your role, such as `AmazonEKSFargatePodExecutionRole`.
+... Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see   link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
+... Choose *Create role*.
+.. On the *Roles* page, search the list of roles for  *AmazonEKSFargatePodExecutionRole*. Choose the role.
+.. On the *AmazonEKSFargatePodExecutionRole* page, do the following:
++
+... Choose *Trust relationships*.
+... Choose *Edit trust policy*.
+.. On the *Edit trust policy* page, do the following:
++
+... Copy and paste the following contents into the *Edit trust policy* form. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace [.replaceable]`region-code` with `{asterisk}`. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with `{asterisk}`.
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Condition": {
+         "ArnLike": {
+            "aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*"
+         }
+      },
+      "Principal": {
+        "Service": "eks-fargate-pods.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+----
+... Choose *Update policy*.
+
+
+{aws} CLI::
+.. Copy and paste the following contents to a file named `pod-execution-role-trust-policy.json`. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace [.replaceable]`region-code` with `{asterisk}`. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with `{asterisk}`.
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Condition": {
+         "ArnLike": {
+            "aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*"
+         }
+      },
+      "Principal": {
+        "Service": "eks-fargate-pods.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+----
+.. Create a [.noloc]`Pod` execution IAM role.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws iam create-role \
+  --role-name AmazonEKSFargatePodExecutionRole \
+  --assume-role-policy-document file://"pod-execution-role-trust-policy.json"
+----
+.. Attach the required Amazon EKS managed IAM policy to the role.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy \
+  --role-name AmazonEKSFargatePodExecutionRole
+----
+
+

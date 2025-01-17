@@ -2,6 +2,7 @@
 [.topic]
 [[cluster-iam-role,cluster-iam-role.title]]
 = Amazon EKS cluster IAM role
+:info_titleabbrev: Cluster IAM role
 
 include::../../attributes.txt[]
 

@@ -2,6 +2,7 @@
 [.topic]
 [[create-node-role,create-node-role.title]]
 = Amazon EKS node IAM role
+:info_titleabbrev: Node IAM role
 
 include::../../attributes.txt[]
 
