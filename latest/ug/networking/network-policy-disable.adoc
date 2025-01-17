@@ -1,0 +1,43 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[network-policy-disable,network-policy-disable.title]]
+= Disable [.noloc]`Kubernetes` network policies for Amazon EKS Pod network traffic
+:info_titleabbrev: Disable
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn how to disable [.noloc]`Kubernetes` network policies for Amazon EKS Pod network traffic.
+--
+
+Disable [.noloc]`Kubernetes` network policies to stop restricting Amazon EKS Pod network traffic
+
+. List all Kubernetes network policies.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get netpol -A
+----
+. Delete each Kubernetes network policy. You must delete all network policies before disabling network policies. 
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl delete netpol <policy-name>
+----
+. Open the aws-node DaemonSet in your editor.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl edit daemonset -n kube-system aws-node
+----
+. Replace the `true` with `false` in the command argument `--enable-network-policy=true` in the `args:` in the `aws-network-policy-agent` container in the VPC CNI `aws-node` daemonset manifest.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+     - args:
+        - --enable-network-policy=true
+----
+
+
+

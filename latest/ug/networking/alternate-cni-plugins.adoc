@@ -1,0 +1,59 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[alternate-cni-plugins,alternate-cni-plugins.title]]
+= Alternate CNI plugins for Amazon EKS clusters
+:info_titleabbrev: Alternate CNI plugins
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Learn how to use alternate network and security plugins on Amazon EKS to customize networking for your [.noloc]`Kubernetes` clusters on Amazon EC2 nodes.
+--
+
+The https://github.com/aws/amazon-vpc-cni-plugins[Amazon VPC CNI plugin for Kubernetes] is the only CNI plugin supported by Amazon EKS with Amazon EC2 nodes. Amazon EKS supports the core capabilities of Cilium and Calico for Amazon EKS Hybrid Nodes. Amazon EKS runs upstream [.noloc]`Kubernetes`, so you can install alternate compatible CNI plugins to Amazon EC2 nodes in your cluster. If you have Fargate nodes in your cluster, the [.noloc]`Amazon VPC CNI plugin for Kubernetes` is already on your Fargate nodes. It's the only CNI plugin you can use with Fargate nodes. An attempt to install an alternate CNI plugin on Fargate nodes fails.
+
+If you plan to use an alternate CNI plugin on Amazon EC2 nodes, we recommend that you obtain commercial support for the plugin or have the in-house expertise to troubleshoot and contribute fixes to the CNI plugin project. 
+
+Amazon EKS maintains relationships with a network of partners that offer support for alternate compatible CNI plugins. For details about the versions, qualifications, and testing performed, see the following partner documentation.
+
+[cols="1,1,1", options="header"]
+|===
+|Partner
+|Product
+|Documentation
+
+
+|Tigera
+|https://www.tigera.io/partners/aws/[Calico]
+|https://docs.projectcalico.org/getting-started/kubernetes/managed-public-cloud/eks[Installation instructions]
+
+|Isovalent
+|https://cilium.io[Cilium]
+|https://docs.cilium.io/en/stable/gettingstarted/k8s-install-default/[Installation instructions]
+
+|Juniper
+|https://www.juniper.net/us/en/products/sdn-and-orchestration/contrail/cloud-native-contrail-networking.html[Cloud-Native Contrail Networking (CN2)]
+|https://www.juniper.net/documentation/us/en/software/cn-cloud-native23.2/cn-cloud-native-eks-install-and-lcm/index.html[Installation instructions]
+
+|VMware
+|https://antrea.io/[Antrea]
+|https://antrea.io/docs/main/docs/eks-installation[Installation instructions]
+|===
+
+Amazon EKS aims to give you a wide selection of options to cover all use cases.
+
+
+[[alternate-network-policy-plugins,alternate-network-policy-plugins.title]]
+== Alternate compatible network policy plugins
+
+https://www.tigera.io/project-calico[Calico] is a widely adopted solution for container networking and security. Using [.noloc]`Calico` on EKS provides a fully compliant network policy enforcement for your EKS clusters. Additionally, you can opt to use [.noloc]`Calico's` networking, which conserve IP addresses from your underlying VPC. https://www.tigera.io/tigera-products/calico-cloud/[Calico Cloud] enhances the features of [.noloc]`Calico Open Source`, providing advanced security and observability capabilities.
+
+Traffic flow to and from [.noloc]`Pods` with associated security groups are not subjected to [.noloc]`Calico` network policy enforcement and are limited to Amazon VPC security group enforcement only.  
+
+If you use [.noloc]`Calico` network policy enforcement, we recommend that you set the environment variable `ANNOTATE_POD_IP` to `true` to avoid a known issue with [.noloc]`Kubernetes`. To use this feature, you must add `patch` permission for pods to the `aws-node` [.noloc]`ClusterRole`. Note that adding patch permissions to the `aws-node` [.noloc]`DaemonSet` increases the security scope for the plugin. For more information, see https://github.com/aws/amazon-vpc-cni-k8s/?tab=readme-ov-file#annotate_pod_ip-v193[ANNOTATE_POD_IP] in the VPC CNI repo on GitHub.
+
+== Considerations for Amazon EKS Auto Mode
+
+Amazon EKS Auto Mode does not support alternate CNI plugins or network policy plugins. For more information, see <<automode>>.
+

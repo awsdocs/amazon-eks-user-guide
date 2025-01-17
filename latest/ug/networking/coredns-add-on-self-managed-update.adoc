@@ -1,0 +1,132 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[coredns-add-on-self-managed-update,coredns-add-on-self-managed-update.title]]
+= Update the [.noloc]`CoreDNS` Amazon EKS self-managed add-on
+:info_titleabbrev: Update (self-managed)
+
+include::../attributes.txt[]
+
+[IMPORTANT]
+====
+
+We recommend adding the Amazon EKS type of the add-on to your cluster instead of using the self-managed type of the add-on. If you're not familiar with the difference between the types, see <<eks-add-ons>>. For more information about adding an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. If you're unable to use the Amazon EKS add-on, we encourage you to submit an issue about why you can't to the https://github.com/aws/containers-roadmap/issues[Containers roadmap GitHub repository].
+
+====
+
+Before you begin, review the upgrade considerations. For more information, see <<coredns-upgrade>>.
+
+. Confirm that you have the self-managed type of the add-on installed on your cluster. Replace [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks describe-addon --cluster-name my-cluster --addon-name coredns --query addon.addonVersion --output text
+----
++
+If an error message is returned, you have the self-managed type of the add-on installed on your cluster. Complete the remaining steps in this procedure. If a version number is returned, you have the Amazon EKS type of the add-on installed on your cluster. To update the Amazon EKS type of the add-on, use the procedure in  <<coredns-add-on-update,Update the CoreDNS Amazon EKS add-on>>, rather than using this procedure. If you're not familiar with the differences between the add-on types, see <<eks-add-ons>>.
+. See which version of the container image is currently installed on your cluster.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl describe deployment coredns -n kube-system | grep Image | cut -d ":" -f 3
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+v1.8.7-eksbuild.2
+----
+. If your current [.noloc]`CoreDNS` version is `v1.5.0` or later, but earlier than the version listed in the <<coredns-versions,CoreDNS versions>> table, then skip this step. If your current version is earlier than `1.5.0`, then you need to modify the `ConfigMap` for [.noloc]`CoreDNS` to use the forward add-on, rather than the proxy add-on.
++
+.. Open the `ConfigMap` with the following command.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl edit configmap coredns -n kube-system
+----
+.. Replace `proxy` in the following line with `forward`. Save the file and exit the editor.
++
+[source,bash,subs="verbatim,attributes"]
+----
+proxy . /etc/resolv.conf
+----
+. If you originally deployed your cluster on [.noloc]`Kubernetes` `1.17` or earlier, then you may need to remove a discontinued line from your [.noloc]`CoreDNS` manifest.
++
+IMPORTANT: You must complete this step before updating to [.noloc]`CoreDNS` version `1.7.0`, but it's recommended that you complete this step even if you're updating to an earlier version. 
++
+.. Check to see if your [.noloc]`CoreDNS` manifest has the line.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get configmap coredns -n kube-system -o jsonpath='{$.data.Corefile}' | grep upstream
+----
++
+If no output is returned, your manifest doesn't have the line and you can skip to the next step to update [.noloc]`CoreDNS`. If output is returned, then you need to remove the line.
+.. Edit the `ConfigMap` with the following command, removing the line in the file that has the word `upstream` in it. Do not change anything else in the file. Once the line is removed, save the changes.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl edit configmap coredns -n kube-system -o yaml
+----
+. Retrieve your current [.noloc]`CoreDNS` image version:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl describe deployment coredns -n kube-system | grep Image
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.8.7-eksbuild.2
+----
+. If you're updating to [.noloc]`CoreDNS` `1.8.3` or later, then you need to add the `endpointslices` permission to the `system:coredns` [.noloc]`Kubernetes` `clusterrole`.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl edit clusterrole system:coredns -n kube-system
+----
++
+Add the following lines under the existing permissions lines in the `rules` section of the file.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+[...]
+- apiGroups:
+  - discovery.k8s.io
+  resources:
+  - endpointslices
+  verbs:
+  - list
+  - watch
+[...]
+----
+. Update the [.noloc]`CoreDNS` add-on by replacing [.replaceable]`602401143452` and [.replaceable]`region-code` with the values from the output returned in a previous step. Replace [.replaceable]`v1.11.3-eksbuild.1` with the [.noloc]`CoreDNS` version listed in the  <<coredns-versions,latest versions table>> for your [.noloc]`Kubernetes` version.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl set image deployment.apps/coredns -n kube-system  coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.11.3-eksbuild.1
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+deployment.apps/coredns image updated
+----
+. Check the container image version again to confirm that it was updated to the version that you specified in the previous step.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl describe deployment coredns -n kube-system | grep Image | cut -d ":" -f 3
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+v1.11.3-eksbuild.1
+----
+
+

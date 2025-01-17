@@ -1,0 +1,76 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[cni-ipv6,cni-ipv6.title]]
+= Learn about IPv6 addresses to clusters, [.noloc]`Pods`, and services
+:info_titleabbrev: IPv6
+
+include::../attributes.txt[]
+
+include::deploy-ipv6-cluster.adoc[leveloffset=+1]
+
+[abstract]
+--
+Learn how to deploy an `IPv6` cluster and nodes with Amazon EKS for assigning `IPv6` addresses to [.noloc]`Pods` and [.noloc]`services` instead of `IPv4`, leveraging IP prefix delegation and the latest [.noloc]`Amazon VPC CNI` plugin.
+--
+
+*Applies to*: [.noloc]`Pods` with Amazon EC2 instances and Fargate [.noloc]`Pods`
+
+By default, [.noloc]`Kubernetes` assigns `IPv4` addresses to your [.noloc]`Pods` and [.noloc]`services`. Instead of assigning `IPv4` addresses to your [.noloc]`Pods` and [.noloc]`services`, you can configure your cluster to assign `IPv6` addresses to them. Amazon EKS doesn't support dual-stacked [.noloc]`Pods` or [.noloc]`services`, even though [.noloc]`Kubernetes` does in version `1.23` and later. As a result, you can't assign both `IPv4` and `IPv6` addresses to your [.noloc]`Pods` and [.noloc]`services`.  
+
+You select which IP family you want to use for your cluster when you create it. You can't change the family after you create the cluster.
+
+For a tutorial to deploy an Amazon EKS `IPv6` cluster, see <<deploy-ipv6-cluster>>.
+
+//[[ipv6-considerations,ipv6-considerations.title]]
+//===== Considerations 
+
+The following are considerations for using the feature:
+
+== `IPv6` Feature support
+
+* *No [.noloc]`Windows` support*: [.noloc]`Windows` [.noloc]`Pods` and [.noloc]`services` aren't supported.
+* *Nitro-based EC2 nodes required*: You can only use `IPv6` with {aws} Nitro-based Amazon EC2 or Fargate nodes.
+* *EC2 and Fargate nodes supported*: You can use `IPv6` with <<security-groups-for-pods>> with Amazon EC2 nodes and Fargate nodes.
+* *Outposts not supported*: You can't use `IPv6` with <<eks-outposts>>.
+* *FSx for Lustre is not supported*: The <<fsx-csi>> is not supported.
+* *Instance Metadata Service not supported*: Use of the Amazon EC2 link:AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html[Instance Metadata Service,type="documentation"] `IPv6` endpoint is not supported with Amazon EKS.
+* *Custom networking not supported*: If you previously used <<cni-custom-network>> to help alleviate IP address exhaustion, you can use `IPv6` instead. You can't use custom networking with `IPv6`. If you use custom networking for network isolation, then you might need to continue to use custom networking and the `IPv4` family for your clusters.
+
+
+== IP address assignments
+
+* *Kubernetes services*: Kubernetes services are only assigned an `IPv6` addresses. They aren't assigned IPv4 addresses. 
+* *Pods*: Pods are assigned an IPv6 address and a host-local IPv4 address. The host-local IPv4 address is assigned by using a host-local CNI plugin chained with VPC CNI and the address is not reported to the Kubernetes control plane. It is only used when a pod needs to communicate with an external IPv4 resources in another Amazon VPC or the internet. The host-local IPv4 address gets SNATed (by VPC CNI) to the primary IPv4 address of the primary ENI of the worker node. 
+* *Pods and services*: [.noloc]`Pods` and [.noloc]`services` are only assigned an `IPv6` address. They aren't assigned an `IPv4` address. Because [.noloc]`Pods` are able to communicate to `IPv4` endpoints through NAT on the instance itself,  link:vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-nat64-dns64[DNS64 and NAT64,type="documentation"] aren't needed. If the traffic needs a public IP address, the traffic is then source network address translated to a public IP.
+* *Routing addresses*: The source `IPv6` address of a [.noloc]`Pod` isn't source network address translated to the `IPv6` address of the node when communicating outside of the VPC. It is routed using an internet gateway or egress-only internet gateway.
+* *Nodes*: All nodes are assigned an `IPv4` and `IPv6` address.
+* *Fargate [.noloc]`Pods`*: Each Fargate [.noloc]`Pod` receives an `IPv6` address from the CIDR that's specified for the subnet that it's deployed in. The underlying hardware unit that runs Fargate [.noloc]`Pods` gets a unique `IPv4` and `IPv6` address from the CIDRs that are assigned to the subnet that the hardware unit is deployed in.
+
+
+== How to use `IPv6` with EKS
+
+* *Create new cluster*: You must create a new cluster and specify that you want to use the `IPv6` family for that cluster. You can't enable the `IPv6` family for a cluster that you updated from a previous version. For instructions on how to create a new cluster, see Considerations .
+* *Use recent VPC CNI*: Deploy Amazon VPC CNI version `1.10.1` or later. This version or later is deployed by default. After you deploy the add-on, you can't downgrade your Amazon VPC CNI add-on to a version lower than `1.10.1` without first removing all nodes in all node groups in your cluster.
+* *Configure VPC CNI for `IPv6`*: If you use Amazon EC2 nodes, you must configure the Amazon VPC CNI add-on with IP prefix delegation and `IPv6`. If you choose the `IPv6` family when creating your cluster, the `1.10.1` version of the add-on defaults to this configuration. This is the case for both a self-managed or Amazon EKS add-on. For more information about IP prefix delegation, see <<cni-increase-ip-addresses>>.
+* *Configure `IPv4` and `IPv6` addresses*: When you create a cluster, the VPC and subnets that you specify must have an `IPv6` CIDR block that's assigned to the VPC and subnets that you specify. They must also have an `IPv4` CIDR block assigned to them. This is because, even if you only want to use `IPv6`, a VPC still requires an `IPv4` CIDR block to function. For more information, see  link:vpc/latest/userguide/working-with-vpcs.html#vpc-associate-ipv6-cidr[Associate an IPv6 CIDR block with your VPC,type="documentation"] in the Amazon VPC User Guide.
+* *Auto-assign IPv6 addresses to nodes:* When you create your nodes, you must specify subnets that are configured to auto-assign `IPv6` addresses. Otherwise, you can't deploy your nodes. By default, this configuration is disabled. For more information, see  link:vpc/latest/userguide/vpc-ip-addressing.html#subnet-ipv6[Modify the IPv6 addressing attribute for your subnet,type="documentation"] in the Amazon VPC User Guide.
+* *Set route tables to use `IPv6`*: The route tables that are assigned to your subnets must have routes for `IPv6` addresses. For more information, see link:vpc/latest/userguide/vpc-migrate-ipv6.html[Migrate to IPv6,type="documentation"] in the Amazon VPC User Guide.
+* *Set security groups for `IPv6`*: Your security groups must allow `IPv6` addresses. For more information, see link:vpc/latest/userguide/vpc-migrate-ipv6.html[Migrate to IPv6,type="documentation"] in the Amazon VPC User Guide.
+* *Set up load balancer*: Use version `2.3.1` or later of the {aws} Load Balancer Controller to load balance HTTP applications using the <<alb-ingress>> or network traffic using the <<network-load-balancing>> to `IPv6` [.noloc]`Pods` with either load balancer in IP mode, but not instance mode. For more information, see <<aws-load-balancer-controller>>.
+* *Add `IPv6` IAM policy*: You must attach an `IPv6` IAM policy to your node IAM or CNI IAM role. Between the two, we recommend that you attach it to a CNI IAM role. For more information, see <<cni-iam-role-create-ipv6-policy>> and <<cni-iam-role-create-role>>.
+* *Evaluate all components*: Perform a thorough evaluation of your applications, Amazon EKS add-ons, and {aws} services that you integrate with before deploying `IPv6` clusters. This is to ensure that everything works as expected with `IPv6`.
+* *Add `BootstrapArguments` self-managed node groups*: When creating a self-managed node group in a cluster that uses the `IPv6` family, user-data must include the following `BootstrapArguments` for the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] file that runs at node start up. Replace [.replaceable]`your-cidr` with the `IPv6` [.noloc]`CIDR` range of your cluster's VPC.
++
+[source,bash,subs="verbatim,attributes"]
+----
+--ip-family ipv6 --service-ipv6-cidr your-cidr
+----
++
+If you don't know the `IPv6` `CIDR` range for your cluster, you can see it with the following command (requires the {aws} CLI version `2.4.9` or later).
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks describe-cluster --name my-cluster --query cluster.kubernetesNetworkConfig.serviceIpv6Cidr --output text
+----
+
+

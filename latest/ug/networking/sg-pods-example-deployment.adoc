@@ -1,0 +1,212 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[sg-pods-example-deployment,sg-pods-example-deployment.title]]
+= Use a security group policy for an Amazon EKS [.noloc]`Pod`
+:info_titleabbrev: SecurityGroupPolicy
+
+include::../attributes.txt[]
+
+To use security groups for [.noloc]`Pods`, you must have an existing security group. The following steps show you how to use the security group policy for a [.noloc]`Pod`. Unless otherwise noted, complete all steps from the same terminal because variables are used in the following steps that don't persist across terminals.
+
+If you have a [.noloc]`Pod` with Amazon EC2 instances, you must configure the plugin before you use this procedure. For more information, see <<security-groups-pods-deployment>>.
+
+. Create a [.noloc]`Kubernetes` namespace to deploy resources to. You can replace [.replaceable]`my-namespace` with the name of a namespace that you want to use.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl create namespace my-namespace
+----
+. [[deploy-securitygrouppolicy]]Deploy an Amazon EKS `SecurityGroupPolicy` to your cluster.
++
+.. Copy the following contents to your device. You can replace [.replaceable]`podSelector` with `serviceAccountSelector` if you'd rather select [.noloc]`Pods` based on service account labels. You must specify one selector or the other. An empty `podSelector` (example: `podSelector: {}`) selects all [.noloc]`Pods` in the namespace. You can change [.replaceable]`my-role` to the name of your role. An empty `serviceAccountSelector` selects all service accounts in the namespace. You can replace [.replaceable]`my-security-group-policy` with a name for your `SecurityGroupPolicy` and [.replaceable]`my-namespace` with the namespace that you want to create the `SecurityGroupPolicy` in. 
++
+You must replace [.replaceable]`my_pod_security_group_id` with the ID of an existing security group. If you don't have an existing security group, then you must create one. For more information, see link:AWSEC2/latest/UserGuide/ec2-security-groups.html[Amazon EC2 security groups for Linux instances,type="documentation"] in the link:AWSEC2/latest/UserGuide/[Amazon EC2 User Guide,type="documentation"]. You can specify 1-5 security group IDs. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected [.noloc]`Pods`.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+cat >my-security-group-policy.yaml <<EOF
+apiVersion: vpcresources.k8s.aws/v1beta1
+kind: SecurityGroupPolicy
+metadata:
+  name: my-security-group-policy
+  namespace: my-namespace
+spec:
+  podSelector: 
+    matchLabels:
+      role: my-role
+  securityGroups:
+    groupIds:
+      - my_pod_security_group_id
+EOF
+----
++
+[IMPORTANT]
+====
+The security group or groups that you specify for your [.noloc]`Pods` must meet the following criteria:
+
+* They must exist. If they don't exist, then, when you deploy a [.noloc]`Pod` that matches the selector, your [.noloc]`Pod` remains stuck in the creation process. If you describe the [.noloc]`Pod`, you'll see an error message similar to the following one: `An error occurred (InvalidSecurityGroupID.NotFound) when calling the CreateNetworkInterface operation: The securityGroup ID '[.replaceable]``sg-05b1d815d1EXAMPLE``' does not exist`.
+* They must allow inbound communication from the security group applied to your nodes (for `kubelet`) over any ports that you've configured probes for.
+* They must allow outbound communication over `TCP` and `UDP` ports 53 to a security group assigned to the [.noloc]`Pods` (or nodes that the [.noloc]`Pods` run on) running [.noloc]`CoreDNS`. The security group for your [.noloc]`CoreDNS` [.noloc]`Pods` must allow inbound `TCP` and `UDP` port 53 traffic from the security group that you specify.
+* They must have necessary inbound and outbound rules to communicate with other [.noloc]`Pods` that they need to communicate with.
+* They must have rules that allow the [.noloc]`Pods` to communicate with the [.noloc]`Kubernetes` control plane if you're using the security group with Fargate. The easiest way to do this is to specify the cluster security group as one of the security groups.
+
+Security group policies only apply to newly scheduled [.noloc]`Pods`. They do not affect running [.noloc]`Pods`.
+====
+
+.. Deploy the policy.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f my-security-group-policy.yaml
+----
+. Deploy a sample application with a label that matches the [.replaceable]`my-role` value for [.replaceable]`podSelector` that you specified in a previous step.
++
+.. Copy the following contents to your device. Replace the [.replaceable]`example values` with your own and then run the modified command. If you replace [.replaceable]`my-role`, make sure that it's the same as the value you specified for the selector in a previous step.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+cat >sample-application.yaml <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  namespace: my-namespace
+  labels:
+    app: my-app
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+        role: my-role
+    spec:
+      terminationGracePeriodSeconds: 120
+      containers:
+      - name: nginx
+        image: public.ecr.aws/nginx/nginx:1.23
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app
+  namespace: my-namespace
+  labels:
+    app: my-app
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+EOF
+----
+.. Deploy the application with the following command. When you deploy the application, the [.noloc]`Amazon VPC CNI plugin for Kubernetes` matches the `role` label and the security groups that you specified in the previous step are applied to the [.noloc]`Pod`.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f sample-application.yaml
+----
+. View the [.noloc]`Pods` deployed with the sample application. For the remainder of this topic, this terminal is referred to as `TerminalA`.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pods -n my-namespace -o wide
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME                             READY   STATUS    RESTARTS   AGE     IP               NODE                                            NOMINATED NODE   READINESS GATES
+my-deployment-5df6f7687b-4fbjm   1/1     Running   0          7m51s   192.168.53.48    ip-192-168-33-28.region-code.compute.internal   <none>           <none>
+my-deployment-5df6f7687b-j9fl4   1/1     Running   0          7m51s   192.168.70.145   ip-192-168-92-33.region-code.compute.internal   <none>           <none>
+my-deployment-5df6f7687b-rjxcz   1/1     Running   0          7m51s   192.168.73.207   ip-192-168-92-33.region-code.compute.internal   <none>           <none>
+my-deployment-5df6f7687b-zmb42   1/1     Running   0          7m51s   192.168.63.27    ip-192-168-33-28.region-code.compute.internal   <none>           <none>
+----
++
+[NOTE]
+====
+Try these tips if any [.noloc]`Pods` are stuck.
+
+* If any [.noloc]`Pods` are stuck in the `Waiting` state, then run `kubectl describe pod [.replaceable]``my-deployment-xxxxxxxxxx-xxxxx`` -n [.replaceable]``my-namespace```. If you see `Insufficient permissions: Unable to create Elastic Network Interface.`, confirm that you added the IAM policy to the IAM cluster role in a previous step.
+* If any [.noloc]`Pods` are stuck in the `Pending` state, confirm that your node instance type is listed in https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go[limits.go] and that the product of the maximum number of branch network interfaces supported by the instance type multiplied times the number of nodes in your node group hasn't already been met. For example, an `m5.large` instance supports nine branch network interfaces. If your node group has five nodes, then a maximum of 45 branch network interfaces can be created for the node group. The 46th [.noloc]`Pod` that you attempt to deploy will sit in `Pending` state until another [.noloc]`Pod` that has associated security groups is deleted.
+
+====
++
+If you run `kubectl describe pod [.replaceable]``my-deployment-xxxxxxxxxx-xxxxx`` -n [.replaceable]``my-namespace``` and see a message similar to the following message, then it can be safely ignored. This message might appear when the [.noloc]`Amazon VPC CNI plugin for Kubernetes` tries to set up host networking and fails while the network interface is being created. The plugin logs this event until the network interface is created.
++
+[source,bash,subs="verbatim,attributes"]
+----
+Failed to create Pod sandbox: rpc error: code = Unknown desc = failed to set up sandbox container "e24268322e55c8185721f52df6493684f6c2c3bf4fd59c9c121fd4cdc894579f" network for Pod "my-deployment-5df6f7687b-4fbjm": networkPlugin
+cni failed to set up Pod "my-deployment-5df6f7687b-4fbjm-c89wx_my-namespace" network: add cmd: failed to assign an IP address to container
+----
++
+You can't exceed the maximum number of [.noloc]`Pods` that can be run on the instance type. For a list of the maximum number of [.noloc]`Pods` that you can run on each instance type, see https://github.com/awslabs/amazon-eks-ami/blob/main/templates/shared/runtime/eni-max-pods.txt[eni-max-pods.txt] on [.noloc]`GitHub`. When you delete a [.noloc]`Pod` that has associated security groups, or delete the node that the [.noloc]`Pod` is running on, the VPC resource controller deletes the branch network interface. If you delete a cluster with [.noloc]`Pods` using [.noloc]`Pods` for security groups, then the controller doesn't delete the branch network interfaces, so you'll need to delete them yourself. For information about how to delete network interfaces, see   link:AWSEC2/latest/UserGuide/using-eni.html#delete_eni[Delete a network interface,type="documentation"] in the Amazon EC2 User Guide.
+. In a separate terminal, shell into one of the [.noloc]`Pods`. For the remainder of this topic, this terminal is referred to as `TerminalB`. Replace [.replaceable]`5df6f7687b-4fbjm` with the ID of one of the [.noloc]`Pods` returned in your output from the previous step.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl exec -it -n my-namespace my-deployment-5df6f7687b-4fbjm -- /bin/bash
+----
+. From the shell in `TerminalB`, confirm that the sample application works.
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl my-app
+----
++
+An example output is as follows.
++
+[source,html,subs="verbatim"]
+----
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+[...]
+----
++
+You received the output because all [.noloc]`Pods` running the application are associated with the security group that you created. That group contains a rule that allows all traffic between all [.noloc]`Pods` that the security group is associated to. DNS traffic is allowed outbound from that security group to the cluster security group, which is associated with your nodes. The nodes are running the [.noloc]`CoreDNS` [.noloc]`Pods`, which your [.noloc]`Pods` did a name lookup to.
+. From `TerminalA`, remove the security group rules that allow DNS communication to the cluster security group from your security group. If you didn't add the DNS rules to the cluster security group in a previous step, then replace [.replaceable]`$my_cluster_security_group_id` with the ID of the security group that you created the rules in.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws ec2 revoke-security-group-ingress --group-id $my_cluster_security_group_id --security-group-rule-ids $my_tcp_rule_id
+aws ec2 revoke-security-group-ingress --group-id $my_cluster_security_group_id --security-group-rule-ids $my_udp_rule_id
+----
+. From `TerminalB`, attempt to access the application again.
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl my-app
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl: (6) Could not resolve host: my-app
+----
++
+The attempt fails because the [.noloc]`Pod` is no longer able to access the [.noloc]`CoreDNS` [.noloc]`Pods`, which have the cluster security group associated to them. The cluster security group no longer has the security group rules that allow DNS communication from the security group associated to your [.noloc]`Pod`.
++
+If you attempt to access the application using the IP addresses returned for one of the [.noloc]`Pods` in a previous step, you still receive a response because all ports are allowed between [.noloc]`Pods` that have the security group associated to them and a name lookup isn't required.
+. Once you've finished experimenting, you can remove the sample security group policy, application, and security group that you created. Run the following commands from `TerminalA`.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl delete namespace my-namespace
+aws ec2 revoke-security-group-ingress --group-id $my_pod_security_group_id --security-group-rule-ids $my_inbound_self_rule_id
+wait
+sleep 45s 
+aws ec2 delete-security-group --group-id $my_pod_security_group_id
+----
+
+

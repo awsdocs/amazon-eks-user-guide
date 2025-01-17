@@ -1,0 +1,97 @@
+//!!NODE_ROOT <section>
+[.topic]
+[[vpc-add-on-create,vpc-add-on-create.title]]
+= Create the Amazon VPC CNI (Amazon EKS add-on)
+:info_titleabbrev: Create
+
+include::../attributes.txt[]
+
+Use the following steps to create the [.noloc]`Amazon VPC CNI plugin for Kubernetes` Amazon EKS add-on.
+
+Before you begin, review the considerations. For more information, see <<manage-vpc-cni-add-on-on-considerations>>.
+
+
+[[vpc-add-on-create-prerequisites,vpc-add-on-create-prerequisites.title]]
+== Prerequisites
+
+The following are prerequisites for the [.noloc]`Amazon VPC CNI plugin for Kubernetes` Amazon EKS add-on.
+
+* An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
+* An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* An IAM role with the  link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html[AmazonEKS_CNI_Policy,type="documentation"] IAM policy (if your cluster uses the `IPv4` family) or an IPv6 policy (if your cluster uses the `IPv6` family) attached to it. For more information about the VPC CNI role, see <<cni-iam-role>>. For information about the IPv6 policy, see <<cni-iam-role-create-ipv6-policy>>.
+* If you're using version `1.7.0` or later of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` and you use custom [.noloc]`Pod` security policies, see <<psp-delete-default>> and <<pod-security-policy>>.
+
+[IMPORTANT]
+====
+
+[.noloc]`Amazon VPC CNI plugin for Kubernetes` versions `v1.16.0` to `v1.16.1` removed compatibility with [.noloc]`Kubernetes` versions `1.23` and earlier. VPC CNI version `v1.16.2` restores compatibility with [.noloc]`Kubernetes` versions `1.23` and earlier and CNI spec `v0.4.0`.
+
+[.noloc]`Amazon VPC CNI plugin for Kubernetes` versions `v1.16.0` to `v1.16.1` implement CNI specification version `v1.0.0`. CNI spec `v1.0.0` is supported on EKS clusters that run the [.noloc]`Kubernetes` versions `v1.24` or later. VPC CNI version `v1.16.0` to `v1.16.1` and CNI spec `v1.0.0` aren't supported on [.noloc]`Kubernetes` version `v1.23` or earlier. For more information about `v1.0.0` of the CNI spec, see https://github.com/containernetworking/cni/blob/spec-v1.0.0/SPEC.md[Container Network Interface (CNI) Specification] on [.noloc]`GitHub`.
+
+====
+
+
+[[vpc-add-on-create-procedure,vpc-add-on-create-procedure.title]]
+== Procedure
+
+After you complete the prerequisites, use the following steps to create the add-on.
+
+. See which version of the add-on is installed on your cluster.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl describe daemonset aws-node --namespace kube-system | grep amazon-k8s-cni: | cut -d : -f 3
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+v1.16.4-eksbuild.2
+----
+. See which type of the add-on is installed on your cluster. Depending on the tool that you created your cluster with, you might not currently have the Amazon EKS add-on type installed on your cluster. Replace [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni --query addon.addonVersion --output text
+----
++
+If a version number is returned, you have the Amazon EKS type of the add-on installed on your cluster and don't need to complete the remaining steps in this procedure. If an error is returned, you don't have the Amazon EKS type of the add-on installed on your cluster. Complete the remaining steps of this procedure to install it.
+. Save the configuration of your currently installed add-on.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get daemonset aws-node -n kube-system -o yaml > aws-k8s-cni-old.yaml
+----
+. Create the add-on using the {aws} CLI. If you want to use the {aws-management-console} or `eksctl` to create the add-on, see <<creating-an-add-on>> and specify `vpc-cni` for the add-on name. Copy the command that follows to your device. Make the following modifications to the command, as needed, and then run the modified command.
++
+** Replace [.replaceable]`my-cluster` with the name of your cluster.
+** Replace [.replaceable]`v1.19.0-eksbuild.1` with the latest version listed in the latest version table for your cluster version. For the latest version table, see <<vpc-cni-latest-available-version>>.
+** Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`AmazonEKSVPCCNIRole` with the name of an <<cni-iam-role-create-role,existing IAM role>> that you've created. Specifying a role requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>. 
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.19.0-eksbuild.1 \
+    --service-account-role-arn {arn-aws}iam::111122223333:role/AmazonEKSVPCCNIRole
+----
++
+If you've applied custom settings to your current add-on that conflict with the default settings of the Amazon EKS add-on, creation might fail. If creation fails, you receive an error that can help you resolve the issue. Alternatively, you can add `--resolve-conflicts OVERWRITE` to the previous command. This allows the add-on to overwrite any existing custom settings. Once you've created the add-on, you can update it with your custom settings.
+. Confirm that the latest version of the add-on for your cluster's [.noloc]`Kubernetes` version was added to your cluster. Replace [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni --query addon.addonVersion --output text
+----
++
+It might take several seconds for add-on creation to complete.
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+v1.19.0-eksbuild.1
+----
+. If you made custom settings to your original add-on, before you created the Amazon EKS add-on, use the configuration that you saved in a previous step to update the EKS add-on with your custom settings. Follow the steps in <<vpc-add-on-update>>.
+. (Optional) Install the `cni-metrics-helper` to your cluster. It scrapes elastic network interface and IP address information, aggregates it at a cluster level, and publishes the metrics to Amazon CloudWatch. For more information, see https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md[cni-metrics-helper] on GitHub.
+
+
