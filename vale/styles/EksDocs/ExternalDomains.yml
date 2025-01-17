@@ -4,119 +4,207 @@ level: error
 scope: raw
 #ignorecase: true
 tokens:
-  - '(?:^|\s)(http(s)?://[^\s]+)(?:$|\s)'
+  - '(?:^|\b)(http(s)?:\/\/[^\s\[]+)(?=$|\s|\[)'
+  # note: this version no longer detects the valid URL that uses replacement syntax https://raw.githubusercontent.com/projectcalico/calico/\[\.replaceable\]\`CALICO_VERSION\`/manifests/operator-crds.yaml
 exceptions:
-  - https://aws.github.io/
-  - https://kubernetes-sigs.github.io/
-  - https://aws-observability.github.io/
-  - https://github.com/aws/
-  - https://github.com/aws-samples/
-  - https://github.com/kubernetes/
-  - https://repost.aws/
-  - https://github.com/bottlerocket-os/
-  - https://kubernetes.io
-  - https://karpenter.sh
-  - https://anywhere.eks.amazonaws.com
-  - https://aws-ia.github.io
-  - https://eksctl.io
-  - https://catalog.workshops.aws
-  - https://github.com/awslabs/
-  - https://github.com/aws-controllers-k8s/
-  - https://raw.githubusercontent.com/aws-observability/
-  - https://github.com/kubernetes-sigs/
-  - https://d1.awsstatic.com/
-  - https://docs.github.com/
-  - https://code.visualstudio.com/
-  - https://cli.github.com/
-  - https://marketplace.visualstudio.com/
-  - https://docs.asciidoctor.org/
-  - https://brew.sh/
-  - https://github.dev/aws/
-  - https://catalog.us-east-1.prod.workshops.aws/
-  - http://developers.eksworkshop.com
-  - https://s3.us-west-2.amazonaws.com/amazon-eks/
-  - https://www.eksworkshop.com
-  - https://community.aws/
-  - https://www.youtube.com/
-  - https://kind.sigs.k8s.io
-  - https://minikube.sigs.k8s.io
-  - https://www.terraform.io
-  - https://developers.eksworkshop.com
-  - https://docs.aws.amazon.com/
-  - https://groups.google.com/forum/#!topic/kubernetes-security-announce
-  - https://raw.githubusercontent.com/kubernetes-sigs
-  - https://helm.sh
-  - https://public.ecr.aws
-  - https://gallery.ecr.aws
-  - https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/
-  - https://www.intel.com/
-  - https://www.tensorflow.org/
-  - https://docs.upbound.io/
-  - https://docs.upwind.io/
-  - https://tetratelabs.io/
-  - https://goteleport.com/
-  - https://docs.splunk.com/
-  - https://docs.stormforge.io/
-  - https://docs.snyk.io/
-  - https://docs.solo.io/
   - alas.aws.amazon.com
   - amazon.awsapps.com
+  - anywhere.eks.amazonaws.com
   - apparmor.net
   - appdynamics.com
+  - aws-ia.github.io
+  - aws-observability.github.io
   - aws-otel.github.io
+  - aws.amazon.com
+  - aws.github.io
   - awsdocs-neuron.readthedocs-hosted.com
   - awslabs.github.io
+  - boto3.amazonaws.com
+  - bottlerocket.dev
   - brew.sh
   - catalog.redhat.com
+  - catalog.us-east-1.prod.workshops.aws
+  - catalog.workshops.aws
   - chocolatey.org
   - cloud-images.ubuntu.com
   - cloudinit.readthedocs.io
+  - community.aws
+  - console.aws.amazon.com
   - containerd.io
+  - cve.mitre.org
+  - d1.awsstatic.com/
+  - developer.hashicorp.com
+  - developer.nvidia.com
+  - developers.eksworkshop.com
   - distro.eks.amazonaws.com
+  - docs.aws.amazon.com
+  - docs.cilium.io
   - docs.docker.com
+  - docs.fluentbit.io
+  - docs.helm.sh
+  - docs.kubecost.com
   - docs.netapp.com
   - docs.newrelic.com
   - docs.pingidentity.com
   - docs.podman.io
+  - docs.rad.security
+  - docs.ray.io
+  - docs.tigera.io
+  - docs.vllm.ai
   - documentation.solarwinds.com
   - documentation.ubuntu.com
   - ebpf.io
   - eks.amazonaws.com
+  - eksctl.io
   - eksworkshop.com
   - etcd.io
   - explore.skillbuilder.aws
   - gateway-api.sigs.k8s.io
   - github.com
   - grafana.com
+  - guide.kubecost.com
+  - http://developers.eksworkshop.com
+  - http://localhost:8080/utility/stress/1000000
+  - http://localhost:9090
+  - http://retail-store-sample-ui.default.svc/utility/stress/1000000
+  - https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/
+  - https://antrea.io/docs/main/docs/eks-installation
+  - https://anywhere.eks.amazonaws.com
+  - https://aws-ia.github.io
+  - https://aws-observability.github.io/
+  - https://aws.github.io/
+  - https://brew.sh/
+  - 'https://bugs.launchpad.net/ubuntu/\+source/containerd-app/\+bug/2065423'
+  - https://catalog.us-east-1.prod.workshops.aws/
+  - https://catalog.workshops.aws
+  - https://cert-manager.io
+  - https://cilium.io
+  - https://cli.github.com/
+  - https://code.visualstudio.com/
+  - https://community.aws/
+  - https://d1.awsstatic.com/
+  - https://developers.eksworkshop.com
+  - https://distribution.github.io/distribution/
+  - https://docs.akuity.io/tutorials/eks-addon-agent-install/
+  - https://docs.asciidoctor.org/
+  - https://docs.aws.amazon.com/
+  - https://docs.cloudsoft.io/operations/configuration/aws-eks-addon.html
+  - https://docs.cribl.io/edge/usecase-edge-aws-eks/
+  - https://docs.datadoghq.com/containers/guide/operator-eks-addon/
+  - https://docs.datadoghq.com/containers/guide/operator-eks-addon/\?tab=console
+  - https://docs.github.com/
+  - https://docs.groundcover.com/docs/~/changes/VhDDAl1gy1VIO3RIcgxD/configuration/customization-guide/customize-deployment/eks-add-on
+  - https://docs.guance.com/en/datakit/datakit-eks-deploy/
+  - https://docs.guance.com/en/datakit/datakit-eks-deploy/#add-on-install
+  - https://docs.kasten.io/latest/install/aws-eks-addon/aws-eks-addon.html
+  - https://docs.kpow.io/installation/aws-marketplace-lm/
+  - https://docs.kubearmor.io/kubearmor/quick-links/deployment_guide
+  - https://docs.nvidia.com/cuda/cuda-runtime-api/group_%5FCUDART%5F_DEVICE.html
+  - https://docs.nvidia.com/deploy/gpu-debug-guidelines/index.html#understanding-xid-messages
+  - https://docs.nvidia.com/deploy/xid-errors/index.html#topic_5_1
+  - https://docs.projectcalico.org/getting-started/kubernetes/managed-public-cloud/eks
+  - https://docs.rafay.co/clusters/import/eksaddon/
+  - https://docs.snyk.io/
+  - https://docs.solo.io/
+  - https://docs.splunk.com/
+  - https://docs.stormforge.io/
+  - https://docs.upbound.io/
+  - https://docs.upwind.io/
+  - https://eksctl.io
+  - https://en.wikipedia.org/wiki/Reserved_IP_addresses
+  - https://example.com
+  - https://gallery.ecr.aws
+  - https://github.com/aws-controllers-k8s/
+  - https://github.com/aws-samples/
+  - https://github.com/aws/
+  - https://github.com/awslabs/
+  - https://github.com/bottlerocket-os/
+  - https://github.com/kubernetes-sigs/
+  - https://github.com/kubernetes/
+  - https://github.dev/aws/
+  - https://github.dev/awsdocs/
+  - https://goteleport.com/
+  - https://groups.google.com/forum/#!msg/kubernetes-security-announce/jk8polzSUxs/dfq6a-MnCQAJ
+  - https://groups.google.com/forum/#!topic/kubernetes-security-announce
+  - https://helm.sh
+  - https://hub.datree.io/integrations/eks-integration
+  - https://karpenter.sh
+  - https://kind.sigs.k8s.io
+  - https://kong.github.io/aws-marketplace-addon-kong-gateway/
+  - https://kubernetes-sigs.github.io/
+  - https://kubernetes.io
+  - https://marketplace.visualstudio.com/
+  - https://minikube.sigs.k8s.io
+  - https://play2048.co/
+  - https://prometheus-community.github.io/helm-charts
+  - https://public.ecr.aws
+  - https://pyjwt.readthedocs.io/en/latest/
+  - https://ratify.dev/docs/1.0/quickstarts/ratify-on-aws
+  - https://raw.githubusercontent.com/aws-observability/
+  - https://raw.githubusercontent.com/aws-samples/
+  - https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.12.6/config/master/cni-metrics-helper.yaml
+  - https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.19.0/config/master/aws-k8s-cni.yaml
+  - https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml
+  - https://raw.githubusercontent.com/awslabs/amazon-eks-ami/
+  - https://raw.githubusercontent.com/awslabs/amazoneks-ami/
+  - https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+  - https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-eks-cost-monitoring.yaml
+  - https://raw.githubusercontent.com/kubernetes-sigs
+  - https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/
+  - https://raw.githubusercontent.com/projectcalico/calico/
+  - https://repost.aws/
+  - https://s3.amazonaws.com/EULA/
+  - https://s3.us-west-2.amazonaws.com/amazon-eks/
+  - https://tetratelabs.io/
+  - https://tinkerbell.org
+  - https://vale.sh/
+  - https://www.cncf.io/
+  - https://www.dynatrace.com/technologies/kubernetes-monitoring/
+  - https://www.eksworkshop.com
+  - https://www.intel.com/
+  - https://www.leaksignal.com/docs/LeakAgent/Deployment/
+  - https://www.powershellgallery.com/packages/{aws}.Tools.Common/4.1.502
+  - https://www.powershellgallery.com/packages/Watch-Command/0.1.3
+  - https://www.qemu.org/docs/
+  - https://www.tensorflow.org/
+  - https://www.terraform.io
+  - https://www.tigera.io/project-calico
+  - https://www.youtube.com/
   - hub.docker.com
+  - huggingface.co
   - k8s.io
+  - karpenter.sh
   - kubernetes-csi.github.io
+  - kubernetes.io
   - learn.microsoft.com
+  - man7.org
   - oidc.eks.amazonaws.com
   - oidc.eks.region-code.amazonaws.com
+  - oidc.eks.us-west-2.amazonaws.com
   - opencontainers.org
   - openid.net
+  - opensearch.org
   - operatorhub.io
   - packer.io
   - portal.msrc.microsoft.com
   - prometheus.io
+  - public.ecr.aws
   - pytorch.org
   - registry.terraform.io
+  - repost.aws
   - requests.readthedocs.io
+  - rolesanywhere.amazonaws.com
   - rubygems.org
   - support.microsoft.com
   - tensorflow.org
+  - tetratelabs.io
   - ubuntu.com
   - www.canonical.com
   - www.cisecurity.org
+  - www.eksworkshop.com
+  - www.gateway-api-controller.eks.aws.dev
   - www.itu.int
   - www.juniper.net
   - www.python.org
   - www.rfc-editor.org
   - xilinx.github.io
-  - https://cert-manager.io
-  - https://www.cncf.io/
-  - https://github.dev/awsdocs/
-  - https://vale.sh/
-  
-

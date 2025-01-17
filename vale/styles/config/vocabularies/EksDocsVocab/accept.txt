@@ -1,3 +1,4 @@
+# Each line is a Ruby regex
 EKS
 eksctl
 Fargate
@@ -5,8 +6,11 @@ Bottlerocket
 EBS
 StorageClass
 PersistentVolume
-CSI
+CSIs?
 Karpenter
-VPC
+VPCs?
 VPC Reachability Analyzer
 reachability
+CNIs?
+repo
+CIDRs?
