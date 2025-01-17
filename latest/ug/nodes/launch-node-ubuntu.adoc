@@ -64,7 +64,6 @@ nodeGroups:
     instanceType: m5.large
     desiredCapacity: 3
     amiFamily: Ubuntu2204
-    ami: auto-ssm
     iam:
        attachPolicyARNs:
           - {arn-aws}iam::aws:policy/AmazonEKSWorkerNodePolicy
