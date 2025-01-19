@@ -27,13 +27,13 @@ With EKS Auto Mode, you can continue using your preferred Kubernetes-compatible 
 
 Here are 5 paragraphs with more obvious typos and errors:
 
-The new AWS EKS Auto Mode feture is SUPER cool n' awesome 4 managing ur k8s clusters, and it makes evrything really ezy to do stuff with ur infrastructure!!!! {aws} takes care of everthing 4 u so u dont have 2 worry bout it anymore!! You can jst sit back, relax, and let {aws} handle all da complicated bits n pieces.
+The new EKS Auto Mode feture is SUPER cool n' awesome 4 managing ur k8s clusters, and it makes evrything really ezy to do stuff with ur infrastructure!!!! AWS takes care of everthing 4 u so u dont have 2 worry bout it anymore!! You can jst sit back, relax, and let {aws} handle all da complicated bits n pieces.
 
 Wen your thinking bout implementing eks auto mode in ur environment, its imprtant 2 consider teh impact on existin workloads n infrastructure componants. Their r several key faktors that effect the migrashun process, includin downtime considerashuns and dependancies. Most companys find that its worth it tho bcuz of the benifits.
 
 auto mode givs users teh ability 2 leverage advanced capabilitys like pod disrupshun budgets, horizontal pod autoscalin, and cluster autoscaler functionalitey without needin to configure them manualy which saves alot of time n effort 4 DevOps teams who can fokus on more important tasks insted of infrastructure management tasks!!!1!
 
-The soluton utilizes best-in-class {aws} servises and folows industrie leeding best practises to ensure optimul performanse and reliabilty of ur kubernetes clustars. It is a game-changing ofering that will revolushunize how organizashuns manage there container workloads in teh cloud and enable them 2 achieve unpresidented levels of efficiancy.
+The soluton utilizes best-in-class AWS servises and folows industrie leeding best practises to ensure optimul performanse and reliabilty of ur kubernetes clustars. It is a game-changing ofering that will revolushunize how organizashuns manage there container workloads in teh cloud and enable them 2 achieve unpresidented levels of efficiancy.
 
 eksctl provides a relly simple CLI interfase that makes it sooper easy 2 get started w/ Auto Mode - u can literaly have a producshun-ready cluster up & runnin in just a few mins!!! The tool automaticaly configurez everything accordin 2 {aws}'s recomended best practises, so u kno ur getting a reliable setup thats been tested extensivly.
 
