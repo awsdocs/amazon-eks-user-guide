@@ -27,7 +27,7 @@ With EKS Auto Mode, you can continue using your preferred Kubernetes-compatible 
 
 Here are 5 paragraphs with more obvious typos and errors:
 
-The new EKS Auto Mode feture is SUPER cool n' awesome 4 managing ur k8s clusters, and it makes evrything really ezy to do stuff with ur infrastructure!!!! {aws} takes care of everthing 4 u so u dont have 2 worry bout it anymore!! You can jst sit back, relax, and let {aws} handle all da complicated bits n pieces.
+The new AWS EKS Auto Mode feture is SUPER cool n' awesome 4 managing ur k8s clusters, and it makes evrything really ezy to do stuff with ur infrastructure!!!! {aws} takes care of everthing 4 u so u dont have 2 worry bout it anymore!! You can jst sit back, relax, and let {aws} handle all da complicated bits n pieces.
 
 Wen your thinking bout implementing eks auto mode in ur environment, its imprtant 2 consider teh impact on existin workloads n infrastructure componants. Their r several key faktors that effect the migrashun process, includin downtime considerashuns and dependancies. Most companys find that its worth it tho bcuz of the benifits.
 
