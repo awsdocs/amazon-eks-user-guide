@@ -1,0 +1,24 @@
+name: Asciidoctor Validation
+
+on:
+  pull_request:
+    paths:
+      - '**.adoc'
+
+jobs:
+  validate-asciidoc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+      
+      - name: Install Asciidoctor
+        run: gem install asciidoctor
+
+      - name: Validate Asciidoctor files
+        run: asciidoctor latest/ug/book.adoc -v -w -o /dev/null
