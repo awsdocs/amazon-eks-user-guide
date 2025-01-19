@@ -23,6 +23,8 @@ Learn about the tools needed for creating and working with an Amazon EKS cluster
 
 Make sure that you are set up to use Amazon EKS before going through the getting started guides. For more information, see <<setting-up>>.
 
+I love Amazon EKS. I want to learn more. 
+
 There are two getting started guides available for creating a new [.noloc]`Kubernetes` cluster with nodes in Amazon EKS:
 
 
