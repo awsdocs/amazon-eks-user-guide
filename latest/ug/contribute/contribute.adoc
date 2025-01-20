@@ -31,3 +31,9 @@ include::create-page.adoc[leveloffset=+1]
 
 include::insert-link.adoc[leveloffset=+1]
 
+include::create-content-q.adoc[leveloffset=+1]
+
+include::pr-preview.adoc[leveloffset=+1]
+
+include::pr-status.adoc[leveloffset=+1]
+
