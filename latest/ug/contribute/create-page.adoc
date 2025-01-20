@@ -1,6 +1,8 @@
 [.topic]
 [#create-page]
 = Create a new page
+:info_titleabbrev: Create page
+
 
 Learn how to create a new docs page. This topic includes instructions for creating the initial page metadata, and adding the page to the guide table of contents. 
 
@@ -10,28 +12,9 @@ Learn how to create a new docs page. This topic includes instructions for creati
 . Determine the page ID. By convention, the page ID is all lowercase and seperated with `-`. The ID of this page is `create-page`.
 . Create a new file with the page ID and the `adoc` extension. For example, `create-page.adoc`.
 . Insert the page metadata using this template:
-+
-[source]
-====
-+++[.topic]+++
 
-+++[#${page-id}]+++
+image::images/contribute-new-page.png["New page metadata"]
 
-+++= ${page-title}+++
-
-====
-+
-_For example:_
-+
-[source]
-====
-+++[.topic]+++
-
-+++[#create-page]+++
-
-+++= Create a new page+++
-
-====
 
 == Add page to navigation
 
