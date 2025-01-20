@@ -4,6 +4,8 @@
 
 When you create a pull request to propose docs changes, multiple GitHub actions run. This includes a style check using Vale.
 
+image::images/contribute-style-web.png["View style feedback on GitHub"]
+
 The style check:
 
 * Returns an error if the string "AWS" is used instead of the variable `{aws}`
