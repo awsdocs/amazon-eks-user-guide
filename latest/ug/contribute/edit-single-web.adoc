@@ -5,6 +5,8 @@
 
 You can easily edit a single page in the EKS User Guide directly through your web browser.
 
+image::images/contribute-web-edit.png["View of GitHub web edit interface"]
+
 If you want to edit multiple pages from your web browser, see <<edit-web>>.
 
 == Prerequisites
