@@ -18,7 +18,7 @@ Use the section ID surrounded by angle brackets. For example `<<` `page-id` `>>`
 
 == Link to another page in the {aws} Docs
 
-. Find the link to the AWS Docs page
+. Find the link to the {aws} Docs page
 . Remove the `https://docs.aws.amazon.com/` prefix, keeping only the path. The path should start with an a-z character. 
 . Create a link as shown below
 
