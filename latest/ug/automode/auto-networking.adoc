@@ -15,13 +15,15 @@ This topic explains how to configure Virtual Private Cloud (VPC) networking and 
 
 When you use EKS Auto Mode, {aws} manages the VPC Container Network Interface (CNI) configuration and load balancer provisioning for your cluster. You can influence networking behaviors by defining NodeClass objects and applying specific annotations to your Service and Ingress resources, while maintaining the automated operational model that EKS Auto Mode provides.
 
-== VPC CNI networking
+== Networking capability
 
-With {eam}, you do not directly configure the {aws} VPC CNI. {aws} manages node and pod networking. Instead, you create a `NodeClass` Kubernetes object. 
+{eam} has a new networking capability that handles node and pod networking. You can configure it by creating a `NodeClass` Kubernetes object. 
 
-=== Configure VPC CNI with NodeClass
+Configuration options for the previous {aws} VPC CNI will not apply to {eam}. 
 
-The NodeClass resource in EKS Auto Mode allows you to customize certain aspects of the VPC Container Network Interface (CNI) configuration without directly managing the CNI plugin. Through NodeClass, you can specify security group selections, control node placement across VPC subnets, set SNAT policies, configure network policies, and enable network event logging. This approach maintains the automated operational model of EKS Auto Mode while providing flexibility for network customization.
+=== Configure networking with NodeClass
+
+The NodeClass resource in EKS Auto Mode allows you to customize certain aspects of the networking capability. Through NodeClass, you can specify security group selections, control node placement across VPC subnets, set SNAT policies, configure network policies, and enable network event logging. This approach maintains the automated operational model of EKS Auto Mode while providing flexibility for network customization.
 
 You can use a NodeClass to:
 
