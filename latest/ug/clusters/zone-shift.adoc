@@ -5,7 +5,6 @@
 :info_doctype: section
 :info_titleabbrev: Learn about Zonal Shift
 :aws: pass:q[[.shared]``AWS``]
-:imagesdir: images/
 
 //GDC: remove use of "failure"
 
@@ -18,9 +17,9 @@ You can start a zonal shift for an EKS cluster, or you can allow {aws} to do it 
 
 The following diagram illustrates two example workloads, Orders, and Products. The purpose of this example is to show how workloads and Pods in different AZs communicate.
 
-image::zs-traffic-flow-before-1.png[Illustration of network traffic]
+image::images/zs-traffic-flow-before-1.png[Illustration of network traffic]
 
-image::zs-traffic-flow-before-2.png[Illustration of network traffic]
+image::images/zs-traffic-flow-before-2.png[Illustration of network traffic]
 
 . For Orders to communicate with Products, it must first resolve the DNS name of the destination service. Orders will communicate with CoreDNS to fetch the virtual IP address (Cluster IP) for that Service. Once Orders resolves the Products service name, it sends traffic to that target IP. 
 . The kube-proxy runs on every node in the cluster and continuously watches the https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/[EndpointSlices] for Services. When a Service is created, an EndpointSlice is created and managed in the background by the EndpointSlice controller. Each EndpointSlice has a list or table of endpoints containing a subset of Pod addresses along with the nodes that they're running on. The kube-proxy sets up routing rules for each of these Pod endpoints using `iptables` on the nodes. The kube-proxy is also responsible for a basic form of load balancing by redirecting traffic destined to a service's Cluster IP to instead be sent to a Pod's IP address directly. The kube-proxy does this by rewriting the destination IP on the outgoing connection.
@@ -42,9 +41,9 @@ During an EKS zonal shift, the following will automatically take place:
 The diagrams below depicts a high level flow of how EKS zonal shift ensures that only healthy Pod endpoints are targeted in your cluster environment. 
 
 
-image::zs-traffic-flow-after-1.png[Illustration of network traffic]
+image::images/zs-traffic-flow-after-1.png[Illustration of network traffic]
 
-image::zs-traffic-flow-after-2.png[Illustration of network traffic]
+image::images/zs-traffic-flow-after-2.png[Illustration of network traffic]
 
 
 == EKS Zonal Shift Requirements
@@ -66,11 +65,11 @@ Ensuring that you have such a multi-AZ setup for your EKS environment will enhan
 
 The diagram below depicts a highly available EKS environment with 3 healthy AZs.
 
-image::zs-ha-before-failure.png[Illustration of network]
+image::images/zs-ha-before-failure.png[Illustration of network]
 
 The diagram below depicts how an EKS environment with 3 AZs is resilient to an AZ impairment and remains highly available because of the 2 other healthy AZs.
 
-image::zs-ha-after-failure.png[Illustration of network]
+image::images/zs-ha-after-failure.png[Illustration of network]
 
 === Provision Enough Compute Capacity to Withstand Removal of a Single AZ
 
@@ -89,12 +88,12 @@ Kubernetes allows you to pre-scale your workloads by running multiple instances 
 
 The diagram below depicts an EKS environment with east-to-west traffic flow when all AZs are healthy.
 
-image::zs-spread-constraints.png[Illustration of network]
+image::images/zs-spread-constraints.png[Illustration of network]
 
 
 The diagram below depicts an EKS environment with east-to-west traffic flow when a single AZ fails, and you initiate a zonal shift. 
 
-image::zs-spread-constraints-2.png[Illustration of network]
+image::images/zs-spread-constraints-2.png[Illustration of network]
 
 The code snippet below is an example of how to setup your workload with this Kubernetes feature.
 
@@ -216,7 +215,7 @@ metadata:
 The diagram below depicts pods that have been co-located on the same node using 
 pod affinity rules.  
 
-image::zs-pod-affinity-rule.png[Illustration of network]
+image::images/zs-pod-affinity-rule.png[Illustration of network]
 
 
 === Test That Your Cluster Environment Can Handle The Loss of an AZ
