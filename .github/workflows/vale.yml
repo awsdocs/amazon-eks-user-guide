@@ -15,7 +15,18 @@ jobs:
       - name: Install Asciidoctor
         run: sudo apt-get install -y asciidoctor
           
-      - name: Run Vale
+      - name: Vale Style Check
+        uses: errata-ai/vale-action@reviewdog
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          fail_on_error: false
+          reporter: github-pr-check
+          filter_mode: added
+          files: latest/ug
+        continue-on-error: true
+
+      - name: Enforce AWS Brand
         uses: errata-ai/vale-action@reviewdog
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -24,4 +35,5 @@ jobs:
           reporter: github-pr-check
           filter_mode: added
           files: latest/ug
-        continue-on-error: false
+          vale_flags: "--config brand.vale.ini"
+        continue-on-error: true
