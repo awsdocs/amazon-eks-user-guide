@@ -101,7 +101,7 @@ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/examp
 .. Replace `TAG_KEY` with the {aws} SSM resource tag key you used when creating your {aws} SSM hybrid activation. The combination of the tag key and tag value is used in the condition for the `ssm:DeregisterManagedInstance` to only allow the Hybrid Nodes IAM role to deregister the {aws} SSM managed instances that are associated with your {aws} SSM hybrid activation. In the CloudFormation template, `TAG_KEY` defaults to `EKSClusterARN`.
 .. Replace `TAG_VALUE` with the {aws} SSM resource tag value you used when creating your {aws} SSM hybrid activation. The combination of the tag key and tag value is used in the condition for the `ssm:DeregisterManagedInstance` to only allow the Hybrid Nodes IAM role to deregister the {aws} SSM managed instances that are associated with your {aws} SSM hybrid activation. If you are using the default `TAG_KEY` of `EKSClusterARN`, then pass your EKS cluster ARN as the `TAG_VALUE`. EKS cluster ARNs have the format `arn:aws:eks:AWS_REGION:AWS_ACCOUNT_ID:cluster/CLUSTER_NAME`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Parameters": {
@@ -141,7 +141,7 @@ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/examp
 .. Replace `CERT_ATTRIBUTE` with the per-machine certificate attribute that uniquely identifies your host. The certificate attribute you use must match the nodeName you use for the `nodeadm` configuration when you connect hybrid nodes to your cluster. For more information, see the <<hybrid-nodes-nodeadm>>. By default, the CloudFormation template uses `${aws:PrincipalTag/x509Subject/CN}` as the `CERT_ATTRIBUTE`, which corresponds to the CN field of your per-machine certificates. You can alternatively pass `$(aws:PrincipalTag/x509SAN/Name/CN}` as your `CERT_ATTRIBUTE`.
 .. Replace `CA_CERT_BODY` with the certificate body of your CA without line breaks. The `CA_CERT_BODY` must be in Privacy Enhanced Mail (PEM) format. If you have a CA certificate in PEM format, remove the line breaks and BEGIN CERTIFICATE and END CERTIFICATE lines before placing the CA certificate body in your `cfn-iamra-parameters.json` file.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Parameters": {
@@ -170,7 +170,7 @@ Install and configure the {aws} CLI, if you haven't already. See link:cli/latest
 
 . Create a file named `eks-describe-cluster-policy.json` with the following contents:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -203,7 +203,7 @@ aws iam create-policy \
 .. Replace `TAG_KEY` with the {aws} SSM resource tag key you used when creating your {aws} SSM hybrid activation. The combination of the tag key and tag value is used in the condition for the `ssm:DeregisterManagedInstance` to only allow the Hybrid Nodes IAM role to deregister the {aws} SSM managed instances that are associated with your {aws} SSM hybrid activation. In the CloudFormation template, `TAG_KEY` defaults to `EKSClusterARN`.
 .. Replace `TAG_VALUE` with the {aws} SSM resource tag value you used when creating your {aws} SSM hybrid activation. The combination of the tag key and tag value is used in the condition for the `ssm:DeregisterManagedInstance` to only allow the Hybrid Nodes IAM role to deregister the {aws} SSM managed instances that are associated with your {aws} SSM hybrid activation. If you are using the default `TAG_KEY` of `EKSClusterARN`, then pass your EKS cluster ARN as the `TAG_VALUE`. EKS cluster ARNs have the format `arn:aws:eks:AWS_REGION:AWS_ACCOUNT_ID:cluster/CLUSTER_NAME`.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -236,7 +236,7 @@ aws iam create-policy \
 ----
 . Create a file named `eks-hybrid-ssm-trust.json`. Replace `AWS_REGION` with the {aws} Region of your {aws} SSM hybrid activation and `AWS_ACCOUNT_ID` with your {aws} account ID.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
    "Version":"2012-10-17",
@@ -311,7 +311,7 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
 
 . Create a file named `eks-hybrid-iamra-trust.json`. Replace `TRUST_ANCHOR ARN` with the ARN of the trust anchor you created in the <<hybrid-nodes-creds#_setup_iam_roles_anywhere>> steps.  The condition in this trust policy restricts the ability of {aws} IAM Roles Anywhere to assume the Hybrid Nodes IAM role to exchange temporary IAM credentials only when the role session name matches the CN in the x509 certificate installed on your hybrid nodes. You can alternatively use other certificate attributes to uniquely identify your node. The certificate attribute that you use in the trust policy must correspond to the `nodeName` you set in your `nodeadm` configuration. For more information, see the <<hybrid-nodes-nodeadm>>.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -400,7 +400,7 @@ aws iam attach-role-policy \
 . On the *Policies page*, choose *Create policy*.
 . On the *Specify permissions* page, in the *Policy editor* top right navigation, choose *JSON*. Paste the following snippet. Replace `AWS_REGION` with the {aws} Region of your {aws} SSM hybrid activation and replace `AWS_ACCOUNT_ID` with your {aws} account ID. Replace `TAG_KEY` and `TAG_VALUE` with the {aws} SSM resource tag key you used when creating your {aws} SSM hybrid activation.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -433,7 +433,7 @@ aws iam attach-role-policy \
 . On the *Select trusted entity* page, do the following:
 .. In the *Trusted entity* type section, choose *Custom trust policy*. Paste the following into the Custom trust policy editor. Replace `AWS_REGION` with the {aws} Region of your {aws} SSM hybrid activation and `AWS_ACCOUNT_ID` with your {aws} account ID.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 {
    "Version":"2012-10-17",
@@ -479,7 +479,7 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
 . On the *Select trusted entity* page, do the following:
 .. In the *Trusted entity type section*, choose *Custom trust policy*. Paste the following into the Custom trust policy editor. Replace `TRUST_ANCHOR ARN` with the ARN of the trust anchor you created in the <<hybrid-nodes-creds#_setup_iam_roles_anywhere>> steps. The condition in this trust policy restricts the ability of {aws} IAM Roles Anywhere to assume the Hybrid Nodes IAM role to exchange temporary IAM credentials only when the role session name matches the CN in the x509 certificate installed on your hybrid nodes. You can alternatively use other certificate attributes to uniquely identify your node. The certificate attribute that you use in the trust policy must correspond to the nodeName you set in your nodeadm configuration. For more information, see the <<hybrid-nodes-nodeadm>>.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
