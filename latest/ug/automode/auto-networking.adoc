@@ -19,7 +19,7 @@ When you use EKS Auto Mode, {aws} manages the VPC Container Network Interface (C
 
 {eam} has a new networking capability that handles node and pod networking. You can configure it by creating a `NodeClass` Kubernetes object. 
 
-Configuration options for the previous {aws} VPC CNI may not apply to {eam}. 
+Configuration options for the previous {aws} VPC CNI will not apply to {eam}. 
 
 === Configure networking with NodeClass
 
