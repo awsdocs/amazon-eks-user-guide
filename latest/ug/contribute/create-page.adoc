@@ -21,15 +21,8 @@ image::images/contribute-new-page.png["New page metadata"]
 . Navigate to the parent page. The parent page of top level sections is `book.adoc`.
 . At the bottom of the parent page, include the child page.
 +
-[source]
-====
-+++include::${filename}[leveloffset=+1]+++
-====
+`include::${filename}[leveloffset=+1]`
 +
 _For example:_
 +
-[source]
-====
-+++include::create-page.adoc[leveloffset=+1]+++
-====
-
+`include::create-page.adoc[leveloffset=+1]`
