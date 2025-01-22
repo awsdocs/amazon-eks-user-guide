@@ -23,7 +23,7 @@ include::edit-single-web.adoc[leveloffset=+1]
 
 include::edit-web.adoc[leveloffset=+1]
 
-include::vale-github.adoc[leveloffset=+1]
+//include::vale-github.adoc[leveloffset=+1]
 
 include::vale-local.adoc[leveloffset=+1]
 

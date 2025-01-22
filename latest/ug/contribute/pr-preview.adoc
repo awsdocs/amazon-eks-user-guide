@@ -11,7 +11,7 @@ This preview is hosted at a temporary URL by {aws} Amplify.
 
 == View Preview
 
-When you submit a pull request, {aws} Amplify attemps to build and deploy a preview of the content.
+When you submit a pull request, {aws} Amplify attempts to build and deploy a preview of the content.
 
 If the build succeeds, *aws-amplify-us-east-1* comments the preview link on the pull request.
 
