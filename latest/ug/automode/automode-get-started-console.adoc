@@ -40,7 +40,8 @@ You must be logged into the {aws} management console with sufficent permissions 
 ** The *Create {recd} role* option pre-fills all fields with {recd} values. Select *Next* and then *Create*. The role will use the suggested `AmazonEKSAutoNodeRole` name. 
 ** If you recently created a new role, use the *Refresh* icon to reload the role selection dropdown. 
 . Select the VPC for {yec}. Choose the *Create VPC* to create a new VPC for EKS, or choose a VPC you previously created for EKS. 
-** If you use the VPC Console to create a new VPC, {aws} suggests you create at least one NAT Gateway per Availability Zone. Otherwise, you can use all other defaults. 
+** If you use the VPC Console to create a new VPC, {aws} suggests you create at least one NAT Gateway per Availability Zone. Otherwise, you can use all other defaults.
+** To enable Amazon EKS Auto Mode's Load Balancer Controller to provision ELBs upon creation of Service and Ingress resources, please check that you https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.0/guide/controller/subnet_discovery/[correctly labelled your subnets for auto discovery].
 ** For more information and details of IPv6 cluster requirements, see <<creating-a-vpc>>.
 . (optional) {eam} automatically populates the private subnets for your selected VPC. You can remove unwanted subnets. 
 ** EKS automatically selects private subnets from the VPC following best practices. You can optionally select additional subnets from the VPC, such as public subnets.
