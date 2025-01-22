@@ -1,0 +1,52 @@
+[.topic]
+[#vale-local]
+= View style feedback as you type by installing Vale locally
+:info_titleabbrev: View style feedback
+
+You can see style feedback as you type. This helps identify awkward writing and typos. 
+
+image::images/contribute-style-local.png["View style feedback in VS Code]
+
+*Overview:*
+
+* The Vale CLI loads style guides and runs them against source files.
+* The EKS Docs repo includes a vale configuration file that loads style guides and local rules.
+* The Vale extension for Visual Studio (VS) Code displays vale feedback inside the editor.
+
+== Install Vale
+
+Follow the instructions in the Vale CLI docs to https://vale.sh/docs/install#package-managers[Install Vale with a Package Manager]. 
+
+== Install VS Code Vale extension
+
+. Open VS Code
+. Click the Extensions icon in the Activity Bar (or press Ctrl+Shift+X)
+. Search for "Vale"
+. Click Install on the "Vale VSCode" extension by Chris Chinchilla
+. Reload VS Code when prompted
+
+== Sync Vale
+
+Vale uses the `.vale.ini` configuration file in your project root to determine which style rules to apply.
+
+. Open VS Code
+. Click *View* > *Terminal* (or press Ctrl+`)
+. Navigate to your project root directory if needed
+. Run the command:
++
+[source,bash]
+----
+vale sync
+----
+. Wait for Vale to finish downloading and syncing style rules
+
+== View style feedback in VS Code
+
+. Open a Markdown or AsciiDoc file in VS Code
+. The Vale extension will automatically check your text against the style rules
+. Style issues will be underlined in the editor
+. Hover over underlined text to see the specific style suggestion
+. Fix issues by following the suggestions or consulting the style guide
+
+
+

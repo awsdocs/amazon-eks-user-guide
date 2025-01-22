@@ -1,0 +1,49 @@
+[.topic]
+[#create-content-q]
+= Create docs content with Amazon Q
+:info_titleabbrev: Create with Amazon Q
+
+You can use Amazon Q to create and revise docs content. This is an easy way to get started on a new page. Amazon Q is available as an extension to Visual Studio (VS) Code. 
+
+In the following image, Amazon Q generated the lines marked with green.
+
+image::images/contribute-q.png["Amazon Q in VS Code"]
+
+== Install Amazon Q with VS Code
+
+1. Open VS Code
+2. Go to the Extensions view (Ctrl+Shift+X or Cmd+Shift+X)
+3. Search for "Amazon Q"
+4. Click Install on the Amazon Q extension
+5. Wait for installation to complete
+6. Restart VS Code when prompted
+
+== Login to Amazon Q 
+
+1. After installing, click the Amazon Q icon in the VS Code activity bar
+2. Click "Sign in to Amazon Q"
+3. Enter your {aws} credentials when prompted
+4. Once authenticated, you'll see the Amazon Q chat interface
+
+== Use Amazon Q to create content
+
+1. Open the file you want to edit in VS Code
+2. Select the text you want to revise or the location for new content
+3. Press *Ctrl+I* or *Cmd+I*
+4. In the prompt, be specific about:
+   * The type of content you need
+   * The target audience
+   * Key points to cover
+   * Desired tone and style
+5. Review the generated content in the inline preview
+6. Use *enter* to accept the changes, or *esc* to reject them.
+7. Edit further as needed
+
+== Tips
+
+* Start with a simple request and iterate to get the content you want.
+* Create a first draft of the page headings, then ask Q to fill them in. 
+* Amazon Q might output Markdown. This is fine. The AsciiDoc tooling can understand most markdown syntax. 
+
+To learn more about Amazon Q Developer, see link:amazonq/latest/qdeveloper-ug/q-in-IDE.html["Using Amazon Q Developer in the IDE",type="documentation"].
+

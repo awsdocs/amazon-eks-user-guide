@@ -1,0 +1,134 @@
+[.topic]
+[#asciidoc-syntax]
+= AsciiDoc Syntax Reference
+:info_titleabbrev: AsciiDoc Syntax
+
+This page is a quick overview of AsciiDoc syntax. 
+
+We suggest using AsciiDoc syntax. The AsciiDoc tooling has partial support for Markdown syntax, including headings and lists.
+
+For advanced syntax, review the https://docs.asciidoctor.org/asciidoc/latest/[AsciiDoc Website].
+
+It's important to get the link syntax right for the {aws} docs. Review how to <<insert-link>>. You cannot use Markdown syntax for links. 
+
+
+== Basic Formatting
+
+[source,asciidoc]
+----
+*bold text*
+_italic text_
+`monospace text`
+----
+
+== Headers
+
+[source,asciidoc]
+----
+= Document Title (Header 1)
+== Header 2
+=== Header 3
+==== Header 4
+===== Header 5
+====== Header 6
+----
+
+== Lists
+
+Unordered Lists:
+
+[source,asciidoc]
+----
+- Item 1
+- Item 2
+-- Subitem 2.1
+-- Subitem 2.2
+- Item 3
+----
+
+Ordered Lists:
+
+[source,asciidoc]
+----
+. First item
+. Second item
+.. Subitem 2.1
+.. Subitem 2.2
+. Third item
+----
+
+== Links
+
+[source,asciidoc]
+----
+External link:  https://example.com[Link text]
+Internal link: <<page-id>>
+Internal link: xref:page-id[Link text]
+----
+
+== Images
+
+[source,asciidoc]
+----
+image::image-file.jpg[Alt text]
+----
+
+== Code Blocks
+
+[source,asciidoc]
+----
+ [source,python]
+ ----
+ def hello_world():
+     print("Hello, World!")
+ ----
+----
+
+== Tables
+
+https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Learn how to build a basic table.]
+
+[source,asciidoc]
+----
+[cols="1,1"]
+|===
+|Cell in column 1, row 1
+|Cell in column 2, row 1
+
+|Cell in column 1, row 2
+|Cell in column 2, row 2
+
+|Cell in column 1, row 3
+|Cell in column 2, row 3
+|===
+----
+
+== Admonitions
+
+[source,asciidoc]
+----
+NOTE: This is a note admonition.
+
+WARNING: This is a warning admonition.
+
+TIP: This is a tip admonition.
+
+IMPORTANT: This is an important admonition.
+
+CAUTION: This is a caution admonition.
+----
+
+Preview:
+
+NOTE: This is a note admonition.
+
+
+== Includes
+
+[source,asciidoc]
+----
+ include::filename.adoc[]
+----
+
+
+

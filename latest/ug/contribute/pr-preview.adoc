@@ -1,0 +1,40 @@
+[.topic]
+[#pr-preview]
+= View a preview of pull request content
+:info_titleabbrev: View PR Preview
+
+The EKS User Guide GitHub is configured to build and generate a preview of the docs site. This preview doesn't have the full {aws} theme, but it does check the content builds properly and links work.
+
+image::images/contribute-preview.png["GitHub comment with preview URL"]
+
+This preview is hosted at a temporary URL by {aws} Amplify. 
+
+== View Preview
+
+When you submit a pull request, {aws} Amplify attempts to build and deploy a preview of the content.
+
+If the build succeeds, *aws-amplify-us-east-1* comments the preview link on the pull request.
+
+If the build fails, the repo admins can see the logs and provide feedback.
+
+NOTE: If you haven't contributed before, a project maintainer may need to approve running the build.
+
+== Preview limitations
+
+The preview is built as a single large HTML file. It will be displayed as multiple pages when published. 
+
+*What works:*
+
+* Cross references (`xref`)
+* Links to the internet
+* Images
+* Content hosted from `samples/`
+
+*What doesn't work:*
+
+* Links to other {aws} content, links with `type="documentation"`.
+** This content doesn't exist in the preview environment.
+* The variable `aws` will not display properly. The value of this changes based on the environment.
+
+
+

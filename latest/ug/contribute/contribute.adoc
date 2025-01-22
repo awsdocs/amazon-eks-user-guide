@@ -19,11 +19,24 @@ You can now edit the EKS Docs directly on GitHub. Our streamlined process includ
 
 We look forward to your contributions.
 
-*To edit a single page from a web browser*
+include::edit-single-web.adoc[leveloffset=+1]
 
-. Navigate to the page in the EKS User Guide
-. Select *Edit this page on GitHub* in the right sidebar
-. Open the GitHub editor: press `e` or select *Edit in Place* from the pencil icon dropdown menu
-. Make your edits, and then select *Commit changes...*
-** Confirm your email and include a short description of the changes
+include::edit-web.adoc[leveloffset=+1]
+
+//include::vale-github.adoc[leveloffset=+1]
+
+include::vale-local.adoc[leveloffset=+1]
+
+include::create-page.adoc[leveloffset=+1]
+
+include::insert-link.adoc[leveloffset=+1]
+
+include::create-content-q.adoc[leveloffset=+1]
+
+include::pr-preview.adoc[leveloffset=+1]
+
+include::asciidoc-syntax.adoc[leveloffset=+1]
+
+//include::pr-status.adoc[leveloffset=+1]
+
 

@@ -1,0 +1,34 @@
+[.topic]
+[#insert-link]
+= Insert a link
+:info_titleabbrev: Insert link
+
+AsciiDoc supports multiple types of links. Using the right link type is important so the link works properly in different environments.
+
+== Link to a page or section in the EKS User Guide
+
+Use cross references (xref) to link between pages/sections within the same documentation site, such as the EKS User Guide. They automatically update if the target section moves or is renamed. 
+
+=== Define custom link text
+
+`xref` `:section-id[${link-text}]`
+
+=== Use page title as link text
+
+Use the section ID surrounded by angle brackets. For example `<<` `page-id>>`.
+
+== Link to another page in the {aws} Docs
+
+. Find the link to the {aws} Docs page
+. Remove the `https://docs.aws.amazon.com/` prefix, keeping only the path. The path should start with an a-z character. 
+. Create a link as shown below
+
+`link` `:AmazonS3/latest/userguide/create-bucket-overview.html["Create a bucket", type="documentation"]`
+
+== Link out to the internet
+
+This format creates a standard link out to the internet. Use this for Non-Amazon content or content on GitHub. 
+
+`link` `:https://example.com[Visit Example Site]`
+
+NOTE: We allowlist external domains. The allowlist is at `vale/styles/EksDocs/ExternalDomains.yml`
