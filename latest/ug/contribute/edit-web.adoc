@@ -18,8 +18,8 @@ image::images/contribute-web-dev.png["GitHub.dev web editor user interface]
 NOTE: The EKS Docs team has created a workspace file that includes suggested configurations for the editor, such as text wrapping and AsciiDoc syntax highlighting. We suggest you load this workspace file. 
 
 . Open the https://github.dev/awsdocs/amazon-eks-user-guide/blob/mainline/eks-docs.code-workspace?workspace=true[workspace] on GitHub.dev
-** You can bookmarl the URL `https://github.dev/awsdocs/amazon-eks-user-guide/blob/mainline/eks-docs.code-workspace?workspace=true`
-. (First time setup only) You may be propted to create a fork of the repo in your own GitHub account. Accept this prompt. For more information, see https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks[About forks] in the GitHub docs. 
+** You can bookmark the URL `https://github.dev/awsdocs/amazon-eks-user-guide/blob/mainline/eks-docs.code-workspace?workspace=true`
+. (First time setup only) You may be prompted to create a fork of the repo in your own GitHub account. Accept this prompt. For more information, see https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks[About forks] in the GitHub docs.
 . (First time setup only) Accept the prompt in the bottom right to install the AsciiDoc extension. 
 . Navigate to the docs content at `latest/ug`
 ** Docs files are organized by their top level section. For example, pages in the "Security" chapter have source files under the "security/" directory. 
