@@ -43,7 +43,7 @@ image::images/contribute-q.png["Amazon Q in VS Code"]
 
 * Start with a simple request and iterate to get the content you want.
 * Create a first draft of the page headings, then ask Q to fill them in. 
-* Amazon Q may output Markdown. This is fine. The AsciiDoc tooling can understand most markdown syntax. 
+* Amazon Q might output Markdown. This is fine. The AsciiDoc tooling can understand most markdown syntax. 
 
 To learn more about Amazon Q Developer, see link:amazonq/latest/qdeveloper-ug/q-in-IDE.html["Using Amazon Q Developer in the IDE",type="documentation"].
 
