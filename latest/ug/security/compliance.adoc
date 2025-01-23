@@ -3,7 +3,6 @@
 [[compliance,compliance.title]]
 = Compliance validation for Amazon EKS clusters
 :info_doctype: section
-:info_title: Compliance validation for Amazon EKS clusters
 :info_titleabbrev: Validate compliance
 
 include::../attributes.txt[]

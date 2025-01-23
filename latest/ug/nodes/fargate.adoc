@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [[fargate,fargate.title]]
 = Simplify compute management with {aws} Fargate
 :info_doctype: section
-:info_title: Simplify compute management with {aws} Fargate
 :info_titleabbrev: {aws} Fargate
 :keywords: Fargate, nodes
 

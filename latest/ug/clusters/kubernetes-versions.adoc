@@ -4,7 +4,6 @@
 [[kubernetes-versions,kubernetes-versions.title]]
 = Understand the [.noloc]`Kubernetes` version lifecycle on EKS
 :info_doctype: section
-:info_title: Understand the Kubernetes version lifecycle on EKS
 :info_titleabbrev: Kubernetes versions
 :keywords: Amazon EKS, available, Kubernetes, version, release notes
                 support periods, allowing you to proactively update clusters with the latest \

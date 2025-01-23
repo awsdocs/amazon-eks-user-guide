@@ -4,7 +4,6 @@
 [[ml-get-started,ml-get-started.title]]
 = Get started with ML
 :info_doctype: section
-:info_title: Get started deploying Machine Learning tools on EKS
 :info_titleabbrev: Get started with ML
 
 include::../attributes.txt[]

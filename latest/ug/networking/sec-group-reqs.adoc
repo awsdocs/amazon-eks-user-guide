@@ -3,7 +3,6 @@
 [[sec-group-reqs,sec-group-reqs.title]]
 = View Amazon EKS security group requirements for clusters
 :info_doctype: section
-:info_title: View Amazon EKS security group requirements for clusters
 :info_titleabbrev: Security group requirements
                 rules, restricting traffic, and required outbound access for nodes to function \
                 properly with your cluster. Understand key security group considerations for secure \

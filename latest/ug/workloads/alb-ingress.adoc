@@ -3,7 +3,6 @@
 [[alb-ingress,alb-ingress.title]]
 = Route application and [.noloc]`HTTP` traffic with [.noloc]`Application Load Balancers`
 :info_doctype: section
-:info_title: Route application and HTTP traffic with Application Load Balancers
 :info_titleabbrev: Application load balancing
 
 include::../attributes.txt[]

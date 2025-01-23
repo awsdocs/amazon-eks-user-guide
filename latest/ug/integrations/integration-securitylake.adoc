@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [[integration-securitylake,integration-securitylake.title]]
 = Centralize and analyze EKS security data with Security Lake
 :info_doctype: section
-:info_title: Centralize and analyze EKS security data with Security Lake
                 solution for collecting, storing, and analyzing security data from clusters. By \
                 enabling EKS control plane logging and adding EKS logs as a source in Security Lake, \
                 users can gain valuable insights, detect potential threats, and enhance the \

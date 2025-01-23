@@ -3,7 +3,6 @@
 [[auto-migrate-karpenter,auto-migrate-karpenter.title]]
 = Migrate from Karpenter to EKS Auto Mode using kubectl
 :info_doctype: section
-:info_title: Migrate from Karpenter to EKS Auto Mode using kubectl
 :info_titleabbrev: Migrate from Karpenter
 
 include::../attributes.txt[]

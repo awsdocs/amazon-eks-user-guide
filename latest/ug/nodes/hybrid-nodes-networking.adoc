@@ -3,7 +3,6 @@
 [[hybrid-nodes-networking,hybrid-nodes-networking.title]]
 = Prepare networking for hybrid nodes
 :info_doctype: section
-:info_title: Prepare networking for hybrid nodes
 :info_titleabbrev: Prepare networking
 :keywords: on-premises, hybrid
 

@@ -3,7 +3,6 @@
 [[hybrid-nodes-join,hybrid-nodes-join.title]]
 = Connect hybrid nodes 
 :info_doctype: section
-:info_title: Connect hybrid nodes to Amazon EKS cluster
 :info_titleabbrev: Connect hybrid nodes
 :keywords: on-premises, hybrid
 

@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [[integration-guardduty,integration-guardduty.title]]
 = Detect threats with Amazon GuardDuty
 :info_doctype: section
-:info_title: Detect threats with Amazon GuardDuty
 
 Amazon GuardDuty is a threat detection service that helps protect you accounts, containers, workloads, and the data with your {aws} environment. Using machine learning (ML) models, and anomaly and threat detection capabilities, GuardDuty continuously monitors different log sources and runtime activity to identify and prioritize potential security risks and malicious activities in your environment.
 

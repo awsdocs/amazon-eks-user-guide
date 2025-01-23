@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [[delete-cluster,delete-cluster.title]]
 = Delete a cluster
 :info_doctype: section
-:info_title: Delete a cluster
 :info_titleabbrev: Delete a cluster
 
 [abstract]

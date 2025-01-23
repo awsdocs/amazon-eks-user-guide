@@ -4,7 +4,6 @@
 [[platform-versions,platform-versions.title]]
 = View Amazon EKS platform versions for each [.noloc]`Kubernetes` version
 :info_doctype: section
-:info_title: View Amazon EKS platform versions for each Kubernetes version
 :info_titleabbrev: Platform versions
 
 include::../attributes.txt[]

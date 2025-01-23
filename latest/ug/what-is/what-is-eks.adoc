@@ -12,7 +12,6 @@ include::../attributes.txt[]
 :idseparator: -
 :sourcedir: .
 :info_doctype: chapter
-:info_title: What is Amazon EKS?
 :info_titleabbrev: What is Amazon EKS?
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, about, summary, description
 

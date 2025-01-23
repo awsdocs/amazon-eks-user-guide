@@ -3,7 +3,6 @@
 [[worker,worker.title]]
 = Maintain nodes yourself with self-managed nodes
 :info_doctype: section
-:info_title: Maintain nodes yourself with self-managed nodes
 :info_titleabbrev: Self-managed nodes
 :keywords: self-managed, node
 

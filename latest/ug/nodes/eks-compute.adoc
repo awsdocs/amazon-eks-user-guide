@@ -10,7 +10,6 @@
 :idseparator: -
 :sourcedir: .
 :info_doctype: chapter
-:info_title: Manage compute resources by using nodes
 :info_titleabbrev: Manage compute
 :keywords: nodes, node groups
 

@@ -5,7 +5,6 @@
 [[cost-monitoring,cost-monitoring.title]]
 = Monitor and optimize Amazon EKS cluster costs
 :info_doctype: section
-:info_title: Monitor and optimize Amazon EKS cluster costs
 :info_titleabbrev: Cost monitoring
 :keywords: cost, monitoring, watch
 

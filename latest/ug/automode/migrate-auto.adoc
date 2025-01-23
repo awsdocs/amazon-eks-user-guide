@@ -9,7 +9,6 @@ include::../attributes.txt[]
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_title: Enable EKS Auto Mode on existing EKS clusters
 :info_titleabbrev: Enable existing clusters
 
 [abstract]

@@ -9,7 +9,6 @@ include::../attributes.txt[]
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_title: Change EKS Auto cluster settings
 :info_titleabbrev: Configure
 
 [abstract]

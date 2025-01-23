@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [[vertical-pod-autoscaler,vertical-pod-autoscaler.title]]
 = Adjust pod resources with [.noloc]`Vertical Pod Autoscaler`
 :info_doctype: section
-:info_title: Adjust pod resources with Vertical Pod Autoscaler
 :info_titleabbrev: Vertical Pod Autoscaler
 
 [abstract]

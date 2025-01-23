@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [[connecting-cluster,connecting-cluster.title]]
 = Connect an external [.noloc]`Kubernetes` cluster to the Amazon EKS Management Console
 :info_doctype: section
-:info_title: Connect an external Kubernetes cluster to the Amazon EKS Management Console
 :info_titleabbrev: Connect a cluster
 
 [abstract]

@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [[creating-resources-with-cloudformation,creating-resources-with-cloudformation.title]]
 = Create Amazon EKS resources with {aws} CloudFormation
 :info_doctype: section
-:info_title: Create Amazon EKS resources with \
             {aws} CloudFormation
                 template.
 

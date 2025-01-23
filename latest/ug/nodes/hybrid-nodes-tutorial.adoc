@@ -3,7 +3,6 @@
 [[hybrid-nodes-tutorial,hybrid-nodes-tutorial.title]]
 = Run on-premises workloads on hybrid nodes
 :info_doctype: section
-:info_title: Run and manage hybrid nodes
 :info_titleabbrev: Run hybrid nodes
 :keywords: on-premises, hybrid
 

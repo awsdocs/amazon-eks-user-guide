@@ -11,7 +11,6 @@ include::../attributes.txt[]
 :idseparator: -
 :sourcedir: .
 :info_doctype: chapter
-:info_title: Set up to use Amazon EKS
 :info_titleabbrev: Set up
 :keywords: setting up, setup
 

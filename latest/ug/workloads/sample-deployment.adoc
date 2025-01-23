@@ -5,7 +5,6 @@
 [[sample-deployment,sample-deployment.title]]
 = Deploy a sample application on Linux
 :info_doctype: section
-:info_title: Deploy a sample application on Linux
 :info_titleabbrev: Sample application deployment (Linux)
 
 include::../attributes.txt[]

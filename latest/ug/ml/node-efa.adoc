@@ -5,7 +5,6 @@
 [[node-efa,node-efa.title]]
 = Run machine learning training on Amazon EKS with [.noloc]`Elastic Fabric Adapter`
 :info_doctype: section
-:info_title: Add Elastic Fabric \
                 Adapter to EKS clusters for ML training
 :info_titleabbrev: Prepare training clusters with EFA
                 learning training workloads requiring high inter-node communications at scale using \

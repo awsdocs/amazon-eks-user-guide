@@ -3,7 +3,6 @@
 [[managed-node-groups,managed-node-groups.title]]
 = Simplify node lifecycle with managed node groups
 :info_doctype: section
-:info_title: Simplify node lifecycle with managed node groups
 :info_titleabbrev: Managed node groups
 :keywords: managed node group, MNG
                 nodes (Amazon EC2 instances) for Amazon EKS Kubernetes clusters.

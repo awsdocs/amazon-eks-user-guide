@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [[file-cache-csi,file-cache-csi.title]]
 = Minimize latency with Amazon File Cache
 :info_doctype: section
-:info_title: Minimize latency with Amazon File Cache
 :info_titleabbrev: Amazon File Cache
 :keywords: Amazon File Cache CSI driver, storage
                 interface that allows Amazon EKS clusters to manage the life cycle of Amazon file \

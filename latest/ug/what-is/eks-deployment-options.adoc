@@ -3,7 +3,6 @@
 [[eks-deployment-options,eks-deployment-options.title]]
 = Deploy Amazon EKS clusters across cloud and on-premises environments
 :info_doctype: section
-:info_title: Deploy Amazon EKS clusters across cloud and on-premises environments
 :info_titleabbrev: Deployment options
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, deployment, options, comparison
 

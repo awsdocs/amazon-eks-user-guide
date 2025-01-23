@@ -3,7 +3,6 @@
 [[hybrid-nodes-cni,hybrid-nodes-cni.title]]
 = Configure a CNI for hybrid nodes
 :info_doctype: section
-:info_title: Configure a CNI for hybrid nodes
 :info_titleabbrev: Configure CNI
 :keywords: on-premises CNI, hybrid CNI
 

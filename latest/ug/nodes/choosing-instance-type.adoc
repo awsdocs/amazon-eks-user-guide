@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [[choosing-instance-type,choosing-instance-type.title]]
 = Choose an optimal Amazon EC2 node instance type
 :info_doctype: section
-:info_title: Choose an optimal Amazon EC2 node instance type
 :info_titleabbrev: Amazon EC2 instance types
 :keywords: choose, select, instance, type, family, group, max-pods, max pods, maximum pods
                 capabilities.

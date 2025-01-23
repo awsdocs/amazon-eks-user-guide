@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [[learn-eks,learn-eks.title]]
 = Learn Amazon EKS by example
 :info_doctype: chapter
-:info_title: Learn Amazon EKS by example
 :info_titleabbrev: Learn Amazon EKS
 :keywords: tutorial, workshop, developer, learn
 :sectnums:

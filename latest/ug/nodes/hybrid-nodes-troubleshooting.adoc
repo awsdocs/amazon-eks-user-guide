@@ -3,7 +3,6 @@
 [[hybrid-nodes-troubleshooting,hybrid-nodes-troubleshooting.title]]
 = Troubleshooting hybrid nodes
 :info_doctype: section
-:info_title: Troubleshooting hybrid nodes
 :info_titleabbrev: Troubleshooting
 :keywords: on-premises, hybrid
 

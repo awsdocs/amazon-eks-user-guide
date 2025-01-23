@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [[connector-grant-access,connector-grant-access.title]]
 = Grant access to view [.noloc]`Kubernetes` cluster resources on an Amazon EKS console
 :info_doctype: section
-:info_title: Grant access to view Kubernetes cluster resources on an \
             Amazon EKS console
 :info_titleabbrev: Grant access to Kubernetes clusters from {aws} console
 

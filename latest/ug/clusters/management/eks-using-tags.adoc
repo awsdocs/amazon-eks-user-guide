@@ -5,7 +5,6 @@ include::../../attributes.txt[]
 [[eks-using-tags,eks-using-tags.title]]
 = Organize Amazon EKS resources with tags
 :info_doctype: section
-:info_title: Organize Amazon EKS resources with tags
 :info_titleabbrev: Tagging your resources
 :keywords: metadata, tag, resources
 

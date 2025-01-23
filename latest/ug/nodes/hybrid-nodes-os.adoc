@@ -3,7 +3,6 @@
 [[hybrid-nodes-os,hybrid-nodes-os.title]]
 = Prepare operating system for hybrid nodes
 :info_doctype: section
-:info_title: Prepare operating system for hybrid nodes
 :info_titleabbrev: Prepare operating system
 :keywords: on-premises, hybrid
 

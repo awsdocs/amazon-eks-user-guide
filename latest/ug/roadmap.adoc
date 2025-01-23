@@ -12,7 +12,6 @@ include::attributes.txt[]
 :idseparator: -
 :sourcedir: .
 :info_doctype: chapter
-:info_title: Learn about Amazon EKS new features and roadmap
 :info_titleabbrev: New features and roadmap
 
 [abstract]
