@@ -91,7 +91,7 @@ aws iam create-policy \
 ----
 +
 NOTE: If you view the policy in the {aws-management-console}, the console shows warnings for the *ELB* service, but not for the  *ELB v2* service. This happens because some of the actions in the policy exist for  *ELB v2*, but not for  *ELB*. You can ignore the warnings for  *ELB*.
-. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your account ID, and then run the command. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
+. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your account ID, and then run the command.
 +
 [source,shell,subs="verbatim,attributes"]
 ----

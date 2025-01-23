@@ -91,7 +91,7 @@ NOTE: If you view the policy in the {aws-management-console}, the console shows 
 ====
 [role="tablist"]
 eksctl:::
-.. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your account ID, and then run the command. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
+.. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your account ID, and then run the command.
 +
 [source,shell,subs="verbatim,attributes"]
 ----
@@ -120,7 +120,7 @@ aws iam list-open-id-connect-providers | grep $oidc_id | cut -d "/" -f4
 ----
 +
 If output is returned, then you already have an IAM [.noloc]`OIDC` provider for your cluster. If no output is returned, then you must create an IAM [.noloc]`OIDC` provider for your cluster. For more information, see <<enable-iam-roles-for-service-accounts>>.
-.. Copy the following contents to your device. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` with the output returned in the previous step. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`. After replacing the text, run the modified command to create the `load-balancer-role-trust-policy.json` file.
+.. Copy the following contents to your device. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` with the output returned in the previous step.
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -161,7 +161,7 @@ aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::111122223333:policy/AWSLoadBalancerControllerIAMPolicy \
   --role-name AmazonEKSLoadBalancerControllerRole
 ----
-.. Copy the following contents to your device. Replace [.replaceable]`111122223333` with your account ID. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`. After replacing the text, run the modified command to create the `aws-load-balancer-controller-service-account.yaml` file.
+.. Copy the following contents to your device. Replace [.replaceable]`111122223333` with your account ID. After replacing the text, run the modified command to create the `aws-load-balancer-controller-service-account.yaml` file.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----

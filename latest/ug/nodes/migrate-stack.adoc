@@ -138,7 +138,7 @@ aws ec2 authorize-security-group-ingress --group-id $newSecGroup \
 kubectl edit configmap -n kube-system aws-auth
 ----
 +
-Add a new `mapRoles` entry for the new node group. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
+Add a new `mapRoles` entry for the new node group.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -261,7 +261,7 @@ aws ec2 revoke-security-group-ingress --group-id $newSecGroup \
 kubectl edit configmap -n kube-system aws-auth
 ----
 +
-Delete the `mapRoles` entry for the old node group. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
+Delete the `mapRoles` entry for the old node group.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----

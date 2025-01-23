@@ -1,22 +1,16 @@
 //!!NODE_ROOT <section>
-include::../attributes.txt[]
 
 [.topic]
 [[fargate-pod-configuration,fargate-pod-configuration.title]]
 = Understand Fargate [.noloc]`Pod` configuration details
 :info_titleabbrev: Pod configuration details
 
+include::../attributes.txt[]
+
 [abstract]
 --
 This section describes some of the unique [.noloc]`Pod` configuration details for running [.noloc]`Kubernetes` [.noloc]`Pods` on {aws} Fargate.
 --
-
-[IMPORTANT]
-====
-
-{aws} Fargate with Amazon EKS isn't available in {aws} GovCloud (US-East) and {aws} GovCloud (US-West).
-
-====
 
 This section describes some of the unique [.noloc]`Pod` configuration details for running [.noloc]`Kubernetes` [.noloc]`Pods` on {aws} Fargate.
 

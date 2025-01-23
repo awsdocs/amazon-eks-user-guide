@@ -32,13 +32,6 @@ For more information, see https://kubernetes.io/docs/concepts/architecture/nodes
 
 Your Amazon EKS cluster can schedule [.noloc]`Pods` on any combination of <<automode, EKS Auto Mode managed nodes>>, <<worker,self-managed nodes>>, <<managed-node-groups,Amazon EKS managed node groups>>, <<fargate,{aws} Fargate>>, and <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>>. To learn more about nodes deployed in your cluster, see <<view-kubernetes-resources>>.
 
-[IMPORTANT]
-====
-
-{aws} Fargate with Amazon EKS isn't available in {aws} GovCloud (US-East) and {aws} GovCloud (US-West).
-Amazon EKS Hybrid Nodes isn't available in {aws} GovCloud Regions and China Regions.
-
-====
 
 [NOTE]
 ====

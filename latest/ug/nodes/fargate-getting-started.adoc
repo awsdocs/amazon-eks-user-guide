@@ -10,13 +10,6 @@ include::../attributes.txt[]
 This topic describes how to get started running [.noloc]`Pods` on {aws} Fargate with your Amazon EKS cluster.
 --
 
-[IMPORTANT]
-====
-
-{aws} Fargate with Amazon EKS isn't available in {aws} GovCloud (US-East) and {aws} GovCloud (US-West).
-
-====
-
 This topic describes how to get started running [.noloc]`Pods` on {aws} Fargate with your Amazon EKS cluster.
 
 If you restrict access to the public endpoint of your cluster using CIDR blocks, we recommend that you also enable private endpoint access. This way, Fargate [.noloc]`Pods` can communicate with the cluster. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the outbound sources from your VPC. For more information, see <<cluster-endpoint>>. 

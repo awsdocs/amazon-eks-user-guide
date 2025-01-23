@@ -10,13 +10,6 @@ include::../attributes.txt[]
 Before you schedule [.noloc]`Pods` on Fargate in your cluster, you must define at least one Fargate profile that specifies which [.noloc]`Pods` use Fargate when launched.
 --
 
-[IMPORTANT]
-====
-
-{aws} Fargate with Amazon EKS isn't available in {aws} GovCloud (US-East) and {aws} GovCloud (US-West).
-
-====
-
 Before you schedule [.noloc]`Pods` on Fargate in your cluster, you must define at least one Fargate profile that specifies which [.noloc]`Pods` use Fargate when launched.
 
 As an administrator, you can use a Fargate profile to declare which [.noloc]`Pods` run on Fargate. You can do this through the profile's selectors. You can add up to five selectors to each profile. Each selector must contain a namespace. The selector can also include labels. The label field consists of multiple optional key-value pairs. Pods that match a selector are scheduled on Fargate. Pods are matched using a namespace and the labels that are specified in the selector. If a namespace selector is defined without labels, Amazon EKS attempts to schedule all the [.noloc]`Pods` that run in that namespace onto Fargate using the profile. If a to-be-scheduled [.noloc]`Pod` matches any of the selectors in the Fargate profile, then that [.noloc]`Pod` is scheduled on Fargate.

@@ -66,7 +66,7 @@ Cluster provisioning takes several minutes. During cluster creation, you'll see 
 ----
 [✓]  EKS cluster "my-csi-fsx-cluster" in "region-code" region is ready
 ----
-. Create a [.noloc]`Kubernetes` service account for the driver and attach the `AmazonFSxFullAccess` {aws}-managed policy to the service account with the following command. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
+. Create a [.noloc]`Kubernetes` service account for the driver and attach the `AmazonFSxFullAccess` {aws}-managed policy to the service account with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -126,7 +126,7 @@ csidriver.storage.k8s.io/fsx.csi.aws.com created
 .. Ensure that the console is set to the {aws} Region that you created your IAM role in and then select *Stacks*.
 .. Select the stack named `eksctl-my-csi-fsx-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa`.
 .. Select the *Outputs* tab. The  *Role1* ARN is listed on the  *Outputs (1)* page.
-. Patch the driver deployment to add the service account that you created earlier with the following command. Replace the ARN with the ARN that you noted. Replace [.replaceable]`111122223333` with your account ID. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
+. Patch the driver deployment to add the service account that you created earlier with the following command. Replace the ARN with the ARN that you noted. Replace [.replaceable]`111122223333` with your account ID.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
