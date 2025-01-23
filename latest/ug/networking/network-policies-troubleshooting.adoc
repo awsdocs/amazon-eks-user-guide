@@ -1,4 +1,3 @@
-
 [.topic]
 [[network-policies-troubleshooting,network-policies-troubleshooting.title]]
 = Troubleshooting [.noloc]`Kubernetes` network policies For Amazon EKS

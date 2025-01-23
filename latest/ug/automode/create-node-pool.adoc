@@ -1,4 +1,3 @@
-
 [.topic]
 [[create-node-pool,create-node-pool.title]]
 = Create a Node Pool for EKS Auto Mode

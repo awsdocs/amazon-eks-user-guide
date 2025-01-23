@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[understanding-service-name-entries,understanding-service-name-entries.title]]

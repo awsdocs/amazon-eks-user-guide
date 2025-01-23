@@ -1,5 +1,3 @@
-
-
 [[automode,automode.title]]
 = Automate cluster infrastructure with EKS Auto Mode
 :toclevels: 2

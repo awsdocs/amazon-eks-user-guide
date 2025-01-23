@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-cni,hybrid-nodes-cni.title]]
 = Configure a CNI for hybrid nodes

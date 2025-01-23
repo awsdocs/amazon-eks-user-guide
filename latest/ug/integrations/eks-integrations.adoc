@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [[eks-integrations,eks-integrations.title]]
 = Enhance EKS with integrated {aws} services

@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[update-cluster,update-cluster.title]]
 = Update existing cluster to new Kubernetes version

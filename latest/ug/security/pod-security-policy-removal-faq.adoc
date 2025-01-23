@@ -1,4 +1,3 @@
-
 [.topic]
 [[pod-security-policy-removal-faq,pod-security-policy-removal-faq.title]]
 = Migrate from legacy [.noloc]`Pod` security policies (PSP)

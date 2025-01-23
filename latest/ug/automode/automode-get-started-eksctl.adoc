@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[automode-get-started-eksctl,automode-get-started-eksctl.title]]
 = Create an EKS Auto Mode Cluster with the eksctl CLI

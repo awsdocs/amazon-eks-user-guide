@@ -1,4 +1,3 @@
-
 [.topic]
 include::../attributes.txt[]
 [[migrate-auto,migrate-auto.title]]

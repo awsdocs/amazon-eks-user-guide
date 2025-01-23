@@ -1,4 +1,3 @@
-
 [.topic]
 [[create-storage-class,create-storage-class.title]]
 = Create a Storage Class

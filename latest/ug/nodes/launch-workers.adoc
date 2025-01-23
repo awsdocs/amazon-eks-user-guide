@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[launch-workers,launch-workers.title]]

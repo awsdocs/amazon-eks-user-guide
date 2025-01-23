@@ -1,4 +1,3 @@
-
 [.topic]
 [[managed-node-groups,managed-node-groups.title]]
 = Simplify node lifecycle with managed node groups

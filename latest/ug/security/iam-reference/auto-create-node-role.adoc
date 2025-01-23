@@ -1,4 +1,3 @@
-
 [.topic]
 [[auto-create-node-role,auto-create-node-role.title]]
 = Amazon EKS Auto Mode node IAM role

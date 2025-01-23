@@ -1,4 +1,3 @@
-
 [.topic]
 [[update-addon-role,update-addon-role.title]]
 = Use Pod Identities to assign an IAM role to an Amazon EKS add-on

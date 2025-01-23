@@ -1,4 +1,3 @@
-
 [.topic]
 [[auto-security,auto-security.title]]
 = Security considerations for Amazon EKS Auto Mode

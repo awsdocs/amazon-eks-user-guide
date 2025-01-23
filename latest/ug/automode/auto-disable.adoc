@@ -1,4 +1,3 @@
-
 [.topic]
 [[auto-disable,auto-disable.title]]
 = Disable EKS Auto Mode

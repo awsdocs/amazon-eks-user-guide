@@ -1,4 +1,3 @@
-
 [.topic]
 [[auto-wip,auto-wip.title]]
 = EKS Auto Mode: Revisions to existing pages WIP

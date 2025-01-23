@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[ml-tutorials,ml-tutorials.title]]
 = Try tutorials for deploying Machine Learning workloads on EKS

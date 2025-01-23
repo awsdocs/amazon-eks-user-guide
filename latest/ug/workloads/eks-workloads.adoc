@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [[eks-workloads,eks-workloads.title]]
 = Learn how to deploy workloads and add-ons to Amazon EKS

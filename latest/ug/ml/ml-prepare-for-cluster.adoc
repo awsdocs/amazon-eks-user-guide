@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[ml-prepare-for-cluster,ml-prepare-for-cluster.title]]
 = Prepare for ML clusters

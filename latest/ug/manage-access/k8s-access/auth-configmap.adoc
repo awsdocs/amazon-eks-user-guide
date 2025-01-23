@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[auth-configmap,auth-configmap.title]]
 = Grant [.noloc]`IAM` users access to [.noloc]`Kubernetes` with a [.noloc]`ConfigMap`

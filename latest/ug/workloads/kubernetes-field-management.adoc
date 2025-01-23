@@ -1,4 +1,3 @@
-
 [.topic]
 [[kubernetes-field-management,kubernetes-field-management.title]]
 = Determine fields you can customize for Amazon EKS add-ons

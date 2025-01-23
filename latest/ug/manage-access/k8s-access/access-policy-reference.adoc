@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[access-policy-permissions,access-policy-permissions.title]]
 = Review access policy permissions

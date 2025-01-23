@@ -1,4 +1,3 @@
-
 [.topic]
 [[managing-vpc-cni,managing-vpc-cni.title]]
 = Assign IPs to [.noloc]`Pods` with the Amazon VPC CNI

@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[deploy-prometheus,deploy-prometheus.title]]

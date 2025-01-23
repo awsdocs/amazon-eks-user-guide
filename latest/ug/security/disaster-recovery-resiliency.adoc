@@ -1,4 +1,3 @@
-
 [.topic]
 [[disaster-recovery-resiliency,disaster-recovery-resiliency.title]]
 = Understand resilience in Amazon EKS clusters

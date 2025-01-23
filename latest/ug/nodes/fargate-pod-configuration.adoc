@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[fargate-pod-configuration,fargate-pod-configuration.title]]
 = Understand Fargate [.noloc]`Pod` configuration details

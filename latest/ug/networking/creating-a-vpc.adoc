@@ -1,4 +1,3 @@
-
 [.topic]
 [[creating-a-vpc,creating-a-vpc.title]]
 = Create an Amazon VPC for your Amazon EKS cluster

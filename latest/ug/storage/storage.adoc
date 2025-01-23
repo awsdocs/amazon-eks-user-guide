@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [[storage,storage.title]]
 = Store application data for your cluster

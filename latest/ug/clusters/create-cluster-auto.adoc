@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[create-cluster-auto,create-cluster-auto.title]]
 = Create an Amazon EKS Auto Mode cluster

@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[cloudwatch,cloudwatch.title]]
 = Monitor cluster data with Amazon CloudWatch

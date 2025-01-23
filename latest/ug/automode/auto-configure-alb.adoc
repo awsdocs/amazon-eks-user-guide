@@ -1,4 +1,3 @@
-
 [.topic]
 [[auto-configure-alb,auto-configure-alb.title]]
 = Create an IngressClass to configure an Application Load Balancer

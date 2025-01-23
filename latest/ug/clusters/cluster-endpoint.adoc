@@ -1,4 +1,3 @@
-
 [.topic]
 [[cluster-endpoint,cluster-endpoint.title]]
 = Control network access to cluster API server endpoint

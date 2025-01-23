@@ -1,4 +1,3 @@
-
 include::../../attributes.txt[]
 [.topic]
 [[security-iam-awsmanpol,security-iam-awsmanpol.title]]

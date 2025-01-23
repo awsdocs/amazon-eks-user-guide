@@ -1,4 +1,3 @@
-
 [.topic]
 [[network-policy-stars-demo,network-policy-stars-demo.title]]
 = Stars demo of network policy for Amazon EKS

@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[updating-an-add-on,updating-an-add-on.title]]
 = Update an Amazon EKS add-on

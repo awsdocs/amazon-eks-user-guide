@@ -1,6 +1,3 @@
-
-
-
 [.topic]
 [[install-kubectl,install-kubectl.title]]
 = Set up `kubectl` and `eksctl`

@@ -1,4 +1,3 @@
-
 [.topic]
 [[eksctl-docs,eksctl-docs.title]]
 = EKS Auto Mode

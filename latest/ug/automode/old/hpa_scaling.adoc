@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[auto-hpa-scaling,auto-hpa-scaling.title]]
 = End-to-end Compute Autoscaling with HPA

@@ -1,4 +1,3 @@
-
 [.topic]
 [[set-builtin-node-pools,set-builtin-node-pools.title]]
 = Enable or Disable Built-in NodePools

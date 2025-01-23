@@ -1,4 +1,3 @@
-
 [.topic]
 [[efs-csi,efs-csi.title]]
 = Store an elastic file system with Amazon EFS

@@ -1,4 +1,3 @@
-
 [.topic]
 [[connector-iam-role,connector-iam-role.title]]
 = Amazon EKS connector IAM role

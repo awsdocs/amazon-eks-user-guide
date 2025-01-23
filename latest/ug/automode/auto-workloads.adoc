@@ -1,4 +1,3 @@
-
 [.topic]
 include::../attributes.txt[]
 [[auto-workloads,auto-workloads.title]]

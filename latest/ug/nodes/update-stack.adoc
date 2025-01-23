@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[update-stack,update-stack.title]]

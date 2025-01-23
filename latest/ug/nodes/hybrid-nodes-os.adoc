@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-os,hybrid-nodes-os.title]]
 = Prepare operating system for hybrid nodes

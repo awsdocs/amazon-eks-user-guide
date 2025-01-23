@@ -1,4 +1,3 @@
-
 [.topic]
 [[network-reqs,network-reqs.title]]
 = View Amazon EKS networking requirements for VPC and subnets

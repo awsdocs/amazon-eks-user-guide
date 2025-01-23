@@ -1,4 +1,3 @@
-
 [.topic]
 [[al2023,al2023.title]]
 = Upgrade from Amazon Linux 2 to Amazon Linux 2023

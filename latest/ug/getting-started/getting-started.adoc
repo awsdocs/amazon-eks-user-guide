@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [[getting-started,getting-started.title]]
 = Get started with Amazon EKS

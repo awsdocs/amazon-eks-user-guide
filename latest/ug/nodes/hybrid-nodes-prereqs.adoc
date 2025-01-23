@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-prereqs,hybrid-nodes-prereqs.title]]
 = Prerequisite setup for hybrid nodes

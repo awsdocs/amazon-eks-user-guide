@@ -1,4 +1,3 @@
-
 [.topic]
 [[auto-upgrade,auto-upgrade.title]]
 = Update the Kubernetes Version of an EKS Auto Mode cluster

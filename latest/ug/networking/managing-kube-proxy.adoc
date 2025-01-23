@@ -1,4 +1,3 @@
-
 [.topic]
 [[managing-kube-proxy,managing-kube-proxy.title]]
 = Manage `kube-proxy` in Amazon EKS clusters

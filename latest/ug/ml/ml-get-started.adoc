@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[ml-get-started,ml-get-started.title]]
 = Get started with ML

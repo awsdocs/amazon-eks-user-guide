@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [[clusters,clusters.title]]
 = Organize workloads with Amazon EKS clusters

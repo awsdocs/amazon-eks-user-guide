@@ -1,4 +1,3 @@
-
 [.topic]
 [[troubleshooting-connector,troubleshooting-connector.title]]
 = Troubleshoot Amazon EKS Connector issues

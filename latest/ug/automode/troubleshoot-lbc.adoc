@@ -1,4 +1,3 @@
-
 [.topic]
 [[troubleshoot-lbc,troubleshoot-lbc.title]]
 # Troubleshooting Amazon EKS Auto Mode Load Balancer Controller

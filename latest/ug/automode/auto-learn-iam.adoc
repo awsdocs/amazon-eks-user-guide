@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[auto-learn-iam,auto-learn-iam.title]]
 = Learn about identity and access in EKS Auto Mode

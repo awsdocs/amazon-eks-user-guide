@@ -1,4 +1,3 @@
-
 [.topic]
 [[kube-proxy-add-on-self-managed-update,kube-proxy-add-on-self-managed-update.title]]
 = Update the Kubernetes `kube-proxy` self-managed add-on

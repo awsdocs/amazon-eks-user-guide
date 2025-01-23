@@ -1,4 +1,3 @@
-
 [.topic]
 [[retreive-iam-info,retreive-iam-info.title]]
 = Retrieve IAM information about an Amazon EKS add-on

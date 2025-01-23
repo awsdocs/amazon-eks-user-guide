@@ -1,4 +1,3 @@
-
 [[eks-compute,eks-compute.title]]
 = Manage compute resources by using nodes
 :doctype: book

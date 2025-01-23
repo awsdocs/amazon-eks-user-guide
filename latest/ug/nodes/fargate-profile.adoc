@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[fargate-profile,fargate-profile.title]]

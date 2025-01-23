@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[machine-learning-on-eks,machine-learning-on-eks.title]]

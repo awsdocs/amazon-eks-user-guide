@@ -1,4 +1,3 @@
-
 [.topic]
 [[zone-shift-enable,zone-shift-enable.title]]
 = Enable EKS Zonal Shift to avoid impaired Availability Zones

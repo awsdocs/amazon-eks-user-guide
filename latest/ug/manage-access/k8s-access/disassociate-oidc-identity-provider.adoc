@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[disassociate-oidc-identity-provider,disassociate-oidc-identity-provider.title]]
 = Disassociate an [.noloc]`OIDC` identity provider from your cluster

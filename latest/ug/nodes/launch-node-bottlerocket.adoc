@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[launch-node-bottlerocket,launch-node-bottlerocket.title]]

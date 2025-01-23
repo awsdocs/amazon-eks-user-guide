@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[access-policies,access-policies.title]]
 = Associate access policies with access entries

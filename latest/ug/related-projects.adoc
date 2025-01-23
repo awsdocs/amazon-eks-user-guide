@@ -1,4 +1,3 @@
-
 include::attributes.txt[]
 [[related-projects,related-projects.title]]
 = Extend Amazon EKS capabilities with open source projects

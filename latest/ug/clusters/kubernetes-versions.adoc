@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[kubernetes-versions,kubernetes-versions.title]]
 = Understand the [.noloc]`Kubernetes` version lifecycle on EKS

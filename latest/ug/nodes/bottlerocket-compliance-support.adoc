@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[bottlerocket-compliance-support,bottlerocket-compliance-support.title]]

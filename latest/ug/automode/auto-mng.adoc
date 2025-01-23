@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[auto-mng,auto-mng.title]]
 = Compare EKS Auto Mode with EKS managed node groups

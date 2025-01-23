@@ -1,4 +1,3 @@
-
 [.topic]
 [[create-node-role,create-node-role.title]]
 = Amazon EKS node IAM role

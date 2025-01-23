@@ -1,4 +1,3 @@
-
 [.topic]
 [[restrict-service-external-ip,restrict-service-external-ip.title]]
 = Restrict external IP addresses that can be assigned to services

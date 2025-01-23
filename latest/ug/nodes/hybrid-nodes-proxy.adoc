@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-proxy,hybrid-nodes-proxy.title]]
 = Configure proxy for hybrid nodes

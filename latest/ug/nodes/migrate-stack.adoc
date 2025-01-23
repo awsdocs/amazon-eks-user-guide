@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[migrate-stack,migrate-stack.title]]

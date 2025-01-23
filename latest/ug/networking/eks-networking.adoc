@@ -1,4 +1,3 @@
-
 [[eks-networking,eks-networking.title]]
 = Configure networking for Amazon EKS clusters
 :doctype: book

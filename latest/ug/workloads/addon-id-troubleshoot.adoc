@@ -1,4 +1,3 @@
-
 [.topic]
 [[addon-id-troubleshoot,addon-id-troubleshoot.title]]
 = Troubleshoot Pod Identities for EKS add-ons

@@ -1,4 +1,3 @@
-
 [.topic]
 [[cni-network-policy-configure,cni-network-policy-configure.title]]
 = Restrict Pod network traffic with [.noloc]`Kubernetes` network policies

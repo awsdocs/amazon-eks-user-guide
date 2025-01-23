@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [[eks-connector,eks-connector.title]]
 = Connect a [.noloc]`Kubernetes` cluster to an Amazon EKS Management Console with Amazon EKS Connector

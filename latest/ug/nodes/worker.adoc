@@ -1,4 +1,3 @@
-
 [.topic]
 [[worker,worker.title]]
 = Maintain nodes yourself with self-managed nodes

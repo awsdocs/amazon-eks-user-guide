@@ -1,4 +1,3 @@
-
 [.topic]
 [[auto-net-pol,auto-net-pol.title]]
 = Use Network Policies with EKS Auto Mode

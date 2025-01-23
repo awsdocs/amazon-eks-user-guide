@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[eks-linux-ami-versions,eks-linux-ami-versions.title]]

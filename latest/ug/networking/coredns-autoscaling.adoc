@@ -1,4 +1,3 @@
-
 [.topic]
 [[coredns-autoscaling,coredns-autoscaling.title]]
 = Scale [.noloc]`CoreDNS Pods` for high DNS traffic

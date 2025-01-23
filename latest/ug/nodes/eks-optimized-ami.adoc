@@ -1,4 +1,3 @@
-
 [.topic]
 [[eks-optimized-ami,eks-optimized-ami.title]]
 = Create nodes with optimized Amazon Linux AMIs

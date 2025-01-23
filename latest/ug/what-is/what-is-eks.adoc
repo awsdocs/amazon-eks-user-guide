@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[what-is-eks,what-is-eks.title]]

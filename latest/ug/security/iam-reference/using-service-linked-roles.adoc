@@ -1,4 +1,3 @@
-
 [.topic]
 [[using-service-linked-roles,using-service-linked-roles.title]]
 = Using service-linked roles for Amazon EKS

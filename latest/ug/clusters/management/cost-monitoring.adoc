@@ -1,6 +1,3 @@
-
-
-
 [.topic]
 [[cost-monitoring,cost-monitoring.title]]
 = Monitor and optimize Amazon EKS cluster costs

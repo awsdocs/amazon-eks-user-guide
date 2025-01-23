@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-networking,hybrid-nodes-networking.title]]
 = Prepare networking for hybrid nodes

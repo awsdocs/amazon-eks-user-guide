@@ -1,4 +1,3 @@
-
 [.topic]
 [[cni-increase-ip-addresses,cni-increase-ip-addresses.title]]
 = Assign more IP addresses to Amazon EKS nodes with prefixes

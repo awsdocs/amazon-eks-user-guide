@@ -1,4 +1,3 @@
-
 [.topic]
 [[managing-coredns,managing-coredns.title]]
 = Manage CoreDNS for DNS in Amazon EKS clusters

@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-cluster-create,hybrid-nodes-cluster-create.title]]
 = Create an Amazon EKS cluster with hybrid nodes

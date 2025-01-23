@@ -1,4 +1,3 @@
-
 [.topic]
 [[critical-workload,critical-workload.title]]
 = Run critical add-ons on dedicated instances

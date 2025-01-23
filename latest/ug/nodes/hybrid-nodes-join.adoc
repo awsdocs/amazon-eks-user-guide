@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-join,hybrid-nodes-join.title]]
 = Connect hybrid nodes 

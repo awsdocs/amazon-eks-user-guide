@@ -1,4 +1,3 @@
-
 [.topic]
 [[community-addons,community-addons.title]]
 = Community add-ons 

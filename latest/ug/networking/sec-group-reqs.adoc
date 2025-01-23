@@ -1,4 +1,3 @@
-
 [.topic]
 [[sec-group-reqs,sec-group-reqs.title]]
 = View Amazon EKS security group requirements for clusters

@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[creating-an-add-on,creating-an-add-on.title]]
 = Create an Amazon EKS add-on

@@ -1,4 +1,3 @@
-
 [.topic]
 [[launch-windows-workers,launch-windows-workers.title]]
 = Create self-managed [.noloc]`Microsoft Windows` nodes

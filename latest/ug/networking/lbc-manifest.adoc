@@ -1,4 +1,3 @@
-
 [.topic]
 [[lbc-manifest,lbc-manifest.title]]
 include::../attributes.txt[]

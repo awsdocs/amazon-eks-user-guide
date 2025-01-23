@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-creds,hybrid-nodes-creds.title]]
 = Prepare credentials for hybrid nodes

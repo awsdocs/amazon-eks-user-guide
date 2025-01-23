@@ -1,4 +1,3 @@
-
 [.topic]
 [[node-health,node-health.title]]
 = Enable node auto repair and investigate node health issues

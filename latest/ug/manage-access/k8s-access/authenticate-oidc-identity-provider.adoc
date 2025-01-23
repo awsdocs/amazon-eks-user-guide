@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[authenticate-oidc-identity-provider,authenticate-oidc-identity-provider.title]]
 = Grant users access to [.noloc]`Kubernetes` with an external [.noloc]`OIDC` provider

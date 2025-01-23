@@ -1,4 +1,3 @@
-
 [.topic]
 [[cert-signing,cert-signing.title]]
 = Secure workloads with [.noloc]`Kubernetes` certificates

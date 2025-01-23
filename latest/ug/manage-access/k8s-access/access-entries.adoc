@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[access-entries,access-entries.title]]
 = Grant [.noloc]`IAM` users access to [.noloc]`Kubernetes` with EKS access entries

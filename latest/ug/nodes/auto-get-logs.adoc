@@ -1,4 +1,3 @@
-
 [.topic]
 [[auto-get-logs,auto-get-logs.title]]
 = Retrieve node logs for a managed node using kubectl and S3

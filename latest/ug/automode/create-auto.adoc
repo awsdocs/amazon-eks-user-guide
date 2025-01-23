@@ -1,4 +1,3 @@
-
 [.topic]
 include::../attributes.txt[]
 [[create-auto,create-auto.title]]

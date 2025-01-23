@@ -1,4 +1,3 @@
-
 [.topic]
 [[quickstart,quickstart.title]]
 = Quickstart: Deploy a web app and store data

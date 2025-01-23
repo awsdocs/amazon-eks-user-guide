@@ -1,4 +1,3 @@
-
 [.topic]
 [[alb-ingress,alb-ingress.title]]
 = Route application and [.noloc]`HTTP` traffic with [.noloc]`Application Load Balancers`

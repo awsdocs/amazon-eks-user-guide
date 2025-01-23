@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[platform-versions,platform-versions.title]]
 = View Amazon EKS platform versions for each [.noloc]`Kubernetes` version

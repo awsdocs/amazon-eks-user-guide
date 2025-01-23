@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[auto-enable-existing,auto-enable-existing.title]]
 = Enable EKS Auto Mode on an existing cluster

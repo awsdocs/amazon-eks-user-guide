@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-overview,hybrid-nodes-overview.title]]
 = Amazon EKS Hybrid Nodes overview

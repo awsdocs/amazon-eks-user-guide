@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-troubleshooting,hybrid-nodes-troubleshooting.title]]
 = Troubleshooting hybrid nodes

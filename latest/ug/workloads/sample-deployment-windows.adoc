@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[sample-deployment-win,sample-deployment-win.title]]
 = Deploy a sample application on Windows

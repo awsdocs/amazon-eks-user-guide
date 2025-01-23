@@ -1,4 +1,3 @@
-
 [.topic]
 [[external-snat,external-snat.title]]
 = Enable outbound internet access for [.noloc]`Pods`

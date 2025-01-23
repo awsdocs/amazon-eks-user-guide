@@ -1,4 +1,3 @@
-
 [.topic]
 [[using-service-linked-roles-eks-connector,using-service-linked-roles-eks-connector.title]]
 = Using roles to connect a [.noloc]`Kubernetes` cluster to Amazon EKS

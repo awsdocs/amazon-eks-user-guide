@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[auto-troubleshoot,auto-troubleshoot.title]]
 = Troubleshoot EKS Auto Mode

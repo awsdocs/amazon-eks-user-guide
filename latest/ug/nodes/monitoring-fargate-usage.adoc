@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[monitoring-fargate-usage,monitoring-fargate-usage.title]]

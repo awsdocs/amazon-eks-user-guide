@@ -1,4 +1,3 @@
-
 [.topic]
 [[eks-networking-add-ons,eks-networking-add-ons.title]]
 = Manage networking add-ons for Amazon EKS clusters

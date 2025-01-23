@@ -1,4 +1,3 @@
-
 [.topic]
 [[auto-glossary,auto-glossary.title]]
 = Glossary

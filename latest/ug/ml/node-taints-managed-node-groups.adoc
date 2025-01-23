@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[node-taints-managed-node-groups,node-taints-managed-node-groups.title]]

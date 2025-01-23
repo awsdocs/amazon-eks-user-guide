@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-upgrade,hybrid-nodes-upgrade.title]]
 = Upgrade hybrid nodes for your cluster

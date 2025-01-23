@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-cluster-prep,hybrid-nodes-cluster-prep.title]]
 = Prepare cluster access for hybrid nodes

@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[addon-compat,addon-compat.title]]
 = Verify Amazon EKS add-on version compatibility with a cluster

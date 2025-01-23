@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-add-ons,hybrid-nodes-add-ons.title]]
 = Configure add-ons for hybrid nodes

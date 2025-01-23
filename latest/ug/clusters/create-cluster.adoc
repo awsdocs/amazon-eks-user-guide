@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[create-cluster,create-cluster.title]]
 = Create an Amazon EKS cluster

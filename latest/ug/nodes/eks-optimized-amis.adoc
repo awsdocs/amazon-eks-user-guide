@@ -1,4 +1,3 @@
-
 [.topic]
 [[eks-optimized-amis,eks-optimized-amis.title]]
 = Create nodes with pre-built optimized images

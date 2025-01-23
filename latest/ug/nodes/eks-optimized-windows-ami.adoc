@@ -1,4 +1,3 @@
-
 [.topic]
 [[eks-optimized-windows-ami,eks-optimized-windows-ami.title]]
 = Create nodes with optimized [.noloc]`Windows` AMIs

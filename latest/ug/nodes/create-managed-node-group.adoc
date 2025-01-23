@@ -1,4 +1,3 @@
-
 [.topic]
 [[create-managed-node-group,create-managed-node-group.title]]
 = Create a managed node group for your cluster

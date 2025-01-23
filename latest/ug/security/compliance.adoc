@@ -1,4 +1,3 @@
-
 [.topic]
 [[compliance,compliance.title]]
 = Compliance validation for Amazon EKS clusters

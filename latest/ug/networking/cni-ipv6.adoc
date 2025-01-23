@@ -1,4 +1,3 @@
-
 [.topic]
 [[cni-ipv6,cni-ipv6.title]]
 = Learn about IPv6 addresses to clusters, [.noloc]`Pods`, and services

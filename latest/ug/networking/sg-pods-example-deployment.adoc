@@ -1,4 +1,3 @@
-
 [.topic]
 [[sg-pods-example-deployment,sg-pods-example-deployment.title]]
 = Use a security group policy for an Amazon EKS [.noloc]`Pod`

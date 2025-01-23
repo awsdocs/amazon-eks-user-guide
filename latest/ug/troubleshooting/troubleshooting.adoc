@@ -1,4 +1,3 @@
-
 [[troubleshooting,troubleshooting.title]]
 = Troubleshoot problems with Amazon EKS clusters and nodes
 :doctype: book

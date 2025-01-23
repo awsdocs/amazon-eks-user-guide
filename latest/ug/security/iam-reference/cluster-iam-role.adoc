@@ -1,4 +1,3 @@
-
 [.topic]
 [[cluster-iam-role,cluster-iam-role.title]]
 = Amazon EKS cluster IAM role

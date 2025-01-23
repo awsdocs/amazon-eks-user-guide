@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[kubernetes-versions-standard,kubernetes-versions-standard.title]]
 = Review release notes for [.noloc]`Kubernetes` versions on standard support

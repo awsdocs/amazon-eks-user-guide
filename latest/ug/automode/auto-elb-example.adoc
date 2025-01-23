@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[auto-elb-example,auto-elb-example.title]]
 = Deploy a Sample Load Balancer Workload to EKS Auto Mode

@@ -1,4 +1,3 @@
-
 [.topic]
 [[cni-network-policy,cni-network-policy.title]]
 = Limit [.noloc]`Pod` traffic with [.noloc]`Kubernetes` network policies

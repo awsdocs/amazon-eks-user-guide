@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[enable-asg-metrics,enable-asg-metrics.title]]

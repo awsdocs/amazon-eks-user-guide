@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [[eks-observe,eks-observe.title]]
 = Monitor your cluster performance and view logs

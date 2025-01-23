@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-nodeadm,hybrid-nodes-nodeadm.title]]
 = Hybrid nodes `nodeadm` reference

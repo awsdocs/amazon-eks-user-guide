@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[eks-add-ons,eks-add-ons.title]]
 = Amazon EKS add-ons

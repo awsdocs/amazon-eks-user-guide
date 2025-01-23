@@ -1,4 +1,3 @@
-
 [.topic]
 [[cost-monitoring-kubecost-bundles,cost-monitoring-kubecost-bundles.title]]
 = Learn more about Kubecost

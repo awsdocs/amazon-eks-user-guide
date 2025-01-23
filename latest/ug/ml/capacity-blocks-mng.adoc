@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[capacity-blocks-mng,capacity-blocks-mng.title]]

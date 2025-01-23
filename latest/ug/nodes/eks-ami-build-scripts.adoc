@@ -1,4 +1,3 @@
-
 include::../attributes.txt[]
 [.topic]
 [[eks-ami-build-scripts,eks-ami-build-scripts.title]]

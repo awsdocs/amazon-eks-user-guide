@@ -1,4 +1,3 @@
-
 include::../../attributes.txt[]
 [[eks-managing,eks-managing.title]]
 = Organize and monitor cluster resources

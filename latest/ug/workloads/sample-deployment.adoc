@@ -1,6 +1,3 @@
-
-
-
 [.topic]
 [[sample-deployment,sample-deployment.title]]
 = Deploy a sample application on Linux

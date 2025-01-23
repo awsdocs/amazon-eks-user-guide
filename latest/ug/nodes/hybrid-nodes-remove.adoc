@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-remove,hybrid-nodes-remove.title]]
 = Remove hybrid nodes

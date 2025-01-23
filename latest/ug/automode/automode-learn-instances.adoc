@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[automode-learn-instances,automode-learn-instances.title]]
 = Learn about Amazon EKS Auto Mode Managed instances

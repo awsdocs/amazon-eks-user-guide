@@ -1,4 +1,3 @@
-
 [.topic]
 [[hybrid-nodes-tutorial,hybrid-nodes-tutorial.title]]
 = Run on-premises workloads on hybrid nodes

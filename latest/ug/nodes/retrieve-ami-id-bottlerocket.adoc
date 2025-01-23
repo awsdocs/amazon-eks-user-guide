@@ -1,4 +1,3 @@
-
 [.topic]
 [[retrieve-ami-id-bottlerocket,retrieve-ami-id-bottlerocket.title]]
 = Retrieve recommended [.noloc]`Bottlerocket` AMI IDs

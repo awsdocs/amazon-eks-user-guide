@@ -1,4 +1,3 @@
-
 [.topic]
 [[cost-monitoring-kubecost,cost-monitoring-kubecost.title]]
 = Install Kubecost and access dashboard

@@ -1,4 +1,3 @@
-
 [.topic]
 [[vpc-add-on-update,vpc-add-on-update.title]]
 = Update the Amazon VPC CNI (Amazon EKS add-on)
