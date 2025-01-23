@@ -177,3 +177,34 @@ spec:
 * {eam} only supports Linux
 ** `node.kubernetes.io/windows-build`
 ** `kubernetes.io/os`
+
+== Disable built-in node pools
+
+If you create custom node pools, you can disable the built-in node pools. For more information, see <<set-builtin-node-pools>>.
+
+== Cluster without built-in node pools
+
+You can create a cluster without the built-in node pools. This is helpful when your organization has created customized node pools. 
+
+*Overview:*
+
+. Create an EKS cluster with the both `nodePools` and `nodeRoleArn` values empty.
+** Sample eksctl `autoModeConfig`:
++
+[source,yaml]
+----
+autoModeConfig:
+  enabled: true
+  nodePools: []
+  # Do not set a nodeRoleARN
+----
++
+For more information, see <<automode-get-started-eksctl>>
+. Create a custom node class with a node role ARN
+** For more information, see <<create-node-class>>
+. Create an access entry for the custom node class
+** For more information, see <<auto-node-access-entry>>
+. Create a custom node pool, as described above.
+
+
+
