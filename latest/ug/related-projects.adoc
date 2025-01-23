@@ -13,6 +13,7 @@ include::attributes.txt[]
 :info_doctype: chapter
 :info_title: Extend Amazon EKS capabilities with open source projects
 :info_titleabbrev: Projects related to Amazon EKS
+:info_abstract: Learn how to use open source projects to add features to Amazon EKS for management, networking, machine learning, auto-scaling, monitoring, and CI/CD.
 
 [abstract]
 --

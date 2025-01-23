@@ -11,6 +11,7 @@ include::../attributes.txt[]
 :sourcedir: .
 :info_title: Change EKS Auto cluster settings
 :info_titleabbrev: Configure
+:info_abstract: Change EKS Auto cluster settings
 
 [abstract]
 --

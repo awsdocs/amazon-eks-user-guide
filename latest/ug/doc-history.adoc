@@ -15,6 +15,7 @@
 :info_doctype: chapter
 :info_title: Document history
 :keywords: document, publish, release, history, log
+:info_abstract: Important updates to the Amazon EKS documentation, sorted by date, with brief \
                 descriptions of each update and when they occurred.
 
 

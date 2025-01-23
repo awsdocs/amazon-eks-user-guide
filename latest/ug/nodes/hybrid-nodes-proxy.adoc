@@ -6,6 +6,7 @@
 :info_title: Configure proxy for hybrid nodes
 :info_titleabbrev: Configure proxy 
 :keywords: on-premises proxy, hybrid proxy
+:info_abstract: Configure HTTP/S proxies for Amazon EKS hybrid nodes 
 
 include::../attributes.txt[]
 

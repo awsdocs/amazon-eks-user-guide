@@ -8,6 +8,7 @@ include::../attributes.txt[]
 :info_title: Simplify compute management with {aws} Fargate
 :info_titleabbrev: {aws} Fargate
 :keywords: Fargate, nodes
+:info_abstract: This topic discusses using Amazon EKS to run Kubernetes Pods on {aws} Fargate.
 
 [abstract]
 --

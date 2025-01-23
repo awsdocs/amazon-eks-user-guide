@@ -6,6 +6,7 @@
 :info_title: Connect hybrid nodes to Amazon EKS cluster
 :info_titleabbrev: Connect hybrid nodes
 :keywords: on-premises, hybrid
+:info_abstract: Connect hybrid nodes to Amazon EKS cluster
 
 include::../attributes.txt[]
 

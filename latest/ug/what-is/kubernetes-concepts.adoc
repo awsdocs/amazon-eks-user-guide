@@ -8,6 +8,7 @@ include::../attributes.txt[]
 :info_title: Kubernetes concepts
 :info_titleabbrev: Kubernetes concepts
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, architecture, control plane, nodes, data plane
+:info_abstract: Learn core Kubernetes concepts and how they relate to deploying workloads, managing clusters, and working with control planes, nodes, Pods, containers, and networking on Amazon EKS.
 
 [abstract]
 --

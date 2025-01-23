@@ -8,6 +8,7 @@ include::../attributes.txt[]
 :info_title: Amazon EKS architecture
 :info_titleabbrev: Architecture
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, architecture, control plane, nodes, data plane
+:info_abstract: Learn how Amazon EKS aligns with Kubernetes cluster architecture, offering a highly available and resilient control plane, and flexible compute options like {aws} Fargate, Karpenter, managed node groups, and self-managed nodes to meet diverse workload requirements.
 
 [abstract]
 --

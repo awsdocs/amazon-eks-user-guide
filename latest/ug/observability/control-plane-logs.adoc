@@ -8,6 +8,7 @@ include::../attributes.txt[]
 :info_title: Send control plane logs to CloudWatch Logs
 :info_titleabbrev: Control plane logs
 :keywords: control plane, logging, API, logs
+:info_abstract: Learn how to configure logging for your Amazon EKS cluster.
 
 [abstract]
 --

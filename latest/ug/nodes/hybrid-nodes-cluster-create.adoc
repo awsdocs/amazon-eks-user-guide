@@ -6,6 +6,7 @@
 :info_title: Create an Amazon EKS cluster with hybrid nodes
 :info_titleabbrev: Create cluster
 :keywords: on-premises, hybrid
+:info_abstract: Create an Amazon EKS cluster with hybrid nodes
 
 include::../attributes.txt[]
 

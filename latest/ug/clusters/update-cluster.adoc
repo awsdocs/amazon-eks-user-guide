@@ -6,6 +6,7 @@
 :info_doctype: section
 :info_title: Update existing cluster to new Kubernetes version
 :info_titleabbrev: Update Kubernetes version
+:info_abstract: Learn how to update your Amazon EKS cluster to the latest Kubernetes version, ensuring compatibility with nodes and add-ons, and maintaining high availability during the process.
 
 include::../attributes.txt[]
 

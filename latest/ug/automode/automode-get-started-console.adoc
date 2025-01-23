@@ -8,6 +8,7 @@ include::../attributes.txt[]
 :info_doctype: section
 :info_title: Create an EKS Auto Mode Cluster with the {aws} Management Console
 :info_titleabbrev: Management console
+:info_abstract: Create an EKS Auto Mode cluster with the {aws} Management Console
 
 Creating an {eam} cluster in the {aws} Management Console requires less {config} than other options. EKS integrates with {aws} IAM and VPC Networking to help you create the resources associated with an EKS cluster.
 

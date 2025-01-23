@@ -8,6 +8,7 @@ include::../../attributes.txt[]
 :info_title: Organize Amazon EKS resources with tags
 :info_titleabbrev: Tagging your resources
 :keywords: metadata, tag, resources
+:info_abstract: Learn how to use tags to categorize and manage your Amazon EKS resources like clusters, managed node groups, and Fargate profiles for billing, cost allocation, and resource identification.
 
 [abstract]
 --

@@ -7,6 +7,7 @@
 :info_title: Understand the Kubernetes version lifecycle on EKS
 :info_titleabbrev: Kubernetes versions
 :keywords: Amazon EKS, available, Kubernetes, version, release notes
+:info_abstract: Learn how Amazon EKS supports Kubernetes versions with standard and extended \
                 support periods, allowing you to proactively update clusters with the latest \
                 versions, features, and security patches..
 

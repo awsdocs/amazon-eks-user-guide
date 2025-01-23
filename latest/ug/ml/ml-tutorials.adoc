@@ -6,6 +6,7 @@
 :info_doctype: section
 :info_title: Try tutorials for deploying Machine Learning workloads and platforms on EKS
 :info_titleabbrev: Try tutorials for ML on EKS
+:info_abstract: Learn how to deploy Machine Learning workloads on EKS
 
 include::../attributes.txt[]
 

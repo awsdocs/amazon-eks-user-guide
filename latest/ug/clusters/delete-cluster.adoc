@@ -7,6 +7,7 @@ include::../attributes.txt[]
 :info_doctype: section
 :info_title: Delete a cluster
 :info_titleabbrev: Delete a cluster
+:info_abstract: Learn how to delete Amazon EKS clusters, including managed and self-managed node groups, Fargate profiles, related services, and {aws} CloudFormation stacks using eksctl, {aws-management-console}, or {aws} CLI for cost optimization and resource cleanup.
 
 [abstract]
 --

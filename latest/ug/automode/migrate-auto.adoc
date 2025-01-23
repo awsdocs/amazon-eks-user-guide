@@ -11,6 +11,7 @@ include::../attributes.txt[]
 :sourcedir: .
 :info_title: Enable EKS Auto Mode on existing EKS clusters
 :info_titleabbrev: Enable existing clusters
+:info_abstract: Learn about the tools needed to migrate an Amazon EKS cluster to EKS Auto Mode.
 
 [abstract]
 --

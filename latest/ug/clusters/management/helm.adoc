@@ -7,6 +7,7 @@ include::../../attributes.txt[]
 :info_doctype: section
 :info_title: Deploy applications with Helm on Amazon EKS
 :info_titleabbrev: Deploy apps with Helm
+:info_abstract: Learn how to install and use Helm, a package manager for Kubernetes, with your Amazon EKS cluster to manage and deploy applications seamlessly.
 
 [abstract]
 --

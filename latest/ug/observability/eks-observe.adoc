@@ -14,6 +14,7 @@ include::../attributes.txt[]
 :info_title: Monitor your cluster performance and view logs
 :info_titleabbrev: Monitor clusters
 :keywords: observability, monitoring, logging, logs, data
+:info_abstract: You can observe your data in Amazon EKS using many available monitoring or logging \
                 tools.
 
 [abstract]

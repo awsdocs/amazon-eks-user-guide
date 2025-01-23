@@ -7,6 +7,7 @@ include::../attributes.txt[]
 :info_doctype: section
 :info_title: Validate container image signatures during deployment
 :info_titleabbrev: Verify container images
+:info_abstract: Learn how to verify signed container images during deployment on Amazon EKS using admission controllers like Gatekeeper with Ratify or Kyverno configured with {aws} Signer plugins for validating image signatures.
 
 [abstract]
 --

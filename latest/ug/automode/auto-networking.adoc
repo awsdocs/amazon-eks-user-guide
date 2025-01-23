@@ -5,6 +5,7 @@
 :info_doctype: section
 :info_title: Learn about VPC networking and load balancing in EKS Auto Mode
 :info_titleabbrev: Networking
+:info_abstract: Learn about VPC networking and load balancing in EKS Auto Mode.
 
 
 include::../attributes.txt[]

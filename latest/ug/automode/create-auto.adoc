@@ -11,6 +11,7 @@ include::../attributes.txt[]
 :sourcedir: .
 :info_title: Create cluster with EKS Auto Mode
 :info_titleabbrev: Create cluster
+:info_abstract: Learn about the tools needed for creating and working with an Amazon EKS cluster in EKS Auto Mode.
 :keywords: getting, started, tutorials, quick, start
 
 [abstract]

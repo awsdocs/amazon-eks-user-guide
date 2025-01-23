@@ -8,6 +8,7 @@ include::../attributes.txt[]
 :info_title: Store data using Amazon FSx for OpenZFS
 :info_titleabbrev: Amazon FSx for OpenZFS
 :keywords: Amazon FSx for OpenZFS CSI driver, storage
+:info_abstract: The Amazon FSx for OpenZFS Container Storage Interface (CSI) driver provides a CSI \
                 interface that allows Amazon EKS clusters to manage the life cycle of Amazon FSx for OpenZFS \
                 volumes.
 

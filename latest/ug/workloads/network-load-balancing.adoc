@@ -5,6 +5,7 @@
 :info_doctype: section
 :info_title: Route TCP and UDP traffic with Network Load Balancers
 :info_titleabbrev: Network load balancing
+:info_abstract: Use the {aws} Load Balancer Controller to create network load balancers for Amazon EKS workloads, supporting IP and instance targets with {aws} Network Load Balancers.
 
 include::../attributes.txt[]
 

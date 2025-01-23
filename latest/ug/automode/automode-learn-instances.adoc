@@ -13,6 +13,7 @@
 :emng: EKS Managed Node Group
 :info_title: Learn about Amazon EKS Auto Mode managed instances 
 :info_titleabbrev: Managed instances
+:info_abstract:  Learn about Amazon EKS Auto Mode managed instances
 
 include::../attributes.txt[]
 

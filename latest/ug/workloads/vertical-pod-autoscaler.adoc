@@ -7,6 +7,7 @@ include::../attributes.txt[]
 :info_doctype: section
 :info_title: Adjust pod resources with Vertical Pod Autoscaler
 :info_titleabbrev: Vertical Pod Autoscaler
+:info_abstract: Discover how the Kubernetes Vertical Pod Autoscaler automatically adjusts CPU and memory reservations for your Pods to optimize resource utilization and right-size applications on Amazon EKS.
 
 [abstract]
 --

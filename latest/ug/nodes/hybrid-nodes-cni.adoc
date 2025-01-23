@@ -6,6 +6,7 @@
 :info_title: Configure a CNI for hybrid nodes
 :info_titleabbrev: Configure CNI
 :keywords: on-premises CNI, hybrid CNI
+:info_abstract: Configure a CNI for Amazon EKS hybrid nodes
 
 include::../attributes.txt[]
 

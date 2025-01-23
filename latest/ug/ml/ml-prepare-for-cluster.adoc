@@ -6,6 +6,7 @@
 :info_doctype: section
 :info_title: Prepare to create an EKS cluster for Machine Learning
 :info_titleabbrev: Prepare for ML
+:info_abstract: Learn how to make decisions about CPU, AMIs, and tooling before creating an EKS cluster for ML.
 
 include::../attributes.txt[]
 

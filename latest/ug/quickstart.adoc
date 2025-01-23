@@ -6,6 +6,7 @@
 :info_title: Quickstart: Deploy a web app and store data
 :info_titleabbrev: Quickstart
 :keywords: quickstart, web, cluster
+:info_abstract: Deploy a game application and persist its data on Amazon EKS
 
 include::attributes.txt[]
 

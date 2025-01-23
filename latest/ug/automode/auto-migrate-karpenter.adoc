@@ -5,6 +5,7 @@
 :info_doctype: section
 :info_title: Migrate from Karpenter to EKS Auto Mode using kubectl
 :info_titleabbrev: Migrate from Karpenter
+:info_abstract:  Migrate from Karpenter to EKS Auto Mode using kubectl
 
 include::../attributes.txt[]
 

@@ -8,6 +8,7 @@
 :info_title: Monitor and optimize Amazon EKS cluster costs
 :info_titleabbrev: Cost monitoring
 :keywords: cost, monitoring, watch
+:info_abstract: Learn how to monitor and optimize costs for your Amazon EKS clusters using {aws} Billing split cost allocation data or Kubecost, a Kubernetes-native cost monitoring tool integrated with {aws}.
 
 include::../../attributes.txt[]
 

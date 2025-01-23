@@ -15,6 +15,7 @@ include::../attributes.txt[]
 :info_title: Machine Learning on Amazon EKS Overview
 :info_titleabbrev: Machine Learning on EKS
 :keywords: Machine Learning, Amazon EKS, Artificial Intelligence
+:info_abstract: Learn to manage containerized applications with Amazon EKS
 
 [abstract]
 --

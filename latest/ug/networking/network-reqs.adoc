@@ -5,6 +5,7 @@
 :info_doctype: section
 :info_title: View Amazon EKS networking requirements for VPC and subnets
 :info_titleabbrev: VPC and subnet requirements
+:info_abstract: Learn how to configure the VPC and subnets to meet networking \
                 requirements for creating Amazon EKS clusters with sufficient IP addresses, subnet \
                 types, and availability zones. Understand IP family usage by component and shared \
                 subnet considerations.

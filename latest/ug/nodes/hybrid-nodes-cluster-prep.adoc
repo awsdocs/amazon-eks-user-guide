@@ -4,6 +4,7 @@
 = Prepare cluster access for hybrid nodes
 :info_title: Prepare cluster access for hybrid nodes
 :info_titleabbrev: Prepare cluster access
+:info_abstract:  Prepare cluster access for hybrid nodes
 
 [abstract]
 --

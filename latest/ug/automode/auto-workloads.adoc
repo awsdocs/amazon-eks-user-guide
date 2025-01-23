@@ -6,6 +6,7 @@ include::../attributes.txt[]
 :info_doctype: section
 :info_title: Run workloads in EKS Auto Mode clusters
 :info_titleabbrev: Run workloads
+:info_abstract: Run workloads in EKS Auto Mode clusters
 
 [abstract]
 --

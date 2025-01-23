@@ -6,6 +6,7 @@
 :info_title: Delete hybrid nodes from your EKS cluster
 :info_titleabbrev: Delete hybrid nodes
 :keywords: Delete hybrid nodes from your EKS cluster
+:info_abstract: Delete hybrid nodes from your EKS cluster
 
 include::../attributes.txt[]
 

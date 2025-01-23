@@ -6,6 +6,7 @@
 :info_doctype: section
 :info_title: Create an Amazon EKS cluster
 :info_titleabbrev: Create a cluster
+:info_abstract: Learn how to create an Amazon EKS cluster to run Kubernetes applications, including prerequisites, networking options, and add-on configurations.
 
 include::../attributes.txt[]
 

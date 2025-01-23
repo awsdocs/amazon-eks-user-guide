@@ -5,6 +5,7 @@
 :info_doctype: section
 :info_title: Control network access to cluster API server endpoint
 :info_titleabbrev: Configure endpoint access
+:info_abstract: Learn how to enable private access and limit public access to the Amazon EKS cluster Kubernetes API server endpoint for enhanced security with your Amazon EKS cluster.
 
 include::../attributes.txt[]
 
