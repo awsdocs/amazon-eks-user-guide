@@ -15,7 +15,7 @@ With {eam}, {aws} assumes more {resp} for {e2i}s in {yaa}. EKS assumes {resp} fo
 
 You must use {aws} and {k8s} APIs to troubleshoot nodes. You can:
 
-* Use a Kubernetes `NodeDiagnostic` resource to {ret} node logs. For more steps, see <<auto-get-logs>>. 
+* Use a Kubernetes `NodeDiagnostic` resource to {ret} node logs by using the <<auto-node-monitoring-agent>>. For more steps, see <<auto-get-logs>>. 
 * Use the {aws} EC2 CLI command `get-console-output` to {ret} console output from nodes. For more steps, see <<auto-node-console>>.
 * Use Kubernetes _debugging containers_ to {ret} node logs. For more steps, see <<auto-node-debug-logs>>.
 
@@ -23,6 +23,20 @@ You must use {aws} and {k8s} APIs to troubleshoot nodes. You can:
 ====
 {eam} uses {emi}s. You cannot directly access {emi}s, including by SSH.
 ====
+
+You might have the following problems that have solutions specific to EKS Auto Mode components:
+
+* Pods stuck in the `Pending` state, that aren't being scheduled onto Auto Mode nodes. For solutions see <<auto-troubleshoot-schedule>>.
+* EC2 managed instances that don't join the cluster as Kubernetes nodes. For solutions see <<auto-troubleshoot-join>>.
+* Errors and issues with the `NodePools`, `PersistentVolumes`, and `Services` that use the controllers that are included in EKS Auto Mode. For solutions see <<auto-troubleshoot-controllers>>.
+
+You can use the following methods to troubleshoot EKS Auto Mode components:
+
+* <<auto-node-console>>
+* <<auto-node-debug-logs>>
+* <<auto-node-ec2-web>>
+* <<auto-node-iam>>
+* <<auto-node-reachability>>
 
 [[auto-node-monitoring-agent,auto-node-monitoring-agent.title]]
 == Node monitoring agent
@@ -110,6 +124,7 @@ Filename    : /usr/bin/ps
 Provide    : /bin/ps
 ----
 
+[[auto-node-ec2-web,auto-node-ec2-web.title]]
 == View resources associated with {eam} in the {aws} Console
 
 You can use the {aws} console to view the status of resources associated with {yec}. 
@@ -121,6 +136,7 @@ You can use the {aws} console to view the status of resources associated with {y
 * link:ec2/home#Instances["EC2 Instances",type="console"]
 ** View EKS Auto Mode instances by searching for the tag key `eks:eks-cluster-name` 
 
+[[auto-node-iam,auto-node-iam.title]]
 == View IAM Errors in {yaa}
 
 . Navigate to CloudTrail console
@@ -139,7 +155,7 @@ Look for errors related to your EKS cluster. Use the error messages to update yo
 
 If pods staying in the `Pending` state and aren't being scheduled onto an auto mode node, verify if your pod or deployment manifest has a `nodeSelector`. If a `nodeSelector` is present, ensure that it is using `eks.amazonaws.com/compute-type: auto` to be scheduled on nodes that are made by EKS Auto Mode. For more information about the node labels that are used by EKS Auto Mode, see <<associate-workload>>.
 
-[[auto-node-join,auto-node-join.title]]
+[[auto-troubleshoot-join,auto-troubleshoot-join.title]]
 == Troubleshoot node not joining the cluster
 
 EKS Auto Mode automatically configures new EC2 instances with the correct information to join the cluster, including the cluster endpoint and cluster certificate authority (CA). However, these instances can still fail to join the EKS cluster as a node. Run the following commands to identify instances that didn't join the cluster:
@@ -160,10 +176,12 @@ kubectl describe nodeclaim <node_claim>
 
 *Common error messages:*
 
-* `Error getting launch template configs`
-** You might receive this error if you are setting custom tags in the `NodeClass` with the default cluster IAM role permissions. See <<auto-learn-iam>>.
-* `Error creating fleet`
-** There might be some authorization issue with calling the `RunInstances` call from the EC2 API. Check {aws-cloudtrail} for errors and see <<auto-cluster-iam-role>> for the required IAM permissions.
+`Error getting launch template configs`::
+You might receive this error if you are setting custom tags in the `NodeClass` with the default cluster IAM role permissions. See <<auto-learn-iam>>.
+
+`Error creating fleet`::
+There might be some authorization issue with calling the `RunInstances` call from the EC2 API. Check {aws-cloudtrail} for errors and see <<auto-cluster-iam-role>> for the required IAM permissions.
+
 
 [[auto-node-reachability,auto-node-reachability.title]]
 === Detect node connectivity issues with the `VPC Reachability Analyzer`
@@ -233,7 +251,7 @@ With these two pieces of information, you can perform the s analysis. First navi
 . Click "Create and Analyze Path"
 . The analysis might take a few minutes to complete. If the analysis results indicates failed reachability, it will indicate where the failure was in the network path so you can resolve the issue.
 
-[[auto-troubleshoot-controllers]]
+[[auto-troubleshoot-controllers,auto-troubleshoot-controllers.title]]
 == Troubleshoot included controllers in Auto Mode
 
 If you have a problem with a controller, you should research:
