@@ -68,7 +68,7 @@ For Kubernetes versions 1.33 and later, EKS will not provide pre-built optimized
 - <<al2023>>
 - <<eks-optimized-ami-bottlerocket>>
 
-NOTE: This update applies to EKS-optimized AL2 AMIs. For more information about the operating system itself, see link:https://aws.amazon.com/amazon-linux-2/faqs/["Amazon Linux 2 FAQs", type="marketing"]
+NOTE: This update applies to EKS-optimized AL2 AMIs. For more information about the operating system itself, see link:amazon-linux-2/faqs/[Amazon Linux 2 FAQs,type="marketing"].
 
 
 [[kubernetes-1.31,kubernetes-1.31.title]]
