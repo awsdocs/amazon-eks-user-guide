@@ -32,7 +32,7 @@ video::_dJdAZ_J_jw[youtube,align = center,height = 405,fileref = https://www.you
 
 The following [.noloc]`Kubernetes` versions are currently available in Amazon EKS standard support:
 
-
+* `1.32`
 * `1.31`
 * `1.30`
 * `1.29`
@@ -73,6 +73,11 @@ Dates with only a month and a year are approximate and are updated with an exact
 |End of standard support
 |End of extended support
 
+|`1.32`
+|December 11, 2024
+|January 23, 2025
+|March 23, 2026
+|March 23, 2027
 
 |`1.31`
 |August 13, 2024

@@ -1,9 +1,10 @@
-
 include::../attributes.txt[]
 [.topic]
 [[view-raw-metrics,view-raw-metrics.title]]
 = Fetch control plane raw metrics in [.noloc]`Prometheus` format
 :info_titleabbrev: Control plane
+
+include::../attributes.txt[]
 
 [abstract]
 --
@@ -62,26 +63,7 @@ This raw output returns verbatim what the API server exposes.
 [[fetch-metrics-prometheus,fetch-metrics-prometheus.title]]
 == Fetch control plane metrics with `metrics.eks.amazonaws.com`
 
-For new clusters that are [.noloc]`Kubernetes` version `1.28` and above, Amazon EKS also exposes metrics under the API group `metrics.eks.amazonaws.com`. These metrics include control plane components such as `kube-scheduler` and `kube-controller-manager`. These metrics are also available for existing clusters that have a platform version that is the same or later compared to the following table.
-
-[cols="1,1", options="header"]
-|===
-|Kubernetes version
-|Platform version
-
-|`1.31`
-|`eks.10`
-
-|`1.30`
-|`eks.18`
-
-|`1.29`
-|`eks.21`
-
-|`1.28`
-|`eks.27`
-
-|===
+For clusters that are [.noloc]`Kubernetes` version `1.28` and above, Amazon EKS also exposes metrics under the API group `metrics.eks.amazonaws.com`. These metrics include control plane components such as `kube-scheduler` and `kube-controller-manager`.
 
 [NOTE]
 ====

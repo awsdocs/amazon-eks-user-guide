@@ -1,11 +1,10 @@
-
-include::../attributes.txt[]
-
 [.topic]
 [[prometheus,prometheus.title]]
 = Monitor your cluster metrics with [.noloc]`Prometheus`
 :info_titleabbrev: Prometheus metrics
 :keywords: Prometheus, metrics, control plane
+
+include::../attributes.txt[]
 
 [abstract]
 --

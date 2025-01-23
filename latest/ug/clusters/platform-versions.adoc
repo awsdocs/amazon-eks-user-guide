@@ -34,11 +34,29 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 ====
 
+[[platform-versions-1.32,platform-versions-1.32.title]]
+== [.noloc]`Kubernetes` version `1.32`
+
+The following admission controllers are enabled for all `1.32` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`.
+
+[cols="1,1,1,1", options="header"]
+|===
+| Kubernetes version
+| EKS platform version
+| Release notes
+| Release date
+
+| `1.31.0`
+| `eks.2`
+| Initial release of Kubernetes version `1.32` for EKS. For more information, see <<kubernetes-1.32>>.
+| January 2025
+
+|===
 
 [[platform-versions-1.31,platform-versions-1.31.title]]
 == [.noloc]`Kubernetes` version `1.31`
 
-The following admission controllers are enabled for all `1.31` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`.
+The following admission controllers are enabled for all `1.31` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`, `ObjectCount`.
 
 [cols="1,1,1,1", options="header"]
 |===

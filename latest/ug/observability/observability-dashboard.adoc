@@ -1,5 +1,3 @@
-
-
 [.topic]
 [[observability-dashboard,observability-dashboard.title]]
 = Monitor your cluster with the observability dashboard
@@ -36,26 +34,8 @@ The *Control plane monitoring* tab is divided into three sections, each of which
 
 [[observability-metrics,observability-metrics.title]]
 === Metrics
-The *Metrics* section shows graphs of several metrics gathered for various control plane components. This specific feature is only available for new clusters and previous clusters with a platform version that is the same or later compared to the following table.
 
-[cols="1,1", options="header"]
-|===
-|Kubernetes version
-|Platform version
-
-|`1.31`
-|`eks.12`
-
-|`1.30`
-|`eks.20`
-
-|`1.29`
-|`eks.23`
-
-|`1.28`
-|`eks.29`
-
-|===
+For clusters that are [.noloc]`Kubernetes` version `1.28` and above, the *Metrics* section shows graphs of several metrics gathered for various control plane components.
 
 You can set the time period used by the X-axis of every graph by making selections at the top of the section. You can refresh data with the refresh button ( ↻ ). For each separate graph, the vertical ellipses button ( ⋮ ) opens a menu with options from CloudWatch.
 

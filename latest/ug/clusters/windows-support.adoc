@@ -32,38 +32,7 @@ Before deploying [.noloc]`Windows` nodes, be aware of the following consideratio
 * If preserving your available IPv4 addresses is crucial for your subnet, refer to https://aws.github.io/aws-eks-best-practices/windows/docs/networking/#ip-address-management[EKS Best Practices Guide - Windows Networking IP Address Management] for guidance. 
 
 
-* An existing cluster. The cluster must be running one of the [.noloc]`Kubernetes` versions and platform versions listed in the following table. Any [.noloc]`Kubernetes` and platform versions later than those listed are also supported.
-+
-[[windows-support-platform-versions]]
-[cols="1,1", options="header"]
-|===
-|Kubernetes version
-|Platform version
-
-|1.31
-|eks.4
-
-|1.30
-|eks.2
-
-|1.29
-|eks.1
-
-|1.28
-|eks.1
-
-|1.27
-|eks.1
-
-|1.26
-|eks.1
-
-|1.25
-|eks.1
-
-|1.24
-|eks.2
-|===
+* An existing cluster. 
 * Your cluster must have at least one (we recommend at least two) [.noloc]`Linux` node or Fargate [.noloc]`Pod` to run [.noloc]`CoreDNS`. If you enable legacy [.noloc]`Windows` support, you must use a [.noloc]`Linux` node (you can't use a Fargate [.noloc]`Pod`) to run [.noloc]`CoreDNS`.
 * An existing <<cluster-iam-role,Amazon EKS cluster IAM role>>.
 

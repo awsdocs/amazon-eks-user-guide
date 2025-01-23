@@ -18,28 +18,7 @@ Amazon CloudWatch is a monitoring service that collects metrics and logs from yo
 [[cloudwatch-basic-metrics,cloudwatch-basic-metrics.title]]
 == Basic metrics in Amazon CloudWatch
 
-For new clusters that are [.noloc]`Kubernetes` version `1.28` and above, you get CloudWatch vended metrics for free in the `AWS/EKS` namespace. Basic metrics are also available for existing clusters that have a platform version that is the same or later compared to the following table.
-
-[cols="1,1", options="header"]
-|===
-|Kubernetes version
-|Platform version
-
-|`1.31`
-|`eks.12`
-
-|`1.30`
-|`eks.20`
-
-|`1.29`
-|`eks.23`
-
-|`1.28`
-|`eks.29`
-
-|===
-
-The following table gives a list of the basic metrics that are available for the supported versions. Every metric listed has a frequency of one minute.
+For clusters that are [.noloc]`Kubernetes` version `1.28` and above, you get CloudWatch vended metrics for free in the `AWS/EKS` namespace. The following table gives a list of the basic metrics that are available for the supported versions. Every metric listed has a frequency of one minute.
 
 [cols="1,1,1,1,1,1", options="header"]
 |===
