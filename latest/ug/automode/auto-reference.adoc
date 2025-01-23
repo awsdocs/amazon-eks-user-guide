@@ -1,15 +1,13 @@
-//!!NODE_ROOT <chapter>
+
 [.topic]
 include::../attributes.txt[]
 [[auto-reference,auto-reference.title]]
 = Learn how EKS Auto Mode works
-:info_doctype: section
 :icons: font
 :experimental:
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_title: Learn how EKS Auto Mode works
 :info_titleabbrev: How it works
 
 [abstract]

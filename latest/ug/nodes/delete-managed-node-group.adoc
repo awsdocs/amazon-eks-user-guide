@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 [.topic]
 [[delete-managed-node-group,delete-managed-node-group.title]]

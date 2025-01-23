@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[security-k8s,security-k8s.title]]
 = Security considerations for [.noloc]`Kubernetes`

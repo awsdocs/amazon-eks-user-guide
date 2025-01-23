@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[integration-securitylake,integration-securitylake.title]]
 = Centralize and analyze EKS security data with Security Lake
-:info_doctype: section
-:info_title: Centralize and analyze EKS security data with Security Lake
 :keywords: Amazon EKS, Amazon Security Lake, Kubernetes security, centralized security data, threat detection
 
 [abstract]

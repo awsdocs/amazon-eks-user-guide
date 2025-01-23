@@ -1,15 +1,13 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 include::../attributes.txt[]
 [[migrate-auto,migrate-auto.title]]
 = Enable EKS Auto Mode on existing EKS clusters
-:info_doctype: section
 :icons: font
 :experimental:
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_title: Enable EKS Auto Mode on existing EKS clusters
 :info_titleabbrev: Enable existing clusters
 
 [abstract]

@@ -1,9 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[creating-a-vpc,creating-a-vpc.title]]
 = Create an Amazon VPC for your Amazon EKS cluster
-:info_doctype: section
-:info_title: Create an Amazon VPC for your Amazon EKS cluster
 :info_titleabbrev: Create a VPC
 
 include::../attributes.txt[]

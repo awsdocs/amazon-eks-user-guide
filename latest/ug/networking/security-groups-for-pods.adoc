@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[security-groups-for-pods,security-groups-for-pods.title]]
 = Assign security groups to individual [.noloc]`Pods`

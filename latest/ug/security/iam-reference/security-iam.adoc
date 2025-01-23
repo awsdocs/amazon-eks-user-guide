@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[security-iam,security-iam.title]]
 = Identity and access management for Amazon EKS

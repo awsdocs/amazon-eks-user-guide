@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[coredns-metrics,coredns-metrics.title]]
 = Monitor [.noloc]`Kubernetes` DNS resolution with [.noloc]`CoreDNS` metrics

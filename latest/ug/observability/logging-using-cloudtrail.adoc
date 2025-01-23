@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[logging-using-cloudtrail,logging-using-cloudtrail.title]]
 = Log API calls as {aws} CloudTrail events
-:info_doctype: section
-:info_title: Log API calls as {aws} CloudTrail events
 :info_titleabbrev: {aws} CloudTrail
 :keywords: logging, API calls, {aws} CloudTrail
 

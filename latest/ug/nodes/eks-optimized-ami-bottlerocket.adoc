@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 [.topic]
 [[eks-optimized-ami-bottlerocket,eks-optimized-ami-bottlerocket.title]]

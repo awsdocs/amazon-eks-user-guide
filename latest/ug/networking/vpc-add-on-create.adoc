@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[vpc-add-on-create,vpc-add-on-create.title]]
 = Create the Amazon VPC CNI (Amazon EKS add-on)

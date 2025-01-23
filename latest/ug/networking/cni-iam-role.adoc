@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[cni-iam-role,cni-iam-role.title]]
 = Configure Amazon VPC CNI plugin to use IRSA

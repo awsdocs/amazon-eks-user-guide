@@ -1,9 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[auto-glossary,auto-glossary.title]]
 = Glossary
-:info_doctype: section
-:info_title: Glossary of terms for EKS Auto Mode
 :info_titleabbrev: Glossary
 
 

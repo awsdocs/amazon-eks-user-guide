@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[ebs-csi,ebs-csi.title]]
 = Store [.noloc]`Kubernetes` volumes with Amazon EBS
-:info_doctype: section
-:info_title: Store Kubernetes volumes with Amazon EBS
 :info_titleabbrev: Amazon EBS
 :keywords: Amazon EBS CSI driver, storage
 

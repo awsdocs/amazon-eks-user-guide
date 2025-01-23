@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[community-addons,community-addons.title]]
 = Community add-ons 
-:info_doctype: section
 
 include::../attributes.txt[]
 

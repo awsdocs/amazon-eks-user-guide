@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 [.topic]
 [[enable-asg-metrics,enable-asg-metrics.title]]

@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[retrieve-ami-id,retrieve-ami-id.title]]
 = Retrieve recommended Amazon Linux AMI IDs

@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[cni-custom-network,cni-custom-network.title]]
 = Deploy [.noloc]`Pods` in alternate subnets with custom networking

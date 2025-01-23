@@ -1,9 +1,8 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[automode-learn-instances,automode-learn-instances.title]]
 = Learn about Amazon EKS Auto Mode Managed instances
-:info_doctype: section
 :am: EKS Auto Mode
 :aam: Amazon {am}
 :ec2i: EC2 Instance
@@ -11,7 +10,6 @@
 :emi: EC2 managed instance
 :emi: EC2 {mi}
 :emng: EKS Managed Node Group
-:info_title: Learn about Amazon EKS Auto Mode managed instances 
 :info_titleabbrev: Managed instances
 
 include::../attributes.txt[]

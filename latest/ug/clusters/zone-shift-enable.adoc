@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[zone-shift-enable,zone-shift-enable.title]]
 = Enable EKS Zonal Shift to avoid impaired Availability Zones
-:info_doctype: section
 :info_titleabbrev: Enable Zonal Shift
 :aws: pass:q[[.shared]``AWS``]
 

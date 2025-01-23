@@ -1,4 +1,4 @@
-//!!NODE_ROOT <chapter>
+
 [[eks-networking,eks-networking.title]]
 = Configure networking for Amazon EKS clusters
 :doctype: book
@@ -9,7 +9,6 @@
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_doctype: chapter
 :info_titleabbrev: Configure networking
 
 include::../attributes.txt[]

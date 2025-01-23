@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[fsx-ontap,fsx-ontap.title]]
 = Store high-performance apps with FSx for NetApp ONTAP
-:info_doctype: section
-:info_title: Store high-performance apps with FSx for NetApp ONTAP
 :info_titleabbrev: Amazon FSx for NetApp ONTAP
 :keywords: Amazon FSx for NetApp ONTAP CSI driver, storage
 

@@ -1,9 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[cluster-endpoint,cluster-endpoint.title]]
 = Control network access to cluster API server endpoint
-:info_doctype: section
-:info_title: Control network access to cluster API server endpoint
 :info_titleabbrev: Configure endpoint access
 
 include::../attributes.txt[]

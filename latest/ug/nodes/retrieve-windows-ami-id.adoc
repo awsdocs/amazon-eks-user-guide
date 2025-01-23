@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[retrieve-windows-ami-id,retrieve-windows-ami-id.title]]
 = Retrieve recommended [.noloc]`Microsoft Windows` AMI IDs

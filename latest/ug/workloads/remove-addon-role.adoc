@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[remove-addon-role,remove-addon-role.title]]
 =  Remove Pod Identity associations from an Amazon EKS add-on

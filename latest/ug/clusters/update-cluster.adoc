@@ -1,10 +1,8 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[update-cluster,update-cluster.title]]
 = Update existing cluster to new Kubernetes version
-:info_doctype: section
-:info_title: Update existing cluster to new Kubernetes version
 :info_titleabbrev: Update Kubernetes version
 
 include::../attributes.txt[]

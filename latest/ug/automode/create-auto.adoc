@@ -1,15 +1,13 @@
-//!!NODE_ROOT <chapter>
+
 [.topic]
 include::../attributes.txt[]
 [[create-auto,create-auto.title]]
 = Create a cluster with Amazon EKS Auto Mode
-:info_doctype: section
 :icons: font
 :experimental:
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_title: Create cluster with EKS Auto Mode
 :info_titleabbrev: Create cluster
 :keywords: getting, started, tutorials, quick, start
 

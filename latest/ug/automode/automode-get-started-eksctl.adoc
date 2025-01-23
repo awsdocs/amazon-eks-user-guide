@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[automode-get-started-eksctl,automode-get-started-eksctl.title]]
 = Create an EKS Auto Mode Cluster with the eksctl CLI
-:info_doctype: section
 :config: configuration
-:info_title: Create an EKS Auto Mode Cluster with the eksctl CLI
 :info_titleabbrev: eksctl CLI
 
 

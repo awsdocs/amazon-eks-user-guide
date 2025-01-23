@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[kubernetes-concepts,kubernetes-concepts.title]]
 = [.noloc]`Kubernetes` concepts
-:info_doctype: section
-:info_title: Kubernetes concepts
 :info_titleabbrev: Kubernetes concepts
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, architecture, control plane, nodes, data plane
 

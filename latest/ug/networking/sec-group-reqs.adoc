@@ -1,9 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[sec-group-reqs,sec-group-reqs.title]]
 = View Amazon EKS security group requirements for clusters
-:info_doctype: section
-:info_title: View Amazon EKS security group requirements for clusters
 :info_titleabbrev: Security group requirements
 
 include::../attributes.txt[]

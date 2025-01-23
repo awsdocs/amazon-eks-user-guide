@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[eks-architecture,eks-architecture.title]]
 = Amazon EKS architecture
-:info_doctype: section
-:info_title: Amazon EKS architecture
 :info_titleabbrev: Architecture
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, architecture, control plane, nodes, data plane
 

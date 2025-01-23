@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[ml-eks-windows-optimized-ami,ml-eks-windows-optimized-ami.title]]
 = Run GPU-accelerated containers (Windows on EC2 G-Series)

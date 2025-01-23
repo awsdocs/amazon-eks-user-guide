@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[pod-security-policy,pod-security-policy.title]]
 = Understand Amazon EKS created [.noloc]`Pod` security policies [.noloc]`(PSP)`

@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[disable-windows-support,disable-windows-support.title]]
 = Disable [.noloc]`Windows` support
-:info_doctype: section
-:info_title: Disable Windows support
 
 . If your cluster contains Amazon Linux nodes and you use xref:security-groups-for-pods[security groups for Pods,linkend=security-groups-for-pods] with them, then skip this step.
 +

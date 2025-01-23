@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 [.topic]
 [[eks-partner-amis,eks-partner-amis.title]]

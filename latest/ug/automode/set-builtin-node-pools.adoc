@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[set-builtin-node-pools,set-builtin-node-pools.title]]
 = Enable or Disable Built-in NodePools
-:info_doctype: section
 :info_titleabbrev: Review built-in node pools
 
 include::../attributes.txt[]

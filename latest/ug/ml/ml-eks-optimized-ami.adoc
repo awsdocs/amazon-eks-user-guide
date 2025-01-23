@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[ml-eks-optimized-ami,ml-eks-optimized-ami.title]]
 = Run GPU-accelerated containers (Linux on EC2)

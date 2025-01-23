@@ -1,10 +1,8 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[automode-workload,automode-workload.title]]
 = Deploy a sample inflate workload to an Amazon EKS Auto Mode cluster
-:info_doctype: section
-:info_title: Deploy a sample inflate workload to an Amazon EKS Auto Mode cluster
 :info_titleabbrev: Deploy inflate workload
 
 include::../attributes.txt[]

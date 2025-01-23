@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[security-iam-id-based-policy-examples,security-iam-id-based-policy-examples.title]]
 = Amazon EKS identity-based policy examples

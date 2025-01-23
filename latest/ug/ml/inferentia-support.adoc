@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[inferentia-support,inferentia-support.title]]
 = Use {aws} [.noloc]`Inferentia` instances with Amazon EKS for Machine Learning
-:info_doctype: section
-:info_title: Use {aws} Inferentia instances with your EKS cluster for Machine Learning 
 :info_titleabbrev: Prepare Inferentia clusters
 
 [abstract]

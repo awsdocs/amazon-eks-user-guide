@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[hybrid-nodes-cluster-prep,hybrid-nodes-cluster-prep.title]]
 = Prepare cluster access for hybrid nodes
-:info_title: Prepare cluster access for hybrid nodes
 :info_titleabbrev: Prepare cluster access
 
 [abstract]

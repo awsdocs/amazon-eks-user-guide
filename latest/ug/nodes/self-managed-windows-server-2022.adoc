@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 [.topic]
 [[self-managed-windows-server-2022,self-managed-windows-server-2022.title]]

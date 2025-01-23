@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 [.topic]
 [[managed-node-update-behavior,managed-node-update-behavior.title]]

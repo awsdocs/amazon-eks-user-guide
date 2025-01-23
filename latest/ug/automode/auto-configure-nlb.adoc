@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[auto-configure-nlb,auto-configure-nlb.title]]
 = Use Service Annotations to configure Network Load Balancers
-:info_doctype: section
 :info_titleabbrev: Create service
 
 include::../attributes.txt[]

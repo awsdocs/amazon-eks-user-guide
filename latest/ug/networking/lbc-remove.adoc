@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[lbc-remove,lbc-remove.title]]
 = Migrate apps from deprecated ALB [.noloc]`Ingress Controller`

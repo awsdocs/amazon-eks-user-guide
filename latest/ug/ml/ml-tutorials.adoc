@@ -1,10 +1,8 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[ml-tutorials,ml-tutorials.title]]
 = Try tutorials for deploying Machine Learning workloads on EKS
-:info_doctype: section
-:info_title: Try tutorials for deploying Machine Learning workloads and platforms on EKS
 :info_titleabbrev: Try tutorials for ML on EKS
 
 include::../attributes.txt[]

@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[default-roles-users,default-roles-users.title]]
 = Understand Amazon EKS created RBAC roles and users

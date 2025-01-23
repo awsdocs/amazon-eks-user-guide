@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[creating-an-add-on,creating-an-add-on.title]]

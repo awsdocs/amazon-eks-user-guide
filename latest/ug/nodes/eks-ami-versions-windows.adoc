@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 [.topic]
 [[eks-ami-versions-windows,eks-ami-versions-windows.title]]

@@ -1,10 +1,9 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[auto-learn-iam,auto-learn-iam.title]]
 = Learn about identity and access in EKS Auto Mode
 :info_titleabbrev: Identity & access
-:info_doctype: section
 
 include::../attributes.txt[]
 

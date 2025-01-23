@@ -1,9 +1,8 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[access-policies,access-policies.title]]
 = Associate access policies with access entries
-:info_doctype: section
 
 include::../../attributes.txt[]
 

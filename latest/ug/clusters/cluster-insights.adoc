@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[cluster-insights,cluster-insights.title]]
 = Prepare for [.noloc]`Kubernetes` version upgrades with cluster insights

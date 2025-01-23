@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[prometheus,prometheus.title]]
 = Monitor your cluster metrics with [.noloc]`Prometheus`
-:info_doctype: section
-:info_title: Monitor your cluster metrics with Prometheus
 :info_titleabbrev: Prometheus metrics
 :keywords: Prometheus, metrics, control plane
 

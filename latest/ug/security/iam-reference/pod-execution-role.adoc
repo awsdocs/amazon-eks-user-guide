@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[pod-execution-role,pod-execution-role.title]]
 = Amazon EKS [.noloc]`Pod` execution IAM role

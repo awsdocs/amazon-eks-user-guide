@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[eks-outposts-self-managed-nodes,eks-outposts-self-managed-nodes.title]]
 = Create Amazon Linux nodes on {aws} Outposts
-:info_doctype: section
-:info_title: Create Amazon Linux nodes on {aws} Outposts
 :info_titleabbrev: Nodes
 :keywords: launch, start, self-managed, Linux, node
 

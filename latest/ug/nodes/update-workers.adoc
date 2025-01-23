@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[update-workers,update-workers.title]]
 = Update self-managed nodes for your cluster

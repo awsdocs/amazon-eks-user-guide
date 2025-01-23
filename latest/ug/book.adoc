@@ -1,4 +1,4 @@
-//!!NODE_ROOT <book>
+
 include::attributes.txt[]
 [[top]]
 = Amazon EKS
@@ -8,8 +8,6 @@ include::attributes.txt[]
 :experimental:
 :idprefix:
 :idseparator: -
-:info_doctype: book
-:info_title: Amazon EKS
 :info_subtitle: User Guide
 :info_corpauthor: Amazon Web Services
 :info_publisher: Amazon Web Services

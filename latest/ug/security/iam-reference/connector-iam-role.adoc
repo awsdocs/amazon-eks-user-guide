@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[connector-iam-role,connector-iam-role.title]]
 = Amazon EKS connector IAM role

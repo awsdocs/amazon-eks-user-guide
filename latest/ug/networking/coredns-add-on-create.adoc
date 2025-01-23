@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[coredns-add-on-create,coredns-add-on-create.title]]
 = Create the [.noloc]`CoreDNS` Amazon EKS add-on

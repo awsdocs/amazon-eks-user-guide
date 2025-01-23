@@ -1,9 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[network-load-balancing,network-load-balancing.title]]
 = Route [.noloc]`TCP` and [.noloc]`UDP` traffic with [.noloc]`Network Load Balancers`
-:info_doctype: section
-:info_title: Route TCP and UDP traffic with Network Load Balancers
 :info_titleabbrev: Network load balancing
 
 include::../attributes.txt[]

@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[alternate-cni-plugins,alternate-cni-plugins.title]]
 = Alternate CNI plugins for Amazon EKS clusters

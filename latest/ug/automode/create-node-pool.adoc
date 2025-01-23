@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[create-node-pool,create-node-pool.title]]
 = Create a Node Pool for EKS Auto Mode
-:info_doctype: section
 :info_titleabbrev: Create node pool
 
 include::../attributes.txt[]

@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[updating-an-add-on,updating-an-add-on.title]]

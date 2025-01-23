@@ -1,4 +1,4 @@
-//!!NODE_ROOT <chapter>
+
 
 [.topic]
 [[doc-history,doc-history.title]]
@@ -12,8 +12,6 @@
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_doctype: chapter
-:info_title: Document history
 :keywords: document, publish, release, history, log
 
 

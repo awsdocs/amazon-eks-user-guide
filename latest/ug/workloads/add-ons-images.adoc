@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[add-ons-images,add-ons-images.title]]
 = View Amazon container image registries for Amazon EKS add-ons

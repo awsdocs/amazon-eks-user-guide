@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 [.topic]
 [[launch-node-ubuntu,launch-node-ubuntu.title]]

@@ -1,4 +1,4 @@
-//!!NODE_ROOT <chapter>
+
 include::../attributes.txt[]
 [[setting-up,setting-up.title]]
 = Set up to use Amazon EKS
@@ -10,8 +10,6 @@ include::../attributes.txt[]
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_doctype: chapter
-:info_title: Set up to use Amazon EKS
 :info_titleabbrev: Set up
 :keywords: setting up, setup
 

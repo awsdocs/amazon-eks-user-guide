@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[create-storage-class,create-storage-class.title]]
 = Create a Storage Class
-:info_doctype: section
 :info_titleabbrev: Create storage class
 
 

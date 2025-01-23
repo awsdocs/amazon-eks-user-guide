@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[using-service-linked-roles,using-service-linked-roles.title]]
 = Using service-linked roles for Amazon EKS

@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[coredns-add-on-self-managed-update,coredns-add-on-self-managed-update.title]]
 = Update the [.noloc]`CoreDNS` Amazon EKS self-managed add-on

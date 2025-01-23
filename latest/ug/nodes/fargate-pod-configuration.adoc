@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[fargate-pod-configuration,fargate-pod-configuration.title]]

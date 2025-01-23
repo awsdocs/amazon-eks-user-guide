@@ -1,9 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[hybrid-nodes-cluster-create,hybrid-nodes-cluster-create.title]]
 = Create an Amazon EKS cluster with hybrid nodes
-:info_doctype: section
-:info_title: Create an Amazon EKS cluster with hybrid nodes
 :info_titleabbrev: Create cluster
 :keywords: on-premises, hybrid
 

@@ -1,4 +1,4 @@
-//!!NODE_ROOT <chapter>
+
 include::attributes.txt[]
 [[related-projects,related-projects.title]]
 = Extend Amazon EKS capabilities with open source projects
@@ -10,8 +10,6 @@ include::attributes.txt[]
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_doctype: chapter
-:info_title: Extend Amazon EKS capabilities with open source projects
 :info_titleabbrev: Projects related to Amazon EKS
 
 [abstract]

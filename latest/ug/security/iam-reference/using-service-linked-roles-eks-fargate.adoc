@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[using-service-linked-roles-eks-fargate,using-service-linked-roles-eks-fargate.title]]
 = Using roles for Amazon EKS Fargate profiles

@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[tag-subnets,tag-subnets.title]]
 = Tag VPC Subnets for Load Balancer Deployment
-:info_doctype: section
 
 include::../../attributes.txt[]
 

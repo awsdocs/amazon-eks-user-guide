@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[tsc-faq,tsc-faq.title]]
 = {aws} Connector frequently asked questions
-:info_doctype: section
-:info_title: {aws} Connector frequently asked questions
 :info_titleabbrev: Frequently asked questions
 
 [abstract]

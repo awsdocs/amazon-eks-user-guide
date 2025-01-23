@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[security-eks,security-eks.title]]
 = Security considerations for Amazon Elastic Kubernetes Service

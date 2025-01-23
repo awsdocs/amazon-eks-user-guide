@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[auto-cluster-iam-role,auto-cluster-iam-role.title]]
 = Amazon EKS Auto Mode cluster IAM role

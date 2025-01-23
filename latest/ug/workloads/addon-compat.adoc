@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[addon-compat,addon-compat.title]]

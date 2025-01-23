@@ -1,12 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[ebs-csi-migration-faq,ebs-csi-migration-faq.title]]
 = Amazon EBS CSI migration frequently asked questions
-:info_doctype: section
-:info_title: Amazon EBS CSI migration frequently asked \
-            questions
 :info_titleabbrev: EBS CSI migration FAQ
 :keywords: Amazon EBS CSI driver, storage, CSI migration
 

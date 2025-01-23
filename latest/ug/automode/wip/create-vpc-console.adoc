@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[create-vpc-console,create-vpc-console.title]]
 = Create a VPC for Amazon EKS with the web console
-:info_doctype: section
 
 include::../../attributes.txt[]
 

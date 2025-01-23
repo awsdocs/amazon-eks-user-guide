@@ -1,10 +1,8 @@
 
-//!!NODE_ROOT <section>
+
 [.topic]
 [[auto-mng,auto-mng.title]]
 = Compare EKS Auto Mode with EKS managed node groups
-:info_doctype: section
-:info_title: Compare EKS Auto Mode with EKS managed node groups
 :info_titleabbrev: Compare with Managed Node Groups
 
 

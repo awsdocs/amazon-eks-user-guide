@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[security-best-practices,security-best-practices.title]]
 = Secure Amazon EKS clusters with best practices

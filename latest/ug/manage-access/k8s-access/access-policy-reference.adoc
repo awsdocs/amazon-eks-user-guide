@@ -1,9 +1,8 @@
 
-//!!NODE_ROOT <section>
+
 [.topic]
 [[access-policy-permissions,access-policy-permissions.title]]
 = Review access policy permissions
-:info_doctype: section
 
 include::../../attributes.txt[]
 

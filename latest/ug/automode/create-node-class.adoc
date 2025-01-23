@@ -1,9 +1,8 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[create-node-class,create-node-class.title]]
 = Create a Node Class for Amazon EKS
-:info_doctype: section
 :info_titleabbrev: Create node class
 
 include::../attributes.txt[]

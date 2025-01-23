@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[removing-an-add-on,removing-an-add-on.title]]

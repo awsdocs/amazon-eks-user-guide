@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[s3-csi,s3-csi.title]]
 = Access Amazon S3 objects with Mountpoint for Amazon S3 CSI driver
-:info_doctype: section
-:info_title: Access Amazon S3 objects with Mountpoint for Amazon S3 CSI driver
 :info_titleabbrev: Mountpoint for Amazon S3
 :keywords: Mountpoint for Amazon S3 CSI driver, storage
 

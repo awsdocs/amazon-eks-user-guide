@@ -1,9 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[hybrid-nodes-remove,hybrid-nodes-remove.title]]
 = Remove hybrid nodes
-:info_doctype: section
-:info_title: Delete hybrid nodes from your EKS cluster
 :info_titleabbrev: Delete hybrid nodes
 :keywords: Delete hybrid nodes from your EKS cluster
 

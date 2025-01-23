@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[auto-security,auto-security.title]]
 = Security considerations for Amazon EKS Auto Mode
-:info_doctype: section
 :info_titleabbrev: Considerations for EKS Auto
 
 include::../attributes.txt[]

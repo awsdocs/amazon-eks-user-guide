@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[network-policy-disable,network-policy-disable.title]]
 = Disable [.noloc]`Kubernetes` network policies for Amazon EKS Pod network traffic

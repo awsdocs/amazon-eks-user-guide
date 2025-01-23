@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[auto-upgrade,auto-upgrade.title]]
 = Update the Kubernetes Version of an EKS Auto Mode cluster
-:info_doctype: section
 :info_titleabbrev: Update Kubernetes Version
 
 include::../attributes.txt[]

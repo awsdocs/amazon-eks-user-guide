@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[security-connector,security-connector.title]]
 = Understand security in Amazon EKS Connector
-:info_doctype: section
-:info_title: Understand security in Amazon EKS Connector
 :info_titleabbrev: Security considerations
 
 [abstract]

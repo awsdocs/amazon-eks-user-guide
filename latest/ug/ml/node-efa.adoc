@@ -1,12 +1,9 @@
-//!!NODE_ROOT <section>
+
 :AWSEC2-latest-UserGuide-using-eni-html-network-cards: AWSEC2/latest/UserGuide/using-eni.html#network-cards
 
 [.topic]
 [[node-efa,node-efa.title]]
 = Run machine learning training on Amazon EKS with [.noloc]`Elastic Fabric Adapter`
-:info_doctype: section
-:info_title: Add Elastic Fabric \
-                Adapter to EKS clusters for ML training
 :info_titleabbrev: Prepare training clusters with EFA
 
 include::../attributes.txt[]

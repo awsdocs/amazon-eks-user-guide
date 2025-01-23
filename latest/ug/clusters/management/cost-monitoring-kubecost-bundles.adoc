@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[cost-monitoring-kubecost-bundles,cost-monitoring-kubecost-bundles.title]]
 = Learn more about Kubecost
-:info_doctype: section
 
 include::../../attributes.txt[]
 

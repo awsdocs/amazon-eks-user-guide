@@ -1,4 +1,4 @@
-//!!NODE_ROOT <chapter>
+
 include::../attributes.txt[]
 [.topic]
 [[cluster-auth,cluster-auth.title]]
@@ -11,8 +11,6 @@ include::../attributes.txt[]
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_doctype: chapter
-:info_title: Learn how access control works in Amazon EKS
 :info_titleabbrev: Manage access
 
 [abstract]

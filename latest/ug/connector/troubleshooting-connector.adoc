@@ -1,9 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[troubleshooting-connector,troubleshooting-connector.title]]
 = Troubleshoot Amazon EKS Connector issues
-:info_doctype: section
-:info_title: Troubleshoot Amazon EKS Connector issues
 :info_titleabbrev: Troubleshoot Amazon EKS Connector
 
 include::../attributes.txt[]

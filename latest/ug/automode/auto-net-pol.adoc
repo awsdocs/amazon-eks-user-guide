@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[auto-net-pol,auto-net-pol.title]]
 = Use Network Policies with EKS Auto Mode
-:info_doctype: section
 :info_titleabbrev: Use network policies
 
 include::../attributes.txt[] 

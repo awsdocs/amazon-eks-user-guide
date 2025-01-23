@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[vpc-add-on-self-managed-update,vpc-add-on-self-managed-update.title]]
 = Update the Amazon VPC CNI (self-managed add-on)

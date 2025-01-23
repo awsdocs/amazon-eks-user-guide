@@ -1,12 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[windows-support,windows-support.title]]
 = Deploy [.noloc]`Windows` nodes on EKS clusters
-:info_doctype: section
-:info_title: Deploy Windows nodes on EKS \
-            clusters
 :info_titleabbrev: Enable Windows support
 
 [abstract]

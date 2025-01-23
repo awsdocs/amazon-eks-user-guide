@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[infrastructure-security,infrastructure-security.title]]
 = Infrastructure security in Amazon EKS

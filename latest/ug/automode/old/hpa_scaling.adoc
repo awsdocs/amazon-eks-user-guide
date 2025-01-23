@@ -1,9 +1,8 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[auto-hpa-scaling,auto-hpa-scaling.title]]
 = End-to-end Compute Autoscaling with HPA
-:info_doctype: section
 
 include::../attributes.txt[]
 

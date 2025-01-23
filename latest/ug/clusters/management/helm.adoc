@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../../attributes.txt[]
 
 [.topic]
 [[helm,helm.title]]
 = Deploy applications with [.noloc]`Helm` on Amazon EKS
-:info_doctype: section
-:info_title: Deploy applications with Helm on Amazon EKS
 :info_titleabbrev: Deploy apps with Helm
 
 [abstract]

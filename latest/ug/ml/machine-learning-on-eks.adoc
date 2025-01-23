@@ -1,4 +1,4 @@
-//!!NODE_ROOT <chapter>
+
 include::../attributes.txt[]
 [.topic]
 [[machine-learning-on-eks,machine-learning-on-eks.title]]
@@ -11,8 +11,6 @@ include::../attributes.txt[]
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_doctype: chapter
-:info_title: Machine Learning on Amazon EKS Overview
 :info_titleabbrev: Machine Learning on EKS
 :keywords: Machine Learning, Amazon EKS, Artificial Intelligence
 

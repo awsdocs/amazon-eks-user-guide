@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[cni-increase-ip-addresses-procedure,cni-increase-ip-addresses-procedure.title]]
 = Increase the available IP addresses for your Amazon EKS node

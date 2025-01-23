@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[pod-multiple-network-interfaces,pod-multiple-network-interfaces.title]]
 = Attach multiple network interfaces to [.noloc]`Pods` with [.noloc]`Multus`

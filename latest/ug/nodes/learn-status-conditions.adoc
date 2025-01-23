@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[learn-status-conditions,learn-status-conditions.title]]
 = View the health status of your nodes

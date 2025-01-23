@@ -1,11 +1,9 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[install-awscli,install-awscli.title]]
 = Set up {aws} CLI
-:info_doctype: section
-:info_title: Set up {aws} CLI
 :info_titleabbrev: Set up {aws} CLI
 :keywords: setting up, setup
 

@@ -1,10 +1,8 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[ml-prepare-for-cluster,ml-prepare-for-cluster.title]]
 = Prepare for ML clusters
-:info_doctype: section
-:info_title: Prepare to create an EKS cluster for Machine Learning
 :info_titleabbrev: Prepare for ML
 
 include::../attributes.txt[]

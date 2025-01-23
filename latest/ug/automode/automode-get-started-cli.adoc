@@ -1,13 +1,11 @@
-//!!NODE_ROOT <section>
+
 
 include::../attributes.txt[]
 
 [.topic]
 [[automode-get-started-cli,automode-get-started-cli.title]]
 = Create an EKS Auto Mode Cluster with the {aws} CLI
-:info_doctype: section
 :config: configuration
-:info_title: Create an EKS Auto Mode Cluster with the {aws} CLI
 :info_titleabbrev: {aws} CLI
 
 EKS Auto Mode Clusters automate routine cluster management tasks for compute, storage, and networking. For example, EKS Auto Mode Clusters automatically detect when additional nodes are required and provision new EC2 instances to meet workload demands.

@@ -1,10 +1,8 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[auto-troubleshoot,auto-troubleshoot.title]]
 = Troubleshoot EKS Auto Mode
-:info_doctype: section
-:info_title: Troubleshoot EKS Auto Mode
 :info_titleabbrev: Troubleshoot
 
 include::../attributes.txt[]

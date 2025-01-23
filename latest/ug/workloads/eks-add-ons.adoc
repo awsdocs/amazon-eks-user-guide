@@ -1,10 +1,8 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[eks-add-ons,eks-add-ons.title]]
 = Amazon EKS add-ons
-:info_doctype: section
-:info_title: Amazon EKS add-ons
 :info_titleabbrev: Amazon EKS add-ons
 :keywords: managed, add-ons, plugins
 

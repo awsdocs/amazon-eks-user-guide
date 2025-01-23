@@ -1,15 +1,13 @@
-//!!NODE_ROOT <chapter>
+
 [.topic]
 include::../attributes.txt[]
 [[settings-auto,settings-auto.title]]
 = Configure EKS Auto Mode settings
-:info_doctype: section
 :icons: font
 :experimental:
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_title: Change EKS Auto cluster settings
 :info_titleabbrev: Configure
 
 [abstract]

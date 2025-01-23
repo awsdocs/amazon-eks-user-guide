@@ -1,8 +1,7 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[critical-workload,critical-workload.title]]
 = Run critical add-ons on dedicated instances
-:info_doctype: section
 :info_titleabbrev: Run critical add-ons
 
 include::../attributes.txt[]

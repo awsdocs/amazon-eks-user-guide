@@ -1,9 +1,8 @@
-//!!NODE_ROOT <section>
+
 
 [.topic]
 [[observability-dashboard,observability-dashboard.title]]
 = Monitor your cluster with the observability dashboard
-:info_doctype: section
 :info_titleabbrev: Observability dashboard
 :keywords: observability, dashboard
 

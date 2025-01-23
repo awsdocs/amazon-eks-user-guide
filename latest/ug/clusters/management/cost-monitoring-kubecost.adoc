@@ -2,7 +2,6 @@
 [.topic]
 [[cost-monitoring-kubecost,cost-monitoring-kubecost.title]]
 = Install Kubecost and access dashboard
-:info_doctype: section
 
 include::../../attributes.txt[]
 

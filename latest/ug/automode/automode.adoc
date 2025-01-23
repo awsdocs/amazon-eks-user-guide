@@ -1,11 +1,9 @@
-//!!NODE_ROOT <chapter>
+
 
 [[automode,automode.title]]
 = Automate cluster infrastructure with EKS Auto Mode
-:info_doctype: chapter
 :toclevels: 2
 :toc:
-:info_title: Automate cluster infrastructure with EKS Auto Mode
 :info_titleabbrev: EKS Auto Mode 
 
 [abstract]

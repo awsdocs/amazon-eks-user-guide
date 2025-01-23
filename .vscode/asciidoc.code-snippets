@@ -152,16 +152,14 @@
     "NODE_ROOT Section": {
         "prefix": "adoc-topic",
         "body": [
-            "//!!NODE_ROOT <section>",
             "[.topic]",
             "[[${1:page-id},${1:page-id}.title]]",
             "= ${2:page title goes here}",
-            ":info_doctype: section",
             "",
             "include::../attributes.txt[]",
             "",
         ],
-        "description": "Creates a NODE_ROOT section template with topic class and ID"
+        "description": "Creates a section template with topic class and ID"
     },
     "Include with Leveloffset": {
         "prefix": "adoc-inc",

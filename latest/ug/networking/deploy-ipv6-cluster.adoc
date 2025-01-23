@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[deploy-ipv6-cluster,deploy-ipv6-cluster.title]]
 = Deploying an Amazon EKS `IPv6` cluster and managed Amazon Linux nodes

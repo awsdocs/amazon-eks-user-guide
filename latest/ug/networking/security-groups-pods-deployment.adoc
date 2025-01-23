@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[security-groups-pods-deployment,security-groups-pods-deployment.title]]
 = Configure the [.noloc]`Amazon VPC CNI plugin for Kubernetes` for security groups for Amazon EKS [.noloc]`Pods`

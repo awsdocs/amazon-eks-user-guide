@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[using-service-linked-roles-eks-nodegroups,using-service-linked-roles-eks-nodegroups.title]]
 = Using roles for Amazon EKS node groups

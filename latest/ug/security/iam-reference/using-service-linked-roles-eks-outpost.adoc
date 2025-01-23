@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[using-service-linked-roles-eks-outpost,using-service-linked-roles-eks-outpost.title]]
 = Using roles for Amazon EKS local clusters on Outpost

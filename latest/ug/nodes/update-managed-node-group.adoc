@@ -1,4 +1,4 @@
-//!!NODE_ROOT <section>
+
 [.topic]
 [[update-managed-node-group,update-managed-node-group.title]]
 = Update a managed node group for your cluster

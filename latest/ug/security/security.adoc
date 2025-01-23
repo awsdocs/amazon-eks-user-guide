@@ -1,4 +1,4 @@
-//!!NODE_ROOT <chapter>
+
 [.topic]
 [[security,security.title]]
 = Security in Amazon EKS
@@ -10,7 +10,6 @@
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_doctype: chapter
 :info_titleabbrev: Security
 
 include::../attributes.txt[]
