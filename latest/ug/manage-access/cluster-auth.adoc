@@ -14,9 +14,6 @@ include::../attributes.txt[]
 :info_doctype: chapter
 :info_title: Learn how access control works in Amazon EKS
 :info_titleabbrev: Manage access
-:info_abstract: Learn how to manage access to your EKS cluster. First, this includes granting \
-                developers or external services access to Kubernetes. Second, this includes granting \
-                Kubernetes workloads access to {aws} services.
 
 [abstract]
 --

@@ -9,10 +9,6 @@ include::../attributes.txt[]
             questions
 :info_titleabbrev: EBS CSI migration FAQ
 :keywords: Amazon EBS CSI driver, storage, CSI migration
-:info_abstract: The Amazon EBS container storage interface migration feature is enabled by default on \
-                Amazon EKS 1.23 and later clusters. Learn answers to frequently asked \
-                questions about the feature and how it works with 1.23 and later \
-                clusters.
 
 [abstract]
 --

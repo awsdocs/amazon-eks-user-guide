@@ -6,7 +6,6 @@
 :info_doctype: section
 :info_titleabbrev: Observability dashboard
 :keywords: observability, dashboard
-:info_abstract: Learn how to configure logging for your Amazon EKS cluster.
 
 include::../attributes.txt[]
 

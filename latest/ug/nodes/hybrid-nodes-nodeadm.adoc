@@ -6,7 +6,6 @@
 :info_title: Hybrid nodes nodeadm reference
 :info_titleabbrev: Hybrid nodes nodeadm reference
 :keywords: on-premises, hybrid
-:info_abstract: Hybrid nodes nodeadm reference
 
 include::../attributes.txt[]
 

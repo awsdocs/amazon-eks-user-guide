@@ -7,7 +7,6 @@ include::../attributes.txt[]
 :info_doctype: section
 :info_title: Connect an external Kubernetes cluster to the Amazon EKS Management Console
 :info_titleabbrev: Connect a cluster
-:info_abstract: Learn to connect an external Kubernetes cluster to an Amazon EKS Management Console and install the eks-connector agent via Helm or YAML manifests to enable visibility and management of the external cluster.
 
 [abstract]
 --

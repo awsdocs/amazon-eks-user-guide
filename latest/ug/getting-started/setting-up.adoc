@@ -14,7 +14,6 @@ include::../attributes.txt[]
 :info_title: Set up to use Amazon EKS
 :info_titleabbrev: Set up
 :keywords: setting up, setup
-:info_abstract: Set up the tools needed for creating and working with an Amazon EKS cluster.
 
 [abstract]
 --

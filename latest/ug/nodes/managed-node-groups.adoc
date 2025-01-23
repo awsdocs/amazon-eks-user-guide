@@ -6,8 +6,6 @@
 :info_title: Simplify node lifecycle with managed node groups
 :info_titleabbrev: Managed node groups
 :keywords: managed node group, MNG
-:info_abstract: Amazon EKS managed node groups automate the provisioning and lifecycle management of \
-                nodes (Amazon EC2 instances) for Amazon EKS Kubernetes clusters.
 
 include::../attributes.txt[]
 

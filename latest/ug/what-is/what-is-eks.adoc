@@ -15,7 +15,6 @@ include::../attributes.txt[]
 :info_title: What is Amazon EKS?
 :info_titleabbrev: What is Amazon EKS?
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, about, summary, description
-:info_abstract: Learn to manage containerized applications with Amazon EKS
 
 [abstract]
 --

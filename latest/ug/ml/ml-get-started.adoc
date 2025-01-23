@@ -6,7 +6,6 @@
 :info_doctype: section
 :info_title: Get started deploying Machine Learning tools on EKS
 :info_titleabbrev: Get started with ML
-:info_abstract: Choose the Machine Learning on EKS tools and platforms that best suit your needs, then use quick start procedures to deploy them to the {aws} cloud.
 
 include::../attributes.txt[]
 

@@ -14,7 +14,6 @@ include::attributes.txt[]
 :info_doctype: chapter
 :info_title: Learn about Amazon EKS new features and roadmap
 :info_titleabbrev: New features and roadmap
-:info_abstract: Follow the What's New feed and public roadmap to help plan for new and future Amazon EKS developments.
 
 [abstract]
 --

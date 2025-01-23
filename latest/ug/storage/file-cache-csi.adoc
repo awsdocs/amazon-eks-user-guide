@@ -8,9 +8,6 @@ include::../attributes.txt[]
 :info_title: Minimize latency with Amazon File Cache
 :info_titleabbrev: Amazon File Cache
 :keywords: Amazon File Cache CSI driver, storage
-:info_abstract: The Amazon File Cache Container Storage Interface (CSI) driver provides a CSI \
-                interface that allows Amazon EKS clusters to manage the life cycle of Amazon file \
-                caches.
 
 [abstract]
 --

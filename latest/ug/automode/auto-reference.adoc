@@ -11,7 +11,6 @@ include::../attributes.txt[]
 :sourcedir: .
 :info_title: Learn how EKS Auto Mode works
 :info_titleabbrev: How it works
-:info_abstract: Learn how EKS Auto Mode works
 
 [abstract]
 --

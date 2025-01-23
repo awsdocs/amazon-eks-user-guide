@@ -7,7 +7,6 @@ include::../attributes.txt[]
 :info_doctype: section
 :info_title: Scale pod deployments with Horizontal Pod Autoscaler
 :info_titleabbrev: Horizontal Pod Autoscaler
-:info_abstract: Learn how to use the Kubernetes Horizontal Pod Autoscaler to automatically scale your Amazon EKS deployments based on CPU utilization for efficient resource management.
 
 [abstract]
 --

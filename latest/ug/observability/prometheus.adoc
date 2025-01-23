@@ -8,8 +8,6 @@ include::../attributes.txt[]
 :info_title: Monitor your cluster metrics with Prometheus
 :info_titleabbrev: Prometheus metrics
 :keywords: Prometheus, metrics, control plane
-:info_abstract: This topic explains how to deploy Prometheus and some of the ways \
-                that you can use it to view and analyze what your cluster is doing.
 
 [abstract]
 --

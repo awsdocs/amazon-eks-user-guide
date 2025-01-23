@@ -13,7 +13,6 @@ include::../attributes.txt[]
 :info_doctype: chapter
 :info_title: Connect a Kubernetes cluster to an Amazon EKS Management Console with Amazon EKS Connector
 :info_titleabbrev: Amazon EKS Connector
-:info_abstract: Discover how to connect conformant Kubernetes clusters to {aws} and visualize them in the Amazon EKS console using the Amazon EKS Connector agent and required IAM roles.
 
 [abstract]
 --

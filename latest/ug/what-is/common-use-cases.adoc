@@ -8,7 +8,6 @@ include::../attributes.txt[]
 :info_title: Common use cases in Amazon EKS
 :info_titleabbrev: Common use cases
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, use cases, summary, description
-:info_abstract: Discover how Amazon EKS helps deploy highly available containerized applications, build microservices architectures, automate software release processes, run serverless applications, execute machine learning workloads, deploy consistently on-premises and in the cloud, process big data cost-effectively, and ensure security and compliance.
 
 [abstract]
 --

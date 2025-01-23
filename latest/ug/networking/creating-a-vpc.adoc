@@ -5,8 +5,6 @@
 :info_doctype: section
 :info_title: Create an Amazon VPC for your Amazon EKS cluster
 :info_titleabbrev: Create a VPC
-:info_abstract: Learn how to create an Amazon VPC for your cluster using an Amazon EKS provided {aws} CloudFormation \
-                template.
 
 include::../attributes.txt[]
 

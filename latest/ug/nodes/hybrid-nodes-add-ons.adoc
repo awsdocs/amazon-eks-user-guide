@@ -6,7 +6,6 @@
 :info_title: Configure common add-ons for hybrid nodes
 :info_titleabbrev: Configure add-ons
 :keywords: add-ons for on-premises nodes, add-ons for hybrid nodes
-:info_abstract: Configure common add-ons for hybrid nodes
 
 include::../attributes.txt[]
 

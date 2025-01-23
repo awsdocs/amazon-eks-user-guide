@@ -7,7 +7,6 @@ include::../attributes.txt[]
 :info_doctype: section
 :info_title: Deploy private clusters with limited internet access
 :info_titleabbrev: Private clusters
-:info_abstract: Learn how to deploy and operate an Amazon EKS cluster without outbound internet access, including requirements for private container registries, endpoint access control, and VPC interface endpoints for {aws} services.
 
 [abstract]
 --

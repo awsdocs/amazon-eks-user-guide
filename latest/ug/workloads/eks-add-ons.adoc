@@ -7,7 +7,6 @@
 :info_title: Amazon EKS add-ons
 :info_titleabbrev: Amazon EKS add-ons
 :keywords: managed, add-ons, plugins
-:info_abstract: Learn how to manage operational software add-ons on Amazon EKS clusters with Amazon EKS add-ons for observability, networking, storage, and security from {aws} and third-party vendors.
 
 include::../attributes.txt[]
 

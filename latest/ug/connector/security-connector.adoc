@@ -7,9 +7,6 @@ include::../attributes.txt[]
 :info_doctype: section
 :info_title: Understand security in Amazon EKS Connector
 :info_titleabbrev: Security considerations
-:info_abstract: Learn how the open-source EKS Connector affects security, and understand {aws} and \
-                customer security responsibilities for connectivity, cluster management, and IAM \
-                access control.
 
 [abstract]
 --

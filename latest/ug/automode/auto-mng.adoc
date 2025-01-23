@@ -6,7 +6,6 @@
 :info_doctype: section
 :info_title: Compare EKS Auto Mode with EKS managed node groups
 :info_titleabbrev: Compare with Managed Node Groups
-:info_abstract: Compare EKS Auto Mode with EKS managed node groups
 
 
 include::../attributes.txt[]
