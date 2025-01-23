@@ -57,15 +57,13 @@ aws ec2 get-console-output --instance-id <instance id> --latest --output text
 ----
 
 [[auto-node-debug-logs,auto-node-debug-logs.title]]
-== Get node logs by using __debug containers__ and the kubectl CLI
+== Get node logs by using __debug containers__ and the `kubectl` CLI
 
-The recommended way of retrieving logs from an EKS Auto Mode node is to use NodeDiagnostic resource. For these steps, see <<auto-get-logs>>.
+The recommended way of retrieving logs from an EKS Auto Mode node is to use `NodeDiagnostic` resource. For these steps, see <<auto-get-logs>>.
 
 However, you can stream logs live from an instance by using the `kubectl debug node` command. This command launches a new Pod on the node that you want to debug which you can then interactively use.
 
-. Launch a debug container. The following node - i-01234567890123456 
--it - allocate a tty and attach stdin for interactive usage
---profile=sysadmin - 
+. Launch a debug container. The following command uses `i-01234567890123456` for the instance ID of the node, `-it` allocates a `tty` and attach `stdin` for interactive usage, and uses the `sysadmin` profile from the kubeconfig file. 
 +
 [source,cli]
 ----
@@ -81,15 +79,15 @@ If you don't see a command prompt, try pressing enter.
 bash-5.2#
 ----
 
-. From the shell, you can now install util-linux-core which provides the nsenter command. Here  nsenter is used to enter the mount namespace of pid 1 (init) on the hots, and run the journalctl command to stream logs from kubelet :
+. From the shell, you can now install `util-linux-core` which provides the `nsenter` command. Use `nsenter` to enter the mount namespace of PID 1 (`init`) on the host, and run the `journalctl` command to stream logs from the `kubelet`:
 +
-[source,none]
+[source,bash]
 ----
 yum install -y util-linux-core
 nsenter -t 1 -m journalctl -f -u kubelet
 ----
 
-For security, the Amazon Linux container image doesn't install many binaries by default. You can use the yum wh atprovides command to identify the package that must be installed to provide a given binary.
+For security, the Amazon Linux container image doesn't install many binaries by default. You can use the `yum whatprovides` command to identify the package that must be installed to provide a given binary.
 
 [source,cli]
 ----
@@ -132,14 +130,14 @@ You can use the {aws} console to view the status of resources associated with {y
 ** UnauthorizedOperation
 ** InvalidClientTokenId
 
-Look for errors related to your EKS cluster. Use the error messages to update your EKS access entries, Cluster IAM Role, or Node IAM Role. You may need to attach a new policy to these roles with permissions for {eam}.
+Look for errors related to your EKS cluster. Use the error messages to update your EKS access entries, cluster IAM role, or node IAM role. You might need to attach a new policy to these roles with permissions for {eam}.
 
 //Ensure you are running the latest version of the {aws} CLI, eksctl, etc. 
 
 [[auto-troubleshoot-schedule,auto-troubleshoot-schedule.title]]
 == Troubleshoot Pod failing to schedule onto Auto Mode node
 
-If pods are not being scheduled onto an auto mode node, verify if your pod/deployment manifest has a **nodeSelector**. If a nodeSelector is present, please ensure it is using `eks.amazonaws.com/compute-type: auto` to allow it to be scheduled. See <<associate-workload>>.
+If pods staying in the `Pending` state and aren't being scheduled onto an auto mode node, verify if your pod or deployment manifest has a `nodeSelector`. If a `nodeSelector` is present, ensure that it is using `eks.amazonaws.com/compute-type: auto` to be scheduled on nodes that are made by EKS Auto Mode. For more information about the node labels that are used by EKS Auto Mode, see <<associate-workload>>.
 
 [[auto-node-join,auto-node-join.title]]
 == Troubleshoot node not joining the cluster
@@ -162,15 +160,15 @@ kubectl describe nodeclaim <node_claim>
 
 *Common error messages:*
 
-* "Error getting launch template configs"
-** You may receive this error if you are setting custom tags in the NodeClass with the default cluster IAM role permissions. See <<auto-learn-iam>>.
-* "Error creating fleet"
-** There may be some authorization issue with calling the RunInstances API call. Check CloudTrail for errors and see <<auto-cluster-iam-role>> for the required IAM permissions.
+* `Error getting launch template configs`
+** You might receive this error if you are setting custom tags in the `NodeClass` with the default cluster IAM role permissions. See <<auto-learn-iam>>.
+* `Error creating fleet`
+** There might be some authorization issue with calling the `RunInstances` call from the EC2 API. Check {aws-cloudtrail} for errors and see <<auto-cluster-iam-role>> for the required IAM permissions.
 
 [[auto-node-reachability,auto-node-reachability.title]]
 === Detect node connectivity issues with the `VPC Reachability Analyzer`
 
-One reason that an instance didn't join the cluster is a network connectivity issue that prevents them from reaching the API server. To diagnose this issue, you can use the link:vpc/latest/reachability/what-is-reachability-analyzer.html[VPC Reachability Analyzer,type="documentation"] to perform an analysis of the connectivity between a Node that is failing to join the cluster and the API server. You will need two pieces of information:
+One reason that an instance didn't join the cluster is a network connectivity issue that prevents them from reaching the API server. To diagnose this issue, you can use the link:vpc/latest/reachability/what-is-reachability-analyzer.html[VPC Reachability Analyzer,type="documentation"] to perform an analysis of the connectivity between a node that is failing to join the cluster and the API server. You will need two pieces of information:
 
 * *instance ID* of a node that can't join the cluster
 * IP address of the *Kubernetes API server endpoint*
@@ -216,18 +214,18 @@ subsets:
     protocol: TCP
 ----
 
-With these two pieces of information, you can perform the analysis. First navigate to the VPC Reachability Analyzer in the{aws-management-console}.
+With these two pieces of information, you can perform the s analysis. First navigate to the VPC Reachability Analyzer in the{aws-management-console}.
 
-. Click “Create and Analyze Path”
-. Provide a name for the analysis (e.g. “Node Join Failure”)
-. For the “Source Type” select “Instances”
-. Enter the instance ID of the failing Node as the “Source”
-. For the “Path Destination” select “IP Address”
-. Enter one of the IP addresses for the API server as the “Destination Address”
-. Expand the “Additional Packet Header Configuration Section”
-. Enter a “Destination Port” of 443
-. Select “Protocol” as TCP if it is not already selected
-. Click “Create and Analyze Path”
+. Click "Create and Analyze Path"
+. Provide a name for the analysis (e.g. "Node Join Failure")
+. For the "Source Type" select "Instances"
+. Enter the instance ID of the failing Node as the "Source"
+. For the "Path Destination" select "IP Address"
+. Enter one of the IP addresses for the API server as the "Destination Address"
+. Expand the "Additional Packet Header Configuration Section"
+. Enter a "Destination Port" of 443
+. Select "Protocol" as TCP if it is not already selected
+. Click "Create and Analyze Path"
 . The analysis might take a few minutes to complete. If the analysis results indicates failed reachability, it will indicate where the failure was in the network path so you can resolve the issue.
 
 [[auto-troubleshoot-controllers]]
