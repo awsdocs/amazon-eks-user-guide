@@ -1,16 +1,11 @@
 //!!NODE_ROOT <section>
-include::../attributes.txt[]
-
 [.topic]
 [[efs-csi,efs-csi.title]]
 = Store an elastic file system with Amazon EFS
-:info_doctype: section
-:info_title: Store an elastic file system with Amazon EFS
 :info_titleabbrev: Amazon EFS
 :keywords: Amazon EFS CSI driver, storage
-:info_abstract: The Amazon EFS Container Storage Interface (CSI) driver provides a CSI interface that \
-                allows Kubernetes clusters running on {aws} to manage the lifecycle of Amazon EFS file \
-                systems.
+
+include::../attributes.txt[]
 
 [abstract]
 --
@@ -39,6 +34,12 @@ link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation
 * Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 
+[NOTE]
+====
+
+A [.noloc]`Pod` running on Fargate automatically mounts an Amazon EFS file system, without needing manual driver installation steps.
+
+====
 
 [[efs-create-iam-resources,efs-create-iam-resources.title]]
 == Step 1: Create an IAM role
@@ -135,7 +136,7 @@ https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
 ----
 . Create the IAM role that grants the `AssumeRoleWithWebIdentity` action.
 +
-.. Copy the following contents to a file named [.replaceable]`aws-efs-csi-driver-trust-policy`.json``. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` and [.replaceable]`region-code` with the values returned in the previous step.  If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
+.. Copy the following contents to a file named [.replaceable]`aws-efs-csi-driver-trust-policy`.json``. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` and [.replaceable]`region-code` with the values returned in the previous step.
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -166,7 +167,7 @@ aws iam create-role \
   --role-name AmazonEKS_EFS_CSI_DriverRole \
   --assume-role-policy-document file://"aws-efs-csi-driver-trust-policy.json"
 ----
-. Attach the required {aws} managed policy to the role with the following command. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
+. Attach the required {aws} managed policy to the role with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -178,13 +179,6 @@ aws iam attach-role-policy \
 
 [[efs-install-driver,efs-install-driver.title]]
 == Step 2: Get the Amazon EFS CSI driver
-
-[NOTE]
-====
-
-This step isn't needed for {aws} Fargate. A [.noloc]`Pod` running on Fargate automatically mounts an Amazon EFS file system, without needing manual driver installation steps.
-
-====
 
 We recommend that you install the Amazon EFS CSI driver through the Amazon EKS add-on. To add an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. For more information about add-ons, see <<eks-add-ons>>. If you're unable to use the Amazon EKS add-on, we encourage you to submit an issue about why you can't to the https://github.com/aws/containers-roadmap/issues[Containers roadmap GitHub repository].
 
