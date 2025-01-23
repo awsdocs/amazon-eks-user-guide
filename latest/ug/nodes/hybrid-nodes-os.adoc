@@ -6,7 +6,6 @@
 :info_title: Prepare operating system for hybrid nodes
 :info_titleabbrev: Prepare operating system
 :keywords: on-premises, hybrid
-:info_abstract: Prepare operating system for hybrid nodes
 
 include::../attributes.txt[]
 

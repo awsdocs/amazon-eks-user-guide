@@ -7,7 +7,6 @@
 :toc:
 :info_title: Automate cluster infrastructure with EKS Auto Mode
 :info_titleabbrev: EKS Auto Mode 
-:info_abstract: Automate cluster infrastructure with EKS Auto Mode
 
 [abstract]
 --

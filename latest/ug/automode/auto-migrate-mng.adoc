@@ -6,7 +6,6 @@
 :info_doctype: section
 :info_title: Migrate from EKS Managed Node Groups to EKS Auto Mode
 :info_titleabbrev: Migrate from Managed Node Groups
-:info_abstract:  Migrate from EKS Managed Node Groups
 
 include::../attributes.txt[]
 

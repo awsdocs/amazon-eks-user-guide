@@ -15,11 +15,10 @@ include::../attributes.txt[]
 :info_title: What is Amazon EKS?
 :info_titleabbrev: What is Amazon EKS?
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, about, summary, description
-:info_abstract: Learn to manage containerized applications with Amazon EKS
 
 [abstract]
 --
-Learn to manage containerized applications with Amazon EKS
+Learn to manage containerized applications with Amazon EKS.
 --
 
 Amazon Elastic Kubernetes Service (Amazon EKS) is a managed Kubernetes service that eliminates the need to operate and maintain the availability and scalability of Kubernetes clusters in Amazon Web Services ({aws}) and in your own data centers. https://kubernetes.io/docs/concepts/overview/[Kubernetes] is an open source system that automates the management, scaling, and deployment of containerized applications. To get started, see the <<quickstart>> page in the Amazon EKS User Guide.

@@ -8,7 +8,6 @@ include::../attributes.txt[]
 :info_title: Log API calls as {aws} CloudTrail events
 :info_titleabbrev: {aws} CloudTrail
 :keywords: logging, API calls, {aws} CloudTrail
-:info_abstract: Learn about logging Amazon EKS with {aws} CloudTrail.
 
 [abstract]
 --

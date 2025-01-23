@@ -8,7 +8,6 @@ include::../attributes.txt[]
 :info_title: Grant access to view Kubernetes cluster resources on an \
             Amazon EKS console
 :info_titleabbrev: Grant access to Kubernetes clusters from {aws} console
-:info_abstract: Learn to grant IAM principals access to view Kubernetes cluster resources on an Amazon EKS Management Console.
 
 [abstract]
 --

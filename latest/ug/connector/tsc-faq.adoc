@@ -7,7 +7,6 @@ include::../attributes.txt[]
 :info_doctype: section
 :info_title: {aws} Connector frequently asked questions
 :info_titleabbrev: Frequently asked questions
-:info_abstract: Learn to connect and manage Kubernetes clusters outside {aws} with Amazon EKS Connector, enabling unified cluster visibility and management across environments using a secure, outbound-only connection.
 
 [abstract]
 --

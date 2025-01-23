@@ -8,7 +8,6 @@ include::../attributes.txt[]
 :info_title: Send metric and trace data with ADOT Operator
 :info_titleabbrev: ADOT Operator
 :keywords: ADOT
-:info_abstract: The {aws} Distro for OpenTelemetry (ADOT) Operator makes it easier to enable your \
         applications running on Amazon EKS to send metric and trace data to multiple monitoring service \
         options.
 

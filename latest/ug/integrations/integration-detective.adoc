@@ -6,7 +6,6 @@ include::../attributes.txt[]
 = Analyze security events on EKS with Amazon Detective
 :info_doctype: section
 :info_title: Analyze security events on EKS with Amazon Detective
-:info_abstract: Amazon Detective helps you analyze, investigate, and quickly identify the root cause \
                 of security findings or suspicious activities.
 :keywords: Amazon Detective
 

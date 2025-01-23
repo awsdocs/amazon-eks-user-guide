@@ -6,7 +6,6 @@
 :info_title: Prepare networking for hybrid nodes
 :info_titleabbrev: Prepare networking
 :keywords: on-premises, hybrid
-:info_abstract: Prepare networking
 
 include::../attributes.txt[]
 

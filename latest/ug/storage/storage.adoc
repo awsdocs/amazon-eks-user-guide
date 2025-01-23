@@ -14,7 +14,6 @@ include::../attributes.txt[]
 :info_title: Store application data for your cluster
 :info_titleabbrev: Store app data
 :keywords: persistent, data, app, storage
-:info_abstract: This chapter covers storage options for Amazon EKS clusters.
 
 [abstract]
 --

@@ -8,7 +8,6 @@ include::../attributes.txt[]
 :info_title: Deploy Windows nodes on EKS \
             clusters
 :info_titleabbrev: Enable Windows support
-:info_abstract: Learn how to enable and manage Windows support for your Amazon EKS cluster to run \
                 Windows containers alongside Linux containers.
 
 [abstract]

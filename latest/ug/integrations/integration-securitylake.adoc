@@ -6,7 +6,6 @@ include::../attributes.txt[]
 = Centralize and analyze EKS security data with Security Lake
 :info_doctype: section
 :info_title: Centralize and analyze EKS security data with Security Lake
-:info_abstract: Amazon Security Lake integrates with Amazon EKS to provide a centralized and standardized \
                 solution for collecting, storing, and analyzing security data from clusters. By \
                 enabling EKS control plane logging and adding EKS logs as a source in Security Lake, \
                 users can gain valuable insights, detect potential threats, and enhance the \

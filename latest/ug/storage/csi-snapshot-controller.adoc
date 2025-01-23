@@ -8,7 +8,6 @@ include::../attributes.txt[]
 :info_title: Enable snapshot functionality for CSI volumes
 :info_titleabbrev: CSI snapshot controller
 :keywords: CSI, snapshot, controller
-:info_abstract: The Container Storage Interface (CSI) snapshot controller enables the use of \
                 snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI \
                 driver.
 

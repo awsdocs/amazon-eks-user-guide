@@ -6,7 +6,6 @@
 :info_title: Troubleshooting hybrid nodes
 :info_titleabbrev: Troubleshooting
 :keywords: on-premises, hybrid
-:info_abstract: Amazon EKS hybrid nodes
 
 include::../attributes.txt[]
 

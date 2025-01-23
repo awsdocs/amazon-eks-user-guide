@@ -7,7 +7,6 @@ include::../../attributes.txt[]
 :info_doctype: section
 :info_title: View resource usage with the KubernetesMetrics Server
 :info_titleabbrev: Metrics server
-:info_abstract: Use the Kubernetes Metrics Server to view resource usage data on your Amazon EKS cluster for autoscaling and monitoring.
 
 [abstract]
 --

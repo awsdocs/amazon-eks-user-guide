@@ -8,7 +8,6 @@ include::../attributes.txt[]
 :info_title: Create Amazon Linux nodes on {aws} Outposts
 :info_titleabbrev: Nodes
 :keywords: launch, start, self-managed, Linux, node
-:info_abstract: Learn how to launch Auto Scaling groups of Amazon Linux nodes on an Outpost that register with \
                 your Amazon EKS cluster. The cluster can be on the {aws} Cloud or on an Outpost.
 
 [abstract]

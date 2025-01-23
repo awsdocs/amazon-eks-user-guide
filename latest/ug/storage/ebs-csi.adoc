@@ -8,7 +8,6 @@ include::../attributes.txt[]
 :info_title: Store Kubernetes volumes with Amazon EBS
 :info_titleabbrev: Amazon EBS
 :keywords: Amazon EBS CSI driver, storage
-:info_abstract: The Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver manages the \
                 lifecycle of Amazon EBS volumes as storage for Kubernetes Volumes.
 
 [abstract]

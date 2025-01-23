@@ -8,7 +8,6 @@
 :info_title: Set up kubectl and eksctl
 :info_titleabbrev: Set up kubectl and eksctl
 :keywords: install, update, kubectl
-:info_abstract: Learn how to install or update the kubectl and eksctl command line tools \
                 to work with Kubernetes and Amazon EKS features.
 
 

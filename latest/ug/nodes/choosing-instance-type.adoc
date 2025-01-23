@@ -8,7 +8,6 @@ include::../attributes.txt[]
 :info_title: Choose an optimal Amazon EC2 node instance type
 :info_titleabbrev: Amazon EC2 instance types
 :keywords: choose, select, instance, type, family, group, max-pods, max pods, maximum pods
-:info_abstract: Each Amazon EC2 instance type offers different compute, memory, storage, and network \
                 capabilities.
 
 [abstract]

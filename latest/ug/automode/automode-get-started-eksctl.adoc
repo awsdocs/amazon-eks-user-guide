@@ -7,7 +7,6 @@
 :config: configuration
 :info_title: Create an EKS Auto Mode Cluster with the eksctl CLI
 :info_titleabbrev: eksctl CLI
-:info_abstract: Create an EKS Auto Mode cluster with the eksctl CLI
 
 
 include::../attributes.txt[]

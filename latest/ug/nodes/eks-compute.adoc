@@ -13,7 +13,6 @@
 :info_title: Manage compute resources by using nodes
 :info_titleabbrev: Manage compute
 :keywords: nodes, node groups
-:info_abstract: Your Amazon EKS cluster can schedule Pods on any combination of self-managed nodes, Amazon EKS managed node groups, and Fargate in the {aws} Cloud and hybrid nodes on-premises.
 
 include::../attributes.txt[]
 

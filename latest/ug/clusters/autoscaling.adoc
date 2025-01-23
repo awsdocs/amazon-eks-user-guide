@@ -7,7 +7,6 @@ include::../attributes.txt[]
 :info_doctype: section
 :info_title: Scale cluster compute with Karpenter and Cluster Autoscaler
 :info_titleabbrev: Autoscaling
-:info_abstract: Discover how Amazon EKS integrates Kubernetes autoscaling with {aws}, empowering rapid and efficient scaling of compute resources to meet application demands using Karpenter and Cluster Autoscaler.
 
 [abstract]
 --

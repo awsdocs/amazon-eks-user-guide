@@ -6,7 +6,6 @@
 :info_title: Run and manage hybrid nodes
 :info_titleabbrev: Run hybrid nodes
 :keywords: on-premises, hybrid
-:info_abstract: Amazon EKS hybrid nodes 
 
 include::../attributes.txt[]
 

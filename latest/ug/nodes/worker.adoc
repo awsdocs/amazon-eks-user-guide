@@ -6,7 +6,6 @@
 :info_title: Maintain nodes yourself with self-managed nodes
 :info_titleabbrev: Self-managed nodes
 :keywords: self-managed, node
-:info_abstract: A cluster contains one or more Amazon EC2 nodes that Pods are scheduled on.
 
 include::../attributes.txt[]
 

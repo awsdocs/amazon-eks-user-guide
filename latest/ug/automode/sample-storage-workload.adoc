@@ -6,7 +6,6 @@
 :info_doctype: section
 :info_title: Deploy a sample stateful workload to EKS Auto Mode
 :info_titleabbrev: Deploy stateful workload
-:info_abstract: Deploy a sample stateful workload to EKS Auto Mode
 
 include::../attributes.txt[]
 

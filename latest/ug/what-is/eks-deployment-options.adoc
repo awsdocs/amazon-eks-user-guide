@@ -6,7 +6,6 @@
 :info_title: Deploy Amazon EKS clusters across cloud and on-premises environments
 :info_titleabbrev: Deployment options
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, deployment, options, comparison
-:info_abstract: Learn to deploy Kubernetes clusters with Amazon EKS across cloud and on-premises environments to meet your operational needs, while leveraging {aws} services and support.
 
 include::../attributes.txt[]
 

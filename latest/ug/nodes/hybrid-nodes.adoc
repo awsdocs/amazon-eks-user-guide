@@ -6,7 +6,6 @@
 :info_title: Amazon EKS Hybrid Nodes overview
 :info_titleabbrev: Hybrid nodes
 :keywords: on-premises, hybrid
-:info_abstract: Amazon EKS Hybrid Nodes overview
 
 include::../attributes.txt[]
 

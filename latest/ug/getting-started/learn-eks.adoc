@@ -8,7 +8,6 @@ include::../attributes.txt[]
 :info_title: Learn Amazon EKS by example
 :info_titleabbrev: Learn Amazon EKS
 :keywords: tutorial, workshop, developer, learn
-:info_abstract: Find learning paths to extend your knowledge of Amazon EKS.
 :sectnums:
 :toc: left
 :icons: font

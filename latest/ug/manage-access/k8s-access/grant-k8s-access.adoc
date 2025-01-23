@@ -7,7 +7,6 @@
 :info_doctype: section
 :info_title: Grant IAM users and roles access to Kubernetes APIs
 :info_titleabbrev: Grant access to Kubernetes APIs
-:info_abstract: Learn how to grant access to Kubernetes APIs on Amazon EKS clusters using IAM roles, users, or OpenID Connect providers, and manage permissions with access entries or the aws-auth ConfigMap.
 
 include::../../attributes.txt[]
 

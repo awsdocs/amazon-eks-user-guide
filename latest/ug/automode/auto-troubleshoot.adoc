@@ -6,7 +6,6 @@
 :info_doctype: section
 :info_title: Troubleshoot EKS Auto Mode
 :info_titleabbrev: Troubleshoot
-:info_abstract: Troubleshoot EKS Auto Mode
 
 include::../attributes.txt[]
 
