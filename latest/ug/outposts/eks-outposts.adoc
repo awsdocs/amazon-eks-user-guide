@@ -11,6 +11,7 @@ include::../attributes.txt[]
 :idseparator: -
 :sourcedir: .
 :info_doctype: chapter
+:info_title: Deploy Amazon EKS on-premises with {aws} Outposts
 :info_titleabbrev: Amazon EKS on {aws} Outposts
 :keywords: Amazon EKS, {aws} Outposts, extended clusters, local clusters
 

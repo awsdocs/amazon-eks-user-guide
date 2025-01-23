@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[image-verification,image-verification.title]]
 = Validate container image signatures during deployment
 :info_doctype: section
+:info_title: Validate container image signatures during deployment
 :info_titleabbrev: Verify container images
 
 [abstract]

@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[getting-started-console,getting-started-console.title]]
 = Get started with Amazon EKS – {aws-management-console} and {aws} CLI
 :info_doctype: section
+:info_title: Get started with Amazon EKS – {aws-management-console} and \
             {aws} CLI
 :info_titleabbrev: Create your first cluster – {aws-management-console}
 :keywords: using, {aws-management-console}, {aws} CLI, getting, started, tutorial

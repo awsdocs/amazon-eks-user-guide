@@ -5,6 +5,7 @@ include::../../attributes.txt[]
 [[service-quotas,service-quotas.title]]
 = View and manage Amazon EKS and [.noloc]`Fargate` service quotas
 :info_doctype: section
+:info_title: View and manage Amazon EKS and Fargate service quotas
 :info_titleabbrev: Service quotas
 
 [abstract]

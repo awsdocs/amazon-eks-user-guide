@@ -3,6 +3,7 @@
 [[hybrid-nodes-overview,hybrid-nodes-overview.title]]
 = Amazon EKS Hybrid Nodes overview
 :info_doctype: section
+:info_title: Amazon EKS Hybrid Nodes overview
 :info_titleabbrev: Hybrid nodes
 :keywords: on-premises, hybrid
 

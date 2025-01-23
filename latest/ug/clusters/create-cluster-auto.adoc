@@ -4,6 +4,7 @@
 [[create-cluster-auto,create-cluster-auto.title]]
 = Create an Amazon EKS Auto Mode cluster
 :info_doctype: section
+:info_title: Create an Amazon EKS Auto Mode cluster
 :info_titleabbrev: Create auto cluster
 :idprefix: id_
 

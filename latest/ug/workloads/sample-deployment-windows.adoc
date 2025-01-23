@@ -4,6 +4,7 @@
 [[sample-deployment-win,sample-deployment-win.title]]
 = Deploy a sample application on Windows
 :info_doctype: section
+:info_title: Deploy a sample application on Windows
 :info_titleabbrev: Sample application deployment (Windows)
 
 include::../attributes.txt[]

@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[ebs-csi,ebs-csi.title]]
 = Store [.noloc]`Kubernetes` volumes with Amazon EBS
 :info_doctype: section
+:info_title: Store Kubernetes volumes with Amazon EBS
 :info_titleabbrev: Amazon EBS
 :keywords: Amazon EBS CSI driver, storage
                 lifecycle of Amazon EBS volumes as storage for Kubernetes Volumes.

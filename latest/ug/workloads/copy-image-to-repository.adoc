@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[copy-image-to-repository,copy-image-to-repository.title]]
 = Copy a container image from one repository to another repository
 :info_doctype: section
+:info_title: Copy a container image from one repository to \
             another repository
 :info_titleabbrev: Copy an image to a repository
 

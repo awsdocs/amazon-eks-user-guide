@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[private-clusters,private-clusters.title]]
 = Deploy private clusters with limited internet access
 :info_doctype: section
+:info_title: Deploy private clusters with limited internet access
 :info_titleabbrev: Private clusters
 
 [abstract]

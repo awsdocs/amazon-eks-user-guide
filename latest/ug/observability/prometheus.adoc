@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[prometheus,prometheus.title]]
 = Monitor your cluster metrics with [.noloc]`Prometheus`
 :info_doctype: section
+:info_title: Monitor your cluster metrics with Prometheus
 :info_titleabbrev: Prometheus metrics
 :keywords: Prometheus, metrics, control plane
                 that you can use it to view and analyze what your cluster is doing.

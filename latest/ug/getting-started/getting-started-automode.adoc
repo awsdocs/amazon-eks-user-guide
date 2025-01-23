@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[getting-started-automode,getting-started-automode.title]]
 = Get started with Amazon EKS – EKS Auto Mode
 :info_doctype: section
+:info_title: Get started with Amazon EKS – \
             EKS Auto Mode
 :info_titleabbrev: Create your first cluster – EKS Auto Mode
 :keywords: using, Auto, getting, started, tutorial

@@ -3,6 +3,7 @@
 [[auto-networking,auto-networking.title]]
 = Learn about VPC Networking and Load Balancing in EKS Auto Mode
 :info_doctype: section
+:info_title: Learn about VPC networking and load balancing in EKS Auto Mode
 :info_titleabbrev: Networking
 
 

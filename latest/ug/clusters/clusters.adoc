@@ -11,6 +11,7 @@ include::../attributes.txt[]
 :idseparator: -
 :sourcedir: .
 :info_doctype: chapter
+:info_title: Organize workloads with Amazon EKS clusters
 :info_titleabbrev: Clusters
 
 An Amazon EKS cluster consists of two primary components:

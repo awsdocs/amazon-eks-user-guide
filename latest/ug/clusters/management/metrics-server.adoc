@@ -5,6 +5,7 @@ include::../../attributes.txt[]
 [[metrics-server,metrics-server.title]]
 = View resource usage with the [.noloc]`Kubernetes` [.noloc]`Metrics Server`
 :info_doctype: section
+:info_title: View resource usage with the KubernetesMetrics Server
 :info_titleabbrev: Metrics server
 
 [abstract]

@@ -3,6 +3,7 @@
 [[hybrid-nodes-proxy,hybrid-nodes-proxy.title]]
 = Configure proxy for hybrid nodes
 :info_doctype: section
+:info_title: Configure proxy for hybrid nodes
 :info_titleabbrev: Configure proxy 
 :keywords: on-premises proxy, hybrid proxy
 

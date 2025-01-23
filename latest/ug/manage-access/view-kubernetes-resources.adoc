@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[view-kubernetes-resources,view-kubernetes-resources.title]]
 = View [.noloc]`Kubernetes` resources in the {aws-management-console}
 :info_doctype: section
+:info_title: View Kubernetes resources in the {aws-management-console}
 :info_titleabbrev: Access cluster resources with console
 
 [abstract]

@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[eks-outposts-self-managed-nodes,eks-outposts-self-managed-nodes.title]]
 = Create Amazon Linux nodes on {aws} Outposts
 :info_doctype: section
+:info_title: Create Amazon Linux nodes on {aws} Outposts
 :info_titleabbrev: Nodes
 :keywords: launch, start, self-managed, Linux, node
                 your Amazon EKS cluster. The cluster can be on the {aws} Cloud or on an Outpost.

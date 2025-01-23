@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[csi-snapshot-controller,csi-snapshot-controller.title]]
 = Enable snapshot functionality for CSI volumes
 :info_doctype: section
+:info_title: Enable snapshot functionality for CSI volumes
 :info_titleabbrev: CSI snapshot controller
 :keywords: CSI, snapshot, controller
                 snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI \

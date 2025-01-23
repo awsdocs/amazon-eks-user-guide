@@ -4,6 +4,7 @@
 [[auto-elb-example,auto-elb-example.title]]
 = Deploy a Sample Load Balancer Workload to EKS Auto Mode
 :info_doctype: section
+:info_title: Deploy a sample load balancer workload to EKS Auto Mode
 :info_titleabbrev: Deploy load balancer workload
 
 

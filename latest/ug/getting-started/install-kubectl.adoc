@@ -5,6 +5,7 @@
 [[install-kubectl,install-kubectl.title]]
 = Set up `kubectl` and `eksctl`
 :info_doctype: section
+:info_title: Set up kubectl and eksctl
 :info_titleabbrev: Set up kubectl and eksctl
 :keywords: install, update, kubectl
                 to work with Kubernetes and Amazon EKS features.

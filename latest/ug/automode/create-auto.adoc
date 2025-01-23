@@ -9,6 +9,7 @@ include::../attributes.txt[]
 :idprefix:
 :idseparator: -
 :sourcedir: .
+:info_title: Create cluster with EKS Auto Mode
 :info_titleabbrev: Create cluster
 :keywords: getting, started, tutorials, quick, start
 

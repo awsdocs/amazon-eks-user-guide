@@ -3,6 +3,7 @@
 [[quickstart,quickstart.title]]
 = Quickstart: Deploy a web app and store data
 :info_doctype: chapter
+:info_title: Quickstart: Deploy a web app and store data
 :info_titleabbrev: Quickstart
 :keywords: quickstart, web, cluster
 

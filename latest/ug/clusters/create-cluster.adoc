@@ -4,6 +4,7 @@
 [[create-cluster,create-cluster.title]]
 = Create an Amazon EKS cluster
 :info_doctype: section
+:info_title: Create an Amazon EKS cluster
 :info_titleabbrev: Create a cluster
 
 include::../attributes.txt[]

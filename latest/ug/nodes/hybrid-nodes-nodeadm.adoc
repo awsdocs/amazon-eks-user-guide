@@ -3,6 +3,7 @@
 [[hybrid-nodes-nodeadm,hybrid-nodes-nodeadm.title]]
 = Hybrid nodes `nodeadm` reference
 :info_doctype: section
+:info_title: Hybrid nodes nodeadm reference
 :info_titleabbrev: Hybrid nodes nodeadm reference
 :keywords: on-premises, hybrid
 

@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[control-plane-logs,control-plane-logs.title]]
 = Send control plane logs to CloudWatch Logs
 :info_doctype: section
+:info_title: Send control plane logs to CloudWatch Logs
 :info_titleabbrev: Control plane logs
 :keywords: control plane, logging, API, logs
 

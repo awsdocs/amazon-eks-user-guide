@@ -12,6 +12,7 @@ include::../attributes.txt[]
 :idseparator: -
 :sourcedir: .
 :info_doctype: chapter
+:info_title: Machine Learning on Amazon EKS Overview
 :info_titleabbrev: Machine Learning on EKS
 :keywords: Machine Learning, Amazon EKS, Artificial Intelligence
 

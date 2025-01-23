@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[deregister-connected-cluster,deregister-connected-cluster.title]]
 = Deregister a Kubernetes cluster from the Amazon EKS console
 :info_doctype: section
+:info_title: Deregister a Kubernetes cluster from the Amazon EKS console
 :info_titleabbrev: Deregister a cluster
 
 [abstract]

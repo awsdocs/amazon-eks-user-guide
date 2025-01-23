@@ -10,6 +10,7 @@
 :idseparator: -
 :sourcedir: .
 :info_doctype: chapter
+:info_title: Troubleshoot problems with Amazon EKS clusters and nodes
 :info_titleabbrev: Troubleshooting
 :keywords: troubleshooting, help, FAQ
                 to work around them.

@@ -13,6 +13,7 @@
 :idseparator: -
 :sourcedir: .
 :info_doctype: chapter
+:info_title: Document history
 :keywords: document, publish, release, history, log
                 descriptions of each update and when they occurred.
 

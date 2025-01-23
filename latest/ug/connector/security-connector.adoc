@@ -5,6 +5,7 @@ include::../attributes.txt[]
 [[security-connector,security-connector.title]]
 = Understand security in Amazon EKS Connector
 :info_doctype: section
+:info_title: Understand security in Amazon EKS Connector
 :info_titleabbrev: Security considerations
                 customer security responsibilities for connectivity, cluster management, and IAM \
                 access control.
