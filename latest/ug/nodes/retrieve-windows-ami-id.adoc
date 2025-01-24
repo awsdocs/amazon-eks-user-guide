@@ -35,7 +35,7 @@ Here's an example command after placeholder replacements have been made.
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-aws ssm get-parameter --name /aws/service/ami-windows-latest/Windows_Server-[.replaceable]`2022`-English-[.replaceable]`Core`-EKS_Optimized-[.replaceable]`1.31`/image_id \
+aws ssm get-parameter --name /aws/service/ami-windows-latest/Windows_Server-[.replaceable]`2022`-English-[.replaceable]`Core`-EKS_Optimized-[.replaceable]`k8s-n-2`/image_id \
     --region [.replaceable]`us-west-2` --query "Parameter.Value" --output text
 ----
 

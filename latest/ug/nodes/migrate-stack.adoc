@@ -71,7 +71,7 @@ For more available flags and their descriptions, see https://eksctl.io/.
 ----
 eksctl create nodegroup \
   --cluster my-cluster \
-  --version 1.30 \
+  --version {k8s-n} \
   --name standard-nodes-new \
   --node-type t3.medium \
   --nodes 3 \
@@ -176,11 +176,11 @@ kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
 kubectl taint nodes node_name key=value:NoSchedule
 ----
 +
-If you're upgrading your nodes to a new [.noloc]`Kubernetes` version, you can identify and taint all of the nodes of a particular [.noloc]`Kubernetes` version (in this case, `1.28`) with the following code snippet. The version number can't be later than the [.noloc]`Kubernetes` version of your control plane. It also can't be more than two minor versions earlier than the [.noloc]`Kubernetes` version of your control plane. We recommend that you use the same version as your control plane.
+If you're upgrading your nodes to a new [.noloc]`Kubernetes` version, you can identify and taint all of the nodes of a particular [.noloc]`Kubernetes` version (in this case, `{k8s-n-2}`) with the following code snippet. The version number can't be later than the [.noloc]`Kubernetes` version of your control plane. It also can't be more than two minor versions earlier than the [.noloc]`Kubernetes` version of your control plane. We recommend that you use the same version as your control plane.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-K8S_VERSION=1.28
+K8S_VERSION={k8s-n-2}
 nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
 for node in ${nodes[@]}
 do
@@ -215,11 +215,11 @@ kubectl scale deployments/coredns --replicas=2 -n kube-system
 kubectl drain node_name --ignore-daemonsets --delete-local-data
 ----
 +
-If you're upgrading your nodes to a new [.noloc]`Kubernetes` version, identify and drain all of the nodes of a particular [.noloc]`Kubernetes` version (in this case, [.replaceable]`1.28`) with the following code snippet.
+If you're upgrading your nodes to a new [.noloc]`Kubernetes` version, identify and drain all of the nodes of a particular [.noloc]`Kubernetes` version (in this case, [.replaceable]`{k8s-n-2}`) with the following code snippet.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-K8S_VERSION=1.28
+K8S_VERSION={k8s-n-2}
 nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
 for node in ${nodes[@]}
 do

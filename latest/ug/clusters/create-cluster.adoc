@@ -26,7 +26,7 @@ This topic provides an overview of the available options and describes what to c
 == Prerequisites
 
 * An existing VPC and subnets that meet <<network-reqs,Amazon EKS requirements>>. Before you deploy a cluster for production use, we recommend that you have a thorough understanding of the VPC and subnet requirements. If you don't have a VPC and subnets, you can create them using an <<creating-a-vpc,Amazon EKS provided {aws} CloudFormation template>>.
-* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. To install or upgrade `kubectl`, see <<install-kubectl>>.
 * Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 * An  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] with permissions to `create` and `describe` an Amazon EKS cluster. For more information, see <<policy-create-local-cluster>> and <<policy-example2>>.
 
@@ -93,7 +93,7 @@ You can create a cluster by using:
 . Create an Amazon EKS `IPv4` cluster with the Amazon EKS default [.noloc]`Kubernetes` version in your default {aws} Region. Before running command, make the following replacements:
 . Replace [.replaceable]`region-code` with the {aws} Region that you want to create your cluster in.
 . Replace [.replaceable]`my-cluster` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
-. Replace [.replaceable]`1.29` with any xref:kubernetes-versions[Amazon EKS supported version,linkend=kubernetes-versions].
+. Replace [.replaceable]`{k8s-n}` with any xref:kubernetes-versions[Amazon EKS supported version,linkend=kubernetes-versions].
 . Change the values for `vpc-private-subnets` to meet your requirements. You can also add additional IDs. You must specify at least two subnet IDs. If you'd rather specify public subnets, you can change `--vpc-private-subnets` to `--vpc-public-subnets`. Public subnets have an associated route table with a route to an internet gateway, but private subnets don't have an associated route table. We recommend using private subnets whenever possible.
 +
 The subnets that you choose must meet the <<network-requirements-subnets,Amazon EKS subnet requirements>>. Before selecting subnets, we recommend that you're familiar with all of the <<network-reqs,Amazon EKS VPC and subnet requirements and considerations>>.
@@ -102,7 +102,7 @@ The subnets that you choose must meet the <<network-requirements-subnets,Amazon 
 . Run the following command:
 +
 ----
-eksctl create cluster --name my-cluster --region region-code --version 1.29 --vpc-private-subnets subnet-ExampleID1,subnet-ExampleID2 --without-nodegroup
+eksctl create cluster --name my-cluster --region region-code --version {k8s-n} --vpc-private-subnets subnet-ExampleID1,subnet-ExampleID2 --without-nodegroup
 ----
 +
 Cluster provisioning takes several minutes. While the cluster is being created, several lines of output appear. The last line of output is similar to the following example line.
@@ -219,7 +219,7 @@ Cluster provisioning takes several minutes.
 +
 ** Replace [.replaceable]`region-code` with the {aws} Region that you want to create your cluster in.
 ** Replace [.replaceable]`my-cluster` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
-** Replace [.replaceable]`1.30` with any xref:kubernetes-versions[Amazon EKS supported version,linkend=kubernetes-versions]. 
+** Replace [.replaceable]`{k8s-n}` with any xref:kubernetes-versions[Amazon EKS supported version,linkend=kubernetes-versions]. 
 ** Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`myAmazonEKSClusterRole` with the name of your cluster IAM role.
 ** Replace the values for `subnetIds` with your own. You can also add additional IDs. You must specify at least two subnet IDs.
 +
@@ -230,7 +230,7 @@ Whether you choose any security groups or not, Amazon EKS creates a security gro
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-aws eks create-cluster --region region-code --name my-cluster --kubernetes-version 1.30 \
+aws eks create-cluster --region region-code --name my-cluster --kubernetes-version {k8s-n} \
    --role-arn {arn-aws}iam::111122223333:role/myAmazonEKSClusterRole \
    --resources-vpc-config subnetIds=subnet-ExampleID1,subnet-ExampleID2,securityGroupIds=sg-ExampleID1
 ----
