@@ -20,7 +20,7 @@ Learn how to manage access entries for IAM principals to your Amazon EKS cluster
 
 EKS access entries it the best way to grant users access to the Kubernetes API. For example, you can use access entries to grant developers access to use kubectl. 
 
-Fundamentally, an EKS access entry associates a set of Kubernetes permissions with an IAM identity, such as an IAM role. For example, a develoer may assume an IAM role and use that to authenticate to an EKS Cluster. 
+Fundamentally, an EKS access entry associates a set of Kubernetes permissions with an IAM identity, such as an IAM role. For example, a developer may assume an IAM role and use that to authenticate to an EKS Cluster. 
 
 You can attach Kubernetes permissions to access entries in two ways: 
 

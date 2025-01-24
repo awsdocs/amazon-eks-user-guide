@@ -99,7 +99,7 @@ For the complete [.noloc]`Kubernetes` `1.31` changelog, see https://github.com/k
 
 
 * Starting with Amazon EKS version `1.30` or newer, any newly created managed node groups will automatically default to using Amazon Linux 2023 (AL2023) as the node operating system. Previously, new node groups would default to Amazon Linux 2 (AL2). You can continue to use AL2 by choosing it as the AMI type when creating a new node group. 
-+
+** For information about migrating from AL2 to AL2023, see <<al2023>>.
 ** For more information about Amazon Linux, see  link:linux/al2023/ug/compare-with-al2.html[Comparing AL2 and AL2023,type="documentation"] in the Amazon Linux User Guide. 
 ** For more information about specifiying the operating system for a managed node group, see <<create-managed-node-group>>.
 
