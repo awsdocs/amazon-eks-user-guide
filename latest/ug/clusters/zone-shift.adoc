@@ -53,7 +53,7 @@ For zonal shift to work successfully in EKS, you need to setup your cluster envi
 * Pre-scale your Pods (including CoreDNS) in every AZ
 * Spread multiple Pod replicas across all AZs to ensure that shifting away from a single AZ will leave you with sufficient capacity
 * Co-locate interdependent or related Pods in the same AZ
-* Test that your cluster environment would work as expected with on less AZ by manually starting a zonal shift. Alternatively, you can enable zonal autoshift and reply on the autoshift practice runs. This is not required for zonal shift to work in EKS but it's strongly recommended. 
+* Test that your cluster environment would work as expected with one less AZ by manually starting a zonal shift. Alternatively, you can enable zonal autoshift and reply on the autoshift practice runs. This is not required for zonal shift to work in EKS but it's strongly recommended. 
 
 === Provision Your EKS Worker Nodes Across Multiple AZs
 

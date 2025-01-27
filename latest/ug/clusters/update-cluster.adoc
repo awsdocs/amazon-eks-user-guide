@@ -237,12 +237,7 @@ kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X
 +
 ** If you are using Amazon EKS add-ons, select *Clusters* in the Amazon EKS console, then select the name of the cluster that you updated in the left navigation pane. Notifications appear in the console. They inform you that a new version is available for each add-on that has an available update. To update an add-on, select the  *Add-ons* tab. In one of the boxes for an add-on that has an update available, select  *Update now*, select an available version, and then select  *Update*.
 ** Alternately, you can use the {aws} CLI or `eksctl` to update add-ons. For more information, see <<updating-an-add-on>>.
-. If necessary, update your version of `kubectl`. You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane. For example, a `1.29` `kubectl` client works with [.noloc]`Kubernetes` `1.28`, `1.29`, and `1.30` clusters. You can check your currently installed version with the following command.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-kubectl version --client
-----
+. If necessary, update your version of `kubectl`. You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane.
 
 
 [[downgrade-cluster,downgrade-cluster.title]]
