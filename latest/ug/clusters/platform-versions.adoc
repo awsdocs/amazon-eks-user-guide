@@ -44,7 +44,7 @@ The following admission controllers are enabled for all `1.32` platform versions
 | Release notes
 | Release date
 
-| `1.31.0`
+| `1.32.0`
 | `eks.2`
 | Initial release of Kubernetes version `1.32` for EKS. For more information, see <<kubernetes-1.32>>.
 | January 2025
