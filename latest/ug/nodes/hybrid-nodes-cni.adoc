@@ -23,6 +23,10 @@ The table below represents the Cilium and Calico versions that are compatible an
 |Cilium version
 |Calico version
 
+|1.32
+|1.16.x
+|3.29.x
+
 |1.31
 |1.16.x
 |3.29.x
