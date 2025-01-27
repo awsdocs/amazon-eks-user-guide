@@ -26,23 +26,27 @@ Create a file on each hybrid node called `http-proxy.conf` in the `/etc/systemd/
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
 [Service]
-Environment="HTTP_PROXY=http://proxy-domain:port"
-Environment="HTTPS_PROXY=http://proxy-domain:port"
+Environment="HTTP_PROXY=http://[.replaceable]#proxy-domain:port#"
+Environment="HTTPS_PROXY=http://[.replaceable]#proxy-domain:port#"
 Environment="NO_PROXY=localhost"
 ----
-==== From userdata
-The `containerd.service.d` directory will need to be created for this file. You will need to reload systemd to pick up the configuration file without a reboot. In AL2023, the service will likely already be running when your script executes, so you will also need to restart it. 
-[source,yaml,subs="vabatim,attributes,quotes"]
+
+==== `containerd` configuration from user data
+
+The `containerd.service.d` directory will need to be created for this file. You will need to reload systemd to pick up the configuration file without a reboot. In AL2023, the service will likely already be running when your script executes, so you will also need to restart it.
+
+[source,yaml,subs="verbatim,attributes,quotes"]
 ----
 mkdir -p /etc/systemd/system/containerd.service.d
 echo '[Service]' > /etc/systemd/system/containerd.service.d
-echo 'Environment="HTTP_PROXY=http://proxy-domain:port"' >> /etc/systemd/system/containerd.service.d
-echo 'Environment="HTTPS_PROXY=http://proxy-domain:port"' >> /etc/systemd/system/containerd.service.d
+echo 'Environment="HTTP_PROXY=http://[.replaceable]#proxy-domain:port#"' >> /etc/systemd/system/containerd.service.d
+echo 'Environment="HTTPS_PROXY=http://[.replaceable]#proxy-domain:port#"' >> /etc/systemd/system/containerd.service.d
 echo 'Environment="NO_PROXY=localhost"' >> /etc/systemd/system/containerd.service.d
 systemctl daemon-reload
 systemctl restart containerd
 ----
-=== Kubelet proxy configuration
+
+=== `kubelet` proxy configuration
 
 `kubelet` is the Kubernetes node agent that runs on each Kubernetes node and is responsible for managing the node and pods running on it. If you are using a proxy in your on-premises environment, you must configure the `kubelet` so it can communicate with your Amazon EKS cluster's public or private endpoints.
 
@@ -51,18 +55,21 @@ Create a file on each hybrid node called `http-proxy.conf` in the `/etc/systemd/
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
 [Service]
-Environment="HTTP_PROXY=http://proxy-domain:port"
-Environment="HTTPS_PROXY=http://proxy-domain:port"
+Environment="HTTP_PROXY=http://[.replaceable]#proxy-domain:port#"
+Environment="HTTPS_PROXY=http://[.replaceable]#proxy-domain:port#"
 Environment="NO_PROXY=localhost"
 ----
-==== From userdata
-The `kubelet.service.d` directory will need to be created for this file. You will need to reload systemd to pick up the configuration file without a reboot. In AL2023, the service will likely already be running when your script executes, so you will also need to restart it. 
-[source,yaml,subs="vabatim,attributes,quotes"]
+
+==== `kubelet` configuration from user data
+
+The `kubelet.service.d` directory must be created for this file. You will need to reload systemd to pick up the configuration file without a reboot. In AL2023, the service will likely already be running when your script executes, so you will also need to restart it.
+
+[source,yaml,subs="verbatim,attributes,quotes"]
 ----
 mkdir -p /etc/systemd/system/kubelet.service.d
 echo '[Service]' > /etc/systemd/system/kubelet.service.d
-echo 'Environment="HTTP_PROXY=http://proxy-domain:port"' >> /etc/systemd/system/kubelet.service.d
-echo 'Environment="HTTPS_PROXY=http://proxy-domain:port"' >> /etc/systemd/system/kubelet.service.d
+echo 'Environment="HTTP_PROXY=http://[.replaceable]#proxy-domain:port#"' >> /etc/systemd/system/kubelet.service.d
+echo 'Environment="HTTPS_PROXY=http://[.replaceable]#proxy-domain:port#"' >> /etc/systemd/system/kubelet.service.d
 echo 'Environment="NO_PROXY=localhost"' >> /etc/systemd/system/kubelet.service.d
 systemctl daemon-reload
 systemctl restart containerd
@@ -78,16 +85,16 @@ If you are using a proxy for internet access, you must configure your operating 
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
-sudo snap set system proxy.https=http://proxy-domain:port
-sudo snap set system proxy.http=http://proxy-domain:port
+sudo snap set system proxy.https=http://[.replaceable]#proxy-domain:port#
+sudo snap set system proxy.http=http://[.replaceable]#proxy-domain:port#
 ----
 
 . To enable proxy for `apt`, create a file called `apt.conf` in the `/etc/apt/` directory. Replace proxy-domain and port with the values for your environment.
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
-Acquire::http::Proxy "http://proxy-domain:port";
-Acquire::https::Proxy "http://proxy-domain:port";
+Acquire::http::Proxy "http://[.replaceable]#proxy-domain:port#";
+Acquire::https::Proxy "http://[.replaceable]#proxy-domain:port#";
 ----
 
 *Amazon Linux 2023 and Red Hat Enterprise Linux*
@@ -96,7 +103,7 @@ Acquire::https::Proxy "http://proxy-domain:port";
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
-proxy=http://proxy-domain:port
+proxy=http://[.replaceable]#proxy-domain:port#
 ----
 
 == Cluster wide configuration
@@ -127,9 +134,9 @@ containers:
     - --config=/var/lib/kube-proxy-config/config - --hostname-override=$(NODE_NAME)
     env:
     - name: HTTP_PROXY
-      value: http://proxy-domain:port
+      value: http://[.replaceable]#proxy-domain:port#
     - name: HTTPS_PROXY
-      value: http://proxy-domain:port
+      value: http://[.replaceable]#proxy-domain:port#
     - name: NODE_NAME
       valueFrom:
         fieldRef:
