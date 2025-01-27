@@ -3,6 +3,9 @@
 = Edit multiple files from a web browser with the GitHub Web Editor
 :info_titleabbrev: Edit files with GitHub
 
+
+include::../attributes.txt[]
+
 If you want to propose change to multiple pages, or create a new docs page, use the GitHub.dev web editor. This web editor is based on the popular Visual Studio Code text editor. 
 
 image::images/contribute-web-dev.png["GitHub.dev web editor user interface]

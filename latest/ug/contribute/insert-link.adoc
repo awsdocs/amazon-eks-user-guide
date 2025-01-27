@@ -3,11 +3,14 @@
 = Insert a link
 :info_titleabbrev: Insert link
 
+
+include::../attributes.txt[]
+
 AsciiDoc supports multiple types of links. Using the right link type is important so the link works properly in different environments.
 
 == Link to a page or section in the EKS User Guide
 
-Use cross references (xref) to link between pages/sections within the same documentation site, such as the EKS User Guide. They automatically update if the target section moves or is renamed. 
+Use cross references (xref) to link between pages or sections within the same documentation site, such as the EKS User Guide. They automatically update if the target section moves or is renamed. 
 
 === Define custom link text
 

@@ -3,6 +3,9 @@
 = AsciiDoc Syntax Reference
 :info_titleabbrev: AsciiDoc Syntax
 
+
+include::../attributes.txt[]
+
 This page is a quick overview of AsciiDoc syntax. 
 
 We suggest using AsciiDoc syntax. The AsciiDoc tooling has partial support for Markdown syntax, including headings and lists.

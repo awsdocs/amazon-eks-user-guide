@@ -3,6 +3,9 @@
 = Edit a single page from a web browser
 :info_titleabbrev: Edit single page
 
+
+include::../attributes.txt[]
+
 You can easily edit a single page in the EKS User Guide directly through your web browser.
 
 image::images/contribute-web-edit.png["View of GitHub web edit interface"]

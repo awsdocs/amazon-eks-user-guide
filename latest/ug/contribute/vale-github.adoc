@@ -3,6 +3,9 @@
 = View style feedback online for a pull request
 :info_titleabbrev: View PR feedback
 
+
+include::../attributes.txt[]
+
 When you create a pull request to propose docs changes, multiple GitHub actions run. This includes a style check using Vale.
 
 image::images/contribute-style-web.png["View style feedback on GitHub"]

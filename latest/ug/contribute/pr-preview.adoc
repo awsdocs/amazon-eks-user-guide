@@ -3,6 +3,9 @@
 = View a preview of pull request content
 :info_titleabbrev: View PR Preview
 
+
+include::../attributes.txt[]
+
 The EKS User Guide GitHub is configured to build and generate a preview of the docs site. This preview doesn't have the full {aws} theme, but it does check the content builds properly and links work.
 
 image::images/contribute-preview.png["GitHub comment with preview URL"]

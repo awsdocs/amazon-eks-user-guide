@@ -3,6 +3,9 @@
 = Create docs content with Amazon Q
 :info_titleabbrev: Create with Amazon Q
 
+
+include::../attributes.txt[]
+
 You can use Amazon Q to create and revise docs content. This is an easy way to get started on a new page. Amazon Q is available as an extension to Visual Studio (VS) Code. 
 
 In the following image, Amazon Q generated the lines marked with green.

@@ -3,6 +3,9 @@
 = View the status of your GitHub Pull Request (PR)
 :info_titleabbrev: View PR Status
 
+
+include::../attributes.txt[]
+
 After you create a pull request, you can track it's status. Pull requests have three important statuses: merged, closed, and changes requested. 
 
 If a pull request is merged, the changes were accepted. It may take a few hours for the website to update. If the PR was closed, please understand we appreciate the contribution but could not approve the changes. For example, we may have been unable to replicate the problem. If a pull request has changes requested, review the feedback and update the pull request. 
