@@ -1,0 +1,76 @@
+[#tag-subnets-auto]
+= Tag subnets for EKS Auto Mode
+:info_titleabbrev: Tag subnets
+
+include::../attributes.txt[]
+
+If you use the load balancing capability of EKS Auto Mode, you need to add {aws} tags to your VPC subnets. 
+
+== Background
+
+These tags identify subnets as associated with the cluster, and more importantly if the subnet is public or private. 
+
+Public subnets have direct internet access via an internet gateway. They are used for resources that need to be publicly accessible such as load balancers. 
+
+Private subnets do not have direct internet access and use NAT gateways for outbound traffic. They are used for internal resources such as EKS nodes that don't need public IPs.
+
+To learn more about NAT gateways and Internet gateways, see link:vpc/latest/userguide/extend-intro.html["Connect your VPC to other networks",type="documentation"] in the Amazon Virtual Private Cloud (VPC) User Guide. 
+
+== Requirement 
+
+At this time, subnets used for load balancing by EKS Auto Mode are required to have one of the following tags. 
+
+===  Public subnets
+Public subnets are used for internet-facing load balancers. These subnets must have the following tags:
+
+|===
+|Key |Value
+
+|`kubernetes.io/role/elb`
+|`1` or ``
+|===
+
+=== Private subnets
+Private subnets are used for internal load balancers. These subnets must have the following tags:
+
+|===
+|Key |Value
+
+|`kubernetes.io/role/internal-elb`
+|`1` or ``
+|===
+
+== Procedure
+
+Before you begin, identify which subnets are public (with Internet Gateway access) and which are private (using NAT Gateway). You'll need permissions to modify VPC resources.
+
+=== {aws} Management Console
+
+. Open the Amazon VPC console and navigate to Subnets
+. Select the subnet to tag 
+. Choose the Tags tab and select Add tag
+. Add the appropriate tag:
+* For public subnets: Key=`kubernetes.io/role/elb`
+* For private subnets: Key=`kubernetes.io/role/internal-elb`
+. Set Value to `1` or leave empty
+. Save and repeat for remaining subnets
+
+=== {aws} CLI
+
+For public subnets:
+[source,bash]
+----
+aws ec2 create-tags \
+    --resources subnet-ID \
+    --tags Key=kubernetes.io/role/elb,Value=1
+----
+
+For private subnets:
+[source,bash]
+----
+aws ec2 create-tags \
+    --resources subnet-ID \
+    --tags Key=kubernetes.io/role/internal-elb,Value=1
+----
+
+Replace `subnet-ID` with your actual subnet ID.
