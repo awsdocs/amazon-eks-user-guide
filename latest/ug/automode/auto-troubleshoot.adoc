@@ -204,7 +204,7 @@ kubectl get nodeclaim -o yaml
 ----
 
 An example output is as follows.
-+
+
 [source,bash,subs="verbatim,attributes"]
 ----
     nodeName: i-01234567890123456
@@ -219,7 +219,7 @@ kubectl get endpoints kubernetes -o yaml
 ----
 
 An example output is as follows.
-+
+
 [source,bash,subs="verbatim,attributes"]
 ----
 apiVersion: v1
