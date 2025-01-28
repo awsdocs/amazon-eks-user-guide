@@ -31,8 +31,8 @@ spec:
     cidr: 10.100.0.0/16
 ----
 +
-In AL2, the metadata from these parameters was discovered from the Amazon EKS `DescribeCluster` API call. With AL2023, this behavior has changed since the additional API call risks throttling during large node scale ups. This change doesn't affect you if you're using managed node groups without a launch template or if you're using [.noloc]`Karpenter`. For more information on `certificateAuthority` and service `cidr`, see ` link:eks/latest/APIReference/API_DescribeCluster.html[DescribeCluster,type="documentation"]` in the _Amazon EKS API Reference_.
-* For AL2023, `nodeadm` also changes the format to apply parameters to the `kubelet` for each node using https://awslabs.github.io/amazon-eks-ami/nodeadm/doc/api/#nodeconfigspec[`NodeConfigSpec`], in AL2 this was done with the `--kubelet-extra-args` parameter. This is commonly used to add labels and taints to nodes. An example below shows applying `maxPods` and `--node-labels`  to the node.
+In AL2, the metadata from these parameters was discovered from the Amazon EKS `DescribeCluster` API call. With AL2023, this behavior has changed since the additional API call risks throttling during large node scale ups. This change doesn't affect you if you're using managed node groups without a launch template or if you're using [.noloc]`Karpenter`. For more information on `certificateAuthority` and service `cidr`, see link:eks/latest/APIReference/API_DescribeCluster.html[`DescribeCluster`,type="documentation"] in the _Amazon EKS API Reference_.
+* For AL2023, `nodeadm` also changes the format to apply parameters to the `kubelet` for each node using https://awslabs.github.io/amazon-eks-ami/nodeadm/doc/api/#nodeconfigspec[`NodeConfigSpec`]. In AL2, this was done with the `--kubelet-extra-args` parameter. This is commonly used to add labels and taints to nodes. An example below shows applying `maxPods` and `--node-labels` to the node.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
