@@ -139,6 +139,15 @@ spec:
   controller: eks.amazonaws.com/alb
 ----
 
+[NOTE]
+====
+EKS Auto Mode requires subnet tags to identify public and private subnets.
+
+If you created your cluster with `eksctl`, you already have these tags.
+
+Learn how to <<tag-subnets-auto>>.
+====
+
 Then create the Ingress resource. Create a file named `05-ingress.yaml`:
 
 [source,yaml]

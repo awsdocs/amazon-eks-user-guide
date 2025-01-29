@@ -24,6 +24,16 @@ EKS Auto Mode creates and configures Application Load Balancers (ALBs). For exam
 * Kubectl configured to connect to your cluster
 ** You can use `kubectl apply -f <filename>` to apply the sample configuration YAML files below to your cluster.
 
+[NOTE]
+====
+EKS Auto Mode requires subnet tags to identify public and private subnets.
+
+If you created your cluster with `eksctl`, you already have these tags.
+
+Learn how to <<tag-subnets-auto>>. 
+====
+
+
 ## Step 1: Create IngressClassParams
 
 Create an `IngressClassParams` object to specify {aws} specific configuration options for the Application Load Balancer. Use the reference below to update the sample YAML file. 
@@ -38,8 +48,6 @@ metadata:
 spec:
   scheme: internet-facing
 ```
-
-
 
 ## Step 2: Create IngressClass
 

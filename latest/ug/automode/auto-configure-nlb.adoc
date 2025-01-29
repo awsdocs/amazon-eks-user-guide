@@ -11,6 +11,15 @@ When you create a Kubernetes service of type `LoadBalancer` in EKS Auto Mode, EK
 
 EKS Auto Mode handles Network Load Balancer provisioning by default for all services of type LoadBalancer - no additional controller installation or configuration is required. The `loadBalancerClass: eks.amazonaws.com/nlb `specification is automatically set as the cluster default, streamlining the deployment process while maintaining compatibility with existing Kubernetes workloads.
 
+[NOTE]
+====
+EKS Auto Mode requires subnet tags to identify public and private subnets.
+
+If you created your cluster with `eksctl`, you already have these tags.
+
+Learn how to <<tag-subnets-auto>>. 
+====
+
 
 == Sample Service
 
