@@ -1,13 +1,8 @@
-//!!NODE_ROOT <section>
 [.topic]
 [[eks-optimized-amis,eks-optimized-amis.title]]
 = Create nodes with pre-built optimized images
-:info_doctype: section
-:info_title: Create nodes with pre-built optimized images
 :info_titleabbrev: Pre-built optimized AMIs
 :keywords: optimized, custom, AMI
-:info_abstract: You can deploy nodes with pre-built Amazon EKS optimized Amazon Machine Images (AMIs) or your own custom \
-                                AMIs
 
 include::../attributes.txt[]
 

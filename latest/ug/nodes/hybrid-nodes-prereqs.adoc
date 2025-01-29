@@ -1,12 +1,8 @@
-//!!NODE_ROOT <section>
 [.topic]
 [[hybrid-nodes-prereqs,hybrid-nodes-prereqs.title]]
 = Prerequisite setup for hybrid nodes
-:info_doctype: section
-:info_title: Prerequisite setup for hybrid nodes
 :info_titleabbrev: Prerequisites
 :keywords: on-premises prerequisites, hybrid prerequisites
-:info_abstract: Prerequisites and requirements for Amazon EKS hybrid nodes
 
 include::../attributes.txt[]
 

@@ -1,4 +1,3 @@
-//!!NODE_ROOT <section>
 include::../attributes.txt[]
 [.topic]
 [[fargate-getting-started,fargate-getting-started.title]]
@@ -9,13 +8,6 @@ include::../attributes.txt[]
 --
 This topic describes how to get started running [.noloc]`Pods` on {aws} Fargate with your Amazon EKS cluster.
 --
-
-[IMPORTANT]
-====
-
-{aws} Fargate with Amazon EKS isn't available in {aws} GovCloud (US-East) and {aws} GovCloud (US-West).
-
-====
 
 This topic describes how to get started running [.noloc]`Pods` on {aws} Fargate with your Amazon EKS cluster.
 

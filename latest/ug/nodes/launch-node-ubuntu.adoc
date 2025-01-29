@@ -1,4 +1,3 @@
-//!!NODE_ROOT <section>
 include::../attributes.txt[]
 [.topic]
 [[launch-node-ubuntu,launch-node-ubuntu.title]]
@@ -54,7 +53,7 @@ kind: ClusterConfig
 metadata:
   name: my-cluster
   region: region-code
-  version: '1.30'
+  version: '{k8s-n}'
 
 iam:
   withOIDC: true

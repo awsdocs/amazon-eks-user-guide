@@ -6,6 +6,13 @@
 :auto-cli-v2-version: 2.12.3
 :auto-cli-v1-version: 1.27.160
 
+// Kubernetes Versions
+
+:k8s-n: 1.32
+:k8s-n-1: 1.31
+:k8s-n-2: 1.30
+:k8s-n-3: 1.29
+
 // Words Geoffrey often spells wrong or doesn't like to type
 
 :ret: retrieve

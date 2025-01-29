@@ -1,16 +1,10 @@
-//!!NODE_ROOT <section>
 include::../attributes.txt[]
 
 [.topic]
 [[getting-started-eksctl,getting-started-eksctl.title]]
 = Get started with Amazon EKS – `eksctl`
-:info_doctype: section
-:info_title: Get started with Amazon EKS – \
-            eksctl
 :info_titleabbrev: Create your first cluster – eksctl
 :keywords: using, eksctl, getting, started, tutorial
-:info_abstract: Learn how to create your first Amazon EKS cluster with nodes using the eksctl command \
-                line tool.
 
 [abstract]
 --

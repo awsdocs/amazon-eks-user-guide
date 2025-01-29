@@ -1,7 +1,5 @@
-
 [.topic]
 = EKA Auto Mode API Reference WIP
-:info_doctype: section
 
 :ind: indicate
 :Ind: Indicate

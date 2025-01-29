@@ -1,14 +1,8 @@
-//!!NODE_ROOT <section>
 include::../attributes.txt[]
 
 [.topic]
 [[creating-resources-with-cloudformation,creating-resources-with-cloudformation.title]]
 = Create Amazon EKS resources with {aws} CloudFormation
-:info_doctype: section
-:info_title: Create Amazon EKS resources with \
-            {aws} CloudFormation
-:info_abstract: Learn about how to create resources for Amazon EKS using an {aws} CloudFormation \
-                template.
 
 [abstract]
 --

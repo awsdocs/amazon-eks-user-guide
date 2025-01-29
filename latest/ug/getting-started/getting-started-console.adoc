@@ -1,16 +1,11 @@
-//!!NODE_ROOT <section>
+
 include::../attributes.txt[]
 
 [.topic]
 [[getting-started-console,getting-started-console.title]]
 = Get started with Amazon EKS – {aws-management-console} and {aws} CLI
-:info_doctype: section
-:info_title: Get started with Amazon EKS – {aws-management-console} and \
-            {aws} CLI
 :info_titleabbrev: Create your first cluster – {aws-management-console}
 :keywords: using, {aws-management-console}, {aws} CLI, getting, started, tutorial
-:info_abstract: Learn how to create your first Amazon EKS cluster with nodes using the {aws-management-console} and \
-                {aws} CLI.
 
 [abstract]
 --

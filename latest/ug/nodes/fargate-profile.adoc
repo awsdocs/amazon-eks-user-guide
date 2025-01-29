@@ -1,4 +1,3 @@
-//!!NODE_ROOT <section>
 include::../attributes.txt[]
 [.topic]
 [[fargate-profile,fargate-profile.title]]
@@ -9,13 +8,6 @@ include::../attributes.txt[]
 --
 Before you schedule [.noloc]`Pods` on Fargate in your cluster, you must define at least one Fargate profile that specifies which [.noloc]`Pods` use Fargate when launched.
 --
-
-[IMPORTANT]
-====
-
-{aws} Fargate with Amazon EKS isn't available in {aws} GovCloud (US-East) and {aws} GovCloud (US-West).
-
-====
 
 Before you schedule [.noloc]`Pods` on Fargate in your cluster, you must define at least one Fargate profile that specifies which [.noloc]`Pods` use Fargate when launched.
 

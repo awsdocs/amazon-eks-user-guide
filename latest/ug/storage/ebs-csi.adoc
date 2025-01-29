@@ -1,15 +1,10 @@
-//!!NODE_ROOT <section>
 include::../attributes.txt[]
 
 [.topic]
 [[ebs-csi,ebs-csi.title]]
 = Store [.noloc]`Kubernetes` volumes with Amazon EBS
-:info_doctype: section
-:info_title: Store Kubernetes volumes with Amazon EBS
 :info_titleabbrev: Amazon EBS
 :keywords: Amazon EBS CSI driver, storage
-:info_abstract: The Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver manages the \
-                lifecycle of Amazon EBS volumes as storage for Kubernetes Volumes.
 
 [abstract]
 --
@@ -50,7 +45,9 @@ To use the snapshot functionality of the Amazon EBS CSI driver, you must first i
 ----
 aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
 ----
-* An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* The EBS CSI driver needs {aws} IAM Permissions.
+** {aws} suggests using EKS Pod Identities. For more information, see <<pod-id-setup-overview>>. 
+** For information about IAM Roles for Service Accounts, see <<enable-iam-roles-for-service-accounts>>.
 * If you're using a cluster wide restricted <<pod-security-policy,PodSecurityPolicy>>, make sure that the add-on is granted sufficient permissions to be deployed. For the permissions required by each add-on [.noloc]`Pod`, see the https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base[relevant add-on manifest definition] on GitHub.
 
 
@@ -81,7 +78,7 @@ The specific steps in this procedure are written for using the driver as an Amaz
 ====
 
 === `eksctl` [[eksctl_store_app_data]]
-. Create an IAM role and attach a policy. {aws} maintains an {aws} managed policy or you can create your own custom policy. You can create an IAM role and attach the {aws} managed policy with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster. The command deploys an {aws} CloudFormation stack that creates an IAM role and attaches the IAM policy to it. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `arn:aws:` with `arn:aws-us-gov:`.
+. Create an IAM role and attach a policy. {aws} maintains an {aws} managed policy or you can create your own custom policy. You can create an IAM role and attach the {aws} managed policy with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster. The command deploys an {aws} CloudFormation stack that creates an IAM role and attaches the IAM policy to it.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -139,7 +136,7 @@ aws iam create-policy \
       --policy-name KMS_Key_For_Encryption_On_EBS_Policy \
       --policy-document file://kms-key-for-encryption-on-ebs.json
 ----
-.. Attach the IAM policy to the role with the following command. Replace [.replaceable]`111122223333` with your account ID. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `arn:aws:` with `arn:aws-us-gov:`.
+.. Attach the IAM policy to the role with the following command. Replace [.replaceable]`111122223333` with your account ID.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -251,7 +248,7 @@ https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
 ----
 . Create the IAM role, granting the `AssumeRoleWithWebIdentity` action.
 +
-.. Copy the following contents to a file that's named `aws-ebs-csi-driver-trust-policy.json`. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` and [.replaceable]`region-code` with the values returned in the previous step.  If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `arn:aws:` with `arn:aws-us-gov:`.
+.. Copy the following contents to a file that's named `aws-ebs-csi-driver-trust-policy.json`. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` and [.replaceable]`region-code` with the values returned in the previous step.
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -282,7 +279,7 @@ aws iam create-role \
       --role-name AmazonEKS_EBS_CSI_DriverRole \
       --assume-role-policy-document file://"aws-ebs-csi-driver-trust-policy.json"
 ----
-. Attach a policy. {aws} maintains an {aws} managed policy or you can create your own custom policy. Attach the {aws} managed policy to the role with the following command. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `arn:aws:` with `arn:aws-us-gov:`.
+. Attach a policy. {aws} maintains an {aws} managed policy or you can create your own custom policy. Attach the {aws} managed policy to the role with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -335,7 +332,7 @@ aws iam create-policy \
       --policy-name KMS_Key_For_Encryption_On_EBS_Policy \
       --policy-document file://kms-key-for-encryption-on-ebs.json
 ----
-.. Attach the IAM policy to the role with the following command. Replace [.replaceable]`111122223333` with your account ID. If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `arn:aws:` with `arn:aws-us-gov:`.
+.. Attach the IAM policy to the role with the following command. Replace [.replaceable]`111122223333` with your account ID.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

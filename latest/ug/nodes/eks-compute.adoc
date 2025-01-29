@@ -1,4 +1,3 @@
-//!!NODE_ROOT <chapter>
 [[eks-compute,eks-compute.title]]
 = Manage compute resources by using nodes
 :doctype: book
@@ -9,11 +8,8 @@
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_doctype: chapter
-:info_title: Manage compute resources by using nodes
 :info_titleabbrev: Manage compute
 :keywords: nodes, node groups
-:info_abstract: Your Amazon EKS cluster can schedule Pods on any combination of self-managed nodes, Amazon EKS managed node groups, and Fargate in the {aws} Cloud and hybrid nodes on-premises.
 
 include::../attributes.txt[]
 
@@ -32,13 +28,6 @@ For more information, see https://kubernetes.io/docs/concepts/architecture/nodes
 
 Your Amazon EKS cluster can schedule [.noloc]`Pods` on any combination of <<automode, EKS Auto Mode managed nodes>>, <<worker,self-managed nodes>>, <<managed-node-groups,Amazon EKS managed node groups>>, <<fargate,{aws} Fargate>>, and <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>>. To learn more about nodes deployed in your cluster, see <<view-kubernetes-resources>>.
 
-[IMPORTANT]
-====
-
-{aws} Fargate with Amazon EKS isn't available in {aws} GovCloud (US-East) and {aws} GovCloud (US-West).
-Amazon EKS Hybrid Nodes isn't available in {aws} GovCloud Regions and China Regions.
-
-====
 
 [NOTE]
 ====

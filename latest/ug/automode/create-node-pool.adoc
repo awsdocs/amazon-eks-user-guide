@@ -1,13 +1,13 @@
-//!!NODE_ROOT <section>
 [.topic]
 [[create-node-pool,create-node-pool.title]]
 = Create a Node Pool for EKS Auto Mode
-:info_doctype: section
 :info_titleabbrev: Create node pool
 
 include::../attributes.txt[]
 
 Amazon EKS node pools provide a flexible way to manage compute resources in your Kubernetes cluster. This topic demonstrates how to create and configure node pools using Karpenter, a node provisioning tool that helps optimize cluster scaling and resource utilization. With Karpenter's NodePool resource, you can define specific requirements for your compute resources, including instance types, availability zones, architectures, and capacity types.
+
+You cannot modify the built in `system` and `general-purpose` node pools. You can only enable or disable them. For more information, see <<set-builtin-node-pools>>.
 
 The NodePool specification allows for fine-grained control over your EKS cluster's compute resources through various supported labels and requirements. These include options for specifying EC2 instance categories, CPU configurations, availability zones, architectures (ARM64/AMD64), and capacity types (spot/on-demand). You can also set resource limits for CPU and memory usage, ensuring your cluster stays within desired operational boundaries. 
 
@@ -43,7 +43,7 @@ Ensure that your NodePool references a valid NodeClass that exists in your clust
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
-  name: default
+  name: my-node-pool
 spec:
   template:
     metadata:
@@ -206,5 +206,17 @@ For more information, see <<automode-get-started-eksctl>>
 ** For more information, see <<auto-node-access-entry>>
 . Create a custom node pool, as described above.
 
+== Disruption
 
+You can configure EKS Auto Mode to disrupt Nodes through your NodePool in multiple ways. You can use `spec.disruption.consolidationPolicy`, `spec.disruption.consolidateAfter`, or `spec.template.spec.expireAfter`. You can also rate limit EKS Auto Mode's disruption through the NodePool’s `spec.disruption.budgets`. You can also control the time windows and number of simultaneous Nodes disrupted. For instructions on configuring this behavior, see https://karpenter.sh/docs/concepts/disruption/[Disruption] in the Karpenter Documentation. 
 
+You can configure disruption for node pools to:
+
+- Identify when instances are underutilized, and consolidate workloads.
+- Create a node pool disruption budget to rate limit node terminations due to drift, emptiness, and consolidation. 
+
+By default, EKS Auto Mode:
+
+- Consolidates underutilized instances. 
+- Terminates instances after 720 hours. 
+- Sets a single disruption budget of 10% of nodes. 

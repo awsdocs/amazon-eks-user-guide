@@ -1,17 +1,13 @@
-//!!NODE_ROOT <section>
 [.topic]
 include::../attributes.txt[]
 [[migrate-auto,migrate-auto.title]]
 = Enable EKS Auto Mode on existing EKS clusters
-:info_doctype: section
 :icons: font
 :experimental:
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_title: Enable EKS Auto Mode on existing EKS clusters
 :info_titleabbrev: Enable existing clusters
-:info_abstract: Learn about the tools needed to migrate an Amazon EKS cluster to EKS Auto Mode.
 
 [abstract]
 --

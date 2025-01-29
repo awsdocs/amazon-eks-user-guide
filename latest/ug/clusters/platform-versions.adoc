@@ -1,17 +1,13 @@
-//!!NODE_ROOT <section>
-
 [.topic]
 [[platform-versions,platform-versions.title]]
 = View Amazon EKS platform versions for each [.noloc]`Kubernetes` version
-:info_doctype: section
-:info_title: View Amazon EKS platform versions for each Kubernetes version
 :info_titleabbrev: Platform versions
 
 include::../attributes.txt[]
 
 Amazon EKS platform versions represent the capabilities of the Amazon EKS cluster control plane, such as which [.noloc]`Kubernetes` API server flags are enabled, as well as the current [.noloc]`Kubernetes` patch version. Each [.noloc]`Kubernetes` minor version has one or more associated Amazon EKS platform versions. The platform versions for different [.noloc]`Kubernetes` minor versions are independent. You can  <<get-platform-version,retrieve your cluster's current platform version>> using the {aws} CLI or {aws-management-console}. If you have a local cluster on {aws} Outposts, see <<eks-outposts-platform-versions>> instead of this topic.
 
-When a new [.noloc]`Kubernetes` minor version is available in Amazon EKS, such as 1.30, the initial Amazon EKS platform version for that [.noloc]`Kubernetes` minor version starts at `eks.1`. However, Amazon EKS releases new platform versions periodically to enable new [.noloc]`Kubernetes` control plane settings and to provide security fixes.
+When a new [.noloc]`Kubernetes` minor version is available in Amazon EKS, such as {k8s-n}, the initial Amazon EKS platform version for that [.noloc]`Kubernetes` minor version starts at `eks.1`. However, Amazon EKS releases new platform versions periodically to enable new [.noloc]`Kubernetes` control plane settings and to provide security fixes.
 
 When new Amazon EKS platform versions become available for a minor version:
 
@@ -36,11 +32,29 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 ====
 
+[[platform-versions-1.32,platform-versions-1.32.title]]
+== [.noloc]`Kubernetes` version `1.32`
+
+The following admission controllers are enabled for all `1.32` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`.
+
+[cols="1,1,1,1", options="header"]
+|===
+| Kubernetes version
+| EKS platform version
+| Release notes
+| Release date
+
+| `1.32.0`
+| `eks.2`
+| Initial release of Kubernetes version `1.32` for EKS. For more information, see <<kubernetes-1.32>>.
+| January 2025
+
+|===
 
 [[platform-versions-1.31,platform-versions-1.31.title]]
 == [.noloc]`Kubernetes` version `1.31`
 
-The following admission controllers are enabled for all `1.31` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`.
+The following admission controllers are enabled for all `1.31` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`, `ObjectCount`.
 
 [cols="1,1,1,1", options="header"]
 |===
