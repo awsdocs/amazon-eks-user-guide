@@ -1,4 +1,3 @@
-//!!NODE_ROOT <section>
 include::../attributes.txt[]
 [.topic]
 [[monitoring-fargate-usage,monitoring-fargate-usage.title]]
@@ -9,13 +8,6 @@ include::../attributes.txt[]
 --
 You can collect system metrics and CloudWatch usage metrics for {aws} Fargate.
 --
-
-[IMPORTANT]
-====
-
-{aws} Fargate with Amazon EKS isn't available in {aws} GovCloud (US-East) and {aws} GovCloud (US-West).
-
-====
 
 You can collect system metrics and CloudWatch usage metrics for {aws} Fargate.
 

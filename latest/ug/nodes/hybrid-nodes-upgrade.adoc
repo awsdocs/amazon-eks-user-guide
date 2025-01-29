@@ -1,12 +1,8 @@
-//!!NODE_ROOT <section>
 [.topic]
 [[hybrid-nodes-upgrade,hybrid-nodes-upgrade.title]]
 = Upgrade hybrid nodes for your cluster
-:info_doctype: section
-:info_title: Upgrade hybrid nodes for your cluster
 :info_titleabbrev: Upgrade hybrid nodes
 :keywords: upgrade on-premises nodes, upgrade hybrid nodes
-:info_abstract: Upgrade Kubernetes versions on hybrid nodes
 
 include::../attributes.txt[]
 

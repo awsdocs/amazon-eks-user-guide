@@ -1,12 +1,7 @@
-//!!NODE_ROOT <section>
-
 [.topic]
 [[auto-enable-existing,auto-enable-existing.title]]
 = Enable EKS Auto Mode on an existing cluster
-:info_doctype: section
-:info_title: Enable EKS Auto Mode on an existing cluster
 :info_titleabbrev: Enable on cluster
-:info_abstract: Enable EKS Auto Mode on an existing cluster
 
 include::../attributes.txt[]
 

@@ -1,12 +1,7 @@
-//!!NODE_ROOT <section>
-
 [.topic]
 [[auto-elb-example,auto-elb-example.title]]
 = Deploy a Sample Load Balancer Workload to EKS Auto Mode
-:info_doctype: section
-:info_title: Deploy a sample load balancer workload to EKS Auto Mode
 :info_titleabbrev: Deploy load balancer workload
-:info_abstract: Deploy a sample load balancer workload to EKS Auto Mode
 
 
 include::../attributes.txt[]
@@ -143,6 +138,15 @@ metadata:
 spec:
   controller: eks.amazonaws.com/alb
 ----
+
+[NOTE]
+====
+EKS Auto Mode requires subnet tags to identify public and private subnets.
+
+If you created your cluster with `eksctl`, you already have these tags.
+
+Learn how to <<tag-subnets-auto>>.
+====
 
 Then create the Ingress resource. Create a file named `05-ingress.yaml`:
 

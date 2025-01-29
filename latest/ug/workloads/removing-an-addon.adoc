@@ -1,5 +1,3 @@
-//!!NODE_ROOT <section>
-
 [.topic]
 [[removing-an-add-on,removing-an-add-on.title]]
 = Remove an Amazon EKS add-on from a cluster

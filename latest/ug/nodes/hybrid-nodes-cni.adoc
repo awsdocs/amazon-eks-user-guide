@@ -1,12 +1,8 @@
-//!!NODE_ROOT <section>
 [.topic]
 [[hybrid-nodes-cni,hybrid-nodes-cni.title]]
 = Configure a CNI for hybrid nodes
-:info_doctype: section
-:info_title: Configure a CNI for hybrid nodes
 :info_titleabbrev: Configure CNI
 :keywords: on-premises CNI, hybrid CNI
-:info_abstract: Configure a CNI for Amazon EKS hybrid nodes
 
 include::../attributes.txt[]
 
@@ -26,6 +22,10 @@ The table below represents the Cilium and Calico versions that are compatible an
 |Kubernetes version
 |Cilium version
 |Calico version
+
+|1.32
+|1.16.x
+|3.29.x
 
 |1.31
 |1.16.x

@@ -1,4 +1,3 @@
-//!!NODE_ROOT <chapter>
 include::../attributes.txt[]
 [[eks-outposts,eks-outposts.title]]
 = Deploy Amazon EKS on-premises with {aws} Outposts
@@ -10,11 +9,8 @@ include::../attributes.txt[]
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_doctype: chapter
-:info_title: Deploy Amazon EKS on-premises with {aws} Outposts
 :info_titleabbrev: Amazon EKS on {aws} Outposts
 :keywords: Amazon EKS, {aws} Outposts, extended clusters, local clusters
-:info_abstract: Learn to deploy Amazon EKS on {aws} Outposts for local or extended clusters to run on-premises Kubernetes applications with a fully managed control plane.
 
 [abstract]
 --

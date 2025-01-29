@@ -1,4 +1,3 @@
-//!!NODE_ROOT <chapter>
 include::../attributes.txt[]
 [[eks-observe,eks-observe.title]]
 = Monitor your cluster performance and view logs
@@ -10,12 +9,8 @@ include::../attributes.txt[]
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_doctype: chapter
-:info_title: Monitor your cluster performance and view logs
 :info_titleabbrev: Monitor clusters
 :keywords: observability, monitoring, logging, logs, data
-:info_abstract: You can observe your data in Amazon EKS using many available monitoring or logging \
-                tools.
 
 [abstract]
 --

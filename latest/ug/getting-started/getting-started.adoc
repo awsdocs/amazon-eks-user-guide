@@ -1,4 +1,3 @@
-//!!NODE_ROOT <chapter>
 include::../attributes.txt[]
 [[getting-started,getting-started.title]]
 = Get started with Amazon EKS
@@ -10,10 +9,7 @@ include::../attributes.txt[]
 :idprefix:
 :idseparator: -
 :sourcedir: .
-:info_doctype: chapter
-:info_title: Get started with Amazon EKS
 :info_titleabbrev: Get started
-:info_abstract: Learn about the tools needed for creating and working with an Amazon EKS cluster.
 :keywords: getting, started, tutorials, quick, start
 
 [abstract]
