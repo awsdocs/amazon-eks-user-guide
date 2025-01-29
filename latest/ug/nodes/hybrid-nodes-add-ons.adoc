@@ -109,7 +109,6 @@ To install the {aws} Load Balancer Controller, follow the steps at <<lbc-helm>> 
 For ingress with ALB, you must specify the annotations below. See <<alb-ingress>> for instructions.
 [source,yaml,subs="verbatim,attributes"]
 ----
-alb.ingress.kubernetes.io/scheme: internal
 alb.ingress.kubernetes.io/target-type: ip
 ----
 
