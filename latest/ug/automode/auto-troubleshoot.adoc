@@ -10,24 +10,35 @@ With {eam}, {aws} assumes more {resp} for {e2i}s in {yaa}. EKS assumes {resp} fo
 
 You must use {aws} and {k8s} APIs to troubleshoot nodes. You can:
 
-* Use a Kubernetes `NodeDiagnostic` resource to {ret} node logs. 
-* Use the {aws} EC2 CLI command `get-console-output` to {ret} console output from nodes. 
+* Use a Kubernetes `NodeDiagnostic` resource to {ret} node logs by using the <<auto-node-monitoring-agent>>. For more steps, see <<auto-get-logs>>. 
+* Use the {aws} EC2 CLI command `get-console-output` to {ret} console output from nodes. For more steps, see <<auto-node-console>>.
+* Use Kubernetes _debugging containers_ to {ret} node logs. For more steps, see <<auto-node-debug-logs>>.
 
 [NOTE]
 ====
 {eam} uses {emi}s. You cannot directly access {emi}s, including by SSH.
 ====
 
-If you have a problem with a controller, you should research:
+You might have the following problems that have solutions specific to EKS Auto Mode components:
 
-* If the resources associated with that controller are properly formatted and valid. 
-* If the {aws} IAM and Kubernetes RBAC resources are properly configured for your cluster. For more information, see <<auto-learn-iam>>.
+* Pods stuck in the `Pending` state, that aren't being scheduled onto Auto Mode nodes. For solutions see <<auto-troubleshoot-schedule>>.
+* EC2 managed instances that don't join the cluster as Kubernetes nodes. For solutions see <<auto-troubleshoot-join>>.
+* Errors and issues with the `NodePools`, `PersistentVolumes`, and `Services` that use the controllers that are included in EKS Auto Mode. For solutions see <<auto-troubleshoot-controllers>>.
+
+You can use the following methods to troubleshoot EKS Auto Mode components:
+
+* <<auto-node-console>>
+* <<auto-node-debug-logs>>
+* <<auto-node-ec2-web>>
+* <<auto-node-iam>>
+* <<auto-node-reachability>>
 
 [[auto-node-monitoring-agent,auto-node-monitoring-agent.title]]
 == Node monitoring agent
 
 {eam} includes the Amazon EKS node monitoring agent. You can use this agent to view troubleshooting and debugging information about nodes. The node monitoring agent publishes Kubernetes `events` and node `conditions`. For more information, see <<node-health>>.
 
+[[auto-node-console,auto-node-console.title]]
 == Get console output from an {emi} by using the {aws} EC2 CLI 
 
 This procedure helps with troubleshooting boot-time or kernel-level issues. 
@@ -54,10 +65,61 @@ kubectl get pod <pod-name> -o wide
 aws ec2 get-console-output --instance-id <instance id> --latest --output text
 ----
 
-== Get node logs by using the kubectl CLI
+[[auto-node-debug-logs,auto-node-debug-logs.title]]
+== Get node logs by using __debug containers__ and the `kubectl` CLI
 
-For information about getting node logs, see <<auto-get-logs>>.
+The recommended way of retrieving logs from an EKS Auto Mode node is to use `NodeDiagnostic` resource. For these steps, see <<auto-get-logs>>.
 
+However, you can stream logs live from an instance by using the `kubectl debug node` command. This command launches a new Pod on the node that you want to debug which you can then interactively use.
+
+. Launch a debug container. The following command uses `i-01234567890123456` for the instance ID of the node, `-it` allocates a `tty` and attach `stdin` for interactive usage, and uses the `sysadmin` profile from the kubeconfig file. 
++
+[source,cli]
+----
+kubectl debug node/i-01234567890123456 -it --profile=sysadmin --image=public.ecr.aws/amazonlinux/amazonlinux:2023
+----
++
+An example output is as follows.
++
+[source,none]
+----
+Creating debugging pod node-debugger-i-01234567890123456-nxb9c with container debugger on node i-01234567890123456.
+If you don't see a command prompt, try pressing enter.
+bash-5.2#
+----
+
+. From the shell, you can now install `util-linux-core` which provides the `nsenter` command. Use `nsenter` to enter the mount namespace of PID 1 (`init`) on the host, and run the `journalctl` command to stream logs from the `kubelet`:
++
+[source,bash]
+----
+yum install -y util-linux-core
+nsenter -t 1 -m journalctl -f -u kubelet
+----
+
+For security, the Amazon Linux container image doesn't install many binaries by default. You can use the `yum whatprovides` command to identify the package that must be installed to provide a given binary.
+
+[source,cli]
+----
+yum whatprovides ps
+----
+
+[source,none]
+----
+Last metadata expiration check: 0:03:36 ago on Thu Jan 16 14:49:17 2025.
+procps-ng-3.3.17-1.amzn2023.0.2.x86_64 : System and process monitoring utilities
+Repo        : @System
+Matched from:
+Filename    : /usr/bin/ps
+Provide    : /bin/ps
+
+procps-ng-3.3.17-1.amzn2023.0.2.x86_64 : System and process monitoring utilities
+Repo        : amazonlinux
+Matched from:
+Filename    : /usr/bin/ps
+Provide    : /bin/ps
+----
+
+[[auto-node-ec2-web,auto-node-ec2-web.title]]
 == View resources associated with {eam} in the {aws} Console
 
 You can use the {aws} console to view the status of resources associated with {yec}. 
@@ -69,6 +131,7 @@ You can use the {aws} console to view the status of resources associated with {y
 * link:ec2/home#Instances["EC2 Instances",type="console"]
 ** View EKS Auto Mode instances by searching for the tag key `eks:eks-cluster-name` 
 
+[[auto-node-iam,auto-node-iam.title]]
 == View IAM Errors in {yaa}
 
 . Navigate to CloudTrail console
@@ -78,23 +141,115 @@ You can use the {aws} console to view the status of resources associated with {y
 ** UnauthorizedOperation
 ** InvalidClientTokenId
 
-Look for errors related to your EKS cluster. Use the error messages to update your EKS access entries, Cluster IAM Role, or Node IAM Role. You may need to attach a new policy to these roles with permissions for {eam}.
+Look for errors related to your EKS cluster. Use the error messages to update your EKS access entries, cluster IAM role, or node IAM role. You might need to attach a new policy to these roles with permissions for {eam}.
 
 //Ensure you are running the latest version of the {aws} CLI, eksctl, etc. 
 
-== Pod failing to schedule onto Auto Mode node
+[[auto-troubleshoot-schedule,auto-troubleshoot-schedule.title]]
+== Troubleshoot Pod failing to schedule onto Auto Mode node
 
-If pods are not being scheduled onto an auto mode node, verify if your pod/deployment manifest has a **nodeSelector**. If a nodeSelector is present, please ensure it is using `eks.amazonaws.com/compute-type: auto` to allow it to be scheduled. See <<associate-workload>>.
+If pods staying in the `Pending` state and aren't being scheduled onto an auto mode node, verify if your pod or deployment manifest has a `nodeSelector`. If a `nodeSelector` is present, ensure that it is using `eks.amazonaws.com/compute-type: auto` to be scheduled on nodes that are made by EKS Auto Mode. For more information about the node labels that are used by EKS Auto Mode, see <<associate-workload>>.
 
-== Node not joining cluster
+[[auto-troubleshoot-join,auto-troubleshoot-join.title]]
+== Troubleshoot node not joining the cluster
 
-Run `kubectl get nodeclaim` to check for nodeclaims that are `Ready = False`.
+EKS Auto Mode automatically configures new EC2 instances with the correct information to join the cluster, including the cluster endpoint and cluster certificate authority (CA). However, these instances can still fail to join the EKS cluster as a node. Run the following commands to identify instances that didn't join the cluster:
 
-Proceed to run `kubectl describe nodeclaim <node_claim>` and look under *Status* to find any issues preventing the node from joining the cluster.
+. Run `kubectl get nodeclaim` to check for `NodeClaims` that are `Ready = False`.
++
+[source,cli]
+----
+kubectl get nodeclaim
+----
+
+. Run `kubectl describe nodeclaim <node_claim>` and look under *Status* to find any issues preventing the node from joining the cluster.
++
+[source,cli]
+----
+kubectl describe nodeclaim <node_claim>
+----
 
 *Common error messages:*
 
-* "Error getting launch template configs"
-** You may receive this error if you are setting custom tags in the NodeClass with the default cluster IAM role permissions. See <<auto-learn-iam>>.
-* "Error creating fleet"
-** There may be some authorization issue with calling the RunInstances API call. Check CloudTrail for errors and see <<auto-cluster-iam-role>> for the required IAM permissions.
+`Error getting launch template configs`::
+You might receive this error if you are setting custom tags in the `NodeClass` with the default cluster IAM role permissions. See <<auto-learn-iam>>.
+
+`Error creating fleet`::
+There might be some authorization issue with calling the `RunInstances` call from the EC2 API. Check {aws-cloudtrail} for errors and see <<auto-cluster-iam-role>> for the required IAM permissions.
+
+
+[[auto-node-reachability,auto-node-reachability.title]]
+=== Detect node connectivity issues with the `VPC Reachability Analyzer`
+
+[NOTE]
+====
+You are charged for each analysis that is run the VPC Reachability Analyzer. For pricing details, see link:vpc/pricing/[{amazon-vpc} Pricing,type="marketing"].
+====
+
+One reason that an instance didn't join the cluster is a network connectivity issue that prevents them from reaching the API server. To diagnose this issue, you can use the link:vpc/latest/reachability/what-is-reachability-analyzer.html[VPC Reachability Analyzer,type="documentation"] to perform an analysis of the connectivity between a node that is failing to join the cluster and the API server. You will need two pieces of information:
+
+* *instance ID* of a node that can't join the cluster
+* IP address of the *Kubernetes API server endpoint*
+
+To get the *instance ID*, you will need to create a workload on the cluster to cause EKS Auto Mode to launch an EC2 instance. This also creates a `NodeClaim` object in your cluster that will have the instance ID. Run `kubectl get nodeclaim -o yaml` to print all of the `NodeClaims` in your cluster. Each `NodeClaim` contains the instance ID as a field and again in the providerID:
+
+[source,cli]
+----
+kubectl get nodeclaim -o yaml
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+    nodeName: i-01234567890123456
+    providerID: aws:///us-west-2a/i-01234567890123456
+----
+
+You can determine your *Kubernetes API server endpoint* by running `kubectl get endpoint kubernetes -o yaml`. The addresses are in the addresses field:
+
+[source,cli]
+----
+kubectl get endpoints kubernetes -o yaml
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: kubernetes
+  namespace: default
+subsets:
+- addresses:
+  - ip: 10.0.143.233
+  - ip: 10.0.152.17
+  ports:
+  - name: https
+    port: 443
+    protocol: TCP
+----
+
+With these two pieces of information, you can perform the s analysis. First navigate to the VPC Reachability Analyzer in the{aws-management-console}.
+
+. Click "Create and Analyze Path"
+. Provide a name for the analysis (e.g. "Node Join Failure")
+. For the "Source Type" select "Instances"
+. Enter the instance ID of the failing Node as the "Source"
+. For the "Path Destination" select "IP Address"
+. Enter one of the IP addresses for the API server as the "Destination Address"
+. Expand the "Additional Packet Header Configuration Section"
+. Enter a "Destination Port" of 443
+. Select "Protocol" as TCP if it is not already selected
+. Click "Create and Analyze Path"
+. The analysis might take a few minutes to complete. If the analysis results indicates failed reachability, it will indicate where the failure was in the network path so you can resolve the issue.
+
+[[auto-troubleshoot-controllers,auto-troubleshoot-controllers.title]]
+== Troubleshoot included controllers in Auto Mode
+
+If you have a problem with a controller, you should research:
+
+* If the resources associated with that controller are properly formatted and valid. 
+* If the {aws} IAM and Kubernetes RBAC resources are properly configured for your cluster. For more information, see <<auto-learn-iam>>.
