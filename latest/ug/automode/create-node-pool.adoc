@@ -177,3 +177,18 @@ spec:
 * {eam} only supports Linux
 ** `node.kubernetes.io/windows-build`
 ** `kubernetes.io/os`
+
+== Disruption
+
+You can configure EKS Auto Mode to disrupt Nodes through your NodePool in multiple ways. You can use `spec.disruption.consolidationPolicy`, `spec.disruption.consolidateAfter`, or `spec.template.spec.expireAfter`. You can also rate limit EKS Auto Mode's disruption through the NodePool’s `spec.disruption.budgets`. You can also control the time windows and number of simultaneous Nodes disrupted. For instructions on configuring this behavior, see https://karpenter.sh/docs/concepts/disruption/[Disruption] in the Karpenter Documentation. 
+
+You can configure disruption for node pools to:
+
+- Identify when instances are underutilized, and consolidate workloads.
+- Create a node pool disruption budget to rate limit node terminations due to drift, emptiness, and consolidation. 
+
+By default, EKS Auto Mode:
+
+- Consolidates underutilized instances. 
+- Terminates instances after 720 hours. 
+- Sets a single disruption budget of 10% of nodes. 
