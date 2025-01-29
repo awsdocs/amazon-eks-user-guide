@@ -1,3 +1,4 @@
+[.topic]
 [#tag-subnets-auto]
 = Tag subnets for EKS Auto Mode
 :info_titleabbrev: Tag subnets
