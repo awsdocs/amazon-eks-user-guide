@@ -64,6 +64,10 @@ The following functionality works for both Managed instances and Standard EC2 in
 * You can view the instance in the {aws} console. 
 * You can use instance storage as ephemeral storage for workloads. 
 
+=== AMI Support
+
+With EKS Auto Mode, {aws} determines the image (AMI) used for your compute nodes. {aws} monitors the rollout of new EKS Auto Mode AMI versions. If you experience workload issues related to an AMI version, create a support case. For more information, see link:awssupport/latest/user/case-management.html["Creating support cases and case management",type="documentation"] in the AWS Support User Guide.
+
 == Supported instance reference
 
 // Source: https://code.amazon.com/packages/EKSKarpenterController/blobs/a56aeb0ddc3e8a54406421e8f3a091e8e13abea1/--/pkg/providers/instancetype/instancetype.go#L43-L49
