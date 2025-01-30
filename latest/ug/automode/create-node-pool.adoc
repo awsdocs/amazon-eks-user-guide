@@ -178,6 +178,34 @@ spec:
 ** `node.kubernetes.io/windows-build`
 ** `kubernetes.io/os`
 
+== Disable built-in node pools
+
+If you create custom node pools, you can disable the built-in node pools. For more information, see <<set-builtin-node-pools>>.
+
+== Cluster without built-in node pools
+
+You can create a cluster without the built-in node pools. This is helpful when your organization has created customized node pools. 
+
+*Overview:*
+
+. Create an EKS cluster with the both `nodePools` and `nodeRoleArn` values empty.
+** Sample eksctl `autoModeConfig`:
++
+[source,yaml]
+----
+autoModeConfig:
+  enabled: true
+  nodePools: []
+  # Do not set a nodeRoleARN
+----
++
+For more information, see <<automode-get-started-eksctl>>
+. Create a custom node class with a node role ARN
+** For more information, see <<create-node-class>>
+. Create an access entry for the custom node class
+** For more information, see <<auto-node-access-entry>>
+. Create a custom node pool, as described above.
+
 == Disruption
 
 You can configure EKS Auto Mode to disrupt Nodes through your NodePool in multiple ways. You can use `spec.disruption.consolidationPolicy`, `spec.disruption.consolidateAfter`, or `spec.template.spec.expireAfter`. You can also rate limit EKS Auto Mode's disruption through the NodePool’s `spec.disruption.budgets`. You can also control the time windows and number of simultaneous Nodes disrupted. For instructions on configuring this behavior, see https://karpenter.sh/docs/concepts/disruption/[Disruption] in the Karpenter Documentation. 

@@ -45,6 +45,60 @@ kubectl apply -f nodeclass.yaml
 
 Next, reference the Node Class in your Node Pool configuration. For more information, see <<create-node-pool>>.
 
+[#auto-node-access-entry]
+== Create node class access entry
+
+If you create a custom node class, you need to create an EKS Access Entry to permit the nodes to join the cluster. EKS automatically creates access entries when you use the built-in node class and node pools. 
+
+For information about how Access Entries work, see <<access-entries>>.
+
+When creating access entries for EKS Auto Mode node classes, you need to use the `EC2` access entry type. 
+
+=== Create access entry with CLI
+
+*To create an access entry for EC2 nodes and associate the EKS Auto Node Policy:*
+
+Update the following CLI commands with your cluster name, and node role ARN. The node role ARN is specified in the node class YAML. 
+
+[source,bash]
+----
+# Create the access entry for EC2 nodes
+aws eks create-access-entry \
+  --cluster-name <cluster-name> \
+  --principal-arn <node-role-arn> \
+  --type EC2
+
+# Associate the auto node policy
+aws eks associate-access-policy \
+  --cluster-name <cluster-name> \
+  --principal-arn <node-role-arn> \
+  --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSAutoNodePolicy \
+  --access-scope cluster
+----
+
+=== Create access entry with CloudFormation
+
+*To create an access entry for EC2 nodes and associate the EKS Auto Node Policy:*
+
+Update the following CloudFormation with your cluster name, and node role ARN. The node role ARN is specified in the node class YAML. 
+
+[source,yaml]
+----
+EKSAutoNodeRoleAccessEntry:
+  Type: AWS::EKS::AccessEntry
+  Properties:
+    ClusterName: <cluster-name>
+    PrincipalArn: <node-role-arn>
+    Type: "EC2"
+    AccessPolicies:
+      - AccessScope:
+          Type: cluster
+        PolicyArn: arn:aws:eks::aws:cluster-access-policy/AmazonEKSAutoNodePolicy
+  DependsOn: [ <cluster-name> ] # previously defined in CloudFormation
+----
+
+For information about deploying CloudFormation stacks, see link:AWSCloudFormation/latest/UserGuide/GettingStarted.html["Getting started with CloudFormation", type="documentation"]
+
 == Node Class Specification 
 
 [source,yaml]
@@ -88,6 +142,11 @@ spec:
     size: "80Gi"    # Range: 1-59000Gi or 1-64000G or 1-58Ti or 1-64T
     iops: 3000      # Range: 3000-16000
     throughput: 125 # Range: 125-1000
+
+  # IAM role to use for EC2 instance role
+  # If unspecified, EKS will create a role
+  # If specified, role requires access entry described above
+  role: arn:aws:iam::123456789012:role/MyNodeRole  
   
   # Optional: Additional EC2 tags
   tags:

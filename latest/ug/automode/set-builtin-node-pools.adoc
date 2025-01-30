@@ -23,12 +23,14 @@ Both built-in NodePools:
 * Use the C, M, and R EC2 instance families
 * Require generation 5 or newer EC2 instances
 
-## Prerequisites
+== Procedure
+
+=== Prerequisites
 
 * The latest version of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device. To check your current version, use `aws --version`. To install the latest version, see link:cli/latest/userguide/getting-started-install.html["Installing",type="documentation"] and link:cli/latest/userguide/cli-chap-configure.html#cli-configure-quickstart-config["Quick configuration",type="documentation"] with aws configure in the {aws} Command Line Interface User Guide.
 ** Login to the CLI with sufficent IAM permissions to create {aws} resources including IAM Policies, IAM Roles, and EKS Clusters. 
 
-== Enable with {aws} CLI
+=== Enable with {aws} CLI
 
 Use the following command to enable both built-in NodePools:
 
@@ -45,7 +47,7 @@ aws eks update-cluster-config \
 
 You can modify the command to selectively enable the NodePools. 
 
-== Disable with {aws} CLI 
+=== Disable with {aws} CLI 
 
 Use the following command to disable both built-in NodePools:
 
@@ -55,3 +57,4 @@ aws eks update-cluster-config \
   --name <cluster-name> \
   --compute-config '{"nodePools": []}'
 ----
+
