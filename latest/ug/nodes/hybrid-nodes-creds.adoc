@@ -45,7 +45,7 @@ See the example below for how to create an {aws} SSM hybrid activation with your
 
 It is recommended to use one {aws} SSM hybrid activation per EKS cluster to scope the {aws} SSM `ssm:DeregisterManagedInstance` permission of the Hybrid Nodes IAM role to only be able to deregister instances that are associated with your {aws} SSM hybrid activation. In the example on this page, a tag with the EKS cluster ARN is used, which can be used to map your {aws} SSM hybrid activation to the EKS cluster. You can alternatively use your preferred tag and method of scoping the {aws} SSM permissions based on your permission boundaries and requirements. The `REGISTRATION_LIMIT` option in the command below is an integer used to limit the number of machines that can use the {aws} SSM hybrid activation (for example `10`)
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws ssm create-activation \
      --region AWS_REGION \
@@ -90,7 +90,7 @@ The CloudFormation stack creates the Hybrid Nodes IAM Role with the permissions 
 
 . Download the {aws} SSM CloudFormation template for hybrid nodes:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/example/hybrid-ssm-cfn.yaml'
 ----
@@ -112,7 +112,7 @@ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/examp
 ----
 . Deploy the CloudFormation stack. Replace `STACK_NAME` with your name for the CloudFormation stack. 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws cloudformation deploy \
     --stack-name STACK_NAME \
@@ -131,7 +131,7 @@ The CloudFormation stack creates the {aws} IAM Roles Anywhere trust anchor with 
 .. Certificates issued from public CAs cannot be used as trust anchors.
 . Download the {aws} IAM Roles Anywhere CloudFormation template for hybrid nodes
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/example/hybrid-ira-cfn.yaml'
 ----
@@ -152,7 +152,7 @@ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/examp
 ----
 . Deploy the CloudFormation template. Replace `STACK_NAME` with your name for the CloudFormation stack.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws cloudformation deploy \
     --stack-name STACK_NAME \
@@ -187,7 +187,7 @@ Install and configure the {aws} CLI, if you haven't already. See link:cli/latest
 
 . Create the policy with the following command:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-policy \
     --policy-name EKSDescribeClusterPolicy \
@@ -227,7 +227,7 @@ aws iam create-policy \
 ----
 . Create the policy with the following command
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-policy \
     --policy-name EKSHybridSSMPolicy \
@@ -261,7 +261,7 @@ aws iam create-policy \
 ----
 . Create the role with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-role \
     --role-name AmazonEKSHybridNodesRole \
@@ -271,7 +271,7 @@ aws iam create-role \
 . Attach the `EKSDescribeClusterPolicy` and the `EKSHybridSSMPolicy` you created in the previous steps. Replace `AWS_ACCOUNT_ID` with your {aws} account ID.
 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
     --role-name AmazonEKSHybridNodesRole \
@@ -279,7 +279,7 @@ aws iam attach-role-policy \
 ----
 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
     --role-name AmazonEKSHybridNodesRole \
@@ -289,7 +289,7 @@ aws iam attach-role-policy \
 . Attach the `AmazonEC2ContainerRegistryPullOnly` and `AmazonSSMManagedInstanceCore` {aws} managed policies.
 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
     --role-name AmazonEKSHybridNodesRole \
@@ -297,7 +297,7 @@ aws iam attach-role-policy \
 ----
 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
     --role-name AmazonEKSHybridNodesRole \
@@ -351,7 +351,7 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
 
 . Create the role with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-role \
     --role-name AmazonEKSHybridNodesRole \
@@ -361,7 +361,7 @@ aws iam create-role \
 . Attach the `EKSDescribeClusterPolicy` you created in the previous steps. Replace `AWS_ACCOUNT_ID` with your {aws} account ID.
 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \ 
     --role-name AmazonEKSHybridNodesRole \ 
@@ -371,7 +371,7 @@ aws iam attach-role-policy \
 . Attach the `AmazonEC2ContainerRegistryPullOnly` {aws} managed policy
 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \ 
     --role-name AmazonEKSHybridNodesRole \ 

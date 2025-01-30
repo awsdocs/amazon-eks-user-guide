@@ -18,20 +18,20 @@ The Amazon EKS Hybrid Nodes CLI (`nodeadm`) used for hybrid nodes lifecycle mana
 The hybrid nodes version of `nodeadm` is hosted in Amazon S3 fronted by Amazon CloudFront. To install `nodeadm` on each on-premises host, you can run the following command from your on-premises hosts.
 
 *For x86_64 hosts:*
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 curl -OL 'https://hybrid-assets.eks.amazonaws.com/releases/latest/bin/linux/amd64/nodeadm'
 ----
 
 *For ARM hosts*
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 curl -OL 'https://hybrid-assets.eks.amazonaws.com/releases/latest/bin/linux/arm64/nodeadm'
 ----
 
 Add executable file permission to the downloaded binary on each host.
 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 chmod +x nodeadm
 ----
@@ -97,21 +97,21 @@ The `install` command is used to install the artifacts and dependencies required
 
 Install Kubernetes version `1.31` with {aws} Systems Manager (SSM) as the credential provider
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 nodeadm install 1.31 --credential-provider ssm 
 ----
 
 Install Kubernetes version `1.31` with {aws} Systems Manager (SSM) as the credential provider, Docker as the containerd source, with a download timeout of 20 minutes.
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 nodeadm install 1.31 --credential-provider ssm --containerd-source docker --timeout 20m
 ----
 
 Install Kubernetes version `1.31` with {aws} IAM Roles Anywhere as the credential provider
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 nodeadm install 1.31 --credential-provider iam-ra
 ----
@@ -199,7 +199,7 @@ nodeadm config check [flags]
 
 ==== Examples
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 nodeadm config check --config-source file:///root/nodeConfig.yaml
 ----
@@ -210,7 +210,7 @@ The `init` command starts and connects the hybrid node with the configured Amazo
 
 ==== Usage
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 nodeadm init [flags]
 ----
@@ -248,7 +248,7 @@ nodeadm init [flags]
 
 ==== Examples
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 nodeadm init --config-source file://root/nodeConfig.yaml
 ----
@@ -316,7 +316,7 @@ The `nodeadm upgrade` command upgrades all the installed artifacts to the latest
 
 ==== Usage
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 nodeadm upgrade [KUBERNETES_VERSION] [flags]
 ----
@@ -367,12 +367,12 @@ nodeadm upgrade [KUBERNETES_VERSION] [flags]
 
 ==== Examples
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 nodeadm upgrade 1.31 --config-source file:///root/nodeConfig.yaml
 ----
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 nodeadm upgrade 1.31 --config-source file:///root/nodeConfig.yaml --timeout 20m
 ----
@@ -383,7 +383,7 @@ The `nodeadm uninstall` command stops and removes the artifacts `nodeadm` instal
 
 ==== Usage
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 nodeadm uninstall [flags]
 ----
@@ -420,12 +420,12 @@ nodeadm uninstall [flags]
 
 ==== Examples
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 nodeadm uninstall
 ----
 
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 nodeadm uninstall --skip node-validation,pod-validation
 ----
@@ -442,7 +442,7 @@ The `nodeadm debug` command can be used to troubleshoot unhealthy or misconfigur
 If errors are found, the command's output suggests troubleshooting steps. Certain validation steps show child processes. If these fail, the output is showed in a stderr section under the validation error.
 
 ==== Usage
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 nodeadm debug [flags]
 ----
@@ -466,7 +466,7 @@ nodeadm debug [flags]
 |===
 
 ==== Examples
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 nodeadm debug --config-source file://nodeConfig.yaml
 ----
@@ -477,7 +477,7 @@ nodeadm debug --config-source file://nodeConfig.yaml
 
 The following is a sample `nodeConfig.yaml` when using {aws} SSM hybrid activations for hybrid nodes credentials.
 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: node.eks.aws/v1alpha1
 kind: NodeConfig
@@ -497,7 +497,7 @@ The following is a sample `nodeConfig.yaml` for {aws} IAM Roles Anywhere for hyb
 
 When using {aws} IAM Roles Anywhere as your on-premises credentials provider, the `nodeName` you use in your `nodeadm` configuration must align with the permissions you scoped for your Hybrid Nodes IAM role. For example, if your permissions for the Hybrid Nodes IAM role only allow {aws} IAM Roles Anywhere to assume the role when the role session name is equal to the CN of the host certificate, then the `nodeName` in your `nodeadm` configuration must be the same as the CN of your certificates. The `nodeName` that you use can't be longer than 64 characters. For more information, see <<hybrid-nodes-creds>>.
 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: node.eks.aws/v1alpha1
 kind: NodeConfig
@@ -519,7 +519,7 @@ spec:
 
 You can pass kubelet configuration and flags in your `nodeadm` configuration. See the example below for how to add an additional node label `abc.amazonaws.com/test-label` and config for setting `shutdownGracePeriod` to 30 seconds.
 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: node.eks.aws/v1alpha1
 kind: NodeConfig
@@ -542,7 +542,7 @@ spec:
 
 You can pass custom containerd configuration in your `nodeadm` configuration. The containerd configuration for `nodeadm` accepts in-line TOML. See the example below for how to configure containerd to disable deletion of unpacked image layers in the containerd content store. 
 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: node.eks.aws/v1alpha1
 kind: NodeConfig
@@ -568,7 +568,7 @@ You can also use the containerd configuration to enable SELinux support. With SE
 Red Hat Enterprise Linux (RHEL) 8 and RHEL 9 have SELinux enabled by default and set to strict on the host. Amazon Linux 2023 has SELinux enabled by default and set to permissive mode. When SELinux is set to permissive mode on the host, enabling it on containerd will not block requests but will log it according to the SELinux configuration on the host.
 ====
 
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: node.eks.aws/v1alpha1
 kind: NodeConfig

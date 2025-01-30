@@ -29,7 +29,7 @@ In the following steps, replace every [.replaceable]`example value` with your ow
 
 . Create a dedicated [.noloc]`Kubernetes` namespace named `aws-observability`.
 +
-.. Save the following contents to a file named `[.replaceable]``aws-observability-namespace``.yaml` on your computer. The value for `name` must be `aws-observability` and the `aws-observability: enabled` label is required.
+.. Save the following contents to a file named `aws-observability-namespace.yaml` on your computer. The value for `name` must be `aws-observability` and the `aws-observability: enabled` label is required.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -42,9 +42,9 @@ metadata:
 ----
 .. Create the namespace.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
-kubectl apply -f [.replaceable]`aws-observability-namespace`.yaml
+kubectl apply -f aws-observability-namespace.yaml
 ----
 . Create a `ConfigMap` with a `Fluent Conf` data value to ship container logs to a destination. Fluent Conf is [.noloc]`Fluent Bit`, which is a fast and lightweight log processor configuration language that's used to route container logs to a log destination of your choice. For more information, see https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file[Configuration File] in the [.noloc]`Fluent Bit` documentation.  
 +
@@ -162,9 +162,9 @@ data:
 ----
 .. Apply the manifest to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
-kubectl apply -f [.replaceable]`aws-logging-cloudwatch-configmap`.yaml
+kubectl apply -f aws-logging-cloudwatch-configmap.yaml
 ----
 .. Download the CloudWatch IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json[view the policy] on GitHub.
 +
@@ -178,7 +178,7 @@ Amazon OpenSearch Service::
 +
 If you want to send logs to Amazon OpenSearch Service, you can use https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch[es] output, which is a plugin written in [.noloc]`C`. The following example shows you how to use the plugin to send logs to OpenSearch.
 +
-.. Save the following contents to a file named `[.replaceable]``aws-logging-opensearch-configmap``.yaml`. Replace every [.replaceable]`example value` with your own values.
+.. Save the following contents to a file named `aws-logging-opensearch-configmap.yaml`. Replace every [.replaceable]`example value` with your own values.
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
@@ -202,9 +202,9 @@ data:
 ----
 .. Apply the manifest to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
-kubectl apply -f [.replaceable]`aws-logging-opensearch-configmap`.yaml
+kubectl apply -f aws-logging-opensearch-configmap.yaml
 ----
 .. Download the OpenSearch IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json[view the policy] on GitHub.
 +
@@ -225,7 +225,7 @@ You have two output options when sending logs to Firehose:
 +
 The following example shows you how to use the `kinesis_firehose` plugin to send logs to Firehose.
 +
-.. Save the following contents to a file named `[.replaceable]``aws-logging-firehose-configmap``.yaml`. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
+.. Save the following contents to a file named `aws-logging-firehose-configmap.yaml`. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
@@ -244,9 +244,9 @@ data:
 ----
 .. Apply the manifest to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
-kubectl apply -f [.replaceable]`aws-logging-firehose-configmap`.yaml
+kubectl apply -f aws-logging-firehose-configmap.yaml
 ----
 .. Download the Firehose IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json[view the policy] on GitHub.
 +
@@ -257,9 +257,9 @@ curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-
 ====
 . Create an IAM policy from the policy file you downloaded in a previous step.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
-aws iam create-policy --policy-name [.replaceable]`eks-fargate-logging-policy` --policy-document file://permissions.json
+aws iam create-policy --policy-name eks-fargate-logging-policy --policy-document file://permissions.json
 ----
 . Attach the IAM policy to the pod execution role specified for your Fargate profile with the following command. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`AmazonEKSFargatePodExecutionRole` with your [.noloc]`Pod` execution role (for more information, see <<fargate-sg-pod-execution-role>>).
 +
@@ -358,7 +358,7 @@ Shipping [.noloc]`Fluent Bit` process logs to CloudWatch requires additional log
 == Test application
 . Deploy a sample [.noloc]`Pod`.
 +
-.. Save the following contents to a file named `[.replaceable]``sample-app``.yaml` on your computer.
+.. Save the following contents to a file named `sample-app.yaml` on your computer.
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
@@ -386,9 +386,9 @@ spec:
 ----
 .. Apply the manifest to the cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
-kubectl apply -f [.replaceable]`sample-app`.yaml
+kubectl apply -f sample-app.yaml
 ----
 . View the NGINX logs using the destination(s) that you configured in the `ConfigMap`.
 

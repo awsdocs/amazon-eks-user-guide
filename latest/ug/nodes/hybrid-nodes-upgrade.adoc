@@ -119,28 +119,28 @@ The in-place upgrade process refers to using `nodeadm upgrade` to upgrade the Ku
 
 . Use the following command to taint the node you are upgrading with `NoSchedule`. This is so that new pods aren't scheduled or rescheduled on the node that you are upgrading. For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the Kubernetes documentation. Replace `NODE_NAME` with the name of the hybrid node you are upgrading
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 kubectl taint nodes NODE_NAME key=value:NoSchedule
 ----
 
 . Drain the node you are upgrading with the following command. For more information on draining nodes, see https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/[Safely Drain a Node] in the Kubernetes documentation. Replace `NODE_NAME` with the name of the hybrid node you are upgrading.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 kubectl drain NODE_NAME --ignore-daemonsets --delete-emptydir-data
 ----
 
 . Run `nodeadm upgrade` on the hybrid node you are upgrading. You must run `nodeadm` with a user that has root/sudo privileges. The name of the node is preserved through upgrade for both {aws} SSM and {aws} IAM Roles Anywhere credential providers. You cannot change credentials providers during the upgrade process. See <<hybrid-nodes-nodeadm>> for configuration values for `nodeConfig.yaml`. Replace `K8S_VERSION` with the target Kubernetes version you upgrading to.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 nodeadm upgrade K8S_VERSION -c file://nodeConfig.yaml
 ----
 
 . Watch the status of your hybrid nodes and wait for your nodes to shutdown and restart on the new Kubernetes version with the Ready status.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 kubectl get nodes -o -w
 ----

@@ -68,7 +68,7 @@ Cilium version `1.16.x` is supported and recommended for EKS Hybrid Nodes for ev
 . Ensure that you have installed the helm CLI on your command-line environment. See the https://helm.sh/docs/intro/quickstart/[Helm documentation] for installation instructions.
 . Install the Cilium Helm repo.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm repo add cilium https://helm.cilium.io/
 ----
@@ -79,7 +79,7 @@ By default, Cilium masquerades the source IP address of all pod traffic leaving 
 +
 A common way to advertise pod addresses with your on-premises network is by using BGP. To use BGP with Cilium, you must set `bgpControlPlane.enabled: true`. For more information on Cilium's BGP support, see https://docs.cilium.io/en/stable/network/bgp-control-plane/bgp-control-plane/[Cilium BGP Control Plane] in the Cilium documentation.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 affinity:
   nodeAffinity:
@@ -113,24 +113,24 @@ helm install cilium cilium/cilium \
 
 . You can confirm your Cilium installation was successful with the following commands. You should see the `cilium-operator` deployment and the `cilium-agent` running on each of your hybrid nodes. Additionally, your hybrid nodes should now have status `Ready`. For information on how to configure BGP for Cilium, proceed to the next step.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n kube-system
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME                              READY   STATUS    RESTARTS   AGE
 cilium-jjjn8                      1/1     Running   0          11m
 cilium-operator-d4f4d7fcb-sc5xn   1/1     Running   0          11m
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get nodes
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME                   STATUS   ROLES    AGE   VERSION
 mi-04a2cf999b7112233   Ready    <none>   19m   v1.31.0-eks-a737599
@@ -138,7 +138,7 @@ mi-04a2cf999b7112233   Ready    <none>   19m   v1.31.0-eks-a737599
 
 . To use BGP with Cilium to advertise your pod addresses with your on-premises network, you must have installed Cilium with `bgpControlPlane.enabled: true`. To configure BGP in Cilium, first create a file called `cilium-bgp-cluster.yaml` with a `CiliumBGPClusterConfig` with the `peerAddress` set to your on-premises router IP that you are peering with. Configure the `localASN` and `peerASN` based on your on-premises router configuration.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: cilium.io/v2alpha1
 kind: CiliumBGPClusterConfig
@@ -164,14 +164,14 @@ spec:
 
 . Apply the Cilium BGP Cluster configuration to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f cilium-bgp-cluster.yaml
 ----
 
 . The `CiliumBGPPeerConfig` resource defines a BGP peer configuration. Multiple peers can share the same configuration and provide reference to the common `CiliumBGPPeerConfig` resource. Create a file named `cilium-bgp-peer.yaml` to configure the peer configuration for your on-premises network. See the https://docs.cilium.io/en/latest/network/bgp-control-plane/bgp-control-plane-v2/#bgp-peer-configuration[BGP Peer Configuration] in the Cilium documentation for a full list of configuration options.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: cilium.io/v2alpha1
 kind: CiliumBGPPeerConfig
@@ -194,14 +194,14 @@ spec:
 
 . Apply the Cilium BGP Peer configuration to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f cilium-bgp-peer.yaml
 ----
 
 . The `CiliumBGPAdvertisement` resource is used to define various advertisement types and attributes associated with them. Create a file named `cilium-bgp-advertisement.yaml` and configure the `CiliumBGPAdvertisement` resource with your desired settings.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: cilium.io/v2alpha1
 kind: CiliumBGPAdvertisement
@@ -222,7 +222,7 @@ spec:
 
 . Apply the Cilium BGP Advertisement configuration to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f cilium-bgp-advertisement.yaml
 ----
@@ -237,14 +237,14 @@ Before upgrading your Cilium deployment, carefully review the https://docs.ciliu
 
 . Install the Cilium Helm repo.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm repo add cilium https://helm.cilium.io/
 ----
 
 . Run the Cilium upgrade pre-flight check. Replace `CILIUM_VERSION` with your target Cilium version. We recommend that you run the latest patch version for your Cilium minor version. You can find the latest patch release for a given minor Cilium release in the https://github.com/cilium/cilium#stable-releases[Stable Releases section] of the Cilium documentation.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm install cilium-preflight cilium/cilium --version CILIUM_VERSION \
   --namespace=kube-system \
@@ -255,12 +255,12 @@ helm install cilium-preflight cilium/cilium --version CILIUM_VERSION \
 
 . After applying the `cilium-preflight.yaml`, ensure that the number of `READY` pods is the same number of Cilium pods running.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get ds -n kube-system | sed -n '1p;/cilium/p'
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME                      DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
 cilium                    2         2         2       2            2           <none>          1h20m
@@ -269,12 +269,12 @@ cilium-pre-flight-check   2         2         2       2            2           <
 
 . Once the number of READY pods are equal, make sure the Cilium pre-flight deployment is also marked as READY 1/1. If it shows READY 0/1, consult the https://docs.cilium.io/en/v1.16/operations/upgrade/#cnp-validation[CNP Validation] section and resolve issues with the deployment before continuing with the upgrade.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get deployment -n kube-system cilium-pre-flight-check -w
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
 cilium-pre-flight-check   1/1     1            0           12s
@@ -282,7 +282,7 @@ cilium-pre-flight-check   1/1     1            0           12s
 
 . Delete the preflight
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm uninstall cilium-preflight --namespace kube-system
 ----
@@ -291,7 +291,7 @@ helm uninstall cilium-preflight --namespace kube-system
 +
 Before running the helm upgrade command, preserve the values for your deployment in a `cilium-values.yaml` or use `--set` command line options for your settings. The upgrade operation overwrites the Cilium ConfigMap, so it is critical that your configuration values are passed when you upgrade. If you are using BGP, it is recommended to use the `--set bgpControlPlane=true` command line option instead of supplying this information in your values file.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm upgrade cilium cilium/cilium --version CILIUM_VERSION \
   --namespace kube-system \
@@ -301,7 +301,7 @@ helm upgrade cilium cilium/cilium --version CILIUM_VERSION \
 
 . (Optional) If you need to rollback your upgrade due to issues, run the following commands.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm history cilium --namespace kube-system
 helm rollback cilium [REVISION] --namespace kube-system
@@ -311,7 +311,7 @@ helm rollback cilium [REVISION] --namespace kube-system
 
 . Run the following command to uninstall all Cilium components from your cluster. Note, uninstalling the CNI may impact the health of nodes and pods and shouldn't be performed on production clusters.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm uninstall cilium --namespace kube-system
 ----
@@ -322,7 +322,7 @@ The interfaces and routes configured by Cilium are not removed by default when t
 
 . To remove the Cilium Custom Resource Definitions (CRDs) from your cluster, you can run the following commands.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get crds -oname | grep "cilium" | xargs kubectl delete
 ----
@@ -332,7 +332,7 @@ kubectl get crds -oname | grep "cilium" | xargs kubectl delete
 . Ensure that you have installed the helm CLI on your command-line environment. See the https://helm.sh/docs/intro/quickstart/[Helm documentation] for installation instructions.
 . Install the Cilium Helm repo.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm repo add projectcalico https://docs.tigera.io/calico/charts
 ----
@@ -342,7 +342,7 @@ helm repo add projectcalico https://docs.tigera.io/calico/charts
 .. Replace `CIDR_SIZE` with the size of the CIDR segment you want to allocate to each node. For example, `25` for a /25 segment size. For more information on CIDR `blockSize` and changing the `blockSize`, see https://docs.tigera.io/calico/latest/networking/ipam/change-block-size[Change IP pool block size] in the Calico documentation.
 .. In the example below, `natOutgoing` is enabled and `bgp` is disabled. In this configuration, Calico can run on Amazon EKS clusters that have Remote Pod Network configured and can run on clusters that do not have Remote Pod Network configured. If you have `natOutgoing` set to disabled, you must configure your cluster with your remote pod networks and your on-premises network must be able to properly route traffic destined for your pod CIDRs. A common way to advertise pod addresses with your on-premises network is by using BGP. To use BGP with Calico, you must enable `bgp`. The example below configures all of the Calico components to run on only the hybrid nodes, since they have the `eks.amazonaws.com/compute-type: hybrid` label. If you are running webhooks on your hybrid nodes, you must configure your cluster with your Remote Pod Networks and you must advertise your pod addresses with your on-premises network. The example below configures `controlPlaneReplicas: 1`, increase the value if you have multiple hybrid nodes and want to run the Calico control plane components in a highly available fashion.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 installation:
   enabled: true
@@ -418,12 +418,12 @@ kube-system        kube-proxy-lxzxh                           1/1     Running   
 kube-system        tigera-operator-f8bc97d4c-28b4d            1/1     Running   0          90s
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get nodes
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME                  STATUS   ROLES    AGE    VERSION
 mi-0c6ec2f6f79176565  Ready    <none>   5h13m  v1.31.0-eks-a737599
@@ -452,19 +452,19 @@ spec:
 
 . Apply the file to your cluster.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f calico-bgp.yaml
 ----
 
 . Confirm the Calico pods are running with the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n calico-system -w
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAMESPACE          NAME                                       READY   STATUS    RESTARTS       AGE
 calico-apiserver   calico-apiserver-598bf99b6c-2vltk          1/1     Running   0              3h24m
@@ -506,7 +506,7 @@ helm upgrade calico projectcalico/tigera-operator \
 
 . Run the following command to uninstall Calico components from your cluster. Note that uninstalling the CNI might impact the health of nodes and pods and shouldn't be performed on production clusters. If you installed Calico in a namespace other than `kube-system` change the namespace in the command below. 
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm uninstall calico --namespace kube-system
 ----
@@ -515,12 +515,12 @@ Note that the interfaces and routes configured by Calico are not removed by defa
 . To clean up the on-disk configuration files and resources, remove the Calico files from the `/opt/cni` and `/etc/cni` directories.
 . To remove the Calico CRDs from your cluster, run the following commands.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get crds -oname | grep "calico" | xargs kubectl delete
 ----
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl get crds -oname | grep "tigera" | xargs kubectl delete
 ----

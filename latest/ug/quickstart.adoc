@@ -143,18 +143,18 @@ kubectl get ingress -n game-2048
 +
 You should see the following response output:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME           CLASS   HOSTS   ADDRESS                                                                    PORTS   AGE
-ingress-2048   alb     *       k8s-game2048-ingress2-eb379a0f83-378466616.[.replaceable]`region-code`.elb.amazonaws.com   80      31s
+ingress-2048   alb     *       k8s-game2048-ingress2-eb379a0f83-378466616.region-code.elb.amazonaws.com   80      31s
 ----
 +
 You'll need to wait several minutes for the Application Load Balancer (ALB) to provision before you begin the following steps.
 . Open a web browser and enter the `ADDRESS` from the previous step to access the web application. For example:
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
-k8s-game2048-ingress2-eb379a0f83-378466616.[.replaceable]`region-code`.elb.amazonaws.com
+k8s-game2048-ingress2-eb379a0f83-378466616.region-code.elb.amazonaws.com
 ----
 +
 You should see the 2048 game in your browser. Play!

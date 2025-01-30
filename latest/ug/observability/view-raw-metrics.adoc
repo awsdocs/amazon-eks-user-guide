@@ -13,10 +13,10 @@ The [.noloc]`Kubernetes` control plane exposes a number of metrics that are repr
 
 The [.noloc]`Kubernetes` control plane exposes a number of metrics that are represented in a https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exposition_formats.md[Prometheus format]. These metrics are useful for monitoring and analysis. They are exposed internally through metrics endpoints, and can be accessed without fully deploying [.noloc]`Prometheus`. However, deploying [.noloc]`Prometheus` more easily allows analyzing metrics over time.
 
-To view the raw metrics output, run the following command.
-[source,bash,subs="verbatim,attributes,quotes"]
+To view the raw metrics output, replace `endpoint` and run the following command.
+[source,bash,subs="verbatim,attributes"]
 ----
-kubectl get --raw [.replaceable]`endpoint`
+kubectl get --raw endpoint
 ----
 
 This command allows you to pass any endpoint path and returns the raw response. The output lists different metrics line-by-line, with each line including a metric name, tags, and a value.

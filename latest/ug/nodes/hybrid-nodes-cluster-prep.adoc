@@ -24,7 +24,7 @@ There is an Amazon EKS access entry type for hybrid nodes named HYBRID_LINUX tha
 
 . Create your access entry with the following command. Replace CLUSTER_NAME with the name of your cluster and HYBRID_NODES_ROLE_ARN with the ARN of the role you created in the steps for <<hybrid-nodes-creds>>.
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 aws eks create-access-entry --cluster-name CLUSTER_NAME \ 
     --principal-arn HYBRID_NODES_ROLE_ARN \
@@ -58,7 +58,7 @@ In the following steps, you will create or update the `aws-auth` ConfigMap with 
 
 . Check to see if you have an existing `aws-auth` ConfigMap for your cluster. Note that if you are using a specific `kubeconfig` file, use the `--kubeconfig` flag.
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 kubectl describe configmap -n kube-system aws-auth
 ----
@@ -67,14 +67,14 @@ kubectl describe configmap -n kube-system aws-auth
 +
 .. Open the ConfigMap for editing.
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 kubectl edit -n kube-system configmap/aws-auth
 ----
 
 .. Add a new `mapRoles` entry as needed. Replace `HYBRID_NODES_ROLE_ARN` with the ARN of your Hybrid Nodes IAM role. Note, `{{SessionName}}` is the correct template format to save in the ConfigMap. Do not replace it with other values.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 data:
   mapRoles: |
@@ -89,7 +89,7 @@ data:
 
 . If there is not an existing `aws-auth` ConfigMap for your cluster, create it with the following command. Replace `HYBRID_NODES_ROLE_ARN` with the ARN of your Hybrid Nodes IAM role. Note that `{{SessionName}}` is the correct template format to save in the ConfigMap. Do not replace it with other values.
 +
-[source,shell,subs="verbatim,attributes,quotes"]
+[source,shell,subs="verbatim,attributes"]
 ----
 kubectl apply -f=/dev/stdin <<-EOF
 apiVersion: v1
