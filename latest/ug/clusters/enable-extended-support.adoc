@@ -8,7 +8,7 @@ This topic describes how to set the  _upgrade policy_ of an EKS cluster to enabl
 
 Clusters actually in the _extended support period_ incur higher costs. If a cluster merely has the upgrade policy set to enable extended support, and is otherwise in the _standard support period_, it incurs standard costs. 
 
-EKS Clusters have the upgrade policy set to enable extended support by default. 
+If you create a cluster in the {aws} console, it will have the upgrade policy set to disable extended support. If you create a cluster in another way, it will have the upgrade policy set to enable extended support. For example, clusters created with the {aws} API have extended support enabled. 
 
 For more information about upgrade policies, see <<view-upgrade-policy>>.
 
