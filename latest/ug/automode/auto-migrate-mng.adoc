@@ -11,13 +11,13 @@ This topic walks you through the steps to safely drain pods from your existing m
 
 == Prerequisites
 
-* Cluster with {eam} enabled
+* Cluster with EKS Auto Mode enabled
 * `eksctl` CLI installed and connected to your cluster. For more information, see <<setting-up>>. 
 * Karpenter is not installed on the cluster. 
 
 == Procedure
 
-Use the following `eksctl` CLI command to initiate draining pods from the existing {mng} instances. {eam} will create new nodes to back the displaced pods. 
+Use the following `eksctl` CLI command to initiate draining pods from the existing managed node group instances. EKS Auto Mode will create new nodes to back the displaced pods. 
 
 [source,cli]
 ----

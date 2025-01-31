@@ -75,9 +75,9 @@ spec:
 ----
 
 
-== {eam} Supported
+== EKS Auto Mode Supported
 
-{eam} supports the following well known labels.
+EKS Auto Mode supports the following well known labels.
 
 [role="no-scroll"]
 [cols="3,1,4",options="header"]
@@ -170,11 +170,11 @@ spec:
 |Number of gibibytes of local nvme storage on the instance
 |===
 
-== {eam} Not Supported
+== EKS Auto Mode Not Supported
 
-{eam} does not support the following labels. 
+EKS Auto Mode does not support the following labels. 
 
-* {eam} only supports Linux
+* EKS Auto Mode only supports Linux
 ** `node.kubernetes.io/windows-build`
 ** `kubernetes.io/os`
 

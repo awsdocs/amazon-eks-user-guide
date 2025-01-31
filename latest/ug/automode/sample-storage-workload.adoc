@@ -34,7 +34,7 @@ aws eks update-kubeconfig --name "${CLUSTER_NAME}"
 
 The StorageClass defines how EKS Auto Mode will provision EBS volumes.
 
-{eam} does not create a StorageClass for you. You must create a StorageClass referencing `ebs.csi.eks.amazonaws.com` to use the storage capability of {eam}.
+EKS Auto Mode does not create a StorageClass for you. You must create a StorageClass referencing `ebs.csi.eks.amazonaws.com` to use the storage capability of EKS Auto Mode.
 
 . Create a file named `storage-class.yaml`:
 +
@@ -61,7 +61,7 @@ kubectl apply -f storage-class.yaml
 
 *Key components:*
 
-- `provisioner: ebs.csi.eks.amazonaws.com` - Uses {eam}
+- `provisioner: ebs.csi.eks.amazonaws.com` - Uses EKS Auto Mode
 - `volumeBindingMode: WaitForFirstConsumer` - Delays volume creation until a pod needs it
 - `type: gp3` - Specifies the EBS volume type
 - `encrypted: "true"` - EBS will use the default `aws/ebs` key to encrypt volumes created with this class. This is optional, but reccomended. 
@@ -209,9 +209,9 @@ kubectl delete deployment/inflate-stateful pvc/auto-ebs-claim storageclass/auto-
 
 == Snapshot Controller
 
-{eam} is compatible with the Kubernetes CSI Snapshotter, also known as the snapshot controller. However, {eam} does not include the snapshot controller. You are responsible for installing and configuring the snapshot controller. For more information, see <<csi-snapshot-controller>>.
+EKS Auto Mode is compatible with the Kubernetes CSI Snapshotter, also known as the snapshot controller. However, EKS Auto Mode does not include the snapshot controller. You are responsible for installing and configuring the snapshot controller. For more information, see <<csi-snapshot-controller>>.
 
-Review the following `VolumeSnapshotClass` that references the storage capability of {eam}. 
+Review the following `VolumeSnapshotClass` that references the storage capability of EKS Auto Mode. 
 
 [source,yaml]
 ----

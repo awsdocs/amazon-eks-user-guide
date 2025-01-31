@@ -22,7 +22,7 @@ Understanding how {aam} manages instances is essential for planning your workloa
 
 {ec2i}s created by {am} are different from other {ec2i}s, they are {mi}s. These {mi}s are owned by EKS and are more restricted. You can't directly access or install software on instances managed by {am}. 
 
-{aws} suggests running either {eam} or self-managed Karpenter. You can install both during a migration or in an advanced configuration. If you have both installed, configure your node pools so that workloads are associated with either Karpenter or {eam}. 
+{aws} suggests running either EKS Auto Mode or self-managed Karpenter. You can install both during a migration or in an advanced configuration. If you have both installed, configure your node pools so that workloads are associated with either Karpenter or EKS Auto Mode. 
 
 For more information, see link:AWSEC2/latest/UserGuide/amazon-ec2-managed-instances.html["Amazon EC2 managed instances",type="documentation"] in the Amazon EC2 user guide. 
 
@@ -53,7 +53,7 @@ For more information, see link:AWSEC2/latest/UserGuide/amazon-ec2-managed-instan
 | You can deploy containers based on Linux, but without specific OS dependencies. 
 
 | You determine what instance type and family to launch.
-| {aws} determines what instance type and family to launch. You can use a Node Pool to limit the instance types {eam} selects from. 
+| {aws} determines what instance type and family to launch. You can use a Node Pool to limit the instance types EKS Auto Mode selects from. 
 
 |=== 
 

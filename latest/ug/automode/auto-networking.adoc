@@ -11,9 +11,9 @@ When you use EKS Auto Mode, {aws} manages the VPC Container Network Interface (C
 
 == Networking capability
 
-{eam} has a new networking capability that handles node and pod networking. You can configure it by creating a `NodeClass` Kubernetes object. 
+EKS Auto Mode has a new networking capability that handles node and pod networking. You can configure it by creating a `NodeClass` Kubernetes object. 
 
-Configuration options for the previous {aws} VPC CNI will not apply to {eam}. 
+Configuration options for the previous {aws} VPC CNI will not apply to EKS Auto Mode. 
 
 === Configure networking with NodeClass
 
@@ -31,13 +31,13 @@ Learn how to xref:create-node-class[Create an Amazon EKS NodeClass].
 
 === Considerations
 
-{eam} supports:
+EKS Auto Mode supports:
 
 * EKS Network Policies.
 * The `HostPort` and `HostNetwork` options for Kubernetes Pods.
 * Pods in public or private subnets.
 
-{eam} does *not* support:
+EKS Auto Mode does *not* support:
 
 * Security Groups per Pod (SGPP).
 * Custom Networking. The IP Addresses of Pods and Nodes must be from the same CIDR Block.
@@ -52,15 +52,15 @@ Learn how to xref:create-node-class[Create an Amazon EKS NodeClass].
 [[auto-lb-consider,auto-lb-consider.title]]
 == Load balancing
 
-You configure {aws} Elastic Load Balancers provisioned by {eam} using annotations on Service and Ingress resources. 
+You configure {aws} Elastic Load Balancers provisioned by EKS Auto Mode using annotations on Service and Ingress resources. 
 
 For more information, see <<auto-configure-alb>> or <<auto-configure-nlb>>.
 
-=== Considerations for load balancing with {eam}
+=== Considerations for load balancing with EKS Auto Mode
 
 * The default targeting mode is IP Mode, not Instance Mode.
-* {eam} only supports Security Group Mode for Network Load Balancers. 
-* {aws} does not support migrating load balancers from the self managed {aws} load balancer controller to management by {eam}.
+* EKS Auto Mode only supports Security Group Mode for Network Load Balancers. 
+* {aws} does not support migrating load balancers from the self managed {aws} load balancer controller to management by EKS Auto Mode.
 * The `networking.ingress.ipBlock` field in `TargetGroupBinding` spec is not supported. 
 * If your worker nodes use custom security groups (not `+eks-cluster-sg-*+` naming pattern), your cluster role needs additional IAM permissions.  The default EKS-managed policy only allows EKS to modify security groups named `+eks-cluster-sg-*+`. Without permission to modify your custom security groups, EKS cannot add the required ingress rules that allow ALB/NLB traffic to reach your pods.
 * You cannot bring your own target groups. 

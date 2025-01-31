@@ -21,7 +21,7 @@ You must be logged into the {aws} console with permission to manage IAM, EKS, an
 
 [NOTE]
 ====
-The Cluster IAM role of an EKS Cluster cannot be changed after the cluster is created. {eam} requires additional permissions on this role. You must attach additional policies to the current role. 
+The Cluster IAM role of an EKS Cluster cannot be changed after the cluster is created. EKS Auto Mode requires additional permissions on this role. You must attach additional policies to the current role. 
 ====
 
 === Update Cluster IAM Role
@@ -59,20 +59,20 @@ The Cluster IAM role of an EKS Cluster cannot be changed after the cluster is cr
 ----
 
 
-=== Enable {eam} 
+=== Enable EKS Auto Mode 
 
 . Open your cluster overview page in the {aws} Management Console. 
 . Under *EKS Auto Mode* select *Manage*
 . Toggle *EKS Auto Mode* to on. 
 . From the *EKS Node Pool* dropdown, select the default node pools you want to create. 
-** Learn more about Node Pools in {eam}. For more information, see <<create-node-pool>>.
-. If you have previously created an {eam} Node IAM role this {aws} account, select it in the *Node IAM Role* dropdown. If you have not created this role before, select *Create {recd} Role* and follow the steps. 
+** Learn more about Node Pools in EKS Auto Mode. For more information, see <<create-node-pool>>.
+. If you have previously created an EKS Auto Mode Node IAM role this {aws} account, select it in the *Node IAM Role* dropdown. If you have not created this role before, select *Create recommended Role* and follow the steps. 
 
 
 == {aws} CLI
 
 === Prerequisites
-* The Cluster IAM Role of the existing EKS Cluster must include sufficent permissiosn for {eam}, such as the following policies:
+* The Cluster IAM Role of the existing EKS Cluster must include sufficent permissiosn for EKS Auto Mode, such as the following policies:
 ** `AmazonEKSComputePolicy`
 ** `AmazonEKSBlockStoragePolicy`
 ** `AmazonEKSLoadBalancingPolicy`
@@ -83,7 +83,7 @@ The Cluster IAM role of an EKS Cluster cannot be changed after the cluster is cr
 
 === Procedure
 
-Use the following commands to enable {eam} on an existing cluster. 
+Use the following commands to enable EKS Auto Mode on an existing cluster. 
 
 [NOTE]
 ====

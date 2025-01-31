@@ -5,7 +5,7 @@
 
 include::../attributes.txt[]
 
-{eam} has two built-in NodePools. You can enable or disable these NodePools using the {aws} console, CLI, or API. 
+EKS Auto Mode has two built-in NodePools. You can enable or disable these NodePools using the {aws} console, CLI, or API. 
 
 == Built-in NodePool Reference
 

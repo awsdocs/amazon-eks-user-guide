@@ -16,11 +16,11 @@ You must install version `0.195.0` or greater of eksctl. For more information, s
 ====
 
 
-== Create an {eam} cluster with a CLI command
+== Create an EKS Auto Mode cluster with a CLI command
 
 You must have the `aws` and `eksctl` tools installed. You must be logged into the {aws} CLI with sufficent permissions to manage {aws} resources including: EC2 instances, EC2 networking, EKS clusters, and IAM roles. For more information, see <<setting-up>>. 
 
-Run the following command to create a new {eam} cluster with 
+Run the following command to create a new EKS Auto Mode cluster with 
 
 [source,cli]
 ----
@@ -30,16 +30,16 @@ eksctl create cluster --name=<cluster-name> --enable-auto-mode
 //Cluster IAM Role?
 //Update kubeconfig?
 
-== Create an {eam} cluster with a YAML file
+== Create an EKS Auto Mode cluster with a YAML file
 :enai: enabling 
 
 You must have the `aws` and `eksctl` tools installed. You must be logged into the {aws} CLI with sufficent permissions to manage {aws} resources including:  EC2 instances, EC2 networking, EKS clusters, and IAM roles. For more information, see <<setting-up>>. 
 
-Review the {eam} configuration options in the sample ClusterConfig resource below. For the full ClusterConfig specification, see the https://eksctl.io/usage/creating-and-managing-clusters/[eksctl documentation].
+Review the EKS Auto Mode configuration options in the sample ClusterConfig resource below. For the full ClusterConfig specification, see the https://eksctl.io/usage/creating-and-managing-clusters/[eksctl documentation].
 
-{aws} suggests {enai} {eam}. If this is your first time creating an {eam} cluster, leave the `nodeRoleARN` unspecified to create a Node IAM Role for {eam}. If you already have a Node IAM Role in {yaa}, {aws} suggests reusing it. 
+{aws} suggests {enai} EKS Auto Mode. If this is your first time creating an EKS Auto Mode cluster, leave the `nodeRoleARN` unspecified to create a Node IAM Role for EKS Auto Mode. If you already have a Node IAM Role in your {aws} account, {aws} suggests reusing it. 
 
-{aws} suggests not specifying any value for `nodePools`. {eam} will create default node pools. You can use the Kubernetes API to create additional node pools. 
+{aws} suggests not specifying any value for `nodePools`. EKS Auto Mode will create default node pools. You can use the Kubernetes API to create additional node pools. 
 
 [source,yaml]
 ----
