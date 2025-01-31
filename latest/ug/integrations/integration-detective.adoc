@@ -1,9 +1,10 @@
-include::../attributes.txt[]
 
 [.topic]
 [[integration-detective,integration-detective.title]]
 = Analyze security events on EKS with Amazon Detective
 :keywords: Amazon Detective
+
+include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,4 +1,3 @@
-include::../attributes.txt[]
 [[storage,storage.title]]
 = Store application data for your cluster
 :doctype: book
@@ -11,6 +10,8 @@ include::../attributes.txt[]
 :sourcedir: .
 :info_titleabbrev: Store app data
 :keywords: persistent, data, app, storage
+
+include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[kubernetes-versions-extended,kubernetes-versions-extended.title]]
 = Review release notes for [.noloc]`Kubernetes` versions on extended support
 :info_titleabbrev: Extended support versions
+
+include::../attributes.txt[]
 
 [abstract]
 --

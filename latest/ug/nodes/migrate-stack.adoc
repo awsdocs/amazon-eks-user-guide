@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[migrate-stack,migrate-stack.title]]
 = Migrate applications to a new node group
 :info_titleabbrev: Migration
+
+include::../attributes.txt[]
 
 [abstract]
 --

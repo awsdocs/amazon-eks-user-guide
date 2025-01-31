@@ -1,4 +1,3 @@
-include::../attributes.txt[]
 [[clusters,clusters.title]]
 = Organize workloads with Amazon EKS clusters
 :doctype: book
@@ -10,6 +9,8 @@ include::../attributes.txt[]
 :idseparator: -
 :sourcedir: .
 :info_titleabbrev: Clusters
+
+include::../attributes.txt[]
 
 An Amazon EKS cluster consists of two primary components:
 

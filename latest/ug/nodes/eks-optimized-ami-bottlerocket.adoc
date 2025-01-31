@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[eks-optimized-ami-bottlerocket,eks-optimized-ami-bottlerocket.title]]
 = Create nodes with optimized [.noloc]`Bottlerocket` AMIs
 :info_titleabbrev: Bottlerocket
+
+include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,10 @@
-include::../attributes.txt[]
 
 [.topic]
 [[connector-grant-access,connector-grant-access.title]]
 = Grant access to view [.noloc]`Kubernetes` cluster resources on an Amazon EKS console
 :info_titleabbrev: Grant access to Kubernetes clusters from {aws} console
+
+include::../attributes.txt[]
 
 [abstract]
 --

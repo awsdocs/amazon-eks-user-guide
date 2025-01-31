@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[eks-partner-amis,eks-partner-amis.title]]
 = Create nodes with optimized [.noloc]`Ubuntu Linux` AMIs
 :info_titleabbrev: Ubuntu Linux
+
+include::../attributes.txt[]
 
 [abstract]
 --

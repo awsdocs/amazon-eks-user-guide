@@ -1,4 +1,3 @@
-include::../attributes.txt[]
 [.topic]
 [[cluster-auth,cluster-auth.title]]
 = Learn how access control works in Amazon EKS
@@ -11,6 +10,8 @@ include::../attributes.txt[]
 :idseparator: -
 :sourcedir: .
 :info_titleabbrev: Manage access
+
+include::../attributes.txt[]
 
 [abstract]
 --

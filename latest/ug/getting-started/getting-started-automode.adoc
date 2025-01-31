@@ -1,10 +1,11 @@
-include::../attributes.txt[]
 
 [.topic]
 [[getting-started-automode,getting-started-automode.title]]
 = Get started with Amazon EKS – EKS Auto Mode
 :info_titleabbrev: Create your first cluster – EKS Auto Mode
 :keywords: using, Auto, getting, started, tutorial
+
+include::../attributes.txt[]
 
 Like other EKS getting started experiences, creating your first cluster with EKS Auto Mode delegates the management of the cluster itself to {aws}.
 However, EKS Auto Mode extends EKS automation by handing responsibility of many essential services needed to set up workload infrastructure (nodes, networks, and various services), making it easier to manage nodes and scale up to meet workload demands.

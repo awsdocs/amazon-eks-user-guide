@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[delete-fargate-profile,delete-fargate-profile.title]]
 = Delete a Fargate profile
 :info_titleabbrev: Delete profiles
+
+include::../attributes.txt[]
 
 [abstract]
 --

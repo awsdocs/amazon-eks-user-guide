@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[eks-ami-versions-bottlerocket,eks-ami-versions-bottlerocket.title]]
 = Retrieve [.noloc]`Bottlerocket` AMI version information
 :info_titleabbrev: Get version information
+
+include::../attributes.txt[]
 
 [abstract]
 --

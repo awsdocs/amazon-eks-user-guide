@@ -1,9 +1,10 @@
-include::../attributes.txt[]
 
 [.topic]
 [[copy-image-to-repository,copy-image-to-repository.title]]
 = Copy a container image from one repository to another repository
 :info_titleabbrev: Copy an image to a repository
+
+include::../attributes.txt[]
 
 This topic describes how to pull a container image from a repository that your nodes don't have access to and push the image to a repository that your nodes have access to. You can push the image to Amazon ECR or an alternative repository that your nodes have access to.
 

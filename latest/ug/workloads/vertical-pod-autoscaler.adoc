@@ -1,9 +1,10 @@
-include::../attributes.txt[]
 
 [.topic]
 [[vertical-pod-autoscaler,vertical-pod-autoscaler.title]]
 = Adjust pod resources with [.noloc]`Vertical Pod Autoscaler`
 :info_titleabbrev: Vertical Pod Autoscaler
+
+include::../attributes.txt[]
 
 [abstract]
 --

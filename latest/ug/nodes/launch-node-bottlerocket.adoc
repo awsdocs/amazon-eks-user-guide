@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[launch-node-bottlerocket,launch-node-bottlerocket.title]]
 = Create self-managed [.noloc]`Bottlerocket` nodes
 :info_titleabbrev: Bottlerocket
+
+include::../attributes.txt[]
 
 [abstract]
 --

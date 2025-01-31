@@ -1,4 +1,3 @@
-include::../attributes.txt[]
 
 [.topic]
 [[learn-eks,learn-eks.title]]
@@ -12,6 +11,8 @@ include::../attributes.txt[]
 :idprefix:
 :idseparator: -
 :sourcedir: .
+
+include::../attributes.txt[]
 
 [abstract]
 --

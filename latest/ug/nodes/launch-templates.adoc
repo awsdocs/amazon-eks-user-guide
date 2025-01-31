@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[launch-templates,launch-templates.title]]
 = Customize managed nodes with launch templates
 :info_titleabbrev: Launch templates
+
+include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[eks-linux-ami-versions,eks-linux-ami-versions.title]]
 = Retrieve Amazon Linux AMI version information
 :info_titleabbrev: Get version information
+
+include::../attributes.txt[]
 
 [abstract]
 --

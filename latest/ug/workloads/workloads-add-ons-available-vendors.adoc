@@ -5,9 +5,6 @@ include::../attributes.txt[]
 = {aws} Marketplace add-ons
 :info_titleabbrev: Marketplace add-ons
 
-
-
-
 [abstract]
 --
 Learn about the Amazon EKS add-ons from independent software vendors.

@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[eks-ami-versions-windows,eks-ami-versions-windows.title]]
 = Retrieve [.noloc]`Windows` AMI version information
 :info_titleabbrev: Get version information
+
+include::../attributes.txt[]
 
 [abstract]
 --

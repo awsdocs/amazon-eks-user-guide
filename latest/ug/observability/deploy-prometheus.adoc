@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[deploy-prometheus,deploy-prometheus.title]]
 = Deploy [.noloc]`Prometheus` using [.noloc]`Helm`
 :info_titleabbrev: Deploy using Helm
+
+include::../attributes.txt[]
 
 [abstract]
 --

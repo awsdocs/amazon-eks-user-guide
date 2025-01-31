@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[bottlerocket-compliance-support,bottlerocket-compliance-support.title]]
 = Meet compliance requirements with [.noloc]`Bottlerocket`
 :info_titleabbrev: Compliance support
+
+include::../attributes.txt[]
 
 [abstract]
 --

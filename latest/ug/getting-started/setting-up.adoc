@@ -1,4 +1,3 @@
-include::../attributes.txt[]
 [[setting-up,setting-up.title]]
 = Set up to use Amazon EKS
 :doctype: book
@@ -11,6 +10,8 @@ include::../attributes.txt[]
 :sourcedir: .
 :info_titleabbrev: Set up
 :keywords: setting up, setup
+
+include::../attributes.txt[]
 
 [abstract]
 --

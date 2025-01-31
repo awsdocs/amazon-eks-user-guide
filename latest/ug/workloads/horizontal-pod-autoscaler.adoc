@@ -1,9 +1,10 @@
-include::../attributes.txt[]
 
 [.topic]
 [[horizontal-pod-autoscaler,horizontal-pod-autoscaler.title]]
 = Scale pod deployments with [.noloc]`Horizontal Pod Autoscaler`
 :info_titleabbrev: Horizontal Pod Autoscaler
+
+include::../attributes.txt[]
 
 [abstract]
 --

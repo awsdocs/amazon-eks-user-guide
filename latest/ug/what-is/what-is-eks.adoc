@@ -1,4 +1,3 @@
-include::../attributes.txt[]
 [.topic]
 [[what-is-eks,what-is-eks.title]]
 = What is Amazon EKS?
@@ -12,6 +11,8 @@ include::../attributes.txt[]
 :sourcedir: .
 :info_titleabbrev: What is Amazon EKS?
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, about, summary, description
+
+include::../attributes.txt[]
 
 [abstract]
 --

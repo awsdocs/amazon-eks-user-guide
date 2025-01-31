@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[delete-managed-node-group,delete-managed-node-group.title]]
 = Delete a managed node group from your cluster
 :info_titleabbrev: Delete
+
+include::../attributes.txt[]
 
 [abstract]
 --

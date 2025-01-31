@@ -1,9 +1,10 @@
-include::../attributes.txt[]
 
 [.topic]
 [[private-clusters,private-clusters.title]]
 = Deploy private clusters with limited internet access
 :info_titleabbrev: Private clusters
+
+include::../attributes.txt[]
 
 [abstract]
 --

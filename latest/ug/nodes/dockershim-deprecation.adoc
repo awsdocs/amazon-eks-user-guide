@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[dockershim-deprecation,dockershim-deprecation.title]]
 = Migrate from `dockershim` to `containerd`
 :info_titleabbrev: Dockershim deprecation
+
+include::../attributes.txt[]
 
 [abstract]
 --

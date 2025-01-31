@@ -1,9 +1,10 @@
-include::../attributes.txt[]
 
 [.topic]
 [[security-connector,security-connector.title]]
 = Understand security in Amazon EKS Connector
 :info_titleabbrev: Security considerations
+
+include::../attributes.txt[]
 
 [abstract]
 --

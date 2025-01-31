@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[launch-workers,launch-workers.title]]
 = Create self-managed Amazon Linux nodes
 :info_titleabbrev: Amazon Linux
+
+include::../attributes.txt[]
 
 [abstract]
 --

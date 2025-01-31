@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[managed-node-update-behavior,managed-node-update-behavior.title]]
 = Understand each phase of node updates
 :info_titleabbrev: Update behavior details
+
+include::../attributes.txt[]
 
 [abstract]
 --

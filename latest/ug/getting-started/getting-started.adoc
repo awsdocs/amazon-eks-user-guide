@@ -1,4 +1,3 @@
-include::../attributes.txt[]
 [[getting-started,getting-started.title]]
 = Get started with Amazon EKS
 :doctype: book
@@ -11,6 +10,8 @@ include::../attributes.txt[]
 :sourcedir: .
 :info_titleabbrev: Get started
 :keywords: getting, started, tutorials, quick, start
+
+include::../attributes.txt[]
 
 [abstract]
 --

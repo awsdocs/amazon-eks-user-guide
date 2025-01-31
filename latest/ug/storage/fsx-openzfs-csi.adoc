@@ -1,10 +1,11 @@
-include::../attributes.txt[]
 
 [.topic]
 [[fsx-openzfs-csi,fsx-openzfs-csi.title]]
 = Store data using Amazon FSx for OpenZFS
 :info_titleabbrev: Amazon FSx for OpenZFS
 :keywords: Amazon FSx for OpenZFS CSI driver, storage
+
+include::../attributes.txt[]
 
 [abstract]
 --

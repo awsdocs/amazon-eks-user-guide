@@ -1,10 +1,11 @@
-include::../attributes.txt[]
 
 [.topic]
 [[file-cache-csi,file-cache-csi.title]]
 = Minimize latency with Amazon File Cache
 :info_titleabbrev: Amazon File Cache
 :keywords: Amazon File Cache CSI driver, storage
+
+include::../attributes.txt[]
 
 [abstract]
 --

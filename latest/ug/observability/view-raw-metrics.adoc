@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[view-raw-metrics,view-raw-metrics.title]]
 = Fetch control plane raw metrics in [.noloc]`Prometheus` format
 :info_titleabbrev: Control plane
+
+include::../attributes.txt[]
 
 include::../attributes.txt[]
 

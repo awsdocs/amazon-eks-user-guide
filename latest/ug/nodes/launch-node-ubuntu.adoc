@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[launch-node-ubuntu,launch-node-ubuntu.title]]
 = Create self-managed [.noloc]`Ubuntu Linux` nodes
 :info_titleabbrev: Ubuntu Linux
+
+include::../attributes.txt[]
 
 [abstract]
 --
