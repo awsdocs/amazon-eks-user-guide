@@ -7,7 +7,6 @@
 This resource is not ready for publication. 
 ====
 
-
 include::../attributes.txt[]
 
 This guide helps you troubleshoot issues with the {aws} Load Balancer Controller when using Amazon EKS Auto Mode.

@@ -5,7 +5,6 @@
 
 include::../attributes.txt[]
 
-
 With {eam}, {aws} assumes more {resp} for {e2i}s in {yaa}. EKS assumes {resp} for the container runtime on nodes, the operating system on the nodes, and certain controllers. This includes a block storage controller, a load balancing controller, and a compute controller. 
 
 You must use {aws} and {k8s} APIs to troubleshoot nodes. You can:

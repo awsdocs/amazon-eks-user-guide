@@ -1,5 +1,4 @@
 [.topic]
-include::../attributes.txt[]
 [[settings-auto,settings-auto.title]]
 = Configure EKS Auto Mode settings
 :icons: font
@@ -8,6 +7,8 @@ include::../attributes.txt[]
 :idseparator: -
 :sourcedir: .
 :info_titleabbrev: Configure
+
+include::../attributes.txt[]
 
 [abstract]
 --

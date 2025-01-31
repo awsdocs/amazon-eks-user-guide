@@ -12,7 +12,6 @@
 
 include::../attributes.txt[]
 
-
 This topic explains how {aam} manages Amazon EC2 instances in your EKS cluster. When you enable {am}, your cluster's compute resources are automatically provisioned and managed by EKS, changing how you interact with the EC2 instances that serve as nodes in your cluster.
 
 Understanding how {aam} manages instances is essential for planning your workload deployment strategy and operational procedures. Unlike traditional EC2 instances or managed node groups, these instances follow a different lifecycle model where EKS assumes responsibility for many operational aspects, while restricting certain types of access and customization.

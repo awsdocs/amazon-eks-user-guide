@@ -1,4 +1,3 @@
-include::../../attributes.txt[]
 [[eks-managing,eks-managing.title]]
 = Organize and monitor cluster resources
 :doctype: book
@@ -11,9 +10,9 @@ include::../../attributes.txt[]
 :sourcedir: .
 :info_titleabbrev: Cluster management
 
+include::../../attributes.txt[]
+
 This chapter includes the following topics to help you manage your cluster. You can also view information about your <<view-kubernetes-resources,Kubernetes resources>> with the {aws-management-console}.
-
-
 
 * The [.noloc]`Kubernetes` Dashboard is a general purpose, web-based UI for [.noloc]`Kubernetes` clusters. It allows users to manage applications running in the cluster and troubleshoot them, as well as manage the cluster itself. For more information, see The https://github.com/kubernetes/dashboard[Kubernetes Dashboard] GitHub repository.
 * <<metrics-server>> – The [.noloc]`Kubernetes` Metrics Server is an aggregator of resource usage data in your cluster. It isn't deployed by default in your cluster, but is used by [.noloc]`Kubernetes` add-ons, such as the [.noloc]`Kubernetes` Dashboard and <<horizontal-pod-autoscaler>>. In this topic you learn how to install the Metrics Server.

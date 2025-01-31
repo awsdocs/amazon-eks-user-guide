@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[capacity-blocks,capacity-blocks.title]]
 = Create self-managed nodes with Capacity Blocks for ML
 :info_titleabbrev: Reserve GPUs for SMN
+
+include::../attributes.txt[]
 
 [abstract]
 --

@@ -3,7 +3,6 @@
 = Glossary
 :info_titleabbrev: Glossary
 
-
 include::../attributes.txt[]
 
 IAM Role::

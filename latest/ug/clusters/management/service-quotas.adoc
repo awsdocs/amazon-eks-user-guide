@@ -1,9 +1,10 @@
-include::../../attributes.txt[]
 
 [.topic]
 [[service-quotas,service-quotas.title]]
 = View and manage Amazon EKS and [.noloc]`Fargate` service quotas
 :info_titleabbrev: Service quotas
+
+include::../../attributes.txt[]
 
 [abstract]
 --

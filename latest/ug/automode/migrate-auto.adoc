@@ -1,5 +1,4 @@
 [.topic]
-include::../attributes.txt[]
 [[migrate-auto,migrate-auto.title]]
 = Enable EKS Auto Mode on existing EKS clusters
 :icons: font
@@ -8,6 +7,8 @@ include::../attributes.txt[]
 :idseparator: -
 :sourcedir: .
 :info_titleabbrev: Enable existing clusters
+
+include::../attributes.txt[]
 
 [abstract]
 --

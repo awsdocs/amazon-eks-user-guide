@@ -1,4 +1,3 @@
-include::../attributes.txt[]
 [.topic]
 [[machine-learning-on-eks,machine-learning-on-eks.title]]
 = Overview of Machine Learning on Amazon EKS
@@ -12,6 +11,8 @@ include::../attributes.txt[]
 :sourcedir: .
 :info_titleabbrev: Machine Learning on EKS
 :keywords: Machine Learning, Amazon EKS, Artificial Intelligence
+
+include::../attributes.txt[]
 
 [abstract]
 --

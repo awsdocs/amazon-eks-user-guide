@@ -14,7 +14,7 @@ When deploying nodes, you can specify an ID for a pre-built Amazon EKS optimized
 
 You can retrieve the image ID of the latest recommended Amazon EKS optimized Amazon Linux AMI with the following command, which uses the sub-parameter `image_id`. Make the following modifications to the command as needed and then run the modified command:
 
-* Replace [.replaceable]`kubernetes-version` with a supported <<platform-versions,Amazon EKS version>>.
+* Replace `<kubernetes-version>` with a supported <<platform-versions,Amazon EKS version>>.
 * Replace [.replaceable]`ami-type` with one of the following options. For information about the types of Amazon EC2 instances, see link:AWSEC2/latest/UserGuide/instance-types.html[Amazon EC2 instance types,type="documentation"].
 +
 ** Use [.replaceable]`amazon-linux-2023/x86_64/standard` for Amazon Linux 2023 (AL2023) `x86` based instances.
@@ -23,12 +23,12 @@ You can retrieve the image ID of the latest recommended Amazon EKS optimized Ama
 ** Use [.replaceable]`amazon-linux-2023/x86_64/neuron` for the latest AL2023 link:machine-learning/neuron/[{aws} Neuron,type="marketing"] instances.
 ** Use [.replaceable]`amazon-linux-2` for Amazon Linux 2 (AL2) `x86` based instances.
 ** Use [.replaceable]`amazon-linux-2-arm64` for AL2 ARM instances, such as link:ec2/graviton/[{aws} Graviton,type="marketing"] based instances.
-** Use [.replaceable]`amazon-linux-2-gpu` for AL2 link:AWSEC2/latest/UserGuide/accelerated-computing-instances.html[hardware accelerated,type="documentation"] `x86` based instances for NVIDIA GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
-* Replace [.replaceable]`<region-code>` with an link:general/latest/gr/eks.html[Amazon EKS supported {aws} Region,type="documentation"] for which you want the AMI ID.
+** Use `amazon-linux-2-gpu` for AL2 link:AWSEC2/latest/UserGuide/accelerated-computing-instances.html[hardware accelerated,type="documentation"] `x86` based instances for NVIDIA GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
+* Replace `<region-code>` with an link:general/latest/gr/eks.html[Amazon EKS supported {aws} Region,type="documentation"] for which you want the AMI ID.
 
 [source,bash,subs="verbatim,attributes"]
 ----
-aws ssm get-parameter --name /aws/service/eks/optimized-ami/[.replaceable]`kubernetes-version`/[.replaceable]`ami-type`/recommended/image_id \
+aws ssm get-parameter --name /aws/service/eks/optimized-ami/<kubernetes-version>/<ami-type>`/recommended/image_id \
     --region <region-code> --query "Parameter.Value" --output text
 ----
 

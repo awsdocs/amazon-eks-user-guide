@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[capacity-blocks-mng,capacity-blocks-mng.title]]
 = Create a managed node group with Capacity Blocks for ML
 :info_titleabbrev: Reserve GPUs for MNG
+
+include::../attributes.txt[]
 
 [abstract]
 --

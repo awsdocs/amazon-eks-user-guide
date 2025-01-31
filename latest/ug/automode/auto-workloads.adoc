@@ -1,8 +1,9 @@
 [.topic]
-include::../attributes.txt[]
 [[auto-workloads,auto-workloads.title]]
 = Run sample workloads in EKS Auto Mode clusters
 :info_titleabbrev: Run workloads
+
+include::../attributes.txt[]
 
 [abstract]
 --

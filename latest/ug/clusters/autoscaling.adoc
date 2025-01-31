@@ -1,9 +1,10 @@
-include::../attributes.txt[]
 
 [.topic]
 [[autoscaling,autoscaling.title]]
 = Scale cluster compute with [.noloc]`Karpenter` and [.noloc]`Cluster Autoscaler`
 :info_titleabbrev: Autoscaling
+
+include::../attributes.txt[]
 
 [abstract]
 --

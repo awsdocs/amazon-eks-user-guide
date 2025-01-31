@@ -1,9 +1,10 @@
-include::../../attributes.txt[]
 
 [.topic]
 [[helm,helm.title]]
 = Deploy applications with [.noloc]`Helm` on Amazon EKS
 :info_titleabbrev: Deploy apps with Helm
+
+include::../../attributes.txt[]
 
 [abstract]
 --

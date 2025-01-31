@@ -1,8 +1,9 @@
-include::../attributes.txt[]
 [.topic]
 [[node-taints-managed-node-groups,node-taints-managed-node-groups.title]]
 = Prevent [.noloc]`Pods` from being scheduled on specific nodes
 :info_titleabbrev: Taint GPU nodes
+
+include::../attributes.txt[]
 
 [abstract]
 --

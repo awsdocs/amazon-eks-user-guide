@@ -1,5 +1,4 @@
 [.topic]
-include::../attributes.txt[]
 [[auto-reference,auto-reference.title]]
 = Learn how EKS Auto Mode works
 :icons: font
@@ -8,6 +7,8 @@ include::../attributes.txt[]
 :idseparator: -
 :sourcedir: .
 :info_titleabbrev: How it works
+
+include::../attributes.txt[]
 
 [abstract]
 --

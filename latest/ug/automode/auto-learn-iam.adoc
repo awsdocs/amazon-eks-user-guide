@@ -5,7 +5,6 @@
 
 include::../attributes.txt[]
 
-
 This topic describes the Identity and Access Management (IAM) roles and permissions required to use EKS Auto Mode. EKS Auto Mode uses two primary IAM roles: a Cluster IAM Role and a Node IAM Role. These roles work in conjunction with EKS Pod Identity and EKS access entries to provide comprehensive access management for your EKS clusters.
 
 When you configure EKS Auto Mode, you will need to set up these IAM roles with specific permissions that allow {aws} services to interact with your cluster resources. This includes permissions for managing compute resources, storage volumes, load balancers, and networking components. Understanding these role configurations is essential for proper cluster operation and security.

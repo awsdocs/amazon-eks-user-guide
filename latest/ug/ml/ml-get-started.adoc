@@ -5,7 +5,6 @@
 
 include::../attributes.txt[]
 
-
 [abstract]
 --
 Choose the Machine Learning on EKS tools and platforms that best suit your needs, then use quick start procedures to deploy ML workloads and EKS clusters to the {aws} cloud.

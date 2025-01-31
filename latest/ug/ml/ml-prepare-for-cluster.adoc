@@ -5,7 +5,6 @@
 
 include::../attributes.txt[]
 
-
 [abstract]
 --
 Learn how to make decisions about CPU, AMIs, and tooling before creating an EKS cluster for ML.
