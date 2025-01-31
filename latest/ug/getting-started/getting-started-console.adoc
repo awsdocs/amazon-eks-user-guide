@@ -175,7 +175,7 @@ It lets you run Amazon Linux applications on Amazon EC2 instances.
 To learn more about different ways to configure nodes in EKS, see <<eks-compute>>. After your cluster is deployed, you can add other node types. Though not covered in this guide, you can also add <<launch-windows-workers,Windows self-managed>> and <<launch-node-bottlerocket,Bottlerocket>> nodes to your cluster.
 
 
-*To create your {ec2} [.noloc]`Linux` managed node group*
+*To create your EC2 [.noloc]`Linux` managed node group*
 
 . Create a node IAM role and attach the required Amazon EKS IAM managed policy to it. The Amazon EKS node `kubelet` daemon makes calls to {aws} APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies.
 

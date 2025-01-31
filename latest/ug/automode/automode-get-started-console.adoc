@@ -2,10 +2,10 @@ include::../attributes.txt[]
 
 [.topic]
 [[automode-get-started-console,automode-get-started-console.title]]
-= Create an EKS Auto Mode Cluster with the {aws} Management Console
+= Create an EKS Auto Mode Cluster with the {aws-management-console}
 :info_titleabbrev: Management console
 
-Creating an EKS Auto Mode cluster in the {aws} Management Console requires less configuration than other options. EKS integrates with {aws} IAM and VPC Networking to help you create the resources associated with an EKS cluster.
+Creating an EKS Auto Mode cluster in the {aws-management-console} requires less configuration than other options. EKS integrates with {aws} IAM and VPC Networking to help you create the resources associated with an EKS cluster.
 
 You have two options to create a cluster in the console:
 
@@ -16,7 +16,7 @@ In this topic, you will learn how to create an EKS Auto Mode cluster using the Q
 
 == Create an EKS Auto Mode using the quick configuration option
 
-You must be logged into the {aws} management console with sufficent permissions to manage {aws} resources including: EC2 instances, EC2 networking, EKS clusters, and IAM roles. 
+You must be logged into the {aws-management-console} with sufficent permissions to manage {aws} resources including: EC2 instances, EC2 networking, EKS clusters, and IAM roles. 
 
 . Navigate to the EKS Console
 . Click *Create cluster*

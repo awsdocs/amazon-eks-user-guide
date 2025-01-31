@@ -145,9 +145,9 @@ This will configure `nodeadm` to create a credentials file to be configured on t
 nodeadm init -c file://nodeConfig.yaml
 ----
 +
-. Install `eks-pod-identity-agent` with support for hybrid nodes enabled, by either using the {cli} or {aws-management-console}.
+. Install `eks-pod-identity-agent` with support for hybrid nodes enabled, by either using the {aws} CLI or {aws-management-console}.
 +
-.. {cli}: From the machine that you're using to administer the cluster, run the following command to install `eks-pod-identity-agent` with support for hybrid nodes enabled. Replace `my-cluster` with the name of your cluster.
+.. {aws} CLI: From the machine that you're using to administer the cluster, run the following command to install `eks-pod-identity-agent` with support for hybrid nodes enabled. Replace `my-cluster` with the name of your cluster.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

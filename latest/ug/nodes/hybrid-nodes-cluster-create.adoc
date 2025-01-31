@@ -82,7 +82,7 @@ You can create a cluster by using:
 
 * <<hybrid-nodes-cluster-create-eksctl,eksctl>>
 * <<hybrid-nodes-cluster-create-cfn,{aws} CloudFormation>>
-* <<hybrid-nodes-cluster-create-cli,{cli}>>
+* <<hybrid-nodes-cluster-create-cli,{aws} CLI>>
 * <<hybrid-nodes-cluster-create-console,{aws-management-console}>>
 
 
@@ -256,7 +256,7 @@ aws eks describe-cluster \
 . Continue with <<hybrid-nodes-cluster-create-kubeconfig>>.
 
 [[hybrid-nodes-cluster-create-console,hybrid-nodes-cluster-create-console.title]]
-=== Create hybrid nodes-enabled cluster - {aws} Management Console
+=== Create hybrid nodes-enabled cluster - {aws-management-console}
 
 . Open the Amazon EKS console at link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose Add cluster and then choose Create.

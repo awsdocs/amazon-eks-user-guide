@@ -44,7 +44,7 @@ Before starting this tutorial, you must install and configure the following tool
 [NOTE]
 ====
 
-You only need to create an IAM Role for the [.noloc]`{aws} Load Balancer Controller` once per {aws-account}. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-helm-install,Step 2: Install {aws} Load Balancer Controller>>.
+You only need to create an IAM Role for the [.noloc]`{aws} Load Balancer Controller` once per {aws} account. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-helm-install,Step 2: Install {aws} Load Balancer Controller>>.
 
 ====
 

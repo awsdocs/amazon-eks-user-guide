@@ -12,7 +12,7 @@ include::../attributes.txt[]
 Learn how to create an Amazon EKS Auto Mode cluster to run Kubernetes applications, including prerequisites, networking options, and add-on configurations. 
 --
 
-This topic provides detailed instructions for creating an Amazon EKS Auto Mode cluster using advanced configuration options. It covers prerequisites, networking options, and add-on configurations. The process includes setting up IAM roles, configuring cluster settings, specifying networking parameters, and selecting add-ons. Users can create clusters using either the {aws} Management Console or the {aws} CLI, with step-by-step guidance provided for both methods.
+This topic provides detailed instructions for creating an Amazon EKS Auto Mode cluster using advanced configuration options. It covers prerequisites, networking options, and add-on configurations. The process includes setting up IAM roles, configuring cluster settings, specifying networking parameters, and selecting add-ons. Users can create clusters using either the {aws-management-console} or the {aws} CLI, with step-by-step guidance provided for both methods.
 
 For users seeking a less complex setup process, refer to the following for simplified cluster creation steps:
 

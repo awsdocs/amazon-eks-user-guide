@@ -19,7 +19,7 @@ Steps below describe how to remove a leaked Security Group if that should happen
 
 == Disable EKS Auto Mode ({aws} Console)
 
-. Open your cluster overview page in the {aws} Management Console. 
+. Open your cluster overview page in the {aws-management-console}. 
 . Under *EKS Auto Mode* select *Manage*
 . Toggle *EKS Auto Mode* to `off`. 
 

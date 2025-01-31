@@ -31,7 +31,8 @@ aws eks create-access-entry --cluster-name CLUSTER_NAME \
     --type HYBRID_LINUX
 ----
 
-=== {aws} Management Console
+[[hybrid-nodes-cluster-prep-console,hybrid-nodes-cluster-prep-console.title]]
+=== {aws-management-console}
 
 . Open the Amazon EKS console at link:eks/home#/clusters[Amazon EKS console,type="console"].
 

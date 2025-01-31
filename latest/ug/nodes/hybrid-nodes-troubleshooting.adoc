@@ -494,7 +494,7 @@ systemctl restart snap.amazon-ssm-agent.amazon-ssm-agent
 
 *Check connectivity to SSM endpoints*
 
-Confirm you can connect to the SSM endpoints from your hybrid nodes. For a list of the SSM endpoints, see link:general/latest/gr/ssm.html[{aws} Systems Manager endpoints and quotas,type="documentation"]. Replace `us-west-2` in the command below with the {aws-region} for your {aws} SSM hybrid activation.
+Confirm you can connect to the SSM endpoints from your hybrid nodes. For a list of the SSM endpoints, see link:general/latest/gr/ssm.html[{aws} Systems Manager endpoints and quotas,type="documentation"]. Replace `us-west-2` in the command below with the {aws} Region for your {aws} SSM hybrid activation.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -503,7 +503,7 @@ ping ssm.us-west-2.amazonaws.com
 
 *View connection status of registered SSM instances*
 
-You can check the connection status of the instances that are registered with SSM hybrid activations with the following {cli} command. Replace the machine ID with the machine ID of your instance.
+You can check the connection status of the instances that are registered with SSM hybrid activations with the following {aws} CLI command. Replace the machine ID with the machine ID of your instance.
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -522,7 +522,7 @@ Failed to perform agent-installation/on-prem registration: error while verifying
 
 *SSM `InvalidActivation`*
 
-If you see an error registering your instance with {aws} SSM, confirm the `region`, `activationCode`, and `activationId` in your `nodeConfig.yaml` are correct. The {aws-region} for your EKS cluster must match the region of your SSM hybrid activation. If these values are misconfigured, you may see an error similar to the following.
+If you see an error registering your instance with {aws} SSM, confirm the `region`, `activationCode`, and `activationId` in your `nodeConfig.yaml` are correct. The {aws} Region for your EKS cluster must match the region of your SSM hybrid activation. If these values are misconfigured, you may see an error similar to the following.
 
 [source,bash,subs="verbatim,attributes"]
 ----

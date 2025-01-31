@@ -28,7 +28,7 @@ Look for:
 
 ## Check {aws} Resources
 
-Verify these resources in the {aws} Management Console or using {aws} CLI:
+Verify these resources in the {aws-management-console} or using {aws} CLI:
 
 - Application Load Balancers
 - Target Groups

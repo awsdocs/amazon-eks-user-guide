@@ -4,7 +4,7 @@
 
 include::../../attributes.txt[]
 
-This topic explains how to tag your VPC subnets to enable load balancer deployment using the {aws} Management Console.
+This topic explains how to tag your VPC subnets to enable load balancer deployment using the {aws-management-console}.
 
 == Required Tags
 
@@ -19,7 +19,7 @@ Your subnets require specific tags based on their intended use:
 
 == Adding Tags in the Console
 
-1. Sign in to the {aws} Management Console
+1. Sign in to the {aws-management-console}
 2. Navigate to **VPC** +>+ **Subnets**
 3. Select the subnet you want to tag
 4. Select the **Tags** tab in the lower panel

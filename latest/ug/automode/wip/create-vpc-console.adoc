@@ -4,7 +4,7 @@
 
 include::../../attributes.txt[]
 
-This guide walks you through creating a Virtual Private Cloud (VPC) that's optimized for Amazon Elastic Kubernetes Service (EKS) clusters using the {aws} Management Console.
+This guide walks you through creating a Virtual Private Cloud (VPC) that's optimized for Amazon Elastic Kubernetes Service (EKS) clusters using the {aws-management-console}.
 
 == Overview
 
@@ -17,14 +17,14 @@ When creating a VPC for EKS, you'll need to configure specific networking requir
 == Prerequisites
 
 - An {aws} account
-- Access to the {aws} Management Console
+- Access to the {aws-management-console}
 - IAM permissions for VPC and EKS resource creation
 - Planned CIDR ranges for your VPC, pods, and services
 
 == Creation Steps
 
 === Step 1: Access the VPC Creation Page
-1. Sign in to the {aws} Management Console
+1. Sign in to the {aws-management-console}
 2. Navigate to the VPC Dashboard
 3. Click "Create VPC"
 

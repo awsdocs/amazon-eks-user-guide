@@ -21,7 +21,7 @@ image::images/hybrid-prereq-diagram.png[Hybrid node network connectivity.,scaled
 
 *Minimum network requirements*
 
-For an optimal experience, {aws} recommends reliable network connectivity of at least 100 Mbps and a maximum of 200ms round trip latency for the hybrid nodes connection to the {aws-region}. The bandwidth and latency requirements can vary depending on the number of hybrid nodes and your workload characteristics such as application image size, application elasticity, monitoring and logging configurations, and application dependencies on accessing data stored in other {aws-services}.
+For an optimal experience, {aws} recommends reliable network connectivity of at least 100 Mbps and a maximum of 200ms round trip latency for the hybrid nodes connection to the {aws} Region. The bandwidth and latency requirements can vary depending on the number of hybrid nodes and your workload characteristics such as application image size, application elasticity, monitoring and logging configurations, and application dependencies on accessing data stored in other {aws} services.
 
 *On-premises node and pod CIDRs*
 
@@ -195,9 +195,9 @@ Depending on your choice of CNI, you need to configure additional network access
 
 *Amazon EKS network interfaces*
 
-Amazon EKS attaches network interfaces to the subnets in the VPC you pass during cluster creation to enable the communication between the Amazon EKS control plane and your VPC. The network interfaces that Amazon EKS creates can be found after cluster creation in the Amazon EC2 console or with the {cli}. The original network interfaces are deleted and new network interfaces are created when changes are applied on your Amazon EKS cluster, such as Kubernetes version upgrades. You can restrict the IP range for the Amazon EKS network interfaces by using constrained subnet sizes for the subnets you pass during cluster creation, which makes it easier to configure your on-premises firewall to allow inbound/outbound connectivity to this known, constrained set of IPs. To control which subnets network interfaces are created in, you can limit the number of subnets you specify when you create a cluster or you can update the subnets after creating the cluster.
+Amazon EKS attaches network interfaces to the subnets in the VPC you pass during cluster creation to enable the communication between the Amazon EKS control plane and your VPC. The network interfaces that Amazon EKS creates can be found after cluster creation in the Amazon EC2 console or with the {aws} CLI. The original network interfaces are deleted and new network interfaces are created when changes are applied on your Amazon EKS cluster, such as Kubernetes version upgrades. You can restrict the IP range for the Amazon EKS network interfaces by using constrained subnet sizes for the subnets you pass during cluster creation, which makes it easier to configure your on-premises firewall to allow inbound/outbound connectivity to this known, constrained set of IPs. To control which subnets network interfaces are created in, you can limit the number of subnets you specify when you create a cluster or you can update the subnets after creating the cluster.
 
-The network interfaces provisioned by Amazon EKS have a description of the format `Amazon EKS [.replaceable]``your-cluster-name```. See the example below for an {cli} command you can use to find the IP addresses of the network interfaces that Amazon EKS provisions. Replace `VPC_ID` with the ID of the VPC you pass during cluster creation.
+The network interfaces provisioned by Amazon EKS have a description of the format `Amazon EKS [.replaceable]``your-cluster-name```. See the example below for an {aws} CLI command you can use to find the IP addresses of the network interfaces that Amazon EKS provisions. Replace `VPC_ID` with the ID of the VPC you pass during cluster creation.
 
 [source,cli,subs="verbatim,attributes,quotes"]
 ----
@@ -211,7 +211,7 @@ aws ec2 describe-network-interfaces \
 
 The existing <<network-reqs,VPC and subnet requirements>> for Amazon EKS apply to clusters with hybrid nodes. Additionally, your VPC CIDR can't overlap with your on-premises node and pod CIDRs. You must configure routes in your VPC routing table for your on-premises node and optionally pod CIDRs. These routes must be setup to route traffic to the gateway you are using for your hybrid network connectivity, which is commonly a virtual private gateway (VGW) or transit gateway (TGW). If you are using TGW or VGW to connect your VPC with your on-premises environment, you must create a TGW or VGW attachment for your VPC. Your VPC must have DNS hostname and DNS resolution support.
 
-The following steps use the {cli}. You can also create these resources in the {aws-management-console} or with other interfaces such as {aws} CloudFormation, {aws} CDK, or Terraform.
+The following steps use the {aws} CLI. You can also create these resources in the {aws-management-console} or with other interfaces such as {aws} CloudFormation, {aws} CDK, or Terraform.
 
 === Step 1: Create VPC
 
@@ -233,7 +233,7 @@ aws ec2 modify-vpc-attribute --vpc-id [.replaceable]`VPC_ID` --enable-dns-hostna
 
 Create at least 2 subnets. Amazon EKS uses these subnets for the cluster network interfaces. For more information, see the <<network-requirements-subnets,Subnets requirements and considerations>>.
 
-. You can find the availability zones for an {aws-region} with the following command. Replace `us-west-2` with your region.
+. You can find the availability zones for an {aws} Region with the following command. Replace `us-west-2` with your region.
 +
 [source,cli,subs="verbatim,attributes,quotes"]
 ----
@@ -250,9 +250,9 @@ aws ec2 create-subnet \
     --availability-zone [.replaceable]`AZ`
 ----
 
-=== (Optional) Step 3: Attach VPC with {amazon-vpc} Transit Gateway (TGW) or {aws-direct-connect} virtual private gateway (VGW)
+=== (Optional) Step 3: Attach VPC with Amazon VPC Transit Gateway (TGW) or {aws} Direct Connect virtual private gateway (VGW)
 
-If you are using a TGW or VGW, attach your VPC to the TGW or VGW. For more information, see link:vpc/latest/tgw/tgw-vpc-attachments.html[{amazon-vpc} attachments in {amazon-vpc} Transit Gateways,type="documentation"] or link:vpn/latest/s2svpn/how_it_works.html#VPNGateway[{aws} Direct Connect virtual private gateway associations,type="documentation"].
+If you are using a TGW or VGW, attach your VPC to the TGW or VGW. For more information, see link:vpc/latest/tgw/tgw-vpc-attachments.html[Amazon VPC attachments in Amazon VPC Transit Gateways,type="documentation"] or link:vpn/latest/s2svpn/how_it_works.html#VPNGateway[{aws} Direct Connect virtual private gateway associations,type="documentation"].
 
 
 *Transit Gateway*

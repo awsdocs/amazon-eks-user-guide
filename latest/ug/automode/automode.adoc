@@ -16,7 +16,7 @@ You can delegate key infrastructure decisions and leverage the expertise of {aws
 Cluster infrastructure managed by {aws} includes many Kubernetes capabilities as core components, as opposed to add-ons, such as compute autoscaling, pod and service networking, application load balancing, cluster DNS, block storage, and GPU support. 
 
 To get started, you can deploy a new EKS Auto Mode cluster or enable EKS Auto Mode on an existing cluster.
-You can deploy, upgrade, or modify your EKS Auto Mode clusters using eksctl, the {aws} CLI, the {aws} Management Console, EKS APIs, or your preferred infrastructure-as-code tools. 
+You can deploy, upgrade, or modify your EKS Auto Mode clusters using eksctl, the {aws} CLI, the {aws-management-console}, EKS APIs, or your preferred infrastructure-as-code tools. 
 
 With EKS Auto Mode, you can continue using your preferred Kubernetes-compatible tools. EKS Auto Mode integrates with {aws} services like Amazon EC2, Amazon EBS, and ELB, leveraging {aws} cloud resources that follow best practices. These resources are automatically scaled, cost-optimized, and regularly updated to help minimize operational costs and overhead.
 

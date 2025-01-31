@@ -219,4 +219,4 @@ include::eks-optimized-amis.adoc[leveloffset=+1]
 
 include::node-health.adoc[leveloffset=+1]
 
-include::hybrid-nodes.adoc[leveloffset=+1]
+include::hybrid-nodes-overview.adoc[leveloffset=+1]

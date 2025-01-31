@@ -378,7 +378,8 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
 ----
 
-=== {aws} Management Console
+[[hybrid-nodes-creds-console,hybrid-nodes-creds-console.title]]
+=== {aws-management-console}
 
 *Create EKS Describe Cluster Policy*
 

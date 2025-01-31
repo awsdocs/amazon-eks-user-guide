@@ -29,7 +29,7 @@ EKS cluster public/private endpoint:
 EKS cluster public/private endpoint:
 `eks-cluster.[.replaceable]``region``.api.aws`
 
-{amazon-web-services} in China::
+Amazon Web Services in China::
 EKS cluster public/private endpoint:
 `eks-cluster.[.replaceable]``region``.api.amazonwebservices.com.cn`
 
@@ -55,7 +55,7 @@ EKS cluster public/private endpoint
 EKS cluster public/private endpoint
 `eks-cluster.[.replaceable]``region``.eks.amazonaws.com`
 
-{amazon-web-services} in China::
+Amazon Web Services in China::
 EKS cluster public/private endpoint
 `eks-cluster.[.replaceable]``region``.api.amazonwebservices.com.cn`
 
