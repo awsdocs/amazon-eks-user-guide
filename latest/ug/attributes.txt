@@ -15,16 +15,23 @@
 
 // Words Geoffrey often spells wrong or doesn't like to type
 
-:ret: retrieve
-:resp: responsibility
-:det: determine
 :cap: capability
 :caps: capabilites
-:recd: recommended
+:det: determine
 :config: configuration
-:ind: indicate
-:ena: enable
 :dis: disable
+:e2i: EC2 Instance
+:eam: EKS Auto Mode
+:emi: EC2 managed instance
+:ena: enable
+:ind: indicate
+:k8s: Kubernetes
+:mng: managed node group
+:recd: recommended
+:resp: responsibility
+:ret: retrieve
+:yaa: your {aws} account
+:yec: your EKS Auto Mode cluster
 
 // AWS shared content
 
@@ -224,14 +231,3 @@
 :us-gov-west-1-name: {aws} GovCloud (US-West) Region
 :us-gov-east-1-region: {aws} GovCloud (US-West)
 :us-gov-east-1-code: us-gov-west-1
-
-// EKS Auto Mode attributes
-
-:yec: your EKS Auto Mode cluster
-:yaa: your {aws} account
-:emi: EC2 managed instance
-:eam: EKS Auto Mode
-:mng: managed node group
-:e2i: EC2 Instance
-:k8s: Kubernetes
-:k8s-n: 1.31
