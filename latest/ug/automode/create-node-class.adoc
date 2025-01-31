@@ -73,7 +73,7 @@ aws eks associate-access-policy \
   --cluster-name <cluster-name> \
   --principal-arn <node-role-arn> \
   --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSAutoNodePolicy \
-  --access-scope cluster
+  --access-scope type=cluster
 ----
 
 === Create access entry with CloudFormation
