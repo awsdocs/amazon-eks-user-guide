@@ -92,10 +92,9 @@ EKS Auto Mode supports the following well known labels.
 |g4dn.8xlarge
 |{aws} instance type
 
-
 |kubernetes.io/arch
 |amd64
-|Architectures are defined by link:https://github.com/golang/go/blob/master/src/go/build/syslist.go#L50[GOARCH values] on the instance
+|Architectures are defined by link:https://github.com/golang/go/blob/master/src/internal/syslist/syslist.go#L58[GOARCH values] on the instance
 
 |karpenter.sh/capacity-type
 |spot
