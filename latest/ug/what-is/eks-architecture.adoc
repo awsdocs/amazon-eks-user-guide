@@ -1,4 +1,3 @@
-
 [.topic]
 [[eks-architecture,eks-architecture.title]]
 = Amazon EKS architecture

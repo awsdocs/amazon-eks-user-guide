@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [[view-kubernetes-resources,view-kubernetes-resources.title]]
 = View [.noloc]`Kubernetes` resources in the {aws-management-console}
-:info_titleabbrev: Access cluster resources with console
+:info_titleabbrev: Access cluster resources
 
 [abstract]
 --

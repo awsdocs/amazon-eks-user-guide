@@ -1,4 +1,3 @@
-
 [.topic]
 [[choosing-instance-type,choosing-instance-type.title]]
 = Choose an optimal Amazon EC2 node instance type

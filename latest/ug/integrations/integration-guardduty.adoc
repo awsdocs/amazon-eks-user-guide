@@ -1,7 +1,7 @@
-
 [.topic]
 [[integration-guardduty,integration-guardduty.title]]
 = Detect threats with Amazon GuardDuty
+:info_titleabbrev: Amazon GuardDuty
 
 include::../attributes.txt[]
 

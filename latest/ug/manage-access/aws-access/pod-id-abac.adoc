@@ -1,0 +1,84 @@
+[.topic]
+[[pod-id-abac,pod-id-abac.title]]
+= Grant Pods access to {aws} resources based on tags
+:info_titleabbrev: Grant Pods access
+
+include::../../attributes.txt[]
+
+[abstract]
+--
+Learn how to use Amazon EKS Pod Identity to attach tags for cluster, namespace, and service account to temporary credentials, enabling attribute-based access control (ABAC) for EKS Pods to {aws} resources based on matching tags.
+--
+
+Attribute-based access control (ABAC) grants rights to users through policies which combine attributes together. EKS Pod Identity attaches tags to the temporary credentials to each Pod with attributes such as cluster name, namespace, and service account name. These role session tags enable administrators to author a single role that can work across service accounts by allowing access to {aws} resources based on matching tags. By adding support for role session tags, customers can enforce tighter security boundaries between clusters, and workloads within clusters, while reusing the same IAM roles and IAM policies.
+
+For example, the following policy allows the `s3:GetObject` action if the object is tagged with the name of the EKS cluster.
+
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectTagging"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "s3:ExistingObjectTag/eks-cluster-name": "${aws:PrincipalTag/eks-cluster-name}"
+                }
+            }
+        }
+    ]
+}
+----
+
+
+[[pod-id-abac-tags,pod-id-abac-tags.title]]
+== List of session tags added by EKS Pod Identity
+
+The following list contains all of the keys for tags that are added to the `AssumeRole` request made by Amazon EKS. To use these tags in policies, use `${aws:PrincipalTag/` followed by the key, for example `${aws:PrincipalTag/kubernetes-namespace}`.
+
+
+
+* `eks-cluster-arn`
+* `eks-cluster-name`
+* `kubernetes-namespace`
+* `kubernetes-service-account`
+* `kubernetes-pod-name`
+* `kubernetes-pod-uid`
+
+
+[[pod-id-abac-chaining,pod-id-abac-chaining.title]]
+== Cross-account tags
+
+All of the session tags that are added by EKS Pod Identity are  _transitive_; the tag keys and values are passed to any `AssumeRole` actions that your workloads use to switch roles into another account. You can use these tags in policies in other accounts to limit access in cross-account scenarios. For more infromation, see  link:IAM/latest/UserGuide/id_session-tags.html#id_session-tags_role-chaining[Chaining roles with session tags,type="documentation"] in the _IAM User Guide_.
+
+[[pod-id-abac-custom-tags,pod-id-abac-custom-tags.title]]
+== Custom tags
+
+EKS Pod Identity can't add additional custom tags to the `AssumeRole` action that it performs. However, tags that you apply to the IAM role are always available though the same format: `${aws:PrincipalTag/` followed by the key, for example `${aws:PrincipalTag/MyCustomTag}`.
+
+[NOTE]
+====
+
+Tags added to the session through the `sts:AssumeRole` request take precedence in the case of conflict. For example, say that:
+
+
+
+* Amazon EKS adds a key `eks-cluster-name` and value `my-cluster` to the session when EKS assumes the customer role and
+* You add an `eks-cluster-name` tag to the IAM role with the value `my-own-cluster`.
+
+In this case, the former takes precedence and the value for the `eks-cluster-name` tag will be `my-cluster`.
+
+====

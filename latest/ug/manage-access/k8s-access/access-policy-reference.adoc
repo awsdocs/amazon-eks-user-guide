@@ -1,6 +1,7 @@
 [.topic]
 [[access-policy-permissions,access-policy-permissions.title]]
 = Review access policy permissions
+:info_titleabbrev: Review access policies
 
 include::../../attributes.txt[]
 

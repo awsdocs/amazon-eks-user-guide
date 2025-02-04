@@ -1,4 +1,3 @@
-
 [.topic]
 [[security-connector,security-connector.title]]
 = Understand security in Amazon EKS Connector

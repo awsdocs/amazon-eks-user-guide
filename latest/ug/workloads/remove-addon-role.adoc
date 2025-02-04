@@ -1,7 +1,7 @@
 [.topic]
 [[remove-addon-role,remove-addon-role.title]]
 =  Remove Pod Identity associations from an Amazon EKS add-on
-:info_titleabbrev: Remove Pod Identity associations
+:info_titleabbrev: Remove Pod Identity
 
 include::../attributes.txt[]
 

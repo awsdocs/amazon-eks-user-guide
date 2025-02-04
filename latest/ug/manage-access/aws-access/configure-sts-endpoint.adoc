@@ -1,0 +1,152 @@
+include::../../attributes.txt[]
+[.topic]
+[[configure-sts-endpoint,configure-sts-endpoint.title]]
+= Configure the {aws} Security Token Service endpoint for a service account
+:info_titleabbrev: STS endpoints
+
+If you're using a [.noloc]`Kubernetes` service account with  <<iam-roles-for-service-accounts,IAM roles for service accounts>>, then you can configure the type of {aws} Security Token Service endpoint that's used by the service account if your cluster and platform version are the same or later than those listed in the following table. If your [.noloc]`Kubernetes` or platform version are earlier than those listed in the table, then your service accounts can only use the global endpoint.
+
+[cols="1,1,1", options="header"]
+|===
+|Kubernetes version
+|Platform version
+|Default endpoint type
+
+
+|`1.31`
+|`eks.4`
+|Regional
+
+|`1.30`
+|`eks.2`
+|Regional
+
+|`1.29`
+|`eks.1`
+|Regional
+
+|`1.28`
+|`eks.1`
+|Regional
+
+|`1.27`
+|`eks.1`
+|Regional
+
+|`1.26`
+|`eks.1`
+|Regional
+
+|`1.25`
+|`eks.1`
+|Regional
+
+|`1.24`
+|`eks.2`
+|Regional
+
+|`1.23`
+|`eks.1`
+|Regional
+|===
+
+{aws} recommends using the regional {aws} STS endpoints instead of the global endpoint. This reduces latency, provides built-in redundancy, and increases session token validity. The {aws} Security Token Service must be active in the {aws} Region where the [.noloc]`Pod` is running. Moreover, your application must have built-in redundancy for a different {aws} Region in the event of a failure of the service in the {aws} Region. For more information, see   link:IAM/latest/UserGuide/id_credentials_temp_enable-regions.html[Managing {aws} STS in an {aws} Region,type="documentation"] in the IAM User Guide.
+
+
+
+* An existing cluster. If you don't have one, you can create one using one of the guides in <<getting-started>>.
+* An existing IAM OIDC provider for your cluster. For more information, see <<enable-iam-roles-for-service-accounts>>.
+* An existing [.noloc]`Kubernetes` service account configured for use with the  <<iam-roles-for-service-accounts,Amazon EKS IAM for service accounts>> feature.
+
+The following examples all use the aws-node [.noloc]`Kubernetes` service account used by the  <<cni-iam-role,Amazon VPC CNI plugin>>. You can replace the [.replaceable]`example values` with your own service accounts, [.noloc]`Pods`, namespaces, and other resources.
+
+. Select a [.noloc]`Pod` that uses a service account that you want to change the endpoint for. Determine which {aws} Region that the [.noloc]`Pod` runs in. Replace [.replaceable]`aws-node-6mfgv` with your [.noloc]`Pod` name and [.replaceable]`kube-system` with your [.noloc]`Pod's` namespace.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl describe pod aws-node-6mfgv -n kube-system |grep Node:
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+ip-192-168-79-166.us-west-2/192.168.79.166
+----
++
+In the previous output, the [.noloc]`Pod` is running on a node in the  us-west-2 {aws} Region.
+. Determine the endpoint type that the [.noloc]`Pod's` service account is using.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl describe pod aws-node-6mfgv -n kube-system |grep AWS_STS_REGIONAL_ENDPOINTS
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+AWS_STS_REGIONAL_ENDPOINTS: regional
+----
++
+If the current endpoint is global, then `global` is returned in the output. If no output is returned, then the default endpoint type is in use and has not been overridden.
+. If your cluster or platform version are the same or later than those listed in the table, then you can change the endpoint type used by your service account from the default type to a different type with one of the following commands. Replace [.replaceable]`aws-node` with the name of your service account and [.replaceable]`kube-system` with the namespace for your service account.
++
+** If your default or current endpoint type is global and you want to change it to regional:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl annotate serviceaccount -n kube-system aws-node eks.amazonaws.com/sts-regional-endpoints=true
+----
+// Not using [.noloc]`Pods'` because the ' character seems to mess up the processing.
++
+If you're using <<iam-roles-for-service-accounts,IAM roles for service accounts>> to generate pre-signed S3 URLs in your application running in Pods' containers, the format of the URL for regional endpoints is similar to the following example:
++
+[source,none,subs="verbatim,attributes"]
+----
+https://bucket.s3.us-west-2.amazonaws.com/path?...&X-Amz-Credential=your-access-key-id/date/us-west-2/s3/aws4_request&...
+----
+** If your default or current endpoint type is regional and you want to change it to global:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl annotate serviceaccount -n kube-system aws-node eks.amazonaws.com/sts-regional-endpoints=false
+----
++
+If your application is explicitly making requests to {aws} STS global endpoints and you don't override the default behavior of using regional endpoints in Amazon EKS clusters, then requests will fail with an error. For more information, see <<security-iam-troubleshoot-wrong-sts-endpoint>>.
+// Not using [.noloc]`Pods'` because the ' character seems to mess up the processing.
++
+If you're using <<iam-roles-for-service-accounts,IAM roles for service accounts>> to generate pre-signed S3 URLs in your application running in Pods' containers, the format of the URL for global endpoints is similar to the following example:
++
+[source,none,subs="verbatim,attributes"]
+----
+https://bucket.s3.amazonaws.com/path?...&X-Amz-Credential=your-access-key-id/date/us-west-2/s3/aws4_request&...
+----
+
++
+If you have automation that expects the pre-signed URL in a certain format or if your application or downstream dependencies that use pre-signed URLs have expectations for the {aws} Region targeted, then make the necessary changes to use the appropriate {aws} STS endpoint.
+. Delete and re-create any existing [.noloc]`Pods` that are associated with the service account to apply the credential environment variables. The mutating web hook doesn't apply them to [.noloc]`Pods` that are already running. You can replace [.replaceable]`Pods`, [.replaceable]`kube-system`, and [.replaceable]`-l k8s-app=aws-node` with the information for the [.noloc]`Pods` that you set your annotation for.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl delete Pods -n kube-system -l k8s-app=aws-node
+----
+. Confirm that the all [.noloc]`Pods` restarted.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get Pods -n kube-system -l k8s-app=aws-node
+----
+. View the environment variables for one of the [.noloc]`Pods`. Verify that the `AWS_STS_REGIONAL_ENDPOINTS` value is what you set it to in a previous step.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl describe pod aws-node-kzbtr -n kube-system |grep AWS_STS_REGIONAL_ENDPOINTS
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+AWS_STS_REGIONAL_ENDPOINTS=regional
+----

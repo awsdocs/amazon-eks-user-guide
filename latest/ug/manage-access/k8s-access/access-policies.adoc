@@ -1,6 +1,7 @@
 [.topic]
 [[access-policies,access-policies.title]]
 = Associate access policies with access entries
+:info_titleabbrev: Associate access policies
 
 include::../../attributes.txt[]
 

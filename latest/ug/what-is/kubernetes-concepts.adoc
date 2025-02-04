@@ -1,4 +1,3 @@
-
 [.topic]
 [[kubernetes-concepts,kubernetes-concepts.title]]
 = [.noloc]`Kubernetes` concepts

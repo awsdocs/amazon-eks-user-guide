@@ -1,4 +1,3 @@
-
 [.topic]
 [[vertical-pod-autoscaler,vertical-pod-autoscaler.title]]
 = Adjust pod resources with [.noloc]`Vertical Pod Autoscaler`

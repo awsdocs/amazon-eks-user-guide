@@ -1,7 +1,7 @@
 [.topic]
 [[sample-deployment-win,sample-deployment-win.title]]
 = Deploy a sample application on Windows
-:info_titleabbrev: Sample application deployment (Windows)
+:info_titleabbrev: Sample deployment (Windows)
 
 include::../attributes.txt[]
 

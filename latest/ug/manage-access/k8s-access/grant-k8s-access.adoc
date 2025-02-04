@@ -1,7 +1,7 @@
 [.topic]
 [[grant-k8s-access,grant-k8s-access.title]]
 = Grant [.noloc]`IAM` users and roles access to Kubernetes [.noloc]`APIs`
-:info_titleabbrev: Grant access to Kubernetes APIs
+:info_titleabbrev: Kubernetes API access
 
 include::../../attributes.txt[]
 

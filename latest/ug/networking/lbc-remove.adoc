@@ -1,7 +1,7 @@
 [.topic]
 [[lbc-remove,lbc-remove.title]]
 = Migrate apps from deprecated ALB [.noloc]`Ingress Controller`
-:info_titleabbrev: Migrate from deprecated controller
+:info_titleabbrev: Migrate from deprecated
 
 include::../attributes.txt[]
 

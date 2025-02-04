@@ -1,7 +1,7 @@
 [.topic]
 [[self-managed-windows-server-2022,self-managed-windows-server-2022.title]]
 = Create self-managed [.noloc]`Windows` Server 2022 nodes with `eksctl`
-:info_titleabbrev: Create Windows Server 2022 nodes
+:info_titleabbrev: Windows Server 2022
 
 include::../attributes.txt[]
 

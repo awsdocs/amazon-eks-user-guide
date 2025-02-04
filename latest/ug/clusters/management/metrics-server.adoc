@@ -1,4 +1,3 @@
-
 [.topic]
 [[metrics-server,metrics-server.title]]
 = View resource usage with the [.noloc]`Kubernetes` [.noloc]`Metrics Server`

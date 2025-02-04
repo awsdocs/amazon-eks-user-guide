@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [[eks-outposts-network-disconnects,eks-outposts-network-disconnects.title]]
 = Prepare local Amazon EKS clusters on {aws} Outposts for network disconnects
-:info_titleabbrev: Prepare for network disconnects
+:info_titleabbrev: Prepare for disconnects
 
 [abstract]
 --

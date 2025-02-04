@@ -1,0 +1,115 @@
+[.topic]
+[[pod-id-agent-setup,pod-id-agent-setup.title]]
+= Set up the Amazon EKS Pod Identity Agent
+:info_titleabbrev: Set up the Agent
+
+include::../../attributes.txt[]
+
+[abstract]
+--
+Learn how to set up the EKS Pod Identity Agent for your cluster.
+--
+
+Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances.
+
+Amazon EKS Pod Identity provides credentials to your workloads with an additional _EKS Auth_ API and an agent pod that runs on each node.
+
+[TIP]
+====
+You do not need to install the EKS Pod Identity Agent on EKS Auto Mode Clusters. This capability is built into EKS Auto Mode. 
+====
+
+
+[[pod-id-agent-considerations,pod-id-agent-considerations.title]]
+== Considerations
+
+* By default, the EKS Pod Identity Agent listens on an `IPv4` and `IPv6` address for pods to request credentials. The agent uses the loopback (localhost) IP address `169.254.170.23` for `IPv4` and the localhost IP address `[fd00:ec2::23]` for `IPv6`.
+* If you disable `IPv6` addresses, or otherwise prevent localhost `IPv6` IP addresses, the agent can't start. To start the agent on nodes that can't use `IPv6`, follow the steps in <<pod-id-agent-config-ipv6>> to disable the `IPv6` configuration.
+
+
+[[pod-id-agent-add-on-create,pod-id-agent-add-on-create.title]]
+== Creating the Amazon EKS Pod Identity Agent
+
+[[pod-id-agent-prereqs,pod-id-agent-prereqs.title]]
+=== Agent prerequisites
+
+* An existing Amazon EKS cluster. To deploy one, see <<getting-started>>. The cluster version and platform version must be the same or later than the versions listed in <<pod-id-cluster-versions,EKS Pod Identity cluster versions>>.
+* The node role has permissions for the agent to do the `AssumeRoleForPodIdentity` action in the EKS Auth API. You can use the <<security-iam-awsmanpol-amazoneksworkernodepolicy,{aws} managed policy: AmazonEKSWorkerNodePolicy>> or add a custom policy similar to the following:
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks-auth:AssumeRoleForPodIdentity"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+----
++
+This action can be limited by tags to restrict which roles can be assumed by pods that use the agent.
+* The nodes can reach and download images from Amazon ECR. The container image for the add-on is in the registries listed in <<add-ons-images,View Amazon container image registries for Amazon EKS add-ons>>.
++
+Note that you can change the image location and provide `imagePullSecrets` for EKS add-ons in the *Optional configuration settings* in the {aws-management-console}, and in the `--configuration-values` in the {aws} CLI.
+* The nodes can reach the Amazon EKS Auth API. For private clusters, the `eks-auth` endpoint in {aws} PrivateLink is required.
+
+
+=== Setup agent with {aws} console
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the EKS Pod Identity Agent add-on for.
+. Choose the *Add-ons* tab.
+. Choose *Get more add-ons*.
+. Select the box in the top right of the add-on box for EKS Pod Identity Agent and then choose *Next*.
+. On the *Configure selected add-ons settings* page, select any version in the  *Version* dropdown list.
+. (Optional) Expand *Optional configuration settings* to enter additional configuration. For example, you can provide an alternative container image location and `ImagePullSecrets`. The [.noloc]`JSON Schema` with accepted keys is shown in  *Add-on configuration schema*.
++
+Enter the configuration keys and values in *Configuration values*.
+. Choose *Next*.
+. Confirm that the EKS Pod Identity Agent pods are running on your cluster.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pods -n kube-system | grep 'eks-pod-identity-agent'
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+eks-pod-identity-agent-gmqp7                                          1/1     Running   1 (24h ago)   24h
+eks-pod-identity-agent-prnsh                                          1/1     Running   1 (24h ago)   24h
+----
++
+You can now use EKS Pod Identity associations in your cluster. For more information, see <<pod-id-association>>.
+
+
+=== Setup agent with {aws} CLI 
+. Run the following {aws} CLI command. Replace `my-cluster` with the name of your cluster.
++
+[source,shell,subs="verbatim,attributes"]
+----
+aws eks create-addon --cluster-name my-cluster --addon-name eks-pod-identity-agent --addon-version v1.0.0-eksbuild.1
+----
++
+NOTE: The EKS Pod Identity Agent doesn't use the `service-account-role-arn` for _IAM roles for service accounts_. You must provide the EKS Pod Identity Agent with permissions in the node role.
+. Confirm that the EKS Pod Identity Agent pods are running on your cluster.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pods -n kube-system | grep 'eks-pod-identity-agent'
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+eks-pod-identity-agent-gmqp7                                          1/1     Running   1 (24h ago)   24h
+eks-pod-identity-agent-prnsh                                          1/1     Running   1 (24h ago)   24h
+----
++
+You can now use EKS Pod Identity associations in your cluster. For more information, see <<pod-id-association>>.

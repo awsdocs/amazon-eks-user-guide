@@ -1,7 +1,7 @@
 [.topic]
 [[auto-learn-iam,auto-learn-iam.title]]
 = Learn about identity and access in EKS Auto Mode
-:info_titleabbrev: Identity & access
+:info_titleabbrev: Identity and access
 
 include::../attributes.txt[]
 

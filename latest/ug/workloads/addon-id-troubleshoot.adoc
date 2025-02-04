@@ -1,7 +1,7 @@
 [.topic]
 [[addon-id-troubleshoot,addon-id-troubleshoot.title]]
 = Troubleshoot Pod Identities for EKS add-ons
-:info_titleabbrev: Troubleshoot Pod Identities
+:info_titleabbrev: Troubleshoot Identities
 
 include::../attributes.txt[]
 

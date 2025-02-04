@@ -1,4 +1,3 @@
-
 [.topic]
 [[common-use-cases,common-use-cases.title]]
 = Common use cases in Amazon EKS

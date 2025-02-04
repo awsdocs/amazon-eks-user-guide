@@ -1,4 +1,3 @@
-
 [.topic]
 [[copy-image-to-repository,copy-image-to-repository.title]]
 = Copy a container image from one repository to another repository

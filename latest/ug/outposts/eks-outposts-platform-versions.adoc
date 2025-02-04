@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [[eks-outposts-platform-versions,eks-outposts-platform-versions.title]]
 = Learn [.noloc]`Kubernetes` and Amazon EKS platform versions for {aws} Outposts
-:info_titleabbrev: Learn Kubernetes platform versions
+:info_titleabbrev: EKS platform versions
 
 [abstract]
 --

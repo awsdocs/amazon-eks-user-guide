@@ -1,7 +1,7 @@
 [.topic]
 [[restrict-service-external-ip,restrict-service-external-ip.title]]
 = Restrict external IP addresses that can be assigned to services
-:info_titleabbrev: Restrict service external IP address assignment
+:info_titleabbrev: Restrict service external IPs
 
 include::../attributes.txt[]
 

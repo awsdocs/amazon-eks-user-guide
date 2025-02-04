@@ -1,7 +1,7 @@
 [.topic]
 [[troubleshooting-connector,troubleshooting-connector.title]]
 = Troubleshoot Amazon EKS Connector issues
-:info_titleabbrev: Troubleshoot Amazon EKS Connector
+:info_titleabbrev: Troubleshoot EKS Connector
 
 include::../attributes.txt[]
 

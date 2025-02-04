@@ -1,9 +1,9 @@
 [.topic]
 [[auth-configmap,auth-configmap.title]]
 = Grant [.noloc]`IAM` users access to [.noloc]`Kubernetes` with a [.noloc]`ConfigMap`
+:info_titleabbrev: aws-auth ConfigMap
 
 include::../../attributes.txt[]
-
 
 [abstract]
 --

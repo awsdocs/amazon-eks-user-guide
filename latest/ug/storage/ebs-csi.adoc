@@ -1,4 +1,3 @@
-
 [.topic]
 [[ebs-csi,ebs-csi.title]]
 = Store [.noloc]`Kubernetes` volumes with Amazon EBS

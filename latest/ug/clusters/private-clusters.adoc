@@ -1,4 +1,3 @@
-
 [.topic]
 [[private-clusters,private-clusters.title]]
 = Deploy private clusters with limited internet access

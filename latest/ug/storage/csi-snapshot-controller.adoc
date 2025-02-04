@@ -1,4 +1,3 @@
-
 [.topic]
 [[csi-snapshot-controller,csi-snapshot-controller.title]]
 = Enable snapshot functionality for CSI volumes

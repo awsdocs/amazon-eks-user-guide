@@ -1,7 +1,7 @@
 [.topic]
 [[hybrid-nodes-nodeadm,hybrid-nodes-nodeadm.title]]
 = Hybrid nodes `nodeadm` reference
-:info_titleabbrev: Hybrid nodes nodeadm reference
+:info_titleabbrev: Hybrid nodes nodeadm
 :keywords: on-premises, hybrid
 
 include::../attributes.txt[]

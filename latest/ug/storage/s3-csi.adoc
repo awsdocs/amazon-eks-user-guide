@@ -1,4 +1,3 @@
-
 [.topic]
 [[s3-csi,s3-csi.title]]
 = Access Amazon S3 objects with Mountpoint for Amazon S3 CSI driver

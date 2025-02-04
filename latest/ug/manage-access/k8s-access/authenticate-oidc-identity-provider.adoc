@@ -1,6 +1,7 @@
 [.topic]
 [[authenticate-oidc-identity-provider,authenticate-oidc-identity-provider.title]]
 = Grant users access to [.noloc]`Kubernetes` with an external [.noloc]`OIDC` provider
+:info_titleabbrev: Link OIDC provider
 
 include::../../attributes.txt[]
 

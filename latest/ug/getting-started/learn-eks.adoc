@@ -1,4 +1,3 @@
-
 [.topic]
 [[learn-eks,learn-eks.title]]
 = Learn Amazon EKS by example

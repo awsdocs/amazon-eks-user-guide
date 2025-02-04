@@ -1,4 +1,3 @@
-
 [.topic]
 [[fsx-openzfs-csi,fsx-openzfs-csi.title]]
 = Store data using Amazon FSx for OpenZFS

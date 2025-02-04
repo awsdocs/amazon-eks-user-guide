@@ -1,7 +1,7 @@
 [.topic]
 [[pod-multiple-network-interfaces,pod-multiple-network-interfaces.title]]
 = Attach multiple network interfaces to [.noloc]`Pods` with [.noloc]`Multus`
-:info_titleabbrev: Multiple network interfaces
+:info_titleabbrev: Multiple interfaces
 
 include::../attributes.txt[]
 

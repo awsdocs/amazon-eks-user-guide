@@ -1,4 +1,3 @@
-
 [.topic]
 [[autoscaling,autoscaling.title]]
 = Scale cluster compute with [.noloc]`Karpenter` and [.noloc]`Cluster Autoscaler`

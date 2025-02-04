@@ -18,20 +18,14 @@ In addition to the services covered in other sections, Amazon EKS works with mor
 
 include::creating-resources-with-cloudformation.adoc[leveloffset=+1]
 
-
 include::integration-detective.adoc[leveloffset=+1]
-
 
 include::integration-guardduty.adoc[leveloffset=+1]
 
-
 include::integration-resilience-hub.adoc[leveloffset=+1]
-
 
 include::integration-securitylake.adoc[leveloffset=+1]
 
-
 include::integration-vpc-lattice.adoc[leveloffset=+1]
-
 
 include::local-zones.adoc[leveloffset=+1]

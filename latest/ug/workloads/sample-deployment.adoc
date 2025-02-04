@@ -1,7 +1,7 @@
 [.topic]
 [[sample-deployment,sample-deployment.title]]
 = Deploy a sample application on Linux
-:info_titleabbrev: Sample application deployment (Linux)
+:info_titleabbrev: Sample deployment (Linux)
 
 include::../attributes.txt[]
 

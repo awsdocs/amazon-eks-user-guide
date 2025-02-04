@@ -1,4 +1,3 @@
-
 [.topic]
 [[horizontal-pod-autoscaler,horizontal-pod-autoscaler.title]]
 = Scale pod deployments with [.noloc]`Horizontal Pod Autoscaler`

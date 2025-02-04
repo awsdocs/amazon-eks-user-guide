@@ -1,8 +1,8 @@
 include::../attributes.txt[]
-
 [.topic]
 [[creating-resources-with-cloudformation,creating-resources-with-cloudformation.title]]
 = Create Amazon EKS resources with {aws} CloudFormation
+:info_titleabbrev: {aws} CloudFormation
 
 [abstract]
 --

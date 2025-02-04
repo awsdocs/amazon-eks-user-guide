@@ -1,4 +1,3 @@
-
 [.topic]
 [[deregister-connected-cluster,deregister-connected-cluster.title]]
 = Deregister a Kubernetes cluster from the Amazon EKS console

@@ -1,4 +1,3 @@
-
 [.topic]
 [[delete-cluster,delete-cluster.title]]
 = Delete a cluster

@@ -3,7 +3,7 @@
 [.topic]
 [[node-efa,node-efa.title]]
 = Run machine learning training on Amazon EKS with [.noloc]`Elastic Fabric Adapter`
-:info_titleabbrev: Prepare training clusters with EFA
+:info_titleabbrev: Training clusters with EFA
 
 include::../attributes.txt[]
 

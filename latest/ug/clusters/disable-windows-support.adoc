@@ -1,4 +1,3 @@
-
 [.topic]
 [[disable-windows-support,disable-windows-support.title]]
 = Disable [.noloc]`Windows` support

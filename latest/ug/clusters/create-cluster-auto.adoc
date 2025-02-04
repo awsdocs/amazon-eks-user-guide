@@ -6,7 +6,6 @@
 
 include::../attributes.txt[]
 
-
 [abstract]
 --
 Learn how to create an Amazon EKS Auto Mode cluster to run Kubernetes applications, including prerequisites, networking options, and add-on configurations. 

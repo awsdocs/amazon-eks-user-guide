@@ -1,4 +1,3 @@
-
 [.topic]
 [[image-verification,image-verification.title]]
 = Validate container image signatures during deployment

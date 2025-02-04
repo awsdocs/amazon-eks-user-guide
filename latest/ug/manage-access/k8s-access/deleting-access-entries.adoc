@@ -1,0 +1,31 @@
+[.topic]
+[[deleting-access-entries,deleting-access-entries.title]]
+= Delete access entries
+
+include::../../attributes.txt[]
+
+If you discover that you deleted an access entry in error, you can always recreate it. If the access entry that you're deleting is associated to any access policies, the associations are automatically deleted. You don't have to disassociate access policies from an access entry before deleting the access entry.
+
+You can delete an access entry using the {aws-management-console} or the {aws} CLI.
+
+
+[[access-delete-console,access-delete-console.title]]
+== {aws-management-console}
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. Choose the name of the cluster that you want to delete an access entry from.
+. Choose the *Access* tab.
+. In the *Access entries* list, choose the access entry that you want to delete.
+. Choose Delete.
+. In the confirmation dialog box, choose *Delete*.
+
+[[access-delete-cli,access-delete-cli.title]]
+== {aws} CLI
+. Install the {aws} CLI, as described in  link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
+. To delete an access entry
+Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`my-role` with the name of the IAM role that you no longer want to have access to your cluster.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks delete-access-entry --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/my-role
+----
+

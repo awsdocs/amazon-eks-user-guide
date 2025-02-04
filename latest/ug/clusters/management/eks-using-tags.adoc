@@ -1,4 +1,3 @@
-
 [.topic]
 [[eks-using-tags,eks-using-tags.title]]
 = Organize Amazon EKS resources with tags

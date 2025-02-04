@@ -1,6 +1,7 @@
 [.topic]
 [[migrating-access-entries,migrating-access-entries.title]]
 = Migrating existing `aws-auth ConfigMap` entries to access entries
+:info_titleabbrev: Migrate to access entries
 
 include::../../attributes.txt[]
 

@@ -1,4 +1,3 @@
-
 [.topic]
 [[windows-support,windows-support.title]]
 = Deploy [.noloc]`Windows` nodes on EKS clusters

@@ -1,4 +1,3 @@
-
 [.topic]
 [[helm,helm.title]]
 = Deploy applications with [.noloc]`Helm` on Amazon EKS

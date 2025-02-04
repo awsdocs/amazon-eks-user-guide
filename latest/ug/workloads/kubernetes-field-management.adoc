@@ -1,7 +1,7 @@
 [.topic]
 [[kubernetes-field-management,kubernetes-field-management.title]]
 = Determine fields you can customize for Amazon EKS add-ons
-:info_titleabbrev: Determine fields you can customize
+:info_titleabbrev: Fields you can customize
 
 include::../attributes.txt[]
 

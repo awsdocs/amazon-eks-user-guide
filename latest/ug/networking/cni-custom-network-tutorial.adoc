@@ -1,7 +1,7 @@
 [.topic]
 [[cni-custom-network-tutorial,cni-custom-network-tutorial.title]]
 = Customize the secondary network interface in Amazon EKS nodes
-:info_titleabbrev: Secondary network interface
+:info_titleabbrev: Secondary interface
 
 include::../attributes.txt[]
 

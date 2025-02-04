@@ -1,0 +1,41 @@
+[.topic]
+[[irsa-fetch-keys,irsa-fetch-keys.title]]
+= Fetch signing keys to validate [.noloc]`OIDC` tokens
+:info_titleabbrev: Fetch signing keys
+
+include::../../attributes.txt[]
+
+[abstract]
+--
+Discover how to fetch the OIDC public signing keys (JSON Web Key Set) required to validate the ProjectedServiceAccountToken for Amazon EKS clusters, enabling external systems to authenticate with IAM roles for Kubernetes service accounts.
+--
+
+[.noloc]`Kubernetes` issues a `ProjectedServiceAccountToken` to each [.noloc]`Kubernetes` [.noloc]`Service Account`. This token is an [.noloc]`OIDC` token, which is further a type of [.noloc]`JSON web token (JWT)`. Amazon EKS hosts a public [.noloc]`OIDC` endpoint for each cluster that contains the signing keys for the token so external systems can validate it.  
+
+To validate a `ProjectedServiceAccountToken`, you need to fetch the [.noloc]`OIDC` public signing keys, also called the [.noloc]`JSON Web Key Set (JWKS)`. Use these keys in your application to validate the token. For example, you can use the https://pyjwt.readthedocs.io/en/latest/[PyJWT Python library] to validate tokens using these keys. For more information on the `ProjectedServiceAccountToken`, see <<irsa-oidc-background>>.
+
+== Prerequisites 
+
+* An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* *{aws} CLI* -- A command line tool for working with {aws} services, including Amazon EKS. For more information, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide. After installing the {aws} CLI, we recommend that you also configure it. For more information, see  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide.
+
+== Procedure 
+
+. Retrieve the [.noloc]`OIDC` URL for your Amazon EKS cluster using the {aws} CLI.
++
+[source,bash,subs="verbatim,attributes"]
+----
+$ aws eks describe-cluster --name my-cluster --query 'cluster.identity.oidc.issuer'
+"https://oidc.eks.us-west-2.amazonaws.com/id/8EBDXXXX00BAE"
+----
+. Retrieve the public signing key using [.noloc]`curl`, or a similar tool. The result is a https://www.rfc-editor.org/rfc/rfc7517#section-5[JSON Web Key Set (JWKS)].
++
+IMPORTANT: Amazon EKS throttles calls to the [.noloc]`OIDC` endpoint. You should cache the public signing key. Respect the `cache-control` header included in the response. 
++
+IMPORTANT: Amazon EKS rotates the [.noloc]`OIDC` signing key every seven days.  
++
+[source,bash,subs="verbatim,attributes"]
+----
+$ curl https://oidc.eks.us-west-2.amazonaws.com/id/8EBDXXXX00BAE/keys
+{"keys":[{"kty":"RSA","kid":"2284XXXX4a40","use":"sig","alg":"RS256","n":"wklbXXXXMVfQ","e":"AQAB"}]}
+----

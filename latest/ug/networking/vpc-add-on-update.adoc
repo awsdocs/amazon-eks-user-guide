@@ -1,7 +1,7 @@
 [.topic]
 [[vpc-add-on-update,vpc-add-on-update.title]]
 = Update the Amazon VPC CNI (Amazon EKS add-on)
-:info_titleabbrev: Update (Amazon EKS add-on)
+:info_titleabbrev: Update (EKS add-on)
 
 include::../attributes.txt[]
 

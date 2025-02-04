@@ -1,4 +1,3 @@
-
 [.topic]
 [[fsx-csi,fsx-csi.title]]
 = Store high-performance apps with FSx for Lustre

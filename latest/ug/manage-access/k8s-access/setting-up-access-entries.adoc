@@ -1,0 +1,74 @@
+[.topic]
+[[setting-up-access-entries,setting-up-access-entries.title]]
+= Change authentication mode to use access entries
+:info_titleabbrev: Authentication mode
+
+include::../../attributes.txt[]
+
+To begin using access entries, you must change the authentication mode of the cluster to either the `API_AND_CONFIG_MAP` or `API` modes. This adds the API for access entries.
+
+[[access-entries-setup-console,access-entries-setup-console.title]]
+== {aws} Console
+
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. Choose the name of the cluster that you want to create an access entry in.
+. Choose the *Access* tab.
+. The *Authentication mode* shows the current authentication mode of the cluster. If the mode says [.noloc]`EKS API`, you can already add access entries and you can skip the remaining steps.
+. Choose *Manage access*.
+. For *Cluster authentication mode*, select a mode with the [.noloc]`EKS API`. Note that you can't change the authentication mode back to a mode that removes the [.noloc]`EKS API` and access entries.
+. Choose *Save changes*. Amazon EKS begins to update the cluster, the status of the cluster changes to [.noloc]`Updating`, and the change is recorded in the  *Update history* tab.
+. Wait for the status of the cluster to return to [.noloc]`Active`. When the cluster is [.noloc]`Active`, you can follow the steps in  <<creating-access-entries>> to add access to the cluster for IAM principals.
+
+[[access-setup-cli,access-setup-cli.title]]
+== {aws} CLI
+
+. Install the {aws} CLI, as described in  link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the _{aws} Command Line Interface User Guide_.
+. Run the following command. Replace [.replaceable]`my-cluster` with the name of your cluster. If you want to disable the `ConfigMap` method permanently, replace `API_AND_CONFIG_MAP` with `API`.
++
+Amazon EKS begins to update the cluster, the status of the cluster changes to [.noloc]`UPDATING`, and the change is recorded in the  [command]*aws eks list-updates*.
++
+[source,bash]
+----
+aws eks update-cluster-config --name my-cluster --access-config authenticationMode=API_AND_CONFIG_MAP
+----
+. Wait for the status of the cluster to return to [.noloc]`Active`. When the cluster is [.noloc]`Active`, you can follow the steps in  <<creating-access-entries>> to add access to the cluster for IAM principals.
+
+
+== Required platform version
+
+To use _access entries_, the cluster must have a platform version that is the same or later than the version listed in the following table, or a [.noloc]`Kubernetes` version that is later than the versions listed in the table. If your Kubernetes version is not listed, all platform versions support access entries. 
+
+[cols="1,1", options="header"]
+|===
+|Kubernetes version
+|Platform version
+
+
+|`1.30`
+|`eks.2`
+
+|`1.29`
+|`eks.1`
+
+|`1.28`
+|`eks.6`
+
+|`1.27`
+|`eks.10`
+
+|`1.26`
+|`eks.11`
+
+|`1.25`
+|`eks.12`
+
+|`1.24`
+|`eks.15`
+
+|`1.23`
+|`eks.17`
+|===
+
+For more information, see <<platform-versions>>. 
+
+

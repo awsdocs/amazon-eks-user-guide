@@ -1,7 +1,7 @@
 [.topic]
 [[associate-workload,associate-workload.title]]
 = Control if a workload is deployed on EKS Auto Mode nodes
-:info_titleabbrev: Control workload deployment
+:info_titleabbrev: Control deployment
 
 include::../attributes.txt[]
 

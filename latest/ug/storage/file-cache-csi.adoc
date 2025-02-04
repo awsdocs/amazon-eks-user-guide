@@ -1,4 +1,3 @@
-
 [.topic]
 [[file-cache-csi,file-cache-csi.title]]
 = Minimize latency with Amazon File Cache
