@@ -23,6 +23,8 @@ Amazon EKS upgrade insights speed up the testing and verification process for ne
 
 Cluster insights update periodically. You cannot manually refresh cluster insights. If you fix a cluster issue, it will take some time for cluster insights to update. To determine if a fix was successful, compare the time the change  deployed to the "last refresh time" of the cluster insight. 
 
+Amazon EKS uses the `AWSServiceRoleForAmazonEKS` Service Linked Role (SLR) to access information about your cluster. Amazon EKS may automatically create a read-only access entry, so that cluster insights can read information about your Kubernetes cluster. 
+
 [[cluster-insights-console,cluster-insights-console.title]]
 == View cluster insights (Console)
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
