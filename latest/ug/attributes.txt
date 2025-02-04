@@ -1,5 +1,5 @@
 // eksctl version
-:eksctl-min-version: 0.202.0
+:eksctl-min-version: 0.203.0
 
 // EKS Auto Mode versions
 :auto-cli-v2-version: 2.12.3
