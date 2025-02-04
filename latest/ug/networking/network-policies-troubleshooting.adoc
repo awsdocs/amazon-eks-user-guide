@@ -181,7 +181,7 @@ Only the network policy logs are sent by the node agent. Other logs made by the 
 
 +
 The following screenshot shows an example of this scenario.
-+
+
 image::images/console-cni-config-network-policy-logs-cwl.png[{aws-management-console} showing the VPC CNI add-on with network policy and CloudWatch Logs in the optional configuration.,scaledwidth=80%]
 
 

@@ -50,9 +50,14 @@ helm delete aws-load-balancer-controller -n kube-system
 ----
 kubectl get deployment -n kube-system alb-ingress-controller
 ----
+
 +
-This is the output if the controller isn't installed.  
+This is the output if the controller isn't installed.
 +
+[source,bash,subs="verbatim,attributes"]
+----
+Error from server (NotFound): deployments.apps "alb-ingress-controller" not found
+----
 +
 This is the output if the controller is installed.
 +

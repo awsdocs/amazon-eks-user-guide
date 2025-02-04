@@ -34,13 +34,13 @@ The `containerd` runtime provides more reliable performance and security. `conta
 * If you use a custom AMI and you are upgrading to Amazon EKS `1.24`, then you must make sure that IP forwarding is enabled for your worker nodes. This setting wasn't needed with [.noloc]`Docker` but is required for `containerd`. It is needed to troubleshoot [.noloc]`Pod`-to-[.noloc]`Pod`, [.noloc]`Pod`-to-external, or [.noloc]`Pod`-to-[.noloc]`apiserver` network connectivity.
 +
 To verify this setting on a worker node, run either of the following commands:
-+
+
 ** `sysctl net.ipv4.ip_forward`
 ** `cat /proc/sys/net/ipv4/ip_forward`
 
 +
 If the output is `0`, then run either of the following commands to activate the `net.ipv4.ip_forward` kernel variable:
-+
+
 ** `sysctl -w net.ipv4.ip_forward=1`
 ** `echo 1 > /proc/sys/net/ipv4/ip_forward`
 
