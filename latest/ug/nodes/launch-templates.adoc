@@ -57,12 +57,12 @@ The following table lists the prohibited settings in a managed node group config
 |(Only if you specified a custom AMI in a launch template) *AMI type* under  *Node group compute configuration* on  *Set compute and scaling configuration* page – Console displays  *Specified in launch template* and the AMI ID that was specified.
 
 If *Application and OS Images (Amazon Machine Image)* wasn't specified in the launch template, you can select an AMI in the node group configuration.
-|*Application and OS Images (Amazon Machine Image)* under  *Launch template contents* – You must specify an ID if you have either of the following requirements:
-
-
+a|*Application and OS Images (Amazon Machine Image)* under  *Launch template contents* – You must specify an ID if you have either of the following requirements:
 
 * Using a custom AMI. If you specify an AMI that doesn't meet the requirements listed in <<launch-template-custom-ami,Specifying an AMI>>, the node group deployment will fail.
+
 * Want to provide user data to provide arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI. You can enable your instances to assign a significantly higher number of IP addresses to [.noloc]`Pods`, assign IP addresses to [.noloc]`Pods` from a different CIDR block than the instance's, or deploy a private cluster without outbound internet access. For more information, see the following topics:
+
 +
 ** <<cni-increase-ip-addresses,Assign more IP addresses to Amazon EKS nodes with prefixes>>
 ** <<cni-custom-network,Deploy pods in alternate subnets with custom networking>>
@@ -145,6 +145,7 @@ You can combine multiple user data blocks together into a single MIME multi-part
 
 +
 The following is an example of a MIME multi-part file that you can use to create your own.
+
 +
 [source,none,subs="verbatim,attributes"]
 ----

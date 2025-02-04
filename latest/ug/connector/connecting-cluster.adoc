@@ -141,7 +141,7 @@ To install the `eks-connector` agent, use one of the following tools:
 * <<helm_agent_cluster_connect>>
 * <<yaml_agent_cluster_connect>>
 
-=== helm [[helm_agent_cluster_connect]]
+=== Helm [[helm_agent_cluster_connect]]
 
 [NOTE]
 ====

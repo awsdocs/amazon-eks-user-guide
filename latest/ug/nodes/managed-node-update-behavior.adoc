@@ -42,34 +42,30 @@ For example, if your node group has five Availability Zones and `maxUnavailable`
 ** New nodes should have Amazon EKS applied labels.
 +
 These are the Amazon EKS applied labels on the worker nodes in a regular node group:
-+
-*** `eks.amazonaws.com/nodegroup-image=[.replaceable]``$amiName```
-*** `eks.amazonaws.com/nodegroup=[.replaceable]``$nodeGroupName```
+
+*** `eks.amazonaws.com/nodegroup-image=$amiName`
+*** `eks.amazonaws.com/nodegroup=$nodeGroupName`
 
 +
 These are the Amazon EKS applied labels on the worker nodes in a custom launch template or AMI node group:
+
 +
-*** `eks.amazonaws.com/nodegroup-image=[.replaceable]``$amiName```
-*** `eks.amazonaws.com/nodegroup=[.replaceable]``$nodeGroupName```
-*** `eks.amazonaws.com/sourceLaunchTemplateId=[.replaceable]``$launchTemplateId```
-*** `eks.amazonaws.com/sourceLaunchTemplateVersion=[.replaceable]``$launchTemplateVersion```
+*** `eks.amazonaws.com/nodegroup-image=$amiName`
+*** `eks.amazonaws.com/nodegroup=$nodeGroupName`
+*** `eks.amazonaws.com/sourceLaunchTemplateId=$launchTemplateId`
+*** `eks.amazonaws.com/sourceLaunchTemplateVersion=$launchTemplateVersion`
 . It marks nodes as unschedulable to avoid scheduling new [.noloc]`Pods`. It also labels nodes with `node.kubernetes.io/exclude-from-external-load-balancers=true` to remove the nodes from load balancers before terminating the nodes.
 
 The following are known reasons which lead to a `NodeCreationFailure` error in this phase:
 
-
-
 *Insufficient capacity in the Availability Zone*::
 There is a possibility that the Availability Zone might not have capacity of requested instance types. It's recommended to configure multiple instance types while creating a managed node group.
-
 
 *EC2 instance limits in your account*::
 You may need to increase the number of Amazon EC2 instances your account can run simultaneously using Service Quotas. For more information, see link:AWSEC2/latest/UserGuide/ec2-resource-limits.html[EC2 Service Quotas,type="documentation"] in the _Amazon Elastic Compute Cloud User Guide for [.noloc]`Linux` Instances_.
 
-
 *Custom user data*::
 Custom user data can sometimes break the bootstrap process. This scenario can lead to the `kubelet` not starting on the node or nodes not getting expected Amazon EKS labels on them. For more information, see <<launch-template-custom-ami>>.
-
 
 *Any changes which make a node unhealthy or not ready*::
 Node disk pressure, memory pressure, and similar conditions can lead to a node not going to `Ready` state.
@@ -104,11 +100,8 @@ The _minimal_ update strategy has these steps:
 
 The following are known reasons which lead to a `PodEvictionFailure` error in this phase:
 
-
-
 *Aggressive PDB*::
 Aggressive PDB is defined on the [.noloc]`Pod` or there are multiple PDBs pointing to the same [.noloc]`Pod`.
-
 
 *Deployment tolerating all the taints*::
 Once every [.noloc]`Pod` is evicted, it's expected for the node to be empty because the node is https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[tainted] in the earlier steps. However, if the deployment tolerates every taint, then the node is more likely to be non-empty, leading to [.noloc]`Pod` eviction failure.

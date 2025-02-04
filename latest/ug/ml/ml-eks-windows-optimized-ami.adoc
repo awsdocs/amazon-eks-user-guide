@@ -113,7 +113,7 @@ kubectl apply -f "https://raw.githubusercontent.com/TensorWorks/directx-device-p
 After you have deployed the device plugin, replace `<namespace>` and run the following command to verify the DirectX Device Plugin is running correctly on your all your Windows nodes.
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl get ds device-plugin-wddm -n [.replaceable]`<namespace>`   
+kubectl get ds device-plugin-wddm -n <namespace>
 ----
 
 
