@@ -27,3 +27,6 @@ The style check:
 When you update a pull request, the Vale check runs again. 
 
 Learn how to https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request#making-changes-to-files-in-your-pull-request[Make changes to files in your pull request] in the GitHub docs. 
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;vale-github,&type=code[Edit this page on GitHub]

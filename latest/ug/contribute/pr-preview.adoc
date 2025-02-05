@@ -36,3 +36,7 @@ The preview is built as a single large HTML file. It will be displayed as multip
 
 * Links to other {aws} content, using `type="documentation"`. This is because this content doesn't exist in the preview environment.
 * The attribute `\{aws}` will not display properly. The value of this changes based on the environment.
+
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;pr-preview,&type=code[Edit this page on GitHub]

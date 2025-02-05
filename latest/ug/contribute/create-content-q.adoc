@@ -50,3 +50,7 @@ image::images/contribute-q.png["Amazon Q in VS Code"]
 
 To learn more about Amazon Q Developer, see link:amazonq/latest/qdeveloper-ug/q-in-IDE.html["Using Amazon Q Developer in the IDE",type="documentation"].
 
+
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;create-content-q,&type=code[Edit this page on GitHub]

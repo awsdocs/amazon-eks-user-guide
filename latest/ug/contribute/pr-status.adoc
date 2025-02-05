@@ -76,3 +76,7 @@ Use the GitHub CLI to pull the changes locally.
 
 The pull request will automatically update with your new changes. 
 
+
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;pr-status,&type=code[Edit this page on GitHub]

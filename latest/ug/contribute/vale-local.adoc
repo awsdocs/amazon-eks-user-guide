@@ -53,3 +53,7 @@ vale sync
 
 
 
+
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;vale-local,&type=code[Edit this page on GitHub]

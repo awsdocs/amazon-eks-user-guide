@@ -32,3 +32,7 @@ NOTE: The EKS Docs team has created a workspace file that includes suggested con
 ** https://code.visualstudio.com/docs/sourcecontrol/github#_creating-pull-requests[Create a pull request] 
 
 After you create a pull request, it will be reviewed by the docs team. 
+
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;edit-web,&type=code[Edit this page on GitHub]

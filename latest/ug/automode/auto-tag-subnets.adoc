@@ -78,4 +78,4 @@ aws ec2 create-tags \
 Replace `subnet-ID` with your actual subnet ID.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-tag-subnets-console,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;tag-subnets-auto,&type=code[Edit this page on GitHub]
