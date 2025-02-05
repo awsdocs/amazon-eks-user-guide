@@ -554,6 +554,22 @@ This access policy includes permissions that grant EKS access to the nodes of a 
 |===
 
 
+[[access-policy-permissions-AmazonEKSClusterInsightsPolicy,access-policy-permissions-AmazonEKSClusterInsightsPolicy.title]]
+== AmazonEKSClusterInsightsPolicy
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSClusterInsightsPolicy`
+
+This policy grants read-only permissions for Amazon EKS Cluster Insights functionality. The policy includes the following permissions:
+
+Node Access:
+- List and view cluster nodes
+- Read node status information
+
+DaemonSet Access:
+- Read access to kube-proxy configuration
+
+This policy is automatically managed by the EKS service for Cluster Insights. For more information, see <<cluster-insights>>. 
+
 [#access-policy-updates]
 == Access policy updates
 
@@ -564,6 +580,10 @@ View details about updates to access policies, since they were introduced. For a
 |Change
 |Description
 |Date
+
+|Add policy for EKS Cluster Insights
+|Publish `AmazonEKSClusterInsightsPolicy`
+|December 2, 2024
 
 |Add policies for Amazon EKS Hybrid
 |Publish `AmazonEKSHybridPolicy`
