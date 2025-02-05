@@ -1,5 +1,5 @@
 [.topic]
-[[auto-create-node-role,auto-create-node-role.title]]
+[#auto-create-node-role]
 = Amazon EKS Auto Mode node IAM role
 :idprefix: id_
 :info_titleabbrev: Auto Mode node IAM role

@@ -1,7 +1,7 @@
 [.topic]
 include::../attributes.txt[]
 
-[[lbc-helm,lbc-helm.title]]
+[#lbc-helm]
 = Install [.noloc]`{aws} Load Balancer Controller` with [.noloc]`Helm`
 :info_titleabbrev: Install with Helm
 
@@ -21,7 +21,7 @@ This topic describes how to install the [.noloc]`{aws} Load Balancer Controller`
 
 In the following steps, replace the [.replaceable]`example values` with your own values.
 
-[[lbc-prereqs,lbc-prereqs.title]]
+[#lbc-prereqs]
 == Prerequisites
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster.  
@@ -38,7 +38,7 @@ Before starting this tutorial, you must install and configure the following tool
 * https://helm.sh/docs/helm/helm_install/[Helm] installed locally. 
 
 
-[[lbc-helm-iam,lbc-helm-iam.title]]
+[#lbc-helm-iam]
 == Step 1: Create IAM Role using `eksctl`
 
 [NOTE]
@@ -104,7 +104,7 @@ eksctl create iamserviceaccount \
 ----
 
 
-[[lbc-helm-install,lbc-helm-install.title]]
+[#lbc-helm-install]
 == Step 2: Install [.noloc]`{aws} Load Balancer Controller`
 
 . Add the `eks-charts` Helm chart repository. {aws} maintains https://github.com/aws/eks-charts[this repository] on GitHub.
@@ -154,7 +154,7 @@ kubectl apply -f crds.yaml
 ----
 
 
-[[lbc-helm-verify,lbc-helm-verify.title]]
+[#lbc-helm-verify]
 == Step 3: Verify that the controller is installed
 . Verify that the controller is installed.
 +

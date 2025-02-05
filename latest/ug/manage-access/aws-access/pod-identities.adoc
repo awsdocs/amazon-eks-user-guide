@@ -1,6 +1,6 @@
 include::../../attributes.txt[]
 [.topic]
-[[pod-identities,pod-identities.title]]
+[#pod-identities]
 = Learn how [.noloc]`EKS Pod Identity` grants pods access to {aws} services
 :info_titleabbrev: Pod Identity
 
@@ -35,7 +35,7 @@ Each EKS Pod Identity association maps a role to a service account in a namespac
 
 If a pod uses a service account that has an association, Amazon EKS sets environment variables in the containers of the pod. The environment variables configure the {aws} SDKs, including the {aws} CLI, to use the EKS Pod Identity credentials.
 
-[[pod-id-benefits,pod-id-benefits.title]]
+[#pod-id-benefits]
 == Benefits of EKS Pod Identities
 
 EKS Pod Identities provide the following benefits:
@@ -69,7 +69,7 @@ EKS Pod Identity is a simpler method than <<iam-roles-for-service-accounts>>, as
 
 For more information to compare the two alternatives, see <<service-accounts>>.
 
-[[pod-id-setup-overview,pod-id-setup-overview.title]]
+[#pod-id-setup-overview]
 == Overview of setting up EKS Pod Identities
 
 Turn on EKS Pod Identities by completing the following procedures:
@@ -81,7 +81,7 @@ Turn on EKS Pod Identities by completing the following procedures:
 . <<pod-id-minimum-sdk>> -- Confirm that the workload uses an {aws} SDK of a supported version and that the workload uses the default credential chain.
 
 
-[[pod-id-considerations,pod-id-considerations.title]]
+[#pod-id-considerations]
 == EKS Pod Identity considerations
 
 * You can associate one IAM role to each [.noloc]`Kubernetes` service account in each cluster. You can change which role is mapped to the service account by editing the EKS Pod Identity association.
@@ -93,7 +93,7 @@ Turn on EKS Pod Identities by completing the following procedures:
 If you disable `IPv6` addresses, or otherwise prevent localhost `IPv6` IP addresses, the agent can't start. To start the agent on nodes that can't use `IPv6`, follow the steps in <<pod-id-agent-config-ipv6>> to disable the `IPv6` configuration.
 
 
-[[pod-id-cluster-versions,pod-id-cluster-versions.title]]
+[#pod-id-cluster-versions]
 === EKS Pod Identity cluster versions
 
 To use EKS Pod Identities, the cluster must have a platform version that is the same or later than the version listed in the following table, or a [.noloc]`Kubernetes` version that is later than the versions listed in the table.
@@ -122,7 +122,7 @@ To use EKS Pod Identities, the cluster must have a platform version that is the 
 |`eks.13`
 |===
 
-[[pod-id-restrictions,pod-id-restrictions.title]]
+[#pod-id-restrictions]
 === EKS Pod Identity restrictions
 
 EKS Pod Identities are available on the following:

@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[eks-outposts-troubleshooting,eks-outposts-troubleshooting.title]]
+[#eks-outposts-troubleshooting]
 = Troubleshoot local Amazon EKS clusters on {aws} Outposts
 :info_titleabbrev: Troubleshoot clusters
 
@@ -13,7 +13,7 @@ Learn how to troubleshoot common issues with Amazon EKS local clusters on {aws} 
 This topic covers some common errors that you might see while using local clusters and how to troubleshoot them. Local clusters are similar to Amazon EKS clusters in the cloud, but there are some differences in how they're managed by Amazon EKS.
 
 
-[[outposts-troubleshooting-api-behavior,outposts-troubleshooting-api-behavior.title]]
+[#outposts-troubleshooting-api-behavior]
 .API behavior
 [%collapsible]
 ====
@@ -23,7 +23,7 @@ Local clusters are created through the Amazon EKS API, but are run in an asynchr
 Local clusters don't transition to a `FAILED` status. Amazon EKS attempts to reconcile the cluster state with the user-requested desired state in a continuous manner. As a result, a local cluster might remain in the `CREATING` state for an extended period of time until the underlying issue is resolved.
 ====
 
-[[outposts-troubleshooting-describe-cluster-health-field,outposts-troubleshooting-describe-cluster-health-field.title]]
+[#outposts-troubleshooting-describe-cluster-health-field]
 .Describe cluster health field
 [%collapsible]
 ====
@@ -196,7 +196,7 @@ The following table lists errors from other {aws} services that are presented in
 |===
 ====
 
-[[outposts-troubleshooting-unable-to-create-or-modify-clusters,outposts-troubleshooting-unable-to-create-or-modify-clusters.title]]
+[#outposts-troubleshooting-unable-to-create-or-modify-clusters]
 .Unable to create or modify clusters
 [%collapsible]
 ====
@@ -204,7 +204,7 @@ The following table lists errors from other {aws} services that are presented in
 Local clusters require different permissions and policies than Amazon EKS clusters that are hosted in the cloud. When a cluster fails to create and produces an `InvalidPermissions` error, double check that the cluster role that you're using has the <<security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy,AmazonEKSLocalOutpostClusterPolicy>> managed policy attached to it. All other API calls require the same set of permissions as Amazon EKS clusters in the cloud.
 ====
 
-[[outposts-troubleshooting-cluster-stuck-in-creating-state,outposts-troubleshooting-cluster-stuck-in-creating-state.title]]
+[#outposts-troubleshooting-cluster-stuck-in-creating-state]
 .Cluster is stuck in `CREATING` state
 [%collapsible]
 ====
@@ -229,7 +229,7 @@ The most common issues are the following:
 Review <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts>>.
 ====
 
-[[outposts-troubleshooting-unable-to-join-nodes-to-a-cluster,outposts-troubleshooting-unable-to-join-nodes-to-a-cluster.title]]
+[#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster]
 .Can't join nodes to a cluster
 [%collapsible]
 ====
@@ -251,7 +251,7 @@ We don't recommend modifying the default pod security policy. For more informati
 
 ====
 
-[[outposts-troubleshooting-collecting-logs,outposts-troubleshooting-collecting-logs.title]]
+[#outposts-troubleshooting-collecting-logs]
 .Collecting logs
 [%collapsible]
 ====
@@ -259,7 +259,7 @@ We don't recommend modifying the default pod security policy. For more informati
 When an Outpost gets disconnected from the {aws} Region that it's associated with, the [.noloc]`Kubernetes` cluster likely will continue working normally. However, if the cluster doesn't work properly, follow the troubleshooting steps in  <<eks-outposts-network-disconnects,Prepare local Amazon EKS clusters on {aws} Outposts for network disconnects>>. If you encounter other issues, contact {aws} Support. {aws} Support can guide you on downloading and running a log collection tool. That way, you can collect logs from your [.noloc]`Kubernetes` cluster control plane instances and send them to {aws} Support support for further investigation.
 ====
 
-[[outposts-troubleshooting-control-plane-instances-ssm,outposts-troubleshooting-control-plane-instances-ssm.title]]
+[#outposts-troubleshooting-control-plane-instances-ssm]
 .Control plane instances aren't reachable through {aws} Systems Manager
 [%collapsible]
 ====

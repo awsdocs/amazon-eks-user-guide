@@ -1,5 +1,5 @@
 [.topic]
-[[authenticate-oidc-identity-provider,authenticate-oidc-identity-provider.title]]
+[#authenticate-oidc-identity-provider]
 = Grant users access to [.noloc]`Kubernetes` with an external [.noloc]`OIDC` provider
 :info_titleabbrev: Link OIDC provider
 
@@ -23,7 +23,7 @@ Amazon EKS supports using [.noloc]`OpenID Connect` ([.noloc]`OIDC`) identity pro
 * You can't sign in to the {aws-management-console} with an account from an [.noloc]`OIDC` provider. You can only  <<view-kubernetes-resources>> by signing into the {aws-management-console} with an {aws} Identity and Access Management account.
 
 
-[[associate-oidc-identity-provider,associate-oidc-identity-provider.title]]
+[#associate-oidc-identity-provider]
 == Associate an [.noloc]`OIDC` identity provider
 
 Before you can associate an [.noloc]`OIDC` identity provider with your cluster, you need the following information from your provider:
@@ -40,7 +40,7 @@ The ID for the client application that makes authentication requests to the OIDC
 You can associate an identity provider using `eksctl` or the {aws-management-console}.
 
 
-[[identity-associate-eksctl,identity-associate-eksctl.title]]
+[#identity-associate-eksctl]
 === Associate an identity provider using eksctl 
 
 . Create a file named [.replaceable]`associate-identity-provider.yaml` with the following contents. Replace the [.replaceable]`example values` with your own. The values in the `identityProviders` section are obtained from your [.noloc]`OIDC` identity provider. Values are only required for the `name`, `type`, `issuerUrl`, and `clientId` settings under `identityProviders`.
@@ -79,7 +79,7 @@ eksctl associate identityprovider -f associate-identity-provider.yaml
 ----
 . To use `kubectl` to work with your cluster and [.noloc]`OIDC` identity provider, see https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-kubectl[Using kubectl] in the [.noloc]`Kubernetes` documentation.
 
-[[identity-associate-console,identity-associate-console.title]]
+[#identity-associate-console]
 === Associate an identity provider using the {aws} Console 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Select your cluster, and then select the *Access* tab.
@@ -99,7 +99,7 @@ eksctl associate identityprovider -f associate-identity-provider.yaml
 .. To use `kubectl` to work with your cluster and [.noloc]`OIDC` identity provider, see https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-kubectl[Using kubectl] in the [.noloc]`Kubernetes` documentation.
 
 
-[[oidc-identity-provider-iam-policy,oidc-identity-provider-iam-policy.title]]
+[#oidc-identity-provider-iam-policy]
 == Example IAM policy
 
 If you want to prevent an [.noloc]`OIDC` identity provider from being associated with a cluster, create and associate the following IAM policy to the IAM accounts of your Amazon EKS administrators. For more information, see   link:IAM/latest/UserGuide/access_policies_create.html[Creating IAM policies,type="documentation"] and  link:IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console[Adding IAM identity permissions,type="documentation"] in the _IAM User Guide_ and  link:service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference.
@@ -170,7 +170,7 @@ The following example policy allows [.noloc]`OIDC` identity provider association
 ----
 
 
-[[partner-validated-identity-providers,partner-validated-identity-providers.title]]
+[#partner-validated-identity-providers]
 == Partner validated [.noloc]`OIDC` identity providers
 
 Amazon EKS maintains relationships with a network of partners that offer support for compatible [.noloc]`OIDC` identity providers. Refer to the following partners' documentation for details on how to integrate the identity provider with Amazon EKS.

@@ -1,5 +1,5 @@
 [.topic]
-[[lbc-manifest,lbc-manifest.title]]
+[#lbc-manifest]
 include::../attributes.txt[]
 
 = Install [.noloc]`{aws} Load Balancer Controller` with manifests
@@ -21,7 +21,7 @@ This topic describes how to install the controller by downloading and applying [
 
 In the following steps, replace the [.replaceable]`example values` with your own values.
 
-[[lbc-manifest-prereqs,lbc-manifest-prereqs.title]]
+[#lbc-manifest-prereqs]
 == Prerequisites
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster.
@@ -35,7 +35,7 @@ Before starting this tutorial, you must install and configure the following tool
 * Familiarity with Kubernetes https://kubernetes.io/docs/concepts/services-networking/service/[service] and https://kubernetes.io/docs/concepts/services-networking/ingress/[ingress] resources.
 
 
-[[lbc-iam,lbc-iam.title]]
+[#lbc-iam]
 == Step 1: Configure IAM
 
 [NOTE]
@@ -186,7 +186,7 @@ kubectl apply -f aws-load-balancer-controller-service-account.yaml
 ====
 
 
-[[lbc-cert,lbc-cert.title]]
+[#lbc-cert]
 == Step 2: Install `cert-manager`
 
 // Not using `cert-manager` inline code in the cross-reference title because the underscore disrupts formatting.
@@ -241,7 +241,7 @@ kubectl apply \
 ====
 
 
-[[lbc-install,lbc-install.title]]
+[#lbc-install]
 == Step 3: Install [.noloc]`{aws} Load Balancer Controller`
 . Download the controller specification. For more information about the controller, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller/[documentation] on [.noloc]`GitHub`.
 +
@@ -329,7 +329,7 @@ kubectl apply -f v2_11_0_ingclass.yaml
 ----
 
 
-[[lbc-verify,lbc-verify.title]]
+[#lbc-verify]
 == Step 4: Verify that the controller is installed
 . Verify that the controller is installed.
 +

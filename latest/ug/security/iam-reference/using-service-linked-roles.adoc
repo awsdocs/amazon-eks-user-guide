@@ -1,5 +1,5 @@
 [.topic]
-[[using-service-linked-roles,using-service-linked-roles.title]]
+[#using-service-linked-roles]
 = Using service-linked roles for Amazon EKS
 :info_titleabbrev: Service-linked roles
 

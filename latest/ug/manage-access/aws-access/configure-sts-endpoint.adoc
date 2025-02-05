@@ -1,6 +1,6 @@
 include::../../attributes.txt[]
 [.topic]
-[[configure-sts-endpoint,configure-sts-endpoint.title]]
+[#configure-sts-endpoint]
 = Configure the {aws} Security Token Service endpoint for a service account
 :info_titleabbrev: STS endpoints
 

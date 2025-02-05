@@ -1,5 +1,5 @@
 [.topic]
-[[delete-cluster,delete-cluster.title]]
+[#delete-cluster]
 = Delete a cluster
 :info_titleabbrev: Delete a cluster
 

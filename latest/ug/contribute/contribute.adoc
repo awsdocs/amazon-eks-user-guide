@@ -1,4 +1,4 @@
-[[contribute,contribute.title]]
+[#contribute]
 # Contribute to the EKS User Guide
 :info_titleabbrev: Contribute
 

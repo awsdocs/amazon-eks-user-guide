@@ -1,5 +1,5 @@
 [.topic]
-[[kubernetes-field-management,kubernetes-field-management.title]]
+[#kubernetes-field-management]
 = Determine fields you can customize for Amazon EKS add-ons
 :info_titleabbrev: Fields you can customize
 
@@ -21,7 +21,7 @@ Modifying a field managed by Amazon EKS prevents Amazon EKS from managing the ad
 
 ====
 
-[[add-on-config-management-understanding-field-management,add-on-config-management-understanding-field-management.title]]
+[#add-on-config-management-understanding-field-management]
 == Field management syntax
 
 When you view details for a [.noloc]`Kubernetes` object, both managed and unmanaged fields are returned in the output. Managed fields can be either of the following types:
@@ -106,7 +106,7 @@ manager: eks
 ----
 
 
-[[view-field-management,view-field-management.title]]
+[#view-field-management]
 == Procedure
 
 You can use `kubectl` to see which fields are managed by Amazon EKS for any Amazon EKS add-on. 
@@ -143,7 +143,7 @@ managedFields:
 NOTE: If you don't see `managedFields` in the output, add `--show-managed-fields` to the command and run it again. The version of `kubectl` that you're using determines whether managed fields are returned by default.
 
 
-[[view-field-management-next-steps,view-field-management-next-steps.title]]
+[#view-field-management-next-steps]
 == Next steps
 
 Customize the fields not owned by {aws} for you add-on.

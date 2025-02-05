@@ -1,5 +1,5 @@
 [.topic]
-[[vpc-add-on-self-managed-update,vpc-add-on-self-managed-update.title]]
+[#vpc-add-on-self-managed-update]
 = Update the Amazon VPC CNI (self-managed add-on)
 :info_titleabbrev: Update (self-managed)
 

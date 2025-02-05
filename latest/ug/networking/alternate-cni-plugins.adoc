@@ -1,5 +1,5 @@
 [.topic]
-[[alternate-cni-plugins,alternate-cni-plugins.title]]
+[#alternate-cni-plugins]
 = Alternate CNI plugins for Amazon EKS clusters
 :info_titleabbrev: Alternate CNI plugins
 
@@ -43,7 +43,7 @@ Amazon EKS maintains relationships with a network of partners that offer support
 Amazon EKS aims to give you a wide selection of options to cover all use cases.
 
 
-[[alternate-network-policy-plugins,alternate-network-policy-plugins.title]]
+[#alternate-network-policy-plugins]
 == Alternate compatible network policy plugins
 
 https://www.tigera.io/project-calico[Calico] is a widely adopted solution for container networking and security. Using [.noloc]`Calico` on EKS provides a fully compliant network policy enforcement for your EKS clusters. Additionally, you can opt to use [.noloc]`Calico's` networking, which conserve IP addresses from your underlying VPC. https://www.tigera.io/tigera-products/calico-cloud/[Calico Cloud] enhances the features of [.noloc]`Calico Open Source`, providing advanced security and observability capabilities.

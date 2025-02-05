@@ -1,5 +1,5 @@
 [.topic]
-[[vertical-pod-autoscaler,vertical-pod-autoscaler.title]]
+[#vertical-pod-autoscaler]
 = Adjust pod resources with [.noloc]`Vertical Pod Autoscaler`
 :info_titleabbrev: Vertical Pod Autoscaler
 
@@ -20,7 +20,7 @@ The [.noloc]`Kubernetes` https://github.com/kubernetes/autoscaler/tree/master/ve
 * OpenSSL `1.1.1` or later installed on your device.
 
 
-[[vpa-deploy,vpa-deploy.title]]
+[#vpa-deploy]
 == Deploy the Vertical Pod Autoscaler
 
 In this section, you deploy the Vertical Pod Autoscaler to your cluster.
@@ -87,7 +87,7 @@ vpa-updater-786b96955c-bgp9d                1/1     Running   0          8s
 ----
 
 
-[[vpa-sample-app,vpa-sample-app.title]]
+[#vpa-sample-app]
 == Test your Vertical Pod Autoscaler installation
 
 In this section, you deploy a sample application to verify that the Vertical Pod Autoscaler is working.

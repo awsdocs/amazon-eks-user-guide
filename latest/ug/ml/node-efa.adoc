@@ -1,7 +1,7 @@
 :AWSEC2-latest-UserGuide-using-eni-html-network-cards: AWSEC2/latest/UserGuide/using-eni.html#network-cards
 
 [.topic]
-[[node-efa,node-efa.title]]
+[#node-efa]
 = Run machine learning training on Amazon EKS with [.noloc]`Elastic Fabric Adapter`
 :info_titleabbrev: Training clusters with EFA
 
@@ -14,14 +14,14 @@ Learn how to integrate Elastic Fabric Adapter (EFA) with Amazon EKS to run machi
 
 This topic describes how to integrate Elastic Fabric Adapter (EFA) with [.noloc]`Pods` deployed in your Amazon EKS cluster. Elastic Fabric Adapter (EFA) is a network interface for Amazon EC2 instances that enables you to run applications requiring high levels of inter-node communications at scale on {aws}. Its custom-built operating system bypass hardware interface enhances the performance of inter-instance communications, which is critical to scaling these applications. With EFA, High Performance Computing (HPC) applications using the Message Passing Interface (MPI) and Machine Learning (ML) applications using NVIDIA Collective Communications Library (NCCL) can scale to thousands of CPUs or GPUs. As a result, you get the application performance of on-premises HPC clusters with the on-demand elasticity and flexibility of the {aws} cloud. Integrating EFA with applications running on Amazon EKS clusters can reduce the time to complete large scale distributed training workloads without having to add additional instances to your cluster. For more information about EFA, link:hpc/efa/[Elastic Fabric Adapter,type="marketing"].
 
-[[efa-instances,efa-instances.title]]
+[#efa-instances]
 == Instance types with EFA
 
 The  _{aws} EFA Kubernetes Device Plugin_ supports all Amazon EC2 instance types that have EFA. To see a list of all instance types that have EFA, see  link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Supported instance types,type="documentation"] in the _Amazon EC2 User Guide_. However, to run ML applications quickly, we recommend that an instance has hardware acceleration chips such as [.noloc]`nVidia` GPUs, link:machine-learning/inferentia/[{aws} Inferentia,type="marketing"] chips, or link:machine-learning/trainium/[{aws} Trainium,type="marketing"] chips, in addition to the EFA. To see a list of instance types that have hardware acceleration chips and EFA, see  link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Accelerated computing,type="documentation"] in the _Amazon EC2 User Guide_.
 
 As you compare instance types to choose between them, consider the number of EFA network cards available for that instance type as well as the number of accelerator cards, amount of CPU, and amount of memory. You can assign up to one EFA per network card. An EFA counts as a network interface.. To see how many EFA are available for each instance types that have EFA, see the link:AWSEC2/latest/UserGuide/using-eni.html#network-cards[Network cards,type="documentation"] list in the _Amazon EC2 User Guide_.
 
-[[efa-only-interfaces,efa-only-interfaces.title]]
+[#efa-only-interfaces]
 == EFA and EFA-only interfaces
 
 An _Elastic Fabric Adapter (EFA)_ is a network interface that combines the capabilities of an Elastic Network Adapter (ENA) and an OS-bypass interface, powered by the {aws} Scalable Reliable Datagram (SRD) protocol. The EFA functionalities allow applications to communicate directly with the hardware for low-latency transport. You can choose to access only the EFA capabilities using _EFA-only_ interfaces, limiting communication to interfaces within the same Availability Zone.
@@ -30,7 +30,7 @@ To create nodes that can have EFA-only interfaces, you must use a custom EC2 Lau
 
 The following procedure guides you to create an EKS cluster with `eksctl` with nodes that have [.noloc]`nVidia` GPUs and EFA interfaces. You can't use `eksctl` to create nodes and node groups that use EFA-only interfaces.
 
-[[efa-prereqs,efa-prereqs.title]]
+[#efa-prereqs]
 == Prerequisites
 
 * An existing Amazon EKS cluster. If you don't have an existing cluster, create one using <<getting-started>>.. Your cluster must be deployed in a VPC that has at least one private subnet with enough available IP addresses to deploy nodes in. The private subnet must have outbound internet access provided by an external device, such as a NAT gateway.
@@ -48,7 +48,7 @@ An important consideration required for adopting EFA with [.noloc]`Kubernetes` i
 
 ====
 
-[[efa-create-nodegroup,efa-create-nodegroup.title]]
+[#efa-create-nodegroup]
 == Create node group
 
 The following procedure helps you create a node group with a `p4d.24xlarge` backed node group with EFA interfaces and GPUDirect RDMA, and run an example NVIDIA Collective Communications Library (NCCL) test for multi-node NCCL Performance using EFAs. The example can be used a template for distributed deep learning training on Amazon EKS using EFAs.
@@ -136,7 +136,7 @@ helm install aws-efa-k8s-device-plugin --namespace kube-system eks/aws-efa-k8s-d
 ----
 
 
-[[efa-application,efa-application.title]]
+[#efa-application]
 == (Optional) Test the performance of the EFA
 
 We recommend that you test the EFA setup. You can use the https://github.com/aws-samples/awsome-distributed-training/tree/main/micro-benchmarks/nccl-tests[NCCL Tests] in the `aws-samples/awsome-distributed-training` repository on GitHub. https://github.com/NVIDIA/nccl-tests[NCCL Tests] evaluate the performance of the network using the Nvidia Collective Communication Library. The following steps submit NCCL tests on Amazon EKS.

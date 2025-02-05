@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[automode-get-started-console,automode-get-started-console.title]]
+[#automode-get-started-console]
 = Create an EKS Auto Mode Cluster with the {aws-management-console}
 :info_titleabbrev: Management console
 

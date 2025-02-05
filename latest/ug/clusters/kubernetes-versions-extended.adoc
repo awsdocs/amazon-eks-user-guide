@@ -1,5 +1,5 @@
 [.topic]
-[[kubernetes-versions-extended,kubernetes-versions-extended.title]]
+[#kubernetes-versions-extended]
 = Review release notes for [.noloc]`Kubernetes` versions on extended support
 :info_titleabbrev: Extended support versions
 
@@ -12,7 +12,7 @@ This topic gives important changes to be aware of for each [.noloc]`Kubernetes` 
 
 This topic gives important changes to be aware of for each [.noloc]`Kubernetes` version in extended support. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster.
 
-[[kubernetes-1.28,kubernetes-1.28.title]]
+[#kubernetes-1-28]
 == [.noloc]`Kubernetes` 1.28
 
 [.noloc]`Kubernetes` `1.28` is now available in Amazon EKS. For more information about [.noloc]`Kubernetes` `1.28`, see the https://kubernetes.io/blog/2023/08/15/kubernetes-v1-28-release/[official release announcement].
@@ -25,7 +25,7 @@ This topic gives important changes to be aware of for each [.noloc]`Kubernetes` 
 
 For the complete [.noloc]`Kubernetes` `1.28` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.28.md#changelog-since-v1270.
 
-[[kubernetes-1.27,kubernetes-1.27.title]]
+[#kubernetes-1-27]
 == [.noloc]`Kubernetes` 1.27
 
 [.noloc]`Kubernetes` `1.27` is now available in Amazon EKS. For more information about [.noloc]`Kubernetes` `1.27`, see the https://kubernetes.io/blog/2023/04/11/kubernetes-v1-27-release/[official release announcement].
@@ -51,7 +51,7 @@ kubectl get pods --all-namespaces -o json | grep -E 'seccomp.security.alpha.kube
 
 For the complete [.noloc]`Kubernetes` `1.27` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.27.md#changelog-since-v1260.
 
-[[kubernetes-1.26,kubernetes-1.26.title]]
+[#kubernetes-1-26]
 == [.noloc]`Kubernetes` 1.26
 
 [.noloc]`Kubernetes` `1.26` is now available in Amazon EKS. For more information about [.noloc]`Kubernetes` `1.26`, see the https://kubernetes.io/blog/2022/12/09/kubernetes-v1-26-release/[official release announcement].
@@ -68,7 +68,7 @@ For the complete [.noloc]`Kubernetes` `1.27` changelog, see https://github.com/k
 
 For the complete [.noloc]`Kubernetes` `1.26` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.26.md#changelog-since-v1250.
 
-[[kubernetes-1.25,kubernetes-1.25.title]]
+[#kubernetes-1-25]
 == [.noloc]`Kubernetes` 1.25
 
 [.noloc]`Kubernetes` `1.25` is now available in Amazon EKS. For more information about [.noloc]`Kubernetes` `1.25`, see the https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/[official release announcement].
@@ -97,7 +97,7 @@ Upon upgrading to Amazon EKS version `1.25` or higher, this updated behavior mig
 
 For the complete [.noloc]`Kubernetes` `1.25` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.25.md#changelog-since-v1240.
 
-[[kubernetes-1.24,kubernetes-1.24.title]]
+[#kubernetes-1-24]
 == [.noloc]`Kubernetes` 1.24
 
 [.noloc]`Kubernetes` `1.24` is now available in Amazon EKS. For more information about [.noloc]`Kubernetes` `1.24`, see the https://kubernetes.io/blog/2022/05/03/kubernetes-1-24-release-announcement/[official release announcement].
@@ -130,7 +130,7 @@ If you need to block `IPv6` for all [.noloc]`Pods` across all nodes, you might h
 
 For the complete [.noloc]`Kubernetes` `1.24` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.24.md#changelog-since-v1230.
 
-[[kubernetes-1.23,kubernetes-1.23.title]]
+[#kubernetes-1-23]
 == [.noloc]`Kubernetes` 1.23
 
 [.noloc]`Kubernetes` `1.23` is now available in Amazon EKS. For more information about [.noloc]`Kubernetes` `1.23`, see the https://kubernetes.io/blog/2021/12/07/kubernetes-1-23-release-announcement/[official release announcement].

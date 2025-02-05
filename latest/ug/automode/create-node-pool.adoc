@@ -1,5 +1,5 @@
 [.topic]
-[[create-node-pool,create-node-pool.title]]
+[#create-node-pool]
 = Create a Node Pool for EKS Auto Mode
 :info_titleabbrev: Create node pool
 

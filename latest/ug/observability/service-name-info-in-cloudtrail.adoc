@@ -1,6 +1,6 @@
 include::../attributes.txt[]
 [.topic]
-[[service-name-info-in-cloudtrail,service-name-info-in-cloudtrail.title]]
+[#service-name-info-in-cloudtrail]
 = View helpful references for {aws} CloudTrail
 :info_titleabbrev: References
 

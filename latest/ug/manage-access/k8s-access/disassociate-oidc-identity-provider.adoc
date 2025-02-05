@@ -1,5 +1,5 @@
 [.topic]
-[[disassociate-oidc-identity-provider,disassociate-oidc-identity-provider.title]]
+[#disassociate-oidc-identity-provider]
 = Disassociate an [.noloc]`OIDC` identity provider from your cluster
 :info_titleabbrev: Unlink OIDC provider
 

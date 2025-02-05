@@ -1,5 +1,5 @@
 [.topic]
-[[create-managed-node-group,create-managed-node-group.title]]
+[#create-managed-node-group]
 = Create a managed node group for your cluster
 :info_titleabbrev: Create
 

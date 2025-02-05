@@ -1,5 +1,5 @@
 [.topic]
-[[creating-access-entries,creating-access-entries.title]]
+[#creating-access-entries]
 = Create access entries
 :info_titleabbrev: Create access entries
 
@@ -74,7 +74,7 @@ Instead of, or in addition to, [.noloc]`Kubernetes` authorizing the IAM principa
 You can create an access entry using the {aws-management-console} or the {aws} CLI.
 
 
-[[access-create-console,access-create-console.title]]
+[#access-create-console]
 == {aws-management-console} 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the name of the cluster that you want to create an access entry in.
@@ -97,7 +97,7 @@ You can create an access entry using the {aws-management-console} or the {aws} C
 .. Choose *Next*.
 . Review the configuration for your access entry. If anything looks incorrect, choose *Previous* to go back through the steps and correct the error. If the configuration is correct, choose  *Create*.
 
-[[access-create-cli,access-create-cli.title]]
+[#access-create-cli]
 == {aws} CLI
 
 . Install the {aws} CLI, as described in  link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.

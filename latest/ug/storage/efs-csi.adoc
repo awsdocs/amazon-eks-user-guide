@@ -1,5 +1,5 @@
 [.topic]
-[[efs-csi,efs-csi.title]]
+[#efs-csi]
 = Store an elastic file system with Amazon EFS
 :info_titleabbrev: Amazon EFS
 :keywords: Amazon EFS CSI driver, storage
@@ -13,7 +13,7 @@ The Amazon EFS Container Storage Interface (CSI) driver provides a CSI interface
 
 link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation"] (Amazon EFS) provides serverless, fully elastic file storage so that you can share file data without provisioning or managing storage capacity and performance. The https://github.com/kubernetes-sigs/aws-efs-csi-driver[Amazon EFS Container Storage Interface (CSI) driver] provides a CSI interface that allows [.noloc]`Kubernetes` clusters running on {aws} to manage the lifecycle of Amazon EFS file systems. This topic shows you how to deploy the Amazon EFS CSI driver to your Amazon EKS cluster.
 
-[[efs-csi.considerations,efs-csi.considerations.title]]
+[#efs-csi-considerations]
 == Considerations
 
 * The Amazon EFS CSI driver isn't compatible with Windows-based container images.
@@ -26,7 +26,7 @@ link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation
 * The Amazon EFS CSI driver isn't compatible with Amazon EKS Hybrid Nodes.
 
 
-[[efs-csi.prereqs,efs-csi.prereqs.title]]
+[#efs-csi-prereqs]
 == Prerequisites
 
 * An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
@@ -40,7 +40,7 @@ A [.noloc]`Pod` running on Fargate automatically mounts an Amazon EFS file syste
 
 ====
 
-[[efs-create-iam-resources,efs-create-iam-resources.title]]
+[#efs-create-iam-resources]
 == Step 1: Create an IAM role
 
 The Amazon EFS CSI driver requires IAM permissions to interact with your file system. Create an IAM role and attach the required {aws} managed policy to it. To implement this procedure, you can use one of these tools:
@@ -176,19 +176,19 @@ aws iam attach-role-policy \
 ----
 
 
-[[efs-install-driver,efs-install-driver.title]]
+[#efs-install-driver]
 == Step 2: Get the Amazon EFS CSI driver
 
 We recommend that you install the Amazon EFS CSI driver through the Amazon EKS add-on. To add an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. For more information about add-ons, see <<eks-add-ons>>. If you're unable to use the Amazon EKS add-on, we encourage you to submit an issue about why you can't to the https://github.com/aws/containers-roadmap/issues[Containers roadmap GitHub repository].
 
 Alternatively, if you want a self-managed installation of the Amazon EFS CSI driver, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#installation[Installation] on [.noloc]`GitHub`.
 
-[[efs-create-filesystem,efs-create-filesystem.title]]
+[#efs-create-filesystem]
 == Step 3: Create an Amazon EFS file system
 
 To create an Amazon EFS file system, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/efs-create-filesystem.md[Create an Amazon EFS file system for Amazon EKS] on [.noloc]`GitHub`.
 
-[[efs-sample-app,efs-sample-app.title]]
+[#efs-sample-app]
 == Step 4: Deploy a sample application
 
 You can deploy a variety of sample apps and modify them as needed. For more information, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#examples[Examples] on [.noloc]`GitHub`.

@@ -1,4 +1,4 @@
-[[eks-compute,eks-compute.title]]
+[#eks-compute]
 = Manage compute resources by using nodes
 :doctype: book
 :sectnums:

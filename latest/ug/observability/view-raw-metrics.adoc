@@ -1,5 +1,5 @@
 [.topic]
-[[view-raw-metrics,view-raw-metrics.title]]
+[#view-raw-metrics]
 = Fetch control plane raw metrics in [.noloc]`Prometheus` format
 :info_titleabbrev: Control plane
 
@@ -27,7 +27,7 @@ This command allows you to pass any endpoint path and returns the raw response. 
 metric_name{tag="value"[,...]} value
 ----
 
-[[fetch-metrics,fetch-metrics.title]]
+[#fetch-metrics]
 == Fetch metrics from the API server
  
 The general API server endpoint is exposed on the Amazon EKS control plane. This endpoint is primarily useful when looking at a specific metric.
@@ -61,7 +61,7 @@ ssh_tunnel_open_fail_count 0
 
 This raw output returns verbatim what the API server exposes.
 
-[[fetch-metrics-prometheus,fetch-metrics-prometheus.title]]
+[#fetch-metrics-prometheus]
 == Fetch control plane metrics with `metrics.eks.amazonaws.com`
 
 For clusters that are [.noloc]`Kubernetes` version `1.28` and above, Amazon EKS also exposes metrics under the API group `metrics.eks.amazonaws.com`. These metrics include control plane components such as `kube-scheduler` and `kube-controller-manager`.
@@ -71,7 +71,7 @@ For clusters that are [.noloc]`Kubernetes` version `1.28` and above, Amazon EKS 
 If you have a webhook configuration that could block the creation of the new `APIService` resource `v1.metrics.eks.amazonaws.com` on your cluster, the metrics endpoint feature might not be available. You can verify that in the `kube-apiserver` audit log by searching for the `v1.metrics.eks.amazonaws.com` keyword.
 ====
 
-[[fetch-metrics-scheduler,fetch-metrics-scheduler.title]]
+[#fetch-metrics-scheduler]
 === Fetch `kube-scheduler` metrics
 
 To retrieve `kube-scheduler` metrics, use the following command.
@@ -101,7 +101,7 @@ scheduler_pod_scheduling_attempts_bucket{le="+Inf"} 81
 [...]
 ----
 
-[[fetch-metrics-controller,fetch-metrics-controller.title]]
+[#fetch-metrics-controller]
 === Fetch `kube-controller-manager` metrics
 
 To retrieve `kube-controller-manager` metrics, use the following command.
@@ -133,7 +133,7 @@ workqueue_work_duration_seconds_sum{name="replicaset"} 4.265655885000002
 [...]
 ----
 
-[[scheduler-controller-metrics,scheduler-controller-metrics.title]]
+[#scheduler-controller-metrics]
 === Understand the scheduler and controller manager metrics
 
 The following table describes the scheduler and controller manager metrics that are made available for [.noloc]`Prometheus` style scraping. For more information about these metrics, see https://kubernetes.io/docs/reference/instrumentation/metrics/[Kubernetes Metrics Reference] in the [.noloc]`Kubernetes` documentation.
@@ -202,7 +202,7 @@ The following table describes the scheduler and controller manager metrics that 
 
 |===
 
-[[deploy-prometheus-scraper,deploy-prometheus-scraper.title]]
+[#deploy-prometheus-scraper]
 == Deploy a Prometheus scraper to consistently scrape metrics
 
 To deploy a Prometheus scraper to consistently scrape the metrics, use the following configuration:

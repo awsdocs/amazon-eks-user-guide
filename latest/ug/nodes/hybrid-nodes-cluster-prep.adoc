@@ -1,5 +1,5 @@
 [.topic]
-[[hybrid-nodes-cluster-prep,hybrid-nodes-cluster-prep.title]]
+[#hybrid-nodes-cluster-prep]
 = Prepare cluster access for hybrid nodes
 :info_titleabbrev: Prepare cluster access
 
@@ -31,7 +31,7 @@ aws eks create-access-entry --cluster-name CLUSTER_NAME \
     --type HYBRID_LINUX
 ----
 
-[[hybrid-nodes-cluster-prep-console,hybrid-nodes-cluster-prep-console.title]]
+[#hybrid-nodes-cluster-prep-console]
 === {aws-management-console}
 
 . Open the Amazon EKS console at link:eks/home#/clusters[Amazon EKS console,type="console"].

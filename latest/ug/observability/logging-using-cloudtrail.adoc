@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[logging-using-cloudtrail,logging-using-cloudtrail.title]]
+[#logging-using-cloudtrail]
 = Log API calls as {aws} CloudTrail events
 :info_titleabbrev: {aws} CloudTrail
 :keywords: logging, API calls, {aws} CloudTrail

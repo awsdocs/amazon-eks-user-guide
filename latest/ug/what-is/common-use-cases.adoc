@@ -1,5 +1,5 @@
 [.topic]
-[[common-use-cases,common-use-cases.title]]
+[#common-use-cases]
 = Common use cases in Amazon EKS
 :info_titleabbrev: Common use cases
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, use cases, summary, description

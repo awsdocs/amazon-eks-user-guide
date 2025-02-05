@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[local-zones,local-zones.title]]
+[#local-zones]
 = Launch low-latency EKS clusters with {aws} Local Zones
 :info_titleabbrev: {aws} Local Zones
 

@@ -1,5 +1,5 @@
 [.topic]
-[[lbc-remove,lbc-remove.title]]
+[#lbc-remove]
 = Migrate apps from deprecated ALB [.noloc]`Ingress Controller`
 :info_titleabbrev: Migrate from deprecated
 
@@ -23,7 +23,7 @@ This topic describes how to migrate from deprecated controller versions. More sp
 ** Any `0.1.[.replaceable]``x``` version of the [.noloc]`{aws} Load Balancer Controller`
 
 
-[[lbc-remove-desc,lbc-remove-desc.title]]
+[#lbc-remove-desc]
 == Remove the deprecated controller version
 
 [NOTE]
@@ -75,7 +75,7 @@ kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingr
 ----
 
 
-[[lbc-migrate,lbc-migrate.title]]
+[#lbc-migrate]
 == Migrate to [.noloc]`{aws} Load Balancer Controller`
 
 To migrate from the ALB Ingress Controller for [.noloc]`Kubernetes` to the [.noloc]`{aws} Load Balancer Controller`, you need to:

@@ -1,5 +1,5 @@
 [.topic]
-[[auto-workloads,auto-workloads.title]]
+[#auto-workloads]
 = Run sample workloads in EKS Auto Mode clusters
 :info_titleabbrev: Run workloads
 

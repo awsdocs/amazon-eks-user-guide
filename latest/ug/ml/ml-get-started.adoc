@@ -1,5 +1,5 @@
 [.topic]
-[[ml-get-started,ml-get-started.title]]
+[#ml-get-started]
 = Get started with ML
 :info_titleabbrev: Get started with ML
 

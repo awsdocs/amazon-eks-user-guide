@@ -1,5 +1,5 @@
 [.topic]
-[[settings-auto,settings-auto.title]]
+[#settings-auto]
 = Configure EKS Auto Mode settings
 :icons: font
 :experimental:

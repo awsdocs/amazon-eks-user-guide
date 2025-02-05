@@ -1,5 +1,5 @@
 [.topic]
-[[retrieve-windows-ami-id,retrieve-windows-ami-id.title]]
+[#retrieve-windows-ami-id]
 = Retrieve recommended [.noloc]`Microsoft Windows` AMI IDs
 :info_titleabbrev: Get latest IDs
 

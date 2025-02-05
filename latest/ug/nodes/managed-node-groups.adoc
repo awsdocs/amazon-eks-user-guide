@@ -1,5 +1,5 @@
 [.topic]
-[[managed-node-groups,managed-node-groups.title]]
+[#managed-node-groups]
 = Simplify node lifecycle with managed node groups
 :info_titleabbrev: Managed node groups
 :keywords: managed node group, MNG
@@ -37,7 +37,7 @@ To get started with a new Amazon EKS cluster and managed node group, see <<getti
 
 To add a managed node group to an existing cluster, see <<create-managed-node-group>>.
 
-[[managed-node-group-concepts,managed-node-group-concepts.title]]
+[#managed-node-group-concepts]
 == Managed node groups concepts
 
 * Amazon EKS managed node groups create and manage Amazon EC2 instances for you.
@@ -69,12 +69,12 @@ For other commonly-used services and endpoints, see <<private-clusters>>.
 * If you want to encrypt Amazon EBS volumes for your nodes, you can deploy the nodes using a launch template. To deploy managed nodes with encrypted Amazon EBS volumes without using a launch template, encrypt all new Amazon EBS volumes created in your account. For more information, see  link:AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default[Encryption by default,type="documentation"] in the _Amazon EC2 User Guide_.
 
 
-[[managed-node-group-capacity-types,managed-node-group-capacity-types.title]]
+[#managed-node-group-capacity-types]
 == Managed node group capacity types
 
 When creating a managed node group, you can choose either the On-Demand or Spot capacity type. Amazon EKS deploys a managed node group with an Amazon EC2 Auto Scaling group that either contains only On-Demand or only Amazon EC2 Spot Instances. You can schedule [.noloc]`Pods` for fault tolerant applications to Spot managed node groups, and fault intolerant applications to On-Demand node groups within a single [.noloc]`Kubernetes` cluster. By default, a managed node group deploys On-Demand Amazon EC2 instances.
 
-[[managed-node-group-capacity-types-on-demand,managed-node-group-capacity-types-on-demand.title]]
+[#managed-node-group-capacity-types-on-demand]
 === On-Demand
 
 With On-Demand Instances, you pay for compute capacity by the second, with no long-term commitments.  
@@ -88,7 +88,7 @@ By default, if you don't specify a *Capacity Type*, the managed node group is pr
 * Amazon EKS adds the following [.noloc]`Kubernetes` label to all nodes in your managed node group that specifies the capacity type: `eks.amazonaws.com/capacityType: ON_DEMAND`. You can use this label to schedule stateful or fault intolerant applications on On-Demand nodes. 
 
 
-[[managed-node-group-capacity-types-spot,managed-node-group-capacity-types-spot.title]]
+[#managed-node-group-capacity-types-spot]
 === Spot
 
 Amazon EC2 Spot Instances are spare Amazon EC2 capacity that offers steep discounts off of On-Demand prices. Amazon EC2 Spot Instances can be interrupted with a two-minute interruption notice when EC2 needs the capacity back. For more information, see link:AWSEC2/latest/UserGuide/using-spot-instances.html[Spot Instances,type="documentation"] in the _Amazon EC2 User Guide_. You can configure a managed node group with Amazon EC2 Spot Instances to optimize costs for the compute nodes running in your Amazon EKS cluster.

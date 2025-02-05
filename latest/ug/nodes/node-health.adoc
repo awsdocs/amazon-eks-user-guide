@@ -1,5 +1,5 @@
 [.topic]
-[[node-health,node-health.title]]
+[#node-health]
 = Enable node auto repair and investigate node health issues
 :info_titleabbrev: Node health
 
@@ -18,14 +18,14 @@ Node health refers to the operational status and capability of a node to effecti
 
 To help with maintaining healthy nodes, Amazon EKS offers the node monitoring agent and node auto repair.
 
-[[node-monitoring-agent,node-monitoring-agent.title]]
+[#node-monitoring-agent]
 == Node monitoring agent
 
 The node monitoring agent automatically reads node logs to detect certain health issues. It parses through node logs to detect failures and surfaces various status information about worker nodes. A dedicated `NodeCondition` is applied on the worker nodes for each category of issues detected, such as storage and networking issues. Descriptions of detected health issues are made available in the observability dashboard. For more information, see <<observability-node-health-issues>>.
 
 The node monitoring agent is included as a capability for all Amazon EKS Auto Mode clusters. For other cluster types, you can add the monitoring agent as an Amazon EKS add-on. For more information, see <<creating-an-add-on>>.
 
-[[node-auto-repair,node-auto-repair.title]]
+[#node-auto-repair]
 == Node auto repair
 
 Node auto repair is an additional feature that continuously monitors the health of nodes, automatically reacting to detected problems and replacing nodes when possible. This helps overall availability of the cluster with minimal manual intervention. If a health check fails, the node is automatically cordoned so that no new Pods are scheduled on the node.
@@ -47,7 +47,7 @@ You can enable node auto repair when creating or editing a managed node group.
 
 * For an example `eksctl` `ClusterConfig` that uses a managed node group with node auto repair, see link:https://github.com/eksctl-io/eksctl/blob/main/examples/44-node-repair.yaml[44-node-repair.yaml] on GitHub.
 
-[[node-health-issues,node-health-issues.title]]
+[#node-health-issues]
 == Node health issues
 
 The following tables describe node health issues that can be detected by the node monitoring agent. There are two types of issues:
@@ -56,7 +56,7 @@ The following tables describe node health issues that can be detected by the nod
 
 * Event – A temporary issue or sub-optimal node configuration. No auto repair action will take place. For more information, see <<status-node-events>>.
 
-[[node-health-kernel,node-health-kernel.title]]
+[#node-health-kernel]
 === Kernel node health issues
 
 [cols="3", options="header"]
@@ -112,7 +112,7 @@ The following tables describe node health issues that can be detected by the nod
 
 |===
 
-[[node-health-networking,node-health-networking.title]]
+[#node-health-networking]
 === Networking node health issues
 
 [cols="3", options="header"]
@@ -196,7 +196,7 @@ The following tables describe node health issues that can be detected by the nod
 
 |===
 
-[[node-health-neuron,node-health-neuron.title]]
+[#node-health-neuron]
 === Neuron node health issues
 
 [cols="3", options="header"]
@@ -224,7 +224,7 @@ The following tables describe node health issues that can be detected by the nod
 
 |===
 
-[[node-health-nvidia,node-health-nvidia.title]]
+[#node-health-nvidia]
 === NVIDIA node health issues
 
 If auto repair is enabled, the repair actions that are listed start 10 minutes after the issue is detected. For more information on XID errors, see link:https://docs.nvidia.com/deploy/xid-errors/index.html#topic_5_1[Xid Errors] in the _NVIDIA GPU Deployment and Management Documentation_. For more information on the individual XID messages, see link:https://docs.nvidia.com/deploy/gpu-debug-guidelines/index.html#understanding-xid-messages[Understanding Xid Messages] in the _NVIDIA GPU Deployment and Management Documentation_.
@@ -324,7 +324,7 @@ If auto repair is enabled, the repair actions that are listed start 10 minutes a
 
 |===
 
-[[node-health-runtime,node-health-runtime.title]]
+[#node-health-runtime]
 === Runtime node health issues
 
 [cols="3", options="header"]
@@ -364,7 +364,7 @@ If auto repair is enabled, the repair actions that are listed start 10 minutes a
 
 |===
 
-[[node-health-storage,node-health-storage.title]]
+[#node-health-storage]
 === Storage node health issues
 
 [cols="3", options="header"]

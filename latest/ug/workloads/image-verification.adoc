@@ -1,5 +1,5 @@
 [.topic]
-[[image-verification,image-verification.title]]
+[#image-verification]
 = Validate container image signatures during deployment
 :info_titleabbrev: Verify container images
 

@@ -1,7 +1,7 @@
 include::../../attributes.txt[]
 
 [.topic]
-[[cost-monitoring-aws,cost-monitoring-aws.title]]
+[#cost-monitoring-aws]
 = View costs by Pod in {aws} billing with split cost allocation
 :info_titleabbrev: View costs by Pod
 
@@ -17,7 +17,7 @@ You can use {aws} split cost allocation data for Amazon EKS to get granular cost
 
 For more information about using split cost allocation data, see link:cur/latest/userguide/split-cost-allocation-data.html[Understanding split cost allocation data,type="documentation"] in the {aws} Billing User Guide.
 
-[[task-cur-setup,task-cur-setup.title]]
+[#task-cur-setup]
 == Set up Cost and Usage Reports
 
 You can turn on Split Cost Allocation Data for EKS in the Cost Management Console, {aws} Command Line Interface, or the {aws} SDKs.

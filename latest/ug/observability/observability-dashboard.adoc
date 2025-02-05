@@ -1,5 +1,5 @@
 [.topic]
-[[observability-dashboard,observability-dashboard.title]]
+[#observability-dashboard]
 = Monitor your cluster with the observability dashboard
 :info_titleabbrev: Observability dashboard
 :keywords: observability, dashboard
@@ -15,24 +15,24 @@ The Amazon EKS console includes an observability dashboard that gives visibility
 
 The dashboard is split into several tabs.
 
-[[observability-summary,observability-summary.title]]
+[#observability-summary]
 == Summary
 
 The *Health and performance summary* lists the quantity of items in various categories. Each number acts as a hyperlink to a location in the dashboard with a list for that category.
 
-[[observability-cluster-health,observability-cluster-health.title]]
+[#observability-cluster-health]
 == Cluster health issues
 
 *Cluster health issues* are important notifications to be aware of, some of which you may need to take action on as soon as possible. With this list, you can see descriptions and the affected resources. To refresh the status, choose the refresh button ( ↻ ).
 
 For more information, see <<cluster-health-status>>.
 
-[[observability-control-plane,observability-control-plane.title]]
+[#observability-control-plane]
 == Control plane monitoring
 
 The *Control plane monitoring* tab is divided into three sections, each of which help you to monitor and troubleshoot your cluster's control plane.
 
-[[observability-metrics,observability-metrics.title]]
+[#observability-metrics]
 === Metrics
 
 For clusters that are [.noloc]`Kubernetes` version `1.28` and above, the *Metrics* section shows graphs of several metrics gathered for various control plane components.
@@ -86,7 +86,7 @@ The following table describes available metrics.
 
 |===
 
-[[observability-log-insights,observability-log-insights.title]]
+[#observability-log-insights]
 === CloudWatch Log Insights
 The *CloudWatch Log Insights* section shows various lists based on the control plane audit logs. The Amazon EKS control plane logs need to be turned on to use this feature, which you can do from the *View control plane logs in CloudWatch* section.
 
@@ -94,13 +94,13 @@ When enough time has passed to collect data, you can *Run all queries* or choose
 
 For more information, see link:AmazonCloudWatch/latest/logs/AnalyzingLogData.html[Analyzing log data with CloudWatch Logs Insights,type="documentation"] in the Amazon CloudWatch Logs User Guide.
 
-[[observability-cp-logs,observability-cp-logs.title]]
+[#observability-cp-logs]
 === View control plane logs in CloudWatch
 Choose *Manage logging* to update the log types that are available. It takes several minutes for the logs to appear in CloudWatch Logs after you enable logging. When enough time has passed, choose any of the *View* links in this section to navigate to the applicable log.
 
 For more information, see <<control-plane-logs>>.
 
-[[observability-cluster-insights,observability-cluster-insights.title]]
+[#observability-cluster-insights]
 == Cluster insights
 
 The *Upgrade insights* table both surfaces issues and recommends corrective actions, accelerating the validation process for upgrading to new Kubernetes versions. Amazon EKS automatically scans clusters against a list of potential Kubernetes version upgrade impacting issues. The *Upgrade insights* table lists the insight checks performed by Amazon EKS against this cluster, along with their associated statuses.
@@ -109,7 +109,7 @@ Amazon EKS maintains and periodically refreshes the list of insight checks to be
 
 For more information, see <<cluster-insights>>.
 
-[[observability-node-health-issues,observability-node-health-issues.title]]
+[#observability-node-health-issues]
 == Node health issues
 
 The Amazon EKS node monitoring agent automatically reads node logs to detect health issues. Regardless of the auto repair setting, all node health issues are reported so that you can investigate as needed. If an issue type is listed without a description, you can read the description in its popover element.

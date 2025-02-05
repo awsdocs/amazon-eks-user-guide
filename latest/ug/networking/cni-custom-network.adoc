@@ -1,5 +1,5 @@
 [.topic]
-[[cni-custom-network,cni-custom-network.title]]
+[#cni-custom-network]
 = Deploy [.noloc]`Pods` in alternate subnets with custom networking
 :info_titleabbrev: Custom networking
 
@@ -21,7 +21,7 @@ By default, when the [.noloc]`Amazon VPC CNI plugin for Kubernetes` creates seco
 * The nodes are configured in public subnets, and you want to place the [.noloc]`Pods` in private subnets. The route table associated to a public subnet includes a route to an internet gateway. The route table associated to a private subnet doesn't include a route to an internet gateway.
 
 
-[[cni-custom-network-considerations,cni-custom-network-considerations.title]]
+[#cni-custom-network-considerations]
 == Considerations
 
 The following are considerations for using the feature.

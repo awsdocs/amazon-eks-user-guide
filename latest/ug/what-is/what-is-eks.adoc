@@ -1,5 +1,5 @@
 [.topic]
-[[what-is-eks,what-is-eks.title]]
+[#what-is-eks]
 = What is Amazon EKS?
 :doctype: book
 :sectnums:
@@ -21,7 +21,7 @@ Learn to manage containerized applications with Amazon EKS
 
 Amazon Elastic Kubernetes Service (Amazon EKS) is a managed Kubernetes service that eliminates the need to operate and maintain the availability and scalability of Kubernetes clusters in Amazon Web Services ({aws}) and in your own data centers. https://kubernetes.io/docs/concepts/overview/[Kubernetes] is an open source system that automates the management, scaling, and deployment of containerized applications. To get started, see the <<quickstart>> page in the Amazon EKS User Guide.
 
-[[eks-features,eks-features.title]]
+[#eks-features]
 == Features of Amazon EKS
 
 *Fully Managed Kubernetes*
@@ -74,7 +74,7 @@ Amazon EKS supports a range of interfaces to provision, manage, and maintain clu
 
 Amazon EKS supports a range of operating systems and you can use pre-built, Amazon EKS-optimized Amazon Machine Images (AMIs) for the base images of your compute nodes. Amazon EKS maintains optimized images for Amazon Linux 2, Amazon Linux 2023, Bottlerocket, Windows, and there are Ubuntu images maintained by Canonical. You can also use your own custom AMIs for other operating system variants. The Amazon EKS AMIs for Amazon Linux have built-in support for NVIDIA and {aws} Neuron accelerated instance types. See <<eks-optimized-amis>> for more information.
 
-[[eks-pricing,eks-pricing.title]]
+[#eks-pricing]
 == Amazon EKS Pricing
 
 Amazon EKS has per cluster pricing based on Kubernetes cluster version support, pricing for Amazon EKS Auto Mode, and per vCPU pricing for Amazon EKS Hybrid Nodes. When using Amazon EKS, you pay separately for the {aws} resources you use to run your applications on Kubernetes worker nodes. For example, if you are running Kubernetes worker nodes as Amazon EC2 instances with Amazon EBS volumes and public IPv4 addresses, you are charged for the instance capacity through Amazon EC2, the volume capacity through Amazon EBS, and the IPv4 address through Amazon VPC. Visit the respective pricing pages of the {aws} services you are using with your Kubernetes applications for detailed pricing information.

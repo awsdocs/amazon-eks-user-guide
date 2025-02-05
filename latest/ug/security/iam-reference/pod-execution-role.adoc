@@ -1,5 +1,5 @@
 [.topic]
-[[pod-execution-role,pod-execution-role.title]]
+[#pod-execution-role]
 = Amazon EKS [.noloc]`Pod` execution IAM role
 :info_titleabbrev: Pod execution IAM role
 
@@ -26,7 +26,7 @@ The containers running in the Fargate [.noloc]`Pod` can't assume the IAM permiss
 ====
 
 Before you create a Fargate profile, you must create an IAM role with the link:aws-managed-policy/latest/reference/AmazonEKSFargatePodExecutionRolePolicy.html[AmazonEKSFargatePodExecutionRolePolicy,type="documentation"].
-[[check-pod-execution-role,check-pod-execution-role.title]]
+[#check-pod-execution-role]
 == Check for a correctly configured existing [.noloc]`Pod` execution role
 
 You can use the following procedure to check and see if your account already has a correctly configured Amazon EKS [.noloc]`Pod` execution role. To avoid a confused deputy security problem, it's important that the role restricts access based on `SourceArn`. You can modify the execution role as needed to include support for Fargate profiles on other clusters.
@@ -73,7 +73,7 @@ If the policy matches but doesn't have a line specifying the Fargate profiles on
 If the policy doesn't match, copy the full previous policy into the form and choose  *Update policy*. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace [.replaceable]`region-code` with `{asterisk}`. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with `{asterisk}`.
 
 
-[[create-pod-execution-role,create-pod-execution-role.title]]
+[#create-pod-execution-role]
 == Creating the Amazon EKS [.noloc]`Pod` execution role
 
 If you don't already have the Amazon EKS [.noloc]`Pod` execution role for your cluster, you can use the {aws-management-console} or the {aws} CLI to create it.

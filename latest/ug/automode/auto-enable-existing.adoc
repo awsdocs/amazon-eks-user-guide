@@ -1,5 +1,5 @@
 [.topic]
-[[auto-enable-existing,auto-enable-existing.title]]
+[#auto-enable-existing]
 = Enable EKS Auto Mode on an existing cluster
 :info_titleabbrev: Enable on cluster
 
@@ -15,7 +15,7 @@ Verify you have the minimum required version of certain Amazon EKS Add-ons insta
 
 Before you begin, ensure you have administrator access to your Amazon EKS cluster and permissions to modify IAM roles. The steps in this topic guide you through enabling Auto Mode using either the {aws-management-console} or {aws} CLI.
 
-[[auto-enable-existing-console,auto-enable-existing-console.title]]
+[#auto-enable-existing-console]
 == {aws-management-console}
 
 You must be logged into the {aws} console with permission to manage IAM, EKS, and EC2 resources. 
@@ -100,7 +100,7 @@ aws eks update-cluster-config \
  --storage-config '{"blockStorage":{"enabled": true}}'
 ----
 
-[[auto-addons-required,auto-addons-required.title]]
+[#auto-addons-required]
 == Required Add-on Versions
 
 If you're planning to enable EKS Auto Mode on an existing cluster, you may need to update certain add-ons. Please note:

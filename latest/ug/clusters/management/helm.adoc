@@ -1,5 +1,5 @@
 [.topic]
-[[helm,helm.title]]
+[#helm]
 = Deploy applications with [.noloc]`Helm` on Amazon EKS
 :info_titleabbrev: Deploy apps with Helm
 

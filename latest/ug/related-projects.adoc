@@ -1,5 +1,5 @@
 include::attributes.txt[]
-[[related-projects,related-projects.title]]
+[#related-projects]
 = Extend Amazon EKS capabilities with open source projects
 :doctype: book
 :sectnums:
@@ -18,12 +18,12 @@ Learn how to use open source projects to add features to Amazon EKS for manageme
 
 These open-source projects extend the functionality of [.noloc]`Kubernetes` clusters running on or outside of {aws}, including clusters managed by Amazon EKS.
 
-[[related-management-tools,related-management-tools.title]]
+[#related-management-tools]
 == Management tools
 
 Related management tools for Amazon EKS and [.noloc]`Kubernetes` clusters.
 
-[[related-eksctl,related-eksctl.title]]
+[#related-eksctl]
 === eksctl
 
 `eksctl` is a simple CLI tool for creating clusters on Amazon EKS.
@@ -35,7 +35,7 @@ Related management tools for Amazon EKS and [.noloc]`Kubernetes` clusters.
 * {aws} open source blog: link:opensource/eksctl-eks-cluster-one-command[eksctl: Amazon EKS cluster with one command,type="blog"]
 
 
-[[related-aws-controllers,related-aws-controllers.title]]
+[#related-aws-controllers]
 === {aws} controllers for [.noloc]`Kubernetes`
 
 With {aws} Controllers for [.noloc]`Kubernetes`, you can create and manage {aws} resources directly from your [.noloc]`Kubernetes` cluster.
@@ -46,7 +46,7 @@ With {aws} Controllers for [.noloc]`Kubernetes`, you can create and manage {aws}
 * {aws} open source blog: link:opensource/aws-service-operator-kubernetes-available[{aws} service operator for Kubernetes now available,type="blog"]
 
 
-[[related-flux-cd,related-flux-cd.title]]
+[#related-flux-cd]
 === Flux CD
 
 Flux is a tool that you can use to manage your cluster configuration using Git. It uses an operator in the cluster to trigger deployments inside of [.noloc]`Kubernetes`. For more information about operators, see https://operatorhub.io/[OperatorHub.io] on [.noloc]`GitHub`.
@@ -57,7 +57,7 @@ Flux is a tool that you can use to manage your cluster configuration using Git. 
 * https://docs.fluxcd.io/[Project documentation]
 
 
-[[related-cdk,related-cdk.title]]
+[#related-cdk]
 === CDK for [.noloc]`Kubernetes`
 
 With the CDK for [.noloc]`Kubernetes` (cdk8s), you can define [.noloc]`Kubernetes` apps and components using familiar programming languages. cdk8s apps synthesize into standard [.noloc]`Kubernetes` manifests, which can be applied to any [.noloc]`Kubernetes` cluster.
@@ -69,12 +69,12 @@ With the CDK for [.noloc]`Kubernetes` (cdk8s), you can define [.noloc]`Kubernete
 * {aws} containers blog: link:containers/introducing-cdk8s-intent-driven-apis-for-kubernetes-objects[Introducing cdk8s+: Intent-driven APIs for Kubernetes objects,type="blog"]
 
 
-[[related-networking,related-networking.title]]
+[#related-networking]
 == Networking
 
 Related networking projects for Amazon EKS and [.noloc]`Kubernetes` clusters.
 
-[[related-vpc-cni-k8s,related-vpc-cni-k8s.title]]
+[#related-vpc-cni-k8s]
 === [.noloc]`Amazon VPC CNI plugin for Kubernetes`
 
 Amazon EKS supports native VPC networking through the [.noloc]`Amazon VPC CNI plugin for Kubernetes`. The plugin assigns an IP address from your VPC to each [.noloc]`Pod`.
@@ -85,7 +85,7 @@ Amazon EKS supports native VPC networking through the [.noloc]`Amazon VPC CNI pl
 * https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md[Project documentation]
 
 
-[[related-alb-ingress-controller,related-alb-ingress-controller.title]]
+[#related-alb-ingress-controller]
 === [.noloc]`{aws} Load Balancer Controller` for [.noloc]`Kubernetes`
 
 The [.noloc]`{aws} Load Balancer Controller` helps manage {aws} Elastic Load Balancers for a [.noloc]`Kubernetes` cluster. It satisfies [.noloc]`Kubernetes` Ingress resources by provisioning {aws} Application Load Balancers. It satisfies [.noloc]`Kubernetes` service resources by provisioning {aws} Network Load Balancers.
@@ -96,7 +96,7 @@ The [.noloc]`{aws} Load Balancer Controller` helps manage {aws} Elastic Load Bal
 * https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/[Project documentation]
 
 
-[[related-externaldns,related-externaldns.title]]
+[#related-externaldns]
 === ExternalDNS
 
 ExternalDNS synchronizes exposed [.noloc]`Kubernetes` services and ingresses with DNS providers including Amazon Route 53 and {aws} Service Discovery.
@@ -107,12 +107,12 @@ ExternalDNS synchronizes exposed [.noloc]`Kubernetes` services and ingresses wit
 * https://github.com/kubernetes-incubator/external-dns/blob/master/docs/tutorials/aws.md[Project documentation]
 
 
-[[related-machine-learning,related-machine-learning.title]]
+[#related-machine-learning]
 == Machine learning
 
 Related machine learning projects for Amazon EKS and [.noloc]`Kubernetes` clusters.
 
-[[related-kubeflow,related-kubeflow.title]]
+[#related-kubeflow]
 === Kubeflow
 
 A machine learning toolkit for [.noloc]`Kubernetes`.
@@ -124,12 +124,12 @@ A machine learning toolkit for [.noloc]`Kubernetes`.
 * {aws} open source blog: link:opensource/kubeflow-amazon-eks[Kubeflow on Amazon EKS,type="blog"]
 
 
-[[related-auto-scaling,related-auto-scaling.title]]
+[#related-auto-scaling]
 == Auto Scaling
 
 Related auto scaling projects for Amazon EKS and [.noloc]`Kubernetes` clusters.
 
-[[related-cluster-autoscaler,related-cluster-autoscaler.title]]
+[#related-cluster-autoscaler]
 === Cluster autoscaler
 
 Cluster Autoscaler is a tool that automatically adjusts the size of the [.noloc]`Kubernetes` cluster based on CPU and memory pressure.
@@ -141,7 +141,7 @@ Cluster Autoscaler is a tool that automatically adjusts the size of the [.noloc]
 * Amazon EKS workshop: https://www.eksworkshop.com/docs/autoscaling/compute/cluster-autoscaler/[Cluster Autoscaler]
 
 
-[[related-karpenter,related-karpenter.title]]
+[#related-karpenter]
 === Karpenter
 
 Karpenter is a [.noloc]`Kubernetes` Node Autoscaler built for flexibility, performance, and simplicity.
@@ -153,7 +153,7 @@ Karpenter is a [.noloc]`Kubernetes` Node Autoscaler built for flexibility, perfo
 * Amazon EKS workshop: https://www.eksworkshop.com/docs/autoscaling/compute/karpenter/[Karpenter]
 
 
-[[related-escalator,related-escalator.title]]
+[#related-escalator]
 === Escalator
 
 Escalator is a batch or job optimized horizontal autoscaler for [.noloc]`Kubernetes`.
@@ -164,12 +164,12 @@ Escalator is a batch or job optimized horizontal autoscaler for [.noloc]`Kuberne
 * https://github.com/atlassian/escalator/blob/master/docs/README.md[Project documentation]
 
 
-[[related-monitoring,related-monitoring.title]]
+[#related-monitoring]
 == Monitoring
 
 Related monitoring projects for Amazon EKS and [.noloc]`Kubernetes` clusters.
 
-[[related-prometheus,related-prometheus.title]]
+[#related-prometheus]
 === [.noloc]`Prometheus`
 
 [.noloc]`Prometheus` is an open-source systems monitoring and alerting toolkit.
@@ -181,12 +181,12 @@ Related monitoring projects for Amazon EKS and [.noloc]`Kubernetes` clusters.
 * Amazon EKS workshop: https://eksworkshop.com/intermediate/240_monitoring/[https://eksworkshop.com/intermediate/240_monitoring/]
 
 
-[[related-cicd,related-cicd.title]]
+[#related-cicd]
 == Continuous integration / continuous deployment
 
 Related CI/CD projects for Amazon EKS and [.noloc]`Kubernetes` clusters.
 
-[[related-jenkinsx,related-jenkinsx.title]]
+[#related-jenkinsx]
 === Jenkins X
 
 CI/CD solution for modern cloud applications on Amazon EKS and [.noloc]`Kubernetes` clusters.

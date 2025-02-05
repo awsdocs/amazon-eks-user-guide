@@ -1,5 +1,5 @@
 [.topic]
-[[cluster-iam-role,cluster-iam-role.title]]
+[#cluster-iam-role]
 = Amazon EKS cluster IAM role
 :info_titleabbrev: Cluster IAM role
 
@@ -63,7 +63,7 @@ Prior to April 16, 2020, link:aws-managed-policy/latest/reference/AmazonEKSServi
 
 ====
 
-[[check-service-role,check-service-role.title]]
+[#check-service-role]
 == Check for an existing cluster role
 
 You can use the following procedure to check and see if your account already has the Amazon EKS cluster role.
@@ -93,7 +93,7 @@ You can use the following procedure to check and see if your account already has
 ----
 
 
-[[create-service-role,create-service-role.title]]
+[#create-service-role]
 == Creating the Amazon EKS cluster role
 
 You can use the {aws-management-console} or the {aws} CLI to create the cluster role.

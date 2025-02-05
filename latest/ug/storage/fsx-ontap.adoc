@@ -1,5 +1,5 @@
 [.topic]
-[[fsx-ontap,fsx-ontap.title]]
+[#fsx-ontap]
 = Store high-performance apps with FSx for NetApp ONTAP
 :info_titleabbrev: Amazon FSx for NetApp ONTAP
 :keywords: Amazon FSx for NetApp ONTAP CSI driver, storage

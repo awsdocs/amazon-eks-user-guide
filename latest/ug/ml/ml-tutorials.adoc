@@ -1,5 +1,5 @@
 [.topic]
-[[ml-tutorials,ml-tutorials.title]]
+[#ml-tutorials]
 = Try tutorials for deploying Machine Learning workloads on EKS
 :info_titleabbrev: Try tutorials for ML on EKS
 

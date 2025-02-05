@@ -1,5 +1,5 @@
 [.topic]
-[[auth-configmap,auth-configmap.title]]
+[#auth-configmap]
 = Grant [.noloc]`IAM` users access to [.noloc]`Kubernetes` with a [.noloc]`ConfigMap`
 :info_titleabbrev: aws-auth ConfigMap
 
@@ -19,7 +19,7 @@ The `aws-auth ConfigMap`  is deprecated. For the recommended method to manage ac
 
 Access to your cluster using   link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] is enabled by the https://github.com/kubernetes-sigs/aws-iam-authenticator#readme[{aws} IAM Authenticator for Kubernetes], which runs on the Amazon EKS control plane. The authenticator gets its configuration information from the `aws-auth` `ConfigMap`. For all `aws-auth` `ConfigMap` settings, see https://github.com/kubernetes-sigs/aws-iam-authenticator#full-configuration-format[Full Configuration Format] on [.noloc]`GitHub`.  
 
-[[aws-auth-users,aws-auth-users.title]]
+[#aws-auth-users]
 == Add IAM principals to your Amazon EKS cluster
 
 When you create an Amazon EKS cluster, the   link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that creates the cluster is automatically granted `system:masters` permissions in the cluster's role-based access control (RBAC) configuration in the Amazon EKS control plane. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth ConfigMap` within [.noloc]`Kubernetes` and create a [.noloc]`Kubernetes` `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth ConfigMap`.
@@ -184,7 +184,7 @@ IMPORTANT: We recommend using `eksctl`, or another tool, to edit the `ConfigMap`
 ** View steps to xref:configmap-eksctl[edit configmap with eksctl].
 ** View steps to xref:configmap-manual[edit configmap manually].
 
-[[configmap-eksctl,configmap-eksctl.title]]
+[#configmap-eksctl]
 === Edit Configmap with Eksctl
 
 . You need version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
@@ -254,7 +254,7 @@ ARN                                                                             
 {arn-aws}iam::111122223333:user/my-user                                                          my-user                                 eks-console-dashboard-restricted-access-group
 ----
 
-[[configmap-manual,configmap-manual.title]]
+[#configmap-manual]
 === Edit Configmap manually
 . Open the `ConfigMap` for editing.
 +
@@ -315,7 +315,7 @@ data:
 . Save the file and exit your text editor.
 
 
-[[aws-auth-configmap,aws-auth-configmap.title]]
+[#aws-auth-configmap]
 == Apply the `aws-auth`   `ConfigMap` to your cluster
 
 The `aws-auth` `ConfigMap` is automatically created and applied to your cluster when you create a managed node group or when you create a node group using `eksctl`. It is initially created to allow nodes to join your cluster, but you also use this `ConfigMap` to add role-based access control (RBAC) access to IAM principals. If you've launched self-managed nodes and haven't applied the `aws-auth` `ConfigMap` to your cluster, you can do so with the following procedure.

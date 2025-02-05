@@ -1,5 +1,5 @@
 [.topic]
-[[coredns-add-on-update,coredns-add-on-update.title]]
+[#coredns-add-on-update]
 = Update the [.noloc]`CoreDNS` Amazon EKS add-on
 :info_titleabbrev: Update (EKS add-on)
 

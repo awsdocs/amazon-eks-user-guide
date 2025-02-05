@@ -1,5 +1,5 @@
 [.topic]
-[[worker,worker.title]]
+[#worker]
 = Maintain nodes yourself with self-managed nodes
 :info_titleabbrev: Self-managed nodes
 :keywords: self-managed, node

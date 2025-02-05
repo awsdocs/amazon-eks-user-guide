@@ -1,5 +1,5 @@
 [.topic]
-[[zone-shift,zone-shift.title]]
+[#zone-shift]
 = Learn about Amazon Application Recovery Controller's (ARC) Zonal Shift in Amazon EKS
 :info_titleabbrev: Learn about Zonal Shift
 :aws: pass:q[[.shared]``AWS``]

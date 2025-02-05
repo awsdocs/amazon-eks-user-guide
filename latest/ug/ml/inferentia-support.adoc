@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[inferentia-support,inferentia-support.title]]
+[#inferentia-support]
 = Use {aws} [.noloc]`Inferentia` instances with Amazon EKS for Machine Learning
 :info_titleabbrev: Prepare Inferentia clusters
 
@@ -19,7 +19,7 @@ Neuron device logical IDs must be contiguous. If a [.noloc]`Pod` requesting mult
 
 ====
 
-[[inferentia-prerequisites,inferentia-prerequisites.title]]
+[#inferentia-prerequisites]
 == Prerequisites
 
 * Have `eksctl` installed on your computer. If you don't have it installed, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
@@ -27,7 +27,7 @@ Neuron device logical IDs must be contiguous. If a [.noloc]`Pod` requesting mult
 * (Optional) Have `python3` installed on your computer. If you don't have it installed, then see https://www.python.org/downloads/[Python downloads] for installation instructions.
 
 
-[[create-cluster-inferentia,create-cluster-inferentia.title]]
+[#create-cluster-inferentia]
 == Create a cluster
 
 . Create a cluster with Inf1 Amazon EC2 instance nodes. You can replace [.replaceable]`inf1.2xlarge` with any link:ec2/instance-types/inf1/[Inf1 instance type,type="marketing"]. The `eksctl` utility detects that you are launching a node group with an `Inf1` instance type and will start your nodes using one of the Amazon EKS optimized accelerated Amazon Linux AMIs. 
@@ -75,7 +75,7 @@ neuron-device-plugin-daemonset-hwjsj   1/1     Running   0          5m
 ----
 
 
-[[deploy-tensorflow-serving-application,deploy-tensorflow-serving-application.title]]
+[#deploy-tensorflow-serving-application]
 == (Optional) Deploy a TensorFlow Serving application image
 
 A trained model must be compiled to an Inferentia target before it can be deployed on Inferentia instances. To continue, you will need a https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-guide/neuron-frameworks/tensorflow-neuron/index.html[Neuron optimized TensorFlow] model saved in Amazon S3. If you don't already have a SavedModel, please follow the tutorial for link:dlami/latest/devguide/tutorial-inferentia-tf-neuron.html[creating a Neuron compatible ResNet50 model,type="documentation"] and upload the resulting SavedModel to S3. ResNet-50 is a popular machine learning model used for image recognition tasks. For more information about compiling Neuron models, see link:dlami/latest/devguide/tutorial-inferentia.html[The {aws} Inferentia Chip With DLAMI,type="documentation"] in the {aws} Deep Learning AMIs Developer Guide.
@@ -195,7 +195,7 @@ kubectl apply -f rn50_service.yaml
 ----
 
 
-[[make-predictions-against-tensorflow-service,make-predictions-against-tensorflow-service.title]]
+[#make-predictions-against-tensorflow-service]
 == (Optional) Make predictions against your TensorFlow Serving service
 . To test locally, forward the gRPC port to the `eks-neuron-test` service.
 +

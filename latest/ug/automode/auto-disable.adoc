@@ -1,5 +1,5 @@
 [.topic]
-[[auto-disable,auto-disable.title]]
+[#auto-disable]
 = Disable EKS Auto Mode
 
 include::../attributes.txt[]

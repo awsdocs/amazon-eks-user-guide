@@ -1,5 +1,5 @@
 [.topic]
-[[connector-grant-access,connector-grant-access.title]]
+[#connector-grant-access]
 = Grant access to view [.noloc]`Kubernetes` cluster resources on an Amazon EKS console
 :info_titleabbrev: Grant access to clusters
 
@@ -12,7 +12,7 @@ Learn to grant IAM principals access to view Kubernetes cluster resources on an 
 
 Grant   link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] access to the Amazon EKS console to view information about [.noloc]`Kubernetes` resources running on your connected cluster.
 
-[[connector-grant-access-prereqs,connector-grant-access-prereqs.title]]
+[#connector-grant-access-prereqs]
 == Prerequisites
 
 The   link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that you use to access the {aws-management-console} must meet the following requirements:

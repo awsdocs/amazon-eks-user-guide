@@ -1,6 +1,6 @@
 include::../attributes.txt[]
 [.topic]
-[[update-stack,update-stack.title]]
+[#update-stack]
 = Update an {aws} CloudFormation node stack
 :info_titleabbrev: CloudFormation stack
 

@@ -1,5 +1,5 @@
 [.topic]
-[[addon-id-troubleshoot,addon-id-troubleshoot.title]]
+[#addon-id-troubleshoot]
 = Troubleshoot Pod Identities for EKS add-ons
 :info_titleabbrev: Troubleshoot Identities
 

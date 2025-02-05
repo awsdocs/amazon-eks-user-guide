@@ -1,5 +1,5 @@
 [.topic]
-[[ml-eks-windows-optimized-ami,ml-eks-windows-optimized-ami.title]]
+[#ml-eks-windows-optimized-ami]
 = Run GPU-accelerated containers (Windows on EC2 G-Series)
 :info_titleabbrev: Run Windows GPU AMIs
 
@@ -30,7 +30,7 @@ This guide provides steps to install and set up GPU-acceleration for your Window
 * There are some known limitations to be aware of before running GPU-accelerated Windows containers. Please see the <<ml-eks-windows-ami-known-limitations>> section for more information.
 
 
-[[ml-eks-windows-ami-prerequisites,ml-eks-windows-ami-prerequisites.title]]
+[#ml-eks-windows-ami-prerequisites]
 == Prerequisites
 
 To enable GPU acceleration for your Windows containers on Amazon EKS, you'll need to prepare the following requirements before proceeding:
@@ -40,7 +40,7 @@ To enable GPU acceleration for your Windows containers on Amazon EKS, you'll nee
 * Provision Windows nodes in the G-family of instance types, such as link:ec2/instance-types/g4/[G4,type="marketing"] or link:ec2/instance-types/g5/[G5,type="marketing"].
 * Provision Windows nodes with a container runtime with containerd `1.7.x` or `2.x.x`. (See <<eks-ami-versions-windows>> to verify the containerd version in your Amazon EKS Optimized AMI.) 
 
-[[ml-eks-windows-ami-install-gpu-driver,ml-eks-windows-ami-install-gpu-driver.title]]
+[#ml-eks-windows-ami-install-gpu-driver]
 == Install the GPU driver on each Windows Windows node
 
 To install the NVIDIA GRID drivers on your EKS worker nodes, follow the steps outlined in link:AWSEC2/latest/UserGuide/install-nvidia-driver.html[NVIDIA drivers for your Amazon EC2 instance,type="documentation"].
@@ -68,7 +68,7 @@ nvidia-smi
 
 This command displays the NVIDIA driver version, as well as information about the GPU hardware. Ensure that the output of this command matches the NVIDIA GRID driver version you expected to be installed.
 
-[[ml-eks-windows-ami-deploy-gpu-driver,ml-eks-windows-ami-deploy-gpu-driver.title]]
+[#ml-eks-windows-ami-deploy-gpu-driver]
 == Deploy the GPU device plugin on each node
 
 To enable discovery and exposure of the GPU resources to containers on your Windows nodes, you will need a device plugin.
@@ -107,7 +107,7 @@ kubectl apply -f "https://raw.githubusercontent.com/TensorWorks/directx-device-p
 ----
 
 
-[[ml-eks-windows-ami-verify-device-plugin,ml-eks-windows-ami-verify-device-plugin.title]]
+[#ml-eks-windows-ami-verify-device-plugin]
 === Verifying the device plugin deployment
 
 After you have deployed the device plugin, replace `<namespace>` and run the following command to verify the DirectX Device Plugin is running correctly on your all your Windows nodes.
@@ -117,7 +117,7 @@ kubectl get ds device-plugin-wddm -n <namespace>
 ----
 
 
-[[ml-eks-windows-ami-verify-container-deployment,ml-eks-windows-ami-verify-container-deployment.title]]
+[#ml-eks-windows-ami-verify-container-deployment]
 === Verifying containers are ready for deployment
 
 Once the device plugin DaemonSet is running on the GPU-powered Windows worker nodes, use the following command to verify that each node has allocatable GPUs. The corresponding number should match the number of DirectX devices on each node.
@@ -127,7 +127,7 @@ kubectl get nodes "-o=custom-columns=NAME:.metadata.name,DirectX:.status.allocat
 ----
 
 
-[[ml-eks-windows-ami-run-with-gpu-acceleration,ml-eks-windows-ami-run-with-gpu-acceleration.title]]
+[#ml-eks-windows-ami-run-with-gpu-acceleration]
 == Running Windows containers with GPU-acceleration
 
 Before launching your pods, specify the resource name `directx.microsoft.com/display` in `.spec.containers[].resources`.
@@ -160,10 +160,10 @@ EOF
 ----
 
 
-[[ml-eks-windows-ami-known-limitations,ml-eks-windows-ami-known-limitations.title]]
+[#ml-eks-windows-ami-known-limitations]
 == Known limitations
 
-[[ml-eks-windows-ami-gpus-usable,ml-eks-windows-ami-gpus-usable.title]]
+[#ml-eks-windows-ami-gpus-usable]
 === All GPUs are usable
 All the GPUs on the instance will be usable by each running container on the host, even when you request a specific number of GPUs for a given container. Additionally, the default behavior is that all containers running on the host will use the GPU with index 0, even if there are multiple GPUs available on the node. Thus, for multi-GPU tasks to operate correctly, you must explicitly designate the specific GPU device to be utilized within your application's code.
 
@@ -205,19 +205,19 @@ Consider a scenario whereby there is a single Windows node of EC2 instance type 
 |4
 |===
 
-[[ml-eks-windows-ami-device-plugin-support,ml-eks-windows-ami-device-plugin-support.title]]
+[#ml-eks-windows-ami-device-plugin-support]
 === Kubernetes device plugin support
 NVIDIA's official implementation of the https://github.com/NVIDIA/k8s-device-plugin[Kubernetes device plugin] does not support Windows. You can track the progress on adding official Windows support in the https://github.com/NVIDIA/k8s-device-plugin/issues/419[NVIDIA/k8s-device-plugin issue #419].
 
-[[ml-eks-windows-ami-compute-instance-limitations,ml-eks-windows-ami-compute-instance-limitations.title]]
+[#ml-eks-windows-ami-compute-instance-limitations]
 === GPU compute instance limitations
 Depending on your {aws} account configuration, you may have service limits on the number and types of Amazon EC2 GPU compute instances that you can launch. If you require additional capacity, you can link:servicequotas/latest/userguide/request-quota-increase.html[Request a quota increase,type="documentation"].
 
-[[ml-eks-windows-ami-build-gpu-ami,ml-eks-windows-ami-build-gpu-ami.title]]
+[#ml-eks-windows-ami-build-gpu-ami]
 === Must build a Windows GPU Optimized AMI
 There is no EKS Windows GPU Optimized AMI or EC2 Image Builder managed component provided by Amazon EKS. You will need to follow the steps in this guide to build a custom EKS Windows Optimized AMI with the required GPU drivers pre-installed, or install the necessary GPU drivers on your EKS worker nodes after launching your instances.
 
-[[ml-eks-windows-ami-inferentia-tranium-support,ml-eks-windows-ami-inferentia-tranium-support.title]]
+[#ml-eks-windows-ami-inferentia-tranium-support]
 === Inferentia and Trainium not supported
 {aws} link:ai/machine-learning/inferentia/[Inferentia,type="marketing"] and {aws} link:ai/machine-learning/trainium/[Trainium,type="marketing"] based workloads are not supported on Windows.
 

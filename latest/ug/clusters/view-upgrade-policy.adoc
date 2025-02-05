@@ -1,5 +1,5 @@
 [.topic]
-[[view-upgrade-policy,view-upgrade-policy.title]]
+[#view-upgrade-policy]
 = View current cluster upgrade policy
 :info_titleabbrev: View upgrade policy
 
@@ -31,13 +31,13 @@ You can only set the version support policy for your clusters while its running 
 
 For example, if you have set your version support policy as `standard` then you will not be able to change this setting after the Kubernetes version running on your cluster reaches the end of standard support. If you have set your version support policy as `extended` then you will not be able to change this setting after the Kubernetes version running on your cluster reaches end of standard support. In order to change the version support policy setting, your cluster must be running on a standard supported Kubernetes version.
 
-[[view-period-console,view-period-console.title]]
+[#view-period-console]
 == View cluster upgrade policy ({aws} Console)
 . Navigate to the *Clusters* page in the EKS section of the {aws} Console. Confirm the console is set to the same {aws} region as the cluster you want to review.  
 . Review the *Upgrade Policy* column. If the value is  *Standard Support*, your cluster will not enter extended support. If the value is  *Extended Support*, your cluster will enter extended support.
 
 
-[[view-period-cli,view-period-cli.title]]
+[#view-period-cli]
 == View cluster upgrade policy ({aws} CLI)
 . Verify the {aws} CLI is installed and you are logged in.  link:cli/latest/userguide/getting-started-install.html[Learn how to update and install the {aws} CLI.,type="documentation"]
 . Determine the name of your EKS cluster. Set the CLI to the same {aws} region as your EKS cluster. 

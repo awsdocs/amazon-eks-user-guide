@@ -1,5 +1,5 @@
 [.topic]
-[[disable-windows-support,disable-windows-support.title]]
+[#disable-windows-support]
 = Disable [.noloc]`Windows` support
 
 include::../attributes.txt[]

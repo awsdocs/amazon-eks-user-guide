@@ -1,6 +1,6 @@
 include::../attributes.txt[]
 [.topic]
-[[fargate-logging,fargate-logging.title]]
+[#fargate-logging]
 = Start {aws} Fargate logging for your cluster
 :info_titleabbrev: Logging
 
@@ -22,7 +22,7 @@ The log router allows you to use the breadth of services at {aws} for log analyt
 * An existing Fargate profile that specifies an existing [.noloc]`Kubernetes` namespace that you deploy Fargate [.noloc]`Pods` to. For more information, see <<fargate-gs-create-profile>>.
 * An existing Fargate [.noloc]`Pod` execution role. For more information, see <<fargate-sg-pod-execution-role>>.
 
-[[fargate-logging-log-router-configuration,fargate-logging-log-router-configuration.title]]
+[#fargate-logging-log-router-configuration]
 == Log router configuration
 
 In the following steps, replace every [.replaceable]`example value` with your own values.
@@ -270,7 +270,7 @@ aws iam attach-role-policy \
   --role-name [.replaceable]`AmazonEKSFargatePodExecutionRole`
 ----
 
-[[fargate-logging-kubernetes-filter,fargate-logging-kubernetes-filter.title]]
+[#fargate-logging-kubernetes-filter]
 === [.noloc]`Kubernetes` filter support
 
 This feature requires the following minimum [.noloc]`Kubernetes` version and platform level, or later.
@@ -306,7 +306,7 @@ filters.conf: |
 
 ====
 
-[[ship-fluent-bit-process-logs,ship-fluent-bit-process-logs.title]]
+[#ship-fluent-bit-process-logs]
 === To ship [.noloc]`Fluent Bit` process logs to your account
 
 You can optionally ship [.noloc]`Fluent Bit` process logs to Amazon CloudWatch using the following `ConfigMap`. Shipping Fluent Bit process logs to CloudWatch requires additional log ingestion and storage costs. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
@@ -344,7 +344,7 @@ The logs are in the {aws} Region that the cluster resides in under CloudWatch. T
 
 ====
 
-[[stop-fluent-bit-process-logs,stop-fluent-bit-process-logs.title]]
+[#stop-fluent-bit-process-logs]
 === To stop shipping [.noloc]`Fluent Bit` process logs
 
 Shipping [.noloc]`Fluent Bit` process logs to CloudWatch requires additional log ingestion and storage costs. To exclude process logs in an existing `ConfigMap` setup, do the following steps.
@@ -354,7 +354,7 @@ Shipping [.noloc]`Fluent Bit` process logs to CloudWatch requires additional log
 . Edit the `ConfigMap` and set `flb_log_cw: "false"`.
 . Restart any existing [.noloc]`Pods` in the cluster.
 
-[[fargate-logging-test-application,fargate-logging-test-application.title]]
+[#fargate-logging-test-application]
 == Test application
 . Deploy a sample [.noloc]`Pod`.
 +
@@ -392,12 +392,12 @@ kubectl apply -f sample-app.yaml
 ----
 . View the NGINX logs using the destination(s) that you configured in the `ConfigMap`.
 
-[[fargate-logging-size-considerations,fargate-logging-size-considerations.title]]
+[#fargate-logging-size-considerations]
 == Size considerations
 
 We suggest that you plan for up to 50 MB of memory for the log router. If you expect your application to generate logs at very high throughput then you should plan for up to 100 MB.
 
-[[fargate-logging-troubleshooting,fargate-logging-troubleshooting.title]]
+[#fargate-logging-troubleshooting]
 == Troubleshooting
 
 To confirm whether the logging feature is enabled or disabled for some reason, such as an invalid `ConfigMap`, and why it's invalid, check your [.noloc]`Pod` events with `kubectl describe pod [.replaceable]``pod-name```. The output might include [.noloc]`Pod` events that clarify whether logging is enabled or not, such as the following example output.

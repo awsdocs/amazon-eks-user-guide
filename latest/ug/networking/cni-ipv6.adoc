@@ -1,5 +1,5 @@
 [.topic]
-[[cni-ipv6,cni-ipv6.title]]
+[#cni-ipv6]
 = Learn about IPv6 addresses to clusters, [.noloc]`Pods`, and services
 :info_titleabbrev: IPv6
 
@@ -20,7 +20,7 @@ You select which IP family you want to use for your cluster when you create it. 
 
 For a tutorial to deploy an Amazon EKS `IPv6` cluster, see <<deploy-ipv6-cluster>>.
 
-//[[ipv6-considerations,ipv6-considerations.title]]
+//[#ipv6-considerations]
 //===== Considerations 
 
 The following are considerations for using the feature:

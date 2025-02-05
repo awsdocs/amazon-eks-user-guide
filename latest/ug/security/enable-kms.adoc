@@ -1,5 +1,5 @@
 [.topic]
-[[enable-kms,enable-kms.title]]
+[#enable-kms]
 = Encrypt Kubernetes secrets with {aws} KMS on existing clusters
 :info_titleabbrev: Enable secret encryption
 

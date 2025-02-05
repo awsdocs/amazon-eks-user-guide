@@ -1,6 +1,6 @@
 include::../attributes.txt[]
 [.topic]
-[[understanding-service-name-entries,understanding-service-name-entries.title]]
+[#understanding-service-name-entries]
 = Analyze {aws} CloudTrail log file entries
 :info_titleabbrev: Log file entries
 
@@ -69,7 +69,7 @@ The following example shows a CloudTrail log entry that demonstrates the  link:e
 ----
 
 
-[[eks-service-linked-role-ct,eks-service-linked-role-ct.title]]
+[#eks-service-linked-role-ct]
 == Log Entries for Amazon EKS Service Linked Roles
 
 The Amazon EKS service linked roles make API calls to {aws} resources. CloudTrail log entries with `username: AWSServiceRoleForAmazonEKS` and `username: AWSServiceRoleForAmazonEKSNodegroup` appears for calls made by the Amazon EKS service linked roles. For more information about Amazon EKS and service linked roles, see <<using-service-linked-roles>>.

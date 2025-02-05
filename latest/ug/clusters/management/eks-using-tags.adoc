@@ -1,5 +1,5 @@
 [.topic]
-[[eks-using-tags,eks-using-tags.title]]
+[#eks-using-tags]
 = Organize Amazon EKS resources with tags
 :info_titleabbrev: Tagging your resources
 :keywords: metadata, tag, resources
@@ -28,7 +28,7 @@ Tags are a type of metadata that's separate from [.noloc]`Kubernetes` labels and
 
 ====
 
-[[tag-basics,tag-basics.title]]
+[#tag-basics]
 == Tag basics
 
 A tag is a label that you assign to an {aws} resource. Each tag consists of a  _key_ and an optional _value_.
@@ -41,7 +41,7 @@ Tags don't have any semantic meaning to Amazon EKS and are interpreted strictly 
 
 If you use {aws} Identity and Access Management (IAM), you can control which users in your {aws} account have permission to manage tags.
 
-[[tag-resources,tag-resources.title]]
+[#tag-resources]
 == Tagging your resources
 
 The following Amazon EKS resources support tags:
@@ -64,7 +64,7 @@ When you use some resource-creating actions, you can also specify tags for the r
 
 Tags don't propagate to other resources that are associated with the resource that you create. For example, Fargate profile tags don't propagate to other resources that are associated with the Fargate profile, such as the [.noloc]`Pods` that are scheduled with it.
 
-[[tag-restrictions,tag-restrictions.title]]
+[#tag-restrictions]
 == Tag restrictions
 
 The following restrictions apply to tags:
@@ -78,7 +78,7 @@ The following restrictions apply to tags:
 * Don't use `aws:`, `{aws}:`, or any upper or lowercase combination of such as a prefix for either keys or values. These are reserved only for {aws} use. You can't edit or delete tag keys or values with this prefix. Tags with this prefix don't count against your tags-per-resource limit.
 
 
-[[tag-resources-for-billing,tag-resources-for-billing.title]]
+[#tag-resources-for-billing]
 == Tagging your resources for billing
 
 When you apply tags to Amazon EKS clusters, you can use them for cost allocation in your  *Cost & Usage Reports*. The metering data in your  *Cost & Usage Reports* shows usage across all of your Amazon EKS clusters. For more information, see link:awsaccountbilling/latest/aboutv2/billing-reports-costusage.html[{aws} cost and usage report,type="documentation"] in the _{aws} Billing User Guide_.
@@ -96,7 +96,7 @@ If you just enabled reporting, data for the current month is available for viewi
 
 *Cost Explorer*  is a reporting tool that's available as part of the {aws} Free Tier. You can use  *Cost Explorer* to view charts of your Amazon EKS resources from the last 13 months. You can also forecast how much you're likely to spend for the next three months. You can see patterns in how much you spend on {aws} resources over time. For example, you can use it to identify areas that need further inquiry and see trends that you can use to understand your costs. You also can specify time ranges for the data, and view time data by day or by month.
 
-[[tag-resources-console,tag-resources-console.title]]
+[#tag-resources-console]
 == Working with tags using the console
 
 Using the Amazon EKS console, you can manage the tags that are associated with new or existing clusters and managed node groups.
@@ -105,12 +105,12 @@ When you select a resource-specific page in the Amazon EKS console, the page dis
 
 You can also use *Tag Editor* in the {aws-management-console}, which provides a unified way to manage your tags. For more information, see link:ARG/latest/userguide/tag-editor.html[Tagging your {aws} resources with Tag Editor,type="documentation"] in the _{aws} Tag Editor User Guide_.
 
-[[adding-tags-creation,adding-tags-creation.title]]
+[#adding-tags-creation]
 === Adding tags on a resource on creation
 
 You can add tags to Amazon EKS clusters, managed node groups, and Fargate profiles when you create them. For more information, see <<create-cluster>>.
 
-[[adding-or-deleting-tags,adding-or-deleting-tags.title]]
+[#adding-or-deleting-tags]
 === Adding and deleting tags on a resource
 
 You can add or delete the tags that are associated with your clusters directly from the resource's page.  
@@ -128,7 +128,7 @@ You can add or delete the tags that are associated with your clusters directly f
 . Choose *Update* to finish.
 
 
-[[tag-resources-api-sdk,tag-resources-api-sdk.title]]
+[#tag-resources-api-sdk]
 == Working with tags using the CLI, API, or `eksctl`
 
 Use the following {aws} CLI commands or Amazon EKS API operations to add, update, list, and delete the tags for your resources. You can only use `eksctl` to add tags while simultaneously creating the new resources with one command.

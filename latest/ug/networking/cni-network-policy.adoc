@@ -1,5 +1,5 @@
 [.topic]
-[[cni-network-policy,cni-network-policy.title]]
+[#cni-network-policy]
 = Limit [.noloc]`Pod` traffic with [.noloc]`Kubernetes` network policies
 :info_titleabbrev: Kubernetes policies
 
@@ -33,7 +33,7 @@ Network policies in the [.noloc]`Amazon VPC CNI plugin for Kubernetes` are suppo
 * You can use network policies with _custom networking_ and _prefix delegation_.
 
 
-[[cni-network-policy-considerations,cni-network-policy-considerations.title]]
+[#cni-network-policy-considerations]
 == Considerations
 
 *Architecture*

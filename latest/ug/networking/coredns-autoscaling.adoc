@@ -1,5 +1,5 @@
 [.topic]
-[[coredns-autoscaling,coredns-autoscaling.title]]
+[#coredns-autoscaling]
 = Scale [.noloc]`CoreDNS Pods` for high DNS traffic
 :info_titleabbrev: Scale for high traffic
 
@@ -16,7 +16,7 @@ To handle the increased load on the [.noloc]`CoreDNS` pods, consider an autoscal
 
 We recommend using this feature in conjunction with other https://aws.github.io/aws-eks-best-practices/cluster-autoscaling/[EKS Cluster Autoscaling best practices] to improve overall application availability and cluster scalability.
 
-[[coredns-autoscaling-prereqs,coredns-autoscaling-prereqs.title]]
+[#coredns-autoscaling-prereqs]
 == Prerequisites
 
 For Amazon EKS to scale your [.noloc]`CoreDNS` deployment, there are three prerequisites:
@@ -28,7 +28,7 @@ For Amazon EKS to scale your [.noloc]`CoreDNS` deployment, there are three prere
 * Your cluster must be running at least the minimum version of the EKS Add-on of [.noloc]`CoreDNS`.
 
 
-[[coredns-autoscaling-cluster-version,coredns-autoscaling-cluster-version.title]]
+[#coredns-autoscaling-cluster-version]
 === Minimum cluster version
 
 Autoscaling of [.noloc]`CoreDNS` is done by a new component in the cluster control plane, managed by Amazon EKS. Because of this, you must upgrade your cluster to an EKS release that supports the minimum platform version that has the new component.
@@ -71,7 +71,7 @@ Every platform version of later [.noloc]`Kubernetes` versions are also supported
 
 ====
 
-[[coredns-autoscaling-coredns-version,coredns-autoscaling-coredns-version.title]]
+[#coredns-autoscaling-coredns-version]
 === Minimum EKS Add-on version
 
 [cols="1,1,1,1,1,1", options="header"]
@@ -93,7 +93,7 @@ Every platform version of later [.noloc]`Kubernetes` versions are also supported
 |===
 
 
-[[coredns-autoscaling-console,coredns-autoscaling-console.title]]
+[#coredns-autoscaling-console]
 .Configuring [.noloc]`CoreDNS` autoscaling in the {aws-management-console}
 [%collapsible]
 ====
@@ -188,7 +188,7 @@ If the rollout takes too long, Amazon EKS will undo the rollout, and a message w
 
 ====
 
-[[coredns-autoscaling-cli,coredns-autoscaling-cli.title]]
+[#coredns-autoscaling-cli]
 .Configuring [.noloc]`CoreDNS` autoscaling in the {aws} Command Line Interface
 [%collapsible]
 ====

@@ -1,5 +1,5 @@
 [.topic]
-[[addon-compat,addon-compat.title]]
+[#addon-compat]
 = Verify Amazon EKS add-on version compatibility with a cluster
 :info_titleabbrev: Verify compatibility
 

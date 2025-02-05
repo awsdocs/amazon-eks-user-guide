@@ -1,5 +1,5 @@
 [.topic]
-[[private-clusters,private-clusters.title]]
+[#private-clusters]
 = Deploy private clusters with limited internet access
 :info_titleabbrev: Private clusters
 

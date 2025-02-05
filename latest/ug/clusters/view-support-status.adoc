@@ -1,5 +1,5 @@
 [.topic]
-[[view-support-status,view-support-status.title]]
+[#view-support-status]
 = View current cluster support period
 :info_titleabbrev: View support period
 

@@ -1,5 +1,5 @@
 [.topic]
-[[infrastructure-security,infrastructure-security.title]]
+[#infrastructure-security]
 = Infrastructure security in Amazon EKS
 :info_titleabbrev: Infrastructure security
 

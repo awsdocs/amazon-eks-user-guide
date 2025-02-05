@@ -1,5 +1,5 @@
 [.topic]
-[[add-ons-iam,add-ons-iam.title]]
+[#add-ons-iam]
 = IAM roles for Amazon EKS add-ons
 :info_titleabbrev: IAM roles
 

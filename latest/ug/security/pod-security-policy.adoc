@@ -1,5 +1,5 @@
 [.topic]
-[[pod-security-policy,pod-security-policy.title]]
+[#pod-security-policy]
 = Understand Amazon EKS created [.noloc]`Pod` security policies [.noloc]`(PSP)`
 :info_titleabbrev: Legacy default PSP
 
@@ -19,7 +19,7 @@ The `PodSecurityPolicy` ([.noloc]`PSP`) was deprecated in [.noloc]`Kubernetes` v
 
 ====
 
-[[default-psp,default-psp.title]]
+[#default-psp]
 == Amazon EKS default [.noloc]`Pod` security policy
 
 Amazon EKS clusters with [.noloc]`Kubernetes` version `1.13` or higher have a default [.noloc]`Pod` security policy named `eks.privileged`. This policy has no restriction on what kind of [.noloc]`Pod` can be accepted into the system, which is equivalent to running [.noloc]`Kubernetes` with the `PodSecurityPolicy` controller disabled.
@@ -86,7 +86,7 @@ Settings:
 
 You can view the full YAML file for the `eks.privileged` [.noloc]`Pod` security policy, its cluster role, and cluster role binding in  <<psp-install-or-restore-default,Install or restore the default Pod security policy>>.
 
-[[psp-delete-default,psp-delete-default.title]]
+[#psp-delete-default]
 == Delete the default Amazon EKS [.noloc]`Pod` security policy
 
 If you create more restrictive policies for your [.noloc]`Pods`, then after doing so, you can delete the default Amazon EKS `eks.privileged` [.noloc]`Pod` security policy to enable your custom policies.
@@ -106,7 +106,7 @@ kubectl delete -f privileged-podsecuritypolicy.yaml
 ----
 
 
-[[psp-install-or-restore-default,psp-install-or-restore-default.title]]
+[#psp-install-or-restore-default]
 == Install or restore the default [.noloc]`Pod` security policy
 
 If you are upgrading from an earlier version of [.noloc]`Kubernetes`, or have modified or deleted the default Amazon EKS `eks.privileged` [.noloc]`Pod` security policy, you can restore it with the following steps.

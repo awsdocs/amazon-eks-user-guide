@@ -1,5 +1,5 @@
 [.topic]
-[[eks-networking-add-ons,eks-networking-add-ons.title]]
+[#eks-networking-add-ons]
 = Manage networking add-ons for Amazon EKS clusters
 :info_titleabbrev: Manage networking add-ons
 
@@ -23,7 +23,7 @@ Learn how to manage networking add-ons for your Amazon EKS cluster, including bu
 Several networking add-ons are available for your Amazon EKS cluster.
 
 
-[[eks-networking-add-ons-built-in,eks-networking-add-ons-built-in.title]]
+[#eks-networking-add-ons-built-in]
 == Built-in add-ons
 
 [NOTE]
@@ -45,7 +45,7 @@ This CNI add-on creates elastic network interfaces and attaches them to your Ama
 This add-on maintains network rules on your Amazon EC2 nodes and enables network communication to your [.noloc]`Pods`. This add-on is installed, by default, on your cluster. For more information, see <<managing-kube-proxy>>.
 
 
-[[eks-networking-add-ons-optional,eks-networking-add-ons-optional.title]]
+[#eks-networking-add-ons-optional]
 == Optional {aws} networking add-ons
 
 *[.noloc]`{aws} Load Balancer Controller`*::

@@ -1,5 +1,5 @@
 [.topic]
-[[create-vpc-console,create-vpc-console.title]]
+[#create-vpc-console]
 = Create a VPC for Amazon EKS with the web console
 
 include::../../attributes.txt[]

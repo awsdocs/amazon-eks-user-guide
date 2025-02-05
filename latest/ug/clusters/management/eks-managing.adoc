@@ -1,4 +1,4 @@
-[[eks-managing,eks-managing.title]]
+[#eks-managing]
 = Organize and monitor cluster resources
 :doctype: book
 :sectnums:

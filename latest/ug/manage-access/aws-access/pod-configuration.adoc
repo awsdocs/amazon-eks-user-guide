@@ -1,5 +1,5 @@
 [.topic]
-[[pod-configuration,pod-configuration.title]]
+[#pod-configuration]
 = Configure [.noloc]`Pods` to use a [.noloc]`Kubernetes` service account
 :info_titleabbrev: Assign to Pod
 

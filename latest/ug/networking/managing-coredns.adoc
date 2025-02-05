@@ -1,5 +1,5 @@
 [.topic]
-[[managing-coredns,managing-coredns.title]]
+[#managing-coredns]
 = Manage CoreDNS for DNS in Amazon EKS clusters
 :info_titleabbrev: CoreDNS
 
@@ -29,7 +29,7 @@ For more information, see <<automode>>.
 
 [.noloc]`CoreDNS` is a flexible, extensible DNS server that can serve as the [.noloc]`Kubernetes` cluster DNS. When you launch an Amazon EKS cluster with at least one node, two replicas of the [.noloc]`CoreDNS` image are deployed by default, regardless of the number of nodes deployed in your cluster. The [.noloc]`CoreDNS` [.noloc]`Pods` provide name resolution for all [.noloc]`Pods` in the cluster. The [.noloc]`CoreDNS` [.noloc]`Pods` can be deployed to Fargate nodes if your cluster includes a Fargate Profile with a namespace that matches the namespace for the [.noloc]`CoreDNS` `deployment`. For more information on Fargate Profiles, see <<fargate-profile>>. For more information about [.noloc]`CoreDNS`, see https://kubernetes.io/docs/tasks/administer-cluster/coredns/[Using CoreDNS for Service Discovery] in the [.noloc]`Kubernetes` documentation.
 
-[[coredns-versions,coredns-versions.title]]
+[#coredns-versions]
 == [.noloc]`CoreDNS` versions
 
 The following table lists the latest version of the Amazon EKS add-on type for each [.noloc]`Kubernetes` version.
@@ -56,7 +56,7 @@ If you're self-managing this add-on, the versions in the table might not be the 
 
 ====
 
-[[coredns-upgrade,coredns-upgrade.title]]
+[#coredns-upgrade]
 == Important [.noloc]`CoreDNS` upgrade considerations
 
 * To improve the stability and availability of the [.noloc]`CoreDNS` [.noloc]`Deployment`, versions `v1.9.3-eksbuild.6` and later and `v1.10.1-eksbuild.3` are deployed with a `PodDisruptionBudget`. If you've deployed an existing `PodDisruptionBudget`, your upgrade to these versions might fail. If the upgrade fails, completing one of the following tasks should resolve the issue:
@@ -104,7 +104,7 @@ topologySpreadConstraints:
 ----
 
 
-[[coredns-upgrade-1.11,coredns-upgrade-1.11.title]]
+[#coredns-upgrade-1.11]
 === [.noloc]`CoreDNS` `v1.11` upgrade considerations
 
 * In EKS add-on versions `v1.11.1-eksbuild.4` and later, the container image is based on a https://gallery.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base[minimal base image] maintained by Amazon EKS Distro, which contains minimal packages and doesn't have shells. For more information, see https://distro.eks.amazonaws.com/[Amazon EKS Distro]. The usage and troubleshooting of the [.noloc]`CoreDNS` image remains the same.

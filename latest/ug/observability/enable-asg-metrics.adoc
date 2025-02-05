@@ -1,5 +1,5 @@
 [.topic]
-[[enable-asg-metrics,enable-asg-metrics.title]]
+[#enable-asg-metrics]
 = View metrics for Amazon EC2 Auto Scaling groups
 :info_titleabbrev: Auto Scaling group metrics
 

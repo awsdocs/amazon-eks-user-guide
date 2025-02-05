@@ -1,5 +1,5 @@
 [.topic]
-[[cni-network-policy-configure,cni-network-policy-configure.title]]
+[#cni-network-policy-configure]
 = Restrict Pod network traffic with [.noloc]`Kubernetes` network policies
 :info_titleabbrev: Restrict traffic
 
@@ -20,12 +20,12 @@ You must configure the following in order to use this feature:
 
 Before you begin, review the considerations. For more information, see <<cni-network-policy-considerations>>.
 
-[[cni-network-policy-prereqs,cni-network-policy-prereqs.title]]
+[#cni-network-policy-prereqs]
 == Prerequisites 
 
 The following are prerequisites for the feature:
 
-[[cni-network-policy-minimum,cni-network-policy-minimum.title]]
+[#cni-network-policy-minimum]
 === Minimum cluster version
 An existing Amazon EKS cluster. To deploy one, see <<getting-started>>. The cluster must be [.noloc]`Kubernetes` version `1.25` or later. The cluster must be running one of the [.noloc]`Kubernetes` versions and platform versions listed in the following table. Note that any [.noloc]`Kubernetes` and platform versions later than those listed are also supported. You can check your current [.noloc]`Kubernetes` version by replacing [.replaceable]`my-cluster` in the following command with the name of your cluster and then running the modified command:
 
@@ -53,7 +53,7 @@ aws eks describe-cluster
 
 |===
 
-[[cni-network-policy-minimum-vpc,cni-network-policy-minimum-vpc.title]]
+[#cni-network-policy-minimum-vpc]
 === Minimum VPC CNI version
 
 Version `1.14` or later of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` on your cluster. You can see which version that you currently have with the following command.
@@ -65,13 +65,13 @@ kubectl describe daemonset aws-node --namespace kube-system | grep amazon-k8s-cn
 
 If your version is earlier than `1.14`, see <<vpc-add-on-update>> to upgrade to version `1.14` or later.
 
-[[cni-network-policy-minimum-linux,cni-network-policy-minimum-linux.title]]
+[#cni-network-policy-minimum-linux]
 === Minimum Linux kernel version
 Your nodes must have Linux kernel version `5.10` or later. You can check your kernel version with `uname -r`. If you're using the latest versions of the Amazon EKS optimized Amazon Linux, Amazon EKS optimized accelerated Amazon Linux AMIs, and Bottlerocket AMIs, they already have the required kernel version.
 
 The Amazon EKS optimized accelerated Amazon Linux AMI version `v20231116` or later have kernel version `5.10`.
 
-[[cni-network-policy-configure-policy,cni-network-policy-configure-policy.title]]
+[#cni-network-policy-configure-policy]
 == Step 1: Set up policy enforcement at [.noloc]`Pod` startup
 
 The [.noloc]`Amazon VPC CNI plugin for Kubernetes` configures network policies for pods in parallel with the pod provisioning. Until all of the policies are configured for the new pod, containers in the new pod will start with a  _default allow policy_. This is called _standard mode_. A default allow policy means that all ingress and egress traffic is allowed to and from the new pods. For example, the pods will not have any firewall rules enforced (all traffic is allowed) until the new pod is updated with the active policies. 
@@ -88,14 +88,14 @@ env:
 ----
 
 
-[[enable-network-policy-parameter,enable-network-policy-parameter.title]]
+[#enable-network-policy-parameter]
 == Step 2: Enable the network policy parameter for the add-on
 
 The network policy feature uses port `8162` on the node for metrics by default. Also, the feature used port `8163` for health probes. If you run another application on the nodes or inside pods that needs to use these ports, the app fails to run. In VPC CNI version `v1.14.1` or later, you can change these ports.
 
 Use the following procedure to enable the network policy parameter for the add-on.
 
-[[cni-network-policy-console,cni-network-policy-console.title]]
+[#cni-network-policy-console]
 === {aws-management-console}
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
@@ -121,7 +121,7 @@ The following example has network policy feature enabled and metrics and health 
 }
 ----
 
-[[cni-network-helm,cni-network-helm.title]]
+[#cni-network-helm]
 === Helm
 
 If you have installed the [.noloc]`Amazon VPC CNI plugin for Kubernetes` through `helm`, you can update the configuration to change the ports.
@@ -133,7 +133,7 @@ If you have installed the [.noloc]`Amazon VPC CNI plugin for Kubernetes` through
 helm upgrade --set nodeAgent.metricsBindAddr=8162 --set nodeAgent.healthProbeBindAddr=8163 aws-vpc-cni --namespace kube-system eks/aws-vpc-cni
 ----
 
-[[cni-network-policy-kubectl,cni-network-policy-kubectl.title]]
+[#cni-network-policy-kubectl]
 === [.noloc]`kubectl`
 . Open the `aws-node` `DaemonSet` in your editor.
 +
@@ -151,7 +151,7 @@ kubectl edit daemonset -n kube-system aws-node
 ----
 
 
-[[cni-mount-bpf,cni-mount-bpf.title]]
+[#cni-mount-bpf]
 == Step 3: Mount the Berkeley Packet Filter (BPF) file system on your nodes
 
 You must mount the Berkeley Packet Filter (BPF) file system on each of your nodes.
@@ -173,18 +173,18 @@ sudo mount -t bpf bpffs /sys/fs/bpf
 . Then, add the same command to your user data in your launch template for your Amazon EC2 Auto Scaling Groups.
 
 
-[[cni-network-policy-setup,cni-network-policy-setup.title]]
+[#cni-network-policy-setup]
 == Step 4: Configure your cluster to use [.noloc]`Kubernetes` network policies
 
 Configure the cluster to use [.noloc]`Kubernetes` network policies. You can set this for an Amazon EKS add-on or self-managed add-on.
 
 
-[[cni-network-policy-setup-procedure-add-on,cni-network-policy-setup-procedure-add-on.title]]
+[#cni-network-policy-setup-procedure-add-on]
 .Amazon EKS add-on
 [%collapsible]
 ====
 
-[[cni-network-policy-setup-console,cni-network-policy-setup-console.title]]
+[#cni-network-policy-setup-console]
 [discrete]
 === {aws-management-console}
 
@@ -207,7 +207,7 @@ The following screenshot shows an example of this scenario.
 +
 image::images/console-cni-config-network-policy.png[{aws-management-console} showing the VPC CNI add-on with network policy in the optional configuration.,scaledwidth=80%]
 
-[[cni-network-policy-setup-cli,cni-network-policy-setup-cli.title]]
+[#cni-network-policy-setup-cli]
 [discrete]
 === {aws} CLI
 
@@ -222,12 +222,12 @@ aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-vers
 
 ====
 
-[[cni-network-policy-setup-procedure-self-managed-add-on,cni-network-policy-setup-procedure-self-managed-add-on.title]]
+[#cni-network-policy-setup-procedure-self-managed-add-on]
 .Self-managed add-on
 [%collapsible]
 ====
 
-[[cni-network-policy-helm,cni-network-policy-helm.title]]
+[#cni-network-policy-helm]
 [discrete]
 === Helm
 
@@ -240,7 +240,7 @@ If you have installed the [.noloc]`Amazon VPC CNI plugin for Kubernetes` through
 helm upgrade --set enableNetworkPolicy=true aws-vpc-cni --namespace kube-system eks/aws-vpc-cni
 ----
 
-[[cni-network-policy-setup-kubectl,cni-network-policy-setup-kubectl.title]]
+[#cni-network-policy-setup-kubectl]
 [discrete]
 === [.noloc]`kubectl`
 
@@ -285,7 +285,7 @@ kubectl edit daemonset -n kube-system aws-node
 
 ====
 
-[[cni-network-policy-setup-procedure-confirm,cni-network-policy-setup-procedure-confirm.title]]
+[#cni-network-policy-setup-procedure-confirm]
 == Step 5. Next steps
 
 After you complete the configuration, confirm that the `aws-node` pods are running on your cluster.

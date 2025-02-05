@@ -1,5 +1,5 @@
 [.topic]
-[[cluster-auth,cluster-auth.title]]
+[#cluster-auth]
 = Learn how access control works in Amazon EKS
 :doctype: book
 :sectnums:

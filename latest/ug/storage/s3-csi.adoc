@@ -1,5 +1,5 @@
 [.topic]
-[[s3-csi,s3-csi.title]]
+[#s3-csi]
 = Access Amazon S3 objects with Mountpoint for Amazon S3 CSI driver
 :info_titleabbrev: Mountpoint for Amazon S3
 :keywords: Mountpoint for Amazon S3 CSI driver, storage
@@ -13,7 +13,7 @@ Learn about the Amazon S3 Container Storage Interface (CSI) driver, which provid
 
 With the https://github.com/awslabs/mountpoint-s3-csi-driver[Mountpoint for Amazon S3 Container Storage Interface (CSI) driver], your [.noloc]`Kubernetes` applications can access Amazon S3 objects through a file system interface, achieving high aggregate throughput without changing any application code. Built on https://github.com/awslabs/mountpoint-s3[Mountpoint for Amazon S3], the CSI driver presents an Amazon S3 bucket as a volume that can be accessed by containers in Amazon EKS and self-managed [.noloc]`Kubernetes` clusters. This topic shows you how to deploy the [.noloc]`Mountpoint` for Amazon S3 CSI driver to your Amazon EKS cluster.
 
-[[s3-csi-considerations,s3-csi-considerations.title]]
+[#s3-csi-considerations]
 == Considerations
 
 * The [.noloc]`Mountpoint` for Amazon S3 CSI driver isn't presently compatible with Windows-based container images.
@@ -25,7 +25,7 @@ NOTE: Static provisioning refers to using an existing Amazon S3 bucket that is s
 * Volumes mounted with the [.noloc]`Mountpoint` for Amazon S3 CSI driver don't support all POSIX file-system features. For details about file-system behavior, see https://github.com/awslabs/mountpoint-s3/blob/main/doc/SEMANTICS.md[Mountpoint for Amazon S3 file system behavior] on [.noloc]`GitHub`.
 
 
-[[s3-csi-prereqs,s3-csi-prereqs.title]]
+[#s3-csi-prereqs]
 == Prerequisites
 
 * An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
@@ -33,7 +33,7 @@ NOTE: Static provisioning refers to using an existing Amazon S3 bucket that is s
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 
 
-[[s3-create-iam-policy,s3-create-iam-policy.title]]
+[#s3-create-iam-policy]
 == Create an IAM policy
 
 The [.noloc]`Mountpoint` for Amazon S3 CSI driver requires Amazon S3 permissions to interact with your file system. This section shows how to create an IAM policy that grants the necessary permissions.
@@ -104,7 +104,7 @@ Below is an example of least-privilege policy that you would use for a directory
 . Choose *Create policy*.
 
 
-[[s3-create-iam-role,s3-create-iam-role.title]]
+[#s3-create-iam-role]
 == Create an IAM role
 
 The [.noloc]`Mountpoint` for Amazon S3 CSI driver requires Amazon S3 permissions to interact with your file system. This section shows how to create an IAM role to delegate these permissions. To create this role, you can use one of these tools:
@@ -270,7 +270,7 @@ kubectl apply -f mountpoint-s3-service-account.yaml
 NOTE: When you deploy the plugin in this procedure, it creates and is configured to use a service account named `s3-csi-driver-sa`. 
 
 
-[[s3-install-driver,s3-install-driver.title]]
+[#s3-install-driver]
 == Install the [.noloc]`Mountpoint` for Amazon S3 CSI driver
 
 You may install the [.noloc]`Mountpoint` for Amazon S3 CSI driver through the Amazon EKS add-on. You can use the following tools to add the add-on to your cluster:  
@@ -354,17 +354,17 @@ aws eks create-addon --cluster-name my-cluster --addon-name aws-mountpoint-s3-cs
 ----
 
 
-[[s3-configure-mountpoint,s3-configure-mountpoint.title]]
+[#s3-configure-mountpoint]
 == Configure [.noloc]`Mountpoint` for Amazon S3
 
 In most cases, you can configure [.noloc]`Mountpoint` for Amazon S3 with only a bucket name. For instructions on configuring [.noloc]`Mountpoint` for Amazon S3, see https://github.com/awslabs/mountpoint-s3/blob/main/doc/CONFIGURATION.md[Configuring Mountpoint for Amazon S3] on [.noloc]`GitHub`.
 
-[[s3-sample-app,s3-sample-app.title]]
+[#s3-sample-app]
 == Deploy a sample application
 
 You can deploy static provisioning to the driver on an existing Amazon S3 bucket. For more information, see https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/examples/kubernetes/static_provisioning/README.md[Static provisioning] on [.noloc]`GitHub`.
 
-[[removing-s3-csi-eks-add-on,removing-s3-csi-eks-add-on.title]]
+[#removing-s3-csi-eks-add-on]
 == Remove [.noloc]`Mountpoint` for Amazon S3 CSI Driver
 
 You have two options for removing an Amazon EKS add-on.

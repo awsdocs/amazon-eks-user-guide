@@ -1,5 +1,5 @@
 [.topic]
-[[dockershim-deprecation,dockershim-deprecation.title]]
+[#dockershim-deprecation]
 = Migrate from `dockershim` to `containerd`
 :info_titleabbrev: Dockershim deprecation
 
@@ -46,7 +46,7 @@ If the output is `0`, then run either of the following commands to activate the 
 
 For the setting's activation on Amazon EKS AMIs for Amazon Linux 2 in the `containerd` runtime, see `https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/provisioners/install-worker.sh[install-worker.sh]` on [.noloc]`GitHub`.
 
-[[containerd-bootstrap,containerd-bootstrap.title]]
+[#containerd-bootstrap]
 == Test Amazon Linux 2 migration from [.noloc]`Docker` to `containerd`
 
 For [.noloc]`Kubernetes` version `1.23`, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized AL2 AMIs. This feature gives you a clear path to migrate to `containerd` when updating to version `1.24` or later. Amazon EKS ended support for [.noloc]`Docker` starting with the [.noloc]`Kubernetes` version `1.24` launch. The `containerd` runtime is widely adopted in the [.noloc]`Kubernetes` community and is a graduated project with the CNCF. You can test it by adding a node group to a new or existing cluster.

@@ -1,5 +1,5 @@
 [.topic]
-[[copy-image-to-repository,copy-image-to-repository.title]]
+[#copy-image-to-repository]
 = Copy a container image from one repository to another repository
 :info_titleabbrev: Copy an image to a repository
 

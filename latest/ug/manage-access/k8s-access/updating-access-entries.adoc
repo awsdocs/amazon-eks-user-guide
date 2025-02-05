@@ -1,5 +1,5 @@
 [.topic]
-[[updating-access-entries,updating-access-entries.title]]
+[#updating-access-entries]
 = Update access entries
 
 include::../../attributes.txt[]
@@ -7,7 +7,7 @@ include::../../attributes.txt[]
 You can update an access entry using the {aws-management-console} or the {aws} CLI.
 
 
-[[access-update-console,access-update-console.title]]
+[#access-update-console]
 == {aws-management-console}
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the name of the cluster that you want to create an access entry in.
@@ -20,7 +20,7 @@ You can update an access entry using the {aws-management-console} or the {aws} C
 . Choose *Save changes*.
 . If you want to associate an access policy to the entry, see <<access-policies>>.
 
-[[access-update-cli,access-update-cli.title]]
+[#access-update-cli]
 == {aws} CLI
 . Install the {aws} CLI, as described in  link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
 . To update an access entry

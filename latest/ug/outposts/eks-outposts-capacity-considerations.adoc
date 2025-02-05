@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[eks-outposts-capacity-considerations,eks-outposts-capacity-considerations.title]]
+[#eks-outposts-capacity-considerations]
 = Select instance types and placement groups for Amazon EKS clusters on {aws} Outposts based on capacity considerations
 :info_titleabbrev: Capacity considerations
 
@@ -42,7 +42,7 @@ The instance sizes must be slotted on your Outposts. Make sure that you have eno
 
 The storage for the [.noloc]`Kubernetes` control plane requires 246 GB of Amazon EBS storage for each local cluster to meet the required IOPS for `etcd`. When the local cluster is created, the Amazon EBS volumes are provisioned automatically for you.
 
-[[outpost-capacity-considerations-control-plane-placement,outpost-capacity-considerations-control-plane-placement.title]]
+[#outpost-capacity-considerations-control-plane-placement]
 == Control plane placement
 
 When you don't specify a placement group with the `OutpostConfig.ControlPlanePlacement.GroupName` property, the Amazon EC2 instances provisioned for your [.noloc]`Kubernetes` control plane don't receive any specific hardware placement enforcement across the underlying capacity available on your Outpost.

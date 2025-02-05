@@ -1,5 +1,5 @@
 [.topic]
-[[retrieve-ami-id,retrieve-ami-id.title]]
+[#retrieve-ami-id]
 = Retrieve recommended Amazon Linux AMI IDs
 :info_titleabbrev: Get latest IDs
 

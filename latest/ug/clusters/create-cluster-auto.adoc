@@ -1,5 +1,5 @@
 [.topic]
-[[create-cluster-auto,create-cluster-auto.title]]
+[#create-cluster-auto]
 = Create an Amazon EKS Auto Mode cluster
 :info_titleabbrev: Create auto cluster
 :idprefix: id_

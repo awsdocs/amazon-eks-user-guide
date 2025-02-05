@@ -1,5 +1,5 @@
 [.topic]
-[[eks-optimized-amis,eks-optimized-amis.title]]
+[#eks-optimized-amis]
 = Create nodes with pre-built optimized images
 :info_titleabbrev: Pre-built optimized AMIs
 :keywords: optimized, custom, AMI

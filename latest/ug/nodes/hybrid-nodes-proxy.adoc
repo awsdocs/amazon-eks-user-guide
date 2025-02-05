@@ -1,5 +1,5 @@
 [.topic]
-[[hybrid-nodes-proxy,hybrid-nodes-proxy.title]]
+[#hybrid-nodes-proxy]
 = Configure proxy for hybrid nodes
 :info_titleabbrev: Configure proxy 
 :keywords: on-premises proxy, hybrid proxy

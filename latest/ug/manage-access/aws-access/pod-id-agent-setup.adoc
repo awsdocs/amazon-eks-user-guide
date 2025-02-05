@@ -1,5 +1,5 @@
 [.topic]
-[[pod-id-agent-setup,pod-id-agent-setup.title]]
+[#pod-id-agent-setup]
 = Set up the Amazon EKS Pod Identity Agent
 :info_titleabbrev: Set up the Agent
 
@@ -20,17 +20,17 @@ You do not need to install the EKS Pod Identity Agent on EKS Auto Mode Clusters.
 ====
 
 
-[[pod-id-agent-considerations,pod-id-agent-considerations.title]]
+[#pod-id-agent-considerations]
 == Considerations
 
 * By default, the EKS Pod Identity Agent listens on an `IPv4` and `IPv6` address for pods to request credentials. The agent uses the loopback (localhost) IP address `169.254.170.23` for `IPv4` and the localhost IP address `[fd00:ec2::23]` for `IPv6`.
 * If you disable `IPv6` addresses, or otherwise prevent localhost `IPv6` IP addresses, the agent can't start. To start the agent on nodes that can't use `IPv6`, follow the steps in <<pod-id-agent-config-ipv6>> to disable the `IPv6` configuration.
 
 
-[[pod-id-agent-add-on-create,pod-id-agent-add-on-create.title]]
+[#pod-id-agent-add-on-create]
 == Creating the Amazon EKS Pod Identity Agent
 
-[[pod-id-agent-prereqs,pod-id-agent-prereqs.title]]
+[#pod-id-agent-prereqs]
 === Agent prerequisites
 
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>. The cluster version and platform version must be the same or later than the versions listed in <<pod-id-cluster-versions,EKS Pod Identity cluster versions>>.

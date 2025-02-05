@@ -1,5 +1,5 @@
 [.topic]
-[[create-cluster,create-cluster.title]]
+[#create-cluster]
 = Create an Amazon EKS cluster
 :info_titleabbrev: Create a cluster
 
@@ -86,7 +86,7 @@ You can create a cluster by using:
 * xref:step2-console[the {aws-management-console}]
 * xref:step2-cli[the {aws} CLI]
 
-[[step2-eksctl,step2-eksctl.title]]
+[#step2-eksctl]
 === Create cluster - eksctl
 
 . You need version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
@@ -137,7 +137,7 @@ You can only specify this option when using the `IPv4` address family and only a
 +
 [.noloc]`Kubernetes` assigns `IPv4` addresses to [.noloc]`Pods` and services, by default. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the xref:network-requirements-vpc[VPC requirements and considerations,linkend=network-requirements-vpc], xref:network-requirements-subnets[Subnet requirements and considerations,linkend=network-requirements-subnets], xref:sec-group-reqs[View Amazon EKS security group requirements for clusters,linkend=sec-group-reqs], and <<cni-ipv6>> topics. If you choose the `IPv6` family, you can't specify an address range for [.noloc]`Kubernetes` to assign `IPv6` service addresses from like you can for the `IPv4` family. [.noloc]`Kubernetes` assigns service addresses from the unique local address range (`fc00::/7`).
 
-[[step2-console,step2-console.title]]
+[#step2-console]
 === Create cluster - {aws} console
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
@@ -213,7 +213,7 @@ NOTE: You might receive an error that one of the Availability Zones in your requ
 Cluster provisioning takes several minutes.
 . Continue with <<step3>>
 
-[[step2-cli,step2-cli.title]]
+[#step2-cli]
 === Create cluster - {aws} CLI 
 . Create your cluster with the command that follows. Before running the command, make the following replacements:
 +
@@ -270,7 +270,7 @@ aws eks describe-cluster --region region-code --name my-cluster --query "cluster
 Don't proceed to the next step until the output returned is `ACTIVE`.
 . Continue with <<step3>>
 
-[[step3,step3.title]]
+[#step3]
 == Step 3: Update kubeconfig 
 . If you created your cluster using `eksctl`, then you can skip this step. This is because `eksctl` already completed this step for you. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` `config` file. For more information about how to create and update the file, see <<create-kubeconfig>>.
 +

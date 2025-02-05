@@ -1,5 +1,5 @@
 [.topic]
-[[updating-an-add-on,updating-an-add-on.title]]
+[#updating-an-add-on]
 = Update an Amazon EKS add-on
 :info_titleabbrev: Update an add-on
 
@@ -13,7 +13,7 @@ Learn how to update your Amazon EKS add-on to a new version.
 
 Amazon EKS doesn't automatically update an add-on when new versions are released or after you update your cluster to a new [.noloc]`Kubernetes` minor version. To update an add-on for an existing cluster, you must initiate the update. After you initiate the update, Amazon EKS updates the add-on for you. Before updating an add-on, review the current documentation for the add-on. For a list of available add-ons, see <<workloads-add-ons-available-eks>>. If the add-on requires an IAM role, see the details for the specific add-on in <<workloads-add-ons-available-eks,Available Amazon EKS add-ons from {aws}>> for details about creating the role.
 
-[[updating-an-add-on-prereq,updating-an-add-on-prereq.title]]
+[#updating-an-add-on-prereq]
 == Prerequisites
 
 Complete the following before you create an add-on:
@@ -24,7 +24,7 @@ Complete the following before you create an add-on:
 * Verify that the Amazon EKS add-on version is compatible with your cluster. For more information, see <<addon-compat>>.
 
 
-[[updating-an-add-on-procedure,updating-an-add-on-procedure.title]]
+[#updating-an-add-on-procedure]
 == Procedure
 
 You can update an Amazon EKS add-on using `eksctl`, the {aws-management-console}, or the {aws} CLI.

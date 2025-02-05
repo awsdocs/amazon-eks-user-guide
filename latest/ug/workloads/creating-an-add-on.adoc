@@ -1,5 +1,5 @@
 [.topic]
-[[creating-an-add-on,creating-an-add-on.title]]
+[#creating-an-add-on]
 = Create an Amazon EKS add-on
 :info_titleabbrev: Create an add-on
 
@@ -21,7 +21,7 @@ Amazon EKS add-ons are add-on software for Amazon EKS clusters. All Amazon EKS a
 
 You can create an Amazon EKS add-on using `eksctl`, the {aws-management-console}, or the {aws} CLI. If the add-on requires an IAM role, see the details for the specific add-on in <<eks-add-ons,Amazon EKS add-ons>> for details about creating the role.
 
-[[creating-an-add-on-prereq,creating-an-add-on-prereq.title]]
+[#creating-an-add-on-prereq]
 == Prerequisites
 
 Complete the following before you create an add-on:
@@ -34,7 +34,7 @@ Complete the following before you create an add-on:
 * Verify that version 0.190.0 or later of the `eksctl` command line tool installed on your computer or {aws} CloudShell. For more information, see https://eksctl.io/installation/[Installation] on the `eksctl` website.
 
 
-[[creating-an-add-on-procedure,creating-an-add-on-procedure.title]]
+[#creating-an-add-on-procedure]
 == Procedure
 
 You can create an Amazon EKS add-on using `eksctl`, the {aws-management-console}, or the {aws} CLI. If the add-on requires an IAM role, see the details for the specific add-on in <<workloads-add-ons-available-eks,Available Amazon EKS add-ons from {aws}>> for details about creating the role.
@@ -122,7 +122,7 @@ eksctl create addon --help
 +
 For more information about available options see https://eksctl.io/usage/addons/[Addons] in the `eksctl` documentation.
 
-[[_create_add_on_console, _create_add_on_console.title]]
+[#_create_add_on_console]
 == Create add-on ({aws} Console)
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].

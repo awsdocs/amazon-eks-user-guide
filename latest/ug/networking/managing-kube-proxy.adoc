@@ -1,5 +1,5 @@
 [.topic]
-[[managing-kube-proxy,managing-kube-proxy.title]]
+[#managing-kube-proxy]
 = Manage `kube-proxy` in Amazon EKS clusters
 :info_titleabbrev: kube-proxy
 
@@ -29,7 +29,7 @@ The `kube-proxy` add-on is deployed on each Amazon EC2 node in your Amazon EKS c
 == Install as Amazon EKS Add-on
 
 
-[[kube-proxy-versions,kube-proxy-versions.title]]
+[#kube-proxy-versions]
 == `kube-proxy` versions
 
 The following table lists the latest version of the Amazon EKS add-on type for each [.noloc]`Kubernetes` version.
@@ -59,7 +59,7 @@ If you're self-managing this add-on, the versions in the table might not be the 
 
 ====
 
-[[managing-kube-proxy-images,managing-kube-proxy-images.title]]
+[#managing-kube-proxy-images]
 == `kube-proxy` container image migration
 
 There are two types of the `kube-proxy` container image available for each Amazon EKS cluster version:

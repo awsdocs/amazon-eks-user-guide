@@ -1,5 +1,5 @@
 [.topic]
-[[retreive-iam-info,retreive-iam-info.title]]
+[#retreive-iam-info]
 = Retrieve IAM information about an Amazon EKS add-on
 :info_titleabbrev: Retrieve IAM information
 
@@ -101,7 +101,7 @@ Review the following output. Note the `recommendedManagedPolicies`.
 ----
 . Create an IAM role and attach the recommended Managed Policy. Alternatively, review the managed policy and scope down the permissions as appropriate. For more information see <<pod-id-association-create>>. 
 
-[[pod-id-add-on-versions,pod-id-add-on-versions.title]]
+[#pod-id-add-on-versions]
 == Pod Identity Support Reference
 
 The following table indicates if certain Amazon EKS add-ons support EKS Pod Identity.

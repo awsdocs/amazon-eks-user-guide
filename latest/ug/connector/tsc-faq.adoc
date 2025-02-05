@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[tsc-faq,tsc-faq.title]]
+[#tsc-faq]
 = {aws} Connector frequently asked questions
 :info_titleabbrev: Frequently asked questions
 

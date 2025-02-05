@@ -1,5 +1,5 @@
 [.topic]
-[[prometheus,prometheus.title]]
+[#prometheus]
 = Monitor your cluster metrics with [.noloc]`Prometheus`
 :info_titleabbrev: Prometheus metrics
 :keywords: Prometheus, metrics, control plane
@@ -21,7 +21,7 @@ There are several different options for using [.noloc]`Prometheus` with Amazon E
 * You can deploy [.noloc]`Prometheus` using [.noloc]`Helm`. For more information, see <<deploy-prometheus>>.
 * You can view control plane raw metrics in [.noloc]`Prometheus` format. For more information, see <<view-raw-metrics>>.
 
-[[turn-on-prometheus-metrics,turn-on-prometheus-metrics.title]]
+[#turn-on-prometheus-metrics]
 == Step 1: Turn on [.noloc]`Prometheus` metrics
 
 [IMPORTANT]
@@ -71,12 +71,12 @@ Amazon Managed Service for Prometheus refers to the agentless scraper that is cr
 
 ====
 
-[[use-prometheus-metrics,use-prometheus-metrics.title]]
+[#use-prometheus-metrics]
 == Step 2: Use the [.noloc]`Prometheus` metrics
 
 For more information about how to use the [.noloc]`Prometheus` metrics after you turn them on for your cluster, see the link:prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html[Amazon Managed Service for Prometheus User Guide,type="documentation"].
 
-[[viewing-prometheus-scraper-details,viewing-prometheus-scraper-details.title]]
+[#viewing-prometheus-scraper-details]
 == Step 3: Manage [.noloc]`Prometheus` scrapers
 
 To manage scrapers, choose the *Observability* tab in the Amazon EKS console. A table shows a list of scrapers for the cluster, including information such as the scraper ID, alias, status, and creation date. You can add more scrapers, delete scrapers, or view more information about the current scrapers. 

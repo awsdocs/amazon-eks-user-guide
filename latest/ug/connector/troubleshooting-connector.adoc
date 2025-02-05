@@ -1,5 +1,5 @@
 [.topic]
-[[troubleshooting-connector,troubleshooting-connector.title]]
+[#troubleshooting-connector]
 = Troubleshoot Amazon EKS Connector issues
 :info_titleabbrev: Troubleshoot EKS Connector
 
@@ -12,12 +12,12 @@ Troubleshoot and resolve common issues when using Amazon EKS Connector to connec
 
 This topic covers some of the common errors that you might encounter while using the Amazon EKS Connector, including instructions on how to resolve them and workarounds.
 
-[[tsc-steps,tsc-steps.title]]
+[#tsc-steps]
 == Basic troubleshooting
 
 This section describes steps to diagnose Amazon EKS Connector issues.
 
-[[tsc-check,tsc-check.title]]
+[#tsc-check]
 === Check Amazon EKS Connector status
 
 To check the Amazon EKS Connector status, type:
@@ -28,7 +28,7 @@ kubectl get pods -n eks-connector
 ----
 
 
-[[tsc-logs,tsc-logs.title]]
+[#tsc-logs]
 === Inspect Amazon EKS Connector logs
 
 The Amazon EKS Connector [.noloc]`Pod` consists of three containers. To retrieve full logs for all of these containers so that you can inspect them, run the following commands:
@@ -58,7 +58,7 @@ kubectl exec eks-connector-1 --container connector-agent -n eks-connector -- cat
 ----
 
 
-[[tsc-name,tsc-name.title]]
+[#tsc-name]
 === Get the effective cluster name
 
 Amazon EKS clusters are uniquely identified by `clusterName` within a single {aws} account and {aws} Region. If you have multiple connected clusters in Amazon EKS, you can confirm which Amazon EKS cluster that the current [.noloc]`Kubernetes` cluster is registered to. To do this, enter the following to find out the `clusterName` of the current cluster. 
@@ -73,7 +73,7 @@ kubectl exec eks-connector-1 --container connector-agent -n eks-connector \
 ----
 
 
-[[tsc-misc,tsc-misc.title]]
+[#tsc-misc]
 === Miscellaneous commands
 
 The following commands are useful to retrieve information that you need to troubleshoot issues.
@@ -123,12 +123,12 @@ docker logout public.ecr.aws
 ----
 
 
-[[symp-pending,symp-pending.title]]
+[#symp-pending]
 == Console error: the cluster is stuck in the Pending state
 
 If the cluster gets stuck in the `Pending` state on the Amazon EKS console after you're registered it, it might be because the Amazon EKS Connector didn't successfully connect the cluster to {aws} yet. For a registered cluster, the `Pending` state means that the connection isn't successfully established. To resolve this issue, make sure that you have applied the manifest to the target [.noloc]`Kubernetes` cluster. If you applied it to the cluster, but the cluster is still in the `Pending` state, then the `eks-connector` statefulset might be unhealthy. To troubleshoot this issue, see <<symp-loop>>in this topic.
 
-[[symp-imp,symp-imp.title]]
+[#symp-imp]
 == Console error:  User system:serviceaccount:eks-connector:eks-connector can't impersonate resource users in API group at cluster scope
 
 The Amazon EKS Connector uses [.noloc]`Kubernetes` https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation[user impersonation] to act on behalf of  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] from the {aws-management-console}. Each principal that accesses the [.noloc]`Kubernetes` API from the {aws} `eks-connector` service account must be granted permission to impersonate the corresponding [.noloc]`Kubernetes` user with an IAM ARN as its [.noloc]`Kubernetes` user name. In the following examples, the IAM ARN is mapped to a [.noloc]`Kubernetes` user.
@@ -151,7 +151,7 @@ The result is an IAM role ARN, instead of the {aws} STS session ARN.
 
 For instructions on how to configure the `ClusterRole` and `ClusterRoleBinding` to grant the `eks-connector` service account privilege to impersonate the mapped user, see <<connector-grant-access>>. Make sure that in the template, `%IAM_ARN%` is replaced with the IAM ARN of the {aws-management-console} IAM principal. 
 
-[[symp-rbac,symp-rbac.title]]
+[#symp-rbac]
 == Console error: [...] is forbidden: User [...] cannot list resource [...] in API group at the cluster scope 
 
 Consider the following problem. The Amazon EKS Connector has successfully impersonated the requesting {aws-management-console} IAM principal in the target [.noloc]`Kubernetes` cluster. However, the impersonated principal  doesn't have RBAC permission for [.noloc]`Kubernetes` API operations.  
@@ -167,7 +167,7 @@ helm upgrade eks-connector oci://public.ecr.aws/eks-connector/eks-connector-char
 
 Or, as the cluster administrator, grant the appropriate level of RBAC privileges to individual [.noloc]`Kubernetes` users. For more information and examples, see <<connector-grant-access>>. 
 
-[[symp-con,symp-con.title]]
+[#symp-con]
 == Console error: Amazon EKS can't communicate with your [.noloc]`Kubernetes` cluster API server. The cluster must be in an ACTIVE state for successful connection. Try again in few minutes.
 
 If the Amazon EKS service can't communicate with the Amazon EKS connector in the target cluster, it might be because of one of the following reasons:
@@ -177,7 +177,7 @@ If the Amazon EKS service can't communicate with the Amazon EKS connector in the
 
 To resolve this problem, check the  <<tsc-logs,Amazon EKS Connector logs>>. If you don't see an error for the Amazon EKS Connector, retry the connection after a few minutes. If you regularly experience high latency or intermittent connectivity for the target cluster, consider re-registering the cluster to an {aws} Region that's located closer to you.
 
-[[symp-loop,symp-loop.title]]
+[#symp-loop]
 == Amazon EKS connector [.noloc]`Pods` are crash looping  
 
 There are many reasons that can cause an Amazon EKS connector [.noloc]`Pod` to enter the `CrashLoopBackOff` status. This issue likely involves the `connector-init` container. Check the status of the Amazon EKS connector [.noloc]`Pod`.
@@ -197,7 +197,7 @@ eks-connector-0   0/2     Init:CrashLoopBackOff   1          7s
 
 If your output is similar to the previous output, see <<tsc-logs>> to troubleshoot the issue.
 
-[[symp-regis,symp-regis.title]]
+[#symp-regis]
 == Failed to initiate eks-connector: InvalidActivation
 
 When you start the Amazon EKS Connector for the first time, it registers an `activationId` and `activationCode` with Amazon Web Services. The registration might fail, which can cause the `connector-init` container to crash with an error similar to the following error.
@@ -245,12 +245,12 @@ In the following example response, the expiry date and time is recorded as `2021
 If the `activationExpiry` passed, deregister the cluster and register it again. Doing this generates a new activation.
 
 
-[[symp-out,symp-out.title]]
+[#symp-out]
 == Cluster node is missing outbound connectivity  
 
 To work properly, the Amazon EKS Connector requires outbound connectivity to several {aws} endpoints. You can't connect a private cluster without outbound connectivity to a target {aws} Region. To resolve this issue, you must add the necessary outbound connectivity. For information about connector requirements, see <<connect-cluster-reqts>>. 
 
-[[symp-img,symp-img.title]]
+[#symp-img]
 == Amazon EKS connector [.noloc]`Pods` are in `ImagePullBackOff` state 
 
 If you run the `get pods` command and [.noloc]`Pods` are in the `ImagePullBackOff` state, they can't work properly. If the Amazon EKS Connector [.noloc]`Pods` are in the `ImagePullBackOff` state, they can't work properly. Check the status of your Amazon EKS Connector [.noloc]`Pods`.

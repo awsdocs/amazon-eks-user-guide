@@ -1,5 +1,5 @@
 [.topic]
-[[auto-troubleshoot,auto-troubleshoot.title]]
+[#auto-troubleshoot]
 = Troubleshoot EKS Auto Mode
 :info_titleabbrev: Troubleshoot
 
@@ -32,12 +32,12 @@ You can use the following methods to troubleshoot EKS Auto Mode components:
 * <<auto-node-iam>>
 * <<auto-node-reachability>>
 
-[[auto-node-monitoring-agent,auto-node-monitoring-agent.title]]
+[#auto-node-monitoring-agent]
 == Node monitoring agent
 
 EKS Auto Mode includes the Amazon EKS node monitoring agent. You can use this agent to view troubleshooting and debugging information about nodes. The node monitoring agent publishes Kubernetes `events` and node `conditions`. For more information, see <<node-health>>.
 
-[[auto-node-console,auto-node-console.title]]
+[#auto-node-console]
 == Get console output from an EC2 managed instance by using the {aws} EC2 CLI 
 
 This procedure helps with troubleshooting boot-time or kernel-level issues. 
@@ -64,7 +64,7 @@ kubectl get pod <pod-name> -o wide
 aws ec2 get-console-output --instance-id <instance id> --latest --output text
 ----
 
-[[auto-node-debug-logs,auto-node-debug-logs.title]]
+[#auto-node-debug-logs]
 == Get node logs by using __debug containers__ and the `kubectl` CLI
 
 The recommended way of retrieving logs from an EKS Auto Mode node is to use `NodeDiagnostic` resource. For these steps, see <<auto-get-logs>>.
@@ -118,7 +118,7 @@ Filename    : /usr/bin/ps
 Provide    : /bin/ps
 ----
 
-[[auto-node-ec2-web,auto-node-ec2-web.title]]
+[#auto-node-ec2-web]
 == View resources associated with EKS Auto Mode in the {aws} Console
 
 You can use the {aws} console to view the status of resources associated with your EKS Auto Mode cluster. 
@@ -130,7 +130,7 @@ You can use the {aws} console to view the status of resources associated with yo
 * link:ec2/home#Instances["EC2 Instances",type="console"]
 ** View EKS Auto Mode instances by searching for the tag key `eks:eks-cluster-name` 
 
-[[auto-node-iam,auto-node-iam.title]]
+[#auto-node-iam]
 == View IAM Errors in your {aws} account
 
 . Navigate to CloudTrail console
@@ -144,12 +144,12 @@ Look for errors related to your EKS cluster. Use the error messages to update yo
 
 //Ensure you are running the latest version of the {aws} CLI, eksctl, etc. 
 
-[[auto-troubleshoot-schedule,auto-troubleshoot-schedule.title]]
+[#auto-troubleshoot-schedule]
 == Troubleshoot Pod failing to schedule onto Auto Mode node
 
 If pods staying in the `Pending` state and aren't being scheduled onto an auto mode node, verify if your pod or deployment manifest has a `nodeSelector`. If a `nodeSelector` is present, ensure that it is using `eks.amazonaws.com/compute-type: auto` to be scheduled on nodes that are made by EKS Auto Mode. For more information about the node labels that are used by EKS Auto Mode, see <<associate-workload>>.
 
-[[auto-troubleshoot-join,auto-troubleshoot-join.title]]
+[#auto-troubleshoot-join]
 == Troubleshoot node not joining the cluster
 
 EKS Auto Mode automatically configures new EC2 instances with the correct information to join the cluster, including the cluster endpoint and cluster certificate authority (CA). However, these instances can still fail to join the EKS cluster as a node. Run the following commands to identify instances that didn't join the cluster:
@@ -177,7 +177,7 @@ You might receive this error if you are setting custom tags in the `NodeClass` w
 There might be some authorization issue with calling the `RunInstances` call from the EC2 API. Check {aws} CloudTrail for errors and see <<auto-cluster-iam-role>> for the required IAM permissions.
 
 
-[[auto-node-reachability,auto-node-reachability.title]]
+[#auto-node-reachability]
 === Detect node connectivity issues with the `VPC Reachability Analyzer`
 
 [NOTE]
@@ -245,7 +245,7 @@ With these two pieces of information, you can perform the s analysis. First navi
 . Click "Create and Analyze Path"
 . The analysis might take a few minutes to complete. If the analysis results indicates failed reachability, it will indicate where the failure was in the network path so you can resolve the issue.
 
-[[auto-troubleshoot-controllers,auto-troubleshoot-controllers.title]]
+[#auto-troubleshoot-controllers]
 == Troubleshoot included controllers in Auto Mode
 
 If you have a problem with a controller, you should research:

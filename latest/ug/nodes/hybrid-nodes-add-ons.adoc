@@ -1,5 +1,5 @@
 [.topic]
-[[hybrid-nodes-add-ons,hybrid-nodes-add-ons.title]]
+[#hybrid-nodes-add-ons]
 = Configure add-ons for hybrid nodes
 :info_titleabbrev: Configure add-ons
 :keywords: add-ons for on-premises nodes, add-ons for hybrid nodes
@@ -45,12 +45,12 @@ Amazon EKS add-ons from {aws} that are not compatible with Amazon EKS Hybrid Nod
 
 The rest of this page describes differences between running compatible Amazon EKS add-ons from {aws} on hybrid nodes, compared to the other Amazon EKS compute types.
 
-[[hybrid-nodes-add-ons-core,hybrid-nodes-add-ons-core.title]]
+[#hybrid-nodes-add-ons-core]
 == kube-proxy and CoreDNS
 
 Kube-proxy and CoreDNS are installed as unmanaged add-ons by default when an EKS cluster is created. These add-ons can be managed as Amazon EKS add-ons after cluster creation. Reference the EKS documentation for details on <<managing-kube-proxy>> and <<managing-coredns>>. If you are running a cluster with hybrid nodes and nodes in {aws} Cloud, it is recommended to have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud.
 
-[[hybrid-nodes-add-ons-cw,hybrid-nodes-add-ons-cw.title]]
+[#hybrid-nodes-add-ons-cw]
 == CloudWatch Observability Agent add-on
 
 Node-level metrics are not available for hybrid nodes because link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[CloudWatch Container Insights,type="documentation"] depends on the availability of link:AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html[Instance Metadata Service,type="documentation"] (IMDS) for node-level metrics. Cluster, workload, pod, and container-level metrics are available for hybrid nodes.
@@ -83,7 +83,7 @@ items:
           ...
 ----
 
-[[hybrid-nodes-add-ons-amp,hybrid-nodes-add-ons-amp.title]]
+[#hybrid-nodes-add-ons-amp]
 == Amazon Managed Prometheus managed collector for hybrid nodes
 
 An Amazon Managed Service for Prometheus (AMP) managed collector consists of a scraper that discovers and collects metrics from the resources in an Amazon EKS cluster. AMP manages the scraper for you, removing the need to manage any instances, agents, or scrapers yourself.
@@ -92,14 +92,14 @@ You can use AMP managed collectors without any additional configuration specific
 
 Follow the steps in link:prometheus/latest/userguide/AMP-collector-how-to.html[Using an {aws} managed collector,type="documentation"] in the Amazon Managed Service for Prometheus User Guide.
 
-[[hybrid-nodes-add-ons-adot,hybrid-nodes-add-ons-adot.title]]
+[#hybrid-nodes-add-ons-adot]
 == {aws} Distro for OpenTelemetry (ADOT) add-on
 
 You can use the {aws} Distro for OpenTelemetry (ADOT) Amazon EKS add-on to collect metrics, logs, and tracing data from your applications running on hybrid nodes. Note, ADOT uses admission https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks] to mutate and validate the Collector Custom Resource requests and you must configure your remote pod network when creating your Amazon EKS cluster. 
 
 Follow the steps in https://aws-otel.github.io/docs/getting-started/adot-eks-add-on[Getting Started with {aws} Distro for OpenTelemetry using EKS Add-Ons] in the _{aws} Distro for OpenTelemetry_ documentation.
 
-[[hybrid-nodes-add-ons-lbc,hybrid-nodes-add-ons-lbc.title]]
+[#hybrid-nodes-add-ons-lbc]
 == {aws} Load Balancer Controller
 
 You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) or Network Load Balancer (NLB) with the target type ip for workloads on hybrid nodes connected with {aws} Direct Connect or {aws} Site-to-Site VPN. As the {aws} Load Balancer Controller uses https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks], you must configure your remote pod network when creating your Amazon EKS cluster.
@@ -119,7 +119,7 @@ service.beta.kubernetes.io/aws-load-balancer-type: "external"
 service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
 ----
 
-[[hybrid-nodes-add-ons-pod-id,hybrid-nodes-add-ons-pod-id.title]]
+[#hybrid-nodes-add-ons-pod-id]
 == EKS Pod Identity Agent add-on
 
 The original Amazon EKS Pod Identity Agent [.noloc]`DaemonSet` relies on the availability of EC2 IMDS on the node to obtain the required {aws} credentials. As IMDS isn't available on hybrid nodes, starting in add-on version `1.3.3-eksbuild.1`, the Pod Identity Agent add-on optionally deploys a second [.noloc]`DaemonSet` that specifically targets hybrid nodes. This [.noloc]`DaemonSet` mounts the required credentials to the pods created by the Pod Identity Agent add-on.
@@ -163,7 +163,7 @@ aws eks create-addon \
 {"daemonsets":{"hybrid":{"create": true}}}
 ----
 
-[[hybrid-nodes-add-ons-csi-snapshotter,hybrid-nodes-add-ons-csi-snapshotter.title]]
+[#hybrid-nodes-add-ons-csi-snapshotter]
 == CSI snapshot controller add-on
 
 Starting with version `v8.1.0-eksbuild.2`, the <<csi-snapshot-controller,CSI snapshot controller add-on>> applies a soft anti-affinity rule for hybrid nodes, preferring the controller `deployment` to run on EC2 in the same {aws} Region as the Amazon EKS control plane. Co-locating the `deployment` in the same {aws} Region as the Amazon EKS control plane improves latency. 

@@ -1,5 +1,5 @@
 [.topic]
-[[auto-security,auto-security.title]]
+[#auto-security]
 = Security considerations for Amazon EKS Auto Mode
 :info_titleabbrev: Considerations for EKS Auto
 
@@ -90,7 +90,7 @@ Amazon EKS Auto Mode does not fully manage Amazon Elastic Block Store (Amazon EB
 * Security group automation for load balancer access control
 * For more information, see link:elasticloadbalancing/latest/userguide/security.html["Security in Elastic Load Balancing",type="documentation"].
 
-[[auto-security-bp,auto-security-bp.title]]
+[#auto-security-bp]
 ## Security best practices
 
 The following section describes security best practices for Amazon EKS Auto Mode. 

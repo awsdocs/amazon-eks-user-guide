@@ -1,5 +1,5 @@
 [.topic]
-[[deploy-ipv6-cluster,deploy-ipv6-cluster.title]]
+[#deploy-ipv6-cluster]
 = Deploying an Amazon EKS `IPv6` cluster and managed Amazon Linux nodes
 :info_titleabbrev: Deploy
 
@@ -20,7 +20,7 @@ Install and configure the following tools and resources that you need to create 
 * Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_. If you use the {aws} CloudShell, you may need to  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[install version 2.12.3 or later or 1.27.160 or later of the {aws} CLI,type="documentation"], because the default {aws} CLI version installed in the {aws} CloudShell may be an earlier version.
 
 
-//[[deploy-ipv6-cluster-procedure,deploy-ipv6-cluster-procedure.title]]
+//[#deploy-ipv6-cluster-procedure]
 //====== Procedure
 
 You can use the [.noloc]`eksctl` or CLI to  deploy an `IPv6` cluster.

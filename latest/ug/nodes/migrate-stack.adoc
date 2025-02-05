@@ -1,5 +1,5 @@
 [.topic]
-[[migrate-stack,migrate-stack.title]]
+[#migrate-stack]
 = Migrate applications to a new node group
 :info_titleabbrev: Migration
 

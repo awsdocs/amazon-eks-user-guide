@@ -1,4 +1,4 @@
-[[automode,automode.title]]
+[#automode]
 = Automate cluster infrastructure with EKS Auto Mode
 :toclevels: 2
 :toc:

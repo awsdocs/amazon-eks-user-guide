@@ -1,5 +1,5 @@
 [.topic]
-[[access-policies,access-policies.title]]
+[#access-policies]
 = Associate access policies with access entries
 :info_titleabbrev: Associate access policies
 
@@ -31,7 +31,7 @@ Before associating access policies with access entries, consider the following r
 You can associate an access policy to an access entry using the {aws-management-console} or the {aws} CLI.
 
 
-[[access-associate-console,access-associate-console.title]]
+[#access-associate-console]
 == {aws-management-console}
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the name of the cluster that has an access entry that you want to associate an access policy to.
@@ -42,7 +42,7 @@ You can associate an access policy to an access entry using the {aws-management-
 . For *Access scope*, choose an access scope. If you choose  *Cluster*, the permissions in the access policy are granted to the IAM principal for resources in all [.noloc]`Kubernetes` namespaces. If you choose  *[.noloc]`Kubernetes` namespace*, you can then choose  *Add new namespace*. In the  *Namespace* field that appears, you can enter the name of a [.noloc]`Kubernetes` namespace on your cluster. If you want the IAM principal to have the permissions across multiple namespaces, then you can enter multiple namespaces.
 . Choose *Add access policy*.
 
-[[access-associate-cli,access-associate-cli.title]]
+[#access-associate-cli]
 == {aws} CLI
 . Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see   link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 +

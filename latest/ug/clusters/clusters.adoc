@@ -1,4 +1,4 @@
-[[clusters,clusters.title]]
+[#clusters]
 = Organize workloads with Amazon EKS clusters
 :doctype: book
 :sectnums:

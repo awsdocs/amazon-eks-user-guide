@@ -1,5 +1,5 @@
 [.topic]
-[[eksctl-docs,eksctl-docs.title]]
+[#eksctl-docs]
 = EKS Auto Mode
 
 include::../../attributes.txt[]

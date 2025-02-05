@@ -1,6 +1,6 @@
 include::../attributes.txt[]
 [.topic]
-[[fargate-pod-patching,fargate-pod-patching.title]]
+[#fargate-pod-patching]
 = Set actions for {aws} Fargate OS patching events
 :info_titleabbrev: OS patching events
 

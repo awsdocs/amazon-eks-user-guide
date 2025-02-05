@@ -1,5 +1,5 @@
 [.topic]
-[[hybrid-nodes-creds,hybrid-nodes-creds.title]]
+[#hybrid-nodes-creds]
 = Prepare credentials for hybrid nodes
 :info_titleabbrev: Prepare credentials
 
@@ -378,7 +378,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
 ----
 
-[[hybrid-nodes-creds-console,hybrid-nodes-creds-console.title]]
+[#hybrid-nodes-creds-console]
 === {aws-management-console}
 
 *Create EKS Describe Cluster Policy*

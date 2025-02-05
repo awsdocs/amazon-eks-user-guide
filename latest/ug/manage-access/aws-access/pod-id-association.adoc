@@ -1,5 +1,5 @@
 [.topic]
-[[pod-id-association,pod-id-association.title]]
+[#pod-id-association]
 = Assign an [.noloc]`IAM` role to a [.noloc]`Kubernetes` service account
 :info_titleabbrev: Assign IAM role
 
@@ -21,7 +21,7 @@ To create an EKS Pod Identity association, there is only a single step; you crea
 * An existing `kubectl` `config` file that contains your cluster configuration. To create a `kubectl` `config` file, see <<create-kubeconfig>>.
 
 
-[[pod-id-association-create,pod-id-association-create.title]]
+[#pod-id-association-create]
 == Create a Pod Identity association ({aws} Console)
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
@@ -187,7 +187,7 @@ An example output is as follows.
 NOTE: You can specify a namespace and service account by name that doesn't exist in the cluster. You must create the namespace, service account, and the workload that uses the service account for the EKS Pod Identity association to function.
 
 
-[[pod-id-confirm-role-configuration,pod-id-confirm-role-configuration.title]]
+[#pod-id-confirm-role-configuration]
 == Confirm configuration
 . Confirm that the IAM role's trust policy is configured correctly.
 +

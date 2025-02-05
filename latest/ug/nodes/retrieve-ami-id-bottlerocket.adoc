@@ -1,5 +1,5 @@
 [.topic]
-[[retrieve-ami-id-bottlerocket,retrieve-ami-id-bottlerocket.title]]
+[#retrieve-ami-id-bottlerocket]
 = Retrieve recommended [.noloc]`Bottlerocket` AMI IDs
 :info_titleabbrev: Get latest IDs
 

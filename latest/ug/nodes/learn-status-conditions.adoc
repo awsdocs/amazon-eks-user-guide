@@ -1,5 +1,5 @@
 [.topic]
-[[learn-status-conditions,learn-status-conditions.title]]
+[#learn-status-conditions]
 = View the health status of your nodes
 :info_titleabbrev: View node health
 
@@ -14,7 +14,7 @@ This topic explains the tools and methods available for monitoring node health s
 
 You can get some node health information with [.noloc]`Kubernetes` commands for all nodes. And if you use the node monitoring agent through Amazon EKS Auto Mode or the Amazon EKS managed add-on, you will get a wider variety of node signals to help troubleshoot. Descriptions of detected health issues by the node monitoring agent are also made available in the observability dashboard. For more information, see <<node-health>>.
 
-[[status-node-conditions,status-node-conditions.title]]
+[#status-node-conditions]
 == Node conditions
 
 Node conditions represent terminal issues requiring remediation actions like instance replacement or reboot.
@@ -58,7 +58,7 @@ kubectl describe node [.replaceable]`node-name`
     type: NetworkingReady
 ----
 
-[[status-node-events,status-node-events.title]]
+[#status-node-events]
 == Node events
 
 Node events indicate temporary issues or sub-optimal configurations.
@@ -110,7 +110,7 @@ LAST SEEN   TYPE     REASON           OBJECT         MESSAGE
 5m          Normal   NodeReady        Node/node-1    Node became ready
 ----
 
-[[status-node-troubleshooting,status-node-troubleshooting.title]]
+[#status-node-troubleshooting]
 == Common troubleshooting commands
 
 [source,bash,subs="verbatim,attributes,quotes"]

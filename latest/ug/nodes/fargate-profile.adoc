@@ -1,6 +1,6 @@
 include::../attributes.txt[]
 [.topic]
-[[fargate-profile,fargate-profile.title]]
+[#fargate-profile]
 = Define which [.noloc]`Pods` use {aws} Fargate when launched
 :info_titleabbrev: Define profiles
 
@@ -37,7 +37,7 @@ Fargate does not currently support [.noloc]`Kubernetes` https://kubernetes.io/do
 
 Amazon EKS and Fargate spread [.noloc]`Pods` across each of the subnets that's defined in the Fargate profile. However, you might end up with an uneven spread. If you must have an even spread, use two Fargate profiles. Even spread is important in scenarios where you want to deploy two replicas and don't want any downtime. We recommend that each profile has only one subnet.
 
-[[fargate-profile-components,fargate-profile-components.title]]
+[#fargate-profile-components]
 == Fargate profile components
 
 The following components are contained in a Fargate profile.
@@ -61,7 +61,7 @@ The selectors to match for [.noloc]`Pods` to use this Fargate profile. You might
 ** *Labels* – You can optionally specify [.noloc]`Kubernetes` labels to match for the selector. The selector only matches [.noloc]`Pods` that have all of the labels that are specified in the selector.
 
 
-[[fargate-profile-wildcards,fargate-profile-wildcards.title]]
+[#fargate-profile-wildcards]
 == Fargate profile wildcards
 
 In addition to characters allowed by [.noloc]`Kubernetes`, you're allowed to use `{asterisk}` and `?` in the selector criteria for namespaces, label keys, and label values:
@@ -83,7 +83,7 @@ If you want to migrate existing Fargate [.noloc]`Pods` to new profiles that use 
 * If you want to migrate workloads but aren't sure what Fargate labels are on each Fargate [.noloc]`Pod`, you can use the following method. Create a new profile with a name that sorts alphanumerically first among the profiles on the same cluster. Then, recycle the Fargate [.noloc]`Pods` that need to be migrated to new profiles.
 
 
-[[create-fargate-profile,create-fargate-profile.title]]
+[#create-fargate-profile]
 == Create a Fargate profile
 
 This section describes how to create a Fargate profile. You also must have created a [.noloc]`Pod` execution role to use for your Fargate profile. For more information, see <<pod-execution-role>>. [.noloc]`Pods` that are running on Fargate are only supported on private subnets with link:vpc/latest/userguide/vpc-nat-gateway.html[NAT gateway,type="documentation"] access to {aws} services, but not a direct route to an Internet Gateway. This is so that your cluster's VPC must have private subnets available.

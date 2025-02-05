@@ -1,5 +1,5 @@
 [.topic]
-[[auto-configure-nlb,auto-configure-nlb.title]]
+[#auto-configure-nlb]
 = Use Service Annotations to configure Network Load Balancers
 :info_titleabbrev: Create service
 

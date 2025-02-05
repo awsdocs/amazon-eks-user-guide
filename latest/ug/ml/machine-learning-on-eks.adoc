@@ -1,5 +1,5 @@
 [.topic]
-[[machine-learning-on-eks,machine-learning-on-eks.title]]
+[#machine-learning-on-eks]
 = Overview of Machine Learning on Amazon EKS
 :doctype: book
 :sectnums:
@@ -19,7 +19,7 @@ include::../attributes.txt[]
 Complete guide for running Machine Learning applications on Amazon EKS. This includes everything from provisioning infrastructure to choosing and deploying Machine Learning workloads on Amazon EKS.
 --
 
-[[ml-features,ml-features.title]]
+[#ml-features]
 
 Machine Learning (ML) is an area of Artificial Intelligence (AI) where machines process large amounts of data to look for patterns and make connections between the data. This can expose new relationships and help predict outcomes that might not have been apparent otherwise.
 

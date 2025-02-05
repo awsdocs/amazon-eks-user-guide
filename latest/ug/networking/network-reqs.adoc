@@ -1,5 +1,5 @@
 [.topic]
-[[network-reqs,network-reqs.title]]
+[#network-reqs]
 = View Amazon EKS networking requirements for VPC and subnets
 :info_titleabbrev: VPC and subnet requirements
 
@@ -12,7 +12,7 @@ Learn how to configure the VPC and subnets to meet networking requirements for c
 
 When you create a cluster, you specify a link:vpc/latest/userguide/configure-your-vpc.html[VPC,type="documentation"] and at least two subnets that are in different Availability Zones. This topic provides an overview of Amazon EKS specific requirements and considerations for the VPC and subnets that you use with your cluster. If you don't have a VPC to use with Amazon EKS, see  <<creating-a-vpc>>. If you're creating a local or extended cluster on {aws} Outposts, see <<eks-outposts-vpc-subnet-requirements>> instead of this topic. The content in this topic applies for Amazon EKS clusters with hybrid nodes. For additional networking requirements for hybrid nodes, see <<hybrid-nodes-networking>>.
 
-[[network-requirements-vpc,network-requirements-vpc.title]]
+[#network-requirements-vpc]
 == VPC requirements and considerations
 
 When you create a cluster, the VPC that you specify must meet the following requirements and considerations:
@@ -53,14 +53,14 @@ If you created a cluster with [.noloc]`Kubernetes` `1.14` or earlier, Amazon EKS
 
 This tag was only used by Amazon EKS. You can remove the tag without impacting your services. It's not used with clusters that are version `1.15` or later.
 
-[[network-requirements-subnets,network-requirements-subnets.title]]
+[#network-requirements-subnets]
 == Subnet requirements and considerations
 
 When you create a cluster, Amazon EKS creates 2–4 link:AWSEC2/latest/UserGuide/using-eni.html[elastic network interfaces,type="documentation"] in the subnets that you specify. These network interfaces enable communication between your cluster and your VPC. These network interfaces also enable [.noloc]`Kubernetes` features such as `kubectl exec` and `kubectl logs`. Each Amazon EKS created network interface has the text `Amazon EKS [.replaceable]``cluster-name``` in its description.
 
 Amazon EKS can create its network interfaces in any subnet that you specify when you create a cluster. You can change which subnets Amazon EKS creates its network interfaces in after your cluster is created. When you update the [.noloc]`Kubernetes` version of a cluster, Amazon EKS deletes the original network interfaces that it created, and creates new network interfaces. These network interfaces might be created in the same subnets as the original network interfaces or in different subnets than the original network interfaces. To control which subnets network interfaces are created in, you can limit the number of subnets you specify to only two when you create a cluster or update the subnets after creating the cluster.
 
-[[cluster-subnets,cluster-subnets.title]]
+[#cluster-subnets]
 === Subnet requirements for clusters
 
 The link:vpc/latest/userguide/configure-subnets.html#subnet-types[subnets,type="documentation"] that you specify when you create or update a cluster must meet the following requirements:
@@ -197,7 +197,7 @@ Functionality can differ depending on the [.noloc]`IP family` (`ipFamily`) setti
 
 ====
 
-[[node-subnet-reqs,node-subnet-reqs.title]]
+[#node-subnet-reqs]
 === Subnet requirements for nodes
 
 You can deploy nodes and [.noloc]`Kubernetes` resources to the same subnets that you specify when you create your cluster. However, this isn't necessary. This is because you can also deploy nodes and [.noloc]`Kubernetes` resources to subnets that you didn't specify when you created the cluster. If you deploy nodes to different subnets, Amazon EKS doesn't create cluster network interfaces in those subnets. Any subnet that you deploy nodes and [.noloc]`Kubernetes` resources to must meet the following requirements:
@@ -263,7 +263,7 @@ This change impacts new node groups that are deployed to public subnets in the f
 * *link:eks/latest/userguide/launch-workers.html[Linux,type="documentation"], link:eks/latest/userguide/launch-windows-workers.html[Windows,type="documentation"], or link:eks/latest/userguide/arm-ami.html[Arm,type="documentation"] self-managed node groups* – If the node group is deployed to a public subnet on or after March 26, 2020, automatic assignment of public IP addresses must be enabled for the public subnet. Otherwise, the nodes must be launched with a public IP address instead. For more information, see   link:vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip[Modifying the public IPv4 addressing attribute for your subnet,type="documentation"] or  link:vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip[Assigning a public IPv4 address during instance launch,type="documentation"].
 
 
-[[network-requirements-shared,network-requirements-shared.title]]
+[#network-requirements-shared]
 == Shared subnet requirements and considerations
 
 You can use  _VPC sharing_ to share subnets with other {aws} accounts within the same {aws} Organizations. You can create Amazon EKS clusters in shared subnets, with the following considerations:

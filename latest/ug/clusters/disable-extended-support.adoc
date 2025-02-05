@@ -1,5 +1,5 @@
 [.topic]
-[[disable-extended-support,disable-extended-support.title]]
+[#disable-extended-support]
 = Prevent increased cluster costs by disabling EKS extended support
 :info_titleabbrev: Disable extended support 
 
@@ -18,14 +18,14 @@ You cannot disable extended support once your cluster has entered it. You can on
 
 ====
 
-[[disable-support-policy-console,disable-support-policy-console.title]]
+[#disable-support-policy-console]
 == Disable EKS extended support ({aws} Console)
 . Navigate to your EKS cluster in the {aws} Console. Select the *Overview* tab on the  *Cluster Info* page.
 . In the *Kubernetes version setting* section, select  *Manage*.  
 . Select *Standard support* and then  *Save changes*.
 
 
-[[disable-support-policy-cli,disable-support-policy-cli.title]]
+[#disable-support-policy-cli]
 == Disable EKS extended support ({aws} CLI)
 . Verify the {aws} CLI is installed and you are logged in.  link:cli/latest/userguide/getting-started-install.html[Learn how to update and install the {aws} CLI.,type="documentation"]
 . Determine the name of your EKS cluster. 

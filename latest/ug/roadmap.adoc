@@ -1,6 +1,6 @@
 include::attributes.txt[]
 [.topic]
-[[roadmap,roadmap.title]]
+[#roadmap]
 = Learn about Amazon EKS new features and roadmap
 :doctype: book
 :sectnums:

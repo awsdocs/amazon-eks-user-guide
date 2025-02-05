@@ -1,5 +1,5 @@
 [.topic]
-[[connecting-cluster,connecting-cluster.title]]
+[#connecting-cluster]
 = Connect an external [.noloc]`Kubernetes` cluster to the Amazon EKS Management Console
 :info_titleabbrev: Connect a cluster
 
@@ -19,12 +19,12 @@ You must complete the second step within 3 days of completing the first step, be
 
 ====
 
-[[connecting-cluster-considerations,connecting-cluster-considerations.title]]
+[#connecting-cluster-considerations]
 == Considerations
 
 You can use YAML manifests when installing the agent. Alternatively, you can use Helm if you register the cluster with the {aws-management-console} or {aws} Command Line Interface. However, you cannot use Helm  to install the agent if you register the cluster with `eksctl`.
 
-[[connector-prereqs,connector-prereqs.title]]
+[#connector-prereqs]
 == Prerequisites
 
 * Ensure the Amazon EKS Connector agent role was created. Follow the steps in <<create-connector-role,Creating the Amazon EKS connector agent role>>.
@@ -36,7 +36,7 @@ You can use YAML manifests when installing the agent. Alternatively, you can use
 ** `iam:PassRole`
 
 
-[[connector-connecting,connector-connecting.title]]
+[#connector-connecting]
 == Step 1: Registering the cluster
 To register a cluster to Amazon EKS connector, you can use one of these tools:
 
@@ -133,7 +133,7 @@ kubectl apply -f eks-connector-binding.yaml
 ----
 
 
-[[eks-connector-apply,eks-connector-apply.title]]
+[#eks-connector-apply]
 == Step 2: Installing the `eks-connector` agent
 To install the `eks-connector` agent, use one of the following tools:
 
@@ -204,7 +204,7 @@ The output should include `status=ACTIVE`.
 . (Optional) Add tags to your cluster. For more information, see <<eks-using-tags>>.
 
 
-[[eks-connector-next,eks-connector-next.title]]
+[#eks-connector-next]
 == Next steps
 
 If you have any issues with these steps, see <<troubleshooting-connector>>.

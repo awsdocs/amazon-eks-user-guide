@@ -1,5 +1,5 @@
 [.topic]
-[[integration-vpc-lattice,integration-vpc-lattice.title]]
+[#integration-vpc-lattice]
 = Enable secure cross-cluster connectivity with Amazon VPC Lattice
 :info_titleabbrev: Amazon VPC Lattice
 

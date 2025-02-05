@@ -1,5 +1,5 @@
 [.topic]
-[[cluster-insights,cluster-insights.title]]
+[#cluster-insights]
 = Prepare for [.noloc]`Kubernetes` version upgrades with cluster insights
 :info_titleabbrev: Cluster insights
 :keywords: cluster, upgrade, insights
@@ -23,7 +23,7 @@ Amazon EKS upgrade insights speed up the testing and verification process for ne
 
 Cluster insights update periodically. You cannot manually refresh cluster insights. If you fix a cluster issue, it will take some time for cluster insights to update. To determine if a fix was successful, compare the time the change  deployed to the "last refresh time" of the cluster insight. 
 
-[[cluster-insights-console,cluster-insights-console.title]]
+[#cluster-insights-console]
 == View cluster insights (Console)
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . From the cluster list, choose the name of the Amazon EKS cluster for which you want to see the insights.
@@ -39,7 +39,7 @@ Cluster insights update periodically. You cannot manually refresh cluster insigh
 ** *Description* – Information from the insight check, which includes the alert and recommended actions for remediation.
 
 
-[[cluster-insights-cli,cluster-insights-cli.title]]
+[#cluster-insights-cli]
 == View cluster insights ({aws} CLI)
 . Determine which cluster you would like to check for insights. The following command lists the insights for a specified cluster. Make the following modifications to the command as needed and then run the modified command:
 +

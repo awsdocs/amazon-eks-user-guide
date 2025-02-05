@@ -1,5 +1,5 @@
 [.topic]
-[[coredns-add-on-create,coredns-add-on-create.title]]
+[#coredns-add-on-create]
 = Create the [.noloc]`CoreDNS` Amazon EKS add-on
 :info_titleabbrev: Create
 

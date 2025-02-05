@@ -1,5 +1,5 @@
 [.topic]
-[[vpc-add-on-create,vpc-add-on-create.title]]
+[#vpc-add-on-create]
 = Create the Amazon VPC CNI (Amazon EKS add-on)
 :info_titleabbrev: Create
 
@@ -10,7 +10,7 @@ Use the following steps to create the [.noloc]`Amazon VPC CNI plugin for Kuberne
 Before you begin, review the considerations. For more information, see <<manage-vpc-cni-add-on-on-considerations>>.
 
 
-[[vpc-add-on-create-prerequisites,vpc-add-on-create-prerequisites.title]]
+[#vpc-add-on-create-prerequisites]
 == Prerequisites
 
 The following are prerequisites for the [.noloc]`Amazon VPC CNI plugin for Kubernetes` Amazon EKS add-on.
@@ -30,7 +30,7 @@ The following are prerequisites for the [.noloc]`Amazon VPC CNI plugin for Kuber
 ====
 
 
-[[vpc-add-on-create-procedure,vpc-add-on-create-procedure.title]]
+[#vpc-add-on-create-procedure]
 == Procedure
 
 After you complete the prerequisites, use the following steps to create the add-on.

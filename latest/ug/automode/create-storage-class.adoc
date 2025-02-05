@@ -1,5 +1,5 @@
 [.topic]
-[[create-storage-class,create-storage-class.title]]
+[#create-storage-class]
 = Create a Storage Class
 :info_titleabbrev: Create storage class
 
@@ -216,7 +216,7 @@ For more information, see:
 * <<csi-snapshot-controller>>
 
 
-[[auto-install-snapshot-controller,auto-install-snapshot-controller.title]]
+[#auto-install-snapshot-controller]
 === To install snapshot controller in system node pool
 
 . Open your EKS cluster in the {aws} console

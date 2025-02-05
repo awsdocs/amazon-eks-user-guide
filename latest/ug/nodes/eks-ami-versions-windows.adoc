@@ -1,5 +1,5 @@
 [.topic]
-[[eks-ami-versions-windows,eks-ami-versions-windows.title]]
+[#eks-ami-versions-windows]
 = Retrieve [.noloc]`Windows` AMI version information
 :info_titleabbrev: Get version information
 
@@ -35,7 +35,7 @@ Amazon EKS managed node groups support the November 2022 and later releases of t
 
 ====
 
-[[eks-ami-versions-windows-2022-core,eks-ami-versions-windows-2022-core.title]]
+[#eks-ami-versions-windows-2022-core]
 == Amazon EKS optimized [.noloc]`Windows` Server 2022 Core AMI
 
 The following tables list the current and previous versions of the Amazon EKS optimized [.noloc]`Windows` Server 2022 Core AMI.
@@ -1114,7 +1114,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 ====
 
-[[eks-ami-versions-windows-2022-full,eks-ami-versions-windows-2022-full.title]]
+[#eks-ami-versions-windows-2022-full]
 == Amazon EKS optimized [.noloc]`Windows` Server 2022 Full AMI
 
 The following tables list the current and previous versions of the Amazon EKS optimized [.noloc]`Windows` Server 2022 Full AMI.
@@ -2202,7 +2202,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 ====
 
-[[eks-ami-versions-windows-2019-core,eks-ami-versions-windows-2019-core.title]]
+[#eks-ami-versions-windows-2019-core]
 == Amazon EKS optimized [.noloc]`Windows` Server 2019 Core AMI
 
 The following tables list the current and previous versions of the Amazon EKS optimized [.noloc]`Windows` Server 2019 Core AMI.
@@ -3290,7 +3290,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 ====
 
-[[eks-ami-versions-windows-2019-full,eks-ami-versions-windows-2019-full.title]]
+[#eks-ami-versions-windows-2019-full]
 == Amazon EKS optimized [.noloc]`Windows` Server 2019 Full AMI
 
 The following tables list the current and previous versions of the Amazon EKS optimized [.noloc]`Windows` Server 2019 Full AMI.

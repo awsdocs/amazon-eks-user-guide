@@ -1,5 +1,5 @@
 [.topic]
-[[integration-securitylake,integration-securitylake.title]]
+[#integration-securitylake]
 = Centralize and analyze EKS security data with Security Lake
 :info_titleabbrev: Amazon Security Lake
 
@@ -21,7 +21,7 @@ For more information about using Security Lake with Amazon EKS and setting up da
 
 ====
 
-[[sl-benefits,sl-benefits.title]]
+[#sl-benefits]
 == Benefits of using Security Lake with Amazon Amazon EKS
 
 *Centralized security data* -- Security Lake automatically collects and centralizes security data from your Amazon EKS clusters, along with data from other {aws} services, SaaS providers, on-premises sources, and third-party sources. This provides a comprehensive view of your security posture across your entire organization.
@@ -32,7 +32,7 @@ For more information about using Security Lake with Amazon EKS and setting up da
 
 *Simplified data management* -- Security Lake manages the lifecycle of your security data with customizable retention and replication settings. This simplifies data management tasks and ensures that you retain the necessary data for compliance and auditing purposes.
 
-[[sl-enable,sl-enable.title]]
+[#sl-enable]
 == Enabling Security Lake for Amazon EKS
 . Enable Amazon EKS control plane logging for your EKS clusters. Refer to <<enabling-control-plane-log-export,Enabling and disabling control plane logs>> for detailed instructions.
 .  link:security-lake/latest/userguide/internal-sources.html#add-internal-sources[Add Amazon EKS Audit Logs as a source in Security Lake.,type="documentation"] Security Lake will then start collecting in-depth information about the activities performed on the Kubernetes resources running in your EKS clusters.
@@ -40,7 +40,7 @@ For more information about using Security Lake with Amazon EKS and setting up da
 . Use the normalized OCSF data stored in Security Lake for incident response, security analytics, and integration with other {aws} services or third-party tools. For example, you can link:big-data/generate-security-insights-from-amazon-security-lake-data-using-amazon-opensearch-ingestion[Generate security insights from Amazon Security Lake data using Amazon OpenSearch Ingestion,type="blog"].
 
 
-[[sl-format,sl-format.title]]
+[#sl-format]
 == Analyzing EKS Logs in Security Lake
 
 Security Lake normalizes EKS log events to the OCSF format, making it easier to analyze and correlate the data with other security events. You can use various tools and services, such as Amazon Athena, Amazon QuickSight, or third-party security analytics tools, to query and visualize the normalized data.

@@ -1,5 +1,5 @@
 [.topic]
-[[automode-learn-instances,automode-learn-instances.title]]
+[#automode-learn-instances]
 = Learn about Amazon EKS Auto Mode Managed instances
 :am: EKS Auto Mode
 :aam: Amazon {am}

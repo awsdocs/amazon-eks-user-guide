@@ -1,4 +1,4 @@
-[[eks-connector,eks-connector.title]]
+[#eks-connector]
 = Connect a [.noloc]`Kubernetes` cluster to an Amazon EKS Management Console with Amazon EKS Connector
 :doctype: book
 :sectnums:
@@ -29,7 +29,7 @@ The Amazon EKS Connector can connect the following types of [.noloc]`Kubernetes`
 * Managed clusters from other cloud providers
 
 
-[[connect-cluster-reqts,connect-cluster-reqts.title]]
+[#connect-cluster-reqts]
 == Amazon EKS Connector considerations
 
 Before you use Amazon EKS Connector, understand the following:
@@ -54,7 +54,7 @@ Before you use Amazon EKS Connector, understand the following:
 ** ssm:DeregisterManagedInstance
 
 
-[[connector-iam-permissions,connector-iam-permissions.title]]
+[#connector-iam-permissions]
 == Required IAM roles for Amazon EKS Connector
 
 Using the Amazon EKS Connector requires the following two IAM roles:

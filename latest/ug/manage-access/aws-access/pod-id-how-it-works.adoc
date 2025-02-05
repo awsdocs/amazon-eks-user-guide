@@ -1,5 +1,5 @@
 [.topic]
-[[pod-id-how-it-works,pod-id-how-it-works.title]]
+[#pod-id-how-it-works]
 = Understand how [.noloc]`EKS Pod Identity` works
 :info_titleabbrev: How it works
 
@@ -16,7 +16,7 @@ Amazon EKS Pod Identity provides credentials to your workloads with an additiona
 
 In your add-ons, such as _Amazon EKS add-ons_ and self-managed controller, operators, and other add-ons, the author needs to update their software to use the latest {aws} SDKs. For the list of compatibility between EKS Pod Identity and the add-ons produced by Amazon EKS, see the previous section <<pod-id-restrictions>>.
 
-[[pod-id-credentials,pod-id-credentials.title]]
+[#pod-id-credentials]
 == Using EKS Pod Identities in your code
 
 In your code, you can use the {aws} SDKs to access {aws} services. You write code to create a client for an {aws} service with an SDK, and by default the SDK searches in a chain of locations for {aws} Identity and Access Management credentials to use. After valid credentials are found, the search is stopped. For more information about the default locations used, see the   link:sdkref/latest/guide/standardized-credentials.html#credentialProviderChain[Credential provider chain,type="documentation"] in the {aws} SDKs and Tools Reference Guide.
@@ -27,7 +27,7 @@ The container credentials provider provides temporary credentials from an agent 
 
 In contrast, _IAM roles for service accounts_ provides a _web identity_ token that the {aws} SDK must exchange with {aws} Security Token Service by using `AssumeRoleWithWebIdentity`.
 
-[[pod-id-agent-pod,pod-id-agent-pod.title]]
+[#pod-id-agent-pod]
 == How EKS Pod Identity Agent works with a [.noloc]`Pod`
 . When Amazon EKS starts a new pod that uses a service account with an EKS Pod Identity association, the cluster adds the following content to the [.noloc]`Pod` manifest:
 +

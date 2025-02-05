@@ -1,5 +1,5 @@
 [.topic]
-[[integration-guardduty,integration-guardduty.title]]
+[#integration-guardduty]
 = Detect threats with Amazon GuardDuty
 :info_titleabbrev: Amazon GuardDuty
 

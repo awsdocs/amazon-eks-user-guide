@@ -1,5 +1,5 @@
 [.topic]
-[[auto-hpa-scaling,auto-hpa-scaling.title]]
+[#auto-hpa-scaling]
 = End-to-end Compute Autoscaling with HPA
 
 include::../attributes.txt[]

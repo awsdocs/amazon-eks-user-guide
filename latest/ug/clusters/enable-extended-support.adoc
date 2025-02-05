@@ -1,5 +1,5 @@
 [.topic]
-[[enable-extended-support,enable-extended-support.title]]
+[#enable-extended-support]
 = Add flexibility to plan Kubernetes version upgrades by enabling EKS extended support
 :info_titleabbrev: Enable extended support
 
@@ -22,14 +22,14 @@ If you do not enable extended support, your cluster will be automatically upgrad
 
 ====
 
-[[enable-support-policy-console,enable-support-policy-console.title]]
+[#enable-support-policy-console]
 == Enable EKS extended support ({aws} Console)
 . Navigate to your EKS cluster in the {aws} Console. Select the *Overview* tab on the  *Cluster Info* page.
 . In the *Kubernetes version settings* section, select  *Manage*.  
 . Select *Extended support* and then  *Save changes*.
 
 
-[[enable-support-policy-cli,enable-support-policy-cli.title]]
+[#enable-support-policy-cli]
 == Enable EKS extended support ({aws} CLI)
 . Verify the {aws} CLI is installed and you are logged in.  link:cli/latest/userguide/getting-started-install.html[Learn how to update and install the {aws} CLI.,type="documentation"]
 . Determine the name of your EKS cluster. 

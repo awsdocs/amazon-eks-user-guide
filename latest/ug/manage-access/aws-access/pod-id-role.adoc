@@ -1,5 +1,5 @@
 [.topic]
-[[pod-id-role,pod-id-role.title]]
+[#pod-id-role]
 = Create [.noloc]`IAM` role with trust policy required by [.noloc]`EKS Pod Identity`
 :info_titleabbrev: EKS Pod Identity role
 

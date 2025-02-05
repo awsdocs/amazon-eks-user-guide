@@ -1,5 +1,5 @@
 [.topic]
-[[auto-mng,auto-mng.title]]
+[#auto-mng]
 = Compare EKS Auto Mode with EKS managed node groups
 :info_titleabbrev: Compare with Managed Node Groups
 

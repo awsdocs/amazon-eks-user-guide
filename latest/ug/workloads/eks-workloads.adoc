@@ -1,4 +1,4 @@
-[[eks-workloads,eks-workloads.title]]
+[#eks-workloads]
 = Learn how to deploy workloads and add-ons to Amazon EKS
 :doctype: book
 :sectnums:

@@ -1,5 +1,5 @@
 [.topic]
-[[default-roles-users,default-roles-users.title]]
+[#default-roles-users]
 = Understand Amazon EKS created RBAC roles and users
 :info_titleabbrev: Default roles and users
 
@@ -16,7 +16,7 @@ When you install optional <<eks-add-ons,add-ons>> to your cluster, additional [.
 
 You can view the list of Amazon EKS created [.noloc]`Kubernetes` identities on your cluster using the {aws-management-console} or `kubectl` command line tool. All of the user identities appear in the `kube` audit logs available to you through Amazon CloudWatch.
 
-[[default-role-users-console,default-role-users-console.title]]
+[#default-role-users-console]
 == {aws-management-console}
 
 === Prerequisite
@@ -42,7 +42,7 @@ In addition to the resources that you see in the console, the following special 
 
 . Choose a specific resource to view details about it. By default, you're shown information in *Structured view*. In the top-right corner of the details page you can choose  *Raw view* to see all information for the resource.
 
-[[default-role-users-kubectl,default-role-users-kubectl.title]]
+[#default-role-users-kubectl]
 == Kubectl
 
 === Prerequisite

@@ -1,5 +1,5 @@
 [.topic]
-[[update-workers,update-workers.title]]
+[#update-workers]
 = Update self-managed nodes for your cluster
 :info_titleabbrev: Update methods
 

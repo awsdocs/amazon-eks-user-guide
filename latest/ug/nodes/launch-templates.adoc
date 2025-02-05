@@ -1,5 +1,5 @@
 [.topic]
-[[launch-templates,launch-templates.title]]
+[#launch-templates]
 = Customize managed nodes with launch templates
 :info_titleabbrev: Launch templates
 
@@ -23,7 +23,7 @@ When you give your own launch template upon first creating a managed node group,
 
 Managed node groups are always deployed with a launch template to be used with the Amazon EC2 Auto Scaling group. When you don't provide a launch template, the Amazon EKS API creates one automatically with default values in your account. However, we don't recommend that you modify auto-generated launch templates. Furthermore, existing node groups that don't use a custom launch template can't be updated directly. Instead, you must create a new node group with a custom launch template to do so.
 
-[[launch-template-basics,launch-template-basics.title]]
+[#launch-template-basics]
 == Launch template configuration basics
 
 You can create an Amazon EC2 Auto Scaling launch template with the {aws-management-console}, {aws} CLI, or an {aws} SDK. For more information, see link:autoscaling/ec2/userguide/create-launch-template.html[Creating a Launch Template for an Auto Scaling group,type="documentation"] in the _Amazon EC2 Auto Scaling User Guide_. Some of the settings in a launch template are similar to the settings used for managed node configuration. When deploying or updating a node group with a launch template, some settings must be specified in either the node group configuration or the launch template. Don't specify a setting in both places. If a setting exists where it shouldn't, then operations such as creating or updating a node group fail.
@@ -89,12 +89,12 @@ a|*Application and OS Images (Amazon Machine Image)* under  *Launch template con
 
 ====
 
-[[launch-template-tagging,launch-template-tagging.title]]
+[#launch-template-tagging]
 == Tagging Amazon EC2 instances
 
 You can use the `TagSpecification` parameter of a launch template to specify which tags to apply to Amazon EC2 instances in your node group. The IAM entity calling the `CreateNodegroup` or `UpdateNodegroupVersion` APIs must have permissions for `ec2:RunInstances` and `ec2:CreateTags`, and the tags must be added to the launch template.
 
-[[launch-template-security-groups,launch-template-security-groups.title]]
+[#launch-template-security-groups]
 == Using custom security groups
 
 You can use a launch template to specify custom Amazon EC2 link:AWSEC2/latest/UserGuide/ec2-security-groups.html[security groups,type="documentation"] to apply to instances in your node group. This can be either in the instance level security groups parameter or as part of the network interface configuration parameters. However, you can't create a launch template that specifies both instance level and network interface security groups. Consider the following conditions that apply to using custom security groups with managed node groups:
@@ -106,7 +106,7 @@ You can use a launch template to specify custom Amazon EC2 link:AWSEC2/latest/Us
 * If you need SSH access to the instances in your node group, include a security group that allows that access.
 
 
-[[launch-template-user-data,launch-template-user-data.title]]
+[#launch-template-user-data]
 == Amazon EC2 user data
 
 The launch template includes a section for custom user data. You can specify configuration settings for your node group in this section without manually creating individual custom AMIs. For more information about the settings available for [.noloc]`Bottlerocket`, see https://github.com/bottlerocket-os/bottlerocket#using-user-data[Using user data] on [.noloc]`GitHub`.
@@ -237,13 +237,13 @@ Write-Host "Running custom user data script"
 ----
 
 
-[[launch-template-custom-ami,launch-template-custom-ami.title]]
+[#launch-template-custom-ami]
 == Specifying an AMI
 
 If you have either of the following requirements, then specify an AMI ID in the `ImageId` field of your launch template. Select the requirement you have for additional information.
 
 
-[[mng-specify-eks-ami,mng-specify-eks-ami.title]]
+[#mng-specify-eks-ami]
 .Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized [.noloc]`Linux`/[.noloc]`Bottlerocket` AMI
 [%collapsible]
 ====
@@ -364,7 +364,7 @@ set -ex
 
 ====
 
-[[mng-specify-eks-ami-windows,mng-specify-eks-ami-windows.title]]
+[#mng-specify-eks-ami-windows]
 .Provide user data to pass arguments to the `Start-EKSBootstrap.ps1` file included with an Amazon EKS optimized [.noloc]`Windows` AMI
 [%collapsible]
 ====
@@ -418,7 +418,7 @@ NOTE: If you're using custom service CIDR, then you need to specify it using the
 ----
 ====
 
-[[mng-specify-custom-ami,mng-specify-custom-ami.title]]
+[#mng-specify-custom-ami]
 .Run a custom AMI due to specific security, compliance, or internal policy requirements
 [%collapsible]
 ====
@@ -433,7 +433,7 @@ When specifying an AMI, Amazon EKS doesn't merge any user data. Rather, you're r
 
 ====
 
-[[mng-ami-id-conditions,mng-ami-id-conditions.title]]
+[#mng-ami-id-conditions]
 == Limits and conditions when specifying an AMI ID
 
 The following are the limits and conditions involved with specifying an AMI ID with managed node groups:

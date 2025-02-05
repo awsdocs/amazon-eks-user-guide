@@ -1,5 +1,5 @@
 [.topic]
-[[sec-group-reqs,sec-group-reqs.title]]
+[#sec-group-reqs]
 = View Amazon EKS security group requirements for clusters
 :info_titleabbrev: Security group requirements
 
@@ -12,7 +12,7 @@ Learn how to manage security groups for Amazon EKS clusters, including default r
 
 This topic describes the security group requirements of an Amazon EKS cluster.
 
-[[security-group-default-rules,security-group-default-rules.title]]
+[#security-group-default-rules]
 == Default cluster security group
 
 When you create a cluster, Amazon EKS creates a security group that's named `eks-cluster-sg-[.replaceable]``my-cluster``-[.replaceable]``uniqueID```. This security group has the following default rules:
@@ -81,7 +81,7 @@ aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.cl
 ----
 
 
-[[security-group-restricting-cluster-traffic,security-group-restricting-cluster-traffic.title]]
+[#security-group-restricting-cluster-traffic]
 == Restricting cluster traffic
 
 If you need to limit the open ports between the cluster and nodes, you can remove the  <<security-group-default-rules,default outbound rule>> and add the following minimum rules that are required for the cluster. If you remove the <<security-group-default-rules,default inbound rule>>, Amazon EKS recreates it whenever the cluster is updated.

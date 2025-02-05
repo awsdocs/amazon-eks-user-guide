@@ -1,5 +1,5 @@
 [.topic]
-[[hybrid-nodes-networking,hybrid-nodes-networking.title]]
+[#hybrid-nodes-networking]
 = Prepare networking for hybrid nodes
 :info_titleabbrev: Prepare networking
 :keywords: on-premises, hybrid
@@ -16,7 +16,7 @@ This topic provides an overview of the networking setup you must have configured
 image::images/hybrid-prereq-diagram.png[Hybrid node network connectivity.,scaledwidth=50%]
 
 
-[[hybrid-nodes-networking-on-prem,hybrid-nodes-networking-on-prem.title]]
+[#hybrid-nodes-networking-on-prem]
 == On-premises networking configuration
 
 *Minimum network requirements*
@@ -206,7 +206,7 @@ aws ec2 describe-network-interfaces \
 ----
 
 
-[[hybrid-nodes-networking-vpc,hybrid-nodes-networking-vpc.title]]
+[#hybrid-nodes-networking-vpc]
 == {aws} VPC and subnet setup
 
 The existing <<network-reqs,VPC and subnet requirements>> for Amazon EKS apply to clusters with hybrid nodes. Additionally, your VPC CIDR can't overlap with your on-premises node and pod CIDRs. You must configure routes in your VPC routing table for your on-premises node and optionally pod CIDRs. These routes must be setup to route traffic to the gateway you are using for your hybrid network connectivity, which is commonly a virtual private gateway (VGW) or transit gateway (TGW). If you are using TGW or VGW to connect your VPC with your on-premises environment, you must create a TGW or VGW attachment for your VPC. Your VPC must have DNS hostname and DNS resolution support.
@@ -336,7 +336,7 @@ aws ec2 associate-route-table --route-table-id [.replaceable]`RT_ID` --subnet-id
 ----
 
 
-[[hybrid-nodes-networking-cluster-sg,hybrid-nodes-networking-cluster-sg.title]]
+[#hybrid-nodes-networking-cluster-sg]
 == Cluster security group configuration
 
 The following access for your Amazon EKS cluster security group is required for ongoing cluster operations. 

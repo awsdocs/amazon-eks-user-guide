@@ -1,5 +1,5 @@
 [.topic]
-[[capacity-blocks-mng,capacity-blocks-mng.title]]
+[#capacity-blocks-mng]
 = Create a managed node group with Capacity Blocks for ML
 :info_titleabbrev: Reserve GPUs for MNG
 
@@ -12,7 +12,7 @@ Capacity Blocks for machine learning (ML) allow you to reserve highly sought-aft
 
 Capacity Blocks for machine learning (ML) allow you to reserve GPU instances on a future date to support your short duration ML workloads. For more information, see link:AWSEC2/latest/UserGuide/ec2-capacity-blocks.html[Capacity Blocks for ML,type="documentation"] in the _Amazon EC2 User Guide for Linux Instances_.
 
-[[capacity-blocks-mng-considerations,capacity-blocks-mng-considerations.title]]
+[#capacity-blocks-mng-considerations]
 == Considerations 
 
 [IMPORTANT]
@@ -26,7 +26,7 @@ Capacity Blocks for machine learning (ML) allow you to reserve GPU instances on 
 
 ====
 
-[[capacity-blocks-mng-procedure,capacity-blocks-mng-procedure.title]]
+[#capacity-blocks-mng-procedure]
 == Create a managed node group with Amazon EC2 Capacity Blocks
 
 You can use Capacity Blocks with Amazon EKS managed node groups for provisioning and scaling GPU-accelerated worker nodes. The {aws} CloudFormation template examples that follow don't cover every aspect needed in a production clusters. Typically, you'd also want a bootstrapping script to join the node to the cluster and specify an Amazon EKS accelerated AMI. For more information, see <<create-managed-node-group>>.

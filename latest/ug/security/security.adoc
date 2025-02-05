@@ -1,5 +1,5 @@
 [.topic]
-[[security,security.title]]
+[#security]
 = Security in Amazon EKS
 :doctype: book
 :sectnums:

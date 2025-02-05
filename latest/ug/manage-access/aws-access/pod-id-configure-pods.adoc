@@ -1,6 +1,6 @@
 include::../../attributes.txt[]
 [.topic]
-[[pod-id-configure-pods,pod-id-configure-pods.title]]
+[#pod-id-configure-pods]
 = Configure [.noloc]`Pods` to access {aws} services with service accounts
 :info_titleabbrev: Pod service account
 

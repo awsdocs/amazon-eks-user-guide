@@ -1,5 +1,5 @@
 [.topic]
-[[security-k8s,security-k8s.title]]
+[#security-k8s]
 = Security considerations for [.noloc]`Kubernetes`
 :info_titleabbrev: Considerations for Kubernetes
 

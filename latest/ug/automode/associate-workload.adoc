@@ -1,5 +1,5 @@
 [.topic]
-[[associate-workload,associate-workload.title]]
+[#associate-workload]
 = Control if a workload is deployed on EKS Auto Mode nodes
 :info_titleabbrev: Control deployment
 

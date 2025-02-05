@@ -1,5 +1,5 @@
 [.topic]
-[[ml-prepare-for-cluster,ml-prepare-for-cluster.title]]
+[#ml-prepare-for-cluster]
 = Prepare for ML clusters
 :info_titleabbrev: Prepare for ML
 

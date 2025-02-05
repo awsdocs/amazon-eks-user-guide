@@ -1,5 +1,5 @@
 [.topic]
-[[ebs-csi,ebs-csi.title]]
+[#ebs-csi]
 = Store [.noloc]`Kubernetes` volumes with Amazon EBS
 :info_titleabbrev: Amazon EBS
 :keywords: Amazon EBS CSI driver, storage
@@ -19,7 +19,7 @@ The Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) dr
 
 The https://github.com/kubernetes-sigs/aws-ebs-csi-driver/[Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver] manages the lifecycle of Amazon EBS volumes as storage for the Kubernetes Volumes that you create. The Amazon EBS CSI driver makes Amazon EBS volumes for these types of [.noloc]`Kubernetes` volumes: generic https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/[ephemeral volumes] and https://kubernetes.io/docs/concepts/storage/persistent-volumes/[persistent volumes].
 
-[[ebs-csi-considerations,ebs-csi-considerations.title]]
+[#ebs-csi-considerations]
 == Considerations
 
 * You do not need to install the Amazon EBS CSI controller on EKS Auto Mode clusters. 
@@ -36,7 +36,7 @@ To use the snapshot functionality of the Amazon EBS CSI driver, you must first i
 
 ====
 
-[[ebs-csi-prereqs,ebs-csi-prereqs.title]]
+[#ebs-csi-prereqs]
 == Prerequisites
 
 * An existing cluster. To see the required platform version, run the following command.
@@ -51,7 +51,7 @@ aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
 * If you're using a cluster wide restricted <<pod-security-policy,PodSecurityPolicy>>, make sure that the add-on is granted sufficient permissions to be deployed. For the permissions required by each add-on [.noloc]`Pod`, see the https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base[relevant add-on manifest definition] on GitHub.
 
 
-[[csi-iam-role,csi-iam-role.title]]
+[#csi-iam-role]
 == Step 1: Create an IAM role
 
 The Amazon EBS CSI plugin requires IAM permissions to make calls to {aws} APIs on your behalf. If you don't do these steps, attempting to install the add-on and running `kubectl describe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error. For more information, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#set-up-driver-permissions[Set up driver permission] on [.noloc]`GitHub`.  
@@ -343,7 +343,7 @@ aws iam attach-role-policy \
 
 Now that you have created the Amazon EBS CSI driver IAM role, you can continue to the next section. When you deploy the add-on with this IAM role, it creates and is configured to use a service account that's named `ebs-csi-controller-sa`. The service account is bound to a [.noloc]`Kubernetes` `clusterrole` that's assigned the required [.noloc]`Kubernetes` permissions.
 
-[[managing-ebs-csi,managing-ebs-csi.title]]
+[#managing-ebs-csi]
 == Step 2: Get the Amazon EBS CSI driver
 
 We recommend that you install the Amazon EBS CSI driver through the Amazon EKS add-on to improve security and reduce the amount of work. To add an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. For more information about add-ons, see <<eks-add-ons>>.
@@ -357,7 +357,7 @@ Before adding the Amazon EBS driver as an Amazon EKS add-on, confirm that you do
 
 Alternatively, if you want a self-managed installation of the Amazon EBS CSI driver, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md[Installation] on [.noloc]`GitHub`.
 
-[[ebs-sample-app,ebs-sample-app.title]]
+[#ebs-sample-app]
 == Step 3: Deploy a sample application
 
 You can deploy a variety of sample apps and modify them as needed. For more information, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes[Kubernetes Examples] on [.noloc]`GitHub`.

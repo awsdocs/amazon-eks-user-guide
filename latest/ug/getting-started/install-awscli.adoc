@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[install-awscli,install-awscli.title]]
+[#install-awscli]
 = Set up {aws} CLI
 :info_titleabbrev: Set up {aws} CLI
 :keywords: setting up, setup
@@ -13,7 +13,7 @@ Set up the {aws} CLI for managing {aws} resources needed to use Amazon EKS. Foll
 
 The link:cli/[{aws} CLI,type="marketing"] is a command line tool for working with {aws} services, including Amazon EKS. It is also used to authenticate IAM users or roles for access to the Amazon EKS cluster and other {aws} resources from your local machine. To provision resources in {aws} from the command line, you need to obtain an {aws} access key ID and secret key to use in the command line. Then you need to configure these credentials in the {aws} CLI. If you haven't already installed the {aws} CLI, see link:cli/latest/userguide/cli-chap-install.html[Install or update the latest version of the {aws} CLI,type="documentation"] in the _{aws} Command Line Interface User Guide_.
 
-[[create-access-key,create-access-key.title]]
+[#create-access-key]
 == To create an access key
 . Sign into the https://console.aws.amazon.com/[{aws-management-console}].
 . For single-user or multiple-user accounts:
@@ -29,7 +29,7 @@ The link:cli/[{aws} CLI,type="marketing"] is a command line tool for working wit
 . Choose *Download .csv file*.
 
 
-[[configure-cli,configure-cli.title]]
+[#configure-cli]
 == To configure the {aws} CLI
 
 After installing the {aws} CLI, do the following steps to configure it. For more information, see link:cli/latest/userguide/cli-chap-configure.html[Configure the {aws} CLI,type="documentation"] in the _{aws} Command Line Interface User Guide_.
@@ -53,7 +53,7 @@ Default output format [None]: json
 ----
 
 
-[[security-token,security-token.title]]
+[#security-token]
 == To get a security token
 
 If needed, run the following command to get a new security token for the {aws} CLI. For more information, see link:cli/latest/reference/sts/get-session-token.html[get-session-token,type="documentation"] in the _{aws} CLI Command Reference_.
@@ -80,7 +80,7 @@ This command returns the temporary security credentials for an {aws} CLI session
 ----
 
 
-[[verify-identity,verify-identity.title]]
+[#verify-identity]
 == To verify the user identity
 
 If needed, run the following command to verify the {aws} credentials for your IAM user identity (such as [.replaceable]`ClusterAdmin`) for the terminal session.
@@ -102,7 +102,7 @@ This command returns the Amazon Resource Name (ARN) of the IAM entity that's con
 ----
 
 
-[[install-awscli-next-steps,install-awscli-next-steps.title]]
+[#install-awscli-next-steps]
 == Next steps
 
 * <<install-kubectl,Set up kubectl and eksctl>>

@@ -1,5 +1,5 @@
 [.topic]
-[[cert-signing,cert-signing.title]]
+[#cert-signing]
 = Secure workloads with [.noloc]`Kubernetes` certificates
 :info_titleabbrev: Certificate signing
 
@@ -28,7 +28,7 @@ NOTE: Client certificate signing is not supported.
 * CA bit allowed/disallowed: Not allowed
 
 
-[[csr-example,csr-example.title]]
+[#csr-example]
 == Example CSR generation with signerName
 
 These steps shows how to generate a serving certificate for DNS name `myserver.default.svc` using `signerName: beta.eks.amazonaws.com/app-serving`. Use this as a guide for your own environment.
@@ -104,7 +104,7 @@ kubectl get csr myserver -o jsonpath='{.status.certificate}'| base64 -d > myserv
 ----
 
 
-[[csr-considerations,csr-considerations.title]]
+[#csr-considerations]
 == Certificate signing considerations before upgrading your cluster to [.noloc]`Kubernetes` 1.24
 
 In [.noloc]`Kubernetes` `1.23` and earlier, `kubelet` serving certificates with unverifiable IP and DNS Subject Alternative Names (SANs) are automatically issued with unverifiable SANs. The SANs are omitted from the provisioned certificate. In `1.24` and later clusters, `kubelet` serving certificates aren't issued if a SAN can't be verified. This prevents the `kubectl exec` and `kubectl logs` commands from working.

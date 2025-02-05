@@ -1,5 +1,5 @@
 [.topic]
-[[managing-vpc-cni,managing-vpc-cni.title]]
+[#managing-vpc-cni]
 = Assign IPs to [.noloc]`Pods` with the Amazon VPC CNI
 :info_titleabbrev: Amazon VPC CNI
 
@@ -41,7 +41,7 @@ A version of the add-on is deployed with each Fargate node in your cluster, but 
 
 The following table lists the latest available version of the Amazon EKS add-on type for each [.noloc]`Kubernetes` version.
 
-[[vpc-cni-latest-available-version,vpc-cni-latest-available-version.title]]
+[#vpc-cni-latest-available-version]
 == [.noloc]`Amazon VPC CNI` versions
 
 [options="header"]
@@ -74,7 +74,7 @@ To upgrade to VPC CNI v1.12.0 or later, you must upgrade to VPC CNI v1.7.0 first
 ====
 
 
-[[manage-vpc-cni-add-on-on-considerations,manage-vpc-cni-add-on-on-considerations.title]]
+[#manage-vpc-cni-add-on-on-considerations]
 == Considerations
 
 The following are considerations for using the feature.

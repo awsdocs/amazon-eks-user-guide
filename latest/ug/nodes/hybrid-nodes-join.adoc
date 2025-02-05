@@ -1,5 +1,5 @@
 [.topic]
-[[hybrid-nodes-join,hybrid-nodes-join.title]]
+[#hybrid-nodes-join]
 = Connect hybrid nodes 
 :info_titleabbrev: Connect hybrid nodes
 :keywords: on-premises, hybrid

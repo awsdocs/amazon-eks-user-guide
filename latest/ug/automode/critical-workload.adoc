@@ -1,5 +1,5 @@
 [.topic]
-[[critical-workload,critical-workload.title]]
+[#critical-workload]
 = Run critical add-ons on dedicated instances
 :info_titleabbrev: Run critical add-ons
 

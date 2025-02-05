@@ -1,5 +1,5 @@
 [.topic]
-[[creating-a-vpc,creating-a-vpc.title]]
+[#creating-a-vpc]
 = Create an Amazon VPC for your Amazon EKS cluster
 :info_titleabbrev: Create a VPC
 

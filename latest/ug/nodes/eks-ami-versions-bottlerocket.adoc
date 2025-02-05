@@ -1,5 +1,5 @@
 [.topic]
-[[eks-ami-versions-bottlerocket,eks-ami-versions-bottlerocket.title]]
+[#eks-ami-versions-bottlerocket]
 = Retrieve [.noloc]`Bottlerocket` AMI version information
 :info_titleabbrev: Get version information
 

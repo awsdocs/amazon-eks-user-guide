@@ -1,5 +1,5 @@
 [.topic]
-[[cost-monitoring-kubecost,cost-monitoring-kubecost.title]]
+[#cost-monitoring-kubecost]
 = Install Kubecost and access dashboard
 :info_titleabbrev: Install Kubecost
 
@@ -21,7 +21,7 @@ Kubecost v2 introduces several major new features. <<kubecost-v2,Learn more abou
 For more information about [.noloc]`Kubecost`, see the https://guide.kubecost.com[Kubecost] documentation.
 
 
-[[kubecost-addon,kubecost-addon.title]]
+[#kubecost-addon]
 == Install Kubecost using Amazon EKS Add-ons
 
 [NOTE]
@@ -42,7 +42,7 @@ aws eks create-addon --addon-name kubecost_kubecost --cluster-name $YOUR_CLUSTER
 
 Learn how to  <<removing-an-add-on,remove an EKS Add-on>>, such as Kubecost.
 
-[[kubecost-helm,kubecost-helm.title]]
+[#kubecost-helm]
 == Install Kubecost using Helm
 
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>. The cluster must have Amazon EC2 nodes because you can't run [.noloc]`Kubecost` on Fargate nodes.
@@ -71,7 +71,7 @@ kubectl delete ns kubecost
 
 
 
-[[kubecost-dashboard,kubecost-dashboard.title]]
+[#kubecost-dashboard]
 == Access Kubecost Dashboard
 . Make sure the required [.noloc]`Pods` are running.
 +

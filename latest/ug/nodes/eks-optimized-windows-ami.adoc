@@ -1,5 +1,5 @@
 [.topic]
-[[eks-optimized-windows-ami,eks-optimized-windows-ami.title]]
+[#eks-optimized-windows-ami]
 = Create nodes with optimized [.noloc]`Windows` AMIs
 :info_titleabbrev: Windows
 
@@ -42,7 +42,7 @@ Amazon EKS offers AMIs that are optimized for [.noloc]`Windows` containers in th
 
 ====
 
-[[windows-ami-release-calendar,windows-ami-release-calendar.title]]
+[#windows-ami-release-calendar]
 == Release calendar
 
 The following table lists the release and end of support dates for [.noloc]`Windows` versions on Amazon EKS. If an end date is blank, it's because the version is still supported.
@@ -83,7 +83,7 @@ The following table lists the release and end of support dates for [.noloc]`Wind
 |[.noloc]`12/8/2020`
 |===
 
-[[bootstrap-script-configuration-parameters,bootstrap-script-configuration-parameters.title]]
+[#bootstrap-script-configuration-parameters]
 == Bootstrap script configuration parameters
 
 When you create a [.noloc]`Windows` node, there's a script on the node that allows for configuring different parameters. Depending on your setup, this script can be found on the node at a location similar to: `C:\Program Files\Amazon\EKS\Start-EKSBootstrap.ps1`. You can specify custom parameter values by specifying them as arguments to the bootstrap script. For example, you can update the user data in the launch template. For more information, see <<launch-template-user-data>>.
@@ -107,7 +107,7 @@ The script takes into account the following environment variables:
 * `EXCLUDED_SNAT_CIDRS` – Should be a comma separated string. Refer to the `ExcludedSnatCIDRs` command line parameter for the definition.
 
 
-[[ad-and-gmsa-support,ad-and-gmsa-support.title]]
+[#ad-and-gmsa-support]
 === [.noloc]`gMSA` authentication support
 
 Amazon EKS Windows [.noloc]`Pods` allow different types of group Managed Service Account ([.noloc]`gMSA`) authentication.
@@ -116,7 +116,7 @@ Amazon EKS Windows [.noloc]`Pods` allow different types of group Managed Service
 * Amazon EKS offers a plugin that enables non-domain-joined [.noloc]`Windows` nodes to retrieve [.noloc]`gMSA` credentials with a portable user identity. For more information on domainless [.noloc]`gMSA`, see link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[Domainless Windows Authentication for Amazon EKS Windowspods,type="blog"] on the {aws} blog.
 
 
-[[windows-cached-container-images,windows-cached-container-images.title]]
+[#windows-cached-container-images]
 == Cached container images
 
 Amazon EKS Windows optimized AMIs have certain container images cached for the `containerd` runtime. Container images are cached when building custom AMIs using Amazon-managed build components. For more information, see <<custom-windows-ami-build-component>>.
@@ -127,7 +127,7 @@ The following cached container images are for the `containerd` runtime:
 * `mcr.microsoft.com/windows/nanoserver`
 * `mcr.microsoft.com/windows/servercore`
 
-[[windows-more-information,windows-more-information.title]]
+[#windows-more-information]
 == More information
 
 For more information about using Amazon EKS optimized [.noloc]`Windows` AMIs, see the following sections:

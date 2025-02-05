@@ -1,5 +1,5 @@
 [.topic]
-[[hybrid-nodes-troubleshooting,hybrid-nodes-troubleshooting.title]]
+[#hybrid-nodes-troubleshooting]
 = Troubleshooting hybrid nodes
 :info_titleabbrev: Troubleshooting
 :keywords: on-premises, hybrid
@@ -16,7 +16,7 @@ This topic covers some common errors that you may see while using Amazon EKS Hyb
 You can run the `nodeadm debug` command from your hybrid nodes to validate networking and credential requirements are met. For more information on the `nodeadm debug` command, see <<hybrid-nodes-nodeadm>>.
 
 
-[[hybrid-nodes-troubleshooting-install,hybrid-nodes-troubleshooting-install.title]]
+[#hybrid-nodes-troubleshooting-install]
 == Installing hybrid nodes troubleshooting
 
 The troubleshooting topics in this section are related to installing the hybrid nodes dependencies on hosts with the `nodeadm install` command.
@@ -59,7 +59,7 @@ nodeadm install K8S_VERSION --credential-provider CREDS_PROVIDER --timeout [.rep
 ----
 
 
-[[hybrid-nodes-troubleshooting-connect,hybrid-nodes-troubleshooting-connect.title]]
+[#hybrid-nodes-troubleshooting-connect]
 == Connecting hybrid nodes troubleshooting
 
 The troubleshooting topics in this section are related to the process of connecting hybrid nodes to EKS clusters with the `nodeadm init` command.
@@ -148,7 +148,7 @@ If you see these messages, check the following to ensure it meets the hybrid nod
 * Confirm that in your cluster you have an EKS access entry for your Hybrid Nodes IAM role or confirm that your `aws-auth` ConfigMap has an entry for your Hybrid Nodes IAM role. If you are using EKS access entries, confirm your access entry for your Hybrid Nodes IAM role has the `HYBRID_LINUX` access type. If you are using the `aws-auth` ConfigMap, confirm your entry for the Hybrid Nodes IAM role meets the requirements and formatting detailed in <<hybrid-nodes-cluster-prep>>.
 
 
-[[hybrid-nodes-troubleshooting-not-ready,hybrid-nodes-troubleshooting-not-ready.title]]
+[#hybrid-nodes-troubleshooting-not-ready]
 === Hybrid nodes registered with EKS cluster but show status `Not Ready`
 
 If your hybrid nodes successfully registered with your EKS cluster, but the hybrid nodes show status `Not Ready`, the first thing to check is your Container Networking Interface (CNI) status. If you have not installed a CNI, then it is expected that your hybrid nodes have status `Not Ready`. Once a CNI is installed and running successfully, nodes transition to have the status Ready. If you attempted to install a CNI but it is not running successfully, see <<hybrid-nodes-troubleshooting-cni>> on this page.
@@ -247,7 +247,7 @@ A common pod log message for this scenario is shown below the following where ip
 dial tcp <ip-address>:443: connect: no route to host
 ----
 
-[[hybrid-nodes-troubleshooting-cni,hybrid-nodes-troubleshooting-cni.title]]
+[#hybrid-nodes-troubleshooting-cni]
 == Hybrid nodes CNI troubleshooting
 
 If you run into issues with initially starting Cilium or Calico with hybrid nodes, it is most often due to networking issues between hybrid nodes or the CNI pods running on hybrid nodes, and the EKS control plane. Make sure your environment meets the requirements in Prepare networking for hybrid nodes. It's useful to break down the problem into parts.
@@ -432,7 +432,7 @@ installation:
             tolerationSeconds: 300
 ----
 
-[[hybrid-nodes-troubleshooting-creds,hybrid-nodes-troubleshooting-creds.title]]
+[#hybrid-nodes-troubleshooting-creds]
 == Credentials troubleshooting
 
 For both {aws} SSM hybrid activations and {aws} IAM Roles Anywhere, you can validate that credentials for the Hybrid Nodes IAM role are correctly configured on your hybrid nodes by running the following command from your hybrid nodes. Confirm the node name and Hybrid Nodes IAM Role name are what you expect.
@@ -636,7 +636,7 @@ In the `kubelet` logs, if you see an access denied issue for setting the `roleSe
 AccessDeniedException: Not authorized to set roleSessionName
 ----
 
-[[hybrid-nodes-troubleshooting-os,hybrid-nodes-troubleshooting-os.title]]
+[#hybrid-nodes-troubleshooting-os]
 == Operating system troubleshooting
 
 *RHEL*

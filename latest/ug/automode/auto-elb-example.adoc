@@ -1,5 +1,5 @@
 [.topic]
-[[auto-elb-example,auto-elb-example.title]]
+[#auto-elb-example]
 = Deploy a Sample Load Balancer Workload to EKS Auto Mode
 :info_titleabbrev: Deploy load balancer
 
@@ -233,7 +233,7 @@ This will delete all resources in the namespace, including the deployment, servi
 ** Configures target groups for the pods
 ** Sets up routing rules to direct traffic to the service
 
-[[auto-elb-troubleshooting,auto-elb-troubleshooting.title]]
+[#auto-elb-troubleshooting]
 == Troubleshooting
 
 If the game doesn't load:

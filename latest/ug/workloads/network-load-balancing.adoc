@@ -1,5 +1,5 @@
 [.topic]
-[[network-load-balancing,network-load-balancing.title]]
+[#network-load-balancing]
 = Route [.noloc]`TCP` and [.noloc]`UDP` traffic with [.noloc]`Network Load Balancers`
 :info_titleabbrev: Network load balancing
 
@@ -86,7 +86,7 @@ service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-xxxxxxxxx
 * We recommend only creating new Network Load Balancers with the [.noloc]`{aws} Load Balancer Controller`. Attempting to replace existing Network Load Balancers created with the {aws} cloud provider load balancer controller can result in multiple Network Load Balancers that might cause application downtime.
 
 
-[[network-load-balancer,network-load-balancer.title]]
+[#network-load-balancer]
 == Create a network load balancer
 
 You can create a network load balancer with IP or instance targets.
@@ -150,7 +150,7 @@ service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
 IMPORTANT: Do not edit the annotations after creating your service. If you need to modify it, delete the service object and create it again with the desired value for this annotation.
 
 
-[[load-balancer-sample-application,load-balancer-sample-application.title]]
+[#load-balancer-sample-application]
 == (Optional) Deploy a sample application
 
 * At least one public or private subnet in your cluster VPC.

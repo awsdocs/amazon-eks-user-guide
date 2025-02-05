@@ -1,5 +1,5 @@
 [.topic]
-[[integration-detective,integration-detective.title]]
+[#integration-detective]
 = Analyze security events on EKS with Amazon Detective
 :info_titleabbrev: Amazon Detective
 :keywords: Amazon Detective
@@ -23,7 +23,7 @@ Detective organizes [.noloc]`Kubernetes` and {aws} data into findings such as:
 
 Amazon EKS audit logs is an optional data source package that can be added to your Detective behavior graph. You can view the available optional source packages, and their status in your account. For more information, see link:detective/latest/adminguide/source-data-types-EKS.html[Amazon EKS audit logs for Detective,type="documentation"] in the _Amazon Detective User Guide_.
 
-[[integration-detective-use,integration-detective-use.title]]
+[#integration-detective-use]
 == Use Amazon Detective with Amazon EKS
 
 Before you can review findings, Detective must be enabled for at least 48 hours in the same {aws} Region that your cluster is in. For more information, see link:detective/latest/adminguide/detective-setup.html[Setting up Amazon Detective,type="documentation"] in the _Amazon Detective User Guide_.

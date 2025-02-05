@@ -1,5 +1,5 @@
 [.topic]
-[[sample-deployment,sample-deployment.title]]
+[#sample-deployment]
 = Deploy a sample application on Linux
 :info_titleabbrev: Sample deployment (Linux)
 
@@ -111,7 +111,7 @@ spec:
 kubectl apply -f eks-sample-service.yaml
 ----
 
-[[sample-app-view-namespace,sample-app-view-namespace.title]]
+[#sample-app-view-namespace]
 == Review resources created
 
 . View all resources that exist in the `eks-sample-app` namespace.
@@ -261,7 +261,7 @@ kubectl delete namespace eks-sample-app
 ----
 
 
-[[sample-deployment-next-steps,sample-deployment-next-steps.title]]
+[#sample-deployment-next-steps]
 == Next Steps
 
 After you deploy the sample application, you might want to try some of the following exercises:

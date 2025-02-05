@@ -1,5 +1,5 @@
 [.topic]
-[[irsa-fetch-keys,irsa-fetch-keys.title]]
+[#irsa-fetch-keys]
 = Fetch signing keys to validate [.noloc]`OIDC` tokens
 :info_titleabbrev: Fetch signing keys
 

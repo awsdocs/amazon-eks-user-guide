@@ -1,5 +1,5 @@
 [.topic]
-[[coredns-add-on-self-managed-update,coredns-add-on-self-managed-update.title]]
+[#coredns-add-on-self-managed-update]
 = Update the [.noloc]`CoreDNS` Amazon EKS self-managed add-on
 :info_titleabbrev: Update (self-managed)
 

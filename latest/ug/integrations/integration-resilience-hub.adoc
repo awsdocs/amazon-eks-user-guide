@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[integration-resilience-hub,integration-resilience-hub.title]]
+[#integration-resilience-hub]
 = Assess EKS cluster resiliency with {aws} Resilience Hub
 :info_titleabbrev: {aws} Resilience Hub
 

@@ -1,5 +1,5 @@
 [.topic]
-[[kubernetes-versions-standard,kubernetes-versions-standard.title]]
+[#kubernetes-versions-standard]
 = Review release notes for [.noloc]`Kubernetes` versions on standard support
 :info_titleabbrev: Standard support versions
 
@@ -18,7 +18,7 @@ This topic gives important changes to be aware of for each [.noloc]`Kubernetes` 
 For `1.24` and later clusters, officially published Amazon EKS AMIs include `containerd` as the only runtime. [.noloc]`Kubernetes` versions earlier than `1.24` use [.noloc]`Docker` as the default runtime. These versions have a bootstrap flag option that you can use to test out your workloads on any supported cluster with `containerd`. For more information, see <<dockershim-deprecation>>.
 ====
 
-[[kubernetes-1.32,kubernetes-1.32.title]]
+[#kubernetes-1-32]
 == [.noloc]`Kubernetes` 1.32
 
 [.noloc]`Kubernetes` `1.32` is now available in Amazon EKS. For more information about [.noloc]`Kubernetes` `1.32`, see the https://kubernetes.io/blog/2024/12/13/kubernetes-v1-32-release/[official release announcement].
@@ -69,7 +69,7 @@ For Kubernetes versions 1.33 and later, EKS will not provide pre-built optimized
 NOTE: This update applies to EKS-optimized AL2 AMIs. For more information about the operating system itself, see link:amazon-linux-2/faqs/[Amazon Linux 2 FAQs,type="marketing"].
 
 
-[[kubernetes-1.31,kubernetes-1.31.title]]
+[#kubernetes-1-31]
 == [.noloc]`Kubernetes` 1.31
 
 [.noloc]`Kubernetes` `1.31` is now available in Amazon EKS. For more information about [.noloc]`Kubernetes` `1.31`, see the https://kubernetes.io/blog/2024/08/13/kubernetes-v1-31-release/[official release announcement].
@@ -89,7 +89,7 @@ NOTE: This update applies to EKS-optimized AL2 AMIs. For more information about 
 
 For the complete [.noloc]`Kubernetes` `1.31` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.31.md 
 
-[[kubernetes-1.30,kubernetes-1.30.title]]
+[#kubernetes-1-30]
 == [.noloc]`Kubernetes` 1.30
 
 [.noloc]`Kubernetes` `1.30` is now available in Amazon EKS. For more information about [.noloc]`Kubernetes` `1.30`, see the https://kubernetes.io/blog/2024/04/17/kubernetes-v1-30-release/[official release announcement].
@@ -111,7 +111,7 @@ For the complete [.noloc]`Kubernetes` `1.31` changelog, see https://github.com/k
 
 For the complete [.noloc]`Kubernetes` `1.30` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.30.md.
 
-[[kubernetes-1.29,kubernetes-1.29.title]]
+[#kubernetes-1-29]
 == [.noloc]`Kubernetes` 1.29
 
 [.noloc]`Kubernetes` `1.29` is now available in Amazon EKS. For more information about [.noloc]`Kubernetes` `1.29`, see the https://kubernetes.io/blog/2023/12/13/kubernetes-v1-29-release/[official release announcement].

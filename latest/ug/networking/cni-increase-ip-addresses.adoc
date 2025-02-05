@@ -1,5 +1,5 @@
 [.topic]
-[[cni-increase-ip-addresses,cni-increase-ip-addresses.title]]
+[#cni-increase-ip-addresses]
 = Assign more IP addresses to Amazon EKS nodes with prefixes
 :info_titleabbrev: Increase IP addresses
 
@@ -20,7 +20,7 @@ Each Amazon EC2 instance supports a maximum number of elastic network interfaces
 
 You can increase the number of IP addresses that nodes can assign to `Pods` by assigning IP prefixes, rather than assigning individual secondary IP addresses to your nodes. Each prefix includes several IP addresses. If you don't configure your cluster for IP prefix assignment, your cluster must make more Amazon EC2 application programming interface (API) calls to configure network interfaces and IP addresses necessary for [.noloc]`Pod` connectivity. As clusters grow to larger sizes, the frequency of these API calls can lead to longer [.noloc]`Pod` and instance launch times. This results in scaling delays to meet the demand of large and spiky workloads, and adds cost and management overhead because you need to provision additional clusters and VPCs to meet scaling requirements. For more information, see https://github.com/kubernetes/community/blob/master/sig-scalability/configs-and-limits/thresholds.md[Kubernetes Scalability thresholds] on GitHub.
 
-[[cni-increase-ip-addresses-compatability,cni-increase-ip-addresses-compatability.title]]
+[#cni-increase-ip-addresses-compatability]
 == Compatibility with [.noloc]`Amazon VPC CNI plugin for Kubernetes` features
 
 You can use IP prefixes with the following features:
@@ -40,7 +40,7 @@ The following list provides information about the Amazon VPC CNI plugin settings
 * `WARM_PREFIX_TARGET`
 
 
-[[cni-increase-ip-addresses-considerations,cni-increase-ip-addresses-considerations.title]]
+[#cni-increase-ip-addresses-considerations]
 == Considerations
 
 Consider the following when you use this feature:

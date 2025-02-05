@@ -1,5 +1,5 @@
 [.topic]
-[[getting-started-eksctl,getting-started-eksctl.title]]
+[#getting-started-eksctl]
 = Get started with Amazon EKS – `eksctl`
 :info_titleabbrev: Create cluster (eksctl)
 :keywords: using, eksctl, getting, started, tutorial
@@ -23,12 +23,12 @@ This guide helps you to create all of the required resources to get started with
 
 The procedures in this guide create several resources for you automatically that you have to create manually when you create your cluster using the {aws-management-console}. If you'd rather manually create most of the resources to better understand how they interact with each other, then use the {aws-management-console} to create your cluster and compute. For more information, see <<getting-started-console>>.
 
-[[eksctl-prereqs,eksctl-prereqs.title]]
+[#eksctl-prereqs]
 == Prerequisites
 
 Before starting this tutorial, you must install and configure the {aws} CLI, kubectl, and eksctl tools as described in  <<setting-up,Set up to use Amazon EKS>>.
 
-[[create-cluster-gs-eksctl,create-cluster-gs-eksctl.title]]
+[#create-cluster-gs-eksctl]
 == Step 1: Create your Amazon EKS cluster and nodes
 
 [IMPORTANT]
@@ -75,7 +75,7 @@ Cluster creation takes several minutes. During creation you'll see several lines
 
 After cluster creation is complete, view the {aws} CloudFormation stack named `eksctl-[.replaceable]``my-cluster``-cluster` in the {aws} CloudFormation link:cloudformation/[console,type="console"] to see all of the resources that were created.
 
-[[gs-eksctl-view-resources,gs-eksctl-view-resources.title]]
+[#gs-eksctl-view-resources]
 
 
 == Step 2: View [.noloc]`Kubernetes` resources
@@ -148,7 +148,7 @@ kube-system   kube-proxy-67890           1/1     Running   0          7m43s   19
 For more information about what you see in the output, see  <<view-kubernetes-resources>>.
 
 
-[[gs-eksctl-clean-up,gs-eksctl-clean-up.title]]
+[#gs-eksctl-clean-up]
 
 == Step 3: Delete your cluster and nodes
 
@@ -160,7 +160,7 @@ eksctl delete cluster --name my-cluster --region region-code
 ----
 
 
-[[gs-eksctl-next-steps,gs-eksctl-next-steps.title]]
+[#gs-eksctl-next-steps]
 == Next steps
 
 The following documentation topics help you to extend the functionality of your cluster.

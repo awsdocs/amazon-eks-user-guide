@@ -1,5 +1,5 @@
 [.topic]
-[[ml-eks-optimized-ami,ml-eks-optimized-ami.title]]
+[#ml-eks-optimized-ami]
 = Run GPU-accelerated containers (Linux on EC2)
 :info_titleabbrev: Run Linux GPU AMIs
 

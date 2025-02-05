@@ -1,5 +1,5 @@
 [.topic]
-[[access-entries,access-entries.title]]
+[#access-entries]
 = Grant [.noloc]`IAM` users access to [.noloc]`Kubernetes` with EKS access entries
 :info_titleabbrev: Grant permissions
 

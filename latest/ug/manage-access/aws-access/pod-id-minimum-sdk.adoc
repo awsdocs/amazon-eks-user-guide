@@ -1,10 +1,10 @@
 include::../../attributes.txt[]
 [.topic]
-[[pod-id-minimum-sdk,pod-id-minimum-sdk.title]]
+[#pod-id-minimum-sdk]
 = Use pod identity with the {aws} SDK
 :info_titleabbrev: Supported SDKs
 
-[[pod-id-using-creds,pod-id-using-creds.title]]
+[#pod-id-using-creds]
 == Using EKS Pod Identity credentials
 
 To use the credentials from a EKS Pod Identity association, your code can use any {aws} SDK to create a client for an {aws} service with an SDK, and by default the SDK searches in a chain of locations for {aws} Identity and Access Management credentials to use. The EKS Pod Identity credentials will be used if you don't specify a credential provider when you create the client or otherwise initialized the SDK.

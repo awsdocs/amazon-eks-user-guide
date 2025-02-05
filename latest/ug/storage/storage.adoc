@@ -1,4 +1,4 @@
-[[storage,storage.title]]
+[#storage]
 = Store application data for your cluster
 :doctype: book
 :sectnums:

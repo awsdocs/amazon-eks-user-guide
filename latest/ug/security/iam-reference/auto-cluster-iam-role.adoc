@@ -1,5 +1,5 @@
 [.topic]
-[[auto-cluster-iam-role,auto-cluster-iam-role.title]]
+[#auto-cluster-iam-role]
 = Amazon EKS Auto Mode cluster IAM role
 :idprefix: wip_
 :info_titleabbrev: Auto Mode cluster IAM role

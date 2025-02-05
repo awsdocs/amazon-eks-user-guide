@@ -1,5 +1,5 @@
 [.topic]
-[[network-policy-disable,network-policy-disable.title]]
+[#network-policy-disable]
 = Disable [.noloc]`Kubernetes` network policies for Amazon EKS Pod network traffic
 :info_titleabbrev: Disable
 

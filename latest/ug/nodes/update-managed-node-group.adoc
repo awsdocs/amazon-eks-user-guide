@@ -1,5 +1,5 @@
 [.topic]
-[[update-managed-node-group,update-managed-node-group.title]]
+[#update-managed-node-group]
 = Update a managed node group for your cluster
 :info_titleabbrev: Update
 
@@ -33,7 +33,7 @@ If there's a newer AMI release version for your managed node group's [.noloc]`Ku
 
 When a node in a managed node group is terminated due to a scaling operation or update, the [.noloc]`Pods` in that node are drained first. For more information, see <<managed-node-update-behavior>>.
 
-[[mng-update,mng-update.title]]
+[#mng-update]
 == Update a node group version
 
 You can update a node group version with either of the following:
@@ -96,7 +96,7 @@ You won't see a notification for node groups that were deployed with a custom AM
 . Choose *Update*.
 
 
-[[mng-edit,mng-edit.title]]
+[#mng-edit]
 == Edit a node group configuration
 
 You can modify some of the configurations of a managed node group.

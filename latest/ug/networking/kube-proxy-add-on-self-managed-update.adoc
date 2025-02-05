@@ -1,5 +1,5 @@
 [.topic]
-[[kube-proxy-add-on-self-managed-update,kube-proxy-add-on-self-managed-update.title]]
+[#kube-proxy-add-on-self-managed-update]
 = Update the Kubernetes `kube-proxy` self-managed add-on
 :info_titleabbrev: Update
 
@@ -12,13 +12,13 @@ We recommend adding the Amazon EKS type of the add-on to your cluster instead of
 
 ====
 
-[[managing-kube-proxy-prereqs,managing-kube-proxy-prereqs.title]]
+[#managing-kube-proxy-prereqs]
 == Prerequisites
 
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
 
 
-[[managing-kube-proxy-considerations,managing-kube-proxy-considerations.title]]
+[#managing-kube-proxy-considerations]
 == Considerations
 
 * `Kube-proxy` on an Amazon EKS cluster has the same https://kubernetes.io/releases/version-skew-policy/#kube-proxy[compatibility and skew policy as Kubernetes]. Learn how to <<addon-compat,Verifying Amazon EKS add-on version compatibility with a cluster>>.

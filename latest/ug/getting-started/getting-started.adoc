@@ -1,4 +1,4 @@
-[[getting-started,getting-started.title]]
+[#getting-started]
 = Get started with Amazon EKS
 :doctype: book
 :sectnums:

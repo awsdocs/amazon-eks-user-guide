@@ -1,5 +1,5 @@
 [.topic]
-[[zone-shift-enable,zone-shift-enable.title]]
+[#zone-shift-enable]
 = Enable EKS Zonal Shift to avoid impaired Availability Zones
 :info_titleabbrev: Enable Zonal Shift
 :aws: pass:q[[.shared]``AWS``]
@@ -48,7 +48,7 @@ EKS updates networking configurations to avoid directing traffic to impaired AZs
 
 xref:zone-shift[Learn more about EKS Zonal Shift].
 
-[[zone-shift-enable-steps,zone-shift-enable-steps.title]]
+[#zone-shift-enable-steps]
 == Register EKS cluster with Amazon Application Recovery Controller (ARC) ({aws} console)
 
 . Find the name and region of the EKS cluster you want to register with ARC.

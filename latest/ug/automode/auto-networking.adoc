@@ -1,5 +1,5 @@
 [.topic]
-[[auto-networking,auto-networking.title]]
+[#auto-networking]
 = Learn about VPC Networking and Load Balancing in EKS Auto Mode
 :info_titleabbrev: Networking
 
@@ -49,7 +49,7 @@ EKS Auto Mode does *not* support:
 * Exporting network event logs to CloudWatch.
 
 
-[[auto-lb-consider,auto-lb-consider.title]]
+[#auto-lb-consider]
 == Load balancing
 
 You configure {aws} Elastic Load Balancers provisioned by EKS Auto Mode using annotations on Service and Ingress resources. 

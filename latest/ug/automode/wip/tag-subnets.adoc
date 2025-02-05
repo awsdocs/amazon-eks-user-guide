@@ -1,5 +1,5 @@
 [.topic]
-[[tag-subnets,tag-subnets.title]]
+[#tag-subnets]
 = Tag VPC Subnets for Load Balancer Deployment
 
 include::../../attributes.txt[]

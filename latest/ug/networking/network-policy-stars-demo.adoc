@@ -1,5 +1,5 @@
 [.topic]
-[[network-policy-stars-demo,network-policy-stars-demo.title]]
+[#network-policy-stars-demo]
 = Stars demo of network policy for Amazon EKS
 :info_titleabbrev: Stars policy demo
 

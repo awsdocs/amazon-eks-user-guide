@@ -1,5 +1,5 @@
 [.topic]
-[[sample-storage-workload,sample-storage-workload.title]]
+[#sample-storage-workload]
 = Deploy a sample stateful workload to EKS Auto Mode
 :info_titleabbrev: Deploy stateful workload
 

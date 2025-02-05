@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[eks-outposts-network-disconnects,eks-outposts-network-disconnects.title]]
+[#eks-outposts-network-disconnects]
 = Prepare local Amazon EKS clusters on {aws} Outposts for network disconnects
 :info_titleabbrev: Prepare for disconnects
 
@@ -28,7 +28,7 @@ If your local network has lost connectivity with the {aws} Cloud, you can contin
 * The [.noloc]`Amazon VPC CNI plugin for Kubernetes` defaults to https://aws.github.io/aws-eks-best-practices/networking/vpc-cni/#overview[secondary IP mode]. It's configured with `WARM_ENI_TARGET`=``1``, which allows the plugin to keep "a full elastic network interface" of available IP addresses available. Consider changing `WARM_ENI_TARGET`, `WARM_IP_TARGET`, and `MINIMUM_IP_TARGET` values according to your scaling needs during a disconnected state. For more information, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md[readme] file for the plugin on GitHub. For a list of the maximum number of [.noloc]`Pods` that's supported by each instance type, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/misc/eni-max-pods.txt[eni-max-pods.txt] file on GitHub.
 
 
-[[outposts-network-disconnects-authentication,outposts-network-disconnects-authentication.title]]
+[#outposts-network-disconnects-authentication]
 == Authenticating to your local cluster during a network disconnect
 
 [abstract]

@@ -1,5 +1,5 @@
 [.topic]
-[[auto-net-pol,auto-net-pol.title]]
+[#auto-net-pol]
 = Use Network Policies with EKS Auto Mode
 :info_titleabbrev: Use network policies
 

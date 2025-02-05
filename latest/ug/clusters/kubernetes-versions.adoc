@@ -1,5 +1,5 @@
 [.topic]
-[[kubernetes-versions,kubernetes-versions.title]]
+[#kubernetes-versions]
 = Understand the [.noloc]`Kubernetes` version lifecycle on EKS
 :info_titleabbrev: Kubernetes versions
 :keywords: Amazon EKS, available, Kubernetes, version, release notes
@@ -25,7 +25,7 @@ We recommend that you create your cluster with the latest available [.noloc]`Kub
 video::_dJdAZ_J_jw[youtube,align = center,height = 405,fileref = https://www.youtube.com/embed/_dJdAZ_J_jw,width = 720]
 
 
-[[available-versions,available-versions.title]]
+[#available-versions]
 == Available versions on standard support
 
 The following [.noloc]`Kubernetes` versions are currently available in Amazon EKS standard support:
@@ -37,7 +37,7 @@ The following [.noloc]`Kubernetes` versions are currently available in Amazon EK
 
 For important changes to be aware of for each version in standard support, see <<kubernetes-versions-standard>>.
 
-[[available-versions-extended,available-versions-extended.title]]
+[#available-versions-extended]
 == Available versions on extended support
 
 The following [.noloc]`Kubernetes` versions are currently available in Amazon EKS extended support:
@@ -51,7 +51,7 @@ The following [.noloc]`Kubernetes` versions are currently available in Amazon EK
 
 For important changes to be aware of for each version in extended support, see <<kubernetes-versions-extended>>.
 
-[[kubernetes-release-calendar,kubernetes-release-calendar.title]]
+[#kubernetes-release-calendar]
 == Amazon EKS [.noloc]`Kubernetes` release calendar
 
 The following table shows important release and support dates to consider for each [.noloc]`Kubernetes` version. Billing for extended support starts at the beginning of the day that the version reaches end of standard support.
@@ -127,7 +127,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 |===
 
-[[version-cli,version-cli.title]]
+[#version-cli]
 == Get version information with {AWS} CLI
 
 You can use the {aws} CLI to get information about Kubernetes versions available on EKS, such as the end date of Standard Support. 
@@ -173,7 +173,7 @@ aws eks describe-cluster-versions
 * `status`: The current support status of the version, such as `STANDARD_SUPPORT` or `EXTENDED_SUPPORT`
 * `kubernetesPatchVersion`: The specific Kubernetes patch version
 
-[[version-faqs,version-faqs.title]]
+[#version-faqs]
 == Amazon EKS version FAQs
 
 *How many [.noloc]`Kubernetes` versions are available in standard support?*::
@@ -211,7 +211,7 @@ IMPORTANT: If you update the control plane, you must still update the Fargate no
 Amazon EKS Hybrid Nodes supports the same Kubernetes versions as Amazon EKS clusters with other node compute types, including standard and extended Kubernetes version support. Hybrid nodes are not automatically upgraded when you upgrade your control plane version and you are responsible for upgrading your hybrid nodes. For more information, see <<hybrid-nodes-upgrade>>.
 
 
-[[extended-support-faqs,extended-support-faqs.title]]
+[#extended-support-faqs]
 == Amazon EKS extended support FAQs
 
 *The standard support and extended support terminology is new to me. What do those terms mean?*::

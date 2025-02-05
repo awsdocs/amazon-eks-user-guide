@@ -1,7 +1,7 @@
 
 include::../attributes.txt[]
 [.topic]
-[[getting-started-console,getting-started-console.title]]
+[#getting-started-console]
 = Get started with Amazon EKS – {aws-management-console} and {aws} CLI
 :info_titleabbrev: Create cluster (Console and CLI)
 :keywords: using, {aws-management-console}, {aws} CLI, getting, started, tutorial
@@ -23,7 +23,7 @@ This guide helps you to create all of the required resources to get started with
 
 The procedures in this guide give you complete visibility into how each resource is created and how the resources interact with each other. If you'd rather have most of the resources created for you automatically, use the `eksctl` CLI to create your cluster and nodes. For more information, see <<getting-started-eksctl>>.
 
-[[eks-prereqs,eks-prereqs.title]]
+[#eks-prereqs]
 == Prerequisites
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster.
@@ -44,7 +44,7 @@ aws sts get-caller-identity
 We recommend that you complete the steps in this topic in a Bash shell. If you aren't using a Bash shell, some script commands such as line continuation characters and the way variables are set and used require adjustment for your shell. Additionally, the quoting and escaping rules for your shell might be different. For more information, see link:cli/latest/userguide/cli-usage-parameters-quoting-strings.html[Using quotation marks with strings in the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
 
 
-[[eks-create-cluster,eks-create-cluster.title]]
+[#eks-create-cluster]
 == Step 1: Create your Amazon EKS cluster
 
 [IMPORTANT]
@@ -125,7 +125,7 @@ To the right of the cluster's name, the cluster status is *Creating* for several
 NOTE: You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster. If this happens, the error output contains the Availability Zones that can support a new cluster. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account. For more information, see <<ice>>.
 
 
-[[eks-configure-kubectl,eks-configure-kubectl.title]]
+[#eks-configure-kubectl]
 == Step 2: Configure your computer to communicate with your cluster
 
 In this section, you create a `kubeconfig` file for your cluster. The settings in this file enable the `kubectl` CLI to communicate with your cluster.
@@ -158,7 +158,7 @@ svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
 ----
 
 
-[[eks-launch-workers,eks-launch-workers.title]]
+[#eks-launch-workers]
 == Step 3: Create nodes
 
 [IMPORTANT]
@@ -233,7 +233,7 @@ aws iam attach-role-policy \
 . On the *Review and create* page, review your managed node group configuration and choose  *Create*.
 . After several minutes, the *Status* in the  *Node Group configuration* section will change from  *Creating* to  *Active*. Don't continue to the next step until the status is  *Active*.
 
-[[gs-view-resources,gs-view-resources.title]]
+[#gs-view-resources]
 
 == Step 4: View resources
 
@@ -248,7 +248,7 @@ You can view your nodes and [.noloc]`Kubernetes` workloads.
  – You see all of the [.noloc]`Kubernetes` resources that are deployed by default to an Amazon EKS cluster. Select any resource type in the console to learn more about it.
 
 
-[[gs-console-clean-up,gs-console-clean-up.title]]
+[#gs-console-clean-up]
 == Step 5: Delete resources
 
 After you've finished with the cluster and nodes that you created for this tutorial, you should delete the resources that you created. If you want to do more with this cluster before you delete the resources, see <<gs-console-next-steps>>.
@@ -277,7 +277,7 @@ After you've finished with the cluster and nodes that you created for this tutor
 .. Select each role you created from the list (*[.replaceable]`myAmazonEKSClusterRole`*, as well as  [.replaceable]`myAmazonEKSNodeRole`). Choose *Delete*, enter the requested confirmation text, then choose  *Delete*.
 
 
-[[gs-console-next-steps,gs-console-next-steps.title]]
+[#gs-console-next-steps]
 == Next steps
 
 The following documentation topics help you to extend the functionality of your cluster.

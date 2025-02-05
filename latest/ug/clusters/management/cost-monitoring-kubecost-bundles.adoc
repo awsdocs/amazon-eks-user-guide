@@ -1,5 +1,5 @@
 [.topic]
-[[cost-monitoring-kubecost-bundles,cost-monitoring-kubecost-bundles.title]]
+[#cost-monitoring-kubecost-bundles]
 = Learn more about Kubecost
 
 include::../../attributes.txt[]
@@ -14,7 +14,7 @@ As a [.noloc]`Kubernetes` platform administrator and finance leader, you can use
 
 {aws} and [.noloc]`Kubecost` collaborated to offer a customized version of [.noloc]`Kubecost`. This version includes a subset of commercial features at no additional charge. See the tables below for features that are included with in the custom bundle of [.noloc]`Kubecost`.
 
-[[kubecost-v2,kubecost-v2.title]]
+[#kubecost-v2]
 == Kubecost v2
 
 *What is the difference between [.noloc]`Kubecost` v1 and v2?*
@@ -163,7 +163,7 @@ The following features have metric limits:
 |No core limits
 |===
 
-[[kubecost-v1,kubecost-v1.title]]
+[#kubecost-v1]
 == Kubecost v1
 
 [cols="1,1,1,1", options="header"]
@@ -250,7 +250,7 @@ The following features have metric limits:
 |Full-service training and [.noloc]`FinOps` onboarding
 |===
 
-[[cost-monitoring-faq,cost-monitoring-faq.title]]
+[#cost-monitoring-faq]
 == Frequently asked questions
 
 See the following common questions and answers about using [.noloc]`Kubecost` with Amazon EKS.
@@ -315,7 +315,7 @@ Kubecost provides a web dashboard that you can access through `kubectl` port for
 
 No.
 
-[[kubecost-additional,kubecost-additional.title]]
+[#kubecost-additional]
 == Additional [.noloc]`Kubecost` Features
 
 * The following features are available in both [.noloc]`Kubecost` v1 and v2.  

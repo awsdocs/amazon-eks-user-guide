@@ -1,5 +1,5 @@
 [.topic]
-[[auto-configure-alb,auto-configure-alb.title]]
+[#auto-configure-alb]
 = Create an IngressClass to configure an Application Load Balancer
 :info_titleabbrev: Create ingress class
 
@@ -133,7 +133,7 @@ kubectl delete ingress <ingress-name>
 
 EKS Auto Mode will automatically delete the associated load balancer in your {aws} account. 
 
-[[ingress-reference,ingress-reference.title]]
+[#ingress-reference]
 == IngressClassParams Reference
 
 The table below is a quick reference for commonly used configuration options. 

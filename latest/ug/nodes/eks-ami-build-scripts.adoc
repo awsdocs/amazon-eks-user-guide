@@ -1,5 +1,5 @@
 [.topic]
-[[eks-ami-build-scripts,eks-ami-build-scripts.title]]
+[#eks-ami-build-scripts]
 = Build a custom Amazon Linux AMI with a script
 :info_titleabbrev: Custom builds
 

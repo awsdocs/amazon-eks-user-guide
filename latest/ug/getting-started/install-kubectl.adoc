@@ -1,5 +1,5 @@
 [.topic]
-[[install-kubectl,install-kubectl.title]]
+[#install-kubectl]
 = Set up `kubectl` and `eksctl`
 :info_titleabbrev: Set up kubectl and eksctl
 :keywords: install, update, kubectl
@@ -21,7 +21,7 @@ Topics on this page help you install and set up these tools:
 * <<eksctl-install-update,Install eksctl>>
 
 
-[[kubectl-install-update,kubectl-install-update.title]]
+[#kubectl-install-update]
 == Install or update `kubectl`
 
 This topic helps you to download and install, or update, the `kubectl` binary on your device. The binary is identical to the https://kubernetes.io/docs/tasks/tools/#kubectl[upstream community versions]. The binary is not unique to Amazon EKS or {aws}. Use the steps below to get the specific version of `kubectl` that you need, although many builders simply run `brew install kubectl` to install it.
@@ -789,7 +789,7 @@ aws eks update-kubeconfig --region region-code --name my-cluster
 . Consider configuring auto completion, which lets you use the tab key to complete `kubectl` subcommands after typing the first few letters. See https://kubernetes.io/docs/reference/kubectl/quick-reference/#kubectl-autocomplete[Kubectl autocomplete] in the [.noloc]`Kubernetes` documentation for details.  
 
 
-[[eksctl-install-update,eksctl-install-update.title]]
+[#eksctl-install-update]
 == Install `eksctl`
 
 The `eksctl` CLI is used to work with EKS clusters. It automates many individual tasks. See https://eksctl.io/installation[Installation] in the `eksctl` documentation for instructions on installing `eksctl`.
@@ -802,7 +802,7 @@ aws sts get-caller-identity
 ----
 
 
-[[install-kubectl-next-steps,install-kubectl-next-steps.title]]
+[#install-kubectl-next-steps]
 == Next steps
 
 * <<quickstart,Quickstart: Deploy a web app and store data>>

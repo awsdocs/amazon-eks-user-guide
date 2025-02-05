@@ -1,5 +1,5 @@
 [.topic]
-[[security-eks,security-eks.title]]
+[#security-eks]
 = Security considerations for Amazon Elastic Kubernetes Service
 :info_titleabbrev: Considerations for EKS
 

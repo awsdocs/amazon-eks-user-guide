@@ -1,5 +1,5 @@
 include::../attributes.txt[]
-[[eks-outposts,eks-outposts.title]]
+[#eks-outposts]
 = Deploy Amazon EKS on-premises with {aws} Outposts
 :doctype: book
 :sectnums:
@@ -33,7 +33,7 @@ The following diagram shows these deployment options.
 image::images/outposts-deployment-options.png[Outpost deployment options ,scaledwidth=100%]
 
 
-[[outposts-overview-when-deployment-options,outposts-overview-when-deployment-options.title]]
+[#outposts-overview-when-deployment-options]
 == When to use each deployment option
 
 Both local and extended clusters are general-purpose deployment options and can be used for a range of applications.  
@@ -42,7 +42,7 @@ With local clusters, you can run the entire Amazon EKS cluster locally on Outpos
 
 With extended clusters, you can conserve capacity on your Outpost because the [.noloc]`Kubernetes` control plane runs in the parent {aws} Region. This option is suitable if you can invest in reliable, redundant network connectivity from your Outpost to the {aws} Region. The quality of the network connection is critical for this option. The way that [.noloc]`Kubernetes` handles network disconnects between the [.noloc]`Kubernetes` control plane and nodes might lead to application downtime. For more information on the behavior of [.noloc]`Kubernetes`, see https://kubernetes.io/docs/concepts/scheduling-eviction/[Scheduling, Preemption, and Eviction] in the [.noloc]`Kubernetes` documentation.
 
-[[outposts-overview-comparing-deployment-options,outposts-overview-comparing-deployment-options.title]]
+[#outposts-overview-comparing-deployment-options]
 == Comparing the deployment options
 
 The following table compares the differences between the two options.

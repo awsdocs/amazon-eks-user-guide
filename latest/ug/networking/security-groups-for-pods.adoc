@@ -1,5 +1,5 @@
 [.topic]
-[[security-groups-for-pods,security-groups-for-pods.title]]
+[#security-groups-for-pods]
 = Assign security groups to individual [.noloc]`Pods`
 :info_titleabbrev: Security groups for Pods
 
@@ -20,7 +20,7 @@ Learn how to configure security groups for [.noloc]`Pods` on Amazon EKS, integra
 
 Security groups for [.noloc]`Pods` integrate Amazon EC2 security groups with [.noloc]`Kubernetes` [.noloc]`Pods`. You can use Amazon EC2 security groups to define rules that allow inbound and outbound network traffic to and from [.noloc]`Pods` that you deploy to nodes running on many Amazon EC2 instance types and Fargate. For a detailed explanation of this capability, see the link:containers/introducing-security-groups-for-pods[Introducing security groups for Pods,type="blog"] blog post.
 
-[[security-groups-for-pods-compatability,security-groups-for-pods-compatability.title]]
+[#security-groups-for-pods-compatability]
 == Compatibility with [.noloc]`Amazon VPC CNI plugin for Kubernetes` features
 
 You can use security groups for [.noloc]`Pods` with the following features:
@@ -32,7 +32,7 @@ You can use security groups for [.noloc]`Pods` with the following features:
 * Restricting traffic using [.noloc]`Kubernetes` network policies - For more information, see <<cni-network-policy>>.
 
 
-[[sg-pods-considerations,sg-pods-considerations.title]]
+[#sg-pods-considerations]
 == Considerations
 
 Before deploying security groups for [.noloc]`Pods`, consider the following limitations and conditions:

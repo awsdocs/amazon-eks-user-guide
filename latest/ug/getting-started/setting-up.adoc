@@ -1,4 +1,4 @@
-[[setting-up,setting-up.title]]
+[#setting-up]
 = Set up to use Amazon EKS
 :doctype: book
 :sectnums:
@@ -30,7 +30,7 @@ To prepare for the command-line management of your Amazon EKS clusters, you need
 ** *Package manager* – https://helm.sh/docs/intro/install/[Helm] is a popular package manager for [.noloc]`Kubernetes` that simplifies the installation and management of complex packages. With [.noloc]`Helm`, it's easier to install and manage packages like the {aws} Load Balancer Controller on your Amazon EKS cluster.
 
 
-[[setting-up-next-steps,setting-up-next-steps.title]]
+[#setting-up-next-steps]
 == Next steps
 
 * <<install-awscli,Set up {aws} CLI>>

@@ -45,7 +45,7 @@ Private subnets are used for internal load balancers. These subnets must have th
 
 Before you begin, identify which subnets are public (with Internet Gateway access) and which are private (using NAT Gateway). You'll need permissions to modify VPC resources.
 
-[[auto-tag-subnets-console,auto-tag-subnets-console.title]]
+[#auto-tag-subnets-console]
 === {aws-management-console}
 
 . Open the Amazon VPC console and navigate to Subnets

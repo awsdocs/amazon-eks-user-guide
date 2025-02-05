@@ -1,5 +1,5 @@
 [.topic]
-[[security-iam,security-iam.title]]
+[#security-iam]
 = Identity and access management for Amazon EKS
 :info_titleabbrev: IAM Reference
 
@@ -34,7 +34,7 @@ How to authenticate requests and manage access your Amazon EKS resources.
 
 {aws} Identity and Access Management (IAM) is an {aws} service that helps an administrator securely control access to {aws} resources. IAM administrators control who can be  _authenticated_ (signed in) and _authorized_ (have permissions) to use Amazon EKS resources. IAM is an {aws} service that you can use with no additional charge.
 
-[[security-iam-audience,security-iam-audience.title]]
+[#security-iam-audience]
 == Audience
 
 How you use {aws} Identity and Access Management (IAM) differs, depending on the work that you do in Amazon EKS.
@@ -45,7 +45,7 @@ How you use {aws} Identity and Access Management (IAM) differs, depending on the
 
 *IAM administrator* – If you're an IAM administrator, you might want to learn details about how you can write policies to manage access to Amazon EKS. To view example Amazon EKS identity-based policies that you can use in IAM, see <<security-iam-id-based-policy-examples>>.
 
-[[security-iam-authentication,security-iam-authentication.title]]
+[#security-iam-authentication]
 == Authenticating with identities
 
 Authentication is how you sign in to {aws} using your identity credentials. You must be  _authenticated_ (signed in to {aws}) as the {aws} account root user, as an IAM user, or by assuming an IAM role.
@@ -58,12 +58,12 @@ If you access {aws} programmatically, {aws} provides a software development kit 
 
 Regardless of the authentication method that you use, you might be required to provide additional security information. For example, {aws} recommends that you use multi-factor authentication (MFA) to increase the security of your account. To learn more, see link:singlesignon/latest/userguide/enable-mfa.html[Multi-factor authentication,type="documentation"] in the _{aws} IAM Identity Center User Guide_ and  link:IAM/latest/UserGuide/id_credentials_mfa.html[Using multi-factor authentication (MFA) in {aws},type="documentation"] in the _IAM User Guide_.
 
-[[security-iam-authentication-rootuser,security-iam-authentication-rootuser.title]]
+[#security-iam-authentication-rootuser]
 === {aws} account root user
 
 When you create an {aws} account, you begin with one sign-in identity that has complete access to all {aws} services and resources in the account. This identity is called the {aws} account  _root user_ and is accessed by signing in with the email address and password that you used to create the account. We strongly recommend that you don't use the root user for your everyday tasks. Safeguard your root user credentials and use them to perform the tasks that only the root user can perform. For the complete list of tasks that require you to sign in as the root user, see  link:IAM/latest/UserGuide/id_root-user.html#root-user-tasks[Tasks that require root user credentials,type="documentation"] in the _IAM User Guide_. 
 
-[[security-iam-authentication-iamuser,security-iam-authentication-iamuser.title]]
+[#security-iam-authentication-iamuser]
 === IAM users and groups
 
 An  _ link:IAM/latest/UserGuide/id_users.html[IAM user,type="documentation"]_ is an identity within your {aws} account that has specific permissions for a single person or application. Where possible, we recommend relying on temporary credentials instead of creating IAM users who have long-term credentials such as passwords and access keys. However, if you have specific use cases that require long-term credentials with IAM users, we recommend that you rotate access keys. For more information, see  link:IAM/latest/UserGuide/best-practices.html#rotate-credentials[Rotate access keys regularly for use cases that require long-term credentials,type="documentation"] in the _IAM User Guide_.
@@ -72,7 +72,7 @@ An  link:IAM/latest/UserGuide/id_groups.html[IAM group,type="documentation"] is 
 
 Users are different from roles. A user is uniquely associated with one person or application, but a role is intended to be assumable by anyone who needs it. Users have permanent long-term credentials, but roles provide temporary credentials. To learn more, see  link:IAM/latest/UserGuide/id.html#id_which-to-choose[When to create an IAM user (instead of a role),type="documentation"] in the _IAM User Guide_.
 
-[[security-iam-authentication-iamrole,security-iam-authentication-iamrole.title]]
+[#security-iam-authentication-iamrole]
 === IAM roles
 
 An  _ link:IAM/latest/UserGuide/id_roles.html[IAM role,type="documentation"]_ is an identity within your {aws} account that has specific permissions. It is similar to an IAM user, but is not associated with a specific person. You can temporarily assume an IAM role in the {aws-management-console} by  link:IAM/latest/UserGuide/id_roles_use_switch-role-console.html[switching roles,type="documentation"]. You can assume a role by calling an {aws} CLI or {aws} API operation or by using a custom URL. For more information about methods for using roles, see  link:IAM/latest/UserGuide/id_roles_use.html[Using IAM roles,type="documentation"] in the _IAM User Guide_.
@@ -93,7 +93,7 @@ IAM roles with temporary credentials are useful in the following situations:
 
 To learn whether to use IAM roles or IAM users, see   link:IAM/latest/UserGuide/id.html#id_which-to-choose_role[When to create an IAM role (instead of a user),type="documentation"] in the _IAM User Guide_.
 
-[[security-iam-access-manage,security-iam-access-manage.title]]
+[#security-iam-access-manage]
 == Managing access using policies
 
 You control access in {aws} by creating policies and attaching them to {aws} identities or resources. A policy is an object in {aws} that, when associated with an identity or resource, defines their permissions. {aws} evaluates these policies when a principal (user, root user, or role session) makes a request. Permissions in the policies determine whether the request is allowed or denied. Most policies are stored in {aws} as JSON documents. For more information about the structure and contents of JSON policy documents, see   link:IAM/latest/UserGuide/access_policies.html#access_policies-json[Overview of JSON policies,type="documentation"] in the _IAM User Guide_.
@@ -104,28 +104,28 @@ By default, users and roles have no permissions. To grant users permission to pe
 
 IAM policies define permissions for an action regardless of the method that you use to perform the operation. For example, suppose that you have a policy that allows the `iam:GetRole` action. A user with that policy can get role information from the {aws-management-console}, the {aws} CLI, or the {aws} API.
 
-[[security-iam-access-manage-id-based-policies,security-iam-access-manage-id-based-policies.title]]
+[#security-iam-access-manage-id-based-policies]
 === Identity-based policies
 
 Identity-based policies are JSON permissions policy documents that you can attach to an identity, such as an IAM user, group of users, or role. These policies control what actions users and roles can perform, on which resources, and under what conditions. To learn how to create an identity-based policy, see   link:IAM/latest/UserGuide/access_policies_create.html[Creating IAM policies,type="documentation"] in the _IAM User Guide_.
 
 Identity-based policies can be further categorized as _inline policies_ or _managed policies_. Inline policies are embedded directly into a single user, group, or role. Managed policies are standalone policies that you can attach to multiple users, groups, and roles in your {aws} account. Managed policies include {aws} managed policies and customer managed policies. To learn how to choose between a managed policy or an inline policy, see  link:IAM/latest/UserGuide/access_policies_managed-vs-inline.html#choosing-managed-or-inline[Choosing between managed policies and inline policies,type="documentation"] in the _IAM User Guide_.
 
-[[security-iam-access-manage-resource-based-policies,security-iam-access-manage-resource-based-policies.title]]
+[#security-iam-access-manage-resource-based-policies]
 === Resource-based policies
 
 Resource-based policies are JSON policy documents that you attach to a resource. Examples of resource-based policies are IAM  _role trust policies_ and Amazon S3 _bucket policies_. In services that support resource-based policies, service administrators can use them to control access to a specific resource. For the resource where the policy is attached, the policy defines what actions a specified principal can perform on that resource and under what conditions. You must  link:IAM/latest/UserGuide/reference_policies_elements_principal.html[specify a principal,type="documentation"] in a resource-based policy. Principals can include accounts, users, roles, federated users, or {aws} services.
 
 Resource-based policies are inline policies that are located in that service. You can't use {aws} managed policies from IAM in a resource-based policy.
 
-[[security-iam-access-manage-acl,security-iam-access-manage-acl.title]]
+[#security-iam-access-manage-acl]
 === Access control lists (ACLs)
 
 Access control lists (ACLs) control which principals (account members, users, or roles) have permissions to access a resource. ACLs are similar to resource-based policies, although they do not use the JSON policy document format.
 
 Amazon S3, {aws} WAF, and Amazon VPC are examples of services that support ACLs. To learn more about ACLs, see link:AmazonS3/latest/userguide/acl-overview.html[Access control list (ACL) overview,type="documentation"] in the _Amazon Simple Storage Service Developer Guide_.
 
-[[security-iam-access-manage-other-policies,security-iam-access-manage-other-policies.title]]
+[#security-iam-access-manage-other-policies]
 === Other policy types
 
 {aws} supports additional, less-common policy types. These policy types can set the maximum permissions granted to you by the more common policy types.  
@@ -137,7 +137,7 @@ Amazon S3, {aws} WAF, and Amazon VPC are examples of services that support ACLs.
 * *Session policies* – Session policies are advanced policies that you pass as a parameter when you programmatically create a temporary session for a role or federated user. The resulting session's permissions are the intersection of the user or role's identity-based policies and the session policies. Permissions can also come from a resource-based policy. An explicit deny in any of these policies overrides the allow. For more information, see  link:IAM/latest/UserGuide/access_policies.html#policies_session[Session policies,type="documentation"] in the _IAM User Guide_. 
 
 
-[[security-iam-access-manage-multiple-policies,security-iam-access-manage-multiple-policies.title]]
+[#security-iam-access-manage-multiple-policies]
 === Multiple policy types
 
 When multiple types of policies apply to a request, the resulting permissions are more complicated to understand. To learn how {aws} determines whether to allow a request when multiple policy types are involved, see   link:IAM/latest/UserGuide/reference_policies_evaluation-logic.html[Policy evaluation logic,type="documentation"] in the _IAM User Guide_.

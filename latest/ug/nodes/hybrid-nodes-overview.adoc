@@ -1,5 +1,5 @@
 [.topic]
-[[hybrid-nodes-overview,hybrid-nodes-overview.title]]
+[#hybrid-nodes-overview]
 = Amazon EKS Hybrid Nodes overview
 :info_titleabbrev: Hybrid nodes
 :keywords: on-premises, hybrid
@@ -20,7 +20,7 @@ With Amazon EKS Hybrid Nodes, there are no upfront commitments or minimum fees, 
 For an overview of the other Amazon EKS options for on-premises and edge deployments, see <<eks-deployment-options>>.
 
 
-[[hybrid-nodes-general,hybrid-nodes-general.title]]
+[#hybrid-nodes-general]
 == General concepts of Amazon EKS Hybrid Nodes
 
 * Amazon EKS Hybrid Nodes must have a reliable connection between your on-premises environment and {aws}. Amazon EKS Hybrid Nodes aren't a fit for disconnected, disrupted, intermittent or limited (DDIL) environments. If you are running in a DDIL environment, consider link:eks/eks-anywhere/[Amazon EKS Anywhere,type="marketing"].

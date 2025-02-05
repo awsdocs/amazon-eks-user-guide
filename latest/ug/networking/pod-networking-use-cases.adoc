@@ -1,5 +1,5 @@
 [.topic]
-[[pod-networking-use-cases,pod-networking-use-cases.title]]
+[#pod-networking-use-cases]
 = Learn about VPC CNI modes and configuration
 :info_titleabbrev: Modes and configuration
 

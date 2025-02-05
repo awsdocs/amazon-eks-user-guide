@@ -1,5 +1,5 @@
 [.topic]
-[[eks-linux-ami-versions,eks-linux-ami-versions.title]]
+[#eks-linux-ami-versions]
 = Retrieve Amazon Linux AMI version information
 :info_titleabbrev: Get version information
 

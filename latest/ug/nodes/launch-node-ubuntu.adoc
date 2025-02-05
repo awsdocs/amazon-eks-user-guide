@@ -1,5 +1,5 @@
 [.topic]
-[[launch-node-ubuntu,launch-node-ubuntu.title]]
+[#launch-node-ubuntu]
 = Create self-managed [.noloc]`Ubuntu Linux` nodes
 :info_titleabbrev: Ubuntu Linux
 

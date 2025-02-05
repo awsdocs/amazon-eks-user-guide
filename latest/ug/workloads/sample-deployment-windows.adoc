@@ -1,5 +1,5 @@
 [.topic]
-[[sample-deployment-win,sample-deployment-win.title]]
+[#sample-deployment-win]
 = Deploy a sample application on Windows
 :info_titleabbrev: Sample deployment (Windows)
 
@@ -113,7 +113,7 @@ spec:
 kubectl apply -f eks-sample-service.yaml
 ----
 
-[[sample-app-view-namespace-win,sample-app-view-namespace-win.title]]
+[#sample-app-view-namespace-win]
 == Review resources created
 
 . View all resources that exist in the `eks-sample-app` namespace.
@@ -264,7 +264,7 @@ kubectl delete namespace eks-sample-app
 ----
 
 
-[[sample-deployment-win-next-steps,sample-deployment-win-next-steps.title]]
+[#sample-deployment-win-next-steps]
 == Next Steps
 
 After you deploy the sample application, you might want to try some of the following exercises:

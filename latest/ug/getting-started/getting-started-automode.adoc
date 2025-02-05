@@ -1,5 +1,5 @@
 [.topic]
-[[getting-started-automode,getting-started-automode.title]]
+[#getting-started-automode]
 = Get started with Amazon EKS – EKS Auto Mode
 :info_titleabbrev: Create cluster (EKS Auto Mode)
 :keywords: using, Auto, getting, started, tutorial

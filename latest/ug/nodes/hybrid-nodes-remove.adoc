@@ -1,5 +1,5 @@
 [.topic]
-[[hybrid-nodes-remove,hybrid-nodes-remove.title]]
+[#hybrid-nodes-remove]
 = Remove hybrid nodes
 :info_titleabbrev: Delete hybrid nodes
 :keywords: Delete hybrid nodes from your EKS cluster

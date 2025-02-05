@@ -1,5 +1,5 @@
 [.topic]
-[[security-connector,security-connector.title]]
+[#security-connector]
 = Understand security in Amazon EKS Connector
 :info_titleabbrev: Security considerations
 
@@ -18,14 +18,14 @@ image::images/connector-model.png[EKS Connector Responsibilities,scaledwidth=100
 
 This topic describes the differences in the responsibility model if the connected cluster is outside of {aws}.
 
-[[connect-aws-resp,connect-aws-resp.title]]
+[#connect-aws-resp]
 == {aws} responsibilities
 
 * Maintaining, building, and delivering Amazon EKS Connector, which is an https://github.com/aws/amazon-eks-connector[open source component] that runs on a customer's [.noloc]`Kubernetes` cluster and communicates with {aws}.
 * Maintaining transport and application layer communication security between the connected [.noloc]`Kubernetes` cluster and {aws} services.
 
 
-[[connect-cust-resp,connect-cust-resp.title]]
+[#connect-cust-resp]
 == Customer responsibilities
 
 * [.noloc]`Kubernetes` cluster specific security, specifically along the following lines:

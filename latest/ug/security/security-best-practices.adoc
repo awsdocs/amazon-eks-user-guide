@@ -1,5 +1,5 @@
 [.topic]
-[[security-best-practices,security-best-practices.title]]
+[#security-best-practices]
 = Secure Amazon EKS clusters with best practices
 :info_titleabbrev: Best practices
 

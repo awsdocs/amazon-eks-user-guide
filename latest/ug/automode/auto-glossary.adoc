@@ -1,5 +1,5 @@
 [.topic]
-[[auto-glossary,auto-glossary.title]]
+[#auto-glossary]
 = Glossary
 :info_titleabbrev: Glossary
 

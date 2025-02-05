@@ -1,6 +1,6 @@
 include::../../attributes.txt[]
 [.topic]
-[[security-iam-awsmanpol,security-iam-awsmanpol.title]]
+[#security-iam-awsmanpol]
 = {aws} managed policies for Amazon Elastic Kubernetes Service
 :info_titleabbrev: {aws} managed policies
 
@@ -17,7 +17,7 @@ You cannot change the permissions defined in {aws} managed policies. If {aws} up
 
 For more information, see  link:IAM/latest/UserGuide/access_policies_managed-vs-inline.html#aws-managed-policies[{aws} managed policies,type="documentation"] in the _IAM User Guide_.
 
-[[security-iam-awsmanpol-amazoneks-cni-policy,security-iam-awsmanpol-amazoneks-cni-policy.title]]
+[#security-iam-awsmanpol-amazoneks-cni-policy]
 == {aws} managed policy: AmazonEKS_CNI_Policy
 :info_titleabbrev: AmazonEKS_CNI_Policy
 
@@ -32,7 +32,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html#AmazonEKS_CNI_Policy-json[AmazonEKS_CNI_Policy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-amazoneksclusterpolicy,security-iam-awsmanpol-amazoneksclusterpolicy.title]]
+[#security-iam-awsmanpol-amazoneksclusterpolicy]
 == {aws} managed policy: AmazonEKSClusterPolicy
 :info_titleabbrev: AmazonEKSClusterPolicy
 
@@ -48,7 +48,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html#AmazonEKSClusterPolicy-json[AmazonEKSClusterPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-amazoneksfargatepodexecutionrolepolicy,security-iam-awsmanpol-amazoneksfargatepodexecutionrolepolicy.title]]
+[#security-iam-awsmanpol-amazoneksfargatepodexecutionrolepolicy]
 == {aws} managed policy: AmazonEKSFargatePodExecutionRolePolicy
 :info_titleabbrev: AmazonEKSFargatePodExecutionRolePolicy
 
@@ -64,7 +64,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSFargatePodExecutionRolePolicy.html#AmazonEKSFargatePodExecutionRolePolicy-json[AmazonEKSFargatePodExecutionRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-amazoneksforfargateservicerolepolicy,security-iam-awsmanpol-amazoneksforfargateservicerolepolicy.title]]
+[#security-iam-awsmanpol-amazoneksforfargateservicerolepolicy]
 == {aws} managed policy: AmazonEKSForFargateServiceRolePolicy
 :info_titleabbrev: AmazonEKSForFargateServiceRolePolicy
 
@@ -80,7 +80,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSForFargateServiceRolePolicy.html#AmazonEKSForFargateServiceRolePolicy-json[AmazonEKSForFargateServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-AmazonEKSComputePolicy,security-iam-awsmanpol-AmazonEKSComputePolicy.title]]
+[#security-iam-awsmanpol-AmazonEKSComputePolicy]
 == {aws} managed policy: AmazonEKSComputePolicy
 :info_titleabbrev: AmazonEKSComputePolicy
 
@@ -104,7 +104,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSComputePolicy.html#AmazonEKSComputePolicy-json[AmazonEKSComputePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-AmazonEKSNetworkingPolicy,security-iam-awsmanpol-AmazonEKSNetworkingPolicy.title]]
+[#security-iam-awsmanpol-AmazonEKSNetworkingPolicy]
 == {aws} managed policy: AmazonEKSNetworkingPolicy
 :info_titleabbrev: AmazonEKSNetworkingPolicy
 
@@ -132,7 +132,7 @@ To view the latest version of the JSON policy document, see   link:aws-managed-p
 
 
  
-[[security-iam-awsmanpol-AmazonEKSBlockStoragePolicy,security-iam-awsmanpol-AmazonEKSBlockStoragePolicy.title]]
+[#security-iam-awsmanpol-AmazonEKSBlockStoragePolicy]
 == {aws} managed policy: AmazonEKSBlockStoragePolicy
 :info_titleabbrev: AmazonEKSBlockStoragePolicy
  
@@ -160,7 +160,7 @@ This IAM policy grants the following permissions to allow Amazon EKS to manage E
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSBlockStoragePolicy.html#AmazonEKSBlockStoragePolicy-json[AmazonEKSBlockStoragePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
  
 
-[[security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy,security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy.title]]
+[#security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy]
 == {aws} managed policy: AmazonEKSLoadBalancingPolicy
 :info_titleabbrev: AmazonEKSLoadBalancingPolicy
 
@@ -188,7 +188,7 @@ The policy also includes several condition checks to ensure that the permissions
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSLoadBalancingPolicy.html#AmazonEKSLoadBalancingPolicy-json[AmazonEKSLoadBalancingPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-amazoneksservicepolicy,security-iam-awsmanpol-amazoneksservicepolicy.title]]
+[#security-iam-awsmanpol-amazoneksservicepolicy]
 == {aws} managed policy: AmazonEKSServicePolicy
 :info_titleabbrev: AmazonEKSServicePolicy
 
@@ -208,7 +208,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html#AmazonEKSServicePolicy-json[AmazonEKSServicePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-amazoneksservicerolepolicy,security-iam-awsmanpol-amazoneksservicerolepolicy.title]]
+[#security-iam-awsmanpol-amazoneksservicerolepolicy]
 == {aws} managed policy: AmazonEKSServiceRolePolicy
 :info_titleabbrev: AmazonEKSServiceRolePolicy
 
@@ -234,7 +234,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html#AmazonEKSServiceRolePolicy-json[AmazonEKSServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-amazoneksvpcresourcecontroller,security-iam-awsmanpol-amazoneksvpcresourcecontroller.title]]
+[#security-iam-awsmanpol-amazoneksvpcresourcecontroller]
 == {aws} managed policy: AmazonEKSVPCResourceController
 :info_titleabbrev: AmazonEKSVPCResourceController
 
@@ -250,7 +250,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html#AmazonEKSVPCResourceController-json[AmazonEKSVPCResourceController,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-amazoneksworkernodepolicy,security-iam-awsmanpol-amazoneksworkernodepolicy.title]]
+[#security-iam-awsmanpol-amazoneksworkernodepolicy]
 == {aws} managed policy: AmazonEKSWorkerNodePolicy
 :info_titleabbrev: AmazonEKSWorkerNodePolicy
 
@@ -269,7 +269,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html#AmazonEKSWorkerNodePolicy-json[AmazonEKSWorkerNodePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 
-[[security-iam-awsmanpol-AmazonEKSWorkerNodeMinimalPolicy,security-iam-awsmanpol-AmazonEKSWorkerNodeMinimalPolicy.title]]
+[#security-iam-awsmanpol-AmazonEKSWorkerNodeMinimalPolicy]
 == {aws} managed policy: AmazonEKSWorkerNodeMinimalPolicy
 :info_titleabbrev: AmazonEKSWorkerNodeMinimalPolicy
 
@@ -285,7 +285,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSWorkerNodeMinimalPolicy.html#AmazonEKSWorkerNodeMinimalPolicy-json["AmazonEKSWorkerNodePolicy", type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup,security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup.title]]
+[#security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup]
 == {aws} managed policy: AWSServiceRoleForAmazonEKSNodegroup
 :info_titleabbrev: AWSServiceRoleForAmazonEKSNodegroup
 
@@ -303,7 +303,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html#AWSServiceRoleForAmazonEKSNodegroup-json[AWSServiceRoleForAmazonEKSNodegroup,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-amazonebscsidriverservicerolepolicy,security-iam-awsmanpol-amazonebscsidriverservicerolepolicy.title]]
+[#security-iam-awsmanpol-amazonebscsidriverservicerolepolicy]
 == {aws} managed policy: AmazonEBSCSIDriverPolicy
 :info_titleabbrev: AmazonEBSCSIDriverPolicy
 
@@ -311,7 +311,7 @@ The `AmazonEBSCSIDriverPolicy` policy allows the Amazon EBS Container Storage In
 
 To view the latest version of the JSON policy document, see  link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html#AmazonEBSCSIDriverPolicy-json[AmazonEBSCSIDriverServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-amazonefscsidriverservicerolepolicy,security-iam-awsmanpol-amazonefscsidriverservicerolepolicy.title]]
+[#security-iam-awsmanpol-amazonefscsidriverservicerolepolicy]
 == {aws} managed policy: AmazonEFSCSIDriverPolicy
 :info_titleabbrev: AmazonEFSCSIDriverPolicy
 
@@ -319,7 +319,7 @@ The `AmazonEFSCSIDriverPolicy` policy allows the Amazon EFS Container Storage In
 
 To view the latest version of the JSON policy document, see  link:aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html#AmazonEFSCSIDriverPolicy-json[AmazonEFSCSIDriverServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy,security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy.title]]
+[#security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy]
 == {aws} managed policy: AmazonEKSLocalOutpostClusterPolicy
 :info_titleabbrev: AmazonEKSLocalOutpostClusterPolicy
 
@@ -335,7 +335,7 @@ The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html#AmazonEKSLocalOutpostClusterPolicy-json[AmazonEKSLocalOutpostClusterPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy,security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy.title]]
+[#security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy]
 == {aws} managed policy: AmazonEKSLocalOutpostServiceRolePolicy
 :info_titleabbrev: AmazonEKSLocalOutpostServiceRolePolicy
 
@@ -351,7 +351,7 @@ The `AmazonEKSLocalOutpostServiceRolePolicy` includes the following permissions:
 
 To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSLocalOutpostServiceRolePolicy.html#AmazonEKSLocalOutpostServiceRolePolicy-json[AmazonEKSLocalOutpostServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[[security-iam-awsmanpol-updates,security-iam-awsmanpol-updates.title]]
+[#security-iam-awsmanpol-updates]
 == Amazon EKS updates to {aws} managed policies
 :info_titleabbrev: Policy updates
 

@@ -1,5 +1,5 @@
 [.topic]
-[[eks-partner-amis,eks-partner-amis.title]]
+[#eks-partner-amis]
 = Create nodes with optimized [.noloc]`Ubuntu Linux` AMIs
 :info_titleabbrev: Ubuntu Linux
 

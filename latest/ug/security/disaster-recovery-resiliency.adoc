@@ -1,5 +1,5 @@
 [.topic]
-[[disaster-recovery-resiliency,disaster-recovery-resiliency.title]]
+[#disaster-recovery-resiliency]
 = Understand resilience in Amazon EKS clusters
 :info_titleabbrev: Resilience
 

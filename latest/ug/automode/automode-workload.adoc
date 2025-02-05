@@ -1,5 +1,5 @@
 [.topic]
-[[automode-workload,automode-workload.title]]
+[#automode-workload]
 = Deploy a sample inflate workload to an Amazon EKS Auto Mode cluster
 :info_titleabbrev: Deploy inflate workload
 

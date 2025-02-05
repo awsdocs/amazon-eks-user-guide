@@ -1,5 +1,5 @@
 [.topic]
-[[hybrid-nodes-cluster-create,hybrid-nodes-cluster-create.title]]
+[#hybrid-nodes-cluster-create]
 = Create an Amazon EKS cluster with hybrid nodes
 :info_titleabbrev: Create cluster
 :keywords: on-premises, hybrid
@@ -14,7 +14,7 @@ Create hybrid nodes cluster
 This topic provides an overview of the available options and describes what to consider when you create a hybrid nodes-enabled Amazon EKS cluster. If you are not planning to use hybrid nodes, see <<create-cluster>>.
 
 
-[[hybrid-nodes-cluster-create-prep,hybrid-nodes-cluster-create-prep.title]]
+[#hybrid-nodes-cluster-create-prep]
 == Prerequisites
 
 * The <<hybrid-nodes-prereqs>> completed. Before you create your hybrid nodes-enabled cluster, you must have your on-premises node and optionally pod CIDRs identified, your VPC and subnets created according to the EKS requirements, and hybrid nodes requirements, and your security group with inbound rules for your on-premises and optionally pod CIDRs. For more information on these prerequisites, see <<hybrid-nodes-networking>>.
@@ -22,7 +22,7 @@ This topic provides an overview of the available options and describes what to c
 * An link:IAM/latest/UserGuide/id_roles#iam-term-principal[IAM principal,type="documentation"] with permissions to create IAM roles and attach policies, and create and describe EKS clusters
 
 
-[[hybrid-nodes-cluster-create-consider,hybrid-nodes-cluster-create-consider.title]]
+[#hybrid-nodes-cluster-create-consider]
 == Considerations
 
 * Your cluster must use either `API` or `API_AND_CONFIG_MAP` for the cluster authentication mode.
@@ -31,7 +31,7 @@ This topic provides an overview of the available options and describes what to c
 * Currently, hybrid nodes must be enabled during cluster creation. You cannot change your `RemoteNodeNetwork` or `RemotePodNetwork` after cluster creation.
 
 
-[[hybrid-nodes-cluster-create-iam,hybrid-nodes-cluster-create-iam.title]]
+[#hybrid-nodes-cluster-create-iam]
 == Step 1: Create cluster IAM role
 
 If you already have a cluster IAM role, or you're going to create your cluster with `eksctl` or {aws} CloudFormation, then you can skip this step. By default, `eksctl` and the {aws} CloudFormation template create the cluster IAM role for you.
@@ -75,7 +75,7 @@ aws iam attach-role-policy \
 ----
 
 
-[[hybrid-nodes-cluster-create-cluster,hybrid-nodes-cluster-create-cluster.title]]
+[#hybrid-nodes-cluster-create-cluster]
 == Step 2: Create hybrid nodes-enabled cluster
 
 You can create a cluster by using:
@@ -86,7 +86,7 @@ You can create a cluster by using:
 * <<hybrid-nodes-cluster-create-console,{aws-management-console}>>
 
 
-[[hybrid-nodes-cluster-create-eksctl,hybrid-nodes-cluster-create-eksctl.title]]
+[#hybrid-nodes-cluster-create-eksctl]
 === Create hybrid nodes-enabled cluster - eksctl
 
 You need to install the latest version of the `eksctl` command line tool. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
@@ -142,7 +142,7 @@ Cluster provisioning takes several minutes. While the cluster is being created, 
 . Continue with <<hybrid-nodes-cluster-create-kubeconfig>>.
 
 
-[[hybrid-nodes-cluster-create-cfn,hybrid-nodes-cluster-create-cfn.title]]
+[#hybrid-nodes-cluster-create-cfn]
 === Create hybrid nodes-enabled cluster - {aws} CloudFormation
 
 The CloudFormation stack creates the EKS cluster IAM role and an EKS cluster with the `RemoteNodeNetwork` and `RemotePodNetwork` you specify. Modify the CloudFormation template If you need to customize settings for your EKS cluster that are not exposed in the CloudFormation template.
@@ -212,7 +212,7 @@ aws cloudformation describe-stacks \
 . Continue with <<hybrid-nodes-cluster-create-kubeconfig>>.
 
 
-[[hybrid-nodes-cluster-create-cli,hybrid-nodes-cluster-create-cli.title]]
+[#hybrid-nodes-cluster-create-cli]
 === Create hybrid nodes-enabled cluster - {aws} CLI
 
 . Run the following command to create a hybrid nodes-enabled EKS cluster. Before running the command, replace the following with your desired settings. For a full list of settings, see the <<create-cluster>> documentation.
@@ -255,7 +255,7 @@ aws eks describe-cluster \
 
 . Continue with <<hybrid-nodes-cluster-create-kubeconfig>>.
 
-[[hybrid-nodes-cluster-create-console,hybrid-nodes-cluster-create-console.title]]
+[#hybrid-nodes-cluster-create-console]
 === Create hybrid nodes-enabled cluster - {aws-management-console}
 
 . Open the Amazon EKS console at link:eks/home#/clusters[Amazon EKS console,type="console"].
@@ -301,7 +301,7 @@ aws eks describe-cluster \
 . On the *Review and create* page, review the information that you entered or selected on the previous pages. If you need to make changes, choose *Edit*. When you're satisfied, choose *Create*. The *Status* field shows *CREATING* while the cluster is provisioned. Cluster provisioning takes several minutes.
 . Continue with <<hybrid-nodes-cluster-create-kubeconfig>>.
 
-[[hybrid-nodes-cluster-create-kubeconfig,hybrid-nodes-cluster-create-kubeconfig.title]]
+[#hybrid-nodes-cluster-create-kubeconfig]
 == Step 3: Update kubeconfig
 
 If you created your cluster using `eksctl`, then you can skip this step. This is because `eksctl` already completed this step for you. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` config file. For more information about how to create and update the file, see <<create-kubeconfig>>.

@@ -1,5 +1,5 @@
 [.topic]
-[[create-auto,create-auto.title]]
+[#create-auto]
 = Create a cluster with Amazon EKS Auto Mode
 :icons: font
 :experimental:

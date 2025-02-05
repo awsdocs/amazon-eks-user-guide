@@ -1,5 +1,5 @@
 [.topic]
-[[eks-add-ons,eks-add-ons.title]]
+[#eks-add-ons]
 = Amazon EKS add-ons
 :info_titleabbrev: Amazon EKS add-ons
 :keywords: managed, add-ons, plugins
@@ -21,7 +21,7 @@ You can use Amazon EKS add-ons with any Amazon EKS node type. For more informati
 
 You can add, update, or delete Amazon EKS add-ons using the Amazon EKS API, {aws-management-console}, {aws} CLI, and `eksctl`. You can also create Amazon EKS add-ons using link:AWSCloudFormation/latest/UserGuide/aws-resource-eks-addon.html[{aws} CloudFormation,type="documentation"].
 
-[[eks-add-ons-considerations,eks-add-ons-considerations.title]]
+[#eks-add-ons-considerations]
 == Considerations
 
 Consider the following when you use Amazon EKS add-ons:
@@ -65,7 +65,7 @@ Review the table to determine the minimum required platform version to use this 
 
 |===
 
-[[addon-consider-auto,addon-consider-auto.title]]
+[#addon-consider-auto]
 == Considerations for Amazon EKS Auto Mode
 
 Amazon EKS Auto mode includes capabilities that deliver essential cluster functionality, including:
@@ -92,7 +92,7 @@ However, if your cluster combines Auto mode with other compute options like self
 If you are planning to enable EKS Auto Mode on an existing cluster, you may need to upgrade the version of certain addons. For more information, see <<auto-addons-required>> for EKS Auto Mode. 
 
 
-[[addon-support,addon-support.title]]
+[#addon-support]
 == Support
 
 {aws} publishes multiple types of add-ons with different levels of support. 

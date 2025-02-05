@@ -1,5 +1,5 @@
 [.topic]
-[[auto-wip,auto-wip.title]]
+[#auto-wip]
 = EKS Auto Mode: Revisions to existing pages WIP
 :toc: left
 

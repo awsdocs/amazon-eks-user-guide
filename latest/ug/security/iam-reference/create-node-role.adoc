@@ -1,5 +1,5 @@
 [.topic]
-[[create-node-role,create-node-role.title]]
+[#create-node-role]
 = Amazon EKS node IAM role
 :info_titleabbrev: Node IAM role
 
@@ -27,7 +27,7 @@ Before you create nodes, you must create an IAM role with the following permissi
 The Amazon EC2 node groups must have a different IAM role than the Fargate profile. For more information, see <<pod-execution-role>>.
 ====
 
-[[check-worker-node-role,check-worker-node-role.title]]
+[#check-worker-node-role]
 == Check for an existing node role
 
 You can use the following procedure to check and see if your account already has the Amazon EKS node role.
@@ -63,7 +63,7 @@ NOTE: If the *AmazonEKS_CNI_Policy* policy is attached to the role, we recommend
 ----
 
 
-[[create-worker-node-role,create-worker-node-role.title]]
+[#create-worker-node-role]
 == Creating the Amazon EKS node IAM role
 
 You can create the node IAM role with the {aws-management-console} or the {aws} CLI.

@@ -1,5 +1,5 @@
 [.topic]
-[[access-policy-permissions,access-policy-permissions.title]]
+[#access-policy-permissions]
 = Review access policy permissions
 :info_titleabbrev: Review access policies
 
@@ -10,7 +10,7 @@ Access policies include `rules` that contain [.noloc]`Kubernetes` `verbs` (permi
 Choose any access policy to see its contents. Each row of each table in each access policy is a separate rule.
 
 
-[[access-policy-permissions-amazoneksadminpolicy,access-policy-permissions-amazoneksadminpolicy.title]]
+[#access-policy-permissions-amazoneksadminpolicy]
 == AmazonEKSAdminPolicy
 
 
@@ -115,7 +115,7 @@ This access policy includes permissions that grant an IAM principal most permiss
 |===
 
 
-[[access-policy-permissions-amazoneksclusteradminpolicy,access-policy-permissions-amazoneksclusteradminpolicy.title]]
+[#access-policy-permissions-amazoneksclusteradminpolicy]
 == AmazonEKSClusterAdminPolicy
 
 
@@ -143,7 +143,7 @@ This access policy includes permissions that grant an IAM principal administrato
 |===
 
 
-[[access-policy-permissions-amazoneksadminviewpolicy,access-policy-permissions-amazoneksadminviewpolicy.title]]
+[#access-policy-permissions-amazoneksadminviewpolicy]
 == AmazonEKSAdminViewPolicy
 
 This access policy includes permissions that grant an IAM principal access to list/view all resources in a cluster. Note this includes https://kubernetes.io/docs/concepts/configuration/secret/[Kubernetes Secrets.]
@@ -163,7 +163,7 @@ This access policy includes permissions that grant an IAM principal access to li
 |===
 
 
-[[access-policy-permissions-amazonekseditpolicy,access-policy-permissions-amazonekseditpolicy.title]]
+[#access-policy-permissions-amazonekseditpolicy]
 == AmazonEKSEditPolicy
 
 
@@ -260,7 +260,7 @@ This access policy includes permissions that allow an IAM principal to edit most
 |===
 
 
-[[access-policy-permissions-amazoneksviewpolicy.json,access-policy-permissions-amazoneksviewpolicy.json.title]]
+[#access-policy-permissions-amazoneksviewpolicy.json]
 == AmazonEKSViewPolicy
 
 This access policy includes permissions that allow an IAM principal to view most [.noloc]`Kubernetes` resources.
@@ -531,7 +531,7 @@ The policy allows the networking components to interact with node-related resour
 
 Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the networking capability to function properly.
 
-[[access-policy-permissions-amazonekshybridpolicy,access-policy-permissions-amazonekshybridpolicy.title]]
+[#access-policy-permissions-amazonekshybridpolicy]
 == AmazonEKSHybridPolicy
 
 
@@ -554,7 +554,7 @@ This access policy includes permissions that grant EKS access to the nodes of a 
 |===
 
 
-[[access-policy-updates,access-policy-updates.title]]
+[#access-policy-updates]
 == Access policy updates
 
 View details about updates to access policies, since they were introduced. For automatic alerts about changes to this page, subscribe to the RSS feed in <<doc-history>>.

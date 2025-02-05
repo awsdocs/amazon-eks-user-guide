@@ -1,5 +1,5 @@
 [.topic]
-[[metrics-server,metrics-server.title]]
+[#metrics-server]
 = View resource usage with the [.noloc]`Kubernetes` [.noloc]`Metrics Server`
 :info_titleabbrev: Metrics server
 

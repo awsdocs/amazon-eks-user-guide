@@ -1,5 +1,5 @@
 [.topic]
-[[removing-an-add-on,removing-an-add-on.title]]
+[#removing-an-add-on]
 = Remove an Amazon EKS add-on from a cluster
 :info_titleabbrev: Remove an add-on
 
@@ -26,7 +26,7 @@ When you remove an Amazon EKS add-on from a cluster:
 * You can choose to leave the add-on software on your cluster so that you can self-manage it, or you can remove the add-on software from your cluster. You should only remove the add-on software from your cluster if there are no resources on your cluster are dependent on the functionality that the add-on provides.
 
 
-[[removing-an-add-on-prereq,removing-an-add-on-prereq.title]]
+[#removing-an-add-on-prereq]
 == Prerequisites
 
 Complete the following before you create an add-on:
@@ -38,7 +38,7 @@ Complete the following before you create an add-on:
 * Version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation..
 
 
-[[removing-an-add-on-procedure,removing-an-add-on-procedure.title]]
+[#removing-an-add-on-procedure]
 == Procedure
 
 You have two options when removing an Amazon EKS add-on.

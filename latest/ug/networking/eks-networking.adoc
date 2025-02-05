@@ -1,4 +1,4 @@
-[[eks-networking,eks-networking.title]]
+[#eks-networking]
 = Configure networking for Amazon EKS clusters
 :doctype: book
 :sectnums:

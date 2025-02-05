@@ -1,5 +1,5 @@
 [.topic]
-[[windows-support,windows-support.title]]
+[#windows-support]
 = Deploy [.noloc]`Windows` nodes on EKS clusters
 :info_titleabbrev: Enable Windows support
 
@@ -36,7 +36,7 @@ Before deploying [.noloc]`Windows` nodes, be aware of the following consideratio
 * An existing <<cluster-iam-role,Amazon EKS cluster IAM role>>.
 
 
-[[enable-windows-support,enable-windows-support.title]]
+[#enable-windows-support]
 == Enable [.noloc]`Windows` support
 . If you don't have Amazon Linux nodes in your cluster and use security groups for [.noloc]`Pods`, skip to the next step. Otherwise, confirm that the `AmazonEKSVPCResourceController` managed policy is attached to your <<cluster-iam-role,cluster role>>. Replace [.replaceable]`eksClusterRole` with your cluster role name.
 +
@@ -120,7 +120,7 @@ data:
 You should see `eks:kube-proxy-windows` listed under groups. If the group isn't specified, you need to update your `ConfigMap` or create it to include the required group. For more information about the `aws-auth` `ConfigMap`, see <<aws-auth-configmap>>.
 
 
-[[windows-support-pod-deployment,windows-support-pod-deployment.title]]
+[#windows-support-pod-deployment]
 == Deploy Windows Pods
 
 When you deploy Pods to your cluster, you need to specify the operating system that they use if you're running a mixture of node types.  
@@ -145,7 +145,7 @@ nodeSelector:
 
 You can deploy a  <<sample-deployment,sample application>> to see the node selectors in use.
 
-[[windows-support-pod-density,windows-support-pod-density.title]]
+[#windows-support-pod-density]
 == Support higher [.noloc]`Pod` density on Windows nodes
 
 In Amazon EKS, each [.noloc]`Pod` is allocated an `IPv4` address from your VPC. Due to this, the number of [.noloc]`Pods` that you can deploy to a node is constrained by the available IP addresses, even if there are sufficient resources to run more [.noloc]`Pods` on the node. Since only one elastic network interface is supported by a Windows node, by default, the maximum number of available IP addresses on a Windows node is equal to:

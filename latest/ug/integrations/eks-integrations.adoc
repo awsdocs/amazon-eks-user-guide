@@ -1,5 +1,5 @@
 include::../attributes.txt[]
-[[eks-integrations,eks-integrations.title]]
+[#eks-integrations]
 = Enhance EKS with integrated {aws} services
 :doctype: book
 :sectnums:

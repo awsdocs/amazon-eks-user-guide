@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[automode-get-started-cli,automode-get-started-cli.title]]
+[#automode-get-started-cli]
 = Create an EKS Auto Mode Cluster with the {aws} CLI
 :config: configuration
 :info_titleabbrev: {aws} CLI
@@ -24,7 +24,7 @@ Amazon EKS Auto Mode deploy nodes to VPC subnets. When creating an EKS cluster, 
 * The EKS Console assists with creating a new VPC. Learn how to <<automode-get-started-console>>. 
 * Alternatively, you can use the default VPC of your {aws} account. Use the following instructions to find the Subnet IDs. 
 
-[[auto-find-subnet,auto-find-subnet.title]]
+[#auto-find-subnet]
 .To find the Subnet IDs of your default VPC
 [%collapsible, expand-section="_collapse_all_"]
 ====
@@ -55,10 +55,10 @@ Sample output:
 
 ====
 
-[[auto-mode-create-roles,auto-mode-create-roles.title]]
+[#auto-mode-create-roles]
 == IAM Roles for EKS Auto Mode Clusters
 
-[[auto-roles-cluster-iam-role,auto-roles-cluster-iam-role.title]]
+[#auto-roles-cluster-iam-role]
 === Cluster IAM Role
 
 EKS Auto Mode requires a Cluster IAM Role to perform actions in your {aws} account, such as provisioning new EC2 instances. You must create this role to grant EKS the necessary permissions. {aws} recommends attaching the following {aws} managed policies to the Cluster IAM Role:
@@ -69,7 +69,7 @@ EKS Auto Mode requires a Cluster IAM Role to perform actions in your {aws} accou
 * xref:security-iam-awsmanpol-AmazonEKSNetworkingPolicy[AmazonEKSNetworkingPolicy]
 * xref:security-iam-awsmanpol-amazoneksclusterpolicy[AmazonEKSClusterPolicy]
 
-[[auto-roles-node-iam-role,auto-roles-node-iam-role.title]]
+[#auto-roles-node-iam-role]
 === Node IAM Role
 
 When you create an EKS Auto Mode cluster, you specify a Node IAM Role. When EKS Auto Mode creates nodes to process pending workloads, each new EC2 instance node is assigned the Node IAM Role. This role allows the node to communicate with EKS but is generally not accessed by workloads running on the node. 

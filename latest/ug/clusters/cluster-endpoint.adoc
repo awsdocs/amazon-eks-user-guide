@@ -1,5 +1,5 @@
 [.topic]
-[[cluster-endpoint,cluster-endpoint.title]]
+[#cluster-endpoint]
 = Control network access to cluster API server endpoint
 :info_titleabbrev: Configure endpoint access
 
@@ -14,7 +14,7 @@ This topic helps you to enable private access for your Amazon EKS cluster's [.no
 
 When you create a new cluster, Amazon EKS creates an endpoint for the managed [.noloc]`Kubernetes` API server that you use to communicate with your cluster (using [.noloc]`Kubernetes` management tools such as `kubectl`). By default, this API server endpoint is public to the internet, and access to the API server is secured using a combination of {aws} Identity and Access Management (IAM) and native [.noloc]`Kubernetes` https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Role Based Access Control] (RBAC). This endpoint is known as the _cluster public endpoint_. Also there is a _cluster private endpoint_. For more information about the cluster private endpoint, see the following section <<cluster-endpoint-private>>.
 
-[[cluster-endpoint-ipv6,cluster-endpoint-ipv6.title]]
+[#cluster-endpoint-ipv6]
 == `IPv6` cluster endpoint format
 
 EKS creates a unique dual-stack endpoint in the following format for new `IPv6` clusters that are made after October 2024. An _IPv6 cluster_ is a cluster that you select `IPv6` in the IP family (`ipFamily`) setting of the cluster.
@@ -40,7 +40,7 @@ EKS cluster public/private endpoint:
 The dual-stack cluster endpoint was introduced in October 2024. For more information about `IPv6` clusters, see <<cni-ipv6>>. Clusters made before October 2024, use following endpoint format instead.
 ====
 
-[[cluster-endpoint-ipv4,cluster-endpoint-ipv4.title]]
+[#cluster-endpoint-ipv4]
 == `IPv4` cluster endpoint format
 
 EKS creates a unique endpoint in the following format for each cluster that select `IPv4` in the IP family (ipFamily) setting of the cluster:
@@ -66,7 +66,7 @@ EKS cluster public/private endpoint
 Before October 2024, `IPv6` clusters used this endpoint format also. For those clusters, both the public endpoint and the private endpoint have only `IPv4` addresses resolve from this endpoint.
 ====
 
-[[cluster-endpoint-private,cluster-endpoint-private.title]]
+[#cluster-endpoint-private]
 == Cluster private endpoint
 
 You can enable private access to the [.noloc]`Kubernetes` API server so that all communication between your nodes and the API server stays within your VPC. You can limit the IP addresses that can access your API server from the internet, or completely disable internet access to the API server.
@@ -82,7 +82,7 @@ When you enable endpoint private access for your cluster, Amazon EKS creates a R
 
 You can define your API server endpoint access requirements when you create a new cluster, and you can update the API server endpoint access for a cluster at any time. 
 
-[[modify-endpoint-access,modify-endpoint-access.title]]
+[#modify-endpoint-access]
 == Modifying cluster endpoint access
 
 Use the procedures in this section to modify the endpoint access for an existing cluster. The following table shows the supported API server endpoint access combinations and their associated behavior.
@@ -226,7 +226,7 @@ An example output is as follows.
 ----
 
 
-[[private-access,private-access.title]]
+[#private-access]
 == Accessing a private only API server
 
 If you have disabled public access for your cluster's [.noloc]`Kubernetes` API server endpoint, you can only access the API server from within your VPC or a link:whitepapers/latest/aws-vpc-connectivity-options/introduction.html[connected network,type="documentation"]. Here are a few possible ways to access the [.noloc]`Kubernetes` API server endpoint:

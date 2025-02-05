@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[eks-outposts-local-cluster-create,eks-outposts-local-cluster-create.title]]
+[#eks-outposts-local-cluster-create]
 = Deploy an Amazon EKS cluster on {aws} Outposts
 :info_titleabbrev: Deploy a local cluster
 
@@ -228,7 +228,7 @@ kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   28h
 . (Optional) Test authentication to your local cluster when it's in a disconnected state from the {aws} Cloud. For instructions, see <<eks-outposts-network-disconnects>>.
 
 
-[[outposts-control-plan-internal-resources,outposts-control-plan-internal-resources.title]]
+[#outposts-control-plan-internal-resources]
 === Internal resources
 
 Amazon EKS creates the following resources on your cluster. The resources are for Amazon EKS internal use. For proper functioning of your cluster, don't edit or modify these resources.

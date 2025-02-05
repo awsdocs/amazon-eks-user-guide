@@ -1,5 +1,5 @@
 [.topic]
-[[control-plane-logs,control-plane-logs.title]]
+[#control-plane-logs]
 = Send control plane logs to CloudWatch Logs
 :info_titleabbrev: Control plane logs
 :keywords: control plane, logging, API, logs
@@ -41,7 +41,7 @@ The controller manager manages the core control loops that are shipped with [.no
 The scheduler component manages when and where to run [.noloc]`Pods` in your cluster. For more information, see https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/[kube-scheduler] in the [.noloc]`Kubernetes` documentation.
 
 
-[[enabling-control-plane-log-export,enabling-control-plane-log-export.title]]
+[#enabling-control-plane-log-export]
 == Enable or disable control plane logs
 
 By default, cluster control plane logs aren't sent to CloudWatch Logs. You must enable each log type individually to send logs for your cluster. CloudWatch Logs ingestion, archive storage, and data scanning rates apply to enabled control plane logs. For more information, see link:cloudwatch/pricing/[CloudWatch pricing,type="marketing"].
@@ -50,7 +50,7 @@ To update the control plane logging configuration, Amazon EKS requires up to fiv
 
 You can enable or disable control plane logs with either the <<control-plane-console,{aws-management-console}>> or the <<control-plane-cli,{aws} CLI>>.
 
-[[control-plane-console,control-plane-console.title]]
+[#control-plane-console]
 === {aws-management-console}
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the name of the cluster to display your cluster information.
@@ -59,7 +59,7 @@ You can enable or disable control plane logs with either the <<control-plane-con
 . For each individual log type, choose whether the log type should be turned on or turned off. By default, each log type is turned off.
 . Choose *Save changes* to finish.
 
-[[control-plane-cli,control-plane-cli.title]]
+[#control-plane-cli]
 === {aws} CLI
 . Check your {aws} CLI version with the following command.
 +
@@ -132,7 +132,7 @@ An example output is as follows.
 }
 ----
 
-[[viewing-control-plane-logs,viewing-control-plane-logs.title]]
+[#viewing-control-plane-logs]
 == View cluster control plane logs
 
 After you have enabled any of the control plane log types for your Amazon EKS cluster, you can view them on the CloudWatch console.

@@ -1,5 +1,5 @@
 [.topic]
-[[eks-architecture,eks-architecture.title]]
+[#eks-architecture]
 = Amazon EKS architecture
 :info_titleabbrev: Architecture
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, architecture, control plane, nodes, data plane
@@ -13,7 +13,7 @@ Learn how Amazon EKS aligns with [.noloc]`Kubernetes` cluster architecture, offe
 
 Amazon EKS aligns with the general cluster architecture of [.noloc]`Kubernetes`. For more information, see https://kubernetes.io/docs/concepts/overview/components/[Kubernetes Components] in the [.noloc]`Kubernetes` documentation. The following sections summarize some extra architecture details for Amazon EKS.
 
-[[control-plane,control-plane.title]]
+[#control-plane]
 == Control plane
 
 Amazon EKS ensures every cluster has its own unique [.noloc]`Kubernetes` control plane. This design keeps each cluster's infrastructure separate, with no overlaps between clusters or {aws} accounts. The setup includes:
@@ -37,7 +37,7 @@ By running clusters across multiple  Availability Zones, a reliable link:eks/sla
 
 Amazon EKS uses Amazon Virtual Private Cloud (Amazon VPC) to limit traffic between control plane components within a single cluster. Cluster components can't view or receive communication from other clusters or {aws} accounts, except when authorized by [.noloc]`Kubernetes` role-based access control (RBAC) policies.
 
-[[nodes,nodes.title]]
+[#nodes]
 == Compute
 
 In addition to the control plane, an Amazon EKS cluster has a set of worker machines called nodes. Selecting the appropriate Amazon EKS cluster node type is crucial for meeting your specific requirements and optimizing resource utilization. Amazon EKS offers the following primary node types:

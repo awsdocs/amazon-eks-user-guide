@@ -1,5 +1,5 @@
 [.topic]
-[[hybrid-nodes-cni,hybrid-nodes-cni.title]]
+[#hybrid-nodes-cni]
 = Configure a CNI for hybrid nodes
 :info_titleabbrev: Configure CNI
 :keywords: on-premises CNI, hybrid CNI

@@ -1,5 +1,5 @@
 [.topic]
-[[alb-ingress,alb-ingress.title]]
+[#alb-ingress]
 = Route application and [.noloc]`HTTP` traffic with [.noloc]`Application Load Balancers`
 :info_titleabbrev: Application load balancing
 
@@ -137,7 +137,7 @@ Ensure that each ingress in the same ingress group has a unique priority number.
 
 ====
 
-[[application-load-balancer-sample-application,application-load-balancer-sample-application.title]]
+[#application-load-balancer-sample-application]
 == (Optional) Deploy a sample application
 
 * At least one public or private subnet in your cluster VPC.

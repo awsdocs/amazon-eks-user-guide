@@ -1,5 +1,5 @@
 [.topic]
-[[opentelemetry,opentelemetry.title]]
+[#opentelemetry]
 = Send metric and trace data with ADOT Operator
 :info_titleabbrev: ADOT Operator
 :keywords: ADOT

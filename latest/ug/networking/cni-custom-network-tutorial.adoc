@@ -1,5 +1,5 @@
 [.topic]
-[[cni-custom-network-tutorial,cni-custom-network-tutorial.title]]
+[#cni-custom-network-tutorial]
 = Customize the secondary network interface in Amazon EKS nodes
 :info_titleabbrev: Secondary interface
 
@@ -24,7 +24,7 @@ The commands in this topic are formatted using the conventions listed in link:cl
 
 When you want to deploy custom networking to your production cluster, skip to <<custom-networking-configure-vpc>>.
 
-[[custom-networking-create-cluster,custom-networking-create-cluster.title]]
+[#custom-networking-create-cluster]
 == Step 1: Create a test VPC and cluster
 
 The following procedures help you create a test VPC and cluster and configure custom networking for that cluster. We don't recommend using the test cluster for production workloads because several unrelated features that you might use on your production cluster aren't covered in this topic. For more information, see <<create-cluster>>.
@@ -135,7 +135,7 @@ aws eks update-kubeconfig --name my-custom-networking-cluster
 ----
 
 
-[[custom-networking-configure-vpc,custom-networking-configure-vpc.title]]
+[#custom-networking-configure-vpc]
 == Step 2: Configure your VPC
 
 This tutorial requires the VPC created in <<custom-networking-create-cluster>>. For a production cluster, adjust the steps accordingly for your VPC by replacing all of the example values with your own.
@@ -243,7 +243,7 @@ An example output is as follows.
 You can see the subnets in the `192.168.1.0` CIDR block that you created are in the same Availability Zones as the subnets in the `192.168.0.0` CIDR block.
 
 
-[[custom-networking-configure-kubernetes,custom-networking-configure-kubernetes.title]]
+[#custom-networking-configure-kubernetes]
 == Step 3: Configure [.noloc]`Kubernetes` resources
 . Set the `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG` environment variable to `true` in the `aws-node` [.noloc]`DaemonSet`.
 +
@@ -355,7 +355,7 @@ kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=topology.
 ----
 
 
-[[custom-networking-deploy-nodes,custom-networking-deploy-nodes.title]]
+[#custom-networking-deploy-nodes]
 == Step 4: Deploy Amazon EC2 nodes
 . Create a node IAM role.
 +
@@ -533,7 +533,7 @@ You can see that the coredns [.noloc]`Pods` are assigned IP addresses from the `
 If a [.noloc]`Pod's` `spec` contains `hostNetwork=true`, it's assigned the primary IP address of the node. It isn't assigned an address from the subnets that you added. By default, this value is set to `false`. This value is set to `true` for the `kube-proxy` and [.noloc]`Amazon VPC CNI plugin for Kubernetes` (`aws-node`) [.noloc]`Pods` that run on your cluster. This is why the `kube-proxy` and the plugin's `aws-node` [.noloc]`Pods` aren't assigned 192.168.1.x addresses in the previous output. For more information about a [.noloc]`Pod's` `hostNetwork` setting, see https://kubernetes.io/docs/reference/generated/kubernetes-api/v{k8s-n}/#podspec-v1-core[PodSpec v1 core] in the [.noloc]`Kubernetes` API reference.
 
 
-[[custom-network-delete-resources,custom-network-delete-resources.title]]
+[#custom-network-delete-resources]
 == Step 5: Delete tutorial resources
 
 After you complete the tutorial, we recommend that you delete the resources that you created. You can then adjust the steps to enable custom networking for a production cluster.

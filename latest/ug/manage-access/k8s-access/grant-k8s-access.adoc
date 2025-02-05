@@ -1,5 +1,5 @@
 [.topic]
-[[grant-k8s-access,grant-k8s-access.title]]
+[#grant-k8s-access]
 = Grant [.noloc]`IAM` users and roles access to Kubernetes [.noloc]`APIs`
 :info_titleabbrev: Kubernetes API access
 
@@ -28,7 +28,7 @@ Your cluster has an [.noloc]`Kubernetes` API endpoint. Kubectl uses this API. Yo
 
 You can use both types of identities with your cluster. The IAM authentication method cannot be disabled. The OIDC authentication method is optional.
 
-[[authentication-modes,authentication-modes.title]]
+[#authentication-modes]
 == Associate IAM Identities with Kubernetes Permissions
 
 The https://github.com/kubernetes-sigs/aws-iam-authenticator#readme[{aws} IAM Authenticator for Kubernetes] is installed on your cluster's control plane. It enables link:IAM/latest/UserGuide/introduction.html[{aws} Identity and Access Management,type="documentation"] (IAM) principals (roles and users) that you allow to access [.noloc]`Kubernetes` resources on your cluster. You can allow IAM principals to access [.noloc]`Kubernetes` objects on your cluster using one of the following methods:
@@ -47,7 +47,7 @@ To get started, follow link:eks/latest/userguide/setting-up-access-entries.html[
 ** If you have to use the `aws-auth` `ConfigMap` option, you can add entries to the `ConfigMap` using the `eksctl create iamidentitymapping` command. For more information, see https://eksctl.io/usage/iam-identity-mappings/[Manage IAM users and roles] in the `eksctl` documentation.
 
 
-[[set-cam,set-cam.title]]
+[#set-cam]
 == Set Cluster Authentication Mode
 
 Each cluster has an  _authentication mode_. The authentication mode determines which methods you can use to allow IAM principals to access [.noloc]`Kubernetes` objects on your cluster. There are three authentication modes.

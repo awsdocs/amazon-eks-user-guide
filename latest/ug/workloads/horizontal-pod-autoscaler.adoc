@@ -1,5 +1,5 @@
 [.topic]
-[[horizontal-pod-autoscaler,horizontal-pod-autoscaler.title]]
+[#horizontal-pod-autoscaler]
 = Scale pod deployments with [.noloc]`Horizontal Pod Autoscaler`
 :info_titleabbrev: Horizontal Pod Autoscaler
 
@@ -28,7 +28,7 @@ This topic is based on the https://kubernetes.io/docs/tasks/run-application/hori
 * You are using a `kubectl` client that is <<eks-configure-kubectl,configured to communicate with your Amazon EKS cluster>>.
 
 
-[[hpa-sample-app,hpa-sample-app.title]]
+[#hpa-sample-app]
 == Run a Horizontal Pod Autoscaler test application
 
 In this section, you deploy a sample application to verify that the Horizontal Pod Autoscaler is working.

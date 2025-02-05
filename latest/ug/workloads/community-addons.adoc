@@ -1,5 +1,5 @@
 [.topic]
-[[community-addons,community-addons.title]]
+[#community-addons]
 = Community add-ons 
 
 include::../attributes.txt[]

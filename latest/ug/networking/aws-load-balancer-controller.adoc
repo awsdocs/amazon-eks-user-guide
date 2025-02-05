@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[aws-load-balancer-controller,aws-load-balancer-controller.title]]
+[#aws-load-balancer-controller]
 = Route internet traffic with {aws} Load Balancer Controller
 :info_titleabbrev: {aws} Load Balancer Controller
 
@@ -38,7 +38,7 @@ The controller is an https://github.com/kubernetes-sigs/aws-load-balancer-contro
 Before deploying the controller, we recommend that you review the prerequisites and considerations in <<alb-ingress,Route application and HTTP traffic with Application Load Balancers>> and <<network-load-balancing>>. In those topics, you will deploy a sample app that includes an {aws} load balancer. 
 
 
-[[lbc-overview,lbc-overview.title]]
+[#lbc-overview]
 == Install the controller
 
 You can use one of the following procedures to install the [.noloc]`{aws} Load Balancer Controller`:
@@ -49,7 +49,7 @@ You can use one of the following procedures to install the [.noloc]`{aws} Load B
 * For advanced configurations, such as clusters with restricted network access to public container registries,  use [.noloc]`Kubernetes` Manifests. For more information, see <<lbc-manifest>>.
 
 
-[[lbc-deprecated,lbc-deprecated.title]]
+[#lbc-deprecated]
 == Migrate from deprecated controller versions
 
 * If you have deprecated versions of the [.noloc]`{aws} Load Balancer Controller` installed, see <<lbc-remove>>.
@@ -62,7 +62,7 @@ You can use one of the following procedures to install the [.noloc]`{aws} Load B
 ** Any `0.1.[.replaceable]``x``` version of the [.noloc]`{aws} Load Balancer Controller`
 
 
-[[lbc-legacy,lbc-legacy.title]]
+[#lbc-legacy]
 == Legacy cloud provider
 
 [.noloc]`Kubernetes` includes a legacy cloud provider for {aws}. The legacy cloud provider is capable of provisioning {aws} load balancers, similar to the [.noloc]`{aws} Load Balancer Controller`. The legacy cloud provider creates Classic Load Balancers. If you do not install the [.noloc]`{aws} Load Balancer Controller`, [.noloc]`Kubernetes` will default to using the legacy cloud provider. You should install the [.noloc]`{aws} Load Balancer Controller` and avoid using the legacy cloud provider.  

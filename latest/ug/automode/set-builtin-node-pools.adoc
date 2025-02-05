@@ -1,5 +1,5 @@
 [.topic]
-[[set-builtin-node-pools,set-builtin-node-pools.title]]
+[#set-builtin-node-pools]
 = Enable or Disable Built-in NodePools
 :info_titleabbrev: Review built-in node pools
 

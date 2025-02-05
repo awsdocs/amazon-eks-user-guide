@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[eks-outposts-platform-versions,eks-outposts-platform-versions.title]]
+[#eks-outposts-platform-versions]
 = Learn [.noloc]`Kubernetes` and Amazon EKS platform versions for {aws} Outposts
 :info_titleabbrev: EKS platform versions
 
@@ -28,7 +28,7 @@ Local clusters are always created with the latest available platform version (`e
 
 The current and recent platform versions are described in the following tables.
 
-[[outposts-platform-versions-1.30,outposts-platform-versions-1.30.title]]
+[#outposts-platform-versions-1-30]
 == [.noloc]`Kubernetes` version `1.30`
 
 The following admission controllers are enabled for all `1.30` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
@@ -51,7 +51,7 @@ The following admission controllers are enabled for all `1.30` platform versions
 |November 13, 2024
 |===
 
-[[outposts-platform-versions-1.29,outposts-platform-versions-1.29.title]]
+[#outposts-platform-versions-1-29]
 == [.noloc]`Kubernetes` version `1.29`
 
 The following admission controllers are enabled for all `1.29` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
@@ -89,7 +89,7 @@ The following admission controllers are enabled for all `1.29` platform versions
 |August 20, 2024
 |===
 
-[[outposts-platform-versions-1.28,outposts-platform-versions-1.28.title]]
+[#outposts-platform-versions-1-28]
 == [.noloc]`Kubernetes` version `1.28`
 
 The following admission controllers are enabled for all `1.28` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
@@ -157,7 +157,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 |October 4, 2023
 |===
 
-[[outposts-platform-versions-1.27,outposts-platform-versions-1.27.title]]
+[#outposts-platform-versions-1-27]
 == [.noloc]`Kubernetes` version `1.27`
 
 The following admission controllers are enabled for all `1.27` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.

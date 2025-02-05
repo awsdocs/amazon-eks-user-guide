@@ -1,5 +1,5 @@
 [.topic]
-[[eks-optimized-ami,eks-optimized-ami.title]]
+[#eks-optimized-ami]
 = Create nodes with optimized Amazon Linux AMIs
 :info_titleabbrev: Amazon Linux
 
@@ -37,7 +37,7 @@ The Amazon EKS optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (A
 
 ====
 
-[[gpu-ami,gpu-ami.title]]
+[#gpu-ami]
 == Amazon EKS optimized accelerated Amazon Linux AMIs
 
 The Amazon EKS optimized accelerated Amazon Linux AMIs are built on top of the standard Amazon EKS optimized Amazon Linux AMIs. They are configured to serve as optional images for Amazon EKS nodes to support GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
@@ -61,7 +61,7 @@ For a list of the latest components included in the accelerated AMIs, see the `a
 
 For details on running workloads on Amazon EKS optimized accelerated Amazon Linux AMIs, see <<ml-eks-optimized-ami>>.
 
-[[arm-ami,arm-ami.title]]
+[#arm-ami]
 == Amazon EKS optimized [.noloc]`Arm` Amazon Linux AMIs
 
 Arm instances deliver significant cost savings for scale-out and [.noloc]`Arm`-based applications such as web servers, containerized microservices, caching fleets, and distributed data stores. When adding [.noloc]`Arm` nodes to your cluster, review the following considerations.
@@ -71,7 +71,7 @@ Arm instances deliver significant cost savings for scale-out and [.noloc]`Arm`-b
 * If you have [.noloc]`DaemonSets` that are deployed in an existing cluster, or you want to deploy them to a new cluster that you also want to deploy [.noloc]`Arm` nodes in, then verify that your [.noloc]`DaemonSet` can run on all hardware architectures in your cluster.  
 * You can run [.noloc]`Arm` node groups and x86 node groups in the same cluster. If you do, consider deploying multi-architecture container images to a container repository such as Amazon Elastic Container Registry and then adding node selectors to your manifests so that [.noloc]`Kubernetes` knows what hardware architecture a [.noloc]`Pod` can be deployed to. For more information, see link:AmazonECR/latest/userguide/docker-push-multi-architecture-image.html[Pushing a multi-architecture image,type="documentation"] in the _Amazon ECR User Guide_ and the link:containers/introducing-multi-architecture-container-images-for-amazon-ecr[Introducing multi-architecture container images for Amazon ECR,type="blog"] blog post.
 
-[[linux-more-information,linux-more-information.title]]
+[#linux-more-information]
 == More information
 
 For more information about using Amazon EKS optimized Amazon Linux AMIs, see the following sections:

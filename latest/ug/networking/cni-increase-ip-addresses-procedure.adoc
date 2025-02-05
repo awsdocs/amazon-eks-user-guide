@@ -1,5 +1,5 @@
 [.topic]
-[[cni-increase-ip-addresses-procedure,cni-increase-ip-addresses-procedure.title]]
+[#cni-increase-ip-addresses-procedure]
 = Increase the available IP addresses for your Amazon EKS node
 :info_titleabbrev: Procedure
 

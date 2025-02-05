@@ -1,5 +1,5 @@
 [.topic]
-[[managed-node-update-behavior,managed-node-update-behavior.title]]
+[#managed-node-update-behavior]
 = Understand each phase of node updates
 :info_titleabbrev: Update behavior details
 
@@ -12,7 +12,7 @@ The Amazon EKS managed worker node upgrade strategy has four different phases.
 
 The Amazon EKS managed worker node upgrade strategy has four different phases described in the following sections.
 
-[[managed-node-update-set-up,managed-node-update-set-up.title]]
+[#managed-node-update-set-up]
 == Setup phase
 
 The setup phase has these steps:
@@ -22,7 +22,7 @@ The setup phase has these steps:
 . It determines the maximum quantity of nodes to upgrade in parallel using the `updateConfig` property for the node group. The maximum unavailable has a quota of 100 nodes. The default value is one node. For more information, see the  link:eks/latest/APIReference/API_UpdateNodegroupConfig.html#API_UpdateNodegroupConfig_RequestSyntax[updateConfig,type="documentation"] property in the _Amazon EKS API Reference_.
 
 
-[[managed-node-update-scale-up,managed-node-update-scale-up.title]]
+[#managed-node-update-scale-up]
 == Scale up phase
 
 When upgrading the nodes in a managed node group, the upgraded nodes are launched in the same Availability Zone as those that are being upgraded. To guarantee this placement, we use Amazon EC2's Availability Zone Rebalancing. For more information, see   link:autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage[Availability Zone Rebalancing,type="documentation"] in the _Amazon EC2 Auto Scaling User Guide_. To meet this requirement, it's possible that we'd launch up to two instances per Availability Zone in your managed node group.
@@ -71,7 +71,7 @@ Custom user data can sometimes break the bootstrap process. This scenario can le
 Node disk pressure, memory pressure, and similar conditions can lead to a node not going to `Ready` state.
 
 
-[[managed-node-update-upgrade,managed-node-update-upgrade.title]]
+[#managed-node-update-upgrade]
 == Upgrade phase
 
 The upgrade phase behaves in two different ways, depending on the _update strategy_. There are two update strategies: *default* and *minimal*.
@@ -107,7 +107,7 @@ Aggressive PDB is defined on the [.noloc]`Pod` or there are multiple PDBs pointi
 Once every [.noloc]`Pod` is evicted, it's expected for the node to be empty because the node is https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[tainted] in the earlier steps. However, if the deployment tolerates every taint, then the node is more likely to be non-empty, leading to [.noloc]`Pod` eviction failure.
 
 
-[[managed-node-update-scale-down,managed-node-update-scale-down.title]]
+[#managed-node-update-scale-down]
 == Scale down phase
 
 The scale down phase decrements the Auto Scaling group maximum size and desired size by one to return to values before the update started.

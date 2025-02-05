@@ -1,4 +1,4 @@
-[[eks-observe,eks-observe.title]]
+[#eks-observe]
 = Monitor your cluster performance and view logs
 :doctype: book
 :sectnums:
@@ -31,7 +31,7 @@ Monitoring is an important part of maintaining the reliability, availability, an
 * Who do you intend to perform the monitoring tasks?
 * Whom do you want notifications to be sent to when something goes wrong?
 
-[[logging-monitoring,logging-monitoring.title]]
+[#logging-monitoring]
 == Monitoring and logging on Amazon EKS
 
 Amazon EKS provides built-in tools for monitoring and logging. For supported versions, the observability dashboard gives visibility into the performance of your cluster. It helps you to quickly detect, troubleshoot, and remediate issues.  In addition to monitoring features, it includes lists based on the control plane audit logs. The Kubernetes control plane exposes a number of metrics that that can also be scraped outside of the console.
@@ -62,7 +62,7 @@ The [.noloc]`Kubernetes` API server exposes a number of metrics that are useful 
 
 To configure [.noloc]`Fluent Bit` for custom Amazon CloudWatch logs, see link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html#Container-Insights-FluentBit-setup[Setting up Fluent Bit,type="documentation"] in the _Amazon CloudWatch User Guide_.
 
-[[eks-monitor-tools,eks-monitor-tools.title]]
+[#eks-monitor-tools]
 == Amazon EKS monitoring and logging tools
 
 Amazon Web Services provides various tools that you can use to monitor Amazon EKS. You can configure some tools to set up automatic monitoring, but some require manual calls. We recommend that you automate monitoring tasks as much as your environment and existing toolset allows.

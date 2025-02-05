@@ -1,5 +1,5 @@
 [.topic]
-[[delete-managed-node-group,delete-managed-node-group.title]]
+[#delete-managed-node-group]
 = Delete a managed node group from your cluster
 :info_titleabbrev: Delete
 

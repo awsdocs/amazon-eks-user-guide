@@ -1,6 +1,6 @@
 include::../attributes.txt[]
 [.topic]
-[[monitoring-fargate-usage,monitoring-fargate-usage.title]]
+[#monitoring-fargate-usage]
 = Collect {aws} Fargate app and usage metrics
 :info_titleabbrev: Collect metrics
 
@@ -11,12 +11,12 @@ You can collect system metrics and CloudWatch usage metrics for {aws} Fargate.
 
 You can collect system metrics and CloudWatch usage metrics for {aws} Fargate.
 
-[[fargate-application-metrics,fargate-application-metrics.title]]
+[#fargate-application-metrics]
 == Application metrics
 
 For applications running on Amazon EKS and {aws} Fargate, you can use the {aws} Distro for [.noloc]`OpenTelemetry` (ADOT). ADOT allows you to collect system metrics and send them to CloudWatch Container Insights dashboards. To get started with ADOT for applications running on Fargate, see https://aws-otel.github.io/docs/getting-started/container-insights[Using CloudWatch Container Insights with {aws} Distro for OpenTelemetry] in the ADOT documentation.
 
-[[fargate-usage-metrics,fargate-usage-metrics.title]]
+[#fargate-usage-metrics]
 == Usage metrics
 
 You can use CloudWatch usage metrics to provide visibility into your account's usage of resources. Use these metrics to visualize your current service usage on CloudWatch graphs and dashboards.
@@ -65,7 +65,7 @@ Fargate On-Demand usage combines Amazon EKS [.noloc]`Pods` using Fargate, Amazon
 |The class of resource being tracked. Currently, {aws} Fargate doesn't use the class dimension.
 |===
 
-[[service-quota-alarm,service-quota-alarm.title]]
+[#service-quota-alarm]
 === Creating a CloudWatch alarm to monitor Fargate resource usage metrics
 
 {aws} Fargate provides CloudWatch usage metrics that correspond to the {aws} service quotas for Fargate On-Demand resource usage. In the Service Quotas console, you can visualize your usage on a graph. You can also configure alarms that alert you when your usage approaches a service quota. For more information, see <<monitoring-fargate-usage>>.

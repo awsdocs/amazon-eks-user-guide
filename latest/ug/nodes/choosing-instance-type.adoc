@@ -1,5 +1,5 @@
 [.topic]
-[[choosing-instance-type,choosing-instance-type.title]]
+[#choosing-instance-type]
 = Choose an optimal Amazon EC2 node instance type
 :info_titleabbrev: Amazon EC2 instance types
 :keywords: choose, select, instance, type, family, group, max-pods, max pods, maximum pods
@@ -60,7 +60,7 @@ Not all instance types are available in all {aws} Regions.
 If you're using security groups for [.noloc]`Pods`, only specific instance types are supported. For more information, see <<security-groups-for-pods>>.
 
 
-[[determine-max-pods,determine-max-pods.title]]
+[#determine-max-pods]
 == Amazon EKS recommended maximum [.noloc]`Pods` for each Amazon EC2 instance type
 
 Since each [.noloc]`Pod` is assigned its own IP address, the number of IP addresses supported by an instance type is a factor in determining the number of [.noloc]`Pods` that can run on the instance. Amazon EKS provides a script that you can download and run to determine the Amazon EKS recommended maximum number of [.noloc]`Pods` to run on each instance type. The script uses hardware attributes of each instance, and configuration options, to determine the maximum [.noloc]`Pods` number.  You can use the number returned in these steps to enable capabilities such as <<cni-custom-network,assigning IP addresses to Pods from a different subnet than the instance's>> and <<cni-increase-ip-addresses,significantly increasing the number of IP addresses for your instance>>. If you're using a managed node group with multiple instance types, use a value that would work for all instance types.

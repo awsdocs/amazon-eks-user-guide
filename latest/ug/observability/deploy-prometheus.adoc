@@ -1,5 +1,5 @@
 [.topic]
-[[deploy-prometheus,deploy-prometheus.title]]
+[#deploy-prometheus]
 = Deploy [.noloc]`Prometheus` using [.noloc]`Helm`
 :info_titleabbrev: Deploy using Helm
 

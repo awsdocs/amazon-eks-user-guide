@@ -1,5 +1,5 @@
 [.topic]
-[[setting-up-access-entries,setting-up-access-entries.title]]
+[#setting-up-access-entries]
 = Change authentication mode to use access entries
 :info_titleabbrev: Authentication mode
 
@@ -7,7 +7,7 @@ include::../../attributes.txt[]
 
 To begin using access entries, you must change the authentication mode of the cluster to either the `API_AND_CONFIG_MAP` or `API` modes. This adds the API for access entries.
 
-[[access-entries-setup-console,access-entries-setup-console.title]]
+[#access-entries-setup-console]
 == {aws} Console
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
@@ -19,7 +19,7 @@ To begin using access entries, you must change the authentication mode of the cl
 . Choose *Save changes*. Amazon EKS begins to update the cluster, the status of the cluster changes to [.noloc]`Updating`, and the change is recorded in the  *Update history* tab.
 . Wait for the status of the cluster to return to [.noloc]`Active`. When the cluster is [.noloc]`Active`, you can follow the steps in  <<creating-access-entries>> to add access to the cluster for IAM principals.
 
-[[access-setup-cli,access-setup-cli.title]]
+[#access-setup-cli]
 == {aws} CLI
 
 . Install the {aws} CLI, as described in  link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the _{aws} Command Line Interface User Guide_.

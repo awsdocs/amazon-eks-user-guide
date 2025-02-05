@@ -1,5 +1,5 @@
 [.topic]
-[[doc-history,doc-history.title]]
+[#doc-history]
 // H1 title is necessary, and must occur before the [abstract], but is unused in the web page (:info_title: is used instead, and :info_titleabbrev: is used in the ToC)
 = Document history
 :doctype: book
@@ -35,7 +35,7 @@ You can now use update strategies to configure the version update process for ma
 [.update,date="2025-01-23"]
 === [.noloc]`Kubernetes` version `1.32`
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.32
+https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1-32
 
 Added [.noloc]`Kubernetes` version `1.32` support for new clusters and version upgrades.
 
@@ -285,7 +285,7 @@ EKS added a new {aws} managed policy.
 [.update,date="2024-09-24"]
 === [.noloc]`Kubernetes` version `1.31`
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.31
+https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1-31
 
 Added [.noloc]`Kubernetes` version `1.31` support for new clusters and version upgrades.
 
@@ -370,7 +370,7 @@ We made improvements to the AMI information references, in particular for [.nolo
 [.update,date="2024-06-12"]
 === [.noloc]`Kubernetes` version `1.26`
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.26
+https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1-26
 
 [.noloc]`Kubernetes` version `1.26` is now in extended support.
 
@@ -378,7 +378,7 @@ https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubern
 [.update,date="2024-05-23"]
 === [.noloc]`Kubernetes` version `1.30`
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.30
+https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1-30
 
 Added [.noloc]`Kubernetes` version `1.30` support for new clusters and version upgrades.
 
@@ -450,7 +450,7 @@ Amazon Linux 2023 (AL2023) is a new Linux-based operating system designed to pro
 [.update,date="2024-02-26"]
 === EKS Pod Identity and IRSA support sidecars in [.noloc]`Kubernetes` `1.29`
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.29
+https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1-29
 
 In [.noloc]`Kubernetes` `1.29`, sidecar containers are available in Amazon EKS clusters. Sidecar containers are supported with IAM roles for service accounts or EKS Pod Identity. For more information about sidecars, see https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/[Sidecar Containers] in the [.noloc]`Kubernetes` documentation.
 
@@ -458,7 +458,7 @@ In [.noloc]`Kubernetes` `1.29`, sidecar containers are available in Amazon EKS c
 [.update,date="2024-01-23"]
 === [.noloc]`Kubernetes` version `1.29`
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.29
+https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1-29
 
 Added [.noloc]`Kubernetes` version `1.29` support for new clusters and version upgrades.
 
@@ -617,7 +617,7 @@ Amazon EKS integrations with {aws} App Mesh remain for existing customers of App
 [.update,date="2023-09-26"]
 === [.noloc]`Kubernetes` version `1.28`
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.28
+https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1-28
 
 Added [.noloc]`Kubernetes` version `1.28` support for new clusters and version upgrades.
 
@@ -736,7 +736,7 @@ In the {aws} GovCloud (US) Regions, Amazon EKS managed node groups can now run [
 [.update,date="2023-05-24"]
 === [.noloc]`Kubernetes` version `1.27`
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.27
+https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1-27
 
 Added [.noloc]`Kubernetes` version `1.27` support for new clusters and version upgrades.
 
@@ -744,7 +744,7 @@ Added [.noloc]`Kubernetes` version `1.27` support for new clusters and version u
 [.update,date="2023-04-11"]
 === [.noloc]`Kubernetes` version `1.26`
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.26
+https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1-26
 
 Added [.noloc]`Kubernetes` version `1.26` support for new clusters and version upgrades.
 
@@ -781,7 +781,7 @@ You can now create an Amazon EKS local cluster on an Outpost using [.noloc]`Kube
 [.update,date="2023-02-22"]
 === [.noloc]`Kubernetes` version `1.25`
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.25
+https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1-25
 
 Added [.noloc]`Kubernetes` version `1.25` support for new clusters and version upgrades.
 
@@ -842,7 +842,7 @@ Amazon EKS updated an existing {aws} managed policy.
 [.update,date="2022-11-15"]
 === [.noloc]`Kubernetes` version `1.24`
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.24
+https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1-24
 
 Added [.noloc]`Kubernetes` version `1.24` support for new clusters and version upgrades.
 
@@ -935,7 +935,7 @@ Added support for Fargate profile wildcards in the selector criteria for namespa
 [.update,date="2022-08-11"]
 === [.noloc]`Kubernetes` version `1.23`
 [.update-ulink]
-https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.23
+https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1-23
 
 Added [.noloc]`Kubernetes` version `1.23` support for new clusters and version upgrades.
 

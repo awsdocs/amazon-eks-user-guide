@@ -1,5 +1,5 @@
 [.topic]
-[[network-policies-troubleshooting,network-policies-troubleshooting.title]]
+[#network-policies-troubleshooting]
 = Troubleshooting [.noloc]`Kubernetes` network policies For Amazon EKS
 :info_titleabbrev: Troubleshooting
 
@@ -12,7 +12,7 @@ Learn how to troubleshoot and investigate network connections that use network p
 
 You can troubleshoot and investigate network connections that use network policies by reading the  <<network-policies-troubleshooting-flowlogs,Network policy logs>> and by running tools from the <<network-policies-ebpf-sdk,eBPF SDK>>.
 
-[[network-policies-troubleshooting-flowlogs,network-policies-troubleshooting-flowlogs.title]]
+[#network-policies-troubleshooting-flowlogs]
 == Network policy logs
 
 Whether connections are allowed or denied by a network policies is logged in  _flow logs_. The network policy logs on each node include the flow logs for every pod that has a network policy. Network policy logs are stored at `/var/log/aws-routed-eni/network-policy-agent.log`. The following example is from a `network-policy-agent.log` file:
@@ -33,7 +33,7 @@ Network policy logs require an additional 1 vCPU for the `aws-network-policy-age
 
 ====
 
-[[cni-network-policy-flowlogs-addon,cni-network-policy-flowlogs-addon.title]]
+[#cni-network-policy-flowlogs-addon]
 === Amazon EKS add-on
 
 *{aws-management-console}*::
@@ -74,7 +74,7 @@ aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-vers
 ----
 
 
-[[cni-network-policy-flowlogs-selfmanaged,cni-network-policy-flowlogs-selfmanaged.title]]
+[#cni-network-policy-flowlogs-selfmanaged]
 === Self-managed add-on
 
 Helm::
@@ -108,14 +108,14 @@ kubectl edit daemonset -n kube-system aws-node
 ----
 
 
-[[network-policies-cloudwatchlogs,network-policies-cloudwatchlogs.title]]
+[#network-policies-cloudwatchlogs]
 == Send network policy logs to Amazon CloudWatch Logs
 
 You can monitor the network policy logs using services such as Amazon CloudWatch Logs. You can use the following methods to send the network policy logs to CloudWatch Logs.
 
 For EKS clusters, the policy logs will be located under `/aws/eks/[.replaceable]``cluster-name``/cluster/` and for self-managed K8S clusters, the logs will be placed under `/aws/k8s-cluster/cluster/`.
 
-[[network-policies-cwl-agent,network-policies-cwl-agent.title]]
+[#network-policies-cwl-agent]
 === Send network policy logs with [.noloc]`Amazon VPC CNI plugin for Kubernetes`
 
 If you enable network policy, a second container is add to the `aws-node` pods for a _node agent_. This node agent can send the network policy logs to CloudWatch Logs.
@@ -127,7 +127,7 @@ Only the network policy logs are sent by the node agent. Other logs made by the 
 
 ====
 
-[[cni-network-policy-cwl-agent-prereqs,cni-network-policy-cwl-agent-prereqs.title]]
+[#cni-network-policy-cwl-agent-prereqs]
 ==== Prerequisites
 
 * Add the following permissions as a stanza or separate policy to the IAM role that you are using for the VPC CNI.
@@ -153,7 +153,7 @@ Only the network policy logs are sent by the node agent. Other logs made by the 
 ----
 
 
-[[cni-network-policy-cwl-agent-addon,cni-network-policy-cwl-agent-addon.title]]
+[#cni-network-policy-cwl-agent-addon]
 ==== Amazon EKS add-on
 
 *{aws-management-console}*::
@@ -196,7 +196,7 @@ aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-vers
 ----
 
 
-[[cni-network-policy-cwl-agent-selfmanaged,cni-network-policy-cwl-agent-selfmanaged.title]]
+[#cni-network-policy-cwl-agent-selfmanaged]
 ==== Self-managed add-on
 
 Helm::
@@ -228,7 +228,7 @@ kubectl edit daemonset -n kube-system aws-node
 ----
 
 
-[[network-policies-cwl-fluentbit,network-policies-cwl-fluentbit.title]]
+[#network-policies-cwl-fluentbit]
 === Send network policy logs with a [.noloc]`Fluent Bit` daemonset
 
 If you are using [.noloc]`Fluent Bit` in a daemonset to send logs from your nodes, you can add configuration to include the network policy logs from network policies. You can use the following example configuration:
@@ -247,7 +247,7 @@ If you are using [.noloc]`Fluent Bit` in a daemonset to send logs from your node
 ----
 
 
-[[network-policies-ebpf-sdk,network-policies-ebpf-sdk.title]]
+[#network-policies-ebpf-sdk]
 == Included [.noloc]`eBPF` SDK
 
 The [.noloc]`Amazon VPC CNI plugin for Kubernetes` installs [.noloc]`eBPF` SDK collection of tools on the nodes. You can use the [.noloc]`eBPF` SDK tools to identify issues with network policies. For example, the following command lists the programs that are running on the node.

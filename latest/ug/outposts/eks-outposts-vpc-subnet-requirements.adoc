@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[[eks-outposts-vpc-subnet-requirements,eks-outposts-vpc-subnet-requirements.title]]
+[#eks-outposts-vpc-subnet-requirements]
 = Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts
 :info_titleabbrev: Create a VPC and subnets
 
@@ -12,7 +12,7 @@ Learn about VPC and subnet requirements and considerations, then to create a VPC
 
 When you create a local cluster, you specify a VPC and at least one private subnet that runs on Outposts. This topic provides an overview of the VPC and subnets requirements and considerations for your local cluster.
 
-[[outposts-vpc-requirements,outposts-vpc-requirements.title]]
+[#outposts-vpc-requirements]
 == VPC requirements and considerations
 
 When you create a local cluster, the VPC that you specify must meet the following requirements and considerations:
@@ -25,7 +25,7 @@ When you create a local cluster, the VPC that you specify must meet the followin
 * To access your local cluster over your local network, the VPC must be associated with your Outpost's local gateway route table. For more information, see  link:outposts/latest/userguide/outposts-local-gateways.html#vpc-associations[VPC associations,type="documentation"] in the {aws} Outposts User Guide.
 
 
-[[outposts-subnet-requirements,outposts-subnet-requirements.title]]
+[#outposts-subnet-requirements]
 == Subnet requirements and considerations
 
 When you create the cluster, specify at least one private subnet. If you specify more than one subnet, the [.noloc]`Kubernetes` control plane instances are evenly distributed across the subnets. If more than one subnet is specified, the subnets must exist on the same Outpost. Moreover, the subnets must also have proper routes and security group permissions to communicate with each other. When you create a local cluster, the subnets that you specify must meet the following requirements:
@@ -38,17 +38,17 @@ When you create the cluster, specify at least one private subnet. If you specify
 * The subnets must use IP address-based naming. Amazon EC2  link:AWSEC2/latest/UserGuide/ec2-instance-naming.html#instance-naming-rbn[resource-based naming,type="documentation"] isn't supported by Amazon EKS.
 
 
-[[subnet-access-to-services,subnet-access-to-services.title]]
+[#subnet-access-to-services]
 == Subnet access to {aws} services
 
 The local cluster's private subnets on Outposts must be able to communicate with Regional {aws} services. You can achieve this by using a link:vpc/latest/userguide/vpc-nat-gateway.html[NAT gateway,type="documentation"] for outbound internet access or, if you want to keep all traffic private within your VPC, using link:vpc/latest/privatelink/create-interface-endpoint.html[interface VPC endpoints,type="documentation"].
 
-[[subnet-access-nat-gateway,subnet-access-nat-gateway.title]]
+[#subnet-access-nat-gateway]
 === Using a NAT gateway
 
 The local cluster's private subnets on Outposts must have an associated route table that has a route to a NAT gateway in a public subnet that is in the Outpost's parent Availability Zone. The public subnet must have a route to an   link:vpc/latest/userguide/VPC_Internet_Gateway.html[internet gateway,type="documentation"]. The NAT gateway enables outbound internet access and prevents unsolicited inbound connections from the internet to instances on the Outpost.
 
-[[vpc-subnet-requirements-vpc-endpoints,vpc-subnet-requirements-vpc-endpoints.title]]
+[#vpc-subnet-requirements-vpc-endpoints]
 === Using interface VPC endpoints
 
 If the local cluster's private subnets on Outposts don't have an outbound internet connection, or if you want to keep all traffic private within your VPC, then you must create the following interface VPC endpoints and link:vpc/latest/privatelink/gateway-endpoints.html[gateway endpoint,type="documentation"] in a Regional subnet before creating your cluster.
@@ -100,7 +100,7 @@ The endpoints must meet the following requirements:
 
 Creating endpoints incurs charges. For more information, see link:privatelink/pricing/[{aws} PrivateLink pricing,type="marketing"]. If your [.noloc]`Pods` need access to other {aws} services, then you need to create additional endpoints. For a comprehensive list of endpoints, see link:vpc/latest/privatelink/aws-services-privatelink-support.html[{aws} services that integrate with {aws} PrivateLink,type="documentation"].
 
-[[outposts-create-vpc,outposts-create-vpc.title]]
+[#outposts-create-vpc]
 == Create a VPC
 
 You can create a VPC that meets the previous requirements using one of the following {aws} CloudFormation templates:

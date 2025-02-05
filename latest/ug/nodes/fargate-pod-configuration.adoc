@@ -1,5 +1,5 @@
 [.topic]
-[[fargate-pod-configuration,fargate-pod-configuration.title]]
+[#fargate-pod-configuration]
 = Understand Fargate [.noloc]`Pod` configuration details
 :info_titleabbrev: Pod configuration details
 
@@ -12,7 +12,7 @@ This section describes some of the unique [.noloc]`Pod` configuration details fo
 
 This section describes some of the unique [.noloc]`Pod` configuration details for running [.noloc]`Kubernetes` [.noloc]`Pods` on {aws} Fargate.
 
-[[fargate-cpu-and-memory,fargate-cpu-and-memory.title]]
+[#fargate-cpu-and-memory]
 == [.noloc]`Pod` CPU and memory
 
 With [.noloc]`Kubernetes`, you can define requests, a minimum vCPU amount, and memory resources that are allocated to each container in a [.noloc]`Pod`. [.noloc]`Pods` are scheduled by [.noloc]`Kubernetes` to ensure that at least the requested resources for each [.noloc]`Pod` are available on the compute resource. For more information, see https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/[Managing compute resources for containers] in the [.noloc]`Kubernetes` documentation.
@@ -88,7 +88,7 @@ annotations:
 
 The `CapacityProvisioned` annotation represents the enforced [.noloc]`Pod` capacity and it determines the cost of your [.noloc]`Pod` running on Fargate. For pricing information for the compute configurations, see link:fargate/pricing/[{aws} Fargate Pricing,type="marketing"].
 
-[[fargate-storage,fargate-storage.title]]
+[#fargate-storage]
 == Fargate storage
 
 A [.noloc]`Pod` running on Fargate automatically mounts an Amazon EFS file system, without needing manual driver installation steps. You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning. For more information, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md[Amazon EFS CSI Driver] on GitHub.

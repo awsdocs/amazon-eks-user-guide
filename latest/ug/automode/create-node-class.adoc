@@ -1,5 +1,5 @@
 [.topic]
-[[create-node-class,create-node-class.title]]
+[#create-node-class]
 = Create a Node Class for Amazon EKS
 :info_titleabbrev: Create node class
 

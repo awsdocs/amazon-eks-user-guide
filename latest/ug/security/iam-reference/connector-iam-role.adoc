@@ -1,5 +1,5 @@
 [.topic]
-[[connector-iam-role,connector-iam-role.title]]
+[#connector-iam-role]
 = Amazon EKS connector IAM role
 :info_titleabbrev: Connector IAM role
 
@@ -7,7 +7,7 @@ include::../../attributes.txt[]
 
 You can connect [.noloc]`Kubernetes` clusters to view them in your {aws-management-console}. To connect to a [.noloc]`Kubernetes` cluster, create an IAM role.
 
-[[check-connector-role,check-connector-role.title]]
+[#check-connector-role]
 == Check for an existing EKS connector role
 
 You can use the following procedure to check and see if your account already has the Amazon EKS connector role.
@@ -39,7 +39,7 @@ You can use the following procedure to check and see if your account already has
 ----
 
 
-[[create-connector-role,create-connector-role.title]]
+[#create-connector-role]
 == Creating the Amazon EKS connector agent role
 
 You can use the {aws-management-console} or {aws} CloudFormation to create the connector agent role.

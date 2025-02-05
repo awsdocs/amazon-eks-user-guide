@@ -1,5 +1,5 @@
 [.topic]
-[[hybrid-nodes-nodeadm,hybrid-nodes-nodeadm.title]]
+[#hybrid-nodes-nodeadm]
 = Hybrid nodes `nodeadm` reference
 :info_titleabbrev: Hybrid nodes nodeadm
 :keywords: on-premises, hybrid

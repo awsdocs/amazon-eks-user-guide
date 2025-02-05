@@ -1,5 +1,5 @@
 [.topic]
-[[launch-workers,launch-workers.title]]
+[#launch-workers]
 = Create self-managed Amazon Linux nodes
 :info_titleabbrev: Amazon Linux
 

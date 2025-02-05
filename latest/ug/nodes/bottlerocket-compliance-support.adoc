@@ -1,5 +1,5 @@
 [.topic]
-[[bottlerocket-compliance-support,bottlerocket-compliance-support.title]]
+[#bottlerocket-compliance-support]
 = Meet compliance requirements with [.noloc]`Bottlerocket`
 :info_titleabbrev: Compliance support
 

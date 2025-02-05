@@ -1,5 +1,5 @@
 [.topic]
-[[eks-custom-ami-windows,eks-custom-ami-windows.title]]
+[#eks-custom-ami-windows]
 = Build a custom [.noloc]`Windows` AMI with Image Builder
 :info_titleabbrev: Custom builds
 
@@ -34,7 +34,7 @@ The following *Amazon-managed* components for `eks` include patches for `CVE-202
 
 ====
 
-[[custom-windows-ami-as-base,custom-windows-ami-as-base.title]]
+[#custom-windows-ami-as-base]
 == Using an Amazon EKS optimized [.noloc]`Windows` AMI as a base
 
 This option is the recommended way to build your custom [.noloc]`Windows` AMIs. The Amazon EKS optimized [.noloc]`Windows` AMIs we provide are more frequently updated than the Amazon-managed build component.
@@ -60,7 +60,7 @@ This option is the recommended way to build your custom [.noloc]`Windows` AMIs. 
 . Use the new image recipe in a new or existing image pipeline. Once your image pipeline runs successfully, your custom AMI will be listed as an output image and is ready for use. For more information, see link:imagebuilder/latest/userguide/start-build-image-pipeline.html[Create an image pipeline using the EC2 Image Builder console wizard,type="documentation"].
 
 
-[[custom-windows-ami-build-component,custom-windows-ami-build-component.title]]
+[#custom-windows-ami-build-component]
 == Using the Amazon-managed build component
 
 When using an Amazon EKS optimized [.noloc]`Windows` AMI as a base isn't viable, you can use the Amazon-managed build component instead. This option may lag behind the most recent supported [.noloc]`Kubernetes` versions.
@@ -100,7 +100,7 @@ NOTE: The following `eks-optimized-ami-windows` build component versions require
 . Use the new image recipe in a new or existing image pipeline. Once your image pipeline runs successfully, your custom AMI will be listed as an output image and is ready for use. For more information, see link:imagebuilder/latest/userguide/start-build-image-pipeline.html[Create an image pipeline using the EC2 Image Builder console wizard,type="documentation"].
 
 
-[[custom-windows-ami-component-versions,custom-windows-ami-component-versions.title]]
+[#custom-windows-ami-component-versions]
 == Retrieving information about `eks-optimized-ami-windows` component versions
 
 You can retrieve specific information regarding what is installed with each component. For example, you can verify what `kubelet` version is installed. The components go through functional testing on the Amazon EKS supported [.noloc]`Windows` operating systems versions. For more information, see <<windows-ami-release-calendar>>. Any other [.noloc]`Windows` OS versions that aren't listed as supported or have reached end of support might not be compatible with the component.

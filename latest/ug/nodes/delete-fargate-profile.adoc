@@ -1,5 +1,5 @@
 [.topic]
-[[delete-fargate-profile,delete-fargate-profile.title]]
+[#delete-fargate-profile]
 = Delete a Fargate profile
 :info_titleabbrev: Delete profiles
 
