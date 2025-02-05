@@ -70,7 +70,7 @@ The following admission controllers are enabled for all `1.31` platform versions
 
 | `1.31.2`
 | `eks.12`
-| New platform version with Amazon EKS Hybrid Nodes support and enhancements to control plane observability. See <<hybrid-nodes-overview>> and see link:blogs/containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"], respectively.
+| New platform version with Amazon EKS Hybrid Nodes support and enhancements to control plane observability. See <<hybrid-nodes-overview>> and see link:containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"], respectively.
 | November 15, 2024
 
 | `1.31.1`
