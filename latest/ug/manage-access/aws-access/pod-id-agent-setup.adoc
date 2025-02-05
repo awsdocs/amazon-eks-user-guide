@@ -113,3 +113,6 @@ eks-pod-identity-agent-prnsh                                          1/1     Ru
 ----
 +
 You can now use EKS Pod Identity associations in your cluster. For more information, see <<pod-id-association>>.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;pod-id-agent-setup,&type=code[Edit this page on GitHub]

@@ -150,3 +150,6 @@ An example output is as follows.
 ----
 AWS_STS_REGIONAL_ENDPOINTS=regional
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;configure-sts-endpoint,&type=code[Edit this page on GitHub]

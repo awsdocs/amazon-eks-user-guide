@@ -66,3 +66,6 @@ For previously existing managed node groups, you can either perform an in-place 
 * If you're using managed node groups with either the standard launch template or with a custom launch template that doesn't specify the AMI ID, you're required to upgrade using a blue/green strategy. A blue/green upgrade is typically more complex and involves creating an entirely new node group where you would specify AL2023 as the AMI type. The new node group will need to then be carefully configured to ensure that all custom data from the AL2 node group is compatible with the new OS. Once the new node group has been tested and validated with your applications, [.noloc]`Pods` can be migrated from the old node group to the new node group. Once the migration is completed, you can delete the old node group.
 
 If you're using [.noloc]`Karpenter` and want to use AL2023, you'll need to modify the `EC2NodeClass` `amiFamily` field with AL2023. By default, Drift is enabled in [.noloc]`Karpenter`. This means that once the `amiFamily` field has been changed, [.noloc]`Karpenter` will automatically update your worker nodes to the latest AMI when available.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;al2023,&type=code[Edit this page on GitHub]

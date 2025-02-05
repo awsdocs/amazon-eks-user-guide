@@ -101,3 +101,6 @@ If you want to instead scale up manually whenever the capacity reservation becom
 . In order for your [.noloc]`Pods` to be gracefully drained, we recommend that you set up {aws} Node Termination Handler. This handler will be able to watch for "ASG Scale-in" lifecycle events from Amazon EC2 Auto Scaling using EventBridge and allow the [.noloc]`Kubernetes` control plane to take required action before the instance becomes unavailable. Otherwise, your [.noloc]`Pods` and [.noloc]`Kubernetes` objects will get stuck in a pending state. For more information, see https://github.com/aws/aws-node-termination-handler[{aws} Node Termination Handler] on GitHub.
 +
 If you don't setup a Node Termination Handler, we recommend that you start draining your [.noloc]`Pods` manually before hitting the 30 minute window so that they have enough time to be gracefully drained.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;capacity-blocks,&type=code[Edit this page on GitHub]

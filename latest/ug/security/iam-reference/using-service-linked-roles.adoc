@@ -25,3 +25,5 @@ Amazon Elastic Kubernetes Service uses {aws} Identity and Access Management (IAM
 [.topiclist]
 [[Topic List]]
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;using-service-linked-roles,&type=code[Edit this page on GitHub]

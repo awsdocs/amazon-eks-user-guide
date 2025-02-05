@@ -23,3 +23,6 @@ Additionally, the [.noloc]`GitHub` repository contains our Amazon EKS node {aws}
 For more information, see the repositories on [.noloc]`GitHub` at https://github.com/awslabs/amazon-eks-ami.
 
 Amazon EKS optimized AL2 contains an optional bootstrap flag to enable the `containerd` runtime.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-ami-build-scripts,&type=code[Edit this page on GitHub]

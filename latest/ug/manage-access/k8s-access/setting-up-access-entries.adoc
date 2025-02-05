@@ -72,3 +72,4 @@ To use _access entries_, the cluster must have a platform version that is the sa
 For more information, see <<platform-versions>>. 
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;setting-up-access-entries,&type=code[Edit this page on GitHub]

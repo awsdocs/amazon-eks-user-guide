@@ -52,3 +52,6 @@ Use the following command to delete a profile from a cluster. Replace every [.re
 ----
 aws eks delete-fargate-profile --fargate-profile-name my-profile --cluster-name my-cluster
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;delete-fargate-profile,&type=code[Edit this page on GitHub]

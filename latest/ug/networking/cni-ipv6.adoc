@@ -73,3 +73,4 @@ aws eks describe-cluster --name my-cluster --query cluster.kubernetesNetworkConf
 ----
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cni-ipv6,&type=code[Edit this page on GitHub]

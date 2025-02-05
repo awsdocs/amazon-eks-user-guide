@@ -39,4 +39,4 @@ kubectl edit daemonset -n kube-system aws-node
 ----
 
 
-
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;network-policy-disable,&type=code[Edit this page on GitHub]

@@ -302,3 +302,6 @@ kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
 ----
 kubectl scale deployments/kube-dns --replicas=1 -n kube-system
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;migrate-stack,&type=code[Edit this page on GitHub]

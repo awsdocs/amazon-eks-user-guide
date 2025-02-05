@@ -61,3 +61,4 @@ If successful, you should see output similar to the following. Note the OwnerARN
 ----
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;update-addon-role,&type=code[Edit this page on GitHub]

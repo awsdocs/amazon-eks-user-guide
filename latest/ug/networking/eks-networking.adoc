@@ -29,3 +29,6 @@ Your Amazon EKS cluster is created in a VPC. Pod networking is provided by the A
 
 [.topiclist]
 [[Topic List]]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-networking,&type=code[Edit this page on GitHub]

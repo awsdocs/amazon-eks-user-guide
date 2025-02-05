@@ -71,3 +71,4 @@ If you're using version `1.11` or later of the plugin with `POD_SECURITY_GROUP_E
 If you set `POD_SECURITY_GROUP_ENFORCING_MODE=standard` and `AWS_VPC_K8S_CNI_EXTERNALSNAT=false`, traffic destined for endpoints outside the VPC use the node's security groups, not the [.noloc]`Pod's` security groups.
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;security-groups-for-pods,&type=code[Edit this page on GitHub]

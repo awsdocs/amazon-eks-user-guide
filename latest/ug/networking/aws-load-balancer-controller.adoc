@@ -75,3 +75,4 @@ In versions 2.5 and newer, the [.noloc]`{aws} Load Balancer Controller` becomes 
 ====
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;aws-load-balancer-controller,&type=code[Edit this page on GitHub]

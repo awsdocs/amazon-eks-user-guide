@@ -56,3 +56,5 @@ If you use [.noloc]`Calico` network policy enforcement, we recommend that you se
 
 Amazon EKS Auto Mode does not support alternate CNI plugins or network policy plugins. For more information, see <<automode>>.
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;alternate-cni-plugins,&type=code[Edit this page on GitHub]

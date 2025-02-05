@@ -57,3 +57,6 @@ In contrast, _IAM roles for service accounts_ provides a _web identity_ token th
 . The SDK uses the environment variables to connect to the EKS Pod Identity Agent and retrieve the credentials.
 +
 NOTE: If your workloads currently use credentials that are earlier in the chain of credentials, those credentials will continue to be used even if you configure an EKS Pod Identity association for the same workload.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;pod-id-how-it-works,&type=code[Edit this page on GitHub]

@@ -61,3 +61,4 @@ Consider the following when you use this feature:
 If you're also using <<security-groups-for-pods,security groups for Pods>>, with `POD_SECURITY_GROUP_ENFORCING_MODE`=``strict``, when your `Pods` communicate with endpoints outside of your VPC, the `Pod's` security groups are used.
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cni-increase-ip-addresses,&type=code[Edit this page on GitHub]

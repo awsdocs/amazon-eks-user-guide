@@ -48,3 +48,6 @@ The node groups can then be created using the following command.
 ----
 eksctl create cluster -f test-windows-2022.yaml
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;self-managed-windows-server-2022,&type=code[Edit this page on GitHub]

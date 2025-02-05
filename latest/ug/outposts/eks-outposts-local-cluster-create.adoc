@@ -266,3 +266,6 @@ Recommended next steps:
 * Familiarize yourself with what happens during <<eks-outposts-network-disconnects,network disconnects>>.
 * <<eks-outposts-self-managed-nodes,Add nodes to your cluster>>
 * Consider setting up a backup plan for your `etcd`. Amazon EKS doesn't support automated backup and restore of `etcd` for local clusters. For more information, see https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster[Backing up an etcd cluster] in the [.noloc]`Kubernetes` documentation. The two main options are using `etcdctl` to automate taking snapshots or using Amazon EBS storage volume backup.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-outposts-local-cluster-create,&type=code[Edit this page on GitHub]

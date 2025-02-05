@@ -94,3 +94,6 @@ An example output is as follows.
 ----
 Service Account:  my-service-account
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;pod-id-configure-pods,&type=code[Edit this page on GitHub]

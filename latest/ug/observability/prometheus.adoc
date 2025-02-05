@@ -86,3 +86,6 @@ To see more details about a scraper, choose the scraper ID link. For example, yo
 include::deploy-prometheus.adoc[leveloffset=+1]
 
 include::view-raw-metrics.adoc[leveloffset=+1]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;prometheus,&type=code[Edit this page on GitHub]

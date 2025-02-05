@@ -92,3 +92,4 @@ IMPORTANT:
 . To see how to use a security group policy for your [.noloc]`Pod`, see <<sg-pods-example-deployment>>.
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;security-groups-pods-deployment,&type=code[Edit this page on GitHub]

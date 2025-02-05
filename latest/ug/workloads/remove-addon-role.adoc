@@ -24,3 +24,6 @@ aws eks update-addon --cluster-name <cluster-name> \
 --addon-name <addon-name> \
 --pod-identity-associations "[]"
 ----
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;remove-addon-role,&type=code[Edit this page on GitHub]

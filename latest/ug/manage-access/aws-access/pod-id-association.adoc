@@ -286,3 +286,6 @@ If you created the example policy in a previous step, then your output is the sa
 
 == Next Steps
 <<pod-id-configure-pods>>
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;pod-id-association,&type=code[Edit this page on GitHub]

@@ -224,3 +224,6 @@ The following admission controllers are enabled for all `1.27` platform versions
 |Initial release of Kubernetes version `1.27` for local Amazon EKS clusters on Outposts.
 |May 30, 2023
 |===
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-outposts-platform-versions,&type=code[Edit this page on GitHub]

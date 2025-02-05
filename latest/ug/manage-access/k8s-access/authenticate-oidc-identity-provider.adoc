@@ -189,3 +189,6 @@ Amazon EKS maintains relationships with a network of partners that offer support
 
 Amazon EKS aims to give you a wide selection of options to cover all use cases. If you develop a commercially supported [.noloc]`OIDC` compatible identity provider that is not listed here, then contact our partner team at  link:mailto:aws-container-partners@amazon.com[aws-container-partners@amazon.
 com] for more information.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;authenticate-oidc-identity-provider,&type=code[Edit this page on GitHub]

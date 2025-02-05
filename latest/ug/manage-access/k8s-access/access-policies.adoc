@@ -152,3 +152,6 @@ aws eks disassociate-access-policy --cluster-name my-cluster --principal-arn {ar
 ----
 
 To list available access policies, see <<access-policy-permissions>>. 
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;access-policies,&type=code[Edit this page on GitHub]

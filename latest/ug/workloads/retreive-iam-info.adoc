@@ -137,3 +137,6 @@ The following table indicates if certain Amazon EKS add-ons support EKS Pod Iden
 |===
 
 This table was last updated on October 28, 2024.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;retreive-iam-info,&type=code[Edit this page on GitHub]

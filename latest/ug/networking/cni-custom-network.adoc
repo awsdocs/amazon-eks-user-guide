@@ -33,3 +33,4 @@ The following are considerations for using the feature.
 * For Fargate, subnets are controlled through the Fargate profile. For more information, see <<fargate-profile>>.
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cni-custom-network,&type=code[Edit this page on GitHub]

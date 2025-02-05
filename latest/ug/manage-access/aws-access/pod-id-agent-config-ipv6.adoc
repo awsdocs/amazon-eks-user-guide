@@ -83,3 +83,6 @@ undo     -- Undo a previous rollout
 ----
 +
 If the rollout takes too long, Amazon EKS will undo the rollout, and a message with the type of  *Addon Update* and a status of  *Failed* will be added to the  *Update history* of the add-on. To investigate any issues, start from the history of the rollout, and run `kubectl logs` on a EKS Pod Identity Agent pod to see the logs of EKS Pod Identity Agent.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;pod-id-agent-config-ipv6,&type=code[Edit this page on GitHub]

@@ -60,3 +60,6 @@ include::eks-ami-versions-bottlerocket.adoc[leveloffset=+1]
 include::retrieve-ami-id-bottlerocket.adoc[leveloffset=+1]
 
 include::bottlerocket-compliance-support.adoc[leveloffset=+1]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-optimized-ami-bottlerocket,&type=code[Edit this page on GitHub]

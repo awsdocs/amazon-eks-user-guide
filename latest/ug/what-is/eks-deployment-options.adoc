@@ -110,3 +110,6 @@ https://aws.amazon.com/eks/eks-anywhere/[Amazon EKS Anywhere] simplifies Kuberne
 You can use the <<eks-connector,Amazon EKS Connector>> to register and connect any conformant Kubernetes cluster to {aws} and view it in the Amazon EKS console. After a cluster is connected, you can see the status, configuration, and workloads for that cluster in the Amazon EKS console. You can use this feature to view connected clusters in Amazon EKS console, but the Amazon EKS Connector does not enable management or mutating operations for your connected clusters through the Amazon EKS console.
 
 https://aws.amazon.com/eks/eks-distro/[Amazon EKS Distro] is the {aws} distribution of the underlying Kubernetes components that power all Amazon EKS offerings. It includes the core components required for a functioning Kubernetes cluster such as Kubernetes control plane components (etcd, kube-apiserver, kube-scheduler, kube-controller-manager) and networking components (CoreDNS, kube-proxy, CNI plugins). Amazon EKS Distro can be used to self-manage Kubernetes clusters with your choice of tooling. Amazon EKS Distro deployments are not covered by {aws} Support Plans.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-deployment-options,&type=code[Edit this page on GitHub]

@@ -100,3 +100,6 @@ The following section describes security best practices for Amazon EKS Auto Mode
 * Monitor cluster activity through {aws} CloudTrail and Amazon CloudWatch. For more information, see link:eks/latest/userguide/logging-using-cloudtrail.html["Log API calls as CloudTrail events",type="documentation"] and link:eks/latest/userguide/cloudwatch.html["Monitor cluster data with Amazon CloudWatch",type="documentation"]. 
 * Use {aws} Security Hub for security posture assessment.
 * Implement pod security standards appropriate for your workloads.
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-security,&type=code[Edit this page on GitHub]

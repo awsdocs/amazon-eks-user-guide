@@ -83,3 +83,4 @@ The following are considerations for using the feature.
 * Check version compatibility for each feature. Some features of each release of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` require certain [.noloc]`Kubernetes` versions. When using different Amazon EKS features, if a specific version of the add-on is required, then it's noted in the feature documentation. Unless you have a specific reason for running an earlier version, we recommend running the latest version.
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;managing-vpc-cni,&type=code[Edit this page on GitHub]

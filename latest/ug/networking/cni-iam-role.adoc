@@ -267,3 +267,4 @@ aws iam create-policy --policy-name AmazonEKS_CNI_IPv6_Policy --policy-document 
 ----
 
 
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cni-iam-role,&type=code[Edit this page on GitHub]

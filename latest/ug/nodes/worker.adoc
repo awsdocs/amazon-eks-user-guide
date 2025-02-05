@@ -33,3 +33,6 @@ To add self-managed nodes to your Amazon EKS cluster, see the topics that follow
 
 [.topiclist]
 [[Topic List]]
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;worker,&type=code[Edit this page on GitHub]

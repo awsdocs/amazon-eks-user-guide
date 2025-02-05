@@ -497,3 +497,6 @@ Added the ability for the EBS CSI Driver to enable Fast Snapshot Restore (FSR) o
 |June 17, 2021
 
 |===
+
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;security-iam-awsmanpol,&type=code[Edit this page on GitHub]

@@ -91,5 +91,4 @@ Use the IAM console, the {aws} CLI, or the {aws} API to delete the `AWSServiceRo
 Amazon EKS supports using service-linked roles in all of the regions where the service is available. For more information, see link:general/latest/gr/eks.html[Amazon EKS endpoints and quotas,type="documentation"].
 
 
-
-
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;using-service-linked-roles-eks-outpost,&type=code[Edit this page on GitHub]

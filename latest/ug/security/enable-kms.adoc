@@ -187,3 +187,5 @@ For clusters using KMS Envelope Encryption, `kms:CreateGrant` permissions are re
 
 ====
 
+
+📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;enable-kms,&type=code[Edit this page on GitHub]
