@@ -283,7 +283,7 @@ By default, the `config` file is created in `~/.kube` or the new cluster's confi
 +
 [source,json,subs="verbatim,attributes"]
 ----
-cat >vpc-cni-ipv6-policy <<EOF
+cat >vpc-cni-ipv6-policy.json <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
