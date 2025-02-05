@@ -10,7 +10,7 @@ include::attributes.txt[]
 :info_subtitle: User Guide
 :info_corpauthor: Amazon Web Services
 :info_publisher: Amazon Web Services
-:info_copyright: 2024 \
+:info_copyright: 2025 \
 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.
 :info_legalnotice: Amazon's trademarks and trade dress may not be used in \
 connection with any product or service that is not Amazon's, \
