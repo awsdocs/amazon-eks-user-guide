@@ -47,7 +47,7 @@ If you want to edit multiple pages from your web browser, see <<edit-web>>.
 
 You have created a pull request including the proposed changes.
 
-== Pull Request Overview
+== Pull request overview
 
 When you create a PR:
 

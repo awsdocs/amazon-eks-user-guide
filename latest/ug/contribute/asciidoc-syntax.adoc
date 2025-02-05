@@ -1,7 +1,7 @@
 [.topic]
 [#asciidoc-syntax]
 = AsciiDoc Syntax Reference
-:info_titleabbrev: AsciiDoc Syntax
+:info_titleabbrev: AsciiDoc syntax
 
 
 include::../attributes.txt[]
@@ -15,7 +15,7 @@ For advanced syntax, review the https://docs.asciidoctor.org/asciidoc/latest/[As
 It's important to get the link syntax right for the {aws} docs. Review how to <<insert-link>>. You cannot use Markdown syntax for links. 
 
 
-== Basic Formatting
+== Basic formatting
 
 [source,asciidoc]
 ----
