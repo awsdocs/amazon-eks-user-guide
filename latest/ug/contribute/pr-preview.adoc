@@ -35,4 +35,4 @@ The preview is built as a single large HTML file. It will be displayed as multip
 *What doesn't work:*
 
 * Links to other {aws} content, using `type="documentation"`. This is because this content doesn't exist in the preview environment.
-* The attribute `{aws}` will not display properly. The value of this changes based on the environment.
+* The attribute `\{aws}` will not display properly. The value of this changes based on the environment.
