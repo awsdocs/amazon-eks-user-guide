@@ -41,13 +41,6 @@ Before starting this tutorial, you must install and configure the following tool
 [NOTE]
 ====
 
-You only need to create a role for the [.noloc]`{aws} Load Balancer Controller` one per {aws} account. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-cert,Step 2: Install cert-manager>>.
-
-====
-
-[NOTE]
-====
-
 Below example is referring to the [.noloc]`{aws} Load Balancer Controller` **v2.11.0** release version. For more inforamtion about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on [.noloc]`GitHub`.
 
 ====
