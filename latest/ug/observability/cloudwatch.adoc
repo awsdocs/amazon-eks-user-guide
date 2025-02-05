@@ -16,113 +16,253 @@ Amazon CloudWatch is a monitoring service that collects metrics and logs from yo
 [[cloudwatch-basic-metrics,cloudwatch-basic-metrics.title]]
 == Basic metrics in Amazon CloudWatch
 
-For clusters that are [.noloc]`Kubernetes` version `1.28` and above, you get CloudWatch vended metrics for free in the `AWS/EKS` namespace. The following table gives a list of the basic metrics that are available for the supported versions. Every metric listed has a frequency of one minute.
+For clusters that are Kubernetes version `1.28` and above, you get CloudWatch vended metrics for free in the `AWS/EKS` namespace. The following table gives a list of the basic metrics that are available for the supported versions. Every metric listed has a frequency of one minute.
 
-[cols="1,1,1,1,1,1", options="header"]
+// Match format of SQS and SNS documentation:
+// * https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-available-cloudwatch-metrics.html
+// * https://docs.aws.amazon.com/sns/latest/dg/sns-monitoring-using-cloudwatch.html
+
+[cols="1,1", options="header"]
 |===
 
 |Metric name
 |Description
-|Unit
-|Metric dimension
-|Metric type
-|Source [.noloc]`Kubernetes` metric
 
-|`APIServerRequests`
-|The number of times requests were made to the API server.
-|Count
-|Cluster Name
-|Traffic
-|`kube-apiserver :: apiserver_request_total`
+|`scheduler_schedule_attempts_total`
+|The number of total attempts by the scheduler to schedule Pods in the cluster for a given period. This metric helps monitor the scheduler's workload and can indicate scheduling pressure or potential issues with Pod placement.
 
-|`APIServerRequestsHTTP4XX`
-|The number of API Server requests that had an HTTP 4XX error response (client-side error).
-|Count
-|Cluster Name
-|Error
-|`kube-apiserver :: apiserver_request_total`
+*Units:* Count
 
-|`APIServerRequestsHTTP429`
-|The number of API Server requests that had an HTTP 429 error response (too many requests).
-|Count
-|Cluster Name
-|Error
-|`kube-apiserver :: apiserver_request_total`
+*Valid statistics:* Sum
 
-|`APIServerRequestsHTTP5XX`
-|The number of API Server requests that had an HTTP 5XX error response (server-side error).
-|Count
-|Cluster Name
-|Error
-|`kube-apiserver :: apiserver_request_total`
+|`scheduler_schedule_attempts_SCHEDULED`
+|The number of successful attempts by the scheduler to schedule Pods to nodes in the cluster for a given period.
 
-|`APIServerRequestLatency`
-|The average amount of seconds taken by `APIServer` to respond to requests.
-|Seconds
-|Cluster Name, Verb
-|Latency
-|`kube-apiserver :: apiserver_request_duration_seconds`
+*Units:* Count
 
-|`APIServerCurrentInflightRequests`
-|The number of requests that are being actively served.
-|Count
-|Cluster Name, Request Kind {mutating, readOnly}
-|Saturation
-|`kube-apiserver :: apiserver_current_inflight_requests`
+*Valid statistics:* Sum
 
-|`APIServerStorageSize`
-|The size of the storage database.
-|Bytes
-|Cluster Name
-|Saturation
-|`kube-apiserver :: apiserver_storage_size_bytes`
+|`scheduler_schedule_attempts_UNSCHEDULABLE`
+|The number of attempts to schedule Pods that were unschedulable for a given period due to valid constraints, such as insufficient CPU or memory on a node.
 
-|`SchedulerAttempts`
-|The number of attempts to schedule Pods.
-|Count
-|Cluster Name, Result {unschedulable, error, scheduled}
-|Latency
-|`kube-scheduler :: scheduler_schedule_attempts_total`
+*Units:* Count
 
-|`PendingPods`
-|The number of Pods that are pending to be scheduled.
-|Count
-|Cluster Name, Queue {activeQ unschedulable, backoff, gated}
-|Latency
-|`kube-scheduler :: scheduler_pending_pods`
+*Valid statistics:* Sum
 
-|`APIServerWebhookRequests`
-|The number of admission webhook requests made.
-|Count
-|Cluster Name, Admission Type (validating, admit)
-|Traffic
-|`kube-apiserver :: apiserver_admission_webhook_request_total`
+|`scheduler_schedule_attempts_ERROR`
+|The number of attempts to schedule Pods that failed for a given period due to an internal problem with the scheduler itself, such as API Server connectivity issues.
 
-|`APIServerWebhookRejections`
-|The number of admission webhook rejections.
-|Count
-|Cluster Name, Admission Type (validating, admit)
-|Error
-|`kube-apiserver :: apiserver_admission_webhook_rejection_count`
+*Units:* Count
 
-|`APIServerWebhookLatencyP99`
-|The 99th percentile latency of external, third-party admission webhooks.
-|Seconds
-|Cluster Name, Admission Type (validating, admit)
-|Latency
-|`kube-apiserver :: apiserver_admission_webhook_admission_duration_seconds`
+*Valid statistics:* Sum
+
+|`scheduler_pending_pods`
+|The number of total pending Pods to be scheduled by the scheduler in the cluster for a given period.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`scheduler_pending_pods_ACTIVEQ`
+|The number of pending Pods in activeQ, that are waiting to be scheduled in the cluster for a given period.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`scheduler_pending_pods_UNSCHEDULABLE`
+|The number of pending Pods that the scheduler attempted to schedule and failed, and are kept in an unschedulable state for retry.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`scheduler_pending_pods_BACKOFF`
+|The number of pending Pods in `backoffQ` in a backoff state that are waiting for their backoff period to expire.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`scheduler_pending_pods_GATED`
+|The number of pending Pods that are currently waiting in a gated state as they cannot be scheduled until they meet required conditions.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_request_total`
+|The number of HTTP requests made across all the API servers in the cluster.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_request_total_4XX`
+|The number of HTTP requests made to all the API servers in the cluster that resulted in `4XX` (client error) status codes.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_request_total_429`
+|The number of HTTP requests made to all the API servers in the cluster that resulted in `429` status code, which occurs when clients exceed the rate limiting thresholds.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_request_total_5XX`
+|The number of HTTP requests made to all the API servers in the cluster that resulted in `5XX` (server error) status codes.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_request_total_LIST_PODS`
+|The number of `LIST` Pods requests made to all the API servers in the cluster.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_request_duration_seconds_PUT_P99`
+|The 99th percentile of latency for `PUT` requests calculated from all requests across all API servers in the cluster. Represents the response time below which 99% of all `PUT` requests are completed.
+
+*Units:* Seconds
+
+*Valid statistics:* Average
+
+|`apiserver_request_duration_seconds_PATCH_P99`
+|The 99th percentile of latency for `PATCH` requests calculated from all requests across all API servers in the cluster. Represents the response time below which 99% of all `PATCH` requests are completed.
+
+*Units:* Seconds
+
+*Valid statistics:* Average
+
+|`apiserver_request_duration_seconds_POST_P99`
+|The 99th percentile of latency for `POST` requests calculated from all requests across all API servers in the cluster. Represents the response time below which 99% of all `POST` requests are completed.
+
+*Units:* Seconds
+
+*Valid statistics:* Average
+
+|`apiserver_request_duration_seconds_GET_P99`
+|The 99th percentile of latency for `GET` requests calculated from all requests across all API servers in the cluster. Represents the response time below which 99% of all `GET` requests are completed.
+
+*Units:* Seconds
+
+*Valid statistics:* Average
+
+|`apiserver_request_duration_seconds_LIST_P99`
+|The 99th percentile of latency for `LIST` requests calculated from all requests across all API servers in the cluster. Represents the response time below which 99% of all `LIST` requests are completed.
+
+*Units:* Seconds
+
+*Valid statistics:* Average
+
+|`apiserver_request_duration_seconds_DELETE_P99`
+|The 99th percentile of latency for `DELETE` requests calculated from all requests across all API servers in the cluster. Represents the response time below which 99% of all `DELETE` requests are completed.
+
+*Units:* Seconds
+
+*Valid statistics:* Average
+
+|`apiserver_current_inflight_requests_MUTATING`
+|The number of mutating requests (`POST`, `PUT`, `DELETE`, `PATCH`) currently being processed across all API servers in the cluster. This metric represents requests that are in-flight and haven't completed processing yet.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_current_inflight_requests_READONLY`
+|The number of read-only requests (`GET`, `LIST`) currently being processed across all API servers in the cluster. This metric represents requests that are in-flight and haven't completed processing yet.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_admission_webhook_request_total`
+|The number of admission webhook requests made across all API servers in the cluster.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_admission_webhook_request_total_ADMIT`
+|The number of mutating admission webhook requests made across all API servers in the cluster.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_admission_webhook_request_total_VALIDATING`
+|The number of validating admission webhook requests made across all API servers in the cluster.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_admission_webhook_rejection_count`
+|The number of admission webhook requests made across all API servers in the cluster that were rejected.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_admission_webhook_rejection_count_ADMIT`
+|The number of mutating admission webhook requests made across all API servers in the cluster that were rejected.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_admission_webhook_rejection_count_VALIDATING`
+|The number of validating admission webhook requests made across all API servers in the cluster that were rejected.
+
+*Units:* Count
+
+*Valid statistics:* Sum
+
+|`apiserver_admission_webhook_admission_duration_seconds`
+|The 99th percentile of latency for third-party admission webhook requests calculated from all requests across all API servers in the cluster. Represents the response time below which 99% of all third-party admission webhook requests are completed.
+
+*Units:* Seconds
+
+*Valid statistics:* Average
+
+|`apiserver_admission_webhook_admission_duration_seconds_ADMIT_P99`
+|The 99th percentile of latency for third-party mutating admission webhook requests calculated from all requests across all API servers in the cluster. Represents the response time below which 99% of all third-party mutating admission webhook requests are completed.
+
+*Units:* Seconds
+
+*Valid statistics:* Average
+
+|`apiserver_admission_webhook_admission_duration_seconds_VALIDATING_P99`
+|The 99th percentile of latency for third-party validating admission webhook requests calculated from all requests across all API servers in the cluster. Represents the response time below which 99% of all third-party validating admission webhook requests are completed.
+
+*Units:* Seconds
+
+*Valid statistics:* Average
+
+|`apiserver_storage_size_bytes`
+|The physical size in bytes of the etcd storage database file used by the API servers in the cluster. This metric represents the actual disk space allocated for the storage.
+
+*Units:* Bytes
+
+*Valid statistics:* Maximum
 
 |===
 
 [[cloudwatch-operator,cloudwatch-operator.title]]
-== [.noloc]`Amazon CloudWatch Observability Operator`
+== Amazon CloudWatch Observability Operator
 
-[.noloc]`Amazon CloudWatch Observability` collects real-time logs, metrics, and trace data. It sends them to link:AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html[Amazon CloudWatch,type="documentation"] and link:xray/latest/devguide/aws-xray.html[{aws} X-Ray,type="documentation"]. You can install this add-on to enable both CloudWatch Application Signals and CloudWatch [.noloc]`Container Insights` with enhanced observability for Amazon EKS. This helps you monitor the health and performance of your infrastructure and containerized applications. The Amazon CloudWatch Observability Operator is designed to install and configure the necessary components.
+Amazon CloudWatch Observability collects real-time logs, metrics, and trace data. It sends them to link:AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html[Amazon CloudWatch,type="documentation"] and link:xray/latest/devguide/aws-xray.html[{aws} X-Ray,type="documentation"]. You can install this add-on to enable both CloudWatch Application Signals and CloudWatch Container Insights with enhanced observability for Amazon EKS. This helps you monitor the health and performance of your infrastructure and containerized applications. The Amazon CloudWatch Observability Operator is designed to install and configure the necessary components.
 
-Amazon EKS supports the CloudWatch Observability Operator as an <<eks-add-ons,Amazon EKS add-on>>. The add-on allows [.noloc]`Container Insights` on both [.noloc]`Linux` and [.noloc]`Windows` worker nodes in the cluster. To enable [.noloc]`Container Insights` on [.noloc]`Windows`, the Amazon EKS add-on version must be `1.5.0` or higher. Currently, CloudWatch Application Signals isn't supported on Amazon EKS [.noloc]`Windows`.
+Amazon EKS supports the CloudWatch Observability Operator as an <<eks-add-ons,Amazon EKS add-on>>. The add-on allows Container Insights on both Linux and Windows worker nodes in the cluster. To enable Container Insights on Windows, the Amazon EKS add-on version must be `1.5.0` or higher. Currently, CloudWatch Application Signals isn't supported on Amazon EKS Windows.
 
 The topics below describe how to get started using CloudWatch Observability Operator for your Amazon EKS cluster.
 
 * For instructions on installing this add-on, see link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Install the CloudWatch agent with the Amazon CloudWatch Observability EKS add-on or the Helm chart,type="documentation"] in the _Amazon CloudWatch User Guide_.
 * For more information about CloudWatch Application Signals, see link:AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Monitoring-Sections.html[Application Signals,type="documentation"] in the _Amazon CloudWatch User Guide_.
-* For more information about [.noloc]`Container Insights`, see link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[Using Container Insights,type="documentation"] in the _Amazon CloudWatch User Guide_.
+* For more information about Container Insights, see link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[Using Container Insights,type="documentation"] in the _Amazon CloudWatch User Guide_.
