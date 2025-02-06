@@ -22,19 +22,19 @@ Follow the instructions in the Vale CLI docs to https://vale.sh/docs/install#pac
 
 == Install VS Code Vale extension
 
-. Open VS Code
-. Click the Extensions icon in the Activity Bar (or press Ctrl+Shift+X)
-. Search for "Vale"
-. Click Install on the "Vale VSCode" extension by Chris Chinchilla
-. Reload VS Code when prompted
+. Open VS Code.
+. Click the Extensions icon in the Activity Bar (or press Ctrl+Shift+X).
+. Search for "Vale".
+. Click Install on the "Vale VSCode" extension by Chris Chinchilla.
+. Reload VS Code when prompted.
 
 == Sync Vale
 
 Vale uses the `.vale.ini` configuration file in your project root to determine which style rules to apply.
 
-. Open VS Code
-. Click *View* > *Terminal* (or press Ctrl+`)
-. Navigate to your project root directory if needed
+. Open VS Code.
+. Click *View* > *Terminal* (or press Ctrl+`).
+. Navigate to your project root directory if needed.
 . Run the command:
 +
 [source,bash]
@@ -45,11 +45,11 @@ vale sync
 
 == View style feedback in VS Code
 
-. Open a Markdown or AsciiDoc file in VS Code
-. The Vale extension will automatically check your text against the style rules
-. Style issues will be underlined in the editor
-. Hover over underlined text to see the specific style suggestion
-. Fix issues by following the suggestions or consulting the style guide
+. Open a Markdown or AsciiDoc file in VS Code.
+. The Vale extension will automatically check your text against the style rules.
+. Style issues will be underlined in the editor.
+. Hover over underlined text to see the specific style suggestion.
+. Fix issues by following the suggestions or consulting the style guide.
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23vale-local%5D&type=code[Edit this page on GitHub]

@@ -23,24 +23,24 @@ image::images/contribute-q.png["Amazon Q in VS Code"]
 
 == Login to Amazon Q 
 
-1. After installing, click the Amazon Q icon in the VS Code activity bar
-2. Click "Sign in to Amazon Q"
-3. Enter your {aws} credentials when prompted
-4. Once authenticated, you'll see the Amazon Q chat interface
+1. After installing, choose the Amazon Q icon in the VS Code activity bar.
+2. Choose *Sign in to Amazon Q*.
+3. Enter your {aws} credentials when prompted.
+4. Once authenticated, you'll see the Amazon Q chat interface.
 
 == Use Amazon Q to create content
 
-1. Open the file you want to edit in VS Code
-2. Select the text you want to revise or the location for new content
-3. Press *Ctrl+I* or *Cmd+I*
+1. Open the file you want to edit in VS Code.
+2. Select the text you want to revise or the location for new content.
+3. Press *Ctrl+I* or *Cmd+I*.
 4. In the prompt, be specific about:
-   * The type of content you need
-   * The target audience
-   * Key points to cover
-   * Desired tone and style
-5. Review the generated content in the inline preview
+   * The type of content you need.
+   * The target audience.
+   * Key points to cover.
+   * Desired tone and style.
+5. Review the generated content in the inline preview.
 6. Use *enter* to accept the changes, or *esc* to reject them.
-7. Edit further as needed
+7. Edit further as needed.
 
 == Tips
 

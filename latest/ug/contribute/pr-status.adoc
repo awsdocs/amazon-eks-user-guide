@@ -16,17 +16,17 @@ include::images/contribute-pr.png["View PR feedback"]
 To view pull requests you created:
 
 . Go to the GitHub repository
-. Click the "Pull requests" tab
-. Select *Filters* and then *Your pull requests*
-. Review the list of your open pull requests
+. Click the "Pull requests" tab.
+. Select *Filters* and then *Your pull requests*.
+. Review the list of your open pull requests.
 
 == View pull requests assigned to you 
 To view pull requests assigned to you for review:
 
 . Go to the GitHub repository
-. Click the "Pull requests" tab
-. Select *filters* and then *assigned to you*
-. Review the list of pull requests awaiting your review
+. Click the "Pull requests" tab.
+. Select *filters* and then *assigned to you*.
+. Review the list of pull requests awaiting your review.
 
 == Review a pull request
 
@@ -56,16 +56,16 @@ Use the GitHub CLI to pull the changes locally.
   * For Linux: Follow instructions at https://github.com/cli/cli#installation
 
 . Authenticate with GitHub:
-  * Run `gh auth login`
-  * Follow the prompts to complete authentication
+  * Run: `gh auth login`
+  * Follow the prompts to complete authentication.
 
 ==== Checkout pull request
 
 . Check out the pull request branch:
-  * Run `gh pr checkout <PR-NUMBER>`
-  * Replace <PR-NUMBER> with your pull request number
-  * The pull request number is visible at the top of the PR
-  * This creates a local branch with the PR changes
+  * Run: `gh pr checkout <PR-NUMBER>`
+  * Replace <PR-NUMBER> with your pull request number.
+  * The pull request number is visible at the top of the PR.
+  * This creates a local branch with the PR changes.
 
 . Make your changes locally using your preferred text editor
 

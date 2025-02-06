@@ -20,7 +20,7 @@ The style check:
 
 . Open your Pull Request
 ** https://github.com/awsdocs/amazon-eks-user-guide/pulls[View a list of open pull requests]
-. Select the *Files changed* tab
+. Choose the *Files changed* tab.
 . Feedback from Vale is visible as line comments, that start with `[vale]`.
 ** Use the style feedback to identify typos, spelling errors, and awkward phrasing. 
 

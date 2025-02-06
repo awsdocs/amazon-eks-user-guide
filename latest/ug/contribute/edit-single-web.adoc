@@ -14,23 +14,23 @@ If you want to edit multiple pages from your web browser, see <<edit-web>>.
 
 == Prerequisites
 
-* Docs page to change opened in web browser
-* Signed into GitHub
+* Docs page to change opened in web browser.
+* Signed into GitHub.
 
 == Procedure
 
-. Navigate to the page you want to edit in the EKS User Guide documentation
+. Navigate to the page you want to edit in the Amazon EKS User Guide.
 
-. Look for the *Edit this page on GitHub* button located in the right sidebar of the page
+. Choose the 📝 *Edit this page on GitHub* link located at the bottom of the page.
 
 . Once on GitHub, open the editor by either:
-** Pressing the `e` key on your keyboard
-** Clicking the pencil icon and selecting *Edit in Place* from the dropdown menu
-** If you don't have the option to edit, you need to login to GitHub. Your GitHub account does not need any special permissions to suggest changes. However, internal Amazon contributors should link their GitHub profile. 
+** Pressing the `e` key on your keyboard.
+** Clicking the pencil icon and selecting *Edit in Place* from the dropdown menu.
+** If you don't have the option to edit, you need to login to GitHub. Your GitHub account does not need any special permissions to suggest changes. However, internal Amazon contributors should link their GitHub profile.
 
-. Make your required changes to the content in the GitHub editor
-** The editor provides syntax highlighting and preview capabilities
-** You can use AsciiDoc markup to format your changes
+. Make your required changes to the content in the GitHub editor.
+** The editor provides syntax highlighting and preview capabilities.
+** You can use AsciiDoc markup to format your changes.
 ** You can use `ctrl-f` to open a find/replace interface.
 
 . (Optional) Preview your changes. 
@@ -40,10 +40,10 @@ If you want to edit multiple pages from your web browser, see <<edit-web>>.
 . When finished editing, click the *Commit changes...* button at the top of the editor
 
 . In the commit dialog:
-** Verify your email address is correct
-** Add a brief but descriptive commit message explaining your changes
-** Optionally add a longer description if needed
-** Select to create a new branch and pull request
+** Verify your email address is correct.
+** Add a brief but descriptive commit message explaining your changes.
+** Optionally add a longer description if needed.
+** Select to create a new branch and pull request.
 
 You have created a pull request including the proposed changes.
 
@@ -51,10 +51,10 @@ You have created a pull request including the proposed changes.
 
 When you create a PR:
 
-* Your changes are submitted for review by repository maintainers
-* Reviewers can comment on your changes and request modifications
-* Automated tests may run to validate your changes
-* Once approved, your changes can be merged into the main repository
+* Your changes are submitted for review by repository maintainers.
+* Reviewers can comment on your changes and request modifications.
+* Automated tests may run to validate your changes.
+* Once approved, your changes can be merged into the main repository.
 
 Pull requests help ensure quality and provide a way to discuss changes before they are integrated.
 
