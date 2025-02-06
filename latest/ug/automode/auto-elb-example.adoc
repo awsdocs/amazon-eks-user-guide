@@ -68,6 +68,8 @@ spec:
               cpu: "0.5"
 ----
 
+NOTE: If you receive an error loading the image `public.ecr.aws/l6m2t8p7/docker-2048:latest`, confirm your Node IAM role has sufficent permissions to pull images from ECR. For more information, see <<auto-learn-node-iam-role>>. 
+
 **Key components:**
 
 - Deploys 5 replicas of the application

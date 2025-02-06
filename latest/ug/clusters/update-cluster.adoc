@@ -25,12 +25,9 @@ The update process consists of Amazon EKS launching new API server nodes with th
 
 To update the cluster, Amazon EKS requires up to five available IP addresses from the subnets that you specified when you created your cluster. Amazon EKS creates new cluster elastic network interfaces (network interfaces) in any of the subnets that you specified. The network interfaces may be created in different subnets than your existing network interfaces are in, so make sure that your security group rules allow <<sec-group-reqs,required cluster communication>> for any of the subnets that you specified when you created your cluster. If any of the subnets that you specified when you created the cluster don't exist, don't have enough available IP addresses, or don't have security group rules that allows necessary cluster communication, then the update can fail.
 
-[NOTE]
-====
-
 To ensure that the API server endpoint for your cluster is always accessible, Amazon EKS provides a highly available [.noloc]`Kubernetes` control plane and performs rolling updates of API server instances during update operations. In order to account for changing IP addresses of API server instances supporting your [.noloc]`Kubernetes` API server endpoint, you must ensure that your API server clients manage reconnects effectively. Recent versions of `kubectl` and the [.noloc]`Kubernetes` client https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-api/#programmatic-access-to-the-api[libraries] that are officially supported, perform this reconnect process transparently.
 
-====
+NOTE: To learn more about what goes into a cluster update, see link:eks/latest/best-practices/cluster-upgrades.html["Best Practices for Cluster Upgrades",type="documentation"] in the EKS Best Practices Guide. This resource helps you plan an upgrade, and understand the strategy of upgrading a cluster. 
 
 == Considerations for Amazon EKS Auto Mode
 

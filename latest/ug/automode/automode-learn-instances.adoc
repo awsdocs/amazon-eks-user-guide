@@ -67,7 +67,10 @@ The following functionality works for both Managed instances and Standard EC2 in
 
 With EKS Auto Mode, {aws} determines the image (AMI) used for your compute nodes. {aws} monitors the rollout of new EKS Auto Mode AMI versions. If you experience workload issues related to an AMI version, create a support case. For more information, see link:awssupport/latest/user/case-management.html["Creating support cases and case management",type="documentation"] in the {aws} Support User Guide.
 
-== Supported instance reference
+[#auto-supported-instances]
+== EKS Auto Mode supported instance reference
+
+EKS Auto Mode only creates instances of supported types, and that meet a minimum size requirement. 
 
 EKS Auto Mode supports the following instance types: 
 
@@ -99,6 +102,14 @@ EKS Auto Mode supports the following instance types:
 |High Performance Computing (X2)
 |x2iezn, x2iedn, x2idn
 |===
+
+Additionally, EKS Auto Mode will only create EC2 instances that meet the following requirements:
+
+* More than 1 CPU
+* Instance size is not nano, micro or small
+
+For more information, see link:ec2/latest/instancetypes/instance-type-names.html["Amazon EC2 instance type naming conventions",type="documentation"].
+
 
 == Considerations
 
