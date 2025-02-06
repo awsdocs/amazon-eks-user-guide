@@ -28,4 +28,4 @@ The following are considerations for security in the cloud, as they affect [.nol
 [[Topic List]]
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;security-k8s,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-k8s%5D&type=code[Edit this page on GitHub]

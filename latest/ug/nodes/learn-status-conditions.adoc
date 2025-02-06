@@ -126,4 +126,4 @@ kubectl top node
 ----
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;learn-status-conditions,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23learn-status-conditions%5D&type=code[Edit this page on GitHub]

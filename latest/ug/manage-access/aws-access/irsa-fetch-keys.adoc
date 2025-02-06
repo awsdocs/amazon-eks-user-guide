@@ -41,4 +41,4 @@ $ curl https://oidc.eks.us-west-2.amazonaws.com/id/8EBDXXXX00BAE/keys
 ----
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;irsa-fetch-keys,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23irsa-fetch-keys%5D&type=code[Edit this page on GitHub]

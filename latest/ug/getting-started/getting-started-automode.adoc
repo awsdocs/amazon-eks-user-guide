@@ -26,4 +26,4 @@ that include setting up components to:
 For details on what you get with EKS Auto Mode clusters, see <<automode>>.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;getting-started-automode,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23getting-started-automode%5D&type=code[Edit this page on GitHub]

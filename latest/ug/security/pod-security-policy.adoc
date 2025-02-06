@@ -194,4 +194,4 @@ kubectl apply -f privileged-podsecuritypolicy.yaml
 ----
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;pod-security-policy,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-security-policy%5D&type=code[Edit this page on GitHub]

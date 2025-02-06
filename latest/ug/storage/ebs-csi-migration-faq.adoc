@@ -139,4 +139,4 @@ The new https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/m
 Yes. If you're installing the Amazon EBS CSI driver using the open source Helm chart, set `node.enableWindows` to `true`. This is set by default if installing the Amazon EBS CSI driver as an Amazon EKS add-on. When creating `StorageClasses`, set the `fsType` to a Windows file system, such as `ntfs`. Volume operations for Windows workloads are then migrated to the Amazon EBS CSI driver the same as they are for Linux workloads.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;ebs-csi-migration-faq,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23ebs-csi-migration-faq%5D&type=code[Edit this page on GitHub]

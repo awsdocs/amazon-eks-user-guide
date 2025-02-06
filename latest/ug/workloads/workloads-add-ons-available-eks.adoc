@@ -513,4 +513,4 @@ This add-on users permissions from the  <<create-node-role,Amazon EKS node IAM r
 You can only update one minor version at a time. For example, if your current version is `1.28.x-eksbuild.y` and you want to update to `1.30.x-eksbuild.y`, then you must update your current version to `1.29.x-eksbuild.y` and then update it again to `1.30.x-eksbuild.y`. For more information about updating the add-on, see <<vpc-add-on-update>>.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;workloads-add-ons-available-eks,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23workloads-add-ons-available-eks%5D&type=code[Edit this page on GitHub]

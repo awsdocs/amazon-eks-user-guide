@@ -416,4 +416,4 @@ aws eks delete-addon --cluster-name my-cluster --addon-name aws-mountpoint-s3-cs
 ----
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;s3-csi,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23s3-csi%5D&type=code[Edit this page on GitHub]

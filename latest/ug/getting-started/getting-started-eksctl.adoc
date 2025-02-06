@@ -173,4 +173,4 @@ The following documentation topics help you to extend the functionality of your 
 * To increase security for your cluster, <<cni-iam-role,configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts>>.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;getting-started-eksctl,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23getting-started-eksctl%5D&type=code[Edit this page on GitHub]

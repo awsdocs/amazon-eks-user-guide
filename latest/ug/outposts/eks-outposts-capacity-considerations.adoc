@@ -66,4 +66,4 @@ You are responsible for creating the desired placement group. You specify the pl
 * You can create a maximum of 500 placement groups per account in each {aws} Region. For more information, see  link:AWSEC2/latest/UserGuide/placement-groups.html#placement-groups-limitations-general[General rules and limitations,type="documentation"] in the Amazon EC2 User Guide.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-outposts-capacity-considerations,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-outposts-capacity-considerations%5D&type=code[Edit this page on GitHub]

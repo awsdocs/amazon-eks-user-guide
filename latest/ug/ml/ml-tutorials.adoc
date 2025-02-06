@@ -71,4 +71,4 @@ https://aws.amazon.com/blogs/hpc/deploying-generative-ai-applications-with-nvidi
 * https://aws.amazon.com/blogs/machine-learning/establishing-an-ai-ml-center-of-excellence/[Establishing an AI/ML center of excellence]
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;ml-tutorials,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23ml-tutorials%5D&type=code[Edit this page on GitHub]

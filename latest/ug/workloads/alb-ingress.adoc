@@ -247,4 +247,4 @@ kubectl delete -f 2048_full.yaml
 ----
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;alb-ingress,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23alb-ingress%5D&type=code[Edit this page on GitHub]

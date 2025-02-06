@@ -119,4 +119,4 @@ When you refresh the page, any resolved issues will disappear from the list. If 
 For node health issues to be reported, your cluster must use Amazon EKS Auto Mode or have the node monitoring agent add-on. For more information, see <<node-health>>.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;observability-dashboard,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23observability-dashboard%5D&type=code[Edit this page on GitHub]

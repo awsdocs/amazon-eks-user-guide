@@ -125,4 +125,4 @@ When deciding whether to deploy a node group with On-Demand or Spot capacity, yo
 ** When deploying your node group with the Spot capacity type that's using a custom launch template, use the API to pass multiple instance types. Don't pass a single instance type through the launch template. For more information about deploying a node group using a launch template, see <<launch-templates>>.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;managed-node-groups,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23managed-node-groups%5D&type=code[Edit this page on GitHub]

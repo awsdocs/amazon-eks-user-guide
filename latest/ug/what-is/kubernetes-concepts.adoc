@@ -259,4 +259,4 @@ Understanding basic [.noloc]`Kubernetes` concepts and how they relate to Amazon 
 * <<eks-managing>> 
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;kubernetes-concepts,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23kubernetes-concepts%5D&type=code[Edit this page on GitHub]

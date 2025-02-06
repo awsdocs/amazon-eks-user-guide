@@ -275,4 +275,4 @@ You can use ARC zonal shift and zonal autoshift in your EKS cluster at no additi
 * link:eks/latest/userguide/coredns-autoscaling.html["Scale CoreDNS Pods for high DNS traffic",type="documentation"]
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;zone-shift,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23zone-shift%5D&type=code[Edit this page on GitHub]

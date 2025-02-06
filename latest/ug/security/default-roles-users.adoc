@@ -193,4 +193,4 @@ Subjects:
 ----
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;default-roles-users,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23default-roles-users%5D&type=code[Edit this page on GitHub]

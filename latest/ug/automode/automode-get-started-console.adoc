@@ -49,4 +49,4 @@ You must be logged into the {aws-management-console} with sufficent permissions 
 //call out refactored IAM
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;automode-get-started-console,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23automode-get-started-console%5D&type=code[Edit this page on GitHub]

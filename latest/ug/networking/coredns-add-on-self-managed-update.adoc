@@ -129,4 +129,4 @@ v1.11.3-eksbuild.1
 ----
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;coredns-add-on-self-managed-update,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23coredns-add-on-self-managed-update%5D&type=code[Edit this page on GitHub]

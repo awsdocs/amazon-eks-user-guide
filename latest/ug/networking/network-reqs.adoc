@@ -283,4 +283,4 @@ You can use  _VPC sharing_ to share subnets with other {aws} accounts within the
 For more information about VPC subnet sharing, see   link:vpc/latest/userguide/vpc-sharing.html#vpc-share-limitations[Share your VPC with other accounts,type="documentation"] in the _Amazon VPC User Guide_.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;network-reqs,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23network-reqs%5D&type=code[Edit this page on GitHub]

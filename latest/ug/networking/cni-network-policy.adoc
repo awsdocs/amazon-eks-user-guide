@@ -64,4 +64,4 @@ Pods that use _IAM roles for service accounts_ or _EKS Pod Identity_ don't acces
 ** When using chained network plugins such as [.noloc]`Multus`. Because these plugins add network interfaces to each pod, network policies aren't applied to the chained network plugins.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cni-network-policy,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cni-network-policy%5D&type=code[Edit this page on GitHub]

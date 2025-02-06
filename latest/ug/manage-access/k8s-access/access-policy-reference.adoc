@@ -583,4 +583,4 @@ View details about updates to access policies, since they were introduced. For a
 |===
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;access-policy-permissions,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23access-policy-permissions%5D&type=code[Edit this page on GitHub]

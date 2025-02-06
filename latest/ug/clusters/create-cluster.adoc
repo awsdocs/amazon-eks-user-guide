@@ -323,4 +323,4 @@ If you deploy your cluster using either `eksctl` or the {aws} CLI, then the [.no
 * <<eks-compute,Add nodes to your cluster>>.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;create-cluster,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23create-cluster%5D&type=code[Edit this page on GitHub]

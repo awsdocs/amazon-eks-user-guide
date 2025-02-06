@@ -102,4 +102,4 @@ The controller supports network load balancers with IP targets, which are requir
 * Some container software products use API calls that access the {aws} Marketplace Metering Service to monitor usage. Private clusters do not allow these calls, so you can't use these container types in private clusters.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;private-clusters,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23private-clusters%5D&type=code[Edit this page on GitHub]

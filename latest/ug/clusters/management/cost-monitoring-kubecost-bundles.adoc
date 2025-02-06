@@ -328,4 +328,4 @@ With https://prometheus.io/[Prometheus] pre-installed, you can write queries to 
  to enhance the accuracy of the pricing information specific to your {aws} account. This information includes enterprise discount programs, reserved instance usage, savings plans, and spot usage. To learn more about how the {aws} Cost and Usage Report integration works, see https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations[{aws} Cloud Billing Integration] in the [.noloc]`Kubecost` documentation.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cost-monitoring-kubecost-bundles,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cost-monitoring-kubecost-bundles%5D&type=code[Edit this page on GitHub]

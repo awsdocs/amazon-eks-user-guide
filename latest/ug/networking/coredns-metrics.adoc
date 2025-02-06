@@ -15,4 +15,4 @@ Learn how to collect [.noloc]`CoreDNS` metrics in Amazon EKS using Prometheus or
 For an example _scrape configuration_ that is compatible with both Prometheus and the CloudWatch agent, see link:AmazonCloudWatch/latest/monitoring/ContainerInsights-Prometheus-Setup-configure.html[CloudWatch agent configuration for Prometheus,type="documentation"] in the _Amazon CloudWatch User Guide_.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;coredns-metrics,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23coredns-metrics%5D&type=code[Edit this page on GitHub]

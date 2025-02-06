@@ -36,4 +36,4 @@ Amazon EKS add-ons can help manage the life cycle of pod identity associations c
 * If you update the pod identity associations for an existing add-on, Amazon EKS initiates a rolling restart of the add-on pods.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;add-ons-iam,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23add-ons-iam%5D&type=code[Edit this page on GitHub]

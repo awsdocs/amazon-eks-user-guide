@@ -110,4 +110,4 @@ To specify chained profiles for other {aws} SDKs, consult the documentation for 
 ====
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cross-account-access,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cross-account-access%5D&type=code[Edit this page on GitHub]

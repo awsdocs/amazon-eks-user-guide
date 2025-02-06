@@ -34,5 +34,4 @@ NOTE: The EKS Docs team has created a workspace file that includes suggested con
 After you create a pull request, it will be reviewed by the docs team. 
 
 
-
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;edit-web,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23edit-web%5D&type=code[Edit this page on GitHub]

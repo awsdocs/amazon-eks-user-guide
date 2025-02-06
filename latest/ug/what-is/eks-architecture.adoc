@@ -64,4 +64,4 @@ https://karpenter.sh/[Karpenter] is a flexible, high-performance [.noloc]`Kubern
 With <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>>, you can use your on-premises and edge infrastructure as nodes in Amazon EKS clusters. Amazon EKS Hybrid Nodes unifies Kubernetes management across environments and offloads Kubernetes control plane management to {aws} for your on-premises and edge applications.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-architecture,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-architecture%5D&type=code[Edit this page on GitHub]

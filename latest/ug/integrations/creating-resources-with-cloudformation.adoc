@@ -32,4 +32,4 @@ To learn more about {aws} CloudFormation, see the following resources:
 * link:cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html[{aws} CloudFormation Command Line Interface User Guide,type="documentation"]
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;creating-resources-with-cloudformation,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23creating-resources-with-cloudformation%5D&type=code[Edit this page on GitHub]

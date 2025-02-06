@@ -312,4 +312,4 @@ To implement [.noloc]`Kubernetes` network policies you create [.noloc]`Kubernete
 Enforcement of [.noloc]`Kubernetes` `NetworkPolicy` objects is implemented using the [.noloc]`Extended Berkeley Packet Filter` ([.noloc]`eBPF`). Relative to `iptables` based implementations, it offers lower latency and performance characteristics, including reduced CPU utilization and avoiding sequential lookups. Additionally, [.noloc]`eBPF` probes provide access to context rich data that helps debug complex kernel level issues and improve observability. Amazon EKS supports an [.noloc]`eBPF`-based exporter that leverages the probes to log policy results on each node and export the data to external log collectors to aid in debugging. For more information, see the https://ebpf.io/what-is-ebpf/#what-is-ebpf[eBPF documentation].
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cni-network-policy-configure,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cni-network-policy-configure%5D&type=code[Edit this page on GitHub]

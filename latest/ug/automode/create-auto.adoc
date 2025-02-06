@@ -40,4 +40,4 @@ include::automode-get-started-cli.adoc[leveloffset=+1]
 include::automode-get-started-console.adoc[leveloffset=+1]
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;create-auto,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23create-auto%5D&type=code[Edit this page on GitHub]

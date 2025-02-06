@@ -48,4 +48,4 @@ Security Lake normalizes EKS log events to the OCSF format, making it easier to 
 For more information about the OCSF mapping for EKS log events, refer to the https://github.com/ocsf/examples/tree/main/mappings/markdown/{aws}/v1.1.0/EKS Audit Logs[mapping reference] in the OCSF GitHub repository.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;integration-securitylake,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23integration-securitylake%5D&type=code[Edit this page on GitHub]

@@ -275,4 +275,4 @@ To resolve this issue, make sure that your VPC and subnets meet the requirements
 ====
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-outposts-troubleshooting,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-outposts-troubleshooting%5D&type=code[Edit this page on GitHub]

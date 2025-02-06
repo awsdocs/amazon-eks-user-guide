@@ -71,4 +71,4 @@ The `computeTypes` field in the `describe-addon-versions` output indicates an ad
 For more information, see <<addon-consider-auto>>. 
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;addon-compat,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23addon-compat%5D&type=code[Edit this page on GitHub]

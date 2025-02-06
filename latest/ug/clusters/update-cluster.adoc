@@ -248,4 +248,4 @@ kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X
 You cannot downgrade the [.noloc]`Kubernetes` of an Amazon EKS cluster. Instead, create a new cluster on a previous Amazon EKS version and migrate the workloads.  
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;update-cluster,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23update-cluster%5D&type=code[Edit this page on GitHub]

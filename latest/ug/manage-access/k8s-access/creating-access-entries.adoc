@@ -128,4 +128,4 @@ aws eks create-access-entry --cluster-name my-cluster --principal-arn {arn-aws}i
 If you want this user to have more access to your cluster than the permissions in the [.noloc]`Kubernetes` API discovery roles, then you need to associate an access policy to the access entry, since the `--kubernetes-groups` option isn't used. For more information, see <<access-policies>> and https://kubernetes.io/docs/reference/access-authn-authz/rbac/#discovery-roles[API discovery roles] in the [.noloc]`Kubernetes` documentation.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;creating-access-entries,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23creating-access-entries%5D&type=code[Edit this page on GitHub]

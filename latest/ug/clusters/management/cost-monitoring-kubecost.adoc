@@ -114,4 +114,4 @@ image::images/kubecost.png[Kubecost dashboard,scaledwidth=100%]
 * *Assets* – View the costs of the {aws} infrastructure assets that are associated with your Amazon EKS resources.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cost-monitoring-kubecost,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cost-monitoring-kubecost%5D&type=code[Edit this page on GitHub]

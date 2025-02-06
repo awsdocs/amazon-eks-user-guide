@@ -913,4 +913,4 @@ You cannot change the platform version of an EKS cluster. When new Amazon EKS pl
 If you upgrade your [.noloc]`Kubernetes` version, your cluster will move onto the most recent platform version for the [.noloc]`Kubernetes` version.  
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;platform-versions,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23platform-versions%5D&type=code[Edit this page on GitHub]

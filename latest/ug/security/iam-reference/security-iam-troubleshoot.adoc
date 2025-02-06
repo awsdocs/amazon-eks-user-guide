@@ -77,4 +77,4 @@ Your containers receive this error if your application is explicitly making requ
 * Configure your service accounts to use the global endpoint. All versions earlier than `1.22` used the global endpoint by default, but version `1.22` and later clusters use the regional endpoint by default. For more information, see <<configure-sts-endpoint>>.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;security-iam-troubleshoot,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-iam-troubleshoot%5D&type=code[Edit this page on GitHub]

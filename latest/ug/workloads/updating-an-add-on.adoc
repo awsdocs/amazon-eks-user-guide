@@ -213,4 +213,4 @@ An example output is as follows.
 The update is complete when the status is `ACTIVE`.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;updating-an-add-on,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23updating-an-add-on%5D&type=code[Edit this page on GitHub]

@@ -232,4 +232,4 @@ IMPORTANT: The role ARN can't include a path such as `role/my-team/developers/my
 . Save the file and exit your text editor.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;view-kubernetes-resources,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23view-kubernetes-resources%5D&type=code[Edit this page on GitHub]

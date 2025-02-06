@@ -74,4 +74,4 @@ A suitable target can be set for the event to capture it. For a complete list of
 See https://repost.aws/knowledge-center/fargate-pod-eviction-notice[FAQs: Fargate Pod eviction notice] in _{aws} re:Post_ for frequently asked questions regarding EKS Pod Evictions.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;fargate-pod-patching,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23fargate-pod-patching%5D&type=code[Edit this page on GitHub]

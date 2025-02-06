@@ -169,4 +169,4 @@ aws iam attach-role-policy \
 ----
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;pod-execution-role,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-execution-role%5D&type=code[Edit this page on GitHub]

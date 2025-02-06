@@ -110,4 +110,4 @@ topologySpreadConstraints:
 * In EKS add-on versions `v1.11.1-eksbuild.4` and later, the container image is based on a https://gallery.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base[minimal base image] maintained by Amazon EKS Distro, which contains minimal packages and doesn't have shells. For more information, see https://distro.eks.amazonaws.com/[Amazon EKS Distro]. The usage and troubleshooting of the [.noloc]`CoreDNS` image remains the same.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;managing-coredns,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23managing-coredns%5D&type=code[Edit this page on GitHub]

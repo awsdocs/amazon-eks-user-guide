@@ -504,4 +504,4 @@ aws cloudformation delete-stack --region $region_code --stack-name $vpc_stack_na
 ----
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;deploy-ipv6-cluster,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23deploy-ipv6-cluster%5D&type=code[Edit this page on GitHub]

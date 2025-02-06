@@ -34,4 +34,4 @@ aws eks update-access-entry --cluster-name my-cluster --principal-arn {arn-aws}i
 You can't use the `--kubernetes-groups` option if the type of the access entry is a value other than `STANDARD`. You also can't associate an access policy to an access entry with a type other than `STANDARD`. 
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;updating-access-entries,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23updating-access-entries%5D&type=code[Edit this page on GitHub]

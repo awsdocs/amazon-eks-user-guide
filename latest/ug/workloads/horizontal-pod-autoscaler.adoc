@@ -123,4 +123,4 @@ kubectl delete deployment.apps/php-apache service/php-apache horizontalpodautosc
 ----
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;horizontal-pod-autoscaler,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23horizontal-pod-autoscaler%5D&type=code[Edit this page on GitHub]

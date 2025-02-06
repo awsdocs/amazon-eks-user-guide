@@ -143,4 +143,4 @@ Amazon S3, {aws} WAF, and Amazon VPC are examples of services that support ACLs.
 When multiple types of policies apply to a request, the resulting permissions are more complicated to understand. To learn how {aws} determines whether to allow a request when multiple policy types are involved, see   link:IAM/latest/UserGuide/reference_policies_evaluation-logic.html[Policy evaluation logic,type="documentation"] in the _IAM User Guide_.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;security-iam,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-iam%5D&type=code[Edit this page on GitHub]

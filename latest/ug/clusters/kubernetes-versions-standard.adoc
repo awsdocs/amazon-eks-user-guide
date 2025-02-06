@@ -135,4 +135,4 @@ kubectl get cm kube-apiserver-legacy-service-account-token-tracking -n kube-syst
 For the complete [.noloc]`Kubernetes` `1.29` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.29.md#changelog-since-v1280.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;kubernetes-versions-standard,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23kubernetes-versions-standard%5D&type=code[Edit this page on GitHub]

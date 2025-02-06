@@ -156,4 +156,4 @@ include::eks-outposts-local-cluster-overview.adoc[leveloffset=+1]
 include::eks-outposts-self-managed-nodes.adoc[leveloffset=+1]
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-outposts,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-outposts%5D&type=code[Edit this page on GitHub]

@@ -61,6 +61,4 @@ Pull requests help ensure quality and provide a way to discuss changes before th
 https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews[Learn how pull requests are reviewed and approved in the GitHub Docs.]
 
 
-
-
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;edit-single-web,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23edit-single-web%5D&type=code[Edit this page on GitHub]

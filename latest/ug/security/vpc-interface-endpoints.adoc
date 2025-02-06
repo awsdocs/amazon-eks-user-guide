@@ -60,4 +60,4 @@ However, To use the dual-stack endpoints with the {aws} CLI, see the link:sdkref
 * Any call made to the Amazon EKS default service endpoint is automatically routed through the interface endpoint over the private {aws} network.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;vpc-interface-endpoints,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23vpc-interface-endpoints%5D&type=code[Edit this page on GitHub]

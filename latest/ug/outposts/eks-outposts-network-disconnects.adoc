@@ -180,4 +180,4 @@ kubectl config use-context admin@my-cluster --kubeconfig admin.kubeconfig
 If you notice any issues with your local clusters while they're in a disconnected state, we recommend opening a support ticket.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-outposts-network-disconnects,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-outposts-network-disconnects%5D&type=code[Edit this page on GitHub]

@@ -113,4 +113,4 @@ include::disassociate-oidc-identity-provider.adoc[leveloffset=+1]
 //include::access-policy-reference.adoc[leveloffset=+1]
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;grant-k8s-access,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23grant-k8s-access%5D&type=code[Edit this page on GitHub]
