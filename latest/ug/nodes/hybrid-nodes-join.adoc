@@ -61,7 +61,7 @@ Run the command below to install the hybrid nodes dependencies on your on-premis
 The hybrid nodes CLI (`nodeadm`) must be run with a user that has sudo/root access on your host.
 ====
 
-* Replace `K8S_VERSION` with the Kubernetes minor version of your Amazon EKS cluster, for example `1.31`. See link:eks/latest/userguide/kubernetes-versions.html[Amazon EKS Kubernetes versions,type="documentation"] for a list of the supported Kubernetes versions.
+* Replace `K8S_VERSION` with the Kubernetes minor version of your Amazon EKS cluster, for example `1.31`. See <<kubernetes-versions>> for a list of the supported Kubernetes versions.
 * Replace `CREDS_PROVIDER` with the on-premises credential provider you are using. Valid values are `ssm` for {aws} SSM and `iam-ra` for {aws} IAM Roles Anywhere.
 
 [source,bash,subs="verbatim,attributes,quotes"]

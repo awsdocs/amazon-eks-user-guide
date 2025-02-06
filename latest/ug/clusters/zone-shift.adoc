@@ -32,7 +32,7 @@ Once your EKS cluster zonal shift enabled with ARC, you can trigger a zonal shif
 During an EKS zonal shift, the following will automatically take place:
 
 * All the nodes in the impacted AZ will be cordoned. This will prevent the Kubernetes Scheduler from scheduling new Pods onto the nodes in the unhealthy AZ. 
-* If you're using link:eks/latest/userguide/managed-node-groups.html["Managed Node Groups",type="documentation"], link:autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage["_Availability Zone rebalancing_",type="documentation"] will be suspended, and your Auto Scaling Group (ASG) will be updated to ensure that new EKS Data Plane nodes are only launched in the healthy AZs.
+* If you're using <<managed-node-groups,Managed Node Groups>>, link:autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage["_Availability Zone rebalancing_",type="documentation"] will be suspended, and your Auto Scaling Group (ASG) will be updated to ensure that new EKS Data Plane nodes are only launched in the healthy AZs.
 * The nodes in the unhealthy AZ will not be terminated and the Pods will not be evicted from these nodes. This is to ensure that when a zonal shift expires or gets cancelled, your traffic can be safely returned to the AZ which still has full capacity
 * The EndpointSlice controller will find all the Pod endpoints in the impaired AZ and remove them from the relevant EndpointSlices. This will ensure that only Pod endpoints in healthy AZs are targeted to receive network traffic. When a zonal shift is cancelled or expires, the EndpointSlice controller will update the EndpointSlices to include the endpoints in the restored AZ.
 
@@ -122,7 +122,7 @@ spec:
 ----
 
 
-Most important, you should run multiple replicas of your DNS server software (CoreDNS/kube-dns) and apply similar topology spread constraints if they are not already configured by default. This will help ensure that you have enough DNS Pods in healthy AZs to continue handling service discovery requests for other communicating Pods in the cluster if there's a single AZ impairment. The link:eks/latest/userguide/managing-coredns.html["CoreDNS EKS add-on",type="documentation"] has default settings for the CoreDNS Pods to be spread across your cluster's Availability Zones if there are nodes in multiple AZs available. You can also replace these default settings with your own custom configurations.
+Most important, you should run multiple replicas of your DNS server software (CoreDNS/kube-dns) and apply similar topology spread constraints if they are not already configured by default. This will help ensure that you have enough DNS Pods in healthy AZs to continue handling service discovery requests for other communicating Pods in the cluster if there's a single AZ impairment. The <<managing-coredns,CoreDNS EKS add-on>> has default settings for the CoreDNS Pods to be spread across your cluster's Availability Zones if there are nodes in multiple AZs available. You can also replace these default settings with your own custom configurations.
 
 When installing https://github.com/coredns/helm/tree/master[CoreDNS with Helm], you can update the `replicaCount` in the https://github.com/coredns/helm/blob/master/charts/coredns/values.yaml[values.yaml file] to ensure that you have a sufficient number of replicas in each AZ. In addition, to ensure that these replicas are spread across the different AZs in your cluster environment, you should update the `topologySpreadConstraints` property in the same values.yaml file. The code snippet below demonstrates how to configure CoreDNS for this. 
 
@@ -163,7 +163,7 @@ spec:
 
 Alternatively, EKS can manage the autoscaling of the CoreDNS Deployment in the EKS add-on version of CoreDNS. This CoreDNS autoscaler continuously monitors the cluster state, including the number of nodes and CPU cores. Based on that information, the controller will dynamically adapt the number of replicas of the CoreDNS deployment in an EKS cluster.
 
-To enable the link:eks/latest/userguide/coredns-autoscaling.html["autoscaling configuration in the CoreDNS EKS add-on",type="documentation"], you should add the following optional configuration settings:
+To enable the <<coredns-autoscaling,autoscaling configuration in the CoreDNS EKS add-on>>, you should add the following optional configuration settings:
 
 
 [source,json]
@@ -272,7 +272,7 @@ You can use ARC zonal shift and zonal autoshift in your EKS cluster at no additi
 * link:r53recovery/latest/dg/arc-zonal-shift.resource-types.html["Resources and scenarios supported for zonal shift and zonal autoshift",type="documentation"]
 * link:blogs/containers/operating-resilient-workloads-on-amazon-eks/["Operating resilient workloads on Amazon EKS",type="marketing"]
 * link:blogs/containers/eliminate-kubernetes-node-scaling-lag-with-pod-priority-and-over-provisioning/["Eliminate Kubernetes node scaling lag with pod priority and over-provisioning",type="marketing"]
-* link:eks/latest/userguide/coredns-autoscaling.html["Scale CoreDNS Pods for high DNS traffic",type="documentation"]
+* <<coredns-autoscaling,Scale CoreDNS Pods for high DNS traffic>>
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23zone-shift%5D&type=code[Edit this page on GitHub]

@@ -167,7 +167,7 @@ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/examp
 ... Not overlap with each other, the `VPC CIDR` for your cluster, or your Kubernetes service IPv4 CIDR.
 .. `CLUSTER_AUTH`: the cluster authentication mode for your cluster. Valid values are `API` and `API_AND_CONFIG_MAP`. The default in the template is `API_AND_CONFIG_MAP`.
 .. `CLUSTER_ENDPOINT`: the cluster endpoint connectivity for your cluster. Valid values are “Public” and “Private”. The default in the template is Private, which means you will only be able to connect to the Kubernetes API endpoint from within your VPC.
-.. `K8S_VERSION`: the Kubernetes version to use for your cluster. See <<kubernetes-versions,Amazon EKS supported versions>>.
+.. `K8S_VERSION`: the Kubernetes version to use for your cluster. See <<kubernetes-versions>>.
 +
 [source,json,subs="verbatim,attributes"]
 ----

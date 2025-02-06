@@ -16,7 +16,7 @@ Amazon EKS Auto Mode builds upon the existing security foundations of Amazon EKS
 Amazon EKS Auto Mode uses {aws} platform security mechanisms to secure and authenticate calls to the Amazon EKS API.
 
 * Access to the Kubernetes API is secured through EKS access entries, which integrate with {aws} IAM identities. 
-** For more information, see link:eks/latest/userguide/access-entries.html["Grant IAM users access to Kubernetes with EKS access entries",type="documentation"].
+** For more information, see <<access-entries>>.
 * Customers can implement fine-grained access control to the Kubernetes API endpoint through configuration of EKS access entries.
 
 ## Network security
@@ -31,7 +31,7 @@ Amazon EKS Auto Mode supports multiple layers of network security:
 * **Network Policies**
 ** Native support for Kubernetes Network Policies
 ** Ability to define granular network traffic rules
-** For more information, see link:eks/latest/userguide/cni-network-policy.html["Limit pod traffic with Kubernetes network policies",type="documentation"]
+** For more information, see <<cni-network-policy>>
 
 ## EC2 managed instance security
 
@@ -97,7 +97,7 @@ The following section describes security best practices for Amazon EKS Auto Mode
 
 * Regularly review {aws} IAM policies and EKS access entries.
 * Implement least privilege access patterns for workloads.
-* Monitor cluster activity through {aws} CloudTrail and Amazon CloudWatch. For more information, see link:eks/latest/userguide/logging-using-cloudtrail.html["Log API calls as CloudTrail events",type="documentation"] and link:eks/latest/userguide/cloudwatch.html["Monitor cluster data with Amazon CloudWatch",type="documentation"]. 
+* Monitor cluster activity through {aws} CloudTrail and Amazon CloudWatch. For more information, see <<logging-using-cloudtrail>> and <<cloudwatch>>. 
 * Use {aws} Security Hub for security posture assessment.
 * Implement pod security standards appropriate for your workloads.
 

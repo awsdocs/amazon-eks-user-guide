@@ -21,7 +21,7 @@ To get started with EKS Auto Mode, see <<getting-started-automode>>.
 ====
 
 
-This topic provides an overview of the available options and describes what to consider when you create an Amazon EKS cluster. If you need to create a cluster with your on-premises infrastructure as the compute for nodes, see <<hybrid-nodes-cluster-create,Create an EKS cluster with hybrid nodes>>. If this is your first time creating an Amazon EKS cluster, we recommend that you follow one of our guides in <<getting-started>>. These guides help you to create a simple, default cluster without expanding into all of the available options.
+This topic provides an overview of the available options and describes what to consider when you create an Amazon EKS cluster. If you need to create a cluster with your on-premises infrastructure as the compute for nodes, see <<hybrid-nodes-cluster-create>>. If this is your first time creating an Amazon EKS cluster, we recommend that you follow one of our guides in <<getting-started>>. These guides help you to create a simple, default cluster without expanding into all of the available options.
 
 == Prerequisites
 

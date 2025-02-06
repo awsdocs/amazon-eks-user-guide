@@ -36,13 +36,13 @@ The https://github.com/kubernetes-sigs/aws-iam-authenticator#readme[{aws} IAM Au
 
 
 * *Creating access entries*
- – If your cluster is at or later than the platform version listed in the  link:eks/latest/userguide/access-entries.html[Prerequisites,type="documentation"] section for your cluster's [.noloc]`Kubernetes` version, we recommend that you use this option.
+ – If your cluster is at or later than the platform version listed in the  <<access-entries,Prerequisites>> section for your cluster's [.noloc]`Kubernetes` version, we recommend that you use this option.
 +
 Use _access entries_ to manage the [.noloc]`Kubernetes` permissions of IAM principals from outside the cluster. You can add and manage access to the cluster by using the EKS API, {aws} Command Line Interface, {aws} SDKs, {aws} CloudFormation, and {aws-management-console}. This means you can manage users with the same tools that you created the cluster with.
 +
-To get started, follow link:eks/latest/userguide/setting-up-access-entries.html[Change authentication mode to use access entries,type="documentation"], then link:eks/latest/userguide/migrating-access-entries.html[Migrating existing aws-auth ConfigMap entries to access entries,type="documentation"].
+To get started, follow <<setting-up-access-entries,Change authentication mode to use access entries>>, then <<migrating-access-entries,Migrating existing aws-auth ConfigMap entries to access entries>>.
 * *Adding entries to the `aws-auth` `ConfigMap`*
- – If your cluster's platform version is earlier than the version listed in the link:eks/latest/userguide/access-entries.html[Prerequisites,type="documentation"] section, then you must use this option. If your cluster's platform version is at or later than the platform version listed in the link:eks/latest/userguide/access-entries.html[Prerequisites,type="documentation"] section for your cluster's [.noloc]`Kubernetes` version, and you've added entries to the `ConfigMap`, then we recommend that you migrate those entries to access entries. You can't migrate entries that Amazon EKS added to the `ConfigMap` however, such as entries for IAM roles used with managed node groups or Fargate profiles. For more information, see <<grant-k8s-access>>.
+ – If your cluster's platform version is earlier than the version listed in the <<access-entries,Prerequisites>> section, then you must use this option. If your cluster's platform version is at or later than the platform version listed in the <<access-entries,Prerequisites>> section for your cluster's [.noloc]`Kubernetes` version, and you've added entries to the `ConfigMap`, then we recommend that you migrate those entries to access entries. You can't migrate entries that Amazon EKS added to the `ConfigMap` however, such as entries for IAM roles used with managed node groups or Fargate profiles. For more information, see <<grant-k8s-access>>.
 +
 ** If you have to use the `aws-auth` `ConfigMap` option, you can add entries to the `ConfigMap` using the `eksctl create iamidentitymapping` command. For more information, see https://eksctl.io/usage/iam-identity-mappings/[Manage IAM users and roles] in the `eksctl` documentation.
 

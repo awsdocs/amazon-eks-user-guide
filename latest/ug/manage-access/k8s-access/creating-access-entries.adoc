@@ -104,7 +104,7 @@ You can create an access entry using the {aws-management-console} or the {aws} C
 . To create an access entry
 You can use any of the following examples to create access entries:
 +
-** Create an access entry for a self-managed Amazon EC2 Linux node group. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`EKS-my-cluster-self-managed-ng-1` with the name of your link:eks/latest/userguide/create-node-role.html[node IAM role,type="documentation"]. If your node group is a Windows node group, then replace [.replaceable]`EC2_LINUX` with `EC2_Windows`.
+** Create an access entry for a self-managed Amazon EC2 Linux node group. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`EKS-my-cluster-self-managed-ng-1` with the name of your <<create-node-role,node IAM role>>. If your node group is a Windows node group, then replace [.replaceable]`EC2_LINUX` with `EC2_Windows`.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
