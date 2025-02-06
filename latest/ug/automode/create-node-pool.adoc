@@ -74,8 +74,8 @@ spec:
     memory: 1000Gi
 ----
 
-
-== EKS Auto Mode Supported
+[#auto-supported-instances]
+== EKS Auto Mode Supported Instances
 
 EKS Auto Mode supports the following well known labels.
 
@@ -168,6 +168,8 @@ EKS Auto Mode supports the following well known labels.
 |900
 |Number of gibibytes of local nvme storage on the instance
 |===
+
+NOTE: EKS Auto Mode only supports certain instances, and has minimum size requirements. For more information, see <<auto-supported-instances>>.
 
 == EKS Auto Mode Not Supported
 
