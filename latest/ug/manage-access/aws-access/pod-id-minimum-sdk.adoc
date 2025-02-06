@@ -33,7 +33,7 @@ When using  <<pod-identities,Learn how EKS Pod Identity grants pods access to {a
 * Rust – https://github.com/awslabs/aws-sdk-rust/releases/tag/release-2024-03-13[release-2024-03-13]
 * {cpp} – https://github.com/aws/aws-sdk-cpp/releases/tag/1.11.263[1.11.263]
 * .NET – https://github.com/aws/aws-sdk-net/releases/tag/3.7.734.0[3.7.734.0]
-* PowerShell – https://www.powershellgallery.com/packages/{aws}.Tools.Common/4.1.502[4.1.502]
+* PowerShell – https://www.powershellgallery.com/packages/AWS.Tools.Common/4.1.502[4.1.502]
 * PHP – https://github.com/aws/aws-sdk-php/releases/tag/3.287.1[3.287.1]
 
 To ensure that you're using a supported SDK, follow the installation instructions for your preferred SDK at link:tools/[Tools to Build on {aws},type="marketing"] when you build your containers.
