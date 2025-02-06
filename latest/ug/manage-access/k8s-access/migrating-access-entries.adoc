@@ -7,12 +7,12 @@ include::../../attributes.txt[]
 
 //GDC: problems with xrefs
 
-If you've added entries to the `aws-auth` `ConfigMap` on your cluster, we recommend that you create access entries for the existing entries in your `aws-auth` `ConfigMap`. After creating the access entries, you can remove the entries from your `ConfigMap`. You can't associate link:eks/latest/userguide/access-policies.html[access policies,type="documentation"] to entries in the `aws-auth` `ConfigMap`. If you want to associate access polices to your IAM principals, create access entries.
+If you've added entries to the `aws-auth` `ConfigMap` on your cluster, we recommend that you create access entries for the existing entries in your `aws-auth` `ConfigMap`. After creating the access entries, you can remove the entries from your `ConfigMap`. You can't associate <<access-policies,access policies>> to entries in the `aws-auth` `ConfigMap`. If you want to associate access polices to your IAM principals, create access entries.
 
 [IMPORTANT]
 ====
 
-Don't remove existing `aws-auth` `ConfigMap` entries that were created by Amazon EKS when you added a link:eks/latest/userguide/managed-node-groups.html[managed node group,type="documentation"] or a link:eks/latest/userguide/fargate-profile.html["Fargate profile",type="documentation"] to your cluster. If you remove entries that Amazon EKS created in the `ConfigMap`, your cluster won't function properly. You can however, remove any entries for link:eks/latest/userguide/worker.html["self-managed",type="documentation"] node groups after you've created access entries for them.
+Don't remove existing `aws-auth` `ConfigMap` entries that were created by Amazon EKS when you added a <<managed-node-groups,managed node group>> or a <<fargate-profile,Fargate profile>> to your cluster. If you remove entries that Amazon EKS created in the `ConfigMap`, your cluster won't function properly. You can however, remove any entries for <<worker,self-managed>> node groups after you've created access entries for them.
 
 ====
 
