@@ -64,7 +64,7 @@ kubectl apply -f storage-class.yaml
 - `provisioner: ebs.csi.eks.amazonaws.com` - Uses EKS Auto Mode
 - `volumeBindingMode: WaitForFirstConsumer` - Delays volume creation until a pod needs it
 - `type: gp3` - Specifies the EBS volume type
-- `encrypted: "true"` - EBS will use the default `aws/ebs` key to encrypt volumes created with this class. This is optional, but recomended. 
+- `encrypted: "true"` - EBS will use the default `aws/ebs` key to encrypt volumes created with this class. This is optional, but recommended. 
 - `storageclass.kubernetes.io/is-default-class: "true"` - Kubernetes will use this storage class by default, unless you specify a different volume class on a persistent volume claim. Use caution when setting this value if you are migrating from another storage controller. (optional)
 
 ## Step 3: Create the persistent volume claim
