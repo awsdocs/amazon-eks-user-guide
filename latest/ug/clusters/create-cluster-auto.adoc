@@ -167,7 +167,7 @@ aws iam get-role --role-name AmazonEKSAutoClusterRole --query "Role.Arn" --outpu
 
 Attach the following {aws} managed policies to the Cluster IAM Role to grant the necessary permissions:
 
-**AmazonEKSClusterPolicy**:
+*AmazonEKSClusterPolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -175,7 +175,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
 ```
 
-**AmazonEKSComputePolicy**:
+*AmazonEKSComputePolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -183,7 +183,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSComputePolicy
 ```
 
-**AmazonEKSBlockStoragePolicy**:
+*AmazonEKSBlockStoragePolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -191,7 +191,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSBlockStoragePolicy
 ```
 
-**AmazonEKSLoadBalancingPolicy**:
+*AmazonEKSLoadBalancingPolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -199,7 +199,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy
 ```
 
-**AmazonEKSNetworkingPolicy**:
+*AmazonEKSNetworkingPolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -230,7 +230,7 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
 
 #### Step 2: Create the Node IAM Role
 
-Use the **node-trust-policy.json** file from the previous step to define which entities can assume the role. Run the following command to create the Node IAM Role:
+Use the *node-trust-policy.json* file from the previous step to define which entities can assume the role. Run the following command to create the Node IAM Role:
 
 ```
 aws iam create-role \
@@ -250,7 +250,7 @@ aws iam get-role --role-name AmazonEKSAutoNodeRole --query "Role.Arn" --output t
 
 Attach the following {aws} managed policies to the Node IAM Role to provide the necessary permissions:
 
-**AmazonEKSWorkerNodeMinimalPolicy**:
+*AmazonEKSWorkerNodeMinimalPolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -258,7 +258,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodeMinimalPolicy
 ```
 
-**AmazonEC2ContainerRegistryPullOnly**:
+*AmazonEC2ContainerRegistryPullOnly*:
 
 ```
 aws iam attach-role-policy \

@@ -91,9 +91,7 @@ When using an Amazon EKS optimized [.noloc]`Windows` AMI as a base isn't viable,
 .. Choose *Specify component version*.
 .. In the *Component Version* field, enter [.replaceable]`version.x`, replacing [.replaceable]`version` with a supported [.noloc]`Kubernetes` version. Entering an [.replaceable]`x` for part of the version number indicates to use the latest component version that also aligns with the part of the version you explicitly define. Pay attention to the console output as it will advise you on whether your desired version is available as a managed component. Keep in mind that the most recent [.noloc]`Kubernetes` versions may not be available for the build component. For more information about available versions, see <<custom-windows-ami-component-versions>>.
 +
-NOTE: The following `eks-optimized-ami-windows` build component versions require `eksctl` version `0.129` or lower:
-
-*** `1.24.0`
+NOTE: The `1.24.0` `eks-optimized-ami-windows` build component versions require `eksctl` version `0.129` or lower.
 
 . Complete the remaining image recipe inputs with your required configurations. For more information, see link:imagebuilder/latest/userguide/create-image-recipes.html#create-image-recipe-version-console[Create a new image recipe version (console),type="documentation"] in the Image Builder User Guide.
 . Choose *Create recipe*.

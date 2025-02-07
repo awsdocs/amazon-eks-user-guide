@@ -51,7 +51,7 @@ You only need to create an IAM Role for the [.noloc]`{aws} Load Balancer Control
 [NOTE]
 ====
 
-Below example is referring to the [.noloc]`{aws} Load Balancer Controller` **v2.11.0** release version. For more information about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on [.noloc]`GitHub`.
+Below example is referring to the [.noloc]`{aws} Load Balancer Controller` *v2.11.0* release version. For more information about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on [.noloc]`GitHub`.
 
 ====
 

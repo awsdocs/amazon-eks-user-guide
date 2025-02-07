@@ -20,14 +20,14 @@ Your subnets require specific tags based on their intended use:
 == Adding Tags in the Console
 
 1. Sign in to the {aws-management-console}
-2. Navigate to **VPC** +>+ **Subnets**
+2. Navigate to *VPC* +>+ *Subnets*
 3. Select the subnet you want to tag
-4. Select the **Tags** tab in the lower panel
-5. Choose **Add/Edit Tags**
-6. Click **Add Tag** and enter:
+4. Select the *Tags* tab in the lower panel
+5. Choose *Add/Edit Tags*
+6. Click *Add Tag* and enter:
    - For private subnets: Key = `kubernetes.io/role/internal-elb`, Value = `1`
    - For public subnets: Key = `kubernetes.io/role/elb`, Value = `1`
-7. Click **Save**
+7. Click *Save*
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23tag-subnets%5D&type=code[Edit this page on GitHub]

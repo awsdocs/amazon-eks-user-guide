@@ -112,7 +112,7 @@ aws iam create-role \
 ----
 . Attach the required IAM policies to the role:
 
-**AmazonEKSClusterPolicy**:
+*AmazonEKSClusterPolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -120,7 +120,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
 ```
 
-**AmazonEKSComputePolicy**:
+*AmazonEKSComputePolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -128,7 +128,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSComputePolicy
 ```
 
-**AmazonEKSBlockStoragePolicy**:
+*AmazonEKSBlockStoragePolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -136,7 +136,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSBlockStoragePolicy
 ```
 
-**AmazonEKSLoadBalancingPolicy**:
+*AmazonEKSLoadBalancingPolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -144,7 +144,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy
 ```
 
-**AmazonEKSNetworkingPolicy**:
+*AmazonEKSNetworkingPolicy*:
 
 ```
 aws iam attach-role-policy \

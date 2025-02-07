@@ -48,7 +48,7 @@ You only need to create a role for the [.noloc]`{aws} Load Balancer Controller` 
 [NOTE]
 ====
 
-Below example is referring to the [.noloc]`{aws} Load Balancer Controller` **v2.11.0** release version. For more inforamtion about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on [.noloc]`GitHub`.
+Below example is referring to the [.noloc]`{aws} Load Balancer Controller` *v2.11.0* release version. For more inforamtion about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on [.noloc]`GitHub`.
 
 ====
 

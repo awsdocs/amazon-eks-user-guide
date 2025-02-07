@@ -70,7 +70,7 @@ spec:
 
 NOTE: If you receive an error loading the image `public.ecr.aws/l6m2t8p7/docker-2048:latest`, confirm your Node IAM role has sufficent permissions to pull images from ECR. For more information, see <<auto-learn-node-iam-role>>. 
 
-**Key components:**
+*Key components:*
 
 - Deploys 5 replicas of the application
 - Uses a public ECR image
@@ -107,7 +107,7 @@ spec:
     app.kubernetes.io/name: app-2048
 ----
 
-**Key components:**
+*Key components:*
 
 - Creates a NodePort service
 - Maps port 80 to the container's port 80
@@ -174,7 +174,7 @@ spec:
                   number: 80
 ----
 
-**Key components:**
+*Key components:*
 
 - Creates an internet-facing ALB
 - Uses IP target type for direct pod routing

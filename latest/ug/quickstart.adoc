@@ -25,16 +25,16 @@ Overall, you'll deploy a sample workload with the custom annotations required to
 
 Using the `eksctl` cluster template that follows, you'll build a cluster with EKS Auto Mode for automated node provisioning. 
 
-**VPC Configuration**  
+*VPC Configuration*  
 When using the eksctl cluster template that follows, eksctl automatically creates an IPv4 Virtual Private Cloud (VPC) for the cluster. By default, eksctl configures a VPC that addresses all networking requirements, in addition to creating both public and private endpoints.
 
-**Instance Management**  
+*Instance Management*  
 EKS Auto Mode dynamically adds or removes nodes in your EKS cluster based on the demands of your Kubernetes applications.
 
-**Data Persistence**  
+*Data Persistence*  
 Use the block storage capability of EKS Auto Mode to ensure the persistence of application data, even in scenarios involving pod restarts or failures. 
 
-**External App Access**  
+*External App Access*  
 Use the load balancing capability of EKS Auto Mode to dynamically provision an Application Load Balancer (ALB).
 
 ## Prerequisites

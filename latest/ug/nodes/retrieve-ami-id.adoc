@@ -23,7 +23,7 @@ You can retrieve the image ID of the latest recommended Amazon EKS optimized Ama
 ** Use [.replaceable]`amazon-linux-2023/x86_64/neuron` for the latest AL2023 link:machine-learning/neuron/[{aws} Neuron,type="marketing"] instances.
 ** Use [.replaceable]`amazon-linux-2` for Amazon Linux 2 (AL2) `x86` based instances.
 ** Use [.replaceable]`amazon-linux-2-arm64` for AL2 ARM instances, such as link:ec2/graviton/[{aws} Graviton,type="marketing"] based instances.
-** Use `amazon-linux-2-gpu` for AL2 link:AWSEC2/latest/UserGuide/accelerated-computing-instances.html[hardware accelerated,type="documentation"] `x86` based instances for NVIDIA GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
+** Use [.replaceable]`amazon-linux-2-gpu` for AL2 link:AWSEC2/latest/UserGuide/accelerated-computing-instances.html[hardware accelerated,type="documentation"] `x86` based instances for NVIDIA GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
 * Replace `<region-code>` with an link:general/latest/gr/eks.html[Amazon EKS supported {aws} Region,type="documentation"] for which you want the AMI ID.
 
 [source,bash,subs="verbatim,attributes"]

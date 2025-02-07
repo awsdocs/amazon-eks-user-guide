@@ -28,7 +28,7 @@ This topic provides an overview of what to consider when running a local cluster
 * Amazon EBS backed [.noloc]`Kubernetes` `PersistentVolumes` are supported using the Amazon EBS CSI driver.
 * The control plane instances of local clusters are set up in https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/[stacked highly available topology]. Two out of the three control plane instances must be healthy at all times to maintain quorum. If quorum is lost, contact {aws} support, as some service-side actions will be required to enable the new managed instances.
 
-**Prerequisites**
+*Prerequisites*
 
 * Familiarity with the <<outposts-overview-comparing-deployment-options,Outposts deployment options>>, <<eks-outposts-capacity-considerations,Select instance types and placement groups for Amazon EKS clusters on {aws} Outposts based on capacity considerations>>, and <<eks-outposts-vpc-subnet-requirements,VPC requirements and considerations>>.
 * An existing Outpost. For more information, see link:outposts/latest/userguide/what-is-outposts.html[What is {aws} Outposts,type="documentation"].

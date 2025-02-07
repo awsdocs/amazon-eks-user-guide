@@ -23,12 +23,12 @@ Amazon EKS Auto Mode uses {aws} platform security mechanisms to secure and authe
 
 Amazon EKS Auto Mode supports multiple layers of network security:
 
-* **VPC integration**
+* *VPC integration*
 ** Operates within your Amazon Virtual Private Cloud (VPC)
 ** Supports custom VPC configurations and subnet layouts
 ** Enables private networking between cluster components
 ** For more information, see link:vpc/latest/userguide/security.html["Managing security responsibilities for Amazon Virtual Private Cloud",type="documentation"]
-* **Network Policies**
+* *Network Policies*
 ** Native support for Kubernetes Network Policies
 ** Ability to define granular network traffic rules
 ** For more information, see <<cni-network-policy>>
