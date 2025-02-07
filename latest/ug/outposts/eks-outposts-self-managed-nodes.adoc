@@ -110,7 +110,7 @@ NOTE: If you don't provide a key pair here, the {aws} CloudFormation stack creat
 ----
 --b64-cluster-ca ${CLUSTER_CA} --apiserver-endpoint https://${APISERVER_ENDPOINT} --enable-local-outpost true --cluster-id ${CLUSTER_ID}
 ----
-To retrieve the values for `CLUSTER_CA`, `APISERVER_ENDPOINT`, and `CLUSTER_ID` of your Amazon EKS local cluster, run the following AWS CLI commands. Replace cluster-name with the name of your cluster and region (for example, us-east-1) with your cluster’s AWS Region.
+To retrieve the values for `CLUSTER_CA`, `APISERVER_ENDPOINT`, and `CLUSTER_ID` of your Amazon EKS local cluster, run the following {aws} CLI commands. Replace cluster-name with the name of your cluster and region (for example, us-east-1) with your cluster's {aws} Region.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

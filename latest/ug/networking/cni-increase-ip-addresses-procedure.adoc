@@ -7,11 +7,10 @@ include::../attributes.txt[]
 
 You can increase the number of IP addresses that nodes can assign to [.noloc]`Pods` by assigning IP prefixes, rather than assigning individual secondary IP addresses to your nodes.
 
-Complete the following before you start the procedure:
+== Prerequisites
 
-* Review the considerations.
 * You need an existing cluster. To deploy one, see <<create-cluster>>. 
-* The subnets that your Amazon EKS nodes are in must have sufficient contiguous `/28` (for `IPv4` clusters) or `/80` (for `IPv6` clusters) Classless Inter-Domain Routing (CIDR) blocks. You can only have Linux nodes in an `IPv6` cluster. Using IP prefixes can fail if IP addresses are scattered throughout the subnet CIDR. We recommend that following:
+* The subnets that your Amazon EKS nodes are in must have sufficient contiguous `/28` (for `IPv4` clusters) or `/80` (for `IPv6` clusters) Classless Inter-Domain Routing (CIDR) blocks. You can only have Linux nodes in an `IPv6` cluster. Using IP prefixes can fail if IP addresses are scattered throughout the subnet CIDR. We recommend the following:
 ** Using a subnet CIDR reservation so that even if any IP addresses within the reserved range are still in use, upon their release, the IP addresses aren't reassigned. This ensures that prefixes are available for allocation without segmentation.
 ** Use new subnets that are specifically used for running the workloads that IP prefixes are assigned to. Both [.noloc]`Windows` and [.noloc]`Linux` workloads can run in the same subnet when assigning IP prefixes.
 * To assign IP prefixes to your nodes, your nodes must be {aws} Nitro-based. Instances that aren't Nitro-based continue to allocate individual secondary IP addresses, but have a significantly lower number of IP addresses to assign to [.noloc]`Pods` than [.noloc]`Nitro-based` instances do.
@@ -23,7 +22,7 @@ kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -
 ----
 +
 If your cluster is configured for the `IPv6` family, you must have version `1.10.1` of the add-on installed. If your plugin version is earlier than the required versions, you must update it. For more information, see the updating sections of <<managing-vpc-cni,Assign IPs to Pods with the Amazon VPC CNI>>.
-* *For clusters with [.noloc]`Windows` nodes only*::
+* *For clusters with [.noloc]`Windows` nodes only*
 
 +
 ** Your cluster and its platform version must be at, or later than the versions in the following table. To upgrade your cluster version, see <<update-cluster>>. If your cluster isn't at the minimum platform version, then you can't assign IP prefixes to your nodes until Amazon EKS has updated your platform version.
@@ -45,10 +44,13 @@ If your cluster is configured for the `IPv6` family, you must have version `1.10
 |===
 +
 You can check your current [.noloc]`Kubernetes` and platform version by replacing [.replaceable]`my-cluster` in the following command with the name of your cluster and then running the modified command: `aws eks describe-cluster --name [.replaceable]``my-cluster`` --query 'cluster.{"Kubernetes Version": version, "Platform Version": platformVersion}'`.
-** [.noloc]`Windows` support enabled for your cluster. For more information, see <<windows-support>>.
-. Configure your cluster to assign IP address prefixes to nodes. Complete the procedure on the tab that matches your node's operating system.
-+
-[.noloc]`Linux`:::
+** You must have [.noloc]`Windows` support enabled for your cluster. For more information, see <<windows-support>>.
+
+== To increase the amount of available IP addresses for your Amazon EC2 nodes
+
+. Configure your cluster to assign IP address prefixes to nodes. Complete the procedure that matches your node's operating system.
+
+=== [.noloc]`Linux`
 .. Enable the parameter to assign prefixes to network interfaces for the Amazon VPC CNI [.noloc]`DaemonSet`. When you deploy a `1.21` or later cluster, version `1.10.1` or later of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` add-on is deployed with it. If you created the cluster with the `IPv6` family, this setting was set to `true` by default. If you created the cluster with the `IPv4` family, this setting was set to `false` by default.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -96,7 +98,7 @@ kubectl set env ds aws-node -n kube-system WARM_IP_TARGET=5
 ----
 kubectl set env ds aws-node -n kube-system MINIMUM_IP_TARGET=2
 ----
-... Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type. For a list of Nitro instance types, see link:AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances[Instances built on the Nitro System,type="documentation"] in the Amazon EC2 User Guide. This capability is not supported on [.noloc]`Windows`. For the options that include [.replaceable]`110`, replace it with either the value from step 3 (recommended), or your own value. 
+.. Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type. For a list of Nitro instance types, see link:AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances[Instances built on the Nitro System,type="documentation"] in the Amazon EC2 User Guide. This capability is not supported on [.noloc]`Windows`. For the options that include [.replaceable]`110`, replace it with either the value from step 3 (recommended), or your own value. 
 +
 **** *Self-managed* – Deploy the node group using the instructions in <<launch-workers,Create self-managed Amazon Linux nodes>>. Specify the following text for the *BootstrapArguments* parameter.
 +
@@ -134,11 +136,10 @@ If you've created a custom AMI that is not built off the Amazon EKS optimized AM
 +
 NOTE: If you also want to assign IP addresses to [.noloc]`Pods` from a different subnet than the instance's, then you need to enable the capability in this step. For more information, see <<cni-custom-network>>.
 
-
-[.noloc]`Windows`:::
+=== [.noloc]`Windows`
 .. Enable assignment of IP prefixes.
 +
-.... Open the `amazon-vpc-cni` `ConfigMap` for editing.
+... Open the `amazon-vpc-cni` `ConfigMap` for editing.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -171,7 +172,7 @@ InsufficientCidrBlocks: The specified subnet does not have enough free cidr bloc
 
 This can happen due to fragmentation of existing secondary IP addresses spread out across a subnet. To resolve this error, either create a new subnet and launch [.noloc]`Pods` there, or use an Amazon EC2 subnet CIDR reservation to reserve space within a subnet for use with prefix assignment. For more information, see link:vpc/latest/userguide/subnet-cidr-reservation.html[Subnet CIDR reservations,type="documentation"] in the Amazon VPC User Guide.
 ====
-... (Optional) Specify additional configuration for controlling the pre-scaling and dynamic scaling behavior for your cluster. For more information, see https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/docs/windows/prefix_delegation_config_options.md[Configuration options with Prefix Delegation mode on Windows] on GitHub.
+.. (Optional) Specify additional configuration for controlling the pre-scaling and dynamic scaling behavior for your cluster. For more information, see https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/docs/windows/prefix_delegation_config_options.md[Configuration options with Prefix Delegation mode on Windows] on GitHub.
 +
 ... Open the `amazon-vpc-cni` `ConfigMap` for editing. 
 +

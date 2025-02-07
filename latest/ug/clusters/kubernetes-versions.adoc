@@ -128,7 +128,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 |===
 
 [#version-cli]
-== Get version information with {AWS} CLI
+== Get version information with {aws} CLI
 
 You can use the {aws} CLI to get information about Kubernetes versions available on EKS, such as the end date of Standard Support. 
 
