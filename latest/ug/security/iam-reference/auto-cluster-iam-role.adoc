@@ -15,11 +15,11 @@ An Amazon EKS cluster IAM role is required for each cluster. [.noloc]`Kubernetes
 
 Before you can create Amazon EKS clusters, you must create an IAM role with the policies required for EKS Auto Mode. You can either attach the suggested {aws} IAM managed policies, or create custom polices with equivalent permissions. 
 
-* xref:security-iam-awsmanpol-AmazonEKSComputePolicy[AmazonEKSComputePolicy]
-* xref:security-iam-awsmanpol-AmazonEKSBlockStoragePolicy[AmazonEKSBlockStoragePolicy]
-* xref:security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy[AmazonEKSLoadBalancingPolicy]
-* xref:security-iam-awsmanpol-AmazonEKSNetworkingPolicy[AmazonEKSNetworkingPolicy]
-* xref:security-iam-awsmanpol-amazoneksclusterpolicy[AmazonEKSClusterPolicy]
+* <<security-iam-awsmanpol-AmazonEKSComputePolicy,AmazonEKSComputePolicy>>
+* <<security-iam-awsmanpol-AmazonEKSBlockStoragePolicy,AmazonEKSBlockStoragePolicy>>
+* <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy,AmazonEKSLoadBalancingPolicy>>
+* <<security-iam-awsmanpol-AmazonEKSNetworkingPolicy,AmazonEKSNetworkingPolicy>>
+* <<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>>
 
 == Check for an existing cluster role
 
@@ -70,11 +70,11 @@ You can use the {aws-management-console} or the {aws} CLI to create the cluster 
 . From the *Use cases for other {aws} services* dropdown list, choose  *EKS*.
 . Choose *EKS - Cluster* for your use case, and then choose  *Next*.
 . On the *Add permissions* tab, select the policies and then choose  *Next*.
-** xref:security-iam-awsmanpol-AmazonEKSComputePolicy[AmazonEKSComputePolicy]
-** xref:security-iam-awsmanpol-AmazonEKSBlockStoragePolicy[AmazonEKSBlockStoragePolicy]
-** xref:security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy[AmazonEKSLoadBalancingPolicy]
-** xref:security-iam-awsmanpol-AmazonEKSNetworkingPolicy[AmazonEKSNetworkingPolicy]
-** xref:security-iam-awsmanpol-amazoneksclusterpolicy[AmazonEKSClusterPolicy]
+** <<security-iam-awsmanpol-AmazonEKSComputePolicy,AmazonEKSComputePolicy>>
+** <<security-iam-awsmanpol-AmazonEKSBlockStoragePolicy,AmazonEKSBlockStoragePolicy>>
+** <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy,AmazonEKSLoadBalancingPolicy>>
+** <<security-iam-awsmanpol-AmazonEKSNetworkingPolicy,AmazonEKSNetworkingPolicy>>
+** <<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>>
 . For *Role name*, enter a unique name for your role, such as `AmazonEKSAutoClusterRole`.
 . For *Description*, enter descriptive text such as `Amazon EKS - Cluster role`.
 . Choose *Create role*.

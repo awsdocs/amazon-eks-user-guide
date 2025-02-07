@@ -110,27 +110,27 @@ The following table indicates if certain Amazon EKS add-ons support EKS Pod Iden
 |=== 
 | Add-on Name | Pod Identity Support | Minimum Version Required
 
-| xref:add-ons-aws-ebs-csi-driver[Amazon EBS CSI Driver] 
+| <<add-ons-aws-ebs-csi-driver,Amazon EBS CSI Driver>> 
 | Yes 
 | v1.26.0-eksbuild.1
 
-| xref:add-ons-vpc-cni[Amazon VPC CNI] 
+| <<add-ons-vpc-cni,Amazon VPC CNI>> 
 | Yes 
 | v1.15.5-eksbuild.1
 
-| xref:add-ons-aws-efs-csi-driver[Amazon EFS CSI Driver] 
+| <<add-ons-aws-efs-csi-driver,Amazon EFS CSI Driver>> 
 | Yes 
 | v2.0.5-eksbuild.1
 
-| xref:add-ons-adot[{aws} Distro for OpenTelemetry] 
+| <<add-ons-adot,{aws} Distro for OpenTelemetry>> 
 | Yes 
 | v0.94.1-eksbuild.1
 
-| xref:mountpoint-for-s3-add-on[Mountpoint for Amazon S3 CSI Driver] 
+| <<mountpoint-for-s3-add-on,Mountpoint for Amazon S3 CSI Driver>> 
 | No 
 | N/A
 
-| xref:amazon-cloudwatch-observability[Amazon CloudWatch Observability agent] 
+| <<amazon-cloudwatch-observability,Amazon CloudWatch Observability agent>> 
 | Yes 
 | v3.1.0-eksbuild.1
 

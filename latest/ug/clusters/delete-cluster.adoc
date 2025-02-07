@@ -92,7 +92,7 @@ kubectl delete svc service-name
 .. In the left navigation pane, choose Amazon EKS *Clusters*, and then in the tabbed list of clusters, choose the name of the cluster that you want to delete.
 .. Choose the *Compute* tab and choose a node group to delete. Choose  *Delete*, enter the name of the node group, and then choose  *Delete*. Delete all node groups in the cluster.
 +
-NOTE: The node groups listed are xref:managed-node-groups[managed node groups,linkend=managed-node-groups] only.
+NOTE: The node groups listed are <<managed-node-groups,managed node groups>> only.
 .. Choose a *Fargate Profile* to delete, select  *Delete*, enter the name of the profile, and then choose  *Delete*. Delete all Fargate profiles in the cluster.
 . Delete all self-managed node {aws} CloudFormation stacks.
 +
@@ -134,7 +134,7 @@ kubectl delete svc service-name
 aws eks list-nodegroups --cluster-name my-cluster
 ----
 +
-NOTE: The node groups listed are xref:managed-node-groups[managed node groups,linkend=managed-node-groups] only.
+NOTE: The node groups listed are <<managed-node-groups,managed node groups>> only.
 .. Delete each node group with the following command. Delete all node groups in the cluster.
 +
 [source,bash,subs="verbatim,attributes"]

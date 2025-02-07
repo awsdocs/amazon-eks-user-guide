@@ -15,7 +15,7 @@ Learn how to create your first Amazon EKS cluster with nodes using the `eksctl` 
 ====
 This topic covers getting started *without* EKS Auto Mode. 
 
-EKS Auto Mode automates routine tasks for cluster compute, storage, and networking. xref:getting-started-automode[Learn how to get started with Amazon EKS Auto Mode. ]
+EKS Auto Mode automates routine tasks for cluster compute, storage, and networking. <<getting-started-automode,Learn how to get started with Amazon EKS Auto Mode. >>
 ====
 
 

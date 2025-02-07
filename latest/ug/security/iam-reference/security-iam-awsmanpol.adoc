@@ -424,7 +424,7 @@ Added the ability for the EBS CSI Driver to enable Fast Snapshot Restore (FSR) o
 |Added `ec2:GetSecurityGroupsForVpc` and associated tag permissions to allow EKS to read security group information and update related tags.
 |October 10, 2024
 
-|Introduced xref:security-iam-awsmanpol-AmazonEKSWorkerNodeMinimalPolicy[AmazonEKSWorkerNodeMinimalPolicy].
+|Introduced <<security-iam-awsmanpol-AmazonEKSWorkerNodeMinimalPolicy,AmazonEKSWorkerNodeMinimalPolicy>>.
 |{aws} introduced the `AmazonEKSWorkerNodeMinimalPolicy`.
 |October 3, 2024
 

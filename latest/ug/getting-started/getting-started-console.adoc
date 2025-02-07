@@ -16,7 +16,7 @@ Learn how to create your first Amazon EKS cluster with nodes using the {aws-mana
 ====
 This topic covers getting started *without* EKS Auto Mode. It uses Managed Node Groups to deploy nodes.
 
-EKS Auto Mode automates routine tasks for cluster compute, storage, and networking. xref:getting-started-automode[Learn how to get started with Amazon EKS Auto Mode. ] EKS Auto Mode is the preferred method of deploying nodes.
+EKS Auto Mode automates routine tasks for cluster compute, storage, and networking. <<getting-started-automode,Learn how to get started with Amazon EKS Auto Mode. >> EKS Auto Mode is the preferred method of deploying nodes.
 ====
 
 This guide helps you to create all of the required resources to get started with Amazon Elastic Kubernetes Service (Amazon EKS) using the {aws-management-console} and the {aws} CLI. In this guide, you manually create each resource. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to.  

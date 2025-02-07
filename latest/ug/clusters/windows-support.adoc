@@ -17,8 +17,8 @@ Before deploying [.noloc]`Windows` nodes, be aware of the following consideratio
 * You can use host networking on Windows nodes using `HostProcess` Pods. For more information, see https://kubernetes.io/docs/tasks/configure-pod-container/create-hostprocess-pod/[Create a Windows HostProcessPod] in the [.noloc]`Kubernetes` documentation.
 * Amazon EKS clusters must contain one or more [.noloc]`Linux` or Fargate nodes to run core system [.noloc]`Pods` that only run on [.noloc]`Linux`, such as [.noloc]`CoreDNS`.
 * The `kubelet` and `kube-proxy` event logs are redirected to the `EKS Windows` Event Log and are set to a 200 MB limit.
-* You can't use xref:security-groups-for-pods[Assign security groups to individual pods,linkend=security-groups-for-pods] with [.noloc]`Pods` running on [.noloc]`Windows` nodes.
-* You can't use xref:cni-custom-network[custom networking,linkend=cni-custom-network] with [.noloc]`Windows` nodes.
+* You can't use <<security-groups-for-pods,Assign security groups to individual pods>> with [.noloc]`Pods` running on [.noloc]`Windows` nodes.
+* You can't use <<cni-custom-network,custom networking>> with [.noloc]`Windows` nodes.
 * You can't use `IPv6` with [.noloc]`Windows` nodes.
 * [.noloc]`Windows` nodes support one elastic network interface per node. By default, the number of [.noloc]`Pods` that you can run per [.noloc]`Windows` node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one. For more information, see   link:AWSEC2/latest/WindowsGuide/using-eni.html#AvailableIpPerENI[IP addresses per network interface per instance type,type="documentation"] in the _Amazon EC2 User Guide_.
 * In an Amazon EKS cluster, a single service with a load balancer can support up to 1024 back-end [.noloc]`Pods`. Each [.noloc]`Pod` has its own unique IP address. The previous limit of 64 [.noloc]`Pods` is no longer the case, after https://github.com/microsoft/Windows-Containers/issues/93[a Windows Server update] starting with https://support.microsoft.com/en-us/topic/march-22-2022-kb5011551-os-build-17763-2746-preview-690a59cd-059e-40f4-87e8-e9139cc65de4[OS Build 17763.2746].

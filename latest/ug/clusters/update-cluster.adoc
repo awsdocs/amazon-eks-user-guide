@@ -101,15 +101,15 @@ Review the https://kubernetes.io/docs/reference/using-api/deprecation-guide/[Dep
 ** If the `kubelet` on your managed and Fargate nodes is on [.noloc]`Kubernetes` version `1.24` or older, it may only be up to two minor versions older than the `kube-apiserver`. In other words, if the `kubelet` is version `1.24` or older, you can only update your cluster up to two versions ahead. For example, if the `kubelet` is on version `1.21`, you can update your Amazon EKS cluster version from `1.21` to `1.22`, and to `1.23`, but you will not be able to update the cluster to `1.24` while the `kubelet` remains on `1.21`. 
 * As a best practice before starting an update, make sure that the `kubelet` on your nodes is at the same [.noloc]`Kubernetes` version as your control plane.  
 * If your cluster is configured with a version of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` that is earlier than `1.8.0`, then we recommend that you update the plugin to the latest version before updating your cluster. To update the plugin, see <<managing-vpc-cni>>.
-* If you're updating your cluster to version `1.25` or later and have the [.noloc]`{aws} Load Balancer Controller` deployed in your cluster, then update the controller to version `2.4.7` or later _before_ updating your cluster version to `1.25`. For more information, see the xref:kubernetes-1-25[Kubernetes 1.25,linkend=kubernetes-1-25] release notes.
+* If you're updating your cluster to version `1.25` or later and have the [.noloc]`{aws} Load Balancer Controller` deployed in your cluster, then update the controller to version `2.4.7` or later _before_ updating your cluster version to `1.25`. For more information, see the <<kubernetes-1-25,Kubernetes 1.25>> release notes.
 
 == Step 3: Update cluster control plane
 
 You can submit the request to upgrade your EKS control plane version using:
 
-* xref:step3-eksctl[eksctl]
-* xref:step3-console[the {aws} console]
-* xref:step3-cli[the {aws} cli] 
+* <<step3-eksctl,eksctl>>
+* <<step3-console,the {aws} console>>
+* <<step3-cli,the {aws} cli>> 
 
 [#step3-eksctl]
 === Update cluster - eksctl

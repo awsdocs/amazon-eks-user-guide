@@ -27,7 +27,7 @@ You can use a NodeClass to:
 * Set the Network Policy to Default Deny or Default Allow
 * Enable Network Event Logging to a file. 
 
-Learn how to xref:create-node-class[Create an Amazon EKS NodeClass]. 
+Learn how to <<create-node-class,Create an Amazon EKS NodeClass>>. 
 
 === Considerations
 

@@ -15,7 +15,7 @@ You can update an access entry using the {aws-management-console} or the {aws} C
 . Choose the access entry that you want to update.
 . Choose *Edit*.
 . For *Username*, you can change the existing value.
-. For *Groups*, you can remove existing group names or add new group names. If the following groups names exist, don't remove them:  *system:nodes* or  *system:bootstrappers*. Removing these groups can cause your cluster to function improperly. If you don't specify any group names and want to use Amazon EKS authorization, associate an  xref:access-policies[access policy,linkend=access-policies] in a later step.
+. For *Groups*, you can remove existing group names or add new group names. If the following groups names exist, don't remove them:  *system:nodes* or  *system:bootstrappers*. Removing these groups can cause your cluster to function improperly. If you don't specify any group names and want to use Amazon EKS authorization, associate an  <<access-policies,access policy>> in a later step.
 . For *Tags*, you can assign labels to the access entry. For example, to make it easier to find all resources with the same tag. You can also remove existing tags.
 . Choose *Save changes*.
 . If you want to associate an access policy to the entry, see <<access-policies>>.

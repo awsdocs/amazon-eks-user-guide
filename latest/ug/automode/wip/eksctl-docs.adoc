@@ -6,7 +6,7 @@ include::../../attributes.txt[]
 
 == Introduction
 
-eksctl supports xref:automode[EKS Auto Mode], a feature that extends {aws} management of Kubernetes clusters beyond the cluster itself,
+eksctl supports <<automode,EKS Auto Mode>>, a feature that extends {aws} management of Kubernetes clusters beyond the cluster itself,
 to allow {aws} to also set up and manage the infrastructure that enables the smooth operation of your workloads.
 This allows you to delegate key infrastructure decisions and leverage the expertise of {aws} for day-to-day operations.
 Cluster infrastructure managed by {aws} includes many Kubernetes capabilities as core components, as opposed to add-ons,
@@ -114,7 +114,7 @@ $ eksctl update auto-mode-config -f cluster.yaml
 
 == Further information
 
-- xref:automode[EKS Auto Mode]
+- <<automode,EKS Auto Mode>>
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eksctl-docs%5D&type=code[Edit this page on GitHub]

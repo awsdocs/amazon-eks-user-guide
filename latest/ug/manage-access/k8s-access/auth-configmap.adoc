@@ -181,8 +181,8 @@ roleRef:
 +
 IMPORTANT: We recommend using `eksctl`, or another tool, to edit the `ConfigMap`. For information about other tools you can use, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#use-tools-to-make-changes-to-the-aws-auth-configmap[Use tools to make changes to the aws-authConfigMap] in the Amazon EKS best practices guides. An improperly formatted `aws-auth` `ConfigMap` can cause you to lose access to your cluster. 
 +
-** View steps to xref:configmap-eksctl[edit configmap with eksctl].
-** View steps to xref:configmap-manual[edit configmap manually].
+** View steps to <<configmap-eksctl,edit configmap with eksctl>>.
+** View steps to <<configmap-manual,edit configmap manually>>.
 
 [#configmap-eksctl]
 === Edit Configmap with Eksctl

@@ -63,14 +63,14 @@ This topic covers advanced configuration. If you are looking to get started with
 ** *Bootstrap cluster administrator access* -- The cluster creator is automatically a Kubernetes administrator. If you want to disable this, select *Disallow cluster administrator access*. 
 ** *Cluster authentication mode* -- EKS Auto Mode requires EKS access entries, the EKS API authentication mode. You can optionally enable the `ConfigMap` authentication mode by selecting *EKS API and ConfigMap*. 
 . Enter the remaining fields on the configure cluster page:
-** *Secrets encryption* – (Optional) Choose to enable secrets encryption of [.noloc]`Kubernetes` secrets using a KMS key. You can also enable this after you create your cluster. Before you enable this capability, make sure that you're familiar with the information in xref:enable-kms[Encrypt Kubernetes secrets with {aws} KMS on existing clusters,linkend=enable-kms].
+** *Secrets encryption* – (Optional) Choose to enable secrets encryption of [.noloc]`Kubernetes` secrets using a KMS key. You can also enable this after you create your cluster. Before you enable this capability, make sure that you're familiar with the information in <<enable-kms>>.
 ** *ARC Zonal shift* -- EKS Auto Mode does not support Arc Zonal shift. 
 ** *Tags* – (Optional) Add any tags to your cluster. For more information, see <<eks-using-tags>>.
 +
 When you're done with this page, choose *Next*.
 . On the *Specify networking* page, select values for the following fields:
 +
-** *VPC* – Choose an existing VPC that meets  xref:network-requirements-vpc[Amazon EKS VPC requirements,linkend=network-requirements-vpc] to create your cluster in. Before choosing a VPC, we recommend that you're familiar with all of the requirements and considerations in xref:network-reqs[View Amazon EKS networking requirements for VPC and subnets,linkend=network-reqs]. You can't change which VPC you want to use after cluster creation. If no VPCs are listed, then you need to create one first. For more information, see <<creating-a-vpc>>.
+** *VPC* – Choose an existing VPC that meets <<network-requirements-vpc,Amazon EKS VPC requirements>> to create your cluster in. Before choosing a VPC, we recommend that you're familiar with all of the requirements and considerations in <<network-reqs>>. You can't change which VPC you want to use after cluster creation. If no VPCs are listed, then you need to create one first. For more information, see <<creating-a-vpc>>.
 ** *Subnets* – By default, all available subnets in the VPC specified in the previous field are preselected. You must select at least two.
 +
 The subnets that you choose must meet the <<network-requirements-subnets,Amazon EKS subnet requirements>>. Before selecting subnets, we recommend that you're familiar with all of the <<network-reqs,Amazon EKS VPC and subnet requirements and considerations>>.
@@ -272,12 +272,12 @@ aws iam attach-role-policy \
 +
 ** Replace [.replaceable]`region-code` with the {aws} Region that you want to create your cluster in.
 ** Replace [.replaceable]`my-cluster` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
-** Replace [.replaceable]`1.30` with any xref:kubernetes-versions[Amazon EKS supported version,linkend=kubernetes-versions]. 
+** Replace [.replaceable]`1.30` with any <<kubernetes-versions,Amazon EKS supported version>>. 
 ** Replace [.replaceable]`111122223333` with your account ID
 ** If you have created differently named IAM Roles for the Cluster and Node roles, replace the ARNs. 
 ** Replace the values for `subnetIds` with your own. You can also add additional IDs. You must specify at least two subnet IDs.
 +
-The subnets that you choose must meet the xref:network-requirements-subnets[Amazon EKS subnet requirements,linkend=network-requirements-subnets]. Before selecting subnets, we recommend that you're familiar with all of the xref:network-reqs[Amazon EKS VPC and subnet requirements and considerations,linkend=network-reqs].
+The subnets that you choose must meet the <<network-requirements-subnets,Amazon EKS subnet requirements>>. Before selecting subnets, we recommend that you're familiar with all of the <<network-reqs,Amazon EKS VPC and subnet requirements and considerations>>.
 ** If you don't want to specify a security group ID, remove `,securityGroupIds=sg-<ExampleID1>` from the command. If you want to specify one or more security group IDs, replace the values for `securityGroupIds` with your own. You can also add additional IDs.
 +
 Whether you choose any security groups or not, Amazon EKS creates a security group that enables communication between your cluster and your VPC. Amazon EKS associates this security group, and any that you choose, to the network interfaces that it creates. For more information about the cluster security group that Amazon EKS creates, see <<sec-group-reqs>>. You can modify the rules in the cluster security group that Amazon EKS creates.

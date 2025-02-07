@@ -44,7 +44,7 @@ You must be logged into the {aws-management-console} with sufficent permissions 
 
 == Next Steps
 
-* Learn how to xref:sample-storage-workload[Deploy a Sample Workload to your EKS Auto Mode cluster]
+* Learn how to <<sample-storage-workload,Deploy a Sample Workload to your EKS Auto Mode cluster>>
 
 //call out refactored IAM
 
