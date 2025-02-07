@@ -256,7 +256,7 @@ We don't recommend modifying the default pod security policy. For more informati
 [%collapsible]
 ====
 
-When an Outpost gets disconnected from the {aws} Region that it's associated with, the [.noloc]`Kubernetes` cluster likely will continue working normally. However, if the cluster doesn't work properly, follow the troubleshooting steps in  <<eks-outposts-network-disconnects,Prepare local Amazon EKS clusters on {aws} Outposts for network disconnects>>. If you encounter other issues, contact {aws} Support. {aws} Support can guide you on downloading and running a log collection tool. That way, you can collect logs from your [.noloc]`Kubernetes` cluster control plane instances and send them to {aws} Support support for further investigation.
+When an Outpost gets disconnected from the {aws} Region that it's associated with, the [.noloc]`Kubernetes` cluster likely will continue working normally. However, if the cluster doesn't work properly, follow the troubleshooting steps in <<eks-outposts-network-disconnects,Prepare local Amazon EKS clusters on {aws} Outposts for network disconnects>>. If you encounter other issues, contact {aws} Support. {aws} Support can guide you on downloading and running a log collection tool. That way, you can collect logs from your [.noloc]`Kubernetes` cluster control plane instances and send them to {aws} Support support for further investigation.
 ====
 
 [#outposts-troubleshooting-control-plane-instances-ssm]
@@ -271,7 +271,7 @@ When the Amazon EKS control plane instances aren't reachable through {aws} Syste
 Amazon EKS control plane instances are not reachable through SSM. Please verify your SSM and network configuration, and reference the EKS on Outposts troubleshooting documentation.
 ----
 
-To resolve this issue, make sure that your VPC and subnets meet the requirements in  <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts>> and that you completed the steps in link:systems-manager/latest/userguide/session-manager-getting-started.html[Setting up Session Manager,type="documentation"] in the {aws} Systems Manager User Guide. 
+To resolve this issue, make sure that your VPC and subnets meet the requirements in <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts>> and that you completed the steps in link:systems-manager/latest/userguide/session-manager-getting-started.html[Setting up Session Manager,type="documentation"] in the {aws} Systems Manager User Guide. 
 ====
 
 

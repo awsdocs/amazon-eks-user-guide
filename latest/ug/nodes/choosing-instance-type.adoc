@@ -29,11 +29,11 @@ In general, fewer, larger instances are better, especially if you have a lot of 
 
 
 *Operating system*::
-Review the supported instance types for link:AWSEC2/latest/UserGuide/instance-types.html[Linux,type="documentation"], link:AWSEC2/latest/WindowsGuide/instance-types.html[Windows,type="documentation"], and link:bottlerocket/faqs/[Bottlerocket,type="marketing"]. Before creating [.noloc]`Windows` instances, review  <<windows-support,Deploy Windows nodes on EKS clusters>>.
+Review the supported instance types for link:AWSEC2/latest/UserGuide/instance-types.html[Linux,type="documentation"], link:AWSEC2/latest/WindowsGuide/instance-types.html[Windows,type="documentation"], and link:bottlerocket/faqs/[Bottlerocket,type="marketing"]. Before creating [.noloc]`Windows` instances, review <<windows-support,Deploy Windows nodes on EKS clusters>>.
 
 
 *Hardware architecture*::
-Do you need [.noloc]`x86` or [.noloc]`Arm`? Before deploying [.noloc]`Arm` instances, review  <<arm-ami,Amazon EKS optimized Arm Amazon Linux AMIs>>. Do you need instances built on the [.noloc]`Nitro System` ( link:AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances[Linux,type="documentation"] or  link:AWSEC2/latest/WindowsGuide/instance-types.html#ec2-nitro-instances[Windows,type="documentation"]) or that have link:AWSEC2/latest/WindowsGuide/accelerated-computing-instances.html[Accelerated,type="documentation"] capabilities? If you need accelerated capabilities, you can only use [.noloc]`Linux` with Amazon EKS.
+Do you need [.noloc]`x86` or [.noloc]`Arm`? Before deploying [.noloc]`Arm` instances, review <<arm-ami,Amazon EKS optimized Arm Amazon Linux AMIs>>. Do you need instances built on the [.noloc]`Nitro System` ( link:AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances[Linux,type="documentation"] or link:AWSEC2/latest/WindowsGuide/instance-types.html#ec2-nitro-instances[Windows,type="documentation"]) or that have link:AWSEC2/latest/WindowsGuide/accelerated-computing-instances.html[Accelerated,type="documentation"] capabilities? If you need accelerated capabilities, you can only use [.noloc]`Linux` with Amazon EKS.
 
 
 *Maximum number of [.noloc]`Pods`*::

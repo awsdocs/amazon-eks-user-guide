@@ -794,7 +794,7 @@ aws eks update-kubeconfig --region region-code --name my-cluster
 
 The `eksctl` CLI is used to work with EKS clusters. It automates many individual tasks. See https://eksctl.io/installation[Installation] in the `eksctl` documentation for instructions on installing `eksctl`.
 
-When using `eksctl` the IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, {aws} CloudFormation, a VPC, and related resources. For more information, see  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html[Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes,type="documentation"] and link:IAM/latest/UserGuide/using-service-linked-roles.html[Using service-linked roles,type="documentation"] in the IAM User Guide. You must complete all steps in this guide as the same user. To check the current user, run the following command:
+When using `eksctl` the IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, {aws} CloudFormation, a VPC, and related resources. For more information, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html[Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes,type="documentation"] and link:IAM/latest/UserGuide/using-service-linked-roles.html[Using service-linked roles,type="documentation"] in the IAM User Guide. You must complete all steps in this guide as the same user. To check the current user, run the following command:
 
 [source,bash,subs="verbatim,attributes"]
 ----

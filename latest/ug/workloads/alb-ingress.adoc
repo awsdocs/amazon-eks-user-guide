@@ -183,7 +183,7 @@ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-cont
 ----
 kubectl apply -f 2048_full.yaml
 ----
-.. If you're deploying to [.noloc]`Pods` in a cluster that you created with the  <<cni-ipv6,IPv6 family>>, complete the following steps.
+.. If you're deploying to [.noloc]`Pods` in a cluster that you created with the <<cni-ipv6,IPv6 family>>, complete the following steps.
 +
 ... Download the manifest.
 +

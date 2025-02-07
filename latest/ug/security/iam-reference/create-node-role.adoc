@@ -36,11 +36,11 @@ You can use the following procedure to check and see if your account already has
 . In the left navigation pane, choose *Roles*.  
 . Search the list of roles for `eksNodeRole`, `AmazonEKSNodeRole`, or `NodeInstanceRole`. If a role with one of those names doesn't exist, then see <<create-worker-node-role>> to create the role. If a role that contains `eksNodeRole`, `AmazonEKSNodeRole`, or `NodeInstanceRole` does exist, then select the role to view the attached policies.
 . Choose *Permissions*.
-. Ensure that the *AmazonEKSWorkerNodePolicy* and  *AmazonEC2ContainerRegistryPullOnly* managed policies are attached to the role or a custom policy is attached with the minimal permissions.
+. Ensure that the *AmazonEKSWorkerNodePolicy* and *AmazonEC2ContainerRegistryPullOnly* managed policies are attached to the role or a custom policy is attached with the minimal permissions.
 +
 NOTE: If the *AmazonEKS_CNI_Policy* policy is attached to the role, we recommend removing it and attaching it to an IAM role that is mapped to the `aws-node` [.noloc]`Kubernetes` service account instead. For more information, see <<cni-iam-role>>.
-. Choose *Trust relationships*, and then choose  *Edit trust policy*.
-. Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the  *Edit trust policy* window and choose  *Update policy*.
+. Choose *Trust relationships*, and then choose *Edit trust policy*.
+. Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the *Edit trust policy* window and choose *Update policy*.
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -73,11 +73,11 @@ You can create the node IAM role with the {aws-management-console} or the {aws} 
 {aws-management-console}::
 .. Open the IAM console at https://console.aws.amazon.com/iam/.
 .. In the left navigation pane, choose *Roles*.
-.. On the *Roles* page, choose  *Create role*.
+.. On the *Roles* page, choose *Create role*.
 .. On the *Select trusted entity* page, do the following:
 +
-... In the *Trusted entity type* section, choose  *{aws} service*.  
-... Under *Use case*, choose  *EC2*.
+... In the *Trusted entity type* section, choose *{aws} service*.  
+... Under *Use case*, choose *EC2*.
 ... Choose *Next*.
 .. On the *Add permissions* page, attach a custom policy or do the following:
 +
@@ -87,13 +87,13 @@ You can create the node IAM role with the {aws-management-console} or the {aws} 
 ... In the *Filter policies* box, enter `AmazonEC2ContainerRegistryPullOnly`.
 ... Select the check box to the left of *AmazonEC2ContainerRegistryPullOnly* in the search results.
 +
-Either the *AmazonEKS_CNI_Policy* managed policy, or an  <<cni-iam-role-create-ipv6-policy,IPv6 policy>> that you create must also be attached to either this role or to a different role that's mapped to the `aws-node` [.noloc]`Kubernetes` service account. We recommend assigning the policy to the role associated to the [.noloc]`Kubernetes` service account instead of assigning it to this role. For more information, see <<cni-iam-role>>.
+Either the *AmazonEKS_CNI_Policy* managed policy, or an <<cni-iam-role-create-ipv6-policy,IPv6 policy>> that you create must also be attached to either this role or to a different role that's mapped to the `aws-node` [.noloc]`Kubernetes` service account. We recommend assigning the policy to the role associated to the [.noloc]`Kubernetes` service account instead of assigning it to this role. For more information, see <<cni-iam-role>>.
 ... Choose *Next*.
 .. On the *Name, review, and create* page, do the following:
 +
 ... For *Role name*, enter a unique name for your role, such as `AmazonEKSNodeRole`.
 ... For *Description*, replace the current text with descriptive text such as `Amazon EKS - Node role`.
-... Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see   link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
+... Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
 ... Choose *Create role*.
 
 

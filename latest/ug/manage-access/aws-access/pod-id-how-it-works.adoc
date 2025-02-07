@@ -19,7 +19,7 @@ In your add-ons, such as _Amazon EKS add-ons_ and self-managed controller, opera
 [#pod-id-credentials]
 == Using EKS Pod Identities in your code
 
-In your code, you can use the {aws} SDKs to access {aws} services. You write code to create a client for an {aws} service with an SDK, and by default the SDK searches in a chain of locations for {aws} Identity and Access Management credentials to use. After valid credentials are found, the search is stopped. For more information about the default locations used, see the   link:sdkref/latest/guide/standardized-credentials.html#credentialProviderChain[Credential provider chain,type="documentation"] in the {aws} SDKs and Tools Reference Guide.
+In your code, you can use the {aws} SDKs to access {aws} services. You write code to create a client for an {aws} service with an SDK, and by default the SDK searches in a chain of locations for {aws} Identity and Access Management credentials to use. After valid credentials are found, the search is stopped. For more information about the default locations used, see the link:sdkref/latest/guide/standardized-credentials.html#credentialProviderChain[Credential provider chain,type="documentation"] in the {aws} SDKs and Tools Reference Guide.
 
 EKS Pod Identities have been added to the _Container credential provider_ which is searched in a step in the default credential chain. If your workloads currently use credentials that are earlier in the chain of credentials, those credentials will continue to be used even if you configure an EKS Pod Identity association for the same workload. This way you can safely migrate from other types of credentials by creating the association first, before removing the old credentials.
 
@@ -51,9 +51,9 @@ In contrast, _IAM roles for service accounts_ provides a _web identity_ token th
           expirationSeconds: 86400 # 24 hours
           path: eks-pod-identity-token
 ----
-. [.noloc]`Kubernetes` selects which node to run the pod on. Then, the Amazon EKS Pod Identity Agent on the node uses the   link:eks/latest/APIReference/API_auth_AssumeRoleForPodIdentity.html[AssumeRoleForPodIdentity,type="documentation"] action to retrieve temporary credentials from the EKS Auth API.
+. [.noloc]`Kubernetes` selects which node to run the pod on. Then, the Amazon EKS Pod Identity Agent on the node uses the link:eks/latest/APIReference/API_auth_AssumeRoleForPodIdentity.html[AssumeRoleForPodIdentity,type="documentation"] action to retrieve temporary credentials from the EKS Auth API.
 . The EKS Pod Identity Agent makes these credentials available for the {aws} SDKs that you run inside your containers.
-. You use the SDK in your application without specifying a credential provider to use the default credential chain. Or, you specify the container credential provider. For more information about the default locations used, see the  link:sdkref/latest/guide/standardized-credentials.html#credentialProviderChain[Credential provider chain,type="documentation"] in the {aws} SDKs and Tools Reference Guide.
+. You use the SDK in your application without specifying a credential provider to use the default credential chain. Or, you specify the container credential provider. For more information about the default locations used, see the link:sdkref/latest/guide/standardized-credentials.html#credentialProviderChain[Credential provider chain,type="documentation"] in the {aws} SDKs and Tools Reference Guide.
 . The SDK uses the environment variables to connect to the EKS Pod Identity Agent and retrieve the credentials.
 +
 NOTE: If your workloads currently use credentials that are earlier in the chain of credentials, those credentials will continue to be used even if you configure an EKS Pod Identity association for the same workload.

@@ -20,7 +20,7 @@ Before deploying [.noloc]`Windows` nodes, be aware of the following consideratio
 * You can't use <<security-groups-for-pods,Assign security groups to individual pods>> with [.noloc]`Pods` running on [.noloc]`Windows` nodes.
 * You can't use <<cni-custom-network,custom networking>> with [.noloc]`Windows` nodes.
 * You can't use `IPv6` with [.noloc]`Windows` nodes.
-* [.noloc]`Windows` nodes support one elastic network interface per node. By default, the number of [.noloc]`Pods` that you can run per [.noloc]`Windows` node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one. For more information, see   link:AWSEC2/latest/WindowsGuide/using-eni.html#AvailableIpPerENI[IP addresses per network interface per instance type,type="documentation"] in the _Amazon EC2 User Guide_.
+* [.noloc]`Windows` nodes support one elastic network interface per node. By default, the number of [.noloc]`Pods` that you can run per [.noloc]`Windows` node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one. For more information, see link:AWSEC2/latest/WindowsGuide/using-eni.html#AvailableIpPerENI[IP addresses per network interface per instance type,type="documentation"] in the _Amazon EC2 User Guide_.
 * In an Amazon EKS cluster, a single service with a load balancer can support up to 1024 back-end [.noloc]`Pods`. Each [.noloc]`Pod` has its own unique IP address. The previous limit of 64 [.noloc]`Pods` is no longer the case, after https://github.com/microsoft/Windows-Containers/issues/93[a Windows Server update] starting with https://support.microsoft.com/en-us/topic/march-22-2022-kb5011551-os-build-17763-2746-preview-690a59cd-059e-40f4-87e8-e9139cc65de4[OS Build 17763.2746].
 * Windows containers aren't supported for Amazon EKS [.noloc]`Pods` on Fargate.
 * You can't use Amazon EKS Hybrid Nodes with Windows as the operating system for the host.
@@ -64,7 +64,7 @@ An example output is as follows.
 ----
 +
 If the policy is attached, as it is in the previous output, skip the next step.
-. Attach the *link:aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html[AmazonEKSVPCResourceController,type="documentation"]* managed policy to your  <<cluster-iam-role,Amazon EKS cluster IAM role>>. Replace [.replaceable]`eksClusterRole` with your cluster role name.
+. Attach the *link:aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html[AmazonEKSVPCResourceController,type="documentation"]* managed policy to your <<cluster-iam-role,Amazon EKS cluster IAM role>>. Replace [.replaceable]`eksClusterRole` with your cluster role name.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -143,7 +143,7 @@ nodeSelector:
         kubernetes.io/arch: amd64
 ----
 
-You can deploy a  <<sample-deployment,sample application>> to see the node selectors in use.
+You can deploy a <<sample-deployment,sample application>> to see the node selectors in use.
 
 [#windows-support-pod-density]
 == Support higher [.noloc]`Pod` density on Windows nodes

@@ -30,11 +30,11 @@ Before starting this tutorial, you must install and configure the following tool
 
 
 * *{aws} CLI*
- – A command line tool for working with {aws} services, including Amazon EKS. For more information, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide. After installing the {aws} CLI, we recommend that you also configure it. For more information, see  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide. Note that {aws} CLI v2 is required to use the *update-kubeconfig* option shown in this page.
+ – A command line tool for working with {aws} services, including Amazon EKS. For more information, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide. After installing the {aws} CLI, we recommend that you also configure it. For more information, see link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide. Note that {aws} CLI v2 is required to use the *update-kubeconfig* option shown in this page.
 * *`kubectl`*
  – A command line tool for working with [.noloc]`Kubernetes` clusters. For more information, see <<install-kubectl>>.
 * *Required IAM permissions*
- – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, {aws} CloudFormation, a VPC, and related resources. For more information, see   link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] and link:IAM/latest/UserGuide/using-service-linked-roles.html[Using service-linked roles,type="documentation"] in the IAM User Guide. You must complete all steps in this guide as the same user. To check the current user, run the following command:
+ – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, {aws} CloudFormation, a VPC, and related resources. For more information, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] and link:IAM/latest/UserGuide/using-service-linked-roles.html[Using service-linked roles,type="documentation"] in the IAM User Guide. You must complete all steps in this guide as the same user. To check the current user, run the following command:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -102,7 +102,7 @@ aws iam attach-role-policy \
 . Open the Amazon EKS console at link:eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters,type="console"].
 +
 Make sure that the {aws} Region shown in the upper right of your console is the {aws} Region that you want to create your cluster in. If it's not, choose the dropdown next to the {aws} Region name and choose the {aws} Region that you want to use.
-. Choose *Create cluster*. If you don't see this option, then choose  *Clusters* in the left navigation pane first.
+. Choose *Create cluster*. If you don't see this option, then choose *Clusters* in the left navigation pane first.
 . On the *Configure cluster* page, do the following:
 +
 .. Select *Custom configuration* and disable *Use EKS Auto Mode*. (If you prefer an EKS Auto Mode cluster, refer instead to <<automode-get-started-console>>.)
@@ -113,14 +113,14 @@ Make sure that the {aws} Region shown in the upper right of your console is the 
 +
 .. Choose the ID of the VPC that you created in a previous step from the *VPC* dropdown list. It is something like [.replaceable]`vpc-00x0000x000x0x000` | [.replaceable]`my-eks-vpc-stack-VPC`.
 .. Leave the remaining settings at their default values and choose *Next*.
-. On the *Configure observability* page, choose  *Next*.
-. On the *Select add-ons* page, choose  *Next*.
+. On the *Configure observability* page, choose *Next*.
+. On the *Select add-ons* page, choose *Next*.
 +
 For more information on add-ons, see <<eks-add-ons>>.
-. On the *Configure selected add-ons settings* page, choose  *Next*.
-. On the *Review and create* page, choose  *Create*.
+. On the *Configure selected add-ons settings* page, choose *Next*.
+. On the *Review and create* page, choose *Create*.
 +
-To the right of the cluster's name, the cluster status is *Creating* for several minutes until the cluster provisioning process completes. Don't continue to the next step until the status is  *Active*.
+To the right of the cluster's name, the cluster status is *Creating* for several minutes until the cluster provisioning process completes. Don't continue to the next step until the status is *Active*.
 +
 NOTE: You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster. If this happens, the error output contains the Availability Zones that can support a new cluster. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account. For more information, see <<ice>>.
 
@@ -228,10 +228,10 @@ aws iam attach-role-policy \
 .. For *Name*, enter a unique name for your managed node group, such as [.replaceable]`my-nodegroup`. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters.
 .. For *Node IAM role name*, choose [.replaceable]`myAmazonEKSNodeRole` role that you created in a previous step. We recommend that each node group use its own unique IAM role.
 .. Choose *Next*.
-. On the *Set compute and scaling configuration* page, accept the default values and choose  *Next*.
-. On the *Specify networking* page, accept the default values and choose  *Next*.  
-. On the *Review and create* page, review your managed node group configuration and choose  *Create*.
-. After several minutes, the *Status* in the  *Node Group configuration* section will change from  *Creating* to  *Active*. Don't continue to the next step until the status is  *Active*.
+. On the *Set compute and scaling configuration* page, accept the default values and choose *Next*.
+. On the *Specify networking* page, accept the default values and choose *Next*.  
+. On the *Review and create* page, review your managed node group configuration and choose *Create*.
+. After several minutes, the *Status* in the *Node Group configuration* section will change from *Creating* to *Active*. Don't continue to the next step until the status is *Active*.
 
 [#gs-view-resources]
 
@@ -239,11 +239,11 @@ aws iam attach-role-policy \
 
 You can view your nodes and [.noloc]`Kubernetes` workloads.
 
-. In the left navigation pane, choose *Clusters*. In the list of  *Clusters*, choose the name of the cluster that you created, such as [.replaceable]`my-cluster`.
+. In the left navigation pane, choose *Clusters*. In the list of *Clusters*, choose the name of the cluster that you created, such as [.replaceable]`my-cluster`.
 . On the *[.replaceable]`my-cluster`* page, choose the following:
 +
 .. *Compute*
- tab – You see the list of  *Nodes* that were deployed for the cluster. You can choose the name of a node to see more information about it.
+ tab – You see the list of *Nodes* that were deployed for the cluster. You can choose the name of a node to see more information about it.
 .. *Resources* tab
  – You see all of the [.noloc]`Kubernetes` resources that are deployed by default to an Amazon EKS cluster. Select any resource type in the console to learn more about it.
 
@@ -269,12 +269,12 @@ After you've finished with the cluster and nodes that you created for this tutor
 +
 .. Open the CloudFormation console at https://console.aws.amazon.com/cloudformation/.
 .. Choose the [.replaceable]`my-eks-vpc-stack` stack, and then choose *Delete*.
-.. In the *Delete [.replaceable]`my-eks-vpc-stack`* confirmation dialog box, choose  *Delete stack*.
+.. In the *Delete [.replaceable]`my-eks-vpc-stack`* confirmation dialog box, choose *Delete stack*.
 . Delete the IAM roles that you created.
 +
 .. Open the IAM console at https://console.aws.amazon.com/iam/.
 .. In the left navigation pane, choose *Roles*.
-.. Select each role you created from the list (*[.replaceable]`myAmazonEKSClusterRole`*, as well as  [.replaceable]`myAmazonEKSNodeRole`). Choose *Delete*, enter the requested confirmation text, then choose  *Delete*.
+.. Select each role you created from the list (*[.replaceable]`myAmazonEKSClusterRole`*, as well as  [.replaceable]`myAmazonEKSNodeRole`). Choose *Delete*, enter the requested confirmation text, then choose *Delete*.
 
 
 [#gs-console-next-steps]
@@ -282,7 +282,7 @@ After you've finished with the cluster and nodes that you created for this tutor
 
 The following documentation topics help you to extend the functionality of your cluster.
 
-* The  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that created the cluster is the only principal that can make calls to the [.noloc]`Kubernetes` API server with `kubectl` or the {aws-management-console}. If you want other IAM principals to have access to your cluster, then you need to add them. For more information, see <<grant-k8s-access>> and <<view-kubernetes-resources-permissions>>.
+* The link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that created the cluster is the only principal that can make calls to the [.noloc]`Kubernetes` API server with `kubectl` or the {aws-management-console}. If you want other IAM principals to have access to your cluster, then you need to add them. For more information, see <<grant-k8s-access>> and <<view-kubernetes-resources-permissions>>.
 * Deploy a <<sample-deployment,sample application>> to your cluster.
 * Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for <<create-cluster,clusters>> and <<eks-compute,nodes>>. Some settings (such as enabling SSH access to Amazon EC2 nodes) must be made when the cluster is created.
 * To increase security for your cluster, <<cni-iam-role,configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts>>.

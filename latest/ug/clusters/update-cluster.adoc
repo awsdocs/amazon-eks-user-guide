@@ -15,7 +15,7 @@ When a new [.noloc]`Kubernetes` version is available in Amazon EKS, you can upda
 [IMPORTANT]
 ====
 
-Once you upgrade a cluster, you can't downgrade to a previous version. We recommend that, before you update to a new [.noloc]`Kubernetes` version, you review the information in  <<kubernetes-versions,Understand the Kubernetes version lifecycle on EKS>> and also review in the update steps in this topic.
+Once you upgrade a cluster, you can't downgrade to a previous version. We recommend that, before you update to a new [.noloc]`Kubernetes` version, you review the information in <<kubernetes-versions,Understand the Kubernetes version lifecycle on EKS>> and also review in the update steps in this topic.
 
 ====
 
@@ -92,7 +92,7 @@ kubectl edit configmap coredns -n kube-system -o yaml
 Review the https://kubernetes.io/docs/reference/using-api/deprecation-guide/[Deprecated API Migration Guide] in the Kubernetes docs. 
 
 * If you're updating to version `1.23` and use Amazon EBS volumes in your cluster, then you must install the Amazon EBS CSI driver in your cluster before updating your cluster to version `1.23` to avoid workload disruptions. For more information, see <<kubernetes-1-23>> and <<ebs-csi>>.
-* Kubernetes `1.24` and later use `containerd` as the default container runtime. If you're switching to the `containerd` runtime and already have [.noloc]`Fluentd` configured for [.noloc]`Container Insights`, then you must migrate [.noloc]`Fluentd` to [.noloc]`Fluent Bit` before updating your cluster. The [.noloc]`Fluentd` parsers are configured to only parse log messages in JSON format. Unlike `dockerd`, the `containerd` container runtime has log messages that aren't in JSON format. If you don't migrate to [.noloc]`Fluent Bit`, some of the configured [.noloc]`Fluentd's` parsers will generate a massive amount of errors inside the [.noloc]`Fluentd` container. For more information on migrating, see   link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html[Set up Fluent Bit as a DaemonSet to send logs to CloudWatch Logs,type="documentation"].
+* Kubernetes `1.24` and later use `containerd` as the default container runtime. If you're switching to the `containerd` runtime and already have [.noloc]`Fluentd` configured for [.noloc]`Container Insights`, then you must migrate [.noloc]`Fluentd` to [.noloc]`Fluent Bit` before updating your cluster. The [.noloc]`Fluentd` parsers are configured to only parse log messages in JSON format. Unlike `dockerd`, the `containerd` container runtime has log messages that aren't in JSON format. If you don't migrate to [.noloc]`Fluent Bit`, some of the configured [.noloc]`Fluentd's` parsers will generate a massive amount of errors inside the [.noloc]`Fluentd` container. For more information on migrating, see link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html[Set up Fluent Bit as a DaemonSet to send logs to CloudWatch Logs,type="documentation"].
 ** Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time. For more information about this requirement, see https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver[Kubernetes Version and Version Skew Support Policy]. Assume that your current cluster version is version `1.28` and you want to update it to version `1.30`. You must first update your version `1.28` cluster to version `1.29` and then update your version `1.29` cluster to version `1.30`.
 * Review the version skew between the [.noloc]`Kubernetes` `kube-apiserver` and the `kubelet` on your nodes. 
 +
@@ -139,8 +139,8 @@ Continue to <<step4>>
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the name of the Amazon EKS cluster to update and choose *Update cluster version*.
-. For *[.noloc]`Kubernetes` version*, select the version to update your cluster to and choose  *Update*.
-. For *Cluster name*, enter the name of your cluster and choose  *Confirm*.
+. For *[.noloc]`Kubernetes` version*, select the version to update your cluster to and choose *Update*.
+. For *Cluster name*, enter the name of your cluster and choose *Confirm*.
 +
 The update takes several minutes to complete.
 . Continue to <<step4>>
@@ -234,7 +234,7 @@ kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X
 ----
 . Update the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, [.noloc]`CoreDNS`, and `kube-proxy` add-ons. We recommend updating the add-ons to the minimum versions listed in <<boundserviceaccounttoken-validated-add-on-versions,Service account tokens>>.
 +
-** If you are using Amazon EKS add-ons, select *Clusters* in the Amazon EKS console, then select the name of the cluster that you updated in the left navigation pane. Notifications appear in the console. They inform you that a new version is available for each add-on that has an available update. To update an add-on, select the  *Add-ons* tab. In one of the boxes for an add-on that has an update available, select  *Update now*, select an available version, and then select  *Update*.
+** If you are using Amazon EKS add-ons, select *Clusters* in the Amazon EKS console, then select the name of the cluster that you updated in the left navigation pane. Notifications appear in the console. They inform you that a new version is available for each add-on that has an available update. To update an add-on, select the *Add-ons* tab. In one of the boxes for an add-on that has an update available, select *Update now*, select an available version, and then select *Update*.
 ** Alternately, you can use the {aws} CLI or `eksctl` to update add-ons. For more information, see <<updating-an-add-on>>.
 . If necessary, update your version of `kubectl`. You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane.
 

@@ -20,7 +20,7 @@ The https://github.com/aws/amazon-vpc-cni-k8s[Amazon VPC CNI plugin for Kubernet
 [NOTE]
 ====
 
-The [.noloc]`Pods` for the [.noloc]`Amazon VPC CNI plugin for Kubernetes` have access to the permissions assigned to the  <<create-node-role,Amazon EKS node IAM role>>, unless you block access to IMDS. For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
+The [.noloc]`Pods` for the [.noloc]`Amazon VPC CNI plugin for Kubernetes` have access to the permissions assigned to the <<create-node-role,Amazon EKS node IAM role>>, unless you block access to IMDS. For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
 
 ====
 
@@ -97,7 +97,7 @@ An example output is as follows.
 https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
 ----
 +
-If no output is returned, then you must  <<enable-iam-roles-for-service-accounts,create an IAM OIDC provider for your cluster>>.
+If no output is returned, then you must <<enable-iam-roles-for-service-accounts,create an IAM OIDC provider for your cluster>>.
 ... Copy the following contents to a file named [.replaceable]`vpc-cni-trust-policy.json`. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` with the output returned in the previous step. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
 +
 [source,json,subs="verbatim,attributes"]
@@ -204,7 +204,7 @@ AWS_STS_REGIONAL_ENDPOINTS=regional
 [#remove-cni-policy-node-iam-role]
 == Step 3: Remove the CNI policy from the node IAM role
 
-If your  <<create-node-role,Amazon EKS node IAM role>> currently has the `AmazonEKS_CNI_Policy` IAM (`IPv4`) policyor an <<cni-iam-role-create-ipv6-policy,IPv6 policy>>attached to it, and you've created a separate IAM role, attached the policy to it instead, and assigned it to the `aws-node` [.noloc]`Kubernetes` service account, then we recommend that you remove the policy from your node role with the {aws} CLI command that matches the IP family of your cluster. Replace [.replaceable]`AmazonEKSNodeRole` with the name of your node role.
+If your <<create-node-role,Amazon EKS node IAM role>> currently has the `AmazonEKS_CNI_Policy` IAM (`IPv4`) policyor an <<cni-iam-role-create-ipv6-policy,IPv6 policy>>attached to it, and you've created a separate IAM role, attached the policy to it instead, and assigned it to the `aws-node` [.noloc]`Kubernetes` service account, then we recommend that you remove the policy from your node role with the {aws} CLI command that matches the IP family of your cluster. Replace [.replaceable]`AmazonEKSNodeRole` with the name of your node role.
 
 
 

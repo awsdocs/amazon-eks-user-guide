@@ -55,7 +55,7 @@ You can enable or disable control plane logs with either the <<control-plane-con
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the name of the cluster to display your cluster information.
 . Choose the *Observability* tab.
-. In the *Control plane logging* section, choose  *Manage logging*.
+. In the *Control plane logging* section, choose *Manage logging*.
 . For each individual log type, choose whether the log type should be turned on or turned off. By default, each log type is turned off.
 . Choose *Save changes* to finish.
 

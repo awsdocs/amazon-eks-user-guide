@@ -19,7 +19,7 @@ Capacity Blocks for machine learning (ML) allow you to reserve GPU instances on 
 ====
 
 
-* Capacity Blocks are only available for certain Amazon EC2 instance types and {aws} Regions. For compatibility information, see  link:AWSEC2/latest/UserGuide/capacity-blocks-using.html#capacity-blocks-prerequisites[Work with Capacity Blocks Prerequisites,type="documentation"] in the _Amazon EC2 User Guide for Linux Instances_.
+* Capacity Blocks are only available for certain Amazon EC2 instance types and {aws} Regions. For compatibility information, see link:AWSEC2/latest/UserGuide/capacity-blocks-using.html#capacity-blocks-prerequisites[Work with Capacity Blocks Prerequisites,type="documentation"] in the _Amazon EC2 User Guide for Linux Instances_.
 * Capacity Blocks currently cannot be used with [.noloc]`Karpenter`.
 * If you create a self-managed node group prior to the capacity reservation becoming active, then set the desired capacity to `0`. 
 * To allow sufficient time to gracefully drain the node(s), we suggest that you schedule scaling to scale to zero more than 30 minutes before the Capacity Block reservation end time.
@@ -91,7 +91,7 @@ NodeGroup:
         PropagateAtLaunch: true
         Value: owned
 ----
-. Once the node group is created successfully, make sure to record the `NodeInstanceRole` for the node group that was created. You need this in order to make sure that when node group is scaled, the new nodes join the cluster and [.noloc]`Kubernetes` is able to recognize the nodes. For more information, see the {aws-management-console} instructions in  <<launch-workers,Create self-managed Amazon Linux nodes>>.
+. Once the node group is created successfully, make sure to record the `NodeInstanceRole` for the node group that was created. You need this in order to make sure that when node group is scaled, the new nodes join the cluster and [.noloc]`Kubernetes` is able to recognize the nodes. For more information, see the {aws-management-console} instructions in <<launch-workers,Create self-managed Amazon Linux nodes>>.
 . We recommend that you create a scheduled scaling policy for the Auto Scaling group that aligns to the Capacity Block reservation times. For more information, see link:autoscaling/ec2/userguide/ec2-auto-scaling-scheduled-scaling.html[Scheduled scaling for Amazon EC2 Auto Scaling,type="documentation"] in the _Amazon EC2 Auto Scaling User Guide_.
 +
 You can use all of the instances you reserved until 30 minutes before the end time of the Capacity Block. Instances that are still running at that time will start terminating. To allow sufficient time to gracefully drain the node(s), we suggest that you schedule scaling to scale to zero more than 30 minutes before the Capacity Block reservation end time.

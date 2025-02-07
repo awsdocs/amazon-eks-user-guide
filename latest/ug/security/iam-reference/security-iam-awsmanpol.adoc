@@ -11,11 +11,11 @@ Learn about {aws} managed policies for Amazon EKS and recent changes to those po
 
 An {aws} managed policy is a standalone policy that is created and administered by {aws}. {aws} managed policies are designed to provide permissions for many common use cases so that you can start assigning permissions to users, groups, and roles.
 
-Keep in mind that {aws} managed policies might not grant least-privilege permissions for your specific use cases because they're available for all {aws} customers to use. We recommend that you reduce permissions further by defining  link:IAM/latest/UserGuide/access_policies_managed-vs-inline.html#customer-managed-policies[customer managed policies,type="documentation"] that are specific to your use cases.
+Keep in mind that {aws} managed policies might not grant least-privilege permissions for your specific use cases because they're available for all {aws} customers to use. We recommend that you reduce permissions further by defining link:IAM/latest/UserGuide/access_policies_managed-vs-inline.html#customer-managed-policies[customer managed policies,type="documentation"] that are specific to your use cases.
 
 You cannot change the permissions defined in {aws} managed policies. If {aws} updates the permissions defined in an {aws} managed policy, the update affects all principal identities (users, groups, and roles) that the policy is attached to. {aws} is most likely to update an {aws} managed policy when a new {aws} service is launched or new API operations become available for existing services.
 
-For more information, see  link:IAM/latest/UserGuide/access_policies_managed-vs-inline.html#aws-managed-policies[{aws} managed policies,type="documentation"] in the _IAM User Guide_.
+For more information, see link:IAM/latest/UserGuide/access_policies_managed-vs-inline.html#aws-managed-policies[{aws} managed policies,type="documentation"] in the _IAM User Guide_.
 
 [#security-iam-awsmanpol-amazoneks-cni-policy]
 == {aws} managed policy: AmazonEKS_CNI_Policy
@@ -30,7 +30,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 * *`ec2:*NetworkInterface` and `ec2:*PrivateIpAddresses`* – Allows the Amazon VPC CNI plugin to perform actions such as provisioning Elastic Network Interfaces and IP addresses for [.noloc]`Pods` to provide networking for applications that run in Amazon EKS.
 * *`ec2` read actions* – Allows the Amazon VPC CNI plugin to perform actions such as describe instances and subnets to see the amount of free IP addresses in your Amazon VPC subnets. The VPC CNI can use the free IP addresses in each subnet to pick the subnets with the most free IP addresses to use when creating an elastic network interface.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html#AmazonEKS_CNI_Policy-json[AmazonEKS_CNI_Policy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html#AmazonEKS_CNI_Policy-json[AmazonEKS_CNI_Policy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazoneksclusterpolicy]
 == {aws} managed policy: AmazonEKSClusterPolicy
@@ -46,7 +46,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 * *`iam`* – Create a service-linked role. This is required so that the [.noloc]`Kubernetes` control plane can dynamically provision Elastic Load Balancers that are requested by [.noloc]`Kubernetes` services.
 * *`kms`* – Read a key from {aws} KMS. This is required for the [.noloc]`Kubernetes` control plane to support https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] of [.noloc]`Kubernetes` secrets stored in `etcd`.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html#AmazonEKSClusterPolicy-json[AmazonEKSClusterPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html#AmazonEKSClusterPolicy-json[AmazonEKSClusterPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazoneksfargatepodexecutionrolepolicy]
 == {aws} managed policy: AmazonEKSFargatePodExecutionRolePolicy
@@ -62,7 +62,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 * *`ecr`* – Allows Pods that are running on Fargate to pull container images that are stored in Amazon ECR.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSFargatePodExecutionRolePolicy.html#AmazonEKSFargatePodExecutionRolePolicy-json[AmazonEKSFargatePodExecutionRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSFargatePodExecutionRolePolicy.html#AmazonEKSFargatePodExecutionRolePolicy-json[AmazonEKSFargatePodExecutionRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazoneksforfargateservicerolepolicy]
 == {aws} managed policy: AmazonEKSForFargateServiceRolePolicy
@@ -78,7 +78,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 * *`ec2`* – Create and delete Elastic Network Interfaces and describe Elastic Network Interfaces and resources. This is required so that the Amazon EKS Fargate service can configure the VPC networking that's required for Fargate Pods.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSForFargateServiceRolePolicy.html#AmazonEKSForFargateServiceRolePolicy-json[AmazonEKSForFargateServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSForFargateServiceRolePolicy.html#AmazonEKSForFargateServiceRolePolicy-json[AmazonEKSForFargateServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-AmazonEKSComputePolicy]
 == {aws} managed policy: AmazonEKSComputePolicy
@@ -102,7 +102,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
    - `iam:AddRoleToInstanceProfile` - Allows adding an IAM role to the EKS compute instance profile.
    - `iam:PassRole` - Allows passing the necessary IAM roles to the EC2 service.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSComputePolicy.html#AmazonEKSComputePolicy-json[AmazonEKSComputePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSComputePolicy.html#AmazonEKSComputePolicy-json[AmazonEKSComputePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-AmazonEKSNetworkingPolicy]
 == {aws} managed policy: AmazonEKSNetworkingPolicy
@@ -128,7 +128,7 @@ This policy grants the following permissions to allow Amazon EKS to manage netwo
 
 
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSNetworkingPolicy.html#AmazonEKSNetworkingPolicy-json[AmazonEKSNetworkingPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSNetworkingPolicy.html#AmazonEKSNetworkingPolicy-json[AmazonEKSNetworkingPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 
  
@@ -157,7 +157,7 @@ This IAM policy grants the following permissions to allow Amazon EKS to manage E
  
  
  
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSBlockStoragePolicy.html#AmazonEKSBlockStoragePolicy-json[AmazonEKSBlockStoragePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSBlockStoragePolicy.html#AmazonEKSBlockStoragePolicy-json[AmazonEKSBlockStoragePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
  
 
 [#security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy]
@@ -186,7 +186,7 @@ The key permissions granted by this policy are:
 
 The policy also includes several condition checks to ensure that the permissions are scoped to the specific EKS cluster being managed, using the `eks:eks-cluster-name` tag.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSLoadBalancingPolicy.html#AmazonEKSLoadBalancingPolicy-json[AmazonEKSLoadBalancingPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSLoadBalancingPolicy.html#AmazonEKSLoadBalancingPolicy-json[AmazonEKSLoadBalancingPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazoneksservicepolicy]
 == {aws} managed policy: AmazonEKSServicePolicy
@@ -204,9 +204,9 @@ This policy includes the following permissions that allow Amazon EKS to complete
 * *`ec2`* – Work with Elastic Network Interfaces and other network resources and tags. This is required by Amazon EKS to configure networking that facilitates communication between nodes and the [.noloc]`Kubernetes` control plane. Read information about security groups. Update tags on security groups.
 * *`route53`* – Associate a VPC with a hosted zone. This is required by Amazon EKS to enable private endpoint networking for your [.noloc]`Kubernetes` cluster API server.
 * *`logs`* – Log events. This is required so that Amazon EKS can ship [.noloc]`Kubernetes` control plane logs to CloudWatch.
-* *`iam`* – Create a service-linked role. This is required so that Amazon EKS can create the  <<service-linked-role-permissions-eks>> service-linked role on your behalf.
+* *`iam`* – Create a service-linked role. This is required so that Amazon EKS can create the <<service-linked-role-permissions-eks>> service-linked role on your behalf.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html#AmazonEKSServicePolicy-json[AmazonEKSServicePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html#AmazonEKSServicePolicy-json[AmazonEKSServicePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazoneksservicerolepolicy]
 == {aws} managed policy: AmazonEKSServiceRolePolicy
@@ -232,7 +232,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 * *`pricing`* & *`shield`* - Access {aws} pricing information and Shield protection status, enabling cost management and advanced security features for EKS resources.
 * **Resource cleanup** - Safely delete EKS-tagged resources including volumes, snapshots, launch templates, and network interfaces during cluster cleanup operations.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html#AmazonEKSServiceRolePolicy-json[AmazonEKSServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html#AmazonEKSServiceRolePolicy-json[AmazonEKSServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazoneksvpcresourcecontroller]
 == {aws} managed policy: AmazonEKSVPCResourceController
@@ -248,7 +248,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 * *`ec2`* – Manage Elastic Network Interfaces and IP addresses to support [.noloc]`Pod` security groups and [.noloc]`Windows` nodes.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html#AmazonEKSVPCResourceController-json[AmazonEKSVPCResourceController,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html#AmazonEKSVPCResourceController-json[AmazonEKSVPCResourceController,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazoneksworkernodepolicy]
 == {aws} managed policy: AmazonEKSWorkerNodePolicy
@@ -266,7 +266,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 * *`eks`* – Optionally describe the cluster as part of node bootstrapping.
 * *`eks-auth:AssumeRoleForPodIdentity`* – Allow retrieving credentials for EKS workloads on the node. This is required for EKS Pod Identity to function properly.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html#AmazonEKSWorkerNodePolicy-json[AmazonEKSWorkerNodePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html#AmazonEKSWorkerNodePolicy-json[AmazonEKSWorkerNodePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 
 [#security-iam-awsmanpol-AmazonEKSWorkerNodeMinimalPolicy]
@@ -301,7 +301,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 * *`iam`* – Create a service-linked role and pass a role. This is required by Amazon EKS managed node groups to manage instance profiles for the role being passed when creating a managed node group. This instance profile is used by Amazon EC2 instances launched as part of a managed node group. Amazon EKS needs to create service-linked roles for other services such as Amazon EC2 Auto Scaling groups. These permissions are used in the creation of a managed node group.
 * *`autoscaling`* – Work with security Auto Scaling groups. This is required by Amazon EKS managed node groups to manage the Amazon EC2 Auto Scaling group that backs each managed node group. It's also used to support functionality such as evicting [.noloc]`Pods` when nodes are terminated or recycled during node group updates.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html#AWSServiceRoleForAmazonEKSNodegroup-json[AWSServiceRoleForAmazonEKSNodegroup,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html#AWSServiceRoleForAmazonEKSNodegroup-json[AWSServiceRoleForAmazonEKSNodegroup,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazonebscsidriverservicerolepolicy]
 == {aws} managed policy: AmazonEBSCSIDriverPolicy
@@ -309,7 +309,7 @@ To view the latest version of the JSON policy document, see   link:aws-managed-p
 
 The `AmazonEBSCSIDriverPolicy` policy allows the Amazon EBS Container Storage Interface (CSI) driver to create, modify, attach, detach, and delete volumes on your behalf. This includes modifying tags on existing volumes and enabling Fast Snapshot Restore (FSR) on EBS volumes. It also grants the EBS CSI driver permissions to create, restore, and delete snapshots, and to list your instances, volumes, and snapshots.
 
-To view the latest version of the JSON policy document, see  link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html#AmazonEBSCSIDriverPolicy-json[AmazonEBSCSIDriverServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html#AmazonEBSCSIDriverPolicy-json[AmazonEBSCSIDriverServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazonefscsidriverservicerolepolicy]
 == {aws} managed policy: AmazonEFSCSIDriverPolicy
@@ -317,13 +317,13 @@ To view the latest version of the JSON policy document, see  link:aws-managed-po
 
 The `AmazonEFSCSIDriverPolicy` policy allows the Amazon EFS Container Storage Interface (CSI) to create and delete access points on your behalf. It also grants the Amazon EFS CSI driver permissions to list your access points file systems, mount targets, and Amazon EC2 availability zones.
 
-To view the latest version of the JSON policy document, see  link:aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html#AmazonEFSCSIDriverPolicy-json[AmazonEFSCSIDriverServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html#AmazonEFSCSIDriverPolicy-json[AmazonEFSCSIDriverServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy]
 == {aws} managed policy: AmazonEKSLocalOutpostClusterPolicy
 :info_titleabbrev: AmazonEKSLocalOutpostClusterPolicy
 
-You can attach this policy to IAM entities. Before creating a local cluster, you must attach this policy to your  <<cluster-iam-role,cluster role>>. [.noloc]`Kubernetes` clusters that are managed by Amazon EKS make calls to other {aws} services on your behalf. They do this to manage the resources that you use with the service.
+You can attach this policy to IAM entities. Before creating a local cluster, you must attach this policy to your <<cluster-iam-role,cluster role>>. [.noloc]`Kubernetes` clusters that are managed by Amazon EKS make calls to other {aws} services on your behalf. They do this to manage the resources that you use with the service.
 
 The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
 
@@ -333,7 +333,7 @@ The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
 * *`secretsmanager`* – Allows instances to get and delete bootstrap data for the control plane instances securely from {aws} Secrets Manager.
 * *`ecr`* – Allows [.noloc]`Pods` and containers that are running on the control plane instances to pull container images that are stored in Amazon Elastic Container Registry.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html#AmazonEKSLocalOutpostClusterPolicy-json[AmazonEKSLocalOutpostClusterPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html#AmazonEKSLocalOutpostClusterPolicy-json[AmazonEKSLocalOutpostClusterPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy]
 == {aws} managed policy: AmazonEKSLocalOutpostServiceRolePolicy
@@ -349,7 +349,7 @@ The `AmazonEKSLocalOutpostServiceRolePolicy` includes the following permissions:
 * *`secretsmanager`* - Allows Amazon EKS to put bootstrap data for the control plane instances into {aws} Secrets Manager so it can be securely referenced during instance bootstrapping.
 * *`outposts`* – Allows Amazon EKS to get Outpost information from your account to successfully launch a local cluster in an Outpost.
 
-To view the latest version of the JSON policy document, see   link:aws-managed-policy/latest/reference/AmazonEKSLocalOutpostServiceRolePolicy.html#AmazonEKSLocalOutpostServiceRolePolicy-json[AmazonEKSLocalOutpostServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSLocalOutpostServiceRolePolicy.html#AmazonEKSLocalOutpostServiceRolePolicy-json[AmazonEKSLocalOutpostServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-updates]
 == Amazon EKS updates to {aws} managed policies

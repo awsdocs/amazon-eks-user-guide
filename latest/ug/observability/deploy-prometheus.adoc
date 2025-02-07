@@ -67,10 +67,10 @@ prometheus-server-775957f748-mmht9               1/2     Running   0          48
 kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090
 ----
 . Point a web browser to `http://localhost:9090` to view the [.noloc]`Prometheus` console.
-. Choose a metric from the *- insert metric at cursor* menu, then choose  *Execute*. Choose the  *Graph* tab to show the metric over time. The following image shows `container_memory_usage_bytes` over time.
+. Choose a metric from the *- insert metric at cursor* menu, then choose *Execute*. Choose the *Graph* tab to show the metric over time. The following image shows `container_memory_usage_bytes` over time.
 +
 image::images/prometheus-metric.png[Prometheus metrics,scaledwidth=100%]
-. From the top navigation bar, choose *Status*, then  *Targets*.
+. From the top navigation bar, choose *Status*, then *Targets*.
 +
 image::images/prometheus.png[Prometheus console,scaledwidth=100%]
 +

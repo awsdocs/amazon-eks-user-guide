@@ -15,7 +15,7 @@ If you enable https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[
 * Symmetric
 * Can encrypt and decrypt data
 * Created in the same {aws} Region as the cluster
-* If the KMS key was created in a different account, the  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] must have access to the KMS key.
+* If the KMS key was created in a different account, the link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] must have access to the KMS key.
 
 For more information, see link:kms/latest/developerguide/key-policy-modifying-external-accounts.html[Allowing IAM principals in other accounts to use a KMS key,type="documentation"] in the _link:kms/latest/developerguide/[{aws} Key Management Service Developer Guide,type="documentation"]_.
 

@@ -18,9 +18,9 @@ Amazon EKS supports using [.noloc]`OpenID Connect` ([.noloc]`OIDC`) identity pro
 * [.noloc]`Kubernetes` doesn't provide an [.noloc]`OIDC` identity provider. You can use an existing public [.noloc]`OIDC` identity provider, or you can run your own identity provider. For a list of certified providers, see https://openid.net/certification/[OpenID Certification] on the OpenID site.
 * The issuer URL of the [.noloc]`OIDC` identity provider must be publicly accessible, so that Amazon EKS can discover the signing keys. Amazon EKS doesn't support [.noloc]`OIDC` identity providers with self-signed certificates.
 * You can't disable IAM authentication to your cluster, because it's still required for joining nodes to a cluster.
-* An Amazon EKS cluster must still be created by an {aws}  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"], rather than an [.noloc]`OIDC` identity provider user. This is because the cluster creator interacts with the Amazon EKS APIs, rather than the [.noloc]`Kubernetes` APIs.
+* An Amazon EKS cluster must still be created by an {aws} link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"], rather than an [.noloc]`OIDC` identity provider user. This is because the cluster creator interacts with the Amazon EKS APIs, rather than the [.noloc]`Kubernetes` APIs.
 * [.noloc]`OIDC` identity provider-authenticated users are listed in the cluster's audit log if CloudWatch logs are turned on for the control plane. For more information, see <<enabling-control-plane-log-export>>.
-* You can't sign in to the {aws-management-console} with an account from an [.noloc]`OIDC` provider. You can only  <<view-kubernetes-resources>> by signing into the {aws-management-console} with an {aws} Identity and Access Management account.
+* You can't sign in to the {aws-management-console} with an account from an [.noloc]`OIDC` provider. You can only <<view-kubernetes-resources>> by signing into the {aws-management-console} with an {aws} Identity and Access Management account.
 
 
 [#associate-oidc-identity-provider]
@@ -84,25 +84,25 @@ eksctl associate identityprovider -f associate-identity-provider.yaml
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Select your cluster, and then select the *Access* tab.
 . In the *[.noloc]`OIDC` Identity Providers* section, select** Associate Identity Provider**.
-. On the *Associate [.noloc]`OIDC` Identity Provider* page, enter or select the following options, and then select  *Associate*.
+. On the *Associate [.noloc]`OIDC` Identity Provider* page, enter or select the following options, and then select *Associate*.
 +
 ** For *Name*, enter a unique name for the provider.
 ** For *Issuer URL*, enter the URL for your provider. This URL must be accessible over the internet.
-** For *Client ID*, enter the [.noloc]`OIDC` identity provider's client ID (also known as  *audience*).
+** For *Client ID*, enter the [.noloc]`OIDC` identity provider's client ID (also known as *audience*).
 ** For *Username claim*, enter the claim to use as the username.
 ** For *Groups claim*, enter the claim to use as the user's group.
 ** (Optional) Select *Advanced options*, enter or select the following information.
 +
 *** *Username prefix* – Enter a prefix to prepend to username claims. The prefix is prepended to username claims to prevent clashes with existing names. If you do not provide a value, and the username is a value other than `email`, the prefix defaults to the value for *Issuer URL*. You can use the value`` -`` to disable all prefixing. Don't specify `system:` or any portion of that string.
 *** *Groups prefix* – Enter a prefix to prepend to groups claims. The prefix is prepended to group claims to prevent clashes with existing names (such as`` system: groups``). For example, the value `oidc:` creates group names like `oidc:engineering` and `oidc:infra`. Don't specify `system:` or any portion of that string..
-*** *Required claims* – Select  *Add claim* and enter one or more key value pairs that describe required claims in the client ID token. The pairs describe required claims in the ID Token. If set, each claim is verified to be present in the ID token with a matching value.
+*** *Required claims* – Select *Add claim* and enter one or more key value pairs that describe required claims in the client ID token. The pairs describe required claims in the ID Token. If set, each claim is verified to be present in the ID token with a matching value.
 .. To use `kubectl` to work with your cluster and [.noloc]`OIDC` identity provider, see https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-kubectl[Using kubectl] in the [.noloc]`Kubernetes` documentation.
 
 
 [#oidc-identity-provider-iam-policy]
 == Example IAM policy
 
-If you want to prevent an [.noloc]`OIDC` identity provider from being associated with a cluster, create and associate the following IAM policy to the IAM accounts of your Amazon EKS administrators. For more information, see   link:IAM/latest/UserGuide/access_policies_create.html[Creating IAM policies,type="documentation"] and  link:IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console[Adding IAM identity permissions,type="documentation"] in the _IAM User Guide_ and  link:service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference.
+If you want to prevent an [.noloc]`OIDC` identity provider from being associated with a cluster, create and associate the following IAM policy to the IAM accounts of your Amazon EKS administrators. For more information, see link:IAM/latest/UserGuide/access_policies_create.html[Creating IAM policies,type="documentation"] and link:IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console[Adding IAM identity permissions,type="documentation"] in the _IAM User Guide_ and link:service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference.
 
 [source,json,subs="verbatim,attributes"]
 ----
@@ -187,7 +187,7 @@ Amazon EKS maintains relationships with a network of partners that offer support
 |https://docs.pingidentity.com/r/en-us/solution-guides/htg_config_oidc_authn_aws_eks_custers[Installation instructions]
 |===
 
-Amazon EKS aims to give you a wide selection of options to cover all use cases. If you develop a commercially supported [.noloc]`OIDC` compatible identity provider that is not listed here, then contact our partner team at  link:mailto:aws-container-partners@amazon.com[aws-container-partners@amazon.
+Amazon EKS aims to give you a wide selection of options to cover all use cases. If you develop a commercially supported [.noloc]`OIDC` compatible identity provider that is not listed here, then contact our partner team at link:mailto:aws-container-partners@amazon.com[aws-container-partners@amazon.
 com] for more information.
 
 

@@ -28,11 +28,11 @@ The link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,typ
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the *Clusters* list, choose the cluster that contains the identities that you want to view.
 . Choose the *Resources* tab.
-. Under *Resource types*, choose  *Authorization*.
-. Choose, *ClusterRoles*,  *ClusterRoleBindings*,  *Roles*, or  *RoleBindings*. All resources prefaced with  *eks* are created by Amazon EKS. Additional Amazon EKS created identity resources are:
+. Under *Resource types*, choose *Authorization*.
+. Choose, *ClusterRoles*, *ClusterRoleBindings*, *Roles*, or *RoleBindings*. All resources prefaced with *eks* are created by Amazon EKS. Additional Amazon EKS created identity resources are:
 +
-* The *ClusterRole* and  *ClusterRoleBinding* named  *aws-node*. The  *aws-node* resources support the  <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, which Amazon EKS installs on all clusters. 
-* A *ClusterRole* named  *vpc-resource-controller-role* and a  *ClusterRoleBinding* named  *vpc-resource-controller-rolebinding*. These resources support the https://github.com/aws/amazon-vpc-resource-controller-k8s[Amazon VPC resource controller], which Amazon EKS installs on all clusters. 
+* The *ClusterRole* and *ClusterRoleBinding* named *aws-node*. The *aws-node* resources support the <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, which Amazon EKS installs on all clusters. 
+* A *ClusterRole* named *vpc-resource-controller-role* and a *ClusterRoleBinding* named *vpc-resource-controller-rolebinding*. These resources support the https://github.com/aws/amazon-vpc-resource-controller-k8s[Amazon VPC resource controller], which Amazon EKS installs on all clusters. 
 
 +
 In addition to the resources that you see in the console, the following special user identities exist on your cluster, though they're not visible in the cluster's configuration:
@@ -40,7 +40,7 @@ In addition to the resources that you see in the console, the following special 
 * *`eks:cluster-bootstrap`* – Used for `kubectl` operations during cluster bootstrap.
 * *`eks:support-engineer`* – Used for cluster management operations.
 
-. Choose a specific resource to view details about it. By default, you're shown information in *Structured view*. In the top-right corner of the details page you can choose  *Raw view* to see all information for the resource.
+. Choose a specific resource to view details about it. By default, you're shown information in *Structured view*. In the top-right corner of the details page you can choose *Raw view* to see all information for the resource.
 
 [#default-role-users-kubectl]
 == Kubectl

@@ -31,7 +31,7 @@ You can create a local cluster with the following tools described in this page:
 
 . Install version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
 +
-. If your cluster is on the {aws} Cloud and the *AmazonEKS_CNI_Policy* managed IAM policy is attached to your  <<create-node-role,Amazon EKS node IAM role>>, we recommend assigning it to an IAM role that you associate to the [.noloc]`Kubernetes` `aws-node` service account instead. For more information, see <<cni-iam-role>>. If your cluster in on your Outpost, the policy must be attached to your node role.
+. If your cluster is on the {aws} Cloud and the *AmazonEKS_CNI_Policy* managed IAM policy is attached to your <<create-node-role,Amazon EKS node IAM role>>, we recommend assigning it to an IAM role that you associate to the [.noloc]`Kubernetes` `aws-node` service account instead. For more information, see <<cni-iam-role>>. If your cluster in on your Outpost, the policy must be attached to your node role.
 . The following command creates a node group in an existing cluster. The cluster must have been created using `eksctl`. Replace [.replaceable]`al-nodes` with a name for your node group. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters. Replace [.replaceable]`my-cluster` with the name of your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in. If your cluster exists on an Outpost, replace [.replaceable]`id` with the ID of an Outpost subnet. If your cluster exists on the {aws} Cloud, replace [.replaceable]`id` with the ID of a subnet that you didn't specify when you created your cluster. Replace [.replaceable]`instance-type` with an instance type supported by your Outpost. Replace the remaining [.replaceable]`example values` with your own values. The nodes are created with the same [.noloc]`Kubernetes` version as the control plane, by default.  
 +
 Replace [.replaceable]`instance-type` with an instance type available on your Outpost.
@@ -74,20 +74,20 @@ For a complete list of all available options and defaults, see https://eksctl.io
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
 ----
 . Open the link:cloudformation/[{aws} CloudFormation console,type="console"].
-. Choose *Create stack* and then select  *With new resources (standard)*.
-. For *Specify template*, select  *Upload a template file* and then select  *Choose file*. Select the `amazon-eks-nodegroup.yaml` file that you downloaded in a previous step and then select *Next*.
-. On the *Specify stack details* page, enter the following parameters accordingly, and then choose  *Next*:
+. Choose *Create stack* and then select *With new resources (standard)*.
+. For *Specify template*, select *Upload a template file* and then select *Choose file*. Select the `amazon-eks-nodegroup.yaml` file that you downloaded in a previous step and then select *Next*.
+. On the *Specify stack details* page, enter the following parameters accordingly, and then choose *Next*:
 +
 ** *Stack name*: Choose a stack name for your {aws} CloudFormation stack. For example, you can call it [.replaceable]`al-nodes`. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
 ** *ClusterName*: Enter the name of your cluster. If this name doesn't match your cluster name, your nodes can't join the cluster.
-** *ClusterControlPlaneSecurityGroup*: Choose the  *SecurityGroups* value from the {aws} CloudFormation output that you generated when you created your  <<creating-a-vpc,VPC>>.
+** *ClusterControlPlaneSecurityGroup*: Choose the *SecurityGroups* value from the {aws} CloudFormation output that you generated when you created your <<creating-a-vpc,VPC>>.
 +
 The following steps show one operation to retrieve the applicable group.
 +
 ... Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 ... Choose the name of the cluster.
 ... Choose the *Networking* tab.
-... Use the *Additional security groups* value as a reference when selecting from the  *ClusterControlPlaneSecurityGroup* dropdown list.
+... Use the *Additional security groups* value as a reference when selecting from the *ClusterControlPlaneSecurityGroup* dropdown list.
 ** *NodeGroupName*: Enter a name for your node group. This name can be used later to identify the Auto Scaling node group that's created for your nodes.
 ** *NodeAutoScalingGroupMinSize*: Enter the minimum number of nodes that your node Auto Scaling group can scale in to.
 ** *NodeAutoScalingGroupDesiredCapacity*: Enter the desired number of nodes to scale to when your stack is created.
@@ -98,7 +98,7 @@ The following steps show one operation to retrieve the applicable group.
 To use an Amazon EKS optimized accelerated AMI, replace [.replaceable]`amazon-linux-2` with `amazon-linux-2-gpu`. To use an Amazon EKS optimized Arm AMI, replace [.replaceable]`amazon-linux-2` with `amazon-linux-2-arm64`.
 +
 NOTE: The Amazon EKS node AMIs are based on Amazon Linux. You can track security or privacy events for Amazon Linux at the https://alas.aws.amazon.com/[Amazon Linux security center] by choosing the tab for your desired version. You can also subscribe to the applicable RSS feed. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue.
-** *NodeImageId*: (Optional) If you're using your own custom AMI (instead of an Amazon EKS optimized AMI), enter a node AMI ID for your {aws} Region. If you specify a value here, it overrides any values in the  *NodeImageIdSSMParam* field.  
+** *NodeImageId*: (Optional) If you're using your own custom AMI (instead of an Amazon EKS optimized AMI), enter a node AMI ID for your {aws} Region. If you specify a value here, it overrides any values in the *NodeImageIdSSMParam* field.  
 ** *NodeVolumeSize*: Specify a root volume size for your nodes, in GiB.
 ** *NodeVolumeType*: Specify a root volume type for your nodes.
 ** *KeyName*: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch. If you don't already have an Amazon EC2 key pair, you can create one in the {aws-management-console}. For more information, see link:AWSEC2/latest/UserGuide/ec2-key-pairs.html[Amazon EC2 key pairs,type="documentation"] in the _Amazon EC2 User Guide_.
@@ -110,11 +110,11 @@ NOTE: If you don't provide a key pair here, the {aws} CloudFormation stack creat
 ----
 --b64-cluster-ca ${CLUSTER_CA} --apiserver-endpoint https://${APISERVER_ENDPOINT} --enable-local-outpost true --cluster-id ${CLUSTER_ID}
 ----
-** *DisableIMDSv1*: By default, each node supports the Instance Metadata Service Version 1 (IMDSv1) and IMDSv2. You can disable IMDSv1. To prevent future nodes and [.noloc]`Pods` in the node group from using IMDSv1, set  *DisableIMDSv1* to  *true*. For more information about IMDS, see link:AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html[Configuring the instance metadata service,type="documentation"]. For more information about restricting access to it on your nodes, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
-** *VpcId*: Enter the ID for the  <<creating-a-vpc,VPC>> that you created. Before choosing a VPC, review <<outposts-vpc-requirements,VPC requirements and considerations>>.
-** *Subnets*: If your cluster is on an Outpost, then choose at least one private subnet in your VPC. Before choosing subnets, review  <<outposts-subnet-requirements,Subnet requirements and considerations>>. You can see which subnets are private by opening each subnet link from the *Networking* tab of your cluster.
-. Select your desired choices on the *Configure stack options* page, and then choose  *Next*.
-. Select the check box to the left of *I acknowledge that {aws} CloudFormation might create IAM resources.*, and then choose  *Create stack*.
+** *DisableIMDSv1*: By default, each node supports the Instance Metadata Service Version 1 (IMDSv1) and IMDSv2. You can disable IMDSv1. To prevent future nodes and [.noloc]`Pods` in the node group from using IMDSv1, set *DisableIMDSv1* to *true*. For more information about IMDS, see link:AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html[Configuring the instance metadata service,type="documentation"]. For more information about restricting access to it on your nodes, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
+** *VpcId*: Enter the ID for the <<creating-a-vpc,VPC>> that you created. Before choosing a VPC, review <<outposts-vpc-requirements,VPC requirements and considerations>>.
+** *Subnets*: If your cluster is on an Outpost, then choose at least one private subnet in your VPC. Before choosing subnets, review <<outposts-subnet-requirements,Subnet requirements and considerations>>. You can see which subnets are private by opening each subnet link from the *Networking* tab of your cluster.
+. Select your desired choices on the *Configure stack options* page, and then choose *Next*.
+. Select the check box to the left of *I acknowledge that {aws} CloudFormation might create IAM resources.*, and then choose *Create stack*.
 . When your stack has finished creating, select it in the console and choose *Outputs*.
 . Record the *NodeInstanceRole* for the node group that was created. You need this when you configure your Amazon EKS nodes.
 
@@ -220,7 +220,7 @@ kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X
 *Step3: Additional actions*
 
 . (Optional) Deploy a <<sample-deployment,sample application>> to test your cluster and [.noloc]`Linux` nodes.
-. If your cluster is deployed on an Outpost, then skip this step. If your cluster is deployed on the {aws} Cloud, the following information is optional. If the *AmazonEKS_CNI_Policy* managed IAM policy is attached to your  <<create-node-role,Amazon EKS node IAM role>>, we recommend assigning it to an IAM role that you associate to the [.noloc]`Kubernetes` `aws-node` service account instead. For more information, see <<cni-iam-role>>.
+. If your cluster is deployed on an Outpost, then skip this step. If your cluster is deployed on the {aws} Cloud, the following information is optional. If the *AmazonEKS_CNI_Policy* managed IAM policy is attached to your <<create-node-role,Amazon EKS node IAM role>>, we recommend assigning it to an IAM role that you associate to the [.noloc]`Kubernetes` `aws-node` service account instead. For more information, see <<cni-iam-role>>.
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-outposts-self-managed-nodes%5D&type=code[Edit this page on GitHub]

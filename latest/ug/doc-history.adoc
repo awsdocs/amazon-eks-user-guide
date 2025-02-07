@@ -537,7 +537,7 @@ Amazon EKS updated an existing {aws} managed policy.
 [.update-ulink]
 link:eks/latest/userguide/prometheus.html[type="documentation"]
 
-In the {aws-management-console}, you can now turn on [.noloc]`Prometheus` metrics when creating a cluster. You can also view [.noloc]`Prometheus` scraper details in the  *Observability* tab.
+In the {aws-management-console}, you can now turn on [.noloc]`Prometheus` metrics when creating a cluster. You can also view [.noloc]`Prometheus` scraper details in the *Observability* tab.
 
 
 [.update,date="2023-11-17"]
@@ -644,7 +644,7 @@ You can use [.noloc]`Kubernetes` _network policy_ in existing clusters with the 
 [.update-ulink]
 link:eks/latest/userguide/network-reqs.html#network-requirements-shared[type="documentation"]
 
-New  link:eks/latest/userguide/network-reqs.html#network-requirements-shared[Shared subnet requirements and considerations,type="documentation"] for making Amazon EKS clusters in shared subnets.
+New link:eks/latest/userguide/network-reqs.html#network-requirements-shared[Shared subnet requirements and considerations,type="documentation"] for making Amazon EKS clusters in shared subnets.
 
 
 [.update,date="2023-09-06"]
@@ -1384,7 +1384,7 @@ Added [.noloc]`Kubernetes` version `1.16` support for new clusters and version u
 
 
 [.update,date="2020-04-16"]
-=== Added the  *AWSServiceRoleForAmazonEKS* service-linked role
+=== Added the *AWSServiceRoleForAmazonEKS* service-linked role
 [.update-ulink]
 link:eks/latest/userguide/using-service-linked-roles-eks.html[type="documentation"]
 

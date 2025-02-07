@@ -30,8 +30,8 @@ You can use the following procedure to check and see if your account already has
 . Search the list of roles for `AmazonEKSAutoClusterRole`. If a role that includes `AmazonEKSAutoClusterRole` doesn't exist, then see the instructions in the next section to create the role. If a role that includes `AmazonEKSAutoClusterRole` does exist, then select the role to view the attached policies.
 . Choose *Permissions*.
 . Ensure that the *AmazonEKSClusterPolicy* managed policy is attached to the role. If the policy is attached, your Amazon EKS cluster role is properly configured.
-. Choose *Trust relationships*, and then choose  *Edit trust policy*.
-. Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the  *Edit trust policy* window and choose  *Update policy*.  
+. Choose *Trust relationships*, and then choose *Edit trust policy*.
+. Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the *Edit trust policy* window and choose *Update policy*.  
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -65,11 +65,11 @@ You can use the {aws-management-console} or the {aws} CLI to create the cluster 
 === {aws-management-console}
 
 . Open the IAM console at https://console.aws.amazon.com/iam/.
-. Choose *Roles*, then  *Create role*.
-. Under *Trusted entity type*, select  *{aws} service*.
-. From the *Use cases for other {aws} services* dropdown list, choose  *EKS*.
-. Choose *EKS - Cluster* for your use case, and then choose  *Next*.
-. On the *Add permissions* tab, select the policies and then choose  *Next*.
+. Choose *Roles*, then *Create role*.
+. Under *Trusted entity type*, select *{aws} service*.
+. From the *Use cases for other {aws} services* dropdown list, choose *EKS*.
+. Choose *EKS - Cluster* for your use case, and then choose *Next*.
+. On the *Add permissions* tab, select the policies and then choose *Next*.
 ** <<security-iam-awsmanpol-AmazonEKSComputePolicy,AmazonEKSComputePolicy>>
 ** <<security-iam-awsmanpol-AmazonEKSBlockStoragePolicy,AmazonEKSBlockStoragePolicy>>
 ** <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy,AmazonEKSLoadBalancingPolicy>>

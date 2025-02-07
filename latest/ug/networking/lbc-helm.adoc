@@ -30,7 +30,7 @@ Before starting this tutorial, you must install and configure the following tool
 
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
 * An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
-* Make sure that your [.noloc]`Amazon VPC CNI plugin for Kubernetes`, `kube-proxy`, and [.noloc]`CoreDNS` add-ons are at the minimum versions listed in  <<boundserviceaccounttoken-validated-add-on-versions,Service account tokens>>.
+* Make sure that your [.noloc]`Amazon VPC CNI plugin for Kubernetes`, `kube-proxy`, and [.noloc]`CoreDNS` add-ons are at the minimum versions listed in <<boundserviceaccounttoken-validated-add-on-versions,Service account tokens>>.
 * Familiarity with {aws} Elastic Load Balancing. For more information, see the link:elasticloadbalancing/latest/userguide/[Elastic Load Balancing User Guide,type="documentation"].
 * Familiarity with Kubernetes https://kubernetes.io/docs/concepts/services-networking/service/[service] and https://kubernetes.io/docs/concepts/services-networking/ingress/[ingress] resources.
 
@@ -89,7 +89,7 @@ aws iam create-policy \
     --policy-document file://iam_policy.json
 ----
 +
-NOTE: If you view the policy in the {aws-management-console}, the console shows warnings for the *ELB* service, but not for the  *ELB v2* service. This happens because some of the actions in the policy exist for  *ELB v2*, but not for  *ELB*. You can ignore the warnings for  *ELB*.
+NOTE: If you view the policy in the {aws-management-console}, the console shows warnings for the *ELB* service, but not for the *ELB v2* service. This happens because some of the actions in the policy exist for *ELB v2*, but not for *ELB*. You can ignore the warnings for *ELB*.
 . Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your account ID, and then run the command.
 +
 [source,shell,subs="verbatim,attributes"]

@@ -70,7 +70,7 @@ This can happen due to fragmentation of existing secondary IP addresses spread o
 +
 .. If you plan to deploy a managed node group without a launch template, or with a launch template that you haven't specified an AMI ID in, and you're using a version of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` at or later than the versions listed in the prerequisites, then skip to the next step. Managed node groups automatically calculates the maximum number of [.noloc]`Pods` for you.
 +
-If you're deploying a self-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must determine the Amazon EKS recommend number of maximum [.noloc]`Pods` for your nodes. Follow the instructions in  <<determine-max-pods,Amazon EKS recommended maximum Pods for each Amazon EC2 instance type>>, adding `--cni-prefix-delegation-enabled` to step 3. Note the output for use in a later step.
+If you're deploying a self-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must determine the Amazon EKS recommend number of maximum [.noloc]`Pods` for your nodes. Follow the instructions in <<determine-max-pods,Amazon EKS recommended maximum Pods for each Amazon EC2 instance type>>, adding `--cni-prefix-delegation-enabled` to step 3. Note the output for use in a later step.
 +
 IMPORTANT: Managed node groups enforces a maximum number on the value of `maxPods`. For instances with less than 30 vCPUs the maximum number is 110 and for all other instances the maximum number is 250. This maximum number is applied whether prefix delegation is enabled or not. 
 .. If you're using a `1.21` or later cluster configured for `IPv6`, skip to the next step.
@@ -96,9 +96,9 @@ kubectl set env ds aws-node -n kube-system WARM_IP_TARGET=5
 ----
 kubectl set env ds aws-node -n kube-system MINIMUM_IP_TARGET=2
 ----
-... Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type. For a list of Nitro instance types, see  link:AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances[Instances built on the Nitro System,type="documentation"] in the Amazon EC2 User Guide. This capability is not supported on [.noloc]`Windows`. For the options that include [.replaceable]`110`, replace it with either the value from step 3 (recommended), or your own value. 
+... Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type. For a list of Nitro instance types, see link:AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances[Instances built on the Nitro System,type="documentation"] in the Amazon EC2 User Guide. This capability is not supported on [.noloc]`Windows`. For the options that include [.replaceable]`110`, replace it with either the value from step 3 (recommended), or your own value. 
 +
-**** *Self-managed* – Deploy the node group using the instructions in  <<launch-workers,Create self-managed Amazon Linux nodes>>. Specify the following text for the *BootstrapArguments* parameter.
+**** *Self-managed* – Deploy the node group using the instructions in <<launch-workers,Create self-managed Amazon Linux nodes>>. Specify the following text for the *BootstrapArguments* parameter.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -113,8 +113,8 @@ eksctl create nodegroup --cluster my-cluster --managed=false --max-pods-per-node
 ----
 **** *Managed* – Deploy your node group using one of the following options:
 +
-***** *Without a launch template or with a launch template without an AMI ID specified* – Complete the procedure in  <<create-managed-node-group,Create a managed node group for your cluster>>. Managed node groups automatically calculates the Amazon EKS recommended `max-pods` value for you.
-***** *With a launch template with a specified AMI ID* – In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then  <<launch-templates,deploy the node group using a launch template>> and provide the following user data in the launch template. This user data passes arguments into the `bootstrap.sh` file. For more information about the bootstrap file, see https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] on [.noloc]`GitHub`.
+***** *Without a launch template or with a launch template without an AMI ID specified* – Complete the procedure in <<create-managed-node-group,Create a managed node group for your cluster>>. Managed node groups automatically calculates the Amazon EKS recommended `max-pods` value for you.
+***** *With a launch template with a specified AMI ID* – In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data in the launch template. This user data passes arguments into the `bootstrap.sh` file. For more information about the bootstrap file, see https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] on [.noloc]`GitHub`.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -188,7 +188,7 @@ kubectl edit configmap -n kube-system amazon-vpc-cni -o yaml
   minimum-ip-target: "2"
 ----
 ... Save the file and close the editor.
-.. Create [.noloc]`Windows` node groups with at least one Amazon EC2 [.noloc]`Nitro` instance type. For a list of [.noloc]`Nitro` instance types, see   link:AWSEC2/latest/WindowsGuide/instance-types.html#ec2-nitro-instances[Instances built on the Nitro System,type="documentation"] in the Amazon EC2 User Guide. By default, the maximum number of [.noloc]`Pods` that you can deploy to a node is 110. If you want to increase or decrease that number, specify the following in the user data for the bootstrap configuration. Replace [.replaceable]`max-pods-quantity` with your max pods value.
+.. Create [.noloc]`Windows` node groups with at least one Amazon EC2 [.noloc]`Nitro` instance type. For a list of [.noloc]`Nitro` instance types, see link:AWSEC2/latest/WindowsGuide/instance-types.html#ec2-nitro-instances[Instances built on the Nitro System,type="documentation"] in the Amazon EC2 User Guide. By default, the maximum number of [.noloc]`Pods` that you can deploy to a node is 110. If you want to increase or decrease that number, specify the following in the user data for the bootstrap configuration. Replace [.replaceable]`max-pods-quantity` with your max pods value.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

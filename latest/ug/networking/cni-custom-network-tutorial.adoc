@@ -427,7 +427,7 @@ If you've created a custom AMI that is not built off the Amazon EKS optimized AM
 ** *Self-managed*
 
 +
-... Determine the Amazon EKS recommended number of maximum [.noloc]`Pods` for your nodes. Follow the instructions in  <<determine-max-pods>>, adding `--cni-custom-networking-enabled` to step 3 in that topic. Note the output for use in the next step.
+... Determine the Amazon EKS recommended number of maximum [.noloc]`Pods` for your nodes. Follow the instructions in <<determine-max-pods>>, adding `--cni-custom-networking-enabled` to step 3 in that topic. Note the output for use in the next step.
 ... Deploy the node group using the instructions in <<launch-workers>>. Specify the following text for the *BootstrapArguments* parameter. You can replace `20` with either the value from the previous step (recommended) or your own value.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -439,7 +439,7 @@ If you've created a custom AMI that is not built off the Amazon EKS optimized AM
 +
 [NOTE]
 ====
-If you want nodes in a production cluster to support a significantly higher number of [.noloc]`Pods`, run the script in  <<determine-max-pods>> again. Also, add the `--cni-prefix-delegation-enabled` option to the command. For example, `110` is returned for an `m5.large` instance type. For instructions on how to enable this capability, see <<cni-increase-ip-addresses>>. You can use this capability with custom networking.
+If you want nodes in a production cluster to support a significantly higher number of [.noloc]`Pods`, run the script in <<determine-max-pods>> again. Also, add the `--cni-prefix-delegation-enabled` option to the command. For example, `110` is returned for an `m5.large` instance type. For instructions on how to enable this capability, see <<cni-increase-ip-addresses>>. You can use this capability with custom networking.
 ====
 +
 . Node group creation takes several minutes. You can check the status of the creation of a managed node group with the following command.

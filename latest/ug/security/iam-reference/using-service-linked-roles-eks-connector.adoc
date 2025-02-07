@@ -16,7 +16,7 @@ A service-linked role makes setting up Amazon EKS easier because you don't have 
 
 You can delete a service-linked role only after first deleting their related resources. This protects your Amazon EKS resources because you can't inadvertently remove permission to access the resources.
 
-For information about other services that support service-linked roles, see  link:IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html[{aws} services that work with IAM,type="documentation"] and look for the services that have *Yes* in the *Service-linked role* column. Choose a *Yes* with a link to view the service-linked role documentation for that service.
+For information about other services that support service-linked roles, see link:IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html[{aws} services that work with IAM,type="documentation"] and look for the services that have *Yes* in the *Service-linked role* column. Choose a *Yes* with a link to view the service-linked role documentation for that service.
 
 [#service-linked-role-permissions-eks-connector]
 == Service-linked role permissions for Amazon EKS
@@ -31,7 +31,7 @@ The role permissions policy allows Amazon EKS to complete the following actions 
 
 * link:aws-managed-policy/latest/reference/AmazonEKSConnectorServiceRolePolicy.html[AmazonEKSConnectorServiceRolePolicy,type="documentation"]
 
-You must configure permissions to allow an IAM entity (such as a user, group, or role) to create, edit, or delete a service-linked role. For more information, see   link:IAM/latest/UserGuide/using-service-linked-roles.html#service-linked-role-permissions[Service-linked role permissions,type="documentation"] in the _IAM User Guide_.
+You must configure permissions to allow an IAM entity (such as a user, group, or role) to create, edit, or delete a service-linked role. For more information, see link:IAM/latest/UserGuide/using-service-linked-roles.html#service-linked-role-permissions[Service-linked role permissions,type="documentation"] in the _IAM User Guide_.
 
 [#create-service-linked-role-eks-connector]
 == Creating a service-linked role for Amazon EKS
@@ -43,7 +43,7 @@ If you delete this service-linked role, and then need to create it again, you ca
 [#edit-service-linked-role-eks-connector]
 == Editing a service-linked role for Amazon EKS
 
-Amazon EKS does not allow you to edit the `AWSServiceRoleForAmazonEKSConnector` service-linked role. After you create a service-linked role, you cannot change the name of the role because various entities might reference the role. However, you can edit the description of the role using IAM. For more information, see  link:IAM/latest/UserGuide/using-service-linked-roles.html#edit-service-linked-role[Editing a service-linked role,type="documentation"] in the _IAM User Guide_.
+Amazon EKS does not allow you to edit the `AWSServiceRoleForAmazonEKSConnector` service-linked role. After you create a service-linked role, you cannot change the name of the role because various entities might reference the role. However, you can edit the description of the role using IAM. For more information, see link:IAM/latest/UserGuide/using-service-linked-roles.html#edit-service-linked-role[Editing a service-linked role,type="documentation"] in the _IAM User Guide_.
 
 [#delete-service-linked-role-eks-connector]
 == Deleting a service-linked role for Amazon EKS
@@ -64,13 +64,13 @@ If the Amazon EKS service is using the role when you try to delete the resources
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, choose *Clusters*.
 . On the *Clusters* page, select your cluster.
-. Select the *Deregister* tab and then select the  *Ok* tab.
+. Select the *Deregister* tab and then select the *Ok* tab.
 
 
 [#slr-manual-delete-eks-connector]
 === Manually delete the service-linked role
 
-Use the IAM console, the {aws} CLI, or the {aws} API to delete the AWSServiceRoleForAmazonEKSConnector service-linked role. For more information, see   link:IAM/latest/UserGuide/using-service-linked-roles.html#delete-service-linked-role[Deleting a service-linked role,type="documentation"] in the _IAM User Guide_.
+Use the IAM console, the {aws} CLI, or the {aws} API to delete the AWSServiceRoleForAmazonEKSConnector service-linked role. For more information, see link:IAM/latest/UserGuide/using-service-linked-roles.html#delete-service-linked-role[Deleting a service-linked role,type="documentation"] in the _IAM User Guide_.
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23using-service-linked-roles-eks-connector%5D&type=code[Edit this page on GitHub]

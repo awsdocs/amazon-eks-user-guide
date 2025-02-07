@@ -17,8 +17,8 @@ You can use the following procedure to check and see if your account already has
 . Search the list of roles for `AmazonEKSConnectorAgentRole`. If a role that includes `AmazonEKSConnectorAgentRole` doesn't exist, then see <<create-connector-role>> to create the role. If a role that includes `AmazonEKSConnectorAgentRole` does exist, then select the role to view the attached policies.
 . Choose *Permissions*.
 . Ensure that the *AmazonEKSConnectorAgentPolicy* managed policy is attached to the role. If the policy is attached, your Amazon EKS connector role is properly configured.
-. Choose *Trust relationships*, and then choose  *Edit trust policy*.
-. Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the  *Edit trust policy* window and choose  *Update policy*.
+. Choose *Trust relationships*, and then choose *Edit trust policy*.
+. Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the *Edit trust policy* window and choose *Update policy*.
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -165,8 +165,8 @@ Outputs:
 .. For *Specify template*, select *Upload a template file*, and then choose *Choose file*.
 .. Choose the file you created earlier, and then choose *Next*.
 .. For *Stack name*, enter a name for your role, such as `eksConnectorAgentRole`, and then choose *Next*.
-.. On the *Configure stack options* page, choose  *Next*.
-.. On the *Review* page, review your information, acknowledge that the stack might create IAM resources, and then choose  *Create stack*.
+.. On the *Configure stack options* page, choose *Next*.
+.. On the *Review* page, review your information, acknowledge that the stack might create IAM resources, and then choose *Create stack*.
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23connector-iam-role%5D&type=code[Edit this page on GitHub]

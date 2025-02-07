@@ -105,7 +105,7 @@ The Amazon EKS add-on name is `vpc-cni`.
 
 This add-on uses the  IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. 
 
-If your cluster uses the `IPv4` family, the permissions in the  link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html[AmazonEKS_CNI_Policy,type="documentation"] are required. If your cluster uses the `IPv6` family, you must  link:IAM/latest/UserGuide/access_policies_create.html[create an IAM policy,type="documentation"] with the permissions in https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/iam-policy.md#ipv6-mode[IPv6 mode]. You can create an IAM role, attach one of the policies to it, and annotate the [.noloc]`Kubernetes` service account used by the add-on with the following command.  
+If your cluster uses the `IPv4` family, the permissions in the link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html[AmazonEKS_CNI_Policy,type="documentation"] are required. If your cluster uses the `IPv6` family, you must link:IAM/latest/UserGuide/access_policies_create.html[create an IAM policy,type="documentation"] with the permissions in https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/iam-policy.md#ipv6-mode[IPv6 mode]. You can create an IAM role, attach one of the policies to it, and annotate the [.noloc]`Kubernetes` service account used by the add-on with the following command.  
 
 Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKSVPCCNIRole` with the name for your role. If your cluster uses the `IPv6` family, then replace [.replaceable]`AmazonEKS_CNI_Policy` with the name of the policy that you created. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool to create the role, attach the policy to it, and annotate the [.noloc]`Kubernetes` service account, see <<associate-service-account-role>>.
 
@@ -430,7 +430,7 @@ ADOT requires that `cert-manager` is deployed on the cluster as a prerequisite, 
 Learn about the Amazon GuardDuty agent Amazon EKS add-on.
 --
 
-The Amazon GuardDuty agent Amazon EKS add-on is a security monitoring service that analyzes and processes   link:guardduty/latest/ug/guardduty_data-sources.html[foundational data sources,type="documentation"] including {aws} CloudTrail management events and Amazon VPC flow logs. Amazon GuardDuty also processes link:guardduty/latest/ug/guardduty-features-activation-model.html[features,type="documentation"], such as [.noloc]`Kubernetes` audit logs and runtime monitoring.
+The Amazon GuardDuty agent Amazon EKS add-on is a security monitoring service that analyzes and processes link:guardduty/latest/ug/guardduty_data-sources.html[foundational data sources,type="documentation"] including {aws} CloudTrail management events and Amazon VPC flow logs. Amazon GuardDuty also processes link:guardduty/latest/ug/guardduty-features-activation-model.html[features,type="documentation"], such as [.noloc]`Kubernetes` audit logs and runtime monitoring.
 
 The Amazon EKS add-on name is `aws-guardduty-agent`.
 
@@ -505,7 +505,7 @@ The Amazon EKS add-on name is `eks-pod-identity-agent`.
 [#add-ons-pod-id-iam-permissions]
 === Required IAM permissions
 
-This add-on users permissions from the  <<create-node-role,Amazon EKS node IAM role>>.
+This add-on users permissions from the <<create-node-role,Amazon EKS node IAM role>>.
 
 [#add-ons-pod-id-update-information]
 === Update information

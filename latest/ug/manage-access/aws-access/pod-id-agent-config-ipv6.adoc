@@ -49,8 +49,8 @@ status   -- Show the status of the rollout
 undo     -- Undo a previous rollout
 ----
 +
-If the rollout takes too long, Amazon EKS will undo the rollout, and a message with the type of  *Addon Update* and a status of  *Failed* will be added to the  *Update history* of the add-on. To investigate any issues, start from the history of the rollout, and run `kubectl logs` on a EKS Pod Identity Agent pod to see the logs of EKS Pod Identity Agent.
-. If the new entry in the *Update history* has a status of  *Successful*, then the rollout has completed and the add-on is using the new configuration in all of the EKS Pod Identity Agent pods.
+If the rollout takes too long, Amazon EKS will undo the rollout, and a message with the type of *Addon Update* and a status of *Failed* will be added to the *Update history* of the add-on. To investigate any issues, start from the history of the rollout, and run `kubectl logs` on a EKS Pod Identity Agent pod to see the logs of EKS Pod Identity Agent.
+. If the new entry in the *Update history* has a status of *Successful*, then the rollout has completed and the add-on is using the new configuration in all of the EKS Pod Identity Agent pods.
 
 [#pod-id-cli]
 == {aws} CLI
@@ -66,7 +66,7 @@ aws eks update-addon --cluster-name my-cluster --addon-name eks-pod-identity-age
 +
 This configuration sets the `IPv4` address to be the only address used by the agent.
 +
-Amazon EKS applies changes to the EKS Add-ons by using a _rollout_ of the [.noloc]`Kubernetes` DaemonSet for EKS Pod Identity Agent. You can track the status of the rollout in the  *Update history* of the add-on in the {aws-management-console} and with `kubectl rollout status daemonset/eks-pod-identity-agent --namespace kube-system`.
+Amazon EKS applies changes to the EKS Add-ons by using a _rollout_ of the [.noloc]`Kubernetes` DaemonSet for EKS Pod Identity Agent. You can track the status of the rollout in the *Update history* of the add-on in the {aws-management-console} and with `kubectl rollout status daemonset/eks-pod-identity-agent --namespace kube-system`.
 +
 `kubectl rollout` has the following commands:
 +
@@ -82,7 +82,7 @@ status   -- Show the status of the rollout
 undo     -- Undo a previous rollout
 ----
 +
-If the rollout takes too long, Amazon EKS will undo the rollout, and a message with the type of  *Addon Update* and a status of  *Failed* will be added to the  *Update history* of the add-on. To investigate any issues, start from the history of the rollout, and run `kubectl logs` on a EKS Pod Identity Agent pod to see the logs of EKS Pod Identity Agent.
+If the rollout takes too long, Amazon EKS will undo the rollout, and a message with the type of *Addon Update* and a status of *Failed* will be added to the *Update history* of the add-on. To investigate any issues, start from the history of the rollout, and run `kubectl logs` on a EKS Pod Identity Agent pod to see the logs of EKS Pod Identity Agent.
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-id-agent-config-ipv6%5D&type=code[Edit this page on GitHub]

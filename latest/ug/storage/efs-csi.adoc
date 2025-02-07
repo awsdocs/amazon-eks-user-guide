@@ -21,7 +21,7 @@ link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation
 * https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/dynamic_provisioning/README.md[Dynamic provisioning] requires https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-1.x.md#v12[1.2] or later of the driver. You can use https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/static_provisioning/README.md[static provisioning] for persistent volumes using version `1.1` of the driver on any supported Amazon EKS cluster version (see <<kubernetes-versions>>).
 * Version https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-1.x.md#v132[1.3.2] or later of this driver supports the Arm64 architecture, including Amazon EC2 Graviton-based instances.
 * Version https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-1.x.md#v142[1.4.2] or later of this driver supports using FIPS for mounting file systems.
-* Take note of the resource quotas for Amazon EFS. For example, there's a quota of 1000 access points that can be created for each Amazon EFS file system. For more information, see  link:efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region[Amazon EFS resource quotas that you cannot change,type="documentation"].
+* Take note of the resource quotas for Amazon EFS. For example, there's a quota of 1000 access points that can be created for each Amazon EFS file system. For more information, see link:efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region[Amazon EFS resource quotas that you cannot change,type="documentation"].
 * Starting in version https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-2.x.md#v200[2.0.0], this driver switched from using `stunnel` to `efs-proxy` for TLS connections. When `efs-proxy` is used, it will open a number of threads equal to one plus the number of cores for the node it's running on.
 * The Amazon EFS CSI driver isn't compatible with Amazon EKS Hybrid Nodes.
 
@@ -30,7 +30,7 @@ link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation
 == Prerequisites
 
 * An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
-* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 
 [NOTE]
@@ -81,11 +81,11 @@ Run the following to create an IAM role with {aws-management-console}.
 
 . Open the IAM console at https://console.aws.amazon.com/iam/.
 . In the left navigation pane, choose *Roles*.
-. On the *Roles* page, choose  *Create role*.
+. On the *Roles* page, choose *Create role*.
 . On the *Select trusted entity* page, do the following:
 +
-.. In the *Trusted entity type* section, choose  *Web identity*.
-.. For *Identity provider*, choose the  *[.noloc]`OpenID Connect` provider URL* for your cluster (as shown under  *Overview* in Amazon EKS).
+.. In the *Trusted entity type* section, choose *Web identity*.
+.. For *Identity provider*, choose the *[.noloc]`OpenID Connect` provider URL* for your cluster (as shown under *Overview* in Amazon EKS).
 .. For *Audience*, choose `sts.amazonaws.com`.
 .. Choose *Next*.
 . On the *Add permissions* page, do the following:
@@ -96,10 +96,10 @@ Run the following to create an IAM role with {aws-management-console}.
 . On the *Name, review, and create* page, do the following:
 +
 .. For *Role name*, enter a unique name for your role, such as [.replaceable]`AmazonEKS_EFS_CSI_DriverRole`.
-.. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see   link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
+.. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
 .. Choose *Create role*.
 . After the role is created, choose the role in the console to open it for editing.
-. Choose the *Trust relationships* tab, and then choose  *Edit trust policy*.
+. Choose the *Trust relationships* tab, and then choose *Edit trust policy*.
 . Find the line that looks similar to the following line:
 +
 [source,json,subs="verbatim,attributes"]

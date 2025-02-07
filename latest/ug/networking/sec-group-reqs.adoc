@@ -42,7 +42,7 @@ When you create a cluster, Amazon EKS creates a security group that's named `eks
 [IMPORTANT]
 ====
 
-If your cluster doesn't need the outbound rule, you can remove it. If you remove it, you must still have the minimum rules listed in  <<security-group-restricting-cluster-traffic,Restricting cluster traffic>>. If you remove the inbound rule, Amazon EKS recreates it whenever the cluster is updated.
+If your cluster doesn't need the outbound rule, you can remove it. If you remove it, you must still have the minimum rules listed in <<security-group-restricting-cluster-traffic,Restricting cluster traffic>>. If you remove the inbound rule, Amazon EKS recreates it whenever the cluster is updated.
 
 ====
 
@@ -84,7 +84,7 @@ aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.cl
 [#security-group-restricting-cluster-traffic]
 == Restricting cluster traffic
 
-If you need to limit the open ports between the cluster and nodes, you can remove the  <<security-group-default-rules,default outbound rule>> and add the following minimum rules that are required for the cluster. If you remove the <<security-group-default-rules,default inbound rule>>, Amazon EKS recreates it whenever the cluster is updated.
+If you need to limit the open ports between the cluster and nodes, you can remove the <<security-group-default-rules,default outbound rule>> and add the following minimum rules that are required for the cluster. If you remove the <<security-group-default-rules,default inbound rule>>, Amazon EKS recreates it whenever the cluster is updated.
 
 [cols="1,1,1,1", options="header"]
 |===
