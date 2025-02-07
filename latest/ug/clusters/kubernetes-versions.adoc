@@ -245,7 +245,7 @@ No. Cloud security at {aws} is the highest priority. Past a certain point (usual
 
 
 *Is there additional cost to get extended support?*::
-Yes, there is additional cost for Amazon EKS clusters running in extended support. For pricing details, see link:containers/amazon-eks-extended-support-for-kubernetes-versions-pricing[Amazon EKS extended support for Kubernetes version pricing,type="blog"] on the {aws} blog or our https://aws.amazon.com/eks/pricing/[pricing page].
+Yes, there is additional cost for Amazon EKS clusters running in extended support. For pricing details, see link:containers/amazon-eks-extended-support-for-kubernetes-versions-pricing[Amazon EKS extended support for Kubernetes version pricing,type="blog"] on the {aws} blog or our link:eks/pricing/[pricing page,type="marketing"].
 
 
 *What is included in extended support?*::

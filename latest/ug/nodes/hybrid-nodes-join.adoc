@@ -133,7 +133,7 @@ spec:
 nodeadm init -c file://nodeConfig.yaml
 ----
 
-If the above command completes successfully, your hybrid node has joined your Amazon EKS cluster. You can verify this in the Amazon EKS console by navigating to the Compute tab for your cluster (https://docs.aws.amazon.com/eks/latest/userguide/view-kubernetes-resources.html#view-kubernetes-resources-permissions[ensure IAM principal has permissions to view]) or with `kubectl get nodes`. 
+If the above command completes successfully, your hybrid node has joined your Amazon EKS cluster. You can verify this in the Amazon EKS console by navigating to the Compute tab for your cluster (<<view-kubernetes-resources-permissions,ensure IAM principal has permissions to view>>) or with `kubectl get nodes`. 
 
 [IMPORTANT]
 ====

@@ -19,7 +19,7 @@ To jump into Machine Learning on EKS, start by choosing from these prescriptive 
 To get started, choose from the following selection of patterns that are designed to get you started setting up infrastructure to run your Machine Learning workloads:
 
 * *https://awslabs.github.io/data-on-eks/docs/blueprints/ai-ml/jupyterhub[JupyterHub on EKS]*: Explore the https://awslabs.github.io/data-on-eks/docs/blueprints/ai-ml/jupyterhub[JupyterHub blueprint], which showcases Time Slicing and MIG features, as well as multi-tenant configurations with profiles. This is ideal for deploying large-scale JupyterHub platforms on EKS.
-* *https://aws.amazon.com/ai/machine-learning/neuron/[Large Language Models on {aws} Neuron and RayServe]*: Use https://aws.amazon.com/ai/machine-learning/neuron/[{aws} Neuron] to run large language models (LLMs) on Amazon EKS and {aws} Trainium and {aws} Inferentia accelerators. See https://awslabs.github.io/data-on-eks/docs/gen-ai/inference/Neuron/vllm-ray-inf2[Serving LLMs with RayServe and vLLM on {aws} Neuron] for instructions on setting up a platform for making inference requests, with components that include:
+* *link:ai/machine-learning/neuron/[Large Language Models on {aws} Neuron and RayServe,type="marketing"]*: Use link:ai/machine-learning/neuron/[{aws} Neuron,type="marketing"] to run large language models (LLMs) on Amazon EKS and {aws} Trainium and {aws} Inferentia accelerators. See https://awslabs.github.io/data-on-eks/docs/gen-ai/inference/Neuron/vllm-ray-inf2[Serving LLMs with RayServe and vLLM on {aws} Neuron] for instructions on setting up a platform for making inference requests, with components that include:
 +
 ** {aws} Neuron SDK toolkit for deep learning
 ** {aws} Inferentia and Trainium accelerators

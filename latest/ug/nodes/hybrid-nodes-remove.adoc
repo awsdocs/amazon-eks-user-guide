@@ -11,7 +11,7 @@ include::../attributes.txt[]
 Delete hybrid nodes from your EKS cluster
 --
 
-This topic describes how to delete hybrid nodes from your Amazon EKS cluster. You must delete your hybrid nodes with your choice of Kubernetes-compatible tooling such as https://kubernetes.io/docs/reference/kubectl/[kubectl]. Charges for hybrid nodes stop when the node object is removed from the Amazon EKS cluster. For more information on hybrid nodes pricing, see https://aws.amazon.com/eks/pricing/[Amazon EKS Pricing].
+This topic describes how to delete hybrid nodes from your Amazon EKS cluster. You must delete your hybrid nodes with your choice of Kubernetes-compatible tooling such as https://kubernetes.io/docs/reference/kubectl/[kubectl]. Charges for hybrid nodes stop when the node object is removed from the Amazon EKS cluster. For more information on hybrid nodes pricing, see link:eks/pricing/[Amazon EKS Pricing,type="marketing"].
 
 [IMPORTANT]
 ====

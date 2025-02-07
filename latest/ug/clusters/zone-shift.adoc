@@ -270,8 +270,8 @@ You can use ARC zonal shift and zonal autoshift in your EKS cluster at no additi
 * link:r53recovery/latest/dg/arc-zonal-shift.how-it-works.html["How a zonal shift works",type="documentation"]
 * link:r53recovery/latest/dg/route53-arc-best-practices.zonal-shifts.html#zonalshift.route53-arc-best-practices.zonal-shifts["Best practices for zonal shifts in ARC",type="documentation"]
 * link:r53recovery/latest/dg/arc-zonal-shift.resource-types.html["Resources and scenarios supported for zonal shift and zonal autoshift",type="documentation"]
-* link:blogs/containers/operating-resilient-workloads-on-amazon-eks/["Operating resilient workloads on Amazon EKS",type="marketing"]
-* link:blogs/containers/eliminate-kubernetes-node-scaling-lag-with-pod-priority-and-over-provisioning/["Eliminate Kubernetes node scaling lag with pod priority and over-provisioning",type="marketing"]
+* link:containers/operating-resilient-workloads-on-amazon-eks["Operating resilient workloads on Amazon EKS",type="blog"]
+* link:containers/eliminate-kubernetes-node-scaling-lag-with-pod-priority-and-over-provisioning["Eliminate Kubernetes node scaling lag with pod priority and over-provisioning",type="blog"]
 * <<coredns-autoscaling,Scale CoreDNS Pods for high DNS traffic>>
 
 

@@ -141,11 +141,11 @@ EKS Auto Mode supports the following well known labels.
 
 |eks.amazonaws.com/instance-ebs-bandwidth
 |9500
-|Number of link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html#ebs-optimization-performance[maximum megabits] of EBS available on the instance
+|Number of link:AWSEC2/latest/UserGuide/ebs-optimized.html#ebs-optimization-performance[maximum megabits,type="documentation"] of EBS available on the instance
 
 |eks.amazonaws.com/instance-network-bandwidth
 |131072
-|Number of link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html[baseline megabits] available on the instance
+|Number of link:AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html[baseline megabits,type="documentation"] available on the instance
 
 |eks.amazonaws.com/instance-gpu-name
 |t4

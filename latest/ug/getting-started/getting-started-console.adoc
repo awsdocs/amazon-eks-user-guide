@@ -99,7 +99,7 @@ aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKSClusterPolicy \
   --role-name myAmazonEKSClusterRole
 ----
-. Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters].
+. Open the Amazon EKS console at link:eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters,type="console"].
 +
 Make sure that the {aws} Region shown in the upper right of your console is the {aws} Region that you want to create your cluster in. If it's not, choose the dropdown next to the {aws} Region name and choose the {aws} Region that you want to use.
 . Choose *Create cluster*. If you don't see this option, then choose  *Clusters* in the left navigation pane first.
@@ -217,7 +217,7 @@ aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKS_CNI_Policy \
   --role-name myAmazonEKSNodeRole
 ----
-.. Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters].
+.. Open the Amazon EKS console at link:eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters,type="console"].
 .. Choose the name of the cluster that you created in <<eks-create-cluster,Step 1: Create your Amazon EKS cluster>>, such as [.replaceable]`my-cluster`.
 .. On the *[.replaceable]`my-cluster`* page, do the following:
 +
@@ -255,7 +255,7 @@ After you've finished with the cluster and nodes that you created for this tutor
 
 . Delete any node groups profiles that you created.
 +
-.. Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters].
+.. Open the Amazon EKS console at link:eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters,type="console"].
 .. In the left navigation pane, choose *Clusters*. In the list of clusters, choose [.replaceable]`my-cluster`.
 .. Choose the *Compute* tab.
 .. If you created a node group, choose the [.replaceable]`my-nodegroup` node group and then choose *Delete*. Enter [.replaceable]`my-nodegroup`, and then choose *Delete*.

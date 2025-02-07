@@ -22,13 +22,13 @@ Learn how to manage access to your Amazon EKS cluster. Using Amazon EKS requires
 
 *This section includes:*
 
-*xref:grant-k8s-access[Grant IAM users and roles access to Kubernetes APIs,linkend=grant-k8s-access]* -- Learn how to enable applications or users to authenticate to the [.noloc]`Kubernetes` API. You can use access entries, the aws-auth ConfigMap, or an external OIDC provider.  
+*<<grant-k8s-access>>* -- Learn how to enable applications or users to authenticate to the [.noloc]`Kubernetes` API. You can use access entries, the aws-auth ConfigMap, or an external OIDC provider.  
 
-*<<view-kubernetes-resources,View Kubernetes resources in the {aws-management-console}>>* -- Learn how to configure the {aws-management-console} to communicate with your Amazon EKS cluster. Use the console to view [.noloc]`Kubernetes` resources in the cluster, such as namespaces, nodes, and [.noloc]`Pods`.
+*<<view-kubernetes-resources>>* -- Learn how to configure the {aws-management-console} to communicate with your Amazon EKS cluster. Use the console to view [.noloc]`Kubernetes` resources in the cluster, such as namespaces, nodes, and [.noloc]`Pods`.
 
-*<<create-kubeconfig,Connect kubectl to an EKS cluster by creating a kubeconfig file>>* -- Learn how to configure kubectl to communicate with your Amazon EKS cluster. Use the {aws} CLI to create a kubeconfig file. 
+*<<create-kubeconfig>>* -- Learn how to configure kubectl to communicate with your Amazon EKS cluster. Use the {aws} CLI to create a kubeconfig file. 
 
-*xref:service-accounts[Grant Kubernetes workloads access to {aws} using Kubernetes Service Accounts,linkend=service-accounts]* -- Learn how to associate a [.noloc]`Kubernetes` service account with {aws} IAM Roles. You can use Pod Identity or IAM Roles for Service Accounts (IRSA).  
+*<<service-accounts>>* -- Learn how to associate a [.noloc]`Kubernetes` service account with {aws} IAM Roles. You can use Pod Identity or IAM Roles for Service Accounts (IRSA).  
 
 == Common Tasks
 
@@ -68,12 +68,9 @@ EKS Auto Mode integrates with EKS Pod Identity and EKS EKS access entries.
 
 include::k8s-access/grant-k8s-access.adoc[leveloffset=+1]
 
-
 include::view-kubernetes-resources.adoc[leveloffset=+1]
 
-
 include::create-kubeconfig.adoc[leveloffset=+1]
-
 
 include::aws-access/service-accounts.adoc[leveloffset=+1]
 

@@ -98,7 +98,7 @@ For stuck resources:
 ## Additional Resources
 
 - <<troubleshooting>>
-- link:https://console.aws.amazon.com/support/home[{aws} Support Center]
+- link:support/home[{aws} Support Center,type="console"]
 - link:https://status.aws.amazon.com/[{aws} Service Health Dashboard]
 
 

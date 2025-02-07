@@ -63,7 +63,7 @@ This topic covers advanced configuration. If you are looking to get started with
 ** *Bootstrap cluster administrator access* -- The cluster creator is automatically a Kubernetes administrator. If you want to disable this, select *Disallow cluster administrator access*. 
 ** *Cluster authentication mode* -- EKS Auto Mode requires EKS access entries, the EKS API authentication mode. You can optionally enable the `ConfigMap` authentication mode by selecting *EKS API and ConfigMap*. 
 . Enter the remaining fields on the configure cluster page:
-** *Secrets encryption* – (Optional) Choose to enable secrets encryption of [.noloc]`Kubernetes` secrets using a KMS key. You can also enable this after you create your cluster. Before you enable this capability, make sure that you're familiar with the information in  xref:enable-kms[Encrypt Kubernetes secrets with {aws} KMS on existing clusters,linkend=enable-kms].
+** *Secrets encryption* – (Optional) Choose to enable secrets encryption of [.noloc]`Kubernetes` secrets using a KMS key. You can also enable this after you create your cluster. Before you enable this capability, make sure that you're familiar with the information in xref:enable-kms[Encrypt Kubernetes secrets with {aws} KMS on existing clusters,linkend=enable-kms].
 ** *ARC Zonal shift* -- EKS Auto Mode does not support Arc Zonal shift. 
 ** *Tags* – (Optional) Add any tags to your cluster. For more information, see <<eks-using-tags>>.
 +
