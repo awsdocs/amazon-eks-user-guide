@@ -97,7 +97,7 @@ For stuck resources:
 
 ## Additional Resources
 
-- link:https://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html[{aws} EKS Troubleshooting]
+- <<troubleshooting>>
 - link:https://console.aws.amazon.com/support/home[{aws} Support Center]
 - link:https://status.aws.amazon.com/[{aws} Service Health Dashboard]
 

@@ -30,7 +30,7 @@ The following table describes the major updates and new features for the Amazon 
 [.update-ulink]
 https://docs.aws.amazon.com/eks/latest/userguide/managed-node-update-behavior.html#managed-node-update-upgrade
 
-You can now use update strategies to configure the version update process for managed node groups. This introduces the __minimal__ update strategy to terminate nodes before making new ones, which is useful in capacity constrained environments. The __default__ update strategy continues the existing behavior.
+You can now use update strategies to configure the version update process for managed node groups. This introduces the _minimal_ update strategy to terminate nodes before making new ones, which is useful in capacity constrained environments. The _default_ update strategy continues the existing behavior.
 
 [.update,date="2025-01-23"]
 === [.noloc]`Kubernetes` version `1.32`
