@@ -65,7 +65,7 @@ For a complete list of all available options and defaults, see https://eksctl.io
 
 == {aws-management-console} [[console_create_nodes_outpost]]
 
-*Step 1: Launch self-managed Linux nodes using {aws-management-console}*`
+*Step 1: Launch self-managed Linux nodes using {aws-management-console}*
 
 . Download the latest version of the {aws} CloudFormation template.
 +

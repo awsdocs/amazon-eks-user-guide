@@ -65,7 +65,7 @@ https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-e
 ... Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
 ... In the left navigation pane, choose *Subnets*
 ... Select one of your public subnets (*[.replaceable]`stack-name`/SubnetPublic01* or *[.replaceable]`stack-name`/SubnetPublic02* contains the word *public*) and choose *Actions*, *Edit subnet settings*.
-... Choose the *Enable auto-assign `*IPv6*` address* check box and then choose *Save*.
+... Choose the *Enable auto-assign IPv6 address* check box and then choose *Save*.
 ... Complete the previous steps again for your other public subnet.
 
 

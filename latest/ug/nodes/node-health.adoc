@@ -192,7 +192,7 @@ The following tables describe node health issues that can be detected by the nod
 
 |UnexpectedRejectRule
 |Event
-|An unexpected `REJECT`` or `DROP` rule was found in the iptables, potentially blocking expected traffic.
+|An unexpected `REJECT` or `DROP` rule was found in the iptables, potentially blocking expected traffic.
 
 |===
 

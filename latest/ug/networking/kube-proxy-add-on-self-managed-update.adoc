@@ -97,7 +97,7 @@ Add the following node selector to the file in the editor and then save the file
 kubectl edit -n kube-system daemonset/kube-proxy
 ----
 +
-Add the following `Affinity Rule` to the [.noloc]`DaemonSet`spec`` section of the file in the editor and then save the file. For an example of where to include this text in the editor, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.11/config/master/aws-k8s-cni.yaml#L270-#L273[CNI manifest] file on [.noloc]`GitHub`.
+Add the following `Affinity Rule` to the [.noloc]`DaemonSet` `spec` section of the file in the editor and then save the file. For an example of where to include this text in the editor, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.11/config/master/aws-k8s-cni.yaml#L270-#L273[CNI manifest] file on [.noloc]`GitHub`.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----

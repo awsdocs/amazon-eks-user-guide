@@ -118,7 +118,7 @@ You have two output options when using CloudWatch:
 +
 The following example shows you how to use the `cloudwatch_logs` plugin to send logs to CloudWatch.
 
-.. Save the following contents to a file named `[.replaceable]``aws-logging-cloudwatch-configmap``.yaml`. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. The parameters under `[OUTPUT]` are required.
+.. Save the following contents to a file named `aws-logging-cloudwatch-configmap.yaml`. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. The parameters under `[OUTPUT]` are required.
 // Not using subs="quotes" here with [.replaceable]`region-code` because the ^ characters get dropped, even when using AsciiDoc's built-in {caret} character replacement attribute.
 +
 [source,yaml,subs="verbatim,attributes"]

@@ -68,7 +68,7 @@ Cluster creation takes several minutes. During creation you'll see several lines
 
 ----
 [...]
-[✓]  EKS cluster "my-cluster" in "`region-code`" region is ready
+[✓]  EKS cluster "my-cluster" in "region-code" region is ready
 ----
 
 `eksctl` created a `kubectl` config file in `~/.kube/config` or added the new cluster's configuration within an existing config file in `~/.kube/config` on your computer.

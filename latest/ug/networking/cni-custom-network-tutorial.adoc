@@ -415,7 +415,7 @@ aws eks create-nodegroup --cluster-name my-custom-networking-cluster --nodegroup
 *** *With a launch template with a specified AMI ID*
 
 +
-.... Determine the Amazon EKS recommended number of maximum [.noloc]`Pods `for your nodes. Follow the instructions in <<determine-max-pods,Amazon EKS recommended maximum Pods for each Amazon EC2 instance type>>, adding `--cni-custom-networking-enabled` to step 3 in that topic. Note the output for use in the next step.
+.... Determine the Amazon EKS recommended number of maximum Pods for your nodes. Follow the instructions in <<determine-max-pods,Amazon EKS recommended maximum Pods for each Amazon EC2 instance type>>, adding `--cni-custom-networking-enabled` to step 3 in that topic. Note the output for use in the next step.
 .... In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data in the launch template. This user data passes arguments into the `bootstrap.sh` file. For more information about the bootstrap file, see https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] on [.noloc]`GitHub`. You can replace `20` with either the value from the previous step (recommended) or your own value.
 +
 [source,bash,subs="verbatim,attributes"]

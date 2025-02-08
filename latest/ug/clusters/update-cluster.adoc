@@ -220,7 +220,7 @@ An example output is as follows.
 . (Optional) If you deployed the [.noloc]`Kubernetes` Cluster Autoscaler to your cluster before updating the cluster, update the Cluster Autoscaler to the latest version that matches the [.noloc]`Kubernetes` major and minor version that you updated to.
 +
 .. Open the Cluster Autoscaler https://github.com/kubernetes/autoscaler/releases[releases] page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's [.noloc]`Kubernetes` major and minor version. For example, if your cluster's [.noloc]`Kubernetes` version is `1.30` find the latest Cluster Autoscaler release that begins with `1.30`. Record the semantic version number (``1.30.n``, for example) for that release to use in the next step.
-.. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command. If necessary, replace [.replaceable]`1.30`.[.replaceable]`n`` with your own value.
+.. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command. If necessary, replace [.replaceable]`1.30`.[.replaceable]`n` with your own value.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

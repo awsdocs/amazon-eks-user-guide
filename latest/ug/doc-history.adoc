@@ -722,7 +722,7 @@ You can now install the Amazon FSx for OpenZFS CSI driver on Amazon EKS clusters
 [.update-ulink]
 link:eks/latest/userguide/cni-ipv6-egress.html[type="documentation"]
 
-After assigning an IPv6 address to your node, your [.noloc]`Pods`' `IPv4` address is network address translated to the `IPv6` address of the node that it's running on.
+After assigning an IPv6 address to your node, your Pods' `IPv4` address is network address translated to the `IPv6` address of the node that it's running on.
 
 
 [.update,date="2023-05-30"]
@@ -1739,7 +1739,7 @@ New platform version that updates Amazon EKS [.noloc]`Kubernetes` `1.11` cluster
 
 [.update,date="2019-02-13"]
 === Amazon EKS {aws} Region expansion
-Amazon EKS is now available in the Europe (London) (`eu-west-2`), Europe (Paris) (`eu-west-3`), and Asia Pacific (Mumbai) (``ap-south-1`) {aws} Regions.
+Amazon EKS is now available in the Europe (London) (`eu-west-2`), Europe (Paris) (`eu-west-3`), and Asia Pacific (Mumbai) (`ap-south-1`) {aws} Regions.
 
 
 [.update,date="2019-02-13"]

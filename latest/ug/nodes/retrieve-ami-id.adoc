@@ -28,7 +28,7 @@ You can retrieve the image ID of the latest recommended Amazon EKS optimized Ama
 
 [source,bash,subs="verbatim,attributes"]
 ----
-aws ssm get-parameter --name /aws/service/eks/optimized-ami/<kubernetes-version>/<ami-type>`/recommended/image_id \
+aws ssm get-parameter --name /aws/service/eks/optimized-ami/<kubernetes-version>/<ami-type>/recommended/image_id \
     --region <region-code> --query "Parameter.Value" --output text
 ----
 

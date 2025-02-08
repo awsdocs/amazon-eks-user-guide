@@ -115,7 +115,7 @@ https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2023-02-09/amazon-e
 . Select *Next* twice.
 . On the *Quick create stack* page, enter the following parameters accordingly:
 +
-** *Stack name*: Choose a stack name for your {aws} CloudFormation stack. For example, you can call it [.replaceable]`my-cluster`-nodes````.
+** *Stack name*: Choose a stack name for your {aws} CloudFormation stack. For example, you can call it `my-cluster-nodes`.
 ** *ClusterName*: Enter the name that you used when you created your Amazon EKS cluster.
 +
 [IMPORTANT]

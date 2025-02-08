@@ -46,7 +46,7 @@ kubectl set env daemonset aws-node -n kube-system ENABLE_POD_ENI=true
 ----
 +
 NOTE: The trunk network interface is included in the maximum number of network interfaces supported by the instance type. For a list of the maximum number of network interfaces supported by each instance type, see link:AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI[IP addresses per network interface per instance type,type="documentation"] in the _Amazon EC2 User Guide_. If your node already has the maximum number of standard network interfaces attached to it then the VPC resource controller will reserve a space. You will have to scale down your running [.noloc]`Pods` enough for the controller to detach and delete a standard network interface, create the trunk network interface, and attach it to the instance.
-. You can see which of your nodes have a `CNINode` custom resource with the following command. If `No resources found` is returned, then wait several seconds and try again. The previous step requires restarting the [.noloc]`Amazon VPC CNI plugin for` Kubernetes Pods`, which takes several seconds.
+. You can see which of your nodes have a `CNINode` custom resource with the following command. If `No resources found` is returned, then wait several seconds and try again. The previous step requires restarting the [.noloc]`Amazon VPC CNI plugin for Kubernetes Pods`, which takes several seconds.
 +
 [source,shell,subs="verbatim,attributes"]
 ----

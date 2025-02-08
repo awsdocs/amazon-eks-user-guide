@@ -135,7 +135,7 @@ https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
 ----
 . Create the IAM role that grants the `AssumeRoleWithWebIdentity` action.
 +
-.. Copy the following contents to a file named [.replaceable]`aws-efs-csi-driver-trust-policy`.json``. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` and [.replaceable]`region-code` with the values returned in the previous step.
+.. Copy the following contents to a file named `aws-efs-csi-driver-trust-policy.json`. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` and [.replaceable]`region-code` with the values returned in the previous step.
 +
 [source,json,subs="verbatim,attributes"]
 ----

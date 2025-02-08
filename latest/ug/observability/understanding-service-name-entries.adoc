@@ -11,7 +11,7 @@ A trail is a configuration that enables delivery of events as log files to an Am
 
 A trail is a configuration that enables delivery of events as log files to an Amazon S3 bucket that you specify. CloudTrail log files contain one or more log entries. An event represents a single request from any source and includes information about the requested action. This include information such as the date and time of the action and the request parameters that were used. CloudTrail log files aren't an ordered stack trace of the public API calls, so they don't appear in any specific order.  
 
-The following example shows a CloudTrail log entry that demonstrates the link:eks/latest/APIReference/API_CreateCluster.html[CreateCluster,type="documentation"] action.
+The following example shows a CloudTrail log entry that demonstrates the link:eks/latest/APIReference/API_CreateCluster.html[`CreateCluster`,type="documentation"] action.
 
 [source,json,subs="verbatim,attributes"]
 ----
@@ -74,7 +74,7 @@ The following example shows a CloudTrail log entry that demonstrates the link:ek
 
 The Amazon EKS service linked roles make API calls to {aws} resources. CloudTrail log entries with `username: AWSServiceRoleForAmazonEKS` and `username: AWSServiceRoleForAmazonEKSNodegroup` appears for calls made by the Amazon EKS service linked roles. For more information about Amazon EKS and service linked roles, see <<using-service-linked-roles>>.
 
-The following example shows a CloudTrail log entry that demonstrates a ` link:IAM/latest/APIReference/API_DeleteInstanceProfile.html[DeleteInstanceProfile,type="documentation"]` action that's made by the `AWSServiceRoleForAmazonEKSNodegroup` service linked role, noted in the `sessionContext`.
+The following example shows a CloudTrail log entry that demonstrates a link:IAM/latest/APIReference/API_DeleteInstanceProfile.html[`DeleteInstanceProfile`,type="documentation"] action that's made by the `AWSServiceRoleForAmazonEKSNodegroup` service linked role, noted in the `sessionContext`.
 
 [source,json,subs="verbatim,attributes"]
 ----

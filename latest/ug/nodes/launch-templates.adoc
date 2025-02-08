@@ -195,7 +195,7 @@ kind: NodeConfig spec: [...]
 --BOUNDARY--
 ----
 +
-In AL2, the metadata from these parameters was discovered from the Amazon EKS `DescribeCluster` API call. With AL2023, this behavior has changed since the additional API call risks throttling during large node scale ups. This change doesn't affect you if you're using managed node groups without a launch template or if you're using [.noloc]`Karpenter`. For more information on `certificateAuthority` and service `cidr`, see ` link:eks/latest/APIReference/API_DescribeCluster.html[DescribeCluster,type="documentation"]` in the _Amazon EKS API Reference_.
+In AL2, the metadata from these parameters was discovered from the Amazon EKS `DescribeCluster` API call. With AL2023, this behavior has changed since the additional API call risks throttling during large node scale ups. This change doesn't affect you if you're using managed node groups without a launch template or if you're using [.noloc]`Karpenter`. For more information on `certificateAuthority` and service `cidr`, see link:eks/latest/APIReference/API_DescribeCluster.html[`DescribeCluster`,type="documentation"] in the _Amazon EKS API Reference_.
 
 
 *[.noloc]`Bottlerocket` user data*::
