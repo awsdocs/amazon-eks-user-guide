@@ -170,25 +170,4 @@ The following example policy allows [.noloc]`OIDC` identity provider association
 ----
 
 
-[#partner-validated-identity-providers]
-== Partner validated [.noloc]`OIDC` identity providers
-
-Amazon EKS maintains relationships with a network of partners that offer support for compatible [.noloc]`OIDC` identity providers. Refer to the following partners' documentation for details on how to integrate the identity provider with Amazon EKS.
-
-[cols="1,1,1", options="header"]
-|===
-|Partner
-|Product
-|Documentation
-
-
-|PingIdentity
-|https://docs.pingidentity.com/r/en-us/pingoneforenterprise/p14e_landing[PingOne for Enterprise]
-|https://docs.pingidentity.com/r/en-us/solution-guides/htg_config_oidc_authn_aws_eks_custers[Installation instructions]
-|===
-
-Amazon EKS aims to give you a wide selection of options to cover all use cases. If you develop a commercially supported [.noloc]`OIDC` compatible identity provider that is not listed here, then contact our partner team at link:mailto:aws-container-partners@amazon.com[aws-container-partners@amazon.
-com] for more information.
-
-
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23authenticate-oidc-identity-provider%5D&type=code[Edit this page on GitHub]
