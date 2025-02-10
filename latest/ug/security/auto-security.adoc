@@ -78,7 +78,7 @@ Amazon EKS Auto Mode does not fully manage Amazon Elastic Block Store (Amazon EB
 
 ### Storage security
 
-* {aws} recommends that you enable encryption for EBS Volumes provisionsed by Kubernetes persistent storage features. For more information, see <<create-storage-class>>.
+* {aws} recommends that you enable encryption for EBS Volumes provisioned by Kubernetes persistent storage features. For more information, see <<create-storage-class>>.
 * Encryption at rest using {aws} KMS
 * You can configure your {aws} account to enforce the encryption of the new EBS volumes and snapshot copies that you create. For more information, see link:ebs/latest/userguide/encryption-by-default.html["Enable Amazon EBS encryption by default",type="documentation"] in the Amazon EBS User Guide.
 * For more information, see link:ebs/latest/userguide/security.html["Security in Amazon EBS",type="documentation"].
