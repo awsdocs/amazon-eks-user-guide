@@ -55,6 +55,15 @@ The table below represents the operating system versions that are compatible and
 
 * If you are using RHEL 8, you must use {aws} Systems Manager hybrid activations as your credential provider. {aws} IAM Roles Anywhere isn't supported on RHEL 8.
 
+=== ARM
+
+* If you are using ARM hardware, an ARMv8.2 compliant processor with the Cryptography Extension (ARMv8.2+crypto) is required to run version 1.31 and above of the EKS kube-proxy addon. All Raspberry Pi systems prior to the Raspberry Pi 5, as well as Cortex-A72 based processors, do not meet this requirement. As a  workaround, you can continue to use version 1.30 of the EKS kube-proxy addon until it reaches end of extended support in July of 2026, see <<kubernetes-release-calendar>>, or use a custom kube-proxy image from upstream.
+* The following error message in the kube-proxy log indicates this incompatibility:
+[source,none]
+====
+Fatal glibc error: This version of Amazon Linux requires a newer ARM64 processor compliant with at least ARM architecture 8.2-a with Cryptographic extensions. On EC2 this is Graviton 2 or later.
+====
+
 == Building operating system images
 
 Amazon EKS provides https://github.com/aws/eks-hybrid/tree/main/example/packer[example Packer templates] you can use to create operating system images that include `nodeadm` and configure it to run at host-startup. This process is recommended to avoid pulling the hybrid nodes dependencies individually on each host and to automate the hybrid nodes bootstrap process. You can use the example Packer templates with an Ubuntu 22.04, Ubuntu 24.04, RHEL 8 or RHEL 9 ISO image and can output images with these formats: OVA, [.noloc]`Qcow2`, or raw.
