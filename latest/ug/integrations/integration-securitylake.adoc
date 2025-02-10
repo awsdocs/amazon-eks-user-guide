@@ -17,7 +17,7 @@ Amazon Security Lake is a fully managed security data lake service that allows y
 [NOTE]
 ====
 
-For more information about using Security Lake with Amazon EKS and setting up data sources, refer to the  link:security-lake/latest/userguide/internal-sources.html#eks-eudit-logs[Amazon Security Lake documentation,type="documentation"].
+For more information about using Security Lake with Amazon EKS and setting up data sources, refer to the link:security-lake/latest/userguide/internal-sources.html#eks-eudit-logs[Amazon Security Lake documentation,type="documentation"].
 
 ====
 
@@ -35,7 +35,7 @@ For more information about using Security Lake with Amazon EKS and setting up da
 [#sl-enable]
 == Enabling Security Lake for Amazon EKS
 . Enable Amazon EKS control plane logging for your EKS clusters. Refer to <<enabling-control-plane-log-export,Enabling and disabling control plane logs>> for detailed instructions.
-.  link:security-lake/latest/userguide/internal-sources.html#add-internal-sources[Add Amazon EKS Audit Logs as a source in Security Lake.,type="documentation"] Security Lake will then start collecting in-depth information about the activities performed on the Kubernetes resources running in your EKS clusters.
+. link:security-lake/latest/userguide/internal-sources.html#add-internal-sources[Add Amazon EKS Audit Logs as a source in Security Lake.,type="documentation"] Security Lake will then start collecting in-depth information about the activities performed on the Kubernetes resources running in your EKS clusters.
 . link:security-lake/latest/userguide/lifecycle-management.html[Configure retention and replication settings,type="documentation"] for your security data in Security Lake based on your requirements.
 . Use the normalized OCSF data stored in Security Lake for incident response, security analytics, and integration with other {aws} services or third-party tools. For example, you can link:big-data/generate-security-insights-from-amazon-security-lake-data-using-amazon-opensearch-ingestion[Generate security insights from Amazon Security Lake data using Amazon OpenSearch Ingestion,type="blog"].
 

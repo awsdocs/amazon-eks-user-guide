@@ -30,8 +30,8 @@ You can use the following procedure to check and see if your account already has
 . Search the list of roles for `AmazonEKSAutoNodeRole`. If a role with one of those names doesn't exist, then see instructions in the next section to create the role. If a role that contains `AmazonEKSAutoNodeRole` does exist, then select the role to view the attached policies.
 . Choose *Permissions*.
 . Ensure that the required policies above are attached, or equivalent custom policies.
-. Choose *Trust relationships*, and then choose  *Edit trust policy*.
-. Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the  *Edit trust policy* window and choose  *Update policy*.
+. Choose *Trust relationships*, and then choose *Edit trust policy*.
+. Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the *Edit trust policy* window and choose *Update policy*.
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -59,11 +59,11 @@ You can create the node IAM role with the {aws-management-console} or the {aws} 
 === {aws-management-console}
 . Open the IAM console at https://console.aws.amazon.com/iam/.
 . In the left navigation pane, choose *Roles*.
-. On the *Roles* page, choose  *Create role*.
+. On the *Roles* page, choose *Create role*.
 . On the *Select trusted entity* page, do the following:
 +
-.. In the *Trusted entity type* section, choose  *{aws} service*.  
-.. Under *Use case*, choose  *EC2*.
+.. In the *Trusted entity type* section, choose *{aws} service*.  
+.. Under *Use case*, choose *EC2*.
 .. Choose *Next*.
 . On the *Add permissions* page, attach the following policies:
 ** <<security-iam-awsmanpol-AmazonEKSWorkerNodeMinimalPolicy,AmazonEKSWorkerNodeMinimalPolicy>>
@@ -72,7 +72,7 @@ You can create the node IAM role with the {aws-management-console} or the {aws} 
 +
 .. For *Role name*, enter a unique name for your role, such as `AmazonEKSAutoNodeRole`.
 .. For *Description*, replace the current text with descriptive text such as `Amazon EKS - Node role`.
-.. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see   link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
+.. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
 .. Choose *Create role*.
 
 

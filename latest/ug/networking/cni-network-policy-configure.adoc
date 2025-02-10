@@ -74,7 +74,7 @@ The Amazon EKS optimized accelerated Amazon Linux AMI version `v20231116` or lat
 [#cni-network-policy-configure-policy]
 == Step 1: Set up policy enforcement at [.noloc]`Pod` startup
 
-The [.noloc]`Amazon VPC CNI plugin for Kubernetes` configures network policies for pods in parallel with the pod provisioning. Until all of the policies are configured for the new pod, containers in the new pod will start with a  _default allow policy_. This is called _standard mode_. A default allow policy means that all ingress and egress traffic is allowed to and from the new pods. For example, the pods will not have any firewall rules enforced (all traffic is allowed) until the new pod is updated with the active policies. 
+The [.noloc]`Amazon VPC CNI plugin for Kubernetes` configures network policies for pods in parallel with the pod provisioning. Until all of the policies are configured for the new pod, containers in the new pod will start with a _default allow policy_. This is called _standard mode_. A default allow policy means that all ingress and egress traffic is allowed to and from the new pods. For example, the pods will not have any firewall rules enforced (all traffic is allowed) until the new pod is updated with the active policies. 
 
 With the `NETWORK_POLICY_ENFORCING_MODE` variable set to `strict`, pods that use the VPC CNI start with a _default deny policy_, then policies are configured. This is called _strict mode_. In strict mode, you must have a network policy for every endpoint that your pods need to access in your cluster. Note that this requirement applies to the [.noloc]`CoreDNS` pods. The default deny policy isn't configured for pods with Host networking.
 

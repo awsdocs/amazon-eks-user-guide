@@ -5,7 +5,7 @@
 
 include::../../attributes.txt[]
 
-Access policies include `rules` that contain [.noloc]`Kubernetes` `verbs` (permissions) and `resources`. Access policies don't include IAM permissions or resources. Similar to [.noloc]`Kubernetes` `Role` and `ClusterRole` objects, access policies only include `allow` `rules`. You can't modify the contents of an access policy. You can't create your own access policies. If the permissions in the access policies don't meet your needs, then create [.noloc]`Kubernetes` RBAC objects and specify  _group names_ for your access entries. For more information, see <<creating-access-entries>>. The permissions contained in access policies are similar to the permissions in the [.noloc]`Kubernetes` user-facing cluster roles. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles[User-facing roles] in the [.noloc]`Kubernetes` documentation.  
+Access policies include `rules` that contain [.noloc]`Kubernetes` `verbs` (permissions) and `resources`. Access policies don't include IAM permissions or resources. Similar to [.noloc]`Kubernetes` `Role` and `ClusterRole` objects, access policies only include `allow` `rules`. You can't modify the contents of an access policy. You can't create your own access policies. If the permissions in the access policies don't meet your needs, then create [.noloc]`Kubernetes` RBAC objects and specify _group names_ for your access entries. For more information, see <<creating-access-entries>>. The permissions contained in access policies are similar to the permissions in the [.noloc]`Kubernetes` user-facing cluster roles. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles[User-facing roles] in the [.noloc]`Kubernetes` documentation.  
 
 Choose any access policy to see its contents. Each row of each table in each access policy is a separate rule.
 
@@ -14,7 +14,7 @@ Choose any access policy to see its contents. Each row of each table in each acc
 == AmazonEKSAdminPolicy
 
 
-This access policy includes permissions that grant an IAM principal most permissions to resources. When associated to an access entry, its access scope is typically one or more [.noloc]`Kubernetes` namespaces. If you want an IAM principal to have administrator access to all resources on your cluster, associate the  <<access-policy-permissions-amazoneksclusteradminpolicy>> access policy to your access entry instead.
+This access policy includes permissions that grant an IAM principal most permissions to resources. When associated to an access entry, its access scope is typically one or more [.noloc]`Kubernetes` namespaces. If you want an IAM principal to have administrator access to all resources on your cluster, associate the <<access-policy-permissions-amazoneksclusteradminpolicy>> access policy to your access entry instead.
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSAdminPolicy`
 
@@ -119,7 +119,7 @@ This access policy includes permissions that grant an IAM principal most permiss
 == AmazonEKSClusterAdminPolicy
 
 
-This access policy includes permissions that grant an IAM principal administrator access to a cluster. When associated to an access entry, its access scope is typically the cluster, rather than a [.noloc]`Kubernetes` namespace. If you want an IAM principal to have a more limited administrative scope, consider associating the  <<access-policy-permissions-amazoneksadminpolicy>> access policy to your access entry instead.
+This access policy includes permissions that grant an IAM principal administrator access to a cluster. When associated to an access entry, its access scope is typically the cluster, rather than a [.noloc]`Kubernetes` namespace. If you want an IAM principal to have a more limited administrative scope, consider associating the <<access-policy-permissions-amazoneksadminpolicy>> access policy to your access entry instead.
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy`
 

@@ -4,7 +4,7 @@ include::../../attributes.txt[]
 = Configure the {aws} Security Token Service endpoint for a service account
 :info_titleabbrev: STS endpoints
 
-If you're using a [.noloc]`Kubernetes` service account with  <<iam-roles-for-service-accounts,IAM roles for service accounts>>, then you can configure the type of {aws} Security Token Service endpoint that's used by the service account if your cluster and platform version are the same or later than those listed in the following table. If your [.noloc]`Kubernetes` or platform version are earlier than those listed in the table, then your service accounts can only use the global endpoint.
+If you're using a [.noloc]`Kubernetes` service account with <<iam-roles-for-service-accounts,IAM roles for service accounts>>, then you can configure the type of {aws} Security Token Service endpoint that's used by the service account if your cluster and platform version are the same or later than those listed in the following table. If your [.noloc]`Kubernetes` or platform version are earlier than those listed in the table, then your service accounts can only use the global endpoint.
 
 [cols="1,1,1", options="header"]
 |===
@@ -50,15 +50,15 @@ If you're using a [.noloc]`Kubernetes` service account with  <<iam-roles-for-ser
 |Regional
 |===
 
-{aws} recommends using the regional {aws} STS endpoints instead of the global endpoint. This reduces latency, provides built-in redundancy, and increases session token validity. The {aws} Security Token Service must be active in the {aws} Region where the [.noloc]`Pod` is running. Moreover, your application must have built-in redundancy for a different {aws} Region in the event of a failure of the service in the {aws} Region. For more information, see   link:IAM/latest/UserGuide/id_credentials_temp_enable-regions.html[Managing {aws} STS in an {aws} Region,type="documentation"] in the IAM User Guide.
+{aws} recommends using the regional {aws} STS endpoints instead of the global endpoint. This reduces latency, provides built-in redundancy, and increases session token validity. The {aws} Security Token Service must be active in the {aws} Region where the [.noloc]`Pod` is running. Moreover, your application must have built-in redundancy for a different {aws} Region in the event of a failure of the service in the {aws} Region. For more information, see link:IAM/latest/UserGuide/id_credentials_temp_enable-regions.html[Managing {aws} STS in an {aws} Region,type="documentation"] in the IAM User Guide.
 
 
 
 * An existing cluster. If you don't have one, you can create one using one of the guides in <<getting-started>>.
 * An existing IAM OIDC provider for your cluster. For more information, see <<enable-iam-roles-for-service-accounts>>.
-* An existing [.noloc]`Kubernetes` service account configured for use with the  <<iam-roles-for-service-accounts,Amazon EKS IAM for service accounts>> feature.
+* An existing [.noloc]`Kubernetes` service account configured for use with the <<iam-roles-for-service-accounts,Amazon EKS IAM for service accounts>> feature.
 
-The following examples all use the aws-node [.noloc]`Kubernetes` service account used by the  <<cni-iam-role,Amazon VPC CNI plugin>>. You can replace the [.replaceable]`example values` with your own service accounts, [.noloc]`Pods`, namespaces, and other resources.
+The following examples all use the aws-node [.noloc]`Kubernetes` service account used by the <<cni-iam-role,Amazon VPC CNI plugin>>. You can replace the [.replaceable]`example values` with your own service accounts, [.noloc]`Pods`, namespaces, and other resources.
 
 . Select a [.noloc]`Pod` that uses a service account that you want to change the endpoint for. Determine which {aws} Region that the [.noloc]`Pod` runs in. Replace [.replaceable]`aws-node-6mfgv` with your [.noloc]`Pod` name and [.replaceable]`kube-system` with your [.noloc]`Pod's` namespace.
 +

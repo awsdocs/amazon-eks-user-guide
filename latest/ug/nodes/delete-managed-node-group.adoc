@@ -51,8 +51,8 @@ For more options, see https://eksctl.io/usage/nodegroups/#deleting-and-draining-
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . On the *Clusters* page, choose the cluster that contains the node group to delete.
 . On the selected cluster page, choose the *Compute* tab.
-. In the *Node groups* section, choose the node group to delete. Then choose  *Delete*.
-. In the *Delete node group* confirmation dialog box, enter the name of the node group. Then choose  *Delete*.
+. In the *Node groups* section, choose the node group to delete. Then choose *Delete*.
+. In the *Delete node group* confirmation dialog box, enter the name of the node group. Then choose *Delete*.
 
 == {aws} CLI [[awscli-delete-managed-nodegroup]]
 

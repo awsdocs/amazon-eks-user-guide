@@ -40,7 +40,7 @@ Amazon EKS Add-ons reduce the complexity of upgrading Kubecost, and managing lic
 aws eks create-addon --addon-name kubecost_kubecost --cluster-name $YOUR_CLUSTER_NAME --region $AWS_REGION
 ----
 
-Learn how to  <<removing-an-add-on,remove an EKS Add-on>>, such as Kubecost.
+Learn how to <<removing-an-add-on,remove an EKS Add-on>>, such as Kubecost.
 
 [#kubecost-helm]
 == Install Kubecost using Helm
@@ -96,7 +96,7 @@ kubecost-prometheus-server-7d9967bfc8-9c8p7   2/2     Running   0          3h27m
 kubectl port-forward --namespace kubecost deployment/kubecost-cost-analyzer 9090
 ----
 +
-Alternatively, you can use the  <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to expose [.noloc]`Kubecost` and use Amazon Cognito for authentication, authorization, and user management. For more information, see link:containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps[How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps,type="blog"].
+Alternatively, you can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to expose [.noloc]`Kubecost` and use Amazon Cognito for authentication, authorization, and user management. For more information, see link:containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps[How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps,type="blog"].
 . On the same device that you completed the previous step on, open a web browser and enter the following address.
 +
 [source,bash,subs="verbatim,attributes"]

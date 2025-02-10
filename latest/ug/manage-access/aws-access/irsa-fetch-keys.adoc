@@ -17,7 +17,7 @@ To validate a `ProjectedServiceAccountToken`, you need to fetch the [.noloc]`OID
 == Prerequisites 
 
 * An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
-* *{aws} CLI* -- A command line tool for working with {aws} services, including Amazon EKS. For more information, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide. After installing the {aws} CLI, we recommend that you also configure it. For more information, see  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide.
+* *{aws} CLI* -- A command line tool for working with {aws} services, including Amazon EKS. For more information, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide. After installing the {aws} CLI, we recommend that you also configure it. For more information, see link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide.
 
 == Procedure 
 

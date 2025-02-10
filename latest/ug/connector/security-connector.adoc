@@ -32,10 +32,10 @@ This topic describes the differences in the responsibility model if the connecte
 +
 ** [.noloc]`Kubernetes` secrets must be properly encrypted and protected.
 ** Lock down access to the `eks-connector` namespace.
-* Configuring role-based access control (RBAC) permissions to manage  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] access from {aws}. For instructions, see <<connector-grant-access>>.
+* Configuring role-based access control (RBAC) permissions to manage link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] access from {aws}. For instructions, see <<connector-grant-access>>.
 * Installing and upgrading Amazon EKS Connector.
 * Maintaining the hardware, software, and infrastructure that supports the connected [.noloc]`Kubernetes` cluster.
-* Securing their {aws} accounts (for example, through safeguarding your  link:IAM/latest/UserGuide/best-practices.html#lock-away-credentials[root user credentials,type="documentation"]).
+* Securing their {aws} accounts (for example, through safeguarding your link:IAM/latest/UserGuide/best-practices.html#lock-away-credentials[root user credentials,type="documentation"]).
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-connector%5D&type=code[Edit this page on GitHub]

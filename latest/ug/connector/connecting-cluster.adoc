@@ -82,11 +82,11 @@ You use the `aws-region`, `activationId`, and `activationCode` values in the nex
 
 === {aws-management-console} [[console_register_cluster_connect]]
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
-. Choose *Add cluster* and select  *Register* to bring up the configuration page.
+. Choose *Add cluster* and select *Register* to bring up the configuration page.
 . On the *Configure cluster* section, fill in the following fields:
 +
 *** *Name* – A unique name for your cluster.
-*** *Provider* – Choose to display the dropdown list of [.noloc]`Kubernetes` cluster providers. If you don't know the specific provider, select  *Other*.
+*** *Provider* – Choose to display the dropdown list of [.noloc]`Kubernetes` cluster providers. If you don't know the specific provider, select *Other*.
 *** *EKS Connector role* – Select the role to use for connecting the cluster.  
 . Select *Register cluster*.
 . The Cluster overview page displays. If you want to use the Helm chart, copy the `helm install` command and continue to the next step. If you want to use the YAML manifest, choose *Download YAML file* to download the manifest file to your local drive.  
@@ -209,7 +209,7 @@ The output should include `status=ACTIVE`.
 
 If you have any issues with these steps, see <<troubleshooting-connector>>.
 
-To grant additional  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] access to the Amazon EKS console to view [.noloc]`Kubernetes` resources in a connected cluster, see <<connector-grant-access>>.
+To grant additional link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] access to the Amazon EKS console to view [.noloc]`Kubernetes` resources in a connected cluster, see <<connector-grant-access>>.
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23connecting-cluster%5D&type=code[Edit this page on GitHub]

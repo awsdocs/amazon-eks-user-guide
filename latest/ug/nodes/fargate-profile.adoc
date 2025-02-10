@@ -13,7 +13,7 @@ Before you schedule [.noloc]`Pods` on Fargate in your cluster, you must define a
 
 As an administrator, you can use a Fargate profile to declare which [.noloc]`Pods` run on Fargate. You can do this through the profile's selectors. You can add up to five selectors to each profile. Each selector must contain a namespace. The selector can also include labels. The label field consists of multiple optional key-value pairs. Pods that match a selector are scheduled on Fargate. Pods are matched using a namespace and the labels that are specified in the selector. If a namespace selector is defined without labels, Amazon EKS attempts to schedule all the [.noloc]`Pods` that run in that namespace onto Fargate using the profile. If a to-be-scheduled [.noloc]`Pod` matches any of the selectors in the Fargate profile, then that [.noloc]`Pod` is scheduled on Fargate.
 
-If a [.noloc]`Pod` matches multiple Fargate profiles, you can specify which profile a [.noloc]`Pod` uses by adding the following [.noloc]`Kubernetes` label to the [.noloc]`Pod` specification: `eks.amazonaws.com/fargate-profile: [.replaceable]``my-fargate-profile```. The [.noloc]`Pod` must match a selector in that profile to be scheduled onto Fargate. [.noloc]`Kubernetes` affinity/anti-affinity rules do not apply and aren't necessary with Amazon EKS Fargate [.noloc]`Pods`.
+If a [.noloc]`Pod` matches multiple Fargate profiles, you can specify which profile a [.noloc]`Pod` uses by adding the following [.noloc]`Kubernetes` label to the [.noloc]`Pod` specification: `eks.amazonaws.com/fargate-profile: my-fargate-profile`. The [.noloc]`Pod` must match a selector in that profile to be scheduled onto Fargate. [.noloc]`Kubernetes` affinity/anti-affinity rules do not apply and aren't necessary with Amazon EKS Fargate [.noloc]`Pods`.
 
 When you create a Fargate profile, you must specify a [.noloc]`Pod` execution role. This execution role is for the Amazon EKS components that run on the Fargate infrastructure using the profile. It's added to the cluster's [.noloc]`Kubernetes` https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Role Based Access Control] (RBAC) for authorization. That way, the `kubelet` that runs on the Fargate infrastructure can register with your Amazon EKS cluster and appear in your cluster as a node. The [.noloc]`Pod` execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see <<pod-execution-role>>.
 
@@ -77,8 +77,6 @@ If there are multiple matching profiles for the namespace and labels in the [.no
 
 If you want to migrate existing Fargate [.noloc]`Pods` to new profiles that use wildcards, there are two ways to do so:
 
-
-
 * Create a new profile with matching selectors, then delete the old profiles. Pods labeled with old profiles are rescheduled to new matching profiles.
 * If you want to migrate workloads but aren't sure what Fargate labels are on each Fargate [.noloc]`Pod`, you can use the following method. Create a new profile with a name that sorts alphanumerically first among the profiles on the same cluster. Then, recycle the Fargate [.noloc]`Pods` that need to be migrated to new profiles.
 
@@ -97,7 +95,7 @@ You can create a profile with the following:
 
 *To create a Fargate profile with `eksctl`*
 
-Create your Fargate profile with the following `eksctl` command, replacing every [.replaceable]`example value` with your own values. You're required to specify a namespace. However, the `--labels` option isn't required.
+Create your Fargate profile with the following `eksctl` command, replacing every example value with your own values. You're required to specify a namespace. However, the `--labels` option isn't required.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -108,7 +106,7 @@ eksctl create fargateprofile \
     --labels key=value
 ----
 
-You can use certain wildcards for [.replaceable]`my-kubernetes-namespace` and [.replaceable]`key=value` labels. For more information, see <<fargate-profile-wildcards>>.
+You can use certain wildcards for `my-kubernetes-namespace` and `key=value` labels. For more information, see <<fargate-profile-wildcards>>.
 
 
 == {aws-management-console} [[console_create_a_fargate_profile]]
@@ -118,10 +116,10 @@ You can use certain wildcards for [.replaceable]`my-kubernetes-namespace` and [.
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the cluster to create a Fargate profile for.
 . Choose the *Compute* tab.
-. Under *Fargate profiles*, choose  *Add Fargate profile*.
+. Under *Fargate profiles*, choose *Add Fargate profile*.
 . On the *Configure Fargate profile* page, do the following:
 +
-.. For *Name*, enter a unique name for your Fargate profile, such as [.replaceable]`my-profile`.
+.. For *Name*, enter a unique name for your Fargate profile, such as `my-profile`.
 .. For *Pod execution role*, choose the [.noloc]`Pod` execution role to use with your Fargate profile. Only the IAM roles with the `eks-fargate-pods.amazonaws.com` service principal are shown. If you don't see any roles listed, you must create one. For more information, see <<pod-execution-role>>.
 .. Modify the selected *Subnets* as needed.
 +
@@ -139,7 +137,7 @@ NOTE: Only private subnets are supported for [.noloc]`Pods` that are running on 
 *** You can add the label `infrastructure: fargate` to the selector so that only [.noloc]`Pods` in the specified namespace that also have the `infrastructure: fargate` [.noloc]`Kubernetes` label match the selector.
 *** You can use certain wildcards (for example, `key?: value?`) to match multiple namespaces (for example, `keya: valuea` and `keyb: valueb`). For more information, see <<fargate-profile-wildcards>>.
 .. Choose *Next*.
-. On the *Review and create* page, review the information for your Fargate profile and choose  *Create*.
+. On the *Review and create* page, review the information for your Fargate profile and choose *Create*.
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23fargate-profile%5D&type=code[Edit this page on GitHub]

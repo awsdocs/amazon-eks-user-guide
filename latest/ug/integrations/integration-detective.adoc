@@ -30,7 +30,7 @@ Before you can review findings, Detective must be enabled for at least 48 hours 
 
 . Open the Detective console at https://console.aws.amazon.com/detective/.
 . From the left navigation pane, select *Search*.
-. Select *Choose type* and then select  *EKS cluster*.
+. Select *Choose type* and then select *EKS cluster*.
 . Enter the cluster name or ARN and then choose *Search*.
 . In the search results, choose the name of the cluster that you want to view activity for. For more information about what you can view, see link:detective/latest/userguide/profile-panel-drilldown-kubernetes-api-volume.html[Overall Kubernetes API activity involving an Amazon EKS cluster,type="documentation"] in the _Amazon Detective User Guide_.
 

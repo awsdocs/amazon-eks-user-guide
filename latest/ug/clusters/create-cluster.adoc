@@ -27,8 +27,8 @@ This topic provides an overview of the available options and describes what to c
 
 * An existing VPC and subnets that meet <<network-reqs,Amazon EKS requirements>>. Before you deploy a cluster for production use, we recommend that you have a thorough understanding of the VPC and subnet requirements. If you don't have a VPC and subnets, you can create them using an <<creating-a-vpc,Amazon EKS provided {aws} CloudFormation template>>.
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. To install or upgrade `kubectl`, see <<install-kubectl>>.
-* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
-* An  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] with permissions to `create` and `describe` an Amazon EKS cluster. For more information, see <<policy-create-local-cluster>> and <<policy-example2>>.
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
+* An link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] with permissions to `create` and `describe` an Amazon EKS cluster. For more information, see <<policy-create-local-cluster>> and <<policy-example2>>.
 
 == Step 1: Create cluster IAM role
 
@@ -53,7 +53,7 @@ cat >eks-cluster-role-trust-policy.json <<EOF
 }
 EOF
 ----
-. Create the Amazon EKS cluster IAM role. If necessary, preface [.replaceable]`eks-cluster-role-trust-policy.json` with the path on your computer that you wrote the file to in the previous step. The command associates the trust policy that you created in the previous step to the role. To create an IAM role, the  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that is creating the role must be assigned the `iam:CreateRole` action (permission).
+. Create the Amazon EKS cluster IAM role. If necessary, preface [.replaceable]`eks-cluster-role-trust-policy.json` with the path on your computer that you wrote the file to in the previous step. The command associates the trust policy that you created in the previous step to the role. To create an IAM role, the link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that is creating the role must be assigned the `iam:CreateRole` action (permission).
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -61,7 +61,7 @@ aws iam create-role --role-name myAmazonEKSClusterRole --assume-role-policy-docu
 ----
 . You can assign either the Amazon EKS managed policy or create your own custom policy. For the minimum permissions that you must use in your custom policy, see <<cluster-iam-role>>.
 +
-Attach the Amazon EKS managed policy named  link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html#AmazonEKSClusterPolicy-json[AmazonEKSClusterPolicy,type="documentation"] to the role. To attach an IAM policy to an  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"], the principal that is attaching the policy must be assigned one of the following IAM actions (permissions): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`.
+Attach the Amazon EKS managed policy named link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html#AmazonEKSClusterPolicy-json[AmazonEKSClusterPolicy,type="documentation"] to the role. To attach an IAM policy to an link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"], the principal that is attaching the policy must be assigned one of the following IAM actions (permissions): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -141,7 +141,7 @@ You can only specify this option when using the `IPv4` address family and only a
 === Create cluster - {aws} console
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
-. Choose *Add cluster* and then choose  *Create*.
+. Choose *Add cluster* and then choose *Create*.
 . Under *Configuration options* select *Custom configuration*
 ** For information about quickly creating a cluster wih EKS Auto Mode, see <<automode-get-started-console>>.
 . Under *EKS Auto Mode*, toggle *Use EKS Auto Mode* off. 
@@ -151,7 +151,7 @@ You can only specify this option when using the `IPv4` address family and only a
 ** *Name* – A name for your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
 ** *Cluster IAM role* – Choose the Amazon EKS cluster IAM role that you created to allow the [.noloc]`Kubernetes` control plane to manage {aws} resources on your behalf.
 ** *[.noloc]`Kubernetes` version* – The version of [.noloc]`Kubernetes` to use for your cluster. We recommend selecting the latest version, unless you need an earlier version.
-** *Support type* -- The [.noloc]`Kubernetes` version policy you would like to set for your cluster. If you want your cluster to only run on a standard support version, you can choose  *Standard support*. If you want your cluster to enter extended support at the end of standard support for a version, you can choose  *Extended support*. If you select a [.noloc]`Kubernetes` version that is currently in extended support, you can not select standard support as an option.
+** *Support type* -- The [.noloc]`Kubernetes` version policy you would like to set for your cluster. If you want your cluster to only run on a standard support version, you can choose *Standard support*. If you want your cluster to enter extended support at the end of standard support for a version, you can choose *Extended support*. If you select a [.noloc]`Kubernetes` version that is currently in extended support, you can not select standard support as an option.
 ** *Secrets encryption* – (Optional) Choose to enable secrets encryption of [.noloc]`Kubernetes` secrets using a KMS key. You can also enable this after you create your cluster. Before you enable this capability, make sure that you're familiar with the information in <<enable-kms>>.
 ** *Tags* – (Optional) Add any tags to your cluster. For more information, see <<eks-using-tags>>.
 ** *ARC Zonal shift* - (Optional) You can use Route53 Application Recovery controller to mitigate impaired availability zones. For more information, see <<zone-shift>>.  
@@ -170,11 +170,11 @@ The subnets that you choose must meet the <<network-requirements-subnets,Amazon 
 *Security groups* – (Optional) Specify one or more security groups that you want Amazon EKS to associate to the network interfaces that it creates.
 +
 Whether you choose any security groups or not, Amazon EKS creates a security group that enables communication between your cluster and your VPC. Amazon EKS associates this security group, and any that you choose, to the network interfaces that it creates. For more information about the cluster security group that Amazon EKS creates, see <<sec-group-reqs>>. You can modify the rules in the cluster security group that Amazon EKS creates.
-** *Choose cluster IP address family* – You can choose either  *IPv4* and  *IPv6*.
+** *Choose cluster IP address family* – You can choose either *IPv4* and *IPv6*.
 +
 [.noloc]`Kubernetes` assigns `IPv4` addresses to [.noloc]`Pods` and services, by default. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the <<network-requirements-vpc,VPC requirements and considerations>>, <<network-requirements-subnets>>, <<sec-group-reqs>>, and <<cni-ipv6>> topics. If you choose the `IPv6` family, you can't specify an address range for [.noloc]`Kubernetes` to assign `IPv6` service addresses from like you can for the `IPv4` family. [.noloc]`Kubernetes` assigns service addresses from the unique local address range (`fc00::/7`).
 +
-** (Optional) Choose *Configure [.noloc]`Kubernetes` Service IP address range* and specify a  *Service `IPv4` range*.
+** (Optional) Choose *Configure [.noloc]`Kubernetes` Service IP address range* and specify a *Service `IPv4` range*.
 +
 Specifying your own range can help prevent conflicts between [.noloc]`Kubernetes` services and other networks peered or connected to your VPC. Enter a range in CIDR notation. For example: `10.2.0.0/16`.
 +
@@ -189,16 +189,16 @@ You can only specify this option when using the `IPv4` address family and only a
 ** For *Cluster endpoint access*, select an option. After your cluster is created, you can change this option. Before selecting a non-default option, make sure to familiarize yourself with the options and their implications. For more information, see <<cluster-endpoint>>.
 +
 When you're done with this page, choose *Next*.
-. (Optional) On the *Configure observability* page, choose which  *Metrics* and  *Control plane logging* options to turn on. By default, each log type is turned off.
+. (Optional) On the *Configure observability* page, choose which *Metrics* and *Control plane logging* options to turn on. By default, each log type is turned off.
 +
 ** For more information about the [.noloc]`Prometheus` metrics option, see <<turn-on-prometheus-metrics>>.
 ** For more information about the *Control plane logging* options, see <<control-plane-logs>>.
 
 +
-When you're done with this page, choose  *Next*.
-. On the *Select add-ons* page, choose the add-ons that you want to add to your cluster. Certain add-ons are pre-selected. You can choose as many  *Amazon EKS add-ons* and  *{aws} Marketplace add-ons* as you require. If the  *{aws} Marketplace add-ons* that you want to install isn't listed, you can click the page numbering to view additional page results or search for available *{aws} Marketplace add-ons* by entering text in the search box. You can also filter by  *category*,  *vendor*, or  *pricing model* and then choose the add-ons from the search results. When creating a cluster, you can view, select, and install any add-on that supports EKS Pod Identities as detailed in <<pod-identities>>. 
+When you're done with this page, choose *Next*.
+. On the *Select add-ons* page, choose the add-ons that you want to add to your cluster. Certain add-ons are pre-selected. You can choose as many *Amazon EKS add-ons* and *{aws} Marketplace add-ons* as you require. If the *{aws} Marketplace add-ons* that you want to install isn't listed, you can click the page numbering to view additional page results or search for available *{aws} Marketplace add-ons* by entering text in the search box. You can also filter by *category*, *vendor*, or *pricing model* and then choose the add-ons from the search results. When creating a cluster, you can view, select, and install any add-on that supports EKS Pod Identities as detailed in <<pod-identities>>. 
 +
-When you're done with this page, choose  *Next*.
+When you're done with this page, choose *Next*.
 +
 Some add-ons, such as Amazon VPC CNI, CoreDNS, and kube-proxy, are installed by default. If you disable any of the default add-ons, this may affect your ability to run Kubernetes applications.
 . On the *Configure selected add-ons settings* page, select the version that you want to install. You can always update to a later version after cluster creation. 
@@ -206,7 +206,7 @@ Some add-ons, such as Amazon VPC CNI, CoreDNS, and kube-proxy, are installed by 
 For add-ons that support EKS Pod Identities, you can use the console to automatically generate the role with the name, {aws} managed policy, and trust policy prepopulated specifically for the add-on. You can re-use existing roles or create new roles for supported add-ons. For the steps to use the console to create roles for add-ons that support EKS Pod Identities, see <<_create_add_on_console>>. If an add-on does not support EKS Pod Identity, a message displays with instructions to use the wizard to create the IAM roles for service accounts (IRSA) after the cluster is created.
 +
 You can update the configuration of each add-on after cluster creation. For more information about configuring add-ons, see <<updating-an-add-on>>. When you're done with this page, choose *Next*.
-. On the *Review and create* page, review the information that you entered or selected on the previous pages. If you need to make changes, choose  *Edit*. When you're satisfied, choose  *Create*. The  *Status* field shows  *CREATING* while the cluster is provisioned.
+. On the *Review and create* page, review the information that you entered or selected on the previous pages. If you need to make changes, choose *Edit*. When you're satisfied, choose *Create*. The *Status* field shows *CREATING* while the cluster is provisioned.
 +
 NOTE: You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster. If this happens, the error output contains the Availability Zones that can support a new cluster. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account. For more information, see <<ice>>.
 +
@@ -241,7 +241,7 @@ The following are optional settings that, if required, must be added to the prev
 
 ** By default, EKS installs multiple networking add-ons during cluster creation. This includes the Amazon VPC CNI, CoreDNS, and kube-proxy. 
 +
-If you'd like to disable the installation of these default networking add-ons, use the parameter below. This may be used for alternate CNIs, such as Cilium. Review the  link:eks/latest/APIReference/API_CreateCluster.html[EKS API reference,type="documentation"] for more information. 
+If you'd like to disable the installation of these default networking add-ons, use the parameter below. This may be used for alternate CNIs, such as Cilium. Review the link:eks/latest/APIReference/API_CreateCluster.html[EKS API reference,type="documentation"] for more information. 
 +
 `aws eks create-cluster --bootstrapSelfManagedAddons false`
 ** If you want to specify which `IPv4` Classless Inter-domain Routing (CIDR) block [.noloc]`Kubernetes` assigns service IP addresses from, you must specify it by adding the `--kubernetes-network-config serviceIpv4Cidr=<cidr-block>` to the following command.
@@ -302,8 +302,8 @@ kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   28h
 
 == Step 4: Cluster setup
 
-. (Recommended) To use some Amazon EKS add-ons, or to enable individual [.noloc]`Kubernetes` workloads to have specific {aws} Identity and Access Management (IAM) permissions,  <<enable-iam-roles-for-service-accounts,create an IAM OpenID Connect (OIDC) provider>> for your cluster. You only need to create an IAM [.noloc]`OIDC` provider for your cluster once. To learn more about Amazon EKS add-ons, see <<eks-add-ons>>. To learn more about assigning specific IAM permissions to your workloads, see <<iam-roles-for-service-accounts>>. 
-. (Recommended) Configure your cluster for the [.noloc]`Amazon VPC CNI plugin for Kubernetes` plugin before deploying Amazon EC2 nodes to your cluster. By default, the plugin was installed with your cluster. When you add Amazon EC2 nodes to your cluster, the plugin is automatically deployed to each Amazon EC2 node that you add. The plugin requires you to attach one of the following IAM policies to an IAM role. If your cluster uses the `IPv4` family, use the  link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html[AmazonEKS_CNI_Policy,type="documentation"] managed IAM policy. If your cluster uses the `IPv6` family, use an <<cni-iam-role-create-ipv6-policy,IAM policy that you create>>.
+. (Recommended) To use some Amazon EKS add-ons, or to enable individual [.noloc]`Kubernetes` workloads to have specific {aws} Identity and Access Management (IAM) permissions, <<enable-iam-roles-for-service-accounts,create an IAM OpenID Connect (OIDC) provider>> for your cluster. You only need to create an IAM [.noloc]`OIDC` provider for your cluster once. To learn more about Amazon EKS add-ons, see <<eks-add-ons>>. To learn more about assigning specific IAM permissions to your workloads, see <<iam-roles-for-service-accounts>>. 
+. (Recommended) Configure your cluster for the [.noloc]`Amazon VPC CNI plugin for Kubernetes` plugin before deploying Amazon EC2 nodes to your cluster. By default, the plugin was installed with your cluster. When you add Amazon EC2 nodes to your cluster, the plugin is automatically deployed to each Amazon EC2 node that you add. The plugin requires you to attach one of the following IAM policies to an IAM role. If your cluster uses the `IPv4` family, use the link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html[AmazonEKS_CNI_Policy,type="documentation"] managed IAM policy. If your cluster uses the `IPv6` family, use an <<cni-iam-role-create-ipv6-policy,IAM policy that you create>>.
 +
 The IAM role that you attach the policy to can be the node IAM role, or a dedicated role used only for the plugin. We recommend attaching the policy to this role. For more information about creating the role, see <<cni-iam-role>> or <<create-node-role,Amazon EKS node IAM role>>.
 . If you deployed your cluster using the {aws-management-console}, you can skip this step. The {aws-management-console} deploys the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, [.noloc]`CoreDNS`, and `kube-proxy` Amazon EKS add-ons, by default.
@@ -314,9 +314,9 @@ If you deploy your cluster using either `eksctl` or the {aws} CLI, then the [.no
 
 == Next steps
 
-* The  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that created the cluster is the only principal that has access to the cluster. <<grant-k8s-access,Grant permissions to other IAM principals>> so they can access your cluster.
+* The link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that created the cluster is the only principal that has access to the cluster. <<grant-k8s-access,Grant permissions to other IAM principals>> so they can access your cluster.
 * If the IAM principal that created the cluster only has the minimum IAM permissions referenced in the prerequisites, then you might want to add additional Amazon EKS permissions for that principal. For more information about granting Amazon EKS permissions to IAM principals, see <<security-iam>>.
-* If you want the IAM principal that created the cluster, or any other principals to view [.noloc]`Kubernetes` resources in the Amazon EKS console, grant the  <<view-kubernetes-resources-permissions,Required permissions>> to the entities.
+* If you want the IAM principal that created the cluster, or any other principals to view [.noloc]`Kubernetes` resources in the Amazon EKS console, grant the <<view-kubernetes-resources-permissions,Required permissions>> to the entities.
 * If you want nodes and IAM principals to access your cluster from within your VPC, enable the private endpoint for your cluster. The public endpoint is enabled by default. You can disable the public endpoint once you've enabled the private endpoint, if desired. For more information, see <<cluster-endpoint>>.
 * <<enable-kms,Enable secrets encryption for your cluster>>.
 * <<control-plane-logs,Configure logging for your cluster>>.

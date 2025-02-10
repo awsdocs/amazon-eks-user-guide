@@ -9,7 +9,7 @@ Learn how to configure Network Load Balancers (NLB) in Amazon EKS using Kubernet
 
 When you create a Kubernetes service of type `LoadBalancer` in EKS Auto Mode, EKS automatically provisions and configures an {aws} Network Load Balancer based on the annotations you specify. This declarative approach allows you to manage load balancer configurations directly through your Kubernetes manifests, maintaining infrastructure as code practices.
 
-EKS Auto Mode handles Network Load Balancer provisioning by default for all services of type LoadBalancer - no additional controller installation or configuration is required. The `loadBalancerClass: eks.amazonaws.com/nlb `specification is automatically set as the cluster default, streamlining the deployment process while maintaining compatibility with existing Kubernetes workloads.
+EKS Auto Mode handles Network Load Balancer provisioning by default for all services of type LoadBalancer - no additional controller installation or configuration is required. The `loadBalancerClass: eks.amazonaws.com/nlb` specification is automatically set as the cluster default, streamlining the deployment process while maintaining compatibility with existing Kubernetes workloads.
 
 [NOTE]
 ====

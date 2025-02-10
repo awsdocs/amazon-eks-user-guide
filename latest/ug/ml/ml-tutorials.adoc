@@ -10,17 +10,17 @@ These tutorials cover everything from patterns for making the best use of GPU pr
 
 == Build generative AI platforms on EKS
 
-*  link:containers/deploy-generative-ai-models-on-amazon-eks/[Deploy Generative AI Models on Amazon EKS,type="blog"]
-*  link:containers/building-multi-tenant-jupyterhub-platforms-on-amazon-eks/[Building multi-tenant JupyterHub Platforms on Amazon EKS,type="blog"]
-*  link:containers/run-spark-rapids-ml-workloads-with-gpus-on-amazon-emr-on-eks/[Run Spark-RAPIDS ML workloads with GPUs on Amazon EMR on EKS,type="blog"]
+* link:containers/deploy-generative-ai-models-on-amazon-eks/[Deploy Generative AI Models on Amazon EKS,type="blog"]
+* link:containers/building-multi-tenant-jupyterhub-platforms-on-amazon-eks/[Building multi-tenant JupyterHub Platforms on Amazon EKS,type="blog"]
+* link:containers/run-spark-rapids-ml-workloads-with-gpus-on-amazon-emr-on-eks/[Run Spark-RAPIDS ML workloads with GPUs on Amazon EMR on EKS,type="blog"]
 
 == Run specialized generative AI frameworks on EKS
 
 * link:hpc/accelerate-drug-discovery-with-nvidia-bionemo-framework-on-amazon-eks/[Accelerate drug discovery with NVIDIA BioNeMo Framework on Amazon EKS,type="blog"]
 * link:containers/host-the-whisper-model-with-streaming-mode-on-amazon-eks-and-ray-serve/[Host the Whisper Model with Streaming Mode on Amazon EKS and Ray Serve,type="blog"]
 * link:machine-learning/accelerate-your-generative-ai-distributed-training-workloads-with-the-nvidia-nemo-framework-on-amazon-eks/[Accelerate your generative AI distributed training workloads with the NVIDIA NeMo Framework on Amazon EKS,type="blog"]
-*  link:publicsector/virtualizing-satcom-operations-aws/[Virtualizing satellite communication operations with {aws},type="blog"]
-*  link:opensource/running-torchserve-on-amazon-elastic-kubernetes-service/[Running TorchServe on Amazon Elastic Kubernetes Service,type="blog"]
+* link:publicsector/virtualizing-satcom-operations-aws/[Virtualizing satellite communication operations with {aws},type="blog"]
+* link:opensource/running-torchserve-on-amazon-elastic-kubernetes-service/[Running TorchServe on Amazon Elastic Kubernetes Service,type="blog"]
 
 == Maximize NVIDIA GPU performance for ML on EKS
 
@@ -41,7 +41,7 @@ link:hpc/deploying-generative-ai-applications-with-nvidia-nim-microservices-on-a
 * link:containers/scaling-a-large-language-model-with-nvidia-nim-on-amazon-eks-with-karpenter/[Scaling a Large Language Model with NVIDIA NIM on Amazon EKS with Karpenter,type="blog"]
 
 
-*  link:machine-learning/build-and-deploy-a-scalable-machine-learning-system-on-kubernetes-with-kubeflow-on-aws/[Build and deploy a scalable machine learning system on Kubernetes with Kubeflow on {aws},type="blog"]
+* link:machine-learning/build-and-deploy-a-scalable-machine-learning-system-on-kubernetes-with-kubeflow-on-aws/[Build and deploy a scalable machine learning system on Kubernetes with Kubeflow on {aws},type="blog"]
 
 == Run video encoding workloads on EKS
 
@@ -53,7 +53,7 @@ link:hpc/deploying-generative-ai-applications-with-nvidia-nim-microservices-on-a
 
 == Testimonials for ML on EKS
 
-*  link:containers/quora-3x-faster-machine-learning-25-lower-costs-with-nvidia-triton-on-amazon-eks/[Quora achieved 3x lower latency and 25% lower Costs by modernizing model serving with Nvidia Triton on Amazon EKS,type="blog"]
+* link:containers/quora-3x-faster-machine-learning-25-lower-costs-with-nvidia-triton-on-amazon-eks/[Quora achieved 3x lower latency and 25% lower Costs by modernizing model serving with Nvidia Triton on Amazon EKS,type="blog"]
 
 == Monitoring ML workloads
 

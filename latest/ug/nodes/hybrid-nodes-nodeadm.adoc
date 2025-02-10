@@ -240,7 +240,7 @@ nodeadm init [flags]
 
 `install-validation` skips checking if the proceding install command ran successfully.
 
-|`-h, `--help`
+|`-h`, `--help`
 |FALSE
 |Displays help message with available flag, subcommand and positional value parameters.
 |===

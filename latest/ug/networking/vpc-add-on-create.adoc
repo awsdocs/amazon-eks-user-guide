@@ -17,7 +17,7 @@ The following are prerequisites for the [.noloc]`Amazon VPC CNI plugin for Kuber
 
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
 * An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
-* An IAM role with the  link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html[AmazonEKS_CNI_Policy,type="documentation"] IAM policy (if your cluster uses the `IPv4` family) or an IPv6 policy (if your cluster uses the `IPv6` family) attached to it. For more information about the VPC CNI role, see <<cni-iam-role>>. For information about the IPv6 policy, see <<cni-iam-role-create-ipv6-policy>>.
+* An IAM role with the link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html[AmazonEKS_CNI_Policy,type="documentation"] IAM policy (if your cluster uses the `IPv4` family) or an IPv6 policy (if your cluster uses the `IPv6` family) attached to it. For more information about the VPC CNI role, see <<cni-iam-role>>. For information about the IPv6 policy, see <<cni-iam-role-create-ipv6-policy>>.
 * If you're using version `1.7.0` or later of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` and you use custom [.noloc]`Pod` security policies, see <<psp-delete-default>> and <<pod-security-policy>>.
 
 [IMPORTANT]

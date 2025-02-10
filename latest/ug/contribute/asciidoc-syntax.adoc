@@ -64,7 +64,7 @@ Ordered Lists:
 
 [source,asciidoc]
 ----
-External link:  https://example.com[Link text]
+External link: https://example.com[Link text]
 Internal link: <<page-id>>
 Internal link: <<page-id,Link text>>
 ----

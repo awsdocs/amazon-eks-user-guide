@@ -10,12 +10,12 @@ include::../attributes.txt[]
 Learn how to troubleshoot and investigate network connections that use network policies.
 --
 
-You can troubleshoot and investigate network connections that use network policies by reading the  <<network-policies-troubleshooting-flowlogs,Network policy logs>> and by running tools from the <<network-policies-ebpf-sdk,eBPF SDK>>.
+You can troubleshoot and investigate network connections that use network policies by reading the <<network-policies-troubleshooting-flowlogs,Network policy logs>> and by running tools from the <<network-policies-ebpf-sdk,eBPF SDK>>.
 
 [#network-policies-troubleshooting-flowlogs]
 == Network policy logs
 
-Whether connections are allowed or denied by a network policies is logged in  _flow logs_. The network policy logs on each node include the flow logs for every pod that has a network policy. Network policy logs are stored at `/var/log/aws-routed-eni/network-policy-agent.log`. The following example is from a `network-policy-agent.log` file:
+Whether connections are allowed or denied by a network policies is logged in _flow logs_. The network policy logs on each node include the flow logs for every pod that has a network policy. Network policy logs are stored at `/var/log/aws-routed-eni/network-policy-agent.log`. The following example is from a `network-policy-agent.log` file:
 
 [source,bash,subs="verbatim,attributes"]
 ----

@@ -147,11 +147,11 @@ eksctl create iamserviceaccount \
 === {aws-management-console} [[console_s3_store_app_data]]
 . Open the IAM console at https://console.aws.amazon.com/iam/.
 . In the left navigation pane, choose *Roles*.
-. On the *Roles* page, choose  *Create role*.
+. On the *Roles* page, choose *Create role*.
 . On the *Select trusted entity* page, do the following:
 +
-.. In the *Trusted entity type* section, choose  *Web identity*.
-.. For *Identity provider*, choose the  *[.noloc]`OpenID Connect` provider URL* for your cluster (as shown under  *Overview* in Amazon EKS).
+.. In the *Trusted entity type* section, choose *Web identity*.
+.. For *Identity provider*, choose the *[.noloc]`OpenID Connect` provider URL* for your cluster (as shown under *Overview* in Amazon EKS).
 +
 If no URLs are shown, review the <<s3-csi-prereqs,Prerequisites>>.
 .. For *Audience*, choose `sts.amazonaws.com`.
@@ -166,10 +166,10 @@ NOTE: This policy was created in the previous section.
 . On the *Name, review, and create* page, do the following:
 +
 .. For *Role name*, enter a unique name for your role, such as [.noloc]`AmazonEKS_S3_CSI_DriverRole`.
-.. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see   link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
+.. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
 .. Choose *Create role*.
 . After the role is created, choose the role in the console to open it for editing.
-. Choose the *Trust relationships* tab, and then choose  *Edit trust policy*.
+. Choose the *Trust relationships* tab, and then choose *Edit trust policy*.
 . Find the line that looks similar to the following:
 +
 [source,json,subs="verbatim,attributes"]
@@ -321,16 +321,16 @@ addons:
 . Choose *Get more add-ons*.
 . On the *Select add-ons* page, do the following:
 +
-.. In the *Amazon EKS-addons* section, select the  *[.noloc]`Mountpoint` for Amazon S3 CSI Driver* check box.
+.. In the *Amazon EKS-addons* section, select the *[.noloc]`Mountpoint` for Amazon S3 CSI Driver* check box.
 .. Choose *Next*.
 . On the *Configure selected add-ons settings* page, do the following:
 +
 .. Select the *Version* you'd like to use.
 .. For *Select IAM role*, select the name of an IAM role that you attached the [.noloc]`Mountpoint` for Amazon S3 CSI driver IAM policy to.
-.. (Optional) Update the *Conflict resolution method* after expanding the  *Optional configuration settings*. If you select  *Override*, one or more of the settings for the existing add-on can be overwritten with the Amazon EKS add-on settings. If you don't enable this option and there's a conflict with your existing settings, the operation fails. You can use the resulting error message to troubleshoot the conflict. Before selecting this option, make sure that the Amazon EKS add-on doesn't manage settings that you need to self-manage.
-.. (Optional) Configure tolerations in the *Configuration values* field after expanding the  *Optional configuration settings*.
+.. (Optional) Update the *Conflict resolution method* after expanding the *Optional configuration settings*. If you select *Override*, one or more of the settings for the existing add-on can be overwritten with the Amazon EKS add-on settings. If you don't enable this option and there's a conflict with your existing settings, the operation fails. You can use the resulting error message to troubleshoot the conflict. Before selecting this option, make sure that the Amazon EKS add-on doesn't manage settings that you need to self-manage.
+.. (Optional) Configure tolerations in the *Configuration values* field after expanding the *Optional configuration settings*.
 .. Choose *Next*.
-. On the *Review and add* page, choose  *Create*. After the add-on installation is complete, you see your installed add-on.
+. On the *Review and add* page, choose *Create*. After the add-on installation is complete, you see your installed add-on.
 
 === {aws} CLI [[awscli_s3_add_store_app_data]]
 

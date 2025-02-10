@@ -105,7 +105,7 @@ aws iam create-policy \
 ----
 . Attach the IAM policy to the IAM role used by the [.noloc]`{aws} Load Balancer Controller`. Replace [.replaceable]`your-role-name` with the name of the role, such as `AmazonEKSLoadBalancerControllerRole`. 
 +
-If you created the role using `eksctl`, then to find the role name that was created, open the link:cloudformation[{aws} CloudFormation console,type="console"] and select the *eksctl-[.replaceable]`my-cluster`-addon-iamserviceaccount-kube-system-aws-load-balancer-controller* stack. Select the  *Resources* tab. The role name is in the  *Physical ID* column.
+If you created the role using `eksctl`, then to find the role name that was created, open the link:cloudformation[{aws} CloudFormation console,type="console"] and select the *eksctl-[.replaceable]`my-cluster`-addon-iamserviceaccount-kube-system-aws-load-balancer-controller* stack. Select the *Resources* tab. The role name is in the *Physical ID* column.
 +
 [source,shell,subs="verbatim,attributes"]
 ----

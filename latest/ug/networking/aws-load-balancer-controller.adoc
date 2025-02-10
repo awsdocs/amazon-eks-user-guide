@@ -31,7 +31,7 @@ The LBC creates an link:elasticloadbalancing/latest/application/introduction.htm
 *[.noloc]`Kubernetes` service of the `LoadBalancer` type*::
 The LBC creates an link:elasticloadbalancing/latest/network/introduction.html[{aws} Network Load Balancer (NLB),type="documentation"]when you create a [.noloc]`Kubernetes` service of type `LoadBalancer`. https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/[Review the annotations you can apply to a Service resource.]
 +
-In the past, the [.noloc]`Kubernetes` network load balancer was used for  _instance_ targets, but the LBC was used for _IP_ targets. With the [.noloc]`{aws} Load Balancer Controller` version `2.3.0` or later, you can create NLBs using either target type. For more information about NLB target types, see  link:elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type[Target type,type="documentation"] in the User Guide for Network Load Balancers.
+In the past, the [.noloc]`Kubernetes` network load balancer was used for _instance_ targets, but the LBC was used for _IP_ targets. With the [.noloc]`{aws} Load Balancer Controller` version `2.3.0` or later, you can create NLBs using either target type. For more information about NLB target types, see link:elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type[Target type,type="documentation"] in the User Guide for Network Load Balancers.
 
 The controller is an https://github.com/kubernetes-sigs/aws-load-balancer-controller[open-source project] managed on [.noloc]`GitHub`.
 

@@ -5,7 +5,7 @@
 
 include::../attributes.txt[]
 
-The  *cluster upgrade policy* determines what happens to your cluster when it leaves the standard support period. If your upgrade policy is `EXTENDED`, the cluster will not be automatically upgraded, and will enter extended support. If your upgrade policy is `STANDARD`, it will be automatically upgraded.
+The *cluster upgrade policy* determines what happens to your cluster when it leaves the standard support period. If your upgrade policy is `EXTENDED`, the cluster will not be automatically upgraded, and will enter extended support. If your upgrade policy is `STANDARD`, it will be automatically upgraded.
 
 Amazon EKS controls for [.noloc]`Kubernetes` version policy allows you to choose the end of standard support behavior for your EKS clusters. With these controls you can decide which clusters should enter extended support and which clusters should be automatically upgraded at the end of standard support for a [.noloc]`Kubernetes` version.
 
@@ -34,12 +34,12 @@ For example, if you have set your version support policy as `standard` then you 
 [#view-period-console]
 == View cluster upgrade policy ({aws} Console)
 . Navigate to the *Clusters* page in the EKS section of the {aws} Console. Confirm the console is set to the same {aws} region as the cluster you want to review.  
-. Review the *Upgrade Policy* column. If the value is  *Standard Support*, your cluster will not enter extended support. If the value is  *Extended Support*, your cluster will enter extended support.
+. Review the *Upgrade Policy* column. If the value is *Standard Support*, your cluster will not enter extended support. If the value is *Extended Support*, your cluster will enter extended support.
 
 
 [#view-period-cli]
 == View cluster upgrade policy ({aws} CLI)
-. Verify the {aws} CLI is installed and you are logged in.  link:cli/latest/userguide/getting-started-install.html[Learn how to update and install the {aws} CLI.,type="documentation"]
+. Verify the {aws} CLI is installed and you are logged in. link:cli/latest/userguide/getting-started-install.html[Learn how to update and install the {aws} CLI.,type="documentation"]
 . Determine the name of your EKS cluster. Set the CLI to the same {aws} region as your EKS cluster. 
 . Run the following command:
 +
