@@ -58,14 +58,14 @@ The in-tree `StorageClass` provisioner is named `kubernetes.io/aws-ebs`. The Ama
 [#csi-migration-faq-mounting-volumes]
 == Can I mount `kubernetes.io/aws-ebs StorageClass` volumes in version `1.23` and later clusters?
 
-Yes, as long as the  <<ebs-csi,Amazon EBS CSI driver>> is installed. For newly created version `1.23` and later clusters, we recommend installing the Amazon EBS CSI driver as part of your cluster creation process. We also recommend only using `StorageClasses` based on the `ebs.csi.aws.com` provisioner.
+Yes, as long as the <<ebs-csi,Amazon EBS CSI driver>> is installed. For newly created version `1.23` and later clusters, we recommend installing the Amazon EBS CSI driver as part of your cluster creation process. We also recommend only using `StorageClasses` based on the `ebs.csi.aws.com` provisioner.
 
 If you've updated your cluster control plane to version `1.23` and haven't yet updated your nodes to `1.23`, then the `CSIMigration` and `CSIMigration{aws}`   kubelet flags aren't enabled. In this case, the in-tree driver is used to mount `kubernetes.io/aws-ebs` based volumes. The Amazon EBS CSI driver must still be installed however, to ensure that [.noloc]`Pods` using `kubernetes.io/aws-ebs` based volumes can be scheduled. The driver is also required for other volume operations to succeed. 
 
 [#csi-migration-faq-aws-ebs-volumes]
 == Can I provision `kubernetes.io/aws-ebs StorageClass` volumes on Amazon EKS `1.23` and later clusters?
 
-Yes, as long as the  <<ebs-csi,Amazon EBS CSI driver>> is installed.
+Yes, as long as the <<ebs-csi,Amazon EBS CSI driver>> is installed.
 
 [#csi-migration-faq-aws-ebs-provisioner]
 == Will the `kubernetes.io/aws-ebs StorageClass` provisioner ever be removed from Amazon EKS?
@@ -75,12 +75,12 @@ The `kubernetes.io/aws-ebs` `StorageClass` provisioner and `awsElasticBlockStore
 [#csi-migration-faq-ebs-csi-driver]
 == How do I install the Amazon EBS CSI driver?
 
-We recommend installing the  <<ebs-csi,Amazon EBS CSI driver Amazon EKS add-on>>. When an update is required to the Amazon EKS add-on, you initiate the update and Amazon EKS updates the add-on for you. If you want to manage the driver yourself, you can install it using the open source https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/charts/aws-ebs-csi-driver[Helm chart].
+We recommend installing the <<ebs-csi,Amazon EBS CSI driver Amazon EKS add-on>>. When an update is required to the Amazon EKS add-on, you initiate the update and Amazon EKS updates the add-on for you. If you want to manage the driver yourself, you can install it using the open source https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/charts/aws-ebs-csi-driver[Helm chart].
 
 [IMPORTANT]
 ====
 
-The [.noloc]`Kubernetes` in-tree Amazon EBS driver runs on the [.noloc]`Kubernetes` control plane. It uses IAM permissions assigned to the  <<cluster-iam-role,Amazon EKS cluster IAM role>> to provision Amazon EBS volumes. The Amazon EBS CSI driver runs on nodes. The driver needs IAM permissions to provision volumes. For more information, see <<csi-iam-role>>.
+The [.noloc]`Kubernetes` in-tree Amazon EBS driver runs on the [.noloc]`Kubernetes` control plane. It uses IAM permissions assigned to the <<cluster-iam-role,Amazon EKS cluster IAM role>> to provision Amazon EBS volumes. The Amazon EBS CSI driver runs on nodes. The driver needs IAM permissions to provision volumes. For more information, see <<csi-iam-role>>.
 
 ====
 

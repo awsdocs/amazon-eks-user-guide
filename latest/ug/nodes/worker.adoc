@@ -29,7 +29,7 @@ Amazon EKS provides specialized Amazon Machine Images (AMIs) that are called Ama
 
 If you restrict access to the public endpoint of your cluster using CIDR blocks, we recommend that you also enable private endpoint access. This is so that nodes can communicate with the cluster. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the egress sources from your VPC. For more information, see <<cluster-endpoint>>. 
 
-To add self-managed nodes to your Amazon EKS cluster, see the topics that follow. If you launch self-managed nodes manually, add the following tag to each node. For more information, see  link:AWSEC2/latest/UserGuide/Using_Tags.html#adding-or-deleting-tags[Adding and deleting tags on an individual resource,type="documentation"]. If you follow the steps in the guides that follow, the required tag is automatically added to nodes for you. 
+To add self-managed nodes to your Amazon EKS cluster, see the topics that follow. If you launch self-managed nodes manually, add the following tag to each node. For more information, see link:AWSEC2/latest/UserGuide/Using_Tags.html#adding-or-deleting-tags[Adding and deleting tags on an individual resource,type="documentation"]. If you follow the steps in the guides that follow, the required tag is automatically added to nodes for you. 
 
 [.topiclist]
 [[Topic List]]

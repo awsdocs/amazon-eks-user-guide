@@ -10,7 +10,7 @@ include::../../attributes.txt[]
 Learn how to configure cross-account IAM permissions for Amazon EKS clusters by creating an identity provider from another account's cluster or using chained AssumeRole operations, enabling secure access to {aws} resources across multiple accounts.
 --
 
-You can configure cross-account IAM permissions either by creating an identity provider from another account's cluster or by using chained `AssumeRole` operations. In the following examples, _Account A_ owns an Amazon EKS cluster that supports IAM roles for service accounts. [.noloc]`Pods` that are running on that cluster must assume IAM permissions from  _Account B_.
+You can configure cross-account IAM permissions either by creating an identity provider from another account's cluster or by using chained `AssumeRole` operations. In the following examples, _Account A_ owns an Amazon EKS cluster that supports IAM roles for service accounts. [.noloc]`Pods` that are running on that cluster must assume IAM permissions from _Account B_.
 
 .Create an identity provider from another account's cluster
 ====
@@ -19,7 +19,7 @@ You can configure cross-account IAM permissions either by creating an identity p
 
 ====
 
-In this example, Account A provides Account B with the OpenID Connect (OIDC) issuer URL from their cluster. Account B follows the instructions in  <<enable-iam-roles-for-service-accounts,Create an IAM OIDC provider for your cluster>> and <<associate-service-account-role>> using the OIDC issuer URL from Account A's cluster. Then, a cluster administrator annotates the service account in Account A's cluster to use the role from Account B ([.replaceable]`444455556666`).
+In this example, Account A provides Account B with the OpenID Connect (OIDC) issuer URL from their cluster. Account B follows the instructions in <<enable-iam-roles-for-service-accounts,Create an IAM OIDC provider for your cluster>> and <<associate-service-account-role>> using the OIDC issuer URL from Account A's cluster. Then, a cluster administrator annotates the service account in Account A's cluster to use the role from Account B ([.replaceable]`444455556666`).
 
 [source,yaml,subs="verbatim,attributes"]
 ----

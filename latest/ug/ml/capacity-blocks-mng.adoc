@@ -19,7 +19,7 @@ Capacity Blocks for machine learning (ML) allow you to reserve GPU instances on 
 ====
 
 
-* Capacity Blocks are only available for certain Amazon EC2 instance types and {aws} Regions. For compatibility information, see  link:AWSEC2/latest/UserGuide/capacity-blocks-using.html#capacity-blocks-prerequisites[Work with Capacity Blocks Prerequisites,type="documentation"] in the _Amazon EC2 User Guide for Linux Instances_.
+* Capacity Blocks are only available for certain Amazon EC2 instance types and {aws} Regions. For compatibility information, see link:AWSEC2/latest/UserGuide/capacity-blocks-using.html#capacity-blocks-prerequisites[Work with Capacity Blocks Prerequisites,type="documentation"] in the _Amazon EC2 User Guide for Linux Instances_.
 * For more information, see link:autoscaling/ec2/userguide/launch-template-capacity-blocks.html[Use Capacity Blocks for machine learning workloads,type="documentation"] in the _Amazon EC2 Auto Scaling User Guide_.
 * Managed node groups with Capacity Blocks can only be created with custom launch templates.
 * When upgrading managed node groups with Capacity Blocks, make sure that the desired size of the node group is set to `0`.

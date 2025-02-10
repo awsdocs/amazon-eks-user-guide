@@ -99,7 +99,7 @@ eksctl delete nodegroup --cluster my-cluster --name standard-nodes-old
 
 . Launch a new node group by following the steps that are outlined in <<launch-workers,Create self-managed Amazon Linux nodes>>.
 . When your stack has finished creating, select it in the console and choose *Outputs*.
-. [[node-instance-role-step]]Record the  *NodeInstanceRole* for the node group that was created. You need this to add the new Amazon EKS nodes to your cluster.
+. [[node-instance-role-step]]Record the *NodeInstanceRole* for the node group that was created. You need this to add the new Amazon EKS nodes to your cluster.
 +
 NOTE: If you attached any additional IAM policies to your old node group IAM role, attach those same policies to your new node group IAM role to maintain that functionality on the new group. This applies to you if you added permissions for the https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler[Kubernetes Cluster Autoscaler], for example.
 . Update the security groups for both node groups so that they can communicate with each other. For more information, see <<sec-group-reqs>>.
@@ -157,7 +157,7 @@ data:
         - system:nodes
 ----
 +
-Replace the [.replaceable]`ARN of instance role (not instance profile)` snippet with the *NodeInstanceRole* value that you recorded in a  <<node-instance-role-step,previous step>>. Then, save and close the file to apply the updated configmap.
+Replace the [.replaceable]`ARN of instance role (not instance profile)` snippet with the *NodeInstanceRole* value that you recorded in a <<node-instance-role-step,previous step>>. Then, save and close the file to apply the updated configmap.
 . Watch the status of your nodes and wait for your new nodes to join your cluster and reach the `Ready` status.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -253,7 +253,7 @@ aws ec2 revoke-security-group-ingress --group-id $newSecGroup \
 .. Open the link:cloudformation/[{aws} CloudFormation console,type="console"].
 .. Select your old node stack.
 .. Choose *Delete*.
-.. In the *Delete stack* confirmation dialog box, choose  *Delete stack*.
+.. In the *Delete stack* confirmation dialog box, choose *Delete stack*.
 . Edit the `aws-auth` configmap to remove the old node instance role from RBAC.
 +
 [source,bash,subs="verbatim,attributes"]

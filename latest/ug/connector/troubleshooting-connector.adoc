@@ -131,10 +131,10 @@ If the cluster gets stuck in the `Pending` state on the Amazon EKS console after
 [#symp-imp]
 == Console error:  User system:serviceaccount:eks-connector:eks-connector can't impersonate resource users in API group at cluster scope
 
-The Amazon EKS Connector uses [.noloc]`Kubernetes` https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation[user impersonation] to act on behalf of  link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] from the {aws-management-console}. Each principal that accesses the [.noloc]`Kubernetes` API from the {aws} `eks-connector` service account must be granted permission to impersonate the corresponding [.noloc]`Kubernetes` user with an IAM ARN as its [.noloc]`Kubernetes` user name. In the following examples, the IAM ARN is mapped to a [.noloc]`Kubernetes` user.
+The Amazon EKS Connector uses [.noloc]`Kubernetes` https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation[user impersonation] to act on behalf of link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] from the {aws-management-console}. Each principal that accesses the [.noloc]`Kubernetes` API from the {aws} `eks-connector` service account must be granted permission to impersonate the corresponding [.noloc]`Kubernetes` user with an IAM ARN as its [.noloc]`Kubernetes` user name. In the following examples, the IAM ARN is mapped to a [.noloc]`Kubernetes` user.
 
 
-* IAM user [.replaceable]`john` from {aws} account [.replaceable]`111122223333` is mapped to a [.noloc]`Kubernetes` user.   link:IAM/latest/UserGuide/id_users.html[IAM best practices,type="documentation"] recommend that you grant permissions to roles instead of users.
+* IAM user [.replaceable]`john` from {aws} account [.replaceable]`111122223333` is mapped to a [.noloc]`Kubernetes` user. link:IAM/latest/UserGuide/id_users.html[IAM best practices,type="documentation"] recommend that you grant permissions to roles instead of users.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -175,7 +175,7 @@ If the Amazon EKS service can't communicate with the Amazon EKS connector in the
 * The Amazon EKS Connector in the target cluster is unhealthy.
 * Poor connectivity or an interrupted connection between the target cluster and the {aws} Region.
 
-To resolve this problem, check the  <<tsc-logs,Amazon EKS Connector logs>>. If you don't see an error for the Amazon EKS Connector, retry the connection after a few minutes. If you regularly experience high latency or intermittent connectivity for the target cluster, consider re-registering the cluster to an {aws} Region that's located closer to you.
+To resolve this problem, check the <<tsc-logs,Amazon EKS Connector logs>>. If you don't see an error for the Amazon EKS Connector, retry the connection after a few minutes. If you regularly experience high latency or intermittent connectivity for the target cluster, consider re-registering the cluster to an {aws} Region that's located closer to you.
 
 [#symp-loop]
 == Amazon EKS connector [.noloc]`Pods` are crash looping  

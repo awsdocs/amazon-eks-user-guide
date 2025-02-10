@@ -13,7 +13,7 @@ This works because EKS Pod Identities have been added to the _Container credenti
 
 For more information about how EKS Pod Identities work, see <<pod-id-how-it-works>>.
 
-When using  <<pod-identities,Learn how EKS Pod Identity grants pods access to {aws} services>>, the containers in your [.noloc]`Pods` must use an {aws} SDK version that supports assuming an IAM role from the EKS Pod Identity Agent. Make sure that you're using the following versions, or later, for your {aws} SDK:
+When using <<pod-identities,Learn how EKS Pod Identity grants pods access to {aws} services>>, the containers in your [.noloc]`Pods` must use an {aws} SDK version that supports assuming an IAM role from the EKS Pod Identity Agent. Make sure that you're using the following versions, or later, for your {aws} SDK:
 
 
 

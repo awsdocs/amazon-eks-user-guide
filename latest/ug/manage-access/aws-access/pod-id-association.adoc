@@ -16,7 +16,7 @@ To create an EKS Pod Identity association, there is only a single step; you crea
 
 * An existing cluster. If you don't have one, you can create one by following one of the guides in <<getting-started>>.
 * The IAM principal that is creating the association must have `iam:PassRole`.
-* The latest version of the {aws} CLI installed and configured on your device or {aws} CloudShell. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide. The {aws} CLI version installed in the {aws} CloudShell may also be several versions behind the latest version. To update it, see  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the {aws} CloudShell User Guide.
+* The latest version of the {aws} CLI installed and configured on your device or {aws} CloudShell. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide. The {aws} CLI version installed in the {aws} CloudShell may also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the {aws} CloudShell User Guide.
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 * An existing `kubectl` `config` file that contains your cluster configuration. To create a `kubectl` `config` file, see <<create-kubeconfig>>.
 
@@ -27,7 +27,7 @@ To create an EKS Pod Identity association, there is only a single step; you crea
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the EKS Pod Identity Agent add-on for.
 . Choose the *Access* tab.
-. In the *Pod Identity associations*, choose  *Create*.
+. In the *Pod Identity associations*, choose *Create*.
 . For the *IAM role*, select the IAM role with the permissions that you want the workload to have.
 +
 NOTE: The list only contains roles that have the following trust policy which allows EKS Pod Identity to use them.
@@ -58,10 +58,10 @@ NOTE: The list only contains roles that have the following trust policy which al
 +
 You can use these tags in the _condition keys_ in the trust policy to restrict which service accounts, namespaces, and clusters can use this role.
 +
-For a list of Amazon EKS condition keys, see  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-policy-keys[Conditions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the _Service Authorization Reference_. To learn which actions and resources you can use a condition key with, see  link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"].
+For a list of Amazon EKS condition keys, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-policy-keys[Conditions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the _Service Authorization Reference_. To learn which actions and resources you can use a condition key with, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"].
 . For the *[.noloc]`Kubernetes` namespace*, select the [.noloc]`Kubernetes` namespace that contains the service account and workload. Optionally, you can specify a namespace by name that doesn't exist in the cluster.
 . For the *[.noloc]`Kubernetes` service account*, select the [.noloc]`Kubernetes` service account to use. The manifest for your [.noloc]`Kubernetes` workload must specify this service account. Optionally, you can specify a service account by name that doesn't exist in the cluster.
-. (Optional) For the *Tags*, choose  *Add tag* to add metadata in a key and value pair. These tags are applied to the association and can be used in IAM policies.
+. (Optional) For the *Tags*, choose *Add tag* to add metadata in a key and value pair. These tags are applied to the association and can be used in IAM policies.
 +
 You can repeat this step to add multiple tags.
 . Choose *Create*.
@@ -70,9 +70,9 @@ You can repeat this step to add multiple tags.
 == Create a Pod Identity association ({aws} CLI)
 . If you want to associate an existing IAM policy to your IAM role, skip to the next step.
 +
-Create an IAM policy. You can create your own policy, or copy an {aws} managed policy that already grants some of the permissions that you need and customize it to your specific requirements. For more information, see  link:IAM/latest/UserGuide/access_policies_create.html[Creating IAM policies,type="documentation"] in the _IAM User Guide_.
+Create an IAM policy. You can create your own policy, or copy an {aws} managed policy that already grants some of the permissions that you need and customize it to your specific requirements. For more information, see link:IAM/latest/UserGuide/access_policies_create.html[Creating IAM policies,type="documentation"] in the _IAM User Guide_.
 +
-.. Create a file that includes the permissions for the {aws} services that you want your [.noloc]`Pods` to access. For a list of all actions for all {aws} services, see the   link:service-authorization/latest/reference/[Service Authorization Reference,type="documentation"].
+.. Create a file that includes the permissions for the {aws} services that you want your [.noloc]`Pods` to access. For a list of all actions for all {aws} services, see the link:service-authorization/latest/reference/[Service Authorization Reference,type="documentation"].
 +
 You can run the following command to create an example policy file that allows read-only access to an Amazon S3 bucket. You can optionally store configuration information or a bootstrap script in this bucket, and the containers in your [.noloc]`Pod` can read the file from the bucket and load it into your application. If you want to create this example policy, copy the following contents to your device. Replace [.replaceable]`my-pod-secrets-bucket` with your bucket name and run the command. 
 +

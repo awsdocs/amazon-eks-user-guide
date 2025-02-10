@@ -19,13 +19,13 @@ The setup phase has these steps:
 
 . It creates a new Amazon EC2 launch template version for the Auto Scaling group that's associated with your node group. The new launch template version uses the target AMI or a custom launch template version for the update.
 . It updates the Auto Scaling group to use the latest launch template version.
-. It determines the maximum quantity of nodes to upgrade in parallel using the `updateConfig` property for the node group. The maximum unavailable has a quota of 100 nodes. The default value is one node. For more information, see the  link:eks/latest/APIReference/API_UpdateNodegroupConfig.html#API_UpdateNodegroupConfig_RequestSyntax[updateConfig,type="documentation"] property in the _Amazon EKS API Reference_.
+. It determines the maximum quantity of nodes to upgrade in parallel using the `updateConfig` property for the node group. The maximum unavailable has a quota of 100 nodes. The default value is one node. For more information, see the link:eks/latest/APIReference/API_UpdateNodegroupConfig.html#API_UpdateNodegroupConfig_RequestSyntax[updateConfig,type="documentation"] property in the _Amazon EKS API Reference_.
 
 
 [#managed-node-update-scale-up]
 == Scale up phase
 
-When upgrading the nodes in a managed node group, the upgraded nodes are launched in the same Availability Zone as those that are being upgraded. To guarantee this placement, we use Amazon EC2's Availability Zone Rebalancing. For more information, see   link:autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage[Availability Zone Rebalancing,type="documentation"] in the _Amazon EC2 Auto Scaling User Guide_. To meet this requirement, it's possible that we'd launch up to two instances per Availability Zone in your managed node group.
+When upgrading the nodes in a managed node group, the upgraded nodes are launched in the same Availability Zone as those that are being upgraded. To guarantee this placement, we use Amazon EC2's Availability Zone Rebalancing. For more information, see link:autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage[Availability Zone Rebalancing,type="documentation"] in the _Amazon EC2 Auto Scaling User Guide_. To meet this requirement, it's possible that we'd launch up to two instances per Availability Zone in your managed node group.
 
 The scale up phase has these steps:
 

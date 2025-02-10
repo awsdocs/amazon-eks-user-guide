@@ -12,7 +12,7 @@ However, EKS Auto Mode extends EKS automation by handing responsibility of many 
 Choose from one of the following ways to create a cluster with EKS Auto Mode:
 
 * <<automode-get-started-cli>>: Use the `aws` command line interface to create a cluster.
-* <<automode-get-started-console>>: Use the {aws}} Management Console to create a cluster.
+* <<automode-get-started-console>>: Use the {aws-management-console} to create a cluster.
 * <<automode-get-started-eksctl>>: Use the `eksctl` command line interface to create a cluster.
 
 If you are comparing different approaches to creating your first EKS cluster,

@@ -62,7 +62,7 @@ The following list contains all of the keys for tags that are added to the `Assu
 [#pod-id-abac-chaining]
 == Cross-account tags
 
-All of the session tags that are added by EKS Pod Identity are  _transitive_; the tag keys and values are passed to any `AssumeRole` actions that your workloads use to switch roles into another account. You can use these tags in policies in other accounts to limit access in cross-account scenarios. For more infromation, see  link:IAM/latest/UserGuide/id_session-tags.html#id_session-tags_role-chaining[Chaining roles with session tags,type="documentation"] in the _IAM User Guide_.
+All of the session tags that are added by EKS Pod Identity are _transitive_; the tag keys and values are passed to any `AssumeRole` actions that your workloads use to switch roles into another account. You can use these tags in policies in other accounts to limit access in cross-account scenarios. For more infromation, see link:IAM/latest/UserGuide/id_session-tags.html#id_session-tags_role-chaining[Chaining roles with session tags,type="documentation"] in the _IAM User Guide_.
 
 [#pod-id-abac-custom-tags]
 == Custom tags

@@ -29,7 +29,7 @@ For detailed descriptions of the available parameters and complete examples that
 
 You must have:
 
-* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and  link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see  link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 * Version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 
@@ -119,7 +119,7 @@ csidriver.storage.k8s.io/fsx.csi.aws.com created
 .. Open the link:cloudformation/[{aws} CloudFormation console,type="console"].
 .. Ensure that the console is set to the {aws} Region that you created your IAM role in and then select *Stacks*.
 .. Select the stack named `eksctl-my-csi-fsx-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa`.
-.. Select the *Outputs* tab. The  *Role1* ARN is listed on the  *Outputs (1)* page.
+.. Select the *Outputs* tab. The *Role1* ARN is listed on the *Outputs (1)* page.
 . Patch the driver deployment to add the service account that you created earlier with the following command. Replace the ARN with the ARN that you noted. Replace [.replaceable]`111122223333` with your account ID.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -143,7 +143,7 @@ This procedure uses the https://github.com/kubernetes-sigs/aws-fsx-csi-driver[FS
 ----
 aws eks describe-cluster --name $cluster_name --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ----
-. Create a security group for your Amazon FSx file system according to the criteria shown in  link:fsx/latest/LustreGuide/limit-access-security-groups.html#fsx-vpc-security-groups[Amazon VPC Security Groups,type="documentation"] in the Amazon FSx for Lustre User Guide. For the *VPC*, select the VPC of your cluster as shown under the  *Networking* section. For "the security groups associated with your Lustre clients", use your cluster security group. You can leave the outbound rules alone to allow  *All traffic*.
+. Create a security group for your Amazon FSx file system according to the criteria shown in link:fsx/latest/LustreGuide/limit-access-security-groups.html#fsx-vpc-security-groups[Amazon VPC Security Groups,type="documentation"] in the Amazon FSx for Lustre User Guide. For the *VPC*, select the VPC of your cluster as shown under the *Networking* section. For "the security groups associated with your Lustre clients", use your cluster security group. You can leave the outbound rules alone to allow *All traffic*.
 . Download the storage class manifest with the following command.
 +
 [source,bash,subs="verbatim,attributes"]

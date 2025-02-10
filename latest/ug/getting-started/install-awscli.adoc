@@ -19,12 +19,12 @@ The link:cli/[{aws} CLI,type="marketing"] is a command line tool for working wit
 . For single-user or multiple-user accounts:
 +
 ** *Single-user account –*::
- In the top right, choose your {aws} user name to open the navigation menu. For example, choose  *`webadmin`*.
+ In the top right, choose your {aws} user name to open the navigation menu. For example, choose *`webadmin`*.
 ** *Multiple-user account –*::
- Choose IAM from the list of services. From the IAM Dashboard, select  *Users*, and choose the name of the user.
+ Choose IAM from the list of services. From the IAM Dashboard, select *Users*, and choose the name of the user.
 . Choose *Security credentials*.
-. Under *Access keys*, choose  *Create access key*.
-. Choose *Command Line Interface (CLI)*, then choose  *Next*.
+. Under *Access keys*, choose *Create access key*.
+. Choose *Command Line Interface (CLI)*, then choose *Next*.
 . Choose *Create access key*.
 . Choose *Download .csv file*.
 

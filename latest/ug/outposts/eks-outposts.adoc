@@ -63,7 +63,7 @@ The following table compares the differences between the two options.
 |Your account
 
 |Regional availability
-|See  link:general/latest/gr/eks.html#eks_region[Service endpoints,type="documentation"]
+|see link:general/latest/gr/eks.html#eks_region[Service endpoints,type="documentation"]
 |US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Middle East (Bahrain), and South America (São Paulo)
 
 |Kubernetes minor versions

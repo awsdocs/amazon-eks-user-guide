@@ -20,7 +20,7 @@ You can delete an access entry using the {aws-management-console} or the {aws} C
 
 [#access-delete-cli]
 == {aws} CLI
-. Install the {aws} CLI, as described in  link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
+. Install the {aws} CLI, as described in link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
 . To delete an access entry
 Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`my-role` with the name of the IAM role that you no longer want to have access to your cluster.
 +

@@ -14,9 +14,9 @@ Learn how to run GPU-accelerated Windows container workloads on Amazon EKS (Elas
 
 There are two main approaches to setting up GPU-acceleration for your Windows containers:
 
-* **Option 1**: <<eks-custom-ami-windows,Build a custom EKS Windows Optimized AMI>> with the required GPU drivers pre-installed. 
+* *Option 1*: <<eks-custom-ami-windows,Build a custom EKS Windows Optimized AMI>> with the required GPU drivers pre-installed. 
 ** Use this approach when you need a consistent, pre-configured environment ready to run GPU-accelerated Windows containers, and you're able to invest the additional effort to build and maintain the custom AMI.
-* **Option 2**: Install the necessary GPU drivers on your EKS worker nodes after launching your instance.
+* *Option 2*: Install the necessary GPU drivers on your EKS worker nodes after launching your instance.
 ** Use this approach when you want a simpler setup process and don't mind installing the GPU drivers on each new worker node. More suited to a development environment when you are evaluating or prototyping GPU-accelerated workloads.
 
 Both approaches can be leveraged using the steps detailed in this guide.
@@ -46,7 +46,7 @@ To enable GPU acceleration for your Windows containers on Amazon EKS, you'll nee
 To install the NVIDIA GRID drivers on your EKS worker nodes, follow the steps outlined in link:AWSEC2/latest/UserGuide/install-nvidia-driver.html[NVIDIA drivers for your Amazon EC2 instance,type="documentation"].
 Navigate to link:AWSEC2/latest/UserGuide/install-nvidia-driver#nvidia-GRID-driver[Installation options - Option 3: GRID drivers,type="documentation"] and follow the installation steps. 
 
-**Install for Windows Server Core**
+*Install for Windows Server Core*
 
 For Windows Server Core, which doesn’t have a desktop experience, install NVIDIA GRID drivers silently by using the following commands:
 
@@ -57,7 +57,7 @@ $installerArguments = "-s -clean -noreboot -noeula"
 Start-Process -FilePath $nvidiaInstallerFilePath -ArgumentList $installerArguments -Wait -NoNewWindow -PassThru
 ----
 
-**Verify your installation**
+*Verify your installation*
 
 Run the following PowerShell command to show diagnostic information about the GPUs on the instance:
 
@@ -85,14 +85,14 @@ The device plugin DaemonSet will run on every node as a host process container w
 
 When running GPU-accelerated containers, the device plugin supports two modes:
 
-* **Single-tenancy mode**: This mode dedicates all GPU resources to a single container on the instance. Install the device plugins with single-tenancy support using the following command. See README.md for more information.
+* *Single-tenancy mode*: This mode dedicates all GPU resources to a single container on the instance. Install the device plugins with single-tenancy support using the following command. See README.md for more information.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f "https://raw.githubusercontent.com/TensorWorks/directx-device-plugins/main/deployments/default-daemonsets.yml"
 ----
 
-* **Multi-tenancy mode**: This mode allows sharing GPU resources among multiple containers on the instance. Install the device plugins with multi-tenancy support using the following command. See README.md for more information.
+* *Multi-tenancy mode*: This mode allows sharing GPU resources among multiple containers on the instance. Install the device plugins with multi-tenancy support using the following command. See README.md for more information.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

@@ -93,7 +93,7 @@ eksctl create iamserviceaccount \
 ----
 . If you use a custom link:kms/[KMS key,type="marketing"] for encryption on your Amazon EBS volumes, customize the IAM role as needed. For example, do the following:
 +
-.. Copy and paste the following code into a new `kms-key-for-encryption-on-ebs.json` file. Replace [.replaceable]`custom-key-arn` with the custom  link:service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key[KMS key ARN,type="documentation"].
+.. Copy and paste the following code into a new `kms-key-for-encryption-on-ebs.json` file. Replace [.replaceable]`custom-key-arn` with the custom link:service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key[KMS key ARN,type="documentation"].
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -148,11 +148,11 @@ aws iam attach-role-policy \
 === {aws-management-console} [[console_store_app_data]]
 . Open the IAM console at https://console.aws.amazon.com/iam/.
 . In the left navigation pane, choose *Roles*.
-. On the *Roles* page, choose  *Create role*.
+. On the *Roles* page, choose *Create role*.
 . On the *Select trusted entity* page, do the following:
 +
-.. In the *Trusted entity type* section, choose  *Web identity*.
-.. For *Identity provider*, choose the  *[.noloc]`OpenID Connect` provider URL* for your cluster (as shown under  *Overview* in Amazon EKS).
+.. In the *Trusted entity type* section, choose *Web identity*.
+.. For *Identity provider*, choose the *[.noloc]`OpenID Connect` provider URL* for your cluster (as shown under *Overview* in Amazon EKS).
 .. For *Audience*, choose `sts.amazonaws.com`.
 .. Choose *Next*.
 . On the *Add permissions* page, do the following:
@@ -163,10 +163,10 @@ aws iam attach-role-policy \
 . On the *Name, review, and create* page, do the following:
 +
 .. For *Role name*, enter a unique name for your role, such as [.replaceable]`AmazonEKS_EBS_CSI_DriverRole`.
-.. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see   link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
+.. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
 .. Choose *Create role*.
 . After the role is created, choose the role in the console to open it for editing.
-. Choose the *Trust relationships* tab, and then choose  *Edit trust policy*.
+. Choose the *Trust relationships* tab, and then choose *Edit trust policy*.
 . Find the line that looks similar to the following line:
 +
 [source,json,subs="verbatim,attributes"]
@@ -184,9 +184,9 @@ Add a comma to the end of the previous line, and then add the following line aft
 . If you use a custom link:kms/[KMS key,type="marketing"] for encryption on your Amazon EBS volumes, customize the IAM role as needed. For example, do the following:
 +
 .. In the left navigation pane, choose *Policies*.
-.. On the *Policies* page, choose  *Create Policy*.
-.. On the *Create policy* page, choose the  *JSON* tab.
-.. Copy and paste the following code into the editor, replacing [.replaceable]`custom-key-arn` with the custom  link:service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key[KMS key ARN,type="documentation"].
+.. On the *Policies* page, choose *Create Policy*.
+.. On the *Create policy* page, choose the *JSON* tab.
+.. Copy and paste the following code into the editor, replacing [.replaceable]`custom-key-arn` with the custom link:service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key[KMS key ARN,type="documentation"].
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -222,12 +222,12 @@ Add a comma to the end of the previous line, and then add the following line aft
     }
 ----
 .. Choose *Next: Tags*.
-.. On the *Add tags (Optional)* page, choose  *Next: Review*.
+.. On the *Add tags (Optional)* page, choose *Next: Review*.
 .. For *Name*, enter a unique name for your policy (for example, [.replaceable]`KMS_Key_For_Encryption_On_EBS_Policy`).
 .. Choose *Create policy*.
 .. In the left navigation pane, choose *Roles*.
 .. Choose the *[.replaceable]`AmazonEKS_EBS_CSI_DriverRole`* in the console to open it for editing.
-.. From the *Add permissions* dropdown list, choose  *Attach policies*.
+.. From the *Add permissions* dropdown list, choose *Attach policies*.
 .. In the *Filter policies* box, enter [.replaceable]`KMS_Key_For_Encryption_On_EBS_Policy`.
 .. Select the check box to the left of the [.replaceable]`KMS_Key_For_Encryption_On_EBS_Policy` that was returned in the search.
 .. Choose *Attach policies*.
@@ -289,7 +289,7 @@ aws iam attach-role-policy \
 ----
 . If you use a custom link:kms/[KMS key,type="marketing"] for encryption on your Amazon EBS volumes, customize the IAM role as needed. For example, do the following:
 +
-.. Copy and paste the following code into a new `kms-key-for-encryption-on-ebs.json` file. Replace [.replaceable]`custom-key-arn` with the custom  link:service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key[KMS key ARN,type="documentation"].
+.. Copy and paste the following code into a new `kms-key-for-encryption-on-ebs.json` file. Replace [.replaceable]`custom-key-arn` with the custom link:service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key[KMS key ARN,type="documentation"].
 +
 [source,json,subs="verbatim,attributes"]
 ----

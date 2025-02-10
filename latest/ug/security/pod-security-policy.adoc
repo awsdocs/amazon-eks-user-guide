@@ -84,7 +84,7 @@ Settings:
     Ranges:                               <none>
 ----
 
-You can view the full YAML file for the `eks.privileged` [.noloc]`Pod` security policy, its cluster role, and cluster role binding in  <<psp-install-or-restore-default,Install or restore the default Pod security policy>>.
+You can view the full YAML file for the `eks.privileged` [.noloc]`Pod` security policy, its cluster role, and cluster role binding in <<psp-install-or-restore-default,Install or restore the default Pod security policy>>.
 
 [#psp-delete-default]
 == Delete the default Amazon EKS [.noloc]`Pod` security policy

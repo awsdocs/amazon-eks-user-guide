@@ -21,7 +21,7 @@ Find learning paths to extend your knowledge of Amazon EKS.
 [#overview]
 == Overview
 
-This Amazon EKS User Guide contains general-purpose procedures to create your first EKS cluster from the  <<getting-started-eksctl,command line>> or <<getting-started-console,{aws-management-console}>> and a solid reference for all major Amazon EKS components. However, as an Amazon EKS cluster administrator or developer, you can gain a deeper understanding of Amazon EKS by following learning paths that exist in sites outside of this guide. These sites can help you:
+This Amazon EKS User Guide contains general-purpose procedures to create your first EKS cluster from the <<getting-started-eksctl,command line>> or <<getting-started-console,{aws-management-console}>> and a solid reference for all major Amazon EKS components. However, as an Amazon EKS cluster administrator or developer, you can gain a deeper understanding of Amazon EKS by following learning paths that exist in sites outside of this guide. These sites can help you:
 
 
 

@@ -10,7 +10,7 @@ include::../../attributes.txt[]
 Use the Kubernetes Metrics Server to view resource usage data on your Amazon EKS cluster for autoscaling and monitoring.
 --
 
-The [.noloc]`Kubernetes` Metrics Server is an aggregator of resource usage data in your cluster, and it isn't deployed by default in Amazon EKS clusters. For more information, see https://github.com/kubernetes-sigs/metrics-server[Kubernetes Metrics Server] on [.noloc]`GitHub`. The Metrics Server is commonly used by other [.noloc]`Kubernetes` add ons, such as the  <<horizontal-pod-autoscaler,Scale pod deployments with Horizontal Pod Autoscaler>> or the <<eks-managing,Kubernetes Dashboard>>. For more information, see https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/[Resource metrics pipeline] in the [.noloc]`Kubernetes` documentation. This topic explains how to deploy the [.noloc]`Kubernetes` Metrics Server on your Amazon EKS cluster.
+The [.noloc]`Kubernetes` Metrics Server is an aggregator of resource usage data in your cluster, and it isn't deployed by default in Amazon EKS clusters. For more information, see https://github.com/kubernetes-sigs/metrics-server[Kubernetes Metrics Server] on [.noloc]`GitHub`. The Metrics Server is commonly used by other [.noloc]`Kubernetes` add ons, such as the <<horizontal-pod-autoscaler,Scale pod deployments with Horizontal Pod Autoscaler>> or the <<eks-managing,Kubernetes Dashboard>>. For more information, see https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/[Resource metrics pipeline] in the [.noloc]`Kubernetes` documentation. This topic explains how to deploy the [.noloc]`Kubernetes` Metrics Server on your Amazon EKS cluster.
 
 [IMPORTANT]
 ====

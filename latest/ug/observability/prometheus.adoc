@@ -43,7 +43,7 @@ The following options are available when creating the scraper with the Amazon EK
 (Optional) Enter a unique alias for the scraper.
 
 *Destination*::
-Choose an Amazon Managed Service for [.noloc]`Prometheus` workspace. A workspace is a logical space dedicated to the storage and querying of [.noloc]`Prometheus` metrics. With this workspace, you will be able to view [.noloc]`Prometheus` metrics across the accounts that have access to it. The *Create new workspace* option tells Amazon EKS to create a workspace on your behalf using the  *Workspace alias* you provide. With the *Select existing workspace* option, you can select an existing workspace from a dropdown list. For more information about workspaces, see link:prometheus/latest/userguide/AMP-manage-ingest-query.html[Managing workspaces,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
+Choose an Amazon Managed Service for [.noloc]`Prometheus` workspace. A workspace is a logical space dedicated to the storage and querying of [.noloc]`Prometheus` metrics. With this workspace, you will be able to view [.noloc]`Prometheus` metrics across the accounts that have access to it. The *Create new workspace* option tells Amazon EKS to create a workspace on your behalf using the *Workspace alias* you provide. With the *Select existing workspace* option, you can select an existing workspace from a dropdown list. For more information about workspaces, see link:prometheus/latest/userguide/AMP-manage-ingest-query.html[Managing workspaces,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
 
 *Service access*::
 This section summarizes the permissions you grant when sending [.noloc]`Prometheus` metrics:
@@ -58,7 +58,7 @@ If the `AmazonManagedScraperRole` already exists, the scraper uses it. Choose th
 Modify the subnets that the scraper will inherit as needed. If you need to add a grayed out subnet option, go back to the create cluster *Specify networking* step.
 
 *Scraper configuration*::
-Modify the scraper configuration in YAML format as needed. To do so, use the form or upload a replacement YAML file. For more information, see  link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration[Scraper configuration,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
+Modify the scraper configuration in YAML format as needed. To do so, use the form or upload a replacement YAML file. For more information, see link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration[Scraper configuration,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
 
 Amazon Managed Service for Prometheus refers to the agentless scraper that is created alongside the cluster as an {aws} managed collector. For more information about {aws} managed collectors, see link:prometheus/latest/userguide/AMP-collector.html[Ingest metrics with {aws} managed collectors,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
 

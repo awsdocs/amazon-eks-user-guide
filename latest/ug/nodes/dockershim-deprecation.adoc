@@ -92,7 +92,7 @@ Run the following command to create the node group.
 eksctl create nodegroup -f my-nodegroup.yaml
 ----
 +
-If you prefer to use a different tool to create your managed node group, you must deploy the node group using a launch template. In your launch template, specify an  <<retrieve-ami-id,Amazon EKS optimized AMI ID>>, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data. This user data passes arguments into the `bootstrap.sh` file. For more information about the bootstrap file, see https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] on [.noloc]`GitHub`.
+If you prefer to use a different tool to create your managed node group, you must deploy the node group using a launch template. In your launch template, specify an <<retrieve-ami-id,Amazon EKS optimized AMI ID>>, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data. This user data passes arguments into the `bootstrap.sh` file. For more information about the bootstrap file, see https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] on [.noloc]`GitHub`.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

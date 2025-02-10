@@ -29,7 +29,7 @@ The Amazon EKS optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (A
 ====
 
 * You can track security or privacy events for Amazon Linux at the https://alas.aws.amazon.com/[Amazon Linux security center] by choosing the tab for your desired version. You can also subscribe to the applicable RSS feed. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue.
-* Before deploying an accelerated or [.noloc]`Arm` AMI, review the information in  <<gpu-ami,Amazon EKS optimized accelerated Amazon Linux AMIs>> and <<arm-ami>>.
+* Before deploying an accelerated or [.noloc]`Arm` AMI, review the information in <<gpu-ami,Amazon EKS optimized accelerated Amazon Linux AMIs>> and <<arm-ami>>.
 * For [.noloc]`Kubernetes` version `1.23`, you can use an optional bootstrap flag to test migration from [.noloc]`Docker` to `containerd`. For more information, see <<containerd-bootstrap>>.
 * Amazon EC2 `P2` instances aren't supported on Amazon EKS because they require `NVIDIA` driver version 470 or earlier.
 * Any newly created managed node groups in clusters on version `1.30` or newer will automatically default to using AL2023 as the node operating system. Previously, new node groups would default to AL2. You can continue to use AL2 by choosing it as the AMI type when creating a new node group.
