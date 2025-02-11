@@ -32,7 +32,7 @@ We also offer the following references:
 
 
 * For a collection of hands-on tutorials, see https://community.aws/tags/eks-cluster-setup[EKS Cluster Setup] on _{aws} Community_.
-* For code examples, see  link:code-library/latest/ug/eks_code_examples.html[Code examples for Amazon EKS using {aws} SDKs,type="documentation"].
+* For code examples, see link:code-library/latest/ug/eks_code_examples.html[Code examples for Amazon EKS using {aws} SDKs,type="documentation"].
 
 
 include::getting-started-automode.adoc[leveloffset=+1]
@@ -42,4 +42,4 @@ include::getting-started-eksctl.adoc[leveloffset=+1]
 include::getting-started-console.adoc[leveloffset=+1]
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;getting-started,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23getting-started%5D&type=code[Edit this page on GitHub]

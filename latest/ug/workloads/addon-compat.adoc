@@ -13,7 +13,7 @@ Learn how to verify the Amazon EKS add-on compatibility with your cluster before
 
 Before you create an Amazon EKS add-on you need to verify that the Amazon EKS add-on version is compatible with your cluster.
 
-Use the  link:eks/latest/APIReference/API_DescribeAddonVersions.html[describe-addon-verisions API,type="documentation"] to list the available versions of EKS add-ons, and which Kubernetes versions each addon version supports. 
+Use the link:eks/latest/APIReference/API_DescribeAddonVersions.html[describe-addon-verisions API,type="documentation"] to list the available versions of EKS add-ons, and which Kubernetes versions each addon version supports. 
 
 . Verify the {aws} CLI is installed and working with `aws sts get-caller-identity`. If this command doesn't work, learn how to link:cli/latest/userguide/cli-chap-getting-started.html[Get started with the {aws} CLI.,type="documentation"]
 . Determine the name of the add-on you want to retrieve version compatibility information for, such as `amazon-cloudwatch-observability`.
@@ -71,4 +71,4 @@ The `computeTypes` field in the `describe-addon-versions` output indicates an ad
 For more information, see <<addon-consider-auto>>. 
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;addon-compat,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23addon-compat%5D&type=code[Edit this page on GitHub]

@@ -122,4 +122,4 @@ When you deploy <<workloads-add-ons-available-eks,{aws} Amazon EKS add-ons>> to 
 |===
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;add-ons-images,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23add-ons-images%5D&type=code[Edit this page on GitHub]

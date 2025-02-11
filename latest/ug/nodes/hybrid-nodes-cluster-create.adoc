@@ -167,7 +167,7 @@ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/examp
 ... Not overlap with each other, the `VPC CIDR` for your cluster, or your Kubernetes service IPv4 CIDR.
 .. `CLUSTER_AUTH`: the cluster authentication mode for your cluster. Valid values are `API` and `API_AND_CONFIG_MAP`. The default in the template is `API_AND_CONFIG_MAP`.
 .. `CLUSTER_ENDPOINT`: the cluster endpoint connectivity for your cluster. Valid values are “Public” and “Private”. The default in the template is Private, which means you will only be able to connect to the Kubernetes API endpoint from within your VPC.
-.. `K8S_VERSION`: the Kubernetes version to use for your cluster. See <<kubernetes-versions,Amazon EKS supported versions>>.
+.. `K8S_VERSION`: the Kubernetes version to use for your cluster. See <<kubernetes-versions>>.
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -339,4 +339,4 @@ kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   28h
 As a next step, see <<hybrid-nodes-cluster-prep>> to enable access for your hybrid nodes to join your cluster.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;hybrid-nodes-cluster-create,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-cluster-create%5D&type=code[Edit this page on GitHub]

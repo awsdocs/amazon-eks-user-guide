@@ -32,7 +32,7 @@ Once your EKS cluster zonal shift enabled with ARC, you can trigger a zonal shif
 During an EKS zonal shift, the following will automatically take place:
 
 * All the nodes in the impacted AZ will be cordoned. This will prevent the Kubernetes Scheduler from scheduling new Pods onto the nodes in the unhealthy AZ. 
-* If you're using link:eks/latest/userguide/managed-node-groups.html["Managed Node Groups",type="documentation"], link:autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage["_Availability Zone rebalancing_",type="documentation"] will be suspended, and your Auto Scaling Group (ASG) will be updated to ensure that new EKS Data Plane nodes are only launched in the healthy AZs.
+* If you're using <<managed-node-groups,Managed Node Groups>>, link:autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage["_Availability Zone rebalancing_",type="documentation"] will be suspended, and your Auto Scaling Group (ASG) will be updated to ensure that new EKS Data Plane nodes are only launched in the healthy AZs.
 * The nodes in the unhealthy AZ will not be terminated and the Pods will not be evicted from these nodes. This is to ensure that when a zonal shift expires or gets cancelled, your traffic can be safely returned to the AZ which still has full capacity
 * The EndpointSlice controller will find all the Pod endpoints in the impaired AZ and remove them from the relevant EndpointSlices. This will ensure that only Pod endpoints in healthy AZs are targeted to receive network traffic. When a zonal shift is cancelled or expires, the EndpointSlice controller will update the EndpointSlices to include the endpoints in the restored AZ.
 
@@ -122,11 +122,11 @@ spec:
 ----
 
 
-Most important, you should run multiple replicas of your DNS server software (CoreDNS/kube-dns) and apply similar topology spread constraints if they are not already configured by default. This will help ensure that you have enough DNS Pods in healthy AZs to continue handling service discovery requests for other communicating Pods in the cluster if there's a single AZ impairment. The link:eks/latest/userguide/managing-coredns.html["CoreDNS EKS add-on",type="documentation"] has default settings for the CoreDNS Pods to be spread across your cluster's Availability Zones if there are nodes in multiple AZs available. You can also replace these default settings with your own custom configurations.
+Most important, you should run multiple replicas of your DNS server software (CoreDNS/kube-dns) and apply similar topology spread constraints if they are not already configured by default. This will help ensure that you have enough DNS Pods in healthy AZs to continue handling service discovery requests for other communicating Pods in the cluster if there's a single AZ impairment. The <<managing-coredns,CoreDNS EKS add-on>> has default settings for the CoreDNS Pods to be spread across your cluster's Availability Zones if there are nodes in multiple AZs available. You can also replace these default settings with your own custom configurations.
 
 When installing https://github.com/coredns/helm/tree/master[CoreDNS with Helm], you can update the `replicaCount` in the https://github.com/coredns/helm/blob/master/charts/coredns/values.yaml[values.yaml file] to ensure that you have a sufficient number of replicas in each AZ. In addition, to ensure that these replicas are spread across the different AZs in your cluster environment, you should update the `topologySpreadConstraints` property in the same values.yaml file. The code snippet below demonstrates how to configure CoreDNS for this. 
 
-**CoreDNS Helm values.yaml**
+*CoreDNS Helm values.yaml*
 
 [source,yaml]
 ----
@@ -163,7 +163,7 @@ spec:
 
 Alternatively, EKS can manage the autoscaling of the CoreDNS Deployment in the EKS add-on version of CoreDNS. This CoreDNS autoscaler continuously monitors the cluster state, including the number of nodes and CPU cores. Based on that information, the controller will dynamically adapt the number of replicas of the CoreDNS deployment in an EKS cluster.
 
-To enable the link:eks/latest/userguide/coredns-autoscaling.html["autoscaling configuration in the CoreDNS EKS add-on",type="documentation"], you should add the following optional configuration settings:
+To enable the <<coredns-autoscaling,autoscaling configuration in the CoreDNS EKS add-on>>, you should add the following optional configuration settings:
 
 
 [source,json]
@@ -223,45 +223,45 @@ After completing the above requirements, the next important step is to test that
 
 ## Frequently Asked Questions
 
-**Why should I use this feature?**
+*Why should I use this feature?*
 
 By using ARC zonal shift or zonal autoshift in your EKS cluster, you can better maintain Kubernetes application availability by automating the quick recovery process of shifting in-cluster network traffic away from an impaired AZ. With ARC, you can avoid long and complicated steps which often lead to an extended recovery period during impaired AZ events. 
 
-**How does this feature work with other {aws} services?**
+*How does this feature work with other {aws} services?*
 
 EKS integrates with ARC which provides the primary interface for you to accomplish recovery operations in {aws}. To ensure that in-cluster traffic is appropriately routed away from an impaired AZ, modifications are made to the list of network endpoints for Pods running in the Kubernetes data plane. If you're using {aws} Load Balancers for routing external traffic into the cluster, you can already register your load balancers with ARC and trigger a zonal shift on them to prevent traffic flowing into the degraded zone. This feature also interacts with Amazon EC2 Auto Scaling Groups (ASG) that are created by EKS Managed Node Groups (MNG). To prevent an impaired AZ from being used for new Kubernetes Pods or node launches, EKS removes the impaired AZ from the ASG. 
 
-**How is this feature different from default Kubernetes protections?**
+*How is this feature different from default Kubernetes protections?*
 
 This feature works in tandem with several Kubernetes native built-in protections that help customers stay resilient. You can configure Pod readiness and liveness probes that decide when a Pod should take traffic. When these probes fail, Kubernetes removes these Pods as targets for a Service and traffic is no longer sent to the Pod. While this is useful, it's non-trivial for customers to configure these health checks so that they are guaranteed to fail when a zone is degraded. The ARC zonal shift feature provides you with an additional safety net that helps them isolate a degraded AZ entirely when Kubernetes' native protections have not sufficed. It also provides you with an easy way to test the operational readiness and resilience of your architecture. 
 
-**Can {aws} trigger a zonal shift on my behalf?**
+*Can {aws} trigger a zonal shift on my behalf?*
 
 Yes, if you want a fully automated way of using ARC zonal shift, you can enable ARC zonal autoshift. With zonal autoshift, you can rely on {aws} to monitor the health of the AZs for your EKS cluster, and to automatically trigger a shift when an AZ impairment is detected. 
 
-**What happens if I use this feature and my worker nodes and workloads are not pre-scaled?**
+*What happens if I use this feature and my worker nodes and workloads are not pre-scaled?*
 
 If you are not pre-scaled and rely on provisioning additional nodes or Pods during a zonal shift, then you risk experiencing a delayed recovery. The process of adding new nodes to the Kubernetes data plane will take some time which can have implications on the real-time performance and availability of your applications, especially in the event of a zonal impairment. Additionally, in the event of a zonal impairment, you may encounter a potential compute capacity constraint which would prevent newly required nodes from being added to the healthy AZs. 
 
 If your workloads are not pre-scaled and spread across all AZs in your cluster, a zonal impairment may impact the availability of an application that is only running on worker nodes in an impacted AZ. To mitigate the risk of a complete availability outage for your application, EKS has a fail safe for traffic to be sent to Pod endpoints in an impaired zone if that workload has all of its endpoints in the unhealthy AZ. However, it's strongly recommended that you rather pre-scale and spread your applications across all AZs to maintain availability in the event of a zonal issue. 
 
-**What happens if I'm running a stateful application?**
+*What happens if I'm running a stateful application?*
 
 If you are running a stateful application, you will need to assess its fault tolerance depending on the use case and the architecture. If you have an active/standby architecture or pattern, there may be instances where the active is in an impaired AZ. At the application level, if the standby is not activated, you may run into issues with your application. You may also run into issues when new Kubernetes Pods are launched in healthy AZs since they will not be able to attach to the persistent volumes bounded to the impaired AZ. 
 
-**Does this feature work with Karpenter?**
+*Does this feature work with Karpenter?*
 
 Karpenter support is currently not available with ARC zonal shift and zonal autoshift in EKS. If an AZ is impaired, you can adjust the relevant Karpenter NodePool configuration by removing the unhealthy AZ so that new worker nodes are only launched in the healthy AZs. 
 
-**Does this feature work with EKS Fargate?**
+*Does this feature work with EKS Fargate?*
 
 This feature does not work with EKS Fargate. By default, when EKS Fargate recognizes a zonal health event, Pods will prefer to run in the other AZs. 
 
-**Will the EKS managed Kubernetes control plane be impacted?**
+*Will the EKS managed Kubernetes control plane be impacted?*
 
 No, by default Amazon EKS runs and scales the Kubernetes control plane across multiple AZs to ensure high availability. ARC zonal shift and zonal autoshift will only act on the Kubernetes data plane. 
 
-**Are there any costs associated with this new feature?**
+*Are there any costs associated with this new feature?*
 
 You can use ARC zonal shift and zonal autoshift in your EKS cluster at no additional charge. However, you will continue to pay for provisioned instances and it is strongly recommended that you pre-scale your Kubernetes data plane before using this feature. You should consider the right balance between cost and application availability. 
 
@@ -270,9 +270,9 @@ You can use ARC zonal shift and zonal autoshift in your EKS cluster at no additi
 * link:r53recovery/latest/dg/arc-zonal-shift.how-it-works.html["How a zonal shift works",type="documentation"]
 * link:r53recovery/latest/dg/route53-arc-best-practices.zonal-shifts.html#zonalshift.route53-arc-best-practices.zonal-shifts["Best practices for zonal shifts in ARC",type="documentation"]
 * link:r53recovery/latest/dg/arc-zonal-shift.resource-types.html["Resources and scenarios supported for zonal shift and zonal autoshift",type="documentation"]
-* link:blogs/containers/operating-resilient-workloads-on-amazon-eks/["Operating resilient workloads on Amazon EKS",type="marketing"]
-* link:blogs/containers/eliminate-kubernetes-node-scaling-lag-with-pod-priority-and-over-provisioning/["Eliminate Kubernetes node scaling lag with pod priority and over-provisioning",type="marketing"]
-* link:eks/latest/userguide/coredns-autoscaling.html["Scale CoreDNS Pods for high DNS traffic",type="documentation"]
+* link:containers/operating-resilient-workloads-on-amazon-eks["Operating resilient workloads on Amazon EKS",type="blog"]
+* link:containers/eliminate-kubernetes-node-scaling-lag-with-pod-priority-and-over-provisioning["Eliminate Kubernetes node scaling lag with pod priority and over-provisioning",type="blog"]
+* <<coredns-autoscaling,Scale CoreDNS Pods for high DNS traffic>>
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;zone-shift,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23zone-shift%5D&type=code[Edit this page on GitHub]

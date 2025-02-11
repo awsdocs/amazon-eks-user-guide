@@ -18,7 +18,7 @@ When you use {aws} CloudFormation, you can reuse your template to set up your Am
 
 To provision and configure resources for Amazon EKS and related services, you must understand link:AWSCloudFormation/latest/UserGuide/template-guide.html[{aws} CloudFormation templates,type="documentation"]. Templates are formatted text files in JSON or YAML. These templates describe the resources that you want to provision in your {aws} CloudFormation stacks. If you're unfamiliar with JSON or YAML, you can use {aws} CloudFormation Designer to help you get started with {aws} CloudFormation templates. For more information, see link:AWSCloudFormation/latest/UserGuide/working-with-templates-cfn-designer.html[What is {aws} CloudFormation Designer?,type="documentation"] in the _{aws} CloudFormation User Guide_.
 
-Amazon EKS supports creating clusters and node groups in {aws} CloudFormation. For more information, including examples of JSON and YAML templates for your Amazon EKS resources, see  link:AWSCloudFormation/latest/UserGuide/AWS_EKS.html[Amazon EKS resource type reference,type="documentation"] in the _{aws} CloudFormation User Guide_.
+Amazon EKS supports creating clusters and node groups in {aws} CloudFormation. For more information, including examples of JSON and YAML templates for your Amazon EKS resources, see link:AWSCloudFormation/latest/UserGuide/AWS_EKS.html[Amazon EKS resource type reference,type="documentation"] in the _{aws} CloudFormation User Guide_.
 
 [#learn-more-cloudformation]
 == Learn more about {aws} CloudFormation
@@ -32,4 +32,4 @@ To learn more about {aws} CloudFormation, see the following resources:
 * link:cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html[{aws} CloudFormation Command Line Interface User Guide,type="documentation"]
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;creating-resources-with-cloudformation,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23creating-resources-with-cloudformation%5D&type=code[Edit this page on GitHub]

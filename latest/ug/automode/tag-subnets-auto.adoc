@@ -25,7 +25,8 @@ At this time, subnets used for load balancing by EKS Auto Mode are required to h
 Public subnets are used for internet-facing load balancers. These subnets must have the following tags:
 
 |===
-|Key |Value
+|Key
+|Value
 
 |`kubernetes.io/role/elb`
 |`1` or ``
@@ -35,7 +36,8 @@ Public subnets are used for internet-facing load balancers. These subnets must h
 Private subnets are used for internal load balancers. These subnets must have the following tags:
 
 |===
-|Key |Value
+|Key
+|Value
 
 |`kubernetes.io/role/internal-elb`
 |`1` or ``
@@ -78,4 +80,4 @@ aws ec2 create-tags \
 Replace `subnet-ID` with your actual subnet ID.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;tag-subnets-auto,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23tag-subnets-auto%5D&type=code[Edit this page on GitHub]

@@ -36,7 +36,7 @@ helm upgrade -i prometheus prometheus-community/prometheus \
     --set server.persistentVolume.storageClass="gp2"
 ----
 +
-NOTE: If you get the error `Error: failed to download "stable/prometheus" (hint: running `helm repo update` may help)` when executing this command, run `helm repo update prometheus-community`, and then try running the Step 2 command again.
+NOTE: If you get the error `Error: failed to download "stable/prometheus" (hint: running helm repo update may help)` when executing this command, run `helm repo update prometheus-community`, and then try running the Step 2 command again.
 +
 If you get the error `Error: rendered manifests contain a resource that already exists`, run `helm uninstall [.replaceable]``your-release-name`` -n [.replaceable]``namespace```, then try running the Step 3 command again.
 +
@@ -67,14 +67,14 @@ prometheus-server-775957f748-mmht9               1/2     Running   0          48
 kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090
 ----
 . Point a web browser to `http://localhost:9090` to view the [.noloc]`Prometheus` console.
-. Choose a metric from the *- insert metric at cursor* menu, then choose  *Execute*. Choose the  *Graph* tab to show the metric over time. The following image shows `container_memory_usage_bytes` over time.
+. Choose a metric from the *- insert metric at cursor* menu, then choose *Execute*. Choose the *Graph* tab to show the metric over time. The following image shows `container_memory_usage_bytes` over time.
 +
 image::images/prometheus-metric.png[Prometheus metrics,scaledwidth=100%]
-. From the top navigation bar, choose *Status*, then  *Targets*.
+. From the top navigation bar, choose *Status*, then *Targets*.
 +
 image::images/prometheus.png[Prometheus console,scaledwidth=100%]
 +
 All of the [.noloc]`Kubernetes` endpoints that are connected to [.noloc]`Prometheus` using service discovery are displayed.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;deploy-prometheus,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23deploy-prometheus%5D&type=code[Edit this page on GitHub]

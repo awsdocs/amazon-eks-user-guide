@@ -74,8 +74,7 @@ spec:
     memory: 1000Gi
 ----
 
-
-== EKS Auto Mode Supported
+== EKS Auto Mode Supported Labels
 
 EKS Auto Mode supports the following well known labels.
 
@@ -142,11 +141,11 @@ EKS Auto Mode supports the following well known labels.
 
 |eks.amazonaws.com/instance-ebs-bandwidth
 |9500
-|Number of link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html#ebs-optimization-performance[maximum megabits] of EBS available on the instance
+|Number of link:AWSEC2/latest/UserGuide/ebs-optimized.html#ebs-optimization-performance[maximum megabits,type="documentation"] of EBS available on the instance
 
 |eks.amazonaws.com/instance-network-bandwidth
 |131072
-|Number of link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html[baseline megabits] available on the instance
+|Number of link:AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html[baseline megabits,type="documentation"] available on the instance
 
 |eks.amazonaws.com/instance-gpu-name
 |t4
@@ -169,7 +168,9 @@ EKS Auto Mode supports the following well known labels.
 |Number of gibibytes of local nvme storage on the instance
 |===
 
-== EKS Auto Mode Not Supported
+NOTE: EKS Auto Mode only supports certain instances, and has minimum size requirements. For more information, see <<auto-supported-instances>>.
+
+== EKS Auto Mode Not Supported Labels
 
 EKS Auto Mode does not support the following labels. 
 
@@ -221,4 +222,4 @@ By default, EKS Auto Mode:
 - Sets a single disruption budget of 10% of nodes. 
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;create-node-pool,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23create-node-pool%5D&type=code[Edit this page on GitHub]

@@ -24,4 +24,4 @@ include::cost-monitoring-kubecost.adoc[leveloffset=+1]
 include::cost-monitoring-kubecost-bundles.adoc[leveloffset=+1]
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cost-monitoring,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cost-monitoring%5D&type=code[Edit this page on GitHub]

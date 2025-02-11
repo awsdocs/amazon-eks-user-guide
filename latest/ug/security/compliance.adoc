@@ -30,4 +30,4 @@ NOTE: Not all {aws} services are HIPAA eligible. For more information, see the l
 * link:audit-manager/latest/userguide/what-is.html[{aws} Audit Manager,type="documentation"] – This {aws} service helps you continuously audit your {aws} usage to simplify how you manage risk and compliance with regulations and industry standards.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;compliance,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23compliance%5D&type=code[Edit this page on GitHub]

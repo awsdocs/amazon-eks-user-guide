@@ -143,7 +143,7 @@ exceptions:
   - https://raw.githubusercontent.com/aws-observability/
   - https://raw.githubusercontent.com/aws-samples/
   - https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.12.6/config/master/cni-metrics-helper.yaml
-  - https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.19.0/config/master/aws-k8s-cni.yaml
+  - https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.19.2/config/master/aws-k8s-cni.yaml
   - https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml
   - https://raw.githubusercontent.com/awslabs/amazon-eks-ami/
   - https://raw.githubusercontent.com/awslabs/amazoneks-ami/

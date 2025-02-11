@@ -68,4 +68,4 @@ To update a workload to run on the `system` node pool, you need to:
 After updating the workload, it will run on dedicated nodes. 
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;critical-workload,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23critical-workload%5D&type=code[Edit this page on GitHub]
