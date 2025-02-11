@@ -19,7 +19,7 @@ Capacity Blocks for machine learning (ML) allow you to reserve GPU instances on 
 ====
 
 
-* Capacity Blocks are only available for certain Amazon EC2 instance types and {aws} Regions. For compatibility information, see  link:AWSEC2/latest/UserGuide/capacity-blocks-using.html#capacity-blocks-prerequisites[Work with Capacity Blocks Prerequisites,type="documentation"] in the _Amazon EC2 User Guide for Linux Instances_.
+* Capacity Blocks are only available for certain Amazon EC2 instance types and {aws} Regions. For compatibility information, see link:AWSEC2/latest/UserGuide/capacity-blocks-using.html#capacity-blocks-prerequisites[Work with Capacity Blocks Prerequisites,type="documentation"] in the _Amazon EC2 User Guide for Linux Instances_.
 * For more information, see link:autoscaling/ec2/userguide/launch-template-capacity-blocks.html[Use Capacity Blocks for machine learning workloads,type="documentation"] in the _Amazon EC2 Auto Scaling User Guide_.
 * Managed node groups with Capacity Blocks can only be created with custom launch templates.
 * When upgrading managed node groups with Capacity Blocks, make sure that the desired size of the node group is set to `0`.
@@ -89,4 +89,4 @@ aws eks create-nodegroup \
 Amazon EC2 starts shutting down the instances 30 minutes before reservation end time. As a result, Amazon EKS will setup a scheduled scale down on the node group 40 minutes prior to their reservation end in order to safely and gracefully evict [.noloc]`Pods`.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;capacity-blocks-mng,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23capacity-blocks-mng%5D&type=code[Edit this page on GitHub]

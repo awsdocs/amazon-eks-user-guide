@@ -192,7 +192,7 @@ The following tables describe node health issues that can be detected by the nod
 
 |UnexpectedRejectRule
 |Event
-|An unexpected `REJECT`` or `DROP` rule was found in the iptables, potentially blocking expected traffic.
+|An unexpected `REJECT` or `DROP` rule was found in the iptables, potentially blocking expected traffic.
 
 |===
 
@@ -393,4 +393,4 @@ If auto repair is enabled, the repair actions that are listed start 10 minutes a
 |===
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;node-health,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23node-health%5D&type=code[Edit this page on GitHub]

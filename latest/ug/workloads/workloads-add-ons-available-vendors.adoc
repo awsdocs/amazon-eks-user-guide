@@ -885,4 +885,4 @@ A managed policy isn't used with this add-on.
 Custom permissions aren't used with this add-on.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;workloads-add-ons-available-vendors,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23workloads-add-ons-available-vendors%5D&type=code[Edit this page on GitHub]

@@ -29,4 +29,4 @@ Use the following for _Split Cost Allocation Data_:
 . View the report. You can use the Billing and Cost Management console or view the report files in Amazon Simple Storage Service.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;cost-monitoring-aws,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cost-monitoring-aws%5D&type=code[Edit this page on GitHub]

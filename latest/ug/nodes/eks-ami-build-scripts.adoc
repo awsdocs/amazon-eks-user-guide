@@ -25,4 +25,4 @@ For more information, see the repositories on [.noloc]`GitHub` at https://github
 Amazon EKS optimized AL2 contains an optional bootstrap flag to enable the `containerd` runtime.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-ami-build-scripts,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-ami-build-scripts%5D&type=code[Edit this page on GitHub]

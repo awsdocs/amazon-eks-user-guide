@@ -46,7 +46,7 @@ link:r53recovery/latest/dg/arc-zonal-autoshift.how-it-works.html["Learn more abo
 
 EKS updates networking configurations to avoid directing traffic to impaired AZs. Additionally, if you are using Managed Node Groups, EKS will only launch new nodes in the healthy AZs during a zonal shift. When the shift expires or gets cancelled, the networking configurations will be restored to include the AZ that was previously detected as unhealthy. 
 
-xref:zone-shift[Learn more about EKS Zonal Shift].
+<<zone-shift,Learn more about EKS Zonal Shift>>.
 
 [#zone-shift-enable-steps]
 == Register EKS cluster with Amazon Application Recovery Controller (ARC) ({aws} console)
@@ -67,4 +67,4 @@ If you want {aws} to detect and avoid impaired availability zones, you need to c
 * Learn how to manually link:r53recovery/latest/dg/arc-zonal-shift.start-cancel.html["start a zonal shift",type="documentation"]
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;zone-shift-enable,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23zone-shift-enable%5D&type=code[Edit this page on GitHub]

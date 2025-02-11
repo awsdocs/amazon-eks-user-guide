@@ -61,7 +61,7 @@ Run the command below to install the hybrid nodes dependencies on your on-premis
 The hybrid nodes CLI (`nodeadm`) must be run with a user that has sudo/root access on your host.
 ====
 
-* Replace `K8S_VERSION` with the Kubernetes minor version of your Amazon EKS cluster, for example `1.31`. See link:eks/latest/userguide/kubernetes-versions.html[Amazon EKS Kubernetes versions,type="documentation"] for a list of the supported Kubernetes versions.
+* Replace `K8S_VERSION` with the Kubernetes minor version of your Amazon EKS cluster, for example `1.31`. See <<kubernetes-versions>> for a list of the supported Kubernetes versions.
 * Replace `CREDS_PROVIDER` with the on-premises credential provider you are using. Valid values are `ssm` for {aws} SSM and `iam-ra` for {aws} IAM Roles Anywhere.
 
 [source,bash,subs="verbatim,attributes,quotes"]
@@ -133,7 +133,7 @@ spec:
 nodeadm init -c file://nodeConfig.yaml
 ----
 
-If the above command completes successfully, your hybrid node has joined your Amazon EKS cluster. You can verify this in the Amazon EKS console by navigating to the Compute tab for your cluster (https://docs.aws.amazon.com/eks/latest/userguide/view-kubernetes-resources.html#view-kubernetes-resources-permissions[ensure IAM principal has permissions to view]) or with `kubectl get nodes`. 
+If the above command completes successfully, your hybrid node has joined your Amazon EKS cluster. You can verify this in the Amazon EKS console by navigating to the Compute tab for your cluster (<<view-kubernetes-resources-permissions,ensure IAM principal has permissions to view>>) or with `kubectl get nodes`. 
 
 [IMPORTANT]
 ====
@@ -145,4 +145,4 @@ Your nodes will have status `Not Ready`, which is expected and is due to the lac
 To make your hybrid nodes ready to run applications, continue with the steps on <<hybrid-nodes-cni>>.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;hybrid-nodes-join,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-join%5D&type=code[Edit this page on GitHub]

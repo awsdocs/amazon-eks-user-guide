@@ -37,7 +37,7 @@ Amazon EKS Auto Mode deploy nodes to VPC subnets. When creating an EKS cluster, 
 aws ec2 describe-subnets --filters "Name=vpc-id,Values=$(aws ec2 describe-vpcs --query 'Vpcs[?IsDefault==`true`].VpcId' --output text)" --query 'Subnets[*].{ID:SubnetId,AZ:AvailabilityZone}' --output table
 ```
 +
-. Save the output and note the **Subnet IDs**. 
+. Save the output and note the *Subnet IDs*. 
 +
 Sample output: 
 +
@@ -63,11 +63,11 @@ Sample output:
 
 EKS Auto Mode requires a Cluster IAM Role to perform actions in your {aws} account, such as provisioning new EC2 instances. You must create this role to grant EKS the necessary permissions. {aws} recommends attaching the following {aws} managed policies to the Cluster IAM Role:
 
-* xref:security-iam-awsmanpol-AmazonEKSComputePolicy[AmazonEKSComputePolicy]
-* xref:security-iam-awsmanpol-AmazonEKSBlockStoragePolicy[AmazonEKSBlockStoragePolicy]
-* xref:security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy[AmazonEKSLoadBalancingPolicy]
-* xref:security-iam-awsmanpol-AmazonEKSNetworkingPolicy[AmazonEKSNetworkingPolicy]
-* xref:security-iam-awsmanpol-amazoneksclusterpolicy[AmazonEKSClusterPolicy]
+* <<security-iam-awsmanpol-AmazonEKSComputePolicy,AmazonEKSComputePolicy>>
+* <<security-iam-awsmanpol-AmazonEKSBlockStoragePolicy,AmazonEKSBlockStoragePolicy>>
+* <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy,AmazonEKSLoadBalancingPolicy>>
+* <<security-iam-awsmanpol-AmazonEKSNetworkingPolicy,AmazonEKSNetworkingPolicy>>
+* <<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>>
 
 [#auto-roles-node-iam-role]
 === Node IAM Role
@@ -78,15 +78,15 @@ If you want to grant permissions to workloads running on a node, use EKS Pod Ide
 
 You must create this role and attach the following {aws} managed policy:
 
-* xref:security-iam-awsmanpol-AmazonEKSWorkerNodeMinimalPolicy[AmazonEKSWorkerNodeMinimalPolicy]
+* <<security-iam-awsmanpol-AmazonEKSWorkerNodeMinimalPolicy,AmazonEKSWorkerNodeMinimalPolicy>>
 * link:AmazonECR/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-AmazonEC2ContainerRegistryPullOnly["AmazonEC2ContainerRegistryPullOnly",type="documentation"]
 
 [discrete]
-#### **Service-Linked Role**
+#### *Service-Linked Role*
 
-EKS Auto Mode also requires a Service-Linked Role, which is automatically created and configured by {aws}. For more information, see xref:using-service-linked-roles-eks[AWSServiceRoleForAmazonEKS].
+EKS Auto Mode also requires a Service-Linked Role, which is automatically created and configured by {aws}. For more information, see <<using-service-linked-roles-eks,AWSServiceRoleForAmazonEKS>>.
 
-## **Create an EKS Auto Mode Cluster IAM Role**
+## *Create an EKS Auto Mode Cluster IAM Role*
 
 ### Step 1: Create the Trust Policy
 
@@ -132,7 +132,7 @@ aws iam get-role --role-name AmazonEKSAutoClusterRole --query "Role.Arn" --outpu
 
 Attach the following {aws} managed policies to the Cluster IAM Role to grant the necessary permissions:
 
-**AmazonEKSClusterPolicy**:
+*AmazonEKSClusterPolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -140,7 +140,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
 ```
 
-**AmazonEKSComputePolicy**:
+*AmazonEKSComputePolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -148,7 +148,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSComputePolicy
 ```
 
-**AmazonEKSBlockStoragePolicy**:
+*AmazonEKSBlockStoragePolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -156,7 +156,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSBlockStoragePolicy
 ```
 
-**AmazonEKSLoadBalancingPolicy**:
+*AmazonEKSLoadBalancingPolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -164,7 +164,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy
 ```
 
-**AmazonEKSNetworkingPolicy**:
+*AmazonEKSNetworkingPolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -172,7 +172,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSNetworkingPolicy
 ```
 
-## **Create an EKS Auto Mode Node IAM Role**
+## *Create an EKS Auto Mode Node IAM Role*
 
 ### Step 1: Create the Trust Policy
 
@@ -195,7 +195,7 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
 
 #### Step 2: Create the Node IAM Role
 
-Use the **node-trust-policy.json** file from the previous step to define which entities can assume the role. Run the following command to create the Node IAM Role:
+Use the *node-trust-policy.json* file from the previous step to define which entities can assume the role. Run the following command to create the Node IAM Role:
 
 ```
 aws iam create-role \
@@ -215,7 +215,7 @@ aws iam get-role --role-name AmazonEKSAutoNodeRole --query "Role.Arn" --output t
 
 Attach the following {aws} managed policies to the Node IAM Role to provide the necessary permissions:
 
-**AmazonEKSWorkerNodeMinimalPolicy**:
+*AmazonEKSWorkerNodeMinimalPolicy*:
 
 ```
 aws iam attach-role-policy \
@@ -223,7 +223,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodeMinimalPolicy
 ```
 
-**AmazonEC2ContainerRegistryPullOnly**:
+*AmazonEC2ContainerRegistryPullOnly*:
 
 ```
 aws iam attach-role-policy \
@@ -231,7 +231,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
 ```
 
-## **Create an EKS Auto Mode Cluster**
+## *Create an EKS Auto Mode Cluster*
 
 ### Overview
 
@@ -247,14 +247,14 @@ To create an EKS Auto Mode Cluster using the {aws} CLI, you will need the follow
 
 Review these default values and features before creating the cluster:
 
-* `nodePools`: EKS Auto Mode includes general-purpose and system default Node Pools. Learn more about xref:create-node-pool[Node Pools].
+* `nodePools`: EKS Auto Mode includes general-purpose and system default Node Pools. Learn more about <<create-node-pool,Node Pools>>.
 
-**Note:** Node Pools in EKS Auto Mode differ from Amazon EKS Managed Node Groups but can coexist in the same cluster.
+*Note:* Node Pools in EKS Auto Mode differ from Amazon EKS Managed Node Groups but can coexist in the same cluster.
 
 * `computeConfig.enabled`: Automates routine compute tasks, such as creating and deleting EC2 instances.
 * `kubernetesNetworkConfig.elasticLoadBalancing.enabled`: Automates load balancing tasks, including creating and deleting Elastic Load Balancers.
 * `storageConfig.blockStorage.enabled`: Automates storage tasks, such as creating and deleting Amazon EBS volumes.
-* `accessConfig.authenticationMode`: Requires EKS access entries. Learn more about xref:grant-k8s-access[EKS authentication modes].
+* `accessConfig.authenticationMode`: Requires EKS access entries. Learn more about <<grant-k8s-access,EKS authentication modes>>.
 
 #### Run the Command
 
@@ -294,7 +294,7 @@ aws eks create-cluster \
     }
 ```
 
-### **Check Cluster Status**
+### *Check Cluster Status*
 
 #### Step 1: Verify Cluster Creation
 
@@ -322,7 +322,7 @@ kubectl get nodepools
 
 == Next Steps
 
-* Learn how to xref:automode-workload[deploy a sample workload] to your new EKS Auto Mode cluster.
+* Learn how to <<automode-workload,deploy a sample workload>> to your new EKS Auto Mode cluster.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;automode-get-started-cli,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23automode-get-started-cli%5D&type=code[Edit this page on GitHub]

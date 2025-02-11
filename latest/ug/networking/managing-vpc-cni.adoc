@@ -48,15 +48,14 @@ The following table lists the latest available version of the Amazon EKS add-on 
 |===
 | Kubernetes version | Amazon EKS type of VPC CNI version
 | 1.32 | v1.19.2-eksbuild.1
-| 1.31 | v1.19.0-eksbuild.1
-| 1.30 | v1.19.0-eksbuild.1
-| 1.29 | v1.19.0-eksbuild.1
-| 1.28 | v1.19.0-eksbuild.1
-| 1.27 | v1.19.0-eksbuild.1
-| 1.26 | v1.19.0-eksbuild.1
-| 1.25 | v1.19.0-eksbuild.1
-| 1.24 | v1.19.0-eksbuild.1
-| 1.23 | v1.18.5-eksbuild.1
+| 1.31 | v1.19.2-eksbuild.1
+| 1.30 | v1.19.2-eksbuild.1
+| 1.29 | v1.19.2-eksbuild.1
+| 1.28 | v1.19.2-eksbuild.1
+| 1.27 | v1.19.2-eksbuild.1
+| 1.26 | v1.19.2-eksbuild.1
+| 1.25 | v1.19.2-eksbuild.1
+| 1.24 | v1.19.2-eksbuild.1
 |===
 
 [IMPORTANT]
@@ -83,4 +82,4 @@ The following are considerations for using the feature.
 * Check version compatibility for each feature. Some features of each release of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` require certain [.noloc]`Kubernetes` versions. When using different Amazon EKS features, if a specific version of the add-on is required, then it's noted in the feature documentation. Unless you have a specific reason for running an earlier version, we recommend running the latest version.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;managing-vpc-cni,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23managing-vpc-cni%5D&type=code[Edit this page on GitHub]

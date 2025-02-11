@@ -407,4 +407,4 @@ aws ec2 authorize-security-group-ingress \
 ----
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;hybrid-nodes-networking,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-networking%5D&type=code[Edit this page on GitHub]

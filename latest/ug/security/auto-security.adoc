@@ -16,22 +16,22 @@ Amazon EKS Auto Mode builds upon the existing security foundations of Amazon EKS
 Amazon EKS Auto Mode uses {aws} platform security mechanisms to secure and authenticate calls to the Amazon EKS API.
 
 * Access to the Kubernetes API is secured through EKS access entries, which integrate with {aws} IAM identities. 
-** For more information, see link:eks/latest/userguide/access-entries.html["Grant IAM users access to Kubernetes with EKS access entries",type="documentation"].
+** For more information, see <<access-entries>>.
 * Customers can implement fine-grained access control to the Kubernetes API endpoint through configuration of EKS access entries.
 
 ## Network security
 
 Amazon EKS Auto Mode supports multiple layers of network security:
 
-* **VPC integration**
+* *VPC integration*
 ** Operates within your Amazon Virtual Private Cloud (VPC)
 ** Supports custom VPC configurations and subnet layouts
 ** Enables private networking between cluster components
 ** For more information, see link:vpc/latest/userguide/security.html["Managing security responsibilities for Amazon Virtual Private Cloud",type="documentation"]
-* **Network Policies**
+* *Network Policies*
 ** Native support for Kubernetes Network Policies
 ** Ability to define granular network traffic rules
-** For more information, see link:eks/latest/userguide/cni-network-policy.html["Limit pod traffic with Kubernetes network policies",type="documentation"]
+** For more information, see <<cni-network-policy>>
 
 ## EC2 managed instance security
 
@@ -78,7 +78,7 @@ Amazon EKS Auto Mode does not fully manage Amazon Elastic Block Store (Amazon EB
 
 ### Storage security
 
-* {aws} recommends that you enable encryption for EBS Volumes provisionsed by Kubernetes persistent storage features. For more information, see <<create-storage-class>>.
+* {aws} recommends that you enable encryption for EBS Volumes provisioned by Kubernetes persistent storage features. For more information, see <<create-storage-class>>.
 * Encryption at rest using {aws} KMS
 * You can configure your {aws} account to enforce the encryption of the new EBS volumes and snapshot copies that you create. For more information, see link:ebs/latest/userguide/encryption-by-default.html["Enable Amazon EBS encryption by default",type="documentation"] in the Amazon EBS User Guide.
 * For more information, see link:ebs/latest/userguide/security.html["Security in Amazon EBS",type="documentation"].
@@ -97,9 +97,9 @@ The following section describes security best practices for Amazon EKS Auto Mode
 
 * Regularly review {aws} IAM policies and EKS access entries.
 * Implement least privilege access patterns for workloads.
-* Monitor cluster activity through {aws} CloudTrail and Amazon CloudWatch. For more information, see link:eks/latest/userguide/logging-using-cloudtrail.html["Log API calls as CloudTrail events",type="documentation"] and link:eks/latest/userguide/cloudwatch.html["Monitor cluster data with Amazon CloudWatch",type="documentation"]. 
+* Monitor cluster activity through {aws} CloudTrail and Amazon CloudWatch. For more information, see <<logging-using-cloudtrail>> and <<cloudwatch>>. 
 * Use {aws} Security Hub for security posture assessment.
 * Implement pod security standards appropriate for your workloads.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;auto-security,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-security%5D&type=code[Edit this page on GitHub]

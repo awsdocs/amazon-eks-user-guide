@@ -39,7 +39,7 @@ eksctl delete fargateprofile  --name my-profile --cluster my-cluster
 . In the left navigation pane, choose *Clusters*. In the list of clusters, choose the cluster that you want to delete the Fargate profile from.
 . Choose the *Compute* tab.
 . Choose the Fargate profile to delete, and then choose *Delete*.
-. On the *Delete Fargate profile* page, enter the name of the profile, and then choose  *Delete*.
+. On the *Delete Fargate profile* page, enter the name of the profile, and then choose *Delete*.
 
 
 == {aws} CLI [[awscli_delete_a_fargate_profile]]
@@ -54,4 +54,4 @@ aws eks delete-fargate-profile --fargate-profile-name my-profile --cluster-name 
 ----
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;delete-fargate-profile,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23delete-fargate-profile%5D&type=code[Edit this page on GitHub]

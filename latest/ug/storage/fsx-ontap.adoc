@@ -16,4 +16,4 @@ The [.noloc]`NetApp Trident` provides dynamic storage orchestration using a Cont
 Amazon FSx for NetApp ONTAP is a storage service that allows you to launch and run fully managed [.noloc]`ONTAP` file systems in the cloud. [.noloc]`ONTAP` is [.noloc]`NetApp's` file system technology that provides a widely adopted set of data access and data management capabilities. FSx for ONTAP provides the features, performance, and APIs of on-premises [.noloc]`NetApp` file systems with the agility, scalability, and simplicity of a fully managed {aws} service. For more information, see the link:fsx/latest/ONTAPGuide/what-is-fsx-ontap.html[FSx for ONTAP User Guide,type="documentation"].
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;fsx-ontap,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23fsx-ontap%5D&type=code[Edit this page on GitHub]

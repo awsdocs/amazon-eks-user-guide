@@ -37,5 +37,4 @@ This format creates a standard link out to the internet. Use this for Non-Amazon
 NOTE: We allowlist external domains. The allowlist is at `vale/styles/EksDocs/ExternalDomains.yml`
 
 
-
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;insert-link,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23insert-link%5D&type=code[Edit this page on GitHub]

@@ -15,4 +15,4 @@ Amazon EKS supports certain resources in Local Zones. This includes <<managed-no
 * Unlike regional subnets, Amazon EKS can't place network interfaces into your Local Zone subnets. This means that you must not specify Local Zone subnets when you create your cluster.
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;local-zones,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23local-zones%5D&type=code[Edit this page on GitHub]

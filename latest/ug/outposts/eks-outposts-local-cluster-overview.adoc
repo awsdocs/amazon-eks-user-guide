@@ -39,4 +39,4 @@ You can create local clusters in the following {aws} Regions: US East (Ohio), US
 [[Topic List]]
 
 
-📝 https://github.com/search?q=repo:awsdocs/amazon-eks-user-guide+&#91;&#91;eks-outposts-local-cluster-overview,&type=code[Edit this page on GitHub]
+📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-outposts-local-cluster-overview%5D&type=code[Edit this page on GitHub]
