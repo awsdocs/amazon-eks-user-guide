@@ -23,6 +23,7 @@ You might have the following problems that have solutions specific to EKS Auto M
 * Pods stuck in the `Pending` state, that aren't being scheduled onto Auto Mode nodes. For solutions see <<auto-troubleshoot-schedule>>.
 * EC2 managed instances that don't join the cluster as Kubernetes nodes. For solutions see <<auto-troubleshoot-join>>.
 * Errors and issues with the `NodePools`, `PersistentVolumes`, and `Services` that use the controllers that are included in EKS Auto Mode. For solutions see <<auto-troubleshoot-controllers>>.
+* Enhanced Pod security prevents sharing volumes across Pods. For solutions see <<auto-troubleshoot-share-pod-volumes>>.
 
 You can use the following methods to troubleshoot EKS Auto Mode components:
 
@@ -244,6 +245,22 @@ With these two pieces of information, you can perform the s analysis. First navi
 . Select "Protocol" as TCP if it is not already selected
 . Click "Create and Analyze Path"
 . The analysis might take a few minutes to complete. If the analysis results indicates failed reachability, it will indicate where the failure was in the network path so you can resolve the issue.
+
+[#auto-troubleshoot-share-pod-volumes]
+== Sharing Volumes Across Pods
+
+EKS Auto Mode Nodes are configured with SELinux in enforcing mode which provides more isolation between Pods that are running on the same Node.  When SELinux is enabled, most non-privileged pods will automatically have their own multi-category security (MCS) label applied to them. This MCS label is unique per Pod, and is designed to ensure that a process in one Pod cannot manipulate a process in any other Pod or on the host. Even if a labeled Pod runs as root and has access to the host filesystem, it will be unable to manipulate files, make sensitive system calls on the host, access the container runtime, or obtain kubelet’s secret key material. 
+
+Due to this, you may experience issues when trying to share data between Pods. For example, a `PersistentVolumeClaim` with an access mode of `ReadWriteOnce` will still not allow multiple Pods to access the volume concurrently.
+
+To enable this sharing between Pods, you can use the Pod's `seLinuxOptions` to configure the same MCS label on those Pods.  In this example, we assign the three categories `c123,c124,c125` to the Pod.  This will not conflict with any categories assigned to Pods on the node automatically, as they will only be assigned two categories.
+
+[source,bash,subs="verbatim,attributes"]
+----
+securityContext:
+  seLinuxOptions:
+    level: "s0:c123,c456,c789"
+----
 
 [#auto-troubleshoot-controllers]
 == Troubleshoot included controllers in Auto Mode
