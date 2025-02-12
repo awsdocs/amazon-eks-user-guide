@@ -20,10 +20,18 @@ This topic describes how you can launch Auto Scaling groups of Amazon Linux node
 
 You can create a self-managed Amazon Linux node group with `eksctl` or the {aws-management-console} (with an {aws} CloudFormation template). You can also use https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest[Terraform].
 
-You can create a local cluster with the following tools described in this page:
+You can create a self-managed node group for local cluster with the following tools described in this page:
 
 * <<eksctl_create_nodes_outpost>>
 * <<console_create_nodes_outpost>>
+
+[IMPORTANT]
+====
+* Self-managed node group includes Amazon EC2 instances in your account. These instances aren't automatically upgraded when you or Amazon EKS update the control plane version on your behalf. A self-managed node group doesn't have any indication in the console that it needs updating. You can view the `kubelet` version installed on a node by selecting the node in the *Nodes* list on the *Overview* tab of your cluster to determine which nodes need updating. You must manually update the nodes. For more information, see <<update-workers>>.
+* The certificates used by kubelet on your self-managed nodes are issued with one year expiration. By default certificate rotation is *not* enabled (see: https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/#kubelet-config-k8s-io-v1beta1-KubeletConfiguration), this means if you have a self-managed node running for more than one year, it will no longer be able to authenticate to the Kubernetes API.
+* As a best practice we recommend customers to regularly update their self-managed node groups to receive CVEs and security patches from latest Amazon EKS optimized AMI. Updating AMI used in self-managed node groups also triggers re-creation of nodes and make sure they do not run into issue due to expired kubelet certificates.
+* Alternatively you can also enable client certificate rotation (see: https://kubernetes.io/docs/tasks/tls/certificate-rotation/) when creating the self-managed node groups to make sure kubelet certificates are renewed as the current certificate approaches expiration.
+====
 
 == `eksctl` [[eksctl_create_nodes_outpost]]
 
@@ -98,7 +106,7 @@ The following steps show one operation to retrieve the applicable group.
 To use an Amazon EKS optimized accelerated AMI, replace [.replaceable]`amazon-linux-2` with `amazon-linux-2-gpu`. To use an Amazon EKS optimized Arm AMI, replace [.replaceable]`amazon-linux-2` with `amazon-linux-2-arm64`.
 +
 NOTE: The Amazon EKS node AMIs are based on Amazon Linux. You can track security or privacy events for Amazon Linux at the https://alas.aws.amazon.com/[Amazon Linux security center] by choosing the tab for your desired version. You can also subscribe to the applicable RSS feed. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue.
-** *NodeImageId*: (Optional) If you're using your own custom AMI (instead of an Amazon EKS optimized AMI), enter a node AMI ID for your {aws} Region. If you specify a value here, it overrides any values in the *NodeImageIdSSMParam* field.  
+** *NodeImageId*: (Optional) If you're using your own custom AMI (instead of an Amazon EKS optimized AMI), enter a node AMI ID for your {aws} Region. If you specify a value here, it overrides any values in the *NodeImageIdSSMParam* field.
 ** *NodeVolumeSize*: Specify a root volume size for your nodes, in GiB.
 ** *NodeVolumeType*: Specify a root volume type for your nodes.
 ** *KeyName*: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch. If you don't already have an Amazon EC2 key pair, you can create one in the {aws-management-console}. For more information, see link:AWSEC2/latest/UserGuide/ec2-key-pairs.html[Amazon EC2 key pairs,type="documentation"] in the _Amazon EC2 User Guide_.
