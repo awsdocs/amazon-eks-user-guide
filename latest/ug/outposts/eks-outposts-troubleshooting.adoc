@@ -13,6 +13,14 @@ Learn how to troubleshoot common issues with Amazon EKS local clusters on {aws} 
 This topic covers some common errors that you might see while using local clusters and how to troubleshoot them. Local clusters are similar to Amazon EKS clusters in the cloud, but there are some differences in how they're managed by Amazon EKS.
 
 
+[IMPORTANT]
+====
+
+Never terminate any managed EKS local cluster `Kubernetes` control-plane instance running on Outpost unless explicitly instructed by {aws} Support. Terminating these instances impose a risk to local cluster service availability, including loss of the local cluster in case multiple instances are simultaneously terminated. EKS local cluster `Kubernetes` control-plane instances are identified by the tag `eks-local:controlplane-name` on the EC2 instance console.
+
+====
+
+
 [#outposts-troubleshooting-api-behavior]
 .API behavior
 [%collapsible]
@@ -227,6 +235,33 @@ The most common issues are the following:
 
 .VPC and subnet DNS configuration is misconfigured or missing
 Review <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts>>.
+====
+
+[#outposts-troubleshooting-cluster-stuck-in-updating-state]
+.Cluster is stuck in `UPDATING` state
+[%collapsible]
+====
+
+Amazon EKS automatically updates all existing local clusters to the latest platform versions for their corresponding [.noloc]`Kubernetes` minor version. For more information about platform versions, please refer to <<eks-outposts-platform-versions>>.
+
+During an automatic platform-version rollout a cluster status changes to `UPDATING`. The update process consists of the replacement of all [.noloc]`Kubernetes` control-plane instances with new ones containing the latest security pathces and bugfixes released for the respective [.noloc]`Kubernetes` minor version. In general, a local cluster platform update process completes within less than 30 minutes and the cluster changes back to `ACTIVE` status. If a local cluster remains in the `UPDATING` state for an extended period of time, you may call `describe-cluster` to check for information about the cause in the `cluster.health` output field.
+
+Amazon EKS ensures at least 2 out of 3 [.noloc]`Kubernetes` control-plane instances are healthy and operational cluster nodes in order to maintain the local cluster availability and prevent service interruption. If a local cluster is stalled in `UPDATING` state it is usually because there is some infrastructure or configuration issue preventing the two-instances minimum availability to be guaranteed in case the process continues. So the update process stops progressing to protect the local cluster service interruption.
+
+It is important to troubleshoot a local cluster stuck in `UPDATING` status and address the root-cause so that the update process can complete and restore the local cluster back to `ACTIVE` with the high-availability of 3 [.noloc]`Kubernetes` control-plane instances.
+
+Do not terminate any managed EKS local cluster `Kubernetes` instances on Outposts unless explicitly instructed by {aws} Support. This is specially important for local clusters stuck in `UPDATING` state because there's a high probability that another control-plane nodes is not completely healthy and terminating the wrong instance could cause service interruption and risk local-cluster data loss.
+
+The most common issues are the following:
+
+
+
+* One or more control-plane instances are unable to connect to System Manager because of a networking configuration change since the local cluster was first created. You can verify this by calling `aws ssm start-session --target [.replaceable]``instance-id``` from an in-Region bastion host. If that command doesn't work, check if Systems Manager is running on the control plane instance.
+* New control plane instances fail to be created due to KMS key permissions for EBS volumes. With user managed KMS keys for encrypted EBS volumes, the control plane instances will terminate if the key is not accessible. If the instances are terminated, either switch to an {aws} managed KMS key or ensure that your user managed key policy grants the necessary permissions to the cluster role.
+* Systems Manager control plane instances might have lost internet access. Check if the subnet that was provided when you created the cluster has a NAT gateway and a VPC with an internet gateway. Use VPC reachability analyzer to verify that the control plane instance can reach the internet gateway. For more information, see link:vpc/latest/reachability/getting-started.html[Getting started with VPC Reachability Analyzer,type="documentation"]. If your private networks don't have outbound internet connection, ensure that all the required VPC endpoints and gateway endpoint are still present in the Regional subnet from your cluster (see <<subnet-access-to-services>>).
+* The role ARN that you provided is missing policies. Check if the <<security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy,{aws} managed policy: AmazonEKSLocalOutpostClusterPolicy>> was not removed from the role. 
+* One of the new [.noloc]`Kubernetes` control-plane instances may have experienced an unexpected bootstrapping failure. Please file a ticket with link:support/home[{aws} Support Center,type="console"] for further guidance on troubleshooting and log-collection in this exceptional case.
+
 ====
 
 [#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster]

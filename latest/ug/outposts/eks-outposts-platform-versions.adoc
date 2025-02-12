@@ -19,7 +19,9 @@ When new local cluster platform versions become available for a minor version:
 
 
 * The platform version number is incremented (`eks-local-outposts.n+1`).
-* Amazon EKS automatically updates all existing local clusters to the latest platform version for their corresponding [.noloc]`Kubernetes` minor version. Automatic updates of existing platform versions are rolled out incrementally. The roll-out process might take some time. If you need the latest platform version features immediately, we recommend that you create a new local cluster.
+* Amazon EKS automatically updates all existing local clusters to the latest platform version for their corresponding [.noloc]`Kubernetes` minor version. Automatic updates of existing platform versions are rolled out incrementally. The roll-out process consists of the replacement of the managed [.noloc]`Kubernetes` control-plane instances running on the Outpost, one at a time, until all 3 instances get replaced by new ones.
+* The [.noloc]`Kubernetes` control-plane instance replacement process will stop progressing if there is risk of service interruption. Amazon EKS will only attempt to replace an instance in case the other 2 [.noloc]`Kubernetes` control-plane instances are healthy and passing all readiness conditions as a cluster node. 
+* A platform version rollout will typically take less than 30 minutes to complete. If a cluster remains on `UPDATING` state for an extended amount of time, see the <<eks-outposts-troubleshooting>> and seek help from {aws} Support. Never manually terminate [.noloc]`Kubernetes` control-plane instances unless instructed by {aws} Support.
 * Amazon EKS might publish a new node AMI with a corresponding patch version. All patch versions are compatible between the [.noloc]`Kubernetes` control plane and node AMIs for a single [.noloc]`Kubernetes` minor version.
 
 New platform versions don't introduce breaking changes or cause service interruptions.
