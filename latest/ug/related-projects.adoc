@@ -18,6 +18,24 @@ Learn how to use open source projects to add features to Amazon EKS for manageme
 
 These open-source projects extend the functionality of [.noloc]`Kubernetes` clusters running on or outside of {aws}, including clusters managed by Amazon EKS.
 
+[#oss-scope]
+== Support for software deployed to EKS
+
+When reviewing the Amazon EKS docs, you'll encounter references to various open-source tools and software throughout our procedures and examples. These tools include the https://github.com/kubernetes-sigs/metrics-server[Kubernetes Metrics Server] and https://cert-manager.io/[Cert Manager.] 
+
+Please note that any third-party or open-source software you choose to deploy falls outside the scope of your {aws} Support Agreements. A benefit of using Kubernetes is the active open source community. We recommend working directly with the relevant open-source communities and project maintainers to establish appropriate support channels for such components. For more information, see the https://www.cncf.io/projects/[graduated and incubating projects] associated with the Cloud Native Computing Foundation (CNCF). 
+
+The Kubernetes ecosystem includes numerous projects and components that come with different levels of community support, response times, and intended use cases. When implementing these technologies alongside EKS, ensure you understand the support matrix for each component.
+
+{aws} maintains the open-source components we integrate into the EKS control plane. This includes our comprehensive security pipeline covering build verification, vulnerability scanning, validation testing, and patch management for all container images and binaries we distribute. For example, {aws} is responsible for the https://kubernetes.io/docs/concepts/architecture/#kube-apiserver[Kubernetes API Server]. The Kubernetes API server is covered by link:eks/sla/["Amazon EKS Service Level Agreement",type="marketing"]. You can use your link:premiumsupport/plans/["Amazon Web Services Support Plan",type="marketing"] to resolve issues with the Kubernetes API server, or get general guidance. 
+
+You need to carefully review the support offered for various Amazon EKS Add-ons. {aws} add-ons are the only type of Amazon EKS add-on that are fully supported by {aws}. {aws} Marketplace add-ons are primarily supported by {aws} Partners. Community add-ons receive basic lifecycle support from {aws}. For more information, see xref:addon-support[add-on Support.]
+
+Every EKS add-ons, irrespective of the type, receives basic lifecycle support from EKS including Marketplace add-ons. Basic lifecycle support includes installing and uninstalling the add-on. For more information on the types of Amazon EKS Add-ons available and the associated levels of support, see xref:addon-support[Scope of Support for Amazon EKS add-ons.] To view add-ons fully supported by {aws}, see xref:workloads-add-ons-available-eks[Amazon Web Services add-ons.]
+
+* For more information about our security practices and support boundaries, see xref:security[Security in Amazon EKS.]
+* For more information about community and {aws} marketplace add-ons available through Amazon EKS Add-ons, see xref:addon-support["EKS Add-ons Support",type="documentation"].
+
 [#related-management-tools]
 == Management tools
 
