@@ -18,14 +18,14 @@ Learn how to manage access entries for IAM principals to your Amazon EKS cluster
 
 *What is EKS access entries?*
 
-EKS access entries it the best way to grant users access to the Kubernetes API. For example, you can use access entries to grant developers access to use kubectl. 
+EKS access entries is the best way to grant users access to the Kubernetes API. For example, you can use access entries to grant developers access to use kubectl.
 
-Fundamentally, an EKS access entry associates a set of Kubernetes permissions with an IAM identity, such as an IAM role. For example, a developer may assume an IAM role and use that to authenticate to an EKS Cluster. 
+Fundamentally, an EKS access entry associates a set of Kubernetes permissions with an IAM identity, such as an IAM role. For example, a developer may assume an IAM role and use that to authenticate to an EKS Cluster.
 
-You can attach Kubernetes permissions to access entries in two ways: 
+You can attach Kubernetes permissions to access entries in two ways:
 
-* Use an access policy. Access policies are pre-defined Kubernetes permissions templates maintained by {aws}. For more information, see <<access-policy-permissions>>. 
-* Reference a Kubernetes group. If you associate an IAM Identity with a Kubernetes group, you can create Kubernetes resources that grant the group permissions. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the Kubernetes documentation. 
+* Use an access policy. Access policies are pre-defined Kubernetes permissions templates maintained by {aws}. For more information, see <<access-policy-permissions>>.
+* Reference a Kubernetes group. If you associate an IAM Identity with a Kubernetes group, you can create Kubernetes resources that grant the group permissions. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the Kubernetes documentation.
 
 *Advantages*
 
@@ -35,13 +35,13 @@ The feature integrates with infrastructure as code (IaC) tools like {aws} CloudF
 
 == Get Started
 
-. Determine the IAM Identity and Access policy you want to use. 
+. Determine the IAM Identity and Access policy you want to use.
 ** <<access-policy-permissions>>
 . Enable EKS Access Entries on your cluster. Confirm you have a supported platform version.
 ** <<setting-up-access-entries>>
 . Create an access entry that associates an IAM Identity with Kubernetes permission.
 ** <<creating-access-entries>>
-. Authenticate to the cluster using the IAM identity. 
+. Authenticate to the cluster using the IAM identity.
 ** <<install-awscli>>
 ** <<install-kubectl>>
 
