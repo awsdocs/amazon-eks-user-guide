@@ -25,8 +25,9 @@ You can add this `nodeSelector` to Deployments or other workloads to require Kub
 apiVersion: apps/v1
 kind: Deployment
 spec:
-      nodeSelector:
-        eks.amazonaws.com/compute-type: auto
+  template:
+    nodeSelector:
+      eks.amazonaws.com/compute-type: auto
 ----
 
 == Require a workload is not deployed to EKS Auto Mode nodes
