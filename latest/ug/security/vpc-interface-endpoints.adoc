@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#vpc-interface-endpoints]
-= Access the Amazon EKS using {aws} PrivateLink
+= Access Amazon EKS using {aws} PrivateLink
 :info_titleabbrev: {aws} PrivateLink
 
 [abstract]
