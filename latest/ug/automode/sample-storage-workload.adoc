@@ -32,9 +32,9 @@ aws eks update-kubeconfig --name "${CLUSTER_NAME}"
 
 ## Step 2: Create the storage class
 
-The StorageClass defines how EKS Auto Mode will provision EBS volumes.
+The `StorageClass` defines how EKS Auto Mode will provision EBS volumes.
 
-EKS Auto Mode does not create a StorageClass for you. You must create a StorageClass referencing `ebs.csi.eks.amazonaws.com` to use the storage capability of EKS Auto Mode.
+EKS Auto Mode does not create a `StorageClass` for you. You must create a `StorageClass` referencing `ebs.csi.eks.amazonaws.com` to use the storage capability of EKS Auto Mode.
 
 . Create a file named `storage-class.yaml`:
 +
@@ -52,7 +52,7 @@ parameters:
   type: gp3
   encrypted: "true"
 ----
-. Apply the StorageClass:
+. Apply the `StorageClass`:
 +
 [source,bash]
 ----
@@ -69,7 +69,7 @@ kubectl apply -f storage-class.yaml
 
 ## Step 3: Create the persistent volume claim
 
-The PVC requests storage from the StorageClass.
+The PVC requests storage from the `StorageClass`.
 
 . Create a file named `pvc.yaml`:
 +
@@ -98,7 +98,7 @@ kubectl apply -f pvc.yaml
 
 - `accessModes: ReadWriteOnce` - Volume can be mounted by one node at a time
 - `storage: 8Gi` - Requests an 8 GiB volume
-- `storageClassName: auto-ebs-sc` - References the StorageClass we created
+- `storageClassName: auto-ebs-sc` - References the `StorageClass` we created
 
 ## Step 4: Deploy the Application
 
@@ -200,7 +200,7 @@ kubectl delete deployment/inflate-stateful pvc/auto-ebs-claim storageclass/auto-
 
 ## What's Happening Behind the Scenes
 
-. The PVC requests storage from the StorageClass
+. The PVC requests storage from the `StorageClass`
 . When the Pod is scheduled:
 .. EKS Auto Mode provisions an EBS volume
 .. Creates a PersistentVolume

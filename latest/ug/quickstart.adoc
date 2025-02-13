@@ -182,7 +182,7 @@ parameters:
   type: gp3
   encrypted: "true"
 ----
-. Apply the StorageClass:
+. Apply the `StorageClass`:
 +
 [source,bash]
 ----

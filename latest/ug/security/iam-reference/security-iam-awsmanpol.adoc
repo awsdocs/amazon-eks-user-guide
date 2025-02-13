@@ -369,7 +369,7 @@ View details about updates to {aws} managed policies for Amazon EKS since this s
 
 Added the ability for the EBS CSI Driver to modify tags on existing volumes. The EBS CSI Driver can modify tags of existing volumes via a parameters in Kubernetes VolumeAttributesClasses.
 
-Added the ability for the EBS CSI Driver to enable Fast Snapshot Restore (FSR) on EBS volumes. The EBS CSI Driver can enable FSR on new volumes via parameters in Kubernetes StorageClasses.
+Added the ability for the EBS CSI Driver to enable Fast Snapshot Restore (FSR) on EBS volumes. The EBS CSI Driver can enable FSR on new volumes via parameters in Kubernetes storage classes.
 |January 13, 2025
 
 |Added permissions to <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>.

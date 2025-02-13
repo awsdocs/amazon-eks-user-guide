@@ -118,7 +118,7 @@ Yes, but volume operations requiring the Amazon EBS CSI driver will fail after y
 The default `StorageClass` behavior remains unchanged. With each new cluster, Amazon EKS applies a `kubernetes.io/aws-ebs` based `StorageClass` named `gp2`. We don't plan to ever remove this `StorageClass` from newly created clusters. Separate from the cluster default `StorageClass`, if you create an `ebs.csi.aws.com` based `StorageClass` without specifying a volume type, the Amazon EBS CSI driver will default to using `gp3`.
 
 [#csi-migration-faq-existing-storageclasses]
-== Will Amazon EKS make any changes to `StorageClasses` already present in my existing cluster when I update my cluster to version `1.23`?
+== Will Amazon EKS make any changes to storage classes already present in my existing cluster when I update my cluster to version `1.23`?
 
 No.
 
@@ -136,7 +136,7 @@ The new https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/m
 [#csi-migration-faq-windows]
 == Is migration supported for Windows workloads?
 
-Yes. If you're installing the Amazon EBS CSI driver using the open source Helm chart, set `node.enableWindows` to `true`. This is set by default if installing the Amazon EBS CSI driver as an Amazon EKS add-on. When creating `StorageClasses`, set the `fsType` to a Windows file system, such as `ntfs`. Volume operations for Windows workloads are then migrated to the Amazon EBS CSI driver the same as they are for Linux workloads.
+Yes. If you're installing the Amazon EBS CSI driver using the open source Helm chart, set `node.enableWindows` to `true`. This is set by default if installing the Amazon EBS CSI driver as an Amazon EKS add-on. When creating storage classes, set the `fsType` to a Windows file system, such as `ntfs`. Volume operations for Windows workloads are then migrated to the Amazon EBS CSI driver the same as they are for Linux workloads.
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23ebs-csi-migration-faq%5D&type=code[Edit this page on GitHub]
