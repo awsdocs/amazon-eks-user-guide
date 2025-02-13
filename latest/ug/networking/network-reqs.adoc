@@ -47,7 +47,7 @@ If you created a cluster with [.noloc]`Kubernetes` `1.14` or earlier, Amazon EKS
 |Value
 
 
-|``kubernetes.io/cluster/[.replaceable]`my-cluster```
+|`kubernetes.io/cluster/[.replaceable]``my-cluster```
 |`owned`
 |===
 
@@ -242,7 +242,7 @@ When a [.noloc]`Kubernetes` cluster that's version `1.18` and earlier was create
 |Value
 
 
-|``kubernetes.io/cluster/[.replaceable]`my-cluster```
+|`kubernetes.io/cluster/[.replaceable]``my-cluster```
 |`shared`
 |===
 
