@@ -25,7 +25,7 @@ include::pod-multiple-network-interfaces.adoc[leveloffset=+1]
 
 [abstract]
 --
-Discover how the [.noloc]`Amazon VPC CNI plugin for Kubernetes` add-on works to assign private IP addresses and create network interfaces for [.noloc]`Pods` and services in your Amazon EKS cluster.
+Discover how the Amazon VPC CNI plugin for Kubernetes add-on works to assign private IP addresses and create network interfaces for Pods and services in your Amazon EKS cluster.
 --
 
 [TIP]
