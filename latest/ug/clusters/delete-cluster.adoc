@@ -12,7 +12,7 @@ Learn how to delete Amazon EKS clusters, including managed and self-managed node
 
 When you're done using an Amazon EKS cluster, you should delete the resources associated with it so that you don't incur any unnecessary costs.
 
-
+This is a demo change. 
 
 You can delete a cluster with `eksctl`, the {aws-management-console}, or the {aws} CLI.
 
