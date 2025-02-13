@@ -137,6 +137,13 @@ kubectl drain NODE_NAME --ignore-daemonsets --delete-emptydir-data
 ----
 nodeadm upgrade K8S_VERSION -c file://nodeConfig.yaml
 ----
+. To allow pods to be scheduled on the node after you have upgraded, type the following. Replace `NODE_NAME` with the name of the node.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+kubectl taint nodes NODE_NAME key=value:NoSchedule-
+kubectl uncordon NODE_NAME
+----
 
 . Watch the status of your hybrid nodes and wait for your nodes to shutdown and restart on the new Kubernetes version with the Ready status.
 +
