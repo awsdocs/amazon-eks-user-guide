@@ -24,11 +24,11 @@ image::images/zs-traffic-flow-before-2.png[Illustration of network traffic]
 . The network packets are then sent to the Products Pod in AZ 2 via the ENIs on the respective nodes (as depicted in the diagram above). 
 
 
-=== Understanding ARC Zonal Shift in EKS
+=== Understanding ARC Zonal Shift in Amazon EKS
 
 In the case that there is an AZ impairment in your environment, you can initiate a zonal shift for your EKS cluster environment. Alternatively, you can allow {aws} to manage this for you with zonal autoshift. With zonal autoshift, {aws} will monitor the overall AZ health and respond to a potential AZ impairment by automatically shifting traffic away from the impaired AZ in your cluster environment. 
 
-Once your EKS cluster zonal shift enabled with ARC, you can trigger a zonal shift or enable zonal autoshift using the ARC Console, the {aws} CLI, or the zonal shift and zonal autoshift APIs. 
+Once your Amazon EKS cluster has zonal shift enabled with ARC, you can trigger a zonal shift or enable zonal autoshift using the ARC Console, the {aws} CLI, or the zonal shift and zonal autoshift APIs. 
 During an EKS zonal shift, the following will automatically take place:
 
 * All the nodes in the impacted AZ will be cordoned. This will prevent the Kubernetes Scheduler from scheduling new Pods onto the nodes in the unhealthy AZ. 
