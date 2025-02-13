@@ -17,8 +17,8 @@ The Amazon EKS managed worker node upgrade strategy has four different phases de
 
 The setup phase has these steps:
 
-. It creates a new Amazon EC2 launch template version for the Auto Scaling group that's associated with your node group. The new launch template version uses the target AMI or a custom launch template version for the update.
-. It updates the Auto Scaling group to use the latest launch template version.
+. It creates a new Amazon EC2 launch template version for the Auto Scaling Group that's associated with your node group. The new launch template version uses the target AMI or a custom launch template version for the update.
+. It updates the Auto Scaling Group to use the latest launch template version.
 . It determines the maximum quantity of nodes to upgrade in parallel using the `updateConfig` property for the node group. The maximum unavailable has a quota of 100 nodes. The default value is one node. For more information, see the link:eks/latest/APIReference/API_UpdateNodegroupConfig.html#API_UpdateNodegroupConfig_RequestSyntax[updateConfig,type="documentation"] property in the _Amazon EKS API Reference_.
 
 
@@ -31,11 +31,11 @@ The scale up phase has these steps:
 
 . It increments the Auto Scaling Group's maximum size and desired size by the larger of either:
 +
-** Up to twice the number of Availability Zones that the Auto Scaling group is deployed in.
+** Up to twice the number of Availability Zones that the Auto Scaling Group is deployed in.
 ** The maximum unavailable of upgrade.
 +
 For example, if your node group has five Availability Zones and `maxUnavailable` as one, the upgrade process can launch a maximum of 10 nodes. However when `maxUnavailable` is 20 (or anything higher than 10), the process would launch 20 new nodes.
-. After scaling the Auto Scaling group, it checks if the nodes using the latest configuration are present in the node group. This step succeeds only when it meets these criteria:
+. After scaling the Auto Scaling Group, it checks if the nodes using the latest configuration are present in the node group. This step succeeds only when it meets these criteria:
 +
 ** At least one new node is launched in every Availability Zone where the node exists.
 ** Every new node should be in `Ready` state.
@@ -69,6 +69,9 @@ Custom user data can sometimes break the bootstrap process. This scenario can le
 
 *Any changes which make a node unhealthy or not ready*::
 Node disk pressure, memory pressure, and similar conditions can lead to a node not going to `Ready` state.
+
+*Each node most bootstrap within 15 minutes*::
+If any node takes more than 15 minutes to bootstrap and join the cluster, it will cause the upgrade to time out. This is the total runtime for bootstrapping a new node measured from when a new node is required to when it joins the cluster. When upgrading a managed node group, the time counter starts as soon as the Auto Scaling Group size increases.
 
 
 [#managed-node-update-upgrade]
