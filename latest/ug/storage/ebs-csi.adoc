@@ -27,7 +27,7 @@ The https://github.com/kubernetes-sigs/aws-ebs-csi-driver/[Amazon Elastic Block 
 * You can run the Amazon EBS CSI controller on Fargate nodes, but the Amazon EBS CSI node [.noloc]`DaemonSet` can only run on Amazon EC2 instances.
 * Amazon EBS volumes and the Amazon EBS CSI driver are not compatible with Amazon EKS Hybrid Nodes.
 * Support will be provided for the latest add-on version and one prior version. Bugs or vulnerabilities found in the latest version will be backported to the previous release in a new minor version.
-
+* Only PVs created from a Storage Class using `ebs.csi.eks.amazonaws.com` as the provisioner can be mounted on nodes created by EKS Auto mode. Existing PVs must be migrated to the new Storage Class using a volume snapshot.
 
 [IMPORTANT]
 ====
