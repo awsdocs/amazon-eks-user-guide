@@ -25,26 +25,16 @@ This chapter covers storage options for Amazon EKS clusters.
 
 include::ebs-csi.adoc[leveloffset=+1]
 
-
-include::ebs-csi-migration-faq.adoc[leveloffset=+1]
-
-
 include::efs-csi.adoc[leveloffset=+1]
-
 
 include::fsx-csi.adoc[leveloffset=+1]
 
-
 include::fsx-ontap.adoc[leveloffset=+1]
-
 
 include::fsx-openzfs-csi.adoc[leveloffset=+1]
 
-
 include::file-cache-csi.adoc[leveloffset=+1]
 
-
 include::s3-csi.adoc[leveloffset=+1]
-
 
 include::csi-snapshot-controller.adoc[leveloffset=+1]
