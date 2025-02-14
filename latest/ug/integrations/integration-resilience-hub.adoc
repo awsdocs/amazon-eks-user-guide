@@ -6,6 +6,3 @@ include::../attributes.txt[]
 :info_titleabbrev: {aws} Resilience Hub
 
 {aws} Resilience Hub assesses the resiliency of an Amazon EKS cluster by analyzing its infrastructure. {aws} Resilience Hub uses the [.noloc]`Kubernetes` role-based access control (RBAC) configuration to assess the [.noloc]`Kubernetes` workloads deployed to your cluster. For more information, see link:resilience-hub/latest/userguide/enabling-eks-in-arh.html[Enabling {aws} Resilience Hub access to your Amazon EKS cluster,type="documentation"] in the {aws} Resilience Hub User Guide.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23integration-resilience-hub%5D&type=code[Edit this page on GitHub]

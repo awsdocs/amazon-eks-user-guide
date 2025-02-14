@@ -186,6 +186,3 @@ By default, the `create-key` command creates a link:kms/latest/developerguide/sy
 For clusters using KMS Envelope Encryption, `kms:CreateGrant` permissions are required. The condition `kms:GrantIsForAWSResource` is not supported for the CreateCluster action, and should not be used in KMS policies to control `kms:CreateGrant` permissions for users performing CreateCluster.
 
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23enable-kms%5D&type=code[Edit this page on GitHub]

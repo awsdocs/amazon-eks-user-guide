@@ -143,6 +143,3 @@ Amazon EKS supports shared security groups.
 === Considerations for Amazon EKS
 
 * EKS has the same requirements of shared or multi-VPC security groups as standard security groups. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23sec-group-reqs%5D&type=code[Edit this page on GitHub]

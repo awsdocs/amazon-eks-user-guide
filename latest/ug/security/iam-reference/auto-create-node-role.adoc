@@ -115,6 +115,3 @@ aws iam attach-role-policy \
     --role-name AmazonEKSAutoNodeRole \
     --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
 ```
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-create-node-role%5D&type=code[Edit this page on GitHub]

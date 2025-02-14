@@ -46,6 +46,3 @@ An example output is as follows.
 ----
 ami-[.replaceable]`1234567890abcdef0`
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23retrieve-ami-id%5D&type=code[Edit this page on GitHub]

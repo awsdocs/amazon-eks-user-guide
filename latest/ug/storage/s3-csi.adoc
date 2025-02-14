@@ -414,6 +414,3 @@ Replace [.replaceable]`my-cluster` with the name of your cluster, and then run t
 ----
 aws eks delete-addon --cluster-name my-cluster --addon-name aws-mountpoint-s3-csi-driver --preserve
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23s3-csi%5D&type=code[Edit this page on GitHub]

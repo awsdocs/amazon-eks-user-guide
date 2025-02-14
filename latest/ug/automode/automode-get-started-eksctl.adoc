@@ -75,6 +75,3 @@ Save the `ClusterConfig` file as `cluster.yaml`, and use the following command t
 ----
 eksctl create cluster -f cluster.yaml
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23automode-get-started-eksctl%5D&type=code[Edit this page on GitHub]

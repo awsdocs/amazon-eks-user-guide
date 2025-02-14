@@ -220,6 +220,3 @@ There is no EKS Windows GPU Optimized AMI or EC2 Image Builder managed component
 [#ml-eks-windows-ami-inferentia-tranium-support]
 === Inferentia and Trainium not supported
 {aws} link:ai/machine-learning/inferentia/[Inferentia,type="marketing"] and {aws} link:ai/machine-learning/trainium/[Trainium,type="marketing"] based workloads are not supported on Windows.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23ml-eks-windows-optimized-ami%5D&type=code[Edit this page on GitHub]

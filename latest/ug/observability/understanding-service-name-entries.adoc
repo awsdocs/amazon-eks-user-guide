@@ -118,6 +118,3 @@ The following example shows a CloudTrail log entry that demonstrates a link:IAM/
     "recipientAccountId": "111122223333"
 }
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23understanding-service-name-entries%5D&type=code[Edit this page on GitHub]

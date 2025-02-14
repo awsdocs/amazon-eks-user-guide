@@ -245,6 +245,3 @@ This example policy includes the minimum permissions required to list and descri
     ]
 }
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-iam-id-based-policy-examples%5D&type=code[Edit this page on GitHub]

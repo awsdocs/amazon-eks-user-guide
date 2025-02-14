@@ -370,6 +370,3 @@ govc vm.change -dc="YOUR_DATASTORE" -vm "$NODE_NAME" -e guestinfo.metadata.encod
 ----
 govc vm.power -on "${NODE_NAME}"
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-os%5D&type=code[Edit this page on GitHub]

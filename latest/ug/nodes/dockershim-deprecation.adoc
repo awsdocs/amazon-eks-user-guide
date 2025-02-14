@@ -98,6 +98,3 @@ If you prefer to use a different tool to create your managed node group, you mus
 ----
 /etc/eks/bootstrap.sh my-cluster --container-runtime containerd
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23dockershim-deprecation%5D&type=code[Edit this page on GitHub]

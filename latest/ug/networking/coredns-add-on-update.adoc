@@ -74,6 +74,3 @@ An example output is as follows.
     }
 }
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23coredns-add-on-update%5D&type=code[Edit this page on GitHub]

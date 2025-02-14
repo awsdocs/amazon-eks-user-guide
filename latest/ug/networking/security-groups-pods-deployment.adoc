@@ -90,6 +90,3 @@ IMPORTANT:
 ** For this setting to apply to existing [.noloc]`Pods`, you must restart the [.noloc]`Pods` or the nodes that the [.noloc]`Pods` are running on.
 
 . To see how to use a security group policy for your [.noloc]`Pod`, see <<sg-pods-example-deployment>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-groups-pods-deployment%5D&type=code[Edit this page on GitHub]

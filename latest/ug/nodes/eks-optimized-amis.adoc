@@ -28,6 +28,3 @@ include::eks-optimized-ami-bottlerocket.adoc[leveloffset=+1]
 include::eks-partner-amis.adoc[leveloffset=+1]
 
 include::eks-optimized-windows-ami.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-optimized-amis%5D&type=code[Edit this page on GitHub]

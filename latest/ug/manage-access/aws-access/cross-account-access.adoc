@@ -108,6 +108,3 @@ role_arn={arn-aws}iam::111122223333:role/account-a-role
 To specify chained profiles for other {aws} SDKs, consult the documentation for the SDK that you're using. For more information, see link:developer/tools/[Tools to Build on {aws},type="marketing"].
 
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cross-account-access%5D&type=code[Edit this page on GitHub]

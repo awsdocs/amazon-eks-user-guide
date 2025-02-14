@@ -72,6 +72,3 @@ aws eks delete-nodegroup \
 
 +
 For more options, see the `link:cli/latest/reference/eks/delete-nodegroup.html[delete-nodegroup,type="documentation"]` command in the _{aws} CLI Command Reference_.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23delete-managed-node-group%5D&type=code[Edit this page on GitHub]

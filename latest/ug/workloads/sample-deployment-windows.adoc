@@ -273,6 +273,3 @@ After you deploy the sample application, you might want to try some of the follo
 
 * <<alb-ingress,Route application and HTTP traffic with Application Load Balancers>>
 * <<network-load-balancing,Route TCP and UDP traffic with Network Load Balancers>>
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23sample-deployment-win%5D&type=code[Edit this page on GitHub]

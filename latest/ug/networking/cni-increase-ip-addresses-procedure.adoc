@@ -234,6 +234,3 @@ vpc.amazonaws.com/PrivateIPv4Address:  144
 ----
 +
 In the previous output, `110` is the maximum number of [.noloc]`Pods` that [.noloc]`Kubernetes` will deploy to the node, even though [.replaceable]`144` IP addresses are available.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cni-increase-ip-addresses-procedure%5D&type=code[Edit this page on GitHub]

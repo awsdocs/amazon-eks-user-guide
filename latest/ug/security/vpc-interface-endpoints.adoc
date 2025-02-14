@@ -58,6 +58,3 @@ The private DNS feature is enabled by default when creating an interface endpoin
 +
 However, To use the dual-stack endpoints with the {aws} CLI, see the link:sdkref/latest/guide/feature-endpoints.html[Dual-stack and FIPS endpoints,type="documentation"] configuration in the _{aws} SDKs and Tools Reference Guide_.
 * Any call made to the Amazon EKS default service endpoint is automatically routed through the interface endpoint over the private {aws} network.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23vpc-interface-endpoints%5D&type=code[Edit this page on GitHub]

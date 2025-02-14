@@ -806,6 +806,3 @@ aws sts get-caller-identity
 == Next steps
 
 * <<quickstart,Quickstart: Deploy a web app and store data>>
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23install-kubectl%5D&type=code[Edit this page on GitHub]

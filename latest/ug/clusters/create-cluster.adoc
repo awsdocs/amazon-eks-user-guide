@@ -321,6 +321,3 @@ If you deploy your cluster using either `eksctl` or the {aws} CLI, then the [.no
 * <<enable-kms,Enable secrets encryption for your cluster>>.
 * <<control-plane-logs,Configure logging for your cluster>>.
 * <<eks-compute,Add nodes to your cluster>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23create-cluster%5D&type=code[Edit this page on GitHub]

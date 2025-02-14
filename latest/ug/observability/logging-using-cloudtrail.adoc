@@ -26,6 +26,3 @@ include::service-name-info-in-cloudtrail.adoc[leveloffset=+1]
 include::understanding-service-name-entries.adoc[leveloffset=+1]
 
 include::enable-asg-metrics.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23logging-using-cloudtrail%5D&type=code[Edit this page on GitHub]

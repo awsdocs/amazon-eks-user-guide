@@ -94,6 +94,3 @@ include::hybrid-nodes-proxy.adoc[leveloffset=+1]
 include::hybrid-nodes-nodeadm.adoc[leveloffset=+1]
 
 include::hybrid-nodes-troubleshooting.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-overview%5D&type=code[Edit this page on GitHub]

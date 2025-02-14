@@ -9,6 +9,3 @@ If you disassociate an [.noloc]`OIDC` identity provider from your cluster, users
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the *[.noloc]`OIDC` Identity Providers* section, select *Disassociate*, enter the identity provider name, and then select `Disassociate`.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23disassociate-oidc-identity-provider%5D&type=code[Edit this page on GitHub]

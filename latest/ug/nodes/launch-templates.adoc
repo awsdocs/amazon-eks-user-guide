@@ -463,6 +463,3 @@ kubectl edit -n kube-system cm aws-auth
 - eks:kube-proxy-windows
 ----
 .. Save the file and exit your text editor.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23launch-templates%5D&type=code[Edit this page on GitHub]

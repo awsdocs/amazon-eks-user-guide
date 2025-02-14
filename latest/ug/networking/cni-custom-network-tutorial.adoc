@@ -620,6 +620,3 @@ aws ec2 delete-subnet --subnet-id $new_subnet_id_2
 ----
 aws cloudformation delete-stack --stack-name my-eks-custom-networking-vpc
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cni-custom-network-tutorial%5D&type=code[Edit this page on GitHub]

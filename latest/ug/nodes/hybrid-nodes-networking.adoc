@@ -405,6 +405,3 @@ aws ec2 authorize-security-group-ingress \
     --group-id [.replaceable]`SG_ID` \
     --ip-permissions '[{"IpProtocol": "tcp", "FromPort": 443, "ToPort": 443, "IpRanges": [{"CidrIp": "REMOTE_NODE_CIDR"}, {"CidrIp": "REMOTE_POD_CIDR"}]}]'
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-networking%5D&type=code[Edit this page on GitHub]

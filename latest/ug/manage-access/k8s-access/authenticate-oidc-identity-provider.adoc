@@ -168,6 +168,3 @@ The following example policy allows [.noloc]`OIDC` identity provider association
     ]
 }
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23authenticate-oidc-identity-provider%5D&type=code[Edit this page on GitHub]

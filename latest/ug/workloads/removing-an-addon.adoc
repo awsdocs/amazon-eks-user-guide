@@ -151,6 +151,3 @@ After the add-on is removed, the example output is as follows.
 ----
 An error occurred (ResourceNotFoundException) when calling the DescribeAddon operation: No addon: name-of-addon found in cluster: my-cluster
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23removing-an-add-on%5D&type=code[Edit this page on GitHub]

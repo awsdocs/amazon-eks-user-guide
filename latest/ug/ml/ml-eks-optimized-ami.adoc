@@ -82,6 +82,3 @@ Mon Aug  6 20:23:31 20XX
 |  No running processes found                                                 |
 +-----------------------------------------------------------------------------+
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23ml-eks-optimized-ami%5D&type=code[Edit this page on GitHub]

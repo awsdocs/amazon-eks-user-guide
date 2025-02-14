@@ -272,6 +272,3 @@ aws eks describe-addon --cluster-name my-cluster --addon-name coredns \
 If you see this line: `"status": "ACTIVE"`, then the rollout has completed and the add-on is using the new configuration in all of the [.noloc]`CoreDNS` pods. As you change the number of nodes and CPU cores of nodes in the cluster, Amazon EKS scales the number of replicas of the [.noloc]`CoreDNS` deployment.
 
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23coredns-autoscaling%5D&type=code[Edit this page on GitHub]

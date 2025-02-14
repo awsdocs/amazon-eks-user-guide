@@ -167,6 +167,3 @@ aws eks create-addon \
 == CSI snapshot controller add-on
 
 Starting with version `v8.1.0-eksbuild.2`, the <<csi-snapshot-controller,CSI snapshot controller add-on>> applies a soft anti-affinity rule for hybrid nodes, preferring the controller `deployment` to run on EC2 in the same {aws} Region as the Amazon EKS control plane. Co-locating the `deployment` in the same {aws} Region as the Amazon EKS control plane improves latency. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-add-ons%5D&type=code[Edit this page on GitHub]

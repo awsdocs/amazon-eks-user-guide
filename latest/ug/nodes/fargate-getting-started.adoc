@@ -169,6 +169,3 @@ kubectl rollout restart -n kube-system deployment coredns
 * Deploy the <<alb-ingress>> to allow Ingress objects for your [.noloc]`Pods` running on Fargate.
 * You can use the <<vertical-pod-autoscaler>> to set the initial correct size of CPU and memory for your Fargate [.noloc]`Pods`, and then use the <<horizontal-pod-autoscaler>> to scale those [.noloc]`Pods`. If you want the Vertical Pod Autoscaler to automatically re-deploy [.noloc]`Pods` to Fargate with higher CPU and memory combinations, set the Vertical Pod Autoscaler's mode to either `Auto` or `Recreate`. This is to ensure correct functionality. For more information, see the https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start[Vertical Pod Autoscaler] documentation on [.noloc]`GitHub`.
 * You can set up the link:otel[{aws} Distro for OpenTelemetry,type="marketing"] (ADOT) collector for application monitoring by following link:AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html[these instructions,type="documentation"].
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23fargate-getting-started%5D&type=code[Edit this page on GitHub]

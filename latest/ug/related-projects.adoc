@@ -213,6 +213,3 @@ CI/CD solution for modern cloud applications on Amazon EKS and [.noloc]`Kubernet
 
 * https://jenkins-x.io/[Project URL]
 * https://jenkins-x.io/docs/[Project documentation]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23related-projects%5D&type=code[Edit this page on GitHub]

@@ -196,6 +196,3 @@ aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::111122223333:policy/AmazonEKS_CNI_IPv6_Policy \
   --role-name AmazonEKSNodeRole
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23create-node-role%5D&type=code[Edit this page on GitHub]

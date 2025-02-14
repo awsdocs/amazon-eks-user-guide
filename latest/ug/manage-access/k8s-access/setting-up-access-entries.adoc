@@ -70,6 +70,3 @@ To use _access entries_, the cluster must have a platform version that is the sa
 |===
 
 For more information, see <<platform-versions>>. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23setting-up-access-entries%5D&type=code[Edit this page on GitHub]

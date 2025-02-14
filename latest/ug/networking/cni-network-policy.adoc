@@ -62,6 +62,3 @@ Pods that use _IAM roles for service accounts_ or _EKS Pod Identity_ don't acces
 +
 ** `IPv6` pods with the `ENABLE_V4_EGRESS` variable set to `true`. This variable enables the `IPv4` egress feature to connect the IPv6 pods to `IPv4` endpoints such as those outside the cluster. The `IPv4` egress feature works by creating an additional network interface with a local loopback IPv4 address.
 ** When using chained network plugins such as [.noloc]`Multus`. Because these plugins add network interfaces to each pod, network policies aren't applied to the chained network plugins.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cni-network-policy%5D&type=code[Edit this page on GitHub]

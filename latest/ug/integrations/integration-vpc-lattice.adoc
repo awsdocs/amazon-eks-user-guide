@@ -6,6 +6,3 @@
 include::../attributes.txt[]
 
 Amazon VPC Lattice is a fully managed application networking service built directly into the {aws} networking infrastructure that you can use to connect, secure, and monitor your services across multiple accounts and Virtual Private Clouds (VPCs). With Amazon EKS, you can leverage Amazon VPC Lattice through the use of the {aws} Gateway API Controller, an implementation of the Kubernetes https://gateway-api.sigs.k8s.io/[Gateway API]. Using Amazon VPC Lattice, you can set up cross-cluster connectivity with standard [.noloc]`Kubernetes` semantics in a simple and consistent manner. To get started using Amazon VPC Lattice with Amazon EKS see the https://www.gateway-api-controller.eks.aws.dev/[{aws} Gateway API Controller User Guide].
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23integration-vpc-lattice%5D&type=code[Edit this page on GitHub]

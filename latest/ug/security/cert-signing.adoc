@@ -136,6 +136,3 @@ kubectl certificate approve csr-7znmf
 ----
 
 To auto-approve CSRs in the future, we recommend that you write an approving controller that can automatically validate and approve CSRs that contain IP or DNS SANs that Amazon EKS can't verify.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cert-signing%5D&type=code[Edit this page on GitHub]

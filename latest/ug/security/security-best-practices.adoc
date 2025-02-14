@@ -11,6 +11,3 @@ Learn how to secure your Amazon EKS clusters by following the best practices fro
 --
 
 The Amazon EKS security best practices are in the link:eks/latest/best-practices/security.html[Best Practices for Security,type="documentation"] in the _Amazon EKS Best Practices Guide_.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-best-practices%5D&type=code[Edit this page on GitHub]

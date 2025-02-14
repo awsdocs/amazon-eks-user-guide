@@ -138,6 +138,3 @@ NOTE: Only private subnets are supported for [.noloc]`Pods` that are running on 
 *** You can use certain wildcards (for example, `key?: value?`) to match multiple namespaces (for example, `keya: valuea` and `keyb: valueb`). For more information, see <<fargate-profile-wildcards>>.
 .. Choose *Next*.
 . On the *Review and create* page, review the information for your Fargate profile and choose *Create*.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23fargate-profile%5D&type=code[Edit this page on GitHub]

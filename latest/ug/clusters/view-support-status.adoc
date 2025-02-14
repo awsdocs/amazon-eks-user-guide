@@ -19,6 +19,3 @@ For more information about standard and extended support, see <<kubernetes-versi
 The *Support Period* cannot be retrieved with the {aws} API or CLI.
 
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23view-support-status%5D&type=code[Edit this page on GitHub]

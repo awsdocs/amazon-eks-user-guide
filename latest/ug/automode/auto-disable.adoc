@@ -59,6 +59,3 @@ To then delete the Security Group:
 ----
 aws ec2 delete-security-group --group-name=<sg-name>
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-disable%5D&type=code[Edit this page on GitHub]

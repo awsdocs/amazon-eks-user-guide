@@ -70,6 +70,3 @@ Once your nodes are using this Node Class, they will be able to enforce network 
 ## Step 3: Create and test network policies
 
 Your EKS Auto Mode cluster is now configured to support Kubernetes network policies. You can test this with the <<network-policy-stars-demo>>. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-net-pol%5D&type=code[Edit this page on GitHub]

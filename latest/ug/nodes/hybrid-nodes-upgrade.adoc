@@ -151,6 +151,3 @@ kubectl uncordon NODE_NAME
 ----
 kubectl get nodes -o -w
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-upgrade%5D&type=code[Edit this page on GitHub]

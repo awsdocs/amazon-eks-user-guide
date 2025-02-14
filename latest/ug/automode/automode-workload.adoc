@@ -127,6 +127,3 @@ If you have no other workloads deployed to your cluster, the node created by EKS
 In the default configration, EKS Auto Mode detects nodes that have been empty for thirty seconds, and terminates them. 
 
 Use `kubectl` or the EC2 console to confirm the associated instance has been deleted. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23automode-workload%5D&type=code[Edit this page on GitHub]

@@ -72,6 +72,3 @@ The Kubernetes Metrics Server is a scalable and efficient source of container re
 |===
 
 link:samples/attributions-md.zip[View license attributions for this add-on. ]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23community-addons%5D&type=code[Edit this page on GitHub]

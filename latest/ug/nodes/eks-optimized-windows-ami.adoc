@@ -147,6 +147,3 @@ include::eks-ami-versions-windows.adoc[leveloffset=+1]
 include::retrieve-windows-ami-id.adoc[leveloffset=+1]
 
 include::eks-custom-ami-windows.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-optimized-windows-ami%5D&type=code[Edit this page on GitHub]

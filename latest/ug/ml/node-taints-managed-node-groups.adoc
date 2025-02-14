@@ -63,6 +63,3 @@ For more information and examples of usage, see https://kubernetes.io/docs/refer
 ====
 
 You can use the link:cli/latest/reference/eks/update-nodegroup-config.html[aws eks update-nodegroup-config,type="documentation"] {aws} CLI command to add, remove, or replace taints for managed node groups.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23node-taints-managed-node-groups%5D&type=code[Edit this page on GitHub]

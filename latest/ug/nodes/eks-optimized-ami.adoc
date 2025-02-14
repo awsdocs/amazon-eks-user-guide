@@ -81,6 +81,3 @@ For more information about using Amazon EKS optimized Amazon Linux AMIs, see the
 * For version information, see <<eks-linux-ami-versions>>.
 * To retrieve the latest IDs of the Amazon EKS optimized Amazon Linux AMIs, see <<retrieve-ami-id>>.
 * For open-source scripts that are used to build the Amazon EKS optimized AMIs, see <<eks-ami-build-scripts>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-optimized-ami%5D&type=code[Edit this page on GitHub]

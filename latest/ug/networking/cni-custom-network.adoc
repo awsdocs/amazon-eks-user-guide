@@ -31,6 +31,3 @@ The following are considerations for using the feature.
 * If you plan to use custom networking only to help alleviate `IPv4` address exhaustion, you can create a cluster using the `IPv6` family instead. For more information, see <<cni-ipv6>>.
 * Even though [.noloc]`Pods` deployed to subnets specified for secondary network interfaces can use different subnet and security groups than the node's primary network interface, the subnets and security groups must be in the same VPC as the node.
 * For Fargate, subnets are controlled through the Fargate profile. For more information, see <<fargate-profile>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cni-custom-network%5D&type=code[Edit this page on GitHub]

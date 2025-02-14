@@ -502,6 +502,3 @@ aws iam delete-role --role-name $node_role_name
 ----
 aws cloudformation delete-stack --region $region_code --stack-name $vpc_stack_name
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23deploy-ipv6-cluster%5D&type=code[Edit this page on GitHub]

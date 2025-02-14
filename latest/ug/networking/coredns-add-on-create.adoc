@@ -61,6 +61,3 @@ An example output is as follows.
 v1.11.3-eksbuild.1
 ----
 . If you made custom settings to your original add-on, before you created the Amazon EKS add-on, use the configuration that you saved in a previous step to update the Amazon EKS add-on with your custom settings. For instructions to update the add-on, see <<coredns-add-on-update>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23coredns-add-on-create%5D&type=code[Edit this page on GitHub]

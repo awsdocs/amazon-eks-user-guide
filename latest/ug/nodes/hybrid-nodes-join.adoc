@@ -143,6 +143,3 @@ Your nodes will have status `Not Ready`, which is expected and is due to the lac
 == Step 4: Configure a CNI for hybrid nodes
 
 To make your hybrid nodes ready to run applications, continue with the steps on <<hybrid-nodes-cni>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-join%5D&type=code[Edit this page on GitHub]

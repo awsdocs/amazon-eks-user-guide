@@ -265,6 +265,3 @@ If you created a cluster that uses the `IPv6` family and the cluster has version
 ----
 aws iam create-policy --policy-name AmazonEKS_CNI_IPv6_Policy --policy-document file://vpc-cni-ipv6-policy.json
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cni-iam-role%5D&type=code[Edit this page on GitHub]

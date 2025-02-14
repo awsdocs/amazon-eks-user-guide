@@ -526,6 +526,3 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
 .. For *Role name*, enter a unique name for your role, such as `AmazonEKSHybridNodesRole`.
 .. For *Description*, replace the current text with descriptive text such as `Amazon EKS - Hybrid Nodes role`.
 .. Choose *Create role*.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-creds%5D&type=code[Edit this page on GitHub]

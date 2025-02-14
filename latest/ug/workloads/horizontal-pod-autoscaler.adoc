@@ -121,6 +121,3 @@ NOTE: The default timeframe for scaling back down is five minutes, so it will ta
 ----
 kubectl delete deployment.apps/php-apache service/php-apache horizontalpodautoscaler.autoscaling/php-apache
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23horizontal-pod-autoscaler%5D&type=code[Edit this page on GitHub]

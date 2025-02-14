@@ -147,6 +147,3 @@ NOTE: If you don't see `managedFields` in the output, add `--show-managed-fields
 == Next steps
 
 Customize the fields not owned by {aws} for you add-on.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23kubernetes-field-management%5D&type=code[Edit this page on GitHub]

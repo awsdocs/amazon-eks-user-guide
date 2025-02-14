@@ -150,6 +150,3 @@ Amazon EKS supports service roles. For more information, see <<cluster-iam-role>
 === Choosing an IAM role in Amazon EKS
 
 When you create a cluster resource in Amazon EKS, you must choose a role to allow Amazon EKS to access several other {aws} resources on your behalf. If you have previously created a service role, then Amazon EKS provides you with a list of roles to choose from. It's important to choose a role that has the Amazon EKS managed policies attached to it. For more information, see <<check-service-role>> and <<check-worker-node-role>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-iam-service-with-iam%5D&type=code[Edit this page on GitHub]

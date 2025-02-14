@@ -26,12 +26,12 @@
      <profile>
       <features>mesh-gs-eks</features>
      </profile>
-     <!--<github>
+     <github>
       <user>awsdocs</user>
       <repo>amazon-eks-user-guide</repo>
       <branch>mainline</branch>
       <source-folder>latest/ug</source-folder>
-     </github>-->
+     </github>
      <builds>
       <html><rss>
        <title>Amazon EKS Document History</title>

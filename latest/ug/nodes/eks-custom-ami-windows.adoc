@@ -111,6 +111,3 @@ You can retrieve specific information regarding what is installed with each comp
 . Choose the *`eks-optimized-ami-windows`* link with a desired version.
 
 The *Description* in the resulting page shows the specific information.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-custom-ami-windows%5D&type=code[Edit this page on GitHub]

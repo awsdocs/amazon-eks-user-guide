@@ -106,6 +106,3 @@ Add the following `Affinity Rule` to the [.noloc]`DaemonSet` `spec` section of t
   values:
   - fargate
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23kube-proxy-add-on-self-managed-update%5D&type=code[Edit this page on GitHub]

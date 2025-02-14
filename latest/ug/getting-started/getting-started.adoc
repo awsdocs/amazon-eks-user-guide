@@ -40,6 +40,3 @@ include::getting-started-automode.adoc[leveloffset=+1]
 include::getting-started-eksctl.adoc[leveloffset=+1]
 
 include::getting-started-console.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23getting-started%5D&type=code[Edit this page on GitHub]

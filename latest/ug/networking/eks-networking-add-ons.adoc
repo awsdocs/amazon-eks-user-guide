@@ -56,6 +56,3 @@ When you deploy [.noloc]`Kubernetes` service objects of type `loadbalancer`, the
 This controller lets you connect services across multiple [.noloc]`Kubernetes` clusters using the https://gateway-api.sigs.k8s.io/[Kubernetes gateway API]. The controller connects [.noloc]`Kubernetes` services running on Amazon EC2 instances, containers, and serverless functions by using the link:vpc-lattice/latest/ug/what-is-vpc-service-network.html[Amazon VPC Lattice,type="documentation"] service. For more information, see the https://www.gateway-api-controller.eks.aws.dev/[{aws} Gateway API Controller] documentation.
 
 For more information about add-ons, see <<eks-add-ons>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-networking-add-ons%5D&type=code[Edit this page on GitHub]

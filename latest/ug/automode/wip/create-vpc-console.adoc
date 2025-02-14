@@ -144,6 +144,3 @@ kubernetes.io/role/internal-elb = 1
 - EKS Best Practices Guide
 - VPC Pricing Calculator
 - EKS Networking Documentation
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23create-vpc-console%5D&type=code[Edit this page on GitHub]

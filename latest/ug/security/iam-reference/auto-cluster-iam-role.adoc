@@ -151,6 +151,3 @@ aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSNetworkingPolicy
 ```
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-cluster-iam-role%5D&type=code[Edit this page on GitHub]

@@ -125,6 +125,3 @@ An example output is as follows.
 Service Account:  my-service-account
 ----
 .. If your [.noloc]`Pods` still can't access services, review the <<irsa-confirm-role-configuration,steps>> that are described in <<associate-service-account-role,Assign IAM roles to Kubernetes service accounts>> to confirm that your role and service account are configured properly.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-configuration%5D&type=code[Edit this page on GitHub]

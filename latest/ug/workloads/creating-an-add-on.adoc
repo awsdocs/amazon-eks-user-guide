@@ -326,6 +326,3 @@ For a full list of available options, see `link:cli/latest/reference/eks/create-
 ----
 +
 If you receive an error similar to the error in the previous output, visit the URL in the output of a previous step to subscribe to the add-on. Once subscribed, run the `create-addon` command again.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23creating-an-add-on%5D&type=code[Edit this page on GitHub]

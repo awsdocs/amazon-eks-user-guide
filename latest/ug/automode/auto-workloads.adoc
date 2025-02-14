@@ -27,6 +27,3 @@ include::automode-workload.adoc[leveloffset=+1]
 include::auto-elb-example.adoc[leveloffset=+1]
 
 include::sample-storage-workload.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-workloads%5D&type=code[Edit this page on GitHub]

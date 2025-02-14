@@ -73,6 +73,3 @@ include::view-kubernetes-resources.adoc[leveloffset=+1]
 include::create-kubeconfig.adoc[leveloffset=+1]
 
 include::aws-access/service-accounts.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cluster-auth%5D&type=code[Edit this page on GitHub]

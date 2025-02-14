@@ -54,6 +54,3 @@ ARN                                                                             
 ----
 eksctl delete iamidentitymapping --arn {arn-aws}iam::111122223333:role/EKS-my-cluster-my-namespace-Viewers --cluster my-cluster
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23migrating-access-entries%5D&type=code[Edit this page on GitHub]

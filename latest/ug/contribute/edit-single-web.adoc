@@ -21,7 +21,7 @@ If you want to edit multiple pages from your web browser, see <<edit-web>>.
 
 . Navigate to the page you want to edit in the Amazon EKS User Guide.
 
-. Choose the 📝 *Edit this page on GitHub* link located at the bottom of the page.
+. In the right pane, choose the *Edit this page on GitHub* link.
 
 . Once on GitHub, open the editor by either:
 ** Pressing the `e` key on your keyboard.
@@ -59,6 +59,3 @@ When you create a PR:
 Pull requests help ensure quality and provide a way to discuss changes before they are integrated.
 
 https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews[Learn how pull requests are reviewed and approved in the GitHub Docs.]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23edit-single-web%5D&type=code[Edit this page on GitHub]

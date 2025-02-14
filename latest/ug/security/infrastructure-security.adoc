@@ -36,6 +36,3 @@ You can enable private access to the [.noloc]`Kubernetes` API server so that all
 For more information about modifying cluster endpoint access, see <<modify-endpoint-access>>.
 
 You can implement [.noloc]`Kubernetes` _network policies_ with the Amazon VPC CNI or third-party tools such as https://docs.tigera.io/calico/latest/about/[Project Calico]. For more information about using the Amazon VPC CNI for network policies, see <<cni-network-policy>>. Project [.noloc]`Calico` is a third party open source project. For more information, see the https://docs.tigera.io/calico/latest/getting-started/kubernetes/managed-public-cloud/eks/[Project Calico documentation].
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23infrastructure-security%5D&type=code[Edit this page on GitHub]

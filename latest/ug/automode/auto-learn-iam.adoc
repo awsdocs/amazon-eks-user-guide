@@ -190,6 +190,3 @@ By default, the managed policies related to EKS Auto Mode do not permit applying
 == Access Policy Reference
 
 For more information about the Kubernetes permissions used by EKS Auto Mode, see <<access-policy-permissions>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-learn-iam%5D&type=code[Edit this page on GitHub]

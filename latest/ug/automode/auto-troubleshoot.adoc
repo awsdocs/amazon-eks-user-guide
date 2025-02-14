@@ -269,6 +269,3 @@ If you have a problem with a controller, you should research:
 
 * If the resources associated with that controller are properly formatted and valid. 
 * If the {aws} IAM and Kubernetes RBAC resources are properly configured for your cluster. For more information, see <<auto-learn-iam>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-troubleshoot%5D&type=code[Edit this page on GitHub]

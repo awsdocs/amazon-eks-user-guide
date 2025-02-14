@@ -132,6 +132,3 @@ NOTE: This is a note admonition.
 ----
  include::filename.adoc[]
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23asciidoc-syntax%5D&type=code[Edit this page on GitHub]

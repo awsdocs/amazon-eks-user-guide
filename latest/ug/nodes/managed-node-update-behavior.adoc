@@ -116,6 +116,3 @@ Once every [.noloc]`Pod` is evicted, it's expected for the node to be empty beca
 The scale down phase decrements the Auto Scaling group maximum size and desired size by one to return to values before the update started.
 
 If the Upgrade workflow determines that the Cluster Autoscaler is scaling up the node group during the scale down phase of the workflow, it exits immediately without bringing the node group back to its original size.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23managed-node-update-behavior%5D&type=code[Edit this page on GitHub]

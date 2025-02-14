@@ -4377,6 +4377,3 @@ The following tables list the current and previous versions of the Amazon EKS op
 |
 |===
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-ami-versions-windows%5D&type=code[Edit this page on GitHub]

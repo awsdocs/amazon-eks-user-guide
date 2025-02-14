@@ -39,6 +39,3 @@ IMPORTANT: Amazon EKS rotates the [.noloc]`OIDC` signing key every seven days.
 $ curl https://oidc.eks.us-west-2.amazonaws.com/id/8EBDXXXX00BAE/keys
 {"keys":[{"kty":"RSA","kid":"2284XXXX4a40","use":"sig","alg":"RS256","n":"wklbXXXXMVfQ","e":"AQAB"}]}
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23irsa-fetch-keys%5D&type=code[Edit this page on GitHub]

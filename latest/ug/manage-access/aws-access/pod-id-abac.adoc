@@ -82,6 +82,3 @@ Tags added to the session through the `sts:AssumeRole` request take precedence i
 In this case, the former takes precedence and the value for the `eks-cluster-name` tag will be `my-cluster`.
 
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-id-abac%5D&type=code[Edit this page on GitHub]

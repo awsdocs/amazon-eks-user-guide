@@ -162,6 +162,3 @@ include::control-plane-logs.adoc[leveloffset=+1]
 include::logging-using-cloudtrail.adoc[leveloffset=+1]
 
 include::opentelemetry.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-observe%5D&type=code[Edit this page on GitHub]

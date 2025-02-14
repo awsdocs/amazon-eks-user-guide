@@ -112,6 +112,3 @@ When a cluster that contains a [.noloc]`PSP` is upgraded to [.noloc]`Kubernetes`
 
 We don't expect any specific impact to Windows workloads. PodSecurityContext has a field called `windowsOptions` in the `PodSpec v1` API for Windows [.noloc]`Pods`. This uses [.noloc]`PSS` in [.noloc]`Kubernetes` `1.25`. For more information and best practices about enforcing [.noloc]`PSS` for Windows workloads, see the https://aws.github.io/aws-eks-best-practices/windows/docs/security/#pod-security-contexts[EKS Best Practices Guide] and [.noloc]`Kubernetes` https://kubernetes.io/docs/tasks/configure-pod-container/configure-runasusername/[documentation].
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-security-policy-removal-faq%5D&type=code[Edit this page on GitHub]

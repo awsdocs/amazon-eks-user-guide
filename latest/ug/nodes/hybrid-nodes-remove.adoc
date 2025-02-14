@@ -56,6 +56,3 @@ kubectl delete node <node-name>
 
 == Step 5: Check for remaining artifacts
 Depending on your choice of CNI, there may be artifacts remaining on your hybrid nodes after running the above steps. See <<hybrid-nodes-cni>> for more information.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-remove%5D&type=code[Edit this page on GitHub]

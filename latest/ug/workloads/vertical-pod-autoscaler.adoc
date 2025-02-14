@@ -247,6 +247,3 @@ Events:          <none>
 ----
 kubectl delete -f examples/hamster.yaml
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23vertical-pod-autoscaler%5D&type=code[Edit this page on GitHub]

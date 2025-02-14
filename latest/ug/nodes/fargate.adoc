@@ -186,6 +186,3 @@ include::fargate-pod-patching.adoc[leveloffset=+1]
 include::monitoring-fargate-usage.adoc[leveloffset=+1]
 
 include::fargate-logging.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23fargate%5D&type=code[Edit this page on GitHub]

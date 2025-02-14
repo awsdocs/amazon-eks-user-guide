@@ -31,7 +31,7 @@ This is official Amazon Web Services ({aws}) documentation for Amazon Elastic Ku
 *Help improve this page*
 
 [.banner.info]
-Want to contribute to this user guide? Choose the 📝 *Edit this page on GitHub* link that is located at the bottom of every page. Your contributions will help make our user guide better for everyone.
+Want to contribute to this user guide? Choose the *Edit this page on GitHub* link that is located in the right pane of every page. Your contributions will help make our user guide better for everyone.
 
 include::what-is/what-is-eks.adoc[leveloffset=+1]
 

@@ -69,6 +69,3 @@ If you're using version `1.11` or later of the plugin with `POD_SECURITY_GROUP_E
 * The EC2 security group scope is at the [.noloc]`Pod`-level - For more information, see link:vpc/latest/userguide/VPC_SecurityGroups.html[Security group,type="documentation"].
 +
 If you set `POD_SECURITY_GROUP_ENFORCING_MODE=standard` and `AWS_VPC_K8S_CNI_EXTERNALSNAT=false`, traffic destined for endpoints outside the VPC use the node's security groups, not the [.noloc]`Pod's` security groups.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-groups-for-pods%5D&type=code[Edit this page on GitHub]

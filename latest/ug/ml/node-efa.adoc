@@ -306,6 +306,3 @@ kubectl logs -f nccl-tests-launcher-nbql9
 ----
 
 If the test completed successfully, you can deploy your applications that use the [.noloc]`Nvidia Collective Communication Library`.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23node-efa%5D&type=code[Edit this page on GitHub]

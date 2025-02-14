@@ -29,6 +29,3 @@ In Amazon EKS, each [.noloc]`Pod` has one network interface assigned by the Amaz
 * Multus is compatible with network policies, but the policy has to be enriched to include ports and IP addresses that may be part of additional network interfaces attached to [.noloc]`Pods`.
 
 For an implementation walk through, see the https://github.com/aws-samples/eks-install-guide-for-multus/blob/main/README.md[Multus Setup Guide] on [.noloc]`GitHub`.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-multiple-network-interfaces%5D&type=code[Edit this page on GitHub]

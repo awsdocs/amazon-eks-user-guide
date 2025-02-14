@@ -28,6 +28,3 @@ image::images/contribute-new-page.png["New page metadata"]
 _For example:_
 +
 `include::create-page.adoc[leveloffset=+1]`
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23create-page%5D&type=code[Edit this page on GitHub]

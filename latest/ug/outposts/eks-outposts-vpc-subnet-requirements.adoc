@@ -109,6 +109,3 @@ You can create a VPC that meets the previous requirements using one of the follo
 
 * *https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-09-20/amazon-eks-local-outposts-vpc-subnet.yaml[Template 1]* – This template creates a VPC with one private subnet on the Outpost and one public subnet in the {aws} Region. The private subnet has a route to an internet through a NAT Gateway that resides in the public subnet in the {aws} Region. This template can be used to create a local cluster in a subnet with egress internet access.
 * *https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2023-03-20/amazon-eks-local-outposts-fully-private-vpc-subnet.yaml[Template 2]* – This template creates a VPC with one private subnet on the Outpost and the minimum set of VPC Endpoints required to create a local cluster in a subnet that doesn't have ingress or egress internet access (also referred to as a private subnet).
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-outposts-vpc-subnet-requirements%5D&type=code[Edit this page on GitHub]

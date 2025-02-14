@@ -28,6 +28,3 @@ Your subnets require specific tags based on their intended use:
    - For private subnets: Key = `kubernetes.io/role/internal-elb`, Value = `1`
    - For public subnets: Key = `kubernetes.io/role/elb`, Value = `1`
 7. Click *Save*
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23tag-subnets%5D&type=code[Edit this page on GitHub]

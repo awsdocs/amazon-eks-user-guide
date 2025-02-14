@@ -39,6 +39,3 @@ include::pr-preview.adoc[leveloffset=+1]
 include::asciidoc-syntax.adoc[leveloffset=+1]
 
 //include::pr-status.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23contribute%5D&type=code[Edit this page on GitHub]

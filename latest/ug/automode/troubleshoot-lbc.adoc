@@ -100,6 +100,3 @@ For stuck resources:
 - <<troubleshooting>>
 - link:support/home[{aws} Support Center,type="console"]
 - link:https://status.aws.amazon.com/[{aws} Service Health Dashboard]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23troubleshoot-lbc%5D&type=code[Edit this page on GitHub]

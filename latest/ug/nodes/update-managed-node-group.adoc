@@ -125,6 +125,3 @@ IMPORTANT: When updating the node group configuration, modifying the link:eks/la
 Unlike the <<managed-node-update-behavior,update node group>> process (which drains nodes and respects PDBs during the upgrade phase), updating the scaling configuration causes nodes to be terminated immediately through an Auto Scaling Group (ASG) scale-down call. 
 This happens without considering PDBs, regardless of the target size you're scaling down to. 
 That means when you reduce the `desiredSize` of an Amazon EKS managed node group, [.noloc]`Pods` are evicted as soon as the nodes are terminated, without honoring any PDBs.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23update-managed-node-group%5D&type=code[Edit this page on GitHub]

@@ -175,6 +175,3 @@ You receive the previous output if you deployed using Helm. If you deployed usin
 . Before using the controller to provision {aws} resources, your cluster must meet specific requirements. For more information, see <<alb-ingress>> and <<network-load-balancing>>.
 
 // GDC Must Fix
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23lbc-helm%5D&type=code[Edit this page on GitHub]

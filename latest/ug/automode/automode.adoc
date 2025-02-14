@@ -92,6 +92,3 @@ include::auto-reference.adoc[leveloffset=+1]
 include::auto-troubleshoot.adoc[leveloffset=+1]
 
 //include::wip.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23automode%5D&type=code[Edit this page on GitHub]

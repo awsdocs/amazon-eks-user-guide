@@ -28,6 +28,3 @@ Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]
 ----
 aws eks delete-access-entry --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/my-role
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23deleting-access-entries%5D&type=code[Edit this page on GitHub]

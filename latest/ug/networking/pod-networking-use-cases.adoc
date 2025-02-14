@@ -45,6 +45,3 @@ The [.noloc]`Amazon VPC CNI plugin for Kubernetes` provides networking for [.nol
 |Use multiple network interfaces for [.noloc]`Pods`
 |<<pod-multiple-network-interfaces>>
 |===
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-networking-use-cases%5D&type=code[Edit this page on GitHub]

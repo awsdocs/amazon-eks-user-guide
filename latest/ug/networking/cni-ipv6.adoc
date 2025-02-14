@@ -71,6 +71,3 @@ If you don't know the `IPv6` `CIDR` range for your cluster, you can see it with 
 ----
 aws eks describe-cluster --name my-cluster --query cluster.kubernetesNetworkConfig.serviceIpv6Cidr --output text
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cni-ipv6%5D&type=code[Edit this page on GitHub]

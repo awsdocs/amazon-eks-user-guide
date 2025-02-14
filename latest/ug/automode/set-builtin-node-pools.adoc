@@ -57,6 +57,3 @@ aws eks update-cluster-config \
   --name <cluster-name> \
   --compute-config '{"nodePools": []}'
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23set-builtin-node-pools%5D&type=code[Edit this page on GitHub]

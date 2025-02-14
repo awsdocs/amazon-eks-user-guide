@@ -191,6 +191,3 @@ Subjects:
   ----  ----             ---------
   User  eks:k8s-metrics
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23default-roles-users%5D&type=code[Edit this page on GitHub]
