@@ -149,7 +149,7 @@ kubectl uncordon NODE_NAME
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
-kubectl get nodes -o -w
+kubectl get nodes -o wide -w
 ----
 
 
