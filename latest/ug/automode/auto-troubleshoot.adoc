@@ -253,7 +253,7 @@ EKS Auto Mode Nodes are configured with SELinux in enforcing mode which provides
 
 Due to this, you may experience issues when trying to share data between Pods. For example, a `PersistentVolumeClaim` with an access mode of `ReadWriteOnce` will still not allow multiple Pods to access the volume concurrently.
 
-To enable this sharing between Pods, you can use the Pod's `seLinuxOptions` to configure the same MCS label on those Pods.  In this example, we assign the three categories `c123,c124,c125` to the Pod.  This will not conflict with any categories assigned to Pods on the node automatically, as they will only be assigned two categories.
+To enable this sharing between Pods, you can use the Pod's `seLinuxOptions` to configure the same MCS label on those Pods.  In this example, we assign the three categories `c123,c456,c789` to the Pod.  This will not conflict with any categories assigned to Pods on the node automatically, as they will only be assigned two categories.
 
 [source,bash,subs="verbatim,attributes"]
 ----
