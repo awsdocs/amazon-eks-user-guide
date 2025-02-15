@@ -117,11 +117,11 @@ done
 
 The in-place upgrade process refers to using `nodeadm upgrade` to upgrade the Kubernetes version for hybrid nodes without using new physical or virtual hosts and a cutover migration strategy. The `nodeadm upgrade` process shuts down the existing older Kubernetes components running on the hybrid node, uninstalls the existing older Kubernetes components, installs the new target Kubernetes components, and starts the new target Kubernetes components. It is strongly recommend to upgrade one node at a time to minimize impact to applications running on the hybrid nodes. The duration of this process depends on your network bandwidth and latency.
 
-. Use the following command to taint the node you are upgrading with `NoSchedule`. This is so that new pods aren't scheduled or rescheduled on the node that you are upgrading. For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the Kubernetes documentation. Replace `NODE_NAME` with the name of the hybrid node you are upgrading
+. Use the following command to mark the node you are upgrading as unschedulable. This is so that new pods aren't scheduled or rescheduled on the node that you are upgrading. For more information, see https://kubernetes.io/docs/reference/kubectl/generated/kubectl_cordon/[kubectl cordon] in the Kubernetes documentation. Replace `NODE_NAME` with the name of the hybrid node you are upgrading
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
-kubectl taint nodes NODE_NAME key=value:NoSchedule
+kubectl cordon NODE_NAME
 ----
 
 . Drain the node you are upgrading with the following command. For more information on draining nodes, see https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/[Safely Drain a Node] in the Kubernetes documentation. Replace `NODE_NAME` with the name of the hybrid node you are upgrading.
@@ -141,7 +141,6 @@ nodeadm upgrade K8S_VERSION -c file://nodeConfig.yaml
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
-kubectl taint nodes NODE_NAME key=value:NoSchedule-
 kubectl uncordon NODE_NAME
 ----
 
