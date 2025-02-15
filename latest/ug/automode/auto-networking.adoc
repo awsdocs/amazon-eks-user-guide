@@ -36,6 +36,7 @@ EKS Auto Mode supports:
 * EKS Network Policies.
 * The `HostPort` and `HostNetwork` options for Kubernetes Pods.
 * Pods in public or private subnets.
+* Automatic subnet CIDR allocation when prefix ranges are reserved.
 
 EKS Auto Mode does *not* support:
 
