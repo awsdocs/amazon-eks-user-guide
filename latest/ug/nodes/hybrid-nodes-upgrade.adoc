@@ -39,23 +39,22 @@ Cutover migration upgrades refer to the process of creating new hybrid nodes on 
 . Connect your new hosts as hybrid nodes following the <<hybrid-nodes-join>> steps. When running the `nodeadm install` command, use your target Kubernetes version.
 . Enable communication between the new hybrid nodes on the target Kubernetes version and your hybrid nodes on the old Kubernetes version. This configuration allows pods to communicate with each other while you are migrating your workload to the hybrid nodes on the target Kubernetes version.
 . Confirm your hybrid nodes on your target Kubernetes version successfully joined your cluster and have status Ready.
-. Use the following command to taint each of the nodes that you want to remove with `NoSchedule`. This is so that new pods aren't scheduled or rescheduled on the nodes that you are replacing. For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the Kubernetes documentation. Replace `NODE_NAME` with the name of the hybrid nodes on the old Kubernetes version.
+. Use the following command to mark each of the nodes that you want to remove as unschedulable. This is so that new pods aren't scheduled or rescheduled on the nodes that you are replacing. For more information, see https://kubernetes.io/docs/reference/kubectl/generated/kubectl_cordon/[kubectl cordon] in the Kubernetes documentation. Replace `NODE_NAME` with the name of the hybrid nodes on the old Kubernetes version.
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
-kubectl taint nodes [.replaceable]`NODE_NAME` key=value:NoSchedule
+kubectl cordon [.replaceable]`NODE_NAME`
 ----
 +
-You can identify and taint all of the nodes of a particular Kubernetes version (in this case, `1.28`) with the following code snippet.
+You can identify and cordon all of the nodes of a particular Kubernetes version (in this case, `1.28`) with the following code snippet.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
 K8S_VERSION=1.28
-nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
-for node in ${nodes[@]}
+for node in $(kubectl get nodes -o json | jq --arg K8S_VERSION "$K8S_VERSION" -r '.items[] | select(.status.nodeInfo.kubeletVersion | match("\($K8S_VERSION)")).metadata.name')
 do
-    echo "Tainting $node"
-    kubectl taint nodes $node key=value:NoSchedule
+    echo "Cordoning $node"
+    kubectl cordon $node
 done
 ----
 . If your current deployment is running fewer than two CoreDNS replicas on your hybrid nodes, scale out the deployment to at least two replicas. It is recommended to run at least two CoreDNS replicas on hybrid nodes for resiliency during normal operations.
@@ -76,8 +75,7 @@ You can identify and drain all of the nodes of a particular Kubernetes version (
 [source,yaml,subs="verbatim,attributes"]
 ----
 K8S_VERSION=1.28
-nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
-for node in ${nodes[@]}
+for node in $(kubectl get nodes -o json | jq --arg K8S_VERSION "$K8S_VERSION" -r '.items[] | select(.status.nodeInfo.kubeletVersion | match("\($K8S_VERSION)")).metadata.name')
 do
     echo "Draining $node"
     kubectl drain $node --ignore-daemonsets --delete-emptydir-data
@@ -103,11 +101,10 @@ You can identify and delete all of the nodes of a particular Kubernetes version 
 [source,yaml,subs="verbatim,attributes"]
 ----
 K8S_VERSION=1.28
-nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
-for node in ${nodes[@]}
+for node in $(kubectl get nodes -o json | jq --arg K8S_VERSION "$K8S_VERSION" -r '.items[] | select(.status.nodeInfo.kubeletVersion | match("\($K8S_VERSION)")).metadata.name')
 do
     echo "Deleting $node"
-    kubectl delete node $node 
+    kubectl delete node $node
 done
 ----
 
