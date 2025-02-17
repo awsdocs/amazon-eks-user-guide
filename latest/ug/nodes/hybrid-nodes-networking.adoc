@@ -161,7 +161,7 @@ Depending on your choice of CNI, you need to configure additional network access
 |10250
 |EKS cluster IPs ^1^
 |Remote Node CIDR(s)
-|[.noloc]`kubelet` to Kubernetes API server
+|Kubernetes API server to [.noloc]`kubelet`
 
 |HTTPS
 |TCP
