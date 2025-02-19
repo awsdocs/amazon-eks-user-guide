@@ -87,7 +87,7 @@ The state of Kubernetes objects in the Kubernetes API can be exposed as metrics.
 
 |Add-on name | `kube-state-metrics`
 
-|Namespace | `kube-system`
+|Namespace | `kube-state-metrics`
 
 |Documentation | https://kubernetes.io/docs/concepts/cluster-administration/kube-state-metrics/[Metrics for Kubernetes Object States] in Kubernetes Docs
 
@@ -108,7 +108,7 @@ Prometheus exporter for hardware and OS metrics exposed by *NIX kernels, written
 
 |Add-on name | `node_exporter`
 
-|Namespace | `kube-system`
+|Namespace | `prometheus-node-exporter`
 
 |Documentation | https://prometheus.io/docs/guides/node-exporter/#monitoring-linux-host-metrics-with-the-node-exporter[Monitoring Linux host metrics with the Node Exporter] in Prometheus Docs
 
