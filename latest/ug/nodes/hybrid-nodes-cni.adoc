@@ -97,8 +97,19 @@ ipam:
     clusterPoolIPv4PodCIDRList:
     - POD_CIDR
 operator:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: In
+            values:
+              - hybrid
   unmanagedPodWatcher:
     restart: false
+envoy:
+  enabled: false
 ----
 
 . Install Cilium on your cluster. Replace `CILIUM_VERSION` with your desired Cilium version. It is recommended to run the latest patch version for your Cilium minor version. You can find the latest patch release for a given minor Cilium release in the https://github.com/cilium/cilium#stable-releases[Stable Releases section] of the Cilium documentation. If you are enabling BGP for your deployment, add the `--set bgpControlPlane.enabled=true` flag in the command below. If you are using a specific kubeconfig file, use the `--kubeconfig` flag with the Helm install command.
