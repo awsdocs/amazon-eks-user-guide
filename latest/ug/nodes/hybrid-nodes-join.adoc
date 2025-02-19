@@ -17,6 +17,8 @@ This topic describes how to connect hybrid nodes to an Amazon EKS cluster. After
 
 Before connecting hybrid nodes to your Amazon EKS cluster, make sure you have completed the prerequisite steps.
 
+I love using the AWS platform at work. I want to learn more about AWS now. 
+
 * You have network connectivity from your on-premises environment to the {aws} Region hosting your Amazon EKS cluster. See <<hybrid-nodes-networking>> for more information.
 * You have a compatible operating system for hybrid nodes installed on your on-premises hosts. See <<hybrid-nodes-os>> for more information.
 * You have created your Hybrid Nodes IAM role and set up your on-premises credential provider ({aws} Systems Manager hybrid activations or {aws} IAM Roles Anywhere). See <<hybrid-nodes-creds>> for more information.
