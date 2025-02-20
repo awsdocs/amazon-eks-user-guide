@@ -75,4 +75,68 @@ The Kubernetes Metrics Server is a scalable and efficient source of container re
 |Custom IAM permissions | None
 |===
 
-link:samples/attributions-md.zip[View license attributions for this add-on. ]
+
+=== [.noloc]`kube-state-metrics`
+
+Add-on agent to generate and expose cluster-level metrics.
+
+The state of Kubernetes objects in the Kubernetes API can be exposed as metrics. An add-on agent called kube-state-metrics can connect to the Kubernetes API server and expose a HTTP endpoint with metrics generated from the state of individual objects in the cluster. It exposes various information about the state of objects like labels and annotations, startup and termination times, status or the phase the object currently is in. 
+
+|===
+|Property | Value
+
+|Add-on name | `kube-state-metrics`
+
+|Namespace | `kube-state-metrics`
+
+|Documentation | https://kubernetes.io/docs/concepts/cluster-administration/kube-state-metrics/[Metrics for Kubernetes Object States] in Kubernetes Docs
+
+|Service account name | None
+
+|Managed IAM policy | None
+
+|Custom IAM permissions | None
+|===
+
+
+=== [.noloc]`Prometheus Node exporter`
+
+Prometheus exporter for hardware and OS metrics exposed by *NIX kernels, written in Go with pluggable metric collectors. The Prometheus Node Exporter exposes a wide variety of hardware- and kernel-related metrics.
+
+|===
+|Property | Value
+
+|Add-on name | `node_exporter`
+
+|Namespace | `prometheus-node-exporter`
+
+|Documentation | https://prometheus.io/docs/guides/node-exporter/#monitoring-linux-host-metrics-with-the-node-exporter[Monitoring Linux host metrics with the Node Exporter] in Prometheus Docs
+
+|Service account name | None
+
+|Managed IAM policy | None
+
+|Custom IAM permissions | None
+|===
+
+== View Attributions
+
+You can download the open source attribtions and license information for community add-ons.
+
+. Determine the name and version of the add-on you want to download attributions for. 
+. Update the following command with the name and version:
++
+[source,cli]
+----
+curl -O https://amazon-eks-docs.s3.amazonaws.com/attributions/<add-on-name>/<add-on-version>/attributions.zip
+----
++
+For example:
++
+[source,cli]
+----
+curl -O https://amazon-eks-docs.s3.amazonaws.com/attributions/kube-state-metrics/v2.14.0-eksbuild.1/attributions.zip
+----
+. Use the command to download the file. 
+
+Use this zip file to view information about the license attributions. 
