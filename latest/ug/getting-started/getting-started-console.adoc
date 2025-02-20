@@ -32,7 +32,7 @@ Before starting this tutorial, you must install and configure the following tool
 * *{aws} CLI*
  – A command line tool for working with {aws} services, including Amazon EKS. For more information, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide. After installing the {aws} CLI, we recommend that you also configure it. For more information, see link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide. Note that {aws} CLI v2 is required to use the *update-kubeconfig* option shown in this page.
 * *`kubectl`*
- – A command line tool for working with [.noloc]`Kubernetes` clusters. For more information, see <<install-kubectl>>.
+ – A command line tool for working with Kubernetes clusters. For more information, see <<install-kubectl>>.
 * *Required IAM permissions*
  – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, {aws} CloudFormation, a VPC, and related resources. For more information, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] and link:IAM/latest/UserGuide/using-service-linked-roles.html[Using service-linked roles,type="documentation"] in the IAM User Guide. You must complete all steps in this guide as the same user. To check the current user, run the following command:
 +
@@ -64,7 +64,7 @@ aws cloudformation create-stack \
 ----
 +
 TIP: For a list of all the resources the previous command creates, open the {aws} CloudFormation console at https://console.aws.amazon.com/cloudformation/. Choose the [.replaceable]`my-eks-vpc-stack` stack and then choose the *Resources* tab.
-. Create a cluster IAM role and attach the required Amazon EKS IAM managed policy to it. [.noloc]`Kubernetes` clusters managed by Amazon EKS make calls to other {aws} services on your behalf to manage the resources that you use with the service.
+. Create a cluster IAM role and attach the required Amazon EKS IAM managed policy to it. Kubernetes clusters managed by Amazon EKS make calls to other {aws} services on your behalf to manage the resources that you use with the service.
 +
 .. Copy the following contents to a file named [.replaceable]`eks-cluster-role-trust-policy.json`.
 +
@@ -174,7 +174,7 @@ It lets you run Amazon Linux applications on Amazon EC2 instances.
 To learn more about different ways to configure nodes in EKS, see <<eks-compute>>. After your cluster is deployed, you can add other node types. Though not covered in this guide, you can also add <<launch-windows-workers,Windows self-managed>> and <<launch-node-bottlerocket,Bottlerocket>> nodes to your cluster.
 
 
-*To create your EC2 [.noloc]`Linux` managed node group*
+*To create your EC2 Linux managed node group*
 
 . Create a node IAM role and attach the required Amazon EKS IAM managed policy to it. The Amazon EKS node `kubelet` daemon makes calls to {aws} APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies.
 
@@ -237,7 +237,7 @@ aws iam attach-role-policy \
 
 == Step 4: View resources
 
-You can view your nodes and [.noloc]`Kubernetes` workloads.
+You can view your nodes and Kubernetes workloads.
 
 . In the left navigation pane, choose *Clusters*. In the list of *Clusters*, choose the name of the cluster that you created, such as [.replaceable]`my-cluster`.
 . On the *[.replaceable]`my-cluster`* page, choose the following:
@@ -245,7 +245,7 @@ You can view your nodes and [.noloc]`Kubernetes` workloads.
 .. *Compute*
  tab – You see the list of *Nodes* that were deployed for the cluster. You can choose the name of a node to see more information about it.
 .. *Resources* tab
- – You see all of the [.noloc]`Kubernetes` resources that are deployed by default to an Amazon EKS cluster. Select any resource type in the console to learn more about it.
+ – You see all of the Kubernetes resources that are deployed by default to an Amazon EKS cluster. Select any resource type in the console to learn more about it.
 
 
 [#gs-console-clean-up]
@@ -282,7 +282,7 @@ After you've finished with the cluster and nodes that you created for this tutor
 
 The following documentation topics help you to extend the functionality of your cluster.
 
-* The link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that created the cluster is the only principal that can make calls to the [.noloc]`Kubernetes` API server with `kubectl` or the {aws-management-console}. If you want other IAM principals to have access to your cluster, then you need to add them. For more information, see <<grant-k8s-access>> and <<view-kubernetes-resources-permissions>>.
+* The link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that created the cluster is the only principal that can make calls to the Kubernetes API server with `kubectl` or the {aws-management-console}. If you want other IAM principals to have access to your cluster, then you need to add them. For more information, see <<grant-k8s-access>> and <<view-kubernetes-resources-permissions>>.
 * Deploy a <<sample-deployment,sample application>> to your cluster.
 * Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for <<create-cluster,clusters>> and <<eks-compute,nodes>>. Some settings (such as enabling SSH access to Amazon EC2 nodes) must be made when the cluster is created.
 * To increase security for your cluster, <<cni-iam-role,configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts>>.

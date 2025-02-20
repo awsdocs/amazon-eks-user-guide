@@ -2,12 +2,12 @@
 [#lbc-manifest]
 include::../attributes.txt[]
 
-= Install [.noloc]`{aws} Load Balancer Controller` with manifests
+= Install {aws} Load Balancer Controller with manifests
 :info_titleabbrev: Install with manifests
 
 [abstract]
 --
-Install the [.noloc]`{aws} Load Balancer Controller` add-on for Amazon EKS using [.noloc]`Kubernetes` manifests to provision Elastic Load Balancing resources. Configure IAM role and install `cert-manager` before applying controller manifest.
+Install the {aws} Load Balancer Controller add-on for Amazon EKS using Kubernetes manifests to provision Elastic Load Balancing resources. Configure IAM role and install `cert-manager` before applying controller manifest.
 --
 
 [TIP]
@@ -17,7 +17,7 @@ With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-o
 For more information, see <<automode>>.
 ====
 
-This topic describes how to install the controller by downloading and applying [.noloc]`Kubernetes` manifests. You can view the full https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/[documentation] for the controller on [.noloc]`GitHub`.  
+This topic describes how to install the controller by downloading and applying Kubernetes manifests. You can view the full https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/[documentation] for the controller on GitHub.  
 
 In the following steps, replace the [.replaceable]`example values` with your own values.
 
@@ -29,8 +29,8 @@ Before starting this tutorial, you must install and configure the following tool
 
 
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
-* An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
-* Make sure that your [.noloc]`Amazon VPC CNI plugin for Kubernetes`, `kube-proxy`, and [.noloc]`CoreDNS` add-ons are at the minimum versions listed in <<boundserviceaccounttoken-validated-add-on-versions,Service account tokens>>.
+* An existing {aws} Identity and Access Management (IAM) OpenID Connect (OIDC) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* Make sure that your Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS add-ons are at the minimum versions listed in <<boundserviceaccounttoken-validated-add-on-versions,Service account tokens>>.
 * Familiarity with {aws} Elastic Load Balancing. For more information, see the link:elasticloadbalancing/latest/userguide/[Elastic Load Balancing User Guide,type="documentation"].
 * Familiarity with Kubernetes https://kubernetes.io/docs/concepts/services-networking/service/[service] and https://kubernetes.io/docs/concepts/services-networking/ingress/[ingress] resources.
 
@@ -41,18 +41,18 @@ Before starting this tutorial, you must install and configure the following tool
 [NOTE]
 ====
 
-You only need to create a role for the [.noloc]`{aws} Load Balancer Controller` one per {aws} account. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-cert,Step 2: Install cert-manager>>.
+You only need to create a role for the {aws} Load Balancer Controller one per {aws} account. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-cert,Step 2: Install cert-manager>>.
 
 ====
 
 [NOTE]
 ====
 
-Below example is referring to the [.noloc]`{aws} Load Balancer Controller` *v2.11.0* release version. For more inforamtion about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on [.noloc]`GitHub`.
+Below example is referring to the {aws} Load Balancer Controller *v2.11.0* release version. For more inforamtion about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on GitHub.
 
 ====
 
-. Download an IAM policy for the [.noloc]`{aws} Load Balancer Controller` that allows it to make calls to {aws} APIs on your behalf.  
+. Download an IAM policy for the {aws} Load Balancer Controller that allows it to make calls to {aws} APIs on your behalf.  
 +
 ====
 [role="tablist"]
@@ -105,20 +105,20 @@ eksctl create iamserviceaccount \
 
 
 {aws} CLI and kubectl:::
-.. Retrieve your cluster's [.noloc]`OIDC` provider ID and store it in a variable.
+.. Retrieve your cluster's OIDC provider ID and store it in a variable.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 oidc_id=$(aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5)
 ----
-.. Determine whether an IAM [.noloc]`OIDC` provider with your cluster's ID is already in your account. You need [.noloc]`OIDC` configured for both the cluster and IAM.
+.. Determine whether an IAM OIDC provider with your cluster's ID is already in your account. You need OIDC configured for both the cluster and IAM.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 aws iam list-open-id-connect-providers | grep $oidc_id | cut -d "/" -f4
 ----
 +
-If output is returned, then you already have an IAM [.noloc]`OIDC` provider for your cluster. If no output is returned, then you must create an IAM [.noloc]`OIDC` provider for your cluster. For more information, see <<enable-iam-roles-for-service-accounts>>.
+If output is returned, then you already have an IAM OIDC provider for your cluster. If no output is returned, then you must create an IAM OIDC provider for your cluster. For more information, see <<enable-iam-roles-for-service-accounts>>.
 .. Copy the following contents to your device. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` with the output returned in the previous step.
 +
 [source,json,subs="verbatim,attributes"]
@@ -177,7 +177,7 @@ metadata:
     eks.amazonaws.com/role-arn: {arn-aws}iam::111122223333:role/AmazonEKSLoadBalancerControllerRole
 EOF
 ----
-.. Create the [.noloc]`Kubernetes` service account on your cluster. The [.noloc]`Kubernetes` service account named `aws-load-balancer-controller` is annotated with the IAM role that you created named [.replaceable]`AmazonEKSLoadBalancerControllerRole`.
+.. Create the Kubernetes service account on your cluster. The Kubernetes service account named `aws-load-balancer-controller` is annotated with the IAM role that you created named [.replaceable]`AmazonEKSLoadBalancerControllerRole`.
 +
 [source,shell,subs="verbatim,attributes"]
 ----
@@ -197,7 +197,7 @@ We recommend using the `quay.io` container registry to install `cert-manager`. I
 
 ====
 [role="tablist"]
-[.noloc]`Quay.io`:::
+Quay.io:::
 .. If your nodes have access to the `quay.io` container registry, install `cert-manager` to inject certificate configuration into the webhooks. 
 +
 [source,shell,subs="verbatim,attributes"]
@@ -242,8 +242,8 @@ kubectl apply \
 
 
 [#lbc-install]
-== Step 3: Install [.noloc]`{aws} Load Balancer Controller`
-. Download the controller specification. For more information about the controller, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller/[documentation] on [.noloc]`GitHub`.
+== Step 3: Install {aws} Load Balancer Controller
+. Download the controller specification. For more information about the controller, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller/[documentation] on GitHub.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -346,5 +346,5 @@ NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
 aws-load-balancer-controller   2/2     2            2           84s
 ----
 +
-You receive the previous output if you deployed using Helm. If you deployed using the [.noloc]`Kubernetes` manifest, you only have one replica.
+You receive the previous output if you deployed using Helm. If you deployed using the Kubernetes manifest, you only have one replica.
 . Before using the controller to provision {aws} resources, your cluster must meet specific requirements. For more information, see <<alb-ingress>> and <<network-load-balancing>>.

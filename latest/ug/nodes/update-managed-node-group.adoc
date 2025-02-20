@@ -16,22 +16,22 @@ There are several scenarios where it's useful to update your Amazon EKS managed 
 
 
 
-* You have updated the [.noloc]`Kubernetes` version for your Amazon EKS cluster and want to update your nodes to use the same [.noloc]`Kubernetes` version.
+* You have updated the Kubernetes version for your Amazon EKS cluster and want to update your nodes to use the same Kubernetes version.
 * A new AMI release version is available for your managed node group. For more information about AMI versions, see these sections:
 +
 ** <<eks-linux-ami-versions>>
 ** <<eks-optimized-ami-bottlerocket>>
 ** <<eks-ami-versions-windows>>
 * You want to adjust the minimum, maximum, or desired count of the instances in your managed node group.
-* You want to add or remove [.noloc]`Kubernetes` labels from the instances in your managed node group.
+* You want to add or remove Kubernetes labels from the instances in your managed node group.
 * You want to add or remove {aws} tags from your managed node group.
 * You need to deploy a new version of a launch template with configuration changes, such as an updated custom AMI.
-* You have deployed version `1.9.0` or later of the Amazon VPC CNI add-on, enabled the add-on for prefix delegation, and want new {aws} [.noloc]`Nitro System` instances in a node group to support a significantly increased number of [.noloc]`Pods`. For more information, see <<cni-increase-ip-addresses>>.
-* You have enabled IP prefix delegation for Windows nodes and want new {aws} Nitro System instances in a node group to support a significantly increased number of [.noloc]`Pods`. For more information, see <<cni-increase-ip-addresses>>.
+* You have deployed version `1.9.0` or later of the Amazon VPC CNI add-on, enabled the add-on for prefix delegation, and want new {aws} Nitro System instances in a node group to support a significantly increased number of Pods. For more information, see <<cni-increase-ip-addresses>>.
+* You have enabled IP prefix delegation for Windows nodes and want new {aws} Nitro System instances in a node group to support a significantly increased number of Pods. For more information, see <<cni-increase-ip-addresses>>.
 
-If there's a newer AMI release version for your managed node group's [.noloc]`Kubernetes` version, you can update your node group's version to use the newer AMI version. Similarly, if your cluster is running a [.noloc]`Kubernetes` version that's newer than your node group, you can update the node group to use the latest AMI release version to match your cluster's [.noloc]`Kubernetes` version.
+If there's a newer AMI release version for your managed node group's Kubernetes version, you can update your node group's version to use the newer AMI version. Similarly, if your cluster is running a Kubernetes version that's newer than your node group, you can update the node group to use the latest AMI release version to match your cluster's Kubernetes version.
 
-When a node in a managed node group is terminated due to a scaling operation or update, the [.noloc]`Pods` in that node are drained first. For more information, see <<managed-node-update-behavior>>.
+When a node in a managed node group is terminated due to a scaling operation or update, the Pods in that node are drained first. For more information, see <<managed-node-update-behavior>>.
 
 [#mng-update]
 == Update a node group version
@@ -47,7 +47,7 @@ The version that you update to can't be greater than the control plane's version
 
 *Update a managed node group using `eksctl`*
 
-Update a managed node group to the latest AMI release of the same [.noloc]`Kubernetes` version that's currently deployed on the nodes with the following command. Replace every [.replaceable]`example value` with your own values.
+Update a managed node group to the latest AMI release of the same Kubernetes version that's currently deployed on the nodes with the following command. Replace every [.replaceable]`example value` with your own values.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -61,7 +61,7 @@ NOTE: If you're upgrading a node group that's deployed with a launch template to
 
 You can't directly upgrade a node group that's deployed without a launch template to a new launch template version. Instead, you must deploy a new node group using the launch template to update the node group to a new launch template version.
 
-You can upgrade a node group to the same version as the control plane's [.noloc]`Kubernetes` version. For example, if you have a cluster running [.noloc]`Kubernetes` `{k8s-n}`, you can upgrade nodes currently running [.noloc]`Kubernetes` `{k8s-n-1}` to version `{k8s-n}` with the following command.
+You can upgrade a node group to the same version as the control plane's Kubernetes version. For example, if you have a cluster running Kubernetes `{k8s-n}`, you can upgrade nodes currently running Kubernetes `{k8s-n-1}` to version `{k8s-n}` with the following command.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -91,8 +91,8 @@ You won't see a notification for node groups that were deployed with a custom AM
 ** *Change launch template version* – This option is unavailable if the node group is deployed without a custom launch template. You can only update the launch template version for a node group that has been deployed with a custom launch template. Select the *Launch template version* that you want to update the node group to. If your node group is configured with a custom AMI, then the version that you select must also specify an AMI. When you upgrade to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version specified.
 . For *Update strategy*, select one of the following options:
 +
-** *Rolling update* – This option respects the [.noloc]`Pod` disruption budgets for your cluster. Updates fail if there's a [.noloc]`Pod` disruption budget issue that causes Amazon EKS to be unable to gracefully drain the [.noloc]`Pods` that are running on this node group.
-** *Force update* – This option doesn't respect [.noloc]`Pod` disruption budgets. Updates occur regardless of [.noloc]`Pod` disruption budget issues by forcing node restarts to occur.
+** *Rolling update* – This option respects the Pod disruption budgets for your cluster. Updates fail if there's a Pod disruption budget issue that causes Amazon EKS to be unable to gracefully drain the Pods that are running on this node group.
+** *Force update* – This option doesn't respect Pod disruption budgets. Updates occur regardless of Pod disruption budget issues by forcing node restarts to occur.
 . Choose *Update*.
 
 
@@ -112,8 +112,8 @@ You can modify some of the configurations of a managed node group.
 *** *Desired size* – Specify the current number of nodes that the managed node group should maintain.
 *** *Minimum size* – Specify the minimum number of nodes that the managed node group can scale in to.
 *** *Maximum size* – Specify the maximum number of nodes that the managed node group can scale out to. For the maximum number of nodes supported in a node group, see <<service-quotas>>.
-.. (Optional) Add or remove *[.noloc]`Kubernetes` labels* to the nodes in your node group. The labels shown here are only the labels that you have applied with Amazon EKS. Other labels may exist on your nodes that aren't shown here.
-.. (Optional) Add or remove *[.noloc]`Kubernetes` taints* to the nodes in your node group. Added taints can have the effect of either `*NoSchedule*`, `*NoExecute*`, or `*PreferNoSchedule*`. For more information, see <<node-taints-managed-node-groups>>.
+.. (Optional) Add or remove *Kubernetes labels* to the nodes in your node group. The labels shown here are only the labels that you have applied with Amazon EKS. Other labels may exist on your nodes that aren't shown here.
+.. (Optional) Add or remove *Kubernetes taints* to the nodes in your node group. Added taints can have the effect of either `*NoSchedule*`, `*NoExecute*`, or `*PreferNoSchedule*`. For more information, see <<node-taints-managed-node-groups>>.
 .. (Optional) Add or remove *Tags* from your node group resource. These tags are only applied to the Amazon EKS node group. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group.
 .. (Optional) Edit the *Node Group update configuration*. Select either *Number* or *Percentage*.  
 +
@@ -121,7 +121,7 @@ You can modify some of the configurations of a managed node group.
 *** *Percentage* – Select and specify the percentage of nodes in your node group that can be updated in parallel. These nodes will be unavailable during update. This is useful if you have many nodes in your node group.
 .. When you're finished editing, choose *Save changes*.
 
-IMPORTANT: When updating the node group configuration, modifying the link:eks/latest/APIReference/API_NodegroupScalingConfig.html[`NodegroupScalingConfig`,type="documentation"] does not respect [.noloc]`Pod` disruption budgets (PDBs). 
+IMPORTANT: When updating the node group configuration, modifying the link:eks/latest/APIReference/API_NodegroupScalingConfig.html[`NodegroupScalingConfig`,type="documentation"] does not respect Pod disruption budgets (PDBs). 
 Unlike the <<managed-node-update-behavior,update node group>> process (which drains nodes and respects PDBs during the upgrade phase), updating the scaling configuration causes nodes to be terminated immediately through an Auto Scaling Group (ASG) scale-down call. 
 This happens without considering PDBs, regardless of the target size you're scaling down to. 
-That means when you reduce the `desiredSize` of an Amazon EKS managed node group, [.noloc]`Pods` are evicted as soon as the nodes are terminated, without honoring any PDBs.
+That means when you reduce the `desiredSize` of an Amazon EKS managed node group, Pods are evicted as soon as the nodes are terminated, without honoring any PDBs.

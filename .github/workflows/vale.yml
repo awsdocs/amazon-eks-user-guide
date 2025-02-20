@@ -11,6 +11,10 @@ jobs:
       - name: Check out
         uses: actions/checkout@v3
 
+        # Vale uses asciidoctor
+      - name: Install Asciidoctor
+        run: sudo apt-get install -y asciidoctor
+
       - name: Enforce AWS Brand Attribute
         uses: errata-ai/vale-action@reviewdog
         env:
@@ -21,4 +25,4 @@ jobs:
           filter_mode: added
           files: latest/ug
           vale_flags: "--config brand.vale.ini"
-        continue-on-error: true
+        continue-on-error: false

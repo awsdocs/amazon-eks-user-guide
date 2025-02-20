@@ -1,6 +1,6 @@
 [.topic]
 [#cni-custom-network]
-= Deploy [.noloc]`Pods` in alternate subnets with custom networking
+= Deploy Pods in alternate subnets with custom networking
 :info_titleabbrev: Custom networking
 
 include::../attributes.txt[]
@@ -9,16 +9,16 @@ include::cni-custom-network-tutorial.adoc[leveloffset=+1]
 
 [abstract]
 --
-Learn how to enable custom networking for Amazon EKS [.noloc]`Pods` to deploy them in different subnets or use different security groups than the node's primary network interface, increasing IP address availability and network isolation.
+Learn how to enable custom networking for Amazon EKS Pods to deploy them in different subnets or use different security groups than the node's primary network interface, increasing IP address availability and network isolation.
 --
 
-*Applies to*: [.noloc]`Linux` `IPv4` Fargate nodes, [.noloc]`Linux` nodes with Amazon EC2 instances  
+*Applies to*: Linux `IPv4` Fargate nodes, Linux nodes with Amazon EC2 instances  
 
-By default, when the [.noloc]`Amazon VPC CNI plugin for Kubernetes` creates secondary link:AWSEC2/latest/UserGuide/using-eni.html[elastic network interfaces,type="documentation"] (network interfaces) for your Amazon EC2 node, it creates them in the same subnet as the node's primary network interface. It also associates the same security groups to the secondary network interface that are associated to the primary network interface. For one or more of the following reasons, you might want the plugin to create secondary network interfaces in a different subnet or want to associate different security groups to the secondary network interfaces, or both: 
+By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary link:AWSEC2/latest/UserGuide/using-eni.html[elastic network interfaces,type="documentation"] (network interfaces) for your Amazon EC2 node, it creates them in the same subnet as the node's primary network interface. It also associates the same security groups to the secondary network interface that are associated to the primary network interface. For one or more of the following reasons, you might want the plugin to create secondary network interfaces in a different subnet or want to associate different security groups to the secondary network interfaces, or both: 
 
-* There's a limited number of `IPv4` addresses that are available in the subnet that the primary network interface is in. This might limit the number of [.noloc]`Pods` that you can create in the subnet. By using a different subnet for secondary network interfaces, you can increase the number of available `IPv4` addresses available for [.noloc]`Pods`.
-* For security reasons, your [.noloc]`Pods` might need to use a different subnet or security groups than the node's primary network interface.
-* The nodes are configured in public subnets, and you want to place the [.noloc]`Pods` in private subnets. The route table associated to a public subnet includes a route to an internet gateway. The route table associated to a private subnet doesn't include a route to an internet gateway.
+* There's a limited number of `IPv4` addresses that are available in the subnet that the primary network interface is in. This might limit the number of Pods that you can create in the subnet. By using a different subnet for secondary network interfaces, you can increase the number of available `IPv4` addresses available for Pods.
+* For security reasons, your Pods might need to use a different subnet or security groups than the node's primary network interface.
+* The nodes are configured in public subnets, and you want to place the Pods in private subnets. The route table associated to a public subnet includes a route to an internet gateway. The route table associated to a private subnet doesn't include a route to an internet gateway.
 
 
 [#cni-custom-network-considerations]
@@ -26,8 +26,8 @@ By default, when the [.noloc]`Amazon VPC CNI plugin for Kubernetes` creates seco
 
 The following are considerations for using the feature.
 
-* With custom networking enabled, no IP addresses assigned to the primary network interface are assigned to [.noloc]`Pods`. Only IP addresses from secondary network interfaces are assigned to [.noloc]`Pods`.
+* With custom networking enabled, no IP addresses assigned to the primary network interface are assigned to Pods. Only IP addresses from secondary network interfaces are assigned to Pods.
 * If your cluster uses the `IPv6` family, you can't use custom networking.
 * If you plan to use custom networking only to help alleviate `IPv4` address exhaustion, you can create a cluster using the `IPv6` family instead. For more information, see <<cni-ipv6>>.
-* Even though [.noloc]`Pods` deployed to subnets specified for secondary network interfaces can use different subnet and security groups than the node's primary network interface, the subnets and security groups must be in the same VPC as the node.
+* Even though Pods deployed to subnets specified for secondary network interfaces can use different subnet and security groups than the node's primary network interface, the subnets and security groups must be in the same VPC as the node.
 * For Fargate, subnets are controlled through the Fargate profile. For more information, see <<fargate-profile>>.

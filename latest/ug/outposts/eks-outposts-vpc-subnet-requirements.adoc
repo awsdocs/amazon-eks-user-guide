@@ -19,7 +19,7 @@ When you create a local cluster, the VPC that you specify must meet the followin
 
 
 
-* Make sure that the VPC has enough IP addresses for the local cluster, any nodes, and other [.noloc]`Kubernetes` resources that you want to create. If the VPC that you want to use doesn't have enough IP addresses, increase the number of available IP addresses. You can do this by link:vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr[associating additional Classless Inter-Domain Routing (CIDR) blocks,type="documentation"] with your VPC. You can associate private (RFC 1918) and public (non-RFC 1918) CIDR blocks to your VPC either before or after you create your cluster. It can take a cluster up to 5 hours for a CIDR block that you associated with a VPC to be recognized.
+* Make sure that the VPC has enough IP addresses for the local cluster, any nodes, and other Kubernetes resources that you want to create. If the VPC that you want to use doesn't have enough IP addresses, increase the number of available IP addresses. You can do this by link:vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr[associating additional Classless Inter-Domain Routing (CIDR) blocks,type="documentation"] with your VPC. You can associate private (RFC 1918) and public (non-RFC 1918) CIDR blocks to your VPC either before or after you create your cluster. It can take a cluster up to 5 hours for a CIDR block that you associated with a VPC to be recognized.
 * The VPC can't have assigned IP prefixes or IPv6 CIDR blocks. Because of these constraints, the information that's covered in <<cni-increase-ip-addresses,Assign more IP addresses to Amazon EKS nodes with prefixes>> and <<cni-ipv6>> isn't applicable to your VPC.
 * The VPC has a DNS hostname and DNS resolution enabled. Without these features, the local cluster fails to create, and you need to enable the features and recreate your cluster. For more information, see link:vpc/latest/userguide/vpc-dns.html[DNS attributes for your VPC,type="documentation"] in the Amazon VPC User Guide.
 * To access your local cluster over your local network, the VPC must be associated with your Outpost's local gateway route table. For more information, see link:outposts/latest/userguide/outposts-local-gateways.html#vpc-associations[VPC associations,type="documentation"] in the {aws} Outposts User Guide.
@@ -28,13 +28,13 @@ When you create a local cluster, the VPC that you specify must meet the followin
 [#outposts-subnet-requirements]
 == Subnet requirements and considerations
 
-When you create the cluster, specify at least one private subnet. If you specify more than one subnet, the [.noloc]`Kubernetes` control plane instances are evenly distributed across the subnets. If more than one subnet is specified, the subnets must exist on the same Outpost. Moreover, the subnets must also have proper routes and security group permissions to communicate with each other. When you create a local cluster, the subnets that you specify must meet the following requirements:
+When you create the cluster, specify at least one private subnet. If you specify more than one subnet, the Kubernetes control plane instances are evenly distributed across the subnets. If more than one subnet is specified, the subnets must exist on the same Outpost. Moreover, the subnets must also have proper routes and security group permissions to communicate with each other. When you create a local cluster, the subnets that you specify must meet the following requirements:
 
 
 
 * The subnets are all on the same logical Outpost.
-* The subnets together have at least three available IP addresses for the [.noloc]`Kubernetes` control plane instances. If three subnets are specified, each subnet must have at least one available IP address. If two subnets are specified, each subnet must have at least two available IP addresses. If one subnet is specified, the subnet must have at least three available IP addresses.  
-* The subnets have a route to the Outpost rack's link:outposts/latest/userguide/outposts-local-gateways.html[local gateway,type="documentation"] to access the [.noloc]`Kubernetes` API server over your local network. If the subnets don't have a route to the Outpost rack's local gateway, you must communicate with your [.noloc]`Kubernetes` API server from within the VPC.
+* The subnets together have at least three available IP addresses for the Kubernetes control plane instances. If three subnets are specified, each subnet must have at least one available IP address. If two subnets are specified, each subnet must have at least two available IP addresses. If one subnet is specified, the subnet must have at least three available IP addresses.  
+* The subnets have a route to the Outpost rack's link:outposts/latest/userguide/outposts-local-gateways.html[local gateway,type="documentation"] to access the Kubernetes API server over your local network. If the subnets don't have a route to the Outpost rack's local gateway, you must communicate with your Kubernetes API server from within the VPC.
 * The subnets must use IP address-based naming. Amazon EC2 link:AWSEC2/latest/UserGuide/ec2-instance-naming.html#instance-naming-rbn[resource-based naming,type="documentation"] isn't supported by Amazon EKS.
 
 
@@ -98,7 +98,7 @@ The endpoints must meet the following requirements:
 * Have private DNS names enabled
 * Have an attached security group that permits inbound HTTPS traffic from the CIDR range of the private outpost subnet.
 
-Creating endpoints incurs charges. For more information, see link:privatelink/pricing/[{aws} PrivateLink pricing,type="marketing"]. If your [.noloc]`Pods` need access to other {aws} services, then you need to create additional endpoints. For a comprehensive list of endpoints, see link:vpc/latest/privatelink/aws-services-privatelink-support.html[{aws} services that integrate with {aws} PrivateLink,type="documentation"].
+Creating endpoints incurs charges. For more information, see link:privatelink/pricing/[{aws} PrivateLink pricing,type="marketing"]. If your Pods need access to other {aws} services, then you need to create additional endpoints. For a comprehensive list of endpoints, see link:vpc/latest/privatelink/aws-services-privatelink-support.html[{aws} services that integrate with {aws} PrivateLink,type="documentation"].
 
 [#outposts-create-vpc]
 == Create a VPC

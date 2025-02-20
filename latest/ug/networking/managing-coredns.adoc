@@ -17,7 +17,7 @@ include::coredns-metrics.adoc[leveloffset=+1]
 
 [abstract]
 --
-Learn how to manage the [.noloc]`CoreDNS` Amazon EKS add-on for DNS service discovery in [.noloc]`Kubernetes` clusters with configuration updates and version upgrades.
+Learn how to manage the CoreDNS Amazon EKS add-on for DNS service discovery in Kubernetes clusters with configuration updates and version upgrades.
 --
 
 [TIP]
@@ -27,16 +27,16 @@ With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-o
 For more information, see <<automode>>.
 ====
 
-[.noloc]`CoreDNS` is a flexible, extensible DNS server that can serve as the [.noloc]`Kubernetes` cluster DNS. When you launch an Amazon EKS cluster with at least one node, two replicas of the [.noloc]`CoreDNS` image are deployed by default, regardless of the number of nodes deployed in your cluster. The [.noloc]`CoreDNS` [.noloc]`Pods` provide name resolution for all [.noloc]`Pods` in the cluster. The [.noloc]`CoreDNS` [.noloc]`Pods` can be deployed to Fargate nodes if your cluster includes a Fargate Profile with a namespace that matches the namespace for the [.noloc]`CoreDNS` `deployment`. For more information on Fargate Profiles, see <<fargate-profile>>. For more information about [.noloc]`CoreDNS`, see https://kubernetes.io/docs/tasks/administer-cluster/coredns/[Using CoreDNS for Service Discovery] in the [.noloc]`Kubernetes` documentation.
+CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS. When you launch an Amazon EKS cluster with at least one node, two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster. The CoreDNS Pods provide name resolution for all Pods in the cluster. The CoreDNS Pods can be deployed to Fargate nodes if your cluster includes a Fargate Profile with a namespace that matches the namespace for the CoreDNS `deployment`. For more information on Fargate Profiles, see <<fargate-profile>>. For more information about CoreDNS, see https://kubernetes.io/docs/tasks/administer-cluster/coredns/[Using CoreDNS for Service Discovery] in the Kubernetes documentation.
 
 [#coredns-versions]
-== [.noloc]`CoreDNS` versions
+== CoreDNS versions
 
-The following table lists the latest version of the Amazon EKS add-on type for each [.noloc]`Kubernetes` version.
+The following table lists the latest version of the Amazon EKS add-on type for each Kubernetes version.
 
 [options="header"]
 |===
-| Kubernetes version | [.noloc]`CoreDNS` version
+| Kubernetes version | CoreDNS version
 | 1.32 | v1.11.4-eksbuild.2
 | 1.31 | v1.11.4-eksbuild.2
 | 1.30 | v1.11.4-eksbuild.2
@@ -56,15 +56,15 @@ If you're self-managing this add-on, the versions in the table might not be the 
 ====
 
 [#coredns-upgrade]
-== Important [.noloc]`CoreDNS` upgrade considerations
+== Important CoreDNS upgrade considerations
 
-* To improve the stability and availability of the [.noloc]`CoreDNS` [.noloc]`Deployment`, versions `v1.9.3-eksbuild.6` and later and `v1.10.1-eksbuild.3` are deployed with a `PodDisruptionBudget`. If you've deployed an existing `PodDisruptionBudget`, your upgrade to these versions might fail. If the upgrade fails, completing one of the following tasks should resolve the issue:
+* To improve the stability and availability of the CoreDNS Deployment, versions `v1.9.3-eksbuild.6` and later and `v1.10.1-eksbuild.3` are deployed with a `PodDisruptionBudget`. If you've deployed an existing `PodDisruptionBudget`, your upgrade to these versions might fail. If the upgrade fails, completing one of the following tasks should resolve the issue:
 +
-** When doing the upgrade of the Amazon EKS add-on, choose to override the existing settings as your conflict resolution option. If you've made other custom settings to the [.noloc]`Deployment`, make sure to back up your settings before upgrading so that you can reapply your other custom settings after the upgrade.
+** When doing the upgrade of the Amazon EKS add-on, choose to override the existing settings as your conflict resolution option. If you've made other custom settings to the Deployment, make sure to back up your settings before upgrading so that you can reapply your other custom settings after the upgrade.
 ** Remove your existing `PodDisruptionBudget` and try the upgrade again.
-* In EKS add-on versions `v1.9.3-eksbuild.3` and later and `v1.10.1-eksbuild.6` and later, the [.noloc]`CoreDNS` [.noloc]`Deployment` sets the `readinessProbe` to use the `/ready` endpoint. This endpoint is enabled in the `Corefile` configuration file for [.noloc]`CoreDNS`.
+* In EKS add-on versions `v1.9.3-eksbuild.3` and later and `v1.10.1-eksbuild.6` and later, the CoreDNS Deployment sets the `readinessProbe` to use the `/ready` endpoint. This endpoint is enabled in the `Corefile` configuration file for CoreDNS.
 +
-If you use a custom `Corefile`, you must add the `ready` plugin to the config, so that the `/ready` endpoint is active in [.noloc]`CoreDNS` for the probe to use.
+If you use a custom `Corefile`, you must add the `ready` plugin to the config, so that the `/ready` endpoint is active in CoreDNS for the probe to use.
 * In EKS add-on versions `v1.9.3-eksbuild.7` and later and `v1.10.1-eksbuild.4` and later, you can change the `PodDisruptionBudget`. You can edit the add-on and change these settings in the *Optional configuration settings* using the fields in the following example. This example shows the default `PodDisruptionBudget`.
 +
 [source,json,subs="verbatim,attributes"]
@@ -76,7 +76,7 @@ If you use a custom `Corefile`, you must add the `ready` plugin to the config, s
         }
 }
 ----
-// Not using [.noloc]`Kubernetes` here because the _ causes issues with the rendering.
+// Not using Kubernetes here because the _ causes issues with the rendering.
 +
 You can set `maxUnavailable` or `minAvailable`, but you can't set both in a single `PodDisruptionBudget`. For more information about `PodDisruptionBudgets`, see https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget[Specifying a PodDisruptionBudget] in the _Kubernetes documentation_.
 +
@@ -86,10 +86,10 @@ Note that if you set `enabled` to `false`, the `PodDisruptionBudget` isn't remov
 ----
 kubectl delete poddisruptionbudget coredns -n kube-system
 ----
-* In EKS add-on versions `v1.10.1-eksbuild.5` and later, change the default toleration from `node-role.kubernetes.io/master:NoSchedule` to `node-role.kubernetes.io/control-plane:NoSchedule` to comply with KEP 2067. For more information about KEP 2067, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-cluster-lifecycle/kubeadm/2067-rename-master-label-taint#renaming-the-node-rolekubernetesiomaster-node-taint[KEP-2067: Rename the kubeadm "master" label and taint] in the _Kubernetes Enhancement Proposals (KEPs)_ on [.noloc]`GitHub`.
+* In EKS add-on versions `v1.10.1-eksbuild.5` and later, change the default toleration from `node-role.kubernetes.io/master:NoSchedule` to `node-role.kubernetes.io/control-plane:NoSchedule` to comply with KEP 2067. For more information about KEP 2067, see https://github.com/kubernetes/enhancements/tree/master/keps/sig-cluster-lifecycle/kubeadm/2067-rename-master-label-taint#renaming-the-node-rolekubernetesiomaster-node-taint[KEP-2067: Rename the kubeadm "master" label and taint] in the _Kubernetes Enhancement Proposals (KEPs)_ on GitHub.
 +
-In EKS add-on versions `v1.8.7-eksbuild.8` and later and `v1.9.3-eksbuild.9` and later, both tolerations are set to be compatible with every [.noloc]`Kubernetes` version.
-* In EKS add-on versions `v1.9.3-eksbuild.11` and `v1.10.1-eksbuild.7` and later, the [.noloc]`CoreDNS` [.noloc]`Deployment` sets a default value for `topologySpreadConstraints`. The default value ensures that the [.noloc]`CoreDNS` [.noloc]`Pods` are spread across the Availability Zones if there are nodes in multiple Availability Zones available. You can set a custom value that will be used instead of the default value. The default value follows:
+In EKS add-on versions `v1.8.7-eksbuild.8` and later and `v1.9.3-eksbuild.9` and later, both tolerations are set to be compatible with every Kubernetes version.
+* In EKS add-on versions `v1.9.3-eksbuild.11` and `v1.10.1-eksbuild.7` and later, the CoreDNS Deployment sets a default value for `topologySpreadConstraints`. The default value ensures that the CoreDNS Pods are spread across the Availability Zones if there are nodes in multiple Availability Zones available. You can set a custom value that will be used instead of the default value. The default value follows:
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -104,6 +104,6 @@ topologySpreadConstraints:
 
 
 [#coredns-upgrade-1.11]
-=== [.noloc]`CoreDNS` `v1.11` upgrade considerations
+=== CoreDNS `v1.11` upgrade considerations
 
-* In EKS add-on versions `v1.11.1-eksbuild.4` and later, the container image is based on a https://gallery.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base[minimal base image] maintained by Amazon EKS Distro, which contains minimal packages and doesn't have shells. For more information, see https://distro.eks.amazonaws.com/[Amazon EKS Distro]. The usage and troubleshooting of the [.noloc]`CoreDNS` image remains the same.
+* In EKS add-on versions `v1.11.1-eksbuild.4` and later, the container image is based on a https://gallery.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base[minimal base image] maintained by Amazon EKS Distro, which contains minimal packages and doesn't have shells. For more information, see https://distro.eks.amazonaws.com/[Amazon EKS Distro]. The usage and troubleshooting of the CoreDNS image remains the same.

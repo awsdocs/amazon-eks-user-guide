@@ -8,7 +8,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn about the prerequisites and requirements for joining nodes from your data centers to Amazon EKS [.noloc]`Kubernetes` clusters with Amazon EKS Hybrid Nodes.
+Learn about the prerequisites and requirements for joining nodes from your data centers to Amazon EKS Kubernetes clusters with Amazon EKS Hybrid Nodes.
 --
 
 To use Amazon EKS Hybrid Nodes, you must have private connectivity from your on-premises environment to/from {aws}, bare metal servers or virtual machines with a supported operating system, and {aws} IAM Roles Anywhere or {aws} Systems Manager (SSM) hybrid activations configured. You are responsible for managing these prerequisites throughout the hybrid nodes lifecycle.

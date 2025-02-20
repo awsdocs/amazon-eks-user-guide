@@ -8,7 +8,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Troubleshoot, diagnose, and repair hybrid nodes from your data centers to Amazon EKS [.noloc]`Kubernetes` clusters.
+Troubleshoot, diagnose, and repair hybrid nodes from your data centers to Amazon EKS Kubernetes clusters.
 --
 
 This topic covers some common errors that you may see while using Amazon EKS Hybrid Nodes and how to fix them. For other troubleshooting information, see <<troubleshooting>> and https://repost.aws/tags/knowledge-center/TA4IvCeWI1TE66q4jEj4Z9zg/amazon-elastic-kubernetes-service[Knowledge Center tag for Amazon EKS] on _{aws} re:Post_. If you cannot resolve the issue, contact {aws} Support.

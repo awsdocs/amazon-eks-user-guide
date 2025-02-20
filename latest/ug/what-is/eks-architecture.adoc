@@ -8,15 +8,15 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn how Amazon EKS aligns with [.noloc]`Kubernetes` cluster architecture, offering a highly available and resilient control plane, and flexible compute options like {aws} Fargate, [.noloc]`Karpenter`, managed node groups, and self-managed nodes to meet diverse workload requirements.
+Learn how Amazon EKS aligns with Kubernetes cluster architecture, offering a highly available and resilient control plane, and flexible compute options like {aws} Fargate, Karpenter, managed node groups, and self-managed nodes to meet diverse workload requirements.
 --
 
-Amazon EKS aligns with the general cluster architecture of [.noloc]`Kubernetes`. For more information, see https://kubernetes.io/docs/concepts/overview/components/[Kubernetes Components] in the [.noloc]`Kubernetes` documentation. The following sections summarize some extra architecture details for Amazon EKS.
+Amazon EKS aligns with the general cluster architecture of Kubernetes. For more information, see https://kubernetes.io/docs/concepts/overview/components/[Kubernetes Components] in the Kubernetes documentation. The following sections summarize some extra architecture details for Amazon EKS.
 
 [#control-plane]
 == Control plane
 
-Amazon EKS ensures every cluster has its own unique [.noloc]`Kubernetes` control plane. This design keeps each cluster's infrastructure separate, with no overlaps between clusters or {aws} accounts. The setup includes:
+Amazon EKS ensures every cluster has its own unique Kubernetes control plane. This design keeps each cluster's infrastructure separate, with no overlaps between clusters or {aws} accounts. The setup includes:
 
 
 
@@ -35,7 +35,7 @@ If a control plane instance falters, Amazon EKS quickly replaces it, using diffe
 *Consistent uptime*::
 By running clusters across multiple  Availability Zones, a reliable link:eks/sla[API server endpoint availability Service Level Agreement (SLA),type="marketing"] is achieved.
 
-Amazon EKS uses Amazon Virtual Private Cloud (Amazon VPC) to limit traffic between control plane components within a single cluster. Cluster components can't view or receive communication from other clusters or {aws} accounts, except when authorized by [.noloc]`Kubernetes` role-based access control (RBAC) policies.
+Amazon EKS uses Amazon Virtual Private Cloud (Amazon VPC) to limit traffic between control plane components within a single cluster. Cluster components can't view or receive communication from other clusters or {aws} accounts, except when authorized by Kubernetes role-based access control (RBAC) policies.
 
 [#nodes]
 == Compute
@@ -49,8 +49,8 @@ In addition to the control plane, an Amazon EKS cluster has a set of worker mach
 <<fargate,Fargate>> is a serverless compute engine for containers that eliminates the need to manage the underlying instances. With Fargate, you specify your application's resource needs, and {aws} automatically provisions, scales, and maintains the infrastructure. This option is ideal for users who prioritize ease-of-use and want to concentrate on application development and deployment rather than managing infrastructure.
 
 
-*[.noloc]`Karpenter`*::
-https://karpenter.sh/[Karpenter] is a flexible, high-performance [.noloc]`Kubernetes` cluster autoscaler that helps improve application availability and cluster efficiency. [.noloc]`Karpenter` launches right-sized compute resources in response to changing application load. This option can provision just-in-time compute resources that meet the requirements of your workload.
+*Karpenter*::
+https://karpenter.sh/[Karpenter] is a flexible, high-performance Kubernetes cluster autoscaler that helps improve application availability and cluster efficiency. Karpenter launches right-sized compute resources in response to changing application load. This option can provision just-in-time compute resources that meet the requirements of your workload.
 
 
 *Managed node groups*::

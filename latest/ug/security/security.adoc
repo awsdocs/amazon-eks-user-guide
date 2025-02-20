@@ -36,7 +36,7 @@ Cloud security at {aws} is the highest priority. As an {aws} customer, you benef
 
 Security is a shared responsibility between {aws} and you. The link:compliance/shared-responsibility-model/[shared responsibility model,type="marketing"] describes this as security _of_ the cloud and security _in_ the cloud:
 
-* *Security of the cloud* – {aws} is responsible for protecting the infrastructure that runs {aws} services in the {aws} Cloud. For Amazon EKS, {aws} is responsible for the [.noloc]`Kubernetes` control plane, which includes the control plane nodes and `etcd` database. Third-party auditors regularly test and verify the effectiveness of our security as part of the link:compliance/programs/[{aws} compliance programs,type="marketing"]. To learn about the compliance programs that apply to Amazon EKS, see link:compliance/services-in-scope/[{aws} Services in Scope by Compliance Program,type="marketing"].
+* *Security of the cloud* – {aws} is responsible for protecting the infrastructure that runs {aws} services in the {aws} Cloud. For Amazon EKS, {aws} is responsible for the Kubernetes control plane, which includes the control plane nodes and `etcd` database. Third-party auditors regularly test and verify the effectiveness of our security as part of the link:compliance/programs/[{aws} compliance programs,type="marketing"]. To learn about the compliance programs that apply to Amazon EKS, see link:compliance/services-in-scope/[{aws} Services in Scope by Compliance Program,type="marketing"].
 * *Security in the cloud* – Your responsibility includes the following areas.
 +
 ** The security configuration of the data plane, including the configuration of the security groups that allow traffic to pass from the Amazon EKS control plane into the customer VPC
@@ -53,7 +53,7 @@ This documentation helps you understand how to apply the shared responsibility m
 [NOTE]
 ====
 
-[.noloc]`Linux` containers are made up of control groups (cgroups) and namespaces that help limit what a container can access, but all containers share the same [.noloc]`Linux` kernel as the host Amazon EC2 instance. Running a container as the root user (UID 0) or granting a container access to host resources or namespaces such as the host network or host PID namespace are strongly discouraged, because doing so reduces the effectiveness of the isolation that containers provide.
+Linux containers are made up of control groups (cgroups) and namespaces that help limit what a container can access, but all containers share the same Linux kernel as the host Amazon EC2 instance. Running a container as the root user (UID 0) or granting a container access to host resources or namespaces such as the host network or host PID namespace are strongly discouraged, because doing so reduces the effectiveness of the isolation that containers provide.
 
 ====
 

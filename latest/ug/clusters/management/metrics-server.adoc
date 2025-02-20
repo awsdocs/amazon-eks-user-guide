@@ -1,6 +1,6 @@
 [.topic]
 [#metrics-server]
-= View resource usage with the [.noloc]`Kubernetes` [.noloc]`Metrics Server`
+= View resource usage with the Kubernetes Metrics Server
 :info_titleabbrev: Metrics server
 
 include::../../attributes.txt[]
@@ -10,7 +10,7 @@ include::../../attributes.txt[]
 Use the Kubernetes Metrics Server to view resource usage data on your Amazon EKS cluster for autoscaling and monitoring.
 --
 
-The [.noloc]`Kubernetes` Metrics Server is an aggregator of resource usage data in your cluster, and it isn't deployed by default in Amazon EKS clusters. For more information, see https://github.com/kubernetes-sigs/metrics-server[Kubernetes Metrics Server] on [.noloc]`GitHub`. The Metrics Server is commonly used by other [.noloc]`Kubernetes` add ons, such as the <<horizontal-pod-autoscaler,Scale pod deployments with Horizontal Pod Autoscaler>> or the <<eks-managing,Kubernetes Dashboard>>. For more information, see https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/[Resource metrics pipeline] in the [.noloc]`Kubernetes` documentation. This topic explains how to deploy the [.noloc]`Kubernetes` Metrics Server on your Amazon EKS cluster.
+The Kubernetes Metrics Server is an aggregator of resource usage data in your cluster, and it isn't deployed by default in Amazon EKS clusters. For more information, see https://github.com/kubernetes-sigs/metrics-server[Kubernetes Metrics Server] on GitHub. The Metrics Server is commonly used by other Kubernetes add ons, such as the <<horizontal-pod-autoscaler,Scale pod deployments with Horizontal Pod Autoscaler>> or the <<eks-managing,Kubernetes Dashboard>>. For more information, see https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/[Resource metrics pipeline] in the Kubernetes documentation. This topic explains how to deploy the Kubernetes Metrics Server on your Amazon EKS cluster.
 
 [IMPORTANT]
 ====
@@ -53,7 +53,7 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 ----
 +
 If you are using Fargate, you will need to change this file. In the default configuration, the metrics server uses port 10250. This port is reserved on Fargate. Replace references to port 10250 in components.yaml with another port, such as 10251.  
-. Verify that the `metrics-server` deployment is running the desired number of [.noloc]`Pods` with the following command.
+. Verify that the `metrics-server` deployment is running the desired number of Pods with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

@@ -11,11 +11,11 @@ include::../attributes.txt[]
 Learn how to manage operational software add-ons on Amazon EKS clusters with Amazon EKS add-ons for observability, networking, storage, and security from {aws} and third-party vendors.
 --
 
-An add-on is software that provides supporting operational capabilities to [.noloc]`Kubernetes` applications, but is not specific to the application. This includes software like observability agents or [.noloc]`Kubernetes` drivers that allow the cluster to interact with underlying {aws} resources for networking, compute, and storage. Add-on software is typically built and maintained by the [.noloc]`Kubernetes` community, cloud providers like {aws}, or third-party vendors. Amazon EKS automatically installs self-managed add-ons such as the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, `kube-proxy`, and [.noloc]`CoreDNS` for every cluster. Note that the VPC CNI add-on isn't compatible with Amazon EKS Hybrid Nodes and doesn't deploy to hybrid nodes. You can change the default configuration of the add-ons and update them when desired.
+An add-on is software that provides supporting operational capabilities to Kubernetes applications, but is not specific to the application. This includes software like observability agents or Kubernetes drivers that allow the cluster to interact with underlying {aws} resources for networking, compute, and storage. Add-on software is typically built and maintained by the Kubernetes community, cloud providers like {aws}, or third-party vendors. Amazon EKS automatically installs self-managed add-ons such as the Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS for every cluster. Note that the VPC CNI add-on isn't compatible with Amazon EKS Hybrid Nodes and doesn't deploy to hybrid nodes. You can change the default configuration of the add-ons and update them when desired.
 
 Amazon EKS add-ons provide installation and management of a curated set of add-ons for Amazon EKS clusters. All Amazon EKS add-ons include the latest security patches, bug fixes, and are validated by {aws} to work with Amazon EKS. Amazon EKS add-ons allow you to consistently ensure that your Amazon EKS clusters are secure and stable and reduce the amount of work that you need to do in order to install, configure, and update add-ons. If a self-managed add-on, such as `kube-proxy` is already running on your cluster and is available as an Amazon EKS add-on, then you can install the `kube-proxy` Amazon EKS add-on to start benefiting from the capabilities of Amazon EKS add-ons.
 
-You can update specific Amazon EKS managed configuration fields for Amazon EKS add-ons through the Amazon EKS API. You can also modify configuration fields not managed by Amazon EKS directly within the [.noloc]`Kubernetes` cluster once the add-on starts. This includes defining specific configuration fields for an add-on where applicable. These changes are not overridden by Amazon EKS once they are made. This is made possible using the [.noloc]`Kubernetes` server-side apply feature. For more information, see <<kubernetes-field-management>>.
+You can update specific Amazon EKS managed configuration fields for Amazon EKS add-ons through the Amazon EKS API. You can also modify configuration fields not managed by Amazon EKS directly within the Kubernetes cluster once the add-on starts. This includes defining specific configuration fields for an add-on where applicable. These changes are not overridden by Amazon EKS once they are made. This is made possible using the Kubernetes server-side apply feature. For more information, see <<kubernetes-field-management>>.
 
 You can use Amazon EKS add-ons with any Amazon EKS node type. For more information, see <<eks-compute>>.
 
@@ -31,8 +31,8 @@ Consider the following when you use Amazon EKS add-ons:
 * To configure add-ons for the cluster your link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] must have IAM permissions to work with add-ons. For more information, see the actions with `Addon` in their name in link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"].
 * Amazon EKS add-ons run on the nodes that you provision or configure for your cluster. Node types include Amazon EC2 instances, Fargate, and hybrid nodes.
 * You can modify fields that aren't managed by Amazon EKS to customize the installation of an Amazon EKS add-on. For more information, see <<kubernetes-field-management>>.
-* If you create a cluster with the {aws-management-console}, the Amazon EKS `kube-proxy`, [.noloc]`Amazon VPC CNI plugin for Kubernetes`, and [.noloc]`CoreDNS` Amazon EKS add-ons are automatically added to your cluster. If you use `eksctl` to create your cluster with a `config` file, `eksctl` can also create the cluster with Amazon EKS add-ons. If you create your cluster using `eksctl` without a `config` file or with any other tool, the self-managed `kube-proxy`, [.noloc]`Amazon VPC CNI plugin for Kubernetes`, and [.noloc]`CoreDNS` add-ons are installed, rather than the Amazon EKS add-ons. You can either manage them yourself or add the Amazon EKS add-ons manually after cluster creation. Regardless of the method that you use to create your cluster, the VPC CNI add-on doesn't install on hybrid nodes.
-* The `eks:addon-cluster-admin` `ClusterRoleBinding` binds the `cluster-admin` `ClusterRole` to the `eks:addon-manager` [.noloc]`Kubernetes` identity. The role has the necessary permissions for the `eks:addon-manager` identity to create [.noloc]`Kubernetes` namespaces and install add-ons into namespaces. If the `eks:addon-cluster-admin` `ClusterRoleBinding` is removed, the Amazon EKS cluster will continue to function, however Amazon EKS is no longer able to manage any add-ons. All clusters starting with the following platform versions use the new `ClusterRoleBinding`.
+* If you create a cluster with the {aws-management-console}, the Amazon EKS `kube-proxy`, Amazon VPC CNI plugin for Kubernetes, and CoreDNS Amazon EKS add-ons are automatically added to your cluster. If you use `eksctl` to create your cluster with a `config` file, `eksctl` can also create the cluster with Amazon EKS add-ons. If you create your cluster using `eksctl` without a `config` file or with any other tool, the self-managed `kube-proxy`, Amazon VPC CNI plugin for Kubernetes, and CoreDNS add-ons are installed, rather than the Amazon EKS add-ons. You can either manage them yourself or add the Amazon EKS add-ons manually after cluster creation. Regardless of the method that you use to create your cluster, the VPC CNI add-on doesn't install on hybrid nodes.
+* The `eks:addon-cluster-admin` `ClusterRoleBinding` binds the `cluster-admin` `ClusterRole` to the `eks:addon-manager` Kubernetes identity. The role has the necessary permissions for the `eks:addon-manager` identity to create Kubernetes namespaces and install add-ons into namespaces. If the `eks:addon-cluster-admin` `ClusterRoleBinding` is removed, the Amazon EKS cluster will continue to function, however Amazon EKS is no longer able to manage any add-ons. All clusters starting with the following platform versions use the new `ClusterRoleBinding`.
 * A subset of EKS add-ons from {aws} have been validated for compatibility with Amazon EKS Hybrid Nodes. For more information, see the compatibility table on <<workloads-add-ons-available-eks>>.
 
 === Required platform version
@@ -105,6 +105,7 @@ If you are planning to enable EKS Auto Mode on an existing cluster, you may need
 ** For more information, see <<workloads-add-ons-available-vendors>>.
 * *Community Add-ons*: These add-ons are scanned by {aws} but supported by the open source community.
 ** Use a community add-on to reduce the complexity of installing common open source software, such as Kubernetes Metrics Server. 
+** Community add-ons are built by {aws}. {aws} only validates community add-ons for version compatibility. 
 ** For more information, see <<community-addons>>.
 
 The following table details the scope of support for each add-on type: 
@@ -122,7 +123,7 @@ The following table details the scope of support for each add-on type:
 |Validated by {aws}
 |Yes
 |No
-|Yes
+|Yes*
 |Development
 |Validated by {aws} Partner
 |No
@@ -169,6 +170,8 @@ The following table details the scope of support for each add-on type:
 |Yes
 |No
 |===
+
+`*`: Validation for community add-ons only includes Kubernetes version compatibility. For example, if you install a community add-on on a cluster, {aws} checks if it is compatible with the Kubernetes version of your cluster. 
 
 {aws} Marketplace add-ons can download additional software dependencies from external sources outside of {aws}. These external dependencies are not scanned or validated by {aws}. Consider your security requirements when deploying {aws} Marketplace add-ons that fetch external dependencies.
 

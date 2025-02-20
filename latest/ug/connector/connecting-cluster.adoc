@@ -1,16 +1,16 @@
 [.topic]
 [#connecting-cluster]
-= Connect an external [.noloc]`Kubernetes` cluster to the Amazon EKS Management Console
+= Connect an external Kubernetes cluster to the Amazon EKS Management Console
 :info_titleabbrev: Connect a cluster
 
 include::../attributes.txt[]
 
 [abstract]
 --
-Learn to connect an external [.noloc]`Kubernetes` cluster to an Amazon EKS Management Console and install the eks-connector agent via Helm or YAML manifests to enable visibility and management of the external cluster.
+Learn to connect an external Kubernetes cluster to an Amazon EKS Management Console and install the eks-connector agent via Helm or YAML manifests to enable visibility and management of the external cluster.
 --
 
-You can connect an external [.noloc]`Kubernetes` cluster to Amazon EKS by using multiple methods in the following process. This process involves two steps: Registering the cluster with Amazon EKS and installing the `eks-connector` agent in the cluster.
+You can connect an external Kubernetes cluster to Amazon EKS by using multiple methods in the following process. This process involves two steps: Registering the cluster with Amazon EKS and installing the `eks-connector` agent in the cluster.
 
 [IMPORTANT]
 ====
@@ -86,7 +86,7 @@ You use the `aws-region`, `activationId`, and `activationCode` values in the nex
 . On the *Configure cluster* section, fill in the following fields:
 +
 *** *Name* – A unique name for your cluster.
-*** *Provider* – Choose to display the dropdown list of [.noloc]`Kubernetes` cluster providers. If you don't know the specific provider, select *Other*.
+*** *Provider* – Choose to display the dropdown list of Kubernetes cluster providers. If you don't know the specific provider, select *Other*.
 *** *EKS Connector role* – Select the role to use for connecting the cluster.  
 . Select *Register cluster*.
 . The Cluster overview page displays. If you want to use the Helm chart, copy the `helm install` command and continue to the next step. If you want to use the YAML manifest, choose *Download YAML file* to download the manifest file to your local drive.  
@@ -96,9 +96,9 @@ You use the `aws-region`, `activationId`, and `activationCode` values in the nex
 This is your only opportunity to copy the `helm install` command or download this file. Don't navigate away from this page, as the link will not be accessible and you must deregister the cluster and start the steps from the beginning.
 ====
 +
-The command or manifest file can be used only once for the registered cluster. If you delete resources from the [.noloc]`Kubernetes` cluster, you must re-register the cluster and obtain a new manifest file.
+The command or manifest file can be used only once for the registered cluster. If you delete resources from the Kubernetes cluster, you must re-register the cluster and obtain a new manifest file.
 
-Continue to the next step to apply the manifest file to your [.noloc]`Kubernetes` cluster.
+Continue to the next step to apply the manifest file to your Kubernetes cluster.
 
 === `eksctl` [[eksctl_register_cluster_connect]]
 . `eksctl` version `0.68` or later must be installed. To install or upgrade it, see <<getting-started-eksctl>>.
@@ -164,7 +164,7 @@ If you used the {aws-management-console} in the previous step, use the command t
 . Check the healthiness of the installed `eks-connector` deployment and wait for the status of the registered cluster in Amazon EKS to be `ACTIVE`.
 
 === yaml [[yaml_agent_cluster_connect]]
-Complete the connection by applying the Amazon EKS Connector manifest file to your [.noloc]`Kubernetes` cluster. To do this, you must use the methods described previously. If the manifest isn't applied within three days, the Amazon EKS Connector registration expires. If the cluster connection expires, the cluster must be deregistered before connecting the cluster again.
+Complete the connection by applying the Amazon EKS Connector manifest file to your Kubernetes cluster. To do this, you must use the methods described previously. If the manifest isn't applied within three days, the Amazon EKS Connector registration expires. If the cluster connection expires, the cluster must be deregistered before connecting the cluster again.
 
 . Download the Amazon EKS Connector YAML file.
 +
@@ -191,7 +191,7 @@ Ensure that your activation code is in the base64 format.
 ----
 kubectl apply -f eks-connector.yaml
 ----
-. After the Amazon EKS Connector manifest and role binding YAML files are applied to your [.noloc]`Kubernetes` cluster, confirm that the cluster is now connected.
+. After the Amazon EKS Connector manifest and role binding YAML files are applied to your Kubernetes cluster, confirm that the cluster is now connected.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -209,4 +209,4 @@ The output should include `status=ACTIVE`.
 
 If you have any issues with these steps, see <<troubleshooting-connector>>.
 
-To grant additional link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] access to the Amazon EKS console to view [.noloc]`Kubernetes` resources in a connected cluster, see <<connector-grant-access>>.
+To grant additional link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] access to the Amazon EKS console to view Kubernetes resources in a connected cluster, see <<connector-grant-access>>.

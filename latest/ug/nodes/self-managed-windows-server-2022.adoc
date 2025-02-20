@@ -1,21 +1,21 @@
 [.topic]
 [#self-managed-windows-server-2022]
-= Create self-managed [.noloc]`Windows` Server 2022 nodes with `eksctl`
+= Create self-managed Windows Server 2022 nodes with `eksctl`
 :info_titleabbrev: Windows Server 2022
 
 include::../attributes.txt[]
 
 [abstract]
 --
-This topic includes a YAML file as reference for creating self-managed [.noloc]`Windows` Server 2022 nodes.
+This topic includes a YAML file as reference for creating self-managed Windows Server 2022 nodes.
 --
 
-You can use the following `test-windows-2022.yaml` as reference for creating self-managed [.noloc]`Windows` Server 2022 nodes. Replace every [.replaceable]`example value` with your own values.
+You can use the following `test-windows-2022.yaml` as reference for creating self-managed Windows Server 2022 nodes. Replace every [.replaceable]`example value` with your own values.
 
 [NOTE]
 ====
 
-You must use `eksctl` version https://github.com/weaveworks/eksctl/releases/tag/v0.116.0[0.116.0] or later to run self-managed [.noloc]`Windows` Server 2022 nodes.
+You must use `eksctl` version https://github.com/weaveworks/eksctl/releases/tag/v0.116.0[0.116.0] or later to run self-managed Windows Server 2022 nodes.
 
 ====
 

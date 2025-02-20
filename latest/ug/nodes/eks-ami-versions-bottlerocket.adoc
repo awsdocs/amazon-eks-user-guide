@@ -1,15 +1,15 @@
 [.topic]
 [#eks-ami-versions-bottlerocket]
-= Retrieve [.noloc]`Bottlerocket` AMI version information
+= Retrieve Bottlerocket AMI version information
 :info_titleabbrev: Get version information
 
 include::../attributes.txt[]
 
 [abstract]
 --
-This topic gives resources for Amazon EKS optimized [.noloc]`Bottlerocket` AMIs version information.
+This topic gives resources for Amazon EKS optimized Bottlerocket AMIs version information.
 --
 
-Each [.noloc]`Bottlerocket` AMI release includes various versions of https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet], the [.noloc]`Bottlerocket` kernel, and https://containerd.io/[containerd]. Accelerated AMI variants also include various versions of the [.noloc]`NVIDIA` driver. You can find this version information in the https://bottlerocket.dev/en/os/[OS] topic of the _Bottlerocket Documentation_. From this page, navigate to the applicable _Version Information_ sub-topic.
+Each Bottlerocket AMI release includes various versions of https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet], the Bottlerocket kernel, and https://containerd.io/[containerd]. Accelerated AMI variants also include various versions of the NVIDIA driver. You can find this version information in the https://bottlerocket.dev/en/os/[OS] topic of the _Bottlerocket Documentation_. From this page, navigate to the applicable _Version Information_ sub-topic.
 
-The _Bottlerocket Documentation_ can sometimes lag behind the versions that are available on GitHub. You can find a list of changes for the latest versions in the https://github.com/bottlerocket-os/bottlerocket/releases[releases] on [.noloc]`GitHub`.
+The _Bottlerocket Documentation_ can sometimes lag behind the versions that are available on GitHub. You can find a list of changes for the latest versions in the https://github.com/bottlerocket-os/bottlerocket/releases[releases] on GitHub.

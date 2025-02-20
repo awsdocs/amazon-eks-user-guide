@@ -19,7 +19,7 @@ You can use _tags_ to help you manage your Amazon EKS resources. This topic prov
 [NOTE]
 ====
 
-Tags are a type of metadata that's separate from [.noloc]`Kubernetes` labels and annotations. For more information about these other metadata types, see the following sections in the [.noloc]`Kubernetes` documentation:
+Tags are a type of metadata that's separate from Kubernetes labels and annotations. For more information about these other metadata types, see the following sections in the Kubernetes documentation:
 
 
 
@@ -62,7 +62,7 @@ You can tag these resources using the following:
 
 When you use some resource-creating actions, you can also specify tags for the resource at the same time that you create it. If tags can't be applied while the resource is being created, the resource fails to be created. This mechanism ensures that resources that you intend to tag are either created with the tags that you specify or not created at all. If you tag resources when you create them, you don't need to run custom tagging scripts after you create the resource.
 
-Tags don't propagate to other resources that are associated with the resource that you create. For example, Fargate profile tags don't propagate to other resources that are associated with the Fargate profile, such as the [.noloc]`Pods` that are scheduled with it.
+Tags don't propagate to other resources that are associated with the resource that you create. For example, Fargate profile tags don't propagate to other resources that are associated with the Fargate profile, such as the Pods that are scheduled with it.
 
 [#tag-restrictions]
 == Tag restrictions
@@ -83,7 +83,7 @@ The following restrictions apply to tags:
 
 When you apply tags to Amazon EKS clusters, you can use them for cost allocation in your *Cost & Usage Reports*. The metering data in your *Cost & Usage Reports* shows usage across all of your Amazon EKS clusters. For more information, see link:awsaccountbilling/latest/aboutv2/billing-reports-costusage.html[{aws} cost and usage report,type="documentation"] in the _{aws} Billing User Guide_.
 
-The {aws} generated cost allocation tag, specifically `aws:eks:cluster-name`, lets you break down Amazon EC2 instance costs by individual Amazon EKS cluster in *Cost Explorer*. However, this tag doesn't capture the control plane expenses. The tag is automatically added to Amazon EC2 instances that participate in an Amazon EKS cluster. This behavior happens regardless of whether the instances are provisioned using Amazon EKS managed node groups, [.noloc]`Karpenter`, or directly with Amazon EC2. This specific tag doesn't count towards the 50 tags limit. To use the tag, the account owner must activate it in the {aws} Billing console or by using the API. When an {aws} Organizations management account owner activates the tag, it's also activated for all organization member accounts.
+The {aws} generated cost allocation tag, specifically `aws:eks:cluster-name`, lets you break down Amazon EC2 instance costs by individual Amazon EKS cluster in *Cost Explorer*. However, this tag doesn't capture the control plane expenses. The tag is automatically added to Amazon EC2 instances that participate in an Amazon EKS cluster. This behavior happens regardless of whether the instances are provisioned using Amazon EKS managed node groups, Karpenter, or directly with Amazon EC2. This specific tag doesn't count towards the 50 tags limit. To use the tag, the account owner must activate it in the {aws} Billing console or by using the API. When an {aws} Organizations management account owner activates the tag, it's also activated for all organization member accounts.
 
 You can also organize your billing information based on resources that have the same tag key values. For example, you can tag several resources with a specific application name, and then organize your billing information. That way, you can see the total cost of that application across several services. For more information about setting up a cost allocation report with tags, see link:awsaccountbilling/latest/aboutv2/configurecostallocreport.html[The Monthly Cost Allocation Report,type="documentation"] in the _{aws} Billing User Guide_.
 

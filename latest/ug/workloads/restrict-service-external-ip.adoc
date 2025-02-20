@@ -5,12 +5,12 @@
 
 include::../attributes.txt[]
 
-[.noloc]`Kubernetes` services can be reached from inside of a cluster through:
+Kubernetes services can be reached from inside of a cluster through:
 
-* A cluster IP address that is assigned automatically by [.noloc]`Kubernetes`
-* Any IP address that you specify for the `externalIPs` property in a service spec. External IP addresses are not managed by [.noloc]`Kubernetes` and are the responsibility of the cluster administrator. External IP addresses specified with `externalIPs` are different than the external IP address assigned to a service of type `LoadBalancer` by a cloud provider.
+* A cluster IP address that is assigned automatically by Kubernetes
+* Any IP address that you specify for the `externalIPs` property in a service spec. External IP addresses are not managed by Kubernetes and are the responsibility of the cluster administrator. External IP addresses specified with `externalIPs` are different than the external IP address assigned to a service of type `LoadBalancer` by a cloud provider.
 
-To learn more about [.noloc]`Kubernetes` services, see https://kubernetes.io/docs/concepts/services-networking/service/[Service] in the [.noloc]`Kubernetes` documentation. You can restrict the IP addresses that can be specified for `externalIPs` in a service spec.
+To learn more about Kubernetes services, see https://kubernetes.io/docs/concepts/services-networking/service/[Service] in the Kubernetes documentation. You can restrict the IP addresses that can be specified for `externalIPs` in a service spec.
 
 . Deploy `cert-manager` to manage webhook certificates. For more information, see the https://cert-manager.io/docs/[cert-manager] documentation.
 +
@@ -18,7 +18,7 @@ To learn more about [.noloc]`Kubernetes` services, see https://kubernetes.io/doc
 ----
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
 ----
-. Verify that the `cert-manager` [.noloc]`Pods` are running.
+. Verify that the `cert-manager` Pods are running.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -55,7 +55,7 @@ my-namespace                   my-service                              ClusterIP
 ----
 +
 If any of the values are IP addresses that are not within the block you want to restrict access to, you'll need to change the addresses to be within the block, and redeploy the services. For example, the `my-service` service in the previous output has an external IP address assigned to it that isn't within the CIDR block example in step 5. 
-. Download the external IP webhook manifest. You can also view the https://github.com/kubernetes-sigs/externalip-webhook[source code for the webhook] on [.noloc]`GitHub`.
+. Download the external IP webhook manifest. You can also view the https://github.com/kubernetes-sigs/externalip-webhook[source code for the webhook] on GitHub.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

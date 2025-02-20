@@ -2,12 +2,12 @@
 include::../attributes.txt[]
 
 [#lbc-helm]
-= Install [.noloc]`{aws} Load Balancer Controller` with [.noloc]`Helm`
+= Install {aws} Load Balancer Controller with Helm
 :info_titleabbrev: Install with Helm
 
 [abstract]
 --
-Learn how to install the [.noloc]`{aws} Load Balancer Controller` on Amazon EKS using Helm to manage K8s load balancing with {aws} Cloud. Discover the prerequisites and steps for creating an IAM role, installing with Helm, and verifying the controller deployment.
+Learn how to install the {aws} Load Balancer Controller on Amazon EKS using Helm to manage K8s load balancing with {aws} Cloud. Discover the prerequisites and steps for creating an IAM role, installing with Helm, and verifying the controller deployment.
 --
 
 [TIP]
@@ -17,7 +17,7 @@ With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-o
 For more information, see <<automode>>.
 ====
 
-This topic describes how to install the [.noloc]`{aws} Load Balancer Controller` using Helm, a package manager for [.noloc]`Kubernetes`, and `eksctl`. The controller is installed with default options. For more information about the controller, including details on configuring it with annotations, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller/[{aws} Load Balancer Controller Documentation] on [.noloc]`GitHub`.  
+This topic describes how to install the {aws} Load Balancer Controller using Helm, a package manager for Kubernetes, and `eksctl`. The controller is installed with default options. For more information about the controller, including details on configuring it with annotations, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller/[{aws} Load Balancer Controller Documentation] on GitHub.  
 
 In the following steps, replace the [.replaceable]`example values` with your own values.
 
@@ -29,8 +29,8 @@ Before starting this tutorial, you must install and configure the following tool
 
 
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
-* An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
-* Make sure that your [.noloc]`Amazon VPC CNI plugin for Kubernetes`, `kube-proxy`, and [.noloc]`CoreDNS` add-ons are at the minimum versions listed in <<boundserviceaccounttoken-validated-add-on-versions,Service account tokens>>.
+* An existing {aws} Identity and Access Management (IAM) OpenID Connect (OIDC) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* Make sure that your Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS add-ons are at the minimum versions listed in <<boundserviceaccounttoken-validated-add-on-versions,Service account tokens>>.
 * Familiarity with {aws} Elastic Load Balancing. For more information, see the link:elasticloadbalancing/latest/userguide/[Elastic Load Balancing User Guide,type="documentation"].
 * Familiarity with Kubernetes https://kubernetes.io/docs/concepts/services-networking/service/[service] and https://kubernetes.io/docs/concepts/services-networking/ingress/[ingress] resources.
 
@@ -44,18 +44,18 @@ Before starting this tutorial, you must install and configure the following tool
 [NOTE]
 ====
 
-You only need to create an IAM Role for the [.noloc]`{aws} Load Balancer Controller` once per {aws} account. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-helm-install,Step 2: Install {aws} Load Balancer Controller>>.
+You only need to create an IAM Role for the {aws} Load Balancer Controller once per {aws} account. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-helm-install,Step 2: Install {aws} Load Balancer Controller>>.
 
 ====
 
 [NOTE]
 ====
 
-Below example is referring to the [.noloc]`{aws} Load Balancer Controller` *v2.11.0* release version. For more information about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on [.noloc]`GitHub`.
+Below example is referring to the {aws} Load Balancer Controller *v2.11.0* release version. For more information about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on GitHub.
 
 ====
 
-. Download an IAM policy for the [.noloc]`{aws} Load Balancer Controller` that allows it to make calls to {aws} APIs on your behalf.  
+. Download an IAM policy for the {aws} Load Balancer Controller that allows it to make calls to {aws} APIs on your behalf.  
 +
 ====
 [role="tablist"]
@@ -105,7 +105,7 @@ eksctl create iamserviceaccount \
 
 
 [#lbc-helm-install]
-== Step 2: Install [.noloc]`{aws} Load Balancer Controller`
+== Step 2: Install {aws} Load Balancer Controller
 
 . Add the `eks-charts` Helm chart repository. {aws} maintains https://github.com/aws/eks-charts[this repository] on GitHub.
 +
@@ -119,14 +119,14 @@ helm repo add eks https://aws.github.io/eks-charts
 ----
 helm repo update eks
 ----
-. Install the [.noloc]`{aws} Load Balancer Controller`.
+. Install the {aws} Load Balancer Controller.
 +
 If you're deploying the controller to Amazon EC2 nodes that have https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[restricted access to the Amazon EC2 instance metadata service (IMDS)], or if you're deploying to Fargate or Amazon EKS Hybrid Nodes, then add the following flags to the `helm` command that follows:
 +
 *** `--set region=[.replaceable]``region-code```
 *** `--set vpcId=[.replaceable]``vpc-xxxxxxxx```
 +
-Replace [.replaceable]`my-cluster` with the name of your cluster. In the following command, `aws-load-balancer-controller` is the [.noloc]`Kubernetes` service account that you created in a previous step.
+Replace [.replaceable]`my-cluster` with the name of your cluster. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step.
 +
 For more information about configuring the helm chart, see https://github.com/aws/eks-charts/blob/master/stable/aws-load-balancer-controller/values.yaml[values.yaml] on GitHub.
 +
@@ -145,7 +145,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 The deployed chart doesn't receive security updates automatically. You need to manually upgrade to a newer chart when it becomes available. When upgrading, change [.replaceable]`install` to `upgrade` in the previous command.
 ====
 
-The `helm install` command automatically installs the custom resource definitions ([.noloc]`CRDs`) for the controller. The `helm upgrade` command does not. If you use `helm upgrade,` you must manually install the [.noloc]`CRDs`. Run the following command to install the [.noloc]`CRDs`:
+The `helm install` command automatically installs the custom resource definitions (CRDs) for the controller. The `helm upgrade` command does not. If you use `helm upgrade,` you must manually install the CRDs. Run the following command to install the CRDs:
 
 [source,shell,subs="verbatim,attributes"]
 ----
@@ -171,7 +171,7 @@ NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
 aws-load-balancer-controller   2/2     2            2           84s
 ----
 +
-You receive the previous output if you deployed using Helm. If you deployed using the [.noloc]`Kubernetes` manifest, you only have one replica.
+You receive the previous output if you deployed using Helm. If you deployed using the Kubernetes manifest, you only have one replica.
 . Before using the controller to provision {aws} resources, your cluster must meet specific requirements. For more information, see <<alb-ingress>> and <<network-load-balancing>>.
 
 // GDC Must Fix

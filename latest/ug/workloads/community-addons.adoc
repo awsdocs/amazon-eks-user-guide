@@ -10,7 +10,11 @@ For example, you can use the {aws} API, CLI, or Management Console to install co
 
 You manage community add-ons just like existing Amazon EKS Add-ons. Community add-ons are different from existing add-ons in that they have a unique scope of support. 
 
-Community add-ons are built and validated by {aws}. Importantly, {aws} does not provide full support for community add-ons. {aws} supports only lifecycle operations done using {aws} APIs, such as installing add-ons or deleting add-ons. 
+NOTE: Using community add-ons is at your discretion. As part of the xref:security[shared responsibility model] between you and {aws}, you are expected to understand what you are installing into your workspace for these third party plugins. You are also responsible for the community add-ons meeting your security needs.
+
+Community add-ons are built by {aws}. {aws} only validates community add-ons for version compatibility. For example, if you install a community add-on on a cluster, {aws} checks if it is compatible with the Kubernetes version of your cluster. 
+
+Importantly, {aws} does not provide full support for community add-ons. {aws} supports only lifecycle operations done using {aws} APIs, such as installing add-ons or deleting add-ons. 
 
 If you require support for a community add-on, utilize the existing project resources. For example, you may create a GitHub issue on the repo for the project.
 
@@ -51,7 +55,7 @@ You install or update community add-ons in the same way as other Amazon EKS Add-
 
 The following community add-ons are availalbe from Amazon EKS. 
 
-=== [.noloc]`Kubernetes Metrics Server`
+=== Kubernetes Metrics Server
 
 The Kubernetes Metrics Server is a scalable and efficient source of container resource metrics for Kubernetes built-in autoscaling pipelines. It collects resource metrics from Kubelets and exposes them in Kubernetes apiserver through Metrics API for use by Horizontal Pod Autoscaler and Vertical Pod Autoscaler.
 

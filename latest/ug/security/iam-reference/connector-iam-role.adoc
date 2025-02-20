@@ -5,7 +5,7 @@
 
 include::../../attributes.txt[]
 
-You can connect [.noloc]`Kubernetes` clusters to view them in your {aws-management-console}. To connect to a [.noloc]`Kubernetes` cluster, create an IAM role.
+You can connect Kubernetes clusters to view them in your {aws-management-console}. To connect to a Kubernetes cluster, create an IAM role.
 
 [#check-connector-role]
 == Check for an existing EKS connector role

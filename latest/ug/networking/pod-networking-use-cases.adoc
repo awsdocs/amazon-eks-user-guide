@@ -13,10 +13,10 @@ include::cni-network-policy.adoc[leveloffset=+1]
 
 [abstract]
 --
-Discover how [.noloc]`Amazon VPC CNI plugin for Kubernetes` provides pod networking capabilities and settings for different Amazon EKS node types and use cases, including security groups, [.noloc]`Kubernetes` network policies, custom networking, IPv4, and IPv6 support.
+Discover how Amazon VPC CNI plugin for Kubernetes provides pod networking capabilities and settings for different Amazon EKS node types and use cases, including security groups, Kubernetes network policies, custom networking, IPv4, and IPv6 support.
 --
 
-The [.noloc]`Amazon VPC CNI plugin for Kubernetes` provides networking for [.noloc]`Pods`. Use the following table to learn more about the available networking features.
+The Amazon VPC CNI plugin for Kubernetes provides networking for Pods. Use the following table to learn more about the available networking features.
 
 [cols="1,1", options="header"]
 |===
@@ -24,13 +24,13 @@ The [.noloc]`Amazon VPC CNI plugin for Kubernetes` provides networking for [.nol
 |Learn more
 
 
-|Configure your cluster to assign IPv6 addresses to clusters, [.noloc]`Pods`, and services
+|Configure your cluster to assign IPv6 addresses to clusters, Pods, and services
 |<<cni-ipv6>>
 
-|Use IPv4 Source Network Address Translation for [.noloc]`Pods`
+|Use IPv4 Source Network Address Translation for Pods
 |<<external-snat>>
 
-|Restrict network traffic to and from your [.noloc]`Pods`
+|Restrict network traffic to and from your Pods
 |<<cni-network-policy-configure>>
 
 |Customize the secondary network interface in nodes
@@ -39,9 +39,9 @@ The [.noloc]`Amazon VPC CNI plugin for Kubernetes` provides networking for [.nol
 |Increase IP addresses for your node
 |<<cni-increase-ip-addresses>>
 
-|Use security groups for [.noloc]`Pod` network traffic
+|Use security groups for Pod network traffic
 |<<security-groups-for-pods>>
 
-|Use multiple network interfaces for [.noloc]`Pods`
+|Use multiple network interfaces for Pods
 |<<pod-multiple-network-interfaces>>
 |===

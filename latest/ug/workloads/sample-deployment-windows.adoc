@@ -9,16 +9,16 @@ In this topic, you deploy a sample application to your cluster on Windows nodes.
 
 == Prerequisites
 
-* An existing [.noloc]`Kubernetes` cluster with at least one node. If you don't have an existing Amazon EKS cluster, you can deploy one using one of the guides in <<getting-started>>. You must have <<windows-support,Windows support>> enabled for your cluster and at least one Amazon EC2 [.noloc]`Windows` node.
+* An existing Kubernetes cluster with at least one node. If you don't have an existing Amazon EKS cluster, you can deploy one using one of the guides in <<getting-started>>. You must have <<windows-support,Windows support>> enabled for your cluster and at least one Amazon EC2 Windows node.
 * `Kubectl` installed on your computer. For more information, see <<install-kubectl>>.
 * `Kubectl` configured to communicate with your cluster. For more information, see <<create-kubeconfig>>.
 * If you plan to deploy your sample workload to Fargate, then you must have an existing <<fargate-profile,Fargate profile>> that includes the same namespace created in this tutorial, which is `eks-sample-app`, unless you change the name. If you created a cluster with one of the gudes in <<getting-started>>, then you'll have to create a new profile, or add the namespace to your existing profile, because the profile created in the getting started guides doesn't specify the namespace used in this tutorial. Your VPC must also have at least one private subnet.
 
-Though many variables are changeable in the following steps, we recommend only changing variable values where specified. Once you have a better understanding of [.noloc]`Kubernetes` [.noloc]`Pods`, deployments, and services, you can experiment with changing other values.
+Though many variables are changeable in the following steps, we recommend only changing variable values where specified. Once you have a better understanding of Kubernetes Pods, deployments, and services, you can experiment with changing other values.
 
 == Create a namespace
 
-A namespace allows you to group resources in [.noloc]`Kubernetes`. For more information, see https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/[Namespaces] in the [.noloc]`Kubernetes` documentation. If you plan to deploy your sample application to <<fargate,Simplify compute management with {aws} Fargate>>, make sure that the value for `namespace` in your <<fargate-profile,Define which Pods use {aws} Fargate when launched>> is `eks-sample-app`.
+A namespace allows you to group resources in Kubernetes. For more information, see https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/[Namespaces] in the Kubernetes documentation. If you plan to deploy your sample application to <<fargate,Simplify compute management with {aws} Fargate>>, make sure that the value for `namespace` in your <<fargate-profile,Define which Pods use {aws} Fargate when launched>> is `eks-sample-app`.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -26,13 +26,13 @@ kubectl create namespace eks-sample-app
 ----
 
 
-== Create a [.noloc]`Kubernetes` deployment
+== Create a Kubernetes deployment
 
-This sample deployment pulls a container image from a public repository and deploys three replicas (individual [.noloc]`Pods`) of it to your cluster. To learn more, see https://kubernetes.io/docs/concepts/workloads/controllers/deployment/[Deployments] in the [.noloc]`Kubernetes` documentation. 
+This sample deployment pulls a container image from a public repository and deploys three replicas (individual Pods) of it to your cluster. To learn more, see https://kubernetes.io/docs/concepts/workloads/controllers/deployment/[Deployments] in the Kubernetes documentation. 
 
 . Save the following contents to a file named `eks-sample-deployment.yaml`. The containers in the sample application don't use network storage, but you might have applications that need to. For more information, see <<storage>>.
 +
-** The `kubernetes.io/os: windows` `nodeSelector` means that if you had [.noloc]`Windows` and [.noloc]`Linux` nodes (for example) in your cluster, the image would only be deployed to [.noloc]`Windows` nodes. For more information, see https://kubernetes.io/docs/reference/labels-annotations-taints/[Well-Known Labels, Annotations and Taints] in the [.noloc]`Kubernetes` documentation.
+** The `kubernetes.io/os: windows` `nodeSelector` means that if you had Windows and Linux nodes (for example) in your cluster, the image would only be deployed to Windows nodes. For more information, see https://kubernetes.io/docs/reference/labels-annotations-taints/[Well-Known Labels, Annotations and Taints] in the Kubernetes documentation.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -85,9 +85,9 @@ kubectl apply -f eks-sample-deployment.yaml
 
 == Create a service
 
-A service allows you to access all replicas through a single IP address or name. For more information, see https://kubernetes.io/docs/concepts/services-networking/service/[Service] in the [.noloc]`Kubernetes` documentation. Though not implemented in the sample application, if you have applications that need to interact with other {aws} services, we recommend that you create [.noloc]`Kubernetes` service accounts for your [.noloc]`Pods`, and associate them to {aws} IAM accounts. By specifying service accounts, your [.noloc]`Pods` have only the minimum permissions that you specify for them to interact with other services. For more information, see <<iam-roles-for-service-accounts>>.
+A service allows you to access all replicas through a single IP address or name. For more information, see https://kubernetes.io/docs/concepts/services-networking/service/[Service] in the Kubernetes documentation. Though not implemented in the sample application, if you have applications that need to interact with other {aws} services, we recommend that you create Kubernetes service accounts for your Pods, and associate them to {aws} IAM accounts. By specifying service accounts, your Pods have only the minimum permissions that you specify for them to interact with other services. For more information, see <<iam-roles-for-service-accounts>>.
 
-. Save the following contents to a file named `eks-sample-service.yaml`. [.noloc]`Kubernetes` assigns the service its own IP address that is accessible only from within the cluster. To access the service from outside of your cluster, deploy the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to load balance <<alb-ingress,application>> or <<network-load-balancing,network>> traffic to the service. 
+. Save the following contents to a file named `eks-sample-service.yaml`. Kubernetes assigns the service its own IP address that is accessible only from within the cluster. To access the service from outside of your cluster, deploy the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to load balance <<alb-ingress,application>> or <<network-load-balancing,network>> traffic to the service. 
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -142,9 +142,9 @@ NAME                                                      DESIRED   CURRENT   RE
 replicaset.apps/eks-sample-windows-deployment-776d8f8fd8    3         3         3       27m
 ----
 +
-In the output, you see the service and deployment that were specified in the sample manifests deployed in previous steps. You also see three [.noloc]`Pods`. This is because `3` `replicas` were specified in the sample manifest. For more information about [.noloc]`Pods`, see https://kubernetes.io/docs/concepts/workloads/pods/pod/[Pods] in the [.noloc]`Kubernetes` documentation. [.noloc]`Kubernetes` automatically creates the `replicaset` resource, even though it isn't specified in the sample manifests. For more information about `ReplicaSets`, see https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/[ReplicaSet] in the [.noloc]`Kubernetes` documentation.
+In the output, you see the service and deployment that were specified in the sample manifests deployed in previous steps. You also see three Pods. This is because `3` `replicas` were specified in the sample manifest. For more information about Pods, see https://kubernetes.io/docs/concepts/workloads/pods/pod/[Pods] in the Kubernetes documentation. Kubernetes automatically creates the `replicaset` resource, even though it isn't specified in the sample manifests. For more information about `ReplicaSets`, see https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/[ReplicaSet] in the Kubernetes documentation.
 +
-NOTE: [.noloc]`Kubernetes` maintains the number of replicas that are specified in the manifest. If this were a production deployment and you wanted [.noloc]`Kubernetes` to horizontally scale the number of replicas or vertically scale the compute resources for the [.noloc]`Pods`, use the <<horizontal-pod-autoscaler,Scale pod deployments with Horizontal Pod Autoscaler>> and the <<vertical-pod-autoscaler,Adjust pod resources with Vertical Pod Autoscaler>> to do so.
+NOTE: Kubernetes maintains the number of replicas that are specified in the manifest. If this were a production deployment and you wanted Kubernetes to horizontally scale the number of replicas or vertically scale the compute resources for the Pods, use the <<horizontal-pod-autoscaler,Scale pod deployments with Horizontal Pod Autoscaler>> and the <<vertical-pod-autoscaler,Adjust pod resources with Vertical Pod Autoscaler>> to do so.
 . View the details of the deployed service.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -172,8 +172,8 @@ Session Affinity:  None
 Events:            <none>
 ----
 +
-In the previous output, the value for `IP:` is a unique IP address that can be reached from any node or [.noloc]`Pod` within the cluster, but it can't be reached from outside of the cluster. The values for `Endpoints` are IP addresses assigned from within your VPC to the [.noloc]`Pods` that are part of the service.
-. View the details of one of the [.noloc]`Pods` listed in the output when you <<sample-app-view-namespace,viewed the namespace>> in a previous step. Replace [.replaceable]`776d8f8fd8-78w66` with the value returned for one of your [.noloc]`Pods`.
+In the previous output, the value for `IP:` is a unique IP address that can be reached from any node or Pod within the cluster, but it can't be reached from outside of the cluster. The values for `Endpoints` are IP addresses assigned from within your VPC to the Pods that are part of the service.
+. View the details of one of the Pods listed in the output when you <<sample-app-view-namespace,viewed the namespace>> in a previous step. Replace [.replaceable]`776d8f8fd8-78w66` with the value returned for one of your Pods.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -208,19 +208,19 @@ Events:
 [...]
 ----
 +
-In the previous output, the value for `IP:` is a unique IP that's assigned to the [.noloc]`Pod` from the CIDR block assigned to the subnet that the node is in. If you prefer to assign [.noloc]`Pods` IP addresses from different CIDR blocks, you can change the default behavior. For more information, see <<cni-custom-network>>. You can also see that the [.noloc]`Kubernetes` scheduler scheduled the [.noloc]`Pod` on the `Node` with the IP address [.replaceable]`192.168.45.132`.
+In the previous output, the value for `IP:` is a unique IP that's assigned to the Pod from the CIDR block assigned to the subnet that the node is in. If you prefer to assign Pods IP addresses from different CIDR blocks, you can change the default behavior. For more information, see <<cni-custom-network>>. You can also see that the Kubernetes scheduler scheduled the Pod on the `Node` with the IP address [.replaceable]`192.168.45.132`.
 +
-TIP: Rather than using the command line, you can view many details about [.noloc]`Pods`, services, deployments, and other [.noloc]`Kubernetes` resources in the {aws-management-console}. For more information, see <<view-kubernetes-resources>>.
+TIP: Rather than using the command line, you can view many details about Pods, services, deployments, and other Kubernetes resources in the {aws-management-console}. For more information, see <<view-kubernetes-resources>>.
 
 == Run a shell on a Pod 
 
-. Run a shell on the [.noloc]`Pod` that you described in the previous step, replacing [.replaceable]`65b7669776-m6qxz` with the ID of one of your [.noloc]`Pods`.
+. Run a shell on the Pod that you described in the previous step, replacing [.replaceable]`65b7669776-m6qxz` with the ID of one of your Pods.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl exec -it eks-sample-windows-deployment-65b7669776-m6qxz -n eks-sample-app -- powershell.exe
 ----
-. From the [.noloc]`Pod` shell, view the output from the web server that was installed with your deployment in a previous step. You only need to specify the service name. It is resolved to the service's IP address by [.noloc]`CoreDNS`, which is deployed with an Amazon EKS cluster, by default.
+. From the Pod shell, view the output from the web server that was installed with your deployment in a previous step. You only need to specify the service name. It is resolved to the service's IP address by CoreDNS, which is deployed with an Amazon EKS cluster, by default.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -236,7 +236,7 @@ StatusDescription : OK
 Content           : < h t m l > < b o d y > < b r / > < b r / > < m a r q u e e > < H 1 > H e l l o  
                       E K S ! ! ! < H 1 > < m a r q u e e > < / b o d y > < h t m l >
 ----
-. From the [.noloc]`Pod` shell, view the DNS server for the [.noloc]`Pod`.
+. From the Pod shell, view the DNS server for the Pod.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -254,8 +254,8 @@ IPv4Address          : 192.168.63.14
 DNSServer            : 10.100.0.10
 ----
 +
-In the previous output, `10.100.0.10` is automatically assigned as the DNS server for all [.noloc]`Pods` deployed to the cluster.
-. Disconnect from the [.noloc]`Pod` by typing `exit`.
+In the previous output, `10.100.0.10` is automatically assigned as the DNS server for all Pods deployed to the cluster.
+. Disconnect from the Pod by typing `exit`.
 . Once you're finished with the sample application, you can remove the sample namespace, service, and deployment with the following command.
 +
 [source,bash,subs="verbatim,attributes"]

@@ -8,10 +8,10 @@ include::../attributes.txt[]
 
 [abstract]
 --
-The Amazon EFS Container Storage Interface (CSI) driver provides a CSI interface that allows [.noloc]`Kubernetes` clusters running on {aws} to manage the lifecycle of Amazon EFS file systems.
+The Amazon EFS Container Storage Interface (CSI) driver provides a CSI interface that allows Kubernetes clusters running on {aws} to manage the lifecycle of Amazon EFS file systems.
 --
 
-link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation"] (Amazon EFS) provides serverless, fully elastic file storage so that you can share file data without provisioning or managing storage capacity and performance. The https://github.com/kubernetes-sigs/aws-efs-csi-driver[Amazon EFS Container Storage Interface (CSI) driver] provides a CSI interface that allows [.noloc]`Kubernetes` clusters running on {aws} to manage the lifecycle of Amazon EFS file systems. This topic shows you how to deploy the Amazon EFS CSI driver to your Amazon EKS cluster.
+link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation"] (Amazon EFS) provides serverless, fully elastic file storage so that you can share file data without provisioning or managing storage capacity and performance. The https://github.com/kubernetes-sigs/aws-efs-csi-driver[Amazon EFS Container Storage Interface (CSI) driver] provides a CSI interface that allows Kubernetes clusters running on {aws} to manage the lifecycle of Amazon EFS file systems. This topic shows you how to deploy the Amazon EFS CSI driver to your Amazon EKS cluster.
 
 [#efs-csi-considerations]
 == Considerations
@@ -29,14 +29,14 @@ link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation
 [#efs-csi-prereqs]
 == Prerequisites
 
-* An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
-* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
-* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
+* An existing {aws} Identity and Access Management (IAM) OpenID Connect (OIDC) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 
 [NOTE]
 ====
 
-A [.noloc]`Pod` running on Fargate automatically mounts an Amazon EFS file system, without needing manual driver installation steps.
+A Pod running on Fargate automatically mounts an Amazon EFS file system, without needing manual driver installation steps.
 
 ====
 
@@ -52,7 +52,7 @@ The Amazon EFS CSI driver requires IAM permissions to interact with your file sy
 [NOTE]
 ====
 
-The specific steps in this procedure are written for using the driver as an Amazon EKS add-on. For details on self-managed installations, see https://github.com/kubernetes-sigs/aws-efs-csi-driver#set-up-driver-permission[Set up driver permission] on [.noloc]`GitHub`.
+The specific steps in this procedure are written for using the driver as an Amazon EKS add-on. For details on self-managed installations, see https://github.com/kubernetes-sigs/aws-efs-csi-driver#set-up-driver-permission[Set up driver permission] on GitHub.
 
 ====
 
@@ -85,7 +85,7 @@ Run the following to create an IAM role with {aws-management-console}.
 . On the *Select trusted entity* page, do the following:
 +
 .. In the *Trusted entity type* section, choose *Web identity*.
-.. For *Identity provider*, choose the *[.noloc]`OpenID Connect` provider URL* for your cluster (as shown under *Overview* in Amazon EKS).
+.. For *Identity provider*, choose the *OpenID Connect provider URL* for your cluster (as shown under *Overview* in Amazon EKS).
 .. For *Audience*, choose `sts.amazonaws.com`.
 .. Choose *Next*.
 . On the *Add permissions* page, do the following:
@@ -181,14 +181,14 @@ aws iam attach-role-policy \
 
 We recommend that you install the Amazon EFS CSI driver through the Amazon EKS add-on. To add an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. For more information about add-ons, see <<eks-add-ons>>. If you're unable to use the Amazon EKS add-on, we encourage you to submit an issue about why you can't to the https://github.com/aws/containers-roadmap/issues[Containers roadmap GitHub repository].
 
-Alternatively, if you want a self-managed installation of the Amazon EFS CSI driver, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#installation[Installation] on [.noloc]`GitHub`.
+Alternatively, if you want a self-managed installation of the Amazon EFS CSI driver, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#installation[Installation] on GitHub.
 
 [#efs-create-filesystem]
 == Step 3: Create an Amazon EFS file system
 
-To create an Amazon EFS file system, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/efs-create-filesystem.md[Create an Amazon EFS file system for Amazon EKS] on [.noloc]`GitHub`.
+To create an Amazon EFS file system, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/efs-create-filesystem.md[Create an Amazon EFS file system for Amazon EKS] on GitHub.
 
 [#efs-sample-app]
 == Step 4: Deploy a sample application
 
-You can deploy a variety of sample apps and modify them as needed. For more information, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#examples[Examples] on [.noloc]`GitHub`.
+You can deploy a variety of sample apps and modify them as needed. For more information, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#examples[Examples] on GitHub.

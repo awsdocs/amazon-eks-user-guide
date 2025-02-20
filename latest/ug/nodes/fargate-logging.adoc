@@ -6,28 +6,28 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Amazon EKS on Fargate offers a built-in log router based on [.noloc]`Fluent Bit`.
+Amazon EKS on Fargate offers a built-in log router based on Fluent Bit.
 --
 
-Amazon EKS on Fargate offers a built-in log router based on [.noloc]`Fluent Bit`. This means that you don't explicitly run a [.noloc]`Fluent Bit` container as a sidecar, but Amazon runs it for you. All that you have to do is configure the log router. The configuration happens through a dedicated `ConfigMap` that must meet the following criteria:
+Amazon EKS on Fargate offers a built-in log router based on Fluent Bit. This means that you don't explicitly run a Fluent Bit container as a sidecar, but Amazon runs it for you. All that you have to do is configure the log router. The configuration happens through a dedicated `ConfigMap` that must meet the following criteria:
 
 * Named `aws-logging`
 * Created in a dedicated namespace called `aws-observability`
 * Can't exceed 5300 characters.
 
-Once you've created the `ConfigMap`, Amazon EKS on Fargate automatically detects it and configures the log router with it. Fargate uses a version of {aws} for [.noloc]`Fluent Bit`, an upstream compliant distribution of [.noloc]`Fluent Bit` managed by {aws}. For more information, see https://github.com/aws/aws-for-fluent-bit[{aws} for Fluent Bit] on GitHub.
+Once you've created the `ConfigMap`, Amazon EKS on Fargate automatically detects it and configures the log router with it. Fargate uses a version of {aws} for Fluent Bit, an upstream compliant distribution of Fluent Bit managed by {aws}. For more information, see https://github.com/aws/aws-for-fluent-bit[{aws} for Fluent Bit] on GitHub.
 
 The log router allows you to use the breadth of services at {aws} for log analytics and storage. You can stream logs from Fargate directly to Amazon CloudWatch, Amazon OpenSearch Service. You can also stream logs to destinations such as link:s3/[Amazon S3,type="marketing"], link:kinesis/data-streams/[Amazon Kinesis Data Streams,type="marketing"], and partner tools through link:kinesis/data-firehose/[Amazon Data Firehose,type="marketing"].
 
-* An existing Fargate profile that specifies an existing [.noloc]`Kubernetes` namespace that you deploy Fargate [.noloc]`Pods` to. For more information, see <<fargate-gs-create-profile>>.
-* An existing Fargate [.noloc]`Pod` execution role. For more information, see <<fargate-sg-pod-execution-role>>.
+* An existing Fargate profile that specifies an existing Kubernetes namespace that you deploy Fargate Pods to. For more information, see <<fargate-gs-create-profile>>.
+* An existing Fargate Pod execution role. For more information, see <<fargate-sg-pod-execution-role>>.
 
 [#fargate-logging-log-router-configuration]
 == Log router configuration
 
 In the following steps, replace every [.replaceable]`example value` with your own values.
 
-. Create a dedicated [.noloc]`Kubernetes` namespace named `aws-observability`.
+. Create a dedicated Kubernetes namespace named `aws-observability`.
 +
 .. Save the following contents to a file named `aws-observability-namespace.yaml` on your computer. The value for `name` must be `aws-observability` and the `aws-observability: enabled` label is required.
 +
@@ -46,7 +46,7 @@ metadata:
 ----
 kubectl apply -f aws-observability-namespace.yaml
 ----
-. Create a `ConfigMap` with a `Fluent Conf` data value to ship container logs to a destination. Fluent Conf is [.noloc]`Fluent Bit`, which is a fast and lightweight log processor configuration language that's used to route container logs to a log destination of your choice. For more information, see https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file[Configuration File] in the [.noloc]`Fluent Bit` documentation.  
+. Create a `ConfigMap` with a `Fluent Conf` data value to ship container logs to a destination. Fluent Conf is Fluent Bit, which is a fast and lightweight log processor configuration language that's used to route container logs to a log destination of your choice. For more information, see https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file[Configuration File] in the Fluent Bit documentation.  
 +
 [IMPORTANT]
 ====
@@ -86,12 +86,12 @@ When creating the `ConfigMap`, take into account the following rules that Fargat
 * At least one supported `Output` plugin has to be provided in the `ConfigMap` to enable logging. `Filter` and `Parser` aren't required to enable logging.
 
 +
-You can also run [.noloc]`Fluent Bit` on Amazon EC2 using the desired configuration to troubleshoot any issues that arise from validation. Create your `ConfigMap` using one of the following examples.
+You can also run Fluent Bit on Amazon EC2 using the desired configuration to troubleshoot any issues that arise from validation. Create your `ConfigMap` using one of the following examples.
 
 +
 [IMPORTANT]
 ====
-Amazon EKS Fargate logging doesn't support dynamic configuration of a `ConfigMap`. Any changes to a `ConfigMap` are applied to new [.noloc]`Pods` only. Changes aren't applied to existing [.noloc]`Pods`.
+Amazon EKS Fargate logging doesn't support dynamic configuration of a `ConfigMap`. Any changes to a `ConfigMap` are applied to new Pods only. Changes aren't applied to existing Pods.
 ====
 
 +
@@ -176,7 +176,7 @@ curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-
 Amazon OpenSearch Service::
 *To create a `ConfigMap` for Amazon OpenSearch Service*
 +
-If you want to send logs to Amazon OpenSearch Service, you can use https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch[es] output, which is a plugin written in [.noloc]`C`. The following example shows you how to use the plugin to send logs to OpenSearch.
+If you want to send logs to Amazon OpenSearch Service, you can use https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch[es] output, which is a plugin written in C. The following example shows you how to use the plugin to send logs to OpenSearch.
 +
 .. Save the following contents to a file named `aws-logging-opensearch-configmap.yaml`. Replace every [.replaceable]`example value` with your own values.
 +
@@ -213,7 +213,7 @@ kubectl apply -f aws-logging-opensearch-configmap.yaml
 curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json
 ----
 +
-Make sure that OpenSearch Dashboards' access control is configured properly. The `all_access role` in OpenSearch Dashboards needs to have the Fargate [.noloc]`Pod` execution role and the IAM role mapped. The same mapping must be done for the `security_manager` role. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles. For more information, see link:tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/[How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?,type="marketing"].
+Make sure that OpenSearch Dashboards' access control is configured properly. The `all_access role` in OpenSearch Dashboards needs to have the Fargate Pod execution role and the IAM role mapped. The same mapping must be done for the `security_manager` role. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles. For more information, see link:tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/[How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?,type="marketing"].
 
 Firehose::
 *To create a `ConfigMap` for Firehose*
@@ -261,7 +261,7 @@ curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-
 ----
 aws iam create-policy --policy-name eks-fargate-logging-policy --policy-document file://permissions.json
 ----
-. Attach the IAM policy to the pod execution role specified for your Fargate profile with the following command. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`AmazonEKSFargatePodExecutionRole` with your [.noloc]`Pod` execution role (for more information, see <<fargate-sg-pod-execution-role>>).
+. Attach the IAM policy to the pod execution role specified for your Fargate profile with the following command. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`AmazonEKSFargatePodExecutionRole` with your Pod execution role (for more information, see <<fargate-sg-pod-execution-role>>).
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -271,9 +271,9 @@ aws iam attach-role-policy \
 ----
 
 [#fargate-logging-kubernetes-filter]
-=== [.noloc]`Kubernetes` filter support
+=== Kubernetes filter support
 
-This feature requires the following minimum [.noloc]`Kubernetes` version and platform level, or later.
+This feature requires the following minimum Kubernetes version and platform level, or later.
 
 [cols="1,1", options="header"]
 |===
@@ -285,7 +285,7 @@ This feature requires the following minimum [.noloc]`Kubernetes` version and pla
 |eks.1
 |===
 
-The [.noloc]`Fluent Bit` [.noloc]`Kubernetes` filter allows you to add [.noloc]`Kubernetes` metadata to your log files. For more information about the filter, see https://docs.fluentbit.io/manual/pipeline/filters/kubernetes[Kubernetes] in the [.noloc]`Fluent Bit` documentation. You can apply a filter using the API server endpoint.  
+The Fluent Bit Kubernetes filter allows you to add Kubernetes metadata to your log files. For more information about the filter, see https://docs.fluentbit.io/manual/pipeline/filters/kubernetes[Kubernetes] in the Fluent Bit documentation. You can apply a filter using the API server endpoint.  
 
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
@@ -302,14 +302,14 @@ filters.conf: |
 ====
 
 * `Kube_URL`, `Kube_CA_File`, `Kube_Token_Command`, and `Kube_Token_File` are service owned configuration parameters and must not be specified. Amazon EKS Fargate populates these values.
-* `Kube_Meta_Cache_TTL` is the time [.noloc]`Fluent Bit` waits until it communicates with the API server for the latest metadata. If `Kube_Meta_Cache_TTL` isn't specified, Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server.
+* `Kube_Meta_Cache_TTL` is the time Fluent Bit waits until it communicates with the API server for the latest metadata. If `Kube_Meta_Cache_TTL` isn't specified, Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server.
 
 ====
 
 [#ship-fluent-bit-process-logs]
-=== To ship [.noloc]`Fluent Bit` process logs to your account
+=== To ship Fluent Bit process logs to your account
 
-You can optionally ship [.noloc]`Fluent Bit` process logs to Amazon CloudWatch using the following `ConfigMap`. Shipping Fluent Bit process logs to CloudWatch requires additional log ingestion and storage costs. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
+You can optionally ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`. Shipping Fluent Bit process logs to CloudWatch requires additional log ingestion and storage costs. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
 
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
@@ -334,29 +334,29 @@ data:
         auto_create_group true
 ----
 
-The logs are in the {aws} Region that the cluster resides in under CloudWatch. The log group name is `[.replaceable]``my-cluster``-fluent-bit-logs` and the [.noloc]`Fluent Bit` logstream name is `fluent-bit-[.replaceable]``podname``-[.replaceable]``pod-namespace```.
+The logs are in the {aws} Region that the cluster resides in under CloudWatch. The log group name is `[.replaceable]``my-cluster``-fluent-bit-logs` and the Fluent Bit logstream name is `fluent-bit-[.replaceable]``podname``-[.replaceable]``pod-namespace```.
 
 [NOTE]
 ====
 
-* The process logs are shipped only when the [.noloc]`Fluent Bit` process successfully starts. If there is a failure while starting [.noloc]`Fluent Bit`, the process logs are missed. You can only ship process logs to CloudWatch.
-* To debug shipping process logs to your account, you can apply the previous `ConfigMap` to get the process logs. [.noloc]`Fluent Bit` failing to start is usually due to your `ConfigMap` not being parsed or accepted by [.noloc]`Fluent Bit` while starting.
+* The process logs are shipped only when the Fluent Bit process successfully starts. If there is a failure while starting Fluent Bit, the process logs are missed. You can only ship process logs to CloudWatch.
+* To debug shipping process logs to your account, you can apply the previous `ConfigMap` to get the process logs. Fluent Bit failing to start is usually due to your `ConfigMap` not being parsed or accepted by Fluent Bit while starting.
 
 ====
 
 [#stop-fluent-bit-process-logs]
-=== To stop shipping [.noloc]`Fluent Bit` process logs
+=== To stop shipping Fluent Bit process logs
 
-Shipping [.noloc]`Fluent Bit` process logs to CloudWatch requires additional log ingestion and storage costs. To exclude process logs in an existing `ConfigMap` setup, do the following steps.
+Shipping Fluent Bit process logs to CloudWatch requires additional log ingestion and storage costs. To exclude process logs in an existing `ConfigMap` setup, do the following steps.
 
-. Locate the CloudWatch log group automatically created for your Amazon EKS cluster's [.noloc]`Fluent Bit` process logs after enabling Fargate logging. It follows the format `{cluster_name}-fluent-bit-logs`. 
-. Delete the existing CloudWatch log streams created for each [.noloc]`Pod's` process logs in the CloudWatch log group.
+. Locate the CloudWatch log group automatically created for your Amazon EKS cluster's Fluent Bit process logs after enabling Fargate logging. It follows the format `{cluster_name}-fluent-bit-logs`. 
+. Delete the existing CloudWatch log streams created for each Pod's process logs in the CloudWatch log group.
 . Edit the `ConfigMap` and set `flb_log_cw: "false"`.
-. Restart any existing [.noloc]`Pods` in the cluster.
+. Restart any existing Pods in the cluster.
 
 [#fargate-logging-test-application]
 == Test application
-. Deploy a sample [.noloc]`Pod`.
+. Deploy a sample Pod.
 +
 .. Save the following contents to a file named `sample-app.yaml` on your computer.
 +
@@ -400,7 +400,7 @@ We suggest that you plan for up to 50 MB of memory for the log router. If you ex
 [#fargate-logging-troubleshooting]
 == Troubleshooting
 
-To confirm whether the logging feature is enabled or disabled for some reason, such as an invalid `ConfigMap`, and why it's invalid, check your [.noloc]`Pod` events with `kubectl describe pod [.replaceable]``pod-name```. The output might include [.noloc]`Pod` events that clarify whether logging is enabled or not, such as the following example output.
+To confirm whether the logging feature is enabled or disabled for some reason, such as an invalid `ConfigMap`, and why it's invalid, check your Pod events with `kubectl describe pod [.replaceable]``pod-name```. The output might include Pod events that clarify whether logging is enabled or not, such as the following example output.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -415,4 +415,4 @@ Events:
   Warning  LoggingDisabled  <unknown>  fargate-scheduler                                              Disabled logging because aws-logging configmap was not found. configmap "aws-logging" not found
 ----
 
-The [.noloc]`Pod` events are ephemeral with a time period depending on the settings. You can also view a [.noloc]`Pod's` annotations using `kubectl describe pod [.replaceable]``pod-name```. In the [.noloc]`Pod` annotation, there is information about whether the logging feature is enabled or disabled and the reason.
+The Pod events are ephemeral with a time period depending on the settings. You can also view a Pod's annotations using `kubectl describe pod [.replaceable]``pod-name```. In the Pod annotation, there is information about whether the logging feature is enabled or disabled and the reason.

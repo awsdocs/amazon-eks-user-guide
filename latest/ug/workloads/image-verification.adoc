@@ -15,7 +15,7 @@ If you use link:signer/latest/developerguide/Welcome.html[{aws} Signer,type="doc
 
 
 * https://ratify.dev/docs/1.0/quickstarts/ratify-on-aws[Gatekeeper and Ratify] – Use Gatekeeper as the admission controller and Ratify configured with an {aws} Signer plugin as a web hook for validating signatures.
-* https://github.com/nirmata/kyverno-notation-aws[Kyverno] – A [.noloc]`Kubernetes` policy engine configured with an {aws} Signer plugin for validating signatures.
+* https://github.com/nirmata/kyverno-notation-aws[Kyverno] – A Kubernetes policy engine configured with an {aws} Signer plugin for validating signatures.
 
 
 [NOTE]

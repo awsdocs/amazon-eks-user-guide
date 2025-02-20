@@ -58,14 +58,14 @@ If the nodes are self-managed, and you haven't created <<access-entries,access e
 * The nodes may not be able to access the cluster using a public IP address. Ensure that nodes deployed in public subnets are assigned a public IP address. If not, you can associate an Elastic IP address to a node after it's launched. For more information, see link:AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating[Associating an Elastic IP address with a running instance or network interface,type="documentation"]. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting. For more information, see link:vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip[Modifying the public IPv4 addressing attribute for your subnet,type="documentation"]. If the node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it.
 * The {aws} STS endpoint for the {aws} Region that you're deploying the nodes to is not enabled for your account. To enable the region, see link:IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate[Activating and deactivating {aws} STS in an {aws} Region,type="documentation"].
 * The node doesn't have a private DNS entry, resulting in the `kubelet` log containing a `node "" not found` error. Ensure that the VPC where the node is created has values set for `domain-name` and `domain-name-servers` as `Options` in a `DHCP options set`. The default values are `domain-name:<region>.compute.internal` and `domain-name-servers:AmazonProvidedDNS`. For more information, see link:vpc/latest/userguide/VPC_DHCP_Options.html#AmazonDNS[DHCP options sets,type="documentation"] in the _Amazon VPC User Guide_.
-* If the nodes in the managed node group do not connect to the cluster within 15 minutes, a health issue of "`NodeCreationFailure`" will be emitted and the console status will be set to `Create failed`. For [.noloc]`Windows` AMIs that have slow launch times, this issue can be resolved using link:AWSEC2/latest/WindowsGuide/win-ami-config-fast-launch.html[fast launch,type="documentation"].
+* If the nodes in the managed node group do not connect to the cluster within 15 minutes, a health issue of "`NodeCreationFailure`" will be emitted and the console status will be set to `Create failed`. For Windows AMIs that have slow launch times, this issue can be resolved using link:AWSEC2/latest/WindowsGuide/win-ami-config-fast-launch.html[fast launch,type="documentation"].
 
 To identify and troubleshoot common causes that prevent worker nodes from joining a cluster, you can use the `AWSSupport-TroubleshootEKSWorkerNode` runbook. For more information, see `link:systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshooteksworkernode.html[AWSSupport-TroubleshootEKSWorkerNode,type="documentation"]` in the _{aws} Systems Manager Automation runbook reference_.
 
 [#unauthorized]
 == Unauthorized or access denied (`kubectl`)
 
-If you receive one of the following errors while running `kubectl` commands, then you don't have `kubectl` configured properly for Amazon EKS or the credentials for the IAM principal (role or user) that you're using don't map to a [.noloc]`Kubernetes` username that has sufficient permissions to [.noloc]`Kubernetes` objects on your Amazon EKS cluster.
+If you receive one of the following errors while running `kubectl` commands, then you don't have `kubectl` configured properly for Amazon EKS or the credentials for the IAM principal (role or user) that you're using don't map to a Kubernetes username that has sufficient permissions to Kubernetes objects on your Amazon EKS cluster.
 
 
 
@@ -78,10 +78,10 @@ This could be due to one of the following reasons:
 
 
 * The cluster was created with credentials for one IAM principal and `kubectl` is configured to use credentials for a different IAM principal. To resolve this, update your `kube config` file to use the credentials that created the cluster. For more information, see <<create-kubeconfig>>.
-* If your cluster meets the minimum platform requirements in the prerequisites section of <<access-entries,Grant IAM users access to Kubernetes with EKS access entries>>, an access entry doesn't exist with your IAM principal. If it exists, it doesn't have the necessary [.noloc]`Kubernetes` group names defined for it, or doesn't have the proper access policy associated to it. For more information, see <<access-entries>>.
-* If your cluster doesn't meet the minimum platform requirements in <<access-entries,Grant IAM users access to Kubernetes with EKS access entries>>, an entry with your IAM principal doesn't exist in the `aws-auth` `ConfigMap`. If it exists, it's not mapped to [.noloc]`Kubernetes` group names that are bound to a [.noloc]`Kubernetes` `Role` or `ClusterRole` with the necessary permissions. For more information about [.noloc]`Kubernetes` role-based authorization (RBAC) objects, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC authorization] in the [.noloc]`Kubernetes` documentation. You can view your current `aws-auth` `ConfigMap` entries by replacing [.replaceable]`my-cluster` in the following command with the name of your cluster and then running the modified command: `eksctl get iamidentitymapping --cluster [.replaceable]``my-cluster```. If an entry for with the ARN of your IAM principal isn't in the `ConfigMap`, enter `eksctl create iamidentitymapping --help` in your terminal to learn how to create one. 
+* If your cluster meets the minimum platform requirements in the prerequisites section of <<access-entries,Grant IAM users access to Kubernetes with EKS access entries>>, an access entry doesn't exist with your IAM principal. If it exists, it doesn't have the necessary Kubernetes group names defined for it, or doesn't have the proper access policy associated to it. For more information, see <<access-entries>>.
+* If your cluster doesn't meet the minimum platform requirements in <<access-entries,Grant IAM users access to Kubernetes with EKS access entries>>, an entry with your IAM principal doesn't exist in the `aws-auth` `ConfigMap`. If it exists, it's not mapped to Kubernetes group names that are bound to a Kubernetes `Role` or `ClusterRole` with the necessary permissions. For more information about Kubernetes role-based authorization (RBAC) objects, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC authorization] in the Kubernetes documentation. You can view your current `aws-auth` `ConfigMap` entries by replacing [.replaceable]`my-cluster` in the following command with the name of your cluster and then running the modified command: `eksctl get iamidentitymapping --cluster [.replaceable]``my-cluster```. If an entry for with the ARN of your IAM principal isn't in the `ConfigMap`, enter `eksctl create iamidentitymapping --help` in your terminal to learn how to create one. 
 
-If you install and configure the {aws} CLI, you can configure the IAM credentials that you use. For more information, see link:cli/latest/userguide/cli-chap-getting-started.html[Configuring the {aws} CLI,type="documentation"] in the _{aws} Command Line Interface User Guide_. You can also configure `kubectl` to use an IAM role, if you assume an IAM role to access [.noloc]`Kubernetes` objects on your cluster. For more information, see <<create-kubeconfig>>.
+If you install and configure the {aws} CLI, you can configure the IAM credentials that you use. For more information, see link:cli/latest/userguide/cli-chap-getting-started.html[Configuring the {aws} CLI,type="documentation"] in the _{aws} Command Line Interface User Guide_. You can also configure `kubectl` to use an IAM role, if you assume an IAM role to access Kubernetes objects on your cluster. For more information, see <<create-kubeconfig>>.
 
 [#python-version]
 == `hostname doesn't match`
@@ -91,7 +91,7 @@ Your system's Python version must be `2.7.9` or later. Otherwise, you receive `h
 [#troubleshoot-docker-cidr]
 == `getsockopt: no route to host`
 
-[.noloc]`Docker` runs in the `172.17.0.0/16` CIDR range in Amazon EKS clusters. We recommend that your cluster's VPC subnets do not overlap this range. Otherwise, you will receive the following error:
+Docker runs in the `172.17.0.0/16` CIDR range in Amazon EKS clusters. We recommend that your cluster's VPC subnets do not overlap this range. Otherwise, you will receive the following error:
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -112,7 +112,7 @@ If your managed node group encounters a hardware health issue, Amazon EKS return
 
 
 *AccessDenied*::
-Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your [.noloc]`Kubernetes` cluster API server. For more information about resolving a common cause, see <<access-denied-managed-node-groups>>. Private [.noloc]`Windows` AMIs can also cause this error code alongside the `Not authorized for images` error message. For more information, see <<not-authorized-for-images>>.
+Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server. For more information about resolving a common cause, see <<access-denied-managed-node-groups>>. Private Windows AMIs can also cause this error code alongside the `Not authorized for images` error message. For more information, see <<not-authorized-for-images>>.
 
 
 *AmiIdNotFound*::
@@ -124,7 +124,7 @@ We couldn't find the Auto Scaling group associated with the managed node group. 
 
 
 *ClusterUnreachable*::
-Amazon EKS or one or more of your managed nodes is unable to communicate with your [.noloc]`Kubernetes` cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.
+Amazon EKS or one or more of your managed nodes is unable to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.
 
 
 *Ec2SecurityGroupNotFound*::
@@ -314,19 +314,19 @@ Retry the node group operation to see if that resolved your issue.
 [#not-authorized-for-images]
 == `Not authorized for images`
 
-One potential cause of a `Not authorized for images` error message is using a private Amazon EKS [.noloc]`Windows` AMI to launch [.noloc]`Windows` managed node groups. After releasing new [.noloc]`Windows` AMIs, {aws} makes AMIs that are older than 4 months private, which makes them no longer accessible. If your managed node group is using a private [.noloc]`Windows` AMI, consider <<update-managed-node-group,updating your Windows managed node group>>. While we can't guarantee that we can provide access to AMIs that have been made private, you can request access by filing a ticket with {aws} Support. For more information, see link:AWSEC2/latest/WindowsGuide/aws-windows-ami.html#ami-patches-security-ID[Patches, security updates, and AMI IDs,type="documentation"] in the _Amazon EC2 User Guide_.
+One potential cause of a `Not authorized for images` error message is using a private Amazon EKS Windows AMI to launch Windows managed node groups. After releasing new Windows AMIs, {aws} makes AMIs that are older than 4 months private, which makes them no longer accessible. If your managed node group is using a private Windows AMI, consider <<update-managed-node-group,updating your Windows managed node group>>. While we can't guarantee that we can provide access to AMIs that have been made private, you can request access by filing a ticket with {aws} Support. For more information, see link:AWSEC2/latest/WindowsGuide/aws-windows-ami.html#ami-patches-security-ID[Patches, security updates, and AMI IDs,type="documentation"] in the _Amazon EC2 User Guide_.
 
 [#not-ready]
 == Node is in `NotReady` state
 
-If your node enters a `NotReady` status, this likely indicates that the node is unhealthy and unavailable to schedule new [.noloc]`Pods`. This can occur for various reasons, such as the node lacking sufficient resources for CPU, memory, or available disk space.
+If your node enters a `NotReady` status, this likely indicates that the node is unhealthy and unavailable to schedule new Pods. This can occur for various reasons, such as the node lacking sufficient resources for CPU, memory, or available disk space.
 
-For Amazon EKS optimized [.noloc]`Windows` AMIs, there's no reservation for compute resources specified by default in the `kubelet` configuration. To help prevent resource issues, you can reserve compute resources for system processes by providing the `kubelet` with configuration values for https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/#kube-reserved[kube-reserved] and/or https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/#system-reserved[system-reserved]. You do this using the `-KubeletExtraArgs` command-line parameter in the bootstrap script. For more information, see https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/[Reserve Compute Resources for System Daemons] in the [.noloc]`Kubernetes` documentation and <<bootstrap-script-configuration-parameters>> in this user guide.
+For Amazon EKS optimized Windows AMIs, there's no reservation for compute resources specified by default in the `kubelet` configuration. To help prevent resource issues, you can reserve compute resources for system processes by providing the `kubelet` with configuration values for https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/#kube-reserved[kube-reserved] and/or https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/#system-reserved[system-reserved]. You do this using the `-KubeletExtraArgs` command-line parameter in the bootstrap script. For more information, see https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/[Reserve Compute Resources for System Daemons] in the Kubernetes documentation and <<bootstrap-script-configuration-parameters>> in this user guide.
 
 [#troubleshoot-cni]
 == CNI log collection tool
 
-The [.noloc]`Amazon VPC CNI plugin for Kubernetes` has its own troubleshooting script that is available on nodes at `/opt/cni/bin/aws-cni-support.sh`. You can use the script to collect diagnostic logs for support cases and general troubleshooting.
+The Amazon VPC CNI plugin for Kubernetes has its own troubleshooting script that is available on nodes at `/opt/cni/bin/aws-cni-support.sh`. You can use the script to collect diagnostic logs for support cases and general troubleshooting.
 
 Use the following command to run the script on your node:
 
@@ -434,14 +434,14 @@ To resolve the issue, check the route table and security groups to ensure that t
 [#default-region-env-variable]
 == InvalidClientTokenId
 
-If you're using IAM roles for service accounts for a [.noloc]`Pod` or [.noloc]`DaemonSet` deployed to a cluster in a China {aws} Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the [.noloc]`Pod` or [.noloc]`DaemonSet` may receive the following error: 
+If you're using IAM roles for service accounts for a Pod or DaemonSet deployed to a cluster in a China {aws} Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the Pod or DaemonSet may receive the following error: 
 
 [source,bash,subs="verbatim,attributes"]
 ----
 An error occurred (InvalidClientTokenId) when calling the GetCallerIdentity operation: The security token included in the request is invalid
 ----
 
-To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your [.noloc]`Pod` or [.noloc]`DaemonSet` spec, as shown in the following example [.noloc]`Pod` spec.
+To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your Pod or DaemonSet spec, as shown in the following example Pod spec.
 
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -462,9 +462,9 @@ spec:
 
 
 [#troubleshoot-node-grups-must-match-kubernetes-version]
-== Node groups must match [.noloc]`Kubernetes` version before upgrading control plane
+== Node groups must match Kubernetes version before upgrading control plane
 
-Before you upgrade a control plane to a new [.noloc]`Kubernetes` version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version. The Amazon EKS `update-cluster-version` API rejects requests until you upgrade all Amazon EKS managed nodes to the current cluster version. Amazon EKS provides APIs to upgrade managed nodes. For information on upgrading a managed node group's [.noloc]`Kubernetes` version, see <<update-managed-node-group>>. To upgrade the version of a Fargate node, delete the [.noloc]`pod` that's represented by the node and redeploy the [.noloc]`pod` after you upgrade your control plane. For more information, see <<update-cluster>>.
+Before you upgrade a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version. The Amazon EKS `update-cluster-version` API rejects requests until you upgrade all Amazon EKS managed nodes to the current cluster version. Amazon EKS provides APIs to upgrade managed nodes. For information on upgrading a managed node group's Kubernetes version, see <<update-managed-node-group>>. To upgrade the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you upgrade your control plane. For more information, see <<update-cluster>>.
 
 [#too-many-requests]
 == When launching many nodes, there are `Too Many Requests` errors
@@ -474,11 +474,11 @@ If you launch many nodes simultaneously, you may see an error message in the lin
 Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are being passed to the node's bootstrap script. When including these arguments, there's no need for the bootstrap script to make a `describeCluster` call, which helps prevent the control plane from being overloaded. For more information, see <<mng-specify-eks-ami>>.
 
 [#troubleshooting-boundservicetoken]
-== HTTP 401 unauthorized error response on [.noloc]`Kubernetes` API server requests
+== HTTP 401 unauthorized error response on Kubernetes API server requests
 
-You see these errors if a [.noloc]`Pod's` service account token has expired on a cluster.
+You see these errors if a Pod's service account token has expired on a cluster.
 
-Your Amazon EKS cluster's [.noloc]`Kubernetes` API server rejects requests with tokens older than 90 days. In previous [.noloc]`Kubernetes` versions, tokens did not have an expiration. This means that clients that rely on these tokens must refresh them within an hour. To prevent the [.noloc]`Kubernetes` API server from rejecting your request due to an invalid token, the https://kubernetes.io/docs/reference/using-api/client-libraries/[Kubernetes client SDK] version used by your workload must be the same, or later than the following versions:
+Your Amazon EKS cluster's Kubernetes API server rejects requests with tokens older than 90 days. In previous Kubernetes versions, tokens did not have an expiration. This means that clients that rely on these tokens must refresh them within an hour. To prevent the Kubernetes API server from rejecting your request due to an invalid token, the https://kubernetes.io/docs/reference/using-api/client-libraries/[Kubernetes client SDK] version used by your workload must be the same, or later than the following versions:
 
 
 
@@ -488,9 +488,9 @@ Your Amazon EKS cluster's [.noloc]`Kubernetes` API server rejects requests with 
 * JavaScript version `0.10.3` and later
 * Ruby `master` branch
 * Haskell version `0.3.0.0`
-* [.noloc]`C#` version `7.0.5` and later
+* C# version `7.0.5` and later
 
-You can identify all existing [.noloc]`Pods` in your cluster that are using stale tokens. For more information, see <<service-account-tokens>>.
+You can identify all existing Pods in your cluster that are using stale tokens. For more information, see <<service-account-tokens>>.
 
 [#troubleshooting-platform-version]
 == Amazon EKS platform version is more than two versions behind the current platform version
@@ -554,7 +554,7 @@ An example output is as follows.
 
 If the subnet IDs returned in the output don't match the subnet IDs that were specified when the cluster was created, then if you want Amazon EKS to update the cluster, you need to change the subnets used by the cluster. This is because if you specified more than two subnets when you created your cluster, Amazon EKS randomly selects subnets that you specified to create new elastic network interfaces in. These network interfaces enable the control plane to communicate with your nodes. Amazon EKS won't update the cluster if the subnet it selects doesn't exist. You have no control over which of the subnets that you specified at cluster creation that Amazon EKS chooses to create a new network interface in.
 
-When you initiate a [.noloc]`Kubernetes` version update for your cluster, the update can fail for the same reason.  
+When you initiate a Kubernetes version update for your cluster, the update can fail for the same reason.  
 
 .Problem
 A security group specified during cluster creation was deleted – If you specified security groups during cluster creation, you can see their IDs with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster.
@@ -595,7 +595,7 @@ An example output is as follows.
 
 If the security group IDs returned in the output don't match the security group IDs that were specified when the cluster was created, then if you want Amazon EKS to update the cluster, you need to change the security groups used by the cluster. Amazon EKS won't update a cluster if the security group IDs specified at cluster creation don't exist.
 
-When you initiate a [.noloc]`Kubernetes` version update for your cluster, the update can fail for the same reason.  
+When you initiate a Kubernetes version update for your cluster, the update can fail for the same reason.  
 
 
 
@@ -606,7 +606,7 @@ When you initiate a [.noloc]`Kubernetes` version update for your cluster, the up
 [#cluster-health-status]
 == Cluster health FAQs and error codes with resolution paths
 
-Amazon EKS detects issues with your EKS clusters and the cluster infrastructure and stores it in the _cluster health_. You can detect, troubleshoot, and address cluster issues more rapidly with the aid of cluster health information. This enables you to create application environments that are more secure and up-to-date. Additionally, it may be impossible for you to upgrade to newer versions of [.noloc]`Kubernetes` or for Amazon EKS to install security updates on a degraded cluster as a result of issues with the necessary infrastructure or cluster configuration. Amazon EKS can take 3 hours to detect issues or detect that an issue is resolved.
+Amazon EKS detects issues with your EKS clusters and the cluster infrastructure and stores it in the _cluster health_. You can detect, troubleshoot, and address cluster issues more rapidly with the aid of cluster health information. This enables you to create application environments that are more secure and up-to-date. Additionally, it may be impossible for you to upgrade to newer versions of Kubernetes or for Amazon EKS to install security updates on a degraded cluster as a result of issues with the necessary infrastructure or cluster configuration. Amazon EKS can take 3 hours to detect issues or detect that an issue is resolved.
 
 The health of an Amazon EKS cluster is a shared responsibility between Amazon EKS and its users. You are responsible for the prerequisite infrastructure of IAM roles and Amazon VPC subnets, as well as other necessary infrastructure, that must be provided in advance. Amazon EKS detects changes in the configuration of this infrastructure and the cluster.
 
@@ -615,7 +615,7 @@ To access your health of your cluster in the Amazon EKS console, look for a sect
 
 
 *Why should I use this feature?*::
-You will get increased visibility into the health of your Amazon EKS cluster, quickly diagnose and fix any issues, without needing to spend time debugging or opening {aws} support cases. For example: you accidentally deleted a subnet for the Amazon EKS cluster, Amazon EKS won't be able to create cross account network interfaces and [.noloc]`Kubernetes` {aws} CLI commands such as `kubectl` exec or `kubectl` logs. These will fail with the error: `Error from server: error dialing backend: remote error: tls: internal error.` Now you will see an Amazon EKS health issue that says: `subnet-da60e280 was deleted: could not create network interface`.
+You will get increased visibility into the health of your Amazon EKS cluster, quickly diagnose and fix any issues, without needing to spend time debugging or opening {aws} support cases. For example: you accidentally deleted a subnet for the Amazon EKS cluster, Amazon EKS won't be able to create cross account network interfaces and Kubernetes {aws} CLI commands such as `kubectl` exec or `kubectl` logs. These will fail with the error: `Error from server: error dialing backend: remote error: tls: internal error.` Now you will see an Amazon EKS health issue that says: `subnet-da60e280 was deleted: could not create network interface`.
 
 
 *How does this feature relate or work with other {aws} services?*::
@@ -638,7 +638,7 @@ Yes. {aws} sends an email and Personal Health Dashboard notification when new Cl
 *Does the console give me warnings for health issues?*::
 Yes, any cluster with health issues will include a banner at the top of the console.
 
-The first two columns are what are needed for API response values. The third field of the link:eks/latest/APIReference/API_ClusterIssue.html[Health ClusterIssue,type="documentation"] object is [.noloc]`resourceIds`, the return of which is dependent on the issue type.
+The first two columns are what are needed for API response values. The third field of the link:eks/latest/APIReference/API_ClusterIssue.html[Health ClusterIssue,type="documentation"] object is resourceIds, the return of which is dependent on the issue type.
 
 [cols="1,1,1,1", options="header"]
 |===
@@ -648,68 +648,68 @@ The first two columns are what are needed for API response values. The third fie
 |Cluster Recoverable?
 
 
-|[.noloc]`SUBNET_NOT_FOUND`
-|We couldn't find one or more subnets currently associated with your cluster. Call Amazon EKS [.noloc]`update-cluster-config` API to update subnets.
+|SUBNET_NOT_FOUND
+|We couldn't find one or more subnets currently associated with your cluster. Call Amazon EKS update-cluster-config API to update subnets.
 |Subnet Ids
 |Yes
 
-|[.noloc]`SECURITY_GROUP_NOT_FOUND`
+|SECURITY_GROUP_NOT_FOUND
 |We couldn't find one or more security groups currently associated with your cluster. Call Amazon EKS update-cluster-config API to update security groups
 |Security group Ids
 |Yes
 
-|[.noloc]`IP_NOT_AVAILABLE`
+|IP_NOT_AVAILABLE
 |One or more of the subnets associated with your cluster does not have enough available IP addresses for Amazon EKS to perform cluster management operations. Free up addresses in the subnet(s), or associate different subnets to your cluster using the Amazon EKS update-cluster-config API.
 |Subnet Ids
 |Yes
 
-|[.noloc]`VPC_NOT_FOUND`
+|VPC_NOT_FOUND
 |We couldn't find the VPC associated with your cluster. You must delete and recreate your cluster.
 |VPC id
 |No
 
-|[.noloc]`ASSUME_ROLE_ACCESS_DENIED`
+|ASSUME_ROLE_ACCESS_DENIED
 |Your cluster is not using the Amazon EKS service-linked-role. We couldn't assume the role associated with your cluster to perform required Amazon EKS management operations. Check the role exists and has the required trust policy.
 |The cluster IAM role
 |Yes
 
-|[.noloc]`PERMISSION_ACCESS_DENIED`
+|PERMISSION_ACCESS_DENIED
 |Your cluster is not using the Amazon EKS service-linked-role. The role associated with your cluster does not grant sufficient permissions for Amazon EKS to perform required management operations. Check the policies attached to the cluster role and if any separate deny policies are applied.
 |The cluster IAM role
 |Yes
 
-|[.noloc]`ASSUME_ROLE_ACCESS_DENIED_USING_SLR`
+|ASSUME_ROLE_ACCESS_DENIED_USING_SLR
 |We couldn't assume the Amazon EKS cluster management service-linked-role. Check the role exists and has the required trust policy.
 |The Amazon EKS service-linked-role
 |Yes
 
-|[.noloc]`PERMISSION_ACCESS_DENIED_USING_SLR`
+|PERMISSION_ACCESS_DENIED_USING_SLR
 |The Amazon EKS cluster management service-linked-role does not grant sufficient permissions for Amazon EKS to perform required management operations. Check the policies attached to the cluster role and if any separate deny policies are applied.
 |The Amazon EKS service-linked-role
 |Yes
 
-|[.noloc]`OPT_IN_REQUIRED`
+|OPT_IN_REQUIRED
 |Your account doesn't have an Amazon EC2 service subscription. Update your account subscriptions in your account settings page.
 |N/A
 |Yes
 
-|[.noloc]`STS_REGIONAL_ENDPOINT_DISABLED`
-|The [.noloc]`STS` regional endpoint is disabled. Enable the endpoint for Amazon EKS to perform required cluster management operations.
+|STS_REGIONAL_ENDPOINT_DISABLED
+|The STS regional endpoint is disabled. Enable the endpoint for Amazon EKS to perform required cluster management operations.
 |N/A
 |Yes
 
-|[.noloc]`KMS_KEY_DISABLED`
+|KMS_KEY_DISABLED
 |The {aws} KMS Key associated with your cluster is disabled. Re-enable the key to recover your cluster.
-|The [.noloc]`KMS Key Arn`
+|The KMS Key Arn
 |Yes
 
-|[.noloc]`KMS_KEY_NOT_FOUND`
+|KMS_KEY_NOT_FOUND
 |We couldn't find the {aws} KMS key associated with your cluster. You must delete and recreate the cluster.
-|The [.noloc]`KMS Key ARN`
+|The KMS Key ARN
 |No
 
-|[.noloc]`KMS_GRANT_REVOKED`
+|KMS_GRANT_REVOKED
 |Grants for the {aws} KMS Key associated with your cluster are revoked. You must delete and recreate the cluster.
-|The [.noloc]`KMS Key Arn`
+|The KMS Key Arn
 |No
 |===

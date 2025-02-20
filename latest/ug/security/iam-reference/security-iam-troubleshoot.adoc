@@ -70,7 +70,7 @@ To learn more, consult the following:
 == Pod containers receive the following error: `An error occurred (SignatureDoesNotMatch) when calling the GetCallerIdentity operation: Credential should be scoped to a valid region`
 :info_titleabbrev: Credential should be scoped to a valid region error
 
-Your containers receive this error if your application is explicitly making requests to the {aws} STS global endpoint (`https://sts.amazonaws`) and your [.noloc]`Kubernetes` service account is configured to use a regional endpoint. You can resolve the issue with one of the following options:
+Your containers receive this error if your application is explicitly making requests to the {aws} STS global endpoint (`https://sts.amazonaws`) and your Kubernetes service account is configured to use a regional endpoint. You can resolve the issue with one of the following options:
 
 * Update your application code to remove explicit calls to the {aws} STS global endpoint. 
 * Update your application code to make explicit calls to regional endpoints such as `https://sts.us-west-2.amazonaws.com`. Your application should have redundancy built in to pick a different {aws} Region in the event of a failure of the service in the {aws} Region. For more information, see link:IAM/latest/UserGuide/id_credentials_temp_enable-regions.html[Managing {aws} STS in an {aws} Region,type="documentation"] in the IAM User Guide.

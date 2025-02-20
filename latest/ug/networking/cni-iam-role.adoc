@@ -7,29 +7,29 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn how to configure the [.noloc]`Amazon VPC CNI plugin for Kubernetes` to use IAM roles for service accounts (IRSA) for [.noloc]`Pod` networking in Amazon EKS clusters.
+Learn how to configure the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts (IRSA) for Pod networking in Amazon EKS clusters.
 --
 
-The https://github.com/aws/amazon-vpc-cni-k8s[Amazon VPC CNI plugin for Kubernetes] is the networking plugin for [.noloc]`Pod` networking in Amazon EKS clusters. The plugin is responsible for allocating VPC IP addresses to [.noloc]`Kubernetes` nodes and configuring the necessary networking for [.noloc]`Pods` on each node. The plugin:
+The https://github.com/aws/amazon-vpc-cni-k8s[Amazon VPC CNI plugin for Kubernetes] is the networking plugin for Pod networking in Amazon EKS clusters. The plugin is responsible for allocating VPC IP addresses to Kubernetes nodes and configuring the necessary networking for Pods on each node. The plugin:
 
 
 * Requires {aws} Identity and Access Management (IAM) permissions. If your cluster uses the `IPv4` family, the permissions are specified in the link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html[`AmazonEKS_CNI_Policy`,type="documentation"] {aws} managed policy. If your cluster uses the `IPv6` family, then the permissions must be added to an IAM policy that you create; for instructions, see <<cni-iam-role-create-ipv6-policy>>. You can attach the policy to the Amazon EKS node IAM role, or to a separate IAM role. For instructions to attach the policy to the Amazon EKS node IAM role, see <<create-node-role>>. We recommend that you assign it to a separate role, as detailed in this topic.
-* Creates and is configured to use a [.noloc]`Kubernetes` service account named `aws-node` when it's deployed. The service account is bound to a [.noloc]`Kubernetes` `clusterrole` named `aws-node`, which is assigned the required [.noloc]`Kubernetes` permissions.
+* Creates and is configured to use a Kubernetes service account named `aws-node` when it's deployed. The service account is bound to a Kubernetes `clusterrole` named `aws-node`, which is assigned the required Kubernetes permissions.
 
 
 [NOTE]
 ====
 
-The [.noloc]`Pods` for the [.noloc]`Amazon VPC CNI plugin for Kubernetes` have access to the permissions assigned to the <<create-node-role,Amazon EKS node IAM role>>, unless you block access to IMDS. For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
+The Pods for the Amazon VPC CNI plugin for Kubernetes have access to the permissions assigned to the <<create-node-role,Amazon EKS node IAM role>>, unless you block access to IMDS. For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
 
 ====
 
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
-* An existing {aws} Identity and Access Management (IAM) [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* An existing {aws} Identity and Access Management (IAM) OpenID Connect (OIDC) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
 
 
 [#cni-iam-role-create-role]
-== Step 1: Create the [.noloc]`Amazon VPC CNI plugin for Kubernetes` IAM role
+== Step 1: Create the Amazon VPC CNI plugin for Kubernetes IAM role
 . Determine the IP family of your cluster.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -48,7 +48,7 @@ The output may return `ipv6` instead.
 . Create the IAM role. You can use `eksctl` or `kubectl` and the {aws} CLI to create your IAM role.
 +
 eksctl:::
-** Create an IAM role and attach the IAM policy to the role with the command that matches the IP family of your cluster. The command creates and deploys an {aws} CloudFormation stack that creates an IAM role, attaches the policy that you specify to it, and annotates the existing `aws-node` [.noloc]`Kubernetes` service account with the ARN of the IAM role that is created.
+** Create an IAM role and attach the IAM policy to the role with the command that matches the IP family of your cluster. The command creates and deploys an {aws} CloudFormation stack that creates an IAM role, attaches the policy that you specify to it, and annotates the existing `aws-node` Kubernetes service account with the ARN of the IAM role that is created.
 +
 *** `IPv4`
 +
@@ -157,24 +157,24 @@ kubectl annotate serviceaccount \
     -n kube-system aws-node \
     eks.amazonaws.com/role-arn={arn-aws}iam::111122223333:role/AmazonEKSVPCCNIRole
 ----
-. (Optional) Configure the {aws} Security Token Service endpoint type used by your [.noloc]`Kubernetes` service account. For more information, see <<configure-sts-endpoint>>.
+. (Optional) Configure the {aws} Security Token Service endpoint type used by your Kubernetes service account. For more information, see <<configure-sts-endpoint>>.
 
 
 [#cni-iam-role-redeploy-pods]
-== Step 2: Re-deploy [.noloc]`Amazon VPC CNI plugin for Kubernetes` [.noloc]`Pods`
-. Delete and re-create any existing [.noloc]`Pods` that are associated with the service account to apply the credential environment variables. The annotation is not applied to [.noloc]`Pods` that are currently running without the annotation. The following command deletes the existing `aws-node` [.noloc]`DaemonSet` [.noloc]`Pods` and deploys them with the service account annotation.
+== Step 2: Re-deploy Amazon VPC CNI plugin for Kubernetes Pods
+. Delete and re-create any existing Pods that are associated with the service account to apply the credential environment variables. The annotation is not applied to Pods that are currently running without the annotation. The following command deletes the existing `aws-node` DaemonSet Pods and deploys them with the service account annotation.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl delete Pods -n kube-system -l k8s-app=aws-node
 ----
-. Confirm that the [.noloc]`Pods` all restarted.
+. Confirm that the Pods all restarted.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl get pods -n kube-system -l k8s-app=aws-node
 ----
-. Describe one of the [.noloc]`Pods` and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist. Replace [.replaceable]`cpjw7` with the name of one of your [.noloc]`Pods` returned in the output of the previous step.
+. Describe one of the Pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist. Replace [.replaceable]`cpjw7` with the name of one of your Pods returned in the output of the previous step.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -191,9 +191,9 @@ AWS_ROLE_ARN:                 {arn-aws}iam::111122223333:role/AmazonEKSVPCCNIRol
       AWS_WEB_IDENTITY_TOKEN_FILE:            /var/run/secrets/eks.amazonaws.com/serviceaccount/token
 ----
 +
-Two sets of duplicate results are returned because the [.noloc]`Pod` contains two containers. Both containers have the same values.
+Two sets of duplicate results are returned because the Pod contains two containers. Both containers have the same values.
 +
-If your [.noloc]`Pod` is using the {aws} Regional endpoint, then the following line is also returned in the previous output.
+If your Pod is using the {aws} Regional endpoint, then the following line is also returned in the previous output.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -204,7 +204,7 @@ AWS_STS_REGIONAL_ENDPOINTS=regional
 [#remove-cni-policy-node-iam-role]
 == Step 3: Remove the CNI policy from the node IAM role
 
-If your <<create-node-role,Amazon EKS node IAM role>> currently has the `AmazonEKS_CNI_Policy` IAM (`IPv4`) policyor an <<cni-iam-role-create-ipv6-policy,IPv6 policy>>attached to it, and you've created a separate IAM role, attached the policy to it instead, and assigned it to the `aws-node` [.noloc]`Kubernetes` service account, then we recommend that you remove the policy from your node role with the {aws} CLI command that matches the IP family of your cluster. Replace [.replaceable]`AmazonEKSNodeRole` with the name of your node role.
+If your <<create-node-role,Amazon EKS node IAM role>> currently has the `AmazonEKS_CNI_Policy` IAM (`IPv4`) policyor an <<cni-iam-role-create-ipv6-policy,IPv6 policy>>attached to it, and you've created a separate IAM role, attached the policy to it instead, and assigned it to the `aws-node` Kubernetes service account, then we recommend that you remove the policy from your node role with the {aws} CLI command that matches the IP family of your cluster. Replace [.replaceable]`AmazonEKSNodeRole` with the name of your node role.
 
 
 
@@ -227,7 +227,7 @@ aws iam detach-role-policy --role-name AmazonEKSNodeRole --policy-arn {arn-aws}i
 [#cni-iam-role-create-ipv6-policy]
 == Create IAM policy for clusters that use the `IPv6` family
 
-If you created a cluster that uses the `IPv6` family and the cluster has version `1.10.1` or later of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` add-on configured, then you need to create an IAM policy that you can assign to an IAM role. If you have an existing cluster that you didn't configure with the `IPv6` family when you created it, then to use `IPv6`, you must create a new cluster. For more information about using `IPv6` with your cluster, see <<cni-ipv6>>.
+If you created a cluster that uses the `IPv6` family and the cluster has version `1.10.1` or later of the Amazon VPC CNI plugin for Kubernetes add-on configured, then you need to create an IAM policy that you can assign to an IAM role. If you have an existing cluster that you didn't configure with the `IPv6` family when you created it, then to use `IPv6`, you must create a new cluster. For more information about using `IPv6` with your cluster, see <<cni-ipv6>>.
 
 . Copy the following text and save it to a file named `vpc-cni-ipv6-policy.json`.
 +

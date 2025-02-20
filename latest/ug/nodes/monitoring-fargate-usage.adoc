@@ -14,7 +14,7 @@ You can collect system metrics and CloudWatch usage metrics for {aws} Fargate.
 [#fargate-application-metrics]
 == Application metrics
 
-For applications running on Amazon EKS and {aws} Fargate, you can use the {aws} Distro for [.noloc]`OpenTelemetry` (ADOT). ADOT allows you to collect system metrics and send them to CloudWatch Container Insights dashboards. To get started with ADOT for applications running on Fargate, see https://aws-otel.github.io/docs/getting-started/container-insights[Using CloudWatch Container Insights with {aws} Distro for OpenTelemetry] in the ADOT documentation.
+For applications running on Amazon EKS and {aws} Fargate, you can use the {aws} Distro for OpenTelemetry (ADOT). ADOT allows you to collect system metrics and send them to CloudWatch Container Insights dashboards. To get started with ADOT for applications running on Fargate, see https://aws-otel.github.io/docs/getting-started/container-insights[Using CloudWatch Container Insights with {aws} Distro for OpenTelemetry] in the ADOT documentation.
 
 [#fargate-usage-metrics]
 == Usage metrics
@@ -57,7 +57,7 @@ Currently, {aws} Fargate returns information on your Fargate On-Demand usage. Th
 [NOTE]
 ====
 
-Fargate On-Demand usage combines Amazon EKS [.noloc]`Pods` using Fargate, Amazon ECS tasks using the Fargate launch type and Amazon ECS tasks using the `FARGATE` capacity provider.
+Fargate On-Demand usage combines Amazon EKS Pods using Fargate, Amazon ECS tasks using the Fargate launch type and Amazon ECS tasks using the `FARGATE` capacity provider.
 
 ====
 

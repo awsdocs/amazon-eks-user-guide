@@ -18,33 +18,33 @@ include::../attributes.txt[]
 Learn how to manage access to your EKS cluster. First, this includes granting developers or external services access to Kubernetes. Second, this includes granting Kubernetes workloads access to {aws} services.
 --
 
-Learn how to manage access to your Amazon EKS cluster. Using Amazon EKS requires knowledge of how both [.noloc]`Kubernetes` and {aws} Identity and Access Management ({aws} IAM) handle access control.  
+Learn how to manage access to your Amazon EKS cluster. Using Amazon EKS requires knowledge of how both Kubernetes and {aws} Identity and Access Management ({aws} IAM) handle access control.  
 
 *This section includes:*
 
-*<<grant-k8s-access>>* -- Learn how to enable applications or users to authenticate to the [.noloc]`Kubernetes` API. You can use access entries, the aws-auth ConfigMap, or an external OIDC provider.  
+*<<grant-k8s-access>>* -- Learn how to enable applications or users to authenticate to the Kubernetes API. You can use access entries, the aws-auth ConfigMap, or an external OIDC provider.  
 
-*<<view-kubernetes-resources>>* -- Learn how to configure the {aws-management-console} to communicate with your Amazon EKS cluster. Use the console to view [.noloc]`Kubernetes` resources in the cluster, such as namespaces, nodes, and [.noloc]`Pods`.
+*<<view-kubernetes-resources>>* -- Learn how to configure the {aws-management-console} to communicate with your Amazon EKS cluster. Use the console to view Kubernetes resources in the cluster, such as namespaces, nodes, and Pods.
 
 *<<create-kubeconfig>>* -- Learn how to configure kubectl to communicate with your Amazon EKS cluster. Use the {aws} CLI to create a kubeconfig file. 
 
-*<<service-accounts>>* -- Learn how to associate a [.noloc]`Kubernetes` service account with {aws} IAM Roles. You can use Pod Identity or IAM Roles for Service Accounts (IRSA).  
+*<<service-accounts>>* -- Learn how to associate a Kubernetes service account with {aws} IAM Roles. You can use Pod Identity or IAM Roles for Service Accounts (IRSA).  
 
 == Common Tasks
 
 
-* Grant developers access to the [.noloc]`Kubernetes` API. View [.noloc]`Kubernetes` resources in the {aws-management-console}.  
+* Grant developers access to the Kubernetes API. View Kubernetes resources in the {aws-management-console}.  
 +
-** Solution: <<access-entries,Use access entries>> to associate [.noloc]`Kubernetes` RBAC permissions with {aws} IAM Users or Roles.
+** Solution: <<access-entries,Use access entries>> to associate Kubernetes RBAC permissions with {aws} IAM Users or Roles.
 * Configure kubectl to talk to an Amazon EKS cluster using {aws} Credentials. 
 +
 ** Solution: Use the {aws} CLI to <<create-kubeconfig, create a kubeconfig file>>. 
-* Use an external identity provider, such as Ping Identity, to authenticate users to the [.noloc]`Kubernetes` API.
+* Use an external identity provider, such as Ping Identity, to authenticate users to the Kubernetes API.
 +
 ** Solution: <<authenticate-oidc-identity-provider,Link an external OIDC provider>>.
-* Grant workloads on your [.noloc]`Kubernetes` cluster the ability to call {aws} APIs.  
+* Grant workloads on your Kubernetes cluster the ability to call {aws} APIs.  
 +
-** Solution: <<pod-identities,Use Pod Identity>> to associate an {aws} IAM Role to a [.noloc]`Kubernetes` Service Account.  
+** Solution: <<pod-identities,Use Pod Identity>> to associate an {aws} IAM Role to a Kubernetes Service Account.  
 
 == Background
 
