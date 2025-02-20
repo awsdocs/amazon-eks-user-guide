@@ -10,14 +10,14 @@ include::../../attributes.txt[]
 Learn how to create and configure the required {aws} Identity and Access Management role for Amazon EKS clusters to manage nodes and load balancers using managed or custom IAM policies.
 --
 
-An Amazon EKS cluster IAM role is required for each cluster. [.noloc]`Kubernetes` clusters managed by Amazon EKS use this role to manage nodes and the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] uses this role to create load balancers with Elastic Load Balancing for services.
+An Amazon EKS cluster IAM role is required for each cluster. Kubernetes clusters managed by Amazon EKS use this role to manage nodes and the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] uses this role to create load balancers with Elastic Load Balancing for services.
 
 Before you can create Amazon EKS clusters, you must create an IAM role with either of the following IAM policies:
 
 
 
 * link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy,type="documentation"]
-* A custom IAM policy. The minimal permissions that follow allows the [.noloc]`Kubernetes` cluster to manage nodes, but doesn't allow the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] to create load balancers with Elastic Load Balancing. Your custom IAM policy must have at least the following permissions:
+* A custom IAM policy. The minimal permissions that follow allows the Kubernetes cluster to manage nodes, but doesn't allow the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] to create load balancers with Elastic Load Balancing. Your custom IAM policy must have at least the following permissions:
 +
 [source,json,subs="verbatim,attributes"]
 ----

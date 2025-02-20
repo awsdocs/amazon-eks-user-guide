@@ -1,27 +1,27 @@
 [.topic]
 [#eks-ami-versions-windows]
-= Retrieve [.noloc]`Windows` AMI version information
+= Retrieve Windows AMI version information
 :info_titleabbrev: Get version information
 
 include::../attributes.txt[]
 
 [abstract]
 --
-This topic lists versions of the Amazon EKS optimized [.noloc]`Windows` AMIs and their corresponding versions of `kubelet`, `containerd`, and `csi-proxy`.
+This topic lists versions of the Amazon EKS optimized Windows AMIs and their corresponding versions of `kubelet`, `containerd`, and `csi-proxy`.
 --
 
 [IMPORTANT]
 ====
 
-Extended Support for Amazon EKS optimized [.noloc]`Windows` AMIs that are published by {aws} isn't available for [.noloc]`Kubernetes` version `1.23` but is available for [.noloc]`Kubernetes` version `1.24` and higher.
+Extended Support for Amazon EKS optimized Windows AMIs that are published by {aws} isn't available for Kubernetes version `1.23` but is available for Kubernetes version `1.24` and higher.
 
 ====
 
-This topic lists versions of the Amazon EKS optimized [.noloc]`Windows` AMIs and their corresponding versions of https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet], https://containerd.io/[containerd], and https://github.com/kubernetes-csi/csi-proxy[csi-proxy].
+This topic lists versions of the Amazon EKS optimized Windows AMIs and their corresponding versions of https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet], https://containerd.io/[containerd], and https://github.com/kubernetes-csi/csi-proxy[csi-proxy].
 
 The Amazon EKS optimized AMI metadata, including the AMI ID, for each variant can be retrieved programmatically. For more information, see <<retrieve-windows-ami-id>>.
 
-AMIs are versioned by [.noloc]`Kubernetes` version and the release date of the AMI in the following format:
+AMIs are versioned by Kubernetes version and the release date of the AMI in the following format:
 
 [source,none,subs="verbatim,attributes"]
 ----
@@ -31,18 +31,18 @@ k8s_major_version.k8s_minor_version-release_date
 [NOTE]
 ====
 
-Amazon EKS managed node groups support the November 2022 and later releases of the [.noloc]`Windows` AMIs.
+Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs.
 
 ====
 
 [#eks-ami-versions-windows-2022-core]
-== Amazon EKS optimized [.noloc]`Windows` Server 2022 Core AMI
+== Amazon EKS optimized Windows Server 2022 Core AMI
 
-The following tables list the current and previous versions of the Amazon EKS optimized [.noloc]`Windows` Server 2022 Core AMI.
+The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Core AMI.
 
 ====
 [role="tablist"]
-*[.noloc]`Kubernetes` version [.noloc]`1.32`*::
+*Kubernetes version 1.32*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -59,7 +59,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |
 |===
 
-*[.noloc]`Kubernetes` version [.noloc]`1.31`*::
+*Kubernetes version 1.31*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -112,7 +112,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |
 |===
 
-*[.noloc]`Kubernetes` version [.noloc]`1.30`*::
+*Kubernetes version 1.30*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -183,7 +183,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |
 |===
 
-*[.noloc]`Kubernetes` version [.noloc]`1.29`*::
+*Kubernetes version 1.29*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -281,10 +281,10 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.29.0`
 |`1.6.18`
 |`1.1.2`
-|Excluded Standalone [.noloc]`Windows` Update https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca[KB5034439] on [.noloc]`Windows` Server 2022 Core AMIs. The KB applies only to [.noloc]`Windows` installations with a separate [.noloc]`WinRE` partition, which aren't included with any of our Amazon EKS Optimized [.noloc]`Windows` AMIs.
+|Excluded Standalone Windows Update https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca[KB5034439] on Windows Server 2022 Core AMIs. The KB applies only to Windows installations with a separate WinRE partition, which aren't included with any of our Amazon EKS Optimized Windows AMIs.
 |===
 
-*[.noloc]`Kubernetes` version [.noloc]`1.28`*::
+*Kubernetes version 1.28*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -376,7 +376,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.28.5`
 |`1.6.18`
 |`1.1.2`
-|Excluded Standalone [.noloc]`Windows` Update https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca[KB5034439] on [.noloc]`Windows` Server 2022 Core AMIs. The KB applies only to [.noloc]`Windows` installations with a separate [.noloc]`WinRE` partition, which aren't included with any of our Amazon EKS Optimized [.noloc]`Windows` AMIs.
+|Excluded Standalone Windows Update https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca[KB5034439] on Windows Server 2022 Core AMIs. The KB applies only to Windows installations with a separate WinRE partition, which aren't included with any of our Amazon EKS Optimized Windows AMIs.
 
 |`1.28-2023.12.12`
 |`1.28.3`
@@ -409,7 +409,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |
 |===
 
-*[.noloc]`Kubernetes` version [.noloc]`1.27`*::
+*Kubernetes version 1.27*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -501,7 +501,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.27.9`
 |`1.6.18`
 |`1.1.2`
-|Excluded Standalone [.noloc]`Windows` Update https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca[KB5034439] on [.noloc]`Windows` Server 2022 Core AMIs. The KB applies only to [.noloc]`Windows` installations with a separate [.noloc]`WinRE` partition, which aren't included with any of our Amazon EKS Optimized [.noloc]`Windows` AMIs.
+|Excluded Standalone Windows Update https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca[KB5034439] on Windows Server 2022 Core AMIs. The KB applies only to Windows installations with a separate WinRE partition, which aren't included with any of our Amazon EKS Optimized Windows AMIs.
 
 |`1.27-2023.12.12`
 |`1.27.7`
@@ -531,7 +531,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.27.4`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.27-2023.08.17`
 |`1.27.4`
@@ -576,7 +576,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |
 |===
 
-*[.noloc]`Kubernetes` version [.noloc]`1.26`*::
+*Kubernetes version 1.26*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -662,7 +662,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.26.12`
 |`1.6.18`
 |`1.1.2`
-|Excluded Standalone [.noloc]`Windows` Update https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca[KB5034439] on [.noloc]`Windows` Server 2022 Core AMIs. The KB applies only to [.noloc]`Windows` installations with a separate [.noloc]`WinRE` partition, which aren't included with any of our Amazon EKS Optimized [.noloc]`Windows` AMIs.
+|Excluded Standalone Windows Update https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca[KB5034439] on Windows Server 2022 Core AMIs. The KB applies only to Windows installations with a separate WinRE partition, which aren't included with any of our Amazon EKS Optimized Windows AMIs.
 
 |`1.26-2023.12.12`
 |`1.26.10`
@@ -686,7 +686,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.26.7`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.26-2023.08.17`
 |`1.26.7`
@@ -716,7 +716,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.26.4`
 |`1.6.6`
 |`1.1.1`
-|Upgraded [.noloc]`Kubernetes` to `1.26.4`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
+|Upgraded Kubernetes to `1.26.4`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
 
 |`1.26-2023.05.09`
 |`1.26.2`
@@ -743,7 +743,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |
 |===
 
-*[.noloc]`Kubernetes` version [.noloc]`1.25`*::
+*Kubernetes version 1.25*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -829,7 +829,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.16`
 |`1.6.18`
 |`1.1.2`
-|Excluded Standalone [.noloc]`Windows` Update https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca[KB5034439] on [.noloc]`Windows` Server 2022 Core AMIs. The KB applies only to [.noloc]`Windows` installations with a separate [.noloc]`WinRE` partition, which aren't included with any of our Amazon EKS Optimized [.noloc]`Windows` AMIs.
+|Excluded Standalone Windows Update https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca[KB5034439] on Windows Server 2022 Core AMIs. The KB applies only to Windows installations with a separate WinRE partition, which aren't included with any of our Amazon EKS Optimized Windows AMIs.
 
 |`1.25-2023.12.12`
 |`1.25.15`
@@ -853,7 +853,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.12`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.25-2023.08.17`
 |`1.25.12`
@@ -883,7 +883,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.9`
 |`1.6.6`
 |`1.1.1`
-|Upgraded [.noloc]`Kubernetes` to `1.25.9`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
+|Upgraded Kubernetes to `1.25.9`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
 
 |`1.25-2023.05.09`
 |`1.25.7`
@@ -901,7 +901,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.6`
 |`1.6.6`
 |`1.1.1`
-|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate [.noloc]`gMSA` authentication for [.noloc]`Windows` containers on Amazon EKS.
+|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate gMSA authentication for Windows containers on Amazon EKS.
 
 |`1.25-2023.03.20`
 |`1.25.6`
@@ -916,7 +916,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |
 |===
 
-*[.noloc]`Kubernetes` version [.noloc]`1.24`*::
+*Kubernetes version 1.24*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -1002,7 +1002,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.17`
 |`1.6.18`
 |`1.1.2`
-|Excluded Standalone [.noloc]`Windows` Update https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca[KB5034439] on [.noloc]`Windows` Server 2022 Core AMIs. The KB applies only to [.noloc]`Windows` installations with a separate [.noloc]`WinRE` partition, which aren't included with any of our Amazon EKS Optimized [.noloc]`Windows` AMIs.
+|Excluded Standalone Windows Update https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca[KB5034439] on Windows Server 2022 Core AMIs. The KB applies only to Windows installations with a separate WinRE partition, which aren't included with any of our Amazon EKS Optimized Windows AMIs.
 
 |`1.24-2023.12.12`
 |`1.24.17`
@@ -1026,7 +1026,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.16`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.24-2023.08.17`
 |`1.24.16`
@@ -1056,7 +1056,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.13`
 |`1.6.6`
 |`1.1.1`
-|Upgraded [.noloc]`Kubernetes` to `1.24.13`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
+|Upgraded Kubernetes to `1.24.13`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
 
 |`1.24-2023.05.09`
 |`1.24.7`
@@ -1074,13 +1074,13 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.7`
 |`1.6.6`
 |`1.1.1`
-|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate gMSA authentication for [.noloc]`Windows` containers on Amazon EKS.
+|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate gMSA authentication for Windows containers on Amazon EKS.
 
 |`1.24-2023.03.20`
 |`1.24.7`
 |`1.6.6`
 |`1.1.1`
-|[.noloc]`Kubernetes` version downgraded to `1.24.7` because `1.24.10` has a reported issue in `kube-proxy`.
+|Kubernetes version downgraded to `1.24.7` because `1.24.10` has a reported issue in `kube-proxy`.
 
 |`1.24-2023.02.14`
 |`1.24.10`
@@ -1115,13 +1115,13 @@ The following tables list the current and previous versions of the Amazon EKS op
 ====
 
 [#eks-ami-versions-windows-2022-full]
-== Amazon EKS optimized [.noloc]`Windows` Server 2022 Full AMI
+== Amazon EKS optimized Windows Server 2022 Full AMI
 
-The following tables list the current and previous versions of the Amazon EKS optimized [.noloc]`Windows` Server 2022 Full AMI.
+The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Full AMI.
 
 ====
 [role="tablist"]
-*[.noloc]`Kubernetes` version [.noloc]`1.32`*::
+*Kubernetes version 1.32*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -1140,7 +1140,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.31`*::
+*Kubernetes version 1.31*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -1194,7 +1194,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.30`*::
+*Kubernetes version 1.30*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -1266,7 +1266,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.29`*::
+*Kubernetes version 1.29*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -1368,7 +1368,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.28`*::
+*Kubernetes version 1.28*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -1494,7 +1494,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.27`*::
+*Kubernetes version 1.27*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -1616,7 +1616,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.27.4`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.27-2023.08.17`
 |`1.27.4`
@@ -1662,7 +1662,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.26`*::
+*Kubernetes version 1.26*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -1772,7 +1772,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.26.7`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.26-2023.08.17`
 |`1.26.7`
@@ -1802,7 +1802,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.26.4`
 |`1.6.6`
 |`1.1.1`
-|Upgraded [.noloc]`Kubernetes` to `1.26.4`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
+|Upgraded Kubernetes to `1.26.4`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
 
 |`1.26-2023.05.09`
 |`1.26.2`
@@ -1830,7 +1830,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.25`*::
+*Kubernetes version 1.25*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -1940,7 +1940,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.12`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.25-2023.08.17`
 |`1.25.12`
@@ -1970,7 +1970,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.9`
 |`1.6.6`
 |`1.1.1`
-|Upgraded [.noloc]`Kubernetes` to `1.25.9`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
+|Upgraded Kubernetes to `1.25.9`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
 
 |`1.25-2023.05.09`
 |`1.25.7`
@@ -1988,7 +1988,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.6`
 |`1.6.6`
 |`1.1.1`
-|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate [.noloc]`gMSA` authentication for [.noloc]`Windows` containers on Amazon EKS.
+|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate gMSA authentication for Windows containers on Amazon EKS.
 
 |`1.25-2023.03.20`
 |`1.25.6`
@@ -2004,7 +2004,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.24`*::
+*Kubernetes version 1.24*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -2114,7 +2114,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.16`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.24-2023.08.17`
 |`1.24.16`
@@ -2144,7 +2144,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.13`
 |`1.6.6`
 |`1.1.1`
-|Upgraded [.noloc]`Kubernetes` to `1.24.13`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
+|Upgraded Kubernetes to `1.24.13`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
 
 |`1.24-2023.05.09`
 |`1.24.7`
@@ -2162,13 +2162,13 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.7`
 |`1.6.6`
 |`1.1.1`
-|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate [.noloc]`gMSA` authentication for [.noloc]`Windows` containers on Amazon EKS.
+|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate gMSA authentication for Windows containers on Amazon EKS.
 
 |`1.24-2023.03.20`
 |`1.24.7`
 |`1.6.6`
 |`1.1.1`
-|[.noloc]`Kubernetes` version downgraded to `1.24.7` because `1.24.10` has a reported issue in `kube-proxy`.
+|Kubernetes version downgraded to `1.24.7` because `1.24.10` has a reported issue in `kube-proxy`.
 
 |`1.24-2023.02.14`
 |`1.24.10`
@@ -2203,13 +2203,13 @@ The following tables list the current and previous versions of the Amazon EKS op
 ====
 
 [#eks-ami-versions-windows-2019-core]
-== Amazon EKS optimized [.noloc]`Windows` Server 2019 Core AMI
+== Amazon EKS optimized Windows Server 2019 Core AMI
 
-The following tables list the current and previous versions of the Amazon EKS optimized [.noloc]`Windows` Server 2019 Core AMI.
+The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2019 Core AMI.
 
 ====
 [role="tablist"]
-*[.noloc]`Kubernetes` version [.noloc]`1.32`*::
+*Kubernetes version 1.32*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -2228,7 +2228,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 |===
 
-*[.noloc]`Kubernetes` version [.noloc]`1.31`*::
+*Kubernetes version 1.31*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -2282,7 +2282,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.30`*::
+*Kubernetes version 1.30*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -2354,7 +2354,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.29`*::
+*Kubernetes version 1.29*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -2456,7 +2456,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.28`*::
+*Kubernetes version 1.28*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -2582,7 +2582,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.27`*::
+*Kubernetes version 1.27*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -2704,7 +2704,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.27.4`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.27-2023.08.17`
 |`1.27.4`
@@ -2750,7 +2750,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.26`*::
+*Kubernetes version 1.26*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -2860,7 +2860,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.26.7`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.26-2023.08.17`
 |`1.26.7`
@@ -2890,7 +2890,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.26.4`
 |`1.6.6`
 |`1.1.1`
-|Upgraded [.noloc]`Kubernetes` to `1.26.4`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
+|Upgraded Kubernetes to `1.26.4`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
 
 |`1.26-2023.05.09`
 |`1.26.2`
@@ -2918,7 +2918,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.25`*::
+*Kubernetes version 1.25*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -3028,7 +3028,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.12`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.25-2023.08.17`
 |`1.25.12`
@@ -3058,7 +3058,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.9`
 |`1.6.6`
 |`1.1.1`
-|Upgraded [.noloc]`Kubernetes` to `1.25.9`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
+|Upgraded Kubernetes to `1.25.9`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
 
 |`1.25-2023.05.09`
 |`1.25.7`
@@ -3076,7 +3076,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.6`
 |`1.6.6`
 |`1.1.1`
-|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate [.noloc]`gMSA` authentication for [.noloc]`Windows` containers on Amazon EKS.
+|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate gMSA authentication for Windows containers on Amazon EKS.
 
 |`1.25-2023.03.20`
 |`1.25.6`
@@ -3092,7 +3092,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.24`*::
+*Kubernetes version 1.24*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -3202,7 +3202,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.16`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.24-2023.08.17`
 |`1.24.16`
@@ -3232,7 +3232,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.13`
 |`1.6.6`
 |`1.1.1`
-|Upgraded [.noloc]`Kubernetes` to `1.24.13`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
+|Upgraded Kubernetes to `1.24.13`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
 
 |`1.24-2023.05.09`
 |`1.24.7`
@@ -3250,13 +3250,13 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.7`
 |`1.6.6`
 |`1.1.1`
-|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate [.noloc]`gMSA` authentication for [.noloc]`Windows` containers on Amazon EKS.
+|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate gMSA authentication for Windows containers on Amazon EKS.
 
 |`1.24-2023.03.20`
 |`1.24.7`
 |`1.6.6`
 |`1.1.1`
-|[.noloc]`Kubernetes` version downgraded to `1.24.7` because `1.24.10` has a reported issue in `kube-proxy`.
+|Kubernetes version downgraded to `1.24.7` because `1.24.10` has a reported issue in `kube-proxy`.
 
 |`1.24-2023.02.14`
 |`1.24.10`
@@ -3291,13 +3291,13 @@ The following tables list the current and previous versions of the Amazon EKS op
 ====
 
 [#eks-ami-versions-windows-2019-full]
-== Amazon EKS optimized [.noloc]`Windows` Server 2019 Full AMI
+== Amazon EKS optimized Windows Server 2019 Full AMI
 
-The following tables list the current and previous versions of the Amazon EKS optimized [.noloc]`Windows` Server 2019 Full AMI.
+The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2019 Full AMI.
 
 ====
 [role="tablist"]
-*[.noloc]`Kubernetes` version [.noloc]`1.32`*::
+*Kubernetes version 1.32*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -3316,7 +3316,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.31`*::
+*Kubernetes version 1.31*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -3370,7 +3370,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.30`*::
+*Kubernetes version 1.30*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -3442,7 +3442,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.29`*::
+*Kubernetes version 1.29*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -3544,7 +3544,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.28`*::
+*Kubernetes version 1.28*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -3670,7 +3670,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.27`*::
+*Kubernetes version 1.27*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -3792,7 +3792,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.27.4`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.27-2023.08.17`
 |`1.27.4`
@@ -3838,7 +3838,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.26`*::
+*Kubernetes version 1.26*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -3948,7 +3948,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.26.7`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.26-2023.08.17`
 |`1.26.7`
@@ -3978,7 +3978,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.26.4`
 |`1.6.6`
 |`1.1.1`
-|Upgraded [.noloc]`Kubernetes` to `1.26.4`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
+|Upgraded Kubernetes to `1.26.4`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
 
 |`1.26-2023.05.09`
 |`1.26.2`
@@ -4006,7 +4006,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.25`*::
+*Kubernetes version 1.25*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -4116,7 +4116,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.12`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.25-2023.08.17`
 |`1.25.12`
@@ -4146,7 +4146,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.9`
 |`1.6.6`
 |`1.1.1`
-|Upgraded [.noloc]`Kubernetes` to `1.25.9`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
+|Upgraded Kubernetes to `1.25.9`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
 
 |`1.25-2023.05.09`
 |`1.25.7`
@@ -4164,7 +4164,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.25.6`
 |`1.6.6`
 |`1.1.1`
-|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate [.noloc]`gMSA` authentication for [.noloc]`Windows` containers on Amazon EKS.
+|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate gMSA authentication for Windows containers on Amazon EKS.
 
 |`1.25-2023.03.20`
 |`1.25.6`
@@ -4180,7 +4180,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |===
 
 
-*[.noloc]`Kubernetes` version [.noloc]`1.24`*::
+*Kubernetes version 1.24*::
 +
 [cols="1,1,1,1,1", options="header"]
 |===
@@ -4290,7 +4290,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.16`
 |`1.6.6`
 |`1.1.2`
-|Upgraded the Amazon VPC CNI plugin to use the [.noloc]`Kubernetes` connector binary, which gets the [.noloc]`Pod` IP address from the [.noloc]`Kubernetes` API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
+|Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/100[pull request #100].
 
 |`1.24-2023.08.17`
 |`1.24.16`
@@ -4320,7 +4320,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.13`
 |`1.6.6`
 |`1.1.1`
-|Upgraded [.noloc]`Kubernetes` to `1.24.13`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
+|Upgraded Kubernetes to `1.24.13`. Added support for host port mapping in CNI. Merged https://github.com/aws/amazon-vpc-cni-plugins/pull/93[pull request #93].
 
 |`1.24-2023.05.09`
 |`1.24.7`
@@ -4338,13 +4338,13 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.24.7`
 |`1.6.6`
 |`1.1.1`
-|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate [.noloc]`gMSA` authentication for [.noloc]`Windows` containers on Amazon EKS.
+|Installed a link:containers/domainless-windows-authentication-for-amazon-eks-windows-pods[domainless gMSA plugin,type="blog"] to facilitate gMSA authentication for Windows containers on Amazon EKS.
 
 |`1.24-2023.03.20`
 |`1.24.7`
 |`1.6.6`
 |`1.1.1`
-|[.noloc]`Kubernetes` version downgraded to `1.24.7` because `1.24.10` has a reported issue in `kube-proxy`.
+|Kubernetes version downgraded to `1.24.7` because `1.24.10` has a reported issue in `kube-proxy`.
 
 |`1.24-2023.02.14`
 |`1.24.10`

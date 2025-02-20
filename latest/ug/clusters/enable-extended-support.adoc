@@ -16,7 +16,7 @@ For more information about upgrade policies, see <<view-upgrade-policy>>.
 [IMPORTANT]
 ====
 
-If you want your cluster to stay on its current [.noloc]`Kubernetes` version to take advantage of the extended support period, you must enable the extended support upgrade policy before the end of standard support period.
+If you want your cluster to stay on its current Kubernetes version to take advantage of the extended support period, you must enable the extended support upgrade policy before the end of standard support period.
 
 If you do not enable extended support, your cluster will be automatically upgraded. 
 

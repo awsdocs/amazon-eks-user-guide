@@ -8,7 +8,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn to deploy [.noloc]`Kubernetes` clusters with Amazon EKS across cloud and on-premises environments to meet your operational needs, while leveraging {aws} services and support.
+Learn to deploy Kubernetes clusters with Amazon EKS across cloud and on-premises environments to meet your operational needs, while leveraging {aws} services and support.
 --
 
 [#understand-deployment-options]

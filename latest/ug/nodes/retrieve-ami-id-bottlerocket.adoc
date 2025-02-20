@@ -1,6 +1,6 @@
 [.topic]
 [#retrieve-ami-id-bottlerocket]
-= Retrieve recommended [.noloc]`Bottlerocket` AMI IDs
+= Retrieve recommended Bottlerocket AMI IDs
 :info_titleabbrev: Get latest IDs
 
 include::../attributes.txt[]
@@ -12,7 +12,7 @@ You can retrieve the Amazon Machine Image (AMI) ID for Amazon EKS optimized AMIs
 
 When deploying nodes, you can specify an ID for a pre-built Amazon EKS optimized Amazon Machine Image (AMI). To retrieve an AMI ID that fits your desired configuration, query the {aws} Systems Manager Parameter Store API. Using this API eliminates the need to manually look up Amazon EKS optimized AMI IDs. For more information, see link:systems-manager/latest/APIReference/API_GetParameter.html[GetParameter,type="documentation"]. The link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that you use must have the `ssm:GetParameter` IAM permission to retrieve the Amazon EKS optimized AMI metadata.
 
-You can retrieve the image ID of the latest recommended Amazon EKS optimized [.noloc]`Bottlerocket` AMI with the following {aws} CLI command, which uses the sub-parameter `image_id`. Make the following modifications to the command as needed and then run the modified command:
+You can retrieve the image ID of the latest recommended Amazon EKS optimized Bottlerocket AMI with the following {aws} CLI command, which uses the sub-parameter `image_id`. Make the following modifications to the command as needed and then run the modified command:
 
 * Replace [.replaceable]`kubernetes-version` with a supported <<platform-versions,Amazon EKS version>>.
 * Replace [.replaceable]`-flavor` with one of the following options.

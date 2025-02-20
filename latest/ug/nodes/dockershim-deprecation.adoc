@@ -7,31 +7,31 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Starting with [.noloc]`Kubernetes` version `1.24`, Amazon EKS AMIs that are officially published only include the `containerd` runtime.
+Starting with Kubernetes version `1.24`, Amazon EKS AMIs that are officially published only include the `containerd` runtime.
 --
 
-[.noloc]`Kubernetes` no longer supports `dockershim`. The [.noloc]`Kubernetes` team removed the runtime in [.noloc]`Kubernetes` version `1.24`. For more information, see https://kubernetes.io/blog/2022/01/07/kubernetes-is-moving-on-from-dockershim/[Kubernetes is Moving on From Dockershim: Commitments and Next Steps] on the [.noloc]`Kubernetes` Blog.
+Kubernetes no longer supports `dockershim`. The Kubernetes team removed the runtime in Kubernetes version `1.24`. For more information, see https://kubernetes.io/blog/2022/01/07/kubernetes-is-moving-on-from-dockershim/[Kubernetes is Moving on From Dockershim: Commitments and Next Steps] on the Kubernetes Blog.
 
-Amazon EKS also ended support for `dockershim` starting with the [.noloc]`Kubernetes` version `1.24` release. Amazon EKS AMIs that are officially published have `containerd` as the only runtime starting with version `1.24`. This topic covers some details, but more information is available in link:containers/all-you-need-to-know-about-moving-to-containerd-on-amazon-eks[All you need to know about moving to containerd on Amazon EKS,type="blog"].
+Amazon EKS also ended support for `dockershim` starting with the Kubernetes version `1.24` release. Amazon EKS AMIs that are officially published have `containerd` as the only runtime starting with version `1.24`. This topic covers some details, but more information is available in link:containers/all-you-need-to-know-about-moving-to-containerd-on-amazon-eks[All you need to know about moving to containerd on Amazon EKS,type="blog"].
 
-There's a `kubectl` plugin that you can use to see which of your [.noloc]`Kubernetes` workloads mount the [.noloc]`Docker` socket volume. For more information, see https://github.com/aws-containers/kubectl-detector-for-docker-socket[Detector for Docker Socket (DDS)] on [.noloc]`GitHub`. Amazon EKS AMIs that run [.noloc]`Kubernetes` versions that are earlier than `1.24` use [.noloc]`Docker` as the default runtime. However, these Amazon EKS AMIs have a bootstrap flag option that you can use to test out your workloads on any supported cluster using `containerd`. For more information, see <<containerd-bootstrap>>.
+There's a `kubectl` plugin that you can use to see which of your Kubernetes workloads mount the Docker socket volume. For more information, see https://github.com/aws-containers/kubectl-detector-for-docker-socket[Detector for Docker Socket (DDS)] on GitHub. Amazon EKS AMIs that run Kubernetes versions that are earlier than `1.24` use Docker as the default runtime. However, these Amazon EKS AMIs have a bootstrap flag option that you can use to test out your workloads on any supported cluster using `containerd`. For more information, see <<containerd-bootstrap>>.
 
-We will continue to publish AMIs for existing [.noloc]`Kubernetes` versions until the end of their support date. For more information, see <<kubernetes-release-calendar>>. If you require more time to test your workloads on `containerd`, use a supported version before `1.24`. But, when you want to upgrade official Amazon EKS AMIs to version `1.24` or later, make sure to validate that your workloads run on `containerd`.
+We will continue to publish AMIs for existing Kubernetes versions until the end of their support date. For more information, see <<kubernetes-release-calendar>>. If you require more time to test your workloads on `containerd`, use a supported version before `1.24`. But, when you want to upgrade official Amazon EKS AMIs to version `1.24` or later, make sure to validate that your workloads run on `containerd`.
 
-The `containerd` runtime provides more reliable performance and security. `containerd` is the runtime that's being standardized on across Amazon EKS. Fargate and [.noloc]`Bottlerocket` already use `containerd` only. `containerd` helps to minimize the number of Amazon EKS AMI releases that are required to address `dockershim` https://cve.mitre.org/[Common Vulnerabilities and Exposures] (CVEs). Because `dockershim` already uses `containerd` internally, you might not need to make any changes. However, there are some situations where changes might or must be required:
+The `containerd` runtime provides more reliable performance and security. `containerd` is the runtime that's being standardized on across Amazon EKS. Fargate and Bottlerocket already use `containerd` only. `containerd` helps to minimize the number of Amazon EKS AMI releases that are required to address `dockershim` https://cve.mitre.org/[Common Vulnerabilities and Exposures] (CVEs). Because `dockershim` already uses `containerd` internally, you might not need to make any changes. However, there are some situations where changes might or must be required:
 
 
 
-* You must make changes to applications that mount the [.noloc]`Docker` socket. For example, container images that are built with a container are impacted. Many monitoring tools also mount the [.noloc]`Docker` socket. You might need to wait for updates or re-deploy workloads for runtime monitoring.
-* You might need to make changes for applications that are reliant on specific [.noloc]`Docker` settings. For example, the `HTTPS_PROXY` protocol is no longer supported. You must update applications that use this protocol. For more information, see https://docs.docker.com/engine/reference/commandline/dockerd/[dockerd] in the [.noloc]`Docker` Documentation.
-* If you use the Amazon ECR credential helper to pull images, you must switch to the `kubelet` image credential provider. For more information, see https://kubernetes.io/docs/tasks/kubelet-credential-provider/kubelet-credential-provider/[Configure a kubelet image credential provider] in the [.noloc]`Kubernetes` documentation.
-* Because Amazon EKS `1.24` no longer supports [.noloc]`Docker`, some flags that the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[Amazon EKS bootstrap script] previously supported are no longer supported. Before moving to Amazon EKS `1.24` or later, you must remove any reference to flags that are now unsupported:
+* You must make changes to applications that mount the Docker socket. For example, container images that are built with a container are impacted. Many monitoring tools also mount the Docker socket. You might need to wait for updates or re-deploy workloads for runtime monitoring.
+* You might need to make changes for applications that are reliant on specific Docker settings. For example, the `HTTPS_PROXY` protocol is no longer supported. You must update applications that use this protocol. For more information, see https://docs.docker.com/engine/reference/commandline/dockerd/[dockerd] in the Docker Documentation.
+* If you use the Amazon ECR credential helper to pull images, you must switch to the `kubelet` image credential provider. For more information, see https://kubernetes.io/docs/tasks/kubelet-credential-provider/kubelet-credential-provider/[Configure a kubelet image credential provider] in the Kubernetes documentation.
+* Because Amazon EKS `1.24` no longer supports Docker, some flags that the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[Amazon EKS bootstrap script] previously supported are no longer supported. Before moving to Amazon EKS `1.24` or later, you must remove any reference to flags that are now unsupported:
 +
 ** `--container-runtime dockerd` (``containerd`` is the only supported value)
 ** `--enable-docker-bridge`
 ** `--docker-config-json`
-* If you already have [.noloc]`Fluentd` configured for [.noloc]`Container Insights`, then you must migrate [.noloc]`Fluentd` to [.noloc]`Fluent Bit` before changing to `containerd`. The [.noloc]`Fluentd` parsers are configured to only parse log messages in JSON format. Unlike `dockerd`, the `containerd` container runtime has log messages that aren't in JSON format. If you don't migrate to [.noloc]`Fluent Bit`, some of the configured [.noloc]`Fluentd's` parsers will generate a massive amount of errors inside the [.noloc]`Fluentd` container. For more information on migrating, see link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html[Set up Fluent Bit as a DaemonSet to send logs to CloudWatch Logs,type="documentation"].
-* If you use a custom AMI and you are upgrading to Amazon EKS `1.24`, then you must make sure that IP forwarding is enabled for your worker nodes. This setting wasn't needed with [.noloc]`Docker` but is required for `containerd`. It is needed to troubleshoot [.noloc]`Pod`-to-[.noloc]`Pod`, [.noloc]`Pod`-to-external, or [.noloc]`Pod`-to-[.noloc]`apiserver` network connectivity.
+* If you already have Fluentd configured for Container Insights, then you must migrate Fluentd to Fluent Bit before changing to `containerd`. The Fluentd parsers are configured to only parse log messages in JSON format. Unlike `dockerd`, the `containerd` container runtime has log messages that aren't in JSON format. If you don't migrate to Fluent Bit, some of the configured Fluentd's parsers will generate a massive amount of errors inside the Fluentd container. For more information on migrating, see link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html[Set up Fluent Bit as a DaemonSet to send logs to CloudWatch Logs,type="documentation"].
+* If you use a custom AMI and you are upgrading to Amazon EKS `1.24`, then you must make sure that IP forwarding is enabled for your worker nodes. This setting wasn't needed with Docker but is required for `containerd`. It is needed to troubleshoot Pod-to-Pod, Pod-to-external, or Pod-to-apiserver network connectivity.
 +
 To verify this setting on a worker node, run either of the following commands:
 
@@ -44,12 +44,12 @@ If the output is `0`, then run either of the following commands to activate the 
 ** `sysctl -w net.ipv4.ip_forward=1`
 ** `echo 1 > /proc/sys/net/ipv4/ip_forward`
 
-For the setting's activation on Amazon EKS AMIs for Amazon Linux 2 in the `containerd` runtime, see `https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/provisioners/install-worker.sh[install-worker.sh]` on [.noloc]`GitHub`.
+For the setting's activation on Amazon EKS AMIs for Amazon Linux 2 in the `containerd` runtime, see `https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/provisioners/install-worker.sh[install-worker.sh]` on GitHub.
 
 [#containerd-bootstrap]
-== Test Amazon Linux 2 migration from [.noloc]`Docker` to `containerd`
+== Test Amazon Linux 2 migration from Docker to `containerd`
 
-For [.noloc]`Kubernetes` version `1.23`, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized AL2 AMIs. This feature gives you a clear path to migrate to `containerd` when updating to version `1.24` or later. Amazon EKS ended support for [.noloc]`Docker` starting with the [.noloc]`Kubernetes` version `1.24` launch. The `containerd` runtime is widely adopted in the [.noloc]`Kubernetes` community and is a graduated project with the CNCF. You can test it by adding a node group to a new or existing cluster.
+For Kubernetes version `1.23`, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized AL2 AMIs. This feature gives you a clear path to migrate to `containerd` when updating to version `1.24` or later. Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch. The `containerd` runtime is widely adopted in the Kubernetes community and is a graduated project with the CNCF. You can test it by adding a node group to a new or existing cluster.
 
 You can enable the boostrap flag by creating one of the following types of node groups.
 
@@ -92,7 +92,7 @@ Run the following command to create the node group.
 eksctl create nodegroup -f my-nodegroup.yaml
 ----
 +
-If you prefer to use a different tool to create your managed node group, you must deploy the node group using a launch template. In your launch template, specify an <<retrieve-ami-id,Amazon EKS optimized AMI ID>>, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data. This user data passes arguments into the `bootstrap.sh` file. For more information about the bootstrap file, see https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] on [.noloc]`GitHub`.
+If you prefer to use a different tool to create your managed node group, you must deploy the node group using a launch template. In your launch template, specify an <<retrieve-ami-id,Amazon EKS optimized AMI ID>>, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data. This user data passes arguments into the `bootstrap.sh` file. For more information about the bootstrap file, see https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] on GitHub.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

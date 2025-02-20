@@ -17,7 +17,7 @@ Before you create an add-on, use the {aws} CLI to determine:
 
 == Procedure
 
-. Determine the name of the add-on you want to install, and the [.noloc]`Kubernetes` version of your cluster. For more information about add-ons, see <<eks-add-ons>>. 
+. Determine the name of the add-on you want to install, and the Kubernetes version of your cluster. For more information about add-ons, see <<eks-add-ons>>. 
 . Use the {aws} CLI to determine if the add-on requires IAM permissions. 
 +
 [source,shell,subs="verbatim,attributes"]

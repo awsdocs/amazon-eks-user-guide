@@ -8,7 +8,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Join nodes from your data centers to Amazon EKS [.noloc]`Kubernetes` clusters with Amazon EKS Hybrid Nodes.
+Join nodes from your data centers to Amazon EKS Kubernetes clusters with Amazon EKS Hybrid Nodes.
 --
 
 In an EKS cluster with hybrid nodes enabled, you can run on-premises and edge applications on your own infrastructure with the same Amazon EKS clusters, features, and tools that you use in {aws} Cloud.

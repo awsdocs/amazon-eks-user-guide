@@ -1,6 +1,6 @@
 [.topic]
 [#vertical-pod-autoscaler]
-= Adjust pod resources with [.noloc]`Vertical Pod Autoscaler`
+= Adjust pod resources with Vertical Pod Autoscaler
 :info_titleabbrev: Vertical Pod Autoscaler
 
 include::../attributes.txt[]
@@ -10,12 +10,12 @@ include::../attributes.txt[]
 Discover how the Kubernetes Vertical Pod Autoscaler automatically adjusts CPU and memory reservations for your Pods to optimize resource utilization and right-size applications on Amazon EKS.
 --
 
-The [.noloc]`Kubernetes` https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler[Vertical Pod Autoscaler] automatically adjusts the CPU and memory reservations for your [.noloc]`Pods` to help "right size" your applications. This adjustment can improve cluster resource utilization and free up CPU and memory for other [.noloc]`Pods`. This topic helps you to deploy the Vertical Pod Autoscaler to your cluster and verify that it is working.
+The Kubernetes https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler[Vertical Pod Autoscaler] automatically adjusts the CPU and memory reservations for your Pods to help "right size" your applications. This adjustment can improve cluster resource utilization and free up CPU and memory for other Pods. This topic helps you to deploy the Vertical Pod Autoscaler to your cluster and verify that it is working.
 
 
 
 * You have an existing Amazon EKS cluster. If you don't, see <<getting-started>>.
-* You have the [.noloc]`Kubernetes` Metrics Server installed. For more information, see <<metrics-server>>.
+* You have the Kubernetes Metrics Server installed. For more information, see <<metrics-server>>.
 * You are using a `kubectl` client that is <<eks-configure-kubectl,configured to communicate with your Amazon EKS cluster>>.
 * OpenSSL `1.1.1` or later installed on your device.
 
@@ -26,7 +26,7 @@ The [.noloc]`Kubernetes` https://github.com/kubernetes/autoscaler/tree/master/ve
 In this section, you deploy the Vertical Pod Autoscaler to your cluster.
 
 . Open a terminal window and navigate to a directory where you would like to download the Vertical Pod Autoscaler source code. 
-. Clone the https://github.com/kubernetes/autoscaler[kubernetes/autoscaler][.noloc]`GitHub` repository.
+. Clone the https://github.com/kubernetes/autoscaler[kubernetes/autoscaler]GitHub repository.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -67,7 +67,7 @@ sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-code.amazonaws.com/
 ----
 ./hack/vpa-up.sh
 ----
-. Verify that the Vertical Pod Autoscaler [.noloc]`Pods` have been created successfully.
+. Verify that the Vertical Pod Autoscaler Pods have been created successfully.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -98,7 +98,7 @@ In this section, you deploy a sample application to verify that the Vertical Pod
 ----
 kubectl apply -f examples/hamster.yaml
 ----
-. Get the [.noloc]`Pods` from the `hamster` example application.
+. Get the Pods from the `hamster` example application.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -112,7 +112,7 @@ An example output is as follows.
 hamster-c7d89d6db-rglf5   1/1     Running   0          48s
 hamster-c7d89d6db-znvz5   1/1     Running   0          48s
 ----
-. Describe one of the [.noloc]`Pods` to view its `cpu` and `memory` reservation. Replace [.replaceable]`c7d89d6db-rglf5` with one of the IDs returned in your output from the previous step.
+. Describe one of the Pods to view its `cpu` and `memory` reservation. Replace [.replaceable]`c7d89d6db-rglf5` with one of the IDs returned in your output from the previous step.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -146,16 +146,16 @@ Containers:
 [...]
 ----
 +
-You can see that the original [.noloc]`Pod` reserves 100 millicpu of CPU and 50 mebibytes of memory. For this example application, 100 millicpu is less than the [.noloc]`Pod` needs to run, so it is CPU-constrained. It also reserves much less memory than it needs. The Vertical Pod Autoscaler `vpa-recommender` deployment analyzes the [.noloc]`hamster` [.noloc]`Pods` to see if the CPU and memory requirements are appropriate. If adjustments are needed, the `vpa-updater` relaunches the [.noloc]`Pods` with updated values.
-. Wait for the `vpa-updater` to launch a new [.noloc]`hamster` [.noloc]`Pods`. This should take a minute or two. You can monitor the [.noloc]`Pods` with the following command.
+You can see that the original Pod reserves 100 millicpu of CPU and 50 mebibytes of memory. For this example application, 100 millicpu is less than the Pod needs to run, so it is CPU-constrained. It also reserves much less memory than it needs. The Vertical Pod Autoscaler `vpa-recommender` deployment analyzes the hamster Pods to see if the CPU and memory requirements are appropriate. If adjustments are needed, the `vpa-updater` relaunches the Pods with updated values.
+. Wait for the `vpa-updater` to launch a new hamster Pods. This should take a minute or two. You can monitor the Pods with the following command.
 +
-NOTE: If you are not sure that a new [.noloc]`Pod` has launched, compare the [.noloc]`Pod` names with your previous list. When the new [.noloc]`Pod` launches, you will see a new [.noloc]`Pod` name.
+NOTE: If you are not sure that a new Pod has launched, compare the Pod names with your previous list. When the new Pod launches, you will see a new Pod name.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl get --watch Pods -l app=hamster
 ----
-. When a new [.noloc]`hamster` [.noloc]`Pods` is started, describe it and view the updated CPU and memory reservations.
+. When a new hamster Pods is started, describe it and view the updated CPU and memory reservations.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -189,7 +189,7 @@ Containers:
 [...]
 ----
 +
-In the previous output, you can see that the `cpu` reservation increased to 587 millicpu, which is over five times the original value. The `memory` increased to 262,144 Kilobytes, which is around 250 mebibytes, or five times the original value. This [.noloc]`Pod` was under-resourced, and the Vertical Pod Autoscaler corrected the estimate with a much more appropriate value.
+In the previous output, you can see that the `cpu` reservation increased to 587 millicpu, which is over five times the original value. The `memory` increased to 262,144 Kilobytes, which is around 250 mebibytes, or five times the original value. This Pod was under-resourced, and the Vertical Pod Autoscaler corrected the estimate with a much more appropriate value.
 . Describe the `hamster-vpa` resource to view the new recommendation.
 +
 [source,bash,subs="verbatim,attributes"]

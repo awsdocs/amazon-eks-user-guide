@@ -66,7 +66,7 @@ Note that you can change the image location and provide `imagePullSecrets` for E
 . Choose *Get more add-ons*.
 . Select the box in the top right of the add-on box for EKS Pod Identity Agent and then choose *Next*.
 . On the *Configure selected add-ons settings* page, select any version in the *Version* dropdown list.
-. (Optional) Expand *Optional configuration settings* to enter additional configuration. For example, you can provide an alternative container image location and `ImagePullSecrets`. The [.noloc]`JSON Schema` with accepted keys is shown in *Add-on configuration schema*.
+. (Optional) Expand *Optional configuration settings* to enter additional configuration. For example, you can provide an alternative container image location and `ImagePullSecrets`. The JSON Schema with accepted keys is shown in *Add-on configuration schema*.
 +
 Enter the configuration keys and values in *Configuration values*.
 . Choose *Next*.

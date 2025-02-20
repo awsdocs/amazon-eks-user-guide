@@ -1,6 +1,6 @@
 [.topic]
 [#autoscaling]
-= Scale cluster compute with [.noloc]`Karpenter` and [.noloc]`Cluster Autoscaler`
+= Scale cluster compute with Karpenter and Cluster Autoscaler
 :info_titleabbrev: Autoscaling
 
 include::../attributes.txt[]
@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Discover how Amazon EKS integrates Kubernetes autoscaling with {aws}, empowering rapid and efficient scaling of compute resources to meet application demands using Karpenter and Cluster Autoscaler.
 --
 
-Autoscaling is a function that automatically scales your resources out and in to meet changing demands. This is a major [.noloc]`Kubernetes` function that would otherwise require extensive human resources to perform manually.
+Autoscaling is a function that automatically scales your resources out and in to meet changing demands. This is a major Kubernetes function that would otherwise require extensive human resources to perform manually.
 
 == EKS Auto Mode
 
@@ -28,8 +28,8 @@ Amazon EKS supports two additional autoscaling products:
 
 
 
-*[.noloc]`Karpenter`*::
-[.noloc]`Karpenter` is a flexible, high-performance [.noloc]`Kubernetes` cluster autoscaler that helps improve application availability and cluster efficiency. [.noloc]`Karpenter` launches right-sized compute resources (for example, Amazon EC2 instances) in response to changing application load in under a minute. Through integrating [.noloc]`Kubernetes` with {aws}, [.noloc]`Karpenter` can provision just-in-time compute resources that precisely meet the requirements of your workload. [.noloc]`Karpenter` automatically provisions new compute resources based on the specific requirements of cluster workloads. These include compute, storage, acceleration, and scheduling requirements. Amazon EKS supports clusters using [.noloc]`Karpenter`, although [.noloc]`Karpenter` works with any conformant [.noloc]`Kubernetes` cluster. For more information, see the https://karpenter.sh/docs/[Karpenter] documentation.
+*Karpenter*::
+Karpenter is a flexible, high-performance Kubernetes cluster autoscaler that helps improve application availability and cluster efficiency. Karpenter launches right-sized compute resources (for example, Amazon EC2 instances) in response to changing application load in under a minute. Through integrating Kubernetes with {aws}, Karpenter can provision just-in-time compute resources that precisely meet the requirements of your workload. Karpenter automatically provisions new compute resources based on the specific requirements of cluster workloads. These include compute, storage, acceleration, and scheduling requirements. Amazon EKS supports clusters using Karpenter, although Karpenter works with any conformant Kubernetes cluster. For more information, see the https://karpenter.sh/docs/[Karpenter] documentation.
 +
 [IMPORTANT]
 ====
@@ -37,4 +37,4 @@ Karpenter is open-source software which {aws} customers are responsible for inst
 ====
 
 *Cluster Autoscaler*::
-The [.noloc]`Kubernetes` Cluster Autoscaler automatically adjusts the number of nodes in your cluster when pods fail or are rescheduled onto other nodes. The Cluster Autoscaler uses Auto Scaling groups. For more information, see https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler on {aws}].
+The Kubernetes Cluster Autoscaler automatically adjusts the number of nodes in your cluster when pods fail or are rescheduled onto other nodes. The Cluster Autoscaler uses Auto Scaling groups. For more information, see https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler on {aws}].

@@ -55,7 +55,7 @@ You install or update community add-ons in the same way as other Amazon EKS Add-
 
 The following community add-ons are availalbe from Amazon EKS. 
 
-=== [.noloc]`Kubernetes Metrics Server`
+=== Kubernetes Metrics Server
 
 The Kubernetes Metrics Server is a scalable and efficient source of container resource metrics for Kubernetes built-in autoscaling pipelines. It collects resource metrics from Kubelets and exposes them in Kubernetes apiserver through Metrics API for use by Horizontal Pod Autoscaler and Vertical Pod Autoscaler.
 

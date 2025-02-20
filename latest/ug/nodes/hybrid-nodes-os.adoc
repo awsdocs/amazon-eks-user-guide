@@ -66,7 +66,7 @@ Fatal glibc error: This version of Amazon Linux requires a newer ARM64 processor
 
 == Building operating system images
 
-Amazon EKS provides https://github.com/aws/eks-hybrid/tree/main/example/packer[example Packer templates] you can use to create operating system images that include `nodeadm` and configure it to run at host-startup. This process is recommended to avoid pulling the hybrid nodes dependencies individually on each host and to automate the hybrid nodes bootstrap process. You can use the example Packer templates with an Ubuntu 22.04, Ubuntu 24.04, RHEL 8 or RHEL 9 ISO image and can output images with these formats: OVA, [.noloc]`Qcow2`, or raw.
+Amazon EKS provides https://github.com/aws/eks-hybrid/tree/main/example/packer[example Packer templates] you can use to create operating system images that include `nodeadm` and configure it to run at host-startup. This process is recommended to avoid pulling the hybrid nodes dependencies individually on each host and to automate the hybrid nodes bootstrap process. You can use the example Packer templates with an Ubuntu 22.04, Ubuntu 24.04, RHEL 8 or RHEL 9 ISO image and can output images with these formats: OVA, Qcow2, or raw.
 
 === Prerequisites
 

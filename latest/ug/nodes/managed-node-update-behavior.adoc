@@ -54,7 +54,7 @@ These are the Amazon EKS applied labels on the worker nodes in a custom launch t
 *** `eks.amazonaws.com/nodegroup=$nodeGroupName`
 *** `eks.amazonaws.com/sourceLaunchTemplateId=$launchTemplateId`
 *** `eks.amazonaws.com/sourceLaunchTemplateVersion=$launchTemplateVersion`
-. It marks nodes as unschedulable to avoid scheduling new [.noloc]`Pods`. It also labels nodes with `node.kubernetes.io/exclude-from-external-load-balancers=true` to remove the nodes from load balancers before terminating the nodes.
+. It marks nodes as unschedulable to avoid scheduling new Pods. It also labels nodes with `node.kubernetes.io/exclude-from-external-load-balancers=true` to remove the nodes from load balancers before terminating the nodes.
 
 The following are known reasons which lead to a `NodeCreationFailure` error in this phase:
 
@@ -62,7 +62,7 @@ The following are known reasons which lead to a `NodeCreationFailure` error in t
 There is a possibility that the Availability Zone might not have capacity of requested instance types. It's recommended to configure multiple instance types while creating a managed node group.
 
 *EC2 instance limits in your account*::
-You may need to increase the number of Amazon EC2 instances your account can run simultaneously using Service Quotas. For more information, see link:AWSEC2/latest/UserGuide/ec2-resource-limits.html[EC2 Service Quotas,type="documentation"] in the _Amazon Elastic Compute Cloud User Guide for [.noloc]`Linux` Instances_.
+You may need to increase the number of Amazon EC2 instances your account can run simultaneously using Service Quotas. For more information, see link:AWSEC2/latest/UserGuide/ec2-resource-limits.html[EC2 Service Quotas,type="documentation"] in the _Amazon Elastic Compute Cloud User Guide for Linux Instances_.
 
 *Custom user data*::
 Custom user data can sometimes break the bootstrap process. This scenario can lead to the `kubelet` not starting on the node or nodes not getting expected Amazon EKS labels on them. For more information, see <<launch-template-custom-ami>>.
@@ -86,16 +86,16 @@ The _default_ update strategy has these steps:
 
 . It increases the quantity of nodes (desired count) in the Auto Scaling Group, causing the node group to create additional nodes.
 . It randomly selects a node that needs to be upgraded, up to the maximum unavailable configured for the node group.
-. It drains the [.noloc]`Pods` from the node. If the [.noloc]`Pods` don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the [.noloc]`Pods`.
-. It cordons the node after every [.noloc]`Pod` is evicted and waits for 60 seconds. This is done so that the service controller doesn't send any new requests to this node and removes this node from its list of active nodes.
+. It drains the Pods from the node. If the Pods don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the Pods.
+. It cordons the node after every Pod is evicted and waits for 60 seconds. This is done so that the service controller doesn't send any new requests to this node and removes this node from its list of active nodes.
 . It sends a termination request to the Auto Scaling Group for the cordoned node.
 . It repeats the previous upgrade steps until there are no nodes in the node group that are deployed with the earlier version of the launch template.
 
 The _minimal_ update strategy has these steps:
 
 . It randomly selects a node that needs to be upgraded, up to the maximum unavailable configured for the node group.
-. It drains the [.noloc]`Pods` from the node. If the [.noloc]`Pods` don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the [.noloc]`Pods`.
-. It cordons the node after every [.noloc]`Pod` is evicted and waits for 60 seconds. This is done so that the service controller doesn't send any new requests to this node and removes this node from its list of active nodes.
+. It drains the Pods from the node. If the Pods don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the Pods.
+. It cordons the node after every Pod is evicted and waits for 60 seconds. This is done so that the service controller doesn't send any new requests to this node and removes this node from its list of active nodes.
 . It sends a termination request to the Auto Scaling Group for the cordoned node. The Auto Scaling Group creates a new node to replace the missing capacity.
 . It repeats the previous upgrade steps until there are no nodes in the node group that are deployed with the earlier version of the launch template.
 
@@ -104,10 +104,10 @@ The _minimal_ update strategy has these steps:
 The following are known reasons which lead to a `PodEvictionFailure` error in this phase:
 
 *Aggressive PDB*::
-Aggressive PDB is defined on the [.noloc]`Pod` or there are multiple PDBs pointing to the same [.noloc]`Pod`.
+Aggressive PDB is defined on the Pod or there are multiple PDBs pointing to the same Pod.
 
 *Deployment tolerating all the taints*::
-Once every [.noloc]`Pod` is evicted, it's expected for the node to be empty because the node is https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[tainted] in the earlier steps. However, if the deployment tolerates every taint, then the node is more likely to be non-empty, leading to [.noloc]`Pod` eviction failure.
+Once every Pod is evicted, it's expected for the node to be empty because the node is https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[tainted] in the earlier steps. However, if the deployment tolerates every taint, then the node is more likely to be non-empty, leading to Pod eviction failure.
 
 
 [#managed-node-update-scale-down]

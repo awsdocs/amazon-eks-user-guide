@@ -1,6 +1,6 @@
 [.topic]
 [#access-entries]
-= Grant [.noloc]`IAM` users access to [.noloc]`Kubernetes` with EKS access entries
+= Grant IAM users access to Kubernetes with EKS access entries
 :info_titleabbrev: Grant permissions
 
 include::../../attributes.txt[]

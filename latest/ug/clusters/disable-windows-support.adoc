@@ -1,6 +1,6 @@
 [.topic]
 [#disable-windows-support]
-= Disable [.noloc]`Windows` support
+= Disable Windows support
 
 include::../attributes.txt[]
 
@@ -14,7 +14,7 @@ aws iam detach-role-policy \
     --role-name eksClusterRole \
     --policy-arn {arn-aws}iam::aws:policy/AmazonEKSVPCResourceController
 ----
-. Disable [.noloc]`Windows` IPAM in the `amazon-vpc-cni` ConfigMap.
+. Disable Windows IPAM in the `amazon-vpc-cni` ConfigMap.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

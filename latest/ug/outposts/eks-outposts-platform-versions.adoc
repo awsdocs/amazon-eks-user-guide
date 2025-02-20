@@ -2,36 +2,36 @@ include::../attributes.txt[]
 
 [.topic]
 [#eks-outposts-platform-versions]
-= Learn [.noloc]`Kubernetes` and Amazon EKS platform versions for {aws} Outposts
+= Learn Kubernetes and Amazon EKS platform versions for {aws} Outposts
 :info_titleabbrev: EKS platform versions
 
 [abstract]
 --
-Learn the relationship between Amazon EKS and [.noloc]`Kubernetes` versions available on {aws} Outposts.
+Learn the relationship between Amazon EKS and Kubernetes versions available on {aws} Outposts.
 --
 
-Local cluster platform versions represent the capabilities of the Amazon EKS cluster on {aws} Outposts. The versions include the components that run on the [.noloc]`Kubernetes` control plane, which [.noloc]`Kubernetes` API server flags are enabled. They also include the current [.noloc]`Kubernetes` patch version. Each [.noloc]`Kubernetes` minor version has one or more associated platform versions. The platform versions for different [.noloc]`Kubernetes` minor versions are independent. The platform versions for local clusters and Amazon EKS clusters in the cloud are independent.
+Local cluster platform versions represent the capabilities of the Amazon EKS cluster on {aws} Outposts. The versions include the components that run on the Kubernetes control plane, which Kubernetes API server flags are enabled. They also include the current Kubernetes patch version. Each Kubernetes minor version has one or more associated platform versions. The platform versions for different Kubernetes minor versions are independent. The platform versions for local clusters and Amazon EKS clusters in the cloud are independent.
 
-When a new [.noloc]`Kubernetes` minor version is available for local clusters, such as `1.30`, the initial platform version for that [.noloc]`Kubernetes` minor version starts at `eks-local-outposts.1`. However, Amazon EKS releases new platform versions periodically to enable new [.noloc]`Kubernetes` control plane settings and to provide security fixes.
+When a new Kubernetes minor version is available for local clusters, such as `1.30`, the initial platform version for that Kubernetes minor version starts at `eks-local-outposts.1`. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes.
 
 When new local cluster platform versions become available for a minor version:
 
 
 
 * The platform version number is incremented (`eks-local-outposts.n+1`).
-* Amazon EKS automatically updates all existing local clusters to the latest platform version for their corresponding [.noloc]`Kubernetes` minor version. Automatic updates of existing platform versions are rolled out incrementally. The roll-out process consists of the replacement of the managed [.noloc]`Kubernetes` control-plane instances running on the Outpost, one at a time, until all 3 instances get replaced by new ones.
-* The [.noloc]`Kubernetes` control-plane instance replacement process will stop progressing if there is risk of service interruption. Amazon EKS will only attempt to replace an instance in case the other 2 [.noloc]`Kubernetes` control-plane instances are healthy and passing all readiness conditions as a cluster node. 
-* A platform version rollout will typically take less than 30 minutes to complete. If a cluster remains on `UPDATING` state for an extended amount of time, see the <<eks-outposts-troubleshooting>> and seek help from {aws} Support. Never manually terminate [.noloc]`Kubernetes` control-plane instances unless instructed by {aws} Support.
-* Amazon EKS might publish a new node AMI with a corresponding patch version. All patch versions are compatible between the [.noloc]`Kubernetes` control plane and node AMIs for a single [.noloc]`Kubernetes` minor version.
+* Amazon EKS automatically updates all existing local clusters to the latest platform version for their corresponding Kubernetes minor version. Automatic updates of existing platform versions are rolled out incrementally. The roll-out process consists of the replacement of the managed Kubernetes control-plane instances running on the Outpost, one at a time, until all 3 instances get replaced by new ones.
+* The Kubernetes control-plane instance replacement process will stop progressing if there is risk of service interruption. Amazon EKS will only attempt to replace an instance in case the other 2 Kubernetes control-plane instances are healthy and passing all readiness conditions as a cluster node. 
+* A platform version rollout will typically take less than 30 minutes to complete. If a cluster remains on `UPDATING` state for an extended amount of time, see the <<eks-outposts-troubleshooting>> and seek help from {aws} Support. Never manually terminate Kubernetes control-plane instances unless instructed by {aws} Support.
+* Amazon EKS might publish a new node AMI with a corresponding patch version. All patch versions are compatible between the Kubernetes control plane and node AMIs for a single Kubernetes minor version.
 
 New platform versions don't introduce breaking changes or cause service interruptions.
 
-Local clusters are always created with the latest available platform version (`eks-local-outposts.n`) for the specified [.noloc]`Kubernetes` version.
+Local clusters are always created with the latest available platform version (`eks-local-outposts.n`) for the specified Kubernetes version.
 
 The current and recent platform versions are described in the following tables.
 
 [#outposts-platform-versions-1-30]
-== [.noloc]`Kubernetes` version `1.30`
+== Kubernetes version `1.30`
 
 The following admission controllers are enabled for all `1.30` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
 
@@ -44,7 +44,7 @@ The following admission controllers are enabled for all `1.30` platform versions
 
 |`1.30.7`
 |`eks-local-outposts.2`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.30.7`. {aws} IAM Authenticator updated to `v0.6.28`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. Updated [.noloc]`Bottlerocket` version to `v1.29.0`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.30.7`. {aws} IAM Authenticator updated to `v0.6.28`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. Updated Bottlerocket version to `v1.29.0`.
 |January 10, 2025
 
 |`1.30.5`
@@ -54,7 +54,7 @@ The following admission controllers are enabled for all `1.30` platform versions
 |===
 
 [#outposts-platform-versions-1-29]
-== [.noloc]`Kubernetes` version `1.29`
+== Kubernetes version `1.29`
 
 The following admission controllers are enabled for all `1.29` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
 
@@ -67,22 +67,22 @@ The following admission controllers are enabled for all `1.29` platform versions
 
 |`v1.29.11`
 |`eks-local-outposts.12`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.29.11`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. Updated CoreDNS image to `v1.11.3`. Updated [.noloc]`Bottlerocket` version to `v1.29.0`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.29.11`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. Updated CoreDNS image to `v1.11.3`. Updated Bottlerocket version to `v1.29.0`.
 |January 10, 2025
 
 |`1.29.9`
 |`eks-local-outposts.4`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.29.9`. {aws} IAM Authenticator updated to `v0.6.26`. Updated [.noloc]`Bottlerocket` version to `v1.26.0`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.29.9`. {aws} IAM Authenticator updated to `v0.6.26`. Updated Bottlerocket version to `v1.26.0`.
 |November 8, 2024
 
 |`1.29.6`
 |`eks-local-outposts.3`
-|New platform version with security fixes and enhancements. Updated [.noloc]`Bottlerocket` version to `v1.22.0`.
+|New platform version with security fixes and enhancements. Updated Bottlerocket version to `v1.22.0`.
 |October 22, 2024
 
 |`1.29.6`
 |`eks-local-outposts.2`
-|New platform version with security fixes and enhancements. Updated [.noloc]`Bottlerocket` version to `v1.21.0`.
+|New platform version with security fixes and enhancements. Updated Bottlerocket version to `v1.21.0`.
 |August 27, 2024
 
 |`1.29.6`
@@ -92,7 +92,7 @@ The following admission controllers are enabled for all `1.29` platform versions
 |===
 
 [#outposts-platform-versions-1-28]
-== [.noloc]`Kubernetes` version `1.28`
+== Kubernetes version `1.28`
 
 The following admission controllers are enabled for all `1.28` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
 
@@ -105,22 +105,22 @@ The following admission controllers are enabled for all `1.28` platform versions
 
 |`1.28.15`
 |`eks-local-outposts.12`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.28.15`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. Updated [.noloc]`Bottlerocket` version to `v1.29.0`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.28.15`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. Updated Bottlerocket version to `v1.29.0`.
 |January 10, 2025
 
 |`1.28.14`
 |`eks-local-outposts.11`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.28.14`. {aws} IAM Authenticator updated to `v0.6.26`. Updated CoreDNS image to `v1.11.1`. Updated [.noloc]`Bottlerocket` version to `v1.26.0`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.28.14`. {aws} IAM Authenticator updated to `v0.6.26`. Updated CoreDNS image to `v1.11.1`. Updated Bottlerocket version to `v1.26.0`.
 |November 8, 2024
 
 |`1.28.10`
 |`eks-local-outposts.10`
-|New platform version with security fixes and enhancements. Updated [.noloc]`Bottlerocket` version to `v1.22.0`.
+|New platform version with security fixes and enhancements. Updated Bottlerocket version to `v1.22.0`.
 |October 22, 2024
 
 |`1.28.10`
 |`eks-local-outposts.9`
-|New platform version with security fixes and enhancements. Updated [.noloc]`Bottlerocket` version to `v1.21.0`.
+|New platform version with security fixes and enhancements. Updated Bottlerocket version to `v1.21.0`.
 |August 27, 2024
 
 |`1.28.10`
@@ -130,7 +130,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 
 |`1.28.10`
 |`eks-local-outposts.6`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.28.10`. {aws} IAM Authenticator updated to `v0.6.20`. Updated [.noloc]`Bottlerocket` version to `v1.20.2`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.28.10`. {aws} IAM Authenticator updated to `v0.6.20`. Updated Bottlerocket version to `v1.20.2`.
 |June 19, 2024
 
 |`1.28.6`
@@ -140,7 +140,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 
 |`1.28.6`
 |`eks-local-outposts.4`
-|New platform version with security fixes and enhancements. Restored support or local boot in Outposts. Downgraded [.noloc]`Bottlerocket` version to `v1.15.1` for compatibility.
+|New platform version with security fixes and enhancements. Restored support or local boot in Outposts. Downgraded Bottlerocket version to `v1.15.1` for compatibility.
 |April 2, 2024
 
 |`1.28.6`
@@ -150,7 +150,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 
 |`1.28.6`
 |`eks-local-outposts.2`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.28.6`. {aws} IAM Authenticator updated to `v0.6.17`. Amazon VPC CNI plugin for Kubernetes downgraded to `v1.13.2` for compatibility reasons. Updated [.noloc]`Bottlerocket` version to `v1.19.2`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.28.6`. {aws} IAM Authenticator updated to `v0.6.17`. Amazon VPC CNI plugin for Kubernetes downgraded to `v1.13.2` for compatibility reasons. Updated Bottlerocket version to `v1.19.2`.
 |March 8, 2024
 
 |`1.28.1`
@@ -160,7 +160,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 |===
 
 [#outposts-platform-versions-1-27]
-== [.noloc]`Kubernetes` version `1.27`
+== Kubernetes version `1.27`
 
 The following admission controllers are enabled for all `1.27` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
 
@@ -173,22 +173,22 @@ The following admission controllers are enabled for all `1.27` platform versions
 
 |`1.27.16`
 |`eks-local-outposts.12`
-|New platform version with security fixes and enhancements. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. Updated [.noloc]`Bottlerocket` version to `v1.29.0`.
+|New platform version with security fixes and enhancements. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. Updated Bottlerocket version to `v1.29.0`.
 |January 10, 2025
 
 |`1.27.16`
 |`eks-local-outposts.11`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.27.16`. {aws} IAM Authenticator updated to `v0.6.26`. Updated CoreDNS image to `v1.11.1`. Updated [.noloc]`Bottlerocket` version to `v1.26.0`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.27.16`. {aws} IAM Authenticator updated to `v0.6.26`. Updated CoreDNS image to `v1.11.1`. Updated Bottlerocket version to `v1.26.0`.
 |November 8, 2024
 
 |`1.27.14`
 |`eks-local-outposts.10`
-|New platform version with security fixes and enhancements. Updated [.noloc]`Bottlerocket` version to `v1.22.0`.
+|New platform version with security fixes and enhancements. Updated Bottlerocket version to `v1.22.0`.
 |October 22, 2024
 
 |`1.27.14`
 |`eks-local-outposts.9`
-|New platform version with security fixes and enhancements. Updated [.noloc]`Bottlerocket` version to `v1.21.0`.
+|New platform version with security fixes and enhancements. Updated Bottlerocket version to `v1.21.0`.
 |August 27, 2024
 
 |`1.27.14`
@@ -198,7 +198,7 @@ The following admission controllers are enabled for all `1.27` platform versions
 
 |`1.27.14`
 |`eks-local-outposts.6`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.27.14`. {aws} IAM Authenticator updated to `v0.6.20`. Updated [.noloc]`Bottlerocket` version to `v1.20.2`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.27.14`. {aws} IAM Authenticator updated to `v0.6.20`. Updated Bottlerocket version to `v1.20.2`.
 |June 19, 2024
 
 |`1.27.10`
@@ -208,7 +208,7 @@ The following admission controllers are enabled for all `1.27` platform versions
 
 |`1.27.10`
 |`eks-local-outposts.4`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.27.10`. {aws} IAM Authenticator updated to `v0.6.17`. Updated [.noloc]`Bottlerocket` version to `v1.19.2`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.27.10`. {aws} IAM Authenticator updated to `v0.6.17`. Updated Bottlerocket version to `v1.19.2`.
 |March 22, 2024
 
 |`1.27.3`

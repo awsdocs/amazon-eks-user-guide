@@ -22,7 +22,7 @@ include::eks-outposts-troubleshooting.adoc[leveloffset=+1]
 Learn to create and manage local Amazon EKS clusters on {aws} Outposts for high availability across multiple regions.
 --
 
-You can use local clusters to run your entire Amazon EKS cluster locally on {aws} Outposts. This helps mitigate the risk of application downtime that might result from temporary network disconnects to the cloud. These disconnects can be caused by fiber cuts or weather events. Because the entire [.noloc]`Kubernetes` cluster runs locally on Outposts, applications remain available. You can perform cluster operations during network disconnects to the cloud. For more information, see <<eks-outposts-network-disconnects>>. The following diagram shows a local cluster deployment.
+You can use local clusters to run your entire Amazon EKS cluster locally on {aws} Outposts. This helps mitigate the risk of application downtime that might result from temporary network disconnects to the cloud. These disconnects can be caused by fiber cuts or weather events. Because the entire Kubernetes cluster runs locally on Outposts, applications remain available. You can perform cluster operations during network disconnects to the cloud. For more information, see <<eks-outposts-network-disconnects>>. The following diagram shows a local cluster deployment.
 
 
 

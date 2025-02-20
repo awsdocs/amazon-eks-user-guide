@@ -15,18 +15,18 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Your Amazon EKS cluster can schedule [.noloc]`Pods` on any combination of self-managed nodes, Amazon EKS managed node groups, Fargate, and Amazon EKS Hybrid Nodes in the {aws} Cloud and hybrid nodes on-premises.
+Your Amazon EKS cluster can schedule Pods on any combination of self-managed nodes, Amazon EKS managed node groups, Fargate, and Amazon EKS Hybrid Nodes in the {aws} Cloud and hybrid nodes on-premises.
 --
 
-A [.noloc]`Kubernetes` node is a machine that runs containerized applications. Each node has the following components:
+A Kubernetes node is a machine that runs containerized applications. Each node has the following components:
 
 * *https://kubernetes.io/docs/setup/production-environment/container-runtimes/[Container runtime]* – Software that's responsible for running the containers.
-* *https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet]* – Makes sure that containers are healthy and running within their associated [.noloc]`Pod`.
-* *https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/[kube-proxy]* – Maintains network rules that allow communication to your [.noloc]`Pods`.
+* *https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet]* – Makes sure that containers are healthy and running within their associated Pod.
+* *https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/[kube-proxy]* – Maintains network rules that allow communication to your Pods.
 
-For more information, see https://kubernetes.io/docs/concepts/architecture/nodes/[Nodes] in the [.noloc]`Kubernetes` documentation.
+For more information, see https://kubernetes.io/docs/concepts/architecture/nodes/[Nodes] in the Kubernetes documentation.
 
-Your Amazon EKS cluster can schedule [.noloc]`Pods` on any combination of <<automode, EKS Auto Mode managed nodes>>, <<worker,self-managed nodes>>, <<managed-node-groups,Amazon EKS managed node groups>>, <<fargate,{aws} Fargate>>, and <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>>. To learn more about nodes deployed in your cluster, see <<view-kubernetes-resources>>.
+Your Amazon EKS cluster can schedule Pods on any combination of <<automode, EKS Auto Mode managed nodes>>, <<worker,self-managed nodes>>, <<managed-node-groups,Amazon EKS managed node groups>>, <<fargate,{aws} Fargate>>, and <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>>. To learn more about nodes deployed in your cluster, see <<view-kubernetes-resources>>.
 
 
 [NOTE]
@@ -43,7 +43,7 @@ The following table provides several criteria to evaluate when deciding which op
 [NOTE]
 ====
 
-[.noloc]`Bottlerocket` has some specific differences from the general information in this table. For more information, see the [.noloc]`Bottlerocket` https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md[documentation] on [.noloc]`GitHub`.
+Bottlerocket has some specific differences from the general information in this table. For more information, see the Bottlerocket https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md[documentation] on GitHub.
 
 ====
 
@@ -66,12 +66,12 @@ The following table provides several criteria to evaluate when deciding which op
 |No
 |No
 
-|Can run containers that require [.noloc]`Windows`
+|Can run containers that require Windows
 |Yes
 |No
 |No
 
-|Can run containers that require [.noloc]`Linux`
+|Can run containers that require Linux
 |Yes
 |Yes
 |Yes
@@ -120,7 +120,7 @@ The following table provides several criteria to evaluate when deciding which op
 |No - <<create-node-class,Use a `NodeClass` to configure nodes>>
 |Yes - you can customize bootstrap arguments with nodeadm. See <<hybrid-nodes-nodeadm>>.
 
-|Can assign IP addresses to [.noloc]`Pods` from a different CIDR block than the IP address assigned to the node.
+|Can assign IP addresses to Pods from a different CIDR block than the IP address assigned to the node.
 |Yes – Using a launch template with a custom AMI. For more information, see <<launch-templates>>.
 |No
 |Yes - see <<hybrid-nodes-cni>>.
@@ -145,22 +145,22 @@ The following table provides several criteria to evaluate when deciding which op
 |No
 |Yes - the operating system running on your physical or virtual machines is managed by you with your choice of tooling. See <<hybrid-nodes-os>>.
 
-|Must update node [.noloc]`Kubernetes` version on your own
+|Must update node Kubernetes version on your own
 |<<update-managed-node-group,Yes>> – If you deployed an Amazon EKS optimized AMI, you're notified in the Amazon EKS console when updates are available. You can perform the update with one-click in the console. If you deployed a custom AMI, you're not notified in the Amazon EKS console when updates are available. You must perform the update on your own.
 |No
 |Yes - you manage hybrid nodes upgrades with your own choice of tooling or with `nodeadm`. See <<hybrid-nodes-upgrade>>.
 
-|Can use Amazon EBS storage with [.noloc]`Pods`
+|Can use Amazon EBS storage with Pods
 |<<ebs-csi,Yes>>
 |Yes, as an integrated capability. Learn how to <<create-storage-class,create a storage class.>>
 |No
 
-|Can use Amazon EFS storage with [.noloc]`Pods`
+|Can use Amazon EFS storage with Pods
 |<<efs-csi,Yes>>
 |Yes
 |No
 
-|Can use Amazon FSx for Lustre storage with [.noloc]`Pods`
+|Can use Amazon FSx for Lustre storage with Pods
 |<<fsx-csi,Yes>>
 |Yes
 |No
@@ -175,17 +175,17 @@ The following table provides several criteria to evaluate when deciding which op
 |Yes
 |No - pods run in on-premises environment.
 
-|Can assign different VPC security groups to individual [.noloc]`Pods`
-|<<security-groups-for-pods,Yes>> – [.noloc]`Linux` nodes only
+|Can assign different VPC security groups to individual Pods
+|<<security-groups-for-pods,Yes>> – Linux nodes only
 |No
 |No
 
-|Can run [.noloc]`Kubernetes` [.noloc]`DaemonSets`
+|Can run Kubernetes DaemonSets
 |Yes
 |Yes
 |Yes
 
-|Support `HostPort` and `HostNetwork` in the [.noloc]`Pod` manifest
+|Support `HostPort` and `HostNetwork` in the Pod manifest
 |Yes
 |Yes
 |Yes
@@ -201,7 +201,7 @@ The following table provides several criteria to evaluate when deciding which op
 |No
 
 |Pricing
-|Cost of Amazon EC2 instance that runs multiple [.noloc]`Pods`. For more information, see link:ec2/pricing/[Amazon EC2 pricing,type="marketing"].
+|Cost of Amazon EC2 instance that runs multiple Pods. For more information, see link:ec2/pricing/[Amazon EC2 pricing,type="marketing"].
 | When EKS Auto Mode is enabled in your cluster, you pay a separate fee, in addition to the standard EC2 instance charges, for the instances launched using Auto Mode's compute capability. The amount varies with the instance type launched and the {aws} region where your cluster is located. For more information, see link:eks/pricing/["Amazon EKS pricing",type="marketing"].
 |Cost of hybrid nodes vCPU per hour. For more information, see link:eks/pricing/[Amazon EKS pricing,type="marketing"].
 

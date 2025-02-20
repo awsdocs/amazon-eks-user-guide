@@ -12,16 +12,16 @@
 
 include::../attributes.txt[]
 
-Your workloads are deployed in containers, which are deployed in [.noloc]`Pods` in [.noloc]`Kubernetes`. A [.noloc]`Pod` includes one or more containers. Typically, one or more [.noloc]`Pods` that provide the same service are deployed in a [.noloc]`Kubernetes` service. Once you've deployed multiple [.noloc]`Pods` that provide the same service, you can:
+Your workloads are deployed in containers, which are deployed in Pods in Kubernetes. A Pod includes one or more containers. Typically, one or more Pods that provide the same service are deployed in a Kubernetes service. Once you've deployed multiple Pods that provide the same service, you can:
 
 
 
 * <<view-kubernetes-resources,View information about the workloads>> running on each of your clusters using the {aws-management-console}.
-* Vertically scale [.noloc]`Pods` up or down with the [.noloc]`Kubernetes` <<vertical-pod-autoscaler,Vertical Pod Autoscaler>>.
-* Horizontally scale the number of [.noloc]`Pods` needed to meet demand up or down with the [.noloc]`Kubernetes` <<horizontal-pod-autoscaler,Horizontal Pod Autoscaler>>.
-* Create an external (for internet-accessible [.noloc]`Pods`) or an internal (for private [.noloc]`Pods`) <<network-load-balancing,network load balancer>> to balance network traffic across [.noloc]`Pods`. The load balancer routes traffic at Layer 4 of the OSI model.
-* Create an <<alb-ingress,Application Load Balancer>> to balance application traffic across [.noloc]`Pods`. The application load balancer routes traffic at Layer 7 of the OSI model.
-* If you're new to [.noloc]`Kubernetes`, this topic helps you <<sample-deployment,Deploy a sample application>>.
+* Vertically scale Pods up or down with the Kubernetes <<vertical-pod-autoscaler,Vertical Pod Autoscaler>>.
+* Horizontally scale the number of Pods needed to meet demand up or down with the Kubernetes <<horizontal-pod-autoscaler,Horizontal Pod Autoscaler>>.
+* Create an external (for internet-accessible Pods) or an internal (for private Pods) <<network-load-balancing,network load balancer>> to balance network traffic across Pods. The load balancer routes traffic at Layer 4 of the OSI model.
+* Create an <<alb-ingress,Application Load Balancer>> to balance application traffic across Pods. The application load balancer routes traffic at Layer 7 of the OSI model.
+* If you're new to Kubernetes, this topic helps you <<sample-deployment,Deploy a sample application>>.
 * You can <<restrict-service-external-ip,restrict IP addresses that can be assigned to a service>> with `externalIPs`.
 
 

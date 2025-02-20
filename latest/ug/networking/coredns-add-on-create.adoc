@@ -1,11 +1,11 @@
 [.topic]
 [#coredns-add-on-create]
-= Create the [.noloc]`CoreDNS` Amazon EKS add-on
+= Create the CoreDNS Amazon EKS add-on
 :info_titleabbrev: Create
 
 include::../attributes.txt[]
 
-Create the [.noloc]`CoreDNS` Amazon EKS add-on. You must have a cluster before you create the add-on. For more information, see <<create-cluster>>.
+Create the CoreDNS Amazon EKS add-on. You must have a cluster before you create the add-on. For more information, see <<create-cluster>>.
 
 . See which version of the add-on is installed on your cluster.
 +
@@ -45,7 +45,7 @@ aws eks create-addon --cluster-name my-cluster --addon-name coredns --addon-vers
 ----
 +
 If you've applied custom settings to your current add-on that conflict with the default settings of the Amazon EKS add-on, creation might fail. If creation fails, you receive an error that can help you resolve the issue. Alternatively, you can add `--resolve-conflicts OVERWRITE` to the previous command. This allows the add-on to overwrite any existing custom settings. Once you've created the add-on, you can update it with your custom settings.
-. Confirm that the latest version of the add-on for your cluster's [.noloc]`Kubernetes` version was added to your cluster. Replace [.replaceable]`my-cluster` with the name of your cluster.
+. Confirm that the latest version of the add-on for your cluster's Kubernetes version was added to your cluster. Replace [.replaceable]`my-cluster` with the name of your cluster.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

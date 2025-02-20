@@ -15,7 +15,7 @@ For the highest level of customization, you can deploy managed nodes using your 
 
 
 * Provide bootstrap arguments at deployment of a node, such as extra https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet] arguments.
-* Assign IP addresses to [.noloc]`Pods` from a different CIDR block than the IP address assigned to the node.
+* Assign IP addresses to Pods from a different CIDR block than the IP address assigned to the node.
 * Deploy your own custom AMI to nodes.
 * Deploy your own custom CNI to nodes.
 
@@ -61,7 +61,7 @@ a|*Application and OS Images (Amazon Machine Image)* under *Launch template cont
 
 * Using a custom AMI. If you specify an AMI that doesn't meet the requirements listed in <<launch-template-custom-ami,Specifying an AMI>>, the node group deployment will fail.
 
-* Want to provide user data to provide arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI. You can enable your instances to assign a significantly higher number of IP addresses to [.noloc]`Pods`, assign IP addresses to [.noloc]`Pods` from a different CIDR block than the instance's, or deploy a private cluster without outbound internet access. For more information, see the following topics:
+* Want to provide user data to provide arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI. You can enable your instances to assign a significantly higher number of IP addresses to Pods, assign IP addresses to Pods from a different CIDR block than the instance's, or deploy a private cluster without outbound internet access. For more information, see the following topics:
 
 +
 ** <<cni-increase-ip-addresses,Assign more IP addresses to Amazon EKS nodes with prefixes>>
@@ -109,7 +109,7 @@ You can use a launch template to specify custom Amazon EC2 link:AWSEC2/latest/Us
 [#launch-template-user-data]
 == Amazon EC2 user data
 
-The launch template includes a section for custom user data. You can specify configuration settings for your node group in this section without manually creating individual custom AMIs. For more information about the settings available for [.noloc]`Bottlerocket`, see https://github.com/bottlerocket-os/bottlerocket#using-user-data[Using user data] on [.noloc]`GitHub`.
+The launch template includes a section for custom user data. You can specify configuration settings for your node group in this section without manually creating individual custom AMIs. For more information about the settings available for Bottlerocket, see https://github.com/bottlerocket-os/bottlerocket#using-user-data[Using user data] on GitHub.
 
 You can supply Amazon EC2 user data in your launch template using `cloud-init` when launching your instances. For more information, see the https://cloudinit.readthedocs.io/en/latest/index.html[cloud-init] documentation. Your user data can be used to perform common configuration operations. This includes the following operations:
 
@@ -118,7 +118,7 @@ You can supply Amazon EC2 user data in your launch template using `cloud-init` w
 * https://cloudinit.readthedocs.io/en/latest/topics/examples.html#including-users-and-groups[Including users or groups]
 * https://cloudinit.readthedocs.io/en/latest/topics/examples.html#install-arbitrary-packages[Installing packages]
 
-Amazon EC2 user data in launch templates that are used with managed node groups must be in the https://cloudinit.readthedocs.io/en/latest/topics/format.html#mime-multi-part-archive[MIME multi-part archive] format for Amazon Linux AMIs and TOML format for [.noloc]`Bottlerocket` AMIs. This is because your user data is merged with Amazon EKS user data required for nodes to join the cluster. Don't specify any commands in your user data that starts or modifies `kubelet`. This is performed as part of the user data merged by Amazon EKS. Certain `kubelet` parameters, such as setting labels on nodes, can be configured directly through the managed node groups API.
+Amazon EC2 user data in launch templates that are used with managed node groups must be in the https://cloudinit.readthedocs.io/en/latest/topics/format.html#mime-multi-part-archive[MIME multi-part archive] format for Amazon Linux AMIs and TOML format for Bottlerocket AMIs. This is because your user data is merged with Amazon EKS user data required for nodes to join the cluster. Don't specify any commands in your user data that starts or modifies `kubelet`. This is performed as part of the user data merged by Amazon EKS. Certain `kubelet` parameters, such as setting labels on nodes, can be configured directly through the managed node groups API.
 
 [NOTE]
 ====
@@ -132,7 +132,7 @@ The following details provide more information about the user data section.
 
 
 *Amazon Linux 2 user data*::
-You can combine multiple user data blocks together into a single MIME multi-part file. For example, you can combine a cloud boothook that configures the [.noloc]`Docker` daemon with a user data shell script that installs a custom package. A MIME multi-part file consists of the following components:
+You can combine multiple user data blocks together into a single MIME multi-part file. For example, you can combine a cloud boothook that configures the Docker daemon with a user data shell script that installs a custom package. A MIME multi-part file consists of the following components:
 +
 ** The content type and part boundary declaration – `Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="`
 ** The MIME version declaration – `MIME-Version: 1.0`
@@ -195,11 +195,11 @@ kind: NodeConfig spec: [...]
 --BOUNDARY--
 ----
 +
-In AL2, the metadata from these parameters was discovered from the Amazon EKS `DescribeCluster` API call. With AL2023, this behavior has changed since the additional API call risks throttling during large node scale ups. This change doesn't affect you if you're using managed node groups without a launch template or if you're using [.noloc]`Karpenter`. For more information on `certificateAuthority` and service `cidr`, see link:eks/latest/APIReference/API_DescribeCluster.html[`DescribeCluster`,type="documentation"] in the _Amazon EKS API Reference_.
+In AL2, the metadata from these parameters was discovered from the Amazon EKS `DescribeCluster` API call. With AL2023, this behavior has changed since the additional API call risks throttling during large node scale ups. This change doesn't affect you if you're using managed node groups without a launch template or if you're using Karpenter. For more information on `certificateAuthority` and service `cidr`, see link:eks/latest/APIReference/API_DescribeCluster.html[`DescribeCluster`,type="documentation"] in the _Amazon EKS API Reference_.
 
 
-*[.noloc]`Bottlerocket` user data*::
-[.noloc]`Bottlerocket` structures user data in the TOML format. You can provide user data to be merged with the user data provided by Amazon EKS. For example, you can provide additional `kubelet` settings.
+*Bottlerocket user data*::
+Bottlerocket structures user data in the TOML format. You can provide user data to be merged with the user data provided by Amazon EKS. For example, you can provide additional `kubelet` settings.
 +
 [source,none,subs="verbatim,attributes"]
 ----
@@ -222,8 +222,8 @@ Amazon EKS doesn't support all valid TOML. The following is a list of known unsu
 ** Bracketed headers with quoted keys: `[foo."bar.baz"]`
 
 
-*[.noloc]`Windows` user data*::
-Windows user data uses [.noloc]`PowerShell` commands. When creating a managed node group, your custom user data combines with Amazon EKS managed user data. Your [.noloc]`PowerShell` commands come first, followed by the managed user data commands, all within one `<powershell></powershell>` tag.
+*Windows user data*::
+Windows user data uses PowerShell commands. When creating a managed node group, your custom user data combines with Amazon EKS managed user data. Your PowerShell commands come first, followed by the managed user data commands, all within one `<powershell></powershell>` tag.
 +
 NOTE: When no AMI ID is specified in the launch template, don't use the Windows Amazon EKS Bootstrap script in user data to configure Amazon EKS.
 +
@@ -244,7 +244,7 @@ If you have either of the following requirements, then specify an AMI ID in the 
 
 
 [#mng-specify-eks-ami]
-.Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized [.noloc]`Linux`/[.noloc]`Bottlerocket` AMI
+.Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized Linux/Bottlerocket AMI
 [%collapsible]
 ====
 
@@ -252,8 +252,8 @@ Bootstrapping is a term used to describe adding commands that can be run when an
 
 
 
-*[.noloc]`eksctl` without specifying a launch template*::
-Create a file named [.replaceable]`my-nodegroup.yaml` with the following contents. Replace every [.replaceable]`example value` with your own values. The `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are optional. However, defining them allows the `bootstrap.sh` script to avoid making a `describeCluster` call. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently. For more information on the `bootstrap.sh` script, see the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] file on [.noloc]`GitHub`.
+*eksctl without specifying a launch template*::
+Create a file named [.replaceable]`my-nodegroup.yaml` with the following contents. Replace every [.replaceable]`example value` with your own values. The `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are optional. However, defining them allows the `bootstrap.sh` script to avoid making a `describeCluster` call. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently. For more information on the `bootstrap.sh` script, see the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] file on GitHub.
 +
 ** The only required argument is the cluster name ([.replaceable]`my-cluster`).
 ** To retrieve an optimized AMI ID for `ami-[.replaceable]``1234567890abcdef0```, you can use the tables in the following sections:
@@ -319,7 +319,7 @@ eksctl create nodegroup --config-file=my-nodegroup.yaml
 
 
 *User data in a launch template*::
-Specify the following information in the user data section of your launch template. Replace every [.replaceable]`example value` with your own values. The `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are optional. However, defining them allows the `bootstrap.sh` script to avoid making a `describeCluster` call. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently. For more information on the `bootstrap.sh` script, see the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] file on [.noloc]`GitHub`.
+Specify the following information in the user data section of your launch template. Replace every [.replaceable]`example value` with your own values. The `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are optional. However, defining them allows the `bootstrap.sh` script to avoid making a `describeCluster` call. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently. For more information on the `bootstrap.sh` script, see the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] file on GitHub.
 +
 ** The only required argument is the cluster name ([.replaceable]`my-cluster`).
 ** To retrieve the [.replaceable]`certificate-authority` for your cluster, run the following command.
@@ -365,17 +365,17 @@ set -ex
 ====
 
 [#mng-specify-eks-ami-windows]
-.Provide user data to pass arguments to the `Start-EKSBootstrap.ps1` file included with an Amazon EKS optimized [.noloc]`Windows` AMI
+.Provide user data to pass arguments to the `Start-EKSBootstrap.ps1` file included with an Amazon EKS optimized Windows AMI
 [%collapsible]
 ====
 
 Bootstrapping is a term used to describe adding commands that can be run when an instance starts. You can pass arguments to the `Start-EKSBootstrap.ps1` script by using `eksctl` without specifying a launch template. Or you can do so by specifying the information in the user data section of a launch template.
 
-If you want to specify a custom [.noloc]`Windows` AMI ID, keep in mind the following considerations:
+If you want to specify a custom Windows AMI ID, keep in mind the following considerations:
 
 
 
-* You must use a launch template and give the required bootstrap commands in the user data section. To retrieve your desired [.noloc]`Windows` ID, you can use the table in <<eks-optimized-windows-ami,Create nodes with optimized Windows AMIs>>.
+* You must use a launch template and give the required bootstrap commands in the user data section. To retrieve your desired Windows ID, you can use the table in <<eks-optimized-windows-ami,Create nodes with optimized Windows AMIs>>.
 * There are several limits and conditions. For example, you must add `eks:kube-proxy-windows` to your {aws} IAM Authenticator configuration map. For more information, see <<mng-ami-id-conditions>>.
 
 Specify the following information in the user data section of your launch template. Replace every [.replaceable]`example value` with your own values. The `-APIServerEndpoint`, `-Base64ClusterCA`, and `-DNSClusterIP` arguments are optional. However, defining them allows the `Start-EKSBootstrap.ps1` script to avoid making a `describeCluster` call.
@@ -403,7 +403,7 @@ aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cid
 ----
 * For additional arguments, see <<bootstrap-script-configuration-parameters>>.
 +
-NOTE: If you're using custom service CIDR, then you need to specify it using the `-ServiceCIDR` parameter. Otherwise, the DNS resolution for [.noloc]`Pods` in the cluster will fail.
+NOTE: If you're using custom service CIDR, then you need to specify it using the `-ServiceCIDR` parameter. Otherwise, the DNS resolution for Pods in the cluster will fail.
 
 
 [source,xml,subs="verbatim,attributes"]
@@ -423,7 +423,7 @@ NOTE: If you're using custom service CIDR, then you need to specify it using the
 [%collapsible]
 ====
 
-For more information, see link:AWSEC2/latest/UserGuide/AMIs.html[Amazon Machine Images (AMI),type="documentation"] in the _Amazon EC2 User Guide_. The Amazon EKS AMI build specification contains resources and configuration scripts for building a custom Amazon EKS AMI based on Amazon Linux. For more information, see https://github.com/awslabs/amazon-eks-ami/[Amazon EKS AMI Build Specification] on [.noloc]`GitHub`. To build custom AMIs installed with other operating systems, see https://github.com/aws-samples/amazon-eks-custom-amis[Amazon EKS Sample Custom AMIs] on [.noloc]`GitHub`.
+For more information, see link:AWSEC2/latest/UserGuide/AMIs.html[Amazon Machine Images (AMI),type="documentation"] in the _Amazon EC2 User Guide_. The Amazon EKS AMI build specification contains resources and configuration scripts for building a custom Amazon EKS AMI based on Amazon Linux. For more information, see https://github.com/awslabs/amazon-eks-ami/[Amazon EKS AMI Build Specification] on GitHub. To build custom AMIs installed with other operating systems, see https://github.com/aws-samples/amazon-eks-custom-amis[Amazon EKS Sample Custom AMIs] on GitHub.
 ====
 
 [IMPORTANT]
@@ -447,8 +447,8 @@ The following are the limits and conditions involved with specifying an AMI ID w
 ** `amiType`
 ** `releaseVersion`
 ** `version`
-* Any `taints` set in the API are applied asynchronously if you specify an AMI ID. To apply taints prior to a node joining the cluster, you must pass the taints to `kubelet` in your user data using the `--register-with-taints` command line flag. For more information, see https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet] in the [.noloc]`Kubernetes` documentation.
-* When specifying a custom AMI ID for [.noloc]`Windows` managed node groups, add `eks:kube-proxy-windows` to your {aws} IAM Authenticator configuration map. This is required for DNS to function properly.
+* Any `taints` set in the API are applied asynchronously if you specify an AMI ID. To apply taints prior to a node joining the cluster, you must pass the taints to `kubelet` in your user data using the `--register-with-taints` command line flag. For more information, see https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet] in the Kubernetes documentation.
+* When specifying a custom AMI ID for Windows managed node groups, add `eks:kube-proxy-windows` to your {aws} IAM Authenticator configuration map. This is required for DNS to function properly.
 +
 .. Open the {aws} IAM Authenticator configuration map for editing.
 +
@@ -456,7 +456,7 @@ The following are the limits and conditions involved with specifying an AMI ID w
 ----
 kubectl edit -n kube-system cm aws-auth
 ----
-.. Add this entry to the `groups` list under each `rolearn` associated with [.noloc]`Windows` nodes. Your configuration map should look similar to https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml[aws-auth-cm-windows.yaml].
+.. Add this entry to the `groups` list under each `rolearn` associated with Windows nodes. Your configuration map should look similar to https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml[aws-auth-cm-windows.yaml].
 +
 [source,yaml,subs="verbatim,attributes"]
 ----

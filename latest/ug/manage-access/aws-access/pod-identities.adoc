@@ -1,7 +1,7 @@
 include::../../attributes.txt[]
 [.topic]
 [#pod-identities]
-= Learn how [.noloc]`EKS Pod Identity` grants pods access to {aws} services
+= Learn how EKS Pod Identity grants pods access to {aws} services
 :info_titleabbrev: Pod Identity
 
 include::pod-id-how-it-works.adoc[leveloffset=+1]
@@ -27,7 +27,7 @@ Learn how to provide {aws} service access to your Kubernetes workloads with Amaz
 
 Applications in a Pod's containers can use an {aws} SDK or the {aws} CLI to make API requests to {aws} services using {aws} Identity and Access Management (IAM) permissions. Applications must sign their {aws} API requests with {aws} credentials.
 
-_EKS Pod Identities_ provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances. Instead of creating and distributing your {aws} credentials to the containers or using the Amazon EC2 instance's role, you associate an IAM role with a [.noloc]`Kubernetes` service account and configure your [.noloc]`Pods` to use the service account.
+_EKS Pod Identities_ provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances. Instead of creating and distributing your {aws} credentials to the containers or using the Amazon EC2 instance's role, you associate an IAM role with a Kubernetes service account and configure your Pods to use the service account.
 
 video::aUjJSorBE70[youtube,align = center,height = 405,fileref = https://www.youtube.com/embed/aUjJSorBE70,width = 720]
 
@@ -43,18 +43,18 @@ EKS Pod Identities provide the following benefits:
 
 
 * *Least privilege*
- – You can scope IAM permissions to a service account, and only [.noloc]`Pods` that use that service account have access to those permissions. This feature also eliminates the need for third-party solutions such as `kiam` or `kube2iam`.
+ – You can scope IAM permissions to a service account, and only Pods that use that service account have access to those permissions. This feature also eliminates the need for third-party solutions such as `kiam` or `kube2iam`.
 * *Credential isolation*
- – A [.noloc]`Pod's` containers can only retrieve credentials for the IAM role that's associated with the service account that the container uses. A container never has access to credentials that are used by other containers in other [.noloc]`Pods`. When using Pod Identities, the [.noloc]`Pod's` containers also have the permissions assigned to the <<create-node-role>>, unless you block [.noloc]`Pod` access to the link:AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html["Amazon EC2 Instance Metadata Service (IMDS)", type="documentation"]. For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
+ – A Pod's containers can only retrieve credentials for the IAM role that's associated with the service account that the container uses. A container never has access to credentials that are used by other containers in other Pods. When using Pod Identities, the Pod's containers also have the permissions assigned to the <<create-node-role>>, unless you block Pod access to the link:AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html["Amazon EC2 Instance Metadata Service (IMDS)", type="documentation"]. For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
 * *Auditability*
  – Access and event logging is available through {aws} CloudTrail to help facilitate retrospective auditing.
 
-EKS Pod Identity is a simpler method than <<iam-roles-for-service-accounts>>, as this method doesn't use [.noloc]`OIDC` identity providers. EKS Pod Identity has the following enhancements:
+EKS Pod Identity is a simpler method than <<iam-roles-for-service-accounts>>, as this method doesn't use OIDC identity providers. EKS Pod Identity has the following enhancements:
 
 
 
 * *Independent operations*
- – In many organizations, creating [.noloc]`OIDC` identity providers is a responsibility of different teams than administering the [.noloc]`Kubernetes` clusters. EKS Pod Identity has clean separation of duties, where all configuration of EKS Pod Identity associations is done in Amazon EKS and all configuration of the IAM permissions is done in IAM.
+ – In many organizations, creating OIDC identity providers is a responsibility of different teams than administering the Kubernetes clusters. EKS Pod Identity has clean separation of duties, where all configuration of EKS Pod Identity associations is done in Amazon EKS and all configuration of the IAM permissions is done in IAM.
 * *Reusability*
  – EKS Pod Identity uses a single IAM principal instead of the separate principals for each cluster that IAM roles for service accounts use. Your IAM administrator adds the following principal to the trust policy of any role to make it usable by EKS Pod Identities.
 +
@@ -65,7 +65,7 @@ EKS Pod Identity is a simpler method than <<iam-roles-for-service-accounts>>, as
             }
 ----
 * *Scalability*
- -- Each set of temporary credentials are assumed by the [.noloc]`EKS Auth` service in EKS Pod Identity, instead of each {aws} SDK that you run in each pod. Then, the Amazon EKS Pod Identity Agent that runs on each node issues the credentials to the SDKs. Thus the load is reduced to once for each node and isn't duplicated in each pod. For more details of the process, see <<pod-id-how-it-works>>.
+ -- Each set of temporary credentials are assumed by the EKS Auth service in EKS Pod Identity, instead of each {aws} SDK that you run in each pod. Then, the Amazon EKS Pod Identity Agent that runs on each node issues the credentials to the SDKs. Thus the load is reduced to once for each node and isn't duplicated in each pod. For more details of the process, see <<pod-id-how-it-works>>.
 
 For more information to compare the two alternatives, see <<service-accounts>>.
 
@@ -77,26 +77,26 @@ Turn on EKS Pod Identities by completing the following procedures:
 . <<pod-id-agent-setup>> -- You only complete this procedure once for each cluster. You do not need to complete this step if EKS Auto Mode is enabled on your cluster. 
 . <<pod-id-association>> -- Complete this procedure for each unique set of permissions that you want an application to have.
 +
-. <<pod-id-configure-pods>> -- Complete this procedure for each [.noloc]`Pod` that needs access to {aws} services.
+. <<pod-id-configure-pods>> -- Complete this procedure for each Pod that needs access to {aws} services.
 . <<pod-id-minimum-sdk>> -- Confirm that the workload uses an {aws} SDK of a supported version and that the workload uses the default credential chain.
 
 
 [#pod-id-considerations]
 == EKS Pod Identity considerations
 
-* You can associate one IAM role to each [.noloc]`Kubernetes` service account in each cluster. You can change which role is mapped to the service account by editing the EKS Pod Identity association.
+* You can associate one IAM role to each Kubernetes service account in each cluster. You can change which role is mapped to the service account by editing the EKS Pod Identity association.
 * You can only associate roles that are in the same {aws} account as the cluster. You can delegate access from another account to the role in this account that you configure for EKS Pod Identities to use. For a tutorial about delegating access and `AssumeRole`, see link:IAM/latest/UserGuide/tutorial_cross-account-with-roles.html[Delegate access across {aws} accounts using IAM roles,type="documentation"] in the _IAM User Guide_.
-* The EKS Pod Identity Agent is required. It runs as a [.noloc]`Kubernetes` `DaemonSet` on your nodes and only provides credentials to pods on the node that it runs on. For more information about EKS Pod Identity Agent compatibility, see the following section <<pod-id-restrictions>>.
+* The EKS Pod Identity Agent is required. It runs as a Kubernetes `DaemonSet` on your nodes and only provides credentials to pods on the node that it runs on. For more information about EKS Pod Identity Agent compatibility, see the following section <<pod-id-restrictions>>.
 * If you are using Security Group for Pods along with Pod Identity Agent, you may need to set the `POD_SECURITY_GROUP_ENFORCING_MODE` Flag for the {aws} VPC CNI. For more information on security group for pods considerations, see <<security-groups-for-pods>>.
-* The EKS Pod Identity Agent uses the `hostNetwork` of the node and it uses port `80` and port `2703` on a link-local address on the node. This address is `169.254.170.23` for [.noloc]`IPv4` and `[fd00:ec2::23]` for [.noloc]`IPv6` clusters.
+* The EKS Pod Identity Agent uses the `hostNetwork` of the node and it uses port `80` and port `2703` on a link-local address on the node. This address is `169.254.170.23` for IPv4 and `[fd00:ec2::23]` for IPv6 clusters.
 +
 If you disable `IPv6` addresses, or otherwise prevent localhost `IPv6` IP addresses, the agent can't start. To start the agent on nodes that can't use `IPv6`, follow the steps in <<pod-id-agent-config-ipv6>> to disable the `IPv6` configuration.
-* If your Pods use a proxy, you must ensure you add `169.254.170.23` for [.noloc]`IPv4` and `[fd00:ec2::23]` for [.noloc]`IPv6` in the `no_proxy`/`NO_PROXY` environment variables injected into the pods. Otherwise requests from the application pods to the `eks-pod-identity-agent` DaemonSets would fail as the requests would be sent to the proxy and the proxy wouldn't be able to route the IP. 
+* If your Pods use a proxy, you must ensure you add `169.254.170.23` for IPv4 and `[fd00:ec2::23]` for IPv6 in the `no_proxy`/`NO_PROXY` environment variables injected into the pods. Otherwise requests from the application pods to the `eks-pod-identity-agent` DaemonSets would fail as the requests would be sent to the proxy and the proxy wouldn't be able to route the IP. 
 
 [#pod-id-cluster-versions]
 === EKS Pod Identity cluster versions
 
-To use EKS Pod Identities, the cluster must have a platform version that is the same or later than the version listed in the following table, or a [.noloc]`Kubernetes` version that is later than the versions listed in the table.
+To use EKS Pod Identities, the cluster must have a platform version that is the same or later than the version listed in the following table, or a Kubernetes version that is later than the versions listed in the table.
 
 [cols="1,1", options="header"]
 |===
@@ -138,7 +138,7 @@ EKS Pod Identities aren't available on the following:
 
 * {aws} Outposts.
 * Amazon EKS Anywhere.
-* [.noloc]`Kubernetes` clusters that you create and run on Amazon EC2. The EKS Pod Identity components are only available on Amazon EKS.
+* Kubernetes clusters that you create and run on Amazon EC2. The EKS Pod Identity components are only available on Amazon EKS.
 
 You can't use EKS Pod Identities with:
 

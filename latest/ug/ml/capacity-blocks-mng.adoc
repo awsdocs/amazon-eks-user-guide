@@ -82,8 +82,8 @@ aws eks create-nodegroup \
 +
 ** Create a scheduled scaling policy for the ASG that aligns to the Capacity Block reservation start time. For more information, see link:autoscaling/ec2/userguide/ec2-auto-scaling-scheduled-scaling.html[Scheduled scaling for Amazon EC2 Auto Scaling,type="documentation"] in the _Amazon EC2 Auto Scaling User Guide_.
 ** Use the Amazon EKS console or `eks update-nodegroup-config` to update the scaling config and set the desired size of the node group.
-** Use the [.noloc]`Kubernetes` Cluster Autoscaler. For more information, see https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler on {aws}].
-. The node group is now ready for workloads and [.noloc]`Pods` to be scheduled.
-. In order for your [.noloc]`Pods` to be gracefully drained before reservation ends, Amazon EKS uses a scheduled scaling policy to scale down the node group size to `0` . This scheduled scaling will be set with name titled `Amazon EKS Node Group Capacity Scaledown Before Reservation End` . We recommend not editing or deleting this action.
+** Use the Kubernetes Cluster Autoscaler. For more information, see https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler on {aws}].
+. The node group is now ready for workloads and Pods to be scheduled.
+. In order for your Pods to be gracefully drained before reservation ends, Amazon EKS uses a scheduled scaling policy to scale down the node group size to `0` . This scheduled scaling will be set with name titled `Amazon EKS Node Group Capacity Scaledown Before Reservation End` . We recommend not editing or deleting this action.
 +
-Amazon EC2 starts shutting down the instances 30 minutes before reservation end time. As a result, Amazon EKS will setup a scheduled scale down on the node group 40 minutes prior to their reservation end in order to safely and gracefully evict [.noloc]`Pods`.
+Amazon EC2 starts shutting down the instances 30 minutes before reservation end time. As a result, Amazon EKS will setup a scheduled scale down on the node group 40 minutes prior to their reservation end in order to safely and gracefully evict Pods.

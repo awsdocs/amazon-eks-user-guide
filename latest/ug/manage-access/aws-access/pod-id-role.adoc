@@ -1,6 +1,6 @@
 [.topic]
 [#pod-id-role]
-= Create [.noloc]`IAM` role with trust policy required by [.noloc]`EKS Pod Identity`
+= Create IAM role with trust policy required by EKS Pod Identity
 :info_titleabbrev: EKS Pod Identity role
 
 include::../../attributes.txt[]

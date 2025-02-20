@@ -26,8 +26,8 @@ To prepare for the command-line management of your Amazon EKS clusters, you need
 * <<install-kubectl,Set up kubectl and eksctl>> – The `eksctl` CLI interacts with {aws} to create, modify, and delete Amazon EKS clusters. Once a cluster is up, use the open source `kubectl` command to manage Kubernetes objects within your Amazon EKS clusters.
 * Set up a development environment (optional)– Consider adding the following tools:
 +
-** *Local deployment tool* – If you're new to [.noloc]`Kubernetes`, consider installing a local deployment tool like https://minikube.sigs.k8s.io/docs/[minikube] or https://kind.sigs.k8s.io/[kind]. These tools allow you to have an Amazon EKS cluster on your local machine for testing applications.
-** *Package manager* – https://helm.sh/docs/intro/install/[Helm] is a popular package manager for [.noloc]`Kubernetes` that simplifies the installation and management of complex packages. With [.noloc]`Helm`, it's easier to install and manage packages like the {aws} Load Balancer Controller on your Amazon EKS cluster.
+** *Local deployment tool* – If you're new to Kubernetes, consider installing a local deployment tool like https://minikube.sigs.k8s.io/docs/[minikube] or https://kind.sigs.k8s.io/[kind]. These tools allow you to have an Amazon EKS cluster on your local machine for testing applications.
+** *Package manager* – https://helm.sh/docs/intro/install/[Helm] is a popular package manager for Kubernetes that simplifies the installation and management of complex packages. With Helm, it's easier to install and manage packages like the {aws} Load Balancer Controller on your Amazon EKS cluster.
 
 
 [#setting-up-next-steps]

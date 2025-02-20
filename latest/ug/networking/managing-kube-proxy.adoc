@@ -24,7 +24,7 @@ For more information, see <<automode>>.
 
 We recommend adding the Amazon EKS type of the add-on to your cluster instead of using the self-managed type of the add-on. If you're not familiar with the difference between the types, see <<eks-add-ons>>. For more information about adding an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. If you're unable to use the Amazon EKS add-on, we encourage you to submit an issue about why you can't to the https://github.com/aws/containers-roadmap/issues[Containers roadmap GitHub repository].
 
-The `kube-proxy` add-on is deployed on each Amazon EC2 node in your Amazon EKS cluster. It maintains network rules on your nodes and enables network communication to your [.noloc]`Pods`. The add-on isn't deployed to Fargate nodes in your cluster. For more information, see https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/[kube-proxy] in the [.noloc]`Kubernetes` documentation.
+The `kube-proxy` add-on is deployed on each Amazon EC2 node in your Amazon EKS cluster. It maintains network rules on your nodes and enables network communication to your Pods. The add-on isn't deployed to Fargate nodes in your cluster. For more information, see https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/[kube-proxy] in the Kubernetes documentation.
 
 == Install as Amazon EKS Add-on
 
@@ -32,7 +32,7 @@ The `kube-proxy` add-on is deployed on each Amazon EC2 node in your Amazon EKS c
 [#kube-proxy-versions]
 == `kube-proxy` versions
 
-The following table lists the latest version of the Amazon EKS add-on type for each [.noloc]`Kubernetes` version.
+The following table lists the latest version of the Amazon EKS add-on type for each Kubernetes version.
 
 [options="header"]
 |===
@@ -64,7 +64,7 @@ There are two types of the `kube-proxy` container image available for each Amazo
 
 
 
-* *Default* – This image type is based on a Debian-based Docker image that is maintained by the [.noloc]`Kubernetes` upstream community.
+* *Default* – This image type is based on a Debian-based Docker image that is maintained by the Kubernetes upstream community.
 * *Minimal* – This image type is based on a https://gallery.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base-iptables[minimal base image] maintained by Amazon EKS Distro, which contains minimal packages and doesn't have shells. For more information, see https://distro.eks.amazonaws.com/[Amazon EKS Distro].
 
 The following table lists the latest available self-managed `kube-proxy` container image version for each Amazon EKS cluster version.
@@ -86,5 +86,5 @@ The following table lists the latest available self-managed `kube-proxy` contain
 |===
 
 
-* The default image type isn't available for [.noloc]`Kubernetes` version `1.25` and later. You must use the minimal image type.
+* The default image type isn't available for Kubernetes version `1.25` and later. You must use the minimal image type.
 * When you <<updating-an-add-on,update an Amazon EKS add-on type>>, you specify a valid Amazon EKS add-on version, which might not be a version listed in this table. This is because <<add-ons-kube-proxy,Amazon EKS add-on>> versions don't always match container image versions specified when updating the self-managed type of this add-on. When you update the self-managed type of this add-on, you specify a valid container image version listed in this table. 

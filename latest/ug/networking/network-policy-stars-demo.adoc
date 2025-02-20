@@ -24,7 +24,7 @@ kubectl apply -f https://eksworkshop.com/beginner/120_network-policies/calico/st
 kubectl apply -f https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/frontend.yaml
 kubectl apply -f https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/client.yaml
 ----
-. View all [.noloc]`Pods` on the cluster.
+. View all Pods on the cluster.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

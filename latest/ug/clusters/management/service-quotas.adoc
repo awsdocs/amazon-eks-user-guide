@@ -1,6 +1,6 @@
 [.topic]
 [#service-quotas]
-= View and manage Amazon EKS and [.noloc]`Fargate` service quotas
+= View and manage Amazon EKS and Fargate service quotas
 :info_titleabbrev: Service quotas
 
 include::../../attributes.txt[]
@@ -50,7 +50,7 @@ aws service-quotas list-aws-default-service-quotas \
     --output table
 ----
 
-NOTE: The quota returned is the number of Amazon ECS tasks or Amazon EKS [.noloc]`Pods` that can run concurrently on Fargate in this account in the current {aws} Region.
+NOTE: The quota returned is the number of Amazon ECS tasks or Amazon EKS Pods that can run concurrently on Fargate in this account in the current {aws} Region.
 
 To work more with service quotas using the {aws} CLI, see link:cli/latest/reference/service-quotas/index.html[service-quotas,type="documentation"] in the _{aws} CLI Command Reference_. To request a quota increase, see the link:cli/latest/reference/service-quotas/request-service-quota-increase.html[request-service-quota-increase,type="documentation"] command in the _{aws} CLI Command Reference_.
 
@@ -68,7 +68,7 @@ These service quotas are listed under *Amazon Elastic Kubernetes Service (Amazon
 ====
 The following quotas aren't available in Service Quotas:
 
-* Pod Identity associations per cluster is [.noloc]`1000` in each supported region and this quota isn't adjustable.
+* Pod Identity associations per cluster is 1000 in each supported region and this quota isn't adjustable.
 * You can use up to 15 CIDRs for Remote Node Networks and 15 CIDRs for Remote Pod Networks per cluster for hybrid nodes. This quota isn't adjustable.
 ====
 
@@ -86,6 +86,6 @@ To view default {aws} Fargate on EKS service quotas, see link:general/latest/gr/
 [NOTE]
 ====
 
-Fargate additionally enforces Amazon ECS tasks and Amazon EKS [.noloc]`Pods` launch rate quotas. For more information, see link:AmazonECS/latest/developerguide/throttling.html[{aws} Fargate throttling quotas,type="documentation"] in the _Amazon ECS guide_.
+Fargate additionally enforces Amazon ECS tasks and Amazon EKS Pods launch rate quotas. For more information, see link:AmazonECS/latest/developerguide/throttling.html[{aws} Fargate throttling quotas,type="documentation"] in the _Amazon ECS guide_.
 
 ====
