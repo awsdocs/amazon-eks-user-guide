@@ -106,7 +106,7 @@ Prometheus exporter for hardware and OS metrics exposed by *NIX kernels, written
 |===
 |Property | Value
 
-|Add-on name | `node_exporter`
+|Add-on name | `prometheus-node-exporter`
 
 |Namespace | `prometheus-node-exporter`
 
