@@ -91,7 +91,7 @@ We recommend that you link:vpc/latest/privatelink/interface-endpoints.html#enabl
 |{aws} Security Token Service (required when using IAM roles for service accounts)
 |com.amazonaws.[.replaceable]`region-code`.sts 
 
-|Amazon EKS Auth
+|Amazon EKS Auth (required when using Pod Identity associations)
 |com.amazonaws.[.replaceable]`region-code`.eks-auth 
 
 
