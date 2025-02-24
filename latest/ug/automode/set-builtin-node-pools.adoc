@@ -41,8 +41,16 @@ aws eks update-cluster-config \
   --compute-config '{
     "nodeRoleArn": "<node-role-arn>",
     "nodePools": ["general-purpose", "system"]
+  "enabled": true,
+  "nodeRoleArn":"<node-role-arn>",
+  "nodePools": ["general-purpose", "system"]
+  }' \
+  --kubernetes-network-config '{
+  "elasticLoadBalancing":{"enabled": true}
+  }' \
+  --storage-config '{
+  "blockStorage":{"enabled": true}
   }'
-
 ----
 
 You can modify the command to selectively enable the NodePools. 
@@ -56,4 +64,13 @@ Use the following command to disable both built-in NodePools:
 aws eks update-cluster-config \
   --name <cluster-name> \
   --compute-config '{"nodePools": []}'
+  --compute-config '{
+  "enabled": true,
+  "nodePools": []
+  }' \
+  --kubernetes-network-config '{
+  "elasticLoadBalancing":{"enabled": true}}' \
+  --storage-config '{
+  "blockStorage":{"enabled": true}
+  }'
 ----
