@@ -15,11 +15,12 @@ After you initiate a control plane upgrade, EKS Auto Mode begins replacing nodes
 
 Additionally, you no longer need to update components like:
 
-* CoreDNS
-* KubeProxy
+* Amazon VPC CNI
 * {aws} Load Balancer Controller
+* CoreDNS
+* `kube-proxy`
 * Karpenter
-* {aws} EBS CSI Driver
+* {aws} EBS CSI driver
 
 EKS Auto Mode replaces these components with service functionality. 
 
