@@ -11,13 +11,13 @@ include::../attributes.txt[]
 Configure common add-ons for hybrid nodes
 --
 
-This page describes considerations for running {aws} Add-ons and Community add-ons on Amazon EKS Hybrid Nodes. To learn more about Amazon EKS add-ons and the processes for creating, upgrading, and removing add-ons from your cluster, see <<eks-add-ons>>. Unless otherwise noted on this page, the processes for creating, upgrading, and removing Amazon EKS add-ons is the same for Amazon EKS clusters with hybrid nodes as it is for Amazon EKS clusters with nodes running in {aws} Cloud. Only the add-ons included on this page have been validated for compatibility with Amazon EKS Hybrid Nodes.
+This page describes considerations for running {aws} add-ons and Community add-ons on Amazon EKS Hybrid Nodes. To learn more about Amazon EKS add-ons and the processes for creating, upgrading, and removing add-ons from your cluster, see <<eks-add-ons>>. Unless otherwise noted on this page, the processes for creating, upgrading, and removing Amazon EKS add-ons is the same for Amazon EKS clusters with hybrid nodes as it is for Amazon EKS clusters with nodes running in {aws} Cloud. Only the add-ons included on this page have been validated for compatibility with Amazon EKS Hybrid Nodes.
 
 The following {aws} Add-ons are compatible with Amazon EKS Hybrid Nodes.
 
 [cols="1,1", options="header"]
 |===
-|AWS Add-on
+|{aws} add-on
 |Compatible add-on versions
 
 |kube-proxy
@@ -52,7 +52,7 @@ The following Community add-ons are compatible with Amazon EKS Hybrid Nodes. To 
 
 In addition to the Amazon EKS add-ons in the tables above, the <<prometheus,Amazon Managed Service for Prometheus Collector>>, and the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> for <<alb-ingress,application ingress>> (HTTP) and <<network-load-balancing,load balancing>> (TCP/UDP) are compatible with hybrid nodes. 
 
-{aws} Add-ons and Community add-ons that are not compatible with Amazon EKS Hybrid Nodes have been updated with an affinity rule for the default eks.amazonaws.com/compute-type: hybrid label applied to hybrid nodes. This prevents them from running on hybrid nodes when deployed in your clusters. If you have clusters with both hybrid nodes and nodes running in {aws} Cloud, Amazon EKS add-ons that are not compatible with hybrid nodes can still be deployed in your cluster to nodes running in {aws} Cloud. The Amazon VPC CNI is not compatible with hybrid nodes, and Cilium and Calico are supported as the Container Networking Interfaces (CNIs) for Amazon EKS Hybrid Nodes. See <<hybrid-nodes-cni>> for more information.
+There are {aws} add-ons and Community add-ons that aren't compatible with Amazon EKS Hybrid Nodes. The latest versions of these add-ons have an anti-affinity rule for the default `eks.amazonaws.com/compute-type: hybrid` label applied to hybrid nodes. This prevents them from running on hybrid nodes when deployed in your clusters. If you have clusters with both hybrid nodes and nodes running in {aws} Cloud, you can deploy these add-ons in your cluster to nodes running in {aws} Cloud. The Amazon VPC CNI is not compatible with hybrid nodes, and Cilium and Calico are supported as the Container Networking Interfaces (CNIs) for Amazon EKS Hybrid Nodes. See <<hybrid-nodes-cni>> for more information.
 
 The rest of this page describes differences between running compatible Amazon EKS add-ons on hybrid nodes, compared to the other Amazon EKS compute types.
 
@@ -62,7 +62,7 @@ The rest of this page describes differences between running compatible Amazon EK
 [#hybrid-nodes-add-ons-core]
 === kube-proxy and CoreDNS
 
-Kube-proxy and CoreDNS are installed as unmanaged add-ons by default when an EKS cluster is created. These add-ons can be managed as Amazon EKS add-ons after cluster creation. Reference the EKS documentation for details on <<managing-kube-proxy>> and <<managing-coredns>>. If you are running a cluster with hybrid nodes and nodes in {aws} Cloud, it is recommended to have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud.
+EKS installs Kube-proxy and CoreDNS as self-managed add-ons by default when you create an EKS cluster with the {aws} API and {aws} SDKs, including from the {aws} CLI. You can overwrite these add-ons as Amazon EKS add-ons after cluster creation. Reference the EKS documentation for details on <<managing-kube-proxy>> and <<managing-coredns>>. If you are running a cluster with hybrid nodes and nodes in {aws} Cloud, we recommend that you have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud.
 
 [#hybrid-nodes-add-ons-cw]
 === CloudWatch Observability Agent add-on
