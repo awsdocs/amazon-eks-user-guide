@@ -1,9 +1,8 @@
+include::../../attributes.txt[]
 [.topic]
 [#pod-id-abac]
 = Grant Pods access to {aws} resources based on tags
 :info_titleabbrev: Grant Pods access
-
-include::../../attributes.txt[]
 
 [abstract]
 --
