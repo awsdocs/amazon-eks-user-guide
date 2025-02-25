@@ -107,8 +107,6 @@ You can also use Amazon Kinesis Data Streams for your log destination. If you us
 ====
 [role="tablist"]
 CloudWatch::
-*To create a `ConfigMap` for CloudWatch*
-
 +
 You have two output options when using CloudWatch:
 +
@@ -168,7 +166,6 @@ kubectl apply -f aws-logging-cloudwatch-configmap.yaml
 ----
 
 Amazon OpenSearch Service::
-*To create a `ConfigMap` for Amazon OpenSearch Service*
 +
 If you want to send logs to Amazon OpenSearch Service, you can use https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch[es] output, which is a plugin written in C. The following example shows you how to use the plugin to send logs to OpenSearch.
 +
@@ -202,7 +199,6 @@ kubectl apply -f aws-logging-opensearch-configmap.yaml
 ----
 
 Firehose::
-*To create a `ConfigMap` for Firehose*
 +
 You have two output options when sending logs to Firehose:
 +
@@ -364,7 +360,7 @@ The logs are in CloudWatch in the same {aws} Region as the cluster. The log grou
 
 Shipping Fluent Bit process logs to CloudWatch requires additional log ingestion and storage costs. To exclude process logs in an existing `ConfigMap` setup, do the following steps.
 
-. Locate the CloudWatch log group automatically created for your Amazon EKS cluster's Fluent Bit process logs after enabling Fargate logging. It follows the format `{cluster_name}-fluent-bit-logs`. 
+. Locate the CloudWatch log group automatically created for your Amazon EKS cluster's Fluent Bit process logs after enabling Fargate logging. It follows the format `[.replaceable]``my-cluster``-fluent-bit-logs`. 
 . Delete the existing CloudWatch log streams created for each Pod's process logs in the CloudWatch log group.
 . Edit the `ConfigMap` and set `flb_log_cw: "false"`.
 . Restart any existing Pods in the cluster.
