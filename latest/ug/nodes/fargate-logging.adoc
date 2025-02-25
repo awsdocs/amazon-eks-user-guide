@@ -166,12 +166,6 @@ data:
 ----
 kubectl apply -f aws-logging-cloudwatch-configmap.yaml
 ----
-.. Download the CloudWatch IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json[view the policy] on GitHub.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json
-----
 
 Amazon OpenSearch Service::
 *To create a `ConfigMap` for Amazon OpenSearch Service*
@@ -206,14 +200,6 @@ data:
 ----
 kubectl apply -f aws-logging-opensearch-configmap.yaml
 ----
-.. Download the OpenSearch IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json[view the policy] on GitHub.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json
-----
-+
-Make sure that OpenSearch Dashboards' access control is configured properly. The `all_access role` in OpenSearch Dashboards needs to have the Fargate Pod execution role and the IAM role mapped. The same mapping must be done for the `security_manager` role. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles. For more information, see link:tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/[How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?,type="marketing"].
 
 Firehose::
 *To create a `ConfigMap` for Firehose*
@@ -248,6 +234,30 @@ data:
 ----
 kubectl apply -f aws-logging-firehose-configmap.yaml
 ----
+====
+
+. Set up permissions for the Fargate Pod execution role to send logs to your destination.
+====
+[role="tablist"]
+CloudWatch::
+.. Download the CloudWatch IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json[view the policy] on GitHub.
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json
+----
+
+Amazon OpenSearch Service::
+.. Download the OpenSearch IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json[view the policy] on GitHub.
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json
+----
++
+Make sure that OpenSearch Dashboards' access control is configured properly. The `all_access role` in OpenSearch Dashboards needs to have the Fargate Pod execution role and the IAM role mapped. The same mapping must be done for the `security_manager` role. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles. For more information, see link:tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/[How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?,type="marketing"].
+
+Firehose::
 .. Download the Firehose IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json[view the policy] on GitHub.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -255,13 +265,15 @@ kubectl apply -f aws-logging-firehose-configmap.yaml
 curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json
 ----
 ====
-. Create an IAM policy from the policy file you downloaded in a previous step.
+
+.. Create an IAM policy from the policy file that you downloaded.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-policy --policy-name eks-fargate-logging-policy --policy-document file://permissions.json
 ----
-. Attach the IAM policy to the pod execution role specified for your Fargate profile with the following command. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`AmazonEKSFargatePodExecutionRole` with your Pod execution role (for more information, see <<fargate-sg-pod-execution-role>>).
+
+.. Attach the IAM policy to the pod execution role specified for your Fargate profile with the following command. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`AmazonEKSFargatePodExecutionRole` with your Pod execution role (for more information, see <<fargate-sg-pod-execution-role>>).
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
