@@ -237,10 +237,13 @@ kubectl apply -f aws-logging-firehose-configmap.yaml
 ====
 
 . Set up permissions for the Fargate Pod execution role to send logs to your destination.
+
+.. Download the IAM policy for your destination to your computer.
++
 ====
 [role="tablist"]
 CloudWatch::
-.. Download the CloudWatch IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json[view the policy] on GitHub.
+Download the CloudWatch IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json[view the policy] on GitHub.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -248,7 +251,7 @@ curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-
 ----
 
 Amazon OpenSearch Service::
-.. Download the OpenSearch IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json[view the policy] on GitHub.
+Download the OpenSearch IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json[view the policy] on GitHub.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -258,7 +261,7 @@ curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-
 Make sure that OpenSearch Dashboards' access control is configured properly. The `all_access role` in OpenSearch Dashboards needs to have the Fargate Pod execution role and the IAM role mapped. The same mapping must be done for the `security_manager` role. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles. For more information, see link:tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/[How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?,type="marketing"].
 
 Firehose::
-.. Download the Firehose IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json[view the policy] on GitHub.
+Download the Firehose IAM policy to your computer. You can also https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json[view the policy] on GitHub.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -346,7 +349,7 @@ data:
         auto_create_group true
 ----
 
-The logs are in the {aws} Region that the cluster resides in under CloudWatch. The log group name is `[.replaceable]``my-cluster``-fluent-bit-logs` and the Fluent Bit logstream name is `fluent-bit-[.replaceable]``podname``-[.replaceable]``pod-namespace```.
+The logs are in CloudWatch in the same {aws} Region as the cluster. The log group name is `[.replaceable]``my-cluster``-fluent-bit-logs` and the Fluent Bit logstream name is `fluent-bit-[.replaceable]``podname``-[.replaceable]``pod-namespace```.
 
 [NOTE]
 ====
