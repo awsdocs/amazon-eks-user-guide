@@ -66,6 +66,7 @@ EKS installs Kube-proxy and CoreDNS as self-managed add-ons by default when you 
 
 [#hybrid-nodes-add-ons-cw]
 === CloudWatch Observability Agent add-on
+As the CloudWatch Observability Agent runs https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks], you must configure a remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable. Implementing Border Gateway Protocol (BGP) with the CNI is one common way to make your pod IP addresses routable.
 
 Node-level metrics are not available for hybrid nodes because link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[CloudWatch Container Insights,type="documentation"] depends on the availability of link:AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html[Instance Metadata Service,type="documentation"] (IMDS) for node-level metrics. Cluster, workload, pod, and container-level metrics are available for hybrid nodes.
 
