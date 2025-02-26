@@ -25,4 +25,6 @@ include::hybrid-nodes-join.adoc[leveloffset=+1]
 
 include::hybrid-nodes-upgrade.adoc[leveloffset=+1]
 
+include::hybrid-nodes-security.adoc[leveloffset=+1]
+
 include::hybrid-nodes-remove.adoc[leveloffset=+1]
