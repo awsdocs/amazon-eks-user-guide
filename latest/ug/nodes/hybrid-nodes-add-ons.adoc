@@ -109,14 +109,14 @@ Follow the steps in link:prometheus/latest/userguide/AMP-collector-how-to.html[U
 [#hybrid-nodes-add-ons-adot]
 === {aws} Distro for OpenTelemetry (ADOT) add-on
 
-You can use the {aws} Distro for OpenTelemetry (ADOT) Amazon EKS add-on to collect metrics, logs, and tracing data from your applications running on hybrid nodes. As ADOT uses admission https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks] to mutate and validate the Collector Custom Resource requests, you must configure your remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable. 
+You can use the {aws} Distro for OpenTelemetry (ADOT) Amazon EKS add-on to collect metrics, logs, and tracing data from your applications running on hybrid nodes. ADOT uses admission https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks] to mutate and validate the Collector Custom Resource requests. For the EKS control plane to reach webhooks running on hybrid nodes, you must configure your remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable. Implementing Border Gateway Protocol (BGP) with the CNI is one common way to make your pod IP addresses routable.
 
 Follow the steps in https://aws-otel.github.io/docs/getting-started/adot-eks-add-on[Getting Started with {aws} Distro for OpenTelemetry using EKS Add-Ons] in the _{aws} Distro for OpenTelemetry_ documentation.
 
 [#hybrid-nodes-add-ons-lbc]
 === {aws} Load Balancer Controller
 
-You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) or Network Load Balancer (NLB) with the target type ip for workloads on hybrid nodes connected with {aws} Direct Connect or {aws} Site-to-Site VPN. As the {aws} Load Balancer Controller uses https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks], you must configure a remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable.
+You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) or Network Load Balancer (NLB) with the target type ip for workloads on hybrid nodes connected with {aws} Direct Connect or {aws} Site-to-Site VPN. As the {aws} Load Balancer Controller uses https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks], you must configure a remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable. Implementing Border Gateway Protocol (BGP) with the CNI is one common way to make your pod IP addresses routable.
 
 To install the {aws} Load Balancer Controller, follow the steps at <<lbc-helm>> or <<lbc-manifest>>.
 
@@ -187,4 +187,4 @@ Starting with version `v8.1.0-eksbuild.2`, the <<csi-snapshot-controller,CSI sna
 
 [#hybrid-nodes-add-ons-metrics-server]
 === Kubernetes Metrics Server add-on
-The control plane needs to reach Metrics Server's pod IP (or node IP if hostNetwork is enabled). Therefore, unless you run Metrics Server in hostNetwork mode, you must configure a remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable.
+The control plane needs to reach Metrics Server's pod IP (or node IP if hostNetwork is enabled). Therefore, unless you run Metrics Server in hostNetwork mode, you must configure a remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable. Implementing Border Gateway Protocol (BGP) with the CNI is one common way to make your pod IP addresses routable.
