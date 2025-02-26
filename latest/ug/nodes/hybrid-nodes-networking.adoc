@@ -55,6 +55,11 @@ You must have access to the following domains during the installation process wh
 |HTTPS
 |443
 
+|link:general/latest/gr/ecr.html[ECR service endpoints,type="documentation"]
+|\https://api.ecr.[.replaceable]`region`.amazonaws.com
+|HTTPS
+|443
+
 |EKS ECR endpoints
 |See <<add-ons-images>> for regional endpoints.
 |HTTPS
