@@ -14,6 +14,8 @@ This topic covers how to configure a Kubernetes service account to assume an {aw
 
 To create an EKS Pod Identity association, there is only a single step; you create the association in EKS through the {aws-management-console}, {aws} CLI, {aws} SDKs, {aws} CloudFormation and other tools. There isn't any data or metadata about the associations inside the cluster in any Kubernetes objects and you don't add any annotations to the service accounts.
 
+*Prerequisites*
+
 * An existing cluster. If you don't have one, you can create one by following one of the guides in <<getting-started>>.
 * The IAM principal that is creating the association must have `iam:PassRole`.
 * The latest version of the {aws} CLI installed and configured on your device or {aws} CloudShell. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide. The {aws} CLI version installed in the {aws} CloudShell may also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the {aws} CloudShell User Guide.
