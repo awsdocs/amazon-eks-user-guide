@@ -82,6 +82,13 @@ The `install` command is used to install the artifacts and dependencies required
 `docker` - `nodeadm` will install `containerd` package built and distributed by Docker. `docker` is not a supported value for Amazon Linux 2023
 
 `none` - `nodeadm` will not install `containerd` package. You must manually install `containerd` before running `nodeadm init`.
+
+|`-r`,
+
+`--region`
+|FALSE
+|Specifies the {aws} Region for downloading artifacts such as the SSM Agent. Defaults to `us-west-2`.
+
 |`-t`,
 
 `--timeout`
