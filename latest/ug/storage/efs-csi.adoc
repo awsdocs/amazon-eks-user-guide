@@ -181,6 +181,11 @@ aws iam attach-role-policy \
 
 We recommend that you install the Amazon EFS CSI driver through the Amazon EKS add-on. To add an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. For more information about add-ons, see <<eks-add-ons>>. If you're unable to use the Amazon EKS add-on, we encourage you to submit an issue about why you can't to the https://github.com/aws/containers-roadmap/issues[Containers roadmap GitHub repository].
 
+[IMPORTANT]
+====
+Before adding the Amazon EFS driver as an Amazon EKS add-on, confirm that you don't have a self-managed version of the driver installed on your cluster. If so, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#uninstalling-the-amazon-efs-csi-driver[Uninstalling the Amazon EFS CSI Driver] on GitHub.  
+====
+
 Alternatively, if you want a self-managed installation of the Amazon EFS CSI driver, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#installation[Installation] on GitHub.
 
 [#efs-create-filesystem]
