@@ -60,7 +60,7 @@ There are {aws} add-ons and community add-ons that aren't compatible with Amazon
 The sections that follow describe differences between running compatible {aws} add-ons on hybrid nodes compared to other Amazon EKS compute types.
 
 [#hybrid-nodes-add-ons-core]
-=== kube-proxy and CoreDNS
+== kube-proxy and CoreDNS
 
 EKS installs Kube-proxy and CoreDNS as self-managed add-ons by default when you create an EKS cluster with the {aws} API and {aws} SDKs, including from the {aws} CLI. You can overwrite these add-ons as Amazon EKS add-ons after cluster creation. Reference the EKS documentation for details on <<managing-kube-proxy>> and <<managing-coredns>>. If you are running a cluster with hybrid nodes and nodes in {aws} Cloud, we recommend that you have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud.
 
@@ -99,7 +99,7 @@ items:
 ----
 
 [#hybrid-nodes-add-ons-amp]
-=== Amazon Managed Prometheus managed collector for hybrid nodes
+== Amazon Managed Prometheus managed collector for hybrid nodes
 
 An Amazon Managed Service for Prometheus (AMP) managed collector consists of a scraper that discovers and collects metrics from the resources in an Amazon EKS cluster. AMP manages the scraper for you, removing the need to manage any instances, agents, or scrapers yourself.
 
@@ -115,7 +115,7 @@ You can use the {aws} Distro for OpenTelemetry (ADOT) Amazon EKS add-on to colle
 Follow the steps in https://aws-otel.github.io/docs/getting-started/adot-eks-add-on[Getting Started with {aws} Distro for OpenTelemetry using EKS Add-Ons] in the _{aws} Distro for OpenTelemetry_ documentation.
 
 [#hybrid-nodes-add-ons-lbc]
-=== {aws} Load Balancer Controller
+== {aws} Load Balancer Controller
 
 You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) or Network Load Balancer (NLB) with the target type ip for workloads on hybrid nodes connected with {aws} Direct Connect or {aws} Site-to-Site VPN. As the {aws} Load Balancer Controller uses https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks], you must configure a remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable. Implementing Border Gateway Protocol (BGP) with the CNI is one common way to make your pod IP addresses routable.
 
