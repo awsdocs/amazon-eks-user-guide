@@ -221,6 +221,7 @@ This policy allows the service-linked role to call {aws} services on your behalf
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks.
 
 * *`ec2`* – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the cluster security group, and VPC that are required to create a cluster. For more information, see <<sec-group-reqs>>. Read information about security groups. Update tags on security groups.
+* *`ec2` Auto Mode* – Terminate EC2 instances created by EKS Auto Mode. For more information, see <<automode>>. 
 * *`iam`* – List all of the managed policies that attached to an IAM role. This is required so that Amazon EKS can list and validate all managed policies and permissions required to create a cluster.
 * *Associate a VPC with a hosted zone* – This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server.
 * *Log event* – This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch.
@@ -363,6 +364,11 @@ View details about updates to {aws} managed policies for Amazon EKS since this s
 |Change
 |Description
 |Date
+
+
+| Added permissions to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
+| Added permission to terminate EC2 instances created by EKS Auto Mode.
+| February 28, 2025
 
 |Added permissions to <<security-iam-awsmanpol-amazonebscsidriverservicerolepolicy,AmazonEBSCSIDriverPolicy>>.
 |Added a new statement authorizing the EBS CSI Driver to restore all snapshots. This was previously allowed by the existing policy but a new explicit statement is required due to a change in the handling of IAM for `CreateVolume`.
