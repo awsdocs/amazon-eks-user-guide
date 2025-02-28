@@ -183,9 +183,7 @@ We recommend that you install the Amazon EFS CSI driver through the Amazon EKS a
 
 [IMPORTANT]
 ====
-
-Before adding the Amazon EFS driver as an Amazon EKS add-on, confirm that you don't have a self-managed version of the driver installed on your cluster. If so, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#uninstalling-the-amazon-efs-csi-driver[Uninstalling a self-managed Amazon EFS CSI driver] on GitHub.  
-
+Before adding the Amazon EFS driver as an Amazon EKS add-on, confirm that you don't have a self-managed version of the driver installed on your cluster. If so, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#uninstalling-the-amazon-efs-csi-driver[Uninstalling the Amazon EFS CSI Driver] on GitHub.  
 ====
 
 Alternatively, if you want a self-managed installation of the Amazon EFS CSI driver, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#installation[Installation] on GitHub.
