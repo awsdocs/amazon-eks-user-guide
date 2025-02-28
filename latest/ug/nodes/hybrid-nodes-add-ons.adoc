@@ -54,10 +54,10 @@ In addition to the Amazon EKS add-ons in the tables above, the <<prometheus,Amaz
 
 There are {aws} add-ons and community add-ons that aren't compatible with Amazon EKS Hybrid Nodes. The latest versions of these add-ons have an anti-affinity rule for the default `eks.amazonaws.com/compute-type: hybrid` label applied to hybrid nodes. This prevents them from running on hybrid nodes when deployed in your clusters. If you have clusters with both hybrid nodes and nodes running in {aws} Cloud, you can deploy these add-ons in your cluster to nodes running in {aws} Cloud. The Amazon VPC CNI is not compatible with hybrid nodes, and Cilium and Calico are supported as the Container Networking Interfaces (CNIs) for Amazon EKS Hybrid Nodes. See <<hybrid-nodes-cni>> for more information.
 
-The rest of this page describes differences between running compatible Amazon EKS add-ons on hybrid nodes, compared to the other Amazon EKS compute types.
-
 [#hybrid-nodes-add-ons-aws-add-ons]
 == {aws} add-ons
+
+The sections that follow describe differences between running compatible {aws} add-ons on hybrid nodes compared to other Amazon EKS compute types.
 
 [#hybrid-nodes-add-ons-core]
 == kube-proxy and CoreDNS
@@ -179,12 +179,14 @@ aws eks create-addon \
 ----
 
 [#hybrid-nodes-add-ons-csi-snapshotter]
-== CSI snapshot controller add-on
+== CSI snapshot controller
 
 Starting with version `v8.1.0-eksbuild.2`, the <<csi-snapshot-controller,CSI snapshot controller add-on>> applies a soft anti-affinity rule for hybrid nodes, preferring the controller `deployment` to run on EC2 in the same {aws} Region as the Amazon EKS control plane. Co-locating the `deployment` in the same {aws} Region as the Amazon EKS control plane improves latency. 
 
 [#hybrid-nodes-add-ons-community]
 == Community add-ons
+
+The sections that follow describe differences between running compatible community add-ons on hybrid nodes compared to other Amazon EKS compute types.
 
 [#hybrid-nodes-add-ons-metrics-server]
 == Kubernetes Metrics Server
