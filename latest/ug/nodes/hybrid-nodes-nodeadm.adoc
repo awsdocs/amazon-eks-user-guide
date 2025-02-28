@@ -86,8 +86,8 @@ The `install` command is used to install the artifacts and dependencies required
 |`-r`,
 
 `--region`
-| FALSE
-| Specifies the AWS region for downloading artifacts such as the SSM Agent. Defaults to `us-west-2`.
+|FALSE
+|Specifies the {aws} Region for downloading artifacts such as the SSM Agent. Defaults to `us-west-2`.
 
 |`-t`,
 
