@@ -34,9 +34,10 @@ Before upgrading, make sure you have completed the following prerequisites.
 * You must have kubectl installed on your local machine or instance you are using to interact with your Amazon EKS Kubernetes API endpoint.
 * The version of your CNI must support the Kubernetes version you are upgrading to. If it does not, upgrade your CNI version before upgrading your hybrid nodes. See <<hybrid-nodes-cni>> for more information.
 
-== Cutover migration upgrades
+[#hybrid-nodes-upgrade-cutover]
+== Cutover migration (blue-green) upgrades
 
-Cutover migration upgrades refer to the process of creating new hybrid nodes on new hosts with your target Kubernetes version, gracefully migrating your existing applications to the new hybrid nodes on your target Kubernetes version, and removing the hybrid nodes on the old Kubernetes version from your cluster.
+_Cutover migration upgrades_ refer to the process of creating new hybrid nodes on new hosts with your target Kubernetes version, gracefully migrating your existing applications to the new hybrid nodes on your target Kubernetes version, and removing the hybrid nodes on the old Kubernetes version from your cluster. This strategy is also called a blue-green migration.
 
 . Connect your new hosts as hybrid nodes following the <<hybrid-nodes-join>> steps. When running the `nodeadm install` command, use your target Kubernetes version.
 . Enable communication between the new hybrid nodes on the target Kubernetes version and your hybrid nodes on the old Kubernetes version. This configuration allows pods to communicate with each other while you are migrating your workload to the hybrid nodes on the target Kubernetes version.
@@ -112,6 +113,7 @@ done
 
 . Depending on your choice of CNI, there may be artifacts remaining on your hybrid nodes after running the above steps. See <<hybrid-nodes-cni>> for more information.
 
+[#hybrid-nodes-upgrade-inplace]
 == In-place upgrades
 
 The in-place upgrade process refers to using `nodeadm upgrade` to upgrade the Kubernetes version for hybrid nodes without using new physical or virtual hosts and a cutover migration strategy. The `nodeadm upgrade` process shuts down the existing older Kubernetes components running on the hybrid node, uninstalls the existing older Kubernetes components, installs the new target Kubernetes components, and starts the new target Kubernetes components. It is strongly recommend to upgrade one node at a time to minimize impact to applications running on the hybrid nodes. The duration of this process depends on your network bandwidth and latency.
