@@ -13,13 +13,17 @@ Perform security updates on your Hybrid nodes
 
 This topic describes the procedure to perform in-place patching of security updates for specific packages and dependencies running on your hybrid nodes. As a best practice we recommend you to regularly update your hybrid nodes to receive CVEs and security patches.
 
-== Containerd
+For steps to upgrade the Kubernetes version, see <<hybrid-nodes-upgrade>>.
+
+One example of software that might need security patching is `containerd`.
+
+== `Containerd`
 
 `containerd` is the standard Kubernetes container runtime and core dependency for EKS Hybrid Nodes, used for managing container lifecycle, including pulling images and managing container execution. On an hybrid node, you can install `containerd` through the link:eks/latest/userguide/hybrid-nodes-nodeadm.html[nodeadm CLI,type="documentation"] or manually. Depending on the operating system of your node, `nodeadm` will install `containerd` from the OS-distributed package or Docker package.
 
 When a CVE in `containerd` has been published, you have the following options to upgrade to the patched version of `containerd` on your Hybrid nodes.
 
-== Containerd CVE patch published to package managers
+== Step 1: Check if the patch published to package managers
 
 You can check whether the `containerd` CVE patch has been published to each respective OS package manager by referring to the corresponding security bulletins:
 
@@ -31,7 +35,16 @@ You can check whether the `containerd` CVE patch has been published to each resp
 
 If you use the Docker repo as the source of `containerd`, you can check the https://docs.docker.com/security/security-announcements/[Docker security announcements] to identify the availability of the patched version in the Docker repo.
 
-=== Patching with `nodeadm upgrade`
+== Step 2: Choose the method to install the patch
+
+There are three methods to patch and install security upgrades in-place on nodes. Which method you can use depends on whether the patch is available from the operating system in the package manager or not:
+
+. Install patches with `nodeadm upgrade` that are published to package managers, see <<hybrid-nodes-security-nodeadm, Step 2 a>>.
+. Install patches with the package managers directly, see <<hybrid-nodes-security-package, Step 2 b>>.
+. Install custom patches that aren't published in package managers. Note that there are special considerations for custom patches for `containerd`, <<hybrid-nodes-security-manual, Step 2 c>>.
+
+[#hybrid-nodes-security-nodeadm]
+== Step 2 a: Patching with `nodeadm upgrade`
 
 After you confirm that the `containerd` CVE patch has been published to the OS or Docker repos (either Apt or RPM), you can use the `nodeadm upgrade` command to upgrade to the latest version of `containerd`. Since this isn't a Kubernetes version upgrade, you must pass in your current Kubernetes version to the `nodeadm` upgrade command.
 
@@ -40,7 +53,8 @@ After you confirm that the `containerd` CVE patch has been published to the OS o
 nodeadm upgrade [.replaceable]`K8S_VERSION` --config-source file:///root/nodeConfig.yaml
 ----
 
-=== Patching with operating system package managers
+[#hybrid-nodes-security-package]
+== Step 2 b: Patching with operating system package managers
 
 Alternatively you can also update through the respective package manager and use it to upgrade the `containerd` package as follows.
 
@@ -73,12 +87,13 @@ sudo apt update -y
 sudo apt install -y --only-upgrade containerd.io
 ----
 
-== Containerd CVE patch not published in package managers
+[#hybrid-nodes-security-manual]
+== Step 2 c: `Containerd` CVE patch not published in package managers
 
 If the patched `containerd` version is only available by other means instead of in the package manager, for example in GitHub releases, then you can install `containerd` from the official GitHub site.
 
 . If the machine has already joined the cluster as a hybrid node, then you need to run the `nodeadm uninstall` command.
-. Install the official `containerd` binaries. You can use the steps https://github.com/containerd/containerd/blob/main/docs/getting-started.md#option-1-from-the-official-binaries[install the official containerd binaries].
+. Install the official `containerd` binaries. You can use the steps https://github.com/containerd/containerd/blob/main/docs/getting-started.md#option-1-from-the-official-binaries[official installation steps] on GitHub.
 . Run the `nodeadm install` command with the `--containerd-source` argument set to `none`, which will skip `containerd` installation through `nodeadm`. You can use the value of `none` in the `containerd` source for any operating system that the node is running.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
