@@ -101,7 +101,7 @@ aws eks associate-encryption-config \
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
   "update": {
@@ -131,7 +131,7 @@ aws eks describe-update \
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
   "update": {

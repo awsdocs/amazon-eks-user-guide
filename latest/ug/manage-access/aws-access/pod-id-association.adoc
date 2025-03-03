@@ -169,7 +169,7 @@ aws eks create-pod-identity-association --cluster-name my-cluster --role-arn {ar
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "association": {
@@ -200,7 +200,7 @@ aws iam get-role --role-name my-role --query Role.AssumeRolePolicyDocument
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "Version": "2012-10-17",
@@ -228,7 +228,7 @@ aws iam list-attached-role-policies --role-name my-role --query AttachedPolicies
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {arn-aws}iam::111122223333:policy/my-policy
 ----
@@ -247,7 +247,7 @@ aws iam get-policy --policy-arn $policy_arn
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "Policy": {
@@ -269,7 +269,7 @@ aws iam get-policy-version --policy-arn $policy_arn --version-id v1
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "Version": "2012-10-17",

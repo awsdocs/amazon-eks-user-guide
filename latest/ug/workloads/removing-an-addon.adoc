@@ -108,7 +108,7 @@ aws eks list-addons --cluster-name my-cluster
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "addons": [
@@ -128,7 +128,7 @@ aws eks delete-addon --cluster-name my-cluster --addon-name name-of-addon --pres
 +
 The abbreviated example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "addon": {

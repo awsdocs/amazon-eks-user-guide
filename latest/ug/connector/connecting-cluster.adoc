@@ -59,7 +59,7 @@ aws eks register-cluster \
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "cluster": {

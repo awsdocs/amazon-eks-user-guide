@@ -55,7 +55,7 @@ It might take several seconds for the update to complete.
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "addon": {
