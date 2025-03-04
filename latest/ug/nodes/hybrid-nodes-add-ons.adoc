@@ -61,7 +61,67 @@ The sections that follow describe differences between running compatible {aws} a
 [#hybrid-nodes-add-ons-core]
 == kube-proxy and CoreDNS
 
-EKS installs Kube-proxy and CoreDNS as self-managed add-ons by default when you create an EKS cluster with the {aws} API and {aws} SDKs, including from the {aws} CLI. You can overwrite these add-ons as Amazon EKS add-ons after cluster creation. Reference the EKS documentation for details on <<managing-kube-proxy>> and <<managing-coredns>>. If you are running a cluster with hybrid nodes and nodes in {aws} Cloud, we recommend that you have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud.
+EKS installs kube-proxy and CoreDNS as self-managed add-ons by default when you create an EKS cluster with the {aws} API and {aws} SDKs, including from the {aws} CLI. You can overwrite these add-ons as Amazon EKS add-ons after cluster creation. Reference the EKS documentation for details on <<managing-kube-proxy>> and <<managing-coredns>>. 
+
+If you are running a mixed mode cluster with both hybrid nodes and nodes in {aws} Cloud, we recommend that you have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud. CoreDNS can be configured such that your workloads will use the closest CoreDNS replica meaning your cloud workloads will use the CoreDNS running in the cloud and your hybrid workloads will use the CoreDNS running on hybrid nodes. See the steps below for how to configure CoreDNS for a mixed mode cluster.
+
+. Add a topology zone label for each of your hybrid nodes. This can alternatively be done at the `nodeadm init` phase. Note, cloud nodes automatically get a topology zone label applied to them.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+kubectl label node <hybrid-node-name> topology.kubernetes.io/zone=<zone>
+----
++
+. Add `podAntiAffinity` to the CoreDNS deployment configuration for the topology zone key. You can alternatively configure the CoreDNS deployment during installation with EKS add-ons.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+kubectl edit deployment coredns -n kube-system
+----
++
+[source,yaml,subs="verbatim,attributes"]
+----
+spec:
+  template:
+    spec:
+      affinity
+       ...
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: k8s-app
+                  operator: In
+                  values:
+                  - kube-dns
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: k8s-app
+                  operator: In
+                  values:
+                  - kube-dns
+              topologyKey: topology.kubernetes.io/zone
+            weight: 50
+      ...
+----
++
+. Add `trafficDistribution` to the kube-dns Service configuration.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+kubectl edit service kube-dns -n kube-system
+----
++
+[source,yaml,subs="verbatim,attributes"]
+----
+spec:
+  ...
+  trafficDistribution: PreferClose
+----
 
 [#hybrid-nodes-add-ons-cw]
 == CloudWatch Observability agent
