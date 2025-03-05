@@ -11,11 +11,11 @@ include::pod-id-agent-setup.adoc[leveloffset=+1]
 
 include::pod-id-association.adoc[leveloffset=+1]
 
+include::pod-id-assign-target-role.adoc[leveloffset=+1]
+
 include::pod-id-configure-pods.adoc[leveloffset=+1]
 
 include::pod-id-abac.adoc[leveloffset=+1]
-
-include::pod-id-assign-target-role.adoc[leveloffset=+1]
 
 include::pod-id-minimum-sdk.adoc[leveloffset=+1]
 
