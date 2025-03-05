@@ -21,7 +21,7 @@ For `1.24` and later clusters, officially published Amazon EKS AMIs include `con
 [#kubernetes-1-32]
 == Kubernetes 1.32
 
-Kubernetes `1.32` is now available in Amazon EKS. For more information about Kubernetes `1.32`, see the https://kubernetes.io/blog/2024/12/13/kubernetes-v1-32-release/[official release announcement].
+Kubernetes `1.32` is now available in Amazon EKS. For more information about Kubernetes `1.32`, see the https://kubernetes.io/blog/2024/12/11/kubernetes-v1-32-release/[official release announcement].
 
 [IMPORTANT]
 ====
