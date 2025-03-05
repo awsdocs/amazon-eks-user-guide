@@ -324,7 +324,7 @@ If auto repair is enabled, the repair actions that are listed start 10 minutes a
 
 |DCGMError
 |Condition
-|Connection to the DCGM host process was lost or could not be established.
+|Connection to the Data Center GPU Manager (DCGM) host process was lost or could not be established.
 |None
 
 |DCGMDiagnosticError
