@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#helm]
 = Deploy applications with Helm on Amazon EKS
 :info_titleabbrev: Deploy apps with Helm
-
-include::../../attributes.txt[]
 
 [abstract]
 --

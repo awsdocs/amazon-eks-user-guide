@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#managing-coredns]
 = Manage CoreDNS for DNS in Amazon EKS clusters
 :info_titleabbrev: CoreDNS
-
-include::../attributes.txt[]
 
 include::coredns-add-on-create.adoc[leveloffset=+1]
 

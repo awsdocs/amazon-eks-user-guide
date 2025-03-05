@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#network-policy-stars-demo]
 = Stars demo of network policy for Amazon EKS
 :info_titleabbrev: Stars policy demo
-
-include::../attributes.txt[]
 
 [abstract]
 --

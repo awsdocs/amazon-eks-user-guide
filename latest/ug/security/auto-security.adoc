@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#auto-security]
 = Security considerations for Amazon EKS Auto Mode
 :info_titleabbrev: Considerations for EKS Auto
-
-include::../attributes.txt[]
 
 This topic describes the security architecture, controls, and best practices for Amazon EKS Auto Mode. As organizations deploy containerized applications at scale, maintaining a strong security posture becomes increasingly complex. EKS Auto Mode implements automated security controls and integrates with {aws} security services to help you protect your cluster infrastructure, workloads, and data. Through built-in security features like enforced node lifecycle management and automated patch deployment, EKS Auto Mode helps you maintain security best practices while reducing operational overhead.
 

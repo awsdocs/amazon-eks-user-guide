@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#irsa-fetch-keys]
 = Fetch signing keys to validate OIDC tokens
 :info_titleabbrev: Fetch signing keys
-
-include::../../attributes.txt[]
 
 [abstract]
 --

@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-prereqs]
 = Prerequisite setup for hybrid nodes
 :info_titleabbrev: Prerequisites
 :keywords: on-premises prerequisites, hybrid prerequisites
-
-include::../attributes.txt[]
 
 [abstract]
 --

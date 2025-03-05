@@ -1,10 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#creating-an-add-on]
 = Create an Amazon EKS add-on
 :info_titleabbrev: Create an add-on
-
-include::../attributes.txt[]
-
 
 [abstract]
 --

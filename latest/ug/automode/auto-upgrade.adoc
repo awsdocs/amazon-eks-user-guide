@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#auto-upgrade]
 = Update the Kubernetes Version of an EKS Auto Mode cluster
 :info_titleabbrev: Update Kubernetes version
-
-include::../attributes.txt[]
 
 This topic explains how to update the Kubernetes version of your Auto Mode cluster. Auto Mode simplifies the version update process by handling the coordination of control plane updates with node replacements, while maintaining workload availability through pod disruption budgets.
 

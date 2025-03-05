@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#access-policies]
 = Associate access policies with access entries
 :info_titleabbrev: Associate access policies
-
-include::../../attributes.txt[]
 
 [abstract]
 --

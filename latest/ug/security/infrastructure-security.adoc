@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#infrastructure-security]
 = Infrastructure security in Amazon EKS
 :info_titleabbrev: Infrastructure security
-
-include::../attributes.txt[]
 
 include::vpc-interface-endpoints.adoc[leveloffset=+1]
 

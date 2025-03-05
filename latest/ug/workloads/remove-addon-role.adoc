@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#remove-addon-role]
 =  Remove Pod Identity associations from an Amazon EKS add-on
 :info_titleabbrev: Remove Pod Identity
-
-include::../attributes.txt[]
 
 [abstract]
 --

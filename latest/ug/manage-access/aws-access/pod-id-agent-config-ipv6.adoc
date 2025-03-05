@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-agent-config-ipv6]
 = Disable `IPv6` in the EKS Pod Identity Agent
 :info_titleabbrev: Disable IPv6
-
-include::../../attributes.txt[]
 
 [#pod-id-console]
 == {aws-management-console}

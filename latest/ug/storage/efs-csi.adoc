@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#efs-csi]
 = Store an elastic file system with Amazon EFS
 :info_titleabbrev: Amazon EFS
 :keywords: Amazon EFS CSI driver, storage
-
-include::../attributes.txt[]
 
 [abstract]
 --

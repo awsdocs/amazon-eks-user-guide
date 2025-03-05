@@ -1,11 +1,10 @@
+:doctype: book
 include::../attributes.txt[]
 
 [.topic]
 [#workloads-add-ons-available-eks]
 = {aws} Add-ons
 :info_titleabbrev: {aws} Add-ons
-
-include::../attributes.txt[]
 
 [abstract]
 --

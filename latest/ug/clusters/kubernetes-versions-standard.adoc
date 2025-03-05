@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#kubernetes-versions-standard]
 = Review release notes for Kubernetes versions on standard support
 :info_titleabbrev: Standard support versions
-
-include::../attributes.txt[]
 
 [abstract]
 --

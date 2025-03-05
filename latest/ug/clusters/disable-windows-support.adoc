@@ -1,8 +1,10 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#disable-windows-support]
 = Disable Windows support
-
-include::../attributes.txt[]
 
 . If your cluster contains Amazon Linux nodes and you use <<security-groups-for-pods,security groups for Pods>> with them, then skip this step.
 +

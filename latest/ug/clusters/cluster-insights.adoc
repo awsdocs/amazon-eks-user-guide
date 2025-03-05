@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#cluster-insights]
 = Prepare for Kubernetes version upgrades with cluster insights
 :info_titleabbrev: Cluster insights
 :keywords: cluster, upgrade, insights
-
-include::../attributes.txt[]
 
 [abstract]
 --

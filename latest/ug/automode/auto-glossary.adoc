@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#auto-glossary]
 = Glossary
 :info_titleabbrev: Glossary
-
-include::../attributes.txt[]
 
 IAM Role::
 An IAM identity that you can create in your {aws} account that has specific permissions. You can use IAM roles to delegate access to users, applications, or services that don't normally have access to your {aws} resources.

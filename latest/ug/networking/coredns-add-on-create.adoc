@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#coredns-add-on-create]
 = Create the CoreDNS Amazon EKS add-on
 :info_titleabbrev: Create
-
-include::../attributes.txt[]
 
 Create the CoreDNS Amazon EKS add-on. You must have a cluster before you create the add-on. For more information, see <<create-cluster>>.
 

@@ -1,7 +1,9 @@
-[.topic]
-[#lbc-manifest]
+:doctype: book
+
 include::../attributes.txt[]
 
+[.topic]
+[#lbc-manifest]
 = Install {aws} Load Balancer Controller with manifests
 :info_titleabbrev: Install with manifests
 

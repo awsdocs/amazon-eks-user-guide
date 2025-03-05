@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#security-k8s]
 = Security considerations for Kubernetes
 :info_titleabbrev: Considerations for Kubernetes
-
-include::../attributes.txt[]
 
 include::cert-signing.adoc[leveloffset=+1]
 

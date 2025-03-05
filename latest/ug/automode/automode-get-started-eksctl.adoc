@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#automode-get-started-eksctl]
 = Create an EKS Auto Mode Cluster with the eksctl CLI
 :config: configuration
 :info_titleabbrev: eksctl CLI
-
-include::../attributes.txt[]
 
 This topic shows you how to create an Amazon EKS Auto Mode cluster using the eksctl command line interface (CLI). You can create an Auto Mode cluster either by running a single CLI command or by applying a YAML configuration file. Both methods provide the same functionality, with the YAML approach offering more granular control over cluster settings.
 

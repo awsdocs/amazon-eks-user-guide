@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#compliance]
 = Compliance validation for Amazon EKS clusters
 :info_titleabbrev: Validate compliance
-
-include::../attributes.txt[]
 
 [abstract]
 --

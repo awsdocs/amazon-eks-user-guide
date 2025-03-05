@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#ml-get-started]
 = Get started with ML
 :info_titleabbrev: Get started with ML
-
-include::../attributes.txt[]
 
 [abstract]
 --

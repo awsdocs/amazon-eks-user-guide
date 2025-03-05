@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#eks-optimized-ami]
 = Create nodes with optimized Amazon Linux AMIs
 :info_titleabbrev: Amazon Linux
-
-include::../attributes.txt[]
 
 include::al2023.adoc[leveloffset=+1]
 

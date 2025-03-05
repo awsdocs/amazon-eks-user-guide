@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-agent-setup]
 = Set up the Amazon EKS Pod Identity Agent
 :info_titleabbrev: Set up the Agent
-
-include::../../attributes.txt[]
 
 [abstract]
 --

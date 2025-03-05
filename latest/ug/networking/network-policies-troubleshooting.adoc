@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#network-policies-troubleshooting]
 = Troubleshooting Kubernetes network policies For Amazon EKS
 :info_titleabbrev: Troubleshooting
-
-include::../attributes.txt[]
 
 [abstract]
 --

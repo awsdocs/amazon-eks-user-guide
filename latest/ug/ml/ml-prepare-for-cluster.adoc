@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#ml-prepare-for-cluster]
 = Prepare for ML clusters
 :info_titleabbrev: Prepare for ML
-
-include::../attributes.txt[]
 
 [abstract]
 --

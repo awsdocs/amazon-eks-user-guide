@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#access-policy-permissions]
 = Review access policy permissions
 :info_titleabbrev: Review access policies
-
-include::../../attributes.txt[]
 
 Access policies include `rules` that contain Kubernetes `verbs` (permissions) and `resources`. Access policies don't include IAM permissions or resources. Similar to Kubernetes `Role` and `ClusterRole` objects, access policies only include `allow` `rules`. You can't modify the contents of an access policy. You can't create your own access policies. If the permissions in the access policies don't meet your needs, then create Kubernetes RBAC objects and specify _group names_ for your access entries. For more information, see <<creating-access-entries>>. The permissions contained in access policies are similar to the permissions in the Kubernetes user-facing cluster roles. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles[User-facing roles] in the Kubernetes documentation.  
 

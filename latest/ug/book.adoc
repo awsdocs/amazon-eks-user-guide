@@ -1,7 +1,9 @@
+:doctype: book
+
 include::attributes.txt[]
+
 [[top]]
 = Amazon EKS
-:doctype: book
 :toc: left
 :icons: font
 :experimental:

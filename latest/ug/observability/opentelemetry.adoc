@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#opentelemetry]
 = Send metric and trace data with ADOT Operator
 :info_titleabbrev: ADOT Operator
 :keywords: ADOT
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,7 +1,7 @@
+:doctype: book
 include::attributes.txt[]
 [#related-projects]
 = Extend Amazon EKS capabilities with open source projects
-:doctype: book
 :sectnums:
 :toc: left
 :icons: font

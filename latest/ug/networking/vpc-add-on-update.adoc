@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#vpc-add-on-update]
 = Update the Amazon VPC CNI (Amazon EKS add-on)
 :info_titleabbrev: Update (EKS add-on)
-
-include::../attributes.txt[]
 
 Update the Amazon EKS type of the Amazon VPC CNI plugin for Kubernetes add-on. If you haven't added the Amazon EKS type of the add-on to your cluster, you can install it by following <<vpc-add-on-create>>. Or, update the other type of VPC CNI installation by following <<vpc-add-on-self-managed-update>>.
 

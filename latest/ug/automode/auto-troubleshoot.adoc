@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#auto-troubleshoot]
 = Troubleshoot EKS Auto Mode
 :info_titleabbrev: Troubleshoot
-
-include::../attributes.txt[]
 
 With EKS Auto Mode, {aws} assumes more responsibility for EC2 Instances in your {aws} account. EKS assumes responsibility for the container runtime on nodes, the operating system on the nodes, and certain controllers. This includes a block storage controller, a load balancing controller, and a compute controller. 
 

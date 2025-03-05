@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#using-service-linked-roles-eks-outpost]
 = Using roles for Amazon EKS local clusters on Outpost
 :info_titleabbrev: Local cluster role
-
-include::../../attributes.txt[]
 
 [abstract]
 --

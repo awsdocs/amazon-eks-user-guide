@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#managed-node-update-behavior]
 = Understand each phase of node updates
 :info_titleabbrev: Update behavior details
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,8 +1,10 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#deleting-access-entries]
 = Delete access entries
-
-include::../../attributes.txt[]
 
 If you discover that you deleted an access entry in error, you can always recreate it. If the access entry that you're deleting is associated to any access policies, the associations are automatically deleted. You don't have to disassociate access policies from an access entry before deleting the access entry.
 

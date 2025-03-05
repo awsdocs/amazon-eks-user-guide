@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#troubleshooting-connector]
 = Troubleshoot Amazon EKS Connector issues
 :info_titleabbrev: Troubleshoot EKS Connector
-
-include::../attributes.txt[]
 
 [abstract]
 --

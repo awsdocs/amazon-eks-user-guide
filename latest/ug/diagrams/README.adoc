@@ -1,3 +1,4 @@
+:doctype: book
 = Diagram Source Files
 
 Diagram source files have moved to Amazon Workdocs. 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#create-node-class]
 = Create a Node Class for Amazon EKS
 :info_titleabbrev: Create node class
-
-include::../attributes.txt[]
 
 Amazon EKS Node Classes provide granular control over the configuration of your EKS Auto Mode managed nodes. A Node Class defines infrastructure-level settings that apply to groups of nodes in your EKS cluster, including network configuration, storage settings, and resource tagging. This topic explains how to create and configure a Node Class to meet your specific operational requirements.
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#capacity-blocks-mng]
 = Create a managed node group with Capacity Blocks for ML
 :info_titleabbrev: Reserve GPUs for MNG
-
-include::../attributes.txt[]
 
 [abstract]
 --

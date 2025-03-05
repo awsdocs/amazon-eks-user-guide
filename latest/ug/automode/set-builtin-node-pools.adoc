@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#set-builtin-node-pools]
 = Enable or Disable Built-in NodePools
 :info_titleabbrev: Review built-in node pools
-
-include::../attributes.txt[]
 
 EKS Auto Mode has two built-in NodePools. You can enable or disable these NodePools using the {aws} console, CLI, or API. 
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#kube-proxy-add-on-self-managed-update]
 = Update the Kubernetes `kube-proxy` self-managed add-on
 :info_titleabbrev: Update
-
-include::../attributes.txt[]
 
 [IMPORTANT]
 ====

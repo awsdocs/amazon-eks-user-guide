@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#external-snat]
 = Enable outbound internet access for Pods
 :info_titleabbrev: Outbound traffic
-
-include::../attributes.txt[]
 
 [abstract]
 --

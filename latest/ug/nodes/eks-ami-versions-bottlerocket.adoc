@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#eks-ami-versions-bottlerocket]
 = Retrieve Bottlerocket AMI version information
 :info_titleabbrev: Get version information
-
-include::../attributes.txt[]
 
 [abstract]
 --

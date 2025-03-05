@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#deregister-connected-cluster]
 = Deregister a Kubernetes cluster from the Amazon EKS console
 :info_titleabbrev: Deregister a cluster
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,8 +1,10 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#community-addons]
 = Community add-ons 
-
-include::../attributes.txt[]
 
 You can use {aws} APIs to install community add-ons, such as the Kubernetes Metrics Server. You may choose to install community add-ons as Amazon EKS Add-ons to reduce the complexity of maintaining the software on multiple clusters. 
 

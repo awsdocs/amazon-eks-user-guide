@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#pr-status]
 = View the status of your GitHub Pull Request (PR)
 :info_titleabbrev: View PR Status
 
-
-include::../attributes.txt[]
 
 After you create a pull request, you can track it's status. Pull requests have three important statuses: merged, closed, and changes requested. 
 

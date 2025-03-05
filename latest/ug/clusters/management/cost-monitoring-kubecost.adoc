@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#cost-monitoring-kubecost]
 = Install Kubecost and access dashboard
 :info_titleabbrev: Install Kubecost
-
-include::../../attributes.txt[]
 
 Amazon EKS supports Kubecost, which you can use to monitor your costs broken down by Kubernetes resources including Pods, nodes, namespaces, and labels. This topic covers installing Kubecost, and accessing the Kubecost dashboard.  
 

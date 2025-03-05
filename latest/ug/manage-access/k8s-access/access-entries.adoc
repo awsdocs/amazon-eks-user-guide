@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#access-entries]
 = Grant IAM users access to Kubernetes with EKS access entries
 :info_titleabbrev: Grant permissions
-
-include::../../attributes.txt[]
 
 include::access-policies.adoc[leveloffset=+1]
 

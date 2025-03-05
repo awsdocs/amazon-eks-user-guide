@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#create-page]
 = Create a new page
 :info_titleabbrev: Create page
 
-
-include::../attributes.txt[]
 
 Learn how to create a new docs page. This topic includes instructions for creating the initial page metadata, and adding the page to the guide table of contents. 
 

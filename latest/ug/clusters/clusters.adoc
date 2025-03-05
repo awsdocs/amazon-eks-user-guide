@@ -1,6 +1,9 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [#clusters]
 = Organize workloads with Amazon EKS clusters
-:doctype: book
 :sectnums:
 :toc: left
 :icons: font
@@ -9,8 +12,6 @@
 :idseparator: -
 :sourcedir: .
 :info_titleabbrev: Clusters
-
-include::../attributes.txt[]
 
 An Amazon EKS cluster consists of two primary components:
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#eks-optimized-ami-bottlerocket]
 = Create nodes with optimized Bottlerocket AMIs
 :info_titleabbrev: Bottlerocket
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,3 +1,7 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#auto-reference]
 = Learn how EKS Auto Mode works
@@ -7,8 +11,6 @@
 :idseparator: -
 :sourcedir: .
 :info_titleabbrev: How it works
-
-include::../attributes.txt[]
 
 [abstract]
 --

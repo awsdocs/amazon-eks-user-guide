@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#auto-mng]
 = Compare EKS Auto Mode with EKS managed node groups
 :info_titleabbrev: Compare with Managed Node Groups
-
-include::../attributes.txt[]
 
 [IMPORTANT]
 ====

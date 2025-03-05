@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#setting-up-access-entries]
 = Change authentication mode to use access entries
 :info_titleabbrev: Authentication mode
-
-include::../../attributes.txt[]
 
 To begin using access entries, you must change the authentication mode of the cluster to either the `API_AND_CONFIG_MAP` or `API` modes. This adds the API for access entries.
 

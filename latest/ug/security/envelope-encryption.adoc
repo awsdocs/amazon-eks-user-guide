@@ -1,8 +1,10 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#envelope-encryption]
 = Default envelope encryption for all Kubernetes API Data
-
-include::../attributes.txt[]
 
 //GDC
 //Insert Images

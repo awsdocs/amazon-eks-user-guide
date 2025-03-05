@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-remove]
 = Remove hybrid nodes
 :info_titleabbrev: Delete hybrid nodes
 :keywords: Delete hybrid nodes from your EKS cluster
-
-include::../attributes.txt[]
 
 [abstract]
 --

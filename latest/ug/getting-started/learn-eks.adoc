@@ -1,3 +1,7 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#learn-eks]
 = Learn Amazon EKS by example
@@ -10,8 +14,6 @@
 :idprefix:
 :idseparator: -
 :sourcedir: .
-
-include::../attributes.txt[]
 
 [abstract]
 --

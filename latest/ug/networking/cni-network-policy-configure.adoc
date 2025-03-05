@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#cni-network-policy-configure]
 = Restrict Pod network traffic with Kubernetes network policies
 :info_titleabbrev: Restrict traffic
-
-include::../attributes.txt[]
 
 [abstract]
 --

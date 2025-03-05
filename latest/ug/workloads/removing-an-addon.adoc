@@ -1,10 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#removing-an-add-on]
 = Remove an Amazon EKS add-on from a cluster
 :info_titleabbrev: Remove an add-on
-
-include::../attributes.txt[]
-
 
 [abstract]
 --

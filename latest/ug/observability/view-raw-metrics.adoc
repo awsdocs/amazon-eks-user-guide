@@ -1,11 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#view-raw-metrics]
 = Fetch control plane raw metrics in Prometheus format
 :info_titleabbrev: Control plane
-
-include::../attributes.txt[]
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#security-eks]
 = Security considerations for Amazon Elastic Kubernetes Service
 :info_titleabbrev: Considerations for EKS
-
-include::../attributes.txt[]
 
 include::infrastructure-security.adoc[leveloffset=+1]
 

@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#auto-create-node-role]
 = Amazon EKS Auto Mode node IAM role
 :idprefix: id_
 :info_titleabbrev: Auto Mode node IAM role
-
-include::../../attributes.txt[]
 
 // write short desc
 

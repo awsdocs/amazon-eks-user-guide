@@ -1,3 +1,7 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#automode-learn-instances]
 = Learn about Amazon EKS Auto Mode Managed instances
@@ -9,8 +13,6 @@
 :emi: EC2 {mi}
 :emng: EKS Managed Node Group
 :info_titleabbrev: Managed instances
-
-include::../attributes.txt[]
 
 This topic explains how {aam} manages Amazon EC2 instances in your EKS cluster. When you enable {am}, your cluster's compute resources are automatically provisioned and managed by EKS, changing how you interact with the EC2 instances that serve as nodes in your cluster.
 

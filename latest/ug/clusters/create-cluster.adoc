@@ -1,10 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#create-cluster]
 = Create an Amazon EKS cluster
 :info_titleabbrev: Create a cluster
-
-include::../attributes.txt[]
-
 
 [abstract]
 --

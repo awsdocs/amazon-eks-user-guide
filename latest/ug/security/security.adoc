@@ -1,7 +1,10 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#security]
 = Security in Amazon EKS
-:doctype: book
 :sectnums:
 :toc: left
 :icons: font
@@ -10,8 +13,6 @@
 :idseparator: -
 :sourcedir: .
 :info_titleabbrev: Security
-
-include::../attributes.txt[]
 
 include::security-best-practices.adoc[leveloffset=+1]
 

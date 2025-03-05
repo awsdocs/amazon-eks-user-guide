@@ -1,7 +1,10 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#machine-learning-on-eks]
 = Overview of Machine Learning on Amazon EKS
-:doctype: book
 :sectnums:
 :toc: left
 :icons: font
@@ -11,8 +14,6 @@
 :sourcedir: .
 :info_titleabbrev: Machine Learning on EKS
 :keywords: Machine Learning, Amazon EKS, Artificial Intelligence
-
-include::../attributes.txt[]
 
 [abstract]
 --

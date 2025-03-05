@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#cross-account-access]
 = Authenticate to another account with IRSA
 :info_titleabbrev: Cross-account IAM
-
-include::../../attributes.txt[]
 
 [abstract]
 --

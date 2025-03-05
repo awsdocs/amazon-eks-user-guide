@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#delete-fargate-profile]
 = Delete a Fargate profile
 :info_titleabbrev: Delete profiles
-
-include::../attributes.txt[]
 
 [abstract]
 --

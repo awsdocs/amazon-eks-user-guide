@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#associate-workload]
 = Control if a workload is deployed on EKS Auto Mode nodes
 :info_titleabbrev: Control deployment
-
-include::../attributes.txt[]
 
 When running workloads in an EKS cluster with EKS Auto Mode, you might need to control whether specific workloads run on EKS Auto Mode nodes or other compute types. This topic describes how to use node selectors and affinity rules to ensure your workloads are scheduled on the intended compute infrastructure.
 

@@ -1,3 +1,7 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#migrate-auto]
 = Enable EKS Auto Mode on existing EKS clusters
@@ -7,8 +11,6 @@
 :idseparator: -
 :sourcedir: .
 :info_titleabbrev: Enable existing clusters
-
-include::../attributes.txt[]
 
 [abstract]
 --

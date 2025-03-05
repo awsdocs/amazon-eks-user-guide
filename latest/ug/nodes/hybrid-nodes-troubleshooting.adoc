@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-troubleshooting]
 = Troubleshooting hybrid nodes
 :info_titleabbrev: Troubleshooting
 :keywords: on-premises, hybrid
-
-include::../attributes.txt[]
 
 [abstract]
 --

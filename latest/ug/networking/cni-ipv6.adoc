@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#cni-ipv6]
 = Learn about IPv6 addresses to clusters, Pods, and services
 :info_titleabbrev: IPv6
-
-include::../attributes.txt[]
 
 include::deploy-ipv6-cluster.adoc[leveloffset=+1]
 

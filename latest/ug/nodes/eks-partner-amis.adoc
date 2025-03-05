@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#eks-partner-amis]
 = Create nodes with optimized Ubuntu Linux AMIs
 :info_titleabbrev: Ubuntu Linux
-
-include::../attributes.txt[]
 
 [abstract]
 --

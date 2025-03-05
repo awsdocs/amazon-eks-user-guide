@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#launch-node-ubuntu]
 = Create self-managed Ubuntu Linux nodes
 :info_titleabbrev: Ubuntu Linux
-
-include::../attributes.txt[]
 
 [abstract]
 --

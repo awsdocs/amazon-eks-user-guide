@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#asciidoc-syntax]
 = AsciiDoc Syntax Reference
 :info_titleabbrev: AsciiDoc syntax
 
-
-include::../attributes.txt[]
 
 This page is a quick overview of AsciiDoc syntax. 
 

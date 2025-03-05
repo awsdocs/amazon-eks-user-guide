@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#critical-workload]
 = Run critical add-ons on dedicated instances
 :info_titleabbrev: Run critical add-ons
-
-include::../attributes.txt[]
 
 In this topic, you will learn how to deploy a workload with a `CriticalAddonsOnly` toleration so EKS Auto Mode will schedule it onto the `system` node pool.
 

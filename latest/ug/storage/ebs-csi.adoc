@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#ebs-csi]
 = Store Kubernetes volumes with Amazon EBS
 :info_titleabbrev: Amazon EBS
 :keywords: Amazon EBS CSI driver, storage
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#coredns-metrics]
 = Monitor Kubernetes DNS resolution with CoreDNS metrics
 :info_titleabbrev: Monitor DNS resolution
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#pod-configuration]
 = Configure Pods to use a Kubernetes service account
 :info_titleabbrev: Assign to Pod
-
-include::../../attributes.txt[]
 
 [abstract]
 --

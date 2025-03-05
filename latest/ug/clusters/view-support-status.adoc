@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#view-support-status]
 = View current cluster support period
 :info_titleabbrev: View support period
-
-include::../attributes.txt[]
 
 The *cluster support period* section of the {aws} console indicates if your cluster is _currently_ on standard or extended support. If your cluster support period is *Extended support*, you are being charged for EKS extended support.  
 

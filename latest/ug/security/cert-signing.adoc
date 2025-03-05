@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#cert-signing]
 = Secure workloads with Kubernetes certificates
 :info_titleabbrev: Certificate signing
-
-include::../attributes.txt[]
 
 [abstract]
 --

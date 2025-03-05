@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#service-quotas]
 = View and manage Amazon EKS and Fargate service quotas
 :info_titleabbrev: Service quotas
-
-include::../../attributes.txt[]
 
 [abstract]
 --

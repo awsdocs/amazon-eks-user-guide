@@ -1,9 +1,10 @@
-[.topic]
-[#auto-hpa-scaling]
-= End-to-end Compute Autoscaling with HPA
+:doctype: book
 
 include::../attributes.txt[]
 
+[.topic]
+[#auto-hpa-scaling]
+= End-to-end Compute Autoscaling with HPA
 
 This guide shows you how Karpenter autoscales nodes in conjunction with HPA scaling your applications.
 

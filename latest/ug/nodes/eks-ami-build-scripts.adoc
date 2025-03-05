@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#eks-ami-build-scripts]
 = Build a custom Amazon Linux AMI with a script
 :info_titleabbrev: Custom builds
-
-include::../attributes.txt[]
 
 [abstract]
 --

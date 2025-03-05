@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#launch-windows-workers]
 = Create self-managed Microsoft Windows nodes
 :info_titleabbrev: Windows
-
-include::../attributes.txt[]
 
 [abstract]
 --

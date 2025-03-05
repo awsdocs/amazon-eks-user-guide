@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#retreive-iam-info]
 = Retrieve IAM information about an Amazon EKS add-on
 :info_titleabbrev: Retrieve IAM information
-
-include::../attributes.txt[]
 
 [abstract]
 --

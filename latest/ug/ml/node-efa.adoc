@@ -1,11 +1,13 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 :AWSEC2-latest-UserGuide-using-eni-html-network-cards: AWSEC2/latest/UserGuide/using-eni.html#network-cards
 
 [.topic]
 [#node-efa]
 = Run machine learning training on Amazon EKS with Elastic Fabric Adapter
 :info_titleabbrev: Training clusters with EFA
-
-include::../attributes.txt[]
 
 [abstract]
 --

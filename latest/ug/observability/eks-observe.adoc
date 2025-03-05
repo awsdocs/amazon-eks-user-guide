@@ -1,6 +1,9 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [#eks-observe]
 = Monitor your cluster performance and view logs
-:doctype: book
 :sectnums:
 :toc: left
 :icons: font
@@ -10,8 +13,6 @@
 :sourcedir: .
 :info_titleabbrev: Monitor clusters
 :keywords: observability, monitoring, logging, logs, data
-
-include::../attributes.txt[]
 
 [abstract]
 --

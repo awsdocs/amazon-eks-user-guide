@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-cni]
 = Configure a CNI for hybrid nodes
 :info_titleabbrev: Configure CNI
 :keywords: on-premises CNI, hybrid CNI
-
-include::../attributes.txt[]
 
 [abstract]
 --

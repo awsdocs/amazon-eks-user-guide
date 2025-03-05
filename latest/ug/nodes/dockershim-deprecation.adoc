@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#dockershim-deprecation]
 = Migrate from `dockershim` to `containerd`
 :info_titleabbrev: Dockershim deprecation
-
-include::../attributes.txt[]
 
 [abstract]
 --

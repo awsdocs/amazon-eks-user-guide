@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-association]
 = Assign an IAM role to a Kubernetes service account
 :info_titleabbrev: Assign IAM role
-
-include::../../attributes.txt[]
 
 [abstract]
 --

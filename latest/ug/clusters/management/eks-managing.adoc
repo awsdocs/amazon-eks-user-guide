@@ -1,6 +1,9 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [#eks-managing]
 = Organize and monitor cluster resources
-:doctype: book
 :sectnums:
 :toc: left
 :icons: font
@@ -9,8 +12,6 @@
 :idseparator: -
 :sourcedir: .
 :info_titleabbrev: Cluster management
-
-include::../../attributes.txt[]
 
 This chapter includes the following topics to help you manage your cluster. You can also view information about your <<view-kubernetes-resources,Kubernetes resources>> with the {aws-management-console}.
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#security-iam-troubleshoot]
 = Troubleshooting IAM
 :info_titleabbrev: Troubleshooting
-
-include::../../attributes.txt[]
 
 This topic covers some common errors that you may see while using Amazon EKS with IAM and how to work around them.
 

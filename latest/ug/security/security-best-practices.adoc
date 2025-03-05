@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#security-best-practices]
 = Secure Amazon EKS clusters with best practices
 :info_titleabbrev: Best practices
-
-include::../attributes.txt[]
 
 [abstract]
 --

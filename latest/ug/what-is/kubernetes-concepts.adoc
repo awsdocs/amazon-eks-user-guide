@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#kubernetes-concepts]
 = Kubernetes concepts
 :info_titleabbrev: Kubernetes concepts
 :keywords: Amazon Elastic Kubernetes Service, Amazon EKS, architecture, control plane, nodes, data plane
-
-include::../attributes.txt[]
 
 [abstract]
 --

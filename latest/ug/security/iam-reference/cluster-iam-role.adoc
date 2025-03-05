@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#cluster-iam-role]
 = Amazon EKS cluster IAM role
 :info_titleabbrev: Cluster IAM role
-
-include::../../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#retrieve-windows-ami-id]
 = Retrieve recommended Microsoft Windows AMI IDs
 :info_titleabbrev: Get latest IDs
-
-include::../attributes.txt[]
 
 [abstract]
 --

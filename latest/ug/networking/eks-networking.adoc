@@ -1,6 +1,9 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [#eks-networking]
 = Configure networking for Amazon EKS clusters
-:doctype: book
 :sectnums:
 :toc: left
 :icons: font
@@ -9,8 +12,6 @@
 :idseparator: -
 :sourcedir: .
 :info_titleabbrev: Configure networking
-
-include::../attributes.txt[]
 
 include::network-reqs.adoc[leveloffset=+1]
 

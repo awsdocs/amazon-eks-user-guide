@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#pod-networking-use-cases]
 = Learn about VPC CNI modes and configuration
 :info_titleabbrev: Modes and configuration
-
-include::../attributes.txt[]
 
 include::cni-ipv6.adoc[leveloffset=+1]
 

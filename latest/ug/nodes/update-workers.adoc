@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#update-workers]
 = Update self-managed nodes for your cluster
 :info_titleabbrev: Update methods
-
-include::../attributes.txt[]
 
 [abstract]
 --

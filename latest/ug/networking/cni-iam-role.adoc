@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#cni-iam-role]
 = Configure Amazon VPC CNI plugin to use IRSA
 :info_titleabbrev: Configure for IRSA
-
-include::../attributes.txt[]
 
 [abstract]
 --

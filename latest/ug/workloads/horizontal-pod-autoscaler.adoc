@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#horizontal-pod-autoscaler]
 = Scale pod deployments with Horizontal Pod Autoscaler
 :info_titleabbrev: Horizontal Pod Autoscaler
-
-include::../attributes.txt[]
 
 [abstract]
 --

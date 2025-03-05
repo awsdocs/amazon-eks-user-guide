@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#cni-network-policy]
 = Limit Pod traffic with Kubernetes network policies
 :info_titleabbrev: Kubernetes policies
-
-include::../attributes.txt[]
 
 include::cni-network-policy-configure.adoc[leveloffset=+1]
 

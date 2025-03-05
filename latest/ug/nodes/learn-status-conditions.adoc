@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#learn-status-conditions]
 = View the health status of your nodes
 :info_titleabbrev: View node health
-
-include::../attributes.txt[]
 
 [abstract]
 --

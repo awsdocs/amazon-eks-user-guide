@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#image-verification]
 = Validate container image signatures during deployment
 :info_titleabbrev: Verify container images
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#managing-vpc-cni]
 = Assign IPs to Pods with the Amazon VPC CNI
 :info_titleabbrev: Amazon VPC CNI
-
-include::../attributes.txt[]
 
 include::vpc-add-on-create.adoc[leveloffset=+1]
 

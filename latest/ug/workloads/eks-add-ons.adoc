@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#eks-add-ons]
 = Amazon EKS add-ons
 :info_titleabbrev: Amazon EKS add-ons
 :keywords: managed, add-ons, plugins
-
-include::../attributes.txt[]
 
 [abstract]
 --

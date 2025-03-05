@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#migrating-access-entries]
 = Migrating existing `aws-auth ConfigMap` entries to access entries
 :info_titleabbrev: Migrate to access entries
-
-include::../../attributes.txt[]
 
 //GDC: problems with xrefs
 

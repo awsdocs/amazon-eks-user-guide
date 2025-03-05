@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#sg-pods-example-deployment]
 = Use a security group policy for an Amazon EKS Pod
 :info_titleabbrev: SecurityGroupPolicy
-
-include::../attributes.txt[]
 
 To use security groups for Pods, you must have an existing security group. The following steps show you how to use the security group policy for a Pod. Unless otherwise noted, complete all steps from the same terminal because variables are used in the following steps that don't persist across terminals.
 

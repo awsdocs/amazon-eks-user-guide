@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#sample-deployment-win]
 = Deploy a sample application on Windows
 :info_titleabbrev: Sample deployment (Windows)
-
-include::../attributes.txt[]
 
 In this topic, you deploy a sample application to your cluster on Windows nodes.
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#authenticate-oidc-identity-provider]
 = Grant users access to Kubernetes with an external OIDC provider
 :info_titleabbrev: Link OIDC provider
-
-include::../../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#view-upgrade-policy]
 = View current cluster upgrade policy
 :info_titleabbrev: View upgrade policy
-
-include::../attributes.txt[]
 
 The *cluster upgrade policy* determines what happens to your cluster when it leaves the standard support period. If your upgrade policy is `EXTENDED`, the cluster will not be automatically upgraded, and will enter extended support. If your upgrade policy is `STANDARD`, it will be automatically upgraded.
 

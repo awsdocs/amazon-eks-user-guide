@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#autoscaling]
 = Scale cluster compute with Karpenter and Cluster Autoscaler
 :info_titleabbrev: Autoscaling
-
-include::../attributes.txt[]
 
 [abstract]
 --

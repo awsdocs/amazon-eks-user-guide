@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#create-managed-node-group]
 = Create a managed node group for your cluster
 :info_titleabbrev: Create
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#self-managed-windows-server-2022]
 = Create self-managed Windows Server 2022 nodes with `eksctl`
 :info_titleabbrev: Windows Server 2022
-
-include::../attributes.txt[]
 
 [abstract]
 --

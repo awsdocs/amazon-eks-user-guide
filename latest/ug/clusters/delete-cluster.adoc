@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#delete-cluster]
 = Delete a cluster
 :info_titleabbrev: Delete a cluster
-
-include::../attributes.txt[]
 
 [abstract]
 --

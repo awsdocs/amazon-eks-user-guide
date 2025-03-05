@@ -1,3 +1,7 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#troubleshoot-lbc]
 # Troubleshooting Amazon EKS Auto Mode Load Balancer Controller
@@ -6,8 +10,6 @@
 ====
 This resource is not ready for publication. 
 ====
-
-include::../attributes.txt[]
 
 This guide helps you troubleshoot issues with the {aws} Load Balancer Controller when using Amazon EKS Auto Mode.
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#default-roles-users]
 = Understand Amazon EKS created RBAC roles and users
 :info_titleabbrev: Default roles and users
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#creating-access-entries]
 = Create access entries
 :info_titleabbrev: Create access entries
-
-include::../../attributes.txt[]
 
 Before creating access entries, consider the following:
 

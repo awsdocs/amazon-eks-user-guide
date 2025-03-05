@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#deploy-prometheus]
 = Deploy Prometheus using Helm
 :info_titleabbrev: Deploy using Helm
-
-include::../attributes.txt[]
 
 [abstract]
 --

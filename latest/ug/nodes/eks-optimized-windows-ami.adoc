@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#eks-optimized-windows-ami]
 = Create nodes with optimized Windows AMIs
 :info_titleabbrev: Windows
-
-include::../attributes.txt[]
 
 [abstract]
 --

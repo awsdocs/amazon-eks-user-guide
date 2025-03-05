@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#using-service-linked-roles-eks-nodegroups]
 = Using roles for Amazon EKS node groups
 :info_titleabbrev: Node groups role
-
-include::../../attributes.txt[]
 
 [abstract]
 --

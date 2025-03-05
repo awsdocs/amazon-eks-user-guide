@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#launch-templates]
 = Customize managed nodes with launch templates
 :info_titleabbrev: Launch templates
-
-include::../attributes.txt[]
 
 [abstract]
 --

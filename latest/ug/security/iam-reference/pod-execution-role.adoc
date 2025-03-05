@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#pod-execution-role]
 = Amazon EKS Pod execution IAM role
 :info_titleabbrev: Pod execution IAM role
-
-include::../../attributes.txt[]
 
 The Amazon EKS Pod execution role is required to run Pods on {aws} Fargate infrastructure.
 

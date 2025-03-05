@@ -1,3 +1,4 @@
+:doctype: book
 [.topic]
 = EKA Auto Mode API Reference WIP
 

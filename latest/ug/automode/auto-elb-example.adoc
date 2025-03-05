@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#auto-elb-example]
 = Deploy a Sample Load Balancer Workload to EKS Auto Mode
 :info_titleabbrev: Deploy load balancer
-
-include::../attributes.txt[]
 
 This guide walks you through deploying a containerized version of the 2048 game on Amazon EKS, complete with load balancing and internet accessibility.
 

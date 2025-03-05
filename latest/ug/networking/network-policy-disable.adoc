@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#network-policy-disable]
 = Disable Kubernetes network policies for Amazon EKS Pod network traffic
 :info_titleabbrev: Disable
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#enable-asg-metrics]
 = View metrics for Amazon EC2 Auto Scaling groups
 :info_titleabbrev: Auto Scaling group metrics
-
-include::../attributes.txt[]
 
 [abstract]
 --

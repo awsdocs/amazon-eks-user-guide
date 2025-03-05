@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#update-cluster]
 = Update existing cluster to new Kubernetes version
 :info_titleabbrev: Update Kubernetes version
-
-include::../attributes.txt[]
 
 [abstract]
 --

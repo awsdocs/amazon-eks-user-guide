@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#ml-eks-windows-optimized-ami]
 = Run GPU-accelerated containers (Windows on EC2 G-Series)
 :info_titleabbrev: Run Windows GPU AMIs
-
-include::../attributes.txt[]
 
 [IMPORTANT]
 ====

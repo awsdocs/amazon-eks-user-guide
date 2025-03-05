@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#restrict-service-external-ip]
 = Restrict external IP addresses that can be assigned to services
 :info_titleabbrev: Restrict service external IPs
-
-include::../attributes.txt[]
 
 Kubernetes services can be reached from inside of a cluster through:
 

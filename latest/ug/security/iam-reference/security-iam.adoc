@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#security-iam]
 = Identity and access management for Amazon EKS
 :info_titleabbrev: IAM Reference
-
-include::../../attributes.txt[]
 
 include::security-iam-service-with-iam.adoc[leveloffset=+1]
 

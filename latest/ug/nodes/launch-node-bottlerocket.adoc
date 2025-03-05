@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#launch-node-bottlerocket]
 = Create self-managed Bottlerocket nodes
 :info_titleabbrev: Bottlerocket
-
-include::../attributes.txt[]
 
 [abstract]
 --

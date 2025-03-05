@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#eks-using-tags]
 = Organize Amazon EKS resources with tags
 :info_titleabbrev: Tagging your resources
 :keywords: metadata, tag, resources
-
-include::../../attributes.txt[]
 
 [abstract]
 --

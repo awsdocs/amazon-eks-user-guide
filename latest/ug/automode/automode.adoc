@@ -1,3 +1,7 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [#automode]
 = Automate cluster infrastructure with EKS Auto Mode
 :toclevels: 2
@@ -8,8 +12,6 @@
 --
 Automate cluster infrastructure with EKS Auto Mode
 --
-
-include::../attributes.txt[]
 
 EKS Auto Mode extends {aws} management of Kubernetes clusters beyond the cluster itself, to allow {aws} to also set up and manage the infrastructure that enables the smooth operation of your workloads.
 You can delegate key infrastructure decisions and leverage the expertise of {aws} for day-to-day operations.

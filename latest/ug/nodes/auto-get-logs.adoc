@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#auto-get-logs]
 = Retrieve node logs for a managed node using kubectl and S3
 :info_titleabbrev: Get node logs
-
-include::../attributes.txt[]
 
 [abstract]
 --

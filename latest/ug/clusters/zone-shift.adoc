@@ -1,3 +1,4 @@
+:doctype: book
 [.topic]
 [#zone-shift]
 = Learn about Amazon Application Recovery Controller's (ARC) Zonal Shift in Amazon EKS

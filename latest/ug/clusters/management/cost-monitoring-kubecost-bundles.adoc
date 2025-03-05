@@ -1,8 +1,10 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#cost-monitoring-kubecost-bundles]
 = Learn more about Kubecost
-
-include::../../attributes.txt[]
 
 Amazon EKS provides an {aws} optimized bundle of Kubecost for cluster cost visibility. Amazon EKS supports Kubecost, which you can use to monitor your costs broken down by Kubernetes resources including Pods, nodes, namespaces, and labels.
 

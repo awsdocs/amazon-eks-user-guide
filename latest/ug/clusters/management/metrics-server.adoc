@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#metrics-server]
 = View resource usage with the Kubernetes Metrics Server
 :info_titleabbrev: Metrics server
-
-include::../../attributes.txt[]
 
 [abstract]
 --

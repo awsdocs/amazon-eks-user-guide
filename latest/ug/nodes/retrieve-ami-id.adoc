@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#retrieve-ami-id]
 = Retrieve recommended Amazon Linux AMI IDs
 :info_titleabbrev: Get latest IDs
-
-include::../attributes.txt[]
 
 [abstract]
 --

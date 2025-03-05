@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#sample-deployment]
 = Deploy a sample application on Linux
 :info_titleabbrev: Sample deployment (Linux)
-
-include::../attributes.txt[]
 
 In this topic, you deploy a sample application to your cluster on linux nodes.
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#security-connector]
 = Understand security in Amazon EKS Connector
 :info_titleabbrev: Security considerations
-
-include::../attributes.txt[]
 
 [abstract]
 --

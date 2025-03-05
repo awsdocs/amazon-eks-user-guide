@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#auto-configure-alb]
 = Create an IngressClass to configure an Application Load Balancer
 :info_titleabbrev: Create ingress class
-
-include::../attributes.txt[]
 
 EKS Auto Mode automates routine tasks for load balancing, including exposing cluster apps to the internet. 
 

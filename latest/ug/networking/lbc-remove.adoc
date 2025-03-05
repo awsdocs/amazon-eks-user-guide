@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#lbc-remove]
 = Migrate apps from deprecated ALB Ingress Controller
 :info_titleabbrev: Migrate from deprecated
-
-include::../attributes.txt[]
 
 [abstract]
 --

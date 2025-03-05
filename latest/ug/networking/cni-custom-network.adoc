@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#cni-custom-network]
 = Deploy Pods in alternate subnets with custom networking
 :info_titleabbrev: Custom networking
-
-include::../attributes.txt[]
 
 include::cni-custom-network-tutorial.adoc[leveloffset=+1]
 

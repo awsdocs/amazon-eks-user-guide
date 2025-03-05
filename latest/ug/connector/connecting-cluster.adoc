@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#connecting-cluster]
 = Connect an external Kubernetes cluster to the Amazon EKS Management Console
 :info_titleabbrev: Connect a cluster
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#security-iam-id-based-policy-examples]
 = Amazon EKS identity-based policy examples
 :info_titleabbrev: Identity-based policies
-
-include::../../attributes.txt[]
 
 By default, IAM users and roles don't have permission to create or modify Amazon EKS resources. They also can't perform tasks using the {aws-management-console}, {aws} CLI, or {aws} API. An IAM administrator must create IAM policies that grant users and roles permission to perform specific API operations on the specified resources they need. The administrator must then attach those policies to the IAM users or groups that require those permissions.
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#security-groups-for-pods]
 = Assign security groups to individual Pods
 :info_titleabbrev: Security groups for Pods
-
-include::../attributes.txt[]
 
 include::security-groups-pods-deployment.adoc[leveloffset=+1]
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#cni-custom-network-tutorial]
 = Customize the secondary network interface in Amazon EKS nodes
 :info_titleabbrev: Secondary interface
-
-include::../attributes.txt[]
 
 [abstract]
 --

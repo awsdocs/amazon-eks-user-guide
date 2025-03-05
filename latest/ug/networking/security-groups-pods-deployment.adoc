@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#security-groups-pods-deployment]
 = Configure the Amazon VPC CNI plugin for Kubernetes for security groups for Amazon EKS Pods
 :info_titleabbrev: Configure
-
-include::../attributes.txt[]
 
 If you use Pods with Amazon EC2 instances, you need to configure the Amazon VPC CNI plugin for Kubernetes for security groups
 

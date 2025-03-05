@@ -1,8 +1,10 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#updating-access-entries]
 = Update access entries
-
-include::../../attributes.txt[]
 
 You can update an access entry using the {aws-management-console} or the {aws} CLI.
 

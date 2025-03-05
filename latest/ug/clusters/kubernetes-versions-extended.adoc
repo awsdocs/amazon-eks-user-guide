@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#kubernetes-versions-extended]
 = Review release notes for Kubernetes versions on extended support
 :info_titleabbrev: Extended support versions
-
-include::../attributes.txt[]
 
 [abstract]
 --

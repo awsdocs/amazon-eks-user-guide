@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#insert-link]
 = Insert a link
 :info_titleabbrev: Insert link
 
-
-include::../attributes.txt[]
 
 AsciiDoc supports multiple types of links. Using the right link type is important so the link works properly in different environments.
 

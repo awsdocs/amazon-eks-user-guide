@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#addon-id-troubleshoot]
 = Troubleshoot Pod Identities for EKS add-ons
 :info_titleabbrev: Troubleshoot Identities
-
-include::../attributes.txt[]
 
 [abstract]
 --

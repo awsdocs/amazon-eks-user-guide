@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#create-node-pool]
 = Create a Node Pool for EKS Auto Mode
 :info_titleabbrev: Create node pool
-
-include::../attributes.txt[]
 
 Amazon EKS node pools provide a flexible way to manage compute resources in your Kubernetes cluster. This topic demonstrates how to create and configure node pools using Karpenter, a node provisioning tool that helps optimize cluster scaling and resource utilization. With Karpenter's NodePool resource, you can define specific requirements for your compute resources, including instance types, availability zones, architectures, and capacity types.
 

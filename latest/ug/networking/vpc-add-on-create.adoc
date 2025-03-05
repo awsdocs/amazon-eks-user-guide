@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#vpc-add-on-create]
 = Create the Amazon VPC CNI (Amazon EKS add-on)
 :info_titleabbrev: Create
-
-include::../attributes.txt[]
 
 Use the following steps to create the Amazon VPC CNI plugin for Kubernetes Amazon EKS add-on.
 

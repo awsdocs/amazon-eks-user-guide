@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#pod-security-policy-removal-faq]
 = Migrate from legacy Pod security policies (PSP)
 :info_titleabbrev: Migrate from legacy PSP
-
-include::../attributes.txt[]
 
 [abstract]
 --

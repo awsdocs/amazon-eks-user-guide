@@ -1,10 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#updating-an-add-on]
 = Update an Amazon EKS add-on
 :info_titleabbrev: Update an add-on
-
-include::../attributes.txt[]
-
 
 [abstract]
 --

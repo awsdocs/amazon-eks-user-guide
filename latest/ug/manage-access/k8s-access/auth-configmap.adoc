@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#auth-configmap]
 = Grant IAM users access to Kubernetes with a ConfigMap
 :info_titleabbrev: aws-auth ConfigMap
-
-include::../../attributes.txt[]
 
 [abstract]
 --

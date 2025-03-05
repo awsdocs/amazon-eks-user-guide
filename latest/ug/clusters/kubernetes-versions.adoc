@@ -1,11 +1,13 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#kubernetes-versions]
 = Understand the Kubernetes version lifecycle on EKS
 :info_titleabbrev: Kubernetes versions
 :keywords: Amazon EKS, available, Kubernetes, version, release notes
 
-
-include::../attributes.txt[]
 
 [abstract]
 --

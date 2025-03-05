@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-cluster-create]
 = Create an Amazon EKS cluster with hybrid nodes
 :info_titleabbrev: Create cluster
 :keywords: on-premises, hybrid
-
-include::../attributes.txt[]
 
 [abstract]
 --

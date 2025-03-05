@@ -1,8 +1,10 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#tag-subnets]
 = Tag VPC Subnets for Load Balancer Deployment
-
-include::../../attributes.txt[]
 
 This topic explains how to tag your VPC subnets to enable load balancer deployment using the {aws-management-console}.
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#sample-storage-workload]
 = Deploy a sample stateful workload to EKS Auto Mode
 :info_titleabbrev: Deploy stateful workload
-
-include::../attributes.txt[]
 
 This tutorial will guide you through deploying a sample stateful application to your EKS Auto Mode cluster. The application writes timestamps to a persistent volume, demonstrating EKS Auto Mode's automatic EBS volume provisioning and persistence capabilities.
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#coredns-add-on-update]
 = Update the CoreDNS Amazon EKS add-on
 :info_titleabbrev: Update (EKS add-on)
-
-include::../attributes.txt[]
 
 Update the Amazon EKS type of the add-on. If you haven't added the Amazon EKS add-on to your cluster, either <<coredns-add-on-create,add it>> or see <<coredns-add-on-self-managed-update>>.
 

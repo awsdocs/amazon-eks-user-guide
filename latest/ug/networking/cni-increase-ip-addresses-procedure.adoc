@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#cni-increase-ip-addresses-procedure]
 = Increase the available IP addresses for your Amazon EKS node
 :info_titleabbrev: Procedure
-
-include::../attributes.txt[]
 
 You can increase the number of IP addresses that nodes can assign to Pods by assigning IP prefixes, rather than assigning individual secondary IP addresses to your nodes.
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#using-service-linked-roles-eks]
 = Using roles for Amazon EKS clusters
 :info_titleabbrev: Cluster role
-
-include::../../attributes.txt[]
 
 [abstract]
 --

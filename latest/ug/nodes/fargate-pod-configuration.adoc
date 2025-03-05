@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#fargate-pod-configuration]
 = Understand Fargate Pod configuration details
 :info_titleabbrev: Pod configuration details
-
-include::../attributes.txt[]
 
 [abstract]
 --

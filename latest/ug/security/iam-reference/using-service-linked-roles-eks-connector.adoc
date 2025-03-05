@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#using-service-linked-roles-eks-connector]
 = Using roles to connect a Kubernetes cluster to Amazon EKS
 :info_titleabbrev: Cluster connector role
-
-include::../../attributes.txt[]
 
 [abstract]
 --

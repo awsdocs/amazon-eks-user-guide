@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#disassociate-oidc-identity-provider]
 = Disassociate an OIDC identity provider from your cluster
 :info_titleabbrev: Unlink OIDC provider
-
-include::../../attributes.txt[]
 
 If you disassociate an OIDC identity provider from your cluster, users included in the provider can no longer access the cluster. However, you can still access the cluster with link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"].
 

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#node-health]
 = Enable node auto repair and investigate node health issues
 :info_titleabbrev: Node health
-
-include::../attributes.txt[]
 
 include::learn-status-conditions.adoc[leveloffset=+1]
 

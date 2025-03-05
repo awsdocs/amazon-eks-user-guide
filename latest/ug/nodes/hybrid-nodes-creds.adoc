@@ -1,3 +1,7 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-creds]
 = Prepare credentials for hybrid nodes
@@ -7,8 +11,6 @@
 --
 Prepare credentials to authenticate hybrid nodes with Amazon EKS clusters
 --
-include::../attributes.txt[]
-
 [abstract]
 --
 Prepare credentials to authenticate hybrid nodes with Amazon EKS clusters

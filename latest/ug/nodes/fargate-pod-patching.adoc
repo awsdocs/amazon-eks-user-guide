@@ -1,3 +1,4 @@
+:doctype: book
 include::../attributes.txt[]
 [.topic]
 [#fargate-pod-patching]

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#cluster-endpoint]
 = Control network access to cluster API server endpoint
 :info_titleabbrev: Configure endpoint access
-
-include::../attributes.txt[]
 
 [abstract]
 --

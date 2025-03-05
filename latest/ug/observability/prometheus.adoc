@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#prometheus]
 = Monitor your cluster metrics with Prometheus
 :info_titleabbrev: Prometheus metrics
 :keywords: Prometheus, metrics, control plane
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#sec-group-reqs]
 = View Amazon EKS security group requirements for clusters
 :info_titleabbrev: Security group requirements
-
-include::../attributes.txt[]
 
 [abstract]
 --

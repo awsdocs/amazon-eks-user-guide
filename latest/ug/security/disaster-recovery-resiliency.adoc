@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#disaster-recovery-resiliency]
 = Understand resilience in Amazon EKS clusters
 :info_titleabbrev: Resilience
-
-include::../attributes.txt[]
 
 [abstract]
 --

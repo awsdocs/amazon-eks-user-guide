@@ -1,6 +1,9 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [#eks-connector]
 = Connect a Kubernetes cluster to an Amazon EKS Management Console with Amazon EKS Connector
-:doctype: book
 :sectnums:
 :toc: left
 :icons: font
@@ -9,8 +12,6 @@
 :idseparator: -
 :sourcedir: .
 :info_titleabbrev: Amazon EKS Connector
-
-include::../attributes.txt[]
 
 [abstract]
 --

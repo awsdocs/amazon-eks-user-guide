@@ -1,6 +1,9 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [#troubleshooting]
 = Troubleshoot problems with Amazon EKS clusters and nodes
-:doctype: book
 :sectnums:
 :toc: left
 :icons: font
@@ -10,8 +13,6 @@
 :sourcedir: .
 :info_titleabbrev: Troubleshooting
 :keywords: troubleshooting, help, FAQ
-
-include::../attributes.txt[]
 
 [abstract]
 --

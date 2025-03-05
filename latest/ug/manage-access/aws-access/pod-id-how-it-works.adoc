@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-how-it-works]
 = Understand how EKS Pod Identity works
 :info_titleabbrev: How it works
-
-include::../../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#eks-networking-add-ons]
 = Manage networking add-ons for Amazon EKS clusters
 :info_titleabbrev: Manage networking add-ons
-
-include::../attributes.txt[]
 
 include::managing-vpc-cni.adoc[leveloffset=+1]
 

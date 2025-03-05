@@ -1,8 +1,10 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#auto-disable]
 = Disable EKS Auto Mode
-
-include::../attributes.txt[]
 
 You can disable EKS Auto Mode on an existing EKS Cluster. This is a destructive operation. 
 

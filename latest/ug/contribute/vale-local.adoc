@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#vale-local]
 = View style feedback as you type by installing Vale locally
 :info_titleabbrev: View style feedback
 
-
-include::../attributes.txt[]
 
 You can see style feedback as you type. This helps identify awkward writing and typos. 
 

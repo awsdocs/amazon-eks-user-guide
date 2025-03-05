@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#bottlerocket-compliance-support]
 = Meet compliance requirements with Bottlerocket
 :info_titleabbrev: Compliance support
-
-include::../attributes.txt[]
 
 [abstract]
 --

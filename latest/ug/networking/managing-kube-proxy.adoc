@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#managing-kube-proxy]
 = Manage `kube-proxy` in Amazon EKS clusters
 :info_titleabbrev: kube-proxy
-
-include::../attributes.txt[]
 
 include::kube-proxy-add-on-self-managed-update.adoc[leveloffset=+1]
 

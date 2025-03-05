@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#auto-workloads]
 = Run sample workloads in EKS Auto Mode clusters
 :info_titleabbrev: Run workloads
-
-include::../attributes.txt[]
 
 [abstract]
 --

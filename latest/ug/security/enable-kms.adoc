@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#enable-kms]
 = Encrypt Kubernetes secrets with KMS on existing clusters
 :info_titleabbrev: Enable secret encryption
-
-include::../attributes.txt[]
 
 [abstract]
 --

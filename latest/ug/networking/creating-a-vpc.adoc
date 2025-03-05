@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#creating-a-vpc]
 = Create an Amazon VPC for your Amazon EKS cluster
 :info_titleabbrev: Create a VPC
-
-include::../attributes.txt[]
 
 [abstract]
 --

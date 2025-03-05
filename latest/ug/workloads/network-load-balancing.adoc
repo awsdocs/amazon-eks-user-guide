@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#network-load-balancing]
 = Route TCP and UDP traffic with Network Load Balancers
 :info_titleabbrev: Network load balancing
-
-include::../attributes.txt[]
 
 [abstract]
 --

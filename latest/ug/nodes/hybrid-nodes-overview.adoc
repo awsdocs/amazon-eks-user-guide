@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-overview]
 = Amazon EKS Hybrid Nodes overview
 :info_titleabbrev: Hybrid nodes
 :keywords: on-premises, hybrid
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,6 +1,8 @@
-[.topic]
+:doctype: book
+
 include::../attributes.txt[]
 
+[.topic]
 [#lbc-helm]
 = Install {aws} Load Balancer Controller with Helm
 :info_titleabbrev: Install with Helm

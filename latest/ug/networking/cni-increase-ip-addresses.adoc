@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#cni-increase-ip-addresses]
 = Assign more IP addresses to Amazon EKS nodes with prefixes
 :info_titleabbrev: Increase IP addresses
-
-include::../attributes.txt[]
 
 include::cni-increase-ip-addresses-procedure.adoc[leveloffset=+1]
 

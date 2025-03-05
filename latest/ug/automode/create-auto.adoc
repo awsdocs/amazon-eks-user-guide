@@ -1,3 +1,7 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#create-auto]
 = Create a cluster with Amazon EKS Auto Mode
@@ -8,8 +12,6 @@
 :sourcedir: .
 :info_titleabbrev: Create cluster
 :keywords: getting, started, tutorials, quick, start
-
-include::../attributes.txt[]
 
 [abstract]
 --

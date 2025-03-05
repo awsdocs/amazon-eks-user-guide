@@ -1,8 +1,10 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#eksctl-docs]
 = EKS Auto Mode
-
-include::../../attributes.txt[]
 
 == Introduction
 

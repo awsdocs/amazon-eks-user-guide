@@ -1,8 +1,10 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#create-vpc-console]
 = Create a VPC for Amazon EKS with the web console
-
-include::../../attributes.txt[]
 
 This guide walks you through creating a Virtual Private Cloud (VPC) that's optimized for Amazon Elastic Kubernetes Service (EKS) clusters using the {aws-management-console}.
 

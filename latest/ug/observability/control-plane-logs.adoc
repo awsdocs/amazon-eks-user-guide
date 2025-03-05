@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#control-plane-logs]
 = Send control plane logs to CloudWatch Logs
 :info_titleabbrev: Control plane logs
 :keywords: control plane, logging, API, logs
-
-include::../attributes.txt[]
 
 [abstract]
 --

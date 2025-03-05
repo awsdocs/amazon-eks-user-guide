@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#vpc-add-on-self-managed-update]
 = Update the Amazon VPC CNI (self-managed add-on)
 :info_titleabbrev: Update (self-managed)
-
-include::../attributes.txt[]
 
 [IMPORTANT]
 ====

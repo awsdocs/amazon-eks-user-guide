@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#add-ons-iam]
 = IAM roles for Amazon EKS add-ons
 :info_titleabbrev: IAM roles
-
-include::../attributes.txt[]
 
 include::retreive-iam-info.adoc[leveloffset=+1]
 

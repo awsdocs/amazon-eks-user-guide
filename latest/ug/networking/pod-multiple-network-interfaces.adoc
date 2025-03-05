@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#pod-multiple-network-interfaces]
 = Attach multiple network interfaces to Pods with Multus
 :info_titleabbrev: Multiple interfaces
-
-include::../attributes.txt[]
 
 [abstract]
 --

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#security-iam-service-with-iam]
 = How Amazon EKS works with IAM
 :info_titleabbrev: Amazon EKS and IAM
-
-include::../../attributes.txt[]
 
 Before you use IAM to manage access to Amazon EKS, you should understand what IAM features are available to use with Amazon EKS. To get a high-level view of how Amazon EKS and other {aws} services work with IAM, see link:IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html[{aws} services that work with IAM,type="documentation"] in the _IAM User Guide_.
 

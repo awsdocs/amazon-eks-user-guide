@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#add-ons-images]
 = View Amazon container image registries for Amazon EKS add-ons
 :info_titleabbrev: View Amazon image registries
-
-include::../attributes.txt[]
 
 When you deploy <<workloads-add-ons-available-eks,{aws} Amazon EKS add-ons>> to your cluster, your nodes pull the required container images from the registry specified in the installation mechanism for the add-on, such as an installation manifest or a Helm `values.yaml` file. The images are pulled from an Amazon EKS Amazon ECR private repository. Amazon EKS replicates the images to a repository in each Amazon EKS supported {aws} Region. Your nodes can pull the container image over the internet from any of the following registries. Alternatively, your nodes can pull the image over Amazon's network if you created an link:AmazonECR/latest/userguide/vpc-endpoints.html[interface VPC endpoint for Amazon ECR ({aws} PrivateLink),type="documentation"] in your VPC. The registries require authentication with an {aws} IAM account. Your nodes authenticate using the <<create-node-role,Amazon EKS node IAM role>>, which has the permissions in the link:aws-managed-policy/latest/reference/AmazonEC2ContainerRegistryReadOnly.html[AmazonEC2ContainerRegistryReadOnly,type="documentation"] managed IAM policy associated to it.
 

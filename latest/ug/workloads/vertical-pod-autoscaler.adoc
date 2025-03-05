@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#vertical-pod-autoscaler]
 = Adjust pod resources with Vertical Pod Autoscaler
 :info_titleabbrev: Vertical Pod Autoscaler
-
-include::../attributes.txt[]
 
 [abstract]
 --

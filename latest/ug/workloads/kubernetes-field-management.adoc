@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#kubernetes-field-management]
 = Determine fields you can customize for Amazon EKS add-ons
 :info_titleabbrev: Fields you can customize
-
-include::../attributes.txt[]
 
 [abstract]
 --

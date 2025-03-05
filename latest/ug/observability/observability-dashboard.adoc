@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#observability-dashboard]
 = Monitor your cluster with the observability dashboard
 :info_titleabbrev: Observability dashboard
 :keywords: observability, dashboard
-
-include::../attributes.txt[]
 
 [abstract]
 --

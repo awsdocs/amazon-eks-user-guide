@@ -1,3 +1,4 @@
+:doctype: book
 [.topic]
 [#zone-shift-enable]
 = Enable EKS Zonal Shift to avoid impaired Availability Zones

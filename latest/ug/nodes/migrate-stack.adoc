@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#migrate-stack]
 = Migrate applications to a new node group
 :info_titleabbrev: Migration
-
-include::../attributes.txt[]
 
 [abstract]
 --

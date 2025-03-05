@@ -1,8 +1,8 @@
+:doctype: book
 include::attributes.txt[]
 [.topic]
 [#roadmap]
 = Learn about Amazon EKS new features and roadmap
-:doctype: book
 :sectnums:
 :toc: left
 :icons: font

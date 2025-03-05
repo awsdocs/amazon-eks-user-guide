@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#network-reqs]
 = View Amazon EKS networking requirements for VPC and subnets
 :info_titleabbrev: VPC and subnet requirements
-
-include::../attributes.txt[]
 
 [abstract]
 --

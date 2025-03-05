@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#connector-iam-role]
 = Amazon EKS connector IAM role
 :info_titleabbrev: Connector IAM role
-
-include::../../attributes.txt[]
 
 You can connect Kubernetes clusters to view them in your {aws-management-console}. To connect to a Kubernetes cluster, create an IAM role.
 

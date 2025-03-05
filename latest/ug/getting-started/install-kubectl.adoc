@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#install-kubectl]
 = Set up `kubectl` and `eksctl`
 :info_titleabbrev: Set up kubectl and eksctl
 :keywords: install, update, kubectl
-
-include::../attributes.txt[]
 
 [abstract]
 --

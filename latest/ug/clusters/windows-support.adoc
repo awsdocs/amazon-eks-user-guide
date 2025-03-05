@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#windows-support]
 = Deploy Windows nodes on EKS clusters
 :info_titleabbrev: Enable Windows support
-
-include::../attributes.txt[]
 
 [abstract]
 --

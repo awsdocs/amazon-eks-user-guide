@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-role]
 = Create IAM role with trust policy required by EKS Pod Identity
 :info_titleabbrev: EKS Pod Identity role
-
-include::../../attributes.txt[]
 
 [abstract]
 --

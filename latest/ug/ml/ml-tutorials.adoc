@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#ml-tutorials]
 = Try tutorials for deploying Machine Learning workloads on EKS
 :info_titleabbrev: Try tutorials for ML on EKS
-
-include::../attributes.txt[]
 
 If you are interested in setting up Machine Learning platforms and frameworks in EKS, explore the tutorials described in this page.
 These tutorials cover everything from patterns for making the best use of GPU processors to choosing modeling tools to building frameworks for specialized industries.

@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#fsx-csi]
 = Store high-performance apps with FSx for Lustre
 :info_titleabbrev: Amazon FSx for Lustre
 :keywords: Amazon FSx for Lustre CSI driver, storage
-
-include::../attributes.txt[]
 
 [abstract]
 --

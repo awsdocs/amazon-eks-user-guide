@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#edit-single-web]
 = Edit a single page from a web browser
 :info_titleabbrev: Edit single page
 
-
-include::../attributes.txt[]
 
 You can easily edit a single page in the EKS User Guide directly through your web browser.
 

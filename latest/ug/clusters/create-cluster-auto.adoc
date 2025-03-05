@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#create-cluster-auto]
 = Create an Amazon EKS Auto Mode cluster
 :info_titleabbrev: Create auto cluster
 :idprefix: id_
-
-include::../attributes.txt[]
 
 [abstract]
 --

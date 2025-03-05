@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#alb-ingress]
 = Route application and HTTP traffic with Application Load Balancers
 :info_titleabbrev: Application load balancing
-
-include::../attributes.txt[]
 
 [abstract]
 --

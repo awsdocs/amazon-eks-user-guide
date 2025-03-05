@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#alternate-cni-plugins]
 = Alternate CNI plugins for Amazon EKS clusters
 :info_titleabbrev: Alternate CNI plugins
-
-include::../attributes.txt[]
 
 [abstract]
 --

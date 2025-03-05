@@ -1,9 +1,10 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [#contribute]
 # Contribute to the EKS User Guide
 :info_titleabbrev: Contribute
-
-
-include::../attributes.txt[]
 
 
 {aws} has launched an improved contribution experience for the EKS User Guide.

@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#eks-custom-ami-windows]
 = Build a custom Windows AMI with Image Builder
 :info_titleabbrev: Custom builds
-
-include::../attributes.txt[]
 
 [abstract]
 --

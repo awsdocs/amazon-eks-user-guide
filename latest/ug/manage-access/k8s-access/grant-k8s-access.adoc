@@ -1,9 +1,11 @@
+:doctype: book
+
+include::../../attributes.txt[]
+
 [.topic]
 [#grant-k8s-access]
 = Grant IAM users and roles access to Kubernetes APIs
 :info_titleabbrev: Kubernetes API access
-
-include::../../attributes.txt[]
 
 [abstract]
 --

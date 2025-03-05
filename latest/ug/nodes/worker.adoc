@@ -1,10 +1,12 @@
+:doctype: book
+
+include::../attributes.txt[]
+
 [.topic]
 [#worker]
 = Maintain nodes yourself with self-managed nodes
 :info_titleabbrev: Self-managed nodes
 :keywords: self-managed, node
-
-include::../attributes.txt[]
 
 include::launch-workers.adoc[leveloffset=+1]
 
