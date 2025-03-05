@@ -43,8 +43,6 @@ Mixed mode clusters are defined as EKS clusters that have both hybrid and cloud 
 
 If your applications require pods running on cloud nodes to directly communicate with pods running on hybrid nodes ("east-west communication"), then your pod CIDR must be routable on your on-premises network when using the VPC CNI on cloud nodes and Cilium or Calico in overlay/tunnel mode on hybrid nodes. In this setup, the pods in the cloud get IP addresses from the VPC CNI based on the VPC subnet configuration and communicate over the VPC network. If your on-premises pod CIDR range is configured in your VPC routing table with a route to your gateway (TGW or VGW), then the traffic destined for pods on hybrid nodes will be routed to the gateway and on to your on-premises network. When the traffic reaches your on-premises network, your router must know which hybrid node owns the IP address space of the destination pod, which is why your pod CIDR must be routable on your on-premises network for this communication path to work.
 
-For additional information on running mixed mode clusters and the networking options available, see the link:https://docs.aws.amazon.com/eks/latest/best-practices/hybrid.html[EKS Best Practices Guide for hybrid deployments].
-
 *Access required during hybrid node installation and upgrade*
 
 You must have access to the following domains during the installation process where you install the hybrid nodes dependencies on your hosts. This process can be done once when you are building your operating system images or it can be done on each host at runtime. This includes initial installation and when you upgrade the Kubernetes version of your hybrid nodes.
