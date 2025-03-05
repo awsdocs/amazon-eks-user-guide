@@ -67,14 +67,14 @@ If you are running a mixed mode cluster with both hybrid nodes and nodes in {aws
 
 . Add a topology zone label for each of your hybrid nodes, for example `topology.kubernetes.io/zone: onprem`. This can alternatively be done at the `nodeadm init` phase. Note, nodes running in {aws} Cloud automatically get a topology zone label applied to them.
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl label node <hybrid-node-name> topology.kubernetes.io/zone=<zone>
+kubectl label node [.replaceable]`hybrid-node-name` topology.kubernetes.io/zone=[.replaceable]`zone`
 ----
 +
 . Add `podAntiAffinity` to the CoreDNS deployment configuration for the topology zone key. You can alternatively configure the CoreDNS deployment during installation with EKS add-ons.
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl edit deployment coredns -n kube-system
 ----

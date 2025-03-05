@@ -87,7 +87,7 @@ helm repo add cilium https://helm.cilium.io/
 - You should not change your `clusterPoolIPv4PodCIDRList` or `clusterPoolIPv4MaskSize` after deploying Cilium on your cluster, see https://docs.cilium.io/en/stable/network/concepts/ipam/cluster-pool/#expanding-the-cluster-pool[Expanding the cluster pool] in the Cilium documentation. 
 - For a full list of Helm values for Cilium, see the https://docs.cilium.io/en/stable/helm-reference/[Helm reference] in the Cilium documentation. 
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 affinity:
   nodeAffinity:
@@ -160,7 +160,7 @@ mi-04a2cf999b7112233   Ready    <none>   19m   v1.31.0-eks-a737599
 
 . To use BGP with Cilium to advertise your pod addresses with your on-premises network, you must have installed Cilium with `bgpControlPlane.enabled: true`. To configure BGP in Cilium, first create a file called `cilium-bgp-cluster.yaml` with a `CiliumBGPClusterConfig` with the `peerAddress` set to your on-premises router IP that you are peering with. Configure the `localASN` and `peerASN` based on your on-premises router configuration.
 +
-[source,yaml,subs="verbatim,attributes"]
+[source,yaml,subs="verbatim,attributes,quotes"]
 ----
 apiVersion: cilium.io/v2alpha1
 kind: CiliumBGPClusterConfig
@@ -175,11 +175,11 @@ spec:
       - hybrid
   bgpInstances:
   - name: "rack0"
-    localASN: ONPREM_ROUTER_ASN
+    localASN: [.replaceable]`ONPREM_ROUTER_ASN`
     peers:
     - name: "onprem-router"
-      peerASN: PEER_ASN
-      peerAddress: ONPREM_ROUTER_IP
+      peerASN: [.replaceable]`PEER_ASN`
+      peerAddress: [.replaceable]`ONPREM_ROUTER_IP`
       peerConfigRef:
         name: "cilium-peer"
 ----
@@ -313,11 +313,11 @@ helm uninstall cilium-preflight --namespace kube-system
 +
 Before running the helm upgrade command, preserve the values for your deployment in a `cilium-values.yaml` or use `--set` command line options for your settings. The upgrade operation overwrites the Cilium ConfigMap, so it is critical that your configuration values are passed when you upgrade. If you are using BGP, it is recommended to use the `--set bgpControlPlane=true` command line option instead of supplying this information in your values file.
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-helm upgrade cilium cilium/cilium --version CILIUM_VERSION \
+helm upgrade cilium cilium/cilium --version [.replaceable]`CILIUM_VERSION` \
   --namespace kube-system \
-  --set upgradeCompatibility=1.X \
+  --set upgradeCompatibility=[.replaceable]`1.X` \
   -f cilium-values.yaml
 ----
 
@@ -372,7 +372,7 @@ helm repo add projectcalico https://docs.tigera.io/calico/charts
 - Replace `CIDR_SIZE` with the size of the CIDR segment you want to allocate to each node. For example, `25` for a /25 segment size of 128 pod addresses per node. For more information on CIDR `blockSize` and changing the `blockSize`, see https://docs.tigera.io/calico/latest/networking/ipam/change-block-size[Change IP pool block size] in the Calico documentation.
 - In the example below, `natOutgoing` is enabled and `bgp` is disabled. Modify these values based on your target configuration.
 +
-[source,yaml,subs="verbatim,attributes"]
+[source,yaml,subs="verbatim,attributes,quotes"]
 ----
 installation:
   enabled: true
@@ -524,7 +524,7 @@ kubectl apply --server-side --force-conflicts \
     -f https://raw.githubusercontent.com/projectcalico/calico/[.replaceable]`CALICO_VERSION`/manifests/operator-crds.yaml
 ----
 
-. Run `helm upgrade` to upgrade your Calico deployment. Replace CALICO_VERSION with the version you are upgrading to, for example `v3.29.0`. Create the `calico-values.yaml` file from the configuration values that you used to install Calico.
+. Run `helm upgrade` to upgrade your Calico deployment. Replace `CALICO_VERSION` with the version you are upgrading to, for example `v3.29.0`. Create the `calico-values.yaml` file from the configuration values that you used to install Calico.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
