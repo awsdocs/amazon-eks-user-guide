@@ -152,4 +152,6 @@
     <!-- vt and dl1 custom builds -->
     <redirect from="^/eks/latest/userguide/vt1\.html" to="/eks/latest/userguide/eks-ami-build-scripts.html" flags="[L,R]" />
     <redirect from="^/eks/latest/userguide/dl1\.html" to="/eks/latest/userguide/eks-ami-build-scripts.html" flags="[L,R]" />
+
+    <redirect from="^/eks/latest/userguide/kubernetes-encryption\.html" to="/eks/latest/userguide/envelope-encryption.html" flags="[L,R]" />
 </redirects>
