@@ -81,7 +81,7 @@ In this step, you will update the permission policy of the link:eks/latest/userg
 4. Under *Pod Identity associations*, select your link:eks/latest/userguide/pod-id-role.html["EKS Pod Identity role",type="documentation"].
 5. Choose *Permissions*, *Add permissions*, then *Create inline policy*.
 6. Choose *JSON* on the right side.
-7. In the policy editor, replace the default JSON with your permission policy. Replace the placeholder value for role name and `111122223333` in the IAM role ARN with your Target IAM Role. For example:
+7. In the policy editor, replace the default JSON with your permission policy. Replace the placeholder value for role name and `222233334444` in the IAM role ARN with your Target IAM Role. For example:
 
 [source,json]
 ----
@@ -94,7 +94,7 @@ In this step, you will update the permission policy of the link:eks/latest/userg
                 "sts:AssumeRole",
                 "sts:TagSession"
             ],
-            "Resource": "arn:aws:iam::111122223333:role/eks-pod-identity-aws-resources"
+            "Resource": "arn:aws:iam::222233334444:role/eks-pod-identity-aws-resources"
         }
     ]
 }
