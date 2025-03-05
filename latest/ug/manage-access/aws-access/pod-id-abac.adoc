@@ -10,9 +10,10 @@ include::../../attributes.txt[]
 Learn how to use Amazon EKS Pod Identity to attach tags for cluster, namespace, and service account to temporary credentials, enabling attribute-based access control (ABAC) for EKS Pods to {aws} resources based on matching tags.
 --
 
-Attribute-based access control (ABAC) grants rights to users through policies which combine attributes together. EKS Pod Identity attaches tags to the temporary credentials to each Pod with attributes such as cluster name, namespace, and service account name. These role session tags enable administrators to author a single role that can work across service accounts by allowing access to {aws} resources based on matching tags. By adding support for role session tags, customers can enforce tighter security boundaries between clusters, and workloads within clusters, while reusing the same IAM roles and IAM policies.
+Attribute-based access control (ABAC) grants rights to users through policies which combine attributes together. EKS Pod Identity attaches tags to the temporary credentials to each Pod with attributes such as cluster name, namespace, and service account name. These role session tags enable administrators to author a single role that can work across service accounts by allowing access to {aws} resources based on matching tags. By adding support for role session tags, you can enforce tighter security boundaries between clusters, and workloads within clusters, while reusing the same IAM roles and IAM policies.
 
-For example, the following policy allows the `s3:GetObject` action if the object is tagged with the name of the EKS cluster.
+== Sample policy with tags
+Below is an IAM policy example that grants `s3:GetObject` permissions when the corresponding object is tagged with the EKS cluster name.
 
 [source,json,subs="verbatim,attributes"]
 ----
@@ -45,11 +46,13 @@ For example, the following policy allows the `s3:GetObject` action if the object
 
 
 [#pod-id-abac-tags]
-== List of session tags added by EKS Pod Identity
+== Enable or disable session tags
 
-The following list contains all of the keys for tags that are added to the `AssumeRole` request made by Amazon EKS. To use these tags in policies, use `${aws:PrincipalTag/` followed by the key, for example `${aws:PrincipalTag/kubernetes-namespace}`.
+EKS Pod Identity adds a pre-defined set of session tags when it assumes the role. These session tags enable administrators to author a single role that can work across resources by allowing access to {aws} resources based on matching tags.
 
+=== Enable session tags
 
+Session tags are automatically enabled with EKS Pod Identity--no action is required on your part. By default, EKS Pod Identity attaches a set of predefined tags to your session. To reference these tags in policies, use the syntax `${aws:PrincipalTag/` followed by the tag key. For example, `${aws:PrincipalTag/kubernetes-namespace}`.
 
 * `eks-cluster-arn`
 * `eks-cluster-name`
@@ -58,6 +61,16 @@ The following list contains all of the keys for tags that are added to the `Assu
 * `kubernetes-pod-name`
 * `kubernetes-pod-uid`
 
+=== Disable session tags
+
+AWS compresses inline session policies, managed policy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a `PackedPolicyTooLarge` error indicating the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity. To disable these session tags, follow these steps:
+
+. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+. In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to modify.
+. Choose the *Access* tab.
+. In the *Pod Identity associations*, choose the association ID you would like to modify in *Association ID*, then choose *Edit*.
+. Under *Session tags*, choose *Disable session tags*.
+. Choose *Save changes*.
 
 [#pod-id-abac-chaining]
 == Cross-account tags
