@@ -17,6 +17,8 @@ include::enable-kms.adoc[leveloffset=+1]
 
 include::manage-secrets.adoc[leveloffset=+1]
 
+include::envelope-encryption.adoc[leveloffset=+1]
+
 [abstract]
 --
 Configure Kubernetes to meet your security and compliance objectives, and learn how to use other {aws} services that help you to secure your Kubernetes resources.
