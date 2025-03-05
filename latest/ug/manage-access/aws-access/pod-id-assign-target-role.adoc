@@ -1,5 +1,5 @@
 [.topic]
-[#assign-target-role]
+[#pod-id-assign-target-role]
 = Access {aws} Resources using EKS Pod Identity Target IAM Roles
 :info_titleabbrev: Assign Target IAM role
 
