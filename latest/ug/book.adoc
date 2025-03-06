@@ -4,11 +4,6 @@ include::attributes.txt[]
 
 [[top]]
 = Amazon EKS
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
 :info_subtitle: User Guide
 :info_corpauthor: Amazon Web Services
 :info_publisher: Amazon Web Services
@@ -27,7 +22,6 @@ sponsored by Amazon.
 --
 This is official Amazon Web Services ({aws}) documentation for Amazon Elastic Kubernetes Service (Amazon EKS). Amazon EKS is a managed service that makes it easy for you to run Kubernetes on {aws} without needing to install and operate your own Kubernetes clusters. Kubernetes is an open source system for automating the deployment, scaling, and management of containerized applications.
 --
-:sectnums:
 
 [.banner.info]
 *Help improve this page*

@@ -4,13 +4,6 @@ include::../attributes.txt[]
 
 [#eks-compute]
 = Manage compute resources by using nodes
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Manage compute
 :keywords: nodes, node groups
 

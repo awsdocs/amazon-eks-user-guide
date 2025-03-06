@@ -4,13 +4,6 @@ include::../attributes.txt[]
 
 [#troubleshooting]
 = Troubleshoot problems with Amazon EKS clusters and nodes
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Troubleshooting
 :keywords: troubleshooting, help, FAQ
 

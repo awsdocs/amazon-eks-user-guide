@@ -4,13 +4,6 @@ include::../attributes.txt[]
 
 [#eks-observe]
 = Monitor your cluster performance and view logs
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Monitor clusters
 :keywords: observability, monitoring, logging, logs, data
 

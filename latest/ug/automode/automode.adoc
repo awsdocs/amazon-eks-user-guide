@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [#automode]
 = Automate cluster infrastructure with EKS Auto Mode
 :toclevels: 2
-:toc:
 :info_titleabbrev: EKS Auto Mode 
 
 [abstract]

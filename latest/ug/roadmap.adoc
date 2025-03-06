@@ -3,13 +3,6 @@ include::attributes.txt[]
 [.topic]
 [#roadmap]
 = Learn about Amazon EKS new features and roadmap
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: New features and roadmap
 
 [abstract]

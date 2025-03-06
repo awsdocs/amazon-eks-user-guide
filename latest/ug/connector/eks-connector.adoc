@@ -4,13 +4,6 @@ include::../attributes.txt[]
 
 [#eks-connector]
 = Connect a Kubernetes cluster to an Amazon EKS Management Console with Amazon EKS Connector
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Amazon EKS Connector
 
 [abstract]

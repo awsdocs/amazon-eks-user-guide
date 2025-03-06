@@ -4,13 +4,6 @@ include::../attributes.txt[]
 
 [#setting-up]
 = Set up to use Amazon EKS
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Set up
 :keywords: setting up, setup
 

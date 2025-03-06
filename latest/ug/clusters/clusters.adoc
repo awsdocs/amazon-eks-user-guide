@@ -4,13 +4,6 @@ include::../attributes.txt[]
 
 [#clusters]
 = Organize workloads with Amazon EKS clusters
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Clusters
 
 An Amazon EKS cluster consists of two primary components:

@@ -4,13 +4,6 @@ include::../attributes.txt[]
 
 [#eks-networking]
 = Configure networking for Amazon EKS clusters
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Configure networking
 
 include::network-reqs.adoc[leveloffset=+1]

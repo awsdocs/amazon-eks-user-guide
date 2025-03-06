@@ -5,13 +5,6 @@ include::../attributes.txt[]
 [.topic]
 [#machine-learning-on-eks]
 = Overview of Machine Learning on Amazon EKS
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Machine Learning on EKS
 :keywords: Machine Learning, Amazon EKS, Artificial Intelligence
 

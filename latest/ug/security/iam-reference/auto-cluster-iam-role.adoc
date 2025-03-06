@@ -5,7 +5,6 @@ include::../../attributes.txt[]
 [.topic]
 [#auto-cluster-iam-role]
 = Amazon EKS Auto Mode cluster IAM role
-:idprefix: wip_
 :info_titleabbrev: Auto Mode cluster IAM role
 
 [abstract]
@@ -23,6 +22,7 @@ Before you can create Amazon EKS clusters, you must create an IAM role with the 
 * <<security-iam-awsmanpol-AmazonEKSNetworkingPolicy,AmazonEKSNetworkingPolicy>>
 * <<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>>
 
+[#auto-cluster-iam-role-check]
 == Check for an existing cluster role
 
 You can use the following procedure to check and see if your account already has the Amazon EKS cluster role.
@@ -59,11 +59,12 @@ You can use the following procedure to check and see if your account already has
 {aws} does not require the name `AmazonEKSAutoClusterRole` for this role. 
 ====
 
+[#auto-cluster-iam-role-create]
 == Creating the Amazon EKS cluster role
 
 You can use the {aws-management-console} or the {aws} CLI to create the cluster role.
 
-
+[#auto-cluster-iam-role-console]
 === {aws-management-console}
 
 . Open the IAM console at https://console.aws.amazon.com/iam/.
@@ -81,7 +82,7 @@ You can use the {aws-management-console} or the {aws} CLI to create the cluster 
 . For *Description*, enter descriptive text such as `Amazon EKS - Cluster role`.
 . Choose *Create role*.
 
-
+[#auto-cluster-iam-role-cli]
 === {aws} CLI
 
 . Copy the following contents to a file named [.replaceable]`cluster-trust-policy.json`. 

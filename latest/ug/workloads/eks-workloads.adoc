@@ -4,13 +4,6 @@ include::../attributes.txt[]
 
 [#eks-workloads]
 = Learn how to deploy workloads and add-ons to Amazon EKS
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Workloads
 
 Your workloads are deployed in containers, which are deployed in Pods in Kubernetes. A Pod includes one or more containers. Typically, one or more Pods that provide the same service are deployed in a Kubernetes service. Once you've deployed multiple Pods that provide the same service, you can:

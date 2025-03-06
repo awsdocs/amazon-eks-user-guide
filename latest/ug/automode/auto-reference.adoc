@@ -5,11 +5,6 @@ include::../attributes.txt[]
 [.topic]
 [#auto-reference]
 = Learn how EKS Auto Mode works
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: How it works
 
 [abstract]

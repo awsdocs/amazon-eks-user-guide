@@ -1,6 +1,5 @@
 :doctype: book
 = AmazonEKSDocs Git History Squish Procedure
-:toc:
 
 == Overview
 This procedure outlines the steps to clear the history of the "mainline" branch while maintaining a backup. The backup branch will be named with the current date (e.g., `13JAN2025-mainline`).

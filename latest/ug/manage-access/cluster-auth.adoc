@@ -5,13 +5,6 @@ include::../attributes.txt[]
 [.topic]
 [#cluster-auth]
 = Learn how access control works in Amazon EKS
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Manage access
 
 [abstract]

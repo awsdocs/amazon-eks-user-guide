@@ -5,7 +5,6 @@ include::../attributes.txt[]
 [.topic]
 [#auto-wip]
 = EKS Auto Mode: Revisions to existing pages WIP
-:toc: left
 
 This section contains in-progress revisions for existing pages in other chapters. 
 

@@ -4,13 +4,6 @@ include::../attributes.txt[]
 
 [#storage]
 = Store application data for your cluster
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Store app data
 :keywords: persistent, data, app, storage
 

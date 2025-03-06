@@ -3,13 +3,6 @@
 [#doc-history]
 // H1 title is necessary, and must occur before the [abstract], but is unused in the web page (:info_title: is used instead, and :info_titleabbrev: is used in the ToC)
 = Document history
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :keywords: document, publish, release, history, log
 
 

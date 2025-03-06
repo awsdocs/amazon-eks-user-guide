@@ -5,7 +5,6 @@ include::../../attributes.txt[]
 [.topic]
 [#auto-create-node-role]
 = Amazon EKS Auto Mode node IAM role
-:idprefix: id_
 :info_titleabbrev: Auto Mode node IAM role
 
 // write short desc
@@ -22,7 +21,7 @@ Before you create nodes, you must create an IAM role with the following policies
 * <<security-iam-awsmanpol-AmazonEKSWorkerNodeMinimalPolicy,AmazonEKSWorkerNodeMinimalPolicy>>
 * link:AmazonECR/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-AmazonEC2ContainerRegistryPullOnly["AmazonEC2ContainerRegistryPullOnly",type="documentation"]
 
-
+[#auto-create-node-role-check]
 == Check for an existing node role
 
 You can use the following procedure to check and see if your account already has the Amazon EKS node role.
@@ -51,13 +50,13 @@ You can use the following procedure to check and see if your account already has
 }
 ----
 
-
+[#auto-create-node-role-iam]
 == Creating the Amazon EKS node IAM role
 
 You can create the node IAM role with the {aws-management-console} or the {aws} CLI.
 
 
-
+[#auto-create-node-role-console]
 === {aws-management-console}
 . Open the IAM console at https://console.aws.amazon.com/iam/.
 . In the left navigation pane, choose *Roles*.
@@ -77,7 +76,7 @@ You can create the node IAM role with the {aws-management-console} or the {aws} 
 .. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
 .. Choose *Create role*.
 
-
+[#auto-create-node-role-cli]
 === {aws} CLI
 
 *Create the Node IAM Role*

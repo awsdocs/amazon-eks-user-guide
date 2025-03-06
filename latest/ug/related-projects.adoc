@@ -2,13 +2,6 @@
 include::attributes.txt[]
 [#related-projects]
 = Extend Amazon EKS capabilities with open source projects
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Projects related to Amazon EKS
 
 [abstract]
