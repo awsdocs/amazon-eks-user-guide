@@ -19,7 +19,7 @@ This topic describes how you can launch Auto Scaling groups of Amazon Linux node
 * Suppose that you're creating your nodes in a cluster on the {aws} Cloud and you have subnets in the {aws} Region where you have {aws} Outposts, {aws} Wavelength, or {aws} Local Zones enabled. Then, those subnets must not have been passed in when you created your cluster. If you're creating your nodes in a cluster on an Outpost, you must have passed in an Outpost subnet when creating your cluster.
 * (Recommended for clusters on the {aws} Cloud) The Amazon VPC CNI plugin for Kubernetes add-on configured with its own IAM role that has the necessary IAM policy attached to it. For more information, see <<cni-iam-role>>. Local clusters do not support IAM roles for service accounts. 
 
-You can create a self-managed Amazon Linux node group with `eksctl` or the {aws-management-console} (with an {aws} CloudFormation template). You can also use https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest[Terraform].
+You can create a self-managed Amazon Linux node group with `eksctl` or the {aws-management-console} (with an {aws} CloudFormation template). You can also use Terraform.
 
 You can create a self-managed node group for local cluster with the following tools described in this page:
 
