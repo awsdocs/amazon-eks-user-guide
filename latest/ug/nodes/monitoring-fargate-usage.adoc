@@ -1,5 +1,7 @@
 :doctype: book
+
 include::../attributes.txt[]
+
 [.topic]
 [#monitoring-fargate-usage]
 = Collect {aws} Fargate app and usage metrics

@@ -1,5 +1,7 @@
 :doctype: book
+
 include::../attributes.txt[]
+
 [#eks-outposts]
 = Deploy Amazon EKS on-premises with {aws} Outposts
 :info_titleabbrev: Amazon EKS on {aws} Outposts

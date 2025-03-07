@@ -1,4 +1,5 @@
 :doctype: book
+
 [TIP]
 ====
 With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-ons. Auto Mode includes pod networking and load balancing capabilities. 

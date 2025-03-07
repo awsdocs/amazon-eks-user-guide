@@ -1,5 +1,7 @@
 :doctype: book
+
 include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-configure-pods]
 = Configure Pods to access {aws} services with service accounts

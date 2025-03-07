@@ -1,5 +1,7 @@
 :doctype: book
+
 include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-abac]
 = Grant Pods access to {aws} resources based on tags

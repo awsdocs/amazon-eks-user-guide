@@ -1,4 +1,5 @@
 :doctype: book
+
 [.topic]
 [#quickstart]
 = Quickstart: Deploy a web app and store data

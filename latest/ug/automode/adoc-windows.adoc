@@ -1,4 +1,5 @@
 :doctype: book
+
 = Configure an AsciiDoc Authoring Environment on Windows using Visual Studio Code
 
 == Prereqs

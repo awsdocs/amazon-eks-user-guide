@@ -1,5 +1,7 @@
 :doctype: book
+
 include::../attributes.txt[]
+
 [.topic]
 [#service-name-info-in-cloudtrail]
 = View helpful references for {aws} CloudTrail

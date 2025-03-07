@@ -1,5 +1,7 @@
 :doctype: book
+
 include::../../attributes.txt[]
+
 [.topic]
 [#pod-identities]
 = Learn how EKS Pod Identity grants pods access to {aws} services

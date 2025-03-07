@@ -1,5 +1,7 @@
 :doctype: book
+
 include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-minimum-sdk]
 = Use pod identity with the {aws} SDK

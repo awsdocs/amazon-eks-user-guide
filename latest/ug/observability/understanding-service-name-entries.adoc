@@ -1,5 +1,7 @@
 :doctype: book
+
 include::../attributes.txt[]
+
 [.topic]
 [#understanding-service-name-entries]
 = Analyze {aws} CloudTrail log file entries
