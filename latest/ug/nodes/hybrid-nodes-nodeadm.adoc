@@ -247,7 +247,9 @@ nodeadm init [flags]
 
 *Values*
 
-`install-validation` skips checking if the proceding install command ran successfully.
+`install-validation` skips checking if the preceding install command ran successfully.
+
+`cni-validation` skips checking if either Cilium or Calico cni's VxLan ports are opened if firewall is enabled on the node
 
 |`-h`, `--help`
 |FALSE
@@ -468,6 +470,10 @@ nodeadm debug [flags]
 |`-c`, `--config-source`
 |TRUE
 |Source of `nodeadm` configuration. For hybrid nodes the input should follow a URI with file scheme.
+
+|`--no-color`
+|FALSE
+|Disables color output. Useful for automation.
 
 |`-h`, `--help`
 |FALSE
