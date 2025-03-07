@@ -76,5 +76,6 @@ build
 *.xls
 *.xlsx
 *.xpr
+.idea/*
 vale/styles/AsciiDoc/
 vale/styles/RedHat/

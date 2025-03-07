@@ -13,11 +13,17 @@ include::../attributes.txt[]
 Configure HTTP/S proxies for Amazon EKS hybrid nodes 
 --
 
-If you are using a proxy server in your on-premises environment for traffic leaving your data center or edge environment, you need to configure your operating system, `containerd`, `kubelet`, and `kube-proxy` to use your proxy server. You must configure `kube-proxy` after creating your Amazon EKS cluster. You can make the changes for your operating system, `containerd`, and the `kubelet` during the build process for your operating system images or before you run `nodeadm init` on each hybrid node.
+If you are using a proxy server in your on-premises environment for traffic leaving your data center or edge environment, you need to separately configure your nodes and your cluster to use your proxy server.
+
+Cluster::
+On your cluster, you need to configure `kube-proxy` to use your proxy server. You must configure `kube-proxy` after creating your Amazon EKS cluster.
+
+Nodes::
+On your nodes, you must configure the operating system, `containerd`, `kubelet`, and the Amazon SSM agent to use your proxy server. You can make these changes during the build process for your operating system images or before you run `nodeadm init` on each hybrid node.
 
 == Node-level configuration
 
-The configurations in this section must be applied in your operating system images or before running `nodeadm init` on each hybrid node.
+You must apply the following configurations either in your operating system images or before running `nodeadm init` on each hybrid node.
 
 === `containerd` proxy configuration
 
@@ -76,6 +82,48 @@ echo 'Environment="NO_PROXY=localhost"' >> /etc/systemd/system/kubelet.service.d
 systemctl daemon-reload
 systemctl restart containerd
 ----
+
+=== `ssm` proxy configuration
+
+`ssm` is one of the credential providers that can be used to initialize a hybrid node. `ssm` is responsible for authenticating with {aws} and generating temporary credentials that is used by `kubelet`. If you are using a proxy in your on-premises environment and using `ssm` as your credential provider on the node, you must configure the `ssm` so it can communicate with Amazon SSM service endpoints.
+
+Create a file on each hybrid node called `http-proxy.conf` in the path below depending on the operating system
+
+* Ubuntu - `/etc/systemd/system/snap.amazon-ssm-agent.amazon-ssm-agent.service.d/http-proxy.conf`
+* Amazon Linux 2023 and Red Hat Enterprise Linux - `/etc/systemd/system/amazon-ssm-agent.service.d/http-proxy.conf`
+
+Populate the file with the following contents. Replace `proxy-domain` and `port` with the values for your environment.
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+[Service]
+Environment="HTTP_PROXY=http://[.replaceable]#proxy-domain:port#"
+Environment="HTTPS_PROXY=http://[.replaceable]#proxy-domain:port#"
+Environment="NO_PROXY=localhost"
+----
+
+==== `ssm` configuration from user data
+
+The `ssm` systemd service file directory must be created for this file. The directory path depends on the operating system used on the node.
+
+* Ubuntu - `/etc/systemd/system/snap.amazon-ssm-agent.amazon-ssm-agent.service.d`
+* Amazon Linux 2023 and Red Hat Enterprise Linux - `/etc/systemd/system/amazon-ssm-agent.service.d`
+
+Replace the systemd service name in the restart command below depending on the operating system used on the node
+
+* Ubuntu - `snap.amazon-ssm-agent.amazon-ssm-agent`
+* Amazon Linux 2023 and Red Hat Enterprise Linux - `amazon-ssm-agent`
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+mkdir -p [.replaceable]#systemd-service-file-directory
+echo '[Service]' > [.replaceable]#systemd-service-file-directory/http-proxy.conf
+echo 'Environment="HTTP_PROXY=http://[.replaceable]#proxy-domain:port#"' >> [.replaceable]#systemd-service-file-directory/http-proxy.conf
+echo 'Environment="HTTPS_PROXY=http://[.replaceable]#proxy-domain:port#"' >> [.replaceable]#systemd-service-file-directory/http-proxy.conf
+echo 'Environment="NO_PROXY=localhost"' >> [.replaceable]#systemd-service-file-directory/http-proxy.conf
+systemctl daemon-reload
+systemctl restart [.replaceable]#systemd-service-name
+----
+
 
 === Operating system proxy configuration
 
