@@ -15,7 +15,7 @@ The NodePool specification allows for fine-grained control over your EKS cluster
 
 EKS Auto Mode leverages well-known Kubernetes labels to provide consistent and standardized ways of identifying node characteristics. These labels, such as `topology.kubernetes.io/zone` for availability zones and `kubernetes.io/arch` for CPU architecture, follow established Kubernetes conventions. Additionally, EKS-specific labels (prefixed with `eks.amazonaws.com/`) extend this functionality with {aws}-specific attributes like instance types, CPU manufacturers, GPU capabilities, and networking specifications. This standardized labeling system enables seamless integration with existing Kubernetes tooling while providing deep {aws} infrastructure integration.
 
-## Create a NodePool
+== Create a NodePool
 
 Follow these steps to create a NodePool for your Amazon EKS cluster:
 

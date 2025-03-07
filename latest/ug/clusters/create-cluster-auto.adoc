@@ -124,7 +124,7 @@ The following CLI instructions cover creating IAM resources and creating the clu
 
 === Create an EKS Auto Mode Cluster IAM Role
 
-#### Step 1: Create the Trust Policy
+==== Step 1: Create the Trust Policy
 
 Create a trust policy that allows the Amazon EKS service to assume the role. Save the policy as `trust-policy.json`:
 
@@ -146,7 +146,7 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
 }
 ```
 
-#### Step 2: Create the IAM Role
+==== Step 2: Create the IAM Role
 
 Use the trust policy to create the Cluster IAM Role:
 
@@ -156,7 +156,7 @@ aws iam create-role \
     --assume-role-policy-document file://trust-policy.json
 ```
 
-#### Step 3: Note the Role ARN
+==== Step 3: Note the Role ARN
 
 Retrieve and save the ARN of the new role for use in subsequent steps:
 
@@ -164,7 +164,7 @@ Retrieve and save the ARN of the new role for use in subsequent steps:
 aws iam get-role --role-name AmazonEKSAutoClusterRole --query "Role.Arn" --output text
 ```
 
-#### Step 4: Attach Required Policies
+==== Step 4: Attach Required Policies
 
 Attach the following {aws} managed policies to the Cluster IAM Role to grant the necessary permissions:
 
@@ -208,9 +208,9 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSNetworkingPolicy
 ```
 
-### Create an EKS Auto Mode Node IAM Role
+=== Create an EKS Auto Mode Node IAM Role
 
-#### Step 1: Create the Trust Policy
+==== Step 1: Create the Trust Policy
 
 Create a trust policy that allows the Amazon EKS service to assume the role. Save the policy as `node-trust-policy.json`:
 
@@ -229,7 +229,7 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
 }
 ```
 
-#### Step 2: Create the Node IAM Role
+==== Step 2: Create the Node IAM Role
 
 Use the *node-trust-policy.json* file from the previous step to define which entities can assume the role. Run the following command to create the Node IAM Role:
 
@@ -239,7 +239,7 @@ aws iam create-role \
     --assume-role-policy-document file://node-trust-policy.json
 ```
 
-#### Step 3: Note the Role ARN
+==== Step 3: Note the Role ARN
 
 After creating the role, retrieve and save the ARN of the Node IAM Role. You will need this ARN in subsequent steps. Use the following command to get the ARN:
 
@@ -247,7 +247,7 @@ After creating the role, retrieve and save the ARN of the Node IAM Role. You wil
 aws iam get-role --role-name AmazonEKSAutoNodeRole --query "Role.Arn" --output text
 ```
 
-#### Step 4: Attach Required Policies
+==== Step 4: Attach Required Policies
 
 Attach the following {aws} managed policies to the Node IAM Role to provide the necessary permissions:
 

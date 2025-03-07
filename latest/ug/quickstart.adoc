@@ -22,7 +22,7 @@ As we progress, we'll walk you through the cluster setup process. Amazon EKS Aut
 
 Overall, you'll deploy a sample workload with the custom annotations required to fully integrate with {aws} services.
 
-## In this tutorial
+== In this tutorial
 
 Using the `eksctl` cluster template that follows, you'll build a cluster with EKS Auto Mode for automated node provisioning. 
 
@@ -38,7 +38,7 @@ Use the block storage capability of EKS Auto Mode to ensure the persistence of a
 *External App Access*  
 Use the load balancing capability of EKS Auto Mode to dynamically provision an Application Load Balancer (ALB).
 
-## Prerequisites
+== Prerequisites
 
 Before you begin, ensure you have the following prerequisites set up to use Amazon EKS:
 
@@ -48,7 +48,7 @@ Before you begin, ensure you have the following prerequisites set up to use Amaz
 
 For more information, see <<setting-up>>. 
 
-## Configure the cluster
+== Configure the cluster
 
 In this section, you'll create a cluster using EKS Auto Mode for dynamic node provisioning.
 
@@ -79,7 +79,7 @@ If you do not use eksctl to create the cluster, you need to manually tag the VPC
 ====
 
 
-## Create IngressClass
+== Create IngressClass
 
 Create a Kubernetes `IngressClass` for EKS Auto Mode. The IngressClass defines how EKS Auto Mode handles Ingress resources. This step configures the load balancing capability of EKS Auto Mode. When you create Ingress resources for your applications, EKS Auto Mode uses this IngressClass to automatically provision and manage load balancers, integrating your Kubernetes applications with {aws} load balancing services.
 
@@ -102,7 +102,7 @@ Apply the IngressClass to your cluster:
 kubectl apply -f ingressclass.yaml
 ```
 
-##  Deploy the 2048 game sample application
+==  Deploy the 2048 game sample application
 
 In this section, we walk you through the steps to deploy the popular "`2048 game`" as a sample application within the cluster. The provided manifest includes custom annotations for the Application Load Balancer (ALB). These annotations integrate with and instruct the EKS to handle incoming HTTP traffic as "internet-facing" and route it to the appropriate service in the 'game-2048' namespace using the target type "ip". 
 
@@ -163,7 +163,7 @@ You should see the 2048 game in your browser. Play!
 image::images/quick2048.png[Play the 2048 game,scaledwidth=25%]
 
 
-## Persist Data using Amazon EKS Auto Mode
+== Persist Data using Amazon EKS Auto Mode
 
 Now that the 2048 game is up and running on your Amazon EKS cluster, it's time to ensure that your game data is safely persisted using the block storage capability of Amazon EKS Auto Mode. 
 
@@ -271,7 +271,7 @@ With these steps, your 2048 game on the cluster is now set up to persist data us
 If you liked this tutorial, let us know by providing feedback so we're able to provide you with more use case-specific quickstart tutorials like this one.
 
 
-## Delete your cluster and nodes
+== Delete your cluster and nodes
 
 After you've finished with the cluster that you created for this tutorial, you should clean up by deleting the cluster with the following command. If you want to do more with this cluster before you clean up, see Next steps.
 

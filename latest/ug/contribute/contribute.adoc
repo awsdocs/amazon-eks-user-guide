@@ -3,7 +3,7 @@
 include::../attributes.txt[]
 
 [#contribute]
-# Contribute to the EKS User Guide
+= Contribute to the EKS User Guide
 :info_titleabbrev: Contribute
 
 

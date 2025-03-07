@@ -11,7 +11,7 @@ Amazon EKS Node Classes provide granular control over the configuration of your 
 
 When you need to customize how EKS Auto Mode provisions and configures EC2 instances beyond the default settings, creating a Node Class gives you precise control over critical infrastructure parameters. For example, you can specify private subnet placement for enhanced security, configure instance ephemeral storage for performance-sensitive workloads, or apply custom tagging for cost allocation.
 
-## Create a Node Class
+== Create a Node Class
 
 To create a Node Class, follow these steps:
 
@@ -21,7 +21,7 @@ To create a Node Class, follow these steps:
 
 You need `kubectl` installed and configured. For more information, see <<setting-up>>.
 
-### Basic Node Class Example
+=== Basic Node Class Example
 
 Here's an example Node Class:
 

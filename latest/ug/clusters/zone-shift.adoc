@@ -222,7 +222,7 @@ image::images/zs-pod-affinity-rule.png[Illustration of network]
 After completing the above requirements, the next important step is to test that you have sufficient compute and workload capacity to handle the loss of an AZ. You can do this by manually triggering a zonal shift in EKS. Alternatively, you can enable zonal autoshift and configure practice runs to test that your applications function as expected with one less AZ in your cluster environment.
 
 
-## Frequently Asked Questions
+== Frequently Asked Questions
 
 *Why should I use this feature?*
 

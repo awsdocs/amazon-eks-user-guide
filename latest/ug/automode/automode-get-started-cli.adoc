@@ -11,13 +11,13 @@ EKS Auto Mode Clusters automate routine cluster management tasks for compute, st
 
 This topic guides you through creating a new EKS Auto Mode Cluster using the {aws} CLI and optionally deploying a sample workload.
 
-## Prerequisites
+== Prerequisites
 
 * The latest version of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device. To check your current version, use `aws --version`. To install the latest version, see link:cli/latest/userguide/getting-started-install.html["Installing",type="documentation"] and link:cli/latest/userguide/cli-chap-configure.html#cli-configure-quickstart-config["Quick configuration",type="documentation"] with aws configure in the {aws} Command Line Interface User Guide. 
 ** Login to the CLI with sufficent IAM permissions to create {aws} resources including IAM Policies, IAM Roles, and EKS Clusters. 
 * The kubectl command line tool installed on your device. {aws} suggests you use the same kubectl version as the Kubernetes version of your EKS Cluster. To install or upgrade kubectl, see <<install-kubectl>>.
 
-## Specify VPC subnets
+== Specify VPC subnets
 
 Amazon EKS Auto Mode deploy nodes to VPC subnets. When creating an EKS cluster, you must specify the VPC subnets where the nodes will be deployed. You can use the default VPC subnets in your {aws} account or create a dedicated VPC for critical workloads.
 
@@ -83,13 +83,13 @@ You must create this role and attach the following {aws} managed policy:
 * link:AmazonECR/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-AmazonEC2ContainerRegistryPullOnly["AmazonEC2ContainerRegistryPullOnly",type="documentation"]
 
 [discrete]
-#### *Service-Linked Role*
+==== *Service-Linked Role*
 
 EKS Auto Mode also requires a Service-Linked Role, which is automatically created and configured by {aws}. For more information, see <<using-service-linked-roles-eks,AWSServiceRoleForAmazonEKS>>.
 
-## *Create an EKS Auto Mode Cluster IAM Role*
+== *Create an EKS Auto Mode Cluster IAM Role*
 
-### Step 1: Create the Trust Policy
+=== Step 1: Create the Trust Policy
 
 Create a trust policy that allows the Amazon EKS service to assume the role. Save the policy as `trust-policy.json`:
 
@@ -111,7 +111,7 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
 }
 ```
 
-### Step 2: Create the IAM Role
+=== Step 2: Create the IAM Role
 
 Use the trust policy to create the Cluster IAM Role:
 
@@ -121,7 +121,7 @@ aws iam create-role \
     --assume-role-policy-document file://trust-policy.json
 ```
 
-### Step 3: Note the Role ARN
+=== Step 3: Note the Role ARN
 
 Retrieve and save the ARN of the new role for use in subsequent steps:
 
@@ -129,7 +129,7 @@ Retrieve and save the ARN of the new role for use in subsequent steps:
 aws iam get-role --role-name AmazonEKSAutoClusterRole --query "Role.Arn" --output text
 ```
 
-### Step 4: Attach Required Policies
+=== Step 4: Attach Required Policies
 
 Attach the following {aws} managed policies to the Cluster IAM Role to grant the necessary permissions:
 
@@ -173,9 +173,9 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSNetworkingPolicy
 ```
 
-## *Create an EKS Auto Mode Node IAM Role*
+== *Create an EKS Auto Mode Node IAM Role*
 
-### Step 1: Create the Trust Policy
+=== Step 1: Create the Trust Policy
 
 Create a trust policy that allows the Amazon EKS service to assume the role. Save the policy as `node-trust-policy.json`:
 
@@ -194,7 +194,7 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
 }
 ```
 
-#### Step 2: Create the Node IAM Role
+==== Step 2: Create the Node IAM Role
 
 Use the *node-trust-policy.json* file from the previous step to define which entities can assume the role. Run the following command to create the Node IAM Role:
 
@@ -204,7 +204,7 @@ aws iam create-role \
     --assume-role-policy-document file://node-trust-policy.json
 ```
 
-#### Step 3: Note the Role ARN
+==== Step 3: Note the Role ARN
 
 After creating the role, retrieve and save the ARN of the Node IAM Role. You will need this ARN in subsequent steps. Use the following command to get the ARN:
 
@@ -212,7 +212,7 @@ After creating the role, retrieve and save the ARN of the Node IAM Role. You wil
 aws iam get-role --role-name AmazonEKSAutoNodeRole --query "Role.Arn" --output text
 ```
 
-#### Step 4: Attach Required Policies
+==== Step 4: Attach Required Policies
 
 Attach the following {aws} managed policies to the Node IAM Role to provide the necessary permissions:
 
@@ -232,9 +232,9 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
 ```
 
-## *Create an EKS Auto Mode Cluster*
+== *Create an EKS Auto Mode Cluster*
 
-### Overview
+=== Overview
 
 To create an EKS Auto Mode Cluster using the {aws} CLI, you will need the following parameters:
 
@@ -244,7 +244,7 @@ To create an EKS Auto Mode Cluster using the {aws} CLI, you will need the follow
 * `cluster-role-arn`: ARN of the Cluster IAM Role.
 * `node-role-arn`: ARN of the Node IAM Role.
 
-#### Default Cluster Configurations
+==== Default Cluster Configurations
 
 Review these default values and features before creating the cluster:
 
@@ -257,7 +257,7 @@ Review these default values and features before creating the cluster:
 * `storageConfig.blockStorage.enabled`: Automates storage tasks, such as creating and deleting Amazon EBS volumes.
 * `accessConfig.authenticationMode`: Requires EKS access entries. Learn more about <<grant-k8s-access,EKS authentication modes>>.
 
-#### Run the Command
+==== Run the Command
 
 Use the following command to create the cluster:
 
@@ -295,9 +295,9 @@ aws eks create-cluster \
     }
 ```
 
-### *Check Cluster Status*
+=== *Check Cluster Status*
 
-#### Step 1: Verify Cluster Creation
+==== Step 1: Verify Cluster Creation
 
 Run the following command to check the status of your cluster. Cluster creation typically takes about 15 minutes:
 
@@ -305,7 +305,7 @@ Run the following command to check the status of your cluster. Cluster creation 
 aws eks describe-cluster --name "${CLUSTER_NAME}" --output json
 ```
 
-#### Step 2: Update kubeconfig
+==== Step 2: Update kubeconfig
 
 Once the cluster is ready, update your local kubeconfig file to enable `kubectl` to communicate with the cluster. This configuration uses the {aws} CLI for authentication.
 
@@ -313,7 +313,7 @@ Once the cluster is ready, update your local kubeconfig file to enable `kubectl`
 aws eks update-kubeconfig --name "${CLUSTER_NAME}"
 ```
 
-#### Step 3: Verify Node Pools
+==== Step 3: Verify Node Pools
 
 List the Node Pools in your cluster using the following command:
 
