@@ -111,9 +111,6 @@ metadata:
   name: default
 spec:
 
-  # Required: Name of IAM Role for Nodes
-  role: "MyNodeRole"
-
   # Required: Subnet selection for node placement
   subnetSelectorTerms:
     - tags:
@@ -145,9 +142,9 @@ spec:
     iops: 3000      # Range: 3000-16000
     throughput: 125 # Range: 125-1000
 
-  # IAM role to use for EC2 instance role
-  # If unspecified, EKS will create a role
-  # If specified, role requires access entry described above
+  # Optional: IAM role to use for EC2 instance role
+  # If unspecified, EKS creates a role
+  # If specified, you must create an access entry for this role as described above
   role: arn:aws:iam::123456789012:role/MyNodeRole  
   
   # Optional: Additional EC2 tags
