@@ -83,11 +83,11 @@ You must create this role and attach the following {aws} managed policy:
 * link:AmazonECR/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-AmazonEC2ContainerRegistryPullOnly["AmazonEC2ContainerRegistryPullOnly",type="documentation"]
 
 [discrete]
-==== *Service-Linked Role*
+==== Service-Linked Role
 
 EKS Auto Mode also requires a Service-Linked Role, which is automatically created and configured by {aws}. For more information, see <<using-service-linked-roles-eks,AWSServiceRoleForAmazonEKS>>.
 
-== *Create an EKS Auto Mode Cluster IAM Role*
+== Create an EKS Auto Mode Cluster IAM Role
 
 === Step 1: Create the Trust Policy
 
@@ -173,7 +173,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEKSNetworkingPolicy
 ```
 
-== *Create an EKS Auto Mode Node IAM Role*
+== Create an EKS Auto Mode Node IAM Role
 
 === Step 1: Create the Trust Policy
 
@@ -232,7 +232,7 @@ aws iam attach-role-policy \
     --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
 ```
 
-== *Create an EKS Auto Mode Cluster*
+== Create an EKS Auto Mode Cluster
 
 === Overview
 
@@ -295,7 +295,7 @@ aws eks create-cluster \
     }
 ```
 
-=== *Check Cluster Status*
+=== Check Cluster Status
 
 ==== Step 1: Verify Cluster Creation
 
