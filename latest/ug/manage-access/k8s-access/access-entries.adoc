@@ -5,12 +5,6 @@ include::../../attributes.txt[]
 = Grant IAM users access to Kubernetes with EKS access entries
 :info_titleabbrev: Grant permissions
 
-include::access-policies.adoc[leveloffset=+1]
-
-include::migrating-access-entries.adoc[leveloffset=+1]
-
-include::access-policy-reference.adoc[leveloffset=+1]
-
 [abstract]
 --
 Learn how to manage access entries for IAM principals to your Amazon EKS cluster, including creating, updating, and deleting access entries for fine-grained authentication and authorization.
@@ -55,8 +49,14 @@ This access entry shows:
 
 NOTE: Previously, this administrative access was granted automatically and couldn't be modified. With EKS access entries enabled, you can now view and delete this legacy access configuration.
 
-
 [.topic]
+
+include::access-policies.adoc[leveloffset=+1]
+
+include::migrating-access-entries.adoc[leveloffset=+1]
+
+include::access-policy-reference.adoc[leveloffset=+1]
+
 include::setting-up-access-entries.adoc[leveloffset=+1]
 
 include::creating-access-entries.adoc[leveloffset=+1]
