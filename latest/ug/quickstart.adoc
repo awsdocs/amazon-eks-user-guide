@@ -1,12 +1,10 @@
-:doctype: book
+include::attributes.txt[]
 
 [.topic]
 [#quickstart]
 = Quickstart: Deploy a web app and store data
 :info_titleabbrev: Quickstart
 :keywords: quickstart, web, cluster
-
-include::attributes.txt[]
 
 [abstract]
 --

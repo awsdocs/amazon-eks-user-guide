@@ -1,5 +1,3 @@
-:doctype: book
-
 = AmazonEKSDocs Git History Squish Procedure
 
 == Overview

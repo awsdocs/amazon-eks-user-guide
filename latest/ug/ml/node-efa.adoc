@@ -1,5 +1,3 @@
-:doctype: book
-
 include::../attributes.txt[]
 
 :AWSEC2-latest-UserGuide-using-eni-html-network-cards: AWSEC2/latest/UserGuide/using-eni.html#network-cards
