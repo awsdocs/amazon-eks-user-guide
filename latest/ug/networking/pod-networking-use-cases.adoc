@@ -5,12 +5,6 @@ include::../attributes.txt[]
 = Learn about VPC CNI modes and configuration
 :info_titleabbrev: Modes and configuration
 
-include::cni-ipv6.adoc[leveloffset=+1]
-
-include::external-snat.adoc[leveloffset=+1]
-
-include::cni-network-policy.adoc[leveloffset=+1]
-
 [abstract]
 --
 Discover how Amazon VPC CNI plugin for Kubernetes provides pod networking capabilities and settings for different Amazon EKS node types and use cases, including security groups, Kubernetes network policies, custom networking, IPv4, and IPv6 support.
@@ -45,3 +39,10 @@ The Amazon VPC CNI plugin for Kubernetes provides networking for Pods. Use the f
 |Use multiple network interfaces for Pods
 |<<pod-multiple-network-interfaces>>
 |===
+
+include::cni-ipv6.adoc[leveloffset=+1]
+
+include::external-snat.adoc[leveloffset=+1]
+
+include::cni-network-policy.adoc[leveloffset=+1]
+

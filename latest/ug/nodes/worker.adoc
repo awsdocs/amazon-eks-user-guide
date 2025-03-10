@@ -6,16 +6,6 @@ include::../attributes.txt[]
 :info_titleabbrev: Self-managed nodes
 :keywords: self-managed, node
 
-include::launch-workers.adoc[leveloffset=+1]
-
-include::launch-node-bottlerocket.adoc[leveloffset=+1]
-
-include::launch-windows-workers.adoc[leveloffset=+1]
-
-include::launch-node-ubuntu.adoc[leveloffset=+1]
-
-include::update-workers.adoc[leveloffset=+1]
-
 [abstract]
 --
 A cluster contains one or more Amazon EC2 nodes that Pods are scheduled on.
@@ -33,3 +23,14 @@ To add self-managed nodes to your Amazon EKS cluster, see the topics that follow
 
 [.topiclist]
 [[Topic List]]
+
+include::launch-workers.adoc[leveloffset=+1]
+
+include::launch-node-bottlerocket.adoc[leveloffset=+1]
+
+include::launch-windows-workers.adoc[leveloffset=+1]
+
+include::launch-node-ubuntu.adoc[leveloffset=+1]
+
+include::update-workers.adoc[leveloffset=+1]
+

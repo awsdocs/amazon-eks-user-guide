@@ -5,8 +5,6 @@ include::../attributes.txt[]
 = Infrastructure security in Amazon EKS
 :info_titleabbrev: Infrastructure security
 
-include::vpc-interface-endpoints.adoc[leveloffset=+1]
-
 [abstract]
 --
 Learn how Amazon EKS isolates service traffic.
@@ -36,3 +34,6 @@ You can enable private access to the Kubernetes API server so that all communica
 For more information about modifying cluster endpoint access, see <<modify-endpoint-access>>.
 
 You can implement Kubernetes _network policies_ with the Amazon VPC CNI or third-party tools such as https://docs.tigera.io/calico/latest/about/[Project Calico]. For more information about using the Amazon VPC CNI for network policies, see <<cni-network-policy>>. Project Calico is a third party open source project. For more information, see the https://docs.tigera.io/calico/latest/getting-started/kubernetes/managed-public-cloud/eks/[Project Calico documentation].
+
+include::vpc-interface-endpoints.adoc[leveloffset=+1]
+

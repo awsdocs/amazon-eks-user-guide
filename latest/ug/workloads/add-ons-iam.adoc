@@ -5,14 +5,6 @@ include::../attributes.txt[]
 = IAM roles for Amazon EKS add-ons
 :info_titleabbrev: IAM roles
 
-include::retreive-iam-info.adoc[leveloffset=+1]
-
-include::update-addon-role.adoc[leveloffset=+1]
-
-include::remove-addon-role.adoc[leveloffset=+1]
-
-include::addon-id-troubleshoot.adoc[leveloffset=+1]
-
 [abstract]
 --
 Grant an Amazon EKS add-on permission to call {aws} APIs. Create a Pod Identity Association for an Amazon EKS add-on.
@@ -34,3 +26,12 @@ Amazon EKS add-ons can help manage the life cycle of pod identity associations c
 * Pod identity associations created using the add-on APIs are owned by the respective add-on. If you delete the add-on, the pod identity association is also deleted. You can prevent this cascading delete by using the `preserve` option when deleting an addon using the {aws} CLI or API. You also can directly update or delete the pod identity association if necessary. Add-ons can't assume ownership of existing pod identity associations. You must delete the existing association and re-create it using an add-on create or update operation. 
 * Amazon EKS recommends using pod identity associations to manage IAM permissions for add-ons. The previous method, IAM roles for service accounts (IRSA), is still supported. You can specify both an IRSA `serviceAccountRoleArn` and a pod identity association for an add-on. If the EKS pod identity agent is installed on the cluster, the `serviceAccountRoleArn` will be ignored, and EKS will use the provided pod identity association. If Pod Identity is not enabled, the `serviceAccountRoleArn` will be used. 
 * If you update the pod identity associations for an existing add-on, Amazon EKS initiates a rolling restart of the add-on pods.
+
+include::retreive-iam-info.adoc[leveloffset=+1]
+
+include::update-addon-role.adoc[leveloffset=+1]
+
+include::remove-addon-role.adoc[leveloffset=+1]
+
+include::addon-id-troubleshoot.adoc[leveloffset=+1]
+

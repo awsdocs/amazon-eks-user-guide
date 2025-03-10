@@ -5,8 +5,6 @@ include::../attributes.txt[]
 = Deploy Pods in alternate subnets with custom networking
 :info_titleabbrev: Custom networking
 
-include::cni-custom-network-tutorial.adoc[leveloffset=+1]
-
 [abstract]
 --
 Learn how to enable custom networking for Amazon EKS Pods to deploy them in different subnets or use different security groups than the node's primary network interface, increasing IP address availability and network isolation.
@@ -31,3 +29,6 @@ The following are considerations for using the feature.
 * If you plan to use custom networking only to help alleviate `IPv4` address exhaustion, you can create a cluster using the `IPv6` family instead. For more information, see <<cni-ipv6>>.
 * Even though Pods deployed to subnets specified for secondary network interfaces can use different subnet and security groups than the node's primary network interface, the subnets and security groups must be in the same VPC as the node.
 * For Fargate, subnets are controlled through the Fargate profile. For more information, see <<fargate-profile>>.
+
+include::cni-custom-network-tutorial.adoc[leveloffset=+1]
+

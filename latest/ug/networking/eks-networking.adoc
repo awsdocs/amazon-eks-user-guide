@@ -4,14 +4,6 @@ include::../attributes.txt[]
 = Configure networking for Amazon EKS clusters
 :info_titleabbrev: Configure networking
 
-include::network-reqs.adoc[leveloffset=+1]
-
-include::creating-a-vpc.adoc[leveloffset=+1]
-
-include::sec-group-reqs.adoc[leveloffset=+1]
-
-include::eks-networking-add-ons.adoc[leveloffset=+1]
-
 [abstract]
 --
 Learn how to configure networking for your Amazon EKS cluster using a VPC, subnets, security groups, and networking add-ons to ensure secure and efficient communication.
@@ -21,3 +13,12 @@ Your Amazon EKS cluster is created in a VPC. Pod networking is provided by the A
 
 [.topiclist]
 [[Topic List]]
+
+include::network-reqs.adoc[leveloffset=+1]
+
+include::creating-a-vpc.adoc[leveloffset=+1]
+
+include::sec-group-reqs.adoc[leveloffset=+1]
+
+include::eks-networking-add-ons.adoc[leveloffset=+1]
+

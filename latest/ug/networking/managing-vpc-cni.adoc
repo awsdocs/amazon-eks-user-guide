@@ -5,24 +5,6 @@ include::../attributes.txt[]
 = Assign IPs to Pods with the Amazon VPC CNI
 :info_titleabbrev: Amazon VPC CNI
 
-include::vpc-add-on-create.adoc[leveloffset=+1]
-
-include::vpc-add-on-update.adoc[leveloffset=+1]
-
-include::vpc-add-on-self-managed-update.adoc[leveloffset=+1]
-
-include::cni-iam-role.adoc[leveloffset=+1]
-
-include::pod-networking-use-cases.adoc[leveloffset=+1]
-
-include::cni-custom-network.adoc[leveloffset=+1]
-
-include::cni-increase-ip-addresses.adoc[leveloffset=+1]
-
-include::security-groups-for-pods.adoc[leveloffset=+1]
-
-include::pod-multiple-network-interfaces.adoc[leveloffset=+1]
-
 [abstract]
 --
 Discover how the Amazon VPC CNI plugin for Kubernetes add-on works to assign private IP addresses and create network interfaces for Pods and services in your Amazon EKS cluster.
@@ -80,3 +62,22 @@ The following are considerations for using the feature.
 
 * Versions are specified as `major-version.minor-version.patch-version-eksbuild.build-number`.
 * Check version compatibility for each feature. Some features of each release of the Amazon VPC CNI plugin for Kubernetes require certain Kubernetes versions. When using different Amazon EKS features, if a specific version of the add-on is required, then it's noted in the feature documentation. Unless you have a specific reason for running an earlier version, we recommend running the latest version.
+
+include::vpc-add-on-create.adoc[leveloffset=+1]
+
+include::vpc-add-on-update.adoc[leveloffset=+1]
+
+include::vpc-add-on-self-managed-update.adoc[leveloffset=+1]
+
+include::cni-iam-role.adoc[leveloffset=+1]
+
+include::pod-networking-use-cases.adoc[leveloffset=+1]
+
+include::cni-custom-network.adoc[leveloffset=+1]
+
+include::cni-increase-ip-addresses.adoc[leveloffset=+1]
+
+include::security-groups-for-pods.adoc[leveloffset=+1]
+
+include::pod-multiple-network-interfaces.adoc[leveloffset=+1]
+

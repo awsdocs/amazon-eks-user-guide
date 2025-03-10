@@ -5,8 +5,6 @@ include::../attributes.txt[]
 = Manage `kube-proxy` in Amazon EKS clusters
 :info_titleabbrev: kube-proxy
 
-include::kube-proxy-add-on-self-managed-update.adoc[leveloffset=+1]
-
 [abstract]
 --
 Learn how to manage the `kube-proxy` add-on on your Amazon EKS cluster to manage network rules and enable network communication to your Pods.
@@ -88,3 +86,6 @@ The following table lists the latest available self-managed `kube-proxy` contain
 
 * The default image type isn't available for Kubernetes version `1.25` and later. You must use the minimal image type.
 * When you <<updating-an-add-on,update an Amazon EKS add-on type>>, you specify a valid Amazon EKS add-on version, which might not be a version listed in this table. This is because <<add-ons-kube-proxy,Amazon EKS add-on>> versions don't always match container image versions specified when updating the self-managed type of this add-on. When you update the self-managed type of this add-on, you specify a valid container image version listed in this table. 
+
+include::kube-proxy-add-on-self-managed-update.adoc[leveloffset=+1]
+

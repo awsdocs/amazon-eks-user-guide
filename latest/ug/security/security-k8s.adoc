@@ -5,6 +5,16 @@ include::../attributes.txt[]
 = Security considerations for Kubernetes
 :info_titleabbrev: Considerations for Kubernetes
 
+[abstract]
+--
+Configure Kubernetes to meet your security and compliance objectives, and learn how to use other {aws} services that help you to secure your Kubernetes resources.
+--
+
+The following are considerations for security in the cloud, as they affect Kubernetes in Amazon EKS clusters. For an in-depth review of security controls and practices in Kubernetes, see https://kubernetes.io/docs/concepts/security/cloud-native-security/[Cloud Native Security and Kubernetes] in the Kubernetes documentation.
+
+[.topiclist]
+[[Topic List]]
+
 include::cert-signing.adoc[leveloffset=+1]
 
 include::default-roles-users.adoc[leveloffset=+1]
@@ -19,12 +29,3 @@ include::manage-secrets.adoc[leveloffset=+1]
 
 include::envelope-encryption.adoc[leveloffset=+1]
 
-[abstract]
---
-Configure Kubernetes to meet your security and compliance objectives, and learn how to use other {aws} services that help you to secure your Kubernetes resources.
---
-
-The following are considerations for security in the cloud, as they affect Kubernetes in Amazon EKS clusters. For an in-depth review of security controls and practices in Kubernetes, see https://kubernetes.io/docs/concepts/security/cloud-native-security/[Cloud Native Security and Kubernetes] in the Kubernetes documentation.
-
-[.topiclist]
-[[Topic List]]

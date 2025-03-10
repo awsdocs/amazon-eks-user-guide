@@ -5,8 +5,6 @@ include::../attributes.txt[]
 = Assign more IP addresses to Amazon EKS nodes with prefixes
 :info_titleabbrev: Increase IP addresses
 
-include::cni-increase-ip-addresses-procedure.adoc[leveloffset=+1]
-
 [abstract]
 --
 Learn how to significantly increase the number of IP addresses that you can assign to Pods by assigning IP prefixes with Amazon EKS, improving scalability and reducing launch delays for large and spiky workloads.
@@ -59,3 +57,6 @@ Consider the following when you use this feature:
 ** If you're also using security groups for Pods, with `POD_SECURITY_GROUP_ENFORCING_MODE`=``standard`` and `AWS_VPC_K8S_CNI_EXTERNALSNAT`=``false``, when your Pods communicate with endpoints outside of your VPC, the node's security groups are used, rather than any security groups you've assigned to your Pods.  
 +
 If you're also using <<security-groups-for-pods,security groups for Pods>>, with `POD_SECURITY_GROUP_ENFORCING_MODE`=``strict``, when your `Pods` communicate with endpoints outside of your VPC, the `Pod's` security groups are used.
+
+include::cni-increase-ip-addresses-procedure.adoc[leveloffset=+1]
+

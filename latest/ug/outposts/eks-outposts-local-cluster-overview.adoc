@@ -5,18 +5,6 @@ include::../attributes.txt[]
 = Create local Amazon EKS clusters on {aws} Outposts for high availability
 :info_titleabbrev: Run local clusters
 
-include::eks-outposts-local-cluster-create.adoc[leveloffset=+1]
-
-include::eks-outposts-platform-versions.adoc[leveloffset=+1]
-
-include::eks-outposts-vpc-subnet-requirements.adoc[leveloffset=+1]
-
-include::eks-outposts-network-disconnects.adoc[leveloffset=+1]
-
-include::eks-outposts-capacity-considerations.adoc[leveloffset=+1]
-
-include::eks-outposts-troubleshooting.adoc[leveloffset=+1]
-
 [abstract]
 --
 Learn to create and manage local Amazon EKS clusters on {aws} Outposts for high availability across multiple regions.
@@ -37,3 +25,16 @@ You can create local clusters in the following {aws} Regions: US East (Ohio), US
 
 [.topiclist]
 [[Topic List]]
+
+include::eks-outposts-local-cluster-create.adoc[leveloffset=+1]
+
+include::eks-outposts-platform-versions.adoc[leveloffset=+1]
+
+include::eks-outposts-vpc-subnet-requirements.adoc[leveloffset=+1]
+
+include::eks-outposts-network-disconnects.adoc[leveloffset=+1]
+
+include::eks-outposts-capacity-considerations.adoc[leveloffset=+1]
+
+include::eks-outposts-troubleshooting.adoc[leveloffset=+1]
+

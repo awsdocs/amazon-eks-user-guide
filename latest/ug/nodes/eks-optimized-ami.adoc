@@ -5,14 +5,6 @@ include::../attributes.txt[]
 = Create nodes with optimized Amazon Linux AMIs
 :info_titleabbrev: Amazon Linux
 
-include::al2023.adoc[leveloffset=+1]
-
-include::eks-linux-ami-versions.adoc[leveloffset=+1]
-
-include::retrieve-ami-id.adoc[leveloffset=+1]
-
-include::eks-ami-build-scripts.adoc[leveloffset=+1]
-
 [abstract]
 --
 The Amazon EKS optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (AL2) and Amazon Linux 2023 (AL2023). They are configured to serve as the base images for Amazon EKS nodes.
@@ -81,3 +73,12 @@ For more information about using Amazon EKS optimized Amazon Linux AMIs, see the
 * For version information, see <<eks-linux-ami-versions>>.
 * To retrieve the latest IDs of the Amazon EKS optimized Amazon Linux AMIs, see <<retrieve-ami-id>>.
 * For open-source scripts that are used to build the Amazon EKS optimized AMIs, see <<eks-ami-build-scripts>>.
+
+include::al2023.adoc[leveloffset=+1]
+
+include::eks-linux-ami-versions.adoc[leveloffset=+1]
+
+include::retrieve-ami-id.adoc[leveloffset=+1]
+
+include::eks-ami-build-scripts.adoc[leveloffset=+1]
+

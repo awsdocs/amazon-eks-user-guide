@@ -146,3 +146,4 @@ You can't use EKS Pod Identities with:
 
 
 * Pods that run anywhere except Linux Amazon EC2 instances. Linux and Windows pods that run on {aws} Fargate (Fargate) aren't supported. Pods that run on Windows Amazon EC2 instances aren't supported.
+

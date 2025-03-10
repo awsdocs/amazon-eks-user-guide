@@ -5,16 +5,6 @@ include::../attributes.txt[]
 = Manage networking add-ons for Amazon EKS clusters
 :info_titleabbrev: Manage networking add-ons
 
-include::managing-vpc-cni.adoc[leveloffset=+1]
-
-include::alternate-cni-plugins.adoc[leveloffset=+1]
-
-include::aws-load-balancer-controller.adoc[leveloffset=+1]
-
-include::managing-coredns.adoc[leveloffset=+1]
-
-include::managing-kube-proxy.adoc[leveloffset=+1]
-
 [abstract]
 --
 Learn how to manage networking add-ons for your Amazon EKS cluster, including built-in components like Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy`, as well as optional {aws} add-ons for load balancing and service mesh.
@@ -56,3 +46,14 @@ When you deploy Kubernetes service objects of type `loadbalancer`, the controlle
 This controller lets you connect services across multiple Kubernetes clusters using the https://gateway-api.sigs.k8s.io/[Kubernetes gateway API]. The controller connects Kubernetes services running on Amazon EC2 instances, containers, and serverless functions by using the link:vpc-lattice/latest/ug/what-is-vpc-service-network.html[Amazon VPC Lattice,type="documentation"] service. For more information, see the https://www.gateway-api-controller.eks.aws.dev/[{aws} Gateway API Controller] documentation.
 
 For more information about add-ons, see <<eks-add-ons>>.
+
+include::managing-vpc-cni.adoc[leveloffset=+1]
+
+include::alternate-cni-plugins.adoc[leveloffset=+1]
+
+include::aws-load-balancer-controller.adoc[leveloffset=+1]
+
+include::managing-coredns.adoc[leveloffset=+1]
+
+include::managing-kube-proxy.adoc[leveloffset=+1]
+

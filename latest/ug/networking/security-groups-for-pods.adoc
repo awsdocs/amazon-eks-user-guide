@@ -5,10 +5,6 @@ include::../attributes.txt[]
 = Assign security groups to individual Pods
 :info_titleabbrev: Security groups for Pods
 
-include::security-groups-pods-deployment.adoc[leveloffset=+1]
-
-include::sg-pods-example-deployment.adoc[leveloffset=+1]
-
 [abstract]
 --
 Learn how to configure security groups for Pods on Amazon EKS, integrating Amazon EC2 security groups with Kubernetes Pods to define network traffic rules. Discover the considerations, setup process, and deploy a sample application with assigned security groups.
@@ -69,3 +65,8 @@ If you're using version `1.11` or later of the plugin with `POD_SECURITY_GROUP_E
 * The EC2 security group scope is at the Pod-level - For more information, see link:vpc/latest/userguide/VPC_SecurityGroups.html[Security group,type="documentation"].
 +
 If you set `POD_SECURITY_GROUP_ENFORCING_MODE=standard` and `AWS_VPC_K8S_CNI_EXTERNALSNAT=false`, traffic destined for endpoints outside the VPC use the node's security groups, not the Pod's security groups.
+
+include::security-groups-pods-deployment.adoc[leveloffset=+1]
+
+include::sg-pods-example-deployment.adoc[leveloffset=+1]
+

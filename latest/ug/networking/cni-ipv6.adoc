@@ -5,8 +5,6 @@ include::../attributes.txt[]
 = Learn about IPv6 addresses to clusters, Pods, and services
 :info_titleabbrev: IPv6
 
-include::deploy-ipv6-cluster.adoc[leveloffset=+1]
-
 [abstract]
 --
 Learn how to deploy an `IPv6` cluster and nodes with Amazon EKS for assigning `IPv6` addresses to Pods and services instead of `IPv4`, leveraging IP prefix delegation and the latest Amazon VPC CNI plugin.
@@ -71,3 +69,6 @@ If you don't know the `IPv6` `CIDR` range for your cluster, you can see it with 
 ----
 aws eks describe-cluster --name my-cluster --query cluster.kubernetesNetworkConfig.serviceIpv6Cidr --output text
 ----
+
+include::deploy-ipv6-cluster.adoc[leveloffset=+1]
+
