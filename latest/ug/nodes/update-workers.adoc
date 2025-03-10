@@ -17,7 +17,7 @@ When a new Amazon EKS optimized AMI is released, consider replacing the nodes in
 [IMPORTANT]
 ====
 
-This topic covers node updates for self-managed nodes. If you are using <<managed-node-groups,Simplify node lifecycle with managed node groups>>, see <<update-managed-node-group>>.
+This topic covers node updates for self-managed nodes. If you are using <<managed-node-groups,managed node groups>>, see <<update-managed-node-group>>.
 
 ====
 
