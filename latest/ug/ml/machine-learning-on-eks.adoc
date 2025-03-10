@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#machine-learning-on-eks]
 = Overview of Machine Learning on Amazon EKS
 :info_titleabbrev: Machine Learning on EKS
-:keywords: Machine Learning, Amazon EKS, Artificial Intelligence
 
 [abstract]
 --

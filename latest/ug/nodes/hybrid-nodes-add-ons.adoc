@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#hybrid-nodes-add-ons]
 = Configure add-ons for hybrid nodes
 :info_titleabbrev: Configure add-ons
-:keywords: add-ons for on-premises nodes, add-ons for hybrid nodes
 
 [abstract]
 --

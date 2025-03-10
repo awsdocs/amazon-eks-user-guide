@@ -3,7 +3,6 @@ include::../attributes.txt[]
 [#getting-started]
 = Get started with Amazon EKS
 :info_titleabbrev: Get started
-:keywords: getting, started, tutorials, quick, start
 
 [abstract]
 --

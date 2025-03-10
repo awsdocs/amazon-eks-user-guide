@@ -17,7 +17,6 @@ or in any manner that disparages or discredits Amazon. All other \
 trademarks not owned by Amazon are the property of their respective \
 owners, who may or may not be affiliated with, connected to, or \
 sponsored by Amazon.
-:keywords: EKS, Amazon EKS, Kubernetes, K8s, Cluster, Pod
 
 include::attributes.txt[]
 

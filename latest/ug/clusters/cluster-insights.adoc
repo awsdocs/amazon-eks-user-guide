@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#cluster-insights]
 = Prepare for Kubernetes version upgrades with cluster insights
 :info_titleabbrev: Cluster insights
-:keywords: cluster, upgrade, insights
 
 [abstract]
 --

@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#hybrid-nodes-cni]
 = Configure a CNI for hybrid nodes
 :info_titleabbrev: Configure CNI
-:keywords: on-premises CNI, hybrid CNI
 
 [abstract]
 --

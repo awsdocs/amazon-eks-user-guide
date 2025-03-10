@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#hybrid-nodes-tutorial]
 = Run on-premises workloads on hybrid nodes
 :info_titleabbrev: Run hybrid nodes
-:keywords: on-premises, hybrid
 
 [abstract]
 --

@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#hybrid-nodes-overview]
 = Amazon EKS Hybrid Nodes overview
 :info_titleabbrev: Hybrid nodes
-:keywords: on-premises, hybrid
 
 [abstract]
 --

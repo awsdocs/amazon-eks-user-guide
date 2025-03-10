@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#cloudwatch]
 = Monitor cluster data with Amazon CloudWatch
 :info_titleabbrev: Amazon CloudWatch
-:keywords: CloudWatch, observability, operator, add-on
 
 [abstract]
 --

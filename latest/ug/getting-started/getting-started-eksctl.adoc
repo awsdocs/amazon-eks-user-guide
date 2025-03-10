@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#getting-started-eksctl]
 = Get started with Amazon EKS – `eksctl`
 :info_titleabbrev: Create cluster (eksctl)
-:keywords: using, eksctl, getting, started, tutorial
 
 [abstract]
 --

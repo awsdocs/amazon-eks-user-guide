@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#hybrid-nodes-troubleshooting]
 = Troubleshooting hybrid nodes
 :info_titleabbrev: Troubleshooting
-:keywords: on-premises, hybrid
 
 [abstract]
 --

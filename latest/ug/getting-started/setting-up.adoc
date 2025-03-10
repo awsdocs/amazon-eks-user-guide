@@ -3,7 +3,6 @@ include::../attributes.txt[]
 [#setting-up]
 = Set up to use Amazon EKS
 :info_titleabbrev: Set up
-:keywords: setting up, setup
 
 [abstract]
 --

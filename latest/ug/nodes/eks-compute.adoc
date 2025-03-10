@@ -3,7 +3,6 @@ include::../attributes.txt[]
 [#eks-compute]
 = Manage compute resources by using nodes
 :info_titleabbrev: Manage compute
-:keywords: nodes, node groups
 
 [abstract]
 --

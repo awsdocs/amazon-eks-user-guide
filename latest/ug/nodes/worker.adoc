@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#worker]
 = Maintain nodes yourself with self-managed nodes
 :info_titleabbrev: Self-managed nodes
-:keywords: self-managed, node
 
 [abstract]
 --

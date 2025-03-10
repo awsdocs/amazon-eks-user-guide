@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#csi-snapshot-controller]
 = Enable snapshot functionality for CSI volumes
 :info_titleabbrev: CSI snapshot controller
-:keywords: CSI, snapshot, controller
 
 [abstract]
 --

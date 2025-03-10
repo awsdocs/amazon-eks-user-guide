@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#eks-architecture]
 = Amazon EKS architecture
 :info_titleabbrev: Architecture
-:keywords: Amazon Elastic Kubernetes Service, Amazon EKS, architecture, control plane, nodes, data plane
 
 [abstract]
 --

@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#observability-dashboard]
 = Monitor your cluster with the observability dashboard
 :info_titleabbrev: Observability dashboard
-:keywords: observability, dashboard
 
 [abstract]
 --

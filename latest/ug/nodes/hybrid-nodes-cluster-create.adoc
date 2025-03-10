@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#hybrid-nodes-cluster-create]
 = Create an Amazon EKS cluster with hybrid nodes
 :info_titleabbrev: Create cluster
-:keywords: on-premises, hybrid
 
 [abstract]
 --

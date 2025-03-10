@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#install-awscli]
 = Set up {aws} CLI
 :info_titleabbrev: Set up {aws} CLI
-:keywords: setting up, setup
 
 [abstract]
 --

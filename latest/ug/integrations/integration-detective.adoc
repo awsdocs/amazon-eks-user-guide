@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#integration-detective]
 = Analyze security events on EKS with Amazon Detective
 :info_titleabbrev: Amazon Detective
-:keywords: Amazon Detective
 
 [abstract]
 --

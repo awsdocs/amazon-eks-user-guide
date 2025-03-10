@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#create-auto]
 = Create a cluster with Amazon EKS Auto Mode
 :info_titleabbrev: Create cluster
-:keywords: getting, started, tutorials, quick, start
 
 [abstract]
 --

@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#managed-node-groups]
 = Simplify node lifecycle with managed node groups
 :info_titleabbrev: Managed node groups
-:keywords: managed node group, MNG
 
 include::create-managed-node-group.adoc[leveloffset=+1]
 

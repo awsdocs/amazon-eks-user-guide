@@ -5,7 +5,6 @@ include::../attributes.txt[]
 = Centralize and analyze EKS security data with Security Lake
 :info_titleabbrev: Amazon Security Lake
 
-:keywords: Amazon EKS, Amazon Security Lake, Kubernetes security, centralized security data, threat detection
 
 [abstract]
 --

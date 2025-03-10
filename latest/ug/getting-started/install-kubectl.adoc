@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#install-kubectl]
 = Set up `kubectl` and `eksctl`
 :info_titleabbrev: Set up kubectl and eksctl
-:keywords: install, update, kubectl
 
 [abstract]
 --

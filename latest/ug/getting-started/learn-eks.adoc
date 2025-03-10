@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#learn-eks]
 = Learn Amazon EKS by example
 :info_titleabbrev: Learn Amazon EKS
-:keywords: tutorial, workshop, developer, learn
 
 [abstract]
 --
