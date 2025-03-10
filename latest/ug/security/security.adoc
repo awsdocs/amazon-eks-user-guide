@@ -32,6 +32,7 @@ include::iam-reference/security-iam.adoc[leveloffset=+1]
 Configure Amazon EKS to meet your security and compliance objectives, and learn how to use other {aws} services that help you to secure your Amazon EKS resources.
 --
 
+
 Cloud security at {aws} is the highest priority. As an {aws} customer, you benefit from a data center and network architecture that is built to meet the requirements of the most security-sensitive organizations.
 
 Security is a shared responsibility between {aws} and you. The link:compliance/shared-responsibility-model/[shared responsibility model,type="marketing"] describes this as security _of_ the cloud and security _in_ the cloud:
@@ -47,6 +48,8 @@ Security is a shared responsibility between {aws} and you. The link:compliance/s
 *** Setting up and managing network controls, such as firewall rules
 *** Managing platform-level identity and access management, either with or in addition to IAM
 ** The sensitivity of your data, your company's requirements, and applicable laws and regulations
+
+Amazon EKS is certified by multiple compliance programs for regulated and sensitive applications. Amazon EKS is compliant with link:compliance/soc-faqs/[SOC,type="marketing"], link:compliance/pci-dss-level-1-faqs/[PCI,type="marketing"], link:compliance/iso-certified/[ISO,type="marketing"], link:compliance/fedramp/[FedRAMP-Moderate,type="marketing"], link:compliance/irap/[IRAP,type="marketing"], link:compliance/bsi-c5/[C5,type="marketing"], link:compliance/k-isms/[K-ISMS,type="marketing"], link:compliance/esquema-nacional-de-seguridad/[ENS High,type="marketing"], link:compliance/OSPAR/[OSPAR,type="marketing"], link:compliance/hitrust/[HITRUST CSF,type="marketing"], and is a link:compliance/hipaa-compliance/[HIPAA,type="marketing"] eligible service. For more information, see <<cluster-auth>>.
 
 This documentation helps you understand how to apply the shared responsibility model when using Amazon EKS. The following topics show you how to configure Amazon EKS to meet your security and compliance objectives. You also learn how to use other {aws} services that help you to monitor and secure your Amazon EKS resources.
 
