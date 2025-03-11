@@ -1,14 +1,7 @@
 include::../attributes.txt[]
+
 [#eks-integrations]
 = Enhance EKS with integrated {aws} services
-:doctype: book
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Working with other services
 
 In addition to the services covered in other sections, Amazon EKS works with more {aws} services to provide additional solutions. This topic identifies some of the other services that either use Amazon EKS to add functionality, or services that Amazon EKS uses to perform tasks.
@@ -29,6 +22,3 @@ include::integration-securitylake.adoc[leveloffset=+1]
 include::integration-vpc-lattice.adoc[leveloffset=+1]
 
 include::local-zones.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-integrations%5D&type=code[Edit this page on GitHub]

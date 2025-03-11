@@ -1,16 +1,18 @@
+include::../attributes.txt[]
+
 [.topic]
 [#enable-kms]
-= Encrypt Kubernetes secrets with {aws} KMS on existing clusters
+= Encrypt Kubernetes secrets with KMS on existing clusters
 :info_titleabbrev: Enable secret encryption
-
-include::../attributes.txt[]
 
 [abstract]
 --
 Learn how to enable Kubernetes secrets encryption with {aws} KMS on an existing Amazon EKS cluster, ensuring secure storage of sensitive data.
 --
 
-If you enable https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption], the [.noloc]`Kubernetes` secrets are encrypted using the {aws} KMS key that you select. The KMS key must meet the following conditions:
+IMPORTANT: This procedure only applies to EKS clusters running Kubernetes version 1.27 or lower. If you are running Kubernetes version 1.28 or higher, your Kubernetes secrets are protected with envelope encryption by default. For more information, see <<envelope-encryption>>. 
+
+If you enable https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption], the Kubernetes secrets are encrypted using the {aws} KMS key that you select. The KMS key must meet the following conditions:
 
 * Symmetric
 * Can encrypt and decrypt data
@@ -27,6 +29,8 @@ You can't disable secrets encryption after enabling it. This action is irreversi
 ====
 
 eksctl ::
+
+This procedure only applies to EKS clusters running Kubernetes version 1.27 or lower. For more information, see <<envelope-encryption>>.
 
 You can enable encryption in two ways:
 
@@ -81,6 +85,7 @@ eksctl utils enable-secrets-encryption -f kms-cluster.yaml --encrypt-existing-se
 
 
 {aws-management-console}::
+.. This procedure only applies to EKS clusters running Kubernetes version 1.27 or lower. For more information, see <<envelope-encryption>>.
 .. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 .. Choose the cluster that you want to add KMS encryption to.
 .. Choose the *Overview* tab (this is selected by default).
@@ -90,6 +95,7 @@ eksctl utils enable-secrets-encryption -f kms-cluster.yaml --encrypt-existing-se
 
 
 {aws} CLI::
+.. This procedure only applies to EKS clusters running Kubernetes version 1.27 or lower. For more information, see <<envelope-encryption>>.
 .. Associate the https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] configuration with your cluster using the following {aws} CLI command. Replace the [.replaceable]`example values` with your own.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -101,7 +107,7 @@ aws eks associate-encryption-config \
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
   "update": {
@@ -131,7 +137,7 @@ aws eks describe-update \
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
   "update": {
@@ -186,6 +192,3 @@ By default, the `create-key` command creates a link:kms/latest/developerguide/sy
 For clusters using KMS Envelope Encryption, `kms:CreateGrant` permissions are required. The condition `kms:GrantIsForAWSResource` is not supported for the CreateCluster action, and should not be used in KMS policies to control `kms:CreateGrant` permissions for users performing CreateCluster.
 
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23enable-kms%5D&type=code[Edit this page on GitHub]

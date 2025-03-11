@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#auto-get-logs]
 = Retrieve node logs for a managed node using kubectl and S3
 :info_titleabbrev: Get node logs
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -125,6 +125,3 @@ artifacts
 # Delete the NodeDiagnostic resource
 kubectl delete nodediagnostics.eks.amazonaws.com/[.replaceable]`node-name`
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-get-logs%5D&type=code[Edit this page on GitHub]

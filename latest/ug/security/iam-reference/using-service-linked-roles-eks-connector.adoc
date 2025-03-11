@@ -1,9 +1,9 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#using-service-linked-roles-eks-connector]
-= Using roles to connect a [.noloc]`Kubernetes` cluster to Amazon EKS
+= Using roles to connect a Kubernetes cluster to Amazon EKS
 :info_titleabbrev: Cluster connector role
-
-include::../../attributes.txt[]
 
 [abstract]
 --
@@ -21,7 +21,7 @@ For information about other services that support service-linked roles, see link
 [#service-linked-role-permissions-eks-connector]
 == Service-linked role permissions for Amazon EKS
 
-Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKSConnector`. The role allows Amazon EKS to connect [.noloc]`Kubernetes` clusters. The attached policies allow the role to manage necessary resources to connect to your registered [.noloc]`Kubernetes` cluster.
+Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKSConnector`. The role allows Amazon EKS to connect Kubernetes clusters. The attached policies allow the role to manage necessary resources to connect to your registered Kubernetes cluster.
 
 The `AWSServiceRoleForAmazonEKSConnector` service-linked role trusts the following services to assume the role:
 
@@ -71,6 +71,3 @@ If the Amazon EKS service is using the role when you try to delete the resources
 === Manually delete the service-linked role
 
 Use the IAM console, the {aws} CLI, or the {aws} API to delete the AWSServiceRoleForAmazonEKSConnector service-linked role. For more information, see link:IAM/latest/UserGuide/using-service-linked-roles.html#delete-service-linked-role[Deleting a service-linked role,type="documentation"] in the _IAM User Guide_.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23using-service-linked-roles-eks-connector%5D&type=code[Edit this page on GitHub]

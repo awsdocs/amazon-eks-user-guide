@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#auto-mng]
 = Compare EKS Auto Mode with EKS managed node groups
 :info_titleabbrev: Compare with Managed Node Groups
-
-include::../attributes.txt[]
 
 [IMPORTANT]
 ====
@@ -145,6 +145,3 @@ include::../attributes.txt[]
 | When EKS Auto Mode is enabled in your cluster, you pay a separate fee, in addition to the standard EC2 instance charges, for the instances launched using Auto Mode's compute capability. The amount varies with the instance type launched and the {aws} region where your cluster is located. For more information, see link:eks/pricing/["Amazon EKS pricing",type="marketing"].
 
 |===
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-mng%5D&type=code[Edit this page on GitHub]

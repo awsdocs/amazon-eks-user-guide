@@ -1,15 +1,9 @@
-[.topic]
-[#access-entries]
-= Grant [.noloc]`IAM` users access to [.noloc]`Kubernetes` with EKS access entries
-:info_titleabbrev: Grant permissions
-
 include::../../attributes.txt[]
 
-include::access-policies.adoc[leveloffset=+1]
-
-include::migrating-access-entries.adoc[leveloffset=+1]
-
-include::access-policy-reference.adoc[leveloffset=+1]
+[.topic]
+[#access-entries]
+= Grant IAM users access to Kubernetes with EKS access entries
+:info_titleabbrev: Grant permissions
 
 [abstract]
 --
@@ -55,8 +49,14 @@ This access entry shows:
 
 NOTE: Previously, this administrative access was granted automatically and couldn't be modified. With EKS access entries enabled, you can now view and delete this legacy access configuration.
 
-
 [.topic]
+
+include::access-policies.adoc[leveloffset=+1]
+
+include::migrating-access-entries.adoc[leveloffset=+1]
+
+include::access-policy-reference.adoc[leveloffset=+1]
+
 include::setting-up-access-entries.adoc[leveloffset=+1]
 
 include::creating-access-entries.adoc[leveloffset=+1]
@@ -64,6 +64,3 @@ include::creating-access-entries.adoc[leveloffset=+1]
 include::updating-access-entries.adoc[leveloffset=+1]
 
 include::deleting-access-entries.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23access-entries%5D&type=code[Edit this page on GitHub]

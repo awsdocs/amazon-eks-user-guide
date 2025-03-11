@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#auto-enable-existing]
 = Enable EKS Auto Mode on an existing cluster
 :info_titleabbrev: Enable on cluster
-
-include::../attributes.txt[]
 
 This topic describes how to enable Amazon EKS Auto Mode on your existing Amazon EKS clusters. Enabling Auto Mode on an existing cluster requires updating IAM permissions and configuring core EKS Auto Mode settings. Once enabled, you can begin migrating your existing compute workloads to take advantage of Auto Mode's simplified operations and automated infrastructure management.
 
@@ -144,6 +144,3 @@ For more information, see <<updating-an-add-on>>.
 
 * To migrate Manage Node Group workloads, see <<auto-migrate-mng>>.
 * To migrate from Self-Managed Karpenter, see <<auto-migrate-karpenter>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-enable-existing%5D&type=code[Edit this page on GitHub]

@@ -1,18 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#machine-learning-on-eks]
 = Overview of Machine Learning on Amazon EKS
-:doctype: book
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Machine Learning on EKS
 :keywords: Machine Learning, Amazon EKS, Artificial Intelligence
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -63,6 +55,3 @@ include::ml-get-started.adoc[leveloffset=+1]
 include::ml-prepare-for-cluster.adoc[leveloffset=+1]
 
 include::ml-tutorials.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23machine-learning-on-eks%5D&type=code[Edit this page on GitHub]

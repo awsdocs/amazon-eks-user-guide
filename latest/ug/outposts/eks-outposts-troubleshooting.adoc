@@ -26,7 +26,7 @@ Never terminate any managed EKS local cluster `Kubernetes` control-plane instanc
 [%collapsible]
 ====
 
-Local clusters are created through the Amazon EKS API, but are run in an asynchronous manner. This means that requests to the Amazon EKS API return immediately for local clusters. However, these requests might succeed, fail fast because of input validation errors, or fail and have descriptive validation errors. This behavior is similar to the [.noloc]`Kubernetes` API.
+Local clusters are created through the Amazon EKS API, but are run in an asynchronous manner. This means that requests to the Amazon EKS API return immediately for local clusters. However, these requests might succeed, fail fast because of input validation errors, or fail and have descriptive validation errors. This behavior is similar to the Kubernetes API.
 
 Local clusters don't transition to a `FAILED` status. Amazon EKS attempts to reconcile the cluster state with the user-requested desired state in a continuous manner. As a result, a local cluster might remain in the `CREATING` state for an extended period of time until the underlying issue is resolved.
 ====
@@ -242,13 +242,13 @@ Review <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazo
 [%collapsible]
 ====
 
-Amazon EKS automatically updates all existing local clusters to the latest platform versions for their corresponding [.noloc]`Kubernetes` minor version. For more information about platform versions, please refer to <<eks-outposts-platform-versions>>.
+Amazon EKS automatically updates all existing local clusters to the latest platform versions for their corresponding Kubernetes minor version. For more information about platform versions, please refer to <<eks-outposts-platform-versions>>.
 
-During an automatic platform-version rollout a cluster status changes to `UPDATING`. The update process consists of the replacement of all [.noloc]`Kubernetes` control-plane instances with new ones containing the latest security pathces and bugfixes released for the respective [.noloc]`Kubernetes` minor version. In general, a local cluster platform update process completes within less than 30 minutes and the cluster changes back to `ACTIVE` status. If a local cluster remains in the `UPDATING` state for an extended period of time, you may call `describe-cluster` to check for information about the cause in the `cluster.health` output field.
+During an automatic platform-version rollout a cluster status changes to `UPDATING`. The update process consists of the replacement of all Kubernetes control-plane instances with new ones containing the latest security pathces and bugfixes released for the respective Kubernetes minor version. In general, a local cluster platform update process completes within less than 30 minutes and the cluster changes back to `ACTIVE` status. If a local cluster remains in the `UPDATING` state for an extended period of time, you may call `describe-cluster` to check for information about the cause in the `cluster.health` output field.
 
-Amazon EKS ensures at least 2 out of 3 [.noloc]`Kubernetes` control-plane instances are healthy and operational cluster nodes in order to maintain the local cluster availability and prevent service interruption. If a local cluster is stalled in `UPDATING` state it is usually because there is some infrastructure or configuration issue preventing the two-instances minimum availability to be guaranteed in case the process continues. So the update process stops progressing to protect the local cluster service interruption.
+Amazon EKS ensures at least 2 out of 3 Kubernetes control-plane instances are healthy and operational cluster nodes in order to maintain the local cluster availability and prevent service interruption. If a local cluster is stalled in `UPDATING` state it is usually because there is some infrastructure or configuration issue preventing the two-instances minimum availability to be guaranteed in case the process continues. So the update process stops progressing to protect the local cluster service interruption.
 
-It is important to troubleshoot a local cluster stuck in `UPDATING` status and address the root-cause so that the update process can complete and restore the local cluster back to `ACTIVE` with the high-availability of 3 [.noloc]`Kubernetes` control-plane instances.
+It is important to troubleshoot a local cluster stuck in `UPDATING` status and address the root-cause so that the update process can complete and restore the local cluster back to `ACTIVE` with the high-availability of 3 Kubernetes control-plane instances.
 
 Do not terminate any managed EKS local cluster `Kubernetes` instances on Outposts unless explicitly instructed by {aws} Support. This is specially important for local clusters stuck in `UPDATING` state because there's a high probability that another control-plane nodes is not completely healthy and terminating the wrong instance could cause service interruption and risk local-cluster data loss.
 
@@ -260,7 +260,7 @@ The most common issues are the following:
 * New control plane instances fail to be created due to KMS key permissions for EBS volumes. With user managed KMS keys for encrypted EBS volumes, the control plane instances will terminate if the key is not accessible. If the instances are terminated, either switch to an {aws} managed KMS key or ensure that your user managed key policy grants the necessary permissions to the cluster role.
 * Systems Manager control plane instances might have lost internet access. Check if the subnet that was provided when you created the cluster has a NAT gateway and a VPC with an internet gateway. Use VPC reachability analyzer to verify that the control plane instance can reach the internet gateway. For more information, see link:vpc/latest/reachability/getting-started.html[Getting started with VPC Reachability Analyzer,type="documentation"]. If your private networks don't have outbound internet connection, ensure that all the required VPC endpoints and gateway endpoint are still present in the Regional subnet from your cluster (see <<subnet-access-to-services>>).
 * The role ARN that you provided is missing policies. Check if the <<security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy,{aws} managed policy: AmazonEKSLocalOutpostClusterPolicy>> was not removed from the role. 
-* One of the new [.noloc]`Kubernetes` control-plane instances may have experienced an unexpected bootstrapping failure. Please file a ticket with link:support/home[{aws} Support Center,type="console"] for further guidance on troubleshooting and log-collection in this exceptional case.
+* One of the new Kubernetes control-plane instances may have experienced an unexpected bootstrapping failure. Please file a ticket with link:support/home[{aws} Support Center,type="console"] for further guidance on troubleshooting and log-collection in this exceptional case.
 
 ====
 
@@ -276,10 +276,10 @@ The most common issues are the following:
 * Missing the {aws} IAM Authenticator `ConfigMap` – If it's missing, you must create it. For more information, see <<aws-auth-configmap>> .
 * The wrong security group is used – Make sure to use `eks-cluster-sg-[.replaceable]``cluster-name``-[.replaceable]``uniqueid``` for your worker nodes' security group. The selected security group is changed by {aws} CloudFormation to allow a new security group each time the stack is used.
 * Following unexpected private link VPC steps – Wrong CA data (`--b64-cluster-ca`) or API Endpoint (`--apiserver-endpoint`) are passed.
-* Misconfigured [.noloc]`Pod` security policy:
+* Misconfigured Pod security policy:
 +
-** The [.noloc]`CoreDNS` and [.noloc]`Amazon VPC CNI plugin for Kubernetes` Daemonsets must run on nodes for nodes to join and communicate with the cluster.
-** The [.noloc]`Amazon VPC CNI plugin for Kubernetes` requires some privileged networking features to work properly. You can view the privileged networking features with the following command: `kubectl describe psp eks.privileged`.
+** The CoreDNS and Amazon VPC CNI plugin for Kubernetes Daemonsets must run on nodes for nodes to join and communicate with the cluster.
+** The Amazon VPC CNI plugin for Kubernetes requires some privileged networking features to work properly. You can view the privileged networking features with the following command: `kubectl describe psp eks.privileged`.
 
 +
 We don't recommend modifying the default pod security policy. For more information, see <<pod-security-policy>>.
@@ -291,7 +291,7 @@ We don't recommend modifying the default pod security policy. For more informati
 [%collapsible]
 ====
 
-When an Outpost gets disconnected from the {aws} Region that it's associated with, the [.noloc]`Kubernetes` cluster likely will continue working normally. However, if the cluster doesn't work properly, follow the troubleshooting steps in <<eks-outposts-network-disconnects,Prepare local Amazon EKS clusters on {aws} Outposts for network disconnects>>. If you encounter other issues, contact {aws} Support. {aws} Support can guide you on downloading and running a log collection tool. That way, you can collect logs from your [.noloc]`Kubernetes` cluster control plane instances and send them to {aws} Support support for further investigation.
+When an Outpost gets disconnected from the {aws} Region that it's associated with, the Kubernetes cluster likely will continue working normally. However, if the cluster doesn't work properly, follow the troubleshooting steps in <<eks-outposts-network-disconnects,Prepare local Amazon EKS clusters on {aws} Outposts for network disconnects>>. If you encounter other issues, contact {aws} Support. {aws} Support can guide you on downloading and running a log collection tool. That way, you can collect logs from your Kubernetes cluster control plane instances and send them to {aws} Support support for further investigation.
 ====
 
 [#outposts-troubleshooting-control-plane-instances-ssm]
@@ -308,6 +308,3 @@ Amazon EKS control plane instances are not reachable through SSM. Please verify 
 
 To resolve this issue, make sure that your VPC and subnets meet the requirements in <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts>> and that you completed the steps in link:systems-manager/latest/userguide/session-manager-getting-started.html[Setting up Session Manager,type="documentation"] in the {aws} Systems Manager User Guide. 
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-outposts-troubleshooting%5D&type=code[Edit this page on GitHub]

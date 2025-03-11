@@ -1,10 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#removing-an-add-on]
 = Remove an Amazon EKS add-on from a cluster
 :info_titleabbrev: Remove an add-on
-
-include::../attributes.txt[]
-
 
 [abstract]
 --
@@ -108,7 +107,7 @@ aws eks list-addons --cluster-name my-cluster
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "addons": [
@@ -128,7 +127,7 @@ aws eks delete-addon --cluster-name my-cluster --addon-name name-of-addon --pres
 +
 The abbreviated example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "addon": {
@@ -151,6 +150,3 @@ After the add-on is removed, the example output is as follows.
 ----
 An error occurred (ResourceNotFoundException) when calling the DescribeAddon operation: No addon: name-of-addon found in cluster: my-cluster
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23removing-an-add-on%5D&type=code[Edit this page on GitHub]

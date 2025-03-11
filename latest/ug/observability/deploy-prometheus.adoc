@@ -1,20 +1,20 @@
+include::../attributes.txt[]
+
 [.topic]
 [#deploy-prometheus]
-= Deploy [.noloc]`Prometheus` using [.noloc]`Helm`
+= Deploy Prometheus using Helm
 :info_titleabbrev: Deploy using Helm
-
-include::../attributes.txt[]
 
 [abstract]
 --
-As an alternative to using Amazon Managed Service for Prometheus, you can deploy [.noloc]`Prometheus` into your cluster with [.noloc]`Helm` V3.
+As an alternative to using Amazon Managed Service for Prometheus, you can deploy Prometheus into your cluster with Helm V3.
 --
 
-As an alternative to using Amazon Managed Service for Prometheus, you can deploy [.noloc]`Prometheus` into your cluster with [.noloc]`Helm` V3. If you already have [.noloc]`Helm` installed, you can check your version with the `helm version` command. [.noloc]`Helm` is a package manager for [.noloc]`Kubernetes` clusters. For more information about [.noloc]`Helm` and how to install it, see <<helm>>.
+As an alternative to using Amazon Managed Service for Prometheus, you can deploy Prometheus into your cluster with Helm V3. If you already have Helm installed, you can check your version with the `helm version` command. Helm is a package manager for Kubernetes clusters. For more information about Helm and how to install it, see <<helm>>.
 
-After you configure [.noloc]`Helm` for your Amazon EKS cluster, you can use it to deploy [.noloc]`Prometheus` with the following steps.
+After you configure Helm for your Amazon EKS cluster, you can use it to deploy Prometheus with the following steps.
 
-. Create a [.noloc]`Prometheus` namespace.
+. Create a Prometheus namespace.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -26,7 +26,7 @@ kubectl create namespace prometheus
 ----
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 ----
-. Deploy [.noloc]`Prometheus`.
+. Deploy Prometheus.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -40,7 +40,7 @@ NOTE: If you get the error `Error: failed to download "stable/prometheus" (hint:
 +
 If you get the error `Error: rendered manifests contain a resource that already exists`, run `helm uninstall [.replaceable]``your-release-name`` -n [.replaceable]``namespace```, then try running the Step 3 command again.
 +
-. Verify that all of the [.noloc]`Pods` in the `prometheus` namespace are in the `READY` state.
+. Verify that all of the Pods in the `prometheus` namespace are in the `READY` state.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -60,13 +60,13 @@ prometheus-node-exporter-vbdks                   1/1     Running   0          48
 prometheus-pushgateway-76c444b68c-82tnw          1/1     Running   0          48s
 prometheus-server-775957f748-mmht9               1/2     Running   0          48s
 ----
-. Use `kubectl` to port forward the [.noloc]`Prometheus` console to your local machine.
+. Use `kubectl` to port forward the Prometheus console to your local machine.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090
 ----
-. Point a web browser to `http://localhost:9090` to view the [.noloc]`Prometheus` console.
+. Point a web browser to `http://localhost:9090` to view the Prometheus console.
 . Choose a metric from the *- insert metric at cursor* menu, then choose *Execute*. Choose the *Graph* tab to show the metric over time. The following image shows `container_memory_usage_bytes` over time.
 +
 image::images/prometheus-metric.png[Prometheus metrics,scaledwidth=100%]
@@ -74,7 +74,4 @@ image::images/prometheus-metric.png[Prometheus metrics,scaledwidth=100%]
 +
 image::images/prometheus.png[Prometheus console,scaledwidth=100%]
 +
-All of the [.noloc]`Kubernetes` endpoints that are connected to [.noloc]`Prometheus` using service discovery are displayed.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23deploy-prometheus%5D&type=code[Edit this page on GitHub]
+All of the Kubernetes endpoints that are connected to Prometheus using service discovery are displayed.

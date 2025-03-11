@@ -1,11 +1,11 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#connector-iam-role]
 = Amazon EKS connector IAM role
 :info_titleabbrev: Connector IAM role
 
-include::../../attributes.txt[]
-
-You can connect [.noloc]`Kubernetes` clusters to view them in your {aws-management-console}. To connect to a [.noloc]`Kubernetes` cluster, create an IAM role.
+You can connect Kubernetes clusters to view them in your {aws-management-console}. To connect to a Kubernetes cluster, create an IAM role.
 
 [#check-connector-role]
 == Check for an existing EKS connector role
@@ -167,6 +167,3 @@ Outputs:
 .. For *Stack name*, enter a name for your role, such as `eksConnectorAgentRole`, and then choose *Next*.
 .. On the *Configure stack options* page, choose *Next*.
 .. On the *Review* page, review your information, acknowledge that the stack might create IAM resources, and then choose *Create stack*.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23connector-iam-role%5D&type=code[Edit this page on GitHub]

@@ -8,14 +8,14 @@ include::../attributes.txt[]
 
 [abstract]
 --
-This topic discusses using Amazon EKS to run [.noloc]`Kubernetes` [.noloc]`Pods` on {aws} Fargate.
+This topic discusses using Amazon EKS to run Kubernetes Pods on {aws} Fargate.
 --
 
-This topic discusses using Amazon EKS to run [.noloc]`Kubernetes` [.noloc]`Pods` on {aws} Fargate. Fargate is a technology that provides on-demand, right-sized compute capacity for link:what-are-containers[containers,type="marketing"]. With Fargate, you don't have to provision, configure, or scale groups of virtual machines on your own to run containers. You also don't need to choose server types, decide when to scale your node groups, or optimize cluster packing.
+This topic discusses using Amazon EKS to run Kubernetes Pods on {aws} Fargate. Fargate is a technology that provides on-demand, right-sized compute capacity for link:what-are-containers[containers,type="marketing"]. With Fargate, you don't have to provision, configure, or scale groups of virtual machines on your own to run containers. You also don't need to choose server types, decide when to scale your node groups, or optimize cluster packing.
 
-You can control which [.noloc]`Pods` start on Fargate and how they run with <<fargate-profile,Fargate profiles>>. Fargate profiles are defined as part of your Amazon EKS cluster. Amazon EKS integrates [.noloc]`Kubernetes` with Fargate by using controllers that are built by {aws} using the upstream, extensible model provided by [.noloc]`Kubernetes`. These controllers run as part of the Amazon EKS managed [.noloc]`Kubernetes` control plane and are responsible for scheduling native [.noloc]`Kubernetes` [.noloc]`Pods` onto Fargate. The Fargate controllers include a new scheduler that runs alongside the default [.noloc]`Kubernetes` scheduler in addition to several mutating and validating admission controllers. When you start a [.noloc]`Pod` that meets the criteria for running on Fargate, the Fargate controllers that are running in the cluster recognize, update, and schedule the [.noloc]`Pod` onto Fargate.
+You can control which Pods start on Fargate and how they run with <<fargate-profile,Fargate profiles>>. Fargate profiles are defined as part of your Amazon EKS cluster. Amazon EKS integrates Kubernetes with Fargate by using controllers that are built by {aws} using the upstream, extensible model provided by Kubernetes. These controllers run as part of the Amazon EKS managed Kubernetes control plane and are responsible for scheduling native Kubernetes Pods onto Fargate. The Fargate controllers include a new scheduler that runs alongside the default Kubernetes scheduler in addition to several mutating and validating admission controllers. When you start a Pod that meets the criteria for running on Fargate, the Fargate controllers that are running in the cluster recognize, update, and schedule the Pod onto Fargate.
 
-This topic describes the different components of [.noloc]`Pods` that run on Fargate, and calls out special considerations for using Fargate with Amazon EKS.
+This topic describes the different components of Pods that run on Fargate, and calls out special considerations for using Fargate with Amazon EKS.
 
 [#fargate-considerations]
 == {aws} Fargate considerations
@@ -24,33 +24,33 @@ Here are some things to consider about using Fargate on Amazon EKS.
 
 
 
-* Each [.noloc]`Pod` that runs on Fargate has its own isolation boundary. They don't share the underlying kernel, CPU resources, memory resources, or elastic network interface with another [.noloc]`Pod`.
+* Each Pod that runs on Fargate has its own isolation boundary. They don't share the underlying kernel, CPU resources, memory resources, or elastic network interface with another Pod.
 * Network Load Balancers and Application Load Balancers (ALBs) can be used with Fargate with IP targets only. For more information, see <<network-load-balancer>> and <<alb-ingress>>. 
 * Fargate exposed services only run on target type IP mode, and not on node IP mode. The recommended way to check the connectivity from a service running on a managed node and a service running on Fargate is to connect via service name.
-* Pods must match a Fargate profile at the time that they're scheduled to run on Fargate. Pods that don't match a Fargate profile might be stuck as `Pending`. If a matching Fargate profile exists, you can delete pending [.noloc]`Pods` that you have created to reschedule them onto Fargate.
-* Daemonsets aren't supported on Fargate. If your application requires a daemon, reconfigure that daemon to run as a sidecar container in your [.noloc]`Pods`.
+* Pods must match a Fargate profile at the time that they're scheduled to run on Fargate. Pods that don't match a Fargate profile might be stuck as `Pending`. If a matching Fargate profile exists, you can delete pending Pods that you have created to reschedule them onto Fargate.
+* Daemonsets aren't supported on Fargate. If your application requires a daemon, reconfigure that daemon to run as a sidecar container in your Pods.
 * Privileged containers aren't supported on Fargate.
-* Pods running on Fargate can't specify `HostPort` or `HostNetwork` in the [.noloc]`Pod` manifest.
-* The default `nofile` and `nproc` soft limit is 1024 and the hard limit is 65535 for Fargate [.noloc]`Pods`.
+* Pods running on Fargate can't specify `HostPort` or `HostNetwork` in the Pod manifest.
+* The default `nofile` and `nproc` soft limit is 1024 and the hard limit is 65535 for Fargate Pods.
 * GPUs aren't currently available on Fargate.
 * Pods that run on Fargate are only supported on private subnets (with NAT gateway access to {aws} services, but not a direct route to an Internet Gateway), so your cluster's VPC must have private subnets available. For clusters without outbound internet access, see <<private-clusters>>.
-* You can use the <<vertical-pod-autoscaler,Adjust pod resources with Vertical Pod Autoscaler>> to set the initial correct size of CPU and memory for your Fargate [.noloc]`Pods`, and then use the <<horizontal-pod-autoscaler,Scale pod deployments with Horizontal Pod Autoscaler>> to scale those [.noloc]`Pods`. If you want the Vertical Pod Autoscaler to automatically re-deploy [.noloc]`Pods` to Fargate with larger CPU and memory combinations, set the mode for the Vertical Pod Autoscaler to either `Auto` or `Recreate` to ensure correct functionality. For more information, see the https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start[Vertical Pod Autoscaler] documentation on [.noloc]`GitHub`.
+* You can use the <<vertical-pod-autoscaler,Adjust pod resources with Vertical Pod Autoscaler>> to set the initial correct size of CPU and memory for your Fargate Pods, and then use the <<horizontal-pod-autoscaler,Scale pod deployments with Horizontal Pod Autoscaler>> to scale those Pods. If you want the Vertical Pod Autoscaler to automatically re-deploy Pods to Fargate with larger CPU and memory combinations, set the mode for the Vertical Pod Autoscaler to either `Auto` or `Recreate` to ensure correct functionality. For more information, see the https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start[Vertical Pod Autoscaler] documentation on GitHub.
 * DNS resolution and DNS hostnames must be enabled for your VPC. For more information, see link:vpc/latest/userguide/vpc-dns.html#vpc-dns-updating[Viewing and updating DNS support for your VPC,type="documentation"].
-* Amazon EKS Fargate adds defense-in-depth for [.noloc]`Kubernetes` applications by isolating each Pod within a Virtual Machine (VM). This VM boundary prevents access to host-based resources used by other Pods in the event of a container escape, which is a common method of attacking containerized applications and gain access to resources outside of the container.
+* Amazon EKS Fargate adds defense-in-depth for Kubernetes applications by isolating each Pod within a Virtual Machine (VM). This VM boundary prevents access to host-based resources used by other Pods in the event of a container escape, which is a common method of attacking containerized applications and gain access to resources outside of the container.
 +
 Using Amazon EKS doesn't change your responsibilities under the <<security,shared responsibility model>>. You should carefully consider the configuration of cluster security and governance controls. The safest way to isolate an application is always to run it in a separate cluster.
-* Fargate profiles support specifying subnets from VPC secondary CIDR blocks. You might want to specify a secondary CIDR block. This is because there's a limited number of IP addresses available in a subnet. As a result, there's also a limited number of [.noloc]`Pods` that can be created in the cluster. By using different subnets for [.noloc]`Pods`, you can increase the number of available IP addresses. For more information, see link:vpc/latest/userguide/VPC_Subnets.html#vpc-resize[Adding IPv4 CIDR blocks to a VPC.,type="documentation"]
-* The Amazon EC2 instance metadata service (IMDS) isn't available to [.noloc]`Pods` that are deployed to Fargate nodes. If you have [.noloc]`Pods` that are deployed to Fargate that need IAM credentials, assign them to your [.noloc]`Pods` using <<iam-roles-for-service-accounts,IAM roles for service accounts>>. If your [.noloc]`Pods` need access to other information available through IMDS, then you must hard code this information into your [.noloc]`Pod` spec. This includes the {aws} Region or Availability Zone that a [.noloc]`Pod` is deployed to.
-* You can't deploy Fargate [.noloc]`Pods` to {aws} Outposts, {aws} Wavelength, or {aws} Local Zones.
-* Amazon EKS must periodically patch Fargate [.noloc]`Pods` to keep them secure. We attempt the updates in a way that reduces impact, but there are times when [.noloc]`Pods` must be deleted if they aren't successfully evicted. There are some actions you can take to minimize disruption. For more information, see <<fargate-pod-patching>>.
+* Fargate profiles support specifying subnets from VPC secondary CIDR blocks. You might want to specify a secondary CIDR block. This is because there's a limited number of IP addresses available in a subnet. As a result, there's also a limited number of Pods that can be created in the cluster. By using different subnets for Pods, you can increase the number of available IP addresses. For more information, see link:vpc/latest/userguide/VPC_Subnets.html#vpc-resize[Adding IPv4 CIDR blocks to a VPC.,type="documentation"]
+* The Amazon EC2 instance metadata service (IMDS) isn't available to Pods that are deployed to Fargate nodes. If you have Pods that are deployed to Fargate that need IAM credentials, assign them to your Pods using <<iam-roles-for-service-accounts,IAM roles for service accounts>>. If your Pods need access to other information available through IMDS, then you must hard code this information into your Pod spec. This includes the {aws} Region or Availability Zone that a Pod is deployed to.
+* You can't deploy Fargate Pods to {aws} Outposts, {aws} Wavelength, or {aws} Local Zones.
+* Amazon EKS must periodically patch Fargate Pods to keep them secure. We attempt the updates in a way that reduces impact, but there are times when Pods must be deleted if they aren't successfully evicted. There are some actions you can take to minimize disruption. For more information, see <<fargate-pod-patching>>.
 * The https://github.com/aws/amazon-vpc-cni-plugins[Amazon VPC CNI plugin for Amazon EKS] is installed on Fargate nodes. You can't use <<alternate-cni-plugins,Alternate CNI plugins for Amazon EKS clusters>> with Fargate nodes.
-* A [.noloc]`Pod` running on Fargate automatically mounts an Amazon EFS file system, without needing manual driver installation steps. You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning.
+* A Pod running on Fargate automatically mounts an Amazon EFS file system, without needing manual driver installation steps. You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning.
 * Amazon EKS doesn't support Fargate Spot.
-* You can't mount Amazon EBS volumes to Fargate [.noloc]`Pods`.
-* You can run the Amazon EBS CSI controller on Fargate nodes, but the Amazon EBS CSI node [.noloc]`DaemonSet` can only run on Amazon EC2 instances.
-* After a https://kubernetes.io/docs/concepts/workloads/controllers/job/[Kubernetes Job] is marked `Completed` or `Failed`, the [.noloc]`Pods` that the [.noloc]`Job` creates normally continue to exist. This behavior allows you to view your logs and results, but with Fargate you will incur costs if you don't clean up the [.noloc]`Job` afterwards.
+* You can't mount Amazon EBS volumes to Fargate Pods.
+* You can run the Amazon EBS CSI controller on Fargate nodes, but the Amazon EBS CSI node DaemonSet can only run on Amazon EC2 instances.
+* After a https://kubernetes.io/docs/concepts/workloads/controllers/job/[Kubernetes Job] is marked `Completed` or `Failed`, the Pods that the Job creates normally continue to exist. This behavior allows you to view your logs and results, but with Fargate you will incur costs if you don't clean up the Job afterwards.
 +
-To automatically delete the related [.noloc]`Pods` after a [.noloc]`Job` completes or fails, you can specify a time period using the time-to-live (TTL) controller. The following example shows specifying `.spec.ttlSecondsAfterFinished` in your [.noloc]`Job` manifest.
+To automatically delete the related Pods after a Job completes or fails, you can specify a time period using the time-to-live (TTL) controller. The following example shows specifying `.spec.ttlSecondsAfterFinished` in your Job manifest.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -82,10 +82,10 @@ spec:
 |Can be deployed to an <<local-zones,{aws} Local Zone>>
 |No
 
-|Can run containers that require [.noloc]`Windows`
+|Can run containers that require Windows
 |No
 
-|Can run containers that require [.noloc]`Linux`
+|Can run containers that require Linux
 |Yes
 
 |Can run workloads that require the Inferentia chip
@@ -100,14 +100,14 @@ spec:
 |Can run {aws} link:bottlerocket/[Bottlerocket,type="marketing"]
 |No
 
-|Pods share a kernel runtime environment with other [.noloc]`Pods`
-|No – Each [.noloc]`Pod` has a dedicated kernel
+|Pods share a kernel runtime environment with other Pods
+|No – Each Pod has a dedicated kernel
 
-|Pods share CPU, memory, storage, and network resources with other [.noloc]`Pods`.
-|No – Each [.noloc]`Pod` has dedicated resources and can be sized independently to maximize resource utilization.  
+|Pods share CPU, memory, storage, and network resources with other Pods.
+|No – Each Pod has dedicated resources and can be sized independently to maximize resource utilization.  
 
-|Pods can use more hardware and memory than requested in [.noloc]`Pod` specs
-|No – The [.noloc]`Pod` can be re-deployed using a larger vCPU and memory configuration though.
+|Pods can use more hardware and memory than requested in Pod specs
+|No – The Pod can be re-deployed using a larger vCPU and memory configuration though.
 
 |Must deploy and manage Amazon EC2 instances
 |No
@@ -118,7 +118,7 @@ spec:
 |Can provide bootstrap arguments at deployment of a node, such as extra https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet] arguments.
 |No
 
-|Can assign IP addresses to [.noloc]`Pods` from a different CIDR block than the IP address assigned to the node.
+|Can assign IP addresses to Pods from a different CIDR block than the IP address assigned to the node.
 |No
 
 |Can SSH into node
@@ -133,16 +133,16 @@ spec:
 |Must update node AMI on your own
 |No
 
-|Must update node [.noloc]`Kubernetes` version on your own
+|Must update node Kubernetes version on your own
 |No – You don't manage nodes.
 
-|Can use Amazon EBS storage with [.noloc]`Pods`
+|Can use Amazon EBS storage with Pods
 |No
 
-|Can use Amazon EFS storage with [.noloc]`Pods`
+|Can use Amazon EFS storage with Pods
 |<<efs-csi,Yes>>
 
-|Can use Amazon FSx for Lustre storage with [.noloc]`Pods`
+|Can use Amazon FSx for Lustre storage with Pods
 |No
 
 |Can use Network Load Balancer for services
@@ -151,13 +151,13 @@ spec:
 |Pods can run in a public subnet
 |No
 
-|Can assign different VPC security groups to individual [.noloc]`Pods`
+|Can assign different VPC security groups to individual Pods
 |Yes
 
-|Can run [.noloc]`Kubernetes` [.noloc]`DaemonSets`
+|Can run Kubernetes DaemonSets
 |No
 
-|Support `HostPort` and `HostNetwork` in the [.noloc]`Pod` manifest
+|Support `HostPort` and `HostNetwork` in the Pod manifest
 |No
 
 |{aws} Region availability
@@ -167,7 +167,7 @@ spec:
 |No
 
 |Pricing
-|Cost of an individual Fargate memory and CPU configuration. Each [.noloc]`Pod` has its own cost. For more information, see link:fargate/pricing/[{aws} Fargate pricing,type="marketing"].
+|Cost of an individual Fargate memory and CPU configuration. Each Pod has its own cost. For more information, see link:fargate/pricing/[{aws} Fargate pricing,type="marketing"].
 |===
 
 
@@ -186,6 +186,3 @@ include::fargate-pod-patching.adoc[leveloffset=+1]
 include::monitoring-fargate-usage.adoc[leveloffset=+1]
 
 include::fargate-logging.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23fargate%5D&type=code[Edit this page on GitHub]

@@ -1,15 +1,15 @@
-[.topic]
-[#pod-execution-role]
-= Amazon EKS [.noloc]`Pod` execution IAM role
-:info_titleabbrev: Pod execution IAM role
-
 include::../../attributes.txt[]
 
-The Amazon EKS [.noloc]`Pod` execution role is required to run [.noloc]`Pods` on {aws} Fargate infrastructure.
+[.topic]
+[#pod-execution-role]
+= Amazon EKS Pod execution IAM role
+:info_titleabbrev: Pod execution IAM role
 
-When your cluster creates [.noloc]`Pods` on {aws} Fargate infrastructure, the components running on the Fargate infrastructure must make calls to {aws} APIs on your behalf. This is so that they can do actions such as pull container images from Amazon ECR or route logs to other {aws} services. The Amazon EKS [.noloc]`Pod` execution role provides the IAM permissions to do this.
+The Amazon EKS Pod execution role is required to run Pods on {aws} Fargate infrastructure.
 
-When you create a Fargate profile, you must specify a [.noloc]`Pod` execution role for the Amazon EKS components that run on the Fargate infrastructure using the profile. This role is added to the cluster's [.noloc]`Kubernetes` https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Role based access control] (RBAC) for authorization. This allows the `kubelet` that's running on the Fargate infrastructure to register with your Amazon EKS cluster so that it can appear in your cluster as a node.
+When your cluster creates Pods on {aws} Fargate infrastructure, the components running on the Fargate infrastructure must make calls to {aws} APIs on your behalf. This is so that they can do actions such as pull container images from Amazon ECR or route logs to other {aws} services. The Amazon EKS Pod execution role provides the IAM permissions to do this.
+
+When you create a Fargate profile, you must specify a Pod execution role for the Amazon EKS components that run on the Fargate infrastructure using the profile. This role is added to the cluster's Kubernetes https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Role based access control] (RBAC) for authorization. This allows the `kubelet` that's running on the Fargate infrastructure to register with your Amazon EKS cluster so that it can appear in your cluster as a node.
 
 [NOTE]
 ====
@@ -21,15 +21,15 @@ The Fargate profile must have a different IAM role than Amazon EC2 node groups.
 [IMPORTANT]
 ====
 
-The containers running in the Fargate [.noloc]`Pod` can't assume the IAM permissions associated with a [.noloc]`Pod` execution role. To give the containers in your Fargate [.noloc]`Pod` permissions to access other {aws} services, you must use <<iam-roles-for-service-accounts,IAM roles for service accounts>>.
+The containers running in the Fargate Pod can't assume the IAM permissions associated with a Pod execution role. To give the containers in your Fargate Pod permissions to access other {aws} services, you must use <<iam-roles-for-service-accounts,IAM roles for service accounts>>.
 
 ====
 
 Before you create a Fargate profile, you must create an IAM role with the link:aws-managed-policy/latest/reference/AmazonEKSFargatePodExecutionRolePolicy.html[AmazonEKSFargatePodExecutionRolePolicy,type="documentation"].
 [#check-pod-execution-role]
-== Check for a correctly configured existing [.noloc]`Pod` execution role
+== Check for a correctly configured existing Pod execution role
 
-You can use the following procedure to check and see if your account already has a correctly configured Amazon EKS [.noloc]`Pod` execution role. To avoid a confused deputy security problem, it's important that the role restricts access based on `SourceArn`. You can modify the execution role as needed to include support for Fargate profiles on other clusters.
+You can use the following procedure to check and see if your account already has a correctly configured Amazon EKS Pod execution role. To avoid a confused deputy security problem, it's important that the role restricts access based on `SourceArn`. You can modify the execution role as needed to include support for Fargate profiles on other clusters.
 
 . Open the IAM console at https://console.aws.amazon.com/iam/.
 . In the left navigation pane, choose *Roles*.  
@@ -74,9 +74,9 @@ If the policy doesn't match, copy the full previous policy into the form and cho
 
 
 [#create-pod-execution-role]
-== Creating the Amazon EKS [.noloc]`Pod` execution role
+== Creating the Amazon EKS Pod execution role
 
-If you don't already have the Amazon EKS [.noloc]`Pod` execution role for your cluster, you can use the {aws-management-console} or the {aws} CLI to create it.
+If you don't already have the Amazon EKS Pod execution role for your cluster, you can use the {aws-management-console} or the {aws} CLI to create it.
 
 
 
@@ -88,7 +88,7 @@ If you don't already have the Amazon EKS [.noloc]`Pod` execution role for your c
 +
 ... In the *Trusted entity type* section, choose *{aws} service*.  
 ... From the *Use cases for other {aws} services* dropdown list, choose *EKS*.
-... Choose *EKS - Fargate [.noloc]`Pod`*.
+... Choose *EKS - Fargate Pod*.
 ... Choose *Next*.
 .. On the *Add permissions* page, choose *Next*.
 .. On the *Name, review, and create* page, do the following:
@@ -151,7 +151,7 @@ If you don't already have the Amazon EKS [.noloc]`Pod` execution role for your c
   ]
 }
 ----
-.. Create a [.noloc]`Pod` execution IAM role.
+.. Create a Pod execution IAM role.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -167,6 +167,3 @@ aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy \
   --role-name AmazonEKSFargatePodExecutionRole
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-execution-role%5D&type=code[Edit this page on GitHub]

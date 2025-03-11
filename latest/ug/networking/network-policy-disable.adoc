@@ -1,16 +1,16 @@
+include::../attributes.txt[]
+
 [.topic]
 [#network-policy-disable]
-= Disable [.noloc]`Kubernetes` network policies for Amazon EKS Pod network traffic
+= Disable Kubernetes network policies for Amazon EKS Pod network traffic
 :info_titleabbrev: Disable
-
-include::../attributes.txt[]
 
 [abstract]
 --
-Learn how to disable [.noloc]`Kubernetes` network policies for Amazon EKS Pod network traffic.
+Learn how to disable Kubernetes network policies for Amazon EKS Pod network traffic.
 --
 
-Disable [.noloc]`Kubernetes` network policies to stop restricting Amazon EKS Pod network traffic
+Disable Kubernetes network policies to stop restricting Amazon EKS Pod network traffic
 
 . List all Kubernetes network policies.
 +
@@ -37,6 +37,3 @@ kubectl edit daemonset -n kube-system aws-node
      - args:
         - --enable-network-policy=true
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23network-policy-disable%5D&type=code[Edit this page on GitHub]

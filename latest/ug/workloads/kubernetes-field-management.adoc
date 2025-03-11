@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#kubernetes-field-management]
 = Determine fields you can customize for Amazon EKS add-ons
 :info_titleabbrev: Fields you can customize
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -12,7 +12,7 @@ Learn how to manage Amazon EKS add-on configurations using Kubernetes field mana
 
 Amazon EKS add-ons are installed to your cluster using standard, best practice configurations. For more information about adding an Amazon EKS add-on to your cluster, see <<eks-add-ons>>. 
 
-You may want to customize the configuration of an Amazon EKS add-on to enable advanced features. Amazon EKS uses the [.noloc]`Kubernetes` server-side apply feature to enable management of an add-on by Amazon EKS without overwriting your configuration for settings that aren't managed by Amazon EKS. For more information, see https://kubernetes.io/docs/reference/using-api/server-side-apply/[Server-Side Apply] in the [.noloc]`Kubernetes` documentation. To achieve this, Amazon EKS manages a minimum set of fields for every add-on that it installs. You can modify all fields that aren't managed by Amazon EKS, or another [.noloc]`Kubernetes` control plane process such as `kube-controller-manager`, without issue. 
+You may want to customize the configuration of an Amazon EKS add-on to enable advanced features. Amazon EKS uses the Kubernetes server-side apply feature to enable management of an add-on by Amazon EKS without overwriting your configuration for settings that aren't managed by Amazon EKS. For more information, see https://kubernetes.io/docs/reference/using-api/server-side-apply/[Server-Side Apply] in the Kubernetes documentation. To achieve this, Amazon EKS manages a minimum set of fields for every add-on that it installs. You can modify all fields that aren't managed by Amazon EKS, or another Kubernetes control plane process such as `kube-controller-manager`, without issue. 
 
 [IMPORTANT]
 ====
@@ -24,7 +24,7 @@ Modifying a field managed by Amazon EKS prevents Amazon EKS from managing the ad
 [#add-on-config-management-understanding-field-management]
 == Field management syntax
 
-When you view details for a [.noloc]`Kubernetes` object, both managed and unmanaged fields are returned in the output. Managed fields can be either of the following types:
+When you view details for a Kubernetes object, both managed and unmanaged fields are returned in the output. Managed fields can be either of the following types:
 
 
 
@@ -44,7 +44,7 @@ Each key is either a `.` representing the field itself, which always maps to an 
 * `v:[.replaceable]``value```, where [.replaceable]`value` is the exact JSON formatted value of a list item.
 * `i:[.replaceable]``index```, where [.replaceable]`index` is position of an item in the list.
 
-The following portions of output for the [.noloc]`CoreDNS` add-on illustrate the previous declarations:  
+The following portions of output for the CoreDNS add-on illustrate the previous declarations:  
 
 
 
@@ -111,9 +111,9 @@ manager: eks
 
 You can use `kubectl` to see which fields are managed by Amazon EKS for any Amazon EKS add-on. 
 
-You can modify all fields that aren't managed by Amazon EKS, or another [.noloc]`Kubernetes` control plane process such as `kube-controller-manager`, without issue. 
+You can modify all fields that aren't managed by Amazon EKS, or another Kubernetes control plane process such as `kube-controller-manager`, without issue. 
 
-. Determine which add-on that you want to examine. To see all of the `deployments` and [.noloc]`DaemonSets` deployed to your cluster, see <<view-kubernetes-resources>>.
+. Determine which add-on that you want to examine. To see all of the `deployments` and DaemonSets deployed to your cluster, see <<view-kubernetes-resources>>.
 . View the managed fields for an add-on by running the following command:
 +
 [source,bash,subs="verbatim,attributes"]
@@ -121,7 +121,7 @@ You can modify all fields that aren't managed by Amazon EKS, or another [.noloc]
 kubectl get type/add-on-name -n add-on-namespace -o yaml
 ----
 +
-For example, you can see the managed fields for the [.noloc]`CoreDNS` add-on with the following command.
+For example, you can see the managed fields for the CoreDNS add-on with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -147,6 +147,3 @@ NOTE: If you don't see `managedFields` in the output, add `--show-managed-fields
 == Next steps
 
 Customize the fields not owned by {aws} for you add-on.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23kubernetes-field-management%5D&type=code[Edit this page on GitHub]

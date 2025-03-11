@@ -5,35 +5,29 @@ include::../attributes.txt[]
 = Route internet traffic with {aws} Load Balancer Controller
 :info_titleabbrev: {aws} Load Balancer Controller
 
-include::lbc-helm.adoc[leveloffset=+1]
-
-include::lbc-manifest.adoc[leveloffset=+1]
-
-include::lbc-remove.adoc[leveloffset=+1]
-
 [abstract]
 --
-Learn how to configure and use the [.noloc]`{aws} Load Balancer Controller` to expose [.noloc]`Kubernetes` cluster apps to the internet with {aws} Elastic Load Balancing for [.noloc]`Kubernetes` [.noloc]`services` and [.noloc]`ingresses`.
+Learn how to configure and use the {aws} Load Balancer Controller to expose Kubernetes cluster apps to the internet with {aws} Elastic Load Balancing for Kubernetes services and ingresses.
 --
 
-The [.noloc]`{aws} Load Balancer Controller` manages {aws} Elastic Load Balancers for a [.noloc]`Kubernetes` cluster. You can use the controller to expose your cluster apps to the internet. The controller provisions {aws} load balancers that point to cluster Service or Ingress resources. In other words, the controller creates a single IP address or DNS name that points to multiple pods in your cluster.  
+The {aws} Load Balancer Controller manages {aws} Elastic Load Balancers for a Kubernetes cluster. You can use the controller to expose your cluster apps to the internet. The controller provisions {aws} load balancers that point to cluster Service or Ingress resources. In other words, the controller creates a single IP address or DNS name that points to multiple pods in your cluster.  
 
 image::images/lbc-overview.png["Architecture diagram. Illustration of traffic coming from internet users, to Amazon Load Balancer. Amazon Load Balancer distributes traffic to pods in the cluster.",scaledwidth=50%]
 
-The controller watches for [.noloc]`Kubernetes` [.noloc]`Ingress` or [.noloc]`Service` resources. In response, it creates the appropriate {aws} Elastic Load Balancing resources. You can configure the specific behavior of the load balancers by applying annotations to the [.noloc]`Kubernetes` resources. For example, you can attach {aws} security groups to load balancers using annotations.  
+The controller watches for Kubernetes Ingress or Service resources. In response, it creates the appropriate {aws} Elastic Load Balancing resources. You can configure the specific behavior of the load balancers by applying annotations to the Kubernetes resources. For example, you can attach {aws} security groups to load balancers using annotations.  
 
 The controller provisions the following resources: 
 
-*[.noloc]`Kubernetes` `Ingress`*::
-The LBC creates an link:elasticloadbalancing/latest/application/introduction.html[{aws} Application Load Balancer (ALB),type="documentation"] when you create a [.noloc]`Kubernetes` `Ingress`. https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/ingress/annotations/[Review the annotations you can apply to an Ingress resource.]
+*Kubernetes `Ingress`*::
+The LBC creates an link:elasticloadbalancing/latest/application/introduction.html[{aws} Application Load Balancer (ALB),type="documentation"] when you create a Kubernetes `Ingress`. https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/ingress/annotations/[Review the annotations you can apply to an Ingress resource.]
 
 
-*[.noloc]`Kubernetes` service of the `LoadBalancer` type*::
-The LBC creates an link:elasticloadbalancing/latest/network/introduction.html[{aws} Network Load Balancer (NLB),type="documentation"]when you create a [.noloc]`Kubernetes` service of type `LoadBalancer`. https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/[Review the annotations you can apply to a Service resource.]
+*Kubernetes service of the `LoadBalancer` type*::
+The LBC creates an link:elasticloadbalancing/latest/network/introduction.html[{aws} Network Load Balancer (NLB),type="documentation"]when you create a Kubernetes service of type `LoadBalancer`. https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/[Review the annotations you can apply to a Service resource.]
 +
-In the past, the [.noloc]`Kubernetes` network load balancer was used for _instance_ targets, but the LBC was used for _IP_ targets. With the [.noloc]`{aws} Load Balancer Controller` version `2.3.0` or later, you can create NLBs using either target type. For more information about NLB target types, see link:elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type[Target type,type="documentation"] in the User Guide for Network Load Balancers.
+In the past, the Kubernetes network load balancer was used for _instance_ targets, but the LBC was used for _IP_ targets. With the {aws} Load Balancer Controller version `2.3.0` or later, you can create NLBs using either target type. For more information about NLB target types, see link:elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type[Target type,type="documentation"] in the User Guide for Network Load Balancers.
 
-The controller is an https://github.com/kubernetes-sigs/aws-load-balancer-controller[open-source project] managed on [.noloc]`GitHub`.
+The controller is an https://github.com/kubernetes-sigs/aws-load-balancer-controller[open-source project] managed on GitHub.
 
 Before deploying the controller, we recommend that you review the prerequisites and considerations in <<alb-ingress,Route application and HTTP traffic with Application Load Balancers>> and <<network-load-balancing>>. In those topics, you will deploy a sample app that includes an {aws} load balancer. 
 
@@ -41,38 +35,42 @@ Before deploying the controller, we recommend that you review the prerequisites 
 [#lbc-overview]
 == Install the controller
 
-You can use one of the following procedures to install the [.noloc]`{aws} Load Balancer Controller`:
+You can use one of the following procedures to install the {aws} Load Balancer Controller:
 
 
 
-* If you are new to Amazon EKS we recommend that you use Helm for the installation because it simplifies the [.noloc]`{aws} Load Balancer Controller` installation. For more information, see <<lbc-helm>>. 
-* For advanced configurations, such as clusters with restricted network access to public container registries,  use [.noloc]`Kubernetes` Manifests. For more information, see <<lbc-manifest>>.
+* If you are new to Amazon EKS we recommend that you use Helm for the installation because it simplifies the {aws} Load Balancer Controller installation. For more information, see <<lbc-helm>>. 
+* For advanced configurations, such as clusters with restricted network access to public container registries,  use Kubernetes Manifests. For more information, see <<lbc-manifest>>.
 
 
 [#lbc-deprecated]
 == Migrate from deprecated controller versions
 
-* If you have deprecated versions of the [.noloc]`{aws} Load Balancer Controller` installed, see <<lbc-remove>>.
-* Deprecated versions cannot be upgraded. They must be removed and a current version of the [.noloc]`{aws} Load Balancer Controller` installed.  
+* If you have deprecated versions of the {aws} Load Balancer Controller installed, see <<lbc-remove>>.
+* Deprecated versions cannot be upgraded. They must be removed and a current version of the {aws} Load Balancer Controller installed.  
 +
 [[lbc-deprecated-list]]
 * Deprecated versions include:
 +
-** {aws} ALB Ingress Controller for [.noloc]`Kubernetes` ("Ingress Controller"), a predecessor to the [.noloc]`{aws} Load Balancer Controller`.
-** Any `0.1.[.replaceable]``x``` version of the [.noloc]`{aws} Load Balancer Controller`
+** {aws} ALB Ingress Controller for Kubernetes ("Ingress Controller"), a predecessor to the {aws} Load Balancer Controller.
+** Any `0.1.[.replaceable]``x``` version of the {aws} Load Balancer Controller
 
 
 [#lbc-legacy]
 == Legacy cloud provider
 
-[.noloc]`Kubernetes` includes a legacy cloud provider for {aws}. The legacy cloud provider is capable of provisioning {aws} load balancers, similar to the [.noloc]`{aws} Load Balancer Controller`. The legacy cloud provider creates Classic Load Balancers. If you do not install the [.noloc]`{aws} Load Balancer Controller`, [.noloc]`Kubernetes` will default to using the legacy cloud provider. You should install the [.noloc]`{aws} Load Balancer Controller` and avoid using the legacy cloud provider.  
+Kubernetes includes a legacy cloud provider for {aws}. The legacy cloud provider is capable of provisioning {aws} load balancers, similar to the {aws} Load Balancer Controller. The legacy cloud provider creates Classic Load Balancers. If you do not install the {aws} Load Balancer Controller, Kubernetes will default to using the legacy cloud provider. You should install the {aws} Load Balancer Controller and avoid using the legacy cloud provider.  
 
 [IMPORTANT]
 ====
 
-In versions 2.5 and newer, the [.noloc]`{aws} Load Balancer Controller` becomes the default controller for [.noloc]`Kubernetes` _service_ resources with the `type: LoadBalancer` and makes an {aws} Network Load Balancer (NLB) for each service. It does this by making a mutating webhook for services, which sets the `spec.loadBalancerClass` field to `service.k8s.aws/nlb` for new services of `type: LoadBalancer`. You can turn off this feature and revert to using the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] as the default controller, by setting the helm chart value `enableServiceMutatorWebhook` to `false`. The cluster won't provision new Classic Load Balancers for your services unless you turn off this feature. Existing Classic Load Balancers will continue to work.
+In versions 2.5 and newer, the {aws} Load Balancer Controller becomes the default controller for Kubernetes _service_ resources with the `type: LoadBalancer` and makes an {aws} Network Load Balancer (NLB) for each service. It does this by making a mutating webhook for services, which sets the `spec.loadBalancerClass` field to `service.k8s.aws/nlb` for new services of `type: LoadBalancer`. You can turn off this feature and revert to using the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] as the default controller, by setting the helm chart value `enableServiceMutatorWebhook` to `false`. The cluster won't provision new Classic Load Balancers for your services unless you turn off this feature. Existing Classic Load Balancers will continue to work.
 
 ====
 
+include::lbc-helm.adoc[leveloffset=+1]
 
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23aws-load-balancer-controller%5D&type=code[Edit this page on GitHub]
+include::lbc-manifest.adoc[leveloffset=+1]
+
+include::lbc-remove.adoc[leveloffset=+1]
+

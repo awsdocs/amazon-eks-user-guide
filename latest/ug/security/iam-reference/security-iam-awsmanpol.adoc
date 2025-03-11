@@ -1,4 +1,5 @@
 include::../../attributes.txt[]
+
 [.topic]
 [#security-iam-awsmanpol]
 = {aws} managed policies for Amazon Elastic Kubernetes Service
@@ -21,13 +22,13 @@ For more information, see link:IAM/latest/UserGuide/access_policies_managed-vs-i
 == {aws} managed policy: AmazonEKS_CNI_Policy
 :info_titleabbrev: AmazonEKS_CNI_Policy
 
-You can attach the `AmazonEKS_CNI_Policy` to your IAM entities. Before you create an Amazon EC2 node group, this policy must be attached to either the <<create-node-role,node IAM role>>, or to an IAM role that's used specifically by the [.noloc]`Amazon VPC CNI plugin for Kubernetes`. This is so that it can perform actions on your behalf. We recommend that you attach the policy to a role that's used only by the plugin. For more information, see <<managing-vpc-cni>> and <<cni-iam-role>>.
+You can attach the `AmazonEKS_CNI_Policy` to your IAM entities. Before you create an Amazon EC2 node group, this policy must be attached to either the <<create-node-role,node IAM role>>, or to an IAM role that's used specifically by the Amazon VPC CNI plugin for Kubernetes. This is so that it can perform actions on your behalf. We recommend that you attach the policy to a role that's used only by the plugin. For more information, see <<managing-vpc-cni>> and <<cni-iam-role>>.
 
 *Permissions details*
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
 
-* *`ec2:*NetworkInterface` and `ec2:*PrivateIpAddresses`* – Allows the Amazon VPC CNI plugin to perform actions such as provisioning Elastic Network Interfaces and IP addresses for [.noloc]`Pods` to provide networking for applications that run in Amazon EKS.
+* *`ec2:*NetworkInterface` and `ec2:*PrivateIpAddresses`* – Allows the Amazon VPC CNI plugin to perform actions such as provisioning Elastic Network Interfaces and IP addresses for Pods to provide networking for applications that run in Amazon EKS.
 * *`ec2` read actions* – Allows the Amazon VPC CNI plugin to perform actions such as describe instances and subnets to see the amount of free IP addresses in your Amazon VPC subnets. The VPC CNI can use the free IP addresses in each subnet to pick the subnets with the most free IP addresses to use when creating an elastic network interface.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html#AmazonEKS_CNI_Policy-json[AmazonEKS_CNI_Policy,type="documentation"] in the {aws} Managed Policy Reference Guide.
@@ -36,15 +37,15 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonEKSClusterPolicy
 :info_titleabbrev: AmazonEKSClusterPolicy
 
-You can attach `AmazonEKSClusterPolicy` to your IAM entities. Before creating a cluster, you must have a <<cluster-iam-role,cluster IAM role>> with this policy attached. [.noloc]`Kubernetes` clusters that are managed by Amazon EKS make calls to other {aws} services on your behalf. They do this to manage the resources that you use with the service.
+You can attach `AmazonEKSClusterPolicy` to your IAM entities. Before creating a cluster, you must have a <<cluster-iam-role,cluster IAM role>> with this policy attached. Kubernetes clusters that are managed by Amazon EKS make calls to other {aws} services on your behalf. They do this to manage the resources that you use with the service.
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
 
 * *`autoscaling`* – Read and update the configuration of an Auto Scaling group. These permissions aren't used by Amazon EKS but remain in the policy for backwards compatibility.
-* *`ec2`* – Work with volumes and network resources that are associated to Amazon EC2 nodes. This is required so that the [.noloc]`Kubernetes` control plane can join instances to a cluster and dynamically provision and manage Amazon EBS volumes that are requested by [.noloc]`Kubernetes` persistent volumes.  
-* *`elasticloadbalancing`* – Work with Elastic Load Balancers and add nodes to them as targets. This is required so that the [.noloc]`Kubernetes` control plane can dynamically provision Elastic Load Balancers requested by [.noloc]`Kubernetes` services.
-* *`iam`* – Create a service-linked role. This is required so that the [.noloc]`Kubernetes` control plane can dynamically provision Elastic Load Balancers that are requested by [.noloc]`Kubernetes` services.
-* *`kms`* – Read a key from {aws} KMS. This is required for the [.noloc]`Kubernetes` control plane to support https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] of [.noloc]`Kubernetes` secrets stored in `etcd`.
+* *`ec2`* – Work with volumes and network resources that are associated to Amazon EC2 nodes. This is required so that the Kubernetes control plane can join instances to a cluster and dynamically provision and manage Amazon EBS volumes that are requested by Kubernetes persistent volumes.  
+* *`elasticloadbalancing`* – Work with Elastic Load Balancers and add nodes to them as targets. This is required so that the Kubernetes control plane can dynamically provision Elastic Load Balancers requested by Kubernetes services.
+* *`iam`* – Create a service-linked role. This is required so that the Kubernetes control plane can dynamically provision Elastic Load Balancers that are requested by Kubernetes services.
+* *`kms`* – Read a key from {aws} KMS. This is required for the Kubernetes control plane to support https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] of Kubernetes secrets stored in `etcd`.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html#AmazonEKSClusterPolicy-json[AmazonEKSClusterPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
@@ -52,9 +53,9 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonEKSFargatePodExecutionRolePolicy
 :info_titleabbrev: AmazonEKSFargatePodExecutionRolePolicy
 
-You can attach `AmazonEKSFargatePodExecutionRolePolicy` to your IAM entities. Before you can create a Fargate profile, you must create a Fargate [.noloc]`Pod` execution role and attach this policy to it. For more information, see <<fargate-sg-pod-execution-role>> and <<fargate-profile>>.
+You can attach `AmazonEKSFargatePodExecutionRolePolicy` to your IAM entities. Before you can create a Fargate profile, you must create a Fargate Pod execution role and attach this policy to it. For more information, see <<fargate-sg-pod-execution-role>> and <<fargate-profile>>.
 
-This policy grants the role the permissions that provide access to other {aws} service resources that are required to run Amazon EKS [.noloc]`Pods` on Fargate.
+This policy grants the role the permissions that provide access to other {aws} service resources that are required to run Amazon EKS Pods on Fargate.
 
 *Permissions details*
 
@@ -200,10 +201,10 @@ This policy allows Amazon EKS to create and manage the necessary resources to op
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks.
 
-* *`eks`* – Update the [.noloc]`Kubernetes` version of your cluster after you initiate an update. This permission isn't used by Amazon EKS but remains in the policy for backwards compatibility.
-* *`ec2`* – Work with Elastic Network Interfaces and other network resources and tags. This is required by Amazon EKS to configure networking that facilitates communication between nodes and the [.noloc]`Kubernetes` control plane. Read information about security groups. Update tags on security groups.
-* *`route53`* – Associate a VPC with a hosted zone. This is required by Amazon EKS to enable private endpoint networking for your [.noloc]`Kubernetes` cluster API server.
-* *`logs`* – Log events. This is required so that Amazon EKS can ship [.noloc]`Kubernetes` control plane logs to CloudWatch.
+* *`eks`* – Update the Kubernetes version of your cluster after you initiate an update. This permission isn't used by Amazon EKS but remains in the policy for backwards compatibility.
+* *`ec2`* – Work with Elastic Network Interfaces and other network resources and tags. This is required by Amazon EKS to configure networking that facilitates communication between nodes and the Kubernetes control plane. Read information about security groups. Update tags on security groups.
+* *`route53`* – Associate a VPC with a hosted zone. This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server.
+* *`logs`* – Log events. This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch.
 * *`iam`* – Create a service-linked role. This is required so that Amazon EKS can create the <<service-linked-role-permissions-eks>> service-linked role on your behalf.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html#AmazonEKSServicePolicy-json[AmazonEKSServicePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
@@ -221,10 +222,11 @@ This policy allows the service-linked role to call {aws} services on your behalf
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks.
 
 * *`ec2`* – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the cluster security group, and VPC that are required to create a cluster. For more information, see <<sec-group-reqs>>. Read information about security groups. Update tags on security groups.
+* *`ec2` Auto Mode* – Terminate EC2 instances created by EKS Auto Mode. For more information, see <<automode>>. 
 * *`iam`* – List all of the managed policies that attached to an IAM role. This is required so that Amazon EKS can list and validate all managed policies and permissions required to create a cluster.
-* *Associate a VPC with a hosted zone* – This is required by Amazon EKS to enable private endpoint networking for your [.noloc]`Kubernetes` cluster API server.
-* *Log event* – This is required so that Amazon EKS can ship [.noloc]`Kubernetes` control plane logs to CloudWatch.
-* *Put metric* – This is required so that Amazon EKS can ship [.noloc]`Kubernetes` control plane logs to CloudWatch.
+* *Associate a VPC with a hosted zone* – This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server.
+* *Log event* – This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch.
+* *Put metric* – This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch.
 * *`eks`* - Manage cluster access entries and policies, allowing fine-grained control over who can access EKS resources and what actions they can perform. This includes associating standard access policies for compute, networking, load balancing, and storage operations.
 * *`elasticloadbalancing`* - Create, manage, and delete load balancers and their components (listeners, target groups, certificates) that are associated with EKS clusters. View load balancer attributes and health status.
 * *`events`* - Create and manage EventBridge rules for monitoring EC2 and {aws} Health events related to EKS clusters, enabling automated responses to infrastructure changes and health alerts.
@@ -246,7 +248,7 @@ This policy grants the cluster role permissions to manage Elastic Network Interf
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
 
-* *`ec2`* – Manage Elastic Network Interfaces and IP addresses to support [.noloc]`Pod` security groups and [.noloc]`Windows` nodes.
+* *`ec2`* – Manage Elastic Network Interfaces and IP addresses to support Pod security groups and Windows nodes.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html#AmazonEKSVPCResourceController-json[AmazonEKSVPCResourceController,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
@@ -262,7 +264,7 @@ This policy grants Amazon EKS Amazon EC2 nodes permissions to connect to Amazon 
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
 
-* *`ec2`* – Read instance volume and network information. This is required so that [.noloc]`Kubernetes` nodes can describe information about Amazon EC2 resources that are required for the node to join the Amazon EKS cluster.
+* *`ec2`* – Read instance volume and network information. This is required so that Kubernetes nodes can describe information about Amazon EC2 resources that are required for the node to join the Amazon EKS cluster.
 * *`eks`* – Optionally describe the cluster as part of node bootstrapping.
 * *`eks-auth:AssumeRoleForPodIdentity`* – Allow retrieving credentials for EKS workloads on the node. This is required for EKS Pod Identity to function properly.
 
@@ -299,7 +301,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 * *`ec2`* – Work with security groups, tags, capacity reservations, and launch templates. This is required for Amazon EKS managed node groups to enable remote access configuration and to describe capacity reservations that can be used in managed node groups. Additionally, Amazon EKS managed node groups create a launch template on your behalf. This is to configure the Amazon EC2 Auto Scaling group that backs each managed node group.
 * *`iam`* – Create a service-linked role and pass a role. This is required by Amazon EKS managed node groups to manage instance profiles for the role being passed when creating a managed node group. This instance profile is used by Amazon EC2 instances launched as part of a managed node group. Amazon EKS needs to create service-linked roles for other services such as Amazon EC2 Auto Scaling groups. These permissions are used in the creation of a managed node group.
-* *`autoscaling`* – Work with security Auto Scaling groups. This is required by Amazon EKS managed node groups to manage the Amazon EC2 Auto Scaling group that backs each managed node group. It's also used to support functionality such as evicting [.noloc]`Pods` when nodes are terminated or recycled during node group updates.
+* *`autoscaling`* – Work with security Auto Scaling groups. This is required by Amazon EKS managed node groups to manage the Amazon EC2 Auto Scaling group that backs each managed node group. It's also used to support functionality such as evicting Pods when nodes are terminated or recycled during node group updates.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html#AWSServiceRoleForAmazonEKSNodegroup-json[AWSServiceRoleForAmazonEKSNodegroup,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
@@ -323,7 +325,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonEKSLocalOutpostClusterPolicy
 :info_titleabbrev: AmazonEKSLocalOutpostClusterPolicy
 
-You can attach this policy to IAM entities. Before creating a local cluster, you must attach this policy to your <<cluster-iam-role,cluster role>>. [.noloc]`Kubernetes` clusters that are managed by Amazon EKS make calls to other {aws} services on your behalf. They do this to manage the resources that you use with the service.
+You can attach this policy to IAM entities. Before creating a local cluster, you must attach this policy to your <<cluster-iam-role,cluster role>>. Kubernetes clusters that are managed by Amazon EKS make calls to other {aws} services on your behalf. They do this to manage the resources that you use with the service.
 
 The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
 
@@ -331,7 +333,7 @@ The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
 * *`ssm`* – Allows Amazon EC2 Systems Manager connection to the control plane instance, which is used by Amazon EKS to communicate and manage the local cluster in your account.
 * *`logs`* – Allows instances to push logs to Amazon CloudWatch.
 * *`secretsmanager`* – Allows instances to get and delete bootstrap data for the control plane instances securely from {aws} Secrets Manager.
-* *`ecr`* – Allows [.noloc]`Pods` and containers that are running on the control plane instances to pull container images that are stored in Amazon Elastic Container Registry.
+* *`ecr`* – Allows Pods and containers that are running on the control plane instances to pull container images that are stored in Amazon Elastic Container Registry.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html#AmazonEKSLocalOutpostClusterPolicy-json[AmazonEKSLocalOutpostClusterPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
@@ -363,6 +365,11 @@ View details about updates to {aws} managed policies for Amazon EKS since this s
 |Change
 |Description
 |Date
+
+
+| Added permissions to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
+| Added permission to terminate EC2 instances created by EKS Auto Mode.
+| February 28, 2025
 
 |Added permissions to <<security-iam-awsmanpol-amazonebscsidriverservicerolepolicy,AmazonEBSCSIDriverPolicy>>.
 |Added a new statement authorizing the EBS CSI Driver to restore all snapshots. This was previously allowed by the existing policy but a new explicit statement is required due to a change in the handling of IAM for `CreateVolume`.
@@ -437,7 +444,7 @@ Added the ability for the EBS CSI Driver to enable Fast Snapshot Restore (FSR) o
 |June 27, 2024
 
 |<<security-iam-awsmanpol-amazoneks-cni-policy,AmazonEKS_CNI_Policy>> – Update to an existing policy
-|Amazon EKS added new `ec2:DescribeSubnets` permissions to allow the [.noloc]`Amazon VPC CNI plugin for Kubernetes` to see the amount of free IP addresses in your Amazon VPC subnets. The VPC CNI can use the free IP addresses in each subnet to pick the subnets with the most free IP addresses to use when creating an elastic network interface.
+|Amazon EKS added new `ec2:DescribeSubnets` permissions to allow the Amazon VPC CNI plugin for Kubernetes to see the amount of free IP addresses in your Amazon VPC subnets. The VPC CNI can use the free IP addresses in each subnet to pick the subnets with the most free IP addresses to use when creating an elastic network interface.
 |March 4, 2024
 
 |<<security-iam-awsmanpol-amazoneksworkernodepolicy,AmazonEKSWorkerNodePolicy>> – Update to an existing policy
@@ -497,6 +504,3 @@ Added the ability for the EBS CSI Driver to enable Fast Snapshot Restore (FSR) o
 |June 17, 2021
 
 |===
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-iam-awsmanpol%5D&type=code[Edit this page on GitHub]

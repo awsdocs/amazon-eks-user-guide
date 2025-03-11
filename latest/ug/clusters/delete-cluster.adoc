@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#delete-cluster]
 = Delete a cluster
 :info_titleabbrev: Delete a cluster
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -47,7 +47,7 @@ For instructions on how to install or upgrade `eksctl`, see https://eksctl.io/in
 ----
 kubectl get svc --all-namespaces
 ----
-.. Delete any services that have an associated `EXTERNAL-IP` value. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in [.noloc]`Kubernetes` to allow the load balancer and associated resources to be properly released.
+.. Delete any services that have an associated `EXTERNAL-IP` value. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in Kubernetes to allow the load balancer and associated resources to be properly released.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -80,7 +80,7 @@ Output:
 ----
 kubectl get svc --all-namespaces
 ----
-. Delete any services that have an associated `EXTERNAL-IP` value. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in [.noloc]`Kubernetes` to allow the load balancer and associated resources to be properly released.
+. Delete any services that have an associated `EXTERNAL-IP` value. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in Kubernetes to allow the load balancer and associated resources to be properly released.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -119,7 +119,7 @@ NOTE: The node groups listed are <<managed-node-groups,managed node groups>> onl
 ----
 kubectl get svc --all-namespaces
 ----
-. Delete any services that have an associated `EXTERNAL-IP` value. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in [.noloc]`Kubernetes` to allow the load balancer and associated resources to be properly released.
+. Delete any services that have an associated `EXTERNAL-IP` value. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in Kubernetes to allow the load balancer and associated resources to be properly released.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -187,6 +187,3 @@ aws cloudformation list-stacks --query "StackSummaries[].StackName"
 ----
 aws cloudformation delete-stack --stack-name my-vpc-stack
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23delete-cluster%5D&type=code[Edit this page on GitHub]

@@ -1,9 +1,9 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-agent-setup]
 = Set up the Amazon EKS Pod Identity Agent
 :info_titleabbrev: Set up the Agent
-
-include::../../attributes.txt[]
 
 [abstract]
 --
@@ -66,7 +66,7 @@ Note that you can change the image location and provide `imagePullSecrets` for E
 . Choose *Get more add-ons*.
 . Select the box in the top right of the add-on box for EKS Pod Identity Agent and then choose *Next*.
 . On the *Configure selected add-ons settings* page, select any version in the *Version* dropdown list.
-. (Optional) Expand *Optional configuration settings* to enter additional configuration. For example, you can provide an alternative container image location and `ImagePullSecrets`. The [.noloc]`JSON Schema` with accepted keys is shown in *Add-on configuration schema*.
+. (Optional) Expand *Optional configuration settings* to enter additional configuration. For example, you can provide an alternative container image location and `ImagePullSecrets`. The JSON Schema with accepted keys is shown in *Add-on configuration schema*.
 +
 Enter the configuration keys and values in *Configuration values*.
 . Choose *Next*.
@@ -113,6 +113,3 @@ eks-pod-identity-agent-prnsh                                          1/1     Ru
 ----
 +
 You can now use EKS Pod Identity associations in your cluster. For more information, see <<pod-id-association>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-id-agent-setup%5D&type=code[Edit this page on GitHub]

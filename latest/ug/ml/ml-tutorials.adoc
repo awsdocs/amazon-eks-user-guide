@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#ml-tutorials]
 = Try tutorials for deploying Machine Learning workloads on EKS
 :info_titleabbrev: Try tutorials for ML on EKS
-
-include::../attributes.txt[]
 
 If you are interested in setting up Machine Learning platforms and frameworks in EKS, explore the tutorials described in this page.
 These tutorials cover everything from patterns for making the best use of GPU processors to choosing modeling tools to building frameworks for specialized industries.
@@ -69,6 +69,3 @@ link:hpc/deploying-generative-ai-applications-with-nvidia-nim-microservices-on-a
 * link:machine-learning/amazon-ec2-p5e-instances-are-generally-available/[Amazon EC2 P5e instances are generally available,type="blog"]
 * link:containers/deploying-managed-p4d-instances-in-amazon-elastic-kubernetes-service/[Deploying managed P4d Instances in Amazon Elastic Kubernetes Service with NVIDIA GPUDirectRDMA,type="blog"]
 * link:machine-learning/establishing-an-ai-ml-center-of-excellence/[Establishing an AI/ML center of excellence,type="blog"]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23ml-tutorials%5D&type=code[Edit this page on GitHub]

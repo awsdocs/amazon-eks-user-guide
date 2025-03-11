@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#create-storage-class]
 = Create a storage class
 :info_titleabbrev: Create StorageClass
-
-include::../attributes.txt[]
 
 A `StorageClass` in Amazon EKS Auto Mode defines how Amazon EBS volumes are automatically provisioned when applications request persistent storage. This page explains how to create and configure a `StorageClass` that works with the Amazon EKS Auto Mode to provision EBS volumes.
 
@@ -255,6 +255,3 @@ For more information, see:
 ----
 .. Select *Next*
 . Review the add-on configuration and then select *Create*
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23create-storage-class%5D&type=code[Edit this page on GitHub]

@@ -1,11 +1,11 @@
-[.topic]
-[#coredns-add-on-create]
-= Create the [.noloc]`CoreDNS` Amazon EKS add-on
-:info_titleabbrev: Create
-
 include::../attributes.txt[]
 
-Create the [.noloc]`CoreDNS` Amazon EKS add-on. You must have a cluster before you create the add-on. For more information, see <<create-cluster>>.
+[.topic]
+[#coredns-add-on-create]
+= Create the CoreDNS Amazon EKS add-on
+:info_titleabbrev: Create
+
+Create the CoreDNS Amazon EKS add-on. You must have a cluster before you create the add-on. For more information, see <<create-cluster>>.
 
 . See which version of the add-on is installed on your cluster.
 +
@@ -45,7 +45,7 @@ aws eks create-addon --cluster-name my-cluster --addon-name coredns --addon-vers
 ----
 +
 If you've applied custom settings to your current add-on that conflict with the default settings of the Amazon EKS add-on, creation might fail. If creation fails, you receive an error that can help you resolve the issue. Alternatively, you can add `--resolve-conflicts OVERWRITE` to the previous command. This allows the add-on to overwrite any existing custom settings. Once you've created the add-on, you can update it with your custom settings.
-. Confirm that the latest version of the add-on for your cluster's [.noloc]`Kubernetes` version was added to your cluster. Replace [.replaceable]`my-cluster` with the name of your cluster.
+. Confirm that the latest version of the add-on for your cluster's Kubernetes version was added to your cluster. Replace [.replaceable]`my-cluster` with the name of your cluster.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -56,11 +56,8 @@ It might take several seconds for add-on creation to complete.
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 v1.11.3-eksbuild.1
 ----
 . If you made custom settings to your original add-on, before you created the Amazon EKS add-on, use the configuration that you saved in a previous step to update the Amazon EKS add-on with your custom settings. For instructions to update the add-on, see <<coredns-add-on-update>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23coredns-add-on-create%5D&type=code[Edit this page on GitHub]

@@ -1,10 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#create-page]
 = Create a new page
 :info_titleabbrev: Create page
 
-
-include::../attributes.txt[]
 
 Learn how to create a new docs page. This topic includes instructions for creating the initial page metadata, and adding the page to the guide table of contents. 
 
@@ -28,6 +28,3 @@ image::images/contribute-new-page.png["New page metadata"]
 _For example:_
 +
 `include::create-page.adoc[leveloffset=+1]`
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23create-page%5D&type=code[Edit this page on GitHub]

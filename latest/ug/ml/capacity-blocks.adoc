@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#capacity-blocks]
 = Create self-managed nodes with Capacity Blocks for ML
 :info_titleabbrev: Reserve GPUs for SMN
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -20,10 +20,10 @@ Capacity Blocks for machine learning (ML) allow you to reserve GPU instances on 
 
 
 * Capacity Blocks are only available for certain Amazon EC2 instance types and {aws} Regions. For compatibility information, see link:AWSEC2/latest/UserGuide/capacity-blocks-using.html#capacity-blocks-prerequisites[Work with Capacity Blocks Prerequisites,type="documentation"] in the _Amazon EC2 User Guide for Linux Instances_.
-* Capacity Blocks currently cannot be used with [.noloc]`Karpenter`.
+* Capacity Blocks currently cannot be used with Karpenter.
 * If you create a self-managed node group prior to the capacity reservation becoming active, then set the desired capacity to `0`. 
 * To allow sufficient time to gracefully drain the node(s), we suggest that you schedule scaling to scale to zero more than 30 minutes before the Capacity Block reservation end time.
-* In order for your [.noloc]`Pods` to be gracefully drained, we recommend that you set up {aws} Node Termination Handler as explained in the example steps.
+* In order for your Pods to be gracefully drained, we recommend that you set up {aws} Node Termination Handler as explained in the example steps.
 
 ====
 
@@ -91,16 +91,13 @@ NodeGroup:
         PropagateAtLaunch: true
         Value: owned
 ----
-. Once the node group is created successfully, make sure to record the `NodeInstanceRole` for the node group that was created. You need this in order to make sure that when node group is scaled, the new nodes join the cluster and [.noloc]`Kubernetes` is able to recognize the nodes. For more information, see the {aws-management-console} instructions in <<launch-workers,Create self-managed Amazon Linux nodes>>.
+. Once the node group is created successfully, make sure to record the `NodeInstanceRole` for the node group that was created. You need this in order to make sure that when node group is scaled, the new nodes join the cluster and Kubernetes is able to recognize the nodes. For more information, see the {aws-management-console} instructions in <<launch-workers,Create self-managed Amazon Linux nodes>>.
 . We recommend that you create a scheduled scaling policy for the Auto Scaling group that aligns to the Capacity Block reservation times. For more information, see link:autoscaling/ec2/userguide/ec2-auto-scaling-scheduled-scaling.html[Scheduled scaling for Amazon EC2 Auto Scaling,type="documentation"] in the _Amazon EC2 Auto Scaling User Guide_.
 +
 You can use all of the instances you reserved until 30 minutes before the end time of the Capacity Block. Instances that are still running at that time will start terminating. To allow sufficient time to gracefully drain the node(s), we suggest that you schedule scaling to scale to zero more than 30 minutes before the Capacity Block reservation end time.
 +
 If you want to instead scale up manually whenever the capacity reservation becomes `Active`, then you need to update the Auto Scaling group's desired capacity at the start time of the Capacity Block reservation. Then you would need to also scale down manually more than 30 minutes before the Capacity Block reservation end time.
-. The node group is now ready for workloads and [.noloc]`Pods` to be scheduled.
-. In order for your [.noloc]`Pods` to be gracefully drained, we recommend that you set up {aws} Node Termination Handler. This handler will be able to watch for "ASG Scale-in" lifecycle events from Amazon EC2 Auto Scaling using EventBridge and allow the [.noloc]`Kubernetes` control plane to take required action before the instance becomes unavailable. Otherwise, your [.noloc]`Pods` and [.noloc]`Kubernetes` objects will get stuck in a pending state. For more information, see https://github.com/aws/aws-node-termination-handler[{aws} Node Termination Handler] on GitHub.
+. The node group is now ready for workloads and Pods to be scheduled.
+. In order for your Pods to be gracefully drained, we recommend that you set up {aws} Node Termination Handler. This handler will be able to watch for "ASG Scale-in" lifecycle events from Amazon EC2 Auto Scaling using EventBridge and allow the Kubernetes control plane to take required action before the instance becomes unavailable. Otherwise, your Pods and Kubernetes objects will get stuck in a pending state. For more information, see https://github.com/aws/aws-node-termination-handler[{aws} Node Termination Handler] on GitHub.
 +
-If you don't setup a Node Termination Handler, we recommend that you start draining your [.noloc]`Pods` manually before hitting the 30 minute window so that they have enough time to be gracefully drained.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23capacity-blocks%5D&type=code[Edit this page on GitHub]
+If you don't setup a Node Termination Handler, we recommend that you start draining your Pods manually before hitting the 30 minute window so that they have enough time to be gracefully drained.

@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#network-policy-stars-demo]
 = Stars demo of network policy for Amazon EKS
 :info_titleabbrev: Stars policy demo
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -24,7 +24,7 @@ kubectl apply -f https://eksworkshop.com/beginner/120_network-policies/calico/st
 kubectl apply -f https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/frontend.yaml
 kubectl apply -f https://eksworkshop.com/beginner/120_network-policies/calico/stars_policy_demo/create_resources.files/client.yaml
 ----
-. View all [.noloc]`Pods` on the cluster.
+. View all Pods on the cluster.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -186,6 +186,3 @@ kubectl delete -f https://eksworkshop.com/beginner/120_network-policies/calico/s
 ----
 +
 Even after deleting the resources, there can still be network policy endpoints on the nodes that might interfere in unexpected ways with networking in your cluster. The only sure way to remove these rules is to reboot the nodes or terminate all of the nodes and recycle them. To terminate all nodes, either set the Auto Scaling Group desired count to 0, then back up to the desired number, or just terminate the nodes.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23network-policy-stars-demo%5D&type=code[Edit this page on GitHub]

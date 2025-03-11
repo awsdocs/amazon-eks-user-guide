@@ -1,3 +1,5 @@
+include::../attributes.txt[]
+
 [.topic]
 [#automode-learn-instances]
 = Learn about Amazon EKS Auto Mode Managed instances
@@ -9,8 +11,6 @@
 :emi: EC2 {mi}
 :emng: EKS Managed Node Group
 :info_titleabbrev: Managed instances
-
-include::../attributes.txt[]
 
 This topic explains how {aam} manages Amazon EC2 instances in your EKS cluster. When you enable {am}, your cluster's compute resources are automatically provisioned and managed by EKS, changing how you interact with the EC2 instances that serve as nodes in your cluster.
 
@@ -117,6 +117,3 @@ For more information, see link:ec2/latest/instancetypes/instance-type-names.html
 * Amazon EKS Auto Mode does not support {aws} Fault Injection Service. For more information, see link:resilience-hub/latest/userguide/testing.html["Managing Fault Injection Service experiments",type="documentation"] in the {aws} Resilience Hub User Guide. 
 * You do not need to install the `Neuron Device Plugin` on EKS Auto Mode nodes. 
 ** If you have other types of nodes in your cluster, you need to configure the Neuron Device plugin to not run on auto mode nodes. For more information, see <<associate-workload>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23automode-learn-instances%5D&type=code[Edit this page on GitHub]

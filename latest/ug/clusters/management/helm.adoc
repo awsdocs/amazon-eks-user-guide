@@ -1,16 +1,16 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#helm]
-= Deploy applications with [.noloc]`Helm` on Amazon EKS
+= Deploy applications with Helm on Amazon EKS
 :info_titleabbrev: Deploy apps with Helm
-
-include::../../attributes.txt[]
 
 [abstract]
 --
 Learn how to install and use Helm, a package manager for Kubernetes, with your Amazon EKS cluster to manage and deploy applications seamlessly.
 --
 
-The Helm package manager for [.noloc]`Kubernetes` helps you install and manage applications on your [.noloc]`Kubernetes` cluster. For more information, see the https://docs.helm.sh/[Helm documentation]. This topic helps you install and run the Helm binaries so that you can install and manage charts using the Helm CLI on your local system.
+The Helm package manager for Kubernetes helps you install and manage applications on your Kubernetes cluster. For more information, see the https://docs.helm.sh/[Helm documentation]. This topic helps you install and run the Helm binaries so that you can install and manage charts using the Helm CLI on your local system.
 
 [IMPORTANT]
 ====
@@ -31,13 +31,13 @@ kubectl get svc
 ----
 brew install helm
 ----
-** If you're using [.noloc]`Windows` with https://chocolatey.org/[Chocolatey], install the binaries with the following command.
+** If you're using Windows with https://chocolatey.org/[Chocolatey], install the binaries with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 choco install kubernetes-helm
 ----
-** If you're using [.noloc]`Linux`, install the binaries with the following commands.
+** If you're using Linux, install the binaries with the following commands.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -70,7 +70,4 @@ v3.9.0
 +
 ** Experiment by installing an example chart. See https://helm.sh/docs/intro/quickstart#install-an-example-chart[Install an example chart] in the Helm https://helm.sh/docs/intro/quickstart/[Quickstart guide].
 ** Create an example chart and push it to Amazon ECR. For more information, see link:AmazonECR/latest/userguide/push-oci-artifact.html[Pushing a Helm chart,type="documentation"] in the _Amazon Elastic Container Registry User Guide_.
-** Install an Amazon EKS chart from the https://github.com/aws/eks-charts#eks-charts[eks-charts][.noloc]`GitHub` repo or from https://artifacthub.io/packages/search?page=1&repo=aws[ArtifactHub].
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23helm%5D&type=code[Edit this page on GitHub]
+** Install an Amazon EKS chart from the https://github.com/aws/eks-charts#eks-charts[eks-charts]GitHub repo or from https://artifacthub.io/packages/search?page=1&repo=aws[ArtifactHub].

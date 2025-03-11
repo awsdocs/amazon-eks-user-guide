@@ -107,6 +107,3 @@ This command returns the Amazon Resource Name (ARN) of the IAM entity that's con
 
 * <<install-kubectl,Set up kubectl and eksctl>>
 * <<quickstart,Quickstart: Deploy a web app and store data>>
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23install-awscli%5D&type=code[Edit this page on GitHub]

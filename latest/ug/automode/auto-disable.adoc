@@ -1,8 +1,8 @@
+include::../attributes.txt[]
+
 [.topic]
 [#auto-disable]
 = Disable EKS Auto Mode
-
-include::../attributes.txt[]
 
 You can disable EKS Auto Mode on an existing EKS Cluster. This is a destructive operation. 
 
@@ -59,6 +59,3 @@ To then delete the Security Group:
 ----
 aws ec2 delete-security-group --group-name=<sg-name>
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-disable%5D&type=code[Edit this page on GitHub]

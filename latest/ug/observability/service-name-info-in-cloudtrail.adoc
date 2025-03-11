@@ -1,4 +1,5 @@
 include::../attributes.txt[]
+
 [.topic]
 [#service-name-info-in-cloudtrail]
 = View helpful references for {aws} CloudTrail
@@ -23,6 +24,3 @@ All Amazon EKS actions are logged by CloudTrail and are documented in the link:e
 Every event or log entry contains information about the type of IAM identity that made the request, and which credentials were used. If temporary credentials were used, the entry shows how the credentials were obtained.
 
 For more information, see the link:awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html[CloudTrail userIdentity element,type="documentation"].
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23service-name-info-in-cloudtrail%5D&type=code[Edit this page on GitHub]

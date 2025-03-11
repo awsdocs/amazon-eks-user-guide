@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#pr-preview]
 = View a preview of pull request content
 :info_titleabbrev: View PR preview
-
-include::../attributes.txt[]
 
 The Amazon EKS User Guide GitHub is configured to build and generate a preview of the docs site. This preview doesn't have the full {aws} theme, but it does check the content builds properly and links work.
 
@@ -36,6 +36,3 @@ The preview is built as a single large HTML file. It will be displayed as multip
 
 * Links to other {aws} content, using `type="documentation"`. This is because this content doesn't exist in the preview environment.
 * The attribute `\{aws}` will not display properly. The value of this changes based on the environment.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pr-preview%5D&type=code[Edit this page on GitHub]

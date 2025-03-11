@@ -1,24 +1,8 @@
-[#eks-networking]
-= Configure networking for Amazon EKS clusters
-:doctype: book
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
-:info_titleabbrev: Configure networking
-
 include::../attributes.txt[]
 
-include::network-reqs.adoc[leveloffset=+1]
-
-include::creating-a-vpc.adoc[leveloffset=+1]
-
-include::sec-group-reqs.adoc[leveloffset=+1]
-
-include::eks-networking-add-ons.adoc[leveloffset=+1]
+[#eks-networking]
+= Configure networking for Amazon EKS clusters
+:info_titleabbrev: Configure networking
 
 [abstract]
 --
@@ -30,5 +14,11 @@ Your Amazon EKS cluster is created in a VPC. Pod networking is provided by the A
 [.topiclist]
 [[Topic List]]
 
+include::network-reqs.adoc[leveloffset=+1]
 
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-networking%5D&type=code[Edit this page on GitHub]
+include::creating-a-vpc.adoc[leveloffset=+1]
+
+include::sec-group-reqs.adoc[leveloffset=+1]
+
+include::eks-networking-add-ons.adoc[leveloffset=+1]
+

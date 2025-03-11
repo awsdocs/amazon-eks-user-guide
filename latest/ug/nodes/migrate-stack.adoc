@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#migrate-stack]
 = Migrate applications to a new node group
 :info_titleabbrev: Migration
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -50,17 +50,17 @@ An example output is as follows.
 CLUSTER      NODEGROUP          CREATED               MIN SIZE      MAX SIZE     DESIRED CAPACITY     INSTANCE TYPE     IMAGE ID
 default      standard-nodes   2019-05-01T22:26:58Z  1             4            3                    t3.medium         ami-05a71d034119ffc12
 ----
-. Launch a new node group with `eksctl` with the following command. In the command, replace every [.replaceable]`example value` with your own values. The version number can't be later than the [.noloc]`Kubernetes` version for your control plane. Also, it can't be more than two minor versions earlier than the [.noloc]`Kubernetes` version for your control plane. We recommend that you use the same version as your control plane.
+. Launch a new node group with `eksctl` with the following command. In the command, replace every [.replaceable]`example value` with your own values. The version number can't be later than the Kubernetes version for your control plane. Also, it can't be more than two minor versions earlier than the Kubernetes version for your control plane. We recommend that you use the same version as your control plane.
 +
-We recommend blocking [.noloc]`Pod` access to IMDS if the following conditions are true:
+We recommend blocking Pod access to IMDS if the following conditions are true:
 +
-** You plan to assign IAM roles to all of your [.noloc]`Kubernetes` service accounts so that [.noloc]`Pods` only have the minimum permissions that they need.
-** No [.noloc]`Pods` in the cluster require access to the Amazon EC2 instance metadata service (IMDS) for other reasons, such as retrieving the current {aws} Region.
+** You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need.
+** No Pods in the cluster require access to the Amazon EC2 instance metadata service (IMDS) for other reasons, such as retrieving the current {aws} Region.
 
 +
 For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
 +
-To block [.noloc]`Pod` access to IMDS, add the `--disable-pod-imds` option to the following command.
+To block Pod access to IMDS, add the `--disable-pod-imds` option to the following command.
 +
 [NOTE]
 ====
@@ -122,7 +122,7 @@ newSecGroup=$(aws cloudformation describe-stack-resources --stack-name $newNodes
 ----
 .. Add ingress rules to each node security group so that they accept traffic from each other.
 +
-The following {aws} CLI commands add inbound rules to each security group that allow all traffic on all protocols from the other security group. This configuration allows [.noloc]`Pods` in each node group to communicate with each other while you're migrating your workload to the new group.
+The following {aws} CLI commands add inbound rules to each security group that allow all traffic on all protocols from the other security group. This configuration allows Pods in each node group to communicate with each other while you're migrating your workload to the new group.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -170,14 +170,14 @@ kubectl get nodes --watch
 ----
 kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
 ----
-. Use the following command to taint each of the nodes that you want to remove with `NoSchedule`. This is so that new [.noloc]`Pods` aren't scheduled or rescheduled on the nodes that you're replacing. For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the [.noloc]`Kubernetes` documentation.
+. Use the following command to taint each of the nodes that you want to remove with `NoSchedule`. This is so that new Pods aren't scheduled or rescheduled on the nodes that you're replacing. For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the Kubernetes documentation.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl taint nodes node_name key=value:NoSchedule
 ----
 +
-If you're upgrading your nodes to a new [.noloc]`Kubernetes` version, you can identify and taint all of the nodes of a particular [.noloc]`Kubernetes` version (in this case, `{k8s-n-2}`) with the following code snippet. The version number can't be later than the [.noloc]`Kubernetes` version of your control plane. It also can't be more than two minor versions earlier than the [.noloc]`Kubernetes` version of your control plane. We recommend that you use the same version as your control plane.
+If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version (in this case, `{k8s-n-2}`) with the following code snippet. The version number can't be later than the Kubernetes version of your control plane. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane. We recommend that you use the same version as your control plane.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -196,7 +196,7 @@ done
 kubectl get deployments -l k8s-app=kube-dns -n kube-system
 ----
 +
-An example output is as follows. This cluster is using [.noloc]`CoreDNS` for DNS resolution, but your cluster can return `kube-dns` instead):
+An example output is as follows. This cluster is using CoreDNS for DNS resolution, but your cluster can return `kube-dns` instead):
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -216,7 +216,7 @@ kubectl scale deployments/coredns --replicas=2 -n kube-system
 kubectl drain node_name --ignore-daemonsets --delete-local-data
 ----
 +
-If you're upgrading your nodes to a new [.noloc]`Kubernetes` version, identify and drain all of the nodes of a particular [.noloc]`Kubernetes` version (in this case, [.replaceable]`{k8s-n-2}`) with the following code snippet.
+If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version (in this case, [.replaceable]`{k8s-n-2}`) with the following code snippet.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -302,6 +302,3 @@ kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
 ----
 kubectl scale deployments/kube-dns --replicas=1 -n kube-system
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23migrate-stack%5D&type=code[Edit this page on GitHub]

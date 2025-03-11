@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#auto-elb-example]
 = Deploy a Sample Load Balancer Workload to EKS Auto Mode
 :info_titleabbrev: Deploy load balancer
-
-include::../attributes.txt[]
 
 This guide walks you through deploying a containerized version of the 2048 game on Amazon EKS, complete with load balancing and internet accessibility.
 
@@ -243,6 +243,3 @@ If the game doesn't load:
 - Ensure all pods are running: `kubectl get pods -n game-2048`
 - Check ingress status: `kubectl describe ingress -n game-2048`
 - Verify ALB health checks: Check the target group health in {aws} Console
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-elb-example%5D&type=code[Edit this page on GitHub]

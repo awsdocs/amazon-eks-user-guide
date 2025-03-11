@@ -1,9 +1,9 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-role]
-= Create [.noloc]`IAM` role with trust policy required by [.noloc]`EKS Pod Identity`
+= Create IAM role with trust policy required by EKS Pod Identity
 :info_titleabbrev: EKS Pod Identity role
-
-include::../../attributes.txt[]
 
 [abstract]
 --
@@ -40,6 +40,3 @@ EKS Pod Identity uses `TagSession` to include _session tags_ in the requests to 
 You can use these tags in the _condition keys_ in the trust policy to restrict which service accounts, namespaces, and clusters can use this role.
 +
 For a list of Amazon EKS condition keys, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-policy-keys[Conditions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the _Service Authorization Reference_. To learn which actions and resources you can use a condition key with, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"].
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-id-role%5D&type=code[Edit this page on GitHub]

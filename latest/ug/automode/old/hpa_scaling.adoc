@@ -1,9 +1,8 @@
+include::../attributes.txt[]
+
 [.topic]
 [#auto-hpa-scaling]
 = End-to-end Compute Autoscaling with HPA
-
-include::../attributes.txt[]
-
 
 This guide shows you how Karpenter autoscales nodes in conjunction with HPA scaling your applications.
 
@@ -237,6 +236,3 @@ helm uninstall metrics-server -n kube-system
 kubectl delete hpa retail-store-sample-ui-hpa
 kubectl delete load-generator
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-hpa-scaling%5D&type=code[Edit this page on GitHub]

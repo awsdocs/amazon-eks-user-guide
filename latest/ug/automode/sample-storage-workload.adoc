@@ -1,20 +1,20 @@
+include::../attributes.txt[]
+
 [.topic]
 [#sample-storage-workload]
 = Deploy a sample stateful workload to EKS Auto Mode
 :info_titleabbrev: Deploy stateful workload
 
-include::../attributes.txt[]
-
 This tutorial will guide you through deploying a sample stateful application to your EKS Auto Mode cluster. The application writes timestamps to a persistent volume, demonstrating EKS Auto Mode's automatic EBS volume provisioning and persistence capabilities.
 
-## Prerequisites
+== Prerequisites
 
 * An EKS Auto Mode cluster
 * The {aws} CLI configured with appropriate permissions
 * `kubectl` installed and configured
 ** For more information, see <<setting-up>>.
 
-## Step 1: Configure your environment
+== Step 1: Configure your environment
 
 . Set your environment variables:
 +
@@ -30,7 +30,7 @@ export AWS_REGION="us-west-2"
 aws eks update-kubeconfig --name "${CLUSTER_NAME}"
 ----
 
-## Step 2: Create the storage class
+== Step 2: Create the storage class
 
 The `StorageClass` defines how EKS Auto Mode will provision EBS volumes.
 
@@ -67,7 +67,7 @@ kubectl apply -f storage-class.yaml
 - `encrypted: "true"` - EBS will use the default `aws/ebs` key to encrypt volumes created with this class. This is optional, but recommended. 
 - `storageclass.kubernetes.io/is-default-class: "true"` - Kubernetes will use this storage class by default, unless you specify a different volume class on a persistent volume claim. Use caution when setting this value if you are migrating from another storage controller. (optional)
 
-## Step 3: Create the persistent volume claim
+== Step 3: Create the persistent volume claim
 
 The PVC requests storage from the `StorageClass`.
 
@@ -100,7 +100,7 @@ kubectl apply -f pvc.yaml
 - `storage: 8Gi` - Requests an 8 GiB volume
 - `storageClassName: auto-ebs-sc` - References the `StorageClass` we created
 
-## Step 4: Deploy the Application
+== Step 4: Deploy the Application
 
 The Deployment runs a container that writes timestamps to the persistent volume.
 
@@ -155,7 +155,7 @@ kubectl apply -f deployment.yaml
 - Requests 1 CPU core
 - Uses node selector for EKS managed nodes
 
-## Step 5: Verify the Setup
+== Step 5: Verify the Setup
 
 . Check that the pod is running:
 +
@@ -188,7 +188,7 @@ kubectl exec "$(kubectl get pods -l app=inflate-stateful \
   cat /data/out.txt
 ----
 
-## Step 6: Cleanup 
+== Step 6: Cleanup 
 
 Run the following command to remove all resources created in this tutorial:
 
@@ -198,7 +198,7 @@ Run the following command to remove all resources created in this tutorial:
 kubectl delete deployment/inflate-stateful pvc/auto-ebs-claim storageclass/auto-ebs-sc
 ----
 
-## What's Happening Behind the Scenes
+== What's Happening Behind the Scenes
 
 . The PVC requests storage from the `StorageClass`
 . When the Pod is scheduled:
@@ -224,6 +224,3 @@ deletionPolicy: Delete
 ----
 
 https://github.com/kubernetes-csi/external-snapshotter/blob/master/README.md#usage[Learn more about the Kubernetes CSI Snapshotter.]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23sample-storage-workload%5D&type=code[Edit this page on GitHub]

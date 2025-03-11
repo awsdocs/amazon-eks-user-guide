@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#auto-glossary]
 = Glossary
 :info_titleabbrev: Glossary
-
-include::../attributes.txt[]
 
 IAM Role::
 An IAM identity that you can create in your {aws} account that has specific permissions. You can use IAM roles to delegate access to users, applications, or services that don't normally have access to your {aws} resources.
@@ -70,6 +70,3 @@ A feature that manages Amazon EBS volumes in Amazon EKS Auto Mode clusters. This
 
 EKS Auto Mode -- Load Balancing Capability::
 A feature that manages Application Load Balancers and Network Load Balancers in Amazon EKS Auto Mode clusters. This capability automatically configures load balancers based on your service requirements.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-glossary%5D&type=code[Edit this page on GitHub]

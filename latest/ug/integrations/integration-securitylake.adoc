@@ -1,3 +1,5 @@
+include::../attributes.txt[]
+
 [.topic]
 [#integration-securitylake]
 = Centralize and analyze EKS security data with Security Lake
@@ -5,14 +7,12 @@
 
 :keywords: Amazon EKS, Amazon Security Lake, Kubernetes security, centralized security data, threat detection
 
-include::../attributes.txt[]
-
 [abstract]
 --
-Amazon Security Lake integrates with Amazon EKS to provide a centralized and standardized solution for collecting, storing, and analyzing security data from clusters. By enabling EKS control plane logging and adding EKS logs as a source in Security Lake, users can gain valuable insights, detect potential threats, and enhance the security posture of their [.noloc]`Kubernetes` environments.
+Amazon Security Lake integrates with Amazon EKS to provide a centralized and standardized solution for collecting, storing, and analyzing security data from clusters. By enabling EKS control plane logging and adding EKS logs as a source in Security Lake, users can gain valuable insights, detect potential threats, and enhance the security posture of their Kubernetes environments.
 --
 
-Amazon Security Lake is a fully managed security data lake service that allows you to centralize security data from various sources, including Amazon EKS. By integrating Amazon EKS with Security Lake, you can gain deeper insights into the activities performed on your [.noloc]`Kubernetes` resources and enhance the security posture of your Amazon EKS clusters.
+Amazon Security Lake is a fully managed security data lake service that allows you to centralize security data from various sources, including Amazon EKS. By integrating Amazon EKS with Security Lake, you can gain deeper insights into the activities performed on your Kubernetes resources and enhance the security posture of your Amazon EKS clusters.
 
 [NOTE]
 ====
@@ -46,6 +46,3 @@ For more information about using Security Lake with Amazon EKS and setting up da
 Security Lake normalizes EKS log events to the OCSF format, making it easier to analyze and correlate the data with other security events. You can use various tools and services, such as Amazon Athena, Amazon QuickSight, or third-party security analytics tools, to query and visualize the normalized data.
 
 For more information about the OCSF mapping for EKS log events, refer to the https://github.com/ocsf/examples/tree/main/mappings/markdown/{aws}/v1.1.0/EKS Audit Logs[mapping reference] in the OCSF GitHub repository.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23integration-securitylake%5D&type=code[Edit this page on GitHub]

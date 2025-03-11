@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#auto-networking]
 = Learn about VPC Networking and Load Balancing in EKS Auto Mode
 :info_titleabbrev: Networking
-
-include::../attributes.txt[]
 
 This topic explains how to configure Virtual Private Cloud (VPC) networking and load balancing features in EKS Auto Mode. While EKS Auto Mode manages most networking components automatically, you can still customize certain aspects of your cluster's networking configuration through NodeClass resources and load balancer annotations.
 
@@ -63,7 +63,3 @@ For more information, see <<auto-configure-alb>> or <<auto-configure-nlb>>.
 * {aws} does not support migrating load balancers from the self managed {aws} load balancer controller to management by EKS Auto Mode.
 * The `networking.ingress.ipBlock` field in `TargetGroupBinding` spec is not supported. 
 * If your worker nodes use custom security groups (not `+eks-cluster-sg-*+` naming pattern), your cluster role needs additional IAM permissions.  The default EKS-managed policy only allows EKS to modify security groups named `+eks-cluster-sg-*+`. Without permission to modify your custom security groups, EKS cannot add the required ingress rules that allow ALB/NLB traffic to reach your pods.
-* You cannot bring your own target groups. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-networking%5D&type=code[Edit this page on GitHub]

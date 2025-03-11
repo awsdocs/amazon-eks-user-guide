@@ -1,8 +1,8 @@
+include::../attributes.txt[]
+
 [.topic]
 [#disable-windows-support]
-= Disable [.noloc]`Windows` support
-
-include::../attributes.txt[]
+= Disable Windows support
 
 . If your cluster contains Amazon Linux nodes and you use <<security-groups-for-pods,security groups for Pods>> with them, then skip this step.
 +
@@ -14,7 +14,7 @@ aws iam detach-role-policy \
     --role-name eksClusterRole \
     --policy-arn {arn-aws}iam::aws:policy/AmazonEKSVPCResourceController
 ----
-. Disable [.noloc]`Windows` IPAM in the `amazon-vpc-cni` ConfigMap.
+. Disable Windows IPAM in the `amazon-vpc-cni` ConfigMap.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -23,6 +23,3 @@ kubectl patch configmap/amazon-vpc-cni \
                     --type merge \
                     -p '{"data":{"enable-windows-ipam":"false"}}'
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23disable-windows-support%5D&type=code[Edit this page on GitHub]

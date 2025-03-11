@@ -9,12 +9,12 @@ include::../attributes.txt[]
 
 Network policies allow you to control traffic flow at the IP address or port level within your Amazon EKS cluster. This topic explains how to enable and use network policies with EKS Auto Mode.
 
-## Prerequisites
+== Prerequisites
 
 * An Amazon EKS cluster with EKS Auto Mode enabled
 * kubectl configured to connect to your cluster
 
-## Step 1: Enable Network Policy Controller
+== Step 1: Enable Network Policy Controller
 
 To use network policies with EKS Auto Mode, you first need to enable the Network Policy Controller by applying a ConfigMap to your cluster.
 
@@ -35,7 +35,7 @@ data:
 kubectl apply -f enable-network-policy.yaml
 ```
 
-## Step 2: Enable Network Policies in Node Class
+== Step 2: Enable Network Policies in Node Class
 
 Before you can use network policies, you need to ensure that your Node Class is configured to support them. Follow these steps:
 
@@ -67,9 +67,6 @@ kubectl get nodeclass network-policy-enabled
 
 Once your nodes are using this Node Class, they will be able to enforce network policies. You can now proceed to create and apply network policies to control traffic within your cluster. For all the node class configuration options, see <<create-node-class>>. 
 
-## Step 3: Create and test network policies
+== Step 3: Create and test network policies
 
 Your EKS Auto Mode cluster is now configured to support Kubernetes network policies. You can test this with the <<network-policy-stars-demo>>. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-net-pol%5D&type=code[Edit this page on GitHub]

@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#node-health]
 = Enable node auto repair and investigate node health issues
 :info_titleabbrev: Node health
-
-include::../attributes.txt[]
 
 include::learn-status-conditions.adoc[leveloffset=+1]
 
@@ -322,6 +322,21 @@ If auto repair is enabled, the repair actions that are listed start 10 minutes a
 |Any occurrences of XIDs other than the ones defined in this list result in this event.
 |None
 
+|DCGMError
+|Condition
+|Connection to the Data Center GPU Manager (DCGM) host process was lost or could not be established.
+|None
+
+|DCGMDiagnosticError
+|Condition
+|An issued occurred running DCGM active diagnostics.
+|None
+
+|DCGMDiagnosticFailure
+|Condition
+|A test case from the DCGM active diagnostics test suite failed.
+|None
+
 |===
 
 [#node-health-runtime]
@@ -391,6 +406,3 @@ If auto repair is enabled, the repair actions that are listed start 10 minutes a
 |Kubelet is reporting slow disk usage while trying to access the filesystem, potentially indicating insufficient disk input-output or filesystem issues.
 
 |===
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23node-health%5D&type=code[Edit this page on GitHub]

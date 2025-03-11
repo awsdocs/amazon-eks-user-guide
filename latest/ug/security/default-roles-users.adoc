@@ -1,20 +1,20 @@
+include::../attributes.txt[]
+
 [.topic]
 [#default-roles-users]
 = Understand Amazon EKS created RBAC roles and users
 :info_titleabbrev: Default roles and users
-
-include::../attributes.txt[]
 
 [abstract]
 --
 Learn about the Kubernetes roles and users that Amazon EKS creates for cluster components and add-ons. Amazon EKS uses these role-based authorization control (RBAC) identities to operate the cluster.
 --
 
-When you create a [.noloc]`Kubernetes` cluster, several default [.noloc]`Kubernetes` identities are created on that cluster for the proper functioning of [.noloc]`Kubernetes`. Amazon EKS creates [.noloc]`Kubernetes` identities for each of its default components. The identities provide [.noloc]`Kubernetes` role-based authorization control (RBAC) for the cluster components. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the [.noloc]`Kubernetes` documentation.  
+When you create a Kubernetes cluster, several default Kubernetes identities are created on that cluster for the proper functioning of Kubernetes. Amazon EKS creates Kubernetes identities for each of its default components. The identities provide Kubernetes role-based authorization control (RBAC) for the cluster components. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the Kubernetes documentation.  
 
-When you install optional <<eks-add-ons,add-ons>> to your cluster, additional [.noloc]`Kubernetes` identities might be added to your cluster. For more information about identities not addressed by this topic, see the documentation for the add-on.
+When you install optional <<eks-add-ons,add-ons>> to your cluster, additional Kubernetes identities might be added to your cluster. For more information about identities not addressed by this topic, see the documentation for the add-on.
 
-You can view the list of Amazon EKS created [.noloc]`Kubernetes` identities on your cluster using the {aws-management-console} or `kubectl` command line tool. All of the user identities appear in the `kube` audit logs available to you through Amazon CloudWatch.
+You can view the list of Amazon EKS created Kubernetes identities on your cluster using the {aws-management-console} or `kubectl` command line tool. All of the user identities appear in the `kube` audit logs available to you through Amazon CloudWatch.
 
 [#default-role-users-console]
 == {aws-management-console}
@@ -47,7 +47,7 @@ In addition to the resources that you see in the console, the following special 
 
 === Prerequisite
 
-The entity that you use ({aws} Identity and Access Management (IAM) or [.noloc]`OpenID Connect` ([.noloc]`OIDC`)) to list the [.noloc]`Kubernetes` resources on the cluster must be authenticated by IAM or your [.noloc]`OIDC` identity provider. The entity must be granted permissions to use the [.noloc]`Kubernetes` `get` and `list` verbs for the `Role`, `ClusterRole`, `RoleBinding`, and `ClusterRoleBinding` resources on your cluster that you want the entity to work with. For more information about granting IAM entities access to your cluster, see <<grant-k8s-access>>. For more information about granting entities authenticated by your own [.noloc]`OIDC` provider access to your cluster, see <<authenticate-oidc-identity-provider>>.
+The entity that you use ({aws} Identity and Access Management (IAM) or OpenID Connect (OIDC)) to list the Kubernetes resources on the cluster must be authenticated by IAM or your OIDC identity provider. The entity must be granted permissions to use the Kubernetes `get` and `list` verbs for the `Role`, `ClusterRole`, `RoleBinding`, and `ClusterRoleBinding` resources on your cluster that you want the entity to work with. For more information about granting IAM entities access to your cluster, see <<grant-k8s-access>>. For more information about granting entities authenticated by your own OIDC provider access to your cluster, see <<authenticate-oidc-identity-provider>>.
 
 === To view Amazon EKS created identities using `kubectl`
 Run the command for the type of resource that you want to see. All returned resources that are prefaced with *eks* are created by Amazon EKS. In addition to the resources returned in the output from the commands, the following special user identities exist on your cluster, though they're not visible in the cluster's configuration:
@@ -55,9 +55,9 @@ Run the command for the type of resource that you want to see. All returned reso
 * *`eks:cluster-bootstrap`* – Used for `kubectl` operations during cluster bootstrap.
 * *`eks:support-engineer`* – Used for cluster management operations.
 
-*ClusterRoles* – `ClusterRoles` are scoped to your cluster, so any permission granted to a role applies to resources in any [.noloc]`Kubernetes` namespace on the cluster.
+*ClusterRoles* – `ClusterRoles` are scoped to your cluster, so any permission granted to a role applies to resources in any Kubernetes namespace on the cluster.
 
-The following command returns all of the Amazon EKS created [.noloc]`Kubernetes` `ClusterRoles` on your cluster.
+The following command returns all of the Amazon EKS created Kubernetes `ClusterRoles` on your cluster.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -95,7 +95,7 @@ PolicyRule:
 
 *ClusterRoleBindings* – `ClusterRoleBindings` are scoped to your cluster. 
 
-The following command returns all of the Amazon EKS created [.noloc]`Kubernetes` `ClusterRoleBindings` on your cluster.
+The following command returns all of the Amazon EKS created Kubernetes `ClusterRoleBindings` on your cluster.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -130,9 +130,9 @@ Subjects:
   User  eks:k8s-metrics
 ----
 
-*Roles* – `Roles` are scoped to a [.noloc]`Kubernetes` namespace. All Amazon EKS created `Roles` are scoped to the `kube-system` namespace.
+*Roles* – `Roles` are scoped to a Kubernetes namespace. All Amazon EKS created `Roles` are scoped to the `kube-system` namespace.
 
-The following command returns all of the Amazon EKS created [.noloc]`Kubernetes` `Roles` on your cluster.
+The following command returns all of the Amazon EKS created Kubernetes `Roles` on your cluster.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -160,9 +160,9 @@ PolicyRule:
   deployments.apps  []                 [vpc-resource-controller]  [get]
 ----
 
-*RoleBindings* – `RoleBindings` are scoped to a [.noloc]`Kubernetes` namespace. All Amazon EKS created `RoleBindings` are scoped to the `kube-system` namespace.
+*RoleBindings* – `RoleBindings` are scoped to a Kubernetes namespace. All Amazon EKS created `RoleBindings` are scoped to the `kube-system` namespace.
 
-The following command returns all of the Amazon EKS created [.noloc]`Kubernetes` `RoleBindings` on your cluster.
+The following command returns all of the Amazon EKS created Kubernetes `RoleBindings` on your cluster.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -191,6 +191,3 @@ Subjects:
   ----  ----             ---------
   User  eks:k8s-metrics
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23default-roles-users%5D&type=code[Edit this page on GitHub]

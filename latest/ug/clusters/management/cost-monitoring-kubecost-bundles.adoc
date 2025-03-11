@@ -1,23 +1,23 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#cost-monitoring-kubecost-bundles]
 = Learn more about Kubecost
 
-include::../../attributes.txt[]
+Amazon EKS provides an {aws} optimized bundle of Kubecost for cluster cost visibility. Amazon EKS supports Kubecost, which you can use to monitor your costs broken down by Kubernetes resources including Pods, nodes, namespaces, and labels.
 
-Amazon EKS provides an {aws} optimized bundle of [.noloc]`Kubecost` for cluster cost visibility. Amazon EKS supports [.noloc]`Kubecost`, which you can use to monitor your costs broken down by [.noloc]`Kubernetes` resources including [.noloc]`Pods`, nodes, namespaces, and labels.
+This topic covers the available versions of Kubecost, and the differences between the available tiers. EKS supports Kubecost Version 1 and Version 2. Each version is available in different tiers. You can use _Amazon EKS optimized Kubecost custom bundle_ for your EKS clusters at no additional cost. You may be charged for use of associated {aws} services, such as Amazon Managed Service for Prometheus. Also, you can use your existing {aws} support agreements to obtain support. 
 
-This topic covers the available versions of [.noloc]`Kubecost`, and the differences between the available tiers. EKS supports [.noloc]`Kubecost` Version 1 and Version 2. Each version is available in different tiers. You can use _Amazon EKS optimized [.noloc]`Kubecost` custom bundle_ for your EKS clusters at no additional cost. You may be charged for use of associated {aws} services, such as Amazon Managed Service for Prometheus. Also, you can use your existing {aws} support agreements to obtain support. 
+As a Kubernetes platform administrator and finance leader, you can use Kubecost to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams. You can provide your internal teams and business units with transparent and accurate cost data based on their actual {aws} bill. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters. For more information about Kubecost, see the https://guide.kubecost.com[Kubecost] documentation.
 
-As a [.noloc]`Kubernetes` platform administrator and finance leader, you can use [.noloc]`Kubecost` to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams. You can provide your internal teams and business units with transparent and accurate cost data based on their actual {aws} bill. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters. For more information about [.noloc]`Kubecost`, see the https://guide.kubecost.com[Kubecost] documentation.
+*What is the difference between the custom bundle of Kubecost and the free version of Kubecost (also known as OpenCost)?*
 
-*What is the difference between the custom bundle of [.noloc]`Kubecost` and the free version of [.noloc]`Kubecost` (also known as [.noloc]`OpenCost`)?*
-
-{aws} and [.noloc]`Kubecost` collaborated to offer a customized version of [.noloc]`Kubecost`. This version includes a subset of commercial features at no additional charge. See the tables below for features that are included with in the custom bundle of [.noloc]`Kubecost`.
+{aws} and Kubecost collaborated to offer a customized version of Kubecost. This version includes a subset of commercial features at no additional charge. See the tables below for features that are included with in the custom bundle of Kubecost.
 
 [#kubecost-v2]
 == Kubecost v2
 
-*What is the difference between [.noloc]`Kubecost` v1 and v2?*
+*What is the difference between Kubecost v1 and v2?*
 
 Kubecost 2.0 is a major upgrade from previous versions and includes major new features including a brand new API Backend. Note the https://docs.kubecost.com/apis/monitoring-apis/api-allocation[Allocation] and https://docs.kubecost.com/apis/monitoring-apis/assets-api[Assets] APIs are fully backwards compatible. https://docs.kubecost.com/install-and-configure/install/kubecostv2[Please review the Kubecost documentation to ensure a smooth transition.] For the full list of enhancements, https://github.com/kubecost/cost-analyzer-helm-chart/releases/tag/v2.0.0[please see the Kubecost release notes]
 
@@ -177,7 +177,7 @@ The following features have metric limits:
 |*Deployment*
 |User hosted
 |User hosted
-|User hosted or [.noloc]`Kubecost` hosted (SaaS)
+|User hosted or Kubecost hosted (SaaS)
 
 |*Number of clusters supported*
 |Unlimited
@@ -185,16 +185,16 @@ The following features have metric limits:
 |Unlimited
 
 |*Databases supported*
-|Local [.noloc]`Prometheus`
-|Local [.noloc]`Prometheus` or Amazon Managed Service for Prometheus
-|[.noloc]`Prometheus`, Amazon Managed Service for Prometheus, [.noloc]`Cortex`, or [.noloc]`Thanos`
+|Local Prometheus
+|Local Prometheus or Amazon Managed Service for Prometheus
+|Prometheus, Amazon Managed Service for Prometheus, Cortex, or Thanos
 
 |*Database retention support*
 |15 days
 |Unlimited historical data
 |Unlimited historical data
 
-|*[.noloc]`Kubecost` API retention (ETL)*
+|*Kubecost API retention (ETL)*
 |15 days
 |15 days
 |Unlimited historical data
@@ -237,23 +237,23 @@ The following features have metric limits:
 |*Single sign-on (SSO) support*
 |-
 |Amazon Cognito supported
-|[.noloc]`Okta`, [.noloc]`Auth0`, [.noloc]`PingID`, KeyCloak
+|Okta, Auth0, PingID, KeyCloak
 
 |*Role-based access control (RBAC) with SAML `2.0`*
 |-
 |-
-|[.noloc]`Okta`, [.noloc]`Auth0`, [.noloc]`PingID`, [.noloc]`Keycloak`
+|Okta, Auth0, PingID, Keycloak
 
 |*Enterprise training and onboarding*
 |-
 |-
-|Full-service training and [.noloc]`FinOps` onboarding
+|Full-service training and FinOps onboarding
 |===
 
 [#cost-monitoring-faq]
 == Frequently asked questions
 
-See the following common questions and answers about using [.noloc]`Kubecost` with Amazon EKS.
+See the following common questions and answers about using Kubecost with Amazon EKS.
 
 *What is the Kubecost API retention (ETL) feature?*
 
@@ -309,22 +309,19 @@ Yes. `Kubectl-cost` is an open source tool by Kubecost (Apache 2.0 License) that
 
 *Is the Kubecost user interface supported? How do I access it?*
 
-Kubecost provides a web dashboard that you can access through `kubectl` port forwarding, an ingress, or a load balancer. You can also use the {aws} Load Balancer Controller to expose [.noloc]`Kubecost` and use Amazon Cognito for authentication, authorization, and user management. For more information, see link:containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps[How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps,type="blog"] on the {aws} blog.
+Kubecost provides a web dashboard that you can access through `kubectl` port forwarding, an ingress, or a load balancer. You can also use the {aws} Load Balancer Controller to expose Kubecost and use Amazon Cognito for authentication, authorization, and user management. For more information, see link:containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps[How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps,type="blog"] on the {aws} blog.
 
 *Is Amazon EKS Anywhere supported?*
 
 No.
 
 [#kubecost-additional]
-== Additional [.noloc]`Kubecost` Features
+== Additional Kubecost Features
 
-* The following features are available in both [.noloc]`Kubecost` v1 and v2.  
-* *Export cost metrics* – Amazon EKS optimized cost monitoring is deployed with [.noloc]`Kubecost` and [.noloc]`Prometheus`, which is an open-source monitoring system and time series database. [.noloc]`Kubecost` reads metric from [.noloc]`Prometheus` and then performs cost allocation calculations and writes the metrics back to [.noloc]`Prometheus`. The [.noloc]`Kubecost` front-end reads metrics from [.noloc]`Prometheus` and shows them on the [.noloc]`Kubecost` user interface. The architecture is illustrated in the following diagram.
+* The following features are available in both Kubecost v1 and v2.  
+* *Export cost metrics* – Amazon EKS optimized cost monitoring is deployed with Kubecost and Prometheus, which is an open-source monitoring system and time series database. Kubecost reads metric from Prometheus and then performs cost allocation calculations and writes the metrics back to Prometheus. The Kubecost front-end reads metrics from Prometheus and shows them on the Kubecost user interface. The architecture is illustrated in the following diagram.
 +
 image::images/kubecost-architecture.png[Kubecost architecture,scaledwidth=100%]
 +
-With https://prometheus.io/[Prometheus] pre-installed, you can write queries to ingest [.noloc]`Kubecost` data into your current business intelligence system for further analysis. You can also use it as a data source for your current https://grafana.com/[Grafana] dashboard to display Amazon EKS cluster costs that your internal teams are familiar with. To learn more about how to write [.noloc]`Prometheus` queries, see the https://github.com/opencost/opencost/blob/develop/PROMETHEUS.md[Prometheus Configuration]``readme`` file on GitHub or use the example [.noloc]`Grafana` JSON models in the https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer[Kubecost Github repository] as references.
-* *{aws} Cost and Usage Report integration* – To perform cost allocation calculations for your Amazon EKS cluster, [.noloc]`Kubecost` retrieves the public pricing information of {aws} services and {aws} resources from the {aws} Price List API. You can also integrate [.noloc]`Kubecost` with *{aws} Cost and Usage Report* to enhance the accuracy of the pricing information specific to your {aws} account. This information includes enterprise discount programs, reserved instance usage, savings plans, and spot usage. To learn more about how the {aws} Cost and Usage Report integration works, see https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations[{aws} Cloud Billing Integration] in the [.noloc]`Kubecost` documentation.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cost-monitoring-kubecost-bundles%5D&type=code[Edit this page on GitHub]
+With https://prometheus.io/[Prometheus] pre-installed, you can write queries to ingest Kubecost data into your current business intelligence system for further analysis. You can also use it as a data source for your current https://grafana.com/[Grafana] dashboard to display Amazon EKS cluster costs that your internal teams are familiar with. To learn more about how to write Prometheus queries, see the https://github.com/opencost/opencost/blob/develop/PROMETHEUS.md[Prometheus Configuration]``readme`` file on GitHub or use the example Grafana JSON models in the https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer[Kubecost Github repository] as references.
+* *{aws} Cost and Usage Report integration* – To perform cost allocation calculations for your Amazon EKS cluster, Kubecost retrieves the public pricing information of {aws} services and {aws} resources from the {aws} Price List API. You can also integrate Kubecost with *{aws} Cost and Usage Report* to enhance the accuracy of the pricing information specific to your {aws} account. This information includes enterprise discount programs, reserved instance usage, savings plans, and spot usage. To learn more about how the {aws} Cost and Usage Report integration works, see https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations[{aws} Cloud Billing Integration] in the Kubecost documentation.

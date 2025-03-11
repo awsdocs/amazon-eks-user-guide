@@ -1,47 +1,47 @@
+include::../attributes.txt[]
+
 [.topic]
 [#pod-security-policy-removal-faq]
-= Migrate from legacy [.noloc]`Pod` security policies (PSP)
+= Migrate from legacy Pod security policies (PSP)
 :info_titleabbrev: Migrate from legacy PSP
-
-include::../attributes.txt[]
 
 [abstract]
 --
-Learn about the Pod Security Policy [.noloc]`(PSPs)` removal in [.noloc]`Kubernetes` `1.25`. Migrate to Pod Security Standards (PSS) or policy-as-code solutions before upgrading Amazon EKS clusters to [.noloc]`Kubernetes` 1.25 to avoid workload interruptions and maintain pod security controls.
+Learn about the Pod Security Policy (PSPs) removal in Kubernetes `1.25`. Migrate to Pod Security Standards (PSS) or policy-as-code solutions before upgrading Amazon EKS clusters to Kubernetes 1.25 to avoid workload interruptions and maintain pod security controls.
 --
 
-`PodSecurityPolicy` was https://kubernetes.io/blog/2021/04/06/podsecuritypolicy-deprecation-past-present-and-future/[deprecated in Kubernetes1.21], and has been removed in [.noloc]`Kubernetes` `1.25`. If you are using PodSecurityPolicy in your cluster, *then you must migrate to the built-in [.noloc]`Kubernetes` Pod Security Standards [.noloc]`(PSS)` or to a policy-as-code solution before upgrading your cluster to version `*1.25*` to avoid interruptions to your workloads.* Select any frequently asked question to learn more.
+`PodSecurityPolicy` was https://kubernetes.io/blog/2021/04/06/podsecuritypolicy-deprecation-past-present-and-future/[deprecated in Kubernetes1.21], and has been removed in Kubernetes `1.25`. If you are using PodSecurityPolicy in your cluster, *then you must migrate to the built-in Kubernetes Pod Security Standards (PSS) or to a policy-as-code solution before upgrading your cluster to version `*1.25*` to avoid interruptions to your workloads.* Select any frequently asked question to learn more.
 
 
 [#pod-security-policy-removal-what-is]
-.What is a [.noloc]`PSP`?
+.What is a PSP?
 [%collapsible]
 ====
 
-https://kubernetes.io/docs/concepts/security/pod-security-policy/[PodSecurityPolicy] is a built-in admission controller that allows a cluster administrator to control security-sensitive aspects of [.noloc]`Pod` specification. If a [.noloc]`Pod` meets the requirements of its [.noloc]`PSP`, the [.noloc]`Pod` is admitted to the cluster as usual. If a [.noloc]`Pod` doesn't meet the [.noloc]`PSP` requirements, the [.noloc]`Pod` is rejected and can't run.
+https://kubernetes.io/docs/concepts/security/pod-security-policy/[PodSecurityPolicy] is a built-in admission controller that allows a cluster administrator to control security-sensitive aspects of Pod specification. If a Pod meets the requirements of its PSP, the Pod is admitted to the cluster as usual. If a Pod doesn't meet the PSP requirements, the Pod is rejected and can't run.
 ====
 
 [#pod-security-policy-removal-specific]
-.Is the [.noloc]`PSP` removal specific to Amazon EKS or is it being removed in upstream [.noloc]`Kubernetes`?
+.Is the PSP removal specific to Amazon EKS or is it being removed in upstream Kubernetes?
 [%collapsible]
 ====
 
-This is an upstream change in the [.noloc]`Kubernetes` project, and not a change made in Amazon EKS. [.noloc]`PSP` was deprecated in [.noloc]`Kubernetes` `1.21` and  removed in [.noloc]`Kubernetes` `1.25`. The [.noloc]`Kubernetes` community identified serious usability problems with [.noloc]`PSP`. These included accidentally granting broader permissions than intended and difficulty in inspecting which [.noloc]`PSPs` apply in a given situation. These issues couldn't be addressed without making breaking changes. This is the primary reason why the [.noloc]`Kubernetes` community https://kubernetes.io/blog/2021/04/06/podsecuritypolicy-deprecation-past-present-and-future/#why-is-podsecuritypolicy-going-away[decided to remove PSP]. 
+This is an upstream change in the Kubernetes project, and not a change made in Amazon EKS. PSP was deprecated in Kubernetes `1.21` and  removed in Kubernetes `1.25`. The Kubernetes community identified serious usability problems with PSP. These included accidentally granting broader permissions than intended and difficulty in inspecting which PSPs apply in a given situation. These issues couldn't be addressed without making breaking changes. This is the primary reason why the Kubernetes community https://kubernetes.io/blog/2021/04/06/podsecuritypolicy-deprecation-past-present-and-future/#why-is-podsecuritypolicy-going-away[decided to remove PSP]. 
 ====
 
 [#pod-security-policy-removal-check]
-.How can I check if I'm using [.noloc]`PSPs` in my Amazon EKS clusters?  
+.How can I check if I'm using PSPs in my Amazon EKS clusters?  
 [%collapsible]
 ====
 
-To check if you're using [.noloc]`PSPs` in your cluster, you can run the following command:
+To check if you're using PSPs in your cluster, you can run the following command:
 
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl get psp
 ----
 
-To see the [.noloc]`Pods` that the [.noloc]`PSPs` in your cluster are impacting, run the following command. This command outputs the [.noloc]`Pod` name, namespace, and [.noloc]`PSPs`:
+To see the Pods that the PSPs in your cluster are impacting, run the following command. This command outputs the Pod name, namespace, and PSPs:
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -51,58 +51,58 @@ kubectl get pod -A -o jsonpath='{range.items[?(@.metadata.annotations.kubernetes
 ====
 
 [#pod-security-policy-removal-what-can]
-.If I'm using [.noloc]`PSPs` in my Amazon EKS cluster, what can I do?
+.If I'm using PSPs in my Amazon EKS cluster, what can I do?
 [%collapsible]
 ====
 
-Before upgrading your cluster to `1.25`, you must migrate your [.noloc]`PSPs` to either one of these alternatives:
+Before upgrading your cluster to `1.25`, you must migrate your PSPs to either one of these alternatives:
 
 
 
-* [.noloc]`Kubernetes` [.noloc]`PSS`.
+* Kubernetes PSS.
 
 
-* Policy-as-code solutions from the [.noloc]`Kubernetes` environment.
+* Policy-as-code solutions from the Kubernetes environment.
 
-In response to the [.noloc]`PSP` deprecation and the ongoing need to control [.noloc]`Pod` security from the start, the [.noloc]`Kubernetes` community created a built-in solution with https://kubernetes.io/docs/concepts/security/pod-security-standards/[(PSS)] and https://kubernetes.io/docs/concepts/security/pod-security-admission/[Pod Security Admission (PSA)]. The PSA webhook implements the controls that are defined in the [.noloc]`PSS`.
+In response to the PSP deprecation and the ongoing need to control Pod security from the start, the Kubernetes community created a built-in solution with https://kubernetes.io/docs/concepts/security/pod-security-standards/[(PSS)] and https://kubernetes.io/docs/concepts/security/pod-security-admission/[Pod Security Admission (PSA)]. The PSA webhook implements the controls that are defined in the PSS.
 
-You can review best practices for migrating [.noloc]`PSPs` to the built-in [.noloc]`PSS` in the https://aws.github.io/aws-eks-best-practices/security/docs/pods/#pod-security-standards-pss-and-pod-security-admission-psa[EKS Best Practices Guide]. We also recommend reviewing our blog on link:containers/implementing-pod-security-standards-in-amazon-eks[Implementing Pod Security Standards in Amazon EKS,type="blog"]. Additional references include https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/[Migrate from PodSecurityPolicy to the Built-In PodSecurity Admission Controller] and https://kubernetes.io/docs/reference/access-authn-authz/psp-to-pod-security-standards/[Mapping PodSecurityPolicies to Pod Security Standards].
+You can review best practices for migrating PSPs to the built-in PSS in the https://aws.github.io/aws-eks-best-practices/security/docs/pods/#pod-security-standards-pss-and-pod-security-admission-psa[EKS Best Practices Guide]. We also recommend reviewing our blog on link:containers/implementing-pod-security-standards-in-amazon-eks[Implementing Pod Security Standards in Amazon EKS,type="blog"]. Additional references include https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/[Migrate from PodSecurityPolicy to the Built-In PodSecurity Admission Controller] and https://kubernetes.io/docs/reference/access-authn-authz/psp-to-pod-security-standards/[Mapping PodSecurityPolicies to Pod Security Standards].
 
-Policy-as-code solutions provide guardrails to guide cluster users and prevents unwanted behaviors through prescribed automated controls. Policy-as-code solutions typically use https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/[Kubernetes Dynamic Admission Controllers] to intercept the [.noloc]`Kubernetes` API server request flow using a webhook call. Policy-as-code solutions mutate and validate request payloads based on policies written and stored as code.  
+Policy-as-code solutions provide guardrails to guide cluster users and prevents unwanted behaviors through prescribed automated controls. Policy-as-code solutions typically use https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/[Kubernetes Dynamic Admission Controllers] to intercept the Kubernetes API server request flow using a webhook call. Policy-as-code solutions mutate and validate request payloads based on policies written and stored as code.  
 
-There are several open source policy-as-code solutions available for [.noloc]`Kubernetes`. To review best practices for migrating [.noloc]`PSPs` to a policy-as-code solution, see the https://aws.github.io/aws-eks-best-practices/security/docs/pods/#policy-as-code-pac[Policy-as-code] section of the Pod Security page on GitHub.
+There are several open source policy-as-code solutions available for Kubernetes. To review best practices for migrating PSPs to a policy-as-code solution, see the https://aws.github.io/aws-eks-best-practices/security/docs/pods/#policy-as-code-pac[Policy-as-code] section of the Pod Security page on GitHub.
 ====
 
 [#pod-security-policy-removal-privileged]
-.I see a [.noloc]`PSP` called `eks.privileged` in my cluster. What is it and what can I do about it?
+.I see a PSP called `eks.privileged` in my cluster. What is it and what can I do about it?
 [%collapsible]
 ====
 
-Amazon EKS clusters with [.noloc]`Kubernetes` version `1.13` or higher have a default [.noloc]`PSP` that's named `eks.privileged`. This policy is created in `1.24` and earlier clusters. It isn't used in `1.25` and later clusters. Amazon EKS automatically migrates this [.noloc]`PSP` to a [.noloc]`PSS`-based enforcement. No action is needed on your part.  
+Amazon EKS clusters with Kubernetes version `1.13` or higher have a default PSP that's named `eks.privileged`. This policy is created in `1.24` and earlier clusters. It isn't used in `1.25` and later clusters. Amazon EKS automatically migrates this PSP to a PSS-based enforcement. No action is needed on your part.  
 ====
 
 [#pod-security-policy-removal-prevent]
-.Will Amazon EKS make any changes to [.noloc]`PSPs` present in my existing cluster when I update my cluster to version `1.25`?
+.Will Amazon EKS make any changes to PSPs present in my existing cluster when I update my cluster to version `1.25`?
 [%collapsible]
 ====
 
-No. Besides `eks.privileged`, which is a [.noloc]`PSP` created by Amazon EKS, no changes are made to other [.noloc]`PSPs` in your cluster when you upgrade to `1.25`.
+No. Besides `eks.privileged`, which is a PSP created by Amazon EKS, no changes are made to other PSPs in your cluster when you upgrade to `1.25`.
 ====
 
 [#pod-security-policy-removal-migrate]
-.Will Amazon EKS prevent a cluster update to version `1.25` if I haven't migrated off of [.noloc]`PSP`?
+.Will Amazon EKS prevent a cluster update to version `1.25` if I haven't migrated off of PSP?
 [%collapsible]
 ====
 
-No. Amazon EKS won't prevent a cluster update to version `1.25` if you didn't migrate off of [.noloc]`PSP` yet.
+No. Amazon EKS won't prevent a cluster update to version `1.25` if you didn't migrate off of PSP yet.
 ====
 
 [#pod-security-policy-removal-forget]
-.What if I forget to migrate my [.noloc]`PSPs` to [.noloc]`PSS/PSA` or to a policy-as-code solution before I update my cluster to version `1.25`? Can I migrate after updating my cluster?
+.What if I forget to migrate my PSPs to PSS/PSA or to a policy-as-code solution before I update my cluster to version `1.25`? Can I migrate after updating my cluster?
 [%collapsible]
 ====
 
-When a cluster that contains a [.noloc]`PSP` is upgraded to [.noloc]`Kubernetes` version `1.25`, the API server doesn't recognize the [.noloc]`PSP` resource in `1.25`. This might result in [.noloc]`Pods` getting incorrect security scopes. For an exhaustive list of implications, see https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/[Migrate from PodSecurityPolicy to the Built-In PodSecurity Admission Controller].
+When a cluster that contains a PSP is upgraded to Kubernetes version `1.25`, the API server doesn't recognize the PSP resource in `1.25`. This might result in Pods getting incorrect security scopes. For an exhaustive list of implications, see https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/[Migrate from PodSecurityPolicy to the Built-In PodSecurity Admission Controller].
 ====
 
 [#pod-security-policy-removal-impact]
@@ -110,8 +110,5 @@ When a cluster that contains a [.noloc]`PSP` is upgraded to [.noloc]`Kubernetes`
 [%collapsible]
 ====
 
-We don't expect any specific impact to Windows workloads. PodSecurityContext has a field called `windowsOptions` in the `PodSpec v1` API for Windows [.noloc]`Pods`. This uses [.noloc]`PSS` in [.noloc]`Kubernetes` `1.25`. For more information and best practices about enforcing [.noloc]`PSS` for Windows workloads, see the https://aws.github.io/aws-eks-best-practices/windows/docs/security/#pod-security-contexts[EKS Best Practices Guide] and [.noloc]`Kubernetes` https://kubernetes.io/docs/tasks/configure-pod-container/configure-runasusername/[documentation].
+We don't expect any specific impact to Windows workloads. PodSecurityContext has a field called `windowsOptions` in the `PodSpec v1` API for Windows Pods. This uses PSS in Kubernetes `1.25`. For more information and best practices about enforcing PSS for Windows workloads, see the https://aws.github.io/aws-eks-best-practices/windows/docs/security/#pod-security-contexts[EKS Best Practices Guide] and Kubernetes https://kubernetes.io/docs/tasks/configure-pod-container/configure-runasusername/[documentation].
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-security-policy-removal-faq%5D&type=code[Edit this page on GitHub]

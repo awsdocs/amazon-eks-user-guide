@@ -1,14 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#migrate-auto]
 = Enable EKS Auto Mode on existing EKS clusters
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Enable existing clusters
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -38,6 +33,7 @@ EKS Auto Mode requires Kubernetes version 1.29 or greater. EKS Auto Mode isn't a
 ** You can install the {aws} Load Balancer Controller on an Amazon EKS Auto Mode cluster. Use the `IngressClass` or `loadBalancerClass` options to associate Service and Ingress resources with either the Load Balancer Controller or EKS Auto Mode. 
 * Migrating EKS Clusters with alternative CNIs or other unsupported networking configurations
 
+[#migration-reference]
 == Migration Reference
 
 Use the following migration reference to configure Kubernetes Resources to be owned by either self-managed controllers or EKS Auto Mode. 
@@ -74,6 +70,3 @@ include::auto-enable-existing.adoc[leveloffset=+1]
 include::auto-migrate-karpenter.adoc[leveloffset=+1]
 
 include::auto-migrate-mng.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23migrate-auto%5D&type=code[Edit this page on GitHub]

@@ -1,14 +1,14 @@
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-networking]
 = Prepare networking for hybrid nodes
 :info_titleabbrev: Prepare networking
 :keywords: on-premises, hybrid
 
-include::../attributes.txt[]
-
 [abstract]
 --
-Learn about and configure the VPC and on-premises networking for joining nodes from your data centers to Amazon EKS [.noloc]`Kubernetes` clusters with Amazon EKS Hybrid Nodes.
+Learn about and configure the VPC and on-premises networking for joining nodes from your data centers to Amazon EKS Kubernetes clusters with Amazon EKS Hybrid Nodes.
 --
 
 This topic provides an overview of the networking setup you must have configured before creating your Amazon EKS cluster and attaching hybrid nodes. This guide assumes you have met the prerequisite requirements for hybrid network connectivity using link:vpn/latest/s2svpn/SetUpVPNConnections.html[{aws} Site-to-Site VPN,type="documentation"], link:directconnect/latest/UserGuide/Welcome.html[{aws} Direct Connect,type="documentation"], or your own VPN solution.
@@ -52,6 +52,11 @@ You must have access to the following domains during the installation process wh
 
 |link:general/latest/gr/eks.html[EKS service endpoints,type="documentation"]
 |\https://eks.[.replaceable]`region`.amazonaws.com
+|HTTPS
+|443
+
+|link:general/latest/gr/ecr.html[ECR service endpoints,type="documentation"]
+|\https://api.ecr.[.replaceable]`region`.amazonaws.com
 |HTTPS
 |443
 
@@ -113,15 +118,15 @@ Depending on your choice of CNI, you need to configure additional network access
 |443
 |Remote Node CIDR(s)
 |EKS cluster IPs ^1^
-|[.noloc]`kubelet` to Kubernetes API server
+|kubelet to Kubernetes API server
 
 |HTTPS
 |TCP
 |Outbound
 |443
-|Remote [.noloc]`Pod` CIDR(s)
+|Remote Pod CIDR(s)
 |EKS cluster IPs ^1^
-|[.noloc]`Pod` to Kubernetes API server
+|Pod to Kubernetes API server
 
 |HTTPS
 |TCP
@@ -143,9 +148,9 @@ Depending on your choice of CNI, you need to configure additional network access
 |TCP
 |Outbound
 |443
-|Remote [.noloc]`Pod` CIDR(s)
+|Remote Pod CIDR(s)
 |link:general/latest/gr/sts.html[STS Regional Endpoint,type="documentation"]
-|[.noloc]`Pod` to STS endpoint, only required for IRSA
+|Pod to STS endpoint, only required for IRSA
 
 |HTTPS
 |TCP
@@ -153,7 +158,7 @@ Depending on your choice of CNI, you need to configure additional network access
 |443
 |Remote Node CIDR(s)
 |link:general/latest/gr/eks.html[Amazon EKS Auth service endpoint,type="documentation"]
-|Node to Amazon EKS Auth endpoint, only required for Amazon EKS [.noloc]`Pod` Identity
+|Node to Amazon EKS Auth endpoint, only required for Amazon EKS Pod Identity
 
 |HTTPS
 |TCP
@@ -161,31 +166,31 @@ Depending on your choice of CNI, you need to configure additional network access
 |10250
 |EKS cluster IPs ^1^
 |Remote Node CIDR(s)
-|[.noloc]`kubelet` to Kubernetes API server
+|Kubernetes API server to kubelet
 
 |HTTPS
 |TCP
 |Inbound
 |Webhook ports
 |EKS cluster IPs ^1^
-|Remote [.noloc]`Pod` CIDR(s)
+|Remote Pod CIDR(s)
 |Kubernetes API server to webhooks
 
 |HTTPS
 |TCP,UDP
 |Inbound,Outbound
 |53
-|Remote [.noloc]`Pod` CIDR(s)
-|Remote [.noloc]`Pod` CIDR(s)
-|[.noloc]`Pod` to CoreDNS. If you run at least 1 replica of CoreDNS in the cloud, you must allow DNS traffic to the VPC where CoreDNS is running.
+|Remote Pod CIDR(s)
+|Remote Pod CIDR(s)
+|Pod to CoreDNS. If you run at least 1 replica of CoreDNS in the cloud, you must allow DNS traffic to the VPC where CoreDNS is running.
 
 |User-defined
 |User-defined
 |Inbound,Outbound
 |App ports
-|Remote [.noloc]`Pod` CIDR(s)
-|Remote [.noloc]`Pod` CIDR(s)
-|[.noloc]`Pod` to [.noloc]`Pod`
+|Remote Pod CIDR(s)
+|Remote Pod CIDR(s)
+|Pod to Pod
 |===
 
 [NOTE]
@@ -313,7 +318,7 @@ aws ec2 create-route \
 ----
 
 
-*Remote [.noloc]`Pod` network*
+*Remote Pod network*
 
 [source,cli,subs="verbatim,attributes,quotes"]
 ----
@@ -405,6 +410,3 @@ aws ec2 authorize-security-group-ingress \
     --group-id [.replaceable]`SG_ID` \
     --ip-permissions '[{"IpProtocol": "tcp", "FromPort": 443, "ToPort": 443, "IpRanges": [{"CidrIp": "REMOTE_NODE_CIDR"}, {"CidrIp": "REMOTE_POD_CIDR"}]}]'
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-networking%5D&type=code[Edit this page on GitHub]

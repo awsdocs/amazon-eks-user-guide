@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#tag-subnets-auto]
 = Tag subnets for EKS Auto Mode
 :info_titleabbrev: Tag subnets
-
-include::../attributes.txt[]
 
 If you use the load balancing capability of EKS Auto Mode, you need to add {aws} tags to your VPC subnets. 
 
@@ -78,6 +78,3 @@ aws ec2 create-tags \
 ----
 
 Replace `subnet-ID` with your actual subnet ID.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23tag-subnets-auto%5D&type=code[Edit this page on GitHub]

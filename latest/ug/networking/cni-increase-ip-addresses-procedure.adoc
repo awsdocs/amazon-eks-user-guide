@@ -1,20 +1,20 @@
+include::../attributes.txt[]
+
 [.topic]
 [#cni-increase-ip-addresses-procedure]
 = Increase the available IP addresses for your Amazon EKS node
 :info_titleabbrev: Procedure
 
-include::../attributes.txt[]
-
-You can increase the number of IP addresses that nodes can assign to [.noloc]`Pods` by assigning IP prefixes, rather than assigning individual secondary IP addresses to your nodes.
+You can increase the number of IP addresses that nodes can assign to Pods by assigning IP prefixes, rather than assigning individual secondary IP addresses to your nodes.
 
 == Prerequisites
 
 * You need an existing cluster. To deploy one, see <<create-cluster>>. 
 * The subnets that your Amazon EKS nodes are in must have sufficient contiguous `/28` (for `IPv4` clusters) or `/80` (for `IPv6` clusters) Classless Inter-Domain Routing (CIDR) blocks. You can only have Linux nodes in an `IPv6` cluster. Using IP prefixes can fail if IP addresses are scattered throughout the subnet CIDR. We recommend the following:
 ** Using a subnet CIDR reservation so that even if any IP addresses within the reserved range are still in use, upon their release, the IP addresses aren't reassigned. This ensures that prefixes are available for allocation without segmentation.
-** Use new subnets that are specifically used for running the workloads that IP prefixes are assigned to. Both [.noloc]`Windows` and [.noloc]`Linux` workloads can run in the same subnet when assigning IP prefixes.
-* To assign IP prefixes to your nodes, your nodes must be {aws} Nitro-based. Instances that aren't Nitro-based continue to allocate individual secondary IP addresses, but have a significantly lower number of IP addresses to assign to [.noloc]`Pods` than [.noloc]`Nitro-based` instances do.
-* *For clusters with [.noloc]`Linux` nodes only* – If your cluster is configured for the `IPv4` family, you must have version `1.9.0` or later of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` add-on installed. You can check your current version with the following command.
+** Use new subnets that are specifically used for running the workloads that IP prefixes are assigned to. Both Windows and Linux workloads can run in the same subnet when assigning IP prefixes.
+* To assign IP prefixes to your nodes, your nodes must be {aws} Nitro-based. Instances that aren't Nitro-based continue to allocate individual secondary IP addresses, but have a significantly lower number of IP addresses to assign to Pods than Nitro-based instances do.
+* *For clusters with Linux nodes only* – If your cluster is configured for the `IPv4` family, you must have version `1.9.0` or later of the Amazon VPC CNI plugin for Kubernetes add-on installed. You can check your current version with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -22,7 +22,7 @@ kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -
 ----
 +
 If your cluster is configured for the `IPv6` family, you must have version `1.10.1` of the add-on installed. If your plugin version is earlier than the required versions, you must update it. For more information, see the updating sections of <<managing-vpc-cni,Assign IPs to Pods with the Amazon VPC CNI>>.
-* *For clusters with [.noloc]`Windows` nodes only*
+* *For clusters with Windows nodes only*
 
 +
 ** Your cluster and its platform version must be at, or later than the versions in the following table. To upgrade your cluster version, see <<update-cluster>>. If your cluster isn't at the minimum platform version, then you can't assign IP prefixes to your nodes until Amazon EKS has updated your platform version.
@@ -43,16 +43,16 @@ If your cluster is configured for the `IPv6` family, you must have version `1.10
 |`eks.5`
 |===
 +
-You can check your current [.noloc]`Kubernetes` and platform version by replacing [.replaceable]`my-cluster` in the following command with the name of your cluster and then running the modified command: `aws eks describe-cluster --name [.replaceable]``my-cluster`` --query 'cluster.{"Kubernetes Version": version, "Platform Version": platformVersion}'`.
-** You must have [.noloc]`Windows` support enabled for your cluster. For more information, see <<windows-support>>.
+You can check your current Kubernetes and platform version by replacing [.replaceable]`my-cluster` in the following command with the name of your cluster and then running the modified command: `aws eks describe-cluster --name [.replaceable]``my-cluster`` --query 'cluster.{"Kubernetes Version": version, "Platform Version": platformVersion}'`.
+** You must have Windows support enabled for your cluster. For more information, see <<windows-support>>.
 
 [#cni-increase-ip-procedure]
 == Assign IP address prefixes to nodes
 
 Configure your cluster to assign IP address prefixes to nodes. Complete the procedure that matches your node's operating system.
 
-=== [.noloc]`Linux`
-. Enable the parameter to assign prefixes to network interfaces for the Amazon VPC CNI [.noloc]`DaemonSet`. When you deploy a `1.21` or later cluster, version `1.10.1` or later of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` add-on is deployed with it. If you created the cluster with the `IPv6` family, this setting was set to `true` by default. If you created the cluster with the `IPv4` family, this setting was set to `false` by default.
+=== Linux
+. Enable the parameter to assign prefixes to network interfaces for the Amazon VPC CNI DaemonSet. When you deploy a `1.21` or later cluster, version `1.10.1` or later of the Amazon VPC CNI plugin for Kubernetes add-on is deployed with it. If you created the cluster with the `IPv6` family, this setting was set to `true` by default. If you created the cluster with the `IPv4` family, this setting was set to `false` by default.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -61,24 +61,24 @@ kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 +
 [IMPORTANT]
 ====
-Even if your subnet has available IP addresses, if the subnet does not have any contiguous `/28` blocks available, you will see the following error in the [.noloc]`Amazon VPC CNI plugin for Kubernetes` logs.
+Even if your subnet has available IP addresses, if the subnet does not have any contiguous `/28` blocks available, you will see the following error in the Amazon VPC CNI plugin for Kubernetes logs.
 
 [source,bash,subs="verbatim,attributes"]
 ----
 InsufficientCidrBlocks: The specified subnet does not have enough free cidr blocks to satisfy the request
 ----
 
-This can happen due to fragmentation of existing secondary IP addresses spread out across a subnet. To resolve this error, either create a new subnet and launch [.noloc]`Pods` there, or use an Amazon EC2 subnet CIDR reservation to reserve space within a subnet for use with prefix assignment. For more information, see link:vpc/latest/userguide/subnet-cidr-reservation.html[Subnet CIDR reservations,type="documentation"] in the Amazon VPC User Guide.
+This can happen due to fragmentation of existing secondary IP addresses spread out across a subnet. To resolve this error, either create a new subnet and launch Pods there, or use an Amazon EC2 subnet CIDR reservation to reserve space within a subnet for use with prefix assignment. For more information, see link:vpc/latest/userguide/subnet-cidr-reservation.html[Subnet CIDR reservations,type="documentation"] in the Amazon VPC User Guide.
 ====
 +
-. If you plan to deploy a managed node group without a launch template, or with a launch template that you haven't specified an AMI ID in, and you're using a version of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` at or later than the versions listed in the prerequisites, then skip to the next step. Managed node groups automatically calculates the maximum number of [.noloc]`Pods` for you.
+. If you plan to deploy a managed node group without a launch template, or with a launch template that you haven't specified an AMI ID in, and you're using a version of the Amazon VPC CNI plugin for Kubernetes at or later than the versions listed in the prerequisites, then skip to the next step. Managed node groups automatically calculates the maximum number of Pods for you.
 +
-If you're deploying a self-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must determine the Amazon EKS recommend number of maximum [.noloc]`Pods` for your nodes. Follow the instructions in <<determine-max-pods,Amazon EKS recommended maximum Pods for each Amazon EC2 instance type>>, adding `--cni-prefix-delegation-enabled` to step 3. Note the output for use in a later step.
+If you're deploying a self-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must determine the Amazon EKS recommend number of maximum Pods for your nodes. Follow the instructions in <<determine-max-pods,Amazon EKS recommended maximum Pods for each Amazon EC2 instance type>>, adding `--cni-prefix-delegation-enabled` to step 3. Note the output for use in a later step.
 +
 IMPORTANT: Managed node groups enforces a maximum number on the value of `maxPods`. For instances with less than 30 vCPUs the maximum number is 110 and for all other instances the maximum number is 250. This maximum number is applied whether prefix delegation is enabled or not. 
 . If you're using a `1.21` or later cluster configured for `IPv6`, skip to the next step.
 +
-Specify the parameters in one of the following options. To determine which option is right for you and what value to provide for it, see https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/prefix-and-ip-target.md[WARM_PREFIX_TARGET, WARM_IP_TARGET, and MINIMUM_IP_TARGET] on [.noloc]`GitHub`.
+Specify the parameters in one of the following options. To determine which option is right for you and what value to provide for it, see https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/prefix-and-ip-target.md[WARM_PREFIX_TARGET, WARM_IP_TARGET, and MINIMUM_IP_TARGET] on GitHub.
 +
 You can replace the [.replaceable]`example values` with a value greater than zero.
 +
@@ -99,7 +99,7 @@ kubectl set env ds aws-node -n kube-system WARM_IP_TARGET=5
 ----
 kubectl set env ds aws-node -n kube-system MINIMUM_IP_TARGET=2
 ----
-. Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type. For a list of Nitro instance types, see link:AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances[Instances built on the Nitro System,type="documentation"] in the Amazon EC2 User Guide. This capability is not supported on [.noloc]`Windows`. For the options that include [.replaceable]`110`, replace it with either the value from step 3 (recommended), or your own value. 
+. Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type. For a list of Nitro instance types, see link:AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances[Instances built on the Nitro System,type="documentation"] in the Amazon EC2 User Guide. This capability is not supported on Windows. For the options that include [.replaceable]`110`, replace it with either the value from step 3 (recommended), or your own value. 
 +
 *** *Self-managed* – Deploy the node group using the instructions in <<launch-workers,Create self-managed Amazon Linux nodes>>. Specify the following text for the *BootstrapArguments* parameter.
 +
@@ -117,7 +117,7 @@ eksctl create nodegroup --cluster my-cluster --managed=false --max-pods-per-node
 *** *Managed* – Deploy your node group using one of the following options:
 +
 **** *Without a launch template or with a launch template without an AMI ID specified* – Complete the procedure in <<create-managed-node-group,Create a managed node group for your cluster>>. Managed node groups automatically calculates the Amazon EKS recommended `max-pods` value for you.
-**** *With a launch template with a specified AMI ID* – In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data in the launch template. This user data passes arguments into the `bootstrap.sh` file. For more information about the bootstrap file, see https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] on [.noloc]`GitHub`.
+**** *With a launch template with a specified AMI ID* – In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data in the launch template. This user data passes arguments into the `bootstrap.sh` file. For more information about the bootstrap file, see https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] on GitHub.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -136,9 +136,9 @@ eksctl create nodegroup --cluster my-cluster --max-pods-per-node 110
 If you've created a custom AMI that is not built off the Amazon EKS optimized AMI, then you need to custom create the configuration yourself.
 
 +
-NOTE: If you also want to assign IP addresses to [.noloc]`Pods` from a different subnet than the instance's, then you need to enable the capability in this step. For more information, see <<cni-custom-network>>.
+NOTE: If you also want to assign IP addresses to Pods from a different subnet than the instance's, then you need to enable the capability in this step. For more information, see <<cni-custom-network>>.
 
-=== [.noloc]`Windows`
+=== Windows
 . Enable assignment of IP prefixes.
 +
 .. Open the `amazon-vpc-cni` `ConfigMap` for editing.
@@ -165,14 +165,14 @@ If the returned output isn't `true`, then there might have been an error. Try co
 +
 [IMPORTANT]
 ====
-Even if your subnet has available IP addresses, if the subnet does not have any contiguous `/28` blocks available, you will see the following error in the [.noloc]`Amazon VPC CNI plugin for Kubernetes` logs.
+Even if your subnet has available IP addresses, if the subnet does not have any contiguous `/28` blocks available, you will see the following error in the Amazon VPC CNI plugin for Kubernetes logs.
 
 [source,bash,subs="verbatim,attributes"]
 ----
 InsufficientCidrBlocks: The specified subnet does not have enough free cidr blocks to satisfy the request
 ----
 
-This can happen due to fragmentation of existing secondary IP addresses spread out across a subnet. To resolve this error, either create a new subnet and launch [.noloc]`Pods` there, or use an Amazon EC2 subnet CIDR reservation to reserve space within a subnet for use with prefix assignment. For more information, see link:vpc/latest/userguide/subnet-cidr-reservation.html[Subnet CIDR reservations,type="documentation"] in the Amazon VPC User Guide.
+This can happen due to fragmentation of existing secondary IP addresses spread out across a subnet. To resolve this error, either create a new subnet and launch Pods there, or use an Amazon EC2 subnet CIDR reservation to reserve space within a subnet for use with prefix assignment. For more information, see link:vpc/latest/userguide/subnet-cidr-reservation.html[Subnet CIDR reservations,type="documentation"] in the Amazon VPC User Guide.
 ====
 . (Optional) Specify additional configuration for controlling the pre-scaling and dynamic scaling behavior for your cluster. For more information, see https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/docs/windows/prefix_delegation_config_options.md[Configuration options with Prefix Delegation mode on Windows] on GitHub.
 +
@@ -191,14 +191,14 @@ kubectl edit configmap -n kube-system amazon-vpc-cni -o yaml
   minimum-ip-target: "2"
 ----
 .. Save the file and close the editor.
-. Create [.noloc]`Windows` node groups with at least one Amazon EC2 [.noloc]`Nitro` instance type. For a list of [.noloc]`Nitro` instance types, see link:AWSEC2/latest/WindowsGuide/instance-types.html#ec2-nitro-instances[Instances built on the Nitro System,type="documentation"] in the Amazon EC2 User Guide. By default, the maximum number of [.noloc]`Pods` that you can deploy to a node is 110. If you want to increase or decrease that number, specify the following in the user data for the bootstrap configuration. Replace [.replaceable]`max-pods-quantity` with your max pods value.
+. Create Windows node groups with at least one Amazon EC2 Nitro instance type. For a list of Nitro instance types, see link:AWSEC2/latest/WindowsGuide/instance-types.html#ec2-nitro-instances[Instances built on the Nitro System,type="documentation"] in the Amazon EC2 User Guide. By default, the maximum number of Pods that you can deploy to a node is 110. If you want to increase or decrease that number, specify the following in the user data for the bootstrap configuration. Replace [.replaceable]`max-pods-quantity` with your max pods value.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 -KubeletExtraArgs '--max-pods=max-pods-quantity'
 ----
 +
-If you're deploying managed node groups, this configuration needs to be added in the launch template. For more information, see <<launch-templates>>. For more information about the configuration parameters for [.noloc]`Windows` bootstrap script, see <<bootstrap-script-configuration-parameters>>.
+If you're deploying managed node groups, this configuration needs to be added in the launch template. For more information, see <<launch-templates>>. For more information about the configuration parameters for Windows bootstrap script, see <<bootstrap-script-configuration-parameters>>.
 
 [#cni-increase-ip-verify]
 == Determine max Pods and available IP addresses
@@ -233,7 +233,4 @@ pods:                                  110
 vpc.amazonaws.com/PrivateIPv4Address:  144
 ----
 +
-In the previous output, `110` is the maximum number of [.noloc]`Pods` that [.noloc]`Kubernetes` will deploy to the node, even though [.replaceable]`144` IP addresses are available.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cni-increase-ip-addresses-procedure%5D&type=code[Edit this page on GitHub]
+In the previous output, `110` is the maximum number of Pods that Kubernetes will deploy to the node, even though [.replaceable]`144` IP addresses are available.

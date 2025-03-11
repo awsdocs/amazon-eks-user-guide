@@ -1,10 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#vale-github]
 = View style feedback online for a pull request
 :info_titleabbrev: View PR feedback
 
-
-include::../attributes.txt[]
 
 When you create a pull request to propose docs changes, multiple GitHub actions run. This includes a style check using Vale.
 
@@ -27,6 +27,3 @@ The style check:
 When you update a pull request, the Vale check runs again. 
 
 Learn how to https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request#making-changes-to-files-in-your-pull-request[Make changes to files in your pull request] in the GitHub docs. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23vale-github%5D&type=code[Edit this page on GitHub]

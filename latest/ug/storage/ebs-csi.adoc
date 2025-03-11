@@ -1,10 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#ebs-csi]
-= Store [.noloc]`Kubernetes` volumes with Amazon EBS
+= Store Kubernetes volumes with Amazon EBS
 :info_titleabbrev: Amazon EBS
 :keywords: Amazon EBS CSI driver, storage
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -17,13 +17,13 @@ The Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) dr
 ====
 
 
-The https://github.com/kubernetes-sigs/aws-ebs-csi-driver/[Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver] manages the lifecycle of Amazon EBS volumes as storage for the Kubernetes Volumes that you create. The Amazon EBS CSI driver makes Amazon EBS volumes for these types of [.noloc]`Kubernetes` volumes: generic https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/[ephemeral volumes] and https://kubernetes.io/docs/concepts/storage/persistent-volumes/[persistent volumes].
+The https://github.com/kubernetes-sigs/aws-ebs-csi-driver/[Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver] manages the lifecycle of Amazon EBS volumes as storage for the Kubernetes Volumes that you create. The Amazon EBS CSI driver makes Amazon EBS volumes for these types of Kubernetes volumes: generic https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/[ephemeral volumes] and https://kubernetes.io/docs/concepts/storage/persistent-volumes/[persistent volumes].
 
 [#ebs-csi-considerations]
 == Considerations
 
 * You do not need to install the Amazon EBS CSI controller on EKS Auto Mode clusters. 
-* You can't mount Amazon EBS volumes to Fargate [.noloc]`Pods`.
+* You can't mount Amazon EBS volumes to Fargate Pods.
 * You can run the Amazon EBS CSI controller on Fargate nodes, but the Amazon EBS CSI node `DaemonSet` can only run on Amazon EC2 instances.
 * Amazon EBS volumes and the Amazon EBS CSI driver are not compatible with Amazon EKS Hybrid Nodes.
 * Support will be provided for the latest add-on version and one prior version. Bugs or vulnerabilities found in the latest version will be backported to the previous release in a new minor version.
@@ -48,18 +48,18 @@ aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
 * The EBS CSI driver needs {aws} IAM Permissions.
 ** {aws} suggests using EKS Pod Identities. For more information, see <<pod-id-setup-overview>>. 
 ** For information about IAM Roles for Service Accounts, see <<enable-iam-roles-for-service-accounts>>.
-* If you're using a cluster wide restricted <<pod-security-policy,PodSecurityPolicy>>, make sure that the add-on is granted sufficient permissions to be deployed. For the permissions required by each add-on [.noloc]`Pod`, see the https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base[relevant add-on manifest definition] on GitHub.
+* If you're using a cluster wide restricted <<pod-security-policy,PodSecurityPolicy>>, make sure that the add-on is granted sufficient permissions to be deployed. For the permissions required by each add-on Pod, see the https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base[relevant add-on manifest definition] on GitHub.
 
 
 [#csi-iam-role]
 == Step 1: Create an IAM role
 
-The Amazon EBS CSI plugin requires IAM permissions to make calls to {aws} APIs on your behalf. If you don't do these steps, attempting to install the add-on and running `kubectl describe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error. For more information, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#set-up-driver-permissions[Set up driver permission] on [.noloc]`GitHub`.  
+The Amazon EBS CSI plugin requires IAM permissions to make calls to {aws} APIs on your behalf. If you don't do these steps, attempting to install the add-on and running `kubectl describe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error. For more information, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#set-up-driver-permissions[Set up driver permission] on GitHub.  
 
 [NOTE]
 ====
 
-[.noloc]`Pods` will have access to the permissions that are assigned to the IAM role unless you block access to IMDS. For more information, see <<security-best-practices>>.
+Pods will have access to the permissions that are assigned to the IAM role unless you block access to IMDS. For more information, see <<security-best-practices>>.
 
 ====
 
@@ -73,7 +73,7 @@ The following procedure shows you how to create an IAM role and attach the {aws}
 [NOTE]
 ====
 
-The specific steps in this procedure are written for using the driver as an Amazon EKS add-on. Different steps are needed to use the driver as a self-managed add-on. For more information, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#set-up-driver-permissions[Set up driver permissions] on [.noloc]`GitHub`.
+The specific steps in this procedure are written for using the driver as an Amazon EKS add-on. Different steps are needed to use the driver as a self-managed add-on. For more information, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#set-up-driver-permissions[Set up driver permissions] on GitHub.
 
 ====
 
@@ -152,7 +152,7 @@ aws iam attach-role-policy \
 . On the *Select trusted entity* page, do the following:
 +
 .. In the *Trusted entity type* section, choose *Web identity*.
-.. For *Identity provider*, choose the *[.noloc]`OpenID Connect` provider URL* for your cluster (as shown under *Overview* in Amazon EKS).
+.. For *Identity provider*, choose the *OpenID Connect provider URL* for your cluster (as shown under *Overview* in Amazon EKS).
 .. For *Audience*, choose `sts.amazonaws.com`.
 .. Choose *Next*.
 . On the *Add permissions* page, do the following:
@@ -341,7 +341,7 @@ aws iam attach-role-policy \
       --role-name AmazonEKS_EBS_CSI_DriverRole
 ----
 
-Now that you have created the Amazon EBS CSI driver IAM role, you can continue to the next section. When you deploy the add-on with this IAM role, it creates and is configured to use a service account that's named `ebs-csi-controller-sa`. The service account is bound to a [.noloc]`Kubernetes` `clusterrole` that's assigned the required [.noloc]`Kubernetes` permissions.
+Now that you have created the Amazon EBS CSI driver IAM role, you can continue to the next section. When you deploy the add-on with this IAM role, it creates and is configured to use a service account that's named `ebs-csi-controller-sa`. The service account is bound to a Kubernetes `clusterrole` that's assigned the required Kubernetes permissions.
 
 [#managing-ebs-csi]
 == Step 2: Get the Amazon EBS CSI driver
@@ -351,16 +351,13 @@ We recommend that you install the Amazon EBS CSI driver through the Amazon EKS a
 [IMPORTANT]
 ====
 
-Before adding the Amazon EBS driver as an Amazon EKS add-on, confirm that you don't have a self-managed version of the driver installed on your cluster. If so, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#uninstalling-the-ebs-csi-driver[Uninstalling a self-managed Amazon EBS CSI driver] on [.noloc]`GitHub`.  
+Before adding the Amazon EBS driver as an Amazon EKS add-on, confirm that you don't have a self-managed version of the driver installed on your cluster. If so, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#uninstalling-the-ebs-csi-driver[Uninstalling a self-managed Amazon EBS CSI driver] on GitHub.  
 
 ====
 
-Alternatively, if you want a self-managed installation of the Amazon EBS CSI driver, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md[Installation] on [.noloc]`GitHub`.
+Alternatively, if you want a self-managed installation of the Amazon EBS CSI driver, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md[Installation] on GitHub.
 
 [#ebs-sample-app]
 == Step 3: Deploy a sample application
 
-You can deploy a variety of sample apps and modify them as needed. For more information, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes[Kubernetes Examples] on [.noloc]`GitHub`.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23ebs-csi%5D&type=code[Edit this page on GitHub]
+You can deploy a variety of sample apps and modify them as needed. For more information, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes[Kubernetes Examples] on GitHub.

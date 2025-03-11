@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#learn-status-conditions]
 = View the health status of your nodes
 :info_titleabbrev: View node health
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -12,7 +12,7 @@ This topic explains the tools and methods available for monitoring node health s
 
 This topic explains the tools and methods available for monitoring node health status in Amazon EKS clusters. The information covers node conditions, events, and detection cases that help you identify and diagnose node-level issues. Use the commands and patterns described here to inspect node health resources, interpret status conditions, and analyze node events for operational troubleshooting.
 
-You can get some node health information with [.noloc]`Kubernetes` commands for all nodes. And if you use the node monitoring agent through Amazon EKS Auto Mode or the Amazon EKS managed add-on, you will get a wider variety of node signals to help troubleshoot. Descriptions of detected health issues by the node monitoring agent are also made available in the observability dashboard. For more information, see <<node-health>>.
+You can get some node health information with Kubernetes commands for all nodes. And if you use the node monitoring agent through Amazon EKS Auto Mode or the Amazon EKS managed add-on, you will get a wider variety of node signals to help troubleshoot. Descriptions of detected health issues by the node monitoring agent are also made available in the observability dashboard. For more information, see <<node-health>>.
 
 [#status-node-conditions]
 == Node conditions
@@ -124,6 +124,3 @@ kubectl get nodes -w
 # Get node metrics
 kubectl top node
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23learn-status-conditions%5D&type=code[Edit this page on GitHub]

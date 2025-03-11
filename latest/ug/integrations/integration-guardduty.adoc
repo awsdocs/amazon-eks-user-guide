@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#integration-guardduty]
 = Detect threats with Amazon GuardDuty
 :info_titleabbrev: Amazon GuardDuty
-
-include::../attributes.txt[]
 
 Amazon GuardDuty is a threat detection service that helps protect you accounts, containers, workloads, and the data with your {aws} environment. Using machine learning (ML) models, and anomaly and threat detection capabilities, GuardDuty continuously monitors different log sources and runtime activity to identify and prioritize potential security risks and malicious activities in your environment.
 
@@ -17,9 +17,9 @@ Among other features, GuardDuty offers the following two features that detect po
 
 
 *EKS Protection*::
-This feature provides threat detection coverage to help you protect Amazon EKS clusters by monitoring the associated [.noloc]`Kubernetes` audit logs. [.noloc]`Kubernetes` audit logs capture sequential actions within your cluster, including activities from users, applications using the [.noloc]`Kubernetes` API, and the control plane. For example, GuardDuty can identify that APIs called to potentially tamper with resources in a [.noloc]`Kubernetes` cluster were invoked by an unauthenticated user.
+This feature provides threat detection coverage to help you protect Amazon EKS clusters by monitoring the associated Kubernetes audit logs. Kubernetes audit logs capture sequential actions within your cluster, including activities from users, applications using the Kubernetes API, and the control plane. For example, GuardDuty can identify that APIs called to potentially tamper with resources in a Kubernetes cluster were invoked by an unauthenticated user.
 +
-When you enable EKS Protection, GuardDuty will be able to access your Amazon EKS audit logs only for continuous threat detection. If GuardDuty identifies a potential threat to your cluster, it generates an associated [.noloc]`Kubernetes` audit log _finding_ of a specific type. For more information about the types of findings available from [.noloc]`Kubernetes` audit logs, see link:guardduty/latest/ug/guardduty_finding-types-kubernetes.html[Kubernetes audit logs finding types,type="documentation"] in the Amazon GuardDuty User Guide.
+When you enable EKS Protection, GuardDuty will be able to access your Amazon EKS audit logs only for continuous threat detection. If GuardDuty identifies a potential threat to your cluster, it generates an associated Kubernetes audit log _finding_ of a specific type. For more information about the types of findings available from Kubernetes audit logs, see link:guardduty/latest/ug/guardduty_finding-types-kubernetes.html[Kubernetes audit logs finding types,type="documentation"] in the Amazon GuardDuty User Guide.
 +
 For more information, see link:guardduty/latest/ug/kubernetes-protection.html[EKS Protection,type="documentation"] in the Amazon GuardDuty User Guide.
 
@@ -32,6 +32,3 @@ When you enable _Runtime Monitoring_ and install the GuardDuty agent in your Ama
 To configure _Runtime Monitoring_, you install the GuardDuty agent to your cluster as an _Amazon EKS add-on_. For more information the add-on, see <<workloads-add-ons-available-eks>>.
 +
 For more information, see link:guardduty/latest/ug/runtime-monitoring.html[Runtime Monitoring,type="documentation"] in the Amazon GuardDuty User Guide.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23integration-guardduty%5D&type=code[Edit this page on GitHub]

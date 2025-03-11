@@ -1,9 +1,19 @@
+include::../attributes.txt[]
+
 [.topic]
 [#security-k8s]
-= Security considerations for [.noloc]`Kubernetes`
+= Security considerations for Kubernetes
 :info_titleabbrev: Considerations for Kubernetes
 
-include::../attributes.txt[]
+[abstract]
+--
+Configure Kubernetes to meet your security and compliance objectives, and learn how to use other {aws} services that help you to secure your Kubernetes resources.
+--
+
+The following are considerations for security in the cloud, as they affect Kubernetes in Amazon EKS clusters. For an in-depth review of security controls and practices in Kubernetes, see https://kubernetes.io/docs/concepts/security/cloud-native-security/[Cloud Native Security and Kubernetes] in the Kubernetes documentation.
+
+[.topiclist]
+[[Topic List]]
 
 include::cert-signing.adoc[leveloffset=+1]
 
@@ -17,15 +27,5 @@ include::enable-kms.adoc[leveloffset=+1]
 
 include::manage-secrets.adoc[leveloffset=+1]
 
-[abstract]
---
-Configure [.noloc]`Kubernetes` to meet your security and compliance objectives, and learn how to use other {aws} services that help you to secure your [.noloc]`Kubernetes` resources.
---
+include::envelope-encryption.adoc[leveloffset=+1]
 
-The following are considerations for security in the cloud, as they affect [.noloc]`Kubernetes` in Amazon EKS clusters. For an in-depth review of security controls and practices in [.noloc]`Kubernetes`, see https://kubernetes.io/docs/concepts/security/cloud-native-security/[Cloud Native Security and Kubernetes] in the [.noloc]`Kubernetes` documentation.
-
-[.topiclist]
-[[Topic List]]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-k8s%5D&type=code[Edit this page on GitHub]

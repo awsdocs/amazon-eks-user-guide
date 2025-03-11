@@ -1,10 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#create-content-q]
 = Create docs content with Amazon Q
 :info_titleabbrev: Create with Amazon Q
 
-
-include::../attributes.txt[]
 
 You can use Amazon Q to create and revise docs content. This is an easy way to get started on a new page. Amazon Q is available as an extension to Visual Studio (VS) Code. 
 
@@ -49,6 +49,3 @@ image::images/contribute-q.png["Amazon Q in VS Code"]
 * Amazon Q might output Markdown. This is fine. The AsciiDoc tooling can understand most markdown syntax. 
 
 To learn more about Amazon Q Developer, see link:amazonq/latest/qdeveloper-ug/q-in-IDE.html["Using Amazon Q Developer in the IDE",type="documentation"].
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23create-content-q%5D&type=code[Edit this page on GitHub]

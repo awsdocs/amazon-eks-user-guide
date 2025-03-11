@@ -65,6 +65,3 @@ If you want {aws} to detect and avoid impaired availability zones, you need to c
 
 * Learn how to link:r53recovery/latest/dg/arc-zonal-autoshift.start-cancel.html["enable zonal autoshift",type="documentation"]
 * Learn how to manually link:r53recovery/latest/dg/arc-zonal-shift.start-cancel.html["start a zonal shift",type="documentation"]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23zone-shift-enable%5D&type=code[Edit this page on GitHub]

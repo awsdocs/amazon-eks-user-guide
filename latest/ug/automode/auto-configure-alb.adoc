@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#auto-configure-alb]
 = Create an IngressClass to configure an Application Load Balancer
 :info_titleabbrev: Create ingress class
-
-include::../attributes.txt[]
 
 EKS Auto Mode automates routine tasks for load balancing, including exposing cluster apps to the internet. 
 
@@ -18,7 +18,7 @@ EKS Auto Mode creates and configures Application Load Balancers (ALBs). For exam
 . Create an `Ingress` resource that associates a HTTP path and port with a cluster workload. 
 . EKS Auto Mode will create an Application Load Balancer that points to the workload specified in the `Ingress` resource, using the load balancer configuration specified in the `IngressClassParams` resource. 
 
-## Prerequisites
+== Prerequisites
 
 * EKS Auto Mode Enabled on an Amazon EKS Cluster
 * Kubectl configured to connect to your cluster
@@ -34,7 +34,7 @@ Learn how to <<tag-subnets-auto>>.
 ====
 
 
-## Step 1: Create IngressClassParams
+== Step 1: Create IngressClassParams
 
 Create an `IngressClassParams` object to specify {aws} specific configuration options for the Application Load Balancer. Use the reference below to update the sample YAML file. 
 
@@ -49,7 +49,7 @@ spec:
   scheme: internet-facing
 ```
 
-## Step 2: Create IngressClass
+== Step 2: Create IngressClass
 
 Create an `IngressClass` that references the {aws} specific configuration values set in the `IngressClassParams` resource. Note the name of the `IngressClass` . In this example, both the `IngressClass` and `IngressClassParams` are named `alb`.
 
@@ -76,7 +76,7 @@ spec:
 
 For more information on configuration options, see <<ingress-reference>>. 
 
-## Step 3: Create Ingress
+== Step 3: Create Ingress
 
 Create an `Ingress` resource. The purpose of this resource is to associate paths and ports on the Application Load Balancer with workloads in your cluster. 
 
@@ -105,7 +105,7 @@ spec:
 
 
 
-## Step 4: Check Status
+== Step 4: Check Status
 
 Use `kubectl` to find the status of the `Ingress`. It can take a few minutes for the load balancer to become available.
 
@@ -123,7 +123,7 @@ kubectl get ingress api-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ho
 
 To view the service in a web browser, review the port and path specified in the `Ingress` rescue. 
 
-## Step 5: Cleanup
+== Step 5: Cleanup
 
 To clean up the load balancer, use the following command:
 
@@ -202,6 +202,7 @@ The following tables provide a detailed comparison of changes in IngressClassPar
 | `alb.ingress.kubernetes.io/waf-acl-id` | Not supported | Use WAF v2 instead
 | `alb.ingress.kubernetes.io/web-acl-id` | Not supported | Use WAF v2 instead
 | `alb.ingress.kubernetes.io/shield-advanced-protection` | Not supported | Shield integration disabled
+| `alb.ingress.kubernetes.io/auth-type: oidc` | Not supported | OIDC Auth Type is currently not supported 
 |===
 
 === TargetGroupBinding
@@ -213,6 +214,3 @@ The following tables provide a detailed comparison of changes in IngressClassPar
 | `spec.targetType` optional | `spec.targetType` required | Explicit target type specification
 | `spec.networking.ingress.from` | Not supported | No longer supports NLB without security groups
 |===
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-configure-alb%5D&type=code[Edit this page on GitHub]

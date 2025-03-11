@@ -1,13 +1,13 @@
+include::../attributes.txt[]
+
 [.topic]
 [#deregister-connected-cluster]
 = Deregister a Kubernetes cluster from the Amazon EKS console
 :info_titleabbrev: Deregister a cluster
 
-include::../attributes.txt[]
-
 [abstract]
 --
-Learn to deregister a [.noloc]`Kubernetes` cluster from Amazon EKS and uninstall the eks-connector agent to stop managing the cluster from the Amazon EKS Management Console.
+Learn to deregister a Kubernetes cluster from Amazon EKS and uninstall the eks-connector agent to stop managing the cluster from the Amazon EKS Management Console.
 --
 
 If you are finished using a connected cluster, you can deregister it. After it's deregistered, the cluster is no longer visible in the Amazon EKS console.
@@ -23,7 +23,7 @@ You must have the following permissions to call the deregisterCluster API:
 This process involves two steps: Deregistering the cluster with Amazon EKS and uninstalling the eks-connector agent in the cluster.
 
 [#deregister-connected-cluster-eks]
-== Deregister the [.noloc]`Kubernetes` cluster
+== Deregister the Kubernetes cluster
 To deregister a cluster from Amazon EKS connector, you can use one of these tools:
 
 * <<awscli_deregister_cluster_connect>>
@@ -63,7 +63,7 @@ eksctl deregister cluster --name my-cluster
 
 
 [#deregister-connected-cluster-k8s]
-== Clean up the resources in your [.noloc]`Kubernetes` cluster
+== Clean up the resources in your Kubernetes cluster
 To uninstall the `eks-connector` agent, use one of the following tools:
 
 * <<helm_agent_cluster_deregister>>
@@ -80,13 +80,10 @@ helm -n eks-connector uninstall eks-connector
 
 === yaml [[yaml_agent_cluster_deregister]]
 
-. Delete the Amazon EKS Connector YAML file from your [.noloc]`Kubernetes` cluster.
+. Delete the Amazon EKS Connector YAML file from your Kubernetes cluster.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl delete -f eks-connector.yaml
 ----
-. If you created `clusterrole` or `clusterrolebindings` for additional link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] to access the cluster, delete them from your [.noloc]`Kubernetes` cluster.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23deregister-connected-cluster%5D&type=code[Edit this page on GitHub]
+. If you created `clusterrole` or `clusterrolebindings` for additional link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"] to access the cluster, delete them from your Kubernetes cluster.

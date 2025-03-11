@@ -1,23 +1,23 @@
+include::../attributes.txt[]
+
 :AWSEC2-latest-UserGuide-using-eni-html-network-cards: AWSEC2/latest/UserGuide/using-eni.html#network-cards
 
 [.topic]
 [#node-efa]
-= Run machine learning training on Amazon EKS with [.noloc]`Elastic Fabric Adapter`
+= Run machine learning training on Amazon EKS with Elastic Fabric Adapter
 :info_titleabbrev: Training clusters with EFA
-
-include::../attributes.txt[]
 
 [abstract]
 --
-Learn how to integrate Elastic Fabric Adapter (EFA) with Amazon EKS to run machine learning training workloads requiring high inter-node communications at scale using p4d instances with [.noloc]`GPUDirect RDMA` and [.noloc]`NVIDIA Collective Communications Library (NCCL)`.
+Learn how to integrate Elastic Fabric Adapter (EFA) with Amazon EKS to run machine learning training workloads requiring high inter-node communications at scale using p4d instances with GPUDirect RDMA and NVIDIA Collective Communications Library (NCCL).
 --
 
-This topic describes how to integrate Elastic Fabric Adapter (EFA) with [.noloc]`Pods` deployed in your Amazon EKS cluster. Elastic Fabric Adapter (EFA) is a network interface for Amazon EC2 instances that enables you to run applications requiring high levels of inter-node communications at scale on {aws}. Its custom-built operating system bypass hardware interface enhances the performance of inter-instance communications, which is critical to scaling these applications. With EFA, High Performance Computing (HPC) applications using the Message Passing Interface (MPI) and Machine Learning (ML) applications using NVIDIA Collective Communications Library (NCCL) can scale to thousands of CPUs or GPUs. As a result, you get the application performance of on-premises HPC clusters with the on-demand elasticity and flexibility of the {aws} cloud. Integrating EFA with applications running on Amazon EKS clusters can reduce the time to complete large scale distributed training workloads without having to add additional instances to your cluster. For more information about EFA, link:hpc/efa/[Elastic Fabric Adapter,type="marketing"].
+This topic describes how to integrate Elastic Fabric Adapter (EFA) with Pods deployed in your Amazon EKS cluster. Elastic Fabric Adapter (EFA) is a network interface for Amazon EC2 instances that enables you to run applications requiring high levels of inter-node communications at scale on {aws}. Its custom-built operating system bypass hardware interface enhances the performance of inter-instance communications, which is critical to scaling these applications. With EFA, High Performance Computing (HPC) applications using the Message Passing Interface (MPI) and Machine Learning (ML) applications using NVIDIA Collective Communications Library (NCCL) can scale to thousands of CPUs or GPUs. As a result, you get the application performance of on-premises HPC clusters with the on-demand elasticity and flexibility of the {aws} cloud. Integrating EFA with applications running on Amazon EKS clusters can reduce the time to complete large scale distributed training workloads without having to add additional instances to your cluster. For more information about EFA, link:hpc/efa/[Elastic Fabric Adapter,type="marketing"].
 
 [#efa-instances]
 == Instance types with EFA
 
-The _{aws} EFA Kubernetes Device Plugin_ supports all Amazon EC2 instance types that have EFA. To see a list of all instance types that have EFA, see link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Supported instance types,type="documentation"] in the _Amazon EC2 User Guide_. However, to run ML applications quickly, we recommend that an instance has hardware acceleration chips such as [.noloc]`nVidia` GPUs, link:machine-learning/inferentia/[{aws} Inferentia,type="marketing"] chips, or link:machine-learning/trainium/[{aws} Trainium,type="marketing"] chips, in addition to the EFA. To see a list of instance types that have hardware acceleration chips and EFA, see link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Accelerated computing,type="documentation"] in the _Amazon EC2 User Guide_.
+The _{aws} EFA Kubernetes Device Plugin_ supports all Amazon EC2 instance types that have EFA. To see a list of all instance types that have EFA, see link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Supported instance types,type="documentation"] in the _Amazon EC2 User Guide_. However, to run ML applications quickly, we recommend that an instance has hardware acceleration chips such as nVidia GPUs, link:machine-learning/inferentia/[{aws} Inferentia,type="marketing"] chips, or link:machine-learning/trainium/[{aws} Trainium,type="marketing"] chips, in addition to the EFA. To see a list of instance types that have hardware acceleration chips and EFA, see link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Accelerated computing,type="documentation"] in the _Amazon EC2 User Guide_.
 
 As you compare instance types to choose between them, consider the number of EFA network cards available for that instance type as well as the number of accelerator cards, amount of CPU, and amount of memory. You can assign up to one EFA per network card. An EFA counts as a network interface.. To see how many EFA are available for each instance types that have EFA, see the link:AWSEC2/latest/UserGuide/using-eni.html#network-cards[Network cards,type="documentation"] list in the _Amazon EC2 User Guide_.
 
@@ -28,7 +28,7 @@ An _Elastic Fabric Adapter (EFA)_ is a network interface that combines the capab
 
 To create nodes that can have EFA-only interfaces, you must use a custom EC2 Launch Template and set the `InterfaceType` to `efa-only`. In your custom Launch Template, you can't set the network card `0` to an EFA-only interface, as that is the primary network card and network interface of the EC2 instance. You must have VPC CNI version `1.18.5` or later for EFA-only interfaces. If you are using Amazon Linux 2, ami version has to be `v20240928` or later for EfA-only interfaces.
 
-The following procedure guides you to create an EKS cluster with `eksctl` with nodes that have [.noloc]`nVidia` GPUs and EFA interfaces. You can't use `eksctl` to create nodes and node groups that use EFA-only interfaces.
+The following procedure guides you to create an EKS cluster with `eksctl` with nodes that have nVidia GPUs and EFA interfaces. You can't use `eksctl` to create nodes and node groups that use EFA-only interfaces.
 
 [#efa-prereqs]
 == Prerequisites
@@ -36,15 +36,15 @@ The following procedure guides you to create an EKS cluster with `eksctl` with n
 * An existing Amazon EKS cluster. If you don't have an existing cluster, create one using <<getting-started>>.. Your cluster must be deployed in a VPC that has at least one private subnet with enough available IP addresses to deploy nodes in. The private subnet must have outbound internet access provided by an external device, such as a NAT gateway.
 +
 If you plan to use `eksctl` to create your node group, `eksctl` can also create a cluster for you. 
-* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
-* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
-* You must have the [.noloc]`Amazon VPC CNI plugin for Kubernetes` version `1.7.10` or later installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d` or `p5`. For more information about updating your [.noloc]`Amazon VPC CNI plugin for Kubernetes` version, see <<managing-vpc-cni>>.
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
+* You must have the Amazon VPC CNI plugin for Kubernetes version `1.7.10` or later installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d` or `p5`. For more information about updating your Amazon VPC CNI plugin for Kubernetes version, see <<managing-vpc-cni>>.
 
 
 [IMPORTANT]
 ====
 
-An important consideration required for adopting EFA with [.noloc]`Kubernetes` is configuring and managing [.noloc]`Huge Pages` as a resource in the cluster. For more information, see https://kubernetes.io/docs/tasks/manage-hugepages/scheduling-hugepages/[Manage Huge Pages] in the [.noloc]`Kubernetes` documentation. Amazon EC2 instances with the EFA driver installed pre-allocate 5128 2MiB Huge Pages, which you can request as resources to consume in your job specifications.
+An important consideration required for adopting EFA with Kubernetes is configuring and managing Huge Pages as a resource in the cluster. For more information, see https://kubernetes.io/docs/tasks/manage-hugepages/scheduling-hugepages/[Manage Huge Pages] in the Kubernetes documentation. Amazon EC2 instances with the EFA driver installed pre-allocate 5128 2MiB Huge Pages, which you can request as resources to consume in your job specifications.
 
 ====
 
@@ -127,7 +127,7 @@ eksctl create cluster -f efa-cluster.yaml
 NOTE: Because the instance type used in this example has GPUs, `eksctl` automatically installs the NVIDIA Kubernetes device plugin on each instance for you.
 . Deploy the EFA Kubernetes device plugin.
 +
-The EFA Kubernetes device plugin detects and advertises EFA interfaces as allocatable resources to Kubernetes. An application can consume the extended resource type `vpc.amazonaws.com/efa` in a [.noloc]`Pod` request spec just like CPU and memory. For more information, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#consuming-extended-resources[Consuming extended resources] in the [.noloc]`Kubernetes` documentation. Once requested, the plugin automatically assigns and mounts an EFA interface to the [.noloc]`Pod`. Using the device plugin simplifies EFA setup and does not require a [.noloc]`Pod` to run in privileged mode.
+The EFA Kubernetes device plugin detects and advertises EFA interfaces as allocatable resources to Kubernetes. An application can consume the extended resource type `vpc.amazonaws.com/efa` in a Pod request spec just like CPU and memory. For more information, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#consuming-extended-resources[Consuming extended resources] in the Kubernetes documentation. Once requested, the plugin automatically assigns and mounts an EFA interface to the Pod. Using the device plugin simplifies EFA setup and does not require a Pod to run in privileged mode.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -143,12 +143,12 @@ We recommend that you test the EFA setup. You can use the https://github.com/aws
 
 . Deploy the Kubeflow MPI Operator:
 +
-For the NCCL tests you can apply the Kubeflow MPI Operator. The MPI Operator makes it easy to run Allreduce-style distributed training on Kubernetes. For more information, see https://github.com/kubeflow/mpi-operator[MPI Operator] on [.noloc]`GitHub`.
+For the NCCL tests you can apply the Kubeflow MPI Operator. The MPI Operator makes it easy to run Allreduce-style distributed training on Kubernetes. For more information, see https://github.com/kubeflow/mpi-operator[MPI Operator] on GitHub.
 . Run the multi-node NCCL Performance Test to verify GPUDirectRDMA/EFA:
 +
-To verify NCCL performance with [.noloc]`GPUDirectRDMA` over EFA, run the standard NCCL Performance test. For more information, see the official https://github.com/NVIDIA/nccl-tests.git[NCCL-Tests] repo on [.noloc]`GitHub`.
+To verify NCCL performance with GPUDirectRDMA over EFA, run the standard NCCL Performance test. For more information, see the official https://github.com/NVIDIA/nccl-tests.git[NCCL-Tests] repo on GitHub.
 +
-Complete the following steps to run a two node [.noloc]`NCCL Performance Test`. In the example [.noloc]`NCCL` test job, each worker requests eight GPUs, 5210Mi of `hugepages-2Mi`, four EFAs, and 8000Mi of memory, which effectively means each worker consumes all the resources of a `p5.48xlarge` instance.
+Complete the following steps to run a two node NCCL Performance Test. In the example NCCL test job, each worker requests eight GPUs, 5210Mi of `hugepages-2Mi`, four EFAs, and 8000Mi of memory, which effectively means each worker consumes all the resources of a `p5.48xlarge` instance.
 +
 .. Create the MPIJob manifest:
 +
@@ -278,7 +278,7 @@ mpijob.kubeflow.org/nccl-tests created
 ----
 .. Verify that the job started pods:
 +
-View your running [.noloc]`Pods`.
+View your running Pods.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -295,17 +295,14 @@ nccl-tests-worker-0          1/1     Running    0          2m49s
 nccl-tests-worker-1          1/1     Running    0          2m49s
 ----
 +
-The MPI Operator creates a launcher [.noloc]`Pod` and 2 worker [.noloc]`Pods` (one on each node).
+The MPI Operator creates a launcher Pod and 2 worker Pods (one on each node).
 .. Verify that the job is running successfully with the logs:
 +
-View the log for the `nccl-tests-launcher` [.noloc]`Pod`. Replace [.replaceable]`nbql9` with the value from your output.
+View the log for the `nccl-tests-launcher` Pod. Replace [.replaceable]`nbql9` with the value from your output.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl logs -f nccl-tests-launcher-nbql9
 ----
 
-If the test completed successfully, you can deploy your applications that use the [.noloc]`Nvidia Collective Communication Library`.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23node-efa%5D&type=code[Edit this page on GitHub]
+If the test completed successfully, you can deploy your applications that use the Nvidia Collective Communication Library.

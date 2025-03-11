@@ -1,8 +1,8 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#updating-access-entries]
 = Update access entries
-
-include::../../attributes.txt[]
 
 You can update an access entry using the {aws-management-console} or the {aws} CLI.
 
@@ -32,6 +32,3 @@ aws eks update-access-entry --cluster-name my-cluster --principal-arn {arn-aws}i
 ----
 +
 You can't use the `--kubernetes-groups` option if the type of the access entry is a value other than `STANDARD`. You also can't associate an access policy to an access entry with a type other than `STANDARD`. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23updating-access-entries%5D&type=code[Edit this page on GitHub]

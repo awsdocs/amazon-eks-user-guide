@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#coredns-add-on-self-managed-update]
-= Update the [.noloc]`CoreDNS` Amazon EKS self-managed add-on
+= Update the CoreDNS Amazon EKS self-managed add-on
 :info_titleabbrev: Update (self-managed)
-
-include::../attributes.txt[]
 
 [IMPORTANT]
 ====
@@ -35,7 +35,7 @@ An example output is as follows.
 ----
 v1.8.7-eksbuild.2
 ----
-. If your current [.noloc]`CoreDNS` version is `v1.5.0` or later, but earlier than the version listed in the <<coredns-versions,CoreDNS versions>> table, then skip this step. If your current version is earlier than `1.5.0`, then you need to modify the `ConfigMap` for [.noloc]`CoreDNS` to use the forward add-on, rather than the proxy add-on.
+. If your current CoreDNS version is `v1.5.0` or later, but earlier than the version listed in the <<coredns-versions,CoreDNS versions>> table, then skip this step. If your current version is earlier than `1.5.0`, then you need to modify the `ConfigMap` for CoreDNS to use the forward add-on, rather than the proxy add-on.
 +
 .. Open the `ConfigMap` with the following command.
 +
@@ -49,25 +49,25 @@ kubectl edit configmap coredns -n kube-system
 ----
 proxy . /etc/resolv.conf
 ----
-. If you originally deployed your cluster on [.noloc]`Kubernetes` `1.17` or earlier, then you may need to remove a discontinued line from your [.noloc]`CoreDNS` manifest.
+. If you originally deployed your cluster on Kubernetes `1.17` or earlier, then you may need to remove a discontinued line from your CoreDNS manifest.
 +
-IMPORTANT: You must complete this step before updating to [.noloc]`CoreDNS` version `1.7.0`, but it's recommended that you complete this step even if you're updating to an earlier version. 
+IMPORTANT: You must complete this step before updating to CoreDNS version `1.7.0`, but it's recommended that you complete this step even if you're updating to an earlier version. 
 +
-.. Check to see if your [.noloc]`CoreDNS` manifest has the line.
+.. Check to see if your CoreDNS manifest has the line.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl get configmap coredns -n kube-system -o jsonpath='{$.data.Corefile}' | grep upstream
 ----
 +
-If no output is returned, your manifest doesn't have the line and you can skip to the next step to update [.noloc]`CoreDNS`. If output is returned, then you need to remove the line.
+If no output is returned, your manifest doesn't have the line and you can skip to the next step to update CoreDNS. If output is returned, then you need to remove the line.
 .. Edit the `ConfigMap` with the following command, removing the line in the file that has the word `upstream` in it. Do not change anything else in the file. Once the line is removed, save the changes.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl edit configmap coredns -n kube-system -o yaml
 ----
-. Retrieve your current [.noloc]`CoreDNS` image version:
+. Retrieve your current CoreDNS image version:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -80,7 +80,7 @@ An example output is as follows.
 ----
 602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.8.7-eksbuild.2
 ----
-. If you're updating to [.noloc]`CoreDNS` `1.8.3` or later, then you need to add the `endpointslices` permission to the `system:coredns` [.noloc]`Kubernetes` `clusterrole`.
+. If you're updating to CoreDNS `1.8.3` or later, then you need to add the `endpointslices` permission to the `system:coredns` Kubernetes `clusterrole`.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -101,7 +101,7 @@ Add the following lines under the existing permissions lines in the `rules` sect
   - watch
 [...]
 ----
-. Update the [.noloc]`CoreDNS` add-on by replacing [.replaceable]`602401143452` and [.replaceable]`region-code` with the values from the output returned in a previous step. Replace [.replaceable]`v1.11.3-eksbuild.1` with the [.noloc]`CoreDNS` version listed in the <<coredns-versions,latest versions table>> for your [.noloc]`Kubernetes` version.
+. Update the CoreDNS add-on by replacing [.replaceable]`602401143452` and [.replaceable]`region-code` with the values from the output returned in a previous step. Replace [.replaceable]`v1.11.3-eksbuild.1` with the CoreDNS version listed in the <<coredns-versions,latest versions table>> for your Kubernetes version.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -127,6 +127,3 @@ An example output is as follows.
 ----
 v1.11.3-eksbuild.1
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23coredns-add-on-self-managed-update%5D&type=code[Edit this page on GitHub]

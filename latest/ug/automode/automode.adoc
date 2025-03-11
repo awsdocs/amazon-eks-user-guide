@@ -1,15 +1,13 @@
+include::../attributes.txt[]
+
 [#automode]
 = Automate cluster infrastructure with EKS Auto Mode
-:toclevels: 2
-:toc:
 :info_titleabbrev: EKS Auto Mode 
 
 [abstract]
 --
 Automate cluster infrastructure with EKS Auto Mode
 --
-
-include::../attributes.txt[]
 
 EKS Auto Mode extends {aws} management of Kubernetes clusters beyond the cluster itself, to allow {aws} to also set up and manage the infrastructure that enables the smooth operation of your workloads.
 You can delegate key infrastructure decisions and leverage the expertise of {aws} for day-to-day operations.
@@ -20,7 +18,7 @@ You can deploy, upgrade, or modify your EKS Auto Mode clusters using eksctl, the
 
 With EKS Auto Mode, you can continue using your preferred Kubernetes-compatible tools. EKS Auto Mode integrates with {aws} services like Amazon EC2, Amazon EBS, and ELB, leveraging {aws} cloud resources that follow best practices. These resources are automatically scaled, cost-optimized, and regularly updated to help minimize operational costs and overhead.
 
-## Features
+== Features
 
 EKS Auto Mode provides the following high-level features:
 
@@ -40,7 +38,7 @@ EKS Auto Mode provides the following high-level features:
 *Customizable NodePools and NodeClasses*: If your workload requires changes to storage, compute, or networking configurations, you can create custom NodePools and NodeClasses using EKS Auto Mode. While default NodePools and NodeClasses can't be edited, you can add new custom NodePools or NodeClasses alongside the default configurations to meet your specific requirements.
 
 
-## Automated Components
+== Automated Components
 
 EKS Auto Mode streamlines the operation of your Amazon EKS clusters by automating key infrastructure components. Enabling EKS Auto Mode further reduces the tasks to manage your EKS clusters. 
 
@@ -61,7 +59,7 @@ The following is a list of data plane components that are automated:
 
 For more information about these components, see <<auto-reference>>.
 
-## Configuration
+== Configuration
 
 While EKS Auto Mode will effectively manage most of your data plane services without your intervention, there might be times when you want to change the behavior of some of those services. You can modify the configuration of your EKS Auto Mode clusters in the following ways:
 
@@ -92,6 +90,3 @@ include::auto-reference.adoc[leveloffset=+1]
 include::auto-troubleshoot.adoc[leveloffset=+1]
 
 //include::wip.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23automode%5D&type=code[Edit this page on GitHub]

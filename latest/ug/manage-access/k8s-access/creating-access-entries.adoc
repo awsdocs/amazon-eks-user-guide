@@ -1,9 +1,9 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#creating-access-entries]
 = Create access entries
 :info_titleabbrev: Create access entries
-
-include::../../attributes.txt[]
 
 Before creating access entries, consider the following:
 
@@ -62,11 +62,11 @@ If the ARN of the role that you specified contained a path, Amazon EKS removes i
 |===
 +
 You can change the username after the access entry is created.
-* If an access entry's type is `STANDARD`, and you want to use [.noloc]`Kubernetes` RBAC authorization, you can add one or more _group names_ to the access entry. After you create an access entry you can add and remove group names. For the IAM principal to have access to [.noloc]`Kubernetes` objects on your cluster, you must create and manage [.noloc]`Kubernetes` role-based authorization (RBAC) objects. Create [.noloc]`Kubernetes` `RoleBinding` or `ClusterRoleBinding` objects on your cluster that specify the group name as a `subject` for `kind: Group`. [.noloc]`Kubernetes` authorizes the IAM principal access to any cluster objects that you've specified in a [.noloc]`Kubernetes` `Role` or `ClusterRole` object that you've also specified in your binding's `roleRef`. If you specify group names, we recommend that you're familiar with the [.noloc]`Kubernetes` role-based authorization (RBAC) objects. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the [.noloc]`Kubernetes` documentation.  
+* If an access entry's type is `STANDARD`, and you want to use Kubernetes RBAC authorization, you can add one or more _group names_ to the access entry. After you create an access entry you can add and remove group names. For the IAM principal to have access to Kubernetes objects on your cluster, you must create and manage Kubernetes role-based authorization (RBAC) objects. Create Kubernetes `RoleBinding` or `ClusterRoleBinding` objects on your cluster that specify the group name as a `subject` for `kind: Group`. Kubernetes authorizes the IAM principal access to any cluster objects that you've specified in a Kubernetes `Role` or `ClusterRole` object that you've also specified in your binding's `roleRef`. If you specify group names, we recommend that you're familiar with the Kubernetes role-based authorization (RBAC) objects. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the Kubernetes documentation.  
 +
-IMPORTANT: Amazon EKS doesn't confirm that any [.noloc]`Kubernetes` RBAC objects that exist on your cluster include any of the group names that you specify. For example, if you create an access entry for group that currently doesn't exist, EKS will create the group instead of returning an error. 
+IMPORTANT: Amazon EKS doesn't confirm that any Kubernetes RBAC objects that exist on your cluster include any of the group names that you specify. For example, if you create an access entry for group that currently doesn't exist, EKS will create the group instead of returning an error. 
 +
-Instead of, or in addition to, [.noloc]`Kubernetes` authorizing the IAM principal access to [.noloc]`Kubernetes` objects on your cluster, you can associate Amazon EKS _access policies_ to an access entry. Amazon EKS authorizes IAM principals to access [.noloc]`Kubernetes` objects on your cluster with the permissions in the access policy. You can scope an access policy's permissions to [.noloc]`Kubernetes` namespaces that you specify. Use of access policies don't require you to manage [.noloc]`Kubernetes` RBAC objects. For more information, see <<access-policies>>.
+Instead of, or in addition to, Kubernetes authorizing the IAM principal access to Kubernetes objects on your cluster, you can associate Amazon EKS _access policies_ to an access entry. Amazon EKS authorizes IAM principals to access Kubernetes objects on your cluster with the permissions in the access policy. You can scope an access policy's permissions to Kubernetes namespaces that you specify. Use of access policies don't require you to manage Kubernetes RBAC objects. For more information, see <<access-policies>>.
 * If you create an access entry with type `EC2_LINUX` or `EC2_Windows`, the IAM principal creating the access entry must have the `iam:PassRole` permission. For more information, see link:IAM/latest/UserGuide/id_roles_use_passrole.html[Granting a user permissions to pass a role to an {aws} service,type="documentation"] in the _IAM User Guide_.
 * Similar to standard link:IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency[IAM behavior,type="documentation"], access entry creation and updates are eventually consistent, and may take several seconds to be effective after the initial API call returns successfully. You must design your applications to account for these potential delays. We recommend that you don't include access entry creates or updates in the critical, high- availability code paths of your application. Instead, make changes in a separate initialization or setup routine that you run less frequently. Also, be sure to verify that the changes have been propagated before production workflows depend on them. 
 * Access entries do not support link:IAM/latest/UserGuide/using-service-linked-roles.html[service linked roles,type="documentation"]. You cannot create access entries where the principal ARN is a service linked role. You can identify service linked roles by their ARN, which is in the format `{arn-aws}iam::*:role/aws-service-role/*`. 
@@ -83,16 +83,16 @@ You can create an access entry using the {aws-management-console} or the {aws} C
 . For *IAM principal*, select an existing IAM role or user. IAM best practices recommend accessing your cluster using IAM _roles_ that have short-term credentials, rather than IAM _users_ that have long-term credentials. For more information, see link:IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp[Require human users to use federation with an identity provider to access {aws} using temporary credentials,type="documentation"] in the _IAM User Guide_.
 . For *Type*, if the access entry is for the node role used for self-managed Amazon EC2 nodes, select *EC2 Linux* or *EC2 Windows*. Otherwise, accept the default (*Standard*).
 . If the *Type* you chose is *Standard* and you want to specify a *Username*, enter the username.
-. If the *Type* you chose is *Standard* and you want to use [.noloc]`Kubernetes` RBAC authorization for the IAM principal, specify one or more names for *Groups*. If you don't specify any group names and want to use Amazon EKS authorization, you can associate an access policy in a later step, or after the access entry is created.
+. If the *Type* you chose is *Standard* and you want to use Kubernetes RBAC authorization for the IAM principal, specify one or more names for *Groups*. If you don't specify any group names and want to use Amazon EKS authorization, you can associate an access policy in a later step, or after the access entry is created.
 . (Optional) For *Tags*, assign labels to the access entry. For example, to make it easier to find all resources with the same tag.
 . Choose *Next*.
-. On the *Add access policy* page, if the type you chose was *Standard* and you want Amazon EKS to authorize the IAM principal to have permissions to the [.noloc]`Kubernetes` objects on your cluster, complete the following steps. Otherwise, choose *Next*.
+. On the *Add access policy* page, if the type you chose was *Standard* and you want Amazon EKS to authorize the IAM principal to have permissions to the Kubernetes objects on your cluster, complete the following steps. Otherwise, choose *Next*.
 +
-.. For *Policy name*, choose an access policy. You can't view the permissions of the access policies, but they include similar permissions to those in the [.noloc]`Kubernetes` user-facing `ClusterRole` objects. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles[User-facing roles] in the [.noloc]`Kubernetes` documentation.
+.. For *Policy name*, choose an access policy. You can't view the permissions of the access policies, but they include similar permissions to those in the Kubernetes user-facing `ClusterRole` objects. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles[User-facing roles] in the Kubernetes documentation.
 .. Choose one of the following options:
 +
-*** *Cluster* – Choose this option if you want Amazon EKS to authorize the IAM principal to have the permissions in the access policy for all [.noloc]`Kubernetes` objects on your cluster.
-*** *[.noloc]`Kubernetes` namespace* – Choose this option if you want Amazon EKS to authorize the IAM principal to have the permissions in the access policy for all [.noloc]`Kubernetes` objects in a specific [.noloc]`Kubernetes` namespace on your cluster. For *Namespace*, enter the name of the [.noloc]`Kubernetes` namespace on your cluster. If you want to add additional namespaces, choose *Add new namespace* and enter the namespace name.
+*** *Cluster* – Choose this option if you want Amazon EKS to authorize the IAM principal to have the permissions in the access policy for all Kubernetes objects on your cluster.
+*** *Kubernetes namespace* – Choose this option if you want Amazon EKS to authorize the IAM principal to have the permissions in the access policy for all Kubernetes objects in a specific Kubernetes namespace on your cluster. For *Namespace*, enter the name of the Kubernetes namespace on your cluster. If you want to add additional namespaces, choose *Add new namespace* and enter the namespace name.
 .. If you want to add additional policies, choose *Add policy*. You can scope each policy differently, but you can add each policy only once.
 .. Choose *Next*.
 . Review the configuration for your access entry. If anything looks incorrect, choose *Previous* to go back through the steps and correct the error. If the configuration is correct, choose *Create*.
@@ -112,7 +112,7 @@ aws eks create-access-entry --cluster-name my-cluster --principal-arn {arn-aws}i
 ----
 +
 You can't use the `--kubernetes-groups` option when you specify a type other than `STANDARD`. You can't associate an access policy to this access entry, because its type is a value other than `STANDARD`.
-** Create an access entry that allows an IAM role that's not used for an Amazon EC2 self-managed node group, that you want [.noloc]`Kubernetes` to authorize access to your cluster with. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`my-role` with the name of your IAM role. Replace [.replaceable]`Viewers` with the name of a group that you've specified in a [.noloc]`Kubernetes` `RoleBinding` or `ClusterRoleBinding` object on your cluster.
+** Create an access entry that allows an IAM role that's not used for an Amazon EC2 self-managed node group, that you want Kubernetes to authorize access to your cluster with. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your {aws} account ID, and [.replaceable]`my-role` with the name of your IAM role. Replace [.replaceable]`Viewers` with the name of a group that you've specified in a Kubernetes `RoleBinding` or `ClusterRoleBinding` object on your cluster.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -125,7 +125,4 @@ aws eks create-access-entry --cluster-name my-cluster --principal-arn {arn-aws}i
 aws eks create-access-entry --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:user/my-user --type STANDARD --username my-user
 ----
 +
-If you want this user to have more access to your cluster than the permissions in the [.noloc]`Kubernetes` API discovery roles, then you need to associate an access policy to the access entry, since the `--kubernetes-groups` option isn't used. For more information, see <<access-policies>> and https://kubernetes.io/docs/reference/access-authn-authz/rbac/#discovery-roles[API discovery roles] in the [.noloc]`Kubernetes` documentation.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23creating-access-entries%5D&type=code[Edit this page on GitHub]
+If you want this user to have more access to your cluster than the permissions in the Kubernetes API discovery roles, then you need to associate an access policy to the access entry, since the `--kubernetes-groups` option isn't used. For more information, see <<access-policies>> and https://kubernetes.io/docs/reference/access-authn-authz/rbac/#discovery-roles[API discovery roles] in the Kubernetes documentation.

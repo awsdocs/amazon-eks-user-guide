@@ -1,10 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-nodeadm]
 = Hybrid nodes `nodeadm` reference
 :info_titleabbrev: Hybrid nodes nodeadm
 :keywords: on-premises, hybrid
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -82,6 +82,13 @@ The `install` command is used to install the artifacts and dependencies required
 `docker` - `nodeadm` will install `containerd` package built and distributed by Docker. `docker` is not a supported value for Amazon Linux 2023
 
 `none` - `nodeadm` will not install `containerd` package. You must manually install `containerd` before running `nodeadm init`.
+
+|`-r`,
+
+`--region`
+|FALSE
+|Specifies the {aws} Region for downloading artifacts such as the SSM Agent. Defaults to `us-west-2`.
+
 |`-t`,
 
 `--timeout`
@@ -238,7 +245,9 @@ nodeadm init [flags]
 
 *Values*
 
-`install-validation` skips checking if the proceding install command ran successfully.
+`install-validation` skips checking if the preceding install command ran successfully.
+
+`cni-validation` skips checking if either Cilium or Calico cni's VxLan ports are opened if firewall is enabled on the node
 
 |`-h`, `--help`
 |FALSE
@@ -460,6 +469,10 @@ nodeadm debug [flags]
 |TRUE
 |Source of `nodeadm` configuration. For hybrid nodes the input should follow a URI with file scheme.
 
+|`--no-color`
+|FALSE
+|Disables color output. Useful for automation.
+
 |`-h`, `--help`
 |FALSE
 |Displays help message with available flag, subcommand and positional value parameters.
@@ -585,6 +598,3 @@ spec:
       activationCode: # SSM hybrid activation code
       activationId:   # SSM hybrid activation id
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-nodeadm%5D&type=code[Edit this page on GitHub]

@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#inferentia-support]
-= Use {aws} [.noloc]`Inferentia` instances with Amazon EKS for Machine Learning
+= Use {aws} Inferentia instances with Amazon EKS for Machine Learning
 :info_titleabbrev: Prepare Inferentia clusters
 
 [abstract]
@@ -15,7 +15,7 @@ This topic describes how to create an Amazon EKS cluster with nodes running link
 [NOTE]
 ====
 
-Neuron device logical IDs must be contiguous. If a [.noloc]`Pod` requesting multiple Neuron devices is scheduled on an `inf1.6xlarge` or `inf1.24xlarge` instance type (which have more than one Neuron device), that [.noloc]`Pod` will fail to start if the [.noloc]`Kubernetes` scheduler selects non-contiguous device IDs. For more information, see https://github.com/aws/aws-neuron-sdk/issues/110[Device logical IDs must be contiguous] on [.noloc]`GitHub`.
+Neuron device logical IDs must be contiguous. If a Pod requesting multiple Neuron devices is scheduled on an `inf1.6xlarge` or `inf1.24xlarge` instance type (which have more than one Neuron device), that Pod will fail to start if the Kubernetes scheduler selects non-contiguous device IDs. For more information, see https://github.com/aws/aws-neuron-sdk/issues/110[Device logical IDs must be contiguous] on GitHub.
 
 ====
 
@@ -56,8 +56,8 @@ NOTE: Note the value of the following line of the output. It's used in a later (
 [9]  adding identity "{arn-aws}iam::111122223333:role/eksctl-inferentia-nodegroup-ng-in-NodeInstanceRole-FI7HIYS3BS09" to auth ConfigMap
 ----
 +
-When launching a node group with `Inf1` instances, `eksctl` automatically installs the {aws} Neuron [.noloc]`Kubernetes` device plugin. This plugin advertises Neuron devices as a system resource to the [.noloc]`Kubernetes` scheduler, which can be requested by a container. In addition to the default Amazon EKS node IAM policies, the Amazon S3 read only access policy is added so that the sample application, covered in a later step, can load a trained model from Amazon S3.
-. Make sure that all [.noloc]`Pods` have started correctly.
+When launching a node group with `Inf1` instances, `eksctl` automatically installs the {aws} Neuron Kubernetes device plugin. This plugin advertises Neuron devices as a system resource to the Kubernetes scheduler, which can be requested by a container. In addition to the default Amazon EKS node IAM policies, the Amazon S3 read only access policy is added so that the sample application, covered in a later step, can load a trained model from Amazon S3.
+. Make sure that all Pods have started correctly.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -80,7 +80,7 @@ neuron-device-plugin-daemonset-hwjsj   1/1     Running   0          5m
 
 A trained model must be compiled to an Inferentia target before it can be deployed on Inferentia instances. To continue, you will need a https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-guide/neuron-frameworks/tensorflow-neuron/index.html[Neuron optimized TensorFlow] model saved in Amazon S3. If you don't already have a SavedModel, please follow the tutorial for link:dlami/latest/devguide/tutorial-inferentia-tf-neuron.html[creating a Neuron compatible ResNet50 model,type="documentation"] and upload the resulting SavedModel to S3. ResNet-50 is a popular machine learning model used for image recognition tasks. For more information about compiling Neuron models, see link:dlami/latest/devguide/tutorial-inferentia.html[The {aws} Inferentia Chip With DLAMI,type="documentation"] in the {aws} Deep Learning AMIs Developer Guide.
 
-The sample deployment manifest manages a pre-built inference serving container for TensorFlow provided by {aws} Deep Learning Containers. Inside the container is the {aws} Neuron Runtime and the TensorFlow Serving application. A complete list of pre-built Deep Learning Containers optimized for Neuron is maintained on [.noloc]`GitHub` under https://github.com/aws/deep-learning-containers/blob/master/available_images.md#neuron-inference-containers[Available Images]. At start-up, the DLC will fetch your model from Amazon S3, launch Neuron TensorFlow Serving with the saved model, and wait for prediction requests.
+The sample deployment manifest manages a pre-built inference serving container for TensorFlow provided by {aws} Deep Learning Containers. Inside the container is the {aws} Neuron Runtime and the TensorFlow Serving application. A complete list of pre-built Deep Learning Containers optimized for Neuron is maintained on GitHub under https://github.com/aws/deep-learning-containers/blob/master/available_images.md#neuron-inference-containers[Available Images]. At start-up, the DLC will fetch your model from Amazon S3, launch Neuron TensorFlow Serving with the saved model, and wait for prediction requests.
 
 The number of Neuron devices allocated to your serving application can be adjusted by changing the `aws.amazon.com/neuron` resource in the deployment yaml. Please note that communication between TensorFlow Serving and the Neuron runtime happens over GRPC, which requires passing the `IPC_LOCK` capability to the container.
 
@@ -187,7 +187,7 @@ spec:
     app: eks-neuron-test
     role: master
 ----
-. Create a [.noloc]`Kubernetes` service for your TensorFlow model Serving application.
+. Create a Kubernetes service for your TensorFlow model Serving application.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -245,6 +245,3 @@ An example output is as follows.
 ----
 [[(u'n02123045', u'tabby', 0.68817204), (u'n02127052', u'lynx', 0.12701613), (u'n02123159', u'tiger_cat', 0.08736559), (u'n02124075', u'Egyptian_cat', 0.063844085), (u'n02128757', u'snow_leopard', 0.009240591)]]
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23inferentia-support%5D&type=code[Edit this page on GitHub]

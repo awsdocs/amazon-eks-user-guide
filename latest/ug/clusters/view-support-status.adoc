@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#view-support-status]
 = View current cluster support period
 :info_titleabbrev: View support period
-
-include::../attributes.txt[]
 
 The *cluster support period* section of the {aws} console indicates if your cluster is _currently_ on standard or extended support. If your cluster support period is *Extended support*, you are being charged for EKS extended support.  
 
@@ -19,6 +19,3 @@ For more information about standard and extended support, see <<kubernetes-versi
 The *Support Period* cannot be retrieved with the {aws} API or CLI.
 
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23view-support-status%5D&type=code[Edit this page on GitHub]

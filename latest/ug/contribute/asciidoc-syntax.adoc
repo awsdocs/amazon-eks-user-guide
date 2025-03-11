@@ -1,10 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#asciidoc-syntax]
 = AsciiDoc Syntax Reference
 :info_titleabbrev: AsciiDoc syntax
 
-
-include::../attributes.txt[]
 
 This page is a quick overview of AsciiDoc syntax. 
 
@@ -132,6 +132,3 @@ NOTE: This is a note admonition.
 ----
  include::filename.adoc[]
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23asciidoc-syntax%5D&type=code[Edit this page on GitHub]

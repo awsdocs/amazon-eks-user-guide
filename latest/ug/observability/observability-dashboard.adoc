@@ -1,10 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#observability-dashboard]
 = Monitor your cluster with the observability dashboard
 :info_titleabbrev: Observability dashboard
 :keywords: observability, dashboard
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -35,11 +35,11 @@ The *Control plane monitoring* tab is divided into three sections, each of which
 [#observability-metrics]
 === Metrics
 
-For clusters that are [.noloc]`Kubernetes` version `1.28` and above, the *Metrics* section shows graphs of several metrics gathered for various control plane components.
+For clusters that are Kubernetes version `1.28` and above, the *Metrics* section shows graphs of several metrics gathered for various control plane components.
 
 You can set the time period used by the X-axis of every graph by making selections at the top of the section. You can refresh data with the refresh button ( ↻ ). For each separate graph, the vertical ellipses button ( ⋮ ) opens a menu with options from CloudWatch.
 
-These metrics and more are automatically available as basic monitoring metrics in CloudWatch under the `AWS/EKS` namespace. For more information, see link:AmazonCloudWatch/latest/monitoring/cloudwatch-metrics-basic-detailed.html[Basic monitoring and detailed monitoring,type="documentation"] in the _Amazon CloudWatch User Guide_. To get more detailed metrics, visualization, and insights, see link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[Container Insights,type="documentation"] in the _Amazon CloudWatch User Guide_. Or if you prefer [.noloc]`Prometheus` based monitoring, see <<prometheus>>.
+These metrics and more are automatically available as basic monitoring metrics in CloudWatch under the `AWS/EKS` namespace. For more information, see link:AmazonCloudWatch/latest/monitoring/cloudwatch-metrics-basic-detailed.html[Basic monitoring and detailed monitoring,type="documentation"] in the _Amazon CloudWatch User Guide_. To get more detailed metrics, visualization, and insights, see link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[Container Insights,type="documentation"] in the _Amazon CloudWatch User Guide_. Or if you prefer Prometheus based monitoring, see <<prometheus>>.
 
 The following table describes available metrics.
 
@@ -117,6 +117,3 @@ The Amazon EKS node monitoring agent automatically reads node logs to detect hea
 When you refresh the page, any resolved issues will disappear from the list. If auto repair is enabled, you could temporarily see some health issues that will be resolved without action from you. Issues that are not supported by auto repair may require manual action from you depending on the type.
 
 For node health issues to be reported, your cluster must use Amazon EKS Auto Mode or have the node monitoring agent add-on. For more information, see <<node-health>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23observability-dashboard%5D&type=code[Edit this page on GitHub]

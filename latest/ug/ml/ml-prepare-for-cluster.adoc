@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#ml-prepare-for-cluster]
 = Prepare for ML clusters
 :info_titleabbrev: Prepare for ML
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -40,6 +40,3 @@ include::node-taints-managed-node-groups.adoc[leveloffset=+1]
 include::node-efa.adoc[leveloffset=+1]
 
 include::inferentia-support.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23ml-prepare-for-cluster%5D&type=code[Edit this page on GitHub]

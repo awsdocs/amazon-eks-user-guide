@@ -1,18 +1,16 @@
+include::../attributes.txt[]
+
 [.topic]
 [#view-raw-metrics]
-= Fetch control plane raw metrics in [.noloc]`Prometheus` format
+= Fetch control plane raw metrics in Prometheus format
 :info_titleabbrev: Control plane
-
-include::../attributes.txt[]
-
-include::../attributes.txt[]
 
 [abstract]
 --
-The [.noloc]`Kubernetes` control plane exposes a number of metrics that are represented in a [.noloc]`Prometheus` format.
+The Kubernetes control plane exposes a number of metrics that are represented in a Prometheus format.
 --
 
-The [.noloc]`Kubernetes` control plane exposes a number of metrics that are represented in a https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exposition_formats.md[Prometheus format]. These metrics are useful for monitoring and analysis. They are exposed internally through metrics endpoints, and can be accessed without fully deploying [.noloc]`Prometheus`. However, deploying [.noloc]`Prometheus` more easily allows analyzing metrics over time.
+The Kubernetes control plane exposes a number of metrics that are represented in a https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exposition_formats.md[Prometheus format]. These metrics are useful for monitoring and analysis. They are exposed internally through metrics endpoints, and can be accessed without fully deploying Prometheus. However, deploying Prometheus more easily allows analyzing metrics over time.
 
 To view the raw metrics output, replace `endpoint` and run the following command.
 [source,bash,subs="verbatim,attributes"]
@@ -64,7 +62,7 @@ This raw output returns verbatim what the API server exposes.
 [#fetch-metrics-prometheus]
 == Fetch control plane metrics with `metrics.eks.amazonaws.com`
 
-For clusters that are [.noloc]`Kubernetes` version `1.28` and above, Amazon EKS also exposes metrics under the API group `metrics.eks.amazonaws.com`. These metrics include control plane components such as `kube-scheduler` and `kube-controller-manager`.
+For clusters that are Kubernetes version `1.28` and above, Amazon EKS also exposes metrics under the API group `metrics.eks.amazonaws.com`. These metrics include control plane components such as `kube-scheduler` and `kube-controller-manager`.
 
 [NOTE]
 ====
@@ -136,7 +134,7 @@ workqueue_work_duration_seconds_sum{name="replicaset"} 4.265655885000002
 [#scheduler-controller-metrics]
 === Understand the scheduler and controller manager metrics
 
-The following table describes the scheduler and controller manager metrics that are made available for [.noloc]`Prometheus` style scraping. For more information about these metrics, see https://kubernetes.io/docs/reference/instrumentation/metrics/[Kubernetes Metrics Reference] in the [.noloc]`Kubernetes` documentation.
+The following table describes the scheduler and controller manager metrics that are made available for Prometheus style scraping. For more information about these metrics, see https://kubernetes.io/docs/reference/instrumentation/metrics/[Kubernetes Metrics Reference] in the Kubernetes documentation.
 
 [cols="1,1,1", options="header"]
 |===
@@ -327,13 +325,10 @@ kubectl patch clusterrole <role-name> --type=json -p='[
 ]'
 ----
 
-Then you can view the [.noloc]`Prometheus` dashboard by proxying the port of the [.noloc]`Prometheus` scraper to your local port.
+Then you can view the Prometheus dashboard by proxying the port of the Prometheus scraper to your local port.
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl port-forward pods/prom-pod 9090:9090
 ----
 
 For your Amazon EKS cluster, the core Kubernetes control plane metrics are also ingested into Amazon CloudWatch Metrics under the `AWS/EKS` namespace. To view them, open the link:cloudwatch/home#logs:prefix=/aws/eks[CloudWatch console,type="console"] and select *All metrics* from the left navigation pane. On the *Metrics* selection page, choose the `AWS/EKS` namespace and a metrics dimension for your cluster.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23view-raw-metrics%5D&type=code[Edit this page on GitHub]

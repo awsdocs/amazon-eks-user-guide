@@ -1,14 +1,14 @@
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-troubleshooting]
 = Troubleshooting hybrid nodes
 :info_titleabbrev: Troubleshooting
 :keywords: on-premises, hybrid
 
-include::../attributes.txt[]
-
 [abstract]
 --
-Troubleshoot, diagnose, and repair hybrid nodes from your data centers to Amazon EKS [.noloc]`Kubernetes` clusters.
+Troubleshoot, diagnose, and repair hybrid nodes from your data centers to Amazon EKS Kubernetes clusters.
 --
 
 This topic covers some common errors that you may see while using Amazon EKS Hybrid Nodes and how to fix them. For other troubleshooting information, see <<troubleshooting>> and https://repost.aws/tags/knowledge-center/TA4IvCeWI1TE66q4jEj4Z9zg/amazon-elastic-kubernetes-service[Knowledge Center tag for Amazon EKS] on _{aws} re:Post_. If you cannot resolve the issue, contact {aws} Support.
@@ -667,6 +667,3 @@ ldd --version
 sudo apt update && apt install libc6
 sudo apt install glibc-source
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-troubleshooting%5D&type=code[Edit this page on GitHub]

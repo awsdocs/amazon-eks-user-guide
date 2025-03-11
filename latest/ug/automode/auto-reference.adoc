@@ -1,14 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#auto-reference]
 = Learn how EKS Auto Mode works
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: How it works
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -33,6 +28,3 @@ include::auto-networking.adoc[leveloffset=+1]
 //include::term-reference.adoc[leveloffset=+1]
 
 //include::auto-glossary.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-reference%5D&type=code[Edit this page on GitHub]

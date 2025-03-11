@@ -1,27 +1,9 @@
-[.topic]
-[#managing-vpc-cni]
-= Assign IPs to [.noloc]`Pods` with the Amazon VPC CNI
-:info_titleabbrev: Amazon VPC CNI
-
 include::../attributes.txt[]
 
-include::vpc-add-on-create.adoc[leveloffset=+1]
-
-include::vpc-add-on-update.adoc[leveloffset=+1]
-
-include::vpc-add-on-self-managed-update.adoc[leveloffset=+1]
-
-include::cni-iam-role.adoc[leveloffset=+1]
-
-include::pod-networking-use-cases.adoc[leveloffset=+1]
-
-include::cni-custom-network.adoc[leveloffset=+1]
-
-include::cni-increase-ip-addresses.adoc[leveloffset=+1]
-
-include::security-groups-for-pods.adoc[leveloffset=+1]
-
-include::pod-multiple-network-interfaces.adoc[leveloffset=+1]
+[.topic]
+[#managing-vpc-cni]
+= Assign IPs to Pods with the Amazon VPC CNI
+:info_titleabbrev: Amazon VPC CNI
 
 [abstract]
 --
@@ -35,27 +17,27 @@ With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-o
 For more information, see <<automode>>.
 ====
 
-The [.noloc]`Amazon VPC CNI plugin for Kubernetes` add-on is deployed on each Amazon EC2 node in your Amazon EKS cluster. The add-on creates link:AWSEC2/latest/UserGuide/using-eni.html[elastic network interfaces,type="documentation"] and attaches them to your Amazon EC2 nodes. The add-on also assigns a private `IPv4` or `IPv6` address from your VPC to each [.noloc]`Pod`.
+The Amazon VPC CNI plugin for Kubernetes add-on is deployed on each Amazon EC2 node in your Amazon EKS cluster. The add-on creates link:AWSEC2/latest/UserGuide/using-eni.html[elastic network interfaces,type="documentation"] and attaches them to your Amazon EC2 nodes. The add-on also assigns a private `IPv4` or `IPv6` address from your VPC to each Pod.
 
 A version of the add-on is deployed with each Fargate node in your cluster, but you don't update it on Fargate nodes. Other compatible CNI plugins are available for use on Amazon EKS clusters, but this is the only CNI plugin supported by Amazon EKS for nodes that run on {aws} infrastructure. For more information about the other compatible CNI plugins, see <<alternate-cni-plugins>>. The VPC CNI isn't supported for use with hybrid nodes. For more information about your CNI options for hybrid nodes, see <<hybrid-nodes-cni>>.
 
-The following table lists the latest available version of the Amazon EKS add-on type for each [.noloc]`Kubernetes` version.
+The following table lists the latest available version of the Amazon EKS add-on type for each Kubernetes version.
 
 [#vpc-cni-latest-available-version]
-== [.noloc]`Amazon VPC CNI` versions
+== Amazon VPC CNI versions
 
 [options="header"]
 |===
 | Kubernetes version | Amazon EKS type of VPC CNI version
-| 1.32 | v1.19.2-eksbuild.1
-| 1.31 | v1.19.2-eksbuild.1
-| 1.30 | v1.19.2-eksbuild.1
-| 1.29 | v1.19.2-eksbuild.1
-| 1.28 | v1.19.2-eksbuild.1
-| 1.27 | v1.19.2-eksbuild.1
-| 1.26 | v1.19.2-eksbuild.1
-| 1.25 | v1.19.2-eksbuild.1
-| 1.24 | v1.19.2-eksbuild.1
+| 1.32 | v1.19.2-eksbuild.5
+| 1.31 | v1.19.2-eksbuild.5
+| 1.30 | v1.19.2-eksbuild.5
+| 1.29 | v1.19.2-eksbuild.5
+| 1.28 | v1.19.2-eksbuild.5
+| 1.27 | v1.19.2-eksbuild.5
+| 1.26 | v1.19.2-eksbuild.5
+| 1.25 | v1.19.2-eksbuild.5
+| 1.24 | v1.19.2-eksbuild.5
 |===
 
 [IMPORTANT]
@@ -79,7 +61,23 @@ To upgrade to VPC CNI v1.12.0 or later, you must upgrade to VPC CNI v1.7.0 first
 The following are considerations for using the feature.
 
 * Versions are specified as `major-version.minor-version.patch-version-eksbuild.build-number`.
-* Check version compatibility for each feature. Some features of each release of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` require certain [.noloc]`Kubernetes` versions. When using different Amazon EKS features, if a specific version of the add-on is required, then it's noted in the feature documentation. Unless you have a specific reason for running an earlier version, we recommend running the latest version.
+* Check version compatibility for each feature. Some features of each release of the Amazon VPC CNI plugin for Kubernetes require certain Kubernetes versions. When using different Amazon EKS features, if a specific version of the add-on is required, then it's noted in the feature documentation. Unless you have a specific reason for running an earlier version, we recommend running the latest version.
 
+include::vpc-add-on-create.adoc[leveloffset=+1]
 
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23managing-vpc-cni%5D&type=code[Edit this page on GitHub]
+include::vpc-add-on-update.adoc[leveloffset=+1]
+
+include::vpc-add-on-self-managed-update.adoc[leveloffset=+1]
+
+include::cni-iam-role.adoc[leveloffset=+1]
+
+include::pod-networking-use-cases.adoc[leveloffset=+1]
+
+include::cni-custom-network.adoc[leveloffset=+1]
+
+include::cni-increase-ip-addresses.adoc[leveloffset=+1]
+
+include::security-groups-for-pods.adoc[leveloffset=+1]
+
+include::pod-multiple-network-interfaces.adoc[leveloffset=+1]
+

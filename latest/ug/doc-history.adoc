@@ -2,14 +2,6 @@
 [#doc-history]
 // H1 title is necessary, and must occur before the [abstract], but is unused in the web page (:info_title: is used instead, and :info_titleabbrev: is used in the ToC)
 = Document history
-:doctype: book
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :keywords: document, publish, release, history, log
 
 
@@ -25,6 +17,13 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
+[.update,date="2025-02-28"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to terminate EC2 instances created by Auto Mode. 
+
 [.update,date="2025-01-27"]
 === Update strategies for managed node groups
 [.update-ulink]
@@ -33,11 +32,11 @@ link:eks/latest/userguide/managed-node-update-behavior.html#managed-node-update-
 You can now use update strategies to configure the version update process for managed node groups. This introduces the _minimal_ update strategy to terminate nodes before making new ones, which is useful in capacity constrained environments. The _default_ update strategy continues the existing behavior.
 
 [.update,date="2025-01-23"]
-=== [.noloc]`Kubernetes` version `1.32`
+=== Kubernetes version `1.32`
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-32[type="documentation"]
 
-Added [.noloc]`Kubernetes` version `1.32` support for new clusters and version upgrades.
+Added Kubernetes version `1.32` support for new clusters and version upgrades.
 
 [.update,date="2025-01-14"]
 === Amazon EKS {aws} Region expansion
@@ -63,7 +62,7 @@ Added permissions to `AmazonEKSLoadBalancingPolicy`.
 [.update-ulink]
 link:eks/latest/userguide/cluster-insights.html[type="documentation"]
 
-Amazon EKS upgrade insights will now warn about more cluster health and version compatibility issues. It can detect issues between different [.noloc]`Kubernetes` and Amazon EKS components such as `kubelet`, `kube-proxy`, and Amazon EKS add-ons.
+Amazon EKS upgrade insights will now warn about more cluster health and version compatibility issues. It can detect issues between different Kubernetes and Amazon EKS components such as `kubelet`, `kube-proxy`, and Amazon EKS add-ons.
 
 
 [.update,date="2024-12-16"]
@@ -115,19 +114,19 @@ EKS updated {aws} managed policy `AmazonEKSLocalOutpostClusterPolicy`. Added `ec
 
 
 [.update,date="2024-11-21"]
-=== [.noloc]`Kubernetes` version 1.30 is now available for local clusters on {aws} Outposts
+=== Kubernetes version 1.30 is now available for local clusters on {aws} Outposts
 [.update-ulink]
 link:eks/latest/userguide/eks-outposts-platform-versions.html[type="documentation"]
 
-You can now create an Amazon EKS local cluster on an {aws} Outposts using [.noloc]`Kubernetes` version 1.30.
+You can now create an Amazon EKS local cluster on an {aws} Outposts using Kubernetes version 1.30.
 
 
 [.update,date="2024-11-20"]
-=== [.noloc]`Bottlerocket` AMIs that use FIPS 140-3
+=== Bottlerocket AMIs that use FIPS 140-3
 [.update-ulink]
 link:eks/latest/userguide/retrieve-ami-id-bottlerocket.html[type="documentation"]
 
-[.noloc]`Bottlerocket` AMIs are available that are preconfigured to use FIPS 140-3 validated cryptographic modules. This includes the Amazon Linux 2023 Kernel Crypto API Cryptographic Module and the {aws}-LC Cryptographic Module.
+Bottlerocket AMIs are available that are preconfigured to use FIPS 140-3 validated cryptographic modules. This includes the Amazon Linux 2023 Kernel Crypto API Cryptographic Module and the {aws}-LC Cryptographic Module.
 
 
 [.update,date="2024-11-20"]
@@ -283,11 +282,11 @@ link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-upd
 EKS added a new {aws} managed policy.
 
 [.update,date="2024-09-24"]
-=== [.noloc]`Kubernetes` version `1.31`
+=== Kubernetes version `1.31`
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-31[type="documentation"]
 
-Added [.noloc]`Kubernetes` version `1.31` support for new clusters and version upgrades.
+Added Kubernetes version `1.31` support for new clusters and version upgrades.
 
 
 [.update,date="2024-08-21"]
@@ -299,11 +298,11 @@ Amazon EKS updated an existing {aws} managed policy.
 
 
 [.update,date="2024-08-20"]
-=== [.noloc]`Kubernetes` version 1.29 is now available for local clusters on {aws} Outposts
+=== Kubernetes version 1.29 is now available for local clusters on {aws} Outposts
 [.update-ulink]
 link:eks/latest/userguide/eks-outposts-platform-versions.html[type="documentation"]
 
-You can now create an Amazon EKS local cluster on an {aws} Outposts using [.noloc]`Kubernetes` version 1.29.
+You can now create an Amazon EKS local cluster on an {aws} Outposts using Kubernetes version 1.29.
 
 
 [.update,date="2024-08-14"]
@@ -311,7 +310,7 @@ You can now create an Amazon EKS local cluster on an {aws} Outposts using [.nolo
 [.update-ulink]
 link:eks/latest/userguide/pod-identites.html[type="documentation"]
 
-Amazon EKS Pod Identities associate an IAM role with a [.noloc]`Kubernetes` service account. With this feature, you no longer need to provide extended permissions to the node IAM role. This way, [.noloc]`Pods` on that node can call {aws} APIs. Unlike IAM roles for service accounts, EKS Pod Identities are completely inside EKS; you don't need an [.noloc]`OIDC` identity provider.
+Amazon EKS Pod Identities associate an IAM role with a Kubernetes service account. With this feature, you no longer need to provide extended permissions to the node IAM role. This way, Pods on that node can call {aws} APIs. Unlike IAM roles for service accounts, EKS Pod Identities are completely inside EKS; you don't need an OIDC identity provider.
 
 
 [.update,date="2024-08-09"]
@@ -364,31 +363,31 @@ Amazon EKS updated an existing {aws} managed policy.
 [.update-ulink]
 link:eks/latest/userguide/eks-optimized-amis.html[type="documentation"]
 
-We made improvements to the AMI information references, in particular for [.noloc]`Bottlerocket`.
+We made improvements to the AMI information references, in particular for Bottlerocket.
 
 
 [.update,date="2024-06-12"]
-=== [.noloc]`Kubernetes` version `1.26`
+=== Kubernetes version `1.26`
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-26[type="documentation"]
 
-[.noloc]`Kubernetes` version `1.26` is now in extended support.
+Kubernetes version `1.26` is now in extended support.
 
 
 [.update,date="2024-05-23"]
-=== [.noloc]`Kubernetes` version `1.30`
+=== Kubernetes version `1.30`
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-30[type="documentation"]
 
-Added [.noloc]`Kubernetes` version `1.30` support for new clusters and version upgrades.
+Added Kubernetes version `1.30` support for new clusters and version upgrades.
 
 
 [.update,date="2024-05-14"]
-=== [.noloc]`CoreDNS` Autoscaling
+=== CoreDNS Autoscaling
 [.update-ulink]
 link:eks/latest/userguide/coredns-autoscaling.html[type="documentation"]
 
-[.noloc]`CoreDNS` autoscaler will dynamically adapt the number of replicas of the [.noloc]`CoreDNS` deployment in an EKS cluster based on the number of nodes and CPU cores. This feature works for [.noloc]`CoreDNS` `v1.9` and the latest platform version of EKS release version `1.25` and later.
+CoreDNS autoscaler will dynamically adapt the number of replicas of the CoreDNS deployment in an EKS cluster based on the number of nodes and CPU cores. This feature works for CoreDNS `v1.9` and the latest platform version of EKS release version `1.25` and later.
 
 
 [.update,date="2024-05-14"]
@@ -400,15 +399,15 @@ This is a new platform version with security fixes and enhancements. This includ
 
 
 [.update,date="2024-04-10"]
-=== CloudWatch [.noloc]`Container Insights` support for [.noloc]`Windows`
+=== CloudWatch Container Insights support for Windows
 [.update-ulink]
 link:eks/latest/userguide/cloudwatch.html[type="documentation"]
 
-The Amazon CloudWatch Observability Operator add-on now also allows [.noloc]`Container Insights` on [.noloc]`Windows` worker nodes in the cluster.
+The Amazon CloudWatch Observability Operator add-on now also allows Container Insights on Windows worker nodes in the cluster.
 
 
 [.update,date="2024-04-05"]
-=== [.noloc]`Kubernetes` concepts
+=== Kubernetes concepts
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-concepts.html[type="documentation"]
 
@@ -424,11 +423,11 @@ Move existing pages related to access and IAM topics, such as auth config map, a
 
 
 [.update,date="2024-03-13"]
-=== [.noloc]`Bottlerocket` OS support for Amazon S3 CSI driver
+=== Bottlerocket OS support for Amazon S3 CSI driver
 [.update-ulink]
 link:eks/latest/userguide/s3-csi.html[type="documentation"]
 
-The Mountpoint for Amazon S3 CSI driver is now compatible with [.noloc]`Bottlerocket`.
+The Mountpoint for Amazon S3 CSI driver is now compatible with Bottlerocket.
 
 
 [.update,date="2024-03-04"]
@@ -448,27 +447,27 @@ Amazon Linux 2023 (AL2023) is a new Linux-based operating system designed to pro
 
 
 [.update,date="2024-02-26"]
-=== EKS Pod Identity and IRSA support sidecars in [.noloc]`Kubernetes` `1.29`
+=== EKS Pod Identity and IRSA support sidecars in Kubernetes `1.29`
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-29[type="documentation"]
 
-In [.noloc]`Kubernetes` `1.29`, sidecar containers are available in Amazon EKS clusters. Sidecar containers are supported with IAM roles for service accounts or EKS Pod Identity. For more information about sidecars, see https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/[Sidecar Containers] in the [.noloc]`Kubernetes` documentation.
+In Kubernetes `1.29`, sidecar containers are available in Amazon EKS clusters. Sidecar containers are supported with IAM roles for service accounts or EKS Pod Identity. For more information about sidecars, see https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/[Sidecar Containers] in the Kubernetes documentation.
 
 
 [.update,date="2024-01-23"]
-=== [.noloc]`Kubernetes` version `1.29`
+=== Kubernetes version `1.29`
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-29[type="documentation"]
 
-Added [.noloc]`Kubernetes` version `1.29` support for new clusters and version upgrades.
+Added Kubernetes version `1.29` support for new clusters and version upgrades.
 
 
 [.update,date="2024-01-16"]
-=== Full release: Amazon EKS Extended Support for [.noloc]`Kubernetes` versions
+=== Full release: Amazon EKS Extended Support for Kubernetes versions
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html[type="documentation"]
 
-Extended [.noloc]`Kubernetes` version support allows you to stay at a specific [.noloc]`Kubernetes` version for longer than 14 months.
+Extended Kubernetes version support allows you to stay at a specific Kubernetes version for longer than 14 months.
 
 
 [.update,date="2023-12-28"]
@@ -509,11 +508,11 @@ This is a new platform version with security fixes and enhancements. This includ
 
 
 [.update,date="2023-11-27"]
-=== [.noloc]`Mountpoint` for Amazon S3 CSI driver
+=== Mountpoint for Amazon S3 CSI driver
 [.update-ulink]
 link:eks/latest/userguide/s3-csi.html[type="documentation"]
 
-You can now install the [.noloc]`Mountpoint` for Amazon S3 CSI driver on Amazon EKS clusters.
+You can now install the Mountpoint for Amazon S3 CSI driver on Amazon EKS clusters.
 
 
 [.update,date="2023-11-26"]
@@ -521,7 +520,7 @@ You can now install the [.noloc]`Mountpoint` for Amazon S3 CSI driver on Amazon 
 [.update-ulink]
 link:eks/latest/userguide/pod-identites.html[type="documentation"]
 
-Amazon EKS Pod Identities associate an IAM role with a [.noloc]`Kubernetes` service account. With this feature, you no longer need to provide extended permissions to the node IAM role. This way, [.noloc]`Pods` on that node can call {aws} APIs. Unlike IAM roles for service accounts, EKS Pod Identities are completely inside EKS; you don't need an [.noloc]`OIDC` identity provider.
+Amazon EKS Pod Identities associate an IAM role with a Kubernetes service account. With this feature, you no longer need to provide extended permissions to the node IAM role. This way, Pods on that node can call {aws} APIs. Unlike IAM roles for service accounts, EKS Pod Identities are completely inside EKS; you don't need an OIDC identity provider.
 
 
 [.update,date="2023-11-26"]
@@ -533,11 +532,11 @@ Amazon EKS updated an existing {aws} managed policy.
 
 
 [.update,date="2023-11-26"]
-=== Turn on [.noloc]`Prometheus` metrics when creating a cluster
+=== Turn on Prometheus metrics when creating a cluster
 [.update-ulink]
 link:eks/latest/userguide/prometheus.html[type="documentation"]
 
-In the {aws-management-console}, you can now turn on [.noloc]`Prometheus` metrics when creating a cluster. You can also view [.noloc]`Prometheus` scraper details in the *Observability* tab.
+In the {aws-management-console}, you can now turn on Prometheus metrics when creating a cluster. You can also view Prometheus scraper details in the *Observability* tab.
 
 
 [.update,date="2023-11-17"]
@@ -553,15 +552,15 @@ You can now install the CSI snapshot controller for use with compatible CSI driv
 [.update-ulink]
 link:eks/latest/userguide/opentelemetry.html[type="documentation"]
 
-The Amazon EKS add-on support for ADOT Operator section was redundant with the {aws} Distro for [.noloc]`OpenTelemetry` documentation. We migrated remaining essential information to that resource to reduce outdated and inconsistent information.
+The Amazon EKS add-on support for ADOT Operator section was redundant with the {aws} Distro for OpenTelemetry documentation. We migrated remaining essential information to that resource to reduce outdated and inconsistent information.
 
 
 [.update,date="2023-11-10"]
-=== [.noloc]`CoreDNS` EKS add-on support for Prometheus metrics
+=== CoreDNS EKS add-on support for Prometheus metrics
 [.update-ulink]
 link:eks/latest/userguide/managing-coredns.html[type="documentation"]
 
-The `v1.10.1-eksbuild.5`, `v1.9.3-eksbuild.9`, and `v1.8.7-eksbuild.8` versions of the EKS add-on for [.noloc]`CoreDNS` expose the port that [.noloc]`CoreDNS` published metrics to, in the `kube-dns` service. This makes it easier to include the [.noloc]`CoreDNS` metrics in your monitoring systems.
+The `v1.10.1-eksbuild.5`, `v1.9.3-eksbuild.9`, and `v1.8.7-eksbuild.8` versions of the EKS add-on for CoreDNS expose the port that CoreDNS published metrics to, in the `kube-dns` service. This makes it easier to include the CoreDNS metrics in your monitoring systems.
 
 
 [.update,date="2023-11-06"]
@@ -602,11 +601,11 @@ Fix install link for eksctl after the page was moved.
 
 
 [.update,date="2023-10-04"]
-=== Preview release: Amazon EKS Extended Support for [.noloc]`Kubernetes` versions
+=== Preview release: Amazon EKS Extended Support for Kubernetes versions
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html[type="documentation"]
 
-Extended [.noloc]`Kubernetes` version support allows you to stay at a specific [.noloc]`Kubernetes` version for longer than 14 months.
+Extended Kubernetes version support allows you to stay at a specific Kubernetes version for longer than 14 months.
 
 
 [.update,date="2023-09-29"]
@@ -615,28 +614,28 @@ Amazon EKS integrations with {aws} App Mesh remain for existing customers of App
 
 
 [.update,date="2023-09-26"]
-=== [.noloc]`Kubernetes` version `1.28`
+=== Kubernetes version `1.28`
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-28[type="documentation"]
 
-Added [.noloc]`Kubernetes` version `1.28` support for new clusters and version upgrades.
+Added Kubernetes version `1.28` support for new clusters and version upgrades.
 
 
 [.update,date="2023-09-15"]
-=== [.noloc]`CoreDNS` Amazon EKS add-on supports modifying PDB
+=== CoreDNS Amazon EKS add-on supports modifying PDB
 [.update-ulink]
 link:eks/latest/userguide/managing-coredns.html[type="documentation"]
 
-You can modify the `PodDisruptionBudget` of the EKS add-on for [.noloc]`CoreDNS` in versions `v1.9.3-eksbuild.7` and later and `v1.10.1-eksbuild.4` and later.
+You can modify the `PodDisruptionBudget` of the EKS add-on for CoreDNS in versions `v1.9.3-eksbuild.7` and later and `v1.10.1-eksbuild.4` and later.
 
 
 [.update,date="2023-09-15"]
-=== Existing clusters support [.noloc]`Kubernetes` network policy enforcement in the [.noloc]`Amazon VPC CNI plugin for Kubernetes`
+=== Existing clusters support Kubernetes network policy enforcement in the Amazon VPC CNI plugin for Kubernetes
 [.update-ulink]
 link:eks/latest/userguide/cni-network-policy.html[type="documentation"]
 
-You can use [.noloc]`Kubernetes` _network policy_ in existing clusters with the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, instead of requiring a third party solution.
-You can use [.noloc]`Kubernetes` _network policy_ in existing clusters with the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, instead of requiring a third party solution.
+You can use Kubernetes _network policy_ in existing clusters with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution.
+You can use Kubernetes _network policy_ in existing clusters with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution.
 
 
 [.update,date="2023-09-07"]
@@ -656,12 +655,12 @@ Added new link:eks/latest/userguide/common-use-cases.html[Common use cases,type=
 
 
 [.update,date="2023-08-29"]
-=== [.noloc]`Kubernetes` network policy enforcement in the [.noloc]`Amazon VPC CNI plugin for Kubernetes`
+=== Kubernetes network policy enforcement in the Amazon VPC CNI plugin for Kubernetes
 [.update-ulink]
 link:eks/latest/userguide/cni-network-policy.html[type="documentation"]
 
-You can use [.noloc]`Kubernetes` _network policy_ with the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, instead of requiring a third party solution.
-You can use [.noloc]`Kubernetes` _network policy_ with the [.noloc]`Amazon VPC CNI plugin for Kubernetes`, instead of requiring a third party solution.
+You can use Kubernetes _network policy_ with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution.
+You can use Kubernetes _network policy_ with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution.
 
 
 [.update,date="2023-08-01"]
@@ -674,7 +673,7 @@ Amazon EKS is now available in the Israel (Tel Aviv) (`il-central-1`) {aws} Regi
 [.update-ulink]
 link:eks/latest/userguide/fargate-pod-configuration.html#fargate-storage[type="documentation"]
 
-You can increase the total amount of ephemeral storage for each [.noloc]`Pod` running on Amazon EKS Fargate.
+You can increase the total amount of ephemeral storage for each Pod running on Amazon EKS Fargate.
 
 
 [.update,date="2023-07-26"]
@@ -694,19 +693,19 @@ Amazon EKS added a new {aws} managed policy.
 
 
 [.update,date="2023-07-20"]
-=== [.noloc]`Kubernetes` version updates for 1.27, 1.26, 1.25, and 1.24 are now available for local clusters on {aws} Outposts
+=== Kubernetes version updates for 1.27, 1.26, 1.25, and 1.24 are now available for local clusters on {aws} Outposts
 [.update-ulink]
 link:eks/latest/userguide/eks-outposts-platform-versions.html[type="documentation"]
 
-[.noloc]`Kubernetes` version updates to 1.27.3, 1.26.6, 1.25.11, and 1.24.15 are now available for local clusters on {aws} Outposts
+Kubernetes version updates to 1.27.3, 1.26.6, 1.25.11, and 1.24.15 are now available for local clusters on {aws} Outposts
 
 
 [.update,date="2023-07-06"]
-=== IP prefixes support for [.noloc]`Windows` nodes
+=== IP prefixes support for Windows nodes
 [.update-ulink]
 link:eks/latest/userguide/cni-increase-ip-addresses.html[type="documentation"]
 
-Assigning IP prefixes to your nodes can enable you to host a significantly higher number of [.noloc]`Pods` on your nodes than you can when assigning individual secondary IP addresses to your nodes.
+Assigning IP prefixes to your nodes can enable you to host a significantly higher number of Pods on your nodes than you can when assigning individual secondary IP addresses to your nodes.
 
 
 [.update,date="2023-06-30"]
@@ -718,7 +717,7 @@ You can now install the Amazon FSx for OpenZFS CSI driver on Amazon EKS clusters
 
 
 [.update,date="2023-06-19"]
-=== [.noloc]`Pods` on Linux nodes in `IPv4` clusters can now communicate with `IPv6` endpoints.
+=== Pods on Linux nodes in `IPv4` clusters can now communicate with `IPv6` endpoints.
 [.update-ulink]
 link:eks/latest/userguide/cni-ipv6-egress.html[type="documentation"]
 
@@ -726,35 +725,35 @@ After assigning an IPv6 address to your node, your Pods' `IPv4` address is netwo
 
 
 [.update,date="2023-05-30"]
-=== [.noloc]`Windows` managed node groups in {aws} GovCloud (US) Regions
+=== Windows managed node groups in {aws} GovCloud (US) Regions
 [.update-ulink]
 link:eks/latest/userguide/create-managed-node-group.html[type="documentation"]
 
-In the {aws} GovCloud (US) Regions, Amazon EKS managed node groups can now run [.noloc]`Windows` containers.
+In the {aws} GovCloud (US) Regions, Amazon EKS managed node groups can now run Windows containers.
 
 
 [.update,date="2023-05-24"]
-=== [.noloc]`Kubernetes` version `1.27`
+=== Kubernetes version `1.27`
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-27[type="documentation"]
 
-Added [.noloc]`Kubernetes` version `1.27` support for new clusters and version upgrades.
+Added Kubernetes version `1.27` support for new clusters and version upgrades.
 
 
 [.update,date="2023-04-11"]
-=== [.noloc]`Kubernetes` version `1.26`
+=== Kubernetes version `1.26`
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-26[type="documentation"]
 
-Added [.noloc]`Kubernetes` version `1.26` support for new clusters and version upgrades.
+Added Kubernetes version `1.26` support for new clusters and version upgrades.
 
 
 [.update,date="2023-03-27"]
-=== Domainless [.noloc]`gMSA`
+=== Domainless gMSA
 [.update-ulink]
 link:eks/latest/userguide/eks-optimized-windows-ami.html#ad-and-gmsa-support[type="documentation"]
 
-You can now use domainless [.noloc]`gMSA` with [.noloc]`Windows` [.noloc]`Pods`.
+You can now use domainless gMSA with Windows Pods.
 
 
 [.update,date="2023-03-10"]
@@ -771,19 +770,19 @@ You can now install the Amazon File Cache CSI driver on Amazon EKS clusters.
 
 
 [.update,date="2023-03-01"]
-=== [.noloc]`Kubernetes` version 1.25 is now available for local clusters on {aws} Outposts
+=== Kubernetes version 1.25 is now available for local clusters on {aws} Outposts
 [.update-ulink]
 link:eks/latest/userguide/eks-outposts-local-cluster-create.html[type="documentation"]
 
-You can now create an Amazon EKS local cluster on an Outpost using [.noloc]`Kubernetes` versions `1.22` – `1.25`.
+You can now create an Amazon EKS local cluster on an Outpost using Kubernetes versions `1.22` – `1.25`.
 
 
 [.update,date="2023-02-22"]
-=== [.noloc]`Kubernetes` version `1.25`
+=== Kubernetes version `1.25`
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-25[type="documentation"]
 
-Added [.noloc]`Kubernetes` version `1.25` support for new clusters and version upgrades.
+Added Kubernetes version `1.25` support for new clusters and version upgrades.
 
 
 [.update,date="2023-02-07"]
@@ -800,11 +799,11 @@ Amazon EKS is now available in the Asia Pacific (Hyderabad) (`ap-south-2`), Euro
 
 
 [.update,date="2023-01-17"]
-=== [.noloc]`Kubernetes` versions `1.21` – `1.24` are now available for local clusters on {aws} Outposts.
+=== Kubernetes versions `1.21` – `1.24` are now available for local clusters on {aws} Outposts.
 [.update-ulink]
 link:eks/latest/userguide/eks-outposts-local-cluster-create.html[type="documentation"]
 
-You can now create an Amazon EKS local cluster on an Outpost using [.noloc]`Kubernetes` versions `1.21` – `1.24`. Previously, only version `1.21` was available.
+You can now create an Amazon EKS local cluster on an Outpost using Kubernetes versions `1.21` – `1.24`. Previously, only version `1.21` was available.
 
 
 [.update,date="2022-12-16"]
@@ -840,11 +839,11 @@ Amazon EKS updated an existing {aws} managed policy.
 
 
 [.update,date="2022-11-15"]
-=== [.noloc]`Kubernetes` version `1.24`
+=== Kubernetes version `1.24`
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-24[type="documentation"]
 
-Added [.noloc]`Kubernetes` version `1.24` support for new clusters and version upgrades.
+Added Kubernetes version `1.24` support for new clusters and version upgrades.
 
 
 [.update,date="2022-11-03"]
@@ -881,7 +880,7 @@ You can now create an Amazon EKS local cluster on an Outpost.
 [.update-ulink]
 link:eks/latest/userguide/service-quotas.html#service-quotas-eks-fargate[type="documentation"]
 
-Fargate is transitioning from [.noloc]`Pod` based quotas to vCPU based quotas.
+Fargate is transitioning from Pod based quotas to vCPU based quotas.
 
 
 [.update,date="2022-08-31"]
@@ -905,7 +904,7 @@ Amazon EKS added a new {aws} managed policy.
 [.update-ulink]
 link:eks/latest/userguide/cost-monitoring[type="documentation"]
 
-Amazon EKS now supports [.noloc]`Kubecost`, which enables you to monitor costs broken down by [.noloc]`Kubernetes` resources including [.noloc]`Pods`, nodes, namespaces, and labels.  
+Amazon EKS now supports Kubecost, which enables you to monitor costs broken down by Kubernetes resources including Pods, nodes, namespaces, and labels.  
 
 
 [.update,date="2022-08-23"]
@@ -933,19 +932,19 @@ Added support for Fargate profile wildcards in the selector criteria for namespa
 
 
 [.update,date="2022-08-11"]
-=== [.noloc]`Kubernetes` version `1.23`
+=== Kubernetes version `1.23`
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-23[type="documentation"]
 
-Added [.noloc]`Kubernetes` version `1.23` support for new clusters and version upgrades.
+Added Kubernetes version `1.23` support for new clusters and version upgrades.
 
 
 [.update,date="2022-05-03"]
-=== View [.noloc]`Kubernetes` resources in the {aws-management-console}
+=== View Kubernetes resources in the {aws-management-console}
 [.update-ulink]
 link:eks/latest/userguide/view-kubernetes-resources.html[type="documentation"]
 
-You can now view information about the [.noloc]`Kubernetes` resources deployed to your cluster using the {aws-management-console}.
+You can now view information about the Kubernetes resources deployed to your cluster using the {aws-management-console}.
 
 
 [.update,date="2022-05-02"]
@@ -958,7 +957,7 @@ Amazon EKS is now available in the Asia Pacific (Jakarta) (`ap-southeast-3`) {aw
 [.update-ulink]
 link:eks/latest/userguide/eks-observe.html[type="documentation"]
 
-Added Observability page and {aws} Distro for [.noloc]`OpenTelemetry` (ADOT).
+Added Observability page and {aws} Distro for OpenTelemetry (ADOT).
 
 
 [.update,date="2022-04-04"]
@@ -970,16 +969,16 @@ Amazon EKS added a new {aws} managed policy.
 
 
 [.update,date="2022-04-04"]
-=== [.noloc]`Kubernetes` version `1.22`
-Added [.noloc]`Kubernetes` version `1.22` support for new clusters and version upgrades.
+=== Kubernetes version `1.22`
+Added Kubernetes version `1.22` support for new clusters and version upgrades.
 
 
 [.update,date="2022-04-01"]
-=== Added Fargate [.noloc]`Pod` patching details  
+=== Added Fargate Pod patching details  
 [.update-ulink]
 link:eks/latest/userguide/fargate-pod-patching.html[type="documentation"]
 
-When upgrading Fargate [.noloc]`Pods`, Amazon EKS first tries to evict [.noloc]`Pods` based on your [.noloc]`Pod` disruption budgets. You can create event rules to react to failed evictions before the [.noloc]`Pods` are deleted.
+When upgrading Fargate Pods, Amazon EKS first tries to evict Pods based on your Pod disruption budgets. You can create event rules to react to failed evictions before the Pods are deleted.
 
 
 [.update,date="2022-03-31"]
@@ -1011,7 +1010,7 @@ Amazon EKS updated an existing {aws} managed policy.
 [.update-ulink]
 link:eks/latest/userguide/eks-optimized-windows-ami.html.html[type="documentation"]
 
-You can now select the `containerd` runtime for [.noloc]`Windows` nodes.
+You can now select the `containerd` runtime for Windows nodes.
 
 
 [.update,date="2022-02-25"]
@@ -1023,11 +1022,11 @@ Describes the shared responsibility model as it relates to connected clusters.
 
 
 [.update,date="2022-01-06"]
-=== Assign `IPv6` addresses to your [.noloc]`Pods` and services
+=== Assign `IPv6` addresses to your Pods and services
 [.update-ulink]
 link:eks/latest/userguide/cni-ipv6.html[type="documentation"]
 
-You can now create a `1.21` or later cluster that assigns `IPv6` addresses to your [.noloc]`Pods` and services.
+You can now create a `1.21` or later cluster that assigns `IPv6` addresses to your Pods and services.
 
 
 [.update,date="2021-12-13"]
@@ -1055,27 +1054,27 @@ You can now use the Karpenter open-source project to autoscale your nodes.
 
 
 [.update,date="2021-11-10"]
-=== Fluent Bit [.noloc]`Kubernetes` filter support in Fargate logging
+=== Fluent Bit Kubernetes filter support in Fargate logging
 [.update-ulink]
 link:eks/latest/userguide/fargate-logging.html#fargate-logging-kubernetes-filter[type="documentation"]
 
-You can now use the Fluent Bit [.noloc]`Kubernetes` filter with Fargate logging.
+You can now use the Fluent Bit Kubernetes filter with Fargate logging.
 
 
 [.update,date="2021-11-09"]
-=== [.noloc]`Windows` support available in the control plane
+=== Windows support available in the control plane
 [.update-ulink]
 link:eks/latest/userguide/windows-support.html[type="documentation"]
 
-[.noloc]`Windows` support is now available in your control plane. You no longer need to enable it in your data plane.
+Windows support is now available in your control plane. You no longer need to enable it in your data plane.
 
 
 [.update,date="2021-10-28"]
-=== [.noloc]`Bottlerocket` added as an AMI type for managed node groups
+=== Bottlerocket added as an AMI type for managed node groups
 [.update-ulink]
 link:eks/latest/userguide/eks-optimized-ami-bottlerocket.html[type="documentation"]
 
-Previously, [.noloc]`Bottlerocket` was only available as a self-managed node option. Now it can be configured as a managed node group, reducing the effort that's required to meet node compliance requirements.
+Previously, Bottlerocket was only available as a self-managed node option. Now it can be configured as a managed node group, reducing the effort that's required to meet node compliance requirements.
 
 
 [.update,date="2021-10-25"]
@@ -1099,7 +1098,7 @@ Custom Amazon Linux AMIs now support VT1 for some distributions. This enablement
 [.update-ulink]
 link:eks/latest/userguide/eks-deployment-options.html[type="documentation"]
 
-Amazon EKS Anywhere is a new deployment option for Amazon EKS that you can use to create and operate [.noloc]`Kubernetes` clusters on-premises.
+Amazon EKS Anywhere is a new deployment option for Amazon EKS that you can use to create and operate Kubernetes clusters on-premises.
 
 
 [.update,date="2021-09-08"]
@@ -1107,7 +1106,7 @@ Amazon EKS Anywhere is a new deployment option for Amazon EKS that you can use t
 [.update-ulink]
 link:eks/latest/userguide/eks-connector.html[type="documentation"]
 
-You can use Amazon EKS Connector to register and connect any conformant [.noloc]`Kubernetes` cluster to {aws} and visualize it in the Amazon EKS console.
+You can use Amazon EKS Connector to register and connect any conformant Kubernetes cluster to {aws} and visualize it in the Amazon EKS console.
 
 
 [.update,date="2021-09-02"]
@@ -1119,11 +1118,11 @@ Added topic that summarizes the Amazon FSx for NetApp ONTAP CSI driver and gives
 
 
 [.update,date="2021-08-30"]
-=== Managed node groups now auto-calculates the Amazon EKS recommended maximum [.noloc]`Pods` for nodes
+=== Managed node groups now auto-calculates the Amazon EKS recommended maximum Pods for nodes
 [.update-ulink]
 link:eks/latest/userguide/cni-increase-ip-addresses.html[type="documentation"]
 
-Managed node groups now auto-calculate the Amazon EKS maximum [.noloc]`Pods` for nodes that you deploy without a launch template, or with a launch template that you haven't specified an AMI ID in.
+Managed node groups now auto-calculate the Amazon EKS maximum Pods for nodes that you deploy without a launch template, or with a launch template that you haven't specified an AMI ID in.
 
 
 [.update,date="2021-08-20"]
@@ -1135,25 +1134,25 @@ You can now remove an Amazon EKS add-on without removing the add-on software fro
 
 
 [.update,date="2021-08-02"]
-=== Create multi-homed [.noloc]`Pods` using Multus
+=== Create multi-homed Pods using Multus
 [.update-ulink]
 link:eks/latest/userguide/pod-multiple-network-interfaces.html[type="documentation"]
 
-You can now add multiple network interfaces to a [.noloc]`Pod` using Multus.
+You can now add multiple network interfaces to a Pod using Multus.
 
 
 [.update,date="2021-07-27"]
-=== Add more IP addresses to your [.noloc]`Linux` Amazon EC2 nodes
+=== Add more IP addresses to your Linux Amazon EC2 nodes
 [.update-ulink]
 link:eks/latest/userguide/cni-increase-ip-addresses.html[type="documentation"]
 
-You can now add significantly more IP addresses to your [.noloc]`Linux` Amazon EC2 nodes. This means that you can run a higher density of [.noloc]`Pods` on each node.
-You can now add significantly more IP addresses to your [.noloc]`Linux` Amazon EC2 nodes. This means that you can run a higher density of [.noloc]`Pods` on each node.
+You can now add significantly more IP addresses to your Linux Amazon EC2 nodes. This means that you can run a higher density of Pods on each node.
+You can now add significantly more IP addresses to your Linux Amazon EC2 nodes. This means that you can run a higher density of Pods on each node.
 
 
 [.update,date="2021-07-19"]
-=== [.noloc]`Kubernetes` version `1.21`
-Added [.noloc]`Kubernetes` version `1.21` support.
+=== Kubernetes version `1.21`
+Added Kubernetes version `1.21` support.
 
 
 [.update,date="2021-07-19"]
@@ -1161,7 +1160,7 @@ Added [.noloc]`Kubernetes` version `1.21` support.
 [.update-ulink]
 link:eks/latest/userguide/eks-optimized-ami.html#containerd-bootstrap[type="documentation"]
 
-The Amazon EKS optimized accelerated Amazon Linux Amazon Machine Image (AMI) now contains a bootstrap flag that you can use to enable the `containerd` runtime in Amazon EKS optimized and [.noloc]`Bottlerocket` AMIs. This flag is available in all supported [.noloc]`Kubernetes` versions of the AMI.
+The Amazon EKS optimized accelerated Amazon Linux Amazon Machine Image (AMI) now contains a bootstrap flag that you can use to enable the `containerd` runtime in Amazon EKS optimized and Bottlerocket AMIs. This flag is available in all supported Kubernetes versions of the AMI.
 
 
 [.update,date="2021-06-17"]
@@ -1173,32 +1172,32 @@ A list of all Amazon EKS IAM managed policies and changes that were made to them
 
 
 [.update,date="2021-06-01"]
-=== Use security groups for [.noloc]`Pods` with Fargate
+=== Use security groups for Pods with Fargate
 [.update-ulink]
 link:eks/latest/userguide/security-groups-for-pods.html[type="documentation"]
 
-You can now use security groups for [.noloc]`Pods` with Fargate, in addition to using them with Amazon EC2 nodes.
+You can now use security groups for Pods with Fargate, in addition to using them with Amazon EC2 nodes.
 
 
 [.update,date="2021-05-19"]
-=== Added [.noloc]`CoreDNS` and `kube-proxy` Amazon EKS add-ons
+=== Added CoreDNS and `kube-proxy` Amazon EKS add-ons
 [.update-ulink]
 link:eks/latest/userguide/eks-add-ons.html[type="documentation"]
 
-Amazon EKS can now help you manage the [.noloc]`CoreDNS` and `kube-proxy` Amazon EKS add-ons for your cluster.
+Amazon EKS can now help you manage the CoreDNS and `kube-proxy` Amazon EKS add-ons for your cluster.
 
 
 [.update,date="2021-05-18"]
-=== [.noloc]`Kubernetes` version `1.20`
-Added [.noloc]`Kubernetes` version `1.20` support for new clusters and version upgrades.
+=== Kubernetes version `1.20`
+Added Kubernetes version `1.20` support for new clusters and version upgrades.
 
 
 [.update,date="2021-05-14"]
-=== [.noloc]`{aws} Load Balancer Controller` `2.2.0` released
+=== {aws} Load Balancer Controller `2.2.0` released
 [.update-ulink]
 link:eks/latest/userguide/aws-load-balancer-controller.html[type="documentation"]
 
-You can now use the [.noloc]`{aws} Load Balancer Controller` to create Elastic Load Balancers using instance or IP targets.
+You can now use the {aws} Load Balancer Controller to create Elastic Load Balancers using instance or IP targets.
 
 
 [.update,date="2021-05-11"]
@@ -1218,12 +1217,12 @@ Amazon EKS now supports adding https://kubernetes.io/docs/tasks/administer-clust
 
 
 [.update,date="2021-02-16"]
-=== [.noloc]`Kubernetes` version `1.19`
-Added [.noloc]`Kubernetes` version `1.19` support for new clusters and version upgrades.
+=== Kubernetes version `1.19`
+Added Kubernetes version `1.19` support for new clusters and version upgrades.
 
 
 [.update,date="2021-02-12"]
-=== Amazon EKS now supports [.noloc]`OpenID Connect` (OIDC) identity providers as a method to authenticate users to a version `1.16` or later cluster.
+=== Amazon EKS now supports OpenID Connect (OIDC) identity providers as a method to authenticate users to a version `1.16` or later cluster.
 [.update-ulink]
 link:eks/latest/userguide/authenticate-oidc-identity-provider.html[type="documentation"]
 
@@ -1251,7 +1250,7 @@ You can now deploy multiple Spot or On-Demand Instance types to a managed node g
 [.update-ulink]
 link:eks/latest/userguide/view-kubernetes-resources.html[type="documentation"]
 
-You can now view details about your managed, self-managed, and Fargate nodes and your deployed [.noloc]`Kubernetes` workloads in the {aws-management-console}.
+You can now view details about your managed, self-managed, and Fargate nodes and your deployed Kubernetes workloads in the {aws-management-console}.
 
 
 [.update,date="2020-10-23"]
@@ -1259,7 +1258,7 @@ You can now view details about your managed, self-managed, and Fargate nodes and
 [.update-ulink]
 link:eks/latest/userguide/networkg-load-balancing.html#network-load-balancer[type="documentation"]
 
-You can now deploy a Network Load Balancer with IP targets. This means that you can use an NLB to load balance network traffic to Fargate [.noloc]`Pods` and directly to [.noloc]`Pods` that are running on Amazon EC2 nodes.
+You can now deploy a Network Load Balancer with IP targets. This means that you can use an NLB to load balance network traffic to Fargate Pods and directly to Pods that are running on Amazon EC2 nodes.
 
 
 [.update,date="2020-10-23"]
@@ -1267,32 +1266,32 @@ You can now deploy a Network Load Balancer with IP targets. This means that you 
 [.update-ulink]
 link:eks/latest/userguide/alb-ingress.html[type="documentation"]
 
-You can now share an {aws} Application Load Balancer (ALB) across multiple [.noloc]`Kubernetes` Ingresses. In the past, you had to deploy a separate ALB for each Ingress.
+You can now share an {aws} Application Load Balancer (ALB) across multiple Kubernetes Ingresses. In the past, you had to deploy a separate ALB for each Ingress.
 
 
 [.update,date="2020-10-13"]
-=== [.noloc]`Kubernetes` version `1.18`
-Added [.noloc]`Kubernetes` version `1.18` support for new clusters and version upgrades.
+=== Kubernetes version `1.18`
+Added Kubernetes version `1.18` support for new clusters and version upgrades.
 
 
 [.update,date="2020-09-29"]
-=== Specify a custom CIDR block for [.noloc]`Kubernetes` service IP address assignment.
+=== Specify a custom CIDR block for Kubernetes service IP address assignment.
 [.update-ulink]
 link:eks/latest/userguide/create-cluster.html[type="documentation"]
 
-You can now specify a custom CIDR block that [.noloc]`Kubernetes` assigns service IP addresses from.
+You can now specify a custom CIDR block that Kubernetes assigns service IP addresses from.
 
 
 [.update,date="2020-09-09"]
-=== Assign security groups to individual [.noloc]`Pods`
+=== Assign security groups to individual Pods
 [.update-ulink]
 link:eks/latest/userguide/security-groups-for-pods.html[type="documentation"]
 
-You can now associate different security groups to some of the individual [.noloc]`Pods` that are running on many Amazon EC2 instance types.
+You can now associate different security groups to some of the individual Pods that are running on many Amazon EC2 instance types.
 
 
 [.update,date="2020-08-31"]
-=== Deploy [.noloc]`Bottlerocket` on your nodes
+=== Deploy Bottlerocket on your nodes
 [.update-ulink]
 link:eks/latest/userguide/launch-node-bottlerocket.html[type="documentation"]
 
@@ -1328,7 +1327,7 @@ You can now use Amazon EFS with {aws} Fargate.
 [.update-ulink]
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
-This is a new platform version with security fixes and enhancements. This includes UDP support for services of type `LoadBalancer` when using Network Load Balancers with [.noloc]`Kubernetes` version `1.15` or later. For more information, see the https://github.com/kubernetes/kubernetes/pull/92109[Allow UDP for {aws} Network Load Balancer] issue on [.noloc]`GitHub`.
+This is a new platform version with security fixes and enhancements. This includes UDP support for services of type `LoadBalancer` when using Network Load Balancers with Kubernetes version `1.15` or later. For more information, see the https://github.com/kubernetes/kubernetes/pull/92109[Allow UDP for {aws} Network Load Balancer] issue on GitHub.
 
 
 [.update,date="2020-08-06"]
@@ -1345,16 +1344,16 @@ link:eks/latest/userguide/monitoring-fargate-usage.html[type="documentation"]
 
 
 [.update,date="2020-07-10"]
-=== [.noloc]`Kubernetes` version `1.17`
-Added [.noloc]`Kubernetes` version `1.17` support for new clusters and version upgrades.
+=== Kubernetes version `1.17`
+Added Kubernetes version `1.17` support for new clusters and version upgrades.
 
 
 [.update,date="2020-06-18"]
-=== Create and manage App Mesh resources from within [.noloc]`Kubernetes` with the App Mesh controller for [.noloc]`Kubernetes`
+=== Create and manage App Mesh resources from within Kubernetes with the App Mesh controller for Kubernetes
 [.update-ulink]
 link:eks/latest/userguide/mesh-k8s-integration.html[type="documentation"]
 
-You can create and manage App Mesh resources from within [.noloc]`Kubernetes`. The controller also automatically injects the Envoy proxy and init containers into [.noloc]`Pods` that you deploy.
+You can create and manage App Mesh resources from within Kubernetes. The controller also automatically injects the Envoy proxy and init containers into Pods that you deploy.
 
 
 [.update,date="2020-06-04"]
@@ -1371,16 +1370,16 @@ Amazon EKS is now available in the {aws} GovCloud (US-East) (`us-gov-east-1`) an
 
 
 [.update,date="2020-05-12"]
-=== [.noloc]`Kubernetes` `1.12` is no longer supported on Amazon EKS
+=== Kubernetes `1.12` is no longer supported on Amazon EKS
 [.update-ulink]
 link:eks/latest/userguide/update-cluster.html[type="documentation"]
 
-[.noloc]`Kubernetes` version `1.12` is no longer supported on Amazon EKS. Update any `1.12` clusters to version `1.13` or later to avoid service interruption.
+Kubernetes version `1.12` is no longer supported on Amazon EKS. Update any `1.12` clusters to version `1.13` or later to avoid service interruption.
 
 
 [.update,date="2020-04-30"]
-=== [.noloc]`Kubernetes` version `1.16`
-Added [.noloc]`Kubernetes` version `1.16` support for new clusters and version upgrades.
+=== Kubernetes version `1.16`
+Added Kubernetes version `1.16` support for new clusters and version upgrades.
 
 
 [.update,date="2020-04-16"]
@@ -1392,8 +1391,8 @@ Added the *AWSServiceRoleForAmazonEKS* service-linked role.
 
 
 [.update,date="2020-03-10"]
-=== [.noloc]`Kubernetes` version `1.15`
-Added [.noloc]`Kubernetes` version `1.15` support for new clusters and version upgrades.
+=== Kubernetes version `1.15`
+Added Kubernetes version `1.15` support for new clusters and version upgrades.
 
 
 [.update,date="2020-02-26"]
@@ -1406,7 +1405,7 @@ Amazon EKS is now available in the Beijing (`cn-north-1`) and Ningxia (`cn-north
 [.update-ulink]
 link:eks/latest/userguide/fsx-csi.html[type="documentation"]
 
-Added topic for installing the FSx for Lustre CSI driver on [.noloc]`Kubernetes` `1.14` Amazon EKS clusters.
+Added topic for installing the FSx for Lustre CSI driver on Kubernetes `1.14` Amazon EKS clusters.
 
 
 [.update,date="2019-12-20"]
@@ -1414,7 +1413,7 @@ Added topic for installing the FSx for Lustre CSI driver on [.noloc]`Kubernetes`
 [.update-ulink]
 link:eks/latest/userguide/cluster-endpoint.html[type="documentation"]
 
-With this update, you can use Amazon EKS to restrict the CIDR ranges that can communicate to the public access endpoint of the [.noloc]`Kubernetes` API server.
+With this update, you can use Amazon EKS to restrict the CIDR ranges that can communicate to the public access endpoint of the Kubernetes API server.
 
 
 [.update,date="2019-12-13"]
@@ -1422,7 +1421,7 @@ With this update, you can use Amazon EKS to restrict the CIDR ranges that can co
 [.update-ulink]
 link:eks/latest/userguide/cluster-endpoint.html[type="documentation"]
 
-With this update, you can use Amazon EKS to resolve the private access endpoint of the [.noloc]`Kubernetes` API server from outside of a VPC.
+With this update, you can use Amazon EKS to resolve the private access endpoint of the Kubernetes API server from outside of a VPC.
 
 
 [.update,date="2019-12-04"]
@@ -1446,7 +1445,7 @@ Amazon EKS now supports creating clusters on {aws} Outposts.
 [.update-ulink]
 link:eks/latest/userguide/fargate.html[type="documentation"]
 
-Amazon EKS [.noloc]`Kubernetes` clusters now support running [.noloc]`Pods` on Fargate.
+Amazon EKS Kubernetes clusters now support running Pods on Fargate.
 
 
 [.update,date="2019-11-21"]
@@ -1459,7 +1458,7 @@ Amazon EKS is now available in the Canada (Central) (`ca-central-1`) {aws} Regio
 [.update-ulink]
 link:eks/latest/userguide/managed-node-groups.html[type="documentation"]
 
-Amazon EKS managed node groups automate the provisioning and lifecycle management of nodes (Amazon EC2 instances) for Amazon EKS [.noloc]`Kubernetes` clusters.
+Amazon EKS managed node groups automate the provisioning and lifecycle management of nodes (Amazon EC2 instances) for Amazon EKS Kubernetes clusters.
 
 
 [.update,date="2019-11-06"]
@@ -1471,11 +1470,11 @@ New platform versions to address https://groups.google.com/forum/#!msg/kubernete
 
 
 [.update,date="2019-11-04"]
-=== [.noloc]`Kubernetes` `1.11` is no longer supported on Amazon EKS
+=== Kubernetes `1.11` is no longer supported on Amazon EKS
 [.update-ulink]
 link:eks/latest/userguide/update-cluster.html[type="documentation"]
 
-[.noloc]`Kubernetes` version `1.11` is no longer supported on Amazon EKS. Please update any `1.11` clusters to version `1.12` or higher to avoid service interruption.
+Kubernetes version `1.11` is no longer supported on Amazon EKS. Please update any `1.11` clusters to version `1.12` or higher to avoid service interruption.
 
 
 [.update,date="2019-10-16"]
@@ -1484,11 +1483,11 @@ Amazon EKS is now available in the South America (São Paulo) (`sa-east-1`) {aws
 
 
 [.update,date="2019-10-07"]
-=== [.noloc]`Windows` support
+=== Windows support
 [.update-ulink]
 link:eks/latest/userguide/windows-support.html[type="documentation"]
 
-Amazon EKS clusters running [.noloc]`Kubernetes` version `1.14` now support [.noloc]`Windows` workloads.
+Amazon EKS clusters running Kubernetes version `1.14` now support Windows workloads.
 
 
 [.update,date="2019-09-30"]
@@ -1496,15 +1495,15 @@ Amazon EKS clusters running [.noloc]`Kubernetes` version `1.14` now support [.no
 [.update-ulink]
 link:eks/latest/userguide/autoscaling.html[type="documentation"]
 
-Added a chapter to cover some of the different types of [.noloc]`Kubernetes` autoscaling that are supported on Amazon EKS clusters.
+Added a chapter to cover some of the different types of Kubernetes autoscaling that are supported on Amazon EKS clusters.
 
 
 [.update,date="2019-09-28"]
-=== [.noloc]`Kubernetes` Dashboard update
+=== Kubernetes Dashboard update
 [.update-ulink]
 link:eks/latest/userguide/dashboard-tutorial.html[type="documentation"]
 
-Updated topic for installing the [.noloc]`Kubernetes` Dashboard on Amazon EKS clusters to use the beta `2.0` version.
+Updated topic for installing the Kubernetes Dashboard on Amazon EKS clusters to use the beta `2.0` version.
 
 
 [.update,date="2019-09-19"]
@@ -1512,7 +1511,7 @@ Updated topic for installing the [.noloc]`Kubernetes` Dashboard on Amazon EKS cl
 [.update-ulink]
 link:eks/latest/userguide/efs-csi.html[type="documentation"]
 
-Added topic for installing the Amazon EFS CSI driver on [.noloc]`Kubernetes` `1.14` Amazon EKS clusters.
+Added topic for installing the Amazon EFS CSI driver on Kubernetes `1.14` Amazon EKS clusters.
 
 
 [.update,date="2019-09-18"]
@@ -1536,7 +1535,7 @@ You can manage the tagging of your Amazon EKS clusters.
 [.update-ulink]
 link:eks/latest/userguide/ebs-csi.html[type="documentation"]
 
-Added topic for installing the Amazon EBS CSI driver on [.noloc]`Kubernetes` `1.14` Amazon EKS clusters.
+Added topic for installing the Amazon EBS CSI driver on Kubernetes `1.14` Amazon EKS clusters.
 
 
 [.update,date="2019-09-06"]
@@ -1548,11 +1547,11 @@ Amazon EKS has updated the Amazon EKS optimized AMI to address https://groups.go
 
 
 [.update,date="2019-09-04"]
-=== Announcing deprecation of [.noloc]`Kubernetes` `1.11` in Amazon EKS
+=== Announcing deprecation of Kubernetes `1.11` in Amazon EKS
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html[type="documentation"]
 
-Amazon EKS discontinued support for [.noloc]`Kubernetes` version `1.11` on November 4, 2019.
+Amazon EKS discontinued support for Kubernetes version `1.11` on November 4, 2019.
 
 
 [.update,date="2019-09-03"]
@@ -1560,12 +1559,12 @@ Amazon EKS discontinued support for [.noloc]`Kubernetes` version `1.11` on Novem
 [.update-ulink]
 link:eks/latest/userguide/iam-roles-for-service-accounts.html[type="documentation"]
 
-With IAM roles for service accounts on Amazon EKS clusters, you can associate an IAM role with a [.noloc]`Kubernetes` service account. With this feature, you no longer need to provide extended permissions to the node IAM role. This way, [.noloc]`Pods` on that node can call {aws} APIs.
+With IAM roles for service accounts on Amazon EKS clusters, you can associate an IAM role with a Kubernetes service account. With this feature, you no longer need to provide extended permissions to the node IAM role. This way, Pods on that node can call {aws} APIs.
 
 
 [.update,date="2019-09-03"]
-=== [.noloc]`Kubernetes` version `1.14`
-Added [.noloc]`Kubernetes` version `1.14` support for new clusters and version upgrades.
+=== Kubernetes version `1.14`
+Added Kubernetes version `1.14` support for new clusters and version upgrades.
 
 
 [.update,date="2019-08-29"]
@@ -1595,11 +1594,11 @@ Amazon EKS is now available in the Asia Pacific (Hong Kong) (`ap-east-1`) {aws} 
 
 
 [.update,date="2019-07-30"]
-=== [.noloc]`Kubernetes` `1.10` no longer supported on Amazon EKS
+=== Kubernetes `1.10` no longer supported on Amazon EKS
 [.update-ulink]
 link:eks/latest/userguide/update-cluster.html[type="documentation"]
 
-[.noloc]`Kubernetes` version `1.10` is no longer supported on Amazon EKS. Update any `1.10` clusters to version `1.11` or higher to avoid service interruption.
+Kubernetes version `1.10` is no longer supported on Amazon EKS. Update any `1.10` clusters to version `1.11` or higher to avoid service interruption.
 
 
 [.update,date="2019-07-11"]
@@ -1607,7 +1606,7 @@ link:eks/latest/userguide/update-cluster.html[type="documentation"]
 [.update-ulink]
 link:eks/latest/userguide/alb-ingress.html[type="documentation"]
 
-The {aws} ALB Ingress Controller for [.noloc]`Kubernetes` is a controller that causes an ALB to be created when ingress resources are created.
+The {aws} ALB Ingress Controller for Kubernetes is a controller that causes an ALB to be created when ingress resources are created.
 
 
 [.update,date="2019-07-03"]
@@ -1619,8 +1618,8 @@ Removing unnecessary `kubectl` binary from AMIs.
 
 
 [.update,date="2019-06-18"]
-=== [.noloc]`Kubernetes` version `1.13`
-Added [.noloc]`Kubernetes` version `1.13` support for new clusters and version upgrades.
+=== Kubernetes version `1.13`
+Added Kubernetes version `1.13` support for new clusters and version upgrades.
 
 
 [.update,date="2019-06-17"]
@@ -1636,15 +1635,15 @@ Amazon EKS has updated the Amazon EKS optimized AMI to address the vulnerabiliti
 [.update-ulink]
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
-New platform version for [.noloc]`Kubernetes` `1.11` and `1.10` clusters to support custom DNS names in the `kubelet` certificate and improve `etcd` performance.
+New platform version for Kubernetes `1.11` and `1.10` clusters to support custom DNS names in the `kubelet` certificate and improve `etcd` performance.
 
 
 [.update,date="2019-05-21"]
-=== Announcing discontinuation of support of [.noloc]`Kubernetes` `1.10` in Amazon EKS
+=== Announcing discontinuation of support of Kubernetes `1.10` in Amazon EKS
 [.update-ulink]
 link:eks/latest/userguide/kubernetes-versions.html[type="documentation"]
 
-Amazon EKS stopped supporting [.noloc]`Kubernetes` version `1.10` on July 22, 2019.
+Amazon EKS stopped supporting Kubernetes version `1.10` on July 22, 2019.
 
 
 [.update,date="2019-05-10"]
@@ -1652,12 +1651,12 @@ Amazon EKS stopped supporting [.noloc]`Kubernetes` version `1.10` on July 22, 20
 [.update-ulink]
 link:eks/latest/userguide/getting-started-eksctl.html[type="documentation"]
 
-This getting started guide describes how you can install all of the required resources to get started with Amazon EKS using `eksctl`. This is a simple command line utility for creating and managing [.noloc]`Kubernetes` clusters on Amazon EKS.
+This getting started guide describes how you can install all of the required resources to get started with Amazon EKS using `eksctl`. This is a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS.
 
 
 [.update,date="2019-05-10"]
 === {aws} CLI `get-token` command
-The `aws eks get-token` command was added to the {aws} CLI. You no longer need to install the {aws} IAM Authenticator for [.noloc]`Kubernetes` to create client security tokens for cluster API server communication. Upgrade your {aws} CLI installation to the latest version to use this new functionality. For more information, see link:cli/latest/userguide/installing.html[Installing the {aws} Command Line Interface,type="documentation"] in the _{aws} Command Line Interface User Guide_.
+The `aws eks get-token` command was added to the {aws} CLI. You no longer need to install the {aws} IAM Authenticator for Kubernetes to create client security tokens for cluster API server communication. Upgrade your {aws} CLI installation to the latest version to use this new functionality. For more information, see link:cli/latest/userguide/installing.html[Installing the {aws} Command Line Interface,type="documentation"] in the _{aws} Command Line Interface User Guide_.
 
 
 [.update,date="2019-05-08"]
@@ -1665,15 +1664,15 @@ The `aws eks get-token` command was added to the {aws} CLI. You no longer need t
 [.update-ulink]
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
-New platform version for [.noloc]`Kubernetes` `1.12` clusters to support custom DNS names in the `kubelet` certificate and improve `etcd` performance. This fixes a bug that caused node `kubelet` daemons to request a new certificate every few seconds.
+New platform version for Kubernetes `1.12` clusters to support custom DNS names in the `kubelet` certificate and improve `etcd` performance. This fixes a bug that caused node `kubelet` daemons to request a new certificate every few seconds.
 
 
 [.update,date="2019-04-05"]
-=== [.noloc]`Prometheus` tutorial
+=== Prometheus tutorial
 [.update-ulink]
 link:eks/latest/userguide/prometheus.html[type="documentation"]
 
-Added topic for deploying [.noloc]`Prometheus` to your Amazon EKS cluster.
+Added topic for deploying Prometheus to your Amazon EKS cluster.
 
 
 [.update,date="2019-04-04"]
@@ -1685,8 +1684,8 @@ With this update, you can get audit and diagnostic logs directly from the Amazon
 
 
 [.update,date="2019-03-28"]
-=== [.noloc]`Kubernetes` version `1.12`
-Added [.noloc]`Kubernetes` version `1.12` support for new clusters and version upgrades.
+=== Kubernetes version `1.12`
+Added Kubernetes version `1.12` support for new clusters and version upgrades.
 
 
 [.update,date="2019-03-27"]
@@ -1694,7 +1693,7 @@ Added [.noloc]`Kubernetes` version `1.12` support for new clusters and version u
 [.update-ulink]
 link:eks/latest/userguide/mesh-gs-k8s.html[type="documentation"]
 
-Added documentation for getting started with App Mesh and [.noloc]`Kubernetes`.
+Added documentation for getting started with App Mesh and Kubernetes.
 
 
 [.update,date="2019-03-19"]
@@ -1702,15 +1701,15 @@ Added documentation for getting started with App Mesh and [.noloc]`Kubernetes`.
 [.update-ulink]
 link:eks/latest/userguide/cluster-endpoint.html[type="documentation"]
 
-Added documentation for disabling public access for your Amazon EKS cluster's [.noloc]`Kubernetes` API server endpoint.
+Added documentation for disabling public access for your Amazon EKS cluster's Kubernetes API server endpoint.
 
 
 [.update,date="2019-03-18"]
-=== Added topic for installing the [.noloc]`Kubernetes` Metrics Server
+=== Added topic for installing the Kubernetes Metrics Server
 [.update-ulink]
 link:eks/latest/userguide/metrics-server.html[type="documentation"]
 
-The [.noloc]`Kubernetes` Metrics Server is an aggregator of resource usage data in your cluster.
+The Kubernetes Metrics Server is an aggregator of resource usage data in your cluster.
 
 
 [.update,date="2019-03-15"]
@@ -1718,7 +1717,7 @@ The [.noloc]`Kubernetes` Metrics Server is an aggregator of resource usage data 
 [.update-ulink]
 link:eks/latest/userguide/metrics-server.html[type="documentation"]
 
-These open source projects extend the functionality of [.noloc]`Kubernetes` clusters running on {aws}, including clusters that are managed by Amazon EKS.
+These open source projects extend the functionality of Kubernetes clusters running on {aws}, including clusters that are managed by Amazon EKS.
 
 
 [.update,date="2019-03-11"]
@@ -1726,7 +1725,7 @@ These open source projects extend the functionality of [.noloc]`Kubernetes` clus
 [.update-ulink]
 link:eks/latest/userguide/helm.html[type="documentation"]
 
-The `helm` package manager for [.noloc]`Kubernetes` helps you install and manage applications on your [.noloc]`Kubernetes` cluster. This topic shows how to install and run the `helm` and `tiller` binaries locally. That way, you can install and manage charts using the Helm CLI on your local system.
+The `helm` package manager for Kubernetes helps you install and manage applications on your Kubernetes cluster. This topic shows how to install and run the `helm` and `tiller` binaries locally. That way, you can install and manage charts using the Helm CLI on your local system.
 
 
 [.update,date="2019-03-08"]
@@ -1734,7 +1733,7 @@ The `helm` package manager for [.noloc]`Kubernetes` helps you install and manage
 [.update-ulink]
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
-New platform version that updates Amazon EKS [.noloc]`Kubernetes` `1.11` clusters to patch level `1.11.8` to address https://discuss.kubernetes.io/t/kubernetes-security-announcement-v1-11-8-1-12-6-1-13-4-released-to-address-medium-severity-cve-2019-1002100/5147[CVE-2019-1002100].
+New platform version that updates Amazon EKS Kubernetes `1.11` clusters to patch level `1.11.8` to address https://discuss.kubernetes.io/t/kubernetes-security-announcement-v1-11-8-1-12-6-1-13-4-released-to-address-medium-severity-cve-2019-1002100/5147[CVE-2019-1002100].
 
 
 [.update,date="2019-02-13"]
@@ -1794,7 +1793,7 @@ Amazon EKS is now available in the Europe (Stockholm) (`eu-north-1`) {aws} Regio
 [.update-ulink]
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
-New platform version updating [.noloc]`Kubernetes` to patch level `1.10.11` to address link:security/security-bulletins/{aws}-2018-020/[CVE-2018-1002105,type="marketing"].
+New platform version updating Kubernetes to patch level `1.10.11` to address link:security/security-bulletins/{aws}-2018-020/[CVE-2018-1002105,type="marketing"].
 
 
 [.update,date="2018-11-20"]
@@ -1810,7 +1809,7 @@ The ALB ingress controller releases version `1.0.0` with formal support from {aw
 [.update-ulink]
 link:eks/latest/userguide/cni-custom-network.html[type="documentation"]
 
-The [.noloc]`Amazon VPC CNI plugin for Kubernetes` version `1.2.1` now supports custom network configuration for secondary [.noloc]`Pod` network interfaces.
+The Amazon VPC CNI plugin for Kubernetes version `1.2.1` now supports custom network configuration for secondary Pod network interfaces.
 
 
 [.update,date="2018-10-10"]
@@ -1855,7 +1854,7 @@ Amazon EKS is now available in the Europe (Ireland) (`eu-west-1`) Region.
 [.update-ulink]
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
-New platform version with support for [.noloc]`Kubernetes` https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/[aggregation layer] and the https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/[Horizontal Pod Autoscaler](HPA).
+New platform version with support for Kubernetes https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/[aggregation layer] and the https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/[Horizontal Pod Autoscaler](HPA).
 
 
 [.update,date="2018-08-22"]
@@ -1879,7 +1878,7 @@ Amazon EKS has updated the Amazon EKS optimized AMI to address the CVEs that are
 [.update-ulink]
 link:eks/latest/userguide/eks-optimized-ami.html[type="documentation"]
 
-Amazon EKS has open-sourced the build scripts that are used to build the Amazon EKS optimized AMI. These build scripts are now available on [.noloc]`GitHub`.  
+Amazon EKS has open-sourced the build scripts that are used to build the Amazon EKS optimized AMI. These build scripts are now available on GitHub.  
 
 
 [.update,date="2018-06-05"]
@@ -1892,6 +1891,3 @@ Initial documentation for service launch
 [.update-history]
 |===
 |===
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23doc-history%5D&type=code[Edit this page on GitHub]

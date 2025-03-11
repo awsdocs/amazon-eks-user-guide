@@ -1,16 +1,16 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#cross-account-access]
 = Authenticate to another account with IRSA
 :info_titleabbrev: Cross-account IAM
-
-include::../../attributes.txt[]
 
 [abstract]
 --
 Learn how to configure cross-account IAM permissions for Amazon EKS clusters by creating an identity provider from another account's cluster or using chained AssumeRole operations, enabling secure access to {aws} resources across multiple accounts.
 --
 
-You can configure cross-account IAM permissions either by creating an identity provider from another account's cluster or by using chained `AssumeRole` operations. In the following examples, _Account A_ owns an Amazon EKS cluster that supports IAM roles for service accounts. [.noloc]`Pods` that are running on that cluster must assume IAM permissions from _Account B_.
+You can configure cross-account IAM permissions either by creating an identity provider from another account's cluster or by using chained `AssumeRole` operations. In the following examples, _Account A_ owns an Amazon EKS cluster that supports IAM roles for service accounts. Pods that are running on that cluster must assume IAM permissions from _Account B_.
 
 .Create an identity provider from another account's cluster
 ====
@@ -39,7 +39,7 @@ metadata:
 
 ====
 
-In this example, Account B creates an IAM policy with the permissions to give to [.noloc]`Pods` in Account A's cluster. Account B ([.replaceable]`444455556666`) attaches that policy to an IAM role with a trust relationship that allows `AssumeRole` permissions to Account A ([.replaceable]`111122223333`).
+In this example, Account B creates an IAM policy with the permissions to give to Pods in Account A's cluster. Account B ([.replaceable]`444455556666`) attaches that policy to an IAM role with a trust relationship that allows `AssumeRole` permissions to Account A ([.replaceable]`111122223333`).
 
 [source,json,subs="verbatim,attributes"]
 ----
@@ -92,7 +92,7 @@ Account A attaches a policy to that role with the following permissions to assum
 }
 ----
 
-The application code for [.noloc]`Pods` to assume Account B's role uses two profiles: `account_b_role` and `account_a_role`. The `account_b_role` profile uses the `account_a_role` profile as its source. For the {aws} CLI, the `~/.aws/config` file is similar to the following.
+The application code for Pods to assume Account B's role uses two profiles: `account_b_role` and `account_a_role`. The `account_b_role` profile uses the `account_a_role` profile as its source. For the {aws} CLI, the `~/.aws/config` file is similar to the following.
 
 [source,none,subs="verbatim,attributes"]
 ----
@@ -108,6 +108,3 @@ role_arn={arn-aws}iam::111122223333:role/account-a-role
 To specify chained profiles for other {aws} SDKs, consult the documentation for the SDK that you're using. For more information, see link:developer/tools/[Tools to Build on {aws},type="marketing"].
 
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cross-account-access%5D&type=code[Edit this page on GitHub]

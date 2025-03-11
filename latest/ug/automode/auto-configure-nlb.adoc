@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#auto-configure-nlb]
 = Use Service Annotations to configure Network Load Balancers
 :info_titleabbrev: Create service
-
-include::../attributes.txt[]
 
 Learn how to configure Network Load Balancers (NLB) in Amazon EKS using Kubernetes service annotations. This topic explains the annotations supported by EKS Auto Mode for customizing NLB behavior, including internet accessibility, health checks, SSL/TLS termination, and IP targeting modes.
 
@@ -164,6 +164,3 @@ This consolidated format provides a more consistent and flexible way to configur
 | `spec.targetType` optional | `spec.targetType` required | Explicit target type specification
 | `spec.networking.ingress.from` | Not supported | No longer supports NLB without security groups
 |===
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-configure-nlb%5D&type=code[Edit this page on GitHub]

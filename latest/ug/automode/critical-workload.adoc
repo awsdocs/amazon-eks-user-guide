@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#critical-workload]
 = Run critical add-ons on dedicated instances
 :info_titleabbrev: Run critical add-ons
-
-include::../attributes.txt[]
 
 In this topic, you will learn how to deploy a workload with a `CriticalAddonsOnly` toleration so EKS Auto Mode will schedule it onto the `system` node pool.
 
@@ -66,6 +66,3 @@ To update a workload to run on the `system` node pool, you need to:
 . Deploy the updated workload to your cluster with `kubectl apply`
 
 After updating the workload, it will run on dedicated nodes. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23critical-workload%5D&type=code[Edit this page on GitHub]

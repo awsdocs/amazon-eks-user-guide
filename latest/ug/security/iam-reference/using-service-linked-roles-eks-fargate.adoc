@@ -1,9 +1,9 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#using-service-linked-roles-eks-fargate]
 = Using roles for Amazon EKS Fargate profiles
 :info_titleabbrev: Fargate profile role
-
-include::../../attributes.txt[]
 
 [abstract]
 --
@@ -21,7 +21,7 @@ For information about other services that support service-linked roles, see link
 [#service-linked-role-permissions-eks-fargate]
 == Service-linked role permissions for Amazon EKS
 
-Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKSForFargate`. The role allows Amazon EKS Fargate to configure VPC networking required for Fargate [.noloc]`Pods`. The attached policies allow the role to create and delete elastic network interfaces and describe elastic network Interfaces and resources.
+Amazon EKS uses the service-linked role named `AWSServiceRoleForAmazonEKSForFargate`. The role allows Amazon EKS Fargate to configure VPC networking required for Fargate Pods. The attached policies allow the role to create and delete elastic network interfaces and describe elastic network Interfaces and resources.
 
 The `AWSServiceRoleForAmazonEKSForFargate` service-linked role trusts the following services to assume the role:
 
@@ -91,6 +91,3 @@ Use the IAM console, the {aws} CLI, or the {aws} API to delete the AWSServiceRol
 == Supported regions for Amazon EKS service-linked roles
 
 Amazon EKS supports using service-linked roles in all of the regions where the service is available. For more information, see link:general/latest/gr/eks.html[Amazon EKS endpoints and quotas,type="documentation"].
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23using-service-linked-roles-eks-fargate%5D&type=code[Edit this page on GitHub]

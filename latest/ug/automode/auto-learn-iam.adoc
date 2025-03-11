@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#auto-learn-iam]
 = Learn about identity and access in EKS Auto Mode
 :info_titleabbrev: Identity and access
-
-include::../attributes.txt[]
 
 This topic describes the Identity and Access Management (IAM) roles and permissions required to use EKS Auto Mode. EKS Auto Mode uses two primary IAM roles: a Cluster IAM Role and a Node IAM Role. These roles work in conjunction with EKS Pod Identity and EKS access entries to provide comprehensive access management for your EKS clusters.
 
@@ -190,6 +190,3 @@ By default, the managed policies related to EKS Auto Mode do not permit applying
 == Access Policy Reference
 
 For more information about the Kubernetes permissions used by EKS Auto Mode, see <<access-policy-permissions>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23auto-learn-iam%5D&type=code[Edit this page on GitHub]

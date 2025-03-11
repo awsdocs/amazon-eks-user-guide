@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#retreive-iam-info]
 = Retrieve IAM information about an Amazon EKS add-on
 :info_titleabbrev: Retrieve IAM information
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -17,7 +17,7 @@ Before you create an add-on, use the {aws} CLI to determine:
 
 == Procedure
 
-. Determine the name of the add-on you want to install, and the [.noloc]`Kubernetes` version of your cluster. For more information about add-ons, see <<eks-add-ons>>. 
+. Determine the name of the add-on you want to install, and the Kubernetes version of your cluster. For more information about add-ons, see <<eks-add-ons>>. 
 . Use the {aws} CLI to determine if the add-on requires IAM permissions. 
 +
 [source,shell,subs="verbatim,attributes"]
@@ -137,6 +137,3 @@ The following table indicates if certain Amazon EKS add-ons support EKS Pod Iden
 |===
 
 This table was last updated on October 28, 2024.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23retreive-iam-info%5D&type=code[Edit this page on GitHub]

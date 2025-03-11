@@ -1,22 +1,22 @@
+include::../attributes.txt[]
+
 [.topic]
 [#cni-network-policy-configure]
-= Restrict Pod network traffic with [.noloc]`Kubernetes` network policies
+= Restrict Pod network traffic with Kubernetes network policies
 :info_titleabbrev: Restrict traffic
-
-include::../attributes.txt[]
 
 [abstract]
 --
-Learn how to deploy [.noloc]`Kubernetes` network policies on your Amazon EKS cluster.
+Learn how to deploy Kubernetes network policies on your Amazon EKS cluster.
 --
 
-You can use a [.noloc]`Kubernetes` network policy to restrict network traffic to and from your [.noloc]`Pods`. For more information, see https://kubernetes.io/docs/concepts/services-networking/network-policies/[Network Policies] in the [.noloc]`Kubernetes` documentation.
+You can use a Kubernetes network policy to restrict network traffic to and from your Pods. For more information, see https://kubernetes.io/docs/concepts/services-networking/network-policies/[Network Policies] in the Kubernetes documentation.
 
 You must configure the following in order to use this feature:
 
-. Set up policy enforcement at [.noloc]`Pod` startup. You do this in the `aws-node` container of the VPC CNI `DaemonSet`.
+. Set up policy enforcement at Pod startup. You do this in the `aws-node` container of the VPC CNI `DaemonSet`.
 . Enable the network policy parameter for the add-on.
-. Configure your cluster to use the [.noloc]`Kubernetes` network policy
+. Configure your cluster to use the Kubernetes network policy
 
 Before you begin, review the considerations. For more information, see <<cni-network-policy-considerations>>.
 
@@ -27,7 +27,7 @@ The following are prerequisites for the feature:
 
 [#cni-network-policy-minimum]
 === Minimum cluster version
-An existing Amazon EKS cluster. To deploy one, see <<getting-started>>. The cluster must be [.noloc]`Kubernetes` version `1.25` or later. The cluster must be running one of the [.noloc]`Kubernetes` versions and platform versions listed in the following table. Note that any [.noloc]`Kubernetes` and platform versions later than those listed are also supported. You can check your current [.noloc]`Kubernetes` version by replacing [.replaceable]`my-cluster` in the following command with the name of your cluster and then running the modified command:
+An existing Amazon EKS cluster. To deploy one, see <<getting-started>>. The cluster must be Kubernetes version `1.25` or later. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table. Note that any Kubernetes and platform versions later than those listed are also supported. You can check your current Kubernetes version by replacing [.replaceable]`my-cluster` in the following command with the name of your cluster and then running the modified command:
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -56,7 +56,7 @@ aws eks describe-cluster
 [#cni-network-policy-minimum-vpc]
 === Minimum VPC CNI version
 
-Version `1.14` or later of the [.noloc]`Amazon VPC CNI plugin for Kubernetes` on your cluster. You can see which version that you currently have with the following command.
+Version `1.14` or later of the Amazon VPC CNI plugin for Kubernetes on your cluster. You can see which version that you currently have with the following command.
 
 [source,shell,subs="verbatim,attributes"]
 ----
@@ -72,11 +72,11 @@ Your nodes must have Linux kernel version `5.10` or later. You can check your ke
 The Amazon EKS optimized accelerated Amazon Linux AMI version `v20231116` or later have kernel version `5.10`.
 
 [#cni-network-policy-configure-policy]
-== Step 1: Set up policy enforcement at [.noloc]`Pod` startup
+== Step 1: Set up policy enforcement at Pod startup
 
-The [.noloc]`Amazon VPC CNI plugin for Kubernetes` configures network policies for pods in parallel with the pod provisioning. Until all of the policies are configured for the new pod, containers in the new pod will start with a _default allow policy_. This is called _standard mode_. A default allow policy means that all ingress and egress traffic is allowed to and from the new pods. For example, the pods will not have any firewall rules enforced (all traffic is allowed) until the new pod is updated with the active policies. 
+The Amazon VPC CNI plugin for Kubernetes configures network policies for pods in parallel with the pod provisioning. Until all of the policies are configured for the new pod, containers in the new pod will start with a _default allow policy_. This is called _standard mode_. A default allow policy means that all ingress and egress traffic is allowed to and from the new pods. For example, the pods will not have any firewall rules enforced (all traffic is allowed) until the new pod is updated with the active policies. 
 
-With the `NETWORK_POLICY_ENFORCING_MODE` variable set to `strict`, pods that use the VPC CNI start with a _default deny policy_, then policies are configured. This is called _strict mode_. In strict mode, you must have a network policy for every endpoint that your pods need to access in your cluster. Note that this requirement applies to the [.noloc]`CoreDNS` pods. The default deny policy isn't configured for pods with Host networking.
+With the `NETWORK_POLICY_ENFORCING_MODE` variable set to `strict`, pods that use the VPC CNI start with a _default deny policy_, then policies are configured. This is called _strict mode_. In strict mode, you must have a network policy for every endpoint that your pods need to access in your cluster. Note that this requirement applies to the CoreDNS pods. The default deny policy isn't configured for pods with Host networking.
 
 You can change the default network policy by setting the environment variable `NETWORK_POLICY_ENFORCING_MODE` to `strict` in the `aws-node` container of the VPC CNI `DaemonSet`.
 
@@ -124,7 +124,7 @@ The following example has network policy feature enabled and metrics and health 
 [#cni-network-helm]
 === Helm
 
-If you have installed the [.noloc]`Amazon VPC CNI plugin for Kubernetes` through `helm`, you can update the configuration to change the ports.
+If you have installed the Amazon VPC CNI plugin for Kubernetes through `helm`, you can update the configuration to change the ports.
 
 . Run the following command to change the ports. Set the port number in the value for either key `nodeAgent.metricsBindAddr` or key `nodeAgent.healthProbeBindAddr`, respectively.
 +
@@ -134,7 +134,7 @@ helm upgrade --set nodeAgent.metricsBindAddr=8162 --set nodeAgent.healthProbeBin
 ----
 
 [#cni-network-policy-kubectl]
-=== [.noloc]`kubectl`
+=== kubectl
 . Open the `aws-node` `DaemonSet` in your editor.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -174,9 +174,9 @@ sudo mount -t bpf bpffs /sys/fs/bpf
 
 
 [#cni-network-policy-setup]
-== Step 4: Configure your cluster to use [.noloc]`Kubernetes` network policies
+== Step 4: Configure your cluster to use Kubernetes network policies
 
-Configure the cluster to use [.noloc]`Kubernetes` network policies. You can set this for an Amazon EKS add-on or self-managed add-on.
+Configure the cluster to use Kubernetes network policies. You can set this for an Amazon EKS add-on or self-managed add-on.
 
 
 [#cni-network-policy-setup-procedure-add-on]
@@ -231,7 +231,7 @@ aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-vers
 [discrete]
 === Helm
 
-If you have installed the [.noloc]`Amazon VPC CNI plugin for Kubernetes` through `helm`, you can update the configuration to enable network policy.
+If you have installed the Amazon VPC CNI plugin for Kubernetes through `helm`, you can update the configuration to enable network policy.
 
 . Run the following command to enable network policy.
 +
@@ -242,7 +242,7 @@ helm upgrade --set enableNetworkPolicy=true aws-vpc-cni --namespace kube-system 
 
 [#cni-network-policy-setup-kubectl]
 [discrete]
-=== [.noloc]`kubectl`
+=== kubectl
 
 . Open the `amazon-vpc-cni` `ConfigMap` in your editor.
 +
@@ -305,11 +305,8 @@ aws-node-prnsh                                          2/2     Running   1 (24h
 
 There are 2 containers in the `aws-node` pods in versions `1.14` and later. In previous versions and if network policy is disabled, there is only a single container in the `aws-node` pods.
 
-You can now deploy [.noloc]`Kubernetes` network policies to your cluster.  
+You can now deploy Kubernetes network policies to your cluster.  
 
-To implement [.noloc]`Kubernetes` network policies you create [.noloc]`Kubernetes` `NetworkPolicy` objects and deploy them to your cluster. `NetworkPolicy` objects are scoped to a namespace. You implement policies to allow or deny traffic between [.noloc]`Pods` based on label selectors, namespaces, and IP address ranges. For more information about creating `NetworkPolicy` objects, see https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource[Network Policies] in the [.noloc]`Kubernetes` documentation.
+To implement Kubernetes network policies you create Kubernetes `NetworkPolicy` objects and deploy them to your cluster. `NetworkPolicy` objects are scoped to a namespace. You implement policies to allow or deny traffic between Pods based on label selectors, namespaces, and IP address ranges. For more information about creating `NetworkPolicy` objects, see https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource[Network Policies] in the Kubernetes documentation.
 
-Enforcement of [.noloc]`Kubernetes` `NetworkPolicy` objects is implemented using the [.noloc]`Extended Berkeley Packet Filter` ([.noloc]`eBPF`). Relative to `iptables` based implementations, it offers lower latency and performance characteristics, including reduced CPU utilization and avoiding sequential lookups. Additionally, [.noloc]`eBPF` probes provide access to context rich data that helps debug complex kernel level issues and improve observability. Amazon EKS supports an [.noloc]`eBPF`-based exporter that leverages the probes to log policy results on each node and export the data to external log collectors to aid in debugging. For more information, see the https://ebpf.io/what-is-ebpf/#what-is-ebpf[eBPF documentation].
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cni-network-policy-configure%5D&type=code[Edit this page on GitHub]
+Enforcement of Kubernetes `NetworkPolicy` objects is implemented using the Extended Berkeley Packet Filter (eBPF). Relative to `iptables` based implementations, it offers lower latency and performance characteristics, including reduced CPU utilization and avoiding sequential lookups. Additionally, eBPF probes provide access to context rich data that helps debug complex kernel level issues and improve observability. Amazon EKS supports an eBPF-based exporter that leverages the probes to log policy results on each node and export the data to external log collectors to aid in debugging. For more information, see the https://ebpf.io/what-is-ebpf/#what-is-ebpf[eBPF documentation].

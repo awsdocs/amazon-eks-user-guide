@@ -1,10 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#edit-web]
 = Edit multiple files from a web browser with the GitHub Web Editor
 :info_titleabbrev: Edit files with GitHub
 
-
-include::../attributes.txt[]
 
 If you want to propose change to multiple pages, or create a new docs page, use the GitHub.dev web editor. This web editor is based on the popular Visual Studio Code text editor. 
 
@@ -32,6 +32,3 @@ NOTE: The EKS Docs team has created a workspace file that includes suggested con
 ** https://code.visualstudio.com/docs/sourcecontrol/github#_creating-pull-requests[Create a pull request] 
 
 After you create a pull request, it will be reviewed by the docs team. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23edit-web%5D&type=code[Edit this page on GitHub]

@@ -1,23 +1,23 @@
+include::../attributes.txt[]
+
 [.topic]
 [#ml-eks-optimized-ami]
 = Run GPU-accelerated containers (Linux on EC2)
 :info_titleabbrev: Run Linux GPU AMIs
 
-include::../attributes.txt[]
-
 The Amazon EKS optimized accelerated Amazon Linux AMIs are built on top of the standard Amazon EKS optimized Amazon Linux AMIs. For details on these AMIs, see <<gpu-ami>>.
 The following text describes how to enable {aws} Neuron-based workloads.
 
 .To enable {aws} Neuron (ML accelerator) based workloads
-For details on training and inference workloads using [.noloc]`Neuron` in Amazon EKS, see the following references:
+For details on training and inference workloads using Neuron in Amazon EKS, see the following references:
 
-* https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html[Containers - Kubernetes - Getting Started] in the _{aws} [.noloc]`Neuron` Documentation_
-* https://github.com/aws-neuron/aws-neuron-eks-samples/blob/master/README.md#training[Training] in {aws} [.noloc]`Neuron` EKS Samples on GitHub
+* https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html[Containers - Kubernetes - Getting Started] in the _{aws} Neuron Documentation_
+* https://github.com/aws-neuron/aws-neuron-eks-samples/blob/master/README.md#training[Training] in {aws} Neuron EKS Samples on GitHub
 * <<inferentia-support,Deploy ML inference workloads with AWSInferentia on Amazon EKS>>
 
 The following procedure describes how to run a workload on a GPU based instance with the Amazon EKS optimized accelerated AMIs.
 
-. After your GPU nodes join your cluster, you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a [.noloc]`DaemonSet` on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
+. After your GPU nodes join your cluster, you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a DaemonSet on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -54,7 +54,7 @@ spec:
 ----
 kubectl apply -f nvidia-smi.yaml
 ----
-. After the [.noloc]`Pod` has finished running, view its logs with the following command.
+. After the Pod has finished running, view its logs with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -82,6 +82,3 @@ Mon Aug  6 20:23:31 20XX
 |  No running processes found                                                 |
 +-----------------------------------------------------------------------------+
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23ml-eks-optimized-ami%5D&type=code[Edit this page on GitHub]

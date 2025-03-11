@@ -1,13 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#security-eks]
 = Security considerations for Amazon Elastic Kubernetes Service
 :info_titleabbrev: Considerations for EKS
-
-include::../attributes.txt[]
-
-include::infrastructure-security.adoc[leveloffset=+1]
-
-include::disaster-recovery-resiliency.adoc[leveloffset=+1]
 
 [abstract]
 --
@@ -19,5 +15,7 @@ The following are considerations for security of the cloud, as they affect Amazo
 [.topiclist]
 [[Topic List]]
 
+include::infrastructure-security.adoc[leveloffset=+1]
 
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-eks%5D&type=code[Edit this page on GitHub]
+include::disaster-recovery-resiliency.adoc[leveloffset=+1]
+

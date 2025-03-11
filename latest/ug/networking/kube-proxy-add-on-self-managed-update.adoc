@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#kube-proxy-add-on-self-managed-update]
 = Update the Kubernetes `kube-proxy` self-managed add-on
 :info_titleabbrev: Update
-
-include::../attributes.txt[]
 
 [IMPORTANT]
 ====
@@ -80,7 +80,7 @@ v1.30.0-eksbuild.3
 kubectl edit -n kube-system daemonset/kube-proxy
 ----
 +
-Add the following node selector to the file in the editor and then save the file. For an example of where to include this text in the editor, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.11/config/master/aws-k8s-cni.yaml#L265-#L269[CNI manifest] file on [.noloc]`GitHub`. This enables [.noloc]`Kubernetes` to pull the correct hardware image based on the node's hardware architecture.
+Add the following node selector to the file in the editor and then save the file. For an example of where to include this text in the editor, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.11/config/master/aws-k8s-cni.yaml#L265-#L269[CNI manifest] file on GitHub. This enables Kubernetes to pull the correct hardware image based on the node's hardware architecture.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -90,14 +90,14 @@ Add the following node selector to the file in the editor and then save the file
   - amd64
   - arm64
 ----
-. If your cluster was originally created with [.noloc]`Kubernetes` version `1.14` or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`. If you originally created an Amazon EKS cluster with [.noloc]`Kubernetes` version `1.13` or earlier and intend to use Fargate nodes in your cluster, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` [.noloc]`Pods` from scheduling on Fargate nodes. This is a one-time edit. Once you've added the `Affinity Rule` to your manifest, you don't need to add it each time that you update the add-on. Edit your `kube-proxy` [.noloc]`DaemonSet`.
+. If your cluster was originally created with Kubernetes version `1.14` or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`. If you originally created an Amazon EKS cluster with Kubernetes version `1.13` or earlier and intend to use Fargate nodes in your cluster, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` Pods from scheduling on Fargate nodes. This is a one-time edit. Once you've added the `Affinity Rule` to your manifest, you don't need to add it each time that you update the add-on. Edit your `kube-proxy` DaemonSet.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl edit -n kube-system daemonset/kube-proxy
 ----
 +
-Add the following `Affinity Rule` to the [.noloc]`DaemonSet` `spec` section of the file in the editor and then save the file. For an example of where to include this text in the editor, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.11/config/master/aws-k8s-cni.yaml#L270-#L273[CNI manifest] file on [.noloc]`GitHub`.
+Add the following `Affinity Rule` to the DaemonSet `spec` section of the file in the editor and then save the file. For an example of where to include this text in the editor, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.11/config/master/aws-k8s-cni.yaml#L270-#L273[CNI manifest] file on GitHub.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -106,6 +106,3 @@ Add the following `Affinity Rule` to the [.noloc]`DaemonSet` `spec` section of t
   values:
   - fargate
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23kube-proxy-add-on-self-managed-update%5D&type=code[Edit this page on GitHub]

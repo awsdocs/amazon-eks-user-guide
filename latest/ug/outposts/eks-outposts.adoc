@@ -1,30 +1,23 @@
 include::../attributes.txt[]
+
 [#eks-outposts]
 = Deploy Amazon EKS on-premises with {aws} Outposts
-:doctype: book
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Amazon EKS on {aws} Outposts
 :keywords: Amazon EKS, {aws} Outposts, extended clusters, local clusters
 
 [abstract]
 --
-Learn to deploy Amazon EKS on {aws} Outposts for local or extended clusters to run on-premises [.noloc]`Kubernetes` applications with a fully managed control plane.
+Learn to deploy Amazon EKS on {aws} Outposts for local or extended clusters to run on-premises Kubernetes applications with a fully managed control plane.
 --
 
-You can use Amazon EKS to run on-premises [.noloc]`Kubernetes` applications on {aws} Outposts. You can deploy Amazon EKS on Outposts in the following ways:
+You can use Amazon EKS to run on-premises Kubernetes applications on {aws} Outposts. You can deploy Amazon EKS on Outposts in the following ways:
 
 
 
-* *Extended clusters* – Run the [.noloc]`Kubernetes` control plane in an {aws} Region and nodes on your Outpost.
-* *Local clusters* – Run the [.noloc]`Kubernetes` control plane and nodes on your Outpost.
+* *Extended clusters* – Run the Kubernetes control plane in an {aws} Region and nodes on your Outpost.
+* *Local clusters* – Run the Kubernetes control plane and nodes on your Outpost.
 
-For both deployment options, the [.noloc]`Kubernetes` control plane is fully managed by {aws}. You can use the same Amazon EKS APIs, tools, and console that you use in the cloud to create and run Amazon EKS on Outposts.
+For both deployment options, the Kubernetes control plane is fully managed by {aws}. You can use the same Amazon EKS APIs, tools, and console that you use in the cloud to create and run Amazon EKS on Outposts.
 
 The following diagram shows these deployment options.
 
@@ -40,7 +33,7 @@ Both local and extended clusters are general-purpose deployment options and can 
 
 With local clusters, you can run the entire Amazon EKS cluster locally on Outposts. This option can mitigate the risk of application downtime that might result from temporary network disconnects to the cloud. These network disconnects can be caused by fiber cuts or weather events. Because the entire Amazon EKS cluster runs locally on Outposts, applications remain available. You can perform cluster operations during network disconnects to the cloud. For more information, see <<eks-outposts-network-disconnects>>. If you're concerned about the quality of the network connection from your Outposts to the parent {aws} Region and require high availability through network disconnects, use the local cluster deployment option.
 
-With extended clusters, you can conserve capacity on your Outpost because the [.noloc]`Kubernetes` control plane runs in the parent {aws} Region. This option is suitable if you can invest in reliable, redundant network connectivity from your Outpost to the {aws} Region. The quality of the network connection is critical for this option. The way that [.noloc]`Kubernetes` handles network disconnects between the [.noloc]`Kubernetes` control plane and nodes might lead to application downtime. For more information on the behavior of [.noloc]`Kubernetes`, see https://kubernetes.io/docs/concepts/scheduling-eviction/[Scheduling, Preemption, and Eviction] in the [.noloc]`Kubernetes` documentation.
+With extended clusters, you can conserve capacity on your Outpost because the Kubernetes control plane runs in the parent {aws} Region. This option is suitable if you can invest in reliable, redundant network connectivity from your Outpost to the {aws} Region. The quality of the network connection is critical for this option. The way that Kubernetes handles network disconnects between the Kubernetes control plane and nodes might lead to application downtime. For more information on the behavior of Kubernetes, see https://kubernetes.io/docs/concepts/scheduling-eviction/[Scheduling, Preemption, and Eviction] in the Kubernetes documentation.
 
 [#outposts-overview-comparing-deployment-options]
 == Comparing the deployment options
@@ -54,11 +47,11 @@ The following table compares the differences between the two options.
 |Local cluster
 
 
-|[.noloc]`Kubernetes` control plane location
+|Kubernetes control plane location
 |{aws} Region
 |Outpost
 
-|[.noloc]`Kubernetes` control plane account
+|Kubernetes control plane account
 |{aws} account
 |Your account
 
@@ -94,8 +87,8 @@ The following table compares the differences between the two options.
 |Public or private or both
 |Private only
 
-|[.noloc]`Kubernetes` API server authentication
-|{aws} Identity and Access Management (IAM) and [.noloc]`OIDC`
+|Kubernetes API server authentication
+|{aws} Identity and Access Management (IAM) and OIDC
 |IAM and `x.509` certificates
 
 |Node types
@@ -123,8 +116,8 @@ The following table compares the differences between the two options.
 |Self-managed add-ons only
 
 |Default Container Network Interface
-|[.noloc]`Amazon VPC CNI plugin for Kubernetes`
-|[.noloc]`Amazon VPC CNI plugin for Kubernetes`
+|Amazon VPC CNI plugin for Kubernetes
+|Amazon VPC CNI plugin for Kubernetes
 
 |Kubernetes control plane logs
 |Amazon CloudWatch Logs
@@ -154,6 +147,3 @@ include::eks-outposts-local-cluster-overview.adoc[leveloffset=+1]
 
 
 include::eks-outposts-self-managed-nodes.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-outposts%5D&type=code[Edit this page on GitHub]

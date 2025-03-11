@@ -1,11 +1,11 @@
+include::../attributes.txt[]
+
 [.topic]
 [#deploy-ipv6-cluster]
 = Deploying an Amazon EKS `IPv6` cluster and managed Amazon Linux nodes
 :info_titleabbrev: Deploy
 
-include::../attributes.txt[]
-
-In this tutorial, you deploy an `IPv6` Amazon VPC, an Amazon EKS cluster with the `IPv6` family, and a managed node group with Amazon EC2 Amazon Linux nodes. You can't deploy Amazon EC2 [.noloc]`Windows` nodes in an `IPv6` cluster. You can also deploy Fargate nodes to your cluster, though those instructions aren't provided in this topic for simplicity. 
+In this tutorial, you deploy an `IPv6` Amazon VPC, an Amazon EKS cluster with the `IPv6` family, and a managed node group with Amazon EC2 Amazon Linux nodes. You can't deploy Amazon EC2 Windows nodes in an `IPv6` cluster. You can also deploy Fargate nodes to your cluster, though those instructions aren't provided in this topic for simplicity. 
 
 == Prerequisites
 
@@ -14,19 +14,19 @@ Complete the following before you start the tutorial:
 Install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster.
 
 * We recommend that you familiarize yourself with all settings and deploy a cluster with the settings that meet your requirements. For more information, see <<create-cluster>>, <<managed-node-groups>>, and the <<cni-ipv6,Considerations>> for this topic. You can only enable some settings when creating your cluster.
-* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 * The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, {aws} CloudFormation, a VPC, and related resources. For more information, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] and link:IAM/latest/UserGuide/using-service-linked-roles.html[Using service-linked roles,type="documentation"] in the IAM User Guide.
-* If you use the [.noloc]`eksctl`, install version `{eksctl-min-version}` or later on your computer. To install or update to it, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
-* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_. If you use the {aws} CloudShell, you may need to link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[install version 2.12.3 or later or 1.27.160 or later of the {aws} CLI,type="documentation"], because the default {aws} CLI version installed in the {aws} CloudShell may be an earlier version.
+* If you use the eksctl, install version `{eksctl-min-version}` or later on your computer. To install or update to it, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_. If you use the {aws} CloudShell, you may need to link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[install version 2.12.3 or later or 1.27.160 or later of the {aws} CLI,type="documentation"], because the default {aws} CLI version installed in the {aws} CloudShell may be an earlier version.
 
 
 //[#deploy-ipv6-cluster-procedure]
 //====== Procedure
 
-You can use the [.noloc]`eksctl` or CLI to  deploy an `IPv6` cluster.
+You can use the eksctl or CLI to  deploy an `IPv6` cluster.
 
 
-== Deploy an IPv6 cluster with [.noloc]`eksctl`
+== Deploy an IPv6 cluster with eksctl
 
 .. Create the `ipv6-cluster.yaml` file. Copy the command that follows to your device. Make the following modifications to the command as needed and then run the modified command:
 +
@@ -81,7 +81,7 @@ Cluster creation takes several minutes. Don't proceed until you see the last lin
 [...]
 [✓]  EKS cluster "my-cluster" in "region-code" region is ready
 ----
-.. Confirm that default [.noloc]`Pods` are assigned `IPv6` addresses.
+.. Confirm that default Pods are assigned `IPv6` addresses.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -114,7 +114,7 @@ An example output is as follows.
 NAME       TYPE        CLUSTER-IP          EXTERNAL-IP   PORT(S)         AGE   SELECTOR
 kube-dns   ClusterIP   fd30:3087:b6c2::a   <none>        53/UDP,53/TCP   57m   k8s-app=kube-dns
 ----
-.. (Optional) <<sample-deployment,Deploy a sample application>> or deploy the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and a sample application to load balance HTTP applications with <<alb-ingress>> or network traffic with <<network-load-balancing>> to `IPv6` [.noloc]`Pods`.
+.. (Optional) <<sample-deployment,Deploy a sample application>> or deploy the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and a sample application to load balance HTTP applications with <<alb-ingress>> or network traffic with <<network-load-balancing>> to `IPv6` Pods.
 .. After you've finished with the cluster and nodes that you created for this tutorial, you should clean up the resources that you created with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -207,7 +207,7 @@ private_subnets=$(aws cloudformation describe-stacks --region $region_code --sta
 
 subnets=${public_subnets},${private_subnets}
 ----
-.. Create a cluster IAM role and attach the required Amazon EKS IAM managed policy to it. [.noloc]`Kubernetes` clusters managed by Amazon EKS make calls to other {aws} services on your behalf to manage the resources that you use with the service.
+.. Create a cluster IAM role and attach the required Amazon EKS IAM managed policy to it. Kubernetes clusters managed by Amazon EKS make calls to other {aws} services on your behalf to manage the resources that you use with the service.
 +
 ... Run the following command to create the `eks-cluster-role-trust-policy.json` file.
 +
@@ -403,7 +403,7 @@ The node group takes a few minutes to create. Run the following command. Don't p
 aws eks describe-nodegroup --region $region_code --cluster-name $cluster_name --nodegroup-name $nodegroup_name \
     --query nodegroup.status --output text
 ----
-.. Confirm that the default [.noloc]`Pods` are assigned `IPv6` addresses in the `IP` column.
+.. Confirm that the default Pods are assigned `IPv6` addresses in the `IP` column.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -436,7 +436,7 @@ An example output is as follows.
 NAME       TYPE        CLUSTER-IP          EXTERNAL-IP   PORT(S)         AGE   SELECTOR
 kube-dns   ClusterIP   fd30:3087:b6c2::a   <none>        53/UDP,53/TCP   57m   k8s-app=kube-dns
 ----
-.. (Optional) <<sample-deployment,Deploy a sample application>> or deploy the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and a sample application to load balance HTTP applications with <<alb-ingress>> or network traffic with <<network-load-balancing>> to `IPv6` [.noloc]`Pods`.
+.. (Optional) <<sample-deployment,Deploy a sample application>> or deploy the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and a sample application to load balance HTTP applications with <<alb-ingress>> or network traffic with <<network-load-balancing>> to `IPv6` Pods.
 .. After you've finished with the cluster and nodes that you created for this tutorial, you should clean up the resources that you created with the following commands. Make sure that you're not using any of the resources outside of this tutorial before deleting them.
 +
 ... If you're completing this step in a different shell than you completed the previous steps in, set the values of all the variables used in previous steps, replacing the [.replaceable]`example values` with the values you specified when you completed the previous steps. If you're completing this step in the same shell that you completed the previous steps in, skip to the next step.
@@ -502,6 +502,3 @@ aws iam delete-role --role-name $node_role_name
 ----
 aws cloudformation delete-stack --region $region_code --stack-name $vpc_stack_name
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23deploy-ipv6-cluster%5D&type=code[Edit this page on GitHub]

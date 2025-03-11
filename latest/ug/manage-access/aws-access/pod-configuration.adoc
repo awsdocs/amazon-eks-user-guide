@@ -1,26 +1,26 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#pod-configuration]
-= Configure [.noloc]`Pods` to use a [.noloc]`Kubernetes` service account
+= Configure Pods to use a Kubernetes service account
 :info_titleabbrev: Assign to Pod
-
-include::../../attributes.txt[]
 
 [abstract]
 --
-Learn how to configure your [.noloc]`Pods` to use a [.noloc]`Kubernetes` service account that you allowed to assume an {aws} Identity and Access Management role.
+Learn how to configure your Pods to use a Kubernetes service account that you allowed to assume an {aws} Identity and Access Management role.
 --
 
-If a [.noloc]`Pod` needs to access {aws} services, then you must configure it to use a [.noloc]`Kubernetes` service account. The service account must be associated to an {aws} Identity and Access Management (IAM) role that has permissions to access the {aws} services.
+If a Pod needs to access {aws} services, then you must configure it to use a Kubernetes service account. The service account must be associated to an {aws} Identity and Access Management (IAM) role that has permissions to access the {aws} services.
 
 
 
 * An existing cluster. If you don't have one, you can create one using one of the guides in <<getting-started>>.
-* An existing IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To learn if you already have one or how to create one, see <<enable-iam-roles-for-service-accounts>>.
-* An existing [.noloc]`Kubernetes` service account that's associated with an IAM role. The service account must be annotated with the Amazon Resource Name (ARN) of the IAM role. The role must have an associated IAM policy that contains the permissions that you want your [.noloc]`Pods` to have to use {aws} services. For more information about how to create the service account and role, and configure them, see <<associate-service-account-role>>.
-* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
-* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
+* An existing IAM OpenID Connect (OIDC) provider for your cluster. To learn if you already have one or how to create one, see <<enable-iam-roles-for-service-accounts>>.
+* An existing Kubernetes service account that's associated with an IAM role. The service account must be annotated with the Amazon Resource Name (ARN) of the IAM role. The role must have an associated IAM policy that contains the permissions that you want your Pods to have to use {aws} services. For more information about how to create the service account and role, and configure them, see <<associate-service-account-role>>.
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 * An existing `kubectl` `config` file that contains your cluster configuration. To create a `kubectl` `config` file, see <<create-kubeconfig>>.
-. Use the following command to create a deployment manifest that you can deploy a [.noloc]`Pod` to confirm configuration with. Replace the [.replaceable]`example values` with your own values.
+. Use the following command to create a deployment manifest that you can deploy a Pod to confirm configuration with. Replace the [.replaceable]`example values` with your own values.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -50,9 +50,9 @@ EOF
 ----
 kubectl apply -f my-deployment.yaml
 ----
-. Confirm that the required environment variables exist for your [.noloc]`Pod`.
+. Confirm that the required environment variables exist for your Pod.
 +
-.. View the [.noloc]`Pods` that were deployed with the deployment in the previous step.
+.. View the Pods that were deployed with the deployment in the previous step.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -65,7 +65,7 @@ An example output is as follows.
 ----
 my-app-6f4dfff6cb-76cv9   1/1     Running   0          3m28s
 ----
-.. View the ARN of the IAM role that the [.noloc]`Pod` is using.
+.. View the ARN of the IAM role that the Pod is using.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -80,7 +80,7 @@ AWS_ROLE_ARN:                 {arn-aws}iam::111122223333:role/my-role
 ----
 +
 The role ARN must match the role ARN that you annotated the existing service account with. For more about annotating the service account, see <<associate-service-account-role>>.
-.. Confirm that the [.noloc]`Pod` has a web identity token file mount.
+.. Confirm that the Pod has a web identity token file mount.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -94,23 +94,23 @@ An example output is as follows.
 AWS_WEB_IDENTITY_TOKEN_FILE:  /var/run/secrets/eks.amazonaws.com/serviceaccount/token
 ----
 +
-The `kubelet` requests and stores the token on behalf of the [.noloc]`Pod`. By default, the `kubelet` refreshes the token if the token is older than 80 percent of its total time to live or older than 24 hours. You can modify the expiration duration for any account other than the default service account by using the settings in your [.noloc]`Pod` spec. For more information, see https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#serviceaccount-token-volume-projection[Service Account Token Volume Projection] in the [.noloc]`Kubernetes` documentation.
+The `kubelet` requests and stores the token on behalf of the Pod. By default, the `kubelet` refreshes the token if the token is older than 80 percent of its total time to live or older than 24 hours. You can modify the expiration duration for any account other than the default service account by using the settings in your Pod spec. For more information, see https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#serviceaccount-token-volume-projection[Service Account Token Volume Projection] in the Kubernetes documentation.
 +
-The https://github.com/aws/amazon-eks-pod-identity-webhook#amazon-eks-pod-identity-webhook[Amazon EKS Pod Identity Webhook] on the cluster watches for [.noloc]`Pods` that use a service account with the following annotation:
+The https://github.com/aws/amazon-eks-pod-identity-webhook#amazon-eks-pod-identity-webhook[Amazon EKS Pod Identity Webhook] on the cluster watches for Pods that use a service account with the following annotation:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 eks.amazonaws.com/role-arn: {arn-aws}iam::111122223333:role/my-role
 ----
 +
-The webhook applies the previous environment variables to those [.noloc]`Pods`. Your cluster doesn't need to use the webhook to configure the environment variables and token file mounts. You can manually configure [.noloc]`Pods` to have these environment variables. The <<iam-roles-for-service-accounts-minimum-sdk,supported versions of the {aws} SDK>> look for these environment variables first in the credential chain provider. The role credentials are used for [.noloc]`Pods` that meet this criteria.
-. Confirm that your [.noloc]`Pods` can interact with the {aws} services using the permissions that you assigned in the IAM policy attached to your role.
+The webhook applies the previous environment variables to those Pods. Your cluster doesn't need to use the webhook to configure the environment variables and token file mounts. You can manually configure Pods to have these environment variables. The <<iam-roles-for-service-accounts-minimum-sdk,supported versions of the {aws} SDK>> look for these environment variables first in the credential chain provider. The role credentials are used for Pods that meet this criteria.
+. Confirm that your Pods can interact with the {aws} services using the permissions that you assigned in the IAM policy attached to your role.
 +
-NOTE: When a [.noloc]`Pod` uses {aws} credentials from an IAM role that's associated with a service account, the {aws} CLI or other SDKs in the containers for that [.noloc]`Pod` use the credentials that are provided by that role. If you don't restrict access to the credentials that are provided to the <<create-node-role,Amazon EKS node IAM role>>, the [.noloc]`Pod` still has access to these credentials. For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
+NOTE: When a Pod uses {aws} credentials from an IAM role that's associated with a service account, the {aws} CLI or other SDKs in the containers for that Pod use the credentials that are provided by that role. If you don't restrict access to the credentials that are provided to the <<create-node-role,Amazon EKS node IAM role>>, the Pod still has access to these credentials. For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
 +
-If your [.noloc]`Pods` can't interact with the services as you expected, complete the following steps to confirm that everything is properly configured.
+If your Pods can't interact with the services as you expected, complete the following steps to confirm that everything is properly configured.
 +
-.. Confirm that your [.noloc]`Pods` use an {aws} SDK version that supports assuming an IAM role through an [.noloc]`OpenID Connect` web identity token file. For more information, see <<iam-roles-for-service-accounts-minimum-sdk>>.
+.. Confirm that your Pods use an {aws} SDK version that supports assuming an IAM role through an OpenID Connect web identity token file. For more information, see <<iam-roles-for-service-accounts-minimum-sdk>>.
 .. Confirm that the deployment is using the service account.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -124,7 +124,4 @@ An example output is as follows.
 ----
 Service Account:  my-service-account
 ----
-.. If your [.noloc]`Pods` still can't access services, review the <<irsa-confirm-role-configuration,steps>> that are described in <<associate-service-account-role,Assign IAM roles to Kubernetes service accounts>> to confirm that your role and service account are configured properly.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-configuration%5D&type=code[Edit this page on GitHub]
+.. If your Pods still can't access services, review the <<irsa-confirm-role-configuration,steps>> that are described in <<associate-service-account-role,Assign IAM roles to Kubernetes service accounts>> to confirm that your role and service account are configured properly.

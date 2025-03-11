@@ -1,10 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#fsx-csi]
 = Store high-performance apps with FSx for Lustre
 :info_titleabbrev: Amazon FSx for Lustre
 :keywords: Amazon FSx for Lustre CSI driver, storage
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -22,16 +22,16 @@ The driver isn't supported on Fargate or Amazon EKS Hybrid Nodes.
 
 ====
 
-For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the https://github.com/kubernetes-sigs/aws-fsx-csi-driver[FSx for Lustre Container Storage Interface (CSI) driver] project on [.noloc]`GitHub`.
+For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the https://github.com/kubernetes-sigs/aws-fsx-csi-driver[FSx for Lustre Container Storage Interface (CSI) driver] project on GitHub.
 
 
 
 
 You must have:
 
-* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 * Version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
-* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 
 The following procedures help you create a simple test cluster with the FSx for Lustre CSI driver so that you can see how it works. We don't recommend using the testing cluster for production workloads. For this tutorial, we recommend using the [.replaceable]`example values`, except where it's noted to replace them. You can replace any [.replaceable]`example value` when completing the steps for your production cluster. We recommend completing all steps in the same terminal because variables are set and used throughout the steps and won't exist in different terminals.
 
@@ -60,7 +60,7 @@ Cluster provisioning takes several minutes. During cluster creation, you'll see 
 ----
 [✓]  EKS cluster "my-csi-fsx-cluster" in "region-code" region is ready
 ----
-. Create a [.noloc]`Kubernetes` service account for the driver and attach the `AmazonFSxFullAccess` {aws}-managed policy to the service account with the following command.
+. Create a Kubernetes service account for the driver and attach the `AmazonFSxFullAccess` {aws}-managed policy to the service account with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -93,7 +93,7 @@ Note the name of the {aws} CloudFormation stack that was deployed. In the previo
 . Deploy the driver with the following command. Replace [.replaceable]`release-X.XX` with your desired branch. The master branch isn't supported because it may contain upcoming features incompatible with the currently released stable version of the driver. We recommend using the latest released version. For a list of branches, see `aws-fsx-csi-driver` https://github.com/kubernetes-sigs/aws-fsx-csi-driver/branches/all[Branches] on GitHub.
 
 +
-NOTE: You can view the content being applied in https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/deploy/kubernetes/overlays/stable[aws-fsx-csi-driver/deploy/kubernetes/overlays/stable] on [.noloc]`GitHub`.
+NOTE: You can view the content being applied in https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/deploy/kubernetes/overlays/stable[aws-fsx-csi-driver/deploy/kubernetes/overlays/stable] on GitHub.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -135,7 +135,7 @@ An example output is as follows.
 serviceaccount/fsx-csi-controller-sa annotated
 ----
 
-This procedure uses the https://github.com/kubernetes-sigs/aws-fsx-csi-driver[FSx for Lustre Container Storage Interface (CSI) driver][.noloc]`GitHub` repository to consume a dynamically-provisioned FSx for Lustre volume.
+This procedure uses the https://github.com/kubernetes-sigs/aws-fsx-csi-driver[FSx for Lustre Container Storage Interface (CSI) driver]GitHub repository to consume a dynamically-provisioned FSx for Lustre volume.
 
 . Note the security group for your cluster. You can see it in the {aws-management-console} under the *Networking* section or by using the following {aws} CLI command.
 +
@@ -173,7 +173,7 @@ parameters:
 *** If the subnet that you specify isn't the same subnet that you have nodes in, then your VPCs must be link:whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html[connected,type="documentation"], and you must ensure that you have the necessary ports open in your security groups.
 ** *`securityGroupIds`* – The ID of the security group you created for the file system.
 ** *`deploymentType` (optional)* – The file system deployment type. Valid values are `SCRATCH_1`, `SCRATCH_2`, `PERSISTENT_1`, and `PERSISTENT_2`. For more information about deployment types, see link:fsx/latest/LustreGuide/getting-started-step1.html[Create your Amazon FSx for Lustre file system,type="documentation"].
-** *other parameters (optional)* – For information about the other parameters, see https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning#edit-storageclass[Edit StorageClass] on [.noloc]`GitHub`.
+** *other parameters (optional)* – For information about the other parameters, see https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning#edit-storageclass[Edit StorageClass] on GitHub.
 . Create the storage class manifest.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -299,6 +299,3 @@ This example output shows that the sample app successfully wrote the `out.txt` f
 Before deleting the cluster, make sure to delete the FSx for Lustre file system. For more information, see link:fsx/latest/LustreGuide/getting-started-step4.html[Clean up resources,type="documentation"] in the _FSx for Lustre User Guide_.
 
 ====
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23fsx-csi%5D&type=code[Edit this page on GitHub]

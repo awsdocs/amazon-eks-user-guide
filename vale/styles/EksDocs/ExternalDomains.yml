@@ -7,6 +7,7 @@ tokens:
   - '(?:^|\b)(http(s)?:\/\/[^\s\[]+)(?=$|\s|\[)'
   # note: this version no longer detects the valid URL that uses replacement syntax https://raw.githubusercontent.com/projectcalico/calico/\[\.replaceable\]\`CALICO_VERSION\`/manifests/operator-crds.yaml
 exceptions:
+  - 'https://bugs.launchpad.net/ubuntu/\+source/containerd-app/\+bug/2065423'
   - alas.aws.amazon.com
   - amazon.awsapps.com
   - anywhere.eks.amazonaws.com
@@ -67,6 +68,7 @@ exceptions:
   - http://localhost:8080/utility/stress/1000000
   - http://localhost:9090
   - http://retail-store-sample-ui.default.svc/utility/stress/1000000
+  - https://access.redhat.com/security/security-updates/security-advisories
   - https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/
   - https://antrea.io/docs/main/docs/eks-installation
   - https://anywhere.eks.amazonaws.com
@@ -74,7 +76,6 @@ exceptions:
   - https://aws-observability.github.io/
   - https://aws.github.io/
   - https://brew.sh/
-  - 'https://bugs.launchpad.net/ubuntu/\+source/containerd-app/\+bug/2065423'
   - https://catalog.us-east-1.prod.workshops.aws/
   - https://catalog.workshops.aws
   - https://cert-manager.io
@@ -110,6 +111,8 @@ exceptions:
   - https://docs.stormforge.io/
   - https://docs.upbound.io/
   - https://docs.upwind.io/
+  - https://download.docker.com/linux/ubuntu
+  - https://download.docker.com/linux/ubuntu/gpg
   - https://eksctl.io
   - https://en.wikipedia.org/wiki/Reserved_IP_addresses
   - https://example.com
@@ -157,6 +160,9 @@ exceptions:
   - https://s3.us-west-2.amazonaws.com/amazon-eks/
   - https://tetratelabs.io/
   - https://tinkerbell.org
+  - https://ubuntu.com/security/notices?order=newest&release=focal
+  - https://ubuntu.com/security/notices?order=newest&release=jammy
+  - https://ubuntu.com/security/notices?order=newest&release=noble
   - https://vale.sh/
   - https://www.cncf.io/
   - https://www.dynatrace.com/technologies/kubernetes-monitoring/

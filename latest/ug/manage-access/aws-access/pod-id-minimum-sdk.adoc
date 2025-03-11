@@ -1,4 +1,5 @@
 include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-minimum-sdk]
 = Use pod identity with the {aws} SDK
@@ -13,7 +14,7 @@ This works because EKS Pod Identities have been added to the _Container credenti
 
 For more information about how EKS Pod Identities work, see <<pod-id-how-it-works>>.
 
-When using <<pod-identities,Learn how EKS Pod Identity grants pods access to {aws} services>>, the containers in your [.noloc]`Pods` must use an {aws} SDK version that supports assuming an IAM role from the EKS Pod Identity Agent. Make sure that you're using the following versions, or later, for your {aws} SDK:
+When using <<pod-identities,Learn how EKS Pod Identity grants pods access to {aws} services>>, the containers in your Pods must use an {aws} SDK version that supports assuming an IAM role from the EKS Pod Identity Agent. Make sure that you're using the following versions, or later, for your {aws} SDK:
 
 
 
@@ -39,6 +40,3 @@ When using <<pod-identities,Learn how EKS Pod Identity grants pods access to {aw
 To ensure that you're using a supported SDK, follow the installation instructions for your preferred SDK at link:tools/[Tools to Build on {aws},type="marketing"] when you build your containers.
 
 For a list of add-ons that support EKS Pod Identity, see <<pod-id-add-on-versions>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-id-minimum-sdk%5D&type=code[Edit this page on GitHub]

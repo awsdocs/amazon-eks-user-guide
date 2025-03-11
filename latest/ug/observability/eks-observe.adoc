@@ -1,17 +1,9 @@
+include::../attributes.txt[]
+
 [#eks-observe]
 = Monitor your cluster performance and view logs
-:doctype: book
-:sectnums:
-:toc: left
-:icons: font
-:experimental:
-:idprefix:
-:idseparator: -
-:sourcedir: .
 :info_titleabbrev: Monitor clusters
 :keywords: observability, monitoring, logging, logs, data
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -20,7 +12,7 @@ You can observe your data in Amazon EKS using many available monitoring or loggi
 
 You can observe your data in Amazon EKS using many available monitoring or logging tools. Your Amazon EKS log data can be streamed to {aws} services or to partner tools for data analysis. There are many services available in the {aws-management-console} that provide data for troubleshooting your Amazon EKS issues. You can also use an {aws}-supported open-source solution for link:grafana/latest/userguide/solution-eks.html[monitoring Amazon EKS infrastructure,type="documentation"].
 
-After selecting *Clusters* in the left navigation pane of the Amazon EKS console, you can view cluster health and details by choosing your cluster's name and choosing the *Observability* tab. To view details about any existing [.noloc]`Kubernetes` resources that are deployed to your cluster, see <<view-kubernetes-resources>>.
+After selecting *Clusters* in the left navigation pane of the Amazon EKS console, you can view cluster health and details by choosing your cluster's name and choosing the *Observability* tab. To view details about any existing Kubernetes resources that are deployed to your cluster, see <<view-kubernetes-resources>>.
 
 Monitoring is an important part of maintaining the reliability, availability, and performance of Amazon EKS and your {aws} solutions. We recommend that you collect monitoring data from all of the parts of your {aws} solution. That way, you can more easily debug a multi-point failure if one occurs. Before you start monitoring Amazon EKS, make sure that your monitoring plan addresses the following questions.
 
@@ -58,9 +50,9 @@ For low-level, customizable logging, then https://kubernetes.io/docs/concepts/cl
 
 Amazon EKS is integrated with {aws} CloudTrail, a service that provides a record of actions taken by a user, role, or an {aws} service in Amazon EKS. CloudTrail captures all API calls for Amazon EKS as events. The calls captured include calls from the Amazon EKS console and code calls to the Amazon EKS API operations. For more information, see <<logging-using-cloudtrail>>.
 
-The [.noloc]`Kubernetes` API server exposes a number of metrics that are useful for monitoring and analysis. For more information, see <<prometheus>>.
+The Kubernetes API server exposes a number of metrics that are useful for monitoring and analysis. For more information, see <<prometheus>>.
 
-To configure [.noloc]`Fluent Bit` for custom Amazon CloudWatch logs, see link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html#Container-Insights-FluentBit-setup[Setting up Fluent Bit,type="documentation"] in the _Amazon CloudWatch User Guide_.
+To configure Fluent Bit for custom Amazon CloudWatch logs, see link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html#Container-Insights-FluentBit-setup[Setting up Fluent Bit,type="documentation"] in the _Amazon CloudWatch User Guide_.
 
 [#eks-monitor-tools]
 == Amazon EKS monitoring and logging tools
@@ -84,7 +76,7 @@ The following table describes various monitoring tool options.
 
 |Applications / control plane
 |link:prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html[Prometheus,type="documentation"]
-|[.noloc]`Prometheus` can be used to monitor metrics and alerts for applications and the control plane.
+|Prometheus can be used to monitor metrics and alerts for applications and the control plane.
 |<<prometheus,Setup procedure>>
 
 |Applications
@@ -104,7 +96,7 @@ The following table describes various monitoring tool options.
 
 |Applications
 |link:xray/latest/devguide/aws-xray.html[{aws} X-Ray,type="documentation"]
-|{aws} X-Ray receives trace data about your application. This trace data includes ingoing and outgoing requests and metadata about the requests. For Amazon EKS, the implementation requires the [.noloc]`OpenTelemetry` add-on.
+|{aws} X-Ray receives trace data about your application. This trace data includes ingoing and outgoing requests and metadata about the requests. For Amazon EKS, the implementation requires the OpenTelemetry add-on.
 |link:xray/latest/devguide/xray-instrumenting-your-app.html[Setup procedure,type="documentation"]
 
 |Applications
@@ -162,6 +154,3 @@ include::control-plane-logs.adoc[leveloffset=+1]
 include::logging-using-cloudtrail.adoc[leveloffset=+1]
 
 include::opentelemetry.adoc[leveloffset=+1]
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-observe%5D&type=code[Edit this page on GitHub]

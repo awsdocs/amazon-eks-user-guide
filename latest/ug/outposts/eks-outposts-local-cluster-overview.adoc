@@ -5,24 +5,12 @@ include::../attributes.txt[]
 = Create local Amazon EKS clusters on {aws} Outposts for high availability
 :info_titleabbrev: Run local clusters
 
-include::eks-outposts-local-cluster-create.adoc[leveloffset=+1]
-
-include::eks-outposts-platform-versions.adoc[leveloffset=+1]
-
-include::eks-outposts-vpc-subnet-requirements.adoc[leveloffset=+1]
-
-include::eks-outposts-network-disconnects.adoc[leveloffset=+1]
-
-include::eks-outposts-capacity-considerations.adoc[leveloffset=+1]
-
-include::eks-outposts-troubleshooting.adoc[leveloffset=+1]
-
 [abstract]
 --
 Learn to create and manage local Amazon EKS clusters on {aws} Outposts for high availability across multiple regions.
 --
 
-You can use local clusters to run your entire Amazon EKS cluster locally on {aws} Outposts. This helps mitigate the risk of application downtime that might result from temporary network disconnects to the cloud. These disconnects can be caused by fiber cuts or weather events. Because the entire [.noloc]`Kubernetes` cluster runs locally on Outposts, applications remain available. You can perform cluster operations during network disconnects to the cloud. For more information, see <<eks-outposts-network-disconnects>>. The following diagram shows a local cluster deployment.
+You can use local clusters to run your entire Amazon EKS cluster locally on {aws} Outposts. This helps mitigate the risk of application downtime that might result from temporary network disconnects to the cloud. These disconnects can be caused by fiber cuts or weather events. Because the entire Kubernetes cluster runs locally on Outposts, applications remain available. You can perform cluster operations during network disconnects to the cloud. For more information, see <<eks-outposts-network-disconnects>>. The following diagram shows a local cluster deployment.
 
 
 
@@ -38,5 +26,15 @@ You can create local clusters in the following {aws} Regions: US East (Ohio), US
 [.topiclist]
 [[Topic List]]
 
+include::eks-outposts-local-cluster-create.adoc[leveloffset=+1]
 
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23eks-outposts-local-cluster-overview%5D&type=code[Edit this page on GitHub]
+include::eks-outposts-platform-versions.adoc[leveloffset=+1]
+
+include::eks-outposts-vpc-subnet-requirements.adoc[leveloffset=+1]
+
+include::eks-outposts-network-disconnects.adoc[leveloffset=+1]
+
+include::eks-outposts-capacity-considerations.adoc[leveloffset=+1]
+
+include::eks-outposts-troubleshooting.adoc[leveloffset=+1]
+

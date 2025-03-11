@@ -1,10 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-cni]
 = Configure a CNI for hybrid nodes
 :info_titleabbrev: Configure CNI
 :keywords: on-premises CNI, hybrid CNI
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -97,8 +97,19 @@ ipam:
     clusterPoolIPv4PodCIDRList:
     - POD_CIDR
 operator:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: In
+            values:
+              - hybrid
   unmanagedPodWatcher:
     restart: false
+envoy:
+  enabled: false
 ----
 
 . Install Cilium on your cluster. Replace `CILIUM_VERSION` with your desired Cilium version. It is recommended to run the latest patch version for your Cilium minor version. You can find the latest patch release for a given minor Cilium release in the https://github.com/cilium/cilium#stable-releases[Stable Releases section] of the Cilium documentation. If you are enabling BGP for your deployment, add the `--set bgpControlPlane.enabled=true` flag in the command below. If you are using a specific kubeconfig file, use the `--kubeconfig` flag with the Helm install command.
@@ -524,6 +535,3 @@ kubectl get crds -oname | grep "calico" | xargs kubectl delete
 ----
 kubectl get crds -oname | grep "tigera" | xargs kubectl delete
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-cni%5D&type=code[Edit this page on GitHub]

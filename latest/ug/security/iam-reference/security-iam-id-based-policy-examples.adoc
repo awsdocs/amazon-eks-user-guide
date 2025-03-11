@@ -1,15 +1,15 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#security-iam-id-based-policy-examples]
 = Amazon EKS identity-based policy examples
 :info_titleabbrev: Identity-based policies
 
-include::../../attributes.txt[]
-
 By default, IAM users and roles don't have permission to create or modify Amazon EKS resources. They also can't perform tasks using the {aws-management-console}, {aws} CLI, or {aws} API. An IAM administrator must create IAM policies that grant users and roles permission to perform specific API operations on the specified resources they need. The administrator must then attach those policies to the IAM users or groups that require those permissions.
 
 To learn how to create an IAM identity-based policy using these example JSON policy documents, see link:IAM/latest/UserGuide/access_policies_create.html#access_policies_create-json-editor[Creating policies on the JSON tab,type="documentation"] in the _IAM User Guide_.
 
-When you create an Amazon EKS cluster, the link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that creates the cluster is automatically granted `system:masters` permissions in the cluster's role-based access control (RBAC) configuration in the Amazon EKS control plane. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth ConfigMap` within [.noloc]`Kubernetes` and create a [.noloc]`Kubernetes` `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth ConfigMap`.
+When you create an Amazon EKS cluster, the link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that creates the cluster is automatically granted `system:masters` permissions in the cluster's role-based access control (RBAC) configuration in the Amazon EKS control plane. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth ConfigMap`.
 
 For more information about working with the ConfigMap, see <<grant-k8s-access>>.
 
@@ -41,7 +41,7 @@ To ensure that your IAM principals can still use the Amazon EKS console, create 
 [IMPORTANT]
 ====
 
-The following example policy allows a principal to view information on the *Configuration* tab in the console. To view information on the *Overview* and *Resources* tabs in the {aws-management-console}, the principal also needs [.noloc]`Kubernetes` permissions. For more information, see <<view-kubernetes-resources-permissions>>.
+The following example policy allows a principal to view information on the *Configuration* tab in the console. To view information on the *Overview* and *Resources* tabs in the {aws-management-console}, the principal also needs Kubernetes permissions. For more information, see <<view-kubernetes-resources-permissions>>.
 
 ====
 
@@ -116,7 +116,7 @@ This example shows how you might create a policy that allows IAM users to view t
 
 
 [#policy-create-cluster]
-== Create a [.noloc]`Kubernetes` cluster on the {aws} Cloud
+== Create a Kubernetes cluster on the {aws} Cloud
 
 This example policy includes the minimum permissions required to create an Amazon EKS cluster named [.replaceable]`my-cluster` in the [.replaceable]`us-west-2` {aws} Region. You can replace the {aws} Region with the {aws} Region that you want to create a cluster in. If you see a warning that says *The actions in your policy do not support resource-level permissions and require you to choose `All resources`* in the {aws-management-console}, it can be safely ignored. If your account already has the [.replaceable]`AWSServiceRoleForAmazonEKS` role, you can remove the `iam:CreateServiceLinkedRole` action from the policy. If you've ever created an Amazon EKS cluster in your account then this role already exists, unless you deleted it.
 
@@ -151,7 +151,7 @@ This example policy includes the minimum permissions required to create an Amazo
 
 
 [#policy-create-local-cluster]
-== Create a local [.noloc]`Kubernetes` cluster on an Outpost
+== Create a local Kubernetes cluster on an Outpost
 
 This example policy includes the minimum permissions required to create an Amazon EKS local cluster named [.replaceable]`my-cluster` on an Outpost in the [.replaceable]`us-west-2` {aws} Region. You can replace the {aws} Region with the {aws} Region that you want to create a cluster in. If you see a warning that says *The actions in your policy do not support resource-level permissions and require you to choose `All resources`* in the {aws-management-console}, it can be safely ignored. If your account already has the `AWSServiceRoleForAmazonEKSLocalOutpost` role, you can remove the `iam:CreateServiceLinkedRole` action from the policy. If you've ever created an Amazon EKS local cluster on an Outpost in your account then this role already exists, unless you deleted it.
 
@@ -205,7 +205,7 @@ This example policy includes the minimum permissions required to create an Amazo
 
 
 [#policy-example1]
-== Update a [.noloc]`Kubernetes` cluster
+== Update a Kubernetes cluster
 
 This example policy includes the minimum permission required to update a cluster named [.replaceable]`my-cluster` in the us-west-2 {aws} Region.
 
@@ -245,6 +245,3 @@ This example policy includes the minimum permissions required to list and descri
     ]
 }
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-iam-id-based-policy-examples%5D&type=code[Edit this page on GitHub]

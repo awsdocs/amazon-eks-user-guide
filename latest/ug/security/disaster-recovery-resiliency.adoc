@@ -1,18 +1,18 @@
+include::../attributes.txt[]
+
 [.topic]
 [#disaster-recovery-resiliency]
 = Understand resilience in Amazon EKS clusters
 :info_titleabbrev: Resilience
 
-include::../attributes.txt[]
-
 [abstract]
 --
-Learn how Amazon EKS ensures high availability, data resilience, and fault tolerance for your [.noloc]`Kubernetes` control plane by leveraging {aws} infrastructure across multiple Availability Zones .
+Learn how Amazon EKS ensures high availability, data resilience, and fault tolerance for your Kubernetes control plane by leveraging {aws} infrastructure across multiple Availability Zones .
 --
 
 The {aws} global infrastructure is built around {aws} Regions and Availability Zones. {aws} Regions provide multiple physically separated and isolated Availability Zones, which are connected with low-latency, high-throughput, and highly redundant networking. With Availability Zones, you can design and operate applications and databases that automatically fail over between Availability Zones without interruption. Availability Zones are more highly available, fault tolerant, and scalable than traditional single or multiple data center infrastructures.  
 
-Amazon EKS runs and scales the [.noloc]`Kubernetes` control plane across multiple {aws} Availability Zones to ensure high availability. Amazon EKS automatically scales control plane instances based on load, detects and replaces unhealthy control plane instances, and automatically patches the control plane. After you initiate a version update, Amazon EKS updates your control plane for you, maintaining high availability of the control plane during the update.
+Amazon EKS runs and scales the Kubernetes control plane across multiple {aws} Availability Zones to ensure high availability. Amazon EKS automatically scales control plane instances based on load, detects and replaces unhealthy control plane instances, and automatically patches the control plane. After you initiate a version update, Amazon EKS updates your control plane for you, maintaining high availability of the control plane during the update.
 
 This control plane consists of at least two API server instances and three `etcd` instances that run across three Availability Zones within an {aws} Region. Amazon EKS:
 
@@ -23,6 +23,3 @@ This control plane consists of at least two API server instances and three `etcd
 * Leverages the architecture of {aws} Regions in order to maintain high availability. Because of this, Amazon EKS is able to offer an link:eks/sla[SLA for API server endpoint availability,type="marketing"].
 
 For more information about {aws} Regions and Availability Zones, see link:about-aws/global-infrastructure/[{aws} global infrastructure,type="marketing"].
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23disaster-recovery-resiliency%5D&type=code[Edit this page on GitHub]

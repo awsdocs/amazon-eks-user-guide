@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#network-policies-troubleshooting]
-= Troubleshooting [.noloc]`Kubernetes` network policies For Amazon EKS
+= Troubleshooting Kubernetes network policies For Amazon EKS
 :info_titleabbrev: Troubleshooting
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -79,7 +79,7 @@ aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-vers
 
 Helm::
 
-If you have installed the [.noloc]`Amazon VPC CNI plugin for Kubernetes` through `helm`, you can update the configuration to write the network policy logs.
+If you have installed the Amazon VPC CNI plugin for Kubernetes through `helm`, you can update the configuration to write the network policy logs.
 
 .. Run the following command to enable network policy.
 +
@@ -89,9 +89,9 @@ helm upgrade --set nodeAgent.enablePolicyEventLogs=true aws-vpc-cni --namespace 
 ----
 
 
-[.noloc]`kubectl`::
+kubectl::
 
-If you have installed the [.noloc]`Amazon VPC CNI plugin for Kubernetes` through `kubectl`, you can update the configuration to write the network policy logs.
+If you have installed the Amazon VPC CNI plugin for Kubernetes through `kubectl`, you can update the configuration to write the network policy logs.
 
 .. Open the `aws-node` `DaemonSet` in your editor.
 +
@@ -116,7 +116,7 @@ You can monitor the network policy logs using services such as Amazon CloudWatch
 For EKS clusters, the policy logs will be located under `/aws/eks/[.replaceable]``cluster-name``/cluster/` and for self-managed K8S clusters, the logs will be placed under `/aws/k8s-cluster/cluster/`.
 
 [#network-policies-cwl-agent]
-=== Send network policy logs with [.noloc]`Amazon VPC CNI plugin for Kubernetes`
+=== Send network policy logs with Amazon VPC CNI plugin for Kubernetes
 
 If you enable network policy, a second container is add to the `aws-node` pods for a _node agent_. This node agent can send the network policy logs to CloudWatch Logs.
 
@@ -201,7 +201,7 @@ aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-vers
 
 Helm::
 
-If you have installed the [.noloc]`Amazon VPC CNI plugin for Kubernetes` through `helm`, you can update the configuration to send network policy logs to CloudWatch Logs.
+If you have installed the Amazon VPC CNI plugin for Kubernetes through `helm`, you can update the configuration to send network policy logs to CloudWatch Logs.
 
 .. Run the following command to enable network policy logs and send them to CloudWatch Logs.
 +
@@ -211,7 +211,7 @@ helm upgrade --set nodeAgent.enablePolicyEventLogs=true --set nodeAgent.enableCl
 ----
 
 
-[.noloc]`kubectl`::
+kubectl::
 .. Open the `aws-node` `DaemonSet` in your editor.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -229,9 +229,9 @@ kubectl edit daemonset -n kube-system aws-node
 
 
 [#network-policies-cwl-fluentbit]
-=== Send network policy logs with a [.noloc]`Fluent Bit` daemonset
+=== Send network policy logs with a Fluent Bit daemonset
 
-If you are using [.noloc]`Fluent Bit` in a daemonset to send logs from your nodes, you can add configuration to include the network policy logs from network policies. You can use the following example configuration:
+If you are using Fluent Bit in a daemonset to send logs from your nodes, you can add configuration to include the network policy logs from network policies. You can use the following example configuration:
 
 [source,toml,subs="verbatim,attributes"]
 ----
@@ -248,9 +248,9 @@ If you are using [.noloc]`Fluent Bit` in a daemonset to send logs from your node
 
 
 [#network-policies-ebpf-sdk]
-== Included [.noloc]`eBPF` SDK
+== Included eBPF SDK
 
-The [.noloc]`Amazon VPC CNI plugin for Kubernetes` installs [.noloc]`eBPF` SDK collection of tools on the nodes. You can use the [.noloc]`eBPF` SDK tools to identify issues with network policies. For example, the following command lists the programs that are running on the node.
+The Amazon VPC CNI plugin for Kubernetes installs eBPF SDK collection of tools on the nodes. You can use the eBPF SDK tools to identify issues with network policies. For example, the following command lists the programs that are running on the node.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -258,6 +258,3 @@ sudo /opt/cni/bin/aws-eks-na-cli ebpf progs
 ----
 
 To run this command, you can use any method to connect to the node.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23network-policies-troubleshooting%5D&type=code[Edit this page on GitHub]

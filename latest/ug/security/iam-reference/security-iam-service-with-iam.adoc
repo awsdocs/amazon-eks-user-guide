@@ -1,9 +1,9 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#security-iam-service-with-iam]
 = How Amazon EKS works with IAM
 :info_titleabbrev: Amazon EKS and IAM
-
-include::../../attributes.txt[]
 
 Before you use IAM to manage access to Amazon EKS, you should understand what IAM features are available to use with Amazon EKS. To get a high-level view of how Amazon EKS and other {aws} services work with IAM, see link:IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html[{aws} services that work with IAM,type="documentation"] in the _IAM User Guide_.
 
@@ -94,7 +94,7 @@ To see a list of Amazon EKS resource types and their ARNs, see link:service-auth
 
 Amazon EKS defines its own set of condition keys and also supports using some global condition keys. To see all {aws} global condition keys, see link:IAM/latest/UserGuide/reference_policies_condition-keys.html[{aws} Global Condition Context Keys,type="documentation"] in the _IAM User Guide_.
 
-You can set condition keys when associating an [.noloc]`OpenID Connect` provider to your cluster. For more information, see <<oidc-identity-provider-iam-policy>>.
+You can set condition keys when associating an OpenID Connect provider to your cluster. For more information, see <<oidc-identity-provider-iam-policy>>.
 
 All Amazon EC2 actions support the `aws:RequestedRegion` and `ec2:Region` condition keys. For more information, see link:AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-region[Example: Restricting Access to a Specific {aws} Region,type="documentation"]. 
 
@@ -106,7 +106,7 @@ For a list of Amazon EKS condition keys, see link:service-authorization/latest/r
 
 To view examples of Amazon EKS identity-based policies, see <<security-iam-id-based-policy-examples>>.
 
-When you create an Amazon EKS cluster, the link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that creates the cluster is automatically granted `system:masters` permissions in the cluster's role-based access control (RBAC) configuration in the Amazon EKS control plane. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth ConfigMap` within [.noloc]`Kubernetes` and create a [.noloc]`Kubernetes` `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth ConfigMap`.
+When you create an Amazon EKS cluster, the link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that creates the cluster is automatically granted `system:masters` permissions in the cluster's role-based access control (RBAC) configuration in the Amazon EKS control plane. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth ConfigMap`.
 
 For more information about working with the ConfigMap, see <<grant-k8s-access>>.
 
@@ -150,6 +150,3 @@ Amazon EKS supports service roles. For more information, see <<cluster-iam-role>
 === Choosing an IAM role in Amazon EKS
 
 When you create a cluster resource in Amazon EKS, you must choose a role to allow Amazon EKS to access several other {aws} resources on your behalf. If you have previously created a service role, then Amazon EKS provides you with a list of roles to choose from. It's important to choose a role that has the Amazon EKS managed policies attached to it. For more information, see <<check-service-role>> and <<check-worker-node-role>>.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23security-iam-service-with-iam%5D&type=code[Edit this page on GitHub]

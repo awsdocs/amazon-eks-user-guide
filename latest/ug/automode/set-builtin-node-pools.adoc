@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#set-builtin-node-pools]
 = Enable or Disable Built-in NodePools
 :info_titleabbrev: Review built-in node pools
-
-include::../attributes.txt[]
 
 EKS Auto Mode has two built-in NodePools. You can enable or disable these NodePools using the {aws} console, CLI, or API. 
 
@@ -41,8 +41,16 @@ aws eks update-cluster-config \
   --compute-config '{
     "nodeRoleArn": "<node-role-arn>",
     "nodePools": ["general-purpose", "system"]
+  "enabled": true,
+  "nodeRoleArn":"<node-role-arn>",
+  "nodePools": ["general-purpose", "system"]
+  }' \
+  --kubernetes-network-config '{
+  "elasticLoadBalancing":{"enabled": true}
+  }' \
+  --storage-config '{
+  "blockStorage":{"enabled": true}
   }'
-
 ----
 
 You can modify the command to selectively enable the NodePools. 
@@ -56,7 +64,13 @@ Use the following command to disable both built-in NodePools:
 aws eks update-cluster-config \
   --name <cluster-name> \
   --compute-config '{"nodePools": []}'
+  --compute-config '{
+  "enabled": true,
+  "nodePools": []
+  }' \
+  --kubernetes-network-config '{
+  "elasticLoadBalancing":{"enabled": true}}' \
+  --storage-config '{
+  "blockStorage":{"enabled": true}
+  }'
 ----
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23set-builtin-node-pools%5D&type=code[Edit this page on GitHub]

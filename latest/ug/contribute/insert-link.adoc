@@ -1,10 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#insert-link]
 = Insert a link
 :info_titleabbrev: Insert link
 
-
-include::../attributes.txt[]
 
 AsciiDoc supports multiple types of links. Using the right link type is important so the link works properly in different environments.
 
@@ -35,6 +35,3 @@ This format creates a standard link out to the internet. Use this for Non-Amazon
 `link` `:https://example.com[Visit Example Site]`
 
 NOTE: We allowlist external domains. The allowlist is at `vale/styles/EksDocs/ExternalDomains.yml`
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23insert-link%5D&type=code[Edit this page on GitHub]

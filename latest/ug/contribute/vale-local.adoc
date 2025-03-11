@@ -1,10 +1,10 @@
+include::../attributes.txt[]
+
 [.topic]
 [#vale-local]
 = View style feedback as you type by installing Vale locally
 :info_titleabbrev: View style feedback
 
-
-include::../attributes.txt[]
 
 You can see style feedback as you type. This helps identify awkward writing and typos. 
 
@@ -50,6 +50,3 @@ vale sync
 . Style issues will be underlined in the editor.
 . Hover over underlined text to see the specific style suggestion.
 . Fix issues by following the suggestions or consulting the style guide.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23vale-local%5D&type=code[Edit this page on GitHub]

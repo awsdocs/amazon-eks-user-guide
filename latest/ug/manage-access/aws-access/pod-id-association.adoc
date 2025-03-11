@@ -1,23 +1,25 @@
+include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-association]
-= Assign an [.noloc]`IAM` role to a [.noloc]`Kubernetes` service account
+= Assign an IAM role to a Kubernetes service account
 :info_titleabbrev: Assign IAM role
-
-include::../../attributes.txt[]
 
 [abstract]
 --
 Learn how to configure a Kubernetes service account to assume an {aws} IAM role with Amazon EKS Pod Identity for securely accessing {aws} services from your pods.
 --
 
-This topic covers how to configure a [.noloc]`Kubernetes` service account to assume an {aws} Identity and Access Management (IAM) role with EKS Pod Identity. Any [.noloc]`Pods` that are configured to use the service account can then access any {aws} service that the role has permissions to access.
+This topic covers how to configure a Kubernetes service account to assume an {aws} Identity and Access Management (IAM) role with EKS Pod Identity. Any Pods that are configured to use the service account can then access any {aws} service that the role has permissions to access.
 
-To create an EKS Pod Identity association, there is only a single step; you create the association in EKS through the {aws-management-console}, {aws} CLI, {aws} SDKs, {aws} CloudFormation and other tools. There isn't any data or metadata about the associations inside the cluster in any [.noloc]`Kubernetes` objects and you don't add any annotations to the service accounts.
+To create an EKS Pod Identity association, there is only a single step; you create the association in EKS through the {aws-management-console}, {aws} CLI, {aws} SDKs, {aws} CloudFormation and other tools. There isn't any data or metadata about the associations inside the cluster in any Kubernetes objects and you don't add any annotations to the service accounts.
+
+*Prerequisites*
 
 * An existing cluster. If you don't have one, you can create one by following one of the guides in <<getting-started>>.
 * The IAM principal that is creating the association must have `iam:PassRole`.
-* The latest version of the {aws} CLI installed and configured on your device or {aws} CloudShell. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide. The {aws} CLI version installed in the {aws} CloudShell may also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the {aws} CloudShell User Guide.
-* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the [.noloc]`Kubernetes` version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
+* The latest version of the {aws} CLI installed and configured on your device or {aws} CloudShell. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide. The {aws} CLI version installed in the {aws} CloudShell may also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the {aws} CloudShell User Guide.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 * An existing `kubectl` `config` file that contains your cluster configuration. To create a `kubectl` `config` file, see <<create-kubeconfig>>.
 
 
@@ -59,8 +61,8 @@ NOTE: The list only contains roles that have the following trust policy which al
 You can use these tags in the _condition keys_ in the trust policy to restrict which service accounts, namespaces, and clusters can use this role.
 +
 For a list of Amazon EKS condition keys, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-policy-keys[Conditions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the _Service Authorization Reference_. To learn which actions and resources you can use a condition key with, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"].
-. For the *[.noloc]`Kubernetes` namespace*, select the [.noloc]`Kubernetes` namespace that contains the service account and workload. Optionally, you can specify a namespace by name that doesn't exist in the cluster.
-. For the *[.noloc]`Kubernetes` service account*, select the [.noloc]`Kubernetes` service account to use. The manifest for your [.noloc]`Kubernetes` workload must specify this service account. Optionally, you can specify a service account by name that doesn't exist in the cluster.
+. For the *Kubernetes namespace*, select the Kubernetes namespace that contains the service account and workload. Optionally, you can specify a namespace by name that doesn't exist in the cluster.
+. For the *Kubernetes service account*, select the Kubernetes service account to use. The manifest for your Kubernetes workload must specify this service account. Optionally, you can specify a service account by name that doesn't exist in the cluster.
 . (Optional) For the *Tags*, choose *Add tag* to add metadata in a key and value pair. These tags are applied to the association and can be used in IAM policies.
 +
 You can repeat this step to add multiple tags.
@@ -72,9 +74,9 @@ You can repeat this step to add multiple tags.
 +
 Create an IAM policy. You can create your own policy, or copy an {aws} managed policy that already grants some of the permissions that you need and customize it to your specific requirements. For more information, see link:IAM/latest/UserGuide/access_policies_create.html[Creating IAM policies,type="documentation"] in the _IAM User Guide_.
 +
-.. Create a file that includes the permissions for the {aws} services that you want your [.noloc]`Pods` to access. For a list of all actions for all {aws} services, see the link:service-authorization/latest/reference/[Service Authorization Reference,type="documentation"].
+.. Create a file that includes the permissions for the {aws} services that you want your Pods to access. For a list of all actions for all {aws} services, see the link:service-authorization/latest/reference/[Service Authorization Reference,type="documentation"].
 +
-You can run the following command to create an example policy file that allows read-only access to an Amazon S3 bucket. You can optionally store configuration information or a bootstrap script in this bucket, and the containers in your [.noloc]`Pod` can read the file from the bucket and load it into your application. If you want to create this example policy, copy the following contents to your device. Replace [.replaceable]`my-pod-secrets-bucket` with your bucket name and run the command. 
+You can run the following command to create an example policy file that allows read-only access to an Amazon S3 bucket. You can optionally store configuration information or a bootstrap script in this bucket, and the containers in your Pod can read the file from the bucket and load it into your application. If you want to create this example policy, copy the following contents to your device. Replace [.replaceable]`my-pod-secrets-bucket` with your bucket name and run the command. 
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -97,11 +99,11 @@ EOF
 ----
 aws iam create-policy --policy-name my-policy --policy-document file://my-policy.json
 ----
-. Create an IAM role and associate it with a [.noloc]`Kubernetes` service account.
+. Create an IAM role and associate it with a Kubernetes service account.
 +
-.. If you have an existing [.noloc]`Kubernetes` service account that you want to assume an IAM role, then you can skip this step.
+.. If you have an existing Kubernetes service account that you want to assume an IAM role, then you can skip this step.
 +
-Create a [.noloc]`Kubernetes` service account. Copy the following contents to your device. Replace [.replaceable]`my-service-account` with your desired name and [.replaceable]`default` with a different namespace, if necessary. If you change [.replaceable]`default`, the namespace must already exist.
+Create a Kubernetes service account. Copy the following contents to your device. Replace [.replaceable]`my-service-account` with your desired name and [.replaceable]`default` with a different namespace, if necessary. If you change [.replaceable]`default`, the namespace must already exist.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -167,7 +169,7 @@ aws eks create-pod-identity-association --cluster-name my-cluster --role-arn {ar
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "association": {
@@ -198,7 +200,7 @@ aws iam get-role --role-name my-role --query Role.AssumeRolePolicyDocument
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "Version": "2012-10-17",
@@ -226,7 +228,7 @@ aws iam list-attached-role-policies --role-name my-role --query AttachedPolicies
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {arn-aws}iam::111122223333:policy/my-policy
 ----
@@ -245,7 +247,7 @@ aws iam get-policy --policy-arn $policy_arn
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "Policy": {
@@ -258,7 +260,7 @@ An example output is as follows.
     }
 }
 ----
-. View the policy contents to make sure that the policy includes all the permissions that your [.noloc]`Pod` needs. If necessary, replace [.replaceable]`1` in the following command with the version that's returned in the previous output.
+. View the policy contents to make sure that the policy includes all the permissions that your Pod needs. If necessary, replace [.replaceable]`1` in the following command with the version that's returned in the previous output.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -267,7 +269,7 @@ aws iam get-policy-version --policy-arn $policy_arn --version-id v1
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "Version": "2012-10-17",
@@ -286,6 +288,3 @@ If you created the example policy in a previous step, then your output is the sa
 
 == Next Steps
 <<pod-id-configure-pods>>
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23pod-id-association%5D&type=code[Edit this page on GitHub]

@@ -1,23 +1,23 @@
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-add-ons]
 = Configure add-ons for hybrid nodes
 :info_titleabbrev: Configure add-ons
 :keywords: add-ons for on-premises nodes, add-ons for hybrid nodes
 
-include::../attributes.txt[]
-
 [abstract]
 --
 Configure common add-ons for hybrid nodes
 --
 
-This page describes considerations for running Amazon EKS add-ons from {aws} on Amazon EKS Hybrid Nodes. To learn more about the Amazon EKS add-ons from {aws} and the processes for creating, upgrading, and removing add-ons from your cluster, see <<eks-add-ons>>. The processes for creating, upgrading, and removing Amazon EKS add-ons is the same for Amazon EKS clusters with hybrid nodes as it is for Amazon EKS clusters with nodes running in {aws} Cloud unless otherwise noted on this page. 
+This page describes considerations for running {aws} add-ons and community add-ons on Amazon EKS Hybrid Nodes. To learn more about Amazon EKS add-ons and the processes for creating, upgrading, and removing add-ons from your cluster, see <<eks-add-ons>>. Unless otherwise noted on this page, the processes for creating, upgrading, and removing Amazon EKS add-ons is the same for Amazon EKS clusters with hybrid nodes as it is for Amazon EKS clusters with nodes running in {aws} Cloud. Only the add-ons included on this page have been validated for compatibility with Amazon EKS Hybrid Nodes.
 
-The following Amazon EKS add-ons from {aws} are compatible with Amazon EKS Hybrid Nodes.
+The following {aws} add-ons are compatible with Amazon EKS Hybrid Nodes.
 
 [cols="1,1", options="header"]
 |===
-|EKS add-on
+|{aws} add-on
 |Compatible add-on versions
 
 |kube-proxy
@@ -29,7 +29,7 @@ The following Amazon EKS add-ons from {aws} are compatible with Amazon EKS Hybri
 |{aws} Distro for OpenTelemetry (ADOT)
 |v0.102.1-eksbuild.2 and above
 
-|CloudWatch Observability Agent
+|CloudWatch Observability agent
 |v2.2.1-eksbuild.1 and above
 
 |EKS Pod Identity Agent
@@ -39,19 +39,34 @@ The following Amazon EKS add-ons from {aws} are compatible with Amazon EKS Hybri
 |v8.1.0-eksbuild.1 and above
 |===
 
-In addition to the Amazon EKS add-ons in the table above, the <<prometheus,Amazon Managed Service for Prometheus Collector>>, and the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> for <<alb-ingress,application ingress>> (HTTP) and <<network-load-balancing,load balancing>> (TCP/UDP) are compatible with hybrid nodes. 
+The following community add-ons are compatible with Amazon EKS Hybrid Nodes. To learn more about community add-ons, see <<community-addons>>.
 
-Amazon EKS add-ons from {aws} that are not compatible with Amazon EKS Hybrid Nodes have been updated with an affinity rule for the default eks.amazonaws.com/compute-type: hybrid label applied to hybrid nodes. This prevents them from running on hybrid nodes when deployed in your clusters. If you have clusters with both hybrid nodes and nodes running in {aws} Cloud, Amazon EKS add-ons that are not compatible with hybrid nodes can still be deployed in your cluster to nodes running in {aws} Cloud. The Amazon VPC CNI is not compatible with hybrid nodes, and Cilium and Calico are supported as the Container Networking Interfaces (CNIs) for Amazon EKS Hybrid Nodes. See <<hybrid-nodes-cni>> for more information.
+[cols="1,1", options="header"]
+|===
+|Community add-on
+|Compatible add-on versions
 
-The rest of this page describes differences between running compatible Amazon EKS add-ons from {aws} on hybrid nodes, compared to the other Amazon EKS compute types.
+|Kubernetes Metrics Server
+|v0.7.2-eksbuild.1 and above
+|===
+
+In addition to the Amazon EKS add-ons in the tables above, the <<prometheus,Amazon Managed Service for Prometheus Collector>>, and the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> for <<alb-ingress,application ingress>> (HTTP) and <<network-load-balancing,load balancing>> (TCP/UDP) are compatible with hybrid nodes. 
+
+There are {aws} add-ons and community add-ons that aren't compatible with Amazon EKS Hybrid Nodes. The latest versions of these add-ons have an anti-affinity rule for the default `eks.amazonaws.com/compute-type: hybrid` label applied to hybrid nodes. This prevents them from running on hybrid nodes when deployed in your clusters. If you have clusters with both hybrid nodes and nodes running in {aws} Cloud, you can deploy these add-ons in your cluster to nodes running in {aws} Cloud. The Amazon VPC CNI is not compatible with hybrid nodes, and Cilium and Calico are supported as the Container Networking Interfaces (CNIs) for Amazon EKS Hybrid Nodes. See <<hybrid-nodes-cni>> for more information.
+
+[#hybrid-nodes-add-ons-aws-add-ons]
+== {aws} add-ons
+
+The sections that follow describe differences between running compatible {aws} add-ons on hybrid nodes compared to other Amazon EKS compute types.
 
 [#hybrid-nodes-add-ons-core]
 == kube-proxy and CoreDNS
 
-Kube-proxy and CoreDNS are installed as unmanaged add-ons by default when an EKS cluster is created. These add-ons can be managed as Amazon EKS add-ons after cluster creation. Reference the EKS documentation for details on <<managing-kube-proxy>> and <<managing-coredns>>. If you are running a cluster with hybrid nodes and nodes in {aws} Cloud, it is recommended to have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud.
+EKS installs Kube-proxy and CoreDNS as self-managed add-ons by default when you create an EKS cluster with the {aws} API and {aws} SDKs, including from the {aws} CLI. You can overwrite these add-ons as Amazon EKS add-ons after cluster creation. Reference the EKS documentation for details on <<managing-kube-proxy>> and <<managing-coredns>>. If you are running a cluster with hybrid nodes and nodes in {aws} Cloud, we recommend that you have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud.
 
 [#hybrid-nodes-add-ons-cw]
-== CloudWatch Observability Agent add-on
+== CloudWatch Observability agent
+As the CloudWatch Observability agent runs https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks], you must configure a remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable. Implementing Border Gateway Protocol (BGP) with the CNI is one common way to make your pod IP addresses routable.
 
 Node-level metrics are not available for hybrid nodes because link:AmazonCloudWatch/latest/monitoring/ContainerInsights.html[CloudWatch Container Insights,type="documentation"] depends on the availability of link:AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html[Instance Metadata Service,type="documentation"] (IMDS) for node-level metrics. Cluster, workload, pod, and container-level metrics are available for hybrid nodes.
 
@@ -93,16 +108,16 @@ You can use AMP managed collectors without any additional configuration specific
 Follow the steps in link:prometheus/latest/userguide/AMP-collector-how-to.html[Using an {aws} managed collector,type="documentation"] in the Amazon Managed Service for Prometheus User Guide.
 
 [#hybrid-nodes-add-ons-adot]
-== {aws} Distro for OpenTelemetry (ADOT) add-on
+== {aws} Distro for OpenTelemetry (ADOT)
 
-You can use the {aws} Distro for OpenTelemetry (ADOT) Amazon EKS add-on to collect metrics, logs, and tracing data from your applications running on hybrid nodes. Note, ADOT uses admission https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks] to mutate and validate the Collector Custom Resource requests and you must configure your remote pod network when creating your Amazon EKS cluster. 
+You can use the {aws} Distro for OpenTelemetry (ADOT) Amazon EKS add-on to collect metrics, logs, and tracing data from your applications running on hybrid nodes. ADOT uses admission https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks] to mutate and validate the Collector Custom Resource requests. For the EKS control plane to reach webhooks running on hybrid nodes, you must configure your remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable. Implementing Border Gateway Protocol (BGP) with the CNI is one common way to make your pod IP addresses routable.
 
 Follow the steps in https://aws-otel.github.io/docs/getting-started/adot-eks-add-on[Getting Started with {aws} Distro for OpenTelemetry using EKS Add-Ons] in the _{aws} Distro for OpenTelemetry_ documentation.
 
 [#hybrid-nodes-add-ons-lbc]
 == {aws} Load Balancer Controller
 
-You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) or Network Load Balancer (NLB) with the target type ip for workloads on hybrid nodes connected with {aws} Direct Connect or {aws} Site-to-Site VPN. As the {aws} Load Balancer Controller uses https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks], you must configure your remote pod network when creating your Amazon EKS cluster.
+You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) or Network Load Balancer (NLB) with the target type ip for workloads on hybrid nodes connected with {aws} Direct Connect or {aws} Site-to-Site VPN. As the {aws} Load Balancer Controller uses https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks], you must configure a remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable. Implementing Border Gateway Protocol (BGP) with the CNI is one common way to make your pod IP addresses routable.
 
 To install the {aws} Load Balancer Controller, follow the steps at <<lbc-helm>> or <<lbc-manifest>>.
 
@@ -120,9 +135,9 @@ service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
 ----
 
 [#hybrid-nodes-add-ons-pod-id]
-== EKS Pod Identity Agent add-on
+== EKS Pod Identity Agent
 
-The original Amazon EKS Pod Identity Agent [.noloc]`DaemonSet` relies on the availability of EC2 IMDS on the node to obtain the required {aws} credentials. As IMDS isn't available on hybrid nodes, starting in add-on version `1.3.3-eksbuild.1`, the Pod Identity Agent add-on optionally deploys a second [.noloc]`DaemonSet` that specifically targets hybrid nodes. This [.noloc]`DaemonSet` mounts the required credentials to the pods created by the Pod Identity Agent add-on.
+The original Amazon EKS Pod Identity Agent DaemonSet relies on the availability of EC2 IMDS on the node to obtain the required {aws} credentials. As IMDS isn't available on hybrid nodes, starting in add-on version `1.3.3-eksbuild.1`, the Pod Identity Agent add-on optionally deploys a second DaemonSet that specifically targets hybrid nodes. This DaemonSet mounts the required credentials to the pods created by the Pod Identity Agent add-on.
 
 . To use the Pod Identity agent on hybrid nodes, set `enableCredentialsFile: true` in the hybrid section of `nodeadm` config as shown below:
 +
@@ -164,9 +179,15 @@ aws eks create-addon \
 ----
 
 [#hybrid-nodes-add-ons-csi-snapshotter]
-== CSI snapshot controller add-on
+== CSI snapshot controller
 
 Starting with version `v8.1.0-eksbuild.2`, the <<csi-snapshot-controller,CSI snapshot controller add-on>> applies a soft anti-affinity rule for hybrid nodes, preferring the controller `deployment` to run on EC2 in the same {aws} Region as the Amazon EKS control plane. Co-locating the `deployment` in the same {aws} Region as the Amazon EKS control plane improves latency. 
 
+[#hybrid-nodes-add-ons-community]
+== Community add-ons
 
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23hybrid-nodes-add-ons%5D&type=code[Edit this page on GitHub]
+The sections that follow describe differences between running compatible community add-ons on hybrid nodes compared to other Amazon EKS compute types.
+
+[#hybrid-nodes-add-ons-metrics-server]
+== Kubernetes Metrics Server
+The control plane needs to reach Metrics Server's pod IP (or node IP if hostNetwork is enabled). Therefore, unless you run Metrics Server in hostNetwork mode, you must configure a remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable. Implementing Border Gateway Protocol (BGP) with the CNI is one common way to make your pod IP addresses routable.

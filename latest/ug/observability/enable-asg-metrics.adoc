@@ -1,9 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#enable-asg-metrics]
 = View metrics for Amazon EC2 Auto Scaling groups
 :info_titleabbrev: Auto Scaling group metrics
-
-include::../attributes.txt[]
 
 [abstract]
 --
@@ -15,6 +15,3 @@ Amazon EKS managed node groups have Amazon EC2 Auto Scaling group metrics enable
 With Auto Scaling group metrics collection, you're able to monitor the scaling of managed node groups. Auto Scaling group metrics report the minimum, maximum, and desired size of an Auto Scaling group. You can create an alarm if the number of nodes in a node group falls below the minimum size, which would indicate an unhealthy node group. Tracking node group size is also useful in adjusting the maximum count so that your data plane doesn't run out of capacity.
 
 If you would prefer to not have these metrics collected, you can choose to disable all or only some of them. For example, you can do this to avoid noise in your CloudWatch dashboards. For more information, see link:autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html[Amazon CloudWatch metrics for Amazon EC2 Auto Scaling,type="documentation"].
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23enable-asg-metrics%5D&type=code[Edit this page on GitHub]

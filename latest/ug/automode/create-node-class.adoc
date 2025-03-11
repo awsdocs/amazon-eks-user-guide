@@ -1,15 +1,15 @@
+include::../attributes.txt[]
+
 [.topic]
 [#create-node-class]
 = Create a Node Class for Amazon EKS
 :info_titleabbrev: Create node class
 
-include::../attributes.txt[]
-
 Amazon EKS Node Classes provide granular control over the configuration of your EKS Auto Mode managed nodes. A Node Class defines infrastructure-level settings that apply to groups of nodes in your EKS cluster, including network configuration, storage settings, and resource tagging. This topic explains how to create and configure a Node Class to meet your specific operational requirements.
 
 When you need to customize how EKS Auto Mode provisions and configures EC2 instances beyond the default settings, creating a Node Class gives you precise control over critical infrastructure parameters. For example, you can specify private subnet placement for enhanced security, configure instance ephemeral storage for performance-sensitive workloads, or apply custom tagging for cost allocation.
 
-## Create a Node Class
+== Create a Node Class
 
 To create a Node Class, follow these steps:
 
@@ -19,7 +19,7 @@ To create a Node Class, follow these steps:
 
 You need `kubectl` installed and configured. For more information, see <<setting-up>>.
 
-### Basic Node Class Example
+=== Basic Node Class Example
 
 Here's an example Node Class:
 
@@ -109,9 +109,6 @@ metadata:
   name: default
 spec:
 
-  # Required: Name of IAM Role for Nodes
-  role: "MyNodeRole"
-
   # Required: Subnet selection for node placement
   subnetSelectorTerms:
     - tags:
@@ -143,9 +140,9 @@ spec:
     iops: 3000      # Range: 3000-16000
     throughput: 125 # Range: 125-1000
 
-  # IAM role to use for EC2 instance role
-  # If unspecified, EKS will create a role
-  # If specified, role requires access entry described above
+  # Optional: IAM role to use for EC2 instance role
+  # If unspecified, EKS creates a role
+  # If specified, you must create an access entry for this role as described above
   role: arn:aws:iam::123456789012:role/MyNodeRole  
   
   # Optional: Additional EC2 tags
@@ -159,6 +156,3 @@ spec:
 * If you change the Node IAM Role associated with a NodeClass, you will need to create a new Access Entry. EKS automatically creates an Access Entry for the Node IAM Role during cluster creation. The Node IAM Role requires the `AmazonEKSAutoNodePolicy` EKS Access Policy. For more information, see <<access-entries>>.
 * EKS limits the maximum number of pods on a node to 110. This limit is applied after the existing max pods calculation. For more information, see <<choosing-instance-type>>. 
 * If you want to propagate tags from Kubernetes to EC2, you need to configure additional IAM permissions. For more information, see <<auto-learn-iam>>. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23create-node-class%5D&type=code[Edit this page on GitHub]

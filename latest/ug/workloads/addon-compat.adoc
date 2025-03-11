@@ -1,10 +1,9 @@
+include::../attributes.txt[]
+
 [.topic]
 [#addon-compat]
 = Verify Amazon EKS add-on version compatibility with a cluster
 :info_titleabbrev: Verify compatibility
-
-include::../attributes.txt[]
-
 
 [abstract]
 --
@@ -69,6 +68,3 @@ This output shows that addon version `vX.X.X-eksbuild.X` is compatible with Kube
 The `computeTypes` field in the `describe-addon-versions` output indicates an add-on's compatibility with EKS Auto Mode Managed Nodes or Hybrid Nodes. Add-ons marked `auto` work with EKS Auto Mode's cloud-based, {aws}-managed infrastructure, while those marked `hybrid` can run on on-premises nodes connected to the EKS cloud control plane.
 
 For more information, see <<addon-consider-auto>>. 
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23addon-compat%5D&type=code[Edit this page on GitHub]

@@ -1,17 +1,16 @@
+include::../attributes.txt[]
+
 [.topic]
 [#updating-an-add-on]
 = Update an Amazon EKS add-on
 :info_titleabbrev: Update an add-on
-
-include::../attributes.txt[]
-
 
 [abstract]
 --
 Learn how to update your Amazon EKS add-on to a new version.
 --
 
-Amazon EKS doesn't automatically update an add-on when new versions are released or after you update your cluster to a new [.noloc]`Kubernetes` minor version. To update an add-on for an existing cluster, you must initiate the update. After you initiate the update, Amazon EKS updates the add-on for you. Before updating an add-on, review the current documentation for the add-on. For a list of available add-ons, see <<workloads-add-ons-available-eks>>. If the add-on requires an IAM role, see the details for the specific add-on in <<workloads-add-ons-available-eks,Available Amazon EKS add-ons from {aws}>> for details about creating the role.
+Amazon EKS doesn't automatically update an add-on when new versions are released or after you update your cluster to a new Kubernetes minor version. To update an add-on for an existing cluster, you must initiate the update. After you initiate the update, Amazon EKS updates the add-on for you. Before updating an add-on, review the current documentation for the add-on. For a list of available add-ons, see <<workloads-add-ons-available-eks>>. If the add-on requires an IAM role, see the details for the specific add-on in <<workloads-add-ons-available-eks,Available Amazon EKS add-ons from {aws}>> for details about creating the role.
 
 [#updating-an-add-on-prereq]
 == Prerequisites
@@ -56,9 +55,9 @@ Your output might look different, depending on which add-ons and versions that y
 *** Replace [.replaceable]`my-cluster` with the name of your cluster.
 *** Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in.
 *** Replace [.replaceable]`vpc-cni` with the name of an add-on returned in the output of the previous step that you want to update.
-*** If you want to update to a version earlier than the latest available version, then replace [.replaceable]`latest` with the version number returned in the output of the previous step that you want to use. Some add-ons have recommended versions. For more information, see the documentation for the add-on that you're updating. For a list of add-ons, see <<workloads-add-ons-available-eks>>.*** If the add-on uses a [.noloc]`Kubernetes` service account and IAM role, replace [.replaceable]`111122223333` with your account ID and [.replaceable]`role-name` with the name of an existing IAM role that you've created. For instructions on creating the role, see the documentation for the add-on that you're creating. For a list of add-ons, see <<workloads-add-ons-available-eks>>. Specifying a service account role requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+*** If you want to update to a version earlier than the latest available version, then replace [.replaceable]`latest` with the version number returned in the output of the previous step that you want to use. Some add-ons have recommended versions. For more information, see the documentation for the add-on that you're updating. For a list of add-ons, see <<workloads-add-ons-available-eks>>.*** If the add-on uses a Kubernetes service account and IAM role, replace [.replaceable]`111122223333` with your account ID and [.replaceable]`role-name` with the name of an existing IAM role that you've created. For instructions on creating the role, see the documentation for the add-on that you're creating. For a list of add-ons, see <<workloads-add-ons-available-eks>>. Specifying a service account role requires that you have an IAM OpenID Connect (OIDC) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>.
 +
-If the add-on doesn't use a [.noloc]`Kubernetes` service account and IAM role, delete the `serviceAccountRoleARN: {arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``role-name``` line.
+If the add-on doesn't use a Kubernetes service account and IAM role, delete the `serviceAccountRoleARN: {arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``role-name``` line.
 *** The [.replaceable]`preserve` option preserves existing values for the add-on. If you have set custom values for add-on settings, and you don't use this option, Amazon EKS overwrites your values with its default values. If you use this option, then we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your production cluster. If you change this value to `overwrite`, all settings are changed to Amazon EKS default values. If you've set custom values for any settings, they might be overwritten with Amazon EKS default values. If you change this value to `none`, Amazon EKS doesn't change the value of any settings, but the update might fail. If the update fails, you receive an error message to help you resolve the conflict.
 +
 [source,yaml,subs="verbatim,attributes"]
@@ -109,14 +108,14 @@ For more information about updating add-ons, see https://eksctl.io/usage/addons/
 +
 NOTE: Retaining the default role name enables EKS to pre-select the role for add-ons in new clusters or when adding add-ons to existing clusters. You can still override this name and the role will be available for the add-on across your clusters, but the role will need to be manually selected from the drop down.
 
-... For add-ons that do not have *Requires subscription* under *Status* and where you want to configure roles using IRSA, see the documentation for the add-on that you're creating to create an IAM policy and attach it to a role. For a list of add-ons, see <<workloads-add-ons-available-eks>>. Selecting an IAM role requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+... For add-ons that do not have *Requires subscription* under *Status* and where you want to configure roles using IRSA, see the documentation for the add-on that you're creating to create an IAM policy and attach it to a role. For a list of add-ons, see <<workloads-add-ons-available-eks>>. Selecting an IAM role requires that you have an IAM OpenID Connect (OIDC) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>.
 .. Expand the *Optional configuration settings*.
 .. In *Configuration values*, enter any add-on specific configuration information. For more information, see the documentation for the add-on that you're updating. For a list of add-ons, see <<workloads-add-ons-available-eks>>... For *Conflict resolution method*, select one of the options. If you have set custom values for add-on settings, we recommend the *Preserve* option. If you don't choose this option, Amazon EKS overwrites your values with its default values. If you use this option, then we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your production cluster. If you change this value to overwrite, all settings are changed to Amazon EKS default values. If you've set custom values for any settings, they might be overwritten with Amazon EKS default values. If you change this value to none, Amazon EKS doesn't change the value of any settings, but the update might fail. If the update fails, you receive an error message to help you resolve the conflict.
 . Choose *Save changes*.
 
 
 == Update add-on ({aws} CLI)
-. You need version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or [.noloc]`Homebrew` for [.noloc]`macOS` are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
+. You need version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 +
 . See a list of installed add-ons. Replace [.replaceable]`my-cluster` with the name of your cluster.
 +
@@ -127,7 +126,7 @@ aws eks list-addons --cluster-name my-cluster
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "addons": [
@@ -179,9 +178,9 @@ The version with `True` in the `Defaultversion` column is the version that the a
 +
 *** Replace [.replaceable]`my-cluster` with the name of your cluster.
 *** Replace [.replaceable]`vpc-cni` with the name of the add-on that you want to update that was returned in the output of a previous step.
-*** Replace [.replaceable]`version-number` with the version returned in the output of the previous step that you want to update to. Some add-ons have recommended versions. For more information, see the documentation for the add-on that you're updating. For a list of add-ons, see <<workloads-add-ons-available-eks>>.*** If the add-on uses a [.noloc]`Kubernetes` service account and IAM role, replace [.replaceable]`111122223333` with your account ID and [.replaceable]`role-name` with the name of an existing IAM role that you've created. For instructions on creating the role, see the documentation for the add-on that you're creating. For a list of add-ons, see <<workloads-add-ons-available-eks>>. Specifying a service account role requires that you have an IAM [.noloc]`OpenID Connect` ([.noloc]`OIDC`) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+*** Replace [.replaceable]`version-number` with the version returned in the output of the previous step that you want to update to. Some add-ons have recommended versions. For more information, see the documentation for the add-on that you're updating. For a list of add-ons, see <<workloads-add-ons-available-eks>>.*** If the add-on uses a Kubernetes service account and IAM role, replace [.replaceable]`111122223333` with your account ID and [.replaceable]`role-name` with the name of an existing IAM role that you've created. For instructions on creating the role, see the documentation for the add-on that you're creating. For a list of add-ons, see <<workloads-add-ons-available-eks>>. Specifying a service account role requires that you have an IAM OpenID Connect (OIDC) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>.
 +
-If the add-on doesn't use a [.noloc]`Kubernetes` service account and IAM role, delete the `serviceAccountRoleARN: {arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``role-name``` line.
+If the add-on doesn't use a Kubernetes service account and IAM role, delete the `serviceAccountRoleARN: {arn-aws}iam::[.replaceable]``111122223333``:role/[.replaceable]``role-name``` line.
 *** The `--resolve-conflicts PRESERVE` option preserves existing values for the add-on. If you have set custom values for add-on settings, and you don't use this option, Amazon EKS overwrites your values with its default values. If you use this option, then we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your production cluster. If you change this value to `OVERWRITE`, all settings are changed to Amazon EKS default values. If you've set custom values for any settings, they might be overwritten with Amazon EKS default values. If you change this value to `NONE`, Amazon EKS doesn't change the value of any settings, but the update might fail. If the update fails, you receive an error message to help you resolve the conflict.
 *** If you want to remove all custom configuration then perform the update using the [.replaceable]`--configuration-values '{}'` option. This sets all custom configuration back to the default values. If you don't want to change your custom configuration, don't provide the [.replaceable]`--configuration-values` flag. If you want to adjust a custom configuration then replace [.replaceable]`{}` with the new parameters. 
 +
@@ -199,7 +198,7 @@ aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni
 +
 An example output is as follows.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
 {
     "addon": {
@@ -211,6 +210,3 @@ An example output is as follows.
 ----
 +
 The update is complete when the status is `ACTIVE`.
-
-
-📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23updating-an-add-on%5D&type=code[Edit this page on GitHub]

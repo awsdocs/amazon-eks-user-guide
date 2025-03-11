@@ -14,3 +14,8 @@ reachability
 CNIs?
 repo
 CIDRs?
+Firehose
+Kinesis
+AMIs?
+SDKs?
+FSx
