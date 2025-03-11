@@ -47,7 +47,7 @@ EKS Auto Mode does *not* support:
 * Other configurations supported by the open-source {aws} CNI.
 * Network Policy configurations such as conntrack timer customization (default is 300s).
 * Exporting network event logs to CloudWatch.
-* Egress IPv4 from Pods in clusters using IPv6.
+* When running an EKS cluster in IPv6 mode, IPv4 egress traffic from pods is not supported 
 
 
 [#auto-lb-consider]
