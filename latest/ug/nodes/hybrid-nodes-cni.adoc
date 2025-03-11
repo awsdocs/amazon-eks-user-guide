@@ -82,7 +82,7 @@ helm repo add cilium https://helm.cilium.io/
 
 . Create a YAML file called `cilium-values.yaml`. The following example configures Cilium to run only on hybrid nodes by setting affinity for the `eks.amazonaws.com/compute-type: hybrid` label. 
 
-- If you configured your Amazon EKS cluster with _remote pod networks_, configure the same pod CIDRs for your  `clusterPoolIPv4PodCIDRList`. For example, `10.100.0.0/24`. Your on-premises pod CIDR must not overlap with your on-premises node CIDR.
+- If you configured your Amazon EKS cluster with _remote pod networks_, configure the same pod CIDRs for your  `clusterPoolIPv4PodCIDRList`. For example, `10.100.0.0/24`. Your on-premises pod CIDR must not overlap with your on-premises node CIDR when running the CNI in overlay / tunnel mode.
 - Configure `clusterPoolIPv4MaskSize` based on your required pods per node. For example, `25` for a /25 segment size of 128 pods per node.
 - You should not change your `clusterPoolIPv4PodCIDRList` or `clusterPoolIPv4MaskSize` after deploying Cilium on your cluster, see https://docs.cilium.io/en/stable/network/concepts/ipam/cluster-pool/#expanding-the-cluster-pool[Expanding the cluster pool] in the Cilium documentation. 
 - For a full list of Helm values for Cilium, see the https://docs.cilium.io/en/stable/helm-reference/[Helm reference] in the Cilium documentation. 
@@ -368,7 +368,7 @@ helm repo add projectcalico https://docs.tigera.io/calico/charts
 ----
 
 . Create a YAML file called `calico-values.yaml`. The following example configures all Calico components to run only on hybrid nodes by setting affinity for the `eks.amazonaws.com/compute-type: hybrid` label. 
-- Replace `POD_CIDR` with the CIDR ranges for your pods. If you configured your Amazon EKS cluster with remote pod networks, the `POD_CIDR` that you specify for Calico should be the same as the remote pod networks. For example, `10.100.0.0/24`. Your on-premises pod CIDR must not overlap with your on-premises node CIDR.
+- Replace `POD_CIDR` with the CIDR ranges for your pods. If you configured your Amazon EKS cluster with remote pod networks, the `POD_CIDR` that you specify for Calico should be the same as the remote pod networks. For example, `10.100.0.0/24`. Your on-premises pod CIDR must not overlap with your on-premises node CIDR when running the CNI in overlay / tunnel mode.
 - Replace `CIDR_SIZE` with the size of the CIDR segment you want to allocate to each node. For example, `25` for a /25 segment size of 128 pod addresses per node. For more information on CIDR `blockSize` and changing the `blockSize`, see https://docs.tigera.io/calico/latest/networking/ipam/change-block-size[Change IP pool block size] in the Calico documentation.
 - In the example below, `natOutgoing` is enabled and `bgp` is disabled. Modify these values based on your target configuration.
 +
@@ -460,7 +460,7 @@ kubectl get nodes
 NAME                  STATUS   ROLES    AGE    VERSION
 mi-0c6ec2f6f79176565  Ready    <none>   5h13m  v1.31.0-eks-a737599
 ----
-. If you installed Calico without BGP, skip this step. To configure BGP, create a file called `calico-bgp.yaml` with a `BGPPeer` configuration and a `BGPConfiguration`. It is important to distinguish `BGPPeer` and `BGPConfiguration`. The `BGPPeer` is the BGP-enabled router or remote resource with which the nodes in a Calico cluster will peer. The `asNumber` in the `BGPPeer` configuration is similar to the Cilium setting `peerASN` . The `BGPConfiguration` is applied to each Calico node and the `asNumber` for the `BGPConfiguration` is equivalent to the Cilium setting `localASN`. Replace `ONPREM_ROUTER_IP`, `ONPREM_ROUTER_ASN`, and `LOCAL_ASN` in the example below with the values for your on-premises environment. The `keepOriginalNextHop: true` setting is used to ensure each node advertises only the pod network CIDR that it owns.
+. If you installed Calico without BGP, skip this step. To configure BGP, create a file called `calico-bgp.yaml` with a `BGPPeer` configuration and a `BGPConfiguration`. It is important to distinguish `BGPPeer` and `BGPConfiguration`. The `BGPPeer` is the BGP-enabled router or remote resource with which the nodes in a Calico cluster will peer. The `asNumber` in the `BGPPeer` configuration is similar to the Cilium setting `peerASN` . The `BGPConfiguration` is applied to each Calico node and the `asNumber` for the `BGPConfiguration` is equivalent to the Cilium setting `localASN`. Replace `ONPREM_ROUTER_IP`, `ONPREM_ROUTER_ASN`, and `LOCAL_ASN` in the example below with the values for your on-premises environment, which you may have to obtain from your network administrator. The `keepOriginalNextHop: true` setting is used to ensure each node advertises only the pod network CIDR that it owns.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
