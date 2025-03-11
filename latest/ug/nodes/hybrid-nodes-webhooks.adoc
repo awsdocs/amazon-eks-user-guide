@@ -19,6 +19,7 @@ There are several techniques you can use to make your on-premises pod CIDR routa
 
 If you _cannot_ make your on-premises pod CIDR routable on your on-premises network and need to run webhooks, it is recommended to run webhooks on EC2 instances in the same EKS cluster as your hybrid nodes. 
 
+[#hybrid-nodes-considerations-mixed-mode]
 == Considerations for mixed mode clusters
 
 Mixed mode clusters are defined as EKS clusters that have both hybrid nodes and nodes running in {aws} Cloud. When running a mixed mode cluster, consider the following recommendations:
@@ -33,6 +34,18 @@ Mixed mode clusters are defined as EKS clusters that have both hybrid nodes and 
 
 [#hybrid-nodes-mixed-mode]
 == Configure add-ons and webhooks for mixed mode clusters
+
+To view the mutating and validating webhooks running on your cluster, you can view the *Extensions* resource type in the *Resources* panel of the EKS console for your cluster, or you can use the following commands.
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get mutatingwebhookconfigurations
+----
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get validatingwebhookconfigurations
+----
 
 [#hybrid-nodes-mixed-coredns]
 === Configure CoreDNS replicas
