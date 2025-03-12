@@ -47,7 +47,7 @@ The following is a list of data plane components that are automated:
 * *Compute*: For many workloads, with EKS Auto Mode you can forget about many aspects of compute for your EKS clusters. These include:
 ** *Nodes*: EKS Auto Mode nodes are designed to be treated like appliances. EKS Auto Mode does the following:
 *** Chooses an appropriate AMI that's configured with many services needed to run your workloads without intervention.
-*** Locks down those features using SELinux enforcing mode and a read-only root file system.
+*** Locks down access to files on the AMI using SELinux enforcing mode and a read-only root file system.
 *** Prevents direct access to the nodes by disallowing SSH or SSM access.
 *** Includes GPU support, with separate kernel drivers and plugins for NVIDIA and Neuron GPUs, enabling high-performance workloads. 
 ** *Auto scaling*: Relying on https://karpenter.sh/docs/[Karpenter] auto scaling, EKS Auto Mode monitors for unschedulable Pods and makes it possible for new nodes to be deployed to run those pods. As workloads are terminated, EKS Auto Mode dynamically disrupts and terminates nodes when they are no longer needed, optimizing resource usage.
