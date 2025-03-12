@@ -6,9 +6,9 @@
 include::../attributes.txt[]
 
 
-This tutorial demonstrates how Amazon EKS Auto Mode simplifies launching GPU-based workloads. Amazon EKS Auto Mode streamlines operations beyond the cluster itself by automating key infrastructure components providing compute, networking, load balancing, storage, and Identity Access and Management capabilities out of the box. 
+This tutorial demonstrates how Amazon EKS Auto Mode simplifies launching accelerated workloads. Amazon EKS Auto Mode streamlines operations beyond the cluster itself by automating key infrastructure components providing compute, networking, load balancing, storage, and Identity Access and Management capabilities out of the box. 
 
-Amazon EKS Auto Mode includes the drivers required for certain instance types, such as NVIDIA and {aws} Neuron drivers. You do not have to install or update these drivers. 
+Amazon EKS Auto Mode includes the drivers and device plugins required for certain instance types, such as NVIDIA and {aws} Neuron drivers. You do not have to install or update these components. 
 
 EKS Auto Mode manages the drivers for: 
 
@@ -21,11 +21,11 @@ Amazon EKS Auto Mode also includes support for link:hpc/efa/[Elastic Fabric Adap
 
 //GDC: What does the EFA thing mean?
 
-Amazon EKS Auto Mode eliminates the toil of GPU driver management. 
+Amazon EKS Auto Mode eliminates the toil of accelerator driver and device plugin management. 
 
 You can also benefit from cost savings by scaling the cluster to zero. You can configure EKS Auto Mode to terminate instances when no workloads are running. This is useful for batch based inference workloads.
 
-The following provides an example of how to launch GPU-based workloads with Amazon EKS Auto Mode.
+The following provides an example of how to launch accelerated workloads with Amazon EKS Auto Mode.
 
 == Prerequisites
 
@@ -34,7 +34,7 @@ The following provides an example of how to launch GPU-based workloads with Amaz
 
 == Step 1: Deploy a GPU workload
 
-In this example, you will create a NodePool for NVIDIA inference based workloads that requires 45GB GPU memory. With EKS Auto Mode, you use Kubernetes scheduling constraints to define your instance requirements. 
+In this example, you will create a NodePool for NVIDIA based workloads that requires 45GB GPU memory. With EKS Auto Mode, you use Kubernetes scheduling constraints to define your instance requirements. 
 
 To deploy the Amazon EKS Auto Mode `NodePool` and the sample `workload`, review the following NodePool and Pod definition and save as `nodepool-gpu.yaml` and `pod.yaml`:
 
@@ -84,7 +84,7 @@ metadata:
   name: nvidia-smi
 spec:
   nodeSelector:
-    eks.amazonaws.com/instance-gpu-memory: "45776"
+    eks.amazonaws.com/instance-gpu-name: l40s
     eks.amazonaws.com/compute-type: auto
   restartPolicy: OnFailure
   containers:
