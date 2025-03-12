@@ -160,7 +160,7 @@ spec:
 |No
 
 |{aws} Region availability
-|<<fargate,Some Amazon EKS supported regions>>
+|link:general/latest/gr/eks.html[Some Amazon EKS supported regions,type="documentation"]
 
 |Can run containers on Amazon EC2 dedicated hosts
 |No
