@@ -13,7 +13,7 @@ Configure webhooks for hybrid nodes
 
 This page details considerations for running webhooks with hybrid nodes. Webhooks are used in Kubernetes applications and open-source projects, such as the {aws} Load Balancer Controller and CloudWatch Observability Agent, to perform mutating and validation capabilities at runtime.
 
-If you are running webhooks on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network and you must configure your EKS cluster with your remote pod network so the EKS control plane can directly communicate with the webhooks running on hybrid nodes. 
+If you are running webhooks on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network and you must configure your EKS cluster with your remote pod network so the EKS control plane can communicate with the webhooks running on hybrid nodes. 
 
 There are several techniques you can use to make your on-premises pod CIDR routable on your on-premises network including Border Gateway Protocol (BGP), static routes, or other custom routing solutions. BGP is the recommended solution as it is more scalable and easier to manage than alternative solutions that require custom or manual route configuration. {aws} supports the BGP capabilities of Cilium and Calico for advertising hybrid nodes pod CIDRs, see <<hybrid-nodes-cni, Configure CNI for hybrid nodes>> for more information.
 
@@ -30,12 +30,12 @@ Mixed mode clusters are defined as EKS clusters that have both hybrid nodes and 
 - Configure webhooks to run on nodes in {aws} Cloud. See <<hybrid-nodes-webhooks-add-ons, Configuring webhooks for add-ons>> for how to configure the webhooks used by {aws} and community add-ons when running mixed mode clusters.
 - If you are using Application Load Balancers (ALB) or Network Load Balancers (NLB) for workload traffic running on hybrid nodes, then the IP target(s) used with the ALB or NLB must be routable from {aws}. 
 - The Metrics Server add-on requires connectivity from the EKS control plane to the Metrics Server pod IP address. If you are running the Metrics Server add-on on hybrid nodes, then your on-premises pod CIDR must be routable on your on-premises network.
-- To collect metrics for hybrid nodes using Amazon Managed Service for Prometheus (AMP) agentless scrapers, your on-premises pod CIDR must be routable on your on-premises network. You can alternatively use the AMP managed collector for EKS control plane metrics and nodes running in {aws} Cloud, and the {aws} Distro for OpenTelemetry (ADOT) add-on for hybrid nodes metrics.
+- To collect metrics for hybrid nodes using Amazon Managed Service for Prometheus (AMP) managed collectors, your on-premises pod CIDR must be routable on your on-premises network. You can alternatively use the AMP managed collector for EKS control plane metrics and nodes running in {aws} Cloud, and the {aws} Distro for OpenTelemetry (ADOT) add-on to collect metrics for hybrid nodes.
 
 [#hybrid-nodes-mixed-mode]
 == Configure add-ons and webhooks for mixed mode clusters
 
-To view the mutating and validating webhooks running on your cluster, you can view the *Extensions* resource type in the *Resources* panel of the EKS console for your cluster, or you can use the following commands.
+To view the mutating and validating webhooks running on your cluster, you can view the *Extensions* resource type in the *Resources* panel of the EKS console for your cluster, or you can use the following commands. EKS also reports webhook metrics in the cluster observability dashboard, see <<observability-dashboard>> for more information.
 
 [source,bash,subs="verbatim,attributes"]
 ----
