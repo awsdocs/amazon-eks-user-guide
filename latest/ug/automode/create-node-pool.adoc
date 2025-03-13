@@ -74,6 +74,7 @@ spec:
     memory: 1000Gi
 ----
 
+[#auto-supported-labels]
 == EKS Auto Mode Supported Labels
 
 EKS Auto Mode supports the following well known labels.
