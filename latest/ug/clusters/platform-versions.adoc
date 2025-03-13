@@ -878,7 +878,7 @@ The following admission controllers are enabled for all `1.24` platform versions
 
 | `1.24.7`
 | `eks.1`
-| Initial release of Kubernetes version `1.24` for EKS. For more information, see <<kubernetes-1-24>>.
+| Initial release of Kubernetes version `1.24` for EKS. 
 | November 15, 2022
 |===
 
