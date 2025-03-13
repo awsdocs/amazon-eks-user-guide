@@ -186,7 +186,7 @@ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/examp
  }
 ----
 
-. Deploy the CloudFormation stack. Replace `STACK_NAME` with your name for the CloudFormation stack and AWS_REGION with your desired {aws} Region where the cluster will be created.
+. Deploy the CloudFormation stack. Replace `STACK_NAME` with your name for the CloudFormation stack and `AWS_REGION` with your desired {aws} Region where the cluster will be created.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
