@@ -152,10 +152,15 @@ You can see Amazon EKS Auto Mode launched a `g6e.2xlarge` rather than an `g6.2xl
 
 Now, look at the containers logs, by running the following command:
 
+[source,bash]
 ----
-`>`` kubectl logs nvidia``-``smi``
+kubectl logs nvidia-smi
+----
 
-...
+Sample output:
+
+[source,bash]
+----
 +---------------------------------------------------------------------------------------+
 | NVIDIA-SMI 535.230.02             Driver Version: 535.230.02   CUDA Version: 12.2     |
 |-----------------------------------------+----------------------+----------------------+
@@ -175,7 +180,6 @@ Now, look at the containers logs, by running the following command:
 |=======================================================================================|
 |  No running processes found                                                           |
 +---------------------------------------------------------------------------------------+
-...`
 ----
 
 You can see that the container has detected it's running on an instance with an `NVIDIA` GPU and that you've not had to install any device drivers, as this is managed by Amazon EKS Auto Mode.
