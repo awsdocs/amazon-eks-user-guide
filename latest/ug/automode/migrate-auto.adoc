@@ -23,7 +23,6 @@ EKS Auto Mode requires Kubernetes version 1.29 or greater. EKS Auto Mode isn't a
 ** Learn how to <<auto-migrate-karpenter>>
 * Migrating from EKS Managed Node Groups to EKS Auto Mode Nodes
 ** Learn how to <<auto-migrate-mng>>
-* Migrating from EKS Fargate to EKS Auto Mode Nodes
 
 *{aws} does not support the following migrations:*
 

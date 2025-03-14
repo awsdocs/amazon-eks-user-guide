@@ -21,5 +21,9 @@ Use the following `eksctl` CLI command to initiate draining pods from the existi
 
 [source,cli]
 ----
-eksctl update auto-mode-config --drain-all-nodegroups
+eksctl delete nodegroup --cluster=<clusterName> --name=<nodegroupName>
 ----
+
+You will need to run this command for each managed node group in your cluster. 
+
+For more information on this command, see https://eksctl.io/usage/nodegroups/#deleting-and-draining-nodegroups[Deleting and draining nodegroups] in the eksctl docs. 

@@ -44,7 +44,7 @@ Before starting this tutorial, you must install and configure the following tool
 [NOTE]
 ====
 
-You only need to create an IAM Role for the {aws} Load Balancer Controller once per {aws} account. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-helm-install,Step 2: Install {aws} Load Balancer Controller>>.
+You only need to create an IAM Role for the {aws} Load Balancer Controller once per {aws} account. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-helm-install,Step 2: Install {aws} Load Balancer Controller>>. 
 
 ====
 
@@ -55,31 +55,13 @@ Below example is referring to the {aws} Load Balancer Controller *v2.11.0* relea
 
 ====
 
-. Download an IAM policy for the {aws} Load Balancer Controller that allows it to make calls to {aws} APIs on your behalf.  
-+
-====
-[role="tablist"]
-{aws}:::
+. Download an IAM policy for the {aws} Load Balancer Controller that allows it to make calls to {aws} APIs on your behalf. 
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.11.0/docs/install/iam_policy.json
+curl -O https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/install/iam_policy.json
 ----
-
-
-{aws} GovCloud (US):::
-+
-[source,shell,subs="verbatim,attributes"]
-----
-curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.11.0/docs/install/iam_policy_us-gov.json
-----
-+
-[source,shell,subs="verbatim,attributes"]
-----
-mv iam_policy_us-gov.json iam_policy.json
-----
-====
-+
+** If you are a non-standard {aws} partition, such as a Government or China region, https://github.com/kubernetes-sigs/aws-load-balancer-controller/tree/main/docs/install[review the policies on GitHub] and download the appropriate policy for your region.  
 . Create an IAM policy using the policy downloaded in the previous step. 
 +
 [source,shell,subs="verbatim,attributes"]
