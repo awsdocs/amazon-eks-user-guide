@@ -53,7 +53,7 @@ You install or update community add-ons in the same way as other Amazon EKS Add-
 
 == Available community add-ons
 
-The following community add-ons are availalbe from Amazon EKS. 
+The following community add-ons are available from Amazon EKS.
 
 === Kubernetes Metrics Server
 
@@ -119,9 +119,54 @@ Prometheus exporter for hardware and OS metrics exposed by *NIX kernels, written
 |Custom IAM permissions | None
 |===
 
+
+=== Cert Manager
+
+Cert Manager can be used to manage the creation and renewal of certificates.
+
+|===
+|Property | Value
+
+|Add-on name | `cert-manager`
+
+|Namespace | `cert-manager`
+
+|Documentation | https://cert-manager.io/docs/[Cert Manager Docs]
+
+|Service account name | None
+
+|Managed IAM policy | None
+
+|Custom IAM permissions | None
+|===
+
+
+=== External DNS
+
+The External DNS EKS add-on can be used to manage Route53 DNS records through Kubernetes resources.
+
+External DNS permissions can be reduced to `route53:ChangeResourceRecordSets`, `route53:ListHostedZones`, and `route53:ListResourceRecordSets` on the hosted zones you wish to manage.
+
+|===
+|Property | Value
+
+|Add-on name | `external-dns`
+
+|Namespace | `external-dns`
+
+|Documentation | https://github.com/kubernetes-sigs/external-dns[GitHub Readme]
+
+|Service account name | external-dns
+
+|Managed IAM policy | `arn:aws:iam::aws:policy/AmazonRoute53FullAccess`
+
+|Custom IAM permissions | None
+|===
+
+
 == View Attributions
 
-You can download the open source attribtions and license information for community add-ons.
+You can download the open source attributions and license information for community add-ons.
 
 . Determine the name and version of the add-on you want to download attributions for. 
 . Update the following command with the name and version:
