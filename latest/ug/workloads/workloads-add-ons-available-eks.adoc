@@ -252,7 +252,7 @@ eksctl create iamserviceaccount \
     --role-only \
     --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
     --approve
-TRUST_POLICY=$(aws iam get-role --role-name $role_name --query 'Role.AssumeRolePolicyDocument' | \
+TRUST_POLICY=$(aws iam get-role --output json --role-name $role_name --query 'Role.AssumeRolePolicyDocument' | \
     sed -e 's/efs-csi-controller-sa/efs-csi-*/' -e 's/StringEquals/StringLike/')
 aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRUST_POLICY"
 ----
