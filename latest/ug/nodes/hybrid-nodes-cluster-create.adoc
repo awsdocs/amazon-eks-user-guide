@@ -98,7 +98,7 @@ You need to install the latest version of the `eksctl` command line tool. To ins
 .. Replace `CA_BUNDLE_CERT` if your credential provider is set to `ira`, which uses {aws} IAM Roles Anywhere as the credential provider. The CA_BUNDLE_CERT is the certificate authority (CA) certificate body and depends on your choice of CA. The certificate must be in Privacy Enhanced Mail (PEM) format.
 .. Replace `GATEWAY_ID` with the ID of your virtual private gateway or transit gateway to be attached to your VPC.
 .. Replace `REMOTE_NODE_CIDRS` with the on-premises node CIDR for your hybrid nodes.
-.. Replace `REMOTE_POD_CIDRS` with the on-premises pod CIDR for workloads running on hybrid nodes or remove the line from your configuration if you are not running webhooks on hybrid nodes. You must configure your `REMOTE_POD_CIDRS` if your CNI does not use Network Address Translation (NAT) or masquerading for pod IP addresses when pod traffic leaves your on-premises hosts. You must configure `REMOTE_POD_CIDRS` if you are running webhooks on hybrid nodes.
+.. Replace `REMOTE_POD_CIDRS` with the on-premises pod CIDR for workloads running on hybrid nodes or remove the line from your configuration if you are not running webhooks on hybrid nodes. You must configure your `REMOTE_POD_CIDRS` if your CNI does not use Network Address Translation (NAT) or masquerading for pod IP addresses when pod traffic leaves your on-premises hosts. You must configure `REMOTE_POD_CIDRS` if you are running webhooks on hybrid nodes, see <<hybrid-nodes-webhooks>> for more information.
 .. Your on-premises node and pod CIDR blocks must meet the following requirements:
 ... Be within one of the IPv4 RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
 ... Not overlap with each other, the `VPC CIDR` for your cluster, or your Kubernetes service IPv4 CIDR
@@ -160,7 +160,7 @@ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/examp
 .. `SUBNET2_ID`: the ID of the second subnet you created in the prerequisite steps
 .. `SG_ID`: the security group ID you created in the prerequisite steps
 .. `REMOTE_NODE_CIDRS`: the on-premises node CIDR for your hybrid nodes
-.. `REMOTE_POD_CIDRS`: the on-premises pod CIDR for workloads running on hybrid nodes. You must configure your `REMOTE_POD_CIDRS` if your CNI does not use Network Address Translation (NAT) or masquerading for pod IP addresses when pod traffic leaves your on-premises hosts. You must configure `REMOTE_POD_CIDRS` if you are running webhooks on hybrid nodes.
+.. `REMOTE_POD_CIDRS`: the on-premises pod CIDR for workloads running on hybrid nodes. You must configure your `REMOTE_POD_CIDRS` if your CNI does not use Network Address Translation (NAT) or masquerading for pod IP addresses when pod traffic leaves your on-premises hosts. You must configure `REMOTE_POD_CIDRS` if you are running webhooks on hybrid nodes, see <<hybrid-nodes-webhooks>> for more information.
 .. Your on-premises node and pod CIDR blocks must meet the following requirements:
 ... Be within one of the IPv4 RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
 ... Not overlap with each other, the `VPC CIDR` for your cluster, or your Kubernetes service IPv4 CIDR.
@@ -186,7 +186,7 @@ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/examp
  }
 ----
 
-. Deploy the CloudFormation stack. Replace `STACK_NAME` with your name for the CloudFormation stack and AWS_REGION with your desired {aws} Region where the cluster will be created.
+. Deploy the CloudFormation stack. Replace `STACK_NAME` with your name for the CloudFormation stack and `AWS_REGION` with your desired {aws} Region where the cluster will be created.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

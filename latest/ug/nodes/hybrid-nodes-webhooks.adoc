@@ -1,0 +1,263 @@
+[.topic]
+[#hybrid-nodes-webhooks]
+= Configure webhooks for hybrid nodes
+:info_titleabbrev: Configure webhooks
+:keywords: hybrid nodes webhooks, hybrid nodes webhook configuration
+
+include::../attributes.txt[]
+
+[abstract]
+--
+Configure webhooks for hybrid nodes
+--
+
+This page details considerations for running webhooks with hybrid nodes. Webhooks are used in Kubernetes applications and open-source projects, such as the {aws} Load Balancer Controller and CloudWatch Observability Agent, to perform mutating and validation capabilities at runtime.
+
+If you are running webhooks on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network and you must configure your EKS cluster with your remote pod network so the EKS control plane can communicate with the webhooks running on hybrid nodes. 
+
+There are several techniques you can use to make your on-premises pod CIDR routable on your on-premises network including Border Gateway Protocol (BGP), static routes, or other custom routing solutions. BGP is the recommended solution as it is more scalable and easier to manage than alternative solutions that require custom or manual route configuration. {aws} supports the BGP capabilities of Cilium and Calico for advertising hybrid nodes pod CIDRs, see <<hybrid-nodes-cni, Configure CNI for hybrid nodes>> for more information.
+
+If you _cannot_ make your on-premises pod CIDR routable on your on-premises network and need to run webhooks, it is recommended to run webhooks on EC2 instances in the same EKS cluster as your hybrid nodes. 
+
+[#hybrid-nodes-considerations-mixed-mode]
+== Considerations for mixed mode clusters
+
+Mixed mode clusters are defined as EKS clusters that have both hybrid nodes and nodes running in {aws} Cloud. When running a mixed mode cluster, consider the following recommendations:
+
+- Run the VPC CNI on nodes in {aws} Cloud and either Cilium or Calico on hybrid nodes. Cilium and Calico are not supported by {aws} when running on nodes in {aws} Cloud.
+- If your applications require pods running on nodes in {aws} Cloud to directly communicate with pods running on hybrid nodes ("east-west communication"), and you are using the VPC CNI on nodes in {aws} Cloud and Cilium or Calico in overlay/tunnel mode on hybrid nodes, then your on-premises pod CIDR must be routable on your on-premises network.
+- Run at least one replica of CoreDNS on nodes in {aws} Cloud and at least one replica of CoreDNS on hybrid nodes, see <<hybrid-nodes-mixed-mode, Configure add-ons and webhooks for mixed mode clusters>> for configuration steps.
+- Configure webhooks to run on nodes in {aws} Cloud. See <<hybrid-nodes-webhooks-add-ons, Configuring webhooks for add-ons>> for how to configure the webhooks used by {aws} and community add-ons when running mixed mode clusters.
+- If you are using Application Load Balancers (ALB) or Network Load Balancers (NLB) for workload traffic running on hybrid nodes, then the IP target(s) used with the ALB or NLB must be routable from {aws}. 
+- The Metrics Server add-on requires connectivity from the EKS control plane to the Metrics Server pod IP address. If you are running the Metrics Server add-on on hybrid nodes, then your on-premises pod CIDR must be routable on your on-premises network.
+- To collect metrics for hybrid nodes using Amazon Managed Service for Prometheus (AMP) managed collectors, your on-premises pod CIDR must be routable on your on-premises network. You can alternatively use the AMP managed collector for EKS control plane metrics and nodes running in {aws} Cloud, and the {aws} Distro for OpenTelemetry (ADOT) add-on to collect metrics for hybrid nodes.
+
+[#hybrid-nodes-mixed-mode]
+== Configure add-ons and webhooks for mixed mode clusters
+
+To view the mutating and validating webhooks running on your cluster, you can view the *Extensions* resource type in the *Resources* panel of the EKS console for your cluster, or you can use the following commands. EKS also reports webhook metrics in the cluster observability dashboard, see <<observability-dashboard>> for more information.
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get mutatingwebhookconfigurations
+----
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get validatingwebhookconfigurations
+----
+
+[#hybrid-nodes-mixed-coredns]
+=== Configure CoreDNS replicas
+
+If you are running a mixed mode cluster with both hybrid nodes and nodes in {aws} Cloud, it is recommended to have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud. The CoreDNS Service can be configured to prefer the closest CoreDNS replica to prevent latency and network issues in a mixed mode cluster setup with the following steps.
+
+. Add a topology zone label for each of your hybrid nodes, for example `topology.kubernetes.io/zone: onprem`. This can alternatively be done at the `nodeadm init` phase by specifying the label in your `nodeadm` configuration. Note, nodes running in {aws} Cloud automatically get a topology zone label applied to them that corresponds to the availability zone (AZ) of the node.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl label node [.replaceable]`hybrid-node-name` topology.kubernetes.io/zone=[.replaceable]`zone`
+----
++
+. Add `podAntiAffinity` to the CoreDNS deployment configuration with the topology zone key. You can alternatively configure the CoreDNS deployment during installation with EKS add-ons.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl edit deployment coredns -n kube-system
+----
++
+[source,yaml,subs="verbatim,attributes"]
+----
+spec:
+  template:
+    spec:
+      affinity:
+       ...
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: k8s-app
+                  operator: In
+                  values:
+                  - kube-dns
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: k8s-app
+                  operator: In
+                  values:
+                  - kube-dns
+              topologyKey: topology.kubernetes.io/zone
+            weight: 50
+      ...
+----
++
+. Add `trafficDistribution` to the kube-dns Service configuration.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl edit service kube-dns -n kube-system
+----
++
+[source,yaml,subs="verbatim,attributes"]
+----
+spec:
+  ...
+  trafficDistribution: PreferClose
+----
+
+[#hybrid-nodes-webhooks-add-ons]
+=== Configure webhooks for add-ons
+
+The following add-ons use webhooks and are supported for use with hybrid nodes. 
+
+- {aws} Load Balancer Controller
+- CloudWatch Observability Agent
+- {aws} Distro for OpenTelemetry (ADOT)
+
+See the sections below for configuring the webhooks used by these add-ons to run on nodes in {aws} Cloud.
+
+[#hybrid-nodes-mixed-lbc]
+==== {aws} Load Balancer Controller
+
+To run the {aws} Load Balancer Controller on nodes in {aws} Cloud in a mixed mode cluster setup, add the following to your Helm values configuration or specify the values using EKS add-on configuration.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: eks.amazonaws.com/compute-type
+          operator: NotIn
+          values:
+          - hybrid
+----
+
+[#hybrid-nodes-mixed-cwagent]
+==== CloudWatch Observability Agent
+
+The CloudWatch Observability Agent add-on has an operator that uses webhooks. To run the operator on nodes in {aws} Cloud in a mixed mode cluster setup, edit the CloudWatch Observability Agent operator configuration. The ability to configure operator affinity during installation with Helm and EKS add-ons is planned for a future release (see link:https://github.com/aws/containers-roadmap/issues/2431[containers-roadmap issue #2431]).
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl edit -n amazon-cloudwatch deployment amazon-cloudwatch-observability-controller-manager
+----
+
+[source,yaml,subs="verbatim,attributes"]
+----
+spec:
+  ...
+  template:
+    ...
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: eks.amazonaws.com/compute-type
+                operator: NotIn
+                values:
+                - hybrid
+----
+
+[#hybrid-nodes-mixed-adot]
+==== {aws} Distro for OpenTelemetry (ADOT)
+
+The {aws} Distro for OpenTelemetry (ADOT) add-on has an operator that uses webhooks. To run the operator on nodes in {aws} Cloud in a mixed mode cluster setup, add the following to your Helm values configuration or specify the values using EKS add-on configuration.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: eks.amazonaws.com/compute-type
+          operator: NotIn
+          values:
+          - hybrid
+----
+
+If your pod CIDR is not routable on your on-premises network, configure the ADOT collector Custom Resource Definition (CRD) to run on your hybrid nodes so it can scrape the metrics from your hybrid nodes and the workloads running on them.
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl -n opentelemetry-operator-system edit opentelemetrycollectors.opentelemetry.io adot-col-prom-metrics
+----
+
+[source,yaml,subs="verbatim,attributes"]
+----
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: In
+            values:
+            - hybrid
+----
+
+You can configure the ADOT collector to only scrape metrics from hybrid nodes and the resources running on hybrid nodes by adding the following `relabel_configs` to each `scrape_configs` in the ADOT collector CRD configuration.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+relabel_configs:
+  - action: keep
+    regex: hybrid
+    source_labels:
+    - __meta_kubernetes_node_label_eks_amazonaws_com_compute_type
+----
+
+The ADOT add-on has a prerequisite requirement to install cert-manager for the TLS certificates used by the ADOT operator webhook. Cert-manager also runs webhooks and you can configure it to run on nodes in {aws} Cloud with the following Helm values configuration.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: eks.amazonaws.com/compute-type
+          operator: NotIn
+          values:
+          - hybrid
+webhook:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: NotIn
+            values:
+            - hybrid
+cainjector:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: NotIn
+            values:
+            - hybrid
+startupapicheck:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: NotIn
+            values:
+            - hybrid
+----

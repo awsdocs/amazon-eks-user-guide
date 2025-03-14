@@ -24,14 +24,18 @@ For an optimal experience, {aws} recommends reliable network connectivity of at 
 
 *On-premises node and pod CIDRs*
 
-Identify the node and pod CIDRs you will use for your hybrid nodes and the workloads running on them. The node CIDR is allocated from your on-premises network and the pod CIDR is allocated from your Container Network Interface (CNI) if you are using an overlay network for your CNI. You pass your on-premises node CIDRs and optionally pod CIDRs as inputs when you create your Amazon EKS cluster with the `RemoteNodeNetwork` and `RemotePodNetwork` fields.
+Identify the node and pod CIDRs you will use for your hybrid nodes and the workloads running on them. The node CIDR is allocated from your on-premises network and the pod CIDR is allocated from your Container Network Interface (CNI) if you are using an overlay network for your CNI. You pass your on-premises node CIDRs and optionally pod CIDRs as inputs when you create your EKS cluster with the `RemoteNodeNetwork` and `RemotePodNetwork` fields.
 
 The on-premises node and pod CIDR blocks must meet the following requirements:
 
 1. Be within one of the following `IPv4` RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
-2. Not overlap with each other, the VPC CIDR for your Amazon EKS cluster, or your Kubernetes service `IPv4` CIDR.
+2. Not overlap with each other, the VPC CIDR for your EKS cluster, or your Kubernetes service `IPv4` CIDR.
 
-If your CNI performs Network Address Translation (NAT) for pod traffic as it leaves your on-premises hosts, you do not need to advertise your pod CIDR to your on-premises network or configure your Amazon EKS cluster with your _remote pod network_ for hybrid nodes to become ready to workloads. If your CNI does not use NAT for pod traffic as it leaves your on-premises hosts, you must advertise your pod CIDR with your on-premises network and you must configure your Amazon EKS cluster with your remote pod network for hybrid nodes to become ready to workloads. If you are running webhooks on your hybrid nodes, you must advertise your pod CIDR to your on-premises network and configure your Amazon EKS cluster with your remote pod network so the Amazon EKS control plane can directly connect to the webhooks running on hybrid nodes.
+If your CNI performs Network Address Translation (NAT) for pod traffic as it leaves your on-premises hosts, you do not need to make your pod CIDR routable on your on-premises network or configure your EKS cluster with your _remote pod network_ for hybrid nodes to become ready to workloads. If your CNI does not use NAT for pod traffic as it leaves your on-premises hosts, your pod CIDR must be routable on your on-premises network and you must configure your EKS cluster with your remote pod network for hybrid nodes to become ready to workloads.
+
+There are several techniques you can use to make your pod CIDR routable on your on-premises network including Border Gateway Protocol (BGP), static routes, or other custom routing solutions. BGP is the recommended solution as it is more scalable and easier to manage than alternative solutions that require custom or manual route configuration. {aws} supports the BGP capabilities of Cilium and Calico for advertising hybrid nodes pod CIDRs, see <<hybrid-nodes-cni, Configure CNI for hybrid nodes>> for more information.
+
+If you are running webhooks on hybrid nodes, your pod CIDR must be routable on your on-premises network and you must configure your EKS cluster with your remote pod network so the EKS control plane can directly communicate with the webhooks running on hybrid nodes. If you cannot make your pod CIDR routable on your on-premises network but need to run webhooks, it is recommended to run webhooks on cloud nodes in the same EKS cluster. For more information on running webhooks on cloud nodes, see <<hybrid-nodes-webhooks, Configure webhooks for hybrid nodes>>.
 
 *Access required during hybrid node installation and upgrade*
 
@@ -194,12 +198,12 @@ Depending on your choice of CNI, you need to configure additional network access
 
 [NOTE]
 ====
-^1^ The IPs of the Amazon EKS cluster. See the following section on Amazon EKS elastic network interfaces.
+^1^ The IPs of the EKS cluster. See the following section on Amazon EKS elastic network interfaces.
 ====
 
 *Amazon EKS network interfaces*
 
-Amazon EKS attaches network interfaces to the subnets in the VPC you pass during cluster creation to enable the communication between the Amazon EKS control plane and your VPC. The network interfaces that Amazon EKS creates can be found after cluster creation in the Amazon EC2 console or with the {aws} CLI. The original network interfaces are deleted and new network interfaces are created when changes are applied on your Amazon EKS cluster, such as Kubernetes version upgrades. You can restrict the IP range for the Amazon EKS network interfaces by using constrained subnet sizes for the subnets you pass during cluster creation, which makes it easier to configure your on-premises firewall to allow inbound/outbound connectivity to this known, constrained set of IPs. To control which subnets network interfaces are created in, you can limit the number of subnets you specify when you create a cluster or you can update the subnets after creating the cluster.
+Amazon EKS attaches network interfaces to the subnets in the VPC you pass during cluster creation to enable the communication between the EKS control plane and your VPC. The network interfaces that Amazon EKS creates can be found after cluster creation in the Amazon EC2 console or with the {aws} CLI. The original network interfaces are deleted and new network interfaces are created when changes are applied on your EKS cluster, such as Kubernetes version upgrades. You can restrict the IP range for the Amazon EKS network interfaces by using constrained subnet sizes for the subnets you pass during cluster creation, which makes it easier to configure your on-premises firewall to allow inbound/outbound connectivity to this known, constrained set of IPs. To control which subnets network interfaces are created in, you can limit the number of subnets you specify when you create a cluster or you can update the subnets after creating the cluster.
 
 The network interfaces provisioned by Amazon EKS have a description of the format `Amazon EKS [.replaceable]``your-cluster-name```. See the example below for an {aws} CLI command you can use to find the IP addresses of the network interfaces that Amazon EKS provisions. Replace `VPC_ID` with the ID of the VPC you pass during cluster creation.
 
@@ -343,7 +347,7 @@ aws ec2 associate-route-table --route-table-id [.replaceable]`RT_ID` --subnet-id
 [#hybrid-nodes-networking-cluster-sg]
 == Cluster security group configuration
 
-The following access for your Amazon EKS cluster security group is required for ongoing cluster operations. 
+The following access for your EKS cluster security group is required for ongoing cluster operations. 
 
 [cols="1,1,1,1,1,1,1", options="header"]
 |===
@@ -390,10 +394,10 @@ The following access for your Amazon EKS cluster security group is required for 
 
 To create a security group with the inbound access rules, run the following commands. This security group must be passed when you create your Amazon EKS cluster. By default, the command below creates a security group that allows all outbound access. You can restrict outbound access to include only the rules above. If you're considering limiting the outbound rules, we recommend that you thoroughly test all of your applications and pod connectivity before you apply your changed rules to a production cluster.
 
-* In the first command, replace SG_NAME with a name for your security group
-* In the first command, replace VPC_ID with the ID of the VPC you created in the previous step
-* In the second command, replace SG_ID with the ID of the security group you create in the first command
-* In the second command, replace REMOTE_NODE_CIDR and REMOTE_POD_CIDR with the values for your hybrid nodes and on-premises network.
+* In the first command, replace `SG_NAME` with a name for your security group
+* In the first command, replace `VPC_ID` with the ID of the VPC you created in the previous step
+* In the second command, replace `SG_ID` with the ID of the security group you create in the first command
+* In the second command, replace `REMOTE_NODE_CIDR` and `REMOTE_POD_CIDR` with the values for your hybrid nodes and on-premises network.
 
 [source,cli,subs="verbatim,attributes,quotes"]
 ----

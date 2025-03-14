@@ -23,10 +23,9 @@ For an overview of the other Amazon EKS options for on-premises and edge deploym
 == General concepts of Amazon EKS Hybrid Nodes
 
 * Amazon EKS Hybrid Nodes must have a reliable connection between your on-premises environment and {aws}. Amazon EKS Hybrid Nodes aren't a fit for disconnected, disrupted, intermittent or limited (DDIL) environments. If you are running in a DDIL environment, consider link:eks/eks-anywhere/[Amazon EKS Anywhere,type="marketing"].
-* Running Amazon EKS Hybrid Nodes on cloud infrastructure, including {aws} Regions, {aws} Local Zones, {aws} Outposts, or in other clouds, is not supported. Use Amazon EKS Auto Mode, Karpenter, Amazon EC2 managed node groups, self-managed nodes, or {aws} Fargate when running in {aws} Regions. Use Amazon EC2 managed node groups or Amazon EC2 self-managed nodes when running on {aws} Local Zones. Only Amazon EC2 self-managed nodes can be used on {aws} Outposts or {aws} Wavelength Zones.
-* A single Amazon EKS cluster can be used to run hybrid nodes and nodes in {aws} Regions, {aws} Local Zones, or {aws} Outposts.
+* Running Amazon EKS Hybrid Nodes on cloud infrastructure, including {aws} Regions, {aws} Local Zones, {aws} Outposts, or in other clouds, is not supported. You will be charged the hybrid nodes fee if you run hybrid nodes on Amazon EC2 instances.
+* A single Amazon EKS cluster can be used to run hybrid nodes and nodes in {aws} Regions, {aws} Local Zones, or {aws} Outposts. See <<hybrid-nodes-considerations-mixed-mode, Considerations for mixed mode clusters>> for more information.
 * Amazon EKS Hybrid Nodes is available in all {aws} Regions, except the {aws} GovCloud (US) Regions and the {aws} China Regions.
-* You will be charged the hybrid nodes fee if you run hybrid nodes on Amazon EC2 instances.
 * Billing for hybrid nodes starts when the nodes join the Amazon EKS cluster and stops when the nodes are removed from the cluster. Be sure to remove your hybrid nodes from your Amazon EKS cluster if you are not using them.
 
 *Infrastructure Management*
@@ -85,6 +84,8 @@ include::hybrid-nodes-prereqs.adoc[leveloffset=+1]
 include::hybrid-nodes-tutorial.adoc[leveloffset=+1]
 
 include::hybrid-nodes-cni.adoc[leveloffset=+1]
+
+include::hybrid-nodes-webhooks.adoc[leveloffset=+1]
 
 include::hybrid-nodes-add-ons.adoc[leveloffset=+1]
 
