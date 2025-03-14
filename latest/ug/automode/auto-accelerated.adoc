@@ -72,6 +72,9 @@ spec:
           values:
           - g6e
           - g6
+      taints:
+        - key: nvidia.com/gpu
+          effect: NoSchedule
       terminationGracePeriod: 24h0m0s
 ----
 
@@ -101,9 +104,13 @@ spec:
       limits:
         memory: "30Gi"
         nvidia.com/gpu: 1
+  tolerations:
+  - key: nvidia.com/gpu
+    effect: NoSchedule
+    operator: Exists
 ----
 
-Note the `eks.amazonaws.com/compute-type: auto` selector requires the workload be deployed on an Amazon EKS Auto Mode node.
+Note the `eks.amazonaws.com/compute-type: auto` selector requires the workload be deployed on an Amazon EKS Auto Mode node. The NodePool also sets a taint that only allows pods with tolerations for Nvidia GPUs to be scheduled.
 
 Apply the NodePool and workload to your cluster.
 
