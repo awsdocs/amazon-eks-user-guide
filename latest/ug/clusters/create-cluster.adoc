@@ -97,9 +97,9 @@ You can create a cluster by using:
 +
 The subnets that you choose must meet the <<network-requirements-subnets,Amazon EKS subnet requirements>>. Before selecting subnets, we recommend that you're familiar with all of the <<network-reqs,Amazon EKS VPC and subnet requirements and considerations>>.
 +
-[source,bash,subs="verbatim,attributes"]
 . Run the following command:
 +
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create cluster --name my-cluster --region region-code --version {k8s-n} --vpc-private-subnets subnet-ExampleID1,subnet-ExampleID2 --without-nodegroup
 ----
