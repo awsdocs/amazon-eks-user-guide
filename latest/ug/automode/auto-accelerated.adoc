@@ -110,7 +110,7 @@ spec:
     operator: Exists
 ----
 
-Note the `eks.amazonaws.com/compute-type: auto` selector requires the workload be deployed on an Amazon EKS Auto Mode node.
+Note the `eks.amazonaws.com/compute-type: auto` selector requires the workload be deployed on an Amazon EKS Auto Mode node. The NodePool also sets a taint that only allows pods with tolerations for Nvidia GPUs to be scheduled.
 
 Apply the NodePool and workload to your cluster.
 
