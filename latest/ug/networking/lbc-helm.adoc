@@ -59,7 +59,7 @@ Below example is referring to the {aws} Load Balancer Controller *v2.11.0* relea
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-curl -O https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/install/iam_policy.json
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.11.0/docs/install/iam_policy.json
 ----
 ** If you are a non-standard {aws} partition, such as a Government or China region, https://github.com/kubernetes-sigs/aws-load-balancer-controller/tree/main/docs/install[review the policies on GitHub] and download the appropriate policy for your region.  
 . Create an IAM policy using the policy downloaded in the previous step. 
