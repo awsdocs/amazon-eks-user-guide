@@ -65,17 +65,18 @@ aws iam create-policy \
 ----
 +
 NOTE: If you view the policy in the {aws-management-console}, the console shows warnings for the *ELB* service, but not for the *ELB v2* service. This happens because some of the actions in the policy exist for *ELB v2*, but not for *ELB*. You can ignore the warnings for *ELB*.
-. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your account ID, and then run the command.
+. Replace the values for cluster name, region code, and account ID. 
 +
 [source,shell,subs="verbatim,attributes"]
 ----
 eksctl create iamserviceaccount \
-  --cluster=my-cluster \
-  --namespace=kube-system \
-  --name=aws-load-balancer-controller \
-  --role-name AmazonEKSLoadBalancerControllerRole \
-  --attach-policy-arn={arn-aws}iam::111122223333:policy/AWSLoadBalancerControllerIAMPolicy \
-  --approve
+    --cluster=<cluster-name> \
+    --namespace=kube-system \
+    --name=aws-load-balancer-controller \
+    --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/AWSLoadBalancerControllerIAMPolicy \
+    --override-existing-serviceaccounts \
+    --region <aws-region-code> \
+    --approve
 ----
 
 
