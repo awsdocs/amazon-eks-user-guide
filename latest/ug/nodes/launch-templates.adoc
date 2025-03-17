@@ -225,6 +225,8 @@ Amazon EKS doesn't support all valid TOML. The following is a list of known unsu
 *Windows user data*::
 Windows user data uses PowerShell commands. When creating a managed node group, your custom user data combines with Amazon EKS managed user data. Your PowerShell commands come first, followed by the managed user data commands, all within one `<powershell></powershell>` tag.
 +
+IMPORTANT: When creating Windows node groups, Amazon EKS updates the `aws-auth` `ConfigMap` to allow Linux-based nodes to join the cluster. The service doesn't automatically configure permissions for Windows AMIs. If you're using Windows nodes, you'll need to manage access either via the access entry API or by updating the `aws-auth` `ConfigMap` directly. For more information, see <<windows-support>>.
++
 NOTE: When no AMI ID is specified in the launch template, don't use the Windows Amazon EKS Bootstrap script in user data to configure Amazon EKS.
 +
 Example user data is as follows.
