@@ -44,13 +44,6 @@ Before starting this tutorial, you must install and configure the following tool
 [NOTE]
 ====
 
-You only need to create an IAM Role for the {aws} Load Balancer Controller once per {aws} account. Check if `AmazonEKSLoadBalancerControllerRole` exists in the link:iam[IAM Console,type="console"]. If this role exists, skip to <<lbc-helm-install,Step 2: Install {aws} Load Balancer Controller>>. 
-
-====
-
-[NOTE]
-====
-
 Below example is referring to the {aws} Load Balancer Controller *v2.11.0* release version. For more information about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on GitHub.
 
 ====
