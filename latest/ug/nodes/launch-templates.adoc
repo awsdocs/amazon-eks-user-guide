@@ -196,7 +196,60 @@ kind: NodeConfig spec: [...]
 ----
 +
 In AL2, the metadata from these parameters was discovered from the Amazon EKS `DescribeCluster` API call. With AL2023, this behavior has changed since the additional API call risks throttling during large node scale ups. This change doesn't affect you if you're using managed node groups without a launch template or if you're using Karpenter. For more information on `certificateAuthority` and service `cidr`, see link:eks/latest/APIReference/API_DescribeCluster.html[`DescribeCluster`,type="documentation"] in the _Amazon EKS API Reference_.
++
+Here's a complete example of AL2023 user data that combines a shell script for customizing the node (like installing packages or pre-caching container images) with the required `nodeadm` configuration. This example shows common customizations including:
+* Installing additional system packages
+* Pre-caching container images to improve Pod startup time
+* Setting up HTTP proxy configuration
+* Configuring `kubelet` flags for node labeling
 
++
+[source,bash,subs="verbatim,attributes"]
+----
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="BOUNDARY"
+
+--BOUNDARY
+Content-Type: text/x-shellscript; charset="us-ascii"
+
+#!/bin/bash
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# Install additional packages
+yum install -y htop jq iptables-services
+
+# Pre-cache commonly used container images
+nohup docker pull public.ecr.aws/eks-distro/kubernetes/pause:3.2 &
+
+# Configure HTTP proxy if needed
+cat > /etc/profile.d/http-proxy.sh << 'EOF'
+export HTTP_PROXY="http://proxy.example.com:3128"
+export HTTPS_PROXY="http://proxy.example.com:3128"
+export NO_PROXY="localhost,127.0.0.1,169.254.169.254,.internal"
+EOF
+
+--BOUNDARY
+Content-Type: application/node.eks.aws
+
+apiVersion: node.eks.aws/v1alpha1
+kind: NodeConfig
+spec:
+  cluster:
+    name: my-cluster
+    apiServerEndpoint: https://example.com
+    certificateAuthority: Y2VydGlmaWNhdGVBdXRob3JpdHk=
+    cidr: 10.100.0.0/16
+  kubelet:
+    config:
+      clusterDNS:
+      - 10.100.0.10
+    flags:
+    - --node-labels=app=my-app,environment=production
+
+--BOUNDARY--
+----
 
 *Bottlerocket user data*::
 Bottlerocket structures user data in the TOML format. You can provide user data to be merged with the user data provided by Amazon EKS. For example, you can provide additional `kubelet` settings.
