@@ -78,7 +78,8 @@ aws iam attach-role-policy \
   --role-name eksClusterRole \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKSVPCResourceController
 ----
-. Create a file named [.replaceable]`vpc-resource-controller-configmap.yaml` with the following contents.
+. If the VPC CNI *is not* installed as an Amazon EKS Add-on:
+.. Create a file named [.replaceable]`vpc-resource-controller-configmap.yaml` with the following contents.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -90,13 +91,16 @@ metadata:
 data:
   enable-windows-ipam: "true"
 ----
-. Apply the `ConfigMap` to your cluster.
+.. Apply the `ConfigMap` to your cluster.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f vpc-resource-controller-configmap.yaml
 ----
-. Verify that your `aws-auth` `ConfigMap` contains a mapping for the instance role of the Windows node to include the `eks:kube-proxy-windows` RBAC permission group. You can verify by running the following command. 
+. If the VPC CNI *is* installed as an Amazon EKS Add-on:
+** Review <<kubernetes-field-management>> to understand how to configure Amazon EKS Add-ons. Update the configuration of the add-on to include `enable-windows-ipam: "true"`.
+. If your cluster has the authentication mode set to enable the `aws-auth` configmap:
+** Verify that your `aws-auth` `ConfigMap` contains a mapping for the instance role of the Windows node to include the `eks:kube-proxy-windows` RBAC permission group. You can verify by running the following command. 
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -124,7 +128,7 @@ data:
 ----
 +
 You should see `eks:kube-proxy-windows` listed under groups. If the group isn't specified, you need to update your `ConfigMap` or create it to include the required group. For more information about the `aws-auth` `ConfigMap`, see <<aws-auth-configmap>>.
-
+. If your cluster has the authentication mode set to disable the `aws-auth` configmap, then you can use EKS Access Entries. Create a new node role for use with Windows instances, and EKS will automatically create an access entry of type `EC2_WINDOWS`. 
 
 [#windows-support-pod-deployment]
 == Deploy Windows Pods
