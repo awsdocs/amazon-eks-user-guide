@@ -10,8 +10,11 @@ include::../attributes.txt[]
 Learn how to enable and manage Windows support for your Amazon EKS cluster to run Windows containers alongside Linux containers.
 --
 
-Before deploying Windows nodes, be aware of the following considerations.
+Learn how to enable and manage Windows support for your Amazon EKS cluster to run Windows containers alongside Linux containers.
 
+== Considerations
+
+Before deploying Windows nodes, be aware of the following considerations.
 
 * EKS Auto Mode does not support Windows nodes
 * You can use host networking on Windows nodes using `HostProcess` Pods. For more information, see https://kubernetes.io/docs/tasks/configure-pod-container/create-hostprocess-pod/[Create a Windows HostProcessPod] in the Kubernetes documentation.
@@ -29,12 +32,15 @@ Before deploying Windows nodes, be aware of the following considerations.
 * The source for the controller is managed on GitHub. To contribute to, or file issues against the controller, visit the https://github.com/aws/amazon-vpc-resource-controller-k8s[project] on GitHub.
 * When specifying a custom AMI ID for Windows managed node groups, add `eks:kube-proxy-windows` to your {aws} IAM Authenticator configuration map. For more information, see <<mng-ami-id-conditions>>.
 * If preserving your available IPv4 addresses is crucial for your subnet, refer to https://aws.github.io/aws-eks-best-practices/windows/docs/networking/#ip-address-management[EKS Best Practices Guide - Windows Networking IP Address Management] for guidance. 
+* Considerations for EKS Access Entries
+** If you use a different Node IAM Role for Windows instances, EKS will automatically create the required Windows Access Entry. 
+** Access Entries for use with Windows nodes need the type of `EC2_WINDOWS`. For more information, see <<creating-access-entries>>.
 
+== Prerequisites 
 
 * An existing cluster. 
 * Your cluster must have at least one (we recommend at least two) Linux node or Fargate Pod to run CoreDNS. If you enable legacy Windows support, you must use a Linux node (you can't use a Fargate Pod) to run CoreDNS.
 * An existing <<cluster-iam-role,Amazon EKS cluster IAM role>>.
-
 
 [#enable-windows-support]
 == Enable Windows support
