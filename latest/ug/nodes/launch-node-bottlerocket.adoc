@@ -100,7 +100,7 @@ Several lines are output while the nodes are created. One of the last lines of o
 [✔]  created 1 nodegroup(s) in cluster "my-cluster"
 ----
 . (Optional) Create a Kubernetes https://kubernetes.io/docs/concepts/storage/persistent-volumes/[persistent volume] on a Bottlerocket node using the https://github.com/kubernetes-sigs/aws-ebs-csi-driver[Amazon EBS CSI Plugin]. The default Amazon EBS driver relies on file system tools that aren't included with Bottlerocket. For more information about creating a storage class using the driver, see <<ebs-csi>>.
-. (Optional) By default, `kube-proxy` sets the `nf_conntrack_max` kernel parameter to a default value that may differ from what Bottlerocket originally sets at boot. To keep Bottlerocket's https://github.com/bottlerocket-os/bottlerocket/blob/develop/packages/release/release-sysctl.conf[default setting], edit the `kube-proxy` configuration with the following command.
+. (Optional) By default, `kube-proxy` sets the `nf_conntrack_max` kernel parameter to a default value that may differ from what Bottlerocket originally sets at boot. To keep Bottlerocket's https://github.com/bottlerocket-os/bottlerocket-core-kit/blob/develop/packages/release/release-sysctl.conf[default setting], edit the `kube-proxy` configuration with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
