@@ -479,6 +479,9 @@ NOTE: If you're using custom service CIDR, then you need to specify it using the
 ====
 
 For more information, see link:AWSEC2/latest/UserGuide/AMIs.html[Amazon Machine Images (AMI),type="documentation"] in the _Amazon EC2 User Guide_. The Amazon EKS AMI build specification contains resources and configuration scripts for building a custom Amazon EKS AMI based on Amazon Linux. For more information, see https://github.com/awslabs/amazon-eks-ami/[Amazon EKS AMI Build Specification] on GitHub. To build custom AMIs installed with other operating systems, see https://github.com/aws-samples/amazon-eks-custom-amis[Amazon EKS Sample Custom AMIs] on GitHub.
+
+You cannot use dynamic parameter references for AMI IDs in Launch Templates used with managed node groups. 
+
 ====
 
 [IMPORTANT]
