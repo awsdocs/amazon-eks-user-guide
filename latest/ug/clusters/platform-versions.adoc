@@ -218,7 +218,7 @@ The following admission controllers are enabled for all `1.29` platform versions
 | February 24, 2025
 
 | `1.29.13`
-| `eks.30`
+| `eks.29`
 | New platform version with security fixes and enhancements.
 | February 24, 2025
 
@@ -950,7 +950,7 @@ The following admission controllers are enabled for all `1.24` platform versions
 | Release date
 
 | `1.24.17`
-| `eks.44`
+| `eks.45`
 | New platform version with security fixes and enhancements.
 | February 24, 2025
 
