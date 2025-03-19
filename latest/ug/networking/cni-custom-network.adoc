@@ -12,11 +12,15 @@ Learn how to enable custom networking for Amazon EKS Pods to deploy them in diff
 
 *Applies to*: Linux `IPv4` Fargate nodes, Linux nodes with Amazon EC2 instances  
 
+image::images/cn-image.png[Diagram of node with multiple network interfaces]
+
 By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary link:AWSEC2/latest/UserGuide/using-eni.html[elastic network interfaces,type="documentation"] (network interfaces) for your Amazon EC2 node, it creates them in the same subnet as the node's primary network interface. It also associates the same security groups to the secondary network interface that are associated to the primary network interface. For one or more of the following reasons, you might want the plugin to create secondary network interfaces in a different subnet or want to associate different security groups to the secondary network interfaces, or both: 
 
 * There's a limited number of `IPv4` addresses that are available in the subnet that the primary network interface is in. This might limit the number of Pods that you can create in the subnet. By using a different subnet for secondary network interfaces, you can increase the number of available `IPv4` addresses available for Pods.
 * For security reasons, your Pods might need to use a different subnet or security groups than the node's primary network interface.
 * The nodes are configured in public subnets, and you want to place the Pods in private subnets. The route table associated to a public subnet includes a route to an internet gateway. The route table associated to a private subnet doesn't include a route to an internet gateway.
+
+TIP: You can also add a new or existing subnet directly to your Amazon EKS Cluster, without using custom networking. For more information, see <<add-existing-subnet>>.
 
 
 [#cni-custom-network-considerations]

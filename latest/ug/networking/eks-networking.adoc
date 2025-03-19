@@ -14,6 +14,18 @@ Your Amazon EKS cluster is created in a VPC. Pod networking is provided by the A
 [.topiclist]
 [[Topic List]]
 
+[#add-existing-subnet]
+== Add an existing VPC Subnet to an Amazon EKS cluster from the management console
+
+. Navigate to your cluster in the management console
+. From the *Networking* tab select *Manage VPC Resources*
+. From the *Subnets* dropdown, select additional subnets from the VPC of your cluster. 
+
+To create a new VPC Subnet:
+
+* xref:network-requirements-subnets[Review EKS Subnet Requirements]
+* See link:vpc/latest/userguide/create-subnets.html["Create a Subnet",type="documentation"] in the Amazon Virtual Private Cloud User Guide.
+
 include::network-reqs.adoc[leveloffset=+1]
 
 include::creating-a-vpc.adoc[leveloffset=+1]
