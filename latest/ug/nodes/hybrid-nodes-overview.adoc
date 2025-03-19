@@ -19,6 +19,9 @@ With Amazon EKS Hybrid Nodes, there are no upfront commitments or minimum fees, 
 For an overview of the other Amazon EKS options for on-premises and edge deployments, see <<eks-deployment-options>>.
 
 
+video::tFn9IdlddBw[youtube,align=center,height= 405,width=720,fileref = https://www.youtube.com/embed/tFn9IdlddBw]
+
+
 [#hybrid-nodes-general]
 == General concepts of Amazon EKS Hybrid Nodes
 
