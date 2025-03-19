@@ -66,28 +66,32 @@ For more information, see <<kubernetes-versions>>.
 [#eks-related-services]
 == Related services
 **Services to use with Amazon EKS**
+
 You can use other {aws} services with the clusters that you deploy using Amazon EKS:
 
-*{aws} CloudFormation*::
-Model and set up {aws} resources using <<creating-resources-with-cloudformation,{aws} CloudFormation>>.
+*Amazon EC2*::
+Obtain on-demand, scalable compute capacity with link:AWSEC2/latest/UserGuide/concepts.html[Amazon EC2,type="documentation"].
 
-*Amazon Detective*::
-Analyze security events on EKS with <<integration-detective,Amazon Detective>>.
+*Amazon EBS*::
+Attach scalable, high-performance block storage resources with link:ebs/latest/userguide/what-is-ebs.html[Amazon EBS,type="documentation"].
+
+*Amazon ECR*::
+Store container images securely with link:AmazonECR/latest/userguide/what-is-ecr.html[Amazon ECR,type="documentation"].
+
+*Amazon CloudWatch*::
+Monitor {aws} resources and applications in real time with link:AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html[Amazon CloudWatch,type="documentation"].
+
+*Amazon Prometheus*::
+Track metrics for containerized applications with link:prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html[Amazon Managed Service for Prometheus,type="documentation"].
+
+*Elastic Load Balancing*::
+Distribute incoming traffic across multiple targets with link:elasticloadbalancing/latest/userguide/what-is-load-balancing.html[Elastic Load Balancing,type="documentation"].
 
 *Amazon GuardDuty*::
 Detect threats to EKS clusters with <<integration-guardduty,Amazon GuardDuty>>.
 
 *{aws} Resilience Hub*::
 Assess EKS cluster resiliency with <<integration-resilience-hub,{aws} Resilience Hub>>.
-
-*Amazon Security Lake*::
-Centralize and analyze EKS security data with <<integration-securitylake,Amazon Security Lake>>
-
-*Amazon VPC Lattice*::
-Enable cross-cluster connectivity with <<integration-vpc-lattice,Amazon VPC Lattice>>.
-
-*{aws} Local Zones*::
-Launch low-latency EKS clusters with <<local-zones,{aws} Local Zones>>.
 
 [#eks-pricing]
 == Amazon EKS Pricing
