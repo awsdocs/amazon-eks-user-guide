@@ -1,0 +1,24 @@
+[.topic]
+[#auto-change]
+= Review changes to EKS Auto Mode functionality 
+:info_titleabbrev: Change log
+
+include::../attributes.txt[]
+
+This topic tracks changes to Amazon EKS Auto Mode.
+
+If the update requires you to enable or configure it, the change entry will include a link. 
+
+If the update requires a certain platform or Kubernetes version, it will be included.
+
+[role="no-scroll"]
+[cols="25%,75%", options="header"]
+|===
+|Date |Change
+
+|2025-03-20
+|Support Pod IPv4 Egress in IPv6 Clusters
+
+
+|===
+
