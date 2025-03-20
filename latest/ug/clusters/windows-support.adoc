@@ -12,7 +12,6 @@ Learn how to enable and manage Windows support for your Amazon EKS cluster to ru
 
 Before deploying Windows nodes, be aware of the following considerations.
 
-
 * EKS Auto Mode does not support Windows nodes
 * You can use host networking on Windows nodes using `HostProcess` Pods. For more information, see https://kubernetes.io/docs/tasks/configure-pod-container/create-hostprocess-pod/[Create a Windows HostProcessPod] in the Kubernetes documentation.
 * Amazon EKS clusters must contain one or more Linux or Fargate nodes to run core system Pods that only run on Linux, such as CoreDNS.

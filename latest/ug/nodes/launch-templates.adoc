@@ -311,7 +311,7 @@ Bootstrapping is a term used to describe adding commands that can be run when an
 Create a file named [.replaceable]`my-nodegroup.yaml` with the following contents. Replace every [.replaceable]`example value` with your own values. The `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are optional. However, defining them allows the `bootstrap.sh` script to avoid making a `describeCluster` call. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently. For more information on the `bootstrap.sh` script, see the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] file on GitHub.
 +
 ** The only required argument is the cluster name ([.replaceable]`my-cluster`).
-** To retrieve an optimized AMI ID for `ami-[.replaceable]``1234567890abcdef0```, you can use the tables in the following sections:
+** To retrieve an optimized AMI ID for `ami-[.replaceable]``1234567890abcdef0```, see the following sections:
 +
 *** <<retrieve-ami-id,Retrieve recommended Amazon Linux AMI IDs>>
 *** <<retrieve-ami-id-bottlerocket,Retrieve recommended Bottlerocket AMI IDs>>
