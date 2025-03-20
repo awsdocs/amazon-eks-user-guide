@@ -1,4 +1,4 @@
-include::../../attributes.txt[]
+include::../attributes.txt[]
 
 [.topic]
 [#cost-monitoring-kubecost]
