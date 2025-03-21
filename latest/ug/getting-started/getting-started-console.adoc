@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#getting-started-console]
 = Get started with Amazon EKS – {aws-management-console} and {aws} CLI
 :info_titleabbrev: Create cluster (Console and CLI)
-:keywords: using, {aws-management-console}, {aws} CLI, getting, started, tutorial
 
 [abstract]
 --

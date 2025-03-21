@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#kubernetes-versions]
 = Understand the Kubernetes version lifecycle on EKS
 :info_titleabbrev: Kubernetes versions
-:keywords: Amazon EKS, available, Kubernetes, version, release notes
 
 
 [abstract]
@@ -47,7 +46,6 @@ The following Kubernetes versions are currently available in Amazon EKS extended
 * `1.27`
 * `1.26`
 * `1.25`
-* `1.24`
 
 For important changes to be aware of for each version in extended support, see <<kubernetes-versions-extended>>.
 

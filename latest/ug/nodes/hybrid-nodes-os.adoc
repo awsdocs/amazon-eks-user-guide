@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#hybrid-nodes-os]
 = Prepare operating system for hybrid nodes
 :info_titleabbrev: Prepare operating system
-:keywords: on-premises, hybrid
 
 [abstract]
 --

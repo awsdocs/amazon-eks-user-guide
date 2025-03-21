@@ -2,7 +2,6 @@
 [#hybrid-nodes-security]
 = Patch security updates for hybrid nodes
 :info_titleabbrev: Patch hybrid nodes
-:keywords: security updates for on-premises nodes, security updates for hybrid nodes
 
 include::../attributes.txt[]
 

@@ -1,0 +1,279 @@
+[.topic]
+[#auto-accelerated]
+= Deploy an accelerated workload
+:info_titleabbrev: Deploy accelerated workload
+
+include::../attributes.txt[]
+
+
+This tutorial demonstrates how Amazon EKS Auto Mode simplifies launching accelerated workloads. Amazon EKS Auto Mode streamlines operations beyond the cluster itself by automating key infrastructure components providing compute, networking, load balancing, storage, and Identity Access and Management capabilities out of the box. 
+
+Amazon EKS Auto Mode includes the drivers and device plugins required for certain instance types, such as NVIDIA and {aws} Neuron drivers. You do not have to install or update these components. 
+
+EKS Auto Mode automatically manages drivers for these accelerators:
+
+* link:ai/machine-learning/trainium/[{aws} Trainium, type="marketing"]
+* link:ai/machine-learning/inferentia/[{aws} Inferentia, type="marketing"]
+* link:ec2/latest/instancetypes/ac.html[NVIDIA GPUs on Amazon EC2 accelerated instances, type="documentation"]
+
+NOTE: EKS Auto Mode includes the NVIDIA device plugin for Kubernetes. This plugin runs automatically and isn't visible as a daemon set in your cluster.
+
+Additional networking support:
+
+* link:hpc/efa/[Elastic Fabric Adapter (EFA), type="marketing"]
+
+Amazon EKS Auto Mode eliminates the toil of accelerator driver and device plugin management. 
+
+You can also benefit from cost savings by scaling the cluster to zero. You can configure EKS Auto Mode to terminate instances when no workloads are running. This is useful for batch based inference workloads.
+
+The following provides an example of how to launch accelerated workloads with Amazon EKS Auto Mode.
+
+== Prerequisites
+
+* A Kubernetes cluster with Amazon EKS Auto Mode configured.
+* A `default` EKS Node class as created when the `general-purpose` or `system` Managed Node Pools are enabled.
+
+== Step 1: Deploy a GPU workload
+
+In this example, you will create a NodePool for NVIDIA based workloads that requires 45GB GPU memory. With EKS Auto Mode, you use Kubernetes scheduling constraints to define your instance requirements. 
+
+To deploy the Amazon EKS Auto Mode `NodePool` and the sample `workload`, review the following NodePool and Pod definition and save as `nodepool-gpu.yaml` and `pod.yaml`:
+
+*nodepool-gpu.yaml*
+
+[source,yaml]
+----
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: gpu
+spec:
+  disruption:
+    budgets:
+    - nodes: 10%
+    consolidateAfter: 1h
+    consolidationPolicy: WhenEmpty
+  template:
+    metadata: {}
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: default
+      requirements:
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values: ["on-demand"]
+        - key: "kubernetes.io/arch"
+          operator: In
+          values: ["amd64"]
+        - key: "eks.amazonaws.com/instance-family"
+          operator: In
+          values:
+          - g6e
+          - g6
+      taints:
+        - key: nvidia.com/gpu
+          effect: NoSchedule
+      terminationGracePeriod: 24h0m0s
+----
+
+*pod.yaml*
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nvidia-smi
+spec:
+  nodeSelector:
+    eks.amazonaws.com/instance-gpu-name: l40s
+    eks.amazonaws.com/compute-type: auto
+  restartPolicy: OnFailure
+  containers:
+  - name: nvidia-smi
+    image: public.ecr.aws/amazonlinux/amazonlinux:2023-minimal
+    args:
+    - "nvidia-smi"
+    resources:
+      requests:
+        memory: "30Gi"
+        cpu: "3500m"
+        nvidia.com/gpu: 1
+      limits:
+        memory: "30Gi"
+        nvidia.com/gpu: 1
+  tolerations:
+  - key: nvidia.com/gpu
+    effect: NoSchedule
+    operator: Exists
+----
+
+Note the `eks.amazonaws.com/compute-type: auto` selector requires the workload be deployed on an Amazon EKS Auto Mode node. The NodePool also sets a taint that only allows pods with tolerations for Nvidia GPUs to be scheduled.
+
+Apply the NodePool and workload to your cluster.
+
+[source,bash]
+----
+kubectl apply -f nodepool-gpu.yaml
+kubectl apply -f pod.yaml
+----
+
+You should see the following output:
+
+[source,bash]
+----
+nodepool.karpenter.sh/gpu configured created
+pod/nvidia-smi created
+----
+
+Wait a few seconds, and check the nodes in your cluster. You should now see a new node provisioned in your Amazon EKS Auto Mode cluster:
+
+[source,bash]
+----
+> kubectl get nodes
+
+NAME        TYPE          CAPACITY    ZONE         NODE                  READY   AGE
+gpu-dnknr   g6e.2xlarge   on-demand   us-west-2b   i-02315c7d7643cdee6   True    76s
+----
+
+== Step 2: Validate
+
+You can see Amazon EKS Auto Mode launched a `g6e.2xlarge` rather than an `g6.2xlarge` as the workload required an instance with l40s `GPU`, according to the following Kubernetes scheduling constraints:
+
+[source,yaml]
+----
+...
+  nodeSelector:
+    eks.amazonaws.com/instance-gpu-name: l40s
+...
+    requests:
+        memory: "30Gi"
+        cpu: "3500m"
+        nvidia.com/gpu: 1
+      limits:
+        memory: "30Gi"
+        nvidia.com/gpu: 1
+----
+
+Now, look at the containers logs, by running the following command:
+
+[source,bash]
+----
+kubectl logs nvidia-smi
+----
+
+Sample output:
+
+[source,bash]
+----
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.230.02             Driver Version: 535.230.02   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA L40S                    On  | 00000000:30:00.0 Off |                    0 |
+| N/A   27C    P8              23W / 350W |      0MiB / 46068MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+----
+
+You can see that the container has detected it's running on an instance with an `NVIDIA` GPU and that you've not had to install any device drivers, as this is managed by Amazon EKS Auto Mode.
+
+== Step 3: Clean-up
+
+To remove all objects created, use `kubectl` to delete the sample deployment and NodePool so the node is terminated:
+
+----
+kubectl delete -f nodepool-gpu.yaml
+kubectl delete -f pod.yaml
+----
+
+
+== Example NodePools Reference
+
+=== Create an NVIDIA NodePool
+
+The following NodePool defines:
+
+* Only launch instances of `g6e` and `g6` family
+* Consolidate nodes when empty for 1 hour
+** The 1 hour value for `consolodateAfter` supports spiky workloads and reduce node churn. You can tune `consolidateAfter` based on your workload requirements.
+
+*Example NodePool with GPU instance family and consolidation*
+
+[source,yaml]
+----
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: gpu
+spec:
+  disruption:
+    budgets:
+    - nodes: 10%
+    consolidateAfter: 1h
+    consolidationPolicy: WhenEmpty
+  template:
+    metadata: {}
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: default
+      requirements:
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values: ["on-demand"]
+        - key: "kubernetes.io/arch"
+          operator: In
+          values: ["amd64"]
+        - key: "eks.amazonaws.com/instance-family"
+          operator: In
+          values:
+          - g6e
+          - g6
+      terminationGracePeriod: 24h0m0s
+----
+
+Instead of to setting the `eks.amazonaws.com/instance-gpu-name` you might use `eks.amazonaws.com/instance-family` to specify the instance family. For other well-known labels which influence scheduling review, see <<auto-supported-labels>>.
+
+If you have specific storage requirements you can tune the nodes ephemeral storage `iops`, `size` and `throughput` by creating your own xref:create-node-class[NodeClass] to reference in the NodePool. Learn more about the xref:create-node-class[configurable NodeClass options].
+
+*Example storage configuration for NodeClass*
+
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: gpu
+spec:
+  ephemeralStorage:
+    iops: 3000
+    size: 80Gi
+    throughput: 125
+----
+
+=== Define an {aws} Trainium and {aws} Inferentia NodePool
+
+The following NodePool has an `eks.amazonaws.com/instance-category` set that says, only launch instances of Inferentia and Trainium family:
+
+----
+        - key: "eks.amazonaws.com/instance-category"
+          operator: In
+          values:
+            - inf  
+            - trn
+----

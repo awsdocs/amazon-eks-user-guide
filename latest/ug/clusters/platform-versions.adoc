@@ -44,6 +44,16 @@ The following admission controllers are enabled for all `1.32` platform versions
 | Release notes
 | Release date
 
+| `1.32.2`
+| `eks.4`
+| New platform version with security fixes and enhancements.
+| March 4, 2025
+
+| `1.32.1`
+| `eks.3`
+| New platform version with security fixes and enhancements.
+| February 24, 2025
+
 | `1.32.0`
 | `eks.2`
 | Initial release of Kubernetes version `1.32` for EKS. For more information, see <<kubernetes-1-32>>.
@@ -62,6 +72,21 @@ The following admission controllers are enabled for all `1.31` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.31.6`
+| `eks.20`
+| New platform version with security fixes and enhancements.
+| March 4, 2025
+
+| `1.31.5`
+| `eks.19`
+| New platform version with security fixes and enhancements.
+| February 24, 2025
+
+| `1.31.5`
+| `eks.18`
+| New platform version with security fixes and enhancements.
+| February 24, 2025
 
 | `1.31.4`
 | `eks.17`
@@ -98,14 +123,44 @@ The following admission controllers are enabled for all `1.30` platform versions
 | Release notes
 | Release date
 
+| `1.30.10`
+| `eks.28`
+| New platform version with security fixes and enhancements.
+| March 4, 2025
+
+| `1.30.9`
+| `eks.27`
+| New platform version with security fixes and enhancements.
+| February 24, 2025
+
 | `1.30.8`
 | `eks.25`
 | New platform version with security fixes and enhancements.
 | January 17, 2025
 
+| `1.30.8`
+| `eks.24`
+| New platform version with security fixes and enhancements.
+| January 3, 2025
+
+| `1.30.7`
+| `eks.23`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.30.6`
+| `eks.22`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.30.6`
+| `eks.21`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
 | `1.30.6`
 | `eks.20`
-| New platform version with Amazon EKS Hybrid Nodes support and enhancements to control plane observability. See <<hybrid-nodes-overview>> and see link:blogs/containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"], respectively.
+| New platform version with Amazon EKS Hybrid Nodes support and enhancements to control plane observability. See <<hybrid-nodes-overview>> and see link:containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"], respectively.
 | November 15, 2024
 
 | `1.30.5`
@@ -152,14 +207,49 @@ The following admission controllers are enabled for all `1.29` platform versions
 | Release notes
 | Release date
 
+| `1.29.14`
+| `eks.31`
+| New platform version with security fixes and enhancements.
+| March 4, 2025
+
+| `1.29.13`
+| `eks.30`
+| New platform version with security fixes and enhancements.
+| February 24, 2025
+
+| `1.29.13`
+| `eks.29`
+| New platform version with security fixes and enhancements.
+| February 24, 2025
+
 | `1.29.12`
 | `eks.28`
 | New platform version with security fixes and enhancements.
-| January 17, 2025
+| January 20, 2025
+
+| `1.29.12`
+| `eks.27`
+| New platform version with security fixes and enhancements.
+| January 3, 2025
+
+| `1.29.11`
+| `eks.26`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.29.10`
+| `eks.25`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.29.10`
+| `eks.24`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
 
 | `1.29.10`
 | `eks.23`
-| New platform version with Amazon EKS Hybrid Nodes support and enhancements to control plane observability. See <<hybrid-nodes-overview>> and see link:blogs/containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"], respectively.
+| New platform version with Amazon EKS Hybrid Nodes support and enhancements to control plane observability. See <<hybrid-nodes-overview>> and see link:containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"], respectively.
 | November 15, 2024
 
 | `1.29.9`
@@ -232,13 +322,43 @@ The following admission controllers are enabled for all `1.28` platform versions
 | Release date
 
 | `1.28.15`
+| `eks.37`
+| New platform version with security fixes and enhancements.
+| March 4, 2025
+
+| `1.28.15`
+| `eks.36`
+| New platform version with security fixes and enhancements.
+| February 24, 2025
+
+| `1.28.15`
 | `eks.34`
 | New platform version with security fixes and enhancements.
 | January 17, 2025
 
 | `1.28.15`
+| `eks.33`
+| New platform version with security fixes and enhancements.
+| January 3, 2025
+
+| `1.28.15`
+| `eks.32`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.28.15`
+| `eks.31`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.28.15`
+| `eks.30`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.28.15`
 | `eks.29`
-| New platform version with Amazon EKS Hybrid Nodes support and enhancements to control plane observability. See <<hybrid-nodes-overview>> and see link:blogs/containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"], respectively.
+| New platform version with Amazon EKS Hybrid Nodes support and enhancements to control plane observability. See <<hybrid-nodes-overview>> and see link:containers/amazon-eks-enhances-kubernetes-control-plane-observability/[Amazon EKS enhances performance observability,type="blog"], respectively.
 | November 15, 2024
 
 | `1.28.14`
@@ -340,9 +460,39 @@ The following admission controllers are enabled for all `1.27` platform versions
 | Release date
 
 | `1.27.16`
+| `eks.41`
+| New platform version with security fixes and enhancements.
+| March 4, 2025
+
+| `1.27.16`
+| `eks.40`
+| New platform version with security fixes and enhancements.
+| March 4, 2025
+
+| `1.27.16`
 | `eks.38`
 | New platform version with security fixes and enhancements.
 | January 17, 2025
+
+| `1.27.16`
+| `eks.37`
+| New platform version with security fixes and enhancements.
+| January 3, 2025
+
+| `1.27.16`
+| `eks.36`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.27.16`
+| `eks.35`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.27.16`
+| `eks.34`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
 
 | `1.27.16`
 | `eks.33`
@@ -468,9 +618,39 @@ The following admission controllers are enabled for all `1.26` platform versions
 | Release date
 
 | `1.26.15`
+| `eks.43`
+| New platform version with security fixes and enhancements.
+| March 4, 2025
+
+| `1.26.15`
+| `eks.42`
+| New platform version with security fixes and enhancements.
+| February 24, 2025
+
+| `1.26.15`
 | `eks.40`
 | New platform version with security fixes and enhancements.
 | January 17, 2025
+
+| `1.26.15`
+| `eks.39`
+| New platform version with security fixes and enhancements.
+| January 3, 2025
+
+| `1.26.15`
+| `eks.38`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.26.15`
+| `eks.37`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.26.15`
+| `eks.36`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
 
 | `1.26.15`
 | `eks.35`
@@ -601,9 +781,39 @@ The following admission controllers are enabled for all `1.25` platform versions
 | Release date
 
 | `1.25.16`
+| `eks.43`
+| New platform version with security fixes and enhancements.
+| March 4, 2025
+
+| `1.25.16`
+| `eks.42`
+| New platform version with security fixes and enhancements.
+| February 24, 2025
+
+| `1.25.16`
 | `eks.40`
 | New platform version with security fixes and enhancements.
 | January 17, 2025
+
+| `1.25.16`
+| `eks.39`
+| New platform version with security fixes and enhancements.
+| January 3, 2025
+
+| `1.25.16`
+| `eks.38`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.25.16`
+| `eks.37`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.25.16`
+| `eks.36`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
 
 | `1.25.16`
 | `eks.35`
@@ -740,9 +950,34 @@ The following admission controllers are enabled for all `1.24` platform versions
 | Release date
 
 | `1.24.17`
+| `eks.45`
+| New platform version with security fixes and enhancements.
+| February 24, 2025
+
+| `1.24.17`
 | `eks.44`
 | New platform version with security fixes and enhancements.
 | January 17, 2025
+
+| `1.24.17`
+| `eks.43`
+| New platform version with security fixes and enhancements.
+| January 3, 2025
+
+| `1.24.17`
+| `eks.42`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.24.17`
+| `eks.41`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
+
+| `1.24.17`
+| `eks.40`
+| New platform version with security fixes and enhancements.
+| December 13, 2024
 
 | `1.24.17`
 | `eks.39`
@@ -878,7 +1113,7 @@ The following admission controllers are enabled for all `1.24` platform versions
 
 | `1.24.7`
 | `eks.1`
-| Initial release of Kubernetes version `1.24` for EKS. For more information, see <<kubernetes-1-24>>.
+| Initial release of Kubernetes version `1.24` for EKS. 
 | November 15, 2022
 |===
 

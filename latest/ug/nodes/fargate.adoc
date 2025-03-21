@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#fargate]
 = Simplify compute management with {aws} Fargate
 :info_titleabbrev: {aws} Fargate
-:keywords: Fargate, nodes
 
 [abstract]
 --
@@ -161,7 +160,7 @@ spec:
 |No
 
 |{aws} Region availability
-|<<fargate,Some Amazon EKS supported regions>>
+|link:general/latest/gr/eks.html[Some Amazon EKS supported regions,type="documentation"]
 
 |Can run containers on Amazon EC2 dedicated hosts
 |No

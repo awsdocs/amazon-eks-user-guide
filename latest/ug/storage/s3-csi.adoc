@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#s3-csi]
 = Access Amazon S3 objects with Mountpoint for Amazon S3 CSI driver
 :info_titleabbrev: Mountpoint for Amazon S3
-:keywords: Mountpoint for Amazon S3 CSI driver, storage
 
 [abstract]
 --

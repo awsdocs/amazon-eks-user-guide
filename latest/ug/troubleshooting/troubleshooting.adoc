@@ -3,7 +3,6 @@ include::../attributes.txt[]
 [#troubleshooting]
 = Troubleshoot problems with Amazon EKS clusters and nodes
 :info_titleabbrev: Troubleshooting
-:keywords: troubleshooting, help, FAQ
 
 [abstract]
 --

@@ -401,7 +401,7 @@ aws iam attach-role-policy \
 ----
 +
 IMPORTANT: For simplicity in this tutorial, the link:aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html[AmazonEKS_CNI_Policy,type="documentation"] policy is attached to the node IAM role. In a production cluster however, we recommend attaching the policy to a separate IAM role that is used only with the Amazon VPC CNI plugin for Kubernetes. For more information, see <<cni-iam-role>>.
-. Create one of the following types of node groups. To determine the instance type that you want to deploy, see <<choosing-instance-type>>. For this tutorial, complete the *Managed*, *Without a launch template or with a launch template without an AMI ID specified* option. If you're going to use the node group for production workloads, then we recommend that you familiarize yourself with all of the managed node group <<create-managed-node-group>> and self-managed node group <<worker>> options before deploying the node group.
+. Create one of the following types of node groups. To determine the instance type that you want to deploy, see <<choosing-instance-type>>. For this tutorial, complete the *Managed*, *Without a launch template or with a launch template without an AMI ID specified* option. If you're going to use the node group for production workloads, then we recommend that you familiarize yourself with all of the <<create-managed-node-group,managed node group>> and <<worker,self-managed node group>> options before deploying the node group.
 +
 ** *Managed* – Deploy your node group using one of the following options:
 +

@@ -4,7 +4,6 @@ include::attributes.txt[]
 [#quickstart]
 = Quickstart: Deploy a web app and store data
 :info_titleabbrev: Quickstart
-:keywords: quickstart, web, cluster
 
 [abstract]
 --

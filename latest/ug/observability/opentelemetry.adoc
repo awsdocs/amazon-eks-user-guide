@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#opentelemetry]
 = Send metric and trace data with ADOT Operator
 :info_titleabbrev: ADOT Operator
-:keywords: ADOT
 
 [abstract]
 --

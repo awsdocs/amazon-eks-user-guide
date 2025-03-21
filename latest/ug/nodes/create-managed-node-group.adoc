@@ -177,7 +177,7 @@ If you implement <<iam-roles-for-service-accounts,IAM roles for service accounts
 *** *Tags* – (Optional) You can choose to tag your Amazon EKS managed node group. These tags don't propagate to other resources in the node group, such as Auto Scaling groups or instances. For more information, see <<eks-using-tags>>.
 . On the *Set compute and scaling configuration* page, fill out the parameters accordingly, and then choose *Next*.
 +
-*** *AMI type* – Select an AMI type.If you are deploying Arm instances, be sure to review the considerations in <<arm-ami,Amazon EKS optimized Arm Amazon Linux AMIs>> before deploying.
+*** *AMI type* – Select an AMI type. If you are deploying Arm instances, be sure to review the considerations in <<arm-ami,Amazon EKS optimized Arm Amazon Linux AMIs>> before deploying.
 +
 If you specified a launch template on the previous page, and specified an AMI in the launch template, then you can't select a value. The value from the template is displayed. The AMI specified in the template must meet the requirements in <<launch-template-custom-ami,Specifying an AMI>>.
 *** *Capacity type* – Select a capacity type. For more information about choosing a capacity type, see <<managed-node-group-capacity-types>>. You can't mix different capacity types within the same node group. If you want to use both capacity types, create separate node groups, each with their own capacity and instance types. See <<capacity-blocks-mng>> for information on provisioning and scaling GPU-accelerated worker nodes.

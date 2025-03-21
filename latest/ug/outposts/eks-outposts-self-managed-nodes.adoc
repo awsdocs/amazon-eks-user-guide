@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#eks-outposts-self-managed-nodes]
 = Create Amazon Linux nodes on {aws} Outposts
 :info_titleabbrev: Nodes
-:keywords: launch, start, self-managed, Linux, node
 
 [abstract]
 --

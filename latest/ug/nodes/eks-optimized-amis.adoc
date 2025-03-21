@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#eks-optimized-amis]
 = Create nodes with pre-built optimized images
 :info_titleabbrev: Pre-built optimized AMIs
-:keywords: optimized, custom, AMI
 
 [abstract]
 --

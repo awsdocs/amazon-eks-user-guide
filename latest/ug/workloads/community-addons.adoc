@@ -10,9 +10,9 @@ For example, you can use the {aws} API, CLI, or Management Console to install co
 
 You manage community add-ons just like existing Amazon EKS Add-ons. Community add-ons are different from existing add-ons in that they have a unique scope of support. 
 
-NOTE: Using community add-ons is at your discretion. As part of the xref:security[shared responsibility model] between you and {aws}, you are expected to understand what you are installing into your workspace for these third party plugins. You are also responsible for the community add-ons meeting your security needs.
+NOTE: Using community add-ons is at your discretion. As part of the xref:security[shared responsibility model] between you and {aws}, you are expected to understand what you are installing into your cluster for these third party plugins. You are also responsible for the community add-ons meeting your cluster security needs. For more information, see <<oss-scope>>. 
 
-Community add-ons are built by {aws}. {aws} only validates community add-ons for version compatibility. For example, if you install a community add-on on a cluster, {aws} checks if it is compatible with the Kubernetes version of your cluster. 
+Community add-ons are packaged by {aws}. {aws} only validates community add-ons for version compatibility. For example, if you install a community add-on on a cluster, {aws} checks if it is compatible with the Kubernetes version of your cluster. 
 
 Importantly, {aws} does not provide full support for community add-ons. {aws} supports only lifecycle operations done using {aws} APIs, such as installing add-ons or deleting add-ons. 
 
@@ -53,7 +53,7 @@ You install or update community add-ons in the same way as other Amazon EKS Add-
 
 == Available community add-ons
 
-The following community add-ons are availalbe from Amazon EKS. 
+The following community add-ons are available from Amazon EKS.
 
 === Kubernetes Metrics Server
 
@@ -119,9 +119,54 @@ Prometheus exporter for hardware and OS metrics exposed by *NIX kernels, written
 |Custom IAM permissions | None
 |===
 
+
+=== Cert Manager
+
+Cert Manager can be used to manage the creation and renewal of certificates.
+
+|===
+|Property | Value
+
+|Add-on name | `cert-manager`
+
+|Namespace | `cert-manager`
+
+|Documentation | https://cert-manager.io/docs/[Cert Manager Docs]
+
+|Service account name | None
+
+|Managed IAM policy | None
+
+|Custom IAM permissions | None
+|===
+
+
+=== External DNS
+
+The External DNS EKS add-on can be used to manage Route53 DNS records through Kubernetes resources.
+
+External DNS permissions can be reduced to `route53:ChangeResourceRecordSets`, `route53:ListHostedZones`, and `route53:ListResourceRecordSets` on the hosted zones you wish to manage.
+
+|===
+|Property | Value
+
+|Add-on name | `external-dns`
+
+|Namespace | `external-dns`
+
+|Documentation | https://github.com/kubernetes-sigs/external-dns[GitHub Readme]
+
+|Service account name | external-dns
+
+|Managed IAM policy | `arn:aws:iam::aws:policy/AmazonRoute53FullAccess`
+
+|Custom IAM permissions | None
+|===
+
+
 == View Attributions
 
-You can download the open source attribtions and license information for community add-ons.
+You can download the open source attributions and license information for community add-ons.
 
 . Determine the name and version of the add-on you want to download attributions for. 
 . Update the following command with the name and version:

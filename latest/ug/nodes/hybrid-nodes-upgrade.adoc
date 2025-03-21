@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#hybrid-nodes-upgrade]
 = Upgrade hybrid nodes for your cluster
 :info_titleabbrev: Upgrade hybrid nodes
-:keywords: upgrade on-premises nodes, upgrade hybrid nodes
 
 [abstract]
 --

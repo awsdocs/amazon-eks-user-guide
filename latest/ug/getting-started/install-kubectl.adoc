@@ -4,7 +4,6 @@ include::../attributes.txt[]
 [#install-kubectl]
 = Set up `kubectl` and `eksctl`
 :info_titleabbrev: Set up kubectl and eksctl
-:keywords: install, update, kubectl
 
 [abstract]
 --
@@ -59,6 +58,15 @@ Install or update `kubectl` on one of the following operating systems:
 * <<linux_amd64_kubectl>>
 * <<linux_arm64_kubectl>>
 * <<windows_kubectl>>
+
+[NOTE]
+====
+
+If downloads are slow to your region from the regions used in this section,
+consider setting up CloudFront to front the content.
+For further information, see link:AmazonCloudFront/latest/DeveloperGuide/GettingStartedSimpleDistributon.html[Get started with a basic CloudFront distribution,type="documentation"].
+
+====
 
 === macOS [[macos_kubectl]]
 

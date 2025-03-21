@@ -1,10 +1,9 @@
-include::../../attributes.txt[]
+include::../attributes.txt[]
 
 [.topic]
 [#cost-monitoring]
 = Monitor and optimize Amazon EKS cluster costs
 :info_titleabbrev: Cost monitoring
-:keywords: cost, monitoring, watch
 
 [abstract]
 --

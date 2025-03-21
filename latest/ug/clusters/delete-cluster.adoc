@@ -48,6 +48,7 @@ For instructions on how to install or upgrade `eksctl`, see https://eksctl.io/in
 kubectl get svc --all-namespaces
 ----
 .. Delete any services that have an associated `EXTERNAL-IP` value. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in Kubernetes to allow the load balancer and associated resources to be properly released.
+Replace [.replaceable]`service-name` with the name of each service listed as described.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -81,6 +82,7 @@ Output:
 kubectl get svc --all-namespaces
 ----
 . Delete any services that have an associated `EXTERNAL-IP` value. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in Kubernetes to allow the load balancer and associated resources to be properly released.
+Replace [.replaceable]`service-name` with the name of each service listed as described.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -120,6 +122,7 @@ NOTE: The node groups listed are <<managed-node-groups,managed node groups>> onl
 kubectl get svc --all-namespaces
 ----
 . Delete any services that have an associated `EXTERNAL-IP` value. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in Kubernetes to allow the load balancer and associated resources to be properly released.
+Replace [.replaceable]`service-name` with the name of each service listed as described.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

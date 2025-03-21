@@ -3,7 +3,6 @@ include::../attributes.txt[]
 [.topic]
 [#what-is-eks]
 = What is Amazon EKS?
-:keywords: Amazon Elastic Kubernetes Service, Amazon EKS, about, summary, description
 
 [abstract]
 --

@@ -1,4 +1,4 @@
-include::../../attributes.txt[]
+include::../attributes.txt[]
 
 [#eks-managing]
 = Organize and monitor cluster resources
@@ -12,17 +12,12 @@ This chapter includes the following topics to help you manage your cluster. You 
 * <<eks-using-tags>> – To help you manage your Amazon EKS resources, you can assign your own metadata to each resource in the form of _tags_. This topic describes tags and shows you how to create them. 
 * <<service-quotas>> – Your {aws} account has default quotas, formerly referred to as limits, for each {aws} service. Learn about the quotas for Amazon EKS and how to increase them.
 
-
 include::cost-monitoring.adoc[leveloffset=+1]
-
 
 include::metrics-server.adoc[leveloffset=+1]
 
-
 include::helm.adoc[leveloffset=+1]
 
-
 include::eks-using-tags.adoc[leveloffset=+1]
-
 
 include::service-quotas.adoc[leveloffset=+1]
