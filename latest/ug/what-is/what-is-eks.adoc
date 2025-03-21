@@ -9,65 +9,97 @@ include::../attributes.txt[]
 Learn to manage containerized applications with Amazon EKS
 --
 
-Amazon Elastic Kubernetes Service (Amazon EKS) is a managed Kubernetes service that eliminates the need to operate and maintain the availability and scalability of Kubernetes clusters in Amazon Web Services ({aws}) and in your own data centers. https://kubernetes.io/docs/concepts/overview/[Kubernetes] is an open source system that automates the management, scaling, and deployment of containerized applications. To get started, see the <<quickstart>> page in the Amazon EKS User Guide.
+Amazon Elastic Kubernetes Service (Amazon EKS) is the premiere platform for running https://kubernetes.io/docs/concepts/overview/[Kubernetes] clusters, both in the Amazon Web Services ({aws}) cloud and in your own data centers (https://anywhere.eks.amazonaws.com/[EKS Anywhere] and <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>>).
+
+Amazon EKS simplifies building, securing, and maintaining Kubernetes clusters. It can be more cost effective at providing enough resources to meet peak demand than maintaining your own data centers. Two of the main approaches to using Amazon EKS are as follows:
+
+* **EKS standard**: {aws} manages the https://kubernetes.io/docs/concepts/overview/components/#control-plane-components[Kubernetes control plane] when you create a cluster with EKS. Components that manage nodes, schedule workloads, integrate with the {aws} cloud, and store and scale control plane information to keep your clusters up and running, are handled for you automatically.
+
+* **EKS Auto Mode**: Using the <<automode,EKS Auto Mode>> feature, EKS extends its control to manage https://kubernetes.io/docs/concepts/overview/components/#node-components[Nodes] (Kubernetes data plane) as well. 
+It simplifies Kubernetes management by automatically provisioning infrastructure, selecting optimal compute instances, dynamically scaling resources, continuously optimizing costs, patching operating systems, and integrating with {aws} security services.
+
+The following diagram illustrates how Amazon EKS integrates your Kubernetes clusters with the {aws} cloud, depending on which method of cluster creation you choose:
+
+image::images/whatis.png[Amazon EKS standard and EKS Auto Mode,scaledwidth=100%]
+
+Amazon EKS helps you accelerate time to production, improve performance, availability and resiliency, and enhance system security.
+For more information, see https://aws.amazon.com/eks/[Amazon Elastic Kubernetes Service].
 
 [#eks-features]
 == Features of Amazon EKS
+Amazon EKS provides the following high-level features:
 
-*Fully Managed Kubernetes*
+*Management interfaces*::
+EKS offers multiple interfaces to provision, manage, and maintain clusters, including {aws-management-console}, Amazon EKS API/SDKs, CDK, {aws} CLI, eksctl CLI, {aws} CloudFormation, and Terraform. 
+For more information, see <<getting-started>> and <<clusters>>.
 
-Amazon EKS provides a scalable and highly-available Kubernetes control plane running across multiple {aws} Availability Zones (AZs). Amazon EKS automatically manages availability and scalability of Kubernetes API servers and etcd persistence layer. Amazon EKS runs the Kubernetes control plane across multiple AZs to ensure high availability, and automatically detects and replaces unhealthy control plane nodes.
+*Access control tools*::
+EKS relies on both Kubernetes and {aws} Identity and Access Management ({aws} IAM) features to <<cluster-auth,manage access>>
+from users and workloads.
+For more information, see <<grant-k8s-access>> and <<service-accounts>>.
 
-Amazon EKS Auto Mode fully automates Kubernetes cluster infrastructure management for compute, storage, and networking on {aws}. It simplifies Kubernetes management by automatically provisioning infrastructure, selecting optimal compute instances, dynamically scaling resources, continuously optimizing costs, patching operating systems, and integrating with {aws} security services. 
+*Compute resources*::
+For <<eks-compute,compute resources>>, EKS allows the full range of Amazon EC2 instance types and {aws} innovations such as Nitro and Graviton with Amazon EKS for you to optimize the compute for your workloads. For more information, see <<eks-compute>>.
 
-*Kubernetes Compatibility and Support*
+*Storage*::
+EKS Auto Mode automatically creates storage classes using <<create-storage-class,EBS volumes>>.
+Using Container Storage Interface (CSI) drivers, you can also use Amazon S3, Amazon EFS, Amazon FSX, and Amazon File Cache for your application storage needs. For more inforamtion, see <<storage>>.
 
-Amazon EKS runs upstream Kubernetes and is certified Kubernetes-conformant, so you can use all the existing plug-ins and tooling from the Kubernetes community. Applications running on Amazon EKS are fully compatible with applications running on any standard Kubernetes environment, whether running in on-premises data centers or public clouds. This means that you can easily migrate any standard Kubernetes application to Amazon EKS without refactoring your code. Amazon EKS supports Kubernetes versions longer than they are supported upstream, with standard support for Kubernetes minor versions for 14 months from the time they are released in Amazon EKS, and extended support for Kubernetes minor versions for an additional 12 months of support (26 total months per version). See <<kubernetes-versions>> for more information.
+*Security*::
+The shared responsibility model is employed as it relates to <<security,Security in Amazon EKS>>.
+For more information, see <<security-best-practices,Security best practices>>, <<infrastructure-security,Infrastructure security>>,
+and <<security-k8s,Kubernetes security>>.
 
-*Machine Learning*
+*Monitoring tools*::
+Use the <<observability-dashboard,observability dashboard>> to monitor Amazon EKS clusters.
+Monitoring tools include <<prometheus,Prometheus>>, <<cloudwatch,CloudWatch>>, <<logging-using-cloudtrail,Cloudtrail>>,
+and <<opentelemetry,ADOT Operator>>.
+For more information on dashboards, metrics servers, and other tools, see <<cost-monitoring,EKS cluster costs>> and <<metrics-server,Kubernetes Metrics Server>>.
 
-Amazon EKS has become a cornerstone for deploying and managing AI/ML workloads in the cloud. With its ability to handle complex, resource-intensive tasks, Amazon EKS provides a scalable and flexible foundation for running AI/ML models, making it an ideal choice for organizations aiming to harness the full potential of machine learning. Whether you're training large language models that require vast amounts of compute power or deploying inference pipelines that need to handle unpredictable traffic patterns, Amazon EKS scales up and down efficiently, optimizing resource use and cost. Amazon EKS supports a wide range of compute options including GPU-powered instances and {aws} Neuron, allowing for high-performance training and low-latency inference, ensuring that models run efficiently in production environments. For more information, see <<machine-learning-on-eks>>.
+*Kubernetes compatibility and support*::
 
-*Hybrid Deployments*
+Amazon EKS is certified Kubernetes-conformant, so you can deploy Kubernetes-compatible applications without refactoring and use Kubernetes community tooling and plugins.
+EKS offers both <<kubernetes-versions-standard,standard support>> and <<kubernetes-versions-extended,extended support>> for Kubernetes.
+For more information, see <<kubernetes-versions>>. 
 
-You can use the same Amazon EKS clusters to run nodes on {aws}-hosted infrastructure in {aws} link:about-aws/global-infrastructure/regions_az/[Regions,type="marketing"], link:about-aws/global-infrastructure/localzones/[{aws} Local Zones,type="marketing"], link:wavelength/[{aws} Wavelength Zones,type="marketing"], or in your own on-premises environments with link:outposts/[{aws} Outposts,type="marketing"] and <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>>. {aws} Outposts is {aws}-managed infrastructure that you run in your data centers or co-location facilities, whereas Amazon EKS Hybrid Nodes runs on virtual machines or bare metal infrastructure that you manage in your on-premises or edge environments. If you need to run in isolated or air-gapped environments, you can use link:eks/eks-anywhere/[Amazon EKS Anywhere,type="marketing"], which is {aws}-supported Kubernetes management software that runs on infrastructure you manage. With Amazon EKS Anywhere, you are responsible for cluster lifecycle operations and maintenance of your Amazon EKS Anywhere clusters. The _Amazon EKS Connector_ can be used to view any Kubernetes cluster and their resources in the Amazon EKS console. _Amazon EKS Distro_ is the {aws} distribution of the underlying Kubernetes components that power all Amazon EKS offerings. 
+[#eks-related-services]
+== Related services
+**Services to use with Amazon EKS**
 
-*Compute*
+You can use other {aws} services with the clusters that you deploy using Amazon EKS:
 
-You can use the full range of Amazon EC2 instance types and {aws} innovations such as Nitro and Graviton with Amazon EKS for you to optimize the compute for your workloads. You can use on-demand or Spot instances and your savings plans with compute you use with your Amazon EKS clusters. See <<eks-compute>> for more information.
+*Amazon EC2*::
+Obtain on-demand, scalable compute capacity with link:AWSEC2/latest/UserGuide/concepts.html[Amazon EC2,type="documentation"].
 
-*Networking*
+*Amazon EBS*::
+Attach scalable, high-performance block storage resources with link:ebs/latest/userguide/what-is-ebs.html[Amazon EBS,type="documentation"].
 
-Amazon EKS integrates with Amazon VPC allowing you to use your own Amazon VPC security groups and link:vpc/latest/userguide/vpc-network-acls[network access control lists,type="documentation"] (ACLs) with Amazon EKS clusters. Amazon EKS provides the https://github.com/aws/amazon-vpc-cni-k8s[Amazon VPC container network interface] (CNI), allowing Kubernetes pods to receive IP addresses directly from the VPC. Amazon EKS supports IPv4 and IPv6 for workloads and dual-stack endpoints for the Amazon EKS APIs and Kubernetes API. You can use Application Load Balancers (ALB) and Network Load Balancers (NLB) managed by the {aws} Load Balancer Controller for application ingress and load balancing. You can also use Amazon VPC Lattice, a managed application networking service built directly into the {aws} networking infrastructure, for cross-cluster connectivity with standard Kubernetes semantics in a simple and consistent manner. See <<eks-networking>> for more information.
+*Amazon ECR*::
+Store container images securely with link:AmazonECR/latest/userguide/what-is-ecr.html[Amazon ECR,type="documentation"].
 
-*Security*
+*Amazon CloudWatch*::
+Monitor {aws} resources and applications in real time with link:AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html[Amazon CloudWatch,type="documentation"].
 
-Amazon EKS integrates with {aws} Identity and Access Management (IAM) for you to secure your clusters and applications. Amazon EKS makes it easy to map {aws} IAM permissions to Kubernetes Role Based Access Control (RBAC). You can use {aws} IAM for cluster authentication and authorization with Amazon EKS Cluster Access Management, for access and permissions of operational software running on your clusters, and for granular application access to other {aws} services with Amazon EKS Pod Identity. Amazon EKS is certified by multiple compliance programs for regulated and sensitive applications. Amazon EKS is compliant with link:compliance/soc-faqs/[SOC,type="marketing"], link:compliance/pci-dss-level-1-faqs/[PCI,type="marketing"], link:compliance/iso-certified/[ISO,type="marketing"], link:compliance/fedramp/[FedRAMP-Moderate,type="marketing"], link:compliance/irap/[IRAP,type="marketing"], link:compliance/bsi-c5/[C5,type="marketing"], link:compliance/k-isms/[K-ISMS,type="marketing"], link:compliance/esquema-nacional-de-seguridad/[ENS High,type="marketing"], link:compliance/OSPAR/[OSPAR,type="marketing"], link:compliance/hitrust/[HITRUST CSF,type="marketing"], and is a link:compliance/hipaa-compliance/[HIPAA,type="marketing"] eligible service. See <<cluster-auth>> for more information. 
+*Amazon Prometheus*::
+Track metrics for containerized applications with link:prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html[Amazon Managed Service for Prometheus,type="documentation"].
 
-*Observability*
+*Elastic Load Balancing*::
+Distribute incoming traffic across multiple targets with link:elasticloadbalancing/latest/userguide/what-is-load-balancing.html[Elastic Load Balancing,type="documentation"].
 
-Amazon EKS integrates with {aws} Managed Service for Prometheus (AMP), Amazon CloudWatch, Amazon CloudTrail, and Amazon GuardDuty for monitoring, logging, and auditing capabilities. You can also view performance insights for your Amazon EKS clusters directly in the Amazon EKS console. You can use AMP agent-less scrapers or the {aws} Distro for OpenTelemetry add-on to monitor and collect logs for your clusters, infrastructure, and applications. You can use Amazon CloudWatch Container Insights, the CloudWatch Observability Agent add-on, and Amazon EKS control plane logging to monitor, collect logs, and analyze issues with your clusters, infrastructure, and applications. Amazon EKS also integrates with Amazon CloudTrail for auditing cluster API activity, and Amazon GuardDuty for audit log threat analysis and runtime threat detection. See <<eks-observe>> for more information.
+*Amazon GuardDuty*::
+Detect threats to EKS clusters with <<integration-guardduty,Amazon GuardDuty>>.
 
-*Storage*
-
-You can use a range of {aws} storage services with Amazon EKS for the storage needs of your applications. Through an {aws}-supported breadth of Container Storage Interface (CSI) drivers, you can easily use Amazon EBS, Amazon S3, Amazon EFS, Amazon FSX, and Amazon File Cache for the storage needs of your applications running on Amazon EKS. See <<storage>> for more information.
-
-*Add-ons*
-
-Amazon EKS offers a curated set of {aws}-vended Kubernetes software, also known as Amazon EKS add-ons, that provide key operational capabilities for Kubernetes clusters and integration with various {aws} services for cluster and pod networking, load balancing, storage, observability, and security. Amazon EKS provides a unified management experience for finding, selecting, installing, managing, and configuring third-party Kubernetes operational software (add-ons) from independent software vendors on Amazon EKS clusters. See <<eks-add-ons>> for more information.
-
-*Management interfaces*
-
-Amazon EKS supports a range of interfaces to provision, manage, and maintain clusters including the Amazon EKS console, Amazon EKS API/SDKs, CDK, {aws} CLI, eksctl CLI, {aws} CloudFormation, and Terraform. You can also use {aws} Controllers for Kubernetes (ACK) to provision and manage {aws} services from within your Kubernetes environment using Kubernetes interfaces. ACK makes it simple to build scalable and highly available Kubernetes applications utilizing {aws} services. See <<getting-started>> for more information.
-
-*Operating systems*
-
-Amazon EKS supports a range of operating systems and you can use pre-built, Amazon EKS-optimized Amazon Machine Images (AMIs) for the base images of your compute nodes. Amazon EKS maintains optimized images for Amazon Linux 2, Amazon Linux 2023, Bottlerocket, Windows, and there are Ubuntu images maintained by Canonical. You can also use your own custom AMIs for other operating system variants. The Amazon EKS AMIs for Amazon Linux have built-in support for NVIDIA and {aws} Neuron accelerated instance types. See <<eks-optimized-amis>> for more information.
+*{aws} Resilience Hub*::
+Assess EKS cluster resiliency with <<integration-resilience-hub,{aws} Resilience Hub>>.
 
 [#eks-pricing]
 == Amazon EKS Pricing
 
-Amazon EKS has per cluster pricing based on Kubernetes cluster version support, pricing for Amazon EKS Auto Mode, and per vCPU pricing for Amazon EKS Hybrid Nodes. When using Amazon EKS, you pay separately for the {aws} resources you use to run your applications on Kubernetes worker nodes. For example, if you are running Kubernetes worker nodes as Amazon EC2 instances with Amazon EBS volumes and public IPv4 addresses, you are charged for the instance capacity through Amazon EC2, the volume capacity through Amazon EBS, and the IPv4 address through Amazon VPC. Visit the respective pricing pages of the {aws} services you are using with your Kubernetes applications for detailed pricing information.
+Amazon EKS has per cluster pricing based on Kubernetes cluster version support, pricing for Amazon EKS Auto Mode, and per vCPU pricing for Amazon EKS Hybrid Nodes.
+
+When using Amazon EKS, you pay separately for the {aws} resources you use to run your applications on Kubernetes worker nodes. For example, if you are running Kubernetes worker nodes as Amazon EC2 instances with Amazon EBS volumes and public IPv4 addresses, you are charged for the instance capacity through Amazon EC2, the volume capacity through Amazon EBS, and the IPv4 address through Amazon VPC.
+
+Visit the respective pricing pages of the {aws} services you are using with your Kubernetes applications for detailed pricing information.
 
 * For Amazon EKS cluster, Amazon EKS Auto Mode, and Amazon EKS Hybrid Nodes pricing, see link:eks/pricing/[Amazon EKS Pricing,type="marketing"].
 * For Amazon EC2 pricing, see link:ec2/pricing/on-demand/[Amazon EC2 On-Demand Pricing,type="marketing"] and link:ec2/spot/pricing/[Amazon EC2 Spot Pricing,type="marketing"].

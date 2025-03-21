@@ -10,7 +10,9 @@ include::../attributes.txt[]
 This topic gives important changes to be aware of for each Kubernetes version in extended support.
 --
 
-This topic gives important changes to be aware of for each Kubernetes version in extended support. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster.
+Amazon EKS supports Kubernetes versions longer than they are supported upstream, with standard support for Kubernetes minor versions for 14 months from the time they are released in Amazon EKS, and extended support for Kubernetes minor versions for an additional 12 months of support (26 total months per version).
+
+This topic gives important changes to be aware of for each [.noloc]`Kubernetes` version in extended support. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster.
 
 [#kubernetes-1-28]
 == Kubernetes 1.28
