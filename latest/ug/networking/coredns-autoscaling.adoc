@@ -37,9 +37,7 @@ A new Amazon EKS cluster. To deploy one, see <<getting-started>>. The cluster mu
 
 [source,bash,subs="verbatim,attributes"]
 ----
-aws eks describe-cluster
-              --name my-cluster --query cluster.version --output
-              text
+aws eks describe-cluster --name my-cluster --query cluster.version --output text
 ----
 
 [cols="1,1", options="header"]
@@ -266,7 +264,7 @@ aws eks update-addon --cluster-name my-cluster --addon-name coredns \
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-aws eks describe-addon --cluster-name my-cluster --addon-name coredns \
+aws eks describe-addon --cluster-name my-cluster --addon-name coredns
 ----
 +
 If you see this line: `"status": "ACTIVE"`, then the rollout has completed and the add-on is using the new configuration in all of the CoreDNS pods. As you change the number of nodes and CPU cores of nodes in the cluster, Amazon EKS scales the number of replicas of the CoreDNS deployment.
