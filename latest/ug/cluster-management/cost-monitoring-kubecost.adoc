@@ -58,7 +58,7 @@ helm upgrade -i kubecost \
     oci://public.ecr.aws/kubecost/cost-analyzer \
     --version kubecost-version \
     --namespace kubecost --create-namespace \
-    -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/refs/tags/v1.108.1/cost-analyzer/values.yaml
+    -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/refs/tags/v1.108.1/cost-analyzer/values-eks-cost-monitoring.yaml
 ----
 +
 Kubecost releases new versions regularly. You can update your version using https://helm.sh/docs/helm/helm_upgrade/[helm upgrade]. By default, the installation includes a local https://prometheus.io/[Prometheus] server and `kube-state-metrics`. You can customize your deployment to use link:mt/integrating-kubecost-with-amazon-managed-service-for-prometheus[Amazon Managed Service for Prometheus,type="blog"] by following the documentation in link:prometheus/latest/userguide/integrating-kubecost.html[Integrating with Amazon EKS cost monitoring,type="documentation"]. For a list of all other settings that you can configure, see the https://github.com/kubecost/cost-analyzer-helm-chart/blob/develop/cost-analyzer/values-eks-cost-monitoring.yaml[sample configuration file] on GitHub.
