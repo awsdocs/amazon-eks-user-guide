@@ -43,7 +43,7 @@ For <<eks-compute,compute resources>>, EKS allows the full range of Amazon EC2 i
 
 *Storage*::
 EKS Auto Mode automatically creates storage classes using <<create-storage-class,EBS volumes>>.
-Using Container Storage Interface (CSI) drivers, you can also use Amazon S3, Amazon EFS, Amazon FSX, and Amazon File Cache for your application storage needs. For more inforamtion, see <<storage>>.
+Using Container Storage Interface (CSI) drivers, you can also use Amazon S3, Amazon EFS, Amazon FSX, and Amazon File Cache for your application storage needs. For more information, see <<storage>>.
 
 *Security*::
 The shared responsibility model is employed as it relates to <<security,Security in Amazon EKS>>.
