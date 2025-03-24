@@ -8,7 +8,7 @@ Amazon EKS provides an {aws} optimized bundle of Kubecost for cluster cost visib
 
 This topic covers the available versions of Kubecost, and the differences between the available tiers. EKS supports Kubecost Version 1 and Version 2. Each version is available in different tiers. You can use _Amazon EKS optimized Kubecost custom bundle_ for your EKS clusters at no additional cost. You may be charged for use of associated {aws} services, such as Amazon Managed Service for Prometheus. Also, you can use your existing {aws} support agreements to obtain support. 
 
-As a Kubernetes platform administrator and finance leader, you can use Kubecost to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams. You can provide your internal teams and business units with transparent and accurate cost data based on their actual {aws} bill. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters. For more information about Kubecost, see the https://guide.kubecost.com[Kubecost] documentation.
+As a Kubernetes platform administrator and finance leader, you can use Kubecost to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams. You can provide your internal teams and business units with transparent and accurate cost data based on their actual {aws} bill. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters. For more information about Kubecost, see the https://docs.kubecost.com[Kubecost] documentation.
 
 *What is the difference between the custom bundle of Kubecost and the free version of Kubecost (also known as OpenCost)?*
 
@@ -19,7 +19,7 @@ As a Kubernetes platform administrator and finance leader, you can use Kubecost 
 
 *What is the difference between Kubecost v1 and v2?*
 
-Kubecost 2.0 is a major upgrade from previous versions and includes major new features including a brand new API Backend. Note the https://docs.kubecost.com/apis/monitoring-apis/api-allocation[Allocation] and https://docs.kubecost.com/apis/monitoring-apis/assets-api[Assets] APIs are fully backwards compatible. https://docs.kubecost.com/install-and-configure/install/kubecostv2[Please review the Kubecost documentation to ensure a smooth transition.] For the full list of enhancements, https://github.com/kubecost/cost-analyzer-helm-chart/releases/tag/v2.0.0[please see the Kubecost release notes]
+Kubecost 2.0 is a major upgrade from previous versions and includes major new features including a brand new API Backend. Note the https://docs.kubecost.com/apis/monitoring-apis/api-allocation[Allocation] and https://docs.kubecost.com/apis/monitoring-apis/assets-api[Assets] APIs are fully backwards compatible. https://docs.kubecost.com/install-and-configure/install/kubecostv2[Please review the Kubecost documentation to ensure a smooth transition.] For the full list of enhancements, https://github.com/kubecost/cost-analyzer-helm-chart/releases/tag/v2.0.0[please see the Kubecost v2.0 announcement] and https://github.com/kubecost/cost-analyzer-helm-chart/releases[the full release notes].
 
 [IMPORTANT]
 ====
@@ -40,7 +40,7 @@ https://docs.kubecost.com/install-and-configure/install/kubecostv2[Review the Ku
 
 
 | Cluster cost visibility
-| Single clusters up to 250 cores
+| Unlimited clusters up to 250 cores
 | Unified multi-cluster without core limits when integrated with Amazon Managed Service for Prometheus
 | Unified and unlimited number of clusters across unlimited numbers of environments (i.e. multi-cloud)
 
@@ -143,7 +143,7 @@ The following features have metric limits:
 
 
 |Cluster size
-|Limited to 250 cores
+|Unlimited clusters up to 250 cores
 |Unlimited
 |Unlimited
 
@@ -277,11 +277,15 @@ Kubecost provides insights and automation to help users optimize their Kubernete
 
 *Is there a charge for this functionality?*
 
-No. You can use this version of Kubecost at no additional charge. If you want additional Kubecost capabilities that aren't included in this bundle, you can buy an enterprise license of Kubecost through the {aws} Marketplace, or from Kubecost directly.
+No. You can use _Amazon EKS optimized Kubecost custom bundle_ at no additional charge. If you want additional Kubecost capabilities that aren't included in this bundle, you can buy an Enterprise License of Kubecost through the {aws} Marketplace, or from Kubecost directly.
 
-*Is support available?*
+*Is support available for _Amazon EKS optimized Kubecost custom bundle_?*
 
-Yes. You can open a support case with the {aws} Support team at link:contact-us/[Contact {aws},type="marketing"].
+Yes, only if you are using the _Amazon EKS optimized Kubecost custom bundle_.
+
+*How do I get support for _Amazon EKS optimized Kubecost custom bundle_?*
+
+You can open a support case with the {aws} Support team at link:contact-us/[Contact {aws},type="marketing"].
 
 *Do I need a license to use Kubecost features provided by the Amazon EKS integration?*
 
@@ -293,7 +297,7 @@ Yes. You can configure Kubecost to ingest data from {aws} Cost and Usage Report 
 
 *Does this version support cost management of self-managed Kubernetes clusters on Amazon EC2?*
 
-No. This version is only compatible with Amazon EKS clusters.
+No. _Amazon EKS optimized Kubecost custom bundle_ only compatible with Amazon EKS clusters.
 
 *Can Kubecost track costs for Amazon EKS on {aws} Fargate?*
 
