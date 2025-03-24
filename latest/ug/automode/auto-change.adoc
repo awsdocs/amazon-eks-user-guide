@@ -5,14 +5,14 @@
 
 include::../attributes.txt[]
 
-This page documents updates to Amazon EKS Auto Mode. You can periodically check this page for announcements about new or updated features, bug fixes, known issues, and deprecated functionality. 
+This page documents updates to Amazon EKS Auto Mode. You can periodically check this page for announcements about features, bug fixes, known issues, and deprecated functionality. 
 
-The dates below are when the change is expected to be available in all regions.
+The dates below are when the change is expected to be available in all AWS Regions.
 
 == March 21, 2025
 
-**Bug Fix:** Auto Mode nodes now resolve `kube-dns.kube-system.svc.cluster.local` correctly when there isn’t a kube-dns service installed in the cluster. Address GitHub issue https://github.com/aws/containers-roadmap/issues/2546[#2546]. 
+**Bug Fix:** Auto Mode nodes now resolve `kube-dns.kube-system.svc.cluster.local` correctly when there isn't a `kube-dns` service installed in the cluster. Addresses GitHub issue https://github.com/aws/containers-roadmap/issues/2546[#2546]. 
 
 == March 14, 2025
 
-**Feature**: IPv4 egress enabled in IPv6 clusters. IPv4 traffic egressing from IPv6 Auto Mode clusters will now be automatically translated to the v4 address of the node primary ENI. 
+**Feature**: `IPv4` egress enabled in `IPv6` clusters. `IPv4` traffic egressing from `IPv6` Auto Mode clusters will now be automatically translated to the `v4` address of the node primary ENI. 
