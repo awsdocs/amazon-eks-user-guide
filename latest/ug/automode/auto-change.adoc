@@ -1,24 +1,18 @@
 [.topic]
 [#auto-change]
-= Review changes to EKS Auto Mode functionality 
-:info_titleabbrev: Change log
+= Review EKS Auto Mode release notes
+:info_titleabbrev: Release notes
 
 include::../attributes.txt[]
 
-This topic tracks changes to Amazon EKS Auto Mode.
+This page documents updates to Amazon EKS Auto Mode. You can periodically check this page for announcements about new or updated features, bug fixes, known issues, and deprecated functionality. 
 
-If the update requires you to enable or configure it, the change entry will include a link. 
+The dates below are when the change is expected to be available in all regions.
 
-If the update requires a certain platform or Kubernetes version, it will be included.
+== March 21, 2025
 
-[role="no-scroll"]
-[cols="25%,75%", options="header"]
-|===
-|Date |Change
+**Bug Fix:** Auto Mode nodes now resolve `kube-dns.kube-system.svc.cluster.local` correctly when there isn’t a kube-dns service installed in the cluster. Address GitHub issue https://github.com/aws/containers-roadmap/issues/2546[#2546]. 
 
-|2025-03-20
-|Support Pod IPv4 Egress in IPv6 Clusters
+== March 14, 2025
 
-
-|===
-
+**Feature**: IPv4 egress enabled in IPv6 clusters. IPv4 traffic egressing from IPv6 Auto Mode clusters will now be automatically translated to the v4 address of the node primary ENI. 
