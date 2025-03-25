@@ -28,7 +28,9 @@ link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation
 [#efs-csi-prereqs]
 == Prerequisites
 
-* An existing {aws} Identity and Access Management (IAM) OpenID Connect (OIDC) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* The EFS CSI driver needs {aws} IAM Permissions.
+** {aws} suggests using EKS Pod Identities. For more information, see <<pod-id-setup-overview>>.
+** For information about IAM Roles for Service Accounts and setting up an {aws} Identity and Access Management (IAM) OpenID Connect (OIDC) provider for your cluster, see <<enable-iam-roles-for-service-accounts>>.
 * Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 
@@ -56,6 +58,23 @@ The specific steps in this procedure are written for using the driver as an Amaz
 ====
 
 === `eksctl` [[eksctl_efs_store_app_data]]
+==== If Using Pod Identities
+Run the following commands to create an IAM role and Pod Identity association with `eksctl`. Replace [.replaceable]`my-cluster` with your cluster name and [.replaceable]`AmazonEKS_EFS_CSI_DriverRole` with the name for your role.
+
+[source,bash,subs="verbatim,attributes"]
+----
+export cluster_name=my-cluster
+export role_name=AmazonEKS_EFS_CSI_DriverRole
+eksctl create podidentityassociation \
+    --service-account-name efs-csi-controller-sa \
+    --namespace kube-system \
+    --cluster $cluster_name \
+    --role-name $role_name \
+    --permission-policy-arns {arn-aws}iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
+    --approve
+----
+
+==== If Using IAM Roles for Service Accounts
 Run the following commands to create an IAM role with `eksctl`. Replace [.replaceable]`my-cluster` with your cluster name and [.replaceable]`AmazonEKS_EFS_CSI_DriverRole` with the name for your role.
 
 [source,bash,subs="verbatim,attributes"]
@@ -83,10 +102,16 @@ Run the following to create an IAM role with {aws-management-console}.
 . On the *Roles* page, choose *Create role*.
 . On the *Select trusted entity* page, do the following:
 +
-.. In the *Trusted entity type* section, choose *Web identity*.
-.. For *Identity provider*, choose the *OpenID Connect provider URL* for your cluster (as shown under *Overview* in Amazon EKS).
-.. For *Audience*, choose `sts.amazonaws.com`.
-.. Choose *Next*.
+.. If using *EKS Pod Identities*
+... In the *Trusted entity type* section, choose *AWS service*.
+... In the *Service or use case* drop down, choose *EKS*.
+... In the *Use case* section, choose *EKS - Pod Identity*.
+... Choose *Next*.
+.. If using *IAM Roles for Service Accounts*
+... In the *Trusted entity type* section, choose *Web identity*.
+... For *Identity provider*, choose the *OpenID Connect provider URL* for your cluster (as shown under *Overview* in Amazon EKS).
+... For *Audience*, choose `sts.amazonaws.com`.
+... Choose *Next*.
 . On the *Add permissions* page, do the following:
 +
 .. In the *Filter policies* box, enter [.replaceable]`AmazonEFSCSIDriverPolicy`.
@@ -97,9 +122,21 @@ Run the following to create an IAM role with {aws-management-console}.
 .. For *Role name*, enter a unique name for your role, such as [.replaceable]`AmazonEKS_EFS_CSI_DriverRole`.
 .. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
 .. Choose *Create role*.
-. After the role is created, choose the role in the console to open it for editing.
-. Choose the *Trust relationships* tab, and then choose *Edit trust policy*.
-. Find the line that looks similar to the following line:
+. After the role is created:
+.. If using *EKS Pod Identities*
+... Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+... In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the EKS Pod Identity association for.
+... Choose the *Access* tab.
+... In *Pod Identity associations*, choose *Create*.
+... Choose the *IAM role* dropdown and select your newly created role.
+... Choose the *Kubernetes namespace* field and input *kube-system*.
+... Choose the *Kubernetes service account* field and input *efs-csi-controller-sa*.
+... Choose *Create*.
+... For more information on creating Pod Identity associations, see <<pod-id-association-create>>.
+.. If using *IAM Roles for Service Accounts*
+... Choose the role in the console to open it for editing.
+... Choose the *Trust relationships* tab, and then choose *Edit trust policy*.
+... Find the line that looks similar to the following line:
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -112,12 +149,62 @@ Add the following line above the previous line.  Replace [.replaceable]`region-c
 ----
 "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:efs-csi-*",
 ----
-. Modify the `Condition` operator from `"StringEquals"` to `"StringLike"`.
-. Choose *Update policy* to finish.
+... Modify the `Condition` operator from `"StringEquals"` to `"StringLike"`.
+... Choose *Update policy* to finish.
 
 
 === {aws} CLI [[awscli_efs_store_app_data]]
 Run the following commands to create an IAM role with {aws} CLI.
+
+==== If Using Pod Identities
+. Create the IAM role that grants the `AssumeRole` and `TagSession` actions to the `pods.eks.amazonaws.com` service.
++
+.. Copy the following contents to a file named `aws-efs-csi-driver-trust-policy-pod-identity.json`.
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "pods.eks.amazonaws.com"
+            },
+            "Action": [
+                "sts:AssumeRole",
+                "sts:TagSession"
+            ]
+        }
+    ]
+}
+----
+.. Create the role. You can change [.replaceable]`AmazonEKS_EFS_CSI_DriverRole` to a different name, but if you do, make sure to change it in later steps too.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws iam create-role \
+  --role-name AmazonEKS_EFS_CSI_DriverRole \
+  --assume-role-policy-document file://"aws-efs-csi-driver-trust-policy-pod-identity.json"
+----
+. Attach the required {aws} managed policy to the role with the following command.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
+  --role-name AmazonEKS_EFS_CSI_DriverRole
+----
+
+. Run the following command to create the Pod Identity association. Replace [.replaceable]`my-cluster` with your cluster name. Replace [.replaceable]`arn:aws:iam::111122223333:role/my-role` with the role created in previous steps.
++
+----
+aws eks create-pod-identity-association --cluster-name my-cluster --role-arn arn:aws:iam::111122223333:role/my-role --namespace kube-system --service-account efs-csi-controller-sa
+----
+. For more information on creating Pod Identity associations, see <<pod-id-association-create>>.
+
+==== If using IAM Roles for Service Accounts
 
 . View your cluster's OIDC provider URL. Replace [.replaceable]`my-cluster` with your cluster name. If the output from the command is `None`, review the *Prerequisites*.
 +
