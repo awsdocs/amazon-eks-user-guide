@@ -110,26 +110,3 @@ Kubernetes `1.30` is now available in Amazon EKS. For more information about Kub
 * The minimum required IAM policy for the Amazon EKS cluster IAM role has changed. The action `ec2:DescribeAvailabilityZones` is required. For more information, see <<cluster-iam-role>>.
 
 For the complete Kubernetes `1.30` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.30.md.
-
-[#kubernetes-1-29]
-== Kubernetes 1.29
-
-Kubernetes `1.29` is now available in Amazon EKS. For more information about Kubernetes `1.29`, see the https://kubernetes.io/blog/2023/12/13/kubernetes-v1-29-release/[official release announcement].
-
-[IMPORTANT]
-====
-
-
-* The deprecated `flowcontrol.apiserver.k8s.io/v1beta2` API version of `FlowSchema` and `PriorityLevelConfiguration` are no longer served in Kubernetes version `1.29`. If you have manifests or client software that uses the deprecated beta API group, you should change these before you upgrade to version `1.29`.
-
-====
-
-* The `.status.kubeProxyVersion` field for node objects is now deprecated, and the Kubernetes project is proposing to remove that field in a future release. The deprecated field is not accurate and has historically been managed by `kubelet` - which does not actually know the `kube-proxy` version, or even whether `kube-proxy` is running. If you've been using this field in client software, stop - the information isn't reliable and the field is now deprecated.
-* In Kubernetes `1.29` to reduce potential attack surface, the `LegacyServiceAccountTokenCleanUp` feature labels legacy auto-generated secret-based tokens as invalid if they have not been used for a long time (1 year by default), and automatically removes them if use is not attempted for a long time after being marked as invalid (1 additional year by default). To identify such tokens, a you can run: 
-+
-[source,bash,subs="verbatim,attributes"]
-----
-kubectl get cm kube-apiserver-legacy-service-account-token-tracking -n kube-system
-----
-
-For the complete Kubernetes `1.29` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.29.md#changelog-since-v1280.
