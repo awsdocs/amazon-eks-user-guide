@@ -109,7 +109,7 @@ Run the following to create an IAM role with {aws-management-console}.
 . On the *Roles* page, choose *Create role*.
 . On the *Select trusted entity* page, do the following:
 .. If using EKS Pod Identities:
-... In the *Trusted entity type* section, choose *AWS service*.
+... In the *Trusted entity type* section, choose *{aws} service*.
 ... In the *Service or use case* drop down, choose *EKS*.
 ... In the *Use case* section, choose *EKS - Pod Identity*.
 ... Choose *Next*.
