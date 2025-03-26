@@ -29,6 +29,20 @@ To ensure that the API server endpoint for your cluster is always accessible, Am
 
 NOTE: To learn more about what goes into a cluster update, see link:eks/latest/best-practices/cluster-upgrades.html["Best Practices for Cluster Upgrades",type="documentation"] in the EKS Best Practices Guide. This resource helps you plan an upgrade, and understand the strategy of upgrading a cluster. 
 
+== Summary
+The high-level summary of the EKS Cluster upgrade process is as follows:
+
+Step 1: Ensure your cluster is in a state that will support an upgrade; this includes checking the Kubernetes APIs used by resources deployed into the cluster, ensuring the cluster is free of any heal issues, etc. Customers should use EKS upgrade insights when evaluating their cluster's upgrade readiness
+This is the most important step.
+Step 2: Upgrade the control plane to the next minor version (i.e. 1.31 → 1.32)
+Step 3: Upgrade the nodes in the data plane to match that of the control plane
+Step 4: Upgrade the “core” addons (the addons provided by EKS - CoreDNS, VPC CNI, kube-proxy, etc.)
+  - AWS VPC CNI recommended version: link:eks/latest/networking/managing-vpc-cni.html["Manage AWS VPC CNI in Amazon EKS clusters",type="documentation"]
+  - kube-proxy recommended version: link:eks/latest/networking/managing-kube-proxy.html["Manage kube-proxy in Amazon EKS clusters",type="documentation"]
+  - CoreDNS recommended version: link:eks/latest/networking/managing-coredns.html["Manage CoreDNS in Amazon EKS clusters",type="documentation"]
+Step 5: Upgrade any additional applications that run on the cluster (i.e. - cluster-autoscaler)
+Step 6: Upgrade any clients that communicate with the cluster (i.e. - kubectl)
+
 == Considerations for Amazon EKS Auto Mode
 
 * The compute capability of Amazon EKS Auto Mode controls the Kubernetes version of nodes. After you upgrade the control plane, EKS Auto Mode will begin incrementally updating managed nodes. EKS Auto Mode respects pod disruption budgets. 
