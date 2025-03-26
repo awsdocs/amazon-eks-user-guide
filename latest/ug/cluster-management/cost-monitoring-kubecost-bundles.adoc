@@ -6,7 +6,7 @@ include::../attributes.txt[]
 
 Amazon EKS provides an {aws} optimized bundle of Kubecost for cluster cost visibility. Amazon EKS supports Kubecost, which you can use to monitor your costs broken down by Kubernetes resources including Pods, nodes, namespaces, and labels.
 
-This topic covers the available versions of Kubecost, and the differences between the available tiers. EKS supports Kubecost Version 1 and Version 2. Each version is available in different tiers. You can use _Amazon EKS optimized Kubecost custom bundle_ for your EKS clusters at no additional cost. You may be charged for use of associated {aws} services, such as Amazon Managed Service for Prometheus. Also, you can use your existing {aws} support agreements to obtain support. 
+This topic covers the available versions of Kubecost, and the differences between the available tiers. EKS supports Kubecost Version 1 and Version 2. Each version is available in different tiers. You can use _Amazon EKS optimized Kubecost bundle_ for your Amazon EKS clusters at no additional cost. You may be charged for use of associated {aws} services, such as Amazon Managed Service for Prometheus. Also, you can use your existing {aws} support agreements to obtain support.
 
 As a Kubernetes platform administrator and finance leader, you can use Kubecost to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams. You can provide your internal teams and business units with transparent and accurate cost data based on their actual {aws} bill. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters. For more information about Kubecost, see the https://docs.kubecost.com[Kubecost] documentation.
 
@@ -137,8 +137,7 @@ The following features have metric limits:
 |===
 |Metric
 |Kubecost Free Tier 2.0
-|Amazon EKS Optimized Kubecost Custom Bundle
-                            2.0
+|Amazon EKS optimized Kubecost bundle 2.0
 |Kubecost Enterprise 2.0
 
 
@@ -170,7 +169,7 @@ The following features have metric limits:
 |===
 |Feature
 |Kubecost free tier
-|Amazon EKS optimized Kubecost custom bundle
+|Amazon EKS optimized Kubecost bundle
 |Kubecost Enterprise
 
 
@@ -257,7 +256,7 @@ See the following common questions and answers about using Kubecost with Amazon 
 
 *What is the Kubecost API retention (ETL) feature?*
 
-The Kubecost ETL feature aggregates and organizes metrics to surface cost visibility at various levels of granularity (such as `namespace-level`, `pod-level`, and `deployment-level`). For the custom Kubecost bundle, customers get data and insights from metrics for the last 15 days.
+The Kubecost ETL feature aggregates and organizes metrics to surface cost visibility at various levels of granularity (such as `namespace-level`, `pod-level`, and `deployment-level`). For _Amazon EKS optimized Kubecost bundle_, customers get data and insights from metrics for the last 15 days.
 
 *What is the alerts and recurring reports feature? What alerts and reports does it include?*
 
@@ -277,13 +276,13 @@ Kubecost provides insights and automation to help users optimize their Kubernete
 
 *Is there a charge for this functionality?*
 
-No. You can use _Amazon EKS optimized Kubecost custom bundle_ at no additional charge. If you want additional Kubecost capabilities that aren't included in this bundle, you can buy an Enterprise License of Kubecost through the {aws} Marketplace, or from Kubecost directly.
+No. You can use _Amazon EKS optimized Kubecost bundle_ at no additional charge. If you want additional Kubecost capabilities that aren't included, you can buy an Enterprise License of Kubecost through the {aws} Marketplace, or from Kubecost directly.
 
-*Is support available for _Amazon EKS optimized Kubecost custom bundle_?*
+*Is support available for _Amazon EKS optimized Kubecost bundle_?*
 
-Yes, only if you are using the _Amazon EKS optimized Kubecost custom bundle_.
+Yes, only if you are using the _Amazon EKS optimized Kubecost bundle_.
 
-*How do I get support for _Amazon EKS optimized Kubecost custom bundle_?*
+*How do I get support for _Amazon EKS optimized Kubecost bundle_?*
 
 You can open a support case with the {aws} Support team at link:contact-us/[Contact {aws},type="marketing"].
 
@@ -297,7 +296,7 @@ Yes. You can configure Kubecost to ingest data from {aws} Cost and Usage Report 
 
 *Does this version support cost management of self-managed Kubernetes clusters on Amazon EC2?*
 
-No. _Amazon EKS optimized Kubecost custom bundle_ only compatible with Amazon EKS clusters.
+No. _Amazon EKS optimized Kubecost bundle_ only compatible with Amazon EKS clusters.
 
 *Can Kubecost track costs for Amazon EKS on {aws} Fargate?*
 
