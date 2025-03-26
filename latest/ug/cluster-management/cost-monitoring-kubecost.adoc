@@ -50,15 +50,17 @@ Learn how to <<removing-an-add-on,remove an EKS Add-on>>, such as Kubecost.
 * https://docs.kubecost.com/install-and-configure/install/environment[Amazon EKS 1.31 would be reuquired] if you are about to install kubecost v2.
 
 . Determine the version of Kubecost to install. You can see the available versions at https://gallery.ecr.aws/kubecost/cost-analyzer[kubecost/cost-analyzer] in the Amazon ECR Public Gallery. For more information about the compatibility of Kubecost versions and Amazon EKS, see the https://docs.kubecost.com/install-and-configure/install/environment[Environment Requirements] in the Kubecost documentation. 
-. Install Kubecost with the following command. Replace [.replaceable]`kubecost-version` with the value retrieved from ECR, such as [.replaceable]`1.108.1`.
+. Install Kubecost with the following command. Replace [.replaceable]`KUBECOST_VERSION` with the value retrieved from ECR, such as [.replaceable]`1.108.1`.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
+export KUBECOST_VERSION="1.108.1"
+
 helm upgrade -i kubecost \
     oci://public.ecr.aws/kubecost/cost-analyzer \
-    --version kubecost-version \
+    --version ${KUBECOST_VERSION} \
     --namespace kubecost --create-namespace \
-    -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/refs/tags/v1.108.1/cost-analyzer/values-eks-cost-monitoring.yaml
+    -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/refs/tags/v${KUBECOST_VERSION}/cost-analyzer/values-eks-cost-monitoring.yaml
 ----
 +
 Kubecost releases new versions regularly. You can update your version using https://helm.sh/docs/helm/helm_upgrade/[helm upgrade]. By default, the installation includes a local https://prometheus.io/[Prometheus] server and `kube-state-metrics`. You can customize your deployment to use link:mt/integrating-kubecost-with-amazon-managed-service-for-prometheus[Amazon Managed Service for Prometheus,type="blog"] by following the documentation in link:prometheus/latest/userguide/integrating-kubecost.html[Integrating with Amazon EKS cost monitoring,type="documentation"]. For a list of all other settings that you can configure, see the https://github.com/kubecost/cost-analyzer-helm-chart/blob/develop/cost-analyzer/values-eks-cost-monitoring.yaml[sample configuration file] on GitHub.
