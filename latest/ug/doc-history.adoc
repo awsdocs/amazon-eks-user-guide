@@ -14,12 +14,19 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
+[.update,date="2025-03-25"]
+=== Updated cluster insights
+[.update-ulink]
+link:eks/latest/userguide/update-cluster.html#update-cluster-control-plane[type="documentation"]
+
+Cluster insights will proactively prevent you from upgrading your cluster for certain issues. You can override upgrade-blocking readiness checks if needed.
+
 [.update,date="2025-02-28"]
 === {aws} managed policy updates
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
-Added permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to terminate EC2 instances created by Auto Mode. 
+Added permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to terminate EC2 instances created by Auto Mode.
 
 [.update,date="2025-01-27"]
 === Update strategies for managed node groups
