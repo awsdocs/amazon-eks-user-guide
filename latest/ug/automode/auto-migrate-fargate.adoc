@@ -1,0 +1,242 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-migrate-fargate]
+= Migrate from EKS Fargate to EKS Auto Mode
+:info_titleabbrev: Migrate from Fargate
+
+This topic walks you through the process of migrating workloads from EKS Fargate to Amazon EKS Auto Mode using `kubectl`.
+The migration can be performed gradually, allowing you to move workloads at your own pace while maintaining cluster stability and application availability throughout the transition.
+
+The step-by-step approach outlined below enables you to run EKS Fargate and EKS Auto Mode side by side during the migration period.
+This dual-operation strategy helps ensure a smooth transition by allowing you to validate workload behavior on EKS Auto Mode before completely decommissioning EKS Fargate.
+You can migrate applications individually or in groups, providing flexibility to accommodate your specific operational requirements and risk tolerance.
+
+## Comparing Amazon EKS Auto Mode and EKS with {aws} Fargate?
+
+Amazon EKS with {aws} Fargate remains an option for customers who want to run EKS, but Amazon EKS Auto Mode is the recommended approach moving forward.
+EKS Auto Mode is fully Kubernetes conformant, supporting all upstream Kubernetes primitives and platform tools like Istio, which Fargate is unable to support.
+EKS Auto Mode also fully supports all EC2 runtime purchase options, including GPU and Spot instances, enabling customers to leverage negotiated EC2 discounts and other savings mechanisms
+These capabilities are not available when using EKS with Fargate.
+
+Furthermore, EKS Auto Mode allows customers to achieve the same isolation model as Fargate, using standard Kubernetes scheduling capabilities to ensure each EC2 instance runs a single application container.
+By adopting Amazon EKS Auto Mode, customers can unlock the full benefits of running Kubernetes on {aws} — a fully Kubernetes-conformant platform that provides the flexibility to leverage the entire breadth of EC2 and purchasing options while retaining the ease of use and abstraction from infrastructure management that Fargate provides.
+
+## Prerequisites
+
+Before beginning the migration, ensure you have
+
+* Set up a cluster with Fargate. For more information, see <<fargate-getting-started>>.
+
+* Installed and connected `kubectl` to your cluster. For more information, see <<setting-up>>.
+
+## Step 1: Check the Fargate cluster
+
+. Check if the EKS cluster with Fargate is running:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get node
+----
++
+[source,subs="verbatim,attributes"]
+----
+NAME STATUS ROLES AGE VERSION
+fargate-ip-192-168-92-52.ec2.internal Ready <none> 25m v1.30.8-eks-2d5f260
+fargate-ip-192-168-98-196.ec2.internal Ready <none> 24m v1.30.8-eks-2d5f260
+----
+. Check running pods:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pod -A
+----
++
+[source,subs="verbatim,attributes"]
+----
+NAMESPACE NAME READY STATUS RESTARTS AGE
+kube-system coredns-6659cb98f6-gxpjz 1/1 Running 0 26m
+kube-system coredns-6659cb98f6-gzzsx 1/1 Running 0 26m
+----
+. Create a deployment in a file called `deployment_fargate.yaml`:
++
+[source,bash,subs="verbatim,attributes"]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+      annotations:
+        eks.amazonaws.com/compute-type: fargate
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+----
+. Apply the deployment:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f deployment_fargate.yaml
+----
++
+[source,subs="verbatim,attributes"]
+----
+deployment.apps/nginx-deployment created
+----
+. Check the pods and deployments:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pod,deploy
+----
++
+[source,subs="verbatim,attributes"]
+----
+NAME                                    READY   STATUS    RESTARTS   AGE
+pod/nginx-deployment-5c7479459b-6trtm   1/1     Running   0          61s
+pod/nginx-deployment-5c7479459b-g8ssb   1/1     Running   0          61s
+pod/nginx-deployment-5c7479459b-mq4mf   1/1     Running   0          61s
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx-deployment   3/3     3            3           61s
+----
+. Check the node:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get node -owide
+----
++
+[source,subs="verbatim,attributes"]
+----
+NAME                                    STATUS  ROLES  AGE VERSION             INTERNAL-IP     EXTERNAL-IP OS-IMAGE       KERNEL-VERSION                  CONTAINER-RUNTIME
+fargate-ip-192-168-111-43.ec2.internal  Ready   <none> 31s v1.30.8-eks-2d5f260 192.168.111.43  <none>      Amazon Linux 2 5.10.234-225.910.amzn2.x86_64  containerd://1.7.25
+fargate-ip-192-168-117-130.ec2.internal Ready   <none> 36s v1.30.8-eks-2d5f260 192.168.117.130 <none>      Amazon Linux 2 5.10.234-225.910.amzn2.x86_64  containerd://1.7.25
+fargate-ip-192-168-74-140.ec2.internal  Ready   <none> 36s v1.30.8-eks-2d5f260 192.168.74.140  <none>      Amazon Linux 2 5.10.234-225.910.amzn2.x86_64  containerd://1.7.25
+----
+
+### Step 2: Enable EKS Auto Mode on the cluster
+
+. Enable EKS Auto Mode on your existing cluster using the {aws} CLI or Management Console. For more information, see <<auto-enable-existing>>.
+. Check the nodepool:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get nodepool
+----
++
+[source,subs="verbatim,attributes"]
+----
+NAME              NODECLASS   NODES   READY   AGE
+eks-auto-mode     default     0       True    3d14h
+general-purpose   default     1       True    6m58s
+system            default     0       True    3d14h
+----
+
+### Step 3: Update workloads for migration
+
+Identify and update the workloads you want to migrate to EKS Auto Mode.
+Add both tolerations and node selectors to these workloads and add annotation.
+
+EKS Auto Mode uses different labels than `fargate`.
+Labels related to EC2 managed instances start with `eks.amazonaws.com`.
+For more information, see <<create-node-pool>>.
+
+. Modify your deployments (for example, the `deployment_fargate.yaml` file) to change the compute type to `ec2`:
++
+[source,bash,subs="verbatim,attributes"]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+      annotations:
+        eks.amazonaws.com/compute-type: ec2
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+----
+. Apply the deployment. This change allows the workload to be scheduled on the new EKS Auto Mode nodes:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f deployment_fargate.yaml
+----
+. Check that deployment is running in the EKS Automode:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pod -o wide
+----
++
+[source,subs="verbatim,attributes"]
+----
+NAME                               READY   STATUS    RESTARTS   AGE     IP               NODE                  NOMINATED NODE   READINESS GATES
+nginx-deployment-97967b68d-ffxxh   1/1     Running   0          3m31s   192.168.43.240   i-0845aafcb51630ffb   <none>           <none>
+nginx-deployment-97967b68d-mbcgj   1/1     Running   0          2m37s   192.168.43.241   i-0845aafcb51630ffb   <none>           <none>
+nginx-deployment-97967b68d-qpd8x   1/1     Running   0          2m35s   192.168.43.242   i-0845aafcb51630ffb   <none>           <none>
+----
+. Verify there is no Fargate node running and that there is no deployment running in the EKS Automode manage nodes:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get node -owide
+----
++
+[source,subs="verbatim,attributes"]
+----
+NAME                STATUS ROLES  AGE   VERSION             INTERNAL-IP     EXTERNAL-IP OS-IMAGE                                         KERNEL-VERSION CONTAINER-RUNTIME
+i-0845aafcb51630ffb Ready  <none> 3m30s v1.30.8-eks-3c20087 192.168.41.125  3.81.118.95 Bottlerocket (EKS Auto) 2025.3.14 (aws-k8s-1.30) 6.1.129        containerd://1.7.25+bottlerocket
+----
+
+### Step 4: Gradually migrate workloads
+
+Repeat Step 3 for each workload you want to migrate.
+This allows you to move workloads individually or in groups, based on your requirements and risk tolerance.
+
+### Step 5: Remove the original fargate profile
+
+Once all workloads have been migrated, you can remove the original `fargate` profile.
+Replace [.replaceable]`<fargate profile name>` with the name of your Fargate profile:
+
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks delete-fargate-profile --cluster-name eks-fargate-demo-cluster --fargate-profile-name <fargate profile name>
+----
+
+### Step 6: Scale down CoreDNS
+
+Because EKS Auto mode handles CoreDNS, you scale the `coredns` deployment down to 0:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl scale deployment coredns -n kube-system —replicas=0
+----
