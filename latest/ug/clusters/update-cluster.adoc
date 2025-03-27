@@ -131,7 +131,7 @@ Once the upgrade impacting issues are resolved, you will be able to upgrade the 
 
 Amazon EKS refreshes a cluster insight 24 hours after the "last refresh time". Once the next insight check is run and is determined to be resolved, you can upgrade your cluster normally. Additionally, it can take up to 30 days for the insight status to update after addressing deprecated API usage. Upgrade insights always looks for deprecated API usage over a rolling 30 day window.
 
-You can compare the time you addressed an issue to the "last refresh time" of the cluster insight. If you determine that the cluster insight is no longer accurate, you can add the ` --force` flag without waiting for the next insight check refresh.
+You can compare the time you addressed an issue to the "last refresh time" of the cluster insight. If you determine that the cluster insight is no longer accurate, you can add the `--force` flag without waiting for the next insight check refresh.
 
 ====
 
@@ -218,7 +218,7 @@ aws eks describe-update --name <cluster-name> \
    --region <region-code> --update-id <update-id>
 ----
 +
-If needed, resolve any upgrade impacting issues and repeat this procedure. If you need to override `ERROR` status upgrade insights checks that you believe are no longer applicable, add the ` --force` flag to the `update-cluster-version` command.
+If needed, resolve any upgrade impacting issues and repeat this procedure. If you need to override `ERROR` status upgrade insights checks that you believe are no longer applicable, add the `--force` flag to the `update-cluster-version` command.
 +
 When a `Successful` status is displayed, the update is complete.
 . Continue to <<step4>>.
