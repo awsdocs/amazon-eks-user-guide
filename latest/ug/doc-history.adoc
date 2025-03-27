@@ -14,7 +14,7 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
-[.update,date="2025-03-25"]
+[.update,date="2025-03-26"]
 === Updated cluster insights
 [.update-ulink]
 link:eks/latest/userguide/update-cluster.html#update-cluster-control-plane[type="documentation"]
