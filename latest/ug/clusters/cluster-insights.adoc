@@ -19,9 +19,9 @@ Amazon EKS cluster insights provide recommendations to help you follow Amazon EK
 [NOTE]
 ====
 
-If Amazon EKS cluster insights identifies upgrade blocking issues on your cluster, it will prevent you from accidentally upgrading your cluster to the next Kubernetes version until you review and make appropriate fixes to resolve the issues identified. Once the issues are resolved, you will be able to upgrade your cluster. 
+If Amazon EKS cluster insights identifies upgrade blocking issues on your cluster, it will prevent you from accidentally upgrading your cluster to the next Kubernetes version until you review and make appropriate fixes to resolve the issues identified. Once the issues are resolved, you will be able to upgrade your cluster.
 
-You can use an override flag to bypass upgrade insights checks. This can be useful when you believe you have addressed issues and the insight status is no longer accurate, or if you are operating in a developer environment. For more information, see <<update-cluster>>.
+Amazon EKS refreshes cluster insights every 24 hours, but you can override upgrade insights checks without waiting when needed. For more information, see <<update-cluster-control-plane>>.
 
 ====
 
