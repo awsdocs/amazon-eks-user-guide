@@ -314,63 +314,56 @@ If your node enters a `NotReady` status, this likely indicates that the node is 
 
 For Amazon EKS optimized Windows AMIs, there's no reservation for compute resources specified by default in the `kubelet` configuration. To help prevent resource issues, you can reserve compute resources for system processes by providing the `kubelet` with configuration values for https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/#kube-reserved[kube-reserved] and/or https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/#system-reserved[system-reserved]. You do this using the `-KubeletExtraArgs` command-line parameter in the bootstrap script. For more information, see https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/[Reserve Compute Resources for System Daemons] in the Kubernetes documentation and <<bootstrap-script-configuration-parameters>> in this user guide.
 
-[#troubleshoot-cni]
-== CNI log collection tool
+[#log-collector]
+== EKS Log Collector
 
-The Amazon VPC CNI plugin for Kubernetes has its own troubleshooting script that is available on nodes at `/opt/cni/bin/aws-cni-support.sh`. You can use the script to collect diagnostic logs for support cases and general troubleshooting.
+To troubleshoot issue with Amazon EKS nodes, there is a pre-built script available on nodes located at `/etc/eks/log-collector-script/eks-log-collector.sh`. You can use the script to collect diagnostic logs for support cases and general troubleshooting.
 
 Use the following command to run the script on your node:
 
 [source,bash,subs="verbatim,attributes"]
 ----
-sudo bash /opt/cni/bin/aws-cni-support.sh
+sudo bash /etc/eks/log-collector-script/eks-log-collector.sh
 ----
 
 [NOTE]
 ====
 
-If the script is not present at that location, then the CNI container failed to run. You can manually download and run the script with the following command:
+If the script is not present at that location. You can manually download and run the script with the following command:
 
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://raw.githubusercontent.com/awslabs/amazon-eks-ami/master/log-collector-script/linux/eks-log-collector.sh
+curl -O https://amazon-eks.s3.amazonaws.com/support/log-collector-script/linux/eks-log-collector.sh
 sudo bash eks-log-collector.sh
 ----
 
 ====
 
-The script collects the following diagnostic information. The CNI version that you have deployed can be earlier than the script version.
+The script collects the following diagnostic information.
 
 [source,bash,subs="verbatim,attributes"]
 ----
-      This is version 0.6.1. New versions can be found at https://github.com/awslabs/amazon-eks-ami
+$ sudo bash /etc/eks/log-collector-script/eks-log-collector.sh
 
-Trying to collect common operating system logs... 
-Trying to collect kernel logs... 
-Trying to collect mount points and volume information... 
-Trying to collect SELinux status... 
-Trying to collect iptables information... 
-Trying to collect installed packages... 
-Trying to collect active system services... 
-Trying to collect Docker daemon information... 
-Trying to collect kubelet information... 
-Trying to collect L-IPAMD information... 
-Trying to collect sysctls information... 
-Trying to collect networking information... 
-Trying to collect CNI configuration information... 
-Trying to collect running Docker containers and gather container data... 
-Trying to collect Docker daemon logs... 
-Trying to archive gathered information... 
+      This is version 0.7.8. New versions can be found at https://github.com/awslabs/amazon-eks-ami/blob/main/log-collector-script/
 
-	Done... your bundled logs are located in /var/log/eks_i-0717c9d54b6cfaa19_2020-03-24_0103-UTC_0.6.1.tar.gz
+Trying to collect common operating system logs...
+Trying to collect kernel logs...
+Trying to collect mount points and volume information...
+...
+...
+
+	Done... your bundled logs are located in /var/log/eks_i-EXAMPLE_2025-03-25_0000-UTC_0.7.8.tar.gz
 ----
 
 The diagnostic information is collected and stored at:
 
 [source,none,subs="verbatim,attributes"]
 ----
-/var/log/eks_i-0717c9d54b6cfaa19_2020-03-24_0103-UTC_0.6.1.tar.gz
+/var/log/eks_i-EXAMPLE_2025-03-25_0000-UTC_0.7.8.tar.gz
 ----
+
+To retrieve log bundle for Bottlerocket nodes, please refer to https://github.com/bottlerocket-os/bottlerocket?tab=readme-ov-file#logs[Bottlerocket Log] for more details.
 
 
 [#troubleshoot-container-runtime-network]
