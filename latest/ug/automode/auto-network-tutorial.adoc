@@ -14,8 +14,8 @@ You'll learn how to configure TLS termination at the Network Load Balancer (NLB)
 
 * An Amazon EKS cluster with Auto Mode enabled
 ** The EKS Auto Mode cluster must have a sufficent cluster role permissions to create load balancers and access {aws} Certificate Manager (ACM)  
-- kubectl installed and configured to communicate with your EKS cluster
-- An SSL/TLS certificate in ACM
+* kubectl installed and configured to communicate with your EKS cluster
+* An SSL/TLS certificate in ACM
 
 == Sample App
 
@@ -136,8 +136,9 @@ Health checks are configured to verify the availability of your MQTT service:
 === Port Configuration
 
 The service exposes two ports:
-- Port 1883: Standard unsecured MQTT
-- Port 8883: MQTT over TLS (with TLS termination at the load balancer)
+
+* Port 1883: Standard unsecured MQTT
+* Port 8883: MQTT over TLS (with TLS termination at the load balancer)
 
 == Clean up
 
