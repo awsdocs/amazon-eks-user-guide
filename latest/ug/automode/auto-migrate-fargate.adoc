@@ -12,7 +12,7 @@ The step-by-step approach outlined below enables you to run EKS Fargate and EKS 
 This dual-operation strategy helps ensure a smooth transition by allowing you to validate workload behavior on EKS Auto Mode before completely decommissioning EKS Fargate.
 You can migrate applications individually or in groups, providing flexibility to accommodate your specific operational requirements and risk tolerance.
 
-## Comparing Amazon EKS Auto Mode and EKS with {aws} Fargate?
+## Comparing Amazon EKS Auto Mode and EKS with {aws} Fargate
 
 Amazon EKS with {aws} Fargate remains an option for customers who want to run EKS, but Amazon EKS Auto Mode is the recommended approach moving forward.
 EKS Auto Mode is fully Kubernetes conformant, supporting all upstream Kubernetes primitives and platform tools like Istio, which Fargate is unable to support.
