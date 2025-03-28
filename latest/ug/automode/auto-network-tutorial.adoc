@@ -1,0 +1,153 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-network-tutorial]
+= Using a Service with Network Load Balancer TLS Termination 
+:info_titleabbrev: Configure TLS Termination
+
+This tutorial guides you through creating a Kubernetes Service that creates an {aws} Network Load Balancer (NLB) configured for TLS Termination. 
+
+You'll learn how to configure TLS termination at the Network Load Balancer (NLB) level, using {aws} Certificate Manager to avoid storing secrets.
+
+
+== Prerequisites
+
+* An Amazon EKS cluster with Auto Mode enabled
+** The EKS Auto Mode cluster must have a sufficent cluster role permissions to create load balancers and access {aws} Certificate Manager (ACM)  
+- kubectl installed and configured to communicate with your EKS cluster
+- An SSL/TLS certificate in ACM
+
+== Sample App
+
+This tutorial assumes a sample app running on pods with `app: mqtt-broker` that have port 1883 exposed for MQTT traffic. 
+
+This tutorial is generally applicable for TLS termination. You should update the sample files provided with the right selector for your workload, and the right ports. 
+
+== Step 1: Create the Service Manifest
+
+Create a file named `mqtt-service.yaml` with the following content:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  name: mqtt-broker
+  annotations:
+    # Specify the load balancer type as external for NLB
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    
+    # Specify the scheme (internal or internet-facing)
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    
+    # Enable TLS termination by specifying the ACM certificate ARN
+    # Replace with your actual certificate ARN from AWS Certificate Manager
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:region:account-id:certificate/certificate-id
+    
+    # Specify which ports should use SSL/TLS
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "8883"
+    
+    # Configure health checks for the MQTT service
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: TCP
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "1883"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-interval: "30"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-timeout: "6"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-healthy-threshold: "2"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-unhealthy-threshold: "2"
+    
+spec:
+  selector:
+    app: mqtt-broker  # This should match the labels of your MQTT application pods
+  ports:
+    - name: mqtt
+      port: 1883  # Standard MQTT port
+      targetPort: 1883
+      protocol: TCP
+    - name: mqtt-tls
+      port: 8883  # MQTT over TLS port
+      targetPort: 1883  # Traffic will be decrypted at the load balancer
+      protocol: TCP
+  type: LoadBalancer
+  # For EKS Auto Mode, this is optional as it's the default
+  loadBalancerClass: eks.amazonaws.com/nlb
+----
+
+== Step 2: Update the Certificate ARN
+
+Before applying the manifest, replace the placeholder certificate ARN with your actual certificate ARN from {aws} Certificate Manager:
+
+```
+service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:region:account-id:certificate/certificate-id
+```
+
+To find your certificate ARN:
+
+1. Open the {aws} Management Console
+2. Navigate to {aws} Certificate Manager
+3. Select your certificate
+4. Copy the ARN shown in the certificate details
+
+== Step 3: Apply the Service Manifest
+
+Apply the service manifest to your EKS cluster:
+
+```bash
+kubectl apply -f mqtt-service.yaml
+```
+
+== Step 4: Verify the Service and Load Balancer
+
+Check if the service was created successfully:
+
+```bash
+kubectl get service mqtt-broker
+```
+
+Wait for the `EXTERNAL-IP` to be populated with the Network Load Balancer DNS name. This might take a few minutes.
+
+== Step 5: Test the MQTT Connection
+
+You can test your MQTT connection using an MQTT client like `mosquitto_pub` and `mosquitto_sub`:
+
+For a secure connection using TLS:
+
+```bash
+mosquitto_pub --cafile ca.crt -h <load-balancer-dns> -p 8883 -t "test/topic" -m "Hello MQTT over TLS" -d
+```
+
+== Understanding the Configuration
+
+=== TLS Termination
+
+The service is configured to perform TLS termination at the load balancer level with these annotations:
+
+- `service.beta.kubernetes.io/aws-load-balancer-ssl-cert`: Specifies the ACM certificate ARN for TLS
+- `service.beta.kubernetes.io/aws-load-balancer-ssl-ports`: Specifies port 8883 for TLS termination
+
+This means clients connect to the load balancer using TLS on port 8883, but the traffic is decrypted at the load balancer before being forwarded to your MQTT broker pods on port 1883.
+
+=== Health Checks
+
+Health checks are configured to verify the availability of your MQTT service:
+
+- `service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: TCP`: Simple TCP connection check
+- `service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "1883"`: Check the standard MQTT port
+
+=== Port Configuration
+
+The service exposes two ports:
+- Port 1883: Standard unsecured MQTT
+- Port 8883: MQTT over TLS (with TLS termination at the load balancer)
+
+== Clean up
+
+You can clean up the resources using
+
+```
+kubectl delete service mqtt-broker
+```
+
+
+== Conclusion
+
+You've now set up a Kubernetes Service that routes MQTT traffic to your application with TLS termination at the {aws} Network Load Balancer level. This configuration provides secure MQTT communication while offloading the TLS processing to the load balancer, reducing the computational burden on your application.
