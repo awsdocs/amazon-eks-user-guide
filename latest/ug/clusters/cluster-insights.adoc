@@ -16,12 +16,16 @@ Amazon EKS cluster insights provide recommendations to help you follow Amazon EK
 * If your cluster has identified issues, review them and make appropriate fixes. The issues include links to Amazon EKS and Kubernetes.
 * After fixing issues, wait for the cluster insights to refresh. If all issues have been resolved, <<update-cluster,update your cluster>>.
 
-[NOTE]
+[IMPORTANT]
 ====
+Amazon EKS has temporarily rolled back a feature that would
+require you to use a `--force` flag to upgrade your cluster when there were certain cluster insight issues. For more information, see link:https://github.com/aws/containers-roadmap/issues/2570[Temporary rollback of enforcing upgrade insights on update cluster version] on GitHub.
 
-If Amazon EKS cluster insights identifies upgrade blocking issues on your cluster, it will prevent you from accidentally upgrading your cluster to the next Kubernetes version until you review and make appropriate fixes to resolve the issues identified. Once the issues are resolved, you will be able to upgrade your cluster.
+//If Amazon EKS cluster insights identifies upgrade blocking issues on your cluster, it will prevent you from accidentally upgrading your cluster to the next Kubernetes version until you review and make appropriate fixes to resolve the issues identified. Once the issues are resolved, you will be able to upgrade your cluster.
 
-Amazon EKS refreshes cluster insights every 24 hours, but you can override upgrade insights checks without waiting when needed. For more information, see <<update-cluster-control-plane>>.
+Amazon EKS refreshes cluster insights every 24 hours. For more information, see <<update-cluster-control-plane>>.
+
+//Amazon EKS refreshes cluster insights every 24 hours, but you can override upgrade insights checks without waiting when needed. For more information, see <<update-cluster-control-plane>>.
 
 ====
 
