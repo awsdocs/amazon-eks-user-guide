@@ -54,7 +54,7 @@ Use the following migration reference to configure Kubernetes resources to be ow
 
 |===
 
-== Migrating EBS Volumes
+== Migrating EBS volumes
 
 When migrating workloads to EKS Auto Mode, you need to handle EBS volume migration due to different CSI driver provisioners:
 
@@ -75,8 +75,7 @@ Follow these steps to migrate your persistent volumes:
 * This process needs to be performed for each persistent volume.
 * The workload must be updated to use the new PVC.
 
-== Migrating Load Balancers
-== Load balancer migration
+== Migrating load balancers
 
 You cannot directly transfer existing load balancers from the self-managed {aws} load balancer controller to EKS Auto Mode. Instead, you must implement a blue-green deployment strategy. This involves maintaining your existing load balancer configuration while creating new load balancers under the managed controller.
 
