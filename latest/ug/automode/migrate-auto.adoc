@@ -27,7 +27,6 @@ EKS Auto Mode requires Kubernetes version 1.29 or greater. EKS Auto Mode isn't a
 *{aws} does not support the following migrations:*
 
 * Migrating volumes from the EBS CSI Controller to EKS Auto Mode Block Storage
-** You can install the EBS CSI controller on an Amazon EKS Auto Mode cluster. Use a `StorageClass` to associate volumes with either the EBS CSI Controller or EKS Auto Mode. 
 * Migrating load balancers from the {aws} Load Balancer Controller to EKS Auto Mode 
 ** You can install the {aws} Load Balancer Controller on an Amazon EKS Auto Mode cluster. Use the `IngressClass` or `loadBalancerClass` options to associate Service and Ingress resources with either the Load Balancer Controller or EKS Auto Mode. 
 * Migrating EKS Clusters with alternative CNIs or other unsupported networking configurations
@@ -58,7 +57,28 @@ Use the following migration reference to configure Kubernetes Resources to be ow
 
 |===
 
-== Load Balancer Migration
+== Migrating EBS Volumes
+
+When migrating workloads to EKS Auto Mode, you need to handle EBS volume migration due to different CSI driver provisioners:
+
+* EKS Auto Mode Provisioner: `ebs.csi.eks.amazonaws.com`
+* Open Source EBS CSI Provisioner: `ebs.csi.aws.com`
+
+Follow these steps to migrate your persistent volumes:
+
+. **Modify volume retention policy**: Change the existing PV's `persistentVolumeReclaimPolicy` to `Retain` to ensure the underlying EBS volume is not deleted.
+. **Remove PV from Kubernetes**: Delete the old PV resource while keeping the actual EBS volume intact.
+. **Create a new PV with static provisioning**: Create a new PV that references the same EBS volume but works with the target CSI driver.
+. **Bind to a new PVC**: Create a new PVC that specifically references your PV using the `volumeName` field.
+
+=== Considerations
+
+- Ensure your applications are stopped before beginning this migration
+- Back up your data before starting the migration process
+- This process needs to be performed for each persistent volume
+- The workload must be updated to use the new PVC
+
+== Migrating Load Balancers
 
 You cannot directly transfer existing load balancers from the self-managed {aws} load balancer controller to EKS Auto Mode. Instead, you must implement a blue-green deployment strategy. This involves maintaining your existing load balancer configuration while creating new load balancers under the managed controller.
 
