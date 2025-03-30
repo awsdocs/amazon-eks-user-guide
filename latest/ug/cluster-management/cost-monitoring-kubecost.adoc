@@ -16,7 +16,7 @@ Kubecost v2 introduces several major new features. <<kubecost-v2,Learn more abou
 
 ====
 
-For more information about Kubecost, see the https://docs.kubecost.com[Kubecost] documentation and <<cost-monitoring-faq, Frequently asked questions>>.
+For more information about Kubecost, see the https://www.ibm.com/docs/en/kubecost/self-hosted/2.x[Kubecost] documentation and <<cost-monitoring-faq, Frequently asked questions>>.
 
 
 [#kubecost-addon]
@@ -46,10 +46,10 @@ Learn how to <<removing-an-add-on,remove an EKS Add-on>>, such as Kubecost.
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 * Helm version 3.9.0 or later configured on your device or {aws} CloudShell. To install or update Helm, see <<helm>>.
+* Cluster version should be `1.21 (or higher)` and `1.31` is officially supported as of v2. Learn more at https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=installation-environment#ariaid-title2[Supported Kubernetes versions].
 * If your cluster is version `1.23` or later, you must have the <<ebs-csi,Store Kubernetes volumes with Amazon EBS>> installed on your cluster.
-* https://docs.kubecost.com/install-and-configure/install/environment[Amazon EKS 1.31 would be reuquired] if you are about to install kubecost v2.
 
-. Determine the version of Kubecost to install. You can see the available versions at https://gallery.ecr.aws/kubecost/cost-analyzer[kubecost/cost-analyzer] in the Amazon ECR Public Gallery. For more information about the compatibility of Kubecost versions and Amazon EKS, see the https://docs.kubecost.com/install-and-configure/install/environment[Environment Requirements] in the Kubecost documentation. 
+. Determine the version of Kubecost to install. You can see the available versions at https://gallery.ecr.aws/kubecost/cost-analyzer[kubecost/cost-analyzer] in the Amazon ECR Public Gallery. For more information about the compatibility of Kubecost versions and Amazon EKS, see the https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=installation-environment[Environment Requirements] in the Kubecost documentation.
 . Install Kubecost with the following command. Replace [.replaceable]`KUBECOST_VERSION` with the value retrieved from ECR, such as [.replaceable]`1.108.1`.
 +
 [source,bash,subs="verbatim,attributes"]
