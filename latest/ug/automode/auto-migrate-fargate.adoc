@@ -142,7 +142,6 @@ kubectl get nodepool
 [source,subs="verbatim,attributes"]
 ----
 NAME              NODECLASS   NODES   READY   AGE
-eks-auto-mode     default     0       True    3d14h
 general-purpose   default     1       True    6m58s
 system            default     0       True    3d14h
 ----
@@ -190,7 +189,7 @@ spec:
 ----
 kubectl apply -f deployment_fargate.yaml
 ----
-. Check that deployment is running in the EKS Automode:
+. Check that the deployment is running in the EKS Auto Mode cluster:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -204,7 +203,7 @@ nginx-deployment-97967b68d-ffxxh   1/1     Running   0          3m31s   192.168.
 nginx-deployment-97967b68d-mbcgj   1/1     Running   0          2m37s   192.168.43.241   i-0845aafcb51630ffb   <none>           <none>
 nginx-deployment-97967b68d-qpd8x   1/1     Running   0          2m35s   192.168.43.242   i-0845aafcb51630ffb   <none>           <none>
 ----
-. Verify there is no Fargate node running and that there is no deployment running in the EKS Automode manage nodes:
+. Verify there is no Fargate node running and deployment running in the EKS Auto Mode managed nodes:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
