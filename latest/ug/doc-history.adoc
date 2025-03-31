@@ -15,6 +15,14 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
+[.update,date="2025-03-31"]
+=== EKS Hybrid Nodes for existing clusters
+[.update-ulink]
+link:eks/latest/userguide/hybrid-nodes-cluster-update.html[type="documentation"]
+
+You can now add, change, or remove the hybrid nodes configuration of existing clusters. Previously, you could only add the hybrid nodes configuration to new clusters when you created them.
+With Amazon EKS Hybrid Nodes, you can use your on-premises and edge infrastructure as nodes in Amazon EKS clusters. {aws} manages the {aws}-hosted Kubernetes control plane of the Amazon EKS cluster, and you manage the hybrid nodes that run in your on-premises or edge environments.
+
 [.update,date="2025-03-28"]
 === Rollback: Prevent accidental upgrades with cluster insights
 [.update-ulink]
