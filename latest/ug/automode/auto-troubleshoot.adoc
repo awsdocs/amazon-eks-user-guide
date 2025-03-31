@@ -264,7 +264,6 @@ securityContext:
 
 
 [#auto-troubleshoot-local-suffix-name-resolution]
-
 == DNS Resolution of Route53 private hosted zones with `.local` Domains
 
 If you configure a Route 53 private hosted zone using a `.local` suffix (e.g. `mydomain.local`), it will fail to resolve on EKS Auto Mode Nodes. You will need to use a different suffix for the Route 53 private hosted zone.
