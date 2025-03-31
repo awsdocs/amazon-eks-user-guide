@@ -35,6 +35,13 @@ Before deploying Windows nodes, be aware of the following considerations.
 * Considerations for EKS Access Entries
 ** If you use a different Node IAM Role for Windows instances, EKS will automatically create the required Windows Access Entry. 
 ** Access Entries for use with Windows nodes need the type of `EC2_WINDOWS`. For more information, see <<creating-access-entries>>.
++
+To create an access entry for a Windows node:
++
+[source,bash]
+----
+aws eks create-access-entry --cluster-name my-cluster --principal-arn arn:aws:iam::111122223333:role/<role-name> --type EC2_Windows  
+----
 
 == Prerequisites 
 
@@ -78,7 +85,7 @@ aws iam attach-role-policy \
   --role-name eksClusterRole \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKSVPCResourceController
 ----
-. If the VPC CNI *is not* installed as an Amazon EKS Add-on:
+. Update the VPC CNI ConfigMap to enable Windows IPAM:
 .. Create a file named [.replaceable]`vpc-resource-controller-configmap.yaml` with the following contents.
 +
 [source,yaml,subs="verbatim,attributes"]
@@ -97,8 +104,6 @@ data:
 ----
 kubectl apply -f vpc-resource-controller-configmap.yaml
 ----
-. If the VPC CNI *is* installed as an Amazon EKS Add-on:
-** Review <<kubernetes-field-management>> to understand how to configure Amazon EKS Add-ons. Update the configuration of the add-on to include `enable-windows-ipam: "true"`.
 . If your cluster has the authentication mode set to enable the `aws-auth` configmap:
 ** Verify that your `aws-auth` `ConfigMap` contains a mapping for the instance role of the Windows node to include the `eks:kube-proxy-windows` RBAC permission group. You can verify by running the following command. 
 +
