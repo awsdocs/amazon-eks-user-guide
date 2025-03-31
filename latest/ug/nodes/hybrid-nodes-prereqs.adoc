@@ -140,4 +140,7 @@ include::hybrid-nodes-creds.adoc[leveloffset=+1]
 include::hybrid-nodes-cluster-create.adoc[leveloffset=+1]
 
 
+include::hybrid-nodes-cluster-update.adoc[leveloffset=+1]
+
+
 include::hybrid-nodes-cluster-prep.adoc[leveloffset=+1]

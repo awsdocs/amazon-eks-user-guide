@@ -68,7 +68,7 @@
             "----\n",
             "===="
         ],
-        "description": "adoc step tablist"
+        "description": "adoc step with tablist of console, eksctl, awscli, CFN"
     },
     "adoc region tablist": {
         "prefix": "tab-region",
@@ -179,5 +179,15 @@
             "===="
         ],
         "description": "Creates a collapsible section in AsciiDoc"
+    },
+    "AsciiDoc Platform Version Table": {
+        "prefix": "adoc-pv",
+        "body": [
+            "| `${1:K8s version}`",
+            "| `eks.${2:platform version}`",
+            "| New platform version with security fixes and enhancements.",
+            "| ${3:Date available in all regions}"
+        ],
+        "description": "Creates entry in platform versions table"
     }
 }

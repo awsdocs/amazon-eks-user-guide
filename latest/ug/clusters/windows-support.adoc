@@ -12,6 +12,7 @@ Learn how to enable and manage Windows support for your Amazon EKS cluster to ru
 
 Learn how to enable and manage Windows support for your Amazon EKS cluster to run Windows containers alongside Linux containers.
 
+
 == Considerations
 
 Before deploying Windows nodes, be aware of the following considerations.

@@ -67,6 +67,8 @@ The following functionality works for both Managed instances and Standard EC2 in
 
 With EKS Auto Mode, {aws} determines the image (AMI) used for your compute nodes. {aws} monitors the rollout of new EKS Auto Mode AMI versions. If you experience workload issues related to an AMI version, create a support case. For more information, see link:awssupport/latest/user/case-management.html["Creating support cases and case management",type="documentation"] in the {aws} Support User Guide.
 
+Generally, EKS releases a new AMI each week containing CVE and security fixes. 
+
 [#auto-supported-instances]
 == EKS Auto Mode supported instance reference
 
@@ -109,6 +111,20 @@ Additionally, EKS Auto Mode will only create EC2 instances that meet the followi
 * Instance size is not nano, micro or small
 
 For more information, see link:ec2/latest/instancetypes/instance-type-names.html["Amazon EC2 instance type naming conventions",type="documentation"].
+
+== Instance Metadata Service
+
+* EKS Auto Mode enforces IMDSv2 with a hop limit of 1 by default, adhering to {aws} security best practices
+* This default configuration cannot be modified in Auto Mode
+* For add-ons that typically require IMDS access:
+** Supply parameters, such as {aws} region, during installation to avoid IMDS lookups
+** For more information, see <<kubernetes-field-management>>
+* If a pod absolutely requires IMDS access when running in Auto Mode:
+** The pod must be configured to run with `hostNetwork: true`
+** This allows the pod to access the instance metadata service directly
+* Consider the security implications when granting pods access to instance metadata
+
+For more information about the EC2 Instance Metadata Service (IMDS), see link:AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html[Configure the Instance Metadata Service options,type="documentation"] in the EC2 User Guide.
 
 
 == Considerations

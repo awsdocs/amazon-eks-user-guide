@@ -1,10 +1,8 @@
+include::attributes.txt[]
+
 [.topic]
 [#doc-history]
-// H1 title is necessary, and must occur before the [abstract], but is unused in the web page (:info_title: is used instead, and :info_titleabbrev: is used in the ToC)
 = Document history
-
-
-include::attributes.txt[]
 
 [abstract]
 --
@@ -16,12 +14,40 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
+
+[.update,date="2025-03-28"]
+=== Rollback: Prevent accidental upgrades with cluster insights
+[.update-ulink]
+link:eks/latest/userguide/update-cluster.html#update-cluster-control-plane[type="documentation"]
+
+Amazon EKS has temporarily rolled back a feature that would
+require you to use a `--force` flag to upgrade your cluster when there were certain cluster insight issues. For more information, see link:https://github.com/aws/containers-roadmap/issues/2570[Temporary rollback of enforcing upgrade insights on update cluster version] on GitHub.
+
+
+[.update,date="2025-03-27"]
+=== Bottlerocket FIPS AMIs
+[.update-ulink]
+link:eks/latest/userguide/bottlerocket-fips-amis.html[type="documentation"]
+
+Bottlerocket FIPS AMIs are now available in standard managed node groups.
+
+
+//[.update,date="2025-03-26"]
+//=== Prevent accidental upgrades with cluster insights
+//[.update-ulink]
+//link:eks/latest/userguide/update-cluster.html#update-cluster-control-plane[type="documentation"]
+
+//Cluster insights will proactively prevent you from upgrading your cluster for certain issues. You can override upgrade-blocking readiness checks if needed.
+
+
 [.update,date="2025-02-28"]
 === {aws} managed policy updates
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
+Added permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to terminate EC2 instances created by Auto Mode.
 Added permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to terminate EC2 instances created by Auto Mode. 
+
 
 [.update,date="2025-01-27"]
 === Update strategies for managed node groups
@@ -29,6 +55,7 @@ Added permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to termina
 link:eks/latest/userguide/managed-node-update-behavior.html#managed-node-update-upgrade[type="documentation"]
 
 You can now use update strategies to configure the version update process for managed node groups. This introduces the _minimal_ update strategy to terminate nodes before making new ones, which is useful in capacity constrained environments. The _default_ update strategy continues the existing behavior.
+
 
 [.update,date="2025-01-23"]
 === Kubernetes version `1.32`
@@ -41,12 +68,14 @@ Added Kubernetes version `1.32` support for new clusters and version upgrades.
 === Amazon EKS {aws} Region expansion
 Amazon EKS is now available in the Asia Pacific (Thailand) Region (`ap-southeast-7`) and Mexico (Central) (`mx-central-1`) {aws} Regions. EKS Auto Mode and VPC Endpoints for the EKS API aren't available in either Region.
 
+
 [.update,date="2025-01-13"]
 === {aws} managed policy updates
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
 Added multiple permissions to `AmazonEBSCSIDriverPolicy` to allow the Amazon EBS CSI Driver restore all snapshots, enable Fast Snapshot Restore (FSR) on EBS volumes, and modify tags on volumes.
+
 
 [.update,date="2024-12-26"]
 === {aws} managed policy updates
@@ -208,14 +237,12 @@ link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 EKS added a new {aws} managed policy: `AmazonEKSBlockStoragePolicy`
 
 
-
 [.update,date="2024-10-30"]
 === {aws} managed policy updates
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
 EKS added a new {aws} managed policy: `AmazonEKSLoadBalancingPolicy`
-
 
 
 [.update,date="2024-10-29"]
@@ -226,7 +253,6 @@ link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 Added `cloudwatch:PutMetricData` permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to publish metrics to Amazon CloudWatch.
 
 
-
 [.update,date="2024-10-28"]
 === {aws} managed policy updates
 [.update-ulink]
@@ -235,13 +261,13 @@ link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 EKS added a new {aws} managed policy: `AmazonEKSNetworkingPolicy`
 
 
-
 [.update,date="2024-10-21"]
 === {aws} managed policy updates
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
 Added `autoscaling:ResumeProcesses`, `autoscaling:SuspendProcesses`, and associated permissions to `AWSServiceRoleForAmazonEKSNodegroup` in China regions to integrate with Amazon Application Recovery Controller for EKS. No changes to other regions. 
+
 
 [.update,date="2024-10-21"]
 === Dual-stack endpoints for new `IPv6` clusters

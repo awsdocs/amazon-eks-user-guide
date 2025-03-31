@@ -25,7 +25,7 @@ The Amazon EKS optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (A
 * For Kubernetes version `1.23`, you can use an optional bootstrap flag to test migration from Docker to `containerd`. For more information, see <<containerd-bootstrap>>.
 * Amazon EC2 `P2` instances aren't supported on Amazon EKS because they require `NVIDIA` driver version 470 or earlier.
 * Any newly created managed node groups in clusters on version `1.30` or newer will automatically default to using AL2023 as the node operating system. Previously, new node groups would default to AL2. You can continue to use AL2 by choosing it as the AMI type when creating a new node group.
-* Support for AL2 will end on June 30th, 2026. For more information, see link:amazon-linux-2/faqs/[Amazon Linux 2 FAQs,type="marketing"]. Additionally, Kubernetes version `1.32` is the last version for which Amazon EKS will release AL2 AMIs. From version `1.33` onwards, Amazon EKS will continue to release AL2023 and Bottlerocket based AMIs.
+* Amazon EKS will no longer publish EKS-optimized Amazon Linux 2 (AL2) AMIs after November 26th, 2025. Additionally, Kubernetes version `1.32` is the last version for which Amazon EKS will release AL2 AMIs. From version `1.33` onwards, Amazon EKS will continue to release AL2023 and Bottlerocket based AMIs.
 
 ====
 
