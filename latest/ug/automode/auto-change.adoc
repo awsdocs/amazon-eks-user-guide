@@ -7,6 +7,10 @@ include::../attributes.txt[]
 
 This page documents updates to Amazon EKS Auto Mode. You can periodically check this page for announcements about features, bug fixes, known issues, and deprecated functionality. 
 
+== March 31, 2025
+
+**Bug Fix:** Fixes an issue where if a Core DNS Pod is running on an Auto Mode node, DNS queries from Pods on the node would hit that Core DNS Pod instead of the node local DNS server. DNS queries from Pods on an Auto Mode node will always go to the node local DNS.
+
 == March 21, 2025
 
 **Bug Fix:** Auto Mode nodes now resolve `kube-dns.kube-system.svc.cluster.local` correctly when there isn't a `kube-dns` service installed in the cluster. Addresses GitHub issue https://github.com/aws/containers-roadmap/issues/2546[#2546]. 
