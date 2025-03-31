@@ -1,0 +1,127 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-cluster-update]
+= Enable hybrid nodes on an existing Amazon EKS cluster
+:info_titleabbrev: Existing cluster
+
+[abstract]
+--
+Enable hybrid nodes on an existing cluster
+--
+
+This topic provides an overview of the available options and describes what to consider when you add, change, or remove hybrid nodes from an Amazon EKS cluster. If you are not planning to use hybrid nodes, see <<create-cluster>>.
+
+You can do any of the following actions to the EKS Hybrid Nodes in a cluster:
+
+* Add and enable EKS Hybrid Nodes in an existing cluster.
+* Change the remote node networks.
+* Add or change the remote pod networks.
+* Remove the remote pod networks.
+* Remove and disable EKS Hybrid Nodes in an existing cluster.
+
+The following examples enable EKS Hybrid Nodes on an existing cluster and include the optional remote pod network.
+
+[#hybrid-nodes-cluster-enable-prep]
+== Prerequisites
+
+* The <<hybrid-nodes-prereqs>> completed. Before you create your hybrid nodes-enabled cluster, you must have your on-premises node and optionally pod CIDRs identified, your VPC and subnets created according to the EKS requirements, and hybrid nodes requirements, and your security group with inbound rules for your on-premises and optionally pod CIDRs. For more information on these prerequisites, see <<hybrid-nodes-networking>>.
+* The latest version of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device. To check your current version, use `aws --version`. Package managers such yum, apt-get, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/getting-started-install.html[Installing or updating to the last version of the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Configuring settings for the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
+* An link:IAM/latest/UserGuide/id_roles#iam-term-principal[IAM principal,type="documentation"] with permissions to create IAM roles and attach policies, and create and describe EKS clusters
+
+
+[#hybrid-nodes-cluster-enable-consider]
+== Considerations 
+
+* Your cluster must use either `API` or `API_AND_CONFIG_MAP` for the cluster authentication mode.
+* Your cluster must use IPv4 address family.
+* Your cluster must use either Public or Private cluster endpoint connectivity. Your cluster cannot use “Public and Private” cluster endpoint connectivity, because the Amazon EKS Kubernetes API server endpoint will resolve to the public IPs for hybrid nodes running outside of your VPC.
+
+The `remoteNetworkConfig` JSON object has the following behavior during an update:
+
+* Any existing part of the configuration that you don't specify is unchanged. If you don't specify either of the `remoteNodeNetworks` or `remotePodNetworks`, that part will remain the same.
+* If you are modifying either of the `remoteNodeNetworks` or `remotePodNetworks` lists of CIDRs, you must specify that entire list in your update. EKS replaces the list during the update.
+
+
+[#hybrid-nodes-cluster-enable-existing]
+== Enable hybrid nodes on an existing cluster
+
+You can enable EKS Hybrid Nodes in an existing cluster by using:
+
+* <<hybrid-nodes-cluster-enable-cfn,{aws} CloudFormation>>
+* <<hybrid-nodes-cluster-enable-cli,{aws} CLI>>
+* <<hybrid-nodes-cluster-enable-console,{aws-management-console}>>
+
+
+[#hybrid-nodes-cluster-enable-cfn]
+=== Enable EKS Hybrid Nodes in an existing cluster - {aws} CloudFormation
+
+. To enable EKS Hybrid Nodes in your cluster, add the `RemoteNodeNetwork` and (optional) `RemotePodNetwork` to your CLoudFormation template and update the stack. Note that `RemoteNodeNetwork` is a list with a maximum of one `Cidrs` item and the `Cidrs` is a list of multiple IP CIDR ranges.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+      RemoteNetworkConfig:
+        RemoteNodeNetworks:
+          - Cidrs: [RemoteNodeCIDR]
+        RemotePodNetworks:
+          - Cidrs: [RemotePodCIDR]
+----
+
+. Continue with the next step.
+
+
+[#hybrid-nodes-cluster-enable-cli]
+=== Enable EKS Hybrid Nodes in an existing cluster - {aws} CLI
+
+. Run the following command to enable EKS Hybrid Nodes and update an EKS cluster. Before running the command, replace the following with your desired settings. For a full list of settings, see the link:eks/latest/APIReference/API_UpdateClusterConfig.html[UpdateClusterConfig,type="documentation"] in the _Amazon EKS API Reference_.
+.. `CLUSTER_NAME`: name of the EKS cluster to be created.
+.. `AWS_REGION`: {aws} Region where the cluster will be created. 
+.. `REMOTE_NODE_CIDRS`: the on-premises node CIDR for your hybrid nodes. 
+.. `REMOTE_POD_CIDRS` (optional): the on-premises pod CIDR for workloads running on hybrid nodes.
+.. Your on-premises node and pod CIDR blocks must meet the following requirements:
+... Be within one of the IPv4 RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
+... Not overlap with each other, all CIDRs of the VPC for your Amazon EKS cluster, or your Kubernetes service IPv4 CIDR.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks update-cluster \
+    --name CLUSTER_NAME \
+    --region AWS_REGION \
+    --remote-network-config '{"remoteNodeNetworks":[{"cidrs":["REMOTE_NODE_CIDRS"]}],"remotePodNetworks":[{"cidrs":["REMOTE_POD_CIDRS"]}]}' 
+----
+
+. It takes several minutes to update the cluster. You can query the status of your cluster with the following command. Replace `CLUSTER_NAME` with the name of the cluster you are creating and `AWS_REGION` with the {aws} Region where the cluster is creating. Don't proceed to the next step until the output returned is `ACTIVE`.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks describe-cluster \
+    --name CLUSTER_NAME \
+    --region AWS_REGION \
+    --query "cluster.status"
+----
+
+. Continue with the next step.
+
+
+[#hybrid-nodes-cluster-enable-console]
+=== Enable EKS Hybrid Nodes in an existing cluster - {aws-management-console}
+
+. Open the Amazon EKS console at link:eks/home#/clusters[Amazon EKS console,type="console"].
+. Choose the name of the cluster to display your cluster information.
+. Choose the *Networking* tab and choose *Manage*.
+. In the dropdown, choose *Remote networks*.
+. *Choose Configure remote networks to enable hybrid nodes* and specify your on-premises node and pod CIDRs for hybrid nodes.
+.. You must configure your remote pod CIDR if your CNI does not use Network Address Translation (NAT) or masquerading for pod IP addresses when pod traffic leaves your on-premises hosts. You must configure the remote pod CIDR if you are running webhooks on hybrid nodes.
+.. Your on-premises node and pod CIDR blocks must meet the following requirements:
+... Be within one of the IPv4 RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
+... Not overlap with each other, the `VPC CIDR` for your cluster, or your Kubernetes service IPv4 CIDR.
+. Choose *Save changes* to finish. Wait for the cluster status to return to *Active*.
+
+. Continue with the next step.
+
+
+== Next steps: Cluster setup
+
+As the next step, update any add-ons to versions that are compatible with hybrid nodes. For the add-ons versions that are compatible with hybrid nodes, see <<hybrid-nodes-add-ons>>.
+
+Then, see <<hybrid-nodes-cluster-prep>> to enable access for your hybrid nodes to join your cluster.
