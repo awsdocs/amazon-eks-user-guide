@@ -221,3 +221,7 @@ By default, EKS Auto Mode:
 - Consolidates underutilized instances. 
 - Terminates instances after 720 hours. 
 - Sets a single disruption budget of 10% of nodes. 
+
+== Termination Grace Period
+
+When a `terminationGracePeriod` is not explicitly defined on an EKS Auto NodePool, the system automatically applies a default 24-hour termination grace period to the associated NodeClaim. While EKS Auto customers will not see a `terminationGracePeriod` defaulted in their custom NodePool configurations, they will observe this default value on the NodeClaim. The functionality remains consistent whether the grace period is explicitly set on the NodePool or defaulted on the NodeClaim, ensuring predictable node termination behavior across the cluster.

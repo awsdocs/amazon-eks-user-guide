@@ -76,7 +76,7 @@ The Kubernetes Metrics Server is a scalable and efficient source of container re
 |===
 
 
-=== `kube-state-metrics`
+=== kube-state-metrics
 
 Add-on agent to generate and expose cluster-level metrics.
 
