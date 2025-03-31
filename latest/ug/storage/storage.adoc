@@ -9,6 +9,8 @@ include::../attributes.txt[]
 This chapter covers storage options for Amazon EKS clusters.
 --
 
+You can use a range of {aws} storage services with Amazon EKS for the storage needs of your applications. Through an {aws}-supported breadth of Container Storage Interface (CSI) drivers, you can easily use Amazon EBS, Amazon S3, Amazon EFS, Amazon FSX, and Amazon File Cache for the storage needs of your applications running on Amazon EKS.
+
 This chapter covers storage options for Amazon EKS clusters.
 
 [.topiclist]

@@ -27,7 +27,7 @@ This topic provides an overview of the available options and describes what to c
 * Your cluster must use either `API` or `API_AND_CONFIG_MAP` for the cluster authentication mode.
 * Your cluster must use IPv4 address family.
 * Your cluster must use either Public or Private cluster endpoint connectivity. Your cluster cannot use “Public and Private” cluster endpoint connectivity, because the Amazon EKS Kubernetes API server endpoint will resolve to the public IPs for hybrid nodes running outside of your VPC.
-* Currently, hybrid nodes must be enabled during cluster creation. You cannot change your `RemoteNodeNetwork` or `RemotePodNetwork` after cluster creation.
+* You can add, change, or remove the hybrid nodes configuration of an existing cluster. For more information, see <<hybrid-nodes-cluster-update>>.
 
 
 [#hybrid-nodes-cluster-create-iam]

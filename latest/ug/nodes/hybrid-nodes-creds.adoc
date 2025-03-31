@@ -34,7 +34,7 @@ link:aws-managed-policy/latest/reference/AmazonSSMManagedInstanceCore.html[,Amaz
 [#hybrid-nodes-ssm]
 == Setup {aws} SSM hybrid activations
 
-Before setting up {aws} SSM hybrid activations, you must have a Hybrid Nodes IAM role created and configured. For more information, see hybrid-nodes-create-role>>. Follow the instructions at link:systems-manager/latest/userguide/hybrid-activation-managed-nodes.html[Create a hybrid activation to register nodes with Systems Manager,type="documentation"] in the {aws} Systems Manager User Guide to create an {aws} SSM hybrid activation for your hybrid nodes. The Activation Code and ID you receive is used with `nodeadm` when you register your hosts as hybrid nodes with your Amazon EKS cluster. You can come back to this step at a later point after you have created and prepared your Amazon EKS clusters for hybrid nodes.
+Before setting up {aws} SSM hybrid activations, you must have a Hybrid Nodes IAM role created and configured. For more information, see <<hybrid-nodes-create-role>>. Follow the instructions at link:systems-manager/latest/userguide/hybrid-activation-managed-nodes.html[Create a hybrid activation to register nodes with Systems Manager,type="documentation"] in the {aws} Systems Manager User Guide to create an {aws} SSM hybrid activation for your hybrid nodes. The Activation Code and ID you receive is used with `nodeadm` when you register your hosts as hybrid nodes with your Amazon EKS cluster. You can come back to this step at a later point after you have created and prepared your Amazon EKS clusters for hybrid nodes.
 
 [IMPORTANT]
 ====

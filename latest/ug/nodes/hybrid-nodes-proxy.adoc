@@ -43,10 +43,10 @@ The `containerd.service.d` directory will need to be created for this file. You 
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
 mkdir -p /etc/systemd/system/containerd.service.d
-echo '[Service]' > /etc/systemd/system/containerd.service.d
-echo 'Environment="HTTP_PROXY=http://[.replaceable]#proxy-domain:port#"' >> /etc/systemd/system/containerd.service.d
-echo 'Environment="HTTPS_PROXY=http://[.replaceable]#proxy-domain:port#"' >> /etc/systemd/system/containerd.service.d
-echo 'Environment="NO_PROXY=localhost"' >> /etc/systemd/system/containerd.service.d
+echo '[Service]' > /etc/systemd/system/containerd.service.d/http-proxy.conf
+echo 'Environment="HTTP_PROXY=http://[.replaceable]#proxy-domain:port#"' >> /etc/systemd/system/containerd.service.d/http-proxy.conf
+echo 'Environment="HTTPS_PROXY=http://[.replaceable]#proxy-domain:port#"' >> /etc/systemd/system/containerd.service.d/http-proxy.conf
+echo 'Environment="NO_PROXY=localhost"' >> /etc/systemd/system/containerd.service.d/http-proxy.conf
 systemctl daemon-reload
 systemctl restart containerd
 ----
@@ -72,12 +72,12 @@ The `kubelet.service.d` directory must be created for this file. You will need t
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
 mkdir -p /etc/systemd/system/kubelet.service.d
-echo '[Service]' > /etc/systemd/system/kubelet.service.d
-echo 'Environment="HTTP_PROXY=http://[.replaceable]#proxy-domain:port#"' >> /etc/systemd/system/kubelet.service.d
-echo 'Environment="HTTPS_PROXY=http://[.replaceable]#proxy-domain:port#"' >> /etc/systemd/system/kubelet.service.d
-echo 'Environment="NO_PROXY=localhost"' >> /etc/systemd/system/kubelet.service.d
+echo '[Service]' > /etc/systemd/system/kubelet.service.d/http-proxy.conf
+echo 'Environment="HTTP_PROXY=http://[.replaceable]#proxy-domain:port#"' >> /etc/systemd/system/kubelet.service.d/http-proxy.conf
+echo 'Environment="HTTPS_PROXY=http://[.replaceable]#proxy-domain:port#"' >> /etc/systemd/system/kubelet.service.d/http-proxy.conf
+echo 'Environment="NO_PROXY=localhost"' >> /etc/systemd/system/kubelet.service.d/http-proxy.conf
 systemctl daemon-reload
-systemctl restart containerd
+systemctl restart kubelet
 ----
 
 === `ssm` proxy configuration
