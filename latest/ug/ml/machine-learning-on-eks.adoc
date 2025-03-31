@@ -21,7 +21,7 @@ EKS is a managed Kubernetes platform that helps you deploy and manage complex AI
 Built on the open source Kubernetes ecosystem, it integrates with {aws} services, providing the control and scalability needed for advanced projects.
 For teams new to AI/ML deployments, existing Kubernetes skills transfer directly, allowing efficient orchestration of multiple workloads.
 
-EKS supports everything from operating system customizations to compute scaling, and its open source foundation promotes technological flexibility, preserving freedom of choice for future infrastructure decisions.
+EKS supports everything from operating system customizations to compute scaling, and its open source foundation promotes technological flexibility, preserving choice for future infrastructure decisions.
 The platform provides the performance and tuning options AI/ML workloads require, supporting features such as:
 
 * Full cluster control to fine-tune costs and configurations without hidden abstractions
