@@ -86,3 +86,5 @@ include::auto-enable-existing.adoc[leveloffset=+1]
 include::auto-migrate-karpenter.adoc[leveloffset=+1]
 
 include::auto-migrate-mng.adoc[leveloffset=+1]
+
+include::auto-migrate-fargate.adoc[leveloffset=+1]
