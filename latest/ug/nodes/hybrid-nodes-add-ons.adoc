@@ -34,6 +34,9 @@ The following {aws} add-ons are compatible with Amazon EKS Hybrid Nodes.
 |EKS Pod Identity Agent
 |v1.3.3-eksbuild.1 and above
 
+|Node monitoring agent
+|v1.2.0-eksbuild.1 and above
+
 |CSI snapshot controller
 |v8.1.0-eksbuild.1 and above
 |===
