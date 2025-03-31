@@ -6,9 +6,9 @@ include::../attributes.txt[]
 
 Amazon EKS provides an {aws} optimized bundle of Kubecost for cluster cost visibility. Amazon EKS supports Kubecost, which you can use to monitor your costs broken down by Kubernetes resources including Pods, nodes, namespaces, and labels.
 
-This topic covers the available versions of Kubecost, and the differences between the available tiers. EKS supports Kubecost Version 1 and Version 2. Each version is available in different tiers. You can use _Amazon EKS optimized Kubecost custom bundle_ for your EKS clusters at no additional cost. You may be charged for use of associated {aws} services, such as Amazon Managed Service for Prometheus. Also, you can use your existing {aws} support agreements to obtain support. 
+This topic covers the available versions of Kubecost, and the differences between the available tiers. EKS supports Kubecost Version 1 and Version 2. Each version is available in different tiers. You can use _Amazon EKS optimized Kubecost bundle_ for your Amazon EKS clusters at no additional cost. You may be charged for use of associated {aws} services, such as Amazon Managed Service for Prometheus. Also, you can use your existing {aws} support agreements to obtain support.
 
-As a Kubernetes platform administrator and finance leader, you can use Kubecost to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams. You can provide your internal teams and business units with transparent and accurate cost data based on their actual {aws} bill. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters. For more information about Kubecost, see the https://guide.kubecost.com[Kubecost] documentation.
+As a Kubernetes platform administrator and finance leader, you can use Kubecost to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams. You can provide your internal teams and business units with transparent and accurate cost data based on their actual {aws} bill. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters. For more information about Kubecost, see the https://www.ibm.com/docs/en/kubecost/self-hosted/2.x[Kubecost] documentation.
 
 *What is the difference between the custom bundle of Kubecost and the free version of Kubecost (also known as OpenCost)?*
 
@@ -19,12 +19,12 @@ As a Kubernetes platform administrator and finance leader, you can use Kubecost 
 
 *What is the difference between Kubecost v1 and v2?*
 
-Kubecost 2.0 is a major upgrade from previous versions and includes major new features including a brand new API Backend. Note the https://docs.kubecost.com/apis/monitoring-apis/api-allocation[Allocation] and https://docs.kubecost.com/apis/monitoring-apis/assets-api[Assets] APIs are fully backwards compatible. https://docs.kubecost.com/install-and-configure/install/kubecostv2[Please review the Kubecost documentation to ensure a smooth transition.] For the full list of enhancements, https://github.com/kubecost/cost-analyzer-helm-chart/releases/tag/v2.0.0[please see the Kubecost release notes]
+Kubecost 2.0 is a major upgrade from previous versions and includes major new features including a brand new API Backend. Note the https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=apis-allocation-api[Allocation] and https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=apis-assets-api[Assets] APIs are fully backwards compatible. https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=installation-kubecost-v2-installupgrade[Please review the Kubecost documentation to ensure a smooth transition.] For the full list of enhancements, https://github.com/kubecost/cost-analyzer-helm-chart/releases/tag/v2.0.0[please see the Kubecost v2.0 announcement] and https://github.com/kubecost/cost-analyzer-helm-chart/releases[the full release notes].
 
 [IMPORTANT]
 ====
 
-https://docs.kubecost.com/install-and-configure/install/kubecostv2[Review the Kubecost documentation before upgrading.] Upgrading may impact report availability. 
+https://www.ibm.com/docs/en/kubecost/self-hosted/2.x[Review the Kubecost documentation before upgrading.] Upgrading may impact report availability.
 
 ====
 
@@ -40,7 +40,7 @@ https://docs.kubecost.com/install-and-configure/install/kubecostv2[Review the Ku
 
 
 | Cluster cost visibility
-| Single clusters up to 250 cores
+| Unlimited clusters up to 250 cores
 | Unified multi-cluster without core limits when integrated with Amazon Managed Service for Prometheus
 | Unified and unlimited number of clusters across unlimited numbers of environments (i.e. multi-cloud)
 
@@ -71,8 +71,8 @@ https://docs.kubecost.com/install-and-configure/install/kubecostv2[Review the Ku
 
 | Alerts and recurring reports
 | Only supported on the primary cluster, limited to 250 cores
-| Efficiency alerts, budget alerts, spend change alerts, and https://docs.kubecost.com/using-kubecost/navigating-the-kubecost-ui/alerts[more supported] across all clusters
-| Efficiency alerts, budget alerts, spend change alerts, and https://docs.kubecost.com/using-kubecost/navigating-the-kubecost-ui/alerts[more supported] across all clusters
+| Efficiency alerts, budget alerts, spend change alerts, and https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=navigating-kubecost-ui#ariaid-title6[more supported] across all clusters
+| Efficiency alerts, budget alerts, spend change alerts, and https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=navigating-kubecost-ui#ariaid-title6[more supported] across all clusters
 
 | Saved reports
 | -
@@ -137,13 +137,12 @@ The following features have metric limits:
 |===
 |Metric
 |Kubecost Free Tier 2.0
-|Amazon EKS Optimized Kubecost Custom Bundle
-                            2.0
+|Amazon EKS optimized Kubecost bundle 2.0
 |Kubecost Enterprise 2.0
 
 
 |Cluster size
-|Limited to 250 cores
+|Unlimited clusters up to 250 cores
 |Unlimited
 |Unlimited
 
@@ -170,7 +169,7 @@ The following features have metric limits:
 |===
 |Feature
 |Kubecost free tier
-|Amazon EKS optimized Kubecost custom bundle
+|Amazon EKS optimized Kubecost bundle
 |Kubecost Enterprise
 
 
@@ -257,7 +256,7 @@ See the following common questions and answers about using Kubecost with Amazon 
 
 *What is the Kubecost API retention (ETL) feature?*
 
-The Kubecost ETL feature aggregates and organizes metrics to surface cost visibility at various levels of granularity (such as `namespace-level`, `pod-level`, and `deployment-level`). For the custom Kubecost bundle, customers get data and insights from metrics for the last 15 days.
+The Kubecost ETL feature aggregates and organizes metrics to surface cost visibility at various levels of granularity (such as `namespace-level`, `pod-level`, and `deployment-level`). For _Amazon EKS optimized Kubecost bundle_, customers get data and insights from metrics for the last 15 days.
 
 *What is the alerts and recurring reports feature? What alerts and reports does it include?*
 
@@ -277,11 +276,15 @@ Kubecost provides insights and automation to help users optimize their Kubernete
 
 *Is there a charge for this functionality?*
 
-No. You can use this version of Kubecost at no additional charge. If you want additional Kubecost capabilities that aren't included in this bundle, you can buy an enterprise license of Kubecost through the {aws} Marketplace, or from Kubecost directly.
+No. You can use _Amazon EKS optimized Kubecost bundle_ at no additional charge. If you want additional Kubecost capabilities that aren't included, you can buy an Enterprise License of Kubecost through the {aws} Marketplace, or from Kubecost directly.
 
-*Is support available?*
+*Is support available for _Amazon EKS optimized Kubecost bundle_?*
 
-Yes. You can open a support case with the {aws} Support team at link:contact-us/[Contact {aws},type="marketing"].
+Yes, only if you are using the _Amazon EKS optimized Kubecost bundle_.
+
+*How do I get support for _Amazon EKS optimized Kubecost bundle_?*
+
+You can open a support case with the {aws} Support team at link:contact-us/[Contact {aws},type="marketing"].
 
 *Do I need a license to use Kubecost features provided by the Amazon EKS integration?*
 
@@ -289,11 +292,11 @@ No.
 
 *Can I integrate Kubecost with {aws} Cost and Usage Report for more accurate reporting?*
 
-Yes. You can configure Kubecost to ingest data from {aws} Cost and Usage Report to get accurate cost visibility, including discounts, Spot pricing, reserved instance pricing, and others. For more information, see https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations[{aws} Cloud Billing Integration] in the Kubecost documentation.
+Yes. You can configure Kubecost to ingest data from {aws} Cost and Usage Report to get accurate cost visibility, including discounts, Spot pricing, reserved instance pricing, and others. For more information, see https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=integrations-aws-cloud-billing-integration[{aws} Cloud Billing Integration] in the Kubecost documentation.
 
 *Does this version support cost management of self-managed Kubernetes clusters on Amazon EC2?*
 
-No. This version is only compatible with Amazon EKS clusters.
+No. _Amazon EKS optimized Kubecost bundle_ only compatible with Amazon EKS clusters.
 
 *Can Kubecost track costs for Amazon EKS on {aws} Fargate?*
 
@@ -323,5 +326,5 @@ No.
 +
 image::images/kubecost-architecture.png[Kubecost architecture,scaledwidth=100%]
 +
-With https://prometheus.io/[Prometheus] pre-installed, you can write queries to ingest Kubecost data into your current business intelligence system for further analysis. You can also use it as a data source for your current https://grafana.com/[Grafana] dashboard to display Amazon EKS cluster costs that your internal teams are familiar with. To learn more about how to write Prometheus queries, see the https://github.com/opencost/opencost/blob/develop/PROMETHEUS.md[Prometheus Configuration]``readme`` file on GitHub or use the example Grafana JSON models in the https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer[Kubecost Github repository] as references.
-* *{aws} Cost and Usage Report integration* – To perform cost allocation calculations for your Amazon EKS cluster, Kubecost retrieves the public pricing information of {aws} services and {aws} resources from the {aws} Price List API. You can also integrate Kubecost with *{aws} Cost and Usage Report* to enhance the accuracy of the pricing information specific to your {aws} account. This information includes enterprise discount programs, reserved instance usage, savings plans, and spot usage. To learn more about how the {aws} Cost and Usage Report integration works, see https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations[{aws} Cloud Billing Integration] in the Kubecost documentation.
+With https://prometheus.io/[Prometheus] pre-installed, you can write queries to ingest Kubecost data into your current business intelligence system for further analysis. You can also use it as a data source for your current https://grafana.com/[Grafana] dashboard to display Amazon EKS cluster costs that your internal teams are familiar with. To learn more about how to write Prometheus queries, see the https://opencost.io/docs/installation/prometheus/[Prometheus Configuration]``readme`` file on GitHub or use the example Grafana JSON models in the https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer[Kubecost Github repository] as references.
+* *{aws} Cost and Usage Report integration* – To perform cost allocation calculations for your Amazon EKS cluster, Kubecost retrieves the public pricing information of {aws} services and {aws} resources from the {aws} Price List API. You can also integrate Kubecost with *{aws} Cost and Usage Report* to enhance the accuracy of the pricing information specific to your {aws} account. This information includes enterprise discount programs, reserved instance usage, savings plans, and spot usage. To learn more about how the {aws} Cost and Usage Report integration works, see https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=integrations-aws-cloud-billing-integration[{aws} Cloud Billing Integration] in the Kubecost documentation.
