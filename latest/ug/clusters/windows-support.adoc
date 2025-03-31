@@ -10,6 +10,11 @@ include::../attributes.txt[]
 Learn how to enable and manage Windows support for your Amazon EKS cluster to run Windows containers alongside Linux containers.
 --
 
+Learn how to enable and manage Windows support for your Amazon EKS cluster to run Windows containers alongside Linux containers.
+
+
+== Considerations
+
 Before deploying Windows nodes, be aware of the following considerations.
 
 * EKS Auto Mode does not support Windows nodes
@@ -28,12 +33,22 @@ Before deploying Windows nodes, be aware of the following considerations.
 * The source for the controller is managed on GitHub. To contribute to, or file issues against the controller, visit the https://github.com/aws/amazon-vpc-resource-controller-k8s[project] on GitHub.
 * When specifying a custom AMI ID for Windows managed node groups, add `eks:kube-proxy-windows` to your {aws} IAM Authenticator configuration map. For more information, see <<mng-ami-id-conditions>>.
 * If preserving your available IPv4 addresses is crucial for your subnet, refer to https://aws.github.io/aws-eks-best-practices/windows/docs/networking/#ip-address-management[EKS Best Practices Guide - Windows Networking IP Address Management] for guidance. 
+* Considerations for EKS Access Entries
+** If you use a different Node IAM Role for Windows instances, EKS will automatically create the required Windows Access Entry. 
+** Access Entries for use with Windows nodes need the type of `EC2_WINDOWS`. For more information, see <<creating-access-entries>>.
++
+To create an access entry for a Windows node:
++
+[source,bash]
+----
+aws eks create-access-entry --cluster-name my-cluster --principal-arn arn:aws:iam::111122223333:role/<role-name> --type EC2_Windows  
+----
 
+== Prerequisites 
 
 * An existing cluster. 
 * Your cluster must have at least one (we recommend at least two) Linux node or Fargate Pod to run CoreDNS. If you enable legacy Windows support, you must use a Linux node (you can't use a Fargate Pod) to run CoreDNS.
 * An existing <<cluster-iam-role,Amazon EKS cluster IAM role>>.
-
 
 [#enable-windows-support]
 == Enable Windows support
@@ -71,7 +86,8 @@ aws iam attach-role-policy \
   --role-name eksClusterRole \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKSVPCResourceController
 ----
-. Create a file named [.replaceable]`vpc-resource-controller-configmap.yaml` with the following contents.
+. Update the VPC CNI ConfigMap to enable Windows IPAM:
+.. Create a file named [.replaceable]`vpc-resource-controller-configmap.yaml` with the following contents.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -83,13 +99,14 @@ metadata:
 data:
   enable-windows-ipam: "true"
 ----
-. Apply the `ConfigMap` to your cluster.
+.. Apply the `ConfigMap` to your cluster.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl apply -f vpc-resource-controller-configmap.yaml
 ----
-. Verify that your `aws-auth` `ConfigMap` contains a mapping for the instance role of the Windows node to include the `eks:kube-proxy-windows` RBAC permission group. You can verify by running the following command. 
+. If your cluster has the authentication mode set to enable the `aws-auth` configmap:
+** Verify that your `aws-auth` `ConfigMap` contains a mapping for the instance role of the Windows node to include the `eks:kube-proxy-windows` RBAC permission group. You can verify by running the following command. 
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -117,7 +134,7 @@ data:
 ----
 +
 You should see `eks:kube-proxy-windows` listed under groups. If the group isn't specified, you need to update your `ConfigMap` or create it to include the required group. For more information about the `aws-auth` `ConfigMap`, see <<aws-auth-configmap>>.
-
+. If your cluster has the authentication mode set to disable the `aws-auth` configmap, then you can use EKS Access Entries. Create a new node role for use with Windows instances, and EKS will automatically create an access entry of type `EC2_WINDOWS`. 
 
 [#windows-support-pod-deployment]
 == Deploy Windows Pods
