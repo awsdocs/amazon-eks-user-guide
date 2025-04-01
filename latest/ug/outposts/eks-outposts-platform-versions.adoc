@@ -12,7 +12,7 @@ Learn the relationship between Amazon EKS and Kubernetes versions available on {
 
 Local cluster platform versions represent the capabilities of the Amazon EKS cluster on {aws} Outposts. The versions include the components that run on the Kubernetes control plane, which Kubernetes API server flags are enabled. They also include the current Kubernetes patch version. Each Kubernetes minor version has one or more associated platform versions. The platform versions for different Kubernetes minor versions are independent. The platform versions for local clusters and Amazon EKS clusters in the cloud are independent.
 
-When a new Kubernetes minor version is available for local clusters, such as `1.30`, the initial platform version for that Kubernetes minor version starts at `eks-local-outposts.1`. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes.
+When a new Kubernetes minor version is available for local clusters, such as `1.31`, the initial platform version for that Kubernetes minor version starts at `eks-local-outposts.1`. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes.
 
 When new local cluster platform versions become available for a minor version:
 
@@ -30,10 +30,11 @@ Local clusters are always created with the latest available platform version (`e
 
 The current and recent platform versions are described in the following tables.
 
-[#outposts-platform-versions-1-30]
-== Kubernetes version `1.30`
+[#outposts-platform-versions-1-31]
+== Kubernetes version `1.31`
 
-The following admission controllers are enabled for all `1.30` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
+The following admission controllers are enabled for all `1.31` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `ClusterTrustBundleAttest`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `PodSecurity`, `Priority`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
+
 
 [cols="1,1,1,1", options="header"]
 |===
@@ -41,6 +42,29 @@ The following admission controllers are enabled for all `1.30` platform versions
 |Amazon EKS platform version
 |Release notes
 |Release date
+
+|`1.31.6`
+|`eks-local-outposts.1`
+|Initial release of Kubernetes version `v1.31` for local Amazon EKS clusters on Outposts.
+|April 9, 2025
+|===
+
+[#outposts-platform-versions-1-30]
+== Kubernetes version `1.30`
+
+The following admission controllers are enabled for all `1.30` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `ClusterTrustBundleAttest`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `PodSecurity`, `Priority`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
+
+[cols="1,1,1,1", options="header"]
+|===
+|Kubernetes version
+|Amazon EKS platform version
+|Release notes
+|Release date
+
+|`1.30.10`
+|`eks-local-outposts.3`
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.30.10`. {aws} IAM Authenticator updated to `v0.6.29`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.2`. CoreDNS updated to `v1.11.4`. AWS Cloud Controller Manager updated to `v1.30.8`. Bottlerocket version updated to `v1.34.0`.
+|March 27, 2025
 
 |`1.30.7`
 |`eks-local-outposts.2`
@@ -56,7 +80,7 @@ The following admission controllers are enabled for all `1.30` platform versions
 [#outposts-platform-versions-1-29]
 == Kubernetes version `1.29`
 
-The following admission controllers are enabled for all `1.29` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
+The following admission controllers are enabled for all `1.29` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `ClusterTrustBundleAttest`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `PodSecurity`, `Priority`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
 
 [cols="1,1,1,1", options="header"]
 |===
@@ -65,8 +89,13 @@ The following admission controllers are enabled for all `1.29` platform versions
 |Release notes
 |Release date
 
+|`v1.29.14`
+|`eks-local-outposts.6`
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.29.14`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.2`. CoreDNS updated to `v1.11.4`. AWS Cloud Controller Manager updated to `v1.29.8`. Bottlerocket version updated to `v1.34.0`.
+|March 27, 2025
+
 |`v1.29.11`
-|`eks-local-outposts.12`
+|`eks-local-outposts.5`
 |New platform version with security fixes and enhancements. kube-proxy updated to `v1.29.11`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. Updated CoreDNS image to `v1.11.3`. Updated Bottlerocket version to `v1.29.0`.
 |January 10, 2025
 
@@ -94,7 +123,7 @@ The following admission controllers are enabled for all `1.29` platform versions
 [#outposts-platform-versions-1-28]
 == Kubernetes version `1.28`
 
-The following admission controllers are enabled for all `1.28` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
+The following admission controllers are enabled for all `1.28` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `ClusterTrustBundleAttest`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `PodSecurity`, `Priority`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
 
 [cols="1,1,1,1", options="header"]
 |===
@@ -102,6 +131,11 @@ The following admission controllers are enabled for all `1.28` platform versions
 |Amazon EKS platform version
 |Release notes
 |Release date
+
+|`1.28.15`
+|`eks-local-outposts.13`
+|New platform version with security fixes and enhancements. kube-proxy `v1.28.15` build updated. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. AWS Cloud Controller Manager updated to `v1.28.11`.
+|March 27, 2025
 
 |`1.28.15`
 |`eks-local-outposts.12`
@@ -162,7 +196,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 [#outposts-platform-versions-1-27]
 == Kubernetes version `1.27`
 
-The following admission controllers are enabled for all `1.27` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurity`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
+The following admission controllers are enabled for all `1.27` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `ClusterTrustBundleAttest`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `PodSecurity`, `Priority`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
 
 [cols="1,1,1,1", options="header"]
 |===
@@ -170,6 +204,11 @@ The following admission controllers are enabled for all `1.27` platform versions
 |Amazon EKS platform version
 |Release notes
 |Release date
+
+|`1.27.16`
+|`eks-local-outposts.13`
+|New platform version with security fixes and enhancements. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.2`. Bottlerocket version updated to `v1.34.0`.
+|March 27, 2025
 
 |`1.27.16`
 |`eks-local-outposts.12`
