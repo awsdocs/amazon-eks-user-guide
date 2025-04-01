@@ -36,6 +36,7 @@ EKS Auto Mode supports:
 * EKS Network Policies.
 * The `HostPort` and `HostNetwork` options for Kubernetes Pods.
 * Pods in public or private subnets.
+* Caching DNS queries on the node.
 
 EKS Auto Mode does *not* support:
 
