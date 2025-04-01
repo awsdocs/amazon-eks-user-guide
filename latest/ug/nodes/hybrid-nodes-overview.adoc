@@ -46,7 +46,7 @@ video::tFn9IdlddBw[youtube,align=center,height= 405,width=720,fileref = https://
 *Kubernetes and platform versions*
 
 * Amazon EKS Hybrid Nodes supports the same Kubernetes versions and deprecation schedule as Amazon EKS, including standard and extended Kubernetes version support. For more information on Kubernetes versions in Amazon EKS, see <<kubernetes-versions>>. For more information about Amazon EKS platform versions, see <<platform-versions>>.
-* You must create new Amazon EKS clusters to use Amazon EKS Hybrid Nodes. Hybrid nodes can't be used with existing Amazon EKS clusters.
+* You can create new Amazon EKS clusters to use Amazon EKS Hybrid Nodes. Or, you can update an existing Amazon EKS cluster to add the hybrid node configuration.
 
 *Networking*
 

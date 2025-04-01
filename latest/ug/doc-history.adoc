@@ -15,6 +15,23 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
+[.update,date="2025-03-31"]
+=== EKS Hybrid Nodes for existing clusters
+[.update-ulink]
+link:eks/latest/userguide/hybrid-nodes-cluster-update.html[type="documentation"]
+
+You can now add, change, or remove the hybrid nodes configuration of existing clusters. Previously, you could only add the hybrid nodes configuration to new clusters when you created them.
+With Amazon EKS Hybrid Nodes, you can use your on-premises and edge infrastructure as nodes in Amazon EKS clusters. {aws} manages the {aws}-hosted Kubernetes control plane of the Amazon EKS cluster, and you manage the hybrid nodes that run in your on-premises or edge environments.
+
+[.update,date="2025-03-28"]
+=== Rollback: Prevent accidental upgrades with cluster insights
+[.update-ulink]
+link:eks/latest/userguide/update-cluster.html#update-cluster-control-plane[type="documentation"]
+
+Amazon EKS has temporarily rolled back a feature that would
+require you to use a `--force` flag to upgrade your cluster when there were certain cluster insight issues. For more information, see link:https://github.com/aws/containers-roadmap/issues/2570[Temporary rollback of enforcing upgrade insights on update cluster version] on GitHub.
+
+
 [.update,date="2025-03-27"]
 === Bottlerocket FIPS AMIs
 [.update-ulink]
@@ -23,12 +40,12 @@ link:eks/latest/userguide/bottlerocket-fips-amis.html[type="documentation"]
 Bottlerocket FIPS AMIs are now available in standard managed node groups.
 
 
-[.update,date="2025-03-26"]
-=== Updated cluster insights
-[.update-ulink]
-link:eks/latest/userguide/update-cluster.html#update-cluster-control-plane[type="documentation"]
+//[.update,date="2025-03-26"]
+//=== Prevent accidental upgrades with cluster insights
+//[.update-ulink]
+//link:eks/latest/userguide/update-cluster.html#update-cluster-control-plane[type="documentation"]
 
-Cluster insights will proactively prevent you from upgrading your cluster for certain issues. You can override upgrade-blocking readiness checks if needed.
+//Cluster insights will proactively prevent you from upgrading your cluster for certain issues. You can override upgrade-blocking readiness checks if needed.
 
 
 [.update,date="2025-02-28"]
