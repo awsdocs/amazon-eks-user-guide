@@ -49,15 +49,6 @@ affinity:
 
 [#hybrid-nodes-cluster-enable-consider]
 == Considerations 
-
-* Your cluster must use either `API` or `API_AND_CONFIG_MAP` for the cluster authentication mode.
-* Your cluster must use IPv4 address family.
-* Your cluster must use either Public or Private cluster endpoint connectivity. Your cluster cannot use “Public and Private” cluster endpoint connectivity, because the Amazon EKS Kubernetes API server endpoint will resolve to the public IPs for hybrid nodes running outside of your VPC.
-* You must configure your remote pod CIDR if your CNI does not use Network Address Translation (NAT) or masquerading for pod IP addresses when pod traffic leaves your on-premises hosts. You must configure the remote pod CIDR if you are running webhooks on hybrid nodes. To learn more about these requirements, see <<hybrid-nodes-webhooks>>.
-* Your on-premises node and pod CIDR blocks must meet the following requirements:
-.. Be within one of the IPv4 RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
-.. Not overlap with each other, the `VPC CIDR` for your cluster, or your Kubernetes service IPv4 CIDR.
-
 The `remoteNetworkConfig` JSON object has the following behavior during an update:
 
 * Any existing part of the configuration that you don't specify is unchanged. If you don't specify either of the `remoteNodeNetworks` or `remotePodNetworks`, that part will remain the same.
