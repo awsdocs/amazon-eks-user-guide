@@ -17,9 +17,10 @@ To enable an Amazon EKS cluster to use hybrid nodes, add the IP address CIDR ran
 You can do any of the following actions to the EKS Hybrid Nodes networking configuration in a cluster:
 
 * Add remote node network configuration to enable EKS Hybrid Nodes in an existing cluster.
-* Add, change, or remove the remote node networks. Remove all remote node network CIDR ranges to disable EKS Hybrid Nodes in an existing cluster.
+* Add, change, or remove the remote node networks.
+* Remove all remote node network CIDR ranges to disable EKS Hybrid Nodes in an existing cluster.
 * Add, change, or remove the optional remote pod networks. 
-* Remove all of the remote pod networks.
+* Remove all of remote pod network CIDR ranges.
 
 The following examples enable EKS Hybrid Nodes on an existing cluster and include the optional remote pod network.
 
@@ -28,13 +29,13 @@ The following examples enable EKS Hybrid Nodes on an existing cluster and includ
 
 * The latest version of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device. To check your current version, use `aws --version`. Package managers such yum, apt-get, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/getting-started-install.html[Installing or updating to the last version of the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Configuring settings for the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
 * Before enabling your Amazon EKS cluster for hybrid nodes, ensure your environment meets the requirements outlined at <<hybrid-nodes-prereqs>>, and detailed at <<hybrid-nodes-networking>>, <<hybrid-nodes-os>>, and <<hybrid-nodes-creds>>.
-* Your cluster must use either API or API_AND_CONFIG_MAP for the cluster authentication mode.
 * Your cluster must use IPv4 address family.
-* It is recommended to use either public or private endpoint access for the Amazon EKS Kubernetes API server endpoint. If you choose “Public and Private”, the Amazon EKS Kubernetes API server endpoint will always resolve to the public IPs for hybrid nodes running outside of your VPC, which can prevent your hybrid nodes from joining the cluster. 
+* Your cluster must use either API or API_AND_CONFIG_MAP for the cluster authentication mode. The process for modifying the cluster authentication mode is described at <<setting-up-access-entries>>.
+* It is recommended to use either public or private endpoint access for the Amazon EKS Kubernetes API server endpoint. If you choose “Public and Private”, the Amazon EKS Kubernetes API server endpoint will always resolve to the public IPs for hybrid nodes running outside of your VPC, which can prevent your hybrid nodes from joining the cluster. The process for modifying network access to your cluster is described at <<cluster-endpoint>>. 
 * An link:IAM/latest/UserGuide/id_roles#iam-term-principal[IAM principal,type="documentation"] with permission to call link:eks/latest/APIReference/API_UpdateClusterConfig.html[UpdateClusterConfig,type="documentation"] on your Amazon EKS cluster.
 * Update add-ons to versions that are compatible with hybrid nodes. For the add-ons versions that are compatible with hybrid nodes, see <<hybrid-nodes-add-ons>>. 
-* If you are running add-ons that are not compatible with hybrid nodes, ensure that the add-on https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/[DaemonSet] or https://kubernetes.io/docs/concepts/workloads/controllers/deployment/[Deployment] has the following affinity rule to prevent deployment to hybrid nodes. Add the affinity rule if it is not already present.
-
+* If you are running add-ons that are not compatible with hybrid nodes, ensure that the add-on https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/[DaemonSet] or https://kubernetes.io/docs/concepts/workloads/controllers/deployment/[Deployment] has the following affinity rule to prevent deployment to hybrid nodes. Add the following affinity rule if it is not already present.
++
 [source,yaml]
 ----
 affinity:
@@ -56,6 +57,9 @@ The `remoteNetworkConfig` JSON object has the following behavior during an updat
 
 * Any existing part of the configuration that you don't specify is unchanged. If you don't specify either of the `remoteNodeNetworks` or `remotePodNetworks`, that part will remain the same.
 * If you are modifying either the `remoteNodeNetworks` or `remotePodNetworks` lists of CIDRs, you must specify the complete list of CIDRs that you want in your final configuration. When you specify a change to either the `remoteNodeNetworks` or `remotePodNetworks` CIDR list, EKS replaces the original list during the update.
+* Your on-premises node and pod CIDR blocks must meet the following requirements:
+. Be within one of the IPv4 RFC-1918 ranges: 10.0.0.0/8, 172.16.0.0/12, or 192.168.0.0/16.
+. Not overlap with each other, all CIDRs of the VPC for your Amazon EKS cluster, or your Kubernetes service IPv4 CIDR.
 
 
 [#hybrid-nodes-cluster-enable-existing]
@@ -92,9 +96,6 @@ RemoteNetworkConfig:
 .. `AWS_REGION`: {aws} Region where the EKS cluster is running. 
 .. `REMOTE_NODE_CIDRS`: the on-premises node CIDR for your hybrid nodes. 
 .. `REMOTE_POD_CIDRS` (optional): the on-premises pod CIDR for workloads running on hybrid nodes.
-.. Your on-premises node and pod CIDR blocks must meet the following requirements:
-... Be within one of the IPv4 RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
-... Not overlap with each other, all CIDRs of the VPC for your Amazon EKS cluster, or your Kubernetes service IPv4 CIDR.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
