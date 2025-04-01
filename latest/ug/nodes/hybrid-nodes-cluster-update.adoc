@@ -12,7 +12,7 @@ Modify hybrid nodes configuration on an existing cluster
 
 This topic provides an overview of the available options and describes what to consider when you add, change, or remove the hybrid nodes configuration from an Amazon EKS cluster. If you are not planning to use hybrid nodes, see <<create-cluster>>.
 
-To enable an Amazon EKS cluster to use hybrid nodes, add the IP address CIDR ranges of your on-premises network in the `RemoteNodeNetwork` configuration. EKS uses this list of CIDRs to enable connectivity between the cluster and your on-premises networks. For a full list of options when updating your cluster configuration, see the link:eks/latest/APIReference/API_UpdateClusterConfig.html[UpdateClusterConfig,type="documentation"] in the _Amazon EKS API Reference_.
+To enable an Amazon EKS cluster to use hybrid nodes, add the IP address CIDR ranges of your on-premises node and optionally pod network in the `RemoteNetworkConfig` configuration. EKS uses this list of CIDRs to enable connectivity between the cluster and your on-premises networks. For a full list of options when updating your cluster configuration, see the link:eks/latest/APIReference/API_UpdateClusterConfig.html[UpdateClusterConfig,type="documentation"] in the _Amazon EKS API Reference_.
 
 You can do any of the following actions to the EKS Hybrid Nodes networking configuration in a cluster:
 
@@ -26,9 +26,25 @@ The following examples enable EKS Hybrid Nodes on an existing cluster and includ
 [#hybrid-nodes-cluster-enable-prep]
 == Prerequisites
 
-* The <<hybrid-nodes-prereqs>> completed. Before you create your hybrid nodes-enabled cluster, you must have your on-premises node and optionally pod CIDRs identified, your VPC and subnets created according to the EKS and hybrid nodes requirements, and your security group with inbound rules for your on-premises node and optionally pod CIDRs. For more information on these prerequisites, see <<hybrid-nodes-networking>>.
+* Before enabling your Amazon EKS cluster for hybrid nodes, ensure your environment meets the requirements outlined at <<hybrid-nodes-prereqs>>, and detailed at <<hybrid-nodes-networking>>, <<hybrid-nodes-os>>, and <<hybrid-nodes-creds>>.
 * The latest version of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device. To check your current version, use `aws --version`. Package managers such yum, apt-get, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/getting-started-install.html[Installing or updating to the last version of the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Configuring settings for the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
-* An link:IAM/latest/UserGuide/id_roles#iam-term-principal[IAM principal,type="documentation"] with permissions to create IAM roles and attach policies, and create and describe EKS clusters
+* An link:IAM/latest/UserGuide/id_roles#iam-term-principal[IAM principal,type="documentation"] with permission to call link:eks/latest/APIReference/API_UpdateClusterConfig.html[UpdateClusterConfig,type="documentation"] on your Amazon EKS cluster.
+* Update add-ons to versions that are compatible with hybrid nodes. For the add-ons versions that are compatible with hybrid nodes, see <<hybrid-nodes-add-ons>>. 
+* If you are running add-ons that are not compatible with hybrid nodes, ensure that the add-on https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/[DaemonSet] or https://kubernetes.io/docs/concepts/workloads/controllers/deployment/[Deployment] has the following affinity rule to prevent deployment to hybrid nodes. Add the affinity rule if it is not already present.
+
+[source,yaml]
+----
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: eks.amazonaws.com/compute-type
+          operator: NotIn
+          values:
+          - hybrid
+----
+
 
 
 [#hybrid-nodes-cluster-enable-consider]
@@ -65,22 +81,21 @@ You can enable EKS Hybrid Nodes in an existing cluster by using:
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
-      RemoteNetworkConfig:
-        RemoteNodeNetworks:
-          - Cidrs: [RemoteNodeCIDR]
-        RemotePodNetworks:
-          - Cidrs: [RemotePodCIDR]
+RemoteNetworkConfig:
+  RemoteNodeNetworks:
+    - Cidrs: [RemoteNodeCIDR]
+  RemotePodNetworks:
+    - Cidrs: [RemotePodCIDR]
 ----
 
-. Continue with <<Next steps: Cluster setup, Next steps>>.
-
+. Continue to <<hybrid-nodes-cluster-prep>>.
 
 [#hybrid-nodes-cluster-enable-cli]
 === Enable EKS Hybrid Nodes in an existing cluster - {aws} CLI
 
-. Run the following command to enable EKS Hybrid Nodes by updating an EKS cluster. Before running the command, replace the following with your desired settings. For a full list of settings, see the link:eks/latest/APIReference/API_UpdateClusterConfig.html[UpdateClusterConfig,type="documentation"] in the _Amazon EKS API Reference_.
+. Run the following command to enable `RemoteNetworkConfig` for EKS Hybrid Nodes for your EKS cluster. Before running the command, replace the following with your desired settings. For a full list of settings, see the link:eks/latest/APIReference/API_UpdateClusterConfig.html[UpdateClusterConfig,type="documentation"] in the _Amazon EKS API Reference_.
 .. `CLUSTER_NAME`: name of the EKS cluster to update.
-.. `AWS_REGION`: {aws} Region where the cluster is running. 
+.. `AWS_REGION`: {aws} Region where the EKS cluster is running. 
 .. `REMOTE_NODE_CIDRS`: the on-premises node CIDR for your hybrid nodes. 
 .. `REMOTE_POD_CIDRS` (optional): the on-premises pod CIDR for workloads running on hybrid nodes.
 .. Your on-premises node and pod CIDR blocks must meet the following requirements:
@@ -105,7 +120,7 @@ aws eks describe-cluster \
     --query "cluster.status"
 ----
 
-. Continue with <<Next steps: Cluster setup, Next steps>>.
+. Continue to <<hybrid-nodes-cluster-prep>>.
 
 
 [#hybrid-nodes-cluster-enable-console]
@@ -118,11 +133,4 @@ aws eks describe-cluster \
 . *Choose Configure remote networks to enable hybrid nodes* and specify your on-premises node and pod CIDRs for hybrid nodes.
 . Choose *Save changes* to finish. Wait for the cluster status to return to *Active*.
 
-. Continue with <<Next steps: Cluster setup, Next steps>>.
-
-
-== Next steps: Cluster setup
-
-If you enable EKS Hybrid Nodes on an existing cluster, remember to update any add-ons to versions that are compatible with hybrid nodes. For the add-ons versions that are compatible with hybrid nodes, see <<hybrid-nodes-add-ons>>. Then, see <<hybrid-nodes-cluster-prep>> to enable access for your hybrid nodes to join your cluster.
-
-As soon as the cluster is in the `Active` state, the cluster is using the updated cluster configuration.
+. Continue to <<hybrid-nodes-cluster-prep>>.
