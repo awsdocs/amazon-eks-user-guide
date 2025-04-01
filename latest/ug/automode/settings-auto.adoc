@@ -107,3 +107,6 @@ include::auto-net-pol.adoc[leveloffset=+1]
 include::tag-subnets-auto.adoc[leveloffset=+1]
 
 include::auto-accelerated.adoc[leveloffset=+1]
+
+include::auto-cis.adoc[leveloffset=+1]
+
