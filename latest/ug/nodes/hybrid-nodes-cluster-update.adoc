@@ -26,8 +26,11 @@ The following examples enable EKS Hybrid Nodes on an existing cluster and includ
 [#hybrid-nodes-cluster-enable-prep]
 == Prerequisites
 
-* Before enabling your Amazon EKS cluster for hybrid nodes, ensure your environment meets the requirements outlined at <<hybrid-nodes-prereqs>>, and detailed at <<hybrid-nodes-networking>>, <<hybrid-nodes-os>>, and <<hybrid-nodes-creds>>.
 * The latest version of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device. To check your current version, use `aws --version`. Package managers such yum, apt-get, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/getting-started-install.html[Installing or updating to the last version of the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Configuring settings for the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
+* Before enabling your Amazon EKS cluster for hybrid nodes, ensure your environment meets the requirements outlined at <<hybrid-nodes-prereqs>>, and detailed at <<hybrid-nodes-networking>>, <<hybrid-nodes-os>>, and <<hybrid-nodes-creds>>.
+* Your cluster must use either API or API_AND_CONFIG_MAP for the cluster authentication mode.
+* Your cluster must use IPv4 address family.
+* It is recommended to use either public or private endpoint access for the Amazon EKS Kubernetes API server endpoint. If you choose “Public and Private”, the Amazon EKS Kubernetes API server endpoint will always resolve to the public IPs for hybrid nodes running outside of your VPC, which can prevent your hybrid nodes from joining the cluster. 
 * An link:IAM/latest/UserGuide/id_roles#iam-term-principal[IAM principal,type="documentation"] with permission to call link:eks/latest/APIReference/API_UpdateClusterConfig.html[UpdateClusterConfig,type="documentation"] on your Amazon EKS cluster.
 * Update add-ons to versions that are compatible with hybrid nodes. For the add-ons versions that are compatible with hybrid nodes, see <<hybrid-nodes-add-ons>>. 
 * If you are running add-ons that are not compatible with hybrid nodes, ensure that the add-on https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/[DaemonSet] or https://kubernetes.io/docs/concepts/workloads/controllers/deployment/[Deployment] has the following affinity rule to prevent deployment to hybrid nodes. Add the affinity rule if it is not already present.
