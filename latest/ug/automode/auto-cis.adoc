@@ -16,6 +16,7 @@ Before you begin, ensure you have:
 * Access to an Amazon EKS cluster with kubectl configured
 * The appropriate IAM permissions to debug nodes
 * A valid profile that allows debug operations (e.g., `sysadmin`)
+** For more information about using debugging profiles with `kubectl, see https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/#debugging-profiles[Debugging a Pod or Node while applying a profile] in the Kubernetes documentation.
 
 == Procedure
 
@@ -53,6 +54,8 @@ The command generates a text-based report showing the compliance status of vario
 * Description of each control
 * Pass/Fail status for each check
 * Details that explain any compliance issues
+
+For information about the benchmark, see https://www.cisecurity.org/benchmark/kubernetes/[Kubernetes Benchmark] from the Center for Internet Security (CIS).
 
 == Related resources
 
