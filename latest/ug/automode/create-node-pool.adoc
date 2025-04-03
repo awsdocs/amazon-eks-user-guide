@@ -133,7 +133,7 @@ EKS Auto Mode supports the following well known labels.
 |Number of CPUs on the instance
 
 |eks.amazonaws.com/instance-cpu-manufacturer
-|aws
+|`aws`
 |Name of the CPU manufacturer
 
 |eks.amazonaws.com/instance-memory
