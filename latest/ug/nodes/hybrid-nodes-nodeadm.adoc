@@ -10,51 +10,57 @@ include::../attributes.txt[]
 Hybrid nodes nodeadm reference
 --
 
-The Amazon EKS Hybrid Nodes CLI (`nodeadm`) used for hybrid nodes lifecycle management differs from the `nodeadm` version used for bootstrapping Amazon EC2 instances as nodes in Amazon EKS clusters. Follow the documentation and references for the appropriate `nodeadm` version. This documentation page is for the hybrid nodes `nodeadm` version and the hybrid nodes `nodeadm` version is available in the https://github.com/aws/eks-hybrid[eks-hybrid repository on GitHub]. See the https://awslabs.github.io/amazon-eks-ami/nodeadm/[nodeadm - Amazon EKS AMI documentation] for the `nodeadm` version used for Amazon EC2 instances.
+The Amazon EKS Hybrid Nodes CLI (`nodeadm`) simplifies the installation, configuration, registration, and uninstallation of the hybrid nodes components. You can include `nodeadm` in your operating system images to automate hybrid node bootstrap, see <<hybrid-nodes-os>> for more information.
 
-== Download `nodeadm`
+The `nodeadm` version for hybrid nodes differs from the `nodeadm` version used for bootstrapping Amazon EC2 instances as nodes in Amazon EKS clusters. Follow the documentation and references for the appropriate `nodeadm` version. This documentation page is for the hybrid nodes `nodeadm` version.
 
-The hybrid nodes version of `nodeadm` is hosted in Amazon S3 fronted by Amazon CloudFront. To install `nodeadm` on each on-premises host, you can run the following command from your on-premises hosts.
-
-*For x86_64 hosts:*
-[source,yaml,subs="verbatim,attributes"]
-----
-curl -OL 'https://hybrid-assets.eks.amazonaws.com/releases/latest/bin/linux/amd64/nodeadm'
-----
-
-*For ARM hosts*
-[source,yaml,subs="verbatim,attributes"]
-----
-curl -OL 'https://hybrid-assets.eks.amazonaws.com/releases/latest/bin/linux/arm64/nodeadm'
-----
-
-Add executable file permission to the downloaded binary on each host.
-
-[source,yaml,subs="verbatim,attributes"]
-----
-chmod +x nodeadm
-----
-
-== Commands
+The source code for the hybrid nodes `nodeadm` is published in the https://github.com/aws/eks-hybrid
+GitHub repository.
 
 [IMPORTANT]
 ====
 You must run `nodeadm` with a user that has root/sudo privileges.
 ====
 
-=== Install
+== Download `nodeadm`
 
-The `install` command is used to install the artifacts and dependencies required to run and join hybrid nodes to an Amazon EKS cluster. The `install` command can be run individually on each hybrid node or can be run during image build pipelines to preinstall the hybrid nodes dependencies in operating system images.
+The hybrid nodes version of `nodeadm` is hosted in Amazon S3 fronted by Amazon CloudFront. To install `nodeadm` on each on-premises host, you can run the following command from your on-premises hosts.
 
-==== Usage
+*For x86_64 hosts*
+[source,bash,subs="verbatim,attributes"]
+----
+curl -OL 'https://hybrid-assets.eks.amazonaws.com/releases/latest/bin/linux/amd64/nodeadm'
+----
 
-`nodeadm install [KUBERNETES_VERSION] [flags]`
+*For ARM hosts*
+[source,bash,subs="verbatim,attributes"]
+----
+curl -OL 'https://hybrid-assets.eks.amazonaws.com/releases/latest/bin/linux/arm64/nodeadm'
+----
 
-==== Positional Arguments
+Add executable file permission to the downloaded binary on each host.
 
-(Required) `KUBERNETES_VERSION` The major.minor version of EKS Kubernetes to install, for example `1.31` 
+[source,bash,subs="verbatim,attributes"]
+----
+chmod +x nodeadm
+----
 
-==== Flags
+== `nodeadm install`
+
+The `nodeadm install` command is used to install the artifacts and dependencies required to run and join hybrid nodes to an Amazon EKS cluster. The `nodeadm install` command can be run individually on each hybrid node or can be run during image build pipelines to preinstall the hybrid nodes dependencies in operating system images.
+
+*Usage*
+
+[source,bash,subs="verbatim,attributes"]
+----
+nodeadm install [KUBERNETES_VERSION] [flags]
+----
+
+*Positional Arguments*
+
+(Required) `KUBERNETES_VERSION` The major.minor version of EKS Kubernetes to install, for example `1.32` 
+
+*Flags*
 
 [cols="1,1,1", options="header"]
 |===
@@ -99,30 +105,289 @@ The `install` command is used to install the artifacts and dependencies required
 |Displays help message with available flag, subcommand and positional value parameters.
 |===
 
-==== Examples
+*Examples*
 
-Install Kubernetes version `1.31` with {aws} Systems Manager (SSM) as the credential provider
-
-[source,bash,subs="verbatim,attributes"]
-----
-nodeadm install 1.31 --credential-provider ssm 
-----
-
-Install Kubernetes version `1.31` with {aws} Systems Manager (SSM) as the credential provider, Docker as the containerd source, with a download timeout of 20 minutes.
+Install Kubernetes version `1.32` with {aws} Systems Manager (SSM) as the credential provider
 
 [source,bash,subs="verbatim,attributes"]
 ----
-nodeadm install 1.31 --credential-provider ssm --containerd-source docker --timeout 20m
+nodeadm install 1.32 --credential-provider ssm 
 ----
 
-Install Kubernetes version `1.31` with {aws} IAM Roles Anywhere as the credential provider
+Install Kubernetes version `1.32` with {aws} Systems Manager (SSM) as the credential provider, Docker as the containerd source, with a download timeout of 20 minutes.
 
 [source,bash,subs="verbatim,attributes"]
 ----
-nodeadm install 1.31 --credential-provider iam-ra
+nodeadm install 1.32 --credential-provider ssm --containerd-source docker --timeout 20m
 ----
 
-==== Files installed
+Install Kubernetes version `1.32` with {aws} IAM Roles Anywhere as the credential provider
+
+[source,bash,subs="verbatim,attributes"]
+----
+nodeadm install 1.32 --credential-provider iam-ra
+----
+
+== `nodeadm config check`
+
+The `nodeadm config check` command checks the provided node configuration for errors. This command can be used to verify and validate the correctness of a hybrid node configuration file.
+
+*Usage*
+
+[source,bash,subs="verbatim,attributes"]
+----
+nodeadm config check [flags]
+----
+
+*Flags*
+
+[cols="1,1,1", options="header"]
+|===
+
+|Name
+|Required
+|Description
+
+|`-c`,
+
+`--config-source`
+
+|TRUE
+|Source of nodeadm configuration. For hybrid nodes the input should follow a URI with file scheme.
+
+|`-h`, `--help`
+|FALSE
+|Displays help message with available flag, subcommand and positional value parameters.
+|===
+
+*Examples*
+
+[source,bash,subs="verbatim,attributes"]
+----
+nodeadm config check -c file://nodeConfig.yaml
+----
+
+== `nodeadm init`
+
+The `nodeadm init` command starts and connects the hybrid node with the configured Amazon EKS cluster. See <<hybrid-nodes-node-config-ssm>> or <<hybrid-nodes-node-config-iamra>> for details of how to configure the `nodeConfig.yaml` file.
+
+*Usage*
+
+[source,bash,subs="verbatim,attributes"]
+----
+nodeadm init [flags]
+----
+
+*Flags*
+
+[cols="1,1,1", options="header"]
+|===
+
+|Name
+|Required 
+|Description
+
+|`-c`,
+
+`--config-source`
+|TRUE
+|Source of `nodeadm` configuration. For hybrid nodes the input should follow a URI with file scheme.
+
+|`-s`,
+
+`--skip`
+| FALSE
+| Phases of `init` to be skipped. It is not recommended to skip any of the phases unless it helps to fix an issue.
+
+*Values*
+
+`install-validation` skips checking if the preceding install command ran successfully.
+
+`cni-validation` skips checking if either Cilium or Calico cni's VxLan ports are opened if firewall is enabled on the node
+
+|`-h`, `--help`
+|FALSE
+|Displays help message with available flag, subcommand and positional value parameters.
+|===
+
+*Examples*
+
+[source,bash,subs="verbatim,attributes"]
+----
+nodeadm init -c file://nodeConfig.yaml
+----
+
+== `nodeadm upgrade`
+
+The `nodeadm upgrade` command upgrades all the installed artifacts to the latest version and bootstraps the node to configure the upgraded artifacts and join the EKS cluster on {aws}. Upgrade is a disruptive command to the workloads running on the node. Please move your workloads to another node before running upgrade. 
+
+*Usage*
+
+[source,bash,subs="verbatim,attributes"]
+----
+nodeadm upgrade [KUBERNETES_VERSION] [flags]
+----
+
+*Positional Arguments*
+
+(Required) `KUBERNETES_VERSION` The major.minor version of EKS Kubernetes to install, for example `1.32` 
+
+*Flags*
+
+[cols="1,1,1", options="header"]
+|===
+
+|Name
+|Required
+|Description
+
+|`-c`,
+
+`--config-source`
+|TRUE
+|Source of `nodeadm` configuration. For hybrid nodes the input should follow a URI with file scheme.
+
+|`-t`,
+
+`--timeout`
+|FALSE
+|Timeout for downloading artifacts. The input follows duration format. For example 1h23m. Default download timeout for upgrade command is set to 10 minutes.
+
+|`-s`,
+
+`--skip`
+|FALSE
+|Phases of upgrade to be skipped. It is not recommended to skip any of the phase unless it helps to fix an issue.
+
+*Values*
+
+`pod-validation` skips checking if all the no pods are running on the node, except daemon sets and static pods.
+
+`node-validation` skips checking if the node has been cordoned.
+
+`init-validation` skips checking if the node has been initialized successfully before running upgrade.
+
+|`-h`, `--help`
+|FALSE
+|Displays help message with available flag, subcommand and positional value parameters.
+|===
+
+*Examples*
+
+[source,bash,subs="verbatim,attributes"]
+----
+nodeadm upgrade 1.32 -c file://nodeConfig.yaml
+----
+
+[source,bash,subs="verbatim,attributes"]
+----
+nodeadm upgrade 1.32 -c file://nodeConfig.yaml --timeout 20m
+----
+
+== `nodeadm uninstall`
+
+The `nodeadm uninstall` command stops and removes the artifacts `nodeadm` installs during `nodeadm install`, including the kubelet and containerd. Note, the uninstall command does not drain or delete your hybrid nodes from your cluster. You must run the drain and delete operations separately, see <<hybrid-nodes-remove>> for more information. By default, `nodeadm uninstall` will not proceed if there are pods remaining on the node. Similarly, `nodeadm uninstall` does not remove CNI dependencies or dependencies of other Kubernetes add-ons you run on your cluster. To fully remove the CNI installation from your host, see the instructions at <<hybrid-nodes-cni>>. If you are using {aws} SSM hybrid activations as your on-premises credentials provider, the `nodeadm uninstall` command deregisters your hosts as {aws} SSM managed instances.
+
+*Usage*
+
+[source,bash,subs="verbatim,attributes"]
+----
+nodeadm uninstall [flags]
+----
+
+*Flags*
+
+[cols="1,1,1", options="header"]
+|===
+
+|Name
+|Required
+|Description	
+
+|`-s`,
+
+`--skip`
+|FALSE
+|Phases of upgrade to be skipped. It is not recommended to skip any of the phase unless it helps to fix an issue.
+
+*Values*
+
+`pod-validation` skips checking if all the no pods are running on the node, except daemon sets and static pods.
+
+`node-validation` skips checking if the node has been cordoned.
+
+`init-validation` skips checking if the node has been initialized successfully before running uninstall.
+
+|`-h`,
+
+`--help`
+|FALSE
+|Displays help message with available flag, subcommand and positional value parameters.	
+|===
+
+*Examples*
+
+[source,bash,subs="verbatim,attributes"]
+----
+nodeadm uninstall
+----
+
+[source,bash,subs="verbatim,attributes"]
+----
+nodeadm uninstall --skip node-validation,pod-validation
+----
+
+== `nodeadm debug`
+
+The `nodeadm debug` command can be used to troubleshoot unhealthy or misconfigured hybrid nodes. It validates the following requirements are in-place.
+
+* The node has network access to the required {aws} APIs for obtaining credentials,
+* The node is able to get {aws} credentials for the configured Hybrid Nodes IAM role,
+* The node has network access to the EKS Kubernetes API endpoint and the validity of the EKS Kubernetes API endpoint certificate,
+* The node is able to authenticate with the EKS cluster, its identity in the cluster is valid, and that the node has access to the EKS cluster through the VPC configured for the EKS cluster.
+
+If errors are found, the command's output suggests troubleshooting steps. Certain validation steps show child processes. If these fail, the output is showed in a stderr section under the validation error.
+
+*Usage*
+
+[source,yaml,subs="verbatim,attributes"]
+----
+nodeadm debug [flags]
+----
+
+*Flags*
+
+[cols="1,1,1", options="header"]
+|===
+
+|Name
+|Required
+|Description
+
+|`-c`, `--config-source`
+|TRUE
+|Source of `nodeadm` configuration. For hybrid nodes the input should follow a URI with file scheme.
+
+|`--no-color`
+|FALSE
+|Disables color output. Useful for automation.
+
+|`-h`, `--help`
+|FALSE
+|Displays help message with available flag, subcommand and positional value parameters.
+|===
+
+*Examples*
+[source,yaml,subs="verbatim,attributes"]
+----
+nodeadm debug -c file://nodeConfig.yaml
+----
+
+== Nodeadm file locations
+
+=== nodeadm install
+
+When running `nodeadm install`, the following files and file locations are configured.
 
 [cols="1,1", options="header"]
 |===
@@ -171,97 +436,9 @@ On RHEL - /sbin/iptables
 
 |===
 
-=== Config check
+=== nodeadm init
 
-The `config check` command checks the provided node configuration for errors. This command can be used to verify and validate the correctness of a hybrid node configuration file.
-
-==== Usage
-
-[source,bash,subs="verbatim,attributes"]
-----
-nodeadm config check [flags]
-----
-
-==== Flags
-
-[cols="1,1,1", options="header"]
-|===
-
-|Name
-|Required
-|Description
-
-|`-c`,
-
-`--config-source`
-
-|TRUE
-|Source of nodeadm configuration. For hybrid nodes the input should follow a URI with file scheme.
-
-|`-h`, `--help`
-|FALSE
-|Displays help message with available flag, subcommand and positional value parameters.
-|===
-
-==== Examples
-
-[source,bash,subs="verbatim,attributes"]
-----
-nodeadm config check --config-source file:///root/nodeConfig.yaml
-----
-
-=== Init
-
-The `init` command starts and connects the hybrid node with the configured Amazon EKS cluster.
-
-==== Usage
-
-[source,bash,subs="verbatim,attributes"]
-----
-nodeadm init [flags]
-----
-
-==== Flags
-
-[cols="1,1,1", options="header"]
-|===
-
-|Name
-|Required 
-|Description
-
-|`-c`,
-
-`--config-source`
-|TRUE
-|Source of `nodeadm` configuration. For hybrid nodes the input should follow a URI with file scheme.
-
-|`-s`,
-
-`--skip`
-| FALSE
-| Phases of `init` to be skipped. It is not recommended to skip any of the phases unless it helps to fix an issue.
-
-*Values*
-
-`install-validation` skips checking if the preceding install command ran successfully.
-
-`cni-validation` skips checking if either Cilium or Calico cni's VxLan ports are opened if firewall is enabled on the node
-
-|`-h`, `--help`
-|FALSE
-|Displays help message with available flag, subcommand and positional value parameters.
-|===
-
-
-==== Examples
-
-[source,bash,subs="verbatim,attributes"]
-----
-nodeadm init --config-source file://root/nodeConfig.yaml
-----
-
-==== Files installed
+When running `nodeadm init`, the following files and file locations are configured.
 
 [cols="1,1", options="header"]
 |===
@@ -305,9 +482,6 @@ nodeadm init --config-source file://root/nodeConfig.yaml
 |Sysctl conf file
 |/etc/sysctl.d/99-nodeadm.conf
 
-|Apt manager files for docker repo (if containerd source is docker)	
-|
-
 |Ca-certificates
 |/etc/ssl/certs/ca-certificates.crt
 
@@ -318,174 +492,8 @@ nodeadm init --config-source file://root/nodeConfig.yaml
 |/etc/apt/sources.list.d/docker.list
 |===
 
-=== Upgrade
-
-The `nodeadm upgrade` command upgrades all the installed artifacts to the latest version and bootstraps the node to configure the upgraded artifacts and join the EKS cluster on {aws}. Upgrade is a disruptive command to the workloads running on the node. Please move your workloads to another node before running upgrade. 
-
-==== Usage
-
-[source,bash,subs="verbatim,attributes"]
-----
-nodeadm upgrade [KUBERNETES_VERSION] [flags]
-----
-
-==== Positional Arguments
-
-(Required) `KUBERNETES_VERSION` The major.minor version of EKS Kubernetes to install, for example `1.31` 
-
-==== Flags
-
-[cols="1,1,1", options="header"]
-|===
-
-|Name
-|Required
-|Description
-
-|`-c`,
-
-`--config-source`
-|TRUE
-|Source of `nodeadm` configuration. For hybrid nodes the input should follow a URI with file scheme.
-
-|`-t`,
-
-`--timeout`
-|FALSE
-|Timeout for downloading artifacts. The input follows duration format. For example 1h23m. Default download timeout for upgrade command is set to 10 minutes.
-
-|`-s`,
-
-`--skip`
-|FALSE
-|Phases of upgrade to be skipped. It is not recommended to skip any of the phase unless it helps to fix an issue.
-
-*Values*
-
-`pod-validation` skips checking if all the no pods are running on the node, except daemon sets and static pods.
-
-`node-validation` skips checking if the node has been cordoned.
-
-`init-validation` skips checking if the node has been initialized successfully before running upgrade.
-
-|`-h`, `--help`
-|FALSE
-|Displays help message with available flag, subcommand and positional value parameters.
-|===
-
-==== Examples
-
-[source,bash,subs="verbatim,attributes"]
-----
-nodeadm upgrade 1.31 --config-source file:///root/nodeConfig.yaml
-----
-
-[source,bash,subs="verbatim,attributes"]
-----
-nodeadm upgrade 1.31 --config-source file:///root/nodeConfig.yaml --timeout 20m
-----
-
-=== Uninstall
-
-The `nodeadm uninstall` command stops and removes the artifacts `nodeadm` installs during `nodeadm install`, including the kubelet and containerd. Note, the uninstall command does not drain or delete your hybrid nodes from your cluster. You must run the drain and delete operations separately, see <<hybrid-nodes-remove>> for more information. By default, `nodeadm uninstall` will not proceed if there are pods remaining on the node. Similarly, `nodeadm uninstall` does not remove CNI dependencies or dependencies of other Kubernetes add-ons you run on your cluster. To fully remove the CNI installation from your host, see the instructions at <<hybrid-nodes-cni>>. If you are using {aws} SSM hybrid activations as your on-premises credentials provider, the `nodeadm uninstall` command deregisters your hosts as {aws} SSM managed instances.
-
-==== Usage
-
-[source,bash,subs="verbatim,attributes"]
-----
-nodeadm uninstall [flags]
-----
-
-==== Flags
-
-[cols="1,1,1", options="header"]
-|===
-
-|Name
-|Required
-|Description	
-
-|`-s`,
-
-`--skip`
-|FALSE
-|Phases of upgrade to be skipped. It is not recommended to skip any of the phase unless it helps to fix an issue.
-
-*Values*
-
-`pod-validation` skips checking if all the no pods are running on the node, except daemon sets and static pods.
-
-`node-validation` skips checking if the node has been cordoned.
-
-`init-validation` skips checking if the node has been initialized successfully before running upgrade.
-
-|`-h`,
-
-`--help`
-|FALSE
-|Displays help message with available flag, subcommand and positional value parameters.	
-|===
-
-==== Examples
-
-[source,bash,subs="verbatim,attributes"]
-----
-nodeadm uninstall
-----
-
-[source,bash,subs="verbatim,attributes"]
-----
-nodeadm uninstall --skip node-validation,pod-validation
-----
-
-=== Debug
-
-The `nodeadm debug` command can be used to troubleshoot unhealthy or misconfigured hybrid nodes. It validates the following requirements are in-place.
-
-* The node has network access to the required {aws} APIs for obtaining credentials,
-* The node is able to get {aws} credentials for the configured Hybrid Nodes IAM role,
-* The node has network access to the EKS Kubernetes API endpoint and the validity of the EKS Kubernetes API endpoint certificate,
-* The node is able to authenticate with the EKS cluster, its identity in the cluster is valid, and that the node has access to the EKS cluster through the VPC configured for the EKS cluster.
-
-If errors are found, the command's output suggests troubleshooting steps. Certain validation steps show child processes. If these fail, the output is showed in a stderr section under the validation error.
-
-==== Usage
-[source,yaml,subs="verbatim,attributes"]
-----
-nodeadm debug [flags]
-----
-
-==== Flags
-
-[cols="1,1,1", options="header"]
-|===
-
-|Name
-|Required
-|Description
-
-|`-c`, `--config-source`
-|TRUE
-|Source of `nodeadm` configuration. For hybrid nodes the input should follow a URI with file scheme.
-
-|`--no-color`
-|FALSE
-|Disables color output. Useful for automation.
-
-|`-h`, `--help`
-|FALSE
-|Displays help message with available flag, subcommand and positional value parameters.
-|===
-
-==== Examples
-[source,yaml,subs="verbatim,attributes"]
-----
-nodeadm debug --config-source file://nodeConfig.yaml
-----
-
-== Node Config API Reference
-
-*{aws} SSM hybrid activations*
+[#hybrid-nodes-node-config-ssm]
+== Node Config for SSM hybrid activations
 
 The following is a sample `nodeConfig.yaml` when using {aws} SSM hybrid activations for hybrid nodes credentials.
 
@@ -503,7 +511,8 @@ spec:
       activationId:   # SSM hybrid activation id
 ----
 
-*{aws} IAM Roles Anywhere*
+[#hybrid-nodes-node-config-iamra]
+== Node Config for IAM Roles Anywhere
 
 The following is a sample `nodeConfig.yaml` for {aws} IAM Roles Anywhere for hybrid nodes credentials.
 
@@ -527,7 +536,7 @@ spec:
       privateKeyPath:  # Path to the private key file for the certificate
 ----
 
-=== (Optional) Kubelet configuration
+== Node Config for customizing kubelet (Optional)
 
 You can pass kubelet configuration and flags in your `nodeadm` configuration. See the example below for how to add an additional node label `abc.amazonaws.com/test-label` and config for setting `shutdownGracePeriod` to 30 seconds.
 
@@ -550,7 +559,7 @@ spec:
       activationId:   # SSM hybrid activation id
 ----
 
-=== (Optional) Containerd configuration
+== Node Config for customizing containerd (Optional)
 
 You can pass custom containerd configuration in your `nodeadm` configuration. The containerd configuration for `nodeadm` accepts in-line TOML. See the example below for how to configure containerd to disable deletion of unpacked image layers in the containerd content store. 
 
