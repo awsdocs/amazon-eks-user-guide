@@ -310,9 +310,9 @@ aws iam attach-role-policy \
 
 *Steps for {aws} IAM Roles Anywhere*
 
-To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere trust anchor before creating the Hybrid Nodes IAM Role. See hybrid-nodes-iam-roles-anywhere>> for instructions.
+To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere trust anchor before creating the Hybrid Nodes IAM Role. See <<hybrid-nodes-iam-roles-anywhere>> for instructions.
 
-. Create a file named `eks-hybrid-iamra-trust.json`. Replace `TRUST_ANCHOR ARN` with the ARN of the trust anchor you created in the hybrid-nodes-iam-roles-anywhere>> steps.  The condition in this trust policy restricts the ability of {aws} IAM Roles Anywhere to assume the Hybrid Nodes IAM role to exchange temporary IAM credentials only when the role session name matches the CN in the x509 certificate installed on your hybrid nodes. You can alternatively use other certificate attributes to uniquely identify your node. The certificate attribute that you use in the trust policy must correspond to the `nodeName` you set in your `nodeadm` configuration. For more information, see the <<hybrid-nodes-nodeadm>>.
+. Create a file named `eks-hybrid-iamra-trust.json`. Replace `TRUST_ANCHOR ARN` with the ARN of the trust anchor you created in the <<hybrid-nodes-iam-roles-anywhere>> steps.  The condition in this trust policy restricts the ability of {aws} IAM Roles Anywhere to assume the Hybrid Nodes IAM role to exchange temporary IAM credentials only when the role session name matches the CN in the x509 certificate installed on your hybrid nodes. You can alternatively use other certificate attributes to uniquely identify your node. The certificate attribute that you use in the trust policy must correspond to the `nodeName` you set in your `nodeadm` configuration. For more information, see the <<hybrid-nodes-nodeadm>>.
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -475,13 +475,13 @@ aws iam attach-role-policy \
 
 *Steps for {aws} IAM Roles Anywhere*
 
-To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere trust anchor before creating the Hybrid Nodes IAM Role. See hybrid-nodes-iam-roles-anywhere>> for instructions.
+To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere trust anchor before creating the Hybrid Nodes IAM Role. See <<hybrid-nodes-iam-roles-anywhere>> for instructions.
 
 . Open the link:iam/home#/clusters[Amazon IAM console,type="console"] 
 . In the left navigation pane, choose *Roles*.
 . On the *Roles* page, choose *Create role*.
 . On the *Select trusted entity* page, do the following:
-.. In the *Trusted entity type section*, choose *Custom trust policy*. Paste the following into the Custom trust policy editor. Replace `TRUST_ANCHOR ARN` with the ARN of the trust anchor you created in the hybrid-nodes-iam-roles-anywhere>> steps. The condition in this trust policy restricts the ability of {aws} IAM Roles Anywhere to assume the Hybrid Nodes IAM role to exchange temporary IAM credentials only when the role session name matches the CN in the x509 certificate installed on your hybrid nodes. You can alternatively use other certificate attributes to uniquely identify your node. The certificate attribute that you use in the trust policy must correspond to the nodeName you set in your nodeadm configuration. For more information, see the <<hybrid-nodes-nodeadm>>.
+.. In the *Trusted entity type section*, choose *Custom trust policy*. Paste the following into the Custom trust policy editor. Replace `TRUST_ANCHOR ARN` with the ARN of the trust anchor you created in the <<hybrid-nodes-iam-roles-anywhere>> steps. The condition in this trust policy restricts the ability of {aws} IAM Roles Anywhere to assume the Hybrid Nodes IAM role to exchange temporary IAM credentials only when the role session name matches the CN in the x509 certificate installed on your hybrid nodes. You can alternatively use other certificate attributes to uniquely identify your node. The certificate attribute that you use in the trust policy must correspond to the nodeName you set in your nodeadm configuration. For more information, see the <<hybrid-nodes-nodeadm>>.
 +
 [source,json,subs="verbatim,attributes"]
 ----
