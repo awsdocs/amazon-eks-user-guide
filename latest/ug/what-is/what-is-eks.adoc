@@ -18,6 +18,18 @@ Amazon Elastic Kubernetes Service (EKS) provides a fully managed Kubernetes serv
 
 * Deploy applications faster with less operational overhead
 * Scale seamlessly to meet changing workload demands
+* Improve security through AWS integration and automated updates
+* Choose between standard EKS or fully automated EKS Auto Mode
+
+
+
+## Amazon EKS: Simplified Kubernetes Management
+
+Amazon Elastic Kubernetes Service (EKS) provides a fully managed Kubernetes service that eliminates the complexity of operating Kubernetes clusters. With EKS, you can:
+
+
+* Deploy applications faster with less operational overhead
+* Scale seamlessly to meet changing workload demands
 * Improve security through {aws} integration and automated updates
 * Choose between standard EKS or fully automated xref:automode[EKS Auto Mode]
 
