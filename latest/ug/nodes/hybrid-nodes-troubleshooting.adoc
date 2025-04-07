@@ -20,7 +20,7 @@ You can run the `nodeadm debug` command from your hybrid nodes to validate netwo
 
 The troubleshooting topics in this section are related to installing the hybrid nodes dependencies on hosts with the `nodeadm install` command.
 
-*nodeadm command failed `must run as root`*
+*`nodeadm` command failed `must run as root`*
 
 The `nodeadm install` command must be run with a user that has root/sudo privileges on your host. If you run `nodeadm install` with a user that does not have root/sudo privileges, you will see the following error in the nodeadm output.
 
@@ -31,7 +31,7 @@ The `nodeadm install` command must be run with a user that has root/sudo privile
 
 *Unable to connect to dependencies*
 
-The `nodeadm install` command installs the dependencies required for hybrid nodes. The hybrid nodes dependencies include `containerd`, `kubelet`, `kubectl`, and {aws} SSM or {aws} IAM Roles Anywhere components. You must have access from where you are running nodeadm install to download these dependencies. For more information on the list of locations that you must be able to access, see <<hybrid-nodes-networking>>. If you do not have access, you will see errors similar to the following in the `nodeadm install` output.
+The `nodeadm install` command installs the dependencies required for hybrid nodes. The hybrid nodes dependencies include `containerd`, `kubelet`, `kubectl`, and {aws} SSM or {aws} IAM Roles Anywhere components. You must have access from where you are running `nodeadm install` to download these dependencies. For more information on the list of locations that you must be able to access, see <<hybrid-nodes-networking>>. If you do not have access, you will see errors similar to the following in the `nodeadm install` output.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -81,6 +81,39 @@ When running `nodeadm init`, `nodeadm` attempts to gather information about your
 "msg":"Command failed","error":"operation error EKS: DescribeCluster, https response error StatusCode: 403 ... AccessDeniedException"
 ----
 
+*Node IP not in remote node network CIDR*
+
+When running `nodeadm init`, you may encounter an error if the node's IP address is not within the specified remote node network CIDRs. The error will look similar to the following example:
+
+[source,bash,subs="verbatim,attributes"]
+----
+node IP 10.18.0.1 is not in any of the remote network CIDR blocks [10.0.0.0/16 192.168.0.0/16]
+----
+
+This example shows a node with IP 10.18.0.1 attempting to join a cluster with remote network CIDRs 10.0.0.0/16 and 192.168.0.0/16. The error occurs because 10.18.0.1 isn't within either of the ranges.
+
+Confirm that you've properly configured your `RemoteNodeNetworks` to include all node IP addresses. For more information on networking configuration, see <<hybrid-nodes-networking>>.
+
+* Run the following command in the region your cluster is located to check your `RemoteNodeNetwork` configurations. Verify that the CIDR blocks listed in the output include the IP range where your node resides and is the same as the CIDR blocks listed in the error message. If they do not match, confirm the cluster name and region in your `nodeConfig.yaml` match your intended cluster.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-cluster --name [.replaceable]`CLUSTER_NAME` --region `REGION_NAME` --query cluster.remoteNetworkConfig.remoteNodeNetworks
+----
+
+* Verify you're working with the intended node:
+** Confirm you're on the correct node by checking its hostname and IP address match the one you intend to register with the cluster.
+** Confirm this node is in the correct on-premises network (the one whose CIDR range was registered as `RemoteNodeNetwork` during cluster setup).
+
+If your node IP is still not what you expected, check the following:
+
+* If you are using IAM Roles Anywhere, kubelet performs a DNS lookup on the IAM Roles Anywhere `nodeName` and uses an IP associated with the node name if available. If you maintain DNS entries for your nodes, confirm that these entries point to IPs within your remote node network CIDRs.
+* If your node has multiple network interfaces, kubelet may select an interface with an IP address outside your remote node network CIDRs as default. To use a different interface, specify its IP address using the `--node-ip` kubelet flag in your `nodeConfig.yaml`. For more information, see <<hybrid-nodes-nodeadm>>. You can view your node's network interfaces and its IP addresses by running the following command on your node:
+
+[source,bash,subs="verbatim,attributes"]
+----
+ip addr show
+----
 
 *Hybrid nodes are not appearing in EKS cluster*
 
@@ -223,7 +256,7 @@ kubectl logs [.replaceable]`POD_NAME`
 
 ----
 
-*Check kubectl logs*
+*Check `kubectl` logs*
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -245,6 +278,23 @@ A common pod log message for this scenario is shown below the following where ip
 ----
 dial tcp <ip-address>:443: connect: no route to host
 ----
+*`kubectl logs` or `kubectl exec` commands not working*
+
+If `kubectl logs` or `kubectl exec` commands time out while other `kubectl` commands succeed, the issue is likely related to remote network configuration. These commands connect through the cluster to the kubelet endpoint on the node. For more information see <<_kubelet_endpoint>>.
+
+Verify that your node IPs and pod IPs fall within the remote node network and remote pod network CIDRs configured for your cluster. Use the commands below to examine IP assignments.
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get nodes -o wide
+----
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pods -A -o wide
+----
+
+Compare these IPs with your configured remote network CIDRs to ensure proper routing. For network configuration requirements, see <<hybrid-nodes-networking>>.
 
 [#hybrid-nodes-troubleshooting-cni]
 == Hybrid nodes CNI troubleshooting
@@ -452,7 +502,7 @@ sudo aws sts get-caller-identity
 
 *{aws} Systems Manager (SSM) troubleshooting*
 
-If you are using {aws} SSM hybrid activations for your hybrid nodes credentials, be aware of the following SSM directories and artifacts that are installed on your hybrid nodes by nodeadm. For more information on the SSM agent, see link:systems-manager/latest/userguide/ssm-agent.html[Working with the SSM agent,type="documentation"] in the _{aws} Systems Manager User Guide_.
+If you are using {aws} SSM hybrid activations for your hybrid nodes credentials, be aware of the following SSM directories and artifacts that are installed on your hybrid nodes by `nodeadm`. For more information on the SSM agent, see link:systems-manager/latest/userguide/ssm-agent.html[Working with the SSM agent,type="documentation"] in the _{aws} Systems Manager User Guide_.
 
 [cols="1,1", options="header"]
 |===
@@ -563,7 +613,7 @@ ERROR Registration failed due to error registering the instance with {aws} SSM. 
 
 *SSM failed to refresh cached credentials*
 
-If you see a failure to refresh cached credentials, the `/root/.aws/credentials` file may have been deleted on your host. First check your SSM hybrid activation and ensure it is active and your hybrid nodes are configured correctly to use the activation. Check the SSM agent logs at `/var/log/amazon/ssm` and re-run the nodeadm init command once you have resolved the issue on the SSM side. 
+If you see a failure to refresh cached credentials, the `/root/.aws/credentials` file may have been deleted on your host. First check your SSM hybrid activation and ensure it is active and your hybrid nodes are configured correctly to use the activation. Check the SSM agent logs at `/var/log/amazon/ssm` and re-run the `nodeadm init` command once you have resolved the issue on the SSM side.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -584,7 +634,7 @@ rm -rf /var/lib/amazon/ssm/Vault/Store/RegistrationKey
 
 *{aws} IAM Roles Anywhere troubleshooting*
 
-If you are using {aws} IAM Roles Anywhere for your hybrid nodes credentials, be aware of the following directories and artifacts that are installed on your hybrid nodes by nodeadm. For more information on the troubleshooting IAM Roles Anywhere, see link:rolesanywhere/latest/userguide/security_iam_troubleshoot.html[Troubleshooting {aws} IAM Roles Anywhere identity and access,type="documentation"] in the _{aws} IAM Roles Anywhere User Guide_.
+If you are using {aws} IAM Roles Anywhere for your hybrid nodes credentials, be aware of the following directories and artifacts that are installed on your hybrid nodes by `nodeadm`. For more information on the troubleshooting IAM Roles Anywhere, see link:rolesanywhere/latest/userguide/security_iam_troubleshoot.html[Troubleshooting {aws} IAM Roles Anywhere identity and access,type="documentation"] in the _{aws} IAM Roles Anywhere User Guide_.
 
 [cols="1,1", options="header"]
 |===
