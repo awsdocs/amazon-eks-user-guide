@@ -7,6 +7,11 @@ include::../attributes.txt[]
 
 This page documents updates to Amazon EKS Auto Mode. You can periodically check this page for announcements about features, bug fixes, known issues, and deprecated functionality. 
 
+== April 4, 2025
+
+**Feature:** Increase `registryPullQPS` from 5 to 25 and `registryBurst` from 10 to 50 to reduce client enforced image pull throttling (`Failed to pull image xyz: pull QPS exceeded`)
+
+
 == March 31, 2025
 
 **Bug Fix:** Fixes an issue where if a Core DNS Pod is running on an Auto Mode node, DNS queries from Pods on the node would hit that Core DNS Pod instead of the node local DNS server. DNS queries from Pods on an Auto Mode node will always go to the node local DNS.
