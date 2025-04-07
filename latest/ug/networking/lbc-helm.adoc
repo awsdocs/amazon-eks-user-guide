@@ -35,7 +35,7 @@ Before starting this tutorial, you must install and configure the following tool
 * Familiarity with Kubernetes https://kubernetes.io/docs/concepts/services-networking/service/[service] and https://kubernetes.io/docs/concepts/services-networking/ingress/[ingress] resources.
 
 
-* https://helm.sh/docs/helm/helm_install/[Helm] installed locally. 
+* <<helm,helm>> installed locally.
 
 
 [#lbc-helm-iam]

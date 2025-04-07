@@ -72,7 +72,7 @@ Calico version `3.29.x` is supported and recommended for EKS Hybrid Nodes for ev
 
 == Install Cilium on hybrid nodes
 
-. Ensure that you have installed the Helm CLI on your command-line environment. See the https://helm.sh/docs/intro/quickstart/[Helm documentation] for installation instructions.
+. Ensure that you have installed the Helm CLI on your command-line environment. See the <<helm,setup helm>> for installation instructions.
 . Install the Cilium Helm repo.
 +
 [source,bash,subs="verbatim,attributes"]
