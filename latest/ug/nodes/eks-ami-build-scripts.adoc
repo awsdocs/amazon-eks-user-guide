@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#eks-ami-build-scripts]
-= Build a custom Amazon Linux AMI with a script
+= Build a custom Amazon Linux AMI
 :info_titleabbrev: Custom builds
 
 [abstract]
@@ -10,16 +10,80 @@ include::../attributes.txt[]
 Amazon Elastic Kubernetes Service (Amazon EKS) has open-source scripts that are used to build the Amazon EKS optimized AMI.
 --
 
-Amazon Elastic Kubernetes Service (Amazon EKS) has open-source scripts that are used to build the Amazon EKS optimized AMI. These build scripts are available https://github.com/awslabs/amazon-eks-ami[on GitHub].
+[IMPORTANT]
+====
+Amazon EKS will no longer publish EKS-optimized Amazon Linux 2 (AL2) AMIs after November 26th, 2025. Additionally, Kubernetes version `1.32` is the last version for which Amazon EKS will release AL2 AMIs. From version `1.33` onwards, Amazon EKS will continue to release AL2023 and Bottlerocket based AMIs.
+====
 
-The Amazon EKS optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (AL2) and Amazon Linux 2023 (AL2023), specifically for use as a node in Amazon EKS clusters. You can use this repository to view the specifics of how the Amazon EKS team configures `kubelet`, the runtime, the {aws} IAM Authenticator for Kubernetes, and build your own Amazon Linux based AMI from scratch.  
+The Amazon EKS optimized Amazon Linux (AL) AMIs are built on top of AL2 and AL2023, specifically for use as nodes in Amazon EKS clusters. EKS provides open-source build scripts in the https://github.com/awslabs/amazon-eks-ami[Amazon EKS AMI Build Specification] repository that you can use to view the configurations for `kubelet`, the runtime, and the {aws} IAM Authenticator for Kubernetes, or to build your own AL-based AMI from scratch. This repository contains the specialized https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap script] and https://awslabs.github.io/amazon-eks-ami/nodeadm/[nodeadm script] that runs at boot time to configure your instance's certificate data, control plane endpoint, cluster name, and more. The scripts are considered the source of truth for Amazon EKS optimized AMI builds, so you can follow the GitHub repository to monitor changes to our AMIs.
 
-The build scripts repository includes a https://www.packer.io/[HashiCorp packer] template and build scripts to generate an AMI. These scripts are the source of truth for Amazon EKS optimized AMI builds, so you can follow the GitHub repository to monitor changes to our AMIs. For example, perhaps you want your own AMI to use the same version of Docker that the Amazon EKS team uses for the official AMI.  
+== Prerequisites
 
-The GitHub repository also contains the specialized https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap script] and https://awslabs.github.io/amazon-eks-ami/nodeadm/[nodeadm script] that runs at boot time to configure your instance's certificate data, control plane endpoint, cluster name, and more.
+* https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html[Install the {aws} CLI]
+* https://developer.hashicorp.com/packer/downloads[Install HashiCorp Packer v1.9.4+]
+* https://www.gnu.org/software/make/[Install GNU Make]
 
-Additionally, the GitHub repository contains our Amazon EKS node {aws} CloudFormation templates. These templates make it easier to spin up an instance running an Amazon EKS optimized AMI and register it with a cluster.
+== Quickstart 
 
-For more information, see the repositories on GitHub at https://github.com/awslabs/amazon-eks-ami.
+This section shows you the commands to create a custom AMI in your {aws} account. To learn more about the configurations available to customize your AMI, see the template variables on the https://awslabs.github.io/amazon-eks-ami/usage/al2023/[Amazon Linux 2023] page.
 
-Amazon EKS optimized AL2 contains an optional bootstrap flag to enable the `containerd` runtime.
+=== 1. Setup your environment
+
+Clone or fork the official EKS AMI repository. For example:
+
+[source,bash]
+----
+git clone https://github.com/awslabs/amazon-eks-ami.git
+cd amazon-eks-ami
+----
+
+Verify Packer is installed:
+
+[source,bash]
+----
+packer --version
+----
+
+=== 2. Create a custom AMI (examples)
+
+*Basic NVIDIA AL2 AMI:*
+
+[source,bash]
+----
+make k8s=1.31 os_distro=al2 \
+  enable_accelerator=nvidia \
+  nvidia_driver_major_version=560 \
+  enable_efa=true
+----
+
+*Basic NVIDIA AL2023 AMI:* 
+
+[source,bash]
+----
+make k8s=1.31 os_distro=al2023 \
+  enable_accelerator=nvidia \
+  nvidia_driver_major_version=560 \
+  enable_efa=true
+----
+
+*STIG-Compliant Neuron AL2023 AMI:*
+
+[source,bash]
+----
+make k8s=1.31 os_distro=al2023 \
+  enable_accelerator=neuron \
+  enable_fips=true \
+  source_ami_id=ami-0abcd1234efgh5678 \
+  kms_key_id=alias/aws-stig
+----
+
+After you run these commands, Packer will launch a temporary EC2 instance, install Kubernetes components, drivers, and configurations, and create the AMI in your {aws} account. 
+
+=== 3. View default values 
+
+View default values and additional options:
+
+[source,bash]
+----
+make help
+----
