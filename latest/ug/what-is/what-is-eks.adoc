@@ -23,6 +23,18 @@ Amazon Elastic Kubernetes Service (EKS) provides a fully managed Kubernetes serv
 
 
 
+## Amazon EKS: Simplified Kubernetes Management
+
+Amazon Elastic Kubernetes Service (EKS) provides a fully managed Kubernetes service that eliminates the complexity of operating Kubernetes clusters. With EKS, you can:
+
+
+* Deploy applications faster with less operational overhead
+* Scale seamlessly to meet changing workload demands
+* Improve security through {aws} integration and automated updates
+* Choose between standard EKS or fully automated xref:automode[EKS Auto Mode]
+
+
+
 Amazon EKS simplifies building, securing, and maintaining Kubernetes clusters. It can be more cost effective at providing enough resources to meet peak demand than maintaining your own data centers. Two of the main approaches to using Amazon EKS are as follows:
 
 * **EKS standard**: {aws} manages the https://kubernetes.io/docs/concepts/overview/components/#control-plane-components[Kubernetes control plane] when you create a cluster with EKS. Components that manage nodes, schedule workloads, integrate with the {aws} cloud, and store and scale control plane information to keep your clusters up and running, are handled for you automatically.
