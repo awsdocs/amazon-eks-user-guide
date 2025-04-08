@@ -16,6 +16,13 @@ The following table describes the major updates and new features for the Amazon 
 
 
 [.update,date="2025-03-31"]
+=== Node health for EKS Hybrid Nodes
+[.update-ulink]
+link:eks/latest/userguide/node-health.html[type="documentation"]
+
+You can use `eks-node-monitoring-agent` on hybrid nodes, starting from version `1.2.0-eksbuild.1`. Run `eks-node-monitoring-agent` as an Amazon EKS add-on to detect and show health issues.
+
+[.update,date="2025-03-31"]
 === EKS Hybrid Nodes for existing clusters
 [.update-ulink]
 link:eks/latest/userguide/hybrid-nodes-cluster-update.html[type="documentation"]

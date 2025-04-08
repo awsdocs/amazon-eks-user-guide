@@ -1,0 +1,64 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-cis]
+= Generate CIS compliance reports from Kubernetes nodes using kubectl debug
+:info_titleabbrev: Generate CIS report
+
+This topic describes how to generate CIS (Center for Internet Security) compliance reports for Amazon EKS nodes using the `kubectl debug` command.
+
+The command allows you to temporarily create a debugging container on a Kubernetes node and run CIS compliance checks using the `apiclient` tool. The `apiclient` tool is part of Bottlerocket OS, the OS used by EKS Auto Mode nodes. 
+
+== Prerequisites
+
+Before you begin, ensure you have:
+
+* Access to an Amazon EKS cluster with kubectl configured
+* The appropriate IAM permissions to debug nodes
+* A valid profile that allows debug operations (e.g., `sysadmin`)
+** For more information about using debugging profiles with `kubectl, see https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/#debugging-profiles[Debugging a Pod or Node while applying a profile] in the Kubernetes documentation.
+
+== Procedure
+
+. Determine the {aws} Instance ID of the node you want to run the report on
+** Use the following command to list the nodes in the cluster. The instance ID is found in the name column, and begins with `i-`.
++
+[source,bash]
+----
+kubectl get nodes 
+----
+. Run the following command, with the identified instance ID.
++
+[source,bash]
+----
+kubectl debug node/<instance-id> -it --profile=sysadmin --image=public.ecr.aws/amazonlinux/amazonlinux:2023 -- bash -c "yum install -q -y util-linux-core; nsenter -t 1 -m apiclient report cis --level 1 --format text"
+----
+. Review the report text output
+
+== Command components
+
+* `kubectl debug node/<instance-id>` -- Creates a debugging session on the specified EC2 instance ID.
+* `-it` -- Allocates a TTY and keeps stdin open for interactive usage.
+* `--profile=sysadmin` -- Uses the specified kubectl profile with appropriate permissions.
+* `--image=public.ecr.aws/amazonlinux/amazonlinux:2023` -- Uses Amazon Linux 2023 as the container image for debugging.
+* `bash -c "..."` -- Executes the following commands in a bash shell.
+** `yum install -q -y util-linux-core` -- Quietly installs the required utilities package.
+** `nsenter -t 1 -m` -- Enters the namespace of the host process (PID 1).
+** `apiclient report cis --level 1 --format text` -- Runs the CIS compliance report at level 1 with text output.
+
+== Understanding the output
+
+The command generates a text-based report showing the compliance status of various CIS controls. The output includes:
+
+* Individual CIS control IDs
+* Description of each control
+* Pass/Fail status for each check
+* Details that explain any compliance issues
+
+For information about the benchmark, see https://www.cisecurity.org/benchmark/kubernetes/[Kubernetes Benchmark] from the Center for Internet Security (CIS).
+
+== Related resources
+
+* https://bottlerocket.dev/en/os/1.34.x/api/reporting/cis/[Bottlerocket CIS Benchmark] in Bottlerocket OS Documentation.
+* https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/[Debug Running Pods] in the Kubernetes Documentation.
+* https://www.cisecurity.org/benchmark/kubernetes/[Kubernetes Benchmark] from the Center for Internet Security (CIS)
