@@ -177,7 +177,7 @@ image::./images/hybrid-nodes-bgp.png[Hybrid nodes BGP routing]
 Alternatively, you can configure static routes in your local router. This is the simplest way to achieve the on-premises pod CIDR routability, but it’s also the most error prone and difficult to maintain. You need to make sure that the routes are always up-to-date with the existing nodes and their assigned pod CIDRs. That said, if your number of nodes is small and infrastructure is static, this is a viable option and removes the need for BGP support in your router. If you opt for this, it is recommended to explicitly tell your CNI what is the pod CIDR slice you want to assign to each node instead of letting its IPAM decide.
 
 .static routing
-image::./images/hybrid-nodes-static-routing.png[Hybrid nodes static routing]
+image::./images/hybrid-nodes-static-routes.png[Hybrid nodes static routing]
 
 *Address Resolution Protocol (ARP) proxying*
 
