@@ -10,12 +10,13 @@ Learn about the network traffic flows for EKS Hybrid Nodes.
 
 This page details the network traffic flows for EKS Hybrid Nodes with diagrams showing the end-to-end network paths for the different traffic types. The following traffic flows are covered:
 
-* Hybrid node kubelet to EKS control plane
-* Hybrid node kube-proxy to EKS control plane
-* Pods running on hybrid nodes to EKS control plane
-* Pod-to-Pod running on hybrid nodes
-* Pods on cloud nodes to pods on hybrid nodes (east-west traffic)
+* <<hybrid-nodes-concepts-traffic-flows-kubelet-to-cp>>
+* <<hybrid-nodes-concepts-traffic-flows-kube-proxy-to-cp>>
+* <<hybrid-nodes-concepts-traffic-flows-pods-to-cp>>
+* <<hybrid-nodes-concepts-traffic-flows-pod-to-pod>>
+* <<hybrid-nodes-concepts-traffic-flows-east-west>>
 
+[#hybrid-nodes-concepts-traffic-flows-kubelet-to-cp]
 == Hybrid node kubelet to EKS control plane
 
 image:./images/hybrid-nodes-kubelet-to-cp-public.png[Hybrid node kubelet to EKS control plane]
@@ -76,6 +77,7 @@ Your on-premises router receives the packet and recognizes the destination IP (1
 
 The traffic originated from the kube-proxy on the hybrid node to the EKS control plane follows the same path as the traffic from the kubelet to the EKS control plane using the public internet (if public endpoint access is enabled for the cluster).
 
+[#hybrid-nodes-concepts-traffic-flows-cp-to-kubelet]
 == EKS control plane to hybrid node (kubelet server)
 
 image:./images/hybrid-nodes-cp-to-kubelet.png[EKS control plane to hybrid node]
@@ -150,6 +152,7 @@ The VPC networking layer forwards the packet to the subnet where the EKS control
 
 The packet reaches the EKS control plane ENI attached to the Kubernetes API server, completing the round trip.
 
+[#hybrid-nodes-concepts-traffic-flows-pods-to-cp]
 == Pods running on hybrid nodes to EKS control plane
 
 image:./images/hybrid-nodes-pods-to-cp.png[Pods running on hybrid nodes to EKS control plane]
@@ -389,6 +392,7 @@ The CNI detects the destination IP belongs to a pod in its network and delivers 
 
 This flow showcases how CNI NAT-ing can simplify configuration by allowing packets to be routed back to the node without requiring additional routing for the pod CIDRs.
 
+[#hybrid-nodes-concepts-traffic-flows-cp-to-pod]
 == EKS control plane to pods running on a hybrid node (webhooks)
 
 image:./images/hybrid-nodes-cp-to-pod.png[EKS control plane to pods running on a hybrid node]
@@ -494,6 +498,7 @@ The packet reaches the ENI attached to the EKS Kubernetes API server, completing
 
 This traffic flow demonstrates why remote pod CIDRs must be properly configured and routable: ++*++ The VPC must have routes for the remote pod CIDRs pointing to the on-premises gateway ++*++ Your on-premises network must have routes for pod CIDRs that direct traffic to the specific nodes hosting those pods ++*++ Without this routing configuration, webhooks and other similar services running in pods on hybrid nodes would not be reachable from the EKS control plane.
 
+[#hybrid-nodes-concepts-traffic-flows-pod-to-pod]
 == Pod-to-Pod running on hybrid nodes
 
 image:./images/hybrid-nodes-pod-to-pod.png[Pod-to Pod running on hybrid nodes]
@@ -579,6 +584,7 @@ When Pod B responds to Pod A, the entire process happens in reverse:
 . The encapsulated packet is delivered to Node 1
 . Node 1’s CNI decapsulates it and delivers the original response to Pod A
 
+[#hybrid-nodes-concepts-traffic-flows-east-west]
 == Pods on cloud nodes to pods on hybrid nodes (east-west traffic)
 
 image:./images/hybrid-nodes-east-west.png[Pods on cloud nodes to pods on hybrid nodes]
