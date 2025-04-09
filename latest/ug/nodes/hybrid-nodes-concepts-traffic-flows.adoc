@@ -28,7 +28,7 @@ image:./images/hybrid-nodes-kubelet-to-cp-public.png[Hybrid node kubelet to EKS 
 
 When the kubelet on a hybrid node needs to communicate with the EKS control plane (for example, to report node status or get pod specs), it uses the kubeconfig file provided during node registration. This kubeconfig contains the API server endpoint URL (the Route53 DNS name) rather than direct IP addresses.
 
-The kubelet performs a DNS lookup for the endpoint (e.g., `https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.gr7.us-west-2.eks.amazonaws.com`). In a public access cluster, this resolves to a public IP address (say `54.239.118.52`) that belongs to the EKS service running in AWS. The kubelet then creates a secure HTTPS request to this endpoint. The initial packet looks like this:
+The kubelet performs a DNS lookup for the endpoint (e.g., `https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.gr7.us-west-2.eks.amazonaws.com`). In a public access cluster, this resolves to a public IP address (say `54.239.118.52`) that belongs to the EKS service running in {aws}. The kubelet then creates a secure HTTPS request to this endpoint. The initial packet looks like this:
 
 ....
 +--------------------+---------------------+-----------------+
@@ -46,7 +46,7 @@ For public internet traffic, the router typically forwards the packet to an inte
 
 *3. Delivery to the EKS control plane*
 
-The packet travels across the public internet and transit networks until it reaches AWS’s network. AWS’s network routes the packet to the EKS service endpoint in the appropriate region. When the packet reaches the EKS service, it’s forwarded to the actual EKS control plane for your cluster.
+The packet travels across the public internet and transit networks until it reaches {aws}’s network. {aws}’s network routes the packet to the EKS service endpoint in the appropriate region. When the packet reaches the EKS service, it’s forwarded to the actual EKS control plane for your cluster.
 
 This routing through the public internet is different from the private VPC-routed path that we’ll see in other traffic flows. The key difference is that when using public access mode, traffic from on-premises kubelets (although not from pods) to the EKS control plane does not go through your VPC - it uses the global internet infrastructure instead.
 
@@ -135,7 +135,7 @@ The kubelet on the hybrid node (10.80.0.2) creates a response packet with the or
 
 *5. Local Router Routing*
 
-The router determines that the destination IP (10.0.0.132) belongs to 10.0.0.0/16, which has a route pointing to the gateway connecting to AWS.
+The router determines that the destination IP (10.0.0.132) belongs to 10.0.0.0/16, which has a route pointing to the gateway connecting to {aws}.
 
 *4. Cross-Boundary Return*
 
@@ -203,7 +203,7 @@ The node forwards the packet to its default gateway because the destination IP i
 
 *4. Local Router Routing*
 
-The local router determines that the destination IP (10.0.0.132) belongs to the VPC CIDR (10.0.0.0/16) and forwards it to the gateway connecting to AWS.
+The local router determines that the destination IP (10.0.0.132) belongs to the VPC CIDR (10.0.0.0/16) and forwards it to the gateway connecting to {aws}.
 
 *5. Cross-Boundary Transit*
 
@@ -317,7 +317,7 @@ The node forwards the packet to its default gateway because the destination IP i
 
 *4. Local Router Routing*
 
-The local router determines that the destination IP (10.0.0.132) belongs to the VPC CIDR (10.0.0.0/16) and forwards it to the gateway connecting to AWS.
+The local router determines that the destination IP (10.0.0.132) belongs to the VPC CIDR (10.0.0.0/16) and forwards it to the gateway connecting to {aws}.
 
 *5. Cross-Boundary Transit*
 
@@ -483,7 +483,7 @@ The node determines that the destination IP (10.0.0.132) is not in the local net
 
 *5. Local Router Routing*
 
-The local router consults its routing table and determines that the destination IP (10.0.0.132) belongs to the VPC CIDR (10.0.0.0/16). It forwards the packet to the gateway connecting to AWS.
+The local router consults its routing table and determines that the destination IP (10.0.0.132) belongs to the VPC CIDR (10.0.0.0/16). It forwards the packet to the gateway connecting to {aws}.
 
 *4. Cross-Boundary Transit*
 
@@ -673,7 +673,7 @@ The node determines that the destination IP (10.0.0.56) does not belong to the l
 
 *4. Local Router Routing*
 
-The local router consults its routing table and determines that the destination IP (10.0.0.56) belongs to the VPC CIDR (10.0.0.0/16). It forwards the packet to the gateway connecting to AWS.
+The local router consults its routing table and determines that the destination IP (10.0.0.56) belongs to the VPC CIDR (10.0.0.0/16). It forwards the packet to the gateway connecting to {aws}.
 
 *3. Cross-Boundary Transit*
 

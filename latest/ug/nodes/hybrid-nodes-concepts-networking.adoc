@@ -18,7 +18,7 @@ image:./images/hybrid-nodes-highlevel-network.png[High level hybrid nodes networ
 
 *VPC as the network hub*
 
-All traffic that crosses the cloud boundary is routed through your VPC. This includes traffic between the EKS control plane or pods running in AWS to hybrid nodes or pods running on them. You can think of your cluster’s VPC as the network hub between your hybrid nodes and the rest of the cluster. This architecture gives you full control of the traffic and its routing but also makes it your responsibility to correctly configure routes, security groups, and firewalls for the VPC.
+All traffic that crosses the cloud boundary is routed through your VPC. This includes traffic between the EKS control plane or pods running in {aws} to hybrid nodes or pods running on them. You can think of your cluster’s VPC as the network hub between your hybrid nodes and the rest of the cluster. This architecture gives you full control of the traffic and its routing but also makes it your responsibility to correctly configure routes, security groups, and firewalls for the VPC.
 
 *EKS control plane to the VPC*
 
@@ -42,14 +42,14 @@ You configure the EKS cluster with these remote pod CIDRs so the EKS control pla
 
 *On-premises to the VPC*
 
-The on-premises network you use for hybrid nodes must be attached to the VPC you use for your EKS cluster. There are a number of https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/network-to-amazon-vpc-connectivity-options.html[AWS
+The on-premises network you use for hybrid nodes must be attached to the VPC you use for your EKS cluster. There are a number of https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/network-to-amazon-vpc-connectivity-options.html[{aws}
 solutions] available to connect your on-premises network to a VPC, including your own VPN solution.
 
 The important part is for the routing to be configured correctly on the {aws} Cloud side in the VPC and in your on-premises network to route the right traffic through the connection for the two networks.
 
 In the VPC, all traffic going to the remote node and remote pod networks must be routed through the connection to your on-premises network (refered to as the "gateway"). If you have multiple route tables for the different subnets you are using for your EKS cluster, each must be configured with the routes for your hybrid nodes and the pods running on them. This is true for the subnets where the EKS control plane ENIs are attached as well as subnets that contain EC2 nodes or pods that must communicate with hybrid nodes.
 
-In your on-premises network, you must configure your network to allow traffic to/from your EKS cluster's VPC and the other AWS services required for hybrid nodes. The traffic for the EKS cluster traverses the gateway in both directions.
+In your on-premises network, you must configure your network to allow traffic to/from your EKS cluster's VPC and the other {aws} services required for hybrid nodes. The traffic for the EKS cluster traverses the gateway in both directions.
 
 == Networking constraints
 
