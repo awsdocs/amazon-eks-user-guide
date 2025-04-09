@@ -11,8 +11,9 @@ Learn about the network traffic flows for EKS Hybrid Nodes.
 This page details the network traffic flows for EKS Hybrid Nodes with diagrams showing the end-to-end network paths for the different traffic types. The following traffic flows are covered:
 
 * <<hybrid-nodes-concepts-traffic-flows-kubelet-to-cp>>
-* <<hybrid-nodes-concepts-traffic-flows-kube-proxy-to-cp>>
+* <<hybrid-nodes-concepts-traffic-flows-cp-to-kubelet>>
 * <<hybrid-nodes-concepts-traffic-flows-pods-to-cp>>
+* <<hybrid-nodes-concepts-traffic-flows-cp-to-pod>>
 * <<hybrid-nodes-concepts-traffic-flows-pod-to-pod>>
 * <<hybrid-nodes-concepts-traffic-flows-east-west>>
 
