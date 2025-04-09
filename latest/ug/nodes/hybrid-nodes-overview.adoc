@@ -43,10 +43,10 @@ video::tFn9IdlddBw[youtube,align=center,height= 405,width=720,fileref = https://
 * *Red Hat Enterprise Linux (RHEL)*: You can use RHEL 8 and RHEL 9 as the node operating system for hybrid nodes.
 
 
-*Kubernetes and platform versions*
+*Kubernetes versions*
 
-* Amazon EKS Hybrid Nodes supports the same Kubernetes versions and deprecation schedule as Amazon EKS, including standard and extended Kubernetes version support. For more information on Kubernetes versions in Amazon EKS, see <<kubernetes-versions>>. For more information about Amazon EKS platform versions, see <<platform-versions>>.
-* You can create new Amazon EKS clusters to use Amazon EKS Hybrid Nodes. Or, you can update an existing Amazon EKS cluster to add the hybrid node configuration.
+* Amazon EKS Hybrid Nodes supports the same Kubernetes versions and deprecation schedule as Amazon EKS, including standard and extended Kubernetes version support. For more information on Kubernetes versions in Amazon EKS, see <<kubernetes-versions>>.
+* Amazon EKS Hybrid Nodes can be used with new or existing Amazon EKS clusters.
 
 *Networking*
 
@@ -81,6 +81,7 @@ For detailed information, see <<hybrid-nodes-add-ons>>.
 * *Node management*: The Amazon EKS Hybrid Nodes CLI is called `nodeadm` and is run on each on-premises host to simplify the installation, configuration, registration, and uninstall of the hybrid nodes components. The hybrid nodes `nodeadm` version is different than the `nodeadm` version used in the AL2023 Amazon EKS-optimized AMIs. You should not use the hybrid nodes `nodeadm` version for nodes running in Amazon EC2.
 * *Cluster management*: The Amazon EKS user interfaces for cluster management are the same with hybrid nodes-enabled Amazon EKS clusters. This includes the {aws-management-console}, {aws} API, {aws} SDKs, {aws} CLI, eksctl CLI, {aws} CloudFormation, and Terraform.
 
+include::hybrid-nodes-concepts.adoc[leveloffset=+1]
 
 include::hybrid-nodes-prereqs.adoc[leveloffset=+1]
 
