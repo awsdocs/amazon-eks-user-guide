@@ -15,6 +15,12 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
+=== Kubernetes version 1.31 is now available for local clusters on {aws} Outposts
+[.update-ulink]
+link:eks/latest/userguide/eks-outposts-platform-versions.html[type="documentation"]
+
+You can now create an Amazon EKS local cluster on an {aws} Outposts using Kubernetes version 1.31.
+
 [.update,date="2025-03-31"]
 === Node health for EKS Hybrid Nodes
 [.update-ulink]
