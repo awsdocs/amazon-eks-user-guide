@@ -7,6 +7,15 @@ include::../attributes.txt[]
 
 This page documents updates to Amazon EKS Auto Mode. You can periodically check this page for announcements about features, bug fixes, known issues, and deprecated functionality. 
 
+== April 11, 2025
+
+*Feature:* Added `certificateBundles` and `ephemeralStorage.kmsKeyID` to `NodeClass`. For more information, see <<auto-node-class-spec>>.
+
+*Feature:* Improved image pull speed, particularly for instance types with local instance storage that can take advantage of the faster image decompression.
+
+*Bug Fix:* Resolved a race condition which caused FailedCreatePodSandBox , Error while dialing: dial tcp 127.0.0.1:50051: connect: connection refused to sometimes occur for Pods scheduling to a Node immediately at startup.
+
+
 == April 4, 2025
 
 **Feature:** Increase `registryPullQPS` from 5 to 25 and `registryBurst` from 10 to 50 to reduce client enforced image pull throttling (`Failed to pull image xyz: pull QPS exceeded`)
