@@ -1,0 +1,253 @@
+include::../attributes.txt[]
+
+[.topic]
+[#eks-ami-deprecation-faqs]
+= EKS AL2 AMIs End-of-support FAQ
+:info_titleabbrev: AL2 AMI deprecation
+
+[abstract]
+--
+This document outlines the End of Support (EOS) information for Amazon EKS AL2-optimized and AL2-accelerated AMIs.
+--
+
+== General information and timeline
+
+=== What is the end-of-support (EOS) date for EKS AL2-optimized and AL2-accelerated AMIs?
+
+EKS AL2-optimized and AL2-accelerated AMIs EOS date is November 26, 2025.
+While you can continue using EKS AL2 AMIs after the EOS date, EKS will no longer release any new Kubernetes versions or updates to AL2 AMIs, including minor releases, patches, and bug fixes after this date.
+We recommend upgrading to Amazon Linux 2023 (AL2023) or Bottlerocket AMIs:
+
+*  AL2023 enables a secure-by-default approach with preconfigured security policies, SELinux in permissive mode, IMDSv2-only mode enabled by default, optimized boot times, and improved package management for enhanced security and performance, well-suited for infrastructure requiring significant customizations like direct OS-level access or extensive node changes.
+* Bottlerocket enables enhanced security, faster boot times, and a smaller attack surface for improved efficiency with its purpose-built, container-optimized design, well-suited for container-native approaches with minimal node customizations.
+
+Additionally, you can <<eks-ami-build-scripts>> until the EOS date (November 26, 2025), or build a custom AMI with an Amazon Linux 2 base instance until the Amazon Linux 2 EOS date (June 30, 2026). For more information, please visit https://aws.amazon.com/linux/amazon-linux-2023/faqs/[AL2023 FAQs], https://aws.amazon.com/bottlerocket/faqs/[Bottlerocket FAQs] or refer to <<al2023>> or <<eks-optimized-ami-bottlerocket>> documentation for detailed migration guidance. 
+
+=== Why is {aws} proposing to end support for EKS AL2-optimized and AL2-accelerated AMIs before AL2’s EOL date?
+
+{aws} is ending support for EKS AL2-optimized and AL2-accelerated AMIs on November 26, 2025 due to a combination of critical technical and ecosystem-driven factors that directly affect performance, compatibility, and user experience. There has been diminishing support of AL2 by key technology providers from Nvidia, Neuron, Linux, to the Kubernetes community:
+
+* Nvidia https://docs.nvidia.com/cuda/archive/12.4.1/cuda-toolkit-release-notes/index.html#deprecated-operating-systems[deprecated] support for CentOS 7-compatible distributions including AL2 and completely https://docs.nvidia.com/cuda/archive/12.5.0/cuda-toolkit-release-notes/index.html#deprecated-operating-systems[removed] support in CUDA https://docs.nvidia.com/cuda/archive/12.4.1/[12.4] and CUDA https://docs.nvidia.com/cuda/archive/12.5.0/[12.5]. The https://docs.nvidia.com/datacenter/tesla/index.html#r550-driver-release-notes[R550] driver branch will reach end-of-life in April 2025, long before AL2’s end-of-support date. AL2 is based on Linux kernel version https://docs.aws.amazon.com/linux/al2/ug/kernel.html[5.10], released in December 2020. Although Nvidia is continuing to ship critical CVE security patches (as of today), it is not actively releasing general patches and bug fixes for the https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/[RHEL 7] packages that EKS uses to release AL2-accelerated AMIs.
+
+* https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/prev/rn.html#id123[{aws} Neuron] stopped supporting the Neuron Runtime package for AL2 in July 2024.
+
+* Newer Linux kernel updates (versions 4.14.326, 5.4.257, 5.10.195, 5.15.131, and 6.1.52) applied to AL2 introduce compatibility issues with P4 and P5 instance types that rely on Elastic Fabric Adapter (EFA) and closed-source NVIDIA drivers for GPU Direct RDMA support.
+
+* The https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/4569-cgroup-v1-maintenance-mode/README.md[Kubernetes community] moved `cgroupv1` support (used by AL2) into maintenance mode, meaning no new features will be added and only critical security and major bug fixes will be provided. 
+
+== Compatibility and versions
+
+=== Which Kubernetes versions support AL2 AMIs?
+
+Kubernetes version 1.32 is the last version for which Amazon EKS will release AL2 (Amazon Linux 2) AMIs. For https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html[supported] Kubernetes versions up to 1.32, EKS will continue to release AL2 AMIs (AL2_ARM_64, AL2_x86_64) and AL2-accelerated AMIs (AL2_x86_64_GPU) until November 26, 2025.
+After this date, EKS will stop releasing AL2-optimized and AL2-accelerated AMIs for all Kubernetes versions, even for EKS extended support customers. Note that the EOS date for EKS AL2-optimized and AL2-accelerated AMIs is independent of the standard and extended support timelines for Kubernetes versions by EKS.
+
+=== What NVIDIA driver versions are supported on Amazon Linux 2 (AL2), Amazon Linux 2023 (AL2023) and Bottlerocket AMIs?
+
+[cols="1,1,1,1,1", options="header"]
+
+|===
+
+|Driver Branch
+|Amazon Linux 2 AMI
+|Amazon Linux 2023 AMI
+|Bottlerocket AMI
+|End-of-Life Date	|
+
+|R535
+|Not Supported
+|Not Supported
+|Supported
+|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[September 2027]
+
+|R550
+|Supported
+|Supported
+|Not Supported
+|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[April 2025]
+
+|R560
+|Not Supported
+|Supported
+|Not Supported
+|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[March 2025]
+
+|R570
+|Not Supported
+|Supported
+|Coming soon
+|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[February 2026]
+|===
+
+To learn more, see https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[Nvidia Release Documentation].
+
+=== Which NVIDIA CUDA versions are supported on Amazon Linux 2 (AL2), Amazon Linux 2023 (AL2023) and Bottlerocket AMIs?
+
+[cols="1,1,1,1,1,1", options="header"]
+|===
+|CUDA Version
+|NVIDIA Driver
+|AL2 Support
+|AL2023 Support
+|Bottlerocket Support
+
+|https://developer.nvidia.com/cuda-toolkit-archive[10.1]
+|R418
+|Supported
+|Not supported
+|Not Supported
+
+|https://developer.nvidia.com/cuda-toolkit-archive[11.8]
+|R550/R535
+|Supported
+|Supported
+|Supported
+
+|https://developer.nvidia.com/cuda-toolkit-archive[12.0]
+|R560
+|Not supported
+|Supported
+|Not Supported
+
+|https://developer.nvidia.com/cuda-toolkit-archive[12.5]
+|R570
+|Not supported
+|Supported
+|Not Supported
+|===
+
+To learn more, see https://developer.nvidia.com/cuda-toolkit-archive[CUDA Release Documentation].
+
+=== How do the AMIs for Amazon Linux 2 (AL2), Amazon Linux 2023 (AL2023) and Bottlerocket compare in terms of supported drivers and kernel versions? 
+
+[cols="1,1,1,1,1", options="header"]
+|===
+|Component
+|AL2 AMI Source
+|AL2023 AMI Source
+|Bottlerocket AMI Source
+
+|Base OS Compatibility
+|RHEL7/CentOS 7
+|Fedora/CentOS 9
+|N/A
+
+|CUDA Toolkit
+|https://developer.nvidia.com/cuda-toolkit-archive[CUDA 11.x–12.x]
+|https://developer.nvidia.com/cuda-toolkit-archive[CUDA 12.5+]
+|CUDA 11.x (12.5 coming soon)
+
+|NVIDIA GPU Driver
+|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[R550]
+|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[R565] (R570 coming soon)
+|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[R535] (R570 Coming soon)
+
+|{aws} Neuron Driver
+|https://awsdocs-neuron.readthedocs-hosted.com/en/latest/general/announcements/neuron2.x/announce-no-support-al2.html[2.19]
+|https://awsdocs-neuron.readthedocs-hosted.com/en/latest/general/announcements/neuron2.x/announce-no-support-al2.html[2.19+]
+|2.20	
+
+|Linux Kernel
+|https://docs.aws.amazon.com/linux/al2/ug/aml2-kernel.html[5.10]
+|https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2-kernel.html[6.1, 6.12]
+|5.15, 6.1 (6.12 coming soon)
+|===
+
+=== Is AL2 fully supported by Nvidia?
+
+No. AL2 AMIs are based on https://docs.aws.amazon.com/linux/al2/ug/kernel.html[Linux kernel 5.10], while AL2023 uses https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2-kernel.html[Linux kernel 6.10].
+Unlike AL2023, Nvidia never explicitly supported AL2, thus EKS leverages CentOS-7 https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/[RHEL7 packages] to build the AL2-accelerated AMIs (AL2_x86_64_GPU AMI).
+Although Nvidia is continuing to ship critical CVE security patches (as of today), it is not actively releasing general patches and bug fixes for the https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/[RHEL 7] packages that EKS uses to release AL2-accelerated AMIs.
+Additionally, the latest Nvidia driver version supported for AL2 (RHEL 7) is https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[R550], while for AL2023 its https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[R565, R570].
+Furthermore, Nvidia has stopped releasing updates for its CUDA toolkit as of March 28, 2024, with `cuda-12.4.1-1.x86_64.rpm` being the last released version.
+
+=== Is AL2 fully supported by {aws} Neuron?
+
+No. Starting from https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/prev/rn.html#neuron-2-20-0-whatsnew[{aws} Neuron release 2.20], the Neuron Runtime (`aws-neuronx-runtime-lib`) used by EKS AL-based AMIs no longer supports Amazon Linux 2 (AL2).
+The Neuron Driver (`aws-neuronx-dkms`) is now the only {aws} Neuron package that supports Amazon Linux 2.
+This means you cannot run your Neuron-powered applications natively on an AL2-based AMI.
+To setup Neuron on AL2023 AMIs, see the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/general/setup/index.html#setup-guide-index[{aws} Neuron Setup] guide.
+
+=== Is AL2 fully compatible with the latest Kubernetes versions?
+
+No. The Kubernetes community has moved `cgroupv1` support (used by AL2) to maintenance mode.
+This means no new features will be added, and only critical security and major bug fixes will be provided.
+Any Kubernetes features relying on cgroupv2, such as MemoryQoS and enhanced resource isolation, are unavailable on AL2.
+Furthermore, Amazon EKS Kubernetes version 1.32 was the last version to support AL2 AMIs.
+To maintain compatibility with the latest Kubernetes versions, we recommend migrating to AL2023 or Bottlerocket, which enable `cgroupv2` by default.
+
+=== Is AL2 fully compatible with the latest Linux versions?
+
+No. Amazon Linux 2 (AL2) is supported by {aws} until its end-of-support (EOS) date on June 30, 2026.
+However, as AL2 has aged, support from the broader Linux community for new applications and functionality has become more limited.
+AL2 AMIs are based on https://docs.aws.amazon.com/linux/al2/ug/kernel.html[Linux kernel 5.10], while AL2023 uses https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2-kernel.html[Linux kernel 6.10].
+Unlike AL2023, AL2 has limited support from the broader Linux community.
+This means many upstream Linux packages and tools need to be backported to work with AL2's older kernel version, some modern Linux features and security improvements aren't available due to the older kernel, many open source projects have deprecated or limited support for older kernel versions like 5.10.
+
+=== What packages are not included in AL2023 AMIs?
+
+A few of the most common packages that are not included or which changed in AL2023, include:
+
+* Some https://docs.aws.amazon.com/linux/al2023/release-notes/removed-AL2023.6-AL2.html[source binary packages in Amazon Linux 2] are no longer available in Amazon Linux 2023
+* Changes in how Amazon Linux supports different versions of packages (e.g., https://repost.aws/questions/QUWGU3VFJMRSGf6MDPWn4tLg/how-to-resolve-amazon-linux-extras-in-al2023[amazon-linux-extras system]) in AL2023
+* https://docs.aws.amazon.com/linux/al2023/ug/epel.html[Extra Packages for Enterprise Linux (EPEL)] are not supported in AL2023
+* https://docs.aws.amazon.com/linux/al2023/ug/deprecated-al2.html#deprecated-32bit-rpms[32-bit applications] are not supported in AL2023 
+* AL2023 does not make https://cloudkatha.com/can-we-install-a-gui-in-amazon-linux-2023/[mate-desktop] packages
+
+To learn more, see https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2.html[Comparing AL2 and AL2023].
+
+=== Where can I find a complete list of Amazon EKS AMI drivers and their versions?
+
+For a complete list of all EKS AMI components and their versions, see https://github.com/awslabs/amazon-eks-ami/releases[Amazon EKS AMI Release Notes] on GitHub.
+
+== Migration and support
+
+=== Will EKS terminate AL2 AMIs? 
+
+No. EKS will neither update nor terminate customer instances and will not remove existing AMIs from distribution. 
+
+=== Will EKS allow EOS extensions?
+
+No, but you do have the option of continuing to use EKS AL2 AMIs, build custom EKS AL2 AMIs until the EOS date (November 26, 2025), or build a custom AMI with an Amazon Linux 2 base instance until the Amazon Linux 2 EOS date (June 30, 2026).
+To build a custom EKS AL2-optimized or AL2-accelerated AMI, see https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-build-scripts.html[Build a custom Amazon Linux AMI] in EKS official documentation.
+
+=== Will the Kubernetes standard or extended version support apply to AL2?
+
+No. The EOS date for EKS AL2-optimized and AL2-accelerated AMIs is independent of the standard and extended support timelines for Kubernetes versions by EKS.
+
+=== How does the shift from cgroupv1 to cgroupv2 affect my migration?
+
+The https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/4569-cgroup-v1-maintenance-mode/README.md[Kubernetes community] moved `cgroupv1` support (used by AL2) into maintenance mode, meaning no new features will be added and only critical security and major bug fixes will be provided.
+To adopt `cgroupv2` in Kubernetes, you need to ensure compatibility across the OS, kernel, container runtime, and Kubernetes components.
+This requires a Linux distribution that enables `cgroupv2` by default, such as AL2023, Bottlerocket, Red Hat Enterprise Linux (RHEL) 9+, Ubuntu 22.04+, or Debian 11+.
+These distributions ship with kernel versions ≥5.8, which is the minimum requirement for `cgroupv2` support in Kubernetes.
+To learn more, see https://kubernetes.io/docs/concepts/architecture/cgroups/[About cgroup v2].
+
+=== What will I be responsible for if I continue using AL2 AMIs?
+
+Continuing to run outdated EKS optimized AL2 AMIs in your cluster after the EOS date (November 26, 2025) may result in compatibility issues and application impact.
+Deprecated support for AL2 from key technology providers may lead to incompatibilities, making it difficult to integrate with the latest tools and frameworks. For example: 
+
+* **AI/ML Compatibility:** Compatibility issues may arise for AI/ML workloads on accelerated instances.
+For instance, Nvidia has phased out AL2 support in CUDA 12.5, with critical driver branches like R550 ending support in April 2025, respectively.
+Additionally, {aws} Neuron discontinued updates for AL2 in July 2024, which may further limit support for machine learning workloads.  
+* **Linux Kernel Compatibility:** Newer Linux kernel updates (versions 4.14.326, 5.4.257, 5.10.195, 5.15.131, and 6.1.52) applied to AL2 introduce compatibility issues with P4 and P5 instance types that rely on Elastic Fabric Adapter (EFA) and closed-source NVIDIA drivers for GPU Direct RDMA support.
+This issue is specific to AL2 because its older Linux base, which is tied to RHEL7/CentOS 7, conflicting with these kernel updates when paired with NVIDIA’s R550 driver, whereas AL2023’s kernel (6.1.x) and newer drivers (R565/R570) avoid this issue entirely.
+* **Kubernetes Compatibility:** The Kubernetes community has moved `cgroupv1` support, which AL2 relies on, to maintenance mode.
+This means no new features will be added, and only critical security fixes and major bug patches will be provided.  
+* **Security Patches:** Without official updates to AL2 AMIs, your team will be responsible for manually applying any security patches that would otherwise be handled automatically.
+
+=== What do I do if I need Neuron in my custom AL2 AMI?
+
+You cannot run your full Neuron-powered applications natively on an AL2-based AMIs.
+To leverage {aws} Neuron on an AL2 AMI, you must containerize you applications using a Neuron-supported container with a non-AL2 Linux distribution (e.g., Ubuntu 22.04, Amazon Linux 2023, etc.) and then deploy those containers on an AL2-based AMI that has the Neuron Driver (`aws-neuronx-dkms`) installed.
+
+=== How do I migrate from my AL2 to an AL2023 AMI?
+
+We recommend creating and implementing a migration plan that includes thorough application workload testing and documented rollback procedures, then following the step-by-step instructions in the https://docs.aws.amazon.com/eks/latest/userguide/al2023.html[Upgrade from Amazon Linux 2 to Amazon Linux 2023] in EKS official documentation. 
+
+=== How do I build a custom AL2 or AL2023 AMI?
+
+You can build custom EKS AL2-optimized and AL2-accelerated AMIs until the EOS date (November 26, 2025).
+Alternatively, you can build a custom AMI with an Amazon Linux 2 base instance until the Amazon Linux 2 EOS date (June 30, 2026).
+For step-by-step instructions to build a custom EKS AL2-optimized and AL2-accelerated AMI, see https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-build-scripts.html[Build a custom Amazon Linux AMI] in EKS official documentation.
