@@ -21,6 +21,12 @@ link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-upd
 
 Added permissions to `AmazonEKSServiceRolePolicy` to allow EKS AI/ML customers to add Egress rules to the default EKS Cluster security group.
 
+=== Kubernetes version 1.31 is now available for local clusters on {aws} Outposts
+[.update-ulink]
+link:eks/latest/userguide/eks-outposts-platform-versions.html[type="documentation"]
+
+You can now create an Amazon EKS local cluster on an {aws} Outposts using Kubernetes version 1.31.
+
 [.update,date="2025-03-31"]
 === Node health for EKS Hybrid Nodes
 [.update-ulink]

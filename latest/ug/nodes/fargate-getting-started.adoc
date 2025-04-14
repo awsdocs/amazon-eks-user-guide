@@ -26,11 +26,11 @@ Assume that you're working with an existing cluster that already has nodes that 
 
 For existing node groups that were created with `eksctl` or the Amazon EKS managed {aws} CloudFormation templates, you can add the cluster security group to the nodes manually. Or, alternatively, you can modify the Auto Scaling group launch template for the node group to attach the cluster security group to the instances. For more information, see link:vpc/latest/userguide/VPC_SecurityGroups.html#SG_Changing_Group_Membership[Changing an instance's security groups,type="documentation"] in the _Amazon VPC User Guide_.
 
-You can check for a security group for your cluster in the {aws-management-console} under the *Networking* section for the cluster. Or, you can do this using the following {aws} CLI command. When using this command, replace [.replaceable]`my-cluster` with the name of your cluster.
+You can check for a security group for your cluster in the {aws-management-console} under the *Networking* section for the cluster. Or, you can do this using the following {aws} CLI command. When using this command, replace `<my-cluster>` with the name of your cluster.
 
 [source,bash,subs="verbatim,attributes"]
 ----
-aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+aws eks describe-cluster --name <my-cluster> --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ----
 
 
@@ -76,18 +76,18 @@ For instructions on how to install or upgrade `eksctl`, see https://eksctl.io/in
 
 *To create a Fargate profile with `eksctl`*
 
-Create your Fargate profile with the following `eksctl` command, replacing every [.replaceable]`example value` with your own values. You're required to specify a namespace. However, the `--labels` option isn't required.
+Create your Fargate profile with the following `eksctl` command, replacing every `<example value>` with your own values. You're required to specify a namespace. However, the `--labels` option isn't required.
 
 [source,bash,subs="verbatim,attributes"]
 ----
 eksctl create fargateprofile \
-    --cluster my-cluster \
-    --name my-fargate-profile \
-    --namespace my-kubernetes-namespace \
-    --labels key=value
+    --cluster <my-cluster> \
+    --name <my-fargate-profile> \
+    --namespace <my-kubernetes-namespace> \
+    --labels <key=value>
 ----
 
-You can use certain wildcards for [.replaceable]`my-kubernetes-namespace` and [.replaceable]`key=value` labels. For more information, see <<fargate-profile-wildcards>>.
+You can use certain wildcards for `<my-kubernetes-namespace>` and `<key=value>` labels. For more information, see <<fargate-profile-wildcards>>.
 
 === {aws-management-console} [[console_fargate_profile_create]]
 
@@ -131,7 +131,7 @@ By default, CoreDNS is configured to run on Amazon EC2 infrastructure on Amazon 
 If you created your cluster with `eksctl` using the `--fargate` option, then you can skip to <<fargate-gs-next-steps>>.
 
 ====
-. Create a Fargate profile for CoreDNS with the following command. Replace [.replaceable]`my-cluster` with your cluster name, [.replaceable]`111122223333` with your account ID, [.replaceable]`AmazonEKSFargatePodExecutionRole` with the name of your Pod execution role, and [.replaceable]`0000000000000001`, [.replaceable]`0000000000000002`, and [.replaceable]`0000000000000003` with the IDs of your private subnets. If you don't have a Pod execution role, you must create one first (see <<fargate-sg-pod-execution-role>>).
+. Create a Fargate profile for CoreDNS with the following command. Replace `<my-cluster>` with your cluster name, `<111122223333>` with your account ID, `<AmazonEKSFargatePodExecutionRole>` with the name of your Pod execution role, and `<0000000000000001>`, `<0000000000000002>`, and `<0000000000000003>` with the IDs of your private subnets. If you don't have a Pod execution role, you must create one first (see <<fargate-sg-pod-execution-role>>).
 +
 IMPORTANT: The role ARN can't include a link:IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names[path,type="documentation"] other than `/`. For example, if the name of your role is `development/apps/my-role`, you need to change it to `my-role` when specifying the ARN for the role. The format of the role ARN must be `{arn-aws}iam::111122223333:role/role-name`.
 +
@@ -139,21 +139,17 @@ IMPORTANT: The role ARN can't include a link:IAM/latest/UserGuide/reference_iden
 ----
 aws eks create-fargate-profile \
     --fargate-profile-name coredns \
-    --cluster-name my-cluster \
-    --pod-execution-role-arn {arn-aws}iam::111122223333:role/AmazonEKSFargatePodExecutionRole \
+    --cluster-name <my-cluster> \
+    --pod-execution-role-arn {arn-aws}iam::<111122223333>:role/<AmazonEKSFargatePodExecutionRole> \
     --selectors namespace=kube-system,labels={k8s-app=kube-dns} \
-    --subnets subnet-0000000000000001 subnet-0000000000000002 subnet-0000000000000003
+    --subnets subnet-<0000000000000001> subnet-<0000000000000002> subnet-<0000000000000003>
 ----
-. Run the following command to remove the `eks.amazonaws.com/compute-type : ec2` annotation from the CoreDNS Pods.
+. Trigger a rollout of the `coredns` deployment.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl patch deployment coredns \
-    -n kube-system \
-    --type json \
-    -p='[{"op": "remove", "path": "/spec/template/metadata/annotations/eks.amazonaws.com~1compute-type"}]'
+kubectl rollout restart -n kube-system deployment coredns
 ----
-
 
 [#fargate-gs-next-steps]
 == Next steps
@@ -161,11 +157,11 @@ kubectl patch deployment coredns \
 * You can start migrating your existing applications to run on Fargate with the following workflow.
 +
 .. <<create-fargate-profile>> that matches your application's Kubernetes namespace and Kubernetes labels.
-.. Delete and re-create any existing Pods so that they're scheduled on Fargate. For example, the following command triggers a rollout of the `coredns` deployment. You can modify the namespace and deployment type to update your specific Pods.
+.. Delete and re-create any existing Pods so that they're scheduled on Fargate. Modify the `<namespace>` and `<deployment-type>` to update your specific Pods.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl rollout restart -n kube-system deployment coredns
+kubectl rollout restart -n <namespace> deployment <deployment-type>
 ----
 * Deploy the <<alb-ingress>> to allow Ingress objects for your Pods running on Fargate.
 * You can use the <<vertical-pod-autoscaler>> to set the initial correct size of CPU and memory for your Fargate Pods, and then use the <<horizontal-pod-autoscaler>> to scale those Pods. If you want the Vertical Pod Autoscaler to automatically re-deploy Pods to Fargate with higher CPU and memory combinations, set the Vertical Pod Autoscaler's mode to either `Auto` or `Recreate`. This is to ensure correct functionality. For more information, see the https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start[Vertical Pod Autoscaler] documentation on GitHub.

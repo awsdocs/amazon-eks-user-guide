@@ -95,7 +95,7 @@ RemoteNetworkConfig:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-aws eks update-cluster \
+aws eks update-cluster-config \
     --name CLUSTER_NAME \
     --region AWS_REGION \
     --remote-network-config '{"remoteNodeNetworks":[{"cidrs":["REMOTE_NODE_CIDRS"]}],"remotePodNetworks":[{"cidrs":["REMOTE_POD_CIDRS"]}]}' 
@@ -160,7 +160,7 @@ Omitting these fields from the update request retains their existing configurati
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-aws eks update-cluster
+aws eks update-cluster-config
 --name CLUSTER_NAME
 --region AWS_REGION
 --remote-network-config '{"remoteNodeNetworks":[{"cidrs":["NEW_REMOTE_NODE_CIDRS"]}],"remotePodNetworks":[{"cidrs":["NEW_REMOTE_POD_CIDRS"]}]}'
@@ -210,7 +210,7 @@ RemoteNetworkConfig:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-aws eks update-cluster \
+aws eks update-cluster-config \
     --name CLUSTER_NAME \
     --region AWS_REGION \
     --remote-network-config '{"remoteNodeNetworks":[],"remotePodNetworks":[]}' 
