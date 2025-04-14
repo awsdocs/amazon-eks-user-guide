@@ -367,8 +367,8 @@ View details about updates to {aws} managed policies for Amazon EKS since this s
 |Date
 
 | Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
-| Added `ec2:RevokeSecurityGroupEgress` and `ec2:AuthorizeSecurityGroupEgress` permissions to allow EKS AI/ML customers to add Security Group Egress rules to the default EKS Cluster SG that are compatible with EFA.
-| April 7, 2025
+| Added `ec2:RevokeSecurityGroupEgress` and `ec2:AuthorizeSecurityGroupEgress` permissions to allow EKS AI/ML customers to add Security Group Egress rules to the default EKS Cluster SG that are compatible with EFA, as part of the EKS 1.33 version release.
+| April 14, 2025
 
 | Added permissions to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
 | Added permission to terminate EC2 instances created by EKS Auto Mode.

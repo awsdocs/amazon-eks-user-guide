@@ -14,7 +14,7 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
-[.update,date="2025-04-09"]
+[.update,date="2025-04-14"]
 === {aws} managed policy updates
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates[type="documentation"]
