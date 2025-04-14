@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#eks-ami-deprecation-faqs]
-= EKS AL2 AMIs End-of-support FAQ
+= EKS AL2 AMIs end-of-support FAQ
 :info_titleabbrev: AL2 AMI deprecation
 
 [abstract]
@@ -25,15 +25,13 @@ Additionally, you can <<eks-ami-build-scripts>> until the EOS date (November 26,
 
 === Why is {aws} proposing to end support for EKS AL2-optimized and AL2-accelerated AMIs before AL2’s EOL date?
 
-{aws} is ending support for EKS AL2-optimized and AL2-accelerated AMIs on November 26, 2025 due to a combination of critical technical and ecosystem-driven factors that directly affect performance, compatibility, and user experience. There has been diminishing support of AL2 by key technology providers from Nvidia, Neuron, Linux, to the Kubernetes community:
+{aws} is ending support for EKS AL2-optimized and AL2-accelerated AMIs on November 26, 2025 due to a combination of critical technical and ecosystem-driven factors that directly affect performance, compatibility, and user experience. There has been diminishing support of AL2 by key technology providers from Nvidia, Neuron, Linux, to the Kubernetes community.
 
-* Nvidia https://docs.nvidia.com/cuda/archive/12.4.1/cuda-toolkit-release-notes/index.html#deprecated-operating-systems[deprecated] support for CentOS 7-compatible distributions including AL2 and completely https://docs.nvidia.com/cuda/archive/12.5.0/cuda-toolkit-release-notes/index.html#deprecated-operating-systems[removed] support in CUDA https://docs.nvidia.com/cuda/archive/12.4.1/[12.4] and CUDA https://docs.nvidia.com/cuda/archive/12.5.0/[12.5]. The https://docs.nvidia.com/datacenter/tesla/index.html#r550-driver-release-notes[R550] driver branch will reach end-of-life in April 2025, long before AL2’s end-of-support date. AL2 is based on Linux kernel version https://docs.aws.amazon.com/linux/al2/ug/kernel.html[5.10], released in December 2020. Although Nvidia is continuing to ship critical CVE security patches (as of today), it is not actively releasing general patches and bug fixes for the https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/[RHEL 7] packages that EKS uses to release AL2-accelerated AMIs.
+Nvidia https://docs.nvidia.com/cuda/archive/12.4.1/cuda-toolkit-release-notes/index.html#deprecated-operating-systems[deprecated] support for CentOS 7-compatible distributions including AL2 and completely https://docs.nvidia.com/cuda/archive/12.5.0/cuda-toolkit-release-notes/index.html#deprecated-operating-systems[removed] support in CUDA https://docs.nvidia.com/cuda/archive/12.4.1/[12.4] and CUDA https://docs.nvidia.com/cuda/archive/12.5.0/[12.5]. The https://docs.nvidia.com/datacenter/tesla/index.html#r550-driver-release-notes[R550] driver branch will reach end-of-life in April 2025, long before AL2’s end-of-support date. AL2 is based on Linux kernel version https://docs.aws.amazon.com/linux/al2/ug/kernel.html[5.10], released in December 2020. Although Nvidia is continuing to ship critical CVE security patches (as of today), it is not actively releasing general patches and bug fixes for the https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/[RHEL 7] packages that EKS uses to release AL2-accelerated AMIs.
 
-* https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/prev/rn.html#id123[{aws} Neuron] stopped supporting the Neuron Runtime package for AL2 in July 2024.
-
-* Newer Linux kernel updates (versions 4.14.326, 5.4.257, 5.10.195, 5.15.131, and 6.1.52) applied to AL2 introduce compatibility issues with P4 and P5 instance types that rely on Elastic Fabric Adapter (EFA) and closed-source NVIDIA drivers for GPU Direct RDMA support.
-
-* The https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/4569-cgroup-v1-maintenance-mode/README.md[Kubernetes community] moved `cgroupv1` support (used by AL2) into maintenance mode, meaning no new features will be added and only critical security and major bug fixes will be provided. 
+Newer Linux kernel updates (versions 4.14.326, 5.4.257, 5.10.195, 5.15.131, and 6.1.52) applied to AL2 introduce compatibility issues with P4 and P5 instance types that rely on Elastic Fabric Adapter (EFA) and closed-source NVIDIA drivers for GPU Direct RDMA support.
+The https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/4569-cgroup-v1-maintenance-mode/README.md[Kubernetes community] moved `cgroupv1` support (used by AL2) into maintenance mode, meaning no new features will be added and only critical security and major bug fixes will be provided. 
+https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/prev/rn.html#id123[{aws} Neuron] stopped supporting the Neuron Runtime package for AL2 in July 2024.
 
 == Compatibility and versions
 
@@ -45,14 +43,12 @@ After this date, EKS will stop releasing AL2-optimized and AL2-accelerated AMIs 
 === What NVIDIA driver versions are supported on Amazon Linux 2 (AL2), Amazon Linux 2023 (AL2023) and Bottlerocket AMIs?
 
 [cols="1,1,1,1,1", options="header"]
-
 |===
-
 |Driver Branch
 |Amazon Linux 2 AMI
 |Amazon Linux 2023 AMI
 |Bottlerocket AMI
-|End-of-Life Date	|
+|End-of-Life Date
 
 |R535
 |Not Supported
@@ -83,7 +79,7 @@ To learn more, see https://docs.nvidia.com/ai-enterprise/index.html#release-docu
 
 === Which NVIDIA CUDA versions are supported on Amazon Linux 2 (AL2), Amazon Linux 2023 (AL2023) and Bottlerocket AMIs?
 
-[cols="1,1,1,1,1,1", options="header"]
+[cols="1,1,1,1,1", options="header"]
 |===
 |CUDA Version
 |NVIDIA Driver
@@ -120,7 +116,7 @@ To learn more, see https://developer.nvidia.com/cuda-toolkit-archive[CUDA Releas
 
 === How do the AMIs for Amazon Linux 2 (AL2), Amazon Linux 2023 (AL2023) and Bottlerocket compare in terms of supported drivers and kernel versions? 
 
-[cols="1,1,1,1,1", options="header"]
+[cols="1,1,1,1", options="header"]
 |===
 |Component
 |AL2 AMI Source
