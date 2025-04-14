@@ -131,9 +131,9 @@ By default, CoreDNS is configured to run on Amazon EC2 infrastructure on Amazon 
 If you created your cluster with `eksctl` using the `--fargate` option, then you can skip to <<fargate-gs-next-steps>>.
 
 ====
-. Create a Fargate profile for CoreDNS with the following command. Replace `<my-cluster>` with your cluster name, `<111122223333>` with your account ID, `<AmazonEKSFargatePodExecutionRole>` with the name of your Pod execution role, and `<0000000000000001>`, `<0000000000000002>`, and `<0000000000000003>` with the IDs of your private subnets. If you don't have a Pod execution role, you must create one first (see <<fargate-sg-pod-execution-role>>).
+. Create a Fargate profile for CoreDNS with the following command. Replace `<my-cluster>` with your cluster name, `<111122223333>` with your account ID, `<AmazonEKSFargatePodExecutionRole>` with the name of your Pod execution role, and `<000000000000000a>`, `<000000000000000b>`, and `<000000000000000c>` with the IDs of your private subnets. If you don't have a Pod execution role, you must create one first (see <<fargate-sg-pod-execution-role>>).
 +
-IMPORTANT: The role ARN can't include a link:IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names[path,type="documentation"] other than `/`. For example, if the name of your role is `development/apps/my-role`, you need to change it to `my-role` when specifying the ARN for the role. The format of the role ARN must be `{arn-aws}iam::111122223333:role/role-name`.
+IMPORTANT: The role ARN can't include a link:IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names[path,type="documentation"] other than `/`. For example, if the name of your role is `development/apps/AmazonEKSFargatePodExecutionRole`, you need to change it to `AmazonEKSFargatePodExecutionRole` when specifying the ARN for the role. The format of the role ARN must be `{arn-aws}iam::<111122223333>:role/<AmazonEKSFargatePodExecutionRole>`.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -142,7 +142,7 @@ aws eks create-fargate-profile \
     --cluster-name <my-cluster> \
     --pod-execution-role-arn {arn-aws}iam::<111122223333>:role/<AmazonEKSFargatePodExecutionRole> \
     --selectors namespace=kube-system,labels={k8s-app=kube-dns} \
-    --subnets subnet-<0000000000000001> subnet-<0000000000000002> subnet-<0000000000000003>
+    --subnets subnet-<000000000000000a> subnet-<000000000000000b> subnet-<000000000000000c>
 ----
 . Trigger a rollout of the `coredns` deployment.
 +
