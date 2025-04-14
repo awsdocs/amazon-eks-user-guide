@@ -144,16 +144,22 @@ aws eks create-fargate-profile \
     --selectors namespace=kube-system,labels={k8s-app=kube-dns} \
     --subnets subnet-0000000000000001 subnet-0000000000000002 subnet-0000000000000003
 ----
-. Run the following command to remove the `eks.amazonaws.com/compute-type : ec2` annotation from the CoreDNS Pods.
+. Run one of the following commands based on your Kubernetes version.
+
+* For Kubernetes version 1.30 and later, remove `/spec/template/spec/tolerations` from the CoreDNS Pods.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl patch deployment coredns \
-    -n kube-system \
-    --type json \
+kubectl patch deployment coredns -n kube-system --type json \
+    -p='[{"op": "remove", "path": "/spec/template/spec/tolerations"}]'
+----
+* For Kubernetes versions earlier than 1.30, remove the `eks.amazonaws.com/compute-type : ec2` annotation from the CoreDNS Pods.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl patch deployment coredns -n kube-system --type json \
     -p='[{"op": "remove", "path": "/spec/template/metadata/annotations/eks.amazonaws.com~1compute-type"}]'
 ----
-
 
 [#fargate-gs-next-steps]
 == Next steps
