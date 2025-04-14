@@ -14,6 +14,12 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
+[.update,date="2025-04-14"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates[type="documentation"]
+
+Added permissions to `AmazonEKSServiceRolePolicy` to allow EKS AI/ML customers to add Egress rules to the default EKS Cluster security group.
 
 === Kubernetes version 1.31 is now available for local clusters on {aws} Outposts
 [.update-ulink]
