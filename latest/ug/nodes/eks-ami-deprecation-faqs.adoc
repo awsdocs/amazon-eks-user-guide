@@ -202,11 +202,6 @@ For a complete list of all EKS AMI components and their versions, see https://gi
 
 No. EKS will neither update nor terminate customer instances and will not remove existing AMIs from distribution. 
 
-=== Will EKS allow EOS extensions?
-
-No, but you do have the option of continuing to use EKS AL2 AMIs, build custom EKS AL2 AMIs until the EOS date (November 26, 2025), or build a custom AMI with an Amazon Linux 2 base instance until the Amazon Linux 2 EOS date (June 30, 2026).
-To build a custom EKS AL2-optimized or AL2-accelerated AMI, see https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-build-scripts.html[Build a custom Amazon Linux AMI] in EKS official documentation.
-
 === Will the Kubernetes standard or extended version support apply to AL2?
 
 No. The EOS date for EKS AL2-optimized and AL2-accelerated AMIs is independent of the standard and extended support timelines for Kubernetes versions by EKS.
