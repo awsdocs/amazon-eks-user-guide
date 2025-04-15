@@ -79,37 +79,32 @@ To learn more, see https://docs.nvidia.com/ai-enterprise/index.html#release-docu
 
 === Which NVIDIA CUDA versions are supported on Amazon Linux 2 (AL2), Amazon Linux 2023 (AL2023) and Bottlerocket AMIs?
 
-[cols="1,1,1,1,1", options="header"]
+[cols="1,1,1,1", options="header"]
 |===
 |CUDA Version
-|NVIDIA Driver
 |AL2 Support
 |AL2023 Support
 |Bottlerocket Support
 
 |https://developer.nvidia.com/cuda-toolkit-archive[10.1]
-|R418
 |Supported
 |Not supported
 |Not Supported
 
 |https://developer.nvidia.com/cuda-toolkit-archive[11.8]
-|R550/R535
 |Supported
 |Supported
 |Supported
 
 |https://developer.nvidia.com/cuda-toolkit-archive[12.0]
-|R560
 |Not supported
 |Supported
-|Not Supported
+|Supported
 
 |https://developer.nvidia.com/cuda-toolkit-archive[12.5]
-|R570
 |Not supported
 |Supported
-|Not Supported
+|Supported
 |===
 
 To learn more, see https://developer.nvidia.com/cuda-toolkit-archive[CUDA Release Documentation].
@@ -191,6 +186,14 @@ A few of the most common packages that are not included or which changed in AL20
 * AL2023 does not make https://cloudkatha.com/can-we-install-a-gui-in-amazon-linux-2023/[mate-desktop] packages
 
 To learn more, see https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2.html[Comparing AL2 and AL2023].
+
+=== How does FIPS validation compare across AL2, AL2023, and Bottlerocket?
+
+Amazon Linux 2 (AL2), Amazon Linux 2023 (AL2023), and Bottlerocket provide support for Federal Information Processing Standards (FIPS) compliance.
+
+* AL2 is certified under FIPS 140-2 and AL2023 is certified under FIPS 140-3. To enable FIPS mode on AL2023, install the necessary packages on your Amazon EC2 instance and follow the configuration steps using the instructions in Enable FIPS Mode on AL2023. To learn more, see 
+https://aws.amazon.com/linux/amazon-linux-2023/faqs[AL2023 FAQs].
+* Bottlerocket provides purpose-built variants specifically for FIPS which constrain the kernel and userspace components to the use of cryptographic modules that have been submitted to the FIPS 140-3 Cryptographic Module Validation Program.
 
 === Where can I find a complete list of Amazon EKS AMI drivers and their versions?
 
