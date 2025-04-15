@@ -12,9 +12,9 @@ The command allows you to temporarily create a debugging container on a Kubernet
 
 Before you begin, ensure you have:
 
-* Access to an Amazon EKS cluster with `kubectl` configured
-* The appropriate IAM permissions to debug nodes
-* A valid profile that allows debug operations (e.g., `sysadmin`)
+* Access to an Amazon EKS cluster with `kubectl` configured (version must be at least v1.32.0; type `kubectl version` to check).
+* The appropriate IAM permissions to debug nodes.
+* A valid profile that allows debug operations (e.g., `sysadmin`).
 
 For more information about using debugging profiles with `kubectl`, see https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/#debugging-profiles[Debugging a Pod or Node while applying a profile] in the Kubernetes documentation.
 
