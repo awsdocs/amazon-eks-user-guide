@@ -128,6 +128,7 @@ eksctl create cluster -f efa-cluster.yaml
 ====
 Because the instance type used in this example has GPUs, `eksctl` automatically installs the NVIDIA Kubernetes device plugin on each instance for you when using Amazon Linux 2. This is not necessary for Bottlerocket, as the NVIDIA device plugin is built into Bottlerocket's EKS NVIDIA variant. When `efaEnabled` is set to `true` in the nodegroup configuration, `eksctl` will also automatically deploy the EFA device plugin on the nodes.
 ====
+
 [#efa-bottlerocket]
 === Using Bottlerocket with EFA
 
