@@ -24,8 +24,8 @@ The Pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
 
 ====
 
-* An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
-* An existing {aws} Identity and Access Management (IAM) OpenID Connect (OIDC) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* Requires an existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
+* Requires an existing {aws} Identity and Access Management (IAM) OpenID Connect (OIDC) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
 
 
 [#cni-iam-role-create-role]

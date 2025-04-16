@@ -117,12 +117,6 @@ Dates with only a month and a year are approximate and are updated with an exact
 |May 1, 2024
 |May 1, 2025
 
-|`1.24`
-|May 3, 2022
-|November 15, 2022
-|January 31, 2024
-|January 31, 2025
-
 |===
 
 [#version-cli]

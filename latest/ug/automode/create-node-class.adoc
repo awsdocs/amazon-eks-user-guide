@@ -99,6 +99,7 @@ EKSAutoNodeRoleAccessEntry:
 
 For information about deploying CloudFormation stacks, see link:AWSCloudFormation/latest/UserGuide/GettingStarted.html["Getting started with CloudFormation", type="documentation"]
 
+[#auto-node-class-spec]
 == Node Class Specification 
 
 [source,yaml]
@@ -108,50 +109,61 @@ kind: NodeClass
 metadata:
   name: MyNodeClass
 spec:
-
-  # Required: Subnet selection for node placement
+  # Required fields
+  role: MyNodeRole  # IAM role for EC2 instances
+  
   subnetSelectorTerms:
     - tags:
-        Name: "<tag-name>"
+        Name: "private-subnet"
         kubernetes.io/role/internal-elb: "1"
     # Alternative using direct subnet ID
     # - id: "subnet-0123456789abcdef0"
   
-  # Required: Security group selection for nodes
   securityGroupSelectorTerms:
     - tags:
-        Name: "eks-cluster-node-sg"
+        Name: "eks-cluster-sg"
     # Alternative approaches:
     # - id: "sg-0123456789abcdef0"
-    # - name: "eks-cluster-node-security-group"
-  
-  # Optional: Configure SNAT policy (defaults to Random)
+    # - name: "eks-cluster-security-group"
+
+  # Optional fields
   snatPolicy: Random  # or Disabled
   
-  # Optional: Network policy configuration (defaults to DefaultAllow)
   networkPolicy: DefaultAllow  # or DefaultDeny
-  
-  # Optional: Network policy event logging (defaults to Disabled)
   networkPolicyEventLogs: Disabled  # or Enabled
   
-  # Optional: Configure ephemeral storage (shown with default values)
   ephemeralStorage:
     size: "80Gi"    # Range: 1-59000Gi or 1-64000G or 1-58Ti or 1-64T
     iops: 3000      # Range: 3000-16000
     throughput: 125 # Range: 125-1000
-
-  # Optional: Name of IAM role to use for EC2 instance role
-  # If unspecified, EKS creates a role
-  # If specified, you must create an access entry for this role as described above
-  role: MyNodeRole  
+    # Optional KMS key for encryption
+    kmsKeyID: "arn:aws:kms:region:account:key/key-id"  
+    # Accepted formats:
+    # KMS Key ID
+    # KMS Key ARN
+    # Key Alias Name
+    # Key Alias ARN
   
-  # Optional: Additional EC2 tags
+  # Optional: Custom certificate bundles
+  certificateBundles:
+    - name: "custom-cert"
+      data: "base64-encoded-cert-data"
+  
+  # Optional: Additional EC2 tags (with restrictions)
   tags:
     Environment: "production"
     Team: "platform"
+    # Note: Cannot use restricted tags like:
+    # - kubernetes.io/cluster/*
+    # - karpenter.sh/provisioner-name
+    # - karpenter.sh/nodepool
+    # - karpenter.sh/nodeclaim
+    # - karpenter.sh/managed-by
+    # - eks.amazonaws.com/nodeclass
 ----
 
-*Considerations:*
+
+== Considerations
 
 * If you change the Node IAM Role associated with a NodeClass, you will need to create a new Access Entry. EKS automatically creates an Access Entry for the Node IAM Role during cluster creation. The Node IAM Role requires the `AmazonEKSAutoNodePolicy` EKS Access Policy. For more information, see <<access-entries>>.
 * EKS limits the maximum number of pods on a node to 110. This limit is applied after the existing max pods calculation. For more information, see <<choosing-instance-type>>. 

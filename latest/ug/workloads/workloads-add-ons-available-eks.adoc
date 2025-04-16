@@ -28,11 +28,11 @@ You can use any of the following Amazon EKS add-ons.
 
 | A flexible, extensible DNS server that can serve as the Kubernetes cluster DNS
 |<<add-ons-coredns>>
-|EC2, Fargate, EKS Auto Mode, Amazon EKS Hybrid Nodes
+|EC2, Fargate, EKS Auto Mode, EKS Hybrid Nodes
 
 |Maintain network rules on each Amazon EC2 node
 |<<add-ons-kube-proxy>>
-|EC2, Amazon EKS Hybrid Nodes
+|EC2, EKS Hybrid Nodes
 
 |Provide Amazon EBS storage for your cluster
 |<<add-ons-aws-ebs-csi-driver>>
@@ -48,11 +48,11 @@ You can use any of the following Amazon EKS add-ons.
 
 |Detect additional node health issues
 |<<add-ons-eks-node-monitoring-agent>>
-|EC2
+|EC2, EKS Hybrid Nodes
 
 |Enable the use of snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI driver
 |<<addons-csi-snapshot-controller>>
-|EC2, Fargate, EKS Auto Mode, Amazon EKS Hybrid Nodes
+|EC2, Fargate, EKS Auto Mode, EKS Hybrid Nodes
 
 |SageMaker HyperPod task governance optimizes compute resource allocation and usage across teams in Amazon EKS clusters, addressing inefficiencies in task prioritization and resource sharing.
 |<<addons-hyperpod>>
@@ -64,7 +64,7 @@ You can use any of the following Amazon EKS add-ons.
 
 |Secure, production-ready, {aws} supported distribution of the OpenTelemetry project
 |<<add-ons-adot>>
-|EC2, Fargate, EKS Auto Mode, Amazon EKS Hybrid Nodes
+|EC2, Fargate, EKS Auto Mode, EKS Hybrid Nodes
 
 |Security monitoring service that analyzes and processes foundational data sources including {aws} CloudTrail management events and Amazon VPC flow logs. Amazon GuardDuty also processes features, such as Kubernetes audit logs and runtime monitoring
 |<<add-ons-guard-duty>>
@@ -72,11 +72,11 @@ You can use any of the following Amazon EKS add-ons.
 
 |Monitoring and observability service provided by {aws}. This add-on installs the CloudWatch Agent and enables both CloudWatch Application Signals and CloudWatch Container Insights with enhanced observability for Amazon EKS
 |<<amazon-cloudwatch-observability>>
-|EC2, EKS Auto Mode, Amazon EKS Hybrid Nodes
+|EC2, EKS Auto Mode, EKS Hybrid Nodes
 
 |Ability to manage credentials for your applications, similar to the way that EC2 instance profiles provide credentials to EC2 instances
 |<<add-ons-pod-id>>
-|EC2, Amazon EKS Hybrid Nodes
+|EC2, EKS Hybrid Nodes
 
 |===
 

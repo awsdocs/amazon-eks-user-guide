@@ -7,10 +7,10 @@ include::../attributes.txt[]
 
 [abstract]
 --
-As an alternative to using Amazon Managed Service for Prometheus, you can deploy Prometheus into your cluster with Helm V3.
+As an alternative to using Amazon Managed Service for Prometheus, you can deploy Prometheus into your cluster with https://helm.sh/docs/topics/version_skew/#supported-version-skew[supported Helm versions].
 --
 
-As an alternative to using Amazon Managed Service for Prometheus, you can deploy Prometheus into your cluster with Helm V3. If you already have Helm installed, you can check your version with the `helm version` command. Helm is a package manager for Kubernetes clusters. For more information about Helm and how to install it, see <<helm>>.
+As an alternative to using Amazon Managed Service for Prometheus, you can deploy Prometheus into your cluster with Helm. If you already have Helm installed, you can check your version with the `helm version` command. Helm is a package manager for Kubernetes clusters. For more information about Helm and how to install it, see <<helm>>.
 
 After you configure Helm for your Amazon EKS cluster, you can use it to deploy Prometheus with the following steps.
 
