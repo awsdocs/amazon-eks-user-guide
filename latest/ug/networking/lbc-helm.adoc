@@ -24,29 +24,26 @@ In the following steps, replace the [.replaceable]`example values` with your own
 [#lbc-prereqs]
 == Prerequisites
 
-Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster.  
+Before starting this tutorial, you must complete the following steps:
 
-
-
-* An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
-* An existing {aws} Identity and Access Management (IAM) OpenID Connect (OIDC) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* Create an Amazon EKS cluster. To create one, see <<getting-started>>.
+* Install https://helm.sh/docs/helm/helm_install/[Helm] on your local machine.
 * Make sure that your Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS add-ons are at the minimum versions listed in <<boundserviceaccounttoken-validated-add-on-versions,Service account tokens>>.
-* Familiarity with {aws} Elastic Load Balancing. For more information, see the link:elasticloadbalancing/latest/userguide/[Elastic Load Balancing User Guide,type="documentation"].
-* Familiarity with Kubernetes https://kubernetes.io/docs/concepts/services-networking/service/[service] and https://kubernetes.io/docs/concepts/services-networking/ingress/[ingress] resources.
+* Learn about {aws} Elastic Load Balancing concepts. For more information, see the link:elasticloadbalancing/latest/userguide/[Elastic Load Balancing User Guide,type="documentation"].
+* Learn about Kubernetes https://kubernetes.io/docs/concepts/services-networking/service/[service] and https://kubernetes.io/docs/concepts/services-networking/ingress/[ingress] resources.
 
+[#lbc-considerations]
+=== Considerations
 
-* <<helm,helm>> installed locally.
+Before proceeding with the configuration steps on this page, consider the following:
 
+* The IAM policy and role (`AmazonEKSLoadBalancerControllerRole`) can be reused across multiple EKS clusters in the same {aws} account.
+* If you're installing the controller on the same cluster where the role (`AmazonEKSLoadBalancerControllerRole`) was originally created, go to <<lbc-helm-install,Step 2: Install AWS Load Balancer Controller>> after verifying the role exists.
+* If you're using IAM Roles for Service Accounts (IRSA), IRSA must be set up for each cluster, and the OpenID Connect (OIDC) provider ARN in the role's trust policy is specific to each EKS cluster. Additionally, if you're installing the controller on a new cluster with an existing `AmazonEKSLoadBalancerControllerRole`, update the role's trust policy to include the new cluster's OIDC provider and create a new service account with the appropriate role annotation. To determine whether you already have an OIDC provider, or to create one, see <<enable-iam-roles-for-service-accounts>>.
 
 [#lbc-helm-iam]
 == Step 1: Create IAM Role using `eksctl`
-
-[NOTE]
-====
-
-Below example is referring to the {aws} Load Balancer Controller *v2.12.0* release version. For more information about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on GitHub.
-
-====
+The following steps refer to the {aws} Load Balancer Controller *v2.12.0* release version. For more information about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on GitHub.
 
 . Download an IAM policy for the {aws} Load Balancer Controller that allows it to make calls to {aws} APIs on your behalf. 
 +
@@ -150,4 +147,4 @@ aws-load-balancer-controller   2/2     2            2           84s
 You receive the previous output if you deployed using Helm. If you deployed using the Kubernetes manifest, you only have one replica.
 . Before using the controller to provision {aws} resources, your cluster must meet specific requirements. For more information, see <<alb-ingress>> and <<network-load-balancing>>.
 
-// GDC Must Fix
+
