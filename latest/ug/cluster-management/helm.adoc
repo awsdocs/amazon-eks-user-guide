@@ -41,7 +41,7 @@ choco install kubernetes-helm
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
 ----
@@ -57,15 +57,17 @@ sudo yum install openssl
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-helm version | cut -d + -f 1
+helm version --template='{{ .Version }}{{ "\n" }}'
 ----
 +
 An example output is as follows.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-v3.9.0
+v3.17.2
 ----
+. Make sure the version installed is compatible with your cluster version. Check https://helm.sh/docs/topics/version_skew/#supported-version-skew[Supported Version Skew] to learn more. For example, if you are running with `3.17.x`, supported Kubernetes version should not out of the range of `1.29.x` ~ `1.32.x`.
++
 . At this point, you can run any Helm commands (such as `helm install [.replaceable]``chart-name```) to install, modify, delete, or query Helm charts in your cluster. If you're new to Helm and don't have a specific chart to install, you can:
 +
 ** Experiment by installing an example chart. See https://helm.sh/docs/intro/quickstart#install-an-example-chart[Install an example chart] in the Helm https://helm.sh/docs/intro/quickstart/[Quickstart guide].

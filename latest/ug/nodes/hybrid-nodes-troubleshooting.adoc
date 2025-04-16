@@ -275,7 +275,7 @@ msg="Unable to contact k8s api-server"
 level=fatal msg="failed to start: Get \"https://<k8s-cluster-ip>:443/api/v1/namespaces/kube-system\": dial tcp <k8s-cluster-ip>:443: i/o timeout"
 ----
 
-The Cilium agent runs on the host network. Your EKS cluster must be configured with `RemoteNodeNetwork` for the Cilium connectivity. Confirm you have an additional security group for your EKS cluster with an inbound rule for your `RemoteNodeNetwork`, that you have routes in your VPC for your `RemodeNodeNetwork`, and that your on-premises network is configured correctly to allow connectivity to the EKS control plane.
+The Cilium agent runs on the host network. Your EKS cluster must be configured with `RemoteNodeNetwork` for the Cilium connectivity. Confirm you have an additional security group for your EKS cluster with an inbound rule for your `RemoteNodeNetwork`, that you have routes in your VPC for your `RemoteNodeNetwork`, and that your on-premises network is configured correctly to allow connectivity to the EKS control plane.
 
 If the Cilium operator is running and some of your Cilium agents are running but not all, confirm that you have available pod IPs to allocate for all nodes in your cluster. You configure the size of your allocatable Pod CIDRs when using cluster pool IPAM with `clusterPoolIPv4PodCIDRList` in your Cilium configuration. The per-node CIDR size is configured with the `clusterPoolIPv4MaskSize` setting in your Cilium configuration. See https://docs.cilium.io/en/stable/network/concepts/ipam/cluster-pool/#expanding-the-cluster-pool[Expanding the cluster pool] in the Cilium documentation for more information.
 

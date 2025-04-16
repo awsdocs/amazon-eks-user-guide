@@ -102,7 +102,12 @@ kubectl apply -f ingressclass.yaml
 
 ==  Deploy the 2048 game sample application
 
-In this section, we walk you through the steps to deploy the popular "`2048 game`" as a sample application within the cluster. The provided manifest includes custom annotations for the Application Load Balancer (ALB). These annotations integrate with and instruct the EKS to handle incoming HTTP traffic as "internet-facing" and route it to the appropriate service in the 'game-2048' namespace using the target type "ip". 
+In this section, we walk you through the steps to deploy the popular "`2048 game`" as a sample application within the cluster. The provided manifest includes custom annotations for the Application Load Balancer (ALB). These annotations integrate with and instruct the EKS to handle incoming HTTP traffic as "internet-facing" and route it to the appropriate service in the `game-2048` namespace using the target type "ip". 
+
+[NOTE]
+====
+The `docker-2048` image in the example is an `x86_64` container image and will not run on other architectures.
+====
 
 . Create a Kubernetes namespace called `game-2048` with the `--save-config` flag.
 +

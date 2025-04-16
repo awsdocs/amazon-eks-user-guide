@@ -18,8 +18,9 @@ You can retrieve the image ID of the latest recommended Amazon EKS optimized Ama
 * Replace [.replaceable]`ami-type` with one of the following options. For information about the types of Amazon EC2 instances, see link:AWSEC2/latest/UserGuide/instance-types.html[Amazon EC2 instance types,type="documentation"].
 +
 ** Use [.replaceable]`amazon-linux-2023/x86_64/standard` for Amazon Linux 2023 (AL2023) `x86` based instances.
-** Use [.replaceable]`amazon-linux-2023/arm64/standard` for AL2023 ARM instances.
-** Use [.replaceable]`amazon-linux-2023/x86_64/nvidia` for the latest approved AL2023 NVIDIA instances.
+** Use [.replaceable]`amazon-linux-2023/arm64/standard` for AL2023 ARM instances, such as link:ec2/graviton/[{aws} Graviton,type="marketing"] based instances.
+** Use [.replaceable]`amazon-linux-2023/x86_64/nvidia` for the latest approved AL2023 NVIDIA `x86` based instances.
+** Use [.replaceable]`amazon-linux-2023/arm64/nvidia` for the latest approved AL2023 NVIDIA `arm64` based instances.
 ** Use [.replaceable]`amazon-linux-2023/x86_64/neuron` for the latest AL2023 link:machine-learning/neuron/[{aws} Neuron,type="marketing"] instances.
 ** Use [.replaceable]`amazon-linux-2` for Amazon Linux 2 (AL2) `x86` based instances.
 ** Use [.replaceable]`amazon-linux-2-arm64` for AL2 ARM instances, such as link:ec2/graviton/[{aws} Graviton,type="marketing"] based instances.

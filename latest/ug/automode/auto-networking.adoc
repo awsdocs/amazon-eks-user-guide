@@ -36,6 +36,7 @@ EKS Auto Mode supports:
 * EKS Network Policies.
 * The `HostPort` and `HostNetwork` options for Kubernetes Pods.
 * Pods in public or private subnets.
+* Caching DNS queries on the node.
 
 EKS Auto Mode does *not* support:
 
@@ -47,6 +48,25 @@ EKS Auto Mode does *not* support:
 * Other configurations supported by the open-source {aws} CNI.
 * Network Policy configurations such as conntrack timer customization (default is 300s).
 * Exporting network event logs to CloudWatch.
+
+=== Network Resource Management
+
+EKS Auto Mode handles prefix, IP addressing, and network interface management by monitoring NodeClass resources for networking configurations. The service performs several key operations automatically:
+
+*Prefix Delegation*
+
+EKS Auto Mode provisions `/28` IPv4 prefixes to the primary network interface for nodes and maintains a predefined warm pool of resources that scales based on the number of scheduled pods. When necessary, it provisions secondary network interfaces with identical security groups as the primary interface in the node's subnet. If prefixes are no longer available in the subnet, the service falls back to secondary IPv4 addresses.
+
+*Cooldown Management*
+
+The service implements a cooldown pool for prefixes or secondary IPv4 addresses that are no longer in use. After the cooldown period expires, these resources are released back to the VPC. However, if pods reuse these resources during the cooldown period, they are restored from the cooldown pool.
+
+*IPv6 Support*
+
+For IPv6 clusters, EKS Auto Mode provisions a `/80` IPv6 prefix per node on the primary network interface.
+
+The service also ensures proper management and garbage collection of all network interfaces.
+
 
 
 [#auto-lb-consider]

@@ -15,6 +15,34 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
+[.update,date="2025-04-16"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added permissions to `AmazonEKSClusterPolicy` to allow Amazon EKS to elastic network interfaces created by the VPC CNI. This is required so that EKS can clean up elastic network interfaces that are left behind if the VPC CNI quits unexpectedly.
+
+
+[.update,date="2025-04-14"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates[type="documentation"]
+
+Added permissions to `AmazonEKSServiceRolePolicy` to allow EKS AI/ML customers to add Egress rules to the default EKS Cluster security group.
+
+=== Kubernetes version 1.31 is now available for local clusters on {aws} Outposts
+[.update-ulink]
+link:eks/latest/userguide/eks-outposts-platform-versions.html[type="documentation"]
+
+You can now create an Amazon EKS local cluster on an {aws} Outposts using Kubernetes version 1.31.
+
+[.update,date="2025-03-31"]
+=== Node health for EKS Hybrid Nodes
+[.update-ulink]
+link:eks/latest/userguide/node-health.html[type="documentation"]
+
+You can use `eks-node-monitoring-agent` on hybrid nodes, starting from version `1.2.0-eksbuild.1`. Run `eks-node-monitoring-agent` as an Amazon EKS add-on to detect and show health issues.
+
 [.update,date="2025-03-31"]
 === EKS Hybrid Nodes for existing clusters
 [.update-ulink]
