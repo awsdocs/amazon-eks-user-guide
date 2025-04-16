@@ -45,7 +45,7 @@ Learn how to <<removing-an-add-on,remove an EKS Add-on>>, such as Kubecost.
 
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
-* Helm version 3.9.0 or later configured on your device or {aws} CloudShell. To install or update Helm, see <<helm>>.
+* https://helm.sh/docs/topics/version_skew/#supported-version-skew[Supported Helm versions] on your device or {aws} CloudShell. To install or update Helm, see <<helm>>.
 * Cluster version should be `1.21 (or higher)` and `1.31` is officially supported as of v2. Learn more at https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=installation-environment#ariaid-title2[Supported Kubernetes versions].
 * If your cluster is version `1.23` or later, you must have the <<ebs-csi,Store Kubernetes volumes with Amazon EBS>> installed on your cluster.
 
