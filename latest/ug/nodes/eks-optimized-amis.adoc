@@ -20,8 +20,6 @@ With Amazon EKS Auto Mode, EKS manages the EC2 instance including selecting and 
 [.topic]
 include::dockershim-deprecation.adoc[leveloffset=+1]
 
-include::eks-ami-deprecation-faqs.adoc[leveloffset=+1]
-
 include::eks-optimized-ami.adoc[leveloffset=+1]
 
 include::eks-optimized-ami-bottlerocket.adoc[leveloffset=+1]
