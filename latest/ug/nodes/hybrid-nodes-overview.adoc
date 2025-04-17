@@ -81,8 +81,6 @@ For detailed information, see <<hybrid-nodes-add-ons>>.
 * *Node management*: The Amazon EKS Hybrid Nodes CLI is called `nodeadm` and is run on each on-premises host to simplify the installation, configuration, registration, and uninstall of the hybrid nodes components. The hybrid nodes `nodeadm` version is different than the `nodeadm` version used in the AL2023 Amazon EKS-optimized AMIs. You should not use the hybrid nodes `nodeadm` version for nodes running in Amazon EC2.
 * *Cluster management*: The Amazon EKS user interfaces for cluster management are the same with hybrid nodes-enabled Amazon EKS clusters. This includes the {aws-management-console}, {aws} API, {aws} SDKs, {aws} CLI, eksctl CLI, {aws} CloudFormation, and Terraform.
 
-include::hybrid-nodes-concepts.adoc[leveloffset=+1]
-
 include::hybrid-nodes-prereqs.adoc[leveloffset=+1]
 
 include::hybrid-nodes-tutorial.adoc[leveloffset=+1]
@@ -96,5 +94,7 @@ include::hybrid-nodes-add-ons.adoc[leveloffset=+1]
 include::hybrid-nodes-proxy.adoc[leveloffset=+1]
 
 include::hybrid-nodes-nodeadm.adoc[leveloffset=+1]
+
+include::hybrid-nodes-concepts.adoc[leveloffset=+1]
 
 include::hybrid-nodes-troubleshooting.adoc[leveloffset=+1]
