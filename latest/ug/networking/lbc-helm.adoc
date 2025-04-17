@@ -38,7 +38,7 @@ Before starting this tutorial, you must complete the following steps:
 Before proceeding with the configuration steps on this page, consider the following:
 
 * The IAM policy and role (`AmazonEKSLoadBalancerControllerRole`) can be reused across multiple EKS clusters in the same {aws} account.
-* If you're installing the controller on the same cluster where the role (`AmazonEKSLoadBalancerControllerRole`) was originally created, go to <<lbc-helm-install,Step 2: Install AWS Load Balancer Controller>> after verifying the role exists.
+* If you're installing the controller on the same cluster where the role (`AmazonEKSLoadBalancerControllerRole`) was originally created, go to <<lbc-helm-install,Step 2: Install Load Balancer Controller>> after verifying the role exists.
 * If you're using IAM Roles for Service Accounts (IRSA), IRSA must be set up for each cluster, and the OpenID Connect (OIDC) provider ARN in the role's trust policy is specific to each EKS cluster. Additionally, if you're installing the controller on a new cluster with an existing `AmazonEKSLoadBalancerControllerRole`, update the role's trust policy to include the new cluster's OIDC provider and create a new service account with the appropriate role annotation. To determine whether you already have an OIDC provider, or to create one, see <<enable-iam-roles-for-service-accounts>>.
 
 [#lbc-helm-iam]
