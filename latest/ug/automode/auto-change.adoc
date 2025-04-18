@@ -7,6 +7,10 @@ include::../attributes.txt[]
 
 This page documents updates to Amazon EKS Auto Mode. You can periodically check this page for announcements about features, bug fixes, known issues, and deprecated functionality. 
 
+== April 18, 2025
+
+*Feature:* Support for resolving .local domains (typically reserved for Multicast DNS) via unicast DNS.
+
 == April 11, 2025
 
 *Feature:* Added `certificateBundles` and `ephemeralStorage.kmsKeyID` to `NodeClass`. For more information, see <<auto-node-class-spec>>.
