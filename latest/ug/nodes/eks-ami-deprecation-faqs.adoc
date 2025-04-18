@@ -177,7 +177,7 @@ For a complete list of all EKS AMI components and their versions, see https://gi
 
 == Migration and support FAQs
 
-=== Will EKS terminate AL2 AMIs? 
+=== Will EKS terminate running instances with AL2 AMIs?
 
 No. EKS will neither update nor terminate customer instances and will not remove existing AMIs from distribution. 
 
