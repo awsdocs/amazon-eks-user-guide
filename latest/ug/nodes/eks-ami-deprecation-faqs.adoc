@@ -128,14 +128,6 @@ To learn more, see https://developer.nvidia.com/cuda-toolkit-archive[CUDA Releas
 |5.15, 6.1 (6.12 coming soon)
 |===
 
-=== NVIDIA compatibility with AL2 AMIs
-
-AL2 AMIs are based on https://docs.aws.amazon.com/linux/al2/ug/kernel.html[Linux kernel 5.10], while AL2023 uses https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2-kernel.html[Linux kernel 6.10].
-Unlike AL2023, Nvidia never explicitly supported AL2, thus EKS leverages CentOS-7 https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/[RHEL7 packages] to build the AL2-accelerated AMIs (AL2_x86_64_GPU AMI).
-Although Nvidia is continuing to ship critical CVE security patches (as of today), it is not actively releasing general patches and bug fixes for the https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/[RHEL 7] packages that EKS uses to release AL2-accelerated AMIs.
-Additionally, the latest Nvidia driver version supported for AL2 (RHEL 7) is https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[R550], while for AL2023 its https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[R565, R570].
-Furthermore, Nvidia has stopped releasing updates for its CUDA toolkit as of March 28, 2024, with `cuda-12.4.1-1.x86_64.rpm` being the last released version.
-
 === {aws} Neuron compatibility with AL2 AMIs
 
 Starting from https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/prev/rn.html#neuron-2-20-0-whatsnew[{aws} Neuron release 2.20], the Neuron Runtime (`aws-neuronx-runtime-lib`) used by EKS AL-based AMIs no longer supports Amazon Linux 2 (AL2).
