@@ -32,7 +32,7 @@ Before starting this tutorial, you must complete the following steps:
 * Learn about {aws} Elastic Load Balancing concepts. For more information, see the link:elasticloadbalancing/latest/userguide/[Elastic Load Balancing User Guide,type="documentation"].
 * Learn about Kubernetes https://kubernetes.io/docs/concepts/services-networking/service/[service] and https://kubernetes.io/docs/concepts/services-networking/ingress/[ingress] resources.
 
-[#lbc-considerations]
+[#lbc-manifest-considerations]
 === Considerations
 
 Before proceeding with the configuration steps on this page, consider the following:
