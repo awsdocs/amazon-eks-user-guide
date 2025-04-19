@@ -369,7 +369,7 @@ View details about updates to {aws} managed policies for Amazon EKS since this s
 
 |Added permissions to <<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>>.
 |Added `ec2:DeleteNetworkInterfaces` permission to allow Amazon EKS to delete elastic network interfaces that are left behind if the VPC CNI quits unexpectedly.
-|April 16, 2023
+|April 16, 2025
 
 | Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
 | Added `ec2:RevokeSecurityGroupEgress` and `ec2:AuthorizeSecurityGroupEgress` permissions to allow EKS AI/ML customers to add Security Group Egress rules to the default EKS Cluster SG that are compatible with EFA, as part of the EKS 1.33 version release.
