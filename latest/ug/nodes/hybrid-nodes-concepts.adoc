@@ -1,0 +1,21 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-concepts]
+= Concepts for hybrid nodes
+:info_titleabbrev: Concepts
+
+[abstract]
+--
+Learn about EKS Hybrid Nodes technical concepts and how it works
+--
+
+With _Amazon EKS Hybrid Nodes_, you join physical or virtual machines running in on-premises or edge environments to Amazon EKS clusters running in the {aws} Cloud. This approach brings many benefits, but also introduces new networking concepts and architectures for those familiar with running Kubernetes clusters in a single network environment.
+
+The following sections dive deep into the Kubernetes and networking concepts for EKS Hybrid Nodes and details how traffic flows through the hybrid architecture. These sections require that you are familiar with basic Kubernetes networking knowledge, such as the concepts of pods, nodes, services, Kubernetes control plane, kubelet and kube-proxy. We recommend reading these pages in order, starting with the <<hybrid-nodes-concepts-networking>>, then the <<hybrid-nodes-concepts-kubernetes>>, and finally the <<hybrid-nodes-concepts-traffic-flows>>.
+
+include::hybrid-nodes-concepts-networking.adoc[leveloffset=+1]
+
+include::hybrid-nodes-concepts-kubernetes.adoc[leveloffset=+1]
+
+include::hybrid-nodes-concepts-traffic-flows.adoc[leveloffset=+1]

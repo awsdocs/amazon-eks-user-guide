@@ -15,6 +15,14 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
+[.update,date="2025-04-18"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/hybrid-nodes-concepts.html[type="documentation"]
+
+Added pages for concepts of EKS Hybrid Nodes. These cover the on-premises and cloud networking in detail with diagrams.
+
+
 [.update,date="2025-04-16"]
 === {aws} managed policy updates
 [.update-ulink]

@@ -203,7 +203,7 @@ nodeadm init [flags]
 
 `install-validation` skips checking if the preceding install command ran successfully.
 
-`cni-validation` skips checking if either Cilium or Calico cni's VxLan ports are opened if firewall is enabled on the node
+`cni-validation` skips checking if either Cilium or Calico CNI's VXLAN ports are opened if firewall is enabled on the node
 
 |`-h`, `--help`
 |FALSE
