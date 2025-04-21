@@ -48,8 +48,7 @@ To leverage {aws} Neuron on an AL2 AMI, you must containerize you applications u
 
 === Supported Kubernetes versions for AL2 AMIs
 
-Kubernetes version 1.32 is the last version for which Amazon EKS will release AL2 (Amazon Linux 2) AMIs. For https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html[supported] Kubernetes versions up to 1.32, EKS will continue to release AL2 AMIs (AL2_ARM_64, AL2_x86_64) and AL2-accelerated AMIs (AL2_x86_64_GPU) until November 26, 2025.
-After this date, EKS will stop releasing AL2-optimized and AL2-accelerated AMIs for all Kubernetes versions, even for EKS extended support customers. Note that the EOS date for EKS AL2-optimized and AL2-accelerated AMIs is independent of the standard and extended support timelines for Kubernetes versions by EKS.
+Kubernetes version 1.32 is the last version for which Amazon EKS will release AL2 (Amazon Linux 2) AMIs. For https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html[supported] Kubernetes versions up to 1.32, EKS will continue to release AL2 AMIs (AL2_ARM_64, AL2_x86_64) and AL2-accelerated AMIs (AL2_x86_64_GPU) until November 26, 2025. After this date, EKS will stop releasing AL2-optimized and AL2-accelerated AMIs for all Kubernetes versions. Note that the EOS date for EKS AL2-optimized and AL2-accelerated AMIs is independent of the standard and extended support timelines for Kubernetes versions by EKS.
 
 === NVIDIA drivers comparison for AL2, AL2023, and Bottlerocket AMIs
 
