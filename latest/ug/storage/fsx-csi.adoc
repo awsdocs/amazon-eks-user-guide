@@ -23,9 +23,6 @@ The driver isn't supported on Fargate or Amazon EKS Hybrid Nodes.
 
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the https://github.com/kubernetes-sigs/aws-fsx-csi-driver[FSx for Lustre Container Storage Interface (CSI) driver] project on GitHub.
 
-
-
-
 You must have:
 
 * Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
@@ -33,6 +30,9 @@ You must have:
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 
 The following procedures help you create a simple test cluster with the FSx for Lustre CSI driver so that you can see how it works. We don't recommend using the testing cluster for production workloads. For this tutorial, we recommend using the [.replaceable]`example values`, except where it's noted to replace them. You can replace any [.replaceable]`example value` when completing the steps for your production cluster. We recommend completing all steps in the same terminal because variables are set and used throughout the steps and won't exist in different terminals.
+
+[#fsx-csi-deploy-driver]
+== Step 1: Deploy the FSx for Lustre CSI driver
 
 . Set a few variables to use in the remaining steps. Replace [.replaceable]`my-csi-fsx-cluster` with the name of the test cluster you want to createand [.replaceable]`region-code` with the {aws} Region that you want to create your test cluster in.
 +
@@ -133,6 +133,9 @@ An example output is as follows.
 ----
 serviceaccount/fsx-csi-controller-sa annotated
 ----
+
+[#fsx-csi-deploy-storage-class]
+== Step 2: Deploy a storage class, persistent volume claim, and sample app
 
 This procedure uses the https://github.com/kubernetes-sigs/aws-fsx-csi-driver[FSx for Lustre Container Storage Interface (CSI) driver]GitHub repository to consume a dynamically-provisioned FSx for Lustre volume.
 
