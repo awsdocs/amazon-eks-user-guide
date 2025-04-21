@@ -34,11 +34,11 @@ You configure the EKS cluster with these remote node CIDRs so EKS knows to route
 
 *Remote Pod Networks*
 
-image::images/hybrid-nodes-remote-pod-cidrs.png[Remote Pod Networks]
-
 The remote pod networks are the ranges of IPs assigned to the pods running on the hybrid nodes. Generally, you configure your CNI with these ranges and the IP Address Management (IPAM) functionality of the CNI takes care of assigning a slice of these ranges to each hybrid node. When you create a pod, the CNI assigns an IP to the pod from the slice allocated to the node where the pod has been scheduled.
 
 You configure the EKS cluster with these remote pod CIDRs so the EKS control plane knows to route all traffic destined for the pods running on the hybrid nodes through your cluster's VPC, such as communication with webhooks.
+
+image::images/hybrid-nodes-remote-pod-cidrs.png[Remote Pod Networks]
 
 *On-premises to the VPC*
 
@@ -74,6 +74,6 @@ _Why do the on-premises pod CIDRs need to be routable with hybrid nodes?_
 
 When using EKS with the VPC CNI for your cloud nodes, the VPC CNI assigns IPs directly from the VPC to the pods. This means there is no need for any special routing, as both cloud pods and the EKS control plane can reach the Pod IPs directly.
 
-When running on-premises (and with other CNIs in the cloud), the pods typically run in an isolated `overlay` network and the CNI takes care of delivering traffic between pods. This is commonly done through encapsulation: the CNI converts pod-to-pod traffic into node-to-node traffic, taking care of encapsulating and de-encapsulating on both ends. This way, there is no need for extra configuration on the  (by IP address) of the nodes and on the routers.
+When running on-premises (and with other CNIs in the cloud), the pods typically run in an isolated overlay network and the CNI takes care of delivering traffic between pods. This is commonly done through encapsulation: the CNI converts pod-to-pod traffic into node-to-node traffic, taking care of encapsulating and de-encapsulating on both ends. This way, there is no need for extra configuration on the nodes and on the routers.
 
 The networking with hybrid nodes is unique because it presents a combination of both topologies - the EKS control plane and cloud nodes (with the VPC CNI) expect a flat network including nodes and pods, while the pods running on hybrid nodes are in an overlay network by using VXLAN for encapsulation (by default in Cilium). Pods running on hybrid nodes can reach the EKS control plane and pods running on cloud nodes assuming the on-premises network can route to the VPC. However, without routing for the pod CIDRs on the on-premises network, any traffic coming back to an on-premises pod IP will be dropped eventually if the network doesn't know how to reach the overlay network and route to the correct nodes.

@@ -10,7 +10,9 @@ include::../attributes.txt[]
 Create hybrid nodes cluster
 --
 
-This topic provides an overview of the available options and describes what to consider when you create a hybrid nodes-enabled Amazon EKS cluster. If you are not planning to use hybrid nodes, see <<create-cluster>>.
+This topic provides an overview of the available options and describes what to consider when you create a hybrid nodes-enabled Amazon EKS cluster. EKS Hybrid Nodes have the same <<kubernetes-versions,Kubernetes version support>> as Amazon EKS clusters with cloud nodes, including standard and extended support. 
+
+If you are not planning to use EKS Hybrid Nodes, see the primary Amazon EKS create cluster documentation at <<create-cluster>>.
 
 
 [#hybrid-nodes-cluster-create-prep]
@@ -27,6 +29,7 @@ This topic provides an overview of the available options and describes what to c
 * Your cluster must use either `API` or `API_AND_CONFIG_MAP` for the cluster authentication mode.
 * Your cluster must use IPv4 address family.
 * Your cluster must use either Public or Private cluster endpoint connectivity. Your cluster cannot use “Public and Private” cluster endpoint connectivity, because the Amazon EKS Kubernetes API server endpoint will resolve to the public IPs for hybrid nodes running outside of your VPC.
+* OIDC authentication is supported for EKS clusters with hybrid nodes.
 * You can add, change, or remove the hybrid nodes configuration of an existing cluster. For more information, see <<hybrid-nodes-cluster-update>>.
 
 
