@@ -28,7 +28,7 @@ The log router allows you to use the breadth of services at {aws} for log analyt
 
 [IMPORTANT]
 ====
-For logs to be successfully published, there must be network access from the VPC that your cluster is in to the log destination. This mainly concerns users customizing egress rules for their VPC. For an example using CloudWatch, see AmazonCloudWatch/latest/logs/cloudwatch-logs-and-interface-VPC.html[Using CloudWatch Logs with interface VPC endpoints,type="documentation"] in the _Amazon CloudWatch Logs User Guide_.
+For logs to be successfully published, there must be network access from the VPC that your cluster is in to the log destination. This mainly concerns users customizing egress rules for their VPC. For an example using CloudWatch, see link:AmazonCloudWatch/latest/logs/cloudwatch-logs-and-interface-VPC.html[Using CloudWatch Logs with interface VPC endpoints,type="documentation"] in the _Amazon CloudWatch Logs User Guide_.
 ====
 
 In the following steps, replace every [.replaceable]`example value` with your own values.
