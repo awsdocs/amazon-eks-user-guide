@@ -12,6 +12,7 @@ Learn about the key Kubernetes concepts for EKS Hybrid Nodes.
 
 This page details the key Kubernetes concepts that underpin the EKS Hybrid Nodes system architecture.
 
+[#hybrid-nodes-concepts-k8s-api]
 == EKS control plane in the VPC
 
 The IPs of the EKS control plane ENIs are stored in the `kubernetes` `Endpoints` object in the `default` namespace. When EKS creates new ENIs or removes older ones, EKS updates this object so the list of IPs is always up-to-date.
@@ -20,6 +21,7 @@ You can use these endpoints through the `kubernetes` Service, also in the `defau
 
 Generally, this is how pods (regardless if running in the cloud or hybrid nodes) access the EKS Kubernetes API server. Pods use the service IP as the destination IP, which gets translated to the actual IPs of one of the EKS control plane ENIs. The primary exception is `kube-proxy`, because it sets up the translation.
 
+[#hybrid-nodes-concepts-k8s-eks-api]
 == EKS API server endpoint
 
 The `kubernetes` service IP isn't the only way to access the EKS API server. EKS also creates a Route53 DNS name when you create your cluster. This is the `endpoint` field of your EKS cluster when calling the EKS `DescribeCluster` API action.
@@ -39,6 +41,7 @@ In a public endpoint access or public and private endpoint access cluster, your 
 
 This is how the `kubelet` and `kube-proxy` access the Kubernetes API server. If you want all your Kubernetes cluster traffic to flow through the VPC, you either need to configure your cluster in private access mode or modify your on-premises DNS server to resolve the EKS cluster endpoint to the private IPs of the EKS control plane ENIs.
 
+[#hybrid-nodes-concepts-k8s-kubelet-api]
 == `kubelet` endpoint
 
 The `kubelet` exposes several REST endpoints, allowing other parts of the system to interact with and gather information from each node. In most clusters, the majority of traffic to the `kubelet` server comes from the control plane, but certain monitoring agents might also interact with it.
@@ -73,6 +76,7 @@ status:
 
 If your machine has multiple IPs, the kubelet will select one of them following its own logic. You can control the selected IP with the `--node-ip` flag, which you can pass in `nodeadm` config in `spec.kubelet.flags`. Only the IP reported in the `Node` object needs a route from the VPC. Your machines can have other IPs that aren't reachable from the cloud.
 
+[#hybrid-nodes-concepts-k8s-kube-proxy]
 == `kube-proxy`
 
 `kube-proxy` is responsible for implementing the Service abstraction at the networking layer of each node. It acts as a network proxy and load balancer for traffic destined to Kubernetes Services. By continuously watching the Kubernetes API server for changes related to Services and Endpoints, `kube-proxy` dynamically updates the underlying host's networking rules to ensure traffic is properly directed.
@@ -122,6 +126,7 @@ When we inspect the `iptables` rules (using `iptables-save ++|++ grep -A10 KUBE-
 
 This multi-level chain structure enables `kube-proxy` to efficiently implement service load balancing and redirection through kernel-level packet manipulation, without requiring a proxy process in the data path.
 
+[#hybrid-nodes-concepts-k8s-operations]
 === Impact on Kubernetes operations
 
 A broken `kube-proxy` on a node prevents that node from routing Service traffic properly, causing timeouts or failed connections for pods that rely on cluster Services. This can be especially disruptive when a node is first registered. The CNI needs to talk to the Kubernetes API server to get information, such as the node's pod CIDR, before it can configure any pod networking. To do that, it uses the `kubernetes` Service IP. However, if `kube-proxy` hasn't been able to start or has failed to set the right `iptables` rules, the requests going to the `kubernetes` service IP aren't translated to the actual IPs of the EKS control plane ENIs. As a consequence, the CNI will enter a crash loop and none of the pods will be able to run properly.
@@ -161,6 +166,7 @@ metadata:
   namespace: kube-system
 ----
 
+[#hybrid-nodes-concepts-k8s-pod-cidrs]]
 == Routable remote Pod CIDRs
 
 The <<hybrid-nodes-concepts-networking>> page details the requirements to run webhooks on hybrid nodes or to have pods running on cloud nodes communicate with pods running on hybrid nodes. The key requirement is that the on-premises router needs to know which node is responsible for a particular pod IP. There are several ways to achieve this, including Border Gateway Protocol (BGP), static routes, and Address Resolution Protocol (ARP) proxying. These are covered in the following sections.
@@ -192,6 +198,7 @@ This approach has several advantages: ++*++ No need to configure your router wit
 
 For this to work, your CNI must support proxy ARP functionality. Cilium has built-in support for proxy ARP that you can enable through configuration. The key consideration is that the pod CIDR must not overlap with any other network in your environment, as this could cause routing conflicts.
 
+[#hybrid-nodes-concepts-k8s-pod-encapsulation]
 == Pod-to-Pod encapsulation
 
 In on-premises environments, CNIs typically use encapsulation protocols to create overlay networks that can operate on top of the physical network without the need to re-configure it. This section explains how this encapsulation works. Note that some of the details might vary depending on the CNI you are using.

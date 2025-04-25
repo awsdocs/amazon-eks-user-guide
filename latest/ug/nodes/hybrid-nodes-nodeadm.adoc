@@ -205,6 +205,8 @@ nodeadm init [flags]
 
 `cni-validation` skips checking if either Cilium or Calico CNI's VXLAN ports are opened if firewall is enabled on the node
 
+`node-ip-validation` skips checking if the node IP falls within a CIDR in the remote node networks
+
 |`-h`, `--help`
 |FALSE
 |Displays help message with available flag, subcommand and positional value parameters.
