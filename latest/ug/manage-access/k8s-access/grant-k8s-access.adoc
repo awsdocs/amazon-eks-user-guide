@@ -13,7 +13,7 @@ Learn how to grant access to Kubernetes APIs on Amazon EKS clusters using IAM ro
 Your cluster has an Kubernetes API endpoint. Kubectl uses this API. You can authenticate to this API using two types of identities:  
 
 
-
+* You can't auth over IPv6
 * *An {aws} Identity and Access Management (IAM) _principal_ (role or user)*
  – This type requires authentication to IAM. Users can sign in to {aws} as an link:IAM/latest/UserGuide/introduction.html[IAM,type="documentation"] user or with a link:identity/federation/[federated identity,type="marketing"] by using credentials provided through an identity source. Users can only sign in with a federated identity if your administrator previously set up identity federation using IAM roles. When users access {aws} by using federation, they're indirectly link:IAM/latest/UserGuide/when-to-use-iam.html#security-iam-authentication-iamrole[assuming a role,type="documentation"]. When users use this type of identity, you:
 +
