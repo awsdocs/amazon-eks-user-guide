@@ -34,33 +34,6 @@ Consider the following when you use Amazon EKS add-ons:
 * The `eks:addon-cluster-admin` `ClusterRoleBinding` binds the `cluster-admin` `ClusterRole` to the `eks:addon-manager` Kubernetes identity. The role has the necessary permissions for the `eks:addon-manager` identity to create Kubernetes namespaces and install add-ons into namespaces. If the `eks:addon-cluster-admin` `ClusterRoleBinding` is removed, the Amazon EKS cluster will continue to function, however Amazon EKS is no longer able to manage any add-ons. All clusters starting with the following platform versions use the new `ClusterRoleBinding`.
 * A subset of EKS add-ons from {aws} have been validated for compatibility with Amazon EKS Hybrid Nodes. For more information, see the compatibility table on <<workloads-add-ons-available-eks>>.
 
-=== Required platform version
-
-Review the table to determine the minimum required platform version to use this feature with your cluster. You can use the listed platform version, or a more recent platform version. For example, if the table lists "eks.14" you can use platform version "eks.15". For more information, see <<platform-versions>>. 
-
-[cols="1,1", options="header"]
-|===
-
-|Kubernetes version
-|EKS platform version
-
-|1.25 or newer
-|All platform versions
-
-|1.20
-|eks.12
-
-|1.21
-|eks.14
-
-|1.22
-|eks.9
-
-|1.23
-|eks.5
-
-|===
-
 [#addon-consider-auto]
 == Considerations for Amazon EKS Auto Mode
 
