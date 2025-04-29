@@ -45,6 +45,11 @@ The following admission controllers are enabled for all `1.32` platform versions
 | Release date
 
 | `1.32.3`
+| `eks.9`
+| New platform version with security fixes and enhancements.
+| April 29, 2025
+
+| `1.32.3`
 | `eks.8`
 | New platform version with security fixes and enhancements.
 | April 18, 2025
@@ -92,6 +97,11 @@ The following admission controllers are enabled for all `1.31` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.31.7`
+| `eks.25`
+| New platform version with security fixes and enhancements.
+| April 29, 2025
 
 | `1.31.7`
 | `eks.24`
@@ -162,6 +172,11 @@ The following admission controllers are enabled for all `1.30` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.30.11`
+| `eks.33`
+| New platform version with security fixes and enhancements.
+| April 29, 2025
 
 | `1.30.11`
 | `eks.32`
@@ -266,6 +281,11 @@ The following admission controllers are enabled for all `1.29` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.29.15`
+| `eks.36`
+| New platform version with security fixes and enhancements.
+| April 29, 2025
 
 | `1.29.15`
 | `eks.35`
@@ -400,6 +420,11 @@ The following admission controllers are enabled for all `1.28` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.28.15`
+| `eks.42`
+| New platform version with security fixes and enhancements.
+| April 29, 2025
 
 | `1.28.15`
 | `eks.41`
@@ -558,6 +583,11 @@ The following admission controllers are enabled for all `1.27` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.27.16`
+| `eks.46`
+| New platform version with security fixes and enhancements.
+| April 29, 2025
 
 | `1.27.16`
 | `eks.45`
@@ -736,6 +766,11 @@ The following admission controllers are enabled for all `1.26` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.26.15`
+| `eks.48`
+| New platform version with security fixes and enhancements.
+| April 29, 2025
 
 | `1.26.15`
 | `eks.47`
@@ -919,6 +954,11 @@ The following admission controllers are enabled for all `1.25` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.25.16`
+| `eks.48`
+| New platform version with security fixes and enhancements.
+| April 29, 2025
 
 | `1.25.16`
 | `eks.47`
