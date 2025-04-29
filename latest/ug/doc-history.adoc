@@ -14,16 +14,22 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
+[.update,date="2025-04-29"]
+=== Amazon EKS platform version update
+[.update-ulink]
+link:eks/latest/userguide/platform-versions.html[type="documentation"]
+
+This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform versions.
 
 [.update,date="2025-04-29"]
-=== {aws} managed policy updates
+=== Bottlerocket for hybrid nodes
 [.update-ulink]
 link:eks/latest/userguide/hybrid-nodes-bottlerocket.html[type="documentation"]
 
 Bottlerocket is now available for EKS Hybrid Nodes.
 
 [.update,date="2025-04-18"]
-=== {aws} managed policy updates
+=== New concepts pages for hybrid networking
 [.update-ulink]
 link:eks/latest/userguide/hybrid-nodes-concepts.html[type="documentation"]
 
