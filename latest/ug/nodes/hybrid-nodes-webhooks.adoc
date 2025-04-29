@@ -50,9 +50,11 @@ kubectl get validatingwebhookconfigurations
 [#hybrid-nodes-mixed-coredns]
 === Configure CoreDNS replicas
 
-If you are running a mixed mode cluster with both hybrid nodes and nodes in {aws} Cloud, it is recommended to have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud. The CoreDNS Service can be configured to prefer the closest CoreDNS replica to prevent latency and network issues in a mixed mode cluster setup with the following steps.
+If you are running a mixed mode cluster with both hybrid nodes and nodes in {aws} Cloud, it is recommended to have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud. The CoreDNS Service can be configured to prefer the closest CoreDNS replica with link:https://kubernetes.io/docs/concepts/services-networking/topology-aware-routing[Topology Aware Routing] to prevent latency and network issues in a mixed mode cluster setup.
 
-. Add a topology zone label for each of your hybrid nodes, for example `topology.kubernetes.io/zone: onprem`. This can alternatively be done at the `nodeadm init` phase by specifying the label in your `nodeadm` configuration. Note, nodes running in {aws} Cloud automatically get a topology zone label applied to them that corresponds to the availability zone (AZ) of the node.
+Topology Aware Routing has link:https://kubernetes.io/docs/concepts/services-networking/topology-aware-routing/#safeguards[built-in safeguards] that consider the balance of resources and endpoints across your topology zones to determine whether it is safe to enable. If the criteria for the safeguards are not met, Topology Aware Routing will not be enabled for your service even if you apply the required configuration to your service. For details on how Topology Aware Routing works and the formula for the safeguards, reference the Considerations section of link:https://aws.amazon.com/blogs/containers/exploring-the-effect-of-topology-aware-hints-on-network-traffic-in-amazon-elastic-kubernetes-service/[this blog post].
+
+. Add a topology zone label for each of your hybrid nodes, for example `topology.kubernetes.io/zone: onprem`. This can alternatively be done at the `nodeadm init` phase by specifying the label in your `nodeadm` configuration, see <<hybrid-nodes-nodeadm#hybrid-nodes-nodeadm-kubelet>>. Note, nodes running in {aws} Cloud automatically get a topology zone label applied to them that corresponds to the availability zone (AZ) of the node.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -96,18 +98,53 @@ spec:
       ...
 ----
 +
-. Add `trafficDistribution` to the kube-dns Service configuration.
+. Add the annotation `service.kubernetes.io/topology-mode: Auto` and the setting `trafficDistribution: PreferClose` to the `kube-dns` Service configuration to enable Topology Aware Routing.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl edit service kube-dns -n kube-system
+kubectl patch svc kube-dns -n kube-system --type=merge -p '{
+  "metadata": {
+    "annotations": {
+      "service.kubernetes.io/topology-mode": "Auto"
+    }
+  },
+  "spec": {
+    "trafficDistribution": "PreferClose"
+  }
+}'
+----
++
+. You can confirm Topology Aware Routing is enabled by viewing the endpoint slices for the `kube-dns` Service. Your endpoint slices must show the `hints` for your topology zone labels, which confirms that Topology Aware Routing is enabled. If you do not see the `hints` for each endpoint address, then Topology Aware Routing is not enabled, and you may need to make sure your cluster and topology zones meet the safeguards for Topology Aware Routing.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get endpointslice -A | grep "kube-dns"
+----
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get endpointslice [.replaceable]`kube-dns-<id>`  -n kube-system -o yaml
 ----
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
-spec:
-  ...
-  trafficDistribution: PreferClose
+addressType: IPv4
+apiVersion: discovery.k8s.io/v1
+endpoints:
+- addresses:
+  - <your-hybrid-node-pod-ip>
+  hints:
+    forZones:
+    - name: onprem
+  nodeName: <your-hybrid-node-name>
+  zone: onprem
+- addresses:
+  - <your-cloud-node-pod-ip>
+  hints:
+    forZones:
+    - name: us-west-2a
+  nodeName: <your-cloud-node-name>
+  zone: us-west-2a
 ----
 
 [#hybrid-nodes-webhooks-add-ons]

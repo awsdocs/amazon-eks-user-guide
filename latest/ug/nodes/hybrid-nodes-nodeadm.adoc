@@ -538,6 +538,7 @@ spec:
       privateKeyPath:  # Path to the private key file for the certificate
 ----
 
+[#hybrid-nodes-nodeadm-kubelet]
 == Node Config for customizing kubelet (Optional)
 
 You can pass kubelet configuration and flags in your `nodeadm` configuration. See the example below for how to add an additional node label `abc.amazonaws.com/test-label` and config for setting `shutdownGracePeriod` to 30 seconds.
