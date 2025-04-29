@@ -67,9 +67,9 @@ Replace the placeholders with the following values:
 * `<cluster-name>`: The name of your Amazon EKS cluster.
 * `<api-server-endpoint>`: The API server endpoint of your cluster.
 * `<cluster-certificate-authority>`: The base64-encoded CA bundle of your cluster.
-* `<region>`: The {aws} Region hosting your cluster, e.g., "us-east-1"
+* `<region>`: The {aws} Region hosting your cluster, for example "us-east-1".
 * `<hostname>`: The hostname of the Bottlerocket instance, which will also be configured as the node name. This can be any unique value of your choice, but must follow the https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names[Kubernetes Object naming conventions]. In addition, the hostname you use cannot be longer than 64 characters. NOTE: When using SSM provider, this hostname and node name will be replaced by the managed instance ID (for example, `mi-*` ID) after the instance has been registered with SSM.
-* `<base64-encoded-admin-container-userdata>`: The base64-encoded contents of the Bottlerocket admin container configuration. Enabling the admin container allows you to connect to your Bottlerocket instance via SSH for system exploration and debugging. While this is not a required setting, we recommend enabling it for ease of troubleshooting. Refer to the https://github.com/bottlerocket-os/bottlerocket-admin-container#authenticating-with-the-admin-container[Bottlerocket admin container documentation] for more information on authenticating with the admin container. The admin container takes SSH user and key input in JSON format, for example,
+* `<base64-encoded-admin-container-userdata>`: The base64-encoded contents of the Bottlerocket admin container configuration. Enabling the admin container allows you to connect to your Bottlerocket instance with SSH for system exploration and debugging. While this is not a required setting, we recommend enabling it for ease of troubleshooting. Refer to the https://github.com/bottlerocket-os/bottlerocket-admin-container#authenticating-with-the-admin-container[Bottlerocket admin container documentation] for more information on authenticating with the admin container. The admin container takes SSH user and key input in JSON format, for example,
 
 [source,json,subs="verbatim,attributes"]
 ----
@@ -136,7 +136,7 @@ Replace the placeholders with the following values:
 [default]
 credential_process = aws_signing_helper credential-process --certificate /root/.aws/node.crt --private-key /root/.aws/node.key --profile-arn <profile-arn> --role-arn <role-arn> --trust-anchor-arn <trust-anchor-arn> --role-session-name <role-session-name>
 ----
-* `<base64-encoded-admin-container-userdata>`: The base64-encoded contents of the Bottlerocket admin container configuration. Enabling the admin container allows you to connect to your Bottlerocket instance via SSH for system exploration and debugging. While this is not a required setting, we recommend enabling it for ease of troubleshooting. Refer to the https://github.com/bottlerocket-os/bottlerocket-admin-container#authenticating-with-the-admin-container[Bottlerocket admin container documentation] for more information on authenticating with the admin container. The admin container takes SSH user and key input in JSON format, for example,
+* `<base64-encoded-admin-container-userdata>`: The base64-encoded contents of the Bottlerocket admin container configuration. Enabling the admin container allows you to connect to your Bottlerocket instance with SSH for system exploration and debugging. While this is not a required setting, we recommend enabling it for ease of troubleshooting. Refer to the https://github.com/bottlerocket-os/bottlerocket-admin-container#authenticating-with-the-admin-container[Bottlerocket admin container documentation] for more information on authenticating with the admin container. The admin container takes SSH user and key input in JSON format, for example,
 
 [source,json,subs="verbatim,attributes"]
 ----

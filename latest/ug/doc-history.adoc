@@ -15,6 +15,13 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
+[.update,date="2025-04-29"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/hybrid-nodes-bottlerocket.html[type="documentation"]
+
+Bottlerocket is now available for EKS Hybrid Nodes.
+
 [.update,date="2025-04-18"]
 === {aws} managed policy updates
 [.update-ulink]
