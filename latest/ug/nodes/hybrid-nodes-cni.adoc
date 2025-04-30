@@ -10,13 +10,15 @@ include::../attributes.txt[]
 Configure a CNI for hybrid nodes
 --
 
-Cilium and Calico are supported as the Container Networking Interfaces (CNIs) for Amazon EKS Hybrid Nodes. You must install a CNI for hybrid nodes to become ready to serve workloads. Hybrid nodes appear with status `Not Ready` until a CNI is running. You can manage these CNIs with your choice of tools such as Helm. The Amazon VPC CNI is not compatible with hybrid nodes and the VPC CNI is configured with anti-affinity for the `eks.amazonaws.com/compute-type: hybrid` label. 
+Cilium and Calico are supported as the Container Networking Interfaces (CNIs) for Amazon EKS Hybrid Nodes. You must install a CNI for hybrid nodes to become ready to serve workloads. Hybrid nodes appear with status `Not Ready` until a CNI is running. You can manage these CNIs with your choice of tools such as Helm. The Amazon VPC CNI is not compatible with hybrid nodes and the VPC CNI is configured with anti-affinity for the `eks.amazonaws.com/compute-type: hybrid` label.
 
 == CNI version compatibility
 
-Cilium version `1.16.x` is supported and recommended for EKS Hybrid Nodes for every Kubernetes version supported in Amazon EKS.
+Cilium version `v1.16.x` is supported and recommended for EKS Hybrid Nodes for every Kubernetes version supported in Amazon EKS.
 
-Calico version `3.29.x` is supported and recommended for EKS Hybrid Nodes for every Kubernetes version supported in Amazon EKS.
+Calico version `v3.29.x` is supported and recommended for EKS Hybrid Nodes for every Kubernetes version supported in Amazon EKS.
+
+See <<kubernetes-versions,Kubernetes version support>> for the Kubernetes versions supported by Amazon EKS. EKS Hybrid Nodes have the same Kubernetes version support as Amazon EKS clusters with cloud nodes.
 
 == Supported capabilities
 
@@ -65,8 +67,8 @@ Calico version `3.29.x` is supported and recommended for EKS Hybrid Nodes for ev
 == Cilium considerations
 
 - By default, Cilium is configured to run in overlay / tunnel mode with VXLAN as the link:https://docs.cilium.io/en/stable/network/concepts/routing/#encapsulation[encapsulation method]. This mode has the fewest requirements on the underlying physical network.
-- By default, Cilium link:https://docs.cilium.io/en/stable/network/concepts/masquerading/[masquerades] the source IP address of all pod traffic leaving the cluster to the IP address of the node. This makes it possible to run Cilium with hybrid nodes, whether or not remote pod networks are configured on the cluster. If you disable masquerading, then your pod CIDRs must be routable on your on-premises network and you must configure your Amazon EKS cluster with your remote pod networks. 
-- If you are running webhooks on your hybrid nodes, your pod CIDRs must be routable on your on-premises network and you must configure your Amazon EKS cluster with your remote pod networks. If your pod CIDRs are not routable on your on-premises network, then it is recommended to run webhooks on cloud nodes in the same cluster. See <<hybrid-nodes-webhooks, Configure webhooks for hybrid nodes>> for more information.
+- By default, Cilium link:https://docs.cilium.io/en/stable/network/concepts/masquerading/[masquerades] the source IP address of all pod traffic leaving the cluster to the IP address of the node. This makes it possible to run Cilium with hybrid nodes, whether or not remote pod networks are configured on the cluster. If you disable masquerading, then your pod CIDRs must be routable on your on-premises network and you must configure your Amazon EKS cluster with your remote pod networks.
+- If you are running webhooks on your hybrid nodes, your pod CIDRs must be routable on your on-premises network and you must configure your Amazon EKS cluster with your remote pod networks. If your pod CIDRs are not routable on your on-premises network, then we recommend that you run webhooks on cloud nodes in the same cluster. See <<hybrid-nodes-webhooks, Configure webhooks for hybrid nodes>> for more information.
 - A common way to make your pod CIDR routable on your on-premises network is to advertise pod addresses with BGP. To use BGP with Cilium, you must set `bgpControlPlane.enabled: true` in your Helm configuration. For more information on Cilium's BGP support, see https://docs.cilium.io/en/stable/network/bgp-control-plane/bgp-control-plane/[Cilium BGP Control Plane] in the Cilium documentation.
 - The default IP Address Management (IPAM) in Cilium is called link:https://docs.cilium.io/en/stable/network/concepts/ipam/cluster-pool/[Cluster Scope], where the Cilium operator allocates IP addresses for each node based on user-configured pod CIDRs. The pod CIDRs are configured with the `clusterPoolIPv4PodCIDRList` Helm value, which should match the remote pod network CIDRs you configured for your Amazon EKS cluster. Cilium allocates segments from the `clusterPoolIPv4PodCIDRList` to each node. The size of the per node segments is configured with the `clusterPoolIPv4MaskSize` Helm value. For more information on the `clusterPoolIPv4PodCIDRList` and `clusterPoolIPv4MaskSize`, see https://docs.cilium.io/en/stable/network/concepts/ipam/cluster-pool/#expanding-the-cluster-pool[Expanding the cluster pool] in the Cilium documentation.
 
@@ -80,12 +82,12 @@ Calico version `3.29.x` is supported and recommended for EKS Hybrid Nodes for ev
 helm repo add cilium https://helm.cilium.io/
 ----
 
-. Create a YAML file called `cilium-values.yaml`. The following example configures Cilium to run only on hybrid nodes by setting affinity for the `eks.amazonaws.com/compute-type: hybrid` label. 
+. Create a YAML file called `cilium-values.yaml`. The following example configures Cilium to run only on hybrid nodes by setting affinity for the `eks.amazonaws.com/compute-type: hybrid` label.
 
 - If you configured your Amazon EKS cluster with _remote pod networks_, configure the same pod CIDRs for your  `clusterPoolIPv4PodCIDRList`. For example, `10.100.0.0/24`. Your on-premises pod CIDR must not overlap with your on-premises node CIDR when running the CNI in overlay / tunnel mode.
 - Configure `clusterPoolIPv4MaskSize` based on your required pods per node. For example, `25` for a /25 segment size of 128 pods per node.
-- You should not change your `clusterPoolIPv4PodCIDRList` or `clusterPoolIPv4MaskSize` after deploying Cilium on your cluster, see https://docs.cilium.io/en/stable/network/concepts/ipam/cluster-pool/#expanding-the-cluster-pool[Expanding the cluster pool] in the Cilium documentation. 
-- For a full list of Helm values for Cilium, see the https://docs.cilium.io/en/stable/helm-reference/[Helm reference] in the Cilium documentation. 
+- You should not change your `clusterPoolIPv4PodCIDRList` or `clusterPoolIPv4MaskSize` after deploying Cilium on your cluster, see https://docs.cilium.io/en/stable/network/concepts/ipam/cluster-pool/#expanding-the-cluster-pool[Expanding the cluster pool] in the Cilium documentation.
+- For a full list of Helm values for Cilium, see the https://docs.cilium.io/en/stable/helm-reference/[Helm reference] in the Cilium documentation.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -120,9 +122,9 @@ envoy:
   enabled: false
 ----
 
-. Install Cilium on your cluster. 
-- Replace `CILIUM_VERSION` with your desired Cilium version. It is recommended to run the latest patch version for your Cilium minor version. You can find the latest patch release for a given minor Cilium release in the https://github.com/cilium/cilium#stable-releases[Stable Releases section] of the Cilium documentation. 
-- If you are enabling BGP for your deployment, add the `--set bgpControlPlane.enabled=true` flag in the command below. 
+. Install Cilium on your cluster.
+- Replace `CILIUM_VERSION` with a Calico version (for example `v3.29.0`). We recommend that you run the latest patch version for your Cilium minor version. You can find the latest patch release for a given minor Cilium release in the https://github.com/cilium/cilium#stable-releases[Stable Releases section] of the Cilium documentation.
+- If you are enabling BGP for your deployment, add the `--set bgpControlPlane.enabled=true` flag in the command below.
 - If you are using a specific kubeconfig file, use the `--kubeconfig` flag with the Helm install command.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
@@ -158,7 +160,7 @@ NAME                   STATUS   ROLES    AGE   VERSION
 mi-04a2cf999b7112233   Ready    <none>   19m   v1.31.0-eks-a737599
 ----
 
-. To use BGP with Cilium to advertise your pod addresses with your on-premises network, you must have installed Cilium with `bgpControlPlane.enabled: true`. To configure BGP in Cilium, first create a file called `cilium-bgp-cluster.yaml` with a `CiliumBGPClusterConfig` with the `peerAddress` set to your on-premises router IP that you are peering with. Configure the `localASN` and `peerASN` based on your on-premises router configuration, which you may have to obtain from your network administrator.
+. To use BGP with Cilium to advertise your pod addresses with your on-premises network, you must have installed Cilium with `bgpControlPlane.enabled: true`. To configure BGP in Cilium, first create a file called `cilium-bgp-cluster.yaml` with a `CiliumBGPClusterConfig` with the `peerAddress` set to your on-premises router IP that you are peering with. Configure the `localASN` and `peerASN` based on your on-premises router configuration, which you might have to obtain from your network administrator.
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
@@ -221,7 +223,7 @@ spec:
 kubectl apply -f cilium-bgp-peer.yaml
 ----
 
-. The `CiliumBGPAdvertisement` resource is used to define various advertisement types and attributes associated with them. Create a file named `cilium-bgp-advertisement.yaml` and configure the `CiliumBGPAdvertisement` resource with your desired settings.
+. The `CiliumBGPAdvertisement` resource is used to define various advertisement types and attributes associated with them. Create a file named `cilium-bgp-advertisement.yaml` and configure the `CiliumBGPAdvertisement` resource with your settings.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -309,9 +311,9 @@ cilium-pre-flight-check   1/1     1            0           12s
 helm uninstall cilium-preflight --namespace kube-system
 ----
 
-. During normal cluster operations, all Cilium components should run the same version. The following steps describe how to upgrade all of the components from one stable release to a later stable release. When upgrading from one minor release to another minor release, it is recommended to upgrade to the latest patch release for the existing Cilium minor version first. To minimize disruption, set the `upgradeCompatibility` option to the initial Cilium version that you installed in this cluster. 
+. During normal cluster operations, all Cilium components should run the same version. The following steps describe how to upgrade all of the components from one stable release to a later stable release. When upgrading from one minor release to another minor release, we recommend that you upgrade to the latest patch release for the existing Cilium minor version first. To minimize disruption, set the `upgradeCompatibility` option to the initial Cilium version that you installed in this cluster.
 +
-Before running the helm upgrade command, preserve the values for your deployment in a `cilium-values.yaml` or use `--set` command line options for your settings. The upgrade operation overwrites the Cilium ConfigMap, so it is critical that your configuration values are passed when you upgrade. If you are using BGP, it is recommended to use the `--set bgpControlPlane=true` command line option instead of supplying this information in your values file.
+Before running the helm upgrade command, preserve the values for your deployment in a `cilium-values.yaml` or use `--set` command line options for your settings. The upgrade operation overwrites the Cilium ConfigMap, so it is critical that your configuration values are passed when you upgrade. If you are using BGP, we recommend that you use the `--set bgpControlPlane=true` command line option instead of supplying this information in your values file.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -331,7 +333,7 @@ helm rollback cilium [REVISION] --namespace kube-system
 
 == Delete Cilium from hybrid nodes
 
-. Run the following command to uninstall all Cilium components from your cluster. Note, uninstalling the CNI may impact the health of nodes and pods and shouldn't be performed on production clusters.
+. Run the following command to uninstall all Cilium components from your cluster. Note, uninstalling the CNI might impact the health of nodes and pods and shouldn't be performed on production clusters.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -351,9 +353,9 @@ kubectl get crds -oname | grep "cilium" | xargs kubectl delete
 
 == Calico considerations
 
-- It is recommended to run Calico in overlay / tunnel mode with VXLAN as the link:https://docs.tigera.io/calico/latest/networking/configuring/vxlan-ipip[encapsulation method]. This mode has the fewest requirements on the underlying physical network. For more information on the different Calico networking modes, see https://docs.tigera.io/calico/latest/networking/determine-best-networking[Determining the best networking option] in the Calico documentation.
-- It is recommended to run Calico with `natOutgoing` set to `true`. With `natOutgoing` set to `true`, the source IP address of all pod traffic leaving the cluster is translated to the IP address of the node. This makes it possible to run Calico with Amazon EKS clusters, whether or not remote pod networks are configured on the cluster. If you disable `natOutgoing`, then your pod CIDRs must be routable on your on-premises network and you must configure your Amazon EKS cluster with your remote pod networks. 
-- If you are running webhooks on your hybrid nodes, your pod CIDRs must be routable on your on-premises network and you must configure your Amazon EKS cluster with your remote pod networks. If your pod CIDRs are not routable on your on-premises network, then it is recommended to run webhooks on cloud nodes in the same cluster. See <<hybrid-nodes-webhooks, Configure webhooks for hybrid nodes>> for more information.
+- We recommend that you run Calico in overlay / tunnel mode with VXLAN as the link:https://docs.tigera.io/calico/latest/networking/configuring/vxlan-ipip[encapsulation method]. This mode has the fewest requirements on the underlying physical network. For more information on the different Calico networking modes, see https://docs.tigera.io/calico/latest/networking/determine-best-networking[Determining the best networking option] in the Calico documentation.
+- We recommend that you run Calico with `natOutgoing` set to `true`. With `natOutgoing` set to `true`, the source IP address of all pod traffic leaving the cluster is translated to the IP address of the node. This makes it possible to run Calico with Amazon EKS clusters, whether or not remote pod networks are configured on the cluster. If you disable `natOutgoing`, then your pod CIDRs must be routable on your on-premises network and you must configure your Amazon EKS cluster with your remote pod networks.
+- If you are running webhooks on your hybrid nodes, your pod CIDRs must be routable on your on-premises network and you must configure your Amazon EKS cluster with your remote pod networks. If your pod CIDRs are not routable on your on-premises network, then we recommend that you run webhooks on cloud nodes in the same cluster. See <<hybrid-nodes-webhooks, Configure webhooks for hybrid nodes>> for more information.
 - A common way to make your pod CIDR routable on your on-premises network is to advertise pod addresses with BGP. To use BGP with Calico, you must set `installation.calicoNetwork.bgp: Enabled` in your Helm configuration. For more information on Calico's BGP support, see link:https://docs.tigera.io/calico/latest/networking/configuring/bgp[Configure BGP peering] in the Calico documentation.
 - The default IP Address Management (IPAM) in Calico is called link:https://docs.tigera.io/calico/latest/networking/ipam/get-started-ip-addresses#calico-ipam[Calico IPAM], where the `calico-ipam` plugin allocates IP addresses for each node based on user-configured pod CIDRs. The pod CIDRs are  configured with the `installation.calicoNetwork.ipPools.cidr` Helm value, which should match the remote pod network CIDRs you configured for your Amazon EKS cluster. Calico allocates segments from the `ipPools.cidr` to each node. The size of the per node segments is configured with the `ipPools.blockSize` Helm value. For more information on IPAM with Calico, see link:https://docs.tigera.io/calico/latest/networking/ipam/get-started-ip-addresses[Get started with IP address management] in the Calico documentation.
 
@@ -367,7 +369,7 @@ kubectl get crds -oname | grep "cilium" | xargs kubectl delete
 helm repo add projectcalico https://docs.tigera.io/calico/charts
 ----
 
-. Create a YAML file called `calico-values.yaml`. The following example configures all Calico components to run only on hybrid nodes by setting affinity for the `eks.amazonaws.com/compute-type: hybrid` label. 
+. Create a YAML file called `calico-values.yaml`. The following example configures all Calico components to run only on hybrid nodes by setting affinity for the `eks.amazonaws.com/compute-type: hybrid` label.
 - Replace `POD_CIDR` with the CIDR ranges for your pods. If you configured your Amazon EKS cluster with remote pod networks, the `POD_CIDR` that you specify for Calico should be the same as the remote pod networks. For example, `10.100.0.0/24`. Your on-premises pod CIDR must not overlap with your on-premises node CIDR when running the CNI in overlay / tunnel mode.
 - Replace `CIDR_SIZE` with the size of the CIDR segment you want to allocate to each node. For example, `25` for a /25 segment size of 128 pod addresses per node. For more information on CIDR `blockSize` and changing the `blockSize`, see https://docs.tigera.io/calico/latest/networking/ipam/change-block-size[Change IP pool block size] in the Calico documentation.
 - In the example below, `natOutgoing` is enabled and `bgp` is disabled. Modify these values based on your target configuration.
@@ -389,13 +391,13 @@ installation:
       natOutgoing: Enabled
       nodeSelector: eks.amazonaws.com/compute-type == "hybrid"
   controlPlaneReplicas: 1
-  controlPlaneNodeSelector: 
+  controlPlaneNodeSelector:
     eks.amazonaws.com/compute-type: hybrid
   calicoNodeDaemonSet:
     spec:
       template:
         spec:
-          nodeSelector: 
+          nodeSelector:
             eks.amazonaws.com/compute-type: hybrid
   csiNodeDriverDaemonSet:
     spec:
@@ -417,8 +419,8 @@ installation:
             eks.amazonaws.com/compute-type: hybrid
 ----
 
-. Install Calico on your cluster. 
-- Replace `CALICO_VERSION` with your desired Calico version (for example 3.29.0), see the https://github.com/projectcalico/calico/releases[Calico releases] to find the latest patch release for your Calico minor version. It is recommended to run the latest patch version for the Calico minor version. 
+. Install Calico on your cluster.
+- Replace `CALICO_VERSION` with a Calico version (for example `v3.29.0`), see the https://github.com/projectcalico/calico/releases[Calico releases] to find the latest patch release for your Calico minor version. We recommend that you run the latest patch version for the Calico minor version.
 - If you are using a specific `kubeconfig` file, use the `--kubeconfig` flag.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
@@ -460,7 +462,7 @@ kubectl get nodes
 NAME                  STATUS   ROLES    AGE    VERSION
 mi-0c6ec2f6f79176565  Ready    <none>   5h13m  v1.31.0-eks-a737599
 ----
-. If you installed Calico without BGP, skip this step. To configure BGP, create a file called `calico-bgp.yaml` with a `BGPPeer` configuration and a `BGPConfiguration`. It is important to distinguish `BGPPeer` and `BGPConfiguration`. The `BGPPeer` is the BGP-enabled router or remote resource with which the nodes in a Calico cluster will peer. The `asNumber` in the `BGPPeer` configuration is similar to the Cilium setting `peerASN` . The `BGPConfiguration` is applied to each Calico node and the `asNumber` for the `BGPConfiguration` is equivalent to the Cilium setting `localASN`. Replace `ONPREM_ROUTER_IP`, `ONPREM_ROUTER_ASN`, and `LOCAL_ASN` in the example below with the values for your on-premises environment, which you may have to obtain from your network administrator. The `keepOriginalNextHop: true` setting is used to ensure each node advertises only the pod network CIDR that it owns.
+. If you installed Calico without BGP, skip this step. To configure BGP, create a file called `calico-bgp.yaml` with a `BGPPeer` configuration and a `BGPConfiguration`. It is important to distinguish `BGPPeer` and `BGPConfiguration`. The `BGPPeer` is the BGP-enabled router or remote resource with which the nodes in a Calico cluster will peer. The `asNumber` in the `BGPPeer` configuration is similar to the Cilium setting `peerASN` . The `BGPConfiguration` is applied to each Calico node and the `asNumber` for the `BGPConfiguration` is equivalent to the Cilium setting `localASN`. Replace `ONPREM_ROUTER_IP`, `ONPREM_ROUTER_ASN`, and `LOCAL_ASN` in the example below with the values for your on-premises environment, which you might have to obtain from your network administrator. The `keepOriginalNextHop: true` setting is used to ensure each node advertises only the pod network CIDR that it owns.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -536,14 +538,14 @@ helm upgrade calico projectcalico/tigera-operator \
 
 == Delete Calico from hybrid nodes
 
-. Run the following command to uninstall Calico components from your cluster. Note that uninstalling the CNI might impact the health of nodes and pods and shouldn't be performed on production clusters. If you installed Calico in a namespace other than `kube-system` change the namespace in the command below. 
+. Run the following command to uninstall Calico components from your cluster. Note that uninstalling the CNI might impact the health of nodes and pods and shouldn't be performed on production clusters. If you installed Calico in a namespace other than `kube-system` change the namespace in the command below.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 helm uninstall calico --namespace kube-system
 ----
 +
-Note that the interfaces and routes configured by Calico are not removed by default when you remove the CNI from the cluster. 
+Note that the interfaces and routes configured by Calico are not removed by default when you remove the CNI from the cluster.
 . To clean up the on-disk configuration files and resources, remove the Calico files from the `/opt/cni` and `/etc/cni` directories.
 . To remove the Calico CRDs from your cluster, run the following commands.
 +

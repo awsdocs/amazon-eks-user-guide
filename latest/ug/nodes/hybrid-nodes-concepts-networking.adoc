@@ -34,11 +34,11 @@ You configure the EKS cluster with these remote node CIDRs so EKS knows to route
 
 *Remote Pod Networks*
 
-image::images/hybrid-nodes-remote-pod-cidrs.png[Remote Pod Networks]
-
 The remote pod networks are the ranges of IPs assigned to the pods running on the hybrid nodes. Generally, you configure your CNI with these ranges and the IP Address Management (IPAM) functionality of the CNI takes care of assigning a slice of these ranges to each hybrid node. When you create a pod, the CNI assigns an IP to the pod from the slice allocated to the node where the pod has been scheduled.
 
 You configure the EKS cluster with these remote pod CIDRs so the EKS control plane knows to route all traffic destined for the pods running on the hybrid nodes through your cluster's VPC, such as communication with webhooks.
+
+image::images/hybrid-nodes-remote-pod-cidrs.png[Remote Pod Networks]
 
 *On-premises to the VPC*
 
@@ -66,7 +66,7 @@ It's important to note the distinction between the pod routing requirements in t
 
 This requirement is true for all hops in your on-premises network up to the local router in the same subnet as your hybrid nodes. This is the only router that needs to be aware of the pod CIDR slice assigned to each node, making sure that traffic for a particular pod gets delivered to the node where the pod has been scheduled.
 
-You can choose to propagate these routes for the on-premises pod CIDRs from your local on-premises router to the VPC route tables, but it isn't necessary. If your on-premises pod CIDRs change frequently and your VPC route tables need to be updated to reflect the changing pod CIDRs, we recommend that you propagate the on-premises pod CIDRs to the VPC route tables, but this is uncommon. 
+You can choose to propagate these routes for the on-premises pod CIDRs from your local on-premises router to the VPC route tables, but it isn't necessary. If your on-premises pod CIDRs change frequently and your VPC route tables need to be updated to reflect the changing pod CIDRs, we recommend that you propagate the on-premises pod CIDRs to the VPC route tables, but this is uncommon.
 
 Note, the constraint for making your on-premises pod CIDRs routable is optional. If you don't need to run webhooks on your hybrid nodes or have pods on cloud nodes talk to pods on hybrid nodes, you don't need to configure routing for the pod CIDRs on your on-premises network.
 
@@ -74,6 +74,6 @@ _Why do the on-premises pod CIDRs need to be routable with hybrid nodes?_
 
 When using EKS with the VPC CNI for your cloud nodes, the VPC CNI assigns IPs directly from the VPC to the pods. This means there is no need for any special routing, as both cloud pods and the EKS control plane can reach the Pod IPs directly.
 
-When running on-premises (and with other CNIs in the cloud), the pods typically run in an isolated `overlay` network and the CNI takes care of delivering traffic between pods. This is commonly done through encapsulation: the CNI converts pod-to-pod traffic into node-to-node traffic, taking care of encapsulating and de-encapsulating on both ends. This way, there is no need for extra configuration on the  (by IP address) of the nodes and on the routers.
+When running on-premises (and with other CNIs in the cloud), the pods typically run in an isolated overlay network and the CNI takes care of delivering traffic between pods. This is commonly done through encapsulation: the CNI converts pod-to-pod traffic into node-to-node traffic, taking care of encapsulating and de-encapsulating on both ends. This way, there is no need for extra configuration on the nodes and on the routers.
 
 The networking with hybrid nodes is unique because it presents a combination of both topologies - the EKS control plane and cloud nodes (with the VPC CNI) expect a flat network including nodes and pods, while the pods running on hybrid nodes are in an overlay network by using VXLAN for encapsulation (by default in Cilium). Pods running on hybrid nodes can reach the EKS control plane and pods running on cloud nodes assuming the on-premises network can route to the VPC. However, without routing for the pod CIDRs on the on-premises network, any traffic coming back to an on-premises pod IP will be dropped eventually if the network doesn't know how to reach the overlay network and route to the correct nodes.
