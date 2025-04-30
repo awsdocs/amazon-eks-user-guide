@@ -131,7 +131,7 @@ This multi-level chain structure enables `kube-proxy` to efficiently implement s
 
 A broken `kube-proxy` on a node prevents that node from routing Service traffic properly, causing timeouts or failed connections for pods that rely on cluster Services. This can be especially disruptive when a node is first registered. The CNI needs to talk to the Kubernetes API server to get information, such as the node's pod CIDR, before it can configure any pod networking. To do that, it uses the `kubernetes` Service IP. However, if `kube-proxy` hasn't been able to start or has failed to set the right `iptables` rules, the requests going to the `kubernetes` service IP aren't translated to the actual IPs of the EKS control plane ENIs. As a consequence, the CNI will enter a crash loop and none of the pods will be able to run properly.
 
-We know pods use the `kubernetes` service IP to communicate with the Kubernetes API server, but `kube-proxy` needs to first set `iptables` rules to make that work. 
+We know pods use the `kubernetes` service IP to communicate with the Kubernetes API server, but `kube-proxy` needs to first set `iptables` rules to make that work.
 
 How does `kube-proxy` communicate with the API server?
 
@@ -179,7 +179,7 @@ image::images/hybrid-nodes-bgp.png[Hybrid nodes BGP routing]
 
 *Static routes*
 
-Alternatively, you can configure static routes in your local router. This is the simplest way to route the on-premises pod CIDR to your VPC, but it is also the most error prone and difficult to maintain. You need to make sure that the routes are always up-to-date with the existing nodes and their assigned pod CIDRs. If your number of nodes is small and infrastructure is static, this is a viable option and removes the need for BGP support in your router. If you opt for this, we recommend to configure your CNI with the pod CIDR slice that you want to assign to each node instead of letting its IPAM decide.
+Or, you can configure static routes in your local router. This is the simplest way to route the on-premises pod CIDR to your VPC, but it is also the most error prone and difficult to maintain. You need to make sure that the routes are always up-to-date with the existing nodes and their assigned pod CIDRs. If your number of nodes is small and infrastructure is static, this is a viable option and removes the need for BGP support in your router. If you opt for this, we recommend to configure your CNI with the pod CIDR slice that you want to assign to each node instead of letting its IPAM decide.
 
 image::images/hybrid-nodes-static-routes.png[Hybrid nodes static routing]
 
@@ -192,7 +192,7 @@ When a device on your local network tries to reach a pod IP, it first sends an A
 For this to work, your CNI must support proxy ARP functionality. Cilium has built-in support for proxy ARP that you can enable through configuration. The key consideration is that the pod CIDR must not overlap with any other network in your environment, as this could cause routing conflicts.
 
 This approach has several advantages:
-* No need to configure your router with BGP or maintain static routes 
+* No need to configure your router with BGP or maintain static routes
 * Works well in environments where you don't have control over your router configuration
 
 image::images/hybrid-nodes-arp-proxy.png[Hybrid nodes ARP proxying]
