@@ -104,6 +104,8 @@ ipam:
     clusterPoolIPv4MaskSize: [.replaceable]`25`
     clusterPoolIPv4PodCIDRList:
     - [.replaceable]`POD_CIDR`
+loadBalancer:
+  serviceTopology: true
 operator:
   affinity:
     nodeAffinity:

@@ -54,6 +54,8 @@ If you are running a mixed mode cluster with both hybrid nodes and nodes in {aws
 
 Service Traffic Distribution (available for Kubernetes versions 1.31 and above in EKS) is the recommended solution over link:https://kubernetes.io/docs/concepts/services-networking/topology-aware-routing/[Topology Aware Routing] because it is more predictable, where if there are healthy endpoints in the zone, they will receive all traffic for that zone. The steps for configuring Service Traffic Distribution are shown below.
 
+If you are using Cilium as your CNI, you must run the CNI with the `enable-service-topology` set to `true` to enable Service Traffic Distribution. You can pass this configuration with the Helm install flag `--set loadBalancer.serviceTopology=true` or you can update an existing installation with the Cilium CLI command `cilium config set enable-service-topology true`. The Cilium agent running on each node must be restarted after updating the configuration for an existing installation.
+
 . Add a topology zone label for each of your hybrid nodes, for example `topology.kubernetes.io/zone: onprem`. This can alternatively be done at the `nodeadm init` phase by specifying the label in your `nodeadm` configuration, see <<hybrid-nodes-nodeadm#hybrid-nodes-nodeadm-kubelet>>. Note, nodes running in {aws} Cloud automatically get a topology zone label applied to them that corresponds to the availability zone (AZ) of the node.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
