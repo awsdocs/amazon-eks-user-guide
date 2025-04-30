@@ -21,3 +21,6 @@ SDKs?
 FSx
 ENIs?
 IPs?
+CSRs?
+routable
+ARN

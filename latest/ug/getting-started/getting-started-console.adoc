@@ -110,7 +110,9 @@ Make sure that the {aws} Region shown in the upper right of your console is the 
 .. Leave the remaining settings at their default values and choose *Next*.
 . On the *Specify networking* page, do the following:
 +
-.. Choose the ID of the VPC that you created in a previous step from the *VPC* dropdown list. It is something like [.replaceable]`vpc-00x0000x000x0x000` | [.replaceable]`my-eks-vpc-stack-VPC`.
+.. Choose the ID of the VPC that you created in a previous step from the *VPC* dropdown list. It is something like [.replaceable]`* | my-eks-vpc-stack-VPC`.
+.. Choose the subnets created in a previous step from the *Subnets* dropdown list. The subnets will be something like [.replaceable]`* | my-eks-vpc-stack-*`.
+.. Choose the security group created in a previous step from the *Additional security groups* dropdown list. It is something like [.replaceable]`* | my-eks-vpc-stack-ControlPlaneSecurityGroup-*`.
 .. Leave the remaining settings at their default values and choose *Next*.
 . On the *Configure observability* page, choose *Next*.
 . On the *Select add-ons* page, choose *Next*.
