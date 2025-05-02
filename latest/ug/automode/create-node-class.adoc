@@ -107,7 +107,7 @@ For information about deploying CloudFormation stacks, see link:AWSCloudFormatio
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
-  name: MyNodeClass
+  name: my-node-class
 spec:
   # Required fields
   role: MyNodeRole  # IAM role for EC2 instances
