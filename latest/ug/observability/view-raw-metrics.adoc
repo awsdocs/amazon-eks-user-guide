@@ -170,14 +170,6 @@ The following table describes the scheduler and controller manager metrics that 
 |scheduler
 |The end-to-end latency for a Pod being scheduled, from the time the Pod enters the scheduling queue. This might involve multiple scheduling attempts.
 
-|kube_pod_resource_request
-|scheduler
-|The resources requested by workloads on the cluster, broken down by Pod. This shows the resource usage the scheduler and kubelet expect per Pod for resources along with the unit for the resource if any.
-
-|kube_pod_resource_limit
-|scheduler
-|The resources limit for workloads on the cluster, broken down by Pod. This shows the resource usage the scheduler and kubelet expect per Pod for resources along with the unit for the resource if any.
-
 |cronjob_controller_job_creation_skew_duration_seconds
 |controller manager
 |The time between when a cronjob is scheduled to be run, and when the corresponding job is created.
