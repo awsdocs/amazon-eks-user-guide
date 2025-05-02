@@ -50,6 +50,15 @@ The following community add-ons are compatible with Amazon EKS Hybrid Nodes. To 
 
 |Kubernetes Metrics Server
 |v0.7.2-eksbuild.1 and above
+
+|Cert Manager
+|v1.17.2-eksbuild.1 and above
+
+|Prometheus Node Exporter
+|v1.9.1-eksbuild.2 and above
+
+|kube-state-metrics
+|v2.15.0-eksbuild.4 and above
 |===
 
 In addition to the Amazon EKS add-ons in the tables above, the <<prometheus,Amazon Managed Service for Prometheus Collector>>, and the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> for <<alb-ingress,application ingress>> (HTTP) and <<network-load-balancing,load balancing>> (TCP/UDP) are compatible with hybrid nodes. 
@@ -198,3 +207,7 @@ The sections that follow describe differences between running compatible communi
 [#hybrid-nodes-add-ons-metrics-server]
 == Kubernetes Metrics Server
 The control plane needs to reach Metrics Server's pod IP (or node IP if hostNetwork is enabled). Therefore, unless you run Metrics Server in hostNetwork mode, you must configure a remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable. Implementing Border Gateway Protocol (BGP) with the CNI is one common way to make your pod IP addresses routable.
+
+[#hybrid-nodes-add-ons-cert-manager]
+== Cert Manager
+Cert Manager uses https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks]. If you run Cert Manager on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network and you must configure your EKS cluster with your remote pod network. For more information, see <<hybrid-nodes-webhooks, Configure webhooks for hybrid nodes>>.

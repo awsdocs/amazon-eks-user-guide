@@ -152,6 +152,7 @@ The following add-ons use webhooks and are supported for use with hybrid nodes.
 - {aws} Load Balancer Controller
 - CloudWatch Observability Agent
 - {aws} Distro for OpenTelemetry (ADOT)
+- Cert Manager
 
 See the following sections for configuring the webhooks used by these add-ons to run on nodes in {aws} Cloud.
 
@@ -252,6 +253,53 @@ relabel_configs:
 ----
 
 The ADOT add-on has a prerequisite requirement to install cert-manager for the TLS certificates used by the ADOT operator webhook. Cert-manager also runs webhooks and you can configure it to run on nodes in {aws} Cloud with the following Helm values configuration.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: eks.amazonaws.com/compute-type
+          operator: NotIn
+          values:
+          - hybrid
+webhook:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: NotIn
+            values:
+            - hybrid
+cainjector:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: NotIn
+            values:
+            - hybrid
+startupapicheck:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: NotIn
+            values:
+            - hybrid
+----
+
+[#hybrid-nodes-mixed-cert-manager]
+==== Cert Manager
+The Cert Manager add-on runs webhooks and you can configure it to run on nodes in {aws} Cloud with the following Helm values configuration.
 
 [source,yaml,subs="verbatim,attributes"]
 ----
