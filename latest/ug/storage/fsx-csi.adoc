@@ -15,3 +15,7 @@ The https://github.com/kubernetes-sigs/aws-fsx-csi-driver[FSx for Lustre Contain
 For details on how to deploy the FSx for Lustre CSI driver to your Amazon EKS cluster and verify that it works, see <<fsx-csi-create>>.
 
 include::fsx-csi-create.adoc[leveloffset=+1]
+
+include::fsx-csi-tuning-efa.adoc[leveloffset=+1]
+
+include::fsx-csi-tuning-non-efa.adoc[leveloffset=+1]
