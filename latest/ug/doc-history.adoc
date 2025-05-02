@@ -14,6 +14,13 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
+[.update,date="2025-04-30"]
+=== Amazon EKS Auto Mode update to `NodeClass`
+[.update-ulink]
+link:eks/latest/userguide/create-node-class.html#auto-node-class-spec[type="documentation"]
+
+The `NodeClass` template for Auto Mode nodes added configuration for forward network proxies. This adds the optional key `advancedNetworking` to set your HTTPS proxy.
+
 [.update,date="2025-04-29"]
 === Amazon EKS platform version update
 [.update-ulink]

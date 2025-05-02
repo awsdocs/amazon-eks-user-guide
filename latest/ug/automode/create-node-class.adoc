@@ -144,6 +144,22 @@ spec:
     # Key Alias Name
     # Key Alias ARN
   
+  # Optional: Forward proxy, commonly requires certificateBundles as well
+  #for EC2, see https://repost.aws/knowledge-center/eks-http-proxy-containerd-automation
+  advancedNetworking:
+    httpsProxy: http://192.0.2.4:3128 #commonly port 3128 (Squid) or 8080 (NGINX) #Max 255 characters
+    #httpsProxy: http://[2001:db8::4]:3128 # IPv6 address with port, use []
+    noProxy: #Max 50 entries
+        - localhost #Max 255 characters each
+        - 127.0.0.1
+        #- ::1 # IPv6 localhost
+        #- 0:0:0:0:0:0:0:1 # IPv6 localhost
+        - 169.254.169.254 # EC2 Instance Metadata Service
+        #- [fd00:ec2::254] # IPv6 EC2 Instance Metadata Service
+        # Domains to exclude, put all VPC endpoints here
+        - .internal
+        - .eks.amazonaws.com
+  
   # Optional: Custom certificate bundles
   certificateBundles:
     - name: "custom-cert"

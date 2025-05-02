@@ -65,6 +65,7 @@ exceptions:
   - grafana.com
   - guide.kubecost.com
   - http://developers.eksworkshop.com
+  - http://192.0.2.4:3128
   - http://localhost:8080/utility/stress/1000000
   - http://localhost:9090
   - http://retail-store-sample-ui.default.svc/utility/stress/1000000

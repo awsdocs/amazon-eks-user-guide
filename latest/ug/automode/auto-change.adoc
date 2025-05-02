@@ -7,6 +7,10 @@ include::../attributes.txt[]
 
 This page documents updates to Amazon EKS Auto Mode. You can periodically check this page for announcements about features, bug fixes, known issues, and deprecated functionality. 
 
+== April 30, 2025
+
+*Feature:* Support for forward network proxies in the `NodeClass`. This adds the optional key `advancedNetworking` to set your HTTPS proxy. For more information, see <<auto-node-class-spec>>.
+
 == April 18, 2025
 
 *Feature:* Support for resolving .local domains (typically reserved for Multicast DNS) via unicast DNS.
