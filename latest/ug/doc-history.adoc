@@ -14,12 +14,22 @@ The following table describes the major updates and new features for the Amazon 
 [.updates]
 == Updates
 
+
+[.update,date="2025-05-02"]
+=== Amazon EKS Auto Mode update to `NodeClass`
+[.update-ulink]
+link:eks/latest/userguide/fsx-csi.html[type="documentation"]
+
+Added new topics with details on optimizing Amazon FSx for Lustre performance.
+
+
 [.update,date="2025-04-30"]
 === Amazon EKS Auto Mode update to `NodeClass`
 [.update-ulink]
 link:eks/latest/userguide/create-node-class.html#auto-node-class-spec[type="documentation"]
 
 The `NodeClass` template for Auto Mode nodes added configuration for forward network proxies. This adds the optional key `advancedNetworking` to set your HTTPS proxy.
+
 
 [.update,date="2025-04-29"]
 === Amazon EKS platform version update
@@ -28,12 +38,14 @@ link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
 This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform versions.
 
+
 [.update,date="2025-04-29"]
 === Bottlerocket for hybrid nodes
 [.update-ulink]
 link:eks/latest/userguide/hybrid-nodes-bottlerocket.html[type="documentation"]
 
 Bottlerocket is now available for EKS Hybrid Nodes.
+
 
 [.update,date="2025-04-18"]
 === New concepts pages for hybrid networking
@@ -58,11 +70,13 @@ link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-upd
 
 Added permissions to `AmazonEKSServiceRolePolicy` to allow EKS AI/ML customers to add Egress rules to the default EKS Cluster security group.
 
+
 === Kubernetes version 1.31 is now available for local clusters on {aws} Outposts
 [.update-ulink]
 link:eks/latest/userguide/eks-outposts-platform-versions.html[type="documentation"]
 
 You can now create an Amazon EKS local cluster on an {aws} Outposts using Kubernetes version 1.31.
+
 
 [.update,date="2025-03-31"]
 === Node health for EKS Hybrid Nodes
@@ -71,6 +85,7 @@ link:eks/latest/userguide/node-health.html[type="documentation"]
 
 You can use `eks-node-monitoring-agent` on hybrid nodes, starting from version `1.2.0-eksbuild.1`. Run `eks-node-monitoring-agent` as an Amazon EKS add-on to detect and show health issues.
 
+
 [.update,date="2025-03-31"]
 === EKS Hybrid Nodes for existing clusters
 [.update-ulink]
@@ -78,6 +93,7 @@ link:eks/latest/userguide/hybrid-nodes-cluster-update.html[type="documentation"]
 
 You can now add, change, or remove the hybrid nodes configuration of existing clusters. Previously, you could only add the hybrid nodes configuration to new clusters when you created them.
 With Amazon EKS Hybrid Nodes, you can use your on-premises and edge infrastructure as nodes in Amazon EKS clusters. {aws} manages the {aws}-hosted Kubernetes control plane of the Amazon EKS cluster, and you manage the hybrid nodes that run in your on-premises or edge environments.
+
 
 [.update,date="2025-03-28"]
 === Rollback: Prevent accidental upgrades with cluster insights
