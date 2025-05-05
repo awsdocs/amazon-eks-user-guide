@@ -479,7 +479,7 @@ The webhook pod creates a response packet with its own IP as the source and the 
 +-----------------+---------------------+-----------------+
 ....
 
-The CNI identifies that this packet goes to an external network (not a local pod). If the CNI passes the packet to the node's network stack with the original source IP preserved.
+The CNI identifies that this packet goes to an external network (not a local pod) and passes the packet to the node's network stack with the original source IP preserved.
 
 *6. Node Network Processing*
 
