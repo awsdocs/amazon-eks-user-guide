@@ -35,7 +35,7 @@ EKS Auto Mode provides the following high-level features:
 
 *Managed Components*: EKS Auto Mode includes Kubernetes and {aws} cloud features as core components that would otherwise have to be managed as add-ons. This includes built-in support for Pod IP address assignments, Pod network policies, local DNS services, GPU plug-ins, health checkers, and EBS CSI storage.
 
-*Customizable NodePools and NodeClasses*: If your workload requires changes to storage, compute, or networking configurations, you can create custom NodePools and NodeClasses using EKS Auto Mode. While default NodePools and NodeClasses can't be edited, you can add new custom NodePools or NodeClasses alongside the default configurations to meet your specific requirements.
+*Customizable NodePools and NodeClasses*: If your workload requires changes to storage, compute, or networking configurations, you can create custom NodePools and NodeClasses using EKS Auto Mode. While you should not edit default NodePools and NodeClasses, you can add new custom NodePools or NodeClasses alongside the default configurations to meet your specific requirements.
 
 
 == Automated Components
@@ -65,7 +65,7 @@ While EKS Auto Mode will effectively manage most of your data plane services wit
 
 * *Kubernetes DaemonSets*: Rather than modify services installed on your nodes, you can instead use Kubernetes daemonsets. Daemonsets are designed to be managed by Kubernetes, but run on every node in the cluster. In this way, you can add special services for monitoring or otherwise watching over your nodes.
 
-* *Custom NodePools and NodeClasses*: Default NodePools and NodeClasses are configured by EKS Auto Mode and can't be edited. To customize node behavior, you can create additional NodePools or NodeClasses for use cases such as:
+* *Custom NodePools and NodeClasses*: Default NodePools and NodeClasses are configured by EKS Auto Mode and you should not edit them. To customize node behavior, you can create additional NodePools or NodeClasses for use cases such as:
 ** Selecting specific instance types (for example, accelerated processors or EC2 Spot instances).
 
 ** Isolating workloads for security or cost-tracking purposes.
