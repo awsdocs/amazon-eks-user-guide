@@ -39,6 +39,7 @@ api-server = "<api-server-endpoint>"
 cluster-certificate = "<cluster-certificate-authority>"
 hostname-override = "<hostname>"
 provider-id = "eks-hybrid:///<region>/<cluster-name>/<hostname>"
+authentication-mode = "aws"
 
 [settings.network]
 hostname = "<hostname>"
@@ -102,6 +103,7 @@ api-server = "<api-server-endpoint>"
 cluster-certificate = "<cluster-certificate-authority>"
 hostname-override = "<hostname>"
 provider-id = "eks-hybrid:///<region>/<cluster-name>/<hostname>"
+authentication-mode = "aws"
 
 [settings.network]
 hostname = "<hostname>"
