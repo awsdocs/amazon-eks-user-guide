@@ -16,7 +16,7 @@ The following table describes the major updates and new features for the Amazon 
 
 
 [.update,date="2025-05-02"]
-=== Amazon EKS Auto Mode update to `NodeClass`
+=== New pages for Amazon FSx for Lustre performance
 [.update-ulink]
 link:eks/latest/userguide/fsx-csi.html[type="documentation"]
 
