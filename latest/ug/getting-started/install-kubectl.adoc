@@ -10,14 +10,11 @@ include::../attributes.txt[]
 Learn how to install or update the `kubectl` and `eksctl` command line tools to work with Kubernetes and Amazon EKS features.
 --
 
-`Kubectl` is a command line tool that you use to communicate with the Kubernetes API server. The `kubectl` binary is available in many operating system package managers. Using a package manager for your installation is often easier than a manual download and install process. The `eksctl` command lets you create and modify Amazon EKS clusters.
+Once the {aws} CLI is installed, there are two other tools you should install to create and manage your Kubernetes clusters:
 
-Topics on this page help you install and set up these tools:
+* `kubectl`: The `kubectl` command line tool is the main tool you will use to manage resources within your Kubernetes cluster. This page describes how to download and set up the `kubectl` binary that matches the version of your Kubernetes cluster. See <<kubectl-install-update,Install or update kubectl>>.
 
-
-
-* <<kubectl-install-update,Install or update kubectl>>
-* <<eksctl-install-update,Install eksctl>>
+* `eksctl`: The `eksctl` command line tool is made for creating EKS clusters in the {aws} cloud or on-premises (with EKS Anywhere), as well as modifying and deleting those clusters. See <<eksctl-install-update,Install eksctl>>.
 
 
 [#kubectl-install-update]
@@ -69,6 +66,16 @@ For further information, see link:AmazonCloudFront/latest/DeveloperGuide/Getting
 ====
 
 === macOS [[macos_kubectl]]
+
+Follow the steps below to install `kubectl` on macOS. The steps include:
+
+* Choosing and downloading the binary for the Kubernetes version you want.
+* Optionally checking the binary's checksum.
+* Adding execute to the binary's permissions.
+* Copying the binary to a folder in your PATH.
+* Optionally adding the binary's directory to your PATH.
+
+Procedure:
 
 . Download the binary for your cluster's Kubernetes version from Amazon S3.
 +
@@ -247,6 +254,16 @@ echo 'export PATH=$HOME/bin:$PATH' >> ~/.bash_profile
 ----
 
 === Linux (amd64) [[linux_amd64_kubectl]]
+
+Follow the steps below to install `kubectl` on Linux (amd64). The steps include:
+
+* Choosing and downloading the binary for the Kubernetes version you want.
+* Optionally checking the binary's checksum.
+* Adding execute to the binary's permissions.
+* Copying the binary to a folder in your PATH.
+* Optionally adding the binary's directory to your PATH.
+
+Procedure:
 
 . Download the `kubectl` binary for your cluster's Kubernetes version from Amazon S3.
 +
@@ -433,6 +450,19 @@ echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
 
 === Linux (arm64) [[linux_arm64_kubectl]]
 
+Follow the steps below to install `kubectl` on Linux (arm64). The steps include:
+
+* Choosing and downloading the binary for the Kubernetes version you want.
+* Optionally checking the binary's checksum.
+* Adding execute to the binary's permissions.
+* Copying the binary to a folder in your PATH.
+* Optionally adding the binary's directory to your PATH.
+
+Procedure:
+
+. Download the `kubectl` binary for your cluster's Kubernetes version from Amazon S3.
+
+
 . Download the `kubectl` binary for your cluster's Kubernetes version from Amazon S3.
 +
 **** Kubernetes `1.32`
@@ -618,6 +648,15 @@ echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
 
 === Windows [[windows_kubectl]]
 
+Follow the steps below to install `kubectl` on Windows. The steps include:
+
+* Choosing and downloading the binary for the Kubernetes version you want.
+* Optionally checking the binary's checksum.
+* Copying the binary to a folder in your PATH.
+* Optionally adding the binary's directory to your PATH.
+
+Procedure:
+
 . Open a PowerShell terminal.
 . Download the `kubectl` binary for your cluster's Kubernetes version from Amazon S3.
 +
@@ -788,7 +827,7 @@ Get-FileHash kubectl.exe
 ----
 kubectl version --client
 ----
-. When first installing `kubectl`, it isn't yet configured to communicate with any server. We will cover this configuration as needed in other procedures. If you ever need to update the configuration to communicate with a particular cluster, you can run the following command.Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. Replace [.replaceable]`my-cluster` with the name of your cluster.
+. When first installing `kubectl`, it isn't yet configured to communicate with any server. We will cover this configuration as needed in other procedures. If you ever need to update the configuration to communicate with a particular cluster, you can run the following command. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. Replace [.replaceable]`my-cluster` with the name of your cluster.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -800,7 +839,7 @@ aws eks update-kubeconfig --region region-code --name my-cluster
 [#eksctl-install-update]
 == Install `eksctl`
 
-The `eksctl` CLI is used to work with EKS clusters. It automates many individual tasks. See https://eksctl.io/installation[Installation] in the `eksctl` documentation for instructions on installing `eksctl`.
+The `eksctl` CLI is used to work with EKS clusters. It automates many individual tasks. See https://eksctl.io/installation[Installation] in the `eksctl` documentation for instructions on installing `eksctl`. For Linux, use the UNIX instructions.
 
 When using `eksctl` the IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, {aws} CloudFormation, a VPC, and related resources. For more information, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html[Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes,type="documentation"] and link:IAM/latest/UserGuide/using-service-linked-roles.html[Using service-linked roles,type="documentation"] in the IAM User Guide. You must complete all steps in this guide as the same user. To check the current user, run the following command:
 
