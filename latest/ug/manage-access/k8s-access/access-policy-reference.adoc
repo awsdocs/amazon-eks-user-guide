@@ -338,7 +338,7 @@ If you manually specifiy a Node IAM role in a NodeClass, you need to create an A
 
 [NOTE]
 ====
-This policy is designated for AWS service-linked roles only and cannot be used with customer-managed roles.
+This policy is designated for {aws} service-linked roles only and cannot be used with customer-managed roles.
 ====
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSBlockStoragePolicy`
@@ -383,7 +383,7 @@ Amazon EKS automatically creates an access entry with this access policy for the
 
 [NOTE]
 ====
-This policy is designated for AWS service-linked roles only and cannot be used with customer-managed roles.
+This policy is designated for {aws} service-linked roles only and cannot be used with customer-managed roles.
 ====
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSComputePolicy`
@@ -400,7 +400,7 @@ Amazon EKS automatically creates an access entry with this access policy for the
 
 [NOTE]
 ====
-This policy is designated for AWS service-linked roles only and cannot be used with customer-managed roles.
+This policy is designated for {aws} service-linked roles only and cannot be used with customer-managed roles.
 ====
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSBlockStorageClusterPolicy`
@@ -444,7 +444,7 @@ Amazon EKS automatically creates an access entry with this access policy for the
 
 [NOTE]
 ====
-This policy is designated for AWS service-linked roles only and cannot be used with customer-managed roles.
+This policy is designated for {aws} service-linked roles only and cannot be used with customer-managed roles.
 ====
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSComputeClusterPolicy`
@@ -556,7 +556,7 @@ Amazon EKS automatically creates an access entry with this access policy for the
 
 [NOTE]
 ====
-This policy is designated for AWS service-linked roles only and cannot be used with customer-managed roles.
+This policy is designated for {aws} service-linked roles only and cannot be used with customer-managed roles.
 ====
 
 This access policy includes permissions that grant EKS access to the nodes of a cluster. When associated to an access entry, its access scope is typically the cluster, rather than a Kubernetes namespace. This policy is used by Amazon EKS hybrid nodes.
@@ -583,7 +583,7 @@ This access policy includes permissions that grant EKS access to the nodes of a 
 
 [NOTE]
 ====
-This policy is designated for AWS service-linked roles only and cannot be used with customer-managed roles.
+This policy is designated for {aws} service-linked roles only and cannot be used with customer-managed roles.
 ====
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSClusterInsightsPolicy`

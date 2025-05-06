@@ -63,7 +63,7 @@ The following admission controllers are enabled for all `1.30` platform versions
 
 |`1.30.10`
 |`eks-local-outposts.3`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.30.10`. {aws} IAM Authenticator updated to `v0.6.29`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.2`. CoreDNS updated to `v1.11.4`. AWS Cloud Controller Manager updated to `v1.30.8`. Bottlerocket version updated to `v1.34.0`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.30.10`. {aws} IAM Authenticator updated to `v0.6.29`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.2`. CoreDNS updated to `v1.11.4`. {aws} Cloud Controller Manager updated to `v1.30.8`. Bottlerocket version updated to `v1.34.0`.
 |March 27, 2025
 
 |`1.30.7`
@@ -91,7 +91,7 @@ The following admission controllers are enabled for all `1.29` platform versions
 
 |`v1.29.14`
 |`eks-local-outposts.6`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.29.14`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.2`. CoreDNS updated to `v1.11.4`. AWS Cloud Controller Manager updated to `v1.29.8`. Bottlerocket version updated to `v1.34.0`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.29.14`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.2`. CoreDNS updated to `v1.11.4`. {aws} Cloud Controller Manager updated to `v1.29.8`. Bottlerocket version updated to `v1.34.0`.
 |March 27, 2025
 
 |`v1.29.11`
@@ -134,7 +134,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 
 |`1.28.15`
 |`eks-local-outposts.13`
-|New platform version with security fixes and enhancements. kube-proxy `v1.28.15` build updated. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. AWS Cloud Controller Manager updated to `v1.28.11`.
+|New platform version with security fixes and enhancements. kube-proxy `v1.28.15` build updated. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. {aws} Cloud Controller Manager updated to `v1.28.11`.
 |March 27, 2025
 
 |`1.28.15`
