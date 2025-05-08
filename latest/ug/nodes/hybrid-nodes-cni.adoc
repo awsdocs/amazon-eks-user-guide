@@ -125,7 +125,7 @@ envoy:
 ----
 
 . Install Cilium on your cluster.
-- Replace `CILIUM_VERSION` with a Calico version (for example `v3.29.0`). We recommend that you run the latest patch version for your Cilium minor version. You can find the latest patch release for a given minor Cilium release in the https://github.com/cilium/cilium#stable-releases[Stable Releases section] of the Cilium documentation.
+- Replace `CILIUM_VERSION` with a Cilium version (for example `v1.17.0`). We recommend that you run the latest patch version for your Cilium minor version. You can find the latest patch release for a given minor Cilium release in the https://github.com/cilium/cilium#stable-releases[Stable Releases section] of the Cilium documentation.
 - If you are enabling BGP for your deployment, add the `--set bgpControlPlane.enabled=true` flag in the command below.
 - If you are using a specific kubeconfig file, use the `--kubeconfig` flag with the Helm install command.
 +
