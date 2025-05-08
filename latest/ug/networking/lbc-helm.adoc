@@ -43,13 +43,13 @@ Before proceeding with the configuration steps on this page, consider the follow
 
 [#lbc-helm-iam]
 == Step 1: Create IAM Role using `eksctl`
-The following steps refer to the {aws} Load Balancer Controller *v2.12.0* release version. For more information about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on GitHub.
+The following steps refer to the {aws} Load Balancer Controller *v2.13.0* release version. For more information about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on GitHub.
 
 . Download an IAM policy for the {aws} Load Balancer Controller that allows it to make calls to {aws} APIs on your behalf. 
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.12.0/docs/install/iam_policy.json
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.13.0/docs/install/iam_policy.json
 ----
 ** If you are a non-standard {aws} partition, such as a Government or China region, https://github.com/kubernetes-sigs/aws-load-balancer-controller/tree/main/docs/install[review the policies on GitHub] and download the appropriate policy for your region.  
 . Create an IAM policy using the policy downloaded in the previous step. 
@@ -110,6 +110,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   --set clusterName=my-cluster \
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller
+  --version 1.13.0
 ----
 
 
