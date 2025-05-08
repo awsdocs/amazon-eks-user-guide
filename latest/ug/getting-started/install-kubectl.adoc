@@ -79,35 +79,41 @@ Procedure:
 
 . Download the binary for your cluster's Kubernetes version from Amazon S3.
 +
+**** Kubernetes `1.33`
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/darwin/amd64/kubectl
+----
 **** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2025-01-10/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/darwin/amd64/kubectl
 ----
 **** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.4/2025-01-10/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/darwin/amd64/kubectl
 ----
 **** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.8/2025-01-10/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/darwin/amd64/kubectl
 ----
 **** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.12/2025-01-10/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/darwin/amd64/kubectl
 ----
 **** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-01-10/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/darwin/amd64/kubectl
 ----
 **** Kubernetes `1.27`
 +
@@ -155,35 +161,41 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-09-11/bin/dar
 +
 .. Download the `SHA-256` checksum for your cluster's Kubernetes version.
 +
+***** Kubernetes `1.33`
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/darwin/amd64/kubectl.sha256
+----
 ***** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2025-01-10/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/darwin/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.4/2025-01-10/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/darwin/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.8/2025-01-10/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/darwin/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.12/2025-01-10/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/darwin/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-01-10/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/darwin/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.27`
 +
@@ -267,35 +279,41 @@ Procedure:
 
 . Download the `kubectl` binary for your cluster's Kubernetes version from Amazon S3.
 +
+**** Kubernetes `1.33`
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/linux/amd64/kubectl
+----
 **** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2024-12-20/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/linux/amd64/kubectl
 ----
 **** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.3/2024-12-12/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linux/amd64/kubectl
 ----
 **** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.7/2024-12-12/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/linux/amd64/kubectl
 ----
 **** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-12-12/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/linux/amd64/kubectl
 ----
 **** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-12-12/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/linux/amd64/kubectl
 ----
 **** Kubernetes `1.27`
 +
@@ -343,35 +361,41 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-09-11/bin/lin
 +
 .. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3using the command for your device's hardware platform.
 +
+***** Kubernetes `1.33`
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/linux/amd64/kubectl.sha256
+----
 ***** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2024-12-20/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/linux/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.3/2024-12-12/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linux/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.7/2024-12-12/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/linux/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-12-12/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/linux/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-12-12/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/linux/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.27`
 +
@@ -465,35 +489,41 @@ Procedure:
 
 . Download the `kubectl` binary for your cluster's Kubernetes version from Amazon S3.
 +
+**** Kubernetes `1.33`
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/linux/arm64/kubectl
+----
 **** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2024-12-20/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/linux/arm64/kubectl
 ----
 **** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.3/2024-12-12/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linux/arm64/kubectl
 ----
 **** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.7/2024-12-12/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/linux/arm64/kubectl
 ----
 **** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-12-12/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/linux/arm64/kubectl
 ----
 **** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-12-12/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/linux/arm64/kubectl
 ----
 **** Kubernetes `1.27`
 +
@@ -541,35 +571,41 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-09-11/bin/lin
 +
 .. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3using the command for your device's hardware platform.
 +
+***** Kubernetes `1.33`
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/linux/arm64/kubectl.sha256
+----
 ***** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2024-12-20/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/linux/arm64/kubectl.sha256
 ----
 ***** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.3/2024-12-12/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linux/arm64/kubectl.sha256
 ----
 ***** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.7/2024-12-12/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/linux/arm64/kubectl.sha256
 ----
 ***** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-12-12/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/linux/arm64/kubectl.sha256
 ----
 ***** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-12-12/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/linux/arm64/kubectl.sha256
 ----
 ***** Kubernetes `1.27`
 +
@@ -660,35 +696,41 @@ Procedure:
 . Open a PowerShell terminal.
 . Download the `kubectl` binary for your cluster's Kubernetes version from Amazon S3.
 +
+**** Kubernetes `1.33`
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/windows/amd64/kubectl.exe
+----
 **** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2024-12-20/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/windows/amd64/kubectl.exe
 ----
 **** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.3/2024-12-12/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/windows/amd64/kubectl.exe
 ----
 **** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.7/2024-12-12/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/windows/amd64/kubectl.exe
 ----
 **** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-12-12/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/windows/amd64/kubectl.exe
 ----
 **** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-12-12/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/windows/amd64/kubectl.exe
 ----
 **** Kubernetes `1.27`
 +
@@ -736,35 +778,41 @@ curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2024-09-11/bin
 +
 .. Download the `SHA-256` checksum for your cluster's Kubernetes version for Windows.
 +
+***** Kubernetes `1.33`
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/windows/amd64/kubectl.exe.sha256
+----
 ***** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2024-12-20/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.3/2024-12-12/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.7/2024-12-12/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.10/2024-12-12/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2024-12-12/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** Kubernetes `1.27`
 +
