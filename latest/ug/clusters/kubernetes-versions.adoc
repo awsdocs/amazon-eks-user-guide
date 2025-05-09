@@ -69,6 +69,12 @@ Dates with only a month and a year are approximate and are updated with an exact
 |End of standard support
 |End of extended support
 
+|`1.33`
+|April 23, 2025
+|May, 2025
+|July, 2026
+|July, 2027
+
 |`1.32`
 |December 11, 2024
 |January 23, 2025
