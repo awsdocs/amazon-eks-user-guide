@@ -110,3 +110,6 @@ include::auto-accelerated.adoc[leveloffset=+1]
 
 include::auto-cis.adoc[leveloffset=+1]
 
+include::auto-kms.adoc[leveloffset=+1]
+
+
