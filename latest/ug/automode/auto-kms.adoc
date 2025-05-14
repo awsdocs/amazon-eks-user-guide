@@ -116,9 +116,9 @@ Replace the placeholder values with your actual values:
 You can specify the KMS key using any of the following formats:
 
 * KMS Key ID: `1a2b3c4d-5e6f-1a2b-3c4d-5e6f1a2b3c4d`
-* KMS Key ARN: `arn:aws:kms:us-west-2:111122223333:key/1a2b3c4d-5e6f-1a2b-3c4d-5e6f1a2b3c4d`)
+* KMS Key ARN: `arn:aws:kms:us-west-2:111122223333:key/1a2b3c4d-5e6f-1a2b-3c4d-5e6f1a2b3c4d`
 * Key Alias Name: `alias/eks-auto-mode-key`
-* Key Alias ARN: `arn:aws:kms:us-wes-2:111122223333:alias/eks-auto-mode-key`
+* Key Alias ARN: `arn:aws:kms:us-west-2:111122223333:alias/eks-auto-mode-key`
 
 Apply the NodeClass configuration using kubectl:
 
