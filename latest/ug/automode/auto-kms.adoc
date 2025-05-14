@@ -34,15 +34,14 @@ Configure your key policy with the following structure:
 ----
 {
     "Version": "2012-10-17",
-    "Id": "key-consolepolicy-3",
+    "Id": "MyKeyPolicy",
     "Statement": [
         {
             "Sid": "Allow use of the key",
             "Effect": "Allow",
             "Principal": {
                 "AWS": [
-                    "arn:aws:iam::<AWS_ACCOUNT_ID>:role/Admin",
-                    "arn:aws:iam::<AWS_ACCOUNT_ID>:role/ClusterServiceRole"
+                    "arn:aws:iam::<account-id>:role/ClusterServiceRole"
                 ]
             },
             "Action": [
@@ -52,15 +51,14 @@ Configure your key policy with the following structure:
                 "kms:GenerateDataKey*",
                 "kms:DescribeKey"
             ],
-            "Resource": "*"
+            "Resource": "arn:aws:kms:<region>:<account-id>:key/<key-id>"
         },
         {
             "Sid": "Allow attachment of persistent resources",
             "Effect": "Allow",
             "Principal": {
                 "AWS": [
-                    "arn:aws:iam::<AWS_ACCOUNT_ID>:role/Admin",
-                    "arn:aws:iam::<AWS_ACCOUNT_ID>:role/ClusterServiceRole"
+                    "arn:aws:iam::<account-id>:role/ClusterServiceRole"
                 ]
             },
             "Action": [
@@ -68,7 +66,7 @@ Configure your key policy with the following structure:
                 "kms:ListGrants",
                 "kms:RevokeGrant"
             ],
-            "Resource": "*",
+            "Resource": "arn:aws:kms:<region>:<account-id>:key/<key-id>",
             "Condition": {
                 "Bool": {
                     "kms:GrantIsForAWSResource": "true"
@@ -79,7 +77,7 @@ Configure your key policy with the following structure:
 }
 ----
 
-Make sure to replace `<AWS_ACCOUNT_ID>` with your actual {aws} account ID.
+Make sure to replace `<account-id>`, `<region>`, and `<key-id>` with your actual {aws} account ID.
 
 When configuring the key policy:
 
@@ -106,14 +104,14 @@ spec:
     throughput: 125  # Range: 125-1000
 
     # KMS key for encryption
-    kmsKeyID: "arn:aws:kms:<REGION>:<AWS_ACCOUNT_ID>:key/<KEY-ID>"
+    kmsKeyID: "arn:aws:kms:<region>:<account-id>:key/<key-id>"
 ----
 
 Replace the placeholder values with your actual values:
 
-* `<REGION>` with your {aws} region
-* `<AWS_ACCOUNT_ID>` with your {aws} account ID
-* `<KEY-ID>` with your KMS key ID
+* `<region>` with your {aws} region
+* `<account-id>` with your {aws} account ID
+* `<key-id>` with your KMS key ID
 
 You can specify the KMS key using any of the following formats:
 
