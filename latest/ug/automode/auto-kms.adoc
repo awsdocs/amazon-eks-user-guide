@@ -59,7 +59,7 @@ This policy only includes permissions for EKS Auto Mode. The key policy may need
                 "kms:GenerateDataKey*",
                 "kms:DescribeKey"
             ],
-            "Resource": "arn:aws:kms:<region>:<account-id>:key/<key-id>"
+            "Resource": "*"
         },
         {
             "Sid": "Allow attachment of persistent resources",
@@ -74,7 +74,7 @@ This policy only includes permissions for EKS Auto Mode. The key policy may need
                 "kms:ListGrants",
                 "kms:RevokeGrant"
             ],
-            "Resource": "arn:aws:kms:<region>:<account-id>:key/<key-id>",
+            "Resource": "*",
             "Condition": {
                 "Bool": {
                     "kms:GrantIsForAWSResource": "true"
@@ -85,7 +85,7 @@ This policy only includes permissions for EKS Auto Mode. The key policy may need
 }
 ----
 
-Make sure to replace `<account-id>`, `<region>`, and `<key-id>` with your actual {aws} account ID.
+Make sure to replace `<account-id>` with your actual {aws} account ID.
 
 When configuring the key policy:
 
