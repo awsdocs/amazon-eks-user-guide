@@ -4,16 +4,18 @@ include::../attributes.txt[]
 [#auto-kms]
 = Enable EBS Volume Encryption with Customer Managed KMS Keys for EKS Auto Mode
 
+You can encrypt the ephemeral root volume for EKS Auto Mode instances with a customer managed KMS key. 
+
 Amazon EKS Auto Mode uses service-linked roles to delegate permissions to other {aws} services when managing encrypted EBS volumes for your Kubernetes clusters. This topic describes how to set up the key policy that you need when specifying a customer managed key for Amazon EBS encryption with EKS Auto Mode.
 
-[NOTE]
-====
-EKS Auto Mode does not need additional authorization to use the default {aws} managed key to protect the encrypted volumes in your account.
-====
+Considerations:
+
+* EKS Auto Mode does not need additional authorization to use the default {aws} managed key to protect the encrypted volumes in your account.
+* This topic covers encrypting ephemeral volumes, the root volumes for EC2 instances. For more information about encrypting data volumes used for workloads, see <<create-storage-class>>. 
 
 == Overview
 
-The following {aws} KMS keys can be used for Amazon EBS encryption when EKS Auto Mode launches instances:
+The following {aws} KMS keys can be used for Amazon EBS root volume encryption when EKS Auto Mode launches instances:
 
 * *{aws} managed key* – An encryption key in your account that Amazon EBS creates, owns, and manages. This is the default encryption key for a new account.
 
@@ -29,6 +31,12 @@ The key must be symmetric. Amazon EBS does not support asymmetric customer manag
 Your KMS keys must have a key policy that allows EKS Auto Mode to launch instances with Amazon EBS volumes encrypted with a customer managed key.
 
 Configure your key policy with the following structure:
+
+
+[NOTE]
+====
+This policy only includes permissions for EKS Auto Mode. The key policy may need additional permissions if other identities need to use the key or manage grants.  
+====
 
 [source,json]
 ----
@@ -82,7 +90,6 @@ Make sure to replace `<account-id>`, `<region>`, and `<key-id>` with your actual
 When configuring the key policy:
 
 * The `ClusterServiceRole` must have the necessary IAM permissions to use the KMS key for encryption operations
-* The `Admin` role typically needs these permissions for management operations
 * The `kms:GrantIsForAWSResource` condition ensures that grants can only be created for {aws} services
 
 == Step 2: Configure NodeClass with your customer managed key
