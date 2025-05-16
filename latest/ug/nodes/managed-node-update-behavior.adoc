@@ -93,10 +93,10 @@ The _default_ update strategy has these steps:
 
 The _minimal_ update strategy has these steps:
 
-. It cordons all nodes of the node group in the beginning, and then it randomly selects a node that needs to be upgraded, up to the maximum unavailable configured for the node group.
+. It cordons all nodes of the node group in the beginning, so that the service controller doesn't send any new requests to these nodes. 
+. It randomly selects a node that needs to be upgraded, up to the maximum unavailable configured for the node group.
 . It drains the Pods from the selected nodes. If the Pods don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the Pods.
-. It cordons the node after every Pod is evicted and waits for 60 seconds. This is done so that the service controller doesn't send any new requests to this node and removes this node from its list of active nodes.
-. It sends a termination request to the Auto Scaling Group for the selected nodes. The Auto Scaling Group creates new nodes (same as the number of selected nodes) to replace the missing capacity.
+. After every Pod is evicted and waits for 60 seconds, it sends a termination request to the Auto Scaling Group for the selected nodes. The Auto Scaling Group creates new nodes (same as the number of selected nodes) to replace the missing capacity.
 . It repeats the previous upgrade steps until there are no nodes in the node group that are deployed with the earlier version of the launch template.
 
 === `PodEvictionFailure` errors during the upgrade phase
