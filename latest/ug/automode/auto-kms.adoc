@@ -3,6 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#auto-kms]
 = Enable EBS Volume Encryption with Customer Managed KMS Keys for EKS Auto Mode
+:info_titleabbrev: Encrypt root volumes 
 
 You can encrypt the ephemeral root volume for EKS Auto Mode instances with a customer managed KMS key. 
 
