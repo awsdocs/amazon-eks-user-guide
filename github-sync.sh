@@ -43,7 +43,7 @@ fi
 
 # Check for GitHub remote, add if missing
 if ! git remote | grep -q "^github$"; then
-    print_status "Github remote not found. Adding it..."
+    print_status "GitHub remote not found. Adding it..."
     if ! git remote add github "$GITHUB_SSH_URL"; then
         print_error "Failed to add GitHub remote"
     fi
@@ -75,7 +75,7 @@ if ! git merge github/mainline --no-edit; then
     exit 1
 fi
 
-print_status "Pushing changes to Github..."
+print_status "Pushing changes to GitHub..."
 if ! git push github; then
     print_error "Failed to push to GitHub remote. Possible causes:"
     echo "- You don't have push permissions"
@@ -84,7 +84,7 @@ if ! git push github; then
     exit 1
 fi
 
-print_status "Pushing changes to Code Browser (origin)..."
+print_status "Pushing changes to origin..."
 if ! git push origin; then
     print_error "Failed to push to origin remote. Possible causes:"
     echo "- You don't have push permissions"
