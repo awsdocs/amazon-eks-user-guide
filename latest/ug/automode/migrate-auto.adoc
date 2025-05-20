@@ -26,7 +26,7 @@ EKS Auto Mode requires Kubernetes version 1.29 or greater. EKS Auto Mode isn't a
 *{aws} does not support the following migrations:*
 
 * Migrating volumes from the EBS CSI controller (using the EKS Add-on) to EKS Auto Mode EBS CIS Controller (managed by EKS Auto Mode). PVCs made with one can't be mounted by the other, because they use two different Kubernetes volume provisioners.
-** The https://github.com/awslabs/eks-auto-mode-ebs-migration-tool[`eks-auto-mode-ebs-migration-tool`] (AWS Labs project) enables migration between standard EBS CSI StorageClass (`ebs.csi.aws.com`) and EKS Auto EBS CSI StorageClass (`ebs.csi.eks.amazonaws.com`). Note that migration requires deleting and re-creating existing PersistentVolumeClaim/PersistentVolume resources, so validation in a non-production environment is essential before implementation.
+** The https://github.com/awslabs/eks-auto-mode-ebs-migration-tool[`eks-auto-mode-ebs-migration-tool`] ({aws} Labs project) enables migration between standard EBS CSI StorageClass (`ebs.csi.aws.com`) and EKS Auto EBS CSI StorageClass (`ebs.csi.eks.amazonaws.com`). Note that migration requires deleting and re-creating existing PersistentVolumeClaim/PersistentVolume resources, so validation in a non-production environment is essential before implementation.
 * Migrating load balancers from the {aws} Load Balancer Controller to EKS Auto Mode 
 +
 You can install the {aws} Load Balancer Controller on an Amazon EKS Auto Mode cluster. Use the `IngressClass` or `loadBalancerClass` options to associate Service and Ingress resources with either the Load Balancer Controller or EKS Auto Mode. 
