@@ -20,8 +20,8 @@ The metrics are meant for point-in-time analysis and aren't an accurate source f
 
 == Considerations
 
-* If deploying Kubernetes Metrics Server onto Fargate nodes, the metric-server deployment must be reconfigured to use a different port other then the default of 10250. Port 10250 is reserved for Fargate. The Amazon EKS Add-on of the Metrics Server is already configured to use port 10251, so it is only if you are manually deploying using the manifest that it must be changed to something other than 10250.
-* Ensure port 10250 is allowed between the metrics-server pods and all other nodes/pods via Security Groups and Network ACLs. The Kuberentes Metrics Server solution still uses port 10250 to collect metrics from other endpoints in the cluster. If deploying Kubernetes Metrics Server onto Fargate nodes, ensure both the altered Metrics Server port and port 10250 are allowed.
+* The Amazon EKS add-on version of Metrics Server is pre-configured to use port `10251`, whereas a manually deployed Metrics Server using the manifest defaults to use port `10250`. If manually deploying Kubernetes Metrics Server onto Fargate nodes, configure the `metrics-server` deployment to use a port other than the `10250`, as this port is reserved for Fargate.
+* Ensure security groups and network ACLs allow port `10250` between the `metrics-server` Pods and all other nodes and Pods. The Kubernetes Metrics Server still uses port `10250` to collect metrics from other endpoints in the cluster. If you deploy on Fargate nodes, allow both the configured alternate Metrics Server port and port `10250`.
 
 == Deploy as community add-on with Amazon EKS Add-ons 
 
