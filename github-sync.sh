@@ -21,7 +21,7 @@ print_warning() {
 }
 
 print_error() {
-    echo -e "${RED}Error:${NC} $1"
+    echo -e "${RED}ERROR:${NC} $1"
     exit 1
 }
 
@@ -41,11 +41,11 @@ if ! git remote | grep -q "^origin$"; then
     print_error "Remote 'origin' not found"
 fi
 
-# Check for github remote, add if missing
+# Check for GitHub remote, add if missing
 if ! git remote | grep -q "^github$"; then
     print_status "Github remote not found. Adding it..."
     if ! git remote add github "$GITHUB_SSH_URL"; then
-        print_error "Failed to add github remote"
+        print_error "Failed to add GitHub remote"
     fi
 fi
 
@@ -61,9 +61,9 @@ fi
      exit 1
  fi
 
-print_status "Fetching from github remote..."
+print_status "Fetching from GitHub remote..."
 if ! git fetch github; then
-    print_error "Failed to fetch from github remote. Check your internet connection and repository permissions"
+    print_error "Failed to fetch from GitHub remote. Check your internet connection and repository permissions"
 fi
 
 print_status "Attempting to merge github/mainline..."
@@ -75,9 +75,18 @@ if ! git merge github/mainline --no-edit; then
     exit 1
 fi
 
-print_status "Pushing changes to github..."
+print_status "Pushing changes to Github..."
 if ! git push github; then
-    print_error "Failed to push to github remote. Possible causes:"
+    print_error "Failed to push to GitHub remote. Possible causes:"
+    echo "- You don't have push permissions"
+    echo "- The remote branch is protected"
+    echo "- There are new changes on the remote that you need to pull first"
+    exit 1
+fi
+
+print_status "Pushing changes to Code Browser (origin)..."
+if ! git push origin; then
+    print_error "Failed to push to origin remote. Possible causes:"
     echo "- You don't have push permissions"
     echo "- The remote branch is protected"
     echo "- There are new changes on the remote that you need to pull first"
