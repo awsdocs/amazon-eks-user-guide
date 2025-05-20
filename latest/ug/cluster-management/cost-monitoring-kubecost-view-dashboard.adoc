@@ -1,0 +1,41 @@
+include::../attributes.txt[]
+
+[.topic]
+[#cost-monitoring-kubecost-dashboard]
+= Access Kubecost Dashboard
+
+[#kubecost-prereqs-dashboard]
+== Prerequisites
+
+. Make sure the kubecost related Pods' state are "Running".
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pods --namespace kubecost
+----
+
+[#kubecost-dashboard]
+== Access Kubecost Dashboard
+
+. On your device, enable port-forwarding to expose the Kubecost dashboard.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl port-forward deployment/kubecost-cost-analyzer 9090 --namespace kubecost
+----
++
+Alternatively, you can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to expose Kubecost and use Amazon Cognito for authentication, authorization, and user management. For more information, see link:containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps[How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps,type="blog"].
+. On the same device that you completed the previous step on, open a web browser and enter the following address.
++
+[source,bash,subs="verbatim,attributes"]
+----
+http://localhost:9090
+----
++
+You see the Kubecost Overview page in your browser. It might take 5–10 minutes (or more) for Kubecost to gather metrics, depends on your cluster size. You can see your Amazon EKS spend, including cumulative cluster costs, associated Kubernetes asset costs, and monthly aggregated spend.
++
+. To track costs at a cluster level, tag your Amazon EKS resources for billing. For more information, see <<tag-resources-for-billing>>.
+
+
+* *Cost allocation* – View monthly Amazon EKS costs and cumulative costs for each of your namespaces and other dimensions over the past seven days. This is helpful for understanding which parts of your application are contributing to Amazon EKS spend.
+* *Assets* – View the costs of the {aws} infrastructure assets that are associated with your Amazon EKS resources.
