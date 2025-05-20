@@ -15,6 +15,13 @@ The following table describes the major updates and new features for the Amazon 
 == Updates
 
 
+[.update,date="2025-05-16"]
+=== Amazon EKS platform version update
+[.update-ulink]
+link:eks/latest/userguide/platform-versions.html[type="documentation"]
+
+This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform versions.
+
 [.update,date="2025-05-02"]
 === New pages for Amazon FSx for Lustre performance
 [.update-ulink]
