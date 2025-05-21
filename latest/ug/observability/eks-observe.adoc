@@ -153,3 +153,5 @@ include::control-plane-logs.adoc[leveloffset=+1]
 include::logging-using-cloudtrail.adoc[leveloffset=+1]
 
 include::opentelemetry.adoc[leveloffset=+1]
+
+include::cluster-dashboard.adoc[leveloffset=+1]

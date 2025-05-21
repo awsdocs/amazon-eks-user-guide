@@ -1,0 +1,100 @@
+include::../attributes.txt[]
+
+[.topic]
+[#cluster-dashboard-orgs]
+= Configure EKS Dashboard integration with {aws} Organizations
+
+This section provides step-by-step instructions for configuring the EKS Dashboard's integration with {aws} Organizations. You'll learn how to enable and disable trusted access between services, as well as how to register and deregister delegated administrator accounts. Each configuration task can be performed using either the {aws} console or the {aws} CLI.
+
+== Enable trusted access
+
+Trusted access authorizes the EKS Dashboard to securely access cluster information across all accounts in your organization.
+
+=== Using the {aws} console
+
+. Log in to the management account of your {aws} Organization.
+. Navigate to the EKS console in the us-east-1 region.
+. In the left sidebar, select Dashboard Settings.
+. Click *Enable trusted access*.
+
+[NOTE]
+====
+When you enable trusted access through the EKS console, the system automatically creates the `AWSServiceRoleForAmazonEKSDashboard` service-linked role. This automatic creation does not occur if you enable trusted access using the {aws} CLI or {aws} Organizations console.
+====
+
+=== Using the {aws} CLI
+
+. Log in to the management account of your {aws} Organization.
+. Run the following commands:
++
+[source,bash]
+----
+aws iam create-service-linked-role --aws-service-name dashboard.eks.amazonaws.com
+aws organizations enable-aws-service-access --service-principal eks.amazonaws.com
+----
+
+== Disable trusted access
+
+Disabling trusted access revokes the EKS Dashboard's permission to access cluster information across your organization's accounts.
+
+=== Using the {aws} console
+
+. Log in to the management account of your {aws} Organization.
+. Navigate to the EKS Console in the us-east-1 region.
+. In the left sidebar, select Dashboard Settings.
+. Click *Disable trusted access*.
+
+=== Using the {aws} CLI
+
+. Log in to the management account of your {aws} Organization.
+. Run the following command:
++
+[source,bash]
+----
+aws organizations disable-aws-service-access --service-principal eks.amazonaws.com
+----
+
+== Enable a delegated administrator account
+
+A delegated administrator is a member account that's granted permission to access the EKS Dashboard.
+
+=== Using the {aws} console
+
+. Log in to the management account of your {aws} Organization.
+. Navigate to the EKS console in the us-east-1 region.
+. In the left sidebar, select Dashboard Settings.
+. Click *Register delegated administrator*.
+. Enter the Account ID of the {aws} Account you want to choose as delegated administrator.
+. Confirm the registration.
+
+=== Using the {aws} CLI
+
+. Log in to the management account of your {aws} Organization.
+. Run the following command, replacing `123456789012` with your account ID:
++
+[source,bash]
+----
+aws organizations register-delegated-administrator --account-id 123456789012 --service-principal eks.amazonaws.com
+----
+
+== Disable a delegated administrator account
+
+Disabling a delegated administrator removes the account's permission to access the EKS Dashboard.
+
+=== Using the {aws} console
+
+. Log in to the management account of your {aws} Organization.
+. Navigate to the EKS console in the us-east-1 region.
+. In the left sidebar, select Dashboard Settings.
+. Locate the delegated administrator in the list.
+. Click *Deregister* next to the account you want to remove as delegated administrator.
+
+=== Using the {aws} CLI
+
+. Log in to the management account of your {aws} Organization.
+. Run the following command, replacing `123456789012` with the account ID of the delegated administrator:
++
+[source,bash]
+----
+aws organizations deregister-delegated-administrator --account-id 123456789012 --service-principal eks.amazonaws.com
+----
