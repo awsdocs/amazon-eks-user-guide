@@ -46,7 +46,7 @@ The us-east-1 {aws} region generates the dashboard. You must log in to this regi
 === General overview
 
 . Access the management account of your {aws} Organization.
-** The steps to access the management account depend on how you have configured your {aws} Organization. For example, you might access the management account via {aws} link:iam/identity-center/IAM[Identity Center,type="marketing"] or link:https://www.okta.com/partners/aws/[Okta]. 
+** The steps to access the management account depend on how you have configured your {aws} Organization. For example, you might access the management account via {aws} link:iam/identity-center/[Identity Center,type="marketing"] or link:https://www.okta.com/partners/aws/[Okta]. 
 . Enable Trusted access through the EKS Console.
 . Assign a Delegated administrator using their {aws} Account ID.
 . Switch to the Delegated administrator account.
