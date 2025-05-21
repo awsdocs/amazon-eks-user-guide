@@ -52,6 +52,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
+|`1.32-2025.05.17`
+|`1.32.5`
+|`1.7.20`
+|`1.2.1`
+|
+
 |`1.32-2025.04.14`
 |`1.32.1`
 |`1.7.20`
@@ -86,6 +92,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.31-2025.05.17`
+|`1.31.9`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.31-2025.04.14`
 |`1.31.5`
@@ -157,6 +169,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.30-2025.05.17`
+|`1.30.13`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.30-2025.04.14`
 |`1.30.9`
@@ -246,6 +264,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.29-2025.05.17`
+|`1.29.15`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.29-2025.04.14`
 |`1.29.13`
@@ -365,6 +389,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.28-2025.05.17`
+|`1.28.15`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.28-2025.04.14`
 |`1.28.15`
@@ -508,6 +538,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.27-2025.05.17`
+|`1.27.16`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.27-2025.04.14`
 |`1.27.16`
@@ -693,6 +729,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.26-2025.05.17`
+|`1.26.15`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.26-2025.04.14`
 |`1.26.15`
@@ -1078,6 +1120,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
+|`1.32-2025.05.17`
+|`1.32.5`
+|`1.7.20`
+|`1.2.1`
+|
+
 |`1.32-2025.04.14`
 |`1.32.1`
 |`1.7.20`
@@ -1114,6 +1162,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.31-2025.05.17`
+|`1.31.9`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.31-2025.04.14`
 |`1.31.5`
@@ -1186,6 +1240,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.30-2025.05.17`
+|`1.30.13`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.30-2025.04.14`
 |`1.30.9`
@@ -1276,6 +1336,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.29-2025.05.17`
+|`1.29.15`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.29-2025.04.14`
 |`1.29.13`
@@ -1396,6 +1462,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.28-2025.05.17`
+|`1.28.15`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.28-2025.04.14`
 |`1.28.15`
@@ -1540,6 +1612,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.27-2025.05.17`
+|`1.27.16`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.27-2025.04.14`
 |`1.27.16`
@@ -1726,6 +1804,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.26-2025.05.17`
+|`1.26.15`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.26-2025.04.14`
 |`1.26.15`
@@ -2112,6 +2196,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
+|`1.32-2025.05.17`
+|`1.32.5`
+|`1.7.20`
+|`1.2.1`
+|
+
 |`1.32-2025.04.14`
 |`1.32.1`
 |`1.7.20`
@@ -2148,6 +2238,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.31-2025.05.17`
+|`1.31.9`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.31-2025.04.14`
 |`1.31.5`
@@ -2220,6 +2316,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.30-2025.05.17`
+|`1.30.13`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.30-2025.04.14`
 |`1.30.9`
@@ -2310,6 +2412,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.29-2025.05.17`
+|`1.29.15`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.29-2025.04.14`
 |`1.29.13`
@@ -2430,6 +2538,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.28-2025.05.17`
+|`1.28.15`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.28-2025.04.14`
 |`1.28.15`
@@ -2574,6 +2688,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.27-2025.05.17`
+|`1.27.16`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.27-2025.04.14`
 |`1.27.16`
@@ -2760,6 +2880,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.26-2025.05.17`
+|`1.26.15`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.26-2025.04.14`
 |`1.26.15`
@@ -3147,6 +3273,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
+|`1.32-2025.05.17`
+|`1.32.5`
+|`1.7.20`
+|`1.2.1`
+|
+
 |`1.32-2025.04.14`
 |`1.32.1`
 |`1.7.20`
@@ -3183,6 +3315,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.31-2025.05.17`
+|`1.31.9`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.31-2025.04.14`
 |`1.31.5`
@@ -3255,6 +3393,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.30-2025.05.17`
+|`1.30.13`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.30-2025.04.14`
 |`1.30.9`
@@ -3345,6 +3489,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.29-2025.05.17`
+|`1.29.15`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.29-2025.04.14`
 |`1.29.13`
@@ -3465,6 +3615,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.28-2025.05.17`
+|`1.28.15`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.28-2025.04.14`
 |`1.28.15`
@@ -3609,6 +3765,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.27-2025.05.17`
+|`1.27.16`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.27-2025.04.14`
 |`1.27.16`
@@ -3795,6 +3957,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.26-2025.05.17`
+|`1.26.15`
+|`1.7.20`
+|`1.2.1`
+|
 
 |`1.26-2025.04.14`
 |`1.26.15`
