@@ -3,6 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#cluster-dashboard-orgs]
 = Configure EKS Dashboard integration with {aws} Organizations
+:info_titleabbrev: Configure organizations
 
 This section provides step-by-step instructions for configuring the EKS Dashboard's integration with {aws} Organizations. You'll learn how to enable and disable trusted access between services, as well as how to register and deregister delegated administrator accounts. Each configuration task can be performed using either the {aws} console or the {aws} CLI.
 
