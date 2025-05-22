@@ -897,9 +897,6 @@ You can now create an Amazon EKS local cluster on an Outpost using Kubernetes ve
 
 [.update,date="2023-02-22"]
 === Kubernetes version `1.25`
-[.update-ulink]
-link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-25[type="documentation"]
-
 Added Kubernetes version `1.25` support for new clusters and version upgrades.
 
 
@@ -958,9 +955,6 @@ Amazon EKS updated an existing {aws} managed policy.
 
 [.update,date="2022-11-15"]
 === Kubernetes version `1.24`
-[.update-ulink]
-link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-24[type="documentation"]
-
 Added Kubernetes version `1.24` support for new clusters and version upgrades.
 
 
@@ -1051,9 +1045,6 @@ Added support for Fargate profile wildcards in the selector criteria for namespa
 
 [.update,date="2022-08-11"]
 === Kubernetes version `1.23`
-[.update-ulink]
-link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-23[type="documentation"]
-
 Added Kubernetes version `1.23` support for new clusters and version upgrades.
 
 
