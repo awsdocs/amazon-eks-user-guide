@@ -78,9 +78,9 @@ For more information about how to use the Prometheus metrics after you turn them
 [#viewing-prometheus-scraper-details]
 == Step 3: Manage Prometheus scrapers
 
-To manage scrapers, choose the *Observability* tab in the Amazon EKS console. A table shows a list of scrapers for the cluster, including information such as the scraper ID, alias, status, and creation date. You can add more scrapers, delete scrapers, or view more information about the current scrapers. 
+To manage scrapers, choose the *Observability* tab in the Amazon EKS console. A table shows a list of scrapers for the cluster, including information such as the scraper ID, alias, status, and creation date. You can add more scrapers, edit scrapers, delete scrapers, or view more information about the current scrapers. 
 
-To see more details about a scraper, choose the scraper ID link. For example, you can view the ARN, environment, workspace ID, IAM role, configuration, and networking information. You can use the scraper ID as input to Amazon Managed Service for Prometheus API operations like `DescribeScraper` and `DeleteScraper`. For more information on using the Prometheus API, see the link:prometheus/latest/userguide/AMP-APIReference.html[Amazon Managed Service for Prometheus API Reference,type="documentation"].
+To see more details about a scraper, choose the scraper ID link. For example, you can view the ARN, environment, workspace ID, IAM role, configuration, and networking information. You can use the scraper ID as input to Amazon Managed Service for Prometheus API operations like link:prometheus/latest/APIReference/API_DescribeScraper.html[`DescribeScraper`,type="documentation"], link:prometheus/latest/APIReference/API_UpdateScraper.html[`UpdateScraper`,type="documentation"], and link:prometheus/latest/APIReference/API_DeleteScraper.html[`DeleteScraper`,type="documentation"]. For more information on using the Prometheus API, see the link:prometheus/latest/userguide/AMP-APIReference.html[Amazon Managed Service for Prometheus API Reference,type="documentation"].
 
 include::deploy-prometheus.adoc[leveloffset=+1]
 

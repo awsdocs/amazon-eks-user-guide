@@ -33,6 +33,14 @@ link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
 This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform versions.
 
+[.update,date="2025-05-09"]
+=== Edit Prometheus scrapers in the console
+[.update-ulink]
+link:eks/latest/userguide/prometheus.html#viewing-prometheus-scraper-details[type="documentation"]
+
+You can now edit Amazon Managed Service for Prometheus scrapers in the Amazon EKS console.
+
+
 [.update,date="2025-05-02"]
 === New pages for Amazon FSx for Lustre performance
 [.update-ulink]
