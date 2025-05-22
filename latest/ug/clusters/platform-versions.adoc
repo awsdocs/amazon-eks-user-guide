@@ -11,8 +11,6 @@ When a new Kubernetes minor version is available in Amazon EKS, such as {k8s-n},
 
 When new Amazon EKS platform versions become available for a minor version:
 
-
-
 * The Amazon EKS platform version number is incremented (`eks.<n+1>`).
 * Amazon EKS automatically upgrades all existing clusters to the latest Amazon EKS platform version for their corresponding Kubernetes minor version. Automatic upgrades of existing Amazon EKS platform versions are rolled out incrementally. The roll-out process might take some time. If you need the latest Amazon EKS platform version features immediately, you should create a new Amazon EKS cluster.
 +
@@ -31,6 +29,13 @@ The current and recent Amazon EKS platform versions are described in the followi
 {aws} recently disabled some platform versions published in June 2024. The platform versions had stability issues. No action is needed. 
 
 ====
+
+To receive notifications of all source file changes to this specific documentation page, you can subscribe to the following URL with an RSS reader:
+
+[source,none]
+----
+https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/clusters/platform-versions.adoc.atom
+----
 
 [#platform-versions-1-32]
 == Kubernetes version `1.32`

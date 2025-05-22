@@ -30,6 +30,14 @@ Local clusters are always created with the latest available platform version (`e
 
 The current and recent platform versions are described in the following tables.
 
+To receive notifications of all source file changes to this specific documentation page, you can subscribe to the following URL with an RSS reader:
+
+[source,none]
+----
+https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/outposts/eks-outposts-platform-versions.adoc.atom
+----
+
+
 [#outposts-platform-versions-1-31]
 == Kubernetes version `1.31`
 

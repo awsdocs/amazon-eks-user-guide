@@ -374,7 +374,14 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == Amazon EKS updates to {aws} managed policies
 :info_titleabbrev: Policy updates
 
-View details about updates to {aws} managed policies for Amazon EKS since this service began tracking these changes. For automatic alerts about changes to this page, subscribe to the RSS feed on the Amazon EKS Document history page.
+View details about updates to {aws} managed policies for Amazon EKS since this service began tracking these changes.
+
+To receive notifications of all source file changes to this specific documentation page, you can subscribe to the following URL with an RSS reader:
+
+[source,none]
+----
+https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/security/iam-reference/security-iam-awsmanpol.adoc.atom
+----
 
 [%header,cols="3"]
 |===

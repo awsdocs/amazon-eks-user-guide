@@ -5,7 +5,14 @@
 
 include::../attributes.txt[]
 
-This page documents updates to Amazon EKS Auto Mode. You can periodically check this page for announcements about features, bug fixes, known issues, and deprecated functionality. 
+This page documents updates to Amazon EKS Auto Mode. You can periodically check this page for announcements about features, bug fixes, known issues, and deprecated functionality.
+
+To receive notifications of all source file changes to this specific documentation page, you can subscribe to the following URL with an RSS reader:
+
+[source,none]
+----
+https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
+----
 
 == April 30, 2025
 

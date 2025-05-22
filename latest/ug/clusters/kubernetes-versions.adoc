@@ -55,10 +55,15 @@ The following table shows important release and support dates to consider for ea
 
 [NOTE]
 ====
-
 Dates with only a month and a year are approximate and are updated with an exact date when it's known.
-
 ====
+
+To receive notifications of all source file changes to this specific documentation page, you can subscribe to the following URL with an RSS reader:
+
+[source,none]
+----
+https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/clusters/kubernetes-versions.adoc.atom
+----
 
 [%header,cols="5"]
 |===

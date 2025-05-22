@@ -9,7 +9,7 @@ include::attributes.txt[]
 Important updates to the Amazon EKS documentation, sorted by date, with brief descriptions of each update and when they occurred.
 --
 
-The following table describes some of the major updates and new features for the Amazon EKS User Guide. To receive notifications for when this table gets a new entry, you can use the following URL with an RSS reader:
+The following table describes some of the major updates and new features for the Amazon EKS User Guide. To receive notifications when this table gets a new entry, you can subscribe to the following URL with an RSS reader:
 
 [source,none]
 ----
