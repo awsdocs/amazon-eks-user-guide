@@ -40,17 +40,15 @@ aws eks update-cluster-config \
   --name <cluster-name> \
   --compute-config '{
     "nodeRoleArn": "<node-role-arn>",
-    "nodePools": ["general-purpose", "system"]
-  "enabled": true,
-  "nodeRoleArn":"<node-role-arn>",
-  "nodePools": ["general-purpose", "system"]
+    "nodePools": ["general-purpose", "system"],
+    "enabled": true
   }' \
   --kubernetes-network-config '{
   "elasticLoadBalancing":{"enabled": true}
   }' \
   --storage-config '{
   "blockStorage":{"enabled": true}
-  }'
+  }' 
 ----
 
 You can modify the command to selectively enable the NodePools. 
