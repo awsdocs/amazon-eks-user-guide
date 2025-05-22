@@ -10,14 +10,14 @@ include::../attributes.txt[]
 Learn how to configure logging for your Amazon EKS cluster.
 --
 
-The Amazon EKS console includes an observability dashboard that gives visibility into the performance of your cluster. The information in this dashboard helps you to quickly detect, troubleshoot, and remediate issues. You can open the applicable section of the dashboard by choosing an item in the *Health and performance summary*. This summary is included in several places, including the *Observability* tab.
+The Amazon EKS console includes an observability dashboard that gives visibility into the performance of your cluster. The information it provides helps you to quickly detect, troubleshoot, and remediate issues. You can open the applicable section of the observability dashboard by choosing an item in the *Health and performance summary*. This summary is included in several places, including the *Observability* tab.
 
-The dashboard is split into several tabs.
+The observability dashboard is split into several tabs.
 
 [#observability-summary]
 == Summary
 
-The *Health and performance summary* lists the quantity of items in various categories. Each number acts as a hyperlink to a location in the dashboard with a list for that category.
+The *Health and performance summary* lists the quantity of items in various categories. Each number acts as a hyperlink to a location in the observability dashboard with a list for that category.
 
 [#observability-cluster-health]
 == Cluster health issues

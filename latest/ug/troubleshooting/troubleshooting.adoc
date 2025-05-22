@@ -616,7 +616,7 @@ Yes, cluster issues are detected for EKS clusters in the {aws} Cloud including _
 
 *Can I get notified when new issues are detected?*::
 
-Yes. {aws} sends an email and Personal Health Dashboard notification when new Cluster Health issues are detected.
+Yes. {aws} sends an email and Personal Health Dashboard notification when new cluster health issues are detected.
 
 
 *Does the console give me warnings for health issues?*::

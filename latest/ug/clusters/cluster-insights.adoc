@@ -41,7 +41,7 @@ Amazon EKS automatically creates a cluster access entry. This entry gives EKS pe
 == View cluster insights (Console)
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . From the cluster list, choose the name of the Amazon EKS cluster for which you want to see the insights.
-. Choose *View dashboard*.
+. Choose *Monitor cluster*.
 . Choose the *Cluster Insights* tab.
 . In the *Upgrade Insights* table, you will see the following columns:
 +
