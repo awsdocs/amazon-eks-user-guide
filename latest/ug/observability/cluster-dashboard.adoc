@@ -77,7 +77,7 @@ You must be logged in to the Management Account of your {aws} Organization to en
 . Click *Register delegated administrator* and input the Account ID of the {aws} Account you will use to view the dashboard.
 .. You can now view the dashboard from the delegated administrator account or the management account.
 
-For information about permissions required to enable the dashboard, see <<dashboard-iam-policy>>. 
+For information about permissions required to enable the dashboard, see xref:dashboard-iam-policy[Minimum IAM policies required]. 
 
 == View the EKS dashboard
 
