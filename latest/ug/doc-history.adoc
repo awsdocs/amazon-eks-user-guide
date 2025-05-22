@@ -11,6 +11,13 @@ Important updates to the Amazon EKS documentation, sorted by date, with brief de
 
 The following table describes the major updates and new features for the Amazon EKS User Guide. We also update the documentation frequently to address the feedback that you send us.
 
+To receive document history notifications, you can use the following URL with an RSS reader:
+
+[source,none]
+----
+https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
+----
+
 [.updates]
 == Updates
 
