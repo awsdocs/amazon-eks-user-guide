@@ -19,6 +19,14 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-05-22"]
+=== Edit Prometheus scrapers in the console
+[.update-ulink]
+link:eks/latest/userguide/prometheus.html#viewing-prometheus-scraper-details[type="documentation"]
+
+You can now edit Amazon Managed Service for Prometheus scrapers in the Amazon EKS console.
+
+
 [.update,date="2025-05-21"]
 === Managed policy updates
 [.update-ulink]
@@ -26,19 +34,13 @@ link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
 Added `AmazonEKSDashboardServiceRolePolicy` policy.
 
+
 [.update,date="2025-05-16"]
 === Amazon EKS platform version update
 [.update-ulink]
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
 This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform versions.
-
-[.update,date="2025-05-09"]
-=== Edit Prometheus scrapers in the console
-[.update-ulink]
-link:eks/latest/userguide/prometheus.html#viewing-prometheus-scraper-details[type="documentation"]
-
-You can now edit Amazon Managed Service for Prometheus scrapers in the Amazon EKS console.
 
 
 [.update,date="2025-05-02"]
