@@ -62,7 +62,7 @@ nodeadm install [KUBERNETES_VERSION] [flags]
 
 *Flags*
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Name
 |Required
@@ -141,7 +141,7 @@ nodeadm config check [flags]
 
 *Flags*
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Name
@@ -180,7 +180,7 @@ nodeadm init [flags]
 
 *Flags*
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Name
@@ -236,7 +236,7 @@ nodeadm upgrade [KUBERNETES_VERSION] [flags]
 
 *Flags*
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Name
@@ -299,7 +299,7 @@ nodeadm uninstall [flags]
 
 *Flags*
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Name
@@ -359,7 +359,7 @@ nodeadm debug [flags]
 
 *Flags*
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Name
@@ -391,7 +391,7 @@ nodeadm debug -c file://nodeConfig.yaml
 
 When running `nodeadm install`, the following files and file locations are configured.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 
 |Artifact
@@ -442,7 +442,7 @@ On RHEL - /sbin/iptables
 
 When running `nodeadm init`, the following files and file locations are configured.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 
 |Name

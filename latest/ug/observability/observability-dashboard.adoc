@@ -42,7 +42,7 @@ These metrics and more are automatically available as basic monitoring metrics i
 
 The following table describes available metrics.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Metric
 |Description

@@ -60,7 +60,7 @@ Amazon Web Services provides various tools that you can use to monitor Amazon EK
 
 The following table describes various monitoring tool options.
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 
 |Areas
@@ -107,7 +107,7 @@ The following table describes various monitoring tool options.
 
 The following table describes various logging tool options.
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 
 |Areas

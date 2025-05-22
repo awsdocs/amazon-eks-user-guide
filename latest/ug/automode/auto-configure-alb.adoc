@@ -138,36 +138,48 @@ EKS Auto Mode will automatically delete the associated load balancer in your {aw
 
 The table below is a quick reference for commonly used configuration options. 
 
-[cols="3*", options="header"]
+[%header,cols="3"]
 |===
-|Field |Description |Example Value
+|Field
+|Description
+|Example value
+
 |`scheme`
 |Defines whether the ALB is internal or internet-facing
 |`internet-facing`
+
 |`namespaceSelector`
 |Restricts which namespaces can use this IngressClass
 |`environment: prod`
+
 |`group.name`
 |Groups multiple Ingresses to share a single ALB
 |`retail-apps`
+
 |`ipAddressType`
 |Sets IP address type for the ALB
 |`dualstack`
+
 |`subnets.ids`
 |List of subnet IDs for ALB deployment
 |`subnet-xxxx, subnet-yyyy`
+
 |`subnets.tags`
 |Tag filters to select subnets for ALB
 |`Environment: prod`
+
 |`certificateARNs`
 |ARNs of SSL certificates to use
 |`arn:aws:acm:region:account:certificate/id`
+
 |`tags`
 |Custom tags for {aws} resources
 |`Environment: prod, Team: platform`
+
 |`loadBalancerAttributes`
 |Load balancer specific attributes
 |`idle_timeout.timeout_seconds: 60`
+
 |===
 
 
@@ -183,9 +195,9 @@ The following tables provide a detailed comparison of changes in IngressClassPar
 
 === IngressClassParams 
 
-[options="header"]
 |===
 | Previous | New | Description
+
 | `elbv2.k8s.aws/v1beta1` | `eks.amazonaws.com/v1` | API version change
 | `spec.certificateArn` | `spec.certificateARNs` | Support for multiple certificate ARNs
 | `spec.subnets.tags` | `spec.subnets.matchTags` | Changed subnet matching schema
@@ -194,9 +206,9 @@ The following tables provide a detailed comparison of changes in IngressClassPar
 
 === Ingress annotations
 
-[options="header"]
 |===
 | Previous | New | Description
+
 | `kubernetes.io/ingress.class` | Not supported | Use `spec.ingressClassName` on Ingress objects
 | `alb.ingress.kubernetes.io/group.name` | Not supported | Specify groups in IngressClass only
 | `alb.ingress.kubernetes.io/waf-acl-id` | Not supported | Use WAF v2 instead
@@ -207,9 +219,9 @@ The following tables provide a detailed comparison of changes in IngressClassPar
 
 === TargetGroupBinding
 
-[options="header"]
 |===
 | Previous | New | Description
+
 | `elbv2.k8s.aws/v1beta1` | `eks.amazonaws.com/v1` | API version change
 | `spec.targetType` optional | `spec.targetType` required | Explicit target type specification
 | `spec.networking.ingress.from` | Not supported | No longer supports NLB without security groups

@@ -412,7 +412,7 @@ If you are having issues running Calico on hybrid nodes, see https://docs.tigera
 
 The table below summarizes the Calico components and whether they run on the node or pod network by default. If you configured Calico to use NAT for outgoing pod traffic, your on-premises network must be configured to route traffic to your on-premises node CIDR and your VPC routing tables must be configured with a route for your on-premises node CIDR with your transit gateway (TGW) or virtual private gateway (VGW) as the target. If you are not configuring Calico to use NAT for outgoing pod traffic, your on-premises network must be configured to route traffic to your on-premises pod CIDR and your VPC routing tables must be configured with a route for your on-premises pod CIDR with your transit gateway (TGW) or virtual private gateway (VGW) as the target.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Component
 |Network
@@ -504,7 +504,7 @@ sudo aws sts get-caller-identity
 
 If you are using {aws} SSM hybrid activations for your hybrid nodes credentials, be aware of the following SSM directories and artifacts that are installed on your hybrid nodes by `nodeadm`. For more information on the SSM agent, see link:systems-manager/latest/userguide/ssm-agent.html[Working with the SSM agent,type="documentation"] in the _{aws} Systems Manager User Guide_.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Description
 |Location
@@ -636,7 +636,7 @@ rm -rf /var/lib/amazon/ssm/Vault/Store/RegistrationKey
 
 If you are using {aws} IAM Roles Anywhere for your hybrid nodes credentials, be aware of the following directories and artifacts that are installed on your hybrid nodes by `nodeadm`. For more information on the troubleshooting IAM Roles Anywhere, see link:rolesanywhere/latest/userguide/security_iam_troubleshoot.html[Troubleshooting {aws} IAM Roles Anywhere identity and access,type="documentation"] in the _{aws} IAM Roles Anywhere User Guide_.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Description
 |Location

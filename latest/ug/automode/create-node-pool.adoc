@@ -80,9 +80,13 @@ spec:
 EKS Auto Mode supports the following well known labels.
 
 [role="no-scroll"]
-[cols="3,1,4",options="header"]
+[%header,cols="3,1,4"]
 |===
-|Label |Example |Description
+
+|Label
+|Example
+|Description
+
 
 |topology.kubernetes.io/zone
 |us-east-2a
@@ -167,6 +171,7 @@ EKS Auto Mode supports the following well known labels.
 |eks.amazonaws.com/instance-local-nvme
 |900
 |Number of gibibytes of local nvme storage on the instance
+
 |===
 
 NOTE: EKS Auto Mode only supports certain instances, and has minimum size requirements. For more information, see <<auto-supported-instances>>.

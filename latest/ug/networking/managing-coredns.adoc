@@ -34,9 +34,9 @@ CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cl
 
 The following table lists the latest version of the Amazon EKS add-on type for each Kubernetes version.
 
-[options="header"]
 |===
 | Kubernetes version | CoreDNS version
+
 | 1.32 | v1.11.4-eksbuild.14
 | 1.31 | v1.11.4-eksbuild.14
 | 1.30 | v1.11.4-eksbuild.14

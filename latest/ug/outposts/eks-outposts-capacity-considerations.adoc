@@ -21,7 +21,7 @@ The instance sizes must be slotted on your Outposts. Make sure that you have eno
 
 ====
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Number of nodes
 |Kubernetes control plane instance size

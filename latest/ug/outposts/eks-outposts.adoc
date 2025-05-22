@@ -39,7 +39,7 @@ With extended clusters, you can conserve capacity on your Outpost because the Ku
 
 The following table compares the differences between the two options.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Feature
 |Extended cluster

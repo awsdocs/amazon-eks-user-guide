@@ -26,9 +26,9 @@ The following table lists the latest available version of the Amazon EKS add-on 
 [#vpc-cni-latest-available-version]
 == Amazon VPC CNI versions
 
-[options="header"]
 |===
 | Kubernetes version | Amazon EKS type of VPC CNI version
+
 | 1.32 | v1.19.5-eksbuild.1
 | 1.31 | v1.19.5-eksbuild.1
 | 1.30 | v1.19.5-eksbuild.1

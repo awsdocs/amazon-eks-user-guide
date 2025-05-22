@@ -43,7 +43,7 @@ You can conserve IP address utilization by using a transit gateway with a shared
 
 If you created a cluster with Kubernetes `1.14` or earlier, Amazon EKS added the following tag to your VPC:
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Key
 |Value
@@ -75,7 +75,7 @@ The link:vpc/latest/userguide/configure-subnets.html#subnet-types[subnets,type="
 * The subnets can be a public or private. However, we recommend that you specify private subnets, if possible. A public subnet is a subnet with a route table that includes a route to an link:vpc/latest/userguide/VPC_Internet_Gateway.html[internet gateway,type="documentation"], whereas a private subnet is a subnet with a route table that doesn't include a route to an internet gateway.
 * The subnets can't reside in the following Availability Zones:
 +
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |{aws} Region
 |Region name
@@ -103,7 +103,7 @@ The following table contains the IP address family used by each component of Ama
 
 Functionality can differ depending on the IP family (`ipFamily`) setting of the cluster. This setting changes the type of IP addresses used for the CIDR block that Kubernetes assigns to Services. A cluster with the setting value of IPv4 is referred to as an _IPv4 cluster_, and a cluster with the setting value of IPv6 is referred to as an _IPv6 cluster_.
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Component
 |IPv4 addresses
@@ -215,7 +215,7 @@ You can deploy nodes and Kubernetes resources to the same subnets that you speci
 +
 ** Private subnets
 +
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Key
 |Value
@@ -226,7 +226,7 @@ You can deploy nodes and Kubernetes resources to the same subnets that you speci
 |===
 ** Public subnets
 +
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Key
 |Value
@@ -238,7 +238,7 @@ You can deploy nodes and Kubernetes resources to the same subnets that you speci
 
 When a Kubernetes cluster that's version `1.18` and earlier was created, Amazon EKS added the following tag to all of the subnets that were specified.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Key
 |Value

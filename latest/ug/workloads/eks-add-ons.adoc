@@ -80,7 +80,7 @@ If you are planning to enable EKS Auto Mode on an existing cluster, you may need
 The following table details the scope of support for each add-on type: 
 
 
-[cols="1,1,1,1,1", options="header"]
+[%header,cols="5"]
 |===
 |Category |Feature |{aws} add-ons |{aws} Marketplace add-ons |Community add-ons
 |Development

@@ -136,7 +136,7 @@ workqueue_work_duration_seconds_sum{name="replicaset"} 4.265655885000002
 
 The following table describes the scheduler and controller manager metrics that are made available for Prometheus style scraping. For more information about these metrics, see https://kubernetes.io/docs/reference/instrumentation/metrics/[Kubernetes Metrics Reference] in the Kubernetes documentation.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Metric
 |Control plane component

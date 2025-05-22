@@ -52,7 +52,7 @@ Kubernetes version 1.32 is the last version for which Amazon EKS will release AL
 
 === NVIDIA drivers comparison for AL2, AL2023, and Bottlerocket AMIs
 
-[cols="1,1,1,1,1", options="header"]
+[%header,cols="5"]
 |===
 |Driver Branch
 |Amazon Linux 2 AMI
@@ -89,7 +89,7 @@ To learn more, see https://docs.nvidia.com/ai-enterprise/index.html#release-docu
 
 === NVIDIA CUDA versions comparison for AL2, AL2023, and Bottlerocket AMIs
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |CUDA Version
 |AL2 Support
@@ -121,7 +121,7 @@ To learn more, see https://developer.nvidia.com/cuda-toolkit-archive[CUDA Releas
 
 === Supported drivers and Linux kernel versions comparison for AL2, AL2023, and Bottlerocket AMIs
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Component
 |AL2 AMI Source

@@ -60,7 +60,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 ====
 
-[cols="1,1,1,1,1", options="header"]
+[%header,cols="5"]
 |===
 |Kubernetes version
 |Upstream release

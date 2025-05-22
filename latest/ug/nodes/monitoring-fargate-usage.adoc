@@ -26,7 +26,7 @@ You can use CloudWatch usage metrics to provide visibility into your account's u
 
 {aws} Fargate publishes the following metrics in the `{aws}/Usage` namespace.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Metric
 |Description
@@ -38,7 +38,7 @@ You can use CloudWatch usage metrics to provide visibility into your account's u
 
 The following dimensions are used to refine the usage metrics that are published by {aws} Fargate.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Dimension
 |Description

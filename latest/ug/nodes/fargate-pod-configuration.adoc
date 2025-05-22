@@ -39,7 +39,7 @@ If you don't specify a vCPU and memory combination, then the smallest available 
 
 The following table shows the vCPU and memory combinations that are available for Pods running on Fargate.  
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |vCPU value
 |Memory value

@@ -17,7 +17,7 @@ This topic describes the security group requirements of an Amazon EKS cluster.
 
 When you create a cluster, Amazon EKS creates a security group that's named `eks-cluster-sg-[.replaceable]``my-cluster``-[.replaceable]``uniqueID```. This security group has the following default rules:
 
-[cols="1,1,1,1,1", options="header"]
+[%header,cols="5"]
 |===
 |Rule type
 |Protocol
@@ -48,7 +48,7 @@ If your cluster doesn't need the outbound rule, you can remove it. If you remove
 
 Amazon EKS adds the following tags to the security group. If you remove the tags, Amazon EKS adds them back to the security group whenever your cluster is updated.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Key
 |Value
@@ -86,7 +86,7 @@ aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.cl
 
 If you need to limit the open ports between the cluster and nodes, you can remove the <<security-group-default-rules,default outbound rule>> and add the following minimum rules that are required for the cluster. If you remove the <<security-group-default-rules,default inbound rule>>, Amazon EKS recreates it whenever the cluster is updated.
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Rule type
 |Protocol

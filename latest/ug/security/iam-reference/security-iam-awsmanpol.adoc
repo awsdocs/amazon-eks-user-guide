@@ -376,7 +376,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 
 View details about updates to {aws} managed policies for Amazon EKS since this service began tracking these changes. For automatic alerts about changes to this page, subscribe to the RSS feed on the Amazon EKS Document history page.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Change

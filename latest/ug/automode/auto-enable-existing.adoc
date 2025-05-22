@@ -25,7 +25,7 @@ You must be logged into the {aws} console with permission to manage IAM, EKS, an
 The Cluster IAM role of an EKS Cluster cannot be changed after the cluster is created. EKS Auto Mode requires additional permissions on this role. You must attach additional policies to the current role. 
 ====
 
-=== Update Cluster IAM Role
+=== Update Cluster IAM role
 
 . Open your cluster overview page in the {aws-management-console}. 
 . Under *Cluster IAM role ARN*, select *View in IAM*. 
@@ -101,7 +101,7 @@ aws eks update-cluster-config \
 ----
 
 [#auto-addons-required]
-== Required Add-on Versions
+== Required add-on versions
 
 If you're planning to enable EKS Auto Mode on an existing cluster, you may need to update certain add-ons. Please note:
 
@@ -110,14 +110,16 @@ If you're planning to enable EKS Auto Mode on an existing cluster, you may need 
 
 If you have any of the following add-ons installed, ensure they are at least at the specified minimum version:
 
-[cols="1,1"]
+[%header,cols="2"]
 |===
-| Add-on Name | Minimum Required Version
+|Add-on name
+|Minimum required version
 
-| Amazon VPC CNI plugin for Kubernetes
-| v1.19.0-eksbuild.1
 
-| Kube-proxy 
+|Amazon VPC CNI plugin for Kubernetes
+|v1.19.0-eksbuild.1
+
+|Kube-proxy 
 a|
 * v1.26.15-eksbuild.19 
 * v1.27.16-eksbuild.14
@@ -126,14 +128,14 @@ a|
 * v1.30.6-eksbuild.3
 * v1.31.2-eksbuild.3 
 
-| Amazon EBS CSI driver
-| v1.37.0-eksbuild.1
+|Amazon EBS CSI driver
+|v1.37.0-eksbuild.1
 
-| CSI snapshot controller
-| v8.1.0-eksbuild.2
+|CSI snapshot controller
+|v8.1.0-eksbuild.2
 
-| EKS Pod Identity Agent
-| v1.3.4-eksbuild.1
+|EKS Pod Identity Agent
+|v1.3.4-eksbuild.1
 
 |===
 

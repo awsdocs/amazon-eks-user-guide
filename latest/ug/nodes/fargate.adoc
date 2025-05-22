@@ -70,7 +70,7 @@ spec:
 
 == Fargate Comparison Table
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Criteria
 |{aws} Fargate

@@ -17,7 +17,7 @@ You are responsible for operating system provisioning and management. When you a
 == Version compatibility
 
 The table below represents the operating system versions that are compatible and validated to use as the node operating system for hybrid nodes. If you are using other operating system variants or versions that are not included in this table, then the compatibility of hybrid nodes with your operating system variant or version is not covered by {aws} Support. Hybrid nodes are agnostic to the underlying infrastructure and support x86 and ARM architectures. 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 
 |Operating System
@@ -92,7 +92,7 @@ Before running the Packer build, set the following environment variables on the 
 
 The following environment variables must be set for building images with all operating systems and output formats.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Environment Variable
@@ -129,7 +129,7 @@ The following environment variables must be set for building images with all ope
 
 If you are using RHEL, the following environment variables must be set.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Environment Variable
@@ -158,7 +158,7 @@ There are no Ubuntu-specific environment variables required.
 
 If you are building a VMware vSphere OVA, the following environment variables must be set.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Environment Variable
@@ -201,7 +201,7 @@ If you are building a VMware vSphere OVA, the following environment variables mu
 
 *QEMU*
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Environment Variable

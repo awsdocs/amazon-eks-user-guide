@@ -15,12 +15,12 @@ The following Amazon EKS add-ons are available to create on your cluster. You ca
 You can use any of the following Amazon EKS add-ons.
 
 [role="no-scroll"]
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
-
 |Description
 |Learn more
 |Compatible compute types
+
 
 | Provide native VPC networking for your cluster
 |<<add-ons-vpc-cni>>

@@ -38,7 +38,7 @@ A new Amazon EKS cluster. To deploy one, see <<getting-started>>. The cluster mu
 aws eks describe-cluster --name my-cluster --query cluster.version --output text
 ----
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Kubernetes version
 |Platform version
@@ -68,7 +68,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
 [#coredns-autoscaling-coredns-version]
 === Minimum EKS Add-on version
 
-[cols="1,1,1,1,1", options="header"]
+[%header,cols="5"]
 |===
 
 |Kubernetes version

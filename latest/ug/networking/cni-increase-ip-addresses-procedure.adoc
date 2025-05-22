@@ -27,7 +27,7 @@ If your cluster is configured for the `IPv6` family, you must have version `1.10
 +
 ** Your cluster and its platform version must be at, or later than the versions in the following table. To upgrade your cluster version, see <<update-cluster>>. If your cluster isn't at the minimum platform version, then you can't assign IP prefixes to your nodes until Amazon EKS has updated your platform version.
 +
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Kubernetes version
 |Platform version

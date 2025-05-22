@@ -93,16 +93,18 @@ https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Learn h
 
 [source,asciidoc]
 ----
-[cols="1,1"]
+[%header,cols="2"]
 |===
-|Cell in column 1, row 1
-|Cell in column 2, row 1
+|Cell in column 1, header row
+|Cell in column 2, header row
 
-|Cell in column 1, row 2
-|Cell in column 2, row 2
 
-|Cell in column 1, row 3
-|Cell in column 2, row 3
+|Cell in column 1, body row 1
+|Cell in column 2, body row 1
+
+|Cell in column 1, body row 2
+|Cell in column 2, body row 2
+
 |===
 ----
 

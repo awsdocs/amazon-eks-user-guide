@@ -41,7 +41,7 @@ If you are running webhooks on hybrid nodes, your pod CIDR must be routable on y
 
 You must have access to the following domains during the installation process where you install the hybrid nodes dependencies on your hosts. This process can be done once when you are building your operating system images or it can be done on each host at runtime. This includes initial installation and when you upgrade the Kubernetes version of your hybrid nodes.
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Component
 |URL
@@ -105,7 +105,7 @@ The following network access for your on-premises firewall is required for ongoi
 Depending on your choice of CNI, you need to configure additional network access rules for the CNI ports. See the link:https://docs.cilium.io/en/stable/operations/system_requirements/#firewall-rules[Cilium documentation] and the link:https://docs.tigera.io/calico/latest/getting-started/kubernetes/requirements#network-requirements[Calico documentation] for details.
 ====
 
-[cols="1,1,1,1,1,1,1", options="header"]
+[%header,cols="7"]
 |===
 |Type
 |Protocol
@@ -349,7 +349,7 @@ aws ec2 associate-route-table --route-table-id [.replaceable]`RT_ID` --subnet-id
 
 The following access for your EKS cluster security group is required for ongoing cluster operations. 
 
-[cols="1,1,1,1,1,1,1", options="header"]
+[%header,cols="7"]
 |===
 |Type
 |Protocol

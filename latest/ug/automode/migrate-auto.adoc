@@ -37,23 +37,16 @@ You can install the {aws} Load Balancer Controller on an Amazon EKS Auto Mode cl
 
 Use the following migration reference to configure Kubernetes resources to be owned by either self-managed controllers or EKS Auto Mode. 
 
-[%header,cols="1,1,1,1,1"]
+[%header,cols="5"]
 |===
-
 | Capability | Resource | Field | Self Managed | EKS Auto Mode
 
 | Block storage | `StorageClass` | `provisioner` | `ebs.csi.aws.com` | `ebs.csi.eks.amazonaws.com`
-
 | Load balancing | `Service` | `loadBalancerClass` | `service.k8s.aws/nlb` | `eks.amazonaws.com/nlb`
-
 | Load balancing | `IngressClass` | `controller` | `ingress.k8s.aws/alb` | `eks.amazonaws.com/alb`
-
 | Load balancing | `IngressClassParams` | `apiversion` | `elbv2.k8s.aws/v1beta1` | `eks.amazonaws.com/v1`
-
 | Load balancing | `TargetGroupBinding` | `apiversion` | `elbv2.k8s.aws/v1beta1` | `eks.amazonaws.com/v1`
-
 | Compute | `NodeClass` | `apiVersion` | `karpenter.sh/v1alpha5` | `eks.amazonaws.com/v1`
-
 |===
 
 == Migrating EBS volumes

@@ -25,7 +25,7 @@ See <<kubernetes-versions,Kubernetes version support>> for the Kubernetes versio
 {aws} provides technical support for the following capabilities of Cilium and Calico for use with hybrid nodes. If you plan to use functionality outside the scope of {aws} support, we recommend that you obtain commercial support for the plugin or have the in-house expertise to troubleshoot and contribute fixes to the CNI plugin project.
 
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Feature	
 |Cilium	

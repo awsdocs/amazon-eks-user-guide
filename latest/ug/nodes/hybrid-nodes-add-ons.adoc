@@ -14,7 +14,7 @@ This page describes considerations for running {aws} add-ons and community add-o
 
 The following {aws} add-ons are compatible with Amazon EKS Hybrid Nodes.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |{aws} add-on
 |Compatible add-on versions
@@ -43,7 +43,7 @@ The following {aws} add-ons are compatible with Amazon EKS Hybrid Nodes.
 
 The following community add-ons are compatible with Amazon EKS Hybrid Nodes. To learn more about community add-ons, see <<community-addons>>.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Community add-on
 |Compatible add-on versions

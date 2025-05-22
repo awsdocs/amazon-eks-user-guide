@@ -87,7 +87,7 @@ You can define your API server endpoint access requirements when you create a ne
 
 Use the procedures in this section to modify the endpoint access for an existing cluster. The following table shows the supported API server endpoint access combinations and their associated behavior.
 
-[cols="1,1,1", options="header"]
+[%header,cols="1,1,3"]
 |===
 |Endpoint public access
 |Endpoint private access

@@ -30,89 +30,88 @@ https://www.ibm.com/docs/en/kubecost/self-hosted/2.x[Review the Kubecost documen
 
 *Core features comparison:*
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
+|Feature
+|Kubecost free tier 2.0
+|Amazon EKS optimized Kubecost bundle 2.0
+|Kubecost Enterprise 2.0
 
-| Feature
-| Kubecost free tier 2.0
-| Amazon EKS optimized Kubecost bundle 2.0
-| Kubecost Enterprise 2.0
 
+|Cluster cost visibility
+|Unlimited clusters up to 250 cores
+|Unified multi-cluster without core limits when integrated with Amazon Managed Service for Prometheus
+|Unified and unlimited number of clusters across unlimited numbers of environments (i.e. multi-cloud)
 
-| Cluster cost visibility
-| Unlimited clusters up to 250 cores
-| Unified multi-cluster without core limits when integrated with Amazon Managed Service for Prometheus
-| Unified and unlimited number of clusters across unlimited numbers of environments (i.e. multi-cloud)
+|Deployment
+|User hosted
+|User hosted
+|User hosted, Kubecost hosted (dedicated tenant), SaaS
 
-| Deployment
-| User hosted
-| User hosted
-| User hosted, Kubecost hosted (dedicated tenant), SaaS
+|Databases supported
+|Local Prometheus
+|Amazon Managed Service for Prometheus or Local Prometheus
+|Any prometheus flavor and custom databases
 
-| Databases supported
-| Local Prometheus
-| Amazon Managed Service for Prometheus or Local Prometheus
-| Any prometheus flavor and custom databases
+|Database retention support (raw metrics)
+|15 days
+|Unlimited historical data
+|Unlimited historical data
 
-| Database retention support (raw metrics)
-| 15 days
-| Unlimited historical data
-| Unlimited historical data
+|Kubecost API and UI retention (ETL)
+|15 days
+|15 days
+|Unlimited
 
-| Kubecost API and UI retention (ETL)
-| 15 days
-| 15 days
-| Unlimited
+|Hybrid cloud visibility
+|-
+|Amazon EKS and Amazon EKS Anywhere clusters
+|Multi-cloud and hybrid cloud
 
-| Hybrid cloud visibility
-| -
-| Amazon EKS and Amazon EKS Anywhere clusters
-| Multi-cloud and hybrid cloud
+|Alerts and recurring reports
+|Only supported on the primary cluster, limited to 250 cores
+|Efficiency alerts, budget alerts, spend change alerts, and https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=navigating-kubecost-ui#ariaid-title6[more supported] across all clusters
+|Efficiency alerts, budget alerts, spend change alerts, and https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=navigating-kubecost-ui#ariaid-title6[more supported] across all clusters
 
-| Alerts and recurring reports
-| Only supported on the primary cluster, limited to 250 cores
-| Efficiency alerts, budget alerts, spend change alerts, and https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=navigating-kubecost-ui#ariaid-title6[more supported] across all clusters
-| Efficiency alerts, budget alerts, spend change alerts, and https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=navigating-kubecost-ui#ariaid-title6[more supported] across all clusters
+|Saved reports
+|-
+|Reports using 15 days of metrics
+|Reports using unlimited historical data and metrics
 
-| Saved reports
-| -
-| Reports using 15 days of metrics
-| Reports using unlimited historical data and metrics
+|Cloud billing integration
+|Only supported on the primary cluster, limited to 250 cores
+|Custom pricing support for {aws} (including multiple clusters and multiple accounts)
+|Custom pricing support for any cloud
 
-| Cloud billing integration
-| Only supported on the primary cluster, limited to 250 cores
-| Custom pricing support for {aws} (including multiple clusters and multiple accounts)
-| Custom pricing support for any cloud
+|Savings recommendations
+|Only supported on the primary cluster, limited to 250 cores
+|Primary cluster insights, but there is no 250 core limit
+|Multi-cluster insights
 
-| Savings recommendations
-| Only supported on the primary cluster, limited to 250 cores
-| Primary cluster insights, but there is no 250 core limit
-| Multi-cluster insights
+|Governance: Audits
+|-
+|-
+|Audit historical cost events
 
-| Governance: Audits
-| -
-| -
-| Audit historical cost events
+|Single sign-on (SSO) support
+|-
+|Amazon Cognito supported
+|Okta, Auth0, PingID, KeyCloak, and anything else custom
 
-| Single sign-on (SSO) support
-| -
-| Amazon Cognito supported
-| Okta, Auth0, PingID, KeyCloak, and anything else custom
+|Role-based access control (RBAC) with SAML 2.0
+|-
+|-
+|Okta, Auth0, PingID, KeyCloak, and anything else custom
 
-| Role-based access control (RBAC) with SAML 2.0
-| -
-| -
-| Okta, Auth0, PingID, KeyCloak, and anything else custom
+|Enterprise training and onboarding
+|-
+|-
+|Full-service training and FinOps onboarding
 
-| Enterprise training and onboarding
-| -
-| -
-| Full-service training and FinOps onboarding
-
-| Teams
-| -
-| -
-| Yes
+|Teams
+|-
+|-
+|Yes
 
 |===
 
@@ -133,7 +132,7 @@ The following features have metric limits:
 
 *Metric limits:*
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Metric
 |Kubecost Free Tier 2.0
@@ -160,12 +159,13 @@ The following features have metric limits:
 |250 cores per cluster
 |No core limits
 |No core limits
+
 |===
 
 [#kubecost-v1]
 == Kubecost v1
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Feature
 |Kubecost free tier
@@ -247,6 +247,7 @@ The following features have metric limits:
 |-
 |-
 |Full-service training and FinOps onboarding
+
 |===
 
 [#cost-monitoring-faq]

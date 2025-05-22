@@ -100,7 +100,7 @@ If you disable `IPv6` addresses, or otherwise prevent localhost `IPv6` IP addres
 
 To use EKS Pod Identities, the cluster must have a platform version that is the same or later than the version listed in the following table, or a Kubernetes version that is later than the versions listed in the table.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Kubernetes version
 |Platform version

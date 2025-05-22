@@ -64,7 +64,7 @@ The following tables describe node health issues that can be detected by the nod
 [#node-health-kernel]
 === Kernel node health issues
 
-[cols="3", options="header"]
+[%header,cols="3"]
 |===
 
 |Name
@@ -120,7 +120,7 @@ The following tables describe node health issues that can be detected by the nod
 [#node-health-networking]
 === Networking node health issues
 
-[cols="3", options="header"]
+[%header,cols="3"]
 |===
 
 |Name
@@ -204,7 +204,7 @@ The following tables describe node health issues that can be detected by the nod
 [#node-health-neuron]
 === Neuron node health issues
 
-[cols="3", options="header"]
+[%header,cols="3"]
 |===
 
 |Name
@@ -234,7 +234,7 @@ The following tables describe node health issues that can be detected by the nod
 
 If auto repair is enabled, the repair actions that are listed start 10 minutes after the issue is detected. For more information on XID errors, see link:https://docs.nvidia.com/deploy/xid-errors/index.html#topic_5_1[Xid Errors] in the _NVIDIA GPU Deployment and Management Documentation_. For more information on the individual XID messages, see link:https://docs.nvidia.com/deploy/gpu-debug-guidelines/index.html#understanding-xid-messages[Understanding Xid Messages] in the _NVIDIA GPU Deployment and Management Documentation_.
 
-[cols="4", options="header"]
+[%header,cols="4"]
 |===
 
 |Name
@@ -347,7 +347,7 @@ If auto repair is enabled, the repair actions that are listed start 10 minutes a
 [#node-health-runtime]
 === Runtime node health issues
 
-[cols="3", options="header"]
+[%header,cols="3"]
 |===
 
 |Name
@@ -387,7 +387,7 @@ If auto repair is enabled, the repair actions that are listed start 10 minutes a
 [#node-health-storage]
 === Storage node health issues
 
-[cols="3", options="header"]
+[%header,cols="3"]
 |===
 
 |Name

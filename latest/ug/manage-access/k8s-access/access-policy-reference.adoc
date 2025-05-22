@@ -18,7 +18,7 @@ This access policy includes permissions that grant an IAM principal most permiss
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSAdminPolicy`
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Kubernetes API groups
 |Kubernetes resources
@@ -112,6 +112,7 @@ This access policy includes permissions that grant an IAM principal most permiss
 |
 |`namespaces`
 |`get`,``list``, `watch`
+
 |===
 
 
@@ -123,7 +124,7 @@ This access policy includes permissions that grant an IAM principal administrato
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy`
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Kubernetes API groups
 |Kubernetes nonResourceURLs
@@ -140,6 +141,7 @@ This access policy includes permissions that grant an IAM principal administrato
 |`{asterisk}`
 |
 |`{asterisk}`
+
 |===
 
 
@@ -150,7 +152,7 @@ This access policy includes permissions that grant an IAM principal access to li
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy`
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Kubernetes API groups
 |Kubernetes resources
@@ -160,6 +162,7 @@ This access policy includes permissions that grant an IAM principal access to li
 |`{asterisk}`
 |`{asterisk}`
 |`get`, `list`, `watch`
+
 |===
 
 
@@ -171,7 +174,7 @@ This access policy includes permissions that allow an IAM principal to edit most
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSEditPolicy`
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Kubernetes API groups
 |Kubernetes resources
@@ -267,7 +270,7 @@ This access policy includes permissions that allow an IAM principal to view most
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSViewPolicy`
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Kubernetes API groups
 |Kubernetes resources
@@ -563,7 +566,7 @@ This access policy includes permissions that grant EKS access to the nodes of a 
 
 *ARN* – `arn:aws:eks::aws:cluster-access-policy/AmazonEKSHybridPolicy`
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 | Kubernetes API groups
 | Kubernetes nonResourceURLs
@@ -604,7 +607,7 @@ This policy is automatically managed by the EKS service for Cluster Insights. Fo
 
 View details about updates to access policies, since they were introduced. For automatic alerts about changes to this page, subscribe to the RSS feed in <<doc-history>>.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Change
 |Description

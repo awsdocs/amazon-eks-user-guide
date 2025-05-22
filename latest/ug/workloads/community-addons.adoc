@@ -59,20 +59,30 @@ The following community add-ons are available from Amazon EKS.
 
 The Kubernetes Metrics Server is a scalable and efficient source of container resource metrics for Kubernetes built-in autoscaling pipelines. It collects resource metrics from Kubelets and exposes them in Kubernetes apiserver through Metrics API for use by Horizontal Pod Autoscaler and Vertical Pod Autoscaler.
 
+[%header,cols="2"]
 |===
-|Property | Value
+|Property
+|Value
 
-|Add-on name | `metrics-server`
 
-|Namespace | `kube-system`
+|Add-on name
+|`metrics-server`
 
-|Documentation | https://github.com/kubernetes-sigs/metrics-server[GitHub Readme]
+|Namespace
+|`kube-system`
 
-|Service account name | None
+|Documentation
+|https://github.com/kubernetes-sigs/metrics-server[GitHub Readme]
 
-|Managed IAM policy | None
+|Service account name
+|None
 
-|Custom IAM permissions | None
+|Managed IAM policy
+|None
+
+|Custom IAM permissions
+|None
+
 |===
 
 
@@ -82,20 +92,30 @@ Add-on agent to generate and expose cluster-level metrics.
 
 The state of Kubernetes objects in the Kubernetes API can be exposed as metrics. An add-on agent called kube-state-metrics can connect to the Kubernetes API server and expose a HTTP endpoint with metrics generated from the state of individual objects in the cluster. It exposes various information about the state of objects like labels and annotations, startup and termination times, status or the phase the object currently is in. 
 
+[%header,cols="2"]
 |===
-|Property | Value
+|Property
+|Value
 
-|Add-on name | `kube-state-metrics`
 
-|Namespace | `kube-state-metrics`
+|Add-on name
+|`kube-state-metrics`
 
-|Documentation | https://kubernetes.io/docs/concepts/cluster-administration/kube-state-metrics/[Metrics for Kubernetes Object States] in Kubernetes Docs
+|Namespace
+|`kube-state-metrics`
 
-|Service account name | None
+|Documentation
+|https://kubernetes.io/docs/concepts/cluster-administration/kube-state-metrics/[Metrics for Kubernetes Object States] in Kubernetes Docs
 
-|Managed IAM policy | None
+|Service account name
+|None
 
-|Custom IAM permissions | None
+|Managed IAM policy
+|None
+
+|Custom IAM permissions
+|None
+
 |===
 
 
@@ -103,20 +123,30 @@ The state of Kubernetes objects in the Kubernetes API can be exposed as metrics.
 
 Prometheus exporter for hardware and OS metrics exposed by *NIX kernels, written in Go with pluggable metric collectors. The Prometheus Node Exporter exposes a wide variety of hardware- and kernel-related metrics.
 
+[%header,cols="2"]
 |===
-|Property | Value
+|Property
+|Value
 
-|Add-on name | `prometheus-node-exporter`
 
-|Namespace | `prometheus-node-exporter`
+|Add-on name
+|`prometheus-node-exporter`
 
-|Documentation | https://prometheus.io/docs/guides/node-exporter/#monitoring-linux-host-metrics-with-the-node-exporter[Monitoring Linux host metrics with the Node Exporter] in Prometheus Docs
+|Namespace
+|`prometheus-node-exporter`
 
-|Service account name | None
+|Documentation
+|https://prometheus.io/docs/guides/node-exporter/#monitoring-linux-host-metrics-with-the-node-exporter[Monitoring Linux host metrics with the Node Exporter] in Prometheus Docs
 
-|Managed IAM policy | None
+|Service account name
+|None
 
-|Custom IAM permissions | None
+|Managed IAM policy
+|None
+
+|Custom IAM permissions
+|None
+
 |===
 
 
@@ -124,20 +154,29 @@ Prometheus exporter for hardware and OS metrics exposed by *NIX kernels, written
 
 Cert Manager can be used to manage the creation and renewal of certificates.
 
+[%header,cols="2"]
 |===
-|Property | Value
+|Property
+|Value
 
-|Add-on name | `cert-manager`
+|Add-on name
+|`cert-manager`
 
-|Namespace | `cert-manager`
+|Namespace
+|`cert-manager`
 
-|Documentation | https://cert-manager.io/docs/[Cert Manager Docs]
+|Documentation
+|https://cert-manager.io/docs/[Cert Manager Docs]
 
-|Service account name | None
+|Service account name
+|None
 
-|Managed IAM policy | None
+|Managed IAM policy
+|None
 
-|Custom IAM permissions | None
+|Custom IAM permissions
+|None
+
 |===
 
 
@@ -147,20 +186,30 @@ The External DNS EKS add-on can be used to manage Route53 DNS records through Ku
 
 External DNS permissions can be reduced to `route53:ChangeResourceRecordSets`, `route53:ListHostedZones`, and `route53:ListResourceRecordSets` on the hosted zones you wish to manage.
 
+[%header,cols="2"]
 |===
-|Property | Value
+|Property
+|Value
 
-|Add-on name | `external-dns`
 
-|Namespace | `external-dns`
+|Add-on name
+|`external-dns`
 
-|Documentation | https://github.com/kubernetes-sigs/external-dns[GitHub Readme]
+|Namespace
+|`external-dns`
 
-|Service account name | external-dns
+|Documentation
+|https://github.com/kubernetes-sigs/external-dns[GitHub Readme]
 
-|Managed IAM policy | `arn:aws:iam::aws:policy/AmazonRoute53FullAccess`
+|Service account name
+|external-dns
 
-|Custom IAM permissions | None
+|Managed IAM policy
+|`arn:aws:iam::aws:policy/AmazonRoute53FullAccess`
+
+|Custom IAM permissions
+|None
+
 |===
 
 
