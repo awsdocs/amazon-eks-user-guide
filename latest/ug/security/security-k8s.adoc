@@ -19,10 +19,6 @@ include::cert-signing.adoc[leveloffset=+1]
 
 include::default-roles-users.adoc[leveloffset=+1]
 
-include::pod-security-policy.adoc[leveloffset=+1]
-
-include::pod-security-policy-removal-faq.adoc[leveloffset=+1]
-
 include::enable-kms.adoc[leveloffset=+1]
 
 include::manage-secrets.adoc[leveloffset=+1]

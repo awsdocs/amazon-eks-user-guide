@@ -27,7 +27,7 @@ The following are prerequisites for the feature:
 
 [#cni-network-policy-minimum]
 === Minimum cluster version
-An existing Amazon EKS cluster. To deploy one, see <<getting-started>>. The cluster must be Kubernetes version `1.25` or later. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table. Note that any Kubernetes and platform versions later than those listed are also supported. You can check your current Kubernetes version by replacing [.replaceable]`my-cluster` in the following command with the name of your cluster and then running the modified command:
+An existing Amazon EKS cluster. To deploy one, see <<getting-started>>. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table. Note that any Kubernetes and platform versions later than those listed are also supported. You can check your current Kubernetes version by replacing [.replaceable]`my-cluster` in the following command with the name of your cluster and then running the modified command:
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -47,9 +47,6 @@ aws eks describe-cluster
 
 |`1.26.7`
 |`eks.6`
-
-|`1.25.12`
-|`eks.7`
 
 |===
 

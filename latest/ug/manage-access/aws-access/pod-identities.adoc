@@ -117,9 +117,6 @@ To use EKS Pod Identities, the cluster must have a platform version that is the 
 |`1.26`
 |`eks.9`
 
-|`1.25`
-|`eks.10`
-
 |===
 
 [#pod-id-restrictions]

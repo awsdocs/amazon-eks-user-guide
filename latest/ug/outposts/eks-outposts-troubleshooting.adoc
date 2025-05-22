@@ -276,13 +276,6 @@ The most common issues are the following:
 * Missing the {aws} IAM Authenticator `ConfigMap` – If it's missing, you must create it. For more information, see <<aws-auth-configmap>> .
 * The wrong security group is used – Make sure to use `eks-cluster-sg-[.replaceable]``cluster-name``-[.replaceable]``uniqueid``` for your worker nodes' security group. The selected security group is changed by {aws} CloudFormation to allow a new security group each time the stack is used.
 * Following unexpected private link VPC steps – Wrong CA data (`--b64-cluster-ca`) or API Endpoint (`--apiserver-endpoint`) are passed.
-* Misconfigured Pod security policy:
-+
-** The CoreDNS and Amazon VPC CNI plugin for Kubernetes Daemonsets must run on nodes for nodes to join and communicate with the cluster.
-** The Amazon VPC CNI plugin for Kubernetes requires some privileged networking features to work properly. You can view the privileged networking features with the following command: `kubectl describe psp eks.privileged`.
-
-+
-We don't recommend modifying the default pod security policy. For more information, see <<pod-security-policy>>.
 
 ====
 

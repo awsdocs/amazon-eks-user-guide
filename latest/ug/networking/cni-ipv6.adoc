@@ -12,7 +12,7 @@ Learn how to deploy an `IPv6` cluster and nodes with Amazon EKS for assigning `I
 
 *Applies to*: Pods with Amazon EC2 instances and Fargate Pods
 
-By default, Kubernetes assigns `IPv4` addresses to your Pods and services. Instead of assigning `IPv4` addresses to your Pods and services, you can configure your cluster to assign `IPv6` addresses to them. Amazon EKS doesn't support dual-stacked Pods or services, even though Kubernetes does in version `1.23` and later. As a result, you can't assign both `IPv4` and `IPv6` addresses to your Pods and services.  
+By default, Kubernetes assigns `IPv4` addresses to your Pods and services. Instead of assigning `IPv4` addresses to your Pods and services, you can configure your cluster to assign `IPv6` addresses to them. Amazon EKS doesn't support dual-stacked Pods or services, even though Kubernetes does. As a result, you can't assign both `IPv4` and `IPv6` addresses to your Pods and services.  
 
 You select which IP family you want to use for your cluster when you create it. You can't change the family after you create the cluster.
 

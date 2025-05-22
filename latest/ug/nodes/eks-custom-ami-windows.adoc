@@ -24,8 +24,6 @@ With both methods, you must create your own Image Builder recipe. For more infor
 
 The following *Amazon-managed* components for `eks` include patches for `CVE-2024-5321`.
 
-* `1.24.5` and higher
-* `1.25.4` and higher
 * `1.26.4` and higher
 * `1.27.2` and higher
 * `1.28.2` and higher
@@ -90,8 +88,6 @@ When using an Amazon EKS optimized Windows AMI as a base isn't viable, you can u
 .. Choose *Versioning options* for *`eks-optimized-ami-windows`*.
 .. Choose *Specify component version*.
 .. In the *Component Version* field, enter [.replaceable]`version.x`, replacing [.replaceable]`version` with a supported Kubernetes version. Entering an [.replaceable]`x` for part of the version number indicates to use the latest component version that also aligns with the part of the version you explicitly define. Pay attention to the console output as it will advise you on whether your desired version is available as a managed component. Keep in mind that the most recent Kubernetes versions may not be available for the build component. For more information about available versions, see <<custom-windows-ami-component-versions>>.
-+
-NOTE: The `1.24.0` `eks-optimized-ami-windows` build component versions require `eksctl` version `0.129` or lower.
 
 . Complete the remaining image recipe inputs with your required configurations. For more information, see link:imagebuilder/latest/userguide/create-image-recipes.html#create-image-recipe-version-console[Create a new image recipe version (console),type="documentation"] in the Image Builder User Guide.
 . Choose *Create recipe*.

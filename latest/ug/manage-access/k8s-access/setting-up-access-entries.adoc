@@ -59,9 +59,6 @@ To use _access entries_, the cluster must have a platform version that is the sa
 |`1.26`
 |`eks.11`
 
-|`1.25`
-|`eks.12`
-
 |===
 
 For more information, see <<platform-versions>>. 

@@ -16,12 +16,8 @@ All of the data stored by the `etcd` nodes and associated Amazon EBS volumes is 
 [IMPORTANT]
 ====
 
-In the Amazon EKS environment, `etcd` storage is limited to 8 GiB as per https://etcd.io/docs/v3.5/dev-guide/limit/#storage-size-limit[upstream] guidance. You can monitor a metric for the current database size by running the following command. If your cluster has a Kubernetes version below `1.28`, replace [.replaceable]`apiserver_storage_size_bytes` with the following:
+In the Amazon EKS environment, `etcd` storage is limited to 8 GiB as per https://etcd.io/docs/v3.5/dev-guide/limit/#storage-size-limit[upstream] guidance. You can monitor a metric for the current database size by running the following command. If your cluster has a Kubernetes version below `1.28`, replace [.replaceable]`apiserver_storage_size_bytes` with `apiserver_storage_db_total_size_in_bytes`.
 
-
-
-* Kubernetes version `1.27` and `1.26` – `apiserver_storage_db_total_size_in_bytes`
-* Kubernetes version `1.25` and below – `etcd_db_total_size_in_bytes`
 
 [source,bash,subs="verbatim,attributes"]
 ----

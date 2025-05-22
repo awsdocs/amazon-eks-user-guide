@@ -69,7 +69,7 @@ kind: ClusterConfig
 metadata:
   name: my-cluster
   region: region-code
-  version: "1.25"
+  version: "{k8s-n}"
 
 vpc:
   clusterEndpoints:
@@ -255,7 +255,6 @@ Amazon EKS creates the following resources on your cluster. The resources are fo
 * A `PodSecurityPolicy` named `eks.system`
 * A `ClusterRole` named `eks:system:podsecuritypolicy`
 * A `ClusterRoleBinding` named `eks:system`
-* A default <<default-psp,PodSecurityPolicy>>
 * In addition to the <<sec-group-reqs,cluster security group>>, Amazon EKS creates a security group in your {aws} account that's named `eks-local-internal-do-not-use-or-edit-[.replaceable]``cluster-name``-[.replaceable]``uniqueid```. This security group allows traffic to flow freely between Kubernetes components running on the control plane instances.
 
 Recommended next steps:

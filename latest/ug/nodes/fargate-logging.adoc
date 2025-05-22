@@ -290,18 +290,6 @@ aws iam attach-role-policy \
 [#fargate-logging-kubernetes-filter]
 === Kubernetes filter support
 
-This feature requires the following minimum Kubernetes version and platform level, or later.
-
-[cols="1,1", options="header"]
-|===
-|Kubernetes version
-|Platform level
-
-
-|1.23 and later
-|eks.1
-|===
-
 The Fluent Bit Kubernetes filter allows you to add Kubernetes metadata to your log files. For more information about the filter, see https://docs.fluentbit.io/manual/pipeline/filters/kubernetes[Kubernetes] in the Fluent Bit documentation. You can apply a filter using the API server endpoint.  
 
 [source,yaml,subs="verbatim,attributes,quotes"]
@@ -424,7 +412,6 @@ To confirm whether the logging feature is enabled or disabled for some reason, s
 [...]
 Annotations:          CapacityProvisioned: 0.25vCPU 0.5GB
                       Logging: LoggingDisabled: LOGGING_CONFIGMAP_NOT_FOUND
-                      kubernetes.io/psp: eks.privileged
 [...]
 Events:
   Type     Reason           Age        From                                                           Message

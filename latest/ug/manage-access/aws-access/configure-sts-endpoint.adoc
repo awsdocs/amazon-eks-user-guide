@@ -38,10 +38,6 @@ If you're using a Kubernetes service account with <<iam-roles-for-service-accoun
 |`eks.1`
 |Regional
 
-|`1.25`
-|`eks.1`
-|Regional
-
 |===
 
 {aws} recommends using the regional {aws} STS endpoints instead of the global endpoint. This reduces latency, provides built-in redundancy, and increases session token validity. The {aws} Security Token Service must be active in the {aws} Region where the Pod is running. Moreover, your application must have built-in redundancy for a different {aws} Region in the event of a failure of the service in the {aws} Region. For more information, see link:IAM/latest/UserGuide/id_credentials_temp_enable-regions.html[Managing {aws} STS in an {aws} Region,type="documentation"] in the IAM User Guide.

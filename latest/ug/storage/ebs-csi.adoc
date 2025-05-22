@@ -47,8 +47,6 @@ aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
 * The EBS CSI driver needs {aws} IAM Permissions.
 ** {aws} suggests using EKS Pod Identities. For more information, see <<pod-id-setup-overview>>. 
 ** For information about IAM Roles for Service Accounts, see <<enable-iam-roles-for-service-accounts>>.
-* If you're using a cluster wide restricted <<pod-security-policy,PodSecurityPolicy>>, make sure that the add-on is granted sufficient permissions to be deployed. For the permissions required by each add-on Pod, see the https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base[relevant add-on manifest definition] on GitHub.
-
 
 [#csi-iam-role]
 == Step 1: Create an IAM role

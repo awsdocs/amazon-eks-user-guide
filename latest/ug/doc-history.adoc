@@ -1276,7 +1276,7 @@ Added Kubernetes version `1.21` support.
 [.update,date="2021-07-19"]
 === `containerd` runtime bootstrap
 [.update-ulink]
-link:eks/latest/userguide/eks-optimized-ami.html#containerd-bootstrap[type="documentation"]
+link:eks/latest/userguide/eks-optimized-ami.html[type="documentation"]
 
 The Amazon EKS optimized accelerated Amazon Linux Amazon Machine Image (AMI) now contains a bootstrap flag that you can use to enable the `containerd` runtime in Amazon EKS optimized and Bottlerocket AMIs. This flag is available in all supported Kubernetes versions of the AMI.
 

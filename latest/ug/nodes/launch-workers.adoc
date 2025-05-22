@@ -62,7 +62,6 @@ To deploy a node group that:
 **** can assign a significantly higher number of IP addresses to Pods than the default configuration, see <<cni-increase-ip-addresses>>.
 **** can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see <<cni-custom-network>>.
 **** can assign `IPv6` addresses to Pods and services, see <<cni-ipv6>>.
-**** use the `containerd` runtime, you must deploy the node group using a `config` file. For more information, see <<containerd-bootstrap>>.
 **** don't have outbound internet access, see <<private-clusters>>.
 +
 For a complete list of all available options and defaults, enter the following command.
@@ -140,7 +139,6 @@ To deploy a node group that:
 *** can assign a significantly higher number of IP addresses to Pods than the default configuration, see <<cni-increase-ip-addresses>>.
 *** can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see <<cni-custom-network>>.
 *** can assign `IPv6` addresses to Pods and services, see <<cni-ipv6>>.
-*** use the `containerd` runtime, you must deploy the node group using a `config` file. For more information, see <<containerd-bootstrap>>.
 *** don't have outbound internet access, see <<private-clusters>>.
 ** *DisableIMDSv1*: By default, each node supports the Instance Metadata Service Version 1 (IMDSv1) and IMDSv2. You can disable IMDSv1. To prevent future nodes and Pods in the node group from using MDSv1, set *DisableIMDSv1* to *true*. For more information about IMDS, see link:AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html[Configuring the instance metadata service,type="documentation"]. For more information about restricting access to it on your nodes, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
 ** *VpcId*: Enter the ID for the <<creating-a-vpc,VPC>> that you created.
