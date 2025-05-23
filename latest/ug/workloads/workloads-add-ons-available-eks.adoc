@@ -78,6 +78,10 @@ You can use any of the following Amazon EKS add-ons.
 |<<add-ons-pod-id>>
 |EC2, EKS Hybrid Nodes
 
+|Enable users to obtain certificates from AWS Private Certificate Authority (AWS Private CA) for Kubernetes
+|<<add-ons-aws-privateca-connector>>
+|EC2, EKS Auto Mode
+
 |===
 
 [#add-ons-vpc-cni]
@@ -482,6 +486,29 @@ eksctl create iamserviceaccount \
 === Additional information
 
 For more information, see link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Install the CloudWatch agent,type="documentation"].
+
+[#add-ons-aws-privateca-connector]
+== AWS Private CA Connector for Kubernetes
+
+[abstract]
+--
+Learn about the AWS Private CA Connector for Kubernetes Amazon EKS add-on.
+--
+
+The AWS Private CA Connector for Kubernetes is an add-on for cert-manager that enables users to obtain Certificates from AWS Private Certificate Authority (AWS Private CA).
+
+* The Amazon EKS add-on name is `aws-privateca-connector-for-kubernetes`.
+* The add-on namespace is `aws-privateca-issuer`.
+
+[#add-ons-aws-privateca-connector-iam-permissions]
+=== Required IAM permissions
+
+This add-on uses the IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>.
+
+[#add-ons-aws-privateca-connector-information]
+=== Additional information
+
+For more information, see the https://github.com/cert-manager/aws-privateca-issuer[AWS Private CA Issuer for Kubernetes GitHub repository].
 
 [#add-ons-pod-id]
 == EKS Pod Identity Agent
