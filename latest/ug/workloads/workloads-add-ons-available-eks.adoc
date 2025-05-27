@@ -530,7 +530,13 @@ The Amazon EKS add-on name is `eks-pod-identity-agent`.
 [#add-ons-pod-id-iam-permissions]
 === Required IAM permissions
 
-This add-on users permissions from the <<create-node-role,Amazon EKS node IAM role>>.
+This add-on requires IAM permissions.
+
+Use EKS Pod Identities to attach the `AWSPrivateCAConnectorForKubernetesPolicy` IAM Policy to the `aws-privateca-issuer` Kubernetes Service Account. 
+
+For more information, see <<update-addon-role>>.
+
+For information about the required permissions, see link:aws-managed-policy/latest/reference/AWSPrivateCAConnectorForKubernetesPolicy.html[AWSPrivateCAConnectorForKubernetesPolicy,type="documentation"] in the {aws} Managed Policy Reference. 
 
 [#add-ons-pod-id-update-information]
 === Update information
