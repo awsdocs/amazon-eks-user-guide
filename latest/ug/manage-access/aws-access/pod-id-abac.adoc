@@ -67,7 +67,7 @@ All of the session tags that are added by EKS Pod Identity are _transitive_; the
 [#pod-id-abac-custom-tags]
 == Custom tags
 
-EKS Pod Identity can't add additional custom tags to the `AssumeRole` action that it performs. However, tags that you apply to the IAM role are always available though the same format: `${aws:PrincipalTag/` followed by the key, for example `${aws:PrincipalTag/MyCustomTag}`.
+EKS Pod Identity can't add additional custom tags to the `AssumeRole` action that it performs. However, tags that you apply to the IAM role are always available through the same format: `${aws:PrincipalTag/` followed by the key, for example `${aws:PrincipalTag/MyCustomTag}`.
 
 [NOTE]
 ====
