@@ -19,6 +19,14 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-05-23"]
+=== Add-on support for Amazon FSx CSI driver
+[.update-ulink]
+link:eks/latest/userguide/fsx-csi.html[type="documentation"]
+
+You can now use the {aws} Management Console, {aws} CLI, and API to manage the Amazon FSx CSI driver.
+
+
 [.update,date="2025-05-22"]
 === Edit Prometheus scrapers in the console
 [.update-ulink]

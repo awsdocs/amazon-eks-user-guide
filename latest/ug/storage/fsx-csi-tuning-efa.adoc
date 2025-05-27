@@ -12,6 +12,14 @@ Learn how to set up Elastic Fabric Adapter (EFA) tuning with Amazon EKS and Amaz
 
 This topic describes how to set up Elastic Fabric Adapter (EFA) tuning with Amazon EKS and Amazon FSx for Lustre.
 
+[NOTE]
+====
+
+* For information on creating and deploying the FSx for Lustre CSI driver, see <<fsx-csi-create>>.
+* For optimizing standard nodes without EFA, see <<fsx-csi-tuning-non-efa>>.
+
+====
+
 [#create-eks-cluster]
 == Step 1. Create EKS cluster
 
@@ -727,3 +735,10 @@ sudo lnetctl net show -v
 ----
 
 The expected output will show EFA interfaces with traffic statistics.
+
+== Related information
+
+* <<fsx-csi-create>>
+* <<fsx-csi-tuning-non-efa>>
+* link:fsx/latest/LustreGuide/performance.html[Amazon FSx for Lustre Performance,type="documentation"]
+* link:ec2/latest/userguide/efa.html[Elastic Fabric Adapter,type="documentation"]

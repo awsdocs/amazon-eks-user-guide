@@ -12,6 +12,14 @@ Learn how to optimize Amazon FSx for Lustre performance on your Amazon EKS nodes
 
 You can optimize Amazon FSx for Lustre performance by applying tuning parameters during node initialization using launch template user data.
 
+[NOTE]
+====
+
+* For information on creating and deploying the FSx for Lustre CSI driver, see <<fsx-csi-create>>.
+For optimizing performance with EFA-enabled nodes, see <<fsx-csi-tuning-efa>>.
+
+====
+
 == Why use launch template user data?
 
 * Applies tunings automatically during node initialization.
@@ -280,4 +288,10 @@ echo "FSx for Lustre configuration completed."
 ----
 
 . When creating Amazon EKS node groups, select this launch template. For more information, see <<create-managed-node-group>>.
+
+== Related information
+
+* <<fsx-csi-create>>
+* <<fsx-csi-tuning-efa>>
+* link:fsx/latest/LustreGuide/performance.html[Amazon FSx for Lustre Performance,type="documentation"]
 

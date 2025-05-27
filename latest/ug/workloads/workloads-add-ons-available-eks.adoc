@@ -2,8 +2,8 @@ include::../attributes.txt[]
 
 [.topic]
 [#workloads-add-ons-available-eks]
-= {aws} Add-ons
-:info_titleabbrev: {aws} Add-ons
+= {aws} add-ons
+:info_titleabbrev: {aws} add-ons
 
 [abstract]
 --
@@ -40,6 +40,10 @@ You can use any of the following Amazon EKS add-ons.
 
 |Provide Amazon EFS storage for your cluster
 |<<add-ons-aws-efs-csi-driver>>
+|EC2, EKS Auto Mode
+
+|Provide Amazon FSx for Lustre storage for your cluster
+|<<add-ons-aws-fsx-csi-driver>>
 |EC2, EKS Auto Mode
 
 |Provide Amazon S3 storage for your cluster
@@ -263,6 +267,53 @@ aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRU
 
 To learn more about the add-on, see <<efs-csi>>.
 
+[#add-ons-aws-fsx-csi-driver]
+== Amazon FSx CSI driver
+
+[abstract]
+--
+Learn about the Amazon FSx CSI driver Amazon EKS add-on.
+--
+
+The Amazon FSx CSI driver Amazon EKS add-on is a Kubernetes Container Storage Interface (CSI) plugin that provides Amazon FSx for Lustre storage for your cluster.
+
+The Amazon EKS add-on name is `aws-fsx-csi-driver`.
+
+[NOTE]
+====
+* Pre-existing Amazon FSx CSI driver installations in the cluster can cause add-on installation failures. When you attempt to install the Amazon EKS add-on version while a non-EKS FSx CSI Driver exists, the installation will fail due to resource conflicts. Use the `OVERWRITE` flag during installation to resolve this issue:
++
+[source,bash]
+----
+aws eks create-addon --addon-name aws-fsx-csi-driver --cluster-name my-cluster --resolve-conflicts OVERWRITE
+----
+
+* The Amazon FSx CSI Driver EKS add-on requires the EKS Pod Identity agent for authentication. Without this component, the add-on will fail with the error `Amazon EKS Pod Identity agent is not installed in the cluster`, preventing volume operations. Install the Pod Identity agent before or after deploying the FSx CSI Driver add-on. For more information, see <<pod-id-agent-setup>>. 
+
+====
+
+[#add-ons-aws-fsx-csi-driver-iam-permissions]
+=== Required IAM permissions
+
+This add-on utilizes the IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. The permissions in the link:aws-managed-policy/latest/reference/AmazonFSxFullAccess.html[AmazonFSxFullAccess,type="documentation"] {aws} managed policy are required. You can create an IAM role and attach the managed policy to it with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKS_FSx_CSI_DriverRole` with the name for your role. This command requires that you have https://eksctl.io[eksctl] installed on your device.
+
+[source,bash,subs="verbatim,attributes"]
+----
+eksctl create iamserviceaccount \
+    --name fsx-csi-controller-sa \
+    --namespace kube-system \
+    --cluster my-cluster \
+    --role-name AmazonEKS_FSx_CSI_DriverRole \
+    --role-only \
+    --attach-policy-arn {arn-aws}iam::aws:policy/AmazonFSxFullAccess \
+    --approve
+----
+
+[#add-ons-aws-fsx-csi-driver-information]
+=== Additional information
+
+To learn more about the add-on, see <<fsx-csi>>.
+
 [#mountpoint-for-s3-add-on]
 == Mountpoint for Amazon S3 CSI Driver
 
@@ -306,6 +357,7 @@ eksctl create iamserviceaccount \
 === Additional information
 
 To learn more about the add-on, see <<s3-csi>>.
+
 
 [#addons-csi-snapshot-controller]
 == CSI snapshot controller
