@@ -10,7 +10,12 @@ include::../attributes.txt[]
 Learn how to configure Container Network Interfaces (CNI), add-ons, webhooks, and proxy settings for hybrid nodes.
 --
 
-This chapter describes how to configure Container Network Interfaces (CNI), add-ons, webhooks, and proxy settings for hybrid nodes. For the complete list of the EKS and community add-ons that are compatible with hybrid nodes, see <<hybrid-nodes-add-ons>>.
+After you configure a cluster for hybrid nodes, Hybrid nodes requires configuration for Container Network Interfaces (CNI), add-ons, webhooks, and possibleproxy settings. For the complete list of the EKS and community add-ons that are compatible with hybrid nodes, see <<hybrid-nodes-add-ons>>.
+
+*EKS cluster insights*
+EKS includes insight checks for misconfigurations in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. For more information on cluster insights, see <<cluster-insights>>.
+
+The following lists the add-ons and other components that have different configuration for hybrid nodes:
 
 * *Container Networking Interface (CNI)*: The core capabilities of link:https://docs.cilium.io/en/stable/index.html[Cilium] and link:https://docs.tigera.io/calico/latest/about/[Calico] are supported for use with hybrid nodes. You can manage your CNI on hybrid nodeswith your choice of tooling such as Helm. The {aws} VPC CNI can't be used with hybrid nodes. For more information, see <<hybrid-nodes-cni>>.
 * *CoreDNS and `kube-proxy`*: CoreDNS and `kube-proxy` are installed automatically when hybrid nodes join the EKS cluster. These add-ons can be managed as EKS add-ons after cluster creation.

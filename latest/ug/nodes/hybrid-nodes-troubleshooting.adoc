@@ -12,8 +12,11 @@ Troubleshoot, diagnose, and repair hybrid nodes from your data centers to Amazon
 
 This topic covers some common errors that you might see while using Amazon EKS Hybrid Nodes and how to fix them. For other troubleshooting information, see <<troubleshooting>> and https://repost.aws/tags/knowledge-center/TA4IvCeWI1TE66q4jEj4Z9zg/amazon-elastic-kubernetes-service[Knowledge Center tag for Amazon EKS] on _{aws} re:Post_. If you cannot resolve the issue, contact {aws} Support.
 
+*Node troubleshooting with `nodeadm debug`*
 You can run the `nodeadm debug` command from your hybrid nodes to validate networking and credential requirements are met. For more information on the `nodeadm debug` command, see <<hybrid-nodes-nodeadm>>.
 
+*Detect issues with your hybrid nodes with cluster insights*
+Amazon EKS cluster insights includes __insight checks__ that detect common issues with the configuration of EKS Hybrid Nodes in your cluster. You can view the results of all insight checks from the {aws-management-console}, {aws} CLI, and the {aws} SDKs. For more information about cluster insights, see <<cluster-insights>>.
 
 [#hybrid-nodes-troubleshooting-install]
 == Installing hybrid nodes troubleshooting

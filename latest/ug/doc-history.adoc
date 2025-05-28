@@ -19,6 +19,15 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+
+[.update,date="2025-05-29"]
+=== New cluster insights for EKS Hybrid Nodes
+[.update-ulink]
+link:eks/latest/userguide/cluster-insights.html[type="documentation"]
+
+Amazon EKS adds new cluster insights that check the configuration of your hybrid nodes. These insight checks will warn you about issues with on-premises nodes and pods and the remote network configuration of the cluster. 
+
+
 [.update,date="2025-05-23"]
 === Add-on support for Amazon FSx CSI driver
 [.update-ulink]
