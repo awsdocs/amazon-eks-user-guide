@@ -21,6 +21,11 @@ The Amazon EKS Dashboard provides consolidated visibility into your Kubernetes c
 
 The EKS dashboard integrates with EKS Cluster Insights to surface issues with your clusters, such as use of deprecated Kubernetes APIs. For more information, see <<cluster-insights>>. 
 
+[NOTE]
+====
+The EKS Dashboard is not real-time and updates every 12 hours. For real-time cluster monitoring, see <<eks-observe>>
+====
+
 == How does the dashboard use {aws} Organizations?
 
 The Amazon EKS dashboard requires {aws} Organizations integration for functionality. It leverages {aws} Organizations to securely gather cluster information across accounts. This integration provides centralized management and governance as your {aws} infrastructure scales.
@@ -154,6 +159,7 @@ You can filter the EKS Dashboard by:
 * You must be logged in to one of the following {aws} accounts:
 ** The management account of the {aws} Organization
 ** A delegated administrator account, identified in the EKS dashboard settings of the management account.
+* If you've recently enabled the EKS Dashboard, please note that initial data population may take up to 12 hours.
 
 === Dashboard widgets move unexpectedly
 
