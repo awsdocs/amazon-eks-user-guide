@@ -37,6 +37,7 @@ The following table lists the latest version of the Amazon EKS add-on type for e
 |===
 | Kubernetes version | CoreDNS version
 
+| 1.33 | v1.12.1-eksbuild.2
 | 1.32 | v1.11.4-eksbuild.14
 | 1.31 | v1.11.4-eksbuild.14
 | 1.30 | v1.11.4-eksbuild.14
@@ -44,6 +45,7 @@ The following table lists the latest version of the Amazon EKS add-on type for e
 | 1.28 | v1.10.1-eksbuild.18
 | 1.27 | v1.10.1-eksbuild.18
 | 1.26 | v1.9.3-eksbuild.22
+
 |===
 
 [IMPORTANT]

@@ -21,6 +21,14 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 
 
 [.update,date="2025-05-29"]
+=== Kubernetes version `1.33`
+[.update-ulink]
+link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-33[type="documentation"]
+
+Added Kubernetes version `1.33` support for new clusters and version upgrades.
+
+
+[.update,date="2025-05-29"]
 === New cluster insights for EKS Hybrid Nodes
 [.update-ulink]
 link:eks/latest/userguide/cluster-insights.html[type="documentation"]
