@@ -37,6 +37,27 @@ To receive notifications of all source file changes to this specific documentati
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/clusters/platform-versions.adoc.atom
 ----
 
+
+[#platform-versions-1-33]
+== Kubernetes version `1.33`
+
+The following admission controllers are enabled for all `1.33` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`.
+
+[%header,cols="4"]
+|===
+| Kubernetes version
+| EKS platform version
+| Release notes
+| Release date
+
+| `1.33.1`
+| `eks.4`
+| Initial release of Kubernetes version `1.33` for EKS. For more information, see <<kubernetes-1-33>>.
+| May 28, 2025
+
+|===
+
+
 [#platform-versions-1-32]
 == Kubernetes version `1.32`
 

@@ -40,8 +40,28 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/node
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Core AMI.
 
+
+
 ====
 [role="tablist"]
+*Kubernetes version 1.33*::
++
+[%header,cols="5"]
+|===
+|AMI version
+|kubelet version
+|containerd version
+|csi-proxy version
+|Release notes
+
+|`1.33-2025.05.17`
+|`1.33.1`
+|`1.7.27`
+|`1.2.1`
+|
+
+|===
+
 *Kubernetes version 1.32*::
 +
 [%header,cols="5"]
@@ -934,6 +954,24 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 ====
 [role="tablist"]
+*Kubernetes version 1.33*::
++
+[%header,cols="5"]
+|===
+|AMI version
+|kubelet version
+|containerd version
+|csi-proxy version
+|Release notes
+
+|`1.33-2025.05.17`
+|`1.33.1`
+|`1.7.27`
+|`1.2.1`
+|
+
+|===
+
 *Kubernetes version 1.32*::
 +
 [%header,cols="5"]
@@ -1830,6 +1868,24 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 ====
 [role="tablist"]
+*Kubernetes version 1.33*::
++
+[%header,cols="5"]
+|===
+|AMI version
+|kubelet version
+|containerd version
+|csi-proxy version
+|Release notes
+
+|`1.33-2025.05.17`
+|`1.33.1`
+|`1.7.27`
+|`1.2.1`
+|
+
+|===
+
 *Kubernetes version 1.32*::
 +
 [%header,cols="5"]
@@ -2725,6 +2781,24 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 ====
 [role="tablist"]
+*Kubernetes version 1.33*::
++
+[%header,cols="5"]
+|===
+|AMI version
+|kubelet version
+|containerd version
+|csi-proxy version
+|Release notes
+
+|`1.33-2025.05.17`
+|`1.33.1`
+|`1.7.27`
+|`1.2.1`
+|
+
+|===
+
 *Kubernetes version 1.32*::
 +
 [%header,cols="5"]

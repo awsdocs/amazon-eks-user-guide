@@ -12,6 +12,31 @@ This topic gives important changes to be aware of for each Kubernetes version in
 
 This topic gives important changes to be aware of for each Kubernetes version in standard support. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster.
 
+
+[#kubernetes-1-33]
+== Kubernetes 1.33
+
+Kubernetes `1.33` is now available in Amazon EKS. For more information about Kubernetes `1.33`, see the https://kubernetes.io/blog/2025/04/23/kubernetes-v1-33-release/[official release announcement].
+
+[IMPORTANT]
+====
+* The Dynamic Resource Allocation _beta_ Kubernetes API is enabled.
+** This beta API improves the experience of scheduling and monitoring workloads that require resources such as GPUs. 
+** The beta API is defined by the Kubernetes community, and might change in future versions of Kubernetes. 
+** Carefully review https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages[Feature stages] in the Kubernetes documentation to understand the implications of using beta APIs. 
+* {aws} is not releasing an EKS-optimized Amazon Linux 2 AMI for Kubernetes 1.33. 
+** {aws} encourages you to migrate to Amazon Linux 2023. Learn how to <<al2023>>.
+** For more information, see <<al2-ami-deprecation>>.
+====
+
+* *In-Place Pod Resource Resize (Beta):* In-place resource resize has been promoted to beta, allowing dynamic updates to CPU and memory resources for existing Pods without restarts - enabling vertical scaling of stateful workloads with zero downtime and seamless resource adjustments based on traffic patterns.
+* *Sidecar Containers Now Stable:* Sidecar containers have graduated to stable, implementing sidecars as special init containers with `restartPolicy: Always` that start before application containers, run throughout the pod lifecycle, and support probes for operational state signaling.
+** For more information, see https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/[Sidecar Containers] in the _Kubernetes Documentation_. 
+* *Endpoints API Deprecation:* The Endpoints API is now officially deprecated and will return warnings when accessed - migrate workloads and scripts to use the EndpointSlices API instead, which supports modern features like dual-stack networking and handles multiple EndpointSlices per Service.
+** For more information, see https://kubernetes.io/blog/2025/04/24/endpoints-deprecation/[Kubernetes v1.33: Continuing the transition from Endpoints to EndpointSlice] on the _Kubernetes Blog_. 
+
+For the complete Kubernetes `1.33` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.33.md
+
 [#kubernetes-1-32]
 == Kubernetes 1.32
 
@@ -50,6 +75,7 @@ Requests to any other endpoint using the `system:unauthenticated` user will rece
 The `public-info-viewer` RBAC role continues to apply for the health check endpoints listed above.
 ====
 
+[#al2-ami-deprecation]
 === Amazon Linux 2 AMI deprecation
 
 For Kubernetes versions 1.33 and later, EKS will not provide pre-built optimized Amazon Linux 2 (AL2) Amazon Machine Images (AMIs).
