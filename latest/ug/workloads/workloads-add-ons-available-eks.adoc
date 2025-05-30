@@ -516,6 +516,10 @@ For information about the required permissions, see link:aws-managed-policy/late
 
 For more information, see the https://github.com/cert-manager/aws-privateca-issuer[AWS Private CA Issuer for Kubernetes GitHub repository].
 
+For more information about configuring the add-on, see https://github.com/cert-manager/aws-privateca-issuer/blob/main/charts/aws-pca-issuer/values.yaml[values.yaml] in the `aws-privateca-issuer` GitHub repo. Confirm the version of values.yaml matches the version of the add-on installed on your cluster. 
+
+This add-on tolerates the `CriticalAddonsOnly` taint used by the `system` NodePool of EKS Auto Mode. For more information, see <<critical-workload>>. 
+
 [#add-ons-pod-id]
 == EKS Pod Identity Agent
 
