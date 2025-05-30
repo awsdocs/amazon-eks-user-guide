@@ -20,6 +20,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 == Updates
 
 
+[.update,date="2025-05-30"]
+=== Amazon EKS platform version update
+[.update-ulink]
+link:eks/latest/userguide/platform-versions.html[type="documentation"]
+
+This is a new platform version with security fixes and enhancements. This includes new patch versions of Kubernetes `1.32.5`, `1.31.9`, and `1.30.13`.
+
 [.update,date="2025-05-29"]
 === Kubernetes version `1.33`
 [.update-ulink]
