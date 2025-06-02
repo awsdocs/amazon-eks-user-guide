@@ -34,6 +34,8 @@ Kubernetes `1.33` is now available in Amazon EKS. For more information about Kub
 ** For more information, see https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/[Sidecar Containers] in the _Kubernetes Documentation_. 
 * *Endpoints API Deprecation:* The Endpoints API is now officially deprecated and will return warnings when accessed - migrate workloads and scripts to use the EndpointSlices API instead, which supports modern features like dual-stack networking and handles multiple EndpointSlices per Service.
 ** For more information, see https://kubernetes.io/blog/2025/04/24/endpoints-deprecation/[Kubernetes v1.33: Continuing the transition from Endpoints to EndpointSlice] on the _Kubernetes Blog_. 
+* *Elastic Fabric Adapter Support:* The default security group for Amazon EKS clusters now supports Elastic Fabric Adapter (EFA) traffic. The default security group has a new outbound rule that allows EFA traffic with the destination of the same security group. This allows EFA traffic within the cluster. 
+** For more information, see link:AWSEC2/latest/UserGuide/efa.html["Elastic Fabric Adapter for AI/ML and HPC workloads on Amazon EC2",type="documentation"] in the Amazon Elastic Compute Cloud User Guide.
 
 For the complete Kubernetes `1.33` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.33.md
 
