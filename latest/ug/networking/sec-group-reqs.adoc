@@ -37,7 +37,15 @@ When you create a cluster, Amazon EKS creates a security group that's named `eks
 |All
 |
 |0.0.0.0/0(`IPv4`) or ::/0 (`IPv6`)
+
+|Outbound
+|All
+|All
+|
+|Self (for EFA traffic)
 |===
+
+The default security group includes an outbound rule that allows Elastic Fabric Adapter (EFA) traffic with the destination of the same security group. This enables EFA traffic within the cluster, which is beneficial for AI/ML and High Performance Computing (HPC) workloads. For more information, see link:AWSEC2/latest/UserGuide/efa.html["Elastic Fabric Adapter for AI/ML and HPC workloads on Amazon EC2",type="documentation"] in the _Amazon Elastic Compute Cloud User Guide_.
 
 [IMPORTANT]
 ====
@@ -142,4 +150,4 @@ Amazon EKS supports shared security groups.
 
 === Considerations for Amazon EKS
 
-* EKS has the same requirements of shared or multi-VPC security groups as standard security groups. 
+* EKS has the same requirements of shared or multi-VPC security groups as standard security groups.
