@@ -484,7 +484,7 @@ ADOT requires that the `cert-manager` add-on is deployed on the cluster as a pre
 Learn about the Amazon GuardDuty agent Amazon EKS add-on.
 --
 
-The Amazon GuardDuty agent Amazon EKS add-on is a security monitoring service that analyzes and processes link:guardduty/latest/ug/guardduty_data-sources.html[foundational data sources,type="documentation"] including {aws} CloudTrail management events and Amazon VPC flow logs. Amazon GuardDuty also processes link:guardduty/latest/ug/guardduty-features-activation-model.html[features,type="documentation"], such as Kubernetes audit logs and runtime monitoring.
+The Amazon GuardDuty agent Amazon EKS add-on collects operating system-level events (file access, process execution, network connections) from your EKS cluster nodes for analysis by GuardDuty Runtime Monitoring. GuardDuty itself (not the agent) is the security monitoring service that analyzes and processes link:guardduty/latest/ug/guardduty_data-sources.html[foundational data sources,type="documentation"] including {aws} CloudTrail management events and Amazon VPC flow logs, as well as link:guardduty/latest/ug/guardduty-features-activation-model.html[features,type="documentation"], such as Kubernetes audit logs and runtime monitoring.
 
 The Amazon EKS add-on name is `aws-guardduty-agent`.
 
@@ -592,10 +592,10 @@ The Amazon EKS add-on name is `eks-pod-identity-agent`.
 [#add-ons-pod-id-iam-permissions]
 === Required IAM permissions
 
-This add-on users permissions from the <<create-node-role,Amazon EKS node IAM role>>.
+The Pod Identity Agent add-on itself does not require an IAM role. It uses permissions from the <<create-node-role,Amazon EKS node IAM role>> to function, but does not need a dedicated IAM role for the add-on.
 
 [#add-ons-pod-id-update-information]
 === Update information
 
-You can only update one minor version at a time. For example, if your current version is `1.28.x-eksbuild.y` and you want to update to `1.30.x-eksbuild.y`, then you must update your current version to `1.29.x-eksbuild.y` and then update it again to `1.30.x-eksbuild.y`. For more information about updating the add-on, see <<vpc-add-on-update>>.
+You can only update one minor version at a time. For example, if your current version is `1.28.x-eksbuild.y` and you want to update to `1.30.x-eksbuild.y`, then you must update your current version to `1.29.x-eksbuild.y` and then update it again to `1.30.x-eksbuild.y`. For more information about updating the add-on, see <<updating-an-add-on>>.
 
