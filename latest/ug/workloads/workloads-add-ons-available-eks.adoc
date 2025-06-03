@@ -484,7 +484,7 @@ ADOT requires that the `cert-manager` add-on is deployed on the cluster as a pre
 Learn about the Amazon GuardDuty agent Amazon EKS add-on.
 --
 
-The Amazon GuardDuty agent Amazon EKS add-on collects operating system-level events (file access, process execution, network connections) from your EKS cluster nodes for analysis by GuardDuty Runtime Monitoring. GuardDuty itself (not the agent) is the security monitoring service that analyzes and processes link:guardduty/latest/ug/guardduty_data-sources.html[foundational data sources,type="documentation"] including {aws} CloudTrail management events and Amazon VPC flow logs, as well as link:guardduty/latest/ug/guardduty-features-activation-model.html[features,type="documentation"], such as Kubernetes audit logs and runtime monitoring.
+The Amazon GuardDuty agent Amazon EKS add-on collects link:guardduty/latest/ug/runtime-monitoring-collected-events.html[runtime events,type="documentation"] (file access, process execution, network connections) from your EKS cluster nodes for analysis by GuardDuty Runtime Monitoring. GuardDuty itself (not the agent) is the security monitoring service that analyzes and processes link:guardduty/latest/ug/guardduty_data-sources.html[foundational data sources,type="documentation"] including {aws} CloudTrail management events and Amazon VPC flow logs, as well as link:guardduty/latest/ug/guardduty-features-activation-model.html[features,type="documentation"], such as Kubernetes audit logs and runtime monitoring.
 
 The Amazon EKS add-on name is `aws-guardduty-agent`.
 
