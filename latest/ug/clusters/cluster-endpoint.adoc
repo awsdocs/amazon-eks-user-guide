@@ -5,8 +5,6 @@ include::../attributes.txt[]
 = Cluster API server endpoint
 :info_titleabbrev: Cluster endpoint access
 
-include::../attributes.txt[]
-
 [abstract]
 --
 Learn how to enable private access and limit public access to the Amazon EKS cluster Kubernetes API server endpoint for enhanced security with your Amazon EKS cluster.
@@ -131,15 +129,17 @@ If your endpoint does not resolve to a private IP address within the VPC for an 
 
 *CIDR blocks in the public endpoint (`IPv6` cluster)*
 
-You can add `IPv6` and `IPv4` CIDR blocks to the public endpoint of an `IPv6` cluster, because the public endpoint is dual-stack. This only applies to new clusters with the `ipFamily` set to `IPv6` that you made in October 2024 or later with the new endpoint domain name `api.aws`.
+You can add `IPv6` and `IPv4` CIDR blocks to the public endpoint of an `IPv6` cluster, because the public endpoint is dual-stack. This only applies to new clusters with the `ipFamily` set to `IPv6` that you made in October 2024 or later. You can identify these clusters by the new endpoint domain name `api.aws`.
 
 *CIDR blocks in the public endpoint (`IPv4` cluster)*
 
-You can't add `IPv6` CIDR blocks to the public endpoint of an `IPv4` cluster. EKS returns the following error message: `The following CIDRs are invalid in publicAccessCidrs`
+You can add `IPv4` CIDR blocks to the public endpoint of an `IPv4` cluster.
+You can't add `IPv6` CIDR blocks to the public endpoint of an `IPv4` cluster. If you try, EKS returns the following error message: `The following CIDRs are invalid in publicAccessCidrs`
 
 *CIDR blocks in the public endpoint (`IPv6` cluster made before October 2024)*
 
-You can't add `IPv6` CIDR blocks to the public endpoint of the old `IPv6` clusters that you made before October 2024. EKS returns the following error message: `The following CIDRs are invalid in publicAccessCidrs`
+You can add `IPv4` CIDR blocks to the public endpoint of the old `IPv6` clusters that you made before October 2024. You can identify these clusters by the `eks.amazonaws.com` endpoint.
+You can't add `IPv6` CIDR blocks to the public endpoint of these old `IPv6` clusters that you made before October 2024. If you try, EKS returns the following error message: `The following CIDRs are invalid in publicAccessCidrs`
 
 [#private-access]
 == Accessing a private only API server
