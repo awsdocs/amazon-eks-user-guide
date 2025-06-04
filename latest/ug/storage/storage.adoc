@@ -1,8 +1,8 @@
 include::../attributes.txt[]
 
 [#storage]
-= Store application data for your cluster
-:info_titleabbrev: Store app data
+= Use application data storage for your cluster
+:info_titleabbrev: App data storage
 
 [abstract]
 --
