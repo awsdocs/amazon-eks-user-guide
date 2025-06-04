@@ -82,6 +82,10 @@ You can use any of the following Amazon EKS add-ons.
 |<<add-ons-pod-id>>
 |EC2, EKS Hybrid Nodes
 
+|Enable cert-manager to issue X.509 certificates from AWS Private CA. Requires cert-manager.
+|<<add-ons-aws-privateca-connector>>
+|EC2, Fargate, EKS Auto Mode, EKS Hybrid Nodes
+
 |===
 
 [#add-ons-vpc-cni]
@@ -535,6 +539,39 @@ eksctl create iamserviceaccount \
 
 For more information, see link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Install the CloudWatch agent,type="documentation"].
 
+[#add-ons-aws-privateca-connector]
+== AWS Private CA Connector for Kubernetes
+
+[abstract]
+--
+Learn about the AWS Private CA Connector for Kubernetes Amazon EKS add-on.
+--
+
+The AWS Private CA Connector for Kubernetes is an add-on for cert-manager that enables users to obtain Certificates from AWS Private Certificate Authority (AWS Private CA).
+
+* The Amazon EKS add-on name is `aws-privateca-connector-for-kubernetes`.
+* The add-on namespace is `aws-privateca-issuer`.
+
+[#add-ons-aws-privateca-connector-iam-permissions]
+=== Required IAM permissions
+
+This add-on requires IAM permissions.
+
+Use EKS Pod Identities to attach the `AWSPrivateCAConnectorForKubernetesPolicy` IAM Policy to the `aws-privateca-issuer` Kubernetes Service Account. 
+
+For more information, see <<update-addon-role>>.
+
+For information about the required permissions, see link:aws-managed-policy/latest/reference/AWSPrivateCAConnectorForKubernetesPolicy.html[AWSPrivateCAConnectorForKubernetesPolicy,type="documentation"] in the {aws} Managed Policy Reference. 
+
+[#add-ons-aws-privateca-connector-information]
+=== Additional information
+
+For more information, see the https://github.com/cert-manager/aws-privateca-issuer[AWS Private CA Issuer for Kubernetes GitHub repository].
+
+For more information about configuring the add-on, see https://github.com/cert-manager/aws-privateca-issuer/blob/main/charts/aws-pca-issuer/values.yaml[values.yaml] in the `aws-privateca-issuer` GitHub repo. Confirm the version of values.yaml matches the version of the add-on installed on your cluster. 
+
+This add-on tolerates the `CriticalAddonsOnly` taint used by the `system` NodePool of EKS Auto Mode. For more information, see <<critical-workload>>. 
+
 [#add-ons-pod-id]
 == EKS Pod Identity Agent
 
@@ -561,3 +598,4 @@ This add-on users permissions from the <<create-node-role,Amazon EKS node IAM ro
 === Update information
 
 You can only update one minor version at a time. For example, if your current version is `1.28.x-eksbuild.y` and you want to update to `1.30.x-eksbuild.y`, then you must update your current version to `1.29.x-eksbuild.y` and then update it again to `1.30.x-eksbuild.y`. For more information about updating the add-on, see <<vpc-add-on-update>>.
+
