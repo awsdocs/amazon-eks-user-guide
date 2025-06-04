@@ -474,7 +474,7 @@ This add-on only requires IAM permissions if you're using one of the preconfigur
 
 For more information, see https://aws-otel.github.io/docs/getting-started/adot-eks-add-on[Getting Started with {aws} Distro for OpenTelemetry using EKS Add-Ons] in the {aws} Distro for OpenTelemetry documentation.
 
-ADOT requires that `cert-manager` is deployed on the cluster as a prerequisite, otherwise this add-on won't work if deployed directly using the https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest[Amazon EKS Terraform]``cluster_addons`` property. For more requirements, see https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/requirements[Requirements for Getting Started with {aws} Distro for OpenTelemetry using EKS Add-Ons] in the {aws} Distro for OpenTelemetry documentation.
+ADOT requires that the `cert-manager` is deployed on the cluster as a prerequisite, otherwise this add-on won't work if deployed directly using the https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest[Amazon EKS Terraform]``cluster_addons`` property. For more requirements, see https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/requirements[Requirements for Getting Started with {aws} Distro for OpenTelemetry using EKS Add-Ons] in the {aws} Distro for OpenTelemetry documentation.
 
 [#add-ons-guard-duty]
 == Amazon GuardDuty agent
@@ -552,7 +552,7 @@ The {aws} Private CA Connector for Kubernetes is an add-on for cert-manager that
 * The Amazon EKS add-on name is `aws-privateca-connector-for-kubernetes`.
 * The add-on namespace is `aws-privateca-issuer`.
 
-This add-on requires that `cert-manager` community add-on is deployed on the cluster as a prerequisite. For more information about this add-on, see <<addon-cert-manager>>. For more information about installing add-ons, see <<creating-an-add-on>>.
+This add-on requires the `cert-manager` community add-on. For more information about this add-on, see <<addon-cert-manager>>. For more information about installing add-ons, see <<creating-an-add-on>>.
 
 [#add-ons-aws-privateca-connector-iam-permissions]
 === Required IAM permissions
