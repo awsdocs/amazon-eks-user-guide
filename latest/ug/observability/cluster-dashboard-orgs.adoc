@@ -156,6 +156,7 @@ To register or deregister a delegated administrator for the EKS Dashboard, you n
 }
 ----
 
+[#eks-dashboard-view-policy]
 === Policy to view EKS Dashboard
 
 [source,json]
@@ -195,7 +196,7 @@ To register or deregister a delegated administrator for the EKS Dashboard, you n
                 "*"
             ],
             "Condition": {
-                "ForAllValues:StringEquals": {
+                "StringEquals": {
                     "organizations:ServicePrincipal": "eks.amazonaws.com"
                 }
             }

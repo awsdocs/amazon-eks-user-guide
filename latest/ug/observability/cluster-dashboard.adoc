@@ -90,13 +90,7 @@ For information about permissions required to enable the dashboard, see xref:das
 . Log in to the us-east-1 region.
 . Go to the EKS service, and select Dashboard from the left sidebar.
 
-[NOTE]
-====
-To view and configure the EKS Dashboard, you must have the following IAM permissions:
-
-* `eks:ListDashboardResources`
-* `eks:ListDashboardData`
-====
+NOTE: xref:eks-dashboard-view-policy[Review the IAM permissions required to view the EKS dashboard.]
 
 == Configure the dashboard
 
