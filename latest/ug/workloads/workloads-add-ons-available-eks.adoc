@@ -82,7 +82,7 @@ You can use any of the following Amazon EKS add-ons.
 |<<add-ons-pod-id>>
 |EC2, EKS Hybrid Nodes
 
-|Enable cert-manager to issue X.509 certificates from AWS Private CA. Requires cert-manager.
+|Enable cert-manager to issue X.509 certificates from {aws} Private CA. Requires cert-manager.
 |<<add-ons-aws-privateca-connector>>
 |EC2, Fargate, EKS Auto Mode, EKS Hybrid Nodes
 
@@ -540,14 +540,14 @@ eksctl create iamserviceaccount \
 For more information, see link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Install the CloudWatch agent,type="documentation"].
 
 [#add-ons-aws-privateca-connector]
-== AWS Private CA Connector for Kubernetes
+== {aws} Private CA Connector for Kubernetes
 
 [abstract]
 --
-Learn about the AWS Private CA Connector for Kubernetes Amazon EKS add-on.
+Learn about the {aws} Private CA Connector for Kubernetes Amazon EKS add-on.
 --
 
-The AWS Private CA Connector for Kubernetes is an add-on for cert-manager that enables users to obtain Certificates from AWS Private Certificate Authority (AWS Private CA).
+The {aws} Private CA Connector for Kubernetes is an add-on for cert-manager that enables users to obtain Certificates from {aws} Private Certificate Authority ({aws} Private CA).
 
 * The Amazon EKS add-on name is `aws-privateca-connector-for-kubernetes`.
 * The add-on namespace is `aws-privateca-issuer`.
@@ -566,7 +566,7 @@ For information about the required permissions, see link:aws-managed-policy/late
 [#add-ons-aws-privateca-connector-information]
 === Additional information
 
-For more information, see the https://github.com/cert-manager/aws-privateca-issuer[AWS Private CA Issuer for Kubernetes GitHub repository].
+For more information, see the https://github.com/cert-manager/aws-privateca-issuer[{aws} Private CA Issuer for Kubernetes GitHub repository].
 
 For more information about configuring the add-on, see https://github.com/cert-manager/aws-privateca-issuer/blob/main/charts/aws-pca-issuer/values.yaml[values.yaml] in the `aws-privateca-issuer` GitHub repo. Confirm the version of values.yaml matches the version of the add-on installed on your cluster. 
 
