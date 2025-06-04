@@ -149,7 +149,7 @@ Prometheus exporter for hardware and OS metrics exposed by *NIX kernels, written
 
 |===
 
-
+[#addon-cert-manager]
 === Cert Manager
 
 Cert Manager can be used to manage the creation and renewal of certificates.
