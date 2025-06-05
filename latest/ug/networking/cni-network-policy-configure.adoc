@@ -235,7 +235,11 @@ If you have installed the Amazon VPC CNI plugin for Kubernetes through `helm`, y
 ----
 helm upgrade --set enableNetworkPolicy=true aws-vpc-cni --namespace kube-system eks/aws-vpc-cni
 ----
-+
+
+[#cni-network-policy-setup-kubectl]
+[discrete]
+=== kubectl
+
 . Open the `amazon-vpc-cni` `ConfigMap` in your editor.
 +
 [source,bash,subs="verbatim,attributes"]
