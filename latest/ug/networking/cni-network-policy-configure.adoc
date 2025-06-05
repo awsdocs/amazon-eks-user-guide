@@ -189,7 +189,7 @@ Configure the cluster to use Kubernetes network policies. You can set this for a
 . In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
 . Choose the *Add-ons* tab.
 . Select the box in the top right of the add-on box and then choose *Edit*.
-. On the *Configure [.replaceable]`name of addon`* page:
+. On the *Configure `Amazon VPC CNI`* page:
 +
 .. Select a `v1.14.0-eksbuild.3` or later version in the *Version* list.
 .. Expand the *Optional configuration settings*.
@@ -208,8 +208,7 @@ image::images/console-cni-config-network-policy.png[{aws-management-console} sho
 [discrete]
 === {aws} CLI
 
-. Run the following {aws} CLI command. Replace `my-cluster` with the name of your cluster and the IAM role ARN with the role that you are using.
-+
+You can alternatively run the following {aws} CLI command. Replace `my-cluster` with the name of your cluster and the IAM role ARN with the role that you are using.
 [source,shell,subs="verbatim,attributes"]
 ----
 aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.14.0-eksbuild.3 \
@@ -236,11 +235,7 @@ If you have installed the Amazon VPC CNI plugin for Kubernetes through `helm`, y
 ----
 helm upgrade --set enableNetworkPolicy=true aws-vpc-cni --namespace kube-system eks/aws-vpc-cni
 ----
-
-[#cni-network-policy-setup-kubectl]
-[discrete]
-=== kubectl
-
++
 . Open the `amazon-vpc-cni` `ConfigMap` in your editor.
 +
 [source,bash,subs="verbatim,attributes"]
