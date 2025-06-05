@@ -40,6 +40,9 @@ a|* v1.3.3-eksbuild.1 and above, except for Bottlerocket
 
 |CSI snapshot controller
 |v8.1.0-eksbuild.1 and above
+
+|AWS Private CA Connector for Kubernetes
+|v1.6.0-eksbuild.1 and above
 |===
 
 The following community add-ons are compatible with Amazon EKS Hybrid Nodes. To learn more about community add-ons, see <<community-addons>>.
@@ -62,7 +65,7 @@ The following community add-ons are compatible with Amazon EKS Hybrid Nodes. To 
 |v2.15.0-eksbuild.4 and above
 |===
 
-In addition to the Amazon EKS add-ons in the tables above, the <<prometheus,Amazon Managed Service for Prometheus Collector>>, and the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> for <<alb-ingress,application ingress>> (HTTP) and <<network-load-balancing,load balancing>> (TCP/UDP) are compatible with hybrid nodes. The https://github.com/cert-manager/aws-privateca-issuer[{aws} Private Certificate Authority cert-manager plugin] is also compatible with EKS Hybrid Nodes. 
+In addition to the Amazon EKS add-ons in the tables above, the <<prometheus,Amazon Managed Service for Prometheus Collector>>, and the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> for <<alb-ingress,application ingress>> (HTTP) and <<network-load-balancing,load balancing>> (TCP/UDP) are compatible with hybrid nodes.
 
 There are {aws} add-ons and community add-ons that aren't compatible with Amazon EKS Hybrid Nodes. The latest versions of these add-ons have an anti-affinity rule for the default `eks.amazonaws.com/compute-type: hybrid` label applied to hybrid nodes. This prevents them from running on hybrid nodes when deployed in your clusters. If you have clusters with both hybrid nodes and nodes running in {aws} Cloud, you can deploy these add-ons in your cluster to nodes running in {aws} Cloud. The Amazon VPC CNI is not compatible with hybrid nodes, and Cilium and Calico are supported as the Container Networking Interfaces (CNIs) for Amazon EKS Hybrid Nodes. See <<hybrid-nodes-cni>> for more information.
 
