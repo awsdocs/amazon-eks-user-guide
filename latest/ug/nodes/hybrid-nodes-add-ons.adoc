@@ -41,7 +41,7 @@ a|* v1.3.3-eksbuild.1 and above, except for Bottlerocket
 |CSI snapshot controller
 |v8.1.0-eksbuild.1 and above
 
-|AWS Private CA Connector for Kubernetes
+|{aws} Private CA Connector for Kubernetes
 |v1.6.0-eksbuild.1 and above
 |===
 
