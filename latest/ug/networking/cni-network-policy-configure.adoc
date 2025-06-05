@@ -99,7 +99,7 @@ Use the following procedure to enable the network policy parameter for the add-o
 . In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
 . Choose the *Add-ons* tab.
 . Select the box in the top right of the add-on box and then choose *Edit*.
-. On the *Configure [.replaceable]`name of add-on`* page:
+. On the *Configure `Amazon VPC CNI`* page:
 +
 .. Select a `v1.14.0-eksbuild.3` or later version in the *Version* list.
 .. Expand the *Optional configuration settings*.
