@@ -15,7 +15,8 @@ You can use {aws} split cost allocation data for Amazon EKS to get granular cost
 * Workload Name 
 * Workload Type 
 
-For more information about using split cost allocation data, see link:cur/latest/userguide/split-cost-allocation-data.html[Understanding split cost allocation data,type="documentation"] in the {aws} Billing User Guide.
+link:costmanagement/home#/tags[User-defined cost allocation tags,type="console"] are also supported. For more information about using split cost allocation data, see link:cur/latest/userguide/split-cost-allocation-data.html[Understanding split cost allocation data,type="documentation"] in the {aws} Billing User Guide.
+
 
 [#task-cur-setup]
 == Set up Cost and Usage Reports
