@@ -144,13 +144,36 @@ Acquire::http::Proxy "http://[.replaceable]#proxy-domain:port#";
 Acquire::https::Proxy "http://[.replaceable]#proxy-domain:port#";
 ----
 
-*Amazon Linux 2023 and Red Hat Enterprise Linux*
+*Amazon Linux 2023*
+
+. Configure `dnf` to use your proxy. Create a file `/etc/dnf/dnf.conf` with the proxy-domain and port values for your environment.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+proxy=http://[.replaceable]#proxy-domain:port#
+----
+
+*Red Hat Enterprise Linux*
 
 . Configure `yum` to use your proxy. Create a file `/etc/yum.conf` with the proxy-domain and port values for your environment.
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
 proxy=http://[.replaceable]#proxy-domain:port#
+----
+
+=== IAM Roles Anywhere proxy configuration
+
+The IAM Roles Anywhere credential provider service is responsible for refreshing credentials when using IAM Roles Anywhere with the `enableCredentialsFile` flag (see <<hybrid-nodes-add-ons-pod-id>>). If you are using a proxy in your on-premises environment, you must configure the service so it can communicate with IAM Roles Anywhere endpoints.
+
+Create a file called `http-proxy.conf` in the `/etc/systemd/system/aws_signing_helper_update.service.d/` directory with the following content. Replace `proxy-domain` and `port` with the values for your environment.
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+[Service]
+Environment="HTTP_PROXY=http://[.replaceable]#proxy-domain:port#"
+Environment="HTTPS_PROXY=http://[.replaceable]#proxy-domain:port#"
+Environment="NO_PROXY=localhost"
 ----
 
 == Cluster wide configuration
@@ -190,3 +213,4 @@ containers:
           apiVersion: v1
           fieldPath: spec.nodeName
 ----
+
