@@ -552,7 +552,7 @@ The {aws} Private CA Connector for Kubernetes is an add-on for cert-manager that
 * The Amazon EKS add-on name is `aws-privateca-connector-for-kubernetes`.
 * The add-on namespace is `aws-privateca-issuer`.
 
-This add-on requires the `cert-manager` community add-on. For more information about this add-on, see <<addon-cert-manager>>. For more information about installing add-ons, see <<creating-an-add-on>>.
+This add-on requires `cert-manager`. `cert-manager` is availble on Amazon EKS as a community add-on. For more information about this add-on, see <<addon-cert-manager>>. For more information about installing add-ons, see <<creating-an-add-on>>.
 
 [#add-ons-aws-privateca-connector-iam-permissions]
 === Required IAM permissions
