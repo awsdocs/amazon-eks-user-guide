@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#fsx-ontap]
-= Store high-performance apps with FSx for NetApp ONTAP
+= Use high-performance app storage with FSx for NetApp ONTAP
 :info_titleabbrev: Amazon FSx for NetApp ONTAP
 
 [abstract]

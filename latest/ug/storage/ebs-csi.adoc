@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#ebs-csi]
-= Store Kubernetes volumes with Amazon EBS
+= Use Kubernetes volume storage with Amazon EBS
 :info_titleabbrev: Amazon EBS
 
 [abstract]

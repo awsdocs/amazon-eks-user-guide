@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#fsx-csi]
-= Store high-performance apps with Amazon FSx for Lustre
+= Use high-performance app storage with Amazon FSx for Lustre
 :info_titleabbrev: Amazon FSx for Lustre
 
 [abstract]
