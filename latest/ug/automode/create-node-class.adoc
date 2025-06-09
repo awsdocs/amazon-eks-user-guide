@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Create a Node Class for Amazon EKS
 :info_titleabbrev: Create node class
 
-Amazon EKS Node Classes provide granular control over the configuration of your EKS Auto Mode managed nodes. A Node Class defines infrastructure-level settings that apply to groups of nodes in your EKS cluster, including network configuration, storage settings, and resource tagging. This topic explains how to create and configure a Node Class to meet your specific operational requirements.
+Amazon EKS Node Classes offer granular control over the configuration of your EKS Auto Mode managed nodes. A Node Class defines infrastructure-level settings that apply to groups of nodes in your EKS cluster, including network configuration, storage settings, and resource tagging. This topic explains how to create and configure a Node Class to meet your specific operational requirements.
 
 When you need to customize how EKS Auto Mode provisions and configures EC2 instances beyond the default settings, creating a Node Class gives you precise control over critical infrastructure parameters. For example, you can specify private subnet placement for enhanced security, configure instance ephemeral storage for performance-sensitive workloads, or apply custom tagging for cost allocation.
 
@@ -37,7 +37,7 @@ spec:
 
 This NodeClass increases the amount of ephemeral storage on the node. 
 
-Apply this configuration using:
+Apply this configuration by using:
 
 ```bash
 kubectl apply -f nodeclass.yaml
@@ -185,3 +185,4 @@ spec:
 * EKS limits the maximum number of pods on a node to 110. This limit is applied after the existing max pods calculation. For more information, see <<choosing-instance-type>>. 
 * If you want to propagate tags from Kubernetes to EC2, you need to configure additional IAM permissions. For more information, see <<auto-learn-iam>>. 
 * Do not name your custom node class `default`.
+* EKS Auto Mode includes a `default` NodeClass that is automatically provisioned when at least one built-in NodePool is enabled. For information about enabling built-in NodePools, see <<set-builtin-node-pools>>.

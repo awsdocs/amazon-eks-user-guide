@@ -19,6 +19,9 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-06-06"]
+=== Amazon EKS {aws} Region expansion
+Amazon EKS is now available in the Asia Pacific (Taipei) (`ap-east-2`) {aws} Region.
 
 [.update,date="2025-06-05"]
 === `IPv6` access control for dual-stack public endpoints for new `IPv6` clusters
@@ -33,6 +36,7 @@ Amazon EKS adds `IPv6` CIDR blocks to control access to the public cluster endpo
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
 This is a new platform version with security fixes and enhancements. This includes new patch versions of Kubernetes `1.32.5`, `1.31.9`, and `1.30.13`.
+
 
 [.update,date="2025-05-29"]
 === Kubernetes version `1.33`

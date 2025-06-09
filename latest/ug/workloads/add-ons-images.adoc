@@ -21,6 +21,9 @@ When you deploy <<workloads-add-ons-available-eks,{aws} Amazon EKS add-ons>> to 
 |ap-east-1
 |800184023465.dkr.ecr.ap-east-1.amazonaws.com
 
+|ap-east-2
+|533267051163.dkr.ecr.ap-east-1.amazonaws.com
+
 |ap-southeast-3
 |296578399912.dkr.ecr.ap-southeast-3.amazonaws.com
 
