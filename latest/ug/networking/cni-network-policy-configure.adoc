@@ -173,7 +173,7 @@ sudo mount -t bpf bpffs /sys/fs/bpf
 [#cni-network-policy-setup]
 == Step 4: Configure your cluster to use Kubernetes network policies
 
-Configure the cluster to use Kubernetes network policies. You can set this for an Amazon EKS add-on or self-managed add-on.
+You can set this for an Amazon EKS add-on or self-managed add-on.
 
 
 [#cni-network-policy-setup-procedure-add-on]
@@ -181,10 +181,15 @@ Configure the cluster to use Kubernetes network policies. You can set this for a
 [%collapsible]
 ====
 
-[#cni-network-policy-setup-console]
-[discrete]
-=== {aws-management-console}
+Using the {aws} CLI, you can configure the cluster to use Kubernetes network policies by running the following command. Replace `my-cluster` with the name of your cluster and the IAM role ARN with the role that you are using.
+[source,shell,subs="verbatim,attributes"]
+----
+aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.14.0-eksbuild.3 \
+    --service-account-role-arn {arn-aws}iam::123456789012:role/AmazonEKSVPCCNIRole \
+    --resolve-conflicts PRESERVE --configuration-values '{"enableNetworkPolicy": "true"}'
+----
 
+To configure this using the {aws} Management Console, follow the below steps:
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
 . Choose the *Add-ons* tab.
@@ -203,18 +208,6 @@ Configure the cluster to use Kubernetes network policies. You can set this for a
 The following screenshot shows an example of this scenario.
 +
 image::images/console-cni-config-network-policy.png[{aws-management-console} showing the VPC CNI add-on with network policy in the optional configuration.,scaledwidth=80%]
-
-[#cni-network-policy-setup-cli]
-[discrete]
-=== {aws} CLI
-
-You can alternatively run the following {aws} CLI command. Replace `my-cluster` with the name of your cluster and the IAM role ARN with the role that you are using.
-[source,shell,subs="verbatim,attributes"]
-----
-aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.14.0-eksbuild.3 \
-    --service-account-role-arn {arn-aws}iam::123456789012:role/AmazonEKSVPCCNIRole \
-    --resolve-conflicts PRESERVE --configuration-values '{"enableNetworkPolicy": "true"}'
-----
 
 ====
 
