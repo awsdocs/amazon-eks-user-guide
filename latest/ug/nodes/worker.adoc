@@ -27,6 +27,12 @@ To add self-managed nodes to your Amazon EKS cluster, see the topics that follow
 |`kubernetes.io/cluster/<cluster-name>`|`owned`
 |===
 
+[IMPORTANT]
+====
+Tags in Amazon EC2 Instance Metadata Service (IMDS) are not compatible with EKS nodes. When Instance Metadata Tags are enabled, the use of forward slashes ('/') in tag values is prevented. This limitation can cause instance launch failures, particularly when using node management tools like Karpenter or Cluster Autoscaler, as these services rely on tags containing forward slashes for proper functionality.
+====
+
+
 For more information about nodes from a general Kubernetes perspective, see https://kubernetes.io/docs/concepts/architecture/nodes/[Nodes] in the Kubernetes documentation.
 
 [.topiclist]
