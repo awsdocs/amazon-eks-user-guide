@@ -10,6 +10,11 @@ include::../attributes.txt[]
 Connect hybrid nodes to Amazon EKS cluster.
 --
 
+[NOTE]
+====
+The following steps apply to hybrid nodes running compatible operating systems except Bottlerocket. For steps to connect a hybrid node that runs Bottlerocket, see <<hybrid-nodes-bottlerocket>>.
+====
+
 This topic describes how to connect hybrid nodes to an Amazon EKS cluster. After your hybrid nodes join the cluster, they will appear with status Not Ready in the Amazon EKS console and in Kubernetes-compatible tooling such as kubectl. After completing the steps on this page, proceed to <<hybrid-nodes-cni>> to make your hybrid nodes ready to run applications.
 
 == Prerequisites

@@ -1,0 +1,38 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-configure]
+= Configure CNI, add-ons, and webhooks for hybrid nodes
+:info_titleabbrev: Configure
+
+[abstract]
+--
+Learn how to configure Container Network Interfaces (CNI), add-ons, webhooks, and proxy settings for hybrid nodes.
+--
+
+After you configure a cluster for hybrid nodes, Hybrid nodes requires configuration for Container Network Interfaces (CNI), add-ons, webhooks, and possibleproxy settings. For the complete list of the EKS and community add-ons that are compatible with hybrid nodes, see <<hybrid-nodes-add-ons>>.
+
+*EKS cluster insights*
+EKS includes insight checks for misconfigurations in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. For more information on cluster insights, see <<cluster-insights>>.
+
+The following lists the add-ons and other components that have different configuration for hybrid nodes:
+
+* *Container Networking Interface (CNI)*: The core capabilities of link:https://docs.cilium.io/en/stable/index.html[Cilium] and link:https://docs.tigera.io/calico/latest/about/[Calico] are supported for use with hybrid nodes. You can manage your CNI on hybrid nodeswith your choice of tooling such as Helm. The {aws} VPC CNI can't be used with hybrid nodes. For more information, see <<hybrid-nodes-cni>>.
+* *CoreDNS and `kube-proxy`*: CoreDNS and `kube-proxy` are installed automatically when hybrid nodes join the EKS cluster. These add-ons can be managed as EKS add-ons after cluster creation.
+* *Ingress and Load Balancing*: You can use the {aws} Load Balancer Controller and Application Load Balancer (ALB) or Network Load Balancer (NLB) with the target type `ip` for workloads on hybrid nodes connected with {aws} Direct Connect or {aws} Site-to-Site VPN. You can alternatively use your choice of Ingress controller or load balancer for application traffic that stays local to your on-premises environment.
+* *Metrics*: You can use Amazon Managed Service for Prometheus (AMP) agent-less scrapers, {aws} Distro for Open Telemetry (ADOT), and the Amazon CloudWatch Observability Agent with hybrid nodes. To use AMP agent-less scrapers for pod metrics on hybrid nodes, your pods must be accessible from the VPC that you use for the EKS cluster.
+* *Logs*: You can enable EKS control plane logging for hybrid nodes-enabled clusters. You can use the ADOT EKS add-on and the Amazon CloudWatch Observability Agent EKS add-on for hybrid node and pod logging.
+* *Pod Identities and IRSA*: You can use EKS Pod Identities and IAM Roles for Service Accounts (IRSA) with applications running on hybrid nodes to enable granular access for your pods running on hybrid nodes with other {aws} services.
+* *Webhooks*: If you are running webhooks, see <<hybrid-nodes-webhooks>> for considerations and steps to optionally run webhooks on cloud nodes if you cannot make your on-premises pod networks routable.
+* *Proxy*: If you are using a proxy server in your on-premises environment for traffic leaving your data center or edge environment, you can configure your hybrid nodes and cluster to use your proxy server. For more information, see <<hybrid-nodes-proxy>>.
+
+[.topiclist]
+[[Topic List]]
+
+include::hybrid-nodes-cni.adoc[leveloffset=+1]
+
+include::hybrid-nodes-add-ons.adoc[leveloffset=+1]
+
+include::hybrid-nodes-webhooks.adoc[leveloffset=+1]
+
+include::hybrid-nodes-proxy.adoc[leveloffset=+1]

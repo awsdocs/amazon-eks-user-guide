@@ -106,33 +106,36 @@ Review the following output. Note the `recommendedManagedPolicies`.
 
 The following table indicates if certain Amazon EKS add-ons support EKS Pod Identity.
 
-[cols="2,1,2"]
-|=== 
-| Add-on Name | Pod Identity Support | Minimum Version Required
+[%header,cols="2,1,2"]
+|===
+|Add-on name
+|Pod identity support
+|Minimum version required
 
-| <<add-ons-aws-ebs-csi-driver,Amazon EBS CSI Driver>> 
-| Yes 
-| v1.26.0-eksbuild.1
 
-| <<add-ons-vpc-cni,Amazon VPC CNI>> 
-| Yes 
-| v1.15.5-eksbuild.1
+|<<add-ons-aws-ebs-csi-driver,Amazon EBS CSI Driver>> 
+|Yes 
+|v1.26.0-eksbuild.1
 
-| <<add-ons-aws-efs-csi-driver,Amazon EFS CSI Driver>> 
-| Yes 
-| v2.0.5-eksbuild.1
+|<<add-ons-vpc-cni,Amazon VPC CNI>> 
+|Yes 
+|v1.15.5-eksbuild.1
 
-| <<add-ons-adot,{aws} Distro for OpenTelemetry>> 
-| Yes 
-| v0.94.1-eksbuild.1
+|<<add-ons-aws-efs-csi-driver,Amazon EFS CSI Driver>> 
+|Yes 
+|v2.0.5-eksbuild.1
 
-| <<mountpoint-for-s3-add-on,Mountpoint for Amazon S3 CSI Driver>> 
-| No 
-| N/A
+|<<add-ons-adot,{aws} Distro for OpenTelemetry>> 
+|Yes 
+|v0.94.1-eksbuild.1
 
-| <<amazon-cloudwatch-observability,Amazon CloudWatch Observability agent>> 
-| Yes 
-| v3.1.0-eksbuild.1
+|<<mountpoint-for-s3-add-on,Mountpoint for Amazon S3 CSI Driver>> 
+|No 
+|N/A
+
+|<<amazon-cloudwatch-observability,Amazon CloudWatch Observability agent>> 
+|Yes 
+|v3.1.0-eksbuild.1
 
 |===
 

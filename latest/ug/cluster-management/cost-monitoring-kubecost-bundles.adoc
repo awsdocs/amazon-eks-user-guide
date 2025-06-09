@@ -30,89 +30,88 @@ https://www.ibm.com/docs/en/kubecost/self-hosted/2.x[Review the Kubecost documen
 
 *Core features comparison:*
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
+|Feature
+|Kubecost free tier 2.0
+|Amazon EKS optimized Kubecost bundle 2.0
+|Kubecost Enterprise 2.0
 
-| Feature
-| Kubecost free tier 2.0
-| Amazon EKS optimized Kubecost bundle 2.0
-| Kubecost Enterprise 2.0
 
+|Cluster cost visibility
+|Unlimited clusters up to 250 cores
+|Unified multi-cluster without core limits when integrated with Amazon Managed Service for Prometheus
+|Unified and unlimited number of clusters across unlimited numbers of environments (i.e. multi-cloud)
 
-| Cluster cost visibility
-| Unlimited clusters up to 250 cores
-| Unified multi-cluster without core limits when integrated with Amazon Managed Service for Prometheus
-| Unified and unlimited number of clusters across unlimited numbers of environments (i.e. multi-cloud)
+|Deployment
+|User hosted
+|User hosted
+|User hosted, Kubecost hosted (dedicated tenant), SaaS
 
-| Deployment
-| User hosted
-| User hosted
-| User hosted, Kubecost hosted (dedicated tenant), SaaS
+|Databases supported
+|Local Prometheus
+|Amazon Managed Service for Prometheus or Local Prometheus
+|Any prometheus flavor and custom databases
 
-| Databases supported
-| Local Prometheus
-| Amazon Managed Service for Prometheus or Local Prometheus
-| Any prometheus flavor and custom databases
+|Database retention support (raw metrics)
+|15 days
+|Unlimited historical data
+|Unlimited historical data
 
-| Database retention support (raw metrics)
-| 15 days
-| Unlimited historical data
-| Unlimited historical data
+|Kubecost API and UI retention (ETL)
+|15 days
+|15 days
+|Unlimited
 
-| Kubecost API and UI retention (ETL)
-| 15 days
-| 15 days
-| Unlimited
+|Hybrid cloud visibility
+|-
+|Amazon EKS and Amazon EKS Anywhere clusters
+|Multi-cloud and hybrid cloud
 
-| Hybrid cloud visibility
-| -
-| Amazon EKS and Amazon EKS Anywhere clusters
-| Multi-cloud and hybrid cloud
+|Alerts and recurring reports
+|Only supported on the primary cluster, limited to 250 cores
+|Efficiency alerts, budget alerts, spend change alerts, and https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=navigating-kubecost-ui#ariaid-title6[more supported] across all clusters
+|Efficiency alerts, budget alerts, spend change alerts, and https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=navigating-kubecost-ui#ariaid-title6[more supported] across all clusters
 
-| Alerts and recurring reports
-| Only supported on the primary cluster, limited to 250 cores
-| Efficiency alerts, budget alerts, spend change alerts, and https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=navigating-kubecost-ui#ariaid-title6[more supported] across all clusters
-| Efficiency alerts, budget alerts, spend change alerts, and https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=navigating-kubecost-ui#ariaid-title6[more supported] across all clusters
+|Saved reports
+|-
+|Reports using 15 days of metrics
+|Reports using unlimited historical data and metrics
 
-| Saved reports
-| -
-| Reports using 15 days of metrics
-| Reports using unlimited historical data and metrics
+|Cloud billing integration
+|Only supported on the primary cluster, limited to 250 cores
+|Custom pricing support for {aws} (including multiple clusters and multiple accounts)
+|Custom pricing support for any cloud
 
-| Cloud billing integration
-| Only supported on the primary cluster, limited to 250 cores
-| Custom pricing support for {aws} (including multiple clusters and multiple accounts)
-| Custom pricing support for any cloud
+|Savings recommendations
+|Only supported on the primary cluster, limited to 250 cores
+|Primary cluster insights, but there is no 250 core limit
+|Multi-cluster insights
 
-| Savings recommendations
-| Only supported on the primary cluster, limited to 250 cores
-| Primary cluster insights, but there is no 250 core limit
-| Multi-cluster insights
+|Governance: Audits
+|-
+|-
+|Audit historical cost events
 
-| Governance: Audits
-| -
-| -
-| Audit historical cost events
+|Single sign-on (SSO) support
+|-
+|Amazon Cognito supported
+|Okta, Auth0, PingID, KeyCloak, and anything else custom
 
-| Single sign-on (SSO) support
-| -
-| Amazon Cognito supported
-| Okta, Auth0, PingID, KeyCloak, and anything else custom
+|Role-based access control (RBAC) with SAML 2.0
+|-
+|-
+|Okta, Auth0, PingID, KeyCloak, and anything else custom
 
-| Role-based access control (RBAC) with SAML 2.0
-| -
-| -
-| Okta, Auth0, PingID, KeyCloak, and anything else custom
+|Enterprise training and onboarding
+|-
+|-
+|Full-service training and FinOps onboarding
 
-| Enterprise training and onboarding
-| -
-| -
-| Full-service training and FinOps onboarding
-
-| Teams
-| -
-| -
-| Yes
+|Teams
+|-
+|-
+|Yes
 
 |===
 
@@ -133,7 +132,7 @@ The following features have metric limits:
 
 *Metric limits:*
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Metric
 |Kubecost Free Tier 2.0
@@ -160,12 +159,13 @@ The following features have metric limits:
 |250 cores per cluster
 |No core limits
 |No core limits
+
 |===
 
 [#kubecost-v1]
 == Kubecost v1
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Feature
 |Kubecost free tier
@@ -247,6 +247,7 @@ The following features have metric limits:
 |-
 |-
 |Full-service training and FinOps onboarding
+
 |===
 
 [#cost-monitoring-faq]
@@ -314,17 +315,13 @@ Yes. `Kubectl-cost` is an open source tool by Kubecost (Apache 2.0 License) that
 
 Kubecost provides a web dashboard that you can access through `kubectl` port forwarding, an ingress, or a load balancer. You can also use the {aws} Load Balancer Controller to expose Kubecost and use Amazon Cognito for authentication, authorization, and user management. For more information, see link:containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps[How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps,type="blog"] on the {aws} blog.
 
-*Is Amazon EKS Anywhere supported?*
-
-No.
-
 [#kubecost-additional]
 == Additional Kubecost Features
 
 * The following features are available in both Kubecost v1 and v2.  
-* *Export cost metrics* – Amazon EKS optimized cost monitoring is deployed with Kubecost and Prometheus, which is an open-source monitoring system and time series database. Kubecost reads metric from Prometheus and then performs cost allocation calculations and writes the metrics back to Prometheus. The Kubecost front-end reads metrics from Prometheus and shows them on the Kubecost user interface. The architecture is illustrated in the following diagram.
+** *Export cost metrics* – Amazon EKS optimized cost monitoring is deployed with Kubecost and Prometheus, which is an open-source monitoring system and time series database. Kubecost reads metric from Prometheus and then performs cost allocation calculations and writes the metrics back to Prometheus. The Kubecost front-end reads metrics from Prometheus and shows them on the Kubecost user interface. The architecture is illustrated in the following diagram.
 +
 image::images/kubecost-architecture.png[Kubecost architecture,scaledwidth=100%]
 +
 With https://prometheus.io/[Prometheus] pre-installed, you can write queries to ingest Kubecost data into your current business intelligence system for further analysis. You can also use it as a data source for your current https://grafana.com/[Grafana] dashboard to display Amazon EKS cluster costs that your internal teams are familiar with. To learn more about how to write Prometheus queries, see the https://opencost.io/docs/installation/prometheus/[Prometheus Configuration]``readme`` file on GitHub or use the example Grafana JSON models in the https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer[Kubecost Github repository] as references.
-* *{aws} Cost and Usage Report integration* – To perform cost allocation calculations for your Amazon EKS cluster, Kubecost retrieves the public pricing information of {aws} services and {aws} resources from the {aws} Price List API. You can also integrate Kubecost with *{aws} Cost and Usage Report* to enhance the accuracy of the pricing information specific to your {aws} account. This information includes enterprise discount programs, reserved instance usage, savings plans, and spot usage. To learn more about how the {aws} Cost and Usage Report integration works, see https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=integrations-aws-cloud-billing-integration[{aws} Cloud Billing Integration] in the Kubecost documentation.
+** *{aws} Cost and Usage Report integration* – To perform cost allocation calculations for your Amazon EKS cluster, Kubecost retrieves the public pricing information of {aws} services and {aws} resources from the {aws} Price List API. You can also integrate Kubecost with *{aws} Cost and Usage Report* to enhance the accuracy of the pricing information specific to your {aws} account. This information includes enterprise discount programs, reserved instance usage, savings plans, and spot usage. To learn more about how the {aws} Cost and Usage Report integration works, see https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=integrations-aws-cloud-billing-integration[{aws} Cloud Billing Integration] in the Kubecost documentation.

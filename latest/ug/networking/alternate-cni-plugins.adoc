@@ -16,7 +16,7 @@ If you plan to use an alternate CNI plugin on Amazon EC2 nodes, we recommend tha
 
 Amazon EKS maintains relationships with a network of partners that offer support for alternate compatible CNI plugins. For details about the versions, qualifications, and testing performed, see the following partner documentation.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Partner
 |Product

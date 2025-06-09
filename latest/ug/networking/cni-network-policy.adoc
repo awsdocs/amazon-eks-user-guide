@@ -16,9 +16,6 @@ If you have version `1.13` or earlier of the Amazon VPC CNI plugin for Kubernete
 
 Network policies in the Amazon VPC CNI plugin for Kubernetes are supported in the following configurations.
 
-
-
-* Amazon EKS clusters of version `1.25` and later.
 * Version 1.14 or later of the Amazon VPC CNI plugin for Kubernetes on your cluster.
 * Cluster configured for `IPv4` or `IPv6` addresses.
 * You can use network policies with <<security-groups-for-pods,security groups for Pods>>. With network policies, you can control all in-cluster communication. With security groups for Pods, you can control access to {aws} services from applications within a Pod.

@@ -10,14 +10,14 @@ include::../attributes.txt[]
 Prepare operating system for use with Hybrid Nodes
 --
 
-Amazon Linux 2023 (AL2023), Ubuntu, and Red Hat Enterprise Linux (RHEL) are validated on an ongoing basis for use as the node operating system for hybrid nodes. {aws} supports the hybrid nodes integration with these operating systems but does not provide support for the operating systems itself. AL2023 is not covered by {aws} Support Plans when run outside of Amazon EC2. AL2023 can only be used in on-premises virtualized environments, reference the link:linux/al2023/ug/outside-ec2.html[Amazon Linux 2023 User Guide,type="documentation"] for more information.
+Bottlerocket, Ubuntu, Red Hat Enterprise Linux (RHEL), and Amazon Linux 2023 (AL2023) are validated on an ongoing basis for use as the node operating system for hybrid nodes. {aws} supports the hybrid nodes integration with these operating systems but, with the exception of Bottlerocket, does not provide support for the operating systems itself. AL2023 is not covered by {aws} Support Plans when run outside of Amazon EC2. AL2023 can only be used in on-premises virtualized environments, reference the link:linux/al2023/ug/outside-ec2.html[Amazon Linux 2023 User Guide,type="documentation"] for more information.
 
-You are responsible for operating system provisioning and management. When you are testing hybrid nodes for the first time, it is easiest to run the Amazon EKS Hybrid Nodes CLI (`nodeadm`) on an already provisioned host. For production deployments, it is recommended to include `nodeadm` in your operating system images with it configured to run as a systemd service to automatically join hosts to Amazon EKS clusters at host startup. 
+You are responsible for operating system provisioning and management. When you are testing hybrid nodes for the first time, it is easiest to run the Amazon EKS Hybrid Nodes CLI (`nodeadm`) on an already provisioned host. For production deployments, we recommend that you include `nodeadm` in your operating system images with it configured to run as a systemd service to automatically join hosts to Amazon EKS clusters at host startup. If you are using Bottlerocket as your node operating system on vSphere, you do not need to use `nodeadm` as Bottlerocket already contains the dependencies required for hybrid nodes and will automatically connect to the cluster you configure upon host startup.
 
 == Version compatibility
 
 The table below represents the operating system versions that are compatible and validated to use as the node operating system for hybrid nodes. If you are using other operating system variants or versions that are not included in this table, then the compatibility of hybrid nodes with your operating system variant or version is not covered by {aws} Support. Hybrid nodes are agnostic to the underlying infrastructure and support x86 and ARM architectures. 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 
 |Operating System
@@ -25,6 +25,9 @@ The table below represents the operating system versions that are compatible and
 
 |Amazon Linux
 |Amazon Linux 2023 (AL2023)
+
+|Bottlerocket
+|v1.37.0 and above VMware variants running Kubernetes v1.28 and above
 
 |Ubuntu
 |Ubuntu 20.04, Ubuntu 22.04, Ubuntu 24.04
@@ -40,6 +43,12 @@ The table below represents the operating system versions that are compatible and
 
 * The Amazon EKS Hybrid Nodes CLI (`nodeadm`) can be used to simplify the installation and configuration of the hybrid nodes components and dependencies. You can run the `nodeadm install` process during your operating system image build pipelines or at runtime on each on-premises host. For more information on the components that `nodeadm` installs, see the <<hybrid-nodes-nodeadm>>.
 * If you are using a proxy in your on-premises environment to reach the internet, there is additional operating system configuration required for the install and upgrade processes to configure your package manager to use the proxy. See <<hybrid-nodes-proxy>> for instructions.
+
+=== Bottlerocket
+
+* The steps and tools to connect a Bottlerocket node are different than the steps for other operating systems and are covered separately in <<hybrid-nodes-bottlerocket>>, instead of the steps in <<hybrid-nodes-join>>.
+* The steps for Bottlerocket don't use the hybrid nodes CLI tool, `nodeadm`.
+* Only VMware variants of Bottlerocket version v1.37.0 and above are supported with EKS Hybrid Nodes. VMware variants of Bottlerocket are available for Kubernetes versions v1.28 and above. https://bottlerocket.dev/en/os/1.36.x/concepts/variants[Other Bottlerocket variants] are not supported as the hybrid nodes operating system. NOTE: VMware variants of Bottlerocket are only available for the x86_64 architecture.
 
 === Containerd
 
@@ -83,7 +92,7 @@ Before running the Packer build, set the following environment variables on the 
 
 The following environment variables must be set for building images with all operating systems and output formats.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Environment Variable
@@ -120,7 +129,7 @@ The following environment variables must be set for building images with all ope
 
 If you are using RHEL, the following environment variables must be set.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Environment Variable
@@ -149,7 +158,7 @@ There are no Ubuntu-specific environment variables required.
 
 If you are building a VMware vSphere OVA, the following environment variables must be set.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Environment Variable
@@ -192,7 +201,7 @@ If you are building a VMware vSphere OVA, the following environment variables mu
 
 *QEMU*
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 
 |Environment Variable

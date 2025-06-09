@@ -462,7 +462,7 @@ The add-on name is `kubecost_kubecost` and the namespace is `kubecost`. Kubecost
 
 For information about the add-on, see https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations[{aws} Cloud Billing Integration] in the Kubecost documentation.
 
-If your cluster is version `1.23` or later, you must have the <<ebs-csi,Store Kubernetes volumes with Amazon EBS>> installed on your cluster. otherwise you will receive an error.
+You must have the <<ebs-csi,Store Kubernetes volumes with Amazon EBS>> installed on your cluster. otherwise you will receive an error.
 
 [#add-on-kubecost-service-account-name]
 === Service account name
@@ -491,7 +491,7 @@ The add-on name is `kasten_k10` and the namespace is `kasten-io`. Kasten by Veea
 
 For information about the add-on, see https://docs.kasten.io/latest/install/aws-eks-addon/aws-eks-addon.html[Installing K10 on {aws} using Amazon EKS Add-on] in the Kasten documentation.
 
-If your Amazon EKS cluster is version Kubernetes `1.23` or later, you must have the Amazon EBS CSI driver installed on your cluster with a default `StorageClass`.
+You must have the Amazon EBS CSI driver installed on your cluster with a default `StorageClass`.
 
 [#add-on-kasten-service-account-name]
 === Service account name
@@ -532,7 +532,7 @@ The add-on name is `kong_konnect-ri` and the namespace is `kong`. Kong publishes
 
 For information about the add-on, see https://kong.github.io/aws-marketplace-addon-kong-gateway/[Installing the Kong Gateway EKS Add-on] in the Kong documentation.
 
-If your cluster is version `1.23` or later, you must have the <<ebs-csi,Store Kubernetes volumes with Amazon EBS>> installed on your cluster. otherwise you will receive an error.
+You must have the <<ebs-csi,Store Kubernetes volumes with Amazon EBS>> installed on your cluster. otherwise you will receive an error.
 
 [#add-on-kong-service-account-name]
 === Service account name
@@ -561,7 +561,7 @@ The add-on name is `leaksignal_leakagent` and the namespace is `leakagent`. Leak
 
 For information about the add-on, see https://www.leaksignal.com/docs/LeakAgent/Deployment/{aws}%20EKS%20Addon/[Install the LeakAgent add-on] in the LeakSignal documentation
 
-If your cluster is version `1.23` or later, you must have the <<ebs-csi,Store Kubernetes volumes with Amazon EBS>> installed on your cluster. otherwise you will receive an error.
+You must have the <<ebs-csi,Store Kubernetes volumes with Amazon EBS>> installed on your cluster. otherwise you will receive an error.
 
 [#add-on-leaksignal-service-account-name]
 === Service account name

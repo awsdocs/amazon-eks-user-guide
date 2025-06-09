@@ -76,8 +76,7 @@ With this authentication mode, you can use the EKS API, {aws} Command Line Inter
 +
 Each access entry has a _type_ and you can use the combination of an _access scope_ to limit the principal to a specific namespace and an _access policy_ to set preconfigured reusable permissions policies. Alternatively, you can use the STANDARD type and Kubernetes RBAC groups to assign custom permissions.
 
-
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Authentication mode
 |Methods
@@ -91,6 +90,7 @@ Each access entry has a _type_ and you can use the combination of an _access sco
 
 |EKS API only (`API`)
 |access entries in the EKS API, {aws} Command Line Interface, {aws} SDKs, {aws} CloudFormation, and {aws-management-console}
+
 |===
 
 [NOTE]

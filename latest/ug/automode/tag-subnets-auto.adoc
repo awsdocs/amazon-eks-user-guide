@@ -24,17 +24,21 @@ At this time, subnets used for load balancing by EKS Auto Mode are required to h
 ===  Public subnets
 Public subnets are used for internet-facing load balancers. These subnets must have the following tags:
 
+[%header,cols="2"]
 |===
 |Key
 |Value
 
+
 |`kubernetes.io/role/elb`
 |`1` or ``
+
 |===
 
 === Private subnets
 Private subnets are used for internal load balancers. These subnets must have the following tags:
 
+[%header,cols="2"]
 |===
 |Key
 |Value

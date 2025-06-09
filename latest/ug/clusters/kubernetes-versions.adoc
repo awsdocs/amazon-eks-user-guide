@@ -29,6 +29,7 @@ video::_dJdAZ_J_jw[youtube,align = center,height = 405,fileref = https://www.you
 
 The following Kubernetes versions are currently available in Amazon EKS standard support:
 
+* `1.33`
 * `1.32`
 * `1.31`
 * `1.30`
@@ -45,7 +46,6 @@ The following Kubernetes versions are currently available in Amazon EKS extended
 * `1.28`
 * `1.27`
 * `1.26`
-* `1.25`
 
 For important changes to be aware of for each version in extended support, see <<kubernetes-versions-extended>>.
 
@@ -56,18 +56,29 @@ The following table shows important release and support dates to consider for ea
 
 [NOTE]
 ====
-
 Dates with only a month and a year are approximate and are updated with an exact date when it's known.
-
 ====
 
-[cols="1,1,1,1,1", options="header"]
+To receive notifications of all source file changes to this specific documentation page, you can subscribe to the following URL with an RSS reader:
+
+[source,none]
+----
+https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/clusters/kubernetes-versions.adoc.atom
+----
+
+[%header,cols="5"]
 |===
 |Kubernetes version
 |Upstream release
 |Amazon EKS release
 |End of standard support
 |End of extended support
+
+|`1.33`
+|April 23, 2025
+|May 29, 2025
+|July 29, 2026
+|July 29, 2027
 
 |`1.32`
 |December 11, 2024
@@ -110,18 +121,6 @@ Dates with only a month and a year are approximate and are updated with an exact
 |April 11, 2023
 |June 11, 2024
 |June 11, 2025
-
-|`1.25`
-|August 23, 2022
-|February 22, 2023
-|May 1, 2024
-|May 1, 2025
-
-|`1.24`
-|May 3, 2022
-|November 15, 2022
-|January 31, 2024
-|January 31, 2025
 
 |===
 
@@ -186,7 +185,7 @@ Yes. If any clusters in your account are running the version nearing the end of 
 
 
 *Which Kubernetes features are supported by Amazon EKS?*::
-Amazon EKS supports all generally available (GA) features of the Kubernetes API. Starting with Kubernetes version `1.24`, new beta APIs aren't enabled in clusters by default. However, previously existing beta APIs and new versions of existing beta APIs continue to be enabled by default. Alpha features aren't supported.
+Amazon EKS supports all generally available (GA) features of the Kubernetes API. New beta APIs aren't enabled in clusters by default. However, previously existing beta APIs and new versions of existing beta APIs continue to be enabled by default. Alpha features aren't supported.
 
 
 *Are Amazon EKS managed node groups automatically updated along with the cluster control plane version?*::
@@ -221,7 +220,7 @@ You will need to enable extended support (see <<enable-extended-support>>) for y
 
 
 *For which Kubernetes versions can I get extended support?*::
-Extended support is available for Kubernetes versions `1.23` and higher. You can run clusters on any version for up to 12 months after the end of standard support for that version. This means that each version will be supported for 26 months in Amazon EKS (14 months of standard support plus 12 months of extended support).
+You can run clusters on any version for up to 12 months after the end of standard support for that version. This means that each version will be supported for 26 months in Amazon EKS (14 months of standard support plus 12 months of extended support).
 
 
 *What if I don't want to use extended support?*::
@@ -248,9 +247,6 @@ Yes, there is additional cost for Amazon EKS clusters running in extended suppor
 
 *What is included in extended support?*::
 Amazon EKS clusters in Extended Support receive ongoing security patches for the Kubernetes control plane. Additionally, Amazon EKS will release patches for the Amazon VPC CNI, `kube-proxy`, and CoreDNS add-ons for Extended Support versions. Amazon EKS will also release patches for {aws}-published Amazon EKS optimized AMIs for Amazon Linux, Bottlerocket, and Windows, as well as Amazon EKS Fargate nodes for those versions. All clusters in Extended Support will continue to get access to technical support from {aws}.
-+
-NOTE: Extended Support for Amazon EKS optimized Windows AMIs that are published by {aws} isn't available for Kubernetes version `1.23` but is available for Kubernetes version `1.24` and higher.
-
 
 *Are there any limitations to patches for non-Kubernetes components in extended support?*::
 While Extended Support covers all of the Kubernetes specific components from {aws}, it will only provide support for {aws}-published Amazon EKS optimized AMIs for Amazon Linux, Bottlerocket, and Windows at all times. This means, you will potentially have newer components (such as OS or kernel) on your Amazon EKS optimized AMI while using Extended Support. For example, once Amazon Linux 2 reaches the link:amazon-linux-2/faqs/[end of its lifecycle in 2025,type="marketing"], the Amazon EKS optimized Amazon Linux AMIs will be built using a newer Amazon Linux OS. Amazon EKS will announce and document important support lifecycle discrepancies such as this for each Kubernetes version.

@@ -122,7 +122,7 @@ For general information on the Kubernetes `StorageClass` resources, see https://
 THe `parameters` section of the `StorageClass` resource is specific to {aws}. Use the following table to review available options. 
 
 [role="no-scroll"]
-[cols="4*", options="header"]
+[%header,cols="4"]
 |===
 
 |Parameters

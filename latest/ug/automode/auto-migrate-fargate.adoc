@@ -129,7 +129,7 @@ fargate-ip-192-168-117-130.ec2.internal Ready   <none> 36s v1.30.8-eks-2d5f260 1
 fargate-ip-192-168-74-140.ec2.internal  Ready   <none> 36s v1.30.8-eks-2d5f260 192.168.74.140  <none>      Amazon Linux 2 5.10.234-225.910.amzn2.x86_64  containerd://1.7.25
 ----
 
-### Step 2: Enable EKS Auto Mode on the cluster
+## Step 2: Enable EKS Auto Mode on the cluster
 
 . Enable EKS Auto Mode on your existing cluster using the {aws} CLI or Management Console. For more information, see <<auto-enable-existing>>.
 . Check the nodepool:
@@ -146,13 +146,13 @@ general-purpose   default     1       True    6m58s
 system            default     0       True    3d14h
 ----
 
-### Step 3: Update workloads for migration
+## Step 3: Update workloads for migration
 
 Identify and update the workloads you want to migrate to EKS Auto Mode.
-Add both tolerations and node selectors to these workloads and add annotation.
 
-EKS Auto Mode uses different labels than `fargate`.
-Labels related to EC2 managed instances start with `eks.amazonaws.com`.
+To migrate a workload from Fargate to EKS Auto Mode, apply the annotation `eks.amazonaws.com/compute-type: ec2`.
+This ensures that the workload will not be scheduled by Fargate, despite the Fargate profile,
+and will be caught up by the EKS Auto Mode NodePool.
 For more information, see <<create-node-pool>>.
 
 . Modify your deployments (for example, the `deployment_fargate.yaml` file) to change the compute type to `ec2`:
@@ -216,12 +216,12 @@ NAME                STATUS ROLES  AGE   VERSION             INTERNAL-IP     EXTE
 i-0845aafcb51630ffb Ready  <none> 3m30s v1.30.8-eks-3c20087 192.168.41.125  3.81.118.95 Bottlerocket (EKS Auto) 2025.3.14 (aws-k8s-1.30) 6.1.129        containerd://1.7.25+bottlerocket
 ----
 
-### Step 4: Gradually migrate workloads
+## Step 4: Gradually migrate workloads
 
 Repeat Step 3 for each workload you want to migrate.
 This allows you to move workloads individually or in groups, based on your requirements and risk tolerance.
 
-### Step 5: Remove the original fargate profile
+## Step 5: Remove the original fargate profile
 
 Once all workloads have been migrated, you can remove the original `fargate` profile.
 Replace [.replaceable]`<fargate profile name>` with the name of your Fargate profile:
@@ -231,7 +231,7 @@ Replace [.replaceable]`<fargate profile name>` with the name of your Fargate pro
 aws eks delete-fargate-profile --cluster-name eks-fargate-demo-cluster --fargate-profile-name <fargate profile name>
 ----
 
-### Step 6: Scale down CoreDNS
+## Step 6: Scale down CoreDNS
 
 Because EKS Auto mode handles CoreDNS, you scale the `coredns` deployment down to 0:
 

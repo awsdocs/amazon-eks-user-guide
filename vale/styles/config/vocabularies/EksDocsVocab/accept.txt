@@ -19,3 +19,10 @@ Kinesis
 AMIs?
 SDKs?
 FSx
+ENIs?
+IPs?
+CSRs?
+routable
+ARN
+CloudWatch
+CoreDNS

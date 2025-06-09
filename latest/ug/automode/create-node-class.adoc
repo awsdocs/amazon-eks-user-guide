@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Create a Node Class for Amazon EKS
 :info_titleabbrev: Create node class
 
-Amazon EKS Node Classes provide granular control over the configuration of your EKS Auto Mode managed nodes. A Node Class defines infrastructure-level settings that apply to groups of nodes in your EKS cluster, including network configuration, storage settings, and resource tagging. This topic explains how to create and configure a Node Class to meet your specific operational requirements.
+Amazon EKS Node Classes offer granular control over the configuration of your EKS Auto Mode managed nodes. A Node Class defines infrastructure-level settings that apply to groups of nodes in your EKS cluster, including network configuration, storage settings, and resource tagging. This topic explains how to create and configure a Node Class to meet your specific operational requirements.
 
 When you need to customize how EKS Auto Mode provisions and configures EC2 instances beyond the default settings, creating a Node Class gives you precise control over critical infrastructure parameters. For example, you can specify private subnet placement for enhanced security, configure instance ephemeral storage for performance-sensitive workloads, or apply custom tagging for cost allocation.
 
@@ -37,7 +37,7 @@ spec:
 
 This NodeClass increases the amount of ephemeral storage on the node. 
 
-Apply this configuration using:
+Apply this configuration by using:
 
 ```bash
 kubectl apply -f nodeclass.yaml
@@ -99,6 +99,7 @@ EKSAutoNodeRoleAccessEntry:
 
 For information about deploying CloudFormation stacks, see link:AWSCloudFormation/latest/UserGuide/GettingStarted.html["Getting started with CloudFormation", type="documentation"]
 
+[#auto-node-class-spec]
 == Node Class Specification 
 
 [source,yaml]
@@ -106,54 +107,82 @@ For information about deploying CloudFormation stacks, see link:AWSCloudFormatio
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
-  name: MyNodeClass
+  name: my-node-class
 spec:
-
-  # Required: Subnet selection for node placement
+  # Required fields
+  role: MyNodeRole  # IAM role for EC2 instances
+  
   subnetSelectorTerms:
     - tags:
-        Name: "<tag-name>"
+        Name: "private-subnet"
         kubernetes.io/role/internal-elb: "1"
     # Alternative using direct subnet ID
     # - id: "subnet-0123456789abcdef0"
   
-  # Required: Security group selection for nodes
   securityGroupSelectorTerms:
     - tags:
-        Name: "eks-cluster-node-sg"
+        Name: "eks-cluster-sg"
     # Alternative approaches:
     # - id: "sg-0123456789abcdef0"
-    # - name: "eks-cluster-node-security-group"
-  
-  # Optional: Configure SNAT policy (defaults to Random)
+    # - name: "eks-cluster-security-group"
+
+  # Optional fields
   snatPolicy: Random  # or Disabled
   
-  # Optional: Network policy configuration (defaults to DefaultAllow)
   networkPolicy: DefaultAllow  # or DefaultDeny
-  
-  # Optional: Network policy event logging (defaults to Disabled)
   networkPolicyEventLogs: Disabled  # or Enabled
   
-  # Optional: Configure ephemeral storage (shown with default values)
   ephemeralStorage:
     size: "80Gi"    # Range: 1-59000Gi or 1-64000G or 1-58Ti or 1-64T
     iops: 3000      # Range: 3000-16000
     throughput: 125 # Range: 125-1000
-
-  # Optional: Name of IAM role to use for EC2 instance role
-  # If unspecified, EKS creates a role
-  # If specified, you must create an access entry for this role as described above
-  role: MyNodeRole  
+    # Optional KMS key for encryption
+    kmsKeyID: "arn:aws:kms:region:account:key/key-id"  
+    # Accepted formats:
+    # KMS Key ID
+    # KMS Key ARN
+    # Key Alias Name
+    # Key Alias ARN
   
-  # Optional: Additional EC2 tags
+  # Optional: Forward proxy, commonly requires certificateBundles as well
+  #for EC2, see https://repost.aws/knowledge-center/eks-http-proxy-containerd-automation
+  advancedNetworking:
+    httpsProxy: http://192.0.2.4:3128 #commonly port 3128 (Squid) or 8080 (NGINX) #Max 255 characters
+    #httpsProxy: http://[2001:db8::4]:3128 # IPv6 address with port, use []
+    noProxy: #Max 50 entries
+        - localhost #Max 255 characters each
+        - 127.0.0.1
+        #- ::1 # IPv6 localhost
+        #- 0:0:0:0:0:0:0:1 # IPv6 localhost
+        - 169.254.169.254 # EC2 Instance Metadata Service
+        #- [fd00:ec2::254] # IPv6 EC2 Instance Metadata Service
+        # Domains to exclude, put all VPC endpoints here
+        - .internal
+        - .eks.amazonaws.com
+  
+  # Optional: Custom certificate bundles
+  certificateBundles:
+    - name: "custom-cert"
+      data: "base64-encoded-cert-data"
+  
+  # Optional: Additional EC2 tags (with restrictions)
   tags:
     Environment: "production"
     Team: "platform"
+    # Note: Cannot use restricted tags like:
+    # - kubernetes.io/cluster/*
+    # - karpenter.sh/provisioner-name
+    # - karpenter.sh/nodepool
+    # - karpenter.sh/nodeclaim
+    # - karpenter.sh/managed-by
+    # - eks.amazonaws.com/nodeclass
 ----
 
-*Considerations:*
+
+== Considerations
 
 * If you change the Node IAM Role associated with a NodeClass, you will need to create a new Access Entry. EKS automatically creates an Access Entry for the Node IAM Role during cluster creation. The Node IAM Role requires the `AmazonEKSAutoNodePolicy` EKS Access Policy. For more information, see <<access-entries>>.
 * EKS limits the maximum number of pods on a node to 110. This limit is applied after the existing max pods calculation. For more information, see <<choosing-instance-type>>. 
 * If you want to propagate tags from Kubernetes to EC2, you need to configure additional IAM permissions. For more information, see <<auto-learn-iam>>. 
 * Do not name your custom node class `default`.
+* EKS Auto Mode includes a `default` NodeClass that is automatically provisioned when at least one built-in NodePool is enabled. For information about enabling built-in NodePools, see <<set-builtin-node-pools>>.

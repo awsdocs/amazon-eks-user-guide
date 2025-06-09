@@ -15,9 +15,11 @@ This chapter describes how to configure specific aspects of your Amazon Elastic 
 Using the configuration options described in this topic, you can modify networking settings, compute resources, and load balancing behaviors while maintaining the benefits of automated infrastructure management. Before making any configuration changes, review the available options in the following sections to determine which approach best suits your needs.
 
 [role="no-scroll"]
-[cols="1,1"]
+[%header,cols="2"]
 |===
-|What features do you want to configure? |Configuration option
+|What features do you want to configure?
+|Configuration option
+
 
 a|
 *Node networking and storage*
@@ -107,3 +109,9 @@ include::auto-net-pol.adoc[leveloffset=+1]
 include::tag-subnets-auto.adoc[leveloffset=+1]
 
 include::auto-accelerated.adoc[leveloffset=+1]
+
+include::auto-cis.adoc[leveloffset=+1]
+
+include::auto-kms.adoc[leveloffset=+1]
+
+

@@ -174,7 +174,7 @@ The following table represents a visual representation and practical example of 
 
 Consider a scenario whereby there is a single Windows node of EC2 instance type `g4dn.12xlarge`, which comes with four GPUs. Consider a scenario where three pods are launched on this instance. The table shows that regardless of the number of GPUs requested by each container, all three pods have access to all four GPUs on the instance, and by default will utilize the GPU with device index 0. 
 
-[cols="1,1,1,1,1,1", options="header"]
+[%header,cols="6"]
 |===
 |Pod
 |Requested GPUs	

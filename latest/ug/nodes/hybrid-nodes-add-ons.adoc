@@ -14,7 +14,7 @@ This page describes considerations for running {aws} add-ons and community add-o
 
 The following {aws} add-ons are compatible with Amazon EKS Hybrid Nodes.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |{aws} add-on
 |Compatible add-on versions
@@ -32,24 +32,40 @@ The following {aws} add-ons are compatible with Amazon EKS Hybrid Nodes.
 |v2.2.1-eksbuild.1 and above
 
 |EKS Pod Identity Agent
-|v1.3.3-eksbuild.1 and above
+a|* v1.3.3-eksbuild.1 and above, except for Bottlerocket
+* v1.3.7-eksbuild.2 and above for Bottlerocket
+
+|Node monitoring agent
+|v1.2.0-eksbuild.1 and above
 
 |CSI snapshot controller
 |v8.1.0-eksbuild.1 and above
+
+|{aws} Private CA Connector for Kubernetes
+|v1.6.0-eksbuild.1 and above
 |===
 
 The following community add-ons are compatible with Amazon EKS Hybrid Nodes. To learn more about community add-ons, see <<community-addons>>.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Community add-on
 |Compatible add-on versions
 
 |Kubernetes Metrics Server
 |v0.7.2-eksbuild.1 and above
+
+|cert-manager
+|v1.17.2-eksbuild.1 and above
+
+|Prometheus Node Exporter
+|v1.9.1-eksbuild.2 and above
+
+|kube-state-metrics
+|v2.15.0-eksbuild.4 and above
 |===
 
-In addition to the Amazon EKS add-ons in the tables above, the <<prometheus,Amazon Managed Service for Prometheus Collector>>, and the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> for <<alb-ingress,application ingress>> (HTTP) and <<network-load-balancing,load balancing>> (TCP/UDP) are compatible with hybrid nodes. 
+In addition to the Amazon EKS add-ons in the tables above, the <<prometheus,Amazon Managed Service for Prometheus Collector>>, and the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> for <<alb-ingress,application ingress>> (HTTP) and <<network-load-balancing,load balancing>> (TCP/UDP) are compatible with hybrid nodes.
 
 There are {aws} add-ons and community add-ons that aren't compatible with Amazon EKS Hybrid Nodes. The latest versions of these add-ons have an anti-affinity rule for the default `eks.amazonaws.com/compute-type: hybrid` label applied to hybrid nodes. This prevents them from running on hybrid nodes when deployed in your clusters. If you have clusters with both hybrid nodes and nodes running in {aws} Cloud, you can deploy these add-ons in your cluster to nodes running in {aws} Cloud. The Amazon VPC CNI is not compatible with hybrid nodes, and Cilium and Calico are supported as the Container Networking Interfaces (CNIs) for Amazon EKS Hybrid Nodes. See <<hybrid-nodes-cni>> for more information.
 
@@ -136,9 +152,16 @@ service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
 [#hybrid-nodes-add-ons-pod-id]
 == EKS Pod Identity Agent
 
-The original Amazon EKS Pod Identity Agent DaemonSet relies on the availability of EC2 IMDS on the node to obtain the required {aws} credentials. As IMDS isn't available on hybrid nodes, starting in add-on version `1.3.3-eksbuild.1`, the Pod Identity Agent add-on optionally deploys a second DaemonSet that specifically targets hybrid nodes. This DaemonSet mounts the required credentials to the pods created by the Pod Identity Agent add-on.
+[NOTE]
+====
+To successfully deploy the EKS Pod Identity Agent add-on on hybrid nodes running Bottlerocket, ensure your Bottlerocket version is at least v1.39.0. The Pod Identity Agent is not supported on earlier Bottlerocket versions in hybrid node environments.
+====
 
-. To use the Pod Identity agent on hybrid nodes, set `enableCredentialsFile: true` in the hybrid section of `nodeadm` config as shown below:
+The original Amazon EKS Pod Identity Agent DaemonSet relies on the availability of EC2 IMDS on the node to obtain the required {aws} credentials. As IMDS isn't available on hybrid nodes, starting with version 1.3.3-eksbuild.1, the Pod Identity Agent add-on optionally deploys a DaemonSet that mounts the required credentials. Hybrid nodes running Bottlerocket require a different method to mount the credentials, and starting in version 1.3.7-eksbuild.2, the Pod Identity Agent add-on optionally deploys a DaemonSet that specifically targets Bottlerocket hybrid nodes. The following sections describe the process for enabling the optional DaemonSets.
+
+=== Ubuntu/RHEL/AL2023
+
+. To use the Pod Identity agent on Ubuntu/RHEL/Al2023 hybrid nodes, set `enableCredentialsFile: true` in the hybrid section of `nodeadm` config as shown below:
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -158,7 +181,7 @@ This will configure `nodeadm` to create a credentials file to be configured on t
 nodeadm init -c file://nodeConfig.yaml
 ----
 +
-. Install `eks-pod-identity-agent` with support for hybrid nodes enabled, by either using the {aws} CLI or {aws-management-console}.
+. Install `eks-pod-identity-agent` with support for hybrid nodes enabled, by using either the {aws} CLI or {aws-management-console}.
 +
 .. {aws} CLI: From the machine that you're using to administer the cluster, run the following command to install `eks-pod-identity-agent` with support for hybrid nodes enabled. Replace `my-cluster` with the name of your cluster.
 +
@@ -170,11 +193,50 @@ aws eks create-addon \
     --configuration-values '{"daemonsets":{"hybrid":{"create": true}}}'
 ----
 +
-.. {aws-management-console}: If you are installing the Pod Identity Agent add-on through the {aws} console, add the following to the optional configuration to deploy the daemonset that targets hybrid nodes.
+.. {aws-management-console}: If you are installing the Pod Identity Agent add-on through the {aws} console, add the following to the optional configuration to deploy the DaemonSet that targets hybrid nodes.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
 {"daemonsets":{"hybrid":{"create": true}}}
+----
+
+=== Bottlerocket
+
+. To use the Pod Identity agent on Bottlerocket hybrid nodes, add the `--enable-credentials-file=true` flag to the command used for the Bottlerocket bootstrap container user data, as described in <<hybrid-nodes-bottlerocket>>.
++
+.. If you are using the SSM credential provider, your command should look like this:
++
+[source,bash,subs="verbatim,attributes"]
+----
+eks-hybrid-ssm-setup --activation-id=<activation-id> --activation-code=<activation-code> --region=<region> --enable-credentials-file=true
+----
++
+.. If you are using the IAM Roles Anywhere credential provider, your command should look like this:
++
+[source,bash,subs="verbatim,attributes"]
+----
+eks-hybrid-iam-ra-setup --certificate=<certificate> --key=<private-key> --enable-credentials-file=true
+----
++
+This will configure the bootstrap script to create a credentials file on the node under `/var/eks-hybrid/.aws/credentials`, which will be used by `eks-pod-identity-agent` pods. This credentials file will contain temporary {aws} credentials that will be refreshed periodically.
++
+. Install `eks-pod-identity-agent` with support for Bottlerocket hybrid nodes enabled, by using either the {aws} CLI or {aws-management-console}.
++
+.. {aws} CLI: From the machine that you're using to administer the cluster, run the following command to install `eks-pod-identity-agent` with support for Bottlerocket hybrid nodes enabled. Replace `my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks create-addon \
+    --cluster-name my-cluster \
+    --addon-name eks-pod-identity-agent \
+    --configuration-values '{"daemonsets":{"hybrid-bottlerocket":{"create": true}}}'
+----
++
+.. {aws-management-console}: If you are installing the Pod Identity Agent add-on through the {aws} console, add the following to the optional configuration to deploy the DaemonSet that targets Bottlerocket hybrid nodes.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+{"daemonsets":{"hybrid-bottlerocket":{"create": true}}}
 ----
 
 [#hybrid-nodes-add-ons-csi-snapshotter]
@@ -190,3 +252,7 @@ The sections that follow describe differences between running compatible communi
 [#hybrid-nodes-add-ons-metrics-server]
 == Kubernetes Metrics Server
 The control plane needs to reach Metrics Server's pod IP (or node IP if hostNetwork is enabled). Therefore, unless you run Metrics Server in hostNetwork mode, you must configure a remote pod network when creating your Amazon EKS cluster, and you must make your pod IP addresses routable. Implementing Border Gateway Protocol (BGP) with the CNI is one common way to make your pod IP addresses routable.
+
+[#hybrid-nodes-add-ons-cert-manager]
+== cert-manager
+`cert-manager` uses https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks]. If you run `cert-manager` on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network and you must configure your EKS cluster with your remote pod network. For more information, see <<hybrid-nodes-webhooks, Configure webhooks for hybrid nodes>>.

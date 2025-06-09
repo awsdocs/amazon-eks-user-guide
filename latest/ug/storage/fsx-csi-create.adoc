@@ -1,0 +1,280 @@
+include::../attributes.txt[]
+
+[.topic]
+[#fsx-csi-create]
+= Deploy the FSx for Lustre driver
+:info_titleabbrev: Deploy the driver
+
+[abstract]
+--
+This topic shows you how to deploy the FSx for Lustre CSI driver to your Amazon EKS cluster and verify that it works. 
+--
+
+This topic shows you how to deploy the <<fsx-csi,FSx for Lustre CSI driver>> to your Amazon EKS cluster and verify that it works. We recommend using the latest version of the driver. For available versions, see https://github.com/kubernetes-sigs/aws-fsx-csi-driver/blob/master/docs/README.md#csi-specification-compatibility-matrix[CSI Specification Compatibility Matrix] on GitHub.
+
+[NOTE]
+====
+
+The driver isn't supported on Fargate or Amazon EKS Hybrid Nodes.
+
+====
+
+For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the https://github.com/kubernetes-sigs/aws-fsx-csi-driver[FSx for Lustre Container Storage Interface (CSI) driver] project on GitHub.
+
+[#fsx-csi-prereqs]
+== Prerequisites
+
+* An existing cluster.
+* The Amazon FSx CSI Driver EKS add-on requires the EKS Pod Identity agent for authentication. Without this component, the add-on will fail with the error `Amazon EKS Pod Identity agent is not installed in the cluster`, preventing volume operations. Install the Pod Identity agent before or after deploying the FSx CSI Driver add-on. For more information, see <<pod-id-agent-setup>>. 
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
+* Version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
+
+[#fsx-create-iam-role]
+== Step 1: Create an IAM role
+
+The Amazon FSx CSI plugin requires IAM permissions to make calls to {aws} APIs on your behalf.
+
+[NOTE]
+====
+Pods will have access to the permissions that are assigned to the IAM role unless you block access to IMDS. For more information, see <<security-best-practices>>.
+====
+
+The following procedure shows you how to create an IAM role and attach the {aws} managed policy to it.
+
+. Create an IAM role and attach the {aws} managed policy with the following command. Replace `my-cluster` with the name of the cluster you want to use. The command deploys an {aws} CloudFormation stack that creates an IAM role and attaches the IAM policy to it.
++
+[source,bash,subs="verbatim,attributes"]
+----
+eksctl create iamserviceaccount \
+    --name fsx-csi-controller-sa \
+    --namespace kube-system \
+    --cluster my-cluster \
+    --role-name AmazonEKS_FSx_CSI_DriverRole \
+    --role-only \
+    --attach-policy-arn {arn-aws}iam::aws:policy/AmazonFSxFullAccess \
+    --approve
+----
++
+You'll see several lines of output as the service account is created. The last lines of output are similar to the following.
++
+[source,bash,subs="verbatim,attributes"]
+----
+[ℹ]  1 task: { 
+    2 sequential sub-tasks: { 
+        create IAM role for serviceaccount "kube-system/fsx-csi-controller-sa",
+        create serviceaccount "kube-system/fsx-csi-controller-sa",
+    } }
+[ℹ]  building iamserviceaccount stack "eksctl-my-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa"
+[ℹ]  deploying stack "eksctl-my-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa"
+[ℹ]  waiting for CloudFormation stack "eksctl-my-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa"
+[ℹ]  created serviceaccount "kube-system/fsx-csi-controller-sa"
+----
++
+Note the name of the {aws} CloudFormation stack that was deployed. In the previous example output, the stack is named `eksctl-my-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa`.
+
+Now that you have created the Amazon FSx CSI driver IAM role, you can continue to the next section. When you deploy the add-on with this IAM role, it creates and is configured to use a service account that's named `fsx-csi-controller-sa`. The service account is bound to a Kubernetes `clusterrole` that's assigned the required Kubernetes permissions.
+
+[#fsx-csi-deploy-driver]
+== Step 2: Install the Amazon FSx CSI driver
+
+We recommend that you install the Amazon FSx CSI driver through the Amazon EKS add-on to improve security and reduce the amount of work. To add an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. For more information about add-ons, see <<eks-add-ons>>.
+
+[IMPORTANT]
+====
+
+Pre-existing Amazon FSx CSI driver installations in the cluster can cause add-on installation failures. When you attempt to install the Amazon EKS add-on version while a non-EKS FSx CSI Driver exists, the installation will fail due to resource conflicts. Use the `OVERWRITE` flag during installation to resolve this issue.
+
+[source,bash]
+----
+aws eks create-addon --addon-name aws-fsx-csi-driver --cluster-name my-cluster --resolve-conflicts OVERWRITE
+----
+
+====
+
+Alternatively, if you want a self-managed installation of the Amazon FSx CSI driver, see https://github.com/kubernetes-sigs/aws-fsx-csi-driver/blob/master/docs/install.md[Installation] on GitHub.
+
+[#fsx-csi-deploy-storage-class]
+== Step 3: Deploy a storage class, persistent volume claim, and sample app
+
+This procedure uses the https://github.com/kubernetes-sigs/aws-fsx-csi-driver[FSx for Lustre Container Storage Interface (CSI) driver] GitHub repository to consume a dynamically-provisioned FSx for Lustre volume.
+
+. Note the security group for your cluster. You can see it in the {aws-management-console} under the *Networking* section or by using the following {aws} CLI command. Replace `my-cluster` with the name of the cluster you want to use.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+----
+. Create a security group for your Amazon FSx file system according to the criteria shown in link:fsx/latest/LustreGuide/limit-access-security-groups.html#fsx-vpc-security-groups[Amazon VPC Security Groups,type="documentation"] in the Amazon FSx for Lustre User Guide. For the *VPC*, select the VPC of your cluster as shown under the *Networking* section. For "the security groups associated with your Lustre clients", use your cluster security group. You can leave the outbound rules alone to allow *All traffic*.
+. Download the storage class manifest with the following command.
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
+----
+. Edit the parameters section of the `storageclass.yaml` file. Replace every example value with your own values.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+parameters:
+  subnetId: subnet-0eabfaa81fb22bcaf
+  securityGroupIds: sg-068000ccf82dfba88
+  deploymentType: PERSISTENT_1
+  automaticBackupRetentionDays: "1"
+  dailyAutomaticBackupStartTime: "00:00"
+  copyTagsToBackups: "true"
+  perUnitStorageThroughput: "200"
+  dataCompressionType: "NONE"
+  weeklyMaintenanceStartTime: "7:09:00"
+  fileSystemTypeVersion: "2.12"
+----
++
+** *`subnetId`* – The subnet ID that the Amazon FSx for Lustre file system should be created in. Amazon FSx for Lustre isn't supported in all Availability Zones. Open the Amazon FSx for Lustre console at https://console.aws.amazon.com/fsx/ to confirm that the subnet that you want to use is in a supported Availability Zone. The subnet can include your nodes, or can be a different subnet or VPC:
++
+*** You can check for the node subnets in the {aws-management-console} by selecting the node group under the *Compute* section.
+*** If the subnet that you specify isn't the same subnet that you have nodes in, then your VPCs must be link:whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html[connected,type="documentation"], and you must ensure that you have the necessary ports open in your security groups.
+** *`securityGroupIds`* – The ID of the security group you created for the file system.
+** *`deploymentType` (optional)* – The file system deployment type. Valid values are `SCRATCH_1`, `SCRATCH_2`, `PERSISTENT_1`, and `PERSISTENT_2`. For more information about deployment types, see link:fsx/latest/LustreGuide/getting-started-step1.html[Create your Amazon FSx for Lustre file system,type="documentation"].
+** *other parameters (optional)* – For information about the other parameters, see https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning#edit-storageclass[Edit StorageClass] on GitHub.
+. Create the storage class manifest.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f storageclass.yaml
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+storageclass.storage.k8s.io/fsx-sc created
+----
+. Download the persistent volume claim manifest.
++
+[source,bash,subs="verbatim,attributes"]
+----
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/claim.yaml
+----
+. (Optional) Edit the `claim.yaml` file. Change `1200Gi` to one of the following increment values, based on your storage requirements and the `deploymentType` that you selected in a previous step.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+storage: 1200Gi
+----
++
+** `SCRATCH_2` and `PERSISTENT` – `1.2 TiB`, `2.4 TiB`, or increments of 2.4 TiB over 2.4 TiB.
+** `SCRATCH_1` – `1.2 TiB`, `2.4 TiB`, `3.6 TiB`, or increments of 3.6 TiB over 3.6 TiB.
+. Create the persistent volume claim.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f claim.yaml
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+persistentvolumeclaim/fsx-claim created
+----
+. Confirm that the file system is provisioned.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl describe pvc
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+Name:          fsx-claim
+Namespace:     default
+StorageClass:  fsx-sc
+Status:        Bound
+[...]
+----
++
+NOTE: The `Status` may show as `Pending` for 5-10 minutes, before changing to `Bound`. Don't continue with the next step until the `Status` is `Bound`. If the `Status` shows `Pending` for more than 10 minutes, use warning messages in the `Events` as reference for addressing any problems.
+. Deploy the sample application.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/pod.yaml
+----
+. Verify that the sample application is running.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pods
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME      READY   STATUS              RESTARTS   AGE
+fsx-app   1/1     Running             0          8s
+----
+. Verify that the file system is mounted correctly by the application.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl exec -ti fsx-app -- df -h
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+Filesystem                   Size  Used Avail Use% Mounted on
+overlay                       80G  4.0G   77G   5% /
+tmpfs                         64M     0   64M   0% /dev
+tmpfs                        3.8G     0  3.8G   0% /sys/fs/cgroup
+192.0.2.0@tcp:/abcdef01      1.1T  7.8M  1.1T   1% /data
+/dev/nvme0n1p1                80G  4.0G   77G   5% /etc/hosts
+shm                           64M     0   64M   0% /dev/shm
+tmpfs                        6.9G   12K  6.9G   1% /run/secrets/kubernetes.io/serviceaccount
+tmpfs                        3.8G     0  3.8G   0% /proc/acpi
+tmpfs                        3.8G     0  3.8G   0% /sys/firmware
+----
+. Verify that data was written to the FSx for Lustre file system by the sample app.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl exec -it fsx-app -- ls /data
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+out.txt
+----
++
+This example output shows that the sample app successfully wrote the `out.txt` file to the file system.
+
+
+[NOTE]
+====
+
+Before deleting the cluster, make sure to delete the FSx for Lustre file system. For more information, see link:fsx/latest/LustreGuide/getting-started-step4.html[Clean up resources,type="documentation"] in the _FSx for Lustre User Guide_.
+
+====
+
+== Performance tuning for FSx for Lustre
+
+When using FSx for Lustre with Amazon EKS, you can optimize performance by applying Lustre tunings during node initialization. The recommended approach is to use launch template user data to ensure consistent configuration across all nodes.
+
+These tunings include:
+
+* Network and RPC optimizations
+* Lustre module management
+* LRU (Lock Resource Unit) tunings
+* Client cache control settings
+* RPC controls for OST and MDC
+
+For detailed instructions on implementing these performance tunings:
+
+* For optimizing performance for standard nodes (non-EFA), see <<fsx-csi-tuning-non-efa>> for a complete script that can be added to your launch template user data.
+* For optimizing performance for EFA-enabled nodes, see <<fsx-csi-tuning-efa>>.

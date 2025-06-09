@@ -10,11 +10,20 @@ This topic explains how to tag your VPC subnets to enable load balancer deployme
 
 Your subnets require specific tags based on their intended use:
 
-[options="header",cols="1,2,1"]
+[%header,cols="1,2,1"]
 |===
-|Subnet Type |Tag Key |Tag Value
-|Private Subnet |`kubernetes.io/role/internal-elb` |`1`
-|Public Subnet |`kubernetes.io/role/elb` |`1`
+|Subnet Type
+|Tag Key
+|Tag Value
+
+|Private Subnet
+|`kubernetes.io/role/internal-elb`
+|`1`
+
+|Public Subnet
+|`kubernetes.io/role/elb`
+|`1`
+
 |===
 
 == Adding Tags in the Console

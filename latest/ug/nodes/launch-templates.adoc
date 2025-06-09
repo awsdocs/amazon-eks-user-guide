@@ -30,7 +30,7 @@ You can create an Amazon EC2 Auto Scaling launch template with the {aws-manageme
 
 The following table lists the settings that are prohibited in a launch template. It also lists similar settings, if any are available, that are required in the managed node group configuration. The listed settings are the settings that appear in the console. They might have similar but different names in the {aws} CLI and SDK.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Launch template – Prohibited
 |Amazon EKS node group configuration
@@ -48,7 +48,7 @@ The following table lists the settings that are prohibited in a launch template.
 
 The following table lists the prohibited settings in a managed node group configuration. It also lists similar settings, if any are available, which are required in a launch template. The listed settings are the settings that appear in the console. They might have similar names in the {aws} CLI and SDK.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Amazon EKS node group configuration – Prohibited
 |Launch template

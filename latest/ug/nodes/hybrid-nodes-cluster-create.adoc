@@ -10,7 +10,9 @@ include::../attributes.txt[]
 Create hybrid nodes cluster
 --
 
-This topic provides an overview of the available options and describes what to consider when you create a hybrid nodes-enabled Amazon EKS cluster. If you are not planning to use hybrid nodes, see <<create-cluster>>.
+This topic provides an overview of the available options and describes what to consider when you create a hybrid nodes-enabled Amazon EKS cluster. EKS Hybrid Nodes have the same <<kubernetes-versions,Kubernetes version support>> as Amazon EKS clusters with cloud nodes, including standard and extended support.
+
+If you are not planning to use EKS Hybrid Nodes, see the primary Amazon EKS create cluster documentation at <<create-cluster>>.
 
 
 [#hybrid-nodes-cluster-create-prep]
@@ -27,6 +29,7 @@ This topic provides an overview of the available options and describes what to c
 * Your cluster must use either `API` or `API_AND_CONFIG_MAP` for the cluster authentication mode.
 * Your cluster must use IPv4 address family.
 * Your cluster must use either Public or Private cluster endpoint connectivity. Your cluster cannot use “Public and Private” cluster endpoint connectivity, because the Amazon EKS Kubernetes API server endpoint will resolve to the public IPs for hybrid nodes running outside of your VPC.
+* OIDC authentication is supported for EKS clusters with hybrid nodes.
 * You can add, change, or remove the hybrid nodes configuration of an existing cluster. For more information, see <<hybrid-nodes-cluster-update>>.
 
 
@@ -117,7 +120,7 @@ remoteNetworkConfig:
   iam:
     provider: CREDS_PROVIDER # default SSM, can also be set to IRA
     # caBundleCert: CA_BUNDLE_CERT
-  vpcGatewayID: GATEWAY_ID 
+  vpcGatewayID: GATEWAY_ID
   remoteNodeNetworks:
   - cidrs: ["REMOTE_NODE_CIDRS"]
   remotePodNetworks:
@@ -186,7 +189,7 @@ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/examp
  }
 ----
 
-. Deploy the CloudFormation stack. Replace `STACK_NAME` with your name for the CloudFormation stack and `AWS_REGION` with your desired {aws} Region where the cluster will be created.
+. Deploy the CloudFormation stack. Replace `STACK_NAME` with your name for the CloudFormation stack and `AWS_REGION` with your {aws} Region where the cluster will be created.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -198,7 +201,7 @@ aws cloudformation deploy \
     --capabilities CAPABILITY_NAMED_IAM
 ----
 +
-Cluster provisioning takes several minutes. You can check the status of your stack with the following command. Replace `STACK_NAME` with your name for the CloudFormation stack and `AWS_REGION` with your desired {aws} Region where the cluster will be created.
+Cluster provisioning takes several minutes. You can check the status of your stack with the following command. Replace `STACK_NAME` with your name for the CloudFormation stack and `AWS_REGION` with your {aws} Region where the cluster will be created.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -214,9 +217,9 @@ aws cloudformation describe-stacks \
 [#hybrid-nodes-cluster-create-cli]
 === Create hybrid nodes-enabled cluster - {aws} CLI
 
-. Run the following command to create a hybrid nodes-enabled EKS cluster. Before running the command, replace the following with your desired settings. For a full list of settings, see the <<create-cluster>> documentation.
+. Run the following command to create a hybrid nodes-enabled EKS cluster. Before running the command, replace the following with your settings. For a full list of settings, see the <<create-cluster>> documentation.
 .. `CLUSTER_NAME`: name of the EKS cluster to be created
-.. `AWS_REGION`: {aws} Region where the cluster will be created. 
+.. `AWS_REGION`: {aws} Region where the cluster will be created.
 .. `K8S_VERSION`: the Kubernetes version to use for your cluster. See Amazon EKS supported versions.
 .. `ROLE_ARN`: the Amazon EKS cluster role you configured for your cluster. See Amazon EKS cluster IAM role for more information.
 .. `SUBNET1_ID`: the ID of the first subnet you created in the prerequisite steps
@@ -224,7 +227,7 @@ aws cloudformation describe-stacks \
 .. `SG_ID`: the security group ID you created in the prerequisite steps
 .. You can use `API` and `API_AND_CONFIG_MAP` for your cluster access authentication mode. In the command below, the cluster access authentication mode is set to `API_AND_CONFIG_MAP`.
 .. You can use the `endpointPublicAccess` and `endpointPrivateAccess` parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. In the command below `endpointPublicAccess` is set to false and `endpointPrivateAccess` is set to true.
-.. `REMOTE_NODE_CIDRS`: the on-premises node CIDR for your hybrid nodes. 
+.. `REMOTE_NODE_CIDRS`: the on-premises node CIDR for your hybrid nodes.
 .. `REMOTE_POD_CIDRS` (optional): the on-premises pod CIDR for workloads running on hybrid nodes.
 .. Your on-premises node and pod CIDR blocks must meet the following requirements:
 ... Be within one of the IPv4 RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
@@ -236,10 +239,10 @@ aws eks create-cluster \
     --name CLUSTER_NAME \
     --region AWS_REGION \
     --kubernetes-version K8S_VERSION \
-    --role-arn ROLE_ARN \ 
+    --role-arn ROLE_ARN \
     --resources-vpc-config subnetIds=SUBNET1_ID,SUBNET2_ID,securityGroupIds=SG_ID,endpointPrivateAccess=true,endpointPublicAccess=false \
     --access-config authenticationMode=API_AND_CONFIG_MAP \
-    --remote-network-config '{"remoteNodeNetworks":[{"cidrs":["REMOTE_NODE_CIDRS"]}],"remotePodNetworks":[{"cidrs":["REMOTE_POD_CIDRS"]}]}' 
+    --remote-network-config '{"remoteNodeNetworks":[{"cidrs":["REMOTE_NODE_CIDRS"]}],"remotePodNetworks":[{"cidrs":["REMOTE_POD_CIDRS"]}]}'
 ----
 
 . It takes several minutes to provision the cluster. You can query the status of your cluster with the following command. Replace `CLUSTER_NAME` with the name of the cluster you are creating and `AWS_REGION` with the {aws} Region where the cluster is creating. Don't proceed to the next step until the output returned is `ACTIVE`.
@@ -294,8 +297,8 @@ aws eks describe-cluster \
 .. You can choose as many *Amazon EKS add-ons* and *{aws} Marketplace add-ons* as you require. Amazon EKS add-ons that are not compatible with hybrid nodes are marked with “Not compatible with Hybrid Nodes” and the add-ons have an anti-affinity rule to prevent them from running on hybrid nodes. See Configuring add-ons for hybrid nodes for more information. If the *{aws} Marketplace* add-ons that you want to install isn't listed, you can search for available *{aws} Marketplace add-ons* by entering text in the search box. You can also search by *category*, *vendor*, or *pricing model* and then choose the add-ons from the search results.
 .. Some add-ons, such as CoreDNS and kube-proxy, are installed by default. If you disable any of the default add-ons, this may affect your ability to run Kubernetes applications.
 .. When you're done with this page, choose `Next`.
-. On the *Configure selected add-ons settings* page, select the version that you want to install. 
-.. You can always update to a later version after cluster creation. You can update the configuration of each add-on after cluster creation. For more information about configuring add-ons, see <<updating-an-add-on>>. For the add-ons versions that are compatible with hybrid nodes, see <<hybrid-nodes-add-ons>>. 
+. On the *Configure selected add-ons settings* page, select the version that you want to install.
+.. You can always update to a later version after cluster creation. You can update the configuration of each add-on after cluster creation. For more information about configuring add-ons, see <<updating-an-add-on>>. For the add-ons versions that are compatible with hybrid nodes, see <<hybrid-nodes-add-ons>>.
 .. When you're done with this page, choose Next.
 . On the *Review and create* page, review the information that you entered or selected on the previous pages. If you need to make changes, choose *Edit*. When you're satisfied, choose *Create*. The *Status* field shows *CREATING* while the cluster is provisioned. Cluster provisioning takes several minutes.
 . Continue with <<hybrid-nodes-cluster-create-kubeconfig>>.

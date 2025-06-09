@@ -18,7 +18,7 @@ This access policy includes permissions that grant an IAM principal most permiss
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSAdminPolicy`
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Kubernetes API groups
 |Kubernetes resources
@@ -112,6 +112,7 @@ This access policy includes permissions that grant an IAM principal most permiss
 |
 |`namespaces`
 |`get`,``list``, `watch`
+
 |===
 
 
@@ -123,7 +124,7 @@ This access policy includes permissions that grant an IAM principal administrato
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy`
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Kubernetes API groups
 |Kubernetes nonResourceURLs
@@ -140,6 +141,7 @@ This access policy includes permissions that grant an IAM principal administrato
 |`{asterisk}`
 |
 |`{asterisk}`
+
 |===
 
 
@@ -150,7 +152,7 @@ This access policy includes permissions that grant an IAM principal access to li
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy`
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Kubernetes API groups
 |Kubernetes resources
@@ -160,6 +162,7 @@ This access policy includes permissions that grant an IAM principal access to li
 |`{asterisk}`
 |`{asterisk}`
 |`get`, `list`, `watch`
+
 |===
 
 
@@ -171,7 +174,7 @@ This access policy includes permissions that allow an IAM principal to edit most
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSEditPolicy`
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Kubernetes API groups
 |Kubernetes resources
@@ -267,7 +270,7 @@ This access policy includes permissions that allow an IAM principal to view most
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSViewPolicy`
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Kubernetes API groups
 |Kubernetes resources
@@ -336,6 +339,11 @@ If you manually specifiy a Node IAM role in a NodeClass, you need to create an A
 
 == AmazonEKSBlockStoragePolicy
 
+[NOTE]
+====
+This policy is designated for {aws} service-linked roles only and cannot be used with customer-managed roles.
+====
+
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSBlockStoragePolicy`
 
 This policy includes permissions that allow Amazon EKS to manage leader election and coordination resources for storage operations:
@@ -376,6 +384,11 @@ Amazon EKS automatically creates an access entry with this access policy for the
 
 == AmazonEKSComputePolicy
 
+[NOTE]
+====
+This policy is designated for {aws} service-linked roles only and cannot be used with customer-managed roles.
+====
+
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSComputePolicy`
 
 This policy includes permissions that allow Amazon EKS to manage leader election resources for compute operations:
@@ -387,6 +400,11 @@ The policy is scoped specifically to compute management lease resources while al
 Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the networking capability to function properly.
 
 == AmazonEKSBlockStorageClusterPolicy
+
+[NOTE]
+====
+This policy is designated for {aws} service-linked roles only and cannot be used with customer-managed roles.
+====
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSBlockStorageClusterPolicy`
 
@@ -426,6 +444,11 @@ This policy is designed to support comprehensive block storage management within
 Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the block storage capability to function properly.
 
 == AmazonEKSComputeClusterPolicy
+
+[NOTE]
+====
+This policy is designated for {aws} service-linked roles only and cannot be used with customer-managed roles.
+====
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSComputeClusterPolicy`
 
@@ -534,12 +557,16 @@ Amazon EKS automatically creates an access entry with this access policy for the
 [#access-policy-permissions-amazonekshybridpolicy]
 == AmazonEKSHybridPolicy
 
+[NOTE]
+====
+This policy is designated for {aws} service-linked roles only and cannot be used with customer-managed roles.
+====
 
 This access policy includes permissions that grant EKS access to the nodes of a cluster. When associated to an access entry, its access scope is typically the cluster, rather than a Kubernetes namespace. This policy is used by Amazon EKS hybrid nodes.
 
 *ARN* – `arn:aws:eks::aws:cluster-access-policy/AmazonEKSHybridPolicy`
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 | Kubernetes API groups
 | Kubernetes nonResourceURLs
@@ -556,6 +583,11 @@ This access policy includes permissions that grant EKS access to the nodes of a 
 
 [[access-policy-permissions-AmazonEKSClusterInsightsPolicy,access-policy-permissions-AmazonEKSClusterInsightsPolicy.title]]
 == AmazonEKSClusterInsightsPolicy
+
+[NOTE]
+====
+This policy is designated for {aws} service-linked roles only and cannot be used with customer-managed roles.
+====
 
 *ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSClusterInsightsPolicy`
 
@@ -575,7 +607,7 @@ This policy is automatically managed by the EKS service for Cluster Insights. Fo
 
 View details about updates to access policies, since they were introduced. For automatic alerts about changes to this page, subscribe to the RSS feed in <<doc-history>>.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Change
 |Description

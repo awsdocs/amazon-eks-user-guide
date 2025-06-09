@@ -132,7 +132,7 @@ You can add or delete the tags that are associated with your clusters directly f
 
 Use the following {aws} CLI commands or Amazon EKS API operations to add, update, list, and delete the tags for your resources. You can only use `eksctl` to add tags while simultaneously creating the new resources with one command.
 [[tag-eks-resources-table]]
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Task
 |{aws} CLI
@@ -179,7 +179,7 @@ aws eks list-tags-for-resource --resource-arn resource_ARN
 
 When you use some resource-creating actions, you can specify tags at the same time that you create the resource. The following actions support specifying a tag when you create a resource.
 
-[cols="1,1,1,1,1", options="header"]
+[%header,cols="5"]
 |===
 |Task
 |{aws} CLI

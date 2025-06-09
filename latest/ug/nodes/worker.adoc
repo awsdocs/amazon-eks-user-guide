@@ -20,7 +20,7 @@ If you restrict access to the public endpoint of your cluster using CIDR blocks,
 
 To add self-managed nodes to your Amazon EKS cluster, see the topics that follow. If you launch self-managed nodes manually, add the following tag to each node while making sure that `<cluster-name>` matches your cluster. For more information, see link:AWSEC2/latest/UserGuide/Using_Tags.html#adding-or-deleting-tags[Adding and deleting tags on an individual resource,type="documentation"]. If you follow the steps in the guides that follow, the required tag is automatically added to nodes for you.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Key|Value
 

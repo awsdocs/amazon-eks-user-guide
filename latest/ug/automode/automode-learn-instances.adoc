@@ -28,32 +28,32 @@ For more information, see link:AWSEC2/latest/UserGuide/amazon-ec2-managed-instan
 
 == Comparison table
 
-[cols="1,1", options="header"]  
+[%header,cols="2"]  
 |=== 
+|Standard {ec2i}
+|{am} {mi}
 
-| Standard {ec2i}
-| {am} {mi}
 
-| You are responsible for patching and updating the instance.
-| {aws} automatically patches and updates the instance.
+|You are responsible for patching and updating the instance.
+|{aws} automatically patches and updates the instance.
 
-| EKS is not responsible for the software on the instance.
-| EKS is responsible for certain software on the instance, such as `kubelet`, the container runtime, and the operating system. 
+|EKS is not responsible for the software on the instance.
+|EKS is responsible for certain software on the instance, such as `kubelet`, the container runtime, and the operating system. 
 
-| You can delete the {ec2i} using the EC2 API. 
-| EKS determines the number of instances deployed in your account. If you delete a workload, EKS will reduce the number of instances in your account. 
+|You can delete the {ec2i} using the EC2 API. 
+|EKS determines the number of instances deployed in your account. If you delete a workload, EKS will reduce the number of instances in your account. 
 
-| You can use SSH to access the {ec2i}. 
-| You can deploy pods and containers to the {mi}. 
+|You can use SSH to access the {ec2i}. 
+|You can deploy pods and containers to the {mi}. 
 
-| You determine the operating system and image (AMI).
-| {aws} determines the operating system and image. 
+|You determine the operating system and image (AMI).
+|{aws} determines the operating system and image. 
 
-| You can deploy workloads that rely on Windows or Ubuntu functionality.  
-| You can deploy containers based on Linux, but without specific OS dependencies. 
+|You can deploy workloads that rely on Windows or Ubuntu functionality.  
+|You can deploy containers based on Linux, but without specific OS dependencies. 
 
-| You determine what instance type and family to launch.
-| {aws} determines what instance type and family to launch. You can use a Node Pool to limit the instance types EKS Auto Mode selects from. 
+|You determine what instance type and family to launch.
+|{aws} determines what instance type and family to launch. You can use a Node Pool to limit the instance types EKS Auto Mode selects from. 
 
 |=== 
 
@@ -76,7 +76,7 @@ EKS Auto Mode only creates instances of supported types, and that meet a minimum
 
 EKS Auto Mode supports the following instance types: 
 
-[cols="1,4",options="header"]
+[%header,cols="1,4"]
 |===
 |Family |Instance Types
 

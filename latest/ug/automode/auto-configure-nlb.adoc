@@ -60,9 +60,12 @@ All of the following annotations need to be prefixed with `service.beta.kubernet
 
 
 [role="no-scroll"]
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
-|Field |Description |Example
+|Field
+|Description
+|Example
+
 
 |`aws-load-balancer-type`
 |Specifies the load balancer type. Use `external` for new deployments.
@@ -111,6 +114,7 @@ All of the following annotations need to be prefixed with `service.beta.kubernet
 |`aws-load-balancer-ip-address-type`
 |Specifies whether the load balancer uses IPv4 or dual-stack (IPv4 + IPv6).
 |`ipv4` or `dualstack`
+
 |===
 
 == Considerations
@@ -124,9 +128,9 @@ When migrating to EKS Auto Mode for load balancing, several changes in service a
 
 === Service annotations
 
-[options="header"]
 |===
 | Previous | New | Description
+
 | `service.beta.kubernetes.io/load-balancer-source-ranges` | Not supported | Use `spec.loadBalancerSourceRanges` on Service
 | `service.beta.kubernetes.io/aws-load-balancer-type` | Not supported | Use `spec.loadBalancerClass` on Service
 | `service.beta.kubernetes.io/aws-load-balancer-internal` | Not supported | Use `service.beta.kubernetes.io/aws-load-balancer-scheme`
@@ -157,9 +161,9 @@ This consolidated format provides a more consistent and flexible way to configur
 
 === TargetGroupBinding
 
-[options="header"]
 |===
 | Previous | New | Description
+
 | `elbv2.k8s.aws/v1beta1` | `eks.amazonaws.com/v1` | API version change
 | `spec.targetType` optional | `spec.targetType` required | Explicit target type specification
 | `spec.networking.ingress.from` | Not supported | No longer supports NLB without security groups

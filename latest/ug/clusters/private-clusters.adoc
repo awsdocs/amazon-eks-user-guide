@@ -67,7 +67,7 @@ For additional arguments, see <<bootstrap-script-configuration-parameters>>.
 +
 We recommend that you link:vpc/latest/privatelink/interface-endpoints.html#enable-private-dns-names[enable private DNS names,type="documentation"] for your VPC endpoints, that way workloads can continue using public {aws} service endpoints without issues.
 +
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Service
 |Endpoint

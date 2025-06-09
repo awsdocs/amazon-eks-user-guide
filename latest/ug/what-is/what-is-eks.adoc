@@ -9,6 +9,19 @@ include::../attributes.txt[]
 Learn to manage containerized applications with Amazon EKS
 --
 
+
+## Amazon EKS: Simplified Kubernetes Management
+
+Amazon Elastic Kubernetes Service (EKS) provides a fully managed Kubernetes service that eliminates the complexity of operating Kubernetes clusters. With EKS, you can:
+
+
+* Deploy applications faster with less operational overhead
+* Scale seamlessly to meet changing workload demands
+* Improve security through {aws} integration and automated updates
+* Choose between standard EKS or fully automated EKS Auto Mode
+
+
+
 Amazon Elastic Kubernetes Service (Amazon EKS) is the premiere platform for running https://kubernetes.io/docs/concepts/overview/[Kubernetes] clusters, both in the Amazon Web Services ({aws}) cloud and in your own data centers (https://anywhere.eks.amazonaws.com/[EKS Anywhere] and <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>>).
 
 Amazon EKS simplifies building, securing, and maintaining Kubernetes clusters. It can be more cost effective at providing enough resources to meet peak demand than maintaining your own data centers. Two of the main approaches to using Amazon EKS are as follows:

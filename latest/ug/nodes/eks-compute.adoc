@@ -40,12 +40,13 @@ Bottlerocket has some specific differences from the general information in this 
 
 
 [role="no-scroll"]
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Criteria
 |EKS managed node groups
 |EKS Auto Mode
 |Amazon EKS Hybrid Nodes
+
 
 |Can be deployed to link:outposts/latest/userguide/what-is-outposts.html[{aws} Outposts,type="documentation"]
 |No

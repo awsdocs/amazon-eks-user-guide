@@ -43,6 +43,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 * *`autoscaling`* – Read and update the configuration of an Auto Scaling group. These permissions aren't used by Amazon EKS but remain in the policy for backwards compatibility.
 * *`ec2`* – Work with volumes and network resources that are associated to Amazon EC2 nodes. This is required so that the Kubernetes control plane can join instances to a cluster and dynamically provision and manage Amazon EBS volumes that are requested by Kubernetes persistent volumes.  
+* *`ec2`* - Delete elastic network interfaces that are created by the VPC CNI. This is required so that EKS can clean up elastic network interfaces that are left behind if the VPC CNI quits unexpectedly.
 * *`elasticloadbalancing`* – Work with Elastic Load Balancers and add nodes to them as targets. This is required so that the Kubernetes control plane can dynamically provision Elastic Load Balancers requested by Kubernetes services.
 * *`iam`* – Create a service-linked role. This is required so that the Kubernetes control plane can dynamically provision Elastic Load Balancers that are requested by Kubernetes services.
 * *`kms`* – Read a key from {aws} KMS. This is required for the Kubernetes control plane to support https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] of Kubernetes secrets stored in `etcd`.
@@ -305,6 +306,22 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html#AWSServiceRoleForAmazonEKSNodegroup-json[AWSServiceRoleForAmazonEKSNodegroup,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
+[#security-iam-awsmanpol-AmazonEKSDashboardServiceRolePolicy]
+== {aws} managed policy: AmazonEKSDashboardServiceRolePolicy
+:info_titleabbrev: AmazonEKSDashboardServiceRolePolicy
+
+You can't attach `AmazonEKSDashboardServiceRolePolicy` to your IAM entities. This policy is attached to a service-linked role that allows Amazon EKS to perform actions on your behalf. For more information, see <<service-linked-role-permissions-eks-dashboard>>.
+
+This policy grants the `AWSServiceRoleForAmazonEKSDashboard` role permissions that allow it to create and manage Amazon EC2 node groups in your account. 
+
+*Permissions details*
+
+This policy includes the following permissions that allow access to complete these tasks:
+
+* *`organizations`* – View information about your {aws} Organizations structure and accounts. This includes permissions to list accounts in your organization, view organizational units and roots, list delegated administrators, view services that have access to your organization, and retrieve detailed information about your organization and accounts.
+
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSDashboardServiceRolePolicy.html#AmazonEKSDashboardServiceRolePolicy-json[AmazonEKSDashboardServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+
 [#security-iam-awsmanpol-amazonebscsidriverservicerolepolicy]
 == {aws} managed policy: AmazonEBSCSIDriverPolicy
 :info_titleabbrev: AmazonEBSCSIDriverPolicy
@@ -357,15 +374,33 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == Amazon EKS updates to {aws} managed policies
 :info_titleabbrev: Policy updates
 
-View details about updates to {aws} managed policies for Amazon EKS since this service began tracking these changes. For automatic alerts about changes to this page, subscribe to the RSS feed on the Amazon EKS Document history page.
+View details about updates to {aws} managed policies for Amazon EKS since this service began tracking these changes.
 
-[cols="1,1,1", options="header"]
+To receive notifications of all source file changes to this specific documentation page, you can subscribe to the following URL with an RSS reader:
+
+[source,none]
+----
+https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/security/iam-reference/security-iam-awsmanpol.adoc.atom
+----
+
+[%header,cols="3"]
 |===
 
 |Change
 |Description
 |Date
 
+|Introduced <<security-iam-awsmanpol-AmazonEKSDashboardServiceRolePolicy>>.
+|Introduced new `AmazonEKSDashboardServiceRolePolicy` policy.
+|May 21, 2025
+
+|Added permissions to <<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>>.
+|Added `ec2:DeleteNetworkInterfaces` permission to allow Amazon EKS to delete elastic network interfaces that are left behind if the VPC CNI quits unexpectedly.
+|April 16, 2025
+
+| Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
+| Added `ec2:RevokeSecurityGroupEgress` and `ec2:AuthorizeSecurityGroupEgress` permissions to allow EKS AI/ML customers to add Security Group Egress rules to the default EKS Cluster SG that are compatible with EFA, as part of the EKS 1.33 version release.
+| April 14, 2025
 
 | Added permissions to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
 | Added permission to terminate EC2 instances created by EKS Auto Mode.
