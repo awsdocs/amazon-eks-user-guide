@@ -190,6 +190,7 @@ aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-vers
 ----
 
 To configure this using the {aws} Management Console, follow the below steps:
+
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
 . Choose the *Add-ons* tab.
