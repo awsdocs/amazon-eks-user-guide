@@ -42,7 +42,7 @@ Network policy logs require an additional 1 vCPU for the `aws-network-policy-age
 .. In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
 .. Choose the *Add-ons* tab.
 .. Select the box in the top right of the add-on box and then choose *Edit*.
-.. On the *Configure [.replaceable]`name of addon`* page:
+.. On the *Configure [.replaceable]`Amazon VPC CNI`* page:
 +
 ... Select a `v1.14.0-eksbuild.3` or later version in the *Version* dropdown list.
 ... Expand the *Optional configuration settings*.
@@ -162,7 +162,7 @@ Only the network policy logs are sent by the node agent. Other logs made by the 
 .. In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
 .. Choose the *Add-ons* tab.
 .. Select the box in the top right of the add-on box and then choose *Edit*.
-.. On the *Configure [.replaceable]`name of addon`* page:
+.. On the *Configure [.replaceable]`Amazon VPC CNI`* page:
 +
 ... Select a `v1.14.0-eksbuild.3` or later version in the *Version* dropdown list.
 ... Expand the *Optional configuration settings*.
