@@ -18,26 +18,48 @@ image::images/hybrid-prereq-diagram.png[Hybrid node network connectivity.,scaled
 [#hybrid-nodes-networking-on-prem]
 == On-premises networking configuration
 
-*Minimum network requirements*
+[#hybrid-nodes-networking-min-reqs]
+=== Minimum network requirements
 
-For an optimal experience, {aws} recommends reliable network connectivity of at least 100 Mbps and a maximum of 200ms round trip latency for the hybrid nodes connection to the {aws} Region. The bandwidth and latency requirements can vary depending on the number of hybrid nodes and your workload characteristics such as application image size, application elasticity, monitoring and logging configurations, and application dependencies on accessing data stored in other {aws} services.
+For an optimal experience, it is recommended to have reliable network connectivity of at least 100 Mbps and a maximum of 200ms round trip latency for the hybrid nodes connection to the {aws} Region. This is general guidance that accommodates most use cases but is not a strict requirement. The bandwidth and latency requirements can vary depending on the number of hybrid nodes and your workload characteristics, such as application image size, application elasticity, monitoring and logging configurations, and application dependencies on accessing data stored in other {aws} services. It is recommended to test with your own applications and environments before deploying to production to validate that your networking setup meets the requirements for your workloads.
 
-*On-premises node and pod CIDRs*
+[#hybrid-nodes-networking-on-prem-cidrs]
+=== On-premises node and pod CIDRs
 
-Identify the node and pod CIDRs you will use for your hybrid nodes and the workloads running on them. The node CIDR is allocated from your on-premises network and the pod CIDR is allocated from your Container Network Interface (CNI) if you are using an overlay network for your CNI. You pass your on-premises node CIDRs and optionally pod CIDRs as inputs when you create your EKS cluster with the `RemoteNodeNetwork` and `RemotePodNetwork` fields.
+Identify the node and pod CIDRs you will use for your hybrid nodes and the workloads running on them. The node CIDR is allocated from your on-premises network and the pod CIDR is allocated from your Container Network Interface (CNI) if you are using an overlay network for your CNI. You pass your on-premises node CIDRs and pod CIDRs as inputs when you create your EKS cluster with the `RemoteNodeNetwork` and `RemotePodNetwork` fields. Your on-premises node CIDRs must be routable on your on-premises network. See the following section for information on the on-premises pod CIDR routability.
 
 The on-premises node and pod CIDR blocks must meet the following requirements:
 
 1. Be within one of the following `IPv4` RFC-1918 ranges: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
 2. Not overlap with each other, the VPC CIDR for your EKS cluster, or your Kubernetes service `IPv4` CIDR.
 
-If your CNI performs Network Address Translation (NAT) for pod traffic as it leaves your on-premises hosts, you do not need to make your pod CIDR routable on your on-premises network or configure your EKS cluster with your _remote pod network_ for hybrid nodes to become ready to workloads. If your CNI does not use NAT for pod traffic as it leaves your on-premises hosts, your pod CIDR must be routable on your on-premises network and you must configure your EKS cluster with your remote pod network for hybrid nodes to become ready to workloads.
+[#hybrid-nodes-networking-on-prem-pod-routing]
+=== On-premises pod network routing
 
-There are several techniques you can use to make your pod CIDR routable on your on-premises network including Border Gateway Protocol (BGP), static routes, or other custom routing solutions. BGP is the recommended solution as it is more scalable and easier to manage than alternative solutions that require custom or manual route configuration. {aws} supports the BGP capabilities of Cilium and Calico for advertising hybrid nodes pod CIDRs, see <<hybrid-nodes-cni, Configure CNI for hybrid nodes>> for more information.
+When using EKS Hybrid Nodes, it is generally recommended to make your on-premises pod CIDRs routable on your on-premises network to enable full cluster communication and functionality between cloud and on-premises environments.
 
-If you are running webhooks on hybrid nodes, your pod CIDR must be routable on your on-premises network and you must configure your EKS cluster with your remote pod network so the EKS control plane can directly communicate with the webhooks running on hybrid nodes. If you cannot make your pod CIDR routable on your on-premises network but need to run webhooks, it is recommended to run webhooks on cloud nodes in the same EKS cluster. For more information on running webhooks on cloud nodes, see <<hybrid-nodes-webhooks, Configure webhooks for hybrid nodes>>.
+*Routable pod networks*
 
-*Access required during hybrid node installation and upgrade*
+If you are able to make your pod network routable on your on-premises network, follow the guidance below.
+
+1. Configure the `RemotePodNetwork` field for your EKS cluster with your on-premises pod CIDR, your VPC route tables with your on-premises pod CIDR, and your EKS cluster security group with your on-premises pod CIDR.
+2. There are several techniques you can use to make your on-premises pod CIDR routable on your on-premises network including Border Gateway Protocol (BGP), static routes, or other custom routing solutions. BGP is the recommended solution as it is more scalable and easier to manage than alternative solutions that require custom or manual route configuration. {aws} supports the BGP capabilities of Cilium and Calico for advertising pod CIDRs, see <<hybrid-nodes-cni>> and <<hybrid-nodes-concepts-k8s-pod-cidrs>> for more information.
+3. Webhooks can run on hybrid nodes as the EKS control plane is able to communicate with the Pod IP addresses assigned to the webhooks. 
+4. Workloads running on cloud nodes are able to communicate directly with workloads running on hybrid nodes in the same EKS cluster.
+5. Other AWS services, such as AWS Application Load Balancers and Amazon Managed Service for Prometheus, are able to communicate with workloads running on hybrid nodes to balance network traffic and scrape pod metrics.
+
+*Unroutable pod networks*
+
+If you are _not_ able to make your pod networks routable on your on-premises network, follow the guidance below.
+
+1. Webhooks cannot run on hybrid nodes because webhooks require connectivity from the EKS control plane to the Pod IP addresses assigned to the webhooks. In this case, it is recommended to run webhooks on cloud nodes in the same EKS cluster as your hybrid nodes, see <<hybrid-nodes-webhooks>> for more information.
+2. Workloads running on cloud nodes are not able to communicate directly with workloads running on hybrid nodes when using the VPC CNI for cloud nodes and Cilium or Calico for hybrid nodes. 
+3. Use Service Traffic Distribution to keep traffic local to the zone it is originating from. For more information on Service Traffic Distribution, see <<hybrid-nodes-service-traffic-distribution>>.
+4. Configure your CNI to use egress masquerade or network address translation (NAT) for pod traffic as it leaves your on-premises hosts. This is enabled by default in Cilium. Calico requires `natOutgoing` to be set to `true`.
+5. Other AWS services, such as AWS Application Load Balancers and Amazon Managed Service for Prometheus, are not able to communicate with workloads running on hybrid nodes.
+
+[#hybrid-nodes-networking-access-reqs]
+=== Access required during hybrid node installation and upgrade
 
 You must have access to the following domains during the installation process where you install the hybrid nodes dependencies on your hosts. This process can be done once when you are building your operating system images or it can be done on each host at runtime. This includes initial installation and when you upgrade the Kubernetes version of your hybrid nodes.
 
@@ -96,7 +118,8 @@ You must have access to the following domains during the installation process wh
 ^2^ Access to the {aws} IAM endpoints are only required if you are using {aws} IAM Roles Anywhere for your on-premises IAM credential provider. 
 ====
 
-*Access required for ongoing cluster operations*
+[#hybrid-nodes-networking-access-reqs-ongoing]
+=== Access required for ongoing cluster operations
 
 The following network access for your on-premises firewall is required for ongoing cluster operations.
 
@@ -201,7 +224,8 @@ Depending on your choice of CNI, you need to configure additional network access
 ^1^ The IPs of the EKS cluster. See the following section on Amazon EKS elastic network interfaces.
 ====
 
-*Amazon EKS network interfaces*
+[#hybrid-nodes-networking-eks-network-interfaces]
+=== Amazon EKS network interfaces
 
 Amazon EKS attaches network interfaces to the subnets in the VPC you pass during cluster creation to enable the communication between the EKS control plane and your VPC. The network interfaces that Amazon EKS creates can be found after cluster creation in the Amazon EC2 console or with the {aws} CLI. The original network interfaces are deleted and new network interfaces are created when changes are applied on your EKS cluster, such as Kubernetes version upgrades. You can restrict the IP range for the Amazon EKS network interfaces by using constrained subnet sizes for the subnets you pass during cluster creation, which makes it easier to configure your on-premises firewall to allow inbound/outbound connectivity to this known, constrained set of IPs. To control which subnets network interfaces are created in, you can limit the number of subnets you specify when you create a cluster or you can update the subnets after creating the cluster.
 
