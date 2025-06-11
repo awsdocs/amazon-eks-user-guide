@@ -185,7 +185,7 @@ spec:
       - hybrid
   bgpInstances:
   - name: "rack0"
-    localASN: [.replaceable]`PEER_ASN`
+    localASN: [.replaceable]`NODES_ASN`
     peers: 
     - name: "onprem-router"
       peerASN: [.replaceable]`ONPREM_ROUTER_ASN`
