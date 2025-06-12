@@ -328,6 +328,7 @@ sha256sum -c kubectl.sha256
 ----
 or
 +
+[source,bash,subs="verbatim,attributes"]
 ----
 openssl sha1 -sha256 kubectl
 ----
