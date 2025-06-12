@@ -366,9 +366,6 @@ Follow the steps below to install `kubectl` on Linux (arm64). The steps include:
 Procedure:
 
 . Download the `kubectl` binary for your cluster's Kubernetes version from Amazon S3.
-
-
-. Download the `kubectl` binary for your cluster's Kubernetes version from Amazon S3.
 +
 **** Kubernetes `1.33`
 +
