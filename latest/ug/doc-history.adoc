@@ -19,6 +19,20 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-06-11"]
+=== Amazon EKS platform version update
+[.update-ulink]
+link:eks/latest/userguide/platform-versions.html[type="documentation"]
+
+This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform version.
+
+[.update,date="2025-05-30"]
+=== Target secondary and cross-account roles with EKS Pod Identities 
+[.update-ulink]
+link:eks/latest/userguide/pod-id-assign-target-role.html[type="documentation"]
+
+Amazon EKS adds __target IAM roles__ to EKS Pod Identities for automated role chaining. You can use this to automatically assume a role in another account and EKS Pod Identity rotates the temporary credentials. Each Pod Identity association must have an IAM role in the same account to assume first, then it uses that role to assume the target role.
+
 [.update,date="2025-06-06"]
 === Amazon EKS {aws} Region expansion
 Amazon EKS is now available in the Asia Pacific (Taipei) (`ap-east-2`) {aws} Region.
