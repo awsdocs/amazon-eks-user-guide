@@ -57,7 +57,7 @@ In this step, you will establish a secure trust chain by creating and configurin
             "Principal": {
                 "AWS": "arn:aws:iam::111122223333:role/eks-pod-identity-primary-role"
             },
-            "Action": "sts:AssumeRole",
+            "Action": "sts:AssumeRole"
         },
         {
             "Effect": "Allow",
