@@ -5,9 +5,9 @@ include::../attributes.txt[]
 = Learn about VPC Networking and Load Balancing in EKS Auto Mode
 :info_titleabbrev: Networking
 
-This topic explains how to configure Virtual Private Cloud (VPC) networking and load balancing features in EKS Auto Mode. While EKS Auto Mode manages most networking components automatically, you can still customize certain aspects of your cluster's networking configuration through NodeClass resources and load balancer annotations.
+This topic explains how to configure Virtual Private Cloud (VPC) networking and load balancing features in EKS Auto Mode. While EKS Auto Mode manages most networking components automatically, you can still customize certain aspects of your cluster's networking configuration through `NodeClass` resources and load balancer annotations.
 
-When you use EKS Auto Mode, {aws} manages the VPC Container Network Interface (CNI) configuration and load balancer provisioning for your cluster. You can influence networking behaviors by defining NodeClass objects and applying specific annotations to your Service and Ingress resources, while maintaining the automated operational model that EKS Auto Mode provides.
+When you use EKS Auto Mode, {aws} manages the VPC Container Network Interface (CNI) configuration and load balancer provisioning for your cluster. You can influence networking behaviors by defining `NodeClass` objects and applying specific annotations to your Service and Ingress resources, while maintaining the automated operational model that EKS Auto Mode provides.
 
 == Networking capability
 
@@ -15,17 +15,19 @@ EKS Auto Mode has a new networking capability that handles node and pod networki
 
 Configuration options for the previous {aws} VPC CNI will not apply to EKS Auto Mode. 
 
-=== Configure networking with NodeClass
+=== Configure networking with a `NodeClass`
 
-The NodeClass resource in EKS Auto Mode allows you to customize certain aspects of the networking capability. Through NodeClass, you can specify security group selections, control node placement across VPC subnets, set SNAT policies, configure network policies, and enable network event logging. This approach maintains the automated operational model of EKS Auto Mode while providing flexibility for network customization.
+The `NodeClass` resource in EKS Auto Mode allows you to customize certain aspects of the networking capability. Through `NodeClass`, you can specify security group selections, control node placement across VPC subnets, set SNAT policies, configure network policies, and enable network event logging. This approach maintains the automated operational model of EKS Auto Mode while providing flexibility for network customization.
 
-You can use a NodeClass to:
+You can use a `NodeClass` to:
 
 * Select a Security Group for Nodes
 * Control how nodes are placed on VPC Subnets
 * Set the Node SNAT Policy to `random` or `disabled`
-* Set the Network Policy to Default Deny or Default Allow
-* Enable Network Event Logging to a file. 
+* Enable Kubernetes __network policies__ including:
+** Set the Network Policy to Default Deny or Default Allow
+** Enable Network Event Logging to a file.
+* Isolate pod traffic from the node traffic by attaching pods to different subnets.
 
 Learn how to <<create-node-class,Create an Amazon EKS NodeClass>>. 
 
@@ -35,17 +37,17 @@ EKS Auto Mode supports:
 
 * EKS Network Policies.
 * The `HostPort` and `HostNetwork` options for Kubernetes Pods.
-* Pods in public or private subnets.
+* Nodes and Pods in public or private subnets.
 * Caching DNS queries on the node.
 
 EKS Auto Mode does *not* support:
 
 * Security Groups per Pod (SGPP).
-* Custom Networking. The IP Addresses of Pods and Nodes must be from the same CIDR Block.
+* Custom Networking in the `ENIConfig`. You can put pods in multiple subnets or exclusively isolate them from the node traffic with <<pod-subnet-selector>>.
 * Warm IP, warm prefix, and warm ENI configurations.
 * Minimum IP targets configuration.
 * Enabling or disabling prefix delegation.
-* Other configurations supported by the open-source {aws} CNI.
+* Other configurations supported by the open source {aws} VPC CNI.
 * Network Policy configurations such as conntrack timer customization (default is 300s).
 * Exporting network event logs to CloudWatch.
 

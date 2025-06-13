@@ -27,9 +27,10 @@ a|
 - Configure node placement across public and private subnets
 - Define custom security groups for node access control
 - Customize network address translation (SNAT) policies
-- Enable detailed network policy logging and monitoring
+- Enable Kubernetes __network policies__, detailed network policy logging and monitoring
 - Set ephemeral storage parameters (size, IOPS, throughput)
 - Configure encrypted ephemeral storage with custom KMS keys
+- Isolate pod traffic in separate subnets from the nodes
 |<<create-node-class>>
 
 a|

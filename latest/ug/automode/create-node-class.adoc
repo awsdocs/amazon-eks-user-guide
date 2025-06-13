@@ -5,13 +5,13 @@ include::../attributes.txt[]
 = Create a Node Class for Amazon EKS
 :info_titleabbrev: Create node class
 
-Amazon EKS Node Classes offer granular control over the configuration of your EKS Auto Mode managed nodes. A Node Class defines infrastructure-level settings that apply to groups of nodes in your EKS cluster, including network configuration, storage settings, and resource tagging. This topic explains how to create and configure a Node Class to meet your specific operational requirements.
+Amazon EKS Node Classes are templates that offer granular control over the configuration of your EKS Auto Mode managed nodes. A Node Class defines infrastructure-level settings that apply to groups of nodes in your EKS cluster, including network configuration, storage settings, and resource tagging. This topic explains how to create and configure a Node Class to meet your specific operational requirements.
 
 When you need to customize how EKS Auto Mode provisions and configures EC2 instances beyond the default settings, creating a Node Class gives you precise control over critical infrastructure parameters. For example, you can specify private subnet placement for enhanced security, configure instance ephemeral storage for performance-sensitive workloads, or apply custom tagging for cost allocation.
 
 == Create a Node Class
 
-To create a Node Class, follow these steps:
+To create a `NodeClass`, follow these steps:
 
 . Create a YAML file (for example, `nodeclass.yaml`) with your Node Class configuration
 . Apply the configuration to your cluster using `kubectl`
@@ -100,7 +100,7 @@ EKSAutoNodeRoleAccessEntry:
 For information about deploying CloudFormation stacks, see link:AWSCloudFormation/latest/UserGuide/GettingStarted.html["Getting started with CloudFormation", type="documentation"]
 
 [#auto-node-class-spec]
-== Node Class Specification 
+== Node Class Specification
 
 [source,yaml]
 ----
@@ -125,6 +125,14 @@ spec:
     # Alternative approaches:
     # - id: "sg-0123456789abcdef0"
     # - name: "eks-cluster-security-group"
+
+  # Optional: Pod subnet selector for advanced networking
+  podSubnetSelectorTerms:
+    - tags:
+        Name: "pod-subnet"
+        kubernetes.io/role/pod: "1"
+    # Alternative using direct subnet ID
+    # - id: "subnet-0987654321fedcba0"
 
   # Optional fields
   snatPolicy: Random  # or Disabled
@@ -160,7 +168,7 @@ spec:
         - .internal
         - .eks.amazonaws.com
   
-  # Optional: Custom certificate bundles
+  # Optional: Custom certificate bundles.
   certificateBundles:
     - name: "custom-cert"
       data: "base64-encoded-cert-data"
@@ -181,8 +189,66 @@ spec:
 
 == Considerations
 
-* If you change the Node IAM Role associated with a NodeClass, you will need to create a new Access Entry. EKS automatically creates an Access Entry for the Node IAM Role during cluster creation. The Node IAM Role requires the `AmazonEKSAutoNodePolicy` EKS Access Policy. For more information, see <<access-entries>>.
-* EKS limits the maximum number of pods on a node to 110. This limit is applied after the existing max pods calculation. For more information, see <<choosing-instance-type>>. 
-* If you want to propagate tags from Kubernetes to EC2, you need to configure additional IAM permissions. For more information, see <<auto-learn-iam>>. 
-* Do not name your custom node class `default`.
-* EKS Auto Mode includes a `default` NodeClass that is automatically provisioned when at least one built-in NodePool is enabled. For information about enabling built-in NodePools, see <<set-builtin-node-pools>>.
+* *Replace the node IAM role* - If you change the node IAM role associated with a `NodeClass`, you will need to create a new Access Entry. EKS automatically creates an Access Entry for the node IAM role during cluster creation. The node IAM role requires the `AmazonEKSAutoNodePolicy` EKS Access Policy. For more information, see <<access-entries>>.
+* *maximum pod density* - EKS limits the maximum number of pods on a node to 110. This limit is applied after the existing max pods calculation. For more information, see <<choosing-instance-type>>.
+* *Tags* - If you want to propagate tags from Kubernetes to EC2, you need to configure additional IAM permissions. For more information, see <<auto-learn-iam>>.
+* *Default node class* - Do not name your custom node class `default`. This is because EKS Auto Mode includes a `NodeClass` called `default` that is automatically provisioned when you enable at least one built-in `NodePool`. For information about enabling built-in `NodePools`, see <<set-builtin-node-pools>>.
+* *`subnetSelectorTerms` behavior with multiple subnets* - If there are multiple subnets that match the `subnetSelectorTerms` conditions or that you provide by ID, EKS Auto Mode creates nodes distributed across the subnets.
+
+** If the subnets are in different Availability Zones (AZ), you can use Kubernetes features like https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#pod-topology-spread-constraints[Pod topology spread constraints ] and https://kubernetes.io/docs/concepts/services-networking/topology-aware-routing/[Topology Aware Routing] to spread pods and traffic across the zones, respectively.
+
+** If there are multiple subnets __in the same AZ__ that match the `subnetSelectorTerms`, EKS Auto Mode creates pods on each node distributed across the subnets in that AZ. EKS Auto Mode creates secondary network interfaces on each node in the other subnets in the same AZ. It chooses based on the number of available IP addresses in each subnet, to use the subnets more efficiently. However, you can't specify which subnet EKS Auto Mode uses for each pod; if you need pods to run in specific subnets, use <<pod-subnet-selector>> instead.
+
+
+[#pod-subnet-selector]
+== Subnet selection for Pods
+
+The `podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` fields enables advanced networking configurations by allowing pods to run in different subnets than their nodes. This separation provides enhanced control over network traffic routing and security policies. Note that `podSecurityGroupSelectorTerms` are required with the `podSubnetSelectorTerms`.
+
+=== Use cases
+
+Use `podSubnetSelectorTerms` when you need to:
+
+* Separate infrastructure traffic (node-to-node communication) from application traffic (pod-to-pod communication)
+* Apply different network configurations to node subnets than pod subnets.
+* Implement different security policies or routing rules for nodes and pods.
+* Configure reverse proxies or network filtering specifically for node traffic without affecting pod traffic. Use `advancedNetworking` and `certificateBundles` to define your reverse proxy and any self-signed or private certificates for the proxy.
+
+=== Example configuration
+
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: advanced-networking
+spec:
+  role: MyNodeRole
+  
+  # Subnets for EC2 instances (nodes)
+  subnetSelectorTerms:
+    - tags:
+        Name: "node-subnet"
+        kubernetes.io/role/internal-elb: "1"
+  
+  securityGroupSelectorTerms:
+    - tags:
+        Name: "eks-cluster-sg"
+  
+  # Separate subnets for pods
+  podSubnetSelectorTerms:
+    - tags:
+        Name: "pod-subnet"
+        kubernetes.io/role/pod: "1"
+  
+  podSecurityGroupSelectorTerms:
+  - tags:
+      Name: "eks-pod-sg"
+----
+
+=== Considerations for subnet selectors for pods
+
+* *Reduced pod density*: Fewer pods can run on each node when using `podSubnetSelectorTerms`, because the primary network interface of the node is in the node subnet, and can't be used for pods in the pod subnet.
+* *Subnet selector limitations*: The standard `subnetSelectorTerms` and `securityGroupSelectorTerms` configurations don't apply to pod subnet selection.
+* *Network planning*: Ensure adequate IP address space in both node and pod subnets to support your workload requirements.
+* *Routing configuration*: Verify that route table and network Access Control List (ACL) of the pod subnets are properly configured for communication between node and pod subnets.
