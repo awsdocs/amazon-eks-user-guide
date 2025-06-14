@@ -34,7 +34,7 @@ link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
 This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform version.
 
-[.update,date="2025-05-30"]
+[.update,date="2025-06-11"]
 === Target secondary and cross-account roles with EKS Pod Identities 
 [.update-ulink]
 link:eks/latest/userguide/pod-id-assign-target-role.html[type="documentation"]
