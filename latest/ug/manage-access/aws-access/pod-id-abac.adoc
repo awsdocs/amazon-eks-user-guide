@@ -63,7 +63,7 @@ Session tags are automatically enabled with EKS Pod Identity--no action is requi
 
 === Disable session tags
 
-AWS compresses inline session policies, managed policy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a `PackedPolicyTooLarge` error indicating the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity. To disable these session tags, follow these steps:
+{aws} compresses inline session policies, managed policy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a `PackedPolicyTooLarge` error indicating the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity. To disable these session tags, follow these steps:
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to modify.
