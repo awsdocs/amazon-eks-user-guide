@@ -79,6 +79,8 @@ spec:
 
 EKS Auto Mode supports the following well known labels.
 
+NOTE: EKS Auto Mode uses different labels than Karpenter. Labels related to EC2 managed instances start with `eks.amazonaws.com`. 
+
 [role="no-scroll"]
 [%header,cols="3,1,4"]
 |===

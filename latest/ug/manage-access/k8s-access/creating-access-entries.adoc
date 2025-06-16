@@ -15,7 +15,7 @@ Before creating access entries, consider the following:
 ** If the type of the access entry is anything other than `STANDARD` (see next consideration about types), the ARN must be in the same {aws} account that your cluster is in. If the type is `STANDARD`, the ARN can be in the same, or different, {aws} account than the account that your cluster is in.
 ** You can't change the IAM principal after the access entry is created.
 ** If you ever delete the IAM principal with this ARN, the access entry isn't automatically deleted. We recommend that you delete the access entry with an ARN for an IAM principal that you delete. If you don't delete the access entry and ever recreate the IAM principal, even if it has the same ARN, the access entry won't work. This is because even though the ARN is the same for the recreated IAM principal, the `roleID` or `userID` (you can see this with the `aws sts get-caller-identity` {aws} CLI command) is different for the recreated IAM principal than it was for the original IAM principal. Even though you don't see the IAM principal's `roleID` or `userID` for an access entry, Amazon EKS stores it with the access entry.
-* Each access entry has a _type_. If you don't specify a type, Amazon EKS automatically sets the type to `STANDARD`
+* Each access entry has a _type_. The type of the access entry depends on the type of resource it is associated with, and does not define the permissions. If you don't specify a type, Amazon EKS automatically sets the type to `STANDARD`
 ** `EC2_LINUX` - For an IAM role used with Linux or Bottlerocket self-managed nodes
 ** `EC2_WINDOWS` - For an IAM role used with Windows self-managed nodes
 ** `FARGATE_LINUX` - For an IAM role used with {aws} Fargate (Fargate)

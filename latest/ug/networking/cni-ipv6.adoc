@@ -30,7 +30,6 @@ The following are considerations for using the feature:
 * *EC2 and Fargate nodes supported*: You can use `IPv6` with <<security-groups-for-pods>> with Amazon EC2 nodes and Fargate nodes.
 * *Outposts not supported*: You can't use `IPv6` with <<eks-outposts>>.
 * *FSx for Lustre is not supported*: The <<fsx-csi>> is not supported.
-* *Instance Metadata Service not supported*: Use of the Amazon EC2 link:AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html[Instance Metadata Service,type="documentation"] `IPv6` endpoint is not supported with Amazon EKS.
 * *Custom networking not supported*: If you previously used <<cni-custom-network>> to help alleviate IP address exhaustion, you can use `IPv6` instead. You can't use custom networking with `IPv6`. If you use custom networking for network isolation, then you might need to continue to use custom networking and the `IPv4` family for your clusters.
 
 
@@ -38,8 +37,8 @@ The following are considerations for using the feature:
 
 * *Kubernetes services*: Kubernetes services are only assigned an `IPv6` addresses. They aren't assigned IPv4 addresses. 
 * *Pods*: Pods are assigned an IPv6 address and a host-local IPv4 address. The host-local IPv4 address is assigned by using a host-local CNI plugin chained with VPC CNI and the address is not reported to the Kubernetes control plane. It is only used when a pod needs to communicate with an external IPv4 resources in another Amazon VPC or the internet. The host-local IPv4 address gets SNATed (by VPC CNI) to the primary IPv4 address of the primary ENI of the worker node. 
-* *Pods and services*: Pods and services are only assigned an `IPv6` address. They aren't assigned an `IPv4` address. Because Pods are able to communicate to `IPv4` endpoints through NAT on the instance itself, link:vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-nat64-dns64[DNS64 and NAT64,type="documentation"] aren't needed. If the traffic needs a public IP address, the traffic is then source network address translated to a public IP.
-* *Routing addresses*: The source `IPv6` address of a Pod isn't source network address translated to the `IPv6` address of the node when communicating outside of the VPC. It is routed using an internet gateway or egress-only internet gateway.
+* *Pods and services*: Pods and services receive only `IPv6` addresses, not `IPv4` addresses. When Pods need to communicate with external `IPv4` endpoints, they use NAT on the node itself. This built-in NAT capability eliminates the need for link:vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-nat64-dns64[DNS64 and NAT64,type="documentation"]. For traffic requiring public internet access, the Pod's traffic is source network address translated to a public IP address.
+* *Routing addresses*: When a Pod communicates outside the VPC, its original `IPv6` address is preserved (not translated to the node's `IPv6` address). This traffic is routed directly through an internet gateway or egress-only internet gateway.
 * *Nodes*: All nodes are assigned an `IPv4` and `IPv6` address.
 * *Fargate Pods*: Each Fargate Pod receives an `IPv6` address from the CIDR that's specified for the subnet that it's deployed in. The underlying hardware unit that runs Fargate Pods gets a unique `IPv4` and `IPv6` address from the CIDRs that are assigned to the subnet that the hardware unit is deployed in.
 
@@ -71,4 +70,3 @@ aws eks describe-cluster --name my-cluster --query cluster.kubernetesNetworkConf
 ----
 
 include::deploy-ipv6-cluster.adoc[leveloffset=+1]
-

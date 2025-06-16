@@ -21,6 +21,7 @@ Before deploying Windows nodes, be aware of the following considerations.
 * You can use host networking on Windows nodes using `HostProcess` Pods. For more information, see https://kubernetes.io/docs/tasks/configure-pod-container/create-hostprocess-pod/[Create a Windows HostProcessPod] in the Kubernetes documentation.
 * Amazon EKS clusters must contain one or more Linux or Fargate nodes to run core system Pods that only run on Linux, such as CoreDNS.
 * The `kubelet` and `kube-proxy` event logs are redirected to the `EKS Windows` Event Log and are set to a 200 MB limit.
+* You can't use the same IAM role for both Linux and Windows nodes. 
 * You can't use <<security-groups-for-pods,Assign security groups to individual pods>> with Pods running on Windows nodes.
 * You can't use <<cni-custom-network,custom networking>> with Windows nodes.
 * You can't use `IPv6` with Windows nodes.
@@ -34,7 +35,6 @@ Before deploying Windows nodes, be aware of the following considerations.
 * When specifying a custom AMI ID for Windows managed node groups, add `eks:kube-proxy-windows` to your {aws} IAM Authenticator configuration map. For more information, see <<mng-ami-id-conditions>>.
 * If preserving your available IPv4 addresses is crucial for your subnet, refer to https://aws.github.io/aws-eks-best-practices/windows/docs/networking/#ip-address-management[EKS Best Practices Guide - Windows Networking IP Address Management] for guidance. 
 * Considerations for EKS Access Entries
-** If you use a different Node IAM Role for Windows instances, EKS will automatically create the required Windows Access Entry. 
 ** Access Entries for use with Windows nodes need the type of `EC2_WINDOWS`. For more information, see <<creating-access-entries>>.
 +
 To create an access entry for a Windows node:
@@ -86,7 +86,7 @@ aws iam attach-role-policy \
   --role-name eksClusterRole \
   --policy-arn {arn-aws}iam::aws:policy/AmazonEKSVPCResourceController
 ----
-. Update the VPC CNI ConfigMap to enable Windows IPAM:
+. Update the VPC CNI ConfigMap to enable Windows IPAM. Note, if the VPC CNI is installed on your cluster using a Helm chart or as an Amazon EKS Add-on you may not be able to directly modify the ConfigMap. For information on configuring Amazon EKS Add-ons, see <<kubernetes-field-management>>. 
 .. Create a file named [.replaceable]`vpc-resource-controller-configmap.yaml` with the following contents.
 +
 [source,yaml,subs="verbatim,attributes"]

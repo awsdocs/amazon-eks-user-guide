@@ -94,6 +94,7 @@ Turn on EKS Pod Identities by completing the following procedures:
 +
 If you disable `IPv6` addresses, or otherwise prevent localhost `IPv6` IP addresses, the agent can't start. To start the agent on nodes that can't use `IPv6`, follow the steps in <<pod-id-agent-config-ipv6>> to disable the `IPv6` configuration.
 * If your Pods use a proxy, you must ensure you add `169.254.170.23` for IPv4 and `[fd00:ec2::23]` for IPv6 in the `no_proxy`/`NO_PROXY` environment variables injected into the pods. Otherwise requests from the application pods to the `eks-pod-identity-agent` DaemonSets would fail as the requests would be sent to the proxy and the proxy wouldn't be able to route the IP. 
+* To find the suggested version of the Amazon EKS Pod Identity Agent for a Kubernetes version, see <<addon-compat>>. 
 
 [#pod-id-cluster-versions]
 === EKS Pod Identity cluster versions
