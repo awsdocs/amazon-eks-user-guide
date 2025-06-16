@@ -115,4 +115,7 @@ include::auto-cis.adoc[leveloffset=+1]
 
 include::auto-kms.adoc[leveloffset=+1]
 
+include::auto-controls.adoc[leveloffset=+1]
+
+
 
