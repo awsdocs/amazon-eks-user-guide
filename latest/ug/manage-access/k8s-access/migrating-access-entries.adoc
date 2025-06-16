@@ -12,7 +12,7 @@ If you've added entries to the `aws-auth` `ConfigMap` on your cluster, we recomm
 [IMPORTANT]
 ====
 
-Don't remove existing `aws-auth` `ConfigMap` entries that were created by Amazon EKS when you added a <<managed-node-groups,managed node group>> or a <<fargate-profile,Fargate profile>> to your cluster. If you remove entries that Amazon EKS created in the `ConfigMap`, your cluster won't function properly. You can however, remove any entries for <<worker,self-managed>> node groups after you've created access entries for them.
+Before removing existing `aws-auth` `ConfigMap` entries that were created by Amazon EKS for <<managed-node-groups,managed node group>> or a <<fargate-profile,Fargate profile>> to your cluster, double check if the correct access entries for those specific resources exist in your Amazon EKS cluster. If you remove entries that Amazon EKS created in the `ConfigMap` without having the equivalent access entries, your cluster won't function properly.
 
 ====
 
