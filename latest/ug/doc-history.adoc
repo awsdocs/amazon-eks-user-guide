@@ -25,7 +25,7 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.update-ulink]
 link:eks/latest/userguide/create-node-class.html#auto-node-class-spec[type="documentation"]
 
-The `NodeClass` template for Auto Mode nodes added configuration for separate pod subnets. This adds the optional keys ``podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` to set the subnets and security groups for the pods.
+The `NodeClass` template for Auto Mode nodes added configuration for separate pod subnets. This adds the optional keys `podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` to set the subnets and security groups for the pods.
 
 [.update,date="2025-06-11"]
 === Amazon EKS platform version update
