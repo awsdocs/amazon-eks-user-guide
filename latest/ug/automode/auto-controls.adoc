@@ -7,9 +7,9 @@ include::../attributes.txt[]
 
 Some organization controls can prevent EKS Auto Mode from functioning correctly. If so, you must update these controls to allow EKS Auto Mode to have the permissions required to manage EC2 instances on your behalf.
 
-EKS Auto Mode uses a service role for launching the EC2 Instances that back EKS Auto Mode Nodes. A service role is an link:IAM/latest/UserGuide/id_roles.html[IAM role,type="documentation"] which is created in your account that a service assumes to perform actions on your behalf. link:organizations/latest/userguide/orgs_manage_policies_scps.html[Service Control Policies] (SCPs) always apply to actions performed with service roles. This allows an SCP to inhibit Auto Mode's operations. The most common occurrence is when an SCP is used to restrict the Amazon Machine Images (AMIs) that can be launched. To allow EKS Auto Mode to function, modify the SCP to permit launching AMIs from EKS Auto Mode accounts.
+EKS Auto Mode uses a service role for launching the EC2 Instances that back EKS Auto Mode Nodes. A service role is an link:IAM/latest/UserGuide/id_roles.html[IAM role,type="documentation"] which is created in your account that a service assumes to perform actions on your behalf. link:organizations/latest/userguide/orgs_manage_policies_scps.html[Service Control Policies,type="documentation"] (SCPs) always apply to actions performed with service roles. This allows an SCP to inhibit Auto Mode's operations. The most common occurrence is when an SCP is used to restrict the Amazon Machine Images (AMIs) that can be launched. To allow EKS Auto Mode to function, modify the SCP to permit launching AMIs from EKS Auto Mode accounts.
 
-You can also use the link:AWSEC2/latest/UserGuide/ec2-allowed-amis.html[EC2 Allowed AMIs] feature to limit the visibility of AMIs in other accounts. If you use this feature, you must expand the image criteria to also include the EKS Auto Mode AMI accounts in the regions of interest.
+You can also use the link:AWSEC2/latest/UserGuide/ec2-allowed-amis.html[EC2 Allowed AMIs,type="documentation"] feature to limit the visibility of AMIs in other accounts. If you use this feature, you must expand the image criteria to also include the EKS Auto Mode AMI accounts in the regions of interest.
 
 ## Example SCP to block all AMIs except for EKS Auto Mode AMIs
 
@@ -44,7 +44,7 @@ It's important *not* to use the `ec2:Owner` context key. Amazon owns the EKS Aut
 
 ## EKS Auto Mode AMI Accounts
 
-{aws} accounts that vary by region host EKS Auto Mode public AMIs. The list of accounts appears below:
+{aws} accounts that vary by region host EKS Auto Mode public AMIs. 
 
 |===
 |{aws} Region	|Account
