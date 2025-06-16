@@ -1,0 +1,83 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-controls]
+= Update Organization Controls for EKS Auto Mode
+:info_titleabbrev: Update AMI Controls
+
+Some organization controls can prevent EKS Auto Mode from functioning correctly. If so, you must update these controls to allow EKS Auto Mode to have the permissions required to manage EC2 instances on your behalf.
+
+EKS Auto Mode uses a service role for launching the EC2 Instances that back EKS Auto Mode Nodes. A service role is an link:IAM/latest/UserGuide/id_roles.html[IAM role,type="documentation"] which is created in your account that a service assumes to perform actions on your behalf. link:organizations/latest/userguide/orgs_manage_policies_scps.html[Service Control Policies,type="documentation"] (SCPs) always apply to actions performed with service roles. This allows an SCP to inhibit Auto Mode's operations. The most common occurrence is when an SCP is used to restrict the Amazon Machine Images (AMIs) that can be launched. To allow EKS Auto Mode to function, modify the SCP to permit launching AMIs from EKS Auto Mode accounts.
+
+You can also use the link:AWSEC2/latest/UserGuide/ec2-allowed-amis.html[EC2 Allowed AMIs,type="documentation"] feature to limit the visibility of AMIs in other accounts. If you use this feature, you must expand the image criteria to also include the EKS Auto Mode AMI accounts in the regions of interest.
+
+## Example SCP to block all AMIs except for EKS Auto Mode AMIs
+
+The SCP below prevents calling `ec2:RunInstances` unless the AMI belongs to the EKS Auto Mode AMI account for us-west-2 or us-east-1.
+
+[Note]
+====
+It's important *not* to use the `ec2:Owner` context key. Amazon owns the EKS Auto Mode AMI accounts and the value for this key will always be `amazon`. Constructing an SCP that allows launching AMIs if the `ec2:Owner` is `amazon` will allow launching any Amazon owned AMI, not just those for EKS Auto Mode.*
+====
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyAMI",
+      "Effect": "Deny",
+      "Action": "ec2:RunInstances",
+      "Resource": "arn:*:ec2:*::image/ami-*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:ResourceAccount": [
+            "767397842682",
+            "992382739861"
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+## EKS Auto Mode AMI Accounts
+
+{aws} accounts that vary by region host EKS Auto Mode public AMIs. 
+
+|===
+|{aws} Region	|Account
+|af-south-1	|471112993317
+|ap-east-1	|590183728416
+|ap-northeast-1	|851725346105
+|ap-northeast-2	|992382805010
+|ap-northeast-3	|891377407544
+|ap-south-1	|975049899075
+|ap-south-2	|590183737426
+|ap-southeast-1	|339712723301
+|ap-southeast-2	|58264376476
+|ap-southeast-3	|471112941769
+|ap-southeast-4	|590183863144
+|ap-southeast-5	|654654202513
+|ap-southeast-7	|533267217478
+|ca-central-1	|992382439851
+|ca-west-1	|767397959864
+|eu-central-1	|891376953411
+|eu-central-2	|381492036002
+|eu-north-1	|339712696471
+|eu-south-1	|975049955519
+|eu-south-2	|471112620929
+|eu-west-1	|381492008532
+|eu-west-2	|590184142468
+|eu-west-3	|891376969258
+|il-central-1	|590183797093
+|me-central-1	|637423494195
+|me-south-1	|905418070398
+|mx-central-1	|211125506622
+|sa-east-1	|339712709251
+|us-east-1	|992382739861
+|us-east-2	|975050179949
+|us-west-1	|975050035094
+|us-west-2	|767397842682
+|===

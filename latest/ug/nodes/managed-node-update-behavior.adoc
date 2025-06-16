@@ -54,7 +54,7 @@ These are the Amazon EKS applied labels on the worker nodes in a custom launch t
 *** `eks.amazonaws.com/nodegroup=$nodeGroupName`
 *** `eks.amazonaws.com/sourceLaunchTemplateId=$launchTemplateId`
 *** `eks.amazonaws.com/sourceLaunchTemplateVersion=$launchTemplateVersion`
-. It marks nodes as unschedulable to avoid scheduling new Pods. It also labels nodes with `node.kubernetes.io/exclude-from-external-load-balancers=true` to remove the nodes from load balancers before terminating the nodes.
+. It marks nodes as unschedulable to avoid scheduling new Pods. It also labels nodes with `node.kubernetes.io/exclude-from-external-load-balancers=true` to remove the old nodes from load balancers before terminating the nodes.
 
 The following are known reasons which lead to a `NodeCreationFailure` error in this phase:
 

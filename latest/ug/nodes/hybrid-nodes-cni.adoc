@@ -162,7 +162,13 @@ NAME                   STATUS   ROLES    AGE   VERSION
 mi-04a2cf999b7112233   Ready    <none>   19m   v1.31.0-eks-a737599
 ----
 
-. To use BGP with Cilium to advertise your pod addresses with your on-premises network, you must have installed Cilium with `bgpControlPlane.enabled: true`. To configure BGP in Cilium, first create a file called `cilium-bgp-cluster.yaml` with a `CiliumBGPClusterConfig` with the `peerAddress` set to your on-premises router IP that you are peering with. Configure the `localASN` and `peerASN` based on your on-premises router configuration, which you might have to obtain from your network administrator.
+. To use BGP with Cilium to advertise your pod addresses with your on-premises network, you must have installed Cilium with `bgpControlPlane.enabled: true`. If you are enabling BGP for an existing Cilium deployment, you must restart the Cilium operator to apply the BGP configuration if BGP was not previously enabled. You can set `operator.rollOutPods` to `true` in your Helm values to restart the Cilium operator as part of the Helm install/upgrade process. 
++
+To configure BGP in Cilium, first create a file called `cilium-bgp-cluster.yaml` with a `CiliumBGPClusterConfig` definition. You may need to obtain the following information from your network administrator.
++
+- Configure `localASN` with the ASN for the nodes running Cilium. 
+- Configure `peerASN` with the ASN for your on-premises router. 
+- Configure the `peerAddress` with the on-premises router IP that each node running Cilium will peer with. 
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
@@ -179,10 +185,10 @@ spec:
       - hybrid
   bgpInstances:
   - name: "rack0"
-    localASN: [.replaceable]`ONPREM_ROUTER_ASN`
-    peers:
+    localASN: [.replaceable]`NODES_ASN`
+    peers: 
     - name: "onprem-router"
-      peerASN: [.replaceable]`PEER_ASN`
+      peerASN: [.replaceable]`ONPREM_ROUTER_ASN`
       peerAddress: [.replaceable]`ONPREM_ROUTER_IP`
       peerConfigRef:
         name: "cilium-peer"

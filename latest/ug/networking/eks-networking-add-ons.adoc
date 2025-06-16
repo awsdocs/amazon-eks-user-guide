@@ -18,9 +18,13 @@ Several networking add-ons are available for your Amazon EKS cluster.
 
 [NOTE]
 ====
-If you create clusters in any way except by using the console, each cluster comes with the self-managed versions of the built-in add-ons. The self-managed versions can't be managed from the {aws-management-console}, {aws} Command Line Interface, or SDKs. You manage the configuration and upgrades of self-managed add-ons.
+**When you create an EKS cluster:**
 
-We recommend adding the Amazon EKS type of the add-on to your cluster instead of using the self-managed type of the add-on. If you create clusters in the console, the Amazon EKS type of these add-ons is installed.
+* **Using the {aws} Console**: The built-in add-ons (like CoreDNS, kube-proxy, etc.) are automatically installed as Amazon EKS Add-ons. These can be easily configured and updated through the {aws} Console, CLI, or SDKs.
+
+* **Using other methods** (CLI, SDKs, etc.): The same built-in add-ons are installed as self-managed versions that run as regular Kubernetes deployments. These require manual configuration and updates since they can't be managed through {aws} tools.
+
+We recommend using Amazon EKS Add-ons rather than self-managed versions to simplify add-on management and enable centralized configuration and updates through {aws} services.
 ====
 
 *Amazon VPC CNI plugin for Kubernetes*::

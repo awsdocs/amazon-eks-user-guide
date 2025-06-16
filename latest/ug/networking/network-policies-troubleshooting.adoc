@@ -42,7 +42,7 @@ Network policy logs require an additional 1 vCPU for the `aws-network-policy-age
 .. In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
 .. Choose the *Add-ons* tab.
 .. Select the box in the top right of the add-on box and then choose *Edit*.
-.. On the *Configure [.replaceable]`name of addon`* page:
+.. On the *Configure [.replaceable]`Amazon VPC CNI`* page:
 +
 ... Select a `v1.14.0-eksbuild.3` or later version in the *Version* dropdown list.
 ... Expand the *Optional configuration settings*.
@@ -162,7 +162,7 @@ Only the network policy logs are sent by the node agent. Other logs made by the 
 .. In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
 .. Choose the *Add-ons* tab.
 .. Select the box in the top right of the add-on box and then choose *Edit*.
-.. On the *Configure [.replaceable]`name of addon`* page:
+.. On the *Configure [.replaceable]`Amazon VPC CNI`* page:
 +
 ... Select a `v1.14.0-eksbuild.3` or later version in the *Version* dropdown list.
 ... Expand the *Optional configuration settings*.
@@ -185,7 +185,7 @@ The following screenshot shows an example of this scenario.
 image::images/console-cni-config-network-policy-logs-cwl.png[{aws-management-console} showing the VPC CNI add-on with network policy and CloudWatch Logs in the optional configuration.,scaledwidth=80%]
 
 
-{aws} CLI::
+*{aws} CLI*::
 .. Run the following {aws} CLI command. Replace `my-cluster` with the name of your cluster and replace the IAM role ARN with the role that you are using.
 +
 [source,shell,subs="verbatim,attributes"]
@@ -199,7 +199,7 @@ aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-vers
 [#cni-network-policy-cwl-agent-selfmanaged]
 ==== Self-managed add-on
 
-Helm::
+*Helm*::
 
 If you have installed the Amazon VPC CNI plugin for Kubernetes through `helm`, you can update the configuration to send network policy logs to CloudWatch Logs.
 
@@ -211,7 +211,7 @@ helm upgrade --set nodeAgent.enablePolicyEventLogs=true --set nodeAgent.enableCl
 ----
 
 
-kubectl::
+*kubectl*::
 .. Open the `aws-node` `DaemonSet` in your editor.
 +
 [source,bash,subs="verbatim,attributes"]
