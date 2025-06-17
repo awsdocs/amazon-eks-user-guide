@@ -2,8 +2,8 @@ include::../attributes.txt[]
 
 [.topic]
 [#auto-controls]
-= Update Organization Controls for EKS Auto Mode
-:info_titleabbrev: Update AMI Controls
+= Update organization controls for EKS Auto Mode
+:info_titleabbrev: Update AMI controls
 
 Some organization controls can prevent EKS Auto Mode from functioning correctly. If so, you must update these controls to allow EKS Auto Mode to have the permissions required to manage EC2 instances on your behalf.
 
@@ -11,7 +11,7 @@ EKS Auto Mode uses a service role for launching the EC2 Instances that back EKS 
 
 You can also use the link:AWSEC2/latest/UserGuide/ec2-allowed-amis.html[EC2 Allowed AMIs,type="documentation"] feature to limit the visibility of AMIs in other accounts. If you use this feature, you must expand the image criteria to also include the EKS Auto Mode AMI accounts in the regions of interest.
 
-## Example SCP to block all AMIs except for EKS Auto Mode AMIs
+== Example SCP to block all AMIs except for EKS Auto Mode AMIs
 
 The SCP below prevents calling `ec2:RunInstances` unless the AMI belongs to the EKS Auto Mode AMI account for us-west-2 or us-east-1.
 
@@ -42,7 +42,7 @@ It's important *not* to use the `ec2:Owner` context key. Amazon owns the EKS Aut
 }
 ```
 
-## EKS Auto Mode AMI Accounts
+== EKS Auto Mode AMI accounts
 
 {aws} accounts that vary by region host EKS Auto Mode public AMIs. 
 
