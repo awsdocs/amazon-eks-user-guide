@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 EC2 On-Demand Capacity Reservations (ODCRs) allow you to reserve compute capacity for your Amazon EC2 instances in a specific Availability Zone for any duration. When using EKS Auto Mode, you may want to control whether your Kubernetes workloads are deployed onto these reserved instances to maximize utilization of pre-purchased capacity or to ensure critical workloads have access to guaranteed resources.
 
-By default, EKS Auto Mode automatically launches into open ODCRs. However, by configuring `capacityReservationSelectorTerms` on a NodeClass, you can explicitly control which ODCRs your workloads use. Once this feature is enabled, EKS Auto Mode will no longer automatically use open ODCRs—they must be explicitly selected by a NodeClass, giving you precise control over capacity reservation usage across your cluster.
+By default, EKS Auto Mode automatically launches into open ODCRs. However, by configuring `capacityReservationSelectorTerms` on a NodeClass, you can explicitly control which ODCRs your workloads use. Nodes provisioned using configured ODCRs will have `karpenter.sh/capacity-type: reserved` and will be prioritized over on-demand and spot. Once this feature is enabled, EKS Auto Mode will no longer automatically use open ODCRs—they must be explicitly selected by a NodeClass, giving you precise control over capacity reservation usage across your cluster.
 
 [WARNING]
 ====
@@ -26,7 +26,7 @@ spec:
     - id: cr-56fac701cc1951b03
     # Alternative Approaches
     - tags:
-        Name: "targeted-odcr"
+        app: "my-app"
       # Optional owning account ID filter
       owner: "012345678901"
 ```
