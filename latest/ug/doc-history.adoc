@@ -19,6 +19,12 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-06-19"]
+=== Managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `AmazonEKSDashboardConsoleReadOnly` policy.
 
 [.update,date="2025-06-13"]
 === Amazon EKS Auto Mode update to `NodeClass`

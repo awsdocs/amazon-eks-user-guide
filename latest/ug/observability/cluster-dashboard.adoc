@@ -154,6 +154,7 @@ You can filter the EKS Dashboard by:
 ** The management account of the {aws} Organization
 ** A delegated administrator account, identified in the EKS dashboard settings of the management account.
 * If you've recently enabled the EKS Dashboard, please note that initial data population may take up to 12 hours.
+* xref:dashboard-enable-cli[Try re-enabling the dashboard using the CLI], including creating the service linked role.
 
 === Dashboard widgets move unexpectedly
 

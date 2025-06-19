@@ -50,6 +50,24 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html#AmazonEKSClusterPolicy-json[AmazonEKSClusterPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
+
+[#security-iam-awsmanpol-amazoneksdashboardconsolereadonly]
+== {aws} managed policy: AmazonEKSDashboardConsoleReadOnly
+:info_titleabbrev: AmazonEKSDashboardConsoleReadOnly
+
+You can attach `AmazonEKSDashboardConsoleReadOnly` to your IAM entities. 
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
+
+* *`eks`* - Read-only access to EKS dashboard data, resources, and cluster versions information. This allows viewing EKS-related metrics and cluster configuration details.
+
+* *`organizations`* - Read-only access to {aws} Organizations information, including:
+** Viewing organization details and service access
+** Listing organizational roots, accounts, and organizational units
+** Viewing organization structure
+  
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSDashboardConsoleReadOnly.html#AmazonEKSDashboardConsoleReadOnly-json[AmazonEKSDashboardConsoleReadOnly,type="documentation"] in the {aws} Managed Policy Reference Guide.
+
 [#security-iam-awsmanpol-amazoneksfargatepodexecutionrolepolicy]
 == {aws} managed policy: AmazonEKSFargatePodExecutionRolePolicy
 :info_titleabbrev: AmazonEKSFargatePodExecutionRolePolicy
@@ -389,6 +407,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Change
 |Description
 |Date
+
+|Introduced <<security-iam-awsmanpol-amazoneksdashboardconsolereadonly>>.
+|Introduced new `AmazonEKSDashboardConsoleReadOnly` policy.
+|June 16, 2025
 
 |Introduced <<security-iam-awsmanpol-AmazonEKSDashboardServiceRolePolicy>>.
 |Introduced new `AmazonEKSDashboardServiceRolePolicy` policy.

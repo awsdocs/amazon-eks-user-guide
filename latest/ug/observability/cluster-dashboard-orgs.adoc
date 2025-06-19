@@ -23,6 +23,7 @@ Trusted access authorizes the EKS Dashboard to securely access cluster informati
 When you enable trusted access through the EKS console, the system automatically creates the `AWSServiceRoleForAmazonEKSDashboard` service-linked role. This automatic creation does not occur if you enable trusted access using the {aws} CLI or {aws} Organizations console.
 ====
 
+[#dashboard-enable-cli]
 === Using the {aws} CLI
 
 . Log in to the management account of your {aws} Organization.
