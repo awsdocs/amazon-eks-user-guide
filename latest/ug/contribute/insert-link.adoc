@@ -12,26 +12,44 @@ AsciiDoc supports multiple types of links. Using the right link type is importan
 
 Use cross references (xref) to link between pages or sections within the same documentation site, such as the EKS User Guide. They automatically update if the target section moves or is renamed. 
 
-=== Define custom link text
-
-`xref` `:section-id[${link-text}]`
-
 === Use page title as link text
 
-Use the section ID surrounded by angle brackets. For example `<<` `page-id>>`.
+For most cases when linking to another ID in this user guide, use the following approach to have the link text automatically update to the latest title as needed.
 
-== Link to another page in the {aws} Docs
+[source,asciidoc]
+----
+For more information, see <<page-or-section-id>>.
+----
 
-. Find the link to the {aws} Docs page
-. Remove the `https://docs.aws.amazon.com/` prefix, keeping only the path. The path should start with an a-z character. 
-. Create a link as shown below
 
-`link` `:AmazonS3/latest/userguide/create-bucket-overview.html["Create a bucket", type="documentation"]`
+=== Define custom link text
 
-== Link out to the internet
+For cases where you must have custom link text, use the following format.
 
-This format creates a standard link out to the internet. Use this for Non-Amazon content or content on GitHub. 
+[source,asciidoc]
+----
+Here's an example of a <<page-or-section-id,link with custom text>>.
+----
 
-`link` `:https://example.com[Visit Example Site]`
 
-NOTE: We allowlist external domains. The allowlist is at `vale/styles/EksDocs/ExternalDomains.yml`
+== Link to another guide in the {aws} Docs
+
+. Find the link to the {aws} documentation page.
+. Remove the `https://docs.aws.amazon.com/` prefix, keeping only the path. The path should start with a letter.
+. Create a link as shown below:
+
+[source,asciidoc]
+----
+link:AmazonS3/latest/userguide/create-bucket-overview.html[Create a bucket, type="documentation"]
+----
+
+== Link to an external webpage
+
+This format creates a standard link out to a page not hosted by Amazon. For example, use this for GitHub links. 
+
+[source,asciidoc]
+----
+https://example.com[Link text]
+----
+
+NOTE: We have an allowlist for external domains. The allowlist is at `vale/styles/EksDocs/ExternalDomains.yml`
