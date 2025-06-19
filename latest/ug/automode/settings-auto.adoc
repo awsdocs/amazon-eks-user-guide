@@ -81,6 +81,16 @@ a|
 - Define custom tags for provisioned volumes
 |<<create-storage-class>>
 
+a|
+*Control ODCR Usage*
+
+- Configure workload deployment into EC2 On-Demand Capacity Reservations
+- Explicitly select specific ODCRs by ID for targeted capacity usage
+- Use tag-based selection to target groups of ODCRs
+- Filter ODCRs by owning {aws} account for cross-account scenarios
+- Control whether workloads automatically use open ODCRs
+|<<auto-odcr>>
+
 |===
 
 
@@ -117,5 +127,4 @@ include::auto-kms.adoc[leveloffset=+1]
 
 include::auto-controls.adoc[leveloffset=+1]
 
-
-
+include::auto-odcr.adoc[leveloffset=+1]
