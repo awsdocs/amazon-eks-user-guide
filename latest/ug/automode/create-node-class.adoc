@@ -134,6 +134,17 @@ spec:
     # Alternative using direct subnet ID
     # - id: "subnet-0987654321fedcba0"
 
+
+  # Optional: Selects on-demand capacity reservations and capacity blocks
+  # for EKS Auto Mode to prioritize.
+  capacityReservationSelectorTerms:
+    - id: cr-56fac701cc1951b03
+    # Alternative Approaches
+    - tags:
+        Name: "targeted-odcr"
+      # Optional owning account ID filter
+      owner: "012345678901"
+
   # Optional fields
   snatPolicy: Random  # or Disabled
   
