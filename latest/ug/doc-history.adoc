@@ -19,6 +19,14 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-06-20"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added permissions to `AmazonEKSServiceRolePolicy` and `AmazonEKSComputePolicy` to allow Amazon EKS Auto Mode to launch instances by using the EC2 On-Demand Capacity Reservations in your account. Also, added the permissions to `AmazonEKSComputePolicy` for Amazon EKS to create the EC2 Spot service-linked role on your behalf.
+
+
 [.update,date="2025-06-19"]
 === Managed policy updates
 [.update-ulink]
@@ -112,6 +120,8 @@ Added `AmazonEKSDashboardServiceRolePolicy` policy.
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
 This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform versions.
+
+
 
 
 [.update,date="2025-05-02"]

@@ -106,7 +106,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 
 You can attach `AmazonEKSComputePolicy` to your IAM entities. You may attach this policy to your <<cluster-iam-role,cluster IAM role>> to expand the resources EKS can manage in your account.
 
-This policy grants the permissions required for Amazon EKS to create and manage EC2 instances for the EKS cluster, as well as the necessary IAM permissions to configure EC2. 
+This policy grants the permissions required for Amazon EKS to create and manage EC2 instances for the EKS cluster, and the necessary IAM permissions to configure EC2. Also, this policy grants the permissions for Amazon EKS to create the EC2 Spot service-linked role on your behalf.
 
 === Permissions details
 
@@ -240,7 +240,7 @@ This policy allows the service-linked role to call {aws} services on your behalf
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks.
 
-* *`ec2`* – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the cluster security group, and VPC that are required to create a cluster. For more information, see <<sec-group-reqs>>. Read information about security groups. Update tags on security groups.
+* *`ec2`* – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the cluster security group, and VPC that are required to create a cluster. For more information, see <<sec-group-reqs>>. Read information about security groups. Update tags on security groups. Read information about On-Demand Capacity Reservations.
 * *`ec2` Auto Mode* – Terminate EC2 instances created by EKS Auto Mode. For more information, see <<automode>>. 
 * *`iam`* – List all of the managed policies that attached to an IAM role. This is required so that Amazon EKS can list and validate all managed policies and permissions required to create a cluster.
 * *Associate a VPC with a hosted zone* – This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server.
@@ -408,9 +408,18 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Description
 |Date
 
+| Added permission to <<security-iam-awsmanpol-AmazonEKSComputePolicy>>.
+| Updated resource permissions for the `ec2:RunInstances` and `ec2:CreateFleet` actions to include capacity reservations `arn:aws:ec2:*:*:capacity-reservation/*`. This allows Amazon EKS Auto Mode to launch instances by using the EC2 On-Demand Capacity Reservations in your account. Added `iam:CreateServiceLinkedRole` to allow Amazon EKS Auto Mode to create the EC2 Spot service-linked role `AWSServiceRoleForEC2Spot` on your behalf.
+| June 20, 2025
+
+| Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
+| Added `ec2:DescribeCapacityReservations` permission to allow Amazon EKS Auto Mode to launch instances by using the EC2 On-Demand Capacity Reservations in your account.
+| June 20, 2025
+
+
 |Introduced <<security-iam-awsmanpol-amazoneksdashboardconsolereadonly>>.
 |Introduced new `AmazonEKSDashboardConsoleReadOnly` policy.
-|June 16, 2025
+|June 19, 2025
 
 |Introduced <<security-iam-awsmanpol-AmazonEKSDashboardServiceRolePolicy>>.
 |Introduced new `AmazonEKSDashboardServiceRolePolicy` policy.

@@ -14,6 +14,10 @@ To receive notifications of all source file changes to this specific documentati
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
 ----
 
+== June 20, 2025
+
+*Feature:* Support for controlling deployment of workloads into EC2 On-Demand Capacity Reservations (ODCRs). This adds the optional key `capacityReservationSelectorTerms` to the NodeClass, allowing you to explicitly control which ODCRs your workloads use. For more information, see <<auto-odcr>>.
+
 == June 13, 2025
 
 *Feature:* Support for separate pod subnets in the `NodeClass`. This adds the optional keys ``podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` to set the subnets and security groups for the pods. For more information, see <<pod-subnet-selector>>.
@@ -50,4 +54,4 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/auto
 
 == March 14, 2025
 
-**Feature**: `IPv4` egress enabled in `IPv6` clusters. `IPv4` traffic egressing from `IPv6` Auto Mode clusters will now be automatically translated to the `v4` address of the node primary ENI. 
+**Feature**: `IPv4` egress enabled in `IPv6` clusters. `IPv4` traffic egressing from `IPv6` Auto Mode clusters will now be automatically translated to the `v4` address of the node primary ENI.

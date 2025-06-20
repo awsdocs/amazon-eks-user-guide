@@ -1,0 +1,34 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-odcr]
+= Control deployment of workloads into EC2 On-Demand Capacity Reservations with EKS Auto Mode
+:info_titleabbrev: Control ODCR Deployment
+
+EC2 On-Demand Capacity Reservations (ODCRs) allow you to reserve compute capacity for your Amazon EC2 instances in a specific Availability Zone for any duration. When using EKS Auto Mode, you may want to control whether your Kubernetes workloads are deployed onto these reserved instances to maximize utilization of pre-purchased capacity or to ensure critical workloads have access to guaranteed resources.
+
+By default, EKS Auto Mode automatically launches into open ODCRs. However, by configuring `capacityReservationSelectorTerms` on a NodeClass, you can explicitly control which ODCRs your workloads use. Nodes provisioned using configured ODCRs will have `karpenter.sh/capacity-type: reserved` and will be prioritized over on-demand and spot. Once this feature is enabled, EKS Auto Mode will no longer automatically use open ODCRs—they must be explicitly selected by a NodeClass, giving you precise control over capacity reservation usage across your cluster.
+
+[WARNING]
+====
+If you configure `capacityReservationSelectorTerms` on a NodeClass in a cluster, EKS Auto Mode will no longer automatically use open ODCRs for _any_ NodeClass in the cluster.
+====
+
+== Example NodeClass
+
+```yaml
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+spec:
+  # Optional: Selects upon on-demand capacity reservations and capacity blocks
+  # for EKS Auto Mode to prioritize.
+  capacityReservationSelectorTerms:
+    - id: cr-56fac701cc1951b03
+    # Alternative Approaches
+    - tags:
+        app: "my-app"
+      # Optional owning account ID filter
+      owner: "012345678901"
+```
+
+This example NodeClass demonstrates two approaches for selecting ODCRs. The first method directly references a specific ODCR by its ID (`cr-56fac701cc1951b03`). The second method uses tag-based selection, targeting ODCRs with the tag `Name: "targeted-odcr"`. You can also optionally filter by the {aws} account that owns the reservation, which is particularly useful in cross-account scenarios or when working with shared capacity reservations.
