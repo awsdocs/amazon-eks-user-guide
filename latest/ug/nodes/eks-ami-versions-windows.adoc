@@ -82,7 +82,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.32.5`
 |`1.7.27`
 |`1.2.1`
-| Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.32-2025.05.17`
 |`1.32.5`
@@ -130,7 +130,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.31.9`
 |`1.7.27`
 |`1.2.1`
-| Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.31-2025.05.17`
 |`1.31.9`
@@ -214,7 +214,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.30.13`
 |`1.7.27`
 |`1.2.1`
-| Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.30-2025.05.17`
 |`1.30.13`
@@ -316,7 +316,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.29.15`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.29-2025.05.17`
 |`1.29.15`
@@ -448,7 +448,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.28.15`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.28-2025.05.17`
 |`1.28.15`
@@ -604,7 +604,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.27.16`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.27-2025.05.17`
 |`1.27.16`
@@ -1077,7 +1077,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.31.9`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.31-2025.05.17`
 |`1.31.9`
@@ -1162,7 +1162,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.30.13`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.30-2025.05.17`
 |`1.30.13`
@@ -1265,7 +1265,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.29.15`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.29-2025.05.17`
 |`1.29.15`
@@ -1398,7 +1398,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.28.15`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.28-2025.05.17`
 |`1.28.15`
@@ -1555,7 +1555,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.27.16`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.27-2025.05.17`
 |`1.27.16`
@@ -1979,7 +1979,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.32.5`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.32-2025.05.17`
 |`1.32.5`
@@ -2027,7 +2027,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.31.9`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.31-2025.05.17`
 |`1.31.9`
@@ -2112,7 +2112,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.30.13`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.30-2025.05.17`
 |`1.30.13`
@@ -2215,7 +2215,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.29.15`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.29-2025.05.17`
 |`1.29.15`
@@ -2348,7 +2348,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.28.15`
 |`1.7.20`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.28-2025.05.17`
 |`1.28.15`
@@ -2505,7 +2505,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.27.16`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.27-2025.05.17`
 |`1.27.16`
@@ -2930,7 +2930,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.32.5`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.32-2025.05.17`
 |`1.32.5`
@@ -2979,7 +2979,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.31.9`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.31-2025.05.17`
 |`1.31.9`
@@ -3064,7 +3064,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.30.13`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.30-2025.05.17`
 |`1.30.13`
@@ -3167,7 +3167,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.29.15`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.29-2025.05.17`
 |`1.29.15`
@@ -3300,7 +3300,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.28.15`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.28-2025.05.17`
 |`1.28.15`
@@ -3457,7 +3457,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 |`1.27.16`
 |`1.7.27`
 |`1.2.1`
-|Upgraded `containerd` to `1.7.27`
+|Upgraded `containerd` to `1.7.27`.
 
 |`1.27-2025.05.17`
 |`1.27.16`
