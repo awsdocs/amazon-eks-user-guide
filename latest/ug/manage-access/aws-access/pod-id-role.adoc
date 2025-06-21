@@ -36,7 +36,47 @@ EKS Pod Identity uses `AssumeRole` to assume the IAM role before passing the tem
 
 *`sts:TagSession`*::
 EKS Pod Identity uses `TagSession` to include _session tags_ in the requests to {aws} STS.
+
+*Setting Conditions*::
+You can use these tags in the _condition keys_ in the trust policy to restrict which service accounts, namespaces, and clusters can use this role. When the Pod Identity IAM Role is assumed, it sends the following Request Tags:
+
+* `eks-cluster-arn`
+* `eks-cluster-name`
+* `kubernetes-namespace`
+* `kubernetes-service-account`
+* `kubernetes-pod-name`
+* `kubernetes-pod-uid`
+
 +
-You can use these tags in the _condition keys_ in the trust policy to restrict which service accounts, namespaces, and clusters can use this role.
-+
+For example, to restrict a Pod Identity IAM Role to a specific `ServiceAccount` and `Namespace`, the following Trust Policy with the added `Condition` policies can further restrict what can assume the role:
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "pods.eks.amazonaws.com"
+            },
+            "Action": [
+                "sts:AssumeRole",
+                "sts:TagSession"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestTag/kubernetes-namespace": [
+                        "<Namespace>"
+                    ],
+                    "aws:RequestTag/kubernetes-service-account": [
+                        "<ServiceAccount>"
+                    ]
+                }
+            }
+        }
+    ]
+}
+----
+
 For a list of Amazon EKS condition keys, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-policy-keys[Conditions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the _Service Authorization Reference_. To learn which actions and resources you can use a condition key with, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"].
