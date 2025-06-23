@@ -205,7 +205,7 @@ External DNS permissions can be reduced to `route53:ChangeResourceRecordSets`, `
 |external-dns
 
 |Managed IAM policy
-|`arn:aws:iam::aws:policy/AmazonRoute53FullAccess`
+|`{arn-aws}iam::aws:policy/AmazonRoute53FullAccess`
 
 |Custom IAM permissions
 |None

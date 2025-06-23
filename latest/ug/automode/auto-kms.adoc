@@ -39,7 +39,7 @@ Configure your key policy with the following structure:
 This policy only includes permissions for EKS Auto Mode. The key policy may need additional permissions if other identities need to use the key or manage grants.  
 ====
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -50,7 +50,7 @@ This policy only includes permissions for EKS Auto Mode. The key policy may need
             "Effect": "Allow",
             "Principal": {
                 "AWS": [
-                    "arn:aws:iam::<account-id>:role/ClusterServiceRole"
+                    "{arn-aws}iam::<account-id>:role/ClusterServiceRole"
                 ]
             },
             "Action": [
@@ -67,7 +67,7 @@ This policy only includes permissions for EKS Auto Mode. The key policy may need
             "Effect": "Allow",
             "Principal": {
                 "AWS": [
-                    "arn:aws:iam::<account-id>:role/ClusterServiceRole"
+                    "{arn-aws}iam::<account-id>:role/ClusterServiceRole"
                 ]
             },
             "Action": [
@@ -97,7 +97,7 @@ When configuring the key policy:
 
 After configuring the key policy, reference the KMS key in your EKS Auto Mode NodeClass configuration:
 
-[source,yaml]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
@@ -112,7 +112,7 @@ spec:
     throughput: 125  # Range: 125-1000
 
     # KMS key for encryption
-    kmsKeyID: "arn:aws:kms:<region>:<account-id>:key/<key-id>"
+    kmsKeyID: "{arn-aws}kms:<region>:<account-id>:key/<key-id>"
 ----
 
 Replace the placeholder values with your actual values:
@@ -124,9 +124,9 @@ Replace the placeholder values with your actual values:
 You can specify the KMS key using any of the following formats:
 
 * KMS Key ID: `1a2b3c4d-5e6f-1a2b-3c4d-5e6f1a2b3c4d`
-* KMS Key ARN: `arn:aws:kms:us-west-2:111122223333:key/1a2b3c4d-5e6f-1a2b-3c4d-5e6f1a2b3c4d`
+* KMS Key ARN: `{arn-aws}kms:us-west-2:111122223333:key/1a2b3c4d-5e6f-1a2b-3c4d-5e6f1a2b3c4d`
 * Key Alias Name: `alias/eks-auto-mode-key`
-* Key Alias ARN: `arn:aws:kms:us-west-2:111122223333:alias/eks-auto-mode-key`
+* Key Alias ARN: `{arn-aws}kms:us-west-2:111122223333:alias/eks-auto-mode-key`
 
 Apply the NodeClass configuration using kubectl:
 

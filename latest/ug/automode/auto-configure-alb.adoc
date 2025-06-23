@@ -186,7 +186,7 @@ The table below is a quick reference for commonly used configuration options.
 
 |`certificateARNs`
 |ARNs of SSL certificates to use
-|`arn:aws:acm:region:account:certificate/id`
+|`{arn-aws}acm:region:account:certificate/id`
 
 |`tags`
 |Custom tags for {aws} resources

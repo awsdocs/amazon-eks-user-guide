@@ -101,16 +101,18 @@ Attach the following {aws} managed policies to the Node IAM Role to provide the 
 
 To attach AmazonEKSWorkerNodeMinimalPolicy:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoNodeRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodeMinimalPolicy
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSWorkerNodeMinimalPolicy
+----
 
 To attach AmazonEC2ContainerRegistryPullOnly:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoNodeRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
+----

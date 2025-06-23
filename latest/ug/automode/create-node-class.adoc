@@ -67,7 +67,7 @@ When creating access entries for EKS Auto Mode node classes, you need to use the
 
 Update the following CLI commands with your cluster name, and node role ARN. The node role ARN is specified in the node class YAML. 
 
-[source,bash]
+[source,bash,subs="verbatim,attributes"]
 ----
 # Create the access entry for EC2 nodes
 aws eks create-access-entry \
@@ -79,7 +79,7 @@ aws eks create-access-entry \
 aws eks associate-access-policy \
   --cluster-name <cluster-name> \
   --principal-arn <node-role-arn> \
-  --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSAutoNodePolicy \
+  --policy-arn {arn-aws}eks::aws:cluster-access-policy/AmazonEKSAutoNodePolicy \
   --access-scope type=cluster
 ----
 
@@ -89,7 +89,7 @@ aws eks associate-access-policy \
 
 Update the following CloudFormation with your cluster name, and node role ARN. The node role ARN is specified in the node class YAML. 
 
-[source,yaml]
+[source,yaml,subs="verbatim,attributes"]
 ----
 EKSAutoNodeRoleAccessEntry:
   Type: AWS::EKS::AccessEntry
@@ -100,7 +100,7 @@ EKSAutoNodeRoleAccessEntry:
     AccessPolicies:
       - AccessScope:
           Type: cluster
-        PolicyArn: arn:aws:eks::aws:cluster-access-policy/AmazonEKSAutoNodePolicy
+        PolicyArn: {arn-aws}eks::aws:cluster-access-policy/AmazonEKSAutoNodePolicy
   DependsOn: [ <cluster-name> ] # previously defined in CloudFormation
 ----
 
@@ -109,7 +109,7 @@ For information about deploying CloudFormation stacks, see link:AWSCloudFormatio
 [#auto-node-class-spec]
 == Node Class Specification
 
-[source,yaml]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
@@ -163,7 +163,7 @@ spec:
     iops: 3000      # Range: 3000-16000
     throughput: 125 # Range: 125-1000
     # Optional KMS key for encryption
-    kmsKeyID: "arn:aws:kms:region:account:key/key-id"  
+    kmsKeyID: "{arn-aws}kms:region:account:key/key-id"  
     # Accepted formats:
     # KMS Key ID
     # KMS Key ARN

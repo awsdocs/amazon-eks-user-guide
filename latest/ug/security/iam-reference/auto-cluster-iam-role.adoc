@@ -115,40 +115,45 @@ aws iam create-role \
 
 *AmazonEKSClusterPolicy*:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSClusterPolicy
+----
 
 *AmazonEKSComputePolicy*:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSComputePolicy
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSComputePolicy
+----
 
 *AmazonEKSBlockStoragePolicy*:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSBlockStoragePolicy
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSBlockStoragePolicy
+----
 
 *AmazonEKSLoadBalancingPolicy*:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSLoadBalancingPolicy
+----
 
 *AmazonEKSNetworkingPolicy*:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSNetworkingPolicy
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSNetworkingPolicy
+----

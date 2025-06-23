@@ -499,7 +499,7 @@ sudo aws sts get-caller-identity
 {
     "UserId": "ABCDEFGHIJKLM12345678910:<node-name>",
     "Account": "<aws-account-id>",
-    "Arn": "arn:aws:sts::<aws-account-id>:assumed-role/<hybrid-nodes-iam-role/<node-name>"
+    "Arn": "{arn-aws}sts::<aws-account-id>:assumed-role/<hybrid-nodes-iam-role/<node-name>"
 }
 ----
 

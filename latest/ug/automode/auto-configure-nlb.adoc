@@ -97,7 +97,7 @@ All of the following annotations need to be prefixed with `service.beta.kubernet
 
 |`aws-load-balancer-ssl-cert`
 |ARN of the SSL certificate from {aws} Certificate Manager for HTTPS/TLS.
-|`arn:aws:acm:region:account:certificate/cert-id`
+|`{arn-aws}acm:region:account:certificate/cert-id`
 
 |`aws-load-balancer-ssl-ports`
 |Specifies which ports should use SSL/TLS.

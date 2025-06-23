@@ -564,7 +564,7 @@ This policy is designated for {aws} service-linked roles only and cannot be used
 
 This access policy includes permissions that grant EKS access to the nodes of a cluster. When associated to an access entry, its access scope is typically the cluster, rather than a Kubernetes namespace. This policy is used by Amazon EKS hybrid nodes.
 
-*ARN* – `arn:aws:eks::aws:cluster-access-policy/AmazonEKSHybridPolicy`
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSHybridPolicy`
 
 [%header,cols="4"]
 |===

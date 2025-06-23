@@ -110,7 +110,7 @@ This section outlines the minimum IAM policies required to enable trusted access
 
 To enable trusted access between EKS Dashboard and {aws} Organizations, you need the following permissions:
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -129,7 +129,7 @@ To enable trusted access between EKS Dashboard and {aws} Organizations, you need
             "Action": [
                 "iam:CreateServiceLinkedRole"
             ],
-            "Resource": "arn:aws:iam::*:role/aws-service-role/dashboard.eks.amazonaws.com/AWSServiceRoleForAmazonEKSDashboard"
+            "Resource": "{arn-aws}iam::*:role/aws-service-role/dashboard.eks.amazonaws.com/AWSServiceRoleForAmazonEKSDashboard"
         }
     ]
 }

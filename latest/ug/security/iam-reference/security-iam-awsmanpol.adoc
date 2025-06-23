@@ -409,7 +409,7 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Date
 
 | Added permission to <<security-iam-awsmanpol-AmazonEKSComputePolicy>>.
-| Updated resource permissions for the `ec2:RunInstances` and `ec2:CreateFleet` actions to include capacity reservations `arn:aws:ec2:*:*:capacity-reservation/*`. This allows Amazon EKS Auto Mode to launch instances by using the EC2 On-Demand Capacity Reservations in your account. Added `iam:CreateServiceLinkedRole` to allow Amazon EKS Auto Mode to create the EC2 Spot service-linked role `AWSServiceRoleForEC2Spot` on your behalf.
+| Updated resource permissions for the `ec2:RunInstances` and `ec2:CreateFleet` actions to include capacity reservations `{arn-aws}ec2:*:*:capacity-reservation/*`. This allows Amazon EKS Auto Mode to launch instances by using the EC2 On-Demand Capacity Reservations in your account. Added `iam:CreateServiceLinkedRole` to allow Amazon EKS Auto Mode to create the EC2 Spot service-linked role `AWSServiceRoleForEC2Spot` on your behalf.
 | June 20, 2025
 
 | Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.

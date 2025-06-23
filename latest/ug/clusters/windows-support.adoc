@@ -39,9 +39,9 @@ Before deploying Windows nodes, be aware of the following considerations.
 +
 To create an access entry for a Windows node:
 +
-[source,bash]
+[source,bash,subs="verbatim,attributes"]
 ----
-aws eks create-access-entry --cluster-name my-cluster --principal-arn arn:aws:iam::111122223333:role/<role-name> --type EC2_Windows  
+aws eks create-access-entry --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/<role-name> --type EC2_Windows  
 ----
 
 == Prerequisites 

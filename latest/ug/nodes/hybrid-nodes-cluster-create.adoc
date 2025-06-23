@@ -72,7 +72,7 @@ aws iam create-role \
 [source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy \
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSClusterPolicy \
     --role-name myAmazonEKSClusterRole
 ----
 
@@ -317,7 +317,7 @@ An example output is as follows.
 
 [source,bash,subs="verbatim,attributes"]
 ----
-Added new context arn:aws:eks:AWS_REGION:111122223333:cluster/CLUSTER_NAME to /home/username/.kube/config
+Added new context {arn-aws}eks:AWS_REGION:111122223333:cluster/CLUSTER_NAME to /home/username/.kube/config
 ----
 
 Confirm communication with your cluster by running the following command.

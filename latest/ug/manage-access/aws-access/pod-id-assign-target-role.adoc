@@ -47,7 +47,7 @@ In this step, you will establish a secure trust chain by creating and configurin
 3. Click *Edit trust policy* on the right side.
 4. In the policy editor, replace the default JSON with your trust policy. Replace the placeholder values for role name and `111122223333` in the IAM role ARN with the {aws} account ID hosting your EKS cluster. For example:
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -55,14 +55,14 @@ In this step, you will establish a secure trust chain by creating and configurin
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::111122223333:role/eks-pod-identity-primary-role"
+                "AWS": "{arn-aws}iam::111122223333:role/eks-pod-identity-primary-role"
             },
             "Action": "sts:AssumeRole"
         },
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::111122223333:role/eks-pod-identity-primary-role"
+                "AWS": "{arn-aws}iam::111122223333:role/eks-pod-identity-primary-role"
             },
             "Action": "sts:TagSession"
         }
@@ -82,7 +82,7 @@ In this step, you will update the permission policy of the link:eks/latest/userg
 6. Choose *JSON* on the right side.
 7. In the policy editor, replace the default JSON with your permission policy. Replace the placeholder value for role name and `222233334444` in the IAM role ARN with your Target IAM Role. For example:
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -93,7 +93,7 @@ In this step, you will update the permission policy of the link:eks/latest/userg
                 "sts:AssumeRole",
                 "sts:TagSession"
             ],
-            "Resource": "arn:aws:iam::222233334444:role/eks-pod-identity-aws-resources"
+            "Resource": "{arn-aws}iam::222233334444:role/eks-pod-identity-aws-resources"
         }
     ]
 }
@@ -124,7 +124,7 @@ At times, you might need to give a third party access to your {aws} resources (d
 3. Click *Edit trust policy* on the right side.
 4. In the policy editor, replace the default JSON with your trust policy. Replace the `ExternalId` placeholder value for `aws-region/other-account/cluster-name/namespace/service-account-name`, where "region" is the {aws} region of your cluster, "111122223333" is the other {aws} account ID, "cluster-name" is the EKS cluster name, "namespace" is the Kubernetes namespace, and "service-account-name" is the Kubernetes service account name. For example:
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -132,7 +132,7 @@ At times, you might need to give a third party access to your {aws} resources (d
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::111122223333:role/eks-pod-identity-primary-role"
+                "AWS": "{arn-aws}iam::111122223333:role/eks-pod-identity-primary-role"
             },
             "Action": "sts:AssumeRole",
             "Condition": {
@@ -143,7 +143,7 @@ At times, you might need to give a third party access to your {aws} resources (d
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::111122223333:role/eks-pod-identity-primary-role"
+                "AWS": "{arn-aws}iam::111122223333:role/eks-pod-identity-primary-role"
             },
             "Action": "sts:TagSession"
         }

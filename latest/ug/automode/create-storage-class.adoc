@@ -63,7 +63,7 @@ Update the following values in the policy below:
 * `<account-id>` – Your {aws} account ID, such as `111122223333`
 * `<aws-region>` – The {aws} region of your cluster, such as `us-west-2`
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -73,7 +73,7 @@ Update the following values in the policy below:
           "Sid": "Enable IAM User Permissions",
           "Effect": "Allow",
           "Principal": {
-              "AWS": "arn:aws:iam::<account-id>:root"
+              "AWS": "{arn-aws}iam::<account-id>:root"
           },
           "Action": "kms:*",
           "Resource": "*"
