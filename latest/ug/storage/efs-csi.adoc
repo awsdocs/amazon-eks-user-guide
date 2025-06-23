@@ -74,8 +74,7 @@ eksctl create podidentityassociation \
     --namespace kube-system \
     --cluster $cluster_name \
     --role-name $role_name \
-    --permission-policy-arns {arn-aws}iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
-    --approve
+    --permission-policy-arns {arn-aws}iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy
 ----
 
 [#efs-eksctl-irsa]
