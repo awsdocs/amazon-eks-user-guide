@@ -1,0 +1,64 @@
+include::../../attributes.txt[]
+
+[.topic]
+[#create-k8s-group-access-entry]
+= Create an access entry using Kubernetes groups with the {aws} CLI
+:info_titleabbrev: Tutorial: Create with Kubernetes groups
+
+Create Amazon EKS access entries that use Kubernetes groups for authorization and require manual RBAC configuration.
+
+NOTE: For most use cases, we recommend using EKS Access Policies instead of the Kubernetes groups approach described on this page. EKS Access Policies provide a simpler, more {aws}-integrated way to manage access without requiring manual RBAC configuration. Use the Kubernetes groups approach only when you need more granular control than what EKS Access Policies offer.
+
+== Overview
+
+Access entries define how IAM identities (users and roles) access your Kubernetes clusters. The Kubernetes groups approach grants IAM users or roles permission to access your EKS cluster through standard Kubernetes RBAC groups. This method requires creating and managing Kubernetes RBAC resources (Roles, RoleBindings, ClusterRoles, and ClusterRoleBindings) and is recommended when you need highly customized permission sets, complex authorization requirements, or want to maintain consistent access control patterns across hybrid Kubernetes environments.
+
+This topic does not cover creating access entries for IAM identities used for Amazon EC2 instances to join EKS clusters.
+
+== Prerequisites
+
+* The _authentication mode_ of your cluster must be configured to enable _access entries_. For more information, see <<setting-up-access-entries>>.
+* Install and configure the {aws} CLI, as described in link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
+* Familiarity with Kubernetes RBAC is recommended. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the Kubernetes documentation.
+
+[#k8s-group-s1]
+== Step 1: Define access entry
+
+. Find the ARN of the IAM identity, such as a user or role, that you want to grant permissions to.
+** Each IAM identity can have only one EKS access entry.
+. Determine which Kubernetes groups you want to associate with this IAM identity.
+** You will need to create or use existing Kubernetes `Role`/`ClusterRole` and `RoleBinding`/`ClusterRoleBinding` resources that reference these groups.
+. Determine if the auto-generated username is appropriate for the access entry, or if you need to manually specify a username.
+** {aws} auto-generates this value based on the IAM identity. You can set a custom username. This is visible in Kubernetes logs.
+** For more information, see <<set-custom-username>>.
+
+[#k8s-group-s2]
+== Step 2: Create access entry with Kubernetes groups
+
+After planning the access entry, use the {aws} CLI to create it with the appropriate Kubernetes groups.
+
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks create-access-entry --cluster-name <cluster-name> --principal-arn <iam-identity-arn> --type STANDARD --kubernetes-groups <groups>
+----
+
+Replace:
+
+* `<cluster-name>` with your EKS cluster name
+* `<iam-identity-arn>` with the ARN of the IAM user or role
+* `<groups>` with a comma-separated list of Kubernetes groups (e.g., "system:developers,system:readers")
+
+link:cli/latest/reference/eks/create-access-entry.html[View the CLI reference for all configuration options,type="documentation"].
+
+== Step 3: Configure Kubernetes RBAC
+
+For the IAM principal to have access to Kubernetes objects on your cluster, you must create and manage Kubernetes role-based access control (RBAC) objects:
+
+. Create Kubernetes `Role` or `ClusterRole` objects that define the permissions.
+. Create Kubernetes `RoleBinding` or `ClusterRoleBinding` objects on your cluster that specify the group name as a `subject` for `kind: Group`.
+
+For detailed information about configuring groups and permissions in Kubernetes, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the Kubernetes documentation.
+
+== Next steps
+
+* xref:create-kubeconfig[Create a kubeconfig so you can use kubectl with an IAM identity]
