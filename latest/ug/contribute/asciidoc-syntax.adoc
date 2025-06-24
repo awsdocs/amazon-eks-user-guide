@@ -90,11 +90,11 @@ Use the `kubectl get pods` command to list all pods.
 
 === Code blocks
 
-Create code blocks with syntax highlighting:
+Create code blocks with syntax highlighting and support for attributes (similar to entities):
 
 [source,asciidoc]
 ----
- [source,python]
+ [source,python,subs="verbatim,attributes"]
  ----
  def hello_world():
      print("Hello, World!")
@@ -159,13 +159,23 @@ Include content from other files:
  include::filename.adoc[]
 ----
 
-== Attributes
+== Attributes (similar to entities)
 
-Use predefined attributes to maintain consistency. In particular, you MUST use an attribute for `{AWS}`.
+Use predefined attributes to maintain consistency. In particular, you MUST use attributes for {aws} and `{arn-aws}`.
 
 [source,asciidoc]
 ----
 {aws} provides Amazon EKS as a managed Kubernetes service.
+----
+
+[source,asciidoc]
+----
+ [source,bash,subs="verbatim,attributes"]
+ ----
+ aws iam attach-role-policy \
+     --role-name AmazonEKSAutoClusterRole \
+     --policy-arn {arn-aws}iam::aws:policy/AmazonEKSClusterPolicy
+ ----
 ----
 
 For a list of attributes, look in the `../attributes.txt` file.
