@@ -371,7 +371,7 @@ aws ec2 associate-route-table --route-table-id [.replaceable]`RT_ID` --subnet-id
 [#hybrid-nodes-networking-cluster-sg]
 == Cluster security group configuration
 
-The following access for your EKS cluster security group is required for ongoing cluster operations. 
+The following access for your EKS cluster security group is required for ongoing cluster operations. Amazon EKS automatically creates the required *ingress* security group rules for hybrid nodes when you create or update your cluster with remote node and pod networks configured. 
 
 [%header,cols="7"]
 |===
@@ -416,7 +416,15 @@ The following access for your EKS cluster security group is required for ongoing
 |Kubernetes API server to webhook (if running webhooks on hybrid nodes)
 |===
 
-To create a security group with the inbound access rules, run the following commands. This security group must be passed when you create your Amazon EKS cluster. By default, the command below creates a security group that allows all outbound access. You can restrict outbound access to include only the rules above. If you're considering limiting the outbound rules, we recommend that you thoroughly test all of your applications and pod connectivity before you apply your changed rules to a production cluster.
+[IMPORTANT]
+* **Security group rule limits**: Amazon EC2 security groups have a maximum of 60 ingress rules by default. The security group ingress rules may not apply if your cluster security group approaches this limit. In this case, it may be required to manually add in the missing ingress rules.
+* **CIDR cleanup responsibility**: If you remove remote node or pod networks from EKS clusters, EKS does not automatically remove the corresponding security group rules. You are responsible for manually removing unused remote node or pod networks from your security group rules.
+
+For more information about the cluster security group that Amazon EKS creates, see <<sec-group-reqs>>.
+
+=== Manual security group configuration (if needed)
+
+If you need to create additional security groups or modify the automatically created rules, you can use the following commands as reference. By default, the command below creates a security group that allows all outbound access. You can restrict outbound access to include only the rules above. If you're considering limiting the outbound rules, we recommend that you thoroughly test all of your applications and pod connectivity before you apply your changed rules to a production cluster.
 
 * In the first command, replace `SG_NAME` with a name for your security group
 * In the first command, replace `VPC_ID` with the ID of the VPC you created in the previous step
