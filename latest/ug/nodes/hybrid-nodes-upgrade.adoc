@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Upgrade Kubernetes versions on hybrid nodes
 --
 
-The guidance for upgrading hybrid nodes is similar to self-managed Amazon EKS nodes that run in Amazon EC2. It is recommended to can create new hybrid nodes on your target Kubernetes version, gracefully migrate your existing applications to the hybrid nodes on the new Kubernetes version, and remove the hybrid nodes on the old Kubernetes version from your cluster. Be sure to review the link:eks/latest/best-practices/cluster-upgrades.html[Amazon EKS Best Practices,type="documentation"] for upgrades before initiating an upgrade. Amazon EKS Hybrid Nodes have the same <<kubernetes-versions,Kubernetes version support>> for Amazon EKS clusters with cloud nodes, including standard and extended support. 
+The guidance for upgrading hybrid nodes is similar to self-managed Amazon EKS nodes that run in Amazon EC2. We recommend that you create new hybrid nodes on your target Kubernetes version, gracefully migrate your existing applications to the hybrid nodes on the new Kubernetes version, and remove the hybrid nodes on the old Kubernetes version from your cluster. Be sure to review the link:eks/latest/best-practices/cluster-upgrades.html[Amazon EKS Best Practices,type="documentation"] for upgrades before initiating an upgrade. Amazon EKS Hybrid Nodes have the same <<kubernetes-versions,Kubernetes version support>> for Amazon EKS clusters with cloud nodes, including standard and extended support. 
 
 Amazon EKS Hybrid Nodes follow the same https://kubernetes.io/releases/version-skew-policy/#supported-version-skew[version skew policy] for nodes as upstream Kubernetes. Amazon EKS Hybrid Nodes cannot be on a newer version than the Amazon EKS control plane, and hybrid nodes may be up to three Kubernetes minor versions older than the Amazon EKS control plane minor version.
 
@@ -57,7 +57,7 @@ do
     kubectl cordon $node
 done
 ----
-. If your current deployment is running fewer than two CoreDNS replicas on your hybrid nodes, scale out the deployment to at least two replicas. It is recommended to run at least two CoreDNS replicas on hybrid nodes for resiliency during normal operations.
+. If your current deployment is running fewer than two CoreDNS replicas on your hybrid nodes, scale out the deployment to at least two replicas. We recommend that you run at least two CoreDNS replicas on hybrid nodes for resiliency during normal operations.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
