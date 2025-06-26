@@ -381,7 +381,7 @@ You can't attach this policy to your IAM entities. When you create a cluster usi
 The `AmazonEKSLocalOutpostServiceRolePolicy` includes the following permissions:
 
 * *`ec2`* – Allows Amazon EKS to work with security, network, and other resources to successfully launch and manage control plane instances in your account.
-* *`ssm`* – Allows Amazon EC2 Systems Manager connection to the control plane instances, which is used by Amazon EKS to communicate and manage the local cluster in your account.
+* *`ssm`, `ssmmessages`* – Allows Amazon EC2 Systems Manager connection to the control plane instances, which is used by Amazon EKS to communicate and manage the local cluster in your account.
 * *`iam`* – Allows Amazon EKS to manage the instance profile associated with the control plane instances.
 * *`secretsmanager`* - Allows Amazon EKS to put bootstrap data for the control plane instances into {aws} Secrets Manager so it can be securely referenced during instance bootstrapping.
 * *`outposts`* – Allows Amazon EKS to get Outpost information from your account to successfully launch a local cluster in an Outpost.
@@ -407,6 +407,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Change
 |Description
 |Date
+
+|Added permission to <<security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy>>
+|Added `ssmmessages:OpenDataChannel` permission to `AmazonEKSLocalOutpostServiceRolePolicy`.
+|June 26, 2025
 
 | Added permission to <<security-iam-awsmanpol-AmazonEKSComputePolicy>>.
 | Updated resource permissions for the `ec2:RunInstances` and `ec2:CreateFleet` actions to include capacity reservations `{arn-aws}ec2:*:*:capacity-reservation/*`. This allows Amazon EKS Auto Mode to launch instances by using the EC2 On-Demand Capacity Reservations in your account. Added `iam:CreateServiceLinkedRole` to allow Amazon EKS Auto Mode to create the EC2 Spot service-linked role `AWSServiceRoleForEC2Spot` on your behalf.

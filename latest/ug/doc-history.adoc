@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-06-26"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `ssmmessages:OpenDataChannel` permission to `AmazonEKSLocalOutpostServiceRolePolicy`.
+
 [.update,date="2025-06-20"]
 === {aws} managed policy updates
 [.update-ulink]
