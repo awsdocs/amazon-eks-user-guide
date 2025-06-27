@@ -166,7 +166,7 @@ metadata:
   namespace: kube-system
 ----
 
-[#hybrid-nodes-concepts-k8s-pod-cidrs]]
+[#hybrid-nodes-concepts-k8s-pod-cidrs]
 == Routable remote Pod CIDRs
 
 The <<hybrid-nodes-concepts-networking>> page details the requirements to run webhooks on hybrid nodes or to have pods running on cloud nodes communicate with pods running on hybrid nodes. The key requirement is that the on-premises router needs to know which node is responsible for a particular pod IP. There are several ways to achieve this, including Border Gateway Protocol (BGP), static routes, and Address Resolution Protocol (ARP) proxying. These are covered in the following sections.

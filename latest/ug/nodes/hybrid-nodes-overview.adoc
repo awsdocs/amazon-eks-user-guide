@@ -12,7 +12,7 @@ Join nodes from your data centers to Amazon EKS Kubernetes clusters with Amazon 
 
 With _Amazon EKS Hybrid Nodes_, you can use your on-premises and edge infrastructure as nodes in Amazon EKS clusters. {aws} manages the {aws}-hosted Kubernetes control plane of the Amazon EKS cluster, and you manage the hybrid nodes that run in your on-premises or edge environments. This unifies Kubernetes management across your environments and offloads Kubernetes control plane management to {aws} for your on-premises and edge applications.
 
-Amazon EKS Hybrid Nodes works with any on-premises hardware or virtual machines, bringing the efficiency, scalability, and availability of Amazon EKS to wherever your applications need to run. You can use a wide range of Amazon EKS features with Amazon EKS Hybrid Nodes including Amazon EKS add-ons, Amazon EKS Pod Identity, cluster access entries, cluster insights, and extended Kubernetes version support. Amazon EKS Hybrid Nodes natively integrates with {aws} services including {aws} Systems Manager, {aws} IAM Roles Anywhere, Amazon Managed Service for Prometheus, Amazon CloudWatch, and Amazon GuardDuty for centralized monitoring, logging, and identity management.
+Amazon EKS Hybrid Nodes works with any on-premises hardware or virtual machines, bringing the efficiency, scalability, and availability of Amazon EKS to wherever your applications need to run. You can use a wide range of Amazon EKS features with Amazon EKS Hybrid Nodes including Amazon EKS add-ons, Amazon EKS Pod Identity, cluster access entries, cluster insights, and extended Kubernetes version support. Amazon EKS Hybrid Nodes natively integrates with {aws} services including {aws} Systems Manager, {aws} IAM Roles Anywhere, Amazon Managed Service for Prometheus, and Amazon CloudWatch for centralized monitoring, logging, and identity management.
 
 With Amazon EKS Hybrid Nodes, there are no upfront commitments or minimum fees, and you are charged per hour for the vCPU resources of your hybrid nodes when they are attached to your Amazon EKS clusters. For more pricing information, see link:eks/pricing/[Amazon EKS Pricing,type="marketing"].
 
@@ -35,10 +35,17 @@ EKS Hybrid Nodes has the following high-level features:
 
 * EKS Hybrid Nodes can be used with new or existing EKS clusters.
 * EKS Hybrid Nodes is available in all {aws} Regions, except the {aws} GovCloud (US) Regions and the {aws} China Regions.
-* EKS Hybrid Nodes must have a reliable connection between your on-premises environment and {aws}. EKS Hybrid Nodes is not a fit for disconnected, disrupted, intermittent or limited (DDIL) environments. If you are running in a DDIL environment, consider link:eks/eks-anywhere/[Amazon EKS Anywhere,type="marketing"].
+* EKS Hybrid Nodes must have a reliable connection between your on-premises environment and {aws}. EKS Hybrid Nodes is not a fit for disconnected, disrupted, intermittent or limited (DDIL) environments. If you are running in a DDIL environment, consider link:eks/eks-anywhere/[Amazon EKS Anywhere,type="marketing"]. Reference the link:eks/latest/best-practices/hybrid-nodes-network-disconnections.html[Best Practices for EKS Hybrid Nodes,type="documentation"] for information on how hybrid nodes behave during network disconnection scenarios.
 * Running EKS Hybrid Nodes on cloud infrastructure, including {aws} Regions, {aws} Local Zones, {aws} Outposts, or in other clouds, is not supported. You will be charged the hybrid nodes fee if you run hybrid nodes on Amazon EC2 instances.
 * Billing for hybrid nodes starts when the nodes join the EKS cluster and stops when the nodes are removed from the cluster. Be sure to remove your hybrid nodes from your EKS cluster if you are not using them.
 
+[#hybrid-nodes-resources]
+== Additional resources
+
+* link:https://www.eksworkshop.com/docs/networking/eks-hybrid-nodes/[**EKS Hybrid Nodes workshop**]: Step-by-step instructions for deploying EKS Hybrid Nodes in a demo environment.
+* link:https://www.youtube.com/watch?v=ZxC7SkemxvU[**{aws} re:Invent: EKS Hybrid Nodes**]: {aws} re:Invent session introducing the EKS Hybrid Nodes launch with a customer showing how they are using EKS Hybrid Nodes in their environment.
+* link:https://repost.aws/articles/ARL44xuau6TG2t-JoJ3mJ5Mw/unpacking-the-cluster-networking-for-amazon-eks-hybrid-nodes[**{aws} re:Post: Cluster networking for EKS Hybrid Nodes**]: Article explaining various methods for setting up networking for EKS Hybrid Nodes.
+* link:https://aws.amazon.com/blogs/containers/run-genai-inference-across-environments-with-amazon-eks-hybrid-nodes/[**{aws} blog: Run GenAI inference across environments with EKS Hybrid Nodes**]: Blog post showing how to run GenAI inference across environments with EKS Hybrid Nodes.
 
 include::hybrid-nodes-prereqs.adoc[leveloffset=+1]
 

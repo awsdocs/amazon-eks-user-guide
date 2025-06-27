@@ -77,7 +77,7 @@ The sections that follow describe differences between running compatible {aws} a
 [#hybrid-nodes-add-ons-core]
 == kube-proxy and CoreDNS
 
-EKS installs kube-proxy and CoreDNS as self-managed add-ons by default when you create an EKS cluster with the {aws} API and {aws} SDKs, including from the {aws} CLI. You can overwrite these add-ons with Amazon EKS add-ons after cluster creation. Reference the EKS documentation for details on <<managing-kube-proxy>> and <<managing-coredns>>.  If you are running a mixed mode cluster with both hybrid nodes and nodes in {aws} Cloud, it is recommended to have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud. See <<hybrid-nodes-mixed-coredns>> for configuration steps.
+EKS installs kube-proxy and CoreDNS as self-managed add-ons by default when you create an EKS cluster with the {aws} API and {aws} SDKs, including from the {aws} CLI. You can overwrite these add-ons with Amazon EKS add-ons after cluster creation. Reference the EKS documentation for details on <<managing-kube-proxy>> and <<managing-coredns>>.  If you are running a mixed mode cluster with both hybrid nodes and nodes in {aws} Cloud, we recommend that you have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud. See <<hybrid-nodes-mixed-coredns>> for configuration steps.
 
 [#hybrid-nodes-add-ons-cw]
 == CloudWatch Observability agent
