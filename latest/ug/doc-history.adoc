@@ -20,6 +20,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 == Updates
 
 [.update,date="2025-06-26"]
+=== Amazon EKS platform version update
+[.update-ulink]
+link:eks/latest/userguide/platform-versions.html[type="documentation"]
+
+This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform version.
+
+[.update,date="2025-06-26"]
 === {aws} managed policy updates
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]

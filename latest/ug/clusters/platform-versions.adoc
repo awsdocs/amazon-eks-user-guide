@@ -51,6 +51,11 @@ The following admission controllers are enabled for all `1.33` platform versions
 | Release date
 
 | `1.33.1`
+| `eks.6`
+| New platform version with security fixes and enhancements.
+| June 26, 2025
+
+| `1.33.1`
 | `eks.5`
 | New platform version with security fixes and enhancements.
 | June 11, 2025
@@ -74,6 +79,11 @@ The following admission controllers are enabled for all `1.32` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.32.5`
+| `eks.13`
+| New platform version with security fixes and enhancements.
+| June 26, 2025
 
 | `1.32.5`
 | `eks.12`
@@ -143,6 +153,11 @@ The following admission controllers are enabled for all `1.31` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.31.9`
+| `eks.29`
+| New platform version with security fixes and enhancements.
+|June 26, 2025
 
 | `1.31.9`
 | `eks.28`
@@ -233,6 +248,11 @@ The following admission controllers are enabled for all `1.30` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.30.13`
+| `eks.37`
+| New platform version with security fixes and enhancements.
+| June 26, 2025
 
 | `1.30.13`
 | `eks.36`
@@ -357,6 +377,11 @@ The following admission controllers are enabled for all `1.29` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.29.15`
+| `eks.40`
+| New platform version with security fixes and enhancements.
+| June 26, 2025
 
 | `1.29.15`
 | `eks.39`
@@ -511,6 +536,11 @@ The following admission controllers are enabled for all `1.28` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.28.15`
+| `eks.46`
+| New platform version with security fixes and enhancements.
+| June 26, 2025
 
 | `1.28.15`
 | `eks.45`
@@ -689,6 +719,11 @@ The following admission controllers are enabled for all `1.27` platform versions
 | EKS platform version
 | Release notes
 | Release date
+
+| `1.27.16`
+| `eks.50`
+| New platform version with security fixes and enhancements.
+| June 26, 2025
 
 | `1.27.16`
 | `eks.49`
