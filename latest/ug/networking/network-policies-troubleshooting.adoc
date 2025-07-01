@@ -492,7 +492,7 @@ If there aren't `policyendpoint` objects in the namespaces, the network policy c
 
 *Issue*: When using the Security Groups for Pods feature in EKS, there is increased pod startup latency.
 
-*Solution*: The latency is due to rate limiting in the resource controller from API throttling on the `CreateNetworkInterface` API, which the VPC resource controller uses to create branch ENIs for the pods. Check your account's API limits for this operation and consider requesting a limit increase if needed. HyperPod should consider running its own managed controller like the Node and Certificate controllers.
+*Solution*: The latency is due to rate limiting in the resource controller from API throttling on the `CreateNetworkInterface` API, which the VPC resource controller uses to create branch ENIs for the pods. Check your account's API limits for this operation and consider requesting a limit increase if needed.
 
 [#network-policies-troubleshooting-insufficient-pod-eni]
 === FailedScheduling due to insufficient vpc.amazonaws.com/pod-eni

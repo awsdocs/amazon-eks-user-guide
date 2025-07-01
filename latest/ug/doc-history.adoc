@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-06-30"]
+=== VPC CNI troubleshooting content update
+[.update-ulink]
+link:eks/latest/userguide/network-policies-troubleshooting.html[type="documentation"]
+
+Expanded the troubleshooting page for Kubernetes _network policy_ in the VPC CNI. Added the CRDs and RBAC permissions, and 12 known issues.
+
 [.update,date="2025-06-26"]
 === Amazon EKS platform version update
 [.update-ulink]
