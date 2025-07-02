@@ -213,6 +213,39 @@ External DNS permissions can be reduced to `route53:ChangeResourceRecordSets`, `
 |===
 
 
+
+=== Fluent Bit
+
+Fluent Bit is a lightweight and high-performance log processor and forwarder. It allows you to collect data/logs from different sources, unify them, and send them to multiple destinations including Amazon CloudWatch Logs, Amazon S3, and Amazon Kinesis Data Firehose. Fluent Bit is designed with performance and resource efficiency in mind, making it ideal for Kubernetes environments.
+
+[%header,cols="2"]
+|===
+|Property
+|Value
+
+
+|Add-on name
+|`fluent-bit`
+
+|Namespace
+|`fluent-bit`
+
+|Documentation
+|https://docs.fluentbit.io/manual/[Fluent Bit Documentation]
+
+|Service account name
+|fluent-bit
+
+|Managed IAM policy
+|`{arn-aws}iam::aws:policy/CloudWatchLogsFullAccess`
+
+|Custom IAM permissions
+|None
+
+|===
+
+
+
 == View Attributions
 
 You can download the open source attributions and license information for community add-ons.
@@ -233,4 +266,4 @@ curl -O https://amazon-eks-docs.s3.amazonaws.com/attributions/kube-state-metrics
 ----
 . Use the command to download the file. 
 
-Use this zip file to view information about the license attributions. 
+Use this zip file to view information about the license attributions.
