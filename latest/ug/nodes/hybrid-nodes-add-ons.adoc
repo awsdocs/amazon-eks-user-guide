@@ -77,7 +77,7 @@ The sections that follow describe differences between running compatible {aws} a
 [#hybrid-nodes-add-ons-core]
 == kube-proxy and CoreDNS
 
-EKS installs kube-proxy and CoreDNS as self-managed add-ons by default when you create an EKS cluster with the {aws} API and {aws} SDKs, including from the {aws} CLI. You can overwrite these add-ons with Amazon EKS add-ons after cluster creation. Reference the EKS documentation for details on <<managing-kube-proxy>> and <<managing-coredns>>.  If you are running a mixed mode cluster with both hybrid nodes and nodes in {aws} Cloud, we recommend that you have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud. See <<hybrid-nodes-mixed-coredns>> for configuration steps.
+EKS installs kube-proxy and CoreDNS as self-managed add-ons by default when you create an EKS cluster with the {aws} API and {aws} SDKs, including from the {aws} CLI. You can overwrite these add-ons with Amazon EKS add-ons after cluster creation. Reference the EKS documentation for details on <<managing-kube-proxy>> and <<managing-coredns>>.  If you are running a mixed mode cluster with both hybrid nodes and nodes in {aws} Cloud, it is recommended to have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud. See <<hybrid-nodes-mixed-coredns>> for configuration steps.
 
 [#hybrid-nodes-add-ons-cw]
 == CloudWatch Observability agent
@@ -132,17 +132,17 @@ Follow the steps in https://aws-otel.github.io/docs/getting-started/adot-eks-add
 [#hybrid-nodes-add-ons-lbc]
 == {aws} Load Balancer Controller
 
-You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) or Network Load Balancer (NLB) with the target type ip for workloads on hybrid nodes connected with {aws} Direct Connect or {aws} Site-to-Site VPN. The IP target(s) used with the ALB or NLB must be routable from {aws}. The {aws} Load Balancer controller also uses https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks]. If you run the {aws} Load Balancer Controller operator on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network and you must configure your EKS cluster with your remote pod network. For more information, see <<hybrid-nodes-webhooks, Configure webhooks for hybrid nodes>>.
+You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) or Network Load Balancer (NLB) with the target type `ip` for workloads on hybrid nodes The IP target(s) used with the ALB or NLB must be routable from {aws}. The {aws} Load Balancer controller also uses https://kubernetes.io/docs/reference/access-authn-authz/webhook/[webhooks]. If you run the {aws} Load Balancer Controller operator on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network and you must configure your EKS cluster with your remote pod network. For more information, see <<hybrid-nodes-webhooks, Configure webhooks for hybrid nodes>>.
 
-To install the {aws} Load Balancer Controller, follow the steps at <<lbc-helm>> or <<lbc-manifest>>.
+To install the {aws} Load Balancer Controller, follow the steps at <<hybrid-nodes-ingress-alb>> or <<hybrid-nodes-service-lb-nlb>>.
 
-For ingress with ALB, you must specify the annotations below. See <<alb-ingress>> for instructions.
+For ingress with ALB, you must specify the annotations below. See <<alb-ingress>> for more information.
 [source,yaml,subs="verbatim,attributes"]
 ----
 alb.ingress.kubernetes.io/target-type: ip
 ----
 
-For load balancing with NLB, you must specify the annotations below. See <<network-load-balancing>> for instructions.
+For load balancing with NLB, you must specify the annotations below. See <<network-load-balancing>> for more information.
 [source,yaml,subs="verbatim,attributes"]
 ----
 service.beta.kubernetes.io/aws-load-balancer-type: "external" 

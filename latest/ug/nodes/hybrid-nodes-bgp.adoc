@@ -1,0 +1,178 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-cilium-bgp]
+= Configure Cilium BGP for hybrid nodes
+:info_titleabbrev: Configure BGP
+
+[abstract]
+--
+Configure Cilium Border Gateway Protocol (BGP) for hybrid nodes
+--
+
+This topic describes how to configure Cilium Border Gateway Protocol (BGP) for Amazon EKS Hybrid Nodes. Cilium's BGP functionality is called link:https://docs.cilium.io/en/stable/network/bgp-control-plane/bgp-control-plane/[Cilium BGP Control Plane] and can be used to advertise pod and service addresses to your on-premises network. For alternative methods to make pod CIDRs routable on your on-premises network, see <<hybrid-nodes-concepts-k8s-pod-cidrs>>.
+
+[#hybrid-nodes-cilium-bgp-configure]
+== Configure Cilium BGP
+
+=== Prerequisites
+
+- Cilium installed following the instructions in <<hybrid-nodes-cni>>.
+
+=== Procedure
+
+. To use BGP with Cilium to advertise pod or service addresses with your on-premises network, Cilium must be installed with `bgpControlPlane.enabled: true`. If you are enabling BGP for an existing Cilium deployment, you must restart the Cilium operator to apply the BGP configuration if BGP was not previously enabled. You can set `operator.rollOutPods` to `true` in your Helm values to restart the Cilium operator as part of the Helm install/upgrade process.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+helm upgrade cilium cilium/cilium \
+  --namespace kube-system \
+  --reuse-values \
+  --set operator.rollOutPods=true \
+  --set bgpControlPlane.enabled=true
+----
++
+. Confirm that the Cilium operator and agents were restarted and are running.
++
+[source,bash]
+----
+kubectl -n kube-system get pods --selector=app.kubernetes.io/part-of=cilium
+----
++
+[source,bash]
+----
+NAME                               READY   STATUS    RESTARTS   AGE
+cilium-grwlc                       1/1     Running   0          4m12s
+cilium-operator-68f7766967-5nnbl   1/1     Running   0          4m20s
+cilium-operator-68f7766967-7spfz   1/1     Running   0          4m20s
+cilium-pnxcv                       1/1     Running   0          6m29s
+cilium-r7qkj                       1/1     Running   0          4m12s
+cilium-wxhfn                       1/1     Running   0          4m1s
+cilium-z7hlb                       1/1     Running   0          6m30s
+----
+
+. Create a file called `cilium-bgp-cluster.yaml` with a `CiliumBGPClusterConfig` definition. You may need to obtain the following information from your network administrator.
++
+- Configure `localASN` with the ASN for the nodes running Cilium. 
+- Configure `peerASN` with the ASN for your on-premises router. 
+- Configure the `peerAddress` with the on-premises router IP that each node running Cilium will peer with. 
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPClusterConfig
+metadata:
+  name: cilium-bgp
+spec:
+  nodeSelector:
+    matchExpressions:
+    - key: eks.amazonaws.com/compute-type
+      operator: In
+      values:
+      - hybrid
+  bgpInstances:
+  - name: "rack0"
+    localASN: [.replaceable]`NODES_ASN`
+    peers: 
+    - name: "onprem-router"
+      peerASN: [.replaceable]`ONPREM_ROUTER_ASN`
+      peerAddress: [.replaceable]`ONPREM_ROUTER_IP`
+      peerConfigRef:
+        name: "cilium-peer"
+----
++
+. Apply the Cilium BGP cluster configuration to your cluster.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f cilium-bgp-cluster.yaml
+----
++
+. The `CiliumBGPPeerConfig` resource defines a BGP peer configuration. Multiple peers can share the same configuration and provide reference to the common `CiliumBGPPeerConfig` resource. Create a file named `cilium-bgp-peer.yaml` to configure the peer configuration for your on-premises network. See the https://docs.cilium.io/en/latest/network/bgp-control-plane/bgp-control-plane-v2/#bgp-peer-configuration[BGP Peer configuration] in the Cilium documentation for a full list of configuration options.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeerConfig
+metadata:
+  name: cilium-peer
+spec:
+  timers:
+    holdTimeSeconds: 30
+    keepAliveTimeSeconds: 10
+  gracefulRestart:
+    enabled: true
+    restartTimeSeconds: 120
+  families:
+    - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:
+          advertise: "bgp"
+----
+
+. Apply the Cilium BGP peer configuration to your cluster.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f cilium-bgp-peer.yaml
+----
+
+. Create a file named `cilium-bgp-advertisement.yaml` with a `CiliumBGPAdvertisement` resource to advertise the pod CIDRs to your on-premises network. 
++
+- The `CiliumBGPAdvertisement` resource is used to define advertisement types and attributes associated with them. The example below configures Cilium to advertise only pod CIDRs. See the examples in <<hybrid-nodes-ingress-cilium-loadbalancer>> and <<hybrid-nodes-service-lb-cilium>> for more information on configuring Cilium to advertise service addresses. 
+- Each hybrid node running the Cilium agent peers with the upstream BGP-enabled router. Each node advertises the pod CIDR range that it owns when Cilium’s `advertisementType` is set to `PodCIDR` like in the example below. See the link:https://docs.cilium.io/en/stable/network/bgp-control-plane/bgp-control-plane-v2/#bgp-advertisements[BGP Advertisements configuration] in the Cilium documentation for more information.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPAdvertisement
+metadata:
+  name: bgp-advertisement-pods
+  labels:
+    advertise: bgp
+spec:
+  advertisements:
+    - advertisementType: "PodCIDR"
+----
+
+. Apply the Cilium BGP Advertisement configuration to your cluster.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f cilium-bgp-advertisement.yaml
+----
++
+. You can confirm the BGP peering worked with the https://docs.cilium.io/en/stable/gettingstarted/k8s-install-default/#install-the-cilium-cli[Cilium CLI] by using the `cilium bgp peers` command. You should see the correct values in the output for your environment and the Session State as `established`. See the https://docs.cilium.io/en/latest/network/bgp-control-plane/bgp-control-plane/#troubleshooting-and-operation-guide[Troubleshooting and Operations Guide] in the Cilium documentation for more information on troubleshooting.
++
+In the examples below, there are five hybrid nodes running the Cilium agent and each node is advertising the Pod CIDR range that it owns.
++
+[source,bash]
+----
+cilium bgp peers
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+Node                   Local AS    Peer AS               Peer Address        Session State   Uptime     Family         Received   Advertised
+mi-026d6a261e355fba7   [.replaceable]`NODES_ASN`   [.replaceable]`ONPREM_ROUTER_ASN`     [.replaceable]`ONPREM_ROUTER_IP`    established     1h18m58s   ipv4/unicast   1          2    
+mi-082f73826a163626e   [.replaceable]`NODES_ASN`   [.replaceable]`ONPREM_ROUTER_ASN`     [.replaceable]`ONPREM_ROUTER_IP`    established     1h19m12s   ipv4/unicast   1          2    
+mi-09183e8a3d755abf6   [.replaceable]`NODES_ASN`   [.replaceable]`ONPREM_ROUTER_ASN`     [.replaceable]`ONPREM_ROUTER_IP`    established     1h18m47s   ipv4/unicast   1          2    
+mi-0d78d815980ed202d   [.replaceable]`NODES_ASN`   [.replaceable]`ONPREM_ROUTER_ASN`     [.replaceable]`ONPREM_ROUTER_IP`    established     1h19m12s   ipv4/unicast   1          2    
+mi-0daa253999fe92daa   [.replaceable]`NODES_ASN`   [.replaceable]`ONPREM_ROUTER_ASN`     [.replaceable]`ONPREM_ROUTER_IP`    established     1h18m58s   ipv4/unicast   1          2    
+----
++
+[source,bash]
+----
+cilium bgp routes
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+Node                   VRouter       Prefix           NextHop   Age         Attrs
+mi-026d6a261e355fba7   [.replaceable]`NODES_ASN`     10.86.2.0/26     0.0.0.0   1h16m46s   [{Origin: i} {Nexthop: 0.0.0.0}]   
+mi-082f73826a163626e   [.replaceable]`NODES_ASN`     10.86.2.192/26   0.0.0.0   1h16m46s   [{Origin: i} {Nexthop: 0.0.0.0}]   
+mi-09183e8a3d755abf6   [.replaceable]`NODES_ASN`     10.86.2.64/26    0.0.0.0   1h16m46s   [{Origin: i} {Nexthop: 0.0.0.0}]   
+mi-0d78d815980ed202d   [.replaceable]`NODES_ASN`     10.86.2.128/26   0.0.0.0   1h16m46s   [{Origin: i} {Nexthop: 0.0.0.0}]   
+mi-0daa253999fe92daa   [.replaceable]`NODES_ASN`     10.86.3.0/26     0.0.0.0   1h16m46s   [{Origin: i} {Nexthop: 0.0.0.0}]  
+----
