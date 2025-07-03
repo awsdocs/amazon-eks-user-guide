@@ -37,10 +37,10 @@ include::hybrid-nodes-webhooks.adoc[leveloffset=+1]
 
 include::hybrid-nodes-proxy.adoc[leveloffset=+1]
 
-include::hybrid-nodes-bgp.adoc[leveloffset=+1]
+include::hybrid-nodes-cilium-bgp.adoc[leveloffset=+1]
 
 include::hybrid-nodes-ingress.adoc[leveloffset=+1]
 
 include::hybrid-nodes-load-balancing.adoc[leveloffset=+1]
 
-include::hybrid-nodes-network-policy.adoc[leveloffset=+1]
+include::hybrid-nodes-cilium-network-policy.adoc[leveloffset=+1]

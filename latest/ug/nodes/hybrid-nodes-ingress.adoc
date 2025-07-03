@@ -12,27 +12,27 @@ Configure Kubernetes Ingress for hybrid nodes
 
 This topic describes how to configure Kubernetes Ingress for workloads running on Amazon EKS Hybrid Nodes. link:https://kubernetes.io/docs/concepts/services-networking/ingress/[Kubernetes Ingress] exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. To make use of Ingress resources, a Kubernetes Ingress controller is required to set up the networking infrastructure and components that serve the network traffic.
 
-{aws} supports AWS Application Load Balancer (ALB) and Cilium for Kubernetes Ingress for workloads running on EKS Hybrid Nodes. The decision to use ALB or Cilium for Ingress is based on the source of application traffic. If application traffic originates from an AWS Region, we recommend using AWS ALB and the AWS Load Balancer Controller. If application traffic originates from the local on-premises or edge environment, we recommend using Cilium's built-in Ingress capabilities, which can be used with or without load balancer infrastructure in your environment.
+{aws} supports {AWS} Application Load Balancer (ALB) and Cilium for Kubernetes Ingress for workloads running on EKS Hybrid Nodes. The decision to use ALB or Cilium for Ingress is based on the source of application traffic. If application traffic originates from an {AWS} Region, we recommend using {AWS} ALB and the {AWS} Load Balancer Controller. If application traffic originates from the local on-premises or edge environment, we recommend using Cilium's built-in Ingress capabilities, which can be used with or without load balancer infrastructure in your environment.
 
-image::images/EKS-Hybrid-Nodes-ingress.png[EKS Hybrid Nodes Ingress,scaledwidth=50%,align="center"]
+image::images/hybrid-nodes-ingress.png[EKS Hybrid Nodes Ingress,scaledwidth=50%,align="center"]
 
 [#hybrid-nodes-ingress-alb]
-== AWS Application Load Balancer
+== {AWS} Application Load Balancer
 
-You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) with the target type `ip` for workloads running on hybrid nodes. When using target type `ip`, ALB forwards traffic directly to the pods, bypassing the Service layer network path. For ALB to reach the pod IP targets on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network. Additionally, the AWS Load Balancer Controller uses webhooks and requires direct communication from the EKS control plane. For more information, see <<hybrid-nodes-webhooks>>.
+You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) with the target type `ip` for workloads running on hybrid nodes. When using target type `ip`, ALB forwards traffic directly to the pods, bypassing the Service layer network path. For ALB to reach the pod IP targets on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network. Additionally, the {AWS} Load Balancer Controller uses webhooks and requires direct communication from the EKS control plane. For more information, see <<hybrid-nodes-webhooks>>.
 
 === Prerequisites
 
 - Cilium installed following the instructions in <<hybrid-nodes-cni>>.
-- Cilium BGP Control Plane enabled following the instructions in <<hybrid-nodes-cni-bgp-control-plane>>. If you do not want to use BGP, you must use an alternative method to make your on-premises pod CIDRs routable on your on-premises network. If you do not make your on-premises pod CIDRs routable, ALB will not be able to register or contact your pod IP targets.
-- See <<alb-ingress>>, <<lbc-helm>>, and link:eks/latest/best-practices/load-balacing.html[Best Practices for Load Balancing,type="documentation"] for additional information about AWS Application Load Balancer and AWS Load Balancer Controller.
-- See link:https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/annotations/[AWS Load Balancer Controller Ingress annotations] for the list of annotations that can be configured for Ingress resources with AWS Application Load Balancer.
+- Cilium BGP Control Plane enabled following the instructions in <<hybrid-nodes-cilium-bgp>>. If you do not want to use BGP, you must use an alternative method to make your on-premises pod CIDRs routable on your on-premises network. If you do not make your on-premises pod CIDRs routable, ALB will not be able to register or contact your pod IP targets.
+- See <<alb-ingress>>, <<lbc-helm>>, and link:eks/latest/best-practices/load-balacing.html[Best Practices for Load Balancing,type="documentation"] for additional information about {AWS} Application Load Balancer and {AWS} Load Balancer Controller.
+- See link:https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/annotations/[{AWS} Load Balancer Controller Ingress annotations] for the list of annotations that can be configured for Ingress resources with {AWS} Application Load Balancer.
 - Helm installed in your command-line environment, see the <<helm,Setup Helm instructions>> for more information.
-- eksctl installed in your command-line environment, see the <<eksctl,Setup eksctl instructions>> for more information.
+- eksctl installed in your command-line environment, see the <<eksctl-install-update,eksctl install instructions>> for more information.
 
 === Procedure
 
-. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf.
+. Download an IAM policy for the {AWS} Load Balancer Controller that allows it to make calls to {AWS} APIs on your behalf.
 +
 [source,bash]
 ----
@@ -48,7 +48,7 @@ aws iam create-policy \
     --policy-document file://iam_policy.json
 ----
 +
-. Replace the values for cluster name, AWS Region, and AWS account ID with your settings and run the following command.
+. Replace the values for cluster name, {AWS} Region, and {AWS} account ID with your settings and run the following command.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -62,7 +62,7 @@ eksctl create iamserviceaccount \
     --approve
 ----
 +
-. Add the eks-charts Helm chart repository. AWS maintains this repository on GitHub.
+. Add the eks-charts Helm chart repository. {AWS} maintains this repository on GitHub.
 +
 [source,bash]
 ----
@@ -76,7 +76,7 @@ helm repo add eks https://aws.github.io/eks-charts
 helm repo update eks
 ----
 +
-. Install the AWS Load Balancer Controller. Replace the values for cluster name, AWS Region, VPC ID, and AWS Load Balancer Controller Helm chart version with your settings. You can find the latest version of the Helm chart by running `helm search repo eks/aws-load-balancer-controller --versions`. If you are running a mixed mode cluster with both hybrid nodes and nodes in AWS Cloud, you can run the AWS Load Balancer Controller on cloud nodes following the instructions at <<hybrid-nodes-mixed-lbc>>.
+. Install the {AWS} Load Balancer Controller. Replace the values for cluster name, {AWS} Region, VPC ID, and {AWS} Load Balancer Controller Helm chart version with your settings. You can find the latest version of the Helm chart by running `helm search repo eks/aws-load-balancer-controller --versions`. If you are running a mixed mode cluster with both hybrid nodes and nodes in {AWS} Cloud, you can run the {AWS} Load Balancer Controller on cloud nodes following the instructions at <<hybrid-nodes-mixed-lbc>>.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -90,7 +90,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   --set serviceAccount.name=aws-load-balancer-controller
 ----
 +
-. Verify the AWS Load Balancer Controller was installed successfully.
+. Verify the {AWS} Load Balancer Controller was installed successfully.
 +
 [source,bash]
 ----
@@ -432,7 +432,7 @@ spec:
 kubectl apply -f my-gateway.yaml
 ----
 +
-. Confirm the Gateway resource and corresponding Service were created. At this stage, it is expected that the `ADDRESS` field of the Gateway resource is not populated with an IP address or hostname, and that the Service of type LoadBalancer for the Gateway resource similarly does not have an IP address or hostname assigned. This is because the `service.beta.kubernetes.io/aws-load-balancer-type: "external"` annotation was set on the Gateway resource, and there is no AWS Load Balancer Controller running in the environment to provision the load balancer infrastructure.
+. Confirm the Gateway resource and corresponding Service were created. At this stage, it is expected that the `ADDRESS` field of the Gateway resource is not populated with an IP address or hostname, and that the Service of type LoadBalancer for the Gateway resource similarly does not have an IP address or hostname assigned. This is because the `service.beta.kubernetes.io/aws-load-balancer-type: "external"` annotation was set on the Gateway resource, and there is no {AWS} Load Balancer Controller running in the environment to provision the load balancer infrastructure.
 +
 [source,bash]
 ----
@@ -467,7 +467,7 @@ cilium-gateway-my-gateway   LoadBalancer   172.16.227.247   <pending>     80:309
 - With `ingressController.loadbalancerMode` set to `dedicated`, Cilium creates dedicated Services for each Ingress resource. With `ingressController.loadbalancerMode` set to `shared`, Cilium creates a shared Service of type Load Balancer for all Ingress resources in the cluster. When using the `shared` load balancer mode, the settings for the shared Service such as `labels`, `annotations`, `type`, and `loadBalancerIP` are configured in the `ingressController.service` section of the Helm values. See the link:https://github.com/cilium/cilium/blob/v1.17.5/install/kubernetes/cilium/values.yaml#L887[Cilium Helm values reference] for more information.
 - With `ingressController.default` set to `true`, Cilium is configured as the default Ingress controller for the cluster and will create Ingress entries even when the `ingressClassName` is not specified on Ingress resources.
 - Cilium Ingress can be deployed in load balancer (default), node port, or host network mode.  When Cilium is installed in host network mode, the Service of type LoadBalancer and Service of type NodePort modes are disabled. See <<hybrid-nodes-ingress-cilium-host-network>> for more information.
-- Set `ingressController.service.annotations` to `service.beta.kubernetes.io/aws-load-balancer-type: "external"` in the Helm values to prevent the legacy AWS cloud provider from creating a Classic Load Balancer for the default `cilium-ingress` Service created by the link:https://github.com/cilium/cilium/blob/main/install/kubernetes/cilium/templates/cilium-ingress-service.yaml[Cilium Helm chart].
+- Set `ingressController.service.annotations` to `service.beta.kubernetes.io/aws-load-balancer-type: "external"` in the Helm values to prevent the legacy {AWS} cloud provider from creating a Classic Load Balancer for the default `cilium-ingress` Service created by the link:https://github.com/cilium/cilium/blob/main/install/kubernetes/cilium/templates/cilium-ingress-service.yaml[Cilium Helm chart].
 
 === Prerequisites
 
@@ -558,7 +558,7 @@ Cilium Ingress is enabled on Ingress objects by setting the `ingressClassName` t
 `NodePort`: The Service will be of type NodePort.
 
 |`service.beta.kubernetes.io/aws-load-balancer-type`
-| `"external"`: Prevent legacy AWS cloud provider from provisioning Classic Load Balancer for Services of type LoadBalancer.
+| `"external"`: Prevent legacy {AWS} cloud provider from provisioning Classic Load Balancer for Services of type LoadBalancer.
 
 |`lbipam.cilium.io/ips`
 | List of IP addresses to allocate from Cilium LoadBalancer IPAM
@@ -644,7 +644,7 @@ spec:
 kubectl apply -f my-ingress.yaml
 ----
 +
-. Confirm the Ingress resource and corresponding Service were created. At this stage, it is expected that the `ADDRESS` field of the Ingress resource is not populated with an IP address or hostname, and that the shared or dedicated Service of type LoadBalancer for the Ingress resource similarly does not have an IP address or hostname assigned. This is because the `service.beta.kubernetes.io/aws-load-balancer-type: "external"` annotation was set on the Ingress resource, and there is no AWS Load Balancer Controller running in the environment to provision the load balancer infrastructure.
+. Confirm the Ingress resource and corresponding Service were created. At this stage, it is expected that the `ADDRESS` field of the Ingress resource is not populated with an IP address or hostname, and that the shared or dedicated Service of type LoadBalancer for the Ingress resource similarly does not have an IP address or hostname assigned. This is because the `service.beta.kubernetes.io/aws-load-balancer-type: "external"` annotation was set on the Ingress resource, and there is no {AWS} Load Balancer Controller running in the environment to provision the load balancer infrastructure.
 +
 [source,bash]
 ----
@@ -696,7 +696,7 @@ Many Ingress and Gateway controllers use annotations to detect and configure the
 
 [IMPORTANT]
 ====
-Cilium Ingress and Gateway cannot be used with the AWS Load Balancer Controller and AWS Network Load Balancers (NLBs) with EKS Hybrid Nodes. Attempting to use these together results in unregistered targets, as the NLB attempts to directly connect to the Pod IPs that back the Service of type LoadBalancer when the NLB's `target-type` is set to `ip` (requirement for using NLB with workloads running on EKS Hybrid Nodes).
+Cilium Ingress and Gateway cannot be used with the {AWS} Load Balancer Controller and {AWS} Network Load Balancers (NLBs) with EKS Hybrid Nodes. Attempting to use these together results in unregistered targets, as the NLB attempts to directly connect to the Pod IPs that back the Service of type LoadBalancer when the NLB's `target-type` is set to `ip` (requirement for using NLB with workloads running on EKS Hybrid Nodes).
 ====
 
 === No load balancer infrastructure
@@ -709,7 +709,7 @@ The example below shows how to configure Cilium's LB IPAM with an IP address to 
 
 - Cilium Ingress or Gateway installed following the instructions in <<hybrid-nodes-ingress-cilium-ingress-install>> or <<hybrid-nodes-ingress-cilium-gateway-install>>.
 - Cilium Ingress or Gateway resources with sample application deployed following the instructions in <<hybrid-nodes-ingress-cilium-ingress-deploy>> or <<hybrid-nodes-ingress-cilium-gateway-deploy>>.
-- Cilium BGP Control Plane enabled following the instructions in <<hybrid-nodes-cni-bgp-control-plane>>. If you do not want to use BGP, you can skip this prerequisite, but you will not be able to access your Ingress or Gateway resource until the LoadBalancer IP address allocated by Cilium LB IPAM is routable on your on-premises network.
+- Cilium BGP Control Plane enabled following the instructions in <<hybrid-nodes-cilium-bgp>>. If you do not want to use BGP, you can skip this prerequisite, but you will not be able to access your Ingress or Gateway resource until the LoadBalancer IP address allocated by Cilium LB IPAM is routable on your on-premises network.
 
 ==== Procedure
 

@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[#hybrid-nodes-service-lb]
+[#hybrid-nodes-load-balancing]
 = Configure Services of type LoadBalancer for hybrid nodes
 :info_titleabbrev: Configure LoadBalancer Services
 
@@ -12,28 +12,28 @@ Configure Services of type LoadBalancer for hybrid nodes
 
 This topic describes how to configure Layer 4 (L4) load balancing for applications running on Amazon EKS Hybrid Nodes. Kubernetes Services of type LoadBalancer are used to expose Kubernetes applications external to the cluster. Services of type LoadBalancer are commonly used with physical load balancer infrastructure in the cloud or on-premises environment to serve the workload's traffic. This load balancer infrastructure is commonly provisioned with an environment-specific controller.
 
-{aws} supports AWS Network Load Balancer (NLB) and Cilium for Services of type LoadBalancer running on EKS Hybrid Nodes. The decision to use NLB or Cilium is based on the source of application traffic. If application traffic originates from an AWS Region, {aws} recommends using AWS NLB and the AWS Load Balancer Controller. If application traffic originates from the local on-premises or edge environment, {aws} recommends using Cilium's built-in load balancing capabilities, which can be used with or without load balancer infrastructure in your environment.
+{aws} supports {AWS} Network Load Balancer (NLB) and Cilium for Services of type LoadBalancer running on EKS Hybrid Nodes. The decision to use NLB or Cilium is based on the source of application traffic. If application traffic originates from an {AWS} Region, {aws} recommends using {AWS} NLB and the {AWS} Load Balancer Controller. If application traffic originates from the local on-premises or edge environment, {aws} recommends using Cilium's built-in load balancing capabilities, which can be used with or without load balancer infrastructure in your environment.
 
 For Layer 7 (L7) application traffic load balancing, see <<hybrid-nodes-ingress>>. For general information on Load Balancing with EKS, see link:eks/latest/best-practices/load-balancing.html[Best Practices for Load Balancing,type="documentation"].
 
 [#hybrid-nodes-service-lb-nlb]
-== AWS Network Load Balancer
+== {AWS} Network Load Balancer
 
-You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and NLB with the target type `ip` for workloads running on hybrid nodes. When using target type `ip`, NLB forwards traffic directly to the pods, bypassing the Service layer network path. For NLB to reach the pod IP targets on hybrid nodes, your on-premises pod CIDRs must be routable on your on-premises network. Additionally, the AWS Load Balancer Controller uses webhooks and requires direct communication from the EKS control plane. For more information, see <<hybrid-nodes-webhooks>>.
+You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and NLB with the target type `ip` for workloads running on hybrid nodes. When using target type `ip`, NLB forwards traffic directly to the pods, bypassing the Service layer network path. For NLB to reach the pod IP targets on hybrid nodes, your on-premises pod CIDRs must be routable on your on-premises network. Additionally, the {AWS} Load Balancer Controller uses webhooks and requires direct communication from the EKS control plane. For more information, see <<hybrid-nodes-webhooks>>.
 
-- See <<network-load-balancing>> for subnet configuration requirements, and <<lbc-helm>> and link:eks/latest/best-practices/load-balancing.html[Best Practices for Load Balancing,type="documentation"] for additional information about AWS Network Load Balancer and AWS Load Balancer Controller.
-- See link:https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/nlb/[AWS Load Balancer Controller NLB configurations] for configurations that can be applied to Services of type `LoadBalancer` with AWS Network Load Balancer.
+- See <<network-load-balancing>> for subnet configuration requirements, and <<lbc-helm>> and link:eks/latest/best-practices/load-balancing.html[Best Practices for Load Balancing,type="documentation"] for additional information about {AWS} Network Load Balancer and {AWS} Load Balancer Controller.
+- See link:https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/nlb/[{AWS} Load Balancer Controller NLB configurations] for configurations that can be applied to Services of type `LoadBalancer` with {AWS} Network Load Balancer.
 
 === Prerequisites
 
 - Cilium installed following the instructions in <<hybrid-nodes-cni>>.
-- Cilium BGP Control Plane enabled following the instructions in <<hybrid-nodes-bgp>>. If you do not want to use BGP, you must use an alternative method to make your on-premises pod CIDRs routable on your on-premises network, see <<hybrid-nodes-concepts-k8s-pod-cidrs>> for more information.
+- Cilium BGP Control Plane enabled following the instructions in <<hybrid-nodes-cilium-bgp>>. If you do not want to use BGP, you must use an alternative method to make your on-premises pod CIDRs routable on your on-premises network, see <<hybrid-nodes-concepts-k8s-pod-cidrs>> for more information.
 - Helm installed in your command-line environment, see <<helm,Setup Helm instructions>>.
-- eksctl installed in your command-line environment, see <<eksctl,Setup eksctl instructions>>.
+- eksctl installed in your command-line environment, see <<eksctl-install-update,Setup eksctl instructions>>.
 
 === Procedure
 
-. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf.
+. Download an IAM policy for the {AWS} Load Balancer Controller that allows it to make calls to {AWS} APIs on your behalf.
 +
 [source,bash]
 ----
@@ -49,7 +49,7 @@ aws iam create-policy \
     --policy-document file://iam_policy.json
 ----
 +
-. Replace the values for cluster name, AWS Region, and AWS account ID with your settings and run the following command.
+. Replace the values for cluster name, {AWS} Region, and {AWS} account ID with your settings and run the following command.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -63,7 +63,7 @@ eksctl create iamserviceaccount \
     --approve
 ----
 +
-. Add the eks-charts Helm chart repository. AWS maintains this repository on GitHub.
+. Add the eks-charts Helm chart repository. {AWS} maintains this repository on GitHub.
 +
 [source,bash]
 ----
@@ -77,7 +77,7 @@ helm repo add eks https://aws.github.io/eks-charts
 helm repo update eks
 ----
 +
-. Install the AWS Load Balancer Controller. Replace the values for cluster name, AWS Region, VPC ID, and AWS Load Balancer Controller Helm chart version with your settings. You can find the latest version of the Helm chart by running `helm search repo eks/aws-load-balancer-controller --versions`. If you are running a mixed mode cluster with both hybrid nodes and nodes in AWS Cloud, you can run the AWS Load Balancer Controller on cloud nodes following the instructions at <<hybrid-nodes-mixed-lbc>>.
+. Install the {AWS} Load Balancer Controller. Replace the values for cluster name, {AWS} Region, VPC ID, and {AWS} Load Balancer Controller Helm chart version with your settings. You can find the latest version of the Helm chart by running `helm search repo eks/aws-load-balancer-controller --versions`. If you are running a mixed mode cluster with both hybrid nodes and nodes in {AWS} Cloud, you can run the {AWS} Load Balancer Controller on cloud nodes following the instructions at <<hybrid-nodes-mixed-lbc>>.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -91,7 +91,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   --set serviceAccount.name=aws-load-balancer-controller
 ----
 +
-. Verify the AWS Load Balancer Controller was installed successfully.
+. Verify the {AWS} Load Balancer Controller was installed successfully.
 +
 [source,bash]
 ----
@@ -219,7 +219,7 @@ If you are not using Cilium's kube-proxy replacement, you can still use Cilium L
 === Prerequisites
 
 - Cilium installed following the instructions in <<hybrid-nodes-cni>> with or without kube-proxy replacement enabled. Cilium's kube-proxy replacement requires running an operating system with a Linux kernel at least as recent as v4.19.57, v5.1.16, or v5.2.0. All recent versions of the operating systems supported for use with hybrid nodes meet this criteria, with the exception of Red Hat Enterprise Linux (RHEL) 8.x.
-- Cilium BGP Control Plane enabled following the instructions in <<hybrid-nodes-bgp>>. If you do not want to use BGP, you must use an alternative method to make your on-premises pod CIDRs routable on your on-premises network, see <<hybrid-nodes-concepts-k8s-pod-cidrs>> for more information.
+- Cilium BGP Control Plane enabled following the instructions in <<hybrid-nodes-cilium-bgp>>. If you do not want to use BGP, you must use an alternative method to make your on-premises pod CIDRs routable on your on-premises network, see <<hybrid-nodes-concepts-k8s-pod-cidrs>> for more information.
 - Helm installed in your command-line environment, see <<helm,Setup Helm instructions>>.
 
 === Procedure
@@ -330,7 +330,7 @@ kubectl apply -f tcp-sample-app.yaml
 . Define a Service of type LoadBalancer for the deployment in a file named `tcp-sample-service.yaml`. 
 +
 - You can request a specific IP address from the load balancer IP pool with the `lbipam.cilium.io/ips` annotation on the Service object. You can remove this annotation if you do not want to request a specific IP address for the Service.
-- The `loadBalancerClass` spec field is required to prevent the legacy AWS Cloud Provider from creating a Classic Load Balancer for the Service. In the example below this is configured to `io.cilium/bgp-control-plane` to use Cilium's BGP Control Plane as the load balancer class. This field can alternatively be configured to `io.cilium/l2-announcer` to use Cilium's L2 Announcements feature (currently in beta and not officially supported by {aws}).
+- The `loadBalancerClass` spec field is required to prevent the legacy {AWS} Cloud Provider from creating a Classic Load Balancer for the Service. In the example below this is configured to `io.cilium/bgp-control-plane` to use Cilium's BGP Control Plane as the load balancer class. This field can alternatively be configured to `io.cilium/l2-announcer` to use Cilium's L2 Announcements feature (currently in beta and not officially supported by {aws}).
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
