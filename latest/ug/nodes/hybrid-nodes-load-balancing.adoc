@@ -42,24 +42,24 @@ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-cont
 +
 . Create an IAM policy using the policy downloaded in the previous step.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 aws iam create-policy \
     --policy-name AWSLoadBalancerControllerIAMPolicy \
     --policy-document file://iam_policy.json
 ----
 +
-. Replace the values for cluster name, {AWS} Region, and {AWS} account ID with your settings and run the following command.
+. Replace the values for cluster name (`CLUSTER_NAME`), {AWS} Region (`AWS_REGION`), and {AWS} account ID (`AWS_ACCOUNT_ID`) with your settings and run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create iamserviceaccount \
-    --cluster=[.replaceable]`CLUSTER_NAME` \
+    --cluster=CLUSTER_NAME \
     --namespace=kube-system \
     --name=aws-load-balancer-controller \
-    --attach-policy-arn=arn:aws:iam::[.replaceable]`AWS_ACCOUNT_ID`:policy/AWSLoadBalancerControllerIAMPolicy \
+    --attach-policy-arn=arn:aws:iam::AWS_ACCOUNT_ID:policy/AWSLoadBalancerControllerIAMPolicy \
     --override-existing-serviceaccounts \
-    --region [.replaceable]`AWS_REGION` \
+    --region AWS_REGION \
     --approve
 ----
 +
@@ -77,7 +77,7 @@ helm repo add eks https://aws.github.io/eks-charts
 helm repo update eks
 ----
 +
-. Install the {AWS} Load Balancer Controller. Replace the values for cluster name, {AWS} Region, VPC ID, and {AWS} Load Balancer Controller Helm chart version with your settings. You can find the latest version of the Helm chart by running `helm search repo eks/aws-load-balancer-controller --versions`. If you are running a mixed mode cluster with both hybrid nodes and nodes in {AWS} Cloud, you can run the {AWS} Load Balancer Controller on cloud nodes following the instructions at <<hybrid-nodes-mixed-lbc>>.
+. Install the {AWS} Load Balancer Controller. Replace the values for cluster name (`CLUSTER_NAME`), {AWS} Region (`AWS_REGION`), VPC ID (`VPC_ID`), and {AWS} Load Balancer Controller Helm chart version (`AWS_LBC_HELM_VERSION`) with your settings. You can find the latest version of the Helm chart by running `helm search repo eks/aws-load-balancer-controller --versions`. If you are running a mixed mode cluster with both hybrid nodes and nodes in {AWS} Cloud, you can run the {AWS} Load Balancer Controller on cloud nodes following the instructions at <<hybrid-nodes-mixed-lbc>>.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -229,7 +229,7 @@ If you are not using Cilium's kube-proxy replacement, you can still use Cilium L
 - Replace `LB_IP_CIDR` with the IP address range to use for the Load Balancer IP addresses. To select a single IP address, use a `/32` CIDR. For more information, see link:https://docs.cilium.io/en/stable/network/lb-ipam/[LoadBalancer IP Address Management] in the Cilium documentation.
 - The `serviceSelector` field is configured to match against the name of the Service you will create in a subsequent step. With this configuration, IPs from this pool will only be allocated to Services with the name `tcp-sample-service`.
 +
-[source,yaml,subs="verbatim,attributes,quotes"]
+[source,yaml,subs="verbatim,attributes"]
 ----
 apiVersion: cilium.io/v2alpha1
 kind: CiliumLoadBalancerIPPool
@@ -237,7 +237,7 @@ metadata:
   name: tcp-service-pool
 spec:
   blocks:
-  - cidr: [.replaceable]"`LB_IP_CIDR`"
+  - cidr: "LB_IP_CIDR"
   serviceSelector:
     matchLabels:
       io.kubernetes.service.name: tcp-sample-service
@@ -340,7 +340,7 @@ metadata:
   name: tcp-sample-service
   namespace: default
   annotations:
-    lbipam.cilium.io/ips: [.replaceable]"`LB_IP_ADDRESS`"
+    lbipam.cilium.io/ips: [.replaceable]`"LB_IP_ADDRESS"`
 spec:
   loadBalancerClass: io.cilium/bgp-control-plane
   ports:

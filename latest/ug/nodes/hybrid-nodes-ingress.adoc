@@ -48,17 +48,17 @@ aws iam create-policy \
     --policy-document file://iam_policy.json
 ----
 +
-. Replace the values for cluster name, {AWS} Region, and {AWS} account ID with your settings and run the following command.
+. Replace the value for cluster name (`CLUSTER_NAME`), {AWS} Region (`AWS_REGION`), and {AWS} account ID (`AWS_ACCOUNT_ID`)  with your settings and run the following command.
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 eksctl create iamserviceaccount \
-    --cluster=[.replaceable]`CLUSTER_NAME` \
+    --cluster=CLUSTER_NAME \
     --namespace=kube-system \
     --name=aws-load-balancer-controller \
-    --attach-policy-arn=arn:aws:iam::[.replaceable]`AWS_ACCOUNT_ID`:policy/AWSLoadBalancerControllerIAMPolicy \
+    --attach-policy-arn=arn:aws:iam::AWS_ACCOUNT_ID:policy/AWSLoadBalancerControllerIAMPolicy \
     --override-existing-serviceaccounts \
-    --region [.replaceable]`AWS_REGION` \
+    --region AWS_REGION \
     --approve
 ----
 +
@@ -717,21 +717,21 @@ The example below shows how to configure Cilium's LB IPAM with an IP address to 
 +
 *Gateway*
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl patch gateway -n default my-gateway --type=merge -p '{
   "spec": {
-    "addresses": [{"type": "IPAddress", "value": [.replaceable]"`LB_IP_ADDRESS`"}]
+    "addresses": [{"type": "IPAddress", "value": "LB_IP_ADDRESS"}]
   }
 }'
 ----
 +
 *Ingress*
 +
-[source,bash,subs="verbatim,attributes,quotes"]
+[source,bash,subs="verbatim,attributes"]
 ----
 kubectl patch ingress my-ingress --type=merge -p '{
-    "metadata": {"annotations": {"lbipam.cilium.io/ips": [.replaceable]"`LB_IP_ADDRESS`"}}
+  "metadata": {"annotations": {"lbipam.cilium.io/ips": "LB_IP_ADDRESS"}}
 }'
 ----
 +
@@ -748,7 +748,7 @@ metadata:
   name: bookinfo-pool
 spec:
   blocks:
-  - cidr: [.replaceable]"`LB_IP_CIDR`"
+  - cidr: "LB_IP_CIDR"
   serviceSelector:
     # if using Cilium Gateway
     matchExpressions:
