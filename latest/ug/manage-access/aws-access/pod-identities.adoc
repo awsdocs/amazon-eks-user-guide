@@ -83,11 +83,14 @@ Turn on EKS Pod Identities by completing the following procedures:
 . <<pod-id-configure-pods>> -- Complete this procedure for each Pod that needs access to {aws} services.
 . <<pod-id-minimum-sdk>> -- Confirm that the workload uses an {aws} SDK of a supported version and that the workload uses the default credential chain.
 
+[#pod-id-limits]
+== Limits
+
+* Up to 5,000 EKS Pod Identity associations per cluster to map IAM roles to Kubernetes service accounts are supported.
 
 [#pod-id-considerations]
-== EKS Pod Identity considerations
+== Considerations
 
-* *Pod Identity Association Limit*: You can create up to 5,000 EKS Pod Identity associations per cluster to map IAM roles to Kubernetes service accounts.
 * *IAM Role Association*: Each Kubernetes service account in a cluster can be associated with one IAM role from the same {aws} account as the cluster. To change the role, edit the EKS Pod Identity association. For cross-account access, delegate access to the role using IAM roles. To learn more, see link:https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html[Delegate access across {aws} accounts using IAM roles] in the _IAM User Guide_.
 * *EKS Pod Identity Agent*: The Pod Identity Agent is required to use EKS Pod Identity. The agent runs as a Kubernetes `DaemonSet` on cluster nodes, providing credentials only to pods on the same node. It uses the node’s `hostNetwork`, occupying port `80` and `2703` on the link-local address (`169.254.170.23` for IPv4, `[fd00:ec2::23]` for IPv6). If IPv6 is disabled in your cluster, disable IPv6 for the Pod Identity Agent. To learn more, see link:https://docs.aws.amazon.com/eks/latest/userguide/pod-id-agent-config-ipv6.html[Disable IPv6 in the EKS Pod Identity Agent].
 * *Eventual Consistency*: EKS Pod Identity associations are eventually consistent, with potential delays of several seconds after API calls. Avoid creating or updating associations in critical, high-availability code paths. Instead, perform these actions in separate, less frequent initialization or setup routines. To learn more, see link:https://docs.aws.amazon.com/eks/latest/best-practices/sgpp.html[Security Groups Per Pod] in the _EKS Best Practices Guide_.

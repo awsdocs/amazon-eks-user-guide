@@ -30,8 +30,13 @@ EKS Hybrid Nodes has the following high-level features:
 * *Flexible infrastructure*: EKS Hybrid Nodes follows a _bring your own infrastructure_ approach and is agnostic to the infrastructure you use for hybrid nodes. You can run hybrid nodes on physical or virtual machines, and x86 and ARM architectures, making it possible to migrate on-premises workloads running on hybrid nodes across different infrastructure types.
 * *Flexible networking*: With EKS Hybrid Nodes, communication between the EKS control plane and hybrid nodes is routed through the VPC and subnets you pass during cluster creation, which builds on the link:eks/latest/best-practices/subnets.html[existing mechanism,type="documentation"] in EKS for control plane to node networking. This is flexible to your preferred method of connecting your on-premises networks to a VPC in {aws}. There are several link:whitepapers/latest/aws-vpc-connectivity-options/network-to-amazon-vpc-connectivity-options.html[documented options,type="documentation"] available including {aws} Site-to-Site VPN, {aws} Direct Connect, or your own VPN solution, and you can choose the method that best fits your use case.
 
+[#hybrid-node-limits]
+== Limits
+
+* Up to 15 CIDRs for Remote Node Networks and 15 CIDRs for Remote Pod Networks per cluster are supported.
+
 [#hybrid-nodes-general]
-== General considerations
+== Considerations
 
 * EKS Hybrid Nodes can be used with new or existing EKS clusters.
 * EKS Hybrid Nodes is available in all {aws} Regions, except the {aws} GovCloud (US) Regions and the {aws} China Regions.
