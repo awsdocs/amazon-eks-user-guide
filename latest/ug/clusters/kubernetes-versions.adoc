@@ -45,7 +45,6 @@ The following Kubernetes versions are currently available in Amazon EKS extended
 * `1.29`
 * `1.28`
 * `1.27`
-* `1.26`
 
 For important changes to be aware of for each version in extended support, see <<kubernetes-versions-extended>>.
 
@@ -115,12 +114,6 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/clus
 |May 24, 2023
 |July 24, 2024
 |July 24, 2025
-
-|`1.26`
-|December 9, 2022
-|April 11, 2023
-|June 11, 2024
-|June 11, 2025
 
 |===
 
