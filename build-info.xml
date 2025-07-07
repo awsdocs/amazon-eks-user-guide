@@ -38,9 +38,9 @@
        <filename>doc-history</filename>
       </rss></html>
       <pdf/>
-      <!-- <asciidoc>
+      <asciidoc>
        <include-html-profiling>1</include-html-profiling>
-      </asciidoc>  -->
+      </asciidoc> 
      </builds>
     </guide>
    </guides>
