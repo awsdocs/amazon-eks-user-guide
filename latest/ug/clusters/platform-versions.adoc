@@ -1110,7 +1110,7 @@ The following admission controllers are enabled for all `1.26` platform versions
 
 | `1.26.2`
 | `eks.1`
-| Initial release of Kubernetes version `1.26` for EKS. For more information, see <<kubernetes-1-26>>.
+| Initial release of Kubernetes version `1.26` for EKS.
 | April 11, 2023
 |===
 
