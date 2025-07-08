@@ -7,9 +7,6 @@ include::../attributes.txt[]
 :aam: Amazon {am}
 :ec2i: EC2 Instance
 :mi: managed instance
-:emi: EC2 managed instance
-:emi: EC2 {mi}
-:emng: EKS Managed Node Group
 :info_titleabbrev: Managed instances
 
 This topic explains how {aam} manages Amazon EC2 instances in your EKS cluster. When you enable {am}, your cluster's compute resources are automatically provisioned and managed by EKS, changing how you interact with the EC2 instances that serve as nodes in your cluster.
@@ -114,26 +111,23 @@ For more information, see link:ec2/latest/instancetypes/instance-type-names.html
 
 == Instance Metadata Service
 
-* EKS Auto Mode enforces IMDSv2 with a hop limit of 1 by default, adhering to {aws} security best practices
-* This default configuration cannot be modified in Auto Mode
-* For add-ons that typically require IMDS access:
-** Supply parameters, such as {aws} region, during installation to avoid IMDS lookups
-** For more information, see <<kubernetes-field-management>>
-* If a pod absolutely requires IMDS access when running in Auto Mode:
-** The pod must be configured to run with `hostNetwork: true`
-** This allows the pod to access the instance metadata service directly
-* Consider the security implications when granting pods access to instance metadata
+* EKS Auto Mode enforces IMDSv2 with a hop limit of 1 by default, adhering to {aws} security best practices.
+* This default configuration cannot be modified in Auto Mode.
+* For add-ons that typically require IMDS access, supply parameters (such as {aws} region) during installation to avoid IMDS lookups. For more information, see <<kubernetes-field-management>>.
+* If a Pod absolutely requires IMDS access when running in Auto Mode, the Pod must be configured to run with `hostNetwork: true`. This allows the Pod to access the instance metadata service directly.
+* Consider the security implications when granting Pods access to instance metadata.
 
-For more information about the EC2 Instance Metadata Service (IMDS), see link:AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html[Configure the Instance Metadata Service options,type="documentation"] in the EC2 User Guide.
+For more information about the Amazon EC2 Instance Metadata Service (IMDS), see link:AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html[Configure the Instance Metadata Service options,type="documentation"] in the _Amazon EC2 User Guide_.
 
 
 == Considerations
 
-* If the configured ephemeral storage in the NodeClass is smaller than the NVMe local storage for the instance, EKS Auto Mode eliminates the need for manual configuration and automatically takes the following actions:
-** Uses a smaller (20 GiB) EBS data volume to reduce costs.
-** Formats and configures the NVMe local storage for ephemeral data use, including setting up a RAID 0 array if there are multiple NVMe drives.
+* If the configured ephemeral storage in the NodeClass is smaller than the NVMe local storage for the instance, EKS Auto Mode eliminates the need for manual configuration by automatically taking the following actions:
+** Uses a smaller (20 GiB) Amazon EBS data volume to reduce costs.
+** Formats and configures the NVMe local storage for ephemeral data use. This includes setting up a RAID 0 array if there are multiple NVMe drives.
 * Amazon EKS Auto Mode does not support {aws} Fault Injection Service. For more information, see link:resilience-hub/latest/userguide/testing.html["Managing Fault Injection Service experiments",type="documentation"] in the {aws} Resilience Hub User Guide. 
-* You do not need to install the `Neuron Device Plugin` on EKS Auto Mode nodes. 
-** If you have other types of nodes in your cluster, you need to configure the Neuron Device plugin to not run on auto mode nodes. For more information, see <<associate-workload>>.
+* You do not need to install the `Neuron Device Plugin` on EKS Auto Mode nodes.
++
+If you have other types of nodes in your cluster, you need to configure the Neuron Device plugin to not run on Auto Mode nodes. For more information, see <<associate-workload>>.
 
 
