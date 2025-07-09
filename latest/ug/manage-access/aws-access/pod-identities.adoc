@@ -52,7 +52,7 @@ EKS Pod Identities provide the following benefits:
 
 [NOTE]
 ====
-Pods configured with `hostNetwork: true` will always have IMDS access, but the AWS SDKs and CLI will use Pod Identity credentials when enabled.
+Pods configured with `hostNetwork: true` will always have IMDS access, but the {aws} SDKs and CLI will use Pod Identity credentials when enabled.
 ====
 
 * *Auditability*
