@@ -21,8 +21,6 @@ This topic describes the different components of Pods that run on Fargate, and c
 
 Here are some things to consider about using Fargate on Amazon EKS.
 
-
-
 * Each Pod that runs on Fargate has its own compute boundary. They don't share the underlying kernel, CPU resources, memory resources, or elastic network interface with another Pod.
 * Network Load Balancers and Application Load Balancers (ALBs) can be used with Fargate with IP targets only. For more information, see <<network-load-balancer>> and <<alb-ingress>>. 
 * Fargate exposed services only run on target type IP mode, and not on node IP mode. The recommended way to check the connectivity from a service running on a managed node and a service running on Fargate is to connect via service name.
