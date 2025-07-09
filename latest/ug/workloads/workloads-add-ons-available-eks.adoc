@@ -62,6 +62,10 @@ You can use any of the following Amazon EKS add-ons.
 |<<addons-hyperpod>>
 |EC2, EKS Auto Mode, 
 
+|The Amazon SageMaker HyperPod Observability AddOn provides comprehensive monitoring and observability capabilities for HyperPod clusters.
+|<<addons-hyperpod-observability>>
+|EC2, EKS Auto Mode, 
+
 |A Kubernetes agent that collects and reports network flow data to Amazon CloudWatch, enabling comprehensive monitoring of TCP connections across cluster nodes.
 |<<addons-network-flow>>
 |EC2, EKS Auto Mode
@@ -407,6 +411,26 @@ This add-on doesn't require any permissions.
 === Additional information
 
 To learn more about the add-on, see link:sagemaker/latest/dg/sagemaker-hyperpod-eks-operate-console-ui-governance.html["SageMaker HyperPod task governance",type="documentation"]
+
+[#addons-hyperpod-observability]
+== Amazon SageMaker HyperPod Observability Add-on
+
+The Amazon SageMaker HyperPod Observability Add-on provides comprehensive monitoring and observability capabilities for HyperPod clusters. This add-on automatically deploys and manages essential monitoring components including node exporter, DCGM exporter, kube-state-metrics, and EFA exporter. It collects and forwards metrics to a customer-designated Amazon Managed Prometheus (AMP) instance and exposes an OTLP endpoint for custom metrics and event ingestion from customer training jobs.
+
+The add-on integrates with the broader HyperPod ecosystem by scraping metrics from various components including HyperPod Task Governance add-on, HyperPod Training Operator, Kubeflow, and KEDA. All collected metrics are centralized in Amazon Managed Prometheus, enabling customers to achieve a unified observability view through Amazon Managed Grafana dashboards. This provides end-to-end visibility into cluster health, resource utilization, and training job performance across the entire HyperPod environment.
+
+The Amazon EKS add-on name is `amazon-sagemaker-hyperpod-observability`.
+
+=== Required IAM permissions
+
+This add-on uses the IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. The following managed policies are required:
+
+* `AmazonPrometheusRemoteWriteAccess` - for remote writing metrics from the cluster to AMP
+* `CloudWatchAgentServerPolicy` - for remote writing the logs from the cluster to CloudWatch
+
+=== Additional information
+
+To learn more about the add-on and its capabilities, see link:sagemaker/latest/dg/sagemaker-hyperpod-eks-cluster-observability-cluster.html["SageMaker HyperPod Observability",type="documentation"].
 
 [#addons-network-flow]
 == {aws} Network Flow Monitor Agent
