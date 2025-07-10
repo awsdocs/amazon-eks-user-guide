@@ -43,4 +43,4 @@ include::hybrid-nodes-ingress.adoc[leveloffset=+1]
 
 include::hybrid-nodes-load-balancing.adoc[leveloffset=+1]
 
-include::hybrid-nodes-cilium-network-policy.adoc[leveloffset=+1]
+include::hybrid-nodes-network-policy.adoc[leveloffset=+1]
