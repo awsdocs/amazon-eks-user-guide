@@ -24,7 +24,7 @@ For more information about Kubecost, see the https://www.ibm.com/docs/en/kubecos
 You can use one of the following procedures to install the _Amazon EKS optimized Kubecost bundle_:
 
 * Before start, it is recommended to review https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=installations-amazon-eks-integration[Kubecost - Architecture Overview] to understand how Kubecost works on Amazon EKS.
-* If you are new to Amazon EKS we recommend that you use Helm for the installation because it simplifies the _Amazon EKS optimized Kubecost bundle_ installation. For more information, see https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=installations-amazon-eks-integration#ariaid-title3[Deploying Kubecost on an Amazon EKS cluster using Amazon EKS add-on].
+* If you are new to Amazon EKS, we recommend that you use the Amazon EKS add-on for the installation because it simplifies the _Amazon EKS optimized Kubecost bundle_ installation. For more information, see https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=installations-amazon-eks-integration#ariaid-title3[Deploying Kubecost on an Amazon EKS cluster using Amazon EKS add-on].
 * To customize the installation, you might configure your _Amazon EKS optimized Kubecost bundle_ with Helm. For more information, see https://www.ibm.com/docs/en/kubecost/self-hosted/2.x?topic=installations-amazon-eks-integration#ariaid-title8[Deploying Kubecost on an Amazon EKS cluster using Helm] in the _Kubecost documentation_.
 
 [#kubecost-access-dashbaard]

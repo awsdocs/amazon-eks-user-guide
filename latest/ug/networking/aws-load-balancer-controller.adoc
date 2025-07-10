@@ -37,10 +37,8 @@ Before deploying the controller, we recommend that you review the prerequisites 
 
 You can use one of the following procedures to install the {aws} Load Balancer Controller:
 
-
-
-* If you are new to Amazon EKS we recommend that you use Helm for the installation because it simplifies the {aws} Load Balancer Controller installation. For more information, see <<lbc-helm>>. 
-* For advanced configurations, such as clusters with restricted network access to public container registries,  use Kubernetes Manifests. For more information, see <<lbc-manifest>>.
+* If you are new to Amazon EKS, we recommend that you use Helm for the installation because it simplifies the {aws} Load Balancer Controller installation. For more information, see <<lbc-helm>>. 
+* For advanced configurations, such as clusters with restricted network access to public container registries, use Kubernetes Manifests. For more information, see <<lbc-manifest>>.
 
 
 [#lbc-deprecated]
