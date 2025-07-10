@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[#hybrid-nodes-cilium-network-policy]
+[#hybrid-nodes-network-policies]
 = Configure Kubernetes Network Policies for hybrid nodes
 :info_titleabbrev: Configure Network Policies
 
@@ -14,7 +14,7 @@ Configure Kubernetes Network Policies for hybrid nodes
 
 This topic covers how to configure Cilium and Kubernetes Network Policies with EKS Hybrid Nodes. For detailed information on Kubernetes Network Policies, see link:https://kubernetes.io/docs/concepts/services-networking/network-policies/[Kubernetes Network Policies] in the Kubernetes documentation.
 
-[#hybrid-nodes-cilium-network-policy-prerequisites]
+[#hybrid-nodes-configure-network-policies]
 == Configure network policies
 
 === Considerations
