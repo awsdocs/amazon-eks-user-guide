@@ -16,24 +16,26 @@ To see the list of insight checks performed and any relevant issues that Amazon 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . From the cluster list, choose the name of the Amazon EKS cluster for which you want to see the insights.
 . Choose *Monitor cluster*.
-. Choose the *Cluster Health* tab.
-. In the *Configuration Insights* table, you will see the following columns:
+. Choose the *Cluster health* tab.
+. In the *Configuration insights* table, you will see the following columns:
 +
 ** *Name* – The check that was performed by Amazon EKS against the cluster.
 ** *Insight status* – An insight with a status of `Error` means that there is a misconfiguration that is likely impacting cluster functionality. An insight with a status of `Warning` means that the configuration doesn't match the documented approach, but that cluster functionality might work if you configured it intentionally. An insight with status of `Passing` means Amazon EKS has not found any issues associated with this insight check in your cluster.
-** *Description* – Information from the insight check, which includes the alert and recommended actions for remediation.
+** *Version* – The applicable version. 
 ** *Last refresh time* – The time the status of the insight was last refreshed for this cluster.
+** *Description* – Information from the insight check, which includes the alert and recommended actions for remediation.
 
 
 [#view-upgrade-insights-console]
 == View upgrade insights (Console)
+
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . From the cluster list, choose the name of the Amazon EKS cluster for which you want to see the insights.
-. Choose *View dashboard*.
-. Choose the *Cluster Insights* tab.
-. In the *Upgrade Insights* table, you will see the following columns:
+. Choose *Monitor cluster*.
+. Choose the *Upgrade insights* tab.
+. In the *Upgrade insights* table, you will see the following columns:
 +
-** *Name* – The check that Amazon EKS performed against the cluster.
+** *Name* – The check that was performed by Amazon EKS against the cluster.
 ** *Insight status* – An insight with a status of "Error" typically means the impacted Kubernetes version is N+1 of the current cluster version, while a status of "Warning" means the insight applies to a future Kubernetes version N+2 or more. An insight with status of "Passing" means Amazon EKS has not found any issues associated with this insight check in your cluster. An insight status of "Unknown" means Amazon EKS is unable to determine if your cluster is impacted by this insight check.
 ** *Version* – The Kubernetes version that the insight checked for possible issues.
 ** *Last refresh time* – The time the status of the insight was last refreshed for this cluster.

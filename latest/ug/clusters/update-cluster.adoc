@@ -73,25 +73,11 @@ Amazon EKS cluster insights automatically scan clusters against a list of potent
 
 Review the https://kubernetes.io/docs/reference/using-api/deprecation-guide/[Deprecated API Migration Guide] in the Kubernetes docs. 
 
+=== Review upgrade insights
 
-=== Review Cluster Insights
+Use Amazon EKS upgrade insights to identify issues. For more information, see <<view-upgrade-insights-console>>.
 
-Use Amazon EKS cluster insights to identify issues wi
-
-. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
-. From the cluster list, choose the name of the Amazon EKS cluster for which you want to see the insights.
-. Choose *View dashboard*.
-. Choose the *Cluster Insights* tab.
-. In the *Upgrade Insights* table, you will see the following columns:
-+
-** *Name* – The check that was performed by Amazon EKS against the cluster.
-** *Insight status* – An insight with a status of "Error" typically means the impacted Kubernetes version is N+1 of the current cluster version, while a status of "Warning" means the insight applies to a future Kubernetes version N+2 or more. An insight with status of "Passing" means Amazon EKS has not found any issues associated with this insight check in your cluster. An insight status of "Unknown" means Amazon EKS is unable to determine if your cluster is impacted by this insight check.
-** *Version* – The Kubernetes version that the insight checked for possible issues.
-** *Last refresh time* – The time the status of the insight was last refreshed for this cluster.
-** *Last transition time* – The time the status of this insight last changed.
-** *Description* – Information from the insight check, which includes the alert and recommended actions for remediation.
-
-=== Detailed Considerations
+=== Detailed considerations
 
 * Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time. For more information about this requirement, see https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver[Kubernetes Version and Version Skew Support Policy]. Assume that your current cluster version is version `1.28` and you want to update it to version `1.30`. You must first update your version `1.28` cluster to version `1.29` and then update your version `1.29` cluster to version `1.30`.
 * Review the version skew between the Kubernetes `kube-apiserver` and the `kubelet` on your nodes. 
