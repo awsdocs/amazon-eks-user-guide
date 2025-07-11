@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Configure the Cilium CNI for hybrid nodes
 --
 
-Cilium is the {aws}-supported Container Networking Interface (CNI) for Amazon EKS Hybrid Nodes. You must install a CNI for hybrid nodes to become ready to serve workloads. Hybrid nodes appear with status `Not Ready` until a CNI is running. You can manage the CNI with your choice of tools such as Helm. The instructions on this page cover Cilium lifecycle management (install, upgrade, delete). See <<hybrid-nodes-ingress-cilium>>, <<hybrid-nodes-ingress-cilium-loadbalancer>>, and <<hybrid-nodes-cilium-network-policy>> for how to configure Cilium for ingress, load balancing, and network policies.
+Cilium is the {aws}-supported Container Networking Interface (CNI) for Amazon EKS Hybrid Nodes. You must install a CNI for hybrid nodes to become ready to serve workloads. Hybrid nodes appear with status `Not Ready` until a CNI is running. You can manage the CNI with your choice of tools such as Helm. The instructions on this page cover Cilium lifecycle management (install, upgrade, delete). See <<hybrid-nodes-ingress-cilium>>, <<hybrid-nodes-ingress-cilium-loadbalancer>>, and <<hybrid-nodes-network-policies>> for how to configure Cilium for ingress, load balancing, and network policies.
 
 Cilium is not supported by {aws} when running on nodes in {aws} Cloud. The Amazon VPC CNI is not compatible with hybrid nodes and the VPC CNI is configured with anti-affinity for the `eks.amazonaws.com/compute-type: hybrid` label.
 
@@ -110,7 +110,7 @@ helm repo update cilium
 - Configure `clusterPoolIpv4MaskSize` based on your required pods per node. For example, `25` for a /25 segment size of 128 pods per node.
 - Do not change `clusterPoolIpv4PodCIDRList` or `clusterPoolIpv4MaskSize` after deploying Cilium on your cluster, see https://docs.cilium.io/en/stable/network/concepts/ipam/cluster-pool/#expanding-the-cluster-pool[Expanding the cluster pool] for more information.
 - If you are running Cilium in kube-proxy replacement mode, set `kubeProxyReplacement: "true"` in your Helm values and ensure you do not have an existing kube-proxy deployment running on the same nodes as Cilium.
-- The example below disables the Envoy Layer 7 (L7) proxy that Cilium uses for L7 network policies and ingress. For more information, see <<hybrid-nodes-cilium-network-policy>> and <<hybrid-nodes-ingress-cilium>>. 
+- The example below disables the Envoy Layer 7 (L7) proxy that Cilium uses for L7 network policies and ingress. For more information, see <<hybrid-nodes-network-policies>> and <<hybrid-nodes-ingress-cilium>>. 
 - The example below configures `loadBalancer.serviceTopology`: `true` for Service Traffic Distribution to function correctly if you configure it for your services. For more information, see <<hybrid-nodes-mixed-service-traffic-distribution>>.
 - For a full list of Helm values for Cilium, see the https://docs.cilium.io/en/stable/helm-reference/[Helm reference] in the Cilium documentation.
 +
