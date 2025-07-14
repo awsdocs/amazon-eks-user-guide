@@ -74,7 +74,7 @@ If you are planning to enable EKS Auto Mode on an existing cluster, you may need
 ** For more information, see <<workloads-add-ons-available-vendors>>.
 * *Community Add-ons*: These add-ons are scanned by {aws} but supported by the open source community.
 ** Use a community add-on to reduce the complexity of installing common open source software, such as Kubernetes Metrics Server. 
-** Community add-ons are built by {aws}. {aws} only validates community add-ons for version compatibility. 
+** Community add-ons are not built by {aws}. {aws} only validates community add-ons for version compatibility. 
 ** For more information, see <<community-addons>>.
 
 The following table details the scope of support for each add-on type: 
