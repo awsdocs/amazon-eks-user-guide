@@ -12,7 +12,7 @@ You manage community add-ons just like existing Amazon EKS Add-ons. Community ad
 
 NOTE: Using community add-ons is at your discretion. As part of the xref:security[shared responsibility model] between you and {aws}, you are expected to understand what you are installing into your cluster for these third party plugins. You are also responsible for the community add-ons meeting your cluster security needs. For more information, see <<oss-scope>>. 
 
-Community add-ons are not packaged by {aws}. {aws} only validates community add-ons for version compatibility. For example, if you install a community add-on on a cluster, {aws} checks if it is compatible with the Kubernetes version of your cluster. 
+Community add-ons are not built by {aws}. {aws} only validates community add-ons for version compatibility. For example, if you install a community add-on on a cluster, {aws} checks if it is compatible with the Kubernetes version of your cluster. 
 
 Importantly, {aws} does not provide full support for community add-ons. {aws} supports only lifecycle operations done using {aws} APIs, such as installing add-ons or deleting add-ons. 
 
