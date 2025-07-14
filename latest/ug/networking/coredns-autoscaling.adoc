@@ -14,6 +14,8 @@ When you launch an Amazon EKS cluster with at least one node, a Deployment of tw
 
 To handle the increased load on the CoreDNS pods, consider an autoscaling system for CoreDNS. Amazon EKS can manage the autoscaling of the CoreDNS Deployment in the EKS Add-on version of CoreDNS. This CoreDNS autoscaler continuously monitors the cluster state, including the number of nodes and CPU cores. Based on that information, the controller will dynamically adapt the number of replicas of the CoreDNS deployment in an EKS cluster. This feature works for CoreDNS `v1.9` and later. For more information about which versions are compatible with CoreDNS Autoscaling, see the following section.
 
+The system automatically manages CoreDNS replicas using a dynamic formula based on both the number of nodes and CPU cores in the cluster, calculated as the maximum of (numberOfNodes divided by 16) and (numberOfCPUCores divided by 256). It evaluates demand over 10-minute peak periods, scaling up immediately when needed to handle increased DNS query load, while scaling down gradually by reducing replicas by 33% every 3 minutes to maintain system stability and avoid disruption.
+
 We recommend using this feature in conjunction with other https://aws.github.io/aws-eks-best-practices/cluster-autoscaling/[EKS Cluster Autoscaling best practices] to improve overall application availability and cluster scalability.
 
 [#coredns-autoscaling-prereqs]
