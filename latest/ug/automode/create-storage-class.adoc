@@ -211,6 +211,11 @@ For more information, see the https://github.com/kubernetes-sigs/aws-ebs-csi-dri
 
 == Considerations
 
+[NOTE]
+====
+You can only deploy workloads depending on EKS Auto Mode StorageClasses on EKS Auto Mode nodes. If you have a cluster with mixed types of nodes, you need to configure your workloads to run only on EKS Auto Mode nodes. For more information, see <<associate-workload>>. 
+====
+
 The block storage capability of EKS Auto Mode is different from the EBS CSI Driver.
 
 * Static Provisioning
