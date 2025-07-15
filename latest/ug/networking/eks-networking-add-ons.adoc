@@ -55,6 +55,8 @@ include::managing-vpc-cni.adoc[leveloffset=+1]
 
 include::alternate-cni-plugins.adoc[leveloffset=+1]
 
+include::pod-multus.adoc[leveloffset=+1]
+
 include::aws-load-balancer-controller.adoc[leveloffset=+1]
 
 include::managing-coredns.adoc[leveloffset=+1]

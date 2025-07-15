@@ -19,6 +19,15 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-07-15"]
+=== VPC CNI Multi-NIC feature for multi-homed pods
+[.update-ulink]
+link:eks/latest/userguide/pod-multiple-network-interfaces.html[type="documentation"]
+
+Amazon EKS adds multi-homed pods to the VPC CNI. Now you can configure a workload and the VPC CNI assigned IP addresses from every NIC on the EC2 instance to each pod. The application can make concurrent connections to use the bandwidth from each NIC. Every network interface is configured in the same subnet and security groups as the node.
+
+Previously, you needed to use Multus CNI to run multiple other CNIs to create multi-homed pods. Documentation and steps to do this have been moved to link:eks/latest/userguide/pod-multus.html[type="documentation"].
+
 [.update,date="2025-06-30"]
 === VPC CNI troubleshooting content update
 [.update-ulink]
