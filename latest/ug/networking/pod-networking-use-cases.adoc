@@ -46,3 +46,11 @@ include::external-snat.adoc[leveloffset=+1]
 
 include::cni-network-policy.adoc[leveloffset=+1]
 
+include::cni-custom-network.adoc[leveloffset=+1]
+
+include::cni-increase-ip-addresses.adoc[leveloffset=+1]
+
+include::security-groups-for-pods.adoc[leveloffset=+1]
+
+include::pod-multiple-network-interfaces.adoc[leveloffset=+1]
+

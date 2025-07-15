@@ -2,30 +2,209 @@ include::../attributes.txt[]
 
 [.topic]
 [#pod-multiple-network-interfaces]
-= Attach multiple network interfaces to Pods with Multus
+= Attach multiple network interfaces to Pods
 :info_titleabbrev: Multiple interfaces
 
 [abstract]
+-- 
+Learn how to use VPC CNI to attach multiple network interfaces to a Pod in Amazon EKS for advanced networking scenarios with high bandwidth.
 --
-Learn how to use Multus CNI to attach multiple network interfaces to a Pod in Amazon EKS for advanced networking scenarios, while leveraging the Amazon VPC CNI plugin for primary networking.
---
 
-Multus CNI is a container network interface (CNI) plugin for Amazon EKS that enables attaching multiple network interfaces to a Pod. For more information, see the https://github.com/k8snetworkplumbingwg/multus-cni[Multus-CNI] documentation on GitHub.  
+By default, the Amazon VPC CNI plugin assigns one IP address to each pod. This IP address is attached to an  _elastic network interface_ that handles all incoming and outgoing traffic for the pod. To increase the bandwidth and packet per second rate performance, you can use the _Multi-NIC feature_ of the VPC CNI to configure a multi-homed pod. A multi-homed pod is a single Kubernetes pod that uses multiple network interfaces (and multiple IP addresses). By running a multi-homed pod, you can spread its application traffic across multiple network interfaces by using concurrent connections. This is especially useful for Artificial Intelligence (AI), Machine Learning (ML), and High Performance Computing (HPC) use cases.
 
-In Amazon EKS, each Pod has one network interface assigned by the Amazon VPC CNI plugin. With Multus, you can create a multi-homed Pod that has multiple interfaces. This is accomplished by Multus acting as a "meta-plugin"; a CNI plugin that can call multiple other CNI plugins. {aws} support for Multus comes configured with the Amazon VPC CNI plugin as the default delegate plugin.
+The following diagram shows a multi-homed pod running on a worker node with multiple NICs in use.
 
-* Amazon EKS won't be building and publishing single root I/O virtualization (SR-IOV) and Data Plane Development Kit (DPDK) CNI plugins. However, you can achieve packet acceleration by connecting directly to Amazon EC2 Elastic Network Adapters (ENA) through Multus managed host-device and `ipvlan` plugins.
-* Amazon EKS is supporting Multus, which provides a generic process that enables simple chaining of additional CNI plugins. Multus and the process of chaining is supported, but {aws} won't provide support for all compatible CNI plugins that can be chained, or issues that may arise in those CNI plugins that are unrelated to the chaining configuration.
-* Amazon EKS is providing support and life cycle management for the Multus plugin, but isn't responsible for any IP address or additional management associated with the additional network interfaces. The IP address and management of the default network interface utilizing the Amazon VPC CNI plugin remains unchanged.
-* Only the Amazon VPC CNI plugin is officially supported as the default delegate plugin. You need to modify the published Multus installation manifest to reconfigure the default delegate plugin to an alternate CNI if you choose not to use the Amazon VPC CNI plugin for primary networking.
-* Multus is only supported when using the Amazon VPC CNI as the primary CNI. We do not support the Amazon VPC CNI when used for higher order interfaces, secondary or otherwise.
-* To prevent the Amazon VPC CNI plugin from trying to manage additional network interfaces assigned to Pods, add the following tag to the network interface:
+image::images/multi-homed-pod.png[A multi-homed pod with two network interfaces attached one network interface with ENA and one network interface with ENA and EFA,scaledwidth=100%]
+
+[#pod-multi-nic-background]
+== Background
+
+On Amazon EC2, an _elastic network interface_ is a logical networking component in a VPC that represents a virtual network card. For many EC2 instance types, the network interfaces share a single network interface card (NIC) in hardware. This single NIC has a maximum bandwidth and packet per second rate.
+
+If the Multi-NIC feature is enabled, the VPC CNI doesn't assign IP addresses in bulk, which is does by default. Instead, the VPC CNI assigns one IP address to a network interface on each network card on-demand when a new pod starts. This behavior reduces the rate of IP address exhaustion, which is increased by using multi-homed pods. Because the VPC CNI is assigning IP address on-demand, pods might take longer to start on instances with the Multi-NIC feature enabled.
+
+[#pod-multi-nic-considerations]
+== Considerations
+
+* Ensure that your Kubernetes cluster is running VPC CNI version `1.20.0` and later. The Multi-NIC feature is only available in version `1.20.0` of the VPC CNI or later.
+* Enable the `ENABLE_MULTI_NIC` environment variable in the VPC CNI plugin. You can run the following command to set the variable and start a deployment of the DaemonSet.
+** `kubectl set env daemonset aws-node -n kube-system ENABLE_MULTI_NIC=true`
+* Ensure that you create worker nodes that have multiple network interface cards (NICs). For a list of EC2 instances that have multiple network interface cards, see link:AWSEC2/latest/UserGuide/using-eni.html#network-cards[Network cards,type="documentation"] in the *Amazon EC2 User Guide*.
+* If the Multi-NIC feature is enabled, the VPC CNI doesn't assign IP addresses in bulk, which is does by default. Because the VPC CNI is assigning IP address on-demand, pods might take longer to start on instances with the Multi-NIC feature enabled. For more information, see the previous section <<pod-multi-nic-background>>.
+* With the Multi-NIC feature enabled, pods don’t have multiple network interfaces by default. You must configure each workload to use multi-NIC. Add the `k8s.amazonaws.com/nicConfig: multi-nic-attachment` annotation to workloads that should have multiple network interfaces.
+* `IPv6` - For `IPv6` clusters, create and use the following custom IAM policy for the VPC CNI. This policy is specific to multi-NIC. For more general information about using the VPC CNI with `IPv6` clusters, see <<cni-ipv6>>.
 +
-*key*::
-: `node.k8s.amazonaws.com/no_manage`
-+
-*value*::
-: `true`
-* Multus is compatible with network policies, but the policy has to be enriched to include ports and IP addresses that may be part of additional network interfaces attached to Pods.
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AmazonEKSCNIPolicyIPv6MultiNIC",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeInstances",
+                "ec2:AssignIpv6Addresses",
+                "ec2:DetachNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeTags",
+                "ec2:ModifyNetworkInterfaceAttribute",
+                "ec2:DeleteNetworkInterface",
+                "ec2:DescribeInstanceTypes",
+                "ec2:UnassignIpv6Addresses",
+                "ec2:AttachNetworkInterface",
+                "ec2:DescribeSubnets"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AmazonEKSCNIPolicyENITagIPv6MultiNIC",
+            "Effect": "Allow",
+            "Action": "ec2:CreateTags",
+            "Resource": "arn:aws:ec2:*:*:network-interface/*"
+        }
+    ]
+}
+----
 
-For an implementation walk through, see the https://github.com/aws-samples/eks-install-guide-for-multus/blob/main/README.md[Multus Setup Guide] on GitHub.
+[#pod-multi-nic-usage]
+== Usage
+
+After the Multi-NIC feature is enabled in the VPC CNI and the `aws-node` pods have restarted, you can configure each workload to be multi-homed. The following example of a YAML configuration with the required annotation:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-deployment
+  namespace: ecommerce
+  labels:
+    app: orders
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      annotations:
+         **k8s****.amazonaws.com/nicConfig: multi-nic-attachment**
+      labels:
+        app: orders
+    spec:
+...
+----
+
+
+[#pod-muti-nic-faqs]
+== Frequently Asked Questions
+
+[#pod-muti-nic-faqs-nic]
+=== *1. What is a network interface card (NIC)?*
+
+A network interface card (NIC), also simply called a network card, is a physical device that enables network connectivity for the underlying cloud compute hardware. In modern EC2 servers, this refers to the Nitro network card. An Elastic Network Interface (ENI) is a virtual representation of this underlying network card. 
+
+Some EC2 instance types allow you to utilize multiple NICs for greater bandwidth and packet rate performance. For such instances, you can assign secondary ENIs to the additional network cards. For example, ENI #1 can function as the interface for the NIC attached to network card index 0, whereas ENI #2 can function as the interface for the NIC attached to a separate network card index. 
+
+[#pod-muti-nic-faqs-pod]
+=== *2. What is a multi-homed pod?*
+
+A multi-homed pod is a single Kubernetes pod with multiple network interfaces (and by implication multiple IP addresses). Each pod network interface is associated with an link:AWSEC2/latest/UserGuide/using-eni.html[Elastic Network Interface (ENI), type="documentation"], and these ENIs are logical representations of separate NICs on the underlying worker node. With multiple network interfaces, a multi-homed pod has additional data transfer capacity, which also raises its data transfer rate. 
+
+[IMPORTANT]
+====
+The VPC CNI can only configure multi-homed pods on instance types that have multiple NICs.
+====
+
+[#pod-muti-nic-faqs-why]
+=== *3. Why should I use this feature?*
+
+If you need to scale network performance in your Kubernetes-based workloads, this feature enables you to run multi-homed pods that interface with all the underlying NICs that have an ENA device attached to it. Leveraging additional network cards raises the bandwidth capacity and packet rate performance in your applications by distributing application traffic across multiple concurrent connections. This is especially useful for Artificial Intelligence (AI), Machine Learning (ML), and High Performance Computing (HPC) use cases.
+
+[#pod-muti-nic-faqs-how-to-enable]
+=== *4. How do I use this feature?*
+
+
+. First, you must ensure that your Kubernetes cluster is using VPC CNI version 1.20 or later. For the steps to update the VPC CNI as an EKS add-on, see <<vpc-add-on-update>>.
+. Then, you have to enable multi-NIC support in the VPC CNI by using the `ENABLE_MULTI_NIC` environment variable.
+. Then, you must ensure that you make and join nodes that have multiple network cards. For a list of EC2 instance types that have multiple network cards, see link:AWSEC2/latest/UserGuide/using-eni.html#network-cards[Network cards, type="documentation"] in the _Amazon EC2 User Guide_.
+. Finally, you configure each workload to use either multiple network interfaces (multi-homed pods) or use a single network interface.
+
+
+[#pod-muti-nic-faqs-how-to-workloads]
+=== *5. How do I configure my workloads to use multiple NICs on a supported worker node?*
+
+To use multi-homed pods, you need to add the following annotation: `k8s.amazonaws.com/nicConfig: multi-nic-attachment`. This will attach an ENI from every NIC in the underlying instance to the pod (one to many mapping between a pod and the NICs).
+ 
+If this annotation is missing, the VPC CNI assumes that your pod only requires 1 network interface and assigns it an IP from an ENI on any available NIC. 
+
+[#pod-muti-nic-faqs-adapters]
+=== *6. What network interface adapters are supported with this feature?*
+
+You can use any network interface adapter as long as you have at least one ENA attached to the underlying network card for IP traffic. For more information about ENA, see link:AWSEC2/latest/UserGuide/enhanced-networking-ena.html[Elastic Network Adapter (ENA), type="documentation"] in the _Amazon EC2 User Guide_.
+
+Supported network device configurations:
+
+* **ENA** interfaces provide all of the traditional IP networking and routing features that are required to support IP networking for a VPC. For more information, see link:AWSEC2/latest/UserGuide/enhanced-networking-ena.html[Enable enhanced networking with ENA on your EC2 instances, type="documentation"].
+* **EFA** **(EFA** **with ENA)** interfaces provide both the ENA device for IP networking and the EFA device for low-latency, high-throughput communication.
+
+[IMPORTANT]
+====
+If a network card only has an **EFA-only** adapter attached to it, the VPC CNI will skip it when provisioning network connectivity for a multi-homed pod. However, if you combine an **EFA-only** adapter with an **ENA** adapter on a network card, then the VPC CNI will manage ENIs on this device as well. To use EFA-only interfaces with EKS clusters, see <<node-efa>>.
+====
+
+[#pod-muti-nic-faqs-node-ena]
+=== *7. Can I see if a node in my cluster has ENA support?*
+
+Yes, you can use the {aws} CLI or EC2 API to retrieve network information about an EC2 instance in your cluster. This provides details on whether or not the instance has ENA support. In the following example, replace `<your-instance-id>` with the EC2 instance ID of a node.
+ 
+{aws} CLI example: 
+
+[source,bash,subs="verbatim,attributes"]
+----
+aws ec2 describe-instances —instance-ids <your-instance-id> –query "Reservations[].Instances[].EnaSupport"
+----
+
+ 
+Example output:
+
+```
+[ true ]
+```
+
+[#pod-muti-nic-faqs-list-ips]
+=== *8. Can I see the different IP addresses associated with a pod?*
+
+No, not easily. However, you can use `nsenter` from the node to run common network tools such as `ip route show` and see the additional IP addresses and interfaces.
+
+[#pod-muti-nic-faqs-number-of-enis]
+=== *9. Can I control the number of network interfaces for my pods?*
+
+No. When your workload is configured to use multiple NICs on a supported instance, a single pod automatically has an IP address from every network card on the instance. Alternatively, single-homed pods will have one network interface attached to one NIC on the instance.
+
+[IMPORTANT]
+====
+Network cards that _only_ have an **EFA-only** device attached to it will be skipped by the VPC CNI.
+====
+
+[#pod-muti-nic-faqs-specify-nic]
+=== *10. Can I configure my pods to use a specific NIC?*
+
+No, this isn't supported. If a pod has the relevant annotation, then the VPC CNI automatically configures it to use every NIC with an ENA adapter on the worker node.
+
+[#pod-muti-nic-faqs-modes]
+=== *11. Does this feature work with the other VPC CNI networking features?*
+
+Yes, the multi-NIC feature in the VPC CNI works with both _custom networking_ and _enhanced subnet discovery_. However, the multi-homed pods don't use the custom subnets or security groups. Instead, the VPC CNI assigns IP addresses and network interfaces to the multi-homed pods with the same subnet and security group configuration as the node. For more information about custom networking, see <<cni-custom-network>>. 
+
+[#pod-muti-nic-faqs-netpol]
+=== *12. Can I use network policies with this feature?*
+
+Yes, you can use Kubernetes network policies with multi-NIC. Kubernetes network policies restrict network traffic to and from your pods. For more information about applying network policies with the VPC CNI, see <<cni-network-policy>>.  
+
+[#pod-muti-nic-faqs-auto-mode]
+=== *13. Is multi-NIC support enabled in EKS Auto Mode?*
+
+Multi-NIC isn't supported for EKS Auto Mode clusters. 
