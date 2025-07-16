@@ -30,7 +30,7 @@ An example output is as follows.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-v1.19.6-eksbuild.1
+v1.19.6-eksbuild.7
 ----
 +
 Your output might not include the build number.
