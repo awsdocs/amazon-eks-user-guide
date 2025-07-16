@@ -36,12 +36,12 @@ The following table lists the latest version of the Amazon EKS add-on type for e
 | Kubernetes version | `kube-proxy` version
 
 | 1.33 | v1.33.0-eksbuild.2
-| 1.32 | v1.32.5-eksbuild.2
-| 1.31 | v1.31.9-eksbuild.2
-| 1.30 | v1.30.13-eksbuild.2
-| 1.29 | v1.29.15-eksbuild.7
-| 1.28 | v1.28.15-eksbuild.22
-| 1.27 | v1.27.16-eksbuild.32
+| 1.32 | v1.32.6-eksbuild.2
+| 1.31 | v1.31.10-eksbuild.2
+| 1.30 | v1.30.14-eksbuild.2
+| 1.29 | v1.29.15-eksbuild.10
+| 1.28 | v1.28.15-eksbuild.25
+| 1.27 | v1.27.16-eksbuild.35
 | 1.26 | v1.26.15-eksbuild.35
 
 |===
@@ -68,12 +68,12 @@ The following table lists the latest available self-managed `kube-proxy` contain
 | Version | kube-proxy
 
 | 1.33 | v1.33.0-minimal-eksbuild.2
-| 1.32 | v1.32.5-minimal-eksbuild.2
-| 1.31 | v1.31.9-minimal-eksbuild.2
-| 1.30 | v1.30.13-minimal-eksbuild.2
-| 1.29 | v1.29.15-minimal-eksbuild.7
-| 1.28 | v1.28.15-minimal-eksbuild.22
-| 1.27 | v1.27.16-minimal-eksbuild.32
+| 1.32 | v1.32.6-minimal-eksbuild.2
+| 1.31 | v1.31.10-minimal-eksbuild.2
+| 1.30 | v1.30.14-minimal-eksbuild.2
+| 1.29 | v1.29.15-minimal-eksbuild.10
+| 1.28 | v1.28.15-minimal-eksbuild.25
+| 1.27 | v1.27.16-minimal-eksbuild.35
 | 1.26 | v1.26.15-minimal-eksbuild.35
 
 |===
