@@ -21,18 +21,22 @@ image::images/multi-homed-pod.png[A multi-homed pod with two network interfaces 
 
 On Amazon EC2, an _elastic network interface_ is a logical networking component in a VPC that represents a virtual network card. For many EC2 instance types, the network interfaces share a single network interface card (NIC) in hardware. This single NIC has a maximum bandwidth and packet per second rate.
 
-If the Multi-NIC feature is enabled, the VPC CNI doesn't assign IP addresses in bulk, which is does by default. Instead, the VPC CNI assigns one IP address to a network interface on each network card on-demand when a new pod starts. This behavior reduces the rate of IP address exhaustion, which is increased by using multi-homed pods. Because the VPC CNI is assigning IP address on-demand, pods might take longer to start on instances with the Multi-NIC feature enabled.
+If the multi-NIC feature is enabled, the VPC CNI doesn't assign IP addresses in bulk, which it does by default. Instead, the VPC CNI assigns one IP address to a network interface on each network card on-demand when a new pod starts. This behavior reduces the rate of IP address exhaustion, which is increased by using multi-homed pods. Because the VPC CNI is assigning IP address on-demand, pods might take longer to start on instances with the multi-NIC feature enabled.
 
 [#pod-multi-nic-considerations]
 == Considerations
 
-* Ensure that your Kubernetes cluster is running VPC CNI version `1.20.0` and later. The Multi-NIC feature is only available in version `1.20.0` of the VPC CNI or later.
+* Ensure that your Kubernetes cluster is running VPC CNI version `1.20.0` and later. The multi-NIC feature is only available in version `1.20.0` of the VPC CNI or later.
 * Enable the `ENABLE_MULTI_NIC` environment variable in the VPC CNI plugin. You can run the following command to set the variable and start a deployment of the DaemonSet.
 ** `kubectl set env daemonset aws-node -n kube-system ENABLE_MULTI_NIC=true`
 * Ensure that you create worker nodes that have multiple network interface cards (NICs). For a list of EC2 instances that have multiple network interface cards, see link:AWSEC2/latest/UserGuide/using-eni.html#network-cards[Network cards,type="documentation"] in the *Amazon EC2 User Guide*.
-* If the Multi-NIC feature is enabled, the VPC CNI doesn't assign IP addresses in bulk, which is does by default. Because the VPC CNI is assigning IP address on-demand, pods might take longer to start on instances with the Multi-NIC feature enabled. For more information, see the previous section <<pod-multi-nic-background>>.
-* With the Multi-NIC feature enabled, pods don't have multiple network interfaces by default. You must configure each workload to use multi-NIC. Add the `k8s.amazonaws.com/nicConfig: multi-nic-attachment` annotation to workloads that should have multiple network interfaces.
-* `IPv6` - For `IPv6` clusters, create and use the following custom IAM policy for the VPC CNI. This policy is specific to multi-NIC. For more general information about using the VPC CNI with `IPv6` clusters, see <<cni-ipv6>>.
+* If the multi-NIC feature is enabled, the VPC CNI doesn't assign IP addresses in bulk, which it does by default. Because the VPC CNI is assigning IP address on-demand, pods might take longer to start on instances with the multi-NIC feature enabled. For more information, see the previous section <<pod-multi-nic-background>>.
+* With the multi-NIC feature enabled, pods don't have multiple network interfaces by default. You must configure each workload to use multi-NIC. Add the `k8s.amazonaws.com/nicConfig: multi-nic-attachment` annotation to workloads that should have multiple network interfaces.
+
+[#pod-multi-nic-considerations-ipv6]
+=== `IPv6` Considerations
+
+* *Custom IAM policy* - For `IPv6` clusters, create and use the following custom IAM policy for the VPC CNI. This policy is specific to multi-NIC. For more general information about using the VPC CNI with `IPv6` clusters, see <<cni-ipv6>>.
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -67,11 +71,12 @@ If the Multi-NIC feature is enabled, the VPC CNI doesn't assign IP addresses in 
     ]
 }
 ----
+* `IPv6` *transition mechanism not available* - If you use the multi-NIC feature, the VPC CNI doesn't assign an `IPv4` address to pods on an `IPv6` cluster. Otherwise, the VPC CNI assigns a host-local `IPv4` address to each pod so that a pod can communicate with external `IPv4` resources in another Amazon VPC or the internet.
 
-[#pod-multi-nic-usage]
+[#pod-multi-NIC-usage]
 == Usage
 
-After the Multi-NIC feature is enabled in the VPC CNI and the `aws-node` pods have restarted, you can configure each workload to be multi-homed. The following example of a YAML configuration with the required annotation:
+After the multi-NIC feature is enabled in the VPC CNI and the `aws-node` pods have restarted, you can configure each workload to be multi-homed. The following example of a YAML configuration with the required annotation:
 
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -90,7 +95,7 @@ spec:
   template:
     metadata:
       annotations:
-         **k8s****.amazonaws.com/nicConfig: multi-nic-attachment**
+         k8s.amazonaws.com/nicConfig: multi-nic-attachment
       labels:
         app: orders
     spec:
@@ -186,7 +191,7 @@ No. When your workload is configured to use multiple NICs on a supported instanc
 
 [IMPORTANT]
 ====
-Network cards that _only_ have an **EFA-only** device attached to it is skipped by the VPC CNI.
+Network cards that _only_ have an **EFA-only** device attached to it are skipped by the VPC CNI.
 ====
 
 [#pod-muti-nic-faqs-specify-nic]
@@ -197,7 +202,9 @@ No, this isn't supported. If a pod has the relevant annotation, then the VPC CNI
 [#pod-muti-nic-faqs-modes]
 === *11. Does this feature work with the other VPC CNI networking features?*
 
-Yes, the multi-NIC feature in the VPC CNI works with both _custom networking_ and _enhanced subnet discovery_. However, the multi-homed pods don't use the custom subnets or security groups. Instead, the VPC CNI assigns IP addresses and network interfaces to the multi-homed pods with the same subnet and security group configuration as the node. For more information about custom networking, see <<cni-custom-network>>. 
+Yes, the multi-NIC feature in the VPC CNI works with both _custom networking_ and _enhanced subnet discovery_. However, the multi-homed pods don't use the custom subnets or security groups. Instead, the VPC CNI assigns IP addresses and network interfaces to the multi-homed pods with the same subnet and security group configuration as the node. For more information about custom networking, see <<cni-custom-network>>.
+
+The multi-NIC feature in the VPC CNI doesn't work with and can't be combined with _security groups for pods_.
 
 [#pod-muti-nic-faqs-netpol]
 === *12. Can I use network policies with this feature?*
