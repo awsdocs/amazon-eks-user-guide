@@ -12,8 +12,6 @@ For the highest level of customization, you can deploy managed nodes using your 
 
 For the highest level of customization, you can deploy managed nodes using your own launch template. Using a launch template allows capabilities such as the following:
 
-
-
 * Provide bootstrap arguments at deployment of a node, such as extra https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet] arguments.
 * Assign IP addresses to Pods from a different CIDR block than the IP address assigned to the node.
 * Deploy your own custom AMI to nodes.
@@ -85,9 +83,7 @@ a|*Application and OS Images (Amazon Machine Image)* under *Launch template cont
 
 
 * If you deploy a node group using a launch template, specify zero or one *Instance type* under *Launch template contents* in a launch template. Alternatively, you can specify 0–20 instance types for *Instance types* on the *Set compute and scaling configuration* page in the console. Or, you can do so using other tools that use the Amazon EKS API. If you specify an instance type in a launch template, and use that launch template to deploy your node group, then you can't specify any instance types in the console or using other tools that use the Amazon EKS API. If you don't specify an instance type in a launch template, in the console, or using other tools that use the Amazon EKS API, the `t3.medium` instance type is used. If your node group is using the Spot capacity type, then we recommend specifying multiple instance types using the console. For more information, see <<managed-node-group-capacity-types>>. 
-* If any containers that you deploy to the node group use the Instance Metadata Service Version 2, make sure to set the *Metadata response hop limit* to `2` in your launch template. For more information, see link:AWSEC2/latest/UserGuide/ec2-instance-metadata.html[Instance metadata and user data,type="documentation"] in the _Amazon EC2 User Guide_. If you deploy a managed node group without using a custom launch template, this value is automatically set for the node group in the default launch template:
-** With an AL2 AMI, the default is set to `2`.
-** With an AL2023 AMI, the default is set to `1`. This means that containers won't have access to the node's credentials using IMDS. If you require container access to the node's credentials, you can still do so by using a link:AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-metadataoptions.html[custom Amazon EC2 launch template,type="documentation"].
+* If any containers that you deploy to the node group use the Instance Metadata Service Version 2, make sure to set the *Metadata response hop limit* to `2` in your launch template. For more information, see link:AWSEC2/latest/UserGuide/ec2-instance-metadata.html[Instance metadata and user data,type="documentation"] in the _Amazon EC2 User Guide_.
 * Launch templates do not support the `InstanceRequirements` feature that allows flexible instance type selection.
 ====
 
@@ -101,12 +97,9 @@ You can use the `TagSpecification` parameter of a launch template to specify whi
 
 You can use a launch template to specify custom Amazon EC2 link:AWSEC2/latest/UserGuide/ec2-security-groups.html[security groups,type="documentation"] to apply to instances in your node group. This can be either in the instance level security groups parameter or as part of the network interface configuration parameters. However, you can't create a launch template that specifies both instance level and network interface security groups. Consider the following conditions that apply to using custom security groups with managed node groups:
 
-
-
 * When using the {aws-management-console}, Amazon EKS only allows launch templates with a single network interface specification.
 * By default, Amazon EKS applies the <<sec-group-reqs,cluster security group>> to the instances in your node group to facilitate communication between nodes and the control plane. If you specify custom security groups in the launch template using either option mentioned earlier, Amazon EKS doesn't add the cluster security group. So, you must ensure that the inbound and outbound rules of your security groups enable communication with the endpoint of your cluster. If your security group rules are incorrect, the worker nodes can't join the cluster. For more information about security group rules, see <<sec-group-reqs>>.
 * If you need SSH access to the instances in your node group, include a security group that allows that access.
-
 
 [#launch-template-user-data]
 == Amazon EC2 user data
@@ -521,7 +514,4 @@ kubectl edit -n kube-system cm aws-auth
 - eks:kube-proxy-windows
 ----
 .. Save the file and exit your text editor.
-* The default `HttpPutResponseHopLimit` for managed node groups can vary:
-** When not using a launch template with an AL2 AMI, the default is set to `2`.
-** When not using a launch template with an AL2023 AMI, the default is set to `1`. This means that containers won't have access to the node's credentials using IMDS. If you require container access to the node's credentials, you can still do so by using a link:AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-metadataoptions.html[custom Amazon EC2 launch template,type="documentation"].
-** When using a custom AMI in a launch template, the default `HttpPutResponseHopLimit` is set to `2`. You can manually override the `HttpPutResponseHopLimit` in the launch template.
+* For any AMI that uses a custom launch template, the default `HttpPutResponseHopLimit` for managed node groups is set to `2`.
