@@ -85,7 +85,9 @@ a|*Application and OS Images (Amazon Machine Image)* under *Launch template cont
 
 
 * If you deploy a node group using a launch template, specify zero or one *Instance type* under *Launch template contents* in a launch template. Alternatively, you can specify 0–20 instance types for *Instance types* on the *Set compute and scaling configuration* page in the console. Or, you can do so using other tools that use the Amazon EKS API. If you specify an instance type in a launch template, and use that launch template to deploy your node group, then you can't specify any instance types in the console or using other tools that use the Amazon EKS API. If you don't specify an instance type in a launch template, in the console, or using other tools that use the Amazon EKS API, the `t3.medium` instance type is used. If your node group is using the Spot capacity type, then we recommend specifying multiple instance types using the console. For more information, see <<managed-node-group-capacity-types>>. 
-* If any containers that you deploy to the node group use the Instance Metadata Service Version 2, make sure to set the *Metadata response hop limit* to `2` in your launch template. For more information, see link:AWSEC2/latest/UserGuide/ec2-instance-metadata.html[Instance metadata and user data,type="documentation"] in the _Amazon EC2 User Guide_. If you deploy a managed node group without using a custom launch template, this value is automatically set for the node group in the default launch template.
+* If any containers that you deploy to the node group use the Instance Metadata Service Version 2, make sure to set the *Metadata response hop limit* to `2` in your launch template. For more information, see link:AWSEC2/latest/UserGuide/ec2-instance-metadata.html[Instance metadata and user data,type="documentation"] in the _Amazon EC2 User Guide_. If you deploy a managed node group without using a custom launch template, this value is automatically set for the node group in the default launch template:
+** With an AL2 AMI, the default is set to `2`.
+** With an AL2023 AMI, the default is set to `1`. This means that containers won't have access to the node's credentials using IMDS. If you require container access to the node's credentials, you can still do so by using a link:AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-metadataoptions.html[custom Amazon EC2 launch template,type="documentation"].
 * Launch templates do not support the `InstanceRequirements` feature that allows flexible instance type selection.
 ====
 
@@ -496,8 +498,6 @@ When specifying an AMI, Amazon EKS doesn't merge any user data. Rather, you're r
 
 The following are the limits and conditions involved with specifying an AMI ID with managed node groups:
 
-
-
 * You must create a new node group to switch between specifying an AMI ID in a launch template and not specifying an AMI ID.
 * You aren't notified in the console when a newer AMI version is available. To update your node group to a newer AMI version, you need to create a new version of your launch template with an updated AMI ID. Then, you need to update the node group with the new launch template version. 
 * The following fields can't be set in the API if you specify an AMI ID:
@@ -521,3 +521,7 @@ kubectl edit -n kube-system cm aws-auth
 - eks:kube-proxy-windows
 ----
 .. Save the file and exit your text editor.
+* The default `HttpPutResponseHopLimit` for managed node groups can vary:
+** When not using a launch template with an AL2 AMI, the default is set to `2`.
+** When not using a launch template with an AL2023 AMI, the default is set to `1`. This means that containers won't have access to the node's credentials using IMDS. If you require container access to the node's credentials, you can still do so by using a link:AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-metadataoptions.html[custom Amazon EC2 launch template,type="documentation"].
+** When using a custom AMI in a launch template, the default `HttpPutResponseHopLimit` is set to `2`. You can manually override the `HttpPutResponseHopLimit` in the launch template.
