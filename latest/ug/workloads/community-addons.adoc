@@ -276,13 +276,13 @@ NOTE: This add-on requires nodes with SR-IOV-capable network interfaces.
 |`sriov-network-metrics-exporter`
 
 |Namespace
-|`fluent-bit`
+|`monitoring`
 
 |Documentation
 |https://github.com/k8snetworkplumbingwg/sriov-network-metrics-exporter[SR-IOV Network Metrics Exporter GitHub repo]
 
 |Service account name
-|`fluent-bit`
+|None
 
 |Managed IAM policy
 |None
