@@ -61,7 +61,6 @@ If you are using VPC CNI versions older than `1.15`, node labels were used inste
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl get nodes -o wide -l vpc.amazonaws.com/has-trunk-attached=true
--
 ----
 +
 Once the trunk network interface is created, Pods are assigned secondary IP addresses from the trunk or standard network interfaces. The trunk interface is automatically deleted if the node is deleted.
