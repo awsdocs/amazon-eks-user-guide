@@ -20,8 +20,7 @@ Capacity Blocks for machine learning (ML) allow you to reserve GPU instances on 
 
 
 * Capacity Blocks are only available for certain Amazon EC2 instance types and {aws} Regions. For compatibility information, see link:AWSEC2/latest/UserGuide/capacity-blocks-using.html#capacity-blocks-prerequisites[Work with Capacity Blocks Prerequisites,type="documentation"] in the _Amazon EC2 User Guide for Linux Instances_.
-* Capacity Blocks currently cannot be used with Karpenter.
-* If you create a self-managed node group prior to the capacity reservation becoming active, then set the desired capacity to `0`. 
+* If you create a self-managed node group prior to the capacity reservation becoming active, then set the desired capacity to `0`.
 * To allow sufficient time to gracefully drain the node(s), we suggest that you schedule scaling to scale to zero more than 30 minutes before the Capacity Block reservation end time.
 * In order for your Pods to be gracefully drained, we recommend that you set up {aws} Node Termination Handler as explained in the example steps.
 
