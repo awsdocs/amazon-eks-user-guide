@@ -759,7 +759,7 @@ Learn about the Splunk Amazon EKS add-on.
 
 The add-on name is `splunk_splunk-otel-collector-chart` and the namespace is `splunk-monitoring`. Splunk publishes the add-on.
 
-For information about the add-on, see https://docs.splunk.com/observability/en/gdi/opentelemetry/install-k8s-addon-eks.html[Install the Splunk add-on for Amazon EKS] in the Splunk documentation.
+For information about the add-on, see https://help.splunk.com/en/splunk-observability-cloud/manage-data/splunk-distribution-of-the-opentelemetry-collector/get-started-with-the-splunk-distribution-of-the-opentelemetry-collector/collector-for-kubernetes/kubernetes-eks-add-on[Install the Splunk add-on for Amazon EKS] in the Splunk documentation.
 
 [#add-on-splunk-service-account-name]
 === Service account name

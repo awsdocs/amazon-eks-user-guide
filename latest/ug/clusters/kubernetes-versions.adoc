@@ -167,7 +167,7 @@ aws eks describe-cluster-versions
 == Amazon EKS version FAQs
 
 *How many Kubernetes versions are available in standard support?*::
-In line with the Kubernetes community support for Kubernetes versions, Amazon EKS is committed to offering support for three Kubernetes versions at any given time. We will announce the end of standard support date of a given Kubernetes minor version at least 60 days in advance. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the end of standard support date of a Kubernetes version on Amazon EKS will be after the date that the Kubernetes project stops supporting the version upstream.
+In line with the Kubernetes community support for Kubernetes versions, Amazon EKS is committed to offering support for at least three Kubernetes versions at any given time. We will announce the end of standard support date of a given Kubernetes minor version at least 60 days in advance. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the end of standard support date of a Kubernetes version on Amazon EKS will be after the date that the Kubernetes project stops supporting the version upstream.
 
 *How long does a Kubernetes receive standard support by Amazon EKS?*::
 A Kubernetes version received standard support for 14 months after first being available on Amazon EKS. This is true even if upstream Kubernetes no longer support a version that's available on Amazon EKS. We backport security patches that are applicable to the Kubernetes versions that are supported on Amazon EKS.

@@ -31,9 +31,7 @@ An existing Amazon EKS cluster. To deploy one, see <<getting-started>>. The clus
 
 [source,bash,subs="verbatim,attributes"]
 ----
-aws eks describe-cluster
-              --name my-cluster --query cluster.version --output
-              text
+aws eks describe-cluster --name my-cluster --query cluster.version --output text
 ----
 
 [%header,cols="2"]
