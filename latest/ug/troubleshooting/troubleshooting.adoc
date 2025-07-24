@@ -479,7 +479,7 @@ You can identify all existing Pods in your cluster that are using stale tokens. 
 [#troubleshooting-platform-version]
 == Amazon EKS platform version is more than two versions behind the current platform version
 
-This can happen when Amazon EKS isn't able to automatically update your cluster's <<platform-versions,platform version>>. Though there are many causes for this, some of the common causes follow. If any of these problems apply to your cluster, it may still function, its platform version just won't be updated by Amazon EKS.
+This can happen when Amazon EKS isn't able to automatically update your cluster's eks/latest/userguide/platform-versions.html[platform-version,type="documentation"]. Though there are many causes for this, some of the common causes follow. If any of these problems apply to your cluster, it may still function, its platform version just won't be updated by Amazon EKS.
 
 .Problem
 The <<cluster-iam-role,cluster IAM role>> was deleted – This role was specified when the cluster was created. You can see which role was specified with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster.

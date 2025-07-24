@@ -14,7 +14,7 @@ When deploying nodes, you can specify an ID for a pre-built Amazon EKS optimized
 
 You can retrieve the image ID of the latest recommended Amazon EKS optimized Bottlerocket AMI with the following {aws} CLI command, which uses the sub-parameter `image_id`. Make the following modifications to the command as needed and then run the modified command:
 
-* Replace [.replaceable]`kubernetes-version` with a supported <<platform-versions,Amazon EKS version>>.
+* Replace [.replaceable]`kubernetes-version` with a supported eks/latest/userguide/platform-versions.html[platform-version,type="documentation"].
 * Replace [.replaceable]`-flavor` with one of the following options.
 +
 ** Remove [.replaceable]`-flavor` for variants without a GPU.

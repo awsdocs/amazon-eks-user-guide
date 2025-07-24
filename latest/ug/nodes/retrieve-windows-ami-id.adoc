@@ -22,7 +22,7 @@ You can retrieve the image ID of the latest recommended Amazon EKS optimized Win
 +
 ** Use [.replaceable]`Core` for a minimal installation with a smaller attack surface.
 ** Use [.replaceable]`Full` to include the Windows desktop experience.
-* Replace [.replaceable]`kubernetes-version` with a supported <<platform-versions,Amazon EKS version>>.
+* Replace [.replaceable]`kubernetes-version` with a supported eks/latest/userguide/platform-versions.html[platform-version,type="documentation"].
 * Replace [.replaceable]`region-code` with an link:general/latest/gr/eks.html[Amazon EKS supported {aws} Region,type="documentation"] for which you want the AMI ID.
 
 [source,bash,subs="verbatim,attributes,quotes"]

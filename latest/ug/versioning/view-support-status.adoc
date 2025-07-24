@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 The *cluster support period* section of the {aws} console indicates if your cluster is _currently_ on standard or extended support. If your cluster support period is *Extended support*, you are being charged for EKS extended support.  
 
-For more information about standard and extended support, see <<kubernetes-versions>>.
+For more information about standard and extended support, see eks/latest/userguide/kubernetes-versions.html[Understand the Kubernetes version lifecycle on EKS,type="documentation"].
 
 . Navigate to the *Clusters* page in the EKS section of the {aws} Console. Confirm the console is set to the same {aws} region as the cluster you want to review.  
 . Review the *Support Period* column. If the value is *Standard support until...*, you are not currently being charged for extended support. You are within the standard support period. If the value is *Extended support...* this cluster is currently being charged for extended support.  

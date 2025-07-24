@@ -1,41 +1,10 @@
 include::../attributes.txt[]
 
 [#clusters]
-= Organize workloads with Amazon EKS clusters
+= Managing Amazon EKS clusters
 :info_titleabbrev: Clusters
 
-An Amazon EKS cluster consists of two primary components:
-
-* The Amazon EKS control plane
-* Amazon EKS nodes that are registered with the control plane
-
-The Amazon EKS control plane consists of control plane nodes that run the Kubernetes software, such as `etcd` and the Kubernetes API server. The control plane runs in an account managed by {aws}, and the Kubernetes API is exposed via the Amazon EKS endpoint associated with your cluster. Each Amazon EKS cluster control plane is single-tenant and unique, and runs on its own set of Amazon EC2 instances.
-
-All of the data stored by the `etcd` nodes and associated Amazon EBS volumes is encrypted using {aws} KMS. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support `kubectl exec` `logs` `proxy` data flows).
-
-[IMPORTANT]
-====
-
-In the Amazon EKS environment, `etcd` storage is limited to 8 GiB as per https://etcd.io/docs/v3.5/dev-guide/limit/#storage-size-limit[upstream] guidance. You can monitor a metric for the current database size by running the following command. If your cluster has a Kubernetes version below `1.28`, replace [.replaceable]`apiserver_storage_size_bytes` with `apiserver_storage_db_total_size_in_bytes`.
-
-
-[source,bash,subs="verbatim,attributes"]
-----
-kubectl get --raw=/metrics | grep "apiserver_storage_size_bytes"
-----
-
-====
-
-Amazon EKS nodes run in your {aws} account and connect to your cluster's control plane via the API server endpoint and a certificate file that is created for your cluster.
-
-[NOTE]
-====
-
-
-* You can find out how the different components of Amazon EKS work in <<eks-networking,Configure networking for Amazon EKS clusters>>. 
-* For connected clusters, see <<eks-connector>>.
-
-====
+This section provides in-depth guidance on the full lifecycle management of Kubernetes clusters. It covers cluster creation, monitoring cluster health, updating Kubernetes versions, and deleting clusters. It also includes advanced topics on how to configure your cluster, including configuring endpoint access, enabling/disabling Windows support, setting up private clusters, implementing autoscaling, and enhancing resilience with Zonal Shift for traffic redirection in multi-AZ setups.
 
 [.topiclist]
 [[Topic List]]
@@ -44,33 +13,19 @@ include::create-cluster-auto.adoc[leveloffset=+1]
 
 include::create-cluster.adoc[leveloffset=+1]
 
-
 include::cluster-insights.adoc[leveloffset=+1]
-
 
 include::update-cluster.adoc[leveloffset=+1]
 
-
 include::delete-cluster.adoc[leveloffset=+1]
-
 
 include::cluster-endpoint.adoc[leveloffset=+1]
 
-
 include::windows-support.adoc[leveloffset=+1]
-
 
 include::disable-windows-support.adoc[leveloffset=+1]
 
-
 include::private-clusters.adoc[leveloffset=+1]
-
-
-include::kubernetes-versions.adoc[leveloffset=+1]
-
-
-include::platform-versions.adoc[leveloffset=+1]
-
 
 include::autoscaling.adoc[leveloffset=+1]
 

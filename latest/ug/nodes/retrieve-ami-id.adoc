@@ -14,7 +14,7 @@ When deploying nodes, you can specify an ID for a pre-built Amazon EKS optimized
 
 You can retrieve the image ID of the latest recommended Amazon EKS optimized Amazon Linux AMI with the following command, which uses the sub-parameter `image_id`. Make the following modifications to the command as needed and then run the modified command:
 
-* Replace `<kubernetes-version>` with a supported <<platform-versions,Amazon EKS version>>.
+* Replace `<kubernetes-version>` with a supported eks/latest/userguide/platform-versions.html[platform-version,type="documentation"].
 * Replace [.replaceable]`ami-type` with one of the following options. For information about the types of Amazon EC2 instances, see link:AWSEC2/latest/UserGuide/instance-types.html[Amazon EC2 instance types,type="documentation"].
 +
 ** Use [.replaceable]`amazon-linux-2023/x86_64/standard` for Amazon Linux 2023 (AL2023) `x86` based instances.

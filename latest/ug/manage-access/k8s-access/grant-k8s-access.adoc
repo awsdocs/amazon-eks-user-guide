@@ -40,7 +40,7 @@ The https://github.com/kubernetes-sigs/aws-iam-authenticator#readme[{aws} IAM Au
 +
 Use _access entries_ to manage the Kubernetes permissions of IAM principals from outside the cluster. You can add and manage access to the cluster by using the EKS API, {aws} Command Line Interface, {aws} SDKs, {aws} CloudFormation, and {aws-management-console}. This means you can manage users with the same tools that you created the cluster with.
 +
-To get started, follow <<setting-up-access-entries,Change authentication mode to use access entries>>, then <<migrating-access-entries,Migrating existing aws-auth ConfigMap entries to access entries>>.
+To get started, follow eks/latest/userguide/setting-up-access-entries.html[Change authentication mode to use access entries,type="documentation"], then <<migrating-access-entries,Migrating existing aws-auth ConfigMap entries to access entries>>.
 * *Adding entries to the `aws-auth` `ConfigMap`*
  – If your cluster's platform version is earlier than the version listed in the <<access-entries,Prerequisites>> section, then you must use this option. If your cluster's platform version is at or later than the platform version listed in the <<access-entries,Prerequisites>> section for your cluster's Kubernetes version, and you've added entries to the `ConfigMap`, then we recommend that you migrate those entries to access entries. You can't migrate entries that Amazon EKS added to the `ConfigMap` however, such as entries for IAM roles used with managed node groups or Fargate profiles. For more information, see <<grant-k8s-access>>.
 +
