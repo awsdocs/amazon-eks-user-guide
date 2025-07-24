@@ -61,7 +61,6 @@ The following community add-ons are available from Amazon EKS.
 * <<addon-cert-manager>>
 * <<external-dns>>
 * <<fluent-bit>>
-* <<add-ons-sriov-network-metrics-exporter>>
 
 [#kubernetes-metrics-server]
 === Kubernetes Metrics Server
@@ -259,38 +258,6 @@ This add-on does not require IAM permissions in the default configuration. Howev
 
 |===
 
-
-[#add-ons-sriov-network-metrics-exporter]
-=== SR-IOV Network Metrics Exporter
-
-The SR-IOV Network Metrics Exporter Amazon EKS add-on collects and exposes metrics about SR-IOV network devices in Prometheus format. It enables monitoring of SR-IOV network performance on EKS bare metal nodes. The exporter runs as a DaemonSet on nodes with SR-IOV-capable network interfaces and exports metrics that can be scraped by Prometheus.
-
-NOTE: This add-on requires nodes with SR-IOV-capable network interfaces.
-
-[%header,cols="2"]
-|===
-|Property
-|Value
-
-|Add-on name
-|`sriov-network-metrics-exporter`
-
-|Namespace
-|`monitoring`
-
-|Documentation
-|https://github.com/k8snetworkplumbingwg/sriov-network-metrics-exporter[SR-IOV Network Metrics Exporter GitHub repo]
-
-|Service account name
-|None
-
-|Managed IAM policy
-|None
-
-|Custom IAM permissions
-|None
-
-|===
 
 == View Attributions
 
