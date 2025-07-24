@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [#versioning]
 = Versioning on Amazon EKS
-:info_titleabbrev: Clusters
+:info_titleabbrev: Versioning
 
 An Amazon EKS cluster consists of two primary components:
 
