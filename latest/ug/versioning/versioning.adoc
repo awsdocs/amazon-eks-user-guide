@@ -34,3 +34,11 @@ If your cluster has a Kubernetes version below `1.28`, be sure to replace [.repl
 kubectl get --raw=/metrics | grep "apiserver_storage_size_bytes"
 ----
 
+
+[.topiclist]
+[[Topic List]]
+
+[.topic]
+include::kubernetes-versions.adoc[leveloffset=+1]
+
+include::platform-versions.adoc[leveloffset=+1]
