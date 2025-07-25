@@ -265,7 +265,7 @@ securityContext:
 [#auto-view-karpenter-logs]
 == View Karpenter events in Control Plane logs
 
-For Clusters with Control Plane logs enabled, you can gain insights into Karpenter's actions and decision-making process by querying the logs. This can be particularly useful for troubleshooting Auto Mode issues related to node provisioning, scaling, and termination. To view Karpenter-related events, use the following CloudWatch Logs Insights query:
+For EKS clusters with control plane logs enabled, you can gain insights into Karpenter's actions and decision-making process by querying the logs. This can be particularly useful for troubleshooting EKS Auto Mode issues related to node provisioning, scaling, and termination. To view Karpenter-related events, use the following CloudWatch Logs Insights query:
 
 [source]
 ----
