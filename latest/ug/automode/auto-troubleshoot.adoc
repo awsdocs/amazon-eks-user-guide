@@ -316,7 +316,7 @@ The results will show you a timeline of Karpenter-related events, helping you tr
 
 [NOTE]
 ====
-To use this query, Control Plane logging must be enabled on your EKS cluster. If you haven't done this yet, please refer to <<control-plane-logs>>.
+To use this query, control plane logging must be enabled on your EKS cluster. If you haven't done this yet, please refer to <<control-plane-logs>>.
 ====
 
 [#auto-troubleshoot-controllers]
