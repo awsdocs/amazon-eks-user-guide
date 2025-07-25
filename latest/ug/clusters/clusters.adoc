@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [#clusters]
-= Amazon EKS cluster configuration
+= Amazon EKS cluster lifecycle and configuration
 :info_titleabbrev: Configure clusters
 
 This section provides in-depth guidance on the full lifecycle management of Kubernetes clusters and different ways to configure them. It covers cluster creation, monitoring cluster health, updating Kubernetes versions, and deleting clusters. It also includes advanced topics on how to configure endpoint access, enable/disable Windows support, set up private clusters, implement autoscaling, and how to enhance resilience with Zonal Shift for traffic redirection in multi-AZ setups.
