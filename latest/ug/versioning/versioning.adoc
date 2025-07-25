@@ -1,5 +1,6 @@
 include::../attributes.txt[]
 
+[.topic]
 [#versioning]
 = Versioning on Amazon EKS
 :info_titleabbrev: Versioning
@@ -38,7 +39,6 @@ kubectl get --raw=/metrics | grep "apiserver_storage_size_bytes"
 [.topiclist]
 [[Topic List]]
 
-[.topic]
 include::kubernetes-versions.adoc[leveloffset=+1]
 
 include::platform-versions.adoc[leveloffset=+1]
