@@ -90,6 +90,11 @@ You can use any of the following Amazon EKS add-ons.
 |<<add-ons-aws-privateca-connector>>
 |EC2, Fargate, EKS Auto Mode, EKS Hybrid Nodes
 
+|Generate Prometheus metrics about SR-IOV network device performance
+|<<add-ons-sriov-network-metrics-exporter>>
+|EC2
+
+
 |===
 
 [#add-ons-vpc-cni]
@@ -623,3 +628,34 @@ The Pod Identity Agent add-on itself does not require an IAM role. It uses permi
 
 You can only update one minor version at a time. For example, if your current version is `1.28.x-eksbuild.y` and you want to update to `1.30.x-eksbuild.y`, then you must update your current version to `1.29.x-eksbuild.y` and then update it again to `1.30.x-eksbuild.y`. For more information about updating the add-on, see <<updating-an-add-on>>.
 
+[#add-ons-sriov-network-metrics-exporter]
+== SR-IOV Network Metrics Exporter
+
+The SR-IOV Network Metrics Exporter Amazon EKS add-on collects and exposes metrics about SR-IOV network devices in Prometheus format. It enables monitoring of SR-IOV network performance on EKS bare metal nodes. The exporter runs as a DaemonSet on nodes with SR-IOV-capable network interfaces and exports metrics that can be scraped by Prometheus.
+
+NOTE: This add-on requires nodes with SR-IOV-capable network interfaces.
+
+[%header,cols="2"]
+|===
+|Property
+|Value
+
+|Add-on name
+|`sriov-network-metrics-exporter`
+
+|Namespace
+|`monitoring`
+
+|Documentation
+|https://github.com/k8snetworkplumbingwg/sriov-network-metrics-exporter[SR-IOV Network Metrics Exporter GitHub repo]
+
+|Service account name
+|None
+
+|Managed IAM policy
+|None
+
+|Custom IAM permissions
+|None
+
+|===
