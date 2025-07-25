@@ -4,12 +4,13 @@ include::../attributes.txt[]
 = Versioning on Amazon EKS
 :info_titleabbrev: Versioning
 
-This section is designed to give you a comprehensive overview of how Kubernetes versioning operates within Amazon Elastic Kubernetes Service (EKS). You'll find details on supported versions, the lifecycle and deprecation policies, upgrade processes, and key considerations for managing your cluster verions. 
+This section is designed to give you an overview of how Kubernetes versioning operates within Amazon Elastic Kubernetes Service (EKS). You'll find details on supported versions, the lifecycle and deprecation policies, upgrade processes, and key considerations for managing your cluster versions. 
 
 [#versioning-cluster-components]
 == Cluster components
 
 An Amazon EKS cluster consists of two primary components: the Amazon EKS control plane and Amazon EKS nodes that are registered with the control plane.
+
 * *Control plane*: The control plane consists of nodes that run the Kubernetes software, such as etcd and the Kubernetes API server. It runs in an account managed by {aws}, and the Kubernetes API is exposed via the Amazon EKS endpoint associated with your cluster. Each Amazon EKS cluster control plane is single-tenant and unique, running on its own set of Amazon EC2 instances.
 * *Nodes*: Amazon EKS nodes are registered with the control plane and run in your {aws} account. They connect to your cluster's control plane via the API server endpoint and a certificate file created for your cluster.
 
