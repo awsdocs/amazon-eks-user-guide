@@ -42,7 +42,7 @@ For managing storage in AI/ML workloads on Amazon EKS, deploy models using CSI d
 
 AI/ML observability best practices on Amazon EKS prioritize monitoring GPU utilization to avoid waste and ensure efficiency. Target high GPU usage with tools like CloudWatch Container Insights or NVIDIA's DCGM-Exporter integrated with Prometheus and Grafana. Analyze metrics such as GPU compute and memory utilization to identify trends and optimize allocation. Avoid static resource limits for dynamic workloads, consolidate tasks onto fewer GPUs, and refer to compute best practices for scheduling and sharing strategies.
 
-=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-performance.html[Performance]
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-performance.html[AI/ML Performance]
 
 To enhance AI/ML performance on Amazon EKS, optimize image pull times using small, lightweight base images or {aws} Deep Learning Containers, and employ multi-stage builds for efficiency. Reduce container startup latency for low-latency workloads by preloading images via EBS snapshots or pre-pulling into the runtime cache using DaemonSets or Deployments. Test these optimizations in staging to confirm improvements in pod initialization and overall workload efficiency.
 
