@@ -69,6 +69,8 @@ Customers choose Amazon EKS for various reasons, such as optimizing GPU usage or
 
 To begin planning for and using Machine Learning platforms and workloads on EKS on the {aws} cloud, proceed to the <<ml-resources>> section.
 
+include::ml-realtime-inference.adoc[leveloffset=+1]
+
 include::ml-cluster-configuration.adoc[leveloffset=+1]
 
 include::ml-compute-management.adoc[leveloffset=+1]
