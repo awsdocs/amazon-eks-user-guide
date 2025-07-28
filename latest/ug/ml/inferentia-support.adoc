@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#inferentia-support]
 = Use {aws} Inferentia instances with Amazon EKS for Machine Learning
-:info_titleabbrev: Prepare Inferentia clusters
+:info_titleabbrev: Set up inference clusters with Inferentia
 
 [abstract]
 --

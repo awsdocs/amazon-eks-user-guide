@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#ml-eks-windows-optimized-ami]
 = Run GPU-accelerated containers (Windows on EC2 G-Series)
-:info_titleabbrev: Run Windows GPU AMIs
+:info_titleabbrev: Set up Windows GPU AMIs
 
 [IMPORTANT]
 ====

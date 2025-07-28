@@ -5,7 +5,7 @@ include::../attributes.txt[]
 [.topic]
 [#node-efa]
 = Run machine learning training on Amazon EKS with Elastic Fabric Adapter
-:info_titleabbrev: Training clusters with EFA
+:info_titleabbrev: Set up training clusters with EFA
 
 [abstract]
 --
