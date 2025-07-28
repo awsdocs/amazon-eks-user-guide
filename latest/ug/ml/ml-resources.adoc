@@ -21,6 +21,31 @@ Learn how to get started with Large Language Model (LLM) applications and infere
 === link:https://catalog.us-east-1.prod.workshops.aws/workshops/e21aadbd-23cb-4207-bd09-625e6de08a6c/en-US[Generative AI on Amazon EKS using Neuron]
 Learn how to get started with Large Language Model (LLM) applications and inference on Amazon EKS. Discover how to deploy and manage production-grade LLM workloads, implement advanced RAG patterns with vector databases, and build data-backed LLM applications using open-source frameworks. Through hands-on labs, you'll explore how to leverage Amazon EKS along with {aws} services and open-source tools to create robust LLM solutions. The workshop environment provides all the necessary infrastructure and tools, allowing you to focus on learning and implementation.
 
+[#aiml-best-practices]
+== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml.html[AI/ML on Amazon EKS Best Practices Guide]
+
+The AI/ML on Amazon EKS Best Practices guide provides detailed recommendations across key areas to optimize your AI/ML workloads.
+
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-compute.html[AI/ML Compute and Autoscaling]
+For AI/ML compute on Amazon EKS, best practices emphasize GPU resource optimization, cost management, node resiliency, and application scaling. Key strategies include scheduling workloads using well-known labels and node affinity, installing the NVIDIA Kubernetes Device Plugin for GPU exposure, leveraging ML Capacity Blocks or On-Demand Capacity Reservations for assured capacity, selecting appropriate instance types and purchase options, and optimizing GPU allocation with time-slicing, Multi-Instance GPU (MIG), and fractional sharing. Implement node health checks with automated recovery using tools like EKS Node Monitoring Agent, disable Karpenter consolidation for sensitive workloads, use ttlSecondsAfterFinished for job clean-up, and configure priority-based preemption.
+
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-networking.html[AI/ML Networking]
+Best practices for AI/ML networking on Amazon EKS focus on ensuring high-performance inter-node communication and efficient IP management. For distributed training with high data transfer needs, select instances with higher network bandwidth or Elastic Fabric Adapter (EFA), and install necessary tools like MPI and NCCL. To speed up pod launches and support more pods per node, enable prefix delegation to pre-allocate IP ranges, reducing EC2 API calls and addressing IP exhaustion. Plan VPC subnets carefully to accommodate growth and avoid overlaps.
+
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-security.html[AI/ML Security]
+Security best practices for AI/ML on Amazon EKS center on encrypting storage and ensuring compliance. Use Amazon S3 with {aws} Key Management Service (KMS) for server-side encryption (SSE-KMS), configuring buckets with KMS keys in the same Region and enabling S3 Bucket Keys to reduce costs. Grant EKS pods the necessary IAM permissions for KMS actions like decryption. Audit compliance using {aws} CloudTrail logs, and test configurations in staging environments to verify secure access to encrypted objects.
+
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-storage.html[AI/ML Storage]
+For managing storage in AI/ML workloads on Amazon EKS, deploy models using CSI drivers to mount {aws} storage services like S3, FSx for Lustre, or EFS as Persistent Volumes, avoiding large container images. Optimize for ML model caches by selecting storage based on workload needs: FSx for Lustre for high-bandwidth, latency-sensitive distributed training with options like Scratch-SSD or Persistent-SSD, data compression, and striping; Mountpoint for S3 CSI Driver for single-GPU tasks with local caching and fine-grained access; and Amazon EFS for shared access across nodes and zones with Elastic Throughput. Monitor performance with CloudWatch to minimize latency and ensure efficiency.
+
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-observability.html[AI/ML Observability]
+
+AI/ML observability best practices on Amazon EKS prioritize monitoring GPU utilization to avoid waste and ensure efficiency. Target high GPU usage with tools like CloudWatch Container Insights or NVIDIA's DCGM-Exporter integrated with Prometheus and Grafana. Analyze metrics such as GPU compute and memory utilization to identify trends and optimize allocation. Avoid static resource limits for dynamic workloads, consolidate tasks onto fewer GPUs, and refer to compute best practices for scheduling and sharing strategies.
+
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-performance.html[Performance]
+
+To enhance AI/ML performance on Amazon EKS, optimize image pull times using small, lightweight base images or {aws} Deep Learning Containers, and employ multi-stage builds for efficiency. Reduce container startup latency for low-latency workloads by preloading images via EBS snapshots or pre-pulling into the runtime cache using DaemonSets or Deployments. Test these optimizations in staging to confirm improvements in pod initialization and overall workload efficiency.
+
 [#aiml-tutorials]
 == Tutorials
 
