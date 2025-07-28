@@ -46,6 +46,18 @@ AI/ML observability best practices on Amazon EKS prioritize monitoring GPU utili
 
 To enhance AI/ML performance on Amazon EKS, optimize image pull times using small, lightweight base images or {aws} Deep Learning Containers, and employ multi-stage builds for efficiency. Reduce container startup latency for low-latency workloads by preloading images via EBS snapshots or pre-pulling into the runtime cache using DaemonSets or Deployments. Test these optimizations in staging to confirm improvements in pod initialization and overall workload efficiency.
 
+[#aiml-reference-architectures]
+== Reference Architectures
+
+Explore these GitHub repositories for reference architectures, sample code, and utilities to implement distributed training and inference for AI/ML workloads on Amazon EKS and other {aws} services.
+
+=== link:https://github.com/aws-samples/awsome-distributed-training[AWSome Distributed Training]
+This repository offers a collection of best practices, reference architectures, model training examples, and utilities for training large models on {aws}. It supports distributed training with Amazon EKS, including CloudFormation templates for EKS clusters, custom AMI and container builds, test cases for frameworks like PyTorch (DDP/FSDP, MegatronLM, NeMo) and JAX, and tools for validation, observability, and performance monitoring such as EFA Prometheus exporter and Nvidia Nsight Systems.
+
+=== link:https://github.com/aws-samples/awsome-inference[AWSome Inference]
+This repository provides reference architectures and test cases for optimizing inference solutions on {aws}, with a focus on Amazon EKS and accelerated EC2 instances. It includes infrastructure setups for VPC and EKS clusters, projects for frameworks like NVIDIA NIMs, TensorRT-LLM, Triton Inference Server, and RayService, with examples for models such as Llama3-8B and Llama 3.1 405B. Features multi-node deployments using K8s LeaderWorkerSet, EKS autoscaling, Multi-Instance GPUs (MIG), and real-life use cases like an audio bot for ASR, inference, and TTS.
+
+
 [#aiml-tutorials]
 == Tutorials
 
@@ -85,9 +97,3 @@ link:containers/maximizing-gpu-utilization-with-nvidias-multi-instance-gpu-mig-o
 
 * link:mt/monitoring-gpu-workloads-on-amazon-eks-using-aws-managed-open-source-services/[Monitoring GPU workloads on Amazon EKS using {aws} managed open-source services,type="blog"]
 * link:machine-learning/enable-pod-based-gpu-metrics-in-amazon-cloudwatch/[Enable pod-based GPU metrics in Amazon CloudWatch,type="blog"]
-
-=== Announcements for ML on EKS
-
-* link:containers/bottlerocket-support-for-nvidia-gpus/[Bottlerocket support for NVIDIA GPUs,type="blog"]
-* link:containers/utilizing-nvidia-multi-instance-gpu-mig-in-amazon-ec2-p4d-instances-on-amazon-elastic-kubernetes-service-eks/[Utilizing NVIDIA Multi-Instance GPU (MIG) in Amazon EC2 P4d Instances on Amazon Elastic Kubernetes Service,type="blog"]
-* link:containers/deploying-managed-p4d-instances-in-amazon-elastic-kubernetes-service/[Deploying managed P4d Instances in Amazon Elastic Kubernetes Service with NVIDIA GPUDirectRDMA,type="blog"]
