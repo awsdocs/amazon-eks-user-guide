@@ -73,3 +73,5 @@ include::ml-resources.adoc[leveloffset=+1]
 
 include::ml-cluster-configuration.adoc[leveloffset=+1]
 
+include::ml-recipes.adoc[leveloffset=+1]
+
