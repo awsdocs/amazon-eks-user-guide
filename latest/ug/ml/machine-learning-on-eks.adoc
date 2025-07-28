@@ -67,10 +67,9 @@ Customers choose Amazon EKS for various reasons, such as optimizing GPU usage or
 
 == Start using Machine Learning on EKS
 
-To begin planning for and using Machine Learning platforms and workloads on EKS on the {aws} cloud, proceed to the <<ml-get-started>> section.
+To begin planning for and using Machine Learning platforms and workloads on EKS on the {aws} cloud, proceed to the <<ml-resources>> section.
 
-include::ml-get-started.adoc[leveloffset=+1]
+include::ml-resources.adoc[leveloffset=+1]
 
-include::ml-prepare-for-cluster.adoc[leveloffset=+1]
+include::ml-cluster-configuration.adoc[leveloffset=+1]
 
-include::ml-tutorials.adoc[leveloffset=+1]

@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[#ml-prepare-for-cluster]
+[#ml-cluster-configuration]
 = Prepare for ML clusters
 :info_titleabbrev: Prepare for ML
 

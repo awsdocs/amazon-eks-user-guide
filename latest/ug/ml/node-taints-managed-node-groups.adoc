@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#node-taints-managed-node-groups]
 = Prevent pods from being scheduled on specific nodes
-:info_titleabbrev: Taint GPU nodes
+:info_titleabbrev: Prevent pods from being scheduled on specific nodes
 
 [abstract]
 --
