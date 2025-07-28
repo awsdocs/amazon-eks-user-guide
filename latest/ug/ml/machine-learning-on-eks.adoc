@@ -2,8 +2,8 @@ include::../attributes.txt[]
 
 [.topic]
 [#machine-learning-on-eks]
-= Overview of Machine Learning on Amazon EKS
-:info_titleabbrev: Machine Learning on EKS
+= Overview of Artificial Intelligence (AI) and Machine Learning (ML) on Amazon EKS
+:info_titleabbrev: AI/ML on EKS
 
 [abstract]
 --
@@ -69,9 +69,9 @@ Customers choose Amazon EKS for various reasons, such as optimizing GPU usage or
 
 To begin planning for and using Machine Learning platforms and workloads on EKS on the {aws} cloud, proceed to the <<ml-resources>> section.
 
-include::ml-resources.adoc[leveloffset=+1]
-
 include::ml-cluster-configuration.adoc[leveloffset=+1]
 
 include::ml-recipes.adoc[leveloffset=+1]
+
+include::ml-resources.adoc[leveloffset=+1]
 

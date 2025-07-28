@@ -2,8 +2,8 @@ include::../attributes.txt[]
 
 [.topic]
 [#ml-resources]
-= Get started with ML
-:info_titleabbrev: Get started with ML
+= Resources to get started with AI/ML on Amazon EKS
+:info_titleabbrev: Resources
 
 [abstract]
 --
