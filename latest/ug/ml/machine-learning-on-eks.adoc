@@ -71,6 +71,8 @@ To begin planning for and using Machine Learning platforms and workloads on EKS 
 
 include::ml-cluster-configuration.adoc[leveloffset=+1]
 
+include::ml-compute-management.adoc[leveloffset=+1]
+
 include::ml-recipes.adoc[leveloffset=+1]
 
 include::ml-resources.adoc[leveloffset=+1]

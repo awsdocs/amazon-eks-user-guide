@@ -1,9 +1,9 @@
 include::../attributes.txt[]
 
 [.topic]
-[#ml-cluster-configuration]
-= Amazon EKS cluster configuration for AI/ML workloads
-:info_titleabbrev: Cluster configuration
+[#ml-compute-management]
+= Manage compute resources for AI/ML workloads on Amazon EKS
+:info_titleabbrev: Capacity management
 
 [abstract]
 --
