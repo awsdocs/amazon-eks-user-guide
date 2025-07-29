@@ -747,7 +747,7 @@ kubectl patch ingress my-ingress --type=merge -p '{
 }'
 ----
 +
-. Create a file named `cilium-lb-ip-pool.yaml` with a `CiliumLoadBalancerIPPool` resource to configure the Load Balancer IP address range for your Ingress / Gateway resources. 
+. Create a file named `cilium-lbip-pool-ingress.yaml` with a `CiliumLoadBalancerIPPool` resource to configure the Load Balancer IP address range for your Ingress / Gateway resources. 
 - If you are using Cilium Ingress, Cilium automatically applies the `cilium.io/ingress: "true"` label to the Services it creates for Ingress resources. You can use this label in the `serviceSelector` field of the `CiliumLoadBalancerIPPool` resource definition to select the Services eligible for LB IPAM.
 - If you are using Cilium Gateway, you can use the `gateway.networking.k8s.io/gateway-name` label in the `serviceSelector` fields of the `CiliumLoadBalancerIPPool` resource definition to select the Gateway resources eligible for LB IPAM.
 - Replace `LB_IP_CIDR` with the IP address range to use for the Load Balancer IP addresses. To select a single IP address, use a `/32` CIDR. For more information, see link:https://docs.cilium.io/en/stable/network/lb-ipam/[LoadBalancer IP Address Management] in the Cilium documentation.
@@ -774,7 +774,7 @@ spec:
 +
 [source,bash]
 ----
-kubectl apply -f cilium-lb-ip-pool.yaml
+kubectl apply -f cilium-lbip-pool-ingress.yaml
 ----
 +
 . Confirm an IP address was allocated from Cilium LB IPAM for the Ingress / Gateway resource.
@@ -805,7 +805,7 @@ NAME         CLASS    HOSTS   ADDRESS        PORTS   AGE
 my-ingress   cilium   *       [.replaceable]`LB_IP_ADDRESS`   80      10m
 ----
 +
-. Create the `CiliumBGPAdvertisement` resource to advertise the LoadBalancer IP address for the Ingress / Gateway resources. If you are not using Cilium BGP, you can skip this step. The LoadBalancer IP address used for your Ingress / Gateway resource must be routable on your on-premises network for you to be able to query the service in the next step.
+. Create a file named `cilium-bgp-advertisement-ingress.yaml` with a `CiliumBGPAdvertisement` resource to advertise the LoadBalancer IP address for the Ingress / Gateway resources. If you are not using Cilium BGP, you can skip this step. The LoadBalancer IP address used for your Ingress / Gateway resource must be routable on your on-premises network for you to be able to query the service in the next step.
 +
 [source,yaml]
 ----
@@ -833,7 +833,7 @@ spec:
 +
 [source,bash]
 ----
-kubectl apply -f cilium-bgp-advertisement.yaml
+kubectl apply -f cilium-bgp-advertisement-ingress.yaml
 ----
 +
 . Access the service using the IP address allocated from Cilium LB IPAM.

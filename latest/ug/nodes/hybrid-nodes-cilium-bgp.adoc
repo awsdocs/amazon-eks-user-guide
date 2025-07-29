@@ -88,9 +88,15 @@ spec:
 kubectl apply -f cilium-bgp-cluster.yaml
 ----
 +
-. The `CiliumBGPPeerConfig` resource defines a BGP peer configuration. Multiple peers can share the same configuration and provide reference to the common `CiliumBGPPeerConfig` resource. Create a file named `cilium-bgp-peer.yaml` to configure the peer configuration for your on-premises network. See the https://docs.cilium.io/en/latest/network/bgp-control-plane/bgp-control-plane-v2/#bgp-peer-configuration[BGP Peer configuration] in the Cilium documentation for a full list of configuration options.
+. Create a file named `cilium-bgp-peer.yaml` with the `CiliumBGPPeerConfig` resource that defines a BGP peer configuration. Multiple peers can share the same configuration and provide reference to the common `CiliumBGPPeerConfig` resource. See the https://docs.cilium.io/en/latest/network/bgp-control-plane/bgp-control-plane-v2/#bgp-peer-configuration[BGP Peer configuration] in the Cilium documentation for a full list of configuration options.
++ 
+The values for the following Cilium peer settings must match those of the on-premises router you are peering with.
 +
-[source,yaml,subs="verbatim,attributes"]
+- Configure `holdTimeSeconds` which determines how long a BGP peer waits for a keepalive or update message before declaring the session down. The default is 90 seconds.
+- Configure `keepAliveTimeSeconds` which determines if a BGP peer is still reachable and the BGP session is active. The default is 30 seconds.
+- Configure `restartTimeSeconds` which determines the time that Cilium's BGP control plane is expected to re-establish the BGP session after a restart. The default is 120 seconds.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
 ----
 apiVersion: cilium.io/v2alpha1
 kind: CiliumBGPPeerConfig
@@ -98,11 +104,11 @@ metadata:
   name: cilium-peer
 spec:
   timers:
-    holdTimeSeconds: 30
-    keepAliveTimeSeconds: 10
+    holdTimeSeconds: [.replaceable]`90`
+    keepAliveTimeSeconds: [.replaceable]`30`
   gracefulRestart:
     enabled: true
-    restartTimeSeconds: 120
+    restartTimeSeconds: [.replaceable]`120`
   families:
     - afi: ipv4
       safi: unicast
@@ -118,7 +124,7 @@ spec:
 kubectl apply -f cilium-bgp-peer.yaml
 ----
 
-. Create a file named `cilium-bgp-advertisement.yaml` with a `CiliumBGPAdvertisement` resource to advertise the pod CIDRs to your on-premises network. 
+. Create a file named `cilium-bgp-advertisement-pods.yaml` with a `CiliumBGPAdvertisement` resource to advertise the pod CIDRs to your on-premises network. 
 +
 - The `CiliumBGPAdvertisement` resource is used to define advertisement types and attributes associated with them. The example below configures Cilium to advertise only pod CIDRs. See the examples in <<hybrid-nodes-ingress-cilium-loadbalancer>> and <<hybrid-nodes-service-lb-cilium>> for more information on configuring Cilium to advertise service addresses. 
 - Each hybrid node running the Cilium agent peers with the upstream BGP-enabled router. Each node advertises the pod CIDR range that it owns when Cilium’s `advertisementType` is set to `PodCIDR` like in the example below. See the link:https://docs.cilium.io/en/stable/network/bgp-control-plane/bgp-control-plane-v2/#bgp-advertisements[BGP Advertisements configuration] in the Cilium documentation for more information.
@@ -140,7 +146,7 @@ spec:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl apply -f cilium-bgp-advertisement.yaml
+kubectl apply -f cilium-bgp-advertisement-pods.yaml
 ----
 +
 . You can confirm the BGP peering worked with the https://docs.cilium.io/en/stable/gettingstarted/k8s-install-default/#install-the-cilium-cli[Cilium CLI] by using the `cilium bgp peers` command. You should see the correct values in the output for your environment and the Session State as `established`. See the https://docs.cilium.io/en/latest/network/bgp-control-plane/bgp-control-plane/#troubleshooting-and-operation-guide[Troubleshooting and Operations Guide] in the Cilium documentation for more information on troubleshooting.

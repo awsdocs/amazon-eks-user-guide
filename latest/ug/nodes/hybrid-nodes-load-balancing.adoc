@@ -224,7 +224,7 @@ If you are not using Cilium's kube-proxy replacement, you can still use Cilium L
 
 === Procedure
 
-. Create a file named `cilium-lb-ip-pool.yaml` with a `CiliumLoadBalancerIPPool` resource to configure the Load Balancer IP address range for your Services of type LoadBalancer. 
+. Create a file named `cilium-lbip-pool-loadbalancer.yaml` with a `CiliumLoadBalancerIPPool` resource to configure the Load Balancer IP address range for your Services of type LoadBalancer. 
 +
 - Replace `LB_IP_CIDR` with the IP address range to use for the Load Balancer IP addresses. To select a single IP address, use a `/32` CIDR. For more information, see link:https://docs.cilium.io/en/stable/network/lb-ipam/[LoadBalancer IP Address Management] in the Cilium documentation.
 - The `serviceSelector` field is configured to match against the name of the Service you will create in a subsequent step. With this configuration, IPs from this pool will only be allocated to Services with the name `tcp-sample-service`.
@@ -247,7 +247,7 @@ spec:
 +
 [source,bash]
 ----
-kubectl apply -f cilium-lb-ip-pool.yaml
+kubectl apply -f cilium-lbip-pool-loadbalancer.yaml
 ----
 +
 . Confirm there is at least one IP address available in the pool.
@@ -263,7 +263,7 @@ NAME               DISABLED   CONFLICTING   IPS AVAILABLE   AGE
 tcp-service-pool   false      False         1               24m
 ----
 +
-. Create a file named `cilium-bgp-advertisement.yaml` with a `CiliumBGPAdvertisement` resource to advertise the load balancer IP address for the Service you will create in the next step. If you are not using Cilium BGP, you can skip this step. The load balancer IP address used for your Service must be routable on your on-premises network for you to be able to query the service in the final step.
+. Create a file named `cilium-bgp-advertisement-loadbalancer.yaml` with a `CiliumBGPAdvertisement` resource to advertise the load balancer IP address for the Service you will create in the next step. If you are not using Cilium BGP, you can skip this step. The load balancer IP address used for your Service must be routable on your on-premises network for you to be able to query the service in the final step.
 - The `advertisementType` field is set to `Service` and `service.addresses` is set to `LoadBalancerIP` to only advertise the `LoadBalancerIP` for Services of type `LoadBalancer`.
 - The `selector` field is configured to match against the name of the Service you will create in a subsequent step. With this configuration, only `LoadBalancerIP` for Services with the name `tcp-sample-service` will be advertised.
 +
@@ -290,7 +290,7 @@ spec:
 +
 [source,bash]
 ----
-kubectl apply -f cilium-bgp-advertisement.yaml
+kubectl apply -f cilium-bgp-advertisement-loadbalancer.yaml
 ----
 +
 . Define a sample application in a file named `tcp-sample-app.yaml`. The example below uses a simple NGINX deployment with a TCP port.
@@ -330,7 +330,7 @@ kubectl apply -f tcp-sample-app.yaml
 . Define a Service of type LoadBalancer for the deployment in a file named `tcp-sample-service.yaml`. 
 +
 - You can request a specific IP address from the load balancer IP pool with the `lbipam.cilium.io/ips` annotation on the Service object. You can remove this annotation if you do not want to request a specific IP address for the Service.
-- The `loadBalancerClass` spec field is required to prevent the legacy {AWS} Cloud Provider from creating a Classic Load Balancer for the Service. In the example below this is configured to `io.cilium/bgp-control-plane` to use Cilium's BGP Control Plane as the load balancer class. This field can alternatively be configured to `io.cilium/l2-announcer` to use Cilium's L2 Announcements feature (currently in beta and not officially supported by {aws}).
+- The `loadBalancerClass` spec field is required to prevent the legacy {AWS} Cloud Provider from creating a Classic Load Balancer for the Service. In the example below this is configured to `io.cilium/bgp-control-plane` to use Cilium's BGP Control Plane as the load balancer class. This field can alternatively be configured to `io.cilium/l2-announcer` to use Cilium's link:https://docs.cilium.io/en/latest/network/l2-announcements/[L2 Announcements feature] (currently in beta and not officially supported by {aws}).
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
