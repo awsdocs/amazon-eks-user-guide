@@ -232,7 +232,7 @@ subsets:
     protocol: TCP
 ----
 
-With these two pieces of information, you can perform the s analysis. First navigate to the VPC Reachability Analyzer in the{aws-management-console}.
+With these two pieces of information, you can perform the s analysis. First navigate to the VPC Reachability Analyzer in the {aws-management-console}.
 
 . Click "Create and Analyze Path"
 . Provide a name for the analysis (e.g. "Node Join Failure")
@@ -261,6 +261,63 @@ securityContext:
   seLinuxOptions:
     level: "s0:c123,c456,c789"
 ----
+
+[#auto-view-karpenter-logs]
+== View Karpenter events in control plane logs
+
+For EKS clusters with control plane logs enabled, you can gain insights into Karpenter's actions and decision-making process by querying the logs. This can be particularly useful for troubleshooting EKS Auto Mode issues related to node provisioning, scaling, and termination. To view Karpenter-related events, use the following CloudWatch Logs Insights query:
+
+[source]
+----
+fields @timestamp, @message
+| filter @logStream like /kube-apiserver-audit/
+| filter @message like 'DisruptionBlocked'
+or @message like 'DisruptionLaunching'
+or @message like 'DisruptionTerminating'
+or @message like 'DisruptionWaitingReadiness'
+or @message like 'Unconsolidatable'
+or @message like 'FailedScheduling'
+or @message like 'NoCompatibleInstanceTypes'
+or @message like 'NodeRepairBlocked'
+or @message like 'Disrupted'
+or @message like 'Evicted'
+or @message like 'FailedDraining'
+or @message like 'TerminationGracePeriodExpiring'
+or @message like 'TerminationFailed'
+or @message like 'FailedConsistencyCheck'
+or @message like 'InsufficientCapacityError'
+or @message like 'UnregisteredTaintMissing'
+or @message like 'NodeClassNotReady'
+sort @timestamp desc
+----
+
+This query filters for specific https://github.com/kubernetes-sigs/karpenter/blob/main/pkg/events/reason.go[Karpenter-related events] in the kube-apiserver audit logs. The events include various disruption states, scheduling failures, capacity issues, and node-related problems. By analyzing these logs, you can gain a better understanding of:
+
+* Why Karpenter is taking certain actions.
+* Any issues preventing proper node provisioning, scaling, or termination.
+* Potential capacity or compatibility problems with instance types.
+* Node lifecycle events such as disruptions, evictions, or terminations.
+
+To use this query:
+
+. Navigate to the CloudWatch console
+. Select "Logs Insights" from the left navigation pane
+. Choose the log group for your EKS cluster's control plane logs
+. Paste the query into the query editor
+. Adjust the time range as needed
+. Run the query
+
+The results will show you a timeline of Karpenter-related events, helping you troubleshoot issues, and understand the behavior of EKS Auto Mode in your cluster. To review Karpenter actions on a specific node, you can add the below line filter specifying the instance ID to the aforementioned query:
+
+[source]
+----
+|filter @message like /[.replaceable]`i-12345678910123456`/
+----
+
+[NOTE]
+====
+To use this query, control plane logging must be enabled on your EKS cluster. If you haven't done this yet, please refer to <<control-plane-logs>>.
+====
 
 [#auto-troubleshoot-controllers]
 == Troubleshoot included controllers in Auto Mode
