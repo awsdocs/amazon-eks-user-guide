@@ -16,7 +16,7 @@ This guide provides a hands-on walkthrough for setting up an Amazon Elastic Kube
 
 Designed specifically for Machine Learning (ML) and Artificial Intelligence (AI) engineers, platform administrators, operators, and data/AI specialists who are new to the {aws} and EKS ecosystem, this guide assumes familiarity with Kubernetes but no prior EKS experience. It is designed to help you understand the steps and processes needed to get real-time online inference workloads up and running. The guide shows you the essentials of creating a single-node inference cluster, including provisioning GPU resources, integrating storage for model artifacts, enabling secure {aws} service access, and exposing inference endpoints. Throughout, it emphasizes low-latency, resilient design for user-facing applications like fraud detection, real-time chatbots, and sentiment analysis in customer feedback systems.
 
-In this guide, we focus exclusively on setting up a foundational, prescriptive starting point using G5 EC2 instances. If you're seeking {aws} Neuron-specific configurations or end-to-end workflows, see <<inferentia-support>> or our workshops in <<ml-resources>>.
+In this guide, we focus exclusively on setting up a foundational, prescriptive starting point using G5 EC2 instances. If you're seeking {aws} Inferentia-specific cluster configurations or end-to-end workflows, see <<inferentia-support>> or our workshops in <<ml-resources>>.
 
 == Before you begin
 
