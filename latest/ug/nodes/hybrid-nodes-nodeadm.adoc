@@ -310,7 +310,7 @@ nodeadm uninstall [flags]
 
 `--skip`
 |FALSE
-|Phases of upgrade to be skipped. It is not recommended to skip any of the phase unless it helps to fix an issue.
+|Phases of uninstall to be skipped. It is not recommended to skip any of the phases unless it helps to fix an issue.
 
 *Values*
 
@@ -325,6 +325,23 @@ nodeadm uninstall [flags]
 `--help`
 |FALSE
 |Displays help message with available flag, subcommand and positional value parameters.	
+
+|`-f`,
+
+`--force`
+|FALSE
+|Force delete additional directories that might contain remaining files from Kubernetes and CNI components.
+
+*WARNING*
+
+This will delete all contents in default Kubernetes and CNI directories (`/var/lib/cni`, `/etc/cni/net.d`, etc). Do not use this flag if you store your own data in these locations.
+
+Starting from nodeadm `v1.0.9`, the `./nodeadm uninstall --skip node-validation,pod-validation --force` command no longer deletes the `/var/lib/kubelet` directory. This is because it may contain Pod volumes and volume-subpath directories that sometimes include the mounted node filesystem.
+
+*Safe handling tips*
+
+- Deleting mounted paths can lead to accidental deletion of the actual mounted node filesystem. Before manually deleting the `/var/lib/kubelet` directory, carefully inspect all active mounts and unmount volumes safely to avoid data loss.
+
 |===
 
 *Examples*
