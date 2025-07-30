@@ -140,7 +140,12 @@ spec:
         kubernetes.io/role/pod: "1"
     # Alternative using direct subnet ID
     # - id: "subnet-0987654321fedcba0"
-
+# must include pod security group selector also
+ podSecurityGroupSelectorTerms:
+  - tags:
+      Name: "eks-pod-sg"
+    # Alternative using direct security group ID
+    # - id: "sg-0123456789abcdef0"
 
   # Optional: Selects on-demand capacity reservations and capacity blocks
   # for EKS Auto Mode to prioritize.
