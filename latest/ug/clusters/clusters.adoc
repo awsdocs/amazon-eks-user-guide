@@ -22,14 +22,8 @@ To learn more about these components and how they work, see <<eks-architecture>>
 
 All data stored by the etcd nodes and associated Amazon EBS volumes is encrypted using {aws} KMS. The control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support `kubectl exec`, logs, and proxy data flows).  
 
-It's important to note that in an Amazon EKS environment, `etcd` storage is limited to 8 GiB per https://etcd.io/docs/v3.5/dev-guide/limit/#storage-size-limit[etcd upstream] guidance. You can optionally monitor a metric for the current database size by running the following command. 
+It's important to note that in an Amazon EKS environment, `etcd` storage is limited to 8 GiB per https://etcd.io/docs/v3.5/dev-guide/limit/#storage-size-limit[etcd upstream] guidance. You can optionally monitor a metric for the current database size via ` kubectl get --raw=/metrics | grep "apiserver_storage_size_bytes"`. Note, that if your cluster has a Kubernetes version below `1.28`, be sure to replace [.replaceable]`apiserver_storage_size_bytes` with `apiserver_storage_db_total_size_in_bytes`.
 
-[source,bash,subs="verbatim,attributes"]
-----
-kubectl get --raw=/metrics | grep "apiserver_storage_size_bytes"
-----
-
-*Note*: if your cluster has a Kubernetes version below `1.28`, be sure to replace [.replaceable]`apiserver_storage_size_bytes` with `apiserver_storage_db_total_size_in_bytes`.
 
 [.topiclist]
 [[Topic List]]
