@@ -6,24 +6,6 @@ include::../attributes.txt[]
 
 This section provides in-depth guidance on the full lifecycle management of Kubernetes clusters and different ways to configure them. It covers cluster creation, monitoring cluster health, updating Kubernetes versions, and deleting clusters. It also includes advanced topics on how to configure endpoint access, enable/disable Windows support, set up private clusters, implement autoscaling, and how to enhance resilience with Zonal Shift for traffic redirection in multi-AZ setups.
 
-[#clusters-cluster-components]
-== Cluster components
-
-An Amazon EKS cluster consists of two primary components: the Amazon EKS control plane and Amazon EKS nodes that are registered with the control plane.
-
-* *Control plane*: The control plane consists of nodes that run the Kubernetes software, such as etcd and the Kubernetes API server. It runs in an account managed by {aws}, and the Kubernetes API is exposed via the Amazon EKS endpoint associated with your cluster. Each Amazon EKS cluster control plane is single-tenant and unique, running on its own set of Amazon EC2 instances.
-* *Nodes*: Amazon EKS nodes are registered with the control plane and run in your {aws} account. They connect to your cluster's control plane via the API server endpoint and a certificate file created for your cluster.
-
-To learn more about these components and how they work, see <<eks-architecture>>.
-
-
-[#clusters-control-plane-architecture]
-== Control plane architecture
-
-All data stored by the etcd nodes and associated Amazon EBS volumes is encrypted using {aws} KMS. The control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support `kubectl exec`, logs, and proxy data flows).  
-
-It's important to note that in an Amazon EKS environment, `etcd` storage is limited to 8 GiB per https://etcd.io/docs/v3.5/dev-guide/limit/#storage-size-limit[etcd upstream] guidance. You can optionally monitor a metric for the current database size via ` kubectl get --raw=/metrics | grep "apiserver_storage_size_bytes"`. Note, that if your cluster has a Kubernetes version below `1.28`, be sure to replace [.replaceable]`apiserver_storage_size_bytes` with `apiserver_storage_db_total_size_in_bytes`.
-
 
 [.topiclist]
 [[Topic List]]
