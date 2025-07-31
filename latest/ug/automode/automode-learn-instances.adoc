@@ -125,6 +125,9 @@ For more information about the Amazon EC2 Instance Metadata Service (IMDS), see 
 * If the configured ephemeral storage in the NodeClass is smaller than the NVMe local storage for the instance, EKS Auto Mode eliminates the need for manual configuration by automatically taking the following actions:
 ** Uses a smaller (20 GiB) Amazon EBS data volume to reduce costs.
 ** Formats and configures the NVMe local storage for ephemeral data use. This includes setting up a RAID 0 array if there are multiple NVMe drives.
+* When ephemeralStorage.size equals or exceeds the local NVMe capacity:
+** Auto Mode skips the small EBS volume.
+** The NVMe drive(s) are exposed directly for your workload.
 * Amazon EKS Auto Mode does not support {aws} Fault Injection Service. For more information, see link:resilience-hub/latest/userguide/testing.html["Managing Fault Injection Service experiments",type="documentation"] in the {aws} Resilience Hub User Guide. 
 * You do not need to install the `Neuron Device Plugin` on EKS Auto Mode nodes.
 +
