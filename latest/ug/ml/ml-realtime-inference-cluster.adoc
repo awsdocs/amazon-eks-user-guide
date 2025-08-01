@@ -208,8 +208,8 @@ The expected output should look like this:
 [source]
 ----
 NAME                             STATUS   ROLES    AGE     VERSION               INSTANCE-TYPE
-ip-192-168-35-103.ec2.internal   Ready    <none>   11d     v1.33.0-eks-802817d   m7g.xlarge
-ip-192-168-7-15.ec2.internal     Ready    <none>   11d     v1.33.0-eks-802817d   m7g.xlarge
+ip-192-168-35-103.ec2.internal   Ready    <none>   12m     v1.33.0-eks-802817d   m7g.xlarge
+ip-192-168-7-15.ec2.internal     Ready    <none>   12m     v1.33.0-eks-802817d   m7g.xlarge
 ----
 
 Verify all the Pod Identity associations and how they map a role to a service account in a namespace in the cluster with the following command:
@@ -233,12 +233,12 @@ The expected output should look like this:
 [source]
 ----
 NAME                           DESIRED CURRENT READY UP-TO-DATE AVAILABLE NODE SELECTOR          AGE
-aws-node                       3       3       3     3          3         <none>                 22h
-dcgm-server                    0       0       0     0          0         kubernetes.io/os=linux 22h
-eks-node-monitoring-agent      3       3       3     3          3         kubernetes.io/os=linux 22h
-eks-pod-identity-agent         3       3       3     3          3         <none>                 22h
-kube-proxy                     3       3       3     3          3         <none>                 22h
-s3-csi-node                    2       2       2     2          2         kubernetes.io/os=linux 22h
+aws-node                       3       3       3     3          3         <none>                 12m
+dcgm-server                    0       0       0     0          0         kubernetes.io/os=linux 12m
+eks-node-monitoring-agent      3       3       3     3          3         kubernetes.io/os=linux 12m
+eks-pod-identity-agent         3       3       3     3          3         <none>                 12m
+kube-proxy                     3       3       3     3          3         <none>                 12m
+s3-csi-node                    2       2       2     2          2         kubernetes.io/os=linux 12m
 ----
 
 Verify all addons are installed on the cluster:
