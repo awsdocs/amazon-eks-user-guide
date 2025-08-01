@@ -10,24 +10,9 @@ include::../../attributes.txt[]
 Learn how to configure the IAM trust policy for Amazon EKS Pod Identity to allow Kubernetes pods to assume IAM roles and access {aws} resources securely using Amazon EKS condition keys.
 --
 
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "pods.eks.amazonaws.com"
-            },
-            "Action": [
-                "sts:AssumeRole",
-                "sts:TagSession"
-            ]
-        }
-    ]
-}
+include::../../iam-json/manage-access/aws-access/pod-id-role-policy-1.json[]
 ----
 
 *`sts:AssumeRole`*::

@@ -1,0 +1,21 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "organizations:EnableAWSServiceAccess",
+                "organizations:DescribeOrganization",
+                "organizations:ListAWSServiceAccessForOrganization"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateServiceLinkedRole"
+            ],
+            "Resource": "{arn-aws}iam::*:role/aws-service-role/dashboard.eks.amazonaws.com/AWSServiceRoleForAmazonEKSDashboard"
+        }
+    ]
+}

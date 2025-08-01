@@ -104,67 +104,14 @@ eksctl associate identityprovider -f associate-identity-provider.yaml
 
 If you want to prevent an OIDC identity provider from being associated with a cluster, create and associate the following IAM policy to the IAM accounts of your Amazon EKS administrators. For more information, see link:IAM/latest/UserGuide/access_policies_create.html[Creating IAM policies,type="documentation"] and link:IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console[Adding IAM identity permissions,type="documentation"] in the _IAM User Guide_ and link:service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] in the Service Authorization Reference.
 
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "denyOIDC",
-            "Effect": "Deny",
-            "Action": [
-                "eks:AssociateIdentityProviderConfig"
-            ],
-            "Resource": "{arn-aws}eks:us-west-2.amazonaws.com:111122223333:cluster/*"
-
-        },
-        {
-            "Sid": "eksAdmin",
-            "Effect": "Allow",
-            "Action": [
-                "eks:*"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+include::../../iam-json/manage-access/k8s-access/authenticate-oidc-identity-provider-policy-1.json[]
 ----
 
 The following example policy allows OIDC identity provider association if the `clientID` is `kubernetes` and the `issuerUrl` is `https://cognito-idp.us-west-2amazonaws.com/*`.
 
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllowCognitoOnly",
-            "Effect": "Deny",
-            "Action": "eks:AssociateIdentityProviderConfig",
-            "Resource": "{arn-aws}eks:us-west-2:111122223333:cluster/my-instance",
-            "Condition": {
-                "StringNotLikeIfExists": {
-                    "eks:issuerUrl": "https://cognito-idp.us-west-2.amazonaws.com/*"
-                }
-            }
-        },
-        {
-            "Sid": "DenyOtherClients",
-            "Effect": "Deny",
-            "Action": "eks:AssociateIdentityProviderConfig",
-            "Resource": "{arn-aws}eks:us-west-2:111122223333:cluster/my-instance",
-            "Condition": {
-                "StringNotEquals": {
-                    "eks:clientId": "kubernetes"
-                }
-            }
-        },
-        {
-            "Sid": "AllowOthers",
-            "Effect": "Allow",
-            "Action": "eks:*",
-            "Resource": "*"
-        }
-    ]
-}
+include::../../iam-json/manage-access/k8s-access/authenticate-oidc-identity-provider-policy-2.json[]
 ----

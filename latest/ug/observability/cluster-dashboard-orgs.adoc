@@ -110,29 +110,9 @@ This section outlines the minimum IAM policies required to enable trusted access
 
 To enable trusted access between EKS Dashboard and {aws} Organizations, you need the following permissions:
 
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "organizations:EnableAWSServiceAccess",
-                "organizations:DescribeOrganization",
-                "organizations:ListAWSServiceAccessForOrganization"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "iam:CreateServiceLinkedRole"
-            ],
-            "Resource": "{arn-aws}iam::*:role/aws-service-role/dashboard.eks.amazonaws.com/AWSServiceRoleForAmazonEKSDashboard"
-        }
-    ]
-}
+include::../iam-json/observability/cluster-dashboard-orgs-policy-1.json[]
 ----
 
 === Policy for delegating an administrator
@@ -141,20 +121,7 @@ To register or deregister a delegated administrator for the EKS Dashboard, you n
 
 [source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "organizations:RegisterDelegatedAdministrator",
-                "organizations:DeregisterDelegatedAdministrator",
-                "organizations:ListDelegatedAdministrators"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+include::../iam-json/observability/cluster-dashboard-orgs-policy-2.json[]
 ----
 
 [#eks-dashboard-view-policy]
@@ -162,48 +129,7 @@ To register or deregister a delegated administrator for the EKS Dashboard, you n
 
 [source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AmazonEKSDashboardReadOnly",
-            "Effect": "Allow",
-            "Action": [
-                "eks:ListDashboardData",
-                "eks:ListDashboardResources",
-                "eks:DescribeClusterVersions"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "AmazonOrganizationsReadOnly",
-            "Effect": "Allow",
-            "Action": [
-                "organizations:DescribeOrganization",
-                "organizations:ListAWSServiceAccessForOrganization",
-                "organizations:ListRoots",
-                "organizations:ListAccountsForParent",
-                "organizations:ListOrganizationalUnitsForParent"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "AmazonOrganizationsDelegatedAdmin",
-            "Effect": "Allow",
-            "Action": [
-                "organizations:ListDelegatedAdministrators"
-            ],
-            "Resource": [
-                "*"
-            ],
-            "Condition": {
-                "StringEquals": {
-                    "organizations:ServicePrincipal": "eks.amazonaws.com"
-                }
-            }
-        }
-    ]
-}
+include::../iam-json/observability/cluster-dashboard-orgs-policy-3.json[]
 ----
 
 [NOTE]

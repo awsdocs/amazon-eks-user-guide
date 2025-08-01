@@ -42,24 +42,9 @@ NOTE: If the *AmazonEKS_CNI_Policy* policy is attached to the role, we recommend
 . Choose *Trust relationships*, and then choose *Edit trust policy*.
 . Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the *Edit trust policy* window and choose *Update policy*.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "sts:AssumeRole"
-            ],
-            "Principal": {
-                "Service": [
-                    "ec2.amazonaws.com"
-                ]
-            }
-        }
-    ]
-}
+include::../../iam-json/security/iam-reference/create-node-role-policy-1.json[]
 ----
 
 
@@ -154,33 +139,9 @@ aws iam attach-role-policy \
 +
 .... Copy the following text and save it to a file named `vpc-cni-ipv6-policy.json`.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:AssignIpv6Addresses",
-                "ec2:DescribeInstances",
-                "ec2:DescribeTags",
-                "ec2:DescribeNetworkInterfaces",
-                "ec2:DescribeInstanceTypes"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:CreateTags"
-            ],
-            "Resource": [
-                "{arn-aws}ec2:*:*:network-interface/*"
-            ]
-        }
-    ]
-}
+include::../../iam-json/security/iam-reference/create-node-role-policy-2.json[]
 ----
 .... Create the IAM policy.
 +

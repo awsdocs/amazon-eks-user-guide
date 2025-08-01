@@ -1,0 +1,17 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Condition": {
+         "ArnLike": {
+            "aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*"
+         }
+      },
+      "Principal": {
+        "Service": "eks-fargate-pods.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}

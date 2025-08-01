@@ -67,20 +67,9 @@ TIP: For a list of all the resources the previous command creates, open the {aws
 +
 .. Copy the following contents to a file named [.replaceable]`eks-cluster-role-trust-policy.json`.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::../iam-json/getting-started/getting-started-console-policy-1.json[]
 ----
 .. Create the role.
 +
@@ -181,20 +170,9 @@ To learn more about different ways to configure nodes in EKS, see <<eks-compute>
 
 .. Copy the following contents to a file named `node-role-trust-policy.json`.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::../iam-json/getting-started/getting-started-console-policy-2.json[]
 ----
 .. Create the node IAM role.
 +

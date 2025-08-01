@@ -38,54 +38,18 @@ For more information about the recommended permissions for Mountpoint, see https
 +
 IMPORTANT: Replace `amzn-s3-demo-bucket1` with your own Amazon S3 bucket name.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-   "Version": "2012-10-17",
-   "Statement": [
-        {
-            "Sid": "MountpointFullBucketAccess",
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "{arn-aws}s3:::amzn-s3-demo-bucket1"
-            ]
-        },
-        {
-            "Sid": "MountpointFullObjectAccess",
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject",
-                "s3:AbortMultipartUpload",
-                "s3:DeleteObject"
-            ],
-            "Resource": [
-                "{arn-aws}s3:::amzn-s3-demo-bucket1/*"
-            ]
-        }
-   ]
-}
+include::../iam-json/storage/s3-csi-create-policy-1.json[]
 ----
 +
 Directory buckets, introduced with the Amazon S3 Express One Zone storage class, use a different authentication mechanism from general purpose buckets. Instead of using `s3:*` actions, you should use the `s3express:CreateSession` action. For information about directory buckets, see link:AmazonS3/latest/userguide/directory-buckets-overview.html[Directory buckets,type="documentation"] in the _Amazon S3 User Guide_.
 +
 Below is an example of least-privilege policy that you would use for a directory bucket.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "s3express:CreateSession",
-            "Resource": "{arn-aws}s3express:us-west-2:111122223333:bucket/amzn-s3-demo-bucket1--usw2-az1--x-s3"
-        }
-    ]
-}
+include::../iam-json/storage/s3-csi-create-policy-2.json[]
 ----
 . Choose *Next*.
 . On the *Review and create* page, name your policy. This example walkthrough uses the name `AmazonS3CSIDriverPolicy`.
@@ -192,26 +156,9 @@ https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
 +
 .. Copy the following contents to a file named `aws-s3-csi-driver-trust-policy.json`. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`EXAMPLED539D4633E53DE1B71EXAMPLE` and [.replaceable]`region-code` with the values returned in the previous step.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Federated": "{arn-aws}iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
-      },
-      "Action": "sts:AssumeRoleWithWebIdentity",
-      "Condition": {
-        "StringEquals": {
-          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:s3-csi-driver-sa",
-          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
-        }
-      }
-    }
-  ]
-}
+include::../iam-json/storage/s3-csi-create-policy-3.json[]
 ----
 .. Create the role. You can change [.replaceable]`AmazonEKS_S3_CSI_DriverRole` to a different name, but if you do, make sure to change it in later steps too.
 +

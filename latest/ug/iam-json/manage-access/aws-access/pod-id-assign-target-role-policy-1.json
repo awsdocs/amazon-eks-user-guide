@@ -1,0 +1,25 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "{arn-aws}iam::111122223333:root"
+      },
+      "Action": [
+        "sts:AssumeRole",
+        "sts:TagSession"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:PrincipalTag/eks-cluster-arn": "arn:aws:eks:us-east-1:111122223333:cluster/example-cluster",
+          "aws:PrincipalTag/kubernetes-namespace": "ExampleNameSpace",
+          "aws:PrincipalTag/kubernetes-service-account": "ExampleServiceAccountName"
+        },
+        "ArnEquals": {
+          "aws:PrincipalARN": "{arn-aws}iam::111122223333:role/eks-pod-identity-primary-role"
+        }
+      }
+    }
+  ]
+}

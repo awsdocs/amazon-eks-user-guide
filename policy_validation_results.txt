@@ -1,0 +1,21 @@
+IAM Policy Validation Results
+Generated: 2025-08-01 22:20:47
+================================================================================
+
+SUMMARY
+--------------------------------------------------------------------------------
+Total files validated:  64
+Files with findings:    0
+Total findings:         0
+Identity policies:      32
+Resource policies:      32
+--------------------------------------------------------------------------------
+
+Found 64 policy files to validate.
+
+Summary:
+Total files validated: 64
+Files with findings: 0
+Total findings: 0
+Identity policies: 32
+Resource policies: 32

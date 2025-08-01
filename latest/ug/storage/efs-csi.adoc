@@ -167,24 +167,9 @@ Run the following commands to create an IAM role with {aws} CLI.
 +
 .. Copy the following contents to a file named `aws-efs-csi-driver-trust-policy-pod-identity.json`.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "pods.eks.amazonaws.com"
-            },
-            "Action": [
-                "sts:AssumeRole",
-                "sts:TagSession"
-            ]
-        }
-    ]
-}
+include::../iam-json/storage/efs-csi-policy-1.json[]
 ----
 .. Create the role. Replace `my-cluster` with your cluster name. You can also replace `AmazonEKS_EFS_CSI_DriverRole` with a different name.
 +
@@ -236,26 +221,9 @@ If the output from the command is `None`, review the *Prerequisites*.
 +
 .. Copy the following contents to a file named `aws-efs-csi-driver-trust-policy.json`. Replace `<111122223333>` with your account ID. Replace `<EXAMPLED539D4633E53DE1B71EXAMPLE>` and `<region-code>` with the values returned in the previous step.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Federated": "{arn-aws}iam::<111122223333>:oidc-provider/oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>"
-      },
-      "Action": "sts:AssumeRoleWithWebIdentity",
-      "Condition": {
-        "StringLike": {
-          "oidc.eks.region-code.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>:sub": "system:serviceaccount:kube-system:efs-csi-*",
-          "oidc.eks.region-code.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>:aud": "sts.amazonaws.com"
-        }
-      }
-    }
-  ]
-}
+include::../iam-json/storage/efs-csi-policy-2.json[]
 ----
 .. Create the role.
 +

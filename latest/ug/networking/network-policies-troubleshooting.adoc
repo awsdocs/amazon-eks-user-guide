@@ -324,24 +324,9 @@ Only the network policy logs are sent by the node agent. Other logs made by the 
 
 * Add the following permissions as a stanza or separate policy to the IAM role that you are using for the VPC CNI.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": [
-                "logs:DescribeLogGroups",
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+include::../iam-json/networking/network-policies-troubleshooting-policy-1.json[]
 ----
 
 

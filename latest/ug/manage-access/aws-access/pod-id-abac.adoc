@@ -15,33 +15,9 @@ Attribute-based access control (ABAC) grants rights to users through policies wh
 == Sample policy with tags
 Below is an IAM policy example that grants `s3:GetObject` permissions when the corresponding object is tagged with the EKS cluster name.
 
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:GetObjectTagging"
-            ],
-            "Resource": "*",
-            "Condition": {
-                "StringEquals": {
-                    "s3:ExistingObjectTag/eks-cluster-name": "${aws:PrincipalTag/eks-cluster-name}"
-                }
-            }
-        }
-    ]
-}
+include::../../iam-json/manage-access/aws-access/pod-id-abac-policy-1.json[]
 ----
 
 

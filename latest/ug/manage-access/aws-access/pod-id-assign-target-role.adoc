@@ -49,66 +49,16 @@ In this step, you will establish a secure trust chain by creating and configurin
 3. Click *Edit trust policy* on the right side.
 4. In the policy editor, replace the default JSON with your trust policy. Replace the placeholder values for role name and `111122223333` in the IAM role ARN with the {aws} account ID hosting your EKS cluster. You can also optionally use PrincipalTags in the role trust policy to authorize only specific service accounts from a given cluster and namespace to assume your target role . For example:
 
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "{arn-aws}iam::111122223333:root"
-      },
-      "Action": [
-        "sts:AssumeRole",
-        "sts:TagSession"
-      ],
-      "Condition": {
-        "StringEquals": {
-          "aws:PrincipalTag/eks-cluster-arn": "arn:aws:eks:us-east-1:111122223333:cluster/example-cluster",
-          "aws:PrincipalTag/kubernetes-namespace": "ExampleNameSpace",
-          "aws:PrincipalTag/kubernetes-service-account": "ExampleServiceAccountName"
-        },
-        "ArnEquals": {
-          "aws:PrincipalARN": "{arn-aws}iam::111122223333:role/eks-pod-identity-primary-role"
-        }
-      }
-    }
-  ]
-}
+include::../../iam-json/manage-access/aws-access/pod-id-assign-target-role-policy-1.json[]
 ----
 The above policy policy lets the role `eks-pod-identeity-primary-role` from {aws} account 111122223333 with the relevant link:eks/latest/userguide/pod-id-abac.html["EKS Pod Identity Session Tags",type="documentation"] assume this role.
 
 If you link:eks/latest/userguide/pod-id-abac.html#pod-id-abac-tags["Disabled Session Tags",type="documentation"] in your EKS Pod Identity, EKS Pod Identity also sets the `sts:ExternalId` with information about the cluster, namespace, and service account of a pod when assuming a target role.
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "{arn-aws}iam::111122223333:root"
-      },
-      "Action": "sts:AssumeRole",
-      "Condition": {
-        "StringEquals": {
-          "sts:ExternalId": "region/111122223333/cluster-name/namespace/service-account-name"
-        },
-        "ArnEquals": {
-          "aws:PrincipalARN": "{arn-aws}iam::111122223333:role/eks-pod-identity-primary-role"
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "{arn-aws}iam::111122223333:root"
-      },
-      "Action": "sts:TagSession"
-    }
-  ]
-}
+include::../../iam-json/manage-access/aws-access/pod-id-assign-target-role-policy-2.json[]
 ----
 The above policy helps ensure that only the expected cluster, namespace and service account can assume the target role. 
 
@@ -124,21 +74,9 @@ In this step, you will update the permission policy of the link:eks/latest/userg
 6. Choose *JSON* on the right side.
 7. In the policy editor, replace the default JSON with your permission policy. Replace the placeholder value for role name and `222233334444` in the IAM role ARN with your Target IAM Role. For example:
 
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "sts:AssumeRole",
-                "sts:TagSession"
-            ],
-            "Resource": "{arn-aws}iam::222233334444:role/eks-pod-identity-aws-resources"
-        }
-    ]
-}
+include::../../iam-json/manage-access/aws-access/pod-id-assign-target-role-policy-3.json[]
 ----
 
 == Step 2: Associate the Target IAM Role to a Kubernetes service account

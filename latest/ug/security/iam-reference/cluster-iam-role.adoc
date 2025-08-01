@@ -19,38 +19,9 @@ Before you can create Amazon EKS clusters, you must create an IAM role with eith
 * link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy,type="documentation"]
 * A custom IAM policy. The minimal permissions that follow allows the Kubernetes cluster to manage nodes, but doesn't allow the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] to create load balancers with Elastic Load Balancing. Your custom IAM policy must have at least the following permissions:
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:CreateTags"
-      ],
-      "Resource": "{arn-aws}ec2:*:*:instance/*",
-      "Condition": {
-        "ForAnyValue:StringLike": {
-          "aws:TagKeys": "kubernetes.io/cluster/*"
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DescribeInstances",
-        "ec2:DescribeNetworkInterfaces",
-        "ec2:DescribeVpcs",
-        "ec2:DescribeDhcpOptions",
-        "ec2:DescribeAvailabilityZones",
-        "ec2:DescribeInstanceTopology",
-        "kms:DescribeKey"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
+include::../../iam-json/security/iam-reference/cluster-iam-role-policy-1.json[]
 ----
 
 
@@ -76,20 +47,9 @@ You can use the following procedure to check and see if your account already has
 . Choose *Trust relationships*, and then choose *Edit trust policy*.
 . Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the *Edit trust policy* window and choose *Update policy*.  
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::../../iam-json/security/iam-reference/cluster-iam-role-policy-2.json[]
 ----
 
 
@@ -115,20 +75,9 @@ You can use the {aws-management-console} or the {aws} CLI to create the cluster 
 {aws} CLI::
 .. Copy the following contents to a file named [.replaceable]`cluster-trust-policy.json`. 
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::../../iam-json/security/iam-reference/cluster-iam-role-policy-3.json[]
 ----
 .. Create the role. You can replace [.replaceable]`eksClusterRole` with any name that you choose.
 +

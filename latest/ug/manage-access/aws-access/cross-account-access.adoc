@@ -41,55 +41,23 @@ metadata:
 
 In this example, Account B creates an IAM policy with the permissions to give to Pods in Account A's cluster. Account B ([.replaceable]`444455556666`) attaches that policy to an IAM role with a trust relationship that allows `AssumeRole` permissions to Account A ([.replaceable]`111122223333`).
 
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "{aws}": "{arn-aws}iam::111122223333:root"
-      },
-      "Action": "sts:AssumeRole",
-      "Condition": {}
-    }
-  ]
-}
+include::../../iam-json/manage-access/aws-access/cross-account-access-policy-1.json[]
 ----
 
 Account A creates a role with a trust policy that gets credentials from the identity provider created with the cluster's OIDC issuer address.
 
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Federated": "{arn-aws}iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
-      },
-      "Action": "sts:AssumeRoleWithWebIdentity"
-    }
-  ]
-}
+include::../../iam-json/manage-access/aws-access/cross-account-access-policy-2.json[]
 ----
 
 Account A attaches a policy to that role with the following permissions to assume the role that Account B created.
 
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "sts:AssumeRole",
-            "Resource": "{arn-aws}iam::444455556666:role/account-b-role"
-        }
-    ]
-}
+include::../../iam-json/manage-access/aws-access/cross-account-access-policy-3.json[]
 ----
 
 The application code for Pods to assume Account B's role uses two profiles: `account_b_role` and `account_a_role`. The `account_b_role` profile uses the `account_a_role` profile as its source. For the {aws} CLI, the `~/.aws/config` file is similar to the following.

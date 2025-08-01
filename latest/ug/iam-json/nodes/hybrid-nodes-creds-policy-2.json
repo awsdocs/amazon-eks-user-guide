@@ -1,0 +1,20 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "ssm:DescribeInstanceInformation",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ssm:DeregisterManagedInstance",
+            "Resource": "{arn-aws}ssm:AWS_REGION:AWS_ACCOUNT_ID:managed-instance/*",
+            "Condition": {
+                "StringEquals": {
+                    "ssm:resourceTag/TAG_KEY": "TAG_VALUE"
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "rolesanywhere.amazonaws.com"
+            },
+            "Action": [
+                "sts:TagSession",
+                "sts:SetSourceIdentity"
+            ],
+            "Condition": {
+                "ArnEquals": {
+                    "aws:SourceArn": "TRUST_ANCHOR_ARN"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "rolesanywhere.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+                "StringEquals": {
+                    "sts:RoleSessionName": "${aws:PrincipalTag/x509Subject/CN}"
+                },
+                "ArnEquals": {
+                    "aws:SourceArn": "TRUST_ANCHOR_ARN"
+                }
+            }
+        }
+    ]
+}

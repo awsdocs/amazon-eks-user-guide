@@ -1,0 +1,22 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "denyOIDC",
+            "Effect": "Deny",
+            "Action": [
+                "eks:AssociateIdentityProviderConfig"
+            ],
+            "Resource": "{arn-aws}eks:us-west-2:111122223333:cluster/*"
+
+        },
+        {
+            "Sid": "eksAdmin",
+            "Effect": "Allow",
+            "Action": [
+                "eks:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

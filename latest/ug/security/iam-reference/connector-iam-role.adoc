@@ -20,22 +20,9 @@ You can use the following procedure to check and see if your account already has
 . Choose *Trust relationships*, and then choose *Edit trust policy*.
 . Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the *Edit trust policy* window and choose *Update policy*.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": [
-                    "ssm.amazonaws.com"
-                ]
-            },
-            "Action": "sts:AssumeRole"
-        }
-    ]
-}
+include::../../iam-json/security/iam-reference/connector-iam-role-policy-1.json[]
 ----
 
 
@@ -47,50 +34,15 @@ You can use the {aws-management-console} or {aws} CloudFormation to create the c
 {aws} CLI::
 .. Create a file named `eks-connector-agent-trust-policy.json` that contains the following JSON to use for the IAM role.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": [
-                    "ssm.amazonaws.com"
-                ]
-            },
-            "Action": "sts:AssumeRole"
-        }
-    ]
-}
+include::../../iam-json/security/iam-reference/connector-iam-role-policy-2.json[]
 ----
 .. Create a file named `eks-connector-agent-policy.json` that contains the following JSON to use for the IAM role.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "SsmControlChannel",
-            "Effect": "Allow",
-            "Action": [
-                "ssmmessages:CreateControlChannel"
-            ],
-            "Resource": "{arn-aws}eks:*:*:cluster/*"
-        },
-        {
-            "Sid": "ssmDataplaneOperations",
-            "Effect": "Allow",
-            "Action": [
-                "ssmmessages:CreateDataChannel",
-                "ssmmessages:OpenDataChannel",
-                "ssmmessages:OpenControlChannel"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+include::../../iam-json/security/iam-reference/connector-iam-role-policy-3.json[]
 ----
 .. Create the Amazon EKS Connector agent role using the trust policy and policy you created in the previous list items.
 +

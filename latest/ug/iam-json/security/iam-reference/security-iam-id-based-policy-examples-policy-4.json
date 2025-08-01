@@ -1,0 +1,10 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "eks:UpdateClusterVersion",
+            "Resource": "{arn-aws}eks:us-west-2:111122223333:cluster/my-cluster"
+        }
+    ]
+}

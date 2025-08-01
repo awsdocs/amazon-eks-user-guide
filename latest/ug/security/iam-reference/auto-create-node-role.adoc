@@ -32,20 +32,9 @@ You can use the following procedure to check and see if your account already has
 . Choose *Trust relationships*, and then choose *Edit trust policy*.
 . Verify that the trust relationship contains the following policy. If the trust relationship matches the following policy, choose *Cancel*. If the trust relationship doesn't match, copy the policy into the *Edit trust policy* window and choose *Update policy*.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::../../iam-json/security/iam-reference/auto-create-node-role-policy-1.json[]
 ----
 
 [#auto-create-node-role-iam]

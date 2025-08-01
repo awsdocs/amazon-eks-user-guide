@@ -36,20 +36,9 @@ You do not need to install the EKS Pod Identity Agent on EKS Auto Mode Clusters.
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>. The cluster version and platform version must be the same or later than the versions listed in <<pod-id-cluster-versions,EKS Pod Identity cluster versions>>.
 * The node role has permissions for the agent to do the `AssumeRoleForPodIdentity` action in the EKS Auth API. You can use the <<security-iam-awsmanpol-amazoneksworkernodepolicy,{aws} managed policy: AmazonEKSWorkerNodePolicy>> or add a custom policy similar to the following:
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "eks-auth:AssumeRoleForPodIdentity"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+include::../../iam-json/manage-access/aws-access/pod-id-agent-setup-policy-1.json[]
 ----
 +
 This action can be limited by tags to restrict which roles can be assumed by pods that use the agent.

@@ -1,0 +1,27 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "{arn-aws}iam::111122223333:root"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {
+        "StringEquals": {
+          "sts:ExternalId": "region/111122223333/cluster-name/namespace/service-account-name"
+        },
+        "ArnEquals": {
+          "aws:PrincipalARN": "{arn-aws}iam::111122223333:role/eks-pod-identity-primary-role"
+        }
+      }
+    },
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "{arn-aws}iam::111122223333:root"
+      },
+      "Action": "sts:TagSession"
+    }
+  ]
+}

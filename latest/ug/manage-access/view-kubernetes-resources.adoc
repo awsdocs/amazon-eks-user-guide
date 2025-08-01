@@ -37,35 +37,9 @@ To view the *Resources* tab and *Nodes* section on the *Compute* tab in the {aws
 +
 The following example policy includes the necessary permissions for a principal to view Kubernetes resources for all clusters in your account. Replace [.replaceable]`111122223333` with your {aws} account ID. 
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "eks:ListFargateProfiles",
-                "eks:DescribeNodegroup",
-                "eks:ListNodegroups",
-                "eks:ListUpdates",
-                "eks:AccessKubernetesApi",
-                "eks:ListAddons",
-                "eks:DescribeCluster",
-                "eks:DescribeAddonVersions",
-                "eks:ListClusters",
-                "eks:ListIdentityProviderConfigs",
-                "iam:ListRoles"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "ssm:GetParameter",
-            "Resource": "{arn-aws}ssm:*:111122223333:parameter/*"
-        }
-    ]
-}
+include::../iam-json/manage-access/view-kubernetes-resources-policy-1.json[]
 ----
 +
 To view nodes in <<eks-connector,connected clusters>>, the <<connector-iam-role,Amazon EKS connector IAM role>> should be able to impersonate the principal in the cluster. This allows the <<eks-connector,Amazon EKS Connector>> to map the principal to a Kubernetes user.

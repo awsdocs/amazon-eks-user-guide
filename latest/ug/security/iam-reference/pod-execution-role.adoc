@@ -42,25 +42,9 @@ You can use the following procedure to check and see if your account already has
 .. Choose *Edit trust policy*.
 . On the *Edit trust policy* page, verify that the trust relationship contains the following policy and has a line for Fargate profiles on your cluster. If so, choose *Cancel*.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Condition": {
-         "ArnLike": {
-            "aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*"
-         }
-      },
-      "Principal": {
-        "Service": "eks-fargate-pods.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::../../iam-json/security/iam-reference/pod-execution-role-policy-1.json[]
 ----
 +
 If the policy matches but doesn't have a line specifying the Fargate profiles on your cluster, you can add the following line at the top of the `ArnLike` object. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in, [.replaceable]`111122223333` with your account ID, and [.replaceable]`my-cluster` with the name of your cluster.
@@ -105,25 +89,9 @@ If you don't already have the Amazon EKS Pod execution role for your cluster, yo
 +
 ... Copy and paste the following contents into the *Edit trust policy* form. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace [.replaceable]`region-code` with `{asterisk}`. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with `{asterisk}`.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Condition": {
-         "ArnLike": {
-            "aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*"
-         }
-      },
-      "Principal": {
-        "Service": "eks-fargate-pods.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::../../iam-json/security/iam-reference/pod-execution-role-policy-2.json[]
 ----
 ... Choose *Update policy*.
 
@@ -131,25 +99,9 @@ If you don't already have the Amazon EKS Pod execution role for your cluster, yo
 {aws} CLI::
 .. Copy and paste the following contents to a file named `pod-execution-role-trust-policy.json`. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in. If you want to use the same role in all {aws} Regions in your account, replace [.replaceable]`region-code` with `{asterisk}`. Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`my-cluster` with the name of your cluster. If you want to use the same role for all clusters in your account, replace [.replaceable]`my-cluster` with `{asterisk}`.
 +
-[source,json,subs="verbatim,attributes"]
+[source,json]
 ----
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Condition": {
-         "ArnLike": {
-            "aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*"
-         }
-      },
-      "Principal": {
-        "Service": "eks-fargate-pods.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::../../iam-json/security/iam-reference/pod-execution-role-policy-3.json[]
 ----
 .. Create a Pod execution IAM role.
 +
