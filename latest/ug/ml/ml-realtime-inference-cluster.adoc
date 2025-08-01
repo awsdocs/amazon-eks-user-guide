@@ -705,6 +705,7 @@ The expected output should look like this:
 ----
 upload: ./gpunet-0.pth to s3://eks-rt-inference-models-us-east-1-1752722786/gpunet-0.pth
 ----
+
 === Create the Model Service
 
 In this step, we set-up a FastAPI web application for GPU-accelerated image classification using the GPUNet-0 vision model. In this application, the model weights are downloaded at runtime during application startup and the pretrained parameters are fetched (approximately 20-50MB) from NVIDIA's hosted repository, then cached locally. This ensures no downloads occur during real-time inference requests visible to an end-user. The script also downloads ImageNet class labels via HTTP, defines image preprocessing transforms, and exposes two endpoints: a root GET for a simple (required) FastAPI status check and a POST `/predict` endpoint that accepts an image URL for image recognition requests.
@@ -827,7 +828,7 @@ WORKDIR /app
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80"]
 ----
 
-Build the container image for the inference application, targeting AMD64 architecture:
+From the same directory as your `app.py` and `Dockerfile`, build the container image for the inference application, targeting AMD64 architecture:
 
 [source,bash]
 ----
@@ -838,6 +839,7 @@ Set environment variables for your {aws} credentials, and optionally an {aws} se
 
 [source,bash]
 ----
+export AWS_REGION="us-east-1"
 export AWS_ACCESS_KEY_ID=ABCEXAMPLESCUJFEIELSMUHHAZ
 export AWS_SECRET_ACCESS_KEY=123EXAMPLEMZREoQXr8XkiicsOgWDQ5TpUsq0/Z
 ----
@@ -854,7 +856,15 @@ docker run --platform linux/amd64 -p 8080:80 \
   gpunet-inference-app
 ----
 
-In a new window, test the inference endpoint by sending a sample POST request with a public image URL as a query parameter:
+[source]
+----
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:80 (Press CTRL+C to quit)
+----
+
+In a new terminal window, test the inference endpoint by sending a sample POST request with a public image URL as a query parameter:
 
 [source,bash]
 ----
@@ -867,9 +877,18 @@ The expected output should be a JSON response with top-5 predictions, similar to
 ----
 {"predictions":[{"label":"desk","probability":0.28885871171951294},{"label":"laptop","probability":0.24679335951805115},{"label":"notebook","probability":0.08539070934057236},{"label":"library","probability":0.030645888298749924},{"label":"monitor","probability":0.02989606373012066}]}
 ----
+
+Quit the application using "Ctrl + C".
+
 === Push the container to Amazon ECR
 
 In this step, we upload the container image for the GPUNet-0 model service to https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html[Amazon Elastic Container Registry (ECR)], making it available for deployment on Amazon EKS. This process involves creating a new ECR repository to store the image, authenticating with ECR, then tagging and pushing the container image to our registry.
+
+Navigate back to the directory where you set your environment variables at the beginning of this guide. For example:
+[source,bash]
+----
+cd ..
+----
 
 Create a repository in Amazon ECR:
 
@@ -883,6 +902,12 @@ Log into Amazon ECR:
 [source,bash]
 ----
 aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+----
+
+The expected output should look like this:
+[source]
+----
+Login Succeeded
 ----
 
 Tag the image:
@@ -1107,7 +1132,7 @@ spec:
 EOF
 ----
 
-It may take a few minutes for Karpenter to provision a GPU node if one isn't already available. Verify that the inference pod is running:
+It will take a few minutes for Karpenter to provision a GPU node if one isn't already available. Verify that the inference pod is in a "Running" state:
 
 [source,bash]
 ----
@@ -1170,7 +1195,7 @@ spec:
 EOF 
 ----
 
-Give it a few minutes for the Application Load Balancer (ALB) to provision. Monitor the Ingress resource status to confirm the ALB has been provisioned:
+Give it a few minutes for the Application Load Balancer (ALB) to finish provisioning. Monitor the Ingress resource status to confirm the ALB has been provisioned:
 
 [source,bash]
 ----
