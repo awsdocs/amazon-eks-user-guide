@@ -57,14 +57,16 @@ G5 instance types are not available in all regions. Check your nearest region:
 ----
 aws ec2 describe-instance-types --instance-types g5.xlarge g5.2xlarge --region us-east-1
 ----
+If the output is successful, the G5 instance type is available in the region you specified.
 
 The Bottlerocket AMI is not available in all regions. Check by retrieving a Bottlerocket AMI ID for your nearest region:
 
 [source,bash]
 ----
-aws ssm get-parameter --name /aws/service/bottlerocket/aws-k8s-1.33/x86_64/latest/image_id \
+aws ssm get-parameter --name /aws/service/bottlerocket/aws-k8s-1.33/arm64/latest/image_id \
     --region us-east-1 --query "Parameter.Value" --output text
 ----
+If the output is successful, the Bottlerocket AMI is available in the region you specified.
 
 === Prepare your environment
 
@@ -75,11 +77,11 @@ First, set the following environment variables in a new terminal window. *Note*:
 export TEMPOUT="$(mktemp)"
 export K8S_VERSION=1.33
 export KARPENTER_VERSION="1.5.0"
-export AWS_REGION="us-west-2"
+export AWS_REGION="us-east-1"
 export EKS_CLUSTER_NAME="eks-rt-inference-${AWS_REGION}"
 export S3_BUCKET_NAME="eks-rt-inference-models-${AWS_REGION}-$(date +%s)"
 export NVIDIA_BOTTLEROCKET_AMI="$(aws ssm get-parameter --name /aws/service/bottlerocket/aws-k8s-${K8S_VERSION}-nvidia/x86_64/latest/image_id --query Parameter.Value --output text)"
-export STANDARD_BOTTLEROCKET_AMI="$(aws ssm get-parameter --name /aws/service/bottlerocket/aws-k8s-${K8S_VERSION}/x86_64/latest/image_id --query Parameter.Value --output text)"
+export STANDARD_BOTTLEROCKET_AMI="$(aws ssm get-parameter --name /aws/service/bottlerocket/aws-k8s-${K8S_VERSION}/arm64/latest/image_id --query Parameter.Value --output text)"
 export AWS_ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
 export ALIAS_VERSION="$(aws ssm get-parameter --name "/aws/service/eks/optimized-ami/${K8S_VERSION}/amazon-linux-2023/x86_64/standard/recommended/image_id" --query Parameter.Value | xargs aws ec2 describe-images --query 'Images[0].Name' --image-ids | sed -r 's/^.*(v[[:digit:]]+).*$/\1/')"
 ----
@@ -251,7 +253,7 @@ The expected output should look like this:
 [source]
 ----
 NAME                           VERSION              STATUS    ISSUES    IAMROLE                                           UPDATE AVAILABLE    CONFIGURATION VALUES    POD IDENTITY ASSOCIATION ROLES
-aws-mountpoint-s3-csi-driver   v1.15.0-eksbuild.1   ACTIVE    0    arn:aws:iam::143095308808:role/eksctl-eks-rt-inference-us-west-2-addon-aws-m-Role1-RAUjk4sJnc0L                                        
+aws-mountpoint-s3-csi-driver   v1.15.0-eksbuild.1   ACTIVE    0    arn:aws:iam::143095308808:role/eksctl-eks-rt-inference-us-east-1-addon-aws-m-Role1-RAUjk4sJnc0L                                        
 coredns                        v1.12.1-eksbuild.2   ACTIVE    0                                                        
 eks-node-monitoring-agent      v1.3.0-eksbuild.2    ACTIVE    0                                                        
 eks-pod-identity-agent         v1.3.7-eksbuild.2    ACTIVE    0                                                        
@@ -595,7 +597,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::143095308808:role/eksctl-eks-rt-inference-us-west-2-addon-aws-m-Role1-fpXXjRYdKN8r
+    eks.amazonaws.com/role-arn: arn:aws:iam::143095308808:role/eksctl-eks-rt-inference-us-east-1-addon-aws-m-Role1-fpXXjRYdKN8r
   creationTimestamp: "2025-07-17T03:55:29Z"
   labels:
     app.kubernetes.io/component: csi-driver
@@ -699,7 +701,7 @@ The expected output should look like this:
 
 [source]
 ----
-upload: ./gpunet-0.pth to s3://eks-rt-inference-models-us-west-2-1752722786/gpunet-0.pth
+upload: ./gpunet-0.pth to s3://eks-rt-inference-models-us-east-1-1752722786/gpunet-0.pth
 ----
 === Create the Model Service
 
@@ -913,7 +915,7 @@ The expected output should look like this:
 [source]
 ----
 ASSOCIATION ARN                                                    NAMESPACE    SERVICE ACCOUNT NAME        IAM ROLE ARN    OWNER ARN
-arn:aws:eks:us-west-2:143095308808:podidentityassociation/eks-rt-inference-us-west-2/a-buavluu2wp1jropya    kube-system     aws-load-balancer-controller    arn:aws:iam::143095308808:role/AmazonEKSLoadBalancerControllerRole
+arn:aws:eks:us-east-1:143095308808:podidentityassociation/eks-rt-inference-us-east-1/a-buavluu2wp1jropya    kube-system     aws-load-balancer-controller    arn:aws:iam::143095308808:role/AmazonEKSLoadBalancerControllerRole
 ----
 
 === Tag your cluster security group
@@ -954,7 +956,7 @@ Among the results, you should see the following with the tag and your cluster na
 ----
 {
   "Key": "karpenter.sh/discovery",
-  "Value": "eks-rt-inference-us-west-2"
+  "Value": "eks-rt-inference-us-east-1"
 }
 ----
 === Setup the {aws} Load Balancer Controller (LBC)
@@ -1176,7 +1178,7 @@ The expected output should look like this (with the ADDRESS field populated):
 [source]
 ----
 NAME                   CLASS   HOSTS   ADDRESS                                         PORTS   AGE
-gpunet-model-ingress   alb     *       k8s-default-gpunetmo-183de3f819-516310036.us-west-2.elb.amazonaws.com   80      6m58s
+gpunet-model-ingress   alb     *       k8s-default-gpunetmo-183de3f819-516310036.us-east-1.elb.amazonaws.com   80      6m58s
 ----
 
 Extract and export the ALB hostname from the Ingress status for use in subsequent testing:
