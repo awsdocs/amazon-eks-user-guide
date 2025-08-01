@@ -259,3 +259,5 @@ include::view-upgrade-policy.adoc[leveloffset=+1]
 include::enable-extended-support.adoc[leveloffset=+1]
 
 include::disable-extended-support.adoc[leveloffset=+1]
+
+include::deletion-protection.adoc[leveloffset=+1]
