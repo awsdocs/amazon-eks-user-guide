@@ -505,6 +505,8 @@ spec:
     resources:
       limits:
         nvidia.com/gpu: 1
+      requests:
+        nvidia.com/gpu: 1
 EOF
 ----
 
@@ -1091,6 +1093,8 @@ spec:
           value: "/models/gpunet-0.pth"
         resources:
           limits:
+            nvidia.com/gpu: 1
+          requests:
             nvidia.com/gpu: 1
         volumeMounts:
         - name: model-volume
