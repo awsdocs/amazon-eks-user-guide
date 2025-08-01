@@ -856,6 +856,8 @@ docker run --platform linux/amd64 -p 8080:80 \
   gpunet-inference-app
 ----
 
+The expected output should look like this:
+
 [source]
 ----
 INFO:     Started server process [1]
