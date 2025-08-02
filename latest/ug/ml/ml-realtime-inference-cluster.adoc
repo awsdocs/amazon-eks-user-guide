@@ -24,6 +24,7 @@ Before you start, make sure you have performed the following tasks:
 
 * link:eks/latest/userguide/setting-up.html[Setup your environment for Amazon EKS,type="documentation"]
 * https://eksctl.io/installation/[Install the latest version of eksctl]
+* https://docs.docker.com/get-started/[(Optional) Install Docker]
 
 == Architecture
 
@@ -47,7 +48,9 @@ Real-time online inference systems require a high-performance, resilient archite
 
 == 1. Create your EKS cluster
 
-In this section, we create a cluster with CPU nodes and a managed node group using an {aws} CloudFormation powered eksctl https://eksctl.io/usage/creating-and-managing-clusters/[ClusterConfig] template. Initializing the cluster with only CPU nodes allows us to use Karpenter exclusively to manage CPU-intensive and GPU nodes for optimized resource allocation using Karpenter NodePools which we create in later steps. To support our real-time inference workloads, we provision the cluster with the EKS Bottlerocket AMI, EKS Node Monitoring Agent, EKS Pod Identity Agent, Mountpoint S3 CSI Driver, {aws} Load Balancer Controller (LBC), and link:eks/latest/userguide/managing-kube-proxy.html[kube-proxy,type="documentation"], link:eks/latest/userguide/managing-vpc-cni.html[vpc-cni,type="documentation"], and link:eks/latest/userguide/managing-coredns.html[coredns,type="documentation"] drivers. The m7g.xlarge instances will be used for CPU system tasks, including hosting the Karpenter controller, add-ons, and other system components. By default, `eksctl` will create a dedicated VPC for the cluster with a CIDR block of `192.168.0.0/16`. The VPC includes three public subnets and three private subnets, each distributed across three different Availability Zones (or two AZs in the `us-east-1` region) which is the ideal method for deploying Kubernetes workloads. The template also deploys an internet gateway, providing internet access to the public subnets through default routes in their route tables and a single NAT gateway in one of the public subnets, with default routes in the private subnets' route tables directing outbound traffic through the NAT gateway for internet access. To learn more about this setup, see https://docs.aws.amazon.com/eks/latest/best-practices/subnets.html#_deploy_nodes_to_private_subnets[Deploy Nodes to Private Subnets].
+In this step, we create a cluster with CPU nodes and a managed node group using an {aws} CloudFormation-powered eksctl https://eksctl.io/usage/creating-and-managing-clusters/[ClusterConfig] template. Initializing the cluster with only CPU nodes allows us to use Karpenter exclusively to manage CPU-intensive and GPU nodes for optimized resource allocation using Karpenter NodePools which we create in later steps. To support our real-time inference workloads, we provision the cluster with the EKS Bottlerocket AMI, EKS Node Monitoring Agent, EKS Pod Identity Agent, Mountpoint S3 CSI Driver, {aws} Load Balancer Controller (LBC), and link:eks/latest/userguide/managing-kube-proxy.html[kube-proxy,type="documentation"], link:eks/latest/userguide/managing-vpc-cni.html[vpc-cni,type="documentation"], and link:eks/latest/userguide/managing-coredns.html[coredns,type="documentation"] drivers. The m7g.xlarge instances will be used for CPU system tasks, including hosting the Karpenter controller, add-ons, and other system components. 
+
+By default, `eksctl` will create a dedicated VPC for the cluster with a CIDR block of `192.168.0.0/16`. The VPC includes three public subnets and three private subnets, each distributed across three different Availability Zones (or two AZs in the `us-east-1` region) which is the ideal method for deploying Kubernetes workloads. The template also deploys an internet gateway, providing internet access to the public subnets through default routes in their route tables and a single NAT gateway in one of the public subnets, with default routes in the private subnets' route tables directing outbound traffic through the NAT gateway for internet access. To learn more about this setup, see https://docs.aws.amazon.com/eks/latest/best-practices/subnets.html#_deploy_nodes_to_private_subnets[Deploy Nodes to Private Subnets].
 
 === Check instance availability
 
@@ -313,9 +316,10 @@ NAME                       READY   STATUS    RESTARTS   AGE
 karpenter-555895dc-865bc   1/1     Running   0          5m58s
 karpenter-555895dc-j7tk9   1/1     Running   0          5m58s
 ----
+
 == 4. Setup Karpenter NodePools
 
-In this section, we configure mutually exclusive CPU and GPU https://karpenter.sh/docs/concepts/nodepools/[Karpenter NodePools]. The `limits` field in the NodePool spec constrains the maximum total resources (e.g., CPU, memory, GPUs) that each NodePool can consume across all provisioned nodes, preventing additional node provisioning if these limits are exceeded. While NodePools support broad instance categories (e.g., `c`, `g`), specifying specific https://karpenter.sh/docs/concepts/nodepools/#instance-types[instance types], https://karpenter.sh/docs/concepts/nodepools/#capacity-type[capacity types], and resource https://karpenter.sh/docs/concepts/nodepools/#speclimits[limits] help you more easily estimate costs for your on-demand workloads. In these NodePools, we use a diverse set of instance types within the G5 instance family. This allows Karpenter to automatically select the most appropriate instance type based on pod resource requests, optimizing resource utilization while respecting the NodePool's total limits. To learn more, see https://docs.aws.amazon.com/eks/latest/best-practices/karpenter.html#_creating_nodepools[Creating NodePools].
+In this step, we configure mutually exclusive CPU and GPU https://karpenter.sh/docs/concepts/nodepools/[Karpenter NodePools]. The `limits` field in the NodePool spec constrains the maximum total resources (e.g., CPU, memory, GPUs) that each NodePool can consume across all provisioned nodes, preventing additional node provisioning if these limits are exceeded. While NodePools support broad instance categories (e.g., `c`, `g`), specifying specific https://karpenter.sh/docs/concepts/nodepools/#instance-types[instance types], https://karpenter.sh/docs/concepts/nodepools/#capacity-type[capacity types], and resource https://karpenter.sh/docs/concepts/nodepools/#speclimits[limits] help you more easily estimate costs for your on-demand workloads. In these NodePools, we use a diverse set of instance types within the G5 instance family. This allows Karpenter to automatically select the most appropriate instance type based on pod resource requests, optimizing resource utilization while respecting the NodePool's total limits. To learn more, see https://docs.aws.amazon.com/eks/latest/best-practices/karpenter.html#_creating_nodepools[Creating NodePools].
 
 === Setup the GPU NodePool
 
@@ -573,11 +577,11 @@ Thu Jul 17 04:31:33 2025
 
 == 6. (Optional) Prepare and Upload Model Artifacts for Deployment
 
-The Mountpoint S3 CSI Driver allows mounting S3 buckets as file systems for accessing large model files. S3 provides scalable and virtually unlimited storage for a model's binary files, configuration files, and any other model artifacts. It can be used to version models, allowing you to track different versions of your model and easily roll back to previous versions if needed. In this section, you'll prepare your environment by deploying a model service for real-time image classification inference by uploading model weights for the open-source https://catalog.ngc.nvidia.com/orgs/nvidia/teams/dle/models/gpunet_0_pyt_ckpt[GPUNet-0] vision model to an Amazon S3 bucket. This includes downloading model weights from the Nvidia NGC model hub, creating an S3 bucket, then uploading the pre-trained model weights to an Amazon S3 bucket. For demonstration, the open-source model we are using is part of NVIDIA's https://catalog.ngc.nvidia.com/orgs/nvidia/teams/dle/resources/gpunet_pyt[GPUNet], a legacy family of convolutional neural network models for image classification that allows you to perform low-latency inference on images using NVIDIA GPUs and TensorRT, which enables real-time processing of visual data. Using the pre-trained GPUNet-0 image model pretrained on https://www.image-net.org/[ImageNet] allows us to classify images on the fly, such as identifying objects in photos or video streams. It is considered a small model with 11.9 million parameters.
+In this step, you'll deploy a model service for real-time image classification, starting with uploading model weights to an Amazon S3 bucket. For demonstration, we are using the open-source https://catalog.ngc.nvidia.com/orgs/nvidia/teams/dle/models/gpunet_0_pyt_ckpt[GPUNet-0] vision model part of NVIDIA's https://catalog.ngc.nvidia.com/orgs/nvidia/teams/dle/resources/gpunet_pyt[GPUNet], which supports low-latency inference on images using NVIDIA GPUs and TensorRT. This model is pretrained on https://www.image-net.org/[ImageNet], allows us to classifies objects in photos or video streams on the fly, and is considered a small model with 11.9 million parameters.
 
 === Set up your environment
 
-To download the GPUNet-0 model weights in this section, you need access to NVIDIA's NGC catalog and https://docs.docker.com/get-started/[Docker] installed on your local machine. Follow these steps to set up a free account and configure the NGC CLI:
+To download the GPUNet-0 model weights In this step, you need access to NVIDIA's NGC catalog and https://docs.docker.com/get-started/[Docker] installed on your local machine. Follow these steps to set up a free account and configure the NGC CLI:
 
 * https://ngc.nvidia.com/signup[Sign up for a free NGC account] and generate an API key from the NGC dashboard (User Icon > Setup > Generate API Key > Generate Personal Key > NGC Catalog).
 * https://org.ngc.nvidia.com/setup/installers/cli[Download and install the NGC CLI] (Linux/macOS/Windows) and configure the CLI using: `ngc config set`. Enter your API key when prompted; set org to `nvidia` and hit Enter to accept defaults for others. If successful, you should see something like: `Successfully saved NGC configuration to /Users/your-username/.ngc/config`.
@@ -630,7 +634,7 @@ daemonset.apps/s3-csi-node patched
 
 === Upload model weights to S3
 
-In this step, we upload GPUNet-0 model weights to our Amazon S3 bucket.
+In this step, you'll create an Amazon S3 bucket, download the GPUNet-0 model weights from NVIDIA GPU Cloud (NGC), and upload them to the bucket. These weights will be accessed by our application at runtime for inference.
 
 Create your Amazon S3 bucket:
 
@@ -660,7 +664,10 @@ Download the GPUNet-0 model weights from NGC. For example, on macOS:
 ngc registry model download-version nvidia/dle/gpunet_0_pyt_ckpt:21.12.0_amp --dest ~/downloads
 ----
 
+[NOTE]
+====
 You may need to adjust this download command for your operating system. For this command to work on a Linux system, you likely need to create the directory as part of the command (e.g., `mkdir ~/downloads`).
+====
 
 The expected output should look like this:
 
@@ -708,9 +715,11 @@ upload: ./gpunet-0.pth to s3://eks-rt-inference-models-us-east-1-1752722786/gpun
 
 === Create the Model Service
 
-In this step, we set-up a FastAPI web application for GPU-accelerated image classification using the GPUNet-0 vision model. In this application, the model weights are downloaded at runtime during application startup and the pretrained parameters are fetched (approximately 20-50MB) from NVIDIA's hosted repository, then cached locally. This ensures no downloads occur during real-time inference requests visible to an end-user. The script also downloads ImageNet class labels via HTTP, defines image preprocessing transforms, and exposes two endpoints: a root GET for a simple (required) FastAPI status check and a POST `/predict` endpoint that accepts an image URL for image recognition requests.
+In this step, you'll set up a FastAPI web application for GPU-accelerated image classification using the GPUNet-0 vision model. The application downloads model weights from Amazon S3 at runtime, fetches the model architecture from NVIDIA's repository for caching, and downloads ImageNet class labels via HTTP. The application includes image preprocessing transforms and exposes two endpoints: a root GET for status check and a POST `/predict` endpoint that accepts an image URL.
 
-There are multiple ways of serving a model. Here we use a FastAPI application to serve the model, as it offers a flexible setup for quick prototyping, is easily deployed as a standard Kubernetes service, and can be used for single-node workloads. For production scenarios with multi-node workloads, you'd typically want to use dedicated model servers (e.g., TensorFlow Serving) or high-throughput engines (e.g., vLLM) for features like dynamic batching, better concurrency, and improved resource efficiency.
+We serve the model using FastAPI with PyTorch, loading weights from Amazon S3 at runtime in a containerized setup for quick prototyping and Kubernetes deployment. For other methods like optimized batching or high-throughput engines, see https://docs.aws.amazon.com/eks/latest/best-practices/aiml-performance.html#_serving_ml_models[Serving ML Models].
+
+==== Create the application
 
 Create a directory for your application files such as `model-testing`, then change directories into it and add the following code to a new file named `app.py`:
 
@@ -767,7 +776,7 @@ preprocess = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ])
 
-# Load ImageNet labels (baked or download at runtime if needed)
+# Load ImageNet labels
 labels_url = "https://s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.json"
 response = requests.get(labels_url)
 json_data = json.loads(response.text)
@@ -801,7 +810,12 @@ async def predict(image_url: str):
         raise HTTPException(status_code=400, detail=str(e))
 ----
 
-The following Dockerfile creates a container image for our application that utilizes the GPUNet model (sourced from the https://github.com/NVIDIA/DeepLearningExamples[NVIDIA Deep Learning Examples for Tensor Cores] GitHub repository). The container image pre-downloads and caches the GPUNet model code during the build process. Note that the model weights (e.g., `gpunet-0.pth`) are not baked into the base image, which results in larger image sizes, slows builds and pushes, and requires rebuilding and redeploying for model updates.
+
+==== Create the Dockerfile
+
+The following Dockerfile creates a container image for our application utilizing the GPUNet model from the https://github.com/NVIDIA/DeepLearningExamples[NVIDIA Deep Learning Examples for Tensor Cores] GitHub repository. 
+
+We reduce container image size by using a runtime-only PyTorch base, installing only essential packages with cache cleanup, pre-caching model code, and avoiding "baking" weights in the container image to enable faster pulls and updates. To learn more, see https://docs.aws.amazon.com/eks/latest/best-practices/aiml-performance.html#_reducing_container_image_sizes[Reducing Container Image Sizes].
 
 In the same directory as `app.py`, create the `Dockerfile`:
 
@@ -828,6 +842,7 @@ WORKDIR /app
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80"]
 ----
 
+==== Test the application
 From the same directory as your `app.py` and `Dockerfile`, build the container image for the inference application, targeting AMD64 architecture:
 
 [source,bash]
@@ -886,7 +901,8 @@ Quit the application using "Ctrl + C".
 
 In this step, we upload the container image for the GPUNet-0 model service to https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html[Amazon Elastic Container Registry (ECR)], making it available for deployment on Amazon EKS. This process involves creating a new ECR repository to store the image, authenticating with ECR, then tagging and pushing the container image to our registry.
 
-Navigate back to the directory where you set your environment variables at the beginning of this guide. For example:
+First, navigate back to the directory where you set your environment variables at the beginning of this guide. For example:
+
 [source,bash]
 ----
 cd ..
@@ -907,6 +923,7 @@ aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS 
 ----
 
 The expected output should look like this:
+
 [source]
 ----
 Login Succeeded
@@ -930,7 +947,7 @@ This last step takes several minutes to complete.
 
 == 7. (Optional) Expose the Model Service
 
-The Mountpoint S3 CSI Driver allows you to create a PersistentVolume (PV) that points to an existing S3 bucket, and then bind your PVC to it. The CSI driver handles mounting the S3 bucket's contents directly into `/models/` in your pod. Your model weights from S3 appear there automatically—no download needed in the app code. In this section, you'll expose your real-time inference model service externally on Amazon EKS using the {aws} Load Balancer Controller (LBC). This involves setting up the {aws} LBC to manage ingress traffic, mounting model weights from Amazon S3 as a persistent volume, deploying a GPU-accelerated application pod, creating a service and ingress resource to provision an Application Load Balancer (ALB), and finally testing the exposed endpoint.
+In this step, you'll expose your real-time inference model service externally on Amazon EKS using the {aws} Load Balancer Controller (LBC). This involves setting up the LBC, mounting model weights from Amazon S3 as a persistent volume using the Mountpoint S3 CSI Driver, deploying a GPU-accelerated application pod, creating a service and ingress to provision an Application Load Balancer (ALB), and testing the endpoint.
 
 First, verify the Pod Identity association for the {aws} LBC, confirming that the service account is properly linked to the required IAM role:
 
@@ -949,7 +966,7 @@ arn:aws:eks:us-east-1:143095308808:podidentityassociation/eks-rt-inference-us-ea
 
 === Tag your cluster security group
 
-The {aws} Load Balancer Controller only supports a single security group with the tag key `karpenter.sh/discovery: "${EKS_CLUSTER_NAME}"` for Karpenter's security group selection. When creating a cluster with eksctl, the default cluster security group (which has the "kubernetes.io/cluster/<cluster-name>: owned" tag) is not automatically tagged with `karpenter.sh/discovery` tags. This tag is essential for Karpenter to discover and attach this security group to the nodes it provisions. Attaching this security group ensures compatibility with the {aws} Load Balancer Controller (LBC), allowing it to automatically manage inbound traffic rules for services exposed via Ingress, such as the model service in these steps.
+The {aws} Load Balancer Controller only supports a single security group with the tag key `karpenter.sh/discovery: "${EKS_CLUSTER_NAME}"` for Karpenter's security group selection. When creating a cluster with eksctl, the default cluster security group (which has the `"kubernetes.io/cluster/<cluster-name>: owned"` tag) is not automatically tagged with `karpenter.sh/discovery` tags. This tag is essential for Karpenter to discover and attach this security group to the nodes it provisions. Attaching this security group ensures compatibility with the {aws} Load Balancer Controller (LBC), allowing it to automatically manage inbound traffic rules for services exposed via Ingress, such as the model service in these steps.
 
 Export the VPC ID for your cluster:
 
@@ -988,6 +1005,7 @@ Among the results, you should see the following with the tag and your cluster na
   "Value": "eks-rt-inference-us-east-1"
 }
 ----
+
 === Setup the {aws} Load Balancer Controller (LBC)
 
 The {aws} LBC is essential for managing ingress traffic to AI/ML workloads on Amazon EKS, ensuring access to inference endpoints or data processing pipelines. By integrating with {aws} Application Load Balancers (ALB) and Network Load Balancers (NLB), the LBC dynamically routes traffic to containerized applications, such as those running large language models, computer vision models, or real-time inference services. Since we've already created the service account and the Pod Identity Association during cluster creation, we set the `serviceAccount.name` to match what's defined in our cluster config (`aws-load-balancer-controller`).
@@ -1006,7 +1024,7 @@ Refresh your local Helm repositories with the most recent charts:
 helm repo update eks
 ----
 
-Deploy the {aws} Load Balancer Controller using Helm, specifying the EKS cluster name and referencing the pre-created service account:
+Deploy the {aws} LBC using Helm, specifying the EKS cluster name and referencing the pre-created service account:
 
 [source,bash]
 ----
@@ -1031,9 +1049,13 @@ NOTES:
 AWS Load Balancer controller installed!
 ----
 
-=== Mount the model in a Persistent Volume
+=== Mount the model in a persistent volume
 
-In this step, you'll mount the model weights from your Amazon S3 bucket using a PersistentVolume (PV) backed by the Mountpoint for Amazon S3 CSI driver. This enables Kubernetes pods to access S3 objects as if they were local files, avoiding resource-intensive downloads into ephemeral pod storage or init containers, which is ideal for handling multi-gigabyte sized model weights. The PV mounts the entire bucket root (since no path is specified in `volumeAttributes`), supports concurrent access by multiple pods (especially for read-only workloads like loading pre-trained models), and exposes files such as /models/gpunet-0.pth inside the container for inference. This ensures the fallback "download" in our application (`app.py`) does not trigger because the file exists via the mount.
+In this step, you'll mount model weights from your Amazon S3 bucket using a PersistentVolume (PV) backed by the Mountpoint for Amazon S3 CSI driver. This allows Kubernetes pods to access S3 objects as local files, eliminating resource-intensive downloads to ephemeral pod storage or init containers—ideal for large, multi-gigabyte model weights. 
+
+The PV mounts the entire bucket root (no path specified in `volumeAttributes`), supports concurrent read-only access by multiple pods, and exposes files like the model weights (`/models/gpunet-0.pth`) inside the container for inference. This ensures the fallback "download" in our application (`app.py`) does not trigger because the file exists via the mount. By decoupling the model from the container image, this enables shared access and independent model version updates without image rebuilds. 
+
+==== Create the PersistentVolume (PV)
 
 Create a PersistentVolume (PV) resource to mount the S3 bucket containing your model weights, enabling read-only access for multiple pods without downloading files at runtime:
 
@@ -1065,6 +1087,7 @@ spec:
 EOF
 ----
 
+==== Create the PersistentVolumeClaim (PVC)
 Create a PersistentVolumeClaim (PVC) to bind to the PV, requesting read-only access to the mounted S3 model data:
 
 [source,yaml]
@@ -1085,7 +1108,9 @@ spec:
 EOF
 ----
 
-Deploy the inference application as a Kubernetes Deployment, mounting the S3-backed persistent volume for model access, applying GPU node selectors and tolerations, and setting environment variables for the model path. The Deployment sets the model path (env var of `"/models/gpunet-0.pth"`), so our web application (in `app.py`) will use this path by default. With the Deployment's volume mount at `/models` (read-only), the model download won't trigger if the file is already present via the PVC.
+==== Deploy the application
+
+Deploy the inference application as a Kubernetes Deployment, mounting the S3-backed persistent volume for model access, applying GPU node selectors and tolerations, and setting environment variables for the model path. This Deployment sets the model path (env var of `"/models/gpunet-0.pth"`), so our application (in `app.py`) will use this path by default. With the Deployment's volume mount at `/models` (read-only), the model download won't trigger if the file is already present via the PVC.
 
 [source,yaml]
 ----
@@ -1170,7 +1195,7 @@ spec:
 EOF
 ----
 
-Create an Ingress resource to provision an internet-facing Application Load Balancer (ALB) via the {aws} Load Balancer Controller, routing external traffic to the inference service:
+Create an Ingress resource to provision an internet-facing Application Load Balancer (ALB) via the {aws} LBC, routing external traffic to the inference service:
 
 [source,yaml]
 ----
@@ -1244,13 +1269,16 @@ http://images.cocodataset.org/test-stuff2017/000000028117.jpg
 http://images.cocodataset.org/test-stuff2017/000000006149.jpg
 http://images.cocodataset.org/test-stuff2017/000000004954.jpg
 ----
+
 == Conclusion
 
-In this guide, you've successfully set up an Amazon EKS cluster optimized for GPU-accelerated real-time inference workloads. You provisioned a cluster with https://aws.amazon.com/ec2/instance-types/g5/[G5 EC2 instances], installed the link:eks/latest/userguide/s3-csi.html[Mountpoint S3 CSI Driver,type="documentation"], link:eks/latest/userguide/pod-identities.html[EKS Pod Identity Agent,type="documentation"], link:eks/latest/userguide/node-health.html[EKS Node Monitoring Agent,type="documentation"], link:eks/latest/userguide/eks-optimized-ami-bottlerocket.html[Bottlerocket AMI,type="documentation"], link:eks/latest/userguide/lbc-helm.html[{aws} Load Balancer Controller (LBC),type="documentation"], and https://karpenter.sh/[Karpenter] to manage CPU and GPU NodePools. You used the NVIDIA Device Plugin to enable GPU scheduling and configured S3 with a PersistentVolume and PersistentVolumeClaim for model access. You validated the setup by deploying a sample GPU pod, setting up model access for the NVIDIA https://catalog.ngc.nvidia.com/orgs/nvidia/teams/dle/models/gpunet_0_pyt_ckpt[GPUNet-0] model on https://aws.amazon.com/s3/[Amazon S3], enabling pod initialization, and exposing the inference service via Application Load Balancer. To fully utilize your cluster, configure the link:eks/latest/userguide/node-health.html[EKS Node Monitoring Agent,type="documentation"] with auto-repair. Be sure to fine-tune configurations to match your workload demands and conduct benchmark tests, including GPU performance, latency, and throughput assessments, to optimize response times.
+In this guide, you set up an Amazon EKS cluster optimized for GPU-accelerated real-time inference workloads. You provisioned a cluster with https://aws.amazon.com/ec2/instance-types/g5/[G5 EC2 instances], installed the link:eks/latest/userguide/s3-csi.html[Mountpoint S3 CSI Driver,type="documentation"], link:eks/latest/userguide/pod-identities.html[EKS Pod Identity Agent,type="documentation"], link:eks/latest/userguide/node-health.html[EKS Node Monitoring Agent,type="documentation"], link:eks/latest/userguide/eks-optimized-ami-bottlerocket.html[Bottlerocket AMI,type="documentation"], link:eks/latest/userguide/lbc-helm.html[{aws} Load Balancer Controller (LBC),type="documentation"], and https://karpenter.sh/[Karpenter] to manage CPU and GPU NodePools. You used the NVIDIA Device Plugin to enable GPU scheduling and configured S3 with a PersistentVolume and PersistentVolumeClaim for model access. You validated the setup by deploying a sample GPU pod, setting up model access for the NVIDIA https://catalog.ngc.nvidia.com/orgs/nvidia/teams/dle/models/gpunet_0_pyt_ckpt[GPUNet-0] model on https://aws.amazon.com/s3/[Amazon S3], enabling pod initialization, and exposing the inference service via Application Load Balancer. To fully utilize your cluster, configure the link:eks/latest/userguide/node-health.html[EKS Node Monitoring Agent,type="documentation"] with auto-repair. Be sure to conduct benchmark tests, including GPU performance, latency, and throughput assessments to optimize response times. To learn more, see https://docs.aws.amazon.com/eks/latest/best-practices/aiml-observability.html#_using_monitoring_and_observability_tools_for_your_aiml_workloads[Using Monitoring and Observability Tools for your AI/ML Workloads].
 
 == Clean up
 
-To avoid incurring future charges, you need to delete the associated CloudFormation stack manually to delete all resources created during this guide using the `--wait` flag, including the VPC network. You can do this with eksctl:
+To avoid incurring future charges, you need to delete the associated CloudFormation stack manually to delete all resources created during this guide, including the VPC network.
+
+Delete the CloudFormation stack using the `--wait` flag with eksctl:
 
 [source,bash]
 ----
@@ -1261,7 +1289,7 @@ Upon completion, you should see the following response output:
 
 [source]
 ----
-2025-06-29 13:03:55 [✔]  all cluster resources were deleted
+2025-07-29 13:03:55 [✔]  all cluster resources were deleted
 ----
 
 Delete the Amazon S3 bucket created during this guide using the https://console.aws.amazon.com/s3/home[Amazon S3 Console].
