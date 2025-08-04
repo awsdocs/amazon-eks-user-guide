@@ -202,7 +202,7 @@ The table below is a quick reference for commonly used configuration options.
 == Considerations
 
 * You cannot use Annotations on an IngressClass to configure load balancers with EKS Auto Mode.
-* You cannot set https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_ListenerAttribute.html[ListenerAttribute] with EKS Auto Mode.
+* You cannot set link:elasticloadbalancing/latest/APIReference/API_ListenerAttribute.html["ListenerAttribute",type="documentation"] with EKS Auto Mode.
 * You must update the Cluster IAM Role to enable tag propagation from Kubernetes to {aws} Load Balancer resources. For more information, see <<tag-prop>>.
 * For information about associating resources with either EKS Auto Mode or the self-managed {aws} Load Balancer Controller, see <<migration-reference>>.
 * For information about fixing issues with load balancers, see <<auto-troubleshoot>>. 
