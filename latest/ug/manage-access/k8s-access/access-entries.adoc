@@ -41,13 +41,12 @@ The feature integrates with infrastructure as code (IaC) tools like {aws} CloudF
 
 == Legacy cluster access configuration
 
-When you enable EKS access entries on clusters created before this feature was introduced (clusters with initial platform versions earlier than those specified in Platform Version Requirements), EKS automatically creates an access entry that reflects pre-existing permissions.
-This access entry shows:
+When you enable EKS access entries on clusters created before this feature was introduced (clusters with initial platform versions earlier than those specified in Platform Version Requirements), EKS automatically creates an access entry that reflects pre-existing permissions. 
 
-* The IAM identity that originally created the cluster
-* The administrative permissions granted to that identity during cluster creation
+This access entry shows the IAM identity that originally created the cluster, and the administrative permissions granted to that identity during cluster creation. Previously, this administrative access was granted automatically and couldn't be modified. With EKS access entries enabled, you can now view and delete this legacy access configuration.
 
-NOTE: Previously, this administrative access was granted automatically and couldn't be modified. With EKS access entries enabled, you can now view and delete this legacy access configuration.
+If your cluster uses the link:eks/latest/userguide/migrating-access-entries.html[legacy `aws-auth` ConfigMap,type="documentation"] for access management, note that only the access entry for the original cluster creator is automatically created when enabling access entries. Any additional roles or permissions created in the ConfigMap beyond the original creator (e.g., custom IAM roles for developers or services) are not automatically added to access entries.
+
 
 [.topic]
 
