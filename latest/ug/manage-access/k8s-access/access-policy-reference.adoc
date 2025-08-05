@@ -9,6 +9,45 @@ Access policies include `rules` that contain Kubernetes `verbs` (permissions) an
 
 Choose any access policy to see its contents. Each row of each table in each access policy is a separate rule.
 
+[#access-policies-cli-command]
+== Retrieve all policies
+You can retrieve a list of all available access policies using the following command:
+
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks list-access-policies
+----
+
+The expected output should look like this (abbreviated for brevity):
+
+[source]
+----
+{
+    "accessPolicies": [
+        {
+            "name": "AmazonAIOpsAssistantPolicy",
+            "arn": "arn:aws:eks::aws:cluster-access-policy/AmazonAIOpsAssistantPolicy"
+        },
+        {
+            "name": "AmazonARCRegionSwitchScalingPolicy",
+            "arn": "arn:aws:eks::aws:cluster-access-policy/AmazonARCRegionSwitchScalingPolicy"
+        },
+        {
+            "name": "AmazonEKSAdminPolicy",
+            "arn": "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+        },
+        {
+            "name": "AmazonEKSAdminViewPolicy",
+            "arn": "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy"
+        },
+        {
+            "name": "AmazonEKSAutoNodePolicy",
+            "arn": "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAutoNodePolicy"
+        }
+        // Additional policies omitted
+    ]
+}
+----
 
 [#access-policy-permissions-amazoneksadminpolicy]
 == AmazonEKSAdminPolicy
