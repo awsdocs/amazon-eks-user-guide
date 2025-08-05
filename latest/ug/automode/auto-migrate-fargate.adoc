@@ -237,5 +237,5 @@ Because EKS Auto mode handles CoreDNS, you scale the `coredns` deployment down t
 
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl scale deployment coredns -n kube-system —replicas=0
+kubectl scale deployment coredns -n kube-system —-replicas=0
 ----
