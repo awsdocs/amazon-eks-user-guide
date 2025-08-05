@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#ml-realtime-inference-cluster]
-= Best Practices Setup Guide for Real-Time Inference on Amazon EKS
+= Best Practices Cluster Setup Guide for Real-Time Inference on Amazon EKS
 :info_titleabbrev: Create cluster
 
 [abstract]
