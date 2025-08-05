@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#ml-realtime-inference-cluster]
-= Build an Amazon EKS Cluster for Real-Time Online Inference
+= Best Practices Setup Guide for Real-Time Inference on Amazon EKS
 :info_titleabbrev: Create cluster
 
 [abstract]
@@ -12,7 +12,7 @@ Learn how to set up an Amazon EKS cluster optimized for real-time online inferen
 
 == Introduction
 
-This guide provides a hands-on walkthrough for setting up an Amazon Elastic Kubernetes Service (EKS) cluster optimized for real-time online inference workloads. It uses an opinionated EKS Quickstart Architecture—a curated set of drivers, instance types, and configurations aligned with {aws} best practices for models, accelerators, and scaling. This approach helps you bypass the task of selecting cluster settings, allowing you to get a functional, pre-configured cluster up and running quickly. Along the way, we'll deploy sample workloads to validate your setup, explain key architectural concepts (such as decoupling CPU-bound tasks from GPU-intensive computations), address common questions (e.g., why choose Bottlerocket AMI over AL2023?), and outline next steps to extend your cluster's capabilities.
+This guide offers a hands-on walkthrough for setting up an Amazon Elastic Kubernetes Service (EKS) cluster optimized for real-time online inference workloads, incorporating best practices curated by {aws} experts throughout. It uses an opinionated EKS Quickstart Architecture—a curated set of drivers, instance types, and configurations aligned with {aws} best practices for models, accelerators, and scaling. This approach helps you bypass the task of selecting cluster settings, allowing you to get a functional, pre-configured cluster up and running quickly. Along the way, we'll deploy sample workloads to validate your setup, explain key architectural concepts (such as decoupling CPU-bound tasks from GPU-intensive computations), address common questions (e.g., why choose Bottlerocket AMI over AL2023?), and outline next steps to extend your cluster's capabilities.
 
 Designed specifically for Machine Learning (ML) and Artificial Intelligence (AI) engineers, platform administrators, operators, and data/AI specialists who are new to the {aws} and EKS ecosystem, this guide assumes familiarity with Kubernetes but no prior EKS experience. It is designed to help you understand the steps and processes needed to get real-time online inference workloads up and running. The guide shows you the essentials of creating a single-node inference cluster, including provisioning GPU resources, integrating storage for model artifacts, enabling secure {aws} service access, and exposing inference endpoints. Throughout, it emphasizes low-latency, resilient design for user-facing applications like fraud detection, real-time chatbots, and sentiment analysis in customer feedback systems.
 
