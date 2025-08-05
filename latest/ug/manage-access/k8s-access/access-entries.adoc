@@ -34,6 +34,7 @@ You can attach Kubernetes permissions to access entries in two ways:
 == Considerations
 
 When enabling EKS access entries on existing clusters, keep the following in mind:
+
 * **Legacy Cluster Behavior**: For clusters created before the introduction of access entries (those with initial platform versions earlier than specified in link:eks/latest/userguide/platform-versions.html[Platform version requirements,type="documentation"]), EKS automatically creates an access entry reflecting pre-existing permissions. This entry includes the IAM identity that originally created the cluster and the administrative permissions granted to that identity during cluster creation.
 * **Handling Legacy `aws-auth` ConfigMap**: If your cluster relies on the legacy `aws-auth` ConfigMap for access management, only the access entry for the original cluster creator is automatically created upon enabling access entries. Additional roles or permissions added to the ConfigMap (e.g., custom IAM roles for developers or services) are not automatically migrated.To address this, manually create corresponding access entries.
 
