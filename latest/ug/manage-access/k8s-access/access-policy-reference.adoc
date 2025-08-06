@@ -7,11 +7,9 @@ include::../../attributes.txt[]
 
 Access policies include `rules` that contain Kubernetes `verbs` (permissions) and `resources`. Access policies don't include IAM permissions or resources. Similar to Kubernetes `Role` and `ClusterRole` objects, access policies only include `allow` `rules`. You can't modify the contents of an access policy. You can't create your own access policies. If the permissions in the access policies don't meet your needs, then create Kubernetes RBAC objects and specify _group names_ for your access entries. For more information, see <<creating-access-entries>>. The permissions contained in access policies are similar to the permissions in the Kubernetes user-facing cluster roles. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles[User-facing roles] in the Kubernetes documentation.  
 
-Choose any access policy to see its contents. Each row of each table in each access policy is a separate rule.
-
 [#access-policies-cli-command]
-== Retrieve all policies
-You can retrieve a list of all available access policies using the following command:
+== List all policies
+Use any one of the access policies listed on this page, or retrieve a list of all available access policies using the {aws} CLI:
 
 [source,bash,subs="verbatim,attributes"]
 ----
