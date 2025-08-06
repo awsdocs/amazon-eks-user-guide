@@ -94,6 +94,8 @@ We recommend that you link:vpc/latest/privatelink/interface-endpoints.html#enabl
 |Amazon EKS Auth (required when using Pod Identity associations)
 |com.amazonaws.[.replaceable]`region-code`.eks-auth 
 
+|Amazon EKS SSM (required for ssm:RegisterManagedInstance API event)
+|com.amazonaws.[.replaceable]`region-code`.ssm 
 
 |Amazon EKS
 |com.amazonaws.[.replaceable]`region-code`.eks
