@@ -24,7 +24,9 @@ Before you start, make sure you have performed the following tasks:
 
 * link:eks/latest/userguide/setting-up.html[Setup your environment for Amazon EKS,type="documentation"]
 * https://eksctl.io/installation/[Install the latest version of eksctl]
+* https://helm.sh/docs/intro/install/[Install Helm]
 * https://docs.docker.com/get-started/[(Optional) Install Docker]
+* https://org.ngc.nvidia.com/setup/installers/cli[(Optional) Install the NGC CLI]
 
 == Architecture
 
@@ -74,6 +76,11 @@ If the output is successful, the Bottlerocket AMI is available in the region you
 === Prepare your environment
 
 First, set the following environment variables in a new terminal window. *Note*: Be sure to substitute the sample placeholders with your unique values, including cluster name, your desired region, https://github.com/kubernetes-sigs/karpenter/releases[Karpenter release version], and link:eks/latest/userguide/kubernetes-versions.html[Kubernetes version,type="documentation"].
+
+[TIP]
+====
+Some variables (such as `${AWS_REGION}` and `${K8S_VERSION}`) are defined early in the block and then referenced in later commands for consistency and to avoid repetition. Make sure to run the commands in sequence so that these values are properly exported and available for use in subsequent definitions.
+====
 
 [source,bash]
 ----
