@@ -84,37 +84,37 @@ Procedure:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.3/2025-08-03/bin/darwin/amd64/kubectl
 ----
 **** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.7/2025-08-03/bin/darwin/amd64/kubectl
 ----
 **** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.11/2025-08-03/bin/darwin/amd64/kubectl
 ----
 **** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2025-08-03/bin/darwin/amd64/kubectl
 ----
 **** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-08-03/bin/darwin/amd64/kubectl
 ----
 **** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/darwin/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-08-03/bin/darwin/amd64/kubectl
 ----
 **** Kubernetes `1.27`
 +
@@ -136,37 +136,37 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-12-12/bin/dar
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.3/2025-08-03/bin/darwin/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.7/2025-08-03/bin/darwin/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.11/2025-08-03/bin/darwin/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2025-08-03/bin/darwin/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-08-03/bin/darwin/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/darwin/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-08-03/bin/darwin/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.27`
 +
@@ -224,37 +224,37 @@ Procedure:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.3/2025-08-03/bin/linux/amd64/kubectl
 ----
 **** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.7/2025-08-03/bin/linux/amd64/kubectl
 ----
 **** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.11/2025-08-03/bin/linux/amd64/kubectl
 ----
 **** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2025-08-03/bin/linux/amd64/kubectl
 ----
 **** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-08-03/bin/linux/amd64/kubectl
 ----
 **** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/linux/amd64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-08-03/bin/linux/amd64/kubectl
 ----
 **** Kubernetes `1.27`
 +
@@ -276,37 +276,37 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-12-12/bin/lin
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.3/2025-08-03/bin/linux/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.7/2025-08-03/bin/linux/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.11/2025-08-03/bin/linux/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2025-08-03/bin/linux/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-08-03/bin/linux/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/linux/amd64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-08-03/bin/linux/amd64/kubectl.sha256
 ----
 ***** Kubernetes `1.27`
 +
@@ -372,37 +372,37 @@ Procedure:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.3/2025-08-03/bin/linux/arm64/kubectl
 ----
 **** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.7/2025-08-03/bin/linux/arm64/kubectl
 ----
 **** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.11/2025-08-03/bin/linux/arm64/kubectl
 ----
 **** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2025-08-03/bin/linux/arm64/kubectl
 ----
 **** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-08-03/bin/linux/arm64/kubectl
 ----
 **** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-08-03/bin/linux/arm64/kubectl
 ----
 **** Kubernetes `1.27`
 +
@@ -424,37 +424,37 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-12-12/bin/lin
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.3/2025-08-03/bin/linux/arm64/kubectl.sha256
 ----
 ***** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.7/2025-08-03/bin/linux/arm64/kubectl.sha256
 ----
 ***** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.11/2025-08-03/bin/linux/arm64/kubectl.sha256
 ----
 ***** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2025-08-03/bin/linux/arm64/kubectl.sha256
 ----
 ***** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-08-03/bin/linux/arm64/kubectl.sha256
 ----
 ***** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/linux/arm64/kubectl.sha256
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-08-03/bin/linux/arm64/kubectl.sha256
 ----
 ***** Kubernetes `1.27`
 +
@@ -520,37 +520,37 @@ Procedure:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.3/2025-08-03/bin/windows/amd64/kubectl.exe
 ----
 **** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.7/2025-08-03/bin/windows/amd64/kubectl.exe
 ----
 **** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.11/2025-08-03/bin/windows/amd64/kubectl.exe
 ----
 **** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2025-08-03/bin/windows/amd64/kubectl.exe
 ----
 **** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-08-03/bin/windows/amd64/kubectl.exe
 ----
 **** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/windows/amd64/kubectl.exe
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-08-03/bin/windows/amd64/kubectl.exe
 ----
 **** Kubernetes `1.27`
 +
@@ -572,37 +572,37 @@ curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.15/2024-12-12/bin
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.0/2025-05-01/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.33.3/2025-08-03/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** Kubernetes `1.32`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.3/2025-04-17/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.7/2025-08-03/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** Kubernetes `1.31`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.11/2025-08-03/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** Kubernetes `1.30`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2025-08-03/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** Kubernetes `1.29`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-04-17/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2025-08-03/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** Kubernetes `1.28`
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-04-17/bin/windows/amd64/kubectl.exe.sha256
+curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.15/2025-08-03/bin/windows/amd64/kubectl.exe.sha256
 ----
 ***** Kubernetes `1.27`
 +
