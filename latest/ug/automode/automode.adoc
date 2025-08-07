@@ -29,7 +29,7 @@ EKS Auto Mode provides the following high-level features:
 //what?
 *Efficiency*: EKS Auto Mode is designed to optimize compute costs while adhering to the flexibility defined by your NodePool and workload requirements. It also terminates unused instances and consolidates workloads onto other nodes to improve cost efficiency.
 
-*Security*: EKS Auto Mode uses AMIs that are treated as immutable for your nodes. These AMIs enforce locked-down software, enable SELinux mandatory access controls, and provide read-only root file systems. Additionally, nodes launched by EKS Auto Mode have a maximum lifetime of 21 days (which you can reduce), after which they are automatically replaced with new nodes. This approach enhances your security posture by regularly cycling nodes, aligning with best practices already adopted by many customers.
+*Security*: EKS Auto Mode uses AMIs that are treated as immutable, for your nodes. These AMIs enforce locked-down software, enable SELinux mandatory access controls, and provide read-only root file systems. Additionally, nodes launched by EKS Auto Mode have a maximum lifetime of 21 days (which you can reduce), after which they are automatically replaced with new nodes. This approach enhances your security posture by regularly cycling nodes, aligning with best practices already adopted by many customers.
 
 *Automated Upgrades*:  EKS Auto Mode keeps your Kubernetes cluster, nodes, and related components up to date with the latest patches, while respecting your configured Pod Disruption Budgets (PDBs) and NodePool Disruption Budgets (NDBs). Up to the 21-day maximum lifetime, intervention might be required if blocking PDBs or other configurations prevent updates.
 
@@ -76,7 +76,28 @@ While EKS Auto Mode will effectively manage most of your data plane services wit
 
 For more information about options for configuring EKS Auto Mode, see <<settings-auto>>.
 
+== Shared responsibility model
 
+The {aws} Shared Responsibility Model defines security and compliance responsibilities between {aws} and customers. 
+The images and text below compare and contrast how customer and {aws} responsibilities differ between EKS Auto Mode and EKS standard mode.
+
+image::images/eksautosrm.png[Shared responsibility model with EKS Auto Mode and standard mode]
+
+EKS Auto Mode shifts much of the shared responsibility for Kubernetes infrastructure from customers to {aws}. With EKS Auto Mode, {aws} takes on more responsibility for cloud security, which was once the customer’s responsibility and is now shared. Customers can now focus more on their applications while {aws} manages the underlying infrastructure.
+
+**Customer responsibility**
+
+Under EKS Auto Mode, customers continue to maintain responsibility for the application containers, including availability, security, and monitoring. They also maintain control over VPC infrastructure and EKS cluster configuration. This model lets customers concentrate on application-specific concerns while delegating cluster infrastructure management to {aws}. Optional per-node features can be included in clusters through {aws} add-ons.
+
+**{aws} responsibility**
+
+With EKS Auto Mode, {aws} expands its responsibility to include the management of several additional critical components compared to those already managed in EKS clusters not using Auto Mode. In particular, EKS Auto Mode takes over the configuration, management, security, and scaling of the EC2 instances launched as well as cluster capabilities for load balancing, IP address management, networking policy, and block storage. The following components are managed by {aws} in EKS Auto Mode:
+
+* *Auto Mode-launched EC2 Instances*: {aws} handles the complete lifecycle of nodes by leveraging Amazon EC2 managed instances. EC2 managed instances take responsibility for operating system configuration, patching, monitoring, and health maintenance. In this model, both the instance itself and the guest operating system running on it are the responsibility of {aws}. The nodes use variants of https://aws.amazon.com/bottlerocket[Bottlerocket] AMIs that are optimized to run containers. The Bottlerocket AMIs have locked-down software, immutable root file systems, and secure network access (to prevent direct communications through SSH or SSM).
+
+* *Cluster Capabilities*: {aws} manages compute autoscaling, Pod networking with network policy enforcement, Elastic Load Balancing integration, and storage drivers configuration.
+* *Cluster Control Plane*: {aws} continues to manage the Kubernetes API server, cross-account ENIs, and the etcd database, as with standard EKS.
+* *Foundation Services and Global Infrastructure*: {aws} maintains responsibility for the underlying compute, storage, networking, and monitoring services, as well as the global infrastructure of regions, local zones, and edge locations.
 
 include::create-auto.adoc[leveloffset=+1]
 
