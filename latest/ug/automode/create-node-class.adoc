@@ -277,3 +277,4 @@ spec:
 * *Subnet selector limitations*: The standard `subnetSelectorTerms` and `securityGroupSelectorTerms` configurations don't apply to pod subnet selection.
 * *Network planning*: Ensure adequate IP address space in both node and pod subnets to support your workload requirements.
 * *Routing configuration*: Verify that route table and network Access Control List (ACL) of the pod subnets are properly configured for communication between node and pod subnets.
+* *Availability Zones*: Verify that you've created pod subnets across multiple AZs. If you are using specific pod subnet, it must be in the same AZ as the node subnet AZ.
