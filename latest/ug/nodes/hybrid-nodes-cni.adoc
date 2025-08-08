@@ -18,7 +18,7 @@ Cilium version `v1.16.x` is supported and recommended for EKS Hybrid Nodes for e
 
 Calico version `v3.29.x` is supported and recommended for EKS Hybrid Nodes for every Kubernetes version supported in Amazon EKS.
 
-See eks/latest/userguide/kubernetes-versions.html[Kubernetes version support,type="documentation"] for the Kubernetes versions supported by Amazon EKS. EKS Hybrid Nodes have the same Kubernetes version support as Amazon EKS clusters with cloud nodes.
+See link:eks/latest/userguide/kubernetes-versions.html[Kubernetes version support,type="documentation"] for the Kubernetes versions supported by Amazon EKS. EKS Hybrid Nodes have the same Kubernetes version support as Amazon EKS clusters with cloud nodes.
 
 == Supported capabilities
 

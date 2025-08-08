@@ -71,7 +71,6 @@ The hybrid nodes CLI (`nodeadm`) must be run with a user that has sudo/root acce
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
 nodeadm install [.replaceable]`K8S_VERSION` --credential-provider [.replaceable]`CREDS_PROVIDER`
-
 ----
 
 == Step 3: Connect hybrid nodes to your cluster
