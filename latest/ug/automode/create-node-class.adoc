@@ -175,9 +175,13 @@ spec:
     # Key Alias Name
     # Key Alias ARN
   
-  # Optional: Forward proxy, commonly requires certificateBundles as well
-  #for EC2, see https://repost.aws/knowledge-center/eks-http-proxy-containerd-automation
   advancedNetworking:
+    # Optional: Controls whether public IP addresses are assigned to instances that are launched with the nodeclass.
+    # If not set, defaults to the MapPublicIpOnLaunch setting on the subnet.
+    associatePublicIPAddress: false
+    
+    # Optional: Forward proxy, commonly requires certificateBundles as well
+    # for EC2, see https://repost.aws/knowledge-center/eks-http-proxy-containerd-automation
     httpsProxy: http://192.0.2.4:3128 #commonly port 3128 (Squid) or 8080 (NGINX) #Max 255 characters
     #httpsProxy: http://[2001:db8::4]:3128 # IPv6 address with port, use []
     noProxy: #Max 50 entries
