@@ -217,7 +217,7 @@ spec:
 == Considerations
 
 * If you want to verify how much local storage an instance has, you can describe the node to see the ephemeral storage resource.
-* *Volume Encryption* - EKS users the configued custom KMS key to encrypt the read-only root volume of the instance and the read/write data volume. 
+* *Volume Encryption* - EKS uses the configured custom KMS key to encrypt the read-only root volume of the instance and the read/write data volume. 
 * *Replace the node IAM role* - If you change the node IAM role associated with a `NodeClass`, you will need to create a new Access Entry. EKS automatically creates an Access Entry for the node IAM role during cluster creation. The node IAM role requires the `AmazonEKSAutoNodePolicy` EKS Access Policy. For more information, see <<access-entries>>.
 * *maximum pod density* - EKS limits the maximum number of pods on a node to 110. This limit is applied after the existing max pods calculation. For more information, see <<choosing-instance-type>>.
 * *Tags* - If you want to propagate tags from Kubernetes to EC2, you need to configure additional IAM permissions. For more information, see <<auto-learn-iam>>.
