@@ -4,7 +4,7 @@ include::../attributes.txt[]
 [#deletion-protection]
 = Protect EKS clusters from accidental deletion
 
-Accidentally deleting an EKS cluster may have a large impact, as Kubernetes operations will fail. 
+Accidentally deleting an EKS cluster may impair Kubernetes cluster operations.
 
 You can now protect EKS clusters from accidental deletion. If you enable deletion protection on a cluster, you must first disable deletion protection before you can delete the cluster.
 
