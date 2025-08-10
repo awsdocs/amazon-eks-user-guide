@@ -1,0 +1,50 @@
+name: IAM Policy Validation
+
+on:
+  pull_request:
+    paths:
+      - 'latest/ug/**/*.adoc'
+      - 'combined_iam_validator.py'
+  schedule:
+    # Run daily at midnight UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  validate-iam-policies:
+    name: Validate IAM Policies
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          
+      - name: Install dependencies
+        run: |
+          pip install tqdm
+          
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          
+      - name: Run IAM policy validation
+        run: |
+          python combined_iam_validator.py --ci
+        
+      - name: Check for policy issues
+        run: |
+          if grep -q "TOTAL_FINDINGS=0" policy_validation_results.txt; then
+            echo "✅ No IAM policy issues found"
+          else
+            echo "❌ IAM policy validation failed"
+            cat policy_validation_results.txt
+            exit 1
+          fi

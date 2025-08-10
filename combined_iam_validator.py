@@ -6,10 +6,14 @@ import json
 import sys
 import tempfile
 import subprocess
+import argparse
 from pathlib import Path
 from datetime import datetime
 import concurrent.futures
 from tqdm import tqdm
+from tqdm.contrib.concurrent import thread_map
+import time
+import multiprocessing
 
 # Directory to search for .adoc files
 UG_DIR = "latest/ug"
@@ -65,21 +69,28 @@ def find_adoc_files(directory):
 
 # Functions from validate_iam_policies.py
 
+# Dictionary of placeholders and their replacements
+PLACEHOLDERS = {
+    '{arn-aws}': 'arn:aws:',
+    '<account-id>': '123456789012',
+    '{aws}': 'aws',
+    '<aws-region>': 'us-east-1',
+    'AWS_REGION': 'us-east-1',
+    'region-code': 'us-east-1',
+    'AWS_ACCOUNT_ID': '123456789012',
+    'TRUST_ANCHOR_ARN': 'arn:aws:rolesanywhere:us-east-1:123456789012:trust-anchor/TA_ID',
+    'TRUST_ANCHOR_ID': 'arn:aws:rolesanywhere:us-east-1:123456789012:trust-anchor/TA_ID',
+    'custom-key-arn': 'arn:aws:kms:us-east-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab'
+}
+
 def preprocess_policy(policy_content):
     """
     Process a policy string, replace placeholders with valid values.
     """
-    # Replace placeholders with valid values
-    processed_content = policy_content.replace('{arn-aws}', 'arn:aws:')
-    processed_content = processed_content.replace('<account-id>', '123456789012')
-    processed_content = processed_content.replace('{aws}', 'aws')
-    processed_content = processed_content.replace('<aws-region>', 'us-east-1')
-    processed_content = processed_content.replace('AWS_REGION', 'us-east-1')
-    processed_content = processed_content.replace('region-code', 'us-east-1')
-    processed_content = processed_content.replace('AWS_ACCOUNT_ID', '123456789012')
-    processed_content = processed_content.replace('TRUST_ANCHOR_ARN', 'arn:aws:rolesanywhere:us-east-1:123456789012:trust-anchor/TA_ID')
-    processed_content = processed_content.replace('TRUST_ANCHOR_ID', 'arn:aws:rolesanywhere:us-east-1:123456789012:trust-anchor/TA_ID')
-    processed_content = processed_content.replace('custom-key-arn', 'arn:aws:kms:us-east-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab')
+    # Replace all placeholders using the dictionary
+    processed_content = policy_content
+    for placeholder, replacement in PLACEHOLDERS.items():
+        processed_content = processed_content.replace(placeholder, replacement)
     
     return processed_content
 
@@ -112,10 +123,17 @@ def detect_policy_type(policy_content):
         # Default to identity policy if we can't parse the JSON
         return "IDENTITY_POLICY"
 
+# Cache for policy validation results to avoid repeated validations of the same policy
+policy_validation_cache = {}
+
 def validate_policy(policy_content):
     """Run AWS Access Analyzer validate-policy on the policy content."""
+    # Use cache if we've already validated this exact policy
+    if policy_content in policy_validation_cache:
+        return policy_validation_cache[policy_content]
+        
     try:
-        # Auto-detect policy type
+        # Auto-detect policy type (CPU-bound but lightweight)
         policy_type = detect_policy_type(policy_content)
         
         # Create a temporary file with the processed content
@@ -124,6 +142,8 @@ def validate_policy(policy_content):
             temp_file.write(policy_content)
         
         try:
+            # Add timeout to subprocess to avoid hanging
+            # This is a network-bound operation (calling AWS CLI)
             cmd = [
                 "aws", "accessanalyzer", "validate-policy",
                 "--policy-document", f"file://{temp_file_path}",
@@ -134,7 +154,8 @@ def validate_policy(policy_content):
                 cmd,
                 capture_output=True,
                 text=True,
-                check=False  # Don't raise exception on non-zero exit
+                check=False,  # Don't raise exception on non-zero exit
+                timeout=45    # Increased timeout for network operations
             )
             
             # Try to parse the output as JSON
@@ -143,11 +164,19 @@ def validate_policy(policy_content):
                     output = json.loads(result.stdout)
                     # Add the detected policy type to the result
                     output["policy_type"] = policy_type
+                    
+                    # Cache the result to avoid repeated validations
+                    policy_validation_cache[policy_content] = output
+                    
                     return output
                 except json.JSONDecodeError:
-                    return {"error": "Failed to parse JSON output", "stdout": result.stdout, "stderr": result.stderr}
+                    error_result = {"error": "Failed to parse JSON output", "stdout": result.stdout, "stderr": result.stderr}
+                    policy_validation_cache[policy_content] = error_result
+                    return error_result
             else:
-                return {"error": "No output from command", "stderr": result.stderr}
+                error_result = {"error": "No output from command", "stderr": result.stderr}
+                policy_validation_cache[policy_content] = error_result
+                return error_result
         
         finally:
             # Clean up the temporary file
@@ -156,8 +185,14 @@ def validate_policy(policy_content):
             except:
                 pass
     
+    except subprocess.TimeoutExpired:
+        error_result = {"error": "Command timed out after 45 seconds"}
+        policy_validation_cache[policy_content] = error_result
+        return error_result
     except Exception as e:
-        return {"error": str(e)}
+        error_result = {"error": str(e)}
+        policy_validation_cache[policy_content] = error_result
+        return error_result
 
 def format_findings(findings):
     """Format the findings into a readable string."""
@@ -203,37 +238,13 @@ def process_policy(policy_content, source_file, policy_index):
     output.append(f"File: {rel_path} (Policy #{policy_index})")
     output.append("-" * 80)
     
-    # Check if the policy contains placeholders
-    has_arn_placeholder = '{arn-aws}' in policy_content
-    has_account_placeholder = '<account-id>' in policy_content
-    has_aws_placeholder = '{aws}' in policy_content
-    has_region_placeholder = '<aws-region>' in policy_content
-    has_aws_region_placeholder = 'AWS_REGION' in policy_content
-    has_region_code_placeholder = 'region-code' in policy_content
-    has_aws_account_id_placeholder = 'AWS_ACCOUNT_ID' in policy_content
-    has_trust_anchor_id_placeholder = 'TRUST_ANCHOR_ID' in policy_content
-    has_custom_key_arn_placeholder = 'custom-key-arn' in policy_content
+    # Check if the policy contains any placeholders using the dictionary keys
+    found_placeholders = [placeholder for placeholder in PLACEHOLDERS if placeholder in policy_content]
     
-    if has_arn_placeholder or has_account_placeholder or has_aws_placeholder or has_region_placeholder or has_aws_region_placeholder or has_region_code_placeholder or has_aws_account_id_placeholder or has_trust_anchor_id_placeholder or has_custom_key_arn_placeholder:
+    if found_placeholders:
         output.append("Note: Replaced placeholders for validation:")
-        if has_arn_placeholder:
-            output.append("  - {arn-aws} → arn:aws:")
-        if has_account_placeholder:
-            output.append("  - <account-id> → 123456789012")
-        if has_aws_placeholder:
-            output.append("  - {aws} → aws")
-        if has_region_placeholder:
-            output.append("  - <aws-region> → us-east-1")
-        if has_aws_region_placeholder:
-            output.append("  - AWS_REGION → us-east-1")
-        if has_region_code_placeholder:
-            output.append("  - region-code → us-east-1")
-        if has_aws_account_id_placeholder:
-            output.append("  - AWS_ACCOUNT_ID → 123456789012")
-        if has_trust_anchor_id_placeholder:
-            output.append("  - TRUST_ANCHOR_ID → arn:aws:rolesanywhere:us-east-1:123456789012:trust-anchor/TA_ID")
-        if has_custom_key_arn_placeholder:
-            output.append("  - custom-key-arn → arn:aws:kms:us-east-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab")
+        for placeholder in found_placeholders:
+            output.append(f"  - {placeholder} → {PLACEHOLDERS[placeholder]}")
         output.append("")
     
     # Preprocess the policy
@@ -297,29 +308,46 @@ def process_policy(policy_content, source_file, policy_index):
 
 def process_adoc_file(file_path):
     """Process a single .adoc file, extract policies, and validate them."""
-    print(f"Processing {file_path}")
-    
-    # Extract JSON blocks from the file
+    # Extract JSON blocks from the file (I/O operation)
     json_blocks, _ = extract_json_blocks(file_path)
     
     if not json_blocks:
-        print(f"  No IAM policy JSON blocks found in {file_path}")
         return []
-    
-    print(f"  Found {len(json_blocks)} IAM policy JSON blocks")
     
     # Process each JSON block
     results = []
     for i, block in enumerate(json_blocks):
-        json_str = block['json']
-        # Process and validate the policy
-        result = process_policy(json_str, file_path, i + 1)
-        results.append(result)
+        try:
+            json_str = block['json']
+            result = process_policy(json_str, file_path, i + 1)
+            results.append(result)
+        except Exception as e:
+            print(f"Error processing policy in {file_path}: {e}")
     
     return results
 
+# Removed chunk_files function - simplified approach doesn't need chunking
+
+# Removed process_file_chunk function - simplified approach doesn't need chunk processing
+
+def extract_policies_from_file(file_path):
+    """Extract all policies from a single file."""
+    try:
+        json_blocks, _ = extract_json_blocks(file_path)
+        return [(block['json'], file_path, i + 1) for i, block in enumerate(json_blocks)]
+    except Exception as e:
+        print(f"Error extracting from {file_path}: {e}")
+        return []
+
 def main():
     """Main function to run the combined extraction and validation."""
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description='Validate IAM policies in documentation')
+    parser.add_argument('--ci', action='store_true', help='Run in CI mode with machine-readable output')
+    args = parser.parse_args()
+    
+    start_time = time.time()
+    
     # Ensure UG_DIR exists
     if not os.path.exists(UG_DIR):
         print(f"Error: Directory {UG_DIR} does not exist.")
@@ -331,7 +359,7 @@ def main():
     
     print(f"Found {total_files} .adoc files to scan for IAM policies.")
     
-    # Process files in parallel with a progress bar
+    # Prepare for statistics collection
     all_results = []
     files_with_policies = 0
     total_policies = 0
@@ -340,86 +368,136 @@ def main():
     identity_policies = 0
     resource_policies = 0
     
-    # Determine the number of workers
-    max_workers = min(32, os.cpu_count() + 4)
+    # First stage: Find all policies using ThreadPoolExecutor (I/O bound)
+    print("Stage 1: Extracting policies from files (I/O bound operation)")
     
-    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-        # Submit all tasks and create a mapping of futures to file paths for the progress bar
-        future_to_file = {executor.submit(process_adoc_file, adoc_file): adoc_file for adoc_file in adoc_files}
+    # Use tqdm's thread_map for simpler parallel processing with progress bar
+    max_workers = min(32, os.cpu_count() * 4)  # More workers for I/O bound tasks
+    all_policies = thread_map(
+        extract_policies_from_file, 
+        adoc_files,
+        max_workers=max_workers, 
+        desc="Extracting policies", 
+        unit="file"
+    )
+    
+    # Flatten the list of lists into a single list of policies
+    all_extracted_policies = [policy for policies in all_policies for policy in policies]
+    total_policies = len(all_extracted_policies)
+    
+    print(f"Stage 2: Validating {total_policies} policies (network bound operation)")
+    
+    # Define function to validate a policy
+    def validate_extracted_policy(policy_tuple):
+        json_str, file_path, policy_index = policy_tuple
+        try:
+            return process_policy(json_str, file_path, policy_index)
+        except Exception as e:
+            print(f"Error validating policy #{policy_index} in {file_path}: {e}")
+            return None
+    
+    # Use tqdm's thread_map for network-bound validation
+    max_workers = min(20, total_policies)  # Limit concurrent network requests
+    validation_results = thread_map(
+        validate_extracted_policy,
+        all_extracted_policies,
+        max_workers=max_workers,
+        desc="Validating policies",
+        unit="policy"
+    )
+    
+    # Filter out None values (from errors)
+    all_results = [result for result in validation_results if result]
+    
+    # Count statistics from all results
+    for result in all_results:
+        # Count files with findings and total findings
+        if result["has_findings"]:
+            files_with_findings += 1
+            total_findings += result["findings_count"]
         
-        # Process results as they complete with a progress bar
-        with tqdm(total=total_files, desc="Scanning and validating policies", unit="file") as progress_bar:
-            for future in concurrent.futures.as_completed(future_to_file):
-                file_path = future_to_file[future]
-                try:
-                    results = future.result()
-                    
-                    # Count the number of policies found
-                    if results:
-                        files_with_policies += 1
-                        total_policies += len(results)
-                        all_results.extend(results)
-                        
-                        # Count files with findings and total findings
-                        file_has_findings = any(result["has_findings"] for result in results)
-                        if file_has_findings:
-                            files_with_findings += 1
-                            total_findings += sum(result["findings_count"] for result in results)
-                        
-                        # Count policy types
-                        for result in results:
-                            if result["policy_type"] == "IDENTITY_POLICY":
-                                identity_policies += 1
-                            elif result["policy_type"] == "RESOURCE_POLICY":
-                                resource_policies += 1
-                    
-                except Exception as e:
-                    print(f"Error processing {file_path}: {e}")
-                
-                progress_bar.update(1)
+        # Count policy types
+        if result["policy_type"] == "IDENTITY_POLICY":
+            identity_policies += 1
+        elif result["policy_type"] == "RESOURCE_POLICY":
+            resource_policies += 1
+    
+    # Count unique files with policies
+    files_with_policies = len(set([result["output"].split("\n")[0].split(":")[1].split(" (Policy")[0].strip() for result in all_results if result["output"]]))
     
     # Sort results to maintain a consistent order in the output file
-    all_results.sort(key=lambda x: x["output"].split("\n")[0])
+    all_results.sort(key=lambda x: x["output"].split("\n")[0] if "output" in x else "")
+    
+    # Calculate execution time
+    end_time = time.time()
+    execution_time = end_time - start_time
     
     # Write results to the output file
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as out_file:
-        # Write header with nicely formatted summary at the top
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        out_file.write(f"IAM Policy Validation Results\n")
-        out_file.write(f"Generated: {timestamp}\n")
-        out_file.write("=" * 80 + "\n\n")
-        
-        # Write summary at the top
-        out_file.write("SUMMARY\n")
-        out_file.write("-" * 80 + "\n")
-        out_file.write(f"Total .adoc files scanned:    {total_files}\n")
-        out_file.write(f"Files with IAM policies:      {files_with_policies}\n")
-        out_file.write(f"Total policies validated:     {total_policies}\n")
-        out_file.write(f"Files with findings:          {files_with_findings}\n")
-        out_file.write(f"Total findings:               {total_findings}\n")
-        out_file.write(f"Identity policies:            {identity_policies}\n")
-        out_file.write(f"Resource policies:            {resource_policies}\n")
-        out_file.write("-" * 80 + "\n\n")
-        
-        out_file.write(f"Found {total_policies} IAM policies in {files_with_policies} .adoc files.\n\n")
-        
-        # Write detailed results, but skip files with no errors or only suppressed suggestions
-        for result in all_results:
-            # Only output detailed results if there are findings
-            if result["has_findings"]:
-                out_file.write(result["output"])
-        
-        # Write summary at the bottom too for reference
-        out_file.write(f"Summary:\n")
-        out_file.write(f"Total .adoc files scanned:    {total_files}\n")
-        out_file.write(f"Files with IAM policies:      {files_with_policies}\n")
-        out_file.write(f"Total policies validated:     {total_policies}\n")
-        out_file.write(f"Files with findings:          {files_with_findings}\n")
-        out_file.write(f"Total findings:               {total_findings}\n")
-        out_file.write(f"Identity policies:            {identity_policies}\n")
-        out_file.write(f"Resource policies:            {resource_policies}\n")
+        if args.ci:
+            # CI mode: Simplified output optimized for GitHub Actions
+            out_file.write(f"TOTAL_FINDINGS={total_findings}\n")
+            
+            # Output details of any findings for easier debugging
+            if total_findings > 0:
+                out_file.write("\nDETAILED_FINDINGS:\n")
+                for result in all_results:
+                    if result.get("has_findings", False):
+                        file_path = result["output"].split("\n")[0].split(":")[1].split(" (Policy")[0].strip()
+                        out_file.write(f"- {file_path}: {result['findings_count']} issue(s)\n")
+                
+                # Add detailed findings
+                for result in all_results:
+                    if result.get("has_findings", False):
+                        out_file.write(result["output"])
+            
+            print(f"CI validation complete: Found {total_findings} issues in {total_policies} policies")
+            # Exit with non-zero code if findings exist (for GitHub Actions)
+            if total_findings > 0:
+                print("::error::IAM policy validation failed with findings")
+                sys.exit(1)
+        else:
+            # Standard human-readable mode
+            # Write header with nicely formatted summary at the top
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            out_file.write(f"IAM Policy Validation Results\n")
+            out_file.write(f"Generated: {timestamp}\n")
+            out_file.write("=" * 80 + "\n\n")
+            
+            # Write summary at the top
+            out_file.write("SUMMARY\n")
+            out_file.write("-" * 80 + "\n")
+            out_file.write(f"Total .adoc files scanned:    {total_files}\n")
+            out_file.write(f"Files with IAM policies:      {files_with_policies}\n")
+            out_file.write(f"Total policies validated:     {total_policies}\n")
+            out_file.write(f"Files with findings:          {files_with_findings}\n")
+            out_file.write(f"Total findings:               {total_findings}\n")
+            out_file.write(f"Identity policies:            {identity_policies}\n")
+            out_file.write(f"Resource policies:            {resource_policies}\n")
+            out_file.write(f"Execution time:               {execution_time:.2f} seconds\n")
+            out_file.write("-" * 80 + "\n\n")
+            
+            out_file.write(f"Found {total_policies} IAM policies in {files_with_policies} .adoc files.\n\n")
+            
+            # Write detailed results, but skip files with no errors or only suppressed suggestions
+            for result in all_results:
+                # Only output detailed results if there are findings
+                if result.get("has_findings", False):
+                    out_file.write(result["output"])
+            
+            # Write summary at the bottom too for reference
+            out_file.write(f"Summary:\n")
+            out_file.write(f"Total .adoc files scanned:    {total_files}\n")
+            out_file.write(f"Files with IAM policies:      {files_with_policies}\n")
+            out_file.write(f"Total policies validated:     {total_policies}\n")
+            out_file.write(f"Files with findings:          {files_with_findings}\n")
+            out_file.write(f"Total findings:               {total_findings}\n")
+            out_file.write(f"Identity policies:            {identity_policies}\n")
+            out_file.write(f"Resource policies:            {resource_policies}\n")
+            out_file.write(f"Execution time:               {execution_time:.2f} seconds\n")
     
-    print(f"Validation complete. Results written to {OUTPUT_FILE}")
+    if not args.ci:
+        print(f"Validation complete in {execution_time:.2f} seconds. Results written to {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     main()
