@@ -173,9 +173,20 @@ Install and configure the {aws} CLI, if you haven't already. See link:cli/latest
 
 . Create a file named `eks-describe-cluster-policy.json` with the following contents:
 +
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
-include::../iam-json/nodes/hybrid-nodes-creds-policy-1.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:DescribeCluster"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
 ----
 
 . Create the policy with the following command:
@@ -195,9 +206,28 @@ aws iam create-policy \
 .. Replace `TAG_KEY` with the {aws} SSM resource tag key you used when creating your {aws} SSM hybrid activation. The combination of the tag key and tag value is used in the condition for the `ssm:DeregisterManagedInstance` to only allow the Hybrid Nodes IAM role to deregister the {aws} SSM managed instances that are associated with your {aws} SSM hybrid activation. In the CloudFormation template, `TAG_KEY` defaults to `EKSClusterARN`.
 .. Replace `TAG_VALUE` with the {aws} SSM resource tag value you used when creating your {aws} SSM hybrid activation. The combination of the tag key and tag value is used in the condition for the `ssm:DeregisterManagedInstance` to only allow the Hybrid Nodes IAM role to deregister the {aws} SSM managed instances that are associated with your {aws} SSM hybrid activation. If you are using the default `TAG_KEY` of `EKSClusterARN`, then pass your EKS cluster ARN as the `TAG_VALUE`. EKS cluster ARNs have the format `{arn-aws}eks:AWS_REGION:AWS_ACCOUNT_ID:cluster/CLUSTER_NAME`.
 +
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
-include::../iam-json/nodes/hybrid-nodes-creds-policy-2.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "ssm:DescribeInstanceInformation",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ssm:DeregisterManagedInstance",
+            "Resource": "{arn-aws}ssm:AWS_REGION:AWS_ACCOUNT_ID:managed-instance/*",
+            "Condition": {
+                "StringEquals": {
+                    "ssm:resourceTag/TAG_KEY": "TAG_VALUE"
+                }
+            }
+        }
+    ]
+}
 ----
 . Create the policy with the following command
 +
@@ -209,9 +239,29 @@ aws iam create-policy \
 ----
 . Create a file named `eks-hybrid-ssm-trust.json`. Replace `AWS_REGION` with the {aws} Region of your {aws} SSM hybrid activation and `AWS_ACCOUNT_ID` with your {aws} account ID.
 +
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
-include::../iam-json/nodes/hybrid-nodes-creds-policy-3.json[]
+{
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Sid":"",
+         "Effect":"Allow",
+         "Principal":{
+            "Service":"ssm.amazonaws.com"
+         },
+         "Action":"sts:AssumeRole",
+         "Condition":{
+            "StringEquals":{
+               "aws:SourceAccount":"AWS_ACCOUNT_ID"
+            },
+            "ArnEquals":{
+               "aws:SourceArn":"{arn-aws}ssm:AWS_REGION:AWS_ACCOUNT_ID:*"
+            }
+         }
+      }
+   ]
+}
 ----
 . Create the role with the following command.
 +
@@ -264,9 +314,43 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
 
 . Create a file named `eks-hybrid-iamra-trust.json`. Replace `TRUST_ANCHOR ARN` with the ARN of the trust anchor you created in the <<hybrid-nodes-iam-roles-anywhere>> steps.  The condition in this trust policy restricts the ability of {aws} IAM Roles Anywhere to assume the Hybrid Nodes IAM role to exchange temporary IAM credentials only when the role session name matches the CN in the x509 certificate installed on your hybrid nodes. You can alternatively use other certificate attributes to uniquely identify your node. The certificate attribute that you use in the trust policy must correspond to the `nodeName` you set in your `nodeadm` configuration. For more information, see the <<hybrid-nodes-nodeadm>>.
 +
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
-include::../iam-json/nodes/hybrid-nodes-creds-policy-4.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "rolesanywhere.amazonaws.com"
+            },
+            "Action": [
+                "sts:TagSession",
+                "sts:SetSourceIdentity"
+            ],
+            "Condition": {
+                "ArnEquals": {
+                    "aws:SourceArn": "TRUST_ANCHOR_ARN"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "rolesanywhere.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+                "StringEquals": {
+                    "sts:RoleSessionName": "${aws:PrincipalTag/x509Subject/CN}"
+                },
+                "ArnEquals": {
+                    "aws:SourceArn": "TRUST_ANCHOR_ARN"
+                }
+            }
+        }
+    ]
+}
 ----
 
 . Create the role with the following command.
@@ -320,9 +404,28 @@ aws iam attach-role-policy \
 . On the *Policies page*, choose *Create policy*.
 . On the *Specify permissions* page, in the *Policy editor* top right navigation, choose *JSON*. Paste the following snippet. Replace `AWS_REGION` with the {aws} Region of your {aws} SSM hybrid activation and replace `AWS_ACCOUNT_ID` with your {aws} account ID. Replace `TAG_KEY` and `TAG_VALUE` with the {aws} SSM resource tag key you used when creating your {aws} SSM hybrid activation.
 +
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
-include::../iam-json/nodes/hybrid-nodes-creds-policy-5.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "ssm:DescribeInstanceInformation",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ssm:DeregisterManagedInstance",
+            "Resource": "{arn-aws}ssm:AWS_REGION:AWS_ACCOUNT_ID:managed-instance/*",
+            "Condition": {
+                "StringEquals": {
+                    "ssm:resourceTag/TAG_KEY": "TAG_VALUE"
+                }
+            }
+        }
+    ]
+}
 ----
 
 .. Choose *Next*.
@@ -380,9 +483,43 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
 . On the *Select trusted entity* page, do the following:
 .. In the *Trusted entity type section*, choose *Custom trust policy*. Paste the following into the Custom trust policy editor. Replace `TRUST_ANCHOR ARN` with the ARN of the trust anchor you created in the <<hybrid-nodes-iam-roles-anywhere>> steps. The condition in this trust policy restricts the ability of {aws} IAM Roles Anywhere to assume the Hybrid Nodes IAM role to exchange temporary IAM credentials only when the role session name matches the CN in the x509 certificate installed on your hybrid nodes. You can alternatively use other certificate attributes to uniquely identify your node. The certificate attribute that you use in the trust policy must correspond to the nodeName you set in your nodeadm configuration. For more information, see the <<hybrid-nodes-nodeadm>>.
 +
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
-include::../iam-json/nodes/hybrid-nodes-creds-policy-6.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "rolesanywhere.amazonaws.com"
+            },
+            "Action": [
+                "sts:TagSession",
+                "sts:SetSourceIdentity"
+            ],
+            "Condition": {
+                "ArnEquals": {
+                    "aws:SourceArn": "TRUST_ANCHOR_ARN"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "rolesanywhere.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+                "StringEquals": {
+                    "sts:RoleSessionName": "${aws:PrincipalTag/x509Subject/CN}"
+                },
+                "ArnEquals": {
+                    "aws:SourceArn": "TRUST_ANCHOR_ARN"
+                }
+            }
+        }
+    ]
+}
 ----
 .. Choose Next.
 . On the *Add permissions* page, attach a custom policy or do the following:

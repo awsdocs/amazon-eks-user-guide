@@ -45,9 +45,30 @@ The following example policy allows a principal to view information on the *Conf
 
 ====
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
-include::../../iam-json/security/iam-reference/security-iam-id-based-policy-examples-policy-1.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "iam:PassedToService": "eks.amazonaws.com"
+                }
+            }
+        }
+    ]
+}
 ----
 
 You don't need to allow minimum console permissions for principals that are making calls only to the {aws} CLI or the {aws} API. Instead, allow access to only the actions that match the API operation that you're trying to perform.  
@@ -57,9 +78,40 @@ You don't need to allow minimum console permissions for principals that are maki
 
 This example shows how you might create a policy that allows IAM users to view the inline and managed policies that are attached to their user identity. This policy includes permissions to complete this action on the console or programmatically using the {aws} CLI or {aws} API.
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
-include::../../iam-json/security/iam-reference/security-iam-id-based-policy-examples-policy-2.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ViewOwnUserInfo",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetUserPolicy",
+                "iam:ListGroupsForUser",
+                "iam:ListAttachedUserPolicies",
+                "iam:ListUserPolicies",
+                "iam:GetUser"
+            ],
+            "Resource": ["{arn-aws}iam::*:user/${aws:username}"]
+        },
+        {
+            "Sid": "NavigateInConsole",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetGroupPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetPolicy",
+                "iam:ListAttachedGroupPolicies",
+                "iam:ListGroupPolicies",
+                "iam:ListPolicyVersions",
+                "iam:ListPolicies",
+                "iam:ListUsers"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
 ----
 
 
@@ -68,9 +120,33 @@ include::../../iam-json/security/iam-reference/security-iam-id-based-policy-exam
 
 This example policy includes the minimum permissions required to create an Amazon EKS cluster named [.replaceable]`my-cluster` in the [.replaceable]`us-west-2` {aws} Region. You can replace the {aws} Region with the {aws} Region that you want to create a cluster in. If you see a warning that says *The actions in your policy do not support resource-level permissions and require you to choose `All resources`* in the {aws-management-console}, it can be safely ignored. If your account already has the [.replaceable]`AWSServiceRoleForAmazonEKS` role, you can remove the `iam:CreateServiceLinkedRole` action from the policy. If you've ever created an Amazon EKS cluster in your account then this role already exists, unless you deleted it.
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
-include::../../iam-json/security/iam-reference/security-iam-id-based-policy-examples-policy-3.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "eks:CreateCluster",
+            "Resource": "{arn-aws}eks:us-west-2:111122223333:cluster/my-cluster"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "{arn-aws}iam::111122223333:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS",
+            "Condition": {
+                "ForAnyValue:StringEquals": {
+                    "iam:AWSServiceName": "eks"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "{arn-aws}iam::111122223333:role/cluster-role-name"
+        }
+    ]
+}
 ----
 
 
@@ -133,9 +209,18 @@ This example policy includes the minimum permissions required to create an Amazo
 
 This example policy includes the minimum permission required to update a cluster named [.replaceable]`my-cluster` in the us-west-2 {aws} Region.
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
-include::../../iam-json/security/iam-reference/security-iam-id-based-policy-examples-policy-4.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "eks:UpdateClusterVersion",
+            "Resource": "{arn-aws}eks:us-west-2:111122223333:cluster/my-cluster"
+        }
+    ]
+}
 ----
 
 
@@ -144,7 +229,19 @@ include::../../iam-json/security/iam-reference/security-iam-id-based-policy-exam
 
 This example policy includes the minimum permissions required to list and describe all clusters in your account. An link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] must be able to list and describe clusters to use the `update-kubeconfig` {aws} CLI command.
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
-include::../../iam-json/security/iam-reference/security-iam-id-based-policy-examples-policy-5.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:DescribeCluster",
+                "eks:ListClusters"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
 ----

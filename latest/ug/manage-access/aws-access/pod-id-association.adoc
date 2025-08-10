@@ -34,9 +34,24 @@ To create an EKS Pod Identity association, there is only a single step; you crea
 +
 NOTE: The list only contains roles that have the following trust policy which allows EKS Pod Identity to use them.
 +
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
-include::../../iam-json/manage-access/aws-access/pod-id-association-policy-1.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "pods.eks.amazonaws.com"
+            },
+            "Action": [
+                "sts:AssumeRole",
+                "sts:TagSession"
+            ]
+        }
+    ]
+}
 ----
 +
 `sts:AssumeRole` -- EKS Pod Identity uses `AssumeRole` to assume the IAM role before passing the temporary credentials to your pods.
@@ -185,9 +200,24 @@ aws iam get-role --role-name my-role --query Role.AssumeRolePolicyDocument
 +
 An example output is as follows.
 +
-[source,json]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
-include::../../iam-json/manage-access/aws-access/pod-id-association-policy-2.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Allow EKS Auth service to assume this role for Pod Identities",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "pods.eks.amazonaws.com"
+            },
+            "Action": [
+                "sts:AssumeRole",
+                "sts:TagSession"
+            ]
+        }
+    ]
+}
 ----
 . Confirm that the policy that you attached to your role in a previous step is attached to the role.
 +
@@ -239,9 +269,18 @@ aws iam get-policy-version --policy-arn $policy_arn --version-id v1
 +
 An example output is as follows.
 +
-[source,json]
+[source,json,subs="verbatim,attributes",role="nocopy"]
 ----
-include::../../iam-json/manage-access/aws-access/pod-id-association-policy-3.json[]
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:GetObject",
+            "Resource": "{arn-aws}s3:::my-pod-secrets-bucket"
+        }
+    ]
+}
 ----
 +
 If you created the example policy in a previous step, then your output is the same. If you created a different policy, then the [.replaceable]`example` content is different.
