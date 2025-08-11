@@ -5,8 +5,7 @@
    <pathslug>eks</pathslug>
    <title>Amazon EKS</title>
    <forumID>303</forumID>
-   <!--<feedbackCTI>Amazon EKS</feedbackCTI>-->
-   <feedbackSIM>75a10997-4718-4741-9d4f-6dc5d580ea05</feedbackSIM>
+   <feedbackCTI>Amazon EKS</feedbackCTI>
    <options>
     <!-- The following option seems to break region-specific-images -->
     <!-- <referenced-images-only>enabled</referenced-images-only> -->
