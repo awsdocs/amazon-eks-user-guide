@@ -140,7 +140,7 @@ spec:
         kubernetes.io/role/pod: "1"
     # Alternative using direct subnet ID
     # - id: "subnet-0987654321fedcba0"
-# must include pod security group selector also
+# must include Pod security group selector also
  podSecurityGroupSelectorTerms:
   - tags:
       Name: "eks-pod-sg"
@@ -219,29 +219,29 @@ spec:
 * If you want to verify how much local storage an instance has, you can describe the node to see the ephemeral storage resource.
 * *Volume Encryption* - EKS uses the configured custom KMS key to encrypt the read-only root volume of the instance and the read/write data volume. 
 * *Replace the node IAM role* - If you change the node IAM role associated with a `NodeClass`, you will need to create a new Access Entry. EKS automatically creates an Access Entry for the node IAM role during cluster creation. The node IAM role requires the `AmazonEKSAutoNodePolicy` EKS Access Policy. For more information, see <<access-entries>>.
-* *maximum pod density* - EKS limits the maximum number of pods on a node to 110. This limit is applied after the existing max pods calculation. For more information, see <<choosing-instance-type>>.
+* *maximum Pod density* - EKS limits the maximum number of Pods on a node to 110. This limit is applied after the existing max Pods calculation. For more information, see <<choosing-instance-type>>.
 * *Tags* - If you want to propagate tags from Kubernetes to EC2, you need to configure additional IAM permissions. For more information, see <<auto-learn-iam>>.
 * *Default node class* - Do not name your custom node class `default`. This is because EKS Auto Mode includes a `NodeClass` called `default` that is automatically provisioned when you enable at least one built-in `NodePool`. For information about enabling built-in `NodePools`, see <<set-builtin-node-pools>>.
 * *`subnetSelectorTerms` behavior with multiple subnets* - If there are multiple subnets that match the `subnetSelectorTerms` conditions or that you provide by ID, EKS Auto Mode creates nodes distributed across the subnets.
 
-** If the subnets are in different Availability Zones (AZ), you can use Kubernetes features like https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#pod-topology-spread-constraints[Pod topology spread constraints ] and https://kubernetes.io/docs/concepts/services-networking/topology-aware-routing/[Topology Aware Routing] to spread pods and traffic across the zones, respectively.
+** If the subnets are in different Availability Zones (AZs), you can use Kubernetes features like https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#pod-topology-spread-constraints[Pod topology spread constraints] and https://kubernetes.io/docs/concepts/services-networking/topology-aware-routing/[Topology Aware Routing] to spread Pods and traffic across the zones, respectively.
 
-** If there are multiple subnets __in the same AZ__ that match the `subnetSelectorTerms`, EKS Auto Mode creates pods on each node distributed across the subnets in that AZ. EKS Auto Mode creates secondary network interfaces on each node in the other subnets in the same AZ. It chooses based on the number of available IP addresses in each subnet, to use the subnets more efficiently. However, you can't specify which subnet EKS Auto Mode uses for each pod; if you need pods to run in specific subnets, use <<pod-subnet-selector>> instead.
+** If there are multiple subnets __in the same AZ__ that match the `subnetSelectorTerms`, EKS Auto Mode creates Pods on each node distributed across the subnets in that AZ. EKS Auto Mode creates secondary network interfaces on each node in the other subnets in the same AZ. It chooses based on the number of available IP addresses in each subnet, to use the subnets more efficiently. However, you can't specify which subnet EKS Auto Mode uses for each Pod; if you need Pods to run in specific subnets, use <<pod-subnet-selector>> instead.
 
 
 [#pod-subnet-selector]
 == Subnet selection for Pods
 
-The `podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` fields enables advanced networking configurations by allowing pods to run in different subnets than their nodes. This separation provides enhanced control over network traffic routing and security policies. Note that `podSecurityGroupSelectorTerms` are required with the `podSubnetSelectorTerms`.
+The `podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` fields enables advanced networking configurations by allowing Pods to run in different subnets than their nodes. This separation provides enhanced control over network traffic routing and security policies. Note that `podSecurityGroupSelectorTerms` are required with the `podSubnetSelectorTerms`.
 
 === Use cases
 
 Use `podSubnetSelectorTerms` when you need to:
 
-* Separate infrastructure traffic (node-to-node communication) from application traffic (pod-to-pod communication)
-* Apply different network configurations to node subnets than pod subnets.
-* Implement different security policies or routing rules for nodes and pods.
-* Configure reverse proxies or network filtering specifically for node traffic without affecting pod traffic. Use `advancedNetworking` and `certificateBundles` to define your reverse proxy and any self-signed or private certificates for the proxy.
+* Separate infrastructure traffic (node-to-node communication) from application traffic (Pod-to-Pod communication)
+* Apply different network configurations to node subnets than Pod subnets.
+* Implement different security policies or routing rules for nodes and Pods.
+* Configure reverse proxies or network filtering specifically for node traffic without affecting Pod traffic. Use `advancedNetworking` and `certificateBundles` to define your reverse proxy and any self-signed or private certificates for the proxy.
 
 === Example configuration
 
@@ -264,7 +264,7 @@ spec:
     - tags:
         Name: "eks-cluster-sg"
   
-  # Separate subnets for pods
+  # Separate subnets for Pods
   podSubnetSelectorTerms:
     - tags:
         Name: "pod-subnet"
@@ -275,9 +275,10 @@ spec:
       Name: "eks-pod-sg"
 ----
 
-=== Considerations for subnet selectors for pods
+=== Considerations for subnet selectors for Pods
 
-* *Reduced pod density*: Fewer pods can run on each node when using `podSubnetSelectorTerms`, because the primary network interface of the node is in the node subnet, and can't be used for pods in the pod subnet.
-* *Subnet selector limitations*: The standard `subnetSelectorTerms` and `securityGroupSelectorTerms` configurations don't apply to pod subnet selection.
-* *Network planning*: Ensure adequate IP address space in both node and pod subnets to support your workload requirements.
-* *Routing configuration*: Verify that route table and network Access Control List (ACL) of the pod subnets are properly configured for communication between node and pod subnets.
+* *Reduced Pod density*: Fewer Pods can run on each node when using `podSubnetSelectorTerms`, because the primary network interface of the node is in the node subnet, and can't be used for Pods in the Pod subnet.
+* *Subnet selector limitations*: The standard `subnetSelectorTerms` and `securityGroupSelectorTerms` configurations don't apply to Pod subnet selection.
+* *Network planning*: Ensure adequate IP address space in both node and Pod subnets to support your workload requirements.
+* *Routing configuration*: Verify that route table and network Access Control List (ACL) of the Pod subnets are properly configured for communication between node and Pod subnets.
+* *Availability Zones*: Verify that you've created Pod subnets across multiple AZs. If you are using specific Pod subnet, it must be in the same AZ as the node subnet AZ.
