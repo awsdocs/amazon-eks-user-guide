@@ -76,6 +76,7 @@ See link:eks/latest/userguide/kubernetes-versions.html[Kubernetes version suppor
 [#hybrid-nodes-cilium-considerations]
 == Cilium considerations
 
+- *Helm repository* - {aws} hosts the Cilium Helm chart in the Amazon Elastic Container Registry Public (Amazon ECR Public) at link:https://gallery.ecr.aws/eks/cilium/cilium[Amazon EKS Cilium/Cilium]. You can use the following URI in your `helm` commands to use this repository: `oci://public.ecr.aws/eks/cilium/cilium:1.17.6-0`. The commands in this topic use this repository. Note that certain `helm repo` commands aren't valid for Helm repositores in Amazon ECR Public, so you can't refer to this repository from a local Helm repo name. Instead, use the full URI in most commands.
 - By default, Cilium is configured to run in overlay / tunnel mode with VXLAN as the link:https://docs.cilium.io/en/stable/network/concepts/routing/#encapsulation[encapsulation method]. This mode has the fewest requirements on the underlying physical network.
 - By default, Cilium link:https://docs.cilium.io/en/stable/network/concepts/masquerading/[masquerades] the source IP address of all pod traffic leaving the cluster to the IP address of the node. If you disable masquerading, then your pod CIDRs must be routable on your on-premises network.
 - If you are running webhooks on hybrid nodes, your pod CIDRs must be routable on your on-premises network. If your pod CIDRs are not routable on your on-premises network, then it is recommended to run webhooks on cloud nodes in the same cluster. See <<hybrid-nodes-webhooks>> and <<hybrid-nodes-networking>> for more information.
@@ -84,23 +85,6 @@ See link:eks/latest/userguide/kubernetes-versions.html[Kubernetes version suppor
 
 [#hybrid-nodes-cilium-install]
 == Install Cilium on hybrid nodes
-
-=== Prerequisites
-
-. Install Helm in your command-line environment, see <<helm,Setup Helm instructions>>.
-. Install the {aws} Cilium Helm repo
-+
-[source,bash,subs="verbatim,attributes"]
-----
-helm repo add cilium https://public.ecr.aws/eks/cilium/cilium
-----
-+
-. Update your local Helm repository to make sure that you have the most recent charts.
-+
-[source,bash]
-----
-helm repo update cilium
-----
 
 === Procedure
 
@@ -156,7 +140,7 @@ kubeProxyReplacement: "false"
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-helm install cilium https://public.ecr.aws/eks/cilium/cilium \
+helm install cilium oci://public.ecr.aws/eks/cilium/cilium \
     --version [.replaceable]`CILIUM_VERSION` \
     --namespace kube-system \
     --values cilium-values.yaml
@@ -194,18 +178,11 @@ Before upgrading your Cilium deployment, carefully review the https://docs.ciliu
 
 . Ensure that you have installed the `helm` CLI on your command-line environment. See the https://helm.sh/docs/intro/quickstart/[Helm documentation] for installation instructions.
 
-. Install the Cilium Helm repo.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-helm repo add cilium https://public.ecr.aws/eks/cilium/cilium
-----
-+
 . Run the Cilium upgrade pre-flight check. Replace `CILIUM_VERSION` with your target Cilium version. We recommend that you run the latest patch version for your Cilium minor version. You can find the latest patch release for a given minor Cilium release in the https://github.com/cilium/cilium#stable-releases[Stable Releases section] of the Cilium documentation.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-helm install cilium-preflight https://public.ecr.aws/eks/cilium/cilium --version CILIUM_VERSION \
+helm install cilium-preflight oci://public.ecr.aws/eks/cilium/cilium --version CILIUM_VERSION \
   --namespace=kube-system \
   --set preflight.enabled=true \
   --set agent=false \
@@ -256,7 +233,7 @@ helm get values cilium --namespace kube-system -o yaml > existing-cilium-values.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-helm upgrade cilium https://public.ecr.aws/eks/cilium/cilium --version [.replaceable]`CILIUM_VERSION` \
+helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium --version [.replaceable]`CILIUM_VERSION` \
   --namespace kube-system \
   --set upgradeCompatibility=[.replaceable]`1.X` \
   -f existing-cilium-values.yaml

@@ -308,7 +308,7 @@ envoy:
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-helm upgrade cilium https://public.ecr.aws/eks/cilium/cilium \
+helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium \
   --namespace kube-system \
   --reuse-values \
   --set operator.rollOutPods=true \
@@ -518,7 +518,7 @@ envoy:
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-helm upgrade cilium https://public.ecr.aws/eks/cilium/ciliumcilium/cilium \
+helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium \
   --namespace kube-system \
   --reuse-values \
   --set operator.rollOutPods=true \
@@ -993,7 +993,7 @@ gatewayAPI:
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-helm upgrade cilium https://public.ecr.aws/eks/cilium/cilium \
+helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium \
   --namespace kube-system \
   --reuse-values \
   --set operator.rollOutPods=true \
@@ -1119,7 +1119,7 @@ ingressController:
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-helm upgrade cilium https://public.ecr.aws/eks/cilium/cilium \
+helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium \
   --namespace kube-system \
   --reuse-values \
   --set operator.rollOutPods=true \
