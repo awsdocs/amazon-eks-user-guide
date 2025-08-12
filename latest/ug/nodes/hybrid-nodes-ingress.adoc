@@ -193,7 +193,7 @@ When you enable Cilium's Ingress or Gateway features, the Cilium operator reconc
 
 For Ingress / Gateway traffic, Cilium handles the core network traffic and L3/L4 policy enforcement, and integrated Envoy proxies process the L7 network traffic. With Cilium Ingress / Gateway, Envoy is responsible for applying L7 routing rules, policies, and request manipulation, advanced traffic management such as traffic splitting and mirroring, and TLS termination and origination. Cilium's Envoy proxies are deployed as a separate DaemonSet (`cilium-envoy`) by default, which enables Envoy and the Cilium agent to be separately updated, scaled, and managed.
 
-For more information on how Cilium Ingress and Cilium Gateway work, see the link:https://docs.cilium.io/en/stable/network/servicemesh/ingress/[Cilium Ingress] and link:https://docs.cilium.io/en/stable/network/servicemesh/gateway/[Cilium Gateway] pages in the Cilium documentation.
+For more information on how Cilium Ingress and Cilium Gateway work, see the link:https://docs.cilium.io/en/stable/network/servicemesh/ingress/[Cilium Ingress] and link:https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/gateway-api/[Cilium Gateway] pages in the Cilium documentation.
 
 [#hybrid-nodes-ingress-cilium-comparison]
 == Cilium Ingress and Gateway Comparison
