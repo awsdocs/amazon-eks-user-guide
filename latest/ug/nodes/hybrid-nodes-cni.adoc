@@ -156,7 +156,7 @@ kubeProxyReplacement: "false"
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-helm install cilium cilium/cilium \
+helm install cilium https://public.ecr.aws/eks/cilium/cilium \
     --version [.replaceable]`CILIUM_VERSION` \
     --namespace kube-system \
     --values cilium-values.yaml
@@ -198,14 +198,14 @@ Before upgrading your Cilium deployment, carefully review the https://docs.ciliu
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-helm repo add cilium https://helm.cilium.io/
+helm repo add cilium https://public.ecr.aws/eks/cilium/cilium
 ----
 +
 . Run the Cilium upgrade pre-flight check. Replace `CILIUM_VERSION` with your target Cilium version. We recommend that you run the latest patch version for your Cilium minor version. You can find the latest patch release for a given minor Cilium release in the https://github.com/cilium/cilium#stable-releases[Stable Releases section] of the Cilium documentation.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-helm install cilium-preflight cilium/cilium --version CILIUM_VERSION \
+helm install cilium-preflight https://public.ecr.aws/eks/cilium/cilium --version CILIUM_VERSION \
   --namespace=kube-system \
   --set preflight.enabled=true \
   --set agent=false \
@@ -256,7 +256,7 @@ helm get values cilium --namespace kube-system -o yaml > existing-cilium-values.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-helm upgrade cilium cilium/cilium --version [.replaceable]`CILIUM_VERSION` \
+helm upgrade cilium https://public.ecr.aws/eks/cilium/cilium --version [.replaceable]`CILIUM_VERSION` \
   --namespace kube-system \
   --set upgradeCompatibility=[.replaceable]`1.X` \
   -f existing-cilium-values.yaml
