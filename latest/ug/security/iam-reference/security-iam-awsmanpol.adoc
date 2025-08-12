@@ -408,6 +408,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Description
 |Date
 
+|Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
+|This role can attach new access policy `AmazonEKSEventPolicy`. Restricted permissions for `ec2:DeleteLaunchTemplate` and `ec2:TerminateInstances`.
+|August 26, 2025
+
 |Added permission to <<security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy>>
 |Added `ssmmessages:OpenDataChannel` permission to `AmazonEKSLocalOutpostServiceRolePolicy`.
 |June 26, 2025
