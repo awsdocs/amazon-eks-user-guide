@@ -92,7 +92,7 @@ See link:eks/latest/userguide/kubernetes-versions.html[Kubernetes version suppor
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-helm repo add cilium https://public.ecr.aws/cilium/cilium
+helm repo add cilium https://public.ecr.aws/eks/cilium/cilium
 ----
 +
 . Update your local Helm repository to make sure that you have the most recent charts.
