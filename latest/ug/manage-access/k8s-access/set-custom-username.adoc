@@ -1,0 +1,56 @@
+include::../../attributes.txt[]
+
+[.topic]
+[#set-custom-username]
+= Set a custom username for EKS access entries
+:info_titleabbrev: Set custom username
+
+When creating access entries for Amazon EKS, you can either use the automatically generated username or specify a custom username. This page explains both options and guides you through setting a custom username.
+
+== Overview
+
+The username in an access entry is used to identify the IAM principal in Kubernetes logs and audit trails. By default, Amazon EKS generates a username based on the IAM identity's ARN, but you can specify a custom username if needed.
+
+== Default username generation
+
+If you don't specify a value for username, Amazon EKS automatically generates a username based on the IAM Identity:
+
+* *For IAM Users*:
+** EKS sets the Kubernetes username to the ARN of the IAM User
+** Example:
++
+[source]
+----
+{arn-aws}iam::<111122223333>:user/<my-user>
+----
+
+* *For IAM Roles*:
+** EKS sets the Kubernetes username based on the ARN of the IAM Role
+** The STS ARN of the role when it's assumed. Amazon EKS appends `{{SessionName}}` to the role. If the ARN of the role that you specified contained a path, Amazon EKS removes it in the generated username.
+** Example: 
++
+[source]
+----
+{arn-aws}sts::<111122223333>:assumed-role/<my-role>/{{SessionName}}
+----
+
+Unless you have a specific reason for specifying your own username, we recommend that you don't specify one and let Amazon EKS auto-generate it for you.
+
+== Setting a custom username
+
+When creating an access entry, you can specify a custom username using the `--username` parameter:
+
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks create-access-entry --cluster-name <cluster-name> --principal-arn <iam-identity-arn> --type STANDARD --username <custom-username>
+----
+
+=== Requirements for custom usernames
+
+If you specify a custom username:
+
+* The username can't start with `system:`, `eks:`, `aws:`, `amazon:`, or `iam:`.
+* If the username is for an IAM role, we recommend that you add `{{SessionName}}` or `{{SessionNameRaw}}` to the end of your username. 
+** If you add either `{{SessionName}}` or `{{SessionNameRaw}}` to your username, the username must include a colon _before_ {{SessionName}}. 
+
+

@@ -3,7 +3,7 @@ include::../../attributes.txt[]
 [.topic]
 [#access-entries]
 = Grant IAM users access to Kubernetes with EKS access entries
-:info_titleabbrev: Grant permissions
+:info_titleabbrev: Access entries
 
 [abstract]
 --
@@ -66,3 +66,9 @@ include::creating-access-entries.adoc[leveloffset=+1]
 include::updating-access-entries.adoc[leveloffset=+1]
 
 include::deleting-access-entries.adoc[leveloffset=+1]
+
+include::set-custom-username.adoc[leveloffset=+1]
+
+include::create-standard-entry-policy.adoc[leveloffset=+1]
+
+include::create-k8s-group-entry.adoc[leveloffset=+1]
