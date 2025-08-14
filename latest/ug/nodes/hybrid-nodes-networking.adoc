@@ -371,7 +371,7 @@ aws ec2 associate-route-table --route-table-id [.replaceable]`RT_ID` --subnet-id
 [#hybrid-nodes-networking-cluster-sg]
 == Cluster security group configuration
 
-The following access for your EKS cluster security group is required for ongoing cluster operations. Amazon EKS automatically creates the required *ingress* security group rules for hybrid nodes when you create or update your cluster with remote node and pod networks configured. 
+The following access for your EKS cluster security group is required for ongoing cluster operations. Amazon EKS automatically creates the required *inbound* security group rules for hybrid nodes when you create or update your cluster with remote node and pod networks configured.  Because security groups allow all *outbound* traffic by default, Amazon EKS doesn’t automatically modify the *outbound* rules of the cluster security group for hybrid nodes. If you want to customize the cluster security group, you can limit traffic to the rules in the following table.
 
 [%header,cols="7"]
 |===
@@ -418,7 +418,7 @@ The following access for your EKS cluster security group is required for ongoing
 
 [IMPORTANT]
 ====
-**Security group rule limits**: Amazon EC2 security groups have a maximum of 60 ingress rules by default. The security group ingress rules may not apply if your cluster security group approaches this limit. In this case, it may be required to manually add in the missing ingress rules.
+**Security group rule limits**: Amazon EC2 security groups have a maximum of 60 inbound rules by default. The security group inbound rules may not apply if your cluster security group approaches this limit. In this case, it may be required to manually add in the missing inbound rules.
 
 **CIDR cleanup responsibility**: If you remove remote node or pod networks from EKS clusters, EKS does not automatically remove the corresponding security group rules. You are responsible for manually removing unused remote node or pod networks from your security group rules.
 ====
