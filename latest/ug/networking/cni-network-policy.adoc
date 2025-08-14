@@ -34,12 +34,17 @@ Network policies in the Amazon VPC CNI plugin for Kubernetes are supported in th
 
 * Network Policies are only applied to Pods that are part of a Deployment. Standalone Pods that don't have a `metadata.ownerReferences` set can't have network policies applied to them.
 * You can apply multiple network policies to the same Pod. When two or more policies that select the same Pod are configured, all policies are applied to the Pod.
-* The maximum number of unique combinations of ports for each protocol in each `ingress:` or `egress:` selector in a network policy is 24.
+* The maximum number of combinations of ports and protocols for a single IP address range (CIDR) is 24 across all of your network policies. Selectors such as `namespaceSelector` resolve to one or more CIDRs. If multiple selectors resolve to a single CIDR or you specify the same direct CIDR multiple times in the same or different network policies, these all count toward this limit.
 * For any of your Kubernetes services, the service port must be the same as the container port. If you're using named ports, use the same name in the service spec too.
 
 *Migration*
 
 * If your cluster is currently using a third party solution to manage Kubernetes network policies, you can use those same policies with the Amazon VPC CNI plugin for Kubernetes. However you must remove your existing solution so that it isn't managing the same policies.
+
+[WARNING]
+====
+We recommend that after you remove a network policy solution, then you replace all of the nodes that had the network policy solution applied to them. This is because the traffic rules might get left behind by a pod of the solution if it exits suddenly.
+====
 
 *Installation*
 
