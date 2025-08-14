@@ -72,8 +72,8 @@ For more information on dashboards, metrics servers, and other tools, see <<cost
 *Kubernetes compatibility and support*::
 
 Amazon EKS is certified Kubernetes-conformant, so you can deploy Kubernetes-compatible applications without refactoring and use Kubernetes community tooling and plugins.
-EKS offers both link:eks/latest/userguide/kubernetes-versions-standard.html[standard support,type="documentation"] and eks/latest/userguide/kubernetes-versions-extended.html[extended support,type="documentation"] for Kubernetes.
-For more information, see eks/latest/userguide/kubernetes-versions.html[Understand the Kubernetes version lifecycle on EKS,type="documentation"]. 
+EKS offers both <<kubernetes-versions-standard,standard support>> and <<kubernetes-versions-extended,extended support>> for Kubernetes.
+For more information, see <<kubernetes-versions>>.
 
 [#eks-related-services]
 == Related services
