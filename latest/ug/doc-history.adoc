@@ -19,6 +19,14 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-08-19"]
+=== Cross-service confused deputy prevention
+[.update-ulink]
+link:eks/latest/userguide/cross-service-confused-deputy-prevention.html[type="documentation"]
+
+Added a topic with an example trust policy that you can apply for Cross-service confused deputy prevention.
+Amazon EKS accepts the `aws:SourceArn` and `aws:SourceAccount` conditions in the trust policy of an EKS cluster role.
+
 [.update,date="2025-07-30"]
 === Amazon EKS platform version update
 [.update-ulink]
