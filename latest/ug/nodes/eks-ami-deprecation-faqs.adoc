@@ -63,7 +63,7 @@ Kubernetes version 1.32 is the last version for which Amazon EKS will release AL
 |R535
 |Not Supported
 |Not Supported
-|Supported
+|Not Supported
 |https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[September 2027]
 
 |R550
@@ -81,7 +81,7 @@ Kubernetes version 1.32 is the last version for which Amazon EKS will release AL
 |R570
 |Not Supported
 |Supported
-|Coming soon
+|Supported
 |https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[February 2026]
 |===
 
@@ -139,9 +139,9 @@ To learn more, see https://developer.nvidia.com/cuda-toolkit-archive[CUDA Releas
 |CUDA 11.x (12.5 coming soon)
 
 |NVIDIA GPU Driver
-|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[R550]
-|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[R565] (R570 coming soon)
-|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[R535] (R570 Coming soon)
+|https://docs.nvidia.com/ai-enterprise/index.html#infrastructure-software[R550]
+|https://docs.nvidia.com/ai-enterprise/index.html#infrastructure-software[R565]
+|https://docs.nvidia.com/ai-enterprise/index.html#infrastructure-software[R570]
 
 |{aws} Neuron Driver
 |https://awsdocs-neuron.readthedocs-hosted.com/en/latest/general/announcements/neuron2.x/announce-no-support-al2.html[2.19]
@@ -150,8 +150,8 @@ To learn more, see https://developer.nvidia.com/cuda-toolkit-archive[CUDA Releas
 
 |Linux Kernel
 |https://docs.aws.amazon.com/linux/al2/ug/aml2-kernel.html[5.10]
-|https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2-kernel.html[6.1, 6.12]
-|5.15, 6.1 (6.12 coming soon)
+|https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2-kernel.html[6.1], 6.12
+|6.1, 6.12
 |===
 
 === {aws} Neuron compatibility with AL2 AMIs
