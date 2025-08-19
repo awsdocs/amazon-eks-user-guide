@@ -63,7 +63,7 @@ The following table compares the differences between the two options.
 |eks/latest/userguide/kubernetes-versions.html[Supported Amazon EKS versions,type="documentation"].
 
 |Platform versions
-|See eks/latest/userguide/platform-versions.html[EKS platform-versions,type="documentation"]
+|See link:eks/latest/userguide/platform-versions.html[EKS platform-versions,type="documentation"]
 |See <<eks-outposts-platform-versions>>
 
 |Outpost form factors

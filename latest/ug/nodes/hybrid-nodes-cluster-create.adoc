@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Create hybrid nodes cluster
 --
 
-This topic provides an overview of the available options and describes what to consider when you create a hybrid nodes-enabled Amazon EKS cluster. EKS Hybrid Nodes have the same eks/latest/userguide/kubernetes-versions.html[Kubernetes version support,type="documentation"] as Amazon EKS clusters with cloud nodes, including standard and extended support.
+This topic provides an overview of the available options and describes what to consider when you create a hybrid nodes-enabled Amazon EKS cluster. EKS Hybrid Nodes have the same link:eks/latest/userguide/kubernetes-versions.html[Kubernetes version support,type="documentation"] as Amazon EKS clusters with cloud nodes, including standard and extended support.
 
 If you are not planning to use EKS Hybrid Nodes, see the primary Amazon EKS create cluster documentation at <<create-cluster>>.
 
@@ -96,7 +96,7 @@ You need to install the latest version of the `eksctl` command line tool. To ins
 . Create `cluster-config.yaml` to define a hybrid nodes-enabled Amazon EKS IPv4 cluster. Make the following replacements in your `cluster-config.yaml`. For a full list of settings, see the https://eksctl.io/getting-started/[eksctl documentation].
 .. Replace `CLUSTER_NAME` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
 .. Replace `AWS_REGION` with the {aws} Region that you want to create your cluster in.
-.. Replace `K8S_VERSION` with any eks/latest/userguide/kubernetes-versions.html[Amazon EKS supported version,type="documentation"].
+.. Replace `K8S_VERSION` with any link:eks/latest/userguide/kubernetes-versions.html[Amazon EKS supported version,type="documentation"].
 .. Replace `CREDS_PROVIDER` with `ssm` or `ira` based on the credential provider you configured in the steps for <<hybrid-nodes-creds>>.
 .. Replace `CA_BUNDLE_CERT` if your credential provider is set to `ira`, which uses {aws} IAM Roles Anywhere as the credential provider. The CA_BUNDLE_CERT is the certificate authority (CA) certificate body and depends on your choice of CA. The certificate must be in Privacy Enhanced Mail (PEM) format.
 .. Replace `GATEWAY_ID` with the ID of your virtual private gateway or transit gateway to be attached to your VPC.
@@ -169,7 +169,7 @@ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/examp
 ... Not overlap with each other, the `VPC CIDR` for your cluster, or your Kubernetes service IPv4 CIDR.
 .. `CLUSTER_AUTH`: the cluster authentication mode for your cluster. Valid values are `API` and `API_AND_CONFIG_MAP`. The default in the template is `API_AND_CONFIG_MAP`.
 .. `CLUSTER_ENDPOINT`: the cluster endpoint connectivity for your cluster. Valid values are “Public” and “Private”. The default in the template is Private, which means you will only be able to connect to the Kubernetes API endpoint from within your VPC.
-.. `K8S_VERSION`: the Kubernetes version to use for your cluster. See eks/latest/userguide/kubernetes-versions.html[Amazon EKS supported versions,type="documentation"].
+.. `K8S_VERSION`: the Kubernetes version to use for your cluster. See link:eks/latest/userguide/kubernetes-versions.html[Amazon EKS supported versions,type="documentation"].
 +
 [source,json,subs="verbatim,attributes"]
 ----
