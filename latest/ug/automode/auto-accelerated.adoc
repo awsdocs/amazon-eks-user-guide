@@ -88,7 +88,6 @@ metadata:
   name: nvidia-smi
 spec:
   nodeSelector:
-    eks.amazonaws.com/instance-gpu-name: l40s
     eks.amazonaws.com/compute-type: auto
   restartPolicy: OnFailure
   containers:
