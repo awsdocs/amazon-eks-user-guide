@@ -45,6 +45,9 @@ aws eks describe-cluster --name my-cluster --query cluster.version --output text
 |Kubernetes version
 |Platform version
 
+| Not Listed
+| All Platform Versions
+
 
 |`1.29.3`
 |`eks.7`
@@ -76,14 +79,10 @@ Every platform version of later Kubernetes versions are also supported, for exam
 |Kubernetes version
 |1.29
 |1.28
-|1.27
-|1.26
 
 |
 |`v1.11.1-eksbuild.9`
 |`v1.10.1-eksbuild.11`
-|`v1.10.1-eksbuild.11`
-|`v1.9.3-eksbuild.15`
 
 |===
 

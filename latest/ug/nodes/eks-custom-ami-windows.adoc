@@ -24,11 +24,10 @@ With both methods, you must create your own Image Builder recipe. For more infor
 
 The following *Amazon-managed* components for `eks` include patches for `CVE-2024-5321`.
 
-* `1.26.4` and higher
-* `1.27.2` and higher
 * `1.28.2` and higher
 * `1.29.2` and higher
 * `1.30.1` and higher
+* All versions for Kubernetes 1.31 and higher
 
 ====
 

@@ -120,12 +120,6 @@ To use EKS Pod Identity, the cluster must have a platform version that is the sa
 |`1.28`
 |`eks.4`
 
-|`1.27`
-|`eks.8`
-
-|`1.26`
-|`eks.9`
-
 |===
 
 [#pod-id-restrictions]

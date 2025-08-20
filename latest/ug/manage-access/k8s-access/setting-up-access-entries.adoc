@@ -41,12 +41,10 @@ To use _access entries_, the cluster must have a platform version that is the sa
 [%header,cols="2"]
 |===
 | Kubernetes version | Platform version
-
+| Not Listed | All Supported
 | `1.30` | `eks.2`
 | `1.29` | `eks.1`
 | `1.28` | `eks.6`
-| `1.27` | `eks.10`
-| `1.26` | `eks.11`
 |===
 
 For more information, see eks/latest/userguide/platform-versions.html[platform-versions,type="documentation"]. 
