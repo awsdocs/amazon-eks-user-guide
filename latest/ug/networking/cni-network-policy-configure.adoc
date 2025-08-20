@@ -146,30 +146,9 @@ kubectl edit daemonset -n kube-system aws-node
 ----
 
 
-[#cni-mount-bpf]
-== Step 3: Mount the Berkeley Packet Filter (BPF) file system on your nodes
-
-You must mount the Berkeley Packet Filter (BPF) file system on each of your nodes.
-
-[NOTE]
-====
-
-If your cluster is version `1.27` or later, you can skip this step as all Amazon EKS optimized Amazon Linux and Bottlerocket AMIs for `1.27` or later have this feature already.
-
-For all other cluster versions, if you upgrade the Amazon EKS optimized Amazon Linux to version `v20230703` or later or you upgrade the Bottlerocket AMI to version `v1.0.2` or later, you can skip this step.
-
-====
-. Mount the Berkeley Packet Filter (BPF) file system on each of your nodes.
-+
-[source,shell,subs="verbatim,attributes"]
-----
-sudo mount -t bpf bpffs /sys/fs/bpf
-----
-. Then, add the same command to your user data in your launch template for your Amazon EC2 Auto Scaling Groups.
-
 
 [#cni-network-policy-setup]
-== Step 4: Configure your cluster to use Kubernetes network policies
+== Step 3: Configure your cluster to use Kubernetes network policies
 
 You can set this for an Amazon EKS add-on or self-managed add-on.
 
@@ -274,7 +253,7 @@ kubectl edit daemonset -n kube-system aws-node
 ====
 
 [#cni-network-policy-setup-procedure-confirm]
-== Step 5. Next steps
+== Step 4. Next steps
 
 After you complete the configuration, confirm that the `aws-node` pods are running on your cluster.
 
