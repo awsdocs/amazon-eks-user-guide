@@ -41,7 +41,7 @@ a|
 - Configure capacity types (On-Demand, Spot)
 - Specify Availability Zones
 - Configure node taints and labels
-- Set minimum and maximum node counts
+- Set resource limits for CPU and memory usage
 |<<create-node-pool>>
 
 a|
