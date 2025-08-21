@@ -73,7 +73,7 @@ Every platform version of later Kubernetes versions are also supported, for exam
 [#coredns-autoscaling-coredns-version]
 === Minimum EKS Add-on version
 
-[%header,cols="5"]
+[%header,cols="3"]
 |===
 
 |Kubernetes version
