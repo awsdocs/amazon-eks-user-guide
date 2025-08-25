@@ -65,7 +65,7 @@ The table below represents the operating system versions that are compatible and
 
 === ARM
 
-* If you are using ARM hardware, an ARMv8.2 compliant processor with the Cryptography Extension (ARMv8.2+crypto) is required to run version 1.31 and above of the EKS kube-proxy add-on. All Raspberry Pi systems prior to the Raspberry Pi 5, as well as Cortex-A72 based processors, do not meet this requirement. As a  workaround, you can continue to use version 1.30 of the EKS kube-proxy add-on until it reaches end of extended support in July of 2026, see eks/latest/userguide/kubernetes-versions.html[Kubernetes release calendar,type="documentation"], or use a custom kube-proxy image from upstream.
+* If you are using ARM hardware, an ARMv8.2 compliant processor with the Cryptography Extension (ARMv8.2+crypto) is required to run version 1.31 and above of the EKS kube-proxy add-on. All Raspberry Pi systems prior to the Raspberry Pi 5, as well as Cortex-A72 based processors, do not meet this requirement. As a  workaround, you can continue to use version 1.30 of the EKS kube-proxy add-on until it reaches end of extended support in July of 2026, see link:eks/latest/userguide/kubernetes-versions.html[Kubernetes release calendar,type="documentation"], or use a custom kube-proxy image from upstream.
 * The following error message in the kube-proxy log indicates this incompatibility:
 [source,none]
 ----
@@ -117,7 +117,7 @@ The following environment variables must be set for building images with all ope
 
 |K8S_VERSION
 |String
-|Kubernetes version for hybrid nodes (for example `1.31`). For supported Kubernetes versions, see eks/latest/userguide/kubernetes-versions.html[Amazon EKS supported versions,type="documentation"].
+|Kubernetes version for hybrid nodes (for example `1.31`). For supported Kubernetes versions, see link:eks/latest/userguide/kubernetes-versions.html[Amazon EKS supported versions,type="documentation"].
 
 |NODEADM_ARCH
 |String

@@ -47,4 +47,4 @@ To use _access entries_, the cluster must have a platform version that is the sa
 | `1.28` | `eks.6`
 |===
 
-For more information, see eks/latest/userguide/platform-versions.html[platform-versions,type="documentation"]. 
+For more information, see link:eks/latest/userguide/platform-versions.html[platform-versions,type="documentation"]. 
