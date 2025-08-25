@@ -202,6 +202,7 @@ The table below is a quick reference for commonly used configuration options.
 == Considerations
 
 * You cannot use Annotations on an IngressClass to configure load balancers with EKS Auto Mode.
+* You cannot set link:elasticloadbalancing/latest/APIReference/API_ListenerAttribute.html["ListenerAttribute",type="documentation"] with EKS Auto Mode.
 * You must update the Cluster IAM Role to enable tag propagation from Kubernetes to {aws} Load Balancer resources. For more information, see <<tag-prop>>.
 * For information about associating resources with either EKS Auto Mode or the self-managed {aws} Load Balancer Controller, see <<migration-reference>>.
 * For information about fixing issues with load balancers, see <<auto-troubleshoot>>. 
@@ -217,7 +218,7 @@ The following tables provide a detailed comparison of changes in IngressClassPar
 | `elbv2.k8s.aws/v1beta1` | `eks.amazonaws.com/v1` | API version change
 | `spec.certificateArn` | `spec.certificateARNs` | Support for multiple certificate ARNs
 | `spec.subnets.tags` | `spec.subnets.matchTags` | Changed subnet matching schema
-| `spec.listeners.listenerAttributes` | `spec.listeners.attributes` | Simplified attribute naming
+| `spec.listeners.listenerAttributes` | Not supported | Not yet supported by EKS Auto Mode
 |===
 
 === Ingress annotations
