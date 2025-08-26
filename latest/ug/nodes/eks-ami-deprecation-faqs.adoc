@@ -173,7 +173,7 @@ To maintain compatibility with the latest Kubernetes versions, we recommend migr
 
 Amazon Linux 2 (AL2) is supported by {aws} until its end-of-support (EOS) date on June 30, 2026.
 However, as AL2 has aged, support from the broader Linux community for new applications and functionality has become more limited.
-AL2 AMIs are based on https://docs.aws.amazon.com/linux/al2/ug/kernel.html[Linux kernel 5.10], while AL2023 uses https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2-kernel.html[Linux kernel 6.12].
+AL2 AMIs are based on https://docs.aws.amazon.com/linux/al2/ug/kernel.html[Linux kernel 5.10], while AL2023 uses https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2-kernel.html[Linux kernel 6.1].
 Unlike AL2023, AL2 has limited support from the broader Linux community.
 This means many upstream Linux packages and tools need to be backported to work with AL2's older kernel version, some modern Linux features and security improvements aren't available due to the older kernel, many open source projects have deprecated or limited support for older kernel versions like 5.10.
 
