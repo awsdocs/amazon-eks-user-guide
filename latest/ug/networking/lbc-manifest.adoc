@@ -248,7 +248,7 @@ curl -Lo v2_13_3_full.yaml https://github.com/kubernetes-sigs/aws-load-balancer-
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-sed -i.bak -e '690,698d' ./v2_13_3_full.yaml
+sed -i.bak -e '730,738d' ./v2_13_3_full.yaml
 ----
 +
 If you downloaded a different file version, then open the file in an editor and remove the following lines.  
