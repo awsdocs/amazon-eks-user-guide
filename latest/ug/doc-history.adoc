@@ -107,7 +107,7 @@ Amazon EKS is now available in the Asia Pacific (Taipei) (`ap-east-2`) {aws} Reg
 [.update,date="2025-06-05"]
 === `IPv6` access control for dual-stack public endpoints for new `IPv6` clusters
 [.update-ulink]
-link:eks/latest/userguide/cluster-endpoint.html[type="documentation]
+link:eks/latest/userguide/cluster-endpoint.html[type="documentation"]
 
 Amazon EKS adds `IPv6` CIDR blocks to control access to the public cluster endpoint for new `IPv6` clusters. Previously, you could only add `IPv4` CIDR blocks to allow traffic to the public cluster endpoint, even for dual-stack cluster endpoints.
 
