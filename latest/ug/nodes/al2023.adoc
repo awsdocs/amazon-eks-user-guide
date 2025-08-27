@@ -10,7 +10,7 @@ include::../attributes.txt[]
 AL2023 is a new Linux-based operating system designed to provide a secure, stable, and high-performance environment for your cloud applications. 
 --
 
-The Amazon EKS optimized AMIs are available in two families based on AL2 and AL2023. AL2023 is a new Linux-based operating system designed to provide a secure, stable, and high-performance environment for your cloud applications. It's the next generation of Amazon Linux from Amazon Web Services and is available across all supported Amazon EKS versions, including versions `1.23` and `1.24` in extended support.
+The Amazon EKS optimized AMIs are available in two families based on AL2 and AL2023. AL2023 is a new Linux-based operating system designed to provide a secure, stable, and high-performance environment for your cloud applications. It's the next generation of Amazon Linux from Amazon Web Services and is available across all supported Amazon EKS versions.
 
 AL2023 offers several improvements over AL2. For a full comparison, see link:linux/al2023/ug/compare-with-al2.html[Comparing AL2 and Amazon Linux 2023,type="documentation"] in the _Amazon Linux 2023 User Guide_. Several packages have been added, upgraded, and removed from AL2. It's highly recommended to test your applications with AL2023 before upgrading. For a list of all package changes in AL2023, see link:linux/al2023/release-notes/compare-packages.html[Package changes in Amazon Linux 2023,type="documentation"] in the _Amazon Linux 2023 Release Notes_.
 
@@ -52,11 +52,18 @@ spec:
       - --node-labels=karpenter.sh/capacity-type=on-demand,karpenter.sh/nodepool=test
 ----
 +
-* Docker isn't supported in AL2023 for all supported Amazon EKS versions. Support for Docker has ended and been removed with Amazon EKS version `1.24` or greater in AL2. For more information on deprecation, see <<dockershim-deprecation>>.
 * Amazon VPC CNI version `1.16.2` or greater is required for AL2023.
 * AL2023 requires `IMDSv2` by default. `IMDSv2` has several benefits that help improve security posture. It uses a session-oriented authentication method that requires the creation of a secret token in a simple HTTP PUT request to start the session. A session's token can be valid for anywhere between 1 second and 6 hours. For more information on how to transition from `IMDSv1` to `IMDSv2`, see link:AWSEC2/latest/UserGuide/instance-metadata-transition-to-version-2.html[Transition to using Instance Metadata Service Version 2,type="documentation"] and link:security/get-the-full-benefits-of-imdsv2-and-disable-imdsv1-across-your-aws-infrastructure[Get the full benefits of IMDSv2 and disable IMDSv1 across your {aws} infrastructure,type="blog"]. If you would like to use `IMDSv1`, you can still do so by manually overriding the settings using instance metadata option launch properties.
 +
-NOTE: For `IMDSv2`, the default hop count for managed node groups is set to 1. This means that containers won't have access to the node's credentials using IMDS. If you require container access to the node's credentials, you can still do so by manually overriding the `HttpPutResponseHopLimit` in a link:AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-metadataoptions.html[custom Amazon EC2 launch template,type="documentation"], increasing it to 2.Alternatively, you can use <<pod-identities, Amazon EKS Pod Identity>> to provide credentials instead of `IMDSv2`.
+[NOTE]
+====
+For `IMDSv2` with AL2023, the default hop count for managed node groups can vary:
+
+* When not using a launch template, the default is set to `1`. This means that containers won't have access to the node's credentials using IMDS. If you require container access to the node's credentials, you can still do so by using a link:AWSCloudFormation/latest/UserGuide/aws-properties-ec2-launchtemplate-metadataoptions.html[custom Amazon EC2 launch template,type="documentation"].
+* When using a custom AMI in a launch template, the default `HttpPutResponseHopLimit` is set to `2`. You can manually override the `HttpPutResponseHopLimit` in the launch template.
+
+Alternatively, you can use <<pod-identities, Amazon EKS Pod Identity>> to provide credentials instead of `IMDSv2`.
+====
 * AL2023 features the next generation of unified control group hierarchy (`cgroupv2`). `cgroupv2` is used to implement a container runtime, and by `systemd`. While AL2023 still includes code that can make the system run using `cgroupv1`, this isn't a recommended or supported configuration. This configuration will be completely removed in a future major release of Amazon Linux.
 * `eksctl` version `0.176.0` or greater is required for `eksctl` to support AL2023.
 

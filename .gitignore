@@ -79,3 +79,4 @@ build
 .idea/*
 vale/styles/AsciiDoc/
 vale/styles/RedHat/
+.amazonq/

@@ -136,7 +136,7 @@ workqueue_work_duration_seconds_sum{name="replicaset"} 4.265655885000002
 
 The following table describes the scheduler and controller manager metrics that are made available for Prometheus style scraping. For more information about these metrics, see https://kubernetes.io/docs/reference/instrumentation/metrics/[Kubernetes Metrics Reference] in the Kubernetes documentation.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Metric
 |Control plane component
@@ -169,14 +169,6 @@ The following table describes the scheduler and controller manager metrics that 
 |scheduler_pod_scheduling_sli_duration_seconds
 |scheduler
 |The end-to-end latency for a Pod being scheduled, from the time the Pod enters the scheduling queue. This might involve multiple scheduling attempts.
-
-|kube_pod_resource_request
-|scheduler
-|The resources requested by workloads on the cluster, broken down by Pod. This shows the resource usage the scheduler and kubelet expect per Pod for resources along with the unit for the resource if any.
-
-|kube_pod_resource_limit
-|scheduler
-|The resources limit for workloads on the cluster, broken down by Pod. This shows the resource usage the scheduler and kubelet expect per Pod for resources along with the unit for the resource if any.
 
 |cronjob_controller_job_creation_skew_duration_seconds
 |controller manager

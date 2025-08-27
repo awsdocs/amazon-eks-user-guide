@@ -39,7 +39,7 @@ With extended clusters, you can conserve capacity on your Outpost because the Ku
 
 The following table compares the differences between the two options.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Feature
 |Extended cluster
@@ -59,11 +59,11 @@ The following table compares the differences between the two options.
 |US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Middle East (Bahrain), and South America (São Paulo)
 
 |Kubernetes minor versions
-|<<kubernetes-versions,Supported Amazon EKS versions>>.
-|<<kubernetes-versions,Supported Amazon EKS versions>>.
+|eks/latest/userguide/kubernetes-versions.html[Supported Amazon EKS versions,type="documentation"].
+|eks/latest/userguide/kubernetes-versions.html[Supported Amazon EKS versions,type="documentation"].
 
 |Platform versions
-|See <<platform-versions>>
+|See link:eks/latest/userguide/platform-versions.html[EKS platform-versions,type="documentation"]
 |See <<eks-outposts-platform-versions>>
 
 |Outpost form factors

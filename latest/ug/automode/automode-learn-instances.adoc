@@ -7,9 +7,6 @@ include::../attributes.txt[]
 :aam: Amazon {am}
 :ec2i: EC2 Instance
 :mi: managed instance
-:emi: EC2 managed instance
-:emi: EC2 {mi}
-:emng: EKS Managed Node Group
 :info_titleabbrev: Managed instances
 
 This topic explains how {aam} manages Amazon EC2 instances in your EKS cluster. When you enable {am}, your cluster's compute resources are automatically provisioned and managed by EKS, changing how you interact with the EC2 instances that serve as nodes in your cluster.
@@ -28,32 +25,32 @@ For more information, see link:AWSEC2/latest/UserGuide/amazon-ec2-managed-instan
 
 == Comparison table
 
-[cols="1,1", options="header"]  
+[%header,cols="2"]  
 |=== 
+|Standard {ec2i}
+|{am} {mi}
 
-| Standard {ec2i}
-| {am} {mi}
 
-| You are responsible for patching and updating the instance.
-| {aws} automatically patches and updates the instance.
+|You are responsible for patching and updating the instance.
+|{aws} automatically patches and updates the instance.
 
-| EKS is not responsible for the software on the instance.
-| EKS is responsible for certain software on the instance, such as `kubelet`, the container runtime, and the operating system. 
+|EKS is not responsible for the software on the instance.
+|EKS is responsible for certain software on the instance, such as `kubelet`, the container runtime, and the operating system. 
 
-| You can delete the {ec2i} using the EC2 API. 
-| EKS determines the number of instances deployed in your account. If you delete a workload, EKS will reduce the number of instances in your account. 
+|You can delete the {ec2i} using the EC2 API. 
+|EKS determines the number of instances deployed in your account. If you delete a workload, EKS will reduce the number of instances in your account. 
 
-| You can use SSH to access the {ec2i}. 
-| You can deploy pods and containers to the {mi}. 
+|You can use SSH to access the {ec2i}. 
+|You can deploy pods and containers to the {mi}. 
 
-| You determine the operating system and image (AMI).
-| {aws} determines the operating system and image. 
+|You determine the operating system and image (AMI).
+|{aws} determines the operating system and image. 
 
-| You can deploy workloads that rely on Windows or Ubuntu functionality.  
-| You can deploy containers based on Linux, but without specific OS dependencies. 
+|You can deploy workloads that rely on Windows or Ubuntu functionality.  
+|You can deploy containers based on Linux, but without specific OS dependencies. 
 
-| You determine what instance type and family to launch.
-| {aws} determines what instance type and family to launch. You can use a Node Pool to limit the instance types EKS Auto Mode selects from. 
+|You determine what instance type and family to launch.
+|{aws} determines what instance type and family to launch. You can use a Node Pool to limit the instance types EKS Auto Mode selects from. 
 
 |=== 
 
@@ -76,7 +73,7 @@ EKS Auto Mode only creates instances of supported types, and that meet a minimum
 
 EKS Auto Mode supports the following instance types: 
 
-[cols="1,4",options="header"]
+[%header,cols="1,4"]
 |===
 |Family |Instance Types
 
@@ -96,10 +93,10 @@ EKS Auto Mode supports the following instance types:
 |z1d, x8g, x2gd
 
 |Storage Optimized (I/D)
-|i4g, i4i, i3, i3en, is4gen, d3, d3en, im4gn
+|i8g, i7ie, i4g, i4i, i3, i3en, is4gen, d3, d3en, im4gn
 
 |Accelerated Computing (P/G/Inf/Trn)
-|p5, p4d, p3, p3dn, gr6, g6, g6e, g5g, g5, g4dn, inf2, inf1, trn1, trn1n
+|p5, p4d, p4de, p3, p3dn, gr6, g6, g6e, g5g, g5, g4dn, inf2, inf1, trn1, trn1n
 
 |High Performance Computing (X2)
 |x2iezn, x2iedn, x2idn
@@ -114,22 +111,25 @@ For more information, see link:ec2/latest/instancetypes/instance-type-names.html
 
 == Instance Metadata Service
 
-* EKS Auto Mode enforces IMDSv2 with a hop limit of 1 by default, adhering to {aws} security best practices
-* This default configuration cannot be modified in Auto Mode
-* For add-ons that typically require IMDS access:
-** Supply parameters, such as {aws} region, during installation to avoid IMDS lookups
-** For more information, see <<kubernetes-field-management>>
-* If a pod absolutely requires IMDS access when running in Auto Mode:
-** The pod must be configured to run with `hostNetwork: true`
-** This allows the pod to access the instance metadata service directly
-* Consider the security implications when granting pods access to instance metadata
+* EKS Auto Mode enforces IMDSv2 with a hop limit of 1 by default, adhering to {aws} security best practices.
+* This default configuration cannot be modified in Auto Mode.
+* For add-ons that typically require IMDS access, supply parameters (such as {aws} region) during installation to avoid IMDS lookups. For more information, see <<kubernetes-field-management>>.
+* If a Pod absolutely requires IMDS access when running in Auto Mode, the Pod must be configured to run with `hostNetwork: true`. This allows the Pod to access the instance metadata service directly.
+* Consider the security implications when granting Pods access to instance metadata.
 
-For more information about the EC2 Instance Metadata Service (IMDS), see link:AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html[Configure the Instance Metadata Service options,type="documentation"] in the EC2 User Guide.
-
+For more information about the Amazon EC2 Instance Metadata Service (IMDS), see link:AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html[Configure the Instance Metadata Service options,type="documentation"] in the _Amazon EC2 User Guide_.
 
 == Considerations
 
-* EKS Auto Mode automatically formats and configures NVMe local storage on supported instance types. For nodes with multiple NVMe drives, EKS sets up a RAID 0 array. This automation eliminates the need for manual formatting and RAID configuration of local NVMe storage in EKS clusters.
+* If the configured ephemeral storage in the NodeClass is smaller than the NVMe local storage for the instance, EKS Auto Mode eliminates the need for manual configuration by automatically taking the following actions:
+** Uses a smaller (20 GiB) Amazon EBS data volume to reduce costs.
+** Formats and configures the NVMe local storage for ephemeral data use. This includes setting up a RAID 0 array if there are multiple NVMe drives.
+* When `ephemeralStorage.size` equals or exceeds the local NVMe capacity, the following actions occur:
+** Auto Mode skips the small EBS volume.
+** The NVMe drive(s) are exposed directly for your workload.
 * Amazon EKS Auto Mode does not support {aws} Fault Injection Service. For more information, see link:resilience-hub/latest/userguide/testing.html["Managing Fault Injection Service experiments",type="documentation"] in the {aws} Resilience Hub User Guide. 
-* You do not need to install the `Neuron Device Plugin` on EKS Auto Mode nodes. 
-** If you have other types of nodes in your cluster, you need to configure the Neuron Device plugin to not run on auto mode nodes. For more information, see <<associate-workload>>.
+* You do not need to install the `Neuron Device Plugin` on EKS Auto Mode nodes.
++
+If you have other types of nodes in your cluster, you need to configure the Neuron Device plugin to not run on Auto Mode nodes. For more information, see <<associate-workload>>.
+
+

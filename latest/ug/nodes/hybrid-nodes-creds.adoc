@@ -14,7 +14,7 @@ Prepare credentials to authenticate hybrid nodes with Amazon EKS clusters
 Prepare credentials to authenticate hybrid nodes with Amazon EKS clusters
 --
 
-Amazon EKS Hybrid Nodes use temporary IAM credentials provisioned by {aws} SSM hybrid activations or {aws} IAM Roles Anywhere to authenticate with the Amazon EKS cluster. You must use either {aws} SSM hybrid activations or {aws} IAM Roles Anywhere with the Amazon EKS Hybrid Nodes CLI (`nodeadm`). You should not use both {aws} SSM hybrid activations and {aws} IAM Roles Anywhere. It is recommended to use {aws} SSM hybrid activations if you do not have existing Public Key Infrastructure (PKI) with a Certificate Authority (CA) and certificates for your on-premises environments. If you do have existing PKI and certificates on-premises, use {aws} IAM Roles Anywhere.
+Amazon EKS Hybrid Nodes use temporary IAM credentials provisioned by {aws} SSM hybrid activations or {aws} IAM Roles Anywhere to authenticate with the Amazon EKS cluster. You must use either {aws} SSM hybrid activations or {aws} IAM Roles Anywhere with the Amazon EKS Hybrid Nodes CLI (`nodeadm`). You should not use both {aws} SSM hybrid activations and {aws} IAM Roles Anywhere. We recommend that you use {aws} SSM hybrid activations if you do not have existing Public Key Infrastructure (PKI) with a Certificate Authority (CA) and certificates for your on-premises environments. If you do have existing PKI and certificates on-premises, use {aws} IAM Roles Anywhere.
 
 [#hybrid-nodes-role]
 == Hybrid Nodes IAM Role
@@ -45,7 +45,7 @@ By default, {aws} SSM hybrid activations are active for 24 hours. You can altern
 
 See the example below for how to create an {aws} SSM hybrid activation with your Hybrid Nodes IAM role. When you use {aws} SSM hybrid activations for your hybrid nodes credentials, the names of your hybrid nodes will have the format `mi-012345678abcdefgh` and the temporary credentials provisioned by {aws} SSM are valid for 1 hour. You cannot alter the node name or credential duration when using {aws} SSM as your credential provider. The temporary credentials are automatically rotated by {aws} SSM and the rotation does not impact the status of your nodes or applications. 
 
-It is recommended to use one {aws} SSM hybrid activation per EKS cluster to scope the {aws} SSM `ssm:DeregisterManagedInstance` permission of the Hybrid Nodes IAM role to only be able to deregister instances that are associated with your {aws} SSM hybrid activation. In the example on this page, a tag with the EKS cluster ARN is used, which can be used to map your {aws} SSM hybrid activation to the EKS cluster. You can alternatively use your preferred tag and method of scoping the {aws} SSM permissions based on your permission boundaries and requirements. The `REGISTRATION_LIMIT` option in the command below is an integer used to limit the number of machines that can use the {aws} SSM hybrid activation (for example `10`)
+We recommend that you use one {aws} SSM hybrid activation per EKS cluster to scope the {aws} SSM `ssm:DeregisterManagedInstance` permission of the Hybrid Nodes IAM role to only be able to deregister instances that are associated with your {aws} SSM hybrid activation. In the example on this page, a tag with the EKS cluster ARN is used, which can be used to map your {aws} SSM hybrid activation to the EKS cluster. You can alternatively use your preferred tag and method of scoping the {aws} SSM permissions based on your permission boundaries and requirements. The `REGISTRATION_LIMIT` option in the command below is an integer used to limit the number of machines that can use the {aws} SSM hybrid activation (for example `10`)
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -54,7 +54,7 @@ aws ssm create-activation \
      --default-instance-name eks-hybrid-nodes \
      --description "Activation for EKS hybrid nodes" \
      --iam-role AmazonEKSHybridNodesRole \
-     --tags Key=EKSClusterARN,Value=arn:aws:eks:AWS_REGION:AWS_ACCOUNT_ID:cluster/CLUSTER_NAME \
+     --tags Key=EKSClusterARN,Value={arn-aws}eks:AWS_REGION:AWS_ACCOUNT_ID:cluster/CLUSTER_NAME \
      --registration-limit REGISTRATION_LIMIT
 ----
 
@@ -102,7 +102,7 @@ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/examp
 . Create a `cfn-ssm-parameters.json` with the following options:
 .. Replace `ROLE_NAME` with the name for your Hybrid Nodes IAM role. By default, the CloudFormation template uses `AmazonEKSHybridNodesRole` as the name of the role it creates if you do not specify a name.
 .. Replace `TAG_KEY` with the {aws} SSM resource tag key you used when creating your {aws} SSM hybrid activation. The combination of the tag key and tag value is used in the condition for the `ssm:DeregisterManagedInstance` to only allow the Hybrid Nodes IAM role to deregister the {aws} SSM managed instances that are associated with your {aws} SSM hybrid activation. In the CloudFormation template, `TAG_KEY` defaults to `EKSClusterARN`.
-.. Replace `TAG_VALUE` with the {aws} SSM resource tag value you used when creating your {aws} SSM hybrid activation. The combination of the tag key and tag value is used in the condition for the `ssm:DeregisterManagedInstance` to only allow the Hybrid Nodes IAM role to deregister the {aws} SSM managed instances that are associated with your {aws} SSM hybrid activation. If you are using the default `TAG_KEY` of `EKSClusterARN`, then pass your EKS cluster ARN as the `TAG_VALUE`. EKS cluster ARNs have the format `arn:aws:eks:AWS_REGION:AWS_ACCOUNT_ID:cluster/CLUSTER_NAME`.
+.. Replace `TAG_VALUE` with the {aws} SSM resource tag value you used when creating your {aws} SSM hybrid activation. The combination of the tag key and tag value is used in the condition for the `ssm:DeregisterManagedInstance` to only allow the Hybrid Nodes IAM role to deregister the {aws} SSM managed instances that are associated with your {aws} SSM hybrid activation. If you are using the default `TAG_KEY` of `EKSClusterARN`, then pass your EKS cluster ARN as the `TAG_VALUE`. EKS cluster ARNs have the format `{arn-aws}eks:AWS_REGION:AWS_ACCOUNT_ID:cluster/CLUSTER_NAME`.
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -204,7 +204,7 @@ aws iam create-policy \
 .. Replace `AWS_REGION` with the {aws} Region for your {aws} SSM hybrid activation.
 .. Replace `AWS_ACCOUNT_ID` with your {aws} account ID.
 .. Replace `TAG_KEY` with the {aws} SSM resource tag key you used when creating your {aws} SSM hybrid activation. The combination of the tag key and tag value is used in the condition for the `ssm:DeregisterManagedInstance` to only allow the Hybrid Nodes IAM role to deregister the {aws} SSM managed instances that are associated with your {aws} SSM hybrid activation. In the CloudFormation template, `TAG_KEY` defaults to `EKSClusterARN`.
-.. Replace `TAG_VALUE` with the {aws} SSM resource tag value you used when creating your {aws} SSM hybrid activation. The combination of the tag key and tag value is used in the condition for the `ssm:DeregisterManagedInstance` to only allow the Hybrid Nodes IAM role to deregister the {aws} SSM managed instances that are associated with your {aws} SSM hybrid activation. If you are using the default `TAG_KEY` of `EKSClusterARN`, then pass your EKS cluster ARN as the `TAG_VALUE`. EKS cluster ARNs have the format `arn:aws:eks:AWS_REGION:AWS_ACCOUNT_ID:cluster/CLUSTER_NAME`.
+.. Replace `TAG_VALUE` with the {aws} SSM resource tag value you used when creating your {aws} SSM hybrid activation. The combination of the tag key and tag value is used in the condition for the `ssm:DeregisterManagedInstance` to only allow the Hybrid Nodes IAM role to deregister the {aws} SSM managed instances that are associated with your {aws} SSM hybrid activation. If you are using the default `TAG_KEY` of `EKSClusterARN`, then pass your EKS cluster ARN as the `TAG_VALUE`. EKS cluster ARNs have the format `{arn-aws}eks:AWS_REGION:AWS_ACCOUNT_ID:cluster/CLUSTER_NAME`.
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -219,7 +219,7 @@ aws iam create-policy \
         {
             "Effect": "Allow",
             "Action": "ssm:DeregisterManagedInstance",
-            "Resource": "arn:aws:ssm:AWS_REGION:AWS_ACCOUNT_ID:managed-instance/*",
+            "Resource": "{arn-aws}ssm:AWS_REGION:AWS_ACCOUNT_ID:managed-instance/*",
             "Condition": {
                 "StringEquals": {
                     "ssm:resourceTag/TAG_KEY": "TAG_VALUE"
@@ -256,7 +256,7 @@ aws iam create-policy \
                "aws:SourceAccount":"AWS_ACCOUNT_ID"
             },
             "ArnEquals":{
-               "aws:SourceArn":"arn:aws:ssm:AWS_REGION:AWS_ACCOUNT_ID:*"
+               "aws:SourceArn":"{arn-aws}ssm:AWS_REGION:AWS_ACCOUNT_ID:*"
             }
          }
       }
@@ -279,7 +279,7 @@ aws iam create-role \
 ----
 aws iam attach-role-policy \
     --role-name AmazonEKSHybridNodesRole \
-    --policy-arn arn:aws:iam::AWS_ACCOUNT_ID:policy/EKSDescribeClusterPolicy
+    --policy-arn {arn-aws}iam::AWS_ACCOUNT_ID:policy/EKSDescribeClusterPolicy
 ----
 
 +
@@ -287,7 +287,7 @@ aws iam attach-role-policy \
 ----
 aws iam attach-role-policy \
     --role-name AmazonEKSHybridNodesRole \
-    --policy-arn arn:aws:iam::AWS_ACCOUNT_ID:policy/EKSHybridSSMPolicy
+    --policy-arn {arn-aws}iam::AWS_ACCOUNT_ID:policy/EKSHybridSSMPolicy
 ----
 
 . Attach the `AmazonEC2ContainerRegistryPullOnly` and `AmazonSSMManagedInstanceCore` {aws} managed policies.
@@ -297,7 +297,7 @@ aws iam attach-role-policy \
 ----
 aws iam attach-role-policy \
     --role-name AmazonEKSHybridNodesRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
 ----
 
 +
@@ -305,7 +305,7 @@ aws iam attach-role-policy \
 ----
 aws iam attach-role-policy \
     --role-name AmazonEKSHybridNodesRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore 
+    --policy-arn {arn-aws}iam::aws:policy/AmazonSSMManagedInstanceCore 
 ----
 
 *Steps for {aws} IAM Roles Anywhere*
@@ -369,7 +369,7 @@ aws iam create-role \
 ----
 aws iam attach-role-policy \ 
     --role-name AmazonEKSHybridNodesRole \ 
-    --policy-arn arn:aws:iam::AWS_ACCOUNT_ID:policy/EKSDescribeClusterPolicy
+    --policy-arn {arn-aws}iam::AWS_ACCOUNT_ID:policy/EKSDescribeClusterPolicy
 ----
 
 . Attach the `AmazonEC2ContainerRegistryPullOnly` {aws} managed policy
@@ -379,7 +379,7 @@ aws iam attach-role-policy \
 ----
 aws iam attach-role-policy \ 
     --role-name AmazonEKSHybridNodesRole \ 
-    --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
 ----
 
 [#hybrid-nodes-creds-console]
@@ -417,7 +417,7 @@ aws iam attach-role-policy \
         {
             "Effect": "Allow",
             "Action": "ssm:DeregisterManagedInstance",
-            "Resource": "arn:aws:ssm:AWS_REGION:AWS_ACCOUNT_ID:managed-instance/*",
+            "Resource": "{arn-aws}ssm:AWS_REGION:AWS_ACCOUNT_ID:managed-instance/*",
             "Condition": {
                 "StringEquals": {
                     "ssm:resourceTag/TAG_KEY": "TAG_VALUE"
@@ -454,7 +454,7 @@ aws iam attach-role-policy \
                "aws:SourceAccount":"AWS_ACCOUNT_ID"
             },
             "ArnEquals":{
-               "aws:SourceArn":"arn:aws:ssm:AWS_REGION:AWS_ACCOUNT_ID:*"
+               "aws:SourceArn":"{arn-aws}ssm:AWS_REGION:AWS_ACCOUNT_ID:*"
             }
          }
       }

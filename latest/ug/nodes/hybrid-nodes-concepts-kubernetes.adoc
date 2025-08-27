@@ -131,7 +131,7 @@ This multi-level chain structure enables `kube-proxy` to efficiently implement s
 
 A broken `kube-proxy` on a node prevents that node from routing Service traffic properly, causing timeouts or failed connections for pods that rely on cluster Services. This can be especially disruptive when a node is first registered. The CNI needs to talk to the Kubernetes API server to get information, such as the node's pod CIDR, before it can configure any pod networking. To do that, it uses the `kubernetes` Service IP. However, if `kube-proxy` hasn't been able to start or has failed to set the right `iptables` rules, the requests going to the `kubernetes` service IP aren't translated to the actual IPs of the EKS control plane ENIs. As a consequence, the CNI will enter a crash loop and none of the pods will be able to run properly.
 
-We know pods use the `kubernetes` service IP to communicate with the Kubernetes API server, but `kube-proxy` needs to first set `iptables` rules to make that work. 
+We know pods use the `kubernetes` service IP to communicate with the Kubernetes API server, but `kube-proxy` needs to first set `iptables` rules to make that work.
 
 How does `kube-proxy` communicate with the API server?
 
@@ -166,7 +166,7 @@ metadata:
   namespace: kube-system
 ----
 
-[#hybrid-nodes-concepts-k8s-pod-cidrs]]
+[#hybrid-nodes-concepts-k8s-pod-cidrs]
 == Routable remote Pod CIDRs
 
 The <<hybrid-nodes-concepts-networking>> page details the requirements to run webhooks on hybrid nodes or to have pods running on cloud nodes communicate with pods running on hybrid nodes. The key requirement is that the on-premises router needs to know which node is responsible for a particular pod IP. There are several ways to achieve this, including Border Gateway Protocol (BGP), static routes, and Address Resolution Protocol (ARP) proxying. These are covered in the following sections.
@@ -175,14 +175,12 @@ The <<hybrid-nodes-concepts-networking>> page details the requirements to run we
 
 If your CNI supports it (such as Cilium and Calico), you can use the BGP mode of your CNI to propagate routes to your per node pod CIDRs from your nodes to your local router. When using the CNI's BGP mode, your CNI acts as a virtual router, so your local router thinks the pod CIDR belongs to a different subnet and your node is the gateway to that subnet.
 
-.BGP routing
 image::images/hybrid-nodes-bgp.png[Hybrid nodes BGP routing]
 
 *Static routes*
 
-Alternatively, you can configure static routes in your local router. This is the simplest way to route the on-premises pod CIDR to your VPC, but it is also the most error prone and difficult to maintain. You need to make sure that the routes are always up-to-date with the existing nodes and their assigned pod CIDRs. If your number of nodes is small and infrastructure is static, this is a viable option and removes the need for BGP support in your router. If you opt for this, we recommend to configure your CNI with the pod CIDR slice that you want to assign to each node instead of letting its IPAM decide.
+Or, you can configure static routes in your local router. This is the simplest way to route the on-premises pod CIDR to your VPC, but it is also the most error prone and difficult to maintain. You need to make sure that the routes are always up-to-date with the existing nodes and their assigned pod CIDRs. If your number of nodes is small and infrastructure is static, this is a viable option and removes the need for BGP support in your router. If you opt for this, we recommend to configure your CNI with the pod CIDR slice that you want to assign to each node instead of letting its IPAM decide.
 
-.Static routing
 image::images/hybrid-nodes-static-routes.png[Hybrid nodes static routing]
 
 *Address Resolution Protocol (ARP) proxying*
@@ -191,12 +189,13 @@ ARP proxying is another approach to make on-premises pod IPs routable, particula
 
 When a device on your local network tries to reach a pod IP, it first sends an ARP request asking "`Who has this IP?`". The hybrid node hosting that pod will respond with its own MAC address, saying "`I can handle traffic for that IP.`" This creates a direct path between devices on your local network and the pods without requiring router configuration.
 
-.ARP proxying
-image::images/hybrid-nodes-arp-proxy.png[Hybrid nodes ARP proxying]
-
-This approach has several advantages: ++*++ No need to configure your router with complex BGP or maintain static routes ++*++ Works well in environments where you don't have control over your router configuration
-
 For this to work, your CNI must support proxy ARP functionality. Cilium has built-in support for proxy ARP that you can enable through configuration. The key consideration is that the pod CIDR must not overlap with any other network in your environment, as this could cause routing conflicts.
+
+This approach has several advantages:
+* No need to configure your router with BGP or maintain static routes
+* Works well in environments where you don't have control over your router configuration
+
+image::images/hybrid-nodes-arp-proxy.png[Hybrid nodes ARP proxying]
 
 [#hybrid-nodes-concepts-k8s-pod-encapsulation]
 == Pod-to-Pod encapsulation
@@ -207,14 +206,13 @@ Encapsulation wraps original pod network packets inside another network packet t
 
 The most common encapsulation protocol used with Kubernetes is Virtual Extensible LAN (VXLAN), though others (such as `Geneve`) are also available depending on your CNI.
 
-*VXLAN encapsulation*
+=== VXLAN encapsulation
 
 VXLAN encapsulates Layer 2 Ethernet frames within UDP packets. When a pod sends traffic to another pod on a different node, the CNI performs the following:
 
 . The CNI intercepts packets from Pod A
 . The CNI wraps the original packet in a VXLAN header
-. This wrapped packet is then sent through the node's regular networking
-stack to the destination node
+. This wrapped packet is then sent through the node's regular networking stack to the destination node
 . The CNI on the destination node unwraps the packet and delivers it to Pod B
 
 Here's what happens to the packet structure during VXLAN encapsulation:
@@ -241,7 +239,7 @@ After VXLAN Encapsulation:
 
 The VXLAN Network Identifier (VNI) distinguishes between different overlay networks.
 
-*Pod communication scenarios*
+=== Pod communication scenarios
 
 *Pods on the same hybrid node*
 

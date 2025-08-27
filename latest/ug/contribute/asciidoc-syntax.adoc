@@ -2,133 +2,196 @@ include::../attributes.txt[]
 
 [.topic]
 [#asciidoc-syntax]
-= AsciiDoc Syntax Reference
+= AsciiDoc syntax reference
 :info_titleabbrev: AsciiDoc syntax
 
+[abstract]
+--
+This page provides a quick reference guide to AsciiDoc syntax for contributing to Amazon EKS documentation.
+--
 
-This page is a quick overview of AsciiDoc syntax. 
+AsciiDoc is the preferred markup language for {aws} documentation. While the tooling has partial support for Markdown syntax (such as headings and lists), we recommend using AsciiDoc syntax for all content to ensure consistency and proper rendering.
 
-We suggest using AsciiDoc syntax. The AsciiDoc tooling has partial support for Markdown syntax, including headings and lists.
+This guide covers common syntax elements you'll need when contributing to Amazon EKS documentation. For more advanced syntax and detailed information, refer to the https://docs.asciidoctor.org/asciidoc/latest/[AsciiDoc documentation].
 
-For advanced syntax, review the https://docs.asciidoctor.org/asciidoc/latest/[AsciiDoc Website].
+== New page
 
-It's important to get the link syntax right for the {aws} docs. Review how to <<insert-link>>. You cannot use Markdown syntax for links. 
+Every new AsciiDoc document should begin with the structure defined in <<create-page>>.
 
+== Headings
 
-== Basic formatting
-
-[source,asciidoc]
-----
-*bold text*
-_italic text_
-`monospace text`
-----
-
-== Headers
+Use headings to organize your content hierarchically:
 
 [source,asciidoc]
 ----
-= Document Title (Header 1)
-== Header 2
-=== Header 3
-==== Header 4
-===== Header 5
-====== Header 6
+= Page/topic title (level 1)
+== Section title (level 2)
+=== Level 3 heading
+==== Level 4 heading
+===== Level 5 heading
+====== Level 6 heading
+----
+
+Note: Always use sentence case for headings in {aws} documentation.
+
+== Text formatting
+
+Format text to emphasize important information:
+
+[source,asciidoc]
+----
+Use *bold text* for UI labels.
+Use _italic text_ for introducing terms or light emphasis.
+Use `monospace text` for code, file names, and commands.
 ----
 
 == Lists
 
-Unordered Lists:
+=== Unordered lists
+
+Create bulleted lists for items without a specific sequence:
 
 [source,asciidoc]
 ----
-- Item 1
-- Item 2
--- Subitem 2.1
--- Subitem 2.2
-- Item 3
+* First item
+* Second item
+** Nested item
+** Another nested item
+* Third item
 ----
 
-Ordered Lists:
+=== Ordered lists
+
+Create numbered lists for sequential steps or prioritized items:
 
 [source,asciidoc]
 ----
-. First item
-. Second item
-.. Subitem 2.1
-.. Subitem 2.2
-. Third item
+. First step
+. Second step
+.. Substep 1
+.. Substep 2
+. Third step
 ----
 
 == Links
 
-[source,asciidoc]
-----
-External link: https://example.com[Link text]
-Internal link: <<page-id>>
-Internal link: <<page-id,Link text>>
-----
+See <<insert-link>> for details on how to properly format links. Markdown-style links are not supported.
 
-== Images
+== Code examples
 
-[source,asciidoc]
-----
-image::image-file.jpg[Alt text]
-----
+=== Inline code
 
-== Code Blocks
+Use backticks for inline code:
 
 [source,asciidoc]
 ----
- [source,python]
+Use the `kubectl get pods` command to list all pods.
+----
+
+=== Code blocks
+
+Create code blocks with syntax highlighting and support for attributes (similar to entities):
+
+[source,asciidoc]
+----
+ [source,python,subs="verbatim,attributes"]
  ----
  def hello_world():
      print("Hello, World!")
  ----
 ----
 
+== Images
+
+Insert images with alt text for accessibility:
+
+[source,asciidoc]
+----
+image::images/image-file.png[Alt text description]
+----
+
 == Tables
 
-https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[Learn how to build a basic table.]
+Create tables to organize information:
 
 [source,asciidoc]
 ----
-[cols="1,1"]
+[%header,cols="2"]
 |===
-|Cell in column 1, row 1
-|Cell in column 2, row 1
+|Header 1
+|Header 2
 
-|Cell in column 1, row 2
-|Cell in column 2, row 2
+|Cell 1,1
+|Cell 1,2
 
-|Cell in column 1, row 3
-|Cell in column 2, row 3
+|Cell 2,1
+|Cell 2,2
 |===
 ----
 
-== Admonitions
+For more complex tables, see the https://docs.asciidoctor.org/asciidoc/latest/tables/build-a-basic-table/[AsciiDoc table documentation].
+
+== Callouts
+
+Use callouts to highlight important information and admonitions:
 
 [source,asciidoc]
 ----
-NOTE: This is a note admonition.
+NOTE: This is a note callout for general information.
 
-WARNING: This is a warning admonition.
+TIP: This is a tip callout for helpful advice.
 
-TIP: This is a tip admonition.
+IMPORTANT: This is an important callout for critical information.
 
-IMPORTANT: This is an important admonition.
-
-CAUTION: This is a caution admonition.
 ----
 
 Preview:
 
-NOTE: This is a note admonition.
+NOTE: This is a note callout.
 
 
-== Includes
+== Including other files
+
+Include content from other files:
 
 [source,asciidoc]
 ----
  include::filename.adoc[]
+----
+
+== Attributes (similar to entities)
+
+Use predefined attributes to maintain consistency. In particular, you MUST use attributes for {aws} and `{arn-aws}`.
+
+[source,asciidoc]
+----
+{aws} provides Amazon EKS as a managed Kubernetes service.
+----
+
+[source,asciidoc]
+----
+ [source,bash,subs="verbatim,attributes"]
+ ----
+ aws iam attach-role-policy \
+     --role-name AmazonEKSAutoClusterRole \
+     --policy-arn {arn-aws}iam::aws:policy/AmazonEKSClusterPolicy
+ ----
+----
+
+For a list of attributes, look in the `../attributes.txt` file.
+
+== Procedures
+
+Format step-by-step procedures:
+
+[source,asciidoc]
+----
+To create an Amaozon EKS cluster. do the following steps.
+
+. Sign in to the {aws} Management Console.
+. Open the Amazon EKS console.
+. Choose *Create cluster*.
+
+...
+
 ----

@@ -13,11 +13,13 @@ Configure webhooks for hybrid nodes
 
 This page details considerations for running webhooks with hybrid nodes. Webhooks are used in Kubernetes applications and open source projects, such as the {aws} Load Balancer Controller and CloudWatch Observability Agent, to perform mutating and validation capabilities at runtime.
 
-If you are running webhooks on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network. Also you must configure your EKS cluster with your remote pod network so the EKS control plane can communicate with the webhooks running on hybrid nodes.
+*Routable pod networks*
 
-There are several techniques you can use to make your on-premises pod CIDR routable on your on-premises network including Border Gateway Protocol (BGP), static routes, or other custom routing solutions. BGP is the recommended solution as it is more scalable and easier to manage than alternative solutions that require custom or manual route configuration. {aws} supports the BGP capabilities of Cilium and Calico for advertising hybrid nodes pod CIDRs, see <<hybrid-nodes-cni, Configure CNI for hybrid nodes>> for more information.
+If you are able to make your on-premises pod CIDR routable on your on-premises network, you can run webhooks on hybrid nodes. There are several techniques you can use to make your on-premises pod CIDR routable on your on-premises network including Border Gateway Protocol (BGP), static routes, or other custom routing solutions. BGP is the recommended solution as it is more scalable and easier to manage than alternative solutions that require custom or manual route configuration. {aws} supports the BGP capabilities of Cilium and Calico for advertising pod CIDRs, see <<hybrid-nodes-cni>> and <<hybrid-nodes-concepts-k8s-pod-cidrs>> for more information.
 
-If you _cannot_ make your on-premises pod CIDR routable on your on-premises network and need to run webhooks, we recommend that you run all of your webhooks in the {aws} Cloud. To function, a webhook must run in the same EKS cluster as your hybrid nodes.
+*Unroutable pod networks*
+
+If you _cannot_ make your on-premises pod CIDR routable on your on-premises network and need to run webhooks, we recommend that you run all webhooks on cloud nodes in the same EKS cluster as your hybrid nodes.
 
 [#hybrid-nodes-considerations-mixed-mode]
 == Considerations for mixed mode clusters
@@ -25,15 +27,16 @@ If you _cannot_ make your on-premises pod CIDR routable on your on-premises netw
 _Mixed mode clusters_ are defined as EKS clusters that have both hybrid nodes and nodes running in {aws} Cloud. When running a mixed mode cluster, consider the following recommendations:
 
 - Run the VPC CNI on nodes in {aws} Cloud and either Cilium or Calico on hybrid nodes. Cilium and Calico are not supported by {aws} when running on nodes in {aws} Cloud.
-- If your applications require pods running on nodes in {aws} Cloud to directly communicate with pods running on hybrid nodes ("east-west communication"), and you are using the VPC CNI on nodes in {aws} Cloud and Cilium or Calico in overlay/tunnel mode on hybrid nodes, then your on-premises pod CIDR must be routable on your on-premises network.
-- Run at least one replica of CoreDNS on nodes in {aws} Cloud and at least one replica of CoreDNS on hybrid nodes, see <<hybrid-nodes-mixed-mode, Configure add-ons and webhooks for mixed mode clusters>> for configuration steps.
-- Configure webhooks to run on nodes in {aws} Cloud. See <<hybrid-nodes-webhooks-add-ons, Configuring webhooks for add-ons>> for how to configure the webhooks used by {aws} and community add-ons when running mixed mode clusters.
-- If you are using Application Load Balancers (ALB) or Network Load Balancers (NLB) for workload traffic running on hybrid nodes, then the IP target(s) used with the ALB or NLB must be routable from {aws}.
+- Configure webhooks to run on nodes in {aws} Cloud. See <<hybrid-nodes-webhooks-add-ons>> for how to configure the webhooks for {aws} and community add-ons.
+- If your applications require pods running on nodes in {aws} Cloud to directly communicate with pods running on hybrid nodes ("east-west communication"), and you are using the VPC CNI on nodes in {aws} Cloud, and Cilium or Calico on hybrid nodes, then your on-premises pod CIDR must be routable on your on-premises network.
+- Run at least one replica of CoreDNS on nodes in {aws} Cloud and at least one replica of CoreDNS on hybrid nodes.
+- Configure Service Traffic Distribution to keep Service traffic local to the zone it is originating from. For more information on Service Traffic Distribution, see <<hybrid-nodes-mixed-service-traffic-distribution>>.
+- If you are using {aws} Application Load Balancers (ALB) or Network Load Balancers (NLB) for workload traffic running on hybrid nodes, then the IP target(s) used with the ALB or NLB must be routable from {aws}.
 - The Metrics Server add-on requires connectivity from the EKS control plane to the Metrics Server pod IP address. If you are running the Metrics Server add-on on hybrid nodes, then your on-premises pod CIDR must be routable on your on-premises network.
-- To collect metrics for hybrid nodes using Amazon Managed Service for Prometheus (AMP) managed collectors, your on-premises pod CIDR must be routable on your on-premises network. Or, you can use the AMP managed collector for EKS control plane metrics and nodes running in {aws} Cloud, and the {aws} Distro for OpenTelemetry (ADOT) add-on to collect metrics for hybrid nodes.
+- To collect metrics for hybrid nodes using Amazon Managed Service for Prometheus (AMP) managed collectors, your on-premises pod CIDR must be routable on your on-premises network. Or, you can use the AMP managed collector for EKS control plane metrics and resources running in {aws} Cloud, and the {aws} Distro for OpenTelemetry (ADOT) add-on to collect metrics for hybrid nodes.
 
 [#hybrid-nodes-mixed-mode]
-== Configure add-ons and webhooks for mixed mode clusters
+== Configure mixed mode clusters
 
 To view the mutating and validating webhooks running on your cluster, you can view the *Extensions* resource type in the *Resources* panel of the EKS console for your cluster, or you can use the following commands. EKS also reports webhook metrics in the cluster observability dashboard, see <<observability-dashboard>> for more information.
 
@@ -46,6 +49,15 @@ kubectl get mutatingwebhookconfigurations
 ----
 kubectl get validatingwebhookconfigurations
 ----
+
+[#hybrid-nodes-mixed-service-traffic-distribution]
+=== Configure Service Traffic Distribution
+
+When running mixed mode clusters, we recommend that you use link:https://kubernetes.io/docs/reference/networking/virtual-ips/#traffic-distribution[_Service Traffic Distribution_] to keep Service traffic local to the zone it is originating from. Service Traffic Distribution (available for Kubernetes versions 1.31 and later in EKS) is the recommended solution over link:https://kubernetes.io/docs/concepts/services-networking/topology-aware-routing/[Topology Aware Routing] because it is more predictable. With Service Traffic Distribution, healthy endpoints in the zone will receive all of the traffic for that zone. With Topology Aware Routing, each service must meet several conditions in that zone to apply the custom routing, otherwise it routes traffic evenly to all endpoints.
+
+If you are using Cilium as your CNI, you must run the CNI with the `enable-service-topology` set to `true` to enable Service Traffic Distribution. You can pass this configuration with the Helm install flag `--set loadBalancer.serviceTopology=true` or you can update an existing installation with the Cilium CLI command `cilium config set enable-service-topology true`. The Cilium agent running on each node must be restarted after updating the configuration for an existing installation.
+
+An example of how to configure Service Traffic Distribution for the CoreDNS Service is shown in the following section, and we recommend that you enable the same for all Services in your cluster to avoid unintended cross-environment traffic.
 
 [#hybrid-nodes-mixed-coredns]
 === Configure CoreDNS replicas
@@ -100,7 +112,7 @@ spec:
       ...
 ----
 +
-. Add the setting `trafficDistribution: PreferClose` to the `kube-dns` Service configuration to enable Topology Aware Routing.
+. Add the setting `trafficDistribution: PreferClose` to the `kube-dns` Service configuration to enable Service Traffic Distribution.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -152,6 +164,7 @@ The following add-ons use webhooks and are supported for use with hybrid nodes.
 - {aws} Load Balancer Controller
 - CloudWatch Observability Agent
 - {aws} Distro for OpenTelemetry (ADOT)
+- `cert-manager`
 
 See the following sections for configuring the webhooks used by these add-ons to run on nodes in {aws} Cloud.
 
@@ -251,7 +264,54 @@ relabel_configs:
     - __meta_kubernetes_node_label_eks_amazonaws_com_compute_type
 ----
 
-The ADOT add-on has a prerequisite requirement to install cert-manager for the TLS certificates used by the ADOT operator webhook. Cert-manager also runs webhooks and you can configure it to run on nodes in {aws} Cloud with the following Helm values configuration.
+The ADOT add-on has a prerequisite requirement to install `cert-manager` for the TLS certificates used by the ADOT operator webhook. `cert-manager` also runs webhooks and you can configure it to run on nodes in {aws} Cloud with the following Helm values configuration.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: eks.amazonaws.com/compute-type
+          operator: NotIn
+          values:
+          - hybrid
+webhook:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: NotIn
+            values:
+            - hybrid
+cainjector:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: NotIn
+            values:
+            - hybrid
+startupapicheck:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: NotIn
+            values:
+            - hybrid
+----
+
+[#hybrid-nodes-mixed-cert-manager]
+==== `cert-manager`
+The `cert-manager` add-on runs webhooks and you can configure it to run on nodes in {aws} Cloud with the following Helm values configuration.
 
 [source,yaml,subs="verbatim,attributes"]
 ----

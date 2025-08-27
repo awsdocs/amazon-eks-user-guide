@@ -62,7 +62,7 @@ An example output is as follows.
 
 If the problem is beyond repair, you might need to delete the local cluster and create a new one. For example, trying to provision a cluster with an instance type that's not available on your Outpost. The following table includes common health related errors.
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Error scenario
 |Code
@@ -143,7 +143,7 @@ If the problem is beyond repair, you might need to delete the local cluster and 
 
 The following table lists errors from other {aws} services that are presented in the health field of the `describe-cluster` response.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Amazon EC2 error code
 |Cluster health issue code
@@ -276,13 +276,6 @@ The most common issues are the following:
 * Missing the {aws} IAM Authenticator `ConfigMap` – If it's missing, you must create it. For more information, see <<aws-auth-configmap>> .
 * The wrong security group is used – Make sure to use `eks-cluster-sg-[.replaceable]``cluster-name``-[.replaceable]``uniqueid``` for your worker nodes' security group. The selected security group is changed by {aws} CloudFormation to allow a new security group each time the stack is used.
 * Following unexpected private link VPC steps – Wrong CA data (`--b64-cluster-ca`) or API Endpoint (`--apiserver-endpoint`) are passed.
-* Misconfigured Pod security policy:
-+
-** The CoreDNS and Amazon VPC CNI plugin for Kubernetes Daemonsets must run on nodes for nodes to join and communicate with the cluster.
-** The Amazon VPC CNI plugin for Kubernetes requires some privileged networking features to work properly. You can view the privileged networking features with the following command: `kubectl describe psp eks.privileged`.
-
-+
-We don't recommend modifying the default pod security policy. For more information, see <<pod-security-policy>>.
 
 ====
 

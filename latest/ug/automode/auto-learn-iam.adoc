@@ -83,7 +83,7 @@ By default, the managed policies related to EKS Auto Mode do not permit applying
 .View custom tag policy example
 [%collapsible, expand-section="_collapse_all_"]
 ====
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -115,8 +115,8 @@ By default, the managed policies related to EKS Auto Mode do not permit applying
                 "ec2:CreateSnapshot"
             ],
             "Resource": [
-                "arn:aws:ec2:*:*:volume/*",
-                "arn:aws:ec2:*:*:snapshot/*"
+                "{arn-aws}ec2:*:*:volume/*",
+                "{arn-aws}ec2:*:*:snapshot/*"
             ],
             "Condition": {
                 "StringEquals": {
@@ -174,7 +174,7 @@ By default, the managed policies related to EKS Auto Mode do not permit applying
             "Action": [
                 "shield:TagResource"
             ],
-            "Resource": "arn:aws:shield::*:protection/*",
+            "Resource": "{arn-aws}shield::*:protection/*",
             "Condition": {
                 "StringEquals": {
                     "aws:RequestTag/eks:eks-cluster-name": "${aws:PrincipalTag/eks:eks-cluster-name}"

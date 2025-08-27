@@ -2,16 +2,20 @@ include::../attributes.txt[]
 
 [.topic]
 [#fsx-csi]
-= Store high-performance apps with FSx for Lustre
+= Use high-performance app storage with Amazon FSx for Lustre
 :info_titleabbrev: Amazon FSx for Lustre
 
 [abstract]
 --
-The FSx for Lustre Container Storage Interface (CSI) driver provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of FSx for Lustre file systems.
+The Amazon FSx for Lustre Container Storage Interface (CSI) driver provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of Amazon FSx for Lustre file systems.
 --
 
-The https://github.com/kubernetes-sigs/aws-fsx-csi-driver[FSx for Lustre Container Storage Interface (CSI) driver] provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of FSx for Lustre file systems. For more information, see the link:fsx/latest/LustreGuide/what-is.html[FSx for Lustre User Guide,type="documentation"].
+The https://github.com/kubernetes-sigs/aws-fsx-csi-driver[Amazon FSx for Lustre Container Storage Interface (CSI) driver] provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of Amazon FSx for Lustre file systems. For more information, see the link:fsx/latest/LustreGuide/what-is.html[Amazon FSx for Lustre User Guide,type="documentation"].
 
-For details on how to deploy the FSx for Lustre CSI driver to your Amazon EKS cluster and verify that it works, see <<fsx-csi-create>>.
+For details on how to deploy the Amazon FSx for Lustre CSI driver to your Amazon EKS cluster and verify that it works, see <<fsx-csi-create>>.
 
 include::fsx-csi-create.adoc[leveloffset=+1]
+
+include::fsx-csi-tuning-efa.adoc[leveloffset=+1]
+
+include::fsx-csi-tuning-non-efa.adoc[leveloffset=+1]

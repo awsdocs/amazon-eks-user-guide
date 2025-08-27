@@ -152,6 +152,7 @@ Retaining the default role name enables EKS to pre-select the role for add-ons i
 ... Choose *Optional configuration settings*.
 ... If the add-on requires configuration, enter it in the *Configuration values* box. To determine whether the add-on requires configuration information, see the documentation for the add-on that you're creating. For a list of add-ons, see <<workloads-add-ons-available-eks>>.
 ... Choose one of the available options for *Conflict resolution method*. If you choose *Override* for the *Conflict resolution method*, one or more of the settings for the existing add-on can be overwritten with the Amazon EKS add-on settings. If you don't enable this option and there's a conflict with your existing settings, the operation fails. You can use the resulting error message to troubleshoot the conflict. Before choosing this option, make sure that the Amazon EKS add-on doesn't manage settings that you need to self-manage.
+... If you want to install the add-on into a specific namespace, enter it in the *Namespace* field. For {aws} and community add-ons, you can define a custom Kubernetes namespace to install the add-on into. For more information, see <<custom-namespace>>.
 ... Choose *Next*.
 . On the *Review and add* page, choose *Create*. After the add-on installation is complete, you see your installed add-ons.
 . If any of the add-ons that you installed require a subscription, complete the following steps:
@@ -164,6 +165,7 @@ Retaining the default role name enables EKS to pre-select the role for add-ons i
 
 
 == Create add-on ({aws} CLI)
+
 . You need version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 +
 . Determine which add-ons are available. You can see all available add-ons, their type, and their publisher. You can also see the URL for add-ons that are available through the {aws} Marketplace. Replace [.replaceable]`{k8s-n}` with the version of your cluster.
@@ -272,6 +274,7 @@ Here is an example of valid configuration values, in YAML format, that works wit
 ** Replace [.replaceable]`my-cluster` with the name of your cluster.
 ** Replace [.replaceable]`vpc-cni` with an add-on name returned in the output of the previous step that you want to create.
 ** Replace [.replaceable]`version-number` with the version returned in the output of the previous step that you want to use.
+** If you want to install the add-on into a custom Kubernetes namespace, add the `--namespace-config 'namespace=<my-namespace>` option. This option is only available for {aws} and community add-ons. For more information, see <<custom-namespace>>
 ** If the add-on doesn't require IAM permissions, delete [.replaceable]`<service-account-configuration>`.
 ** Do one of the following:
 +

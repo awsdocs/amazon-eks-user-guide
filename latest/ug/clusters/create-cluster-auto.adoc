@@ -168,43 +168,48 @@ Attach the following {aws} managed policies to the Cluster IAM Role to grant the
 
 *AmazonEKSClusterPolicy*:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSClusterPolicy
+----
 
 *AmazonEKSComputePolicy*:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSComputePolicy
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSComputePolicy
+----
 
 *AmazonEKSBlockStoragePolicy*:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSBlockStoragePolicy
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSBlockStoragePolicy
+----
 
 *AmazonEKSLoadBalancingPolicy*:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSLoadBalancingPolicy
+----
 
 *AmazonEKSNetworkingPolicy*:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSNetworkingPolicy
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSNetworkingPolicy
+----
 
 === Create an EKS Auto Mode Node IAM Role
 
@@ -251,19 +256,21 @@ Attach the following {aws} managed policies to the Node IAM Role to provide the 
 
 *AmazonEKSWorkerNodeMinimalPolicy*:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoNodeRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodeMinimalPolicy
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSWorkerNodeMinimalPolicy
+----
 
 *AmazonEC2ContainerRegistryPullOnly*:
 
-```
+[source,bash,subs="verbatim,attributes"]
+----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoNodeRole \
-    --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
-```
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
+----
 
 [#create-cluster-auto-create-cluster]
 === Create cluster
@@ -272,7 +279,7 @@ aws iam attach-role-policy \
 +
 ** Replace [.replaceable]`region-code` with the {aws} Region that you want to create your cluster in.
 ** Replace [.replaceable]`my-cluster` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
-** Replace [.replaceable]`1.30` with any <<kubernetes-versions,Amazon EKS supported version>>. 
+** Replace [.replaceable]`1.30` with any link:eks/latest/userguide/kubernetes-versions.html[Amazon EKS supported version,type="documentation"]. 
 ** Replace [.replaceable]`111122223333` with your account ID
 ** If you have created differently named IAM Roles for the Cluster and Node roles, replace the ARNs. 
 ** Replace the values for `subnetIds` with your own. You can also add additional IDs. You must specify at least two subnet IDs.
@@ -288,9 +295,9 @@ aws eks create-cluster \
   --region region-code \
   --name my-cluster \
   --kubernetes-version 1.30 \
-  --role-arn arn:aws:iam::111122223333:role/AmazonEKSAutoClusterRole \
+  --role-arn {arn-aws}iam::111122223333:role/AmazonEKSAutoClusterRole \
   --resources-vpc-config '{"subnetIds": ["subnet-ExampleID1","subnet-ExampleID2"], "securityGroupIds": ["sg-ExampleID1"], "endpointPublicAccess": true, "endpointPrivateAccess": true}' \
-  --compute-config '{"enabled": true, "nodeRoleArn": "arn:aws:iam::111122223333:role/AmazonEKSAutoNodeRole", "nodePools": ["general-purpose", "system"]}' \
+  --compute-config '{"enabled": true, "nodeRoleArn": "{arn-aws}iam::111122223333:role/AmazonEKSAutoNodeRole", "nodePools": ["general-purpose", "system"]}' \
   --kubernetes-network-config '{"elasticLoadBalancing": {"enabled": true}}' \
   --storage-config '{"blockStorage": {"enabled": true}}' \
   --access-config '{"authenticationMode": "API"}'

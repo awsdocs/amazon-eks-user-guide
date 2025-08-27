@@ -1,0 +1,25 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-cluster-configuration]
+= Amazon EKS cluster configuration for AI/ML workloads
+:info_titleabbrev: Cluster configuration
+
+[abstract]
+--
+Learn different ways to setup and configure Amazon EKS clusters for AI/ML workloads.
+--
+
+This section is designed to help you configure Amazon EKS clusters optimized for AI/ML workloads. You'll find guidance on running GPU-accelerated containers using Linux and Windows optimized AMIs, setting up training clusters with Elastic Fabric Adapter (EFA) for high-performance networking, and creating inference clusters with {aws} Inferentia instances, including prerequisites, step-by-step procedures, and deployment considerations.
+
+
+[.topiclist]
+[[Topic List]]
+
+include::ml-eks-optimized-ami.adoc[leveloffset=+1]
+
+include::ml-eks-windows-optimized-ami.adoc[leveloffset=+1]
+
+include::node-efa.adoc[leveloffset=+1]
+
+include::inferentia-support.adoc[leveloffset=+1]

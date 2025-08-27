@@ -10,7 +10,7 @@ EKS Auto Mode has two built-in NodePools. You can enable or disable these NodePo
 == Built-in NodePool Reference
 
 * `system`
-** This NodePool has a `CriticalAddonsOnly` taint. Many EKS addons, such as CoreDNS, tolerate this taint. Use this system node pool to segregate cluster-critical applications. 
+** This NodePool has a `CriticalAddonsOnly` taint. Many EKS add-ons, such as CoreDNS, tolerate this taint. Use this system node pool to separate cluster-critical applications. 
 ** Supports both `amd64` and `arm64` architectures.
 * `general-purpose`
 ** This NodePool provides support for launching nodes for general purpose workloads in your cluster.
@@ -22,6 +22,8 @@ Both built-in NodePools:
 * Use only on-demand EC2 capacity
 * Use the C, M, and R EC2 instance families
 * Require generation 5 or newer EC2 instances
+
+NOTE: Enabling at least one built-in NodePool is required for EKS to provision the "default" NodeClass. If you disable all built-in NodePools, you'll need to create a custom NodeClass and configure a NodePool to use it. For more information about NodeClasses, see <<create-node-class>>.
 
 == Procedure
 
@@ -40,17 +42,15 @@ aws eks update-cluster-config \
   --name <cluster-name> \
   --compute-config '{
     "nodeRoleArn": "<node-role-arn>",
-    "nodePools": ["general-purpose", "system"]
-  "enabled": true,
-  "nodeRoleArn":"<node-role-arn>",
-  "nodePools": ["general-purpose", "system"]
+    "nodePools": ["general-purpose", "system"],
+    "enabled": true
   }' \
   --kubernetes-network-config '{
   "elasticLoadBalancing":{"enabled": true}
   }' \
   --storage-config '{
   "blockStorage":{"enabled": true}
-  }'
+  }' 
 ----
 
 You can modify the command to selectively enable the NodePools. 

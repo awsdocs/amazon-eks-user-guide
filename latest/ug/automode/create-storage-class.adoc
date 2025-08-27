@@ -63,7 +63,7 @@ Update the following values in the policy below:
 * `<account-id>` – Your {aws} account ID, such as `111122223333`
 * `<aws-region>` – The {aws} region of your cluster, such as `us-west-2`
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
 {
   "Version": "2012-10-17",
@@ -73,7 +73,7 @@ Update the following values in the policy below:
           "Sid": "Enable IAM User Permissions",
           "Effect": "Allow",
           "Principal": {
-              "AWS": "arn:aws:iam::<account-id>:root"
+              "AWS": "{arn-aws}iam::<account-id>:root"
           },
           "Action": "kms:*",
           "Resource": "*"
@@ -122,7 +122,7 @@ For general information on the Kubernetes `StorageClass` resources, see https://
 THe `parameters` section of the `StorageClass` resource is specific to {aws}. Use the following table to review available options. 
 
 [role="no-scroll"]
-[cols="4*", options="header"]
+[%header,cols="4"]
 |===
 
 |Parameters
@@ -210,6 +210,11 @@ THe `parameters` section of the `StorageClass` resource is specific to {aws}. Us
 For more information, see the https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/parameters.md[{aws} EBS CSI Driver] on GitHub.
 
 == Considerations
+
+[NOTE]
+====
+You can only deploy workloads depending on EKS Auto Mode StorageClasses on EKS Auto Mode nodes. If you have a cluster with mixed types of nodes, you need to configure your workloads to run only on EKS Auto Mode nodes. For more information, see <<associate-workload>>. 
+====
 
 The block storage capability of EKS Auto Mode is different from the EBS CSI Driver.
 

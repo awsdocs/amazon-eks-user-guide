@@ -25,3 +25,5 @@ include::using-service-linked-roles-eks-connector.adoc[leveloffset=+1]
 
 include::using-service-linked-roles-eks-outpost.adoc[leveloffset=+1]
 
+include::using-service-linked-roles-eks-dashboard.adoc[leveloffset=+1]
+

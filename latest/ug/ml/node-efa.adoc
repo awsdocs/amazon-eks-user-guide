@@ -5,7 +5,7 @@ include::../attributes.txt[]
 [.topic]
 [#node-efa]
 = Run machine learning training on Amazon EKS with Elastic Fabric Adapter
-:info_titleabbrev: Training clusters with EFA
+:info_titleabbrev: Set up training clusters with EFA
 
 [abstract]
 --
@@ -39,6 +39,7 @@ If you plan to use `eksctl` to create your node group, `eksctl` can also create 
 * Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 * You must have the Amazon VPC CNI plugin for Kubernetes version `1.7.10` or later installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d` or `p5`. For more information about updating your Amazon VPC CNI plugin for Kubernetes version, see <<managing-vpc-cni>>.
+* For p6-b200 instances, you must use EFA Device Plugin version v0.5.6 or later.
 
 
 [IMPORTANT]
@@ -124,17 +125,117 @@ If you don't have an existing cluster, you can run the following command to crea
 eksctl create cluster -f efa-cluster.yaml
 ----
 +
-NOTE: Because the instance type used in this example has GPUs, `eksctl` automatically installs the NVIDIA Kubernetes device plugin on each instance for you.
-. Deploy the EFA Kubernetes device plugin.
-+
-The EFA Kubernetes device plugin detects and advertises EFA interfaces as allocatable resources to Kubernetes. An application can consume the extended resource type `vpc.amazonaws.com/efa` in a Pod request spec just like CPU and memory. For more information, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#consuming-extended-resources[Consuming extended resources] in the Kubernetes documentation. Once requested, the plugin automatically assigns and mounts an EFA interface to the Pod. Using the device plugin simplifies EFA setup and does not require a Pod to run in privileged mode.
+[NOTE]
+====
+Because the instance type used in this example has GPUs, `eksctl` automatically installs the NVIDIA Kubernetes device plugin on each instance for you when using Amazon Linux 2. This is not necessary for Bottlerocket, as the NVIDIA device plugin is built into Bottlerocket's EKS NVIDIA variant. When `efaEnabled` is set to `true` in the nodegroup configuration, `eksctl` will also automatically deploy the EFA device plugin on the nodes.
+====
+
+[#efa-bottlerocket]
+=== Using Bottlerocket with EFA
+
+Bottlerocket AMI version 1.28.0 and later include official support for EFA. To use Bottlerocket for EFA-enabled nodes, specify `amiFamily: Bottlerocket` in your configuration. If you need to use a custom AMI ID, you must use standard `nodeGroups` instead of `managedNodeGroups`.
+
+Here's an example configuration:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: my-efa-bottlerocket-cluster
+  region: region-code
+  version: "1.XX"
+
+iam:
+  withOIDC: true
+
+availabilityZones: ["us-west-2a", "us-west-2c"]  
+
+managedNodeGroups:
+  - name: my-efa-bottlerocket-ng
+    instanceType: p5.48xlarge
+    minSize: 1
+    desiredCapacity: 2
+    maxSize: 3
+    availabilityZones: ["us-west-2a"]
+    volumeSize: 300
+    privateNetworking: true
+    efaEnabled: true
+    amiFamily: Bottlerocket
+    bottlerocket:
+      enableAdminContainer: true
+      settings:
+        kernel:
+          sysctl:
+            "vm.nr_hugepages": "3000"  # Configures 3000 * 2Mi = 6000Mi hugepages
+----
+
+The `vm.nr_hugepages` sysctl setting above configures the number of 2Mi hugepages. In this example, 3000 means 3000 * 2Mi = 6000Mi of hugepages.
+
+[#verify-efa-device-plugin]
+=== Verify EFA device plugin installation
+
+When you create a node group with `efaEnabled: true`, `eksctl` automatically deploys the EFA Kubernetes device plugin for you. You can verify that the device plugin is installed and functioning correctly:
+
+. Check the DaemonSet status:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-helm repo add eks https://aws.github.io/eks-charts
-helm install aws-efa-k8s-device-plugin --namespace kube-system eks/aws-efa-k8s-device-plugin
+kubectl get daemonsets -n kube-system
 ----
++
+Sample output:
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME                                  DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+aws-efa-k8s-device-plugin-daemonset   2         2         2       2            2           <none>          6m16s
+...
+----
++
+Here, the EFA device plugin DaemonSet is running on two nodes. Both are READY and AVAILABLE.
 
+. Next, verify the pods created by the DaemonSet:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pods -n kube-system -l name=aws-efa-k8s-device-plugin
+----
++
+Sample output:
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME                                        READY   STATUS    RESTARTS   AGE
+aws-efa-k8s-device-plugin-daemonset-d68bs   1/1     Running   0          6m16s
+aws-efa-k8s-device-plugin-daemonset-w4l8t   1/1     Running   0          6m16s
+----
++
+The EFA device plugin pods are in a Running state, confirming that the plugin is successfully deployed and operational.
+
+. Verify resource registration:
++
+You can confirm that the `vpc.amazonaws.com/efa` resource is registered with the kubelet by describing the nodes:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl describe nodes
+----
++
+If the EFA resource is properly registered, you will see it listed under the node's Capacity and Allocatable resources. For example:
++
+[source,bash,subs="verbatim,attributes"]
+----
+Capacity:
+  ...
+  vpc.amazonaws.com/efa:  4
+Allocatable:
+  ...
+  vpc.amazonaws.com/efa:  4
+----
++
+This output confirms that the node recognizes the EFA resource, making it available for pods that request it.
 
 [#efa-application]
 == (Optional) Test the performance of the EFA

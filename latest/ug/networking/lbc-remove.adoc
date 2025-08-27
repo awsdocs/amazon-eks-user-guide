@@ -87,7 +87,7 @@ To migrate from the ALB Ingress Controller for Kubernetes to the {aws} Load Bala
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.11.0/docs/install/iam_policy_v1_to_v2_additional.json
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.13.3/docs/install/iam_policy_v1_to_v2_additional.json
 ----
 . If your cluster is in the {aws} GovCloud (US-East) or {aws} GovCloud (US-West) {aws} Regions, then replace `{arn-aws}` with `arn:aws-us-gov:`.
 +

@@ -5,7 +5,45 @@
 
 include::../attributes.txt[]
 
-This page documents updates to Amazon EKS Auto Mode. You can periodically check this page for announcements about features, bug fixes, known issues, and deprecated functionality. 
+This page documents updates to Amazon EKS Auto Mode. You can periodically check this page for announcements about features, bug fixes, known issues, and deprecated functionality.
+
+To receive notifications of all source file changes to this specific documentation page, you can subscribe to the following URL with an RSS reader:
+
+[source,none]
+----
+https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
+----
+
+== August 24, 2025
+
+Bug Fix: VPCs that used a DHCP option set with a custom domain name that contained capital letters would cause Nodes to fail to join the cluster due to generating an invalid hostname. This has been resolved and domain names with capital letters now work correctly.
+
+
+== August 15, 2025
+
+*Bug Fix:* The Pod Identity Agent will now only listen on the IPv4 Link Local address in an IPv4 EKS cluster to avoid issues where the Pod can't reach the IPv6 address.
+
+== August 6, 2025
+
+*Feature:* Added new configuration on the NodeClass `spec.advancedNetworking.associatePublicIPAddress` which can be used to prevent public IP addresses from being assigned to EKS Auto Mode Nodes
+
+
+== June 30, 2025
+
+*Feature:* The Auto Mode NodeClass now uses the configured custom KMS key to encrypt the read-only root volume of the instance, in addition to the read/write data volume. Previously, the custom KMS key was only used to encrypt the data volume.
+
+
+== June 20, 2025
+
+*Feature:* Support for controlling deployment of workloads into EC2 On-Demand Capacity Reservations (ODCRs). This adds the optional key `capacityReservationSelectorTerms` to the NodeClass, allowing you to explicitly control which ODCRs your workloads use. For more information, see <<auto-odcr>>.
+
+== June 13, 2025
+
+*Feature:* Support for separate pod subnets in the `NodeClass`. This adds the optional keys ``podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` to set the subnets and security groups for the pods. For more information, see <<pod-subnet-selector>>.
+
+== April 30, 2025
+
+*Feature:* Support for forward network proxies in the `NodeClass`. This adds the optional key `advancedNetworking` to set your HTTPS proxy. For more information, see <<auto-node-class-spec>>.
 
 == April 18, 2025
 
@@ -35,4 +73,4 @@ This page documents updates to Amazon EKS Auto Mode. You can periodically check 
 
 == March 14, 2025
 
-**Feature**: `IPv4` egress enabled in `IPv6` clusters. `IPv4` traffic egressing from `IPv6` Auto Mode clusters will now be automatically translated to the `v4` address of the node primary ENI. 
+**Feature**: `IPv4` egress enabled in `IPv6` clusters. `IPv4` traffic egressing from `IPv6` Auto Mode clusters will now be automatically translated to the `v4` address of the node primary ENI.

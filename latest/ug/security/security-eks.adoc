@@ -19,3 +19,4 @@ include::infrastructure-security.adoc[leveloffset=+1]
 
 include::disaster-recovery-resiliency.adoc[leveloffset=+1]
 
+include::cross-service-confused-deputy-prevention.adoc[leveloffset=+1]

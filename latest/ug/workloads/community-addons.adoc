@@ -12,7 +12,7 @@ You manage community add-ons just like existing Amazon EKS Add-ons. Community ad
 
 NOTE: Using community add-ons is at your discretion. As part of the xref:security[shared responsibility model] between you and {aws}, you are expected to understand what you are installing into your cluster for these third party plugins. You are also responsible for the community add-ons meeting your cluster security needs. For more information, see <<oss-scope>>. 
 
-Community add-ons are packaged by {aws}. {aws} only validates community add-ons for version compatibility. For example, if you install a community add-on on a cluster, {aws} checks if it is compatible with the Kubernetes version of your cluster. 
+Community add-ons are not built by {aws}. {aws} only validates community add-ons for version compatibility. For example, if you install a community add-on on a cluster, {aws} checks if it is compatible with the Kubernetes version of your cluster. 
 
 Importantly, {aws} does not provide full support for community add-ons. {aws} supports only lifecycle operations done using {aws} APIs, such as installing add-ons or deleting add-ons. 
 
@@ -55,112 +55,207 @@ You install or update community add-ons in the same way as other Amazon EKS Add-
 
 The following community add-ons are available from Amazon EKS.
 
+* <<kubernetes-metrics-server>>
+* <<kube-state-metrics>>
+* <<prometheus-node-exporter>>
+* <<addon-cert-manager>>
+* <<external-dns>>
+* <<fluent-bit>>
+
+[#kubernetes-metrics-server]
 === Kubernetes Metrics Server
 
 The Kubernetes Metrics Server is a scalable and efficient source of container resource metrics for Kubernetes built-in autoscaling pipelines. It collects resource metrics from Kubelets and exposes them in Kubernetes apiserver through Metrics API for use by Horizontal Pod Autoscaler and Vertical Pod Autoscaler.
 
+[%header,cols="2"]
 |===
-|Property | Value
+|Property
+|Value
 
-|Add-on name | `metrics-server`
 
-|Namespace | `kube-system`
+|Add-on name
+|`metrics-server`
 
-|Documentation | https://github.com/kubernetes-sigs/metrics-server[GitHub Readme]
+|Namespace
+|`kube-system`
 
-|Service account name | None
+|Documentation
+|https://github.com/kubernetes-sigs/metrics-server[GitHub Readme]
 
-|Managed IAM policy | None
+|Service account name
+|None
 
-|Custom IAM permissions | None
+|Managed IAM policy
+|None
+
+|Custom IAM permissions
+|None
+
 |===
 
 
+[#kube-state-metrics]
 === kube-state-metrics
 
 Add-on agent to generate and expose cluster-level metrics.
 
 The state of Kubernetes objects in the Kubernetes API can be exposed as metrics. An add-on agent called kube-state-metrics can connect to the Kubernetes API server and expose a HTTP endpoint with metrics generated from the state of individual objects in the cluster. It exposes various information about the state of objects like labels and annotations, startup and termination times, status or the phase the object currently is in. 
 
+[%header,cols="2"]
 |===
-|Property | Value
+|Property
+|Value
 
-|Add-on name | `kube-state-metrics`
 
-|Namespace | `kube-state-metrics`
+|Add-on name
+|`kube-state-metrics`
 
-|Documentation | https://kubernetes.io/docs/concepts/cluster-administration/kube-state-metrics/[Metrics for Kubernetes Object States] in Kubernetes Docs
+|Namespace
+|`kube-state-metrics`
 
-|Service account name | None
+|Documentation
+|https://kubernetes.io/docs/concepts/cluster-administration/kube-state-metrics/[Metrics for Kubernetes Object States] in Kubernetes Docs
 
-|Managed IAM policy | None
+|Service account name
+|None
 
-|Custom IAM permissions | None
+|Managed IAM policy
+|None
+
+|Custom IAM permissions
+|None
+
 |===
 
 
+[#prometheus-node-exporter]
 === Prometheus Node Exporter
 
 Prometheus exporter for hardware and OS metrics exposed by *NIX kernels, written in Go with pluggable metric collectors. The Prometheus Node Exporter exposes a wide variety of hardware- and kernel-related metrics.
 
+[%header,cols="2"]
 |===
-|Property | Value
+|Property
+|Value
 
-|Add-on name | `prometheus-node-exporter`
 
-|Namespace | `prometheus-node-exporter`
+|Add-on name
+|`prometheus-node-exporter`
 
-|Documentation | https://prometheus.io/docs/guides/node-exporter/#monitoring-linux-host-metrics-with-the-node-exporter[Monitoring Linux host metrics with the Node Exporter] in Prometheus Docs
+|Namespace
+|`prometheus-node-exporter`
 
-|Service account name | None
+|Documentation
+|https://prometheus.io/docs/guides/node-exporter/#monitoring-linux-host-metrics-with-the-node-exporter[Monitoring Linux host metrics with the Node Exporter] in Prometheus Docs
 
-|Managed IAM policy | None
+|Service account name
+|None
 
-|Custom IAM permissions | None
+|Managed IAM policy
+|None
+
+|Custom IAM permissions
+|None
+
 |===
 
-
+[#addon-cert-manager]
 === Cert Manager
 
 Cert Manager can be used to manage the creation and renewal of certificates.
 
+[%header,cols="2"]
 |===
-|Property | Value
+|Property
+|Value
 
-|Add-on name | `cert-manager`
+|Add-on name
+|`cert-manager`
 
-|Namespace | `cert-manager`
+|Namespace
+|`cert-manager`
 
-|Documentation | https://cert-manager.io/docs/[Cert Manager Docs]
+|Documentation
+|https://cert-manager.io/docs/[Cert Manager Docs]
 
-|Service account name | None
+|Service account name
+|None
 
-|Managed IAM policy | None
+|Managed IAM policy
+|None
 
-|Custom IAM permissions | None
+|Custom IAM permissions
+|None
+
 |===
 
 
+[#external-dns]
 === External DNS
 
 The External DNS EKS add-on can be used to manage Route53 DNS records through Kubernetes resources.
 
 External DNS permissions can be reduced to `route53:ChangeResourceRecordSets`, `route53:ListHostedZones`, and `route53:ListResourceRecordSets` on the hosted zones you wish to manage.
 
+[%header,cols="2"]
 |===
-|Property | Value
+|Property
+|Value
 
-|Add-on name | `external-dns`
 
-|Namespace | `external-dns`
+|Add-on name
+|`external-dns`
 
-|Documentation | https://github.com/kubernetes-sigs/external-dns[GitHub Readme]
+|Namespace
+|`external-dns`
 
-|Service account name | external-dns
+|Documentation
+|https://github.com/kubernetes-sigs/external-dns[GitHub Readme]
 
-|Managed IAM policy | `arn:aws:iam::aws:policy/AmazonRoute53FullAccess`
+|Service account name
+|`external-dns`
 
-|Custom IAM permissions | None
+|Managed IAM policy
+|`{arn-aws}iam::aws:policy/AmazonRoute53FullAccess`
+
+|Custom IAM permissions
+|None
+
+|===
+
+
+
+[#fluent-bit]
+=== Fluent Bit
+
+Fluent Bit is a lightweight and high-performance log processor and forwarder. It allows you to collect data/logs from different sources, unify them, and send them to multiple destinations including Amazon CloudWatch Logs, Amazon S3, and Amazon Kinesis Data Firehose. Fluent Bit is designed with performance and resource efficiency in mind, making it ideal for Kubernetes environments.
+
+This add-on does not require IAM permissions in the default configuration. However, you may need to grant this add-on IAM permissions if you configure an {aws} output location. For more information, see <<update-addon-role>>.
+
+[%header,cols="2"]
+|===
+|Property
+|Value
+
+
+|Add-on name
+|`fluent-bit`
+
+|Namespace
+|`fluent-bit`
+
+|Documentation
+|https://docs.fluentbit.io/manual/[Fluent Bit Documentation]
+
+|Service account name
+|`fluent-bit`
+
+|Managed IAM policy
+|None
+
+|Custom IAM permissions
+|None
+
 |===
 
 
@@ -184,4 +279,4 @@ curl -O https://amazon-eks-docs.s3.amazonaws.com/attributions/kube-state-metrics
 ----
 . Use the command to download the file. 
 
-Use this zip file to view information about the license attributions. 
+Use this zip file to view information about the license attributions.

@@ -5,19 +5,19 @@ include::../attributes.txt[]
 = Create a Node Pool for EKS Auto Mode
 :info_titleabbrev: Create node pool
 
-Amazon EKS node pools provide a flexible way to manage compute resources in your Kubernetes cluster. This topic demonstrates how to create and configure node pools using Karpenter, a node provisioning tool that helps optimize cluster scaling and resource utilization. With Karpenter's NodePool resource, you can define specific requirements for your compute resources, including instance types, availability zones, architectures, and capacity types.
+Amazon EKS node pools offer a flexible way to manage compute resources in your Kubernetes cluster. This topic demonstrates how to create and configure node pools by using Karpenter, a node provisioning tool that helps optimize cluster scaling and resource utilization. With Karpenter's NodePool resource, you can define specific requirements for your compute resources, including instance types, availability zones, architectures, and capacity types.
 
-You cannot modify the built in `system` and `general-purpose` node pools. You can only enable or disable them. For more information, see <<set-builtin-node-pools>>.
+You cannot modify the built-in `system` and `general-purpose` node pools. You can only enable or disable them. For more information, see <<set-builtin-node-pools>>.
 
-The NodePool specification allows for fine-grained control over your EKS cluster's compute resources through various supported labels and requirements. These include options for specifying EC2 instance categories, CPU configurations, availability zones, architectures (ARM64/AMD64), and capacity types (spot/on-demand). You can also set resource limits for CPU and memory usage, ensuring your cluster stays within desired operational boundaries. 
+The NodePool specification allows for fine-grained control over your EKS cluster's compute resources through various supported labels and requirements. These include options for specifying EC2 instance categories, CPU configurations, availability zones, architectures (ARM64/AMD64), and capacity types (spot or on-demand). You can also set resource limits for CPU and memory usage, ensuring your cluster stays within required operational boundaries. 
 
-EKS Auto Mode leverages well-known Kubernetes labels to provide consistent and standardized ways of identifying node characteristics. These labels, such as `topology.kubernetes.io/zone` for availability zones and `kubernetes.io/arch` for CPU architecture, follow established Kubernetes conventions. Additionally, EKS-specific labels (prefixed with `eks.amazonaws.com/`) extend this functionality with {aws}-specific attributes like instance types, CPU manufacturers, GPU capabilities, and networking specifications. This standardized labeling system enables seamless integration with existing Kubernetes tooling while providing deep {aws} infrastructure integration.
+EKS Auto Mode leverages well-known Kubernetes labels to provide consistent and standardized ways of identifying node characteristics. These labels, such as `topology.kubernetes.io/zone` for availability zones and `kubernetes.io/arch` for CPU architecture, follow established Kubernetes conventions. Additionally, EKS-specific labels (prefixed with `eks.amazonaws.com/`) extend this functionality with {aws}-specific attributes such as instance types, CPU manufacturers, GPU capabilities, and networking specifications. This standardized labeling system enables seamless integration with existing Kubernetes tools while providing deep {aws} infrastructure integration.
 
 == Create a NodePool
 
 Follow these steps to create a NodePool for your Amazon EKS cluster:
 
-. Create a YAML file named `nodepool.yaml` with your desired NodePool configuration. You can use the sample configuration below. 
+. Create a YAML file named `nodepool.yaml` with your required NodePool configuration. You can use the sample configuration below. 
 . Apply the NodePool to your cluster:
 +
 ```bash
@@ -79,10 +79,16 @@ spec:
 
 EKS Auto Mode supports the following well known labels.
 
+NOTE: EKS Auto Mode uses different labels than Karpenter. Labels related to EC2 managed instances start with `eks.amazonaws.com`. 
+
 [role="no-scroll"]
-[cols="3,1,4",options="header"]
+[%header,cols="3,1,4"]
 |===
-|Label |Example |Description
+
+|Label
+|Example
+|Description
+
 
 |topology.kubernetes.io/zone
 |us-east-2a
@@ -167,6 +173,7 @@ EKS Auto Mode supports the following well known labels.
 |eks.amazonaws.com/instance-local-nvme
 |900
 |Number of gibibytes of local nvme storage on the instance
+
 |===
 
 NOTE: EKS Auto Mode only supports certain instances, and has minimum size requirements. For more information, see <<auto-supported-instances>>.
@@ -186,6 +193,8 @@ If you create custom node pools, you can disable the built-in node pools. For mo
 == Cluster without built-in node pools
 
 You can create a cluster without the built-in node pools. This is helpful when your organization has created customized node pools. 
+
+NOTE: When you create a cluster without built-in node pools, the `default` NodeClass is not automatically provisioned. You'll need to create a custom NodeClass. For more information, see <<create-node-class>>.
 
 *Overview:*
 

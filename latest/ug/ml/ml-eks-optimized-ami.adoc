@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#ml-eks-optimized-ami]
 = Run GPU-accelerated containers (Linux on EC2)
-:info_titleabbrev: Run Linux GPU AMIs
+:info_titleabbrev: Set up Linux GPU AMIs
 
 The Amazon EKS optimized accelerated Amazon Linux AMIs are built on top of the standard Amazon EKS optimized Amazon Linux AMIs. For details on these AMIs, see <<gpu-ami>>.
 The following text describes how to enable {aws} Neuron-based workloads.

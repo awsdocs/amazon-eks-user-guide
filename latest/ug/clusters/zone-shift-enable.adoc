@@ -18,9 +18,14 @@ Note that after you register an EKS cluster with ARC, you still need to configur
 
 For more detailed information about how EKS Zonal Shift works, and how to design your workloads to handle impaired availability zones, see <<zone-shift>>.
 
-*Considerations:*
+[#zone-shift-enable-considerations]
+== Considerations
 
-* EKS Auto Mode does not support Amazon Application Recovery Controller, Zonal Shift, and Zonal Autoshift
+* EKS Auto Mode does not support Amazon Application Recovery Controller, Zonal Shift, and Zonal Autoshift.
+// Ref: 46657
+* We recommend waiting at least 60 seconds between zonal shift operations to ensure proper processing of each request.
++
+When attempting to perform zonal shifts in quick succession (within 60 seconds of each other), the Amazon EKS service may not properly process all shift requests. This is due to the current polling mechanism that updates the cluster's zonal state. If you need to perform multiple zonal shifts, ensure there is adequate time between operations for the system to process each change.
 
 == What is Amazon Application Recovery Controller?
 
@@ -63,5 +68,5 @@ If you want {aws} to detect and avoid impaired availability zones, you need to c
 
 == Next Steps
 
-* Learn how to link:r53recovery/latest/dg/arc-zonal-autoshift.start-cancel.html["enable zonal autoshift",type="documentation"]
-* Learn how to manually link:r53recovery/latest/dg/arc-zonal-shift.start-cancel.html["start a zonal shift",type="documentation"]
+* Learn how to link:r53recovery/latest/dg/arc-zonal-autoshift.start-cancel.html["enable zonal autoshift",type="documentation"].
+* Learn how to manually link:r53recovery/latest/dg/arc-zonal-shift.start-cancel.html["start a zonal shift",type="documentation"].

@@ -12,7 +12,7 @@ Discover how Amazon VPC CNI plugin for Kubernetes provides pod networking capabi
 
 The Amazon VPC CNI plugin for Kubernetes provides networking for Pods. Use the following table to learn more about the available networking features.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Networking feature
 |Learn more
@@ -45,4 +45,12 @@ include::cni-ipv6.adoc[leveloffset=+1]
 include::external-snat.adoc[leveloffset=+1]
 
 include::cni-network-policy.adoc[leveloffset=+1]
+
+include::cni-custom-network.adoc[leveloffset=+1]
+
+include::cni-increase-ip-addresses.adoc[leveloffset=+1]
+
+include::security-groups-for-pods.adoc[leveloffset=+1]
+
+include::pod-multiple-network-interfaces.adoc[leveloffset=+1]
 

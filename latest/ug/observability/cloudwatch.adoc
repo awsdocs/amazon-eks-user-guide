@@ -21,7 +21,7 @@ For clusters that are Kubernetes version `1.28` and above, you get CloudWatch ve
 // * https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-available-cloudwatch-metrics.html
 // * https://docs.aws.amazon.com/sns/latest/dg/sns-monitoring-using-cloudwatch.html
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 
 |Metric name

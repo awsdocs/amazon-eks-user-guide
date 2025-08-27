@@ -9,14 +9,207 @@ include::attributes.txt[]
 Important updates to the Amazon EKS documentation, sorted by date, with brief descriptions of each update and when they occurred.
 --
 
-The following table describes the major updates and new features for the Amazon EKS User Guide. We also update the documentation frequently to address the feedback that you send us.
+The following table describes some of the major updates and new features for the Amazon EKS User Guide. To receive notifications when this table gets a new entry, you can subscribe to the following URL with an RSS reader:
+
+[source,none]
+----
+https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
+----
 
 [.updates]
 == Updates
 
+[.update,date="2025-08-26"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added permission to `AmazonEKSServiceRolePolicy`. This role can attach new access policy `AmazonEKSEventPolicy`. Restricted permissions for `ec2:DeleteLaunchTemplate` and `ec2:TerminateInstances`.
+
+[.update,date="2025-08-19"]
+=== Cross-service confused deputy prevention
+[.update-ulink]
+link:eks/latest/userguide/cross-service-confused-deputy-prevention.html[type="documentation"]
+
+Added a topic with an example trust policy that you can apply for Cross-service confused deputy prevention.
+Amazon EKS accepts the `aws:SourceArn` and `aws:SourceAccount` conditions in the trust policy of an EKS cluster role.
+
+[.update,date="2025-07-30"]
+=== Amazon EKS platform version update
+[.update-ulink]
+link:eks/latest/userguide/platform-versions.html[type="documentation"]
+
+This is a new platform version with security fixes and enhancements. This includes new patch versions of Kubernetes `1.33.2`, `1.32.6`, `1.31.10`, and `1.30.14`.
+
+[.update,date="2025-07-15"]
+=== VPC CNI Multi-NIC feature for multi-homed pods
+[.update-ulink]
+link:eks/latest/userguide/pod-multiple-network-interfaces.html[type="documentation"]
+
+Amazon EKS adds multi-homed pods to the VPC CNI. Now you can configure a workload and the VPC CNI assigned IP addresses from every NIC on the EC2 instance to each pod. The application can make concurrent connections to use the bandwidth from each NIC. Every network interface is configured in the same subnet and security groups as the node.
+
+Previously, you needed to use Multus CNI to run multiple other CNIs to create multi-homed pods. Documentation and steps to do this have been moved to link:eks/latest/userguide/pod-multus.html[type="documentation"].
+
+[.update,date="2025-06-30"]
+=== VPC CNI troubleshooting content update
+[.update-ulink]
+link:eks/latest/userguide/network-policies-troubleshooting.html[type="documentation"]
+
+Expanded the troubleshooting page for Kubernetes _network policy_ in the VPC CNI. Added the CRDs and RBAC permissions, and 12 known issues.
+
+[.update,date="2025-06-26"]
+=== Amazon EKS platform version update
+[.update-ulink]
+link:eks/latest/userguide/platform-versions.html[type="documentation"]
+
+This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform version.
+
+[.update,date="2025-06-26"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `ssmmessages:OpenDataChannel` permission to `AmazonEKSLocalOutpostServiceRolePolicy`.
+
+[.update,date="2025-06-20"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added permissions to `AmazonEKSServiceRolePolicy` and `AmazonEKSComputePolicy` to allow Amazon EKS Auto Mode to launch instances by using the EC2 On-Demand Capacity Reservations in your account. Also, added the permissions to `AmazonEKSComputePolicy` for Amazon EKS to create the EC2 Spot service-linked role on your behalf.
+
+
+[.update,date="2025-06-19"]
+=== Managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `AmazonEKSDashboardConsoleReadOnly` policy.
+
+[.update,date="2025-06-13"]
+=== Amazon EKS Auto Mode update to `NodeClass`
+[.update-ulink]
+link:eks/latest/userguide/create-node-class.html#auto-node-class-spec[type="documentation"]
+
+The `NodeClass` template for Auto Mode nodes added configuration for separate pod subnets. This adds the optional keys `podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` to set the subnets and security groups for the pods.
+
+[.update,date="2025-06-11"]
+=== Amazon EKS platform version update
+[.update-ulink]
+link:eks/latest/userguide/platform-versions.html[type="documentation"]
+
+This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform version.
+
+[.update,date="2025-06-11"]
+=== Target secondary and cross-account roles with EKS Pod Identities 
+[.update-ulink]
+link:eks/latest/userguide/pod-id-assign-target-role.html[type="documentation"]
+
+Amazon EKS adds __target IAM roles__ to EKS Pod Identities for automated role chaining. You can use this to automatically assume a role in another account and EKS Pod Identity rotates the temporary credentials. Each Pod Identity association must have an IAM role in the same account to assume first, then it uses that role to assume the target role.
+
+[.update,date="2025-06-06"]
+=== Amazon EKS {aws} Region expansion
+Amazon EKS is now available in the Asia Pacific (Taipei) (`ap-east-2`) {aws} Region.
+
+[.update,date="2025-06-05"]
+=== `IPv6` access control for dual-stack public endpoints for new `IPv6` clusters
+[.update-ulink]
+link:eks/latest/userguide/cluster-endpoint.html[type="documentation"]
+
+Amazon EKS adds `IPv6` CIDR blocks to control access to the public cluster endpoint for new `IPv6` clusters. Previously, you could only add `IPv4` CIDR blocks to allow traffic to the public cluster endpoint, even for dual-stack cluster endpoints.
+
+[.update,date="2025-05-30"]
+=== Amazon EKS platform version update
+[.update-ulink]
+link:eks/latest/userguide/platform-versions.html[type="documentation"]
+
+This is a new platform version with security fixes and enhancements. This includes new patch versions of Kubernetes `1.32.5`, `1.31.9`, and `1.30.13`.
+
+
+[.update,date="2025-05-29"]
+=== Kubernetes version `1.33`
+[.update-ulink]
+link:eks/latest/userguide/kubernetes-versions-standard.html#kubernetes-1-33[type="documentation"]
+
+Added Kubernetes version `1.33` support for new clusters and version upgrades.
+
+
+[.update,date="2025-05-29"]
+=== New cluster insights for EKS Hybrid Nodes
+[.update-ulink]
+link:eks/latest/userguide/cluster-insights.html[type="documentation"]
+
+Amazon EKS adds new cluster insights that check the configuration of your hybrid nodes. These insight checks will warn you about issues with on-premises nodes and pods and the remote network configuration of the cluster. 
+
+
+[.update,date="2025-05-23"]
+=== Add-on support for Amazon FSx CSI driver
+[.update-ulink]
+link:eks/latest/userguide/fsx-csi.html[type="documentation"]
+
+You can now use the {aws} Management Console, {aws} CLI, and API to manage the Amazon FSx CSI driver.
+
+
+[.update,date="2025-05-22"]
+=== Edit Prometheus scrapers in the console
+[.update-ulink]
+link:eks/latest/userguide/prometheus.html#viewing-prometheus-scraper-details[type="documentation"]
+
+You can now edit Amazon Managed Service for Prometheus scrapers in the Amazon EKS console.
+
+
+[.update,date="2025-05-21"]
+=== Managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `AmazonEKSDashboardServiceRolePolicy` policy.
+
+
+[.update,date="2025-05-16"]
+=== Amazon EKS platform version update
+[.update-ulink]
+link:eks/latest/userguide/platform-versions.html[type="documentation"]
+
+This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform versions.
+
+
+
+
+[.update,date="2025-05-02"]
+=== New pages for Amazon FSx for Lustre performance
+[.update-ulink]
+link:eks/latest/userguide/fsx-csi.html[type="documentation"]
+
+Added new topics with details on optimizing Amazon FSx for Lustre performance.
+
+
+[.update,date="2025-04-30"]
+=== Amazon EKS Auto Mode update to `NodeClass`
+[.update-ulink]
+link:eks/latest/userguide/create-node-class.html#auto-node-class-spec[type="documentation"]
+
+The `NodeClass` template for Auto Mode nodes added configuration for forward network proxies. This adds the optional key `advancedNetworking` to set your HTTPS proxy.
+
+
+[.update,date="2025-04-29"]
+=== Amazon EKS platform version update
+[.update-ulink]
+link:eks/latest/userguide/platform-versions.html[type="documentation"]
+
+This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform versions.
+
+
+[.update,date="2025-04-29"]
+=== Bottlerocket for hybrid nodes
+[.update-ulink]
+link:eks/latest/userguide/hybrid-nodes-bottlerocket.html[type="documentation"]
+
+Bottlerocket is now available for EKS Hybrid Nodes.
+
 
 [.update,date="2025-04-18"]
-=== {aws} managed policy updates
+=== New concepts pages for hybrid networking
 [.update-ulink]
 link:eks/latest/userguide/hybrid-nodes-concepts.html[type="documentation"]
 
@@ -38,11 +231,13 @@ link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-upd
 
 Added permissions to `AmazonEKSServiceRolePolicy` to allow EKS AI/ML customers to add Egress rules to the default EKS Cluster security group.
 
+
 === Kubernetes version 1.31 is now available for local clusters on {aws} Outposts
 [.update-ulink]
 link:eks/latest/userguide/eks-outposts-platform-versions.html[type="documentation"]
 
 You can now create an Amazon EKS local cluster on an {aws} Outposts using Kubernetes version 1.31.
+
 
 [.update,date="2025-03-31"]
 === Node health for EKS Hybrid Nodes
@@ -51,6 +246,7 @@ link:eks/latest/userguide/node-health.html[type="documentation"]
 
 You can use `eks-node-monitoring-agent` on hybrid nodes, starting from version `1.2.0-eksbuild.1`. Run `eks-node-monitoring-agent` as an Amazon EKS add-on to detect and show health issues.
 
+
 [.update,date="2025-03-31"]
 === EKS Hybrid Nodes for existing clusters
 [.update-ulink]
@@ -58,6 +254,7 @@ link:eks/latest/userguide/hybrid-nodes-cluster-update.html[type="documentation"]
 
 You can now add, change, or remove the hybrid nodes configuration of existing clusters. Previously, you could only add the hybrid nodes configuration to new clusters when you created them.
 With Amazon EKS Hybrid Nodes, you can use your on-premises and edge infrastructure as nodes in Amazon EKS clusters. {aws} manages the {aws}-hosted Kubernetes control plane of the Amazon EKS cluster, and you manage the hybrid nodes that run in your on-premises or edge environments.
+
 
 [.update,date="2025-03-28"]
 === Rollback: Prevent accidental upgrades with cluster insights
@@ -438,7 +635,7 @@ We made improvements to the AMI information references, in particular for Bottle
 [.update,date="2024-06-12"]
 === Kubernetes version `1.26`
 [.update-ulink]
-link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-26[type="documentation"]
+link:eks/latest/userguide/kubernetes-versions.html[type="documentation"]
 
 Kubernetes version `1.26` is now in extended support.
 
@@ -812,7 +1009,7 @@ Added Kubernetes version `1.27` support for new clusters and version upgrades.
 [.update,date="2023-04-11"]
 === Kubernetes version `1.26`
 [.update-ulink]
-link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-26[type="documentation"]
+link:eks/latest/userguide/kubernetes-versions.html[type="documentation"]
 
 Added Kubernetes version `1.26` support for new clusters and version upgrades.
 
@@ -848,9 +1045,6 @@ You can now create an Amazon EKS local cluster on an Outpost using Kubernetes ve
 
 [.update,date="2023-02-22"]
 === Kubernetes version `1.25`
-[.update-ulink]
-link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-25[type="documentation"]
-
 Added Kubernetes version `1.25` support for new clusters and version upgrades.
 
 
@@ -909,9 +1103,6 @@ Amazon EKS updated an existing {aws} managed policy.
 
 [.update,date="2022-11-15"]
 === Kubernetes version `1.24`
-[.update-ulink]
-link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-24[type="documentation"]
-
 Added Kubernetes version `1.24` support for new clusters and version upgrades.
 
 
@@ -1002,9 +1193,6 @@ Added support for Fargate profile wildcards in the selector criteria for namespa
 
 [.update,date="2022-08-11"]
 === Kubernetes version `1.23`
-[.update-ulink]
-link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-23[type="documentation"]
-
 Added Kubernetes version `1.23` support for new clusters and version upgrades.
 
 
@@ -1227,7 +1415,7 @@ Added Kubernetes version `1.21` support.
 [.update,date="2021-07-19"]
 === `containerd` runtime bootstrap
 [.update-ulink]
-link:eks/latest/userguide/eks-optimized-ami.html#containerd-bootstrap[type="documentation"]
+link:eks/latest/userguide/eks-optimized-ami.html[type="documentation"]
 
 The Amazon EKS optimized accelerated Amazon Linux Amazon Machine Image (AMI) now contains a bootstrap flag that you can use to enable the `containerd` runtime in Amazon EKS optimized and Bottlerocket AMIs. This flag is available in all supported Kubernetes versions of the AMI.
 

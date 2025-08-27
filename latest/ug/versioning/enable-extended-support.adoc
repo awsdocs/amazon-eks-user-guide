@@ -11,7 +11,7 @@ Clusters actually in the _extended support period_ incur higher costs. If a clus
 
 If you create a cluster in the {aws} console, it will have the upgrade policy set to disable extended support. If you create a cluster in another way, it will have the upgrade policy set to enable extended support. For example, clusters created with the {aws} API have extended support enabled. 
 
-For more information about upgrade policies, see <<view-upgrade-policy>>.
+For more information about upgrade policies, see link:eks/latest/userguide/view-upgrade-policy.html[Cluster upgrade policy,type="documentation"].
 
 [IMPORTANT]
 ====

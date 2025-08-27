@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 This topic describes how to set the _upgrade policy_ of an EKS cluster to disable extended support. The upgrade policy of an EKS cluster determines what happens when a cluster reaches the end of the standard _support period_. If a cluster upgrade policy has extended support disabled, it will be automatically upgraded to the next Kubernetes version.  
 
-For more information about upgrade policies, see <<view-upgrade-policy>>.
+For more information about upgrade policies, see link:eks/latest/userguide/view-upgrade-policy.html[Cluster upgrade policy,type="documentation"].
 
 [IMPORTANT]
 ====

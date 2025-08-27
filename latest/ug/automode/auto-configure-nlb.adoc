@@ -60,9 +60,12 @@ All of the following annotations need to be prefixed with `service.beta.kubernet
 
 
 [role="no-scroll"]
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
-|Field |Description |Example
+|Field
+|Description
+|Example
+
 
 |`aws-load-balancer-type`
 |Specifies the load balancer type. Use `external` for new deployments.
@@ -94,7 +97,7 @@ All of the following annotations need to be prefixed with `service.beta.kubernet
 
 |`aws-load-balancer-ssl-cert`
 |ARN of the SSL certificate from {aws} Certificate Manager for HTTPS/TLS.
-|`arn:aws:acm:region:account:certificate/cert-id`
+|`{arn-aws}acm:region:account:certificate/cert-id`
 
 |`aws-load-balancer-ssl-ports`
 |Specifies which ports should use SSL/TLS.
@@ -111,6 +114,7 @@ All of the following annotations need to be prefixed with `service.beta.kubernet
 |`aws-load-balancer-ip-address-type`
 |Specifies whether the load balancer uses IPv4 or dual-stack (IPv4 + IPv6).
 |`ipv4` or `dualstack`
+
 |===
 
 == Considerations
@@ -124,9 +128,9 @@ When migrating to EKS Auto Mode for load balancing, several changes in service a
 
 === Service annotations
 
-[options="header"]
 |===
 | Previous | New | Description
+
 | `service.beta.kubernetes.io/load-balancer-source-ranges` | Not supported | Use `spec.loadBalancerSourceRanges` on Service
 | `service.beta.kubernetes.io/aws-load-balancer-type` | Not supported | Use `spec.loadBalancerClass` on Service
 | `service.beta.kubernetes.io/aws-load-balancer-internal` | Not supported | Use `service.beta.kubernetes.io/aws-load-balancer-scheme`
@@ -141,25 +145,16 @@ When migrating to EKS Auto Mode for load balancing, several changes in service a
 To migrate from deprecated load balancer attribute annotations, consolidate these settings into the `service.beta.kubernetes.io/aws-load-balancer-attributes` annotation. This annotation accepts a comma-separated list of key-value pairs for various load balancer attributes. For example, to specify proxy protocol, access logging, and cross-zone load balancing, use the following format:
 
 ```yaml
-service.beta.kubernetes.io/aws-load-balancer-attributes: |
-  access_logs.s3.enabled=true
-  access_logs.s3.bucket=my-bucket
-  access_logs.s3.prefix=my-prefix
-  load_balancing.cross_zone.enabled=true
-```
-
-```yaml
-service.beta.kubernetes.io/aws-load-balancer-target-group-attributes: |
-  proxy_protocol_v2.enabled=true
+service.beta.kubernetes.io/aws-load-balancer-attributes: access_logs.s3.enabled=true,access_logs.s3.bucket=my-bucket,access_logs.s3.prefix=my-prefix,load_balancing.cross_zone.enabled=true
 ```
 
 This consolidated format provides a more consistent and flexible way to configure load balancer attributes while reducing the number of individual annotations needed. Review your existing Service configurations and update them to use this consolidated format. 
 
 === TargetGroupBinding
 
-[options="header"]
 |===
 | Previous | New | Description
+
 | `elbv2.k8s.aws/v1beta1` | `eks.amazonaws.com/v1` | API version change
 | `spec.targetType` optional | `spec.targetType` required | Explicit target type specification
 | `spec.networking.ingress.from` | Not supported | No longer supports NLB without security groups

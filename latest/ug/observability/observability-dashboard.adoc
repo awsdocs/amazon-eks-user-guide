@@ -10,21 +10,21 @@ include::../attributes.txt[]
 Learn how to configure logging for your Amazon EKS cluster.
 --
 
-The Amazon EKS console includes an observability dashboard that gives visibility into the performance of your cluster. The information in this dashboard helps you to quickly detect, troubleshoot, and remediate issues. You can open the applicable section of the dashboard by choosing an item in the *Health and performance summary*. This summary is included in several places, including the *Observability* tab.
+The Amazon EKS console includes an observability dashboard that gives visibility into the performance of your cluster. The information it provides helps you to quickly detect, troubleshoot, and remediate issues. You can open the applicable section of the observability dashboard by choosing an item in the *Health and performance summary*. This summary is included in several places, including the *Observability* tab.
 
-The dashboard is split into several tabs.
+The observability dashboard is split into several tabs.
 
 [#observability-summary]
 == Summary
 
-The *Health and performance summary* lists the quantity of items in various categories. Each number acts as a hyperlink to a location in the dashboard with a list for that category.
+The *Health and performance summary* lists the quantity of items in various categories. Each number acts as a hyperlink to a location in the observability dashboard with a list for that category.
 
 [#observability-cluster-health]
-== Cluster health issues
+== Cluster health
 
-*Cluster health issues* are important notifications to be aware of, some of which you may need to take action on as soon as possible. With this list, you can see descriptions and the affected resources. To refresh the status, choose the refresh button ( ↻ ).
+*Cluster health* provides important notifications to be aware of, some of which you may need to take action on as soon as possible. With this list, you can see descriptions and the affected resources. Cluster health includes two tables: *Health issues* and *Configuration insights*. To refresh the status of *Health issues*, choose the refresh button ( ↻ ). *Configuration insights* update automatically once every 24 hours and can't be manually refreshed.
 
-For more information, see <<cluster-health-status>>.
+For more information about *Health issues*, see <<cluster-health-status>>. For more information about *Configuration insights*, see <<cluster-insights>>.
 
 [#observability-control-plane]
 == Control plane monitoring
@@ -42,7 +42,7 @@ These metrics and more are automatically available as basic monitoring metrics i
 
 The following table describes available metrics.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Metric
 |Description

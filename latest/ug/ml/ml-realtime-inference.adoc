@@ -1,0 +1,18 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-realtime-inference]
+= Running real-time online inference workloads on Amazon EKS
+:info_titleabbrev: Real-time inference
+
+[abstract]
+--
+Learn how to set up and manage real-time online inference workloads on Amazon EKS.
+--
+
+This section is designed to help you deploy and operate real-time online inference workloads on Amazon Elastic Kubernetes Service (EKS). You'll find guidance on building optimized clusters with GPU-accelerated nodes, integrating {aws} services for storage and autoscaling, deploying sample models for validation, and key architectural considerations such as decoupling CPU and GPU tasks, selecting appropriate AMIs and instance types, and ensuring low-latency exposure of inference endpoints.
+
+[.topiclist]
+[[Topic List]]
+
+include::ml-realtime-inference-cluster.adoc[leveloffset=+1]

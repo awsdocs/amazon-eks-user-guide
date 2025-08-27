@@ -2,213 +2,53 @@ include::../attributes.txt[]
 
 [.topic]
 [#cluster-insights]
-= Prepare for Kubernetes version upgrades with cluster insights
+= Prepare for Kubernetes version upgrades and troubleshoot misconfigurations with cluster insights
 :info_titleabbrev: Cluster insights
 
 [abstract]
 --
-Discover how Amazon EKS cluster insights help monitor and resolve potential Kubernetes version upgrade issues for enhanced reliability and faster adoption of new capabilities.
+Discover how Amazon EKS cluster insights help monitor and resolve potential issues for enhanced reliability.
 --
 
-Amazon EKS cluster insights provide recommendations to help you follow Amazon EKS and Kubernetes best practices. Every Amazon EKS cluster undergoes automatic, recurring checks against an Amazon EKS curated list of insights. These insight checks are fully managed by Amazon EKS and offer recommendations on how to address any findings.  
+Amazon EKS cluster insights provide detection of issues and recommendations to resolve them to help you manage your cluster. Every Amazon EKS cluster undergoes automatic, recurring checks against an Amazon EKS curated list of insights. These __insight checks__ are fully managed by Amazon EKS and offer recommendations on how to address any findings.
 
-* Before updating your cluster Kubernetes version, check the *Cluster insights* tab of the observability dashboard in the link:eks/home#/clusters[Amazon EKS console.,type="console"]
-* If your cluster has identified issues, review them and make appropriate fixes. The issues include links to Amazon EKS and Kubernetes.
-* After fixing issues, wait for the cluster insights to refresh. If all issues have been resolved, <<update-cluster,update your cluster>>.
+[#cluster-insight-types]
+== Cluster insight types
+* *Configuration insights*: Identifies misconfigurations in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. 
+* *Upgrade insights*: Identifies issues that could impact your ability to upgrade to new versions of Kubernetes. 
+
+[#cluster-insight-considerations]
+== Considerations
+* *Frequency*: Amazon EKS refreshes cluster insights every 24 hours. You cannot manually refresh cluster insights. If you fix a cluster issue, it will take some time for cluster insights to update. To determine if a fix was successful, compare the time that the change deployed to the "last refresh time" of the insight check.
+* *Permissions*: Amazon EKS automatically creates a cluster access entry for cluster insights in every EKS cluster. This entry gives EKS permission to view information about your cluster. EKS uses this information to generate the insights. For more information, see <<access-policy-permissions-AmazonEKSClusterInsightsPolicy>>.
+
+[#cluster-insights-use-cases]
+== Use cases
+Cluster insights in Amazon EKS provide automated checks to help maintain the health, reliability, and optimal configuration of your Kubernetes clusters. Below are key use cases for cluster insights, including upgrade readiness and configuration troubleshooting.
+
+=== Upgrade insights
+Upgrade insights are a specific type of insight checks within cluster insights. These checks returns insights related to Kubernetes version upgrade readiness. Amazon EKS runs upgrade insight checks on every EKS cluster.
 
 [IMPORTANT]
 ====
 Amazon EKS has temporarily rolled back a feature that would
 require you to use a `--force` flag to upgrade your cluster when there were certain cluster insight issues. For more information, see link:https://github.com/aws/containers-roadmap/issues/2570[Temporary rollback of enforcing upgrade insights on update cluster version] on GitHub.
 
-//If Amazon EKS cluster insights identifies upgrade blocking issues on your cluster, it will prevent you from accidentally upgrading your cluster to the next Kubernetes version until you review and make appropriate fixes to resolve the issues identified. Once the issues are resolved, you will be able to upgrade your cluster.
-
-Amazon EKS refreshes cluster insights every 24 hours. For more information, see <<update-cluster-control-plane>>.
-
-//Amazon EKS refreshes cluster insights every 24 hours, but you can override upgrade insights checks without waiting when needed. For more information, see <<update-cluster-control-plane>>.
-
+For more information about updating your cluster, see <<update-cluster-control-plane>>.
 ====
+
+Before updating your cluster Kubernetes version, you can use the *Cluster insights* tab of the observability dashboard in the link:eks/home#/clusters[Amazon EKS console,type="console"]. If your cluster has identified issues, review them and make appropriate fixes. The issues include links to Amazon EKS and Kubernetes documentation. After fixing the issue, wait for the cluster insights to refresh. If all issues have been resolved, <<update-cluster,update your cluster>>.
 
 Amazon EKS returns insights related to Kubernetes version upgrade readiness. Upgrade insights identify possible issues that could impact Kubernetes cluster upgrades. This minimizes the effort that administrators spend preparing for upgrades and increases the reliability of applications on newer Kubernetes versions. Clusters are automatically scanned by Amazon EKS against a list of possible Kubernetes version upgrade impacting issues. Amazon EKS frequently updates the list of insight checks based on reviews of changes made in each Kubernetes version release.
 
-Amazon EKS upgrade insights speed up the testing and verification process for new versions. They also allow cluster administrators and application developers to leverage the newest Kubernetes capabilities by highlighting concerns and offering remediation advice. To see the list of insight checks performed and any relevant issues that Amazon EKS has identified, you can call the Amazon EKS `ListInsights` API operation or look in the Amazon EKS console.
+Amazon EKS upgrade insights speed up the testing and verification process for new versions. They also allow cluster administrators and application developers to leverage the newest Kubernetes capabilities by highlighting concerns and offering remediation advice.
 
-Cluster insights update periodically. You cannot manually refresh cluster insights. If you fix a cluster issue, it will take some time for cluster insights to update. To determine if a fix was successful, compare the time the change  deployed to the "last refresh time" of the cluster insight. 
+=== Configuration insights
 
-Amazon EKS automatically creates a cluster access entry. This entry gives EKS permission to view information about your cluster. This information is used to generate the insights. For more information, see <<access-policy-permissions-AmazonEKSClusterInsightsPolicy>>. 
+EKS cluster insights automatically scans Amazon EKS clusters with hybrid nodes to identify configuration issues impairing Kubernetes control plane-to-webhook communication, kubectl commands like exec and logs, and more. Configuration insights surface issues and provide remediation recommendations, accelerating the time to a fully functioning hybrid nodes setup.
 
-[#cluster-insights-console]
-== View cluster insights (Console)
-. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
-. From the cluster list, choose the name of the Amazon EKS cluster for which you want to see the insights.
-. Choose *View dashboard*.
-. Choose the *Cluster Insights* tab.
-. In the *Upgrade Insights* table, you will see the following columns:
-+
-** *Name* – The check that was performed by Amazon EKS against the cluster.
-** *Insight status* – An insight with a status of "Error" typically means the impacted Kubernetes version is N+1 of the current cluster version, while a status of "Warning" means the insight applies to a future Kubernetes version N+2 or more. An insight with status of "Passing" means Amazon EKS has not found any issues associated with this insight check in your cluster. An insight status of "Unknown" means Amazon EKS is unable to determine if your cluster is impacted by this insight check.
-** *Version* – The Kubernetes version that the insight checked for possible issues.
-** *Last refresh time* – The time the status of the insight was last refreshed for this cluster.
-** *Last transition time* – The time the status of this insight last changed.
-** *Description* – Information from the insight check, which includes the alert and recommended actions for remediation.
+== Get started
 
+To see the list of insight checks performed and any relevant issues that Amazon EKS has identified, you can use the {aws-management-console}, the {aws} CLI, {aws} SDKs, and Amazon EKS `ListInsights` API operation. To get started, see <<view-cluster-insights>>.
 
-[#cluster-insights-cli]
-== View cluster insights ({aws} CLI)
-. Determine which cluster you would like to check for insights. The following command lists the insights for a specified cluster. Make the following modifications to the command as needed and then run the modified command:
-+
-** Replace [.replaceable]`region-code` with the code for your {aws} Region.
-** Replace [.replaceable]`my-cluster` with the name of your cluster.
-+
-[source,bash,subs="verbatim,attributes,quotes"]
-----
-aws eks list-insights --region [.replaceable]`region-code` --cluster-name [.replaceable]`my-cluster`
-----
-+
-An example output is as follows.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-{
-"insights":
-    [
-        {
-            "id": "a1b2c3d4-5678-90ab-cdef-EXAMPLE11111",
-            "name": "Deprecated APIs removed in Kubernetes vX.XX",
-            "category": "UPGRADE_READINESS",
-            "kubernetesVersion": "X.XX",
-            "lastRefreshTime": 1734557315.000,
-            "lastTransitionTime": 1734557309.000,
-            "description": "Checks for usage of deprecated APIs that are scheduled for removal in Kubernetes vX.XX. Upgrading your cluster before migrating to the updated APIs supported by vX.XX could cause application impact.",
-            "insightStatus":
-            {
-                "status": "PASSING",
-                "reason": "No deprecated API usage detected within the last 30 days.",
-            },
-        },
-        {
-            "id": "a1b2c3d4-5678-90ab-cdef-EXAMPLE22222",
-            "name": "Kubelet version skew",
-            "category": "UPGRADE_READINESS",
-            "kubernetesVersion": "X.XX",
-            "lastRefreshTime": 1734557309.000,
-            "lastTransitionTime": 1734557309.000,
-            "description": "Checks for kubelet versions of worker nodes in the cluster to see if upgrade would cause non compliance with supported Kubernetes kubelet version skew policy.",
-            "insightStatus":
-            {
-                "status": "UNKNOWN",
-                "reason": "Unable to determine status of node kubelet versions.",
-            },
-        },
-        {
-            "id": "a1b2c3d4-5678-90ab-cdef-EXAMPLE33333",
-            "name": "Deprecated APIs removed in Kubernetes vX.XX",
-            "category": "UPGRADE_READINESS",
-            "kubernetesVersion": "X.XX",
-            "lastRefreshTime": 1734557315.000,
-            "lastTransitionTime": 1734557309.000,
-            "description": "Checks for usage of deprecated APIs that are scheduled for removal in Kubernetes vX.XX. Upgrading your cluster before migrating to the updated APIs supported by vX.XX could cause application impact.",
-            "insightStatus":
-            {
-                "status": "PASSING",
-                "reason": "No deprecated API usage detected within the last 30 days.",
-            },
-        },
-        {
-            "id": "a1b2c3d4-5678-90ab-cdef-EXAMPLEaaaaa",
-            "name": "Cluster health issues",
-            "category": "UPGRADE_READINESS",
-            "kubernetesVersion": "X.XX",
-            "lastRefreshTime": 1734557314.000,
-            "lastTransitionTime": 1734557309.000,
-            "description": "Checks for any cluster health issues that prevent successful upgrade to the next Kubernetes version on EKS.",
-            "insightStatus":
-            {
-                "status": "PASSING",
-                "reason": "No cluster health issues detected.",
-            },
-        },
-        {
-            "id": "a1b2c3d4-5678-90ab-cdef-EXAMPLEbbbbb",
-            "name": "EKS add-on version compatibility",
-            "category": "UPGRADE_READINESS",
-            "kubernetesVersion": "X.XX",
-            "lastRefreshTime": 1734557314.000,
-            "lastTransitionTime": 1734557309.000,
-            "description": "Checks version of installed EKS add-ons to ensure they are compatible with the next version of Kubernetes. ",
-            "insightStatus": { "status": "PASSING", "reason": "All installed EKS add-on versions are compatible with next Kubernetes version."},
-        },
-        {
-            "id": "a1b2c3d4-5678-90ab-cdef-EXAMPLEccccc",
-            "name": "kube-proxy version skew",
-            "category": "UPGRADE_READINESS",
-            "kubernetesVersion": "X.XX",
-            "lastRefreshTime": 1734557314.000,
-            "lastTransitionTime": 1734557309.000,
-            "description": "Checks version of kube-proxy in cluster to see if upgrade would cause non compliance with supported Kubernetes kube-proxy version skew policy.",
-            "insightStatus":
-            {
-                "status": "PASSING",
-                "reason": "kube-proxy versions match the cluster control plane version.",
-            },
-        },
-        {
-            "id": "a1b2c3d4-5678-90ab-cdef-EXAMPLEddddd",
-            "name": "Deprecated APIs removed in Kubernetes vX.XX",
-            "category": "UPGRADE_READINESS",
-            "kubernetesVersion": "X.XX",
-            "lastRefreshTime": 1734557315.000,
-            "lastTransitionTime": 1734557309.000,
-            "description": "Checks for usage of deprecated APIs that are scheduled for removal in Kubernetes vX.XX. Upgrading your cluster before migrating to the updated APIs supported by vX.XX could cause application impact.",
-            "insightStatus":
-            {
-                "status": "PASSING",
-                "reason": "No deprecated API usage detected within the last 30 days.",
-            },
-        },
-    ],
-"nextToken": null,
-}
-----
-. For descriptive information about the insight, run the following command. Make the following modifications to the command as needed and then run the modified command:
-+
-** Replace [.replaceable]`region-code` with the code for your {aws} Region.
-** Replace [.replaceable]`a1b2c3d4-5678-90ab-cdef-EXAMPLE22222` with an insight ID retrieved from listing the cluster insights.
-** Replace [.replaceable]`my-cluster` with the name of your cluster.
-+
-[source,bash,subs="verbatim,attributes,quotes"]
-----
-aws eks describe-insight --region region-code --id [.replaceable]`a1b2c3d4-5678-90ab-cdef-EXAMPLE22222` --cluster-name my-cluster
-----
-+
-An example output is as follows.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-{
-  "insight":
-    {
-      "id": "a1b2c3d4-5678-90ab-cdef-EXAMPLE22222",
-      "name": "Kubelet version skew",
-      "category": "UPGRADE_READINESS",
-      "kubernetesVersion": "1.27",
-      "lastRefreshTime": 1734557309.000,
-      "lastTransitionTime": 1734557309.000,
-      "description": "Checks for kubelet versions of worker nodes in the cluster to see if upgrade would cause non compliance with supported Kubernetes kubelet version skew policy.",
-      "insightStatus":
-        {
-          "status": "UNKNOWN",
-          "reason": "Unable to determine status of node kubelet versions.",
-        },
-      "recommendation": "Upgrade your worker nodes to match the Kubernetes version of your cluster control plane.",
-      "additionalInfo":
-        {
-          "Kubelet version skew policy": "https://kubernetes.io/releases/version-skew-policy/#kubelet",
-          "Updating a managed node group": "https://docs.aws.amazon.com/eks/latest/userguide/update-managed-node-group.html",
-        },
-      "resources": [],
-      "categorySpecificSummary":
-        { "deprecationDetails": [], "addonCompatibilityDetails": [] },
-    },
-}
-----
+include::view-cluster-insights.adoc[leveloffset=+1]

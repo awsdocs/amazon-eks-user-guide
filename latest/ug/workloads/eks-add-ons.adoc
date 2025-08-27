@@ -34,32 +34,35 @@ Consider the following when you use Amazon EKS add-ons:
 * The `eks:addon-cluster-admin` `ClusterRoleBinding` binds the `cluster-admin` `ClusterRole` to the `eks:addon-manager` Kubernetes identity. The role has the necessary permissions for the `eks:addon-manager` identity to create Kubernetes namespaces and install add-ons into namespaces. If the `eks:addon-cluster-admin` `ClusterRoleBinding` is removed, the Amazon EKS cluster will continue to function, however Amazon EKS is no longer able to manage any add-ons. All clusters starting with the following platform versions use the new `ClusterRoleBinding`.
 * A subset of EKS add-ons from {aws} have been validated for compatibility with Amazon EKS Hybrid Nodes. For more information, see the compatibility table on <<workloads-add-ons-available-eks>>.
 
-=== Required platform version
+[#custom-namespace]
+== Custom namespace for add-ons
 
-Review the table to determine the minimum required platform version to use this feature with your cluster. You can use the listed platform version, or a more recent platform version. For example, if the table lists "eks.14" you can use platform version "eks.15". For more information, see <<platform-versions>>. 
+For community and {aws} add-ons, you can optionally specify a custom namespace during add-on creation. Once you install an add-on in a specific namespace, you must remove and re-create the add-on to change its namespace.
 
-[cols="1,1", options="header"]
-|===
+If you don't specify a namespace, it will use the predefined namespace for the add-on. 
 
-|Kubernetes version
-|EKS platform version
+Use custom namespaces for better organization and isolation of add-on objects within your EKS cluster. This flexibility helps you align add-ons with your operational needs and existing namespace strategy. 
 
-|1.25 or newer
-|All platform versions
+You can set a custom namespace when creating an add-on. For more information, see <<creating-an-add-on>>.
 
-|1.20
-|eks.12
+=== Get predefined namespace for add-on
 
-|1.21
-|eks.14
+The predefined namespace for an add-on is the namespace it will be installed into if you don't specify one. 
 
-|1.22
-|eks.9
+To get the predefined namespace for an add-on, use the following command:
 
-|1.23
-|eks.5
+```bash
+aws eks describe-addon-versions --addon-name <addon-name> --query "addons[].defaultNamespace"
+```
 
-|===
+Example output: 
+
+```json
+[
+    "kube-system"
+]
+```
+
 
 [#addon-consider-auto]
 == Considerations for Amazon EKS Auto Mode
@@ -101,13 +104,13 @@ If you are planning to enable EKS Auto Mode on an existing cluster, you may need
 ** For more information, see <<workloads-add-ons-available-vendors>>.
 * *Community Add-ons*: These add-ons are scanned by {aws} but supported by the open source community.
 ** Use a community add-on to reduce the complexity of installing common open source software, such as Kubernetes Metrics Server. 
-** Community add-ons are built by {aws}. {aws} only validates community add-ons for version compatibility. 
+** Community add-ons are not built by {aws}. {aws} only validates community add-ons for version compatibility. 
 ** For more information, see <<community-addons>>.
 
 The following table details the scope of support for each add-on type: 
 
 
-[cols="1,1,1,1,1", options="header"]
+[%header,cols="5"]
 |===
 |Category |Feature |{aws} add-ons |{aws} Marketplace add-ons |Community add-ons
 |Development

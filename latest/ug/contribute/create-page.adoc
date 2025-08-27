@@ -5,8 +5,12 @@ include::../attributes.txt[]
 = Create a new page
 :info_titleabbrev: Create page
 
+[abstract]
+--
+This topic includes instructions for creating the initial page metadata and adding the page to the guide table of contents.
+--
 
-Learn how to create a new docs page. This topic includes instructions for creating the initial page metadata, and adding the page to the guide table of contents. 
+Learn how to create a new documentation page. This topic includes instructions for creating the initial page metadata and adding the page to the guide table of contents. 
 
 == Create page
 
@@ -15,7 +19,23 @@ Learn how to create a new docs page. This topic includes instructions for creati
 . Create a new file with the page ID and the `adoc` extension. For example, `create-page.adoc`.
 . Insert the page metadata using this template:
 
-image::images/contribute-new-page.png["New page metadata"]
+
+[source,asciidoc]
+----
+ include::../attributes.txt[]
+
+ [.topic]
+ [#unique-page-id]
+ = Page title
+ :info_titleabbrev: Short title
+
+ [abstract]
+ --
+ Brief summary of the page's content.
+ --
+
+ Introduction paragraph goes here.
+----
 
 
 == Add page to navigation

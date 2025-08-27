@@ -92,7 +92,7 @@ You can create a cluster by using:
 . Create an Amazon EKS `IPv4` cluster with the Amazon EKS default Kubernetes version in your default {aws} Region. Before running command, make the following replacements:
 . Replace [.replaceable]`region-code` with the {aws} Region that you want to create your cluster in.
 . Replace [.replaceable]`my-cluster` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
-. Replace [.replaceable]`{k8s-n}` with any <<kubernetes-versions,Amazon EKS supported version>>.
+. Replace [.replaceable]`{k8s-n}` with any link:eks/latest/userguide/kubernetes-versions.html[Amazon EKS supported version,type="documentation"].
 . Change the values for `vpc-private-subnets` to meet your requirements. You can also add additional IDs. You must specify at least two subnet IDs. If you'd rather specify public subnets, you can change `--vpc-private-subnets` to `--vpc-public-subnets`. Public subnets have an associated route table with a route to an internet gateway, but private subnets don't have an associated route table. We recommend using private subnets whenever possible.
 +
 The subnets that you choose must meet the <<network-requirements-subnets,Amazon EKS subnet requirements>>. Before selecting subnets, we recommend that you're familiar with all of the <<network-reqs,Amazon EKS VPC and subnet requirements and considerations>>.
@@ -218,7 +218,7 @@ Cluster provisioning takes several minutes.
 +
 ** Replace [.replaceable]`region-code` with the {aws} Region that you want to create your cluster in.
 ** Replace [.replaceable]`my-cluster` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
-** Replace [.replaceable]`{k8s-n}` with any <<kubernetes-versions,Amazon EKS supported version>>. 
+** Replace [.replaceable]`{k8s-n}` with any link:eks/latest/userguide/kubernetes-versions.html[Amazon EKS supported version,type="documentation"]. 
 ** Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`myAmazonEKSClusterRole` with the name of your cluster IAM role.
 ** Replace the values for `subnetIds` with your own. You can also add additional IDs. You must specify at least two subnet IDs.
 +
@@ -309,7 +309,7 @@ The IAM role that you attach the policy to can be the node IAM role, or a dedica
 +
 If you deploy your cluster using either `eksctl` or the {aws} CLI, then the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self-managed add-ons are deployed. You can migrate the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self-managed add-ons that are deployed with your cluster to Amazon EKS add-ons. For more information, see <<eks-add-ons>>.
 . (Optional) If you haven't already done so, you can enable Prometheus metrics for your cluster. For more information, see link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-create[Create a scraper,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
-. If you plan to deploy workloads to your cluster that use Amazon EBS volumes , and you created a `1.23` or later cluster, then you must install the <<ebs-csi,Amazon EBS CSI>> to your cluster before deploying the workloads.
+. If you plan to deploy workloads to your cluster that use Amazon EBS volumes, then you must install the <<ebs-csi,Amazon EBS CSI>> to your cluster before deploying the workloads.
 
 == Next steps
 

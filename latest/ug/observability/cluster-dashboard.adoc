@@ -1,0 +1,161 @@
+include::../attributes.txt[]
+
+[.topic]
+[#cluster-dashboard]
+= View aggregated data about cluster resources with the EKS Dashboard
+:info_titleabbrev: Amazon EKS Dashboard
+
+include::cluster-dashboard-orgs.adoc[leveloffset=+1]
+
+image::images/eks-dashboard.png[screenshot of account level cluster metrics]
+
+== What is the Amazon EKS Dashboard?
+
+The Amazon EKS Dashboard provides consolidated visibility into your Kubernetes clusters across multiple {aws} Regions and {aws} Accounts. With this dashboard, you can:
+
+* Track clusters scheduled for end-of-support auto-upgrades within the next 90 days.
+* Project EKS control plane costs for clusters in extended support.
+* Review clusters with insights that need attention before upgrading.
+* Identify managed node groups running specific AMI versions.
+* Monitor cluster support type distribution (standard compared to extended support).
+
+The EKS dashboard integrates with EKS Cluster Insights to surface issues with your clusters, such as use of deprecated Kubernetes APIs. For more information, see <<cluster-insights>>. 
+
+[NOTE]
+====
+The EKS Dashboard is not real-time and updates every 12 hours. For real-time cluster monitoring, see <<eks-observe>>
+====
+
+== How does the dashboard use {aws} Organizations?
+
+The Amazon EKS dashboard requires {aws} Organizations integration for functionality. It leverages {aws} Organizations to securely gather cluster information across accounts. This integration provides centralized management and governance as your {aws} infrastructure scales.
+
+If {aws} Organizations isn't enabled for your infrastructure, see the {aws}link:organizations/latest/userguide/orgs_introduction.html[Organizations User Guide, type="documentation"] for setup instructions.
+
+=== Cross-region and cross-account access
+
+The EKS Dashboard can see cluster resources in any account that is a member of the {aws} organization. To generate a list of {aws} accounts in your organization, see link:organizations/latest/userguide/orgs_manage_accounts_export.html[Export details for all accounts in an organization,type="documentation"].
+
+The us-east-1 {aws} region generates the dashboard. You must log in to this region to see the dashboard. The dashboard aggregates data across {aws} regions, but this does not include `GovCloud` or China regions. 
+
+=== Key terms
+
+* *{aws} Organization*: A unified management structure for multiple {aws} accounts.
+* *Management account*: The primary account that controls the {aws} Organization.
+* *Member account*: Any account within the organization except the management account.
+* *Delegated administrator*: A member account granted specific cross-account administrative permissions. Within the management account, you can select one delegated administrator account per {aws} Service.
+* *Trusted access*: Authorization for the EKS Dashboard to access cluster information across organizational accounts.
+* *Service-Linked Role (SLRs)*: A unique type of IAM role directly linked to an {aws} service. The EKS Dashboard uses a SLR to read information about your accounts and organizations. 
+* For more information, see link:organizations/latest/userguide/orgs_getting-started_concepts.html[Terminology and concepts, type="documentation"] in the {aws} Organizations User Guide. 
+
+=== General overview
+
+. Access the management account of your {aws} Organization.
+** The steps to access the management account depend on how you have configured your {aws} Organization. For example, you might access the management account via {aws} link:iam/identity-center/[Identity Center,type="marketing"] or link:https://www.okta.com/partners/aws/[Okta]. 
+. Enable Trusted access through the EKS Console.
+. Assign a Delegated administrator using their {aws} Account ID.
+. Switch to the Delegated administrator account.
+. Access the enhanced EKS Console with organization-wide visibility.
+
+== Enable the EKS Dashboard using the {aws} console
+
+[IMPORTANT]
+====
+You must be logged in to the Management Account of your {aws} Organization to enable the EKS Dashboard.
+====
+
+=== Access EKS Dashboard settings
+
+. Confirm the following:
+.. You have {aws} Organizations enabled and configured.
+.. You are logged into the Management account of the organization.
+.. You are viewing the {aws} Management Console in the us-east-1 region.
+. Navigate to the EKS console.
+. In the left sidebar, open Dashboard Settings.
+
+=== Set up access to the Amazon EKS Dashboard
+
+. Find the {aws} Account ID of the {aws} Account you want to allow to view the EKS Dashboard.
+.. This step is optional, but suggested. If you don't, you can only access the dashboard from the management account. As a best practice, you should limit access to the management account.
+. Click *Enable trusted access*.
+.. You can now view the dashboard from the management account.
+. Click *Register delegated administrator* and input the Account ID of the {aws} Account you will use to view the dashboard.
+.. You can now view the dashboard from the delegated administrator account or the management account.
+
+For information about permissions required to enable the dashboard, see xref:dashboard-iam-policy[Minimum IAM policies required]. 
+
+== View the EKS dashboard
+
+. Log in to the delegated administrator account (suggested) or the management account.
+. Log in to the us-east-1 region.
+. Go to the EKS service, and select Dashboard from the left sidebar.
+
+NOTE: xref:eks-dashboard-view-policy[Review the IAM permissions required to view the EKS dashboard.]
+
+== Configure the dashboard
+
+You can configure the view of the dashboard, and filter resources. 
+
+=== Available resources
+
+* *Clusters*: View aggregated information about the status and location of EKS Clusters.
+** Clusters with health issues.
+** Clusters on EKS Extended Support.
+** Breakdown of clusters by Kubernetes version.
+* *Managed node groups*: Review Managed node groups and EC2 Instances.
+** Node groups by AMI type, such as Amazon Linux or Bottlerocket.
+** Node group health issues.
+** Instance type distribution.
+* *Add-ons*: Learn about what Amazon EKS Add-ons you have installed, and their status.
+** Number of installations per add-on.
+** Add-ons with health issues.
+** Version distribution per add-on.
+
+=== Available views
+
+* *Graph view*
+** A customizable widget view displaying graphs and visualizations of the selected resource.
+** Changes to the Graph view, such as removing a widget, are visible to all users of the EKS Dashboard.
+* *Resource view*
+** A list view of the selected resource, supporting filters.
+* *Map View*
+** View the geographic distribution of the selected resource.
+
+=== Filter the EKS dashboard
+
+You can filter the EKS Dashboard by:
+
+* {aws} Account
+* Organizational unit, defined by {aws} Organizations
+* {aws} Region
+
+== Disable the EKS dashboard using the {aws} console
+
+. Confirm the following:
+.. You have {aws} Organizations enabled and configured.
+.. You are logged into the Management account of the organization.
+.. You are viewing the {aws} Management Console in the us-east-1 region.
+. Navigate to the EKS console.
+. In the left sidebar, open Dashboard Settings.
+. Click *Disable trusted access*.
+
+== Troubleshoot the EKS dashboard
+
+=== Issue enabling EKS dashboard
+
+* You must be logged in to the management account of an {aws} Organization. 
+** If you do not have an {aws} Organization, create one. Learn how to link:organizations/latest/userguide/orgs_tutorials_basic.html[Create and configure an organization,type="documentation"].
+** If your {aws} account is already a member of an {aws} Organization, identify the administrator of the organization. 
+* You must be logged in to the {aws} account with sufficient IAM permissions to create and update {aws} Organizations resources. 
+
+=== Issue viewing the EKS dashboard
+
+* You must be logged in to one of the following {aws} accounts:
+** The management account of the {aws} Organization
+** A delegated administrator account, identified in the EKS dashboard settings of the management account.
+* If you've recently enabled the EKS Dashboard, please note that initial data population may take up to 12 hours.
+* xref:dashboard-enable-cli[Try re-enabling the dashboard using the CLI], including creating the service linked role.
+
+=== Dashboard widgets move unexpectedly
+
+* The EKS Dashboard saves the configurable widget view at the {aws} Account level. If you change the widget view, other people using the same {aws} account will see the changes.

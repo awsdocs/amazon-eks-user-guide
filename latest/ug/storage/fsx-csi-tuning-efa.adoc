@@ -1,0 +1,744 @@
+include::../attributes.txt[]
+
+[.topic]
+[#fsx-csi-tuning-efa]
+= Optimize Amazon FSx for Lustre performance on nodes (EFA)
+:info_titleabbrev: Optimize (EFA)
+
+[abstract]
+--
+Learn how to set up Elastic Fabric Adapter (EFA) tuning with Amazon EKS and Amazon FSx for Lustre.
+--
+
+This topic describes how to set up Elastic Fabric Adapter (EFA) tuning with Amazon EKS and Amazon FSx for Lustre.
+
+[NOTE]
+====
+
+* For information on creating and deploying the FSx for Lustre CSI driver, see <<fsx-csi-create>>.
+* For optimizing standard nodes without EFA, see <<fsx-csi-tuning-non-efa>>.
+
+====
+
+[#create-eks-cluster]
+== Step 1. Create EKS cluster
+
+Create a cluster using the provided configuration file:
+
+[source,bash]
+----
+# Create cluster using efa-cluster.yaml
+eksctl create cluster -f efa-cluster.yaml
+----
+
+Example `efa-cluster.yaml`:
+
+[source,yaml]
+----
+#efa-cluster.yaml
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: csi-fsx
+  region: us-east-1
+  version: "1.30"
+
+iam:
+  withOIDC: true
+
+availabilityZones: ["us-east-1a", "us-east-1d"]
+
+managedNodeGroups:
+  - name: my-efa-ng
+    instanceType: c6gn.16xlarge
+    minSize: 1
+    desiredCapacity: 1
+    maxSize: 1
+    availabilityZones: ["us-east-1b"]
+    volumeSize: 300
+    privateNetworking: true
+    amiFamily: Ubuntu2204
+    efaEnabled: true
+    preBootstrapCommands:
+      - |
+        #!/bin/bash
+        eth_intf="$(/sbin/ip -br -4 a sh | grep $(hostname -i)/ | awk '{print $1}')"
+        efa_version=$(modinfo efa | awk '/^version:/ {print $2}' | sed 's/[^0-9.]//g')
+        min_efa_version="2.12.1"
+
+        if [[ "$(printf '%s\n' "$min_efa_version" "$efa_version" | sort -V | head -n1)" != "$min_efa_version" ]]; then
+            sudo curl -O https://efa-installer.amazonaws.com/aws-efa-installer-1.37.0.tar.gz
+            tar -xf aws-efa-installer-1.37.0.tar.gz && cd aws-efa-installer
+            echo "Installing EFA driver"
+            sudo apt-get update && apt-get upgrade -y
+            sudo apt install -y pciutils environment-modules libnl-3-dev libnl-route-3-200 libnl-route-3-dev dkms
+            sudo ./efa_installer.sh -y
+            modinfo efa
+        else
+            echo "Using EFA driver version $efa_version"
+        fi
+
+        echo "Installing Lustre client"
+        sudo wget -O - https://fsx-lustre-client-repo-public-keys.s3.amazonaws.com/fsx-ubuntu-public-key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/fsx-ubuntu-public-key.gpg > /dev/null
+        sudo echo "deb [signed-by=/usr/share/keyrings/fsx-ubuntu-public-key.gpg] https://fsx-lustre-client-repo.s3.amazonaws.com/ubuntu jammy main" > /etc/apt/sources.list.d/fsxlustreclientrepo.list
+        sudo apt update | tail
+        sudo apt install -y lustre-client-modules-$(uname -r) amazon-ec2-utils | tail
+        modinfo lustre
+
+        echo "Loading Lustre/EFA modules..."
+        sudo /sbin/modprobe lnet
+        sudo /sbin/modprobe kefalnd ipif_name="$eth_intf"
+        sudo /sbin/modprobe ksocklnd
+        sudo lnetctl lnet configure
+
+        echo "Configuring TCP interface..."
+        sudo lnetctl net del --net tcp 2> /dev/null
+        sudo lnetctl net add --net tcp --if $eth_intf
+
+        # For P5 instance type which supports 32 network cards,
+        # by default add 8 EFA interfaces selecting every 4th device (1 per PCI bus)
+        echo "Configuring EFA interface(s)..."
+        instance_type="$(ec2-metadata --instance-type | awk '{ print $2 }')"
+        num_efa_devices="$(ls -1 /sys/class/infiniband | wc -l)"
+        echo "Found $num_efa_devices available EFA device(s)"
+
+        if [[ "$instance_type" == "p5.48xlarge" || "$instance_type" == "p5e.48xlarge" ]]; then
+           for intf in $(ls -1 /sys/class/infiniband | awk 'NR % 4 == 1'); do
+               sudo lnetctl net add --net efa --if $intf --peer-credits 32
+          done
+        else
+        # Other instances: Configure 2 EFA interfaces by default if the instance supports multiple network cards,
+        # or 1 interface for single network card instances
+        # Can be modified to add more interfaces if instance type supports it
+            sudo lnetctl net add --net efa --if $(ls -1 /sys/class/infiniband | head -n1) --peer-credits 32
+            if [[ $num_efa_devices -gt 1 ]]; then
+               sudo lnetctl net add --net efa --if $(ls -1 /sys/class/infiniband | tail -n1) --peer-credits 32
+            fi
+        fi
+
+        echo "Setting discovery and UDSP rule"
+        sudo lnetctl set discovery 1
+        sudo lnetctl udsp add --src efa --priority 0
+        sudo /sbin/modprobe lustre
+
+        sudo lnetctl net show
+        echo "Added $(sudo lnetctl net show | grep -c '@efa') EFA interface(s)"
+----
+
+[#create-node-group]
+== Step 2. Create node group
+
+Create an EFA-enabled node group:
+
+[source,bash]
+----
+# Create node group using efa-ng.yaml
+eksctl create nodegroup -f efa-ng.yaml
+----
+
+[IMPORTANT]
+===
+Adjust these values for your environment in section `# 5. Mount FSx filesystem`.
+
+[source,bash]
+----
+FSX_DNS="<your-fsx-filesystem-dns>" # Needs to be adjusted.
+MOUNT_NAME="<your-mount-name>" # Needs to be adjusted.
+MOUNT_POINT="</your/mount/point>" # Needs to be adjusted.
+----
+===
+
+Example `efa-ng.yaml`:
+
+[source,yaml]
+----
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: final-efa
+  region: us-east-1
+
+managedNodeGroups:
+  - name: ng-1
+    instanceType: c6gn.16xlarge
+    minSize: 1
+    desiredCapacity: 1
+    maxSize: 1
+    availabilityZones: ["us-east-1a"]
+    volumeSize: 300
+    privateNetworking: true
+    amiFamily: Ubuntu2204
+    efaEnabled: true
+    preBootstrapCommands:
+      - |
+        #!/bin/bash
+        exec 1> >(logger -s -t $(basename $0)) 2>&1
+
+        #########################################################################################
+        #                                    Configuration Section                              #
+        #########################################################################################
+
+        # File System Configuration
+        FSX_DNS="<your-fsx-filesystem-dns>" # Needs to be adjusted.
+        MOUNT_NAME="<your-mount-name>" # Needs to be adjusted.
+        MOUNT_POINT="</your/mount/point>" # Needs to be adjusted.
+
+        # Lustre Tuning Parameters
+        LUSTRE_LRU_MAX_AGE=600000
+        LUSTRE_MAX_CACHED_MB=64
+        LUSTRE_OST_MAX_RPC=32
+        LUSTRE_MDC_MAX_RPC=64
+        LUSTRE_MDC_MOD_RPC=50
+
+        # File paths
+        FUNCTIONS_SCRIPT="/usr/local/bin/lustre_functions.sh"
+        TUNINGS_SCRIPT="/usr/local/bin/apply_lustre_tunings.sh"
+        SERVICE_FILE="/etc/systemd/system/lustre-tunings.service"
+
+        #EFA
+        MIN_EFA_VERSION="2.12.1"
+
+        # Function to check if a command was successful
+        check_success() {
+            if [ $? -eq 0 ]; then
+                echo "SUCCESS: $1"
+            else
+                echo "FAILED: $1"
+                return 1
+            fi
+        }
+
+        echo "********Starting FSx for Lustre configuration********"
+
+        # 1. Install Lustre client
+        if grep -q '^ID=ubuntu' /etc/os-release; then
+            echo "Detected Ubuntu, proceeding with Lustre setup..."
+            # Add Lustre repository
+            sudo wget -O - https://fsx-lustre-client-repo-public-keys.s3.amazonaws.com/fsx-ubuntu-public-key.asc | sudo gpg --dearmor | sudo tee /usr/share/keyrings/fsx-ubuntu-public-key.gpg > /dev/null
+            
+            echo "deb [signed-by=/usr/share/keyrings/fsx-ubuntu-public-key.gpg] https://fsx-lustre-client-repo.s3.amazonaws.com/ubuntu jammy main" | sudo tee /etc/apt/sources.list.d/fsxlustreclientrepo.list
+            
+            sudo apt-get update
+            sudo apt-get install -y lustre-client-modules-$(uname -r)
+            sudo apt-get install -y lustre-client
+        else
+            echo "Not Ubuntu, exiting"
+            exit 1
+        fi
+
+        check_success "Install Lustre client"
+
+        # Ensure Lustre tools are in the PATH
+        export PATH=$PATH:/usr/sbin
+
+        # 2. Apply network and RPC tunings
+        echo "********Applying network and RPC tunings********"
+        if ! grep -q "options ptlrpc ptlrpcd_per_cpt_max" /etc/modprobe.d/modprobe.conf; then
+            echo "options ptlrpc ptlrpcd_per_cpt_max=64" | sudo tee -a /etc/modprobe.d/modprobe.conf
+            check_success "Set ptlrpcd_per_cpt_max"
+        else
+            echo "ptlrpcd_per_cpt_max already set in modprobe.conf"
+        fi
+
+        if ! grep -q "options ksocklnd credits" /etc/modprobe.d/modprobe.conf; then
+            echo "options ksocklnd credits=2560" | sudo tee -a /etc/modprobe.d/modprobe.conf
+            check_success "Set ksocklnd credits"
+        else
+            echo "ksocklnd credits already set in modprobe.conf"
+        fi
+
+        # 3. Load Lustre modules
+        manage_lustre_modules() {
+            echo "Checking for existing Lustre modules..."
+            if lsmod | grep -q lustre; then
+                echo "Existing Lustre modules found."
+                
+                # Check for mounted Lustre filesystems
+                echo "Checking for mounted Lustre filesystems..."
+                if mount | grep -q "type lustre"; then
+                    echo "Found mounted Lustre filesystems. Attempting to unmount..."
+                    mounted_fs=$(mount | grep "type lustre" | awk '{print $3}')
+                    for fs in $mounted_fs; do
+                        echo "Unmounting $fs"
+                        sudo umount $fs
+                        check_success "Unmount filesystem $fs"
+                    done
+                else
+                    echo "No Lustre filesystems mounted."
+                fi
+
+                # After unmounting, try to remove modules
+                echo "Attempting to remove Lustre modules..."
+                sudo lustre_rmmod
+                if [ $? -eq 0 ]; then
+                    echo "SUCCESS: Removed existing Lustre modules"
+                else
+                    echo "WARNING: Could not remove Lustre modules. They may still be in use."
+                    echo "Please check for any remaining Lustre processes or mounts."
+                    return 1
+                fi
+            else
+                echo "No existing Lustre modules found."
+            fi
+
+            echo "Loading Lustre modules..."
+            sudo modprobe lustre
+            check_success "Load Lustre modules" || exit 1
+
+            echo "Checking loaded Lustre modules:"
+            lsmod | grep lustre
+        }
+
+        # Managing Lustre kernel modules
+        echo "********Managing Lustre kernel modules********"
+        manage_lustre_modules
+
+        # 4. Initializing Lustre networking
+        echo "********Initializing Lustre networking********"
+        sudo lctl network up
+        check_success "Initialize Lustre networking" || exit 1
+
+        # 4.5 EFA Setup and Configuration
+        setup_efa() {
+            echo "********Starting EFA Setup********"
+            
+            # Get interface and version information
+            eth_intf="$(/sbin/ip -br -4 a sh | grep $(hostname -i)/ | awk '{print $1}')"
+            efa_version=$(modinfo efa | awk '/^version:/ {print $2}' | sed 's/[^0-9.]//g')
+            min_efa_version=$MIN_EFA_VERSION
+
+            # Install or verify EFA driver
+            if [[ "$(printf '%s\n' "$min_efa_version" "$efa_version" | sort -V | head -n1)" != "$min_efa_version" ]]; then
+                echo "Installing EFA driver..."
+                sudo curl -O https://efa-installer.amazonaws.com/aws-efa-installer-1.37.0.tar.gz
+                tar -xf aws-efa-installer-1.37.0.tar.gz && cd aws-efa-installer
+                
+                # Install dependencies
+                sudo apt-get update && apt-get upgrade -y
+                sudo apt install -y pciutils environment-modules libnl-3-dev libnl-route-3-200 libnl-route-3-dev dkms
+                
+                # Install EFA
+                sudo ./efa_installer.sh -y
+                modinfo efa
+            else
+                echo "Using existing EFA driver version $efa_version"
+            fi
+        }
+
+        configure_efa_network() {
+            echo "********Configuring EFA Network********"
+            
+            # Load required modules
+            echo "Loading network modules..."
+            sudo /sbin/modprobe lnet
+            sudo /sbin/modprobe kefalnd ipif_name="$eth_intf"
+            sudo /sbin/modprobe ksocklnd
+            
+            # Initialize LNet
+            echo "Initializing LNet..."
+            sudo lnetctl lnet configure
+
+            # Configure TCP interface
+            echo "Configuring TCP interface..."
+            sudo lnetctl net del --net tcp 2> /dev/null
+            sudo lnetctl net add --net tcp --if $eth_intf
+
+            # For P5 instance type which supports 32 network cards,
+            # by default add 8 EFA interfaces selecting every 4th device (1 per PCI bus)
+            echo "Configuring EFA interface(s)..."
+            instance_type="$(ec2-metadata --instance-type | awk '{ print $2 }')"
+            num_efa_devices="$(ls -1 /sys/class/infiniband | wc -l)"
+            echo "Found $num_efa_devices available EFA device(s)"
+
+            if [[ "$instance_type" == "p5.48xlarge" || "$instance_type" == "p5e.48xlarge" ]]; then
+                # P5 instance configuration
+                for intf in $(ls -1 /sys/class/infiniband | awk 'NR % 4 == 1'); do
+                    sudo lnetctl net add --net efa --if $intf --peer-credits 32
+                done
+            else
+                # Standard configuration
+                # Other instances: Configure 2 EFA interfaces by default if the instance supports multiple network cards,
+                # or 1 interface for single network card instances
+                # Can be modified to add more interfaces if instance type supports it
+                sudo lnetctl net add --net efa --if $(ls -1 /sys/class/infiniband | head -n1) --peer-credits 32
+                if [[ $num_efa_devices -gt 1 ]]; then
+                    sudo lnetctl net add --net efa --if $(ls -1 /sys/class/infiniband | tail -n1) --peer-credits 32
+                fi
+            fi
+
+            # Configure discovery and UDSP
+            echo "Setting up discovery and UDSP rules..."
+            sudo lnetctl set discovery 1
+            sudo lnetctl udsp add --src efa --priority 0
+            sudo /sbin/modprobe lustre
+
+            # Verify configuration
+            echo "Verifying EFA network configuration..."
+            sudo lnetctl net show
+            echo "Added $(sudo lnetctl net show | grep -c '@efa') EFA interface(s)"
+        }
+
+        # Main execution
+        setup_efa
+        configure_efa_network
+
+        # 5. Mount FSx filesystem
+        if [ ! -z "$FSX_DNS" ] && [ ! -z "$MOUNT_NAME" ]; then
+            echo "********Creating mount point********"
+            sudo mkdir -p $MOUNT_POINT
+            check_success "Create mount point"
+
+            echo "Mounting FSx filesystem..."
+            sudo mount -t lustre ${FSX_DNS}@tcp:/${MOUNT_NAME} ${MOUNT_POINT}
+            check_success "Mount FSx filesystem"
+        else
+            echo "Skipping FSx mount as DNS or mount name is not provided"
+        fi
+
+        # 6. Applying Lustre performance tunings
+        echo "********Applying Lustre performance tunings********"
+
+        # Get number of CPUs
+        NUM_CPUS=$(nproc)
+
+        # Calculate LRU size (100 * number of CPUs)
+        LRU_SIZE=$((100 * NUM_CPUS))
+
+        #Apply LRU tunings
+        echo "Apply LRU tunings"
+        sudo lctl set_param ldlm.namespaces.*.lru_max_age=${LUSTRE_LRU_MAX_AGE}
+        check_success "Set lru_max_age"
+        sudo lctl set_param ldlm.namespaces.*.lru_size=$LRU_SIZE
+        check_success "Set lru_size"
+
+        # Client Cache Control
+        sudo lctl set_param llite.*.max_cached_mb=${LUSTRE_MAX_CACHED_MB}
+        check_success "Set max_cached_mb"
+
+        # RPC Controls
+        sudo lctl set_param osc.*OST*.max_rpcs_in_flight=${LUSTRE_OST_MAX_RPC}
+        check_success "Set OST max_rpcs_in_flight"
+
+        sudo lctl set_param mdc.*.max_rpcs_in_flight=${LUSTRE_MDC_MAX_RPC}
+        check_success "Set MDC max_rpcs_in_flight"
+
+        sudo lctl set_param mdc.*.max_mod_rpcs_in_flight=${LUSTRE_MDC_MOD_RPC}
+        check_success "Set MDC max_mod_rpcs_in_flight"
+
+        # 7. Verify all tunings
+        echo "********Verifying all tunings********"
+
+        # Function to verify parameter value
+        verify_param() {
+            local param=$1
+            local expected=$2
+            local actual=$3
+            
+            if [ "$actual" == "$expected" ]; then
+                echo "SUCCESS: $param is correctly set to $expected"
+            else
+                echo "WARNING: $param is set to $actual (expected $expected)"
+            fi
+        }
+
+        echo "Verifying all parameters:"
+
+        # LRU tunings
+        actual_lru_max_age=$(lctl get_param -n ldlm.namespaces.*.lru_max_age | head -1)
+        verify_param "lru_max_age" "600000" "$actual_lru_max_age"
+
+        actual_lru_size=$(lctl get_param -n ldlm.namespaces.*.lru_size | head -1)
+        verify_param "lru_size" "$LRU_SIZE" "$actual_lru_size"
+
+        # Client Cache
+        actual_max_cached_mb=$(lctl get_param -n llite.*.max_cached_mb | grep "max_cached_mb:" | awk '{print $2}')
+        verify_param "max_cached_mb" "64" "$actual_max_cached_mb"
+
+        # RPC Controls
+        actual_ost_rpcs=$(lctl get_param -n osc.*OST*.max_rpcs_in_flight | head -1)
+        verify_param "OST max_rpcs_in_flight" "32" "$actual_ost_rpcs"
+
+        actual_mdc_rpcs=$(lctl get_param -n mdc.*.max_rpcs_in_flight | head -1)
+        verify_param "MDC max_rpcs_in_flight" "64" "$actual_mdc_rpcs"
+
+        actual_mdc_mod_rpcs=$(lctl get_param -n mdc.*.max_mod_rpcs_in_flight | head -1)
+        verify_param "MDC max_mod_rpcs_in_flight" "50" "$actual_mdc_mod_rpcs"
+
+        # Network and RPC configurations from modprobe.conf
+        actual_ptlrpc=$(grep "ptlrpc ptlrpcd_per_cpt_max" /etc/modprobe.d/modprobe.conf | awk '{print $3}')
+        verify_param "ptlrpcd_per_cpt_max" "ptlrpcd_per_cpt_max=64" "$actual_ptlrpc"
+
+        actual_ksocklnd=$(grep "ksocklnd credits" /etc/modprobe.d/modprobe.conf | awk '{print $3}')
+        verify_param "ksocklnd credits" "credits=2560" "$actual_ksocklnd"
+
+        # 8. Setup persistence
+        setup_persistence() {
+            # Create functions file
+            cat << EOF > $FUNCTIONS_SCRIPT
+        #!/bin/bash
+
+        apply_lustre_tunings() {
+            local NUM_CPUS=\$(nproc)
+            local LRU_SIZE=\$((100 * NUM_CPUS))
+            
+            echo "Applying Lustre performance tunings..."
+            lctl set_param ldlm.namespaces.*.lru_max_age=$LUSTRE_LRU_MAX_AGE
+            lctl set_param ldlm.namespaces.*.lru_size=\$LRU_SIZE
+            lctl set_param llite.*.max_cached_mb=$LUSTRE_MAX_CACHED_MB
+            lctl set_param osc.*OST*.max_rpcs_in_flight=$LUSTRE_OST_MAX_RPC
+            lctl set_param mdc.*.max_rpcs_in_flight=$LUSTRE_MDC_MAX_RPC
+            lctl set_param mdc.*.max_mod_rpcs_in_flight=$LUSTRE_MDC_MOD_RPC
+        }
+        EOF
+
+            # Create tuning script
+            cat << EOF > $TUNINGS_SCRIPT
+        #!/bin/bash
+        exec 1> >(logger -s -t \$(basename \$0)) 2>&1
+
+        source $FUNCTIONS_SCRIPT
+
+        # Function to check if Lustre is mounted
+        is_lustre_mounted() {
+            mount | grep -q "type lustre"
+        }
+
+        # Function to mount Lustre
+        mount_lustre() {
+            echo "Mounting Lustre filesystem..."
+            mkdir -p $MOUNT_POINT
+            mount -t lustre ${FSX_DNS}@tcp:/${MOUNT_NAME} $MOUNT_POINT
+            return \$?
+        }
+
+        # Main execution
+        # Try to mount if not already mounted
+        if ! is_lustre_mounted; then
+            echo "Lustre filesystem not mounted, attempting to mount..."
+            mount_lustre
+        fi
+
+        # Wait for successful mount (up to 5 minutes)
+        for i in {1..30}; do
+            if is_lustre_mounted; then
+                echo "Lustre filesystem mounted, applying tunings..."
+                apply_lustre_tunings
+                exit 0
+            fi
+            echo "Waiting for Lustre filesystem to be mounted... (attempt $i/30)"
+            sleep 10
+        done
+
+        echo "Timeout waiting for Lustre filesystem mount"
+        exit 1
+        EOF
+
+        # Create systemd service
+
+        # Create systemd directory if it doesn't exist
+        sudo mkdir -p /etc/systemd/system/
+
+            # Create service file directly for Ubuntu
+            cat << EOF > $SERVICE_FILE
+        [Unit]
+        Description=Apply Lustre Performance Tunings
+        After=network.target remote-fs.target
+
+        [Service]
+        Type=oneshot
+        ExecStart=/bin/bash -c 'source $FUNCTIONS_SCRIPT && $TUNINGS_SCRIPT'
+        RemainAfterExit=yes
+
+        [Install]
+        WantedBy=multi-user.target
+        EOF
+
+
+            # Make scripts executable and enable service
+            sudo chmod +x $FUNCTIONS_SCRIPT
+            sudo chmod +x $TUNINGS_SCRIPT
+            systemctl enable lustre-tunings.service
+            systemctl start lustre-tunings.service
+        }
+
+        echo "********Setting up persistent tuning********"
+        setup_persistence
+
+        echo "FSx for Lustre configuration completed."
+----
+
+[#verify-efa-setup]
+== (Optional) Step 3. Verify EFA setup
+
+SSH into node:
+
+[source,bash]
+----
+# Get instance ID from EKS console or AWS CLI
+ssh -i /path/to/your-key.pem ec2-user@<node-internal-ip>
+----
+
+Verify EFA configuration:
+
+[source,bash]
+----
+sudo lnetctl net show
+----
+
+Check setup logs:
+
+[source,bash]
+----
+sudo cat /var/log/cloud-init-output.log
+----
+
+Here's example expected output for `lnetctl net show`:
+
+[source,text]
+----
+net:
+    - net type: tcp
+      ...
+    - net type: efa
+      local NI(s):
+        - nid: xxx.xxx.xxx.xxx@efa
+          status: up
+----
+
+[#example-deployments]
+== Example deployments
+
+=== a. Create claim.yaml
+
+[source,yaml]
+----
+#claim.yaml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fsx-claim-efa
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 4800Gi
+  volumeName: fsx-pv
+----
+
+Apply the claim:
+
+[source,bash]
+----
+kubectl apply -f claim.yaml
+----
+
+=== b. Create pv.yaml
+
+Update the `<replaceable-placeholders>`:
+
+[source,yaml]
+----
+#pv.yaml
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: fsx-pv
+spec:
+  capacity:
+    storage: 4800Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  mountOptions:
+    - flock
+  persistentVolumeReclaimPolicy: Recycle
+  csi:
+    driver: fsx.csi.aws.com
+    volumeHandle: fs-<1234567890abcdef0>
+    volumeAttributes:
+      dnsname: fs-<1234567890abcdef0>.fsx.us-east-1.amazonaws.com
+      mountname: <abcdef01>
+----
+
+Apply the persistent volume:
+
+[source,bash]
+----
+kubectl apply -f pv.yaml
+----
+
+=== c. Create pod.yaml
+
+[source,yaml]
+----
+#pod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fsx-efa-app
+spec:
+  containers:
+  - name: app
+    image: amazonlinux:2
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do dd if=/dev/urandom bs=100M count=20 > data/test_file; sleep 10; done"]
+    resources:
+      requests:
+        vpc.amazonaws.com/efa: 1
+      limits:
+        vpc.amazonaws.com/efa: 1
+    volumeMounts:
+    - name: persistent-storage
+      mountPath: /data
+  volumes:
+  - name: persistent-storage
+    persistentVolumeClaim:
+      claimName: fsx-claim-efa
+----
+
+Apply the Pod:
+
+[source,bash]
+----
+kubectl apply -f pod.yaml
+----
+
+[#verification-commands]
+== Additional verification commands
+
+Verify Pod mounts and writes to filesystem:
+
+[source,bash]
+----
+kubectl exec -ti fsx-efa-app -- df -h | grep data
+# Expected output:
+# <192.0.2.0>@tcp:/<abcdef01>  4.5T  1.2G  4.5T   1% /data
+
+kubectl exec -ti fsx-efa-app -- ls /data
+# Expected output:
+# test_file
+----
+
+SSH onto the node to verify traffic is going over EFA:
+
+[source,bash]
+----
+sudo lnetctl net show -v
+----
+
+The expected output will show EFA interfaces with traffic statistics.
+
+== Related information
+
+* <<fsx-csi-create>>
+* <<fsx-csi-tuning-non-efa>>
+* link:fsx/latest/LustreGuide/performance.html[Amazon FSx for Lustre Performance,type="documentation"]
+* link:ec2/latest/userguide/efa.html[Elastic Fabric Adapter,type="documentation"]

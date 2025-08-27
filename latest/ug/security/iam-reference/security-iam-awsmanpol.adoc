@@ -50,6 +50,24 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html#AmazonEKSClusterPolicy-json[AmazonEKSClusterPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
+
+[#security-iam-awsmanpol-amazoneksdashboardconsolereadonly]
+== {aws} managed policy: AmazonEKSDashboardConsoleReadOnly
+:info_titleabbrev: AmazonEKSDashboardConsoleReadOnly
+
+You can attach `AmazonEKSDashboardConsoleReadOnly` to your IAM entities. 
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
+
+* *`eks`* - Read-only access to EKS dashboard data, resources, and cluster versions information. This allows viewing EKS-related metrics and cluster configuration details.
+
+* *`organizations`* - Read-only access to {aws} Organizations information, including:
+** Viewing organization details and service access
+** Listing organizational roots, accounts, and organizational units
+** Viewing organization structure
+  
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSDashboardConsoleReadOnly.html#AmazonEKSDashboardConsoleReadOnly-json[AmazonEKSDashboardConsoleReadOnly,type="documentation"] in the {aws} Managed Policy Reference Guide.
+
 [#security-iam-awsmanpol-amazoneksfargatepodexecutionrolepolicy]
 == {aws} managed policy: AmazonEKSFargatePodExecutionRolePolicy
 :info_titleabbrev: AmazonEKSFargatePodExecutionRolePolicy
@@ -88,7 +106,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 
 You can attach `AmazonEKSComputePolicy` to your IAM entities. You may attach this policy to your <<cluster-iam-role,cluster IAM role>> to expand the resources EKS can manage in your account.
 
-This policy grants the permissions required for Amazon EKS to create and manage EC2 instances for the EKS cluster, as well as the necessary IAM permissions to configure EC2. 
+This policy grants the permissions required for Amazon EKS to create and manage EC2 instances for the EKS cluster, and the necessary IAM permissions to configure EC2. Also, this policy grants the permissions for Amazon EKS to create the EC2 Spot service-linked role on your behalf.
 
 === Permissions details
 
@@ -222,7 +240,7 @@ This policy allows the service-linked role to call {aws} services on your behalf
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks.
 
-* *`ec2`* – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the cluster security group, and VPC that are required to create a cluster. For more information, see <<sec-group-reqs>>. Read information about security groups. Update tags on security groups.
+* *`ec2`* – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the cluster security group, and VPC that are required to create a cluster. For more information, see <<sec-group-reqs>>. Read information about security groups. Update tags on security groups. Read information about On-Demand Capacity Reservations.
 * *`ec2` Auto Mode* – Terminate EC2 instances created by EKS Auto Mode. For more information, see <<automode>>. 
 * *`iam`* – List all of the managed policies that attached to an IAM role. This is required so that Amazon EKS can list and validate all managed policies and permissions required to create a cluster.
 * *Associate a VPC with a hosted zone* – This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server.
@@ -306,6 +324,22 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html#AWSServiceRoleForAmazonEKSNodegroup-json[AWSServiceRoleForAmazonEKSNodegroup,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
+[#security-iam-awsmanpol-AmazonEKSDashboardServiceRolePolicy]
+== {aws} managed policy: AmazonEKSDashboardServiceRolePolicy
+:info_titleabbrev: AmazonEKSDashboardServiceRolePolicy
+
+You can't attach `AmazonEKSDashboardServiceRolePolicy` to your IAM entities. This policy is attached to a service-linked role that allows Amazon EKS to perform actions on your behalf. For more information, see <<service-linked-role-permissions-eks-dashboard>>.
+
+This policy grants the `AWSServiceRoleForAmazonEKSDashboard` role permissions that allow it to create and manage Amazon EC2 node groups in your account. 
+
+*Permissions details*
+
+This policy includes the following permissions that allow access to complete these tasks:
+
+* *`organizations`* – View information about your {aws} Organizations structure and accounts. This includes permissions to list accounts in your organization, view organizational units and roots, list delegated administrators, view services that have access to your organization, and retrieve detailed information about your organization and accounts.
+
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSDashboardServiceRolePolicy.html#AmazonEKSDashboardServiceRolePolicy-json[AmazonEKSDashboardServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+
 [#security-iam-awsmanpol-amazonebscsidriverservicerolepolicy]
 == {aws} managed policy: AmazonEBSCSIDriverPolicy
 :info_titleabbrev: AmazonEBSCSIDriverPolicy
@@ -347,7 +381,7 @@ You can't attach this policy to your IAM entities. When you create a cluster usi
 The `AmazonEKSLocalOutpostServiceRolePolicy` includes the following permissions:
 
 * *`ec2`* – Allows Amazon EKS to work with security, network, and other resources to successfully launch and manage control plane instances in your account.
-* *`ssm`* – Allows Amazon EC2 Systems Manager connection to the control plane instances, which is used by Amazon EKS to communicate and manage the local cluster in your account.
+* *`ssm`, `ssmmessages`* – Allows Amazon EC2 Systems Manager connection to the control plane instances, which is used by Amazon EKS to communicate and manage the local cluster in your account.
 * *`iam`* – Allows Amazon EKS to manage the instance profile associated with the control plane instances.
 * *`secretsmanager`* - Allows Amazon EKS to put bootstrap data for the control plane instances into {aws} Secrets Manager so it can be securely referenced during instance bootstrapping.
 * *`outposts`* – Allows Amazon EKS to get Outpost information from your account to successfully launch a local cluster in an Outpost.
@@ -358,14 +392,46 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == Amazon EKS updates to {aws} managed policies
 :info_titleabbrev: Policy updates
 
-View details about updates to {aws} managed policies for Amazon EKS since this service began tracking these changes. For automatic alerts about changes to this page, subscribe to the RSS feed on the Amazon EKS Document history page.
+View details about updates to {aws} managed policies for Amazon EKS since this service began tracking these changes.
 
-[cols="1,1,1", options="header"]
+To receive notifications of all source file changes to this specific documentation page, you can subscribe to the following URL with an RSS reader:
+
+[source,none]
+----
+https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/security/iam-reference/security-iam-awsmanpol.adoc.atom
+----
+
+[%header,cols="3"]
 |===
 
 |Change
 |Description
 |Date
+
+|Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
+|This role can attach new access policy `AmazonEKSEventPolicy`. Restricted permissions for `ec2:DeleteLaunchTemplate` and `ec2:TerminateInstances`.
+|August 26, 2025
+
+|Added permission to <<security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy>>
+|Added `ssmmessages:OpenDataChannel` permission to `AmazonEKSLocalOutpostServiceRolePolicy`.
+|June 26, 2025
+
+| Added permission to <<security-iam-awsmanpol-AmazonEKSComputePolicy>>.
+| Updated resource permissions for the `ec2:RunInstances` and `ec2:CreateFleet` actions to include capacity reservations `{arn-aws}ec2:*:*:capacity-reservation/*`. This allows Amazon EKS Auto Mode to launch instances by using the EC2 On-Demand Capacity Reservations in your account. Added `iam:CreateServiceLinkedRole` to allow Amazon EKS Auto Mode to create the EC2 Spot service-linked role `AWSServiceRoleForEC2Spot` on your behalf.
+| June 20, 2025
+
+| Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
+| Added `ec2:DescribeCapacityReservations` permission to allow Amazon EKS Auto Mode to launch instances by using the EC2 On-Demand Capacity Reservations in your account.
+| June 20, 2025
+
+
+|Introduced <<security-iam-awsmanpol-amazoneksdashboardconsolereadonly>>.
+|Introduced new `AmazonEKSDashboardConsoleReadOnly` policy.
+|June 19, 2025
+
+|Introduced <<security-iam-awsmanpol-AmazonEKSDashboardServiceRolePolicy>>.
+|Introduced new `AmazonEKSDashboardServiceRolePolicy` policy.
+|May 21, 2025
 
 |Added permissions to <<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>>.
 |Added `ec2:DeleteNetworkInterfaces` permission to allow Amazon EKS to delete elastic network interfaces that are left behind if the VPC CNI quits unexpectedly.

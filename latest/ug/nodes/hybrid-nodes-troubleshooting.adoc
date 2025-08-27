@@ -12,8 +12,11 @@ Troubleshoot, diagnose, and repair hybrid nodes from your data centers to Amazon
 
 This topic covers some common errors that you might see while using Amazon EKS Hybrid Nodes and how to fix them. For other troubleshooting information, see <<troubleshooting>> and https://repost.aws/tags/knowledge-center/TA4IvCeWI1TE66q4jEj4Z9zg/amazon-elastic-kubernetes-service[Knowledge Center tag for Amazon EKS] on _{aws} re:Post_. If you cannot resolve the issue, contact {aws} Support.
 
+*Node troubleshooting with `nodeadm debug`*
 You can run the `nodeadm debug` command from your hybrid nodes to validate networking and credential requirements are met. For more information on the `nodeadm debug` command, see <<hybrid-nodes-nodeadm>>.
 
+*Detect issues with your hybrid nodes with cluster insights*
+Amazon EKS cluster insights includes __insight checks__ that detect common issues with the configuration of EKS Hybrid Nodes in your cluster. You can view the results of all insight checks from the {aws-management-console}, {aws} CLI, and the {aws} SDKs. For more information about cluster insights, see <<cluster-insights>>.
 
 [#hybrid-nodes-troubleshooting-install]
 == Installing hybrid nodes troubleshooting
@@ -412,7 +415,7 @@ If you are having issues running Calico on hybrid nodes, see https://docs.tigera
 
 The table below summarizes the Calico components and whether they run on the node or pod network by default. If you configured Calico to use NAT for outgoing pod traffic, your on-premises network must be configured to route traffic to your on-premises node CIDR and your VPC routing tables must be configured with a route for your on-premises node CIDR with your transit gateway (TGW) or virtual private gateway (VGW) as the target. If you are not configuring Calico to use NAT for outgoing pod traffic, your on-premises network must be configured to route traffic to your on-premises pod CIDR and your VPC routing tables must be configured with a route for your on-premises pod CIDR with your transit gateway (TGW) or virtual private gateway (VGW) as the target.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Component
 |Network
@@ -496,7 +499,7 @@ sudo aws sts get-caller-identity
 {
     "UserId": "ABCDEFGHIJKLM12345678910:<node-name>",
     "Account": "<aws-account-id>",
-    "Arn": "arn:aws:sts::<aws-account-id>:assumed-role/<hybrid-nodes-iam-role/<node-name>"
+    "Arn": "{arn-aws}sts::<aws-account-id>:assumed-role/<hybrid-nodes-iam-role/<node-name>"
 }
 ----
 
@@ -504,7 +507,7 @@ sudo aws sts get-caller-identity
 
 If you are using {aws} SSM hybrid activations for your hybrid nodes credentials, be aware of the following SSM directories and artifacts that are installed on your hybrid nodes by `nodeadm`. For more information on the SSM agent, see link:systems-manager/latest/userguide/ssm-agent.html[Working with the SSM agent,type="documentation"] in the _{aws} Systems Manager User Guide_.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Description
 |Location
@@ -636,7 +639,7 @@ rm -rf /var/lib/amazon/ssm/Vault/Store/RegistrationKey
 
 If you are using {aws} IAM Roles Anywhere for your hybrid nodes credentials, be aware of the following directories and artifacts that are installed on your hybrid nodes by `nodeadm`. For more information on the troubleshooting IAM Roles Anywhere, see link:rolesanywhere/latest/userguide/security_iam_troubleshoot.html[Troubleshooting {aws} IAM Roles Anywhere identity and access,type="documentation"] in the _{aws} IAM Roles Anywhere User Guide_.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Description
 |Location
@@ -688,7 +691,7 @@ AccessDeniedException: Not authorized to set roleSessionName
 [#hybrid-nodes-troubleshooting-os]
 == Operating system troubleshooting
 
-*RHEL*
+=== RHEL
 
 *Entitlement or subscription manager registration failures*
 
@@ -698,6 +701,8 @@ If you are running `nodeadm install` and encounter a failure to install the hybr
 ----
 This system is not registered with an entitlement server
 ----
+
+=== Ubuntu
 
 *GLIBC not found*
 
@@ -715,4 +720,66 @@ Run the following commands to install the dependency:
 ldd --version
 sudo apt update && apt install libc6
 sudo apt install glibc-source
+----
+
+=== Bottlerocket
+
+If you have the Bottlerocket admin container enabled, you can access it with SSH for advanced debugging and troubleshooting with elevated privileges. The following sections contain commands that need to be run on the context of the Bottlerocket host. Once you are on the admin container, you can run `sheltie` to get a full root shell in the Bottlerocket host.
+
+[source,bash,subs="verbatim,attributes"]
+----
+sheltie
+----
+
+You can also run the commands in the following sections from the admin container shell by prefixing each command with `sudo chroot /.bottlerocket/rootfs`.
+
+[source,bash,subs="verbatim,attributes"]
+----
+sudo chroot /.bottlerocket/rootfs <command>
+----
+
+*Using logdog for log collection*
+
+Bottlerocket provides the `logdog` utility to efficiently collect logs and system information for troubleshooting purposes.
+
+[source,bash,subs="verbatim,attributes"]
+----
+logdog
+----
+
+The `logdog` utility gathers logs from various locations on a Bottlerocket host and combines them into a tarball. By default, the tarball will be created at `/var/log/support/bottlerocket-logs.tar.gz`, and is accessible from host containers at `/.bottlerocket/support/bottlerocket-logs.tar.gz`.
+
+*Accessing system logs with journalctl*
+
+You can check the status of the various system services such as `kubelet`, `containerd`, etc and view their logs with the following commands. The `-f` flag will follow the logs in real time.
+
+For checking `kubelet` service status and retrieving `kubelet` logs, you can run:
+
+[source,bash,subs="verbatim,attributes"]
+----
+systemctl status kubelet
+journalctl -u kubelet -f
+----
+
+For checking `containerd` service status and retrieving the logs for the orchestrated `containerd` instance, you can run:
+
+[source,bash,subs="verbatim,attributes"]
+----
+systemctl status containerd
+journalctl -u containerd -f
+----
+
+For checking `host-containerd` service status and retrieving the logs for the host `containerd` instance, you can run:
+
+[source,bash,subs="verbatim,attributes"]
+----
+systemctl status host-containerd
+journalctl -u host-containerd -f
+----
+
+For retrieving the logs for the bootstrap containers and host containers, you can run:
+
+[source,bash,subs="verbatim,attributes"]
+----
+journalctl _COMM=host-ctr -f
 ----

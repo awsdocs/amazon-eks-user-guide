@@ -31,20 +31,7 @@ kubectl get svc
 ----
 brew install helm
 ----
-** If you're using Windows with https://chocolatey.org/[Chocolatey], install the binaries with the following command.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-choco install kubernetes-helm
-----
-** If you're using Linux, install the binaries with the following commands.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-chmod 700 get_helm.sh
-./get_helm.sh
-----
+** For more installation options, see https://helm.sh/docs/intro/install/[Installing Helm] in the Helm Docs. 
 +
 NOTE: If you get a message that `openssl` must first be installed, you can install it with the following command. 
 

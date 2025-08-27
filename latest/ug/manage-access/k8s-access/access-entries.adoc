@@ -3,31 +3,42 @@ include::../../attributes.txt[]
 [.topic]
 [#access-entries]
 = Grant IAM users access to Kubernetes with EKS access entries
-:info_titleabbrev: Grant permissions
+:info_titleabbrev: Access entries
 
 [abstract]
 --
 Learn how to manage access entries for IAM principals to your Amazon EKS cluster, including creating, updating, and deleting access entries for fine-grained authentication and authorization.
 --
 
-*What is EKS access entries?*
+This section is designed to show you how to manage IAM principal access to Kubernetes clusters in Amazon Elastic Kubernetes Service (EKS) using access entries and policies. You'll find details on changing authentication modes, migrating from legacy `aws-auth` ConfigMap entries, creating, updating, and deleting access entries, associating policies with entries, reviewing predefined policy permissions, and key prerequisites and considerations for secure access management.
 
-EKS access entries is the best way to grant users access to the Kubernetes API. For example, you can use access entries to grant developers access to use kubectl.
+== Overview
 
-Fundamentally, an EKS access entry associates a set of Kubernetes permissions with an IAM identity, such as an IAM role. For example, a developer may assume an IAM role and use that to authenticate to an EKS Cluster.
+EKS access entries are the best way to grant users access to the Kubernetes API. For example, you can use access entries to grant developers access to use kubectl. Fundamentally, an EKS access entry associates a set of Kubernetes permissions with an IAM identity, such as an IAM role. For example, a developer may assume an IAM role and use that to authenticate to an EKS Cluster.
 
+== Features
+
+* **Centralized Authentication and Authorization**: Controls access to Kubernetes clusters directly via Amazon EKS APIs, eliminating the need to switch between {aws} and Kubernetes APIs for user permissions.
+* **Granular Permissions Management**: Uses access entries and policies to define fine-grained permissions for {aws} IAM principals, including modifying or revoking cluster-admin access from the creator.
+* **IaC Tool Integration**: Supports infrastructure as code tools like {aws} CloudFormation, Terraform, and {aws} CDK to define access configurations during cluster creation.
+* **Misconfiguration Recovery**: Allows restoring cluster access through the Amazon EKS API without direct Kubernetes API access.
+* **Reduced Overhead and Enhanced Security**: Centralizes operations to lower overhead while leveraging {aws} IAM features like CloudTrail audit logging and multi-factor authentication.
+
+
+== How to attach permissions
 You can attach Kubernetes permissions to access entries in two ways:
 
 * Use an access policy. Access policies are pre-defined Kubernetes permissions templates maintained by {aws}. For more information, see <<access-policy-permissions>>.
 * Reference a Kubernetes group. If you associate an IAM Identity with a Kubernetes group, you can create Kubernetes resources that grant the group permissions. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the Kubernetes documentation.
 
-*Advantages*
+== Considerations
 
-Amazon EKS cluster access management enables you to control authentication and authorization for your Kubernetes clusters directly through Amazon EKS APIs. This feature simplifies access management by eliminating the need to switch between {aws} and Kubernetes APIs when managing user permissions. Using access entries and access policies, you can define granular permissions for {aws} IAM principals, including the ability to modify or revoke cluster-admin permissions from the cluster creator.
+When enabling EKS access entries on existing clusters, keep the following in mind:
 
-The feature integrates with infrastructure as code (IaC) tools like {aws} CloudFormation, Terraform, and {aws} CDK, allowing you to define access configurations during cluster creation. If misconfigurations occur, you can restore cluster access through the Amazon EKS API without requiring direct Kubernetes API access. This centralized approach reduces operational overhead and improves security by leveraging existing {aws} IAM capabilities such as CloudTrail audit logging and multi-factor authentication.
+* **Legacy Cluster Behavior**: For clusters created before the introduction of access entries (those with initial platform versions earlier than specified in link:eks/latest/userguide/platform-versions.html[Platform version requirements,type="documentation"]), EKS automatically creates an access entry reflecting pre-existing permissions. This entry includes the IAM identity that originally created the cluster and the administrative permissions granted to that identity during cluster creation.
+* **Handling Legacy `aws-auth` ConfigMap**: If your cluster relies on the legacy `aws-auth` ConfigMap for access management, only the access entry for the original cluster creator is automatically created upon enabling access entries. Additional roles or permissions added to the ConfigMap (e.g., custom IAM roles for developers or services) are not automatically migrated. To address this, manually create corresponding access entries.
 
-== Get Started
+== Get started
 
 . Determine the IAM Identity and Access policy you want to use.
 ** <<access-policy-permissions>>
@@ -39,15 +50,6 @@ The feature integrates with infrastructure as code (IaC) tools like {aws} CloudF
 ** <<install-awscli>>
 ** <<install-kubectl>>
 
-== Legacy cluster access configuration
-
-When you enable EKS access entries on clusters created before this feature was introduced (clusters with initial platform versions earlier than those specified in Platform Version Requirements), EKS automatically creates an access entry that reflects pre-existing permissions.
-This access entry shows:
-
-* The IAM identity that originally created the cluster
-* The administrative permissions granted to that identity during cluster creation
-
-NOTE: Previously, this administrative access was granted automatically and couldn't be modified. With EKS access entries enabled, you can now view and delete this legacy access configuration.
 
 [.topic]
 
@@ -64,3 +66,9 @@ include::creating-access-entries.adoc[leveloffset=+1]
 include::updating-access-entries.adoc[leveloffset=+1]
 
 include::deleting-access-entries.adoc[leveloffset=+1]
+
+include::set-custom-username.adoc[leveloffset=+1]
+
+include::create-standard-entry-policy.adoc[leveloffset=+1]
+
+include::create-k8s-group-entry.adoc[leveloffset=+1]

@@ -54,7 +54,7 @@ These are the Amazon EKS applied labels on the worker nodes in a custom launch t
 *** `eks.amazonaws.com/nodegroup=$nodeGroupName`
 *** `eks.amazonaws.com/sourceLaunchTemplateId=$launchTemplateId`
 *** `eks.amazonaws.com/sourceLaunchTemplateVersion=$launchTemplateVersion`
-. It marks nodes as unschedulable to avoid scheduling new Pods. It also labels nodes with `node.kubernetes.io/exclude-from-external-load-balancers=true` to remove the nodes from load balancers before terminating the nodes.
+. It marks nodes as unschedulable to avoid scheduling new Pods. It also labels nodes with `node.kubernetes.io/exclude-from-external-load-balancers=true` to remove the old nodes from load balancers before terminating the nodes.
 
 The following are known reasons which lead to a `NodeCreationFailure` error in this phase:
 
@@ -93,10 +93,10 @@ The _default_ update strategy has these steps:
 
 The _minimal_ update strategy has these steps:
 
+. It cordons all nodes of the node group in the beginning, so that the service controller doesn't send any new requests to these nodes. 
 . It randomly selects a node that needs to be upgraded, up to the maximum unavailable configured for the node group.
-. It drains the Pods from the node. If the Pods don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the Pods.
-. It cordons the node after every Pod is evicted and waits for 60 seconds. This is done so that the service controller doesn't send any new requests to this node and removes this node from its list of active nodes.
-. It sends a termination request to the Auto Scaling Group for the cordoned node. The Auto Scaling Group creates a new node to replace the missing capacity.
+. It drains the Pods from the selected nodes. If the Pods don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the Pods.
+. After every Pod is evicted and waits for 60 seconds, it sends a termination request to the Auto Scaling Group for the selected nodes. The Auto Scaling Group creates new nodes (same as the number of selected nodes) to replace the missing capacity.
 . It repeats the previous upgrade steps until there are no nodes in the node group that are deployed with the earlier version of the launch template.
 
 === `PodEvictionFailure` errors during the upgrade phase

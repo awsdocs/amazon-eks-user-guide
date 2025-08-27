@@ -27,24 +27,25 @@ With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-o
 For more information, see <<automode>>.
 ====
 
-CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS. When you launch an Amazon EKS cluster with at least one node, two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster. The CoreDNS Pods provide name resolution for all Pods in the cluster. The CoreDNS Pods can be deployed to Fargate nodes if your cluster includes a Fargate Profile with a namespace that matches the namespace for the CoreDNS `deployment`. For more information on Fargate Profiles, see <<fargate-profile>>. For more information about CoreDNS, see https://kubernetes.io/docs/tasks/administer-cluster/coredns/[Using CoreDNS for Service Discovery] in the Kubernetes documentation.
+CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS. When you launch an Amazon EKS cluster with at least one node, two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster. The CoreDNS Pods provide name resolution for all Pods in the cluster. The CoreDNS Pods can be deployed to Fargate nodes if your cluster includes a <<fargate-profile,Fargate Profile>> with a namespace that matches the namespace for the CoreDNS `deployment`. For more information about CoreDNS, see https://kubernetes.io/docs/tasks/administer-cluster/coredns/[Using CoreDNS for Service Discovery] in the Kubernetes documentation.
 
 [#coredns-versions]
 == CoreDNS versions
 
 The following table lists the latest version of the Amazon EKS add-on type for each Kubernetes version.
 
-[options="header"]
 |===
 | Kubernetes version | CoreDNS version
-| 1.32 | v1.11.4-eksbuild.2
-| 1.31 | v1.11.4-eksbuild.2
-| 1.30 | v1.11.4-eksbuild.2
-| 1.29 | v1.11.4-eksbuild.2
-| 1.28 | v1.10.1-eksbuild.18
-| 1.27 | v1.10.1-eksbuild.18
-| 1.26 | v1.9.3-eksbuild.22
-| 1.25 | v1.9.3-eksbuild.22
+
+| 1.33 | v1.12.2-eksbuild.4
+| 1.32 | v1.11.4-eksbuild.14
+| 1.31 | v1.11.4-eksbuild.14
+| 1.30 | v1.11.4-eksbuild.14
+| 1.29 | v1.11.4-eksbuild.14
+| 1.28 | v1.10.1-eksbuild.35
+| 1.27 | v1.10.1-eksbuild.35
+| 1.26 | v1.9.3-eksbuild.39
+
 |===
 
 [IMPORTANT]
@@ -56,6 +57,8 @@ If you're self-managing this add-on, the versions in the table might not be the 
 
 [#coredns-upgrade]
 == Important CoreDNS upgrade considerations
+
+* CoreDNS updates utilize a PodDisruptionBudget to help maintain DNS service availability during the update process. 
 
 * To improve the stability and availability of the CoreDNS Deployment, versions `v1.9.3-eksbuild.6` and later and `v1.10.1-eksbuild.3` are deployed with a `PodDisruptionBudget`. If you've deployed an existing `PodDisruptionBudget`, your upgrade to these versions might fail. If the upgrade fails, completing one of the following tasks should resolve the issue:
 +

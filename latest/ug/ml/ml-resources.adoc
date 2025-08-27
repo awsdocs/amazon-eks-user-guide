@@ -1,0 +1,103 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-resources]
+= Resources to get started with AI/ML on Amazon EKS
+:info_titleabbrev: Resources
+
+[abstract]
+--
+Choose the Machine Learning on EKS tools and platforms that best suit your needs, then use quick start procedures to deploy ML workloads and EKS clusters to the {aws} cloud.
+--
+
+To jump into Machine Learning on EKS, start by choosing from these prescriptive patterns to quickly get an EKS cluster and ML software and hardware ready to begin running ML workloads. 
+
+[#aiml-workshops]
+== Workshops
+
+=== link:https://genai.eksworkshop.com/[Generative AI on Amazon EKS Workshop]
+Learn how to get started with Large Language Model (LLM) applications and inference on Amazon EKS. Discover how to deploy and manage production-grade LLM workloads. Through hands-on labs, you'll explore how to leverage Amazon EKS along with {aws} services and open-source tools to create robust LLM solutions. The workshop environment provides all the necessary infrastructure and tools, allowing you to focus on learning and implementation.
+
+=== link:https://catalog.us-east-1.prod.workshops.aws/workshops/e21aadbd-23cb-4207-bd09-625e6de08a6c/en-US[Generative AI on Amazon EKS using Neuron]
+Learn how to get started with Large Language Model (LLM) applications and inference on Amazon EKS. Discover how to deploy and manage production-grade LLM workloads, implement advanced RAG patterns with vector databases, and build data-backed LLM applications using open-source frameworks. Through hands-on labs, you'll explore how to leverage Amazon EKS along with {aws} services and open-source tools to create robust LLM solutions. The workshop environment provides all the necessary infrastructure and tools, allowing you to focus on learning and implementation.
+
+[#aiml-best-practices]
+== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml.html[Best Practices]
+
+The AI/ML focused topics in the Amazon EKS Best Practices guide provides detailed recommendations across the following areas to optimize your AI/ML workloads on Amazon EKS.
+
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-compute.html[AI/ML Compute and Autoscaling]
+
+This section outlines best practices for optimizing AI/ML compute and autoscaling in Amazon EKS, focusing on GPU resource management, node resiliency, and application scaling. It provides strategies such as scheduling workloads with well-known labels and node affinity, using ML Capacity Blocks or On-Demand Capacity Reservations, and implementing node health checks with tools like EKS Node Monitoring Agent.
+
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-networking.html[AI/ML Networking]
+
+This section outlines best practices for optimizing AI/ML networking in Amazon EKS to enhance performance and scalability, including strategies like selecting instances with higher network bandwidth or Elastic Fabric Adapter (EFA) for distributed training, installing tools like MPI and NCCL, and enabling prefix delegation to increase IP addresses and improve pod launch times.
+
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-security.html[AI/ML Security]
+
+This section focuses on securing data storage and ensuring compliance for AI/ML workloads on Amazon EKS, including practices such as using Amazon S3 with {aws} Key Management Service (KMS) for server-side encryption (SSE-KMS), configuring buckets with regional KMS keys and S3 Bucket Keys to reduce costs, granting IAM permissions for KMS actions like decryption to EKS pods, and auditing with {aws} CloudTrail logs.
+
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-storage.html[AI/ML Storage]
+
+This section provides best practices for optimizing storage in AI/ML workloads on Amazon EKS, including practices like deploying models using CSI drivers to mount services like S3, FSx for Lustre, or EFS as Persistent Volumes, selecting storage based on workload needs (e.g., FSx for Lustre for distributed training with options like Scratch-SSD or Persistent-SSD), and enabling features like data compression and striping.
+
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-observability.html[AI/ML Observability]
+
+This section focuses on monitoring and optimizing GPU utilization for AI/ML workloads on Amazon EKS to improve efficiency and reduce costs, including strategies such as targeting high GPU usage with tools like CloudWatch Container Insights and NVIDIA’s DCGM-Exporter integrated with Prometheus and Grafana, and metrics we recommend you analyzing for your AI/ML workloads.
+
+=== link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-performance.html[AI/ML Performance]
+
+This section focuses on enhancing application scaling and performance for AI/ML workloads on Amazon EKS through container image management and startup optimization, including practices such as using small lightweight base images or {aws} Deep Learning Containers with multi-stage builds, preloading images via EBS snapshots or pre-pulling into runtime cache using DaemonSets or Deployments.
+
+[#aiml-reference-architectures]
+== Reference Architectures
+
+Explore these GitHub repositories for reference architectures, sample code, and utilities to implement distributed training and inference for AI/ML workloads on Amazon EKS and other {aws} services.
+
+=== link:https://github.com/aws-samples/awsome-distributed-training[AWSome Distributed Training]
+This repository offers a collection of best practices, reference architectures, model training examples, and utilities for training large models on {aws}. It supports distributed training with Amazon EKS, including CloudFormation templates for EKS clusters, custom AMI and container builds, test cases for frameworks like PyTorch (DDP/FSDP, MegatronLM, NeMo) and JAX, and tools for validation, observability, and performance monitoring such as EFA Prometheus exporter and Nvidia Nsight Systems.
+
+=== link:https://github.com/aws-samples/awsome-inference[AWSome Inference]
+This repository provides reference architectures and test cases for optimizing inference solutions on {aws}, with a focus on Amazon EKS and accelerated EC2 instances. It includes infrastructure setups for VPC and EKS clusters, projects for frameworks like NVIDIA NIMs, TensorRT-LLM, Triton Inference Server, and RayService, with examples for models such as Llama3-8B and Llama 3.1 405B. Features multi-node deployments using K8s LeaderWorkerSet, EKS autoscaling, Multi-Instance GPUs (MIG), and real-life use cases like an audio bot for ASR, inference, and TTS.
+
+
+[#aiml-tutorials]
+== Tutorials
+
+If you are interested in setting up Machine Learning platforms and frameworks in EKS, explore the tutorials described in this section. These tutorials cover everything from patterns for making the best use of GPU processors to choosing modeling tools to building frameworks for specialized industries.
+
+=== Build generative AI platforms on EKS
+
+* link:containers/deploy-generative-ai-models-on-amazon-eks/[Deploy Generative AI Models on Amazon EKS,type="blog"]
+* link:containers/building-multi-tenant-jupyterhub-platforms-on-amazon-eks/[Building multi-tenant JupyterHub Platforms on Amazon EKS,type="blog"]
+
+=== Run specialized generative AI frameworks on EKS
+
+* link:machine-learning/accelerate-your-generative-ai-distributed-training-workloads-with-the-nvidia-nemo-framework-on-amazon-eks/[Accelerate your generative AI distributed training workloads with the NVIDIA NeMo Framework on Amazon EKS,type="blog"]
+* link:opensource/running-torchserve-on-amazon-elastic-kubernetes-service/[Running TorchServe on Amazon Elastic Kubernetes Service,type="blog"]
+
+=== Maximize NVIDIA GPU performance for ML on EKS
+
+* Implement GPU sharing to efficiently use NVIDIA GPUs for your EKS clusters:
++
+link:containers/gpu-sharing-on-amazon-eks-with-nvidia-time-slicing-and-accelerated-ec2-instances/[GPU sharing on Amazon EKS with NVIDIA time-slicing and accelerated EC2 instances,type="blog"]
+
+* Use Multi-Instance GPUs (MIGs) and NIM microservices to run more pods per GPU on your EKS clusters:
++
+link:containers/maximizing-gpu-utilization-with-nvidias-multi-instance-gpu-mig-on-amazon-eks-running-more-pods-per-gpu-for-enhanced-performance/[Maximizing GPU utilization with NVIDIA's Multi-Instance GPU (MIG) on Amazon EKS: Running more pods per GPU for enhanced performance,type="blog"]
+
+* link:machine-learning/build-and-deploy-a-scalable-machine-learning-system-on-kubernetes-with-kubeflow-on-aws/[Build and deploy a scalable machine learning system on Kubernetes with Kubeflow on {aws},type="blog"]
+
+=== Run video encoding workloads on EKS
+
+* link:containers/delivering-video-content-with-fractional-gpus-in-containers-on-amazon-eks/[Delivering video content with fractional GPUs in containers on Amazon EKS,type="blog"]
+
+=== Accelerate image loading for inference workloads
+
+* link:containers/how-h2o-ai-optimized-and-secured-their-ai-ml-infrastructure-with-karpenter-and-bottlerocket/[How H2O.ai optimized and secured their AI/ML infrastructure with Karpenter and Bottlerocket,type="blog"]
+
+=== Monitoring ML workloads
+
+* link:mt/monitoring-gpu-workloads-on-amazon-eks-using-aws-managed-open-source-services/[Monitoring GPU workloads on Amazon EKS using {aws} managed open-source services,type="blog"]
+* link:machine-learning/enable-pod-based-gpu-metrics-in-amazon-cloudwatch/[Enable pod-based GPU metrics in Amazon CloudWatch,type="blog"]

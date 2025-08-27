@@ -1,0 +1,297 @@
+include::../attributes.txt[]
+
+[.topic]
+[#fsx-csi-tuning-non-efa]
+= Optimize Amazon FSx for Lustre performance on nodes (non-EFA)
+:info_titleabbrev: Optimize (non-EFA)
+
+[abstract]
+--
+Learn how to optimize Amazon FSx for Lustre performance on your Amazon EKS nodes by applying tuning parameters during node initialization.
+--
+
+You can optimize Amazon FSx for Lustre performance by applying tuning parameters during node initialization using launch template user data.
+
+[NOTE]
+====
+
+* For information on creating and deploying the FSx for Lustre CSI driver, see <<fsx-csi-create>>.
+For optimizing performance with EFA-enabled nodes, see <<fsx-csi-tuning-efa>>.
+
+====
+
+== Why use launch template user data?
+
+* Applies tunings automatically during node initialization.
+* Ensures consistent configuration across all nodes.
+* Eliminates the need for manual node configuration.
+
+== Example script overview
+
+The example script defined in this topic performs these operations:
+
+=== `# 1. Install Lustre client`
+
+* Automatically detects your OS version: Amazon Linux 2 (AL2) or Amazon Linux 2023 (AL2023).
+* Installs the appropriate Lustre client package.
+
+=== `# 2. Apply network and RPC tunings`
+
+* Sets `ptlrpcd_per_cpt_max=64` for parallel RPC processing.
+* Configures `ksocklnd credits=2560` to optimize network buffers.
+
+=== `# 3. Load Lustre modules`
+
+* Safely removes existing Lustre modules if present.
+* Handles unmounting of existing filesystems.
+* Loads fresh Lustre modules.
+
+=== `# 4. Lustre Network Initialization`
+
+* Initializes Lustre networking configuration.
+* Sets up required network parameters.
+
+=== `# 5. Mount FSx filesystem`
+
+* You must adjust the values for your environment in this section.
+
+=== `# 6. Apply tunings`
+
+* LRU (Lock Resource Unit) tunings:
+** `lru_max_age=600000`
+** `lru_size` calculated based on CPU count
+* Client Cache Control: `max_cached_mb=64`
+* RPC Controls:
+** OST `max_rpcs_in_flight=32`
+** MDC `max_rpcs_in_flight=64`
+** MDC `max_mod_rpcs_in_flight=50`
+
+=== `# 7. Verify tunings`
+
+* Verifies all applied tunings.
+* Reports success or warning for each parameter.
+
+=== `# 8. Setup persistence`
+
+* You must adjust the values for your environment in this section as well.
+* Automatically detects your OS version (AL2 or AL2023) to determine which `Systemd` service to apply.
+* System starts.
+* `Systemd` starts `lustre-tunings` service (due to `WantedBy=multi-user.target`).
+* Service runs `apply_lustre_tunings.sh` which:
+** Checks if filesystem is mounted.
+** Mounts filesystem if not mounted.
+** Waits for successful mount (up to five minutes).
+** Applies tuning parameters after successful mount.
+* Settings remain active until reboot.
+* Service exits after script completion.
+** Systemd marks service as "active (exited)".
+* Process repeats on next reboot.
+
+== Create a launch template
+
+. Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/.
+. Choose *Launch Templates*.
+. Choose *Create launch template*.
+. In *Advanced details*, locate the *User data* section.
+. Paste the script below, updating anything as needed.
++
+[IMPORTANT]
+====
+Adjust these values for your environment in both section `# 5. Mount FSx filesystem` and the `setup_persistence()` function of `apply_lustre_tunings.sh` in section `# 8. Setup persistence`:
+
+[source,bash]
+----
+FSX_DNS="<your-fsx-filesystem-dns>" # Needs to be adjusted.
+MOUNT_NAME="<your-mount-name>" # Needs to be adjusted.
+MOUNT_POINT="</your/mount/point>" # Needs to be adjusted.
+----
+====
++
+[source,bash]
+----
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
+--==MYBOUNDARY==
+Content-Type: text/x-shellscript; charset="us-ascii"
+#!/bin/bash
+exec 1> >(logger -s -t $(basename $0)) 2>&1
+# Function definitions
+check_success() {
+    if [ $? -eq 0 ]; then
+        echo "SUCCESS: $1"
+    else
+        echo "FAILED: $1"
+        return 1
+    fi
+}
+apply_tunings() {
+    local NUM_CPUS=$(nproc)
+    local LRU_SIZE=$((100 * NUM_CPUS))
+    local params=(
+        "ldlm.namespaces.*.lru_max_age=600000"
+        "ldlm.namespaces.*.lru_size=$LRU_SIZE"
+        "llite.*.max_cached_mb=64"
+        "osc.*OST*.max_rpcs_in_flight=32"
+        "mdc.*.max_rpcs_in_flight=64"
+        "mdc.*.max_mod_rpcs_in_flight=50"
+    )
+    for param in "${params[@]}"; do
+        lctl set_param $param
+        check_success "Set ${param%%=*}"
+    done
+}
+verify_param() {
+    local param=$1
+    local expected=$2
+    local actual=$3
+    
+    if [ "$actual" == "$expected" ]; then
+        echo "SUCCESS: $param is correctly set to $expected"
+    else
+        echo "WARNING: $param is set to $actual (expected $expected)"
+    fi
+}
+verify_tunings() {
+    local NUM_CPUS=$(nproc)
+    local LRU_SIZE=$((100 * NUM_CPUS))
+    local params=(
+        "ldlm.namespaces.*.lru_max_age:600000"
+        "ldlm.namespaces.*.lru_size:$LRU_SIZE"
+        "llite.*.max_cached_mb:64"
+        "osc.*OST*.max_rpcs_in_flight:32"
+        "mdc.*.max_rpcs_in_flight:64"
+        "mdc.*.max_mod_rpcs_in_flight:50"
+    )
+    echo "Verifying all parameters:"
+    for param in "${params[@]}"; do
+        name="${param%%:*}"
+        expected="${param#*:}"
+        actual=$(lctl get_param -n $name | head -1)
+        verify_param "${name##*.}" "$expected" "$actual"
+    done
+}
+setup_persistence() {
+    # Create functions file
+    cat << 'EOF' > /usr/local/bin/lustre_functions.sh
+#!/bin/bash
+apply_lustre_tunings() {
+    local NUM_CPUS=$(nproc)
+    local LRU_SIZE=$((100 * NUM_CPUS))
+    
+    echo "Applying Lustre performance tunings..."
+    lctl set_param ldlm.namespaces.*.lru_max_age=600000
+    lctl set_param ldlm.namespaces.*.lru_size=$LRU_SIZE
+    lctl set_param llite.*.max_cached_mb=64
+    lctl set_param osc.*OST*.max_rpcs_in_flight=32
+    lctl set_param mdc.*.max_rpcs_in_flight=64
+    lctl set_param mdc.*.max_mod_rpcs_in_flight=50
+}
+EOF
+    # Create tuning script
+    cat << 'EOF' > /usr/local/bin/apply_lustre_tunings.sh
+#!/bin/bash
+exec 1> >(logger -s -t $(basename $0)) 2>&1
+# Source the functions
+source /usr/local/bin/lustre_functions.sh
+# FSx details
+FSX_DNS="<your-fsx-filesystem-dns>" # Needs to be adjusted.
+MOUNT_NAME="<your-mount-name>" # Needs to be adjusted.
+MOUNT_POINT="</your/mount/point>" # Needs to be adjusted.
+# Function to check if Lustre is mounted
+is_lustre_mounted() {
+    mount | grep -q "type lustre"
+}
+# Function to mount Lustre
+mount_lustre() {
+    echo "Mounting Lustre filesystem..."
+    mkdir -p ${MOUNT_POINT}
+    mount -t lustre ${FSX_DNS}@tcp:/${MOUNT_NAME} ${MOUNT_POINT}
+    return $?
+}
+# Main execution
+# Try to mount if not already mounted
+if ! is_lustre_mounted; then
+    echo "Lustre filesystem not mounted, attempting to mount..."
+    mount_lustre
+fi
+# Wait for successful mount (up to 5 minutes)
+for i in {1..30}; do
+    if is_lustre_mounted; then
+        echo "Lustre filesystem mounted, applying tunings..."
+        apply_lustre_tunings
+        exit 0
+    fi
+    echo "Waiting for Lustre filesystem to be mounted... (attempt $i/30)"
+    sleep 10
+done
+echo "Timeout waiting for Lustre filesystem mount"
+exit 1
+EOF
+    # Create systemd service
+    cat << 'EOF' > /etc/systemd/system/lustre-tunings.service
+[Unit]
+Description=Apply Lustre Performance Tunings
+After=network.target remote-fs.target
+StartLimitIntervalSec=0
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/apply_lustre_tunings.sh
+RemainAfterExit=yes
+Restart=on-failure
+RestartSec=30
+[Install]
+WantedBy=multi-user.target
+EOF
+    chmod +x /usr/local/bin/lustre_functions.sh
+    chmod +x /usr/local/bin/apply_lustre_tunings.sh
+    systemctl enable lustre-tunings.service
+    systemctl start lustre-tunings.service
+}
+echo "Starting FSx for Lustre configuration..."
+# 1. Install Lustre client
+if grep -q 'VERSION="2"' /etc/os-release; then
+    amazon-linux-extras install -y lustre
+elif grep -q 'VERSION="2023"' /etc/os-release; then
+    dnf install -y lustre-client
+fi
+check_success "Install Lustre client"
+# 2. Apply network and RPC tunings
+export PATH=$PATH:/usr/sbin
+echo "Applying network and RPC tunings..."
+if ! grep -q "options ptlrpc ptlrpcd_per_cpt_max" /etc/modprobe.d/modprobe.conf; then
+    echo "options ptlrpc ptlrpcd_per_cpt_max=64" | tee -a /etc/modprobe.d/modprobe.conf
+    echo "options ksocklnd credits=2560" | tee -a /etc/modprobe.d/modprobe.conf
+fi
+# 3. Load Lustre modules
+modprobe lustre
+check_success "Load Lustre modules" || exit 1
+# 4. Lustre Network Initialization
+lctl network up
+check_success "Initialize Lustre networking" || exit 1
+# 5. Mount FSx filesystem
+FSX_DNS="<your-fsx-filesystem-dns>" # Needs to be adjusted.
+MOUNT_NAME="<your-mount-name>" # Needs to be adjusted.
+MOUNT_POINT="</your/mount/point>" # Needs to be adjusted.
+if [ ! -z "$FSX_DNS" ] && [ ! -z "$MOUNT_NAME" ]; then
+    mkdir -p $MOUNT_POINT
+    mount -t lustre ${FSX_DNS}@tcp:/${MOUNT_NAME} ${MOUNT_POINT}
+    check_success "Mount FSx filesystem"
+fi
+# 6. Apply tunings
+apply_tunings
+# 7. Verify tunings 
+verify_tunings
+# 8. Setup persistence
+setup_persistence
+echo "FSx for Lustre configuration completed."
+--==MYBOUNDARY==--
+----
+
+. When creating Amazon EKS node groups, select this launch template. For more information, see <<create-managed-node-group>>.
+
+== Related information
+
+* <<fsx-csi-create>>
+* <<fsx-csi-tuning-efa>>
+* link:fsx/latest/LustreGuide/performance.html[Amazon FSx for Lustre Performance,type="documentation"]
+

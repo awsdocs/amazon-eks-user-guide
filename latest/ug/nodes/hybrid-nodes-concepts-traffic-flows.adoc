@@ -1,3 +1,5 @@
+include::../attributes.txt[]
+
 [.topic]
 [#hybrid-nodes-concepts-traffic-flows]
 = Network traffic flows for hybrid nodes
@@ -8,7 +10,9 @@
 Learn about the network traffic flows for EKS Hybrid Nodes.
 --
 
-This page details the network traffic flows for EKS Hybrid Nodes with diagrams showing the end-to-end network paths for the different traffic types. The following traffic flows are covered:
+This page details the network traffic flows for EKS Hybrid Nodes with diagrams showing the end-to-end network paths for the different traffic types.
+
+The following traffic flows are covered:
 
 * <<hybrid-nodes-concepts-traffic-flows-kubelet-to-cp>>
 * <<hybrid-nodes-concepts-traffic-flows-cp-to-kubelet>>
@@ -28,7 +32,7 @@ image::images/hybrid-nodes-kubelet-to-cp-public.png[Hybrid node kubelet to EKS c
 
 When the `kubelet` on a hybrid node needs to communicate with the EKS control plane (for example, to report node status or get pod specs), it uses the `kubeconfig` file provided during node registration. This `kubeconfig` has the API server endpoint URL (the Route53 DNS name) rather than direct IP addresses.
 
-The `kubelet` performs a DNS lookup for the endpoint (e.g., `https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.gr7.us-west-2.eks.amazonaws.com`). In a public access cluster, this resolves to a public IP address (say `54.239.118.52`) that belongs to the EKS service running in {aws}. The `kubelet` then creates a secure HTTPS request to this endpoint. The initial packet looks like this:
+The `kubelet` performs a DNS lookup for the endpoint (for example, `https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.gr7.us-west-2.eks.amazonaws.com`). In a public access cluster, this resolves to a public IP address (say `54.239.118.52`) that belongs to the EKS service running in {aws}. The `kubelet` then creates a secure HTTPS request to this endpoint. The initial packet looks like this:
 
 ....
 +--------------------+---------------------+-----------------+
@@ -56,7 +60,7 @@ After the EKS control plane processes the `kubelet` request, it sends a response
 
 *3. EKS control plane sends response*
 
-The EKS control plane creates a response packet with its public IP as the source and the hybrid node's IP as the destination:
+The EKS control plane creates a response packet. This packet has the public IP as the source and the hybrid node's IP as the destination:
 
 ....
 +--------------------+---------------------+-----------------+
@@ -72,11 +76,11 @@ The response packet travels back through the internet, following the routing pat
 
 *1. Local Delivery*
 
-Your on-premises router receives the packet and recognizes the destination IP (10.80.0.2) as belonging to your local network. It forwards the packet through your local network infrastructure until it reaches the target hybrid node, where the `kubelet` receives and processes the response.
+Your on-premises router receives the packet and recognizes the destination IP (`10.80.0.2`) as belonging to your local network. It forwards the packet through your local network infrastructure until it reaches the target hybrid node, where the `kubelet` receives and processes the response.
 
 == Hybrid node `kube-proxy` to EKS control plane
 
-The traffic originated from the `kube-proxy` on the hybrid node to the EKS control plane follows the same path as the traffic from the `kubelet` to the EKS control plane by using the public internet (if you enable public endpoint access for the cluster).
+If you enable public endpoint access for the cluster, the return traffic uses the public internet. This traffiic originates from the `kube-proxy` on the hybrid node to the EKS control plane and follows the same path as the traffic from the `kubelet` to the EKS control plane.
 
 [#hybrid-nodes-concepts-traffic-flows-cp-to-kubelet]
 == EKS control plane to hybrid node (`kubelet` server)
@@ -87,7 +91,7 @@ image::images/hybrid-nodes-cp-to-kubelet.png[EKS control plane to hybrid node]
 
 *1. EKS Kubernetes API server initiates request*
 
-The EKS Kubernetes API server retrieves the node's IP address (10.80.0.2) from the node object's status. It then routes this request through its ENI in the VPC, as the destination IP belongs to the configured remote node CIDR (10.80.0.0/16). The initial packet looks like this:
+The EKS Kubernetes API server retrieves the node's IP address (`10.80.0.2`) from the node object's status. It then routes this request through its ENI in the VPC, as the destination IP belongs to the configured remote node CIDR (`10.80.0.0/16`). The initial packet looks like this:
 
 ....
 +-----------------+---------------------+-----------------+
@@ -115,7 +119,7 @@ The packet arrives at your local on-premises router that handles traffic for the
 
 *6. Final delivery*
 
-The local router identifies that the destination IP (10.80.0.2) address belongs to its directly connected network and forwards the packet directly to the target hybrid node, where the `kubelet` receives and processes the request.
+The local router identifies that the destination IP (`10.80.0.2`) address belongs to its directly connected network and forwards the packet directly to the target hybrid node, where the `kubelet` receives and processes the request.
 
 === Response
 
@@ -131,11 +135,11 @@ After the hybrid node's `kubelet` processes the request, it sends back a respons
 
 *6. `kubelet` Sends Response*
 
-The `kubelet` on the hybrid node (10.80.0.2) creates a response packet with the original source IP as the destination. The destination doesn't belong to the local network so its sent to the host's default gateway, which is the local router.
+The `kubelet` on the hybrid node (`10.80.0.2`) creates a response packet with the original source IP as the destination. The destination doesn't belong to the local network so its sent to the host's default gateway, which is the local router.
 
 *5. Local Router Routing*
 
-The router determines that the destination IP (10.0.0.132) belongs to 10.0.0.0/16, which has a route pointing to the gateway connecting to {aws}.
+The router determines that the destination IP (`10.0.0.132`) belongs to `10.0.0.0/16`, which has a route pointing to the gateway connecting to {aws}.
 
 *4. Cross-Boundary Return*
 
@@ -147,7 +151,7 @@ When the packet arrives in the VPC, the route tables identify that the destinati
 
 *2. VPC Network Delivery*
 
-The VPC networking layer forwards the packet to the subnet with the EKS control plane ENI (10.0.0.132).
+The VPC networking layer forwards the packet to the subnet with the EKS control plane ENI (`10.0.0.132`).
 
 *1. ENI Reception*
 
@@ -185,9 +189,9 @@ The CNI detects that the destination IP doesn't belong to any pod CIDR it manage
 The packet enters the node's network stack where `netfilter` hooks trigger the `iptables` rules set by kube-proxy. Several rules apply in the following order:
 
 . The packet first hits the `KUBE-SERVICES` chain, which contains rules matching each service's ClusterIP and port.
-. The matching rule jumps to the `KUBE-SVC-XXX` chain for the `kubernetes` service (packets destined for `172.16.0.1:443`), which contains load balancing rules. `kubernetes` service (packets destined for `172.16.0.1:443`), which has load balancing rules.
+. The matching rule jumps to the `KUBE-SVC-XXX` chain for the `kubernetes` service (packets destined for `172.16.0.1:443`), which contains load balancing rules.
 . The load balancing rule randomly selects one of the `KUBE-SEP-XXX` chains for the control plane ENI IPs (`10.0.0.132` or `10.0.1.23`).
-. The selected `KUBE-SEP-XXX` chain has the actual DNAT rule that changes the destination IP from the service IP to the selected  IP.
+. The selected `KUBE-SEP-XXX` chain has the actual rule that changes the destination IP from the service IP to the selected IP. This is called Destination Network Address Translation (DNAT).
 
 After these rules are applied, assuming that the selected EKS control plane ENI's IP is `10.0.0.132`, the packet looks like this:
 
@@ -203,7 +207,7 @@ The node forwards the packet to its default gateway because the destination IP i
 
 *4. Local Router Routing*
 
-The local router determines that the destination IP (10.0.0.132) belongs to the VPC CIDR (10.0.0.0/16) and forwards it to the gateway connecting to {aws}.
+The local router determines that the destination IP (`10.0.0.132`) belongs to the VPC CIDR (`10.0.0.0/16`) and forwards it to the gateway connecting to {aws}.
 
 *5. Cross-Boundary Transit*
 
@@ -211,7 +215,7 @@ The packet travels through your established connection (such as Direct Connect o
 
 *6. VPC Network Delivery*
 
-The VPC networking layer routes the packet to the correct subnet where the EKS control plane ENI (10.0.0.132) is located.
+The VPC networking layer routes the packet to the correct subnet where the EKS control plane ENI (`10.0.0.132`) is located.
 
 *7. ENI Reception*
 
@@ -233,11 +237,11 @@ The EKS Kubernetes API server creates a response packet with the original source
 +-----------------+---------------------+-----------------+
 ....
 
-Because the destination IP belongs to the configured remote pod CIDR (10.85.0.0/16), it sends it through its ENI in the VPC with the subnet's router as the next hop.
+Because the destination IP belongs to the configured remote pod CIDR (`10.85.0.0/16`), it sends it through its ENI in the VPC with the subnet's router as the next hop.
 
 *6. VPC Routing*
 
-The VPC route table contains an entry for the remote pod CIDR (10.85.0.0/16), directing this traffic to the VPC-to-onprem gateway.
+The VPC route table contains an entry for the remote pod CIDR (`10.85.0.0/16`), directing this traffic to the VPC-to-onprem gateway.
 
 *5. Cross-Boundary Transit*
 
@@ -253,7 +257,7 @@ The router's table has an entry for `10.85.1.0/24` with `10.80.0.2` as the next 
 
 *2. Node Network Processing*
 
-As the packet is processed by the node's network stack, `conntrack` (a part of `netfilter`) matches the packet with the connection the pod initially establish and since DNAT was originally applied, it reverses this by rewriting the source IP from the EKS control plane ENI's IP to the `kubernetes` service IP:
+As the packet is processed by the node's network stack, `conntrack` (a part of `netfilter`) matches the packet with the connection the pod initially establish. Since DNAT was originally applied, `conntrack` reverses the DNAT by rewriting the source IP from the EKS control plane ENI's IP to the `kubernetes` service IP:
 
 ....
 +-----------------+---------------------+-----------------+
@@ -317,7 +321,7 @@ The node forwards the packet to its default gateway because the destination IP i
 
 *4. Local Router Routing*
 
-The local router determines that the destination IP (10.0.0.132) belongs to the VPC CIDR (10.0.0.0/16) and forwards it to the gateway connecting to {aws}.
+The local router determines that the destination IP (`10.0.0.132`) belongs to the VPC CIDR (`10.0.0.0/16`) and forwards it to the gateway connecting to {aws}.
 
 *5. Cross-Boundary Transit*
 
@@ -325,7 +329,7 @@ The packet travels through your established connection (such as Direct Connect o
 
 *6. VPC Network Delivery*
 
-The VPC networking layer routes the packet to the correct subnet where the EKS control plane ENI (10.0.0.132) is located.
+The VPC networking layer routes the packet to the correct subnet where the EKS control plane ENI (`10.0.0.132`) is located.
 
 *7. ENI Reception*
 
@@ -347,11 +351,11 @@ The EKS Kubernetes API server creates a response packet with the original source
 +-----------------+---------------------+-----------------+
 ....
 
-Because the destination IP belongs to the configured remote node CIDR (10.80.0.0/16), it sends it through its ENI in the VPC with the subnet's router as the next hop.
+Because the destination IP belongs to the configured remote node CIDR (`10.80.0.0/16`), it sends it through its ENI in the VPC with the subnet's router as the next hop.
 
 *6. VPC Routing*
 
-The VPC route table contains an entry for the remote node CIDR (10.80.0.0/16), directing this traffic to the VPC-to-onprem gateway.
+The VPC route table contains an entry for the remote node CIDR (`10.80.0.0/16`), directing this traffic to the VPC-to-onprem gateway.
 
 *5. Cross-Boundary Transit*
 
@@ -363,7 +367,7 @@ The packet arrives at your local on-premises router.
 
 *3. Delivery to node*
 
-The local router identifies that the destination IP (10.80.0.2) address belongs to its directly connected network and forwards the packet directly to the target hybrid node.
+The local router identifies that the destination IP (`10.80.0.2`) address belongs to its directly connected network and forwards the packet directly to the target hybrid node.
 
 *2. Node Network Processing*
 
@@ -406,7 +410,7 @@ This traffic pattern is most commonly seen with webhooks, where the EKS control 
 
 When a webhook is configured in the cluster and a relevant API operation triggers it, the EKS Kubernetes API server needs to make a direct connection to the webhook server pod. The API server first looks up the pod's IP address from the Service or Endpoint resource associated with the webhook.
 
-Assuming the webhook pod is running on a hybrid node with IP 10.85.1.23, the EKS Kubernetes API server creates an HTTPS request to the webhook endpoint. The initial packet is sent through the EKS control plane ENI in your VPC because the destination IP 10.85.1.23 belongs to the configured remote pod CIDR (10.85.0.0/16). The packet looks like this:
+Assuming the webhook pod is running on a hybrid node with IP `10.85.1.23`, the EKS Kubernetes API server creates an HTTPS request to the webhook endpoint. The initial packet is sent through the EKS control plane ENI in your VPC because the destination IP `10.85.1.23` belongs to the configured remote pod CIDR (`10.85.0.0/16`). The packet looks like this:
 
 ....
 +-----------------+---------------------+-----------------+
@@ -422,7 +426,7 @@ The packet leaves the EKS control plane ENI and enters the VPC networking layer 
 
 *3. VPC Route Table Lookup*
 
-The VPC route table for the subnet containing the EKS control plane ENI contains a specific route for the remote pod CIDR (10.85.0.0/16). This routing rule directs the packet to the VPC-to-onprem gateway (for example, a Virtual Private Gateway for Direct Connect or VPN connections):
+The VPC route table for the subnet containing the EKS control plane ENI contains a specific route for the remote pod CIDR (`10.85.0.0/16`). This routing rule directs the packet to the VPC-to-onprem gateway (for example, a Virtual Private Gateway for Direct Connect or VPN connections):
 
 ....
 Destination     Target
@@ -438,7 +442,7 @@ The gateway transfers the packet across the cloud boundary through your establis
 
 The packet arrives at your local on-premises router. The router consults its routing table to determine how to reach the 10.85.1.23 address. For this to work, your on-premises network must have routes for the pod CIDRs that direct traffic to the appropriate hybrid node.
 
-In this case, the router's route table contains an entry indicating that the 10.85.1.0/24 subnet is reachable via the hybrid node with IP 10.80.0.2:
+In this case, the router's route table contains an entry indicating that the `10.85.1.0/24` subnet is reachable through the hybrid node with IP `10.80.0.2`:
 
 ....
 Destination     Next Hop
@@ -447,7 +451,7 @@ Destination     Next Hop
 
 *6. Delivery to node*
 
-Based on the routing table entry, the router forwards the packet to the hybrid node (10.80.0.2). When the packet arrives at the node, it looks the same as when the EKS Kubernetes API server sent it, with the destination IP still being the pod's IP.
+Based on the routing table entry, the router forwards the packet to the hybrid node (`10.80.0.2`). When the packet arrives at the node, it looks the same as when the EKS Kubernetes API server sent it, with the destination IP still being the pod's IP.
 
 *7. CNI Processing*
 
@@ -475,15 +479,15 @@ The webhook pod creates a response packet with its own IP as the source and the 
 +-----------------+---------------------+-----------------+
 ....
 
-The CNI identifies that this packet is destined for an external network (not a local pod). If the CNI passes the packet to the node's network stack with the original source IP preserved.
+The CNI identifies that this packet goes to an external network (not a local pod) and passes the packet to the node's network stack with the original source IP preserved.
 
 *6. Node Network Processing*
 
-The node determines that the destination IP (10.0.0.132) is not in the local network and forwards the packet to its default gateway (the local router).
+The node determines that the destination IP (`10.0.0.132`) is not in the local network and forwards the packet to its default gateway (the local router).
 
 *5. Local Router Routing*
 
-The local router consults its routing table and determines that the destination IP (10.0.0.132) belongs to the VPC CIDR (10.0.0.0/16). It forwards the packet to the gateway connecting to {aws}.
+The local router consults its routing table and determines that the destination IP (`10.0.0.132`) belongs to the VPC CIDR (`10.0.0.0/16`). It forwards the packet to the gateway connecting to {aws}.
 
 *4. Cross-Boundary Transit*
 
@@ -493,14 +497,14 @@ The packet travels back through the same on-premises to VPC connection, crossing
 
 When the packet arrives in the VPC, the route tables identify that the destination IP belongs to a subnet within the VPC. The packet is routed accordingly within the VPC.
 
-*2 & 1. EKS control plane ENI Reception*
+*2. and 1. EKS control plane ENI Reception*
 
 The packet reaches the ENI attached to the EKS Kubernetes API server, completing the round trip. The API server receives the webhook response and continues processing the original API request based on this response.
 
 This traffic flow demonstrates why remote pod CIDRs must be properly configured and routed:
 
-* The VPC must have routes for the remote pod CIDRs pointing to the on-premises gateway 
-* Your on-premises network must have routes for pod CIDRs that direct traffic to the specific nodes hosting those pods 
+* The VPC must have routes for the remote pod CIDRs pointing to the on-premises gateway
+* Your on-premises network must have routes for pod CIDRs that direct traffic to the specific nodes hosting those pods
 * Without this routing configuration, webhooks and other similar services running in pods on hybrid nodes would not be reachable from the EKS control plane.
 
 [#hybrid-nodes-concepts-traffic-flows-pod-to-pod]
@@ -508,13 +512,13 @@ This traffic flow demonstrates why remote pod CIDRs must be properly configured 
 
 image::images/hybrid-nodes-pod-to-pod.png[Pod-to Pod running on hybrid nodes]
 
-This section explains how pods running on different hybrid nodes communicate with each other. This example assumes your CNI uses VXLAN for encapsulation, which is common for CNIs such as Cilium or Calico. The overall process is similar for other encapsulation protocols such as `Geneve` or IP-in-IP.
+This section explains how pods running on different hybrid nodes communicate with each other. This example assumes your CNI uses VXLAN for encapsulation, which is common for CNIs such as Cilium or Calico. The overall process is similar for other encapsulation protocols such as Geneve or IP-in-IP.
 
 === Request
 
 *1. Pod A Initiates Communication*
 
-Pod A (10.85.1.56) on Node 1 wants to send traffic to Pod B (10.85.2.67) on Node 2. The initial packet looks like this:
+Pod A (`10.85.1.56`) on Node 1 wants to send traffic to Pod B (`10.85.2.67`) on Node 2. The initial packet looks like this:
 
 ....
 +------------------+-----------------+-------------+-----------------+
@@ -526,7 +530,7 @@ Pod A (10.85.1.56) on Node 1 wants to send traffic to Pod B (10.85.2.67) on Node
 
 *2. CNI Intercepts and Processes the Packet*
 
-When Pod A's packet leaves its network namespace, the CNI intercepts it. The CNI consults its routing table and determines: - The destination IP (10.85.2.67) belongs to the pod CIDR - This IP is not on the local node but belongs to Node 2 (10.80.0.3) - The packet needs to be encapsulated with VXLAN.
+When Pod A's packet leaves its network namespace, the CNI intercepts it. The CNI consults its routing table and determines: - The destination IP (`10.85.2.67`) belongs to the pod CIDR - This IP is not on the local node but belongs to Node 2 (`10.80.0.3`) - The packet needs to be encapsulated with VXLAN.
 
 The decision to encapsulate is critical because the underlying physical network doesn't know how to route pod CIDRs directly - it only knows how to route traffic between node IPs.
 
@@ -540,11 +544,11 @@ The CNI encapsulates the entire original packet inside a VXLAN frame. This effec
 +-----------------+----------------+--------------+------------+---------------------------+
 ....
 
-Key points about this encapsulation: - The outer packet is addressed from Node 1 (10.80.0.2) to Node 2 (10.80.0.3) - UDP port 8472 is the VXLAN port Cilium uses by default - The VXLAN Network Identifier (VNI) identifies which overlay network this packet belongs to - The entire original packet (with Pod A's IP as source and Pod B's IP as destination) is preserved intact inside
+Key points about this encapsulation: - The outer packet is addressed from Node 1 (`10.80.0.2`) to Node 2 (`10.80.0.3`) - UDP port `8472` is the VXLAN port Cilium uses by default - The VXLAN Network Identifier (VNI) identifies which overlay network this packet belongs to - The entire original packet (with Pod A's IP as source and Pod B's IP as destination) is preserved intact inside
 
-The encapsulated packet now enters the regular networking stack of Node 1 and is processed like any other packet:
+The encapsulated packet now enters the regular networking stack of Node 1 and is processed in the same way as any other packet:
 
-. *Node Network Processing*: Node 1's network stack routes the packet based on its destination (10.80.0.3)
+. *Node Network Processing*: Node 1's network stack routes the packet based on its destination (`10.80.0.3`)
 . *Local Network Delivery*:
 * If both nodes are on the same Layer 2 network, the packet is sent directly to Node 2
 * If they're on different subnets, the packet is forwarded to the local router first
@@ -552,9 +556,9 @@ The encapsulated packet now enters the regular networking stack of Node 1 and is
 
 *3. Receiving Node Processing*
 
-When the encapsulated packet arrives at Node 2 (10.80.0.3):
+When the encapsulated packet arrives at Node 2 (`10.80.0.3`):
 
-. The node's network stack receives it and identifies it as a VXLAN packet (UDP port 4789)
+. The node's network stack receives it and identifies it as a VXLAN packet (UDP port `4789`)
 . The packet is passed to the CNI's VXLAN interface for processing
 
 *4. VXLAN Decapsulation*
@@ -573,7 +577,7 @@ The CNI on Node 2 processes the VXLAN packet:
 +------------------+-----------------+-------------+-----------------+
 ....
 
-The CNI on Node 2 examines the destination IP (10.85.2.67) and: 
+The CNI on Node 2 examines the destination IP (`10.85.2.67`) and:
 
 . Identifies that this IP belongs to a local pod
 . Routes the packet through the appropriate virtual interfaces
@@ -584,8 +588,8 @@ The CNI on Node 2 examines the destination IP (10.85.2.67) and:
 When Pod B responds to Pod A, the entire process happens in reverse:
 
 [start=4]
-. Pod B sends a packet to Pod A (10.85.1.56)
-. Node 2's CNI encapsulates it with VXLAN, setting the destination to Node 1 (10.80.0.2)
+. Pod B sends a packet to Pod A (`10.85.1.56`)
+. Node 2's CNI encapsulates it with VXLAN, setting the destination to Node 1 (`10.80.0.2`)
 . The encapsulated packet is delivered to Node 1
 . Node 1's CNI decapsulates it and delivers the original response to Pod A
 
@@ -598,7 +602,7 @@ image::images/hybrid-nodes-east-west.png[Pods on cloud nodes to pods on hybrid n
 
 *1. Pod A Initiates Communication*
 
-Pod A (10.0.0.56) on the EC2 Node wants to send traffic to Pod B (10.85.1.56) on the Hybrid Node. The initial packet looks like this:
+Pod A (`10.0.0.56`) on the EC2 Node wants to send traffic to Pod B (`10.85.1.56`) on the Hybrid Node. The initial packet looks like this:
 
 ....
 +-----------------+---------------------+-----------------+
@@ -612,7 +616,7 @@ With the VPC CNI, Pod A has an IP from the VPC CIDR and is directly attached to 
 
 *2. VPC Routing*
 
-The VPC route table contains a specific route for the Remote Pod CIDR (10.85.0.0/16), directing this traffic to the VPC-to-onprem gateway:
+The VPC route table contains a specific route for the Remote Pod CIDR (`10.85.0.0/16`), directing this traffic to the VPC-to-onprem gateway:
 
 ....
 Destination     Target
@@ -630,7 +634,7 @@ The gateway transfers the packet across the cloud boundary through your establis
 
 The packet arrives at your local on-premises router. The router consults its routing table to determine the next hop for reaching the 10.85.1.56 address. Your on-premises router must have routes for the pod CIDRs that direct traffic to the appropriate hybrid node.
 
-The router's table contains an entry indicating that the 10.85.1.0/24 subnet is reachable via the hybrid node with IP 10.80.0.2:
+The router's table has an entry indicating that the `10.85.1.0/24` subnet is reachable through the hybrid node with IP `10.80.0.2`:
 
 ....
 Destination     Next Hop
@@ -639,7 +643,7 @@ Destination     Next Hop
 
 *5. Node Network Processing*
 
-The router forwards the packet to the Hybrid Node (10.80.0.2). When the packet arrives at the node, it still has Pod A's IP as the source and Pod B's IP as the destination.
+The router forwards the packet to the hybrid node (`10.80.0.2`). When the packet arrives at the node, it still has Pod A's IP as the source and Pod B's IP as the destination.
 
 *6. CNI Processing*
 
@@ -669,11 +673,11 @@ The CNI identifies that this packet is destined for an external network and pass
 
 *5. Node Network Processing*
 
-The node determines that the destination IP (10.0.0.56) does not belong to the local network and forwards the packet to its default gateway (the local router).
+The node determines that the destination IP (`10.0.0.56`) does not belong to the local network and forwards the packet to its default gateway (the local router).
 
 *4. Local Router Routing*
 
-The local router consults its routing table and determines that the destination IP (10.0.0.56) belongs to the VPC CIDR (10.0.0.0/16). It forwards the packet to the gateway connecting to {aws}.
+The local router consults its routing table and determines that the destination IP (`10.0.0.56`) belongs to the VPC CIDR (`10.0.0.0/16`). It forwards the packet to the gateway connecting to {aws}.
 
 *3. Cross-Boundary Transit*
 
@@ -687,7 +691,7 @@ When the packet arrives in the VPC, the routing system identifies that the desti
 
 The packet arrives at the EC2 instance and is delivered directly to Pod A through its attached ENI. Since the VPC CNI doesn't use overlay networking for pods in the VPC, no additional decapsulation is needed - the packet arrives with its original headers intact.
 
-This east-west traffic flow demonstrates why remote pod CIDRs must be properly configured and routable from both directions: 
+This east-west traffic flow demonstrates why remote pod CIDRs must be properly configured and routable from both directions:
 
-* The VPC must have routes for the remote pod CIDRs pointing to the on-premises gateway 
+* The VPC must have routes for the remote pod CIDRs pointing to the on-premises gateway
 * Your on-premises network must have routes for pod CIDRs that direct traffic to the specific nodes hosting those pods.

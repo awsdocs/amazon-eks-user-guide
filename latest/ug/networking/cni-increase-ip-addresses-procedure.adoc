@@ -23,27 +23,6 @@ kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -
 +
 If your cluster is configured for the `IPv6` family, you must have version `1.10.1` of the add-on installed. If your plugin version is earlier than the required versions, you must update it. For more information, see the updating sections of <<managing-vpc-cni,Assign IPs to Pods with the Amazon VPC CNI>>.
 * *For clusters with Windows nodes only*
-
-+
-** Your cluster and its platform version must be at, or later than the versions in the following table. To upgrade your cluster version, see <<update-cluster>>. If your cluster isn't at the minimum platform version, then you can't assign IP prefixes to your nodes until Amazon EKS has updated your platform version.
-+
-[cols="1,1", options="header"]
-|===
-|Kubernetes version
-|Platform version
-
-
-|`1.27`
-|`eks.3`
-
-|`1.26`
-|`eks.4`
-
-|`1.25`
-|`eks.5`
-|===
-+
-You can check your current Kubernetes and platform version by replacing [.replaceable]`my-cluster` in the following command with the name of your cluster and then running the modified command: `aws eks describe-cluster --name [.replaceable]``my-cluster`` --query 'cluster.{"Kubernetes Version": version, "Platform Version": platformVersion}'`.
 ** You must have Windows support enabled for your cluster. For more information, see <<windows-support>>.
 
 [#cni-increase-ip-procedure]
@@ -52,7 +31,7 @@ You can check your current Kubernetes and platform version by replacing [.replac
 Configure your cluster to assign IP address prefixes to nodes. Complete the procedure that matches your node's operating system.
 
 === Linux
-. Enable the parameter to assign prefixes to network interfaces for the Amazon VPC CNI DaemonSet. When you deploy a `1.21` or later cluster, version `1.10.1` or later of the Amazon VPC CNI plugin for Kubernetes add-on is deployed with it. If you created the cluster with the `IPv6` family, this setting was set to `true` by default. If you created the cluster with the `IPv4` family, this setting was set to `false` by default.
+. Enable the parameter to assign prefixes to network interfaces for the Amazon VPC CNI DaemonSet. When you deploy a cluster, version `1.10.1` or later of the Amazon VPC CNI plugin for Kubernetes add-on is deployed with it. If you created the cluster with the `IPv6` family, this setting was set to `true` by default. If you created the cluster with the `IPv4` family, this setting was set to `false` by default.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -76,7 +55,7 @@ This can happen due to fragmentation of existing secondary IP addresses spread o
 If you're deploying a self-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must determine the Amazon EKS recommend number of maximum Pods for your nodes. Follow the instructions in <<determine-max-pods,Amazon EKS recommended maximum Pods for each Amazon EC2 instance type>>, adding `--cni-prefix-delegation-enabled` to step 3. Note the output for use in a later step.
 +
 IMPORTANT: Managed node groups enforces a maximum number on the value of `maxPods`. For instances with less than 30 vCPUs the maximum number is 110 and for all other instances the maximum number is 250. This maximum number is applied whether prefix delegation is enabled or not. 
-. If you're using a `1.21` or later cluster configured for `IPv6`, skip to the next step.
+. If you're using a cluster configured for `IPv6`, skip to the next step.
 +
 Specify the parameters in one of the following options. To determine which option is right for you and what value to provide for it, see https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/prefix-and-ip-target.md[WARM_PREFIX_TARGET, WARM_IP_TARGET, and MINIMUM_IP_TARGET] on GitHub.
 +

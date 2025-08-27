@@ -3,18 +3,19 @@ include::../attributes.txt[]
 [.topic]
 [#auto-mng]
 = Compare EKS Auto Mode with EKS managed node groups
-:info_titleabbrev: Compare with Managed Node Groups
+:info_titleabbrev: Compare with managed node groups
 
 [IMPORTANT]
 ====
 *{aws} Internal:* The table below will be used to update the larger table at <<eks-compute>> 
 ====
 
-
-
-[cols="3*", options="header"]
+[%header,cols="3"]
 |===
-|Criteria |EKS managed node groups |EKS Auto Mode
+|Criteria
+|EKS managed node groups
+|EKS Auto Mode
+
 
 |Can be deployed to {aws} Outposts
 |No

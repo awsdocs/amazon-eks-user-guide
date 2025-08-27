@@ -24,11 +24,13 @@ To simplify running Kubernetes in your on-premises environments, you can use the
 
 You can use Amazon EKS with compute in {aws} Regions, {aws} Local Zones, and {aws} Wavelength Zones. With Amazon EKS in the cloud, the security, scalability, and availability of the Kubernetes control plane is fully managed by {aws} in the {aws} Region. When running applications with compute in {aws} Regions, you get the full breadth of {aws} and Amazon EKS features, including Amazon EKS Auto Mode, which fully automates Kubernetes cluster infrastructure management for compute, storage, and networking on {aws} with a single click. When running applications with compute in {aws} Local Zones and {aws} Wavelength Zones, you can use Amazon EKS self-managed nodes to connect Amazon EC2 instances for your cluster compute and can use the other available {aws} services in {aws} Local Zones and {aws} Wavelength Zones. For more information see link:about-aws/global-infrastructure/localzones/features/[{aws} Local Zones features,type="marketing"] and link:wavelength/features/[{aws} Wavelength Zones features,type="marketing"].
 
-[cols="1,1,1", options="header"]
+
+[%header,cols="3"]
 |===
 |
 |Amazon EKS in {aws} Regions
 |Amazon EKS in Local/Wavelength Zones
+
 
 |Kuberenetes control plane management
 |{aws}-managed
@@ -49,6 +51,7 @@ a|* Amazon EKS Managed Node Groups (Local Zones only)
 |Kubernetes data plane location
 |{aws} Regions
 |{aws} Local or Wavelength Zones
+
 |===
 
 [#dc-or-edge-deployment-options]
@@ -56,12 +59,12 @@ a|* Amazon EKS Managed Node Groups (Local Zones only)
 
 If you need to run applications in your own data centers or edge environments, you can use <<eks-outposts>> or <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>>. You can use self-managed nodes with Amazon EC2 instances on {aws} Outposts for your cluster compute, or you can use Amazon EKS Hybrid Nodes with your own on-premises or edge infrastructure for your cluster compute. {aws} Outposts is {aws}-managed infrastructure that you run in your data centers or co-location facilities, whereas Amazon EKS Hybrid Nodes runs on your physical or virtual machines that you manage in your on-premises or edge environments. Amazon EKS on {aws} Outposts and Amazon EKS Hybrid Nodes require a reliable connection from your on-premises environments to an {aws} Region, and you can use the same Amazon EKS clusters, features, and tools you use to run applications in the cloud. When running on {aws} Outposts, you can alternatively deploy the entire Kubernetes cluster on {aws} Outposts with Amazon EKS local clusters on {aws} Outposts.
 
-
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |
 |Amazon EKS Hybrid Nodes
 |Amazon EKS on {aws} Outposts
+
 
 |Kuberenetes control plane management
 |{aws}-managed
@@ -78,6 +81,7 @@ If you need to run applications in your own data centers or edge environments, y
 |Kubernetes data plane location
 |Customer data center or edge environment
 |Customer data center or edge environment
+
 |===
 
 [#air-gapped-deployment-options]
@@ -85,10 +89,11 @@ If you need to run applications in your own data centers or edge environments, y
 
 link:eks/eks-anywhere/[Amazon EKS Anywhere,type="marketing"] simplifies Kubernetes cluster management through the automation of undifferentiated heavy lifting such as infrastructure setup and Kubernetes cluster lifecycle operations in on-premises and edge environments. Unlike Amazon EKS, Amazon EKS Anywhere is a customer-managed product and customers are responsible for cluster lifecycle operations and maintenance of Amazon EKS Anywhere clusters. Amazon EKS Anywhere is built on the Kubernetes sub-project Cluster API (CAPI) and supports a range of infrastructure including VMware vSphere, bare metal, Nutanix, Apache CloudStack, and {aws} Snow. Amazon EKS Anywhere can be run in air-gapped environments and offers optional integrations with regional {aws} services for observability and identity management. To receive support for Amazon EKS Anywhere and access to {aws}-vended Kubernetes add-ons, you can purchase link:eks/eks-anywhere/pricing/[Amazon EKS Anywhere Enterprise Subscriptions,type="marketing"].
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |
 |Amazon EKS Anywhere
+
 
 |Kuberenetes control plane management
 |Customer-managed
@@ -101,6 +106,7 @@ link:eks/eks-anywhere/[Amazon EKS Anywhere,type="marketing"] simplifies Kubernet
 
 |Kubernetes data plane location
 |Customer data center or edge environment
+
 |===
 
 [#tooling-deployment-options]

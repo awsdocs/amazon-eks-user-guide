@@ -15,9 +15,11 @@ This chapter describes how to configure specific aspects of your Amazon Elastic 
 Using the configuration options described in this topic, you can modify networking settings, compute resources, and load balancing behaviors while maintaining the benefits of automated infrastructure management. Before making any configuration changes, review the available options in the following sections to determine which approach best suits your needs.
 
 [role="no-scroll"]
-[cols="1,1"]
+[%header,cols="2"]
 |===
-|What features do you want to configure? |Configuration option
+|What features do you want to configure?
+|Configuration option
+
 
 a|
 *Node networking and storage*
@@ -25,9 +27,10 @@ a|
 - Configure node placement across public and private subnets
 - Define custom security groups for node access control
 - Customize network address translation (SNAT) policies
-- Enable detailed network policy logging and monitoring
+- Enable Kubernetes __network policies__, detailed network policy logging and monitoring
 - Set ephemeral storage parameters (size, IOPS, throughput)
 - Configure encrypted ephemeral storage with custom KMS keys
+- Isolate pod traffic in separate subnets from the nodes
 |<<create-node-class>>
 
 a|
@@ -38,7 +41,7 @@ a|
 - Configure capacity types (On-Demand, Spot)
 - Specify Availability Zones
 - Configure node taints and labels
-- Set minimum and maximum node counts
+- Set resource limits for CPU and memory usage
 |<<create-node-pool>>
 
 a|
@@ -78,6 +81,16 @@ a|
 - Define custom tags for provisioned volumes
 |<<create-storage-class>>
 
+a|
+*Control ODCR Usage*
+
+- Configure workload deployment into EC2 On-Demand Capacity Reservations
+- Explicitly select specific ODCRs by ID for targeted capacity usage
+- Use tag-based selection to target groups of ODCRs
+- Filter ODCRs by owning {aws} account for cross-account scenarios
+- Control whether workloads automatically use open ODCRs
+|<<auto-odcr>>
+
 |===
 
 
@@ -110,3 +123,8 @@ include::auto-accelerated.adoc[leveloffset=+1]
 
 include::auto-cis.adoc[leveloffset=+1]
 
+include::auto-kms.adoc[leveloffset=+1]
+
+include::auto-controls.adoc[leveloffset=+1]
+
+include::auto-odcr.adoc[leveloffset=+1]

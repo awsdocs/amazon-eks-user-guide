@@ -1,0 +1,15 @@
+include::../attributes.txt[]
+
+[.topic]
+[#versioning]
+= Versioning on Amazon EKS
+:info_titleabbrev: Versioning
+
+This section is designed to help you learn how Kubernetes versioning operates within Amazon Elastic Kubernetes Service (EKS). You'll find details on supported versions, our deprecation and support policies, upgrade processes, and key considerations for managing your cluster versions.
+
+[.topiclist]
+[[Topic List]]
+
+include::kubernetes-versions.adoc[leveloffset=+1]
+
+include::platform-versions.adoc[leveloffset=+1]

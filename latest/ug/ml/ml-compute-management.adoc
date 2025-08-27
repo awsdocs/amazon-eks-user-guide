@@ -1,0 +1,20 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-compute-management]
+= Manage compute resources for AI/ML workloads on Amazon EKS
+:info_titleabbrev: Capacity management
+
+[abstract]
+--
+Learn how to manage compute resources for machine learning workloads in Amazon EKS.
+--
+
+This section is designed to help you manage compute resources for machine learning workloads in Amazon Elastic Kubernetes Service (EKS). You'll find details on reserving GPUs using Capacity Blocks for managed node groups and self-managed nodes, including prerequisites, launch template setup, scaling configurations, workload preparation, and key considerations for handling reservation lifecycles and graceful node termination.
+
+[.topiclist]
+[[Topic List]]
+
+include::capacity-blocks-mng.adoc[leveloffset=+1]
+
+include::capacity-blocks.adoc[leveloffset=+1]

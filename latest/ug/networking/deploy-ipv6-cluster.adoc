@@ -32,7 +32,7 @@ You can use the eksctl or CLI to  deploy an `IPv6` cluster.
 +
 *** Replace [.replaceable]`my-cluster` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
 *** Replace [.replaceable]`region-code` with any {aws} Region that is supported by Amazon EKS. For a list of {aws} Regions, see link:general/latest/gr/eks.html[Amazon EKS endpoints and quotas,type="documentation"] in the {aws} General Reference guide.
-*** The value for `version` with the version of your cluster. For more information, see <<kubernetes-versions>>.
+*** The value for `version` with the version of your cluster. For more information, see link:eks/latest/userguide/kubernetes-versions.html[Amazon EKS supported versions,type="documentation"].
 *** Replace [.replaceable]`my-nodegroup` with a name for your node group. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters.
 *** Replace [.replaceable]`t3.medium` with any link:AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances[{aws} Nitro System instance type,type="documentation"].
 +

@@ -1,0 +1,78 @@
+include::../../attributes.txt[]
+
+[.topic]
+[#create-standard-access-entry-policy]
+= Create an access entry for an IAM role or user using an access policy and the {aws} CLI
+:info_titleabbrev: Tutorial: Create with access policy
+
+Create Amazon EKS access entries that use {aws}-managed EKS access policies to grant IAM identities standardized permissions for accessing and managing Kubernetes clusters.
+
+== Overview
+
+Access entries in Amazon EKS define how IAM identities (users and roles) can access and interact with your Kubernetes clusters. By creating access entries with EKS access policies, you can:
+
+* Grant specific IAM users or roles permission to access your EKS cluster
+* Control permissions using {aws}-managed EKS access policies that provide standardized, predefined permission sets
+* Scope permissions to specific namespaces or cluster-wide
+* Simplify access management without modifying the `aws-auth` ConfigMap or creating Kubernetes RBAC resources
+* Use {aws}-integrated approach to Kubernetes access control that covers common use cases while maintaining security best practices
+
+This approach is recommended for most use cases because it provides {aws}-managed, standardized permissions without requiring manual Kubernetes RBAC configuration. EKS access policies eliminate the need to manually configure Kubernetes RBAC resources and offer predefined permission sets that cover common use cases.
+
+== Prerequisites
+
+* The _authentication mode_ of your cluster must be configured to enable _access entries_. For more information, see <<setting-up-access-entries>>.
+* Install and configure the {aws} CLI, as described in link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
+
+
+[#ap1-s1]
+== Step 1: Define access entry
+
+. Find the ARN of IAM identity, such as a user or role, that you want to grant permissions to. 
+** Each IAM identity can have only one EKS access entry. 
+. Determine if you want the Amazon EKS access policy permissions to apply to only a specific Kubernetes namespace, or across the entire cluster. 
+** If you want to limit the permissions to a specific namespace, make note of the namespace name. 
+. Select the EKS access policy you want for the IAM identity. This policy gives in-cluster permissions. Note the ARN of the policy. 
+** For a list of policies, see xref:access-policy-permissions[available access policies].
+. Determine if the auto-generated username is appropriate for the access entry, or if you need to manually specify a username.
+** {aws} auto-generates this value based on the IAM identity. You can set a custom username. This is visible in Kubernetes logs.
+** For more information, see <<set-custom-username>>.
+
+[#ap1-s2]
+== Step 2: Create access entry
+
+After planning the access entry, use the {aws} CLI to create it. 
+
+The following example covers most use cases. link:cli/latest/reference/eks/create-access-entry.html[View the CLI reference for all configuration options,type="documentation"].
+
+You will attach the access policy in the next step. 
+
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks create-access-entry --cluster-name <cluster-name> --principal-arn <iam-identity-arn> --type STANDARD 
+----
+
+== Step 3: Associate access policy
+
+The command differs based on whether you want the policy to be limited to a specified Kubernetes namespace. 
+
+You need the ARN of the access policy. Review the xref:access-policy-permissions[available access policies]. 
+
+=== Create policy without namespace scope
+
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks associate-access-policy --cluster-name <cluster-name> --principal-arn <iam-identity-arn> --policy-arn <access-policy-arn>
+----
+
+=== Create with namespace scope 
+
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks associate-access-policy --cluster-name <cluster-name> --principal-arn <iam-identity-arn> \
+    --access-scope type=namespace,namespaces=my-namespace1,my-namespace2 --policy-arn <access-policy-arn>
+----
+
+== Next steps
+
+* xref:create-kubeconfig[Create a kubeconfig so you can use kubectl with an IAM identity]

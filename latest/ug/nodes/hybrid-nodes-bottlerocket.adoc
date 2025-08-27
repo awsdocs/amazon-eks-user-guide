@@ -1,0 +1,221 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-bottlerocket]
+= Connect hybrid nodes with Bottlerocket
+:info_titleabbrev: Connect hybrid nodes with Bottlerocket
+
+[abstract]
+--
+Connect hybrid nodes running Bottlerocket to an Amazon EKS cluster.
+--
+
+This topic describes how to connect hybrid nodes running Bottlerocket to an Amazon EKS cluster. link:bottlerocket/[Bottlerocket,type="marketing"] is an open source Linux distribution that is sponsored and supported by {aws}. Bottlerocket is purpose-built for hosting container workloads. With Bottlerocket, you can improve the availability of containerized deployments and reduce operational costs by automating updates to your container infrastructure. Bottlerocket includes only the essential software to run containers, which improves resource usage, reduces security threats, and lowers management overhead. 
+
+Only VMware variants of Bottlerocket version v1.37.0 and above are supported with EKS Hybrid Nodes. VMware variants of Bottlerocket are available for Kubernetes versions v1.28 and above. The OS images for these variants include the kubelet, containerd, aws-iam-authenticator and other software prerequisites for EKS Hybrid Nodes. You can configure these components using a Bottlerocket https://github.com/bottlerocket-os/bottlerocket?tab=readme-ov-file#settings[settings] file that includes base64 encoded user-data for the Bottlerocket bootstrap and admin containers. Configuring these settings enables Bottlerocket to use your hybrid nodes credentials provider to authenticate hybrid nodes to your cluster. After your hybrid nodes join the cluster, they will appear with status `Not Ready` in the Amazon EKS console and in Kubernetes-compatible tooling such as `kubectl`. After completing the steps on this page, proceed to <<hybrid-nodes-cni>> to make your hybrid nodes ready to run applications.
+
+== Prerequisites
+
+Before connecting hybrid nodes to your Amazon EKS cluster, make sure you have completed the prerequisite steps.
+
+* You have network connectivity from your on-premises environment to the {aws} Region hosting your Amazon EKS cluster. See <<hybrid-nodes-networking>> for more information.
+* You have created your Hybrid Nodes IAM role and set up your on-premises credential provider ({aws} Systems Manager hybrid activations or {aws} IAM Roles Anywhere). See <<hybrid-nodes-creds>> for more information.
+* You have created your hybrid nodes-enabled Amazon EKS cluster. See <<hybrid-nodes-cluster-create>> for more information.
+* You have associated your Hybrid Nodes IAM role with Kubernetes Role-Based Access Control (RBAC) permissions. See <<hybrid-nodes-cluster-prep>> for more information.
+
+== Step 1: Create the Bottlerocket settings TOML file
+
+To configure Bottlerocket for hybrid nodes, you need to create a `settings.toml` file with the necessary configuration. The contents of the TOML file will differ based on the credential provider you are using (SSM or IAM Roles Anywhere). This file will be passed as user data when provisioning the Bottlerocket instance. 
+
+=== SSM
+
+If you are using {aws} Systems Manager as your credential provider, create a `settings.toml` file with the following content:
+
+[source,toml,subs="verbatim,attributes,quotes"]
+----
+[settings.kubernetes]
+cluster-name = "<cluster-name>"
+api-server = "<api-server-endpoint>"
+cluster-certificate = "<cluster-certificate-authority>"
+hostname-override = "<hostname>"
+provider-id = "eks-hybrid:///<region>/<cluster-name>/<hostname>"
+authentication-mode = "aws"
+
+[settings.network]
+hostname = "<hostname>"
+
+[settings.aws]
+region = "<region>"
+
+[settings.kubernetes.node-labels]
+"eks.amazonaws.com/compute-type" = "hybrid"
+"eks.amazonaws.com/hybrid-credential-provider" = "ssm"
+
+[settings.host-containers.admin]
+enabled = true
+user-data = "<base64-encoded-admin-container-userdata>"
+
+[settings.bootstrap-containers.eks-hybrid-setup]
+mode = "always"
+user-data = "<base64-encoded-bootstrap-container-userdata>"
+
+[settings.host-containers.control]
+enabled = true
+----
+
+Replace the placeholders with the following values:
+
+* `<cluster-name>`: The name of your Amazon EKS cluster.
+* `<api-server-endpoint>`: The API server endpoint of your cluster.
+* `<cluster-certificate-authority>`: The base64-encoded CA bundle of your cluster.
+* `<region>`: The {aws} Region hosting your cluster, for example "us-east-1".
+* `<hostname>`: The hostname of the Bottlerocket instance, which will also be configured as the node name. This can be any unique value of your choice, but must follow the https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names[Kubernetes Object naming conventions]. In addition, the hostname you use cannot be longer than 64 characters. NOTE: When using SSM provider, this hostname and node name will be replaced by the managed instance ID (for example, `mi-*` ID) after the instance has been registered with SSM.
+* `<base64-encoded-admin-container-userdata>`: The base64-encoded contents of the Bottlerocket admin container configuration. Enabling the admin container allows you to connect to your Bottlerocket instance with SSH for system exploration and debugging. While this is not a required setting, we recommend enabling it for ease of troubleshooting. Refer to the https://github.com/bottlerocket-os/bottlerocket-admin-container#authenticating-with-the-admin-container[Bottlerocket admin container documentation] for more information on authenticating with the admin container. The admin container takes SSH user and key input in JSON format, for example,
+
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "user": "<ssh-user>",
+  "ssh": {
+    "authorized-keys": [
+      "<ssh-authorized-key>"
+    ]
+  }
+}
+----
+
+* `<base64-encoded-bootstrap-container-userdata>`: The base64-encoded contents of the Bottlerocket bootstrap container configuration. Refer to the https://github.com/bottlerocket-os/bottlerocket-bootstrap-container[Bottlerocket bootstrap container documentation] for more information on its configuration. The bootstrap container is responsible for registering the instance as an {aws} SSM Managed Instance and joining it as a Kubernetes node on your Amazon EKS Cluster. The user data passed into the bootstrap container takes the form of a command invocation which accepts as input the SSM hybrid activation code and ID you previously created:
+
+[source,bash,subs="verbatim,attributes"]
+----
+eks-hybrid-ssm-setup --activation-id=<activation-id> --activation-code=<activation-code> --region=<region>
+----
+
+=== IAM Roles Anywhere
+
+If you are using {aws} IAM Roles Anywhere as your credential provider, create a `settings.toml` file with the following content:
+
+[source,toml,subs="verbatim,attributes,quotes"]
+----
+[settings.kubernetes]
+cluster-name = "<cluster-name>"
+api-server = "<api-server-endpoint>"
+cluster-certificate = "<cluster-certificate-authority>"
+hostname-override = "<hostname>"
+provider-id = "eks-hybrid:///<region>/<cluster-name>/<hostname>"
+authentication-mode = "aws"
+
+[settings.network]
+hostname = "<hostname>"
+
+[settings.aws]
+region = "<region>"
+config = "<base64-encoded-aws-config-file>"
+
+[settings.kubernetes.node-labels]
+"eks.amazonaws.com/compute-type" = "hybrid"
+"eks.amazonaws.com/hybrid-credential-provider" = "iam-ra"
+
+[settings.host-containers.admin]
+enabled = true
+user-data = "<base64-encoded-admin-container-userdata>"
+
+[settings.bootstrap-containers.eks-hybrid-setup]
+mode = "always"
+user-data = "<base64-encoded-bootstrap-container-userdata>"
+----
+
+Replace the placeholders with the following values:
+
+* `<cluster-name>`: The name of your Amazon EKS cluster.
+* `<api-server-endpoint>`: The API server endpoint of your cluster.
+* `<cluster-certificate-authority>`: The base64-encoded CA bundle of your cluster.
+* `<region>`: The {aws} Region hosting your cluster, e.g., "us-east-1"
+* `<hostname>`: The hostname of the Bottlerocket instance, which will also be configured as the node name. This can be any unique value of your choice, but must follow the https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names[Kubernetes Object naming conventions]. In addition, the hostname you use cannot be longer than 64 characters. NOTE: When using IAM-RA provider, the node name must match the CN of the certificate on the host if you configured the trust policy of your Hybrid Nodes IAM role with the `"sts:RoleSessionName": "${aws:PrincipalTag/x509Subject/CN}"` resource condition.
+* `<base64-encoded-aws-config-file>`: The base64-encoded contents of your {aws} config file. The contents of the file should be as follows:
+[source,bash,subs="verbatim,attributes"]
+----
+[default]
+credential_process = aws_signing_helper credential-process --certificate /root/.aws/node.crt --private-key /root/.aws/node.key --profile-arn <profile-arn> --role-arn <role-arn> --trust-anchor-arn <trust-anchor-arn> --role-session-name <role-session-name>
+----
+* `<base64-encoded-admin-container-userdata>`: The base64-encoded contents of the Bottlerocket admin container configuration. Enabling the admin container allows you to connect to your Bottlerocket instance with SSH for system exploration and debugging. While this is not a required setting, we recommend enabling it for ease of troubleshooting. Refer to the https://github.com/bottlerocket-os/bottlerocket-admin-container#authenticating-with-the-admin-container[Bottlerocket admin container documentation] for more information on authenticating with the admin container. The admin container takes SSH user and key input in JSON format, for example,
+
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "user": "<ssh-user>",
+  "ssh": {
+    "authorized-keys": [
+      "<ssh-authorized-key>"
+    ]
+  }
+}
+----
+
+* `<base64-encoded-bootstrap-container-userdata>`: The base64-encoded contents of the Bottlerocket bootstrap container configuration. Refer to the https://github.com/bottlerocket-os/bottlerocket-bootstrap-container[Bottlerocket bootstrap container documentation] for more information on its configuration. The bootstrap container is responsible for creating the IAM Roles Anywhere host certificate and certificate private key files on the instance. These will then be consumed by the `aws_signing_helper` to obtain temporary credentials for authenticating with your Amazon EKS cluster. The user data passed into the bootstrap container takes the form of a command invocation which accepts as input the contents of the certificate and private key you previously created:
+
+[source,bash,subs="verbatim,attributes"]
+----
+eks-hybrid-iam-ra-setup --certificate=<certificate> --key=<private-key>
+----
+
+== Step 2: Provision the Bottlerocket vSphere VM with user data
+
+Once you have constructed the TOML file, pass it as user data during vSphere VM creation. Keep in mind that the user data must be configured before the VM is powered on for the first time. As such, you will need to supply it when creating the instance, or if you wish to create the VM ahead of time, the VM must be in poweredOff state until you configure the user data for it. For example, if using the `govc` CLI:
+
+=== Creating VM for the first time
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+govc vm.create \
+  -on=true \
+  -c=2 \
+  -m=4096 \
+  -net.adapter=<network-adapter> \
+  -net=<network-name> \
+  -e guestinfo.userdata.encoding="base64" \
+  -e guestinfo.userdata="$(base64 -w0 settings.toml)" \
+  -template=<template-name> \
+  <vm-name>
+----
+
+=== Updating user data for an existing VM
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+govc vm.create \
+    -on=false \
+    -c=2 \
+    -m=4096 \
+    -net.adapter=<network-adapter> \
+    -net=<network-name> \
+    -template=<template-name> \
+    <vm-name>
+
+govc vm.change 
+    -vm <vm-name> \
+    -e guestinfo.userdata="$(base64 -w0 settings.toml)" \
+    -e guestinfo.userdata.encoding="base64"
+
+govc vm.power -on <vm-name>
+----
+
+In the above sections, the `-e guestinfo.userdata.encoding="base64"` option specifies that the user data is base64-encoded. The `-e guestinfo.userdata` option passes the base64-encoded contents of the `settings.toml` file as user data to the Bottlerocket instance. Replace the placeholders with your specific values, such as the Bottlerocket OVA template and networking details.
+
+== Step 3: Verify the hybrid node connection
+
+After the Bottlerocket instance starts, it will attempt to join your Amazon EKS cluster. You can verify the connection in the Amazon EKS console by navigating to the Compute tab for your cluster or by running the following command:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get nodes
+----
+
+[IMPORTANT]
+====
+Your nodes will have status `Not Ready`, which is expected and is due to the lack of a CNI running on your hybrid nodes. If your nodes did not join the cluster, see <<hybrid-nodes-troubleshooting>>.
+====
+
+== Step 4: Configure a CNI for hybrid nodes
+
+To make your hybrid nodes ready to run applications, continue with the steps on <<hybrid-nodes-cni>>.

@@ -1,0 +1,1203 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-ingress]
+= Configure Kubernetes Ingress for hybrid nodes
+:info_titleabbrev: Configure Ingress
+
+[abstract]
+--
+Configure Kubernetes Ingress for hybrid nodes
+--
+
+This topic describes how to configure Kubernetes Ingress for workloads running on Amazon EKS Hybrid Nodes. link:https://kubernetes.io/docs/concepts/services-networking/ingress/[Kubernetes Ingress] exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. To make use of Ingress resources, a Kubernetes Ingress controller is required to set up the networking infrastructure and components that serve the network traffic.
+
+{aws} supports {aws} Application Load Balancer (ALB) and Cilium for Kubernetes Ingress for workloads running on EKS Hybrid Nodes. The decision to use ALB or Cilium for Ingress is based on the source of application traffic. If application traffic originates from an {aws} Region, {aws} recommends using {aws} ALB and the {aws} Load Balancer Controller. If application traffic originates from the local on-premises or edge environment, {aws} recommends using Cilium's built-in Ingress capabilities, which can be used with or without load balancer infrastructure in your environment.
+
+image::images/hybrid-nodes-ingress.png[EKS Hybrid Nodes Ingress,scaledwidth=50%,align="center"]
+
+[#hybrid-nodes-ingress-alb]
+== {AWS} Application Load Balancer
+
+You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) with the target type `ip` for workloads running on hybrid nodes. When using target type `ip`, ALB forwards traffic directly to the pods, bypassing the Service layer network path. For ALB to reach the pod IP targets on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network. Additionally, the {AWS} Load Balancer Controller uses webhooks and requires direct communication from the EKS control plane. For more information, see <<hybrid-nodes-webhooks>>.
+
+=== Considerations
+
+- See <<alb-ingress>> and <<lbc-helm>> for more information on {aws} Application Load Balancer and {aws} Load Balancer Controller.
+- See link:eks/latest/best-practices/load-balacing.html[Best Practices for Load Balancing,type="documentation"] for information on how to choose between {aws} Application Load Balancer and {aws} Network Load Balancer.
+- See link:https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/annotations/[{aws} Load Balancer Controller Ingress annotations] for the list of annotations that can be configured for Ingress resources with {aws} Application Load Balancer.
+
+=== Prerequisites
+
+- Cilium installed following the instructions in <<hybrid-nodes-cni>>.
+- Cilium BGP Control Plane enabled following the instructions in <<hybrid-nodes-cilium-bgp>>. If you do not want to use BGP, you must use an alternative method to make your on-premises pod CIDRs routable on your on-premises network. If you do not make your on-premises pod CIDRs routable, ALB will not be able to register or contact your pod IP targets.
+- Helm installed in your command-line environment, see the <<helm,Setup Helm instructions>> for more information.
+- eksctl installed in your command-line environment, see the <<eksctl-install-update,eksctl install instructions>> for more information.
+
+=== Procedure
+
+. Download an IAM policy for the {AWS} Load Balancer Controller that allows it to make calls to {AWS} APIs on your behalf.
++
+[source,bash]
+----
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/refs/heads/main/docs/install/iam_policy.json
+----
++
+. Create an IAM policy using the policy downloaded in the previous step.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws iam create-policy \
+    --policy-name AWSLoadBalancerControllerIAMPolicy \
+    --policy-document file://iam_policy.json
+----
++
+. Replace the value for cluster name (`CLUSTER_NAME`), {AWS} Region (`AWS_REGION`), and {AWS} account ID (`AWS_ACCOUNT_ID`)  with your settings and run the following command.
++
+[source,bash,subs="verbatim,attributes"]
+----
+eksctl create iamserviceaccount \
+    --cluster=CLUSTER_NAME \
+    --namespace=kube-system \
+    --name=aws-load-balancer-controller \
+    --attach-policy-arn=arn:aws:iam::AWS_ACCOUNT_ID:policy/AWSLoadBalancerControllerIAMPolicy \
+    --override-existing-serviceaccounts \
+    --region AWS_REGION \
+    --approve
+----
++
+. Add the eks-charts Helm chart repository and update your local Helm repository to make sure that you have the most recent charts.
++
+[source,bash]
+----
+helm repo add eks https://aws.github.io/eks-charts
+----
++
+[source,bash]
+----
+helm repo update eks
+----
++
+. Install the {AWS} Load Balancer Controller. Replace the value for cluster name (`CLUSTER_NAME`), {AWS} Region (`AWS_REGION`), VPC ID (`VPC_ID`), and {AWS} Load Balancer Controller Helm chart version (`AWS_LBC_HELM_VERSION`) with your settings and run the following command. If you are running a mixed mode cluster with both hybrid nodes and nodes in {AWS} Cloud, you can run the {AWS} Load Balancer Controller on cloud nodes following the instructions at <<hybrid-nodes-mixed-lbc>>.
++
+- You can find the latest version of the Helm chart by running `helm search repo eks/aws-load-balancer-controller --versions`. 
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system \
+  --version [.replaceable]`AWS_LBC_HELM_VERSION` \
+  --set clusterName=[.replaceable]`CLUSTER_NAME` \
+  --set region=[.replaceable]`AWS_REGION` \
+  --set vpcId=[.replaceable]`VPC_ID` \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller
+----
++
+. Verify the {AWS} Load Balancer Controller was installed successfully.
++
+[source,bash]
+----
+kubectl get -n kube-system deployment aws-load-balancer-controller
+----
++
+[source,bash]
+----
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+aws-load-balancer-controller   2/2     2            2           84s
+----
+. Create a sample application. The example below uses the link:https://istio.io/latest/docs/examples/bookinfo/[Istio Bookinfo] sample microservices application.
++
+[source,bash]
+----
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/refs/heads/master/samples/bookinfo/platform/kube/bookinfo.yaml
+----
++
+. Create a file named `my-ingress-alb.yaml` with the following contents.
++
+[source,yaml]
+----
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  namespace: default
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-name: "my-ingress-alb"
+    alb.ingress.kubernetes.io/target-type: "ip"
+    alb.ingress.kubernetes.io/scheme: "internet-facing"
+    alb.ingress.kubernetes.io/healthcheck-path: "/details/1"
+spec:
+  ingressClassName: alb
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: details
+            port:
+              number: 9080
+        path: /details
+        pathType: Prefix
+----
++
+. Apply the Ingress configuration to your cluster.
++
+[source,bash]
+----
+kubectl apply -f my-ingress-alb.yaml
+----
++
+. Provisioning the ALB for your Ingress resource may take a few minutes. Once the ALB is provisioned, your Ingress resource will have an address assigned to it that corresponds to the DNS name of the ALB deployment. The address will have the format `<alb-name>-<random-string>.<region>.elb.amazonaws.com`.
++
+[source,bash]
+----
+kubectl get ingress my-ingress
+----
++
+[source,bash]
+----
+NAME         CLASS   HOSTS   ADDRESS                                                     PORTS   AGE
+my-ingress   alb     *       my-ingress-alb-<random-string>.<region>.elb.amazonaws.com   80      23m
+----
++
+. Access the Service using the address of the ALB.
++
+[source,bash]
+----
+curl -s http//my-ingress-alb-<random-string>.<region>.elb.amazonaws.com:80/details/1 | jq
+----
++
+[source,bash]
+----
+{
+  "id": 1,
+  "author": "William Shakespeare",
+  "year": 1595,
+  "type": "paperback",
+  "pages": 200,
+  "publisher": "PublisherA",
+  "language": "English",
+  "ISBN-10": "1234567890",
+  "ISBN-13": "123-1234567890"
+  "details": "This is the details page"
+}
+----
+
+[#hybrid-nodes-ingress-cilium]
+== Cilium Ingress and Cilium Gateway Overview
+
+Cilium's Ingress capabilities are built into Cilium's architecture and can be managed with the Kubernetes Ingress API or Gateway API. If you don't have existing Ingress resources, {aws} recommends to start with the Gateway API, as it is a more expressive and flexible way to define and manage Kubernetes networking resources. The link:https://gateway-api.sigs.k8s.io/[Kubernetes Gateway API] aims to standardize how networking resources for Ingress, Load Balancing, and Service Mesh are defined and managed in Kubernetes clusters.
+
+When you enable Cilium's Ingress or Gateway features, the Cilium operator reconciles Ingress / Gateway objects in the cluster and Envoy proxies on each node process the Layer 7 (L7) network traffic. Cilium does not directly provision Ingress / Gateway infrastructure such as load balancers. If you plan to use Cilium Ingress / Gateway with a load balancer, you must use the load balancer's tooling, commonly an Ingress or Gateway controller, to deploy and manage the load balancer's infrastructure.
+
+For Ingress / Gateway traffic, Cilium handles the core network traffic and L3/L4 policy enforcement, and integrated Envoy proxies process the L7 network traffic. With Cilium Ingress / Gateway, Envoy is responsible for applying L7 routing rules, policies, and request manipulation, advanced traffic management such as traffic splitting and mirroring, and TLS termination and origination. Cilium's Envoy proxies are deployed as a separate DaemonSet (`cilium-envoy`) by default, which enables Envoy and the Cilium agent to be separately updated, scaled, and managed.
+
+For more information on how Cilium Ingress and Cilium Gateway work, see the link:https://docs.cilium.io/en/stable/network/servicemesh/ingress/[Cilium Ingress] and link:https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/gateway-api/[Cilium Gateway] pages in the Cilium documentation.
+
+[#hybrid-nodes-ingress-cilium-comparison]
+== Cilium Ingress and Gateway Comparison
+
+The table below summarizes the Cilium Ingress and Cilium Gateway features as of *Cilium version 1.17.x*.
+
+[%header,cols="3,2,2"]
+|===
+|Feature	
+^|Ingress
+^|Gateway
+
+|Service type LoadBalancer
+^|Yes
+^|Yes
+
+|Service type NodePort
+^|Yes
+^|No^1^
+
+|Host network
+^|Yes
+^|Yes
+
+|Shared load balancer
+^|Yes
+^|Yes
+
+|Dedicated load balancer
+^|Yes
+^|No^2^
+
+|Network policies
+^|Yes
+^|Yes
+
+|Protocols
+^|Layer 7 (HTTP(S), gRPC)
+^|Layer 7 (HTTP(S), gRPC)^3^
+
+|TLS Passthrough
+^|Yes
+^|Yes
+
+|Traffic Management
+^|Path and Host routing
+^|Path and Host routing, URL redirect and rewrite, 
+traffic splitting, header modification
+
+|===
+
+^1^ Cilium Gateway support for NodePort services is planned for Cilium version 1.18.x (link:https://github.com/cilium/cilium/pull/27273[#27273])
+
+^2^ Cilium Gateway support for dedicated load balancers (link:https://github.com/cilium/cilium/issues/25567[#25567])
+
+^3^ Cilium Gateway support for TCP/UDP (link:https://github.com/cilium/cilium/issues/21929[#21929])
+
+[#hybrid-nodes-ingress-cilium-gateway-install]
+== Install Cilium Gateway
+
+=== Considerations
+
+- Cilium must be configured with `nodePort.enabled` set to `true` as shown in the examples below. If you are using Cilium's kube-proxy replacement feature, you do not need to set `nodePort.enabled` to `true`.
+- Cilium must be configured with `envoy.enabled` set to `true` as shown in the examples below.
+- Cilium Gateway can be deployed in load balancer (default) or host network mode. 
+- When using Cilium Gateway in load balancer mode, the `service.beta.kubernetes.io/aws-load-balancer-type: "external"` annotation must be set on the Gateway resource to prevent the legacy {aws} cloud provider from creating a Classic Load Balancer for the Service of type LoadBalancer that Cilium creates for the Gateway resource.
+- When using Cilium Gateway in host network mode, the Service of type LoadBalancer mode is disabled. Host network mode is useful for environments that do not have load balancer infrastructure, see <<hybrid-nodes-ingress-cilium-host-network>> for more information.
+
+=== Prerequisites
+
+. Helm installed in your command-line environment, see <<helm,Setup Helm instructions>>.
+. Cilium installed following the instructions in <<hybrid-nodes-cni>>.
+
+=== Procedure
+
+. Install the Kubernetes Gateway API Custom Resource Definitions (CRDs).
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_gateways.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_referencegrants.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/standard/gateway.networking.k8s.io_grpcroutes.yaml
+----
++
+. Create a file called `cilium-gateway-values.yaml` with the following contents. The example below configures Cilium Gateway to use the default load balancer mode and to use a separate `cilium-envoy` DaemonSet for Envoy proxies configured to run only on hybrid nodes.
++
+[source,yaml]
+----
+gatewayAPI:
+  enabled: true
+  # uncomment to use host network mode
+  # hostNetwork:
+  #   enabled: true
+nodePort:
+  enabled: true
+envoy:
+  enabled: true
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: In
+            values:
+            - hybrid
+----
++
+. Apply the Helm values file to your cluster. 
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium \
+  --namespace kube-system \
+  --reuse-values \
+  --set operator.rollOutPods=true \
+  --values cilium-gateway-values.yaml
+----
++
+. Confirm the Cilium operator, agent, and Envoy pods are running.
++
+[source,bash]
+----
+kubectl -n kube-system get pods --selector=app.kubernetes.io/part-of=cilium
+----
++
+[source,bash]
+----
+NAME                               READY   STATUS    RESTARTS   AGE
+cilium-envoy-5pgnd                 1/1     Running   0          6m31s
+cilium-envoy-6fhg4                 1/1     Running   0          6m30s
+cilium-envoy-jskrk                 1/1     Running   0          6m30s
+cilium-envoy-k2xtb                 1/1     Running   0          6m31s
+cilium-envoy-w5s9j                 1/1     Running   0          6m31s
+cilium-grwlc                       1/1     Running   0          4m12s
+cilium-operator-68f7766967-5nnbl   1/1     Running   0          4m20s
+cilium-operator-68f7766967-7spfz   1/1     Running   0          4m20s
+cilium-pnxcv                       1/1     Running   0          6m29s
+cilium-r7qkj                       1/1     Running   0          4m12s
+cilium-wxhfn                       1/1     Running   0          4m1s
+cilium-z7hlb                       1/1     Running   0          6m30s
+----
+
+[#hybrid-nodes-ingress-cilium-gateway-configure]
+== Configure Cilium Gateway
+
+Cilium Gateway is enabled on Gateway objects by setting the `gatewayClassName` to `cilium`. The Service that Cilium creates for Gateway resources can be configured with fields on the Gateway object. Common annotations used by Gateway controllers to configure the load balancer infrastructure can be configured with the Gateway object's `infrastructure` field. When using Cilium's LoadBalancer IPAM (see example in <<hybrid-nodes-ingress-cilium-loadbalancer>>), the IP address to use for the Service of type LoadBalancer can be configured on the Gateway object's `addresses` field. For more information on Gateway configuration, see the link:https://gateway-api.sigs.k8s.io/reference/spec/#gateway[Kubernetes Gateway API specification].
+
+[source,yaml]
+----
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-gateway
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      service.beta.kubernetes.io/...
+      service.kuberentes.io/...
+  addresses:
+  - type: IPAddress
+    value: <LoadBalancer IP address>
+  listeners:
+  ...
+----
+
+Cilium and the Kubernetes Gateway specification support the GatewayClass, Gateway, HTTPRoute, GRPCRoute, and ReferenceGrant resources. 
+
+- See link:https://gateway-api.sigs.k8s.io/api-types/httproute/HTTPRoute[HTTPRoute] and link:https://gateway-api.sigs.k8s.io/api-types/grpcroute/GRPCRoute[GRPCRoute] specifications for the list of available fields. 
+- See the examples in the <<hybrid-nodes-ingress-cilium-gateway-deploy>> section below and the examples in the link:https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/gateway-api/#examples[Cilium documentation] for how to use and configure these resources.
+
+[#hybrid-nodes-ingress-cilium-gateway-deploy]
+== Deploy Cilium Gateway
+
+. Create a sample application. The example below uses the link:https://istio.io/latest/docs/examples/bookinfo/[Istio Bookinfo] sample microservices application.
++
+[source,bash]
+----
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/refs/heads/master/samples/bookinfo/platform/kube/bookinfo.yaml
+----
++
+. Confirm the application is running successfully.
++
+[source,bash]
+----
+kubectl get pods
+----
++
+[source,bash]
+----
+NAME                              READY   STATUS    RESTARTS   AGE
+details-v1-766844796b-9965p       1/1     Running   0          81s
+productpage-v1-54bb874995-jmc8j   1/1     Running   0          80s
+ratings-v1-5dc79b6bcd-smzxz       1/1     Running   0          80s
+reviews-v1-598b896c9d-vj7gb       1/1     Running   0          80s
+reviews-v2-556d6457d-xbt8v        1/1     Running   0          80s
+reviews-v3-564544b4d6-cpmvq       1/1     Running   0          80s
+----
++
+. Create a file named `my-gateway.yaml` with the following contents. The example below uses the `service.beta.kubernetes.io/aws-load-balancer-type: "external"` annotation to prevent the legacy {aws} cloud provider from creating a Classic Load Balancer for the Service of type LoadBalancer that Cilium creates for the Gateway resource.
++
+[source,yaml]
+----
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-gateway
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "external"
+  listeners:
+  - protocol: HTTP
+    port: 80
+    name: web-gw
+    allowedRoutes:
+      namespaces:
+        from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http-app-1
+spec:
+  parentRefs:
+  - name: my-gateway
+    namespace: default
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /details
+    backendRefs:
+    - name: details
+      port: 9080
+----
++
+. Apply the Gateway resource to your cluster.
++
+[source,bash]
+----
+kubectl apply -f my-gateway.yaml
+----
++
+. Confirm the Gateway resource and corresponding Service were created. At this stage, it is expected that the `ADDRESS` field of the Gateway resource is not populated with an IP address or hostname, and that the Service of type LoadBalancer for the Gateway resource similarly does not have an IP address or hostname assigned.
++
+[source,bash]
+----
+kubectl get gateway my-gateway
+----
++
+[source,bash]
+----
+NAME         CLASS    ADDRESS   PROGRAMMED   AGE
+my-gateway   cilium             True         10s
+----
++
+[source,bash]
+----
+kubectl get svc cilium-gateway-my-gateway
+----
++
+[source,bash]
+----
+NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+cilium-gateway-my-gateway   LoadBalancer   172.16.227.247   <pending>     80:30912/TCP   24s
+----
++
+. Proceed to <<hybrid-nodes-ingress-cilium-loadbalancer>> to configure the Gateway resource to use an IP address allocated by Cilium Load Balancer IPAM, and <<hybrid-nodes-ingress-cilium-nodeport>> or <<hybrid-nodes-ingress-cilium-host-network>> to configure the Gateway resource to use NodePort or host network addresses.
+
+[#hybrid-nodes-ingress-cilium-ingress-install]
+== Install Cilium Ingress
+
+=== Considerations
+
+- Cilium must be configured with `nodePort.enabled` set to `true` as shown in the examples below. If you are using Cilium's kube-proxy replacement feature, you do not need to set `nodePort.enabled` to `true`.
+- Cilium must be configured with `envoy.enabled` set to `true` as shown in the examples below. 
+- With `ingressController.loadbalancerMode` set to `dedicated`, Cilium creates dedicated Services for each Ingress resource. With `ingressController.loadbalancerMode` set to `shared`, Cilium creates a shared Service of type LoadBalancer for all Ingress resources in the cluster. When using the `shared` load balancer mode, the settings for the shared Service such as `labels`, `annotations`, `type`, and `loadBalancerIP` are configured in the `ingressController.service` section of the Helm values. See the link:https://github.com/cilium/cilium/blob/v1.17.6/install/kubernetes/cilium/values.yaml#L887[Cilium Helm values reference] for more information.
+- With `ingressController.default` set to `true`, Cilium is configured as the default Ingress controller for the cluster and will create Ingress entries even when the `ingressClassName` is not specified on Ingress resources.
+- Cilium Ingress can be deployed in load balancer (default), node port, or host network mode.  When Cilium is installed in host network mode, the Service of type LoadBalancer and Service of type NodePort modes are disabled. See <<hybrid-nodes-ingress-cilium-host-network>> for more information.
+- Always set `ingressController.service.annotations` to `service.beta.kubernetes.io/aws-load-balancer-type: "external"` in the Helm values to prevent the legacy {aws} cloud provider from creating a Classic Load Balancer for the default `cilium-ingress` Service created by the link:https://github.com/cilium/cilium/blob/main/install/kubernetes/cilium/templates/cilium-ingress-service.yaml[Cilium Helm chart].
+
+=== Prerequisites
+
+. Helm installed in your command-line environment, see <<helm,Setup Helm instructions>>.
+. Cilium installed following the instructions in <<hybrid-nodes-cni>>.
+
+=== Procedure
+
+. Create a file called `cilium-ingress-values.yaml` with the following contents. The example below configures Cilium Ingress to use the default load balancer `dedicated` mode and to use a separate `cilium-envoy` DaemonSet for Envoy proxies configured to run only on hybrid nodes.
+
++
+[source,yaml]
+----
+ingressController:
+  enabled: true
+  loadbalancerMode: dedicated
+  service:
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "external"
+nodePort:
+  enabled: true
+envoy:
+  enabled: true
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: In
+            values:
+            - hybrid
+----
++
+. Apply the Helm values file to your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium \
+  --namespace kube-system \
+  --reuse-values \
+  --set operator.rollOutPods=true \
+  --values cilium-ingress-values.yaml
+----
++
+. Confirm the Cilium operator, agent, and Envoy pods are running.
++
+[source,bash]
+----
+kubectl -n kube-system get pods --selector=app.kubernetes.io/part-of=cilium
+----
++
+[source,bash]
+----
+NAME                               READY   STATUS    RESTARTS   AGE
+cilium-envoy-5pgnd                 1/1     Running   0          6m31s
+cilium-envoy-6fhg4                 1/1     Running   0          6m30s
+cilium-envoy-jskrk                 1/1     Running   0          6m30s
+cilium-envoy-k2xtb                 1/1     Running   0          6m31s
+cilium-envoy-w5s9j                 1/1     Running   0          6m31s
+cilium-grwlc                       1/1     Running   0          4m12s
+cilium-operator-68f7766967-5nnbl   1/1     Running   0          4m20s
+cilium-operator-68f7766967-7spfz   1/1     Running   0          4m20s
+cilium-pnxcv                       1/1     Running   0          6m29s
+cilium-r7qkj                       1/1     Running   0          4m12s
+cilium-wxhfn                       1/1     Running   0          4m1s
+cilium-z7hlb                       1/1     Running   0          6m30s
+----
+
+[#hybrid-nodes-ingress-cilium-ingress-configure]
+== Configure Cilium Ingress
+
+Cilium Ingress is enabled on Ingress objects by setting the `ingressClassName` to `cilium`. The Service(s) that Cilium creates for Ingress resources can be configured with annotations on the Ingress objects when using the `dedicated` load balancer mode and in the Cilium / Helm configuration when using the `shared` load balancer mode. These annotations are commonly used by Ingress controllers to configure the load balancer infrastructure, or other attributes of the Service such as the service type, load balancer mode, ports, and TLS passthrough. Key annotations are described below. For a full list of supported annotations, see the link:https://docs.cilium.io/en/stable/network/servicemesh/ingress/#supported-ingress-annotations[Cilium Ingress annotations] in the Cilium documentation.
+
+[%header,cols="2,3"]
+|===
+|Annotation
+|Description
+
+|`ingress.cilium.io/loadbalancer-mode`
+|`dedicated`: Dedicated Service of type LoadBalancer for each Ingress resource (default).
+
+`shared`: Single Service of type LoadBalancer for all Ingress resources.
+
+|`ingress.cilium.io/service-type`
+| `LoadBalancer`: The Service will be of type LoadBalancer (default)
+
+`NodePort`: The Service will be of type NodePort.
+
+|`service.beta.kubernetes.io/aws-load-balancer-type`
+| `"external"`: Prevent legacy {AWS} cloud provider from provisioning Classic Load Balancer for Services of type LoadBalancer.
+
+|`lbipam.cilium.io/ips`
+| List of IP addresses to allocate from Cilium LoadBalancer IPAM
+
+|===
+
+Cilium and the Kubernetes Ingress specification support Exact, Prefix, and Implementation-specific matching rules for Ingress paths. Cilium supports regex as its implementation-specific matching rule. For more information, see link:https://docs.cilium.io/en/stable/network/servicemesh/ingress/#ingress-path-types-and-precedence[Ingress path types and precedence] and link:https://docs.cilium.io/en/stable/network/servicemesh/path-types/[Path types examples] in the Cilium documentation, and the examples in the <<hybrid-nodes-ingress-cilium-ingress-deploy>> section of this page.
+
+An example Cilium Ingress object is shown below. 
+
+[source,yaml]
+----
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    service.beta.kuberentes.io/...
+    service.kuberentes.io/...
+spec:
+  ingressClassName: cilium
+  rules:
+  ...
+----
+
+[#hybrid-nodes-ingress-cilium-ingress-deploy]
+== Deploy Cilium Ingress
+
+. Create a sample application. The example below uses the link:https://istio.io/latest/docs/examples/bookinfo/[Istio Bookinfo] sample microservices application.
++
+[source,bash]
+----
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/refs/heads/master/samples/bookinfo/platform/kube/bookinfo.yaml
+----
++
+. Confirm the application is running successfully.
++
+[source,bash]
+----
+kubectl get pods
+----
++
+[source,bash]
+----
+NAME                              READY   STATUS    RESTARTS   AGE
+details-v1-766844796b-9965p       1/1     Running   0          81s
+productpage-v1-54bb874995-jmc8j   1/1     Running   0          80s
+ratings-v1-5dc79b6bcd-smzxz       1/1     Running   0          80s
+reviews-v1-598b896c9d-vj7gb       1/1     Running   0          80s
+reviews-v2-556d6457d-xbt8v        1/1     Running   0          80s
+reviews-v3-564544b4d6-cpmvq       1/1     Running   0          80s
+----
++
+. Create a file named `my-ingress.yaml` with the following contents. The example below uses the `service.beta.kubernetes.io/aws-load-balancer-type: "external"` annotation to prevent the legacy {aws} cloud provider from creating a Classic Load Balancer for the Service of type LoadBalancer that Cilium creates for the Ingress resource.
++
+[source,yaml]
+----
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  namespace: default
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"
+spec:
+  ingressClassName: cilium
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: details
+            port:
+              number: 9080
+        path: /details
+        pathType: Prefix
+----
++
+. Apply the Ingress resource to your cluster.
++
+[source,bash]
+----
+kubectl apply -f my-ingress.yaml
+----
++
+. Confirm the Ingress resource and corresponding Service were created. At this stage, it is expected that the `ADDRESS` field of the Ingress resource is not populated with an IP address or hostname, and that the shared or dedicated Service of type LoadBalancer for the Ingress resource similarly does not have an IP address or hostname assigned. 
++
+[source,bash]
+----
+kubectl get ingress my-ingress
+----
++
+[source,bash]
+----
+NAME         CLASS    HOSTS   ADDRESS   PORTS   AGE
+my-ingress   cilium   *                 80      8s
+----
++
+For load balancer mode `shared`
++
+[source,bash]
+----
+kubectl -n kube-system get svc cilium-ingress
+----
++
+[source,bash]
+----
+NAME             TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+cilium-ingress   LoadBalancer   172.16.217.48   <pending>     80:32359/TCP,443:31090/TCP   10m
+----
++
+For load balancer mode `dedicated`
++
+[source,bash]
+----
+kubectl -n default get svc cilium-ingress-my-ingress
+----
++
+[source,bash]
+----
+NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+cilium-ingress-my-ingress   LoadBalancer   172.16.193.15   <pending>     80:32088/TCP,443:30332/TCP   25s
+----
++
+. Proceed to <<hybrid-nodes-ingress-cilium-loadbalancer>> to configure the Ingress resource to use an IP address allocated by Cilium Load Balancer IPAM, and <<hybrid-nodes-ingress-cilium-nodeport>> or <<hybrid-nodes-ingress-cilium-host-network>> to configure the Ingress resource to use NodePort or host network addresses.
+
+[#hybrid-nodes-ingress-cilium-loadbalancer]
+== Service type LoadBalancer
+
+=== Existing load balancer infrastructure
+
+By default, for both Cilium Ingress and Cilium Gateway, Cilium creates Kubernetes Service(s) of type LoadBalancer for the Ingress / Gateway resources. The attributes of the Service(s) that Cilium creates can be configured through the Ingress and Gateway resources. When you create Ingress or Gateway resources, the externally exposed IP address or hostnames for the Ingress or Gateway are allocated from the load balancer infrastructure, which is typically provisioned by an Ingress or Gateway controller.
+
+Many Ingress and Gateway controllers use annotations to detect and configure the load balancer infrastructure. The annotations for these Ingress and Gateway controllers are configured on the Ingress or Gateway resources as shown in the previous examples above. Reference your Ingress or Gateway controller's documentation for the annotations it supports and see the link:https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/[Kubernetes Ingress documentation] and link:https://gateway-api.sigs.k8s.io/implementations/[Kubernetes Gateway documentation] for a list of popular controllers.
+
+[IMPORTANT]
+====
+Cilium Ingress and Gateway cannot be used with the {AWS} Load Balancer Controller and {AWS} Network Load Balancers (NLBs) with EKS Hybrid Nodes. Attempting to use these together results in unregistered targets, as the NLB attempts to directly connect to the Pod IPs that back the Service of type LoadBalancer when the NLB's `target-type` is set to `ip` (requirement for using NLB with workloads running on EKS Hybrid Nodes).
+====
+
+=== No load balancer infrastructure
+
+If you do not have load balancer infrastructure and corresponding Ingress / Gateway controller in your environment, Ingress / Gateway resources and corresponding Services of type LoadBalancer can be configured to use IP addresses allocated by Cilium's link:https://docs.cilium.io/en/stable/network/lb-ipam/[Load Balancer IP address management] (LB IPAM). Cilium LB IPAM can be configured with known IP address ranges from your on-premises environment, and can use Cilium's built-in Border Gateway Protocol (BGP) support or L2 announcements to advertise the LoadBalancer IP addresses to your on-premises network.
+
+The example below shows how to configure Cilium's LB IPAM with an IP address to use for your Ingress / Gateway resources, and how to configure Cilium BGP Control Plane to advertise the LoadBalancer IP address with the on-premises network. Cilium's LB IPAM feature is enabled by default, but is not activated until a `CiliumLoadBalancerIPPool` resource is created.
+
+==== Prerequisites
+
+- Cilium Ingress or Gateway installed following the instructions in <<hybrid-nodes-ingress-cilium-ingress-install>> or <<hybrid-nodes-ingress-cilium-gateway-install>>.
+- Cilium Ingress or Gateway resources with sample application deployed following the instructions in <<hybrid-nodes-ingress-cilium-ingress-deploy>> or <<hybrid-nodes-ingress-cilium-gateway-deploy>>.
+- Cilium BGP Control Plane enabled following the instructions in <<hybrid-nodes-cilium-bgp>>. If you do not want to use BGP, you can skip this prerequisite, but you will not be able to access your Ingress or Gateway resource until the LoadBalancer IP address allocated by Cilium LB IPAM is routable on your on-premises network.
+
+==== Procedure
+
+. Optionally patch the Ingress or Gateway resource to request a specific IP address to use for the Service of type LoadBalancer. If you do not request a specific IP address, Cilium will allocate an IP address from the IP address range configured in the `CiliumLoadBalancerIPPool` resource in the subsequent step. In the commands below, replace `LB_IP_ADDRESS` with the IP address to request for the Service of type LoadBalancer.
++
+*Gateway*
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl patch gateway -n default my-gateway --type=merge -p '{
+  "spec": {
+    "addresses": [{"type": "IPAddress", "value": "LB_IP_ADDRESS"}]
+  }
+}'
+----
++
+*Ingress*
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl patch ingress my-ingress --type=merge -p '{
+  "metadata": {"annotations": {"lbipam.cilium.io/ips": "LB_IP_ADDRESS"}}
+}'
+----
++
+. Create a file named `cilium-lbip-pool-ingress.yaml` with a `CiliumLoadBalancerIPPool` resource to configure the Load Balancer IP address range for your Ingress / Gateway resources. 
+- If you are using Cilium Ingress, Cilium automatically applies the `cilium.io/ingress: "true"` label to the Services it creates for Ingress resources. You can use this label in the `serviceSelector` field of the `CiliumLoadBalancerIPPool` resource definition to select the Services eligible for LB IPAM.
+- If you are using Cilium Gateway, you can use the `gateway.networking.k8s.io/gateway-name` label in the `serviceSelector` fields of the `CiliumLoadBalancerIPPool` resource definition to select the Gateway resources eligible for LB IPAM.
+- Replace `LB_IP_CIDR` with the IP address range to use for the Load Balancer IP addresses. To select a single IP address, use a `/32` CIDR. For more information, see link:https://docs.cilium.io/en/stable/network/lb-ipam/[LoadBalancer IP Address Management] in the Cilium documentation.
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: bookinfo-pool
+spec:
+  blocks:
+  - cidr: "LB_IP_CIDR"
+  serviceSelector:
+    # if using Cilium Gateway
+    matchExpressions:
+      - { key: gateway.networking.k8s.io/gateway-name, operator: In, values: [ my-gateway ] }
+    # if using Cilium Ingress
+    matchLabels:
+      cilium.io/ingress: "true"
+----
++
+. Apply the `CiliumLoadBalancerIPPool` resource to your cluster.
++
+[source,bash]
+----
+kubectl apply -f cilium-lbip-pool-ingress.yaml
+----
++
+. Confirm an IP address was allocated from Cilium LB IPAM for the Ingress / Gateway resource.
++
+*Gateway*
++
+[source,bash]
+----
+kubectl get gateway my-gateway
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME         CLASS    ADDRESS        PROGRAMMED   AGE
+my-gateway   cilium   [.replaceable]`LB_IP_ADDRESS`    True         6m41s
+----
++
+*Ingress*
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get ingress my-ingress
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+NAME         CLASS    HOSTS   ADDRESS        PORTS   AGE
+my-ingress   cilium   *       [.replaceable]`LB_IP_ADDRESS`   80      10m
+----
++
+. Create a file named `cilium-bgp-advertisement-ingress.yaml` with a `CiliumBGPAdvertisement` resource to advertise the LoadBalancer IP address for the Ingress / Gateway resources. If you are not using Cilium BGP, you can skip this step. The LoadBalancer IP address used for your Ingress / Gateway resource must be routable on your on-premises network for you to be able to query the service in the next step.
++
+[source,yaml]
+----
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPAdvertisement
+metadata:
+  name: bgp-advertisement-lb-ip
+  labels:
+    advertise: bgp
+spec:
+  advertisements:
+    - advertisementType: "Service"
+      service:
+        addresses:
+          - LoadBalancerIP
+      selector:
+        # if using Cilium Gateway
+        matchExpressions:
+          - { key: gateway.networking.k8s.io/gateway-name, operator: In, values: [ my-gateway ] }
+        # if using Cilium Ingress
+        matchLabels:
+          cilium.io/ingress: "true"
+----
+. Apply the `CiliumBGPAdvertisement` resource to your cluster.
++
+[source,bash]
+----
+kubectl apply -f cilium-bgp-advertisement-ingress.yaml
+----
++
+. Access the service using the IP address allocated from Cilium LB IPAM.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+curl -s http://[.replaceable]`LB_IP_ADDRESS`:80/details/1 | jq
+----
++
+[source,bash]
+----
+{
+  "id": 1,
+  "author": "William Shakespeare",
+  "year": 1595,
+  "type": "paperback",
+  "pages": 200,
+  "publisher": "PublisherA",
+  "language": "English",
+  "ISBN-10": "1234567890",
+  "ISBN-13": "123-1234567890"
+}
+----
+
+[#hybrid-nodes-ingress-cilium-nodeport]
+== Service type NodePort
+
+If you do not have load balancer infrastructure and corresponding Ingress controller in your environment, or if you are self-managing your load balancer infrastructure or using DNS-based load balancing, you can configure Cilium Ingress to create Services of type NodePort for the Ingress resources. When using NodePort with Cilium Ingress, the Service of type NodePort is exposed on a port on each node in port range 30000-32767. In this mode, when traffic reaches any node in the cluster on the NodePort, it is then forwarded to a pod that backs the service, which may be on the same node or a different node.
+
+[NOTE]
+====
+Cilium Gateway support for NodePort services is planned for Cilium version 1.18.x (link:https://github.com/cilium/cilium/pull/27273[#27273])
+====
+
+=== Prerequisites
+
+- Cilium Ingress installed following the instructions in <<hybrid-nodes-ingress-cilium-ingress-install>>.
+- Cilium Ingress resources with sample application deployed following the instructions in <<hybrid-nodes-ingress-cilium-ingress-deploy>>.
+
+=== Procedure
+
+. Patch the existing Ingress resource `my-ingress` to change it from Service type LoadBalancer to NodePort.
++
+[source,bash]
+----
+kubectl patch ingress my-ingress --type=merge -p '{
+    "metadata": {"annotations": {"ingress.cilium.io/service-type": "NodePort"}}
+}'
+----
++
+If you have not created the Ingress resource, you can create it by applying the following Ingress definition to your cluster. Note, the Ingress definition below uses the Istio Bookinfo sample application described in <<hybrid-nodes-ingress-cilium-ingress-deploy>>.
++
+[source,yaml]
+----
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  namespace: default
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"
+    "ingress.cilium.io/service-type": "NodePort"
+spec:
+  ingressClassName: cilium
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: details
+            port:
+              number: 9080
+        path: /details
+        pathType: Prefix
+----
++
+. Confirm the Service for the Ingress resource was updated to use Service type NodePort. Note the Port for the HTTP protocol in the output. In the example below this HTTP port is `32353`, which will be used in a subsequent step to query the Service. The benefit of using Cilium Ingress with Service of type NodePort is that you can apply path and host-based routing, as well as network policies for the Ingress traffic, which you cannot do for a standard Service of type NodePort without Ingress.
++
+[source,bash]
+----
+kubectl -n default get svc cilium-ingress-my-ingress
+----
++
+[source,bash]
+----
+NAME                        TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+cilium-ingress-my-ingress   NodePort   172.16.47.153   <none>        80:32353/TCP,443:30253/TCP   27m
+----
++
+. Get the IP addresses of your nodes in your cluster.
++
+[source,bash]
+----
+kubectl get nodes -o wide
+----
++
+[source,bash]
+----
+NAME                   STATUS   ROLES    AGE   VERSION               INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION       CONTAINER-RUNTIME
+mi-026d6a261e355fba7   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.150   <none>        Ubuntu 22.04.5 LTS   5.15.0-142-generic   containerd://1.7.27
+mi-082f73826a163626e   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.32    <none>        Ubuntu 22.04.4 LTS   5.15.0-142-generic   containerd://1.7.27
+mi-09183e8a3d755abf6   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.33    <none>        Ubuntu 22.04.4 LTS   5.15.0-142-generic   containerd://1.7.27
+mi-0d78d815980ed202d   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.97    <none>        Ubuntu 22.04.4 LTS   5.15.0-142-generic   containerd://1.7.27
+mi-0daa253999fe92daa   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.100   <none>        Ubuntu 22.04.4 LTS   5.15.0-142-generic   containerd://1.7.27
+----
++
+. Access the Service of type NodePort using the IP addresses of your nodes and the NodePort captured above. In the example below the node IP address used is `10.80.146.32` and the NodePort is `32353`. Replace these with the values for your environment.
++
+[source,bash]
+----
+curl -s http://10.80.146.32:32353/details/1 | jq
+----
++
+[source,bash]
+----
+{
+  "id": 1,
+  "author": "William Shakespeare",
+  "year": 1595,
+  "type": "paperback",
+  "pages": 200,
+  "publisher": "PublisherA",
+  "language": "English",
+  "ISBN-10": "1234567890",
+  "ISBN-13": "123-1234567890"
+}
+----
+
+[#hybrid-nodes-ingress-cilium-host-network]
+== Host network
+
+Similar to Service of type NodePort, if you do not have load balancer infrastructure and an Ingress or Gateway controller, or if you are self-managing your load balancing with an external load balancer, you can configure Cilium Ingress and Cilium Gateway to expose Ingress and Gateway resources directly on the host network. When the host network mode is enabled for an Ingress or Gateway resource, the Service of type LoadBalancer and NodePort modes are automatically disabled, host network mode is mutually exclusive with these alternative modes for each Ingress or Gateway resource. Compared to the Service of type NodePort mode, host network mode offers additional flexibility for the range of ports that can be used (it's not restricted to the 30000-32767 NodePort range) and you can configure a subset of nodes where the Envoy proxies run on the host network.
+
+=== Prerequisites
+
+- Cilium Ingress or Gateway installed following the instructions in <<hybrid-nodes-ingress-cilium-ingress-install>> or <<hybrid-nodes-ingress-cilium-gateway-install>>.
+
+=== Procedure
+
+==== Gateway
+
+. Create a file named `cilium-gateway-host-network.yaml` with the following content.
++
+[source,yaml]
+----
+gatewayAPI:
+  enabled: true
+  hostNetwork:
+    enabled: true
+    # uncomment to restrict nodes where Envoy proxies run on the host network
+    # nodes:
+    #   matchLabels:
+    #     role: gateway
+----
++
+. Apply the host network Cilium Gateway configuration to your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium \
+  --namespace kube-system \
+  --reuse-values \
+  --set operator.rollOutPods=true \
+  -f cilium-gateway-host-network.yaml
+----
++
+If you have not created the Gateway resource, you can create it by applying the following Gateway definition to your cluster. The Gateway definition below uses the Istio Bookinfo sample application described in <<hybrid-nodes-ingress-cilium-gateway-deploy>>. In the example below, the Gateway resource is configured to use the `8111` port for the HTTP listener, which is the shared listener port for the Envoy proxies running on the host network. If you are using a privileged port (lower than 1023) for the Gateway resource, reference the link:https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/gateway-api/#bind-to-privileged-port[Cilium documentation] for instructions.
++
+[source,yaml]
+----
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-gateway
+spec:
+  gatewayClassName: cilium
+  listeners:
+  - protocol: HTTP
+    port: 8111
+    name: web-gw
+    allowedRoutes:
+      namespaces:
+        from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http-app-1
+spec:
+  parentRefs:
+  - name: my-gateway
+    namespace: default
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /details
+    backendRefs:
+    - name: details
+      port: 9080
+----
++
+You can observe the applied Cilium Envoy Configuration with the following command.
++
+[source,bash]
+----
+kubectl get cec cilium-gateway-my-gateway -o yaml
+----
++
+You can get the Envoy listener port for the `cilium-gateway-my-gateway` Service with the following command. In this example, the shared listener port is `8111`.
++
+[source,bash]
+----
+kubectl get cec cilium-gateway-my-gateway -o jsonpath={.spec.services[0].ports[0]}
+----
++
+. Get the IP addresses of your nodes in your cluster.
++
+[source,bash]
+----
+kubectl get nodes -o wide
+----
++
+[source,bash]
+----
+NAME                   STATUS   ROLES    AGE   VERSION               INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION       CONTAINER-RUNTIME
+mi-026d6a261e355fba7   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.150   <none>        Ubuntu 22.04.5 LTS   5.15.0-142-generic   containerd://1.7.27
+mi-082f73826a163626e   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.32    <none>        Ubuntu 22.04.4 LTS   5.15.0-142-generic   containerd://1.7.27
+mi-09183e8a3d755abf6   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.33    <none>        Ubuntu 22.04.4 LTS   5.15.0-142-generic   containerd://1.7.27
+mi-0d78d815980ed202d   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.97    <none>        Ubuntu 22.04.4 LTS   5.15.0-142-generic   containerd://1.7.27
+mi-0daa253999fe92daa   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.100   <none>        Ubuntu 22.04.4 LTS   5.15.0-142-generic   containerd://1.7.27
+----
++
+. Access the Service using the IP addresses of your nodes and the listener port for the `cilium-gateway-my-gateway` resource. In the example below the node IP address used is `10.80.146.32` and the listener port is `8111`. Replace these with the values for your environment.
++
+[source,bash]
+----
+curl -s http://10.80.146.32:8111/details/1 | jq
+----
++
+[source,bash]
+----
+{
+  "id": 1,
+  "author": "William Shakespeare",
+  "year": 1595,
+  "type": "paperback",
+  "pages": 200,
+  "publisher": "PublisherA",
+  "language": "English",
+  "ISBN-10": "1234567890",
+  "ISBN-13": "123-1234567890"
+}
+----
+
+==== Ingress
+
+Due to an upstream Cilium issue (link:https://github.com/cilium/cilium/issues/34028[#34028]), Cilium Ingress in host network mode requires using `loadbalancerMode: shared`, which creates a single Service of type ClusterIP for all Ingress resources in the cluster. If you are using a privileged port (lower than 1023) for the Ingress resource, reference the link:https://docs.cilium.io/en/stable/network/servicemesh/ingress/#bind-to-privileged-port[Cilium documentation] for instructions.
+
+. Create a file named `cilium-ingress-host-network.yaml` with the following content.
++
+[source,yaml]
+----
+ingressController:
+  enabled: true
+  loadbalancerMode: shared
+  # This is a workaround for the upstream Cilium issue
+  service:
+    externalTrafficPolicy: null
+    type: ClusterIP
+  hostNetwork:
+    enabled: true
+    # ensure the port does not conflict with other services on the node
+    sharedListenerPort: 8111
+    # uncomment to restrict nodes where Envoy proxies run on the host network
+    # nodes:
+    #   matchLabels:
+    #     role: ingress
+----
++
+. Apply the host network Cilium Ingress configuration to your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium \
+  --namespace kube-system \
+  --reuse-values \
+  --set operator.rollOutPods=true \
+  -f cilium-ingress-host-network.yaml
+----
++
+If you have not created the Ingress resource, you can create it by applying the following Ingress definition to your cluster. The Ingress definition below uses the Istio Bookinfo sample application described in <<hybrid-nodes-ingress-cilium-ingress-deploy>>.
++
+[source,yaml]
+----
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  namespace: default
+spec:
+  ingressClassName: cilium
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: details
+            port:
+              number: 9080
+        path: /details
+        pathType: Prefix
+----
++
+You can observe the applied Cilium Envoy Configuration with the following command.
++
+[source,bash]
+----
+kubectl get cec -n kube-system cilium-ingress -o yaml
+----
++
+You can get the Envoy listener port for the `cilium-ingress` Service with the following command. In this example, the shared listener port is `8111`.
++
+[source,bash]
+----
+kubectl get cec -n kube-system cilium-ingress -o jsonpath={.spec.services[0].ports[0]}
+----
++
+. Get the IP addresses of your nodes in your cluster.
++
+[source,bash]
+----
+kubectl get nodes -o wide
+----
++
+[source,bash]
+----
+NAME                   STATUS   ROLES    AGE   VERSION               INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION       CONTAINER-RUNTIME
+mi-026d6a261e355fba7   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.150   <none>        Ubuntu 22.04.5 LTS   5.15.0-142-generic   containerd://1.7.27
+mi-082f73826a163626e   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.32    <none>        Ubuntu 22.04.4 LTS   5.15.0-142-generic   containerd://1.7.27
+mi-09183e8a3d755abf6   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.33    <none>        Ubuntu 22.04.4 LTS   5.15.0-142-generic   containerd://1.7.27
+mi-0d78d815980ed202d   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.97    <none>        Ubuntu 22.04.4 LTS   5.15.0-142-generic   containerd://1.7.27
+mi-0daa253999fe92daa   Ready    <none>   23h   v1.32.3-eks-473151a   10.80.146.100   <none>        Ubuntu 22.04.4 LTS   5.15.0-142-generic   containerd://1.7.27
+----
++
+. Access the Service using the IP addresses of your nodes and the `sharedListenerPort` for the `cilium-ingress` resource. In the example below the node IP address used is `10.80.146.32` and the listener port is `8111`. Replace these with the values for your environment.
++
+[source,bash]
+----
+curl -s http://10.80.146.32:8111/details/1 | jq
+----
++
+[source,bash]
+----
+{
+  "id": 1,
+  "author": "William Shakespeare",
+  "year": 1595,
+  "type": "paperback",
+  "pages": 200,
+  "publisher": "PublisherA",
+  "language": "English",
+  "ISBN-10": "1234567890",
+  "ISBN-13": "123-1234567890"
+}
+----

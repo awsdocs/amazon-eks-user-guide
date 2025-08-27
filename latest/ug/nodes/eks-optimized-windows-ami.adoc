@@ -47,7 +47,7 @@ Amazon EKS offers AMIs that are optimized for Windows containers in the followin
 
 The following table lists the release and end of support dates for Windows versions on Amazon EKS. If an end date is blank, it's because the version is still supported.
 
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |Windows version
 |Amazon EKS release

@@ -32,16 +32,21 @@ For example, assume that you made a cluster and specified four subnets. In the o
 
 ====
 +
-If you need more IP addresses than the CIDR blocks in the VPC have, you can add additional CIDR blocks by link:vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr[associating additional Classless Inter-Domain Routing (CIDR) blocks,type="documentation"] with your VPC. You can associate private (RFC 1918) and public (non-RFC 1918) CIDR blocks to your VPC either before or after you create your cluster. It can take a cluster up to five hours for a CIDR block that you associated with a VPC to be recognized.
+If you need more IP addresses than the CIDR blocks in the VPC have, you can add additional CIDR blocks by link:vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr[associating additional Classless Inter-Domain Routing (CIDR) blocks,type="documentation"] with your VPC. You can associate private (RFC 1918) and public (non-RFC 1918) CIDR blocks to your VPC either before or after you create your cluster.
 +
-You can conserve IP address utilization by using a transit gateway with a shared services VPC. For more information, see link:vpc/latest/tgw/transit-gateway-isolated-shared.html[Isolated VPCs with shared services,type="documentation"] and link:containers/eks-vpc-routable-ip-address-conservation[Amazon EKS VPC routable IP address conservation patterns in a hybrid network,type="blog"].
+You can add nodes that use the new CIDR block immediately after you add it. However, because the control plane recognizes the new CIDR block only after the reconciliation is complete, it can take a cluster up to one hour for a CIDR block that you associated with a VPC to be recognized. Then you can run the `kubectl cp`, `kubectl exec`, `kubectl logs`, and `kubectl port-forward` commands (these commands use the `kubelet API`) for nodes and pods in the new CIDR block. Also, if you have Pods that operate as a webhook backend, then you must wait for the control plane reconciliation to complete.
+
+* Avoid IP address range overlaps when you connect your EKS cluster to other VPCs through Transit Gateway, VPC peering, or other networking configurations. CIDR conflicts occur when your EKS cluster's service CIDR overlaps with the CIDR of a connected VPC. In these scenarios, ServiceIP addresses take priority over resources in connected VPCs with the same IP address, although traffic routing can become unpredictable and applications may fail to connect to intended resources.
++
+To avoid CIDR conflicts, ensure your EKS service CIDR doesn't overlap with any connected VPC CIDRs and maintain a centralized record of all CIDR assignments. If you encounter CIDR overlaps, you can use a transit gateway with a shared services VPC. For more information, see link:vpc/latest/tgw/transit-gateway-isolated-shared.html[Isolated VPCs with shared services,type="documentation"] and link:containers/eks-vpc-routable-ip-address-conservation[Amazon EKS VPC routable IP address conservation patterns in a hybrid network,type="blog"]. Also, refer to the Communication across VPCs section of the link:eks/latest/best-practices/subnets.html[VPC and Subnet Considerations,type="documentation"] page in the EKS Best Practices Guide.
+
 * If you want Kubernetes to assign `IPv6` addresses to Pods and services, associate an `IPv6` CIDR block with your VPC. For more information, see link:vpc/latest/userguide/working-with-vpcs.html#vpc-associate-ipv6-cidr[Associate an IPv6 CIDR block with your VPC,type="documentation"] in the Amazon VPC User Guide. You cannot use `IPv6` addresses with Pods and services running on hybrid nodes and you cannot use hybrid nodes with clusters configured with the `IPv6` IP address family.
 * The VPC must have `DNS` hostname and `DNS` resolution support. Otherwise, nodes can't register to your cluster. For more information, see link:vpc/latest/userguide/vpc-dns.html[DNS attributes for your VPC,type="documentation"] in the Amazon VPC User Guide.
 * The VPC might require VPC endpoints using {aws} PrivateLink. For more information, see <<network-requirements-subnets>>.
 
 If you created a cluster with Kubernetes `1.14` or earlier, Amazon EKS added the following tag to your VPC:
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Key
 |Value
@@ -73,7 +78,7 @@ The link:vpc/latest/userguide/configure-subnets.html#subnet-types[subnets,type="
 * The subnets can be a public or private. However, we recommend that you specify private subnets, if possible. A public subnet is a subnet with a route table that includes a route to an link:vpc/latest/userguide/VPC_Internet_Gateway.html[internet gateway,type="documentation"], whereas a private subnet is a subnet with a route table that doesn't include a route to an internet gateway.
 * The subnets can't reside in the following Availability Zones:
 +
-[cols="1,1,1", options="header"]
+[%header,cols="3"]
 |===
 |{aws} Region
 |Region name
@@ -101,7 +106,7 @@ The following table contains the IP address family used by each component of Ama
 
 Functionality can differ depending on the IP family (`ipFamily`) setting of the cluster. This setting changes the type of IP addresses used for the CIDR block that Kubernetes assigns to Services. A cluster with the setting value of IPv4 is referred to as an _IPv4 cluster_, and a cluster with the setting value of IPv6 is referred to as an _IPv6 cluster_.
 
-[cols="1,1,1,1", options="header"]
+[%header,cols="4"]
 |===
 |Component
 |IPv4 addresses
@@ -213,7 +218,7 @@ You can deploy nodes and Kubernetes resources to the same subnets that you speci
 +
 ** Private subnets
 +
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Key
 |Value
@@ -224,7 +229,7 @@ You can deploy nodes and Kubernetes resources to the same subnets that you speci
 |===
 ** Public subnets
 +
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Key
 |Value
@@ -236,7 +241,7 @@ You can deploy nodes and Kubernetes resources to the same subnets that you speci
 
 When a Kubernetes cluster that's version `1.18` and earlier was created, Amazon EKS added the following tag to all of the subnets that were specified.
 
-[cols="1,1", options="header"]
+[%header,cols="2"]
 |===
 |Key
 |Value

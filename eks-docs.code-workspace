@@ -22,6 +22,8 @@
 		"asciidoc.preview.scrollPreviewWithEditor": true,
 		"asciidoc.preview.scrollEditorWithPreview": true,
 		"asciidoc.antora.showEnableAntoraPrompt": false
+		// vale extension 0.30.0+ requires an absolute path to the .vale.ini, can't find in the workspace root
+		// "vale.valeCLI.config": ""
 	},
 	"extensions": {
 		"recommendations": [

@@ -66,10 +66,9 @@ These service quotas are listed under *Amazon Elastic Kubernetes Service (Amazon
 
 [NOTE]
 ====
-The following quotas aren't available in Service Quotas:
-
-* Pod Identity associations per cluster is 1000 in each supported region and this quota isn't adjustable.
-* You can use up to 15 CIDRs for Remote Node Networks and 15 CIDRs for Remote Pod Networks per cluster for hybrid nodes. This quota isn't adjustable.
+Adjustments to the following components are **not** supported in Service Quotas:
+* Pod Identity associations per cluster. For limits, see <<pod-identities>>.
+* CIDRs for Remote Node Networks or Remote Pod Networks for hybrid nodes. For limits, see <<hybrid-nodes-overview>>.
 ====
 
 [#service-quotas-eks-fargate]
