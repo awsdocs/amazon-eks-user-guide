@@ -62,7 +62,11 @@ An example of how to configure Service Traffic Distribution for the CoreDNS Serv
 [#hybrid-nodes-mixed-coredns]
 === Configure CoreDNS replicas
 
-When running mixed mode clusters, we recommend that you have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on nodes in {aws} Cloud. 
+If you are running a mixed mode cluster with both hybrid nodes and nodes in {aws} Cloud, we recommend that you have at least one CoreDNS replica on hybrid nodes and at least one CoreDNS replica on your nodes in {aws} Cloud. To prevent latency and network issues in a mixed mode cluster setup, you can configure the CoreDNS Service to prefer the closest CoreDNS replica with link:https://kubernetes.io/docs/reference/networking/virtual-ips/#traffic-distribution[Service Traffic Distribution].
+
+_Service Traffic Distribution_ (available for Kubernetes versions 1.31 and later in EKS) is the recommended solution over link:https://kubernetes.io/docs/concepts/services-networking/topology-aware-routing/[Topology Aware Routing] because it is more predictable. In Service Traffic Distribution, healthy endpoints in the zone will receive all of the traffic for that zone. In Topology Aware Routing, each service must meet several conditions in that zone to apply the custom routing, otherwise it routes traffic evenly to all endpoints. The following steps configure Service Traffic Distribution.
+
+If you are using Cilium as your CNI, you must run the CNI with the `enable-service-topology` set to `true` to enable Service Traffic Distribution. You can pass this configuration with the Helm install flag `--set loadBalancer.serviceTopology=true` or you can update an existing installation with the Cilium CLI command `cilium config set enable-service-topology true`. The Cilium agent running on each node must be restarted after updating the configuration for an existing installation.
 
 . Add a topology zone label for each of your hybrid nodes, for example `topology.kubernetes.io/zone: onprem`. Or, you can set the label at the `nodeadm init` phase by specifying the label in your `nodeadm` configuration, see <<hybrid-nodes-nodeadm-kubelet>>. Note, nodes running in {aws} Cloud automatically get a topology zone label applied to them that corresponds to the availability zone (AZ) of the node.
 +
