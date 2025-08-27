@@ -33,6 +33,7 @@ To see the list of insight checks performed and any relevant issues that Amazon 
 . From the cluster list, choose the name of the Amazon EKS cluster for which you want to see the insights.
 . Choose *Monitor cluster*.
 . Choose the *Upgrade insights* tab.
+. To view the latest data, choose the *Refresh insights* button and wait for the refresh operation to complete.
 . In the *Upgrade insights* table, you will see the following columns:
 +
 ** *Name* – The check that was performed by Amazon EKS against the cluster.
@@ -45,7 +46,34 @@ To see the list of insight checks performed and any relevant issues that Amazon 
 
 [#cluster-insights-cli]
 == View cluster insights ({aws} CLI)
-. Determine which cluster you would like to check for insights. The following command lists the insights for a specified cluster. Make the following modifications to the command as needed and then run the modified command:
+
+. To view the latest data, refresh the insights for a specified cluster. Make the following modifications to the command as needed and then run the modified command.
++
+** Replace [.replaceable]`region-code` with the code for your {aws} Region.
+** Replace [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks start-insight-refresh --region [.replaceable]`region-code` --cluster-name [.replaceable]`my-cluster`
+----
+. To track the status of an insights refresh, run the following command. Replace [.replaceable]`my-cluster` with the name of your cluster.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-insights-refresh --cluster-name [.replaceable]`my-cluster`
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes",role="nocopy"]
+----
+{
+    "message": "Insights refresh is in progress",
+    "status": "IN_PROGRESS",
+    "startedAt": "2025-07-30T13:36:09-07:00"
+}
+----
+. List the insights for a specified cluster. Make the following modifications to the command as needed and then run the modified command.
 +
 ** Replace [.replaceable]`region-code` with the code for your {aws} Region.
 ** Replace [.replaceable]`my-cluster` with the name of your cluster.
@@ -57,7 +85,7 @@ aws eks list-insights --region [.replaceable]`region-code` --cluster-name [.repl
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes",role="nocopy"]
 ----
 {
 "insights":
@@ -160,7 +188,7 @@ An example output is as follows.
 "nextToken": null,
 }
 ----
-. For descriptive information about the insight, run the following command. Make the following modifications to the command as needed and then run the modified command:
+. For descriptive information about an insight, run the following command. Make the following modifications to the command as needed and then run the modified command.
 +
 ** Replace [.replaceable]`region-code` with the code for your {aws} Region.
 ** Replace [.replaceable]`a1b2c3d4-5678-90ab-cdef-EXAMPLE22222` with an insight ID retrieved from listing the cluster insights.
@@ -173,7 +201,7 @@ aws eks describe-insight --region region-code --id [.replaceable]`a1b2c3d4-5678-
 +
 An example output is as follows.
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes",role="nocopy"]
 ----
 {
   "insight":

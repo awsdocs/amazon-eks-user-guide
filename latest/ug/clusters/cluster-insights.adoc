@@ -19,8 +19,8 @@ Amazon EKS cluster insights provide detection of issues and recommendations to r
 
 [#cluster-insight-considerations]
 == Considerations
-* *Frequency*: Amazon EKS refreshes cluster insights every 24 hours. You cannot manually refresh cluster insights. If you fix a cluster issue, it will take some time for cluster insights to update. To determine if a fix was successful, compare the time that the change deployed to the "last refresh time" of the insight check.
-* *Permissions*: Amazon EKS automatically creates a cluster access entry for cluster insights in every EKS cluster. This entry gives EKS permission to view information about your cluster. EKS uses this information to generate the insights. For more information, see <<access-policy-permissions-AmazonEKSClusterInsightsPolicy>>.
+* *Frequency*: Amazon EKS refreshes cluster insights every 24 hours, or you can manually refresh them to see the latest status. For example, you can manually refresh cluster insights after addressing an issue to see if the issue was resolved.
+* *Permissions*: Amazon EKS automatically creates a cluster access entry for cluster insights in every EKS cluster. This entry gives EKS permission to view information about your cluster. Amazon EKS uses this information to generate the insights. For more information, see <<access-policy-permissions-AmazonEKSClusterInsightsPolicy>>.
 
 [#cluster-insights-use-cases]
 == Use cases
@@ -37,7 +37,7 @@ require you to use a `--force` flag to upgrade your cluster when there were cert
 For more information about updating your cluster, see <<update-cluster-control-plane>>.
 ====
 
-Before updating your cluster Kubernetes version, you can use the *Cluster insights* tab of the observability dashboard in the link:eks/home#/clusters[Amazon EKS console,type="console"]. If your cluster has identified issues, review them and make appropriate fixes. The issues include links to Amazon EKS and Kubernetes documentation. After fixing the issue, wait for the cluster insights to refresh. If all issues have been resolved, <<update-cluster,update your cluster>>.
+Before updating your cluster Kubernetes version, you can use the *Upgrade insights* tab of the observability dashboard in the link:eks/home#/clusters[Amazon EKS console,type="console"]. If your cluster has identified issues, review them and make appropriate fixes. The issues include links to Amazon EKS and Kubernetes documentation. After fixing the issue, refresh cluster insights on-demand to fetch the latest insights. If all issues have been resolved, <<update-cluster,update your cluster>>.
 
 Amazon EKS returns insights related to Kubernetes version upgrade readiness. Upgrade insights identify possible issues that could impact Kubernetes cluster upgrades. This minimizes the effort that administrators spend preparing for upgrades and increases the reliability of applications on newer Kubernetes versions. Clusters are automatically scanned by Amazon EKS against a list of possible Kubernetes version upgrade impacting issues. Amazon EKS frequently updates the list of insight checks based on reviews of changes made in each Kubernetes version release.
 

@@ -19,12 +19,21 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-08-27"]
+=== Refresh cluster insights
+[.update-ulink]
+link:eks/latest/userguide/view-cluster-insights.html[type="documentation"]
+
+You can now manually refresh cluster insights.
+
+
 [.update,date="2025-08-26"]
 === {aws} managed policy updates
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
 Added permission to `AmazonEKSServiceRolePolicy`. This role can attach new access policy `AmazonEKSEventPolicy`. Restricted permissions for `ec2:DeleteLaunchTemplate` and `ec2:TerminateInstances`.
+
 
 [.update,date="2025-08-19"]
 === Cross-service confused deputy prevention
@@ -34,12 +43,14 @@ link:eks/latest/userguide/cross-service-confused-deputy-prevention.html[type="do
 Added a topic with an example trust policy that you can apply for Cross-service confused deputy prevention.
 Amazon EKS accepts the `aws:SourceArn` and `aws:SourceAccount` conditions in the trust policy of an EKS cluster role.
 
+
 [.update,date="2025-07-30"]
 === Amazon EKS platform version update
 [.update-ulink]
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
 This is a new platform version with security fixes and enhancements. This includes new patch versions of Kubernetes `1.33.2`, `1.32.6`, `1.31.10`, and `1.30.14`.
+
 
 [.update,date="2025-07-15"]
 === VPC CNI Multi-NIC feature for multi-homed pods
@@ -50,12 +61,14 @@ Amazon EKS adds multi-homed pods to the VPC CNI. Now you can configure a workloa
 
 Previously, you needed to use Multus CNI to run multiple other CNIs to create multi-homed pods. Documentation and steps to do this have been moved to link:eks/latest/userguide/pod-multus.html[type="documentation"].
 
+
 [.update,date="2025-06-30"]
 === VPC CNI troubleshooting content update
 [.update-ulink]
 link:eks/latest/userguide/network-policies-troubleshooting.html[type="documentation"]
 
 Expanded the troubleshooting page for Kubernetes _network policy_ in the VPC CNI. Added the CRDs and RBAC permissions, and 12 known issues.
+
 
 [.update,date="2025-06-26"]
 === Amazon EKS platform version update
@@ -70,6 +83,7 @@ This is a new platform version with security fixes and enhancements. There aren'
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
 Added `ssmmessages:OpenDataChannel` permission to `AmazonEKSLocalOutpostServiceRolePolicy`.
+
 
 [.update,date="2025-06-20"]
 === {aws} managed policy updates
@@ -86,12 +100,14 @@ link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
 Added `AmazonEKSDashboardConsoleReadOnly` policy.
 
+
 [.update,date="2025-06-13"]
 === Amazon EKS Auto Mode update to `NodeClass`
 [.update-ulink]
 link:eks/latest/userguide/create-node-class.html#auto-node-class-spec[type="documentation"]
 
 The `NodeClass` template for Auto Mode nodes added configuration for separate pod subnets. This adds the optional keys `podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` to set the subnets and security groups for the pods.
+
 
 [.update,date="2025-06-11"]
 === Amazon EKS platform version update
@@ -107,6 +123,7 @@ link:eks/latest/userguide/pod-id-assign-target-role.html[type="documentation"]
 
 Amazon EKS adds __target IAM roles__ to EKS Pod Identities for automated role chaining. You can use this to automatically assume a role in another account and EKS Pod Identity rotates the temporary credentials. Each Pod Identity association must have an IAM role in the same account to assume first, then it uses that role to assume the target role.
 
+
 [.update,date="2025-06-06"]
 === Amazon EKS {aws} Region expansion
 Amazon EKS is now available in the Asia Pacific (Taipei) (`ap-east-2`) {aws} Region.
@@ -117,6 +134,7 @@ Amazon EKS is now available in the Asia Pacific (Taipei) (`ap-east-2`) {aws} Reg
 link:eks/latest/userguide/cluster-endpoint.html[type="documentation"]
 
 Amazon EKS adds `IPv6` CIDR blocks to control access to the public cluster endpoint for new `IPv6` clusters. Previously, you could only add `IPv4` CIDR blocks to allow traffic to the public cluster endpoint, even for dual-stack cluster endpoints.
+
 
 [.update,date="2025-05-30"]
 === Amazon EKS platform version update
