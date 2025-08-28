@@ -26,7 +26,7 @@ This procedure will show you how to deploy the <<s3-csi, Mountpoint for Amazon S
 
 The Mountpoint for Amazon S3 CSI driver requires Amazon S3 permissions to interact with your file system. This section shows how to create an IAM policy that grants the necessary permissions.
 
-The following example policy follows the IAM permission recommendations for Mountpoint. Alternatively, you can use the {aws} managed policy link:iam/home?#/policies/{arn-aws}iam::aws:policy/AmazonS3FullAccess$jsonEditor[AmazonS3FullAccess,type="console"], but this managed policy grants more permissions than are needed for Mountpoint.  
+The following example policy follows the IAM permission recommendations for Mountpoint. Alternatively, you can use the {aws} managed policy link:iam/home?#/policies/arn:aws:iam::aws:policy/AmazonS3FullAccess$jsonEditor[AmazonS3FullAccess,type="console"], but this managed policy grants more permissions than are needed for Mountpoint.  
 
 For more information about the recommended permissions for Mountpoint, see https://github.com/awslabs/mountpoint-s3/blob/main/doc/CONFIGURATION.md#iam-permissions[Mountpoint IAM permissions] on GitHub.
 
