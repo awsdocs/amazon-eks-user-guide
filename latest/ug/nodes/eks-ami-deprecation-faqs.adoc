@@ -173,7 +173,7 @@ To maintain compatibility with the latest Kubernetes versions, we recommend migr
 
 Amazon Linux 2 (AL2) is supported by {aws} until its end-of-support (EOS) date on June 30, 2026.
 However, as AL2 has aged, support from the broader Linux community for new applications and functionality has become more limited.
-AL2 AMIs are based on https://docs.aws.amazon.com/linux/al2/ug/kernel.html[Linux kernel 5.10], while AL2023 uses https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2-kernel.html[Linux kernel 6.10].
+AL2 AMIs are based on https://docs.aws.amazon.com/linux/al2/ug/kernel.html[Linux kernel 5.10], while AL2023 uses https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2-kernel.html[Linux kernel 6.1].
 Unlike AL2023, AL2 has limited support from the broader Linux community.
 This means many upstream Linux packages and tools need to be backported to work with AL2's older kernel version, some modern Linux features and security improvements aren't available due to the older kernel, many open source projects have deprecated or limited support for older kernel versions like 5.10.
 
@@ -185,7 +185,6 @@ A few of the most common packages that are not included or which changed in AL20
 * Changes in how Amazon Linux supports different versions of packages (e.g., https://repost.aws/questions/QUWGU3VFJMRSGf6MDPWn4tLg/how-to-resolve-amazon-linux-extras-in-al2023[amazon-linux-extras system]) in AL2023
 * https://docs.aws.amazon.com/linux/al2023/ug/epel.html[Extra Packages for Enterprise Linux (EPEL)] are not supported in AL2023
 * https://docs.aws.amazon.com/linux/al2023/ug/deprecated-al2.html#deprecated-32bit-rpms[32-bit applications] are not supported in AL2023 
-* AL2023 does not make https://cloudkatha.com/can-we-install-a-gui-in-amazon-linux-2023/[mate-desktop] packages
 
 To learn more, see https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2.html[Comparing AL2 and AL2023].
 
