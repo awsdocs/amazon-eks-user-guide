@@ -63,6 +63,8 @@ If you are _not_ able to make your pod networks routable on your on-premises net
 
 You must have access to the following domains during the installation process where you install the hybrid nodes dependencies on your hosts. This process can be done once when you are building your operating system images or it can be done on each host at runtime. This includes initial installation and when you upgrade the Kubernetes version of your hybrid nodes.
 
+Some packages are installed using the OS's default package manager. For AL2023 and RHEL, the `yum` command is used to install `containerd`, `ca-certificates`, `iptables` and `amazon-ssm-agent`. For Ubuntu, `apt` is used to install `containerd`, `ca-certificates`, and `iptables`, and `snap` is used to install `amazon-ssm-agent`.
+
 [%header,cols="4"]
 |===
 |Component
@@ -109,13 +111,18 @@ You must have access to the following domains during the installation process wh
 |\https://rolesanywhere.[.replaceable]`region`.amazonaws.com
 |HTTPS
 |443
+
+|Operating System package manager endpoints
+|Package repository endpoints are OS-specific and might vary by geographic region.
+|HTTPS
+|443
 |===
 
 [NOTE]
 ====
 ^1^ Access to the {aws} SSM endpoints are only required if you are using {aws} SSM hybrid activations for your on-premises IAM credential provider.
 
-^2^ Access to the {aws} IAM endpoints are only required if you are using {aws} IAM Roles Anywhere for your on-premises IAM credential provider. 
+^2^ Access to the {aws} IAM endpoints are only required if you are using {aws} IAM Roles Anywhere for your on-premises IAM credential provider.
 ====
 
 [#hybrid-nodes-networking-access-reqs-ongoing]
