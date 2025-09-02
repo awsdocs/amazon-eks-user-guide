@@ -21,6 +21,11 @@ metadata:
   name: auto-ebs-sc
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
+allowedTopologies:
+- matchLabelExpressions:
+  - key: eks.amazonaws.com/compute-type
+    values:
+    - auto
 provisioner: ebs.csi.eks.amazonaws.com
 volumeBindingMode: WaitForFirstConsumer
 parameters:
@@ -38,6 +43,7 @@ kubectl apply -f storage-class.yaml
 *Key components:*
 
 - `provisioner: ebs.csi.eks.amazonaws.com` - Uses EKS Auto Mode
+- `allowedTopologies` - Specifying `matchLabelExpressions` to match on `eks.amazonaws.com/compute-type:auto` will ensure that if your pods need a volume to be automatically provisioned using Auto Mode then the pods will not be scheduled on non-Auto nodes.
 - `volumeBindingMode: WaitForFirstConsumer` - Delays volume creation until a pod needs it
 - `type: gp3` - Specifies the EBS volume type
 - `encrypted: "true"` - EBS will encrypt any volumes created using the `StorageClass`. EBS will use the default `aws/ebs` key alias. For more information, see link:ebs/latest/userguide/how-ebs-encryption-works.html["How Amazon EBS encryption works",type="documentation"] in the Amazon EBS User Guide. This value is optional but suggested. 
