@@ -749,6 +749,16 @@ A managed policy isn't used with this add-on.
 
 Custom permissions aren't used with this add-on.
 
+[#add-on-suse]
+== SUSE
+* *Publisher* – SUSE
+* *Name* – `suse_observability-agent`
+* *Namespace* – `suse-observability`
+* *Service account name* – A service account isn't used with this add-on.
+* *{aws} managed IAM policy* – A managed policy isn't used with this add-on.
+* *Custom IAM permissions* – Custom permissions aren't used with this add-on.
+* *Setup and usage instructions* – See https://docs.stackstate.com/get-started/k8s-quick-start-guide#amazon-eks[Quick Start] in the SUSE documentation.
+
 [#add-on-splunk]
 == Splunk
 
