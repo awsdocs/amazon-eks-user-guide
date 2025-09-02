@@ -12,11 +12,6 @@ Learn about the tools needed for creating and working with an Amazon EKS cluster
 
 You can enable EKS Auto Mode on existing EKS Clusters. 
 
-[NOTE]
-====
-EKS Auto Mode requires Kubernetes version 1.29 or greater. EKS Auto Mode isn't available in the `ap-southeast-7` or `mx-central-1` {aws} Regions.
-====
-
 *{aws} supports the following migrations:*
 
 * Migrating from Karpenter to EKS Auto Mode nodes. For more information, see <<auto-migrate-karpenter>>.
