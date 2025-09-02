@@ -38,17 +38,9 @@ EKS Pod Identity uses `AssumeRole` to assume the IAM role before passing the tem
 EKS Pod Identity uses `TagSession` to include _session tags_ in the requests to {aws} STS.
 
 *Setting Conditions*::
-You can use these tags in the _condition keys_ in the trust policy to restrict which service accounts, namespaces, and clusters can use this role. When the Pod Identity IAM Role is assumed, it sends the following Request Tags:
-
-* `eks-cluster-arn`
-* `eks-cluster-name`
-* `kubernetes-namespace`
-* `kubernetes-service-account`
-* `kubernetes-pod-name`
-* `kubernetes-pod-uid`
-
+You can use these tags in the _condition keys_ in the trust policy to restrict which service accounts, namespaces, and clusters can use this role. For the list of request tags that Pod Identity adds, see <<pod-id-abac-tags>>.
 +
-For example, to restrict a Pod Identity IAM Role to a specific `ServiceAccount` and `Namespace`, the following Trust Policy with the added `Condition` policies can further restrict what can assume the role:
+For example, you can restrict which pods can assume the role a Pod Identity IAM Role to a specific `ServiceAccount` and `Namespace` with the following Trust Policy with the added `Condition`:
 [source,json,subs="verbatim,attributes"]
 ----
 {
