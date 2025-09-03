@@ -66,6 +66,10 @@ You can use any of the following Amazon EKS add-ons.
 |<<addons-hyperpod-observability>>
 |EC2, EKS Auto Mode, 
 
+|Amazon SageMaker HyperPod training operator enables efficient distributed training on Amazon EKS clusters with advanced scheduling and resource management capabilities.
+|<<addons-hyperpod-training-operator>>
+|EC2, EKS Auto Mode
+
 |A Kubernetes agent that collects and reports network flow data to Amazon CloudWatch, enabling comprehensive monitoring of TCP connections across cluster nodes.
 |<<addons-network-flow>>
 |EC2, EKS Auto Mode
@@ -436,6 +440,29 @@ This add-on uses the IAM roles for service accounts capability of Amazon EKS. Fo
 === Additional information
 
 To learn more about the add-on and its capabilities, see link:sagemaker/latest/dg/sagemaker-hyperpod-eks-cluster-observability-cluster.html["SageMaker HyperPod Observability",type="documentation"].
+
+[#addons-hyperpod-training-operator]
+== Amazon SageMaker HyperPod training operator
+
+The Amazon SageMaker HyperPod training operator helps you accelerate generative AI model development by efficiently managing distributed training across large GPU clusters. It introduces intelligent fault recovery, hang job detection, and process-level management capabilities that minimize training disruptions and reduce costs. Unlike traditional training infrastructure that requires complete job restarts when failures occur, this operator implements surgical process recovery to keep your training jobs running smoothly.
+
+The operator also works with HyperPod's health monitoring and observability functions, providing real-time visibility into training execution and automatic monitoring of critical metrics like loss spikes and throughput degradation. You can define recovery policies through simple YAML configurations without code changes, allowing you to quickly respond to and recover from unrecoverable training states. These monitoring and recovery capabilities work together to maintain optimal training performance while minimizing operational overhead.
+
+The Amazon EKS add-on name is `amazon-sagemaker-hyperpod-training-operator`.
+
+For more information, see link:sagemaker/latest/dg/sagemaker-eks-operator.html[Using the HyperPod training operatorr,type="documentation"] in the _Amazon SageMaker Developer Guide_.
+
+=== Required IAM permissions
+
+This add-on requires IAM permissions, and uses EKS Pod Identity. 
+
+{aws} suggests the `AmazonSageMakerHyperPodTrainingOperatorAccess` link:aws-managed-policy/latest/reference/AmazonSageMakerHyperPodTrainingOperatorAccess.html["managed policy",type="documentation"]. 
+
+For more information, see link:sagemaker/latest/dg/sagemaker-eks-operator-install.html#sagemaker-eks-operator-install-operator[Installing the training operator,type="documentation"] in the _Amazon SageMaker Developer Guide_.
+
+=== Additional information
+
+To learn more about the add-on, see link:sagemaker/latest/dg/sagemaker-eks-operator.html["SageMaker HyperPod training operator",type="documentation"].
 
 [#addons-network-flow]
 == {aws} Network Flow Monitor Agent

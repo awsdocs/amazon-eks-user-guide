@@ -333,6 +333,30 @@ A managed policy isn't used with this add-on.
 
 Custom permissions aren't used with this add-on.
 
+[#add-on-instana]
+== IBM Instana
+
+The add-on name is `instana_agent` and the namespace is `instana-agent`. IBM publishes the add-on.
+
+For information about the add-on, see link:blogs/ibm-redhat/implement-observability-for-amazon-eks-workloads-using-the-instana-amazon-eks-add-on/[Implement observability for Amazon EKS workloads using the Instana Amazon EKS add-on,type="marketing"] and link:blogs/ibm-redhat/monitor-and-optimize-amazon-eks-costs-with-ibm-instana-and-kubecost/[Monitor and optimize Amazon EKS costs with IBM Instana and Kubecost,type="marketing"] in the {aws} Blog.
+
+Instana Observability (Instana) offers an Amazon EKS Add-on that deploys Instana agents to Amazon EKS clusters. Customers can use this add-on to collect and analyze real-time performance data to gain insights into their containerized applications. The Instana Amazon EKS add-on provides visibility across your Kubernetes environments. Once deployed, the Instana agent automatically discovers components within your Amazon EKS clusters including nodes, namespaces, deployments, services, and pods.
+
+[#add-on-instana-service-account-name]
+=== Service account name
+
+A service account isn't used with this add-on.
+
+[#add-on-instana-managed-policy]
+=== {aws} managed IAM policy
+
+A managed policy isn't used with this add-on.
+
+[#add-on-instana-custom-permissions]
+=== Custom IAM permissions
+
+Custom permissions aren't used with this add-on.
+
 [#add-on-grafana]
 == Grafana Labs
 
