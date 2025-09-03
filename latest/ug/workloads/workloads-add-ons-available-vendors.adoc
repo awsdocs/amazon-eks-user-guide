@@ -336,7 +336,7 @@ Custom permissions aren't used with this add-on.
 [#add-on-instana]
 == IBM Instana
 
-The add-on name is `instana_agent` and the namespace is `instana-agent`. IBM publishes the add-on.
+The add-on name is `instana-agent` and the namespace is `instana-agent`. IBM publishes the add-on.
 
 For information about the add-on, see link:blogs/ibm-redhat/implement-observability-for-amazon-eks-workloads-using-the-instana-amazon-eks-add-on/[Implement observability for Amazon EKS workloads using the Instana Amazon EKS add-on,type="marketing"] and link:blogs/ibm-redhat/monitor-and-optimize-amazon-eks-costs-with-ibm-instana-and-kubecost/[Monitor and optimize Amazon EKS costs with IBM Instana and Kubecost,type="marketing"] in the {aws} Blog.
 
