@@ -35,14 +35,13 @@ The following table lists the latest version of the Amazon EKS add-on type for e
 |===
 | Kubernetes version | `kube-proxy` version
 
-| 1.33 | v1.33.0-eksbuild.2
-| 1.32 | v1.32.6-eksbuild.2
-| 1.31 | v1.31.10-eksbuild.2
-| 1.30 | v1.30.14-eksbuild.2
-| 1.29 | v1.29.15-eksbuild.10
-| 1.28 | v1.28.15-eksbuild.25
-| 1.27 | v1.27.16-eksbuild.35
-| 1.26 | v1.26.15-eksbuild.35
+| 1.33 | v1.33.3-eksbuild.6
+| 1.32 | v1.32.6-eksbuild.8
+| 1.31 | v1.31.10-eksbuild.8
+| 1.30 | v1.30.14-eksbuild.8
+| 1.29 | v1.29.15-eksbuild.16
+| 1.28 | v1.28.15-eksbuild.31
+| 1.27 | v1.27.16-eksbuild.41
 
 |===
 
