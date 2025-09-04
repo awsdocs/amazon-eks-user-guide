@@ -1,5 +1,6 @@
 include::../attributes.txt[]
 
+[.topic]
 [#automode]
 = Automate cluster infrastructure with EKS Auto Mode
 :info_titleabbrev: EKS Auto Mode 
