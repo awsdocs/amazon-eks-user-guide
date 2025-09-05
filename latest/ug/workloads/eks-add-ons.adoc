@@ -117,7 +117,7 @@ The following table details the scope of support for each add-on type:
 |Built by {aws}
 |Yes
 |No
-|Yes
+|No
 |Development
 |Validated by {aws}
 |Yes
