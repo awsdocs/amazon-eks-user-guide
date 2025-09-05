@@ -62,12 +62,12 @@ kubectl get daemonset aws-node -n kube-system -o yaml > aws-k8s-cni-old.yaml
 . Create the add-on using the {aws} CLI. If you want to use the {aws-management-console} or `eksctl` to create the add-on, see <<creating-an-add-on>> and specify `vpc-cni` for the add-on name. Copy the command that follows to your device. Make the following modifications to the command, as needed, and then run the modified command.
 +
 ** Replace [.replaceable]`my-cluster` with the name of your cluster.
-** Replace [.replaceable]`v1.20.0-eksbuild.1` with the latest version listed in the latest version table for your cluster version. For the latest version table, see <<vpc-cni-latest-available-version>>.
+** Replace [.replaceable]`v1.20.1-eksbuild.3` with the latest version listed in the latest version table for your cluster version. For the latest version table, see <<vpc-cni-latest-available-version>>.
 ** Replace [.replaceable]`111122223333` with your account ID and [.replaceable]`AmazonEKSVPCCNIRole` with the name of an <<cni-iam-role-create-role,existing IAM role>> that you've created. Specifying a role requires that you have an IAM OpenID Connect (OIDC) provider for your cluster. To determine whether you have one for your cluster, or to create one, see <<enable-iam-roles-for-service-accounts>>. 
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.20.0-eksbuild.1 \
+aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.20.1-eksbuild.3 \
     --service-account-role-arn {arn-aws}iam::111122223333:role/AmazonEKSVPCCNIRole
 ----
 +
@@ -85,7 +85,7 @@ An example output is as follows.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-v1.20.0-eksbuild.1
+v1.20.1-eksbuild.3
 ----
 . If you made custom settings to your original add-on, before you created the Amazon EKS add-on, use the configuration that you saved in a previous step to update the EKS add-on with your custom settings. Follow the steps in <<vpc-add-on-update>>.
 . (Optional) Install the `cni-metrics-helper` to your cluster. It scrapes elastic network interface and IP address information, aggregates it at a cluster level, and publishes the metrics to Amazon CloudWatch. For more information, see https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md[cni-metrics-helper] on GitHub.
