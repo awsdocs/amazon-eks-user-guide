@@ -326,3 +326,12 @@ If you have a problem with a controller, you should research:
 
 * If the resources associated with that controller are properly formatted and valid. 
 * If the {aws} IAM and Kubernetes RBAC resources are properly configured for your cluster. For more information, see <<auto-learn-iam>>.
+
+== Related resources
+
+Use these articles from {aws} re:Post for advanced troubleshooting steps:
+
+* https://repost.aws/articles/ARLpQOknr5Rb-w5iAT9sUBpQ[How to troubleshoot common scaling issues in EKS Auto-Mode?]
+* https://repost.aws/articles/ARPcmFS1POTgqPCBdcZFp6BQ[How do I troubleshoot custom nodepool and nodeclass provisioning issues in Amazon EKS Auto Mode?]
+* https://repost.aws/en/articles/ARLhrdl45TRASGkvViwtBG0Q[How do I troubleshoot EKS Auto Mode built-in node pools with Unknown Status?]
+
