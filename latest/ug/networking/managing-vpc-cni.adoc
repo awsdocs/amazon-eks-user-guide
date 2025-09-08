@@ -29,14 +29,13 @@ The following table lists the latest available version of the Amazon EKS add-on 
 |===
 | Kubernetes version | Amazon EKS type of VPC CNI version
 
-| 1.33 | v1.20.0-eksbuild.1
-| 1.32 | v1.20.0-eksbuild.1
-| 1.31 | v1.20.0-eksbuild.1
-| 1.30 | v1.20.0-eksbuild.1
-| 1.29 | v1.20.0-eksbuild.1
-| 1.28 | v1.20.0-eksbuild.1
-| 1.27 | v1.20.0-eksbuild.1
-| 1.26 | v1.19.6-eksbuild.1
+| 1.33 | v1.20.1-eksbuild.3
+| 1.32 | v1.20.1-eksbuild.3
+| 1.31 | v1.20.1-eksbuild.3
+| 1.30 | v1.20.1-eksbuild.3
+| 1.29 | v1.20.1-eksbuild.3
+| 1.28 | v1.20.1-eksbuild.3
+| 1.27 | v1.20.1-eksbuild.3
 
 |===
 

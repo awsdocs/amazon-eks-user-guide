@@ -84,6 +84,7 @@ To run the steps in this section, the IAM principal using the {aws} console or {
 ** `rolesanywhere:CreateProfile`
 ** `iam:PassRole`
 
+[#hybrid-nodes-creds-cloudformation]
 === {aws} CloudFormation
 
 Install and configure the {aws} CLI, if you haven't already. See link:cli/latest/userguide/getting-started-install.html[Installing or updating to the last version of the {aws} CLI,type="documentation"].
@@ -165,7 +166,8 @@ aws cloudformation deploy \
     --capabilities CAPABILITY_NAMED_IAM
 ----
 
-*{aws} CLI*
+[#hybrid-nodes-creds-awscli]
+=== {aws} CLI
 
 Install and configure the {aws} CLI, if you haven't already. See link:cli/latest/userguide/getting-started-install.html[Installing or updating to the last version of the {aws} CLI,type="documentation"].
 
