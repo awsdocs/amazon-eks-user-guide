@@ -1,0 +1,131 @@
+[.topic]
+[#auto-prepare]
+= Prepare for EKS Auto Migration
+:info_titleabbrev: Prepare for migration
+
+You can migrate existing clusters to EKS Auto Mode. Use this topic to review your existing configuration, and identify any preparation needed before migrating. 
+
+== Kubernetes Version
+
+*Requirement:* EKS Auto Mode only supports Kubernetes versions 1.29 and newer. 
+
+*Suggested action:* If recent version, upgrade to 1.29. 
+
+If your cluster is 1-2 versions behind, learn how to upgrade your Kubernetes version. 
+
+If your cluster is more than a few versions behind, consider doing a blue/green migration where you deploy your workloads onto a new cluster with the current version.
+
+For more information, see <<update-cluster>> or link:eks/latest/best-practices/cluster-upgrades.html["Best Practices for Cluster Upgrades",type="documentation"].
+
+== IAM Setup
+
+*Requirement:* EKS Auto Mode requires additional permissions on the Cluster IAM role.
+
+*Suggested action:* Attach new managed policies to the Cluster IAM Role, and update the trust policy. 
+
+Each EKS cluster has a Cluster IAM Role. EKS uses this role to take action on other {aws} resources in your account. When you migrate to EKS Auto Mode, you need to grant this role additional permissions to manage compute, storage, and networking resources. 
+
+Follow the procedure *Update Cluster IAM role* from <<auto-enable-existing>>. 
+
+[#instances]
+== Small Instances
+
+*Requirement:* EKS Auto Mode does not provision small instances.
+
+*Suggested action:* Identify usage of small instances. Determine if a single larger instance would be acceptable. 
+
+EKS Auto mode does not provision small instances. The smallest instance size it will create is medium. 
+
+First, look at your existing cluster and determine if you are using any small instances. If you are, evaluate if these workloads can be combined onto a single larger instance.
+
+If you want to seperate workloads to increase resilence, you can use tains to prevent workloads from being scheduled on the same node. EKS Auto Mode will provision new nodes to accomodate the taints. 
+
+For more information about how EKS Auto Mode works with EC2 instances, see <<automode-learn-instances>>. 
+
+== Windows Containers 
+
+*Requirement:* EKS Auto Mode does not support windows instances. 
+
+*Suggested action:* Do not enable EKS Auto Mode. 
+
+EKS Auto Mode does not support windows containers or instances. Consider migrating your windows workloads to another cluster. 
+
+For information, see <<disable-windows-support>>.
+
+== SSH Access 
+
+*Requirement:* You cannot SSH into EKS Auto Mode managed instances.
+
+*Suggested action:* Use `kubectl` to access logs and debug instances. 
+
+By design, you cannot SSH into EKS Auto Mode managed instances. {aws} controls and deploys these instances. You can use EC2 APIs to retreive instance console output. You can use the command `kubectl debug node` to stream logs live from an instance. 
+
+EKS provides alternate troubleshooting tools. For more information, see <<auto-troubleshoot>>. 
+
+== Custom AMI Usage
+
+*Requirement:* By design, you cannot use custom AMIs with EKS Auto Mode. The only OS supported is Bottlerocket. 
+
+*Suggested action:* Migrate to using Kubernetes resources, such as DaemonSets, to provide node-local facilities. 
+
+EKS Auto Mode automatically patches and updates the EC2 instances behind nodes. To support this automation, EKS does not support custom AMIs on nodes. Migrate node workloads such as security software to https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/[Kubernetes DaemonSet], to decople your workloads from the underlying operating system.  
+
+For more information, see <<eks-ami-build-scripts>>. 
+
+== User Data
+
+*Requirement:* By design, EKS Auto Mode does not support custom user data. 
+
+*Suggested action:* Identify actions in current user data, and migrate them to Kubernetes workloads. 
+
+EKS Auto Mode manages node bootstrapping and configuration. Custom user data scripts are not supported. User data is custom information passed to EC2 instances at launch time. 
+
+Consider containerizing any custom setup or configuration that was previously handled by user data scripts.
+
+For more information, see <<launch-templates>>.
+
+== Addons
+
+*Requirement:* EKS Auto Mode requires minimum versions of certain add-ons, such as the Amazon VPC CNI plugin for Kubernetes or Kube-proxy.
+
+*Suggested action:* Review add-on compatibility before enabling EKS Auto Mode. Upgrade add-ons to the minimum version. 
+
+Some add-ons may conflict with EKS Auto Mode's built-in functionality. Verify that your current add-ons are compatible.
+
+For a list of compatible add-ons and the required minium version, see <<auto-enable-existing>>.
+
+== Autoscaling
+
+*Requirement:* EKS Auto mode includes built-in autoscaling, based on Karpenter. 
+
+*Suggested action:* Review existing autoscaling solutions and adapt your scaling strategy.
+
+EKS Auto Mode includes built-in autoscaling capabilities. If you're using Karpenter, Cluster Autoscaler, or custom ASGs, you'll need to adapt your scaling strategy.
+
+Consider migrating to EKS Auto Mode's native scaling mechanisms for optimal performance.
+
+For more information, see <<auto-migrate-karpenter>>
+
+== Identity
+
+*Requirement:* EKS Auto Mode supports both IRSA v1 and Pod Identity for workload identity.
+
+*Suggested action:* Consider migrating to Pod Identity.
+
+While IRSA v1 is supported, Pod Identity is the recommended approach for workload identity in EKS Auto Mode.
+
+Pod Identity provides enhanced security and simplified management for workload credentials.
+
+// Do we have a migration guide? Good link?
+
+== Load Balancers
+
+*Requirement:* EKS Auto Mode integrates with existing load balancer configurations.
+
+*Suggested action:* Review load balancer configurations.
+
+EKS Auto Mode works with existing ALBs and NLBs, but you may need to adjust configurations to ensure optimal integration.
+
+Verify that your load balancer settings are compatible with EKS Auto Mode's networking model.
+
+// Whatever? 
