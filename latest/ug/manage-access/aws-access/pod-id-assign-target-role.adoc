@@ -65,9 +65,9 @@ In this step, you will establish a secure trust chain by creating and configurin
       ],
       "Condition": {
         "StringEquals": {
-          "aws:PrincipalTag/eks-cluster-arn": "arn:aws:eks:us-east-1:111122223333:cluster/example-cluster",
-          "aws:PrincipalTag/kubernetes-namespace": "ExampleNameSpace",
-          "aws:PrincipalTag/kubernetes-service-account": "ExampleServiceAccountName"
+          "aws:RequestTag/eks-cluster-arn": "{arn-aws}eks:us-east-1:111122223333:cluster/example-cluster",
+          "aws:RequestTag/kubernetes-namespace": "ExampleNameSpace",
+          "aws:RequestTag/kubernetes-service-account": "ExampleServiceAccountName"
         },
         "ArnEquals": {
           "aws:PrincipalARN": "{arn-aws}iam::111122223333:role/eks-pod-identity-primary-role"
