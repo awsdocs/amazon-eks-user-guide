@@ -30,6 +30,7 @@ This repository contains the specialized https://github.com/awslabs/amazon-eks-a
 This quickstart shows you the commands to create a custom AMI in your {aws} account. To learn more about the configurations available to customize your AMI, see the template variables on the https://awslabs.github.io/amazon-eks-ami/usage/al2023/[Amazon Linux 2023] page.
 
 === Prerequisites
+
 Install the required https://developer.hashicorp.com/packer/integrations/hashicorp/amazon[Amazon plugin]. For example:
 
 [source,bash]
