@@ -47,7 +47,7 @@ To review the available versions and familiarize yourself with the changes in th
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.20.0/config/master/aws-k8s-cni.yaml
+curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.20.1/config/master/aws-k8s-cni.yaml
 ----
 +
 If necessary, modify the manifest with the custom settings from the backup you made in a previous step and then apply the modified manifest to your cluster. If your nodes don't have access to the private Amazon EKS Amazon ECR repositories that the images are pulled from (see the lines that start with `image:` in the manifest), then you'll have to download the images, copy them to your own repository, and modify the manifest to pull the images from your repository. For more information, see <<copy-image-to-repository>>.
@@ -67,6 +67,6 @@ An example output is as follows.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-v1.20.0
+v1.20.1
 ----
 . (Optional) Install the `cni-metrics-helper` to your cluster. It scrapes elastic network interface and IP address information, aggregates it at a cluster level, and publishes the metrics to Amazon CloudWatch. For more information, see https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md[cni-metrics-helper] on GitHub.
