@@ -43,7 +43,7 @@ This example NodeClass demonstrates two approaches for selecting ODCRs. The firs
 
 Capacity Blocks for ML reserve GPU-based accelerated computing instances on a future date to support your short duration machine learning (ML) workloads. Instances that run inside a Capacity Block are automatically placed close together inside Amazon EC2 UltraClusters, for low-latency, petabit-scale, non-blocking networking.
 
-For more information about the supported platforms and instancce types, see link:AWSEC2/latest/UserGuide/ec2-capacity-blocks.html[Capacity Blocks for ML,type="documentation"] in the EC2 User Guide. 
+For more information about the supported platforms and instance types, see link:AWSEC2/latest/UserGuide/ec2-capacity-blocks.html[Capacity Blocks for ML,type="documentation"] in the EC2 User Guide. 
 
 You can create an EKS Auto Mode NodeClass that uses a Capacity Block for ML, similar to an ODCR (described earlier). 
 
