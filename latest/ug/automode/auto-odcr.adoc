@@ -41,15 +41,19 @@ This example NodeClass demonstrates two approaches for selecting ODCRs. The firs
 
 == EC2 Capacity Blocks for ML
 
-Capacity Blocks for ML allow you to reserve GPU-based accelerated computing instances on a future date to support your short duration machine learning (ML) workloads. Instances that run inside a Capacity Block are automatically placed close together inside Amazon EC2 UltraClusters, for low-latency, petabit-scale, non-blocking networking.
+Capacity Blocks for ML reserve GPU-based accelerated computing instances on a future date to support your short duration machine learning (ML) workloads. Instances that run inside a Capacity Block are automatically placed close together inside Amazon EC2 UltraClusters, for low-latency, petabit-scale, non-blocking networking.
 
-You can create a EKS Auto Mode NodeClass that uses a Capacity Block for ML, similar to an ODCR (described above). 
+You can create an EKS Auto Mode NodeClass that uses a Capacity Block for ML, similar to an ODCR (described earlier). 
 
-The following sample definitions create three resources: a NodeClass using the capacity block, a NodePool using the NodeClass and having a taint, and a Pod that tolerates the taint and uses GPUs. 
+The following sample definitions create three resources: 
+
+. A NodeClass that references your Capacity Block reservation
+. A NodePool that uses the NodeClass and applies a taint
+. A Pod specification that tolerates the taint and requests GPU resources
 
 ===  Example NodeClass
 
-This NodeClass uses a capacity reservation, such as an EC2 ML Capacity Block. 
+This NodeClass references a specific Capacity Block for ML by its reservation ID. You can obtain this ID from the EC2 console.
 
 ```yaml
 apiVersion: eks.amazonaws.com/v1
@@ -57,8 +61,7 @@ kind: NodeClass
 metadata:
   name: gpu
 spec:
-  # Optional: Selects upon on-demand capacity reservations and capacity blocks
-  # for EKS Auto Mode to prioritize.
+  # Specify your Capacity Block reservation ID
   capacityReservationSelectorTerms:
     - id: cr-56fac701cc1951b03
 ```
@@ -67,9 +70,11 @@ For more information, see <<create-node-class>>.
 
 === Example NodePool
 
-This NodePool reference the `gpu` NodeClass, _only_ uses reserved capacity, and requests GPU instance families. EKS AutoMode will automatically determine the exact instance type to request. 
+This NodePool references the `gpu` NodeClass and specifies important configuration:
 
-Further, this NodePool has a `nvidia.com/gpu` taint. EKS Auto Mode will only schedule workloads with a corresponding toleration onto nodes associated with this NodePool. 
+* It **only** uses reserved capacity by setting `karpenter.sh/capacity-type: reserved`
+* It requests specific GPU instance families appropriate for ML workloads
+* It applies a `nvidia.com/gpu` taint to ensure only GPU workloads are scheduled on these nodes
 
 ```yaml
 apiVersion: karpenter.sh/v1
@@ -111,7 +116,11 @@ For more information, see <<create-node-pool>>.
 
 === Example Pod
 
-This example pod selects the `auto` compute type, and has a toleration for the `nvidia.com/gpu` taint. The pod also requests the `h200` instance GPU. Based on these requirements, EKS Auto Mode will schedule it onto nodes in the above `gpu` NodePool. 
+This example pod demonstrates how to configure a workload to run on your Capacity Block nodes:
+
+* It uses a **nodeSelector** to target specific GPU types (in this case, H200 GPUs)
+* It includes a **toleration** for the `nvidia.com/gpu` taint applied by the NodePool
+* It explicitly **requests GPU resources** using the `nvidia.com/gpu` resource type
 
 ```yaml
 apiVersion: v1
@@ -120,6 +129,7 @@ metadata:
   name: nvidia-smi
 spec:
   nodeSelector:
+    # Select specific GPU type - uncomment as needed
     # eks.amazonaws.com/instance-gpu-name: l4
     # eks.amazonaws.com/instance-gpu-name: a100
     eks.amazonaws.com/instance-gpu-name: h200
@@ -133,10 +143,12 @@ spec:
     - "nvidia-smi"
     resources:
       requests:
+        # Uncomment if needed
         # memory: "30Gi"
         # cpu: "3500m"
         nvidia.com/gpu: 1
       limits:
+        # Uncomment if needed
         # memory: "30Gi"
         nvidia.com/gpu: 1
   tolerations:
@@ -152,4 +164,5 @@ For more information, see https://kubernetes.io/docs/concepts/workloads/pods/[Po
 * link:AWSEC2/latest/UserGuide/ec2-capacity-blocks.html[Capacity Blocks for ML,type="documentation"] in the Amazon EC2 User Guide 
 * link:AWSEC2/latest/UserGuide/capacity-blocks-purchase.html[Find and purchase Capacity Blocks,type="documentation"] in the Amazon EC2 User Guide
 * link:eks/latest/userguide/ml-compute-management.html[Manage compute resources for AI/ML workloads on Amazon EKS,type="documentation"] 
-* link:eks/latest/best-practices/aiml-compute.html#_gpu_resource_optimization_and_cost_management[GPU Resource Optimization and Cost Management,type="documentation"] in the EKS Best Practices Guide 
+* link:eks/latest/best-practices/aiml-compute.html#_gpu_resource_optimization_and_cost_management[GPU Resource Optimization and Cost Management,type="documentation"] in the EKS Best Practices Guide
+
