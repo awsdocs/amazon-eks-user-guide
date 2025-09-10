@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#auto-odcr]
 = Control deployment of workloads into Capacity Reservations with EKS Auto Mode
-:info_titleabbrev: Control ODCR Deployment
+:info_titleabbrev: Control Reserved Capacity
 
 You can control the deployment of workloads onto reserved capacity. EKS Auto Mode supports EC2 On-Demand Capacity Reservations (ODCRs), and EC2 Capacity Blocks for ML. 
 
