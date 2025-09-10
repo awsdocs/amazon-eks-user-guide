@@ -1,7 +1,7 @@
 [.topic]
 [#zone-shift]
-= Learn about Amazon Application Recovery Controller's (ARC) Zonal Shift in Amazon EKS
-:info_titleabbrev: Learn about Zonal Shift
+= Learn about Amazon Application Recovery Controller's (ARC) zonal shift in Amazon EKS
+:info_titleabbrev: Learn about zonal shift
 :aws: pass:q[[.shared]``AWS``]
 
 //GDC: remove use of "failure"
@@ -24,7 +24,7 @@ image::images/zs-traffic-flow-before-2.png[Illustration of network traffic]
 . The network packets are then sent to the Products Pod in AZ 2 via the ENIs on the respective nodes (as depicted in the diagram above). 
 
 
-=== Understanding ARC Zonal Shift in Amazon EKS
+=== Understanding ARC zonal shift in Amazon EKS
 
 In the case that there is an AZ impairment in your environment, you can initiate a zonal shift for your EKS cluster environment. Alternatively, you can allow {aws} to manage this for you with zonal autoshift. With zonal autoshift, {aws} will monitor the overall AZ health and respond to a potential AZ impairment by automatically shifting traffic away from the impaired AZ in your cluster environment. 
 
@@ -44,7 +44,7 @@ image::images/zs-traffic-flow-after-1.png[Illustration of network traffic]
 image::images/zs-traffic-flow-after-2.png[Illustration of network traffic]
 
 
-== EKS Zonal Shift Requirements
+== EKS zonal shift Requirements
 
 For zonal shift to work successfully in EKS, you need to setup your cluster environment to be resilient to an AZ impairment beforehand. Below is a list of the steps that you have to follow.
 

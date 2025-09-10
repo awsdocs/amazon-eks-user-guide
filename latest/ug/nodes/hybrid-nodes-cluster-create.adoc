@@ -273,7 +273,7 @@ aws eks describe-cluster \
 ... *EKS API*: The cluster will source authenticated IAM principals only from EKS access entry APIs.
 ... *EKS API and ConfigMap*: The cluster will source authenticated IAM principals from both EKS access entry APIs and the `aws-auth` ConfigMap.
 .. *Secrets encryption* – (Optional) Choose to enable secrets encryption of Kubernetes secrets using a KMS key. You can also enable this after you create your cluster. Before you enable this capability, make sure that you're familiar with the information in <<enable-kms>>.
-.. *ARC Zonal Shift* - If enabled, EKS will register your cluster with ARC zonal shift to enable you to use zonal shift to shift application traffic away from an AZ.
+.. *ARC zonal shift* - If enabled, EKS will register your cluster with ARC zonal shift to enable you to use zonal shift to shift application traffic away from an AZ.
 .. *Tags* – (Optional) Add any tags to your cluster. For more information, see <<eks-using-tags>>.
 .. When you're done with this page, choose *Next*.
 . On the *Specify networking* page, select values for the following fields:
