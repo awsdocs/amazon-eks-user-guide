@@ -37,7 +37,56 @@ Learn how to <<tag-subnets-auto>>.
 
 == Step 1: Create a workload
 
-Create a workload that you want to expose to the internet. This can be any Kubernetes resource that serves HTTP traffic, such as a Deployment or a Service. For this example, we use a simple HTTP service called `service-2048` that serves HTTP traffic on port 80.
+To begin, create a workload that you want to expose to the internet. This can be any Kubernetes resource that serves HTTP traffic, such as a Deployment or a Service.
+
+This example uses a simple HTTP service called `service-2048` that listens on port `80`. Create this service and its deployment by applying the following manifest, `2048-deployment-service.yaml`:
+
+```yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-2048
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: app-2048
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: app-2048
+    spec:
+      containers:
+        - image: public.ecr.aws/l6m2t8p7/docker-2048:latest
+          imagePullPolicy: Always
+          name: app-2048
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-2048
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: app-2048
+```
+
+Apply the configuration to your cluster:
+```bash
+kubectl apply -f 2048-deployment-service.yaml
+```
+
+The resources listed above will be created in the default namespace. You can verify this by running the following command:
+```bash
+kubectl get all -n default
+```
 
 == Step 2: Create IngressClassParams
 
