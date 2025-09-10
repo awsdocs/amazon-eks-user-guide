@@ -3,11 +3,11 @@ include::../attributes.txt[]
 [.topic]
 [#auto-odcr]
 = Control deployment of workloads into Capacity Reservations with EKS Auto Mode
-:info_titleabbrev: Control Reserved Capacity
+:info_titleabbrev: Control Capacity Reservations
 
-You can control the deployment of workloads onto reserved capacity. EKS Auto Mode supports EC2 On-Demand Capacity Reservations (ODCRs), and EC2 Capacity Blocks for ML. 
+You can control the deployment of workloads onto link:AWSEC2/latest/UserGuide/capacity-reservation-overview.html[Capacity Reservations,type="documentation]. EKS Auto Mode supports EC2 On-Demand Capacity Reservations (ODCRs), and EC2 Capacity Blocks for ML. 
 
-TIP: By default, EKS Auto Mode automatically launches into open ODCRs. Once this feature is enabled, EKS Auto Mode will no longer automatically use open ODCRs.
+TIP: By default, EKS Auto Mode automatically launches into open ODCRs and ML Capacity Blocks. When using `capacityReservationSelectorTerms` in the NodeClass definition, EKS Auto Mode will no longer automatically use any open Capacity Reservations.
 
 == EC2 On-Demand Capacity Reservations (ODCRs) 
 
@@ -42,6 +42,8 @@ This example NodeClass demonstrates two approaches for selecting ODCRs. The firs
 == EC2 Capacity Blocks for ML
 
 Capacity Blocks for ML reserve GPU-based accelerated computing instances on a future date to support your short duration machine learning (ML) workloads. Instances that run inside a Capacity Block are automatically placed close together inside Amazon EC2 UltraClusters, for low-latency, petabit-scale, non-blocking networking.
+
+For more information about the supported platforms and instancce types, see link:AWSEC2/latest/UserGuide/ec2-capacity-blocks.html[Capacity Blocks for ML,type="documentation"] in the EC2 User Guide. 
 
 You can create an EKS Auto Mode NodeClass that uses a Capacity Block for ML, similar to an ODCR (described earlier). 
 
