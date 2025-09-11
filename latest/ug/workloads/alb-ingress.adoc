@@ -74,7 +74,7 @@ annotations:
 ----
 +
 NOTE: If you're load balancing to `IPv6` Pods, add the following annotation to your ingress spec. You can only load balance over `IPv6` to IP targets, not instance targets. Without this annotation, load balancing is over `IPv4`.
-
++
 [source,yaml,subs="verbatim,attributes"]
 ----
 alb.ingress.kubernetes.io/ip-address-type: dualstack
