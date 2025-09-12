@@ -94,7 +94,7 @@ helm repo update eks
 ----
 . Install the {aws} Load Balancer Controller.
 +
-If you're deploying the controller to Amazon EC2 nodes that have https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[restricted access to the Amazon EC2 instance metadata service (IMDS)], or if you're deploying to Fargate or Amazon EKS Hybrid Nodes, then add the following flags to the `helm` command that follows:
+If you're deploying the controller to Amazon EC2 nodes that have https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[restricted access to the Amazon EC2 instance metadata service (IMDS)], then add the following flags to the `helm` command that follows:
 +
 *** `--set region=[.replaceable]``region-code```
 *** `--set vpcId=[.replaceable]``vpc-xxxxxxxx```
