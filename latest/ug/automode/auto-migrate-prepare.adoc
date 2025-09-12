@@ -3,7 +3,9 @@
 = Prepare for EKS Auto Migration
 :info_titleabbrev: Prepare for migration
 
-You can migrate existing clusters to EKS Auto Mode. Use this topic to review your existing configuration, and identify any preparation needed before migrating. 
+Before enabling EKS Auto Mode on an existing cluster, you need to assess your current configuration for compatibility and prepare your environment for a successful migration. This preparation phase is critical to ensure a smooth transition and minimize disruption to your workloads.
+
+This topic provides a checklist of requirements and suggested actions to address potential compatibility issues before proceeding with migration. Review each section carefully and complete the necessary preparations to ensure your cluster is ready for EKS Auto Mode.
 
 == Kubernetes Version
 
@@ -36,9 +38,9 @@ Follow the procedure *Update Cluster IAM role* from <<auto-enable-existing>>.
 
 EKS Auto mode does not provision small instances. The smallest instance size it will create is medium. 
 
-First, look at your existing cluster and determine if you are using any small instances. If you are, evaluate if these workloads can be combined onto a single larger instance.
+First, examine your existing cluster and determine if you are using any small instances. If you are, evaluate if these workloads can be combined onto a single larger instance.
 
-If you want to seperate workloads to increase resilence, you can use tains to prevent workloads from being scheduled on the same node. EKS Auto Mode will provision new nodes to accomodate the taints. 
+If you want to separate workloads to increase resilience, you can use taints to prevent workloads from being scheduled on the same node. EKS Auto Mode will provision new nodes to accommodate the taints. 
 
 For more information about how EKS Auto Mode works with EC2 instances, see <<automode-learn-instances>>. 
 
@@ -58,7 +60,7 @@ For information, see <<disable-windows-support>>.
 
 *Suggested action:* Use `kubectl` to access logs and debug instances. 
 
-By design, you cannot SSH into EKS Auto Mode managed instances. {aws} controls and deploys these instances. You can use EC2 APIs to retreive instance console output. You can use the command `kubectl debug node` to stream logs live from an instance. 
+By design, you cannot SSH into EKS Auto Mode managed instances. {aws} controls and deploys these instances. You can use EC2 APIs to retrieve instance console output. You can use the command `kubectl debug node` to stream logs live from an instance. 
 
 EKS provides alternate troubleshooting tools. For more information, see <<auto-troubleshoot>>. 
 
@@ -68,7 +70,7 @@ EKS provides alternate troubleshooting tools. For more information, see <<auto-t
 
 *Suggested action:* Migrate to using Kubernetes resources, such as DaemonSets, to provide node-local facilities. 
 
-EKS Auto Mode automatically patches and updates the EC2 instances behind nodes. To support this automation, EKS does not support custom AMIs on nodes. Migrate node workloads such as security software to https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/[Kubernetes DaemonSet], to decople your workloads from the underlying operating system.  
+EKS Auto Mode automatically patches and updates the EC2 instances behind nodes. To support this automation, EKS does not support custom AMIs on nodes. Migrate node workloads such as security software to https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/[Kubernetes DaemonSet], to decouple your workloads from the underlying operating system.  
 
 For more information, see <<eks-ami-build-scripts>>. 
 
@@ -92,7 +94,7 @@ For more information, see <<launch-templates>>.
 
 Some add-ons may conflict with EKS Auto Mode's built-in functionality. Verify that your current add-ons are compatible.
 
-For a list of compatible add-ons and the required minium version, see <<auto-enable-existing>>.
+For a list of compatible add-ons and the required minimum version, see <<auto-enable-existing>>.
 
 == Autoscaling
 
@@ -116,16 +118,28 @@ While IRSA v1 is supported, Pod Identity is the recommended approach for workloa
 
 Pod Identity provides enhanced security and simplified management for workload credentials.
 
-// Do we have a migration guide? Good link?
+For more information, see <<pod-identities>>.
 
 == Load Balancers
 
-*Requirement:* EKS Auto Mode integrates with existing load balancer configurations.
+*Requirement:* EKS Auto Mode does not support taking over management of existing load balancers. EKS Auto Mode does not support all configurations of the open source load balancer controller. 
 
-*Suggested action:* Review load balancer configurations.
-
-EKS Auto Mode works with existing ALBs and NLBs, but you may need to adjust configurations to ensure optimal integration.
+*Suggested action:* Review load balancer configurations, and perform a migration between load balancers by using Route53. 
 
 Verify that your load balancer settings are compatible with EKS Auto Mode's networking model.
 
-// Whatever? 
+For information about configuring application load balancers, see <<auto-configure-alb>>. 
+
+For information about configuring network load balancers, see <<auto-configure-nlb>>. 
+
+{aws} suggests a DNS-based traffic shifting approach. Generally, you should maintain your existing load balancer configuration while creating new load balancers under the managed controller. For more information, see link:eks/latest/userguide/migrate-auto.html#_migrating_load_balancers["Migrating load balancers",type="documentation"].
+
+== EBS Volumes
+
+*Requirement:* EKS Auto Mode cannot mount volumes created by the EBS CSI controller.
+
+*Suggested action:* Use the EKS Auto Mode EBS Migration tool to automate migrating volumes to EKS Auto Mode management.
+
+This migration requires deleting and re-creating existing `PersistentVolumeClaim` and `PersistentVolume` resources. 
+
+For more information, see link:https://github.com/awslabs/eks-auto-mode-ebs-migration-tool[`eks-auto-mode-ebs-migration-tool`] on GitHub.
