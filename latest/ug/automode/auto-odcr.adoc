@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Control deployment of workloads into Capacity Reservations with EKS Auto Mode
 :info_titleabbrev: Control Capacity Reservations
 
-You can control the deployment of workloads onto link:AWSEC2/latest/UserGuide/capacity-reservation-overview.html[Capacity Reservations,type="documentation]. EKS Auto Mode supports EC2 On-Demand Capacity Reservations (ODCRs), and EC2 Capacity Blocks for ML. 
+You can control the deployment of workloads onto link:AWSEC2/latest/UserGuide/capacity-reservation-overview.html[Capacity Reservations,type="documentation"]. EKS Auto Mode supports EC2 On-Demand Capacity Reservations (ODCRs), and EC2 Capacity Blocks for ML. 
 
 TIP: By default, EKS Auto Mode automatically launches into open ODCRs and ML Capacity Blocks. When using `capacityReservationSelectorTerms` in the NodeClass definition, EKS Auto Mode will no longer automatically use any open Capacity Reservations.
 
