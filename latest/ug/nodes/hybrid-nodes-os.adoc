@@ -56,12 +56,7 @@ The table below represents the operating system versions that are compatible and
 
 === Ubuntu
 
-* If you are using Ubuntu 20.04, you must use {aws} Systems Manager hybrid activations as your credential provider. {aws} IAM Roles Anywhere is not supported on Ubuntu 20.04.
 * If you are using Ubuntu 24.04, you may need to update your version of containerd or change your AppArmor configuration to adopt a fix that allows pods to properly terminate, see https://bugs.launchpad.net/ubuntu/\+source/containerd-app/\+bug/2065423[Ubuntu #2065423]. A reboot is required to apply changes to the AppArmor profile. The latest version of Ubuntu 24.04 has an updated containerd version in its package manager with the fix (containerd version 1.7.19+).
-
-=== RHEL
-
-* If you are using RHEL 8, you must use {aws} Systems Manager hybrid activations as your credential provider. {aws} IAM Roles Anywhere isn't supported on RHEL 8.
 
 === ARM
 
