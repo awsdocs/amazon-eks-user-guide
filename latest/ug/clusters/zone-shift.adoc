@@ -1,17 +1,17 @@
 [.topic]
 [#zone-shift]
-= Learn about Amazon Application Recovery Controller's (ARC) zonal shift in Amazon EKS
+= Learn about Amazon Application Recovery Controller (ARC) zonal shift in Amazon EKS
 :info_titleabbrev: Learn about zonal shift
 :aws: pass:q[[.shared]``AWS``]
 
 //GDC: remove use of "failure"
 
-Kubernetes has native features that enable you to make your applications more resilient to events such as the degraded health or impairment of an Availability Zone (AZ). When running your workloads in an Amazon EKS cluster, you can further improve your application environment's fault tolerance and application recovery using link:r53recovery/latest/dg/arc-zonal-shift.html["Amazon Application Recovery Controller's (ARC) zonal shift",type="documentation"] or link:r53recovery/latest/dg/arc-zonal-autoshift.html["zonal autoshift",type="documentation"]. ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary.
+Kubernetes has native features that enable you to make your applications more resilient to events such as the degraded health or impairment of an Availability Zone (AZ). When you run your workloads in an Amazon EKS cluster, you can further improve your application environment's fault tolerance and application recovery by using link:r53recovery/latest/dg/arc-zonal-shift.html["Amazon Application Recovery Controller (ARC) zonal shift",type="documentation"] or link:r53recovery/latest/dg/arc-zonal-autoshift.html["zonal autoshift",type="documentation"]. ARC zonal shift is designed to be a temporary measure that enables you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift, if necessary.
 
-You can start a zonal shift for an EKS cluster, or you can allow {aws} to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your EKS cluster will automatically route traffic to targets in the healthy AZs. For those customers seeking the highest availability goals, in the case that an AZ becomes impaired, it can be important to be able to steer all traffic away from the impaired AZ until it recovers. For this, you can also link:r53recovery/latest/dg/arc-zonal-shift.resource-types.html["_enable an ALB or NLB with ARC zonal shift_",type="documentation"].
+You can start a zonal shift for an EKS cluster, or you can allow {aws} to shift traffic for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your EKS cluster will automatically route traffic to targets in the healthy AZs. For those customers seeking the highest availability goals, in the case that an AZ becomes impaired, it can be important to be able to steer all traffic away from the impaired AZ until it recovers. For this, you can also link:r53recovery/latest/dg/arc-zonal-shift.resource-types.html["_enable an ALB or NLB with ARC zonal shift_",type="documentation"].
 
 
-== Understanding East-West Network Traffic Flow Between Pods
+== Understanding east-west network traffic flow between Pods
 
 The following diagram illustrates two example workloads, Orders, and Products. The purpose of this example is to show how workloads and Pods in different AZs communicate.
 
@@ -19,24 +19,24 @@ image::images/zs-traffic-flow-before-1.png[Illustration of network traffic]
 
 image::images/zs-traffic-flow-before-2.png[Illustration of network traffic]
 
-. For Orders to communicate with Products, it must first resolve the DNS name of the destination service. Orders will communicate with CoreDNS to fetch the virtual IP address (Cluster IP) for that Service. Once Orders resolves the Products service name, it sends traffic to that target IP. 
-. The kube-proxy runs on every node in the cluster and continuously watches the https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/[EndpointSlices] for Services. When a Service is created, an EndpointSlice is created and managed in the background by the EndpointSlice controller. Each EndpointSlice has a list or table of endpoints containing a subset of Pod addresses along with the nodes that they're running on. The kube-proxy sets up routing rules for each of these Pod endpoints using `iptables` on the nodes. The kube-proxy is also responsible for a basic form of load balancing by redirecting traffic destined to a service's Cluster IP to instead be sent to a Pod's IP address directly. The kube-proxy does this by rewriting the destination IP on the outgoing connection.
-. The network packets are then sent to the Products Pod in AZ 2 via the ENIs on the respective nodes (as depicted in the diagram above). 
+. For Orders to communicate with Products, Orders must first resolve the DNS name of the destination service. Orders communicates with CoreDNS to fetch the virtual IP address (Cluster IP) for that service. After Orders resolves the Products service name, it sends traffic to that target IP address. 
+. The kube-proxy runs on every node in the cluster and continuously watches https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/[EndpointSlices] for services. When a service is created, an EndpointSlice is created and managed in the background by the EndpointSlice controller. Each EndpointSlice has a list or table of endpoints that contains a subset of Pod addresses, along with the nodes that they're running on. The kube-proxy sets up routing rules for each of these Pod endpoints using `iptables` on the nodes. The kube-proxy is also responsible for a basic form of load balancing, redirecting traffic destined to a service's Cluster IP address to instead be sent to a Pod's IP address directly. The kube-proxy does this by rewriting the destination IP address on the outgoing connection.
+. The network packets are then sent to the Products Pod in AZ 2 by using the ENIs on the respective nodes, as shown in the earlier diagram. 
 
 
 === Understanding ARC zonal shift in Amazon EKS
 
-In the case that there is an AZ impairment in your environment, you can initiate a zonal shift for your EKS cluster environment. Alternatively, you can allow {aws} to manage this for you with zonal autoshift. With zonal autoshift, {aws} will monitor the overall AZ health and respond to a potential AZ impairment by automatically shifting traffic away from the impaired AZ in your cluster environment. 
+If there is an AZ impairment in your environment, you can initiate a zonal shift for your EKS cluster environment. Alternatively, you can allow {aws} to manage shifting traffic for you with zonal autoshift. With zonal autoshift, {aws} monitors overall AZ health and responds to a potential AZ impairment by automatically shifting traffic away from the impaired AZ in your cluster environment. 
 
-Once your Amazon EKS cluster has zonal shift enabled with ARC, you can trigger a zonal shift or enable zonal autoshift using the ARC Console, the {aws} CLI, or the zonal shift and zonal autoshift APIs. 
-During an EKS zonal shift, the following will automatically take place:
+After your Amazon EKS cluster has zonal shift enabled with ARC, you can start a zonal shift or enable zonal autoshift by using the ARC Console, the {aws} CLI, or the zonal shift and zonal autoshift APIs. 
+During an EKS zonal shift, the following is performed automatically:
 
-* All the nodes in the impacted AZ will be cordoned. This will prevent the Kubernetes Scheduler from scheduling new Pods onto the nodes in the unhealthy AZ. 
-* If you're using <<managed-node-groups,Managed Node Groups>>, link:autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage["_Availability Zone rebalancing_",type="documentation"] will be suspended, and your Auto Scaling Group (ASG) will be updated to ensure that new EKS Data Plane nodes are only launched in the healthy AZs.
-* The nodes in the unhealthy AZ will not be terminated and the Pods will not be evicted from these nodes. This is to ensure that when a zonal shift expires or gets cancelled, your traffic can be safely returned to the AZ which still has full capacity
-* The EndpointSlice controller will find all the Pod endpoints in the impaired AZ and remove them from the relevant EndpointSlices. This will ensure that only Pod endpoints in healthy AZs are targeted to receive network traffic. When a zonal shift is cancelled or expires, the EndpointSlice controller will update the EndpointSlices to include the endpoints in the restored AZ.
+* All the nodes in the impacted AZ are cordoned. This prevents the Kubernetes Scheduler from scheduling new Pods onto nodes in the unhealthy AZ. 
+* If you're using <<managed-node-groups,Managed Node Groups>>, link:autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage["_Availability Zone rebalancing_",type="documentation"] is suspended, and your Auto Scaling group is updated to ensure that new EKS data plane nodes are only launched in healthy AZs.
+* The nodes in the unhealthy AZ are not terminated, and Pods are not evicted from the nodes. This ensures that when a zonal shift expires or is canceled, your traffic can be safely returned to the AZ for full capacity.
+* The EndpointSlice controller finds all Pod endpoints in the impaired AZ, and removes them from the relevant EndpointSlices. This ensures that only Pod endpoints in healthy AZs are targeted to receive network traffic. When a zonal shift is canceled or expires, the EndpointSlice controller updates the EndpointSlices to include the endpoints in the restored AZ.
 
-The diagrams below depicts a high level flow of how EKS zonal shift ensures that only healthy Pod endpoints are targeted in your cluster environment. 
+The following diagrams provide a high level overview of how EKS zonal shift ensures that only healthy Pod endpoints are targeted in your cluster environment. 
 
 
 image::images/zs-traffic-flow-after-1.png[Illustration of network traffic]
@@ -44,56 +44,56 @@ image::images/zs-traffic-flow-after-1.png[Illustration of network traffic]
 image::images/zs-traffic-flow-after-2.png[Illustration of network traffic]
 
 
-== EKS zonal shift Requirements
+== EKS zonal shift requirements
 
-For zonal shift to work successfully in EKS, you need to setup your cluster environment to be resilient to an AZ impairment beforehand. Below is a list of the steps that you have to follow.
+For zonal shift to work successfully with EKS, you must set up your cluster environment ahead of time to be resilient to an AZ impairment. The following is a list of configuration options that help to ensure resilience.
 
 * Provision your cluster's worker nodes across multiple AZs 
-* Provision enough compute capacity to withstand removal of a single AZ
-* Pre-scale your Pods (including CoreDNS) in every AZ
-* Spread multiple Pod replicas across all AZs to ensure that shifting away from a single AZ will leave you with sufficient capacity
-* Co-locate interdependent or related Pods in the same AZ
-* Test that your cluster environment would work as expected with one less AZ by manually starting a zonal shift. Alternatively, you can enable zonal autoshift and reply on the autoshift practice runs. This is not required for zonal shift to work in EKS but it's strongly recommended. 
+* Provision enough compute capacity to accommodate removal of a single AZ
+* Pre-scale your Pods, including CoreDNS, in every AZ
+* Spread multiple Pod replicas across all AZs, to help ensure that when you shift away from a single AZ, you'll still have sufficient capacity
+* Colocate interdependent or related Pods in the same AZ
+* Test that your cluster environment works as expected without one AZ by manually starting a zonal shift away from an AZ. Alternatively, you can enable zonal autoshift and rely on autoshift practice runs. Testing with manual or practice zonal shifts is not required for zonal shift to work in EKS but it's strongly recommended. 
 
-=== Provision Your EKS Worker Nodes Across Multiple AZs
+=== Provision your EKS worker nodes across multiple Availability Zones
 
-{aws} Regions have multiple, separate locations with physical data centers known as Availability Zones (AZs). AZs are designed to be physically isolated from one another to avoid simultaneous impact that could affect an entire Region. When provisioning an EKS cluster, you should deploy your worker nodes across multiple AZs in a Region. This will make your cluster environment more resilient to the impairment of a single AZ, and allow you to maintain high availability (HA) of your applications running in the other AZs. When you start a zonal shift away from the impacted AZ, your EKS environment's in-cluster network will automatically update to only use healthy AZs, while maintaining a highly available posture for your cluster.
+{aws} Regions have multiple, separate locations with physical data centers, known as Availability Zones (AZs). AZs are designed to be physically isolated from one another to avoid simultaneous impact that could affect an entire Region. When you provision an EKS cluster, we recommend that you deploy your worker nodes across multiple AZs in a Region. This helps to make your cluster environment more resilient to the impairment of a single AZ, and allows you to maintain high availability for your applications that run in the other AZs. When you start a zonal shift away from the impacted AZ, your EKS environment's in-cluster network automatically updates to only use healthy AZs, to help maintaining high availability for your cluster.
 
-Ensuring that you have such a multi-AZ setup for your EKS environment will enhance the overall reliability of your system. However, multi-AZ environments can play a significant role in how application data is transferred and processed, which will in turn have an impact on your environment's network charges. In particular, frequent egress cross-zone traffic (traffic distributed between AZs) can have a major impact on your network-related costs. You can apply different strategies to control the amount of cross-zone traffic between Pods in your EKS cluster and drive down the associated costs. Please refer to https://aws.github.io/aws-eks-best-practices/cost_optimization/cost_opt_networking/[_this best practice guide_] for more details on how to optimize network costs when running highly available EKS environments.
+Ensuring that you have a multi-AZ setup for your EKS environment enhances the overall reliability of your system. However, multi-AZ environments influence how application data is transferred and processed, which in turn has an impact on your environment's network charges. Specifically, frequent egress cross-zone traffic (traffic distributed between AZs) can have a major impact on your network-related costs. You can apply different strategies to control the amount of cross-zone traffic between Pods in your EKS cluster and drive down the associated costs. For more information on how to optimize network costs when running highly available EKS environments, see https://aws.github.io/aws-eks-best-practices/cost_optimization/cost_opt_networking/[_these best practices_].
 
-The diagram below depicts a highly available EKS environment with 3 healthy AZs.
+The following diagram illustrates a highly-available EKS environment with three healthy AZs.
 
 image::images/zs-ha-before-failure.png[Illustration of network]
 
-The diagram below depicts how an EKS environment with 3 AZs is resilient to an AZ impairment and remains highly available because of the 2 other healthy AZs.
+The following diagram illustrates how an EKS environment with three AZs is resilient to an AZ impairment and remains highly available because there are two remaining healthy AZs.
 
 image::images/zs-ha-after-failure.png[Illustration of network]
 
-=== Provision Enough Compute Capacity to Withstand Removal of a Single AZ
+=== Provision enough compute capacity to withstand removal of a single Availability Zone
 
-To optimize resource utilization and costs for your compute infrastructure in the EKS Data Plane, it's a best practice to align compute capacity with your workload requirements. However, *if all your worker nodes are at full capacity*, then this makes you reliant on having new worker nodes added to the EKS Data Plane before new Pods can be scheduled. When running critical workloads, it is generally always a good practice to run with redundant capacity online to handle eventualities such as sudden increases in load, node health issues, etc. If you plan to use zonal shift, you are planning to remove an entire AZ of capacity so you need to adjust your redundant compute capacity so that it's sufficient to handle the load even with an AZ offline.
+To optimize resource utilization and costs for your compute infrastructure in the EKS data plane, it's a best practice to align compute capacity with your workload requirements. However, *if all your worker nodes are at full capacity*, you are reliant on having new worker nodes added to the EKS data plane before new Pods can be scheduled. When you run critical workloads, it is generally a good practice to run with redundant capacity online to handle scenarios such as sudden increases in load and node health issues. If you plan to use zonal shift, you are planning to remove an entire AZ of capacity when there's an impairment. This means that you must adjust your redundant compute capacity so that it's sufficient to handle the load even with one of the AZs offline.
 
-When scaling your compute, the process of adding new nodes to the EKS Data Plane will take some time which can have implications on the real-time performance and availability of your applications, especially in the event of a zonal impairment. Your EKS environment should be resilient to absorb the load of losing an AZ to avoid a degraded experience for your end users or clients. This means minimizing or eliminating any lag between the time at which a new Pod is needed and when it's actually scheduled on a worker node. 
+When you scale your compute resources, the process of adding new nodes to the EKS data plane takes some time. This can have implications on the real-time performance and availability of your applications, especially in the event of a zonal impairment. Your EKS environment should be able to absorb the load of losing one AZ without resulting in a degraded experience for your end users or clients. This means minimizing or eliminating lag between the time when a new Pod is needed and when it's actually scheduled on a worker node. 
 
-Additionally, in the event of a zonal impairment, you should mitigate the risk of a potential compute capacity constraint which would prevent newly required nodes from being added to your EKS Data Plane in the healthy AZs.
+Additionally, when there's a zonal impairment, you should aim to mitigate the risk of running into a compute capacity constraint that would prevent newly-required nodes from being added to your EKS data plane in the healthy AZs.
 
-To accomplish this, you should over-provision compute capacity in some of the worker nodes in each of the AZs so that the Kubernetes Scheduler has pre-existing capacity available for new Pod placements, especially when you have one less AZ in your environment.
+To accomplish reduce the risk of these potential negative impacts, we recommend that you over-provision compute capacity in some of the worker nodes in each of the AZs. By doing this, the Kubernetes Scheduler has pre-existing capacity available for new Pod placements, which is especially important when you lose one of the AZs in your environment.
 
 
-=== Run & Spread Multiple Pod Replicas Across AZs
+=== Run and spread multiple Pod replicas across Availability Zones
 
-Kubernetes allows you to pre-scale your workloads by running multiple instances (Pod replicas) of a single application. Running multiple Pod replicas for an application eliminates a single point of failure and increases its overall performance by reducing the resource strain on a single replica. However, to have both high availability and better fault tolerance for your applications, you should run and spread multiple replicas of an application across different failure domains (also referred to as topology domains) in this case AZs. With https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/[topology spread constraints], you can setup your applications to have pre-existing, static stability so that, in the case of an AZ impairment, you'll have enough replicas in the healthy AZs to immediately handle any additional spike or surge in traffic that they may experience. 
+Kubernetes allows you to pre-scale your workloads by running multiple instances (Pod replicas) of a single application. Running multiple Pod replicas for an application eliminates single points of failure and increases overall performance by reducing the resource strain on a single replica. However, to have both high availability and better fault tolerance for your applications, we recommend that you run multiple replicas of your application and spread the replicas across different failure domains, also referred to as topology domains. The failure domains in this scenario are the Availability Zones. By using https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/[topology spread constraints], you can set up your applications to have pre-existing, static stability. Then, when there's an AZ impairment, your environment will have enough replicas in healthy AZs to immediately handle any spikes or surges in traffic. 
 
-The diagram below depicts an EKS environment with east-to-west traffic flow when all AZs are healthy.
+The following diagram illustrates an EKS environment that has east-to-west traffic flow when all AZs are healthy.
 
 image::images/zs-spread-constraints.png[Illustration of network]
 
 
-The diagram below depicts an EKS environment with east-to-west traffic flow when a single AZ fails, and you initiate a zonal shift. 
+The following diagram illustrates an EKS environment that has east-to-west traffic flow where a single AZ has failed and you have started a zonal shift. 
 
 image::images/zs-spread-constraints-2.png[Illustration of network]
 
-The code snippet below is an example of how to setup your workload with this Kubernetes feature.
+The following code snippet is an example of how to set up your workload with multiple replicas in Kubernetes.
 
 [source,yaml]
 ----
@@ -122,9 +122,9 @@ spec:
 ----
 
 
-Most important, you should run multiple replicas of your DNS server software (CoreDNS/kube-dns) and apply similar topology spread constraints if they are not already configured by default. This will help ensure that you have enough DNS Pods in healthy AZs to continue handling service discovery requests for other communicating Pods in the cluster if there's a single AZ impairment. The <<managing-coredns,CoreDNS EKS add-on>> has default settings for the CoreDNS Pods to be spread across your cluster's Availability Zones if there are nodes in multiple AZs available. You can also replace these default settings with your own custom configurations.
+Most importantly, you should run multiple replicas of your DNS server software (CoreDNS/kube-dns) and apply similar topology spread constraints, if they are not configured by default. This helps to ensure that, if there's a single AZ impairment, you have enough DNS Pods in healthy AZs to continue handling service discovery requests for other communicating Pods in the cluster. The <<managing-coredns,CoreDNS EKS add-on>> has default settings for the CoreDNS Pods that ensure that, if there are nodes in multiple AZs available, they are spread across your cluster's Availability Zones. If you like, you can replace these default settings with your own custom configurations.
 
-When installing https://github.com/coredns/helm/tree/master[CoreDNS with Helm], you can update the `replicaCount` in the https://github.com/coredns/helm/blob/master/charts/coredns/values.yaml[values.yaml file] to ensure that you have a sufficient number of replicas in each AZ. In addition, to ensure that these replicas are spread across the different AZs in your cluster environment, you should update the `topologySpreadConstraints` property in the same values.yaml file. The code snippet below demonstrates how to configure CoreDNS for this. 
+When you install https://github.com/coredns/helm/tree/master[CoreDNS with Helm], you can update the `replicaCount` in the https://github.com/coredns/helm/blob/master/charts/coredns/values.yaml[values.yaml file] to ensure that you have sufficient replicas in each AZ. In addition, to ensure that these replicas are spread across the different AZs in your cluster environment, make sure that you update the `topologySpreadConstraints` property in the same `values.yaml` file. The following code snippet illustrates how you can configure CoreDNS to do this. 
 
 *CoreDNS Helm values.yaml*
 
@@ -141,7 +141,7 @@ topologySpreadConstraints:
 ----
 
 
-In the event of an AZ impairment, you can absorb the increased load on the CoreDNS Pods by using an autoscaling system for CoreDNS. The number of DNS instances you require will depend on the number of workloads running in your cluster. CoreDNS is CPU bound which allows it to scale based on CPU using the https://aws.github.io/aws-eks-best-practices/reliability/docs/application/#horizontal-pod-autoscaler-hpa[Horizontal Pod Autoscaler (HPA)]. Below is an example that you can modify to suit your needs.
+If there's an AZ impairment, you can absorb the increased load on the CoreDNS Pods by using an autoscaling system for CoreDNS. The number of DNS instances that you will require depends on the number of workloads that are running in your cluster. CoreDNS is CPU bound, which allows it to scale based on CPU by using the https://aws.github.io/aws-eks-best-practices/reliability/docs/application/#horizontal-pod-autoscaler-hpa[Horizontal Pod Autoscaler (HPA)]. The following is an example that you can modify to suit your needs.
 
 
 [source,yaml]
@@ -161,9 +161,9 @@ spec:
   targetCPUUtilizationPercentage: 50
 ----
 
-Alternatively, EKS can manage the autoscaling of the CoreDNS Deployment in the EKS add-on version of CoreDNS. This CoreDNS autoscaler continuously monitors the cluster state, including the number of nodes and CPU cores. Based on that information, the controller will dynamically adapt the number of replicas of the CoreDNS deployment in an EKS cluster.
+Alternatively, EKS can manage autoscaling of the CoreDNS deployment in the EKS add-on version of CoreDNS. This CoreDNS autoscaler continuously monitors the cluster state, including the number of nodes and CPU cores. Based on that information, the controller dynamically adjusts the number of replicas of the CoreDNS deployment in an EKS cluster.
 
-To enable the <<coredns-autoscaling,autoscaling configuration in the CoreDNS EKS add-on>>, you should add the following optional configuration settings:
+To enable the <<coredns-autoscaling,autoscaling configuration in the CoreDNS EKS add-on>>, use the following configuration setting:
 
 
 [source,json]
@@ -176,13 +176,13 @@ To enable the <<coredns-autoscaling,autoscaling configuration in the CoreDNS EKS
 ----
 
 
-You can also use https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/[NodeLocal DNS] or the https://github.com/kubernetes-sigs/cluster-proportional-autoscaler[cluster proportional autoscaler] to scale CoreDNS. You can read further about https://aws.github.io/aws-eks-best-practices/scalability/docs/cluster-services/#scale-coredns-horizontally[scaling CoreDNS horizontally here]. 
+You can also use https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/[NodeLocal DNS] or the https://github.com/kubernetes-sigs/cluster-proportional-autoscaler[cluster proportional autoscaler] to scale CoreDNS. For more information, see https://aws.github.io/aws-eks-best-practices/scalability/docs/cluster-services/#scale-coredns-horizontally[Scaling CoreDNS horizontally]. 
 
-=== Colocate Interdependent Pods in the Same AZ
+=== Colocate interdependent Pods in the same Availability Zone
 
-In most cases, you may be running distinct workloads that have to communicate with each other for successful execution of an end-to-end process. If the distinct applications are spread across different AZs but are not colocated in the same AZ, then a single AZ impairment may impact the underlying end-to-end process. For example, if *Application A* has multiple replicas in AZ 1 and AZ 2, but *Application B* has all its replicas in AZ 3, then the loss of AZ 3 will affect any end-to-end processes between these two workloads (*Application A and B*). Combining topology spread constraints with pod affinity can enhance your application's resiliency by spreading Pods across all AZs, as well as configuring a relationship between certain Pods to ensure that they're colocated together. 
+Typically, applications have distinct workloads that need to communicate with each other to successfully complete an end-to-end process. If these distinct applications are spread across different AZs and are not colocated in the same AZ, then a single AZ impairment can impact the end-to-end process. For example, if *Application A* has multiple replicas in AZ 1 and AZ 2, but *Application B* has all its replicas in AZ 3, then the loss of AZ 3 will affect end-to-end processes between the two workloads, *Application A* and *Application B*. If you combine topology spread constraints with pod affinity, you can enhance your application's resiliency by spreading Pods across all AZs. In addition, this configures a relationship between certain Pods to ensure that they're colocated. 
 
-With https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/[pod affinity rules], you can define relationships between workloads to influence the behavior of the Kubernetes Scheduler so that it colocates Pods on the same worker node or in the same AZ. You can also configure how strict these scheduling constraints should be. 
+With https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/[pod affinity rules], you can define relationships between workloads to influence the behavior of the Kubernetes Scheduler so that it colocates Pods on the same worker node or in the same AZ. You can also configure how strict the scheduling constraints should be. 
 
 
 [source,yaml]
@@ -210,48 +210,48 @@ metadata:
 ----
 
 
-The diagram below depicts pods that have been co-located on the same node using 
+The following diagram shows several pods that have been colocated on the same node by using 
 pod affinity rules.  
 
 image::images/zs-pod-affinity-rule.png[Illustration of network]
 
 
-=== Test That Your Cluster Environment Can Handle The Loss of an AZ
+=== Test that your cluster environment can handle the loss of an AZ
 
-After completing the above requirements, the next important step is to test that you have sufficient compute and workload capacity to handle the loss of an AZ. You can do this by manually triggering a zonal shift in EKS. Alternatively, you can enable zonal autoshift and configure practice runs to test that your applications function as expected with one less AZ in your cluster environment.
+After you complete the requirements described in the previous sections, the next step is to test that you have sufficient compute and workload capacity to handle the loss of an AZ. You can do this by manually starting a zonal shift in EKS. Alternatively, you can enable zonal autoshift and configure practice runs, which also test that your applications function as expected with one less AZ in your cluster environment.
 
 
-== Frequently Asked Questions
+== Frequently asked questions
 
 *Why should I use this feature?*
 
-By using ARC zonal shift or zonal autoshift in your EKS cluster, you can better maintain Kubernetes application availability by automating the quick recovery process of shifting in-cluster network traffic away from an impaired AZ. With ARC, you can avoid long and complicated steps which often lead to an extended recovery period during impaired AZ events. 
+By using ARC zonal shift or zonal autoshift in your EKS cluster, you can better maintain Kubernetes application availability by automating the quick recovery process of shifting in-cluster network traffic away from an impaired AZ. With ARC, you can avoid long, complicated steps that can lead to an extended recovery period during impaired AZ events. 
 
 *How does this feature work with other {aws} services?*
 
-EKS integrates with ARC which provides the primary interface for you to accomplish recovery operations in {aws}. To ensure that in-cluster traffic is appropriately routed away from an impaired AZ, modifications are made to the list of network endpoints for Pods running in the Kubernetes data plane. If you're using {aws} Load Balancers for routing external traffic into the cluster, you can already register your load balancers with ARC and trigger a zonal shift on them to prevent traffic flowing into the degraded zone. This feature also interacts with Amazon EC2 Auto Scaling Groups (ASG) that are created by EKS Managed Node Groups (MNG). To prevent an impaired AZ from being used for new Kubernetes Pods or node launches, EKS removes the impaired AZ from the ASG. 
+EKS integrates with ARC, which provides the primary interface for you to accomplish recovery operations in {aws}. To ensure that in-cluster traffic is appropriately routed away from an impaired AZ, EKS makes modifications to the list of network endpoints for Pods running in the Kubernetes data plane. If you're using Elastic Load Balancing to route external traffic into the cluster, you can register your load balancers with ARC and start a zonal shift on them to prevent traffic from flowing into the degraded AZ. Zonal shift also works with Amazon EC2 Auto Scaling groups that are created by EKS managed node groups. To prevent an impaired AZ from being used for new Kubernetes Pods or node launches, EKS removes the impaired AZ from the Auto Scaling groups. 
 
 *How is this feature different from default Kubernetes protections?*
 
-This feature works in tandem with several Kubernetes native built-in protections that help customers stay resilient. You can configure Pod readiness and liveness probes that decide when a Pod should take traffic. When these probes fail, Kubernetes removes these Pods as targets for a Service and traffic is no longer sent to the Pod. While this is useful, it's non-trivial for customers to configure these health checks so that they are guaranteed to fail when a zone is degraded. The ARC zonal shift feature provides you with an additional safety net that helps them isolate a degraded AZ entirely when Kubernetes' native protections have not sufficed. It also provides you with an easy way to test the operational readiness and resilience of your architecture. 
+This feature works in tandem with several Kubernetes built-in protections that help customer applications' resiliency. You can configure Pod readiness and liveness probes that decide when a Pod should take traffic. When these probes fail, Kubernetes removes these Pods as targets for a service, and traffic is no longer sent to the Pod. While this is useful, it's not simple for customers to configure these health checks so that they are guaranteed to fail when an AZ is degraded. The ARC zonal shift feature provides an additional safety net that helps you to isolate a degraded AZ entirely when Kubernetes' native protections were not enough. Zonal shift also gives you an easy way to test the operational readiness and resilience of your architecture. 
 
-*Can {aws} trigger a zonal shift on my behalf?*
+*Can {aws} start a zonal shift on my behalf?*
 
-Yes, if you want a fully automated way of using ARC zonal shift, you can enable ARC zonal autoshift. With zonal autoshift, you can rely on {aws} to monitor the health of the AZs for your EKS cluster, and to automatically trigger a shift when an AZ impairment is detected. 
+Yes, if you want a fully automated way of using ARC zonal shift, you can enable ARC zonal autoshift. With zonal autoshift, you can rely on {aws} to monitor the health of the AZs for your EKS cluster, and to automatically start a zonal shift when an AZ impairment is detected. 
 
 *What happens if I use this feature and my worker nodes and workloads are not pre-scaled?*
 
-If you are not pre-scaled and rely on provisioning additional nodes or Pods during a zonal shift, then you risk experiencing a delayed recovery. The process of adding new nodes to the Kubernetes data plane will take some time which can have implications on the real-time performance and availability of your applications, especially in the event of a zonal impairment. Additionally, in the event of a zonal impairment, you may encounter a potential compute capacity constraint which would prevent newly required nodes from being added to the healthy AZs. 
+If you are not pre-scaled and rely on provisioning additional nodes or Pods during a zonal shift, you risk a delayed recovery. The process of adding new nodes to the Kubernetes data plane takes some time, which can impact the real-time performance and availability of your applications, especially when there's a zonal impairment. Additionally, in the event of a zonal impairment, you may encounter a potential compute capacity constraint that could prevent newly required nodes from being added to the healthy AZs. 
 
-If your workloads are not pre-scaled and spread across all AZs in your cluster, a zonal impairment may impact the availability of an application that is only running on worker nodes in an impacted AZ. To mitigate the risk of a complete availability outage for your application, EKS has a fail safe for traffic to be sent to Pod endpoints in an impaired zone if that workload has all of its endpoints in the unhealthy AZ. However, it's strongly recommended that you rather pre-scale and spread your applications across all AZs to maintain availability in the event of a zonal issue. 
+If your workloads are not pre-scaled and spread across all AZs in your cluster, a zonal impairment might impact the availability of an application that is only running on worker nodes in an impacted AZ. To mitigate the risk of a complete availability outage for your application, EKS has a fail safe for traffic to be sent to Pod endpoints in an impaired zone if that workload has all of its endpoints in the unhealthy AZ. However, we strongly recommend that you pre-scale and spread your applications across all AZs to maintain availability in the event of a zonal issue. 
 
-*What happens if I'm running a stateful application?*
+*How does this work if I'm running a stateful application?*
 
-If you are running a stateful application, you will need to assess its fault tolerance depending on the use case and the architecture. If you have an active/standby architecture or pattern, there may be instances where the active is in an impaired AZ. At the application level, if the standby is not activated, you may run into issues with your application. You may also run into issues when new Kubernetes Pods are launched in healthy AZs since they will not be able to attach to the persistent volumes bounded to the impaired AZ. 
+If you are running a stateful application, you must assess its fault tolerance, based on your use case and architecture. If you have an active/standby architecture or pattern, there might be instances where the active is in an impaired AZ. At the application level, if the standby is not activated, you might run into issues with your application. You might also run into issues when new Kubernetes Pods are launched in healthy AZs, since they won't be able to attach to the persistent volumes bounded to the impaired AZ. 
 
 *Does this feature work with Karpenter?*
 
-Karpenter support is currently not available with ARC zonal shift and zonal autoshift in EKS. If an AZ is impaired, you can adjust the relevant Karpenter NodePool configuration by removing the unhealthy AZ so that new worker nodes are only launched in the healthy AZs. 
+Karpenter support is currently not available with ARC zonal shift and zonal autoshift in EKS. If an AZ is impaired, you can adjust the relevant Karpenter NodePool configuration by removing the unhealthy AZ so that new worker nodes are only launched in the other AZs. 
 
 *Does this feature work with EKS Fargate?*
 
@@ -259,13 +259,13 @@ This feature does not work with EKS Fargate. By default, when EKS Fargate recogn
 
 *Will the EKS managed Kubernetes control plane be impacted?*
 
-No, by default Amazon EKS runs and scales the Kubernetes control plane across multiple AZs to ensure high availability. ARC zonal shift and zonal autoshift will only act on the Kubernetes data plane. 
+No, by default Amazon EKS runs and scales the Kubernetes control plane across multiple AZs to ensure high availability. ARC zonal shift and zonal autoshift only act on the Kubernetes data plane. 
 
 *Are there any costs associated with this new feature?*
 
-You can use ARC zonal shift and zonal autoshift in your EKS cluster at no additional charge. However, you will continue to pay for provisioned instances and it is strongly recommended that you pre-scale your Kubernetes data plane before using this feature. You should consider the right balance between cost and application availability. 
+You can use ARC zonal shift and zonal autoshift in your EKS cluster at no additional charge. However, you will continue to pay for provisioned instances and we strongly recommended that you pre-scale your Kubernetes data plane before using this feature. You should consider a balance between cost and application availability. 
 
-== Additional Resources
+== Additional resources
 
 * link:r53recovery/latest/dg/arc-zonal-shift.how-it-works.html["How a zonal shift works",type="documentation"]
 * link:r53recovery/latest/dg/route53-arc-best-practices.zonal-shifts.html#zonalshift.route53-arc-best-practices.zonal-shifts["Best practices for zonal shifts in ARC",type="documentation"]
