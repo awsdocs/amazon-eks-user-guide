@@ -60,7 +60,8 @@ Pods will have access to the permissions that are assigned to the IAM role unles
 
 ====
 
-The following procedure shows you how to create an IAM role and attach the {aws} managed policy to it. To implement this procedure, you can use one of these tools:
+The following procedure shows you how to create an IAM role and attach the {aws} managed policy to it. Alternatively, you can create a self-managed policy with scoped-down permissions.
+To implement this procedure, you can use one of these tools:
 
 * <<eksctl_store_app_data>>
 * <<console_store_app_data>>
