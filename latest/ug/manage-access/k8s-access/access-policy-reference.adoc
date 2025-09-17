@@ -7,6 +7,15 @@ include::../../attributes.txt[]
 
 Access policies include `rules` that contain Kubernetes `verbs` (permissions) and `resources`. Access policies don't include IAM permissions or resources. Similar to Kubernetes `Role` and `ClusterRole` objects, access policies only include `allow` `rules`. You can't modify the contents of an access policy. You can't create your own access policies. If the permissions in the access policies don't meet your needs, then create Kubernetes RBAC objects and specify _group names_ for your access entries. For more information, see <<creating-access-entries>>. The permissions contained in access policies are similar to the permissions in the Kubernetes user-facing cluster roles. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles[User-facing roles] in the Kubernetes documentation.  
 
+[NOTE]
+====
+Starting on Kubernetes 1.31, Kubernetes uses the WebSocket protocol instead of SPDY for streaming. Following this transition, the subresources `pods/attach`, `pods/exec`, `pods/portforward`, `pods/proxy` and `nodes/proxy` were accessible through a `GET` with Upgrade header instead of only `CREATE`. 
+
+As a result, this allowed users with read-only access to be able to execute streaming commands, like `exec` and `port-forward`, exposing a significant security gap.
+
+In order to prevent this behavior, the only access policies with permissions for the subresources (`pods/attach`, `pods/exec`, `pods/portforward`, `pods/proxy` and `nodes/proxy`) are: `AmazonEKSAdminPolicy`, `AmazonEKSClusterAdminPolicy` and `AmazonEKSEditPolicy`
+====
+
 [#access-policies-cli-command]
 == List all policies
 Use any one of the access policies listed on this page, or retrieve a list of all available access policies using the {aws} CLI:
