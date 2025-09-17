@@ -66,6 +66,7 @@ The following procedure shows you how to create an IAM role and attach the {aws}
 * <<console_store_app_data>>
 * <<awscli_store_app_data>>
 
+NOTE: You can create a self-managed policy with scoped-down permissions. Review link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html[`AmazonEBSCSIDriverPolicy`,type="documentation"] and create a custom IAM Policy with reduced permissions. 
 
 [NOTE]
 ====
