@@ -262,7 +262,7 @@ This policy allows the service-linked role to call {aws} services on your behalf
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks.
 
-* *`ec2`* – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the cluster security group, and VPC that are required to create a cluster. For more information, see <<sec-group-reqs>>. Read information about security groups. Update tags on security groups. Read information about On-Demand Capacity Reservations.
+* *`ec2`* – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the cluster security group, and VPC that are required to create a cluster. For more information, see <<sec-group-reqs>>. Read information about security groups. Update tags on security groups. Read information about On-Demand Capacity Reservations. Read VPC configuration including route tables and network ACLs to detect configuration issues as part of cluster insights.
 * *`ec2` Auto Mode* – Terminate EC2 instances created by EKS Auto Mode. For more information, see <<automode>>. 
 * *`iam`* – List all of the managed policies that attached to an IAM role. This is required so that Amazon EKS can list and validate all managed policies and permissions required to create a cluster.
 * *Associate a VPC with a hosted zone* – This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server.
@@ -429,6 +429,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Change
 |Description
 |Date
+
+|Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>.
+|Added `ec2:DescribeRouteTables` and `ec2:DescribeNetworkAcls` permissions to `AmazonEKSServiceRolePolicy`. This allows Amazon EKS to detect configuration issues with VPC route tables and network ACLs for hybrid nodes as part of cluster insights.
+|Oct 22, 2025
 
 |Added permission to <<using-service-linked-roles-eks-connector,AWSServiceRoleForAmazonEKSConnector>>
 |Added `ssmmessages:OpenDataChannel` permission to `AmazonEKSConnectorServiceRolePolicy`

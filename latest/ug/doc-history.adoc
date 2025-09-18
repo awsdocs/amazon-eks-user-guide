@@ -19,6 +19,15 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+
+[.update,date="2025-10-22"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `ec2:DescribeRouteTables` and `ec2:DescribeNetworkAcls` permissions to `AmazonEKSServiceRolePolicy`. This allows Amazon EKS to detect configuration issues with VPC route tables and network ACLs for hybrid nodes as part of cluster insights.
+
+
 [.update,date="2025-10-15"]
 === Service linked role update
 [.update-ulink]
