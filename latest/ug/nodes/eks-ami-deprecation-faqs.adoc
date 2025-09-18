@@ -44,6 +44,15 @@ These distributions ship with kernel versions ≥5.8, which is the minimum requi
 You cannot run your full Neuron-powered applications natively on an AL2-based AMIs.
 To leverage {aws} Neuron on an AL2 AMI, you must containerize you applications using a Neuron-supported container with a non-AL2 Linux distribution (e.g., Ubuntu 22.04, Amazon Linux 2023, etc.) and then deploy those containers on an AL2-based AMI that has the Neuron Driver (`aws-neuronx-dkms`) installed.
 
+=== Should I switch to a bare Amazon Linux 2 base instance after the EKS AL2 AMI EOS date (November 26, 2025)? 
+
+Switching to a bare Amazon Linux 2 base instance lacks the specific optimizations, container runtime configurations, and customizations provided by the official EKS AL2-optimized and AL2-accelerated AMIs. Instead, if you must continue using an AL2-based solution, we recommend building a custom AMI using the EKS AMI recipes at <<eks-ami-build-scripts>> or https://github.com/awslabs/amazon-eks-ami[Amazon EKS AMI Build Specification]. This ensures compatibility with your existing workloads and includes AL2 kernel updates until the Amazon Linux 2 EOS date (June 30, 2026). 
+
+=== When building a custom AL2 AMI using the EKS AMI GitHub repository after the EKS AL2 AMI EOS date (November 26, 2025), what support is available for packages from repositories like amzn2-core and amzn2extra-docker? 
+
+The EKS AMI recipe at https://github.com/awslabs/amazon-eks-ami[Amazon EKS AMI Build Specification] pulls packages via YUM from standard Amazon Linux 2 software such as https://docs.aws.amazon.com/linux/al2/ug/managing-software.html[amzn2-core] and https://docs.aws.amazon.com/linux/al2/ug/managing-software.html[amzn2extra-docker]. After the EKS AL2 AMI EOS date (November 26, 2025), this software will continue to be supported until the broader Amazon Linux 2 EOS date (June 30, 2026). Note that support is limited to kernel updates during this period, meaning you will need to manually manage and apply other package updates, security patches, and any non-kernel dependencies to maintain security and compatibility. 
+
+
 == Compatibility and versions
 
 === Supported Kubernetes versions for AL2 AMIs
