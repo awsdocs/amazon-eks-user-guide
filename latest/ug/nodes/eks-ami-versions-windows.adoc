@@ -54,6 +54,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
+|`1.33-2025.09.13`
+|`1.33.4`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
+
 |`1.33-2025.08.18`
 |`1.33.3`
 |`1.7.27`
@@ -89,6 +95,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.32-2025.09.13`
+|`1.32.8`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.32-2025.08.18`
 |`1.32.7`
@@ -149,6 +161,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.31-2025.09.13`
+|`1.31.12`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.31-2025.08.18`
 |`1.31.11`
@@ -245,6 +263,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.30-2025.09.13`
+|`1.30.14`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.30-2025.08.18`
 |`1.30.14`
@@ -359,6 +383,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.29-2025.09.13`
+|`1.29.15`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.29-2025.08.18`
 |`1.29.15`
@@ -503,6 +533,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.28-2025.09.13`
+|`1.28.15`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.28-2025.08.18`
 |`1.28.15`
@@ -681,6 +717,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
+|`1.33-2025.09.13`
+|`1.33.4`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
+
 |`1.33-2025.08.18`
 |`1.33.3`
 |`1.7.27`
@@ -716,6 +758,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.32-2025.09.13`
+|`1.32.8`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.32-2025.08.18`
 |`1.32.7`
@@ -777,6 +825,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.31-2025.09.13`
+|`1.31.12`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.31-2025.08.18`
 |`1.31.11`
@@ -874,6 +928,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.30-2025.09.13`
+|`1.30.14`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.30-2025.08.18`
 |`1.30.14`
@@ -989,6 +1049,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.29-2025.09.13`
+|`1.29.15`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.29-2025.08.18`
 |`1.29.15`
@@ -1134,6 +1200,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.28-2025.09.13`
+|`1.28.15`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.28-2025.08.18`
 |`1.28.15`
@@ -1314,6 +1386,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
+|`1.33-2025.09.13`
+|`1.33.4`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
+
 |`1.33-2025.08.18`
 |`1.33.3`
 |`1.7.27`
@@ -1349,6 +1427,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.32-2025.09.13`
+|`1.32.8`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.32-2025.08.18`
 |`1.32.7`
@@ -1409,6 +1493,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.31-2025.09.13`
+|`1.31.12`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.31-2025.08.18`
 |`1.31.11`
@@ -1506,6 +1596,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.30-2025.09.13`
+|`1.30.14`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.30-2025.08.18`
 |`1.30.14`
@@ -1621,6 +1717,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.29-2025.09.13`
+|`1.29.15`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.29-2025.08.18`
 |`1.29.15`
@@ -1766,6 +1868,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.28-2025.09.13`
+|`1.28.15`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.28-2025.08.18`
 |`1.28.15`
@@ -1945,6 +2053,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
+|`1.33-2025.09.13`
+|`1.33.4`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
+
 |`1.33-2025.08.18`
 |`1.33.3`
 |`1.7.27`
@@ -1980,6 +2094,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.32-2025.09.13`
+|`1.32.8`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.32-2025.08.18`
 |`1.32.7`
@@ -2041,6 +2161,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.31-2025.09.13`
+|`1.31.12`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.31-2025.08.18`
 |`1.31.11`
@@ -2138,6 +2264,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.30-2025.09.13`
+|`1.30.14`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.30-2025.08.18`
 |`1.30.14`
@@ -2253,6 +2385,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.29-2025.09.13`
+|`1.29.15`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.29-2025.08.18`
 |`1.29.15`
@@ -2398,6 +2536,12 @@ The following tables list the current and previous versions of the Amazon EKS op
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.28-2025.09.13`
+|`1.28.15`
+|`1.7.28`
+|`1.2.1`
+|Changed GMSA plugin logs to Windows Events
 
 |`1.28-2025.08.18`
 |`1.28.15`
