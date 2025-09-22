@@ -19,6 +19,15 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+
+[.update,date="2025-09-22"]
+=== Configurable node auto repair
+[.update-ulink]
+link:eks/latest/userguide/node-health.html[type="documentation"]
+
+Amazon EKS now provides more granular control over the node auto repair behavior.
+
+
 [.update,date="2025-08-27"]
 === Refresh cluster insights
 [.update-ulink]
