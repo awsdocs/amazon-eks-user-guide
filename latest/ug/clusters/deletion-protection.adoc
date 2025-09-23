@@ -21,13 +21,13 @@ NOTE: If the cluster state is creating, failed, or deleting, you can delete the 
 You can only run this on a cluster in the active status. 
 
 ```
-aws eks update-cluster-config --name YOUR_CLUSTER_NAME --region YOUR_REGION --deletion-protection
+aws eks update-cluster-config --name <cluster-name> --region <aws-region> --deletion-protection
 ```
 
 ## To disable deletion protection for an existing cluster
 
 ```
-aws eks update-cluster-config --name YOUR_CLUSTER_NAME --region YOUR_REGION --no-deletion-protection
+aws eks update-cluster-config --name <cluster-name> --region <aws-region> --no-deletion-protection
 ```
 
 
