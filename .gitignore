@@ -80,3 +80,5 @@ build
 vale/styles/AsciiDoc/
 vale/styles/RedHat/
 .amazonq/
+
+tcx5_waivers_output/
