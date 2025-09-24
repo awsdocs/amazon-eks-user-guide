@@ -63,6 +63,9 @@ The following community add-ons are compatible with Amazon EKS Hybrid Nodes. To 
 
 |kube-state-metrics
 |v2.15.0-eksbuild.4 and above
+
+|External DNS
+|v0.19.0-eksbuild.1 and above
 |===
 
 In addition to the Amazon EKS add-ons in the tables above, the <<prometheus,Amazon Managed Service for Prometheus Collector>>, and the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> for <<alb-ingress,application ingress>> (HTTP) and <<network-load-balancing,load balancing>> (TCP/UDP) are compatible with hybrid nodes.
