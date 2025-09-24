@@ -40,10 +40,10 @@ The Cluster IAM role of an EKS Cluster cannot be changed after the cluster is cr
 . From the *Trust relationships* tab, select *Edit trust policy*
 . Insert the following Cluster IAM Role trust policy, and select *Update policy*
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow",

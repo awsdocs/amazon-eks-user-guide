@@ -1,3 +1,5 @@
+:tcx5-waiver: pass:[		 	 	 ]
+
 // eksctl version
 :eksctl-min-version: 0.214.0
 

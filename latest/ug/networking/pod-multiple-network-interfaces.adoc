@@ -41,7 +41,7 @@ If the multi-NIC feature is enabled, the VPC CNI doesn't assign IP addresses in 
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Sid": "AmazonEKSCNIPolicyIPv6MultiNIC",

@@ -126,9 +126,10 @@ The following CLI instructions cover creating IAM resources and creating the clu
 
 Create a trust policy that allows the Amazon EKS service to assume the role. Save the policy as `trust-policy.json`:
 
-```
+[source,json,subs="verbatim,attributes"]
+----
 {
-  "Version": "2012-10-17",
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow", 
@@ -142,7 +143,7 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
     }
   ]
 }
-```
+----
 
 ==== Step 2: Create the IAM Role
 
@@ -217,9 +218,10 @@ aws iam attach-role-policy \
 
 Create a trust policy that allows the Amazon EKS service to assume the role. Save the policy as `node-trust-policy.json`:
 
-```
+[source,json,subs="verbatim,attributes"]
+----
 {
-  "Version": "2012-10-17",
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow",
@@ -230,7 +232,7 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
     }
   ]
 }
-```
+----
 
 ==== Step 2: Create the Node IAM Role
 

@@ -23,7 +23,7 @@ You can use the following procedure to check and see if your account already has
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",
@@ -50,7 +50,7 @@ You can use the {aws-management-console} or {aws} CloudFormation to create the c
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",
@@ -69,7 +69,7 @@ You can use the {aws-management-console} or {aws} CloudFormation to create the c
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Sid": "SsmControlChannel",

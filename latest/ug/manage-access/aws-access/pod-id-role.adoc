@@ -13,7 +13,7 @@ Learn how to configure the IAM trust policy for Amazon EKS Pod Identity to allow
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",
@@ -44,7 +44,7 @@ For example, you can restrict which pods can assume the role a Pod Identity IAM 
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",

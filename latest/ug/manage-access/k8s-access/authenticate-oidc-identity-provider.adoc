@@ -107,7 +107,7 @@ If you want to prevent an OIDC identity provider from being associated with a cl
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Sid": "denyOIDC",
@@ -135,7 +135,7 @@ The following example policy allows OIDC identity provider association if the `c
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Sid": "AllowCognitoOnly",

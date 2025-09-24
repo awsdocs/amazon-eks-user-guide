@@ -113,7 +113,7 @@ To enable trusted access between EKS Dashboard and {aws} Organizations, you need
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",
@@ -139,10 +139,10 @@ To enable trusted access between EKS Dashboard and {aws} Organizations, you need
 
 To register or deregister a delegated administrator for the EKS Dashboard, you need the following permissions:
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",
@@ -160,10 +160,10 @@ To register or deregister a delegated administrator for the EKS Dashboard, you n
 [#eks-dashboard-view-policy]
 === Policy to view EKS Dashboard
 
-[source,json]
+[source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Sid": "AmazonEKSDashboardReadOnly",
