@@ -198,7 +198,6 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
     }
   ]
 }
-----[source,json,subs="verbatim,attributes"]
 ----
 
 ==== Step 2: Create the Node IAM Role

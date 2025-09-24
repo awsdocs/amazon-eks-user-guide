@@ -49,7 +49,7 @@ In this example, Account B creates an IAM policy with the permissions to give to
     {
       "Effect": "Allow",
       "Principal": {
-        "{aws}": "{arn-aws}iam::111122223333:root"
+        "AWS": "{arn-aws}iam::111122223333:root"
       },
       "Action": "sts:AssumeRole",
       "Condition": {}

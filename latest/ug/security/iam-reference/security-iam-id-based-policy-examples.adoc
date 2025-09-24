@@ -184,7 +184,7 @@ This example policy includes the minimum permissions required to create an Amazo
             "Action": [
                 "iam:PassRole",
                 "iam:ListAttachedRolePolicies"
-            ]
+            ],
             "Resource": "{arn-aws}iam::111122223333:role/cluster-role-name"
         },
         {
@@ -198,7 +198,7 @@ This example policy includes the minimum permissions required to create an Amazo
             ],
             "Resource": "{arn-aws}iam::*:instance-profile/eks-local-*",
             "Effect": "Allow"
-        },
+        }
     ]
 }
 ----

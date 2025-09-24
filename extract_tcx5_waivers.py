@@ -61,11 +61,13 @@ def extract_waiver_content(file_path):
             # Extract the content between the markers (excluding the markers themselves)
             extracted_content = lines[start_line_idx + 1:end_line_idx]
             
-            # Remove {tcx5-waiver} from the extracted content
+            # Remove {tcx5-waiver} from the extracted content and filter out lines starting with "cat >" or "EOF"
             cleaned_content = []
             for line in extracted_content:
                 cleaned_line = line.replace('{tcx5-waiver}', '')
-                cleaned_content.append(cleaned_line)
+                # Skip lines that begin with "cat >" or "EOF"
+                if not cleaned_line.strip().startswith(("cat >", "EOF")):
+                    cleaned_content.append(cleaned_line)
             
             results.append({
                 'file': str(file_path),
