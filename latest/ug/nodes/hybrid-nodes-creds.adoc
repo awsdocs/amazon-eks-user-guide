@@ -393,7 +393,7 @@ aws iam attach-role-policy \
 
 *Create EKS Describe Cluster Policy*
 
-. Open the link:iam/home#/clusters[Amazon IAM console,type="console"]
+. Open the link:iam/home[Amazon IAM console,type="console"]
 . In the left navigation pane, choose *Policies*.
 . On the *Policies* page, choose *Create policy*.
 . On the Specify permissions page, in the Select a service panel, choose EKS.
@@ -405,7 +405,7 @@ aws iam attach-role-policy \
 
 *Steps for {aws} SSM hybrid activations*
 
-. Open the link:iam/home#/clusters[Amazon IAM console,type="console"] 
+. Open the link:iam/home[Amazon IAM console,type="console"]
 . In the left navigation pane, choose *Policies*.
 . On the *Policies page*, choose *Create policy*.
 . On the *Specify permissions* page, in the *Policy editor* top right navigation, choose *JSON*. Paste the following snippet. Replace `AWS_REGION` with the {aws} Region of your {aws} SSM hybrid activation and replace `AWS_ACCOUNT_ID` with your {aws} account ID. Replace `TAG_KEY` and `TAG_VALUE` with the {aws} SSM resource tag key you used when creating your {aws} SSM hybrid activation.
@@ -483,7 +483,7 @@ aws iam attach-role-policy \
 
 To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere trust anchor before creating the Hybrid Nodes IAM Role. See <<hybrid-nodes-iam-roles-anywhere>> for instructions.
 
-. Open the link:iam/home#/clusters[Amazon IAM console,type="console"] 
+. Open the link:iam/home[Amazon IAM console,type="console"]
 . In the left navigation pane, choose *Roles*.
 . On the *Roles* page, choose *Create role*.
 . On the *Select trusted entity* page, do the following:

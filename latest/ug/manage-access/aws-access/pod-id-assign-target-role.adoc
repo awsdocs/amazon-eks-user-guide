@@ -1,4 +1,5 @@
 include::../../attributes.txt[]
+
 [.topic]
 [#pod-id-assign-target-role]
 = Access {aws} Resources using EKS Pod Identity Target IAM Roles
@@ -34,7 +35,7 @@ In this step, you will establish a secure trust chain by creating and configurin
 
 === Create the Target IAM Role
 
-1. Open the link:iam/home#/clusters[Amazon IAM console,type="console"].
+1. Open the link:iam/home[Amazon IAM console,type="console"].
 2. In the top navigation bar, verify that you are signed into the account containing the {aws} resources (like S3 buckets or DynamoDB tables) for your Target IAM Role.
 3. In the left navigation pane, choose *Roles*.
 4. Choose the *Create role* button, then *{aws} account* under "Trusted entity type."
