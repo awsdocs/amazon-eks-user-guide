@@ -170,7 +170,7 @@ Run the following commands to create an IAM role with {aws} CLI.
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",{tcx5-waiver}
+    "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
     "Statement": [
         {
             "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",
@@ -239,7 +239,7 @@ If the output from the command is `None`, review the *Prerequisites*.
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",{tcx5-waiver}
+  "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow",

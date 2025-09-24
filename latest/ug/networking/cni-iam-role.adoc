@@ -109,7 +109,7 @@ If no output is returned, then you must <<enable-iam-roles-for-service-accounts,
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",{tcx5-waiver}
+    "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",
@@ -240,7 +240,7 @@ If you created a cluster that uses the `IPv6` family and the cluster has version
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",{tcx5-waiver}
+    "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",
