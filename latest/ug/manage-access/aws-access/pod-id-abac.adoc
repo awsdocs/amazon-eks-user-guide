@@ -18,7 +18,7 @@ Below is an IAM policy example that grants `s3:GetObject` permissions when the c
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",

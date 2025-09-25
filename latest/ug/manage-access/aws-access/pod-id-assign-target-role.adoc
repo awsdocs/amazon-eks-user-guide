@@ -52,7 +52,7 @@ In this step, you will establish a secure trust chain by creating and configurin
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow",
@@ -83,7 +83,7 @@ If you link:eks/latest/userguide/pod-id-abac.html#pod-id-abac-tags["Disabled Ses
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow",
@@ -127,7 +127,7 @@ In this step, you will update the permission policy of the link:eks/latest/userg
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",

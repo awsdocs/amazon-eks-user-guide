@@ -44,7 +44,7 @@ If you already have a cluster IAM role, or you're going to create your cluster w
 ----
 cat >eks-cluster-role-trust-policy.json <<EOF
 {
-  "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow",

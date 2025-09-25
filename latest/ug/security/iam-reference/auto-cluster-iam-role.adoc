@@ -36,7 +36,7 @@ You can use the following procedure to check and see if your account already has
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow", 
@@ -88,7 +88,7 @@ You can use the {aws-management-console} or the {aws} CLI to create the cluster 
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow", 

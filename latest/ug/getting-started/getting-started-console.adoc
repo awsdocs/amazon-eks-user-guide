@@ -70,7 +70,7 @@ TIP: For a list of all the resources the previous command creates, open the {aws
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow",
@@ -184,7 +184,7 @@ To learn more about different ways to configure nodes in EKS, see <<eks-compute>
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow",

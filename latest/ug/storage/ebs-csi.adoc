@@ -96,7 +96,7 @@ eksctl create iamserviceaccount \
 [source,json,subs="verbatim,attributes"]
 ----
 {
-      "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+      "Version": "2012-10-17",{tcx5-waiver}
       "Statement": [
         {
           "Effect": "Allow",
@@ -189,7 +189,7 @@ Add a comma to the end of the previous line, and then add the following line aft
 [source,json,subs="verbatim,attributes"]
 ----
 {
-      "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+      "Version": "2012-10-17",{tcx5-waiver}
       "Statement": [
         {
           "Effect": "Allow",
@@ -251,7 +251,7 @@ https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
 [source,json,subs="verbatim,attributes"]
 ----
 {
-      "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+      "Version": "2012-10-17",{tcx5-waiver}
       "Statement": [
         {
           "Effect": "Allow",
@@ -292,7 +292,7 @@ aws iam attach-role-policy \
 [source,json,subs="verbatim,attributes"]
 ----
 {
-      "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+      "Version": "2012-10-17",{tcx5-waiver}
       "Statement": [
         {
           "Effect": "Allow",
