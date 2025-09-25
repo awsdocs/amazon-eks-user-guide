@@ -44,7 +44,7 @@ In this example, Account B creates an IAM policy with the permissions to give to
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+  "Version": "2012-10-17",
   "Statement": [
     {
       "Effect": "Allow",
@@ -63,7 +63,7 @@ Account A creates a role with a trust policy that gets credentials from the iden
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+  "Version": "2012-10-17",
   "Statement": [
     {
       "Effect": "Allow",
@@ -81,7 +81,7 @@ Account A attaches a policy to that role with the following permissions to assum
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",&TCX5-2025-waiver;{tcx5-waiver}
+    "Version": "2012-10-17",
     "Statement": [
         {
             "Effect": "Allow",
