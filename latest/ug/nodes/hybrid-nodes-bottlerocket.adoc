@@ -40,6 +40,7 @@ cluster-certificate = "<cluster-certificate-authority>"
 hostname-override = "<hostname>"
 provider-id = "eks-hybrid:///<region>/<cluster-name>/<hostname>"
 authentication-mode = "aws"
+cloud-provider = ""
 
 [settings.network]
 hostname = "<hostname>"
@@ -104,6 +105,7 @@ cluster-certificate = "<cluster-certificate-authority>"
 hostname-override = "<hostname>"
 provider-id = "eks-hybrid:///<region>/<cluster-name>/<hostname>"
 authentication-mode = "aws"
+cloud-provider = ""
 
 [settings.network]
 hostname = "<hostname>"
