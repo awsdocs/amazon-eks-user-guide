@@ -16,35 +16,6 @@ import time
 # Output file for validation results
 OUTPUT_FILE = "json_policy_validation_results.txt"
 
-# Dictionary of placeholders and their replacements
-PLACEHOLDERS = {
-    '{arn-aws}': 'arn:aws:',
-    '<account-id>': '123456789012',
-    '{aws}': 'aws',
-    '<aws-region>': 'us-east-1',
-    'AWS_REGION': 'us-east-1',
-    'region-code': 'us-east-1',
-    'AWS_ACCOUNT_ID': '123456789012',
-    'TRUST_ANCHOR_ARN': 'arn:aws:rolesanywhere:us-east-1:123456789012:trust-anchor/TA_ID',
-    'TRUST_ANCHOR_ID': 'arn:aws:rolesanywhere:us-east-1:123456789012:trust-anchor/TA_ID',
-    'custom-key-arn': 'arn:aws:kms:us-east-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab',
-    '<111122223333>': '123456789012',
-    '<region-code>': 'us-east-1',
-    '<EXAMPLED539D4633E53DE1B71EXAMPLE>': 'EXAMPLED539D4633E53DE1B71EXAMPLE',
-    '$account_id': '123456789012',
-}
-
-def preprocess_policy(policy_content):
-    """
-    Process a policy string, replace placeholders with valid values.
-    """
-    # Replace all placeholders using the dictionary
-    processed_content = policy_content
-    for placeholder, replacement in PLACEHOLDERS.items():
-        processed_content = processed_content.replace(placeholder, replacement)
-    
-    return processed_content
-
 def detect_policy_type(policy_content):
     """
     Detect if a policy is a resource policy or an identity policy.
@@ -187,20 +158,8 @@ def process_policy(policy_content, source_file, policy_index=1):
     output.append(f"File: {rel_path}")
     output.append("-" * 80)
     
-    # Check if the policy contains any placeholders using the dictionary keys
-    found_placeholders = [placeholder for placeholder in PLACEHOLDERS if placeholder in policy_content]
-    
-    if found_placeholders:
-        output.append("Note: Replaced placeholders for validation:")
-        for placeholder in found_placeholders:
-            output.append(f"  - {placeholder} → {PLACEHOLDERS[placeholder]}")
-        output.append("")
-    
-    # Preprocess the policy
-    processed_policy = preprocess_policy(policy_content)
-    
-    # Validate the processed policy
-    result = validate_policy(processed_policy)
+    # Validate the policy
+    result = validate_policy(policy_content)
     
     policy_type = result.get("policy_type", "UNKNOWN")
     output.append(f"Policy Type: {policy_type}")

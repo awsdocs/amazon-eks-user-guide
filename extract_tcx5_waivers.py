@@ -5,6 +5,35 @@ import re
 import sys
 from pathlib import Path
 
+# Dictionary of placeholders and their replacements
+PLACEHOLDERS = {
+    '{arn-aws}': 'arn:aws:',
+    '<account-id>': '123456789012',
+    '{aws}': 'aws',
+    '<aws-region>': 'us-east-1',
+    'AWS_REGION': 'us-east-1',
+    'region-code': 'us-east-1',
+    'AWS_ACCOUNT_ID': '123456789012',
+    'TRUST_ANCHOR_ARN': 'arn:aws:rolesanywhere:us-east-1:123456789012:trust-anchor/TA_ID',
+    'TRUST_ANCHOR_ID': 'arn:aws:rolesanywhere:us-east-1:123456789012:trust-anchor/TA_ID',
+    'custom-key-arn': 'arn:aws:kms:us-east-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab',
+    '<111122223333>': '123456789012',
+    '<region-code>': 'us-east-1',
+    '<EXAMPLED539D4633E53DE1B71EXAMPLE>': 'EXAMPLED539D4633E53DE1B71EXAMPLE',
+    '$account_id': '123456789012',
+}
+
+def preprocess_policy(policy_content):
+    """
+    Process a policy string, replace placeholders with valid values.
+    """
+    # Replace all placeholders using the dictionary
+    processed_content = policy_content
+    for placeholder, replacement in PLACEHOLDERS.items():
+        processed_content = processed_content.replace(placeholder, replacement)
+    
+    return processed_content
+
 def find_adoc_files(root_dir):
     """Find all .adoc files in the given directory recursively."""
     return list(Path(root_dir).glob('**/*.adoc'))
@@ -108,11 +137,21 @@ def main():
             output_filename = f"{base_filename}_waiver_{i+1}.json"
             output_path = os.path.join(output_dir, output_filename)
             
-            # Write the raw content directly to the file
-            with open(output_path, 'w', encoding='utf-8') as f:
-                # Join the lines with newlines to preserve the original format
-                raw_content = '\n'.join(waiver['raw_content'])
-                f.write(raw_content)
+            # Check if the content contains any placeholders
+            raw_content = '\n'.join(waiver['raw_content'])
+            found_placeholders = [placeholder for placeholder in PLACEHOLDERS if placeholder in raw_content]
+            
+            if found_placeholders:
+                print(f"Found placeholders in {output_filename}: {', '.join(found_placeholders)}")
+                # Replace placeholders with their values
+                processed_content = preprocess_policy(raw_content)
+                # Write the processed content to the file
+                with open(output_path, 'w', encoding='utf-8') as f:
+                    f.write(processed_content)
+            else:
+                # Write the raw content directly to the file
+                with open(output_path, 'w', encoding='utf-8') as f:
+                    f.write(raw_content)
     
     print(f"Extraction complete. Found {total_waivers} instances of {{tcx5-waiver}} across {len(adoc_files)} files.")
     print(f"JSON files have been saved to the '{output_dir}' directory.")
