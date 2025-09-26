@@ -331,6 +331,9 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
                 "sts:SetSourceIdentity"
             ],
             "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalTag/x509Subject/CN": "${aws:PrincipalTag/x509Subject/CN}"
+                },
                 "ArnEquals": {
                     "aws:SourceArn": "TRUST_ANCHOR_ARN"
                 }
@@ -344,7 +347,8 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
             "Action": "sts:AssumeRole",
             "Condition": {
                 "StringEquals": {
-                    "sts:RoleSessionName": "${aws:PrincipalTag/x509Subject/CN}"
+                    "sts:RoleSessionName": "${aws:PrincipalTag/x509Subject/CN}",
+                    "aws:PrincipalTag/x509Subject/CN": "${aws:PrincipalTag/x509Subject/CN}"
                 },
                 "ArnEquals": {
                     "aws:SourceArn": "TRUST_ANCHOR_ARN"
@@ -500,6 +504,9 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
                 "sts:SetSourceIdentity"
             ],
             "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalTag/x509Subject/CN": "${aws:PrincipalTag/x509Subject/CN}"
+                },
                 "ArnEquals": {
                     "aws:SourceArn": "TRUST_ANCHOR_ARN"
                 }
@@ -513,7 +520,8 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
             "Action": "sts:AssumeRole",
             "Condition": {
                 "StringEquals": {
-                    "sts:RoleSessionName": "${aws:PrincipalTag/x509Subject/CN}"
+                    "sts:RoleSessionName": "${aws:PrincipalTag/x509Subject/CN}",
+                    "aws:PrincipalTag/x509Subject/CN": "${aws:PrincipalTag/x509Subject/CN}"
                 },
                 "ArnEquals": {
                     "aws:SourceArn": "TRUST_ANCHOR_ARN"

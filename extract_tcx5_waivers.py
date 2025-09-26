@@ -21,6 +21,9 @@ PLACEHOLDERS = {
     '<region-code>': 'us-east-1',
     '<EXAMPLED539D4633E53DE1B71EXAMPLE>': 'EXAMPLED539D4633E53DE1B71EXAMPLE',
     '$account_id': '123456789012',
+    '<Namespace>': 'Namespace',
+    '<ServiceAccount>': 'ServiceAccount',
+    '<us-east-1>': 'us-east-1'
 }
 
 def preprocess_policy(policy_content):
