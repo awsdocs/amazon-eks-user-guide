@@ -52,6 +52,19 @@ Switching to a bare Amazon Linux 2 base instance lacks the specific optimization
 
 The EKS AMI recipe at https://github.com/awslabs/amazon-eks-ami[Amazon EKS AMI Build Specification] pulls packages via YUM from standard Amazon Linux 2 software such as https://docs.aws.amazon.com/linux/al2/ug/managing-software.html[amzn2-core] and https://docs.aws.amazon.com/linux/al2/ug/managing-software.html[amzn2extra-docker]. After the EKS AL2 AMI EOS date (November 26, 2025), this software will continue to be supported until the broader Amazon Linux 2 EOS date (June 30, 2026). Note that support is limited to kernel updates during this period, meaning you will need to manually manage and apply other package updates, security patches, and any non-kernel dependencies to maintain security and compatibility. 
 
+=== Why might Java applications using older versions of JDK8 on Amazon EKS with AL2023 experience Out of Memory (OOM) exceptions and pod restarts, and how can this be resolved?
+
+When running on Amazon EKS nodes with AL2023, Java applications relying on JDK 8 versions prior to https://quip-amazon.com/alUNAs0iDb66/bugs.openjdk.org/browse/JDK-8230305[jdk8u372] can cause OOM exceptions and pod restarts because the JVM is not compatible with `cgroupv2`. This issue arises specifically from the JVM's inability to detect container memory limits using `cgroupv2`, the default in Amazon Linux 2023. As a result, it bases heap allocation on the node's total memory rather than the pod's defined limit. This stems from `cgroupv2` changing the storage location for memory limit data, causing older Java versions to misread available memory and assume node-level resources. A few possible options include:
+
+* **Upgrade JDK version**: Upgrading to `jdk8u372` or later, or to a newer JDK version with full `cgroupv2` support, can resolve this issue. For a list of compatible Java versions that fully support `cgroupv2`, see https://kubernetes.io/docs/concepts/architecture/cgroups/[About cgroup v2]. 
+* **Build a custom AMI**: If you must continue using an AL2-based solution, you can build a custom AL2-based AMI (until November 26, 2025) using <<eks-ami-build-scripts>> or https://github.com/awslabs/amazon-eks-ami[Amazon EKS AMI Build Specification]. For example, you can build an AL2-based v1.33 AMI (until November 26, 2025). Amazon EKS will provide AL2-based AMIs until the EKS AL2 EOS date (November 26, 2025). After the EOS date (November 26, 2025), you will need to build your own AMI.
+* **Enable cgroupv1**: If you must continue using `cgroupv1`, you can enable `cgroupv1` on an EKS AL2023 AMI. To enable, run `sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"` and reboot the system (e.g., EC2 instance or node running Amazon Linux 2023). This will modify the boot parameters for the system (e.g., by adding the kernel parameter 'systemd.unified_cgroup_hierarchy=0' to the GRUB configuration, which instructs systemd to use the legacy `cgroupv1` hierarchy) and enable `cgroupv1`. Note that when you run this grubby command, you are reconfiguring the kernel to launch with `cgroupv1` enabled and `cgroupv2` disabled. Only one of these cgroup versions is used for active resource management on a node. This is not the same as running `cgroupv2` with backwards compatibility for the `cgroupv1` API. 
+
+[WARNING]
+====
+We do not recommend the continued use of `cgroupv1`. Instead, we recommend migrating to `cgroupv2`. The Kubernetes community moved `cgroupv1` support (used by AL2) into maintenance mode, meaning no new features or updates will be added and only critical security and major bug fixes will be provided. The full removal of `cgroupv1` support is expected in a future release, though a specific date for this full removal has not yet been announced. If you experience issues with `cgroupv1`, AWS will be unable to provide support and recommend that you upgrade to `cgroupv2`.
+====
+
 
 == Compatibility and versions
 
