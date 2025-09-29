@@ -12,6 +12,37 @@ This topic gives important changes to be aware of for each Kubernetes version in
 
 This topic gives important changes to be aware of for each Kubernetes version in standard support. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster.
 
+[#kubernetes-1-34]
+== Kubernetes 1.34
+ 
+Kubernetes `1.34` is now available in Amazon EKS. For more information about Kubernetes `1.34`, see the https://kubernetes.io/blog/2025/08/27/kubernetes-v1-34-release/[official release announcement].
+ 
+[IMPORTANT]
+====
+* Containerd updated to 2.1 in Version 1.34 for launch.
+** If you experience any issues after upgrade, check the link:https://github.com/containerd/containerd/releases/tag/v2.1.0[containerd 2.1 release notes].
+* {aws} is not releasing an EKS-optimized Amazon Linux 2 AMI for Kubernetes 1.34.
+** {aws} encourages you to migrate to Amazon Linux 2023. Learn how to <<al2023>>.
+** For more information, see <<al2-ami-deprecation>>.
+* AppArmor is deprecated in Kubernetes 1.34.
+** We recommend migrating to alternative container security solutions like link:https://kubernetes.io/docs/tutorials/security/seccomp/[seccomp] or link:https://kubernetes.io/docs/concepts/security/pod-security-standards/[Pod Security Standards].
+* VolumeAttributesClass (VAC) graduates to GA in Kubernetes 1.34 and only supports the GA version.
+** Clusters running 1.33 or older (using the beta API) with the latest EBS CSI driver may experience VolumeModification failures.
+** {aws} is patching the EBS CSI sidecars to support both beta and GA versions until the end of EKS 1.33 standard support.
+** For EBS CSI driver compatibility, ensure you're using version 1.50 or later with Kubernetes 1.34.
+
+====
+
+* *Dynamic Resource Allocation (DRA) Core APIs (GA):* Dynamic Resource Allocation has graduated to stable, enabling efficient management of specialized hardware like GPUs through standardized allocation interfaces - simplifying resource management for hardware accelerators and improving utilization of specialized resources.
+* *Projected ServiceAccount Tokens for Kubelet (Beta):* This enhancement improves security by using short-lived credentials for container image pulls instead of long-lived secrets - reducing the risk of credential exposure and strengthening the overall security posture of your clusters.
+* *Pod-level Resource Requests and Limits (Beta):* This feature simplifies resource management by allowing shared resource pools for multi-container pods - enabling more efficient resource allocation and utilization for complex applications with multiple containers.
+* *Deprecation Notice - cgroup driver configuration:* Manual cgroup driver configuration is being deprecated in favor of automatic detection.
+** *Customer impact:* If you currently set the `--cgroup-driver` flag manually in your kubelet configuration, you should prepare to remove this configuration.
+** *Required action:* Plan to update node bootstrap scripts and custom AMI configurations to remove manual cgroup driver settings before the feature is removed in a future Kubernetes release.
+** For more information, see the link:https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/[cgroup driver documentation].
+ 
+For the complete Kubernetes `1.34` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.34.md
+
 
 [#kubernetes-1-33]
 == Kubernetes 1.33
@@ -109,5 +140,4 @@ Kubernetes `1.31` is now available in Amazon EKS. For more information about Kub
 * Kubernetes support for https://apparmor.net/[AppArmor] has graduated to stable and is now generally available for public use. This feature allows you to protect your containers with AppArmor by setting the `appArmorProfile.type` field in the container's `securityContext`. Prior to Kubernetes version `1.30`, AppArmor was controlled by annotations. Starting with version `1.30`, it is controlled using fields. To leverage this feature, we recommend migrating away from annotations and using the `appArmorProfile.type` field to ensure that your workloads are compatible.
 * The PersistentVolume last phase transition time feature has graduated to stable and is now generally available for public use in Kubernetes version `1.31`. This feature introduces a new field, `.status.lastTransitionTime`, in the PersistentVolumeStatus, which provides a timestamp of when a PersistentVolume last transitioned to a different phase. This enhancement allows for better tracking and management of PersistentVolumes, particularly in scenarios where understanding the lifecycle of volumes is important.
 
-For the complete Kubernetes `1.31` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.31.md 
-
+For the complete Kubernetes `1.31` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.31.md

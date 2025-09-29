@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-10-02"]
+=== Kubernetes version `1.34`
+[.update-ulink]
+link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-34[type="documentation"]
+ 
+Added Kubernetes version `1.34` support for new clusters and version upgrades.
+
 
 [.update,date="2025-09-22"]
 === Configurable node auto repair
