@@ -14,9 +14,15 @@ To receive notifications of all source file changes to this specific documentati
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
 ----
 
+== September 29, 2025
+
+DRA is not currently supported by EKS Auto Mode.
+
+
 == September 10, 2025
 
 *Chore:* Events fired from the Auto Mode Compute controller will now use the name `eks-auto-mode/compute` instead of `karpenter`.
+
 
 == August 24, 2025
 
