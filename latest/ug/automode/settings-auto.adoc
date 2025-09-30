@@ -128,3 +128,5 @@ include::auto-kms.adoc[leveloffset=+1]
 include::auto-controls.adoc[leveloffset=+1]
 
 include::auto-odcr.adoc[leveloffset=+1]
+
+include::auto-local-zone.adoc[leveloffset=+1]

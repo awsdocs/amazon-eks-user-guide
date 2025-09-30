@@ -1,0 +1,155 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-local-zone]
+= Deploy EKS Auto Mode nodes onto Local Zones
+:info_titleabbrev: Use Local Zones
+
+EKS Auto Mode provides simplified cluster management with automatic node provisioning. {aws} Local Zones extend {aws} infrastructure to geographic locations closer to your end users, reducing latency for latency-sensitive applications. This guide walks you through the process of deploying EKS Auto Mode nodes onto {aws} Local Zones, enabling you to run containerized applications with lower latency for users in specific geographic areas.
+
+This guide also demonstrates how to use Kubernetes taints and tolerations to ensure that only specific workloads run on your Local Zone nodes, helping you control costs and optimize resource usage.
+
+== Prerequisites
+
+Before you begin deploying EKS Auto Mode nodes onto Local Zones, ensure you have the following prerequisites in place: 
+
+* xref:create-auto[An existing EKS Auto Mode Cluster]
+* link:local-zones/latest/ug/getting-started.html#getting-started-find-local-zone[Opted-in to local zone in your {aws} account,type="documentation"]
+
+== Step 1: Create Local Zone Subnet
+
+The first step in deploying EKS Auto Mode nodes to a Local Zone is creating a subnet in that Local Zone. This subnet provides the network infrastructure for your nodes and allows them to communicate with the rest of your VPC. Follow the link:local-zones/latest/ug/getting-started.html#getting-started-create-local-zone-subnet[Create a Local Zone subnet,type="documentation"] instructions (in the {aws} Local Zones User Guide) to create a subnet in your chosen Local Zone.
+
+TIP: Make a note of the name of your local zone subnet. 
+
+== Step 2: Create NodeClass for Local Zone Subnet
+
+After creating your Local Zone subnet, you need to define a NodeClass that references this subnet. The NodeClass is a Kubernetes custom resource that specifies the infrastructure attributes for your nodes, including which subnets, security groups, and storage configurations to use. In the example below, we create a NodeClass called "local-zone" that targets a local zone subnet based on its name. You can also use the subnet ID. You'll need to adapt this configuration to target your Local Zone subnet.
+
+For more information, see <<create-node-class>>. 
+
+```yaml
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: local-zone
+spec:
+  subnetSelectorTerms:
+    - id: <local-subnet-id>
+```
+
+== Step 3: Create NodePool with NodeClass and Taint
+
+With your NodeClass configured, you now need to create a NodePool that uses this NodeClass. A NodePool defines the compute characteristics of your nodes, including instance types. The NodePool uses the NodeClass as a reference to determine where to launch instances. 
+
+In the example below, we create a NodePool that references our "local-zone" NodeClass. We also add a taint to the nodes to ensure that only pods with a matching toleration can be scheduled on these Local Zone nodes. This is particularly important for Local Zone nodes, which typically have higher costs and should only be used by workloads that specifically benefit from the reduced latency.
+
+For more information, see <<create-node-pool>>. 
+
+
+```yaml
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: my-node-pool
+spec:
+  template:
+    metadata:
+      labels:
+        node-type: local-zone
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: local-zone
+      taints:
+        - key: "aws.amazon.com/local-zone"
+          value: "true"
+          effect: NoSchedule
+
+      requirements:
+        - key: "eks.amazonaws.com/instance-category"
+          operator: In
+          values: ["c", "m", "r"]
+        - key: "eks.amazonaws.com/instance-cpu"
+          operator: In
+          values: ["4", "8", "16", "32"]
+```
+
+The taint with key `aws.amazon.com/local-zone` and effect `NoSchedule` ensures that pods without a matching toleration won't be scheduled on these nodes. This prevents regular workloads from accidentally running in the Local Zone, which could lead to unexpected costs.
+
+== Step 4: Deploy Workloads with Toleration and Node Affinity
+
+For optimal control over workload placement on Local Zone nodes, use both taints/tolerations and node affinity together. This combined approach provides the following benefits:
+
+. **Cost Control**: The taint ensures that only pods with explicit tolerations can use potentially expensive Local Zone resources.
+. **Guaranteed Placement**: Node affinity ensures that your latency-sensitive applications run exclusively in the Local Zone, not on regular cluster nodes.
+
+Here's an example of a Deployment configured to run specifically on Local Zone nodes:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: low-latency-app
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: low-latency-app
+  template:
+    metadata:
+      labels:
+        app: low-latency-app
+    spec:
+      tolerations:
+      - key: "aws.amazon.com/local-zone"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: "node-type"
+                operator: "In"
+                values: ["local-zone"]
+      containers:
+      - name: application
+        image: my-low-latency-app:latest
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1Gi"
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+```
+
+This Deployment has two key scheduling configurations:
+
+. The **toleration** allows the pods to be scheduled on nodes with the `aws.amazon.com/local-zone` taint.
+. The **node affinity** requirement ensures these pods will only run on nodes with the label `node-type: local-zone`.
+
+Together, these ensure that your latency-sensitive application runs only on Local Zone nodes, and regular applications don't consume the Local Zone resources unless explicitly configured to do so.
+
+== Step 5: Verify with {aws} Console
+
+After setting up your NodeClass, NodePool, and Deployments, you should verify that nodes are being provisioned in your Local Zone as expected and that your workloads are running on them. You can use the {aws} Management Console to verify that EC2 instances are being launched in the correct Local Zone subnet. 
+
+Additionally, you can check the Kubernetes node list using `kubectl get nodes -o wide` to confirm that the nodes are joining your cluster with the correct labels and taints:
+
+```bash
+kubectl get nodes -o wide
+kubectl describe node <node-name> | grep -A 5 Taints
+```
+
+You can also verify that your workload pods are scheduled on the Local Zone nodes:
+
+```bash
+kubectl get pods -o wide
+```
+
+This approach ensures that only workloads that specifically tolerate the Local Zone taint will be scheduled on these nodes, helping you control costs and make the most efficient use of your Local Zone resources.

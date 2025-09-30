@@ -14,6 +14,10 @@ To receive notifications of all source file changes to this specific documentati
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
 ----
 
+== October 1, 2025
+
+*Feature:* EKS Auto Mode now supports deploying nodes to {aws} Local Zones. For more information, see <<auto-local-zone>>. 
+
 == September 30, 2025
 
 *Feature:* Added support for instanceProfile to the NodeClass `spec.instanceProfile` which is mutually exclusive from the `spec.role` field.
@@ -21,7 +25,6 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/auto
 == September 29, 2025
 
 DRA is not currently supported by EKS Auto Mode.
-
 
 == September 10, 2025
 
