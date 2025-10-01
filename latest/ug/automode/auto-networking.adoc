@@ -46,7 +46,6 @@ EKS Auto Mode does *not* support:
 * Custom Networking in the `ENIConfig`. You can put pods in multiple subnets or exclusively isolate them from the node traffic with <<pod-subnet-selector>>.
 * Warm IP, warm prefix, and warm ENI configurations.
 * Minimum IP targets configuration.
-* Enabling or disabling prefix delegation.
 * Other configurations supported by the open source {aws} VPC CNI.
 * Network Policy configurations such as conntrack timer customization (default is 300s).
 * Exporting network event logs to CloudWatch.
@@ -57,7 +56,9 @@ EKS Auto Mode handles prefix, IP addressing, and network interface management by
 
 *Prefix Delegation*
 
-EKS Auto Mode provisions `/28` IPv4 prefixes to the primary network interface for nodes and maintains a predefined warm pool of resources that scales based on the number of scheduled pods. When necessary, it provisions secondary network interfaces with identical security groups as the primary interface in the node's subnet. If prefixes are no longer available in the subnet, the service falls back to secondary IPv4 addresses.
+EKS Auto Mode defaults to using prefix delegation (/28 prefixes) for pod networking and maintains a predefined warm pool of IP resources that scales based on the number of scheduled pods. When pod subnet fragmentation is detected, Auto Mode provisions secondary IP addresses (/32). Due to this default pod networking algorithm, Auto Mode calculates max pods per node based on the number of ENIs and IPs supported per instance type (assuming the worst case of fragmentation). For more information about Max ENIs and IPs per instance type, see link:AWSEC2/latest/UserGuide/AvailableIpPerENI.html[Maximum IP addresses per network interface,type="documentation"] in the EC2 User Guide. Newer generation (Nitro v6 and above) instance families generally have increased ENIs and IPs per instance type, and Auto Mode adjusts the max pods calculation accordingly.
+
+For IPv6 clusters, only prefix delegation is used, and Auto Mode always uses a max pods limit of 110 pods per node.
 
 *Cooldown Management*
 
