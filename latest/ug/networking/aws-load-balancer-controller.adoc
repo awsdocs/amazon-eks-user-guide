@@ -31,6 +31,8 @@ The controller is an https://github.com/kubernetes-sigs/aws-load-balancer-contro
 
 Before deploying the controller, we recommend that you review the prerequisites and considerations in <<alb-ingress,Route application and HTTP traffic with Application Load Balancers>> and <<network-load-balancing>>. In those topics, you will deploy a sample app that includes an {aws} load balancer. 
 
+*Kubernetes `Gateway` API*::
+With the {aws} Load Balancer Controller version `2.14.0` or later, the LBC creates an link:elasticloadbalancing/latest/application/introduction.html[{aws} Application Load Balancer (ALB),type="documentation"] when you create a Kubernetes `Gateway`. Kubernetes Gateway standardizes more configuration than Ingress, which needed custom annotations for many common options. https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/gateway/gateway/[Review the configuration that you can apply to an Gateway resource.] For more information about the `Gateway` API, see link:https://kubernetes.io/docs/concepts/services-networking/gateway/[Gateway API] in the Kubernetes documentation.
 
 [#lbc-overview]
 == Install the controller
