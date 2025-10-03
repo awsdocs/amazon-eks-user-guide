@@ -119,7 +119,7 @@ The `eksctl` command automatically created an <<access-entries,access entry>> fo
 ----
 cat >eks-local-cluster-role-trust-policy.json <<EOF
 {
-  "Version": "2012-10-17",{tcx5-waiver}
+  "Version": "2012-10-17",{tcx5-2025-waiver}
   "Statement": [
     {
       "Effect": "Allow",

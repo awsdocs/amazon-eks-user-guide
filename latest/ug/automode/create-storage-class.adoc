@@ -72,7 +72,7 @@ Update the following values in the policy below:
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",{tcx5-waiver}
+  "Version": "2012-10-17",{tcx5-2025-waiver}
   "Id": "key-auto-policy-3",
   "Statement": [
       {

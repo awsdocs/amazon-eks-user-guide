@@ -129,7 +129,7 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",{tcx5-waiver}
+  "Version": "2012-10-17",{tcx5-2025-waiver}
   "Statement": [
     {
       "Effect": "Allow", 
@@ -221,7 +221,7 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",{tcx5-waiver}
+  "Version": "2012-10-17",{tcx5-2025-waiver}
   "Statement": [
     {
       "Effect": "Allow",
