@@ -129,8 +129,6 @@ operator:
               - hybrid
   unmanagedPodWatcher:
     restart: false
-loadBalancer:
-  serviceTopology: true
 envoy:
   enabled: false
 kubeProxyReplacement: "false"
