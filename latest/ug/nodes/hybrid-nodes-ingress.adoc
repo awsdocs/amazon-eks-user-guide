@@ -17,9 +17,9 @@ This topic describes how to configure Kubernetes Ingress for workloads running o
 image::images/hybrid-nodes-ingress.png[EKS Hybrid Nodes Ingress,scaledwidth=50%,align="center"]
 
 [#hybrid-nodes-ingress-alb]
-== {AWS} Application Load Balancer
+== {aws} Application Load Balancer
 
-You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) with the target type `ip` for workloads running on hybrid nodes. When using target type `ip`, ALB forwards traffic directly to the pods, bypassing the Service layer network path. For ALB to reach the pod IP targets on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network. Additionally, the {AWS} Load Balancer Controller uses webhooks and requires direct communication from the EKS control plane. For more information, see <<hybrid-nodes-webhooks>>.
+You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> and Application Load Balancer (ALB) with the target type `ip` for workloads running on hybrid nodes. When using target type `ip`, ALB forwards traffic directly to the pods, bypassing the Service layer network path. For ALB to reach the pod IP targets on hybrid nodes, your on-premises pod CIDR must be routable on your on-premises network. Additionally, the {aws} Load Balancer Controller uses webhooks and requires direct communication from the EKS control plane. For more information, see <<hybrid-nodes-webhooks>>.
 
 === Considerations
 
@@ -36,7 +36,7 @@ You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> 
 
 === Procedure
 
-. Download an IAM policy for the {AWS} Load Balancer Controller that allows it to make calls to {AWS} APIs on your behalf.
+. Download an IAM policy for the {aws} Load Balancer Controller that allows it to make calls to {aws} APIs on your behalf.
 +
 [source,bash]
 ----
@@ -52,7 +52,7 @@ aws iam create-policy \
     --policy-document file://iam_policy.json
 ----
 +
-. Replace the value for cluster name (`CLUSTER_NAME`), {AWS} Region (`AWS_REGION`), and {AWS} account ID (`AWS_ACCOUNT_ID`)  with your settings and run the following command.
+. Replace the value for cluster name (`CLUSTER_NAME`), {aws} Region (`AWS_REGION`), and {aws} account ID (`AWS_ACCOUNT_ID`)  with your settings and run the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -78,7 +78,7 @@ helm repo add eks https://aws.github.io/eks-charts
 helm repo update eks
 ----
 +
-. Install the {AWS} Load Balancer Controller. Replace the value for cluster name (`CLUSTER_NAME`), {AWS} Region (`AWS_REGION`), VPC ID (`VPC_ID`), and {AWS} Load Balancer Controller Helm chart version (`AWS_LBC_HELM_VERSION`) with your settings and run the following command. If you are running a mixed mode cluster with both hybrid nodes and nodes in {AWS} Cloud, you can run the {AWS} Load Balancer Controller on cloud nodes following the instructions at <<hybrid-nodes-mixed-lbc>>.
+. Install the {aws} Load Balancer Controller. Replace the value for cluster name (`CLUSTER_NAME`), {aws} Region (`AWS_REGION`), VPC ID (`VPC_ID`), and {aws} Load Balancer Controller Helm chart version (`AWS_LBC_HELM_VERSION`) with your settings and run the following command. If you are running a mixed mode cluster with both hybrid nodes and nodes in {aws} Cloud, you can run the {aws} Load Balancer Controller on cloud nodes following the instructions at <<hybrid-nodes-mixed-lbc>>.
 +
 - You can find the latest version of the Helm chart by running `helm search repo eks/aws-load-balancer-controller --versions`. 
 +
@@ -94,7 +94,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   --set serviceAccount.name=aws-load-balancer-controller
 ----
 +
-. Verify the {AWS} Load Balancer Controller was installed successfully.
+. Verify the {aws} Load Balancer Controller was installed successfully.
 +
 [source,bash]
 ----
@@ -570,7 +570,7 @@ Cilium Ingress is enabled on Ingress objects by setting the `ingressClassName` t
 `NodePort`: The Service will be of type NodePort.
 
 |`service.beta.kubernetes.io/aws-load-balancer-type`
-| `"external"`: Prevent legacy {AWS} cloud provider from provisioning Classic Load Balancer for Services of type LoadBalancer.
+| `"external"`: Prevent legacy {aws} cloud provider from provisioning Classic Load Balancer for Services of type LoadBalancer.
 
 |`lbipam.cilium.io/ips`
 | List of IP addresses to allocate from Cilium LoadBalancer IPAM
@@ -708,7 +708,7 @@ Many Ingress and Gateway controllers use annotations to detect and configure the
 
 [IMPORTANT]
 ====
-Cilium Ingress and Gateway cannot be used with the {AWS} Load Balancer Controller and {AWS} Network Load Balancers (NLBs) with EKS Hybrid Nodes. Attempting to use these together results in unregistered targets, as the NLB attempts to directly connect to the Pod IPs that back the Service of type LoadBalancer when the NLB's `target-type` is set to `ip` (requirement for using NLB with workloads running on EKS Hybrid Nodes).
+Cilium Ingress and Gateway cannot be used with the {aws} Load Balancer Controller and {aws} Network Load Balancers (NLBs) with EKS Hybrid Nodes. Attempting to use these together results in unregistered targets, as the NLB attempts to directly connect to the Pod IPs that back the Service of type LoadBalancer when the NLB's `target-type` is set to `ip` (requirement for using NLB with workloads running on EKS Hybrid Nodes).
 ====
 
 === No load balancer infrastructure
