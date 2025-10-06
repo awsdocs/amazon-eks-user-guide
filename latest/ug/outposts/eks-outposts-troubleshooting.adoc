@@ -271,7 +271,7 @@ The most common issues are the following:
 
 * AMI issues:
 +
-** You may be using an incompatible AMI. Only Amazon EKS optimized Amazon Linux 2 AMIs are currently supported (`amazon-linux-2`,`amazon-linux-2-gpu`, `amazon-linux-2-arm64`), attempting to join `AL2023`-based AMIs to EKS LocalClusters on {aws} Outposts will fail until the compatibility is added in a future release. See <<eks-outposts-self-managed-nodes,Create Amazon Linux nodes on {aws} Outposts>>)
+** You're using an incompatible AMI. Only Amazon EKS optimized Amazon Linux 2 AMIs are supported (`amazon-linux-2`,`amazon-linux-2-gpu`, `amazon-linux-2-arm64`). If you attempt to join AL2023 nodes to EKS LocalClusters on {aws} Outposts, the nodes fail to join the cluster. For more information, see <<eks-outposts-self-managed-nodes,Create Amazon Linux nodes on {aws} Outposts>>.
 ** If you used an {aws} CloudFormation template to create your nodes, make sure it wasn't using an unsupported AMI.
 * Missing the {aws} IAM Authenticator `ConfigMap` – If it's missing, you must create it. For more information, see <<aws-auth-configmap>> .
 * The wrong security group is used – Make sure to use `eks-cluster-sg-[.replaceable]``cluster-name``-[.replaceable]``uniqueid``` for your worker nodes' security group. The selected security group is changed by {aws} CloudFormation to allow a new security group each time the stack is used.
