@@ -12,13 +12,13 @@ Learn how to launch Auto Scaling groups of Amazon Linux nodes on an Outpost that
 
 [IMPORTANT]
 ====
-Amazon EKS Local Clusters on Outposts currently supports only nodes created from Amazon EKS-optimized Amazon Linux 2 AMIs, which include:
+Amazon EKS Local Clusters on Outposts only supports nodes created from the following Amazon EKS-optimized Amazon Linux 2 AMIs:
 
 * Standard Amazon Linux 2 (`amazon-linux-2`)
 * GPU-enabled Amazon Linux 2 (`amazon-linux-2-gpu`)
 * Arm64-based Amazon Linux 2 (`amazon-linux-2-arm64`)
 
-Nodes based on Amazon Linux 2023 (`AL2023`) AMIs are not currently supported and will fail to join the cluster. Support for `AL2023`-based nodes is planned for a future release, and this documentation will be updated when the feature becomes available.
+Nodes on Local Clusters that run Amazon Linux 2023 (AL2023) AMIs aren't supported and fail to join the cluster.
 ====
 
 This topic describes how you can launch Auto Scaling groups of Amazon Linux nodes on an Outpost that register with your Amazon EKS cluster. The cluster can be on the {aws} Cloud or on an Outpost.
