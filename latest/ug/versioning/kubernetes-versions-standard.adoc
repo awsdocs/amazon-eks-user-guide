@@ -27,7 +27,7 @@ Kubernetes `1.34` is now available in Amazon EKS. For more information about Kub
 * AppArmor is deprecated in Kubernetes 1.34.
 ** We recommend migrating to alternative container security solutions like link:https://kubernetes.io/docs/tutorials/security/seccomp/[seccomp] or link:https://kubernetes.io/docs/concepts/security/pod-security-standards/[Pod Security Standards].
 * VolumeAttributesClass (VAC) graduates to GA in Kubernetes 1.34, migrating from the beta API (`storage.k8s.io/v1beta1`) to the stable API (`storage.k8s.io/v1`).
-** If you use the EBS CSI driver with {aws}-managed sidecar containers (from link:https://gallery.ecr.aws/csi-components[]), volume modification will continue to work seamlessly on EKS 1.31-1.33 clusters. {aws} will patch the sidecars to support beta VAC APIs until the end of EKS 1.33 standard support (July 29, 2026).
+** If you use the EBS CSI driver with {aws}-managed sidecar containers (from link:https://gallery.ecr.aws/csi-components[CSI Components] on the ECR Gallery), volume modification will continue to work seamlessly on EKS 1.31-1.33 clusters. {aws} will patch the sidecars to support beta VAC APIs until the end of EKS 1.33 standard support (July 29, 2026).
 ** If you self-manage your CSI sidecar containers, you may need to pin to older sidecar versions on pre-1.34 clusters to maintain VAC functionality.
 ** To use GA VolumeAttributesClass features (such as modification rollback), upgrade to EKS 1.34 or later.
 
