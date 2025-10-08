@@ -82,9 +82,9 @@ nodeadm install [KUBERNETES_VERSION] [flags]
 
 *Values*
 
-`distro` - This is the default value. `nodeadm` will install `containerd` package distributed by the node OS. `distro` is not a supported value for Red Hat Enterprise Linux (RHEL) operating systems.
+`distro` - This is the default value. `nodeadm` will install the latest `containerd` package distributed by the node OS that is compatible with the EKS Kubernetes version. `distro` is not a supported value for Red Hat Enterprise Linux (RHEL) operating systems.
 
-`docker` - `nodeadm` will install `containerd` package built and distributed by Docker. `docker` is not a supported value for Amazon Linux 2023
+`docker` - `nodeadm` will install the latest `containerd` package built and distributed by Docker that is compatible with the EKS Kubernetes version. `docker` is not a supported value for Amazon Linux 2023.
 
 `none` - `nodeadm` will not install `containerd` package. You must manually install `containerd` before running `nodeadm init`.
 
@@ -268,6 +268,8 @@ nodeadm upgrade [KUBERNETES_VERSION] [flags]
 `node-validation` skips checking if the node has been cordoned.
 
 `init-validation` skips checking if the node has been initialized successfully before running upgrade.
+
+`containerd-major-version-upgrade` prevents containerd major version upgrades during node upgrade.
 
 |`-h`, `--help`
 |FALSE
@@ -581,7 +583,7 @@ spec:
 
 == Node Config for customizing containerd (Optional)
 
-You can pass custom containerd configuration in your `nodeadm` configuration. The containerd configuration for `nodeadm` accepts in-line TOML. See the example below for how to configure containerd to disable deletion of unpacked image layers in the containerd content store. 
+You can pass custom containerd configuration in your `nodeadm` configuration. The containerd configuration for `nodeadm` accepts in-line TOML. See the example below for how to configure containerd to disable deletion of unpacked image layers in the containerd content store.
 
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -600,6 +602,11 @@ spec:
       activationCode: # SSM hybrid activation code
       activationId:   # SSM hybrid activation id
 ----
+
+[NOTE]
+====
+Containerd versions 1.x and 2.x use different configuration formats. Containerd 1.x uses config version 2, while containerd 2.x uses config version 3. Although containerd 2.x remains backward compatible with config version 2, config version 3 is recommended for optimal performance. Check your containerd version with `containerd --version` or review `nodeadm` install logs. For more details on config versioning, see https://containerd.io/releases/
+====
 
 You can also use the containerd configuration to enable SELinux support. With SELinux enabled on containerd, ensure pods scheduled on the node have the proper securityContext and seLinuxOptions enabled. More information on configuring a security context can be found on the https://kubernetes.io/docs/tasks/configure-pod-container/security-context/[Kubernetes documentation].
 
