@@ -30,7 +30,7 @@ If you don't already have an S3 bucket to store the logs, create one. Use the fo
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-aws s3api create-bucket --bucket [.replaceable]`bucket-name`
+aws s3api create-bucket --bucket [.replaceable]`bucket-name` --region [.replaceable]`region-code` --create-bucket-configuration LocationConstraint=[.replaceable]`region-code`
 ----
 
 == Step 2: Create pre-signed S3 URL for HTTP Put
