@@ -1,7 +1,7 @@
 :tcx5-2025-waiver: pass:[		 	 	 ]
 
 // eksctl version
-:eksctl-min-version: 0.214.0
+:eksctl-min-version: 0.215.0
 
 // EKS Auto Mode versions
 :auto-cli-v2-version: 2.12.3
