@@ -30,7 +30,7 @@ EKS associates Security Groups to the ENIs that EKS attaches to your subnets. Th
 
 The remote node networks, specifically the remote node CIDRs, are the ranges of IPs assigned to the machines you use as hybrid nodes. When you provision hybrid nodes, they reside in your on-premises data center or edge location, which is a different network domain than the EKS control plane and VPC. Each hybrid node has an IP address, or addresses, from a remote node CIDR that is distinct from the subnets in your VPC.
 
-You configure the EKS cluster with these remote node CIDRs so EKS knows to route all traffic destined for the hybrid nodes IPs through your cluster VPC, such as requests to the kubelet API.
+You configure the EKS cluster with these remote node CIDRs so EKS knows to route all traffic destined for the hybrid nodes IPs through your cluster VPC, such as requests to the kubelet API. The connections to the `kubelet` API are used in the `kubectl attach`, `kubectl cp`, `kubectl exec`, `kubectl logs`, and `kubectl port-forward` commands.
 
 *Remote Pod Networks*
 
