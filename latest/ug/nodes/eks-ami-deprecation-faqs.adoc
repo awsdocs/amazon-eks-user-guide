@@ -62,7 +62,7 @@ When running on Amazon EKS nodes with AL2023, Java applications relying on JDK 8
 
 [WARNING]
 ====
-We do not recommend the continued use of `cgroupv1`. Instead, we recommend migrating to `cgroupv2`. The Kubernetes community moved `cgroupv1` support (used by AL2) into maintenance mode, meaning no new features or updates will be added and only critical security and major bug fixes will be provided. The full removal of `cgroupv1` support is expected in a future release, though a specific date for this full removal has not yet been announced. If you experience issues with `cgroupv1`, AWS will be unable to provide support and recommend that you upgrade to `cgroupv2`.
+We do not recommend the continued use of `cgroupv1`. Instead, we recommend migrating to `cgroupv2`. The Kubernetes community moved `cgroupv1` support (used by AL2) into maintenance mode, meaning no new features or updates will be added and only critical security and major bug fixes will be provided. The full removal of `cgroupv1` support is expected in a future release, though a specific date for this full removal has not yet been announced. If you experience issues with `cgroupv1`, {aws} will be unable to provide support and recommend that you upgrade to `cgroupv2`.
 ====
 
 
