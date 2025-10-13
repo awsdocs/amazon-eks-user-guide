@@ -178,7 +178,7 @@ Install and configure the {aws} CLI, if you haven't already. See link:cli/latest
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",{tcx5-2025-waiver}
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",
@@ -211,7 +211,7 @@ aws iam create-policy \
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",{tcx5-2025-waiver}
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",
@@ -244,7 +244,7 @@ aws iam create-policy \
 [source,json,subs="verbatim,attributes"]
 ----
 {
-   "Version":"2012-10-17",{tcx5-2025-waiver}
+   "Version":"2012-10-17",{tcx5-waiver}
    "Statement":[
       {
          "Sid":"",
@@ -319,7 +319,7 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",{tcx5-2025-waiver}
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",
@@ -413,7 +413,7 @@ aws iam attach-role-policy \
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",{tcx5-2025-waiver}
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",
@@ -446,7 +446,7 @@ aws iam attach-role-policy \
 [source,yaml,subs="verbatim,attributes"]
 ----
 {
-   "Version":"2012-10-17",{tcx5-2025-waiver}
+   "Version":"2012-10-17",{tcx5-waiver}
    "Statement":[
       {
          "Sid":"",
@@ -492,7 +492,7 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",{tcx5-2025-waiver}
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",

@@ -327,7 +327,7 @@ Only the network policy logs are sent by the node agent. Other logs made by the 
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",{tcx5-2025-waiver}
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Sid": "VisualEditor0",

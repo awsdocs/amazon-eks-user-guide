@@ -215,7 +215,7 @@ subnets=${public_subnets},${private_subnets}
 ----
 cat >eks-cluster-role-trust-policy.json <<EOF
 {
-  "Version": "2012-10-17",{tcx5-2025-waiver}
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow",
@@ -285,7 +285,7 @@ By default, the `config` file is created in `~/.kube` or the new cluster's confi
 ----
 cat >vpc-cni-ipv6-policy.json <<EOF
 {
-    "Version": "2012-10-17",{tcx5-2025-waiver}
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Effect": "Allow",
@@ -323,7 +323,7 @@ aws iam create-policy --policy-name AmazonEKS_CNI_IPv6_Policy --policy-document 
 ----
 cat >node-role-trust-relationship.json <<EOF
 {
-  "Version": "2012-10-17",{tcx5-2025-waiver}
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Effect": "Allow",

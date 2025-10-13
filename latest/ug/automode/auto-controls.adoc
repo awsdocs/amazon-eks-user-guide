@@ -23,7 +23,7 @@ It's important *not* to use the `ec2:Owner` context key. Amazon owns the EKS Aut
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",{tcx5-2025-waiver}
+  "Version": "2012-10-17",{tcx5-waiver}
   "Statement": [
     {
       "Sid": "DenyAMI",

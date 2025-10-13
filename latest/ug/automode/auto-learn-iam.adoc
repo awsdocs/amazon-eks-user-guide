@@ -86,7 +86,7 @@ By default, the managed policies related to EKS Auto Mode do not permit applying
 [source,json,subs="verbatim,attributes"]
 ----
 {
-    "Version": "2012-10-17",{tcx5-2025-waiver}
+    "Version": "2012-10-17",{tcx5-waiver}
     "Statement": [
         {
             "Sid": "Compute",
