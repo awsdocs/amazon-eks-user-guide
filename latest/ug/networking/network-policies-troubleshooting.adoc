@@ -326,22 +326,7 @@ Only the network policy logs are sent by the node agent. Other logs made by the 
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": [
-                "logs:DescribeLogGroups",
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+include::iam_snippet:ced6be33-8b93-4011-b4bd-bc98c987cca5[]
 ----
 
 

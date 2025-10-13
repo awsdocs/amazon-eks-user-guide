@@ -36,24 +36,5 @@ The following example shows how you can use the `aws:SourceArn` and `aws:SourceA
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole",
-      "Condition": {
-        "ArnLike": {
-          "aws:SourceArn": "arn:aws:eks:us-west-2:123456789012:cluster/my-cluster"
-          },
-        "StringEquals": {
-            "aws:SourceAccount": "123456789012"
-        }
-      }
-    }
-  ]
-}
+include::iam_snippet:4715ec25-2bee-4c62-90c4-4418d4931464[]
 ----

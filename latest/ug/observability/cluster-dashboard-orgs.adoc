@@ -112,27 +112,7 @@ To enable trusted access between EKS Dashboard and {aws} Organizations, you need
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "organizations:EnableAWSServiceAccess",
-                "organizations:DescribeOrganization",
-                "organizations:ListAWSServiceAccessForOrganization"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "iam:CreateServiceLinkedRole"
-            ],
-            "Resource": "{arn-aws}iam::*:role/aws-service-role/dashboard.eks.amazonaws.com/AWSServiceRoleForAmazonEKSDashboard"
-        }
-    ]
-}
+include::iam_snippet:c0b2a459-9ffe-4fd9-a859-163d9df9fec5[]
 ----
 
 === Policy for delegating an administrator
@@ -141,20 +121,7 @@ To register or deregister a delegated administrator for the EKS Dashboard, you n
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "organizations:RegisterDelegatedAdministrator",
-                "organizations:DeregisterDelegatedAdministrator",
-                "organizations:ListDelegatedAdministrators"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+include::iam_snippet:e7615daa-c27a-408d-932e-36d575ae56b3[]
 ----
 
 [#eks-dashboard-view-policy]
@@ -162,48 +129,7 @@ To register or deregister a delegated administrator for the EKS Dashboard, you n
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Sid": "AmazonEKSDashboardReadOnly",
-            "Effect": "Allow",
-            "Action": [
-                "eks:ListDashboardData",
-                "eks:ListDashboardResources",
-                "eks:DescribeClusterVersions"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "AmazonOrganizationsReadOnly",
-            "Effect": "Allow",
-            "Action": [
-                "organizations:DescribeOrganization",
-                "organizations:ListAWSServiceAccessForOrganization",
-                "organizations:ListRoots",
-                "organizations:ListAccountsForParent",
-                "organizations:ListOrganizationalUnitsForParent"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "AmazonOrganizationsDelegatedAdmin",
-            "Effect": "Allow",
-            "Action": [
-                "organizations:ListDelegatedAdministrators"
-            ],
-            "Resource": [
-                "*"
-            ],
-            "Condition": {
-                "StringEquals": {
-                    "organizations:ServicePrincipal": "eks.amazonaws.com"
-                }
-            }
-        }
-    ]
-}
+include::iam_snippet:f6e3be86-d7b9-4e46-ba5c-4e6df6ef9cfa[]
 ----
 
 [NOTE]

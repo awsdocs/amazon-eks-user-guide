@@ -40,36 +40,7 @@ If the multi-NIC feature is enabled, the VPC CNI doesn't assign IP addresses in 
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Sid": "AmazonEKSCNIPolicyIPv6MultiNIC",
-            "Effect": "Allow",
-            "Action": [
-                "ec2:CreateNetworkInterface",
-                "ec2:DescribeInstances",
-                "ec2:AssignIpv6Addresses",
-                "ec2:DetachNetworkInterface",
-                "ec2:DescribeNetworkInterfaces",
-                "ec2:DescribeTags",
-                "ec2:ModifyNetworkInterfaceAttribute",
-                "ec2:DeleteNetworkInterface",
-                "ec2:DescribeInstanceTypes",
-                "ec2:UnassignIpv6Addresses",
-                "ec2:AttachNetworkInterface",
-                "ec2:DescribeSubnets"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "AmazonEKSCNIPolicyENITagIPv6MultiNIC",
-            "Effect": "Allow",
-            "Action": "ec2:CreateTags",
-            "Resource": "arn:aws:ec2:*:*:network-interface/*"
-        }
-    ]
-}
+include::iam_snippet:9b526100-356f-4a63-9d35-95318929846b[]
 ----
 * `IPv6` *transition mechanism not available* - If you use the multi-NIC feature, the VPC CNI doesn't assign an `IPv4` address to pods on an `IPv6` cluster. Otherwise, the VPC CNI assigns a host-local `IPv4` address to each pod so that a pod can communicate with external `IPv4` resources in another Amazon VPC or the internet.
 

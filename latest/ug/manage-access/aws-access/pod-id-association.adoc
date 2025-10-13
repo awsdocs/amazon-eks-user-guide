@@ -36,22 +36,7 @@ NOTE: The list only contains roles that have the following trust policy which al
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "pods.eks.amazonaws.com"
-            },
-            "Action": [
-                "sts:AssumeRole",
-                "sts:TagSession"
-            ]
-        }
-    ]
-}
+include::iam_snippet:5e1c4467-9416-42e0-88d1-4133499289b8[]
 ----
 +
 `sts:AssumeRole` -- EKS Pod Identity uses `AssumeRole` to assume the IAM role before passing the temporary credentials to your pods.
@@ -80,18 +65,7 @@ You can run the following command to create an example policy file that allows r
 +
 [source,json,subs="verbatim,attributes"]
 ----
-cat >my-policy.json <<EOF
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "s3:GetObject",
-            "Resource": "{arn-aws}s3:::my-pod-secrets-bucket"
-        }
-    ]
-}
-EOF
+include::iam_snippet:1ac501bc-092b-4a4c-8fc9-e802ea247027[]
 ----
 .. Create the IAM policy.
 +
@@ -127,24 +101,7 @@ kubectl apply -f my-service-account.yaml
 +
 [source,json,subs="verbatim,attributes"]
 ----
-cat >trust-relationship.json <<EOF
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "pods.eks.amazonaws.com"
-            },
-            "Action": [
-                "sts:AssumeRole",
-                "sts:TagSession"
-            ]
-        }
-    ]
-}
-EOF
+include::iam_snippet:6b2929ff-57fa-4621-927d-a0856e56713a[]
 ----
 .. Create the role. Replace [.replaceable]`my-role` with a name for your IAM role, and [.replaceable]`my-role-description` with a description for your role.
 +
@@ -202,22 +159,7 @@ An example output is as follows.
 +
 [source,json,subs="verbatim,attributes",role="nocopy"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Sid": "Allow EKS Auth service to assume this role for Pod Identities",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "pods.eks.amazonaws.com"
-            },
-            "Action": [
-                "sts:AssumeRole",
-                "sts:TagSession"
-            ]
-        }
-    ]
-}
+include::iam_snippet:0e05bbcb-8642-4e51-93db-141ad54e1740[]
 ----
 . Confirm that the policy that you attached to your role in a previous step is attached to the role.
 +
@@ -271,16 +213,7 @@ An example output is as follows.
 +
 [source,json,subs="verbatim,attributes",role="nocopy"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "s3:GetObject",
-            "Resource": "{arn-aws}s3:::my-pod-secrets-bucket"
-        }
-    ]
-}
+include::iam_snippet:83e2ccdb-df1b-496a-8410-84e9118197ee[]
 ----
 +
 If you created the example policy in a previous step, then your output is the same. If you created a different policy, then the [.replaceable]`example` content is different.

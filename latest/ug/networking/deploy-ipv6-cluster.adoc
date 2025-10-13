@@ -213,20 +213,7 @@ subnets=${public_subnets},${private_subnets}
 +
 [source,json,subs="verbatim,attributes"]
 ----
-cat >eks-cluster-role-trust-policy.json <<EOF
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
+include::iam_snippet:943f588d-abe3-4381-a1be-fb7126177ba7[]
 ----
 ... Run the following command to set a variable for your role name. You can replace [.replaceable]`myAmazonEKSClusterRole` with any name you choose.
 +
@@ -283,33 +270,7 @@ By default, the `config` file is created in `~/.kube` or the new cluster's confi
 +
 [source,json,subs="verbatim,attributes"]
 ----
-cat >vpc-cni-ipv6-policy.json <<EOF
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:AssignIpv6Addresses",
-                "ec2:DescribeInstances",
-                "ec2:DescribeTags",
-                "ec2:DescribeNetworkInterfaces",
-                "ec2:DescribeInstanceTypes"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:CreateTags"
-            ],
-            "Resource": [
-                "{arn-aws}ec2:*:*:network-interface/*"
-            ]
-        }
-    ]
-}
-EOF
+include::iam_snippet:eed00e6f-0f5b-4778-a47a-4bbbb4c8ec4e[]
 ----
 ... Create the IAM policy.
 +
@@ -321,20 +282,7 @@ aws iam create-policy --policy-name AmazonEKS_CNI_IPv6_Policy --policy-document 
 +
 [source,json,subs="verbatim,attributes"]
 ----
-cat >node-role-trust-relationship.json <<EOF
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
+include::iam_snippet:8e5d2dad-b475-4def-8cfb-8e38da1fa6b0[]
 ----
 ... Run the following command to set a variable for your role name. You can replace [.replaceable]`AmazonEKSNodeRole` with any name you choose.
 +

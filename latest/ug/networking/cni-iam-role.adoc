@@ -108,24 +108,7 @@ If no output is returned, then you must <<enable-iam-roles-for-service-accounts,
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Federated": "{arn-aws}iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
-            },
-            "Action": "sts:AssumeRoleWithWebIdentity",
-            "Condition": {
-                "StringEquals": {
-                    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com",
-                    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:aws-node"
-                }
-            }
-        }
-    ]
-}
+include::iam_snippet:7410ad54-dbf3-4644-81cd-1affe22fd796[]
 ----
 ... Create the role. You can replace [.replaceable]`AmazonEKSVPCCNIRole` with any name that you choose.
 +
@@ -239,31 +222,7 @@ If you created a cluster that uses the `IPv6` family and the cluster has version
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:AssignIpv6Addresses",
-                "ec2:DescribeInstances",
-                "ec2:DescribeTags",
-                "ec2:DescribeNetworkInterfaces",
-                "ec2:DescribeInstanceTypes"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:CreateTags"
-            ],
-            "Resource": [
-                "{arn-aws}ec2:*:*:network-interface/*"
-            ]
-        }
-    ]
-}
+include::iam_snippet:7d2817c2-2064-455b-93b9-4a819540317b[]
 ----
 . Create the IAM policy.
 +

@@ -69,18 +69,7 @@ TIP: For a list of all the resources the previous command creates, open the {aws
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::iam_snippet:a8ac9ca8-ab01-49a8-9de7-ab3a2a9195b5[]
 ----
 .. Create the role.
 +
@@ -183,18 +172,7 @@ To learn more about different ways to configure nodes in EKS, see <<eks-compute>
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::iam_snippet:563b8603-744b-4278-b4ec-a1f971ffd1f0[]
 ----
 .. Create the node IAM role.
 +

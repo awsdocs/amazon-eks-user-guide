@@ -117,20 +117,7 @@ The `eksctl` command automatically created an <<access-entries,access entry>> fo
 +
 [source,json,subs="verbatim,attributes"]
 ----
-cat >eks-local-cluster-role-trust-policy.json <<EOF
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
+include::iam_snippet:0eeb0638-f477-4039-8bd3-9c898f45460a[]
 ----
 .. Create the Amazon EKS cluster IAM role. To create an IAM role, the link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that is creating the role must be assigned the `iam:CreateRole` action (permission).
 +

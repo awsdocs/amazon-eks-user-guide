@@ -34,18 +34,7 @@ You can use the following procedure to check and see if your account already has
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::iam_snippet:584c629e-58a0-41b7-a7b6-8bf95de49c53[]
 ----
 
 [#auto-create-node-role-iam]

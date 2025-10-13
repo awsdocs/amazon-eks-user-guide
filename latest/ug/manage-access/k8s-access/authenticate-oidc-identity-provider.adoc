@@ -106,65 +106,12 @@ If you want to prevent an OIDC identity provider from being associated with a cl
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Sid": "denyOIDC",
-            "Effect": "Deny",
-            "Action": [
-                "eks:AssociateIdentityProviderConfig"
-            ],
-            "Resource": "{arn-aws}eks:us-west-2:111122223333:cluster/*"
-
-        },
-        {
-            "Sid": "eksAdmin",
-            "Effect": "Allow",
-            "Action": [
-                "eks:*"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+include::iam_snippet:80073812-1626-4a47-bd2f-69242ecea039[]
 ----
 
 The following example policy allows OIDC identity provider association if the `clientID` is `kubernetes` and the `issuerUrl` is `https://cognito-idp.us-west-2amazonaws.com/*`.
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Sid": "AllowCognitoOnly",
-            "Effect": "Deny",
-            "Action": "eks:AssociateIdentityProviderConfig",
-            "Resource": "{arn-aws}eks:us-west-2:111122223333:cluster/my-instance",
-            "Condition": {
-                "StringNotLikeIfExists": {
-                    "eks:issuerUrl": "https://cognito-idp.us-west-2.amazonaws.com/*"
-                }
-            }
-        },
-        {
-            "Sid": "DenyOtherClients",
-            "Effect": "Deny",
-            "Action": "eks:AssociateIdentityProviderConfig",
-            "Resource": "{arn-aws}eks:us-west-2:111122223333:cluster/my-instance",
-            "Condition": {
-                "StringNotEquals": {
-                    "eks:clientId": "kubernetes"
-                }
-            }
-        },
-        {
-            "Sid": "AllowOthers",
-            "Effect": "Allow",
-            "Action": "eks:*",
-            "Resource": "*"
-        }
-    ]
-}
+include::iam_snippet:232b8739-9c0c-47c4-883e-63b3178048bc[]
 ----

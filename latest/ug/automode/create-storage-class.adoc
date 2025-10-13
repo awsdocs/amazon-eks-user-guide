@@ -71,43 +71,7 @@ Update the following values in the policy below:
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Id": "key-auto-policy-3",
-  "Statement": [
-      {
-          "Sid": "Enable IAM User Permissions",
-          "Effect": "Allow",
-          "Principal": {
-              "AWS": "{arn-aws}iam::<account-id>:root"
-          },
-          "Action": "kms:*",
-          "Resource": "*"
-      },
-      {
-        "Sid": "Allow access through EBS for all principals in the account that are authorized to use EBS",
-        "Effect": "Allow",
-        "Principal": {
-            "AWS": "*"
-        },
-        "Action": [
-            "kms:Encrypt",
-            "kms:Decrypt",
-            "kms:ReEncrypt*",
-            "kms:GenerateDataKey*",
-            "kms:CreateGrant",
-            "kms:DescribeKey"
-        ],
-        "Resource": "*",
-        "Condition": {
-            "StringEquals": {
-                "kms:CallerAccount": "<account-id>",
-                "kms:ViaService": "ec2.<aws-region>.amazonaws.com"
-            }
-        }
-    }
-  ]
-}
+include::iam_snippet:cb3ec475-7e7f-44d9-8e3f-54e5f092b59e[]
 ----
 
 === Sample self-managed KMS `StorageClass`

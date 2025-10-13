@@ -39,33 +39,7 @@ The following example policy includes the necessary permissions for a principal 
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "eks:ListFargateProfiles",
-                "eks:DescribeNodegroup",
-                "eks:ListNodegroups",
-                "eks:ListUpdates",
-                "eks:AccessKubernetesApi",
-                "eks:ListAddons",
-                "eks:DescribeCluster",
-                "eks:DescribeAddonVersions",
-                "eks:ListClusters",
-                "eks:ListIdentityProviderConfigs",
-                "iam:ListRoles"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "ssm:GetParameter",
-            "Resource": "{arn-aws}ssm:*:111122223333:parameter/*"
-        }
-    ]
-}
+include::iam_snippet:6ed8ab20-4391-4d6d-831b-70710f90ec60[]
 ----
 +
 To view nodes in <<eks-connector,connected clusters>>, the <<connector-iam-role,Amazon EKS connector IAM role>> should be able to impersonate the principal in the cluster. This allows the <<eks-connector,Amazon EKS Connector>> to map the principal to a Kubernetes user.

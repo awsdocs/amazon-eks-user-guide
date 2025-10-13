@@ -22,25 +22,7 @@ It's important *not* to use the `ec2:Owner` context key. Amazon owns the EKS Aut
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Sid": "DenyAMI",
-      "Effect": "Deny",
-      "Action": "ec2:RunInstances",
-      "Resource": "arn:*:ec2:*::image/ami-*",
-      "Condition": {
-        "StringNotEquals": {
-          "aws:ResourceAccount": [
-            "767397842682",
-            "992382739861"
-          ]
-        }
-      }
-    }
-  ]
-}
+include::iam_snippet:b3fc497a-510a-4dcf-8f20-f6a340f72dfd[]
 ----
 
 == EKS Auto Mode AMI accounts

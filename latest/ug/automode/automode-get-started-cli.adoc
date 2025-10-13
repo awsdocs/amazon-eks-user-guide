@@ -94,21 +94,7 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow", 
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": [
-        "sts:AssumeRole",
-        "sts:TagSession"
-      ]
-    }
-  ]
-}
+include::iam_snippet:3c455c2f-72a7-48be-b85c-d2431fccbb3b[]
 ----
 
 === Step 2: Create the IAM Role
@@ -186,18 +172,7 @@ Create a trust policy that allows the Amazon EKS service to assume the role. Sav
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::iam_snippet:8648fc4c-e230-41b8-af3e-daabdcf02888[]
 ----
 
 ==== Step 2: Create the Node IAM Role

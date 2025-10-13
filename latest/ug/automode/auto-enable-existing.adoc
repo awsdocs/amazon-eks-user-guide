@@ -42,21 +42,7 @@ The Cluster IAM role of an EKS Cluster cannot be changed after the cluster is cr
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": [
-        "sts:AssumeRole",
-        "sts:TagSession"
-      ]
-    }
-  ]
-}
+include::iam_snippet:6352e330-4f08-4077-ba62-101ab3e4580f[]
 ----
 
 

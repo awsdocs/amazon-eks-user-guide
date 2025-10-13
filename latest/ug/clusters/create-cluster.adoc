@@ -37,20 +37,7 @@ This topic provides an overview of the available options and describes what to c
 +
 [source,json,subs="verbatim,attributes"]
 ----
-cat >eks-cluster-role-trust-policy.json <<EOF
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
+include::iam_snippet:90d17929-38b7-484a-92de-0757562c3cd6[]
 ----
 . Create the Amazon EKS cluster IAM role. If necessary, preface [.replaceable]`eks-cluster-role-trust-policy.json` with the path on your computer that you wrote the file to in the previous step. The command associates the trust policy that you created in the previous step to the role. To create an IAM role, the link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that is creating the role must be assigned the `iam:CreateRole` action (permission).
 +

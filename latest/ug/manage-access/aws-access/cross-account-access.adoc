@@ -43,58 +43,21 @@ In this example, Account B creates an IAM policy with the permissions to give to
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "{arn-aws}iam::111122223333:root"
-      },
-      "Action": "sts:AssumeRole",
-      "Condition": {}
-    }
-  ]
-}
+include::iam_snippet:539114bb-b8e0-44ba-b4cc-2dd62108ef64[]
 ----
 
 Account A creates a role with a trust policy that gets credentials from the identity provider created with the cluster's OIDC issuer address.
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Federated": "{arn-aws}iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
-      },
-      "Action": "sts:AssumeRoleWithWebIdentity",
-      "Condition": {
-        "StringEquals": {
-          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
-        }
-      }
-    }
-  ]
-}
+include::iam_snippet:0436d765-c970-4491-887b-65c0f585250e[]
 ----
 
 Account A attaches a policy to that role with the following permissions to assume the role that Account B created.
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "sts:AssumeRole",
-            "Resource": "{arn-aws}iam::444455556666:role/account-b-role"
-        }
-    ]
-}
+include::iam_snippet:01ba2728-97d1-4049-a0eb-fa44b1f63ca6[]
 ----
 
 The application code for Pods to assume Account B's role uses two profiles: `account_b_role` and `account_a_role`. The `account_b_role` profile uses the `account_a_role` profile as its source. For the {aws} CLI, the `~/.aws/config` file is similar to the following.

@@ -44,23 +44,7 @@ You can use the following procedure to check and see if your account already has
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Condition": {
-         "ArnLike": {
-            "aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*"
-         }
-      },
-      "Principal": {
-        "Service": "eks-fargate-pods.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::iam_snippet:98e67c07-8932-4f31-9b4c-145bf8c2613c[]
 ----
 +
 If the policy matches but doesn't have a line specifying the Fargate profiles on your cluster, you can add the following line at the top of the `ArnLike` object. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in, [.replaceable]`111122223333` with your account ID, and [.replaceable]`my-cluster` with the name of your cluster.
@@ -107,23 +91,7 @@ If you don't already have the Amazon EKS Pod execution role for your cluster, yo
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Condition": {
-         "ArnLike": {
-            "aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*"
-         }
-      },
-      "Principal": {
-        "Service": "eks-fargate-pods.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::iam_snippet:44cd2230-767e-4bc2-a43c-fe1860ad8774[]
 ----
 ... Choose *Update policy*.
 
@@ -133,23 +101,7 @@ If you don't already have the Amazon EKS Pod execution role for your cluster, yo
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Condition": {
-         "ArnLike": {
-            "aws:SourceArn": "{arn-aws}eks:region-code:111122223333:fargateprofile/my-cluster/*"
-         }
-      },
-      "Principal": {
-        "Service": "eks-fargate-pods.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::iam_snippet:7a7df467-ae7f-495d-982f-d4b325abe470[]
 ----
 .. Create a Pod execution IAM role.
 +

@@ -47,28 +47,7 @@ The following example policy allows a principal to view information on the *Conf
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "eks:*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "iam:PassRole",
-            "Resource": "*",
-            "Condition": {
-                "StringEquals": {
-                    "iam:PassedToService": "eks.amazonaws.com"
-                }
-            }
-        }
-    ]
-}
+include::iam_snippet:c90cfc65-d638-4a20-a06a-47e7d2f69e7e[]
 ----
 
 You don't need to allow minimum console permissions for principals that are making calls only to the {aws} CLI or the {aws} API. Instead, allow access to only the actions that match the API operation that you're trying to perform.  
@@ -80,38 +59,7 @@ This example shows how you might create a policy that allows IAM users to view t
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Sid": "ViewOwnUserInfo",
-            "Effect": "Allow",
-            "Action": [
-                "iam:GetUserPolicy",
-                "iam:ListGroupsForUser",
-                "iam:ListAttachedUserPolicies",
-                "iam:ListUserPolicies",
-                "iam:GetUser"
-            ],
-            "Resource": ["{arn-aws}iam::*:user/${aws:username}"]
-        },
-        {
-            "Sid": "NavigateInConsole",
-            "Effect": "Allow",
-            "Action": [
-                "iam:GetGroupPolicy",
-                "iam:GetPolicyVersion",
-                "iam:GetPolicy",
-                "iam:ListAttachedGroupPolicies",
-                "iam:ListGroupPolicies",
-                "iam:ListPolicyVersions",
-                "iam:ListPolicies",
-                "iam:ListUsers"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+include::iam_snippet:b1f909cd-2c64-4c9b-b5c5-186f78c6aa5a[]
 ----
 
 
@@ -122,31 +70,7 @@ This example policy includes the minimum permissions required to create an Amazo
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "eks:CreateCluster",
-            "Resource": "{arn-aws}eks:us-west-2:111122223333:cluster/my-cluster"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "iam:CreateServiceLinkedRole",
-            "Resource": "{arn-aws}iam::111122223333:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS",
-            "Condition": {
-                "ForAnyValue:StringEquals": {
-                    "iam:AWSServiceName": "eks"
-                }
-            }
-        },
-        {
-            "Effect": "Allow",
-            "Action": "iam:PassRole",
-            "Resource": "{arn-aws}iam::111122223333:role/cluster-role-name"
-        }
-    ]
-}
+include::iam_snippet:4e925c83-85eb-4a95-8b72-1631224902bb[]
 ----
 
 
@@ -157,50 +81,7 @@ This example policy includes the minimum permissions required to create an Amazo
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "eks:CreateCluster",
-            "Resource": "{arn-aws}eks:us-west-2:111122223333:cluster/my-cluster"
-        },
-        {
-            "Action": [
-                "ec2:DescribeSubnets",
-                "ec2:DescribeVpcs",
-                "iam:GetRole"
-            ],
-            "Resource": "*",
-            "Effect": "Allow"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "iam:CreateServiceLinkedRole",
-            "Resource": "{arn-aws}iam::111122223333:role/aws-service-role/outposts.eks-local.amazonaws.com/AWSServiceRoleForAmazonEKSLocalOutpost"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "iam:PassRole",
-                "iam:ListAttachedRolePolicies"
-            ],
-            "Resource": "{arn-aws}iam::111122223333:role/cluster-role-name"
-        },
-        {
-            "Action": [
-                "iam:CreateInstanceProfile",
-                "iam:TagInstanceProfile",
-                "iam:AddRoleToInstanceProfile",
-                "iam:GetInstanceProfile",
-                "iam:DeleteInstanceProfile",
-                "iam:RemoveRoleFromInstanceProfile"
-            ],
-            "Resource": "{arn-aws}iam::*:instance-profile/eks-local-*",
-            "Effect": "Allow"
-        }
-    ]
-}
+include::iam_snippet:b19597bc-301e-4c81-94b5-b8fe30558df0[]
 ----
 
 
@@ -211,16 +92,7 @@ This example policy includes the minimum permission required to update a cluster
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "eks:UpdateClusterVersion",
-            "Resource": "{arn-aws}eks:us-west-2:111122223333:cluster/my-cluster"
-        }
-    ]
-}
+include::iam_snippet:8287e107-08f4-473b-99f4-5d1c39273a86[]
 ----
 
 
@@ -231,17 +103,5 @@ This example policy includes the minimum permissions required to list and descri
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "eks:DescribeCluster",
-                "eks:ListClusters"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+include::iam_snippet:dbfd52f1-1fc5-4ab5-a4ac-7d2c5fcfa7c2[]
 ----

@@ -41,49 +41,7 @@ This policy only includes permissions for EKS Auto Mode. The key policy may need
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Id": "MyKeyPolicy",
-    "Statement": [
-        {
-            "Sid": "Allow use of the key",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": [
-                    "{arn-aws}iam::<account-id>:role/ClusterServiceRole"
-                ]
-            },
-            "Action": [
-                "kms:Encrypt",
-                "kms:Decrypt",
-                "kms:ReEncrypt*",
-                "kms:GenerateDataKey*",
-                "kms:DescribeKey"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "Allow attachment of persistent resources",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": [
-                    "{arn-aws}iam::<account-id>:role/ClusterServiceRole"
-                ]
-            },
-            "Action": [
-                "kms:CreateGrant",
-                "kms:ListGrants",
-                "kms:RevokeGrant"
-            ],
-            "Resource": "*",
-            "Condition": {
-                "Bool": {
-                    "kms:GrantIsForAWSResource": "true"
-                }
-            }
-        }
-    ]
-}
+include::iam_snippet:c0f99b58-37c6-4e50-b643-48423c997b6d[]
 ----
 
 Make sure to replace `<account-id>` with your actual {aws} account ID.

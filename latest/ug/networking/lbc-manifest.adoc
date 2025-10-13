@@ -116,26 +116,7 @@ If output is returned, then you already have an IAM OIDC provider for your clust
 +
 [source,json,subs="verbatim,attributes"]
 ----
-cat >load-balancer-role-trust-policy.json <<EOF
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Federated": "{arn-aws}iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
-            },
-            "Action": "sts:AssumeRoleWithWebIdentity",
-            "Condition": {
-                "StringEquals": {
-                    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com",
-                    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
-                }
-            }
-        }
-    ]
-}
-EOF
+include::iam_snippet:960915e9-fdc0-403a-b346-1818e22e9709[]
 ----
 .. Create the IAM role.
 +

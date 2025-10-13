@@ -177,18 +177,7 @@ Install and configure the {aws} CLI, if you haven't already. See link:cli/latest
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "eks:DescribeCluster"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+include::iam_snippet:48a31bf0-c614-41f5-bdbb-3f0423e5e5ba[]
 ----
 
 . Create the policy with the following command:
@@ -210,26 +199,7 @@ aws iam create-policy \
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "ssm:DescribeInstanceInformation",
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "ssm:DeregisterManagedInstance",
-            "Resource": "{arn-aws}ssm:AWS_REGION:AWS_ACCOUNT_ID:managed-instance/*",
-            "Condition": {
-                "StringEquals": {
-                    "ssm:resourceTag/TAG_KEY": "TAG_VALUE"
-                }
-            }
-        }
-    ]
-}
+include::iam_snippet:827fee9e-ea0e-495c-bf24-6a74bc22256d[]
 ----
 . Create the policy with the following command
 +
@@ -243,27 +213,7 @@ aws iam create-policy \
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-   "Version":"2012-10-17",{tcx5-waiver}
-   "Statement":[
-      {
-         "Sid":"",
-         "Effect":"Allow",
-         "Principal":{
-            "Service":"ssm.amazonaws.com"
-         },
-         "Action":"sts:AssumeRole",
-         "Condition":{
-            "StringEquals":{
-               "aws:SourceAccount":"AWS_ACCOUNT_ID"
-            },
-            "ArnEquals":{
-               "aws:SourceArn":"{arn-aws}ssm:AWS_REGION:AWS_ACCOUNT_ID:*"
-            }
-         }
-      }
-   ]
-}
+include::iam_snippet:40d662dd-812b-448e-976c-ade3581a5e5e[]
 ----
 . Create the role with the following command.
 +
@@ -318,45 +268,7 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "rolesanywhere.amazonaws.com"
-            },
-            "Action": [
-                "sts:TagSession",
-                "sts:SetSourceIdentity"
-            ],
-            "Condition": {
-                "StringEquals": {
-                    "aws:PrincipalTag/x509Subject/CN": "${aws:PrincipalTag/x509Subject/CN}"
-                },
-                "ArnEquals": {
-                    "aws:SourceArn": "TRUST_ANCHOR_ARN"
-                }
-            }
-        },
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "rolesanywhere.amazonaws.com"
-            },
-            "Action": "sts:AssumeRole",
-            "Condition": {
-                "StringEquals": {
-                    "sts:RoleSessionName": "${aws:PrincipalTag/x509Subject/CN}",
-                    "aws:PrincipalTag/x509Subject/CN": "${aws:PrincipalTag/x509Subject/CN}"
-                },
-                "ArnEquals": {
-                    "aws:SourceArn": "TRUST_ANCHOR_ARN"
-                }
-            }
-        }
-    ]
-}
+include::iam_snippet:ee530bf3-9b59-49d3-9d8f-595d81a3c888[]
 ----
 
 . Create the role with the following command.
@@ -412,26 +324,7 @@ aws iam attach-role-policy \
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "ssm:DescribeInstanceInformation",
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "ssm:DeregisterManagedInstance",
-            "Resource": "{arn-aws}ssm:AWS_REGION:AWS_ACCOUNT_ID:managed-instance/*",
-            "Condition": {
-                "StringEquals": {
-                    "ssm:resourceTag/TAG_KEY": "TAG_VALUE"
-                }
-            }
-        }
-    ]
-}
+include::iam_snippet:2a60ddcc-a7b9-42a0-8dcb-22cbca8f9e9e[]
 ----
 
 .. Choose *Next*.
@@ -445,27 +338,7 @@ aws iam attach-role-policy \
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
-{
-   "Version":"2012-10-17",{tcx5-waiver}
-   "Statement":[
-      {
-         "Sid":"",
-         "Effect":"Allow",
-         "Principal":{
-            "Service":"ssm.amazonaws.com"
-         },
-         "Action":"sts:AssumeRole",
-         "Condition":{
-            "StringEquals":{
-               "aws:SourceAccount":"AWS_ACCOUNT_ID"
-            },
-            "ArnEquals":{
-               "aws:SourceArn":"{arn-aws}ssm:AWS_REGION:AWS_ACCOUNT_ID:*"
-            }
-         }
-      }
-   ]
-}
+include::iam_snippet:4184ce45-ea47-4357-aaea-23c00afd29bb[]
 ----
 .. Choose Next.
 . On the *Add permissions* page, attach a custom policy or do the following:
@@ -491,45 +364,7 @@ To use {aws} IAM Roles Anywhere, you must set up your {aws} IAM Roles Anywhere t
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "rolesanywhere.amazonaws.com"
-            },
-            "Action": [
-                "sts:TagSession",
-                "sts:SetSourceIdentity"
-            ],
-            "Condition": {
-                "StringEquals": {
-                    "aws:PrincipalTag/x509Subject/CN": "${aws:PrincipalTag/x509Subject/CN}"
-                },
-                "ArnEquals": {
-                    "aws:SourceArn": "TRUST_ANCHOR_ARN"
-                }
-            }
-        },
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "rolesanywhere.amazonaws.com"
-            },
-            "Action": "sts:AssumeRole",
-            "Condition": {
-                "StringEquals": {
-                    "sts:RoleSessionName": "${aws:PrincipalTag/x509Subject/CN}",
-                    "aws:PrincipalTag/x509Subject/CN": "${aws:PrincipalTag/x509Subject/CN}"
-                },
-                "ArnEquals": {
-                    "aws:SourceArn": "TRUST_ANCHOR_ARN"
-                }
-            }
-        }
-    ]
-}
+include::iam_snippet:44c203c0-92dd-497c-91fd-f18d4cbeaa7b[]
 ----
 .. Choose Next.
 . On the *Add permissions* page, attach a custom policy or do the following:

@@ -21,36 +21,7 @@ Before you can create Amazon EKS clusters, you must create an IAM role with eith
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:CreateTags"
-      ],
-      "Resource": "{arn-aws}ec2:*:*:instance/*",
-      "Condition": {
-        "ForAnyValue:StringLike": {
-          "aws:TagKeys": "kubernetes.io/cluster/*"
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DescribeInstances",
-        "ec2:DescribeNetworkInterfaces",
-        "ec2:DescribeVpcs",
-        "ec2:DescribeDhcpOptions",
-        "ec2:DescribeAvailabilityZones",
-        "ec2:DescribeInstanceTopology",
-        "kms:DescribeKey"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
+include::iam_snippet:de80ec81-9dde-4bf1-83df-de287477358d[]
 ----
 
 
@@ -78,18 +49,7 @@ You can use the following procedure to check and see if your account already has
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::iam_snippet:c83fb40d-63b7-4444-992f-a9a3d76e2396[]
 ----
 
 
@@ -117,18 +77,7 @@ You can use the {aws-management-console} or the {aws} CLI to create the cluster 
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::iam_snippet:cd984bb8-7fc7-4d7b-8cb6-38a2bb0a48fc[]
 ----
 .. Create the role. You can replace [.replaceable]`eksClusterRole` with any name that you choose.
 +

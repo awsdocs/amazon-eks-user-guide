@@ -35,21 +35,7 @@ You can use the following procedure to check and see if your account already has
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow", 
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": [
-        "sts:AssumeRole",
-        "sts:TagSession"
-      ]
-    }
-  ]
-}
+include::iam_snippet:4f04e1d1-8756-441d-aabf-98b754503967[]
 ----
 
 [NOTE]
@@ -87,21 +73,7 @@ You can use the {aws-management-console} or the {aws} CLI to create the cluster 
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow", 
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": [
-        "sts:AssumeRole",
-        "sts:TagSession"
-      ]
-    }
-  ]
-}
+include::iam_snippet:7ec38f13-ea46-440f-9a4e-009e8855e11b[]
 ----
 . Create the role. You can replace [.replaceable]`AmazonEKSAutoClusterRole` with any name that you choose.
 +

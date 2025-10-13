@@ -39,18 +39,7 @@ You do not need to install the EKS Pod Identity Agent on EKS Auto Mode Clusters.
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "eks-auth:AssumeRoleForPodIdentity"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+include::iam_snippet:485a9c6f-1ee7-4cec-98cf-0feca8c7576f[]
 ----
 +
 This action can be limited by tags to restrict which roles can be assumed by pods that use the agent.

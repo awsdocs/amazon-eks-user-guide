@@ -17,31 +17,7 @@ Below is an IAM policy example that grants `s3:GetObject` permissions when the c
 
 [source,json,subs="verbatim,attributes"]
 ----
-{
-    "Version": "2012-10-17",{tcx5-waiver}
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:GetObjectTagging"
-            ],
-            "Resource": "*",
-            "Condition": {
-                "StringEquals": {
-                    "s3:ExistingObjectTag/eks-cluster-name": "${aws:PrincipalTag/eks-cluster-name}"
-                }
-            }
-        }
-    ]
-}
+include::iam_snippet:ab95d3dc-9d65-470f-9455-53a520c2abe3[]
 ----
 
 
