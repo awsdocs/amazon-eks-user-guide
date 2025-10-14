@@ -450,13 +450,6 @@ spec:
 
 Before you upgrade a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version. The Amazon EKS `update-cluster-version` API rejects requests until you upgrade all Amazon EKS managed nodes to the current cluster version. Amazon EKS provides APIs to upgrade managed nodes. For information on upgrading a managed node group's Kubernetes version, see <<update-managed-node-group>>. To upgrade the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you upgrade your control plane. For more information, see <<update-cluster>>.
 
-[#too-many-requests]
-== When launching many nodes, there are `Too Many Requests` errors
-
-If you launch many nodes simultaneously, you may see an error message in the link:AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts[Amazon EC2 user data,type="documentation"] execution logs that says `Too Many Requests`. This can occur because the control plane is being overloaded with `describeCluster` calls. The overloading results in throttling, nodes failing to run the bootstrap script, and nodes failing to join the cluster altogether.
-
-Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are being passed to the node's bootstrap script. When including these arguments, there's no need for the bootstrap script to make a `describeCluster` call, which helps prevent the control plane from being overloaded. For more information, see <<mng-specify-eks-ami>>.
-
 [#troubleshooting-boundservicetoken]
 == HTTP 401 unauthorized error response on Kubernetes API server requests
 
