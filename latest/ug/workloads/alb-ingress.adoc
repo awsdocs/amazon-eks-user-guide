@@ -65,7 +65,7 @@ If you're using multiple security groups attached to worker node, exactly one se
 If the subnet role tags aren't explicitly added, the Kubernetes service controller examines the route table of your cluster VPC subnets. This is to determine if the subnet is private or public. We recommend that you don't rely on this behavior. Rather, explicitly add the private or public role tags. The {aws} Load Balancer Controller doesn't examine route tables. It also requires the private and public tags to be present for successful auto discovery.
 
 
-* The https://github.com/kubernetes-sigs/aws-load-balancer-controller[{aws} Load Balancer Controller] creates ALBs and the necessary supporting {aws} resources whenever a Kubernetes ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation. The ingress resource configures the ALB to route HTTP or HTTPS traffic to different Pods within the cluster. To ensure that your ingress objects use the {aws} Load Balancer Controller, add the following annotation to your Kubernetes ingress specification. For more information, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/ingress/spec/[Ingress specification] on GitHub.
+* The https://github.com/kubernetes-sigs/aws-load-balancer-controller[{aws} Load Balancer Controller] creates ALBs and the necessary supporting {aws} resources whenever a Kubernetes ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation. The ingress resource configures the ALB to route HTTP or HTTPS traffic to different Pods within the cluster. To ensure that your ingress objects use the {aws} Load Balancer Controller, add the following annotation to your Kubernetes ingress specification. For more information, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/spec/[Ingress specification] on GitHub.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -87,7 +87,7 @@ alb.ingress.kubernetes.io/ip-address-type: dualstack
 NOTE: Your Kubernetes service must specify the `NodePort` or `LoadBalancer` type to use this traffic mode.
 ** *IP*
  – Registers Pods as targets for the ALB. Traffic reaching the ALB is directly routed to Pods for your service. You must specify the `alb.ingress.kubernetes.io/target-type: ip` annotation to use this traffic mode. The IP target type is required when target Pods are running on Fargate or Amazon EKS Hybrid Nodes.
-* To tag ALBs created by the controller, add the following annotation to the controller: `alb.ingress.kubernetes.io/tags`. For a list of all available annotations supported by the {aws} Load Balancer Controller, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/ingress/annotations/[Ingress annotations] on GitHub.
+* To tag ALBs created by the controller, add the following annotation to the controller: `alb.ingress.kubernetes.io/tags`. For a list of all available annotations supported by the {aws} Load Balancer Controller, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/annotations/[Ingress annotations] on GitHub.
 * Upgrading or downgrading the ALB controller version can introduce breaking changes for features that rely on it. For more information about the breaking changes that are introduced in each release, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases[ALB controller release notes] on GitHub.
 
 

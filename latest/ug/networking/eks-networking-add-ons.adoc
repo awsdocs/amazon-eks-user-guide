@@ -43,7 +43,7 @@ This add-on maintains network rules on your Amazon EC2 nodes and enables network
 == Optional {aws} networking add-ons
 
 *{aws} Load Balancer Controller*::
-When you deploy Kubernetes service objects of type `loadbalancer`, the controller creates {aws} Network Load Balancers . When you create Kubernetes ingress objects, the controller creates {aws} Application Load Balancers. We recommend using this controller to provision Network Load Balancers, rather than using the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] controller built-in to Kubernetes. For more information, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller[{aws} Load Balancer Controller] documentation.
+When you deploy Kubernetes service objects of type `loadbalancer`, the controller creates {aws} Network Load Balancers . When you create Kubernetes ingress objects, the controller creates {aws} Application Load Balancers. We recommend using this controller to provision Network Load Balancers, rather than using the https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] controller built-in to Kubernetes. For more information, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller[{aws} Load Balancer Controller] documentation.
 
 
 *{aws} Gateway API Controller*::
