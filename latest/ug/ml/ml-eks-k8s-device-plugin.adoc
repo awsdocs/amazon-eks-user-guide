@@ -158,7 +158,7 @@ The following procedure describes how to install the Neuron Kubernetes device pl
 === Prerequisites
 
 * EKS cluster created
-* Neuron GPU nodes running in the cluster using EKS-optimized AL2023 NVIDIA AMI
+* Neuron GPU nodes running in the cluster using EKS-optimized AL2023 or Bottlerocket Neuron AMI
 * Helm installed in your command-line environment, see <<helm,Setup Helm instructions>>.
 
 === Procedure
