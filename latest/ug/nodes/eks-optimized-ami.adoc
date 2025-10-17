@@ -7,10 +7,10 @@ include::../attributes.txt[]
 
 [abstract]
 --
-The Amazon EKS optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (AL2) and Amazon Linux 2023 (AL2023). They are configured to serve as the base images for Amazon EKS nodes.
+The Amazon EKS-optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (AL2) and Amazon Linux 2023 (AL2023). They are configured to serve as the base images for Amazon EKS nodes.
 --
 
-The Amazon EKS optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (AL2) and Amazon Linux 2023 (AL2023). They are configured to serve as the base images for Amazon EKS nodes. The AMIs are configured to work with Amazon EKS and they include the following components:
+The Amazon EKS-optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (AL2) and Amazon Linux 2023 (AL2023). They are configured to serve as the base images for Amazon EKS nodes. The AMIs are configured to work with Amazon EKS and they include the following components:
 
 * `kubelet`
 * {aws} IAM Authenticator
@@ -20,7 +20,7 @@ The Amazon EKS optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (A
 ====
 
 * You can track security or privacy events for Amazon Linux at the https://alas.aws.amazon.com/[Amazon Linux security center] by choosing the tab for your desired version. You can also subscribe to the applicable RSS feed. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue.
-* Before deploying an accelerated or Arm AMI, review the information in <<gpu-ami,Amazon EKS optimized accelerated Amazon Linux AMIs>> and <<arm-ami>>.
+* Before deploying an accelerated or Arm AMI, review the information in <<gpu-ami,Amazon EKS-optimized accelerated Amazon Linux AMIs>> and <<arm-ami>>.
 * Amazon EC2 `P2` instances aren't supported on Amazon EKS because they require `NVIDIA` driver version 470 or earlier.
 * Any newly created managed node groups in clusters on version `1.30` or newer will automatically default to using AL2023 as the node operating system. Previously, new node groups would default to AL2. You can continue to use AL2 by choosing it as the AMI type when creating a new node group.
 * Amazon EKS will no longer publish EKS-optimized Amazon Linux 2 (AL2) AMIs after November 26th, 2025. Additionally, Kubernetes version `1.32` is the last version for which Amazon EKS will release AL2 AMIs. From version `1.33` onwards, Amazon EKS will continue to release AL2023 and Bottlerocket based AMIs.
@@ -30,7 +30,7 @@ The Amazon EKS optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (A
 [#gpu-ami]
 == Amazon EKS-optimized accelerated Amazon Linux AMIs
 
-The Amazon EKS-optimized accelerated Amazon Linux AMIs are built on top of the standard Amazon EKS optimized Amazon Linux AMIs. They are configured to serve as optional images for Amazon EKS nodes to support GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
+The Amazon EKS-optimized accelerated Amazon Linux AMIs are built on top of the standard Amazon EKS-optimized Amazon Linux AMIs. They are configured to serve as optional images for Amazon EKS nodes to support GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
 
 For more information, see <<ml-eks-optimized-ami>>.
 
@@ -47,13 +47,13 @@ Arm instances deliver significant cost savings for scale-out and Arm-based appli
 [#linux-more-information]
 == More information
 
-For more information about using Amazon EKS optimized Amazon Linux AMIs, see the following sections:
+For more information about using Amazon EKS-optimized Amazon Linux AMIs, see the following sections:
 
 * To use Amazon Linux with managed node groups, see <<managed-node-groups>>.
 * To launch self-managed Amazon Linux nodes, see <<retrieve-ami-id>>.
 * For version information, see <<eks-linux-ami-versions>>.
-* To retrieve the latest IDs of the Amazon EKS optimized Amazon Linux AMIs, see <<retrieve-ami-id>>.
-* For open-source scripts that are used to build the Amazon EKS optimized AMIs, see <<eks-ami-build-scripts>>.
+* To retrieve the latest IDs of the Amazon EKS-optimized Amazon Linux AMIs, see <<retrieve-ami-id>>.
+* For open-source scripts that are used to build the Amazon EKS-optimized AMIs, see <<eks-ami-build-scripts>>.
 
 include::al2023.adoc[leveloffset=+1]
 

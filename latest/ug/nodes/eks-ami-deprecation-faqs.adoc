@@ -86,7 +86,7 @@ Kubernetes version 1.32 is the last version for which Amazon EKS will release AL
 |Fedora/CentOS 9
 |N/A
 
-|CUDA Toolkit
+|https://docs.nvidia.com/deploy/cuda-compatibility/why-cuda-compatibility.html#why-cuda-compatibility[CUDA user mode driver]
 |12.x
 |12.x
 |12.x,13.x

@@ -92,7 +92,7 @@ ip-192-168-11-225.us-west-2.compute.internal   1
 ip-192-168-24-96.us-west-2.compute.internal    1
 ----
 +
-. Create a file named `nvidia-smi.yaml` with the following contents. Replace [.replaceable]`12.9.1-base-amzn2023` with your desired tag for https://hub.docker.com/r/nvidia/cuda/tags[nvidia/cuda]. This manifest launches an https://developer.nvidia.com/cuda-zone[NVIDIA CUDA] container that runs `nvidia-smi` on a node.
+. Create a file named `nvidia-smi.yaml` with the following contents. This manifest launches a https://docs.aws.amazon.com/linux/al2023/ug/minimal-container.html[minimal AL2023 container image] that runs `nvidia-smi` on a node.
 +
 [source,yaml,subs="verbatim,attributes,quotes"]
 ----
@@ -103,13 +103,18 @@ metadata:
 spec:
   restartPolicy: OnFailure
   containers:
-  - name: nvidia-smi
-    image: nvidia/cuda:12.9.1-base-amzn2023
-    args:
-    - "nvidia-smi"
-    resources:
-      limits:
-        nvidia.com/gpu: 1
+    - name: gpu-demo
+      image: public.ecr.aws/amazonlinux/amazonlinux:2023-minimal
+      command: ['/bin/sh', '-c']
+      args: ['nvidia-smi && tail -f /dev/null']
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+  tolerations:
+    - key: 'nvidia.com/gpu'
+      operator: 'Equal'
+      value: 'true'
+      effect: 'NoSchedule'
 ----
 +
 . Apply the manifest with the following command.
@@ -158,7 +163,7 @@ The following procedure describes how to install the Neuron Kubernetes device pl
 === Prerequisites
 
 * EKS cluster created
-* Neuron GPU nodes running in the cluster using EKS-optimized AL2023 or Bottlerocket Neuron AMI
+* Neuron GPU nodes running in the cluster using EKS-optimized AL2023 Neuron AMI or Bottlerocket AMI
 * Helm installed in your command-line environment, see <<helm,Setup Helm instructions>>.
 
 === Procedure
