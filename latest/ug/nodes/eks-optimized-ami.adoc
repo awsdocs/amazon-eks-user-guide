@@ -28,31 +28,14 @@ The Amazon EKS optimized Amazon Linux AMIs are built on top of Amazon Linux 2 (A
 ====
 
 [#gpu-ami]
-== Amazon EKS optimized accelerated Amazon Linux AMIs
+== Amazon EKS-optimized accelerated Amazon Linux AMIs
 
-The Amazon EKS optimized accelerated Amazon Linux AMIs are built on top of the standard Amazon EKS optimized Amazon Linux AMIs. They are configured to serve as optional images for Amazon EKS nodes to support GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
+The Amazon EKS-optimized accelerated Amazon Linux AMIs are built on top of the standard Amazon EKS optimized Amazon Linux AMIs. They are configured to serve as optional images for Amazon EKS nodes to support GPU, link:machine-learning/inferentia/[Inferentia,type="marketing"], and link:machine-learning/trainium/[Trainium,type="marketing"] based workloads.
 
-In addition to the standard Amazon EKS optimized AMI configuration, the accelerated AMIs include the following:
-
-* NVIDIA drivers
-* `nvidia-container-toolkit`
-* {aws} Neuron driver
-
-For a list of the latest components included in the accelerated AMIs, see the `amazon-eks-ami` https://github.com/awslabs/amazon-eks-ami/releases[Releases] on GitHub.
-
-[NOTE]
-====
-
-* Make sure to specify the applicable instance type in your node {aws} CloudFormation template. By using the Amazon EKS optimized accelerated AMIs, you agree to https://s3.amazonaws.com/EULA/NVidiaEULAforAWS.pdf[NVIDIA's Cloud End User License Agreement (EULA)].
-* The Amazon EKS optimized accelerated AMIs were previously referred to as the _Amazon EKS optimized AMIs with GPU support_.
-* Previous versions of the Amazon EKS optimized accelerated AMIs installed the `nvidia-docker` repository. The repository is no longer included in Amazon EKS AMI version `v20200529` and later.
-
-====
-
-For details on running workloads on Amazon EKS optimized accelerated Amazon Linux AMIs, see <<ml-eks-optimized-ami>>.
+For more information, see <<ml-eks-optimized-ami>>.
 
 [#arm-ami]
-== Amazon EKS optimized Arm Amazon Linux AMIs
+== Amazon EKS-optimized Arm Amazon Linux AMIs
 
 Arm instances deliver significant cost savings for scale-out and Arm-based applications such as web servers, containerized microservices, caching fleets, and distributed data stores. When adding Arm nodes to your cluster, review the following considerations.
 
