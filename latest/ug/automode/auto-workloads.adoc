@@ -19,6 +19,7 @@ You can use these use case-based samples to run workloads in EKS Auto Mode clust
 <<automode-workload>>:: Shows how to deploy a sample workload to an EKS Auto Mode cluster using `kubectl` commands.
 <<auto-elb-example>>:: Shows how to deploy a containerized version of the 2048 game on Amazon EKS.
 <<sample-storage-workload>>:: Shows how to deploy a sample stateful application to an EKS Auto Mode cluster.
+<<auto-accelerated>>:: Shows how to deploy hardware-accelerated workloads to nodes managed by EKS Auto Mode.
 <<associate-workload>>:: Shows how to use an annotation to control if a workload is deployed to nodes managed by EKS Auto Mode.
 
 

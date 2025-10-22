@@ -164,7 +164,7 @@ eksctl create fargateprofile \
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.14.0/docs/examples/2048/2048_full.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.14.1/docs/examples/2048/2048_full.yaml
 ----
 *** *Private*::
 
@@ -173,7 +173,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-bala
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.14.0/docs/examples/2048/2048_full.yaml
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.14.1/docs/examples/2048/2048_full.yaml
 ----
 .... Edit the file and find the line that says `alb.ingress.kubernetes.io/scheme: internet-facing`.
 .... Change [.replaceable]`internet-facing` to `internal` and save the file.
@@ -189,7 +189,7 @@ kubectl apply -f 2048_full.yaml
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.14.0/docs/examples/2048/2048_full.yaml
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.14.1/docs/examples/2048/2048_full.yaml
 ----
 ... Open the file in an editor and add the following line to the annotations in the ingress spec.
 +
@@ -237,7 +237,7 @@ image::images/2048.png[2048 sample application,scaledwidth=100%]
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.14.0/docs/examples/2048/2048_full.yaml
+kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.14.1/docs/examples/2048/2048_full.yaml
 ----
 ** If you downloaded and edited the manifest, use the following command.
 +

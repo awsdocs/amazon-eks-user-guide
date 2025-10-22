@@ -126,7 +126,7 @@ The {aws} LBC needs permission to provision and manage {aws} load balancers, suc
 ----
 aws iam create-policy \
   --policy-name AWSLoadBalancerControllerIAMPolicy \
-  --policy-document "$(curl -fsSL https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.13.0/docs/install/iam_policy.json)"
+  --policy-document "$(curl -fsSL https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.14.1/docs/install/iam_policy.json)"
 ----
 
 When the Mountpoint S3 CSI Driver is installed, its DaemonSet pods are configured to use a service account for execution. The Mountpoint for Mountpoint S3 CSI driver needs permission to interact with the Amazon S3 bucket you create later in this guide. We'll specify this permissions policy during cluster creation. During cluster creation, we will create the service account with eksctl in the ClusterConfig. Create the S3 IAM policy:
