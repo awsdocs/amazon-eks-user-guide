@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-10-15"]
+=== Service linked role update
+[.update-ulink]
+link:eks/latest/userguide/using-service-linked-roles-eks-connector.html[type="documentation"]
+ 
+Added `ssmmessages:OpenDataChannel` permission to `AmazonEKSConnectorServiceRolePolicy`
+
 
 [.update,date="2025-10-02"]
 === Kubernetes version `1.34`

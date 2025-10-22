@@ -23,7 +23,7 @@ package.AmazonEKSDocs = {
             ZonBookTrails = 1.0;
             AWSEC2ContainerChecklist = 1.0;
             AWSDevDocsQuotasShare = 1.0;
-            
+            AWSDocsSdkExamplesPublic = 1.0; 
             ZonBook = 5.0;
             AWSDevDocsChecklistBJS = 2.0;
         };

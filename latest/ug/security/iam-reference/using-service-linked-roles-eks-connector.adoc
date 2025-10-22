@@ -33,6 +33,8 @@ The role permissions policy allows Amazon EKS to complete the following actions 
 
 You must configure permissions to allow an IAM entity (such as a user, group, or role) to create, edit, or delete a service-linked role. For more information, see link:IAM/latest/UserGuide/using-service-linked-roles.html#service-linked-role-permissions[Service-linked role permissions,type="documentation"] in the _IAM User Guide_.
 
+This role uses SSM (Systems Manager) permissions to establish secure connections and manage connected Kubernetes clusters. 
+
 [#create-service-linked-role-eks-connector]
 == Creating a service-linked role for Amazon EKS
 

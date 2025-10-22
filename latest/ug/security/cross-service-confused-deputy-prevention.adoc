@@ -22,7 +22,7 @@ If the `aws:SourceArn` value does not contain the account ID, such as an Amazon 
 [#cross-service-confused-deputy-cluster-role]
 == Amazon EKS cluster role cross-service confused deputy prevention
 
-An Amazon EKS cluster IAM role is required for each cluster. Kubernetes clusters managed by Amazon EKS use this role to manage nodes and the link:https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] uses this role to create load balancers with Elastic Load Balancing for services.
+An Amazon EKS cluster IAM role is required for each cluster. Kubernetes clusters managed by Amazon EKS use this role to manage nodes and the link:https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] uses this role to create load balancers with Elastic Load Balancing for services.
 These cluster actions can only affect the same account, so we recommend that you limit each cluster role to that cluster and account.
 This is a specific application of the {aws} recommendation to follow the _principle of least privilege_ in your account.
 

@@ -84,6 +84,28 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSFargatePodExecutionRolePolicy.html#AmazonEKSFargatePodExecutionRolePolicy-json[AmazonEKSFargatePodExecutionRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
+[#security-iam-awsmanpol-AmazonEKSConnectorServiceRolePolicy]
+== {aws} managed policy: AmazonEKSConnectorServiceRolePolicy
+:info_titleabbrev: AmazonEKSConnectorServiceRolePolicy
+
+You can't attach `AmazonEKSConnectorServiceRolePolicy` to your IAM entities. This policy is attached to a service-linked role that allows Amazon EKS to perform actions on your behalf. For more information, see <<using-service-linked-roles-eks-connector>>.
+
+The role allows Amazon EKS to connect Kubernetes clusters. The attached policies allow the role to manage necessary resources to connect to your registered Kubernetes cluster.
+
+*Permissions details*
+
+This policy includes the following permissions that allow Amazon EKS to complete the following tasks.
+
+* *`SSM Management`* – Create, describe, and delete SSM activations, and deregister managed instances. This allows basic Systems Manager operations.
+
+* *`Session Management`* – Start SSM sessions specifically for EKS clusters and execute non-interactive commands using the AmazonEKS document.
+
+* *`IAM Role Passing`* – Pass IAM roles specifically to the SSM service, controlled by a condition that restricts the passed roles to `ssm.amazonaws.com`.
+
+* *`EventBridge Rules`* – Create EventBridge rules and targets, but only when managed by `eks-connector.amazonaws.com`. Rules are specifically limited to {aws} SSM as the event source.
+
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSConnectorServiceRolePolicy.html[AmazonEKSConnectorServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+
 [#security-iam-awsmanpol-amazoneksforfargateservicerolepolicy]
 == {aws} managed policy: AmazonEKSForFargateServiceRolePolicy
 :info_titleabbrev: AmazonEKSForFargateServiceRolePolicy
@@ -407,6 +429,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Change
 |Description
 |Date
+
+|Added permission to <<using-service-linked-roles-eks-connector,AWSServiceRoleForAmazonEKSConnector>>
+|Added `ssmmessages:OpenDataChannel` permission to `AmazonEKSConnectorServiceRolePolicy`
+|October 15, 2025
 
 |Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
 |This role can attach new access policy `AmazonEKSEventPolicy`. Restricted permissions for `ec2:DeleteLaunchTemplate` and `ec2:TerminateInstances`.
