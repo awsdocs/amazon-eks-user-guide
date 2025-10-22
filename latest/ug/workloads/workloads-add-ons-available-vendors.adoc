@@ -213,33 +213,6 @@ A managed policy isn't used with this add-on.
 
 Custom permissions aren't used with this add-on.
 
-[#add-on-cyberark_cert-manager-eks]
-== CyberArk cert-manager
-
-[abstract]
---
-Learn about the CyberArk EKS add-on for cert-manager.
---
-
-The add-on name is `cyberark_cert-manager-eks` and the namespace is `cyberark`. CyberArk publishes the add-on.
-
-For information about the add-on, see https://docs.cyberark.com/mis-saas/vaas/k8s-components/cm-eks-addon-install/[CyberArk EKS add-on for cert-manager] in the CyberArk documentation.
-
-[#add-on-cyberark_cert-manager-eks-service-account-name]
-=== Service account name
-
-A service account isn’t used with this add-on.
-
-[#add-on-cyberark_cert-manager-eks-managed-policy]
-=== {aws} managed IAM policy
-
-A managed policy isn’t used with this add-on.
-
-[#add-on-cyberark_cert-manager-eks-custom-permissions]
-=== Custom IAM permissions
-
-Custom permissions aren’t used with this add-on.
-
 [#add-on-dynatrace]
 == Dynatrace
 
