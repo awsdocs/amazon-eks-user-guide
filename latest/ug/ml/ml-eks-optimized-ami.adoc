@@ -74,6 +74,7 @@ When using the https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/late
 
 In addition to the standard EKS AMI components, the EKS-optimized Bottlerocket NVIDIA AMIs include the following components. The minimal dependencies for EFA (kernel module and rdma-core) are installed in all Bottlerocket variants.
 
+* NVIDIA Kubernetes device plugin
 * NVIDIA driver
 * NVIDIA CUDA user mode driver
 * NVIDIA container toolkit
@@ -81,6 +82,7 @@ In addition to the standard EKS AMI components, the EKS-optimized Bottlerocket N
 * NVIDIA persistenced
 * NVIDIA IMEX driver
 * NVIDIA NVLink Subnet Manager
+* NVIDIA MIG manager
 
 For details on the NVIDIA CUDA user mode driver and the CUDA runtime/libraries used within application containers, see the https://docs.nvidia.com/deploy/cuda-compatibility/why-cuda-compatibility.html#why-cuda-compatibility[NVIDIA documentation]. The CUDA version shown from `nvidia-smi` is the version of the NVIDIA CUDA user mode driver installed on the host, which must be compatible with the CUDA runtime/libraries used in application containers.
 
