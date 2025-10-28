@@ -2,83 +2,137 @@ include::../attributes.txt[]
 
 [.topic]
 [#ml-eks-optimized-ami]
-= Run GPU-accelerated containers (Linux on EC2)
-:info_titleabbrev: Set up Linux GPU AMIs
+= Use EKS-optimized accelerated AMIs for GPU instances
+:info_titleabbrev: Use EKS Linux GPU AMIs
 
-The Amazon EKS optimized accelerated Amazon Linux AMIs are built on top of the standard Amazon EKS optimized Amazon Linux AMIs. For details on these AMIs, see <<gpu-ami>>.
-The following text describes how to enable {aws} Neuron-based workloads.
+Amazon EKS supports EKS-optimized Amazon Linux and Bottlerocket AMIs for GPU instances. The EKS-optimized accelerated AMIs simplify running AI and ML workloads in EKS clusters by providing pre-built, validated operating system images for the accelerated Kubernetes stack. In addition to the core Kubernetes components that are included in the standard EKS-optimized AMIs, the EKS-optimized accelerated AMIs include the kernel modules and drivers required to run the NVIDIA GPU `G` and `P` EC2 instances, and the AWS GPU link:machine-learning/inferentia/[Inferentia,type="marketing"] and link:machine-learning/trainium/[Trainium,type="marketing"] EC2 instances in EKS clusters. 
 
-.To enable {aws} Neuron (ML accelerator) based workloads
-For details on training and inference workloads using Neuron in Amazon EKS, see the following references:
+The table below shows the supported GPU instance types for each EKS-optimized accelerated AMI variant. See the EKS-optimized https://github.com/awslabs/amazon-eks-ami/releases[AL2023 releases] and https://github.com/bottlerocket-os/bottlerocket/blob/develop/CHANGELOG.md[Bottlerocket releases] on GitHub for the latest updates to the AMI variants.
 
-* https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html[Containers - Kubernetes - Getting Started] in the _{aws} Neuron Documentation_
-* https://github.com/aws-neuron/aws-neuron-eks-samples/blob/master/README.md#training[Training] in {aws} Neuron EKS Samples on GitHub
-* <<inferentia-support,Deploy ML inference workloads with AWSInferentia on Amazon EKS>>
+[%header,cols="2,4"]
+|===
+|EKS AMI variant | EC2 instance types
 
-The following procedure describes how to run a workload on a GPU based instance with the Amazon EKS optimized accelerated AMIs.
+|AL2023 x86_64 NVIDIA
+|p6-b200, p5, p5e, p5en, p4d, p4de, p3, p3dn, gr6, g6, g6e, g6f, gr6f, g5, g4dn
 
-. After your GPU nodes join your cluster, you must apply the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin for Kubernetes] as a DaemonSet on your cluster. Replace [.replaceable]`vX.X.X` with your desired https://github.com/NVIDIA/k8s-device-plugin/releases[NVIDIA/k8s-device-plugin] version before running the following command.
-+
-[source,bash,subs="verbatim,attributes"]
+|AL2023 ARM NVIDIA
+|p6e-gb200, g5g
+
+|AL2023 x86_64 Neuron
+|inf1, inf2, trn1, trn2
+
+|Bottlerocket x86_64 aws-k8s-nvidia 
+|p6-b200, p5, p5e, p5en, p4d, p4de, p3, p3dn, gr6, g6, g6e, g6f, gr6f, g5, g4dn
+
+|Bottlerocket aarch64/arm64 aws-k8s-nvidia 
+|g5g
+
+|Bottlerocket x86_64 aws-k8s
+|inf1, inf2, trn1, trn2
+|===
+
+[#eks-amis-nvidia]
+== EKS-optimized NVIDIA AMIs
+
+By using the EKS-optimized NVIDIA AMIs, you agree to https://s3.amazonaws.com/EULA/NVidiaEULAforAWS.pdf[NVIDIA's Cloud End User License Agreement (EULA)].
+
+To find the latest EKS-optimized NVIDIA AMIs, see <<retrieve-ami-id>> and <<retrieve-ami-id-bottlerocket>>.
+
+When using Amazon Elastic Fabric Adaptor (EFA) with the EKS-optimized AL2023 or Bottlerocket NVIDIA AMIs, you must install the EFA device plugin separately. For more information, see <<node-efa>>.
+
+[#eks-amis-nvidia-al2023]
+== EKS AL2023 NVIDIA AMIs
+
+When using the https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/overview.html[NVIDIA GPU operator] with the EKS-optimized AL2023 NVIDIA AMIs, you must disable the operator installation of the driver and toolkit, as these are already included in the EKS AMIs. The EKS-optimized AL2023 NVIDIA AMIs do not include the NVIDIA Kubernetes device plugin or the NVIDIA DRA driver, and these must be installed separately. For more information, see <<eks-nvidia-device-plugin>>.
+
+In addition to the standard EKS AMI components, the EKS-optimized AL2023 NVIDIA AMIs include the following components. 
+
+* NVIDIA driver
+* NVIDIA CUDA user mode driver
+* NVIDIA container toolkit
+* NVIDIA fabric manager
+* NVIDIA persistenced
+* NVIDIA IMEX driver
+* NVIDIA NVLink Subnet Manager
+* EFA minimal (kernel module and rdma-core)
+
+For details on the NVIDIA CUDA user mode driver and the CUDA runtime/libraries used within application containers, see the https://docs.nvidia.com/deploy/cuda-compatibility/why-cuda-compatibility.html#why-cuda-compatibility[NVIDIA documentation]. The CUDA version shown from `nvidia-smi` is the version of the NVIDIA CUDA user mode driver installed on the host, which must be compatible with the CUDA runtime/libraries used in application containers.
+
+To track the status of the EKS-optimized NVIDIA AMIs upgrade to NVIDIA driver 580 version, see https://github.com/awslabs/amazon-eks-ami/issues/2470[GitHub issue #2470]. The NVIDIA 580 driver is required to use CUDA 13+.
+
+See the EKS AL2023 NVIDIA AMI https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2023/provisioners/install-nvidia-driver.sh[installation script] and https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2023/runtime/gpu/nvidia-kmod-load.sh[kernel loading script] for details on how the EKS AMIs configure the NVIDIA dependencies. See the EKS-optimized https://github.com/awslabs/amazon-eks-ami/releases[AL2023 releases] on GitHub to see the component versions included in the AMIs. You can find the list of installed packages and their versions on a running EC2 instance with the `dnf list installed` command.
+
+When building custom AMIs with the EKS-optimized AMIs as the base, it is not recommended or supported to run an operating system upgrade (ie. `dnf upgrade`) or upgrade any of the Kubernetes or GPU packages that are included in the EKS-optimized AMIs, as this risks breaking component compatibility. If you do upgrade the operating system or packages that are included in the EKS-optimized AMIs, it is recommended to thoroughly test in a development or staging environment before deploying to production. 
+
+When building custom AMIs for GPU instances, it is recommended to build separate custom AMIs for each instance type generation and family that you will run. The EKS-optimized accelerated AMIs selectively install drivers and packages at runtime based on the underlying instance type generation and family. For more information, see the EKS AMI scripts for https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2023/provisioners/install-nvidia-driver.sh[installation] and https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2023/runtime/gpu/nvidia-kmod-load.sh[runtime].
+
+[#eks-amis-nvidia-bottlerocket]
+== EKS Bottlerocket NVIDIA AMIs
+
+When using the https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/overview.html[NVIDIA GPU operator] with the EKS-optimized Bottlerocket NVIDIA AMIs, you must disable the operator installation of the driver, toolkit, and device plugin as these are already included in the EKS AMIs.
+
+In addition to the standard EKS AMI components, the EKS-optimized Bottlerocket NVIDIA AMIs include the following components. The minimal dependencies for EFA (kernel module and rdma-core) are installed in all Bottlerocket variants.
+
+* NVIDIA Kubernetes device plugin
+* NVIDIA driver
+* NVIDIA CUDA user mode driver
+* NVIDIA container toolkit
+* NVIDIA fabric manager
+* NVIDIA persistenced
+* NVIDIA IMEX driver
+* NVIDIA NVLink Subnet Manager
+* NVIDIA MIG manager
+
+For details on the NVIDIA CUDA user mode driver and the CUDA runtime/libraries used within application containers, see the https://docs.nvidia.com/deploy/cuda-compatibility/why-cuda-compatibility.html#why-cuda-compatibility[NVIDIA documentation]. The CUDA version shown from `nvidia-smi` is the version of the NVIDIA CUDA user mode driver installed on the host, which must be compatible with the CUDA runtime/libraries used in application containers.
+
+See the Bottlerocket Version Information in the https://bottlerocket.dev/en/[Bottlerocket documentation] for details on the installed packages and their versions. The EKS-optimized Bottlerocket NVIDIA AMIs support kernel 6.12 and NVIDIA driver 580 version for Kubernetes versions 1.33 and above. The NVIDIA 580 driver is required to use CUDA 13+.
+
+[#eks-amis-neuron]
+== EKS-optimized Neuron AMIs
+
+For details on how to run training and inference workloads using Neuron with Amazon EKS, see the following references:
+
+* https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html[Containers - Kubernetes - Getting Started] in the {aws} Neuron Documentation
+* https://github.com/aws-neuron/aws-neuron-eks-samples/blob/master/README.md#training[Training example] in {aws} Neuron EKS Samples on GitHub
+* <<inferentia-support,Deploy ML inference workloads with Inferentia on Amazon EKS>>
+
+To find the latest EKS-optimized Neuron AMIs, see <<retrieve-ami-id>> and <<retrieve-ami-id-bottlerocket>>.
+
+When using Amazon Elastic Fabric Adaptor (EFA) with the EKS-optimized AL2023 or Bottlerocket Neuron AMIs, you must install the EFA device plugin separately. For more information, see <<node-efa>>.
+
+[#eks-amis-neuron-al2023]
+== EKS AL2023 Neuron AMIs
+
+The EKS-optimized AL2023 Neuron AMIs do not include the Neuron Kubernetes device plugin or the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/tutorials/k8s-neuron-scheduler.html[Neuron Kubernetes scheduler extension], and these must be installed separately. For more information, see <<eks-neuron-device-plugin>>.
+
+In addition to the standard EKS AMI components, the EKS-optimized AL2023 Neuron AMIs include the following components. 
+
+* Neuron driver (aws-neuronx-dkms)
+* Neuron tools (aws-neuronx-tools)
+* EFA minimal (kernel module and rdma-core)
+
+See the EKS AL2023 Neuron AMI https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2023/provisioners/install-neuron-driver.sh[installation script] for details on how the EKS AMIs configure the Neuron dependencies. See the EKS-optimized https://github.com/awslabs/amazon-eks-ami/releases[AL2023 releases] on GitHub to see the component versions included in the AMIs. You can find the list of installed packages and their versions on a running EC2 instance with the `dnf list installed` command.
+
+[#eks-amis-neuron-bottlerocket]
+== EKS Bottlerocket Neuron AMIs
+
+The standard Bottlerocket variants (aws-k8s) include the Neuron dependencies that are automatically detected and loaded when running on AWS Inferentia or Trainium EC2 instances.
+
+The EKS-optimized Bottlerocket AMIs do not include the Neuron Kubernetes device plugin or the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/tutorials/k8s-neuron-scheduler.html[Neuron Kubernetes scheduler extension], and these must be installed separately. For more information, see <<eks-neuron-device-plugin>>.
+
+In addition to the standard EKS AMI components, the EKS-optimized Bottlerocket Neuron AMIs include the following components. 
+
+* Neuron driver (aws-neuronx-dkms)
+* EFA minimal (kernel module and rdma-core)
+
+When using the EKS-optimized Bottlerocket AMIs with Neuron instances, the following must be configured in the Bottlerocket user-data. This setting allows the container to take ownership of the mounted Neuron device based on the `runAsUser` and `runAsGroup` values provided in the workload specification. For more information on Neuron support in Bottlerocket, see the https://github.com/bottlerocket-os/bottlerocket/blob/develop/QUICKSTART-EKS.md#neuron-support[Quickstart on EKS readme] on GitHub.
+
+[source,toml]
 ----
-kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/deployments/static/nvidia-device-plugin.yml
+[settings]
+[settings.kubernetes]
+device-ownership-from-security-context = true
 ----
-. You can verify that your nodes have allocatable GPUs with the following command.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-kubectl get nodes "-o=custom-columns=NAME:.metadata.name,GPU:.status.allocatable.nvidia\.com/gpu"
-----
-. Create a file named `nvidia-smi.yaml` with the following contents. Replace [.replaceable]`tag` with your desired tag for https://hub.docker.com/r/nvidia/cuda/tags[nvidia/cuda]. This manifest launches an https://developer.nvidia.com/cuda-zone[NVIDIA CUDA] container that runs `nvidia-smi` on a node.
-+
-[source,yaml,subs="verbatim,attributes"]
-----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nvidia-smi
-spec:
-  restartPolicy: OnFailure
-  containers:
-  - name: nvidia-smi
-    image: nvidia/cuda:tag
-    args:
-    - "nvidia-smi"
-    resources:
-      limits:
-        nvidia.com/gpu: 1
-----
-. Apply the manifest with the following command.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-kubectl apply -f nvidia-smi.yaml
-----
-. After the Pod has finished running, view its logs with the following command.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-kubectl logs nvidia-smi
-----
-+
-An example output is as follows.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-Mon Aug  6 20:23:31 20XX
-+-----------------------------------------------------------------------------+
-| NVIDIA-SMI XXX.XX                 Driver Version: XXX.XX                    |
-|-------------------------------+----------------------+----------------------+
-| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|===============================+======================+======================|
-|   0  Tesla V100-SXM2...  On   | 00000000:00:1C.0 Off |                    0 |
-| N/A   46C    P0    47W / 300W |      0MiB / 16160MiB |      0%      Default |
-+-------------------------------+----------------------+----------------------+
-+-----------------------------------------------------------------------------+
-| Processes:                                                       GPU Memory |
-|  GPU       PID   Type   Process name                             Usage      |
-|=============================================================================|
-|  No running processes found                                                 |
-+-----------------------------------------------------------------------------+
-----
+
+See the https://github.com/bottlerocket-os/bottlerocket-kernel-kit/blob/develop/CHANGELOG.md[Bottlerocket kernel kit changelog] for information on the Neuron driver version included in the EKS-optimized Bottlerocket AMIs.

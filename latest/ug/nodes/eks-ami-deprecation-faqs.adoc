@@ -72,109 +72,42 @@ We do not recommend the continued use of `cgroupv1`. Instead, we recommend migra
 
 Kubernetes version 1.32 is the last version for which Amazon EKS will release AL2 (Amazon Linux 2) AMIs. For https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html[supported] Kubernetes versions up to 1.32, EKS will continue to release AL2 AMIs (AL2_ARM_64, AL2_x86_64) and AL2-accelerated AMIs (AL2_x86_64_GPU) until November 26, 2025. After this date, EKS will stop releasing AL2-optimized and AL2-accelerated AMIs for all Kubernetes versions. Note that the EOS date for EKS AL2-optimized and AL2-accelerated AMIs is independent of the standard and extended support timelines for Kubernetes versions by EKS.
 
-=== NVIDIA drivers comparison for AL2, AL2023, and Bottlerocket AMIs
-
-[%header,cols="5"]
-|===
-|Driver Branch
-|Amazon Linux 2 AMI
-|Amazon Linux 2023 AMI
-|Bottlerocket AMI
-|End-of-Life Date
-
-|R535
-|Not Supported
-|Not Supported
-|Not Supported
-|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[September 2027]
-
-|R550
-|Supported
-|Supported
-|Not Supported
-|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[April 2025]
-
-|R560
-|Not Supported
-|Supported
-|Not Supported
-|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[March 2025]
-
-|R570
-|Not Supported
-|Supported
-|Supported
-|https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[February 2026]
-|===
-
-To learn more, see https://docs.nvidia.com/ai-enterprise/index.html#release-documentation[Nvidia Release Documentation].
-
-=== NVIDIA CUDA versions comparison for AL2, AL2023, and Bottlerocket AMIs
-
-[%header,cols="4"]
-|===
-|CUDA Version
-|AL2 Support
-|AL2023 Support
-|Bottlerocket Support
-
-|https://developer.nvidia.com/cuda-toolkit-archive[10.1]
-|Supported
-|Not supported
-|Not Supported
-
-|https://developer.nvidia.com/cuda-toolkit-archive[11.8]
-|Supported
-|Supported
-|Supported
-
-|https://developer.nvidia.com/cuda-toolkit-archive[12.0]
-|Not supported
-|Supported
-|Supported
-
-|https://developer.nvidia.com/cuda-toolkit-archive[12.5]
-|Not supported
-|Supported
-|Supported
-|===
-
-To learn more, see https://developer.nvidia.com/cuda-toolkit-archive[CUDA Release Documentation].
-
 === Supported drivers and Linux kernel versions comparison for AL2, AL2023, and Bottlerocket AMIs
 
 [%header,cols="4"]
 |===
 |Component
-|AL2 AMI Source
-|AL2023 AMI Source
-|Bottlerocket AMI Source
+|EKS AL2 AMI
+|EKS AL2023 AMI
+|EKS Bottlerocket AMI
 
 |Base OS Compatibility
 |RHEL7/CentOS 7
 |Fedora/CentOS 9
 |N/A
 
-|CUDA Toolkit
-|https://developer.nvidia.com/cuda-toolkit-archive[CUDA 11.x–12.x]
-|https://developer.nvidia.com/cuda-toolkit-archive[CUDA 12.5+]
-|CUDA 11.x (12.5 coming soon)
+|https://docs.nvidia.com/deploy/cuda-compatibility/why-cuda-compatibility.html#why-cuda-compatibility[CUDA user mode driver]
+|12.x
+|12.x
+|12.x,13.x
 
 |NVIDIA GPU Driver
-|https://docs.nvidia.com/ai-enterprise/index.html#infrastructure-software[R550]
-|https://docs.nvidia.com/ai-enterprise/index.html#infrastructure-software[R565]
-|https://docs.nvidia.com/ai-enterprise/index.html#infrastructure-software[R570]
+|R570
+|R570
+|R570, R580
 
 |{aws} Neuron Driver
-|https://awsdocs-neuron.readthedocs-hosted.com/en/latest/general/announcements/neuron2.x/announce-no-support-al2.html[2.19]
-|https://awsdocs-neuron.readthedocs-hosted.com/en/latest/general/announcements/neuron2.x/announce-no-support-al2.html[2.19+]
-|2.20	
+|2.20+
+|2.20+
+|2.20+	
 
 |Linux Kernel
-|https://docs.aws.amazon.com/linux/al2/ug/aml2-kernel.html[5.10]
-|https://docs.aws.amazon.com/linux/al2023/ug/compare-with-al2-kernel.html[6.1], 6.12
+|5.10
+|6.1, 6.12
 |6.1, 6.12
 |===
+
+For more information on NVIDIA driver and CUDA compatibility, see the https://docs.nvidia.com/datacenter/tesla/drivers/index.html#supported-drivers-and-cuda-toolkit-versions[NVIDIA documentation].
 
 === {aws} Neuron compatibility with AL2 AMIs
 
