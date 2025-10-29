@@ -88,7 +88,7 @@ For more information, see <<auto-configure-alb>> or <<auto-configure-nlb>>.
 * If your worker nodes use custom security groups (not `eks-cluster-sg-*` naming pattern), your cluster role needs additional IAM permissions.  The default EKS-managed policy only allows EKS to modify security groups named `eks-cluster-sg-*`. Without permission to modify your custom security groups, EKS cannot add the required ingress rules that allow ALB/NLB traffic to reach your pods.
 
 [#dns-consider]
-== CoreDNS
+==== CoreDNS considerations
 
 EKS Auto Mode does not use the traditional CoreDNS deployment to provide DNS resolution within the cluster. Instead, Auto Mode nodes utilize CoreDNS running as a system service directly on each node. If transitioning a traditional cluster to Auto Mode, you can remove the CoreDNS deployment from your cluster once your workloads have been moved to the Auto Mode nodes.
 
