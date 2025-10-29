@@ -19,7 +19,7 @@ For more information, see <<automode>>.
 
 This topic describes how to install the {aws} Load Balancer Controller using Helm, a package manager for Kubernetes, and `eksctl`. The controller is installed with default options. For more information about the controller, including details on configuring it with annotations, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller/[{aws} Load Balancer Controller Documentation] on GitHub.  
 
-In the following steps, replace the [.replaceable]`example values` with your own values.
+In the following steps, replace the example values with your own values.
 
 [#lbc-prereqs]
 == Prerequisites

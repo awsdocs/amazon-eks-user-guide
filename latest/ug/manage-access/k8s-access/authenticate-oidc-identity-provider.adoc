@@ -43,7 +43,7 @@ You can associate an identity provider using `eksctl` or the {aws-management-con
 [#identity-associate-eksctl]
 === Associate an identity provider using eksctl 
 
-. Create a file named [.replaceable]`associate-identity-provider.yaml` with the following contents. Replace the [.replaceable]`example values` with your own. The values in the `identityProviders` section are obtained from your OIDC identity provider. Values are only required for the `name`, `type`, `issuerUrl`, and `clientId` settings under `identityProviders`.
+. Create a file named `associate-identity-provider.yaml` with the following contents. Replace the example values with your own. The values in the `identityProviders` section are obtained from your OIDC identity provider. Values are only required for the `name`, `type`, `issuerUrl`, and `clientId` settings under `identityProviders`.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----

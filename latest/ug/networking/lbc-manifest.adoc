@@ -19,7 +19,7 @@ For more information, see <<automode>>.
 
 This topic describes how to install the controller by downloading and applying Kubernetes manifests. You can view the full https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/[documentation] for the controller on GitHub.  
 
-In the following steps, replace the [.replaceable]`example values` with your own values.
+In the following steps, replace the example values with your own values.
 
 [#lbc-manifest-prereqs]
 == Prerequisites

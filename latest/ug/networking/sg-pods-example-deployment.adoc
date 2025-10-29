@@ -60,7 +60,7 @@ kubectl apply -f my-security-group-policy.yaml
 ----
 . Deploy a sample application with a label that matches the [.replaceable]`my-role` value for [.replaceable]`podSelector` that you specified in a previous step.
 +
-.. Copy the following contents to your device. Replace the [.replaceable]`example values` with your own and then run the modified command. If you replace [.replaceable]`my-role`, make sure that it's the same as the value you specified for the selector in a previous step.
+.. Copy the following contents to your device. Replace the example values with your own and then run the modified command. If you replace [.replaceable]`my-role`, make sure that it's the same as the value you specified for the selector in a previous step.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----

@@ -96,7 +96,7 @@ eksctl utils enable-secrets-encryption -f kms-cluster.yaml --encrypt-existing-se
 
 {aws} CLI::
 .. This procedure only applies to EKS clusters running Kubernetes version 1.27 or lower. For more information, see <<envelope-encryption>>.
-.. Associate the https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] configuration with your cluster using the following {aws} CLI command. Replace the [.replaceable]`example values` with your own.
+.. Associate the https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption] configuration with your cluster using the following {aws} CLI command. Replace the example values with your own.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

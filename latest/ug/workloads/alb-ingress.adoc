@@ -145,7 +145,7 @@ Ensure that each ingress in the same ingress group has a unique priority number.
 
 You can run the sample application on a cluster that has Amazon EC2 nodes, Fargate Pods, or both.
 
-. If you're not deploying to Fargate, skip this step. If you're deploying to Fargate, create a Fargate profile. You can create the profile by running the following command or in the <<create-fargate-profile,{aws-management-console}>> using the same values for `name` and `namespace` that are in the command. Replace the [.replaceable]`example values` with your own.
+. If you're not deploying to Fargate, skip this step. If you're deploying to Fargate, create a Fargate profile. You can create the profile by running the following command or in the <<create-fargate-profile,{aws-management-console}>> using the same values for `name` and `namespace` that are in the command. Replace the example values with your own.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
