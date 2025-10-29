@@ -127,7 +127,14 @@ For more information about the Amazon EC2 Instance Metadata Service (IMDS), see 
 * When `ephemeralStorage.size` equals or exceeds the local NVMe capacity, the following actions occur:
 ** Auto Mode skips the small EBS volume.
 ** The NVMe drive(s) are exposed directly for your workload.
-* Amazon EKS Auto Mode does not support {aws} Fault Injection Service. For more information, see link:resilience-hub/latest/userguide/testing.html["Managing Fault Injection Service experiments",type="documentation"] in the {aws} Resilience Hub User Guide. 
+* Amazon EKS Auto Mode does not support the following {aws} Fault Injection Service actions:
+** `ec2:RebootInstances`
+** `ec2:SendSpotInstanceInterruptions`
+** `ec2:StartInstances`
+** `ec2:StopInstances`
+** `ec2:TerminateInstances`
+** `ec2:PauseVolumeIO`
+* Amazon EKS Auto Mode supports {aws} Fault Injection Service EKS Pod actions. For more information, see link:resilience-hub/latest/userguide/testing.html[Managing Fault Injection Service experiments,type="documentation"] and link:fis/latest/userguide/eks-pod-actions.html#configure-service-account[Use the AWS FIS aws:eks:pod actions,type="documentation"] in the {aws} Resilience Hub User Guide.
 * You do not need to install the `Neuron Device Plugin` on EKS Auto Mode nodes.
 +
 If you have other types of nodes in your cluster, you need to configure the Neuron Device plugin to not run on Auto Mode nodes. For more information, see <<associate-workload>>.
