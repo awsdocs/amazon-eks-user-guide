@@ -90,6 +90,6 @@ For more information, see <<auto-configure-alb>> or <<auto-configure-nlb>>.
 [#dns-consider]
 == CoreDNS
 
-EKS Auto Mode does not use the traditional CoreDNS Deployment to provide DNS resolution within the cluster. Rather, Auto Mode nodes utilize CoreDNS running as a system service directly on each node. Given this, if transitioning a traditional EKS Cluster to Auto Mode, you can remove the CoreDNS deployment from your cluster, once your workloads have been moved to the Auto Mode nodes.
+EKS Auto Mode does not use the traditional CoreDNS deployment to provide DNS resolution within the cluster. Instead, Auto Mode nodes utilize CoreDNS running as a system service directly on each node. If transitioning a traditional cluster to Auto Mode, you can remove the CoreDNS deployment from your cluster once your workloads have been moved to the Auto Mode nodes.
 
 IMPORTANT: If you plan to maintain a cluster with both Auto Mode and non-Auto Mode nodes, you must retain the CoreDNS deployment. Non-Auto Mode nodes rely on the traditional CoreDNS pods for DNS resolution, as they cannot access the node-level DNS service that Auto Mode provides.
