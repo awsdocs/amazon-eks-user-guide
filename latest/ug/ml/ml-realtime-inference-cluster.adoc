@@ -1054,7 +1054,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 
 The expected output should look like this:
 
-[source]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME: aws-load-balancer-controller
 LAST DEPLOYED: Wed Jul 9 15:03:31 2025
