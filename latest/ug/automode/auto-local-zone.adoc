@@ -13,7 +13,7 @@ This guide also demonstrates how to use Kubernetes taints and tolerations to ens
 
 Before you begin deploying EKS Auto Mode nodes onto Local Zones, ensure you have the following prerequisites in place: 
 
-* xref:create-auto[An existing EKS Auto Mode Cluster]
+* <<create-auto,An existing EKS Auto Mode Cluster>>
 * link:local-zones/latest/ug/getting-started.html#getting-started-find-local-zone[Opted-in to local zone in your {aws} account,type="documentation"]
 
 == Step 1: Create Local Zone Subnet
