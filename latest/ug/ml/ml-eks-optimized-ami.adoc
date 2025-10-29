@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Use EKS-optimized accelerated AMIs for GPU instances
 :info_titleabbrev: Use EKS Linux GPU AMIs
 
-Amazon EKS supports EKS-optimized Amazon Linux and Bottlerocket AMIs for GPU instances. The EKS-optimized accelerated AMIs simplify running AI and ML workloads in EKS clusters by providing pre-built, validated operating system images for the accelerated Kubernetes stack. In addition to the core Kubernetes components that are included in the standard EKS-optimized AMIs, the EKS-optimized accelerated AMIs include the kernel modules and drivers required to run the NVIDIA GPU `G` and `P` EC2 instances, and the AWS GPU link:machine-learning/inferentia/[Inferentia,type="marketing"] and link:machine-learning/trainium/[Trainium,type="marketing"] EC2 instances in EKS clusters. 
+Amazon EKS supports EKS-optimized Amazon Linux and Bottlerocket AMIs for GPU instances. The EKS-optimized accelerated AMIs simplify running AI and ML workloads in EKS clusters by providing pre-built, validated operating system images for the accelerated Kubernetes stack. In addition to the core Kubernetes components that are included in the standard EKS-optimized AMIs, the EKS-optimized accelerated AMIs include the kernel modules and drivers required to run the NVIDIA GPU `G` and `P` EC2 instances, and the {aws} GPU link:machine-learning/inferentia/[Inferentia,type="marketing"] and link:machine-learning/trainium/[Trainium,type="marketing"] EC2 instances in EKS clusters. 
 
 The table below shows the supported GPU instance types for each EKS-optimized accelerated AMI variant. See the EKS-optimized https://github.com/awslabs/amazon-eks-ami/releases[AL2023 releases] and https://github.com/bottlerocket-os/bottlerocket/blob/develop/CHANGELOG.md[Bottlerocket releases] on GitHub for the latest updates to the AMI variants.
 
@@ -117,7 +117,7 @@ See the EKS AL2023 Neuron AMI https://github.com/awslabs/amazon-eks-ami/blob/mai
 [#eks-amis-neuron-bottlerocket]
 == EKS Bottlerocket Neuron AMIs
 
-The standard Bottlerocket variants (aws-k8s) include the Neuron dependencies that are automatically detected and loaded when running on AWS Inferentia or Trainium EC2 instances.
+The standard Bottlerocket variants (aws-k8s) include the Neuron dependencies that are automatically detected and loaded when running on {aws} Inferentia or Trainium EC2 instances.
 
 The EKS-optimized Bottlerocket AMIs do not include the Neuron Kubernetes device plugin or the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/tutorials/k8s-neuron-scheduler.html[Neuron Kubernetes scheduler extension], and these must be installed separately. For more information, see <<eks-neuron-device-plugin>>.
 

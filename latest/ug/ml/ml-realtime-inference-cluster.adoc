@@ -172,7 +172,7 @@ iam:
     permissionPolicyARNs:
     - arn:aws:iam::${AWS_ACCOUNT_ID}:policy/KarpenterControllerPolicy-${EKS_CLUSTER_NAME}
   # Creates the pod identity association and service account 
-  # Uses the AWS LBC policy for permissions
+  # Uses the {aws} LBC policy for permissions
   - namespace: kube-system
     serviceAccountName: aws-load-balancer-controller
     createServiceAccount: true
@@ -1063,7 +1063,7 @@ STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
-AWS Load Balancer controller installed!
+{aws} Load Balancer controller installed!
 ----
 
 === Mount the model in a persistent volume

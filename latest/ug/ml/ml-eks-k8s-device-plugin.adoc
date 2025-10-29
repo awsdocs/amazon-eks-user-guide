@@ -11,7 +11,7 @@ Kubernetes https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage
 
 * When using the EKS-optimized AL2023 AMIs with NVIDIA GPUs, you must install the https://github.com/NVIDIA/k8s-device-plugin[NVIDIA Kubernetes device plugin]. You can install and manage the NVIDIA Kubernetes device plugin with Helm, your choice of Kubernetes tooling, or the NVIDIA GPU operator.
 * When using the EKS-optimized Bottlerocket AMIs with NVIDIA GPUs, you do not need to install the NVIDIA Kubernetes device plugin, as it is already included in the EKS-optimized Bottlerocket AMIs. This includes when you use GPU instances with EKS Auto Mode.
-* When using the EKS-optimized AL2023 or Bottlerocket AMIs with AWS Inferentia or Trainium GPUs, then you must install the Neuron Kubernetes device plugin, and optionally install the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/tutorials/k8s-neuron-scheduler.html[Neuron Kubernetes scheduler extension]. For more information, see the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html[Neuron documentation for running on EKS].
+* When using the EKS-optimized AL2023 or Bottlerocket AMIs with {aws} Inferentia or Trainium GPUs, then you must install the Neuron Kubernetes device plugin, and optionally install the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/tutorials/k8s-neuron-scheduler.html[Neuron Kubernetes scheduler extension]. For more information, see the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html[Neuron documentation for running on EKS].
 
 [#eks-nvidia-device-plugin]
 == Install NVIDIA Kubernetes device plugin
