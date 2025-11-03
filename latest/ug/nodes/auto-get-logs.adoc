@@ -30,7 +30,7 @@ If you don't already have an S3 bucket to store the logs, create one. Use the fo
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-aws s3api create-bucket --bucket [.replaceable]`bucket-name`
+aws s3api create-bucket --bucket [.replaceable]`<bucket-name>`
 ----
 
 == Step 2: Create pre-signed S3 URL for HTTP Put
@@ -44,15 +44,15 @@ The logs will be returned as a gzip tarball, with the `.tar.gz` extension.
 You must use the {aws} API or a SDK to create the pre-signed S3 upload URL for EKS to upload the log file. You cannot create a pre-signed S3 upload URL using the {aws} CLI.  
 ====
 
-. Determine where in the bucket you want to store the logs. For example, you might use `2024-11-12/logs1.tar.gz` as the key. 
-. Save the following Python code to the file `presign-upload.py`. Replace `<bucket-name>` and `<key>`. The key should end with `.tar.gz`.
+. Determine where in the bucket you want to store the logs. For example, you might use [.replaceable]`2024-11-12/logs1.tar.gz` as the key.
+. Save the following Python code to the file [.replaceable]`presign-upload.py`. Replace [.replaceable]`<bucket-name>` and [.replaceable]`<key>`. The key should end with `.tar.gz`.
 +
 [source,python,subs="verbatim,attributes"]
 ----
 import boto3; print(boto3.client('s3').generate_presigned_url(
    ClientMethod='put_object',
-   Params={'Bucket': '<bucket-name>', 'Key': '<key>'},
-   ExpiresIn=1000
+   Params={'Bucket': '[.replaceable]`<bucket-name>`', 'Key': '[.replaceable]`<key>`'},
+   ExpiresIn=[.replaceable]`1000`
 ))
 ----
 . Run the script with
@@ -78,7 +78,7 @@ resource's name, and providing a HTTP PUT URL destination.
 apiVersion: eks.amazonaws.com/v1alpha1
 kind: NodeDiagnostic
 metadata:
-    name: [.replaceable]`node-name`
+    name: [.replaceable]`<node-name>`
 spec:
     logCapture:
         destination: [.replaceable]`http-put-destination`
@@ -101,7 +101,7 @@ You can check on the Status of the collection by describing the
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl describe nodediagnostics.eks.amazonaws.com/[.replaceable]`node-name`
+kubectl describe nodediagnostics.eks.amazonaws.com/[.replaceable]`<node-name>`
 ----
 
 == Step 4: Download logs from S3
@@ -111,7 +111,7 @@ Wait approximately one minute before attempting to download the logs. Then, use 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
 # Once NodeDiagnostic shows Success status, download the logs
-aws s3 cp s3://[.replaceable]`bucket-name`/[.replaceable]`key` ./node-logs.tar.gz
+aws s3 cp s3://[.replaceable]`<bucket-name>`/[.replaceable]`key` ./[.replaceable]`<path-to-node-logs>`.tar.gz
 ----
 
 == Step 5: Clean up NodeDiagnostic resource
@@ -123,5 +123,5 @@ artifacts
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
 # Delete the NodeDiagnostic resource
-kubectl delete nodediagnostics.eks.amazonaws.com/[.replaceable]`node-name`
+kubectl delete nodediagnostics.eks.amazonaws.com/[.replaceable]`<node-name>`
 ----
