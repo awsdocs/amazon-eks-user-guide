@@ -86,7 +86,7 @@ Bottlerocket has some specific differences from the general information in this 
 |Can run {aws} link:bottlerocket/[Bottlerocket,type="marketing"]
 |Yes
 |Yes
-|No
+|Yes - VMware variants of Bottlerocket only
 
 //GDC Removed fargate specific rows
 
