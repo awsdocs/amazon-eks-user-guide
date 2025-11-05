@@ -14,7 +14,7 @@ The Kubernetes Certificates API automates https://www.itu.int/rec/T-REC-X.509[X.
 
 One of the built-in signers is `kubernetes.io/legacy-unknown`. The `v1beta1` API of CSR resource honored this legacy-unknown signer. However, the stable `v1` API of CSR doesn't allow the `signerName` to be set to `kubernetes.io/legacy-unknown`.
 
-If you want to use Amazon EKS CA for generating certificates on your clusters, you must use a custom signer. To use the CSR `v1` API version and generate a new certificate, you must migrate any existing manifests and API clients. Existing certificates that were created with the existing `v1beta1` API are valid and function until the certificate expires. This includes the following:
+If you want to use Amazon EKS CA for generating certificates on your clusters, you must use a custom signer. Amazon EKS supports the custom signer name `beta.eks.amazonaws.com/app-serving` to generate certificates. To use the CSR `v1` API version and generate a new certificate, you must migrate any existing manifests and API clients. Existing certificates that were created with the existing `v1beta1` API are valid and function until the certificate expires. This includes the following:
 
 * Trust distribution: None. There's no standard trust or distribution for this signer in a Kubernetes cluster.
 * Permitted subjects: Any
@@ -29,7 +29,7 @@ NOTE: Client certificate signing is not supported.
 [#csr-example]
 == Example CSR generation with signerName
 
-These steps shows how to generate a serving certificate for DNS name `myserver.default.svc` using `signerName: beta.eks.amazonaws.com/app-serving`. Use this as a guide for your own environment.
+These steps shows how to generate a serving certificate for DNS name `myserver.default.svc`. This example shows the Amazon EKS supported `signerName: beta.eks.amazonaws.com/app-serving`. Use this as a guide for your own environment.
 
 . Run the `openssl genrsa -out myserver.key 2048` command to generate an RSA private key.
 +
@@ -50,7 +50,7 @@ openssl req -new -key myserver.key -out myserver.csr -subj "/CN=myserver.default
 base_64=$(cat myserver.csr | base64 -w 0 | tr -d "
 ")
 ----
-. Run the following command to create a file named `mycsr.yaml`. In the following example, `beta.eks.amazonaws.com/app-serving` is the `signerName`.
+. Run the following command to create a file named `mycsr.yaml`. Note the use of `beta.eks.amazonaws.com/app-serving` for the `signerName` in this example.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
