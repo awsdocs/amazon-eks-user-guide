@@ -663,7 +663,7 @@ This policy is automatically managed by the EKS service for Cluster Insights. Fo
 
 AWSBackupFullAccessPolicyForBackup
 
-This policy grants the permissions necessary for AWS Backup to manage and create backups of the EKS Cluster. This policy includes the following permissions: 
+This policy grants the permissions necessary for {aws} Backup to manage and create backups of the EKS Cluster. This policy includes the following permissions: 
 
 [%header,cols="3"]
 |===
@@ -683,7 +683,7 @@ This policy grants the permissions necessary for AWS Backup to manage and create
 
 AWSBackupFullAccessPolicyForRestore
 
-This policy grants the permissions necessary for AWS Backup to manage and restore backups of the EKS Cluster. This policy includes the following permissions: 
+This policy grants the permissions necessary for {aws} Backup to manage and restore backups of the EKS Cluster. This policy includes the following permissions: 
 
 [%header,cols="3"]
 |===
