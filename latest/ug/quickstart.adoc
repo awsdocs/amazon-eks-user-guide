@@ -10,47 +10,33 @@ include::attributes.txt[]
 Deploy a game application and persist its data on Amazon EKS
 --
 
-// GDC: this page will need to check if builds
+This quickstart tutorial guides you through the steps to deploy the 2048 game sample application and persist its data on an Amazon EKS Auto Mode cluster using https://eksctl.io/[eksctl]. 
 
-Deploy a game application and persist its data on Amazon EKS
+<<automode,Amazon EKS Auto Mode>> simplifies cluster management by automating routine tasks like block storage, networking, load balancing, and compute autoscaling. During setup, it handles creating nodes with EC2 managed instances, application load balancers, and EBS volumes.
 
-This quickstart tutorial shows the steps to deploy the 2048 game sample application and persist its data on an Amazon EKS Auto Mode cluster using https://eksctl.io/[eksctl]. Amazon EKS Auto Mode automates routine tasks for cluster block storage, networking, load balancing, and compute autoscaling. 
-
-As we progress, we'll walk you through the cluster setup process. Amazon EKS Auto Mode will automate tasks for creating a node using an EC2 managed instance, creating an application load balancer, and creating an EBS volume. 
-
-Overall, you'll deploy a sample workload with the custom annotations required to fully integrate with {aws} services.
+In summary, you'll deploy a sample workload with the custom annotations needed for seamless integration with {aws} services.
 
 == In this tutorial
 
 Using the `eksctl` cluster template that follows, you'll build a cluster with EKS Auto Mode for automated node provisioning. 
 
-*VPC Configuration*  
-When using the eksctl cluster template that follows, eksctl automatically creates an IPv4 Virtual Private Cloud (VPC) for the cluster. By default, eksctl configures a VPC that addresses all networking requirements, in addition to creating both public and private endpoints.
-
-*Instance Management*  
-EKS Auto Mode dynamically adds or removes nodes in your EKS cluster based on the demands of your Kubernetes applications.
-
-*Data Persistence*  
-Use the block storage capability of EKS Auto Mode to ensure the persistence of application data, even in scenarios involving pod restarts or failures. 
-
-*External App Access*  
-Use the load balancing capability of EKS Auto Mode to dynamically provision an Application Load Balancer (ALB).
+- *VPC Configuration*: When using the eksctl cluster template that follows, eksctl automatically creates an IPv4 Virtual Private Cloud (VPC) for the cluster. By default, eksctl configures a VPC that addresses all networking requirements, in addition to creating both public and private endpoints.
+- *Instance Management*: EKS Auto Mode dynamically adds or removes nodes in your EKS cluster based on the demands of your Kubernetes applications.
+- *Data Persistence*: Use the block storage capability of EKS Auto Mode to ensure the persistence of application data, even in scenarios involving pod restarts or failures. 
+- *External App Access*: Use the load balancing capability of EKS Auto Mode to dynamically provision an Application Load Balancer (ALB).
 
 == Prerequisites
 
-Before you begin, ensure you have the following prerequisites set up to use Amazon EKS:
+Before you start, make sure you have performed the following tasks:
 
-* Set up {aws} CLI and configure credentials
-* Install eksctl
-* Install kubectl
-
-For more information, see <<setting-up>>. 
+* link:eks/latest/userguide/setting-up.html[Setup your environment for Amazon EKS,type="documentation"]
+* https://eksctl.io/installation/[Install the latest version of eksctl]
 
 == Configure the cluster
 
 In this section, you'll create a cluster using EKS Auto Mode for dynamic node provisioning.
 
-Create a `cluster-config.yaml` file and paste the following contents into it. Replace `region-code` with a valid Region, such as `us-east-1`:
+Create a `cluster-config.yaml` file and paste the following contents into it. Replace `region-code` with a valid Region (e.g., `us-east-1`).
 
 ```yaml
 apiVersion: eksctl.io/v1alpha5
@@ -65,7 +51,7 @@ autoModeConfig:
 ```
 Now, we're ready to create the cluster. 
 
-Create the Amazon EKS cluster:
+Create the EKS cluster using the `cluster-config.yaml``:
 
 ```bash
 eksctl create cluster -f cluster-config.yaml
@@ -274,12 +260,12 @@ With these steps, your 2048 game on the cluster is now set up to persist data us
 If you liked this tutorial, let us know by providing feedback so we're able to provide you with more use case-specific quickstart tutorials like this one.
 
 
-== Delete your cluster and nodes
+== Clean up
 
-After you've finished with the cluster that you created for this tutorial, you should clean up by deleting the cluster with the following command. If you want to do more with this cluster before you clean up, see Next steps.
+To avoid incurring future charges, you need to delete the associated CloudFormation stack manually to delete all resources created during this guide, including the VPC network.
+
+Delete the CloudFormation stack:
 
 ```bash
 eksctl delete cluster -f ./cluster-config.yaml
 ```
-
-EKS will automatically clean up any nodes it provisioned when the cluster is deleted.
