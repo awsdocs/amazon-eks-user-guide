@@ -249,6 +249,15 @@ Before adding the Amazon EBS driver as an Amazon EKS add-on, confirm that you do
 
 ====
 
+[NOTE]
+====
+
+By default, the RBAC role used by the EBS CSI has permissions to mutate nodes to support its taint removal feature.  Due to limitations of Kubernetes RBAC, this also allows it to mutate any other Node in the cluster.
+The Helm chart has a parameter (`node.serviceAccount.disableMutation`) that disables mutating Node RBAC permissions for the ebs-csi-node service account. When enabled, driver features such as taint removal will not function.
+
+====
+
+
 Alternatively, if you want a self-managed installation of the Amazon EBS CSI driver, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md[Installation] on GitHub.
 
 [#ebs-sample-app]
