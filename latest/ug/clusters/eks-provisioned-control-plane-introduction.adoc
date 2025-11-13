@@ -123,55 +123,25 @@ as shown in the following tables.
 
 ===== EKS v1.28 and v1.29
 
-[cols="1,1,1,1",options="header",]
+[cols=",",options="header",]
 |===
-|Provisioned Control Plane Scaling Tier 
-|API request concurrency (seats)
-|Pod scheduling rate (pods/sec)
-|Cluster database size (GB)
-
-|XL 
-|1700
-|100
-|20
-
-|2XL 
-|3400
-|100
-|20
-
-|4XL 
-|6800
-|100
-|20
+|Provisioned Control Plane Scaling Tier |Tier capacity
+| |API request concurrency (seats)
+|XL |1700
+|2XL |3400
+|4XL |6800
 |===
 
 ===== EKS v1.30 and later
 
-
-[cols="1,1,1,1",options="header",]
+[cols=",",options="header",]
 |===
-|Provisioned Control Plane Scaling Tier 
-|API request concurrency (seats)
-|Pod scheduling rate (pods/sec)
-|Cluster database size (GB)
-
-|XL 
-|1700
-|167
-|20
-
-|2XL 
-|3400
-|283
-|20
-
-|4XL 
-|6800
-|400
-|20
+|Provisioned Control Plane Scaling Tier |Tier capacity
+| |API request concurrency (seats)
+|XL |1700
+|2XL |3400
+|4XL |6800
 |===
-
 
 ==== Monitoring control plane scaling tier utilization
 
@@ -250,5 +220,5 @@ complete.
 
 === Get started
 
-To get started, see https://docs.aws.amazon.com/eks/latest/userguide/eks-mcp-tool-configurations.html[++++
+To get started, see https://quip-amazon.com/mN9PAHJk1CYb[++[++WIP++]++
 Getting Started with the Amazon EKS Provisioned Control Plane]
