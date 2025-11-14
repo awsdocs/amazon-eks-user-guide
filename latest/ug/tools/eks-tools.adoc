@@ -1,0 +1,24 @@
+include::../attributes.txt[]
+
+[.topic]
+[#eks-tools]
+= Amazon EKS tools
+:info_titleabbrev: Tools
+
+[abstract]
+--
+Set up and configure {aws} tools to manage your Amazon EKS cluster.
+--
+
+Add intro.
+
+
+[.topiclist]
+[[Topic List]]
+
+include::eks-mcp-introduction.adoc[leveloffset=+1]
+
+include::eks-mcp-tool-configurations.adoc[leveloffset=+1]
+
+include::eks-mcp-getting-started.adoc[leveloffset=+1]
+
