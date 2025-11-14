@@ -230,24 +230,6 @@ The policy also includes several condition checks to ensure that the permissions
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSLoadBalancingPolicy.html#AmazonEKSLoadBalancingPolicy-json[AmazonEKSLoadBalancingPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
-[#security-iam-awsmanpol-amazoneksmcpfullaccess]
-== {aws} managed policy: AmazonEKSMCPFullAccess
-:info_titleabbrev: AmazonEKSMCPFullAccess
-
-Attach `AmazonEKSMCPFullAccess` to your IAM entity to enable all tools in the Amazon EKS MCP Server. Before connecting to the service, configure local {aws} credentials for an IAM role with this policy attached. This policy grants the permissions needed to call downstream APIs for all tools, including privileged tools that may involve write operations (e.g., `manage_eks_stacks`, which creates an EKS cluster and associated EC2 and IAM resources) and read-only tools.
-
-*Permission details* 
-
-This policy grants permissions to use all tools in the EKS MCP Server, including both privileged tools that may involve write operations, and read-only tools in <<eks-mcp-tool-configurations>>.
-
-Privileged tools:
-
-* add_inline_policy
-* apply_yaml
-* manage_eks_stacks
-* manage_k8s_resource
-
-
 [#security-iam-awsmanpol-amazoneksmcpreadonlyaccess]
 == {aws} managed policy: AmazonEKSMCPReadOnlyAccess
 :info_titleabbrev: AmazonEKSMCPReadOnlyAccess
