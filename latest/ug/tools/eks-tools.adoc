@@ -18,7 +18,7 @@ Add intro.
 
 include::eks-mcp-introduction.adoc[leveloffset=+1]
 
-include::eks-mcp-tool-configurations.adoc[leveloffset=+1]
-
 include::eks-mcp-getting-started.adoc[leveloffset=+1]
+
+include::eks-mcp-tool-configurations.adoc[leveloffset=+1]
 
