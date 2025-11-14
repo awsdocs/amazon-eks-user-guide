@@ -2,8 +2,13 @@ include::../attributes.txt[]
 
 [.topic]
 [#eks-mcp-introduction]
-= Amazon EKS MCP Server
+= Amazon EKS Model Context Protocol (MCP) Server
 :info_titleabbrev: Model Context Protocol (MCP)
+
+[abstract]
+--
+Learn how to manage your Amazon EKS cluster, Kubernetes resources, diagnose issues, and query Amazon EKS documentation with the EKS MCP Server.
+--
 
 The Amazon EKS MCP server is a fully managed service enabling AI powered experiences for development and operations. link:https://modelcontextprotocol.io/docs/getting-started/intro[Model Context Protocol (MCP)] provides a standardized interface that enriches AI agents and applications with real-time, contextual knowledge of your EKS clusters and Kubernetes resources, enabling more accurate, context-aware responses and AI-powered workflows throughout the application lifecycle, from initial setup through production optimization, and troubleshooting. 
 
@@ -71,3 +76,7 @@ Generate a Kubernetes deployment YAML for my Node.js app running on port 3000
 == Get started
 
 To get started, see <<eks-mcp-getting-started>>.
+
+include::eks-mcp-getting-started.adoc[leveloffset=+1]
+
+include::eks-mcp-tool-configurations.adoc[leveloffset=+1]
