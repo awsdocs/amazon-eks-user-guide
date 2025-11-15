@@ -32,14 +32,14 @@ You can delete a managed node group with:
 
 *Delete a managed node group with `eksctl`*
 
-Enter the following command. Replace every [.replaceable]`example value` with your own values.
+Enter the following command. Replace every `<example value>` with your own values.
 
 [source,bash,subs="verbatim,attributes"]
 ----
 eksctl delete nodegroup \
-  --cluster my-cluster \
-  --name my-mng \
-  --region region-code
+  --cluster <my-cluster> \
+  --name <my-mng> \
+  --region <region-code>
 ----
 
 For more options, see https://eksctl.io/usage/nodegroups/#deleting-and-draining-nodegroups[Deleting and draining nodegroups] in the `eksctl` documentation.
@@ -59,16 +59,16 @@ For more options, see https://eksctl.io/usage/nodegroups/#deleting-and-draining-
 *Delete a managed node group with {aws} CLI*
 
 
-. Enter the following command. Replace every [.replaceable]`example value` with your own values.
+. Enter the following command. Replace every `<example value>` with your own values.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 aws eks delete-nodegroup \
-  --cluster-name my-cluster \
-  --nodegroup-name my-mng \
-  --region region-code
+  --cluster-name <my-cluster> \
+  --nodegroup-name <my-mng> \
+  --region <region-code>
 ----
-. Use the arrow keys on your keyboard to scroll through the response output. Press the `q` key when you're finished.
+. If `cli_pager=` is set in the CLI config, use the arrow keys on your keyboard to scroll through the response output. Press the `q` key when you're finished.
 
 +
 For more options, see the `link:cli/latest/reference/eks/delete-nodegroup.html[delete-nodegroup,type="documentation"]` command in the _{aws} CLI Command Reference_.

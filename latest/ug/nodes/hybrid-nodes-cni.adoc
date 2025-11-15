@@ -19,7 +19,15 @@ The Calico documentation previously on this page has been moved to the link:http
 [#hybrid-nodes-cilium-version-compatibility]
 == Version compatibility
 
-Cilium version `v1.17.x` is supported for EKS Hybrid Nodes for every Kubernetes version supported in Amazon EKS.
+Cilium versions `v1.17.x` and `v1.18.x` are supported for EKS Hybrid Nodes for every Kubernetes version supported in Amazon EKS.
+
+[NOTE]
+*Cilium v1.18.3 kernel requirement*: Due to the kernel requirement (Linux kernel >= 5.10), Cilium v1.18.3 is not supported on:
+
+- Ubuntu 20.04
+- Red Hat Enterprise Linux (RHEL) 8
+
+For system requirements, see link:https://docs.cilium.io/en/stable/operations/system_requirements/[Cilium system requirements].
 
 See link:eks/latest/userguide/kubernetes-versions.html[Kubernetes version support,type="documentation"] for the Kubernetes versions supported by Amazon EKS. EKS Hybrid Nodes have the same Kubernetes version support as Amazon EKS clusters with cloud nodes.
 
@@ -76,7 +84,11 @@ See link:eks/latest/userguide/kubernetes-versions.html[Kubernetes version suppor
 [#hybrid-nodes-cilium-considerations]
 == Cilium considerations
 
-- *Helm repository* - {aws} hosts the Cilium Helm chart in the Amazon Elastic Container Registry Public (Amazon ECR Public) at link:https://gallery.ecr.aws/eks/cilium/cilium[Amazon EKS Cilium/Cilium]. You can use the following URI in your `helm` commands to use this repository: `oci://public.ecr.aws/eks/cilium/cilium:1.17.6-0`. The commands in this topic use this repository. Note that certain `helm repo` commands aren't valid for Helm repositores in Amazon ECR Public, so you can't refer to this repository from a local Helm repo name. Instead, use the full URI in most commands.
+- *Helm repository* - {aws} hosts the Cilium Helm chart in the Amazon Elastic Container Registry Public (Amazon ECR Public) at link:https://gallery.ecr.aws/eks/cilium/cilium[Amazon EKS Cilium/Cilium]. The available versions include:
+  * Cilium v1.17.9: `oci://public.ecr.aws/eks/cilium/cilium:1.17.9-0`
+  * Cilium v1.18.3: `oci://public.ecr.aws/eks/cilium/cilium:1.18.3-0`
++
+The commands in this topic use this repository. Note that certain `helm repo` commands aren't valid for Helm repositores in Amazon ECR Public, so you can't refer to this repository from a local Helm repo name. Instead, use the full URI in most commands.
 - By default, Cilium is configured to run in overlay / tunnel mode with VXLAN as the link:https://docs.cilium.io/en/stable/network/concepts/routing/#encapsulation[encapsulation method]. This mode has the fewest requirements on the underlying physical network.
 - By default, Cilium link:https://docs.cilium.io/en/stable/network/concepts/masquerading/[masquerades] the source IP address of all pod traffic leaving the cluster to the IP address of the node. If you disable masquerading, then your pod CIDRs must be routable on your on-premises network.
 - If you are running webhooks on hybrid nodes, your pod CIDRs must be routable on your on-premises network. If your pod CIDRs are not routable on your on-premises network, then it is recommended to run webhooks on cloud nodes in the same cluster. See <<hybrid-nodes-webhooks>> and <<hybrid-nodes-networking>> for more information.
@@ -137,7 +149,8 @@ kubeProxyReplacement: "false"
 ----
 
 . Install Cilium on your cluster.
-- Replace `CILIUM_VERSION` with a Cilium version (for example `1.17.5`). It is recommended to use the latest patch version for the Cilium minor version. You can find the latest patch release available in your local Helm repository with the `helm search repo cilium/cilium --versions` command.
+- Replace `CILIUM_VERSION` with a Cilium version (for example `1.17.9-0` or `1.18.3-0`). It is recommended to use the latest patch version for the Cilium minor version.
+- Ensure your nodes meet the kernel requirements for the version you choose. Cilium v1.18.3 requires Linux kernel >= 5.10.
 - If you are using a specific kubeconfig file, use the `--kubeconfig` flag with the Helm install command.
 +
 [source,bash,subs="verbatim,attributes,quotes"]

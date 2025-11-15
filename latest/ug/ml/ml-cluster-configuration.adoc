@@ -18,6 +18,8 @@ This section is designed to help you configure Amazon EKS clusters optimized for
 
 include::ml-eks-optimized-ami.adoc[leveloffset=+1]
 
+include::ml-eks-k8s-device-plugin.adoc[leveloffset=+1]
+
 include::ml-eks-windows-optimized-ami.adoc[leveloffset=+1]
 
 include::node-efa.adoc[leveloffset=+1]

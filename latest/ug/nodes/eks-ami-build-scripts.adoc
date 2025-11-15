@@ -12,12 +12,16 @@ Amazon Elastic Kubernetes Service (Amazon EKS) has open-source scripts that are 
 
 [IMPORTANT]
 ====
-Amazon EKS will no longer publish EKS-optimized Amazon Linux 2 (AL2) AMIs after November 26th, 2025. Additionally, Kubernetes version `1.32` is the last version for which Amazon EKS will release AL2 AMIs. From version `1.33` onwards, Amazon EKS will continue to release AL2023 and Bottlerocket based AMIs.
+Amazon EKS will no longer publish EKS-optimized Amazon Linux 2 (AL2) AMIs after November 26th, 2025. Additionally, Kubernetes version `1.32` is the last version for which Amazon EKS will release AL2 AMIs. From version `1.33` onwards, Amazon EKS will continue to release AL2023 and Bottlerocket based AMIs. For more information, see <<eks-ami-deprecation-faqs>>.
 ====
 
-The Amazon EKS optimized Amazon Linux (AL) AMIs are built on top of AL2 and AL2023, specifically for use as nodes in Amazon EKS clusters. Amazon EKS provides open-source build scripts in the https://github.com/awslabs/amazon-eks-ami[Amazon EKS AMI Build Specification] repository that you can use to view the configurations for `kubelet`, the runtime, the {aws} IAM Authenticator for Kubernetes, and build your own AL-based AMI from scratch.
+The Amazon EKS-optimized Amazon Linux (AL) AMIs are built on top of AL2 and AL2023, specifically for use as nodes in Amazon EKS clusters. Amazon EKS provides open-source build scripts in the https://github.com/awslabs/amazon-eks-ami[Amazon EKS AMI Build Specification] repository that you can use to view the configurations for `kubelet`, the runtime, the {aws} IAM Authenticator for Kubernetes, and build your own AL-based AMI from scratch.
 
-This repository contains the specialized https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap script] and https://awslabs.github.io/amazon-eks-ami/nodeadm/[nodeadm script] that runs at boot time. These scripts configure your instance's certificate data, control plane endpoint, cluster name, and more. The scripts are considered the source of truth for Amazon EKS optimized AMI builds, so you can follow the GitHub repository to monitor changes to our AMIs.
+This repository contains the specialized https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap script for AL2] and https://awslabs.github.io/amazon-eks-ami/nodeadm/[nodeadm tool for AL2023] that runs at boot time. These scripts configure your instance's certificate data, control plane endpoint, cluster name, and more. The scripts are considered the source of truth for Amazon EKS-optimized AMI builds, so you can follow the GitHub repository to monitor changes to our AMIs.
+
+When building custom AMIs with the EKS-optimized AMIs as the base, it is not recommended or supported to run an operating system upgrade (ie. `dnf upgrade`) or upgrade any of the Kubernetes or GPU packages that are included in the EKS-optimized AMIs, as this risks breaking component compatibility. If you do upgrade the operating system or packages that are included in the EKS-optimized AMIs, it is recommended to thoroughly test in a development or staging environment before deploying to production. 
+
+When building custom AMIs for GPU instances, it is recommended to build separate custom AMIs for each instance type generation and family that you will run. The EKS-optimized accelerated AMIs selectively install drivers and packages at runtime based on the underlying instance type generation and family. For more information, see the EKS AMI scripts for https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2023/provisioners/install-nvidia-driver.sh[installation] and https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2023/runtime/gpu/nvidia-kmod-load.sh[runtime].
 
 == Prerequisites
 

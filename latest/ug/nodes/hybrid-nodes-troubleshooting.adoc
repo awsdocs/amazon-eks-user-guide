@@ -281,9 +281,9 @@ A common pod log message for this scenario is shown below the following where ip
 ----
 dial tcp <ip-address>:443: connect: no route to host
 ----
-*`kubectl logs` or `kubectl exec` commands not working*
+*`kubectl logs` or `kubectl exec` commands not working (`kubelet` API commands)*
 
-If `kubectl logs` or `kubectl exec` commands time out while other `kubectl` commands succeed, the issue is likely related to remote network configuration. These commands connect through the cluster to the `kubelet` endpoint on the node. For more information see <<hybrid-nodes-concepts-k8s-kubelet-api>>.
+If `kubectl attach`, `kubectl cp`, `kubectl exec`, `kubectl logs`, and `kubectl port-forward` commands time out while other `kubectl` commands succeed, the issue is likely related to remote network configuration. These commands connect through the cluster to the `kubelet` endpoint on the node. For more information see <<hybrid-nodes-concepts-k8s-kubelet-api>>.
 
 Verify that your node IPs and pod IPs fall within the remote node network and remote pod network CIDRs configured for your cluster. Use the commands below to examine IP assignments.
 

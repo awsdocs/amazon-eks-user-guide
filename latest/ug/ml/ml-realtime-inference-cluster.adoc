@@ -126,7 +126,7 @@ The {aws} LBC needs permission to provision and manage {aws} load balancers, suc
 ----
 aws iam create-policy \
   --policy-name AWSLoadBalancerControllerIAMPolicy \
-  --policy-document "$(curl -fsSL https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.13.0/docs/install/iam_policy.json)"
+  --policy-document "$(curl -fsSL https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.14.1/docs/install/iam_policy.json)"
 ----
 
 When the Mountpoint S3 CSI Driver is installed, its DaemonSet pods are configured to use a service account for execution. The Mountpoint for Mountpoint S3 CSI driver needs permission to interact with the Amazon S3 bucket you create later in this guide. We'll specify this permissions policy during cluster creation. During cluster creation, we will create the service account with eksctl in the ClusterConfig. Create the S3 IAM policy:
@@ -172,7 +172,7 @@ iam:
     permissionPolicyARNs:
     - arn:aws:iam::${AWS_ACCOUNT_ID}:policy/KarpenterControllerPolicy-${EKS_CLUSTER_NAME}
   # Creates the pod identity association and service account 
-  # Uses the AWS LBC policy for permissions
+  # Uses the {aws} LBC policy for permissions
   - namespace: kube-system
     serviceAccountName: aws-load-balancer-controller
     createServiceAccount: true
@@ -1054,7 +1054,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 
 The expected output should look like this:
 
-[source]
+[source,bash,subs="verbatim,attributes"]
 ----
 NAME: aws-load-balancer-controller
 LAST DEPLOYED: Wed Jul 9 15:03:31 2025
@@ -1063,7 +1063,7 @@ STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
-AWS Load Balancer controller installed!
+{aws} Load Balancer controller installed!
 ----
 
 === Mount the model in a persistent volume

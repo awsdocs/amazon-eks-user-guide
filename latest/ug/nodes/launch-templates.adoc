@@ -59,13 +59,7 @@ a|*Application and OS Images (Amazon Machine Image)* under *Launch template cont
 
 * Using a custom AMI. If you specify an AMI that doesn't meet the requirements listed in <<launch-template-custom-ami,Specifying an AMI>>, the node group deployment will fail.
 
-* Want to provide user data to provide arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI. You can enable your instances to assign a significantly higher number of IP addresses to Pods, assign IP addresses to Pods from a different CIDR block than the instance's, or deploy a private cluster without outbound internet access. For more information, see the following topics:
-
-+
-** <<cni-increase-ip-addresses,Assign more IP addresses to Amazon EKS nodes with prefixes>>
-** <<cni-custom-network,Deploy pods in alternate subnets with custom networking>>
-** <<private-clusters,Deploy private clusters with limited internet access>>
-** <<launch-template-custom-ami,Specifying an AMI>>
+* Want to provide additional arguments to the NodeConfig specification of an Amazon EKS optimized AMI. For more information, see https://awslabs.github.io/amazon-eks-ami/nodeadm/doc/api/#nodeconfig[NodeConfig API reference] and https://awslabs.github.io/amazon-eks-ami/nodeadm/doc/examples/[NodeConfig examples].
 
 
 |*Disk size* under *Node group compute configuration* on *Set compute and scaling configuration* page – Console displays *Specified in launch template*.

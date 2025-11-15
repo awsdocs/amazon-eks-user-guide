@@ -59,7 +59,7 @@ IMPORTANT: Managed node groups enforces a maximum number on the value of `maxPod
 +
 Specify the parameters in one of the following options. To determine which option is right for you and what value to provide for it, see https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/prefix-and-ip-target.md[WARM_PREFIX_TARGET, WARM_IP_TARGET, and MINIMUM_IP_TARGET] on GitHub.
 +
-You can replace the [.replaceable]`example values` with a value greater than zero.
+You can replace the example values with a value greater than zero.
 +
 *** `WARM_PREFIX_TARGET`
 +
@@ -161,7 +161,7 @@ This can happen due to fragmentation of existing secondary IP addresses spread o
 ----
 kubectl edit configmap -n kube-system amazon-vpc-cni -o yaml
 ----
-.. Replace the [.replaceable]`example values` with a value greater than zero and add the entries that you require to the `data` section of the `ConfigMap`. If you set a value for either `warm-ip-target` or `minimum-ip-target`, the value overrides any value set for `warm-prefix-target`.
+.. Replace the example values with a value greater than zero and add the entries that you require to the `data` section of the `ConfigMap`. If you set a value for either `warm-ip-target` or `minimum-ip-target`, the value overrides any value set for `warm-prefix-target`.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----

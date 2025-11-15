@@ -10,47 +10,18 @@ include::../../attributes.txt[]
 Learn how to create and configure the required {aws} Identity and Access Management role for Amazon EKS clusters to manage nodes and load balancers using managed or custom IAM policies.
 --
 
-An Amazon EKS cluster IAM role is required for each cluster. Kubernetes clusters managed by Amazon EKS use this role to manage nodes and the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] uses this role to create load balancers with Elastic Load Balancing for services.
+An Amazon EKS cluster IAM role is required for each cluster. Kubernetes clusters managed by Amazon EKS use this role to manage nodes and the https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] uses this role to create load balancers with Elastic Load Balancing for services.
 
 Before you can create Amazon EKS clusters, you must create an IAM role with either of the following IAM policies:
 
 
 
 * link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy,type="documentation"]
-* A custom IAM policy. The minimal permissions that follow allows the Kubernetes cluster to manage nodes, but doesn't allow the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] to create load balancers with Elastic Load Balancing. Your custom IAM policy must have at least the following permissions:
+* A custom IAM policy. The minimal permissions that follow allows the Kubernetes cluster to manage nodes, but doesn't allow the https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] to create load balancers with Elastic Load Balancing. Your custom IAM policy must have at least the following permissions:
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-2025-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:CreateTags"
-      ],
-      "Resource": "{arn-aws}ec2:*:*:instance/*",
-      "Condition": {
-        "ForAnyValue:StringLike": {
-          "aws:TagKeys": "kubernetes.io/cluster/*"
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DescribeInstances",
-        "ec2:DescribeNetworkInterfaces",
-        "ec2:DescribeVpcs",
-        "ec2:DescribeDhcpOptions",
-        "ec2:DescribeAvailabilityZones",
-        "ec2:DescribeInstanceTopology",
-        "kms:DescribeKey"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
+include::iam_snippet:de80ec81-9dde-4bf1-83df-de287477358d[]
 ----
 
 
@@ -78,18 +49,7 @@ You can use the following procedure to check and see if your account already has
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-2025-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::iam_snippet:c83fb40d-63b7-4444-992f-a9a3d76e2396[]
 ----
 
 
@@ -117,18 +77,7 @@ You can use the {aws-management-console} or the {aws} CLI to create the cluster 
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-  "Version": "2012-10-17",{tcx5-2025-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
+include::iam_snippet:cd984bb8-7fc7-4d7b-8cb6-38a2bb0a48fc[]
 ----
 .. Create the role. You can replace [.replaceable]`eksClusterRole` with any name that you choose.
 +

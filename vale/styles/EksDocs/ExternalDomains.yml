@@ -216,3 +216,6 @@ exceptions:
   - www.rfc-editor.org
   - xilinx.github.io
   - sdk.amazonaws.com
+  - efa-installer.amazonaws.com
+  - amazon-eks.s3.amazonaws.com
+  - amazon-eks-docs.s3.amazonaws.com

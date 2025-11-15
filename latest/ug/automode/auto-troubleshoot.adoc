@@ -288,7 +288,7 @@ or @message like 'FailedConsistencyCheck'
 or @message like 'InsufficientCapacityError'
 or @message like 'UnregisteredTaintMissing'
 or @message like 'NodeClassNotReady'
-sort @timestamp desc
+| sort @timestamp desc
 ----
 
 This query filters for specific https://github.com/kubernetes-sigs/karpenter/blob/main/pkg/events/reason.go[Karpenter-related events] in the kube-apiserver audit logs. The events include various disruption states, scheduling failures, capacity issues, and node-related problems. By analyzing these logs, you can gain a better understanding of:

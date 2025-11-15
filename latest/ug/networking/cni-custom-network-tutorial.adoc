@@ -80,20 +80,7 @@ az_2=$(aws ec2 describe-subnets --subnet-ids $subnet_id_2 --query 'Subnets[*].Av
 +
 [source,json,subs="verbatim,attributes"]
 ----
-cat >eks-cluster-role-trust-policy.json <<EOF
-{
-  "Version": "2012-10-17",{tcx5-2025-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
+include::iam_snippet:7576a0cb-6ba7-436b-b801-ff94846ef6f7[]
 ----
 .. Create the Amazon EKS cluster IAM role. If necessary, preface `eks-cluster-role-trust-policy.json` with the path on your computer that you wrote the file to in the previous step. The command associates the trust policy that you created in the previous step to the role. To create an IAM role, the link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that is creating the role must be assigned the `iam:CreateRole` action (permission).
 +
@@ -363,20 +350,7 @@ kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=topology.
 +
 [source,json,subs="verbatim,attributes"]
 ----
-cat >node-role-trust-relationship.json <<EOF
-{
-  "Version": "2012-10-17",{tcx5-2025-waiver}
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
+include::iam_snippet:47721391-ab4d-4986-9a2a-a52174dc2256[]
 ----
 .. Create an IAM role and store its returned Amazon Resource Name (ARN) in a variable for use in a later step.
 +
@@ -416,11 +390,26 @@ aws eks create-nodegroup --cluster-name my-custom-networking-cluster --nodegroup
 
 +
 .... Determine the Amazon EKS recommended number of maximum Pods for your nodes. Follow the instructions in <<determine-max-pods,Amazon EKS recommended maximum Pods for each Amazon EC2 instance type>>, adding `--cni-custom-networking-enabled` to step 3 in that topic. Note the output for use in the next step.
-.... In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data in the launch template. This user data passes arguments into the `bootstrap.sh` file. For more information about the bootstrap file, see https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh[bootstrap.sh] on GitHub. You can replace `20` with either the value from the previous step (recommended) or your own value.
+.... In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data in the launch template. This user data passes arguments into the `NodeConfig` specification. For more information about NodeConfig, see the https://awslabs.github.io/amazon-eks-ami/nodeadm/doc/api/#nodeconfig[NodeConfig API reference]. You can replace `20` with either the value from the previous step (recommended) or your own value.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-/etc/eks/bootstrap.sh my-custom-networking-cluster --use-max-pods false --kubelet-extra-args '--max-pods=20'
+---
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="BOUNDARY"
+--BOUNDARY
+Content-Type: application/node.eks.aws
+
+---
+apiVersion: node.eks.aws/v1alpha1
+kind: NodeConfig
+spec:
+  cluster:
+    name: my-cluster
+    ...
+    kubelet:
+      config:
+        maxPods: 20   
 ----
 +
 If you've created a custom AMI that is not built off the Amazon EKS optimized AMI, then you need to custom create the configuration yourself.  
@@ -428,12 +417,7 @@ If you've created a custom AMI that is not built off the Amazon EKS optimized AM
 
 +
 ... Determine the Amazon EKS recommended number of maximum Pods for your nodes. Follow the instructions in <<determine-max-pods>>, adding `--cni-custom-networking-enabled` to step 3 in that topic. Note the output for use in the next step.
-... Deploy the node group using the instructions in <<launch-workers>>. Specify the following text for the *BootstrapArguments* parameter. You can replace `20` with either the value from the previous step (recommended) or your own value.
-+
-[source,bash,subs="verbatim,attributes"]
-----
---use-max-pods false --kubelet-extra-args '--max-pods=20'
-----
+... Deploy the node group using the instructions in <<launch-workers>>. 
 
 
 +

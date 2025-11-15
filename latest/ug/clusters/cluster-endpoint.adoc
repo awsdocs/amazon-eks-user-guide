@@ -100,16 +100,16 @@ a|
 
 * This is the default behavior for new Amazon EKS clusters.
 * Kubernetes API requests that originate from within your cluster's VPC (such as node to control plane communication) leave the VPC but not Amazon's network.
-* Your cluster API server is accessible from the internet. You can, optionally, limit the CIDR blocks that can access the public endpoint. If you limit access to specific CIDR blocks, then it is recommended that you also enable the private endpoint, or ensure that the CIDR blocks that you specify include the addresses that nodes and Fargate Pods (if you use them) access the public endpoint from.
+* Your cluster API server is accessible from the internet. You can, optionally, use the list of _public access CIDRs_ to control access to the public endpoint by a list of CIDR blocks. If you limit access to specific CIDR blocks, then we recommend that you also enable the private endpoint, or ensure that the CIDR blocks that you specify include the addresses that nodes and Fargate Pods (if you use them) access the public endpoint from.
 
 
 |Enabled
 |Enabled
 a|
 
-* Kubernetes API requests within your cluster's VPC (such as node to control plane communication) use the private VPC endpoint.
-* Your cluster API server is accessible from the internet. You can, optionally, limit the CIDR blocks that can access the public endpoint.
-* If you are using hybrid nodes with your Amazon EKS cluster, it is not recommended to have both Public and Private cluster endpoint access enabled. Because your hybrid nodes are running outside of your VPC, they will resolve the cluster endpoint to the public IP addresses. It is recommended to use either Public or Private cluster endpoint access for clusters with hybrid nodes.
+* Kubernetes API requests within your cluster's VPC (such as node to control plane communication) use the private VPC endpoint. You use the rules on the _cluster security group_ to control access to the private endpoint.
+* Your cluster API server is accessible from the internet. You can, optionally, use the list of _public access CIDRs_ to control access to the public endpoint by a list of CIDR blocks.
+* If you are using hybrid nodes with your Amazon EKS cluster, it is not recommended to have both Public and Private endpoint access enabled. Because your hybrid nodes are running outside of your VPC, they will resolve the cluster endpoint to the public IP addresses. It is recommended to use either Public or Private endpoint access for clusters with hybrid nodes.
 
 
 |Disabled
@@ -118,6 +118,7 @@ a|
 
 * All traffic to your cluster API server must come from within your cluster's VPC or a link:whitepapers/latest/aws-vpc-connectivity-options/introduction.html[connected network,type="documentation"].
 * There is no public access to your API server from the internet. Any `kubectl` commands must come from within the VPC or a connected network. For connectivity options, see <<private-access>>.
+* You use the rules on the _cluster security group_ to control access to the private endpoint. Note that the public access CIDRs don't affect the private endpoint.
 * The cluster's API server endpoint is resolved by public DNS servers to a private IP address from the VPC. In the past, the endpoint could only be resolved from within the VPC.
 +
 If your endpoint does not resolve to a private IP address within the VPC for an existing cluster, you can:
@@ -126,6 +127,16 @@ If your endpoint does not resolve to a private IP address within the VPC for an 
 ** <<update-cluster,Update>> your cluster.
 
 |===
+
+*Endpoint access controls*
+
+Note that each of the following methods to control endpoint access only affect the respective endpoint.
+
+_Cluster security group_::
+The cluster security group controls two types of connections: connections to the _kubelet API_ and the private endpoint. The connections to the `kubelet` API are used in the `kubectl attach`, `kubectl cp`, `kubectl exec`, `kubectl logs`, and `kubectl port-forward` commands. The cluster security group doesn't affect the public endpoint.
+
+_Public access CIDRs_::
+The _public access CIDRs_ control access to the public endpoint by a list of CIDR blocks. Note that the public access CIDRs don't affect the private endpoint. The public access CIDRs behave differently on the `IPv6` clusters and `IPv4` clusters depending on the date they were created, which the following describes:
 
 *CIDR blocks in the public endpoint (`IPv6` cluster)*
 

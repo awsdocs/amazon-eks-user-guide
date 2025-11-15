@@ -6,7 +6,7 @@
 include::../attributes.txt[]
 
 
-This tutorial demonstrates how Amazon EKS Auto Mode simplifies launching accelerated workloads. Amazon EKS Auto Mode streamlines operations beyond the cluster itself by automating key infrastructure components providing compute, networking, load balancing, storage, and Identity Access and Management capabilities out of the box. 
+This tutorial demonstrates how Amazon EKS Auto Mode simplifies launching hardware-accelerated workloads. Amazon EKS Auto Mode streamlines operations beyond the cluster itself by automating key infrastructure components providing compute, networking, load balancing, storage, and Identity Access and Management capabilities out of the box. 
 
 Amazon EKS Auto Mode includes the drivers and device plugins required for certain instance types, such as NVIDIA and {aws} Neuron drivers. You do not have to install or update these components. 
 

@@ -115,7 +115,7 @@ For more information, see https://aws.github.io/aws-eks-best-practices/security/
 If you want to block Pod access to IMDS, then specify the necessary settings in the launch template.
 
 [loweralpha]
-.. Copy the following contents to your device. Replace the [.replaceable]`example values` and then run the modified command to create the `eks-nodegroup.yaml` file. Several settings that you specify when deploying without a launch template are moved into the launch template. If you don't specify a `version`, the template's default version is used.
+.. Copy the following contents to your device. Replace the example values and then run the modified command to create the `eks-nodegroup.yaml` file. Several settings that you specify when deploying without a launch template are moved into the launch template. If you don't specify a `version`, the template's default version is used.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----

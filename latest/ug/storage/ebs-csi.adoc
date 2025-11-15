@@ -95,36 +95,7 @@ eksctl create iamserviceaccount \
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-      "Version": "2012-10-17",{tcx5-2025-waiver}
-      "Statement": [
-        {
-          "Effect": "Allow",
-          "Action": [
-            "kms:CreateGrant",
-            "kms:ListGrants",
-            "kms:RevokeGrant"
-          ],
-          "Resource": ["custom-key-arn"],
-          "Condition": {
-            "Bool": {
-              "kms:GrantIsForAWSResource": "true"
-            }
-          }
-        },
-        {
-          "Effect": "Allow",
-          "Action": [
-            "kms:Encrypt",
-            "kms:Decrypt",
-            "kms:ReEncrypt*",
-            "kms:GenerateDataKey*",
-            "kms:DescribeKey"
-          ],
-          "Resource": ["custom-key-arn"]
-        }
-      ]
-    }
+include::iam_snippet:11e5f21f-2972-429c-98c3-1b7f7389c7b2[]
 ----
 .. Create the policy. You can change [.replaceable]`KMS_Key_For_Encryption_On_EBS_Policy` to a different name. However, if you do, make sure to change it in later steps, too.
 +
@@ -188,36 +159,7 @@ Add a comma to the end of the previous line, and then add the following line aft
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-      "Version": "2012-10-17",{tcx5-2025-waiver}
-      "Statement": [
-        {
-          "Effect": "Allow",
-          "Action": [
-            "kms:CreateGrant",
-            "kms:ListGrants",
-            "kms:RevokeGrant"
-          ],
-          "Resource": ["custom-key-arn"],
-          "Condition": {
-            "Bool": {
-              "kms:GrantIsForAWSResource": "true"
-            }
-          }
-        },
-        {
-          "Effect": "Allow",
-          "Action": [
-            "kms:Encrypt",
-            "kms:Decrypt",
-            "kms:ReEncrypt*",
-            "kms:GenerateDataKey*",
-            "kms:DescribeKey"
-          ],
-          "Resource": ["custom-key-arn"]
-        }
-      ]
-    }
+include::iam_snippet:4bc92ef3-131e-44d3-ab0d-f3f1275e885a[]
 ----
 .. Choose *Next: Tags*.
 .. On the *Add tags (Optional)* page, choose *Next: Review*.
@@ -250,24 +192,7 @@ https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-      "Version": "2012-10-17",{tcx5-2025-waiver}
-      "Statement": [
-        {
-          "Effect": "Allow",
-          "Principal": {
-            "Federated": "{arn-aws}iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
-          },
-          "Action": "sts:AssumeRoleWithWebIdentity",
-          "Condition": {
-            "StringEquals": {
-              "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com",
-              "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
-            }
-          }
-        }
-      ]
-    }
+include::iam_snippet:f27fa2c8-e511-47ab-8b50-3c357f34de4e[]
 ----
 .. Create the role. You can change [.replaceable]`AmazonEKS_EBS_CSI_DriverRole` to a different name. If you change it, make sure to change it in later steps.
 +
@@ -291,36 +216,7 @@ aws iam attach-role-policy \
 +
 [source,json,subs="verbatim,attributes"]
 ----
-{
-      "Version": "2012-10-17",{tcx5-2025-waiver}
-      "Statement": [
-        {
-          "Effect": "Allow",
-          "Action": [
-            "kms:CreateGrant",
-            "kms:ListGrants",
-            "kms:RevokeGrant"
-          ],
-          "Resource": ["custom-key-arn"],
-          "Condition": {
-            "Bool": {
-              "kms:GrantIsForAWSResource": "true"
-            }
-          }
-        },
-        {
-          "Effect": "Allow",
-          "Action": [
-            "kms:Encrypt",
-            "kms:Decrypt",
-            "kms:ReEncrypt*",
-            "kms:GenerateDataKey*",
-            "kms:DescribeKey"
-          ],
-          "Resource": ["custom-key-arn"]
-        }
-      ]
-    }
+include::iam_snippet:c3dc1e73-97cf-493e-b828-eb4236aa3d0b[]
 ----
 .. Create the policy. You can change [.replaceable]`KMS_Key_For_Encryption_On_EBS_Policy` to a different name. However, if you do, make sure to change it in later steps, too.
 +
@@ -352,6 +248,15 @@ We recommend that you install the Amazon EBS CSI driver through the Amazon EKS a
 Before adding the Amazon EBS driver as an Amazon EKS add-on, confirm that you don't have a self-managed version of the driver installed on your cluster. If so, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#uninstalling-the-ebs-csi-driver[Uninstalling a self-managed Amazon EBS CSI driver] on GitHub.  
 
 ====
+
+[NOTE]
+====
+
+By default, the RBAC role used by the EBS CSI has permissions to mutate nodes to support its taint removal feature.  Due to limitations of Kubernetes RBAC, this also allows it to mutate any other Node in the cluster.
+The Helm chart has a parameter (`node.serviceAccount.disableMutation`) that disables mutating Node RBAC permissions for the ebs-csi-node service account. When enabled, driver features such as taint removal will not function.
+
+====
+
 
 Alternatively, if you want a self-managed installation of the Amazon EBS CSI driver, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md[Installation] on GitHub.
 
