@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#eks-provisioned-control-plane]
 = Amazon EKS Provisioned Control Plane
-:info_titleabbrev: Provisioned Control Plane
+:info_titleabbrev: Create Provisioned Control Plane
 
 [abstract]
 --
@@ -276,6 +276,4 @@ There are no restrictions on how frequently you can switch between
 tiers. Changing the control plane tier takes several minutes to
 complete.
 
-== Get started
-
-To get started, see https://docs.aws.amazon.com/eks/latest/userguide/eks-mcp-tool-configurations.html[Getting Started with the Amazon EKS Provisioned Control Plane]
+include::eks-provisioned-control-plane-getting-started.adoc[leveloffset=+1]
