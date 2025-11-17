@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#network-observability]
-= Monitor workload traffic in Amazon EKS with Container Network Observability 
+= Monitor Kubernetes workload traffic with Container Network Observability 
 :info_titleabbrev: Container network observability
 
 Amazon EKS provides enhanced network observability features that provide deeper insights into your container networking environment. These capabilities help you better understand, monitor, and troubleshoot your Kubernetes network landscape in {aws}. With enhanced container network observability, you can leverage granular, network-related metrics for better proactive anomaly detection across cluster traffic, cross-AZ flows, and {aws} services. Using these metrics, you can measure system performance and visualize the underlying metrics using your preferred observability stack. 
@@ -72,4 +72,57 @@ image::images/nfm-eks-metrics-types-workflow.png[Illustration of workflow with d
 . The platform team can collect and visualize system metrics in their monitoring stack. With alerting in place, they can detect network anomalies or issues impacting pods or worker nodes using the system metrics from the NFM agent.
 . As a next step, platform teams can leverage the native visualizations in the EKS console to further narrow the scope of investigation and accelerate troubleshooting based on flow representations and their associated metrics.  
 
-Important note: The scraping of metrics from the NFM agent and the process of the NFM agent pushing these metrics to the NFM backend are independent processes. 
+_Important note: The scraping of system metrics from the NFM agent and the process of the NFM agent pushing flow-level metrics to the NFM backend are independent processes._ 
+
+===== Supported System Metrics 
+
+_Important note: system metrics are exported in https://openmetrics.io/[OpenMetrics] format._
+
+[%header,cols="4"]
+|===
+
+|Metric name
+|Type
+|Description
+
+|ingress_flow_count
+|Counter
+|Numbers of flows to a pod
+
+|egress_flow_count 
+|Counter
+|Number of flows from a pod to anywhere
+
+|ingress_pkt_count 
+|Counter
+|Number of TCP packets received by a pod
+
+|egress_pkt_count 
+|Counter
+|Number of TCP packets sent out by a pod
+
+|ingress_bytes_count 
+|Counter
+|Number of bytes received by a pod
+
+|egress_bytes_count 
+|Counter
+|Number of bytes sent out by a pod
+
+|bw_in_allowance_exceeded 
+|Counter
+|Number of packets queued or dropped because the  inbound aggregate bandwidth exceeded the maximum for the instance
+
+|bw_out_allowance_exceeded 
+|Counter
+|Number of packets queued or dropped because the  outbound aggregate bandwidth exceeded the maximum for the instance
+
+|pps_allowance_exceeded
+|Counter
+|Packets per second limit  breached at a pod
+
+|conntrack_allowance_exceeded
+|Counter
+|Connection Track limit  breached. An event will be generated if 90 to 95% conntrack table limit is  reached and logged on the node.
+
+|===
