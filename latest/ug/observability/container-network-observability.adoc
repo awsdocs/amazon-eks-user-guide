@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Monitor and visualize Kubernetes workload traffic with Container Network Observability in Amazon EKS
 :info_titleabbrev: Container network observability
 
-Amazon EKS provides enhanced network observability features that provide deeper insights into your container networking environment. These capabilities help you better understand, monitor, and troubleshoot your Kubernetes network landscape in {aws}. With enhanced container network observability, customers can leverage granular, network-related metrics for better proactive anomaly detection across cluster traffic, cross-AZ flows, and {aws} services. Using these metrics, you can better measure system performance and visualize the underlying metrics using their preferred observability stack. 
+Amazon EKS provides enhanced network observability features that provide deeper insights into your container networking environment. These capabilities help you better understand, monitor, and troubleshoot your Kubernetes network landscape in {aws}. With enhanced container network observability, you can leverage granular, network-related metrics for better proactive anomaly detection across cluster traffic, cross-AZ flows, and {aws} services. Using these metrics, you can measure system performance and visualize the underlying metrics using your preferred observability stack. 
 
 In addition, Amazon EKS now provides network monitoring visualizations in the {aws} console that accelerate and enhance precise troubleshooting for faster root cause analysis. You can also leverage these visual capabilities to pinpoint top-talkers and network flows causing retransmissions and retransmission timeouts, eliminating blind spots during incidents. 
 
@@ -13,11 +13,51 @@ These capabilities are enabled by https://docs.aws.amazon.com/AmazonCloudWatch/l
 
 == Use Cases
 
-=== Proactive anomaly detection 
+=== Measure network performance to detect anomalies 
 Several teams standardize on an observability stack that allows them to measure their system’s performance, visualize system metrics and be alarmed in the event that a specific threshold is breached. Container network observability in EKS aligns with this by exposing key system metrics that you can scrape to broaden observability of your system’s network performance at the pod and worker node level. 
 
 === Leverage console visualizations for more precise troubleshooting
-Typically, after customers respond to a system alarm from their monitoring system, they want to hone in on the cluster and workload where an issue originated from. Network monitoring in EKS powers visualizations that narrow the scope of investigation at a cluster level, and accelerate the disclosure of the network flows responsible for the most retransmissions, retransmission timeouts, and the volume of data transferred.
+In the event of an alarm from your monitoring system, you may want to hone in on the cluster and workload where an issue originated from. To support this, you can leverage visualizations in the EKS console that narrow the scope of investigation at a cluster level, and accelerate the disclosure of the network flows responsible for the most retransmissions, retransmission timeouts, and the volume of data transferred.
 
-=== Track the top-talkers in your Amazon EKS environment
-A lot of teams run EKS as the foundation for their platforms, making it the focal point for an application environment’s network activity. With network monitoring, you can track which workloads are responsible for the most traffic (measured by data volume) within the cluster, across AZs, as well as traffic to external destinations within {aws} (DynamoDB and S3) and beyond the {aws} cloud (the internet or on-prem). Additionally, you can monitor the performance of each of these flows based on retransmissions, retransmission timeouts, and data transferred.
+=== Track top-talkers in your Amazon EKS environment
+A lot of teams run EKS as the foundation for their platforms, making it the focal point for an application environment’s network activity. Using the network monitoring capabilities in this feature, you can track which workloads are responsible for the most traffic (measured by data volume) within the cluster, across AZs, as well as traffic to external destinations within {aws} (DynamoDB and S3) and beyond the {aws} cloud (the internet or on-prem). Additionally, you can monitor the performance of each of these flows based on retransmissions, retransmission timeouts, and data transferred.
+
+== Features 
+
+. Performance metrics - This feature allows you to scrape network-related system metrics for pods and worker nodes directly from the Network Flow Monitor Agent running in your EKS cluster. 
+. Service map - This feature dynamically visualizes intercommunication between workloads in the cluster, allowing you to quickly disclose key metrics (RT, RTO, and DT) associated with network flows between communicating pods. 
+. Flow table - With this table, you can monitor the top talkers across the Kubernetes workloads in your cluster from three different angles: {aws} service view, cluster view, and external view. For each view, you can see the retransmissions, retransmission timeouts, and data transferred between the source pod and its destination. 
+    * {aws} service view: Shows top talkers to {aws} services (DynamoDB and S3)
+    * Cluster view: Shows top talkers within the cluster (east ← to → west) 
+    * External view: Shows top talkers to cluster-external destinations outside {aws}
+
+== Get Started 
+To get started, enable Container Network Observability in the EKS console for a new or existing cluster. This will automate the creation of Network Flow Monitor dependencies (https://docs.aws.amazon.com/networkflowmonitor/2.0/APIReference/API_CreateScope.html[Scope] and https://docs.aws.amazon.com/networkflowmonitor/2.0/APIReference/API_CreateMonitor.html[Monitor] resources). In addition, you will have to install the https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-NetworkFlowMonitor-agents-kubernetes-eks.html[Network Flow Monitor Agent add-on]. Alternatively, you can install these dependencies using the AWS CLI, https://docs.aws.amazon.com/eks/latest/APIReference/API_Operations_Amazon_Elastic_Kubernetes_Service.html[EKS APIs] (for the add-on), https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-NetworkFlowMonitor-API-operations.html[NFM APIs] or Infrastructure as Code (like https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/networkflowmonitor_monitor[Terraform]). Once these dependencies are in place, you can configure your preferred monitoring tool to scrape network performance metrics for pods and worker nodes from the NFM agent. To visualize the network activity and performance of your workloads, you can navigate to the EKS console under the “Network” tab of the cluster’s observability dashboard.
+
+When using Network Flow Monitor in EKS, you can maintain your existing observability workflow and technology stack while leveraging a set of additional features which further enable you to understand and optimize the network layer of your EKS environment. You can learn more about the https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-NetworkFlowMonitor.pricing.html[Network Flow Monitor pricing here].
+
+== How does it work?
+
+=== Performance Metrics 
+
+==== System Metrics
+If you are running third party (3P) tooling to monitor your EKS environment (such as Prometheus and Grafana), you can scrape the supported system metrics directly from the Network Flow Monitor agent. These metrics can be sent to your monitoring stack to expand measurement of your system’s network performance at the pod and worker node level. The available metrics are listed in the table, under Supported system metrics. 
+
+image::images/nfm-eks-metrics-workflow.png[Illustration of scraping system metrics]
+
+To enable these metrics, override the following environment variables using the configuration variables during the installation process (see: https://aws.amazon.com/blogs/containers/amazon-eks-add-ons-advanced-configuration/):
+
+[source,yaml]
+----
+* OPEN_METRICS:
+    * Enable or disable open metrics. Disabled if not supplied
+    * Type: String
+    * Values: [“on”, “off”]
+* OPEN_METRICS_ADDRESS:
+    * Listening IP address for open metrics endpoint. Defaults to 127.0.0.1 if not supplied
+    * Type: String
+* OPEN_METRICS_PORT:
+    * Listening port for open metrics endpoint. Defaults to 80 if not supplied
+    * Type: Integer
+    * Range: [0..65535]
+----
