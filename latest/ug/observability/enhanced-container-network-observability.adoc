@@ -1,0 +1,10 @@
+[.topic]
+[#network-observability]
+= Monitor and visualize Kubernetes workload traffic with Container Network Observability in Amazon EKS
+:info_titleabbrev: Container network observability
+
+Amazon EKS provides enhanced network observability features that provide deeper insights into your container networking environment. These capabilities help you better understand, monitor, and troubleshoot your Kubernetes network landscape in AWS. With enhanced container network observability, customers can leverage granular, network-related metrics for better proactive anomaly detection across cluster traffic, cross-AZ flows, and AWS services. Using these metrics, you can better measure system performance and visualize the underlying metrics using their preferred observability stack. 
+
+In addition, Amazon EKS now provides network monitoring visualizations in the AWS console that accelerate and enhance precise troubleshooting for faster root cause analysis. You can also leverage these visual capabilities to pinpoint top-talkers and network flows causing retransmissions and retransmission timeouts, eliminating blind spots during incidents. 
+
+These capabilities are enabled by https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-NetworkFlowMonitor.html[Amazon CloudWatch Network Flow Monitor].
