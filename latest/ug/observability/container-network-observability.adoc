@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#network-observability]
-= Monitor and visualize Kubernetes workload traffic with Container Network Observability in Amazon EKS
+= Monitor workload traffic in Amazon EKS with Container Network Observability 
 :info_titleabbrev: Container network observability
 
 Amazon EKS provides enhanced network observability features that provide deeper insights into your container networking environment. These capabilities help you better understand, monitor, and troubleshoot your Kubernetes network landscape in {aws}. With enhanced container network observability, you can leverage granular, network-related metrics for better proactive anomaly detection across cluster traffic, cross-AZ flows, and {aws} services. Using these metrics, you can measure system performance and visualize the underlying metrics using your preferred observability stack. 
@@ -49,15 +49,27 @@ To enable these metrics, override the following environment variables using the 
 
 [source,yaml]
 ----
-* OPEN_METRICS:
-    * Enable or disable open metrics. Disabled if not supplied
-    * Type: String
-    * Values: [“on”, “off”]
-* OPEN_METRICS_ADDRESS:
-    * Listening IP address for open metrics endpoint. Defaults to 127.0.0.1 if not supplied
-    * Type: String
-* OPEN_METRICS_PORT:
-    * Listening port for open metrics endpoint. Defaults to 80 if not supplied
-    * Type: Integer
-    * Range: [0..65535]
+OPEN_METRICS:
+    Enable or disable open metrics. Disabled if not supplied
+    Type: String
+    Values: [“on”, “off”]
+OPEN_METRICS_ADDRESS:
+    Listening IP address for open metrics endpoint. Defaults to 127.0.0.1 if not supplied
+    Type: String
+OPEN_METRICS_PORT:
+    Listening port for open metrics endpoint. Defaults to 80 if not supplied
+    Type: Integer
+    Range: [0..65535]
 ----
+
+==== Flow Level Metrics 
+In addition, Network Flow Monitor captures network flow data along with flow level metrics: retransmissions, retransmission timeouts, and data transferred. This data is processed by Network Flow Monitor and visualized in the EKS console to surface traffic in your cluster’s environment, and how it’s performing based on these flow level metrics. 
+
+The diagram below depicts a workflow in which both types of metrics (system and flow level) can be leveraged to gain more operational intelligence.
+
+image::images/nfm-eks-metrics-types-workflow.png[Illustration of workflow with different performance metrics]
+
+. The platform team can collect and visualize system metrics in their monitoring stack. With alerting in place, they can detect network anomalies or issues impacting pods or worker nodes using the system metrics from the NFM agent.
+. As a next step, platform teams can leverage the native visualizations in the EKS console to further narrow the scope of investigation and accelerate troubleshooting based on flow representations and their associated metrics.  
+
+Important note: The scraping of metrics from the NFM agent and the process of the NFM agent pushing these metrics to the NFM backend are independent processes. 
