@@ -195,7 +195,7 @@ _Cluster view_
 
 image::images/cluster-view.png[Illustration of flow table in cluster view]
 
-== Considerations
+== Considerations and Limitations
 * Container Network Observability in EKS is only available in regions where https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-NetworkFlowMonitor-Regions.html[Network Flow Monitor is supported]. 
 * Supported system metrics are in OpenMetrics format, and can be directly scraped from the Network Flow Monitor (NFM) agent.
 * To enable Container Network Observability in EKS using Infrastructure as Code (IaC) like https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/networkflowmonitor_monitor[Terraform], you need to have these dependencies defined and created in your configurations: NFM scope, NFM monitor and the NFM agent.
