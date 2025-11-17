@@ -79,4 +79,6 @@ To get started, see <<eks-mcp-getting-started>>.
 
 include::eks-mcp-getting-started.adoc[leveloffset=+1]
 
+include::eks-mcp-amazon-q-console.adoc[leveloffset=+1]
+
 include::eks-mcp-tool-configurations.adoc[leveloffset=+1]
