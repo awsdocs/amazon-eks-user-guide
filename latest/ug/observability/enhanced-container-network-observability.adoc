@@ -1,3 +1,5 @@
+include::../attributes.txt[]
+
 [.topic]
 [#network-observability]
 = Monitor and visualize Kubernetes workload traffic with Container Network Observability in Amazon EKS
@@ -8,3 +10,14 @@ Amazon EKS provides enhanced network observability features that provide deeper 
 In addition, Amazon EKS now provides network monitoring visualizations in the AWS console that accelerate and enhance precise troubleshooting for faster root cause analysis. You can also leverage these visual capabilities to pinpoint top-talkers and network flows causing retransmissions and retransmission timeouts, eliminating blind spots during incidents. 
 
 These capabilities are enabled by https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-NetworkFlowMonitor.html[Amazon CloudWatch Network Flow Monitor].
+
+== Use Cases
+
+=== Proactive anomaly detection 
+Several teams standardize on an observability stack that allows them to measure their system’s performance, visualize system metrics and be alarmed in the event that a specific threshold is breached. Container network observability in EKS aligns with this by exposing key system metrics that you can scrape to broaden observability of your system’s network performance at the pod and worker node level. 
+
+=== Leverage console visualizations for more precise troubleshooting
+Typically, after customers respond to a system alarm from their monitoring system, they want to hone in on the cluster and workload where an issue originated from. Network monitoring in EKS powers visualizations that narrow the scope of investigation at a cluster level, and accelerate the disclosure of the network flows responsible for the most retransmissions, retransmission timeouts, and the volume of data transferred.
+
+=== Track the top-talkers in your Amazon EKS environment
+A lot of teams run EKS as the foundation for their platforms, making it the focal point for an application environment’s network activity. With network monitoring, you can track which workloads are responsible for the most traffic (measured by data volume) within the cluster, across AZs, as well as traffic to external destinations within AWS (DynamoDB and S3) and beyond the AWS cloud (the internet or on-prem). Additionally, you can monitor the performance of each of these flows based on retransmissions, retransmission timeouts, and data transferred.
