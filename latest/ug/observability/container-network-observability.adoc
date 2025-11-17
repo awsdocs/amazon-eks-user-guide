@@ -194,3 +194,7 @@ image::images/aws-service-view.png[Illustration of flow table view]
 _Cluster view_
 
 image::images/cluster-view.png[Illustration of flow table in cluster view]
+
+== Considerations
+* Container Network Observability in EKS is only available in regions where https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-NetworkFlowMonitor-Regions.html[Network Flow Monitor is supported]. 
+* Network Flow Monitor supports up to approximately 5 million flows per minute. This is approximately 5,000 EC2 instances (EKS worker nodes) with the Network Flow Monitor agent installed. Installing agents on more than 5000 instances may affect monitoring performance until additional capacity is available.
