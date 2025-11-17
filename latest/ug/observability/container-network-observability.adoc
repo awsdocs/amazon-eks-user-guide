@@ -189,7 +189,7 @@ image::images/photo-gallery-pod.png[Illustration of service map with photo-galle
 
 _{aws} view_
 
-image::images/aws-service-view.png[Illustration of flow table in {aws} service view]
+image::images/aws-service-view.png[Illustration of flow table view]
 
 _Cluster view_
 
