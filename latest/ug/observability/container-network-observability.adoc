@@ -72,13 +72,13 @@ image::images/nfm-eks-metrics-types-workflow.png[Illustration of workflow with d
 . The platform team can collect and visualize system metrics in their monitoring stack. With alerting in place, they can detect network anomalies or issues impacting pods or worker nodes using the system metrics from the NFM agent.
 . As a next step, platform teams can leverage the native visualizations in the EKS console to further narrow the scope of investigation and accelerate troubleshooting based on flow representations and their associated metrics.  
 
-_Important note: The scraping of system metrics from the NFM agent and the process of the NFM agent pushing flow-level metrics to the NFM backend are independent processes._ 
+Important note: The scraping of system metrics from the NFM agent and the process of the NFM agent pushing flow-level metrics to the NFM backend are independent processes.
 
 ===== Supported System Metrics 
 
-_Important note: system metrics are exported in https://openmetrics.io/[OpenMetrics] format._
+Important note: system metrics are exported in https://openmetrics.io/[OpenMetrics] format.
 
-[%header,cols="4"]
+[%header,cols="3"]
 |===
 
 |Metric name
