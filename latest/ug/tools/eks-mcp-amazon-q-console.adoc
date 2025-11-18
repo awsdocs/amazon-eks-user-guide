@@ -19,10 +19,6 @@ The integration appears in the following locations within the Amazon EKS console
 * **Node health** - Investigate node-level issues affecting cluster capacity in Node health issues in observability dashboard
 * **Workloads** - Analyze Kubernetes events on pods indicating failures or issues
 
-image::images/eks-mcp-amazon-q-console-inspect-issue.png[Inspect issue,scaledwidth=100%]
-
-image::images/eks-mcp-amazon-q-console-inspect-view.png[View issue,scaledwidth=100%]
-
 == Using Amazon Q for troubleshooting
 
 **To investigate an issue with Amazon Q**
