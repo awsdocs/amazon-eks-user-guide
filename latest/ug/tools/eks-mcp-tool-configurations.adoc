@@ -7,9 +7,6 @@ include::../attributes.txt[]
 
 This guide shows all the configurations available for the link:https://github.com/aws/mcp-proxy-for-aws[_mcp-proxy-for-aws_] client-side tool that allows you to connect to the fully managed Amazon EKS MCP Server from your IDE.
 
-[.banner.info]
-The Amazon EKS MCP Server is in preview release for Amazon EKS and is subject to change.
-
 == Example
 
 [source,json]
