@@ -147,17 +147,17 @@ as shown in the following tables.
 |XL 
 |1700
 |100
-|20
+|18
 
 |2XL 
 |3400
 |100
-|20
+|18
 
 |4XL 
 |6800
 |100
-|20
+|18
 |===
 
 === EKS v1.30 and later
@@ -173,17 +173,17 @@ as shown in the following tables.
 |XL 
 |1700
 |167
-|20
+|18
 
 |2XL 
 |3400
 |283
-|20
+|18
 
 |4XL 
 |6800
 |400
-|20
+|18
 |===
 
 
@@ -214,9 +214,12 @@ https://docs.aws.amazon.com/eks/latest/userguide/view-raw-metrics.html[here]).
 
 
 |*Cluster database size*
-|etcd_mvcc_db_total_size_in_use_in_bytes
-|etcd_mvcc_db_total_size_in_use_in_bytes
+|apiserver_storage_size_bytes, etcd_mvcc_db_total_size_in_use_in_bytes*
+|apiserver_storage_size_bytes, etcd_mvcc_db_total_size_in_use_in_bytes*
 |===
+
+
+NOTE: The etcd_mvcc_db_total_size_in_use_in_bytes metric is currently being rolled out gradually across all EKS clusters. The metric is  expected to be available in all clusters by the end of Q2 2026
 
 === Selecting the optimal tier
 
