@@ -231,10 +231,10 @@ The policy also includes several condition checks to ensure that the permissions
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSLoadBalancingPolicy.html#AmazonEKSLoadBalancingPolicy-json[AmazonEKSLoadBalancingPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazoneksmcpreadonlyaccess]
-== {aws} managed policy: AmazonEKSMCPReadOnlyAccess
-:info_titleabbrev: AmazonEKSMCPReadOnlyAccess
+== {aws} managed policy: AmazonEKSMCPReadOnlyAccessPolicy
+:info_titleabbrev: AmazonEKSMCPReadOnlyAccessPolicy
 
-Attach `AmazonEKSMCPReadOnlyAccess` to your IAM entity to enable read-only tools in the Amazon EKS MCP Server. Before connecting to the service, configure local {aws} credentials for an IAM role with this policy attached. This policy grants the permissions needed to call downstream APIs for read-only tools.
+Attach `AmazonEKSMCPReadOnlyAccessPolicy` to your IAM entity to enable read-only tools in the Amazon EKS MCP Server. Before connecting to the service, configure local {aws} credentials for an IAM role with this policy attached. This policy grants the permissions needed to call downstream APIs for read-only tools.
 
 *Permission details*
 
@@ -259,6 +259,7 @@ Read-only tools:
 * search_eks_documentation
 * search_eks_troubleshooting_guide
 
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSMCPReadOnlyAccessPolicy.html#AmazonEKSMCPReadOnlyAccessPolicy-json[AmazonEKSMCPReadOnlyAccessPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazoneksservicepolicy]
 == {aws} managed policy: AmazonEKSServicePolicy
@@ -461,7 +462,7 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Date
 
 |Introduced <<security-iam-awsmanpol-amazoneksmcpreadonlyaccess>>.
-|Introduced new `AmazonEKSMCPReadOnlyAccess` policy.
+|Introduced new `AmazonEKSMCPReadOnlyAccessPolicy` policy.
 |November 20, 2025
 
 |Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>.
