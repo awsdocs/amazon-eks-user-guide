@@ -43,9 +43,9 @@ Consider the following when using Amazon Q with Amazon EKS:
 
 
 * **Read-only operations** - The Amazon Q integration performs only read operations on your cluster resources. It does not make any mutating or write actions to your cluster configuration or workloads.
-* **Cross-region processing** - Amazon Q may process data across {aws} regions to provide AI-powered analysis. For more information about cross-region processing, see [Cross-region processing](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/cross-region-processing.html) in the *Amazon Q Developer User Guide*.
+* **Cross-region processing** - Amazon Q may process data across {aws} regions to provide AI-powered analysis. For more information about cross-region processing, see link:https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/cross-region-processing.html[Cross-region processing] in the _Amazon Q Developer User Guide_.
 * **{aws} Management Console only** - This integration is available only through the {aws} Management Console. It is not available through the {aws} CLI, {aws} APIs, or infrastructure as code tools.
 
 == Learn more
 
-For more information about using Amazon Q, see [Chat with Amazon Q](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/chat-with-q.html) in the *Amazon Q Developer User Guide*.
+For more information about using Amazon Q, see link:https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/chat-with-q.html[Chat with Amazon Q] in the _Amazon Q Developer User Guide_.
