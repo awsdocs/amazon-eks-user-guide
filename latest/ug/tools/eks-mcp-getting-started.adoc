@@ -7,9 +7,6 @@ include::../attributes.txt[]
 
 This guide walks you through the steps to setup and use the EKS MCP Server with your AI code assistants. You'll learn how to configure your environment, connect to the server, and start managing your EKS clusters through natural language interactions. 
 
-[.banner.info]
-The Amazon EKS MCP Server is in preview release for Amazon EKS and is subject to change.
-
 == Prerequisites
 
 Before you start, make sure you have performed the following tasks:
