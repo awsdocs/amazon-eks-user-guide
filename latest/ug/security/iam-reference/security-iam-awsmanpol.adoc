@@ -84,6 +84,26 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSFargatePodExecutionRolePolicy.html#AmazonEKSFargatePodExecutionRolePolicy-json[AmazonEKSFargatePodExecutionRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
+[#security-iam-awsmanpol-amazoneksmcpreadonlyaccess]
+== {aws} managed policy: AmazonEKSMCPReadOnlyAccess
+:info_titleabbrev: AmazonEKSMCPReadOnlyAccess
+
+You can attach `AmazonEKSMCPReadOnlyAccess` to your IAM entities. This policy provides read-only access to Amazon EKS resources and related {aws} services, enabling the Amazon EKS Model Context Protocol (MCP) Server to perform observability and troubleshooting operations without making any modifications to your infrastructure.
+
+*Permissions details*
+
+This policy includes the following permissions that allow principals to complete the following tasks:
+
+* *`eks`* &endash; Allows principals to describe and list EKS clusters, node groups, add-ons, access entries, insights, and access the Kubernetes API for read-only operations.
+* *`iam`* &endash; Allows principals to retrieve information about IAM roles, policies, and their attachments to understand the permissions associated with EKS resources.
+* *`ec2`* &endash; Allows principals to describe VPCs, subnets, and route tables to understand the network configuration of EKS clusters.
+* *`sts`* &endash; Allows principals to retrieve caller identity information for authentication and authorization purposes.
+* *`logs`* &endash; Allows principals to start queries and retrieve query results from CloudWatch Logs for troubleshooting and monitoring.
+* *`cloudwatch`* &endash; Allows principals to retrieve metric data for monitoring cluster and workload performance.
+* *`eks-mcp`* &endash; Allows principals to invoke MCP operations and call read-only tools within the Amazon EKS MCP Server.
+
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSMCPReadOnlyAccess.html[AmazonEKSMCPReadOnlyAccess,type="documentation"] in the {aws} Managed Policy Reference Guide.
+
 [#security-iam-awsmanpol-AmazonEKSConnectorServiceRolePolicy]
 == {aws} managed policy: AmazonEKSConnectorServiceRolePolicy
 :info_titleabbrev: AmazonEKSConnectorServiceRolePolicy
@@ -229,37 +249,6 @@ The key permissions granted by this policy are:
 The policy also includes several condition checks to ensure that the permissions are scoped to the specific EKS cluster being managed, using the `eks:eks-cluster-name` tag.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSLoadBalancingPolicy.html#AmazonEKSLoadBalancingPolicy-json[AmazonEKSLoadBalancingPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
-
-[#security-iam-awsmanpol-amazoneksmcpreadonlyaccess]
-== {aws} managed policy: AmazonEKSMCPReadOnlyAccess
-:info_titleabbrev: AmazonEKSMCPReadOnlyAccess
-
-Attach `AmazonEKSMCPReadOnlyAccess` to your IAM entity to enable read-only tools in the Amazon EKS MCP Server. Before connecting to the service, configure local {aws} credentials for an IAM role with this policy attached. This policy grants the permissions needed to call downstream APIs for read-only tools.
-
-*Permission details*
-
-This policy grants permissions to use *only* read-only tools in the EKS MCP service meant for observability, troubleshooting, retrieving EKS resource information, and getting EKS-optimized suggestions for the tools in <<eks-mcp-tool-configurations>>.
-
-Read-only tools:
-
-* describe_eks_resource
-* generate_app_manifest
-* get_cloudwatch_logs
-* get_cloudwatch_metrics
-* get_eks_insights
-* get_eks_metrics_guidance
-* get_eks_vpc_config
-* get_k8s_events
-* get_pod_logs
-* get_policies_for_role
-* list_api_versions
-* list_eks_resources
-* list_k8s_resources
-* read_k8s_resource
-* search_eks_documentation
-* search_eks_troubleshooting_guide
-
-To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSMCPReadOnlyAccess.html#AmazonEKSMCPReadOnlyAccess-json[AmazonEKSMCPReadOnlyAccess,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazoneksservicepolicy]
 == {aws} managed policy: AmazonEKSServicePolicy
@@ -462,8 +451,8 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Date
 
 |Introduced <<security-iam-awsmanpol-amazoneksmcpreadonlyaccess>>.
-|Introduced new `AmazonEKSMCPReadOnlyAccess` policy.
-|November 20, 2025
+|Amazon EKS introduced new managed policy `AmazonEKSMCPReadOnlyAccess` to enable read-only tools in the Amazon EKS MCP Server for observability and troubleshooting.
+|November 18, 2025
 
 |Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>.
 |Added `ec2:DescribeRouteTables` and `ec2:DescribeNetworkAcls` permissions to `AmazonEKSServiceRolePolicy`. This allows Amazon EKS to detect configuration issues with VPC route tables and network ACLs for hybrid nodes as part of cluster insights.
