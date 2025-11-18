@@ -259,7 +259,6 @@ Read-only tools:
 * search_eks_documentation
 * search_eks_troubleshooting_guide
 
-To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSMCPReadOnlyAccess.html#AmazonEKSMCPReadOnlyAccess-json[AmazonEKSMCPReadOnlyAccess,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazoneksservicepolicy]
 == {aws} managed policy: AmazonEKSServicePolicy
@@ -460,10 +459,6 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Change
 |Description
 |Date
-
-|Introduced <<security-iam-awsmanpol-amazoneksmcpreadonlyaccess>>.
-|Introduced new `AmazonEKSMCPReadOnlyAccess` policy.
-|November 20, 2025
 
 |Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>.
 |Added `ec2:DescribeRouteTables` and `ec2:DescribeNetworkAcls` permissions to `AmazonEKSServiceRolePolicy`. This allows Amazon EKS to detect configuration issues with VPC route tables and network ACLs for hybrid nodes as part of cluster insights.
