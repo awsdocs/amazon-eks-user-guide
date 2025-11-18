@@ -1,0 +1,256 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-static-capacity]
+= Static-Capacity Node Pools in EKS Auto Mode
+:info_titleabbrev: Static-capacity node pools
+
+Amazon EKS Auto Mode supports static-capacity node pools that maintain a fixed number of nodes regardless of pod demand. Static-capacity node pools are useful for workloads that require predictable capacity, reserved instances, or specific compliance requirements where you need to maintain a consistent infrastructure footprint.
+
+Unlike dynamic node pools that scale based on pod scheduling demands, static-capacity node pools maintain a predetermined number of nodes that you specify. This provides predictable costs and consistent resource availability for applications that need guaranteed compute capacity.
+
+== Basic example
+
+Here's a simple static-capacity node pool that maintains 5 nodes:
+
+[source,yaml]
+----
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: my-static-nodepool
+spec:
+  replicas: 5  # Maintain exactly 5 nodes
+  
+  template:
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: default
+
+      requirements:
+        - key: "eks.amazonaws.com/instance-category"
+          operator: In
+          values: ["m", "c"]
+        - key: "topology.kubernetes.io/zone"
+          operator: In
+          values: ["us-west-2a", "us-west-2b"]
+
+  limits:
+    nodes: 8
+----
+
+== Configure a static-capacity node pool
+
+To create a static-capacity node pool, set the `replicas` field in your NodePool specification. The `replicas` field defines the exact number of nodes that the node pool will maintain.
+
+== Static-capacity node pool constraints
+
+Static-capacity node pools have several important constraints and behaviors:
+
+**Configuration constraints:**
+
+* **Cannot switch modes**: Once you set `replicas` on a node pool, you cannot remove it. The node pool cannot switch between static and dynamic modes.
+* **Limited resource limits**: Only the `limits.nodes` field is supported in the limits section. CPU and memory limits are not applicable.
+* **No weight field**: The `weight` field cannot be set on static-capacity node pools since node selection is not based on priority.
+
+**Operational behavior:**
+
+* **No consolidation**: Nodes in static-capacity pools are not considered for consolidation based on utilization.
+* **Scaling operations**: Scale operations bypass node disruption budgets but still respect PodDisruptionBudgets.
+* **Node replacement**: Nodes are still replaced for drift (such as AMI updates) and expiration based on your configuration.
+
+== Scale a static-capacity node pool
+
+You can change the number of replicas in a static-capacity node pool using the `kubectl scale` command:
+
+[source,bash]
+----
+# Scale down to 5 nodes  
+kubectl scale nodepool static-nodepool --replicas=5
+----
+
+When scaling down, EKS Auto Mode will terminate nodes gracefully, respecting PodDisruptionBudgets and allowing running pods to be rescheduled to remaining nodes.
+
+== Monitor static-capacity node pools
+
+Use the following commands to monitor your static-capacity node pools:
+
+[source,bash]
+----
+# View node pool status
+kubectl get nodepool static-nodepool
+
+# Get detailed information including current node count
+kubectl describe nodepool static-nodepool
+
+# Check the current number of nodes
+kubectl get nodepool static-nodepool -o jsonpath='{.status.nodes}'
+----
+
+The `status.nodes` field shows the current number of nodes managed by the node pool, which should match your desired `replicas` count under normal conditions.
+
+== Example configurations
+
+=== Basic static-capacity node pool
+
+[source,yaml]
+----
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: basic-static
+spec:
+  replicas: 5
+  
+  template:
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: default
+
+      requirements:
+        - key: "eks.amazonaws.com/instance-category"
+          operator: In
+          values: ["m"]
+        - key: "topology.kubernetes.io/zone"
+          operator: In
+          values: ["us-west-2a"]
+
+  limits:
+    nodes: 8  # Allow scaling up to 8 during operations
+----
+
+=== Static-capacity with specific instance types
+
+[source,yaml]
+----
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: reserved-instances
+spec:
+  replicas: 20
+  
+  template:
+    metadata:
+      labels:
+        instance-type: reserved
+        cost-center: production
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: default
+
+      requirements:
+        - key: "node.kubernetes.io/instance-type"
+          operator: In
+          values: ["m5.2xlarge"]  # Specific instance type
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values: ["on-demand"]
+        - key: "topology.kubernetes.io/zone"
+          operator: In
+          values: ["us-west-2a", "us-west-2b", "us-west-2c"]
+
+  limits:
+    nodes: 25
+
+  disruption:
+    # Conservative disruption for production workloads
+    budgets:
+      - nodes: 10%
+----
+
+=== Multi-zone static-capacity node pool
+
+[source,yaml]
+----
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: multi-zone-static
+spec:
+  replicas: 12  # Will be distributed across specified zones
+  
+  template:
+    metadata:
+      labels:
+        availability: high
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: default
+
+      requirements:
+        - key: "eks.amazonaws.com/instance-category"
+          operator: In
+          values: ["c", "m"]
+        - key: "eks.amazonaws.com/instance-cpu"
+          operator: In
+          values: ["8", "16"]
+        - key: "topology.kubernetes.io/zone"
+          operator: In
+          values: ["us-west-2a", "us-west-2b", "us-west-2c"]
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values: ["on-demand"]
+
+  limits:
+    nodes: 15
+
+  disruption:
+    budgets:
+      - nodes: 25%
+----
+
+== Best practices
+
+**Capacity planning:**
+
+* Set `limits.nodes` higher than `replicas` to allow for temporary scaling during node replacement operations.
+* Consider the maximum capacity needed during node drift or AMI updates when setting limits.
+
+**Instance selection:**
+
+* Use specific instance types when you have Reserved Instances or specific hardware requirements.
+* Avoid overly restrictive requirements that might limit instance availability during scaling.
+
+**Disruption management:**
+
+* Configure appropriate disruption budgets to balance availability with maintenance operations.
+* Consider your application's tolerance for node replacement when setting budget percentages.
+
+**Monitoring:**
+
+* Regularly monitor the `status.nodes` field to ensure your desired capacity is maintained.
+* Set up alerts for when the actual node count deviates from the desired replicas.
+
+**Zone distribution:**
+
+* For high availability, spread static capacity across multiple Availability Zones.
+* When you create a static-capacity node pool that spans multiple availability zones, EKS Auto Mode distributes the nodes across the specified zones, but the distribution is not guaranteed to be even.
+* For predictable and even distribution across availability zones, create separate static-capacity node pools, each pinned to a specific availability zone using the `topology.kubernetes.io/zone` requirement.
+* If you need 12 nodes evenly distributed across three zones, create three node pools with 4 replicas each, rather than one node pool with 12 replicas across three zones.
+
+== Troubleshooting
+
+**Nodes not reaching desired replicas:**
+
+* Check if the `limits.nodes` value is sufficient
+* Verify that your requirements don't overly constrain instance selection
+* Review AWS service quotas for the instance types and regions you're using
+
+**Node replacement taking too long:**
+
+* Adjust disruption budgets to allow more concurrent replacements
+* Check if PodDisruptionBudgets are preventing node termination
+
+**Unexpected node termination:**
+
+* Review the `expireAfter` and `terminationGracePeriod` settings
+* Check for manual node terminations or AWS maintenance events
