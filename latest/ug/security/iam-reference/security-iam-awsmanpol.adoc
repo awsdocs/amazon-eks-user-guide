@@ -366,7 +366,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonEBSCSIDriverPolicy
 :info_titleabbrev: AmazonEBSCSIDriverPolicy
 
-The `AmazonEBSCSIDriverPolicy` policy allows the Amazon EBS Container Storage Interface (CSI) driver to create, modify, attach, detach, and delete volumes on your behalf. This includes modifying tags on existing volumes and enabling Fast Snapshot Restore (FSR) on EBS volumes. It also grants the EBS CSI driver permissions to create, restore, and delete snapshots, and to list your instances, volumes, and snapshots.
+The `AmazonEBSCSIDriverPolicy` policy allows the Amazon EBS Container Storage Interface (CSI) driver to create, modify, copy, attach, detach, and delete volumes on your behalf. This includes modifying tags on existing volumes and enabling Fast Snapshot Restore (FSR) on EBS volumes. It also grants the EBS CSI driver permissions to create, restore, and delete snapshots, and to list your instances, volumes, and snapshots.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html#AmazonEBSCSIDriverPolicy-json[AmazonEBSCSIDriverServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
@@ -429,6 +429,9 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Change
 |Description
 |Date
+|Added permissions to <<security-iam-awsmanpol-amazonebscsidriverservicerolepolicy,AmazonEBSCSIDriverPolicy>>.
+|Added `ec2:CopyVolumes` permission to allow the EBS CSI Driver to copy EBS volumes directly. 
+|November 17, 2025
 
 |Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>.
 |Added `ec2:DescribeRouteTables` and `ec2:DescribeNetworkAcls` permissions to `AmazonEKSServiceRolePolicy`. This allows Amazon EKS to detect configuration issues with VPC route tables and network ACLs for hybrid nodes as part of cluster insights.
