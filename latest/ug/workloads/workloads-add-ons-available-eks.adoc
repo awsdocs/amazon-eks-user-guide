@@ -666,26 +666,6 @@ The SR-IOV Network Metrics Exporter Amazon EKS add-on collects and exposes metri
 
 NOTE: This add-on requires nodes with SR-IOV-capable network interfaces.
 
-[#add-ons-aws-secrets-store-csi-driver-provider]
-=== {aws} Secrets Store CSI Driver provider
-
-The {aws} provider for the Secrets Store CSI Driver is an add-on that enables retrieving secrets from {aws} Secrets Manager and parameters from {aws} Systems Manager Parameter Store and mounting them as files in Kubernetes pods.
-
-[#add-ons-ascp-iam-permissions]
-=== Required IAM permissions
-
-The add-on does not require IAM permissions. However, application pods will require IAM permissions to fetch secrets from {aws} Secrets Manager and parameters from {aws} Systems Manager Parameter Store. After installing the add-on, access must be configured via IAM Roles for Service Accounts (IRSA) or EKS Pod Identity. To use IRSA, please refer to the Secrets Manager https://docs.aws.amazon.com/secretsmanager/latest/userguide/integrating_ascp_irsa.html[IRSA setup documentation]. To use EKS Pod Identity, please refer to the Secrets Manager https://docs.aws.amazon.com/secretsmanager/latest/userguide/ascp-pod-identity-integration.html[Pod Identity setup documentation].
-
-{aws} suggests the `AWSSecretsManagerClientReadOnlyAccess` managed policy.
-
-For more information about the required permissions, see `AWSSecretsManagerClientReadOnlyAccess` in the {aws} Managed Policy Reference.
-
-=== Additional information
-
-For more information, please see the secrets-store-csi-driver-provider-aws https://github.com/aws/secrets-store-csi-driver-provider-aws[GitHub repository].
-
-To learn more about the add-on, please refer to the https://docs.aws.amazon.com/secretsmanager/latest/userguide/ascp-eks-installation.html[{aws} Secrets Manager documentation for the add-on].
-
 [%header,cols="2"]
 |===
 |Property
@@ -710,3 +690,23 @@ To learn more about the add-on, please refer to the https://docs.aws.amazon.com/
 |None
 
 |===
+
+[#add-ons-aws-secrets-store-csi-driver-provider]
+=== {aws} Secrets Store CSI Driver provider
+
+The {aws} provider for the Secrets Store CSI Driver is an add-on that enables retrieving secrets from {aws} Secrets Manager and parameters from {aws} Systems Manager Parameter Store and mounting them as files in Kubernetes pods.
+
+[#add-ons-ascp-iam-permissions]
+=== Required IAM permissions
+
+The add-on does not require IAM permissions. However, application pods will require IAM permissions to fetch secrets from {aws} Secrets Manager and parameters from {aws} Systems Manager Parameter Store. After installing the add-on, access must be configured via IAM Roles for Service Accounts (IRSA) or EKS Pod Identity. To use IRSA, please refer to the Secrets Manager https://docs.aws.amazon.com/secretsmanager/latest/userguide/integrating_ascp_irsa.html[IRSA setup documentation]. To use EKS Pod Identity, please refer to the Secrets Manager https://docs.aws.amazon.com/secretsmanager/latest/userguide/ascp-pod-identity-integration.html[Pod Identity setup documentation].
+
+{aws} suggests the `AWSSecretsManagerClientReadOnlyAccess` managed policy.
+
+For more information about the required permissions, see `AWSSecretsManagerClientReadOnlyAccess` in the {aws} Managed Policy Reference.
+
+=== Additional information
+
+For more information, please see the secrets-store-csi-driver-provider-aws https://github.com/aws/secrets-store-csi-driver-provider-aws[GitHub repository].
+
+To learn more about the add-on, please refer to the https://docs.aws.amazon.com/secretsmanager/latest/userguide/ascp-eks-installation.html[{aws} Secrets Manager documentation for the add-on].
