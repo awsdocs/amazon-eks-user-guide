@@ -22,7 +22,6 @@ The fully managed EKS MCP server is hosted in the {aws} cloud, eliminating the n
 * *Centralized access management.* The EKS MCP server integrates with link:https://aws.amazon.com/iam/[IAM], providing a centralized, secure way to control access to the server.  All requests are signed using link:https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html[{aws} SigV4] through a lightweight proxy, enabling seamless integration with your existing {aws} credentials and IAM policies.
 * *Enhanced monitoring and visibility.* {aws} CloudTrail integration captures initialization and full access tool calls made through the hosted service, enabling detailed audit trails and compliance reporting.
 * *Always up-to-date.* Receive new tools, features, and bug fixes automatically without needing to update local installations. The hosted service is continuously improved based on your feedback and {aws} best practices.
-* *Integrated {aws} console experience.* The hosted service powers the Amazon Q Developer chat experience directly in the EKS console, enabling natural language troubleshooting and cluster management without leaving your browser.
 
 == Integration examples
 
