@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-11-19"]
+=== Network observability
+[.update-ulink]
+link:eks/latest/userguide/network-observability.html[type="documentation"]
+
+Amazon EKS now provides enhanced container network observability with performance monitoring and workload traffic visibility.
+
 [.update,date="2025-11-17"]
 === {aws} managed policy updates
 [.update-ulink]
