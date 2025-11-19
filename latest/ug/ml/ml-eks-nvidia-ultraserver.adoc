@@ -218,7 +218,7 @@ helm install efa eks/aws-efa-k8s-device-plugin -n kube-system \
   -f efa-values.yaml
 ----
 
-If you decided to have 1 efa-only interface in each https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[NC group], when describing a node (`kubectl describe node/<gb200-node-name>` you would expect to see the following, 4 allocatable EFA devices per node.
+If you decided to have 1 efa-only interface in each https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[NCI group], when describing a node (`kubectl describe node/<gb200-node-name>` you would expect to see the following, 4 allocatable EFA devices per node.
 
 [source,yaml,subs="verbatim,attributes"]
 ----
