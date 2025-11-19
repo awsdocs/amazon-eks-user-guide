@@ -249,12 +249,12 @@ implement your own autoscaling solution by monitoring tier utilization
 metrics and using the EKS Provisioned Control Plane APIs to scale up or
 down when these metrics cross thresholds you define, giving you full
 control over your scaling strategy and cost optimization.
-* *Viewing current tier* – You can use the Amazon EKS console, AWS CLI,
-or API to view the current control plane scaling tier. In the AWS CLI,
+* *Viewing current tier* – You can use the Amazon EKS console, Amazon Web Services CLI,
+or API to view the current control plane scaling tier. In the CLI,
 you can run the `describe-cluster` command:
 `aws eks describe-cluster --name ++<++cluster-name++>++`
 * *Tier transition time* – You can use the Amazon EKS console, Amazon
-EKS APIs, or AWS CLI to exit or move between scaling tiers. Amazon EKS
+EKS APIs, or CLI to exit or move between scaling tiers. Amazon EKS
 has introduced a new cluster update type called
 `ScalingTierConfigUpdate`, which you can inspect to monitor the progress
 of the transition. After you execute a tier change command, you can list
@@ -271,8 +271,8 @@ the control plane tier utilization metrics at peak load, and use these
 observations as the guiding factor to select the appropriate tier for
 provisioning capacity.
 * *Provisioned Control Plane pricing* – You will be billed at the hourly rate for the Provisioned Control Plane scaling tier your cluster is on. This is in addition to the standard or extended support hourly charges. See Amazon EKS Pricing https://aws.amazon.com/eks/pricing/[page] for details.
-* *Larger scaling tier* – If you intend to run your cluster on scaling tier larger than 4XL, contact your AWS account team for additional pricing information.
-* *Kuberentes version and region support* – EKS Provisioned Control Plane is supported in all AWS commercial, GovCloud, and China regions. Provisioned Control Plane works on EKS v1.28 and higher.
+* *Larger scaling tier* – If you intend to run your cluster on scaling tier larger than 4XL, contact your Amazon Web Services account team for additional pricing information.
+* *Kuberentes version and region support* – EKS Provisioned Control Plane is supported in all Amazon Web Services commercial, GovCloud, and China regions. Provisioned Control Plane works on EKS v1.28 and higher.
 
 
 
