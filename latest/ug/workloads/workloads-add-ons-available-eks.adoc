@@ -701,7 +701,7 @@ The {aws} provider for the Secrets Store CSI Driver is an add-on that enables re
 
 The add-on does not require IAM permissions. However, application pods will require IAM permissions to fetch secrets from {aws} Secrets Manager and parameters from {aws} Systems Manager Parameter Store. After installing the add-on, access must be configured via IAM Roles for Service Accounts (IRSA) or EKS Pod Identity. To use IRSA, please refer to the Secrets Manager https://docs.aws.amazon.com/secretsmanager/latest/userguide/integrating_ascp_irsa.html[IRSA setup documentation]. To use EKS Pod Identity, please refer to the Secrets Manager https://docs.aws.amazon.com/secretsmanager/latest/userguide/ascp-pod-identity-integration.html[Pod Identity setup documentation].
 
-{aws} suggests the `AWSSecretsManagerClientReadOnlyAccess` managed policy.
+{aws} suggests the `AWSSecretsManagerClientReadOnlyAccess` https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_available-policies.html#security-iam-awsmanpol-AWSSecretsManagerClientReadOnlyAccess[managed policy].
 
 For more information about the required permissions, see `AWSSecretsManagerClientReadOnlyAccess` in the {aws} Managed Policy Reference.
 
