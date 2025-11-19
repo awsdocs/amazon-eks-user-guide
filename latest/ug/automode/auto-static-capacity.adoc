@@ -243,7 +243,7 @@ spec:
 
 * Check if the `limits.nodes` value is sufficient
 * Verify that your requirements don't overly constrain instance selection
-* Review (aws) service quotas for the instance types and regions you're using
+* Review {aws} service quotas for the instance types and regions you're using
 
 **Node replacement taking too long:**
 
@@ -253,4 +253,4 @@ spec:
 **Unexpected node termination:**
 
 * Review the `expireAfter` and `terminationGracePeriod` settings
-* Check for manual node terminations or (aws) maintenance events
+* Check for manual node terminations or {aws} maintenance events
