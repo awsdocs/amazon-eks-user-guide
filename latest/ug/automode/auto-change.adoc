@@ -95,3 +95,7 @@ DRA is not currently supported by EKS Auto Mode.
 == March 14, 2025
 
 **Feature**: `IPv4` egress enabled in `IPv6` clusters. `IPv4` traffic egressing from `IPv6` Auto Mode clusters will now be automatically translated to the `v4` address of the node primary ENI.
+
+== November 19, 2025
+
+**Feature**: Supports static-capacity node pools that maintain a fixed number of nodes.
