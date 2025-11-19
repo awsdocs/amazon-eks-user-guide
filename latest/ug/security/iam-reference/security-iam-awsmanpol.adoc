@@ -94,13 +94,13 @@ You can attach `AmazonEKSMCPReadOnlyAccess` to your IAM entities. This policy pr
 
 This policy includes the following permissions that allow principals to complete the following tasks:
 
-* *`eks`* &endash; Allows principals to describe and list EKS clusters, node groups, add-ons, access entries, insights, and access the Kubernetes API for read-only operations.
-* *`iam`* &endash; Allows principals to retrieve information about IAM roles, policies, and their attachments to understand the permissions associated with EKS resources.
-* *`ec2`* &endash; Allows principals to describe VPCs, subnets, and route tables to understand the network configuration of EKS clusters.
-* *`sts`* &endash; Allows principals to retrieve caller identity information for authentication and authorization purposes.
-* *`logs`* &endash; Allows principals to start queries and retrieve query results from CloudWatch Logs for troubleshooting and monitoring.
-* *`cloudwatch`* &endash; Allows principals to retrieve metric data for monitoring cluster and workload performance.
-* *`eks-mcp`* &endash; Allows principals to invoke MCP operations and call read-only tools within the Amazon EKS MCP Server.
+* *`eks`* - Allows principals to describe and list EKS clusters, node groups, add-ons, access entries, insights, and access the Kubernetes API for read-only operations.
+* *`iam`* - Allows principals to retrieve information about IAM roles, policies, and their attachments to understand the permissions associated with EKS resources.
+* *`ec2`* - Allows principals to describe VPCs, subnets, and route tables to understand the network configuration of EKS clusters.
+* *`sts`* - Allows principals to retrieve caller identity information for authentication and authorization purposes.
+* *`logs`* - Allows principals to start queries and retrieve query results from CloudWatch Logs for troubleshooting and monitoring.
+* *`cloudwatch`* - Allows principals to retrieve metric data for monitoring cluster and workload performance.
+* *`eks-mcp`* - Allows principals to invoke MCP operations and call read-only tools within the Amazon EKS MCP Server.
 
 To view the permissions for this policy, see link:aws-managed-policy/latest/reference/AmazonEKSMCPReadOnlyAccess.html[AmazonEKSMCPReadOnlyAccess,type="documentation"] in the {aws} Managed Policy Reference.
 
