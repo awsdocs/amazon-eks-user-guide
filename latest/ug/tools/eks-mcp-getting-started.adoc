@@ -418,9 +418,9 @@ Show me the VPC configuration for my staging cluster
 
 [source]
 ----
-List all deployments in the production namespace
-Show me pods that are not in Running state
-Get the logs from the api-server pod in the last 30 minutes
+Get the details of all the kubernetes resources deployed in my EKS cluster
+Show me pods that are not in Running state or pods with any restarts
+Get the logs from the aws-node daemonset in the last 30 minutes
 ----
 
 === Example 3: Troubleshoot issues
