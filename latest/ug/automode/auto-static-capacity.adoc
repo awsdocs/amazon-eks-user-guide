@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 Amazon EKS Auto Mode supports static-capacity node pools that maintain a fixed number of nodes regardless of pod demand. Static-capacity node pools are useful for workloads that require predictable capacity, reserved instances, or specific compliance requirements where you need to maintain a consistent infrastructure footprint.
 
-Unlike dynamic node pools that scale based on pod scheduling demands, static-capacity node pools maintain a predetermined number of nodes that you specify. This provides predictable costs and consistent resource availability for applications that need guaranteed compute capacity.
+Unlike dynamic node pools that scale based on pod scheduling demands, static-capacity node pools maintain the number of nodes that you have configured.
 
 == Basic example
 
