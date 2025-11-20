@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Learn how to use the Amazon Elastic Compute Cloud (Amazon EC2) P6e-GB200 UltraServers, accelerated by NVIDIA GB200 NVL72 for workloads in Amazon EKS. 
 --
 
-This topic is to help you configure Amazon EKS with the P6e-GB200 UltraServer. The `p6e-gb200.36xlarge` instance type with 4 NVIDIA Blackwell GPUs is only available as a P6e-GB200 UltraServer. There are two types of P6e-GB200 UltraServer, `u-p6e-gb200x36` and `u-p6e-gb200x72`. The `u-p6e-gb200x36` UltraServer has 9 `p6e-gb200.36xlarge` instances and the `u-p6e-gb200x72` UltraServer has 18 `p6e-gb200.36xlarge` instances. To learn more, see the https://aws.amazon.com/ec2/instance-types/p6/[Amazon EC2 P6e-GB200 UltraServers AWS documentation].
+This topic is to help you configure Amazon EKS with the P6e-GB200 UltraServer. The `p6e-gb200.36xlarge` instance type with 4 NVIDIA Blackwell GPUs is only available as a P6e-GB200 UltraServer. There are two types of P6e-GB200 UltraServer, `u-p6e-gb200x36` and `u-p6e-gb200x72`. The `u-p6e-gb200x36` UltraServer has 9 `p6e-gb200.36xlarge` instances and the `u-p6e-gb200x72` UltraServer has 18 `p6e-gb200.36xlarge` instances. To learn more, see the https://aws.amazon.com/ec2/instance-types/p6/[Amazon EC2 P6e-GB200 UltraServers {aws} documentation].
 
 == Considerations
 
@@ -180,11 +180,12 @@ Confirm the DRA resources are available:
 
 [source,bash]
 ----
-$ kubectl api-resources | grep resource.k8s.io/v1beta1
+$ kubectl api-resources | grep resource.k8s.io
 
-resourceclaims         resource.k8s.io/v1beta1           true         ResourceClaim
-resourceclaimtemplates resource.k8s.io/v1beta1           true         ResourceClaimTemplate
-resourceslices         resource.k8s.io/v1beta1           false        ResourceSlice
+deviceclasses           resource.k8s.io/v1  false        DeviceClass
+resourceclaims          resource.k8s.io/v1  true         ResourceClaim
+resourceclaimtemplates  resource.k8s.io/v1  true         ResourceClaimTemplate
+resourceslices          resource.k8s.io/v1  false        ResourceSlice
 
 $ kubectl get deviceclasses
 
@@ -195,7 +196,7 @@ compute-domain-default-channel.nvidia.com
 
 === Install EFA Device plugin
 
-For EFA communication between UltraServers, you’ll need to install the device plugin for EFA. P6e-GB200 instances can be configured with up to https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[17 network cards] and the primary NCI (index 0) must be of type `interface` and supports up to 100 Gbps of ENA bandwidth. Configure your EFA and ENA interfaces as per your requirements. Review the https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[EFA configuration for a P6e-GB200 instances AWS documentation] for more details on EFA configuration.
+For EFA communication between UltraServers, you’ll need to install the device plugin for EFA. P6e-GB200 instances can be configured with up to https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[17 network cards] and the primary NCI (index 0) must be of type `interface` and supports up to 100 Gbps of ENA bandwidth. Configure your EFA and ENA interfaces as per your requirements. Review the https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[EFA configuration for a P6e-GB200 instances {aws} documentation] for more details on EFA configuration.
 
 To deploy the EFA device plugin, create a Helm `efa-values.yaml` file for EFA device plugin with the following toleration, to enable the plugin to be deploy to nodes with `nvidia.com/gpu` taint.
 
@@ -213,6 +214,7 @@ To install the device plugin using Helm:
 [source,bash]
 ----
 helm repo add eks https://aws.github.io/eks-charts
+helm repo update
 helm install efa eks/aws-efa-k8s-device-plugin -n kube-system \
   --version="0.5.14" \
   -f efa-values.yaml
@@ -236,7 +238,7 @@ To run the multi-node bandwidth test against 2 nodes in the NVL72, you must firs
 
 [source,bash]
 ----
-kubectl create -f https://github.com/kubeflow/mpi-operator/releases/download/v0.6.0/mpi-operator.yaml
+kubectl create -f https://github.com/kubeflow/mpi-operator/releases/download/v0.7.0/mpi-operator.yaml
 ----
 
 Now, create the nvbandwidth test Kubernetes manifest. Take node of the `nvidia.com/gpu.clique` Pod affinity to schedule the workers in the same NVLink domain which has Multi-Node NVLink reachability.
@@ -277,13 +279,6 @@ spec:
           labels:
             nvbandwidth-test-replica: mpi-launcher
         spec:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                - matchExpressions:
-                  - key: node-role.kubernetes.io/control-plane
-                    operator: Exists
           containers:
           - image: ghcr.io/nvidia/k8s-samples:nvbandwidth-v0.7-8d103163
             name: mpi-launcher
