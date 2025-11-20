@@ -346,29 +346,12 @@ kubectl apply -f nvbandwidth-test-job.yaml
 
 ==== Verify compute domain topology
 
-After ComputeDomain creation, both nodes now share the same clique ID:
-
-[source,bash]
-----
-kubectl get nodes -o yaml | grep 'clique:'
-----
-
-Output shows both nodes in same IMEX domain:
-
-```
-nvidia.com/gpu.clique: <ClusterUUID>.<Clique ID>
-nvidia.com/gpu.clique: <ClusterUUID>.<Clique ID>
-...
-```
-
-The ComputeDomain shows successful cross-node coordination:
+After ComputeDomain creation, you can see the workload's ComputeDomain has two nodes:
 
 [source,bash]
 ----
 kubectl get computedomains.resource.nvidia.com -o yaml
 ----
-
-The shared cliqueID demonstrates they are within the same compute domain.
 
 ```
 status:
