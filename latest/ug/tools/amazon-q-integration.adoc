@@ -1,7 +1,7 @@
 include::../attributes.txt[]
 
 [.topic]
-[#eks-mcp-amazon-q-console]
+[#amazon-q-integration]
 = Use Amazon Q Developer on the Amazon EKS console
 :info_titleabbrev: Amazon Q
 
