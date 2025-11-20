@@ -20,11 +20,6 @@ The integration appears in the following locations within the Amazon EKS console
 * **Workloads** - Analyze Kubernetes events on pods indicating failures or issues
 
 
-// image::images/eks-q-console-issue.png[Inspect issue with Amazon Q]
-
-// image::images/eks-q-console-view.png[View issue with Amazon Q]
-
-
 == Using Amazon Q for troubleshooting
 
 **To investigate an issue with Amazon Q**
