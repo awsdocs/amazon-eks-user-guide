@@ -144,6 +144,8 @@ The following table describes various logging tool options.
 
 include::observability-dashboard.adoc[leveloffset=+1]
 
+include::container-network-observability.adoc[leveloffset=+1]
+
 include::prometheus.adoc[leveloffset=+1]
 
 include::cloudwatch.adoc[leveloffset=+1]
