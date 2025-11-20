@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#eks-mcp-amazon-q-console]
 = Use Amazon Q on the Amazon EKS console
-:info_titleabbrev: Use Amazon Q
+:info_titleabbrev: Amazon Q
 
 Amazon Elastic Kubernetes Service (EKS) integrates with Amazon Q to provide AI-powered troubleshooting directly in the {aws} Management Console. This integration helps you quickly investigate and resolve cluster, control plane, node, and workload issues with AI assistance from Amazon Q.
 
@@ -18,6 +18,10 @@ The integration appears in the following locations within the Amazon EKS console
 * **Upgrade insights** - Analyze potential upgrade blockers and compatibility issues  in  Upgrade insights  in observability dashboard
 * **Node health** - Investigate node-level issues affecting cluster capacity in Node health issues in observability dashboard
 * **Workloads** - Analyze Kubernetes events on pods indicating failures or issues
+
+image::images/eks-mcp-amazon-q-console-inspect-issue.png[Inspect issue,scaledwidth=100%]
+
+image::images/eks-mcp-amazon-q-console-inspect-view.png[View issue,scaledwidth=100%]
 
 == Using Amazon Q for troubleshooting
 
