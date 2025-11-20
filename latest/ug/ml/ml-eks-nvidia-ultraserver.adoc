@@ -241,7 +241,7 @@ To run the multi-node bandwidth test against 2 nodes in the NVL72, you must firs
 kubectl create -f https://github.com/kubeflow/mpi-operator/releases/download/v0.7.0/mpi-operator.yaml
 ----
 
-Now, create the nvbandwidth test Kubernetes manifest. Take node of the `nvidia.com/gpu.clique` Pod affinity to schedule the workers in the same NVLink domain which has Multi-Node NVLink reachability.
+Now, create the nvbandwidth test Kubernetes manifest. Take note of the `nvidia.com/gpu.clique` Pod affinity to schedule the workers in the same NVLink domain which has Multi-Node NVLink reachability.
 
 Note: from NVIDIA DRA Driver version https://github.com/NVIDIA/k8s-dra-driver-gpu/releases/tag/v25.8.0[v25.8.0] compute domains are elastic and `.spec.numNodes` can be set to 0. Review the latest https://github.com/NVIDIA/k8s-dra-driver-gpu[NVIDIA DRA Driver version releases notes] for updates.
 
