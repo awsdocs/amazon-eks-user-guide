@@ -24,6 +24,6 @@ These tools work together to provide comprehensive support throughout your EKS c
 
 include::eks-mcp-introduction.adoc[leveloffset=+1]
 
-include::eks-mcp-amazon-q-console.adoc[leveloffset=+1]
+include::amazon-q-integration.adoc[leveloffset=+1]
 
 
