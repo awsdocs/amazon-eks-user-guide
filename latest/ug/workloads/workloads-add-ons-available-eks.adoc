@@ -102,6 +102,9 @@ You can use any of the following Amazon EKS add-ons.
 |<<add-ons-aws-secrets-store-csi-driver-provider>>
 |EC2, EKS Auto Mode, EKS Hybrid Nodes
 
+|With Spaces, you can create and manage JupyterLab and Code Editor applications to run interactive ML workloads.
+|<<add-ons-amazon-sagemaker-spaces>>
+|Hyperpod
 
 |===
 
@@ -710,3 +713,20 @@ For more information about the required permissions, see `AWSSecretsManagerClien
 For more information, please see the secrets-store-csi-driver-provider-aws https://github.com/aws/secrets-store-csi-driver-provider-aws[GitHub repository].
 
 To learn more about the add-on, please refer to the https://docs.aws.amazon.com/secretsmanager/latest/userguide/ascp-eks-installation.html[{aws} Secrets Manager documentation for the add-on].
+
+[#add-ons-amazon-sagemaker-spaces]
+== Amazon SageMaker Spaces
+
+The Amazon SageMaker Spaces Add-on provides ability to run IDEs and Notebooks on EKS or HyperPod-EKS clusters. Administrators can use EKS Console to install the add-on on their cluster, and define default space configurations such as images, compute resources, local storage for notebook settings (additional storage to be attached to their spaces), file systems, and initialization scripts. Admins can use the kubectl to install the operator, create default settings, and manage all spaces in a centralized location.
+
+AI developers can use kubectl to create, update, and delete spaces. They have the flexibility to use default configurations provided by admins or customize settings. AI developers can access their spaces on EKS or HyperPod-EKS using their local VS Code IDEs, and/or their web browser that hosts their JupyterLab or CodeEditor IDE on custom DNS domain configured by their admins. They can also use kubernetes’ port forwarding feature to access spaces in their web browsers.
+
+The Amazon EKS add-on name is `amazon-sagemaker-spaces`.
+
+=== Required IAM permissions
+
+This add-on requires IAM permissions. For more information about the required IAM setup, see https://docs.aws.amazon.com/sagemaker/latest/dg/permission-setup.html[IAM Permissions Setup] in the _Amazon SageMaker Developer Guide_.
+
+=== Additional information
+
+To learn more about the add-on and its capabilities, see https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-eks-cluster-ide.html[SageMaker AI Notebooks on HyperPod] in the _Amazon SageMaker Developer Guide_.
