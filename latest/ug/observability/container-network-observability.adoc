@@ -201,52 +201,52 @@ Important note: system metrics are exported in https://openmetrics.io/[OpenMetri
 |Description
 
 |ingress_flow_count
-|Counter
+|Gauge
 |podName, podNamespace, nodeName
 |Numbers of flows to a pod
 
 |egress_flow_count 
-|Counter
+|Gauge
 |podName, podNamespace, nodeName
 |Number of flows from a pod to anywhere
 
 |ingress_pkt_count 
-|Counter
+|Gauge
 |podName, podNamespace, nodeName
 |Number of TCP packets received by a pod
 
 |egress_pkt_count 
-|Counter
+|Gauge
 |podName, podNamespace, nodeName
 |Number of TCP packets sent out by a pod
 
 |ingress_bytes_count 
-|Counter
+|Gauge
 |podName, podNamespace, nodeName
 |Number of bytes received by a pod
 
 |egress_bytes_count 
-|Counter
+|Gauge
 |podName, podNamespace, nodeName
 |Number of bytes sent out by a pod
 
 |bw_in_allowance_exceeded 
-|Counter
+|Gauge
 |eniID, nodeName
 |Number of packets queued or dropped because the  inbound aggregate bandwidth exceeded the maximum for the instance
 
 |bw_out_allowance_exceeded 
-|Counter
+|Gauge
 |eniID, nodeName
 |Number of packets queued or dropped because the  outbound aggregate bandwidth exceeded the maximum for the instance
 
 |pps_allowance_exceeded
-|Counter
+|Gauge
 |eniID, nodeName
 |Packets per second limit  breached at a pod
 
 |conntrack_allowance_exceeded
-|Counter
+|Gauge
 |eniID, nodeName
 |Connection Track limit  breached. An event will be generated if 90 to 95% conntrack table limit is  reached and logged on the node.
 
