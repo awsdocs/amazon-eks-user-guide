@@ -145,17 +145,17 @@ as shown in the following tables.
 |XL 
 |1700
 |100
-|18
+|16
 
 |2XL 
 |3400
 |100
-|18
+|16
 
 |4XL 
 |6800
 |100
-|18
+|16
 |===
 
 === EKS v1.30 and later
@@ -170,17 +170,17 @@ as shown in the following tables.
 |XL 
 |1700
 |167
-|18
+|16
 
 |2XL 
 |3400
 |283
-|18
+|16
 
 |4XL 
 |6800
 |400
-|18
+|16
 |===
 
 === Monitoring control plane scaling tier utilization
