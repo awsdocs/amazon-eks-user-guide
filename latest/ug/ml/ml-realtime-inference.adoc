@@ -16,3 +16,5 @@ This section is designed to help you deploy and operate real-time online inferen
 [[Topic List]]
 
 include::ml-realtime-inference-cluster.adoc[leveloffset=+1]
+
+include::ml-realtime-inference-llm-inference-vllm.adoc[leveloffset=+1]
