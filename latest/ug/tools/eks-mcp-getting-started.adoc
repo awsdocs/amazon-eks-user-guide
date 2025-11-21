@@ -47,7 +47,6 @@ To connect to the EKS MCP server, your link:https://docs.aws.amazon.com/IAM/late
 * Choose *Attach policies* (or *Add permissions* if it's the first time).
 * In the policy list, search for and select the managed policy you want to attach:
     * *Read-only operations*: AmazonEKSMCPReadOnlyAccess
-    * *Write operations*: AmazonEKSMCPFullAccess
 * Choose *Attach policies* (or *Next* and then *Add permissions* to confirm).
 
 This attaches the policy, and the permissions take effect immediately. You can attach multiple policies to the same identity, and each can contain various permissions. To learn more about these policies, see link:https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html[{aws} managed policies for Amazon Elastic Kubernetes Service].
