@@ -200,55 +200,60 @@ Important note: system metrics are exported in https://openmetrics.io/[OpenMetri
 |Dimensions
 |Description
 
-|ingress_flow_count
+|ingress_flow
 |Gauge
-|podName, podNamespace, nodeName
-|Numbers of flows to a pod
+|instance_id, iface, pod, namespace, node
+|Ingress TCP flow count (TcpPassiveOpens)
 
-|egress_flow_count 
+|egress_flow 
 |Gauge
-|podName, podNamespace, nodeName
-|Number of flows from a pod to anywhere
+|instance_id, iface, pod, namespace, node
+|Egress TCP flow count (TcpActiveOpens)
 
-|ingress_pkt_count 
+|ingress_packets 
 |Gauge
-|podName, podNamespace, nodeName
-|Number of TCP packets received by a pod
+|instance_id, iface, pod, namespace, node
+|Ingress packet count (delta)
 
-|egress_pkt_count 
+|egress_packets 
 |Gauge
-|podName, podNamespace, nodeName
-|Number of TCP packets sent out by a pod
+|instance_id, iface, pod, namespace, node
+|Egress packet count (delta)
 
-|ingress_bytes_count 
+|ingress_bytes 
 |Gauge
-|podName, podNamespace, nodeName
-|Number of bytes received by a pod
+|instance_id, iface, pod, namespace, node
+|Ingress bytes count (delta)
 
-|egress_bytes_count 
+|egress_bytes 
 |Gauge
-|podName, podNamespace, nodeName
-|Number of bytes sent out by a pod
+|instance_id, iface, pod, namespace, node
+|Egress bytes count (delta)
 
 |bw_in_allowance_exceeded 
 |Gauge
-|eniID, nodeName
-|Number of packets queued or dropped because the  inbound aggregate bandwidth exceeded the maximum for the instance
+|instance_id, eni, node
+|Packets queued/dropped due to inbound bandwidth limit
 
 |bw_out_allowance_exceeded 
 |Gauge
-|eniID, nodeName
-|Number of packets queued or dropped because the  outbound aggregate bandwidth exceeded the maximum for the instance
+|instance_id, eni, node
+|Packets queued/dropped due to outbound bandwidth limit
 
 |pps_allowance_exceeded
 |Gauge
-|eniID, nodeName
-|Packets per second limit  breached at a pod
+|instance_id, eni, node
+|Packets queued/dropped due to bidirectional PPS limit
 
 |conntrack_allowance_exceeded
 |Gauge
-|eniID, nodeName
-|Connection Track limit  breached. An event will be generated if 90 to 95% conntrack table limit is  reached and logged on the node.
+|instance_id, eni, node
+|Packets dropped due to connection tracking limit
+
+|linklocal_allowance_exceeded
+|Gauge
+|instance_id, eni, node
+|Packets dropped due to local proxy service PPS limit
 
 |====
 
