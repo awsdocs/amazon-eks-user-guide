@@ -12,7 +12,7 @@ Learn how to create an Amazon EKS cluster to run Kubernetes applications, includ
 
 [NOTE]
 ====
-This topic covers creating EKS clusters without EKS Auto Mode. 
+This topic covers creating Amazon EKS clusters without EKS Auto Mode. 
 
 For detailed instructions on creating an EKS Auto Mode cluster, see <<create-cluster-auto>>.
 
