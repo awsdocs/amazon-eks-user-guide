@@ -380,7 +380,7 @@ List the available MCP tools for EKS
 
 == Step 2: (Optional) Create a "write" policy
 
-Optionally, you can create a link:https://docs.aws.amazon.com/privateca/latest/userguide/auth-CustManagedPolicies.html[customer-managed IAM policy] that provides full access to the Amazon EKS MCP server. This policy grants permissions to use all tools in the EKS MCP server, including both privileged tools that may involve link:https://quip-amazon.com/bG6UAtsRmu9P/WIP-Amazon-EKS-MCP-Server-Tool-Configuration-Reference#temp:C:Fdf34ba675743ab4faca5742a16e[write operations] and link:https://quip-amazon.com/bG6UAtsRmu9P/WIP-Amazon-EKS-MCP-Server-Tool-Configuration-Reference#temp:C:Fdf0b37c79260254b759f8df0817[read-only tools]. Note that high-risk permissions (anything with Delete*, or unrestricted IAM resource) are included in this policy, as they're required for setup/teardown of the cluster resources in the *manage_eks_stacks* tool.
+Optionally, you can create a link:https://docs.aws.amazon.com/privateca/latest/userguide/auth-CustManagedPolicies.html[customer-managed IAM policy] that provides full access to the Amazon EKS MCP server. This policy grants permissions to use all tools in the EKS MCP server, including both privileged tools that may involve write operations and read-only tools. Note that high-risk permissions (anything with Delete*, or unrestricted IAM resource) are included in this policy, as they're required for setup/teardown of the cluster resources in the *manage_eks_stacks* tool.
 
 [source,bash]
 ----
