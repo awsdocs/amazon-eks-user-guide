@@ -188,7 +188,7 @@ as shown in the following tables.
 Amazon EKS provides several metrics to help you monitor your control
 plane's tier utilization. These metrics are published as <<cloudwatch,Amazon CloudWatch metrics>> and are
 accessible through the CloudWatch and EKS console. Additionally, these metrics
-are scrapable from your EKS cluster's Prometheus endpoint (see <<prometheus,here>>
+are scrapable from your EKS cluster's Prometheus endpoint (see <<prometheus,here>>).
 
 
 [cols="1,1,1",options="header",]
@@ -226,7 +226,7 @@ uses a flexible fleet of instances in the backend to offer the best
 price to performance ratio. However this means that the compute
 capabilities delivered can vary, so the actual performance limits are
 not fixed and can fluctuate. While these values can occasionally scale
-to levels comparable to the lower EKS Provisioned Control Plane tiers, they may not be available in all clluster. If your workload requires predictable, high 
+to levels comparable to the lower EKS Provisioned Control Plane tiers, they may not be available in all clusters. If your workload requires predictable, high
 control plane performance with clearly defined minimum
 capabilities, you should consider upgrading to an EKS Provisioned
 Control Plane tier.
