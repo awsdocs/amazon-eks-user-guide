@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Use Amazon Q Developer on the Amazon EKS console
 :info_titleabbrev: Amazon Q
 
-Amazon Elastic Kubernetes Service (EKS) integrates with Amazon Q to provide AI-powered troubleshooting directly in the {aws} Management Console. This integration helps you quickly investigate and resolve cluster, control plane, node, and workload issues with AI assistance from Amazon Q.
+Amazon Elastic Kubernetes Service (EKS) integrates with Amazon Q to provide AI-powered troubleshooting directly in the {aws} Management Console. This integration helps you quickly investigate and resolve cluster, control plane, node, and workload issues with AI assistance from Amazon Q. 
 
 == How it works
 
