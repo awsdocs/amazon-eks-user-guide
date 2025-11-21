@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-11-21"]
+=== New {aws} managed policy
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates[type="documentation"]
+
+Amazon EKS has released a new managed policy `AmazonEKSMCPReadOnlyAccess` to enable read-only tools in the Amazon EKS MCP Server for observability and troubleshooting. For information, see link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates[Amazon EKS updates to {aws} managed policies,type="documentation"].
+
 [.update,date="2025-11-19"]
 === Network observability
 [.update-ulink]
