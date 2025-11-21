@@ -14,10 +14,10 @@ Learn how to use Amazon EKS Provisioned Control Plane for predictable and high p
 
 Amazon EKS Provisioned Control Plane is a feature that enables cluster
 administrators to select from a set of scaling tiers and
-designate their chosen tier for high, predictale performance from the cluster's control plane. This enables cluster administrators to ensure that the cluster's control plane is always provisioned with the specified 
+designate their chosen tier for high, predictable performance from the cluster's control plane. This enables cluster administrators to ensure that the cluster's control plane is always provisioned with the specified 
 capacity, regardless of actual utilization. 
 
-By default, Amazon EKS cluster's control planes scales up and down
+By default, Amazon EKS cluster's control plane scales up and down
 automatically in response to signals such as 
 control plane utilization. This is the
 *standard mode* of EKS Control Plane operation and works well for the vast majority of use cases by dynamically allocating sufficient capacity as
@@ -107,7 +107,7 @@ scheduler can schedule pods on nodes, measured in pods per second.
 
 *Cluster database size* indicates the  storage space allocated to etcd, the database that holds the cluster state/metadata.
 
-When you provision your cluster's control plane on a certain scaling tier using Provisioned Control Plane, AEKS ensures your cluster's control
+When you provision your cluster's control plane on a certain scaling tier using Provisioned Control Plane, EKS ensures your cluster's control
 plane maintains the limits corresponding to that tier. The
 limits of control plane scaling tiers vary by Kubernetes version,
 as shown in the following tables.
@@ -193,13 +193,13 @@ are scrapable from your EKS cluster's Prometheus endpoint (see <<prometheus,here
 
 === Understanding Tier capacity versus actual performance
 
-When you select a Provisioned Control Plane scaling tier, the tier attributes represent the underlying configurations that Amazon EKS applies to your control plane. However, the actual performance you achieve depends on your specific workload patterns, configurations, and adherence to Kubernetes best practices. For example, while a 4XL tier configures API Priority and Fairness (APF) with 6,800 concurrent request seats, the actual request throughput you obtain from the control plane depends on the types of operations being performed. For example, Kuberentes penalizes list requests more than get, and hence the effective number of list requests processed concurrently by control plane is lower than get requests (see https://docs.aws.amazon.com/eks/latest/best-practices/scale-control-plane.html#_api_priority_and_fairness[here]). Similarly, although the default scheduler QPS is set to 400 for a 4XL tier, your actual pod scheduling rate depends on factors like nodes being ready and health for scheduling. To achieve optimal performance, ensure your applications follow Kubernetes best practices and are properly configured for your workload characteristics.
+When you select a Provisioned Control Plane scaling tier, the tier attributes represent the underlying configurations that Amazon EKS applies to your control plane. However, the actual performance you achieve depends on your specific workload patterns, configurations, and adherence to Kubernetes best practices. For example, while a 4XL tier configures API Priority and Fairness (APF) with 6,800 concurrent request seats, the actual request throughput you obtain from the control plane depends on the types of operations being performed. For example, Kubernetes penalizes list requests more than get, and hence the effective number of list requests processed concurrently by control plane is lower than get requests (see https://docs.aws.amazon.com/eks/latest/best-practices/scale-control-plane.html#_api_priority_and_fairness[here]). Similarly, although the default scheduler QPS is set to 400 for a 4XL tier, your actual pod scheduling rate depends on factors like nodes being ready and health for scheduling. To achieve optimal performance, ensure your applications follow Kubernetes best practices (see https://docs.aws.amazon.com/eks/latest/best-practices/scalability.html[here]) and are properly configured for your workload characteristics.
 
 == Considerations
 
 * *Standard control plane capacity* – EKS standard control plane mode
 offers the best
-price to performance ratio for the vast majority of use cases. However  the  performance vary as control plane scales to meet demand.
+price to performance ratio for the vast majority of use cases. However the performance varies as control plane scales to meet demand.
  If your workload requires predictable, high
 control plane performance with clearly defined minimum
 capabilities, you should consider upgrading to an EKS Provisioned
@@ -208,7 +208,7 @@ Control Plane tier.
 from the standard control plane to a higher https://aws.amazon.com/eks/pricing/[priced] EKS Provisioned
 Control Plane tier. You must explicitly opt in to one of the new EKS
 Provisioned Control Plane scaling tiers.
-* *Exiting restriction* – You cannot exit an EKS Provisioned Control
+* *Exit restriction* – You cannot exit an EKS Provisioned Control
 Plane scaling tier if your cluster exceeds the cluster database size
 limit supported in standard mode. For example, if you are using the XL
 scaling tier with 14 GB of cluster database storage (etcd database
@@ -246,7 +246,7 @@ observations as the guiding factor to select the appropriate tier for
 provisioning capacity.
 * *Provisioned Control Plane pricing* – You will be billed at the hourly rate for the Provisioned Control Plane scaling tier your cluster is on. This is in addition to the standard or extended support hourly charges. See Amazon EKS Pricing https://aws.amazon.com/eks/pricing/[page] for details.
 * *Larger scaling tier* – If you intend to run your cluster on scaling tier larger than 4XL, contact your Amazon Web Services account team for additional pricing information.
-* *Kuberentes version and region support* – EKS Provisioned Control Plane is supported in all Amazon Web Services commercial, GovCloud, and China regions. Provisioned Control Plane works on EKS v1.28 and higher.
+* *Kubernetes version and region support* – EKS Provisioned Control Plane is supported in all Amazon Web Services commercial, GovCloud, and China regions. Provisioned Control Plane works on EKS v1.28 and higher.
 
 
 include::eks-provisioned-control-plane-getting-started.adoc[leveloffset=+1]
