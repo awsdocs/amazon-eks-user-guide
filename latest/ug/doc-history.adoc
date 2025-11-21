@@ -19,6 +19,27 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2025-11-21"]
+=== New {aws} managed policy
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates[type="documentation"]
+
+Amazon EKS has released a new managed policy `AmazonEKSMCPReadOnlyAccess` to enable read-only tools in the Amazon EKS MCP Server for observability and troubleshooting. For information, see link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates[Amazon EKS updates to {aws} managed policies,type="documentation"].
+
+[.update,date="2025-11-19"]
+=== Network observability
+[.update-ulink]
+link:eks/latest/userguide/network-observability.html[type="documentation"]
+
+Amazon EKS now provides enhanced container network observability with performance monitoring and workload traffic visibility.
+
+[.update,date="2025-11-17"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `ec2:CopyVolumes` permission to `AmazonEBSCSIDriverPolicy` to allow the EBS CSI Driver to copy EBS volumes directly. 
+
 
 [.update,date="2025-10-22"]
 === {aws} managed policy updates

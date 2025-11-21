@@ -1,0 +1,675 @@
+include::../attributes.txt[]
+
+[.topic]
+[#eks-mcp-getting-started]
+= Getting Started with the Amazon EKS MCP Server
+:info_titleabbrev: Get started
+
+This guide walks you through the steps to setup and use the EKS MCP Server with your AI code assistants. You'll learn how to configure your environment, connect to the server, and start managing your EKS clusters through natural language interactions. 
+
+[NOTE]
+====
+The Amazon EKS MCP Server is in preview release for Amazon EKS and is subject to change.
+====
+
+== Prerequisites
+
+Before you start, make sure you have performed the following tasks:
+
+* link:https://aws.amazon.com/resources/create-account/[Create an {aws} account with access to Amazon EKS]
+* link:https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html[Install and configure the {aws} CLI with credentials]
+* link:https://www.python.org/downloads/release/python-3100/[Install Python 3.10+]
+* link:https://docs.astral.sh/uv/getting-started/installation/[Install `uv`]
+
+== Setup
+
+=== 1. Verify prerequisites
+
+[source,bash]
+----
+# Check that your Python version is 3.10 or higher
+python3 --version 
+
+# Check uv installation
+uv --version
+
+# Verify CLI configuration
+aws configure list
+----
+
+=== 2. Setup IAM permissions
+
+To connect to the EKS MCP server, your link:https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html[IAM role] must have the following policies attached: *`eks-mcp:InvokeMcp`* (required permissions for initialization and retrieving information about available tools), *`eks-mcp:CallReadOnlyTool`* (required permissions for usage of read only tools), and *`eks-mcp:CallPrivilegedTool`* (required permissions for usage of full access (write) tools). These `eks-mcp` permissions are included in the read-only and full-access {aws} managed policies provided, below. 
+
+* Open the link:https://console.aws.amazon.com/iam/[IAM console].
+* In the left navigation pane, choose *Users*, *User groups*, or *Roles* depending on the identity you want to attach the policy to, then the name of the specific user, group, or role.
+* Choose the *Permissions* tab.
+* Choose *Attach policies* (or *Add permissions* if it's the first time).
+* In the policy list, search for and select the managed policy you want to attach:
+    * *Read-only operations*: AmazonEKSMCPReadOnlyAccess
+* Choose *Attach policies* (or *Next* and then *Add permissions* to confirm).
+
+This attaches the policy, and the permissions take effect immediately. You can attach multiple policies to the same identity, and each can contain various permissions. To learn more about these policies, see link:https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html[{aws} managed policies for Amazon Elastic Kubernetes Service].
+
+=== 3. Choose an AI assistant
+
+Choose one of the following MCP-compatible AI assistants or any MCP-compatible tool:
+
+* link:https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-installing.html[Install Amazon Q Developer CLI]
+* link:https://kiro.dev/docs/getting-started/installation/[Install Kiro]
+* link:https://cursor.com/download[Install Cursor]
+* link:https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev[Install Cline VS Code Extension]
+
+== Step 1: Configure your AI assistant
+
+Choose from any one of the following options to setup your AI code assistant. Completing this step sets up your AI code assistant to use the MCP Proxy for {aws}, which is required for secure, authenticated access to the Amazon EKS MCP Server. This involves adding or editing the MCP  configuration file (e.g., `~/.aws/amazonq/mcp.json` for Amazon Q Developer CLI). The proxy acts as a client-side bridge, handling {aws} SigV4 authentication using your local {aws} credentials and enabling dynamic tool discovery for interacting with backend {aws} MCP servers like the EKS MCP Server. To learn more, see the link:https://github.com/aws/mcp-proxy-for-aws[_MCP Proxy for {aws} repository_].
+
+=== Option A: Amazon Q Developer CLI
+
+The Q Developer CLI provides the most integrated experience with the EKS  MCP Server.
+
+==== 1. Locate MCP Configuration File
+
+* *macOS/Linux*: `~/.aws/q/mcp.json`
+* *Windows*: `%USERPROFILE%\.aws\q\mcp.json`
+
+==== 2. Add MCP Server Configuration
+
+Create the configuration file if it doesn't exist. Be sure to replace the region (`{region}`) placeholder with your desired region.
+
+*For Mac/Linux:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp": {
+      "disabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "default",
+        "--region",
+        "{region}"
+      ]
+    }
+  }
+}
+----
+
+*For Windows:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp": {
+      "disabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "mcp-proxy-for-aws@latest",
+        "mcp-proxy-for-aws.exe",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "default",
+        "--region",
+        "{region}"
+      ]
+    }
+  }
+}
+----
+
+*Security note*: `--read-only` can be used to only allow read-only tool operations.
+
+==== 3. Verify Configuration
+
+Restart Q Developer CLI, then check available tools:
+
+[source]
+----
+q /tools
+----
+
+=== Option B: Kiro IDE
+
+Kiro is an AI-first coding workspace with built-in link:https://kiro.dev/docs/mcp/[MCP support]. 
+
+==== 1. Open Kiro Settings
+
+* Open Kiro
+* Go to *Kiro* → *Settings* and search for "MCP Config"
+* Or press `Cmd+Shift+P,` (Mac) or `Ctrl+Shift+P,` (Windows/Linux) and search for "MCP Config"
+
+==== 2. Add MCP Server Configuration
+
+* Click "Open Workspace MCP Config" or "Open User MCP Config" to edit the MCP configuration file directly.
+
+Be sure to replace the region (`{region}`) placeholder with your desired region.
+
+*For Mac/Linux:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp": {
+      "disabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "default",
+        "--region",
+        "{region}"
+      ]
+    }
+  }
+}
+----
+
+*For Windows:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp": {
+      "disabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "mcp-proxy-for-aws@latest",
+        "mcp-proxy-for-aws.exe",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "default",
+        "--region",
+        "{region}"
+      ]
+    }
+  }
+}
+----
+
+*Security note*: `--read-only` can be used to only allow read-only tool operations.
+
+=== Option C: Cursor IDE
+
+Cursor provides built-in MCP support with a graphical configuration interface.
+
+==== 1. Open Cursor Settings
+
+* Open Cursor
+* Go to *Settings* → *Cursor Settings* → *Tools & MCP*
+* Or press `Cmd+Shift+P` (Mac) / `Ctrl+Shift+P` (Windows) and search for "MCP"
+
+==== 2. Add MCP Server Configuration
+
+* Click "New MCP Server"
+
+Create the configuration file if it doesn't exist. Be sure to replace the region (`{region}`) placeholder with your desired region.
+
+*For Mac/Linux:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp": {
+      "disabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "default",
+        "--region",
+        "{region}"
+      ]
+    }
+  }
+}
+----
+
+*For Windows:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp": {
+      "disabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "mcp-proxy-for-aws@latest",
+        "mcp-proxy-for-aws.exe",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "default",
+        "--region",
+        "{region}"
+      ]
+    }
+  }
+}
+----
+
+*Security note*: `--read-only` can be used to only allow read-only tool operations.
+
+==== 3. Restart Cursor
+
+Close and reopen Cursor for the changes to take effect.
+
+==== 4. Verify in Cursor chat
+
+Open the chat panel and try:
+
+[source]
+----
+What EKS MCP tools are available?
+----
+
+You should see a list of available EKS management tools.
+
+=== Option D: Cline (VS Code Extension)
+
+Cline is a popular VS Code extension that brings AI assistance directly into your editor.
+
+==== 1. Open Cline Settings
+
+* Open Cline
+* Press `Cmd+Shift+P` (Mac) / `Ctrl+Shift+P` (Windows) and search for "MCP"
+
+==== 2. Add MCP Server Configuration
+
+* Click "Add Server"
+* Click "Open User Configuration"
+
+Create the configuration file if it doesn't exist. Be sure to replace the region (`{region}`) placeholder with your desired region.
+
+*For Mac/Linux:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp": {
+      "disabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "default",
+        "--region",
+        "{region}"
+      ]
+    }
+  }
+}
+----
+
+*For Windows:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp": {
+      "disabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "mcp-proxy-for-aws@latest",
+        "mcp-proxy-for-aws.exe",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "default",
+        "--region",
+        "{region}"
+      ]
+    }
+  }
+}
+----
+
+*Security note*: `--read-only` can be used to only allow read-only tool operations.
+
+==== 2. Reload VS Code
+
+Press `Cmd+Shift+P` / `Ctrl+Shift+P` and select "Developer: Reload Window"
+
+==== 3. Verify configuration
+
+Open Cline and ask:
+
+[source]
+----
+List the available MCP tools for EKS
+----
+
+== Step 2: (Optional) Create a "write" policy
+
+Optionally, you can create a link:https://docs.aws.amazon.com/privateca/latest/userguide/auth-CustManagedPolicies.html[customer-managed IAM policy] that provides full access to the Amazon EKS MCP server. This policy grants permissions to use all tools in the EKS MCP server, including both privileged tools that may involve write operations and read-only tools. Note that high-risk permissions (anything with Delete*, or unrestricted IAM resource) are included in this policy, as they're required for setup/teardown of the cluster resources in the *manage_eks_stacks* tool.
+
+[source,bash]
+----
+aws iam create-policy \
+ --policy-name EKSMcpWriteManagementPolicy \
+ --policy-document "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"eks:DescribeCluster\", \"eks:ListClusters\", \"eks:DescribeNodegroup\", \"eks:ListNodegroups\", \"eks:DescribeAddon\", \"eks:ListAddons\", \"eks:DescribeAccessEntry\", \"eks:ListAccessEntries\", \"eks:DescribeInsight\", \"eks:ListInsights\", \"eks:AccessKubernetesApi\"], \"Resource\": \"*\"}, {\"Effect\": \"Allow\", \"Action\": [\"eks:CreateCluster\", \"eks:DeleteCluster\", \"eks:CreateAccessEntry\", \"eks:TagResource\"], \"Resource\": \"*\"}, {\"Effect\": \"Allow\", \"Action\": [\"iam:GetRole\", \"iam:ListRolePolicies\", \"iam:ListAttachedRolePolicies\", \"iam:GetRolePolicy\", \"iam:GetPolicy\", \"iam:GetPolicyVersion\"], \"Resource\": \"*\"}, {\"Effect\": \"Allow\", \"Action\": [\"iam:TagRole\", \"iam:CreateRole\", \"iam:AttachRolePolicy\", \"iam:PutRolePolicy\", \"iam:DetachRolePolicy\", \"iam:DeleteRole\"], \"Resource\": \"*\"}, {\"Effect\": \"Allow\", \"Action\": [\"iam:PassRole\"], \"Resource\": \"*\", \"Condition\": {\"StringEquals\": {\"iam:PassedToService\": [\"eks.amazonaws.com\", \"ec2.amazonaws.com\"]}}}, {\"Effect\": \"Allow\", \"Action\": [\"ec2:CreateVpc\", \"ec2:CreateSubnet\", \"ec2:CreateRouteTable\", \"ec2:CreateRoute\", \"ec2:CreateInternetGateway\", \"ec2:CreateNatGateway\", \"ec2:CreateSecurityGroup\", \"ec2:AttachInternetGateway\", \"ec2:AssociateRouteTable\", \"ec2:ModifyVpcAttribute\", \"ec2:ModifySubnetAttribute\", \"ec2:AllocateAddress\", \"ec2:CreateTags\"], \"Resource\": \"*\"}, {\"Effect\": \"Allow\", \"Action\": [\"ec2:DeleteVpc\", \"ec2:DeleteSubnet\", \"ec2:DisassociateRouteTable\", \"ec2:DeleteRouteTable\", \"ec2:DeleteRoute\", \"ec2:DetachInternetGateway\", \"ec2:DeleteInternetGateway\", \"ec2:DeleteNatGateway\", \"ec2:ReleaseAddress\", \"ec2:DeleteSecurityGroup\"], \"Resource\": \"*\"}, {\"Effect\": \"Allow\", \"Action\": [\"ec2:DescribeVpcs\", \"ec2:DescribeSubnets\", \"ec2:DescribeRouteTables\", \"ec2:DescribeInternetGateways\", \"ec2:DescribeNatGateways\", \"ec2:DescribeAddresses\", \"ec2:DescribeSecurityGroups\", \"ec2:DescribeAvailabilityZones\"], \"Resource\": \"*\"}, {\"Effect\": \"Allow\", \"Action\": [\"cloudformation:CreateStack\", \"cloudformation:UpdateStack\", \"cloudformation:DeleteStack\", \"cloudformation:DescribeStacks\", \"cloudformation:TagResource\"], \"Resource\": \"*\"}, {\"Effect\": \"Allow\", \"Action\": [\"sts:GetCallerIdentity\"], \"Resource\": \"*\"}, {\"Effect\": \"Allow\", \"Action\": [\"logs:StartQuery\", \"logs:GetQueryResults\"], \"Resource\": \"*\"}, {\"Effect\": \"Allow\", \"Action\": [\"cloudwatch:GetMetricData\"], \"Resource\": \"*\"}, {\"Effect\": \"Allow\", \"Action\": [\"eks-mcp:*\"], \"Resource\": \"*\"}]}"
+----
+
+== Step 3: Verify your setup
+
+=== Test connection
+
+Ask your AI assistant a simple question to verify the connection:
+
+[source]
+----
+List all EKS clusters in my {aws} account
+----
+
+You should see a list of your EKS clusters.
+
+== Step 4: Run your first tasks
+
+=== Example 1: Explore your clusters
+
+[source]
+----
+Show me all EKS clusters and their status
+What insights does EKS have about my production-cluster?
+Show me the VPC configuration for my staging cluster
+----
+
+=== Example 2: Check Kubernetes resources
+
+[source]
+----
+Get the details of all the kubernetes resources deployed in my EKS cluster
+Show me pods that are not in Running state or pods with any restarts
+Get the logs from the aws-node daemonset in the last 30 minutes
+----
+
+=== Example 3: Troubleshoot issues
+
+[source]
+----
+Why is my nginx-ingress-controller pod failing to start?
+Search the EKS troubleshooting guide for pod networking issues
+Show me events related to the failed deployment in the staging namespace
+----
+
+=== Example 4: Create resources (if "write" mode is enabled)
+
+[source]
+----
+Create a new EKS cluster named demo-cluster with VPC and Auto Mode
+Deploy my containerized app from ECR to the production namespace with 3 replicas
+Generate a Kubernetes deployment YAML for my Node.js app running on port 3000
+----
+
+== Common configurations
+
+=== Scenario 1: Multiple {aws} profiles
+
+If you work with multiple {aws} accounts, create separate MCP server configurations.
+
+*For Mac/Linux:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp-prod": {
+      "disabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "production",
+        "--region",
+        "us-west-2"
+      ]
+    },
+    "eks-mcp-dev": {
+      "disabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "development",
+        "--region",
+        "us-east-1"
+      ]
+    }
+  }
+}
+----
+
+*For Windows:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp-prod": {
+      "disabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "mcp-proxy-for-aws@latest",
+        "mcp-proxy-for-aws.exe",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "production",
+        "--region",
+        "us-west-2"
+      ]
+    },
+    "eks-mcp-dev": {
+      "disabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "mcp-proxy-for-aws@latest",
+        "mcp-proxy-for-aws.exe",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "development",
+        "--region",
+        "us-east-1"
+      ]
+    }
+  }
+}
+----
+
+=== Scenario 2: Read-only for production
+
+Create a read-only configuration for production environments.
+
+*For Mac/Linux:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp-prod-readonly": {
+      "command": "uvx",
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "production",
+        "--region",
+        "us-west-2",
+        "--read-only"
+      ],
+      "autoApprove": [
+        "list_k8s_resources",
+        "get_pod_logs",
+        "get_k8s_events"
+      ]
+    }
+  }
+}
+----
+
+*For Windows:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp-prod-readonly": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "mcp-proxy-for-aws@latest",
+        "mcp-proxy-for-aws.exe",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "production",
+        "--region",
+        "us-west-2",
+        "--read-only"
+      ],
+      "autoApprove": [
+        "list_k8s_resources",
+        "get_pod_logs",
+        "get_k8s_events"
+      ]
+    }
+  }
+}
+----
+
+=== Scenario 3: Development with full access
+
+For development environments with full write access.
+
+*For Mac/Linux:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp-dev-full": {
+      "command": "uvx",
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "development",
+        "--region",
+        "us-east-1"
+      ]
+    }
+  }
+}
+----
+
+*For Windows:*
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "eks-mcp-dev-full": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "mcp-proxy-for-aws@latest",
+        "mcp-proxy-for-aws.exe",
+        "https://eks-mcp.{region}.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--profile",
+        "development",
+        "--region",
+        "us-east-1"
+      ]
+    }
+  }
+}
+----
+
+== Considerations
+
+=== Security
+
+Do not pass secrets or sensitive information via allowed input mechanisms:
+
+* Do not include secrets or credentials in YAML files applied with apply_yaml.
+* Do not pass sensitive information directly in the prompt to the model.
+* Do not include secrets in CloudFormation templates or application manifests.
+* Avoid using MCP tools for creating Kubernetes Secrets, as this would require providing the secret data to the model.
+* Avoid logging sensitive information in application logs within Kubernetes pods.
+
+YAML content security:
+
+* Only use YAML files from trustworthy sources.
+* The server relies on Kubernetes API validation for YAML content and does not perform its own validation.
+* Audit YAML files before applying them to your cluster.
+
+Instead of passing secrets through MCP:
+
+* Use link:https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html[{aws} Secrets Manager] or link:https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html[Parameter Store] to store sensitive information.
+* Configure proper Kubernetes RBAC for service accounts.
+* Use IAM roles for service accounts (IRSA) for {aws} service access from pods.
+
+== Next up
+
+For a complete list of tools and configurations, see <<eks-mcp-tool-configurations>>.

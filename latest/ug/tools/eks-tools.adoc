@@ -1,0 +1,29 @@
+include::../attributes.txt[]
+
+[.topic]
+[#eks-tools]
+= Amazon EKS tools
+:info_titleabbrev: Tools
+
+[abstract]
+--
+Set up and configure {aws} tools to manage your Amazon EKS cluster.
+--
+
+Amazon EKS provides a suite of {aws} tools that help you manage, troubleshoot, and interact with your EKS clusters more efficiently. These tools leverage AI-powered capabilities and standardized interfaces to simplify cluster operations, accelerate troubleshooting, and enable natural language interactions with your Kubernetes resources. Available tools include:
+
+* *Amazon EKS Model Context Protocol (MCP) Server* - A fully managed service that enables AI-powered experiences for EKS cluster management. The EKS MCP Server integrates with MCP-compatible AI coding assistants to provide real-time, contextual knowledge of your clusters and Kubernetes resources. Use it to manage clusters, deploy applications, troubleshoot issues, and query EKS documentation through natural language interactions. 
+
+* *Amazon Q on the Amazon EKS console* - An AI-powered troubleshooting integration available directly in the {aws} Management Console. Amazon Q automatically analyzes cluster issues and provides investigation results, root cause analysis, and suggested mitigation steps when you encounter errors or warnings in the EKS console.
+
+These tools work together to provide comprehensive support throughout your EKS cluster lifecycle, from initial setup and configuration through ongoing operations and troubleshooting. Whether you're developing applications, managing infrastructure, or resolving production issues, these {aws} tools help you work more efficiently with your EKS clusters.
+
+
+[.topiclist]
+[[Topic List]]
+
+include::eks-mcp-introduction.adoc[leveloffset=+1]
+
+include::amazon-q-integration.adoc[leveloffset=+1]
+
+

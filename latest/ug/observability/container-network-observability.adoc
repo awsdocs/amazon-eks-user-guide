@@ -1,0 +1,333 @@
+include::../attributes.txt[]
+
+[.topic]
+[#network-observability]
+= Monitor Kubernetes workload traffic with Container Network Observability 
+:info_titleabbrev: Container network observability
+
+Amazon EKS provides enhanced network observability features that provide deeper insights into your container networking environment. These capabilities help you better understand, monitor, and troubleshoot your Kubernetes network landscape in {aws}. With enhanced container network observability, you can leverage granular, network-related metrics for better proactive anomaly detection across cluster traffic, cross-AZ flows, and {aws} services. Using these metrics, you can measure system performance and visualize the underlying metrics using your preferred observability stack. 
+
+In addition, Amazon EKS now provides network monitoring visualizations in the {aws} console that accelerate and enhance precise troubleshooting for faster root cause analysis. You can also leverage these visual capabilities to pinpoint top-talkers and network flows causing retransmissions and retransmission timeouts, eliminating blind spots during incidents. 
+
+These capabilities are enabled by https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-NetworkFlowMonitor.html[Amazon CloudWatch Network Flow Monitor].
+
+== Use cases
+
+=== Measure network performance to detect anomalies 
+Several teams standardize on an observability stack that allows them to measure their system’s performance, visualize system metrics and be alarmed in the event that a specific threshold is breached. Container network observability in EKS aligns with this by exposing key system metrics that you can scrape to broaden observability of your system’s network performance at the pod and worker node level. 
+
+=== Leverage console visualizations for more precise troubleshooting
+In the event of an alarm from your monitoring system, you may want to hone in on the cluster and workload where an issue originated from. To support this, you can leverage visualizations in the EKS console that narrow the scope of investigation at a cluster level, and accelerate the disclosure of the network flows responsible for the most retransmissions, retransmission timeouts, and the volume of data transferred.
+
+=== Track top-talkers in your Amazon EKS environment
+A lot of teams run EKS as the foundation for their platforms, making it the focal point for an application environment’s network activity. Using the network monitoring capabilities in this feature, you can track which workloads are responsible for the most traffic (measured by data volume) within the cluster, across AZs, as well as traffic to external destinations within {aws} (DynamoDB and S3) and beyond the {aws} cloud (the internet or on-prem). Additionally, you can monitor the performance of each of these flows based on retransmissions, retransmission timeouts, and data transferred.
+
+== Features 
+
+. Performance metrics - This feature allows you to scrape network-related system metrics for pods and worker nodes directly from the Network Flow Monitor (NFM) Agent running in your EKS cluster. 
+. Service map - This feature dynamically visualizes intercommunication between workloads in the cluster, allowing you to quickly disclose key metrics (retransmissions - RT, retransmission timeouts - RTO, and data transferred - DT) associated with network flows between communicating pods. 
+. Flow table - With this table, you can monitor the top talkers across the Kubernetes workloads in your cluster from three different angles: {aws} service view, cluster view, and external view. For each view, you can see the retransmissions, retransmission timeouts, and data transferred between the source pod and its destination. 
+    * {aws} service view: Shows top talkers to {aws} services (DynamoDB and S3)
+    * Cluster view: Shows top talkers within the cluster (east ← to → west) 
+    * External view: Shows top talkers to cluster-external destinations outside {aws}
+
+== Get started 
+To get started, enable Container Network Observability in the EKS console for a new or existing cluster. This will automate the creation of Network Flow Monitor (NFM) dependencies (https://docs.aws.amazon.com/networkflowmonitor/2.0/APIReference/API_CreateScope.html[Scope] and https://docs.aws.amazon.com/networkflowmonitor/2.0/APIReference/API_CreateMonitor.html[Monitor] resources). In addition, you will have to install the https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-NetworkFlowMonitor-agents-kubernetes-eks.html[Network Flow Monitor Agent add-on]. Alternatively, you can install these dependencies using the `{aws} CLI`, https://docs.aws.amazon.com/eks/latest/APIReference/API_Operations_Amazon_Elastic_Kubernetes_Service.html[EKS APIs] (for the add-on), https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-NetworkFlowMonitor-API-operations.html[NFM APIs] or Infrastructure as Code (like https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/networkflowmonitor_monitor[Terraform]). Once these dependencies are in place, you can configure your preferred monitoring tool to scrape network performance metrics for pods and worker nodes from the NFM agent. To visualize the network activity and performance of your workloads, you can navigate to the EKS console under the “Network” tab of the cluster’s observability dashboard.
+
+When using Network Flow Monitor in EKS, you can maintain your existing observability workflow and technology stack while leveraging a set of additional features which further enable you to understand and optimize the network layer of your EKS environment. You can learn more about the https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-NetworkFlowMonitor.pricing.html[Network Flow Monitor pricing here].
+
+== Prerequisites and important notes
+
+. As mentioned above, if you enable Container Network Observability from the EKS console, the underlying NFM resource dependencies (Scope and Monitor) will be automatically created on your behalf, and you will be guided through the installation process of the EKS add-on for NFM.
+. If you want to enable this feature using Infrastructure as Code (IaC) like Terraform, you will have to define the following dependencies in your IaC: NFM Scope, NFM Monitor, EKS add-on for NFM. In addition, you'll have to grant the https://docs.aws.amazon.com/aws-managed-policy/latest/reference/CloudWatchNetworkFlowMonitorAgentPublishPolicy.html[relevant permissions] to the EKS add-on using https://docs.aws.amazon.com/eks/latest/userguide/pod-id-agent-setup.html[Pod Identity].  
+. You must be running a minimum version of 1.1.0 for the NFM agent's EKS add-on. 
+
+=== Required IAM permissions
+
+==== EKS add-on for NFM agent
+You can use the `CloudWatchNetworkFlowMonitorAgentPublishPolicy` https://docs.aws.amazon.com/aws-managed-policy/latest/reference/CloudWatchNetworkFlowMonitorAgentPublishPolicy.html[{aws} managed policy] with Pod Identity. This policy contains permissions for the NFM agent to send telemetry reports (metrics) to a Network Flow Monitor endpoint.
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "Version" : "2012-10-17",
+  "Statement" : [
+    {
+      "Effect" : "Allow",
+      "Action" : [
+        "networkflowmonitor:Publish"
+      ],
+      "Resource" : "*"
+    }
+  ]
+}
+----
+
+==== Container Network Observability in the EKS console
+The following permissions are required to enable the feature and visualize the service map and flow table in the console.
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "Version" : "2012-10-17",
+  "Statement" : [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "networkflowmonitor:ListScopes",
+        "networkflowmonitor:ListMonitors",
+        "networkflowmonitor:GetScope",
+        "networkflowmonitor:GetMonitor",
+        "networkflowmonitor:CreateScope",
+        "networkflowmonitor:CreateMonitor",
+        "networkflowmonitor:TagResource",
+        "networkflowmonitor:StartQueryMonitorTopContributors",
+        "networkflowmonitor:StopQueryMonitorTopContributors",
+        "networkflowmonitor:GetQueryStatusMonitorTopContributors",
+        "networkflowmonitor:GetQueryResultsMonitorTopContributors"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+----
+
+== Using Infrastructure as Code (IaC)
+
+=== Terraform 
+
+If you are using Terraform to manage your {aws} cloud infrastructure, you can include the following resource configurations to enable Container Network Observability for your cluster.
+
+===== NFM Scope
+
+```
+data "aws_caller_identity" "current" {}
+
+resource "aws_networkflowmonitor_scope" "example" {
+  target {
+    region = "us-east-1"
+    target_identifier {
+      target_type = "ACCOUNT"
+      target_id {
+        account_id = data.aws_caller_identity.current.account_id
+      }
+    }
+  }
+
+  tags = {
+    Name = "example"
+  }
+}
+```
+
+===== NFM Monitor
+
+```
+resource "aws_networkflowmonitor_monitor" "example" {
+  monitor_name = "eks-cluster-name-monitor"
+  scope_arn    = aws_networkflowmonitor_scope.example.scope_arn
+
+  local_resource {
+    type       = "AWS::EKS::Cluster"
+    identifier = aws_eks_cluster.example.arn
+  }
+
+  remote_resource {
+    type       = "AWS::Region"
+    identifier = "us-east-1" # this must be the same region that the cluster is in
+  }
+
+  tags = {
+    Name = "example"
+  }
+}
+```
+
+===== EKS add-on for NFM
+
+```
+resource "aws_eks_addon" "example" {
+  cluster_name                = aws_eks_cluster.example.name
+  addon_name                  = "aws-network-flow-monitoring-agent"
+}
+```
+
+== How does it work?
+
+=== Performance metrics 
+
+==== System metrics
+If you are running third party (3P) tooling to monitor your EKS environment (such as Prometheus and Grafana), you can scrape the supported system metrics directly from the Network Flow Monitor agent. These metrics can be sent to your monitoring stack to expand measurement of your system’s network performance at the pod and worker node level. The available metrics are listed in the table, under Supported system metrics. 
+
+image::images/nfm-eks-metrics-workflow.png[Illustration of scraping system metrics]
+
+To enable these metrics, override the following environment variables using the configuration variables during the installation process (see: https://aws.amazon.com/blogs/containers/amazon-eks-add-ons-advanced-configuration/):
+
+[source,yaml]
+----
+OPEN_METRICS:
+    Enable or disable open metrics. Disabled if not supplied
+    Type: String
+    Values: [“on”, “off”]
+OPEN_METRICS_ADDRESS:
+    Listening IP address for open metrics endpoint. Defaults to 127.0.0.1 if not supplied
+    Type: String
+OPEN_METRICS_PORT:
+    Listening port for open metrics endpoint. Defaults to 80 if not supplied
+    Type: Integer
+    Range: [0..65535]
+----
+
+==== Flow level metrics 
+In addition, Network Flow Monitor captures network flow data along with flow level metrics: retransmissions, retransmission timeouts, and data transferred. This data is processed by Network Flow Monitor and visualized in the EKS console to surface traffic in your cluster’s environment, and how it’s performing based on these flow level metrics. 
+
+The diagram below depicts a workflow in which both types of metrics (system and flow level) can be leveraged to gain more operational intelligence.
+
+image::images/nfm-eks-metrics-types-workflow.png[Illustration of workflow with different performance metrics]
+
+. The platform team can collect and visualize system metrics in their monitoring stack. With alerting in place, they can detect network anomalies or issues impacting pods or worker nodes using the system metrics from the NFM agent.
+. As a next step, platform teams can leverage the native visualizations in the EKS console to further narrow the scope of investigation and accelerate troubleshooting based on flow representations and their associated metrics.  
+
+Important note: The scraping of system metrics from the NFM agent and the process of the NFM agent pushing flow-level metrics to the NFM backend are independent processes.
+
+===== Supported system metrics 
+
+Important note: system metrics are exported in https://openmetrics.io/[OpenMetrics] format.
+
+[%header,cols="4"]
+|====
+
+|Metric name
+|Type
+|Dimensions
+|Description
+
+|ingress_flow
+|Gauge
+|instance_id, iface, pod, namespace, node
+|Ingress TCP flow count (TcpPassiveOpens)
+
+|egress_flow 
+|Gauge
+|instance_id, iface, pod, namespace, node
+|Egress TCP flow count (TcpActiveOpens)
+
+|ingress_packets 
+|Gauge
+|instance_id, iface, pod, namespace, node
+|Ingress packet count (delta)
+
+|egress_packets 
+|Gauge
+|instance_id, iface, pod, namespace, node
+|Egress packet count (delta)
+
+|ingress_bytes 
+|Gauge
+|instance_id, iface, pod, namespace, node
+|Ingress bytes count (delta)
+
+|egress_bytes 
+|Gauge
+|instance_id, iface, pod, namespace, node
+|Egress bytes count (delta)
+
+|bw_in_allowance_exceeded 
+|Gauge
+|instance_id, eni, node
+|Packets queued/dropped due to inbound bandwidth limit
+
+|bw_out_allowance_exceeded 
+|Gauge
+|instance_id, eni, node
+|Packets queued/dropped due to outbound bandwidth limit
+
+|pps_allowance_exceeded
+|Gauge
+|instance_id, eni, node
+|Packets queued/dropped due to bidirectional PPS limit
+
+|conntrack_allowance_exceeded
+|Gauge
+|instance_id, eni, node
+|Packets dropped due to connection tracking limit
+
+|linklocal_allowance_exceeded
+|Gauge
+|instance_id, eni, node
+|Packets dropped due to local proxy service PPS limit
+
+|====
+
+===== Supported flow level metrics 
+
+[%header,cols="3"]
+|===
+
+|Metric name
+|Type
+|Description
+
+|TCP retransmissions
+|Counter
+|Number of times a sender resends a packet that was lost or corrupted during transmission.
+
+|TCP retransmission timeouts
+|Counter
+|Number of times a sender initiated a waiting period to determine if a packet was lost in transit.
+
+|Data (bytes) transferred
+|Counter
+|Volume of data transferred between a source and destination for a given flow. 
+
+|===
+
+=== Service map and flow table 
+
+image::images/nfm-eks-workflow.png[Illustration of how NFM works with EKS]
+
+. When installed, the Network Flow Monitor agent runs as a DaemonSet on every worker node and collects the top 500 network flows (based on volume of data transferred) every 30 seconds. 
+. These network flows are sorted into the following categories: Intra AZ, Inter AZ, EC2 → S3, EC2 → DynamoDB (DDB), and Unclassified. Each flow has 3 metrics associated with it: retransmissions, retransmission timeouts, and data transferred (in bytes). 
+    * Intra AZ - network flows between pods in the same AZ
+    * Inter AZ - network flows between pods in different AZs
+    * EC2 → S3 - network flows from pods to S3
+    * EC2 → DDB - network flows from pods to DDB
+    * Unclassified - network flows from pods to the Internet or on-prem
+. Network flows from the Network Flow Monitor Top Contributors API are used to power the following experiences in the EKS console:
+    * Service map: Visualization of network flows within the cluster (Intra AZ and Inter AZ).
+    * Flow table: Table presentation of network flows within the cluster (Intra AZ and Inter AZ), from pods to {aws} services (EC2 → S3 and EC2 → DDB), and from pods to external destinations (Unclassified).
+
+The network flows pulled from the Top Contributors API are scoped to a 1 hour time range, and can include up to 500 flows from each category. For the service map, this means up to 1000 flows can be sourced and presented from the Intra AZ and Inter AZ flow categories over a 1 hour time range. For the flow table, this means that up to 3000 network flows can be sourced and presented from all 6 network flow categories over a 2 hour time range. 
+
+===== Example: Service map
+
+_Deployment view_
+
+image::images/ecommerce-deployment.png[Illustration of service map with ecommerce app in deployment view]
+
+_Pod view_
+
+image::images/ecommerce-pod.png[Illustration of service map with ecommerce app in pod view]
+
+_Deployment view_
+
+image::images/photo-gallery-deployment.png[Illustration of service map with photo-gallery app in deployment view]
+
+_Pod view_
+
+image::images/photo-gallery-pod.png[Illustration of service map with photo-gallery app in pod view]
+
+===== Example: Flow table 
+
+_{aws} service view_
+
+image::images/aws-service-view.png[Illustration of flow table view]
+
+_Cluster view_
+
+image::images/cluster-view.png[Illustration of flow table in cluster view]
+
+== Considerations and limitations
+* Container Network Observability in EKS is only available in regions where https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-NetworkFlowMonitor-Regions.html[Network Flow Monitor is supported]. 
+* Supported system metrics are in OpenMetrics format, and can be directly scraped from the Network Flow Monitor (NFM) agent.
+* To enable Container Network Observability in EKS using Infrastructure as Code (IaC) like https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/networkflowmonitor_monitor[Terraform], you need to have these dependencies defined and created in your configurations: NFM scope, NFM monitor and the NFM agent.
+* Network Flow Monitor supports up to approximately 5 million flows per minute. This is approximately 5,000 EC2 instances (EKS worker nodes) with the Network Flow Monitor agent installed. Installing agents on more than 5000 instances may affect monitoring performance until additional capacity is available.
+* You must be running a minimum version of 1.1.0 for the NFM agent's EKS add-on.
