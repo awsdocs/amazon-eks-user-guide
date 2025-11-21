@@ -2,19 +2,19 @@ include::../attributes.txt[]
 
 [.topic]
 [#ml-realtime-inference-llm-inference-vllm]
-= High-throughput LLM inference with vLLM on Amazon EKS
+= Quickstart: High-throughput LLM inference with vLLM on Amazon EKS
 :info_titleabbrev: LLM inference with vLLM
 
 [abstract]
 --
-This quickstart guide provides a walkthrough for deploying Large Language Models on Amazon EKS using vLLM and GPUs for text-based real-time inference applications.
+Deploy Large Language Models (LLMs) on Amazon EKS using vLLM and GPUs for text-based real-time inference applications.
 --
 
 == Introduction
 
-This quickstart guide provides a walkthrough for deploying Large Language Models on Amazon EKS using vLLM and GPUs for text-based real-time inference applications. 
+This quickstart guide provides a walkthrough for deploying Large Language Models (LLMs) on Amazon EKS using vLLM and GPUs for text-based real-time inference applications. 
 
-The solution leverages Amazon EKS for container orchestration and vLLM for efficient model serving, enabling you to build scalable AI applications with GPU acceleration and high-throughput inference serving. The Llama 3.1 8B Instruct model is used for demonstration, but you can deploy any other LLM supported by vLLM (check https://docs.vllm.ai/en/latest/models/supported_models.html#list-of-text-only-language-models[vLLM documentation] for a list of supported models). To test LLM inference, we use a sample chatbot application based on the project https://github.com/yoziru/nextjs-vllm-ui[nextjs-vllm-ui]. Finally, we use guidellm to benchmark and tune vLLM configuration for optimal inference performance.
+The solution leverages Amazon EKS for container orchestration and vLLM for efficient model serving, enabling you to build scalable AI applications with GPU acceleration and high-throughput inference serving. The Llama 3.1 8B Instruct model is used for demonstration, but you can deploy any other LLM supported by vLLM (check https://docs.vllm.ai/en/latest/models/supported_models.html#list-of-text-only-language-models[vLLM documentation] for a list of supported models). To test LLM inference, we use a sample chatbot application based on the project https://github.com/yoziru/nextjs-vllm-ui[nextjs-vllm-ui]. Finally, we use guidellm to benchmark and tune vLLM configuration parameters to optimize inference performance.
 
 .vLLM Architecture on EKS
 image::images/llm-inference-vllm-architecture.png[vLLM Architecture diagram]
@@ -38,7 +38,7 @@ Other storage solutions are also available on EKS for model caching, such as EFS
 
 === Set environment variables
 
-Create a random name for a new S3 bucket that will be created. Once created, use this same bucket name for all steps in this guide. Example:
+Create a unique name for a new Amazon S3 bucket that we will create later in this guide. Once created, use this same bucket name for all steps. For example:
 
 [source,bash]
 ----
@@ -128,7 +128,7 @@ USE_POLICY.md  model-00001-of-00004.safetensors  model-00004-of-00004.safetensor
 
 === Upload model files
 
-Enable AWS Common Runtime (CRT) for improved S3 transfer performance. The CRT-based transfer client provides enhanced throughput and reliability for large file operations:
+Enable {aws} Common Runtime (CRT) for improved S3 transfer performance. The CRT-based transfer client provides enhanced throughput and reliability for large file operations:
 
 [source,bash]
 ----
@@ -159,7 +159,7 @@ upload: llama-3.1-8b-instruct/model-00001-of-00004.safetensors to s3://model-sto
 
 The S3 Mountpoint CSI driver enables native integration between Kubernetes and S3, allowing pods to directly access model files as if they were local storage, eliminating the need for local copies during container startup.
 
-Create IAM policy to allow S3 mount point to read from your S3 bucket:
+Create an IAM policy to allow the S3 mount point to read from your S3 bucket:
 
 [source,bash]
 ----
@@ -189,14 +189,14 @@ aws iam create-policy \
   --policy-document file://s3-policy.json
 ----
 
-Find the IAM role name used by S3 Mountpoint CSI by checking S3 CSI Driver service account annotations:
+Find the IAM role name used by the S3 Mountpoint CSI Driver by checking S3 CSI Driver service account annotations:
 
 [source,bash]
 ----
 ROLE_NAME=$(kubectl get serviceaccount s3-csi-driver-sa -n kube-system -o jsonpath='{.metadata.annotations.eks\.amazonaws\.com/role-arn}' | cut -d'/' -f2)
 ----
 
-Attach your IAM policy with S3 Mountpoint CSI role:
+Attach your IAM policy with the S3 Mountpoint CSI role:
 
 [source,bash]
 ----
@@ -209,7 +209,7 @@ If S3 Mountpoint CSI is not installed in the cluster, follow the deployment step
 
 === Mount S3 bucket as a Kubernetes volume
 
-Create Persistent Volume (PV) and Persistent Volume Claim (PVC) to provide read-only access to the S3 bucket across multiple inference pods. The ReadOnlyMany access mode ensures concurrent access to model files, while the CSI driver handles the S3 bucket mounting:
+Create a Persistent Volume (PV) and Persistent Volume Claim (PVC) to provide read-only access to the S3 bucket across multiple inference pods. The ReadOnlyMany access mode ensures concurrent access to model files, while the CSI driver handles the S3 bucket mounting:
 
 [source,yaml]
 ----
@@ -258,7 +258,7 @@ We are using the EKS cluster created in <<ml-realtime-inference-cluster>>. This 
 
 Proper instance selection for LLM inference requires ensuring that available GPU memory is sufficient to load model weights. Model weights for Llama 3.1 8B Instruct are approximately 16GB (size of model files .safetensor), therefore we need to provide at least this amount of memory to the vllm process to load the model.
 
-AWS G5 instances with A10G GPUs and G6 instances with L4 GPUs both provide 24GB VRAM per GPU, sufficient for loading Llama 3.1 8B Instruct weights. If you are deploying a model with larger weights, consider using a multi-GPU instance type or a multi-node setup.
+https://aws.amazon.com/ec2/instance-types/g5/[Amazon G5 EC2 Instances] with A10G GPUs and https://aws.amazon.com/ec2/instance-types/g6/[G6 EC2 instances] with L4 GPUs both provide 24GB VRAM per GPU, sufficient for loading Llama 3.1 8B Instruct weights. If you are deploying a model with larger weights, consider using a multi-GPU instance type or a multi-node setup.
 
 *NVIDIA device drivers*
 
@@ -270,7 +270,7 @@ Our cluster uses EKS Bottlerocket AMIs, which include all necessary NVIDIA devic
 
 Test your cluster's GPU capabilities by executing the steps below to ensure pods can access NVIDIA GPU resources and schedule correctly on GPU-enabled nodes.
 
-Deploy Nvidia SMI test pod:
+Deploy an Nvidia SMI test pod:
 
 [source,yaml]
 ----
@@ -299,7 +299,7 @@ spec:
 EOF
 ----
 
-Review pod logs to check GPU details are listed, similar to output below (not necessarily the same GPU model): 
+Review pod logs to check that GPU details are listed, similar to output below (not necessarily the same GPU model): 
 
 [source,bash]
 ----
@@ -339,11 +339,11 @@ This output shows that pods can successfully access GPU resources.
 
 The serving stack determines both performance and scalability capabilities of your inference infrastructure. vLLM has emerged as a leading solution for production deployments. vLLM's architecture provides continuous batching for dynamic request processing, kernel optimizations for faster inference, and efficient GPU memory management through PagedAttention. These features, combined with a production-ready REST API and support for popular model formats, make it an optimal choice for high-performance inference deployments.
 
-=== Select AWS Deep Learning Container image
+=== Select {aws} Deep Learning Container image
 
-https://github.com/aws/deep-learning-containers/tree/master[AWS Deep Learning Containers] (DLCs) provide pre-optimized environments with security updates, AWS infrastructure compatibility, and optimized driver configurations. This reduces deployment complexity and maintenance overhead while ensuring production readiness. 
+https://github.com/aws/deep-learning-containers/tree/master[{aws} Deep Learning Containers] (DLCs) provide pre-optimized environments with security updates, {aws} infrastructure compatibility, and optimized driver configurations. This reduces deployment complexity and maintenance overhead while ensuring production readiness. 
 
-For this deployment, we'll use the AWS DLC for vLLM 0.9, which includes Nvidia libraries and optimized GPU performance configurations specifically tuned for transformer model inference on AWS GPU instances. 
+For this deployment, we'll use the {aws} DLC for vLLM 0.9, which includes Nvidia libraries and optimized GPU performance configurations specifically tuned for transformer model inference on {aws} GPU instances. 
 
 [source,text]
 ----
@@ -354,7 +354,7 @@ image: 763104351884.dkr.ecr.us-east-1.amazonaws.com/vllm:0.9-gpu-py312-ec2
 
 There are multiple ways to deploy vLLM in EKS. This guide demonstrates vLLM deployment using a Kubernetes deployment, which is a Kubernetes-native and easy way to get started. For advanced deployment options see https://docs.vllm.ai/en/latest/deployment/k8s.html[vLLM docs] and https://awslabs.github.io/ai-on-eks/docs/blueprints[AI on EKS blueprints].
 
-Define deployment parameters through Kubernetes manifests to control resource allocation, node placement, health probes, exposing the service, etc. Configure your deployment to run a GPU-enabled pod using AWS Deep Learning Container image for vLLM. Set optimized parameters for LLM inference and expose the vLLM OpenAPI-compatible endpoint via AWS Load Balancer service:
+Define deployment parameters through Kubernetes manifests to control resource allocation, node placement, health probes, exposing the service, etc. Configure your deployment to run a GPU-enabled pod using {aws} Deep Learning Container image for vLLM. Set optimized parameters for LLM inference and expose the vLLM OpenAPI-compatible endpoint via {aws} Load Balancer service:
 
 [source,yaml]
 ----
@@ -455,7 +455,7 @@ It may take several minutes while the container image is pulled and vLLM loads m
 
 === Expose the service
 
-Expose the inference endpoint locally through Kubernetes port forwarding for local development and testing. Leave this command running in a separate shell:
+Expose the inference endpoint locally through the Kubernetes port forwarding for local development and testing. Leave this command running in a separate terminal window:
 
 [source,bash]
 ----
@@ -463,22 +463,21 @@ export POD_NAME=$(kubectl get pod -l app=vllm-inference-app -o jsonpath='{.items
 kubectl port-forward pod/$POD_NAME 8000:8000
 ----
 
-The AWS Load Balancer Controller automatically creates a Network Load Balancer that exposes vLLM service endpoint externally. Fetch the NLB endpoint by running:
+The {aws} Load Balancer Controller automatically creates a Network Load Balancer that exposes vLLM service endpoint externally. Fetch the NLB endpoint by running:
 
 [source,bash]
 ----
 NLB=$(kubectl get service vllm-inference-svc -o jsonpath='{.status.loadBalancer.ingress[0].hostname}') 
 ----
 
-Need to install AWS Load Balancer Controller? Follow the deployment steps in the https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html[AWS EKS documentation].
+Need to install {aws} Load Balancer Controller? Follow the deployment steps in <<aws-load-balancer-controller>>.
 
 
 == Run inference
 
 === Validate inference pod
 
-Validate the inference container functionality locally through the forwarded port.
-Send a connection request and ensure that the response includes HTTP code 200:
+Validate the inference container functionality locally through the forwarded port. Send a connection request and ensure that the response includes HTTP code 200:
 
 [source,bash]
 ----
@@ -512,7 +511,7 @@ This endpoint follows the OpenAI API format, making it compatible with existing 
 
 === Run chatbot app
 
-For demonstration purposes, this guide runs a sample chatbot application using project https://github.com/yoziru/nextjs-vllm-ui[nextjs-vllm-ui] to showcase user interactions with the model. 
+For demonstration, this guide runs a sample chatbot application using project https://github.com/yoziru/nextjs-vllm-ui[nextjs-vllm-ui] to showcase user interactions with the model. 
 
 Run a chatbot UI as a Docker container that maps port 3000 to localhost and connects to the vLLM NLB endpoint:
 
@@ -540,7 +539,7 @@ Specialized inference engines like vLLM provide advanced features that significa
 
 === Benchmark vLLM configurations
 
-To tune vLLM configuration for your use case, benchmark different settings using a comprehensive inference benchmarking tool like https://github.com/vllm-project/guidellm[guidellm]. This will collect key metrics like request per second throughput (RPS), end-to-end latency (E2E), time to first token (TTFT), and tail latency (TPOT) to compare different configurations.
+To tune vLLM configuration parameters for your use case, benchmark different settings using a comprehensive inference benchmarking tool like https://github.com/vllm-project/guidellm[guidellm]. This will collect key metrics like request per second throughput (RPS), end-to-end latency (E2E), time to first token (TTFT), and tail latency (TPOT) to compare different configurations.
 
 === Baseline vLLM configuration
 
@@ -602,7 +601,7 @@ Adjust vLLM parameters to better utilize GPU resources and parallelization:
 |Increasing max seq increases throughput but also increases latency. Increase this value to maximize throughput while ensuring that latency stays within your use case requirements
 |===
 
-Apply these changes to the running deployment using a kubectl patch command.
+Apply these changes to the running deployment using a kubectl patch command:
 
 [source,bash]
 ----
@@ -658,6 +657,6 @@ Compute benchmarking results in a table for both baseline and optimized vLLM con
 |39.5 ms
 |===
 
-The optimized vLLM configuration significantly improved inference throughput (RPS) and reduced latency (E2E, TTFT), with only a minor millisecond increase in tail latency (TPOT). These results demonstrate how vLLM significantly improves inference performance, allowing each container to process more requests in less time for cost-effective operation.
+The optimized vLLM configurations significantly improved inference throughput (RPS) and reduced latency (E2E, TTFT) with only a minor millisecond increase in tail latency (TPOT). These results demonstrate how vLLM significantly improves inference performance, allowing each container to process more requests in less time for cost-effective operation.
 
 
