@@ -226,7 +226,7 @@ control over your scaling strategy and cost optimization.
 * *Viewing current tier* – You can use the Amazon EKS console, Amazon Web Services CLI,
 or API to view the current control plane scaling tier. In the CLI,
 you can run the `describe-cluster` command:
-`aws eks describe-cluster --name ++<++cluster-name++>++`
+`aws eks describe-cluster --name cluster-name`
 * *Tier transition time* – You can use the Amazon EKS console, Amazon
 EKS APIs, or CLI to exit or move between scaling tiers. Amazon EKS
 has introduced a new cluster update type called
