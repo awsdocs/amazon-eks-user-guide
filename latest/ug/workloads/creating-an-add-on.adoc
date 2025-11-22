@@ -121,7 +121,7 @@ eksctl create addon --help
 +
 For more information about available options see https://eksctl.io/usage/addons/[Addons] in the `eksctl` documentation.
 
-[#_create_add_on_console]
+[#create_add_on_console]
 == Create add-on ({aws} Console)
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
