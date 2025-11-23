@@ -7,38 +7,29 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn how to use Amazon EKS Provisioned Control Plane for predictable and high performance from cluster's control plane.
+Learn how to use Amazon EKS Provisioned Control Plane for predictable and high performance from the cluster's control plane.
 --
 
 == Overview
 
 Amazon EKS Provisioned Control Plane is a feature that enables cluster
 administrators to select from a set of scaling tiers and
-designate their chosen tier for high, predictable performance from the cluster's control plane. This enables cluster administrators to ensure that the cluster's control plane is always provisioned with the specified 
-capacity, regardless of actual utilization. 
+designate their chosen tier for very high, predictable performance from the cluster's control plane. This enables cluster administrators to ensure that the control plane is always provisioned with the specified 
+capacity. 
 
-By default, Amazon EKS cluster's control plane scales up and down
-automatically in response to signals such as 
-control plane utilization. This is the
-*standard mode* of EKS Control Plane operation and works well for the vast majority of use cases by dynamically allocating sufficient capacity as
-needed. However, for workloads characterized by extreme bursts of traffic, or those requiring very high amounts of control
-plane capacity,  *Provisioned Control mode* is the right solution.
+Amazon EKS offers two modes of operations for your cluster's control plane. By default, Amazon EKS clusters use *Standard mode*, where the control plane automatically scales up and down based on your workload demands. Standard mode dynamically allocates sufficient control plane capacity to meet your workload needs and is the recommended solution for most use cases. However, for specialized workloads that cannot tolerate any performance variability due to control plane scaling or those requiring very high amounts of control plane capacity, you can optionally use *Provisioned mode*. Provisioned mode allows you to pre-allocate  control plane capacity that is always ready to  handle demanding workload requirements. 
+
+[NOTE]
+====
+Provisioned mode offers an additional option to the default Standard mode of control plane operations. The launch of Provisioned mode does not change  Standard mode behavior, which  will continue to operate as before.
+====
 
 With EKS Provisioned Control Plane, cluster administrators can
-pre-provision desired control plane capacity ahead of time, providing
-predictable and high performance from the cluster's control plane even in
-scenarios with bursty or erratic traffic patterns. EKS
-Provisioned Control Plane also enables cluster administrators to provision
-the same control plane capacity across environments, from development and
-staging to production and disaster recovery sites. This is important for
-ensuring that the control plane performance obtained across environments
-is consistent and predictable. Finally, EKS Provisioned Control Plane
-gives you access to very high levels of control plane performance, enabling the running of massively
-scalable AI workloads, high-performance computing, and large-scale data
-processing workloads on Kubernetes.
+pre-provision the desired control plane capacity ahead of time, providing
+predictable and high performance from the cluster's control plane that is always available. EKS Provisioned Control Plane also enables cluster administrators to provision the same control plane capacity across environments, from staging to production and disaster recovery sites. This is important for ensuring that the control plane performance obtained across environments is consistent and predictable. Finally, EKS Provisioned Control Plane gives you access to very high levels of control plane performance, enabling the running of massively scalable AI workloads, high-performance computing, and large-scale data processing workloads on Kubernetes.
 
-All existing and new Amazon EKS clusters operate in standard mode by
-default. For clusters requiring high,  predictable 
+All existing and new Amazon EKS clusters operate in Standard mode by
+default. For clusters requiring high, predictable 
 performance from the control plane, you can opt in to use the EKS
 Provisioned Control Plane feature. You will be billed at the hourly rate
 for the particular control plane scaling tier in addition to the
@@ -51,8 +42,7 @@ image::images/control-plane-modes.png[Amazon EKS Control Plane Modes,scaledwidth
 == Use cases
 
 EKS Provisioned Control Plane is designed to address specific scenarios
-where high and predictable control plane performance are
-critical to your operations. Understanding these use cases can help you
+where high and predictable control plane performance is critical to your operations. Understanding these use cases can help you
 determine whether EKS Provisioned Control Plane is the right solution
 for your workloads.
 
@@ -63,7 +53,7 @@ performance variability with control plane scaling.
 
 *Massively scalable workloads* – If you run highly scalable workloads
 such as AI training and inference, high-performance computing, or
-large-scale data processing that require large number of nodes running
+large-scale data processing that require a large number of nodes running
 in the cluster, Provisioned Control Plane provides the necessary
 control plane capacity to support these demanding workloads. 
 
@@ -197,24 +187,14 @@ When you select a Provisioned Control Plane scaling tier, the tier attributes re
 
 == Considerations
 
-* *Standard control plane capacity* – EKS standard control plane mode
+* *Standard control plane capacity* – EKS Standard control plane mode
 offers the best
-price to performance ratio for the vast majority of use cases. However the performance varies as control plane scales to meet demand.
- If your workload requires predictable, high
-control plane performance with clearly defined minimum
-capabilities, you should consider upgrading to an EKS Provisioned
-Control Plane tier.
+price to performance ratio, and is the recommended option for the vast majority of use cases. However, for specialized workloads that cannot tolerate any performance variability due to control plane scaling or those requiring very high amounts of control plane capacity, you can optionally consider using Provisioned mode.
 * *Opt-in required* – Existing clusters will not automatically scale up
-from the standard control plane to a higher https://aws.amazon.com/eks/pricing/[priced] EKS Provisioned
+from the Standard control plane to a higher https://aws.amazon.com/eks/pricing/[priced] EKS Provisioned
 Control Plane tier. You must explicitly opt in to one of the new EKS
 Provisioned Control Plane scaling tiers.
-* *Exit restriction* – You cannot exit an EKS Provisioned Control
-Plane scaling tier if your cluster exceeds the cluster database size
-limit supported in standard mode. For example, if you are using the XL
-scaling tier with 14 GB of cluster database storage (etcd database
-size), you cannot exit this tier until you lower the database
-utilization to less than 8 GB. You must first reduce your storage
-consumption below 8 GB before you can exit the XL tier.
+* *Exit restriction* – Standard control plane mode supports up to 8 GB of cluster database (etcd) size. If your cluster's database size exceeds 8 GB while using Provisioned mode, you cannot switch back to Standard mode until you reduce the database size to below 8 GB. For example, if you are using 14 GB of database storage in Provisioned mode, you must first reduce your database utilization to less than 8GB before returning to Standard mode.
 * *No automatic tier scaling* – EKS Provisioned Control Plane does not
 automatically scale between tiers. Once you select a scaling tier, your
 cluster's control plane remains pinned to that tier, ensuring consistent
@@ -239,11 +219,11 @@ occurs. The error field in the update indicates the reason for failure.
 There are no restrictions on how frequently you can switch between
 tiers. Changing the control plane tier takes several minutes to
 complete.
-* *Selecting optimal tier* – To determine the optimal tier for your cluster, you can perform load testing by provisioning your Amazon EKS cluster in EKS Provisioned Control Plane mode using the highest tier (4XL). Then perform a load
+* *Selecting optimal tier* – To determine the optimal Provisioned Control Plane scaling tier for your cluster, you can perform load testing by provisioning your cluster on the highest tier (4XL). Then perform a load
 test to simulate peak demand on your cluster's control plane. Observe
 the control plane tier utilization metrics at peak load, and use these
 observations as the guiding factor to select the appropriate tier for
-provisioning capacity.
+Provisioned mode.
 * *Provisioned Control Plane pricing* – You will be billed at the hourly rate for the Provisioned Control Plane scaling tier your cluster is on. This is in addition to the standard or extended support hourly charges. See Amazon EKS Pricing https://aws.amazon.com/eks/pricing/[page] for details.
 * *Larger scaling tier* – If you intend to run your cluster on scaling tier larger than 4XL, contact your Amazon Web Services account team for additional pricing information.
 * *Kubernetes version and region support* – EKS Provisioned Control Plane is supported in all Amazon Web Services commercial, GovCloud, and China regions. Provisioned Control Plane works on EKS v1.28 and higher.
