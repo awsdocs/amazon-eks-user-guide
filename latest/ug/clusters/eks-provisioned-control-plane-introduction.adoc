@@ -21,7 +21,7 @@ Amazon EKS offers two modes of operations for your cluster's control plane. By d
 
 [NOTE]
 ====
-Provisioned mode offers an additional option to the default Standard mode of control plane operations. The launch of Provisioned mode does not change  Standard mode behavior, which  will continue to operate as before.
+ Provisioned mode is an additional control plane operations mode alongside the default Standard mode. The introduction of Provisioned mode does not change Standard mode behavior.
 ====
 
 With EKS Provisioned Control Plane, cluster administrators can
