@@ -90,6 +90,78 @@ The following permissions are required to enable the feature and visualize the s
 }
 ----
 
+== Using {aws} CLI, EKS API and NFM API 
+
+[source,bash]
+----
+#!/bin/bash
+
+# Script to create required Network Flow Monitor resources
+set -e
+
+CLUSTER_NAME="my-eks-cluster"
+CLUSTER_ARN="arn:aws:eks:{Region}:{Account}:cluster/{ClusterName}"
+REGION="us-west-2"
+AGENT_NAMESPACE="amazon-network-flow-monitor"
+
+echo "Creating Network Flow Monitor resources..."
+
+# Check if Network Flow Monitor agent is running in the cluster
+echo "Checking for Network Flow Monitor agent in cluster..."
+if kubectl get pods -n "$AGENT_NAMESPACE" --no-headers 2>/dev/null | grep -q "Running"; then
+    echo "Network Flow Monitor agent exists and is running in the cluster"
+else
+    echo "Network Flow Monitor agent not found. Installing as EKS addon..."
+    aws eks create-addon \
+        --cluster-name "$CLUSTER_NAME" \
+        --addon-name "$AGENT_NAMESPACE" \
+        --region "$REGION"
+    echo "Network Flow Monitor addon installation initiated"
+fi
+
+# Get Account ID
+ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+
+echo "Cluster ARN: $CLUSTER_ARN"
+echo "Account ID: $ACCOUNT_ID"
+
+# Check for existing scope
+echo "Checking for existing Network Flow Monitor Scope..."
+EXISTING_SCOPE=$(aws networkflowmonitor list-scopes --region $REGION --query 'scopes[0].scopeArn' --output text 2>/dev/null || echo "None")
+
+if [ "$EXISTING_SCOPE" != "None" ] && [ "$EXISTING_SCOPE" != "null" ]; then
+    echo "Using existing scope: $EXISTING_SCOPE"
+    SCOPE_ARN=$EXISTING_SCOPE
+else
+    echo "Creating new Network Flow Monitor Scope..."
+    SCOPE_RESPONSE=$(aws networkflowmonitor create-scope \
+        --targets "[{\"targetIdentifier\":{\"targetId\":{\"accountId\":\"${ACCOUNT_ID}\"},\"targetType\":\"ACCOUNT\"},\"region\":\"${REGION}\"}]" \
+        --region $REGION \
+        --output json)
+    
+    SCOPE_ARN=$(echo $SCOPE_RESPONSE | jq -r '.scopeArn')
+    echo "Scope created: $SCOPE_ARN"
+fi
+
+# Create Network Flow Monitor with EKS Cluster as local resource
+echo "Creating Network Flow Monitor..."
+MONITOR_RESPONSE=$(aws networkflowmonitor create-monitor \
+    --monitor-name "${CLUSTER_NAME}-monitor" \
+    --local-resources "type=AWS::EKS::Cluster,identifier=${CLUSTER_ARN}" \
+    --scope-arn "$SCOPE_ARN" \
+    --region $REGION \
+    --output json)
+
+MONITOR_ARN=$(echo $MONITOR_RESPONSE | jq -r '.monitorArn')
+
+echo "Monitor created: $MONITOR_ARN"
+
+echo "Network Flow Monitor setup complete!"
+echo "Monitor ARN: $MONITOR_ARN"
+echo "Scope ARN: $SCOPE_ARN"
+echo "Local Resource: AWS::EKS::Cluster (${CLUSTER_ARN})"
+----
+
 == Using Infrastructure as Code (IaC)
 
 === Terraform 
@@ -98,7 +170,8 @@ If you are using Terraform to manage your {aws} cloud infrastructure, you can in
 
 ===== NFM Scope
 
-```
+[source,terraform]
+----
 data "aws_caller_identity" "current" {}
 
 resource "aws_networkflowmonitor_scope" "example" {
@@ -116,11 +189,12 @@ resource "aws_networkflowmonitor_scope" "example" {
     Name = "example"
   }
 }
-```
+----
 
 ===== NFM Monitor
 
-```
+[source,terraform]
+----
 resource "aws_networkflowmonitor_monitor" "example" {
   monitor_name = "eks-cluster-name-monitor"
   scope_arn    = aws_networkflowmonitor_scope.example.scope_arn
@@ -139,16 +213,17 @@ resource "aws_networkflowmonitor_monitor" "example" {
     Name = "example"
   }
 }
-```
+----
 
 ===== EKS add-on for NFM
 
-```
+[source,terraform]
+----
 resource "aws_eks_addon" "example" {
   cluster_name                = aws_eks_cluster.example.name
   addon_name                  = "aws-network-flow-monitoring-agent"
 }
-```
+----
 
 == How does it work?
 
