@@ -108,7 +108,7 @@ spec:
 
 *Key components:*
 
-- Creates a NodePort service
+- Creates a ClusterIP service
 - Maps port 80 to the container's port 80
 - Uses label selector to find pods
 
