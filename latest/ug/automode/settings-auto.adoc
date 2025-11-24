@@ -45,6 +45,16 @@ a|
 |<<create-node-pool>>
 
 a|
+*Static-capacity node pools*
+
+- Maintain a fixed number of nodes regardless of pod demand
+- Configure predictable capacity for reserved instances
+- Set specific replica counts for consistent infrastructure footprint
+- Scale static node pools manually
+- Monitor static-capacity node pool status
+|<<auto-static-capacity>>
+
+a|
 *Application Load Balancer settings*
 
 - Deploy internal or internet-facing load balancers
@@ -98,6 +108,8 @@ a|
 include::create-node-class.adoc[leveloffset=+1]
 
 include::create-node-pool.adoc[leveloffset=+1]
+
+include::auto-static-capacity.adoc[leveloffset=+1]
 
 include::auto-configure-alb.adoc[leveloffset=+1]
 
