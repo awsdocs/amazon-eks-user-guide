@@ -19,9 +19,18 @@ kubectl get pods --namespace kubecost
 
 . On your device, enable port-forwarding to expose the Kubecost dashboard.
 +
+* If kubecost is installed using helm:
++
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl port-forward deployment/kubecost-cost-analyzer 9090 --namespace kubecost
+----
+
+* If kubecost is installed using Amazon EKS add-on:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl port-forward deployment/cost-analyzer 9090 --namespace kubecost
 ----
 +
 Alternatively, you can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to expose Kubecost and use Amazon Cognito for authentication, authorization, and user management. For more information, see link:containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps[How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps,type="blog"].
