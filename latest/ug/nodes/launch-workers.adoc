@@ -96,7 +96,7 @@ For more information, see https://aws.github.io/aws-eks-best-practices/security/
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2025-11-xx/amazon-eks-nodegroup.yaml
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2025-11-26/amazon-eks-nodegroup.yaml
 ----
 . Wait for your cluster status to show as `ACTIVE`. If you launch your nodes before the cluster is active, the nodes fail to register with the cluster and you will have to relaunch them.
 . Open the link:cloudformation/[{aws} CloudFormation console,type="console"].
