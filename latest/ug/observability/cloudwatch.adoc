@@ -27,6 +27,14 @@ For clusters that are Kubernetes version `1.28` and above, you get CloudWatch ve
 |Metric name
 |Description
 
+|`apiserver_flowcontrol_current_executing_seats`
+| The number of seats currently in use for executing API requests. Seat allocation is determined by the priority_level and flow_schema configuration in the Kubernetes API Priority and Fairness 
+https://kubernetes.io/docs/concepts/cluster-administration/flow-control/[feature].
+
+*Units:* Count
+
+*Valid statistics:* Max
+
 |`scheduler_schedule_attempts_total`
 |The number of total attempts by the scheduler to schedule Pods in the cluster for a given period. This metric helps monitor the scheduler's workload and can indicate scheduling pressure or potential issues with Pod placement.
 

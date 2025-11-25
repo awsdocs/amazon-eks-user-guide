@@ -18,3 +18,5 @@ This section is designed to help you manage compute resources for machine learni
 include::capacity-blocks-mng.adoc[leveloffset=+1]
 
 include::capacity-blocks.adoc[leveloffset=+1]
+
+include::ml-eks-nvidia-ultraserver.adoc[leveloffset=+1]

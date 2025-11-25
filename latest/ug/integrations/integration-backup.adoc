@@ -1,0 +1,25 @@
+include::../attributes.txt[]
+
+[.topic]
+[#integration-backup]
+= Backup your EKS Clusters with {aws} Backup
+:info_titleabbrev: {aws} Backup 
+
+{aws} Backup supports backups of Amazon EKS clusters, including Kubernetes cluster state and persistent storage attached to the EKS cluster via a persistent volume claim (EBS volumes, EFS file systems, and S3 buckets). 
+An Amazon EKS backup will create a composite recovery point, where a child recovery point will be for each resource backed up.
+
+* How to back up resources: link:aws-backup/latest/devguide/getting-started.html[Getting started with {aws} Backup,type="documentation"]
+* Backup creation by Resource Type: link:aws-backup/latest/devguide/creating-a-backup.html[Amazon EKS Backups,type="documentation"] 
+* How to restore Amazon EKS clusters:  link:aws-backup/latest/devguide/restoring-a-backup.html[Amazon EKS Backups restore,type="documentation"]
+
+To get started via the EKS console, {aws} Backup console or CLI ensure that your IAM role has the following permissions: 
+
+* These can be found in {aws} Backup’s Managed policy link:aws-backup/latest/devguide/security-iam-awsmanpol.html#AWSBackupServiceRolePolicyForBackup[AWSBackupServiceRolePolicyForBackup,type="documentation"]. This contains the required permissions to backup your Amazon EKS cluster and EBS and EFS persistent storage
+* If your EKS Cluster contains an S3 bucket you will need to ensure the following policies and prequisites for your S3 bucket are added and enabled as documented: 
+    * link:aws-backup/latest/devguide/security-iam-awsmanpol.html#AWSBackupServiceRolePolicyForS3Backup[AWSBackupServiceRolePolicyForS3Backup,type="documentation"]
+    * Prerequisites for link:aws-backup/latest/devguide/s3-backups.html#s3-backup-prerequisites#AWSBackupServiceRolePolicyForS3Backup[S3 Backups,type="documentation"]
+
+Ensure your EKS Clusters have the following settings: 
+
+    * EKS Cluster link:eks/latest/userguide/setting-up-access-entries.html[authorization mode,type="documentation"] set to API or API_AND_CONFIG_MAP for {aws} Backup to create link:eks/latest/userguide/access-entries.html[Access Entries,type="documentation"] to access the EKS cluster. 
+

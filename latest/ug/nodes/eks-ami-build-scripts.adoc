@@ -2,7 +2,8 @@ include::../attributes.txt[]
 
 [.topic]
 [#eks-ami-build-scripts]
-= Build a custom Amazon Linux AMI
+= Build a custom EKS-optimized Amazon Linux AMI
+
 :info_titleabbrev: Custom builds
 
 [abstract]

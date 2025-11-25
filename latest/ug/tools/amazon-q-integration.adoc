@@ -1,0 +1,49 @@
+include::../attributes.txt[]
+
+[.topic]
+[#amazon-q-integration]
+= Use Amazon Q Developer on the Amazon EKS console
+:info_titleabbrev: Amazon Q
+
+Amazon Elastic Kubernetes Service (EKS) integrates with Amazon Q to provide AI-powered troubleshooting directly in the {aws} Management Console. This integration helps you quickly investigate and resolve cluster, control plane, node, and workload issues with AI assistance from Amazon Q. 
+
+== How it works
+
+The Amazon EKS console displays **Inspect with Amazon Q** buttons contextually alongside errors or issues throughout the console. When you click this button, Amazon Q automatically analyzes the issue and opens a chat panel on the right side of the console with investigation results, root cause analysis, and suggested mitigation steps.
+
+The integration appears in the following locations within the Amazon EKS console:
+
+* **Cluster health** - Investigate cluster health issues and status messages in the Cluster health tab in observability dashboard
+* **Control plane** - Troubleshoot control plane component errors and warnings  in Control plane monitoring in observability dashboard
+* **Upgrade insights** - Analyze potential upgrade blockers and compatibility issues  in  Upgrade insights  in observability dashboard
+* **Node health** - Investigate node-level issues affecting cluster capacity in Node health issues in observability dashboard
+* **Workloads** - Analyze Kubernetes events on pods indicating failures or issues
+
+
+== Using Amazon Q for troubleshooting
+
+**To investigate an issue with Amazon Q**
+
+1. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+2. Choose the name of the cluster to investigate.
+3. When you encounter an error message or issue indicator, look for the **Inspect with Amazon Q** button. The button appears contextually next to the issue or in the error  status details view.
+4. Choose **Inspect with Amazon Q**. 
+5. Amazon Q automatically investigates the issue and displays the analysis in a chat panel on the right side of the console.
+6. Review the investigation results, including root cause analysis and suggested mitigation steps.
+7. You can continue the conversation by asking Amazon Q follow-up questions about the issue.
+
+**Note**  
+The Amazon Q integration only appears when there is an error, warning, or issue requiring investigation. It does not appear when resources are healthy.
+
+== Considerations
+
+Consider the following when using Amazon Q with Amazon EKS:
+
+
+* **Read-only operations** - The Amazon Q integration performs only read operations on your cluster resources. It does not make any mutating or write actions to your cluster configuration or workloads.
+* **Cross-region processing** - Amazon Q may process data across {aws} regions to provide AI-powered analysis. For more information about cross-region processing, see link:https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/cross-region-processing.html[Cross-region processing] in the _Amazon Q Developer User Guide_.
+* **{aws} Management Console only** - This integration is available only through the {aws} Management Console. It is not available through the {aws} CLI, {aws} APIs, or infrastructure as code tools.
+
+== Learn more
+
+For more information about using Amazon Q, see link:https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/chat-with-q.html[Chat with Amazon Q] in the _Amazon Q Developer User Guide_.

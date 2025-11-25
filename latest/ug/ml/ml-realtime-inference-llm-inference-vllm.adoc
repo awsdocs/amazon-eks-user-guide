@@ -1,0 +1,675 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-realtime-inference-llm-inference-vllm]
+= Quickstart: High-throughput LLM inference with vLLM on Amazon EKS
+:info_titleabbrev: LLM inference with vLLM
+
+[abstract]
+--
+Deploy Large Language Models (LLMs) on Amazon EKS using vLLM and GPUs for text-based real-time inference applications.
+--
+
+== Introduction
+
+This quickstart guide provides a walkthrough for deploying Large Language Models (LLMs) on Amazon EKS using vLLM and GPUs for text-based real-time inference applications. 
+
+The solution leverages Amazon EKS for container orchestration and vLLM for efficient model serving, enabling you to build scalable AI applications with GPU acceleration and high-throughput inference serving. The Llama 3.1 8B Instruct model is used for demonstration, but you can deploy any other LLM supported by vLLM (check https://docs.vllm.ai/en/latest/models/supported_models.html#list-of-text-only-language-models[vLLM documentation] for a list of supported models). To test LLM inference, we use a sample chatbot application based on the project https://github.com/yoziru/nextjs-vllm-ui[nextjs-vllm-ui]. Finally, we use GuideLLM to benchmark and tune vLLM configuration parameters to optimize inference performance.
+
+.vLLM Architecture on EKS
+image::images/llm-inference-vllm-architecture.png[vLLM Architecture diagram]
+
+When you complete this procedure, you will have a vLLM inference endpoint optimized for throughput and low latency, and you will be able to interact with a Llama model through a chat frontend application, demonstrating a typical use case for chatbot assistants and other LLM-based applications.
+
+For additional guidance and advanced deployment resources, check our https://docs.aws.amazon.com/eks/latest/best-practices/aiml.html[EKS Best Practices Guide for AI/ML workloads] and production-ready https://github.com/awslabs/ai-on-eks/tree/main/blueprints/inference/inference-charts[AI on EKS inference charts].
+
+== Before you begin
+
+Before getting started, ensure you have:
+
+* An Amazon EKS cluster with the following main components: Karpenter nodepools with G5 or G6 EC2 instance family, the NVIDIA Device Plugin installed on your GPU-enabled worker nodes, and the S3 Mountpoint CSI Driver installed. To create this baseline setup, follow steps in <<ml-realtime-inference-cluster>>, up to completing step #4.
+* A Hugging Face account. To sign up, see https://huggingface.co/login.
+
+== Set Up Model Storage with Amazon S3
+
+Store large LLM files efficiently in Amazon S3 to separate storage from compute resources. This approach streamlines model updates, reduces costs, and simplifies management in production setups. S3 handles massive files reliably, while integration with Kubernetes via the Mountpoint CSI driver lets pods access models like local storage—no need for time-consuming downloads during startup. Follow these steps to create an S3 bucket, upload an LLM, and mount it as a volume in your inference serving container.
+
+Other storage solutions are also available on EKS for model caching, such as EFS and FSx for Lustre. For more information, check https://docs.aws.amazon.com/eks/latest/best-practices/aiml-storage.html[EKS Best Practices].
+
+=== Set environment variables
+
+Create a unique name for a new Amazon S3 bucket that we will create later in this guide. Once created, use this same bucket name for all steps. For example:
+
+[source,bash]
+----
+MY_BUCKET_NAME=model-store-$(date +%s)
+----
+
+Define environment variables and store them in a file:
+
+[source,bash]
+----
+cat << EOF > .env-quickstart-vllm
+export BUCKET_NAME=${MY_BUCKET_NAME}
+export AWS_REGION=us-east-1
+export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+EOF
+----
+
+Load environment variables in your shell environment. If you close the current shell environment and open a new one, make sure to re-source environment variables using this same command:
+
+[source,bash]
+----
+source .env-quickstart-vllm
+----
+
+=== Create an S3 bucket to store model files
+
+Create an S3 bucket to store model files:
+
+[source,bash]
+----
+aws s3 mb s3://${BUCKET_NAME} --region ${AWS_REGION}
+----
+
+=== Download model from Hugging Face
+
+Hugging Face is one of the main model hubs for accessing LLM models. To download the Llama model, you'll need to accept the model license and set up token authentication:
+
+1. Accept the Llama 3.1 8B Instruct model license at https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct.
+2. Generate an access token (go to your Profile > Settings > Access Tokens, then create a new token using Read token type).
+
+Set an environment variable with your Hugging Face token:
+
+[source,bash]
+----
+export HF_TOKEN=your_token_here
+----
+
+Install pip3 package if not already installed in your environment. Example command in Amazon Linux 2023:
+
+[source,bash]
+----
+sudo dnf install -y python3-pip
+----
+
+Install the https://huggingface.co/docs/huggingface_hub/main/en/guides/cli[Hugging Face CLI]:
+
+[source,bash]
+----
+pip install huggingface-hub
+----
+
+Download Llama-3.1-8B-Instruct model from Hugging Face (~15 GB) using the `--exclude` flag to skip the legacy PyTorch format and only download the optimized safetensors format files, which reduces download size while maintaining full compatibility with popular inference engines:
+
+[source,bash]
+----
+huggingface-cli download meta-llama/Meta-Llama-3.1-8B-Instruct \
+  --exclude "original/*" \
+  --local-dir ./llama-3.1-8b-instruct \
+  --token $HF_TOKEN
+----
+
+Verify the downloaded files:
+
+[source,bash]
+----
+$ ls llama-3.1-8b-instruct
+----
+
+The expected output should look like this:
+
+[source,console]
+----
+LICENSE        config.json                       model-00002-of-00004.safetensors  model.safetensors.index.json  tokenizer_config.json
+README.md      generation_config.json            model-00003-of-00004.safetensors  special_tokens_map.json
+USE_POLICY.md  model-00001-of-00004.safetensors  model-00004-of-00004.safetensors  tokenizer.json
+----
+
+=== Upload model files
+
+Enable {aws} Common Runtime (CRT) for improved S3 transfer performance. The CRT-based transfer client provides enhanced throughput and reliability for large file operations:
+
+[source,bash]
+----
+aws configure set s3.preferred_transfer_client crt
+----
+
+Upload the model:
+
+[source,bash]
+----
+aws s3 cp ./llama-3.1-8b-instruct s3://$BUCKET_NAME/llama-3.1-8b-instruct \
+  --recursive
+----
+
+The expected output should look like this:
+
+[source,console]
+----
+...
+upload: llama-3.1-8b-instruct/tokenizer.json to s3://model-store-1753EXAMPLE/llama-3.1-8b-instruct/tokenizer.json
+upload: llama-3.1-8b-instruct/model-00004-of-00004.safetensors to s3://model-store-1753890326/llama-3.1-8b-instruct/model-00004-of-00004.safetensors
+upload: llama-3.1-8b-instruct/model-00002-of-00004.safetensors to s3://model-store-1753890326/llama-3.1-8b-instruct/model-00002-of-00004.safetensors
+upload: llama-3.1-8b-instruct/model-00003-of-00004.safetensors to s3://model-store-1753890326/llama-3.1-8b-instruct/model-00003-of-00004.safetensors
+upload: llama-3.1-8b-instruct/model-00001-of-00004.safetensors to s3://model-store-1753890326/llama-3.1-8b-instruct/model-00001-of-00004.safetensors
+----
+
+=== Set Up S3 Mountpoint CSI permissions
+
+The S3 Mountpoint CSI driver enables native integration between Kubernetes and S3, allowing pods to directly access model files as if they were local storage, eliminating the need for local copies during container startup.
+
+Create an IAM policy to allow the S3 mount point to read from your S3 bucket:
+
+[source,bash]
+----
+cat <<EOF > s3-policy.json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": [
+        "arn:aws:s3:::${BUCKET_NAME}",
+        "arn:aws:s3:::${BUCKET_NAME}/*"
+      ]
+    }
+  ]
+}
+EOF
+
+aws iam create-policy \
+  --policy-name S3BucketAccess-${BUCKET_NAME} \
+  --policy-document file://s3-policy.json
+----
+
+Find the IAM role name used by the S3 Mountpoint CSI Driver by checking S3 CSI Driver service account annotations:
+
+[source,bash]
+----
+ROLE_NAME=$(kubectl get serviceaccount s3-csi-driver-sa -n kube-system -o jsonpath='{.metadata.annotations.eks\.amazonaws\.com/role-arn}' | cut -d'/' -f2)
+----
+
+Attach your IAM policy with the S3 Mountpoint CSI role:
+
+[source,bash]
+----
+aws iam attach-role-policy \
+ --role-name ${ROLE_NAME} \
+ --policy-arn arn:aws:iam::${AWS_ACCOUNT_ID}:policy/S3BucketAccess-${BUCKET_NAME}
+----
+
+If S3 Mountpoint CSI is not installed in the cluster, follow the deployment steps in <<ml-realtime-inference-cluster>>.
+
+=== Mount S3 bucket as a Kubernetes volume
+
+Create a Persistent Volume (PV) and Persistent Volume Claim (PVC) to provide read-only access to the S3 bucket across multiple inference pods. The ReadOnlyMany access mode ensures concurrent access to model files, while the CSI driver handles the S3 bucket mounting:
+
+[source,yaml]
+----
+cat <<EOF | envsubst | kubectl apply -f -
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: model-store
+spec:
+  storageClassName: ""
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - region ${AWS_REGION}
+  csi:
+    driver: s3.csi.aws.com
+    volumeHandle: model-store
+    volumeAttributes:
+      bucketName: ${BUCKET_NAME}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-store
+spec:
+  storageClassName: ""
+  volumeName: model-store
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 100Gi
+EOF
+----
+
+== GPU Infrastructure Setup
+
+=== Cluster nodes
+
+We are using the EKS cluster created in <<ml-realtime-inference-cluster>>. This cluster includes Karpenter nodepools that can provision GPU enabled nodes with sufficient node storage to download vLLM container image. If using your custom EKS cluster, ensure that it can launch GPU enabled nodes.
+
+*Instance Selection*
+
+Proper instance selection for LLM inference requires ensuring that available GPU memory is sufficient to load model weights. Model weights for Llama 3.1 8B Instruct are approximately 16GB (size of model files .safetensor), therefore we need to provide at least this amount of memory to the vllm process to load the model.
+
+https://aws.amazon.com/ec2/instance-types/g5/[Amazon G5 EC2 Instances] with A10G GPUs and https://aws.amazon.com/ec2/instance-types/g6/[G6 EC2 instances] with L4 GPUs both provide 24GB VRAM per GPU, sufficient for loading Llama 3.1 8B Instruct weights. If you are deploying a model with larger weights, consider using a multi-GPU instance type or a multi-node setup.
+
+*NVIDIA device drivers*
+
+NVIDIA drivers provide the necessary runtime environment for containers to access GPU resources efficiently. It enables GPU resource allocation and management within Kubernetes, making GPUs available as schedulable resources.
+
+Our cluster uses EKS Bottlerocket AMIs, which include all necessary NVIDIA device drivers and plugins on all GPU-enabled nodes, ensuring immediate GPU accessibility for containerized workloads without additional setup. If you are using other types of EKS nodes, you need to ensure all necessary drivers and plugins are installed. 
+
+=== Test GPU Infrastructure
+
+Test your cluster's GPU capabilities by executing the steps below to ensure pods can access NVIDIA GPU resources and schedule correctly on GPU-enabled nodes.
+
+Deploy an Nvidia SMI test pod:
+
+[source,yaml]
+----
+cat <<EOF | envsubst | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gpu-nvidia-smi-test
+spec:
+  restartPolicy: OnFailure
+  tolerations:
+  - key: "nvidia.com/gpu"
+    operator: "Exists"
+    effect: "NoSchedule"
+  nodeSelector:
+    role: gpu-worker  # Matches GPU NodePool's label
+  containers:
+  - name: cuda-container
+    image: nvidia/cuda:12.9.1-base-ubuntu20.04
+    command: ["nvidia-smi"]
+    resources:
+      requests:
+        memory: "24Gi"
+      limits:
+        nvidia.com/gpu: 1
+EOF
+----
+
+Review pod logs to check that GPU details are listed, similar to output below (not necessarily the same GPU model): 
+
+[source,bash]
+----
+$ kubectl wait --for=jsonpath='{.status.phase}'=Succeeded pod/gpu-nvidia-smi-test
+$ kubectl logs gpu-nvidia-smi-test 
+----
+
+[source,console]
+----
+Wed Jul 30 15:39:58 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.172.08             Driver Version: 570.172.08     CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A10G                    On  |   00000000:00:1E.0 Off |                    0 |
+|  0%   30C    P8              9W /  300W |       0MiB /  23028MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+----
+
+This output shows that pods can successfully access GPU resources.
+
+*IMPORTANT*: This pod uses a nodeSelector configuration that aligns with Karpenter node pools in <<ml-realtime-inference-cluster>>. If you are using different node pools, ensure the pod matches nodeSelector and Tolerations accordingly.
+
+== Deploy Inference Container 
+
+The serving stack determines both performance and scalability capabilities of your inference infrastructure. vLLM has emerged as a leading solution for production deployments. vLLM's architecture provides continuous batching for dynamic request processing, kernel optimizations for faster inference, and efficient GPU memory management through PagedAttention. These features, combined with a production-ready REST API and support for popular model formats, make it an optimal choice for high-performance inference deployments.
+
+=== Select {aws} Deep Learning Container image
+
+https://github.com/aws/deep-learning-containers/tree/master[{aws} Deep Learning Containers] (DLCs) provide pre-optimized environments with security updates, {aws} infrastructure compatibility, and optimized driver configurations. This reduces deployment complexity and maintenance overhead while ensuring production readiness. 
+
+For this deployment, we'll use the {aws} DLC for vLLM 0.9, which includes Nvidia libraries and optimized GPU performance configurations specifically tuned for transformer model inference on {aws} GPU instances. 
+
+[source,text]
+----
+image: 763104351884.dkr.ecr.us-east-1.amazonaws.com/vllm:0.9-gpu-py312-ec2
+----
+
+=== Apply vLLM Kubernetes manifests
+
+There are multiple ways to deploy vLLM in EKS. This guide demonstrates vLLM deployment using a Kubernetes deployment, which is a Kubernetes-native and easy way to get started. For advanced deployment options see https://docs.vllm.ai/en/latest/deployment/k8s.html[vLLM docs] and https://awslabs.github.io/ai-on-eks/docs/blueprints[AI on EKS blueprints].
+
+Define deployment parameters through Kubernetes manifests to control resource allocation, node placement, health probes, exposing the service, etc. Configure your deployment to run a GPU-enabled pod using {aws} Deep Learning Container image for vLLM. Set optimized parameters for LLM inference and expose the vLLM OpenAPI-compatible endpoint via {aws} Load Balancer service:
+
+[source,yaml]
+----
+cat <<EOF | envsubst | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-inference-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vllm-inference-app
+  template:
+    metadata:
+      labels:
+        app: vllm-inference-app
+    spec:
+      tolerations:
+      - key: "nvidia.com/gpu"
+        operator: "Exists"
+        effect: "NoSchedule"
+      nodeSelector:
+        role: gpu-worker
+      containers:
+      - name: vllm-inference
+        image: 763104351884.dkr.ecr.us-east-1.amazonaws.com/vllm:0.9-gpu-py312-ec2
+        ports:
+        - containerPort: 8000
+        env:
+        - name: MODEL_PATH
+          value: "/mnt/models/llama-3.1-8b-instruct"
+        args:
+        - "--model=/mnt/models/llama-3.1-8b-instruct"
+        - "--host=0.0.0.0"
+        - "--port=8000"
+        - "--tensor-parallel-size=1"
+        - "--gpu-memory-utilization=0.9"
+        - "--max-model-len=8192"
+        - "--max-num-seqs=1"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 10
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+          requests:
+            memory: "24Gi"
+            cpu: "4"
+            ephemeral-storage: "25Gi"  # Ensure enough node storage for vLLM container image
+        volumeMounts:
+        - name: models
+          mountPath: /mnt/models
+          readOnly: true
+      volumes:
+      - name: models
+        persistentVolumeClaim:
+          claimName: model-store
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vllm-inference-svc
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8000
+      protocol: TCP
+  selector:
+    app: vllm-inference-app
+EOF
+----
+
+Check that vLLM pod is in `Ready 1/1` state:
+
+[source,bash]
+----
+kubectl get pod -l app=vllm-inference-app -w
+----
+
+Expected output:
+
+[source,console]
+----
+NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
+vllm-inference-app-65df5fddc8-5kmjm   1/1     1            1           5m
+----
+
+It may take several minutes while the container image is pulled and vLLM loads model files into GPU memory. Only proceed when the pod is Ready and Available.
+
+=== Expose the service
+
+Expose the inference endpoint locally through the Kubernetes port forwarding for local development and testing. Leave this command running in a separate terminal window:
+
+[source,bash]
+----
+export POD_NAME=$(kubectl get pod -l app=vllm-inference-app -o jsonpath='{.items[0].metadata.name}')
+kubectl port-forward pod/$POD_NAME 8000:8000
+----
+
+The {aws} Load Balancer Controller automatically creates a Network Load Balancer that exposes vLLM service endpoint externally. Fetch the NLB endpoint by running:
+
+[source,bash]
+----
+NLB=$(kubectl get service vllm-inference-svc -o jsonpath='{.status.loadBalancer.ingress[0].hostname}') 
+----
+
+Need to install {aws} Load Balancer Controller? Follow the deployment steps in <<aws-load-balancer-controller>>.
+
+
+== Run inference
+
+=== Validate inference pod
+
+Validate the inference container functionality locally through the forwarded port. Send a connection request and ensure that the response includes HTTP code 200:
+
+[source,bash]
+----
+$ curl -IX GET "http://localhost:8000/v1/models"
+----
+
+[source,console]
+----
+HTTP/1.1 200 OK
+date: Mon, 13 Oct 2025 23:24:57 GMT
+server: uvicorn
+content-length: 516
+content-type: application/json
+----
+
+Test inference capabilities and validate external connectivity by sending a completion request to the LLM via the NLB endpoint:
+
+[source,bash]
+----
+curl -X POST "http://$NLB:80/v1/completions" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "/mnt/models/llama-3.1-8b-instruct",
+    "prompt": "Explain artificial intelligence:",
+    "max_tokens": 512,
+    "temperature": 0.7
+  }'
+----
+
+This endpoint follows the OpenAI API format, making it compatible with existing applications while providing configurable generation parameters like response length and temperature for controlling output diversity.
+
+=== Run chatbot app
+
+For demonstration, this guide runs a sample chatbot application using project https://github.com/yoziru/nextjs-vllm-ui[nextjs-vllm-ui] to showcase user interactions with the model. 
+
+Run a chatbot UI as a Docker container that maps port 3000 to localhost and connects to the vLLM NLB endpoint:
+
+[source,bash]
+----
+docker run --rm \
+  -p 3000:3000 \
+  -e VLLM_URL="http://${NLB}:80" \
+  --name nextjs-vllm-ui-demo \
+  ghcr.io/yoziru/nextjs-vllm-ui:latest
+----
+
+Open your web browser and navigate to: http://localhost:3000/
+
+You should see the chat interface where you can interact with the Llama model.
+
+.Chat UI Interface
+image::images/llm-inference-vllm-chatui.png[Chat UI Interface]
+
+
+
+== Optimize inference performance
+
+Specialized inference engines like vLLM provide advanced features that significantly boost inference performance, including continuous batching, efficient KV caching, and optimized memory attention mechanisms. You can tune vLLM configuration parameters to improve inference performance while meeting your specific use case requirements and workload patterns. Proper configuration is essential for achieving GPU saturation, ensuring you extract maximum value from expensive GPU resources while delivering high throughput, low latency, and cost-effective operations. The following optimizations will help you maximize your vLLM deployment's performance on EKS.
+
+=== Benchmark vLLM configurations
+
+To tune vLLM configuration parameters for your use case, benchmark different settings using a comprehensive inference benchmarking tool like https://github.com/vllm-project/guidellm[GuideLLM]. This will collect key metrics like request per second throughput (RPS), end-to-end latency (E2E), time to first token (TTFT), and tail latency (TPOT) to compare different configurations.
+
+=== Baseline vLLM configuration
+
+This is the baseline configuration that was used to run vLLM:
+
+[cols="1,2"]
+|===
+|vLLM Parameter |Description
+
+|tensor_parallel_size: 1
+|Distribute model across 1 GPU
+
+|gpu_memory_utilization: 0.90
+|Reserve 10% GPU memory for system overhead
+
+|max_sequence_length: 8192
+|Maximum total sequence length (input + output)
+
+|max_num_seqs: 1
+|Maximum concurrent requests per GPU (Batching)
+|===
+
+Run GuideLLM with this baseline setup to establish a performance baseline. For this test, GuideLLM is configured to generate 1 request per second, with 256-token requests and 128-token responses.
+
+[source,bash]
+----
+guidellm benchmark \
+--target "http://${NLB}:80" \
+--processor meta-llama/Llama-3.1-8B-Instruct \
+--rate-type constant \
+--rate 1 \
+--max-seconds 30 \
+--data "prompt_tokens=256,output_tokens=128"
+----
+
+Expected output:
+
+.Baseline Benchmark Results
+image::images/llm-inference-vllm-guidellm-baseline.png[Baseline Benchmark Results]
+
+=== Tuned vLLM configuration
+
+Adjust vLLM parameters to better utilize GPU resources and parallelization:
+
+[cols="1,2"]
+|===
+|vLLM Parameter |Description
+
+|tensor_parallel_size: 1
+|Keep at 1 GPU. Tensor parallelization must match the number of GPUs to be used by vLLM
+
+|gpu_memory_utilization: 0.92
+|Reduce overhead GPU memory if possible, while ensuring that vLLM continues to run without errors
+
+|max_sequence_length: 4096
+|Adjust max sequence per your use case requirements; lower max sequence frees up resources that can be used for increased parallelization
+
+|max_num_seqs: 8
+|Increasing max seq increases throughput but also increases latency. Increase this value to maximize throughput while ensuring that latency stays within your use case requirements
+|===
+
+Apply these changes to the running deployment using kubectl patch command:
+
+[source,bash]
+----
+kubectl patch deployment vllm-inference-app --type='json' -p='[
+  {"op": "replace", "path": "/spec/template/spec/containers/0/args/4", "value": "--gpu-memory-utilization=0.92"},
+  {"op": "replace", "path": "/spec/template/spec/containers/0/args/5", "value": "--max-model-len=4096"},
+  {"op": "replace", "path": "/spec/template/spec/containers/0/args/6", "value": "--max-num-seqs=8"}
+]'
+----
+
+Check that vLLM pod is in `Ready 1/1` state:
+
+[source,bash]
+----
+kubectl get pod -l app=vllm-inference-app -w
+----
+
+Expected output:
+
+[source,console]
+----
+NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
+vllm-inference-app-65df5fddc8-5kmjm   1/1     1            1           5m
+----
+
+Then run GuideLLM again using the same benchmarking values as before:
+
+[source,bash]
+----
+guidellm benchmark \
+--target "http://${NLB}:80" \
+--processor meta-llama/Llama-3.1-8B-Instruct \
+--rate-type constant \
+--rate 1 \
+--max-seconds 30 \
+--data "prompt_tokens=256,output_tokens=128"
+----
+
+Expected output:
+
+.Optimized Benchmark Results
+image::images/llm-inference-vllm-guidellm-optimized.png[Optimized Benchmark Results]
+
+=== Benchmarking results
+
+Compute benchmarking results in a table for both baseline and optimized vLLM configuration:
+
+[cols="1,1,1"]
+|===
+|Avg Values |Baseline config |Optimized config
+
+|RPS
+|0.23 req/sec
+|0.86 req/sec
+
+|E2E
+|12.99 s
+|5.19 s
+
+|TTFT
+|8637.2 ms
+|147.9 ms
+
+|TPOT
+|34.0 ms
+|39.5 ms
+|===
+
+The optimized vLLM configurations significantly improved inference throughput (RPS) and reduced latency (E2E, TTFT) with only a minor millisecond increase in tail latency (TPOT). These results demonstrate how vLLM significantly improves inference performance, allowing each container to process more requests in less time for cost-effective operation.
+
+
