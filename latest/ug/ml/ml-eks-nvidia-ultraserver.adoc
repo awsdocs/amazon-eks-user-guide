@@ -7,25 +7,29 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn how to use the Amazon Elastic Compute Cloud (Amazon EC2) P6e-GB200 UltraServers, accelerated by NVIDIA GB200 NVL72 for workloads in Amazon EKS. 
+Learn how to use the Amazon EC2 P6e-GB200 UltraServers with Amazon EKS, accelerated by NVIDIA GB200 NVL72
 --
 
-This topic is to help you configure Amazon EKS with the P6e-GB200 UltraServer. The `p6e-gb200.36xlarge` instance type with 4 NVIDIA Blackwell GPUs is only available as a P6e-GB200 UltraServer. There are two types of P6e-GB200 UltraServer, `u-p6e-gb200x36` and `u-p6e-gb200x72`. The `u-p6e-gb200x36` UltraServer has 9 `p6e-gb200.36xlarge` instances and the `u-p6e-gb200x72` UltraServer has 18 `p6e-gb200.36xlarge` instances. To learn more, see the https://aws.amazon.com/ec2/instance-types/p6/[Amazon EC2 P6e-GB200 UltraServers {aws} documentation].
+This topic describes how to configure and use Amazon EKS with P6e-GB200 UltraServers. The `p6e-gb200.36xlarge` instance type with 4 NVIDIA Blackwell GPUs is only available as P6e-GB200 UltraServers. There are two types of P6e-GB200 UltraServers. The `u-p6e-gb200x36` UltraServer has 9 `p6e-gb200.36xlarge` instances and the `u-p6e-gb200x72` UltraServer has 18 `p6e-gb200.36xlarge` instances. 
 
+To learn more, see the https://aws.amazon.com/ec2/instance-types/p6/[Amazon EC2 P6e-GB200 UltraServers webpage].
+
+[#nvidia-ultraserver-considerations]
 == Considerations
 
-* Amazon EKS supports P6e-GB200 UltraServers for Amazon EKS Kubernetes version 1.33 and higher. This version release provides support for Dynamic Resource Allocation (DRA), enabled by default on EKS and in the https://docs.aws.amazon.com/eks/latest/userguide/ml-eks-optimized-ami.html[AL2023 EKS-optimized accelerated AMIs]. DRA is a requirement to use the P6e-GB200 UltraServers with EKS. DRA is not supported in Karpenter or EKS Auto Mode, and it is recommended to use EKS self-managed node groups or EKS managed node groups when using EKS with P6e-GB200 UltraServers.
-* P6e-GB200 UltraServers are made available through https://aws.amazon.com/ec2/capacityblocks/[EC2 Capacity Blocks for ML]. See https://docs.aws.amazon.com/eks/latest/userguide/capacity-blocks.html[Create self-managed nodes with Capacity Blocks for ML] and https://docs.aws.amazon.com/eks/latest/userguide/capacity-blocks-mng.html[Create a managed node group with Capacity Blocks for ML] for more information.
-* When using an EKS managed node group with ML Capacity Block, you must use custom launch templates. When upgrading EKS managed node groups with P6e-GB200 UltraServers, you must set the desired size of the node group to 0 before upgrading.
-* It is recommended to use the `AL2023_ARM_64_NVIDIA` EKS-optimized accelerated AMI. This AMI includes all required node components and configuration to work with P6e-GB200 UltraServers (see https://github.com/awslabs/amazon-eks-ami/releases[AMI releases]). If you decide to build your own AMI you are responsible for installing and validating the compatibility of the node and system software, including drivers. For more information, see https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-build-scripts.html[Build a custom Amazon Linux AMI for EKS].
-* It is recommend to use EKS-optimized AMI release v20251103 or later, which includes NVIDIA driver version 580. This NVIDIA driver version enables Coherent Driver-Based Memory Memory (CDMM) to address potential memory over-reporting. For more information on CDMM, see https://nvdam.widen.net/s/gpqp6wmz7s/cuda-whitepaper--cdmm-pdf[NVIDIA Coherent Driver-based Memory Management (CDMM)]. When CDMM is enabled, the following capabilities are not supported: NVIDIA Multi-Instance GPU (MIG) and vGPU
-* When using the https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/overview.html[NVIDIA GPU operator] with the EKS-optimized AL2023 NVIDIA AMIs, you must disable the operator installation of the driver and toolkit, as these are already included in the EKS AMIs. The EKS-optimized AL2023 NVIDIA AMIs do not include the NVIDIA Kubernetes device plugin or the NVIDIA DRA driver, and these must be installed separately.
-* Each p6e-gb200.36xlarge instance can be configured with up to 17 network cards and can leverage EFA for communication between UltraServers. Workloads network traffic can cross UltraServers, but for highest performance it is recommended to schedule workloads in the same UltraServer leveraging IMEX for intra-UltraServer GPU communication. For more information, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[EFA configuration for P6e-GB200 instances].
-* Each `p6e-gb200.36xlarge` instances has 3 x 7.5TB https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html[instance stores storage]. By default, the Amazon EKS Optimized AMI does not format and mount them. The node’s ephemeral storage can be shared among Pods that request ephemeral storage and container images that are downloaded to the node. If using AL2023 EKS Optimized AMIs this can be configured as part of the nodes bootstrap users data by setting the instance local storage policy in https://docs.aws.amazon.com/eks/latest/eksctl/node-bootstrapping.html#configuring-the-bootstrapping-process[NodeConfig] to RAID0. Setting to RAID0 will stripe the instance stores and configure the container runtime and kubelet to make use of this ephemeral storage. 
+* Amazon EKS supports P6e-GB200 UltraServers for Kubernetes versions 1.33 and above. This Kubernetes version release provides support for https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/[Dynamic Resource Allocation] (DRA), enabled by default in EKS and in the https://docs.aws.amazon.com/eks/latest/userguide/ml-eks-optimized-ami.html[AL2023 EKS-optimized accelerated AMIs]. DRA is a requirement to use the P6e-GB200 UltraServers with EKS. DRA is not supported in Karpenter or EKS Auto Mode, and it is recommended to use EKS self-managed node groups or EKS managed node groups when using the P6e-GB200 UltraServers with EKS.
+* P6e-GB200 UltraServers are made available through https://aws.amazon.com/ec2/capacityblocks/[EC2 Capacity Blocks for ML]. See <<ml-compute-management>> for information on how to launch EKS nodes with Capacity Blocks.
+* When using EKS managed node groups with Capacity Blocks, you must use custom launch templates. When upgrading EKS managed node groups with P6e-GB200 UltraServers, you must set the desired size of the node group to `0` before upgrading.
+* It is recommended to use the AL2023 ARM NVIDIA variant of the EKS-optimized accelerated AMIs. This AMI includes the required node components and configuration to work with P6e-GB200 UltraServers. If you decide to build your own AMI, you are responsible for installing and validating the compatibility of the node and system software, including drivers. For more information, see <<ml-eks-optimized-ami>>.
+* It is recommend to use EKS-optimized AMI release `v20251103` or later, which includes NVIDIA driver version 580. This NVIDIA driver version enables Coherent Driver-Based Memory Memory (CDMM) to address potential memory over-reporting. When CDMM is enabled, the following capabilities are not supported: NVIDIA Multi-Instance GPU (MIG) and vGPU. For more information on CDMM, see https://nvdam.widen.net/s/gpqp6wmz7s/cuda-whitepaper--cdmm-pdf[NVIDIA Coherent Driver-based Memory Management (CDMM)].
+* When using the https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/overview.html[NVIDIA GPU operator] with the EKS-optimized AL2023 NVIDIA AMI, you must disable the operator installation of the driver and toolkit, as these are already included in the AMI. The EKS-optimized AL2023 NVIDIA AMIs do not include the NVIDIA Kubernetes device plugin or the NVIDIA DRA driver, and these must be installed separately.
+* Each `p6e-gb200.36xlarge` instance can be configured with up to 17 network cards and can leverage EFA for communication between UltraServers. Workload network traffic can cross UltraServers, but for highest performance it is recommended to schedule workloads in the same UltraServer leveraging IMEX for intra-UltraServer GPU communication. For more information, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[EFA configuration for P6e-GB200 instances].
+* Each `p6e-gb200.36xlarge` instance has 3x 7.5TB https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html[instance store storage]. By default, the EKS-optimized AMI does not format and mount the instance stores. The node’s ephemeral storage can be shared among pods that request ephemeral storage and container images that are downloaded to the node. If using the AL2023 EKS-optimized AMI, this can be configured as part of the nodes bootstrap in the user data by setting the instance local storage policy in https://docs.aws.amazon.com/eks/latest/eksctl/node-bootstrapping.html#configuring-the-bootstrapping-process[NodeConfig] to RAID0. Setting to RAID0 stripes the instance stores and configures the container runtime and kubelet to make use of this ephemeral storage.
 
+[#nvidia-ultraserver-components]
 == Components
 
-The following components are recommended to run workloads on EKS with the P6e-GB200 UltraServers. You can optionally use the NVIDIA GPU operator to install the NVIDIA node components.
+The following components are recommended for running workloads on EKS with the P6e-GB200 UltraServers. You can optionally use the https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/overview.html[NVIDIA GPU operator] to install the NVIDIA node components. When using the NVIDIA GPU operator with the EKS-optimized AL2023 NVIDIA AMI, you must disable the operator installation of the driver and toolkit, as these are already included in the AMI.
 
 [%header,cols="1,2"]
 |===
@@ -45,73 +49,80 @@ The following components are recommended to run workloads on EKS with the P6e-GB
 | EFA device plugin
 | NVIDIA K8s device plugin
 | NVIDIA DRA driver
-| NVIDIA Node Feature Discovery
-| NVIDIA GPU Feature Discovery
+| NVIDIA Node Feature Discovery (NFD)
+| NVIDIA GPU Feature Discovery (GFD)
 |===
 
 The node components in the table above perform the following functions:
 
-* *VPC CNI*: Allocates VPC IPs as the primary network interface for Pods running on EKS
-* *EFA device plugin*: Allocates EFA devices as secondary networks for Pods running on EKS. Responsible for network traffic across P6e-GB200 UltraServers. For multi-node workloads, for GPU-to-GPU within an UltraServer can flow over multi-node NVLink.
-* *NVIDIA Kubernetes device plugin*: Allocates GPUs as devices for Pods running on EKS. It is recommended to use the NVIDIA Kubernetes device plugin until the NVIDIA DRA driver GPU allocation functionality graduates from experimental. See the https://github.com/NVIDIA/k8s-dra-driver-gpu/releases[NVIDIA DRA driver releases] for updated information.
-* NVIDIA DRA driver: Enables ComputeDomain custom resources that facilitate creation of IMEX domains that follow workloads running on P6e-GB200 UltraServers. 
-** The ComputeDomain resource describes an Internode Memory Exchange (IMEX) domain. When workloads with a ResourceClaim for the ComputeDomain are deployed to the cluster, the NVIDIA DRA driver automatically creates an IMEX DaemonSet that runs on matching nodes and establishes the IMEX channel(s) between the nodes before the workload is started. To learn more about IMEX, see https://docs.nvidia.com/multi-node-nvlink-systems/imex-guide/overview.html[overview of NVIDIA IMEX for multi-node NVLink systems].
+* *VPC CNI*: Allocates VPC IPs as the primary network interface for pods running on EKS
+* *EFA device plugin*: Allocates EFA devices as secondary networks for pods running on EKS. Responsible for network traffic across P6e-GB200 UltraServers. For multi-node workloads, for GPU-to-GPU within an UltraServer can flow over multi-node NVLink.
+* *NVIDIA Kubernetes device plugin*: Allocates GPUs as devices for pods running on EKS. It is recommended to use the NVIDIA Kubernetes device plugin until the NVIDIA DRA driver GPU allocation functionality graduates from experimental. See the https://github.com/NVIDIA/k8s-dra-driver-gpu/releases[NVIDIA DRA driver releases] for updated information.
+* *NVIDIA DRA driver*: Enables ComputeDomain custom resources that facilitate creation of IMEX domains that follow workloads running on P6e-GB200 UltraServers. 
+** The ComputeDomain resource describes an Internode Memory Exchange (IMEX) domain. When workloads with a ResourceClaim for a ComputeDomain are deployed to the cluster, the NVIDIA DRA driver automatically creates an IMEX DaemonSet that runs on matching nodes and establishes the IMEX channel(s) between the nodes before the workload is started. To learn more about IMEX, see https://docs.nvidia.com/multi-node-nvlink-systems/imex-guide/overview.html[overview of NVIDIA IMEX for multi-node NVLink systems].
 ** The NVIDIA DRA driver uses a clique ID label (`nvidia.com/gpu.clique`) applied by NVIDIA GFD that relays the knowledge of the network topology and NVLink domain. 
 ** It is a best practice to create a ComputeDomain per workload job.
 * *NVIDIA Node Feature Discovery (NFD)*: Required dependency for GFD to apply node labels based on discovered node-level attributes.
-* *NVIDIA GPU Feature Discovery (GFD)*: Applies an NVIDIA standard topology label called `nvidia.com/gpu.clique` to the nodes. Nodes within the same `nvidia.com/gpu.clique` have Multi-Node NVLink-reachability, and you can use pod affinities in your application to schedule pods to the same NVlink domain.
+* *NVIDIA GPU Feature Discovery (GFD)*: Applies an NVIDIA standard topology label called `nvidia.com/gpu.clique` to the nodes. Nodes within the same `nvidia.com/gpu.clique` have multi-node NVLink-reachability, and you can use pod affinities in your application to schedule pods to the same NVlink domain.
 
-== Getting started
+[#nvidia-ultraserver-procedure]
+== Procedure
 
-The following section assumes you have an Amazon EKS cluster 1.33+ with one or more node groups with P6e-GB200 UltraServers provisioned using the Amazon provided `AL2023_ARM_64_NVIDIA` EKS-optimized Accelerated AMI. To leverage the GB200 you’ll need to manage the following minimal set of components, which can be installed via helm:
+The following section assumes you have an EKS cluster running Kubernetes version 1.33 or above with one or more node groups with P6e-GB200 UltraServers running the AL2023 ARM NVIDIA EKS-optimized accelerated AMI. See the links in <<ml-compute-management>> for the prerequisite steps for EKS self-managed nodes and managed node groups.
 
-[%header,cols="1,2,3"]
+The following procedure uses the components below.
+
+[%header,cols="2,1,4"]
 |===
 | Name | Version |Description 
 
-| GPU Operator
+| NVIDIA GPU Operator
 | 25.3.4+
-| To support lifecycle management of required plugins such as NVIDIA Kubernetes Device Plugin.
+| For lifecycle management of required plugins such as NVIDIA Kubernetes device plugin and NFD/GFD.
 
 | NVIDIA DRA Drivers
 | 25.8.0+
-| To support IMEX Domain management.
+| For ComputeDomain CRDs and IMEX domain management.
 
 | EFA Device Plugin
 | 0.5.14+
 | For cross-UltraServer communication.
 
-
 |===
 
-=== Install GPU Operator
+[#nvidia-ultraserver-gpu-operator]
+== Install NVIDIA GPU operator
 
-The https://github.com/NVIDIA/gpu-operator[GPU operator] simplifies management of components for exposing and labeling NVIDIA GPUs for Kubernetes. As the NVIDIA GPU driver and container toolkit are installed as part of the EKS AMI these must be set to `false`. Take note, that the Node Feature Discovery (NFD) and GPU Feature Discovery (GFD) are set to `true`. This applies the `nvidia.com/gpu.clique` label to nodes which can be used by workloads to schedule within the same multi-node NVLink domain. GFD also adds the following node https://github.com/NVIDIA/k8s-device-plugin/tree/main/docs/gpu-feature-discovery#generated-labels[labels].
+The NVIDIA GPU operator simplifies the management of components required to use GPUs in Kubernetes clusters. As the NVIDIA GPU driver and container toolkit are installed as part of the EKS-optimized accelerated AMI, these must be set to `false` in the Helm values configuration.
 
-Create a Helm values file named `gpu-operator-values.yaml` with the following:
-
+. Create a Helm values file named `gpu-operator-values.yaml` with the following configuration.
++
 [source,yaml,subs="verbatim,attributes"]
 ----
-driver:
-  enabled: false
 devicePlugin:
   enabled: true
-toolkit:
-  enabled: false
 nfd:
   enabled: true
 gfd:
   enabled: true
+driver:
+  enabled: false
+toolkit:
+  enabled: false
 migManager:
   enabled: false
 ----
-Run the following to install the GPU operator from NVIDIA helm repository:
-
++
+. Install the NVIDIA GPU operator for your cluster using the `gpu-operator-values.yaml` file you created in the previous step.
++
 [source,bash]
 ----
 helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 helm repo update
-
+----
++
+[source,bash]
+----
 helm install gpu-operator nvidia/gpu-operator \
  --namespace gpu-operator \
  --create-namespace \
@@ -119,15 +130,13 @@ helm install gpu-operator nvidia/gpu-operator \
  --values gpu-operator-values.yaml
 ----
 
-=== Install NVIDIA DRA driver for GPUs
+[#nvidia-ultraserver-dra-driver]
+== Install NVIDIA DRA driver
 
-The NVIDIA DRA Driver is essential for P6e-GB200 UltraServers because it provides capabilities that go beyond traditional GPU device plugins. While the standard NVIDIA Device Plugin exposes individual GPUs as countable resources (`nvidia.com/gpu: 4`), the DRA Driver enables two critical capabilities needed for GB200 systems:
+As of NVIDIA GPU operator version `v25.3.4`, the NVIDIA DRA driver must be installed separately. It is recommended to track the NVIDIA GPU operator https://github.com/NVIDIA/gpu-operator/releases[release notes] as this may change in a future release.
 
-* *ComputeDomain Management*: The DRA Driver manages ComputeDomains, which are abstractions for Multi-Node NVLink (MNNVL) deployments. When you create a ComputeDomain resource, the DRA Driver automatically orchestrates IMEX primitives (daemons, domains, channels) across multiple nodes and Manages the lifecycle of IMEX channels tied to the workloads lifecycle.
-* *GPU Allocation*: Beyond simple GPU counting, the DRA Driver enables dynamic allocation of GPU configurations. The GPU feature can be disabled, if you plan to use the well-known limits approach for allocating GPUs to workloads.
-
-Create a Helm `dra-values.yaml` file to deploy https://github.com/NVIDIA/k8s-dra-driver-gpu[NVIDIA DRA Driver], take note of the `nodeAffinity` and `tolerations` so that the driver will only be deployed to nodes with an NVIDIA GPU. Create a Helm values file with the following called `dra-values.yaml`:
-
+. Create a Helm values file named `dra-values.yaml` with the following configuration. Note the `nodeAffinity` and `tolerations` that configures the DRA driver to deploy only on nodes with an NVIDIA GPU.
++
 [source,yaml,subs="verbatim,attributes"]
 ----
 resources:
@@ -156,72 +165,90 @@ kubeletPlugin:
       operator: Exists
       effect: NoSchedule
 ----
-
-Then install the NVIDIA DRA driver:
-
++
+. Install the NVIDIA DRA driver for your cluster using the `dra-values.yaml` file you created in the previous step.
++
 [source,bash]
 ----
-
 helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 helm repo update
-
+----
++
+[source,bash]
+----
 helm install nvidia-dra-driver-gpu nvidia/nvidia-dra-driver-gpu \
   --version="25.8.0" \
   --namespace nvidia-dra-driver-gpu \
   --create-namespace \
   -f dra-values.yaml
 ----
-
-After installation, the DRA Driver creates `DeviceClass` resources that enable Kubernetes to understand and allocate `ComputeDomain` resources, making the IMEX management possible for distributed GPU workloads on P6e-GB200 UltraServers.
-
-==== Verify DRA resources
-
-Confirm the DRA resources are available:
-
++
+. After installation, the DRA driver creates `DeviceClass` resources that enable Kubernetes to understand and allocate `ComputeDomain` resources, making the IMEX management possible for distributed GPU workloads on P6e-GB200 UltraServers. 
++
+Confirm the DRA resources are available with the following commands.
++
 [source,bash]
 ----
-$ kubectl api-resources | grep resource.k8s.io
-
+kubectl api-resources | grep resource.k8s.io
+----
++
+[source,bash]
+----
 deviceclasses           resource.k8s.io/v1  false        DeviceClass
 resourceclaims          resource.k8s.io/v1  true         ResourceClaim
 resourceclaimtemplates  resource.k8s.io/v1  true         ResourceClaimTemplate
 resourceslices          resource.k8s.io/v1  false        ResourceSlice
-
-$ kubectl get deviceclasses
-
+----
++
+[source,bash]
+----
+kubectl get deviceclasses
+----
++
+[source,bash]
+----
 NAME                                        
 compute-domain-daemon.nvidia.com            
 compute-domain-default-channel.nvidia.com   
 ----
 
-=== Install EFA Device plugin
+[#nvidia-ultraserver-efa-plugin]
+== Install the EFA device plugin
 
-For EFA communication between UltraServers, you’ll need to install the device plugin for EFA. P6e-GB200 instances can be configured with up to https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[17 network cards] and the primary NCI (index 0) must be of type `interface` and supports up to 100 Gbps of ENA bandwidth. Configure your EFA and ENA interfaces as per your requirements. Review the https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[EFA configuration for a P6e-GB200 instances {aws} documentation] for more details on EFA configuration.
+To use EFA communication between UltraServers, you must install the Kubernetes device plugin for EFA. P6e-GB200 instances can be configured with up to https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[17 network cards] and the primary NCI (index 0) must be of type `interface` and supports up to 100 Gbps of ENA bandwidth. Configure your EFA and ENA interfaces as per your requirements during node provisioning. Review the https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[EFA configuration for a P6e-GB200 instances {aws} documentation] for more details on EFA configuration.
 
-To deploy the EFA device plugin, create a Helm `efa-values.yaml` file for EFA device plugin with the following toleration, to enable the plugin to be deploy to nodes with `nvidia.com/gpu` taint.
-
+. Create a Helm values file named `efa-values.yaml` with the following configuration.
++
 [source,yaml,subs="verbatim,attributes"]
 ----
 tolerations:
   - key: nvidia.com/gpu
     operator: Exists
     effect: NoSchedule
-   
 ----
-
-To install the device plugin using Helm:
-
++
+. Install the NVIDIA DRA operator for your cluster using the `dra-values.yaml` file you created in the previous step.
++
 [source,bash]
 ----
 helm repo add eks https://aws.github.io/eks-charts
 helm repo update
+----
++
+[source,bash]
+----
 helm install efa eks/aws-efa-k8s-device-plugin -n kube-system \
   --version="0.5.14" \
   -f efa-values.yaml
 ----
-
-If you decided to have 1 efa-only interface in each https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[NCI group], when describing a node (`kubectl describe node/<gb200-node-name>` you would expect to see the following, 4 allocatable EFA devices per node.
-
++
+As an example, if you configured your instances with 1 efa-only interface in each https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-acc-inst-types.html#efa-for-p6e[NCI group], when describing a node, it is expected to see 4 allocatable EFA devices per node.
++
+[source,bash]
+----
+kubectl describe node/<gb200-node-name>
+----
++
 [source,yaml,subs="verbatim,attributes"]
 ----
 Capacity:
@@ -232,21 +259,22 @@ Allocatable:
   vpc.amazonaws.com/efa:  4
 ----
 
-=== Validate IMEX over Multi-Node NVLink with nvbandwidth
+[#nvidia-ultraserver-imex-nvlink]
+== Validate IMEX over Multi-Node NVLink
 
-To run the multi-node bandwidth test against 2 nodes in the NVL72, you must first install the MPI Operator: 
+For a multi-node NVLINK NCCL test and other micro-benchmarks review the https://github.com/aws-samples/awsome-distributed-training/tree/main/micro-benchmarks/nccl-tests[awesome-distributed-training] GitHub repository. The following steps show how to run a multi-node NVLink test with nvbandwidth.
 
+. To run a multi-node bandwidth test across two nodes in the NVL72 domain, first install the MPI operator: 
++
 [source,bash]
 ----
 kubectl create -f https://github.com/kubeflow/mpi-operator/releases/download/v0.7.0/mpi-operator.yaml
 ----
-
-Now, create the nvbandwidth test Kubernetes manifest. Take note of the `nvidia.com/gpu.clique` Pod affinity to schedule the workers in the same NVLink domain which has Multi-Node NVLink reachability.
-
-Note: from NVIDIA DRA Driver version https://github.com/NVIDIA/k8s-dra-driver-gpu/releases/tag/v25.8.0[v25.8.0] compute domains are elastic and `.spec.numNodes` can be set to 0. Review the latest https://github.com/NVIDIA/k8s-dra-driver-gpu[NVIDIA DRA Driver version releases notes] for updates.
-
-Create a Helm values file with the following called `nvbandwidth-test-job.yaml`:
-
++
+. Create a Helm values file named `nvbandwidth-test-job.yaml` that defines the test manifest. Note the `nvidia.com/gpu.clique` pod affinity to schedule the workers in the same NVLink domain which has Multi-Node NVLink reachability.
++
+As of NVIDIA DRA Driver version `v25.8.0` ComputeDomains are elastic and `.spec.numNodes` can be set to `0` in the ComputeDomain definition. Review the latest https://github.com/NVIDIA/k8s-dra-driver-gpu[NVIDIA DRA Driver release notes] for updates.
++
 [source,yaml,subs="verbatim,attributes"]
 ----
 ---
@@ -255,7 +283,7 @@ kind: ComputeDomain
 metadata:
   name: nvbandwidth-test-compute-domain
 spec:
-  numNodes: 0 # This can be set to 0 from NVIDIA DRA Driver version v25.8.0
+  numNodes: 0 # This can be set to 0 from NVIDIA DRA Driver version v25.8.0+
   channel:
     resourceClaimTemplate:
       name: nvbandwidth-test-compute-domain-channel
@@ -314,7 +342,7 @@ spec:
                     operator: In
                     values:
                     - mpi-worker
-                topologyKey: nvidia.com/gpu.clique # Requests pods to be scheduled to nodes in the same NVLINK domain using `nvidia.com/gpu.clique` ID
+                topologyKey: nvidia.com/gpu.clique
           containers:
           - image: ghcr.io/nvidia/k8s-samples:nvbandwidth-v0.7-8d103163
             name: mpi-worker
@@ -336,52 +364,44 @@ spec:
           - name: compute-domain-channel
             resourceClaimTemplateName: nvbandwidth-test-compute-domain-channel
 ----
-
-To create the compute domain and start the job run the following:
-
++
+. Create the ComputeDomain and start the job with the following command.
++
 [source,bash]
 ----
 kubectl apply -f nvbandwidth-test-job.yaml
 ----
-
-==== Verify compute domain topology
-
-After ComputeDomain creation, you can see the workload's ComputeDomain has two nodes:
-
++
+. ComputeDomain creation, you can see the workload's ComputeDomain has two nodes:
++
 [source,bash]
 ----
 kubectl get computedomains.resource.nvidia.com -o yaml
 ----
-
-```
++
+[source,bash]
+----
 status:
   nodes:
   - cliqueID: <ClusterUUID>.<Clique ID>
-    ipAddress: 192.168.32.140
-    name: ip-192-168-32-140.us-west-2.compute.internal
+    ipAddress: <node-ip>
+    name: <node-hostname>
   - cliqueID: <ClusterUUID>.<Clique ID>
-    ipAddress: 192.168.62.216
-    name: ip-192-168-62-216.us-west-2.compute.internal
+    ipAddress: <node-ip>
+    name: <node-hostname>
   status: Ready
-```
-
-==== Review results
-
-To review the results from the job run:
-
+----
++
+. Review the results of the job with the following command.
++
 [source,bash]
 ----
 kubectl logs --tail=-1 -l job-name=nvbandwidth-test-launcher
 ----
-
-=== Delete the nvbandwidth job
-
-To delete the job run the following:
-
++
+. When the test is complete, delete it with the following command.
++
 [source,bash]
 ----
 kubectl delete -f nvbandwidth-test-job.yaml 
 ----
-
-=== Useful links
-* For a multi-node NVLINK NCCL test and other micro-benchmarks review the https://github.com/aws-samples/awsome-distributed-training/tree/main/micro-benchmarks/nccl-tests[awesome-distributed-training] Github repository.
