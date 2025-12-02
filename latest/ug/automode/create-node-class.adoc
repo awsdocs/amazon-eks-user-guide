@@ -31,6 +31,7 @@ kind: NodeClass
 metadata:
   name: private-compute
 spec:
+  role: ClusterNodeRole
   subnetSelectorTerms:
     - tags:
         Name: "private-subnet"
