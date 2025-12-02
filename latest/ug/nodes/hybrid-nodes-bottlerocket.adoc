@@ -58,21 +58,11 @@ region = "<region>"
 enabled = true
 cache-duration = "12h"
 image-patterns = [
-    "*.dkr.ecr.*.amazonaws.com",
-    "*.dkr.ecr.*.amazonaws.com.cn",
-    "*.dkr.ecr.*.amazonaws.eu",
-    "*.dkr-ecr.*.on.aws",
-    "*.dkr-ecr.*.on.amazonwebservices.com.cn",
-    "*.dkr.ecr-fips.*.amazonaws.com",
-    "*.dkr.ecr-fips.*.amazonaws.eu",
-    "*.dkr.ecr.*.cloud.adc-e.uk",
-    "*.dkr.ecr-fips.*.cloud.adc-e.uk",
-    "*.dkr.ecr.*.c2s.ic.gov",
-    "*.dkr.ecr-fips.*.c2s.ic.gov",
-    "*.dkr.ecr.*.sc2s.sgov.gov",
-    "*.dkr.ecr-fips.*.sc2s.sgov.gov",
-    "*.dkr.ecr.*.csp.hci.ic.gov",
-    "*.dkr.ecr-fips.*.csp.hci.ic.gov",
+    "\*.dkr.ecr.*.amazonaws.com",
+    "\*.dkr.ecr.*.amazonaws.com.cn",
+    "\*.dkr.ecr.*.amazonaws.eu",
+    "\*.dkr.ecr-fips.*.amazonaws.com",
+    "\*.dkr.ecr-fips.*.amazonaws.eu",
     "public.ecr.aws"
 ]
 
@@ -147,21 +137,11 @@ config = "<base64-encoded-aws-config-file>"
 enabled = true
 cache-duration = "12h"
 image-patterns = [
-    "*.dkr.ecr.*.amazonaws.com",
-    "*.dkr.ecr.*.amazonaws.com.cn",
-    "*.dkr.ecr.*.amazonaws.eu",
-    "*.dkr-ecr.*.on.aws",
-    "*.dkr-ecr.*.on.amazonwebservices.com.cn",
-    "*.dkr.ecr-fips.*.amazonaws.com",
-    "*.dkr.ecr-fips.*.amazonaws.eu",
-    "*.dkr.ecr.*.cloud.adc-e.uk",
-    "*.dkr.ecr-fips.*.cloud.adc-e.uk",
-    "*.dkr.ecr.*.c2s.ic.gov",
-    "*.dkr.ecr-fips.*.c2s.ic.gov",
-    "*.dkr.ecr.*.sc2s.sgov.gov",
-    "*.dkr.ecr-fips.*.sc2s.sgov.gov",
-    "*.dkr.ecr.*.csp.hci.ic.gov",
-    "*.dkr.ecr-fips.*.csp.hci.ic.gov",
+    "\*.dkr.ecr.*.amazonaws.com",
+    "\*.dkr.ecr.*.amazonaws.com.cn",
+    "\*.dkr.ecr.*.amazonaws.eu",
+    "\*.dkr.ecr-fips.*.amazonaws.com",
+    "\*.dkr.ecr-fips.*.amazonaws.eu",
     "public.ecr.aws"
 ]
 
