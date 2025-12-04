@@ -9,6 +9,17 @@ include::../attributes.txt[]
 
 Network policies allow you to control traffic flow at the IP address or port level within your Amazon EKS cluster. This topic explains how to enable and use network policies with EKS Auto Mode.
 
+Auto Mode supports two Network Policies modes, which can be configured in a custom `NodeClass` attribute `spec.networkPolicy`:
+
+* `networkPolicy: DefaultAllow` which is equal in behaviour to AWS VPC CNI `NETWORK_POLICY_ENFORCING_MODE: standard`
+* `networkPolicy: DefaultDeny` which is equal in behaviour to AWS VPC CNI `NETWORK_POLICY_ENFORCING_MODE: strict`
+
+See AWS VPC CNI attribute link:https://github.com/aws/amazon-vpc-cni-k8s?tab=readme-ov-file#network_policy_enforcing_mode-v1171["NETWORK_POLICY_ENFORCING_MODE"] for reference.
+
+EKS Auto Mode does not support alternate CNI plugins in chaining mode for Network Policies.
+
+
+
 == Prerequisites
 
 * An Amazon EKS cluster with EKS Auto Mode enabled
