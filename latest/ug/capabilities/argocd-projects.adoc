@@ -50,6 +50,13 @@ spec:
   sourceRepos:
     - 'https://github.com/my-org/team-a-*'
     - 'https://github.com/my-org/shared-libs'
+
+
+  # Source namespaces (required for EKS capability)
+  sourceNamespaces:
+    - argocd
+    - team-a-dev
+    - team-a-prod
   
   # Destination clusters and namespaces
   destinations:
@@ -95,6 +102,35 @@ spec:
 
 You can use wildcards and negation patterns (`!` prefix) to allow or deny specific repositories.
 For details, see link:https://argo-cd.readthedocs.io/en/stable/user-guide/projects/#managing-projects[Managing Projects] in the Argo CD documentation.
+
+=== Source namespaces
+
+When using the EKS Argo CD capability, the `spec.sourceNamespaces` field is **required** in your custom AppProject definition. This field specifies which namespaces can contain Applications or ApplicationSets that reference this project:
+
+[source,yaml]
+----
+spec:
+  sourceNamespaces:
+    - argocd  # Default Argo CD system namespace
+    - team-a-apps  # Additional namespace for Applications
+----
+
+[IMPORTANT]
+====
+By default, the `default` AppProject include the `argocd` namespace in `sourceNamespaces`. If you create Applications or ApplicationSets in other namespaces, you must add those namespaces to this list.
+====
+
+Example with multiple namespaces:
+
+[source,yaml]
+----
+spec:
+  sourceNamespaces:
+    - argocd
+    - team-a-dev
+    - team-a-prod
+----
+
 
 === Destination restrictions
 
