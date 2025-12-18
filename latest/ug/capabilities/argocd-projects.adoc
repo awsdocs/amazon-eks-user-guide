@@ -107,29 +107,65 @@ For details, see link:https://argo-cd.readthedocs.io/en/stable/user-guide/projec
 
 When using the EKS Argo CD capability, the `spec.sourceNamespaces` field is **required** in your custom AppProject definition. This field specifies which namespaces can contain Applications or ApplicationSets that reference this project:
 
-[source,yaml]
-----
-spec:
-  sourceNamespaces:
-    - argocd  # Default Argo CD system namespace
-    - team-a-apps  # Additional namespace for Applications
-----
-
 [IMPORTANT]
 ====
-By default, the `default` AppProject include the `argocd` namespace in `sourceNamespaces`. If you create Applications or ApplicationSets in other namespaces, you must add those namespaces to this list.
+This is a required field for EKS Argo CD capability, which differs from OSS Argo CD where this field is optional.
 ====
 
-Example with multiple namespaces:
+Default AppProject behavior
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The `default` AppProject automatically includes the `argocd` namespace in `sourceNamespaces`. If you need to create Applications or ApplicationSets in additional namespaces, modify the `sourceNamespaces` field to add those namespaces:
 
 [source,yaml]
 ----
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: default
+  namespace: argocd
 spec:
   sourceNamespaces:
-    - argocd
-    - team-a-dev
-    - team-a-prod
+    - argocd           # Already included by default
+    - team-a-apps      # Add additional namespaces as needed
+    - team-b-apps
 ----
+Custom AppProject configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When creating a custom AppProject, you must manually include the `argocd` system namespace and any other namespaces where you plan to create Applications or ApplicationSets:
+
+[source,yaml]
+----
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: team-a-project
+  namespace: argocd
+spec:
+  description: Applications for Team A
+  
+  # Required: Manually specify all namespaces
+  sourceNamespaces:
+    - argocd           # ArgoCD system namespace (required)
+    - team-a-dev       # Custom namespace for dev Applications
+    - team-a-prod      # Custom namespace for prod Applications
+  
+  # Source repositories this project can deploy from
+  sourceRepos:
+    - 'https://github.com/my-org/team-a-*'
+  
+  # Destination restrictions
+  destinations:
+    - namespace: 'team-a-*'
+      server: https://kubernetes.default.svc
+----
+
+[NOTE]
+====
+If you omit a namespace from `sourceNamespaces`, Applications or ApplicationSets created in that namespace will not be able to reference this project, resulting in deployment failures.
+====
+
 
 
 === Destination restrictions
