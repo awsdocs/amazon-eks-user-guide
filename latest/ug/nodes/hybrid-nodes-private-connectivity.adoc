@@ -1,0 +1,568 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-private-connectivity]
+= Configure private connectivity for hybrid nodes
+:info_titleabbrev: Configure private connectivity
+
+[abstract]
+--
+Learn how to configure Amazon EKS hybrid nodes to communicate securely with the Kubernetes API server and essential {aws} services via private network connections.
+--
+
+This topic provides guidance for configuring Amazon EKS hybrid nodes to communicate securely with the Kubernetes API server and essential {aws} services via private network connections, such as {aws} Direct Connect or {aws} Site-to-Site VPN. By leveraging private Kubernetes API endpoints, {aws} PrivateLink VPC interface endpoints, and DNS resolution through Amazon Route 53 inbound resolvers, organizations can eliminate the need for hybrid node internet connectivity. The outlined approach ensures that on-premises hybrid nodes securely access {aws} services like the EKS control plane, Amazon ECR, {aws} Systems Manager, and Amazon S3 over private network connectivity.
+
+[#hybrid-nodes-private-connectivity-prereqs]
+== Prerequisites
+
+Before configuring private connectivity, ensure you have the following:
+
+[%header,cols="2,5,2"]
+|===
+|Requirement
+|Description
+|Reference
+
+|EKS cluster
+|An EKS cluster with the control plane in the {aws} cloud.
+|<<create-cluster>>
+
+|Network connectivity
+|A private network path (Direct Connect or VPN) between your on-premises datacenter and the EKS VPC.
+|<<hybrid-nodes-networking>>
+
+|VPC configuration
+|A VPC with DNS hostnames and resolution enabled, with proper routing to on-premises networks.
+|link:vpc/latest/userguide/vpc-dns.html#vpc-dns-updating[DNS attributes for your VPC,type="documentation"]
+
+|Hybrid node
+|A node with \`nodeadm\` installed and hybrid node components configured.
+|<<hybrid-nodes-overview>>
+|===
+
+This guide focuses on configuring the {aws} services necessary for enabling private connectivity to the EKS control plane, including:
+
+* Enabling the EKS private API endpoint
+* Setting up {aws} VPC endpoints
+* Configuring Route 53 inbound resolver
+* Integrating your on-premises DNS environment
+
+This guide does not include steps to set up a hybrid node cluster. For that, see <<hybrid-nodes-overview>>.
+
+For additional guidance on Amazon EKS deployments with private connectivity, see:
+
+* <<private-clusters>>
+* <<vpc-interface-endpoints>>
+* <<cluster-endpoint>>
+
+[#hybrid-nodes-private-connectivity-design]
+== Conceptual design
+
+In a standard EKS hybrid node deployment, hybrid nodes communicate with the public EKS API endpoint and other {aws} services (for example, Amazon ECR, {aws} Systems Manager, Amazon S3) over the internet. While this communication is secure via HTTPS encryption, some organizations prefer that all communication occur over private network connections.
+
+Amazon EKS supports invoking its API actions through {aws} PrivateLink VPC interface endpoints, allowing private communication with the EKS API from within a customer VPC or systems connected to it (for example, via VPC peering, Direct Connect, or Site-to-Site VPN). However, Kubernetes API calls (for example, \`kubectl\` operations) do not use the EKS API PrivateLink endpoint. Instead, the Kubernetes API server has its own endpoint, which by default is accessible via the internet.
+
+When the Kubernetes API private endpoint is enabled, communication between the Kubernetes API server and hybrid nodes occurs over private network connectivity. This is facilitated through the EKS-managed cross-account elastic network interfaces (X-ENIs) in the customer VPC.
+
+[#hybrid-nodes-private-connectivity-components]
+=== Key components
+
+[%header,cols="2,4,3"]
+|===
+|Component
+|Purpose
+|Notes
+
+|EKS API VPC endpoint
+|Enables private EKS API actions (for example, cluster updates).
+|Uses interface VPC endpoint powered by {aws} PrivateLink. This is distinct from the Kubernetes API.
+
+|Kubernetes API private endpoint
+|Facilitates private node-to-control-plane communication.
+|Managed by EKS and accessed via cross-account ENIs (X-ENIs).
+
+|Route 53 inbound resolver
+|Resolves {aws} service domains to private IP addresses.
+|Required for services like Amazon ECR and {aws} Systems Manager, but not for the Kubernetes API.
+|===
+
+[#hybrid-nodes-private-connectivity-vpc-endpoints]
+=== {aws} VPC interface endpoints ({aws} PrivateLink)
+
+{aws} VPC interface endpoints powered by {aws} PrivateLink allow hybrid nodes and systems within your VPC to communicate securely with {aws} services such as EKS APIs, Amazon Elastic Container Registry (Amazon ECR), {aws} Systems Manager, {aws} Security Token Service ({aws} STS), Amazon S3, and Amazon CloudWatch over private network connections.
+
+Attributes include:
+
+* *Service-specific endpoints* – Distinct endpoints are provisioned per {aws} service, each with dedicated DNS names resolving to private IP addresses within your VPC subnets.
+* *Private DNS resolution* – Integrated DNS enables {aws} service domain names (for example, \`ecr.__region__.amazonaws.com\`) to resolve directly to private VPC IP addresses. Requires VPC settings (\`enableDnsHostnames\` and \`enableDnsSupport\`) enabled to ensure correct DNS behavior.
+* *Security and access controls* – Interface endpoints allow customization via security groups and endpoint policies, ensuring strict access control to {aws} resources.
+
+[#hybrid-nodes-private-connectivity-k8s-api]
+=== EKS Kubernetes API private endpoint
+
+The Kubernetes API private endpoint feature in Amazon EKS modifies how the Kubernetes API server URL is resolved by Amazon Route 53, ensuring the endpoint resolves exclusively to private IP addresses within your VPC. When enabled, DNS resolution for the EKS cluster's Kubernetes API endpoint returns private addresses associated with EKS-managed cross-account elastic network interfaces (X-ENIs). As a result, all Kubernetes API interactions between hybrid nodes and the EKS control plane occur over private network paths, such as {aws} Direct Connect or VPN, rather than the public internet.
+
+Attributes include:
+
+* *Managed by Amazon EKS* – Amazon EKS creates and maintains a private hosted zone in Route 53 specific to your EKS cluster. It automatically resolves Kubernetes API domains to private IP addresses via managed cross-account elastic network interfaces (X-ENIs) in your VPC.
+* *Dedicated to Kubernetes traffic* – Exclusively handles Kubernetes control plane traffic, such as interactions from \`kubectl\` and other Kubernetes management tools. Separate from {aws} PrivateLink endpoints used for other {aws} APIs and does not appear in the VPC endpoint console.
+* *Endpoint access configuration* – Supports private-only access (recommended for maximum security) or combined public/private access. Access modes can be modified post-cluster creation.
+
+[#hybrid-nodes-private-connectivity-route53]
+=== {aws} Route 53 inbound resolver
+
+The Route 53 inbound resolver facilitates private DNS resolution for {aws} services accessed from hybrid nodes and on-premises networks. It acts as a DNS forwarding bridge, enabling on-premises DNS servers to resolve {aws} domains to private IP addresses associated with VPC endpoints.
+
+Attributes include:
+
+* *DNS bridge for private network connectivity* – Accepts DNS queries forwarded from on-premises DNS servers and resolves them using {aws}-managed DNS infrastructure within your VPC.
+* *Private resolution of {aws} domains* – Critical for ensuring services like Amazon ECR, {aws} Systems Manager, and Amazon S3 resolve to their respective private VPC endpoints, directing traffic exclusively over private network paths.
+* *High availability and resilience* – Deployed across multiple Availability Zones to ensure robust and fault-tolerant DNS resolution. Typically configured with multiple resolver IP addresses for redundancy and reliability.
+
+[#hybrid-nodes-private-connectivity-dns]
+=== DNS name resolution
+
+DNS forwarding from on-premises networks to the Route 53 inbound resolver enables the resolution of {aws} service domains (\`amazonaws.com\` and \`api.aws\`) to their private IP addresses rather than public IP addresses.
+
+In this configuration:
+
+* On-premises DNS servers are configured to forward queries for specific {aws} service domains to the Route 53 inbound resolver endpoint deployed in the VPC.
+* The Route 53 inbound resolver acts as a bridge, resolving {aws}-specific domain names using the Amazon-provided DNS infrastructure within the VPC. To the Amazon DNS infrastructure, it appears as if the DNS query comes from the VPC, returning the private address of the configured VPC private endpoints.
+* This ensures on-premises systems resolve private VPC interface endpoints instead of public IP addresses, allowing them to access {aws} services (for example, EKS, Amazon ECR, or {aws} Systems Manager) over private network connections like {aws} Direct Connect or VPN.
+* The VPC hosting the EKS X-ENI interface must have DNS hostname and DNS resolution enabled.
+* Configure VPC interface endpoints to have private DNS names enabled. For more information, see link:vpc/latest/privatelink/interface-endpoints.html#enable-private-dns-names[Configure an interface endpoint,type="documentation"].
+
+Without DNS forwarding, on-premises systems would resolve {aws} service domains to public IP addresses, forcing traffic over the internet instead of the private network. Configuring DNS forwarding ensures {aws} services resolve to private IP addresses attached to the {aws} PrivateLink VPC endpoints. DNS forwarding is not required for the EKS Kubernetes API name resolution when the cluster is configured with private access only, as the only IP addresses returned by Route 53 are the private EKS API endpoints.
+
+For more information, see:
+
+* <<private-clusters>>
+* <<cluster-endpoint>>
+
+[#hybrid-nodes-private-connectivity-requirements]
+== Summary requirements for private connectivity
+
+* *EKS private API endpoint* – The Kubernetes API server must have its private endpoint enabled to allow hybrid node communication within the EKS customer VPC and systems attached to the VPC via the network.
+* *{aws} VPC endpoints* – VPC endpoints for essential {aws} services (for example, Amazon ECR, {aws} Systems Manager, {aws} STS) must be configured in the VPC to allow access from your on-premises datacenter via the private network connectivity.
+* *DNS configuration* – A Route 53 inbound resolver is needed to forward DNS queries from on-premises servers to {aws} for resolving service domains (for example, \`amazonaws.com\`, \`api.aws\`). Your on-premises DNS environment must have the capability to forward specific domains to the {aws} Route 53 inbound resolver for name resolution.
+* *VPC configuration* – The VPC with EKS X-ENI interfaces requires both DNS hostnames and DNS resolution enabled. For more information, see link:vpc/latest/userguide/vpc-dns.html#vpc-dns-updating[DNS attributes for your VPC,type="documentation"].
+
+[#hybrid-nodes-private-connectivity-configure-k8s-api]
+== Configure the Kubernetes private API endpoint
+
+Follow these steps to configure your EKS Kubernetes private API endpoint.
+
+[#hybrid-nodes-private-connectivity-enable-private-api]
+=== Enable the Kubernetes private API endpoint
+
+.To enable the Kubernetes private API endpoint using the {aws-management-console}
+. In the {aws-management-console}, navigate to *Amazon Elastic Kubernetes Service* (Amazon EKS).
+. Under *Clusters*, choose your existing EKS cluster.
+. Select your cluster, and under *Networking*, choose *Manage endpoint access*.
+. Select *Private* if you want to limit communication to private networks, or *Public and Private access* if you want to continue to allow public access.
+. Choose *Save changes* and wait until the cluster endpoint status updates to reflect your new configuration (typically takes several minutes).
+
+.To enable the Kubernetes private API endpoint using the {aws} CLI
+
+You can also configure the EKS Kubernetes private API endpoint using the {aws} CLI as follows:
+
+* *Enable private-only access (disable public access)*:
++
+[source,bash]
+----
+aws eks update-cluster-config \
+  --name <cluster-name> \
+  --resources-vpc-config endpointPrivateAccess=true,endpointPublicAccess=false
+----
+
+* *Enable both public and private access (if required)*:
++
+[source,bash]
+----
+aws eks update-cluster-config \
+  --name <cluster-name> \
+  --resources-vpc-config endpointPrivateAccess=true,endpointPublicAccess=true
+----
++
+Replace \`<cluster-name>\` with your actual EKS cluster name.
+
+[#hybrid-nodes-private-connectivity-validate-config]
+=== Validate configuration
+
+Verify the update has completed and your endpoints are correctly configured:
+
+[source,bash]
+----
+aws eks describe-cluster --name <cluster-name> --query "cluster.resourcesVpcConfig"
+----
+
+Expected output (example):
+
+[source,json]
+----
+{
+  "subnetIds": [
+    "subnet-0123456789abcdef0",
+    "subnet-abcdef0123456789a"
+  ],
+  "securityGroupIds": [
+    "sg-0123456789abcdef0"
+  ],
+  "endpointPublicAccess": false,
+  "endpointPrivateAccess": true,
+  "publicAccessCidrs": []
+}
+----
+
+Ensure the output matches your intended configuration (\`endpointPrivateAccess\` set to \`true\` and \`endpointPublicAccess\` set as desired).
+
+[NOTE]
+====
+Selecting *Private only* access means your Kubernetes API server will not be accessible from the public internet. Ensure that your on-premises and hybrid nodes have a valid private network path (for example, {aws} Direct Connect or VPN) to your EKS VPC.
+====
+
+[#hybrid-nodes-private-connectivity-summary]
+=== Summary
+
+When you create an EKS cluster, Amazon EKS establishes a managed Kubernetes API server endpoint for cluster communication (for example, via tools like \`kubectl\`). By default, this endpoint—referred to as the *cluster public endpoint*—is accessible over the internet. Additionally, EKS supports a *cluster private endpoint*, which enables all communication between VPC-hosted nodes and on-premises hybrid nodes to the API server to remain within your network connection to your EKS VPC, eliminating internet dependency.
+
+When you activate the private endpoint:
+
+* Amazon EKS creates a Route 53 private hosted zone associated with your cluster's VPC. This zone, managed by EKS and not visible in your Route 53 console, resolves the API server's domain to private IP addresses within the VPC.
+* Your VPC must be configured with \`enableDnsHostnames\` and \`enableDnsSupport\` set to \`true\`. Additionally, the DHCP options set must include \`AmazonProvidedDNS\` in its domain name servers list to ensure proper resolution. For more information, see link:vpc/latest/userguide/vpc-dns.html#vpc-dns-updating[DNS attributes for your VPC,type="documentation"].
+* This endpoint is distinct from {aws} PrivateLink VPC interface endpoints used for {aws} APIs—it's dedicated to Kubernetes API traffic and won't appear in the VPC console under *Endpoints*.
+
+You can define public/private endpoint access during cluster creation or modify it later using the {aws-management-console} or {aws} CLI. For example, to restrict access to private-only, disable public access entirely, ensuring all API server traffic flows over your private network (for example, Direct Connect or VPN).
+
+[#hybrid-nodes-private-connectivity-configure-vpc-endpoints]
+== Configure {aws} VPC interface endpoints
+
+VPC interface endpoints ensure that hybrid nodes can access essential {aws} services via private networking. Create the following endpoints in your VPC:
+
+[%header,cols="2,3,4"]
+|===
+|Service name
+|DNS names
+|Purpose
+
+|\`com.amazonaws.__region__.eks\`
+|\`eks.__region__.amazonaws.com\` +
+\`eks.__region__.api.aws\`
+|EKS API endpoint for cluster management.
+
+|\`com.amazonaws.__region__.eks-auth\`
+|\`eks-auth.__region__.api.aws\`
+|EKS IAM authentication (if using Pod Identity).
+
+|\`com.amazonaws.__region__.ecr.api\`
+|\`api.ecr.__region__.amazonaws.com\` +
+\`ecr.__region__.api.aws\`
+|API calls to Amazon Elastic Container Registry.
+
+|\`com.amazonaws.__region__.ecr.dkr\`
+|\`dkr.ecr.__region__.amazonaws.com\`
+|Container image pulls from Amazon ECR.
+
+|\`com.amazonaws.__region__.ssm\`
+|\`ssm.__region__.amazonaws.com\`
+|{aws} Systems Manager for node management (if using Systems Manager).
+
+|\`com.amazonaws.__region__.ssmmessages\`
+|\`ssmmessages.__region__.amazonaws.com\`
+|Real-time communication with Systems Manager (if using Systems Manager).
+
+|\`com.amazonaws.__region__.s3\`
+|\`s3.__region__.amazonaws.com\`
+|Access to Amazon S3 buckets (optional if you need access to Amazon S3).
+
+|\`com.amazonaws.__region__.logs\`
+|\`logs.__region__.amazonaws.com\` +
+\`logs.__region__.api.aws\`
+|Publish logs to CloudWatch (if using the CloudWatch add-on).
+
+|\`com.amazonaws.__region__.sts\`
+|\`sts.__region__.amazonaws.com\`
+|{aws} Security Token Service to assume IAM roles (used by nodes).
+
+|\`com.amazonaws.__region__.rolesanywhere\`
+|\`rolesanywhere.__region__.amazonaws.com\`
+|{aws} IAM Roles Anywhere (if using IAM Roles Anywhere).
+|===
+
+[#hybrid-nodes-private-connectivity-create-vpc-endpoint]
+=== Create a VPC endpoint
+
+To enable on-premises hybrid nodes to access {aws} services privately, create VPC interface endpoints for each required service (see the previous table). Follow these steps for each endpoint:
+
+.To create a VPC endpoint using the {aws-management-console}
+. In the {aws-management-console}, go to *VPC* -> *Endpoints* -> *Create endpoint*.
+. Choose *{aws} services* as the service category.
+. In the *Service name* field, select the appropriate endpoint from the list (for example, \`com.amazonaws.__region__.eks\`, \`com.amazonaws.__region__.ecr.dkr\`). Refer to the table in <<hybrid-nodes-private-connectivity-configure-vpc-endpoints>> for required services.
+. Optionally, enter a name tag (for example, \`EKS-Endpoint\` or \`ECR-DKR-Endpoint\`) for easier identification.
+. Select the VPC hosting your EKS cluster and hybrid node connectivity.
+. Check *Enable DNS name* to allow automatic resolution of the service's public DNS to the endpoint's private IP address.
+. Ensure *IPv4 DNS record type* is selected (default).
++
+[NOTE]
+====
+This requires \`enableDnsHostnames\` and \`enableDnsSupport\` to be enabled in your VPC settings. For more information, see link:vpc/latest/userguide/vpc-dns.html#vpc-dns-updating[DNS attributes for your VPC,type="documentation"].
+====
+. Select at least two subnets in different Availability Zones for high availability. These can be the same subnets used by EKS for its cross-account ENI (X-ENI) interfaces, ensuring compatibility with the cluster's network configuration.
+. Select or create a security group that allows inbound HTTPS traffic (port 443) from the CIDR ranges of your hybrid nodes and pod networks.
++
+Example rule:
++
+* *Protocol*: TCP
+* *Port*: 443
+* *Source*: \`<hybrid-node-CIDR>\`, \`<pod-CIDR>\`
+. By default, *Full access* is selected to allow unrestricted use of the service. To customize the policy to limit access to specific resources (for example, specific Amazon ECR repositories or Amazon S3 buckets), see link:vpc/latest/privatelink/vpc-endpoints-access.html[Control access to VPC endpoints using endpoint policies,type="documentation"].
+. Choose *Create endpoint*.
+. Wait for the endpoint status to change to *Available* (typically a few minutes).
+
+Repeat this process for each service listed in the table (for example, \`eks\`, \`ssm\`, \`s3\`).
+
+.To create a VPC endpoint using the {aws} CLI
+
+You can also use the {aws} CLI for VPC endpoint creation. Replace placeholders with appropriate values:
+
+[source,bash]
+----
+aws ec2 create-vpc-endpoint \
+  --vpc-id <vpc-id> \
+  --service-name <service-name> \
+  --subnet-ids <subnet-id-1> <subnet-id-2> \
+  --security-group-ids <sg-id> \
+  --vpc-endpoint-type Interface \
+  --private-dns-enabled \
+  --tag-specifications <value>
+----
+
+[#hybrid-nodes-private-connectivity-configure-route53]
+== Configure Route 53 inbound resolver
+
+The Route 53 inbound resolver acts as a DNS bridge, accepting queries from on-premises DNS servers and resolving {aws} service domains (for example, \`amazonaws.com\`, \`api.aws\`) to the private IP addresses of VPC interface endpoints. This ensures hybrid nodes can access {aws} services like Amazon ECR, {aws} Systems Manager, and Amazon S3 over private network connections (for example, {aws} Direct Connect or {aws} Site-to-Site VPN) without relying on public internet resolution.
+
+[#hybrid-nodes-private-connectivity-create-inbound-resolver]
+=== Create the inbound resolver endpoint
+
+.To create the inbound resolver endpoint using the {aws-management-console}
+. In the {aws-management-console}, navigate to *Route 53* -> *Resolver* -> *Inbound endpoints*.
+. Choose *Create inbound endpoint*.
+. Configure the following:
++
+* *Endpoint name* – Provide a descriptive name (for example, \`EKS-Inbound-Resolver\`).
+* *VPC* – Choose the VPC hosting your EKS cluster.
+* *Security group* – Assign a security group that allows UDP/TCP port 53 (DNS) traffic from your on-premises network's CIDR range.
+* *IP addresses* – Select at least two subnets in different Availability Zones for high availability. For each subnet:
+** Choose *Assign IP automatically* or specify custom IP addresses within the subnet's range.
+. Choose *Create inbound endpoint*.
+. Note the assigned IP addresses (for example, \`10.0.1.10\`, \`10.0.2.20\`)—these will be used for DNS forwarding in the next step.
+
+.To create the inbound resolver endpoint using the {aws} CLI
+
+[source,bash]
+----
+aws route53resolver create-resolver-endpoint \
+  --name "EKSHybrid-Inbound-Resolver" \
+  --direction INBOUND \
+  --creator-request-id "$(date +%s)" \
+  --security-group-ids <sg-id> \
+  --ip-addresses SubnetId=<subnet-id-1> SubnetId=<subnet-id-2>
+----
+
+Replace \`<sg-id>\`, \`<subnet-id-1>\`, and \`<subnet-id-2>\` with your security group ID and subnet IDs. After creation, retrieve the resolver IP addresses:
+
+[source,bash]
+----
+aws route53resolver list-resolver-endpoint-ip-addresses --resolver-endpoint-id <endpoint-id>
+----
+
+[#hybrid-nodes-private-connectivity-verify-resolver]
+=== Verify resolver endpoint status
+
+* In the Route 53 console, confirm the endpoint status changes to *Operational* (this may take a few minutes).
+* Ensure the security group rules allow inbound DNS traffic (port 53) from your on-premises network.
+
+[#hybrid-nodes-private-connectivity-integrate-dns]
+=== Integrate with on-premises DNS
+
+Update your on-premises DNS servers to forward queries for {aws} service domains to the inbound resolver IP addresses. This step is detailed in <<hybrid-nodes-private-connectivity-configure-onprem-dns>>.
+
+[NOTE]
+====
+* *High availability* – Deploy the inbound resolver across multiple subnets in different Availability Zones to ensure resilience.
+* *DNS resolution scope* – The inbound resolver only handles forwarded queries from on-premises DNS servers—it relies on the VPC's Amazon-provided DNS to resolve {aws} service domains.
+* *EKS-specific consideration* – The Kubernetes API private endpoint uses an EKS-managed Route 53 private hosted zone (see <<hybrid-nodes-private-connectivity-configure-k8s-api>>), which doesn't require the inbound resolver for resolution. However, other {aws} services (for example, Amazon ECR, {aws} Systems Manager) depend on this configuration.
+====
+
+After creation, your inbound resolver might have IP addresses like:
+
+* Subnet 1: \`10.0.1.10\`
+* Subnet 2: \`10.0.2.20\`
+
+These IP addresses will be referenced when configuring on-premises DNS forwarding.
+
+[#hybrid-nodes-private-connectivity-configure-onprem-dns]
+== Configure on-premises DNS forwarding
+
+Configure your on-premises DNS servers to forward queries for {aws} service domains (\`amazonaws.com\` and \`api.aws\`) to the Route 53 inbound resolver IP addresses created in <<hybrid-nodes-private-connectivity-configure-route53>>. This ensures on-premises hybrid nodes resolve {aws} service endpoints (for example, Amazon ECR, {aws} Systems Manager, Amazon S3) to private VPC IP addresses associated with VPC interface endpoints, enabling communication over private network connections like {aws} Direct Connect or {aws} Site-to-Site VPN rather than the public internet.
+
+[#hybrid-nodes-private-connectivity-onprem-dns-prereqs]
+=== Prerequisites
+
+* The Route 53 inbound resolver endpoint is operational, with noted IP addresses (for example, \`10.0.1.10\`, \`10.0.2.20\`) from <<hybrid-nodes-private-connectivity-configure-route53>>.
+* Administrative access to your on-premises DNS server (Windows DNS or BIND).
+* Network connectivity between the on-premises DNS server and the resolver IP addresses over your private connection.
+
+[#hybrid-nodes-private-connectivity-windows-dns]
+=== For Windows DNS Server
+
+. *Open DNS Manager* – On the Windows DNS server, press \`Windows + R\`, type \`dnsmgmt.msc\`, and press Enter to launch DNS Manager.
+. *Add conditional forwarders*:
++
+* In the left pane, right-click *Conditional Forwarders* and select *New Conditional Forwarder*.
+* For each domain (\`amazonaws.com\` and \`api.aws\`):
+** *DNS Domain* – Enter the domain (for example, \`amazonaws.com\`).
+** *IP addresses of the master servers* – Input the Route 53 inbound resolver IP addresses (for example, \`10.0.1.10\`, \`10.0.2.20\`).
+** Uncheck *Store this conditional forwarder in Active Directory* unless replication across domain controllers is required.
+** Select *OK* to save.
+. *Verify configuration*:
++
+* Open a command prompt on the DNS server or a hybrid node.
+* Run \`nslookup <service>.__region__.amazonaws.com\` (for example, \`nslookup ssm.us-west-2.amazonaws.com\`) to confirm resolution to private IP addresses.
++
+Example output:
++
+[source]
+----
+C:\> nslookup ssm.us-west-2.amazonaws.com
+Server:  dns-server.local
+Address:  192.168.1.10
+
+Non-authoritative answer:
+Name:    ssm.us-west-2.amazonaws.com
+Addresses:  10.0.1.45
+            10.0.2.67
+----
+
+[#hybrid-nodes-private-connectivity-bind-dns]
+=== For BIND (Linux)
+
+. *Edit the BIND configuration file*:
++
+* On the Linux DNS server, open the BIND configuration file (typically \`/etc/bind/named.conf.local\`) using a text editor (for example, \`sudo nano /etc/bind/named.conf.local\`).
+. *Add forward zones*:
++
+* Append the following zone definitions, replacing \`<resolver-ip-1>\` and \`<resolver-ip-2>\` with the Route 53 inbound resolver IP addresses (for example, \`10.0.1.10\`, \`10.0.2.20\`):
++
+[source]
+----
+zone "amazonaws.com" {
+    type forward;
+    forward only;
+    forwarders { 10.0.1.10; 10.0.2.20; };
+};
+
+zone "api.aws" {
+    type forward;
+    forward only;
+    forwarders { 10.0.1.10; 10.0.2.20; };
+};
+----
++
+The \`forward only\` directive ensures queries are forwarded without attempting local resolution first.
+. *Validate configuration*:
++
+* Check the syntax of the configuration file:
++
+[source,bash]
+----
+sudo named-checkconf /etc/bind/named.conf.local
+----
++
+If no errors are returned, proceed.
+. *Restart BIND*:
++
+* Apply the changes by restarting the BIND service:
++
+[source,bash]
+----
+sudo systemctl restart bind9
+----
++
+* Verify the service is running:
++
+[source,bash]
+----
+sudo systemctl status bind9
+----
+. *Test resolution*:
++
+* From the DNS server or a hybrid node, use \`dig\` or \`nslookup\` to test resolution:
++
+[source]
+----
+dig ssm.us-west-2.amazonaws.com
+;; ANSWER SECTION:
+ssm.us-west-2.amazonaws.com. 300 IN A 10.0.1.45
+ssm.us-west-2.amazonaws.com. 300 IN A 10.0.2.67
+----
+
+[#hybrid-nodes-private-connectivity-dns-notes]
+=== Key notes
+
+* *Scope of forwarding* – Forwarding \`amazonaws.com\` covers most {aws} service endpoints (for example, \`ecr.us-west-2.amazonaws.com\`), while \`api.aws\` ensures resolution for API-specific {aws} domains (for example, \`eks-auth.us-west-2.api.aws\`). If you do not want to forward the whole domains (\`amazonaws.com\`, \`api.aws\`), individual forwarding rules can be set up for each service that you wish to resolve to a VPC private endpoint.
+* *EKS exception: Understanding the Kubernetes API endpoint* – The Kubernetes API endpoint for your EKS cluster (for example, \`https://<cluster-id>.gr7.us-west-2.eks.amazonaws.com\`) is managed by EKS and tied to a private hosted zone in {aws}. Unlike other {aws} services, it does not depend on a VPC private endpoint (refer to <<hybrid-nodes-private-connectivity-configure-k8s-api>> for more information). Here's how name resolution for the Kubernetes API endpoint will behave based on the access setting and where the name resolution query originates:
++
+** *Private-only access* – If you've configured the EKS cluster for private-only access, all DNS requests for the EKS Kubernetes API endpoint—whether from the internet, within your VPC, or forwarded from your on-premises network—will resolve to the cluster's private IP address (X-ENIs). This keeps all communication internal (unless you have a network path to the private X-ENI interfaces in the VPC, you will be unable to reach the API endpoint).
+** *Public and private access* – If you've enabled both public and private access, the behavior depends on where the request originates:
+*** Requests from inside the VPC, or those routed from your on-premises network to the Route 53 inbound resolver, will resolve to the private IP address of the EKS API endpoint.
+*** Requests from outside the VPC (for example, over the public internet) will resolve to the public IP addresses instead.
+** *Public-only access* – This is the default behavior for new Amazon EKS clusters. Requests from inside and outside the VPC, or those routed from your on-premises network to the Route 53 inbound resolver, will resolve to the public IP address of the EKS API endpoint.
+
+For more information, see <<cluster-endpoint>>.
+
+[#hybrid-nodes-private-connectivity-verify]
+== Verify private DNS resolution
+
+Run \`nslookup\`, \`host\`, or \`dig\` commands for the Kubernetes API endpoint and {aws} service domains from on-premises hybrid nodes to verify they resolve to private IP addresses.
+
+Example:
+
+[source,bash]
+----
+# Kubernetes API endpoint
+$ host D87DFDCAAFD10CC5E98AD690585E4821.gr7.us-west-2.eks.amazonaws.com
+D87DFDCAAFD10CC5E98AD690585E4821.gr7.us-west-2.eks.amazonaws.com has address 10.226.0.197
+D87DFDCAAFD10CC5E98AD690585E4821.gr7.us-west-2.eks.amazonaws.com has address 10.226.1.118
+
+# AWS Services
+$ host eks.us-west-2.amazonaws.com
+eks.us-west-2.amazonaws.com has address 10.226.1.202
+eks.us-west-2.amazonaws.com has address 10.226.0.116
+
+$ host ssm.us-west-2.amazonaws.com
+ssm.us-west-2.amazonaws.com has address 10.226.0.120
+ssm.us-west-2.amazonaws.com has address 10.226.1.40
+
+$ host ssmmessages.us-west-2.amazonaws.com
+ssmmessages.us-west-2.amazonaws.com has address 10.226.1.128
+ssmmessages.us-west-2.amazonaws.com has address 10.226.0.23
+
+$ host api.ecr.us-west-2.amazonaws.com
+api.ecr.us-west-2.amazonaws.com has address 10.226.0.37
+api.ecr.us-west-2.amazonaws.com has address 10.226.1.84
+
+$ host 602401143452.dkr.ecr.us-west-2.amazonaws.com
+602401143452.dkr.ecr.us-west-2.amazonaws.com has address 10.226.1.231
+602401143452.dkr.ecr.us-west-2.amazonaws.com has address 10.226.0.173
+----
+
+[#hybrid-nodes-private-connectivity-troubleshoot]
+== Troubleshoot DNS resolution
+
+If resolution of {aws} services or the Kubernetes API endpoint returns public IP addresses or does not resolve, verify:
+
+* The Route 53 inbound resolver IP addresses are correct within your on-premises DNS forwarding zone configuration.
+* The security group on the Route 53 inbound resolver allows port 53 from your on-premises DNS servers.
+* Check DNS server logs (for example, Event Viewer for Windows, \`/var/log/syslog\` for Linux BIND) for errors.
