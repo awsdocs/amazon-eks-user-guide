@@ -12,6 +12,7 @@
     <!-- <region-specific-images region="BJS">enabled</region-specific-images> -->
     <simple-localization-handoff>enabled</simple-localization-handoff>
     <hide-github-link>0</hide-github-link>
+    <schema-validation>disabled</schema-validation>
    </options>
    <guides>
     <guide id="eks-ug">
