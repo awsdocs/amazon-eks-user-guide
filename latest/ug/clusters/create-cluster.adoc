@@ -229,7 +229,7 @@ The following are optional settings that, if required, must be added to the prev
 +
 If you'd like to disable the installation of these default networking add-ons, use the parameter below. This may be used for alternate CNIs, such as Cilium. Review the link:eks/latest/APIReference/API_CreateCluster.html[EKS API reference,type="documentation"] for more information. 
 +
-`aws eks create-cluster --bootstrapSelfManagedAddons false`
+`aws eks create-cluster --no-bootstrap-self-managed-addons ...`
 ** If you want to specify which `IPv4` Classless Inter-domain Routing (CIDR) block Kubernetes assigns service IP addresses from, you must specify it by adding the `--kubernetes-network-config serviceIpv4Cidr=<cidr-block>` to the following command.
 +
 Specifying your own range can help prevent conflicts between Kubernetes services and other networks peered or connected to your VPC. Enter a range in CIDR notation. For example: `10.2.0.0/16`.
