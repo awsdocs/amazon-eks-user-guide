@@ -33,6 +33,7 @@ Kubernetes `1.34` is now available in Amazon EKS. For more information about Kub
 * External JWT Signer for Service Account Tokens is promoted to Beta. When using external signers, the --service-account-extend-token-expiration flag is no longer fully respected. The API server enforces the minimum expiration between the desired extension (1 year) and the external signer's limit (24 hours).
 ** We recommend using link:https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-tokens[bound service account tokens], which are automatically mounted and rotated by Kubernetes.
 
+
 ====
 
 * *Dynamic Resource Allocation (DRA) Core APIs (GA):* Dynamic Resource Allocation has graduated to stable, enabling efficient management of specialized hardware like GPUs through standardized allocation interfaces - simplifying resource management for hardware accelerators and improving utilization of specialized resources.
