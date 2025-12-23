@@ -697,3 +697,63 @@ The first two columns are what are needed for API response values. The third fie
 |The KMS Key Arn
 |No
 |===
+
+[#k8s-log-collector]
+=== EKS Kubernetes Log Collector
+
+To troubleshoot Kubernetes issues on Amazon EKS, You can use the script to collect diagnostic logs for support cases and general troubleshooting.
+
+==== To collect general overall information about Kubernetes, use https://github.com/aws-samples/sample-eks-k8s-information-collector[EKS Kubernetes Information Collector].
+
+You can manually download the script to the environment where you are using the kubectl command, then run the script using the following command:
+
+[source,bash,subs="verbatim,attributes"]
+----
+curl -O https://raw.githubusercontent.com/aws-samples/sample-eks-k8s-information-collector/main/eks-k8s-information-collector.sh
+bash eks-k8s-information-collector.sh
+----
+
+The script collects the following diagnostic information and stores it as a log bundle.
+
+[source,bash,subs="verbatim,attributes"]
+----
+$ bash eks-k8s-information-collector.sh
+Trying to collect cluster info...
+Trying to collect all objects list...
+Trying to collect specific objects details...
+Trying to collect events...
+Done... your bundled logs are located in <Cluster_Name_Start_Timestamp>.tar.gz
+----
+
+==== To collect information related to only a specific Pod, use https://github.com/aws-samples/eks-pod-information-collector[EKS Pod Information Collector].
+
+You can manually download the script to the environment where you are using the kubectl command, then run the script using the following command:
+
+[source,bash,subs="verbatim,attributes"]
+----
+curl -O https://raw.githubusercontent.com/aws-samples/eks-pod-information-collector/main/eks-pod-information-collector.sh
+
+bash eks-pod-information-collector.sh -p <pod_name> -n <pod_namespace> -s [service_name] -i [ingress_name]
+OR
+bash eks-pod-information-collector.sh --podname <pod_name> --namespace <pod_namespace> --service [service_name] --ingress [ingress_name]
+
+NOTE: -p or --podname & -n or --namespace are mandatory input parameters
+----
+
+The script collects the following diagnostic information and stores it as a log bundle.
+
+[source,bash,subs="verbatim,attributes"]
+----
+$ bash eks-pod-information-collector.sh -p pod_name -n pod_namespace -s service_name
+Script execution started...
+Validating input arguments...
+Collected Cluster Name: "{Cluster_name}}" from current context...
+Collecting information ...
+
+Do you want to create a Tarball of the collected information?
+>yes
+Archiving collected information...
+
+        Done!! Archived information is located in "./<Cluster_Name_Start_Timestamp>.tar.gz"
+        Check the execution logs in file ./<Cluster_Name_Start_Timestamp>/EPIC-Script_<Start_Timestamp>>.log!!"
+----
