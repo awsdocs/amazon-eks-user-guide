@@ -51,6 +51,11 @@ The following admission controllers are enabled for all `1.31` platform versions
 |Release notes
 |Release date
 
+|`1.31.14`
+|`eks-local-outposts.8`
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.31.14`. {aws} IAM Authenticator updated to `v0.7.8`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.4`. Bottlerocket version updated to `v1.52.0`.
+|December 23, 2025
+
 |`1.31.12`
 |`eks-local-outposts.5`
 |New platform version with security fixes and enhancements. kube-proxy updated to `v1.31.10`. {aws} IAM Authenticator updated to `v0.7.4`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.2`. Bottlerocket version updated to `v1.47.0`.
@@ -88,6 +93,11 @@ The following admission controllers are enabled for all `1.30` platform versions
 |Amazon EKS platform version
 |Release notes
 |Release date
+
+|`1.30.14`
+|`eks-local-outposts.10`
+|New platform version with security fixes and enhancements. {aws} IAM Authenticator updated to `v0.7.8`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.4`. Bottlerocket version updated to `v1.52.0`.
+|December 23, 2025
 
 |`1.30.14`
 |`eks-local-outposts.7`
@@ -136,6 +146,11 @@ The following admission controllers are enabled for all `1.29` platform versions
 |Amazon EKS platform version
 |Release notes
 |Release date
+
+|`1.29.15`
+|`eks-local-outposts.13`
+|New platform version with security fixes and enhancements. {aws} IAM Authenticator updated to `v0.7.8`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.4`. Bottlerocket version updated to `v1.52.0`.
+|December 23, 2025
 
 |`v1.29.15`
 |`eks-local-outposts.10`
@@ -199,6 +214,11 @@ The following admission controllers are enabled for all `1.28` platform versions
 |Amazon EKS platform version
 |Release notes
 |Release date
+
+|`1.28.15`
+|`eks-local-outposts.20`
+|New platform version with security fixes and enhancements. {aws} IAM Authenticator updated to `v0.7.8`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.4`. Bottlerocket version updated to `v1.51.0`.
+|December 23, 2025
 
 |`1.28.15`
 |`eks-local-outposts.17`
