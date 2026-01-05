@@ -79,7 +79,7 @@ You can optionally create a new Node Class to change the default behavior of the
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
-  name: network-policy-logs
+  name: network-policy-config
 spec:
   # Optional: Changes default network policy behavior
   networkPolicy: DefaultAllow  
