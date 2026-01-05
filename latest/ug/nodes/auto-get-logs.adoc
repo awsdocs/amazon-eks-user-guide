@@ -49,10 +49,11 @@ You must use the {aws} API or a SDK to create the pre-signed S3 upload URL for E
 +
 [source,python,subs="verbatim,attributes"]
 ----
-import boto3; print(boto3.client('s3').generate_presigned_url(
-   ClientMethod='put_object',
-   Params={'Bucket': '[.replaceable]`<bucket-name>`', 'Key': '[.replaceable]`<key>`'},
-   ExpiresIn=[.replaceable]`1000`
+import boto3;
+print(boto3.client('s3').generate_presigned_url(
+    ClientMethod='put_object',
+    Params={'Bucket': '<bucket-name>', 'Key': '<key>'},
+    ExpiresIn=1000
 ))
 ----
 . Run the script with
