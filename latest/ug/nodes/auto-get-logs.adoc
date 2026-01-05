@@ -47,7 +47,7 @@ You must use the {aws} API or a SDK to create the pre-signed S3 upload URL for E
 . Determine where in the bucket you want to store the logs. For example, you might use [.replaceable]`2024-11-12/logs1.tar.gz` as the key.
 . Save the following Python code to the file [.replaceable]`presign-upload.py`. Replace [.replaceable]`<bucket-name>` and [.replaceable]`<key>`. The key should end with `.tar.gz`.
 +
-[source,python,subs="verbatim,attributes"]
+[source,python,subs="verbatim,attributes,quotes"]
 ----
 import boto3; print(boto3.client('s3').generate_presigned_url(
    ClientMethod='put_object',
