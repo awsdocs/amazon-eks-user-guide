@@ -95,7 +95,7 @@ kubectl apply -f nodeclass-network-policy.yaml
 . Verify that the Node Class has been created:
 +
 ```
-kubectl get nodeclass network-policy-logs
+kubectl get nodeclass network-policy-config
 ```
 . Update your Node Pool to use this Node Class. For more information, see <<create-node-pool>>.
 
