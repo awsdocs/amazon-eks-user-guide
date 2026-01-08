@@ -10,6 +10,9 @@ include::../attributes.txt[]
 Learn how to install the {aws} Load Balancer Controller on Amazon EKS using Helm to manage K8s load balancing with {aws} Cloud. Discover the prerequisites and steps for creating an IAM role, installing with Helm, and verifying the controller deployment.
 --
 
+[.banner.info]
+https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Register] for upcoming Amazon EKS workshops
+
 [TIP]
 ====
 With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-ons. Auto Mode includes pod networking and load balancing capabilities. 
