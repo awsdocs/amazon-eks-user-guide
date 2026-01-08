@@ -52,13 +52,19 @@ spec:
     targetRevision: HEAD
     path: guestbook
   destination:
-    name: my-cluster
+    name: in-cluster
     namespace: guestbook
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
 ----
+
+[NOTE]
+====
+Use `destination.name` with the cluster name you used when registering the cluster (like `in-cluster` for the local cluster).
+The `destination.server` field also works with EKS cluster ARNs, but using cluster names is recommended for better readability.
+====
 
 
 
@@ -91,10 +97,10 @@ Argo CD integrates with other EKS Managed Capabilities.
 
 To get started with the EKS Capability for Argo CD:
 
-. Create and configure an IAM Capability Role with the necessary permissions for Argo CD to access your Git repositories and manage applications.
+. Create and configure an IAM Capability Role with the necessary permissions for Argo CD to access your sources and manage applications.
 . <<create-argocd-capability,Create an Argo CD capability resource>> on your EKS cluster through the {aws} Console, {aws} CLI, or your preferred infrastructure as code tool.
 . Configure repository access and register clusters for application deployment.
-. Create Application resources to deploy your applications from Git repositories.
+. Create Application resources to deploy your applications from your declarative sources.
 
 include::create-argocd-capability.adoc[leveloffset=+1]
 

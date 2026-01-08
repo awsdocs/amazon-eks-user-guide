@@ -38,6 +38,7 @@ Full access to all applications and settings:
 * Configure repository access
 * Manage projects
 * View all application status and history
+* List and access all clusters and repositories
 
 *EDITOR*
 
@@ -46,6 +47,7 @@ Can create and modify applications but cannot change Argo CD settings:
 * Create and update applications and ApplicationSets
 * Sync and refresh applications
 * View application status and history
+* List and access all clusters and repositories
 * Cannot delete applications
 * Cannot change Argo CD configuration
 * Cannot manage clusters or repositories
@@ -56,8 +58,16 @@ Read-only access to applications:
 
 * View application status and history
 * View application manifests and resources
+* List all projects (including projects the user is not assigned to)
+* Cannot list clusters or repositories
 * Cannot make any changes
 * Cannot sync or refresh applications
+
+[NOTE]
+====
+The VIEWER role provides limited visibility: users can see all projects but cannot list clusters or repositories.
+To grant access to specific applications, assign users to project-specific roles in addition to the global VIEWER role.
+====
 
 == Configure role mappings
 
@@ -144,6 +154,15 @@ For production environments and multi-user scenarios, use project-based access c
 
 Use Argo CD Projects (AppProject) to provide fine-grained access control and resource isolation for teams.
 
+[IMPORTANT]
+====
+Before assigning users or groups to project-specific roles, you must first map them to a global Argo CD role (ADMIN, EDITOR, or VIEWER) in the capability configuration.
+Users cannot access Argo CD without a global role mapping, even if they're assigned to project roles.
+
+Consider mapping users to the VIEWER role globally, then grant additional permissions through project-specific roles.
+This provides baseline access while allowing fine-grained control at the project level.
+====
+
 Projects provide:
 
 * *Source restrictions*: Limit which Git repositories can be used
@@ -162,6 +181,10 @@ metadata:
   namespace: argocd
 spec:
   description: Team A applications
+  
+  # Required: Specify which namespaces this project watches for Applications
+  sourceNamespaces:
+  - argocd
   
   # Source restrictions
   sourceRepos:
@@ -185,6 +208,12 @@ spec:
     kind: ConfigMap
 ----
 
+[IMPORTANT]
+====
+The managed capability requires AppProject resources to specify `.spec.sourceNamespaces` to define which namespaces the project can watch for Applications.
+Typically, this should be set to the namespace you specified when creating the capability (usually `argocd`).
+====
+
 *Assign users to projects*:
 
 Users with EDITOR or VIEWER roles can be restricted to specific projects.
@@ -199,22 +228,33 @@ metadata:
 spec:
   # ... project configuration ...
   
-  # Map Identity Center groups to project roles
+  sourceNamespaces:
+  - argocd
+  
+  # Map Identity Center groups or users to project roles
   roles:
   - name: developer
     description: Team A developers
     policies:
     - p, proj:team-a:developer, applications, *, team-a/*, allow
     groups:
-    - TeamADevelopers
+    - 686103e0-f051-7068-b225-e6392b959d9e  # Identity Center group ID
   
   - name: viewer
     description: Team A viewers
     policies:
     - p, proj:team-a:viewer, applications, get, team-a/*, allow
     groups:
-    - TeamAViewers
+    - 786203e0-f051-7068-b225-e6392b959d9f  # Identity Center group ID
+    - 886303e0-f051-7068-b225-e6392b959da0  # Identity Center user ID also works
 ----
+
+[NOTE]
+====
+Use Identity Center group IDs (not group names) in the `groups` field.
+You can also use Identity Center user IDs for individual user access.
+Find these IDs in the {aws} Identity Center console or using the {aws} CLI.
+====
 
 == Common permission patterns
 

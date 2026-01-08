@@ -105,7 +105,12 @@ View the application status:
 kubectl get application guestbook -n argocd
 ----
 
-You can also view the application using the Argo CD CLI (`argocd app get guestbook`) or the Argo CD UI (accessible from the EKS console under your cluster's Capabilities tab).
+You can also view the application using the Argo CD CLI or the Argo CD UI (accessible from the EKS console under your cluster's Capabilities tab).
+
+[NOTE]
+====
+When using the Argo CD CLI with the managed capability, specify applications with the namespace prefix: `argocd app get argocd/guestbook`.
+====
 
 [NOTE]
 ====
@@ -155,7 +160,8 @@ metadata:
 ----
 
 Resources are applied in wave order (lower numbers first, including negative numbers like `-1`).
-This allows you to create dependencies like namespaces (wave `-1`) before deployments (wave `0`).
+Wave `0` is the default if not specified.
+This allows you to create dependencies like namespaces (wave `-1`) before deployments (wave `0`) before services (wave `1`).
 
 *Self-healing* automatically reverts manual changes:
 
@@ -219,32 +225,11 @@ Projects provide logical grouping and access control for Applications:
 * *Resource restrictions* - Limit which Kubernetes resource types can be deployed
 * *RBAC integration* - Map projects to {aws} Identity Center user and group IDs
 
-All Applications belong to a project. If not specified, they use the `default` project (which has no restrictions). For production, create projects with appropriate restrictions.
+Applications belong to a single project.
+If not specified, they use the `default` project, which has no restrictions by default.
+For production use, edit the `default` project to restrict access and create new projects with appropriate restrictions.
 
 For project configuration and RBAC patterns, see <<argocd-permissions>>.
-
-=== Repository organization
-
-Most teams use directory-based organization with Kustomize overlays or Helm values files for different environments:
-
-[source,text]
-----
-my-app/
-├── base/
-│   ├── deployment.yaml
-│   └── service.yaml
-└── overlays/
-    ├── dev/
-    │   └── kustomization.yaml
-    ├── staging/
-    │   └── kustomization.yaml
-    └── prod/
-        └── kustomization.yaml
-----
-
-This approach provides flexibility and clarity while keeping all environment configurations in a single repository.
-
-For detailed repository structure patterns and best practices, see the https://argo-cd.readthedocs.io/en/stable/user-guide/best_practices/[Argo CD best practices documentation^].
 
 === Sync options
 
@@ -261,6 +246,7 @@ spec:
     syncOptions:
     - CreateNamespace=true
     - ServerSideApply=true
+    - SkipDryRunOnMissingResource=true
 ----
 
 For a complete list of sync options, see the https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/[Argo CD sync options documentation^].

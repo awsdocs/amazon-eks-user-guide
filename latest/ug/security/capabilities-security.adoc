@@ -126,7 +126,7 @@ metadata:
   name: kro-cluster-admin
 subjects:
 - kind: User
-  name: arn:aws:sts::111122223333:assumed-role/my-kro-role/kro
+  name: arn:aws:sts::111122223333:assumed-role/my-kro-role/KRO
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
@@ -136,9 +136,9 @@ roleRef:
 
 [NOTE]
 ====
-The Kubernetes user name for kro follows the pattern: `arn:aws:sts::ACCOUNT_ID:assumed-role/ROLE_NAME/kro`
+The Kubernetes user name for kro follows the pattern: `arn:aws:sts::ACCOUNT_ID:assumed-role/ROLE_NAME/KRO`
 
-The session name `/kro` is automatically set by the EKS kro capability.
+The session name `/KRO` (uppercase) is automatically set by the EKS kro capability.
 ====
 
 == IAM permissions required by capability
@@ -236,7 +236,8 @@ Enable CloudTrail logging to track:
 ==== Private Argo CD API access
 
 You can restrict access to the Argo CD API server by associating one or more VPC endpoints with the hosted Argo CD endpoint.
-This enables private connectivity to the Argo CD UI and API from within your VPC without traversing the public internet.
+This enables private connectivity from within your VPC without traversing the public internet.
+The VPC endpoint provides access to both the Argo CD web UI and the Argo CD API (including CLI access).
 
 [NOTE]
 ====
