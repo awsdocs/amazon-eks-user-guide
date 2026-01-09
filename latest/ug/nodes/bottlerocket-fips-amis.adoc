@@ -23,10 +23,12 @@ Using Bottlerocket FIPS AMIs makes your worker nodes "FIPS ready" but not automa
 
 == Create a managed node group with a Bottlerocket FIPS AMI
 
-The Bottlerocket FIPS AMI comes in two variants to support your workloads:
+The Bottlerocket FIPS AMI comes in four variants to support your workloads:
 
 * `BOTTLEROCKET_x86_64_FIPS`
 * `BOTTLEROCKET_ARM_64_FIPS`
+* `BOTTLEROCKET_x86_64_NVIDIA_FIPS`
+* `BOTTLEROCKET_ARM_64_NVIDIA_FIPS`
 
 To create a managed node group with a Bottlerocket FIPS AMI, choose the applicable AMI type during the creation process. For more information, see <<create-managed-node-group>>.
 
