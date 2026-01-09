@@ -10,8 +10,7 @@ include::../attributes.txt[]
 Learn how to secure your Amazon EKS clusters by following the best practices from the community.
 --
 
-[.banner.info]
-https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Explore] best practices through Amazon EKS workshops
+TIP: https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Explore] best practices through Amazon EKS workshops
 
 
 The Amazon EKS security best practices are in the link:eks/latest/best-practices/security.html[Best Practices for Security,type="documentation"] in the _Amazon EKS Best Practices Guide_.
