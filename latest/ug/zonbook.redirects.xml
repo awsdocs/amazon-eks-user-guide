@@ -26,6 +26,7 @@
     <redirect from="^/eks/latest/userguide/cluster-autoscaler\.html" to="/eks/latest/userguide/autoscaling.html#cluster-autoscaler" flags="[NE,L,R]" />
     <redirect from="^/eks/latest/userguide/create-public-private-vpc\.html" to="/eks/latest/userguide/creating-a-vpc" flags="[NE,L,R]" />
     <redirect from="^/eks/latest/userguide/view-workloads\.html" to="/eks/latest/userguide/view-kubernetes-resources.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/mutate-workloads\.html" to="/eks/latest/userguide/mutate-kubernetes-resources.html" flags="[L,R]" />
     <redirect from="^/eks/latest/userguide/view-nodes\.html" to="/eks/latest/userguide/view-kubernetes-resources.html" flags="[L,R]" />
     <redirect from="^/eks/latest/userguide/pod-networking\.html" to="/eks/latest/userguide/managing-vpc-cni.html" flags="[L,R]" />
     <redirect from="^/eks/latest/userguide/iam-roles-for-service-accounts-technical-overview\.html" to="/eks/latest/userguide/iam-roles-for-service-accounts.html" flags="[L,R]" />

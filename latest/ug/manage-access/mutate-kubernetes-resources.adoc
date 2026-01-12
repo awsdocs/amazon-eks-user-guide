@@ -1,0 +1,33 @@
+include::../attributes.txt[]
+
+[.topic]
+[#mutate-kubernetes-resources]
+= Grant {aws} services write access to Kubernetes APIs
+:info_titleabbrev: Modify cluster resources
+
+[abstract]
+--
+Learn about the permissions required to modify Kubernetes resources.
+--
+
+[#mutate-kubernetes-resources-permissions]
+== Required permissions
+
+To enable {aws} services to perform write operations on Kubernetes resources in your Amazon EKS cluster, you must grant both the `eks:AccessKubernetesApi` and `eks:MutateViaKubernetesApi` IAM permissions.
+
+For example, Amazon SageMaker HyperPod uses these permissions to enable model deployment from SageMaker AI Studio. For more information, see link:sagemaker/latest/dg/sagemaker-hyperpod-model-deployment-setup.html#sagemaker-hyperpod-model-deployment-setup-optional-js[Set up optional JavaScript SDK permissions,type="documentation"] in the Amazon SageMaker AI Developer Guide.
+
+IMPORTANT: Write operations such as create, update, and delete require both permissions—if either permission is missing, write operations will fail.
+
+[#cloudtrail-visibility]
+== CloudTrail visibility
+
+While perform write operations on Kubernetes resources, you will see specific operation names in your CloudTrail logs:
+
+* `createKubernetesObject` - When creating new resources
+* `updateKubernetesObject` - When modifying existing resources  
+* `deleteKubernetesObject` - When removing resources
+
+These CloudTrail events provide detailed audit trails of all modifications made to your Kubernetes resources.
+
+NOTE: These operation names appear in CloudTrail logs for auditing purposes only. They are not IAM actions and cannot be used in IAM policy statements. To control write access to Kubernetes resources through IAM policies, use the `eks:MutateViaKubernetesApi` permission as shown in the <<mutate-kubernetes-resources-permissions>> section.
