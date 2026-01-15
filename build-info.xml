@@ -11,6 +11,7 @@
                 <!-- <referenced-images-only>enabled</referenced-images-only> -->
                 <!-- <region-specific-images region="BJS">enabled</region-specific-images> -->
                 <simple-localization-handoff>enabled</simple-localization-handoff>
+                <schema-validation>disabled</schema-validation>
                 <hide-github-link>0</hide-github-link>
             </options>
             <guides>
