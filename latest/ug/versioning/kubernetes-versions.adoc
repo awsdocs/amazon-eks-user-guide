@@ -121,12 +121,13 @@ You can use the {aws} CLI to get information about Kubernetes versions available
 . Ensure you have the {aws} CLI installed and configured. For more information, see link:cli/latest/userguide/getting-started-install.html["Installing or updating to the latest version of the CLI",type="documentation"].
 . Run the following command:
 +
-```
+----
 aws eks describe-cluster-versions
-```
+----
 . The command will return a JSON output with details about the available cluster versions. Here's an example of the output:
 +
-```json
+[source,json]
+----
 {
     "clusterVersions": [
         {
@@ -142,7 +143,7 @@ aws eks describe-cluster-versions
         }
     ]
 }
-```
+----
 
 *The output provides the following information for each cluster version:*
 

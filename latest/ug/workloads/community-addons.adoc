@@ -24,13 +24,14 @@ You can use the {aws} CLI to determine the type of an Amazon EKS Add-on.
 
 Use the following CLI command to retrieve information about an add-on. You can replace `metrics-server` with the name of any add-on. 
 
-```bash
+[source,bash]
+----
 aws eks describe-addon-versions --addon-name metrics-server
-```
+----
 
 Review the CLI output for the `owner` field.
 
-```
+----
 {
     "addons": [
         {
@@ -38,7 +39,7 @@ Review the CLI output for the `owner` field.
             "type": "observability",
             "owner": "community", 
             "addonVersions": [
-```
+----
 
 If the value of `owner` is `community`, then the add-on is a community add-on. {aws} only provides support for installing, updating, and removing the add-on. If you have questions about the functionality and operation of the add-on itself, use community resources like GitHub issues. 
 

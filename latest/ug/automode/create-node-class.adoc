@@ -25,7 +25,8 @@ Here's an example Node Class:
 
 //GDC: need to update this with IAM role and subnet selector
 
-```yaml
+[source,yaml]
+----
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
@@ -40,15 +41,16 @@ spec:
         Name: "eks-cluster-sg"
   ephemeralStorage:
     size: "160Gi" 
-```
+----
 
 This NodeClass increases the amount of ephemeral storage on the node. 
 
 Apply this configuration by using:
 
-```bash
+[source,bash]
+----
 kubectl apply -f nodeclass.yaml
-```
+----
 
 Next, reference the Node Class in your Node Pool configuration. For more information, see <<create-node-pool>>.
 

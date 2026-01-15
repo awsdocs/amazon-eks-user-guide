@@ -15,10 +15,11 @@ This guide helps you troubleshoot issues with the {aws} Load Balancer Controller
 
 Check the status of your Ingress resources:
 
-```bash
+[source,bash]
+----
 kubectl get ingress --all-namespaces
 kubectl describe ingress <ingress-name> -n <namespace>
-```
+----
 
 Look for:
 
@@ -77,9 +78,8 @@ Ensure compatibility between:
 For stuck resources:
 
 1. Remove finalizers:
-   ```bash
+[source,bash]
    kubectl patch ingress <ingress-name> -p '{"metadata":{"finalizers":[]}}' --type=merge
-   ```
 2. Check for orphaned {aws} resources (ALBs, target groups, listener rules)
 
 == Best Practices

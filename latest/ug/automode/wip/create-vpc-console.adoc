@@ -86,16 +86,16 @@ When creating a VPC for EKS, you'll need to configure specific networking requir
 After VPC creation, add these required tags to your subnets:
 
 For public subnets:
-```
+----
 kubernetes.io/cluster/<cluster-name> = shared
 kubernetes.io/role/elb = 1
-```
+----
 
 For private subnets:
-```
+----
 kubernetes.io/cluster/<cluster-name> = shared
 kubernetes.io/role/internal-elb = 1
-```
+----
 
 === Step 2: Security Group Configuration
 1. Create a cluster security group that allows:

@@ -50,7 +50,8 @@ To use network policies with EKS Auto Mode, you first need to enable the Network
 
 . Create a file named `enable-network-policy.yaml` with the following content:
 +
-```yaml
+[source,yaml]
+----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -58,12 +59,12 @@ metadata:
   namespace: kube-system
 data:
   enable-network-policy-controller: "true"
-```
+----
 . Apply the ConfigMap to your cluster:
 +
-```
+----
 kubectl apply -f enable-network-policy.yaml
-```
+----
 
 === Step 2: Create and test network policies
 
@@ -75,7 +76,8 @@ You can optionally create a new Node Class to change the default behavior of the
 
 . Create or edit a Node Class YAML file (e.g., `nodeclass-network-policy.yaml`) with the following content:
 +
-```yaml
+[source,yaml]
+----
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
@@ -86,17 +88,17 @@ spec:
   # Optional: Enables logging for network policy events
   networkPolicyEventLogs: Enabled  
   # Include other Node Class configurations as needed
-```
+----
 . Apply the Node Class configuration to your cluster:
 +
-```
+----
 kubectl apply -f nodeclass-network-policy.yaml
-```
+----
 . Verify that the Node Class has been created:
 +
-```
+----
 kubectl get nodeclass network-policy-config
-```
+----
 . Update your Node Pool to use this Node Class. For more information, see <<create-node-pool>>.
 
 == How does it work?

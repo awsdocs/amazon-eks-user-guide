@@ -20,19 +20,22 @@ Follow these steps to create a NodePool for your Amazon EKS cluster:
 . Create a YAML file named `nodepool.yaml` with your required NodePool configuration. You can use the sample configuration below. 
 . Apply the NodePool to your cluster:
 +
-```bash
+[source,bash]
+----
 kubectl apply -f nodepool.yaml
-```
+----
 . Verify that the NodePool was created successfully:
 +
-```bash
+[source,bash]
+----
 kubectl get nodepools
-```
+----
 . (Optional) Monitor the NodePool status:
 +
-```bash
+[source,bash]
+----
 kubectl describe nodepool default
-```
+----
 
 Ensure that your NodePool references a valid NodeClass that exists in your cluster. The NodeClass defines {aws}-specific configurations for your compute resources. For more information, see <<create-node-class>>.
 
