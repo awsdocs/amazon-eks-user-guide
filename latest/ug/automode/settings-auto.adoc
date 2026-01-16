@@ -101,6 +101,13 @@ a|
 - Control whether workloads automatically use open ODCRs
 |<<auto-odcr>>
 
+a|
+*Node advanced security*
+
+- Enable FIPS-compliant AMIs for regulatory compliance
+- Configure kernel lockdown mode to prevent kernel modifications
+|<<auto-advanced-security>>
+
 |===
 
 
