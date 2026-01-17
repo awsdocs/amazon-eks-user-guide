@@ -66,7 +66,7 @@ To receive notifications of all source file changes to this specific documentati
 
 [source,none]
 ----
-https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/clusters/kubernetes-versions.adoc.atom
+https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/versioning/kubernetes-versions.adoc.atom
 ----
 
 [%header,cols="5"]
