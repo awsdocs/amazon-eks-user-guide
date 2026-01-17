@@ -91,7 +91,7 @@ An identity can be a user or a group.
 
 [source,bash,subs="verbatim,quotes"]
 ----
-aws eksfe update-capability \
+aws eks update-capability \
   --region [.replaceable]`us-east-1` \
   --cluster-name [.replaceable]`cluster` \
   --capability-name [.replaceable]`capname` \
@@ -162,16 +162,16 @@ metadata:
   namespace: argocd
 spec:
   description: Team A applications
-  
+
   # Source restrictions
   sourceRepos:
   - https://github.com/myorg/team-a-apps
-  
+
   # Destination restrictions
   destinations:
   - namespace: team-a-*
     server: arn:aws:eks:us-west-2:111122223333:cluster/production
-  
+
   # Resource restrictions
   clusterResourceWhitelist:
   - group: ''
@@ -198,7 +198,7 @@ metadata:
   name: team-a
 spec:
   # ... project configuration ...
-  
+
   # Map Identity Center groups to project roles
   roles:
   - name: developer
@@ -207,7 +207,7 @@ spec:
     - p, proj:team-a:developer, applications, *, team-a/*, allow
     groups:
     - TeamADevelopers
-  
+
   - name: viewer
     description: Team A viewers
     policies:
