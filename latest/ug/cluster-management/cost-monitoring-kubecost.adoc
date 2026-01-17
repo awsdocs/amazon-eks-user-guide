@@ -36,6 +36,13 @@ For Kubecost v3, the Helm chart location has changed to `public.ecr.aws/kubecost
 
 ====
 
+[NOTE]
+====
+
+For multi-cluster deployments with Kubecost v3, you need S3-compatible object storage (AWS S3 for EKS customers) for metrics storage. This replaces the Prometheus-compatible storage used in v2. For more information, see https://www.ibm.com/docs/en/kubecost/self-hosted/3.x?topic=installation-multi-cluster[Multi-Cluster Installation] in the Kubecost documentation.
+
+====
+
 [#kubecost-access-dashbaard]
 == Access Kubecost dashboard
 
