@@ -292,7 +292,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 * *`eks`* - Manage cluster access entries and policies, allowing fine-grained control over who can access EKS resources and what actions they can perform. This includes associating standard access policies for compute, networking, load balancing, and storage operations.
 * *`elasticloadbalancing`* - Create, manage, and delete load balancers and their components (listeners, target groups, certificates) that are associated with EKS clusters. View load balancer attributes and health status.
 * *`events`* - Create and manage EventBridge rules for monitoring EC2 and {aws} Health events related to EKS clusters, enabling automated responses to infrastructure changes and health alerts.
-* *`iam`* - Manage EC2 instance profiles with the "eks" prefix, including creation, deletion, and role association, which is necessary for EKS node management.
+* *`iam`* - Manage EC2 instance profiles with the "eks" prefix, including creation, deletion, and role association, which is necessary for EKS node management. Allows describing any instance profile to enable users to define custom instance profiles for their worker nodes to use.
 * *`pricing`* & *`shield`* - Access {aws} pricing information and Shield protection status, enabling cost management and advanced security features for EKS resources.
 * **Resource cleanup** - Safely delete EKS-tagged resources including volumes, snapshots, launch templates, and network interfaces during cluster cleanup operations.
 
@@ -450,6 +450,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Change
 |Description
 |Date
+
+|Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>.
+|Removed the "eks" prefix requirement in the name of the target instance profile for the `iam:GetInstanceProfile` permission in `AmazonEKSServiceRolePolicy`. This allows Amazon EKS Auto Mode to validate and utilize custom instance profiles in NodeClasses without requiring the "eks" naming prefix.
+|Feb 2, 2026
 
 |Added permissions to <<security-iam-awsmanpol-amazonebscsidriverservicerolepolicy,AmazonEBSCSIDriverPolicy>>.
 |Added `ec2:LockSnapshot` permission to allow the EBS CSI Driver to lock EBS Snapshots directly. 

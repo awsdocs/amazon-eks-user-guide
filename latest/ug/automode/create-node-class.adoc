@@ -122,8 +122,6 @@ spec:
 
   # role and instanceProfile are mutually exclusive fields.
   role: MyNodeRole  # IAM role for EC2 instances
-  # NOTE: instance profile names must start with the 'eks' prefix. this is a
-  # temporary limitation to be lifted soon.
   # instanceProfile: eks-MyNodeInstanceProfile  # IAM instance-profile for EC2 instances
   
   subnetSelectorTerms:
