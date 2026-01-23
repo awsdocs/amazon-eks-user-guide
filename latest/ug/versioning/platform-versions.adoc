@@ -34,7 +34,7 @@ To receive notifications of all source file changes to this specific documentati
 
 [source,none]
 ----
-https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/clusters/platform-versions.adoc.atom
+https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/versioning/platform-versions.adoc.atom
 ----
 
 
