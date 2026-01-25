@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-01-27"]
+=== Kubernetes version `1.35`
+[.update-ulink]
+link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-35[type="documentation"]
+ 
+Added Kubernetes version `1.35` support for new clusters and version upgrades.
+
 [.update,date="2026-01-15"]
 === {aws} managed policy updates
 [.update-ulink]
