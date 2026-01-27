@@ -14,6 +14,10 @@ To receive notifications of all source file changes to this specific documentati
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
 ----
 
+== December 19, 2025
+
+**Feature**: Added support for secondary IP mode that provisions secondary IP addresses instead of prefix to Auto nodes. The mode maintains a one secondary IP as MinimalIPTarget and save IP resources for customers who don't need to warm up more secondary IPs or prefixes. For more information, see <<auto-node-class-spec>> and <<secondary-IP-mode>>.
+
 == November 19, 2025
 
 **Feature**: Enabled Seekable OCI (SOCI) parallel pull and unpack for G, P, and Trn family instances with local NVMe storage. SOCI parallel pull and unpack is always used for these instance families with EKS Auto Mode and there are no configuration changes required to enable it. For more information on SOCI, see the https://aws.amazon.com/blogs/containers/introducing-seekable-oci-parallel-pull-mode-for-amazon-eks/[launch blog].
