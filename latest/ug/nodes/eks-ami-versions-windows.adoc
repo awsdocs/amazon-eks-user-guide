@@ -61,9 +61,9 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
-|`1.35-2026-01-12`
+|`1.35-2026-01-22`
 |`1.35.0`
-|`2.1.5`
+|`2.1.6`
 |`1.2.1`
 |
 
@@ -90,9 +90,9 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
-|`1.35-2026-01-12`
+|`1.35-2026-01-22`
 |`1.35.0`
-|`2.1.5`
+|`2.1.6`
 |`1.2.1`
 |
 
@@ -119,9 +119,9 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
-|`1.35-2026-01-12`
+|`1.35-2026-01-22`
 |`1.35.0`
-|`2.1.5`
+|`2.1.6`
 |`1.2.1`
 |
 
@@ -974,9 +974,9 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
-|`1.35-2026-01-12`
+|`1.35-2026-01-22`
 |`1.35.0`
-|`2.1.5`
+|`2.1.6`
 |`1.2.1`
 |
 
@@ -1835,9 +1835,9 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
-|`1.35-2026-01-12`
+|`1.35-2026-01-22`
 |`1.35.0`
-|`2.1.5`
+|`2.1.6`
 |`1.2.1`
 |
 
@@ -2694,9 +2694,9 @@ The following tables list the current and previous versions of the Amazon EKS op
 |csi-proxy version
 |Release notes
 
-|`1.35-2026-01-12`
+|`1.35-2026-01-22`
 |`1.35.0`
-|`2.1.5`
+|`2.1.6`
 |`1.2.1`
 |
 
