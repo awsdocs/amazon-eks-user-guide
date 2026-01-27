@@ -25,11 +25,11 @@ Kubernetes `1.35` is now available in Amazon EKS. For more information about Kub
 
 [IMPORTANT]
 ====
-* Cgroup v1 Support Removed: Kubernetes 1.35 deprecates cgroups v1 support, meaning the kubelet will refuse to start on nodes using cgroups v1 by default.
-** AL2023: AL2023 uses cgroups v2 by default and aligns with Kubernetes upstream behavior.
-*** Action required: Customers who manually configured AL2023 to use cgroups v1 must either https://kubernetes.io/docs/concepts/architecture/cgroups/[migrate to cgroups v2] or manually set `failCgroupV1: false` in kubelet configuration.
-** Bottlerocket: Bottlerocket 1.35 uses cgroups v2 by default, however sets `failCgroupV1: false` in the kubelet configuration, maintaining backward compatibility.
-** Fargate: Fargate continues to use cgroups v1.
+* Cgroup v1 Support Removed: Kubernetes 1.35 deprecates cgroup v1 support, meaning the kubelet will refuse to start by default on nodes using cgroup v1.
+** AL2023: AL2023 uses cgroup v2 by default and aligns with Kubernetes upstream behavior.
+*** Action required: Customers who manually configured AL2023 to use cgroup v1 must either https://kubernetes.io/docs/concepts/architecture/cgroups/[migrate to cgroups v2] or manually set `failCgroupV1: false` in kubelet configuration.
+** Bottlerocket: Bottlerocket 1.35 uses cgroup v2 by default, however sets `failCgroupV1: false` in the kubelet configuration, maintaining backward compatibility.
+** Fargate: Fargate continues to use cgroup v1.
 * Containerd 1.x End of Support: Kubernetes 1.35 is the last release supporting containerd 1.x. You must switch to containerd 2.0 or later before upgrading to the next Kubernetes version.
 ====
 

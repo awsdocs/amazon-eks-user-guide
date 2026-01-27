@@ -80,7 +80,7 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/vers
 
 |`1.35`
 |December 17, 2025
-|January 27, 2025
+|January 27, 2026
 |March 27, 2027
 |March 27, 2028
 

@@ -52,7 +52,7 @@ The following admission controllers are enabled for all `1.35` platform versions
 | `1.35.0`
 | `eks.3`
 | Initial release of Kubernetes version `1.35` for EKS. For more information, see <<kubernetes-1-35>>.
-| January 27, 2025
+| January 27, 2026
  
 |===
 
@@ -882,7 +882,7 @@ The following admission controllers are enabled for all `1.29` platform versions
 | `1.29.15`
 | `eks.34`
 | New platform version with security fixes and enhancements.
-| April 18.2025
+| April 18, 2025
 
 | `1.29.15`
 | `eks.33`
