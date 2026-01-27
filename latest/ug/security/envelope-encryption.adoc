@@ -25,8 +25,6 @@ This is a defense-in-depth strategy because it protects the data with an encrypt
 
 == How Amazon EKS enables default envelope encryption with KMS v2 and {aws} KMS
 
-// Do we want to expose this detail?
-
 Amazon EKS uses https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/#kms-v2[KMS v2] to implement default envelope encryption for all API data in the managed Kubernetes control plane before it's persisted in the https://etcd.io/docs/v3.5/faq/[etcd] database.
 At startup, the cluster API server generates a data encryption key (DEK) from a secret seed combined with randomly generated data.
 Also at startup, the API server makes a call to the KMS plugin to encrypt the DEK seed using a remote key encryption key (KEK) from {aws} KMS. This is a one-time call executed at startup of the API server and on KEK rotation. The API server then caches the encrypted DEK seed. After this, the API server uses the cached DEK seed to generate other single use DEKs based on a Key Derivation Function (KDF). Each of these generated DEKs is then used only once to encrypt a single Kubernetes resource before it's stored in etcd. With the use of an encrypted cached DEK seed in KMS v2, the process of encrypting Kubernetes resources in the API server is both more performant and cost effective. 
