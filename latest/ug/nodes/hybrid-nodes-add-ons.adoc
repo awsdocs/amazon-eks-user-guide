@@ -43,6 +43,12 @@ a|* v1.3.3-eksbuild.1 and above, except for Bottlerocket
 
 |{aws} Private CA Connector for Kubernetes
 |v1.6.0-eksbuild.1 and above
+
+|{aws} FSx CSI driver
+|v1.7.0-eksbuild.1 and above
+
+|{aws} Secrets Store CSI Driver Provider
+|v2.1.1-eksbuild.1 and above
 |===
 
 The following community add-ons are compatible with Amazon EKS Hybrid Nodes. To learn more about community add-ons, see <<community-addons>>.
