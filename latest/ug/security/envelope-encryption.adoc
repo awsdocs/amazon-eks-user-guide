@@ -20,13 +20,16 @@ Amazon EKS uses {aws} link:kms/latest/developerguide/overview.html["Key Manageme
 
 == Understanding envelope encryption
 
-Envelope encryption is the process of encrypting plain text data with a data encryption key (DEK) before it's sent to the datastore (etcd), and then encrypting the DEK with a root KMS key that is stored in a remote, centrally managed KMS system ({aws} KMS). This is a defense-in-depth strategy because it protects the data with an encryption key (DEK), and then adds another security layer by protecting that DEK with a separate, securely stored encryption key called a key encryption key (KEK). 
+Envelope encryption is the process of encrypting plain text data with a data encryption key (DEK) before it's sent to the datastore (etcd), and then encrypting the DEK with a root KMS key that is stored in a remote, centrally managed KMS system ({aws} KMS).
+This is a defense-in-depth strategy because it protects the data with an encryption key (DEK), and then adds another security layer by protecting that DEK with a separate, securely stored encryption key called a key encryption key (KEK). 
 
 == How Amazon EKS enables default envelope encryption with KMS v2 and {aws} KMS
 
 // Do we want to expose this detail?
 
-Amazon EKS uses https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/#kms-v2[KMS v2] to implement default envelope encryption for all API data in the managed Kubernetes control plane before it's persisted in the https://etcd.io/docs/v3.5/faq/[etcd] database. At startup, the cluster API server generates a data encryption key (DEK) from a secret seed combined with randomly generated data. Also at startup, the API server makes a call to the KMS plugin to encrypt the DEK seed using a remote key encryption key (KEK) from {aws} KMS. This is a one-time call executed at startup of the API server and on KEK rotation. The API server then caches the encrypted DEK seed. After this, the API server uses the cached DEK seed to generate other single use DEKs based on a Key Derivation Function (KDF). Each of these generated DEKs is then used only once to encrypt a single Kubernetes resource before it's stored in etcd. With the use of an encrypted cached DEK seed in KMS v2, the process of encrypting Kubernetes resources in the API server is both more performant and cost effective. 
+Amazon EKS uses https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/#kms-v2[KMS v2] to implement default envelope encryption for all API data in the managed Kubernetes control plane before it's persisted in the https://etcd.io/docs/v3.5/faq/[etcd] database.
+At startup, the cluster API server generates a data encryption key (DEK) from a secret seed combined with randomly generated data.
+Also at startup, the API server makes a call to the KMS plugin to encrypt the DEK seed using a remote key encryption key (KEK) from {aws} KMS. This is a one-time call executed at startup of the API server and on KEK rotation. The API server then caches the encrypted DEK seed. After this, the API server uses the cached DEK seed to generate other single use DEKs based on a Key Derivation Function (KDF). Each of these generated DEKs is then used only once to encrypt a single Kubernetes resource before it's stored in etcd. With the use of an encrypted cached DEK seed in KMS v2, the process of encrypting Kubernetes resources in the API server is both more performant and cost effective. 
 
 *By default, this KEK is owned by {aws}, but you can optionally bring your own from {aws} KMS.* 
 
@@ -46,7 +49,9 @@ image::images/security-encrypt-request.png[The high-level diagram depicts the en
 
 This feature reduces the surface area and period of time in which metadata and customer content are un-encrypted. 
 With default envelope encryption, metadata and customer content are only ever in a temporarily  un-encrypted state in the kube-apiserver's memory before being stored in etcd. T
-he kube-apiserver's memory is secured through the link:whitepapers/latest/security-design-of-aws-nitro-system/the-components-of-the-nitro-system.html["Nitro system",type="documentation"]. Amazon EKS only uses link:whitepapers/latest/security-design-of-aws-nitro-system/security-design-of-aws-nitro-system.html["Nitro-based EC2 instances",type="documentation"] for the managed Kubernetes control plane. These instances have security control designs that prevent any system or person from accessing their memory.
+he kube-apiserver's memory is secured through the link:whitepapers/latest/security-design-of-aws-nitro-system/the-components-of-the-nitro-system.html["Nitro system",type="documentation"].
+Amazon EKS only uses link:whitepapers/latest/security-design-of-aws-nitro-system/security-design-of-aws-nitro-system.html["Nitro-based EC2 instances",type="documentation"] for the managed Kubernetes control plane. 
+These instances have security control designs that prevent any system or person from accessing their memory.
 
 === Which version of Kubernetes do I need to run in order to have this feature?
 
@@ -60,7 +65,8 @@ We base all our digital transformation and innovation on the highest security op
 All of the data stored in the etcd are encrypted at the disk level for every EKS cluster, irrespective of the Kubernetes version being run. 
 EKS uses root keys that generate volume encryption keys which are managed by the EKS service. 
 Additionally, every Amazon EKS cluster is run in an isolated VPC using cluster-specific virtual machines.
-Because of this architecture, and our practices around operational security, Amazon EKS has link:eks/latest/userguide/compliance.html["achieved multiple compliance ratings and standards",type="documentation"] including SOC 1,2,3, PCI-DSS, ISO, and HIPAA eligibility. These compliance ratings and standards are maintained for all EKS clusters with or without default envelope encryption.  
+Because of this architecture, and our practices around operational security, Amazon EKS has link:eks/latest/userguide/compliance.html["achieved multiple compliance ratings and standards",type="documentation"] including SOC 1,2,3, PCI-DSS, ISO, and HIPAA eligibility.
+These compliance ratings and standards are maintained for all EKS clusters with or without default envelope encryption.  
 
 === How does envelope encryption work in Amazon EKS?
 
@@ -106,7 +112,9 @@ If you have an existing customer managed key (CMK) in KMS that was used to envel
 
 === Is there any additional cost to running an EKS cluster with default envelope encryption?
 
-There is no additional cost associated with the managed Kubernetes control plane if you are using an link:kms/latest/developerguide/concepts.html#aws-owned-cmk["Amazon Web Services owned key",type="documentation"] for the default envelope encryption. By default, every EKS cluster running Kubernetes version 1.28 or later uses an link:kms/latest/developerguide/concepts.html#aws-owned-cmk["Amazon Web Service owned key",type="documentation"]. However, if you use your own {aws} KMS key, normal link:kms/pricing/["KMS pricing",type="marketing"] will apply.
+There is no additional cost associated with the managed Kubernetes control plane if you are using an link:kms/latest/developerguide/concepts.html#aws-owned-cmk["Amazon Web Services owned key",type="documentation"] for the default envelope encryption.
+By default, every EKS cluster running Kubernetes version 1.28 or later uses an link:kms/latest/developerguide/concepts.html#aws-owned-cmk["Amazon Web Service owned key",type="documentation"].
+However, if you use your own {aws} KMS key, normal link:kms/pricing/["KMS pricing",type="marketing"] will apply.
 
 === How much does it cost to use my own {aws} KMS key to encrypt Kubernetes API data in my cluster?
 
@@ -143,7 +151,8 @@ When a CMK is disabled, you will receive notifications about the degraded health
 
 === How can I protect my EKS cluster from the impact of a disabled/deleted CMK?
 
-To protect your EKS clusters from such an occurrence, your key administrators should manage access to KMS key operations using IAM policies with a least privilege principle to reduce the risk of any arbitrary disablement or deletion of keys associated with EKS clusters. Additionally, you can set a link:kms/latest/developerguide/deleting-keys-creating-cloudwatch-alarm.html["CloudWatch alarm",type="documentation"] to be notified about the state of your CMK.
+To protect your EKS clusters from such an occurrence, your key administrators should manage access to KMS key operations using IAM policies with a least privilege principle to reduce the risk of any arbitrary disablement or deletion of keys associated with EKS clusters.
+Additionally, you can set a link:kms/latest/developerguide/deleting-keys-creating-cloudwatch-alarm.html["CloudWatch alarm",type="documentation"] to be notified about the state of your CMK.
 
 === Will my EKS cluster be restored if I re-enable the CMK?
 
