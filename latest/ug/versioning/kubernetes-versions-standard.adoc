@@ -21,7 +21,7 @@ This topic gives important changes to be aware of for each Kubernetes version in
 [#kubernetes-1-35]
 == Kubernetes 1.35
 
-Kubernetes `1.35` is now available in Amazon EKS. For more information about Kubernetes `1.35`, see the https://kubernetes.io/blog/2026/01/27/kubernetes-v1-35-release/[official release announcement].
+Kubernetes `1.35` is now available in Amazon EKS. For more information about Kubernetes `1.35`, see the https://kubernetes.io/blog/2025/12/17/kubernetes-v1-35-release/[official release announcement].
 
 [IMPORTANT]
 ====
