@@ -10,6 +10,11 @@ include::../attributes.txt[]
 Learn how to configure and use the {aws} Load Balancer Controller to expose Kubernetes cluster apps to the internet with {aws} Elastic Load Balancing for Kubernetes services and ingresses.
 --
 
+[TIP]
+====
+https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Register] for upcoming Amazon EKS workshops. 
+====
+
 The {aws} Load Balancer Controller manages {aws} Elastic Load Balancers for a Kubernetes cluster. You can use the controller to expose your cluster apps to the internet. The controller provisions {aws} load balancers that point to cluster Service or Ingress resources. In other words, the controller creates a single IP address or DNS name that points to multiple pods in your cluster.  
 
 image::images/lbc-overview.png["Architecture diagram. Illustration of traffic coming from internet users, to Amazon Load Balancer. Amazon Load Balancer distributes traffic to pods in the cluster.",scaledwidth=50%]

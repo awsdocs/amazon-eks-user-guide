@@ -203,7 +203,7 @@ kubectl apply -f rn50_service.yaml
 ----
 kubectl port-forward service/eks-neuron-test 8500:8500 &
 ----
-. Create a Python script called `tensorflow-model-server-infer.py` with the following content. This script runs inference via gRPC, which is service framework.
+. Create a Python script called `tensorflow-model-server-infer.py` with the following content. This script runs inference via gRPC, which is a service framework.
 +
 [source,python,subs="verbatim,attributes"]
 ----

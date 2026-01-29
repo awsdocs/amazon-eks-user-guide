@@ -71,7 +71,8 @@ When `ec2:RunInstances` is called the `AssociatePublicIpAddress` field for an in
 An SCP may be used to enforce that this value is explicitly set to false, regardless of the type of subnet being launched into. 
 In this case the NodeClass field `spec.advancedNetworking.associatePublicIPAddress` can also be set to false to satisfy the requirements of the SCP.
 
-```json
+[source,json]
+----
   {
         "Sid": "DenyPublicEC2IPAddesses",
         "Effect": "Deny",
@@ -83,4 +84,4 @@ In this case the NodeClass field `spec.advancedNetworking.associatePublicIPAddre
             }
         }
     }
-```
+----

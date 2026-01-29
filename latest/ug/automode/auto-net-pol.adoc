@@ -50,7 +50,8 @@ To use network policies with EKS Auto Mode, you first need to enable the Network
 
 . Create a file named `enable-network-policy.yaml` with the following content:
 +
-```yaml
+[source,yaml]
+----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -58,48 +59,47 @@ metadata:
   namespace: kube-system
 data:
   enable-network-policy-controller: "true"
-```
+----
 . Apply the ConfigMap to your cluster:
 +
-```
+----
 kubectl apply -f enable-network-policy.yaml
-```
+----
 
-=== Step 2: Enable Network Policies in Node Class
+=== Step 2: Create and test network policies
 
-Before you can use network policies, you need to ensure that your Node Class is configured to support them. Follow these steps:
+Your EKS Auto Mode cluster is now configured to support Kubernetes network policies. You can test this with the <<network-policy-stars-demo>>. 
+
+=== Step 3: Adjust Network Policy Agent configuration in Node Class (Optional)
+
+You can optionally create a new Node Class to change the default behavior of the Network Policy Agent on the nodes or enable the logging of Network Policy events. To do this, follow these steps:
 
 . Create or edit a Node Class YAML file (e.g., `nodeclass-network-policy.yaml`) with the following content:
 +
-```yaml
+[source,yaml]
+----
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
-  name: network-policy-enabled
+  name: network-policy-config
 spec:
-  # Enables network policy support
+  # Optional: Changes default network policy behavior
   networkPolicy: DefaultAllow  
   # Optional: Enables logging for network policy events
   networkPolicyEventLogs: Enabled  
   # Include other Node Class configurations as needed
-```
+----
 . Apply the Node Class configuration to your cluster:
 +
-```
+----
 kubectl apply -f nodeclass-network-policy.yaml
-```
+----
 . Verify that the Node Class has been created:
 +
-```
-kubectl get nodeclass network-policy-enabled
-```
+----
+kubectl get nodeclass network-policy-config
+----
 . Update your Node Pool to use this Node Class. For more information, see <<create-node-pool>>.
-
-Once your nodes are using this Node Class, they will be able to enforce network policies. You can now proceed to create and apply network policies to control traffic within your cluster. For all the node class configuration options, see <<create-node-class>>. 
-
-=== Step 3: Create and test network policies
-
-Your EKS Auto Mode cluster is now configured to support Kubernetes network policies. You can test this with the <<network-policy-stars-demo>>. 
 
 == How does it work?
 

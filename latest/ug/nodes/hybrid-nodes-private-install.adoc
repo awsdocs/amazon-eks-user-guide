@@ -1,0 +1,189 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-private-install]
+= Private installation for hybrid nodes
+:info_titleabbrev: Private installation
+
+[abstract]
+--
+Install hybrid nodes dependencies using a private S3 VPC endpoint for environments with restricted internet access.
+--
+
+This topic describes how to install hybrid nodes dependencies in a private environment using a VPC endpoint for Amazon S3. This approach is suitable for environments with restricted internet access where hybrid nodes need to download artifacts through private networking only. By using this method, all `nodeadm` artifact downloads will go through your VPC endpoint rather than over the public internet.
+
+== Prerequisites
+
+Before setting up private installation for hybrid nodes, make sure you have completed the following prerequisites:
+
+* You have network connectivity from your on-premises environment to the {aws} Region hosting your Amazon EKS cluster. See <<hybrid-nodes-networking>> for more information.
+* You have a compatible operating system for hybrid nodes installed on your on-premises hosts. See <<hybrid-nodes-os>> for more information.
+* You have created your Hybrid Nodes IAM role and set up your on-premises credential provider ({aws} Systems Manager hybrid activations or {aws} IAM Roles Anywhere). See <<hybrid-nodes-creds>> for more information.
+* You have created your hybrid nodes-enabled Amazon EKS cluster. See <<hybrid-nodes-cluster-create>> for more information.
+* You have associated your Hybrid Nodes IAM role with Kubernetes Role-Based Access Control (RBAC) permissions. See <<hybrid-nodes-cluster-prep>> for more information.
+* You have administrative access to manage VPC resources, security groups, and S3 resources in your {aws} account.
+
+== Step 1: Create a security group for the VPC endpoint
+
+Create a security group that will be used by the S3 VPC endpoint. This security group should only allow inbound and outbound connections within your VPC.
+
+. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/[].
+. In the navigation pane, choose *Security Groups*.
+. Choose *Create security group*.
+. For *Security group name*, enter a name such as `hybrid-nodes-s3-vpc-endpoint-sg`.
+. For *Description*, enter a description such as `Security group for S3 VPC endpoint used by hybrid nodes`.
+. For *VPC*, select the VPC where your EKS cluster is located.
+. Configure the following rules:
+.. *Inbound rules*: Add a rule that allows HTTPS traffic (port 443) from your VPC CIDR block.
+... *Type*: `HTTPS`
+... *Protocol*: `TCP`
+... *Port range*: `443`
+... *Source*: Your VPC CIDR (for example, `10.0.0.0/16`)
+.. *Outbound rules*: Add a rule that allows HTTPS traffic (port 443) to your VPC CIDR block.
+... *Type*: `HTTPS`
+... *Protocol*: `TCP`
+... *Port range*: `443`
+... *Destination*: Your VPC CIDR (for example, `10.0.0.0/16`)
+. Choose *Create security group*.
+
+== Step 2: Create an Interface VPC endpoint for Amazon S3
+
+Create a VPC endpoint for Amazon S3 to enable private access to S3 resources from your VPC.
+
+. In the Amazon VPC console, in the navigation pane, choose *Endpoints*.
+. Choose *Create endpoint*.
+. For *Service category*, select *{aws} services*.
+. For *Service*, search for and select `com.amazonaws.[.replaceable]`REGION`.s3`. Replace `[.replaceable]`REGION`` with your {aws} Region (for example, `us-west-2`).
+. For *VPC*, select the same VPC where your EKS cluster is located.
+. For *Route tables*, select the route tables associated with the subnets where your hybrid nodes will access S3.
+. For *Policy*, you can select *Full access* for simplicity, or create a custom policy that restricts access to specific S3 buckets if needed.
+. For *Security groups*, select the security group you created in Step 1.
+. Choose *Create endpoint*.
+. Note the VPC endpoint ID (it will look like `vpce-12345678`) as you will need it in Step 5.
+
+== Step 3: Add outbound rule for Amazon S3 prefix list
+
+Modify the security group created in Step 1 to allow outbound traffic to the Amazon S3 prefix list for your region.
+
+. In the Amazon VPC console, navigate to your security group created in Step 1.
+. Choose the *Outbound rules* tab.
+. Choose *Edit outbound rules*.
+. Choose *Add rule* and configure the following:
+.. *Type*: `HTTPS`
+.. *Protocol*: `TCP`
+.. *Port range*: `443`
+.. *Destination*: Select *Prefix list* and then search for `com.amazonaws.[.replaceable]`REGION`.s3`. For example, if you are in the `us-west-2` region, the prefix list ID will be `pl-68a54001`.
+. Choose *Save rules*.
+
+[NOTE]
+====
+The prefix list ID varies by region. You can find the correct prefix list ID by searching for the S3 service endpoint in your region. Only the endpoint for your current region will be available in the search results.
+====
+
+== Step 4: Create an S3 bucket for nodeadm artifacts
+
+Create an S3 bucket that will store the `nodeadm` artifacts for private installation.
+
+. Open the Amazon S3 console at https://console.aws.amazon.com/s3/[].
+. Choose *Create bucket*.
+. For *Bucket name*, enter a unique name such as `[.replaceable]`YOUR-ACCOUNT-ID`-hybrid-nodes-artifacts-[.replaceable]`REGION``.
+. For *{aws} Region*, select the same region as your EKS cluster.
+. Leave the default settings for *Block Public Access settings for this bucket* (all options should be enabled for security).
+. Choose *Create bucket*.
+. Note the bucket name as you will need it for subsequent steps.
+
+== Step 5: Create a bucket policy for VPC endpoint access
+
+Create a bucket policy that restricts access to the S3 bucket to only come through the VPC endpoint you created.
+
+. In the Amazon S3 console, navigate to your bucket created in Step 4.
+. Choose the *Permissions* tab.
+. In the *Bucket policy* section, choose *Edit*.
+. Enter the following policy, replacing the placeholders:
+.. Replace `[.replaceable]`BUCKET_NAME`` with your bucket name from Step 4.
+.. Replace `[.replaceable]`VPC_ENDPOINT_ID`` with the VPC endpoint ID from Step 2.
++
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Access-to-specific-VPCE-only",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::[.replaceable]`BUCKET_NAME`/*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:SourceVpce": "[.replaceable]`VPC_ENDPOINT_ID`"
+                }
+            }
+        }
+    ]
+}
+----
+. Choose *Save changes*.
+
+== Step 6: Sync nodeadm artifacts to your private bucket
+
+Use the `nodeadm sync-artifacts` command to download and upload the required artifacts to your private S3 bucket. This command must be run from an environment that has internet access and appropriate {aws} credentials.
+
+[IMPORTANT]
+====
+This step requires internet access to download the artifacts from the public Amazon EKS Hybrid Nodes distribution. Run this command from a machine with internet access and {aws} CLI configured with permissions to write to your S3 bucket.
+====
+
+. Install the `nodeadm` CLI on a machine with internet access. Download the binary using the commands from <<hybrid-nodes-join,Step 1>>.
+. Run the following command to sync artifacts to your private bucket:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+./nodeadm sync-artifacts \
+    --bucket [.replaceable]`BUCKET_NAME` \
+    --key-prefix artifacts \
+    --kubernetes-version [.replaceable]`K8S_VERSION` \
+    --credential-provider [.replaceable]`CREDS_PROVIDER`
+----
++
+Replace the following values:
+* `[.replaceable]`BUCKET_NAME`` with your bucket name from Step 4
+* `[.replaceable]`K8S_VERSION`` with the Kubernetes minor version of your Amazon EKS cluster (for example, `1.31`)
+* `[.replaceable]`CREDS_PROVIDER`` with your credential provider (`ssm` or `iam-ra`)
+. The command will output a manifest file path. Note this path as you will need it for Step 7.
+
+== Step 7: Install hybrid nodes dependencies using the private artifacts
+
+Use the manifest file generated in Step 6 to install the hybrid nodes dependencies on your on-premises hosts.
+
+[IMPORTANT]
+====
+The hybrid nodes CLI (`nodeadm`) must be run with a user that has sudo/root access on your host.
+====
+
+. Copy the `nodeadm` binary and the manifest file generated in Step 6 to each on-premises host where you want to install hybrid nodes dependencies.
+. On each host, run the following command:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+sudo ./nodeadm install --source file://[.replaceable]`MANIFEST_FILE_PATH`
+----
++
+Replace `[.replaceable]`MANIFEST_FILE_PATH`` with the path to the manifest file from Step 6.
+. Verify that the installation completed successfully by checking the output for any error messages.
+
+== Next steps
+
+After completing the private installation, you can proceed to connect your hybrid nodes to your Amazon EKS cluster following the steps in <<hybrid-nodes-join,Step 3: Connect hybrid nodes to your cluster>>.
+
+== Troubleshooting
+
+If you encounter issues during the private installation:
+
+* Verify that your VPC endpoint is correctly configured and accessible from your hybrid nodes.
+* Check that your security group rules allow the necessary traffic flows.
+* Ensure that your S3 bucket policy correctly references your VPC endpoint ID.
+* Verify that your hybrid nodes have the necessary IAM permissions to access the S3 bucket through the VPC endpoint.
+* Review the `nodeadm` logs for specific error messages that can help identify the issue.
+
+For additional troubleshooting information, see <<hybrid-nodes-troubleshooting>>.

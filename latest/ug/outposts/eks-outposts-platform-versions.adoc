@@ -51,6 +51,11 @@ The following admission controllers are enabled for all `1.31` platform versions
 |Release notes
 |Release date
 
+|`1.31.14`
+|`eks-local-outposts.8`
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.31.14`. {aws} IAM Authenticator updated to `v0.7.8`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.4`. Bottlerocket version updated to `v1.52.0`.
+|December 23, 2025
+
 |`1.31.12`
 |`eks-local-outposts.5`
 |New platform version with security fixes and enhancements. kube-proxy updated to `v1.31.10`. {aws} IAM Authenticator updated to `v0.7.4`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.2`. Bottlerocket version updated to `v1.47.0`.
@@ -88,6 +93,11 @@ The following admission controllers are enabled for all `1.30` platform versions
 |Amazon EKS platform version
 |Release notes
 |Release date
+
+|`1.30.14`
+|`eks-local-outposts.10`
+|New platform version with security fixes and enhancements. {aws} IAM Authenticator updated to `v0.7.8`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.4`. Bottlerocket version updated to `v1.52.0`.
+|December 23, 2025
 
 |`1.30.14`
 |`eks-local-outposts.7`
@@ -136,6 +146,11 @@ The following admission controllers are enabled for all `1.29` platform versions
 |Amazon EKS platform version
 |Release notes
 |Release date
+
+|`1.29.15`
+|`eks-local-outposts.13`
+|New platform version with security fixes and enhancements. {aws} IAM Authenticator updated to `v0.7.8`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.4`. Bottlerocket version updated to `v1.52.0`.
+|December 23, 2025
 
 |`v1.29.15`
 |`eks-local-outposts.10`
@@ -186,97 +201,4 @@ The following admission controllers are enabled for all `1.29` platform versions
 |`eks-local-outposts.1`
 |Initial release of Kubernetes version `v1.29` for local Amazon EKS clusters on Outposts.
 |August 20, 2024
-|===
-
-[#outposts-platform-versions-1-28]
-== Kubernetes version `1.28`
-
-The following admission controllers are enabled for all `1.28` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `ClusterTrustBundleAttest`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `PodSecurity`, `Priority`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, `ValidatingAdmissionPolicy`, and `ValidatingAdmissionWebhook`.
-
-[%header,cols="4"]
-|===
-|Kubernetes version
-|Amazon EKS platform version
-|Release notes
-|Release date
-
-|`1.28.15`
-|`eks-local-outposts.17`
-|New platform version with security fixes and enhancements. {aws} IAM Authenticator updated to `v0.7.4`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.2`. Bottlerocket version updated to `v1.47.0`.
-|October 3, 2025
-
-|`1.28.15`
-|`eks-local-outposts.16`
-|New platform version with security fixes and enhancements. {aws} IAM Authenticator updated to `v0.7.2`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.0`. Bottlerocket version updated to `v1.43.0`.
-|August 9, 2025
-
-|`1.28.15`
-|`eks-local-outposts.15`
-|New platform version with security fixes and enhancements. {aws} IAM Authenticator updated to `v0.7.1`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.5`. CoreDNS updated to `v1.11.4`. Bottlerocket version updated to `v1.40.0`.
-|June 19, 2025
-
-|`1.28.15`
-|`eks-local-outposts.14`
-|New platform version with security fixes and enhancements. Bottlerocket version updated to `v1.36.0`.
-|April 24, 2025
-
-|`1.28.15`
-|`eks-local-outposts.13`
-|New platform version with security fixes and enhancements. kube-proxy `v1.28.15` build updated. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. {aws} Cloud Controller Manager updated to `v1.28.11`.
-|March 27, 2025
-
-|`1.28.15`
-|`eks-local-outposts.12`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.28.15`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.0`. Updated Bottlerocket version to `v1.29.0`.
-|January 10, 2025
-
-|`1.28.14`
-|`eks-local-outposts.11`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.28.14`. {aws} IAM Authenticator updated to `v0.6.26`. Updated CoreDNS image to `v1.11.1`. Updated Bottlerocket version to `v1.26.0`.
-|November 8, 2024
-
-|`1.28.10`
-|`eks-local-outposts.10`
-|New platform version with security fixes and enhancements. Updated Bottlerocket version to `v1.22.0`.
-|October 22, 2024
-
-|`1.28.10`
-|`eks-local-outposts.9`
-|New platform version with security fixes and enhancements. Updated Bottlerocket version to `v1.21.0`.
-|August 27, 2024
-
-|`1.28.10`
-|`eks-local-outposts.8`
-|New platform version with security fixes and enhancements.
-|July 30, 2024
-
-|`1.28.10`
-|`eks-local-outposts.6`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.28.10`. {aws} IAM Authenticator updated to `v0.6.20`. Updated Bottlerocket version to `v1.20.2`.
-|June 19, 2024
-
-|`1.28.6`
-|`eks-local-outposts.5`
-|Updated Bottlerocket version to v1.19.3 containing newest bugfixes to support local boot in Outposts.
-|April 18, 2024
-
-|`1.28.6`
-|`eks-local-outposts.4`
-|New platform version with security fixes and enhancements. Restored support or local boot in Outposts. Downgraded Bottlerocket version to `v1.15.1` for compatibility.
-|April 2, 2024
-
-|`1.28.6`
-|`eks-local-outposts.3`
-|New platform version with security fixes and enhancements.
-|March 22, 2024
-
-|`1.28.6`
-|`eks-local-outposts.2`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.28.6`. {aws} IAM Authenticator updated to `v0.6.17`. Amazon VPC CNI plugin for Kubernetes downgraded to `v1.13.2` for compatibility reasons. Updated Bottlerocket version to `v1.19.2`.
-|March 8, 2024
-
-|`1.28.1`
-|`eks-local-outposts.1`
-|Initial release of Kubernetes version `v1.28` for local Amazon EKS clusters on Outposts.
-|October 4, 2023
 |===

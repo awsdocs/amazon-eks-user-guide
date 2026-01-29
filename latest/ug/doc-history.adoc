@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-01-15"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `ec2:LockSnapshot` permission to `AmazonEBSCSIDriverPolicy` to allow the EBS CSI Driver to lock EBS Snapshots directly. 
+
 [.update,date="2025-11-30"]
 === Amazon EKS Capabilities
 [.update-ulink]

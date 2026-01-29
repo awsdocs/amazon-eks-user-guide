@@ -19,7 +19,14 @@ kubectl get pods --namespace kubecost
 
 . On your device, enable port-forwarding to expose the Kubecost dashboard.
 +
-* If kubecost is installed using helm:
+* If kubecost v3 is installed using helm:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl port-forward deployment/kubecost-frontend 9090 --namespace kubecost
+----
+
+* If kubecost v1 or v2 is installed using helm:
 +
 [source,bash,subs="verbatim,attributes"]
 ----

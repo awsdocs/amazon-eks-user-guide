@@ -10,6 +10,11 @@ include::../attributes.txt[]
 Learn how to set up an Amazon EKS cluster optimized for real-time online inference workloads using GPU-accelerated nodes, Karpenter for autoscaling, and integrate {aws} services to serve a model.
 --
 
+[TIP]
+====
+https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Register] for upcoming Amazon EKS AI/ML workshops.
+====
+
 == Introduction
 
 This guide offers a hands-on walkthrough for setting up an Amazon Elastic Kubernetes Service (EKS) cluster optimized for real-time online inference workloads, incorporating best practices curated by {aws} experts throughout. It uses an opinionated EKS Quickstart Architecture—a curated set of drivers, instance types, and configurations aligned with {aws} best practices for models, accelerators, and scaling. This approach helps you bypass the task of selecting cluster settings, allowing you to get a functional, pre-configured cluster up and running quickly. Along the way, we'll deploy sample workloads to validate your setup, explain key architectural concepts (such as decoupling CPU-bound tasks from GPU-intensive computations), address common questions (e.g., why choose Bottlerocket AMI over AL2023?), and outline next steps to extend your cluster's capabilities.

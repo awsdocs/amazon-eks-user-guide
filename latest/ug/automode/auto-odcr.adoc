@@ -22,7 +22,8 @@ If you configure `capacityReservationSelectorTerms` on a NodeClass in a cluster,
 
 ===  Example NodeClass
 
-```yaml
+[source,yaml]
+----
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 spec:
@@ -35,7 +36,7 @@ spec:
         app: "my-app"
       # Optional owning account ID filter
       owner: "012345678901"
-```
+----
 
 This example NodeClass demonstrates two approaches for selecting ODCRs. The first method directly references a specific ODCR by its ID (`cr-56fac701cc1951b03`). The second method uses tag-based selection, targeting ODCRs with the tag `Name: "targeted-odcr"`. You can also optionally filter by the {aws} account that owns the reservation, which is particularly useful in cross-account scenarios or when working with shared capacity reservations.
 
@@ -57,7 +58,8 @@ The following sample definitions create three resources:
 
 This NodeClass references a specific Capacity Block for ML by its reservation ID. You can obtain this ID from the EC2 console.
 
-```yaml
+[source,yaml]
+----
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
@@ -66,7 +68,7 @@ spec:
   # Specify your Capacity Block reservation ID
   capacityReservationSelectorTerms:
     - id: cr-56fac701cc1951b03
-```
+----
 
 For more information, see <<create-node-class>>. 
 
@@ -78,7 +80,8 @@ This NodePool references the `gpu` NodeClass and specifies important configurati
 * It requests specific GPU instance families appropriate for ML workloads
 * It applies a `nvidia.com/gpu` taint to ensure only GPU workloads are scheduled on these nodes
 
-```yaml
+[source,yaml]
+----
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
@@ -112,7 +115,7 @@ spec:
       taints:
         - effect: NoSchedule
           key: nvidia.com/gpu
-```
+----
 
 For more information, see <<create-node-pool>>. 
 
@@ -124,7 +127,8 @@ This example pod demonstrates how to configure a workload to run on your Capacit
 * It includes a **toleration** for the `nvidia.com/gpu` taint applied by the NodePool
 * It explicitly **requests GPU resources** using the `nvidia.com/gpu` resource type
 
-```yaml
+[source,yaml]
+----
 apiVersion: v1
 kind: Pod
 metadata:
@@ -157,7 +161,7 @@ spec:
   - key: nvidia.com/gpu
     effect: NoSchedule
     operator: Exists
-```
+----
 
 For more information, see https://kubernetes.io/docs/concepts/workloads/pods/[Pods] in the Kubernetes documentation. 
 

@@ -146,9 +146,9 @@ aws ec2 describe-instances --instance-ids <your-instance-id> --query "Reservatio
  
 Example output:
 
-```
+----
 [ true ]
-```
+----
 
 [#pod-muti-nic-faqs-list-ips]
 === *8. Can I see the different IP addresses associated with a pod?*

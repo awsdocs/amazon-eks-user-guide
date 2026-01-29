@@ -670,6 +670,12 @@ Instead of passing secrets through MCP:
 * Configure proper Kubernetes RBAC for service accounts.
 * Use IAM roles for service accounts (IRSA) for {aws} service access from pods.
 
+Redaction of sensitive data:
+
+* The EKS MCP Server automatically redacts common patterns for security tokens, certificates, and other sensitive information in tool responses.
+* Redacted values are replaced with `HIDDEN_FOR_SECURITY_REASONS` to avoid accidentally exposing data to the model.
+* This redaction applies to all tool responses including logs, resource descriptions, and configuration data.
+
 == Next up
 
-For a complete list of tools and configurations, see <<eks-mcp-tool-configurations>>.
+For configuration options, see <<eks-mcp-tool-configurations>>. For a complete list of tools, see <<eks-mcp-tools>>.
