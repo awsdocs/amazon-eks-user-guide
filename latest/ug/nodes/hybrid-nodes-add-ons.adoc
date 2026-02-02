@@ -47,7 +47,7 @@ a|* v1.3.3-eksbuild.1 and above, except for Bottlerocket
 |Amazon FSx CSI driver
 |v1.7.0-eksbuild.1 and above
 
-|{aws} Secrets Store CSI Driver Provider
+|{aws} Secrets Store CSI Driver provider
 |v2.1.1-eksbuild.1 and above
 |===
 
