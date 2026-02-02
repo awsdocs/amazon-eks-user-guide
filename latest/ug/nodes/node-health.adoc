@@ -37,7 +37,7 @@ Node auto repair is an additional feature that continuously monitors the health 
 
 By itself, node auto repair can react to the `Ready` condition of the `kubelet` and any node objects that are manually deleted. When paired with the node monitoring agent, node auto repair can react to more conditions that wouldn't be detected otherwise. These additional conditions include `KernelReady`, `NetworkingReady`, and `StorageReady`.
 
-This automated node recovery automatically addresses intermittent node issues such as failures to join the cluster, unresponsive kubelets, and increased accelerator (device) errors. The improved reliability helps reduce application downtime and improve cluster operations. Node auto repair cannot handle certain problems that are reported such as `DiskPressure`, `MemoryPressure`, and `PIDPressure`. Amazon EKS waits 10 minutes before acting on the `AcceleratedHardwareReady` `NodeConditions`, and 30 minutes for all other conditions.
+This automated node recovery automatically addresses intermittent node issues such as failures to join the cluster, unresponsive kubelets, and increased accelerator (device) errors. The improved reliability helps reduce application downtime and improve cluster operations. By default, node auto repair does not automatically repair nodes for certain conditions such as `DiskPressure`, `MemoryPressure`, `PIDPressure`, and DCGM (NVIDIA Data Center GPU Manager) diagnostic or monitoring tool errors. These conditions often indicate issues with application behavior, workload configuration, or resource limits rather than node-level failures, making it difficult to determine an appropriate default repair action. However, you can customize this behavior using `nodeRepairConfigOverrides` to enable automatic repair actions for these conditions based on your use case. Amazon EKS waits 10 minutes before acting on the `AcceleratedHardwareReady` `NodeConditions`, and 30 minutes for all other conditions.
 
 Managed node groups will also automatically disable node repairs for safety reasons under two scenarios. Any repair operations that are previously in progress will continue for both situations.
 
@@ -76,6 +76,15 @@ Amazon EKS provides more granular control over the node auto repair behavior thr
 ** If you use this field, you must specify all the fields in the structure. You can also provide a list of these overrides.
 ** The `nodeMonitoringCondition` and `nodeUnhealthyReason` are manual text inputs that you set to indicate you want to deviate from the system's default behavior.
 ** The `minRepairWaitTimeMins` and `repairAction` fields allow you to specify deviations from the system's default behavior.
+** The following example shows how to override the wait time to 20 minutes before Amazon EKS reboots a node experiencing `NvidiaXID13Error` conditions. By default, Amazon EKS waits 10 minutes before taking repair action on `AcceleratedHardwareReady` conditions.
++
+[source,bash]
+----
+aws eks update-nodegroup-config \
+  --cluster-name my-cluster \
+  --nodegroup-name my-nodegroup \
+  --node-repair-config 'enabled=true,nodeRepairConfigOverrides=[{nodeMonitoringCondition=AcceleratedHardwareReady,nodeUnhealthyReason=NvidiaXID13Error,minRepairWaitTimeMins=20}]'
+----
 
 // DO NOT EDIT THE FOLLOWING MANUALLY.
 // table content is generated using scripts owned by the @eks-node-runtime team.
@@ -96,88 +105,108 @@ The monitoring condition is `AcceleratedHardwareReady` for issues in the followi
 
 If auto repair is enabled, the repair actions that are listed start 10 minutes after the issue is detected. For more information on XID errors, see link:https://docs.nvidia.com/deploy/xid-errors/index.html#topic_5_1[Xid Errors] in the _NVIDIA GPU Deployment and Management Documentation_. For more information on the individual XID messages, see link:https://docs.nvidia.com/deploy/gpu-debug-guidelines/index.html#understanding-xid-messages[Understanding Xid Messages] in the _NVIDIA GPU Deployment and Management Documentation_.
 
-[%header,cols="3"]
+[%header,cols="4"]
 |===
 
 |Name
 |Severity
 |Description
+|Repair Action
 
 |DCGMDiagnosticFailure
 |Condition
 |A test case from the DCGM active diagnostics test suite failed.
+|None
 
 |DCGMError
 |Condition
 |Connection to the DCGM host process was lost or could not be established.
+|None
 
 |DCGMFieldError[Code]
 |Event
-|DCGM detected GPU degredation through a field identifier.
+|DCGM detected GPU degradation through a field identifier.
+|None
 
 |DCGMHealthCode[Code]
 |Event
 |A DCGM health check failed in a non-fatal manner.
+|None
 
 |DCGMHealthCode[Code]
 |Condition
 |A DCGM health check failed in a fatal manner.
+|None
 
 |NeuronDMAError
 |Condition
 |A DMA engine encountered an unrecoverable error.
+|Replace
 
 |NeuronHBMUncorrectableError
 |Condition
 |An HBM encountered an uncorrectable error and produced incorrect results.
+|Replace
 
 |NeuronNCUncorrectableError
 |Condition
 |A Neuron Core uncorrectable memory error was detected.
+|Replace
 
 |NeuronSRAMUncorrectableError
 |Condition
 |An on-chip SRAM encountered a parity error and produced incorrect results.
+|Replace
 
 |NvidiaDeviceCountMismatch
 |Event
 |The number of GPUs visible through NVML is inconsistent with the NVIDIA device count on the filesystem.
+|None
 
 |NvidiaDoubleBitError
 |Condition
 |A double bit error was produced by the GPU driver.
+|Replace
 
 |NvidiaNCCLError
 |Event
 |A segfault occurred in the NVIDIA Collective Communications library (`libnccl`).
+|None
 
 |NvidiaNVLinkError
 |Condition
 |NVLink errors were reported by the GPU driver.
+|Replace
 
 |NvidiaPCIeError
 |Event
 |PCIe replays were triggered to recover from transmission errors.
+|None
 
 |NvidiaPageRetirement
 |Event
 |The GPU driver has marked a memory page for retirement. This may occur if there is a single double bit error or two single bit errors are encountered at the same address.
+|None
 
 |NvidiaPowerError
 |Event
 |Power utilization of GPUs breached the allowed thresholds.
+|None
 
 |NvidiaThermalError
 |Event
 |Thermal status of GPUs breached the allowed thresholds.
+|None
 
 |NvidiaXID[Code]Error
 |Condition
 |A critical GPU error occurred.
+|Replace or Reboot
 
 |NvidiaXID[Code]Warning
 |Event
 |A non-critical GPU error occurred.
+|None
 
 |===
 
@@ -186,44 +215,53 @@ If auto repair is enabled, the repair actions that are listed start 10 minutes a
 
 The monitoring condition is `ContainerRuntimeReady` for issues in the following table that have a severity of “Condition”.
 
-[%header,cols="3"]
+[%header,cols="4"]
 |===
 
 |Name
 |Severity
 |Description
+|Repair Action
 
 |ContainerRuntimeFailed
 |Event
 |The container runtime has failed to create a container, likely related to any reported issues if occurring repeatedly.
+|None
 
 |DeprecatedContainerdConfiguration
 |Event
 |A container image using deprecated image manifest version 2, schema 1 was recently pulled onto the node through `containerd`.
+|None
 
 |KubeletFailed
 |Event
 |The kubelet entered a failed state.
+|None
 
 |LivenessProbeFailures
 |Event
 |A liveness probe failure was detected, potentially indicating application code issues or insufficient timeout values if occurring repeatedly.
+|None
 
 |PodStuckTerminating
 |Condition
 |A Pod is or was stuck terminating for an excessive amount of time, which can be caused by CRI errors preventing pod state progression.
+|Replace
 
 |ReadinessProbeFailures
 |Event
 |A readiness probe failure was detected, potentially indicating application code issues or insufficient timeout values if occurring repeatedly.
+|None
 
 |[Name]RepeatedRestart
 |Event
 |A systemd unit is restarting frequently.
+|None
 
 |ServiceFailedToStart
 |Event
 |A systemd unit failed to start.
+|None
 
 |===
 
@@ -232,56 +270,68 @@ The monitoring condition is `ContainerRuntimeReady` for issues in the following 
 
 The monitoring condition is `KernelReady` for issues in the following table that have a severity of “Condition”.
 
-[%header,cols="3"]
+[%header,cols="4"]
 |===
 
 |Name
 |Severity
 |Description
+|Repair Action
 
 |AppBlocked
 |Event
 |The task has been blocked for a long period of time from scheduling, usually caused by being blocked on input or output.
+|None
 
 |AppCrash
 |Event
 |An application on the node has crashed.
+|None
 
 |ApproachingKernelPidMax
 |Event
 |The number of processes is approaching the maximum number of PIDs that are available per the current `kernel.pid_max` setting, after which no more processes can be launched.
+|None
 
 |ApproachingMaxOpenFiles
 |Event
 |The number of open files is approaching the maximum number of possible open files given the current kernel settings, after which opening new files will fail.
+|None
 
 |ConntrackExceededKernel
 |Event
 |Connection tracking exceeded the maximum for the kernel and new connections could not be established, which can result in packet loss.
+|None
 
 |ExcessiveZombieProcesses
 |Event
 |Processes which can't be fully reclaimed are accumulating in large numbers, which indicates application issues and may lead to reaching system process limits.
+|None
 
 |ForkFailedOutOfPIDs
 |Condition
 |A fork or exec call has failed due to the system being out of process IDs or memory, which may be caused by zombie processes or physical memory exhaustion.
+|Replace
 
 |KernelBug
 |Event
 |A kernel bug was detected and reported by the Linux kernel itself, though this may sometimes be caused by nodes with high CPU or memory usage leading to delayed event processing.
+|None
 
 |LargeEnvironment
 |Event
 |The number of environment variables for this process is larger than expected, potentially caused by many services with `enableServiceLinks` set to true, which may cause performance issues.
+|None
 
 |RapidCron
 |Event
 |A cron job is running faster than every five minutes on this node, which may impact performance if the job consumes significant resources.
+|None
 
 |SoftLockup
 |Event
 |The CPU stalled for a given amount of time.
+|None
 
 |===
 
@@ -290,96 +340,118 @@ The monitoring condition is `KernelReady` for issues in the following table that
 
 The monitoring condition is `NetworkingReady` for issues in the following table that have a severity of “Condition”.
 
-[%header,cols="3"]
+[%header,cols="4"]
 |===
 
 |Name
 |Severity
 |Description
+|Repair Action
 
 |BandwidthInExceeded
 |Event
 |Packets have been queued or dropped because the inbound aggregate bandwidth exceeded the maximum for the instance.
+|None
 
 |BandwidthOutExceeded
 |Event
 |Packets have been queued or dropped because the outbound aggregate bandwidth exceeded the maximum for the instance.
+|None
 
 |ConntrackExceeded
 |Event
 |Connection tracking exceeded the maximum for the instance and new connections could not be established, which can result in packet loss.
+|None
 
 |IPAMDInconsistentState
 |Event
 |The state of the IPAMD checkpoint on disk does not reflect the IPs in the container runtime.
+|None
 
 |IPAMDNoIPs
 |Event
 |IPAMD is out of IP addresses.
+|None
 
 |IPAMDNotReady
 |Condition
 |IPAMD fails to connect to the API server.
+|Replace
 
 |IPAMDNotRunning
 |Condition
 |The Amazon VPC CNI process was not found to be running.
+|Replace
 
 |IPAMDRepeatedlyRestart
 |Event
 |Multiple restarts in the IPAMD service have occurred.
+|None
 
 |InterfaceNotRunning
 |Condition
 |This interface appears to not be running or there are network issues.
+|Replace
 
 |InterfaceNotUp
 |Condition
 |This interface appears to not be up or there are network issues.
+|Replace
 
 |KubeProxyNotReady
 |Event
 |Kube-proxy failed to watch or list resources.
+|None
 
 |LinkLocalExceeded
 |Event
 |Packets were dropped because the PPS of traffic to local proxy services exceeded the network interface maximum.
+|None
 
 |MACAddressPolicyMisconfigured
 |Event
 |The systemd-networkd link configuration has the incorrect `MACAddressPolicy` value.
+|None
 
 |MissingDefaultRoutes
 |Event
 |There are missing default route rules.
+|None
 
 |MissingIPRoutes
 |Event
 |There are missing routes for Pod IPs.
+|None
 
 |MissingIPRules
 |Event
 |There are missing rules for Pod IPs.
+|None
 
 |MissingLoopbackInterface
 |Condition
 |The loopback interface is missing from this instance, causing failure of services depending on local connectivity.
+|Replace
 
 |NetworkSysctl
 |Event
 |This node's network `sysctl` settings are potentially incorrect.
+|None
 
 |PPSExceeded
 |Event
 |Packets have been queued or dropped because the bidirectional PPS exceeded the maximum for the instance.
+|None
 
 |PortConflict
 |Event
 |If a Pod uses hostPort, it can write `iptables` rules that override the host's already bound ports, potentially preventing API server access to `kubelet`.
+|None
 
 |UnexpectedRejectRule
 |Event
 |An unexpected `REJECT` or `DROP` rule was found in the `iptables`, potentially blocking expected traffic.
+|None
 
 |===
 
@@ -388,43 +460,52 @@ The monitoring condition is `NetworkingReady` for issues in the following table 
 
 The monitoring condition is `StorageReady` for issues in the following table that have a severity of “Condition”.
 
-[%header,cols="3"]
+[%header,cols="4"]
 |===
 
 |Name
 |Severity
 |Description
+|Repair Action
 
 |EBSInstanceIOPSExceeded
 |Event
 |Maximum IOPS for the instance was exceeded.
+|None
 
 |EBSInstanceThroughputExceeded
 |Event
 |Maximum Throughput for the instance was exceeded.
+|None
 
 |EBSVolumeIOPSExceeded
 |Event
 |Maximum IOPS to a particular EBS Volume was exceeded.
+|None
 
 |EBSVolumeThroughputExceeded
 |Event
 |Maximum Throughput to a particular Amazon EBS volume was exceeded.
+|None
 
 |EtcHostsMountFailed
 |Event
 |Mounting of the kubelet generated `/etc/hosts` failed due to userdata remounting `/var/lib/kubelet/pods` during `kubelet-container` operation.
+|None
 
 |IODelays
 |Event
 |Input or output delay detected in a process, potentially indicating insufficient input-output provisioning if excessive.
+|None
 
 |KubeletDiskUsageSlow
 |Event
 |The `kubelet` is reporting slow disk usage while trying to access the filesystem. This potentially indicates insufficient disk input-output or filesystem issues.
+|None
 
 |XFSSmallAverageClusterSize
 |Event
 |The XFS Average Cluster size is small, indicating excessive free space fragmentation. This can prevent file creation despite available inodes or free space.
+|None
 
 |===
