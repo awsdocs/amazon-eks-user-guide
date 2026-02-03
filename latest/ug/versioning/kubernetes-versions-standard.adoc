@@ -37,7 +37,7 @@ Kubernetes `1.35` is now available in Amazon EKS. For more information about Kub
 ** For more information, see https://kubernetes.io/blog/2025/12/19/kubernetes-v1-35-in-place-pod-resize-ga/[Kubernetes 1.35: In-Place Pod Resize Graduates to Stable] on the _Kubernetes Blog_.
 * *PreferSameNode Traffic Distribution (Stable):* The `trafficDistribution` field for Services has been updated to provide more explicit control over traffic routing. A new option, `PreferSameNode`, has been introduced to allow services to strictly prioritize endpoints on the local node when available, falling back to remote endpoints otherwise. This change makes the API more explicit about preferring traffic within the current node.
 * *StatefulSet MaxUnavailable (Beta):* This feature enables parallel Pod updates by setting `maxUnavailable` (e.g., 3 or 10%), allowing stateful applications like database clusters to update up to 60% faster than sequential one-at-a-time updates, significantly reducing maintenance windows.
-* *Windows Server 2025 Support:* EKS 1.35 adds support for https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html[Windows Server 2025] for self-managed node groups.
+* *Windows Server 2025 Support:* EKS 1.35 adds support for https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html[Windows Server 2025].
 * *Kubelet Flag Removal:* The `--pod-infra-container-image` flag has been removed from kubelet. Custom AMI users must remove this flag from kubelet configuration before upgrading to 1.35.
 * *Deprecation Notice - IPVS Mode:* IPVS mode in kube-proxy is deprecated and will be removed in Kubernetes 1.36.
 
