@@ -152,6 +152,11 @@ Bottlerocket has some specific differences from the general information in this 
 |Yes
 |No
 
+|Can use Amazon S3 Files storage with Pods
+|<<efs-csi,Yes>>
+|Yes
+|No
+
 |Can use Amazon FSx for Lustre storage with Pods
 |<<fsx-csi,Yes>>
 |Yes
