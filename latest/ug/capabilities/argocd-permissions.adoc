@@ -314,6 +314,7 @@ spec:
     description: Team A developers - can manage Applications
     policies:
     - p, proj:team-a:developer, applications, *, team-a/*, allow
+    - p, proj:team-a:developer, clusters, get, *, allow  # See cluster names in UI
     groups:
     - 686103e0-f051-7068-b225-e6392b959d9e  # Identity Center group ID
   
@@ -321,9 +322,16 @@ spec:
     description: Team A viewers - read-only Application access
     policies:
     - p, proj:team-a:viewer, applications, get, team-a/*, allow
+    - p, proj:team-a:viewer, clusters, get, *, allow  # See cluster names in UI
     groups:
     - 786203e0-f051-7068-b225-e6392b959d9f  # Identity Center group ID
 ----
+
+[NOTE]
+====
+Include `clusters, get, *, allow` in project roles to allow users to see cluster names in the UI.
+Without this permission, the destination cluster displays as "unknown".
+====
 
 *Understanding project role policies*:
 
