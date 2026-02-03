@@ -165,7 +165,7 @@ This policy grants the following permissions to allow Amazon EKS to manage netwo
    - `ec2:CreateTags` - Allows adding tags to the network interfaces created by the `CreateNetworkInterface` action.
 
 * **`ec2` Network Interface Management Permissions**:
-   - `ec2:AttachNetworkInterface`, `ec2:DetachNetworkInterface` - Allows attaching and detaching network interfaces to EC2 instances.
+   - `ec2:AttachNetworkInterface`, `ec2:ModifyNetworkInterfaceAttribute`, `ec2:DetachNetworkInterface` - Allows attaching, modifying network interface attributes and detaching network interfaces to EC2 instances.
    - `ec2:UnassignPrivateIpAddresses`, `ec2:UnassignIpv6Addresses`, `ec2:AssignPrivateIpAddresses`, `ec2:AssignIpv6Addresses` - Allows managing the IP address assignments of the network interfaces.
    - These permissions are restricted to network interfaces tagged with the EKS cluster name.
 
@@ -450,6 +450,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Change
 |Description
 |Date
+
+|Added permission to <<security-iam-awsmanpol-AmazonEKSNetworkingPolicy>>.
+|Added `ec2:ModifyNetworkInterfaceAttribute` permission in `AmazonEKSNetworkingPolicy`. This allows Amazon EKS Auto Mode Controller to modify network interface attributes related to EC2 instances
+|Feb 3, 2026
 
 |Added permissions to <<security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup>>.
 |Added `autoscaling:PutWarmPool`, `autoscaling:DeleteWarmPool`, and `autoscaling:DescribeWarmPool` permissions to `AWSServiceRoleForAmazonEKSNodegroup`. This allows Amazon EKS Managed Nodegroups to manage underlying ASG warm pool resources throughout the node group lifecycle.
