@@ -329,13 +329,6 @@ Without cluster-wide read access, Argo CD will show errors when checking applica
 
 == Restrict cluster access with Projects
 
-[IMPORTANT]
-====
-In the managed capability, each target cluster can only be associated with one Argo CD Project.
-This differs from open source Argo CD where multiple projects can deploy to the same cluster.
-Specify the project when registering the cluster using the `project` field in the cluster secret.
-====
-
 Use Projects to control which clusters and namespaces Applications can deploy to by configuring the allowed target clusters and namespaces in `spec.destinations`:
 
 [source,yaml]
