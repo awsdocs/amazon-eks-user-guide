@@ -109,10 +109,6 @@ include::../attributes.txt[]
 |Yes
 |Yes
 
-|Can use Amazon S3 Files storage with Pods
-|Yes
-|Yes
-
 |Can use Amazon FSx for Lustre storage with Pods
 |Yes
 |Yes

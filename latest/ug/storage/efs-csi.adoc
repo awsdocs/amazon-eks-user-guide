@@ -2,28 +2,28 @@ include::../attributes.txt[]
 
 [.topic]
 [#efs-csi]
-= Use elastic file system storage with Amazon EFS and Amazon S3 Files
-:info_titleabbrev: Amazon EFS and Amazon S3 Files
+= Use elastic file system storage with Amazon EFS
+:info_titleabbrev: Amazon EFS
 
 [abstract]
 --
-The Amazon EFS Container Storage Interface (CSI) driver provides a CSI interface that allows Kubernetes clusters running on {aws} to manage the lifecycle of Amazon EFS and Amazon S3 Files file systems.
+The Amazon EFS Container Storage Interface (CSI) driver provides a CSI interface that allows Kubernetes clusters running on {aws} to manage the lifecycle of Amazon EFS file systems.
 --
 
-link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation"] (Amazon EFS) provides serverless, fully elastic file storage so that you can share file data without provisioning or managing storage capacity and performance. The https://github.com/kubernetes-sigs/aws-efs-csi-driver[Amazon EFS Container Storage Interface (CSI) driver] provides a CSI interface that allows Kubernetes clusters running on {aws} to manage the lifecycle of Amazon EFS and Amazon S3 Files file systems. This topic shows you how to deploy the Amazon EFS CSI driver to your Amazon EKS cluster.
+link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation"] (Amazon EFS) provides serverless, fully elastic file storage so that you can share file data without provisioning or managing storage capacity and performance. The https://github.com/kubernetes-sigs/aws-efs-csi-driver[Amazon EFS Container Storage Interface (CSI) driver] provides a CSI interface that allows Kubernetes clusters running on {aws} to manage the lifecycle of Amazon EFS file systems. This topic shows you how to deploy the Amazon EFS CSI driver to your Amazon EKS cluster.
 
 [#efs-csi-considerations]
 == Considerations
 
 * The Amazon EFS CSI driver isn't compatible with Windows-based container images.
-* You can't use https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/efs/dynamic_provisioning/README.md[dynamic provisioning] for persistent volumes with Fargate nodes, but you can use https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/efs/static_provisioning/README.md[static provisioning].
-* https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/efs/dynamic_provisioning/README.md[Dynamic provisioning] requires https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-1.x.md#v12[1.2] or later of the driver. You can use https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/efs/static_provisioning/README.md[static provisioning] for persistent volumes using version `1.1` of the driver on any supported Amazon EKS cluster version (see link:eks/latest/userguide/kubernetes-versions.html[Amazon EKS supported versions,type="documentation"]).
+* You can't use https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/dynamic_provisioning/README.md[dynamic provisioning] for persistent volumes with Fargate nodes, but you can use https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/static_provisioning/README.md[static provisioning].
+* https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/dynamic_provisioning/README.md[Dynamic provisioning] requires https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-1.x.md#v12[1.2] or later of the driver. You can use https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/static_provisioning/README.md[static provisioning] for persistent volumes using version `1.1` of the driver on any supported Amazon EKS cluster version (see link:eks/latest/userguide/kubernetes-versions.html[Amazon EKS supported versions,type="documentation"]).
 * Version https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-1.x.md#v132[1.3.2] or later of this driver supports the Arm64 architecture, including Amazon EC2 Graviton-based instances.
 * Version https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-1.x.md#v142[1.4.2] or later of this driver supports using FIPS for mounting file systems.
 * Take note of the resource quotas for Amazon EFS. For example, there's a quota of 1000 access points that can be created for each Amazon EFS file system. For more information, see link:efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region[Amazon EFS resource quotas that you cannot change,type="documentation"].
 * Starting in version https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-2.x.md#v200[2.0.0], this driver switched from using `stunnel` to `efs-proxy` for TLS connections. When `efs-proxy` is used, it will open a number of threads equal to one plus the number of cores for the node it's running on.
 * The Amazon EFS CSI driver isn't compatible with Amazon EKS Hybrid Nodes.
-* The Amazon EFS CSI driver started supporting Amazon S3 Files file systems from version https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-3.x.md#v300[3.0.0].
+
 
 [#efs-csi-prereqs]
 == Prerequisites
@@ -44,15 +44,7 @@ A Pod running on Fargate automatically mounts an Amazon EFS file system, without
 [#efs-create-iam-resources]
 == Step 1: Create an IAM role
 
-The Amazon EFS CSI driver requires IAM permissions to interact with your file system. Create an IAM role and attach the required {aws} managed policy to it. 
-
-The specific {aws} managed policy you need depends on which file system type you want to use:
-
-* *For Amazon EFS file systems only*: Attach the `{arn-aws}iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy` managed policy.
-* *For Amazon S3 Files file systems only*: Attach the `{arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy` managed policy.
-* *For both Amazon EFS and Amazon S3 Files file systems*: Attach both the `AmazonEFSCSIDriverPolicy` and `AmazonS3FilesCSIDriverPolicy` managed policies.
-
-To implement this procedure, you can use one of these tools:
+The Amazon EFS CSI driver requires IAM permissions to interact with your file system. Create an IAM role and attach the required {aws} managed policy to it. To implement this procedure, you can use one of these tools:
 
 * <<eksctl_efs_store_app_data>>
 * <<console_efs_store_app_data>>
@@ -73,8 +65,6 @@ The specific steps in this procedure are written for using the driver as an Amaz
 
 Run the following commands to create an IAM role and Pod Identity association with `eksctl`. Replace `my-cluster` with your cluster name. You can also replace `AmazonEKS_EFS_CSI_DriverRole` with a different name.
 
-The following example attaches the `AmazonEFSCSIDriverPolicy` for Amazon EFS file systems. If you're using Amazon S3 Files file systems, replace the policy ARN with `{arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy`. If you're using both file system types, run the command twice with each policy ARN.
-
 [source,bash,subs="verbatim,attributes"]
 ----
 export cluster_name=my-cluster
@@ -91,8 +81,6 @@ eksctl create podidentityassociation \
 ==== If using IAM roles for service accounts
 
 Run the following commands to create an IAM role with `eksctl`. Replace `my-cluster` with your cluster name. You can also replace `AmazonEKS_EFS_CSI_DriverRole` with a different name.
-
-The following example attaches the `AmazonEFSCSIDriverPolicy` for Amazon EFS file systems. If you're using Amazon S3 Files file systems, replace the policy ARN with `{arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy`. If you're using both file system types, add an additional `--attach-policy-arn` flag with the second policy ARN.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -130,8 +118,8 @@ Run the following to create an IAM role with {aws-management-console}.
 ... For *Audience*, choose `sts.amazonaws.com`.
 ... Choose *Next*.
 . On the *Add permissions* page, do the following:
-.. In the *Filter policies* box, enter `AmazonEFSCSIDriverPolicy` for Amazon EFS file systems, or `AmazonS3FilesCSIDriverPolicy` for Amazon S3 Files file systems.
-.. Select the check box to the left of the policy returned in the search. If you're using both file system types, search for and select both policies.
+.. In the *Filter policies* box, enter `AmazonEFSCSIDriverPolicy`.
+.. Select the check box to the left of the `AmazonEFSCSIDriverPolicy` returned in the search.
 .. Choose *Next*.
 . On the *Name, review, and create* page, do the following:
 .. For *Role name*, enter a unique name for your role, such as `AmazonEKS_EFS_CSI_DriverRole`.
@@ -193,7 +181,7 @@ aws iam create-role \
   --role-name $role_name \
   --assume-role-policy-document file://"aws-efs-csi-driver-trust-policy-pod-identity.json"
 ----
-. Attach the required {aws} managed policy to the role with the following command. If you're using Amazon S3 Files file systems, replace the policy ARN with `{arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy`. If you're using both file system types, run the command twice with each policy ARN.
+. Attach the required {aws} managed policy to the role with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -245,7 +233,7 @@ aws iam create-role \
   --role-name $role_name \
   --assume-role-policy-document file://"aws-efs-csi-driver-trust-policy.json"
 ----
-. Attach the required {aws} managed policy to the role with the following command. If you're using Amazon S3 Files file systems, replace the policy ARN with `{arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy`. If you're using both file system types, run the command twice with each policy ARN.
+. Attach the required {aws} managed policy to the role with the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -268,10 +256,9 @@ Before adding the Amazon EFS driver as an Amazon EKS add-on, confirm that you do
 Alternatively, if you want a self-managed installation of the Amazon EFS CSI driver, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#installation[Installation] on GitHub.
 
 [#efs-create-filesystem]
-== Step 3: Create an Amazon EFS file system or Amazon S3 Files file system
+== Step 3: Create an Amazon EFS file system
 
-* To create an Amazon EFS file system, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/efs-create-filesystem.md[Create an Amazon EFS file system for Amazon EKS] on GitHub.
-* To create an Amazon S3 Files file system, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/s3files-create-filesystem.md[Create an Amazon S3 Files file system for Amazon EKS] on GitHub.
+To create an Amazon EFS file system, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/efs-create-filesystem.md[Create an Amazon EFS file system for Amazon EKS] on GitHub.
 
 [#efs-sample-app]
 == Step 4: Deploy a sample application
