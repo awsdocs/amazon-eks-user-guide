@@ -33,7 +33,7 @@ For an optimal experience, we recommend that you have reliable network connectiv
 
 You must enable inbound network access from the Amazon EKS control plane to your on-premises environment to allow the Amazon EKS control plane to communicate with the `kubelet` running on hybrid nodes and optionally with webhooks running on your hybrid nodes. Additionally, you must enable outbound network access for your hybrid nodes and components running on them to communicate with the Amazon EKS control plane. You can configure this communication to stay fully private to your {aws} Direct Connect, {aws} Site-to-Site VPN, or your own VPN connection. 
 
-The Classless Inter-Domain Routing (CIDR) ranges you use for your on-premises node and pod networks must use IPv4 RFC-1918 address ranges. Your on-premises router must be configured with routes to your on-premises nodes and optionally pods. See <<hybrid-nodes-networking-on-prem>> for more information on the on-premises network requirements, including the full list of required ports and protocols that must be enabled in your firewall and on-premises environment.
+The Classless Inter-Domain Routing (CIDR) ranges you use for your on-premises node and pod networks must use IPv4 RFC-1918 or CGNAT address ranges. Your on-premises router must be configured with routes to your on-premises nodes and optionally pods. See <<hybrid-nodes-networking-on-prem>> for more information on the on-premises network requirements, including the full list of required ports and protocols that must be enabled in your firewall and on-premises environment.
 
 
 [#hybrid-nodes-prereqs-cluster]
