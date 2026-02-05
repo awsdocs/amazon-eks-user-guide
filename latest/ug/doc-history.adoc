@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-02-17"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `autoscaling:PutWarmPool`, `autoscaling:DeleteWarmPool`, and `autoscaling:DescribeWarmPool` permissions to `AWSServiceRoleForAmazonEKSNodegroup` policy. This allows Amazon EKS Managed Nodegroups to manage underlying ASG warm pool resources throughout the node group lifecycle.
+
 [.update,date="2026-02-02"]
 === {aws} managed policy updates
 [.update-ulink]
