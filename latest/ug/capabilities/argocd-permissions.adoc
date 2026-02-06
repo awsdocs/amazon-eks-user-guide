@@ -54,7 +54,7 @@ Can update projects and configure project roles, but cannot change global Argo C
 
 * Update existing projects (cannot create or delete projects)
 * Configure project roles and permissions
-* List and access all clusters and repositories
+* View GPG keys and certificates
 * Cannot change global Argo CD configuration
 * Cannot manage clusters or repositories directly
 * Cannot see or manage Applications without project roles
@@ -65,6 +65,7 @@ Read-only access to Argo CD resources:
 
 * View project configurations
 * List all projects (including projects the user is not assigned to)
+* View GPG keys and certificates
 * Cannot list clusters or repositories
 * Cannot make any changes
 * Cannot see or manage Applications without project roles
