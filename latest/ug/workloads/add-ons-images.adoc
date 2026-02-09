@@ -126,4 +126,7 @@ When you deploy <<workloads-add-ons-available-eks,{aws} Amazon EKS add-ons>> to 
 |us-gov-west-1
 |013241004608.dkr.ecr.us-gov-west-1.amazonaws.com
 
+|eusc-de-east-1
+|877088126301.dkr.ecr.eusc-de-east-1.amazonaws.eu
+
 |===
