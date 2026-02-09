@@ -22,6 +22,91 @@ These capabilities are not available when using EKS with Fargate.
 Furthermore, EKS Auto Mode allows customers to achieve the same isolation model as Fargate, using standard Kubernetes scheduling capabilities to ensure each EC2 instance runs a single application container.
 By adopting Amazon EKS Auto Mode, customers can unlock the full benefits of running Kubernetes on {aws} — a fully Kubernetes-conformant platform that provides the flexibility to leverage the entire breadth of EC2 and purchasing options while retaining the ease of use and abstraction from infrastructure management that Fargate provides.
 
+### Achieving Fargate-like isolation in EKS Auto Mode
+
+To replicate Fargate's pod isolation model where each pod runs on its own dedicated instance, you can use Kubernetes topology spread constraints. This is the recommended approach for controlling pod distribution across nodes:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: isolated-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: isolated-app
+  template:
+    metadata:
+      labels:
+        app: isolated-app
+      annotations:
+        eks.amazonaws.com/compute-type: ec2
+    spec:
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: isolated-app
+        minDomains: 1
+      containers:
+      - name: app
+        image: nginx
+        ports:
+        - containerPort: 80
+----
+
+In this configuration:
+
+* `maxSkew: 1` ensures that the difference in pod count between any two nodes is at most 1, effectively distributing one pod per node
+* `topologyKey: kubernetes.io/hostname` defines the node as the topology domain
+* `whenUnsatisfiable: DoNotSchedule` prevents scheduling if the constraint cannot be met
+* `minDomains: 1` ensures at least one domain (node) exists before scheduling
+
+EKS Auto Mode will automatically provision new EC2 instances as needed to satisfy this constraint, providing the same isolation model as Fargate while giving you access to the full range of EC2 instance types and purchasing options.
+
+Alternatively, you can use pod anti-affinity rules for stricter isolation:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: isolated-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: isolated-app
+  template:
+    metadata:
+      labels:
+        app: isolated-app
+      annotations:
+        eks.amazonaws.com/compute-type: ec2
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - isolated-app
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: app
+        image: nginx
+        ports:
+        - containerPort: 80
+----
+
+The `podAntiAffinity` rule with `requiredDuringSchedulingIgnoredDuringExecution` ensures that no two pods with the label `app: isolated-app` can be scheduled on the same node. This approach provides hard isolation guarantees similar to Fargate.
+
 ## Prerequisites
 
 Before beginning the migration, ensure you have
