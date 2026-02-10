@@ -33,6 +33,12 @@ Kubernetes `1.35` is now available in Amazon EKS. For more information about Kub
 * Containerd 1.x End of Support: Kubernetes 1.35 is the last release supporting containerd 1.x. You must switch to containerd 2.0 or later before upgrading to the next Kubernetes version.
 ====
 
+[IMPORTANT]
+====
+* In March 2026, the upstream Kubernetes project will retire Ingress NGINX, a critical infrastructure component for many Kubernetes environments. 
+** Action required: EKS customers should evaluate whether they rely on Ingress NGINX and begin planning migration to alternatives such as Gateway API or third-party Ingress controllers, as there will be no further releases for bug fixes, security patches, or updates after retirement. Existing deployments will continue to work, but remaining with Ingress NGINX after retirement leaves your environment vulnerable to security risks, as none of the available alternatives are direct drop-in replacements and will require planning and engineering time. For more information about this Kubernetes announcement, see the official statement from the Kubernetes Steering and Security Response Committees https://kubernetes.io/blog/2026/01/29/ingress-nginx-statement/[Ingress NGINX retirement].
+====
+
 * *In-Place Pod Resource Updates (Stable):* In-Place Pod Resource Updates allows users to adjust CPU and memory resources without restarting Pods or containers. Previously, such modifications required recreating Pods, which could disrupt workloads, particularly for stateful or batch applications. The new in-place functionality allows for smoother, non-disruptive vertical scaling, improves efficiency, and can also simplify development.
 ** For more information, see https://kubernetes.io/blog/2025/12/19/kubernetes-v1-35-in-place-pod-resize-ga/[Kubernetes 1.35: In-Place Pod Resize Graduates to Stable] on the _Kubernetes Blog_.
 * *PreferSameNode Traffic Distribution (Stable):* The `trafficDistribution` field for Services has been updated to provide more explicit control over traffic routing. A new option, `PreferSameNode`, has been introduced to allow services to strictly prioritize endpoints on the local node when available, falling back to remote endpoints otherwise. This change makes the API more explicit about preferring traffic within the current node.
