@@ -31,10 +31,6 @@ Kubernetes `1.35` is now available in Amazon EKS. For more information about Kub
 ** Bottlerocket: Bottlerocket 1.35 uses cgroup v2 by default, however sets `failCgroupV1: false` in the kubelet configuration, maintaining backward compatibility.
 ** Fargate: Fargate continues to use cgroup v1.
 * Containerd 1.x End of Support: Kubernetes 1.35 is the last release supporting containerd 1.x. You must switch to containerd 2.0 or later before upgrading to the next Kubernetes version.
-====
-
-[IMPORTANT]
-====
 * In March 2026, the upstream Kubernetes project will retire Ingress NGINX, a critical infrastructure component for many Kubernetes environments. 
 ** Action required: EKS customers should evaluate whether they rely on Ingress NGINX and begin planning migration to alternatives such as Gateway API or third-party Ingress controllers, as there will be no further releases for bug fixes, security patches, or updates after retirement. Existing deployments will continue to work, but remaining with Ingress NGINX after retirement leaves your environment vulnerable to security risks, as none of the available alternatives are direct drop-in replacements and will require planning and engineering time. For more information about this Kubernetes announcement, see the official statement from the Kubernetes Steering and Security Response Committees https://kubernetes.io/blog/2026/01/29/ingress-nginx-statement/[Ingress NGINX retirement].
 ====
