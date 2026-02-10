@@ -202,6 +202,9 @@ spec:
     # ipv4PrefixSize is default to Auto which is prefix and fallback to secondary IP. "32" is the secondary IP mode.
     ipv4PrefixSize: Auto # or "32"
 
+    # enableV4Egress is default to true. Setting it to false when using network policy or blocking IPv4 traffic in IPv6 clusters
+    enableV4Egress: false
+
   advancedSecurity:
     # Optional, US regions only: Specifying `fips: true` will cause nodes in the nodeclass to run FIPS compatible AMIs.
     fips: false
@@ -325,3 +328,34 @@ spec:
 === Considerations for secondary IP mode
 
 * *Reduced Pod creation velocity*: Since only one secondary IP is warmed up, the IPAM service need more time to provision IPs on more pods creation.
+
+[#enableV4Egress]
+== Disable IPv4 egress from IPv6 pods in IPv6 clusters.
+
+The `enableV4Egress` fields is true by default. For Auto Mode IPv6 clusters, the feature can be disabled and thus Auto Mode won't create an egress only IPv4 interface for IPv6 pods. This is important because the IPv4 network interface will not be secured by the Network policy feature. Network policies will only be enforced on the Pod's primary interface (i.e.,) eth0. 
+
+=== Use cases
+
+Use `enableV4Egress` when you need to:
+
+* *Use IPv6 Cluster*: IPv4 egress traffic is allowed by default.
+* *Use Network Policy*: Currently EKS network policy isn't supporting dual stack. Disabling the v4Egress can protect pods' traffic being egressed from pods unexpectedly.
+
+=== Example configuration
+
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: advanced-networking
+spec:
+  role: MyNodeRole
+  
+  advancedNetworking:
+    enableV4Egress: false
+----
+
+=== Considerations for disabling enableV4Egress
+
+* *Network Policy in IPv6 Cluster*: IPv6 clusters allow IPv4 traffic by default. Setting `enableV4Egress: false` blocks IPv4 egress traffic, providing enhanced security especially when used with Network Policies.

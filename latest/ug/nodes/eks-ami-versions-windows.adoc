@@ -35,13 +35,6 @@ To receive notifications of all source file changes to this specific documentati
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/nodes/eks-ami-versions-windows.adoc.atom
 ----
 
-[NOTE]
-====
-
-Amazon EKS managed node groups currently do not support Windows Server 2025. Support will be added in a future release.
-
-====
-
 [#eks-ami-versions-windows-2025-core]
 == Amazon EKS optimized Windows Server 2025 Core AMI
 
