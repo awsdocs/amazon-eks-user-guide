@@ -48,6 +48,12 @@ You can use these tags in the _condition keys_ in the trust policy to restrict w
 For a list of Amazon EKS condition keys, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-policy-keys[Conditions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the _Service Authorization Reference_. To learn which actions and resources you can use a condition key with, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"].
 . For the *Kubernetes namespace*, select the Kubernetes namespace that contains the service account and workload. Optionally, you can specify a namespace by name that doesn't exist in the cluster.
 . For the *Kubernetes service account*, select the Kubernetes service account to use. The manifest for your Kubernetes workload must specify this service account. Optionally, you can specify a service account by name that doesn't exist in the cluster.
+. (Optional) Select *Disable session tags* to disable the default session tags that Pod Identity automatically adds when it assumes the role.
+. (Optional) Toggle *Configure session policy* to configure an IAM policy to apply additional restrictions to this Pod Identity association beyond the permissions defined in the IAM policy attached to the IAM role.
++
+NOTE: A session policy can only be applied when the *Disable session tags* setting is checked. 
++
+
 . (Optional) For the *Tags*, choose *Add tag* to add metadata in a key and value pair. These tags are applied to the association and can be used in IAM policies.
 +
 You can repeat this step to add multiple tags.
