@@ -1,0 +1,18 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-observability]
+= Observability for EKS Auto Mode
+:info_titleabbrev: Observability
+
+[abstract]
+--
+Monitor and observe your EKS Auto Mode clusters
+--
+
+Use this chapter to learn about observability options for Amazon EKS Auto Mode clusters.
+
+[.topiclist]
+[[Topic List]]
+
+include::auto-managed-component-logs.adoc[leveloffset=+1]
