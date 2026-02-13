@@ -54,7 +54,7 @@ To see the list of insight checks performed and any relevant issues that Amazon 
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-aws eks start-insight-refresh --region [.replaceable]`region-code` --cluster-name [.replaceable]`my-cluster`
+aws eks start-insights-refresh --region [.replaceable]`region-code` --cluster-name [.replaceable]`my-cluster`
 ----
 . To track the status of an insights refresh, run the following command. Replace [.replaceable]`my-cluster` with the name of your cluster.
 +
