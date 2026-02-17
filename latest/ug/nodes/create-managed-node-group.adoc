@@ -197,6 +197,7 @@ NOTE: Amazon EKS doesn't automatically scale your node group in or out. However,
 **** *Number* – Select and specify the number of nodes in your node group that can be updated in parallel.
 **** *Percentage* – Select and specify the percentage of nodes in your node group that can be updated in parallel. This is useful if you have a large number of nodes in your node group.
 *** *Node auto repair configuration* – (Optional) If you activate the *Enable node auto repair* checkbox, Amazon EKS will automatically replace nodes when detected issues occur. For more information, see <<node-health>>.
+*** *Warm pool configuration* – (Optional) If you activate the *Enable warm pool configuration* checkbox, Amazon EKS will create warm pools on the ASG. For more information, see <<warm-pools-managed-node-groups>>.
 . On the *Specify networking* page, fill out the parameters accordingly, and then choose *Next*.
 +
 *** *Subnets* – Choose the subnets to launch your managed nodes into.  
@@ -249,3 +250,5 @@ For more information, see https://aws.github.io/aws-eks-best-practices/security/
 * Configure the Kubernetes https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler] to automatically adjust the number of nodes in your node groups.
 * Deploy a <<sample-deployment,sample application>> to your cluster.
 * <<eks-managing,Organize and monitor cluster resources>> with important tools for managing your cluster.
+
+include::warm-pools-managed-node-groups.adoc[leveloffset=+1]
