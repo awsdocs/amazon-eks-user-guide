@@ -12,7 +12,7 @@ Use the EKS node monitoring agent to detect health issues and EKS node repair to
 
 Node health refers to the operational status and capability of a Kubernetes node to effectively run workloads. A healthy node maintains expected network connectivity, has sufficient compute and storage resources, and can successfully run workloads without disruption.
 
-To help with maintaining healthy nodes in EKS clusters, EKS offers the _node monitoring agent_ and _automatic node repair_. These features are automatically enabled with EKS Auto Mode compute. You can also use automatic node repair with EKS managed node groups and Karpenter, and can use the EKS node monitoring agent with any EKS compute types except for AWS Fargate. The EKS node monitoring agent and automatic node repair are most effective when used together, but they can also be used individually in EKS clusters.
+To help with maintaining healthy nodes in EKS clusters, EKS offers the _node monitoring agent_ and _automatic node repair_. These features are automatically enabled with EKS Auto Mode compute. You can also use automatic node repair with EKS managed node groups and Karpenter, and can use the EKS node monitoring agent with any EKS compute types except for {AWS} Fargate. The EKS node monitoring agent and automatic node repair are most effective when used together, but they can also be used individually in EKS clusters.
 
 [IMPORTANT]
 ====
@@ -71,7 +71,13 @@ EKS automatic node repair does not react to standard Kubernetes `DiskPressure`, 
 
 For more information on EKS automatic node repair, see <<node-repair>>.
 
+[.topiclist]
+[[Topic List]]
+
 include::node-health-nma.adoc[leveloffset=+1]
+
 include::node-repair.adoc[leveloffset=+1]
+
 include::learn-status-conditions.adoc[leveloffset=+1]
+
 include::auto-get-logs.adoc[leveloffset=+1]
