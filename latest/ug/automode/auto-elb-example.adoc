@@ -224,6 +224,27 @@ kubectl delete namespace game-2048
 
 This will delete all resources in the namespace, including the deployment, service, and ingress resources.
 
+NOTE: If you have a alb.ingress.kubernetes.io/transforms.* for url-rewrite the EKS automode is not supported as of today.
+
+[source,yaml]
+----
+alb.ingress.kubernetes.io/transforms.application: |
+  [
+    {
+      "type": "url-rewrite",
+      "urlRewriteConfig": {
+        "rewrites": [
+          {
+            "regex": "^/applicationname/(.*)",
+            "replace": "/$1"
+          }
+        ]
+      }
+    }
+  ]
+
+----
+
 == What's Happening Behind the Scenes
 
 . The deployment creates 5 pods running the 2048 game
