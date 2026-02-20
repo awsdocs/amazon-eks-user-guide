@@ -65,7 +65,7 @@ With the EKS node monitoring agent, the following categories of node health issu
 
 EKS automatic node repair continuously monitors node health, reacts to detected problems, and replaces or reboots nodes when possible. This improves cluster reliability with minimal manual intervention and helps reduce application downtime.
 
-By itself, EKS automatic node repair reacts to the `Ready` conditions of the kubelet and any manually deleted node objects. When EKS automatic node repair is enabled with the node monitoring agent installed, EKS automatic node repair reacts to additional node conditions: `AcceleratedHardwareReady`, `ContainerRuntimeReady`, `KernelReady`, `NetworkingReady`, and `StorageReady`. 
+By itself, EKS automatic node repair reacts to the `Ready` conditions of the kubelet, any manually deleted node objects, and EKS managed node group instances that fail to join the cluster. When EKS automatic node repair is enabled with the node monitoring agent installed, EKS automatic node repair reacts to additional node conditions: `AcceleratedHardwareReady`, `ContainerRuntimeReady`, `KernelReady`, `NetworkingReady`, and `StorageReady`. 
 
 EKS automatic node repair does not react to standard Kubernetes `DiskPressure`, `MemoryPressure`, or `PIDPressure` node conditions. These conditions often indicate issues with application behavior, workload configuration, or resource limits rather than node-level failures, making it difficult to determine an appropriate default repair action. In these scenarios, workloads are subject to the Kubernetes link:https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction[node pressure eviction behavior].
 

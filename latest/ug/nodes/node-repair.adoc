@@ -66,7 +66,7 @@ For a detailed list of node health issues detected by the EKS node monitoring ag
 
 |===
 
-EKS automatic node repair actions are disabled in the following scenarios. In-progress node repair actions continue in each scenario.
+EKS automatic node repair actions are disabled in the following scenarios by default. In-progress node repair actions continue in each scenario. See <<configure-node-repair>> for how to override these default settings.
 
 *EKS managed node groups*
 

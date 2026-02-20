@@ -143,7 +143,7 @@ The monitoring condition is `AcceleratedHardwareReady` for issues in the followi
 
 The node monitoring agent detects NVIDIA XID errors from GPU kernel logs. XID errors fall into two categories:
 
-* *Well-known XID codes* – Critical errors that set a node condition (`AcceleratedHardwareReady=False`) and trigger auto repair when enabled. The reason code format is `NvidiaXID[Code]Error`.
+* *Well-known XID codes* – Critical errors that set a node condition (`AcceleratedHardwareReady=False`) and trigger auto repair when enabled. The reason code format is `NvidiaXID[Code]Error`. The well-known XID codes that the EKS node monitoring agent detects may not represent the full list of NVIDIA XID codes that require repair actions.
 * *Unknown XID codes* – Logged as Kubernetes events only. These don't trigger auto repair. The reason code format is `NvidiaXID[Code]Warning`. To investigate unknown XID errors, review your kernel logs with `dmesg | grep -i nvrm`.
 
 For more information on XID errors, see link:https://docs.nvidia.com/deploy/xid-errors/index.html#topic_5_1[Xid Errors] in the _NVIDIA GPU Deployment and Management Documentation_. For more information on the individual XID messages, see link:https://docs.nvidia.com/deploy/gpu-debug-guidelines/index.html#understanding-xid-messages[Understanding Xid Messages] in the _NVIDIA GPU Deployment and Management Documentation_.
