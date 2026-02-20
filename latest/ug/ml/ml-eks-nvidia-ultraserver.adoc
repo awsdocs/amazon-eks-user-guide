@@ -271,7 +271,7 @@ For a multi-node NVLINK NCCL test and other micro-benchmarks review the https://
 kubectl create -f https://github.com/kubeflow/mpi-operator/releases/download/v0.7.0/mpi-operator.yaml
 ----
 +
-. Create a Helm values file named `nvbandwidth-test-job.yaml` that defines the test manifest. Note the `nvidia.com/gpu.clique` pod affinity to schedule the workers in the same NVLink domain which has Multi-Node NVLink reachability.
+. Create a Helm values file named `nvbandwidth-test-job.yaml` that defines the test manifest. Note the `nvidia.com/gpu.clique` pod affinity to schedule the workers in the same NVLink domain which has Multi-Node NVLink reachability. The sample below runs a multi-node device-to-device CE Read memcpy test using cuMemcpyAsync and prints the results in the logs.
 +
 As of NVIDIA DRA Driver version `v25.8.0` ComputeDomains are elastic and `.spec.numNodes` can be set to `0` in the ComputeDomain definition. Review the latest https://github.com/NVIDIA/k8s-dra-driver-gpu[NVIDIA DRA Driver release notes] for updates.
 +
@@ -307,6 +307,17 @@ spec:
           labels:
             nvbandwidth-test-replica: mpi-launcher
         spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  # Only schedule on NVIDIA GB200/GB300 nodes
+                  - key: node.kubernetes.io/instance-type
+                    operator: In
+                    values: 
+                    - p6e-gb200.36xlarge
+                    - p6e-gb300.36xlarge
           containers:
           - image: ghcr.io/nvidia/k8s-samples:nvbandwidth-v0.7-8d103163
             name: mpi-launcher
@@ -334,6 +345,16 @@ spec:
             nvbandwidth-test-replica: mpi-worker
         spec:
           affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  # Only schedule on NVIDIA GB200/GB300 nodes
+                  - key: node.kubernetes.io/instance-type
+                    operator: In
+                    values: 
+                    - p6e-gb200.36xlarge
+                    - p6e-gb300.36xlarge
             podAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
               - labelSelector:
@@ -397,6 +418,46 @@ status:
 [source,bash]
 ----
 kubectl logs --tail=-1 -l job-name=nvbandwidth-test-launcher
+----
++
+A successful test shows bandwidth statistics in GB/s for the multi-node memcpy test. An example of a successful test output is shown below.
++
+[source,bash]
+----
+...
+nvbandwidth Version: ...
+Built from Git version: ...
+
+MPI version: ...
+CUDA Runtime Version: ...
+CUDA Driver Version: ...
+Driver Version: ...
+
+Process 0 (nvbandwidth-test-worker-0): device 0: NVIDIA GB200 (...)
+Process 1 (nvbandwidth-test-worker-0): device 1: NVIDIA GB200 (...)
+Process 2 (nvbandwidth-test-worker-0): device 2: NVIDIA GB200 (...)
+Process 3 (nvbandwidth-test-worker-0): device 3: NVIDIA GB200 (...)
+Process 4 (nvbandwidth-test-worker-1): device 0: NVIDIA GB200 (...)
+Process 5 (nvbandwidth-test-worker-1): device 1: NVIDIA GB200 (...)
+Process 6 (nvbandwidth-test-worker-1): device 2: NVIDIA GB200 (...)
+Process 7 (nvbandwidth-test-worker-1): device 3: NVIDIA GB200 (...)
+
+Running multinode_device_to_device_memcpy_read_ce.
+memcpy CE GPU(row) -> GPU(column) bandwidth (GB/s)
+           0         1         2         3         4         5         6         7
+ 0       N/A    821.45    822.18    821.73    822.05    821.38    822.61    821.89
+ 1    822.34       N/A    821.67    822.12    821.94    820.87    821.53    822.08
+ 2    821.76    822.29       N/A    821.58    822.43    821.15    821.82    822.31
+ 3    822.19    821.84    822.05       N/A    821.67    821.23    820.95    822.47
+ 4    821.63    822.38    821.49    822.17       N/A    821.06    821.78    822.22
+ 5    822.08    821.52    821.89    822.35    821.27       N/A    821.64    822.13
+ 6    821.94    822.15    821.68    822.04    821.39    820.92       N/A    822.56
+ 7    822.27    821.73    822.11    821.86    822.38    821.04    821.49       N/A
+
+SUM multinode_device_to_device_memcpy_read_ce ...
+
+NOTE: The reported results may not reflect the full capabilities of the platform.
+Performance can vary with software drivers, hardware clocks, and system topology.
 ----
 +
 . When the test is complete, delete it with the following command.
