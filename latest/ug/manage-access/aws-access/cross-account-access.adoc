@@ -12,12 +12,10 @@ Learn how to configure cross-account IAM permissions for Amazon EKS clusters by 
 
 You can configure cross-account IAM permissions either by creating an identity provider from another account's cluster or by using chained `AssumeRole` operations. In the following examples, _Account A_ owns an Amazon EKS cluster that supports IAM roles for service accounts. Pods that are running on that cluster must assume IAM permissions from _Account B_.
 
-.Create an identity provider from another account's cluster
-====
+* *Option 1* is simpler but requires Account B to create and manage an OIDC identity provider for Account A's cluster.
+* *Option 2* keeps OIDC management in Account A but requires role chaining through two `AssumeRole` calls.
 
-====
-
-====
+== Option 1: Create an identity provider from another account's cluster
 
 In this example, Account A provides Account B with the OpenID Connect (OIDC) issuer URL from their cluster. Account B follows the instructions in <<enable-iam-roles-for-service-accounts,Create an IAM OIDC provider for your cluster>> and <<associate-service-account-role>> using the OIDC issuer URL from Account A's cluster. Then, a cluster administrator annotates the service account in Account A's cluster to use the role from Account B ([.replaceable]`444455556666`).
 
@@ -30,35 +28,59 @@ metadata:
     eks.amazonaws.com/role-arn: {arn-aws}iam::444455556666:role/account-b-role
 ----
 
-====
+== Option 2: Use chained `AssumeRole` operations
 
-.Use chained `AssumeRole` operations
-====
+In this approach, each account creates an IAM role. Account B's role trusts Account A, and Account A's role uses OIDC federation to get credentials from the cluster. The Pod then chains the two roles together using {aws} CLI profiles.
 
-====
+=== Step 1: Create the target role in Account B
 
-====
+Account B ([.replaceable]`444455556666`) creates an IAM role with the permissions that Pods in Account A's cluster need. Account B attaches the desired permission policy to this role, then adds the following trust policy.
 
-In this example, Account B creates an IAM policy with the permissions to give to Pods in Account A's cluster. Account B ([.replaceable]`444455556666`) attaches that policy to an IAM role with a trust relationship that allows `AssumeRole` permissions to Account A ([.replaceable]`111122223333`).
+*Trust policy for Account B's role* — This policy allows Account A's specific IRSA role to assume this role.
 
 [source,json,subs="verbatim,attributes"]
 ----
 include::iam_snippet:539114bb-b8e0-44ba-b4cc-2dd62108ef64[]
 ----
 
-Account A creates a role with a trust policy that gets credentials from the identity provider created with the cluster's OIDC issuer address.
+[IMPORTANT]
+====
+For least privilege, replace the `Principal` ARN with the specific role ARN from Account A instead of using the account root (`arn:aws:iam::111122223333:root`). Using the account root allows _any_ IAM principal in Account A to assume this role.
+====
+
+=== Step 2: Create the IRSA role in Account A
+
+Account A ([.replaceable]`111122223333`) creates a role with a trust policy that gets credentials from the identity provider created with the cluster's OIDC issuer address.
+
+*Trust policy for Account A's role (OIDC federation)* — This policy allows the EKS cluster's OIDC provider to issue credentials for this role.
 
 [source,json,subs="verbatim,attributes"]
 ----
 include::iam_snippet:0436d765-c970-4491-887b-65c0f585250e[]
 ----
 
-Account A attaches a policy to that role with the following permissions to assume the role that Account B created.
+[IMPORTANT]
+====
+For least privilege, add a `StringEquals` condition for the `sub` claim to restrict this role to a specific Kubernetes service account. Without a `sub` condition, any service account in the cluster can assume this role. The `sub` value uses the format `system:serviceaccount:__NAMESPACE__:__SERVICE_ACCOUNT_NAME__`. For example, to restrict to a service account named `my-service-account` in the `default` namespace:
+
+[source,json]
+----
+"oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:default:my-service-account"
+----
+====
+
+=== Step 3: Attach the AssumeRole permission to Account A's role
+
+Account A attaches a permission policy to the role created in Step 2. This policy allows the role to assume Account B's role.
+
+*Permission policy for Account A's role* — This policy grants `sts:AssumeRole` on Account B's target role.
 
 [source,json,subs="verbatim,attributes"]
 ----
 include::iam_snippet:01ba2728-97d1-4049-a0eb-fa44b1f63ca6[]
 ----
+
+=== Step 4: Configure the Pod to chain roles
 
 The application code for Pods to assume Account B's role uses two profiles: `account_b_role` and `account_a_role`. The `account_b_role` profile uses the `account_a_role` profile as its source. For the {aws} CLI, the `~/.aws/config` file is similar to the following.
 
@@ -74,5 +96,3 @@ role_arn={arn-aws}iam::111122223333:role/account-a-role
 ----
 
 To specify chained profiles for other {aws} SDKs, consult the documentation for the SDK that you're using. For more information, see link:developer/tools/[Tools to Build on {aws},type="marketing"].
-
-====
