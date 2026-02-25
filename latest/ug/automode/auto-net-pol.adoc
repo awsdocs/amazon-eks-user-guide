@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 //add to ToC
 
-== Overview
+== Overview 
 
 As customers scale their application environments using EKS, network traffic isolation becomes increasingly fundamental for preventing unauthorized access to resources inside and outside the cluster. This is especially important in a multi-tenant environment with multiple unrelated workloads running side by side in the cluster. Kubernetes network policies enable you to enhance the network security posture for your Kubernetes workloads, and their integrations with cluster-external endpoints. EKS Auto Mode supports different types of network policies. 
 
@@ -122,7 +122,18 @@ The `ApplicationNetworkPolicy` combines the capabilities of standard Kubernetes 
 . Defining restrictions at layers 3 and 4 of the network stack using IP blocks and port numbers. 
 . Defining rules that operate at layer 7 of the network stack and letting you filter traffic based on FQDNs. 
 
-*Important note*: DNS based rules defined using the `ApplicationNetworkPolicy` are only applicable to workloads running in EKS Auto Mode-launched EC2 instances. 
+[IMPORTANT]
+====
+DNS based rules defined using the `ApplicationNetworkPolicy` are only applicable to workloads running in EKS Auto Mode-launched EC2 instances. 
+`ApplicationNetworkPolicy` supports all fields of the standard Kubernetes `NetworkPolicy`, with an additional FQDN filter for egress rules. 
+====
+
+[WARNING]
+====
+Do not use the same name for an `ApplicationNetworkPolicy` and a `NetworkPolicy` within the same namespace. If the names collide, the resulting `PolicyEndpoints` objects may not reflect either policy correctly. Both resources are accepted without error, making this issue difficult to diagnose.
+
+To resolve a naming conflict, rename either the `ApplicationNetworkPolicy` or the `NetworkPolicy` so they are unique within the namespace, then verify that the corresponding `PolicyEndpoints` objects are updated correctly.
+====
 
 ==== Example
 
