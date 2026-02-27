@@ -42,7 +42,7 @@ EKS Auto Mode supports:
 
 EKS Auto Mode does *not* support:
 
-* Security Groups per Pod (SGPP).
+* Security Groups per Pod (SGPP). To apply separate security groups to Pod traffic in Auto Mode, use `podSecurityGroupSelectorTerms` in the `NodeClass` instead. For more information, see <<pod-subnet-selector>>.
 * Custom Networking in the `ENIConfig`. You can put pods in multiple subnets or exclusively isolate them from the node traffic with <<pod-subnet-selector>>.
 * Warm IP, warm prefix, and warm ENI configurations.
 * Minimum IP targets configuration.

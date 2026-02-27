@@ -244,17 +244,27 @@ spec:
 
 
 [#pod-subnet-selector]
-== Subnet selection for Pods
+== Separate subnets and security groups for Pods
 
-The `podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` fields enables advanced networking configurations by allowing Pods to run in different subnets than their nodes. This separation provides enhanced control over network traffic routing and security policies. Note that `podSecurityGroupSelectorTerms` are required with the `podSubnetSelectorTerms`.
+The `podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` fields enable advanced networking configurations by allowing Pods to use different subnets and security groups than their nodes. Both fields must be specified together. This separation provides enhanced control over network traffic routing and security policies.
+
+NOTE: This feature is different from the <<security-groups-for-pods,Security Groups for Pods>> (SGPP) feature used with the AWS VPC CNI for non-EKS Auto Mode compute. SGPP is not supported in EKS Auto Mode. Instead, use `podSecurityGroupSelectorTerms` in the `NodeClass` to apply separate security groups to Pod traffic. The security groups apply at the `NodeClass` level, meaning all Pods on nodes using that `NodeClass` share the same Pod security groups.
+
+=== How it works
+
+When you configure `podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms`:
+
+. The node's primary ENI uses the subnets and security groups from `subnetSelectorTerms` and `securityGroupSelectorTerms`. Only the node's own IP address is assigned to this interface.
+. EKS Auto Mode creates secondary ENIs in the subnets matching `podSubnetSelectorTerms`, with the security groups from `podSecurityGroupSelectorTerms` attached. Pod IP addresses are allocated from these secondary ENIs using /28 prefixes by default, with automatic fallback to secondary IPs (/32) when a contiguous prefix block is not available. If `ipv4PrefixSize` is set to `"32"` in `advancedNetworking`, only secondary IPs are used.
+. The security groups specified in `podSecurityGroupSelectorTerms` apply to Pod traffic within the VPC. For traffic destined outside the VPC, Pods use the node's primary ENI (and its security groups) because source network address translation (SNAT) translates the Pod IP to the node IP. You can modify this behavior with the `snatPolicy` field in the `NodeClass`.
 
 === Use cases
 
-Use `podSubnetSelectorTerms` when you need to:
+Use `podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` when you need to:
 
-* Separate infrastructure traffic (node-to-node communication) from application traffic (Pod-to-Pod communication)
+* Apply different security groups to control traffic for nodes and Pods separately.
+* Separate infrastructure traffic (node-to-node communication) from application traffic (Pod-to-Pod communication).
 * Apply different network configurations to node subnets than Pod subnets.
-* Implement different security policies or routing rules for nodes and Pods.
 * Configure reverse proxies or network filtering specifically for node traffic without affecting Pod traffic. Use `advancedNetworking` and `certificateBundles` to define your reverse proxy and any self-signed or private certificates for the proxy.
 
 === Example configuration
@@ -268,7 +278,7 @@ metadata:
 spec:
   role: MyNodeRole
   
-  # Subnets for EC2 instances (nodes)
+  # Subnets and security groups for EC2 instances (nodes)
   subnetSelectorTerms:
     - tags:
         Name: "node-subnet"
@@ -278,7 +288,7 @@ spec:
     - tags:
         Name: "eks-cluster-sg"
   
-  # Separate subnets for Pods
+  # Separate subnets and security groups for Pods
   podSubnetSelectorTerms:
     - tags:
         Name: "pod-subnet"
@@ -289,13 +299,15 @@ spec:
       Name: "eks-pod-sg"
 ----
 
-=== Considerations for subnet selectors for Pods
+=== Considerations for separate Pod subnets and security groups
 
-* *Reduced Pod density*: Fewer Pods can run on each node when using `podSubnetSelectorTerms`, because the primary network interface of the node is in the node subnet, and can't be used for Pods in the Pod subnet.
-* *Subnet selector limitations*: The standard `subnetSelectorTerms` and `securityGroupSelectorTerms` configurations don't apply to Pod subnet selection.
+* *Security group scope*: The security groups from `podSecurityGroupSelectorTerms` are attached to the secondary ENIs and apply to Pod traffic within the VPC. When SNAT is enabled (the default `snatPolicy: Random`), traffic leaving the VPC is translated to the node's primary ENI IP address, so the node's security groups from `securityGroupSelectorTerms` apply to that traffic instead. If you set `snatPolicy: Disabled`, Pods use their own IP addresses for all traffic, and you must ensure that routing and security groups are configured accordingly.
+* *NodeClass-level granularity*: The Pod security groups apply to all Pods scheduled on nodes using the `NodeClass`. To apply different security groups to different workloads, create separate `NodeClass` and `NodePool` resources and use taints, tolerations, or node selectors to schedule workloads to the appropriate nodes.
+* *Reduced Pod density*: Fewer Pods can run on each node because the primary network interface of the node is reserved for the node IP and can't be used for Pods.
+* *Subnet selector limitations*: The standard `subnetSelectorTerms` and `securityGroupSelectorTerms` configurations don't apply to Pod subnet or security group selection.
 * *Network planning*: Ensure adequate IP address space in both node and Pod subnets to support your workload requirements.
 * *Routing configuration*: Verify that route table and network Access Control List (ACL) of the Pod subnets are properly configured for communication between node and Pod subnets.
-* *Availability Zones*: Verify that you've created Pod subnets across multiple AZs. If you are using specific Pod subnet, it must be in the same AZ as the node subnet AZ.
+* *Availability Zones*: Verify that you've created Pod subnets across multiple AZs. If you are using a specific Pod subnet, it must be in the same AZ as the node subnet AZ.
 
 [#secondary-IP-mode]
 == Secondary IP Mode for Pods
