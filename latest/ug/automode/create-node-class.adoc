@@ -145,10 +145,10 @@ spec:
         kubernetes.io/role/pod: "1"
     # Alternative using direct subnet ID
     # - id: "subnet-0987654321fedcba0"
-# must include Pod security group selector also
- podSecurityGroupSelectorTerms:
-  - tags:
-      Name: "eks-pod-sg"
+  # must include Pod security group selector also
+  podSecurityGroupSelectorTerms:
+    - tags:
+        Name: "eks-pod-sg"
     # Alternative using direct security group ID
     # - id: "sg-0123456789abcdef0"
 
@@ -312,15 +312,15 @@ spec:
 [#secondary-IP-mode]
 == Secondary IP Mode for Pods
 
-The `ipv4PrefixSize` fields enables advanced networking configurations by allowing only allocating secondary IP addresses to nodes. This feature doesn't allocate prefix (/28) to nodes and maintain only one secondary IP as MinimalIPTarget. 
+The `ipv4PrefixSize` field enables advanced networking configurations by allocating only secondary IP addresses to nodes. This feature doesn't allocate prefixes (/28) to nodes and maintains only one secondary IP as MinimalIPTarget. 
 
 === Use cases
 
 Use `ipv4PrefixSize` when you need to:
 
-* *Reduced IP utilization*: Only one IP addresses will be warmed up in every node.
-* *Lower pods churning rate*: Pods creation velocity is not a major concern.
-* *No prefix fragmentation*: Prefix caused fragmentation is a major concern or blocker to use Auto mode.
+* *Reduced IP utilization*: Only one IP address will be warmed up in every node.
+* *Lower pod churning rate*: Pod creation velocity is not a major concern.
+* *No prefix fragmentation*: Prefix-caused fragmentation is a major concern or blocker to use Auto Mode.
 
 === Example configuration
 
@@ -339,19 +339,19 @@ spec:
 
 === Considerations for secondary IP mode
 
-* *Reduced Pod creation velocity*: Since only one secondary IP is warmed up, the IPAM service need more time to provision IPs on more pods creation.
+* *Reduced Pod creation velocity*: Since only one secondary IP is warmed up, the IPAM service needs more time to provision IPs when more pods are created.
 
 [#enableV4Egress]
 == Disable IPv4 egress from IPv6 pods in IPv6 clusters.
 
-The `enableV4Egress` fields is true by default. For Auto Mode IPv6 clusters, the feature can be disabled and thus Auto Mode won't create an egress only IPv4 interface for IPv6 pods. This is important because the IPv4 network interface will not be secured by the Network policy feature. Network policies will only be enforced on the Pod's primary interface (i.e.,) eth0. 
+The `enableV4Egress` field is `true` by default. For Auto Mode IPv6 clusters, the feature can be disabled so that Auto Mode won't create an egress-only IPv4 interface for IPv6 pods. This is important because the IPv4 egress interface is not subject to Network Policy enforcement. Network policies are only enforced on the Pod's primary interface (eth0). 
 
 === Use cases
 
 Use `enableV4Egress` when you need to:
 
 * *Use IPv6 Cluster*: IPv4 egress traffic is allowed by default.
-* *Use Network Policy*: Currently EKS network policy isn't supporting dual stack. Disabling the v4Egress can protect pods' traffic being egressed from pods unexpectedly.
+* *Use Network Policy*: Currently EKS Network Policy doesn't support dual stack. Disabling `enableV4Egress` can prevent pod traffic from egressing over IPv4 unexpectedly.
 
 === Example configuration
 

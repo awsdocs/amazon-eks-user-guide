@@ -66,7 +66,7 @@ The service implements a cooldown pool for prefixes or secondary IPv4 addresses 
 
 *IPv6 Support*
 
-For IPv6 clusters, EKS Auto Mode provisions a `/80` IPv6 prefix per node on the primary network interface.
+For IPv6 clusters, EKS Auto Mode provisions a `/80` IPv6 prefix per node on the primary network interface. When using `podSubnetSelectorTerms`, the prefix is allocated on a secondary network interface in the pod subnet instead.
 
 The service also ensures proper management and garbage collection of all network interfaces.
 
