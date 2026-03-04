@@ -224,7 +224,7 @@ the updates on the cluster to see a new update of type
 occurs. The error field in the update indicates the reason for failure.
 There are no restrictions on how frequently you can switch between
 tiers. Changing the control plane tier takes several minutes to
-complete.
+complete. There is no API server downtime during this process, as EKS brings up new API servers before terminating old ones.
 * *Selecting optimal tier* – To determine the optimal Provisioned Control Plane scaling tier for your cluster, you can perform load testing by provisioning your cluster on the highest tier (4XL). Then perform a load
 test to simulate peak demand on your cluster's control plane. Observe
 the control plane tier utilization metrics at peak load, and use these
