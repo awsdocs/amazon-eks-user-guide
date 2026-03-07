@@ -61,7 +61,7 @@ import boto3; print(boto3.client('s3').generate_presigned_url(
 ----
 python presign-upload.py
 ----
-. Note the URL output. Use this value in the next step as the [.replaceacble]`http-put-destination`.
+. Note the URL output. Use this value in the next step as the [.replaceable]`http-put-destination`.
 
 
 For more information, see https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-presigned-urls.html#generating-a-presigned-url-to-upload-a-file[Generate a presigned URL to upload a file] in the {aws} Boto3 SDK for Python Documentation.
