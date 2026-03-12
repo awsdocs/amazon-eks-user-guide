@@ -84,7 +84,7 @@ from the moment it's activated.
 == Control Plane Scaling Tiers
 
 EKS Provisioned Control Plane offers scaling tiers named using t-shirt
-sizes (XL, 2XL, 4XL). Each tier defines its capacity through three key
+sizes (XL, 2XL, 4XL, and 8XL). Each tier defines its capacity through three key
 Kubernetes attributes that determine the performance characteristics of your
 cluster's control plane. Understanding these attributes helps you select
 the appropriate tier for your workload requirements.
@@ -125,6 +125,11 @@ as shown in the following tables.
 |6800
 |100
 |16
+
+|8XL 
+|13600
+|100
+|16
 |===
 
 === EKS v1.30 and later
@@ -148,6 +153,11 @@ as shown in the following tables.
 
 |4XL 
 |6800
+|400
+|16
+
+|8XL 
+|13600
 |400
 |16
 |===
@@ -225,13 +235,13 @@ occurs. The error field in the update indicates the reason for failure.
 There are no restrictions on how frequently you can switch between
 tiers. Changing the control plane tier takes several minutes to
 complete. There is no API server downtime during this process, as EKS brings up new API servers before terminating old ones.
-* *Selecting optimal tier* – To determine the optimal Provisioned Control Plane scaling tier for your cluster, you can perform load testing by provisioning your cluster on the highest tier (4XL). Then perform a load
+* *Selecting optimal tier* – To determine the optimal Provisioned Control Plane scaling tier for your cluster, you can perform load testing by provisioning your cluster on the highest tier (8XL). Then perform a load
 test to simulate peak demand on your cluster's control plane. Observe
 the control plane tier utilization metrics at peak load, and use these
 observations as the guiding factor to select the appropriate tier for
 Provisioned mode.
 * *Provisioned Control Plane pricing* – You will be billed at the hourly rate for the Provisioned Control Plane scaling tier your cluster is on. This is in addition to the standard or extended support hourly charges. See Amazon EKS Pricing https://aws.amazon.com/eks/pricing/[page] for details.
-* *Larger scaling tier* – If you intend to run your cluster on scaling tier larger than 4XL, contact your Amazon Web Services account team for additional pricing information.
+* *Larger scaling tier* – If you intend to run your cluster on scaling tier larger than 8XL, contact your Amazon Web Services account team for additional pricing information.
 * *Kubernetes version and region support* – EKS Provisioned Control Plane is supported in all Amazon Web Services commercial, GovCloud, and China regions. Provisioned Control Plane works on EKS v1.28 and higher.
 
 
