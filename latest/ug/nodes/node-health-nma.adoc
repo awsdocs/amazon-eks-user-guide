@@ -478,7 +478,7 @@ The monitoring condition is `NetworkingReady` for issues in the following table 
 [#node-health-Storage]
 == Storage node health issues
 
-The monitoring condition is `StorageReady` for issues in the following table that have a severity of “Condition”.
+The monitoring condition is `StorageReady` for issues in the following table that have a severity of “Event”.
 
 [%header,cols="4"]
 |===
