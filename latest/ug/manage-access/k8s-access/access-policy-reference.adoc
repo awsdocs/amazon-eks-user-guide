@@ -355,6 +355,24 @@ This access policy includes permissions that allow an IAM principal to view most
 |`get`, `list`, `watch`
 |===
 
+== AmazonEKSSecretAdminPolicy
+
+This access policy includes permissions that allow an IAM principal full access to https://kubernetes.io/docs/concepts/configuration/secret/[Kubernetes Secrets.]
+
+*ARN* – `{arn-aws}eks::aws:cluster-access-policy/AmazonEKSSecretAdminPolicy`
+
+[%header,cols="3"]
+|===
+|Kubernetes API groups
+|Kubernetes resources
+|Kubernetes verbs (permissions)
+
+
+|
+|`secrets`
+|`*`
+|===
+
 == AmazonEKSSecretReaderPolicy
 
 This access policy includes permissions that allow an IAM principal to read https://kubernetes.io/docs/concepts/configuration/secret/[Kubernetes Secrets.]
