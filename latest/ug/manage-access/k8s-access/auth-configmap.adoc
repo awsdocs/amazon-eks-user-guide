@@ -277,6 +277,24 @@ NOTE: If you receive an error stating "``Error from server (NotFound): configmap
 *** *userarn*: The ARN of the IAM user to add.
 *** *username*: The user name within Kubernetes to map to the IAM user.
 *** *groups*: The group, or list of Kubernetes groups to map the user to. The group can be a default group, or a group specified in a `clusterrolebinding` or `rolebinding`. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings[Default roles and role bindings] in the Kubernetes documentation.
+
++
+[#auth-configmap-template-variables]
+=== Template variables for `username` and `groups`
+
+The `username` and `groups` fields in both `mapRoles` and `mapUsers` entries support template variables that the {aws} IAM Authenticator replaces at authentication time. The following template variables are available:
+
+`{{AccountID}}`:: The 12-digit {aws} account ID of the authenticated IAM principal.
+`{{SessionName}}`:: The STS role session name, with `@` characters replaced by `-`. For EC2 instance roles, this is the instance ID. For federated roles, this is the federated identity. For roles assumed with `sts:AssumeRole`, this is the value of the `RoleSessionName` parameter set by the caller.
+`{{SessionNameRaw}}`:: The raw STS role session name without any character replacement.
+`{{AccessKeyID}}`:: The {aws} access key ID used to authenticate the request.
+`{{EC2PrivateDNSName}}`:: The private DNS name of the EC2 instance. This variable requires the session name to be a valid EC2 instance ID and makes an `ec2:DescribeInstances` API call.
+
+[IMPORTANT]
+====
+The `{{SessionName}}` and `{{SessionNameRaw}}` values are user-controlled when a role is assumed with `sts:AssumeRole`. The caller sets the `RoleSessionName` parameter to a nearly arbitrary string. If you use these variables in the `username` field, a caller who can assume the mapped role can impersonate any Kubernetes username that doesn't match a reserved prefix (such as `system:`, `eks:`, `aws:`, `amazon:`, or `iam:`). If you use these variables in the `groups` field, a caller can choose their own Kubernetes group membership by crafting the session name. Only use `{{SessionName}}` or `{{SessionNameRaw}}` in `username` or `groups` if you trust all principals that can assume the role.
+====
+
 +
 . For example, the following YAML block contains:
 ** A `mapRoles` section that maps the IAM node instance to Kubernetes groups so that nodes can register themselves with the cluster and the `my-console-viewer-role` IAM role that is mapped to a Kubernetes group that can view all Kubernetes resources for all clusters. For a list of the IAM and Kubernetes group permissions required for the `my-console-viewer-role` IAM role, see <<view-kubernetes-resources-permissions>>.
