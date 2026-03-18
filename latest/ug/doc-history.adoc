@@ -19,12 +19,26 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-04-17"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added permissions to `AmazonEKSComputePolicy` to allow Amazon EKS Auto Mode to launch instances into the EC2 Placement Groups in your account.
+
 [.update,date="2026-04-16"]
 === New {aws} managed policy
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 	 
 Introduced `AmazonEBSCSIDriverPolicyV2` and `AmazonEBSCSIDriverEKSClusterScopedPolicy` as more restrictive alternatives to `AmazonEBSCSIDriverPolicy`. `AmazonEBSCSIDriverPolicyV2` scopes the EBS CSI driver to volumes and snapshots tagged with `ebs.csi.aws.com/cluster` set to `true`. `AmazonEBSCSIDriverEKSClusterScopedPolicy` scopes the driver to volumes and snapshots belonging to a specific EKS cluster using the `ebs.csi.aws.com/cluster-name` tag.
+
+[.update,date="2026-04-15"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS Auto Mode to launch instances into the EC2 Placement Groups in your account.
 	 
 [.update,date="2026-04-14"]
 === {aws} managed policy updates
