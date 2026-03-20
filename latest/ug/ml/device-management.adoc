@@ -40,6 +40,16 @@ Neuron DRA driver:: The Neuron DRA driver manages {aws} Trainium and {aws} Infer
 
 NVIDIA DRA driver:: The https://github.com/NVIDIA/k8s-dra-driver-gpu[NVIDIA DRA driver for GPUs] enables flexible allocation and dynamic reconfiguration of NVIDIA GPUs, including support for `ComputeDomain` resources for Multi-Node NVLink (MNNVL) workloads on EC2 Grace-Blackwell instances. For more information on using `ComputeDomains` with EC2 Grace-Blackwell instances, see <<ml-eks-nvidia-ultraserver>>.
 
+== Device plugins for Amazon EKS
+
+The following device plugins are commonly used for managing specialized hardware devices in Amazon EKS clusters.
+
+EFA device plugin:: The EFA device plugin discovers all available EFA devices on each node and advertises EFA devices as `vpc.amazonaws.com/efa` extended resources.
+
+Neuron device plugin:: The https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/tutorials/k8s-setup.html[Neuron device plugin] exposes Neuron hardware as `aws.amazon.com/neuroncore` and `aws.amazon.com/neuron` extended resources. It discovers available Neuron devices on each node, advertises them as allocatable resources, and manages their lifecycle.
+
+NVIDIA device plugin:: The https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin] advertises NVIDIA GPUs as `nvidia.com/gpu` extended resources and tracks the health of GPUs.
+
 == Considerations
 
 Before using DRA drivers on Amazon EKS, review the following considerations:
@@ -50,8 +60,12 @@ Before using DRA drivers on Amazon EKS, review the following considerations:
 * DRA uses different Kubernetes API resources (`ResourceClaim`, `ResourceClaimTemplate`, `DeviceClass`) than device plugins (`resource.limits`, `resource.requests`). Migrating from device plugins to DRA requires updating your workload specifications.
 * Device plugins remain fully supported for all Kubernetes versions. If your cluster runs a Kubernetes version earlier than 1.34, if you use Karpenter or EKS Auto Mode, or if you use Bottlerocket, continue using device plugins.
 
-[.topiclist]
-[[Topic List]]
+== Topics
+
+* <<device-management-efa>>
+* <<device-management-neuron>>
+* <<device-management-nvidia>>
+
 
 include::device-management-efa.adoc[leveloffset=+1]
 
