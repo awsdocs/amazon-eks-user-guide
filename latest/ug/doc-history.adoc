@@ -19,12 +19,26 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-04-14"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Updated `shield:CreateProtection` and `shield:DeleteProtection` permission in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to add shield protection.
+
 [.update,date="2026-04-07"]
 === Warm pool support for managed node groups
 [.update-ulink]
 link:eks/latest/userguide/warm-pools-managed-node-groups.html[type="documentation"]
 
 Amazon EKS managed node groups now support Amazon EC2 Auto Scaling warm pools. Warm pools maintain a pool of pre-initialized EC2 instances that are ready to quickly join your cluster when scaling out, decreasing latency for applications with long boot times.
+
+[.update,date="2026-03-20"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `elasticloadbalancing:ModifyIpPools` and updated `elasticloadbalancing:RegisterTargets`  permission in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to support setting IPAM pool for ALB and support multi-cluster and custom targetgroupbindings respectively
 
 [.update,date="2026-02-03"]
 === {aws} managed policy updates

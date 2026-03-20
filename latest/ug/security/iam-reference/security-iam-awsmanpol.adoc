@@ -459,6 +459,18 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Description
 |Date
 
+|Updated permissions to <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>.
+|Updated `shield:CreateProtection`, `shield:DeleteProtection` permission in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to add shield protection.
+|April 14, 2026
+
+|Added permissions to <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>.
+|Updated `elasticloadbalancing:RegisterTargets` permission in `AmazonEKSLoadBalancingPolicy` to add support for multi-cluster and custom targetgroupbindings
+|March 20, 2026
+
+|Added permissions to <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>.
+|Added `elasticloadbalancing:ModifyIpPools` permission in `AmazonEKSLoadBalancingPolicy` to add support for setting IPAM pool for ALB
+|March 20, 2026
+
 |Added permission to <<security-iam-awsmanpol-AmazonEKSNetworkingPolicy>>.
 |Added `ec2:ModifyNetworkInterfaceAttribute` permission in `AmazonEKSNetworkingPolicy`. This allows Amazon EKS Auto Mode Controller to modify network interface attributes related to EC2 instances
 |Feb 3, 2026
