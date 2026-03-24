@@ -1,0 +1,193 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-get-tcpdump]
+= Capture network traffic on a managed node using kubectl and S3
+:info_titleabbrev: Capture network traffic
+
+[abstract]
+--
+Learn how to capture network traffic on an Amazon EKS managed node using the node monitoring agent and tcpdump.
+--
+
+Learn how to capture network traffic on an Amazon EKS managed node that has the node monitoring agent. The agent runs tcpdump on the node, compresses capture files, and uploads them to your S3 bucket.
+
+== Prerequisites
+
+Make sure you have the following:
+
+* An existing Amazon EKS Auto Mode cluster with the node monitoring agent. For more information, see <<node-health>>.
+* The `kubectl` command-line tool installed and configured to communicate with your cluster.
+* The {aws} CLI installed and logged in with sufficient permissions to create S3 buckets and objects.
+* A recent version of Python 3 installed.
+* The {aws} SDK for Python 3, Boto 3, installed.
+* The PyYAML library installed (`pip install pyyaml`).
+
+== Step 1: Create S3 bucket destination (optional)
+
+If you don't already have an S3 bucket to store the capture files, create one. Replace [.replaceable]`bucket-name` with your chosen unique bucket name.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws s3api create-bucket --bucket [.replaceable]`<bucket-name>`
+----
+
+== Step 2: Create pre-signed S3 POST for upload
+
+Packet capture uploads multiple files to S3 using a pre-signed POST. The following script generates the pre-signed POST URL and fields.
+
+[NOTE]
+====
+You must use the {aws} API or a SDK to create the pre-signed S3 POST. You cannot create a pre-signed S3 POST using the {aws} CLI.
+====
+
+. Determine the S3 key prefix where capture files will be stored. For example, `captures/`.
+. Save the following Python code to the file [.replaceable]`presign-post.py`. Replace [.replaceable]`<bucket-name>` and [.replaceable]`<prefix>`.
++
+[source,python,subs="verbatim,attributes,quotes"]
+----
+import boto3, yaml
+response = boto3.client('s3').generate_presigned_post(
+    Bucket='<bucket-name>',
+    Key='<prefix>${filename}',
+    Conditions=[["starts-with", "$key", "<prefix>"]],
+    ExpiresIn=3600
+)
+print(yaml.dump({'upload': response}, default_flow_style=False))
+----
++
+The `${filename}` variable in the `Key` parameter is a standard S3 pre-signed POST placeholder. When a file is uploaded, S3 replaces `${filename}` with the actual name of the uploaded file. This allows multiple capture files to be uploaded under the same key prefix with unique names. The `Key` must include `${filename}` for packet capture to work correctly. For more information, see https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOST.html[POST Object] in the _Amazon S3 API Reference_.
+. Run the script with
++
+[source,cli]
+----
+python presign-post.py
+----
+. Note the `url` and `fields` from the output. Use these values in the next step.
+
+== Step 3: Create NodeDiagnostic resource
+
+Identify the name of the node you want to capture traffic from.
+
+Create a `NodeDiagnostic` manifest using the node name as the resource name. Paste the `upload` section from the script output in Step 2. Adjust `duration`, `interfaces`, `filter`, and `chunkSizeMB` as needed.
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: eks.amazonaws.com/v1alpha1
+kind: NodeDiagnostic
+metadata:
+    name: [.replaceable]`<node-name>`
+spec:
+    packetCapture:
+        duration: [.replaceable]`"30s"`
+        interface: [.replaceable]`eth0`
+        # filter: [.replaceable]`"tcp port 443"`
+        # chunkSizeMB: [.replaceable]`10`
+        # Paste the output from presign-post.py below:
+        upload:
+            url: [.replaceable]`"<url from script output>"`
+            fields:
+                [.replaceable]`<fields from script output>`
+----
+
+Apply the manifest to the cluster.
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f nodediagnostic-capture.yaml
+----
+
+== Step 4: Monitor capture progress
+
+Check the status of the capture by describing the `NodeDiagnostic` resource:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe nodediagnostics.eks.amazonaws.com/[.replaceable]`<node-name>`
+----
+
+The status will show:
+
+* `Running` while the capture is in progress.
+* `Completed` with reason `Success` when the capture finishes and all files are uploaded.
+* `Completed` with reason `Failure` if the capture encountered errors.
+
+The completion message includes a `captureID` for log correlation:
+
+----
+[captureID=abc12345-...] packet capture completed successfully. Delete this resource with: kubectl delete nodediagnostic <node-name>
+----
+
+== Step 5: Download capture files from S3
+
+Once the status shows `Success`, download the capture files from S3.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws s3 cp s3://[.replaceable]`<bucket-name>`/[.replaceable]`captures/` ./captures/ --recursive
+----
+
+The files are gzip-compressed pcap format. Decompress and analyze with tcpdump or Wireshark:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+gunzip captures/*.gz
+tcpdump -r captures/capture.pcap0000 -n
+----
+
+== Step 6: Clean up NodeDiagnostic resource
+
+`NodeDiagnostic` resources are not automatically deleted. Clean up after you have obtained your capture files.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl delete nodediagnostics.eks.amazonaws.com/[.replaceable]`<node-name>`
+----
+
+== Configuration options
+
+The `packetCapture` spec supports the following fields:
+
+[cols="1,1,1,3", options="header"]
+|===
+|Field |Required |Default |Description
+
+|`duration`
+|Yes
+|—
+|How long to capture traffic (max 1 hour). Examples: `15s`, `1m`, `30m`.
+
+|`upload.url`
+|Yes
+|—
+|S3 pre-signed POST URL.
+
+|`upload.fields`
+|Yes
+|—
+|Pre-signed POST form fields.
+
+|`interface`
+|No
+|All interfaces
+|Network interface to capture from. Example: `"eth0"`. If empty, captures from all interfaces.
+
+|`filter`
+|No
+|None
+|tcpdump filter expression. Example: `"tcp port 443"`.
+
+|`chunkSizeMB`
+|No
+|10
+|File rotation size in MB (1–100). Smaller values produce more files.
+|===
+
+== Behavior
+
+* The maximum capture duration is 1 hour. Captures exceeding this limit are rejected.
+* Duration must be specified in a single unit: seconds (`s`), minutes (`m`), or hours (`h`). For example, use `90m` instead of `1h30m`.
+* Capture files are streamed to S3 during the capture, not buffered on disk until completion.
+* Each file is approximately `chunkSizeMB` in size before compression.
+* If disk usage on the node exceeds 90%, the capture terminates automatically.
+* Failed uploads are retried once. If the retry fails, the capture stops.

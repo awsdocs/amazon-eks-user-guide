@@ -81,3 +81,5 @@ include::node-repair.adoc[leveloffset=+1]
 include::learn-status-conditions.adoc[leveloffset=+1]
 
 include::auto-get-logs.adoc[leveloffset=+1]
+
+include::auto-get-tcpdump.adoc[leveloffset=+1]
