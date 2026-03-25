@@ -166,7 +166,7 @@ are scrapable from your EKS cluster's Prometheus endpoint (see <<prometheus,here
 
 
 |*Cluster database size*
-|apiserver_storage_size_bytes (NOTE: etcd_mvcc_db_total_size_in_use_in_bytes will be rolled out to all EKS clusters by 2H 2026)
+|apiserver_storage_size_bytes (NOTE: etcd_mvcc_db_total_size_in_use_in_bytes will be rolled out as a prometheus metric to all EKS clusters by second half of 2026)
 |etcd_mvcc_db_total_size_in_use_in_bytes
 |===
 
