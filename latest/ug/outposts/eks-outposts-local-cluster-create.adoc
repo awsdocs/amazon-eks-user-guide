@@ -54,7 +54,7 @@ You could also use the link:cli/latest/reference/eks/create-cluster.html[{aws} C
 . Copy the contents that follow to your device. Replace the following values and then run the modified command to create the `outpost-control-plane.yaml` file:
 +
 * Replace [.replaceable]`region-code` with the <<outposts-control-plane-supported-regions,supported {aws} Region>> that you want to create your cluster in.
-* Replace [.replaceable]`my-cluster` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
+* Replace [.replaceable]`my-cluster` with a name for your cluster. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
 * Replace [.replaceable]`vpc-ExampleID1` and [.replaceable]`subnet-ExampleID1` with the IDs of your existing VPC and subnet. The VPC and subnet must meet the requirements in <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts>>.
 * Replace [.replaceable]`uniqueid` with the ID of your Outpost.
 * Replace [.replaceable]`m5.large` with an instance type available on your Outpost. Before choosing an instance type, see <<eks-outposts-capacity-considerations>>. Three control plane instances are deployed. You can't change this number.
