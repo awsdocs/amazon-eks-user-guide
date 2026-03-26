@@ -8,7 +8,7 @@ include::../attributes.txt[]
 //Insert Images
 //Existing clusters and new clusters
 
-Amazon Elastic Kubernetes Service (Amazon EKS) provides default envelope encryption for all Kubernetes API data in EKS clusters running Kubernetes version 1.28 or higher. 
+Amazon Elastic Kubernetes Service (Amazon EKS) provides default envelope encryption for all Kubernetes API data in EKS clusters running Kubernetes version 1.28 or higher. This feature is available at no additional charge in all commercial AWS Regions and the AWS GovCloud (US) Regions.
 
 Envelope encryption protects the data you store with the Kubernetes API server. For example, envelope encryption applies to the configuration of your Kubernetes cluster, such as `ConfigMaps`. 
 Envelope encryption does not apply to data on nodes or EBS volumes.  
