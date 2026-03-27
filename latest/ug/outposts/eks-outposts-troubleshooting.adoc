@@ -233,7 +233,7 @@ The most common issues are the following:
 * The Amazon EKS managed security groups are applied at the elastic network interface. However, other configuration elements such as NACL firewall rules might conflict with the rules for the elastic network interface.
 
 
-.VPC and subnet DNS configuration is misconfigured or missing
+* VPC and subnet DNS configuration is misconfigured or missing.
 Review <<eks-outposts-vpc-subnet-requirements,Create a VPC and subnets for Amazon EKS clusters on {aws} Outposts>>.
 ====
 
