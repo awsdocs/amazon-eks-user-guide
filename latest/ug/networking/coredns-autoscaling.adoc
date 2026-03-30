@@ -159,26 +159,19 @@ The following example shows autoscaling is enabled and all of the optional keys 
   }
 }
 ----
-.. To apply the new configuration by replacing the CoreDNS pods, choose *Save changes*.
+.. To apply the new configuration, choose *Save changes*.
 +
-Amazon EKS applies changes to the EKS Add-ons by using a _rollout_ of the Kubernetes Deployment for CoreDNS. You can track the status of the rollout in the *Update history* of the add-on in the {aws-management-console} and with `kubectl rollout status deployment/coredns --namespace kube-system`.
+Amazon EKS applies the autoscaling configuration without performing a rollout restart of the CoreDNS Deployment. Existing CoreDNS pods are not restarted. The autoscaler adjusts the number of replicas by scaling the Deployment up or down as needed. You can track the status of the configuration update in the Update history of the add-on in the AWS Management Console..
 +
-`kubectl rollout` has the following commands:
+You can verify the autoscaling is active by checking if the number of CoreDNS replicas adjusts based on the number of nodes and CPU cores in your cluster:
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-kubectl rollout
-                            
-history  -- View rollout history
-pause    -- Mark the provided resource as paused
-restart  -- Restart a resource
-resume   -- Resume a paused resource
-status   -- Show the status of the rollout
-undo     -- Undo a previous rollout
+kubectl get deployment coredns --namespace kube-system
 ----
 +
-If the rollout takes too long, Amazon EKS will undo the rollout, and a message with the type of *Addon Update* and a status of *Failed* will be added to the *Update history* of the add-on. To investigate any issues, start from the history of the rollout, and run `kubectl logs` on a CoreDNS pod to see the logs of CoreDNS.
-. If the new entry in the *Update history* has a status of *Successful*, then the rollout has completed and the add-on is using the new configuration in all of the CoreDNS pods. As you change the number of nodes and CPU cores of nodes in the cluster, Amazon EKS scales the number of replicas of the CoreDNS deployment.
+If the configuration update fails, a message with the type of Addon Update and a status of Failed will be added to the Update history of the add-on. To investigate any issues, check the add-on update history in the AWS Management Console.
+. If the new entry in the *Update history* has a status of *Successful*, then the autoscaling configuration has been applied. No rollout restart of existing CoreDNS pods occurs. As you change the number of nodes and CPU cores of nodes in the cluster, Amazon EKS automatically scales the number of replicas of the CoreDNS deployment.
 
 ====
 
@@ -230,23 +223,16 @@ aws eks update-addon --cluster-name my-cluster --addon-name coredns \
     --resolve-conflicts PRESERVE --configuration-values '{"autoScaling":{"enabled":true}}'
 ----
 +
-Amazon EKS applies changes to the EKS Add-ons by using a _rollout_ of the Kubernetes Deployment for CoreDNS. You can track the status of the rollout in the *Update history* of the add-on in the {aws-management-console} and with `kubectl rollout status deployment/coredns --namespace kube-system`.
+Amazon EKS applies the autoscaling configuration without performing a rollout restart of the CoreDNS Deployment. Existing CoreDNS pods are not restarted. The autoscaler adjusts the number of replicas by scaling the Deployment up or down as needed. You can track the status of the configuration update in the Update history of the add-on in the AWS Management Console..
 +
-`kubectl rollout` has the following commands:
+You can verify the autoscaling is active by checking if the number of CoreDNS replicas adjusts based on the number of nodes and CPU cores in your cluster:
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-kubectl rollout
-                            
-history  -- View rollout history
-pause    -- Mark the provided resource as paused
-restart  -- Restart a resource
-resume   -- Resume a paused resource
-status   -- Show the status of the rollout
-undo     -- Undo a previous rollout
+kubectl get deployment coredns --namespace kube-system
 ----
 +
-If the rollout takes too long, Amazon EKS will undo the rollout, and a message with the type of *Addon Update* and a status of *Failed* will be added to the *Update history* of the add-on. To investigate any issues, start from the history of the rollout, and run `kubectl logs` on a CoreDNS pod to see the logs of CoreDNS.
+If the configuration update fails, a message with the type of Addon Update and a status of Failed will be added to the Update history of the add-on. To investigate any issues, check the add-on update history in the AWS Management Console.
 . (Optional) You can provide minimum and maximum values that autoscaling can scale the number of CoreDNS pods to.
 +
 The following example shows autoscaling is enabled and all of the optional keys have values. We recommend that the minimum number of CoreDNS pods is always greater than 2 to provide resilience for the DNS service in the cluster.
@@ -263,6 +249,6 @@ aws eks update-addon --cluster-name my-cluster --addon-name coredns \
 aws eks describe-addon --cluster-name my-cluster --addon-name coredns
 ----
 +
-If you see this line: `"status": "ACTIVE"`, then the rollout has completed and the add-on is using the new configuration in all of the CoreDNS pods. As you change the number of nodes and CPU cores of nodes in the cluster, Amazon EKS scales the number of replicas of the CoreDNS deployment.
+If you see this line: `"status": "ACTIVE"`, then the autoscaling configuration has been applied. No rollout restart of existing CoreDNS pods occurs. As you change the number of nodes and CPU cores of nodes in the cluster, Amazon EKS automatically scales the number of replicas of the CoreDNS deployment.
 
 ====
