@@ -7,18 +7,18 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Reduce the blast radius of compromised workloads by hardening Kubernetes RBAC for cluster components, add-ons, and CSI drivers.
+Scope Kubernetes RBAC permissions for cluster components, add-ons, and CSI drivers to reduce the potential scope of unintended access to cluster resources.
 --
 
-Kubernetes RBAC controls what actions identities can perform inside a cluster. Many cluster components, including CSI drivers and other add-ons installed as DaemonSets, require broad permissions to function. If a workload on the same node is compromised, an attacker may be able to leverage those permissions for privilege escalation.
+Kubernetes role-based access control (RBAC) controls what actions identities can perform inside a cluster. Many cluster components, including CSI drivers and other add-ons installed as DaemonSets, require broad permissions to function. Reviewing and scoping these permissions reduces the potential scope of any unintended access.
 
-This topic describes the risks and recommended controls.
+This topic describes the permission considerations for common cluster components and the recommended controls.
 
-== DaemonSet privilege exposure
+== DaemonSet service account permissions
 
-DaemonSet Pods run on every node in the cluster. Their service account tokens are available to any process in the Pod, and by extension to any process that escapes the container boundary on that node.
+DaemonSet Pods run on every node in the cluster, so their service account tokens and the RBAC permissions those tokens grant are present on every node.
 
-A container breakout from _any_ Pod on a node can potentially access the service account tokens of DaemonSet Pods running on the same node. This means the RBAC permissions granted to DaemonSet service accounts are part of the attack surface for every node.
+An unauthorized process on a node may be able to access the service account tokens of other Pods running on the same node, including DaemonSet Pods. The RBAC permissions granted to DaemonSet service accounts are the same on every node in the cluster.
 
 Components commonly deployed as DaemonSets include:
 
@@ -26,26 +26,26 @@ Components commonly deployed as DaemonSets include:
 * The Amazon VPC CNI plugin (`aws-node`)
 * `kube-proxy`
 
-If a DaemonSet Pod has {aws} IAM credentials through EKS Pod Identity or IAM Roles for Service Accounts (IRSA), a container breakout on the same node can also lead to theft of those IAM credentials. This extends the blast radius beyond Kubernetes RBAC to any {aws} API permissions granted to the DaemonSet's IAM role.
+If a DaemonSet Pod has {aws} IAM credentials through EKS Pod Identity or IAM Roles for Service Accounts (IRSA), a process that gains access outside its container on the same node may also access those credentials. This extends the scope of impact beyond Kubernetes RBAC to any {aws} API permissions granted to a DaemonSet's IAM role.
 
 [IMPORTANT]
 ====
-Treat both the Kubernetes RBAC permissions and the IAM permissions of every DaemonSet service account as permissions that any compromised container on the node could obtain.
+When reviewing permissions, treat the Kubernetes RBAC permissions and the IAM permissions of every DaemonSet service account as accessible from every node in the cluster.
 ====
 
-== CSI driver RBAC risks
+== CSI driver RBAC scope
 
-CSI drivers are a common source of broad RBAC grants because they need to interact with nodes, persistent volumes, and storage APIs.
+CSI drivers commonly hold broad RBAC grants because they interact with nodes, persistent volumes, and storage APIs.
 
-=== Node mutation
+=== Node object permissions
 
-The EBS CSI driver's node component has RBAC permissions to mutate Node objects to support its taint removal feature. Due to Kubernetes RBAC limitations, this also allows it to modify _any_ Node in the cluster. An attacker with access to this service account token could taint or untaint nodes, modify labels, or alter node conditions.
+CSI drivers may require RBAC permissions to modify Node objects to support features such as taint removal or other node management tasks. Due to Kubernetes RBAC limitations, these permissions apply to _all_ Node objects in the cluster, not only the local node the driver is running on.
 
-The Helm chart provides a parameter (`node.serviceAccount.disableMutation`) that removes the node mutation permission from the `ebs-csi-node` service account. Enabling this disables the taint removal feature.
+For the EBS CSI driver, the Helm chart provides a parameter (`node.serviceAccount.disableMutation`) that removes the node modification permission from the `ebs-csi-node` service account. Enabling this disables the taint removal feature.
 
-=== Token theft
+=== Service account token exposure
 
-CSI driver Pods may use projected service account tokens for authentication. On a compromised node, an attacker with access to the container filesystem or the kubelet API can extract these tokens and make API calls with the driver's RBAC permissions. If the service account is also associated with an IAM role through EKS Pod Identity or IRSA, a stolen token can be exchanged for {aws} IAM credentials, extending the attack to {aws} APIs.
+CSI driver Pods may use projected service account tokens for authentication. On a node where an unauthorized process has gained access outside its container, those tokens may be accessible through the container filesystem or the kubelet API. If the service account is also associated with an IAM role through EKS Pod Identity or IRSA, an exposed token can be used to obtain {aws} IAM credentials.
 
 == Recommended controls
 
@@ -61,13 +61,13 @@ Apply the https://kubernetes.io/docs/concepts/security/pod-security-standards/[K
 
 === Use network policies
 
-Apply network policies to restrict egress from CSI driver and DaemonSet Pods to only the endpoints they need (for example, the Kubernetes API server and {aws} service endpoints). This limits the usefulness of a stolen service account token.
+Apply network policies to restrict egress from CSI driver and DaemonSet Pods to only the endpoints they need (for example, the Kubernetes API server and {aws} service endpoints). This reduces the scope of actions possible.
 
 === Monitor RBAC activity
 
 Enable Kubernetes audit logging and monitor for unexpected API calls from DaemonSet service accounts. Look for:
 
-* Node mutations from CSI driver service accounts
+* Node modifications from CSI driver service accounts
 * Pod creation in system namespaces
 * Unusual `get` or `list` calls on Secrets
 
