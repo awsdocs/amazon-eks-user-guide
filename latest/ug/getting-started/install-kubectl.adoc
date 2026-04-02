@@ -121,12 +121,7 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.14/2026-02-27/bin/dar
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2026-02-27/bin/darwin/amd64/kubectl
 ----
-**** Kubernetes `1.29`
-+
-[source,bash,subs="verbatim,attributes"]
-----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2026-02-27/bin/darwin/amd64/kubectl
-----
+
 . (Optional) Verify the downloaded binary with the `SHA-256` checksum for your binary.
 +
 .. Download the `SHA-256` checksum for your cluster's Kubernetes version.
@@ -167,12 +162,7 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.14/2026-02-27/bin/dar
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2026-02-27/bin/darwin/amd64/kubectl.sha256
 ----
-***** Kubernetes `1.29`
-+
-[source,bash,subs="verbatim,attributes"]
-----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2026-02-27/bin/darwin/amd64/kubectl.sha256
-----
+
 .. Check the `SHA-256` checksum for your downloaded binary.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -249,12 +239,7 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.14/2026-02-27/bin/lin
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2026-02-27/bin/linux/amd64/kubectl
 ----
-**** Kubernetes `1.29`
-+
-[source,bash,subs="verbatim,attributes"]
-----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2026-02-27/bin/linux/amd64/kubectl
-----
+
 . (Optional) Verify the downloaded binary with the `SHA-256` checksum for your binary.
 +
 .. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3using the command for your device's hardware platform.
@@ -295,12 +280,7 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.14/2026-02-27/bin/lin
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2026-02-27/bin/linux/amd64/kubectl.sha256
 ----
-***** Kubernetes `1.29`
-+
-[source,bash,subs="verbatim,attributes"]
-----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2026-02-27/bin/linux/amd64/kubectl.sha256
-----
+
 .. Check the `SHA-256` checksum for your downloaded binary with one of the following commands.
 + 
 [source,bash,subs="verbatim,attributes"]
@@ -385,12 +365,7 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.14/2026-02-27/bin/lin
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2026-02-27/bin/linux/arm64/kubectl
 ----
-**** Kubernetes `1.29`
-+
-[source,bash,subs="verbatim,attributes"]
-----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2026-02-27/bin/linux/arm64/kubectl
-----
+
 . (Optional) Verify the downloaded binary with the `SHA-256` checksum for your binary.
 +
 .. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3using the command for your device's hardware platform.
@@ -431,12 +406,7 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.14/2026-02-27/bin/lin
 ----
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2026-02-27/bin/linux/arm64/kubectl.sha256
 ----
-***** Kubernetes `1.29`
-+
-[source,bash,subs="verbatim,attributes"]
-----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2026-02-27/bin/linux/arm64/kubectl.sha256
-----
+
 .. Check the `SHA-256` checksum for your downloaded binary with one of the following commands.
 + 
 [source,bash,subs="verbatim,attributes"]
@@ -521,12 +491,6 @@ curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.14/2026-02-27/bin
 ----
 curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2026-02-27/bin/windows/amd64/kubectl.exe
 ----
-**** Kubernetes `1.29`
-+
-[source,bash,subs="verbatim,attributes"]
-----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2026-02-27/bin/windows/amd64/kubectl.exe
-----
 . (Optional) Verify the downloaded binary with the `SHA-256` checksum for your binary.
 +
 .. Download the `SHA-256` checksum for your cluster's Kubernetes version for Windows.
@@ -566,12 +530,6 @@ curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.14/2026-02-27/bin
 [source,bash,subs="verbatim,attributes"]
 ----
 curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2026-02-27/bin/windows/amd64/kubectl.exe.sha256
-----
-***** Kubernetes `1.29`
-+
-[source,bash,subs="verbatim,attributes"]
-----
-curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.15/2026-02-27/bin/windows/amd64/kubectl.exe.sha256
 ----
 .. Check the `SHA-256` checksum for your downloaded binary.
 +
