@@ -17,7 +17,7 @@ This topic describes how to integrate Elastic Fabric Adapter (EFA) with Pods dep
 [#efa-instances]
 == Instance types with EFA
 
-The _{aws} EFA Kubernetes Device Plugin_ supports all Amazon EC2 instance types that have EFA. To see a list of all instance types that have EFA, see link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Supported instance types,type="documentation"] in the _Amazon EC2 User Guide_. However, to run ML applications quickly, we recommend that an instance has hardware acceleration chips such as nVidia GPUs, link:machine-learning/inferentia/[{aws} Inferentia,type="marketing"] chips, or link:machine-learning/trainium/[{aws} Trainium,type="marketing"] chips, in addition to the EFA. To see a list of instance types that have hardware acceleration chips and EFA, see link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Accelerated computing,type="documentation"] in the _Amazon EC2 User Guide_.
+The _{aws} EFA Kubernetes Device Plugin_ supports all Amazon EC2 instance types that have EFA. To see a list of all instance types that have EFA, see link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Supported instance types,type="documentation"] in the _Amazon EC2 User Guide_. However, to run ML applications quickly, we recommend that an instance has hardware acceleration chips such as NVIDIA GPUs, link:machine-learning/inferentia/[{aws} Inferentia,type="marketing"] chips, or link:machine-learning/trainium/[{aws} Trainium,type="marketing"] chips, in addition to the EFA. To see a list of instance types that have hardware acceleration chips and EFA, see link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Accelerated computing,type="documentation"] in the _Amazon EC2 User Guide_.
 
 As you compare instance types to choose between them, consider the number of EFA network cards available for that instance type as well as the number of accelerator cards, amount of CPU, and amount of memory. You can assign up to one EFA per network card. An EFA counts as a network interface.. To see how many EFA are available for each instance types that have EFA, see the link:AWSEC2/latest/UserGuide/using-eni.html#network-cards[Network cards,type="documentation"] list in the _Amazon EC2 User Guide_.
 
@@ -28,7 +28,7 @@ An _Elastic Fabric Adapter (EFA)_ is a network interface that combines the capab
 
 To create nodes that can have EFA-only interfaces, you must use a custom EC2 Launch Template and set the `InterfaceType` to `efa-only`. In your custom Launch Template, you can't set the network card `0` to an EFA-only interface, as that is the primary network card and network interface of the EC2 instance. You must have VPC CNI version `1.18.5` or later for EFA-only interfaces. If you are using Amazon Linux 2, ami version has to be `v20240928` or later for EfA-only interfaces.
 
-The following procedure guides you to create an EKS cluster with `eksctl` with nodes that have nVidia GPUs and EFA interfaces. You can't use `eksctl` to create nodes and node groups that use EFA-only interfaces.
+The following procedure guides you to create an EKS cluster with `eksctl` with nodes that have NVIDIA GPUs and EFA interfaces. You can't use `eksctl` to create nodes and node groups that use EFA-only interfaces.
 
 [#efa-prereqs]
 == Prerequisites
