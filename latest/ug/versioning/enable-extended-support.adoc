@@ -24,8 +24,6 @@ If you do not enable extended support, your cluster will be automatically upgrad
 
 ====
 
-If you have set your version support policy as `extended` then you will not be able to change this setting after the Kubernetes version running on your cluster reaches end of standard support. In order to change the version support policy setting, your cluster must be running on a standard supported Kubernetes version.
-
 [#enable-support-policy-console]
 == Enable EKS extended support ({aws} Console)
 . Navigate to your EKS cluster in the {aws} Console. Select the *Overview* tab on the *Cluster Info* page.
