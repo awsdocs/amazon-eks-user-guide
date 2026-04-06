@@ -25,9 +25,9 @@ Extended support is enabled by default for new clusters, and existing clusters. 
 
 If you want your cluster to stay on its current Kubernetes version to take advantage of the extended support period, we strongly recommend enabling the extended support upgrade policy before the end of the standard support period for your cluster's Kubernetes version. You can enable extended support after the standard support period ends. However, Amazon EKS cannot guarantee that the change will take effect if an automatic upgrade has already been initiated for your cluster.
 
-Once your cluster has entered extended support, you cannot disable it. You can only disable extended support for clusters that are running a Kubernetes version in standard support.
-
 ====
+
+If you have set your version support policy as `extended` then you will not be able to change this setting after the Kubernetes version running on your cluster reaches end of standard support. In order to change the version support policy setting, your cluster must be running on a standard supported Kubernetes version.
 
 [#view-period-console]
 == View cluster upgrade policy ({aws} Console)
