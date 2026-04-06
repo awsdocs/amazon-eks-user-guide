@@ -110,7 +110,7 @@ kubectl apply -f "https://raw.githubusercontent.com/TensorWorks/directx-device-p
 [#ml-eks-windows-ami-verify-device-plugin]
 === Verifying the device plugin deployment
 
-After you have deployed the device plugin, replace `<namespace>` and run the following command to verify the DirectX Device Plugin is running correctly on your all your Windows nodes.
+After you have deployed the device plugin, replace `<namespace>` and run the following command to verify the DirectX Device Plugin is running correctly on all your Windows nodes.
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl get ds device-plugin-wddm -n <namespace>
