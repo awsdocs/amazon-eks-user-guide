@@ -44,6 +44,7 @@ a|* v1.3.3-eksbuild.1 and above, except for Bottlerocket
 |{aws} Private CA Connector for Kubernetes
 |v1.6.0-eksbuild.1 and above
 
+
 |Amazon FSx CSI driver
 |v1.7.0-eksbuild.1 and above
 

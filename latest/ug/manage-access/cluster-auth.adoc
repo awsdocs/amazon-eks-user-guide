@@ -18,7 +18,9 @@ Learn how to manage access to your Amazon EKS cluster. Using Amazon EKS requires
 
 *<<view-kubernetes-resources>>* -- Learn how to configure the {aws-management-console} to communicate with your Amazon EKS cluster. Use the console to view Kubernetes resources in the cluster, such as namespaces, nodes, and Pods.
 
-*<<create-kubeconfig>>* -- Learn how to configure kubectl to communicate with your Amazon EKS cluster. Use the {aws} CLI to create a kubeconfig file. 
+*<<mutate-kubernetes-resources>>* -- Learn about the permissions required to modify Kubernetes resources.
+
+*<<create-kubeconfig>>* -- Learn how to configure kubectl to communicate with your Amazon EKS cluster. Use the {aws} CLI to create a kubeconfig file.
 
 *<<service-accounts>>* -- Learn how to associate a Kubernetes service account with {aws} IAM Roles. You can use Pod Identity or IAM Roles for Service Accounts (IRSA).  
 
@@ -61,6 +63,8 @@ EKS Auto Mode integrates with EKS Pod Identity and EKS EKS access entries.
 include::k8s-access/grant-k8s-access.adoc[leveloffset=+1]
 
 include::view-kubernetes-resources.adoc[leveloffset=+1]
+
+include::mutate-kubernetes-resources.adoc[leveloffset=+1]
 
 include::create-kubeconfig.adoc[leveloffset=+1]
 

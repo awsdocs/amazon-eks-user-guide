@@ -25,3 +25,5 @@ include::manage-secrets.adoc[leveloffset=+1]
 
 include::envelope-encryption.adoc[leveloffset=+1]
 
+include::rbac-hardening.adoc[leveloffset=+1]
+

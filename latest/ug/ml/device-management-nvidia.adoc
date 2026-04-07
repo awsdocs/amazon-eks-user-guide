@@ -1,0 +1,310 @@
+include::../attributes.txt[]
+
+[.topic]
+[#device-management-nvidia]
+= Manage NVIDIA GPU devices on Amazon EKS
+:info_titleabbrev: Manage NVIDIA GPUs
+
+[abstract]
+--
+Learn how to manage NVIDIA GPUs on Amazon EKS using the NVIDIA DRA driver or device plugin for machine learning training and inference workloads.
+--
+
+NVIDIA GPUs are widely used for machine learning training, inference, and high-performance computing workloads. Amazon EKS supports two mechanisms for managing NVIDIA GPU devices in your EKS clusters: the _NVIDIA DRA driver for GPUs_ and the _NVIDIA Kubernetes device plugin_.
+
+It's recommended to use the NVIDIA DRA driver for new deployments on clusters running Kubernetes version 1.34 or later. The NVIDIA DRA driver enables flexible GPU allocation and GPU sharing between containers. The NVIDIA device plugin remains supported.
+
+== NVIDIA DRA driver vs. NVIDIA device plugin
+
+[cols="1,1,1", options="header"]
+|===
+| Capability
+| NVIDIA DRA driver
+| NVIDIA device plugin
+
+| Minimum Kubernetes version
+| 1.34
+| All EKS-supported Kubernetes versions
+
+| Karpenter and EKS Auto Mode
+| Not supported
+| Supported
+
+| EKS-optimized AMIs
+| AL2023
+| AL2023, Bottlerocket
+
+| Device advertisement
+| Rich attributes via `ResourceSlice` objects including GPU model, memory, driver version, and topology
+| Integer count of `nvidia.com/gpu` extended resources
+
+| GPU sharing
+| Multiple containers in the same Pod can share a GPU through shared `ResourceClaim` references
+| Not supported. Each GPU is exclusively allocated to one container.
+
+| ComputeDomains
+| Manages Multi-Node NVLink (MNNVL) through `ComputeDomain` resources for secure multi-node GPU communication
+| Not supported
+
+| Attribute-based selection
+| Filter GPUs by model, memory, or other attributes using CEL expressions
+| Not supported
+
+|===
+
+[#nvidia-dra-driver]
+== Install the NVIDIA DRA driver
+
+The NVIDIA DRA driver for GPUs manages two types of resources: GPUs and ComputeDomains. It runs two DRA kubelet plugins: `gpu-kubelet-plugin` and `compute-domain-kubelet-plugin`. Each can be enabled or disabled separately during installation. This guide focuses on GPU allocation. For using ComputeDomains, see <<ml-eks-nvidia-ultraserver>>.
+
+Using the NVIDIA DRA driver with Bottlerocket is not currently supported.
+
+=== Prerequisites
+
+* An Amazon EKS cluster running Kubernetes version 1.34 or later.
+* Nodes with NVIDIA GPU instance types (such as `P` or `G` instances).
+* Nodes with host-level components installed for NVIDIA GPUs. When using the EKS-optimized AL2023 or Bottlerocket NVIDIA AMIs, the host-level NVIDIA driver, CUDA user mode driver, and container toolkit are pre-installed.
+* Helm installed in your command-line environment, see the <<helm,Setup Helm instructions>> for more information.
+* `kubectl` configured to communicate with your cluster, see <<kubectl-install-update>> for more information.
+
+=== Procedure
+
+[IMPORTANT]
+====
+When using the NVIDIA DRA driver for GPU device management, it cannot be deployed alongside the NVIDIA device plugin on the same node. See upstream Kubernetes link:https://github.com/kubernetes/enhancements/issues/5004[KEP-5004] for updates.
+====
+
+. Add the NVIDIA DRA driver Helm chart repository.
++
+[source,bash]
+----
+helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
+----
++
+. Update your local Helm repository.
++
+[source,bash]
+----
+helm repo update
+----
++
+. Get the latest version of the NVIDIA DRA driver.
++
+[source,bash]
+----
+helm search repo nvidia/nvidia-dra
+----
++
++
+. Install the NVIDIA DRA driver.
++
+[source,bash,subs="verbatim,attributes"]
+----
+helm install nvidia-dra-driver-gpu nvidia/nvidia-dra-driver-gpu \
+    --create-namespace \
+    --namespace nvidia-dra-driver-gpu \
+    --set resources.computeDomains.enabled=false \
+    --set 'gpuResourcesEnabledOverride=true'
+----
++
+For advanced configuration options, see the link:https://github.com/NVIDIA/k8s-dra-driver-gpu/blob/main/deployments/helm/nvidia-dra-driver-gpu/values.yaml[NVIDIA DRA driver Helm chart].
++
+. Verify that the DRA driver pods are running.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pods -n nvidia-dra-driver-gpu
+----
++
+. Verify that the `DeviceClass` objects were created.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get deviceclass
+----
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME            AGE
+gpu.nvidia.com  60s
+----
++
+. Verify that `ResourceSlice` objects are published for your GPU nodes.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get resourceslice
+----
+
+=== Request NVIDIA GPUs in a Pod
+
+To request NVIDIA GPUs using the DRA driver, create a `ResourceClaimTemplate` that references the `gpu.nvidia.com` `DeviceClass` and reference it in your Pod specification.
+
+The following example requests a single GPU:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: single-gpu
+spec:
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        exactly:
+          deviceClassName: gpu.nvidia.com
+          count: 1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gpu-workload
+spec:
+  containers:
+  - name: app
+    ...
+    resources:
+      claims:
+      - name: gpu
+  resourceClaims:
+  - name: gpu
+    resourceClaimTemplateName: single-gpu
+  tolerations:
+  - key: "nvidia.com/gpu"
+    operator: "Exists"
+    effect: "NoSchedule"
+----
+
+[#nvidia-device-plugin]
+== Install the NVIDIA Kubernetes device plugin
+
+The NVIDIA Kubernetes device plugin advertises NVIDIA GPUs as `nvidia.com/gpu` extended resources. You request GPUs in container resource requests and limits.
+
+=== Prerequisites
+
+* An Amazon EKS cluster.
+* Nodes with NVIDIA GPU instance types using the EKS-optimized AL2023 NVIDIA AMI. The EKS-optimized Bottlerocket AMIs include the NVIDIA device plugin and no separate installation is required.
+* Helm installed in your command-line environment, see the <<helm,Setup Helm instructions>> for more information.
+* `kubectl` configured to communicate with your cluster, see <<kubectl-install-update>> for more information.
+
+=== Procedure
+
+. Add the NVIDIA device plugin Helm chart repository.
++
+[source,bash]
+----
+helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
+----
++
+. Update your local Helm repository.
++
+[source,bash]
+----
+helm repo update
+----
++
+. Install the NVIDIA Kubernetes device plugin.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+helm install nvdp nvdp/nvidia-device-plugin \
+    --namespace nvidia \
+    --create-namespace \
+    --set gfd.enabled=true
+----
++
+[NOTE]
+====
+You can also install and manage the NVIDIA Kubernetes device plugin using the https://github.com/NVIDIA/gpu-operator[NVIDIA GPU Operator], which automates the management of all NVIDIA software components needed to provision GPUs.
+====
++
+. Verify the NVIDIA device plugin DaemonSet is running.
++
+[source,bash]
+----
+kubectl get ds -n nvidia nvdp-nvidia-device-plugin
+----
++
+[source,bash]
+----
+NAME                        DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+nvdp-nvidia-device-plugin   2         2         2       2            2           <none>          60s
+----
++
+. Verify that your nodes have allocatable GPUs.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get nodes "-o=custom-columns=NAME:.metadata.name,GPU:.status.allocatable.nvidia\.com/gpu"
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME                                           GPU
+ip-192-168-11-225.us-west-2.compute.internal   1
+ip-192-168-24-96.us-west-2.compute.internal    1
+----
+
+=== Request NVIDIA GPUs in a Pod
+
+To request NVIDIA GPUs using the device plugin, specify the `nvidia.com/gpu` resource in your container resource limits.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nvidia-smi
+spec:
+  restartPolicy: OnFailure
+  containers:
+  - name: gpu-demo
+    image: public.ecr.aws/amazonlinux/amazonlinux:2023-minimal
+    command: ["/bin/sh", "-c"]
+    args: ["nvidia-smi && tail -f /dev/null"]
+    resources:
+      limits:
+        nvidia.com/gpu: 1
+  tolerations:
+  - key: "nvidia.com/gpu"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
+----
+
+To run this test, apply the manifest and view the logs:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f nvidia-smi.yaml
+kubectl logs nvidia-smi
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI XXX.XXX.XX            Driver Version: XXX.XXX.XX     CUDA Version: XX.X      |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L4                      On  |   00000000:31:00.0 Off |                    0 |
+| N/A   27C    P8             11W /   72W |       0MiB /  23034MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+----

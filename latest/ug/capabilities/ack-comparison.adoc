@@ -23,6 +23,15 @@ You can attach IAM policies directly to the Capability Role with no need to crea
 A best practice for production use cases is to configure service permissions using `IAMRoleSelector`.
 See <<ack-permissions>> for more details.
 
+*Session tags*: The managed capability automatically sets session tags on all {aws} API requests, enabling fine-grained access control and auditing.
+Tags include `eks:eks-capability-arn`, `eks:kubernetes-namespace`, and `eks:kubernetes-api-group`.
+This differs from self-managed ACK, which does not set these tags by default.
+See <<ack-permissions>> for details on using session tags in IAM policies.
+
+*Resource tags*: The capability applies different default tags to {aws} resources than self-managed ACK.
+The capability uses `eks:` prefixed tags (such as `eks:kubernetes-namespace`, `eks:eks-capability-arn`) instead of the `services.k8s.aws/` tags used by self-managed ACK.
+See <<ack-considerations>> for the complete list of default resource tags.
+
 *Resource compatibility*: ACK custom resources work identically to upstream ACK with no changes to your ACK resource YAML files.
 The capability uses the same Kubernetes APIs and CRDs, so tools like `kubectl` work the same way.
 All GA controllers and resources from upstream ACK are supported.

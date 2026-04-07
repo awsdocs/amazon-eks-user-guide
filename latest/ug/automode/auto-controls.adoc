@@ -33,16 +33,18 @@ include::iam_snippet:b3fc497a-510a-4dcf-8f20-f6a340f72dfd[]
 |{aws} Region	|Account
 |af-south-1	|471112993317
 |ap-east-1	|590183728416
+|ap-east-2  |381492200852
 |ap-northeast-1	|851725346105
 |ap-northeast-2	|992382805010
 |ap-northeast-3	|891377407544
 |ap-south-1	|975049899075
 |ap-south-2	|590183737426
 |ap-southeast-1	|339712723301
-|ap-southeast-2	|58264376476
+|ap-southeast-2	|058264376476
 |ap-southeast-3	|471112941769
 |ap-southeast-4	|590183863144
 |ap-southeast-5	|654654202513
+|ap-southeast-6 |905418310314
 |ap-southeast-7	|533267217478
 |ca-central-1	|992382439851
 |ca-west-1	|767397959864
@@ -63,6 +65,8 @@ include::iam_snippet:b3fc497a-510a-4dcf-8f20-f6a340f72dfd[]
 |us-east-2	|975050179949
 |us-west-1	|975050035094
 |us-west-2	|767397842682
+|us-gov-east-1  |446077414359
+|us-gov-west-1  |446098668741
 |===
 
 == Associate Public IP address

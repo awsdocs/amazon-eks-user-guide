@@ -33,7 +33,7 @@ https://kubernetes.io/docs/concepts/cluster-administration/flow-control/[feature
 
 *Units:* Count
 
-*Valid statistics:* Max
+*Valid statistics:* Sum
 
 |`scheduler_schedule_attempts_total`
 |The number of total attempts by the scheduler to schedule Pods in the cluster for a given period. This metric helps monitor the scheduler's workload and can indicate scheduling pressure or potential issues with Pod placement.

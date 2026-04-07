@@ -1,0 +1,115 @@
+include::../attributes.txt[]
+
+[.topic]
+[#device-management-efa]
+= Manage EFA devices on Amazon EKS
+:info_titleabbrev: Manage EFA devices
+
+[abstract]
+--
+Learn how to manage Elastic Fabric Adapter (EFA) devices in Amazon EKS clusters using the EFA device plugin for high-performance inter-node communication.
+--
+
+link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html[Elastic Fabric Adapter] (EFA) is a network device for Amazon EC2 instances that enables high-performance inter-node communication for machine learning training and High Performance Computing (HPC) workloads. Amazon EKS supports the _EFA device plugin_ for managing EFA devices in EKS clusters.
+
+[#eks-efa-nodes]
+== Creating EKS nodes with EFA interfaces
+
+When you create EKS nodes with EFA interfaces, the EFA interfaces are attached during instance bootstrap. If you need to customize the per-device EFA configuration or use link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html[placement groups] for the EFA-enabled EC2 instances, it's recommended to use EKS managed node groups or EKS self-managed node groups. You can pass configuration for each network interface with link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html[launch templates]. 
+
+When using EKS Auto Mode or Karpenter with dynamic provisioning, instances created for Pods requesting `vpc.amazonaws.com/efa` have all interfaces configured with interface type `EFA`. Static capacity provisioning in EKS Auto Mode and Karpenter does not currently support per-device EFA configuration. EKS Auto Mode and Karpenter do not currently support placement groups.
+
+When using <<eksctl-install-update, `eksctl`>> for provisioning EKS nodes with the `efaEnabled` setting, all interfaces are configured with interface type `EFA`, an EFA-specific security group is created, and the EFA device plugin is installed on the cluster. If you need to customize the per-device EFA configuration when using `eksctl`, it is recommended to use `eksctl`'s support for link:https://docs.aws.amazon.com/eks/latest/eksctl/launch-template-support.html[launch templates].
+
+[#eks-amis-efa]
+== Using EKS-optimized AMIs with EFA
+
+The EKS-optimized AL2023 accelerated AMIs (NVIDIA and Neuron) and all Bottlerocket AMIs include the host-level components required to use EFA. The EKS AL2023 and Bottlerocket AMIs do not include the EFA device plugin, and the device plugin must be installed separately on your cluster before deploying workloads that use EFA.
+
+[#efa-device-plugin]
+== Install the EFA Kubernetes device plugin
+
+The EFA device plugin advertises EFA devices as `vpc.amazonaws.com/efa` extended resources. You request EFA devices in container resource requests and limits. For a complete walkthrough of setting up EFA with training workloads, see <<node-efa>>.
+
+The EFA device plugin automatically allocates EFA devices that are topologically close to Neuron accelerators and NVIDIA GPUs on the physical EC2 instance.
+
+=== Prerequisites
+
+* An Amazon EKS cluster.
+* Nodes with EFA-enabled Amazon EC2 instance types. For a list of supported instance types, see link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Supported instance types,type="documentation"] in the _Amazon EC2 User Guide_. 
+* Nodes with host-level components installed for EFA. These are included if using the EKS AL2023 accelerated AMIs or the EKS Bottlerocket AMIs.
+* Helm installed in your command-line environment, see the <<helm,Setup Helm instructions>> for more information.
+* `kubectl` configured to communicate with your cluster, see <<#kubectl-install-update>> for more information.
+
+=== Procedure
+
+. Add the EKS Helm chart repository.
++
+[source,bash]
+----
+helm repo add eks https://aws.github.io/eks-charts
+----
++
+. Update your local Helm repository.
++
+[source,bash]
+----
+helm repo update
+----
++
+. Install the EFA device plugin.
++
+[source,bash,subs="verbatim,attributes"]
+----
+helm install efa eks/aws-efa-k8s-device-plugin -n kube-system
+----
++
+. Verify the EFA device plugin DaemonSet is running.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get daemonset -n kube-system aws-efa-k8s-device-plugin-daemonset
+----
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME                                  DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+aws-efa-k8s-device-plugin-daemonset   2         2         2       2            2           <none>          60s
+----
++
+. Verify that your nodes have allocatable EFA resources.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get nodes "-o=custom-columns=NAME:.metadata.name,EFA:.status.allocatable.vpc\.amazonaws\.com/efa"
+----
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME                                           EFA
+ip-192-168-11-225.us-west-2.compute.internal   4
+ip-192-168-24-96.us-west-2.compute.internal    4
+----
+
+=== Request EFA devices in a Pod
+
+To request EFA devices using the device plugin, specify the `vpc.amazonaws.com/efa` resource in your container resource requests or limits.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: efa-workload
+spec:
+  containers:
+  - name: app
+    ...
+    resources:
+      limits:
+        vpc.amazonaws.com/efa: 4
+        hugepages-2Mi: ...
+      requests:
+        vpc.amazonaws.com/efa: 4
+        hugepages-2Mi: ...
+----

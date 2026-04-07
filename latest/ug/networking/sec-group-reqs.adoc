@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn how to manage security groups for Amazon EKS clusters, including default rules, restricting traffic, and required outbound access for nodes to function properly with your cluster. Understand key security group considerations for secure operation of your Kubernetes cluster on {aws}.
+Learn how to manage security groups for Amazon EKS clusters, including default rules, restricting traffic, and required outbound access for nodes to function properly with your cluster.
 --
 
 This topic describes the security group requirements of an Amazon EKS cluster.
@@ -50,7 +50,7 @@ The default security group includes an outbound rule that allows Elastic Fabric 
 [IMPORTANT]
 ====
 
-If your cluster doesn't need the outbound rule, you can remove it. If you remove it, you must still have the minimum rules listed in <<security-group-restricting-cluster-traffic,Restricting cluster traffic>>. If you remove the inbound rule, Amazon EKS recreates it whenever the cluster is updated.
+If your cluster doesn't need the outbound rule to `0.0.0.0/0` (IPv4), `::/0` (IPv6), you can remove it. If you remove it, you must still have the minimum rules listed in <<security-group-restricting-cluster-traffic,Restricting cluster traffic>>. If you remove the inbound or outbound rules that allow traffic to/from the cluster security group itself, Amazon EKS recreates it whenever the cluster is updated.
 
 ====
 
@@ -92,7 +92,11 @@ aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.cl
 [#security-group-restricting-cluster-traffic]
 == Restricting cluster traffic
 
-If you need to limit the open ports between the cluster and nodes, you can remove the <<security-group-default-rules,default outbound rule>> and add the following minimum rules that are required for the cluster. If you remove the <<security-group-default-rules,default inbound rule>>, Amazon EKS recreates it whenever the cluster is updated.
+If you need to limit the open ports between the EKS control plane and nodes, you can remove the <<security-group-default-rules,default outbound rule>> to `0.0.0.0/0` (IPv4)/`::/0` (IPv6) and add the following minimum rules that are required for the cluster. 
+
+If you remove the <<security-group-default-rules,default inbound rule>> that allows all traffic for source self (traffic from the cluster security group), Amazon EKS recreates it when the cluster is updated.
+
+If you remove the <<security-group-default-rules,default outbound rule>> that allows all traffic for destination self (traffic to the cluster security group), Amazon EKS recreates it when the cluster is updated.
 
 [%header,cols="4"]
 |===
@@ -120,8 +124,6 @@ If you need to limit the open ports between the cluster and nodes, you can remov
 
 You must also add rules for the following traffic:
 
-
-
 * Any protocol and ports that you expect your nodes to use for inter-node communication.
 * Outbound internet access so that nodes can access the Amazon EKS APIs for cluster introspection and node registration at launch time. If your nodes don't have internet access, review <<private-clusters,Deploy private clusters with limited internet access>> for additional considerations.
 * Node access to pull container images from Amazon ECR or other container registries APIs that they need to pull images from, such as DockerHub. For more information, see link:general/latest/gr/aws-ip-ranges.html[{aws} IP address ranges,type="documentation"] in the {aws} General Reference.
@@ -132,8 +134,6 @@ You must also add rules for the following traffic:
 If you're considering limiting the rules, we recommend that you thoroughly test all of your Pods before you apply your changed rules to a production cluster.
 
 If you originally deployed a cluster with Kubernetes `1.14` and a platform version of `eks.3` or earlier, then consider the following:
-
-
 
 * You might also have control plane and node security groups. When these groups were created, they included the restricted rules listed in the previous table. These security groups are no longer required and can be removed. However, you need to make sure your cluster security group contains the rules that those groups contain.
 * If you deployed the cluster using the API directly or you used a tool such as the {aws} CLI or {aws} CloudFormation to create the cluster and you didn't specify a security group at cluster creation, then the default security group for the VPC was applied to the cluster network interfaces that Amazon EKS created.

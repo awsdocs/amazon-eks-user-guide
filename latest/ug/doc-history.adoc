@@ -19,6 +19,34 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-02-03"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `ec2:ModifyNetworkInterfaceAttribute` permission in `AmazonEKSNetworkingPolicy`. This allows Amazon EKS Auto Mode Controller to modify network interface attributes related to EC2 instances
+
+[.update,date="2026-02-17"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `autoscaling:PutWarmPool`, `autoscaling:DeleteWarmPool`, and `autoscaling:DescribeWarmPool` permissions to `AWSServiceRoleForAmazonEKSNodegroup` policy. This allows Amazon EKS Managed Nodegroups to manage underlying ASG warm pool resources throughout the node group lifecycle.
+
+[.update,date="2026-02-02"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Removed the "eks" prefix requirement in the name of the target instance profile for the `iam:GetInstanceProfile` permission in `AmazonEKSServiceRolePolicy`. This allows Amazon EKS Auto Mode to validate and utilize custom instance profiles in NodeClasses without requiring the "eks" naming prefix.
+
+[.update,date="2026-01-27"]
+=== Kubernetes version `1.35`
+[.update-ulink]
+link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-35[type="documentation"]
+ 
+Added Kubernetes version `1.35` support for new clusters and version upgrades.
+
 [.update,date="2026-01-15"]
 === {aws} managed policy updates
 [.update-ulink]

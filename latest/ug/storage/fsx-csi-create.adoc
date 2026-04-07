@@ -15,7 +15,7 @@ This topic shows you how to deploy the <<fsx-csi,FSx for Lustre CSI driver>> to 
 [NOTE]
 ====
 
-The driver isn't supported on Fargate or Amazon EKS Hybrid Nodes.
+The driver isn't supported on Fargate.
 
 ====
 

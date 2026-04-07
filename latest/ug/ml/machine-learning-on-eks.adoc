@@ -75,6 +75,8 @@ include::ml-cluster-configuration.adoc[leveloffset=+1]
 
 include::ml-compute-management.adoc[leveloffset=+1]
 
+include::device-management.adoc[leveloffset=+1]
+
 include::ml-recipes.adoc[leveloffset=+1]
 
 include::ml-resources.adoc[leveloffset=+1]
