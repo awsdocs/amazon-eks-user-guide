@@ -52,7 +52,7 @@ This can happen due to fragmentation of existing secondary IP addresses spread o
 +
 . If you plan to deploy a managed node group without a launch template, or with a launch template that you haven't specified an AMI ID in, and you're using a version of the Amazon VPC CNI plugin for Kubernetes at or later than the versions listed in the prerequisites, then skip to the next step. Managed node groups automatically calculates the maximum number of Pods for you.
 +
-If you're deploying a self-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must determine the Amazon EKS recommend number of maximum Pods for your nodes. Follow the instructions in <<determine-max-pods,Amazon EKS recommended maximum Pods for each Amazon EC2 instance type>>, adding `--cni-prefix-delegation-enabled` to step 3. Note the output for use in a later step.
+If you're deploying a self-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must set the maximum number of Pods for your nodes. For more information about how to determine the appropriate value, see <<max-pods-precedence>>.
 +
 IMPORTANT: Managed node groups enforces a maximum number on the value of `maxPods`. For instances with less than 30 vCPUs the maximum number is 110 and for all other instances the maximum number is 250. This maximum number is applied whether prefix delegation is enabled or not. 
 . If you're using a cluster configured for `IPv6`, skip to the next step.
