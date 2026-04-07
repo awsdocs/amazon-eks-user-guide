@@ -19,7 +19,7 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
-[.update,date="2026-02-12"]
+[.update,date="2026-04-07"]
 === Warm pool support for managed node groups
 [.update-ulink]
 link:eks/latest/userguide/warm-pools-managed-node-groups.html[type="documentation"]
