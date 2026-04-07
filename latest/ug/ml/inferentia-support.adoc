@@ -208,29 +208,29 @@ kubectl port-forward service/eks-neuron-test 8500:8500 &
 [source,python,subs="verbatim,attributes"]
 ----
 import numpy as np
-   import grpc
-   import tensorflow as tf
-   from tensorflow.keras.preprocessing import image
-   from tensorflow.keras.applications.resnet50 import preprocess_input
-   from tensorflow_serving.apis import predict_pb2
-   from tensorflow_serving.apis import prediction_service_pb2_grpc
-   from tensorflow.keras.applications.resnet50 import decode_predictions
-   
-   if __name__ == '__main__':
-       channel = grpc.insecure_channel('localhost:8500')
-       stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
-       img_file = tf.keras.utils.get_file(
-           "./kitten_small.jpg",
-           "https://raw.githubusercontent.com/awslabs/mxnet-model-server/master/docs/images/kitten_small.jpg")
-       img = image.load_img(img_file, target_size=(224, 224))
-       img_array = preprocess_input(image.img_to_array(img)[None, ...])
-       request = predict_pb2.PredictRequest()
-       request.model_spec.name = 'resnet50_inf1'
-       request.inputs['input'].CopyFrom(
-           tf.make_tensor_proto(img_array, shape=img_array.shape))
-       result = stub.Predict(request)
-       prediction = tf.make_ndarray(result.outputs['output'])
-       print(decode_predictions(prediction))
+import grpc
+import tensorflow as tf
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.resnet50 import preprocess_input
+from tensorflow_serving.apis import predict_pb2
+from tensorflow_serving.apis import prediction_service_pb2_grpc
+from tensorflow.keras.applications.resnet50 import decode_predictions
+
+if __name__ == '__main__':
+   channel = grpc.insecure_channel('localhost:8500')
+   stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
+   img_file = tf.keras.utils.get_file(
+       "./kitten_small.jpg",
+       "https://raw.githubusercontent.com/awslabs/mxnet-model-server/master/docs/images/kitten_small.jpg")
+   img = image.load_img(img_file, target_size=(224, 224))
+   img_array = preprocess_input(image.img_to_array(img)[None, ...])
+   request = predict_pb2.PredictRequest()
+   request.model_spec.name = 'resnet50_inf1'
+   request.inputs['input'].CopyFrom(
+       tf.make_tensor_proto(img_array, shape=img_array.shape))
+   result = stub.Predict(request)
+   prediction = tf.make_ndarray(result.outputs['output'])
+   print(decode_predictions(prediction))
 ----
 . Run the script to submit predictions to your service.
 +

@@ -162,7 +162,7 @@ Continue to <<step4>>.
 [source,bash,subs="verbatim,attributes"]
 ----
 aws eks update-cluster-version --name <cluster-name> \
-  --kubernetes-version <verion-number> --region <region-code>
+  --kubernetes-version <version-number> --region <region-code>
 ----
 +
 An example output is as follows.
