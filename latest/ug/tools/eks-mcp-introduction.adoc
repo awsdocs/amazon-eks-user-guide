@@ -35,7 +35,7 @@ The EKS MCP Server provides several tools that you can use to:
 * *Manage your cluster* +
 Create, configure, and manage EKS clusters with automated best practices.
 * *Manage Kubernetes resources* +
-Deploy applications, manage Kuberentes resources, and inspect cluster state.
+Deploy applications, manage Kubernetes resources, and inspect cluster state.
 * *Troubleshoot your cluster* +
 Diagnose issues using integrated troubleshooting tools and knowledge base of runbooks
 * *Query documentation* +

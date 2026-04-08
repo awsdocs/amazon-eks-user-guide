@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Detect threats with Amazon GuardDuty
 :info_titleabbrev: Amazon GuardDuty
 
-Amazon GuardDuty is a threat detection service that helps protect you accounts, containers, workloads, and the data with your {aws} environment. Using machine learning (ML) models, and anomaly and threat detection capabilities, GuardDuty continuously monitors different log sources and runtime activity to identify and prioritize potential security risks and malicious activities in your environment.
+Amazon GuardDuty is a threat detection service that helps protect your accounts, containers, workloads, and the data with your {aws} environment. Using machine learning (ML) models, and anomaly and threat detection capabilities, GuardDuty continuously monitors different log sources and runtime activity to identify and prioritize potential security risks and malicious activities in your environment.
 
 Among other features, GuardDuty offers the following two features that detect potential threats to your EKS clusters: _EKS Protection_ and _Runtime Monitoring_.
 

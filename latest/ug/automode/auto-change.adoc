@@ -18,7 +18,7 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/auto
 
 **Chore**: NodeClass dry run validation will now use dynamically selected instance types based on linked NodePools.
 
-== Feburary 2, 2026
+== February 2, 2026
 
 **Feature**: Added support to disable v4Egress traffic from IPv6 pods in EKS Auto Mode IPv6 clusters. For more information, see <<enableV4Egress>>.
 

@@ -50,7 +50,7 @@ Learn how to manage access to your Amazon EKS cluster. Using Amazon EKS requires
 
 == Considerations for EKS Auto Mode
 
-EKS Auto Mode integrates with EKS Pod Identity and EKS EKS access entries. 
+EKS Auto Mode integrates with EKS Pod Identity and EKS access entries. 
 
 * EKS Auto Mode uses access entries to grant the EKS control plane Kubernetes permissions. For example, the access policies enable EKS Auto Mode to read information about network endpoints and services. 
 ** You cannot disable access entries on an EKS Auto Mode cluster.

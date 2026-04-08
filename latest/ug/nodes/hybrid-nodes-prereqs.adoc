@@ -66,7 +66,7 @@ You must configure the VPC you pass during Amazon EKS cluster creation with rout
 |tgw-abcdef123456
 |On-prem node CIDR, route traffic to the TGW
 
-|REMODE_POD_CIDR
+|REMOTE_POD_CIDR
 |tgw-abcdef123456
 |On-prem pod CIDR, route traffic to the TGW
 |===

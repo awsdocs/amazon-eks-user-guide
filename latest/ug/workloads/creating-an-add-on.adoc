@@ -29,7 +29,7 @@ Complete the following before you create an add-on:
 
 * The cluster must exist before you create an add-on for it. For more information, see <<create-cluster>>.
 * Check if your add-on requires an IAM role. For more information, see <<addon-compat>>. 
-* Verify that the Amazon EKS add-on version is compatabile with your cluster. For more information, see <<addon-compat>>.
+* Verify that the Amazon EKS add-on version is compatible with your cluster. For more information, see <<addon-compat>>.
 * Verify that version 0.190.0 or later of the `eksctl` command line tool installed on your computer or {aws} CloudShell. For more information, see https://eksctl.io/installation/[Installation] on the `eksctl` website.
 
 
@@ -166,7 +166,7 @@ Retaining the default role name enables EKS to pre-select the role for add-ons i
 
 == Create add-on ({aws} CLI)
 
-. You need version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
+. You need version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such as `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 +
 . Determine which add-ons are available. You can see all available add-ons, their type, and their publisher. You can also see the URL for add-ons that are available through the {aws} Marketplace. Replace [.replaceable]`{k8s-n}` with the version of your cluster.
 +

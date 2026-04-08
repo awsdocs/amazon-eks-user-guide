@@ -489,7 +489,7 @@ When running `nodeadm init`, the following files and file locations are configur
 |/etc/containerd/config.toml
 
 |Containerd kernel modules config
-|/etc/modules-load.d/contianerd.conf
+|/etc/modules-load.d/containerd.conf
 
 |{aws} config file
 |/etc/aws/hybrid/config

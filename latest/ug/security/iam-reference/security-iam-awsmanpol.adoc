@@ -465,7 +465,7 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 
 |Added permissions to <<security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup>>.
 |Added `autoscaling:PutWarmPool`, `autoscaling:DeleteWarmPool`, and `autoscaling:DescribeWarmPool` permissions to `AWSServiceRoleForAmazonEKSNodegroup`. This allows Amazon EKS Managed Nodegroups to manage underlying ASG warm pool resources throughout the node group lifecycle.
-|Feburary 17, 2026
+|February 17, 2026
 
 |Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>.
 |Removed the "eks" prefix requirement in the name of the target instance profile for the `iam:GetInstanceProfile` permission in `AmazonEKSServiceRolePolicy`. This allows Amazon EKS Auto Mode to validate and utilize custom instance profiles in NodeClasses without requiring the "eks" naming prefix.

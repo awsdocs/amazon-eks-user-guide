@@ -242,7 +242,7 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2026-02-27/bin/lin
 
 . (Optional) Verify the downloaded binary with the `SHA-256` checksum for your binary.
 +
-.. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3using the command for your device's hardware platform.
+.. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3 using the command for your device's hardware platform.
 +
 ***** Kubernetes `1.35`
 +
@@ -368,7 +368,7 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2026-02-27/bin/lin
 
 . (Optional) Verify the downloaded binary with the `SHA-256` checksum for your binary.
 +
-.. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3using the command for your device's hardware platform.
+.. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3 using the command for your device's hardware platform.
 +
 ***** Kubernetes `1.35`
 +

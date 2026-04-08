@@ -32,7 +32,7 @@ You can use Amazon EKS with compute in {aws} Regions, {aws} Local Zones, and {aw
 |Amazon EKS in Local/Wavelength Zones
 
 
-|Kuberenetes control plane management
+|Kubernetes control plane management
 |{aws}-managed
 |{aws}-managed
 
@@ -66,7 +66,7 @@ If you need to run applications in your own data centers or edge environments, y
 |Amazon EKS on {aws} Outposts
 
 
-|Kuberenetes control plane management
+|Kubernetes control plane management
 |{aws}-managed
 |{aws}-managed
 
@@ -95,7 +95,7 @@ link:eks/eks-anywhere/[Amazon EKS Anywhere,type="marketing"] simplifies Kubernet
 |Amazon EKS Anywhere
 
 
-|Kuberenetes control plane management
+|Kubernetes control plane management
 |Customer-managed
 
 |Kubernetes control plane location

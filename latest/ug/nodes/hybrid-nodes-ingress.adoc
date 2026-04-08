@@ -24,7 +24,7 @@ You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> 
 === Considerations
 
 - See <<alb-ingress>> and <<lbc-helm>> for more information on {aws} Application Load Balancer and {aws} Load Balancer Controller.
-- See link:eks/latest/best-practices/load-balacing.html[Best Practices for Load Balancing,type="documentation"] for information on how to choose between {aws} Application Load Balancer and {aws} Network Load Balancer.
+- See link:eks/latest/best-practices/load-balancing.html[Best Practices for Load Balancing,type="documentation"] for information on how to choose between {aws} Application Load Balancer and {aws} Network Load Balancer.
 - See link:https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/annotations/[{aws} Load Balancer Controller Ingress annotations] for the list of annotations that can be configured for Ingress resources with {aws} Application Load Balancer.
 
 === Prerequisites
@@ -355,7 +355,7 @@ spec:
   infrastructure:
     annotations:
       service.beta.kubernetes.io/...
-      service.kuberentes.io/...
+      service.kubernetes.io/...
   addresses:
   - type: IPAddress
     value: <LoadBalancer IP address>
@@ -588,8 +588,8 @@ kind: Ingress
 metadata:
   name: my-ingress
   annotations:
-    service.beta.kuberentes.io/...
-    service.kuberentes.io/...
+    service.beta.kubernetes.io/...
+    service.kubernetes.io/...
 spec:
   ingressClassName: cilium
   rules:

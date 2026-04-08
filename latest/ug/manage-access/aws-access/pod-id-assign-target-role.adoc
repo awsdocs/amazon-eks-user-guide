@@ -54,7 +54,7 @@ In this step, you will establish a secure trust chain by creating and configurin
 ----
 include::iam_snippet:b376e151-c50d-4924-a12f-839792777e7b[]
 ----
-The above policy policy lets the role `eks-pod-identeity-primary-role` from {aws} account 111122223333 with the relevant link:eks/latest/userguide/pod-id-abac.html["EKS Pod Identity Session Tags",type="documentation"] assume this role.
+The above policy policy lets the role `eks-pod-identity-primary-role` from {aws} account 111122223333 with the relevant link:eks/latest/userguide/pod-id-abac.html["EKS Pod Identity Session Tags",type="documentation"] assume this role.
 
 If you link:eks/latest/userguide/pod-id-abac.html#pod-id-abac-tags["Disabled Session Tags",type="documentation"] in your EKS Pod Identity, EKS Pod Identity also sets the `sts:ExternalId` with information about the cluster, namespace, and service account of a pod when assuming a target role.
 [source,json,subs="verbatim,attributes"]

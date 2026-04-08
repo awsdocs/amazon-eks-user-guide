@@ -179,7 +179,7 @@ Expanded the troubleshooting page for Kubernetes _network policy_ in the VPC CNI
 [.update-ulink]
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
-This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform version.
+This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform versions.
 
 [.update,date="2025-06-26"]
 === {aws} managed policy updates
@@ -218,7 +218,7 @@ The `NodeClass` template for Auto Mode nodes added configuration for separate po
 [.update-ulink]
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
-This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform version.
+This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform versions.
 
 [.update,date="2025-06-11"]
 === Target secondary and cross-account roles with EKS Pod Identities 
@@ -1584,7 +1584,7 @@ You can now use the {aws} Load Balancer Controller to create Elastic Load Balanc
 [.update-ulink]
 link:eks/latest/userguide/node-taints-managed-node-groups.html[type="documentation"]
 
-Amazon EKS now supports adding note taints to managed node groups.
+Amazon EKS now supports adding node taints to managed node groups.
 
 
 [.update,date="2021-02-26"]
