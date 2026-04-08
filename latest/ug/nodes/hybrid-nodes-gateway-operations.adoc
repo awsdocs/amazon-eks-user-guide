@@ -36,7 +36,7 @@ Expected failover time is approximately 15–30 seconds. During failover, traffi
 [#hybrid-nodes-gateway-az-recommendation]
 === Availability Zone recommendation
 
-Spread gateway nodes across two Availability Zones so that an AZ failure does not take out both the leader and standby. When using EKS Auto Mode, the `NodePool` created by the Helm chart handles this automatically. For managed node groups or self-managed nodes, choose nodes in different AZs when labeling them.
+Spread gateway nodes across two Availability Zones so that an AZ failure does not take out both the leader and standby. When using EKS Auto Mode, configure your `NodePool` with subnet selectors across multiple AZs. For managed node groups or self-managed nodes, choose nodes in different AZs when labeling them.
 
 [NOTE]
 ====

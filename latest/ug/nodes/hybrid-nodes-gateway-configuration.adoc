@@ -222,7 +222,7 @@ The `autoMode.enabled` Helm value controls two behaviors in the Deployment templ
 |`maxSurge: 0`, `maxUnavailable: 1` — terminates the old pod before starting a new one, because node capacity is pre-provisioned.
 |===
 
-When using EKS Auto Mode, the Helm chart creates a `NodePool` resource that automatically provisions EC2 instances for the gateway. When using managed node groups or self-managed nodes, you must provision and label the nodes yourself before installing the chart.
+When using EKS Auto Mode, you must create a `NodePool` and `NodeClass` before installing the Helm chart. The NodePool provisions EC2 instances with the correct labels, taints, and source/destination check configuration. For the required YAML, see <<hybrid-nodes-gateway-getting-started>>. When using managed node groups or self-managed nodes, you must provision and label the nodes yourself before installing the chart.
 
 For all deployment targets, the Deployment uses `hostNetwork: true` and requires the `NET_ADMIN` capability. Pod anti-affinity ensures that the two gateway pods run on separate nodes.
 

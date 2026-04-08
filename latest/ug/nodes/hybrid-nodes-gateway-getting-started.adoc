@@ -65,7 +65,84 @@ Alternatively, disable source/destination check in the Amazon EC2 console by sel
 [#hybrid-nodes-gateway-auto-mode-nodes]
 === EKS Auto Mode
 
-When you install the gateway with `autoMode.enabled=true` (the default), the Helm chart creates a `NodePool` that automatically provisions gateway nodes. You do not need to label or prepare nodes manually in this case. The NodePool handles node provisioning, labeling, and source/destination check configuration.
+When using EKS Auto Mode, you must create a `NodePool` and `NodeClass` before installing the gateway Helm chart. The `NodeClass` disables source/destination check on the primary ENI so the gateway node can forward traffic. The `NodePool` includes a taint and label so only gateway pods schedule on these nodes.
+
+Apply the following resources to your cluster, replacing the placeholder values with your own:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: hybrid-gateway
+spec:
+  advancedNetworking:
+    sourceDestCheck: DisabledPrimaryENI
+  role: <your-node-role>
+  securityGroupSelectorTerms:
+    - tags:
+        aws:eks:cluster-name: <your-cluster-name>
+  subnetSelectorTerms:
+    - tags:
+        kubernetes.io/role/internal-elb: "1"
+---
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: hybrid-gateway
+spec:
+  template:
+    metadata:
+      labels:
+        hybrid-gateway-node: "true"
+    spec:
+      expireAfter: 336h
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: hybrid-gateway
+      requirements:
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values:
+            - on-demand
+        - key: eks.amazonaws.com/instance-category
+          operator: In
+          values:
+            - c
+            - m
+            - r
+        - key: eks.amazonaws.com/instance-generation
+          operator: Gt
+          values:
+            - "4"
+        - key: kubernetes.io/arch
+          operator: In
+          values:
+            - amd64
+        - key: kubernetes.io/os
+          operator: In
+          values:
+            - linux
+      taints:
+        - key: hybrid-gateway-node
+          effect: NoSchedule
+      terminationGracePeriod: 24h0m0s
+  disruption:
+    budgets:
+      - nodes: 10%
+    consolidateAfter: 30s
+    consolidationPolicy: WhenEmptyOrUnderutilized
+----
+
+Key fields in this configuration:
+
+* `advancedNetworking.sourceDestCheck: DisabledPrimaryENI` — Disables EC2 source/destination check on the node's primary ENI so the gateway can forward traffic that isn't addressed to itself.
+* `taints` — The `hybrid-gateway-node: NoSchedule` taint ensures only gateway pods with a matching toleration schedule on these nodes.
+* `labels` — The `hybrid-gateway-node: "true"` label is used by the Helm chart's node selector to target gateway pods to these nodes.
+* `nodeClassRef` — Links the NodePool to the NodeClass with the source/destination check configuration.
+
+You do not need to manually label nodes or disable source/destination check when using this approach — the NodePool and NodeClass handle both automatically.
 
 [#hybrid-nodes-gateway-install]
 == Install with Helm
