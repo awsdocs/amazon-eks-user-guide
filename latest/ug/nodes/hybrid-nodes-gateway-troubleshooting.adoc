@@ -1,0 +1,353 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-gateway-troubleshooting]
+= EKS hybrid nodes gateway troubleshooting
+:info_titleabbrev: Troubleshooting
+
+[abstract]
+--
+Diagnose and resolve common issues with the Amazon EKS hybrid nodes gateway, including connectivity problems, route table failures, and leader election issues.
+--
+
+This page provides symptom-based guidance for diagnosing and resolving common issues with the Amazon EKS hybrid nodes gateway. Each section describes a symptom, possible causes, diagnostic steps, and resolutions. For operational details, see <<hybrid-nodes-gateway-operations>>.
+
+[#hybrid-nodes-gateway-ts-unreachable]
+== Pods on hybrid nodes unreachable from VPC
+
+Pods running on hybrid nodes are not reachable from resources in the VPC, such as EC2 instances, load balancers, or the Kubernetes control plane.
+
+*Possible causes:*
+
+* VPC route table entries are missing or point to the wrong ENI.
+* The gateway leader pod is not running or has not completed setup.
+* The VXLAN interface on the gateway node is not configured correctly.
+* Cilium VTEP is not enabled or configured on the hybrid nodes.
+* Source/destination check is enabled on the gateway EC2 instance.
+
+*Diagnostic steps:*
+
+. *Check VPC route table entries.* Verify that routes for your hybrid pod CIDRs exist and point to the active gateway instance's primary ENI:
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws ec2 describe-route-tables \
+  --route-table-ids <your-route-table-id> \
+  --query "RouteTables[].Routes[?DestinationCidrBlock=='<your-hybrid-pod-cidr>']"
+----
++
+If routes are missing, check the gateway logs for route table errors. If routes point to the wrong ENI, a failover may not have completed successfully.
+
+. *Check gateway pod status and leader election.* Confirm that two gateway pods are running and one holds the leader lease:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pods -n hybrid-gateway
+kubectl get lease -n hybrid-gateway
+----
++
+If no pod holds the lease, see <<hybrid-nodes-gateway-ts-leader>>.
+
+. *Check the VXLAN interface on the gateway node.* Exec into the leader pod and verify the VXLAN interface exists and has FDB entries for hybrid nodes:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl exec -n hybrid-gateway <leader-pod-name> -- ip link show hybrid_vxlan0
+kubectl exec -n hybrid-gateway <leader-pod-name> -- bridge fdb show dev hybrid_vxlan0
+----
++
+If the interface does not exist, check the gateway logs for VXLAN setup errors.
+
+. *Check Cilium VTEP configuration on hybrid nodes.* Verify that the `CiliumVTEPConfig` resource exists and contains the leader's node IP:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get ciliumvtepconfig hybrid-gateway -o yaml
+----
++
+The `spec.endpoints[0].tunnelEndpoint` should match the leader gateway node's IP address. If the resource is missing or has a stale IP, the gateway may not have completed leader setup.
+
+. *Check source/destination check.* Verify that source/destination check is disabled on the gateway EC2 instances:
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws ec2 describe-instance-attribute \
+  --instance-id <gateway-instance-id> \
+  --attribute sourceDestCheck
+----
++
+If `sourceDestCheck` is `true`, disable it. See <<hybrid-nodes-gateway-getting-started>>.
+
+[#hybrid-nodes-gateway-ts-webhooks]
+== Webhook calls to hybrid nodes fail
+
+The Kubernetes API server cannot reach webhook endpoints running on hybrid nodes. Webhook admission requests time out or return connection errors.
+
+*Possible causes:*
+
+* The gateway is not routing traffic from the control plane to hybrid pods.
+* The `CiliumVTEPConfig` resource is missing or has a stale endpoint IP.
+
+*Diagnostic steps:*
+
+. *Verify the control plane can reach the gateway node IP.* The control plane sends traffic to the VPC route table, which forwards it to the gateway's ENI. Confirm the VPC route table entries are correct using the steps in <<hybrid-nodes-gateway-ts-unreachable>>.
+
+. *Check the CiliumVTEPConfig resource.* Verify the resource exists and the `tunnelEndpoint` matches the current leader's node IP:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get ciliumvtepconfig hybrid-gateway -o yaml
+----
++
+If the tunnel endpoint is stale (points to a previous leader), the gateway may not have completed the leader setup sequence. Check the gateway logs for errors during `CiliumVTEPConfig` upsert.
+
+[#hybrid-nodes-gateway-ts-routes]
+== VPC route table updates fail
+
+The gateway logs show errors related to VPC route table operations, and routes for hybrid pod CIDRs are not created or updated.
+
+*Possible causes:*
+
+* The gateway's IAM role does not have the required EC2 permissions.
+* The route table IDs in the configuration are incorrect or the route tables do not exist.
+* The gateway cannot reach the EC2 API endpoint.
+
+*Diagnostic steps:*
+
+. *Verify IAM permissions.* The gateway requires the following IAM actions:
++
+** `ec2:DescribeRouteTables`
+** `ec2:CreateRoute`
+** `ec2:ReplaceRoute`
+** `ec2:DescribeInstances`
++
+Check the IAM role attached to the gateway node's instance profile or pod identity configuration.
+
+. *Check route table IDs in the configuration.* Verify that the `routeTableIDs` Helm value or `ROUTE_TABLE_IDS` environment variable contains valid route table IDs:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get deployment -n hybrid-gateway -o jsonpath='{.items[0].spec.template.spec.containers[0].env}' | jq .
+----
++
+Confirm the route table IDs exist in your VPC:
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws ec2 describe-route-tables --route-table-ids <your-route-table-id>
+----
+
+. *Check gateway logs for route table errors.* Look for error messages related to route table operations:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl logs -n hybrid-gateway <leader-pod-name> | grep -i "route table"
+----
++
+Common error messages include:
++
+** `Failed to verify route table access` — The gateway cannot describe the route table. Check IAM permissions and route table IDs.
+** `Failed to update route tables` — The gateway cannot create or replace routes. Check IAM permissions.
+** `failed to access route table` — The route table ID may be incorrect or the IAM role lacks `ec2:DescribeRouteTables`.
+
+[#hybrid-nodes-gateway-ts-pods]
+== Gateway pods fail to start or are unhealthy
+
+Gateway pods are in `CrashLoopBackOff`, `Error`, or `Pending` state, or the health endpoint returns an error.
+
+*Possible causes:*
+
+* Required environment variables (`NODE_IP`, `VPC_CIDR`, `POD_CIDRS`) are not set.
+* IP forwarding is not enabled on the gateway node.
+* The pod does not have the `NET_ADMIN` capability.
+* Node label or anti-affinity constraints prevent scheduling.
+
+*Diagnostic steps:*
+
+. *Check pod logs.* View the logs for the failing pod to identify the error:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl logs -n hybrid-gateway <pod-name>
+----
+
+. *Check required environment variables.* The gateway requires `NODE_IP`, `VPC_CIDR`, and `POD_CIDRS`. If any are missing, the gateway exits immediately. Verify the pod spec:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pod -n hybrid-gateway <pod-name> -o jsonpath='{.spec.containers[0].env}' | jq .
+----
++
+** `NODE_IP` is set automatically from `status.hostIP` in the pod spec. If it is empty, the pod may not be scheduled on a node yet.
+** `VPC_CIDR` and `POD_CIDRS` come from the Helm values. Verify they are set correctly.
+
+. *Check IP forwarding.* The gateway checks that IP forwarding is enabled at startup and exits if it is not. Look for the error message `IP forwarding is not enabled` in the pod logs. Enable IP forwarding on the node:
++
+[source,bash,subs="verbatim,attributes"]
+----
+# Check current setting
+cat /proc/sys/net/ipv4/ip_forward
+
+# Enable if not set
+sudo sysctl -w net.ipv4.ip_forward=1
+----
++
+For a persistent setting, configure IP forwarding through the kubelet or add `net.ipv4.ip_forward=1` to `/etc/sysctl.d/`.
+
+. *Check NET_ADMIN capability.* The gateway requires the `NET_ADMIN` Linux capability to create VXLAN interfaces and manage network routes. If the pod's security context does not include this capability, VXLAN setup fails with `Failed to setup VXLAN`. Verify the Helm chart is deployed correctly and the Deployment spec includes `NET_ADMIN` in `securityContext.capabilities.add`.
+
+. *Check node label and scheduling constraints.* The gateway pods require nodes with the `hybrid-gateway-node=true` label. Pod anti-affinity ensures each pod runs on a separate node. If pods are `Pending`, check for scheduling issues:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl describe pod -n hybrid-gateway <pod-name>
+----
++
+Look for events indicating insufficient nodes, missing labels, or anti-affinity conflicts.
+
+[#hybrid-nodes-gateway-ts-leader]
+== Leader election issues
+
+The gateway pods are running but no pod acquires the leader lease, or leadership transitions happen frequently.
+
+*Possible causes:*
+
+* RBAC permissions for Lease objects are missing.
+* Network connectivity between gateway pods and the Kubernetes API server is unreliable.
+* Leader election parameters are misconfigured.
+
+*Diagnostic steps:*
+
+. *Check the Lease object.* Verify the Lease exists and inspect its current holder:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get lease -n hybrid-gateway hybrid-gateway-leader -o yaml
+----
++
+The `spec.holderIdentity` field shows the current leader. The `spec.renewTime` shows when the lease was last renewed. If `renewTime` is stale, the leader may have lost connectivity to the API server.
+
+. *Check RBAC permissions.* The gateway service account needs permissions to get, create, and update Lease objects in the gateway namespace. Verify the Role and RoleBinding:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get role -n hybrid-gateway
+kubectl get rolebinding -n hybrid-gateway
+----
++
+The Role should include `get`, `create`, and `update` verbs for the `leases` resource in the `coordination.k8s.io` API group.
+
+. *Check pod logs for lease errors.* Look for leader election errors in the pod logs:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl logs -n hybrid-gateway <pod-name> | grep -i "leader\|lease"
+----
++
+Common issues include:
++
+** `Failed to acquire lease` — The pod cannot create or update the Lease object. Check RBAC permissions.
+** Frequent `Leadership ended` followed by `Leader setup complete` messages — The leader is losing and re-acquiring the lease. This may indicate network instability between the pod and the API server. Consider increasing `--leader-election-lease-duration`.
+
+. *Check leader election parameters.* Verify the configured values:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get deployment -n hybrid-gateway -o jsonpath='{.items[0].spec.template.spec.containers[0].args}'
+----
++
+Ensure `--leader-election-renew-deadline` is less than `--leader-election-lease-duration`. If the renew deadline exceeds the lease duration, the leader loses the lease before it can renew. For more information, see <<hybrid-nodes-gateway-leader-tuning>>.
+
+[#hybrid-nodes-gateway-ts-errors]
+== Common error messages
+
+The following table lists error messages you may see in the gateway pod logs and their resolutions.
+
+[%header,cols="2,2,3"]
+|===
+|Error message |Cause |Resolution
+
+|`IP forwarding is not enabled`
+|The kernel parameter `net.ipv4.ip_forward` is not set to `1` on the gateway node.
+|Enable IP forwarding through the kubelet configuration or by running `sysctl -w net.ipv4.ip_forward=1`.
+
+|`Failed to setup VXLAN`
+|The gateway cannot create the VXLAN network interface. This typically occurs when the pod lacks the `NET_ADMIN` capability.
+|Verify the Deployment spec includes `NET_ADMIN` in `securityContext.capabilities.add`. Check that the Helm chart is deployed correctly.
+
+|`Failed to verify route table access`
+|The gateway cannot describe one or more VPC route tables at startup.
+|Verify the IAM role has `ec2:DescribeRouteTables` permission and the route table IDs in the configuration are correct.
+
+|`Failed to update route tables`
+|The gateway cannot create or replace routes in the VPC route tables.
+|Verify the IAM role has `ec2:CreateRoute` and `ec2:ReplaceRoute` permissions.
+
+|`Failed to create route table manager`
+|The gateway cannot initialize the {aws} EC2 client or retrieve the instance's primary ENI.
+|Verify the IAM role has `ec2:DescribeInstances` permission and the instance metadata service (IMDS) is accessible.
+
+|`NODE_IP is required`
+|The `NODE_IP` environment variable or `--node-ip` flag is not set.
+|Verify the pod spec sets `NODE_IP` from `status.hostIP` using a `fieldRef`. Check that the Helm chart is deployed correctly.
+
+|`Invalid NODE_IP`
+|The value provided for `NODE_IP` is not a valid IP address.
+|Check the `NODE_IP` environment variable value in the pod spec.
+
+|`pod-cidrs and vpc-cidr are required`
+|The `POD_CIDRS` or `VPC_CIDR` environment variable is empty.
+|Set the `podCIDRs` and `vpcCIDR` Helm values during installation.
+
+|`No valid route table IDs provided`
+|The `ROUTE_TABLE_IDS` value was set but contains no valid route table IDs after parsing.
+|Check the `routeTableIDs` Helm value for formatting errors. Route table IDs should be comma-separated (for example, `rtb-abc123,rtb-def456`).
+
+|`Failed to auto-detect AWS region`
+|The gateway cannot retrieve the {aws} Region from EC2 instance metadata.
+|Verify the instance metadata service (IMDS) is accessible. Alternatively, set the `--aws-region` flag or `AWS_REGION` environment variable explicitly.
+
+|`Failed to auto-detect AWS instance ID`
+|The gateway cannot retrieve the instance ID from EC2 instance metadata.
+|Verify the instance metadata service (IMDS) is accessible. Alternatively, set the `--aws-instance-id` flag or `AWS_INSTANCE_ID` environment variable explicitly.
+
+|`CiliumNode has no internal IP`
+|A hybrid node's `CiliumNode` object does not have an internal IP address in its spec.
+|Verify the hybrid node is registered correctly and the Cilium agent is running. Check the `CiliumNode` resource for the node.
+
+|`CiliumNode <name> has no pod CIDRs allocated`
+|A hybrid node's `CiliumNode` object does not have pod CIDRs allocated by Cilium IPAM.
+|Verify Cilium IPAM is configured correctly on the hybrid node. Check the `CiliumNode` resource for the node's IPAM status.
+
+|`Failed to upsert CiliumVTEPConfig`
+|The gateway cannot create or update the `CiliumVTEPConfig` custom resource.
+|Verify the CRD is installed in the cluster and the gateway service account has permissions to manage `CiliumVTEPConfig` resources.
+
+|`Unable to create manager`
+|The controller-runtime manager failed to initialize.
+|Check the pod logs for additional context. Common causes include invalid kubeconfig or inability to reach the Kubernetes API server.
+
+|`Failed to add gateway setup`
+|The leader-elected runnable could not be registered with the controller manager.
+|This is typically an internal error. Check the full pod logs for additional context and report the issue on the link:https://github.com/aws/eks-hybrid-nodes-gateway[GitHub repository].
+
+|`Unable to create Node controller`
+|The CiliumNode reconciler could not be registered with the controller manager.
+|Check the pod logs for additional context. Verify that the CiliumNode CRD is installed in the cluster.
+
+|`Problem running manager`
+|The controller manager exited unexpectedly.
+|Check the pod logs for the underlying error. Common causes include loss of connectivity to the Kubernetes API server or a port conflict on the metrics or health probe bind addresses.
+
+|`failed to access route table <id>`
+|The gateway cannot describe a specific VPC route table during the startup verification check.
+|Verify the IAM role has `ec2:DescribeRouteTables` permission and the route table ID is correct. The route table must exist in the same Region as the gateway instance.
+|===
+
+[#hybrid-nodes-gateway-ts-related]
+== Related topics
+
+* <<hybrid-nodes-gateway-overview>> — Overview of the gateway architecture and use cases.
+* <<hybrid-nodes-gateway-getting-started>> — Prerequisites and installation instructions.
+* <<hybrid-nodes-gateway-configuration>> — Complete reference for Helm values, CLI flags, and environment variables.
+* <<hybrid-nodes-gateway-operations>> — Monitoring, failover behavior, and scaling guidance.

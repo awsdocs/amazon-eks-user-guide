@@ -1,0 +1,389 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-gateway-operations]
+= EKS hybrid nodes gateway operations
+:info_titleabbrev: Operations
+
+[abstract]
+--
+Learn how to monitor, scale, and maintain the Amazon EKS hybrid nodes gateway, including failover behavior, VXLAN tunnel lifecycle, and VPC route table management.
+--
+
+This page covers day-2 operations for the Amazon EKS hybrid nodes gateway, including high availability, failover behavior, monitoring, scaling, and VXLAN tunnel lifecycle. For installation instructions, see <<hybrid-nodes-gateway-getting-started>>.
+
+[#hybrid-nodes-gateway-ha]
+== High availability and failover
+
+The hybrid nodes gateway uses an active-standby model with Kubernetes Lease-based leader election. Two gateway pods run on separate EC2 nodes, enforced by pod anti-affinity. Both pods create a VXLAN interface at startup and run a node reconciler that maintains VTEP entries for all hybrid nodes. Only the leader pod manages VPC route tables and the `CiliumVTEPConfig` CRD. The standby pod is always ready to forward traffic immediately on failover because it already has a complete set of tunnel entries.
+
+[#hybrid-nodes-gateway-failover-sequence]
+=== Failover sequence
+
+When the active gateway instance fails, the following sequence occurs:
+
+. The standby pod detects that the leader lease has expired.
+. The standby pod acquires the lease and becomes the new leader.
+. The new leader runs the leader setup sequence:
+** Updates VPC route table entries to point hybrid pod CIDRs to the new leader's primary ENI.
+** Upserts the `CiliumVTEPConfig` custom resource with the new leader's node IP and VXLAN MAC address.
+. Traffic resumes flowing through the new leader.
+
+Because both pods maintain VXLAN interfaces and VTEP entries at all times, the new leader does not need to recreate the VXLAN interface or reprogram tunnel entries during failover. Only the VPC route table and `CiliumVTEPConfig` updates are required.
+
+Expected failover time is approximately 15–30 seconds. During failover, traffic between the VPC and hybrid pods is interrupted.
+
+[#hybrid-nodes-gateway-az-recommendation]
+=== Availability Zone recommendation
+
+Spread gateway nodes across two Availability Zones so that an AZ failure does not take out both the leader and standby. When using EKS Auto Mode, the `NodePool` created by the Helm chart handles this automatically. For managed node groups or self-managed nodes, choose nodes in different AZs when labeling them.
+
+[NOTE]
+====
+Cross-AZ traffic between the gateway and other resources in the VPC incurs standard {aws} cross-AZ data transfer charges.
+====
+
+[#hybrid-nodes-gateway-leader-params]
+=== Leader election parameters
+
+The default leader election parameters are tuned for fast failover:
+
+[%header,cols="1,1,3"]
+|===
+|Parameter |Default |Description
+
+|`--leader-election-lease-duration`
+|`3s`
+|How long a non-leader waits before attempting to acquire the lease after the leader stops renewing.
+
+|`--leader-election-renew-deadline`
+|`2s`
+|How long the leader tries to renew the lease before giving up.
+
+|`--leader-election-retry-period`
+|`1s`
+|How often candidates retry acquiring the lease.
+|===
+
+Lowering these values reduces failover time but increases the risk of false failovers under network partitions. For most deployments, the defaults are appropriate. For more information, see <<hybrid-nodes-gateway-configuration>>.
+
+[#hybrid-nodes-gateway-route-table-mgmt]
+== VPC route table management
+
+The gateway manages VPC route table entries so that traffic destined for hybrid pod CIDRs reaches the active gateway instance.
+
+[#hybrid-nodes-gateway-route-how]
+=== How routes are managed
+
+When a gateway pod becomes the leader, it creates or replaces routes in each configured VPC route table. Each route sets the destination CIDR to a hybrid pod CIDR and the target to the leader's primary ENI. If a route already exists and points to the correct ENI, the gateway skips the update.
+
+During failover, the new leader replaces the existing routes so they point to its own ENI. This is the mechanism that redirects VPC traffic to the new active gateway.
+
+[#hybrid-nodes-gateway-route-example]
+=== Route table entry example
+
+After the gateway configures routes, your VPC route table contains entries similar to the following:
+
+[%header,cols="1,1,1"]
+|===
+|Destination |Target |Status
+
+|`10.0.0.0/16`
+|local
+|active
+
+|`<hybrid-pod-cidr>`
+|`eni-<leader-eni-id>`
+|active
+|===
+
+[#hybrid-nodes-gateway-route-iam]
+=== IAM permissions
+
+The gateway requires the following IAM actions to manage route tables:
+
+* `ec2:DescribeRouteTables`
+* `ec2:CreateRoute`
+* `ec2:ReplaceRoute`
+* `ec2:DescribeInstances`
+
+Attach these permissions to the IAM role associated with the gateway nodes' instance profile, pod identity, or IRSA configuration.
+
+[#hybrid-nodes-gateway-monitoring]
+== Monitoring
+
+[#hybrid-nodes-gateway-health-endpoints]
+=== Health and readiness endpoints
+
+The gateway exposes health and readiness endpoints on port `8088`:
+
+[%header,cols="1,1,3"]
+|===
+|Endpoint |Path |Description
+
+|Health check
+|`/healthz`
+|Returns HTTP 200 when the gateway process is healthy. Used by the Kubernetes liveness probe.
+
+|Readiness check
+|`/readyz`
+|Returns HTTP 200 when the gateway is ready to serve traffic. Used by the Kubernetes readiness probe.
+|===
+
+You can query these endpoints manually for diagnostics:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl exec -n hybrid-gateway <pod-name> -- curl -s http://localhost:8088/healthz
+kubectl exec -n hybrid-gateway <pod-name> -- curl -s http://localhost:8088/readyz
+----
+
+[#hybrid-nodes-gateway-metrics]
+=== Metrics endpoint
+
+The gateway exposes Prometheus-compatible metrics on port `10080` at the `/metrics` path. The following custom metrics are available in addition to the standard controller-runtime metrics.
+
+*Gateway info:*
+
+[%header,cols="2,1,3"]
+|===
+|Metric |Type |Description
+
+|`hybrid_gateway_info`
+|Gauge
+|Static information about the gateway instance. Always 1. Labels: `node_ip`, `node_name`, `vxlan_interface`, `vpc_cidr`, `pod_cidr`.
+|===
+
+*Hybrid nodes:*
+
+[%header,cols="2,1,3"]
+|===
+|Metric |Type |Description
+
+|`hybrid_gateway_hybrid_nodes_configured`
+|Gauge
+|Current number of hybrid nodes with VTEP entries configured.
+|===
+
+*VTEP operations:*
+
+[%header,cols="2,1,3"]
+|===
+|Metric |Type |Description
+
+|`hybrid_gateway_vtep_add_total`
+|Counter
+|Total successful VTEP add operations.
+
+|`hybrid_gateway_vtep_add_errors_total`
+|Counter
+|Total failed VTEP add operations.
+
+|`hybrid_gateway_vtep_remove_total`
+|Counter
+|Total successful VTEP remove operations.
+
+|`hybrid_gateway_vtep_remove_errors_total`
+|Counter
+|Total failed VTEP remove operations.
+|===
+
+*Leader election and route tables:*
+
+[%header,cols="2,1,3"]
+|===
+|Metric |Type |Description
+
+|`hybrid_gateway_leader_is_active`
+|Gauge
+|1 if this pod is the active leader, 0 if standby.
+
+|`hybrid_gateway_leader_setup_duration_seconds`
+|Histogram
+|Duration of leader setup operations (route tables + CiliumVTEPConfig) in seconds.
+
+|`hybrid_gateway_aws_route_table_update_total`
+|Counter
+|Total successful {aws} route table update operations.
+
+|`hybrid_gateway_aws_route_table_update_errors_total`
+|Counter
+|Total failed {aws} route table update operations.
+
+|`hybrid_gateway_aws_route_table_update_duration_seconds`
+|Histogram
+|Duration of {aws} route table update operations in seconds.
+|===
+
+*Network statistics (collected on-demand per scrape):*
+
+[%header,cols="2,1,3"]
+|===
+|Metric |Type |Description
+
+|`hybrid_gateway_vxlan_rx_bytes_total`
+|Gauge
+|Total bytes received on the VXLAN interface.
+
+|`hybrid_gateway_vxlan_tx_bytes_total`
+|Gauge
+|Total bytes transmitted on the VXLAN interface.
+
+|`hybrid_gateway_vxlan_rx_packets_total`
+|Gauge
+|Total packets received on the VXLAN interface.
+
+|`hybrid_gateway_vxlan_tx_packets_total`
+|Gauge
+|Total packets transmitted on the VXLAN interface.
+
+|`hybrid_gateway_vxlan_rx_dropped_total`
+|Gauge
+|Total packets dropped on receive by the VXLAN interface.
+
+|`hybrid_gateway_vxlan_tx_dropped_total`
+|Gauge
+|Total packets dropped on transmit by the VXLAN interface.
+
+|`hybrid_gateway_vxlan_rx_errors_total`
+|Gauge
+|Total receive errors on the VXLAN interface.
+
+|`hybrid_gateway_vxlan_tx_errors_total`
+|Gauge
+|Total transmit errors on the VXLAN interface.
+
+|`hybrid_gateway_vxlan_interface_up`
+|Gauge
+|1 if the VXLAN interface is UP, 0 otherwise.
+
+|`hybrid_gateway_vxlan_fdb_entries`
+|Gauge
+|Current number of FDB entries on the VXLAN interface.
+
+|`hybrid_gateway_vxlan_route_count`
+|Gauge
+|Current number of routes via the VXLAN interface.
+
+|`hybrid_gateway_primary_nic_rx_bytes_total`
+|Gauge
+|Total bytes received on the primary network interface.
+
+|`hybrid_gateway_primary_nic_tx_bytes_total`
+|Gauge
+|Total bytes transmitted on the primary network interface.
+
+|`hybrid_gateway_primary_nic_rx_packets_total`
+|Gauge
+|Total packets received on the primary network interface.
+
+|`hybrid_gateway_primary_nic_tx_packets_total`
+|Gauge
+|Total packets transmitted on the primary network interface.
+
+|`hybrid_gateway_primary_nic_rx_dropped_total`
+|Gauge
+|Total packets dropped on receive by the primary NIC.
+
+|`hybrid_gateway_primary_nic_tx_dropped_total`
+|Gauge
+|Total packets dropped on transmit by the primary NIC.
+
+|`hybrid_gateway_primary_nic_rx_errors_total`
+|Gauge
+|Total receive errors on the primary NIC.
+
+|`hybrid_gateway_primary_nic_tx_errors_total`
+|Gauge
+|Total transmit errors on the primary NIC.
+
+|`hybrid_gateway_primary_nic_info`
+|Gauge
+|Primary NIC name. Always 1. Labels: `interface_name`.
+|===
+
+[#hybrid-nodes-gateway-cloudwatch]
+=== CloudWatch Observability add-on
+
+You can use the link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-EKS-addon.html[Amazon CloudWatch Observability add-on,type="documentation"] to collect gateway metrics and logs. The add-on scrapes the Prometheus metrics endpoint and sends them to CloudWatch. Configure the add-on to scrape the gateway namespace:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+prometheus:
+  scrapeTargets:
+    - namespace: hybrid-gateway
+      port: 10080
+----
+
+[#hybrid-nodes-gateway-scaling]
+== Scaling considerations
+
+The hybrid nodes gateway is not horizontally scalable — it uses an active-standby model with exactly two pods. Scaling is vertical: choose an EC2 instance type with sufficient network performance for your traffic volume.
+
+[#hybrid-nodes-gateway-instance-guidance]
+=== Instance type guidance
+
+Gateway throughput is limited by the EC2 instance network performance. Consider the following when selecting an instance type:
+
+* *Network bandwidth* — The gateway forwards all traffic between the VPC and hybrid pods. Choose an instance type whose network bandwidth meets your peak traffic requirements.
+* *Packets per second (PPS)* — VXLAN encapsulation adds overhead per packet. Workloads with many small packets (for example, microservices with high request rates) benefit from instance types with higher PPS limits.
+* *Number of hybrid nodes* — Each hybrid node adds a VXLAN tunnel endpoint. The gateway maintains FDB entries, ARP entries, and routes for each node. For clusters with many hybrid nodes, choose an instance type with sufficient memory and CPU.
+
+For most deployments, a general-purpose instance type such as `m5.large` or `m6i.large` is a reasonable starting point. Monitor network utilization and adjust as needed.
+
+[#hybrid-nodes-gateway-vxlan-lifecycle]
+== VXLAN tunnel lifecycle
+
+The gateway automatically maintains VXLAN tunnels to hybrid nodes as they join or leave the cluster.
+
+[#hybrid-nodes-gateway-tunnel-mgmt]
+=== How tunnels are managed
+
+A node controller watches `CiliumNode` objects in the cluster. The controller runs on every gateway pod (not just the leader) so that both the leader and standby have up-to-date tunnel state. When a `CiliumNode` event occurs, the controller checks whether the node is a hybrid node by looking for the `eks.amazonaws.com/compute-type: hybrid` label.
+
+*When a hybrid node joins the cluster:*
+
+. The controller detects the new `CiliumNode` object.
+. It extracts the node's internal IP address and pod CIDR from the `CiliumNode` spec.
+. It programs the following on the VXLAN interface:
+** A route for the node's pod CIDR via the node's IP through the VXLAN interface.
+** A static ARP entry mapping the node's IP to a deterministic MAC address.
+** An FDB entry telling the VXLAN module to send encapsulated packets to the node's IP.
+
+*When a hybrid node leaves the cluster:*
+
+. The controller detects the `CiliumNode` deletion.
+. It removes the route, ARP entry, and FDB entry for that node from the VXLAN interface.
+
+This lifecycle is fully automatic. You do not need to manually configure tunnels when adding or removing hybrid nodes.
+
+[#hybrid-nodes-gateway-vxlan-details]
+=== VXLAN interface details
+
+The gateway creates a VXLAN interface named `hybrid_vxlan0` with the following parameters:
+
+[%header,cols="1,2"]
+|===
+|Parameter |Value
+
+|VNI
+|2
+
+|UDP port
+|8472 (Cilium default)
+
+|Learning
+|Disabled (static FDB entries only)
+
+|Source IP
+|Gateway node IP
+|===
+
+The VXLAN interface is created at startup on every gateway pod, not just the leader. This ensures the standby is ready to forward traffic immediately after acquiring the lease during failover.
+
+[#hybrid-nodes-gateway-operations-next]
+== Next steps
+
+* <<hybrid-nodes-gateway-configuration>> — Customize Helm values, CLI flags, and leader election parameters.
+* <<hybrid-nodes-gateway-troubleshooting>> — Diagnose and resolve common issues.
+* <<hybrid-nodes-gateway-overview>> — Return to the overview page.

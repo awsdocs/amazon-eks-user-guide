@@ -63,3 +63,5 @@ include::hybrid-nodes-concepts.adoc[leveloffset=+1]
 include::hybrid-nodes-nodeadm.adoc[leveloffset=+1]
 
 include::hybrid-nodes-troubleshooting.adoc[leveloffset=+1]
+
+include::hybrid-nodes-gateway-overview.adoc[leveloffset=+1]

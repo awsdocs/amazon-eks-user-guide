@@ -1,0 +1,227 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-gateway-getting-started]
+= Get started with the EKS hybrid nodes gateway
+:info_titleabbrev: Get started
+
+[abstract]
+--
+Learn how to prepare your environment, install, verify, and uninstall the Amazon EKS hybrid nodes gateway.
+--
+
+This page walks you through the prerequisites, environment preparation, installation, verification, and removal of the Amazon EKS hybrid nodes gateway. For an introduction to the gateway and its architecture, see <<hybrid-nodes-gateway-overview>>.
+
+[#hybrid-nodes-gateway-prerequisites]
+== Prerequisites
+
+Before you install the hybrid nodes gateway, confirm that your environment meets the following requirements:
+
+* *EKS cluster with Cilium CNI and VTEP support* — Your EKS cluster must use the EKS version of Cilium as the CNI on hybrid nodes, and Cilium VTEP must be enabled. For more information, see <<hybrid-nodes-cni>>.
+* *Hybrid connectivity* — A private connection between your VPC and on-premises environment is required. You can use {aws} Direct Connect, {aws} Site-to-Site VPN, or your own VPN solution. For more information, see <<hybrid-nodes-networking>>.
+* *Source/destination check disabled* — The EC2 instances that run the gateway must have source/destination check disabled so they can forward traffic on behalf of hybrid pods.
+* *IAM permissions for route table management* — For VPC route table integration, the gateway nodes require an IAM role with the following EC2 actions:
+** `ec2:DescribeRouteTables`
+** `ec2:CreateRoute`
+** `ec2:ReplaceRoute`
+** `ec2:DescribeInstances`
+* *At least 2 labeled nodes* — For high availability, label at least two EC2 nodes that will host the gateway. The Helm chart schedules one gateway pod per node using pod anti-affinity.
+* *IP forwarding enabled* — IP forwarding must be enabled on gateway nodes so the kernel forwards packets between the VXLAN interface and the host network. You can enable IP forwarding through the kubelet configuration or by setting `net.ipv4.ip_forward=1` with sysctl.
+* *Kubernetes RBAC permissions* — The Helm chart creates the required RBAC resources automatically. The gateway service account needs the following permissions:
+** `CiliumNode`: get, list, watch (ClusterRole)
+** `Lease`: get, create, update (Role, scoped to the gateway namespace)
+** `Events`: create, patch (ClusterRole)
+
+[#hybrid-nodes-gateway-prepare-nodes]
+== Prepare gateway nodes
+
+[#hybrid-nodes-gateway-label-nodes]
+=== Label nodes
+
+The gateway pods are scheduled only on nodes that carry the `hybrid-gateway-node=true` label. Label at least two nodes:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl label node <node-name-1> hybrid-gateway-node=true
+kubectl label node <node-name-2> hybrid-gateway-node=true
+----
+
+For high availability, choose nodes in different Availability Zones.
+
+[#hybrid-nodes-gateway-disable-source-dest]
+=== Disable source/destination check
+
+Each gateway node must have source/destination check disabled. You can disable it using the {aws} CLI:
+
+[source,bash,subs="verbatim,attributes"]
+----
+aws ec2 modify-instance-attribute \
+  --instance-id <instance-id> \
+  --no-source-dest-check
+----
+
+Alternatively, disable source/destination check in the Amazon EC2 console by selecting the instance, choosing *Actions*, *Networking*, *Change source/destination check*, and clearing the check box.
+
+[#hybrid-nodes-gateway-auto-mode-nodes]
+=== EKS Auto Mode
+
+When you install the gateway with `autoMode.enabled=true` (the default), the Helm chart creates a `NodePool` that automatically provisions gateway nodes. You do not need to label or prepare nodes manually in this case. The NodePool handles node provisioning, labeling, and source/destination check configuration.
+
+[#hybrid-nodes-gateway-install]
+== Install with Helm
+
+[#hybrid-nodes-gateway-install-auto]
+=== EKS Auto Mode
+
+Run the following command to install the gateway with EKS Auto Mode:
+
+[source,bash,subs="verbatim,attributes"]
+----
+helm install eks-hybrid-nodes-gateway \
+  oci://<your-ecr-registry>/eks-hybrid-nodes-gateway \
+  --namespace hybrid-gateway \
+  --create-namespace \
+  --set image.repository=<your-ecr-registry>/eks-hybrid-nodes-gateway \
+  --set vpcCIDR=<your-vpc-cidr> \
+  --set podCIDRs=<your-hybrid-pod-cidrs> \
+  --set routeTableIDs=<your-route-table-ids>
+----
+
+[#hybrid-nodes-gateway-install-mng]
+=== Managed node groups or self-managed nodes
+
+For managed node groups or self-managed nodes, set `autoMode.enabled=false`:
+
+[source,bash,subs="verbatim,attributes"]
+----
+helm install eks-hybrid-nodes-gateway \
+  oci://<your-ecr-registry>/eks-hybrid-nodes-gateway \
+  --namespace hybrid-gateway \
+  --create-namespace \
+  --set image.repository=<your-ecr-registry>/eks-hybrid-nodes-gateway \
+  --set autoMode.enabled=false \
+  --set vpcCIDR=<your-vpc-cidr> \
+  --set podCIDRs=<your-hybrid-pod-cidrs> \
+  --set routeTableIDs=<your-route-table-ids>
+----
+
+[#hybrid-nodes-gateway-required-values]
+=== Required Helm values
+
+The following values are required for all installations:
+
+[%header,cols="1,3"]
+|===
+|Value |Description
+
+|`image.repository`
+|The container image repository for the gateway image.
+
+|`vpcCIDR`
+|The CIDR block of your EKS cluster VPC (for example, `10.0.0.0/16`). Used for Cilium VTEP configuration so hybrid nodes route VPC-bound traffic through the gateway.
+
+|`podCIDRs`
+|Comma-separated list of pod CIDRs used by Cilium on hybrid nodes (for example, `10.100.0.0/16,10.101.0.0/16`). The gateway creates VPC route table entries and VXLAN routes for these CIDRs.
+
+|`routeTableIDs`
+|Comma-separated list of VPC route table IDs to program (for example, `rtb-0abc1234def567890,rtb-0fed9876cba543210`). The gateway creates routes in these tables pointing hybrid pod CIDRs to the active gateway instance.
+|===
+
+For a complete list of configurable values, see <<hybrid-nodes-gateway-configuration>>.
+
+[#hybrid-nodes-gateway-verify]
+== Verify the installation
+
+After installing the gateway, verify that it is running and healthy.
+
+[#hybrid-nodes-gateway-verify-pods]
+=== Check pod status
+
+Confirm that two gateway pods are running:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pods -n hybrid-gateway
+----
+
+You should see output similar to:
+
+[source,subs="verbatim,attributes"]
+----
+NAME                                        READY   STATUS    RESTARTS   AGE
+eks-hybrid-nodes-gateway-5d4f6a7b8c-abc12   1/1     Running   0          2m
+eks-hybrid-nodes-gateway-5d4f6a7b8c-def34   1/1     Running   0          2m
+----
+
+[#hybrid-nodes-gateway-verify-leader]
+=== Check leader election
+
+Verify that one pod has acquired the leader election lease:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get lease -n hybrid-gateway
+----
+
+The output shows the current leader in the `HOLDER` column:
+
+[source,subs="verbatim,attributes"]
+----
+NAME                     HOLDER                                      AGE
+hybrid-gateway-leader    eks-hybrid-nodes-gateway-5d4f6a7b8c-abc12   2m
+----
+
+[#hybrid-nodes-gateway-verify-health]
+=== Check health endpoint
+
+Verify the health endpoint is responding on the leader pod:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl exec -n hybrid-gateway <leader-pod-name> -- curl -s http://localhost:8088/healthz
+----
+
+A healthy gateway returns an HTTP 200 response.
+
+[#hybrid-nodes-gateway-verify-routes]
+=== Verify VPC route table entries
+
+In the Amazon VPC console or using the {aws} CLI, confirm that your VPC route tables contain entries for the hybrid pod CIDRs pointing to the leader gateway instance's ENI:
+
+[source,bash,subs="verbatim,attributes"]
+----
+aws ec2 describe-route-tables \
+  --route-table-ids <your-route-table-id> \
+  --query "RouteTables[].Routes[?DestinationCidrBlock=='<your-hybrid-pod-cidr>']"
+----
+
+Each hybrid pod CIDR should have a route with the `NetworkInterfaceId` set to the leader instance's primary ENI.
+
+[#hybrid-nodes-gateway-uninstall]
+== Uninstall
+
+To remove the hybrid nodes gateway, run:
+
+[source,bash,subs="verbatim,attributes"]
+----
+helm uninstall eks-hybrid-nodes-gateway --namespace hybrid-gateway
+----
+
+[NOTE]
+====
+Uninstalling the Helm chart does not automatically remove the VPC route table entries created by the gateway. After uninstalling, manually delete the routes for your hybrid pod CIDRs from the VPC route tables to avoid routing traffic to instances that are no longer running the gateway. You can remove routes using the {aws} CLI:
+
+[source,bash,subs="verbatim,attributes"]
+----
+aws ec2 delete-route \
+  --route-table-id <your-route-table-id> \
+  --destination-cidr-block <your-hybrid-pod-cidr>
+----
+====
+
+[#hybrid-nodes-gateway-getting-started-next]
+== Next steps
+
+* <<hybrid-nodes-gateway-configuration>> — Customize Helm values, CLI flags, and leader election parameters.
+* <<hybrid-nodes-gateway-operations>> — Monitor the gateway, understand failover behavior, and plan for scaling.
+* <<hybrid-nodes-gateway-troubleshooting>> — Diagnose and resolve common issues.

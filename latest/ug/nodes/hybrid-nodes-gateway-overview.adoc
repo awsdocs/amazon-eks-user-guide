@@ -1,0 +1,91 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-gateway-overview]
+= EKS hybrid nodes gateway
+:info_titleabbrev: Hybrid nodes gateway
+
+[abstract]
+--
+Learn about the Amazon EKS hybrid nodes gateway, which automates networking between your EKS cluster VPC and Kubernetes pods running on EKS Hybrid Nodes.
+--
+
+The Amazon EKS hybrid nodes gateway automates networking between your Amazon EKS cluster VPC and Kubernetes pods running on link:eks/latest/userguide/hybrid-nodes-overview.html[EKS Hybrid Nodes,type="documentation"]. The gateway eliminates the need to make on-premises pod networks routable from the VPC or coordinate network infrastructure changes. It creates VXLAN tunnels between EC2-based gateway nodes in your VPC and Cilium-managed hybrid nodes in your on-premises environment, and it automatically maintains VPC route table entries so that traffic reaches the correct gateway instance.
+
+[#hybrid-nodes-gateway-use-cases]
+== Use cases
+
+The hybrid nodes gateway enables the following traffic flows between your VPC and on-premises environment:
+
+* *Control plane to webhook communication* — The Kubernetes API server can reach webhook endpoints running on hybrid nodes. Without the gateway, webhooks on hybrid nodes are unreachable from the control plane because hybrid pod CIDRs are not routable in the VPC.
+* *Pod-to-pod traffic across cloud and on-premises* — Pods running on EC2 nodes in the VPC can communicate directly with pods running on hybrid nodes, and vice versa.
+* *{aws} service connectivity to hybrid pods* — {aws} services such as Application Load Balancers, Network Load Balancers, and Amazon Managed Service for Prometheus can reach pods running on hybrid nodes.
+
+[#hybrid-nodes-gateway-architecture]
+== Architecture
+
+Two gateway pods run as a Deployment on labeled EC2 nodes. A Kubernetes Lease-based leader election determines which pod is active. Both pods create a VXLAN interface at startup and run a node reconciler that watches `CiliumNode` objects, so the standby is always ready to forward traffic immediately on failover. Only leader-specific actions (VPC route table updates and `CiliumVTEPConfig` management) transfer when leadership changes.
+
+[#hybrid-nodes-gateway-how-it-works]
+== How it works
+
+The hybrid nodes gateway uses four mechanisms to enable connectivity:
+
+*VXLAN tunneling* — The gateway creates a VXLAN interface (`hybrid_vxlan0`) with VNI 2 on UDP port 8472 (the Cilium default). It establishes a tunnel to each hybrid node by programming FDB entries, ARP entries, and routes on the VXLAN interface. A node controller watches `CiliumNode` objects and automatically adds or removes tunnels as hybrid nodes join or leave the cluster.
+
+*VPC route table management* — When the gateway becomes the leader, it creates or replaces routes in the specified VPC route tables. Each route points a hybrid pod CIDR to the leader's primary ENI, so VPC traffic destined for hybrid pods is forwarded to the active gateway instance.
+
+*Cilium VTEP integration* — The gateway creates a `CiliumVTEPConfig` custom resource that tells Cilium agents on hybrid nodes where to send VPC-bound traffic. The config contains the leader's node IP as the tunnel endpoint and the VXLAN interface MAC address. When hybrid pods send traffic to VPC addresses, Cilium encapsulates it in a VXLAN packet and sends it to the gateway.
+
+*Leader election* — The gateway uses Kubernetes Lease-based leader election with an active-standby model. Two gateway pods run on separate nodes enforced by pod anti-affinity. Both pods create a VXLAN interface at startup and run a node reconciler that maintains VTEP entries for all hybrid nodes. The leader performs VPC route table updates and Cilium VTEP configuration. If the leader fails, the standby detects the lease expiration, acquires the lease, and runs the leader setup sequence. Expected failover time is approximately 15–30 seconds.
+
+[#hybrid-nodes-gateway-deployment-model]
+== Deployment model
+
+The hybrid nodes gateway runs on EC2 instances in your VPC and is deployed using a Helm chart. The gateway supports the following deployment targets:
+
+* *EKS Auto Mode* — The Helm chart creates a `NodePool` that automatically provisions gateway nodes. This is the default configuration.
+* *EKS managed node groups* — You label two existing nodes and set `autoMode.enabled=false` in the Helm values.
+* *Self-managed nodes* — You label two self-managed nodes and set `autoMode.enabled=false` in the Helm values.
+
+For all deployment targets, at least two nodes are recommended for high availability. For more information, see <<hybrid-nodes-gateway-getting-started>>.
+
+[#hybrid-nodes-gateway-pricing]
+== Pricing
+
+There is no additional charge for the Amazon EKS hybrid nodes gateway. You pay for the EC2 instances the gateway runs on and EKS Auto Mode management fees if applicable. For more information, see link:eks/pricing/[Amazon EKS pricing,type="marketing"].
+
+[#hybrid-nodes-gateway-region-availability]
+== Region availability
+
+The Amazon EKS hybrid nodes gateway is available in all {aws} Regions where EKS Hybrid Nodes is supported, except China Regions. For the current list of supported Regions, see <<hybrid-nodes-overview>>.
+
+[#hybrid-nodes-gateway-open-source]
+== Open source
+
+The Amazon EKS hybrid nodes gateway codebase is open source. You can view the source code, report issues, and contribute at the link:https://github.com/aws/eks-hybrid-nodes-gateway[GitHub repository].
+
+[#hybrid-nodes-gateway-limitations]
+== Limitations and considerations
+
+Before deploying the hybrid nodes gateway, consider the following:
+
+* *No traffic encryption* — The VXLAN tunnels created by the gateway do not encrypt traffic. If you require encryption in transit between the VPC and your on-premises environment, use an encrypted transport such as {aws} Direct Connect with MACsec or a VPN connection. For more information, see link:eks/latest/userguide/data-protection.html[Data protection in Amazon EKS,type="documentation"].
+* *Single cluster* — Each gateway deployment serves a single EKS cluster. If you have multiple clusters with hybrid nodes, deploy a separate gateway for each cluster.
+* *Cilium VTEP required* — The gateway requires the EKS version of the Cilium CNI with VTEP support enabled on hybrid nodes. Other CNI plugins are not supported.
+
+[#hybrid-nodes-gateway-next-steps]
+== Next steps
+
+* <<hybrid-nodes-gateway-getting-started>>
+* <<hybrid-nodes-gateway-configuration>>
+* <<hybrid-nodes-gateway-operations>>
+* <<hybrid-nodes-gateway-troubleshooting>>
+
+include::hybrid-nodes-gateway-getting-started.adoc[leveloffset=+1]
+
+include::hybrid-nodes-gateway-configuration.adoc[leveloffset=+1]
+
+include::hybrid-nodes-gateway-operations.adoc[leveloffset=+1]
+
+include::hybrid-nodes-gateway-troubleshooting.adoc[leveloffset=+1]
