@@ -41,6 +41,7 @@ To add a managed node group to an existing cluster, see <<create-managed-node-gr
 
 * Amazon EKS managed node groups create and manage Amazon EC2 instances for you.
 * Every managed node is provisioned as part of an Amazon EC2 Auto Scaling group that's managed for you by Amazon EKS. Moreover, every resource including Amazon EC2 instances and Auto Scaling groups run within your {aws} account.
+* Amazon EKS periodically syncs the managed node group's scaling configuration to match the actual Auto Scaling group values. If an external actor such as Cluster Autoscaler modifies the Auto Scaling group's size, `DescribeNodegroup` will eventually reflect those changes. When you initiate a node group update or upgrade without explicitly modifying the scaling configuration, the workflow uses the current Auto Scaling group values rather than the node group's stored scaling configuration. The stored scaling configuration only takes precedence when you explicitly include it in an `UpdateNodegroupConfig` request.
 * The Auto Scaling group of a managed node group spans every subnet that you specify when you create the group.
 * Amazon EKS tags managed node group resources so that they are configured to use the Kubernetes https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler].
 +
