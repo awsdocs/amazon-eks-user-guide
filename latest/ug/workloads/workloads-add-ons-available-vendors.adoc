@@ -406,7 +406,7 @@ Learn about the HA Proxy Amazon EKS add-on.
 
 The name is `haproxy-technologies_kubernetes-ingress-ee` and the namespace is `haproxy-controller`. HA Proxy publishes the add-on.
 
-For information about the add-on, see https://www.haproxy.com/documentation/kubernetes-ingress/community/installation/aws/[Installing on AWS] in the HA Proxy documentation.
+For information about the add-on, see https://www.haproxy.com/documentation/kubernetes-ingress/community/installation/aws/[Installing on {aws}] in the HA Proxy documentation.
 
 [#add-on-ha-proxy-service-account-name]
 === Service account name
