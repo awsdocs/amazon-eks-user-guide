@@ -96,7 +96,7 @@ EKS Auto Mode supports the following instance types:
 |i8ge, i7i, i8g, i7ie, i4g, i4i, i3, i3en, is4gen, d3, d3en, im4gn
 
 |Accelerated Computing (P/G/Inf/Trn)
-|p6-b200, p6-b300, p5, p5e, p5en, p4d, p4de, p3dn, g7e, g6, gr6, g6e, g5g, g5, g4dn, g4ad, inf2, inf1, trn1, trn1n, trn2
+|p6-b200, p6-b300, p5, p5e, p5en, p4d, p4de, p3, p3dn, g7e, g6, gr6, g6e, g5g, g5, g4dn, g4ad, inf2, inf1, trn1, trn1n, trn2
 
 |High Performance Computing (HPC/X2)
 |hpc8a, x2iezn, x2iedn, x2idn

@@ -16,7 +16,7 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/auto
 
 == April 10, 2026
 
-**New supported instance types**: p5e, p5en, p3dn, p6-b200, p6-b300, trn2, hpc8a, x8aedz, x8i. For the full list of supported instances, see <<automode-learn-instances>>.
+**New supported instance types**: p6-b200, p6-b300, p5e, p5en, trn2, hpc8a, x8aedz, x8i. For the full list of supported instances, see <<automode-learn-instances>>.
 
 == April 2, 2026
 
