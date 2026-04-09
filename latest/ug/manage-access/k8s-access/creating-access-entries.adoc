@@ -49,7 +49,7 @@ Example: `{arn-aws}sts::<111122223333>:assumed-role/<my-role>/{{SessionName}}`
 If the ARN of the role that you specified contained a path, Amazon EKS removes it in the generated username.
 
 |Role
-|`EC2_LINUX` or `EC2_Windows`
+|`EC2_LINUX` or `EC2_WINDOWS`
 |`system:node:{{EC2PrivateDNSName}}`
 
 |Role
@@ -64,7 +64,7 @@ If the ARN of the role that you specified contained a path, Amazon EKS removes i
 You can change the username after the access entry is created.
 * If an access entry's type is `STANDARD`, and you want to use Kubernetes RBAC authorization, you can add one or more _group names_ to the access entry. After you create an access entry you can add and remove group names. For the IAM principal to have access to Kubernetes objects on your cluster, you must create and manage Kubernetes role-based authorization (RBAC) objects. Create Kubernetes `RoleBinding` or `ClusterRoleBinding` objects on your cluster that specify the group name as a `subject` for `kind: Group`. Kubernetes authorizes the IAM principal access to any cluster objects that you've specified in a Kubernetes `Role` or `ClusterRole` object that you've also specified in your binding's `roleRef`. If you specify group names, we recommend that you're familiar with the Kubernetes role-based authorization (RBAC) objects. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the Kubernetes documentation.  
 +
-IMPORTANT: Amazon EKS doesn't confirm that any Kubernetes RBAC objects that exist on your cluster include any of the group names that you specify. For example, if you create an access entry for group that currently doesn't exist, EKS will create the group instead of returning an error. 
+IMPORTANT: Amazon EKS doesn't confirm that any Kubernetes RBAC objects that exist on your cluster include any of the group names that you specify. For example, if you create an access entry for group that currently doesn't exist, Amazon EKS will accept the configuration without returning an error, but the IAM principal won't have any permissions until matching Kubernetes RBAC resources are created. 
 +
 Instead of, or in addition to, Kubernetes authorizing the IAM principal access to Kubernetes objects on your cluster, you can associate Amazon EKS _access policies_ to an access entry. Amazon EKS authorizes IAM principals to access Kubernetes objects on your cluster with the permissions in the access policy. You can scope an access policy's permissions to Kubernetes namespaces that you specify. Use of access policies don't require you to manage Kubernetes RBAC objects. For more information, see <<access-policies>>.
 * If you create an access entry with type `EC2_LINUX` or `EC2_Windows`, the IAM principal creating the access entry must have the `iam:PassRole` permission. For more information, see link:IAM/latest/UserGuide/id_roles_use_passrole.html[Granting a user permissions to pass a role to an {aws} service,type="documentation"] in the _IAM User Guide_.
@@ -116,7 +116,7 @@ You can't use the `--kubernetes-groups` option when you specify a type other tha
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-aws eks create-access-entry --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/my-role --type STANDARD --user Viewers --kubernetes-groups Viewers
+aws eks create-access-entry --cluster-name my-cluster --principal-arn {arn-aws}iam::111122223333:role/my-role --type STANDARD --username Viewers --kubernetes-groups Viewers
 ----
 ** Create an access entry that allows an IAM user to authenticate to your cluster. This example is provided because this is possible, though IAM best practices recommend accessing your cluster using IAM _roles_ that have short-term credentials, rather than IAM _users_ that have long-term credentials. For more information, see link:IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp[Require human users to use federation with an identity provider to access {aws} using temporary credentials,type="documentation"] in the _IAM User Guide_.
 +

@@ -124,10 +124,10 @@ This access policy includes permissions that grant an IAM principal most permiss
 
 |
 |`configmaps`, `endpoints`, `persistentvolumeclaims`, `persistentvolumeclaims/status`, `pods`, `replicationcontrollers`, `replicationcontrollers/scale`, `serviceaccounts`, `services`, `services/status`
-|`get`,``list``, `watch`
+|`get`, `list`, `watch`
 
 |
-|``pods/attach``, `pods/exec`, `pods/portforward`, `pods/proxy`, `secrets`, `services/proxy`
+|`pods/attach`, `pods/exec`, `pods/portforward`, `pods/proxy`, `secrets`, `services/proxy`
 |`get`, `list`, `watch`
 
 |
@@ -148,7 +148,7 @@ This access policy includes permissions that grant an IAM principal most permiss
 
 |
 |`namespaces`
-|`get`,``list``, `watch`
+|`get`, `list`, `watch`
 
 |===
 
@@ -275,7 +275,7 @@ This access policy includes permissions that allow an IAM principal to edit most
 |`get`, `list`, `watch`
 
 |
-|``pods/attach``, `pods/exec`, `pods/portforward`, `pods/proxy`, `secrets`, `services/proxy`
+|`pods/attach`, `pods/exec`, `pods/portforward`, `pods/proxy`, `secrets`, `services/proxy`
 |`get`, `list`, `watch`
 
 |
@@ -347,7 +347,7 @@ This access policy includes permissions that allow an IAM principal to view most
 |`get`, `list`, `watch`
 
 |
-|`bindings`, `events`, `limitranges`, `namespaces/status`, `pods/log`, `pods/status`, `replicationcontrollers/status`, `resourcequotas`, r``esourcequotas/status``
+|`bindings`, `events`, `limitranges`, `namespaces/status`, `pods/log`, `pods/status`, `replicationcontrollers/status`, `resourcequotas`, `resourcequotas/status`
 |`get`, `list`, `watch`
 
 |
@@ -452,7 +452,7 @@ This policy includes permissions that allow Amazon EKS to manage leader election
 
 The policy is scoped specifically to compute management lease resources while allowing basic read access (`get`, `watch`) to all lease resources in the cluster.
 
-Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the networking capability to function properly.
+Amazon EKS automatically creates an access entry with this access policy for the cluster IAM role when Auto Mode is enabled, ensuring that the necessary permissions are in place for the compute management capability to function properly.
 
 == AmazonEKSBlockStorageClusterPolicy
 

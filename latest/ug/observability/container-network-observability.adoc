@@ -371,7 +371,7 @@ image::images/nfm-eks-workflow.png[Illustration of how NFM works with EKS]
     * Service map: Visualization of network flows within the cluster (Intra AZ and Inter AZ).
     * Flow table: Table presentation of network flows within the cluster (Intra AZ and Inter AZ), from pods to {aws} services (EC2 → S3 and EC2 → DDB), and from pods to external destinations (Unclassified).
 
-The network flows pulled from the Top Contributors API are scoped to a 1 hour time range, and can include up to 500 flows from each category. For the service map, this means up to 1000 flows can be sourced and presented from the Intra AZ and Inter AZ flow categories over a 1 hour time range. For the flow table, this means that up to 3000 network flows can be sourced and presented from all 6 network flow categories over a 2 hour time range. 
+The network flows pulled from the Top Contributors API are scoped to a 1 hour time range, and can include up to 500 flows from each category. For the service map, this means up to 1000 flows can be sourced and presented from the Intra AZ and Inter AZ flow categories over a 1 hour time range. For the flow table, this means that up to 2500 network flows can be sourced and presented from all 5 network flow categories over a 2 hour time range. 
 
 ===== Example: Service map
 

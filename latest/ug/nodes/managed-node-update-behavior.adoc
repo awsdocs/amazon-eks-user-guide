@@ -75,7 +75,7 @@ Custom user data can sometimes break the bootstrap process. This scenario can le
 *Any changes which make a node unhealthy or not ready*::
 Node disk pressure, memory pressure, and similar conditions can lead to a node not going to `Ready` state.
 
-*Each node most bootstrap within 15 minutes*::
+*Each node must bootstrap within 15 minutes*::
 If any node takes more than 15 minutes to bootstrap and join the cluster, it will cause the upgrade to time out. This is the total runtime for bootstrapping a new node measured from when a new node is required to when it joins the cluster. When upgrading a managed node group, the time counter starts as soon as the Auto Scaling Group size increases.
 
 
@@ -85,7 +85,7 @@ If any node takes more than 15 minutes to bootstrap and join the cluster, it wil
 The upgrade phase behaves in two different ways, depending on the _update strategy_. There are two update strategies: *default* and *minimal*.
 
 We recommend the default strategy in most scenarios. It creates new nodes before terminating the old ones, so that the available capacity is maintained during the upgrade phase.
-The minimal strategy is useful in scenarios where you are constrained to resources or costs, for example with hardware accelerators such as GPUs. It terminating the old nodes before creating the new ones, so that total capacity never increases beyond your configured quantity.
+The minimal strategy is useful in scenarios where you are constrained to resources or costs, for example with hardware accelerators such as GPUs. It terminates the old nodes before creating the new ones, so that total capacity never increases beyond your configured quantity.
 
 The _default_ update strategy has these steps:
 

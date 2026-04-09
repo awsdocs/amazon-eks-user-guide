@@ -63,7 +63,7 @@ The following admission controllers are enabled for all `1.31` platform versions
 
 |`1.31.9`
 |`eks-local-outposts.4`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.31.9`. {aws} IAM Authenticator updated to `v0.7.2`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.0` Bottlerocket version updated to `v1.43.0`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.31.9`. {aws} IAM Authenticator updated to `v0.7.2`. Amazon VPC CNI plugin for Kubernetes updated to `v1.20.0`. Bottlerocket version updated to `v1.43.0`.
 |August 9, 2025
 
 |`1.31.7`
@@ -111,7 +111,7 @@ The following admission controllers are enabled for all `1.30` platform versions
 
 |`1.30.11`
 |`eks-local-outposts.5`
-|New platform version with security fixes and enhancements. kube-proxy updated to `v1.30.11`. {aws} IAM Authenticator updated to `v0.7.1`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.5`  Bottlerocket version updated to `v1.40.0`.
+|New platform version with security fixes and enhancements. kube-proxy updated to `v1.30.11`. {aws} IAM Authenticator updated to `v0.7.1`. Amazon VPC CNI plugin for Kubernetes updated to `v1.19.5`. Bottlerocket version updated to `v1.40.0`.
 |June 19, 2025
 
 |`1.30.10`

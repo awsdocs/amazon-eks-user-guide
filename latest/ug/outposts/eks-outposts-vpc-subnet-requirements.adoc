@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn about VPC and subnet requirements and considerations, then to create a VPC and subnets for Amazon EKS local clusters on {aws} Outposts.
+Learn about VPC and subnet requirements and considerations, and how to create a VPC and subnets for Amazon EKS local clusters on {aws} Outposts.
 --
 
 When you create a local cluster, you specify a VPC and at least one private subnet that runs on Outposts. This topic provides an overview of the VPC and subnets requirements and considerations for your local cluster.

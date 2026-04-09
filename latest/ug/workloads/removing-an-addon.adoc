@@ -22,7 +22,7 @@ When you remove an Amazon EKS add-on from a cluster:
 * Amazon EKS stops managing settings for the add-on.
 * The console stops notifying you when new versions are available.
 * You can't update the add-on using any {aws} tools or APIs.
-* You can choose to leave the add-on software on your cluster so that you can self-manage it, or you can remove the add-on software from your cluster. You should only remove the add-on software from your cluster if there are no resources on your cluster are dependent on the functionality that the add-on provides.
+* You can choose to leave the add-on software on your cluster so that you can self-manage it, or you can remove the add-on software from your cluster. You should only remove the add-on software from your cluster if no resources on your cluster are dependent on the functionality that the add-on provides.
 
 
 [#removing-an-add-on-prereq]

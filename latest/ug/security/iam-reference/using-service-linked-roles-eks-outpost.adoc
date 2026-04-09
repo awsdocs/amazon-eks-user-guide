@@ -40,7 +40,7 @@ The role permissions policy allows Amazon EKS to complete the following actions 
 
 
 
-* link:aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html[AmazonEKSServiceRolePolicy,type="documentation"]
+* link:aws-managed-policy/latest/reference/AmazonEKSLocalOutpostServiceRolePolicy.html[AmazonEKSLocalOutpostServiceRolePolicy,type="documentation"]
 
 You must configure permissions to allow an IAM entity (such as a user, group, or role) to create, edit, or delete a service-linked role. For more information, see link:IAM/latest/UserGuide/using-service-linked-roles.html#service-linked-role-permissions[Service-linked role permissions,type="documentation"] in the _IAM User Guide_.
 
@@ -85,7 +85,7 @@ If the Amazon EKS service is using the role when you try to delete the resources
 
 Use the IAM console, the {aws} CLI, or the {aws} API to delete the `AWSServiceRoleForAmazonEKSLocalOutpost` service-linked role. For more information, see link:IAM/latest/UserGuide/using-service-linked-roles.html#delete-service-linked-role[Deleting a service-linked role,type="documentation"] in the _IAM User Guide_.
 
-[#slr-regions-eks-connector]
+[#slr-regions-eks-outpost]
 == Supported regions for Amazon EKS service-linked roles
 
 Amazon EKS supports using service-linked roles in all of the regions where the service is available. For more information, see link:general/latest/gr/eks.html[Amazon EKS endpoints and quotas,type="documentation"].

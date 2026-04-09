@@ -225,7 +225,7 @@ if __name__ == '__main__':
    img = image.load_img(img_file, target_size=(224, 224))
    img_array = preprocess_input(image.img_to_array(img)[None, ...])
    request = predict_pb2.PredictRequest()
-   request.model_spec.name = 'resnet50_inf1'
+   request.model_spec.name = 'resnet50_neuron'
    request.inputs['input'].CopyFrom(
        tf.make_tensor_proto(img_array, shape=img_array.shape))
    result = stub.Predict(request)

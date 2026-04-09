@@ -17,7 +17,7 @@ The SCP below prevents calling `ec2:RunInstances` unless the AMI belongs to the 
 
 [NOTE]
 ====
-It's important *not* to use the `ec2:Owner` context key. Amazon owns the EKS Auto Mode AMI accounts and the value for this key will always be `amazon`. Constructing an SCP that allows launching AMIs if the `ec2:Owner` is `amazon` will allow launching any Amazon owned AMI, not just those for EKS Auto Mode.*
+It's important *not* to use the `ec2:Owner` context key. Amazon owns the EKS Auto Mode AMI accounts and the value for this key will always be `amazon`. Constructing an SCP that allows launching AMIs if the `ec2:Owner` is `amazon` will allow launching any Amazon owned AMI, not just those for EKS Auto Mode.
 ====
 
 [source,json,subs="verbatim,attributes"]

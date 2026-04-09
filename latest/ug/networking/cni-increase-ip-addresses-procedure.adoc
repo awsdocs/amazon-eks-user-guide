@@ -50,7 +50,7 @@ InsufficientCidrBlocks: The specified subnet does not have enough free cidr bloc
 This can happen due to fragmentation of existing secondary IP addresses spread out across a subnet. To resolve this error, either create a new subnet and launch Pods there, or use an Amazon EC2 subnet CIDR reservation to reserve space within a subnet for use with prefix assignment. For more information, see link:vpc/latest/userguide/subnet-cidr-reservation.html[Subnet CIDR reservations,type="documentation"] in the Amazon VPC User Guide.
 ====
 +
-. If you plan to deploy a managed node group without a launch template, or with a launch template that you haven't specified an AMI ID in, and you're using a version of the Amazon VPC CNI plugin for Kubernetes at or later than the versions listed in the prerequisites, then skip to the next step. Managed node groups automatically calculates the maximum number of Pods for you.
+. If you plan to deploy a managed node group without a launch template, or with a launch template that you haven't specified an AMI ID in, and you're using a version of the Amazon VPC CNI plugin for Kubernetes at or later than the versions listed in the prerequisites, then skip to the next step. Managed node groups automatically calculate the maximum number of Pods for you.
 +
 If you're deploying a self-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must set the maximum number of Pods for your nodes. For more information about how to determine the appropriate value, see <<max-pods-precedence>>.
 +
@@ -107,7 +107,7 @@ eksctl create nodegroup --cluster my-cluster --managed=false --max-pods-per-node
 ----
 *** *Managed* – Deploy your node group using one of the following options:
 +
-**** *Without a launch template or with a launch template without an AMI ID specified* – Complete the procedure in <<create-managed-node-group,Create a managed node group for your cluster>>. Managed node groups automatically calculates the Amazon EKS recommended `max-pods` value for you.
+**** *Without a launch template or with a launch template without an AMI ID specified* – Complete the procedure in <<create-managed-node-group,Create a managed node group for your cluster>>. Managed node groups automatically calculate the Amazon EKS recommended `max-pods` value for you.
 **** *With a launch template with a specified AMI ID* – In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data in the launch template. This user data passes a `NodeConfig` object to be read by the `nodeadm` tool on the node. For more information about `nodeadm`, see https://awslabs.github.io/amazon-eks-ami/nodeadm[the nodeadm documentation].
 +
 [source,bash,subs="verbatim,attributes"]

@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn how to configure logging for your Amazon EKS cluster.
+Learn how to use the observability dashboard to monitor the health and performance of your Amazon EKS cluster.
 --
 
 The Amazon EKS console includes an observability dashboard that gives visibility into the performance of your cluster. The information it provides helps you to quickly detect, troubleshoot, and remediate issues. You can open the applicable section of the observability dashboard by choosing an item in the *Health and performance summary*. This summary is included in several places, including the *Observability* tab.

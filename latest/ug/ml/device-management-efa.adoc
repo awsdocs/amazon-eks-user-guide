@@ -39,7 +39,7 @@ The EFA device plugin automatically allocates EFA devices that are topologically
 * Nodes with EFA-enabled Amazon EC2 instance types. For a list of supported instance types, see link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Supported instance types,type="documentation"] in the _Amazon EC2 User Guide_. 
 * Nodes with host-level components installed for EFA. These are included if using the EKS AL2023 accelerated AMIs or the EKS Bottlerocket AMIs.
 * Helm installed in your command-line environment, see the <<helm,Setup Helm instructions>> for more information.
-* `kubectl` configured to communicate with your cluster, see <<#kubectl-install-update>> for more information.
+* `kubectl` configured to communicate with your cluster, see <<kubectl-install-update>> for more information.
 
 === Procedure
 

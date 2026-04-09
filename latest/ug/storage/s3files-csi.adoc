@@ -341,6 +341,7 @@ aws iam create-role \
 +
 [source,bash,subs="verbatim,attributes"]
 ----
+
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonS3ReadOnlyAccess \
   --role-name $node_role_name

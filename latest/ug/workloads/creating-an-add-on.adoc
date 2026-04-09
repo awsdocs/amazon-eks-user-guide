@@ -173,7 +173,7 @@ Retaining the default role name enables EKS to pre-select the role for add-ons i
 [source,bash,subs="verbatim,attributes"]
 ----
 aws eks describe-addon-versions --kubernetes-version {k8s-n} \
-    --query 'addons[].{MarketplaceProductUrl: marketplaceInformation.productUrl, Name: addonName, Owner: owner Publisher: publisher, Type: type}' --output table
+    --query 'addons[].{MarketplaceProductUrl: marketplaceInformation.productUrl, Name: addonName, Owner: owner, Publisher: publisher, Type: type}' --output table
 ----
 +
 An example output is as follows.
@@ -288,7 +288,7 @@ Here is an example of valid configuration values, in YAML format, that works wit
 +
 [source,bash,subs="verbatim,attributes"]
 ----
---service-account-role-arn {arn-aws}:iam::111122223333:role/role-name
+--service-account-role-arn {arn-aws}iam::111122223333:role/role-name
 ----
 ** These example commands overwrites the `--configuration-values` option of any existing self-managed version of the add-on, if there is one. Replace this with the desired configuration values, such as a string or a file input. If you don't want to provide configuration values, then delete the `--configuration-values` option. If you don't want the {aws} CLI to overwrite the configuration of an existing self-managed add-on, remove the [.replaceable]`--resolve-conflicts OVERWRITE` option. If you remove the option, and the Amazon EKS add-on needs to overwrite the configuration of an existing self-managed add-on, then creation of the Amazon EKS add-on fails with an error message to help you resolve the conflict. Before specifying this option, make sure that the Amazon EKS add-on doesn't manage settings that you need to manage, because those settings are overwritten with this option.
 +

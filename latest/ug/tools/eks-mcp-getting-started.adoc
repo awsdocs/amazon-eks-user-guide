@@ -365,11 +365,11 @@ Create the configuration file if it doesn't exist. Be sure to replace the region
 
 *Security note*: `--read-only` can be used to only allow read-only tool operations.
 
-==== 2. Reload VS Code
+==== 3. Reload VS Code
 
 Press `Cmd+Shift+P` / `Ctrl+Shift+P` and select "Developer: Reload Window"
 
-==== 3. Verify configuration
+==== 4. Verify configuration
 
 Open Cline and ask:
 

@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Learn how to use a Pod Identity to assign a role for an Amazon EKS add-on.
 --
 
-Certain Amazon EKS add-ons need IAM roles and permissions. Before you add update an Amazon EKS add-on to use a Pod Identity association, verify the role and policy to use. For more information, see <<retreive-iam-info>>.
+Certain Amazon EKS add-ons need IAM roles and permissions. Before you update an Amazon EKS add-on to use a Pod Identity association, verify the role and policy to use. For more information, see <<retreive-iam-info>>.
 
 . Determine:
 +

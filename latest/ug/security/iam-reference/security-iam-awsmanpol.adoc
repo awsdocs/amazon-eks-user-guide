@@ -347,7 +347,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 * `eks-auth:AssumeRoleForPodIdentity` - Allow retrieving credentials for EKS workloads on the node. This is required for EKS Pod Identity to function properly.
 
-To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSWorkerNodeMinimalPolicy.html#AmazonEKSWorkerNodeMinimalPolicy-json["AmazonEKSWorkerNodePolicy", type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSWorkerNodeMinimalPolicy.html#AmazonEKSWorkerNodeMinimalPolicy-json["AmazonEKSWorkerNodeMinimalPolicy", type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-awsserviceroleforamazoneksnodegroup]
 == {aws} managed policy: AWSServiceRoleForAmazonEKSNodegroup
@@ -373,7 +373,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 
 You can't attach `AmazonEKSDashboardServiceRolePolicy` to your IAM entities. This policy is attached to a service-linked role that allows Amazon EKS to perform actions on your behalf. For more information, see <<service-linked-role-permissions-eks-dashboard>>.
 
-This policy grants the `AWSServiceRoleForAmazonEKSDashboard` role permissions that allow it to create and manage Amazon EC2 node groups in your account. 
+This policy grants the `AWSServiceRoleForAmazonEKSDashboard` role permissions that allow it to view information about your {aws} Organizations structure and accounts. 
 
 *Permissions details*
 
@@ -428,7 +428,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonS3FilesCSIDriverPolicy
 :info_titleabbrev: AmazonS3FilesCSIDriverPolicy
 
-The `AmazonS3FilesCSIDriverPolicy` policy allows the Amazon EFS Container Storage Interface (CSI) to create and delete Amazon S3 Files access points on your behalf. It also grants the Amazon EFS CSI driver permissions to list your Amazon S3 Files access points and file systems.
+The `AmazonS3FilesCSIDriverPolicy` policy allows the Amazon S3 Files Container Storage Interface (CSI) to create and delete Amazon S3 Files access points on your behalf. It also grants the Amazon S3 Files CSI driver permissions to list your Amazon S3 Files access points and file systems.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonS3FilesCSIDriverPolicy.html#AmazonS3FilesCSIDriverPolicy-json[AmazonS3FilesCSIDriverPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 

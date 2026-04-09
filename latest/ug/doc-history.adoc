@@ -364,7 +364,7 @@ Added pages for concepts of EKS Hybrid Nodes. These cover the on-premises and cl
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
-Added permissions to `AmazonEKSClusterPolicy` to allow Amazon EKS to elastic network interfaces created by the VPC CNI. This is required so that EKS can clean up elastic network interfaces that are left behind if the VPC CNI quits unexpectedly.
+Added permissions to `AmazonEKSClusterPolicy` to allow Amazon EKS to clean up elastic network interfaces created by the VPC CNI. This is required so that EKS can clean up elastic network interfaces that are left behind if the VPC CNI quits unexpectedly.
 
 
 [.update,date="2025-04-14"]
@@ -430,7 +430,6 @@ Bottlerocket FIPS AMIs are now available in standard managed node groups.
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
 Added permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to terminate EC2 instances created by Auto Mode.
-Added permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to terminate EC2 instances created by Auto Mode. 
 
 
 [.update,date="2025-01-27"]
@@ -1044,7 +1043,6 @@ You can modify the `PodDisruptionBudget` of the EKS add-on for CoreDNS in versio
 link:eks/latest/userguide/cni-network-policy.html[type="documentation"]
 
 You can use Kubernetes _network policy_ in existing clusters with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution.
-You can use Kubernetes _network policy_ in existing clusters with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution.
 
 
 [.update,date="2023-09-07"]
@@ -1068,7 +1066,6 @@ Added new link:eks/latest/userguide/common-use-cases.html[Common use cases,type=
 [.update-ulink]
 link:eks/latest/userguide/cni-network-policy.html[type="documentation"]
 
-You can use Kubernetes _network policy_ with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution.
 You can use Kubernetes _network policy_ with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution.
 
 
@@ -1546,7 +1543,6 @@ You can now add multiple network interfaces to a Pod using Multus.
 [.update-ulink]
 link:eks/latest/userguide/cni-increase-ip-addresses.html[type="documentation"]
 
-You can now add significantly more IP addresses to your Linux Amazon EC2 nodes. This means that you can run a higher density of Pods on each node.
 You can now add significantly more IP addresses to your Linux Amazon EC2 nodes. This means that you can run a higher density of Pods on each node.
 
 

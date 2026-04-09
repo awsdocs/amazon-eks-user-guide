@@ -380,7 +380,7 @@ The monitoring condition is `NetworkingReady` for issues in the following table 
 
 |EFAErrorMetric
 |Event
-|EFA driver metrics shows there is an interface with performance degredation.
+|EFA driver metrics show there is an interface with performance degredation.
 |None
 
 |IPAMDInconsistentState

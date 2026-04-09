@@ -18,7 +18,7 @@ This topic guides you through creating a new EKS Auto Mode Cluster using the {aw
 
 == Specify VPC subnets
 
-Amazon EKS Auto Mode deploy nodes to VPC subnets. When creating an EKS cluster, you must specify the VPC subnets where the nodes will be deployed. You can use the default VPC subnets in your {aws} account or create a dedicated VPC for critical workloads.
+Amazon EKS Auto Mode deploys nodes to VPC subnets. When creating an EKS cluster, you must specify the VPC subnets where the nodes will be deployed. You can use the default VPC subnets in your {aws} account or create a dedicated VPC for critical workloads.
 
 * {aws} suggests creating a dedicated VPC for your cluster. Learn how to <<creating-a-vpc>>. 
 * The EKS Console assists with creating a new VPC. Learn how to <<automode-get-started-console>>. 

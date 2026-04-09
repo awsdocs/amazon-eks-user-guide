@@ -213,7 +213,7 @@ kubectl scale deployments/coredns --replicas=2 -n kube-system
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl drain node_name --ignore-daemonsets --delete-local-data
+kubectl drain node_name --ignore-daemonsets --delete-emptydir-data
 ----
 +
 If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version (in this case, [.replaceable]`{k8s-n-2}`) with the following code snippet.
@@ -225,7 +225,7 @@ nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersio
 for node in ${nodes[@]}
 do
     echo "Draining $node"
-    kubectl drain $node --ignore-daemonsets --delete-local-data
+    kubectl drain $node --ignore-daemonsets --delete-emptydir-data
 done
 ----
 . After your old nodes finished draining, revoke the security group inbound rules you authorized earlier. Then, delete the {aws} CloudFormation stack to terminate the instances.

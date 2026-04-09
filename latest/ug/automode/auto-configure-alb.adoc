@@ -195,7 +195,7 @@ Once the resource is ready, retrieve the domain name of the load balancer.
 kubectl get ingress 2048-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 ----
 
-To view the service in a web browser, review the port and path specified in the `Ingress` rescue. 
+To view the service in a web browser, review the port and path specified in the `Ingress` resource. 
 
 == Step 6: Cleanup
 

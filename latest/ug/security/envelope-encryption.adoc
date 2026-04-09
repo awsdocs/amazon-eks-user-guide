@@ -47,8 +47,7 @@ image::images/security-encrypt-request.png[The high-level diagram depicts the en
 // This feature gives you defense-in-depth by default with every EKS cluster running Kubernetes version 1.28 or higher, and heightens the level of security for all Kubernetes data before it's stored in etcd, including customer content. 
 
 This feature reduces the surface area and period of time in which metadata and customer content are un-encrypted. 
-With default envelope encryption, metadata and customer content are only ever in a temporarily  un-encrypted state in the kube-apiserver's memory before being stored in etcd. T
-he kube-apiserver's memory is secured through the link:whitepapers/latest/security-design-of-aws-nitro-system/the-components-of-the-nitro-system.html["Nitro system",type="documentation"].
+With default envelope encryption, metadata and customer content are only ever in a temporarily un-encrypted state in the kube-apiserver's memory before being stored in etcd. The kube-apiserver's memory is secured through the link:whitepapers/latest/security-design-of-aws-nitro-system/the-components-of-the-nitro-system.html["Nitro system",type="documentation"].
 Amazon EKS only uses link:whitepapers/latest/security-design-of-aws-nitro-system/security-design-of-aws-nitro-system.html["Nitro-based EC2 instances",type="documentation"] for the managed Kubernetes control plane. 
 These instances have security control designs that prevent any system or person from accessing their memory.
 

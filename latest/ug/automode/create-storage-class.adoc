@@ -89,7 +89,7 @@ parameters:
 
 For general information on the Kubernetes `StorageClass` resources, see https://kubernetes.io/docs/concepts/storage/storage-classes/[Storage Classes] in the Kubernetes Documentation.
 
-THe `parameters` section of the `StorageClass` resource is specific to {aws}. Use the following table to review available options. 
+The `parameters` section of the `StorageClass` resource is specific to {aws}. Use the following table to review available options. 
 
 [role="no-scroll"]
 [%header,cols="4"]
