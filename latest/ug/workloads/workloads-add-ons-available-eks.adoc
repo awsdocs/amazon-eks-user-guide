@@ -335,7 +335,7 @@ The Amazon EKS add-on name is `aws-fsx-csi-driver`.
 aws eks create-addon --addon-name aws-fsx-csi-driver --cluster-name my-cluster --resolve-conflicts OVERWRITE
 ----
 
-* The Amazon FSx CSI Driver EKS add-on requires the EKS Pod Identity agent for authentication. Without this component, the add-on will fail with the error `Amazon EKS Pod Identity agent is not installed in the cluster`, preventing volume operations. Install the Pod Identity agent before or after deploying the FSx CSI Driver add-on. For more information, see <<pod-id-agent-setup>>. 
+* The Amazon FSx CSI Driver EKS add-on supports authentication through either EKS Pod Identity or IAM Roles for Service Accounts (IRSA). To use EKS Pod Identity, install the Pod Identity agent before or after deploying the FSx CSI Driver add-on. For more information, see <<pod-id-agent-setup>>. To use IRSA instead, see <<enable-iam-roles-for-service-accounts>>.
 
 ====
 
