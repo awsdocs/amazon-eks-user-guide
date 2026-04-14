@@ -68,13 +68,13 @@ helm install efa eks/aws-efa-k8s-device-plugin -n kube-system
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl get daemonset -n kube-system aws-efa-k8s-device-plugin-daemonset
+kubectl get daemonset -n kube-system efa-aws-efa-k8s-device-plugin
 ----
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 NAME                                  DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
-aws-efa-k8s-device-plugin-daemonset   2         2         2       2            2           <none>          60s
+efa-aws-efa-k8s-device-plugin         2         2         2       2            2           <none>          60s
 ----
 +
 . Verify that your nodes have allocatable EFA resources.
