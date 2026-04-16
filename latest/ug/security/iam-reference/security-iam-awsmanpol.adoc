@@ -387,9 +387,34 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonEBSCSIDriverPolicy
 :info_titleabbrev: AmazonEBSCSIDriverPolicy
 
+[IMPORTANT]
+====
+Two new {aws}-managed IAM policies are available that provide more restrictive permission scoping: <<security-iam-awsmanpol-amazonebscsidriverpolicyv2,AmazonEBSCSIDriverPolicyV2>> for tag-based scoping, or <<security-iam-awsmanpol-amazonebscsidrivereksclusterscopedpolicy,AmazonEBSCSIDriverEKSClusterScopedPolicy>> for cluster-scoped isolation. If interested in migrating, see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/issues/2918[EBS CSI Driver policy migration].
+====
+
 The `AmazonEBSCSIDriverPolicy` policy allows the Amazon EBS Container Storage Interface (CSI) driver to create, modify, copy, attach, detach, and delete volumes on your behalf. This includes modifying tags on existing volumes and enabling Fast Snapshot Restore (FSR) on EBS volumes. It also grants the EBS CSI driver permissions to create, lock, restore, and delete snapshots, and to list your instances, volumes, and snapshots.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html#AmazonEBSCSIDriverPolicy-json[AmazonEBSCSIDriverServiceRolePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+
+[#security-iam-awsmanpol-amazonebscsidriverpolicyv2]
+== {aws} managed policy: AmazonEBSCSIDriverPolicyV2
+:info_titleabbrev: AmazonEBSCSIDriverPolicyV2
+
+The `AmazonEBSCSIDriverPolicyV2` policy is a more restrictive alternative to `AmazonEBSCSIDriverPolicy`. It limits the Amazon EBS CSI driver to only managing EBS volumes and snapshots that are tagged with the key `ebs.csi.aws.com/cluster` set to `true`. Volumes provisioned by the in-tree Kubernetes volume plugin (CSI-migrated volumes) are also supported through the `kubernetes.io/created-for/pvc/name` resource tag.
+
+If migrating from `AmazonEBSCSIDriverPolicy`, please see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/issues/2918[EBS CSI Driver policy migration].
+
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicyV2.html#AmazonEBSCSIDriverPolicyV2-json[AmazonEBSCSIDriverPolicyV2,type="documentation"] in the {aws} Managed Policy Reference Guide.
+
+[#security-iam-awsmanpol-amazonebscsidrivereksclusterscopedpolicy]
+== {aws} managed policy: AmazonEBSCSIDriverEKSClusterScopedPolicy
+:info_titleabbrev: AmazonEBSCSIDriverEKSClusterScopedPolicy
+
+The `AmazonEBSCSIDriverEKSClusterScopedPolicy` policy restricts the Amazon EBS CSI driver to only managing EBS volumes and snapshots that belong to a specific EKS cluster. It requires the resource tag `ebs.csi.aws.com/cluster-name` to match the `eks-cluster-name` tag on the IAM principal, preventing cross-cluster access when multiple clusters share the same {aws} account. Attach and detach operations on instances are restricted to instances tagged with either the `eks:cluster-name` tag (set automatically by EKS on managed node groups) or the `ebs.csi.aws.com/cluster-name` tag (for manually tagged instances).
+
+If migrating from `AmazonEBSCSIDriverPolicy`, please see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/issues/2918[EBS CSI Driver policy migration].
+
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverEKSClusterScopedPolicy.html#AmazonEBSCSIDriverEKSClusterScopedPolicy-json[AmazonEBSCSIDriverEKSClusterScopedPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#security-iam-awsmanpol-amazonefscsidriverservicerolepolicy]
 == {aws} managed policy: AmazonEFSCSIDriverPolicy
@@ -458,6 +483,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Change
 |Description
 |Date
+
+|Introduced <<security-iam-awsmanpol-amazonebscsidriverpolicyv2,AmazonEBSCSIDriverPolicyV2>> and <<security-iam-awsmanpol-amazonebscsidrivereksclusterscopedpolicy,AmazonEBSCSIDriverEKSClusterScopedPolicy>>.
+|Introduced `AmazonEBSCSIDriverPolicyV2` and `AmazonEBSCSIDriverEKSClusterScopedPolicy` as more restrictive alternatives to `AmazonEBSCSIDriverPolicy`. `AmazonEBSCSIDriverPolicyV2` scopes the EBS CSI driver to volumes and snapshots tagged with `ebs.csi.aws.com/cluster` set to `true`. `AmazonEBSCSIDriverEKSClusterScopedPolicy` scopes the driver to volumes and snapshots belonging to a specific EKS cluster using the `ebs.csi.aws.com/cluster-name` tag.
+|April 16, 2026
 
 |Updated permissions to <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>.
 |Updated `shield:CreateProtection`, `shield:DeleteProtection` permission in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to add shield protection.
