@@ -130,12 +130,13 @@ The gateway exposes health and readiness endpoints on port `8088`:
 |Returns HTTP 200 when the gateway is ready to serve traffic. Used by the Kubernetes readiness probe.
 |===
 
-You can query these endpoints manually for diagnostics:
+You can query these endpoints manually for diagnostics by running a temporary debug container or by port-forwarding:
 
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl exec -n hybrid-gateway <pod-name> -- curl -s http://localhost:8088/healthz
-kubectl exec -n hybrid-gateway <pod-name> -- curl -s http://localhost:8088/readyz
+kubectl port-forward -n hybrid-gateway <pod-name> 8088:8088 &
+curl -s http://localhost:8088/healthz
+curl -s http://localhost:8088/readyz
 ----
 
 [#hybrid-nodes-gateway-metrics]

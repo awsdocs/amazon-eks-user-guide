@@ -44,7 +44,7 @@ The hybrid nodes gateway uses four mechanisms to enable connectivity:
 
 The hybrid nodes gateway runs on EC2 instances in your VPC and is deployed using a Helm chart. The gateway supports the following deployment targets:
 
-* *EKS Auto Mode* — The Helm chart creates a `NodePool` that automatically provisions gateway nodes. This is the default configuration.
+* *EKS Auto Mode* — You create a `NodePool` and `NodeClass` that automatically provision gateway nodes with the correct labels, taints, and source/destination check configuration. This is the recommended configuration.
 * *EKS managed node groups* — You label two existing nodes and set `autoMode.enabled=false` in the Helm values.
 * *Self-managed nodes* — You label two self-managed nodes and set `autoMode.enabled=false` in the Helm values.
 

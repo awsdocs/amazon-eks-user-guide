@@ -23,9 +23,9 @@ The following table lists all values in the `eks-hybrid-nodes-gateway` Helm char
 
 |`image.repository`
 |string
-|`""`
-|Yes
-|Container image repository for the gateway image.
+|`public.ecr.aws/eks/eks-hybrid-nodes-gateway`
+|No
+|Container image repository for the gateway image. Defaults to the public Amazon ECR registry.
 
 |`image.tag`
 |string
@@ -44,18 +44,6 @@ The following table lists all values in the `eks-hybrid-nodes-gateway` Helm char
 |`2`
 |No
 |Number of gateway pod replicas. Use `2` for high availability.
-
-|`namespace`
-|string
-|Release namespace
-|No
-|Namespace for gateway resources. Defaults to the Helm release namespace if not set.
-
-|`createNamespace`
-|boolean
-|`true`
-|No
-|Create the namespace resource if it doesn't already exist.
 
 |`nodeLabel`
 |string
@@ -78,7 +66,7 @@ The following table lists all values in the `eks-hybrid-nodes-gateway` Helm char
 |`routeTableIDs`
 |string
 |`""`
-|No
+|Yes
 |Comma-separated list of VPC route table IDs to program with hybrid pod routes. Example: `rtb-0123456789abcdef0,rtb-0123456789abcdef1`.
 
 |`autoMode.enabled`
@@ -177,7 +165,7 @@ The gateway binary accepts the following CLI flags. Most flags can also be set t
 |—
 |duration
 |`2s`
-|Interval between leadership renewal attempts by the active leader. Must be less than `--leader-election-lease-duration`.
+|Maximum time the active leader spends trying to renew the lease before giving up leadership. Must be less than `--leader-election-lease-duration`.
 
 |`--leader-election-retry-period`
 |—
@@ -241,7 +229,7 @@ The gateway uses Kubernetes Lease-based leader election to maintain an active-st
 
 |`--leader-election-renew-deadline`
 |`2s`
-|How frequently the active leader renews the lease. Must be less than the lease duration.
+|Maximum time the active leader spends trying to renew the lease before giving up leadership. Must be less than the lease duration.
 
 |`--leader-election-retry-period`
 |`1s`

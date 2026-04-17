@@ -48,12 +48,16 @@ kubectl get lease -n hybrid-gateway
 +
 If no pod holds the lease, see <<hybrid-nodes-gateway-ts-leader>>.
 
-. *Check the VXLAN interface on the gateway node.* Exec into the leader pod and verify the VXLAN interface exists and has FDB entries for hybrid nodes:
+. *Check the VXLAN interface on the gateway node.* Use `kubectl debug` to run a debug container on the gateway node and verify the VXLAN interface exists and has FDB entries for hybrid nodes:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl exec -n hybrid-gateway <leader-pod-name> -- ip link show hybrid_vxlan0
-kubectl exec -n hybrid-gateway <leader-pod-name> -- bridge fdb show dev hybrid_vxlan0
+# Find the gateway leader node
+GATEWAY_NODE=$(kubectl get pod <leader-pod-name> -n hybrid-gateway -o jsonpath='{.spec.nodeName}')
+
+# Run a privileged debug pod on the gateway node
+kubectl debug node/${GATEWAY_NODE} -it --image=nicolaka/netshoot -- bash -c \
+  "nsenter -t 1 -n ip link show hybrid_vxlan0 && nsenter -t 1 -n bridge fdb show dev hybrid_vxlan0"
 ----
 +
 If the interface does not exist, check the gateway logs for VXLAN setup errors.
