@@ -184,7 +184,7 @@ data:
 [...]
 ----
 .. Save the file and exit your text editor.
-. If you received an error stating "``Error from server (NotFound): configmaps "aws-auth" not found``, then apply the stock `ConfigMap`.
+. If you received an error stating "``Error from server (NotFound): configmaps "aws-auth" not found``, then apply the stack `ConfigMap`.
 +
 .. Download the configuration map.
 +
