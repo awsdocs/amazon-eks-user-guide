@@ -42,8 +42,8 @@ If routes are missing, check the gateway logs for route table errors. If routes 
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl get pods -n hybrid-gateway
-kubectl get lease -n hybrid-gateway
+kubectl get pods -n eks-hybrid-nodes-gateway
+kubectl get lease -n eks-hybrid-nodes-gateway
 ----
 +
 If no pod holds the lease, see <<hybrid-nodes-gateway-ts-leader>>.
@@ -53,7 +53,7 @@ If no pod holds the lease, see <<hybrid-nodes-gateway-ts-leader>>.
 [source,bash,subs="verbatim,attributes"]
 ----
 # Find the gateway leader node
-GATEWAY_NODE=$(kubectl get pod <leader-pod-name> -n hybrid-gateway -o jsonpath='{.spec.nodeName}')
+GATEWAY_NODE=$(kubectl get pod <leader-pod-name> -n eks-hybrid-nodes-gateway -o jsonpath='{.spec.nodeName}')
 
 # Run a privileged debug pod on the gateway node
 kubectl debug node/${GATEWAY_NODE} -it --image=nicolaka/netshoot -- bash -c \
@@ -131,7 +131,7 @@ Check the IAM role attached to the gateway node's instance profile or pod identi
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl get deployment -n hybrid-gateway -o jsonpath='{.items[0].spec.template.spec.containers[0].env}' | jq .
+kubectl get deployment eks-hybrid-nodes-gateway -n eks-hybrid-nodes-gateway -o jsonpath='{.spec.template.spec.containers[0].env}' | jq .
 ----
 +
 Confirm the route table IDs exist in your VPC:
@@ -145,7 +145,7 @@ aws ec2 describe-route-tables --route-table-ids <your-route-table-id>
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl logs -n hybrid-gateway <leader-pod-name> | grep -i "route table"
+kubectl logs -n eks-hybrid-nodes-gateway <leader-pod-name> | grep -i "route table"
 ----
 +
 Common error messages include:
@@ -161,7 +161,7 @@ Gateway pods are in `CrashLoopBackOff`, `Error`, or `Pending` state, or the heal
 
 *Possible causes:*
 
-* Required environment variables (`NODE_IP`, `VPC_CIDR`, `POD_CIDRS`) are not set.
+* Required environment variables (`NODE_IP`, `VPC_CIDR`, `POD_CIDRS`, `ROUTE_TABLE_IDS`) are not set.
 * IP forwarding is not enabled on the gateway node.
 * The pod does not have the `NET_ADMIN` capability.
 * Node label or anti-affinity constraints prevent scheduling.
@@ -172,14 +172,14 @@ Gateway pods are in `CrashLoopBackOff`, `Error`, or `Pending` state, or the heal
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl logs -n hybrid-gateway <pod-name>
+kubectl logs -n eks-hybrid-nodes-gateway <pod-name>
 ----
 
 . *Check required environment variables.* The gateway requires `NODE_IP`, `VPC_CIDR`, and `POD_CIDRS`. If any are missing, the gateway exits immediately. Verify the pod spec:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl get pod -n hybrid-gateway <pod-name> -o jsonpath='{.spec.containers[0].env}' | jq .
+kubectl get pod -n eks-hybrid-nodes-gateway <pod-name> -o jsonpath='{.spec.containers[0].env}' | jq .
 ----
 +
 ** `NODE_IP` is set automatically from `status.hostIP` in the pod spec. If it is empty, the pod may not be scheduled on a node yet.
@@ -204,7 +204,7 @@ For a persistent setting, configure IP forwarding through the kubelet or add `ne
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl describe pod -n hybrid-gateway <pod-name>
+kubectl describe pod -n eks-hybrid-nodes-gateway <pod-name>
 ----
 +
 Look for events indicating insufficient nodes, missing labels, or anti-affinity conflicts.
@@ -226,7 +226,7 @@ The gateway pods are running but no pod acquires the leader lease, or leadership
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl get lease -n hybrid-gateway hybrid-gateway-leader -o yaml
+kubectl get lease -n eks-hybrid-nodes-gateway hybrid-gateway-leader -o yaml
 ----
 +
 The `spec.holderIdentity` field shows the current leader. The `spec.renewTime` shows when the lease was last renewed. If `renewTime` is stale, the leader may have lost connectivity to the API server.
@@ -235,8 +235,8 @@ The `spec.holderIdentity` field shows the current leader. The `spec.renewTime` s
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl get role -n hybrid-gateway
-kubectl get rolebinding -n hybrid-gateway
+kubectl get role -n eks-hybrid-nodes-gateway
+kubectl get rolebinding -n eks-hybrid-nodes-gateway
 ----
 +
 The Role should include `get`, `create`, and `update` verbs for the `leases` resource in the `coordination.k8s.io` API group.
@@ -245,7 +245,7 @@ The Role should include `get`, `create`, and `update` verbs for the `leases` res
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl logs -n hybrid-gateway <pod-name> | grep -i "leader\|lease"
+kubectl logs -n eks-hybrid-nodes-gateway <pod-name> | grep -i "leader\|lease"
 ----
 +
 Common issues include:
@@ -257,7 +257,7 @@ Common issues include:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl get deployment -n hybrid-gateway -o jsonpath='{.items[0].spec.template.spec.containers[0].args}'
+kubectl get deployment eks-hybrid-nodes-gateway -n eks-hybrid-nodes-gateway -o jsonpath='{.spec.template.spec.containers[0].args}'
 ----
 +
 Ensure `--leader-election-renew-deadline` is less than `--leader-election-lease-duration`. If the renew deadline exceeds the lease duration, the leader loses the lease before it can renew. For more information, see <<hybrid-nodes-gateway-leader-tuning>>.

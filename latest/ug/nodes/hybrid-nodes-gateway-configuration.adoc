@@ -83,9 +83,9 @@ The following table lists all values in the `eks-hybrid-nodes-gateway` Helm char
 
 [source,bash,subs="verbatim,attributes"]
 ----
-helm install hybrid-gateway oci://<your-ecr-registry>/eks-hybrid-nodes-gateway \
-  --namespace hybrid-gateway \
-  --set image.repository=<your-ecr-registry>/eks-hybrid-nodes-gateway \
+helm install eks-hybrid-nodes-gateway oci://public.ecr.aws/eks/eks-hybrid-nodes-gateway \
+  --namespace eks-hybrid-nodes-gateway \
+  --create-namespace \
   --set vpcCIDR=<your-vpc-cidr> \
   --set podCIDRs=<your-hybrid-pod-cidrs> \
   --set routeTableIDs=<your-route-table-ids>
@@ -95,9 +95,9 @@ helm install hybrid-gateway oci://<your-ecr-registry>/eks-hybrid-nodes-gateway \
 
 [source,bash,subs="verbatim,attributes"]
 ----
-helm install hybrid-gateway oci://<your-ecr-registry>/eks-hybrid-nodes-gateway \
-  --namespace hybrid-gateway \
-  --set image.repository=<your-ecr-registry>/eks-hybrid-nodes-gateway \
+helm install eks-hybrid-nodes-gateway oci://public.ecr.aws/eks/eks-hybrid-nodes-gateway \
+  --namespace eks-hybrid-nodes-gateway \
+  --create-namespace \
   --set autoMode.enabled=false \
   --set vpcCIDR=<your-vpc-cidr> \
   --set podCIDRs=<your-hybrid-pod-cidrs> \
@@ -135,7 +135,7 @@ The gateway binary accepts the following CLI flags. Most flags can also be set t
 |`ROUTE_TABLE_IDS`
 |string
 |—
-|Comma-separated list of VPC route table IDs to update with hybrid pod routes. Set from the `routeTableIDs` Helm value. Optional.
+|Comma-separated list of VPC route table IDs to update with hybrid pod routes. Set from the `routeTableIDs` Helm value. Required.
 
 |`--aws-region`
 |`AWS_REGION`

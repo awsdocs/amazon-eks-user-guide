@@ -126,7 +126,7 @@ Create a launch template with user data that disables source/destination check o
 [source,bash,subs="verbatim,attributes"]
 ----
 # Create the launch template with user data to disable source/dest check
-USERDATA=$(cat <<'SCRIPT' | base64
+USERDATA=$(cat <<'SCRIPT' | base64 -w 0
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="==BOUNDARY=="
 
@@ -175,7 +175,7 @@ aws eks create-nodegroup \
   --ami-type AL2023_x86_64_STANDARD \
   --scaling-config desiredSize=2,maxSize=2,minSize=2 \
   --labels hybrid-gateway-node=true \
-  --taints "key=hybrid-gateway-node,value=true,effect=NO_SCHEDULE" \
+  --taints "key=hybrid-gateway-node,effect=NO_SCHEDULE" \
   --launch-template "name=<your-cluster-name>-gateway-lt,version=1"
 ----
 
@@ -198,10 +198,9 @@ Run the following command to install the gateway with EKS Auto Mode:
 [source,bash,subs="verbatim,attributes"]
 ----
 helm install eks-hybrid-nodes-gateway \
-  oci://<your-ecr-registry>/eks-hybrid-nodes-gateway \
-  --namespace hybrid-gateway \
+  oci://public.ecr.aws/eks/eks-hybrid-nodes-gateway \
+  --namespace eks-hybrid-nodes-gateway \
   --create-namespace \
-  --set image.repository=<your-ecr-registry>/eks-hybrid-nodes-gateway \
   --set vpcCIDR=<your-vpc-cidr> \
   --set podCIDRs=<your-hybrid-pod-cidrs> \
   --set routeTableIDs=<your-route-table-ids>
@@ -215,10 +214,9 @@ For managed node groups or self-managed nodes, set `autoMode.enabled=false`:
 [source,bash,subs="verbatim,attributes"]
 ----
 helm install eks-hybrid-nodes-gateway \
-  oci://<your-ecr-registry>/eks-hybrid-nodes-gateway \
-  --namespace hybrid-gateway \
+  oci://public.ecr.aws/eks/eks-hybrid-nodes-gateway \
+  --namespace eks-hybrid-nodes-gateway \
   --create-namespace \
-  --set image.repository=<your-ecr-registry>/eks-hybrid-nodes-gateway \
   --set autoMode.enabled=false \
   --set vpcCIDR=<your-vpc-cidr> \
   --set podCIDRs=<your-hybrid-pod-cidrs> \
@@ -234,8 +232,6 @@ The following values are required for all installations:
 |===
 |Value |Description
 
-|`image.repository`
-|The container image repository for the gateway image.
 
 |`vpcCIDR`
 |The CIDR block of your EKS cluster VPC (for example, `10.0.0.0/16`). Used for Cilium VTEP configuration so hybrid nodes route VPC-bound traffic through the gateway.
@@ -261,7 +257,7 @@ Confirm that two gateway pods are running:
 
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl get pods -n hybrid-gateway
+kubectl get pods -n eks-hybrid-nodes-gateway
 ----
 
 You should see output similar to:
@@ -280,7 +276,7 @@ Verify that one pod has acquired the leader election lease:
 
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl get lease -n hybrid-gateway
+kubectl get lease -n eks-hybrid-nodes-gateway
 ----
 
 The output shows the current leader in the `HOLDER` column:
@@ -298,7 +294,7 @@ Verify the health endpoint is responding on the leader pod using port-forwarding
 
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl port-forward -n hybrid-gateway <leader-pod-name> 8088:8088 &
+kubectl port-forward -n eks-hybrid-nodes-gateway <leader-pod-name> 8088:8088 &
 curl -s http://localhost:8088/healthz
 ----
 
@@ -325,7 +321,7 @@ To remove the hybrid nodes gateway, run:
 
 [source,bash,subs="verbatim,attributes"]
 ----
-helm uninstall eks-hybrid-nodes-gateway --namespace hybrid-gateway
+helm uninstall eks-hybrid-nodes-gateway --namespace eks-hybrid-nodes-gateway
 ----
 
 [NOTE]

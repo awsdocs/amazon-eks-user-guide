@@ -134,7 +134,7 @@ You can query these endpoints manually for diagnostics by running a temporary de
 
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl port-forward -n hybrid-gateway <pod-name> 8088:8088 &
+kubectl port-forward -n eks-hybrid-nodes-gateway <pod-name> 8088:8088 &
 curl -s http://localhost:8088/healthz
 curl -s http://localhost:8088/readyz
 ----
@@ -312,7 +312,7 @@ You can use the link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup
 ----
 prometheus:
   scrapeTargets:
-    - namespace: hybrid-gateway
+    - namespace: eks-hybrid-nodes-gateway
       port: 10080
 ----
 
