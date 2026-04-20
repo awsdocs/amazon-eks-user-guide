@@ -101,6 +101,7 @@ a|
 * This is the default behavior for new Amazon EKS clusters.
 * Kubernetes API requests that originate from within your cluster's VPC (such as node to control plane communication) leave the VPC but not Amazon's network.
 * Your cluster API server is accessible from the internet. You can, optionally, use the list of _public access CIDRs_ to control access to the public endpoint by a list of CIDR blocks. If you limit access to specific CIDR blocks, then we recommend that you also enable the private endpoint, or ensure that the CIDR blocks that you specify include the addresses that nodes and Fargate Pods (if you use them) access the public endpoint from.
+* Standard {aws} data transfer charges apply for traffic between worker nodes and the control plane. Amazon EKS absorbs data transfer costs on the control plane side of the connection. For more information, see <<eks-pricing>>.
 
 
 |Enabled
