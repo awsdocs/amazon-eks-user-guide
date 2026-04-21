@@ -57,7 +57,7 @@ There is no additional charge for the Amazon EKS Hybrid Nodes gateway, but you w
 [#hybrid-nodes-gateway-region-availability]
 == Region availability
 
-The Amazon EKS Hybrid Nodes gateway is available in all {aws} Regions where EKS Hybrid Nodes is supported, except China Regions. For the current list of supported Regions, see <<hybrid-nodes-overview>>.
+The Amazon EKS Hybrid Nodes gateway is available in all {aws} Regions where EKS Hybrid Nodes is available, except China Regions. For the current list of supported Regions, see <<hybrid-nodes-overview>>.
 
 [#hybrid-nodes-gateway-open-source]
 == Open source
@@ -80,6 +80,8 @@ Before deploying the Hybrid Nodes gateway, consider the following:
 * <<hybrid-nodes-gateway-configuration>>
 * <<hybrid-nodes-gateway-operations>>
 * <<hybrid-nodes-gateway-troubleshooting>>
+
+include::hybrid-nodes-gateway-cni.adoc[leveloffset=+1]
 
 include::hybrid-nodes-gateway-getting-started.adoc[leveloffset=+1]
 

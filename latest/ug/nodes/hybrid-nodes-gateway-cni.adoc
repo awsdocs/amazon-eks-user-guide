@@ -18,6 +18,7 @@ The Amazon EKS Hybrid Nodes gateway requires specific Cilium configuration to en
 * Cilium is already installed on your hybrid nodes. For installation instructions, see <<hybrid-nodes-cni>>.
 
 [NOTE]
+====
 Cilium VTEP is only supported on the following minimum EKS Cilium versions:
 
 * Cilium 1.17.13-1 or later
@@ -25,6 +26,7 @@ Cilium VTEP is only supported on the following minimum EKS Cilium versions:
 * Cilium 1.19.2-1 or later
 
 If you are running an older version, upgrade Cilium before enabling VTEP. For upgrade instructions, see <<hybrid-nodes-cni>>.
+====
 
 [#hybrid-nodes-gateway-cni-configure]
 == Enable VTEP and disable L7 proxy
@@ -33,10 +35,9 @@ Set the Cilium version and run the `helm upgrade` command to enable VTEP and dis
 
 [source,bash,subs="verbatim,attributes"]
 ----
-export CILIUM_VERSION="1.19.2-1"
 
 helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium \
-  --version ${CILIUM_VERSION} \
+  --version [.replaceable]`CILIUM_VERSION` \
   --namespace kube-system \
   --reuse-values \
   --set vtep.enabled=true \
@@ -94,10 +95,9 @@ Set the `AWS_VPC_K8S_CNI_EXCLUDE_SNAT_CIDRS` environment variable on the `aws-no
 
 [source,bash,subs="verbatim,attributes"]
 ----
-export POD_CIDRS="10.87.0.0/16"
 
 kubectl set env daemonset aws-node -n kube-system \
-  AWS_VPC_K8S_CNI_EXCLUDE_SNAT_CIDRS=${POD_CIDRS}
+  AWS_VPC_K8S_CNI_EXCLUDE_SNAT_CIDRS=[.replaceable]`POD_CIDRS`
 ----
 
 Replace the value with your actual hybrid pod CIDRs (comma-separated if multiple).
@@ -105,8 +105,10 @@ Replace the value with your actual hybrid pod CIDRs (comma-separated if multiple
 This setting adds the hybrid pod CIDRs to the VPC CNI's ip rules so that traffic destined for hybrid pods is routed through the main routing table, which contains the VPC route to the gateway ENI.
 
 [NOTE]
+====
 This step is required for ClusterIP service traffic from cloud pods to hybrid pod endpoints. Direct pod-to-pod connectivity by IP address works without this setting.
 
+====
 [#hybrid-nodes-gateway-cni-next]
 == Next steps
 

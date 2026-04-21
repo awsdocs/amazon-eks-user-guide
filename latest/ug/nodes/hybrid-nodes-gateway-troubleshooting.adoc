@@ -12,28 +12,6 @@ Diagnose and resolve common issues with the Amazon EKS Hybrid Nodes gateway, inc
 
 This page provides guidance for diagnosing and resolving common issues with the Amazon EKS Hybrid Nodes gateway. Each section describes a symptom, possible causes, diagnostic steps, and resolutions. For operational details, see <<hybrid-nodes-gateway-operations>>.
 
-The diagnostic commands in this page use environment variables for cluster-specific values. Set these before running the commands:
-
-[source,bash,subs="verbatim,attributes"]
-----
-# Gateway namespace and deployment name
-export GATEWAY_NS="eks-hybrid-nodes-gateway"
-
-# Get the leader pod name from the lease
-export LEADER_POD=$(kubectl get lease hybrid-gateway-leader -n ${GATEWAY_NS} \
-  -o jsonpath='{.spec.holderIdentity}' | cut -d'_' -f1)
-
-# Get gateway node instance IDs
-export GATEWAY_INSTANCE_ID=$(kubectl get pod ${LEADER_POD} -n ${GATEWAY_NS} \
-  -o jsonpath='{.spec.nodeName}')
-
-# Route table and pod CIDR from gateway deployment env
-export ROUTE_TABLE_ID=$(kubectl get deployment eks-hybrid-nodes-gateway -n ${GATEWAY_NS} \
-  -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="ROUTE_TABLE_IDS")].value}' | cut -d',' -f1)
-export POD_CIDR=$(kubectl get deployment eks-hybrid-nodes-gateway -n ${GATEWAY_NS} \
-  -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="POD_CIDRS")].value}' | cut -d',' -f1)
-----
-
 [#hybrid-nodes-gateway-ts-unreachable]
 == Pods on hybrid nodes unreachable from VPC
 
@@ -53,8 +31,8 @@ Pods running on hybrid nodes are not reachable from resources in the VPC, such a
 [source,bash,subs="verbatim,attributes"]
 ----
 aws ec2 describe-route-tables \
-  --route-table-ids ${ROUTE_TABLE_ID} \
-  --query "RouteTables[].Routes[?DestinationCidrBlock=='${POD_CIDR}']"
+  --route-table-ids [.replaceable]`ROUTE_TABLE_ID` \
+  --query "RouteTables[].Routes[?DestinationCidrBlock=='[.replaceable]`POD_CIDR`']"
 ----
 +
 If routes are missing, check the gateway logs for route table errors. If routes point to the wrong ENI, a failover may not have completed successfully.
@@ -84,7 +62,7 @@ The `spec.endpoints[0].tunnelEndpoint` should match the leader gateway node's IP
 [source,bash,subs="verbatim,attributes"]
 ----
 aws ec2 describe-instance-attribute \
-  --instance-id ${GATEWAY_INSTANCE_ID} \
+  --instance-id [.replaceable]`GATEWAY_INSTANCE_ID` \
   --attribute sourceDestCheck
 ----
 +
@@ -146,14 +124,14 @@ Confirm the route table IDs exist in your VPC:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-aws ec2 describe-route-tables --route-table-ids ${ROUTE_TABLE_ID}
+aws ec2 describe-route-tables --route-table-ids [.replaceable]`ROUTE_TABLE_ID`
 ----
 
 . *Check gateway logs for route table errors.* Look for error messages related to route table operations:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl logs -n eks-hybrid-nodes-gateway ${LEADER_POD} | grep -i "route table"
+kubectl logs -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD` | grep -i "route table"
 ----
 +
 Common error messages include:
@@ -180,14 +158,14 @@ Gateway pods are in `CrashLoopBackOff`, `Error`, or `Pending` state, or the heal
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl logs -n eks-hybrid-nodes-gateway ${LEADER_POD}
+kubectl logs -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD`
 ----
 
 . *Check required environment variables.* The gateway requires `NODE_IP`, `VPC_CIDR`, and `POD_CIDRS`. If any are missing, the gateway exits immediately. Verify the pod spec:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl get pod -n eks-hybrid-nodes-gateway ${LEADER_POD} -o jsonpath='{.spec.containers[0].env}' | jq .
+kubectl get pod -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD` -o jsonpath='{.spec.containers[0].env}' | jq .
 ----
 +
 ** `NODE_IP` is set automatically from `status.hostIP` in the pod spec. If it is empty, the pod may not be scheduled on a node yet.
@@ -212,7 +190,7 @@ For a persistent setting, configure IP forwarding through the kubelet or add `ne
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl describe pod -n eks-hybrid-nodes-gateway ${LEADER_POD}
+kubectl describe pod -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD`
 ----
 +
 Look for events indicating insufficient nodes, missing labels, or anti-affinity conflicts.
@@ -253,7 +231,7 @@ The Role should include `get`, `create`, and `update` verbs for the `leases` res
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl logs -n eks-hybrid-nodes-gateway ${LEADER_POD} | grep -i "leader\|lease"
+kubectl logs -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD` | grep -i "leader\|lease"
 ----
 +
 Common issues include:

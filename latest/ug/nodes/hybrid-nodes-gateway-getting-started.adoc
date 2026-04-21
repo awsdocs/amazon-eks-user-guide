@@ -17,7 +17,7 @@ This page walks you through the prerequisites, environment preparation, installa
 
 Before you install the Hybrid Nodes gateway, confirm that your environment meets the following requirements:
 
-* *EKS cluster with Cilium CNI and VTEP support* — Your EKS cluster must use the EKS version of Cilium as the CNI on hybrid nodes, and Cilium VTEP must be enabled. For more information, see <<hybrid-nodes-cni>>.
+* *EKS cluster with Cilium CNI and VTEP support* — Your EKS cluster must use the EKS version of Cilium as the CNI on hybrid nodes, and Cilium VTEP must be enabled. For more information, see <<hybrid-nodes-gateway-cni>>.
 * *{aws} VPC CNI on cloud nodes* — The gateway nodes and other cloud nodes in the cluster must use the {aws} VPC CNI. The gateway relies on VPC-native routing to forward traffic between the VPC and the VXLAN tunnel.
 * *Hybrid connectivity* — A private connection between your VPC and on-premises environment is required. You can use {aws} Direct Connect, {aws} Site-to-Site VPN, or your own VPN solution. For more information, see <<hybrid-nodes-networking>>.
 * *VXLAN traffic allowed* — The security groups attached to the gateway EC2 instances must allow inbound and outbound UDP traffic on port 8472. On the hybrid node side, the on-premises firewall rules must also permit UDP port 8472 traffic to and from the gateway node IP addresses.
@@ -34,20 +34,12 @@ EKS Pod Identity (recommended)::
 +
 Use link:https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html[EKS Pod Identity] to grant permissions only to the gateway pod's service account.
 +
-.. Set environment variables for your cluster name and account ID:
-+
-[source,bash,subs="verbatim,attributes"]
-----
-export CLUSTER_NAME="my-cluster"
-export ACCOUNT_ID="123456789012"
-----
-+
 .. Install the EKS Pod Identity Agent add-on on your cluster if not already installed:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 aws eks create-addon \
-  --cluster-name ${CLUSTER_NAME} \
+  --cluster-name [.replaceable]`CLUSTER_NAME` \
   --addon-name eks-pod-identity-agent
 ----
 +
@@ -95,10 +87,10 @@ aws iam put-role-policy \
 [source,bash,subs="verbatim,attributes"]
 ----
 aws eks create-pod-identity-association \
-  --cluster-name ${CLUSTER_NAME} \
+  --cluster-name [.replaceable]`CLUSTER_NAME` \
   --namespace eks-hybrid-nodes-gateway \
   --service-account eks-hybrid-nodes-gateway \
-  --role-arn arn:aws:iam::${ACCOUNT_ID}:role/EKSHybridNodesGatewayRole
+  --role-arn arn:aws:iam::[.replaceable]`ACCOUNT_ID`:role/EKSHybridNodesGatewayRole
 ----
 
 Node IAM role::
@@ -107,10 +99,8 @@ Attach an inline or managed policy with the required permissions to the IAM role
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-export NODE_ROLE_NAME="my-node-role"
-
 aws iam put-role-policy \
-  --role-name ${NODE_ROLE_NAME} \
+  --role-name [.replaceable]`NODE_ROLE_NAME` \
   --policy-name HybridNodesGatewayRouteTable \
   --policy-document '{
     "Version": "2012-10-17" {tcx5-2025-waiver},
@@ -145,9 +135,9 @@ When using EKS Auto Mode, you must create a `NodePool` and `NodeClass` before in
 
 Apply the following resources to your cluster, replacing the placeholder values:
 
-* `<your-node-role>` — The IAM role name for the Auto Mode nodes (the same role used in the cluster's compute config).
-* `<your-cluster-name>` — Your EKS cluster name.
-* `<subnet-id-1>`, `<subnet-id-2>` — Subnet IDs in different Availability Zones where gateway nodes will be provisioned.
+* `[.replaceable]`YOUR_NODE_ROLE`` — The IAM role name for the Auto Mode nodes (the same role used in the cluster's compute config).
+* `[.replaceable]`YOUR_CLUSTER_NAME`` — Your EKS cluster name.
+* `[.replaceable]`SUBNET_ID_1``, `[.replaceable]`SUBNET_ID_2`` — Subnet IDs in different Availability Zones where gateway nodes will be provisioned.
 
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -158,13 +148,13 @@ metadata:
 spec:
   advancedNetworking:
     sourceDestCheck: DisabledPrimaryENI
-  role: <your-node-role>
+  role: [.replaceable]`YOUR_NODE_ROLE`
   securityGroupSelectorTerms:
     - tags:
-        aws:eks:cluster-name: <your-cluster-name>
+        aws:eks:cluster-name: [.replaceable]`YOUR_CLUSTER_NAME`
   subnetSelectorTerms:
-    - id: <subnet-id-1>
-    - id: <subnet-id-2>
+    - id: [.replaceable]`SUBNET_ID_1`
+    - id: [.replaceable]`SUBNET_ID_2`
 ---
 apiVersion: karpenter.sh/v1
 kind: NodePool
@@ -261,7 +251,7 @@ SCRIPT
 )
 
 aws ec2 create-launch-template \
-  --launch-template-name <your-cluster-name>-gateway-lt \
+  --launch-template-name [.replaceable]`YOUR_CLUSTER_NAME`-gateway-lt \
   --launch-template-data "{\"UserData\":\"${USERDATA}\",\"MetadataOptions\":{\"HttpTokens\":\"required\",\"HttpPutResponseHopLimit\":2}}"
 ----
 
@@ -275,16 +265,16 @@ Create a dedicated managed node group with the gateway label, taint, and the lau
 [source,bash,subs="verbatim,attributes"]
 ----
 aws eks create-nodegroup \
-  --cluster-name <your-cluster-name> \
-  --nodegroup-name <your-cluster-name>-gateway-nodes \
-  --subnets <subnet-1> <subnet-2> \
-  --node-role <your-node-role-arn> \
-  --instance-types m5.large \
+  --cluster-name [.replaceable]`YOUR_CLUSTER_NAME` \
+  --nodegroup-name [.replaceable]`YOUR_CLUSTER_NAME`-gateway-nodes \
+  --subnets [.replaceable]`SUBNET_ID_1` [.replaceable]`SUBNET_ID_2` \
+  --node-role [.replaceable]`YOUR_NODE_ROLE_ARN` \
+  --instance-types [.replaceable]`INSTANCE_TYPE` \
   --ami-type AL2023_x86_64_STANDARD \
   --scaling-config desiredSize=2,maxSize=2,minSize=2 \
   --labels hybrid-gateway-node=true \
   --taints "key=hybrid-gateway-node,effect=NO_SCHEDULE" \
-  --launch-template "name=<your-cluster-name>-gateway-lt,version=1"
+  --launch-template "name=[.replaceable]`YOUR_CLUSTER_NAME`-gateway-lt,version=1"
 ----
 
 This creates a 2-node managed node group where:
@@ -309,9 +299,9 @@ helm install eks-hybrid-nodes-gateway \
   oci://public.ecr.aws/eks/eks-hybrid-nodes-gateway \
   --namespace eks-hybrid-nodes-gateway \
   --create-namespace \
-  --set vpcCIDR=${VPC_CIDR} \
-  --set podCIDRs=${POD_CIDRS} \
-  --set routeTableIDs=${ROUTE_TABLE_IDS}
+  --set vpcCIDR=[.replaceable]`VPC_CIDR` \
+  --set podCIDRs=[.replaceable]`POD_CIDRS` \
+  --set routeTableIDs=[.replaceable]`ROUTE_TABLE_IDS`
 ----
 
 [#hybrid-nodes-gateway-install-mng]
@@ -326,9 +316,9 @@ helm install eks-hybrid-nodes-gateway \
   --namespace eks-hybrid-nodes-gateway \
   --create-namespace \
   --set autoMode.enabled=false \
-  --set vpcCIDR=${VPC_CIDR} \
-  --set podCIDRs=${POD_CIDRS} \
-  --set routeTableIDs=${ROUTE_TABLE_IDS}
+  --set vpcCIDR=[.replaceable]`VPC_CIDR` \
+  --set podCIDRs=[.replaceable]`POD_CIDRS` \
+  --set routeTableIDs=[.replaceable]`ROUTE_TABLE_IDS`
 ----
 
 [#hybrid-nodes-gateway-required-values]
@@ -402,7 +392,7 @@ Verify the health endpoint is responding on the leader pod using port-forwarding
 
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl port-forward -n eks-hybrid-nodes-gateway <leader-pod-name> 8088:8088 &
+kubectl port-forward -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD_NAME` 8088:8088 &
 curl -s http://localhost:8088/healthz
 ----
 
@@ -416,8 +406,8 @@ In the Amazon VPC console or using the {aws} CLI, confirm that your VPC route ta
 [source,bash,subs="verbatim,attributes"]
 ----
 aws ec2 describe-route-tables \
-  --route-table-ids ${ROUTE_TABLE_ID} \
-  --query "RouteTables[].Routes[?DestinationCidrBlock=='${POD_CIDR}']"
+  --route-table-ids [.replaceable]`ROUTE_TABLE_ID` \
+  --query "RouteTables[].Routes[?DestinationCidrBlock=='[.replaceable]`POD_CIDR`']"
 ----
 
 Each hybrid pod CIDR should have a route with the `NetworkInterfaceId` set to the leader instance's primary ENI.
@@ -439,8 +429,8 @@ Uninstalling the Helm chart does not automatically remove the VPC route table en
 [source,bash,subs="verbatim,attributes"]
 ----
 aws ec2 delete-route \
-  --route-table-id ${ROUTE_TABLE_ID} \
-  --destination-cidr-block ${POD_CIDR}
+  --route-table-id [.replaceable]`ROUTE_TABLE_ID` \
+  --destination-cidr-block [.replaceable]`POD_CIDR`
 ----
 ====
 

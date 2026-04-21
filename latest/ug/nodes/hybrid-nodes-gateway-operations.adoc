@@ -92,8 +92,8 @@ After the gateway configures routes, your VPC route table contains entries simil
 |local
 |active
 
-|`<hybrid-pod-cidr>`
-|`eni-<leader-eni-id>`
+|[.replaceable]`HYBRID_POD_CIDR`
+|[.replaceable]`eni-LEADER_ENI_ID`
 |active
 |===
 
@@ -134,7 +134,7 @@ You can query these endpoints manually for diagnostics by running a temporary de
 
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl port-forward -n eks-hybrid-nodes-gateway <pod-name> 8088:8088 &
+kubectl port-forward -n eks-hybrid-nodes-gateway [.replaceable]`POD_NAME` 8088:8088 &
 curl -s http://localhost:8088/healthz
 curl -s http://localhost:8088/readyz
 ----
@@ -306,15 +306,7 @@ The gateway exposes Prometheus-compatible metrics on port `10080` at the `/metri
 [#hybrid-nodes-gateway-cloudwatch]
 === CloudWatch Observability add-on
 
-You can use the link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-EKS-addon.html[Amazon CloudWatch Observability add-on,type="documentation"] to collect gateway metrics and logs. The add-on scrapes the Prometheus metrics endpoint and sends them to CloudWatch. Configure the add-on to scrape the gateway namespace:
-
-[source,yaml,subs="verbatim,attributes"]
-----
-prometheus:
-  scrapeTargets:
-    - namespace: eks-hybrid-nodes-gateway
-      port: 10080
-----
+You can use the link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup-EKS-addon.html[Amazon CloudWatch Observability add-on,type="documentation"] to collect gateway metrics and logs. Configure the add-on to scrape the gateway namespace (`eks-hybrid-nodes-gateway`) on port `10080`. For the correct configuration format, see the add-on documentation linked above.
 
 [#hybrid-nodes-gateway-scaling]
 == Scaling considerations
