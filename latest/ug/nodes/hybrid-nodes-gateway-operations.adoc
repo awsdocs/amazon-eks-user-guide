@@ -2,20 +2,20 @@ include::../attributes.txt[]
 
 [.topic]
 [#hybrid-nodes-gateway-operations]
-= EKS hybrid nodes gateway operations
+= Amazon EKS Hybrid Nodes gateway operations
 :info_titleabbrev: Operations
 
 [abstract]
 --
-Learn how to monitor, scale, and maintain the Amazon EKS hybrid nodes gateway, including failover behavior, VXLAN tunnel lifecycle, and VPC route table management.
+Learn how to monitor, scale, and maintain the Amazon EKS Hybrid Nodes gateway, including failover behavior, VXLAN tunnel lifecycle, and VPC route table management.
 --
 
-This page covers day-2 operations for the Amazon EKS hybrid nodes gateway, including high availability, failover behavior, monitoring, scaling, and VXLAN tunnel lifecycle. For installation instructions, see <<hybrid-nodes-gateway-getting-started>>.
+This page covers day-2 operations for the Amazon EKS Hybrid Nodes gateway, including high availability, failover behavior, monitoring, scaling, and VXLAN tunnel lifecycle. For installation instructions, see <<hybrid-nodes-gateway-getting-started>>.
 
 [#hybrid-nodes-gateway-ha]
 == High availability and failover
 
-The hybrid nodes gateway uses an active-standby model with Kubernetes Lease-based leader election. Two gateway pods run on separate EC2 nodes, enforced by pod anti-affinity. Both pods create a VXLAN interface at startup and run a node reconciler that maintains VTEP entries for all hybrid nodes. Only the leader pod manages VPC route tables and the `CiliumVTEPConfig` CRD. The standby pod is always ready to forward traffic immediately on failover because it already has a complete set of tunnel entries.
+The Hybrid Nodes gateway uses an active-standby model with Kubernetes Lease-based leader election. Two gateway pods run on separate EC2 nodes, enforced by pod anti-affinity. Both pods create a VXLAN interface at startup and run a node reconciler that maintains VTEP entries for all hybrid nodes. Only the leader pod manages VPC route tables and the `CiliumVTEPConfig` CRD. The standby pod is always ready to forward traffic within 3–5 seconds on failover because it already has a complete set of tunnel entries.
 
 [#hybrid-nodes-gateway-failover-sequence]
 === Failover sequence
@@ -31,12 +31,12 @@ When the active gateway instance fails, the following sequence occurs:
 
 Because both pods maintain VXLAN interfaces and VTEP entries at all times, the new leader does not need to recreate the VXLAN interface or reprogram tunnel entries during failover. Only the VPC route table and `CiliumVTEPConfig` updates are required.
 
-Expected failover time is approximately 15–30 seconds. During failover, traffic between the VPC and hybrid pods is interrupted.
+Expected failover time is approximately 3–5 seconds. During failover, traffic between the VPC and hybrid pods is interrupted.
 
 [#hybrid-nodes-gateway-az-recommendation]
 === Availability Zone recommendation
 
-Spread gateway nodes across two Availability Zones so that an AZ failure does not take out both the leader and standby. When using EKS Auto Mode, configure your `NodePool` with subnet selectors across multiple AZs. For managed node groups or self-managed nodes, choose nodes in different AZs when labeling them.
+Spread gateway nodes across two Availability Zones so that an AZ failure does not take out both the leader and standby. When using EKS Auto Mode, configure your `NodeClass` with subnet selectors across multiple AZs. For managed node groups or self-managed nodes, choose nodes in different AZs when labeling them.
 
 [NOTE]
 ====
@@ -319,7 +319,7 @@ prometheus:
 [#hybrid-nodes-gateway-scaling]
 == Scaling considerations
 
-The hybrid nodes gateway is not horizontally scalable — it uses an active-standby model with exactly two pods. Scaling is vertical: choose an EC2 instance type with sufficient network performance for your traffic volume.
+The Hybrid Nodes gateway is not horizontally scalable — it uses an active-standby model with exactly two pods. Scaling is vertical: choose an EC2 instance type with sufficient network performance for your traffic volume.
 
 [#hybrid-nodes-gateway-instance-guidance]
 === Instance type guidance
@@ -330,7 +330,76 @@ Gateway throughput is limited by the EC2 instance network performance. Consider 
 * *Packets per second (PPS)* — VXLAN encapsulation adds overhead per packet. Workloads with many small packets (for example, microservices with high request rates) benefit from instance types with higher PPS limits.
 * *Number of hybrid nodes* — Each hybrid node adds a VXLAN tunnel endpoint. The gateway maintains FDB entries, ARP entries, and routes for each node. For clusters with many hybrid nodes, choose an instance type with sufficient memory and CPU.
 
-For most deployments, a general-purpose instance type such as `m5.large` or `m6i.large` is a reasonable starting point. Monitor network utilization and adjust as needed.
+[#hybrid-nodes-gateway-instance-recommendations]
+=== Recommended instance types
+
+*Production (10–100 hybrid nodes, moderate traffic)*
+
+Suitable for standard production workloads with steady cross-network traffic.
+
+[%header,cols="1,1,1,1,2"]
+|===
+|Instance type |vCPUs |Memory |Network |Notes
+
+|`c6i.xlarge`
+|4
+|8 GiB
+|Up to 12.5 Gbps
+|Good balance of cost and performance
+
+|`c6in.xlarge`
+|4
+|8 GiB
+|Up to 30 Gbps
+|Network-optimized; recommended for production
+
+|`c7i.xlarge`
+|4
+|8 GiB
+|Up to 12.5 Gbps
+|Latest generation compute-optimized
+
+|`m6i.xlarge`
+|4
+|16 GiB
+|Up to 12.5 Gbps
+|Suitable if co-locating other workloads on gateway nodes
+|===
+
+*High-throughput production (100+ hybrid nodes, heavy traffic)*
+
+For environments with significant cross-network bandwidth requirements, such as data-intensive workloads or many concurrent connections.
+
+[%header,cols="1,1,1,1,2"]
+|===
+|Instance type |vCPUs |Memory |Network |Notes
+
+|`c6in.2xlarge`
+|8
+|16 GiB
+|Up to 40 Gbps
+|Recommended for high-throughput production
+
+|`c5n.2xlarge`
+|8
+|21 GiB
+|Up to 25 Gbps
+|Previous-generation network-optimized, cost-effective
+
+|`c6in.4xlarge`
+|16
+|32 GiB
+|Up to 50 Gbps
+|Maximum throughput for very heavy workloads
+
+|`c5n.4xlarge`
+|16
+|42 GiB
+|Up to 25 Gbps
+|High vCPU count for extreme packet rates
+|===
+
+Monitor network utilization using the gateway metrics (see <<hybrid-nodes-gateway-metrics>>) and adjust the instance type as needed.
 
 [#hybrid-nodes-gateway-vxlan-lifecycle]
 == VXLAN tunnel lifecycle
@@ -380,7 +449,7 @@ The gateway creates a VXLAN interface named `hybrid_vxlan0` with the following p
 |Gateway node IP
 |===
 
-The VXLAN interface is created at startup on every gateway pod, not just the leader. This ensures the standby is ready to forward traffic immediately after acquiring the lease during failover.
+The VXLAN interface is created at startup on every gateway pod, not just the leader. This ensures the standby is ready to forward traffic within 3–5 seconds of acquiring the lease during failover.
 
 [#hybrid-nodes-gateway-operations-next]
 == Next steps
