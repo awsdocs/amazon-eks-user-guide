@@ -33,7 +33,7 @@ If you are running an older version, upgrade Cilium before enabling VTEP. For up
 
 Set the Cilium version and run the `helm upgrade` command to enable VTEP and disable the L7 proxy on your existing Cilium installation. You can find the latest available patch version at link:https://gallery.ecr.aws/eks/cilium/cilium[Amazon ECR Public: eks/cilium/cilium].
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 
 helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium \
@@ -46,7 +46,7 @@ helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium \
 
 After the upgrade completes, restart the Cilium DaemonSet to apply the new configuration:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl rollout restart daemonset/cilium -n kube-system
 kubectl rollout status daemonset/cilium -n kube-system
@@ -73,14 +73,14 @@ kubectl rollout status daemonset/cilium -n kube-system
 
 After upgrading Cilium, verify that VTEP is enabled and the L7 proxy is disabled:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get configmap cilium-config -n kube-system -o yaml | grep -E "enable-vtep|enable-l7-proxy"
 ----
 
 You should see output similar to:
 
-[source,subs="verbatim,attributes"]
+[source,subs="verbatim,attributes,quotes"]
 ----
 enable-l7-proxy: "false"
 enable-vtep: "true"
@@ -93,7 +93,7 @@ By default, the {aws} VPC CNI applies source NAT (SNAT) to all pod traffic leavi
 
 Set the `AWS_VPC_K8S_CNI_EXCLUDE_SNAT_CIDRS` environment variable on the `aws-node` DaemonSet to your hybrid pod CIDR(s):
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 
 kubectl set env daemonset aws-node -n kube-system \

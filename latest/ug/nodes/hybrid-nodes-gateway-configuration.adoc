@@ -81,27 +81,29 @@ The following table lists all values in the `eks-hybrid-nodes-gateway` Helm char
 
 *EKS Auto Mode* (default):
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 helm install eks-hybrid-nodes-gateway oci://public.ecr.aws/eks/eks-hybrid-nodes-gateway \
+  --version 1.0.0 \
   --namespace eks-hybrid-nodes-gateway \
   --create-namespace \
-  --set vpcCIDR=<your-vpc-cidr> \
-  --set podCIDRs=<your-hybrid-pod-cidrs> \
-  --set routeTableIDs=<your-route-table-ids>
+  --set vpcCIDR=[.replaceable]`VPC_CIDR` \
+  --set podCIDRs=[.replaceable]`POD_CIDRS` \
+  --set routeTableIDs=[.replaceable]`ROUTE_TABLE_IDS`
 ----
 
 *Managed node groups or self-managed nodes*:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 helm install eks-hybrid-nodes-gateway oci://public.ecr.aws/eks/eks-hybrid-nodes-gateway \
+  --version 1.0.0 \
   --namespace eks-hybrid-nodes-gateway \
   --create-namespace \
   --set autoMode.enabled=false \
-  --set vpcCIDR=<your-vpc-cidr> \
-  --set podCIDRs=<your-hybrid-pod-cidrs> \
-  --set routeTableIDs=<your-route-table-ids>
+  --set vpcCIDR=[.replaceable]`VPC_CIDR` \
+  --set podCIDRs=[.replaceable]`POD_CIDRS` \
+  --set routeTableIDs=[.replaceable]`ROUTE_TABLE_IDS`
 ----
 
 [#hybrid-nodes-gateway-auto-vs-mng]

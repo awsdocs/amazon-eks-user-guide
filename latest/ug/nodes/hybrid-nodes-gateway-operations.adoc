@@ -132,7 +132,7 @@ The gateway exposes health and readiness endpoints on port `8088`:
 
 You can query these endpoints manually for diagnostics by running a temporary debug container or by port-forwarding:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl port-forward -n eks-hybrid-nodes-gateway [.replaceable]`POD_NAME` 8088:8088 &
 curl -s http://localhost:8088/healthz
@@ -311,7 +311,7 @@ You can use the link:AmazonCloudWatch/latest/monitoring/Container-Insights-setup
 [#hybrid-nodes-gateway-scaling]
 == Scaling considerations
 
-The Hybrid Nodes gateway is not horizontally scalable — it uses an active-standby model with exactly two pods. Scaling is vertical: choose an EC2 instance type with sufficient network performance for your traffic volume.
+The Hybrid Nodes gateway uses an active-standby model with leader election, so only one pod handles traffic at any given time. Horizontally scaling the gateway (by increasing the number of replicas) can improve availability by providing additional standby pods that are ready to take over during failover, but it does not improve performance or throughput because traffic is not distributed across replicas. To scale performance, scale vertically by choosing an EC2 instance type with sufficient network bandwidth for your traffic volume.
 
 [#hybrid-nodes-gateway-instance-guidance]
 === Instance type guidance
@@ -320,7 +320,7 @@ Gateway throughput is limited by the EC2 instance network performance. Consider 
 
 * *Network bandwidth* — The gateway forwards all traffic between the VPC and hybrid pods. Choose an instance type whose network bandwidth meets your peak traffic requirements.
 * *Packets per second (PPS)* — VXLAN encapsulation adds overhead per packet. Workloads with many small packets (for example, microservices with high request rates) benefit from instance types with higher PPS limits.
-* *Number of hybrid nodes* — Each hybrid node adds a VXLAN tunnel endpoint. The gateway maintains FDB entries, ARP entries, and routes for each node. For clusters with many hybrid nodes, choose an instance type with sufficient memory and CPU.
+* *Number of hybrid nodes* — Each hybrid node adds a VXLAN tunnel endpoint that the gateway forwards traffic through. As the number of hybrid nodes scales, the aggregate traffic through the gateway grows. Select an instance type with sufficient network bandwidth to handle the peak cross-network traffic for your cluster.
 
 [#hybrid-nodes-gateway-instance-recommendations]
 === Recommended instance types
@@ -418,30 +418,6 @@ A node controller watches `CiliumNode` objects in the cluster. The controller ru
 . It removes the route, ARP entry, and FDB entry for that node from the VXLAN interface.
 
 This lifecycle is fully automatic. You do not need to manually configure tunnels when adding or removing hybrid nodes.
-
-[#hybrid-nodes-gateway-vxlan-details]
-=== VXLAN interface details
-
-The gateway creates a VXLAN interface named `hybrid_vxlan0` with the following parameters:
-
-[%header,cols="1,2"]
-|===
-|Parameter |Value
-
-|VNI
-|2
-
-|UDP port
-|8472 (Cilium default)
-
-|Learning
-|Disabled (static FDB entries only)
-
-|Source IP
-|Gateway node IP
-|===
-
-The VXLAN interface is created at startup on every gateway pod, not just the leader. This ensures the standby is ready to forward traffic within 3–5 seconds of acquiring the lease during failover.
 
 [#hybrid-nodes-gateway-operations-next]
 == Next steps

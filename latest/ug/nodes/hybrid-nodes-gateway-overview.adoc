@@ -81,9 +81,10 @@ Before deploying the Hybrid Nodes gateway, consider the following:
 * <<hybrid-nodes-gateway-operations>>
 * <<hybrid-nodes-gateway-troubleshooting>>
 
-include::hybrid-nodes-gateway-cni.adoc[leveloffset=+1]
 
 include::hybrid-nodes-gateway-getting-started.adoc[leveloffset=+1]
+
+include::hybrid-nodes-gateway-cni.adoc[leveloffset=+1]
 
 include::hybrid-nodes-gateway-configuration.adoc[leveloffset=+1]
 

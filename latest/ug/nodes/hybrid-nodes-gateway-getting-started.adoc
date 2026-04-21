@@ -36,7 +36,7 @@ Use link:https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html[EK
 +
 .. Install the EKS Pod Identity Agent add-on on your cluster if not already installed:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws eks create-addon \
   --cluster-name [.replaceable]`CLUSTER_NAME` \
@@ -45,7 +45,7 @@ aws eks create-addon \
 +
 .. Create an IAM role with the required EC2 permissions and a trust policy for EKS Pod Identity:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 cat > gateway-trust-policy.json << 'EOF'
 {
@@ -84,7 +84,7 @@ aws iam put-role-policy \
 +
 .. Create a pod identity association linking the IAM role to the gateway service account:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws eks create-pod-identity-association \
   --cluster-name [.replaceable]`CLUSTER_NAME` \
@@ -97,7 +97,7 @@ Node IAM role::
 +
 Attach an inline or managed policy with the required permissions to the IAM role associated with the gateway nodes' instance profile:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws iam put-role-policy \
   --role-name [.replaceable]`NODE_ROLE_NAME` \
@@ -125,7 +125,7 @@ All pods on the gateway nodes will have these permissions.
 
 The gateway requires at least two EC2 nodes for high availability. There are two supported node configuration options for the gateway:
 
-* <<hybrid-nodes-gateway-auto-mode-nodes>> *(recommended)* — Nodes are provisioned automatically using a `NodePool` and `NodeClass`. Source/destination check, labels, and taints are all configured declaratively.
+* <<hybrid-nodes-gateway-auto-mode-nodes>> — Nodes are provisioned automatically using a `NodePool` and `NodeClass`. Source/destination check, labels, and taints are all configured declaratively.
 * <<hybrid-nodes-gateway-mng-nodes>> — You provision nodes using a managed node group or self-managed nodes. Labels can be configured through the managed node group API, and source/destination check can be disabled using a custom launch template with user data.
 
 [#hybrid-nodes-gateway-auto-mode-nodes]
@@ -135,11 +135,11 @@ When using EKS Auto Mode, you must create a `NodePool` and `NodeClass` before in
 
 Apply the following resources to your cluster, replacing the placeholder values:
 
-* `[.replaceable]`YOUR_NODE_ROLE`` — The IAM role name for the Auto Mode nodes (the same role used in the cluster's compute config).
-* `[.replaceable]`YOUR_CLUSTER_NAME`` — Your EKS cluster name.
-* `[.replaceable]`SUBNET_ID_1``, `[.replaceable]`SUBNET_ID_2`` — Subnet IDs in different Availability Zones where gateway nodes will be provisioned.
+* [.replaceable]`YOUR_NODE_ROLE` — The name of the Node IAM Role used by EKS Auto Mode to provision nodes. This is the role you configured (or that EKS created) when you enabled Auto Mode on the cluster. For more information, see link:https://docs.aws.amazon.com/eks/latest/userguide/auto-create-node-role.html[Create a Node IAM Role for EKS Auto Mode].
+* [.replaceable]`YOUR_CLUSTER_NAME` — Your EKS cluster name.
+* [.replaceable]`SUBNET_ID_1`, [.replaceable]`SUBNET_ID_2` — Subnet IDs in different Availability Zones where gateway nodes will be provisioned.
 
-[source,yaml,subs="verbatim,attributes"]
+[source,yaml,subs="verbatim,attributes,quotes"]
 ----
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
@@ -221,7 +221,7 @@ When using managed node groups, create a dedicated node group for the gateway wi
 
 Create a launch template with user data that disables source/destination check on the primary ENI when the instance boots:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # Create the launch template with user data to disable source/dest check
 USERDATA=$(cat <<'SCRIPT' | base64 -w 0
@@ -262,12 +262,12 @@ The node's IAM role must have `ec2:ModifyNetworkInterfaceAttribute` permission f
 
 Create a dedicated managed node group with the gateway label, taint, and the launch template from Step 1:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws eks create-nodegroup \
   --cluster-name [.replaceable]`YOUR_CLUSTER_NAME` \
   --nodegroup-name [.replaceable]`YOUR_CLUSTER_NAME`-gateway-nodes \
-  --subnets [.replaceable]`SUBNET_ID_1` [.replaceable]`SUBNET_ID_2` \
+  --subnets [.replaceable]`SUBNET_ID_1 SUBNET_ID_2` \
   --node-role [.replaceable]`YOUR_NODE_ROLE_ARN` \
   --instance-types [.replaceable]`INSTANCE_TYPE` \
   --ami-type AL2023_x86_64_STANDARD \
@@ -293,10 +293,11 @@ Use subnets in different Availability Zones for high availability.
 
 Run the following command to install the gateway with EKS Auto Mode:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 helm install eks-hybrid-nodes-gateway \
   oci://public.ecr.aws/eks/eks-hybrid-nodes-gateway \
+  --version 1.0.0 \
   --namespace eks-hybrid-nodes-gateway \
   --create-namespace \
   --set vpcCIDR=[.replaceable]`VPC_CIDR` \
@@ -309,10 +310,11 @@ helm install eks-hybrid-nodes-gateway \
 
 For managed node groups or self-managed nodes, set `autoMode.enabled=false`:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 helm install eks-hybrid-nodes-gateway \
   oci://public.ecr.aws/eks/eks-hybrid-nodes-gateway \
+  --version 1.0.0 \
   --namespace eks-hybrid-nodes-gateway \
   --create-namespace \
   --set autoMode.enabled=false \
@@ -353,14 +355,14 @@ After installing the gateway, verify that it is running and healthy.
 
 Confirm that two gateway pods are running:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get pods -n eks-hybrid-nodes-gateway
 ----
 
 You should see output similar to:
 
-[source,subs="verbatim,attributes"]
+[source,subs="verbatim,attributes,quotes"]
 ----
 NAME                                        READY   STATUS    RESTARTS   AGE
 eks-hybrid-nodes-gateway-5d4f6a7b8c-abc12   1/1     Running   0          2m
@@ -372,14 +374,14 @@ eks-hybrid-nodes-gateway-5d4f6a7b8c-def34   1/1     Running   0          2m
 
 Verify that one pod has acquired the leader election lease:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get lease -n eks-hybrid-nodes-gateway
 ----
 
 The output shows the current leader in the `HOLDER` column:
 
-[source,subs="verbatim,attributes"]
+[source,subs="verbatim,attributes,quotes"]
 ----
 NAME                     HOLDER                                      AGE
 hybrid-gateway-leader    eks-hybrid-nodes-gateway-5d4f6a7b8c-abc12   2m
@@ -390,7 +392,7 @@ hybrid-gateway-leader    eks-hybrid-nodes-gateway-5d4f6a7b8c-abc12   2m
 
 Verify the health endpoint is responding on the leader pod using port-forwarding:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl port-forward -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD_NAME` 8088:8088 &
 curl -s http://localhost:8088/healthz
@@ -403,7 +405,7 @@ A healthy gateway returns an HTTP 200 response.
 
 In the Amazon VPC console or using the {aws} CLI, confirm that your VPC route tables contain entries for the hybrid pod CIDRs pointing to the leader gateway instance's ENI:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws ec2 describe-route-tables \
   --route-table-ids [.replaceable]`ROUTE_TABLE_ID` \
@@ -417,7 +419,7 @@ Each hybrid pod CIDR should have a route with the `NetworkInterfaceId` set to th
 
 To remove the Hybrid Nodes gateway, run:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 helm uninstall eks-hybrid-nodes-gateway --namespace eks-hybrid-nodes-gateway
 ----
@@ -426,7 +428,7 @@ helm uninstall eks-hybrid-nodes-gateway --namespace eks-hybrid-nodes-gateway
 ====
 Uninstalling the Helm chart does not automatically remove the VPC route table entries created by the gateway. After uninstalling, manually delete the routes for your hybrid pod CIDRs from the VPC route tables to avoid routing traffic to instances that are no longer running the gateway. You can remove routes using the {aws} CLI:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws ec2 delete-route \
   --route-table-id [.replaceable]`ROUTE_TABLE_ID` \

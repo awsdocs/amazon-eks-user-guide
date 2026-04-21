@@ -28,7 +28,7 @@ Pods running on hybrid nodes are not reachable from resources in the VPC, such a
 
 . *Check VPC route table entries.* Verify that routes for your hybrid pod CIDRs exist and point to the active gateway instance's primary ENI:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws ec2 describe-route-tables \
   --route-table-ids [.replaceable]`ROUTE_TABLE_ID` \
@@ -39,7 +39,7 @@ If routes are missing, check the gateway logs for route table errors. If routes 
 
 . *Check gateway pod status and leader election.* Confirm that two gateway pods are running and one holds the leader lease:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get pods -n eks-hybrid-nodes-gateway
 kubectl get lease -n eks-hybrid-nodes-gateway
@@ -50,7 +50,7 @@ If no pod holds the lease, see <<hybrid-nodes-gateway-ts-leader>>.
 
 . *Check Cilium VTEP configuration on hybrid nodes.* Verify that the `CiliumVTEPConfig` resource exists and contains the leader's node IP:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get ciliumvtepconfig hybrid-gateway -o yaml
 ----
@@ -59,7 +59,7 @@ The `spec.endpoints[0].tunnelEndpoint` should match the leader gateway node's IP
 
 . *Check source/destination check.* Verify that source/destination check is disabled on the gateway EC2 instances:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws ec2 describe-instance-attribute \
   --instance-id [.replaceable]`GATEWAY_INSTANCE_ID` \
@@ -84,7 +84,7 @@ The Kubernetes API server cannot reach webhook endpoints running on hybrid nodes
 
 . *Check the CiliumVTEPConfig resource.* Verify the resource exists and the `tunnelEndpoint` matches the current leader's node IP:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get ciliumvtepconfig hybrid-gateway -o yaml
 ----
@@ -113,23 +113,23 @@ The gateway logs show errors related to VPC route table operations, and routes f
 +
 Check the IAM role attached to the gateway node's instance profile or pod identity configuration.
 
-. *Check route table IDs in the configuration.* Verify that the `routeTableIDs` Helm value or `ROUTE_TABLE_IDS` environment variable contains valid route table IDs:
+. *Check route table IDs in the configuration.* Verify that the `ROUTE_TABLE_IDS` environment variable contains valid route table IDs in the gateway deployment:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get deployment eks-hybrid-nodes-gateway -n eks-hybrid-nodes-gateway -o jsonpath='{.spec.template.spec.containers[0].env}' | jq .
 ----
 +
 Confirm the route table IDs exist in your VPC:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws ec2 describe-route-tables --route-table-ids [.replaceable]`ROUTE_TABLE_ID`
 ----
 
 . *Check gateway logs for route table errors.* Look for error messages related to route table operations:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl logs -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD` | grep -i "route table"
 ----
@@ -149,21 +149,20 @@ Gateway pods are in `CrashLoopBackOff`, `Error`, or `Pending` state, or the heal
 
 * Required environment variables (`VPC_CIDR`, `POD_CIDRS`, `ROUTE_TABLE_IDS`) are not set.
 * IP forwarding is not enabled on the gateway node.
-* The pod does not have the `NET_ADMIN` capability.
 * Node label or anti-affinity constraints prevent scheduling.
 
 *Diagnostic steps:*
 
 . *Check pod logs.* View the logs for the failing pod to identify the error:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl logs -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD`
 ----
 
 . *Check required environment variables.* The gateway requires `NODE_IP`, `VPC_CIDR`, and `POD_CIDRS`. If any are missing, the gateway exits immediately. Verify the pod spec:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get pod -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD` -o jsonpath='{.spec.containers[0].env}' | jq .
 ----
@@ -173,7 +172,7 @@ kubectl get pod -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD` -o jsonpa
 
 . *Check IP forwarding.* The gateway checks that IP forwarding is enabled at startup and exits if it is not. Look for the error message `IP forwarding is not enabled` in the pod logs. Enable IP forwarding on the node:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # Check current setting
 cat /proc/sys/net/ipv4/ip_forward
@@ -184,11 +183,9 @@ sudo sysctl -w net.ipv4.ip_forward=1
 +
 For a persistent setting, configure IP forwarding through the kubelet or add `net.ipv4.ip_forward=1` to `/etc/sysctl.d/`.
 
-. *Check NET_ADMIN capability.* The gateway requires the `NET_ADMIN` Linux capability to create VXLAN interfaces and manage network routes. If the pod's security context does not include this capability, VXLAN setup fails with `Failed to setup VXLAN`. Verify the Helm chart is deployed correctly and the Deployment spec includes `NET_ADMIN` in `securityContext.capabilities.add`.
-
 . *Check node label and scheduling constraints.* The gateway pods require nodes with the `hybrid-gateway-node=true` label. Pod anti-affinity ensures each pod runs on a separate node. If pods are `Pending`, check for scheduling issues:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl describe pod -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD`
 ----
@@ -210,7 +207,7 @@ The gateway pods are running but no pod acquires the leader lease, or leadership
 
 . *Check the Lease object.* Verify the Lease exists and inspect its current holder:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get lease -n eks-hybrid-nodes-gateway hybrid-gateway-leader -o yaml
 ----
@@ -219,7 +216,7 @@ The `spec.holderIdentity` field shows the current leader. The `spec.renewTime` s
 
 . *Check RBAC permissions.* The gateway service account needs permissions to get, create, and update Lease objects in the gateway namespace. Verify the Role and RoleBinding:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get role -n eks-hybrid-nodes-gateway
 kubectl get rolebinding -n eks-hybrid-nodes-gateway
@@ -229,7 +226,7 @@ The Role should include `get`, `create`, and `update` verbs for the `leases` res
 
 . *Check pod logs for lease errors.* Look for leader election errors in the pod logs:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl logs -n eks-hybrid-nodes-gateway [.replaceable]`LEADER_POD` | grep -i "leader\|lease"
 ----
@@ -241,7 +238,7 @@ Common issues include:
 
 . *Check leader election parameters.* Verify the configured values:
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get deployment eks-hybrid-nodes-gateway -n eks-hybrid-nodes-gateway -o jsonpath='{.spec.template.spec.containers[0].args}'
 ----
