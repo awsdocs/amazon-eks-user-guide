@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-04-23"]
+=== Kubernetes version `1.32` for local clusters on {aws} Outposts
+[.update-ulink]
+link:eks/latest/userguide/eks-outposts-platform-versions.html[type="documentation"]
+
+Added Kubernetes version `1.32` support for local Amazon EKS clusters on {aws} Outposts.
+
 [.update,date="2026-04-17"]
 === {aws} managed policy updates
 [.update-ulink]
