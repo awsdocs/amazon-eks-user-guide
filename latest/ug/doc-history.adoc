@@ -26,6 +26,20 @@ link:eks/latest/userguide/eks-outposts-platform-versions.html[type="documentatio
 
 Added Kubernetes version `1.32` support for local Amazon EKS clusters on {aws} Outposts.
 
+[.update,date="2026-04-20"]
+=== Service linked role update
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+ 
+Added `elasticloadbalancing:DescribeCapacityReservation` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to describe LoadBalancer capacity units
+
+[.update,date="2026-04-20"]
+=== Service linked role update
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+ 
+Added `ec2:DescribeInstanceStatus` and `iam:ListInstanceProfiles` permissions in `AmazonEKSServiceRolePolicy`. These permissions allow Amazon EKS Auto Mode to discover EC2 health events for managed instances and cleanup managed instance profiles
+
 [.update,date="2026-04-17"]
 === {aws} managed policy updates
 [.update-ulink]
