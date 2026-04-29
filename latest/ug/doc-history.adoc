@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-04-27"]
+=== Service linked role update
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `elasticloadbalancing:DescribeLoadBalancers` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to describe LoadBalancer 
+
 [.update,date="2026-04-23"]
 === Kubernetes version `1.32` for local clusters on {aws} Outposts
 [.update-ulink]

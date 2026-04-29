@@ -485,6 +485,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Date
 
 |Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
+|Added `elasticloadbalancing:DescribeLoadBalancers` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to describe LoadBalancer 
+|April 27, 2026
+
+|Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
 |Added `elasticloadbalancing:DescribeCapacityReservation` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to describe LoadBalancer capacity units
 |April 20, 2026
 
