@@ -34,6 +34,11 @@ You must use a `kubectl` version that is within one minor version difference of 
 
 ====
 
+[TIP]
+====
+You can also use `kubectl` directly from the EKS console via {aws} CloudShell. Choose *Connect* on any cluster details page to get a pre-configured session. For more information, see <<create-kubeconfig>>.
+====
+
 == Step 1: Check if `kubectl` is installed
 
 Determine whether you already have `kubectl` installed on your device.

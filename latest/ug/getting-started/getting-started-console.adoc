@@ -116,11 +116,13 @@ NOTE: You might receive an error that one of the Availability Zones in your requ
 
 
 [#eks-configure-kubectl]
-== Step 2: Configure your computer to communicate with your cluster
+== Step 2: Connect to your cluster
 
-In this section, you create a `kubeconfig` file for your cluster. The settings in this file enable the `kubectl` CLI to communicate with your cluster.
+In this section, you connect `kubectl` to your cluster so you can manage Kubernetes resources.
 
 Before proceeding, be sure that your cluster creation completed successfully in Step 1.
+
+=== Option 1: Connect using the {aws} CLI
 
 . Create or update a `kubeconfig` file for your cluster. Replace [.replaceable]`region-code` with the {aws} Region that you created your cluster in. Replace [.replaceable]`my-cluster` with the name of your cluster.
 +
@@ -146,6 +148,21 @@ An example output is as follows.
 NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
 ----
+
+=== Option 2: Connect using the EKS console
+
+Alternatively, you can connect directly from the console without any local setup:
+
+. On the cluster details page for the cluster you created in <<eks-create-cluster,Step 1>>, choose *Connect*.
+. {aws} CloudShell opens with `kubectl` pre-configured for your cluster.
+. Test your connection:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get svc
+----
+
+For more information, see <<create-kubeconfig>>.
 
 
 [#eks-launch-workers]

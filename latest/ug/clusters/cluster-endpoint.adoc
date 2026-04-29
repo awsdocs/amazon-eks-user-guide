@@ -176,6 +176,10 @@ When you configure `kubectl` for your bastion host, be sure to use {aws} credent
 When you configure `kubectl` for your {aws} Cloud9 IDE, be sure to use {aws} credentials that are already mapped to your cluster's RBAC configuration, or add the IAM principal that your IDE will use to the RBAC configuration before you remove endpoint public access. For more information, see <<grant-k8s-access>> and <<unauthorized>>.
 
 
+*{aws} CloudShell*::
+Choose *Connect* on the cluster details page in the Amazon EKS console. For private clusters, CloudShell launches a VPC environment that can reach your cluster's private API server endpoint. For more information, see <<create-kubeconfig>>.
+
+
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cluster-endpoint%5D&type=code[Edit this page on GitHub]
 
 include::config-cluster-endpoint.adoc[leveloffset=+1]
