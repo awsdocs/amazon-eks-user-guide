@@ -38,6 +38,10 @@ You can use any of the following Amazon EKS add-ons.
 |<<add-ons-aws-ebs-csi-driver>>
 |EC2
 
+|Provide Amazon EC2 instance storage for your cluster
+|<<add-ons-aws-ec2-instance-store-csi-driver>>
+|EC2
+
 |Provide Amazon EFS storage for your cluster
 |<<add-ons-aws-efs-csi-driver>>
 |EC2, EKS Auto Mode
@@ -260,6 +264,28 @@ eksctl create iamserviceaccount \
 === Additional information
 
 To learn more about the add-on, see <<ebs-csi>>.
+
+[#add-ons-aws-ec2-instance-store-csi-driver]
+== Amazon EC2 Instance Store CSI driver
+
+[abstract]
+--
+Learn about the Amazon EC2 Instance Store CSI driver Amazon EKS add-on.
+--
+
+The Amazon EC2 Instance Store CSI driver Amazon EKS add-on is a Kubernetes Container Storage Interface (CSI) plugin that provides Amazon EC2 instance store NVMe storage for your cluster.
+
+The Amazon EKS add-on name is `aws-ec2-local-instance-store-csi-driver`.
+
+[#add-ons-aws-ec2-instance-store-csi-driver-iam-permissions]
+=== Required IAM permissions
+
+This add-on doesn't require any permissions. The driver interacts with backend NVMe devices through local Linux operations and doesn't make {aws} API calls.
+
+[#add-ons-aws-ec2-instance-store-csi-driver-information]
+=== Additional information
+
+To learn more about the add-on, see <<lis-csi>>.
 
 [#add-ons-aws-efs-csi-driver]
 == Amazon EFS CSI driver

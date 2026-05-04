@@ -18,6 +18,8 @@ This chapter covers storage options for Amazon EKS clusters.
 
 include::ebs-csi.adoc[leveloffset=+1]
 
+include::lis-csi.adoc[leveloffset=+1]
+
 include::efs-csi.adoc[leveloffset=+1]
 
 include::s3files-csi.adoc[leveloffset=+1]
