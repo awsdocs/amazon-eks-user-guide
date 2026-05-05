@@ -12,7 +12,7 @@ The Amazon EC2 Instance Store CSI driver manages the lifecycle of instance store
 
 The Amazon EC2 Instance Store CSI driver is a Container Storage Interface (CSI) plugin that enables Kubernetes to use EC2 instance store volumes. Instance store volumes provide ephemeral block-level storage that is physically attached to the host computer. The driver manages the lifecycle of these NVMe storage volumes and makes them available as Kubernetes https://kubernetes.io/docs/concepts/storage/persistent-volumes/[persistent volumes].
 
-Unlike the Amazon EBS CSI driver, the Amazon EC2 Instance Store CSI driver interacts with backend NVMe devices through local Linux operations. No {aws} API calls are involved, so no IAM role is required.
+The Amazon EC2 Instance Store CSI driver interacts with backend NVMe devices through local Linux operations. No {aws} API calls are involved, so no IAM role is required.
 
 [#lis-csi-considerations]
 == Considerations
