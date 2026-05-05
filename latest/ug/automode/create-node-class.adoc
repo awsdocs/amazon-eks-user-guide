@@ -213,6 +213,12 @@ spec:
   certificateBundles:
     - name: "custom-cert"
       data: "base64-encoded-cert-data"
+
+  # Optional: EC2 Placement Group
+  placementGroupSelector:
+    name: "targeted-pg"
+    # Alternative use direct placement group ID  
+    # id: "pg-02465754522cda020"
   
   # Optional: Additional EC2 tags (with restrictions)
   tags:
@@ -241,6 +247,25 @@ spec:
 ** If the subnets are in different Availability Zones (AZs), you can use Kubernetes features like https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#pod-topology-spread-constraints[Pod topology spread constraints] and https://kubernetes.io/docs/concepts/services-networking/topology-aware-routing/[Topology Aware Routing] to spread Pods and traffic across the zones, respectively.
 
 ** If there are multiple subnets __in the same AZ__ that match the `subnetSelectorTerms`, EKS Auto Mode creates Pods on each node distributed across the subnets in that AZ. EKS Auto Mode creates secondary network interfaces on each node in the other subnets in the same AZ. It chooses based on the number of available IP addresses in each subnet, to use the subnets more efficiently. However, you can't specify which subnet EKS Auto Mode uses for each Pod; if you need Pods to run in specific subnets, use <<pod-subnet-selector>> instead.
+
+* *Placement group strategy restrictions* — Each placement group strategy (cluster, partition, spread) has specific limitations on instance types, AZs, and capacity. For details, see link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strategies.html[Placement group strategies] in the Amazon EC2 User Guide.
+* *Spread placement group — 7-instance limit* — A rack-level spread placement group allows a maximum of 7 running instances per Availability Zone per group. This creates the following edge cases:
+
+** *Drift replacement blocked at capacity* — EKS Auto Mode launches a replacement node before terminating the old one. When a spread PG has 7 instances in an AZ, the replacement launch fails and the drifted node remains running until a slot frees up.
+
+** *All AZs at capacity* — If every AZ in the spread PG is at its 7-instance limit, no replacements can be scheduled. Drifted or consolidation-candidate nodes stay running indefinitely.
+
+** *No fallback outside the placement group* — EKS Auto Mode does not attempt to launch replacement instances outside the placement group.
+
+** *Workaround* — Use `WhenEmpty` consolidation policy (`consolidationPolicy: WhenEmpty`). Nodes are deleted only after all non-daemonset pods drain off, freeing a PG slot without needing a replacement launch first. Note that drift always uses replace-then-delete regardless of consolidation policy, so drift remains blocked at capacity.
+
+* *Cluster placement group AZ pinning* — Once the first instance launches into a cluster placement group, the PG is pinned to that AZ. If your NodePool allows multiple AZs, parallel launches during initial scale-up may race: one succeeds and pins the AZ, the rest fail with capacity errors. Pin the AZ in your NodePool requirements to avoid transient failures.
+
+* *Partition placement group* — Partition placement groups are supported with no additional constraints beyond the standard EC2 limits.
+
+* *Consolidation can move pods out of a placement group* — If a pod has no placement-group scheduling constraints (such as a `nodeSelector` on `eks.amazonaws.com/placement-group-id`), consolidation may move it to a node outside the PG. Applications that require placement group membership should express this via pod-level constraints.
+
+* *Nonexistent or deleted placement group* — If a `NodeClass` references a placement group that does not exist or has been deleted, no instances are launched. The placement group ID format is validated at admission, but existence is checked only at launch time. If a placement group is deleted while nodes are running, existing nodes are marked as drifted and remain running indefinitely because drift replacement launches are also blocked.
 
 
 [#pod-subnet-selector]
