@@ -741,4 +741,4 @@ The expected output will show EFA interfaces with traffic statistics.
 * <<fsx-csi-create>>
 * <<fsx-csi-tuning-non-efa>>
 * link:fsx/latest/LustreGuide/performance.html[Amazon FSx for Lustre Performance,type="documentation"]
-* link:ec2/latest/userguide/efa.html[Elastic Fabric Adapter,type="documentation"]
+* link:AWSEC2/latest/UserGuide/efa.html[Elastic Fabric Adapter,type="documentation"]
