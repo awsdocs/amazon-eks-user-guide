@@ -17,6 +17,11 @@ The Amazon EC2 Instance Store CSI driver interacts with backend NVMe devices thr
 [#lis-csi-considerations]
 == Considerations
 
+[IMPORTANT]
+====
+The Amazon EC2 Instance Store CSI driver will erase all data on ephemeral disks during installation. If another CSI driver, or volume managing system (such as LVM, raw filesystems, LUKS, etc.) is managing ephemeral disks, back up your data before installing the Amazon EC2 Instance Store CSI driver to avoid data loss.
+====
+
 * The Amazon EC2 Instance Store CSI driver doesn't work with EKS Auto Mode.
 * You can't mount Amazon EC2 instance store volumes to Fargate Pods.
 * The Amazon EC2 Instance Store CSI driver is not available for the following instance types: C1, C3, C4, C5d, C5ad, C6gd, D2, D3, D3en, DL1, E3, Edge1gd, F1, G2, G3, G4ad, G4dn, H1, HSM1, I2, I3, I3.metal, I3en, M1, M2, M3, M4, M5d, M5ad, M5dn, M6gd, P2, P3, P3dn, P4d, P4de, R3, R4, R5d, R5ad, R5dn, R6gd, T1, T2, X1, X1e, X2gd, and Z1d.
