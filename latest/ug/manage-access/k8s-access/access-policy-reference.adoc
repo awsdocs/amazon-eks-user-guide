@@ -698,7 +698,7 @@ This policy grants the permissions necessary for {aws} Backup to manage and rest
 
 |`rbac.authorization.k8s.io`
 |`roles`, `clusterroles`
-|`create`, `update`, `escalate`
+|`create`, `update`, `escalate`, `bind`
 |===
 
 == AmazonEKSACKPolicy
