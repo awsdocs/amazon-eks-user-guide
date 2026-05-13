@@ -10,8 +10,6 @@ include::../attributes.txt[]
 Diagnose and resolve common issues with the EKS Capability for kro.
 --
 
-This topic provides troubleshooting guidance for the EKS Capability for kro, including capability health checks, RBAC permissions, CEL expression errors, and resource composition issues.
-
 [NOTE]
 ====
 EKS Capabilities are fully managed and run outside your cluster.
@@ -94,7 +92,7 @@ If custom resource instances exist but the underlying Kubernetes resources (Depl
 
 *Check instance status*:
 
-[source,bash,subs="verbatim,quotes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # Describe the instance (replace with your custom resource kind and name)
 kubectl describe [.replaceable]`custom-kind` [.replaceable]`my-instance`
@@ -154,7 +152,7 @@ kro validates all CEL syntax, type-checks expressions against Kubernetes schemas
 
 *Check RGD validation status*:
 
-[source,bash,subs="verbatim,quotes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # Check if RGD was accepted
 kubectl get resourcegraphdefinition [.replaceable]`my-rgd` -o jsonpath='{.status.conditions[?(@.type=="ResourceGraphAccepted")]}'
@@ -195,7 +193,7 @@ If resources aren't being created as expected, check the dependency order and re
 
 *View computed creation order*:
 
-[source,bash,subs="verbatim,quotes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # See the order kro will create resources
 kubectl get resourcegraphdefinition [.replaceable]`my-rgd` -o jsonpath='{.status.topologicalOrder}'
@@ -205,7 +203,7 @@ This shows the computed order based on CEL expression references between resourc
 
 *Check resource readiness*:
 
-[source,bash,subs="verbatim,quotes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # View instance status to see which resources are ready
 kubectl get [.replaceable]`custom-kind` [.replaceable]`my-instance` -o jsonpath='{.status}'
@@ -230,7 +228,7 @@ resources:
 
 *Check resource events*:
 
-[source,bash,subs="verbatim,quotes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # View events for the underlying resources
 kubectl get events -n [.replaceable]`namespace` --sort-by='.lastTimestamp'
@@ -242,7 +240,7 @@ If instances fail to create due to schema validation errors, verify the instance
 
 *Check validation errors*:
 
-[source,bash,subs="verbatim,quotes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # Attempt to create instance and view error
 kubectl apply -f instance.yaml
@@ -260,7 +258,7 @@ kubectl describe [.replaceable]`custom-kind` [.replaceable]`my-instance` | grep 
 
 *Review RGD schema*:
 
-[source,bash,subs="verbatim,quotes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # View the schema definition
 kubectl get resourcegraphdefinition [.replaceable]`my-rgd` -o jsonpath='{.spec.schema}'

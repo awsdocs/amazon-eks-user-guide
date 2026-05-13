@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Create a kro capability using the Console
 :info_titleabbrev: Console
 
-This topic describes how to create a kro (Kube Resource Orchestrator) capability using the {aws-management-console}.
+Create a kro capability on your Amazon EKS cluster using the {aws} Management Console.
 
 == Create the kro capability
 
@@ -106,5 +106,4 @@ You should see the `ResourceGraphDefinition` resource type listed.
 == Next steps
 
 * <<kro-concepts>> - Understand kro concepts and resource composition
-* <<kro-concepts>> - Learn about SimpleSchema, CEL expressions, and composition patterns
 * <<working-with-capabilities>> - Manage your kro capability resource

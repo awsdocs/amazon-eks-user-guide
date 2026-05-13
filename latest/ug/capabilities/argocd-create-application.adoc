@@ -279,7 +279,7 @@ This is particularly useful for resources that depend on CRDs being created firs
 
 Additional sync configuration:
 
-*Create namespace if it doesn't exist*:
+*Create namespace if it does not exist*:
 
 [source,yaml]
 ----
@@ -291,7 +291,7 @@ spec:
 
 *Skip dry run for missing resources*:
 
-Useful when applying resources that depend on CRDs that don't exist yet (like kro instances):
+Useful when applying resources that depend on CRDs that do not exist yet (like kro instances):
 
 [source,yaml]
 ----

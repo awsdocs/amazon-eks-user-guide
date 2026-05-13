@@ -91,7 +91,7 @@ Replace [.replaceable]`region-code` with the {aws} Region that your remote clust
 aws eks create-access-entry \
   --region [.replaceable]`region-code` \
   --cluster-name [.replaceable]`remote-cluster` \
-  --principal-arn arn:aws:iam::[.replaceable]`111122223333`:role/[.replaceable]`ArgoCDCapabilityRole` \
+  --principal-arn [.replaceable]`arn:aws:iam::111122223333:role/ArgoCDCapabilityRole` \
   --type STANDARD
 ----
 
@@ -105,7 +105,7 @@ For getting started quickly, you can use the `AmazonEKSClusterAdminPolicy`:
 aws eks associate-access-policy \
   --region [.replaceable]`region-code` \
   --cluster-name [.replaceable]`remote-cluster` \
-  --principal-arn arn:aws:iam::[.replaceable]`111122223333`:role/[.replaceable]`ArgoCDCapabilityRole` \
+  --principal-arn [.replaceable]`arn:aws:iam::111122223333:role/ArgoCDCapabilityRole` \
   --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy \
   --access-scope type=cluster
 ----
@@ -184,7 +184,7 @@ The Argo CD capability provides transparent access to fully private EKS clusters
 
 Simply register the private cluster using its ARN—no additional networking setup required.
 
-== Access Entry RBAC requirements
+== Access entry RBAC requirements
 
 When you create an Argo CD capability, an EKS Access Entry is automatically created for the Capability Role, but no Kubernetes RBAC permissions are granted by default.
 This intentional design follows the principle of least privilege—different use cases require different permissions.
@@ -221,7 +221,7 @@ For getting started quickly, testing, or development environments, use `AmazonEK
 aws eks associate-access-policy \
   --region [.replaceable]`region-code` \
   --cluster-name [.replaceable]`my-cluster` \
-  --principal-arn arn:aws:iam::[.replaceable]`111122223333`:role/[.replaceable]`ArgoCDCapabilityRole` \
+  --principal-arn [.replaceable]`arn:aws:iam::111122223333:role/ArgoCDCapabilityRole` \
   --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy \
   --access-scope type=cluster
 ----
@@ -247,7 +247,7 @@ For production environments, create custom Kubernetes RBAC that grants:
 aws eks associate-access-policy \
   --region [.replaceable]`region-code` \
   --cluster-name [.replaceable]`my-cluster` \
-  --principal-arn arn:aws:iam::[.replaceable]`111122223333`:role/[.replaceable]`ArgoCDCapabilityRole` \
+  --principal-arn [.replaceable]`arn:aws:iam::111122223333:role/ArgoCDCapabilityRole` \
   --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSEditPolicy \
   --access-scope type=namespace,namespaces=[.replaceable]`app-namespace`
 ----

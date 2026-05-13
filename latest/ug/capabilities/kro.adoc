@@ -16,7 +16,7 @@ With kro, you can easily configure new custom APIs that create a group of Kubern
 With EKS Capabilities, kro is fully managed by {aws}, eliminating the need to install, maintain, and scale kro controllers on your clusters.
 
 
-== How kro Works
+== How kro works
 
 kro introduces a Custom Resource Definition (CRD) called `ResourceGraphDefinition` (RGD) that enables simple and streamlined creation of custom Kubernetes APIs.
 When you create a `ResourceGraphDefinition`, kro uses native Kubernetes extensions to create and manage new APIs in your cluster.
@@ -83,14 +83,14 @@ spec:
 
 When users create instances of the `WebApplication` custom resource, kro automatically creates the corresponding Deployment and Service resources, managing their lifecycle along with the custom resource.
 
-== Integration with Other EKS Managed Capabilities
+== Integration with other EKS managed capabilities
 
 kro integrates with other EKS Managed Capabilities.
 
 * *{aws} Controllers for Kubernetes (ACK)*: Use kro to compose ACK resources into higher-level abstractions, simplifying {aws} resource management.
 * *Argo CD*: Use Argo CD to manage the deployment of kro custom resources across multiple clusters, enabling GitOps workflows for your platform building blocks and application stacks.
 
-== Getting Started with kro
+== Getting started with kro
 
 To get started with the EKS Capability for kro:
 

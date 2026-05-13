@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Learn how to manage capability resources on your Amazon EKS clusters, including listing, describing, updating, and deleting capabilities.
 --
 
-This topic describes common operations for managing capability resources across all capability types.
+List, describe, update, and delete capability resources on your Amazon EKS clusters.
 
 == EKS capability resources
 
@@ -220,7 +220,7 @@ aws eks update-capability \
   --region [.replaceable]`region-code` \
   --cluster-name [.replaceable]`my-cluster` \
   --capability-name [.replaceable]`capability-name` \
-  --role-arn arn:aws:iam::[.replaceable]`111122223333`:role/[.replaceable]`NewCapabilityRole`
+  --role-arn [.replaceable]`arn:aws:iam::111122223333:role/NewCapabilityRole`
 ----
 
 [NOTE]

@@ -13,7 +13,7 @@ Use Argo CD Projects to organize applications and enforce security boundaries fo
 Argo CD Projects (AppProject) provide logical grouping and access control for Applications.
 Projects define which Git repositories, target clusters, and namespaces Applications can use, enabling multi-tenancy and security boundaries in shared Argo CD instances.
 
-== When to use Projects
+== When to use projects
 
 Use Projects to:
 
@@ -23,14 +23,14 @@ Use Projects to:
 * Enforce resource quotas and allowed resource types
 * Provide self-service application deployment with guardrails
 
-== Default Project
+== Default project
 
 Every Argo CD capability includes a `default` project that allows access to all repositories, clusters, and namespaces.
 While useful for initial testing, create dedicated projects with explicit restrictions for production use.
 
 For details on the default project configuration and how to restrict it, see link:https://argo-cd.readthedocs.io/en/stable/user-guide/projects/#the-default-project[The Default Project] in the Argo CD documentation.
 
-== Create a Project
+== Create a project
 
 Create a Project by applying an `AppProject` resource to your cluster.
 
@@ -233,7 +233,7 @@ spec:
       kind: Secret  # Prevent direct Secret creation
 ----
 
-== Assign Applications to Projects
+== Assign applications to projects
 
 When creating an Application, specify the project in the `spec.project` field:
 

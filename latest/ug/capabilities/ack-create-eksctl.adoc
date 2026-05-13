@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Create an ACK capability using eksctl
 :info_titleabbrev: eksctl
 
-This topic describes how to create an {aws} Controllers for Kubernetes (ACK) capability using eksctl.
+Create an ACK capability on your Amazon EKS cluster using eksctl.
 
 [NOTE]
 ====

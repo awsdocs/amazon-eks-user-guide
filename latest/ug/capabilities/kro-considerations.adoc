@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Plan your kro deployment with EKS-specific patterns, RBAC configuration, and integration strategies.
 --
 
-This topic covers important considerations for using the EKS Capability for kro, including when to use resource composition, RBAC patterns, and integration with other EKS capabilities.
+Review important considerations for using the EKS managed capability for kro, including when to use resource composition, RBAC patterns, and integration with other EKS capabilities.
 
 == When to use kro
 

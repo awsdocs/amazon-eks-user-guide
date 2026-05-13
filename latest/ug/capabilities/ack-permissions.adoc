@@ -331,5 +331,4 @@ For advanced configuration including label selectors, resource-specific role map
 == Next steps
 
 * <<ack-concepts>> - Understand ACK concepts and resource lifecycle
-* <<ack-concepts>> - Learn about resource adoption and deletion policies
 * <<capabilities-security>> - Understand security best practices for capabilities

@@ -137,7 +137,7 @@ argocd cluster add $CLUSTER_ARN \
 
 For complete Argo CD CLI documentation, see the https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd/[Argo CD CLI reference^].
 
-== Migration Path
+== Migration path
 
 You can migrate from self-managed Argo CD to the managed capability:
 

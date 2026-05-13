@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Create an ACK capability using the Console
 :info_titleabbrev: Console
 
-This topic describes how to create an {aws} Controllers for Kubernetes (ACK) capability using the {aws-management-console}.
+Create an ACK capability on your Amazon EKS cluster using the {aws} Management Console.
 
 == Create the ACK capability
 

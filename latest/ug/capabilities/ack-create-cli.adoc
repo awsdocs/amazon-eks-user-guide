@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Create an ACK capability using the {aws} CLI
 :info_titleabbrev: {aws} CLI
 
-This topic describes how to create an {aws} Controllers for Kubernetes (ACK) capability using the {aws} CLI.
+Create an ACK capability on your Amazon EKS cluster using the {aws} CLI. This procedure walks you through creating an IAM role and verifying the capability is active.
 
 == Prerequisites
 

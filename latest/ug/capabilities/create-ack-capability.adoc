@@ -65,7 +65,6 @@ To learn more about access entries and how to configure additional permissions, 
 After creating the ACK capability:
 
 * <<ack-concepts>> - Understand ACK concepts and get started with {aws} resources
-* <<ack-concepts>> - Learn about reconciliation, field exports, and resource adoption patterns
 * <<ack-permissions>> - Configure IAM permissions and multi-account patterns
 
 include::ack-create-console.adoc[leveloffset=+1]

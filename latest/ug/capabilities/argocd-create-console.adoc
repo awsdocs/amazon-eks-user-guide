@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Create an Argo CD capability using the Console
 :info_titleabbrev: Console
 
-This topic describes how to create an Argo CD capability using the {aws-management-console}.
+Create an Argo CD capability on your Amazon EKS cluster using the {aws} Management Console.
 
 == Prerequisites
 

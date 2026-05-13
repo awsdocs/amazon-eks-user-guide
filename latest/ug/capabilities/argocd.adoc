@@ -16,7 +16,7 @@ Argo CD supports multiple source types including Git repositories, Helm registri
 
 With EKS Capabilities, Argo CD is fully managed by {aws}, eliminating the need to install, maintain, and scale Argo CD controllers and their dependencies on your clusters.
 
-== How Argo CD Works
+== How Argo CD works
 
 Argo CD follows the GitOps pattern, where your application source (Git repository, Helm registry, or OCI image) is the source of truth for defining the desired application state.
 When you create an Argo CD `Application` resource, you specify the source containing your application manifests and the target Kubernetes cluster and namespace.
@@ -86,14 +86,14 @@ As part of EKS Managed Capabilities, Argo CD is fully managed by {aws}, eliminat
 EKS Managed Capabilities provides direct integration between Argo CD and {aws} Identity Center, enabling seamless authentication and authorization for your users.
 When you enable the Argo CD capability, you can configure {aws} Identity Center integration to map Identity Center groups and users to Argo CD RBAC roles, allowing you to control who can access and manage applications in Argo CD.
 
-== Integration with Other EKS Managed Capabilities
+== Integration with other EKS managed capabilities
 
 Argo CD integrates with other EKS Managed Capabilities.
 
 * *{aws} Controllers for Kubernetes (ACK)*: Use Argo CD to manage the deployment of ACK resources across multiple clusters, enabling GitOps workflows for your {aws} infrastructure.
 * *kro (Kube Resource Orchestrator)*: Use Argo CD to deploy kro compositions across multiple clusters, enabling consistent resource composition across your Kubernetes estate.
 
-== Getting Started with Argo CD
+== Getting started with Argo CD
 
 To get started with the EKS Capability for Argo CD:
 

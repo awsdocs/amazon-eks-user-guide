@@ -22,10 +22,10 @@ Plan your repository structure and branching strategy for different environments
 *RBAC strategy*: Plan which teams or users should have admin, editor, or viewer access.
 Map these to {aws} Identity Center groups or Argo CD roles.
 
-*Multi-cluster architecture*: Determine if you'll manage multiple clusters from a single Argo CD instance.
+*Multi-cluster architecture*: Determine if you will manage multiple clusters from a single Argo CD instance.
 Consider using a dedicated management cluster for Argo CD.
 
-*Application organization*: Plan how you'll structure Applications and ApplicationSets.
+*Application organization*: Plan how you will structure Applications and ApplicationSets.
 Consider using projects to organize applications by team or environment.
 
 *Sync policies*: Decide whether applications should sync automatically or require manual approval.
@@ -222,7 +222,7 @@ The target cluster must have an Access Entry that grants the Argo CD capability 
 aws eks create-access-entry \
   --region [.replaceable]`region-code` \
   --cluster-name [.replaceable]`target-cluster` \
-  --principal-arn arn:aws:iam::[.replaceable]`111122223333`:role/[.replaceable]`ArgoCDCapabilityRole` \
+  --principal-arn [.replaceable]`arn:aws:iam::111122223333:role/ArgoCDCapabilityRole` \
   --type STANDARD \
   --kubernetes-groups system:masters
 ----
@@ -335,7 +335,7 @@ For detailed webhook configuration instructions, see link:https://argo-cd.readth
 
 [NOTE]
 ====
-Webhooks complement polling—they don't replace it.
+Webhooks complement polling—they do not replace it.
 Argo CD continues to poll repositories as a fallback mechanism in case webhook notifications are missed.
 ====
 

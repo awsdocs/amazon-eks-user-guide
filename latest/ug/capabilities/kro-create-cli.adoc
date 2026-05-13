@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Create a kro capability using the {aws} CLI
 :info_titleabbrev: {aws} CLI
 
-This topic describes how to create a kro (Kube Resource Orchestrator) capability using the {aws} CLI.
+Create a kro capability on your Amazon EKS cluster using the {aws} CLI. This procedure walks you through creating an IAM role and verifying the capability is active.
 
 == Prerequisites
 
@@ -169,5 +169,4 @@ You should see the `ResourceGraphDefinition` resource type listed.
 == Next steps
 
 * <<kro-concepts>> - Understand kro concepts and resource composition
-* <<kro-concepts>> - Learn about SimpleSchema, CEL expressions, and composition patterns
 * <<working-with-capabilities>> - Manage your kro capability resource

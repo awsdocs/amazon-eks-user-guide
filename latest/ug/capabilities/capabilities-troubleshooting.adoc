@@ -10,12 +10,10 @@ include::../attributes.txt[]
 Diagnose and resolve common issues with EKS Capabilities.
 --
 
-This topic provides general troubleshooting guidance for EKS Capabilities, including capability health checks, common issues, and links to capability-specific troubleshooting.
-
 [NOTE]
 ====
 EKS Capabilities are fully managed and run outside your cluster.
-You don't have access to controller logs or controller namespaces.
+You do not have access to controller logs or controller namespaces.
 Troubleshooting focuses on capability health, resource status, and configuration.
 ====
 
@@ -65,14 +63,14 @@ The response includes:
 
 *CREATING*: Capability is being set up.
 
-*ACTIVE*: Capability is running and ready to use. If resources aren't working as expected, check resource status and IAM permissions.
+*ACTIVE*: Capability is running and ready to use. If resources are not working as expected, check resource status and IAM permissions.
 
 *UPDATING*: Configuration changes are being applied. Wait for the status to return to `ACTIVE`. 
 
 *CREATE_FAILED* or *UPDATE_FAILED*: Setup or update encountered an error. Check the health section for details. Common causes:
 
 * IAM role trust policy incorrect or missing
-* IAM role doesn't exist or isn't accessible
+* IAM role does not exist or is not accessible
 * Cluster access issues
 * Invalid configuration parameters
 
@@ -81,7 +79,7 @@ The response includes:
 EKS Capabilities create and manage Kubernetes Custom Resource Definitions (CRDs) in your cluster.
 When troubleshooting, check the status of the resources you created:
 
-[source,bash,subs="verbatim,quotes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # List resources of a specific type
 kubectl get [.replaceable]`resource-kind` -A
@@ -110,7 +108,7 @@ Many capability issues stem from IAM permission problems or missing cluster acce
 
 Verify the Capability Role has the necessary permissions:
 
-[source,bash,subs="verbatim,quotes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # List attached managed policies
 aws iam list-attached-role-policies --role-name [.replaceable]`my-capability-role`
@@ -149,7 +147,7 @@ All capabilities require proper EKS Access Entries and Access Policies on the cl
 
 *Verify Access Entry exists*:
 
-[source,bash,subs="verbatim,quotes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws eks list-access-entries \
   --cluster-name [.replaceable]`my-cluster` \
@@ -160,7 +158,7 @@ Look for the Capability Role ARN in the list. If missing, the capability cannot 
 
 *Check Access Policies attached to the entry*:
 
-[source,bash,subs="verbatim,quotes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws eks list-associated-access-policies \
   --cluster-name [.replaceable]`my-cluster` \
@@ -178,7 +176,7 @@ All capabilities require appropriate Access Policies:
 
 If deploying to remote clusters, verify the Capability Role has an Access Entry on each target cluster:
 
-[source,bash,subs="verbatim,quotes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # Check Access Entry on target cluster
 aws eks describe-access-entry \
@@ -221,7 +219,7 @@ aws eks describe-capability \
 
 === Resources not being created or updated
 
-If the capability is `ACTIVE` but resources aren't being created or updated:
+If the capability is `ACTIVE` but resources are not being created or updated:
 
 . Check the resource status for error conditions
 . Verify IAM permissions for the specific {aws} services (ACK) or repositories (Argo CD)

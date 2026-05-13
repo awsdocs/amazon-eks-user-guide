@@ -141,7 +141,7 @@ aws eks update-capability \
   --cluster-name [.replaceable]`cluster` \
   --capability-name [.replaceable]`capname` \
   --endpoint "https://eks.[.replaceable]`ap-northeast-2`.amazonaws.com" \
-  --role-arn "arn:aws:iam::[.replaceable]`111122223333`:role/[.replaceable]`EKSCapabilityRole`" \
+  --role-arn [.replaceable]`"arn:aws:iam::111122223333:role/EKSCapabilityRole"` \
   --configuration '{
     "argoCd": {
       "rbacRoleMappings": {
@@ -170,7 +170,7 @@ The admin account is designed for initial setup and administrative tasks like re
 
 *Best practices for admin account*:
 
-* Don't commit account tokens to version control
+* Do not commit account tokens to version control
 * Rotate tokens immediately if exposed
 * Limit account token usage to setup and administrative tasks
 * Set short expiration times (maximum 12 hours)

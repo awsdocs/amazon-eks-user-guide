@@ -207,5 +207,4 @@ roleRef:
 == Next steps
 
 * <<kro-concepts>> - Understand kro concepts and resource composition
-* <<kro-concepts>> - Understand SimpleSchema, CEL expressions, and composition patterns
 * <<capabilities-security>> - Review security best practices for capabilities

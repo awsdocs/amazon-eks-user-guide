@@ -32,7 +32,7 @@ EKS Capabilities are available in all {aws} commercial Regions where Amazon EKS 
 For a list of supported Regions, see link:general/latest/gr/eks.html[Amazon EKS endpoints and quotas,type="documentation"] in the {aws} General Reference.
 ====
 
-== Available Capabilities
+== Available capabilities
 
 === {aws} Controllers for Kubernetes (ACK)
 
@@ -94,7 +94,7 @@ You can use {aws} Cost Explorer and Cost and Usage Reports to track capability c
 You can tag your capabilities with cluster name, capability type, and other details for cost allocation purposes.
 ====
 
-== How EKS Capabilities Work
+== How EKS capabilities work
 
 Each capability is an {aws} resource that you create on your EKS cluster.
 Once created, the capability runs in EKS and is fully managed by {aws}.
@@ -123,7 +123,7 @@ All EKS Compute types are supported for use with EKS Capabilities. For more info
 For security configuration and details on IAM roles, see <<capabilities-security>>.
 For multi-cluster architecture patterns, see <<capabilities-considerations>>.
 
-== Common Use Cases
+== Common use cases
 
 *GitOps for Applications and Infrastructure*
 

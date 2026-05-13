@@ -61,7 +61,6 @@ To learn more about access entries and how to configure additional permissions, 
 After creating the kro capability:
 
 * <<kro-concepts>> - Understand kro concepts and resource composition
-* <<kro-concepts>> - Learn about SimpleSchema, CEL expressions, and resource composition patterns
 
 include::kro-create-console.adoc[leveloffset=+1]
 

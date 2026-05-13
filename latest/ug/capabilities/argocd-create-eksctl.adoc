@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Create an Argo CD capability using eksctl
 :info_titleabbrev: eksctl
 
-This topic describes how to create an Argo CD capability using eksctl.
+Create an Argo CD capability on your Amazon EKS cluster using eksctl.
 
 [NOTE]
 ====
@@ -88,7 +88,7 @@ metadata:
 capabilities:
   - name: my-argocd
     type: ARGOCD
-    roleArn: arn:aws:iam::[.replaceable]`111122223333`:role/ArgoCDCapabilityRole
+    roleArn: [.replaceable]`arn:aws:iam::111122223333:role/ArgoCDCapabilityRole`
     deletePropagationPolicy: RETAIN
     configuration:
       argocd:

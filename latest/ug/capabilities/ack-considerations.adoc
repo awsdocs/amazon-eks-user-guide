@@ -225,7 +225,7 @@ Choose the right policy based on the resource lifecycle and your operational req
 === Delete (default)
 
 The {aws} resource is deleted when you delete the Kubernetes resource.
-This maintains consistency between your cluster and {aws}, ensuring resources don't accumulate.
+This maintains consistency between your cluster and {aws}, ensuring resources do not accumulate.
 
 *When to use delete*:
 
