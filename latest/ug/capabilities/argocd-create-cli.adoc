@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Create an Argo CD capability using the {aws} CLI
 :info_titleabbrev: {aws} CLI
 
-This topic describes how to create an Argo CD capability using the {aws} CLI.
+Create an Argo CD capability on your Amazon EKS cluster using the {aws} CLI. This procedure walks you through creating an IAM role, configuring {aws} Identity Center integration, and verifying the capability is active.
 
 == Prerequisites
 
@@ -13,7 +13,7 @@ This topic describes how to create an Argo CD capability using the {aws} CLI.
 * *`kubectl`* – A command line tool for working with Kubernetes clusters. For more information, see <<install-kubectl>>.
 * *{aws} Identity Center configured* – Argo CD requires {aws} Identity Center for authentication. Local users are not supported. If you don't have {aws} Identity Center set up, see link:singlesignon/latest/userguide/getting-started.html[Getting started with {aws} Identity Center,type="documentation"] to create an Identity Center instance, and link:singlesignon/latest/userguide/addusers.html[Add users,type="documentation"] and link:singlesignon/latest/userguide/addgroups.html[Add groups,type="documentation"] to create users and groups for Argo CD access.
 
-== Step 1: Create an IAM Capability Role
+== Step 1: Create an IAM capability role
 
 Create a trust policy file:
 
@@ -49,7 +49,7 @@ aws iam create-role \
 
 [NOTE]
 ====
-If you plan to use the optional integrations with {aws} Secrets Manager or {aws} CodeConnections, you'll need to add permissions to the role.
+If you plan to use the optional integrations with {aws} Secrets Manager or {aws} CodeConnections, add permissions to the role.
 For IAM policy examples and configuration guidance, see <<integration-secrets-manager>> and <<integration-codeconnections>>.
 ====
 
@@ -59,22 +59,22 @@ Create the Argo CD capability resource on your cluster.
 
 First, set environment variables for your Identity Center configuration:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # Get your Identity Center instance ARN (replace region if your IDC instance is in a different region)
-export IDC_INSTANCE_ARN=$(aws sso-admin list-instances --region [.replaceable]`region` --query 'Instances[0].InstanceArn' --output text)
+export IDC_INSTANCE_ARN=$(aws sso-admin list-instances --region [.replaceable]`region-code` --query 'Instances[0].InstanceArn' --output text)
 
 # Get a user ID for RBAC mapping (replace with your username and region if needed)
 export IDC_USER_ID=$(aws identitystore list-users \
-  --region [.replaceable]`region` \
-  --identity-store-id $(aws sso-admin list-instances --region [.replaceable]`region` --query 'Instances[0].IdentityStoreId' --output text) \
+  --region [.replaceable]`region-code` \
+  --identity-store-id $(aws sso-admin list-instances --region [.replaceable]`region-code` --query 'Instances[0].IdentityStoreId' --output text) \
   --query 'Users[?UserName==`your-username`].UserId' --output text)
 
 echo "IDC_INSTANCE_ARN=$IDC_INSTANCE_ARN"
 echo "IDC_USER_ID=$IDC_USER_ID"
 ----
 
-Create the capability with Identity Center integration. Replace [.replaceable]`region-code` with the {aws} Region where your cluster is located and [.replaceable]`my-cluster` with your cluster name and [.replaceable]`idc-region-code` with the region code where you IAM Identity Center has been configured:
+Create the capability with Identity Center integration. Replace [.replaceable]`region-code` with the {aws} Region where your cluster is located, [.replaceable]`my-cluster` with your cluster name, and [.replaceable]`idc-region-code` with the region code where your Identity Center instance is located:
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -103,7 +103,7 @@ aws eks create-capability \
 ----
 
 The command returns immediately, but the capability takes some time to become active as EKS creates the required capability infrastructure and components.
-EKS will install the Kubernetes Custom Resource Definitions related to this capability in your cluster as it is being created.
+EKS installs the Kubernetes Custom Resource Definitions (CRDs) in your cluster during capability creation.
 
 [NOTE]
 ====
@@ -112,8 +112,6 @@ If you receive an error that the cluster doesn't exist or you don't have permiss
 * The cluster name is correct
 * Your {aws} CLI is configured for the correct region
 * You have the required IAM permissions
-
-
 ====
 
 == Step 3: Verify the capability is active
@@ -131,7 +129,7 @@ aws eks describe-capability \
 ----
 
 The capability is ready when the status shows `ACTIVE`.
-Don't continue to the next step until the status is `ACTIVE`.
+Wait until the status is `ACTIVE` before you continue to the next step.
 
 You can also view the full capability details:
 
