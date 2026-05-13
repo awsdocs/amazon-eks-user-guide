@@ -9,7 +9,7 @@ This topic describes how to create an Argo CD capability using eksctl.
 
 [NOTE]
 ====
-The following steps require eksctl version `0.220.0` or later.
+The following steps require eksctl version `{eksctl-min-version}` or later.
 To check your version, run `eksctl version`.
 ====
 

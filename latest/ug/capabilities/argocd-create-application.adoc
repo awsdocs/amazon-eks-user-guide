@@ -331,7 +331,7 @@ Argo CD supports advanced sync features for complex deployments:
 * *Sync hooks* - Run jobs before or after sync with `argocd.argoproj.io/hook` annotations (PreSync, PostSync, SyncFail)
 * *Resource health assessment* - Custom health checks for application-specific resources
 
-For details, see link:https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/[Sync Waves] and link:https://argo-cd.readthedocs.io/en/stable/user-guide/resource_hooks/[Resource Hooks] in the Argo CD documentation.
+For details, see link:https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/[Sync Waves^] and link:https://argo-cd.readthedocs.io/en/stable/user-guide/resource_hooks/[Resource Hooks^] in the Argo CD documentation.
 
 == Ignore differences
 
@@ -347,7 +347,7 @@ spec:
     - /spec/replicas
 ----
 
-For details on ignore patterns and field exclusions, see link:https://argo-cd.readthedocs.io/en/stable/user-guide/diffing/[Diffing Customization] in the Argo CD documentation.
+For details on ignore patterns and field exclusions, see link:https://argo-cd.readthedocs.io/en/stable/user-guide/diffing/[Diffing Customization^] in the Argo CD documentation.
 
 == Multi-environment deployment
 

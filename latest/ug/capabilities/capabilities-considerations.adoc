@@ -18,7 +18,7 @@ Each EKS capability resource has a configured capability IAM role.
 The capability role is used to grant {aws} service permissions for EKS capabilities to act on your behalf.
 For example, to use the EKS Capability for ACK to manage Amazon S3 Buckets, you will grant S3 Bucket administrative permissions to the capability, enabling it to create and manage buckets.
 
-Once the capability is configured, S3 resources in AWS can be created and managed with Kubernetes custom resources in your cluster.
+Once the capability is configured, S3 resources in {aws} can be created and managed with Kubernetes custom resources in your cluster.
 Kubernetes RBAC is the in-cluster access control mechanism for determining which users and groups can create and manage those custom resources.
 For example, grant specific Kubernetes RBAC users and groups permissions to create and manage `Bucket` resources in namespaces you choose.
 

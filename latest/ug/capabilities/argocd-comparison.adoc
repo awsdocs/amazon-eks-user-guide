@@ -49,7 +49,7 @@ The managed capability has specific requirements for CLI usage and AppProject co
 
 * Config Management Plugins (CMPs) for custom manifest generation
 * Custom Lua scripts for resource health assessment (built-in health checks for standard resources are supported)
-* The Notifications controller
+* Notifications controller
 * Custom SSO providers (only {aws} Identity Center is supported, including third-party federated identity through {aws} Identity Center)
 * UI extensions and custom banners
 * Direct access to `argocd-cm`, `argocd-params`, and other configuration ConfigMaps

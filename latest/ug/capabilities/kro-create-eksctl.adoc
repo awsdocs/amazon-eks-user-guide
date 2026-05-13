@@ -9,7 +9,7 @@ This topic describes how to create a kro (Kube Resource Orchestrator) capability
 
 [NOTE]
 ====
-The following steps require eksctl version `0.220.0` or later.
+The following steps require eksctl version `{eksctl-min-version}` or later.
 To check your version, run `eksctl version`.
 ====
 

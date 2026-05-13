@@ -113,7 +113,7 @@ Map {aws} Identity Center users and groups to Argo CD roles when creating or upd
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "rbacRoleMapping": {{tcx5-waiver}
+  "rbacRoleMappings": {{tcx5-waiver}
     "ADMIN": ["AdminGroup", "alice@example.com"],
     "EDITOR": ["DeveloperGroup", "DevOpsTeam"],
     "VIEWER": ["ReadOnlyGroup", "bob@example.com"]
@@ -373,7 +373,7 @@ Find these IDs in the {aws} Identity Center console or using the {aws} CLI.
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "rbacRoleMapping": {{tcx5-waiver}
+  "rbacRoleMappings": {{tcx5-waiver}
     "ADMIN": ["PlatformTeam", "SRETeam"]
   }
 }
@@ -386,7 +386,7 @@ ADMIN users can see and manage all project-scoped resources without additional c
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "rbacRoleMapping": {{tcx5-waiver}
+  "rbacRoleMappings": {{tcx5-waiver}
     "ADMIN": ["PlatformTeam"],
     "EDITOR": ["TeamLeads"],
     "VIEWER": ["AllDevelopers"]
@@ -407,7 +407,7 @@ ADMIN users can see and manage all project-scoped resources without additional c
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "rbacRoleMapping": {{tcx5-waiver}
+  "rbacRoleMappings": {{tcx5-waiver}
     "ADMIN": ["PlatformTeam"],
     "EDITOR": ["TeamLeads"],
     "VIEWER": ["AllDevelopers"]

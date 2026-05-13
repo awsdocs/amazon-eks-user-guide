@@ -165,7 +165,7 @@ Get detailed information about a specific capability, including its configuratio
 
 === {aws} CLI
 
-Use the `describe-capability` command to view detailed information. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in, replace [.replaceable]`my-cluster` with the name of your cluster, and replace [.replaceable]`capability-name` with the capability name (ack, argocd, or kro).
+Use the `describe-capability` command to view detailed information. Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in, replace [.replaceable]`my-cluster` with the name of your cluster, and replace [.replaceable]`capability-name` with the name you gave your capability when you created it (for example, `my-ack`, `my-argocd`, or `my-kro`).
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
