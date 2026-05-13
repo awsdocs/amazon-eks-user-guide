@@ -37,13 +37,13 @@ You can view capability health and status issues in the EKS console or using the
 
 *{aws} CLI*:
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # View capability status and health
 aws eks describe-capability \
-  --region region-code \
-  --cluster-name my-cluster \
-  --capability-name my-argocd
+  --region [.replaceable]`region-code` \
+  --cluster-name [.replaceable]`my-cluster` \
+  --capability-name [.replaceable]`my-argocd`
 
 # Look for issues in the health section
 ----
@@ -58,27 +58,27 @@ aws eks describe-capability \
 
 *Check application status*:
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # List applications
 kubectl get application -n argocd
 
 # View sync status
-kubectl get application my-app -n argocd -o jsonpath='{.status.sync.status}'
+kubectl get application [.replaceable]`my-app` -n argocd -o jsonpath='{.status.sync.status}'
 
 # View application health
-kubectl get application my-app -n argocd -o jsonpath='{.status.health}'
+kubectl get application [.replaceable]`my-app` -n argocd -o jsonpath='{.status.health}'
 ----
 
 *Check application conditions*:
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # Describe application to see detailed status
-kubectl describe application my-app -n argocd
+kubectl describe application [.replaceable]`my-app` -n argocd
 
 # View application health
-kubectl get application my-app -n argocd -o jsonpath='{.status.health}'
+kubectl get application [.replaceable]`my-app` -n argocd -o jsonpath='{.status.health}'
 ----
 
 == Applications stuck in "Progressing" state
@@ -87,13 +87,13 @@ If an application shows `Progressing` but never reaches `Healthy`, check the app
 
 *Check resource health*:
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # View application resources
-kubectl get application my-app -n argocd -o jsonpath='{.status.resources}'
+kubectl get application [.replaceable]`my-app` -n argocd -o jsonpath='{.status.resources}'
 
 # Check for unhealthy resources
-kubectl describe application my-app -n argocd | grep -A 10 "Health Status"
+kubectl describe application [.replaceable]`my-app` -n argocd | grep -A 10 "Health Status"
 ----
 
 *Common causes*:
@@ -163,13 +163,13 @@ If applications aren't deploying to remote clusters, verify the cluster registra
 
 *Check cluster registration*:
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # List registered clusters
 kubectl get secret -n argocd -l argocd.argoproj.io/secret-type=cluster
 
 # Verify cluster secret format
-kubectl get secret CLUSTER_SECRET_NAME -n argocd -o yaml
+kubectl get secret [.replaceable]`CLUSTER_SECRET_NAME` -n argocd -o yaml
 ----
 
 Ensure the `server` field contains the EKS cluster ARN, not the Kubernetes API URL.

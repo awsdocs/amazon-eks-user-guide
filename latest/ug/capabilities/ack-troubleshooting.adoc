@@ -37,13 +37,13 @@ You can view capability health and status issues in the EKS console or using the
 
 *{aws} CLI*:
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # View capability status and health
 aws eks describe-capability \
-  --region region-code \
-  --cluster-name my-cluster \
-  --capability-name my-ack
+  --region [.replaceable]`region-code` \
+  --cluster-name [.replaceable]`my-cluster` \
+  --capability-name [.replaceable]`my-ack`
 
 # Look for issues in the health section
 ----
@@ -58,16 +58,16 @@ aws eks describe-capability \
 
 *Check resource status*:
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # Describe the resource to see conditions and events
-kubectl describe bucket my-bucket -n default
+kubectl describe bucket [.replaceable]`my-bucket` -n default
 
 # Look for status conditions
-kubectl get bucket my-bucket -n default -o jsonpath='{.status.conditions}'
+kubectl get bucket [.replaceable]`my-bucket` -n default -o jsonpath='{.status.conditions}'
 
 # View resource events
-kubectl get events --field-selector involvedObject.name=my-bucket -n default
+kubectl get events --field-selector involvedObject.name=[.replaceable]`my-bucket` -n default
 ----
 
 *Verify IAM permissions*:
@@ -117,13 +117,13 @@ The trust policy must allow the source account's Capability Role to assume it.
 
 *Confirm IAMRoleSelector configuration*:
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 # List IAMRoleSelectors (cluster-scoped)
 kubectl get iamroleselector
 
 # Describe specific selector
-kubectl describe iamroleselector my-selector
+kubectl describe iamroleselector [.replaceable]`my-selector`
 ----
 
 *Verify namespace alignment*:

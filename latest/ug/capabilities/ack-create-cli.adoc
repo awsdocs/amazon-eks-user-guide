@@ -87,8 +87,6 @@ If you receive an error that the cluster doesn't exist or you don't have permiss
 * The cluster name is correct
 * Your {aws} CLI is configured for the correct region
 * You have the required IAM permissions
-
-
 ====
 
 == Step 3: Verify the capability is active

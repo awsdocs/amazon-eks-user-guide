@@ -158,7 +158,7 @@ spec:
   # Destination restrictions
   destinations:
     - namespace: 'team-a-*'
-      server: https://kubernetes.default.svc
+      server: arn:aws:eks:us-west-2:111122223333:cluster/my-cluster  # Use cluster ARN from: aws eks describe-cluster
 ----
 
 [NOTE]

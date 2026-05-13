@@ -89,7 +89,7 @@ aws iam attach-role-policy \
 Create the ACK capability using eksctl.
 Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in and replace [.replaceable]`my-cluster` with the name of your cluster.
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 eksctl create capability \
   --cluster [.replaceable]`my-cluster` \
@@ -114,7 +114,7 @@ The command returns immediately, but the capability takes some time to become ac
 
 Check the capability status:
 
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 eksctl get capability \
   --cluster [.replaceable]`my-cluster` \

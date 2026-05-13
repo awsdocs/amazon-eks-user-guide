@@ -48,12 +48,12 @@ The Capabilities tab shows:
 
 *{aws} CLI*:
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws eks describe-capability \
-  --region region-code \
-  --cluster-name my-cluster \
-  --capability-name my-capability-name
+  --region [.replaceable]`region-code` \
+  --cluster-name [.replaceable]`my-cluster` \
+  --capability-name [.replaceable]`my-capability-name`
 ----
 
 The response includes:
@@ -206,12 +206,12 @@ If a capability remains in `CREATING` state for longer than expected:
 
 . Check the capability health for specific issues in the console (*Observability* > *Monitor cluster* > *Capabilities* tab) or using the {aws} CLI:
 +
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws eks describe-capability \
-  --region region-code \
-  --cluster-name my-cluster \
-  --capability-name my-capability-name \
+  --region [.replaceable]`region-code` \
+  --cluster-name [.replaceable]`my-cluster` \
+  --capability-name [.replaceable]`my-capability-name` \
   --query 'capability.health'
 ----
 

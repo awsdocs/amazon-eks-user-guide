@@ -27,7 +27,7 @@ Can be created by application teams with appropriate RBAC permissions.
 By default, the kro capability has permissions to manage ResourceGraphDefinitions and their instances through the `AmazonEKSKROPolicy` access entry policy.
 However, kro requires additional permissions to create and manage the underlying Kubernetes resources defined in your ResourceGraphDefinitions (such as Deployments, Services, or ACK resources).
 You must grant these permissions through access entry policies or Kubernetes RBAC.
-For details on granting these permissions, see <<kro-resource-permissions,kro arbitrary resource permissions>>.
+For details on granting these permissions, see <<kro-create-eksctl>>, <<kro-create-cli>>, or <<kro-create-console>>.
 
 == Platform team permissions
 
