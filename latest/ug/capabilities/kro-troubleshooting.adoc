@@ -13,7 +13,7 @@ Diagnose and resolve common issues with the EKS Capability for kro.
 [NOTE]
 ====
 EKS Capabilities are fully managed and run outside your cluster.
-You don't have access to controller logs or the `kro-system` namespace.
+You do not have access to controller logs or controller namespaces.
 Troubleshooting focuses on capability health, RBAC configuration, and resource status.
 ====
 
