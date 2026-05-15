@@ -33,8 +33,9 @@ S3 Files is a shared file system that connects any {aws} compute directly with y
 
 The Amazon EFS CSI driver requires IAM permissions to interact with your file system. The EFS CSI driver uses two service accounts with separate IAM roles:
 
-* `efs-csi-controller-sa` — used by the controller, requires `AmazonS3FilesCSIDriverPolicy`.
+* `efs-csi-controller-sa` — used by the controller, requires `AmazonS3FilesCSIDriverPolicy` and `AmazonS3FilesClientFullAccess`.
 * `efs-csi-node-sa` — used by the node daemonset, requires:
+** `AmazonS3FilesClientFullAccess` — grants permissions to mount and write to S3 file systems (`s3files:ClientMount`, `s3files:ClientWrite`, `s3files:ClientRootAccess`).
 ** `AmazonS3ReadOnlyAccess` — enables streaming reads directly from your S3 bucket for higher throughput.
 ** `AmazonElasticFileSystemsUtils` — enables publishing efs-utils logs to Amazon CloudWatch for visibility into mount operations and easier troubleshooting.
 
@@ -74,7 +75,7 @@ eksctl create podidentityassociation \
     --namespace kube-system \
     --cluster $cluster_name \
     --role-name AmazonEKS_EFS_CSI_ControllerRole \
-    --permission-policy-arns {arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy
+    --permission-policy-arns {arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy,{arn-aws}iam::aws:policy/AmazonS3FilesClientFullAccess
 
 # Create the node role
 eksctl create podidentityassociation \
@@ -82,7 +83,7 @@ eksctl create podidentityassociation \
     --namespace kube-system \
     --cluster $cluster_name \
     --role-name AmazonEKS_EFS_CSI_NodeRole \
-    --permission-policy-arns {arn-aws}iam::aws:policy/AmazonS3ReadOnlyAccess,{arn-aws}iam::aws:policy/AmazonElasticFileSystemsUtils
+    --permission-policy-arns {arn-aws}iam::aws:policy/AmazonS3FilesClientFullAccess,{arn-aws}iam::aws:policy/AmazonS3ReadOnlyAccess,{arn-aws}iam::aws:policy/AmazonElasticFileSystemsUtils
 ----
 
 [#s3files-eksctl-irsa]
@@ -103,6 +104,7 @@ eksctl create iamserviceaccount \
     --cluster $cluster_name \
     --role-name $controller_role_name \
     --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy \
+    --attach-policy-arn {arn-aws}iam::aws:policy/AmazonS3FilesClientFullAccess \
     --approve \
     --region $region_code
 
@@ -113,6 +115,7 @@ eksctl create iamserviceaccount \
     --namespace kube-system \
     --cluster $cluster_name \
     --role-name $node_role_name \
+    --attach-policy-arn {arn-aws}iam::aws:policy/AmazonS3FilesClientFullAccess \
     --attach-policy-arn {arn-aws}iam::aws:policy/AmazonS3ReadOnlyAccess \
     --attach-policy-arn {arn-aws}iam::aws:policy/AmazonElasticFileSystemsUtils \
     --approve \
@@ -138,8 +141,7 @@ Run the following to create an IAM role with {aws-management-console}.
 ... For *Audience*, choose `sts.amazonaws.com`.
 ... Choose *Next*.
 . On the *Add permissions* page, do the following:
-.. In the *Filter policies* box, enter `AmazonS3FilesCSIDriverPolicy`.
-.. Select the check box to the left of the policy returned in the search.
+.. In the *Filter policies* box, enter `AmazonS3FilesCSIDriverPolicy`. Select the check box to the left of the policy returned in the search. Then search for and select `AmazonS3FilesClientFullAccess`.
 .. Choose *Next*.
 . On the *Name, review, and create* page, do the following:
 .. For *Role name*, enter a unique name for your role, such as `AmazonEKS_EFS_CSI_ControllerRole`.
@@ -156,7 +158,7 @@ Run the following to create an IAM role with {aws-management-console}.
 ... Choose the *Kubernetes service account* field and input `efs-csi-controller-sa`.
 ... Choose *Create*.
 ... For more information on creating Pod Identity associations, see <<pod-id-association-create>>.
-... Repeat the above steps to create a second role for the node service account. On the *Add permissions* page, attach `AmazonS3ReadOnlyAccess` and `AmazonElasticFileSystemsUtils` instead. Then create a Pod Identity association with `efs-csi-node-sa` for the *Kubernetes service account* field.
+... Repeat the above steps to create a second role for the node service account. On the *Add permissions* page, attach `AmazonS3FilesClientFullAccess`, `AmazonS3ReadOnlyAccess` and `AmazonElasticFileSystemsUtils` instead. Then create a Pod Identity association with `efs-csi-node-sa` for the *Kubernetes service account* field.
 .. If using IAM roles for service accounts:
 ... Choose the role to open it for editing.
 ... Choose the *Trust relationships* tab, and then choose *Edit trust policy*.
@@ -174,7 +176,7 @@ Add the following line above the previous line. Replace `<region-code>` with the
 "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa",
 ----
 ... Choose *Update policy* to finish.
-... Repeat the above steps to create a second role for the node service account. On the *Add permissions* page, attach `AmazonS3ReadOnlyAccess` and `AmazonElasticFileSystemsUtils` instead. In the trust policy, use `efs-csi-node-sa` for the `:sub` condition value.
+... Repeat the above steps to create a second role for the node service account. On the *Add permissions* page, attach `AmazonS3FilesClientFullAccess`, `AmazonS3ReadOnlyAccess` and `AmazonElasticFileSystemsUtils` instead. In the trust policy, use `efs-csi-node-sa` for the `:sub` condition value.
 
 
 [#awscli_s3files_store_app_data]
@@ -202,12 +204,16 @@ aws iam create-role \
   --role-name $controller_role_name \
   --assume-role-policy-document file://"aws-efs-csi-driver-trust-policy-pod-identity.json"
 ----
-. Attach the required {aws} managed policy to the controller role.
+. Attach the required {aws} managed policies to the controller role.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy \
+  --role-name $controller_role_name
+
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonS3FilesClientFullAccess \
   --role-name $controller_role_name
 ----
 
@@ -224,6 +230,10 @@ aws iam create-role \
 +
 [source,bash,subs="verbatim,attributes"]
 ----
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonS3FilesClientFullAccess \
+  --role-name $node_role_name
+
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonS3ReadOnlyAccess \
   --role-name $node_role_name
@@ -294,12 +304,16 @@ aws iam create-role \
   --role-name $controller_role_name \
   --assume-role-policy-document file://"controller-trust-policy.json"
 ----
-. Attach the required {aws} managed policy to the controller role.
+. Attach the required {aws} managed policies to the controller role.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy \
+  --role-name $controller_role_name
+
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonS3FilesClientFullAccess \
   --role-name $controller_role_name
 ----
 
@@ -341,6 +355,10 @@ aws iam create-role \
 +
 [source,bash,subs="verbatim,attributes"]
 ----
+
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonS3FilesClientFullAccess \
+  --role-name $node_role_name
 
 aws iam attach-role-policy \
   --policy-arn {arn-aws}iam::aws:policy/AmazonS3ReadOnlyAccess \
