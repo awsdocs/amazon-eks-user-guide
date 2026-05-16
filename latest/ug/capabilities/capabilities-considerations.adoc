@@ -103,7 +103,7 @@ You have full control over the software lifecycle and runtime configuration of y
 *Operations and maintenance*
 
 {aws} manages patching and other software lifecycle operations for EKS Capabilities, with automatic updates and security patches.
-EKS Capabilities are integrated with {aws} features for streamlined configurations, provide built-in high availability and fault tolerance, and eliminates in-cluster troubleshooting of controller workloads.
+EKS Capabilities are integrated with {aws} features for streamlined configurations, provide built-in high availability and fault tolerance, and eliminate in-cluster troubleshooting of controller workloads.
 
 Self-managed solutions require you to monitor component health and logs, apply security patches and version updates, configure high availability with multiple replicas and pod disruption budgets, troubleshoot and remediate controller workload issues, and manage releases and versions.
 You have full control over your deployments, but this often requires bespoke solutions for private cluster access and other integrations which must align with organizational standards and security compliance requirements.
