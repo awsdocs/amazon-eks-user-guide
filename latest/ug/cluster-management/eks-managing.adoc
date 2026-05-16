@@ -6,7 +6,7 @@ include::../attributes.txt[]
 
 This chapter includes the following topics to help you manage your cluster. You can also view information about your <<view-kubernetes-resources,Kubernetes resources>> with the {aws-management-console}.
 
-* The Kubernetes Dashboard is a general purpose, web-based UI for Kubernetes clusters. It allows users to manage applications running in the cluster and troubleshoot them, as well as manage the cluster itself. For more information, see The https://github.com/kubernetes/dashboard[Kubernetes Dashboard] GitHub repository.
+* The Kubernetes Dashboard is a general purpose, web-based UI for Kubernetes clusters. It allows users to manage applications running in the cluster and troubleshoot them, as well as manage the cluster itself. For more information, see the https://github.com/kubernetes/dashboard[Kubernetes Dashboard] GitHub repository.
 * <<metrics-server>> – The Kubernetes Metrics Server is an aggregator of resource usage data in your cluster. It isn't deployed by default in your cluster, but is used by Kubernetes add-ons, such as the Kubernetes Dashboard and <<horizontal-pod-autoscaler>>. In this topic you learn how to install the Metrics Server.
 * <<helm>> – The Helm package manager for Kubernetes helps you install and manage applications on your Kubernetes cluster. This topic helps you install and run the Helm binaries so that you can install and manage charts using the Helm CLI on your local computer.  
 * <<eks-using-tags>> – To help you manage your Amazon EKS resources, you can assign your own metadata to each resource in the form of _tags_. This topic describes tags and shows you how to create them. 

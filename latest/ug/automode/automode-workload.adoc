@@ -124,6 +124,6 @@ kubectl delete -f inflate.yaml
 
 If you have no other workloads deployed to your cluster, the node created by EKS Auto Mode will be empty. 
 
-In the default configration, EKS Auto Mode detects nodes that have been empty for thirty seconds, and terminates them. 
+In the default configuration, EKS Auto Mode detects nodes that have been empty for thirty seconds, and terminates them. 
 
 Use `kubectl` or the EC2 console to confirm the associated instance has been deleted. 

@@ -9,14 +9,14 @@ EKS Auto Mode automates routine tasks for load balancing, including exposing clu
 
 {aws} suggests using Application Load Balancers (ALB) to serve HTTP and HTTPS traffic. Application Load Balancers can route requests based on the content of the request. For more information on Application Load Balancers, see link:elasticloadbalancing/latest/userguide/what-is-load-balancing.html["What is Elastic Load Balancing?",type="documentation"]
 
-EKS Auto Mode creates and configures Application Load Balancers (ALBs). For example, EKS Auto Mode creates a load balancer when you create an `Ingress` Kubernetes objects and configures it to route traffic to your cluster workload. 
+EKS Auto Mode creates and configures Application Load Balancers (ALBs). For example, EKS Auto Mode creates a load balancer when you create an `Ingress` Kubernetes object and configures it to route traffic to your cluster workload. 
 
 *Overview*
 
 . Create a workload that you want to expose to the internet.
 . Create an `IngressClassParams` resource, specifying {aws} specific configuration values such as the certificate to use for SSL/TLS and VPC Subnets. 
 . Create an `IngressClass` resource, specifying that EKS Auto Mode will be the controller for the resource.
-. Create an `Ingress` resource that associates a HTTP path and port with a cluster workload. 
+. Create an `Ingress` resource that associates an HTTP path and port with a cluster workload. 
 
 EKS Auto Mode will create an Application Load Balancer that points to the workload specified in the `Ingress` resource, using the load balancer configuration specified in the `IngressClassParams` resource. 
 

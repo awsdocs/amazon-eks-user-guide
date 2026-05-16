@@ -44,7 +44,7 @@ Amazon EKS Auto Mode operates EC2 managed instances with the following security 
 
 === Instance lifecycle management
 
-EC2 managed instances operated by EKS Auto Mode have maximum lifetime of 21 days. Amazon EKS Auto Mode automatically terminates instances exceeding this lifetime. This lifecycle limit helps prevent configuration drift and maintains security posture. 
+EC2 managed instances operated by EKS Auto Mode have a maximum lifetime of 21 days. Amazon EKS Auto Mode automatically terminates instances exceeding this lifetime. This lifecycle limit helps prevent configuration drift and maintains security posture. 
 
 === Data protection 
 

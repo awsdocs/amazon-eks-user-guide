@@ -71,7 +71,7 @@ The policy applies to pods with the label `role: webapp` in the `sun` namespace.
 
 == Admin (or cluster) network policy
 
-image::images/evaluation-order.png[llustration of the evaluation order for network policies in EKS]
+image::images/evaluation-order.png[Illustration of the evaluation order for network policies in EKS]
 
 You can use the `ClusterNetworkPolicy` to enforce a network security standard that applies to the whole cluster. Instead of repetitively defining and maintaining a distinct policy for each namespace, you can use a single policy to centrally manage network access controls for different workloads in the cluster, irrespective of their namespace.
 
@@ -123,7 +123,7 @@ Network policies in the Amazon VPC CNI plugin for Kubernetes are supported in th
 *Architecture*
 
 * When applying Amazon VPC CNI plugin for Kubernetes network policies to your cluster with the Amazon VPC CNI plugin for Kubernetes , you can apply the policies to Amazon EC2 Linux nodes only. You can't apply the policies to Fargate or Windows nodes.
-* Network policies only apply either `IPv4` or `IPv6` addresses, but not both. In an `IPv4` cluster, the VPC CNI assigns `IPv4` address to pods and applies `IPv4` policies. In an `IPv6` cluster, the VPC CNI assigns `IPv6` address to pods and applies `IPv6` policies. Any `IPv4` network policy rules applied to an `IPv6` cluster are ignored. Any `IPv6` network policy rules applied to an `IPv4` cluster are ignored.
+* Network policies only apply to either `IPv4` or `IPv6` addresses, but not both. In an `IPv4` cluster, the VPC CNI assigns an `IPv4` address to pods and applies `IPv4` policies. In an `IPv6` cluster, the VPC CNI assigns an `IPv6` address to pods and applies `IPv6` policies. Any `IPv4` network policy rules applied to an `IPv6` cluster are ignored. Any `IPv6` network policy rules applied to an `IPv4` cluster are ignored.
 
 *Network Policies*
 

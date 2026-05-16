@@ -19,7 +19,7 @@ This topic covers how to configure Cilium and Kubernetes Network Policies with E
 
 === Considerations
 
-- {aws} supports the upstream Kubernetes Network Policies and specfication for pod ingress and egress. {aws} currently does not support `CiliumNetworkPolicy` or `CiliumClusterwideNetworkPolicy`. 
+- {aws} supports the upstream Kubernetes Network Policies and specification for pod ingress and egress. {aws} currently does not support `CiliumNetworkPolicy` or `CiliumClusterwideNetworkPolicy`. 
 - The `policyEnforcementMode` Helm value can be used to control the default Cilium policy enforcement behavior. The default behavior allows all egress and ingress traffic. When an endpoint is selected by a network policy, it transitions to a default-deny state, where only explicitly allowed traffic is allowed. See the Cilium documentation for more information on the link:https://docs.cilium.io/en/stable/security/policy/intro/#policy-mode-default[default policy mode] and link:https://docs.cilium.io/en/stable/security/policy/intro/#policy-enforcement-modes[policy enforcement modes].
 - If you are changing `policyEnforcementMode` for an existing Cilium installation, you must restart the Cilium agent DaemonSet to apply the new policy enforcement mode.
 - Use `namespaceSelector` and `podSelector` to allow or deny traffic to/from namespaces and pods with matching labels. The `namespaceSelector` and `podSelector` can be used with `matchLabels` or `matchExpressions` to select namespaces and pods based on their labels.

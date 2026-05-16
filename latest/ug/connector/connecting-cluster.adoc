@@ -121,7 +121,7 @@ Example output:
 2021-08-19 13:47:26 [ℹ]  wrote file eks-connector-clusterrole.yaml to <current directory>
 2021-08-19 13:47:26 [ℹ]  wrote file eks-connector-console-dashboard-full-access-group.yaml to <current directory>
 2021-08-19 13:47:26 [!]  note: "eks-connector-clusterrole.yaml" and "eks-connector-console-dashboard-full-access-group.yaml" give full EKS Console access to IAM identity "<aws-arn>", edit if required; read https://eksctl.io/usage/eks-connector for more info
-2021-08-19 13:47:26 [ℹ]  run `kubectl apply -f eks-connector.yaml,eks-connector-clusterrole.yaml,eks-connector-console-dashboard-full-access-group.yaml` before expiry> to connect the cluster
+2021-08-19 13:47:26 [ℹ]  run `kubectl apply -f eks-connector.yaml,eks-connector-clusterrole.yaml,eks-connector-console-dashboard-full-access-group.yaml` before expiry to connect the cluster
 ----
 +
 This creates files on your local computer. These files must be applied to the external cluster within 3 days, or the registration expires.
@@ -148,7 +148,7 @@ To install the `eks-connector` agent, use one of the following tools:
 If you registered the cluster with `eksctl`, use the YAML manifest method instead of the Helm chart method.
 ====
 
-. If you used the {aws} CLI in the previous step, replace the `ACTIVATION_CODE` and `ACTIVATION_ID` in the following command with the `activationId`, and `activationCode` values respectively. Replace the `aws-region` with the {aws} Region that you used in the previous step. Then run the command to install the `eks-connector` agent on the registering cluster:
+. If you used the {aws} CLI in the previous step, replace the `ACTIVATION_CODE` and `ACTIVATION_ID` in the following command with the `activationId`, and `activationCode` values respectively. Replace the `aws-region` with the {aws} Region that you used in the previous step. Then run the command to install the `eks-connector` agent on the registered cluster:
 +
 [source,shell,subs="verbatim,attributes"]
 ----

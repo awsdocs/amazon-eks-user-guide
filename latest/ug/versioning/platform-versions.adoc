@@ -933,7 +933,7 @@ The following admission controllers are enabled for all `1.30` platform versions
 . In the navigation pane, choose *Clusters*.  
 . In the list of clusters, choose the *Cluster Name* to check the platform version of.
 . Choose the *Overview* tab.  
-. The *Platform Version* is available under in the *Details* section.
+. The *Platform Version* is available in the *Details* section.
 . Determine the *Name* of the cluster you want to check the platform version of.  
 . Run the following command:
 +

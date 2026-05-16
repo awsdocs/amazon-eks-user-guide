@@ -88,7 +88,7 @@ The following output is an example of what is returned for the add-on named `vpc
 eksctl utils describe-addon-versions --kubernetes-version {k8s-n} --name name-of-addon | grep ProductUrl
 ----
 +
-If no output is returned, then the add-on is an Amazon EKS. If output is returned, then the add-on is an {aws} Marketplace add-on. The following output is for an add-on named `teleport_teleport`. 
+If no output is returned, then the add-on is an Amazon EKS add-on. If output is returned, then the add-on is an {aws} Marketplace add-on. The following output is for an add-on named `teleport_teleport`. 
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -290,7 +290,7 @@ Here is an example of valid configuration values, in YAML format, that works wit
 ----
 --service-account-role-arn {arn-aws}iam::111122223333:role/role-name
 ----
-** These example commands overwrites the `--configuration-values` option of any existing self-managed version of the add-on, if there is one. Replace this with the desired configuration values, such as a string or a file input. If you don't want to provide configuration values, then delete the `--configuration-values` option. If you don't want the {aws} CLI to overwrite the configuration of an existing self-managed add-on, remove the [.replaceable]`--resolve-conflicts OVERWRITE` option. If you remove the option, and the Amazon EKS add-on needs to overwrite the configuration of an existing self-managed add-on, then creation of the Amazon EKS add-on fails with an error message to help you resolve the conflict. Before specifying this option, make sure that the Amazon EKS add-on doesn't manage settings that you need to manage, because those settings are overwritten with this option.
+** These example commands overwrite the `--configuration-values` option of any existing self-managed version of the add-on, if there is one. Replace this with the desired configuration values, such as a string or a file input. If you don't want to provide configuration values, then delete the `--configuration-values` option. If you don't want the {aws} CLI to overwrite the configuration of an existing self-managed add-on, remove the [.replaceable]`--resolve-conflicts OVERWRITE` option. If you remove the option, and the Amazon EKS add-on needs to overwrite the configuration of an existing self-managed add-on, then creation of the Amazon EKS add-on fails with an error message to help you resolve the conflict. Before specifying this option, make sure that the Amazon EKS add-on doesn't manage settings that you need to manage, because those settings are overwritten with this option.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

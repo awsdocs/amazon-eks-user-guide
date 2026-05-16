@@ -33,7 +33,7 @@ You can also assign `IPv6` addresses to nodes in public and private subnets. The
 .. From the navigation bar, select an {aws} Region that supports Amazon EKS.
 .. Choose *Create stack*, *With new resources (standard)*.
 .. Under *Prerequisite - Prepare template*, make sure that *Template is ready* is selected and then under *Specify template*, select *Amazon S3 URL*.
-.. You can create a VPC that supports only `IPv4`, or a VPC that supports `IPv4` and `IPv6`. Paste  one of the following URLs into the text area under *Amazon S3 URL* and choose *Next*:
+.. You can create a VPC that supports only `IPv4`, or a VPC that supports `IPv4` and `IPv6`. Paste one of the following URLs into the text area under *Amazon S3 URL* and choose *Next*:
 
 *** `IPv4`
 

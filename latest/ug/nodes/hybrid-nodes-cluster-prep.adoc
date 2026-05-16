@@ -20,7 +20,7 @@ There is an Amazon EKS access entry type for hybrid nodes named HYBRID_LINUX tha
 
 === {aws} CLI
 
-. You must have the latest version of the {aws} CLI installed and configured on your device. To check your current version, use `aws --version`. Package managers such yum, apt-get, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see Installing and Quick configuration with aws configure in the {aws} Command Line Interface User Guide.
+. You must have the latest version of the {aws} CLI installed and configured on your device. To check your current version, use `aws --version`. Package managers such as yum, apt-get, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see Installing and Quick configuration with aws configure in the {aws} Command Line Interface User Guide.
 
 . Create your access entry with the following command. Replace CLUSTER_NAME with the name of your cluster and HYBRID_NODES_ROLE_ARN with the ARN of the role you created in the steps for <<hybrid-nodes-creds>>.
 +

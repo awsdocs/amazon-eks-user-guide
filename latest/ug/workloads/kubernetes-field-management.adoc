@@ -42,7 +42,7 @@ Each key is either a `.` representing the field itself, which always maps to an 
 * `f:[.replaceable]``name```, where [.replaceable]`name` is the name of a field in a list.
 * `k:[.replaceable]``keys```, where [.replaceable]`keys` is a map of a list item's fields.
 * `v:[.replaceable]``value```, where [.replaceable]`value` is the exact JSON formatted value of a list item.
-* `i:[.replaceable]``index```, where [.replaceable]`index` is position of an item in the list.
+* `i:[.replaceable]``index```, where [.replaceable]`index` is the position of an item in the list.
 
 The following portions of output for the CoreDNS add-on illustrate the previous declarations:  
 
@@ -146,4 +146,4 @@ NOTE: If you don't see `managedFields` in the output, add `--show-managed-fields
 [#view-field-management-next-steps]
 == Next steps
 
-Customize the fields not owned by {aws} for you add-on.
+Customize the fields not owned by {aws} for your add-on.

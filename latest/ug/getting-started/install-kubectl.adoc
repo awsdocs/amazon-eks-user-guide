@@ -174,7 +174,7 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2026-04-08/bin/dar
 ----
 openssl sha1 -sha256 kubectl
 ----
-.. Make sure that the generated checksum in the output matches in the checksum in the downloaded `kubectl.sha256` file.
+.. Make sure that the generated checksum in the output matches the checksum in the downloaded `kubectl.sha256` file.
 . Apply execute permissions to the binary.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -298,7 +298,7 @@ or
 ----
 openssl sha1 -sha256 kubectl
 ----
-.. For the first, you should see `kubectl: OK`, for the second, you can check that the generated checksum in the output matches in the checksum in the downloaded `kubectl.sha256` file.
+.. For the first, you should see `kubectl: OK`, for the second, you can check that the generated checksum in the output matches the checksum in the downloaded `kubectl.sha256` file.
 . Apply execute permissions to the binary.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -424,7 +424,7 @@ or
 ----
 openssl sha1 -sha256 kubectl
 ----
-.. For the first, you should see `kubectl: OK`, for the second, you can check that the generated checksum in the output matches in the checksum in the downloaded `kubectl.sha256` file.
+.. For the first, you should see `kubectl: OK`, for the second, you can check that the generated checksum in the output matches the checksum in the downloaded `kubectl.sha256` file.
 . Apply execute permissions to the binary.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -542,7 +542,7 @@ curl.exe -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.14/2026-04-08/bin
 ----
 Get-FileHash kubectl.exe
 ----
-.. Make sure that the generated checksum in the output matches in the checksum in the downloaded `kubectl.sha256` file. The PowerShell output should be an uppercase equivalent string of characters.
+.. Make sure that the generated checksum in the output matches the checksum in the downloaded `kubectl.sha256` file. The PowerShell output should be an uppercase equivalent string of characters.
 . Copy the binary to a folder in your `PATH`. If you have an existing directory in your `PATH` that you use for command line utilities, copy the binary to that directory. Otherwise, complete the following steps.
 +
 .. Create a new directory for your command line binaries, such as `C:\bin`.

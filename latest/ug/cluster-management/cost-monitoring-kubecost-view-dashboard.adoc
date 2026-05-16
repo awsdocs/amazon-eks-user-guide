@@ -48,7 +48,7 @@ Alternatively, you can use the <<aws-load-balancer-controller,{aws} Load Balance
 http://localhost:9090
 ----
 +
-You see the Kubecost Overview page in your browser. It might take 5–10 minutes (or more) for Kubecost to gather metrics, depends on your cluster size. You can see your Amazon EKS spend, including cumulative cluster costs, associated Kubernetes asset costs, and monthly aggregated spend.
+You see the Kubecost Overview page in your browser. It might take 5–10 minutes (or more) for Kubecost to gather metrics, depending on your cluster size. You can see your Amazon EKS spend, including cumulative cluster costs, associated Kubernetes asset costs, and monthly aggregated spend.
 +
 . To track costs at a cluster level, tag your Amazon EKS resources for billing. For more information, see <<tag-resources-for-billing>>.
 

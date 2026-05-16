@@ -69,7 +69,7 @@ aws ec2 get-console-output --instance-id <instance id> --latest --output text
 [#auto-node-debug-logs]
 == Get node logs by using __debug containers__ and the `kubectl` CLI
 
-The recommended way of retrieving logs from an EKS Auto Mode node is to use `NodeDiagnostic` resource. For these steps, see <<auto-get-logs>>.
+The recommended way of retrieving logs from an EKS Auto Mode node is to use a `NodeDiagnostic` resource. For these steps, see <<auto-get-logs>>.
 
 However, you can stream logs live from an instance by using the `kubectl debug node` command. This command launches a new Pod on the node that you want to debug which you can then interactively use.
 
@@ -149,7 +149,7 @@ Look for errors related to your EKS cluster. Use the error messages to update yo
 [#auto-troubleshoot-schedule]
 == Troubleshoot Pod failing to schedule onto Auto Mode node
 
-If pods staying in the `Pending` state and aren't being scheduled onto an auto mode node, verify if your pod or deployment manifest has a `nodeSelector`. If a `nodeSelector` is present, ensure that it is using `eks.amazonaws.com/compute-type: auto` to be scheduled on nodes that are made by EKS Auto Mode. For more information about the node labels that are used by EKS Auto Mode, see <<associate-workload>>.
+If pods are staying in the `Pending` state and aren't being scheduled onto an auto mode node, verify if your pod or deployment manifest has a `nodeSelector`. If a `nodeSelector` is present, ensure that it is using `eks.amazonaws.com/compute-type: auto` to be scheduled on nodes that are made by EKS Auto Mode. For more information about the node labels that are used by EKS Auto Mode, see <<associate-workload>>.
 
 [#auto-troubleshoot-join]
 == Troubleshoot node not joining the cluster
@@ -245,7 +245,7 @@ With these two pieces of information, you can perform the analysis. First naviga
 . Enter a "Destination Port" of 443
 . Select "Protocol" as TCP if it is not already selected
 . Click "Create and Analyze Path"
-. The analysis might take a few minutes to complete. If the analysis results indicates failed reachability, it will indicate where the failure was in the network path so you can resolve the issue.
+. The analysis might take a few minutes to complete. If the analysis results indicate failed reachability, it will indicate where the failure was in the network path so you can resolve the issue.
 
 [#auto-troubleshoot-share-pod-volumes]
 == Sharing Volumes Across Pods

@@ -33,7 +33,7 @@ aws eks list-pod-identity-associations --cluster-name <cluster-name>
 ----
 aws iam get-role --role-name <role-name> --query Role.AssumeRolePolicyDocument
 ----
-* The  IAM role has the necessary permissions for the add-on.
+* The IAM role has the necessary permissions for the add-on.
 +
 ** Use {aws} CloudTrail to review `AccessDenied` or `UnauthorizedOperation` events .
 * The service account name in the pod identity association matches the service account name used by the add-on. 

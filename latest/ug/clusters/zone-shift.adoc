@@ -77,7 +77,7 @@ When you scale your compute resources, the process of adding new nodes to the EK
 
 Additionally, when there's a zonal impairment, you should aim to mitigate the risk of running into a compute capacity constraint that would prevent newly-required nodes from being added to your EKS data plane in the healthy AZs.
 
-To accomplish reduce the risk of these potential negative impacts, we recommend that you over-provision compute capacity in some of the worker nodes in each of the AZs. By doing this, the Kubernetes Scheduler has pre-existing capacity available for new Pod placements, which is especially important when you lose one of the AZs in your environment.
+To reduce the risk of these potential negative impacts, we recommend that you over-provision compute capacity in some of the worker nodes in each of the AZs. By doing this, the Kubernetes Scheduler has pre-existing capacity available for new Pod placements, which is especially important when you lose one of the AZs in your environment.
 
 
 === Run and spread multiple Pod replicas across Availability Zones

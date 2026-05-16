@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn how Amazon EKS ensures high availability, data resilience, and fault tolerance for your Kubernetes control plane by leveraging {aws} infrastructure across multiple Availability Zones .
+Learn how Amazon EKS ensures high availability, data resilience, and fault tolerance for your Kubernetes control plane by leveraging {aws} infrastructure across multiple Availability Zones.
 --
 
 The {aws} global infrastructure is built around {aws} Regions and Availability Zones. {aws} Regions provide multiple physically separated and isolated Availability Zones, which are connected with low-latency, high-throughput, and highly redundant networking. With Availability Zones, you can design and operate applications and databases that automatically fail over between Availability Zones without interruption. Availability Zones are more highly available, fault tolerant, and scalable than traditional single or multiple data center infrastructures.  

@@ -7,10 +7,10 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn about the Kubernetes roles and users that Amazon EKS creates for cluster components and add-ons. Amazon EKS uses these role-based authorization control (RBAC) identities to operate the cluster.
+Learn about the Kubernetes roles and users that Amazon EKS creates for cluster components and add-ons. Amazon EKS uses these role-based access control (RBAC) identities to operate the cluster.
 --
 
-When you create a Kubernetes cluster, several default Kubernetes identities are created on that cluster for the proper functioning of Kubernetes. Amazon EKS creates Kubernetes identities for each of its default components. The identities provide Kubernetes role-based authorization control (RBAC) for the cluster components. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the Kubernetes documentation.  
+When you create a Kubernetes cluster, several default Kubernetes identities are created on that cluster for the proper functioning of Kubernetes. Amazon EKS creates Kubernetes identities for each of its default components. The identities provide Kubernetes role-based access control (RBAC) for the cluster components. For more information, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the Kubernetes documentation.  
 
 When you install optional <<eks-add-ons,add-ons>> to your cluster, additional Kubernetes identities might be added to your cluster. For more information about identities not addressed by this topic, see the documentation for the add-on.
 
@@ -29,7 +29,7 @@ The link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,typ
 . In the *Clusters* list, choose the cluster that contains the identities that you want to view.
 . Choose the *Resources* tab.
 . Under *Resource types*, choose *Authorization*.
-. Choose, *ClusterRoles*, *ClusterRoleBindings*, *Roles*, or *RoleBindings*. All resources prefaced with *eks* are created by Amazon EKS. Additional Amazon EKS created identity resources are:
+. Choose *ClusterRoles*, *ClusterRoleBindings*, *Roles*, or *RoleBindings*. All resources prefaced with *eks* are created by Amazon EKS. Additional Amazon EKS created identity resources are:
 +
 * The *ClusterRole* and *ClusterRoleBinding* named *aws-node*. The *aws-node* resources support the <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, which Amazon EKS installs on all clusters. 
 * A *ClusterRole* named *vpc-resource-controller-role* and a *ClusterRoleBinding* named *vpc-resource-controller-rolebinding*. These resources support the https://github.com/aws/amazon-vpc-resource-controller-k8s[Amazon VPC resource controller], which Amazon EKS installs on all clusters. 

@@ -379,7 +379,7 @@ IMPORTANT: For simplicity in this tutorial, the link:aws-managed-policy/latest/r
 +
 ** *Managed* – Deploy your node group using one of the following options:
 +
-*** *Without a launch template or with a launch template without an AMI ID specified* – Run the following command. For this tutorial, use the example values. For a production node group, replace all example values with your own. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters.
+*** *Without a launch template or with a launch template without an AMI ID specified* – Run the following command. For this tutorial, use the example values. For a production node group, replace all example values with your own. The node group name can't be longer than 63 characters. It must start with a letter or digit, but can also include hyphens and underscores for the remaining characters.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

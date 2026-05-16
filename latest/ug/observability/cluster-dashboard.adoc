@@ -30,7 +30,7 @@ The EKS Dashboard is not real-time and updates every 12 hours. For real-time clu
 
 The Amazon EKS dashboard requires {aws} Organizations integration for functionality. It leverages {aws} Organizations to securely gather cluster information across accounts. This integration provides centralized management and governance as your {aws} infrastructure scales.
 
-If {aws} Organizations isn't enabled for your infrastructure, see the {aws}link:organizations/latest/userguide/orgs_introduction.html[Organizations User Guide, type="documentation"] for setup instructions.
+If {aws} Organizations isn't enabled for your infrastructure, see the {aws} link:organizations/latest/userguide/orgs_introduction.html[Organizations User Guide, type="documentation"] for setup instructions.
 
 === Cross-region and cross-account access
 
@@ -45,7 +45,7 @@ The us-east-1 {aws} region generates the dashboard. You must log in to this regi
 * *Member account*: Any account within the organization except the management account.
 * *Delegated administrator*: A member account granted specific cross-account administrative permissions. Within the management account, you can select one delegated administrator account per {aws} Service.
 * *Trusted access*: Authorization for the EKS Dashboard to access cluster information across organizational accounts.
-* *Service-Linked Role (SLRs)*: A unique type of IAM role directly linked to an {aws} service. The EKS Dashboard uses a SLR to read information about your accounts and organizations. 
+* *Service-Linked Role (SLR)*: A unique type of IAM role directly linked to an {aws} service. The EKS Dashboard uses an SLR to read information about your accounts and organizations. 
 * For more information, see link:organizations/latest/userguide/orgs_getting-started_concepts.html[Terminology and concepts, type="documentation"] in the {aws} Organizations User Guide. 
 
 === General overview

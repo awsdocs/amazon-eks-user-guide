@@ -48,14 +48,14 @@ eksctl version
 For instructions on how to install or upgrade `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
 
 . (Optional) If the *AmazonEKS_CNI_Policy* managed IAM policy is attached to your <<create-node-role,Amazon EKS node IAM role>>, we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead. For more information, see <<cni-iam-role>>.
-. Create a managed node group with or without using a custom launch template. Manually specifying a launch template allows for greater customization of a node group. For example, it can allow deploying a custom AMI or providing arguments to the `boostrap.sh` script in an Amazon EKS optimized AMI. For a complete list of every available option and default, enter the following command.
+. Create a managed node group with or without using a custom launch template. Manually specifying a launch template allows for greater customization of a node group. For example, it can allow deploying a custom AMI or providing arguments to the `bootstrap.sh` script in an Amazon EKS optimized AMI. For a complete list of every available option and default, enter the following command.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 eksctl create nodegroup --help
 ----
 +
-In the following command, replace [.replaceable]`my-cluster` with the name of your cluster and replace [.replaceable]`my-mng` with the name of your node group. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters.
+In the following command, replace [.replaceable]`my-cluster` with the name of your cluster and replace [.replaceable]`my-mng` with the name of your node group. The node group name can't be longer than 63 characters. It must start with a letter or digit, but can also include hyphens and underscores for the remaining characters.
 +
 [IMPORTANT]
 ====
@@ -157,7 +157,7 @@ eksctl create nodegroup --config-file eks-nodegroup.yaml
 . Choose *Add node group*.
 . On the *Configure node group* page, fill out the parameters accordingly, and then choose *Next*.
 +
-** *Name* – Enter a unique name for your managed node group. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters.
+** *Name* – Enter a unique name for your managed node group. The node group name can't be longer than 63 characters. It must start with a letter or digit, but can also include hyphens and underscores for the remaining characters.
 ** *Node IAM role* – Choose the node instance role to use with your node group. For more information, see <<create-node-role>>.
 
 +

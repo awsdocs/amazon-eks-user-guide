@@ -37,13 +37,13 @@ EKS cluster public/private endpoint:
 
 [NOTE]
 ====
-The dual-stack cluster endpoint was introduced in October 2024. For more information about `IPv6` clusters, see <<cni-ipv6>>. Clusters made before October 2024, use following endpoint format instead.
+The dual-stack cluster endpoint was introduced in October 2024. For more information about `IPv6` clusters, see <<cni-ipv6>>. Clusters made before October 2024 use the following endpoint format instead.
 ====
 
 [#cluster-endpoint-ipv4]
 == `IPv4` cluster endpoint format
 
-EKS creates a unique endpoint in the following format for each cluster that select `IPv4` in the IP family (ipFamily) setting of the cluster:
+EKS creates a unique endpoint in the following format for each cluster that selects `IPv4` in the IP family (ipFamily) setting of the cluster:
 
 ====
 [role="tablist"]

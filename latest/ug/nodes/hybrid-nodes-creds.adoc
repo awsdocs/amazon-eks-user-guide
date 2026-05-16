@@ -88,7 +88,7 @@ To run the steps in this section, the IAM principal using the {aws} console or {
 [#hybrid-nodes-creds-cloudformation]
 === {aws} CloudFormation
 
-Install and configure the {aws} CLI, if you haven't already. See link:cli/latest/userguide/getting-started-install.html[Installing or updating to the last version of the {aws} CLI,type="documentation"].
+Install and configure the {aws} CLI, if you haven't already. See link:cli/latest/userguide/getting-started-install.html[Installing or updating to the latest version of the {aws} CLI,type="documentation"].
 
 *Steps for {aws} SSM hybrid activations*
 
@@ -170,7 +170,7 @@ aws cloudformation deploy \
 [#hybrid-nodes-creds-awscli]
 === {aws} CLI
 
-Install and configure the {aws} CLI, if you haven't already. See link:cli/latest/userguide/getting-started-install.html[Installing or updating to the last version of the {aws} CLI,type="documentation"].
+Install and configure the {aws} CLI, if you haven't already. See link:cli/latest/userguide/getting-started-install.html[Installing or updating to the latest version of the {aws} CLI,type="documentation"].
 
 *Create EKS Describe Cluster Policy*
 

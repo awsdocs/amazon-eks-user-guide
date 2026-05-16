@@ -140,7 +140,7 @@ service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
 +
 Network Load Balancers are created with the `internal` `aws-load-balancer-scheme`, by default. For internal Network Load Balancers, your Amazon EKS cluster must be configured to use at least one private subnet in your VPC. Kubernetes examines the route table for your subnets to identify whether they are public or private. Public subnets have a route directly to the internet using an internet gateway, but private subnets do not.  
 +
-If you want to create an Network Load Balancer in a public subnet to load balance to Amazon EC2 nodes, specify `internet-facing` with the following annotation:
+If you want to create a Network Load Balancer in a public subnet to load balance to Amazon EC2 nodes, specify `internet-facing` with the following annotation:
 +
 [source,bash,subs="verbatim,attributes"]
 ----

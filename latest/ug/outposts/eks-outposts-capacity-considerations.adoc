@@ -47,7 +47,7 @@ The storage for the Kubernetes control plane requires 246 GB of Amazon EBS stora
 
 When you don't specify a placement group with the `OutpostConfig.ControlPlanePlacement.GroupName` property, the Amazon EC2 instances provisioned for your Kubernetes control plane don't receive any specific hardware placement enforcement across the underlying capacity available on your Outpost.
 
-You can use placement groups to meet the high-availability requirements for your local Amazon EKS cluster on an Outpost. By specifying a placement group during cluster creation, you influence the placement of the Kubernetes control plane instances. The instances are spread across independent underlying hardware (racks or hosts), minimizing correlated instance impact on the event of hardware failures.
+You can use placement groups to meet the high-availability requirements for your local Amazon EKS cluster on an Outpost. By specifying a placement group during cluster creation, you influence the placement of the Kubernetes control plane instances. The instances are spread across independent underlying hardware (racks or hosts), minimizing correlated instance impact in the event of hardware failures.
 
 
 

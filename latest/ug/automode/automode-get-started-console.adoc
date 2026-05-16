@@ -14,7 +14,7 @@ You have two options to create a cluster in the console:
 
 In this topic, you will learn how to create an EKS Auto Mode cluster using the Quick configuration option. 
 
-== Create an EKS Auto Mode using the quick configuration option
+== Create an EKS Auto Mode cluster using the quick configuration option
 
 You must be logged into the {aws-management-console} with sufficient permissions to manage {aws} resources including: EC2 instances, EC2 networking, EKS clusters, and IAM roles. 
 

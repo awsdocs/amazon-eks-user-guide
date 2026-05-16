@@ -19,7 +19,7 @@ Make sure you have the following:
 * An existing Amazon EKS cluster with the node monitoring agent. For more information, see <<node-health>>.
 * The `kubectl` command-line tool installed and configured to
 communicate with your cluster.
-* The {aws} CLI installed and logged in with sufficent permissions to
+* The {aws} CLI installed and logged in with sufficient permissions to
 create S3 buckets and objects.
 * A recent version of Python 3 installed 
 * The {aws} SDK for Python 3, Boto 3, installed. 

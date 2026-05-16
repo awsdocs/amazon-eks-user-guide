@@ -10,7 +10,7 @@ You can now protect EKS clusters from accidental deletion. If you enable deletio
 
 The purpose of deletion protection is to prevent accidents. You should carefully restrict who is authorized to delete clusters.
 
-If you try to delete an active cluster that has deletion protection turned on, you will receive a `InvalidRequestException` . 
+If you try to delete an active cluster that has deletion protection turned on, you will receive an `InvalidRequestException` . 
 
 IMPORTANT: If you enable deletion protection on a cluster, you must have **both** the UpdateClusterConfig and DeleteCluster IAM permissions to first remove the deletion protection, and finally delete the cluster. 
 

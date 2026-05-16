@@ -26,7 +26,7 @@ The Kubernetes https://github.com/kubernetes/autoscaler/tree/master/vertical-pod
 In this section, you deploy the Vertical Pod Autoscaler to your cluster.
 
 . Open a terminal window and navigate to a directory where you would like to download the Vertical Pod Autoscaler source code. 
-. Clone the https://github.com/kubernetes/autoscaler[kubernetes/autoscaler]GitHub repository.
+. Clone the https://github.com/kubernetes/autoscaler[kubernetes/autoscaler] GitHub repository.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -147,7 +147,7 @@ Containers:
 ----
 +
 You can see that the original Pod reserves 100 millicpu of CPU and 50 mebibytes of memory. For this example application, 100 millicpu is less than the Pod needs to run, so it is CPU-constrained. It also reserves much less memory than it needs. The Vertical Pod Autoscaler `vpa-recommender` deployment analyzes the hamster Pods to see if the CPU and memory requirements are appropriate. If adjustments are needed, the `vpa-updater` relaunches the Pods with updated values.
-. Wait for the `vpa-updater` to launch a new hamster Pods. This should take a minute or two. You can monitor the Pods with the following command.
+. Wait for the `vpa-updater` to launch a new hamster Pod. This should take a minute or two. You can monitor the Pods with the following command.
 +
 NOTE: If you are not sure that a new Pod has launched, compare the Pod names with your previous list. When the new Pod launches, you will see a new Pod name.
 +
@@ -155,7 +155,7 @@ NOTE: If you are not sure that a new Pod has launched, compare the Pod names wit
 ----
 kubectl get --watch Pods -l app=hamster
 ----
-. When a new hamster Pods is started, describe it and view the updated CPU and memory reservations.
+. When a new hamster Pod is started, describe it and view the updated CPU and memory reservations.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

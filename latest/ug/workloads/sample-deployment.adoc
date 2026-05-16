@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Deploy a sample application on Linux
 :info_titleabbrev: Sample deployment (Linux)
 
-In this topic, you deploy a sample application to your cluster on linux nodes.
+In this topic, you deploy a sample application to your cluster on Linux nodes.
 
 == Prerequisites
 

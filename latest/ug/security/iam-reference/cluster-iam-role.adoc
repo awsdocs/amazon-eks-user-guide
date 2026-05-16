@@ -17,7 +17,7 @@ Before you can create Amazon EKS clusters, you must create an IAM role with eith
 
 
 * link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy,type="documentation"]
-* A custom IAM policy. The minimal permissions that follow allows the Kubernetes cluster to manage nodes, but doesn't allow the https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] to create load balancers with Elastic Load Balancing. Your custom IAM policy must have at least the following permissions:
+* A custom IAM policy. The minimal permissions that follow allow the Kubernetes cluster to manage nodes, but doesn't allow the https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/#legacy-cloud-provider[legacy Cloud Provider] to create load balancers with Elastic Load Balancing. Your custom IAM policy must have at least the following permissions:
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -30,7 +30,7 @@ include::iam_snippet:de80ec81-9dde-4bf1-83df-de287477358d[]
 
 Prior to October 3, 2023, link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy,type="documentation"] was required on the IAM role for each cluster.
 
-Prior to April 16, 2020, link:aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html[AmazonEKSServicePolicy,type="documentation"] and link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy,type="documentation"] was required and the suggested name for the role was `eksServiceRole`. With the `AWSServiceRoleForAmazonEKS` service-linked role, the link:aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html[AmazonEKSServicePolicy,type="documentation"] policy is no longer required for clusters created on or after April 16, 2020.
+Prior to April 16, 2020, link:aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html[AmazonEKSServicePolicy,type="documentation"] and link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy,type="documentation"] were required and the suggested name for the role was `eksServiceRole`. With the `AWSServiceRoleForAmazonEKS` service-linked role, the link:aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html[AmazonEKSServicePolicy,type="documentation"] policy is no longer required for clusters created on or after April 16, 2020.
 
 ====
 

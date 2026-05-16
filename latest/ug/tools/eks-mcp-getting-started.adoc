@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Getting Started with the Amazon EKS MCP Server
 :info_titleabbrev: Get started
 
-This guide walks you through the steps to setup and use the EKS MCP Server with your AI code assistants. You'll learn how to configure your environment, connect to the server, and start managing your EKS clusters through natural language interactions. 
+This guide walks you through the steps to set up and use the EKS MCP Server with your AI code assistants. You'll learn how to configure your environment, connect to the server, and start managing your EKS clusters through natural language interactions. 
 
 [NOTE]
 ====
@@ -39,7 +39,7 @@ aws configure list
 
 === 2. Setup IAM permissions
 
-To connect to the EKS MCP server, your link:https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html[IAM role] must have the following policies attached: *`eks-mcp:InvokeMcp`* (required permissions for initialization and retrieving information about available tools), *`eks-mcp:CallReadOnlyTool`* (required permissions for usage of read only tools), and *`eks-mcp:CallPrivilegedTool`* (required permissions for usage of full access (write) tools). These `eks-mcp` permissions are included in the read-only and full-access {aws} managed policies provided, below. 
+To connect to the EKS MCP server, your link:https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html[IAM role] must have the following policies attached: *`eks-mcp:InvokeMcp`* (required permissions for initialization and retrieving information about available tools), *`eks-mcp:CallReadOnlyTool`* (required permissions for usage of read-only tools), and *`eks-mcp:CallPrivilegedTool`* (required permissions for usage of full access (write) tools). These `eks-mcp` permissions are included in the read-only and full-access {aws} managed policies provided, below. 
 
 * Open the link:https://console.aws.amazon.com/iam/[IAM console].
 * In the left navigation pane, choose *Users*, *User groups*, or *Roles* depending on the identity you want to attach the policy to, then the name of the specific user, group, or role.
@@ -62,11 +62,11 @@ Choose one of the following MCP-compatible AI assistants or any MCP-compatible t
 
 == Step 1: Configure your AI assistant
 
-Choose from any one of the following options to setup your AI code assistant. Completing this step sets up your AI code assistant to use the MCP Proxy for {aws}, which is required for secure, authenticated access to the Amazon EKS MCP Server. This involves adding or editing the MCP  configuration file (e.g., `~/.aws/amazonq/mcp.json` for Amazon Q Developer CLI). The proxy acts as a client-side bridge, handling {aws} SigV4 authentication using your local {aws} credentials and enabling dynamic tool discovery for interacting with backend {aws} MCP servers like the EKS MCP Server. To learn more, see the link:https://github.com/aws/mcp-proxy-for-aws[_MCP Proxy for {aws} repository_].
+Choose from any one of the following options to setup your AI code assistant. Completing this step sets up your AI code assistant to use the MCP Proxy for {aws}, which is required for secure, authenticated access to the Amazon EKS MCP Server. This involves adding or editing the MCP configuration file (e.g., `~/.aws/amazonq/mcp.json` for Amazon Q Developer CLI). The proxy acts as a client-side bridge, handling {aws} SigV4 authentication using your local {aws} credentials and enabling dynamic tool discovery for interacting with backend {aws} MCP servers like the EKS MCP Server. To learn more, see the link:https://github.com/aws/mcp-proxy-for-aws[_MCP Proxy for {aws} repository_].
 
 === Option A: Amazon Q Developer CLI
 
-The Q Developer CLI provides the most integrated experience with the EKS  MCP Server.
+The Q Developer CLI provides the most integrated experience with the EKS MCP Server.
 
 ==== 1. Locate MCP Configuration File
 

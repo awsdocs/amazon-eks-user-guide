@@ -21,7 +21,7 @@ For information on installing and managing EFA devices in your EKS cluster, incl
 
 The _{aws} EFA Kubernetes Device Plugin_ supports all Amazon EC2 instance types that have EFA. To see a list of all instance types that have EFA, see link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Supported instance types,type="documentation"] in the _Amazon EC2 User Guide_. However, to run ML applications quickly, we recommend that an instance has hardware acceleration chips such as NVIDIA GPUs, link:machine-learning/inferentia/[{aws} Inferentia,type="marketing"] chips, or link:machine-learning/trainium/[{aws} Trainium,type="marketing"] chips, in addition to the EFA. To see a list of instance types that have hardware acceleration chips and EFA, see link:AWSEC2/latest/UserGuide/efa.html#efa-instance-types[Accelerated computing,type="documentation"] in the _Amazon EC2 User Guide_.
 
-As you compare instance types to choose between them, consider the number of EFA network cards available for that instance type as well as the number of accelerator cards, amount of CPU, and amount of memory. You can assign up to one EFA per network card. An EFA counts as a network interface. To see how many EFA are available for each instance types that have EFA, see the link:AWSEC2/latest/UserGuide/using-eni.html#network-cards[Network cards,type="documentation"] list in the _Amazon EC2 User Guide_.
+As you compare instance types to choose between them, consider the number of EFA network cards available for that instance type as well as the number of accelerator cards, amount of CPU, and amount of memory. You can assign up to one EFA per network card. An EFA counts as a network interface. To see how many EFAs are available for each instance type that have EFA, see the link:AWSEC2/latest/UserGuide/using-eni.html#network-cards[Network cards,type="documentation"] list in the _Amazon EC2 User Guide_.
 
 [#efa-only-interfaces]
 == EFA and EFA-only interfaces
@@ -54,7 +54,7 @@ An important consideration required for adopting EFA with Kubernetes is configur
 [#efa-create-nodegroup]
 == Create node group
 
-The following procedure helps you create a node group with a `p4d.24xlarge` backed node group with EFA interfaces and GPUDirect RDMA, and run an example NVIDIA Collective Communications Library (NCCL) test for multi-node NCCL Performance using EFAs. The example can be used a template for distributed deep learning training on Amazon EKS using EFAs.
+The following procedure helps you create a node group with a `p4d.24xlarge` backed node group with EFA interfaces and GPUDirect RDMA, and run an example NVIDIA Collective Communications Library (NCCL) test for multi-node NCCL Performance using EFAs. The example can be used as a template for distributed deep learning training on Amazon EKS using EFAs.
 
 . Determine which Amazon EC2 instance types that support EFA are available in the {aws} Region that you want to deploy nodes in. Replace [.replaceable]`region-code` with the {aws} Region that you want to deploy your node group in.
 +

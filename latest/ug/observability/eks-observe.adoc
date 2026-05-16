@@ -85,7 +85,7 @@ The following table describes various monitoring tool options.
 
 |Applications
 |https://aws-otel.github.io/docs/introduction[{aws} Distro for OpenTelemetry (ADOT)]
-|ADOT can collect and sends correlated metrics, trace data, and metadata to {aws} monitoring services or partners. It can be set up through CloudWatch Container Insights.
+|ADOT can collect and send correlated metrics, trace data, and metadata to {aws} monitoring services or partners. It can be set up through CloudWatch Container Insights.
 |<<opentelemetry,Setup procedure>>
 
 |Applications

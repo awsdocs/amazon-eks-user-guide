@@ -35,8 +35,8 @@ The following are considerations for using the feature:
 
 == IP address assignments
 
-* *Kubernetes services*: Kubernetes services are only assigned an `IPv6` addresses. They aren't assigned IPv4 addresses. 
-* *Pods*: Pods are assigned an IPv6 address and a host-local IPv4 address. The host-local IPv4 address is assigned by using a host-local CNI plugin chained with VPC CNI and the address is not reported to the Kubernetes control plane. It is only used when a pod needs to communicate with an external IPv4 resources in another Amazon VPC or the internet. The host-local IPv4 address gets SNATed (by VPC CNI) to the primary IPv4 address of the primary ENI of the worker node. 
+* *Kubernetes services*: Kubernetes services are only assigned `IPv6` addresses. They aren't assigned IPv4 addresses. 
+* *Pods*: Pods are assigned an IPv6 address and a host-local IPv4 address. The host-local IPv4 address is assigned by using a host-local CNI plugin chained with VPC CNI and the address is not reported to the Kubernetes control plane. It is only used when a pod needs to communicate with an external IPv4 resource in another Amazon VPC or the internet. The host-local IPv4 address gets SNATed (by VPC CNI) to the primary IPv4 address of the primary ENI of the worker node. 
 * *Pods and services*: Pods and services receive only `IPv6` addresses, not `IPv4` addresses. When Pods need to communicate with external `IPv4` endpoints, they use NAT on the node itself. This built-in NAT capability eliminates the need for link:vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-nat64-dns64[DNS64 and NAT64,type="documentation"]. For traffic requiring public internet access, the Pod's traffic is source network address translated to a public IP address.
 * *Routing addresses*: When a Pod communicates outside the VPC, its original `IPv6` address is preserved (not translated to the node's `IPv6` address). This traffic is routed directly through an internet gateway or egress-only internet gateway.
 * *Nodes*: All nodes are assigned an `IPv4` and `IPv6` address.

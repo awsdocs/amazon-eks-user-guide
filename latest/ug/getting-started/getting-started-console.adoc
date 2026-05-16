@@ -29,7 +29,7 @@ Before starting this tutorial, you must install and configure the following tool
 
 
 * *{aws} CLI*
- – A command line tool for working with {aws} services, including Amazon EKS. For more information, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide. After installing the {aws} CLI, we recommend that you also configure it. For more information, see link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide. Note that {aws} CLI v2 is required to use the *update-kubeconfig* option shown in this page.
+ – A command line tool for working with {aws} services, including Amazon EKS. For more information, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide. After installing the {aws} CLI, we recommend that you also configure it. For more information, see link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the {aws} Command Line Interface User Guide. Note that {aws} CLI v2 is required to use the *update-kubeconfig* option shown on this page.
 * *`kubectl`*
  – A command line tool for working with Kubernetes clusters. For more information, see <<install-kubectl>>.
 * *Required IAM permissions*
@@ -221,7 +221,7 @@ aws iam attach-role-policy \
 .. Choose *Add Node Group*.
 . On the *Configure Node Group* page, do the following:
 +
-.. For *Name*, enter a unique name for your managed node group, such as [.replaceable]`my-nodegroup`. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters.
+.. For *Name*, enter a unique name for your managed node group, such as [.replaceable]`my-nodegroup`. The node group name can't be longer than 63 characters. It must start with a letter or digit, but can also include hyphens and underscores for the remaining characters.
 .. For *Node IAM role name*, choose [.replaceable]`myAmazonEKSNodeRole` role that you created in a previous step. We recommend that each node group use its own unique IAM role.
 .. Choose *Next*.
 . On the *Set compute and scaling configuration* page, accept the default values and choose *Next*.
@@ -249,7 +249,7 @@ You can view your nodes and Kubernetes workloads.
 
 After you've finished with the cluster and nodes that you created for this tutorial, you should delete the resources that you created. If you want to do more with this cluster before you delete the resources, see <<gs-console-next-steps>>.
 
-. Delete any node groups profiles that you created.
+. Delete any node groups or Fargate profiles that you created.
 +
 .. Open the Amazon EKS console at link:eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters,type="console"].
 .. In the left navigation pane, choose *Clusters*. In the list of clusters, choose [.replaceable]`my-cluster`.

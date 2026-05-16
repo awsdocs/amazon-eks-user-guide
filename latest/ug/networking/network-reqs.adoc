@@ -77,7 +77,7 @@ The link:vpc/latest/userguide/configure-subnets.html#subnet-types[subnets,type="
 * The subnets must each have at least six IP addresses for use by Amazon EKS. However, we recommend at least 16 IP addresses.
 * The subnets must be in at least two different Availability Zones.
 * The subnets can't reside in {aws} Outposts or {aws} Wavelength. However, if you have them in your VPC, you can deploy self-managed nodes and Kubernetes resources to these types of subnets. For more information about self-managed nodes, see <<worker>>.
-* The subnets can be a public or private. However, we recommend that you specify private subnets, if possible. A public subnet is a subnet with a route table that includes a route to an link:vpc/latest/userguide/VPC_Internet_Gateway.html[internet gateway,type="documentation"], whereas a private subnet is a subnet with a route table that doesn't include a route to an internet gateway.
+* The subnets can be public or private. However, we recommend that you specify private subnets, if possible. A public subnet is a subnet with a route table that includes a route to an link:vpc/latest/userguide/VPC_Internet_Gateway.html[internet gateway,type="documentation"], whereas a private subnet is a subnet with a route table that doesn't include a route to an internet gateway.
 * The subnets can't reside in the following Availability Zones:
 +
 [%header,cols="3"]
@@ -279,7 +279,7 @@ You can use _VPC sharing_ to share subnets with other {aws} accounts within the 
 
 * The owner of the VPC subnet must share a subnet with a participant account before that account can create an Amazon EKS cluster in it.
 * You can't launch resources using the default security group for the VPC because it belongs to the owner. Additionally, participants can't launch resources using security groups that are owned by other participants or the owner.
-* In a shared subnet, the participant and the owner separately controls the security groups within each respective account. The subnet owner can see security groups that are created by the participants but cannot perform any actions on them. If the subnet owner wants to remove or modify these security groups, the participant that created the security group must take the action.
+* In a shared subnet, the participant and the owner separately control the security groups within each respective account. The subnet owner can see security groups that are created by the participants but cannot perform any actions on them. If the subnet owner wants to remove or modify these security groups, the participant that created the security group must take the action.
 * If a cluster is created by a participant, the following considerations apply:
 +
 ** Cluster IAM role and Node IAM roles must be created in that account. For more information, see <<cluster-iam-role>> and <<create-node-role>>.

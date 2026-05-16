@@ -69,7 +69,7 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/docs/externalip-webhook.ya
 #- --allowed-external-ip-cidrs=10.0.0.0/8
 ----
 +
-Replace `10.0.0.0/8` with your own CIDR block. You can specify as many blocks as you like. If specifying mutiple blocks, add a comma between blocks.
+Replace `10.0.0.0/8` with your own CIDR block. You can specify as many blocks as you like. If specifying multiple blocks, add a comma between blocks.
 . If your cluster is not in the `us-west-2` {aws} Region, then replace `us-west-2`, `602401143452`, and `amazonaws.com` in the file with the following commands. Before running the commands, replace [.replaceable]`region-code` and [.replaceable]`111122223333` with the value for your {aws} Region from the list in <<add-ons-images,View Amazon container image registries for Amazon EKS add-ons>>.
 +
 [source,bash,subs="verbatim,attributes"]
