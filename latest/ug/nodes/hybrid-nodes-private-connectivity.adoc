@@ -62,7 +62,7 @@ In a standard EKS hybrid node deployment, hybrid nodes communicate with the publ
 
 Amazon EKS supports invoking its API actions through {aws} PrivateLink VPC interface endpoints, allowing private communication with the EKS API from within a customer VPC or systems connected to it (for example, via VPC peering, Direct Connect, or Site-to-Site VPN). However, Kubernetes API calls (for example, \`kubectl\` operations) do not use the EKS API PrivateLink endpoint. Instead, the Kubernetes API server has its own endpoint, which by default is accessible via the internet.
 
-When the Kubernetes API private endpoint is enabled, communication between the Kubernetes API server and hybrid nodes occurs over private network connectivity. This is facilitated through the EKS-managed cross-account elastic network interfaces (X-ENIs) in the customer VPC.
+When the Kubernetes API private endpoint is enabled, communication between the Kubernetes API server and hybrid nodes occurs over private network connectivity. This is facilitated through the EKS-managed link:AWSEC2/latest/UserGuide/requester-managed-eni.html[requester-managed network interfaces,type="documentation"] in the customer VPC.
 
 [#hybrid-nodes-private-connectivity-components]
 === Key components
@@ -79,7 +79,7 @@ When the Kubernetes API private endpoint is enabled, communication between the K
 
 |Kubernetes API private endpoint
 |Facilitates private node-to-control-plane communication.
-|Managed by EKS and accessed via cross-account ENIs (X-ENIs).
+|Managed by EKS and accessed via link:AWSEC2/latest/UserGuide/requester-managed-eni.html[requester-managed network interfaces,type="documentation"].
 
 |Route 53 inbound resolver
 |Resolves {aws} service domains to private IP addresses.
@@ -100,11 +100,11 @@ Attributes include:
 [#hybrid-nodes-private-connectivity-k8s-api]
 === EKS Kubernetes API private endpoint
 
-The Kubernetes API private endpoint feature in Amazon EKS modifies how the Kubernetes API server URL is resolved by Amazon Route 53, ensuring the endpoint resolves exclusively to private IP addresses within your VPC. When enabled, DNS resolution for the EKS cluster's Kubernetes API endpoint returns private addresses associated with EKS-managed cross-account elastic network interfaces (X-ENIs). As a result, all Kubernetes API interactions between hybrid nodes and the EKS control plane occur over private network paths, such as {aws} Direct Connect or VPN, rather than the public internet.
+The Kubernetes API private endpoint feature in Amazon EKS modifies how the Kubernetes API server URL is resolved by Amazon Route 53, ensuring the endpoint resolves exclusively to private IP addresses within your VPC. When enabled, DNS resolution for the EKS cluster's Kubernetes API endpoint returns private addresses associated with EKS-managed link:AWSEC2/latest/UserGuide/requester-managed-eni.html[requester-managed network interfaces,type="documentation"]. As a result, all Kubernetes API interactions between hybrid nodes and the EKS control plane occur over private network paths, such as {aws} Direct Connect or VPN, rather than the public internet.
 
 Attributes include:
 
-* *Managed by Amazon EKS* – Amazon EKS creates and maintains a private hosted zone in Route 53 specific to your EKS cluster. It automatically resolves Kubernetes API domains to private IP addresses via managed cross-account elastic network interfaces (X-ENIs) in your VPC.
+* *Managed by Amazon EKS* – Amazon EKS creates and maintains a private hosted zone in Route 53 specific to your EKS cluster. It automatically resolves Kubernetes API domains to private IP addresses via managed link:AWSEC2/latest/UserGuide/requester-managed-eni.html[requester-managed network interfaces,type="documentation"] in your VPC.
 * *Dedicated to Kubernetes traffic* – Exclusively handles Kubernetes control plane traffic, such as interactions from \`kubectl\` and other Kubernetes management tools. Separate from {aws} PrivateLink endpoints used for other {aws} APIs and does not appear in the VPC endpoint console.
 * *Endpoint access configuration* – Supports private-only access (recommended for maximum security) or combined public/private access. Access modes can be modified post-cluster creation.
 
@@ -129,7 +129,7 @@ In this configuration:
 * On-premises DNS servers are configured to forward queries for specific {aws} service domains to the Route 53 inbound resolver endpoint deployed in the VPC.
 * The Route 53 inbound resolver acts as a bridge, resolving {aws}-specific domain names using the Amazon-provided DNS infrastructure within the VPC. To the Amazon DNS infrastructure, it appears as if the DNS query comes from the VPC, returning the private address of the configured VPC private endpoints.
 * This ensures on-premises systems resolve private VPC interface endpoints instead of public IP addresses, allowing them to access {aws} services (for example, EKS, Amazon ECR, or {aws} Systems Manager) over private network connections like {aws} Direct Connect or VPN.
-* The VPC hosting the EKS X-ENI interface must have DNS hostname and DNS resolution enabled.
+* The VPC hosting the EKS managed network interfaces must have DNS hostname and DNS resolution enabled.
 * Configure VPC interface endpoints to have private DNS names enabled. For more information, see link:vpc/latest/privatelink/interface-endpoints.html#enable-private-dns-names[Configure an interface endpoint,type="documentation"].
 
 Without DNS forwarding, on-premises systems would resolve {aws} service domains to public IP addresses, forcing traffic over the internet instead of the private network. Configuring DNS forwarding ensures {aws} services resolve to private IP addresses attached to the {aws} PrivateLink VPC endpoints. DNS forwarding is not required for the EKS Kubernetes API name resolution when the cluster is configured with private access only, as the only IP addresses returned by Route 53 are the private EKS API endpoints.
@@ -145,7 +145,7 @@ For more information, see:
 * *EKS private API endpoint* – The Kubernetes API server must have its private endpoint enabled to allow hybrid node communication within the EKS customer VPC and systems attached to the VPC via the network.
 * *{aws} VPC endpoints* – VPC endpoints for essential {aws} services (for example, Amazon ECR, {aws} Systems Manager, {aws} STS) must be configured in the VPC to allow access from your on-premises datacenter via the private network connectivity.
 * *DNS configuration* – A Route 53 inbound resolver is needed to forward DNS queries from on-premises servers to {aws} for resolving service domains (for example, \`amazonaws.com\`, \`api.aws\`). Your on-premises DNS environment must have the capability to forward specific domains to the {aws} Route 53 inbound resolver for name resolution.
-* *VPC configuration* – The VPC with EKS X-ENI interfaces requires both DNS hostnames and DNS resolution enabled. For more information, see link:vpc/latest/userguide/vpc-dns.html#vpc-dns-updating[DNS attributes for your VPC,type="documentation"].
+* *VPC configuration* – The VPC with EKS managed network interfaces requires both DNS hostnames and DNS resolution enabled. For more information, see link:vpc/latest/userguide/vpc-dns.html#vpc-dns-updating[DNS attributes for your VPC,type="documentation"].
 
 [#hybrid-nodes-private-connectivity-configure-k8s-api]
 == Configure the Kubernetes private API endpoint
@@ -307,7 +307,7 @@ To enable on-premises hybrid nodes to access {aws} services privately, create VP
 ====
 This requires \`enableDnsHostnames\` and \`enableDnsSupport\` to be enabled in your VPC settings. For more information, see link:vpc/latest/userguide/vpc-dns.html#vpc-dns-updating[DNS attributes for your VPC,type="documentation"].
 ====
-. Select at least two subnets in different Availability Zones for high availability. These can be the same subnets used by EKS for its cross-account ENI (X-ENI) interfaces, ensuring compatibility with the cluster's network configuration.
+. Select at least two subnets in different Availability Zones for high availability. These can be the same subnets used by EKS for its requester-managed network interfaces, ensuring compatibility with the cluster's network configuration.
 . Select or create a security group that allows inbound HTTPS traffic (port 443) from the CIDR ranges of your hybrid nodes and pod networks.
 +
 Example rule:
@@ -514,7 +514,7 @@ ssm.us-west-2.amazonaws.com. 300 IN A 10.0.2.67
 * *Scope of forwarding* – Forwarding \`amazonaws.com\` covers most {aws} service endpoints (for example, \`ecr.us-west-2.amazonaws.com\`), while \`api.aws\` ensures resolution for API-specific {aws} domains (for example, \`eks-auth.us-west-2.api.aws\`). If you do not want to forward the whole domains (\`amazonaws.com\`, \`api.aws\`), individual forwarding rules can be set up for each service that you wish to resolve to a VPC private endpoint.
 * *EKS exception: Understanding the Kubernetes API endpoint* – The Kubernetes API endpoint for your EKS cluster (for example, \`https://<cluster-id>.gr7.us-west-2.eks.amazonaws.com\`) is managed by EKS and tied to a private hosted zone in {aws}. Unlike other {aws} services, it does not depend on a VPC private endpoint (refer to <<hybrid-nodes-private-connectivity-configure-k8s-api>> for more information). Here's how name resolution for the Kubernetes API endpoint will behave based on the access setting and where the name resolution query originates:
 +
-** *Private-only access* – If you've configured the EKS cluster for private-only access, all DNS requests for the EKS Kubernetes API endpoint—whether from the internet, within your VPC, or forwarded from your on-premises network—will resolve to the cluster's private IP address (X-ENIs). This keeps all communication internal (unless you have a network path to the private X-ENI interfaces in the VPC, you will be unable to reach the API endpoint).
+** *Private-only access* – If you've configured the EKS cluster for private-only access, all DNS requests for the EKS Kubernetes API endpoint—whether from the internet, within your VPC, or forwarded from your on-premises network—will resolve to the cluster's private IP address (the EKS managed network interfaces). This keeps all communication internal (unless you have a network path to the private EKS managed network interfaces in the VPC, you will be unable to reach the API endpoint).
 ** *Public and private access* – If you've enabled both public and private access, the behavior depends on where the request originates:
 *** Requests from inside the VPC, or those routed from your on-premises network to the Route 53 inbound resolver, will resolve to the private IP address of the EKS API endpoint.
 *** Requests from outside the VPC (for example, over the public internet) will resolve to the public IP addresses instead.
