@@ -25,6 +25,11 @@ Both built-in NodePools:
 
 NOTE: Enabling at least one built-in NodePool is required for EKS to provision the "default" NodeClass. If you disable all built-in NodePools, you'll need to create a custom NodeClass and configure a NodePool to use it. For more information about NodeClasses, see <<create-node-class>>.
 
+[IMPORTANT]
+====
+When you remove a built-in NodePool name from `computeConfig.nodePools`, the corresponding NodePool Kubernetes resource is deleted from the cluster. Any nodes managed by that NodePool are drained and terminated. When you add a built-in NodePool name back to `computeConfig.nodePools`, the corresponding NodePool resource is recreated on the cluster. This behavior is important when planning capacity changes, because Karpenter discovers NodePool resources through the Kubernetes API and stops scheduling nodes for deleted NodePools.
+====
+
 == Procedure
 
 === Prerequisites
