@@ -5,11 +5,9 @@ include::../attributes.txt[]
 = View aggregated data about cluster resources with the EKS Dashboard
 :info_titleabbrev: Amazon EKS Dashboard
 
-include::cluster-dashboard-orgs.adoc[leveloffset=+1]
+== What is the Amazon EKS Dashboard?
 
 image::images/eks-dashboard.png[screenshot of account level cluster metrics]
-
-== What is the Amazon EKS Dashboard?
 
 The Amazon EKS Dashboard provides consolidated visibility into your Kubernetes clusters across multiple {aws} Regions and {aws} Accounts. With this dashboard, you can:
 
@@ -159,3 +157,6 @@ You can filter the EKS Dashboard by:
 === Dashboard widgets move unexpectedly
 
 * The EKS Dashboard saves the configurable widget view at the {aws} Account level. If you change the widget view, other people using the same {aws} account will see the changes.
+
+include::cluster-dashboard-orgs.adoc[leveloffset=+1]
+

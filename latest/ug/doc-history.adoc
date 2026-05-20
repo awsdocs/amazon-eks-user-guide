@@ -232,7 +232,6 @@ This is a new platform version with security fixes and enhancements. This includ
 link:eks/latest/userguide/pod-multiple-network-interfaces.html[type="documentation"]
 
 Amazon EKS adds multi-homed pods to the VPC CNI. Now you can configure a workload and the VPC CNI assigned IP addresses from every NIC on the EC2 instance to each pod. The application can make concurrent connections to use the bandwidth from each NIC. Every network interface is configured in the same subnet and security groups as the node.
-
 Previously, you needed to use Multus CNI to run multiple other CNIs to create multi-homed pods. Documentation and steps to do this have been moved to link:eks/latest/userguide/pod-multus.html[type="documentation"].
 
 
@@ -424,6 +423,7 @@ link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-upd
 Added permissions to `AmazonEKSServiceRolePolicy` to allow EKS AI/ML customers to add Egress rules to the default EKS Cluster security group.
 
 
+[.update,date="2025-04-08"]
 === Kubernetes version 1.31 is now available for local clusters on {aws} Outposts
 [.update-ulink]
 link:eks/latest/userguide/eks-outposts-platform-versions.html[type="documentation"]
@@ -2244,7 +2244,7 @@ New platform version updating Kubernetes to patch level `1.10.11` to address lin
 [.update,date="2018-11-20"]
 === Added version `1.0.0` support for the ALB ingress controller
 [.update-ulink]
-https://github.com/kubernetes-sigs/aws-alb-ingress-controller
+link:https://github.com/kubernetes-sigs/aws-alb-ingress-controller[Amazon EKS ALB ingress controller GitHub]
 
 The ALB ingress controller releases version `1.0.0` with formal support from {aws}.
 
