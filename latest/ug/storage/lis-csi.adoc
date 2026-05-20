@@ -28,6 +28,7 @@ The Amazon EC2 Instance Store CSI driver will erase all data on ephemeral disks 
 * Support is provided for the latest add-on version and one prior version. Fixes for bugs or vulnerabilities found in the latest version will be backported to the previous release as a new minor version.
 * Instance storage is ephemeral. Data is lost when the node terminates. Implement application-level replication or backups for critical data.
 * Volume expansion is not supported.
+* I/O throttling is enabled by default for all volumes to ensure fair bandwidth sharing across workloads. For more information, see <<lis-csi-throttling>>.
 
 [#lis-csi-prereqs]
 == Prerequisites
@@ -52,3 +53,89 @@ To install the driver, add the Amazon EC2 Instance Store CSI driver add-on to yo
 == Deploying a sample application
 
 After installing the driver, you can deploy sample applications to verify that instance store volumes work correctly with your cluster. You can deploy a variety of sample apps and modify them as needed.
+
+[#lis-csi-throttling]
+== I/O throttling
+
+The Amazon EC2 Instance Store CSI driver includes built-in I/O throttling to ensure fair bandwidth sharing across workloads on the same NVMe controller. Throttling is enabled by default for all volumes, preventing any single workload from consuming disproportionate I/O bandwidth at the expense of other workloads on the same node.
+
+[#lis-csi-throttling-config]
+=== Configuring throttling
+
+You can configure throttling at two levels:
+
+* *StorageClass parameter* – Set the `throttling` parameter to `"true"` (default) or `"false"` in your StorageClass definition.
+* *PVC annotation* – Set the `lis.csi.aws.com/throttling` annotation to `"true"` or `"false"` on individual PersistentVolumeClaims. This overrides the StorageClass setting when present.
+
+The following table shows how the StorageClass parameter and PVC annotation interact:
+
+[cols="1,1,1", options="header"]
+|===
+|PVC Annotation
+|StorageClass Parameter
+|Result
+
+|Not set
+|Not set
+|Throttling enabled (default)
+
+|Not set
+|`"false"`
+|Throttling disabled
+
+|`"false"`
+|`"true"` or not set
+|Throttling disabled
+
+|`"true"`
+|`"false"`
+|Throttling enabled
+|===
+
+[#lis-csi-throttling-unthrottled-sc]
+=== Creating an unthrottled StorageClass
+
+To disable throttling for all volumes in a StorageClass:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ec2-instance-store-unthrottled
+provisioner: lis.csi.aws.com
+parameters:
+  throttling: "false"
+volumeBindingMode: WaitForFirstConsumer
+----
+
+[#lis-csi-throttling-disable-pvc]
+=== Disabling throttling for a single PVC
+
+To disable throttling on an individual PVC while using a throttled StorageClass:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: high-perf-pvc
+  annotations:
+    lis.csi.aws.com/throttling: "false"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ec2-instance-store-sc
+  resources:
+    requests:
+      storage: 100Gi
+----
+
+[#lis-csi-throttling-considerations]
+=== Throttling considerations
+
+* Throttling is enabled by default to provide predictable performance for all workloads sharing an NVMe controller.
+* Disabling throttling on a volume allows it to consume more I/O bandwidth, which may impact the performance of other throttled volumes on the same controller.
+* Consider isolating unthrottled workloads on dedicated nodes.
+* For RAID-0 volumes that span multiple controllers, throttling is applied to all member partitions.
+* Throttle state persists across node reboots.
