@@ -108,6 +108,16 @@ a|
 - Configure kernel lockdown security mode
 |<<auto-advanced-security>>
 
+a|
+*Cost control*
+
+- Understand how consolidation, bin-packing, and right-sizing reduce compute costs
+- Identify configurations that block consolidation (`do-not-disrupt`, restrictive PDBs)
+- Set NodePool `limits` as a cost ceiling
+- Restrict instance families and sizes to control all-in cost
+- Apply recommended patterns for bursty CI/CD workloads
+|<<auto-cost-control>>
+
 |===
 
 
@@ -149,3 +159,5 @@ include::auto-odcr.adoc[leveloffset=+1]
 include::auto-local-zone.adoc[leveloffset=+1]
 
 include::auto-advanced-security.adoc[leveloffset=+1]
+
+include::auto-cost-control.adoc[leveloffset=+1]

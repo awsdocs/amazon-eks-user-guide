@@ -1,0 +1,229 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-cost-control]
+= Control costs in EKS Auto Mode
+:info_titleabbrev: Control costs
+
+[abstract]
+--
+Understand how EKS Auto Mode manages costs and how to configure your cluster for cost efficiency.
+--
+
+EKS Auto Mode continuously optimizes your cluster's compute costs through consolidation, bin-packing, and right-sizing. However, certain workload configurations can unintentionally prevent these optimizations. This topic explains how cost optimization works, what can block it, and how to configure your cluster to maintain cost efficiency.
+
+== How EKS Auto Mode optimizes cost
+
+EKS Auto Mode reduces compute costs through the following mechanisms:
+
+* *Bin-packing* — When scheduling pods onto nodes, EKS Auto Mode selects instance types that closely match the aggregate resource requests, minimizing unused capacity.
+* *Consolidation* — EKS Auto Mode periodically evaluates running nodes and replaces or removes them when workloads can run on fewer or less expensive instances.
+* *Right-sizing* — As workloads scale down, EKS Auto Mode consolidates pods onto smaller nodes and terminates underutilized instances.
+
+These optimizations run continuously without manual intervention. However, certain pod annotations and NodePool configurations can prevent consolidation from taking effect.
+
+== What blocks consolidation
+
+Consolidation is blocked when EKS Auto Mode determines that disrupting a node would violate a workload's availability requirements. The following configurations prevent consolidation:
+
+=== The `do-not-disrupt` annotation
+
+The `karpenter.sh/do-not-disrupt` annotation instructs EKS Auto Mode to preserve a node as long as the annotated pod is running on it. This prevents the node from being consolidated, replaced, or terminated — even if the node is underutilized.
+
+[source,yaml]
+----
+metadata:
+  annotations:
+    karpenter.sh/do-not-disrupt: "true"
+----
+
+[IMPORTANT]
+====
+*Cost implication*: When a pod carries the `do-not-disrupt` annotation, the node it runs on is exempt from consolidation. This means:
+
+* The node continues to run at its current instance size regardless of actual utilization.
+* vCPU and memory usage on that node can remain elevated even as the workload's demand decreases.
+* If multiple pods across many nodes carry this annotation, cluster-wide consolidation is significantly reduced, leading to sustained higher costs.
+
+The `do-not-disrupt` annotation is an availability mechanism. It does not account for cost. Use it only for workloads where mid-execution disruption causes data loss or significant rework — for example, long-running batch jobs or stateful processes without checkpointing.
+====
+
+*Alternatives to consider*:
+
+* *Pod Disruption Budgets (PDBs)* — Use PDBs to control the rate of disruption rather than blocking it entirely. PDBs allow consolidation to proceed while ensuring a minimum number of replicas remain available.
+* *Shorter-lived workloads* — For CI/CD runners and build agents, allow disruption and rely on your CI system's built-in retry logic rather than using `do-not-disrupt`.
+* *Time-limited annotations* — Apply `do-not-disrupt` only for the duration of a critical operation, then remove it programmatically when the operation completes.
+
+=== Pod Disruption Budgets (PDBs)
+
+PDBs that set `maxUnavailable: 0` or `minAvailable` equal to the current replica count effectively block all consolidation for the affected pods. Review your PDBs to ensure they permit at least one pod to be disrupted at a time.
+
+== Use NodePool limits as a cost ceiling
+
+NodePool `limits` set a hard ceiling on the total compute resources that a NodePool can provision. When the limit is reached, EKS Auto Mode stops launching new nodes for that NodePool, even if pods are pending.
+
+Use `limits` as a cost guardrail — particularly for NodePools that serve non-production, test, or bursty workloads where unbounded scaling is not appropriate.
+
+[source,yaml]
+----
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: ci-runners
+spec:
+  template:
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: default
+      requirements:
+        - key: "eks.amazonaws.com/instance-category"
+          operator: In
+          values: ["c", "m"]
+  limits:
+    cpu: "500"
+    memory: 1000Gi
+----
+
+In this example, the `ci-runners` NodePool cannot exceed 500 vCPUs or 1000 GiB of memory in total across all nodes it provisions. Pods that exceed this limit remain in `Pending` state until capacity is freed.
+
+[TIP]
+====
+Set `limits` based on your expected maximum burst size plus a buffer for node replacement. Review your NodePool utilization regularly and adjust limits as workload patterns change.
+====
+
+== Exclude instance families for cost control
+
+By default, EKS Auto Mode selects from a broad range of instance types to maximize scheduling flexibility. For workloads that do not require specialized hardware, restrict the instance families to prevent expensive instance types from being launched.
+
+=== Exclude accelerated instances
+
+If your workloads do not request GPU or accelerator resources, exclude accelerated instance families from your NodePool. This prevents scenarios where accelerated instances are selected during capacity constraints.
+
+[source,yaml]
+----
+spec:
+  template:
+    spec:
+      requirements:
+        - key: "eks.amazonaws.com/instance-category"
+          operator: In
+          values: ["c", "m", "r"]
+----
+
+By specifying only compute-optimized, general-purpose, and memory-optimized categories, you exclude accelerated (P, G, Inf, Trn) and other specialized instance families from selection.
+
+=== How instance selection interacts with capacity constraints
+
+EKS Auto Mode deprioritizes accelerated and exotic instance types during normal instance selection. However, when sustained launch failures occur — for example, when EC2 service quotas are temporarily exhausted for all preferred instance types — EKS Auto Mode will launch from any remaining available instance type to prioritize workload availability.
+
+To prevent this fallback behavior, explicitly constrain your NodePool requirements to only the instance categories your workload needs. When preferred types are unavailable and no other types are permitted by your NodePool configuration, pods remain in `Pending` state rather than being scheduled onto expensive instances.
+
+== Management fee considerations
+
+EKS Auto Mode charges a management fee per vCPU-hour for managed instances. This fee is in addition to the underlying EC2 instance cost. When EKS Auto Mode selects instance types, it optimizes for EC2 price — the management fee is not currently factored into instance selection decisions.
+
+This means that for workloads using Spot instances, EKS Auto Mode might select large instance types where deep Spot discounts make the EC2 price attractive, but the management fee on the larger instance can offset those savings.
+
+To manage your all-in cost:
+
+* *Constrain instance sizes* — Use the `eks.amazonaws.com/instance-cpu` label to limit maximum instance sizes in your NodePool requirements:
++
+[source,yaml]
+----
+requirements:
+  - key: "eks.amazonaws.com/instance-cpu"
+    operator: In
+    values: ["4", "8", "16", "32"]
+----
+
+* *Review your largest instances* — Identify nodes with the highest vCPU counts in your cluster and evaluate whether the workloads on those nodes could be distributed across smaller instances.
+* *Factor the fee into capacity planning* — When comparing EKS Auto Mode costs against self-managed alternatives, include the management fee in your per-node cost calculations.
+
+For current management fee pricing, see link:eks/latest/pricing/[Amazon EKS pricing,type="documentation"].
+
+== Recommended patterns for bursty workloads
+
+CI/CD pipelines, batch jobs, and ephemeral runners create burst-and-idle patterns that require specific configuration to maintain cost efficiency.
+
+=== Recommended safe defaults for CI/CD workloads
+
+[%header,cols="2,3"]
+|===
+|Configuration |Recommendation
+
+|`do-not-disrupt`
+|Do not use for CI/CD runners. Rely on your CI system's retry and queue mechanisms instead.
+
+|NodePool `limits`
+|Set a CPU/memory ceiling based on your maximum expected concurrency plus 20% buffer for node replacement overlap.
+
+|Instance categories
+|Restrict to `c` and `m` families. Exclude accelerated, burstable (`t`), and high-memory instance types.
+
+|Instance sizes
+|Limit to 4–32 vCPUs to prevent a single large node from accumulating cost during idle periods.
+
+|Consolidation timing
+|Use the default `consolidateAfter` setting. Avoid setting long delays that keep burst capacity online after runners complete.
+
+|Capacity type
+|Use Spot instances for fault-tolerant runners. Combine with On-Demand for build agents that hold state during execution.
+|===
+
+=== Example: CI runner NodePool
+
+[source,yaml]
+----
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: ci-runners
+spec:
+  template:
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: default
+      requirements:
+        - key: "eks.amazonaws.com/instance-category"
+          operator: In
+          values: ["c", "m"]
+        - key: "eks.amazonaws.com/instance-cpu"
+          operator: In
+          values: ["4", "8", "16", "32"]
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values: ["spot", "on-demand"]
+  limits:
+    cpu: "500"
+    memory: 1000Gi
+  disruption:
+    consolidationPolicy: WhenEmptyOrUnderutilized
+    consolidateAfter: 30s
+----
+
+This configuration:
+
+* Restricts to cost-effective instance families
+* Caps total NodePool capacity at 500 vCPUs
+* Allows aggressive consolidation (30 seconds after pods are removed)
+* Permits both Spot and On-Demand capacity
+
+== Node lifecycle and cost
+
+EKS Auto Mode enforces a maximum node lifetime of 21 days. When a node reaches its expiry, EKS Auto Mode replaces it with a new node. During replacement:
+
+* A new node is launched before the old node is terminated.
+* For a brief period, both the old and replacement nodes are running simultaneously, resulting in temporarily doubled capacity for affected workloads.
+* Disruption budgets control the pace of replacement — restrictive budgets extend the overlap period.
+
+For clusters with large or many nodes, this overlap can create periodic cost increases. To minimize the impact:
+
+* *Reduce maximum node lifetime* — Setting a shorter expiry (for example, 7 days) creates more frequent but smaller replacement events, spreading the cost more evenly.
+* *Review disruption budgets* — Ensure your disruption budgets permit timely replacement. Budgets that are too restrictive extend the period during which both old and new nodes are running.
+* *Right-size instances* — Smaller instances reduce the absolute cost of the overlap period.
+
+For more information about node lifecycle, see <<automode-learn-instances>>.
