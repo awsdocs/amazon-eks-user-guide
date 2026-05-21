@@ -63,7 +63,7 @@ The following functionality works for both Managed instances and Standard EC2 in
 
 [NOTE]
 ====
-Beginning April 22, 2026, new Amazon EC2 managed instances and associated resources, e.g. EC2 launch templates, EBS volumes, network interfaces (ENIs), created by {am} are hidden from EC2 console views and `describe` API list operations by default. Managed resources that already existed in your account before that date remain visible. You can change this behavior using managed resource visibility settings. For more information, see <<_managed_resource_visibility>>.
+Beginning April 22, 2026, new Amazon EC2 managed instances and associated resources (for example, EC2 launch templates, EBS volumes, and network interfaces (ENIs)) created by {am} are hidden from EC2 console views and `describe` API list operations by default. Managed resources that already existed in your account before that date remain visible. You can change this behavior using managed resource visibility settings.
 ====
 
 Amazon EC2 provides managed resource visibility settings that control whether managed resources appear in your EC2 console views and API list operations such as `DescribeInstances`.
