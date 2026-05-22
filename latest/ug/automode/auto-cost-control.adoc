@@ -120,34 +120,29 @@ EKS Auto Mode deprioritizes accelerated and exotic instance types during normal 
 
 To prevent this fallback behavior, explicitly constrain your NodePool requirements to only the instance categories your workload needs. When preferred types are unavailable and no other types are permitted by your NodePool configuration, pods remain in `Pending` state rather than being scheduled onto expensive instances.
 
-== Management fee considerations
+=== Constrain instance sizes
 
-EKS Auto Mode charges a management fee per vCPU-hour for managed instances. This fee is in addition to the underlying EC2 instance cost. When EKS Auto Mode selects instance types, it optimizes for EC2 price — the management fee is not currently factored into instance selection decisions.
+In addition to restricting instance families, you can limit the maximum instance size within your NodePool. Constraining instance sizes limits the cost exposure from any single node that cannot be consolidated — for example, a node blocked by a `do-not-disrupt` annotation.
 
-This means that for workloads using Spot instances, EKS Auto Mode might select large instance types where deep Spot discounts make the EC2 price attractive, but the management fee on the larger instance can offset those savings.
+Use the `eks.amazonaws.com/instance-cpu` label to limit maximum instance sizes in your NodePool requirements:
 
-To manage your all-in cost:
-
-* *Constrain instance sizes* — Use the `eks.amazonaws.com/instance-cpu` label to limit maximum instance sizes in your NodePool requirements:
-+
 [source,yaml]
 ----
 requirements:
   - key: "eks.amazonaws.com/instance-cpu"
-    operator: In
-    values: ["4", "8", "16", "32"]
+    operator: Lte
+    values: ["32"]
 ----
 
-* *Review your largest instances* — Identify nodes with the highest vCPU counts in your cluster and evaluate whether the workloads on those nodes could be distributed across smaller instances.
-* *Factor the fee into capacity planning* — When comparing EKS Auto Mode costs against self-managed alternatives, include the management fee in your per-node cost calculations.
+This configuration prevents EKS Auto Mode from launching instances larger than 32 vCPUs in this NodePool.
 
-For current management fee pricing, see link:eks/latest/pricing/[Amazon EKS pricing,type="documentation"].
+To identify optimization opportunities in an existing cluster, review your largest running instances. If large nodes are consistently blocked from consolidation, the per-node cost of that idle capacity is proportionally higher.
 
 == Recommended patterns for bursty workloads
 
 CI/CD pipelines, batch jobs, and ephemeral runners create burst-and-idle patterns that require specific configuration to maintain cost efficiency.
 
-=== Recommended safe defaults for CI/CD workloads
+=== Recommended defaults for bursty workloads
 
 [%header,cols="2,3"]
 |===
@@ -157,13 +152,13 @@ CI/CD pipelines, batch jobs, and ephemeral runners create burst-and-idle pattern
 |Do not use for CI/CD runners. Rely on your CI system's retry and queue mechanisms instead.
 
 |NodePool `limits`
-|Set a CPU/memory ceiling based on your maximum expected concurrency plus 20% buffer for node replacement overlap.
+|Set a CPU/memory ceiling based on your maximum expected concurrency plus buffer for node replacement overlap.
 
 |Instance categories
-|Restrict to `c` and `m` families. Exclude accelerated, burstable (`t`), and high-memory instance types.
+|Restrict to `c` and `m` families. Exclude accelerated instance families (P, G, Inf, Trn) for non-GPU workloads.
 
 |Instance sizes
-|Limit to 4–32 vCPUs to prevent a single large node from accumulating cost during idle periods.
+|Consider constraining to moderate sizes (for example, 4–32 vCPUs) to limit cost exposure from any single node that gets blocked from consolidation.
 
 |Consolidation timing
 |Use the default `consolidateAfter` setting. Avoid setting long delays that keep burst capacity online after runners complete.
@@ -192,8 +187,8 @@ spec:
           operator: In
           values: ["c", "m"]
         - key: "eks.amazonaws.com/instance-cpu"
-          operator: In
-          values: ["4", "8", "16", "32"]
+          operator: Lte
+          values: ["32"]
         - key: "karpenter.sh/capacity-type"
           operator: In
           values: ["spot", "on-demand"]
@@ -214,16 +209,16 @@ This configuration:
 
 == Node lifecycle and cost
 
-EKS Auto Mode enforces a maximum node lifetime of 21 days. When a node reaches its expiry, EKS Auto Mode replaces it with a new node. During replacement:
+EKS Auto Mode replaces nodes through graceful disruption when they drift from their desired specification, e.g. the release of a new Auto Mode AMI, or when the node's lifetime approaches expiry. During graceful replacement:
 
-* A new node is launched before the old node is terminated.
-* For a brief period, both the old and replacement nodes are running simultaneously, resulting in temporarily doubled capacity for affected workloads.
-* Disruption budgets control the pace of replacement — restrictive budgets extend the overlap period.
+* A new replacement node is launched and becomes ready.
+* Pods are drained from the old node, respecting Pod Disruption Budgets.
+* For a brief period, both the old and replacement nodes are running simultaneously.
 
 For clusters with large or many nodes, this overlap can create periodic cost increases. To minimize the impact:
 
-* *Reduce maximum node lifetime* — Setting a shorter expiry (for example, 7 days) creates more frequent but smaller replacement events, spreading the cost more evenly.
-* *Review disruption budgets* — Ensure your disruption budgets permit timely replacement. Budgets that are too restrictive extend the period during which both old and new nodes are running.
-* *Right-size instances* — Smaller instances reduce the absolute cost of the overlap period.
+* *Review disruption budgets* — Ensure your disruption budgets permit timely draining. Restrictive budgets extend the overlap period during which both old and new nodes are running.
+* *Right-size instances* — Smaller instances reduce the absolute cost of the overlap window.
+* *Reduce maximum node lifetime* — Shorter expiry values (for example, 7 days) create more frequent but smaller replacement events, spreading the cost more evenly over time rather than concentrating it.
 
 For more information about node lifecycle, see <<automode-learn-instances>>.
