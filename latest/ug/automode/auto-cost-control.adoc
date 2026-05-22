@@ -2,15 +2,15 @@ include::../attributes.txt[]
 
 [.topic]
 [#auto-cost-control]
-= Control costs in EKS Auto Mode
-:info_titleabbrev: Control costs
+= Cost optimization in EKS Auto Mode
+:info_titleabbrev: Cost optimization
 
 [abstract]
 --
-Understand how EKS Auto Mode manages costs and how to configure your cluster for cost efficiency.
+Learn how EKS Auto Mode optimizes compute costs through consolidation, bin-packing, and right-sizing. This topic explains what can block cost optimization and how to configure your cluster to maintain cost efficiency.
 --
 
-EKS Auto Mode continuously optimizes your cluster's compute costs through consolidation, bin-packing, and right-sizing. However, certain workload configurations can unintentionally prevent these optimizations. This topic explains how cost optimization works, what can block it, and how to configure your cluster to maintain cost efficiency.
+EKS Auto Mode continuously optimizes your cluster's compute costs through consolidation, bin-packing, and right-sizing. However, certain workload configurations can prevent these optimizations. This topic explains how cost optimization works, what can block it, and how to configure your cluster to maintain cost efficiency.
 
 == How EKS Auto Mode optimizes cost
 
@@ -28,7 +28,7 @@ Consolidation is blocked when EKS Auto Mode determines that disrupting a node wo
 
 === The `do-not-disrupt` annotation
 
-The `karpenter.sh/do-not-disrupt` annotation instructs EKS Auto Mode to preserve a node as long as the annotated pod is running on it. This prevents the node from being consolidated, replaced, or terminated — even if the node is underutilized.
+The `karpenter.sh/do-not-disrupt` annotation instructs EKS Auto Mode to preserve a node as long as the annotated pod is running on it. This prevents the node from being consolidated, replaced, or terminated, even if the node is underutilized.
 
 [source,yaml]
 ----
@@ -60,9 +60,9 @@ PDBs that set `maxUnavailable: 0` or `minAvailable` equal to the current replica
 
 == Use NodePool limits as a cost ceiling
 
-NodePool `limits` set a hard ceiling on the total compute resources that a NodePool can provision. When the limit is reached, EKS Auto Mode stops launching new nodes for that NodePool, even if pods are pending.
+NodePool `limits` set a hard ceiling on the total compute resources that a NodePool can provision. When the limit is reached, EKS Auto Mode stops launching new nodes for that NodePool. This happens even if pods are pending.
 
-Use `limits` as a cost guardrail — particularly for NodePools that serve non-production, test, or bursty workloads where unbounded scaling is not appropriate.
+Use `limits` as a cost guardrail, particularly for NodePools that serve non-production, test, or bursty workloads where unbounded scaling is not appropriate.
 
 [source,yaml]
 ----
@@ -116,13 +116,13 @@ By specifying only compute-optimized, general-purpose, and memory-optimized cate
 
 === How instance selection interacts with capacity constraints
 
-EKS Auto Mode deprioritizes accelerated and exotic instance types during normal instance selection. However, when sustained launch failures occur — for example, when EC2 service quotas are temporarily exhausted for all preferred instance types — EKS Auto Mode will launch from any remaining available instance type to prioritize workload availability.
+EKS Auto Mode deprioritizes accelerated and exotic instance types during normal instance selection. However, when sustained launch failures occur, EKS Auto Mode will launch from any remaining available instance type to prioritize workload availability. For example, this happens when EC2 service quotas are temporarily exhausted for all preferred instance types.
 
 To prevent this fallback behavior, explicitly constrain your NodePool requirements to only the instance categories your workload needs. When preferred types are unavailable and no other types are permitted by your NodePool configuration, pods remain in `Pending` state rather than being scheduled onto expensive instances.
 
 === Constrain instance sizes
 
-In addition to restricting instance families, you can limit the maximum instance size within your NodePool. Constraining instance sizes limits the cost exposure from any single node that cannot be consolidated — for example, a node blocked by a `do-not-disrupt` annotation.
+In addition to restricting instance families, you can limit the maximum instance size within your NodePool. Constraining instance sizes limits the cost exposure from any single node that cannot be consolidated. For example, a node blocked by a `do-not-disrupt` annotation cannot shrink even if its workload is small.
 
 Use the `eks.amazonaws.com/instance-cpu` label to limit maximum instance sizes in your NodePool requirements:
 
@@ -209,7 +209,7 @@ This configuration:
 
 == Node lifecycle and cost
 
-EKS Auto Mode replaces nodes through graceful disruption when they drift from their desired specification, e.g. the release of a new Auto Mode AMI, or when the node's lifetime approaches expiry. During graceful replacement:
+EKS Auto Mode replaces nodes through graceful disruption when they drift from their desired specification (for example, after the release of a new Auto Mode AMI) or when the node's lifetime approaches expiry. During graceful replacement:
 
 * A new replacement node is launched and becomes ready.
 * Pods are drained from the old node, respecting Pod Disruption Budgets.
@@ -219,6 +219,6 @@ For clusters with large or many nodes, this overlap can create periodic cost inc
 
 * *Review disruption budgets* — Ensure your disruption budgets permit timely draining. Restrictive budgets extend the overlap period during which both old and new nodes are running.
 * *Right-size instances* — Smaller instances reduce the absolute cost of the overlap window.
-* *Reduce maximum node lifetime* — Shorter expiry values (for example, 7 days) create more frequent but smaller replacement events, spreading the cost more evenly over time rather than concentrating it.
+* *Reduce maximum node lifetime* — Shorter expiry values (for example, 7 days) create more frequent but smaller replacement events. This spreads the cost more evenly over time rather than concentrating it.
 
-For more information about node lifecycle, see <<automode-learn-instances>>.
+For more information about node lifecycle, see <<automode-learn-instances,Learn about Amazon EKS Auto Mode Managed instances>>.

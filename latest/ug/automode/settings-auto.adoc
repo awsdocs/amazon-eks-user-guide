@@ -109,14 +109,14 @@ a|
 |<<auto-advanced-security>>
 
 a|
-*Cost control*
+*Cost optimization*
 
 - Understand how consolidation, bin-packing, and right-sizing reduce compute costs
 - Identify configurations that block consolidation (`do-not-disrupt`, restrictive PDBs)
 - Set NodePool `limits` as a cost ceiling
 - Restrict instance families and sizes to control all-in cost
 - Apply recommended patterns for bursty CI/CD workloads
-|<<auto-cost-control>>
+|<<auto-cost-control,Cost optimization in EKS Auto Mode>>
 
 |===
 
