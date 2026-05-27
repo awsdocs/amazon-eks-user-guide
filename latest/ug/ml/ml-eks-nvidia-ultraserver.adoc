@@ -355,7 +355,7 @@ kubectl create -f https://github.com/kubeflow/mpi-operator/releases/download/v0.
 As of NVIDIA DRA Driver version `v25.8.0` ComputeDomains are elastic and `.spec.numNodes` can be set to `0` in the ComputeDomain definition. Review the latest https://github.com/kubernetes-sigs/nvidia-dra-driver-gpu/releases[NVIDIA DRA Driver release notes] for updates.
 +
 There can be only one ComputeDomain (IMEX channel) per node. Do not change the `allocationMode` to `All` for the ComputeDomain resource, as it can prevent the ComputeDomain and Pods accessing that ComputeDomain from being allocated and scheduled correctly. For more information, see link:https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/issues/353[NVIDIA DRA driver issue #353].
-
++
 [source,yaml,subs="verbatim,attributes"]
 ----
 ---
