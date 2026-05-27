@@ -155,4 +155,10 @@
     <redirect from="^/eks/latest/userguide/dl1\.html" to="/eks/latest/userguide/eks-ami-build-scripts.html" flags="[L,R]" />
 
     <redirect from="^/eks/latest/userguide/kubernetes-encryption\.html" to="/eks/latest/userguide/envelope-encryption.html" flags="[L,R]" />
+
+    <!-- AI/ML on EKS page renames -->
+    <redirect from="^/eks/latest/userguide/machine-learning-on-eks\.html" to="/eks/latest/userguide/ml-on-eks.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/ml-realtime-inference\.html" to="/eks/latest/userguide/ml-inference.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/ml-realtime-inference-cluster\.html" to="/eks/latest/userguide/ml-cluster-setup.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/ml-realtime-inference-llm-inference-vllm\.html" to="/eks/latest/userguide/ml-inference-load-serve-model.html" flags="[L,R]" />
 </redirects>

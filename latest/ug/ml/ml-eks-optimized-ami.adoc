@@ -39,7 +39,7 @@ By using the EKS-optimized NVIDIA AMIs, you agree to https://s3.amazonaws.com/EU
 
 To find the latest EKS-optimized NVIDIA AMIs, see <<retrieve-ami-id>> and <<retrieve-ami-id-bottlerocket>>.
 
-When using Amazon Elastic Fabric Adaptor (EFA) with the EKS-optimized AL2023 or Bottlerocket NVIDIA AMIs, you must install the EFA device plugin separately. For more information, see <<node-efa>>.
+When using Amazon Elastic Fabric Adapter (EFA) with the EKS-optimized AL2023 or Bottlerocket NVIDIA AMIs, you must install the EFA device plugin separately. For more information, see <<node-efa>>.
 
 [#eks-amis-nvidia-al2023]
 == EKS AL2023 NVIDIA AMIs
@@ -99,7 +99,7 @@ For details on how to run training and inference workloads using Neuron with Ama
 
 To find the latest EKS-optimized Neuron AMIs, see <<retrieve-ami-id>> and <<retrieve-ami-id-bottlerocket>>.
 
-When using Amazon Elastic Fabric Adaptor (EFA) with the EKS-optimized AL2023 or Bottlerocket Neuron AMIs, you must install the EFA device plugin separately. For more information, see <<node-efa>>.
+When using Amazon Elastic Fabric Adapter (EFA) with the EKS-optimized AL2023 or Bottlerocket Neuron AMIs, you must install the EFA device plugin separately. For more information, see <<node-efa>>.
 
 [#eks-amis-neuron-al2023]
 == EKS AL2023 Neuron AMIs
