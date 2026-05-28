@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#ml-inference-load-serve-model]
-= Load & Serve Model
+= Load & Serve Models on Amazon EKS
 :info_titleabbrev: Load & Serve Model
 
 [abstract]
@@ -15,7 +15,7 @@ Deploy an AI model on Amazon EKS using vLLM, Run:ai Model Streamer, and NVIDIA G
 https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el&tag=generative%20ai[Register] for upcoming Amazon EKS AI/ML workshops.
 ====
 
-In this section, you deploy a large language model (LLM) to Amazon EKS, serve it, and interact with the inference endpoint. You use the cluster you created in the <<ml-cluster-setup,Cluster setup>> section. The instructions in this section work for both EKS Auto Mode and self-managed Karpenter.
+The steps in this section deploy a large language model (LLM) on Amazon EKS, serve it with vLLM, and interact with the inference endpoint. 
 
 The walkthrough uses the following tools:
 
@@ -24,6 +24,8 @@ The walkthrough uses the following tools:
 * https://openwebui.com/[Open WebUI] — A self-hosted chat frontend that connects to vLLM's OpenAI-compatible API.
 
 This section uses the https://huggingface.co/mistralai/Ministral-3-8B-Instruct-2512[Ministral-3-8B-Instruct-2512 model], but you can deploy any AI model that vLLM supports. For a list of supported models, see https://docs.vllm.ai/en/latest/models/supported_models/#text-generation[Supported models] in the vLLM documentation.
+
+IMPORTANT: Use the cluster you created in the <<ml-cluster-setup>> section. The instructions in this walkthrough work for both EKS Auto Mode and self-managed Karpenter.
 
 image::images/ml-inference-load-serve-model-arch.png["Architecture diagram showing LLM inference workflow with vLLM on Amazon EKS",width=75%]
 

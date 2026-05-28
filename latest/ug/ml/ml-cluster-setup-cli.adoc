@@ -2,12 +2,12 @@ include::../attributes.txt[]
 
 [.topic]
 [#ml-cluster-setup-cli]
-= Cluster Setup via CLI
-:info_titleabbrev: CLI
+= Set up Amazon EKS cluster for AI/ML workloads using CLIs
+:info_titleabbrev: Command-line interface (CLI)
 
 [abstract]
 --
-Create an Amazon EKS cluster with GPU-enabled nodes, set up monitoring, and create an Amazon S3 bucket for model storage.
+Use command-line interfaces (CLIs) to set up an Amazon EKS cluster for AI/ML workloads with GPU compute, monitoring, and an Amazon S3 bucket for model storage.
 --
 
 [TIP]

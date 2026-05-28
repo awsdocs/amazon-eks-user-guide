@@ -2,12 +2,12 @@ include::../attributes.txt[]
 
 [.topic]
 [#ml-cluster-setup]
-= Cluster setup
-:info_titleabbrev: Cluster setup
+= Set up Amazon EKS cluster for AI/ML workloads
+:info_titleabbrev: Set up cluster
 
 [abstract]
 --
-Set up an Amazon EKS cluster with GPU compute, monitoring, and an Amazon S3 bucket for model storage.
+Set up an Amazon EKS cluster for AI/ML workloads with GPU compute, monitoring, and an Amazon S3 bucket for model storage.
 --
 
 [TIP]
@@ -15,7 +15,7 @@ Set up an Amazon EKS cluster with GPU compute, monitoring, and an Amazon S3 buck
 https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el&tag=generative%20ai[Register] for upcoming Amazon EKS AI/ML workshops.
 ====
 
-This section guides you through creating an Amazon EKS cluster ready to run inference workloads, including the compute with GPUs, monitoring stack, and Amazon S3 storage for model weights, along with the necessary permissions.
+This section guides you through creating an Amazon EKS cluster ready to run inference workloads, including the compute with GPUs, monitoring stack, and Amazon S3 storage for model weights, along with the necessary {AWS} IAM permissions.
 
 == Architecture overview
 
@@ -59,9 +59,6 @@ The guide provides two paths for setting up your cluster. Choose one and follow 
 
 == Get started
 
-For step-by-step instructions using the {aws} CLI, see <<ml-cluster-setup-cli,Cluster Setup via CLI>>.
-
-[.topiclist]
-[[Topic List]]
+For step-by-step instructions using the {aws} CLI, see <<ml-cluster-setup-cli>>.
 
 include::ml-cluster-setup-cli.adoc[leveloffset=+1]

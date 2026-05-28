@@ -2,12 +2,12 @@ include::../attributes.txt[]
 
 [.topic]
 [#ml-on-eks]
-= Overview of Artificial Intelligence (AI) and Machine Learning (ML) on Amazon EKS
+= Overview of Artificial Intelligence and Machine Learning on Amazon EKS
 :info_titleabbrev: AI/ML on EKS
 
 [abstract]
 --
-Complete guide for running Machine Learning applications on Amazon EKS. This includes everything from provisioning infrastructure to choosing and deploying Machine Learning workloads on Amazon EKS.
+Learn how to run Artificial Intelligence (AI) and Machine Learning (ML) workloads on Amazon EKS. This guide shows how to set up an Amazon EKS cluster for training and inference, and how to run Kubernetes workloads with NVIDIA GPUs and {AWS} Trainium accelerators.
 --
 
 [TIP]
@@ -15,20 +15,20 @@ Complete guide for running Machine Learning applications on Amazon EKS. This inc
 https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el&tag=generative%20ai[Register] for upcoming Amazon EKS AI/ML workshops.
 ====
 
-Amazon Elastic Kubernetes Service (Amazon EKS) is a managed Kubernetes service that empowers organizations to deploy, manage, and scale artificial intelligence (AI) and machine learning (ML) workloads with unparalleled flexibility and control. Because Amazon EKS is built on the open source Kubernetes ecosystem, you can apply your existing Kubernetes expertise while integrating seamlessly with open source tools and {aws} services.
+Amazon Elastic Kubernetes Service (Amazon EKS) is a managed Kubernetes service that empowers organizations to deploy, manage, and scale artificial intelligence (AI) and machine learning (ML) workloads with unparalleled flexibility and control. Because Amazon EKS is built on upstream Kubernetes, you can apply your existing Kubernetes expertise while integrating seamlessly with open source tools and {aws} services.
 
 Whether you're training large-scale models, running real-time online inference, or deploying generative AI applications, Amazon EKS delivers the performance, scalability, and cost efficiency your AI/ML projects demand.
 
 == Why use Amazon EKS for AI/ML
 
-Amazon EKS provides the control, integrations, performance, and scalability needed for AI/ML projects. Built on the open source Kubernetes ecosystem and integrated with {aws} services, Amazon EKS helps you use existing Kubernetes expertise while orchestrating complex workloads. For teams new to AI/ML deployments, existing Kubernetes skills transfer without steep learning curves.
+Amazon EKS provides the control, integrations, performance, and scalability needed for AI/ML projects. Built on upstream Kubernetes and integrated with {aws} services, Amazon EKS helps you use existing Kubernetes expertise while orchestrating complex workloads. For teams new to AI/ML deployments, existing Kubernetes skills transfer without steep learning curves.
 
 Amazon EKS supports everything from operating system customizations to compute scaling, and promotes technological flexibility that preserves choice for future infrastructure decisions. The platform provides the performance and tuning options that AI/ML workloads require, including the following features:
 
 * *Full cluster control*: Fine-tune costs and configurations without hidden abstractions.
 * *Sub-second latency*: Run real-time inference workloads in production.
 * *Advanced customizations*: Configure multi-instance GPUs, network tuning, and operating system-level tuning.
-* *Unified orchestration*: Orchestrate across AI/ML pipelines and on-premise, edge, and cloud environments.
+* *Unified orchestration*: Orchestrate across AI/ML pipelines and on-premises, edge, and cloud environments.
 * *Cost optimization*: Use auto scaling, native GPU scheduling, and diverse GPU and accelerator instance types.
 
 == Key use cases
@@ -63,13 +63,13 @@ Alongside the instructions, the guide provides the necessary background and foun
 
 == Start using AI/ML on Amazon EKS
 
-To begin planning for and using AI/ML platforms and workloads on Amazon EKS, follow the <<ml-cluster-setup,Cluster setup>> section to create an Amazon EKS cluster, including the required Kubernetes components, in your {aws} account. Once your environment is up and running, you can continue to the next steps:
+To begin planning for and using AI/ML platforms and workloads on Amazon EKS, follow the <<ml-cluster-setup>> section to create an Amazon EKS cluster, including the required Kubernetes components, in your {aws} account. Once your environment is up and running, you can continue to the next steps:
 
-* <<ml-cluster-setup,Cluster setup>>: Create the Amazon EKS cluster, monitoring, and Amazon S3 bucket infrastructure to use throughout this section.
-* <<ml-inference,Inference>>: Use Amazon EKS to deploy, configure, and start using an inference application with a large language model (LLM).
-* <<ml-cluster-configuration,Cluster configuration>>: Configure Amazon EKS clusters optimized for AI/ML workloads.
-* <<ml-compute-management,Capacity management>>: Manage and optimize compute resources for machine learning workloads on Amazon EKS.
-* <<device-management,Device management>>: Manage specialized hardware devices using Dynamic Resource Allocation (DRA) and device plugins.
+* <<ml-cluster-setup>>: Create the Amazon EKS cluster, monitoring, and Amazon S3 bucket infrastructure to use throughout this section.
+* <<ml-inference>>: Use Amazon EKS to deploy, configure, and start using an inference application with a large language model (LLM).
+* <<ml-cluster-configuration>>: Configure Amazon EKS clusters optimized for AI/ML workloads.
+* <<ml-compute-management>>: Manage and optimize compute resources for machine learning workloads on Amazon EKS.
+* <<device-management>>: Manage specialized hardware devices using Dynamic Resource Allocation (DRA) and device plugins.
 
 include::ml-cluster-setup.adoc[leveloffset=+1]
 

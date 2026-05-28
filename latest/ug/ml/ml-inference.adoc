@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#ml-inference]
-= Running AI/ML inference workloads on Amazon EKS
+= Run AI/ML inference workloads on Amazon EKS
 :info_titleabbrev: Inference
 
 [abstract]
@@ -98,9 +98,6 @@ The <<ml-inference-load-serve-model,Load & Serve Model>> walkthrough guides you 
 . *Monitor with Grafana* — A ServiceMonitor wires vLLM Prometheus metrics into the monitoring stack for real-time dashboards.
 . *Deploy a chat frontend* — Open WebUI provides a browser-based chat interface connected to the vLLM endpoint.
 
-The walkthrough uses the cluster infrastructure from the <<ml-cluster-setup,Cluster setup>> section and works with both EKS Auto Mode and self-managed Karpenter paths.
-
-[.topiclist]
-[[Topic List]]
+The walkthrough uses the cluster infrastructure from the <<ml-cluster-setup>> section and works with both EKS Auto Mode and self-managed Karpenter paths.
 
 include::ml-inference-load-serve-model.adoc[leveloffset=+1]
