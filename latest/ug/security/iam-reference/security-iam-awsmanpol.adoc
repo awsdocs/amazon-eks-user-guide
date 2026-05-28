@@ -410,7 +410,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonEBSCSIDriverEKSClusterScopedPolicy
 :info_titleabbrev: AmazonEBSCSIDriverEKSClusterScopedPolicy
 
-The `AmazonEBSCSIDriverEKSClusterScopedPolicy` policy restricts the Amazon EBS CSI driver to only managing EBS volumes and snapshots that belong to a specific EKS cluster. It requires the resource tag `ebs.csi.aws.com/cluster-name` to match the `eks-cluster-name` tag on the IAM principal, preventing cross-cluster access when multiple clusters share the same {aws} account. Attach and detach operations on instances are restricted to instances tagged with either the `eks:cluster-name` tag (set automatically by EKS on managed node groups) or the `ebs.csi.aws.com/cluster-name` tag (for manually tagged instances).
+The `AmazonEBSCSIDriverEKSClusterScopedPolicy` policy restricts the Amazon EBS CSI driver to only managing EBS volumes and snapshots that belong to a specific EKS cluster. It requires the resource tag `ebs.csi.aws.com/cluster-name` to match the `eks-cluster-name` tag on the IAM principal, preventing cross-cluster access when multiple clusters share the same {aws} account. Attach and detach operations on instances are restricted to instances tagged with the `eks:cluster-name` tag (set automatically by EKS on managed node groups), the `eks:eks-cluster-name` tag (set by controllers that follow the EKS controller tagging standard, including open source Karpenter and Amazon EKS Auto Mode), or the `ebs.csi.aws.com/cluster-name` tag (for manually tagged instances).
 
 If migrating from `AmazonEBSCSIDriverPolicy`, please see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/issues/2918[EBS CSI Driver policy migration].
 
@@ -483,6 +483,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Change
 |Description
 |Date
+
+|Added permissions to <<security-iam-awsmanpol-amazonebscsidrivereksclusterscopedpolicy,AmazonEBSCSIDriverEKSClusterScopedPolicy>>.
+|Authorized `ec2:AttachVolume` and `ec2:DetachVolume` on instances tagged with the `eks:eks-cluster-name` tag, adding compatibility with controllers that follow the EKS controller tagging standard, including open source Karpenter and Amazon EKS Auto Mode.
+|May 28, 2026
 
 |Added permissions to <<security-iam-awsmanpol-amazonebscsidriverservicerolepolicy,AmazonEBSCSIDriverPolicy>>.
 |Added new API action `ec2:DescribeInstanceTypes` to enable the EBS CSI Driver to dynamically retrieve volume limit/card information at runtime.
