@@ -8,10 +8,10 @@
 :auto-cli-v1-version: 1.27.160
 
 // Kubernetes versions
-:k8s-n: 1.35
-:k8s-n-1: 1.34
-:k8s-n-2: 1.33
-:k8s-n-3: 1.32
+:k8s-n: 1.36
+:k8s-n-1: 1.35
+:k8s-n-2: 1.34
+:k8s-n-3: 1.33
 
 // Entities that differ depending on the AWS Region build such as China
 :arn-aws: pass:q[[.shared]``region.arn``]

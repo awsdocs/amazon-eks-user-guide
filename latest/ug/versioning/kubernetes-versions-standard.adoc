@@ -18,6 +18,34 @@ https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?t
 This topic gives important changes to be aware of for each Kubernetes version in standard support. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster.
 
 
+[#kubernetes-1-36]
+== Kubernetes 1.36
+
+Kubernetes `1.36` is now available in Amazon EKS. For more information about Kubernetes `1.36`, see the https://kubernetes.io/blog/2026/04/22/kubernetes-v1-36-release/[official release announcement].
+
+[IMPORTANT]
+====
+* gitRepo Volume Removal: The `gitRepo` volume type is permanently disabled in Kubernetes 1.36 and cannot be re-enabled. The Kubernetes API still accepts Pods with `gitRepo` volumes, but the kubelet will refuse to run them and return an error.
+** Action required: Migrate to https://kubernetes.io/docs/concepts/workloads/pods/init-containers/[init containers] or https://github.com/kubernetes/git-sync[git-sync] sidecar containers before upgrading to 1.36. For more information, see https://github.com/kubernetes/enhancements/issues/5040[KEP-5040].
+* SELinux Volume Labeling Changes (GA): Faster SELinux volume labeling now defaults to all volumes in Kubernetes 1.36, using `mount -o context` instead of recursive file relabeling. Sharing a volume between privileged and unprivileged Pods on the same node may cause issues. Future Kubernetes releases may introduce additional breaking changes related to this feature.
+** Action required: Customers running SELinux-enforcing systems should audit clusters and ensure the `seLinuxChangePolicy` field and SELinux volume labels are correctly set on Pods before upgrading. For more information, see https://kubernetes.io/blog/2026/04/22/breaking-changes-in-selinux-volume-labeling/[SELinux Volume Label Changes goes GA (and likely implications in v1.37)].
+* Strict IP/CIDR Validation Enabled by Default: The `StrictIPCIDRValidation` feature gate is now enabled by default for built-in API kinds. API fields no longer accept IP or CIDR values with extraneous leading zeros (e.g., `010.000.000.005` instead of `10.0.0.5`) or CIDR values with ambiguous semantics (e.g., `192.168.0.5/24` instead of `192.168.0.0/24`). Existing stored objects are preserved via validation ratcheting, but new creates and updates will be rejected. This does not apply to custom resource kinds.
+** Action required: Review manifests, Helm charts, and automation for IP addresses containing leading zeros or non-canonical CIDR notation. Update them to use canonical formats before upgrading. For more information, see https://github.com/kubernetes/enhancements/issues/4858[KEP-4858].
+====
+
+* *User Namespaces (Stable):* User Namespaces provides defense-in-depth by mapping a container's root user to a non-privileged user on the host, ensuring that a container breakout grants no administrative power over the node.
+** For more information, see https://kubernetes.io/blog/2026/04/23/kubernetes-v1-36-userns-ga/[User Namespaces in Kubernetes are finally GA] on the _Kubernetes Blog_.
+* *Resource Health Status (Beta):* Reports per-device health in Pod status, allowing operators to determine whether a crash loop is due to an Unhealthy or Unknown device status rather than application issues. Works with both Device Plugins and Dynamic Resource Allocation.
+** For more information, see https://github.com/kubernetes/enhancements/issues/4680[KEP-4680].
+* *Dynamic Resource Allocation Features (Beta):* Several DRA features are now enabled by default: Partitionable Devices and Consumable Capacity for more granular sharing of hardware like GPUs, and Device Binding Conditions for thorough device readiness checks before scheduling.
+** For more information, see https://kubernetes.io/blog/2026/05/07/kubernetes-v1-36-dra-136-updates/[Kubernetes v1.36: More Drivers, New Features, and the Next Era of DRA] on the _Kubernetes Blog_.
+* *Deprecation Notice — Service externalIPs:* The `externalIPs` field in Service `.spec` is deprecated in Kubernetes 1.36. You will see deprecation warnings when creating or updating Services that use this field. Full removal is planned for Kubernetes 1.43. Customers who use `externalIPs` should migrate to LoadBalancer Services, NodePort, or https://gateway-api.sigs.k8s.io/[Gateway API]. For more information, see https://github.com/kubernetes/enhancements/issues/5707[KEP-5707].
+
+For the complete Kubernetes `1.36` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.36.md
+
+
+
+
 [#kubernetes-1-35]
 == Kubernetes 1.35
 

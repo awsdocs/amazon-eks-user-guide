@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-06-02"]
+=== Kubernetes version `1.36`
+[.update-ulink]
+link:eks/latest/userguide/kubernetes-versions-standard.html#kubernetes-1-36[type="documentation"]
+
+Added Kubernetes version `1.36` to Amazon EKS.
+
 [.update,date="2026-05-28"]
 === {aws} managed policy updates
 [.update-ulink]
