@@ -318,7 +318,7 @@ For troubleshooting common errors, see <<ack-troubleshooting>>.
 For composing and connecting multiple ACK resources together, use the EKS Capability for kro (Kube Resource Orchestrator).
 kro provides a declarative way to define groups of resources, passing configuration between resources to manage complex infrastructure patterns simply.
 
-For detailed examples of creating custom resource compositions with ACK resources, see <<kro-concepts>>
+For detailed examples of creating custom resource compositions with ACK resources, see <<kro-concepts>>.
 
 
 == Next steps

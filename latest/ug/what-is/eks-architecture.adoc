@@ -32,7 +32,7 @@ If a control plane instance falters, Amazon EKS quickly replaces it, using a dif
 
 
 *Consistent uptime*::
-By running clusters across multiple  Availability Zones, a reliable link:eks/sla[API server endpoint availability Service Level Agreement (SLA),type="marketing"] is achieved.
+By running clusters across multiple Availability Zones, a reliable link:eks/sla[API server endpoint availability Service Level Agreement (SLA),type="marketing"] is achieved.
 
 Amazon EKS uses Amazon Virtual Private Cloud (Amazon VPC) to limit traffic between control plane components within a single cluster. Cluster components can't view or receive communication from other clusters or {aws} accounts, except when authorized by Kubernetes role-based access control (RBAC) policies.
 

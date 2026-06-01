@@ -54,7 +54,7 @@ Learn about the Akuity Amazon EKS add-on.
 
 The add-on name is `akuity_agent` and the namespace is `akuity`. Akuity publishes the add-on.
 
-For information about how the add-on, see https://docs.akuity.io/tutorials/eks-addon-agent-install/[Installing the Akuity Agent on Amazon EKS with the Akuity EKS add-on] in the Akuity Platform documentation.
+For information about the add-on, see https://docs.akuity.io/tutorials/eks-addon-agent-install/[Installing the Akuity Agent on Amazon EKS with the Akuity EKS add-on] in the Akuity Platform documentation.
 
 [#add-on-akuity-service-account-name]
 === Service account name
@@ -260,7 +260,7 @@ The service account name is datree-webhook-server-awsmp.
 [#add-on-datree-pro-managed-policy]
 === {aws} managed IAM policy
 
-The managed policy is AWSLicenseManagerConsumptionPolicy. For more information, see link:aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html[AWSLicenseManagerConsumptionPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide..
+The managed policy is AWSLicenseManagerConsumptionPolicy. For more information, see link:aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html[AWSLicenseManagerConsumptionPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#add-on-datree-pro-iam-command]
 === Command to create required IAM role
@@ -416,7 +416,7 @@ The service account name is `customer defined`.
 [#add-on-ha-proxy-managed-policy]
 === {aws} managed IAM policy
 
-The managed policy is AWSLicenseManagerConsumptionPolicy. For more information, see link:aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html[AWSLicenseManagerConsumptionPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide..
+The managed policy is AWSLicenseManagerConsumptionPolicy. For more information, see link:aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html[AWSLicenseManagerConsumptionPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#add-on-ha-proxy-iam-command]
 === Command to create required IAM role
@@ -455,7 +455,7 @@ The service account name is `kpow`.
 [#add-on-kpow-managed-policy]
 === {aws} managed IAM policy
 
-The managed policy is AWSLicenseManagerConsumptionPolicy. For more information, see link:aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html[AWSLicenseManagerConsumptionPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide..
+The managed policy is AWSLicenseManagerConsumptionPolicy. For more information, see link:aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html[AWSLicenseManagerConsumptionPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#add-on-kpow-iam-command]
 === Command to create required IAM role
@@ -525,7 +525,7 @@ The service account name is  `k10-k10`.
 [#add-on-kasten-managed-policy]
 === {aws} managed IAM policy
 
-The managed policy is AWSLicenseManagerConsumptionPolicy. For more information, see link:aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html[AWSLicenseManagerConsumptionPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide..
+The managed policy is AWSLicenseManagerConsumptionPolicy. For more information, see link:aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html[AWSLicenseManagerConsumptionPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
 [#add-on-kasten-iam-command]
 === Command to create required IAM role
@@ -717,7 +717,7 @@ Learn about the Solo Amazon EKS add-on.
 
 The add-on name is `solo-io_istio-distro` and the namespace is `istio-system`. Solo publishes the add-on.
 
-For information about the add-on, see https://docs.solo.io/gloo-mesh-enterprise/main/setup/install/eks_addon/[Installing Istio] in the Solo.io documentation..
+For information about the add-on, see https://docs.solo.io/gloo-mesh-enterprise/main/setup/install/eks_addon/[Installing Istio] in the Solo.io documentation.
 
 [#add-on-solo-service-account-name]
 === Service account name

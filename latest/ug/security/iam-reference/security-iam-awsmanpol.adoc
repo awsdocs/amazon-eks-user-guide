@@ -285,7 +285,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 * *`ec2`* – Create and describe Elastic Network Interfaces, Amazon EC2 instances and their statuses, the cluster security group, and VPC that are required to create a cluster. For more information, see <<sec-group-reqs>>. Read information about security groups. Update tags on security groups. Read information about On-Demand Capacity Reservations. Read information about Placement Groups. Read VPC configuration including route tables and network ACLs to detect configuration issues as part of cluster insights.
 * *`ec2` Auto Mode* – Terminate EC2 instances created by EKS Auto Mode. For more information, see <<automode>>. 
-* *`iam`* – List all of the managed policies that attached to an IAM role. This is required so that Amazon EKS can list and validate all managed policies and permissions required to create a cluster.
+* *`iam`* – List all of the managed policies that are attached to an IAM role. This is required so that Amazon EKS can list and validate all managed policies and permissions required to create a cluster.
 * *Associate a VPC with a hosted zone* – This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server.
 * *Log event* – This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch.
 * *Put metric* – This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch.

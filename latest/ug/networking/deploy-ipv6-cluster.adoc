@@ -23,7 +23,7 @@ Install and configure the following tools and resources that you need to create 
 //[#deploy-ipv6-cluster-procedure]
 //====== Procedure
 
-You can use the eksctl or CLI to  deploy an `IPv6` cluster.
+You can use the eksctl or CLI to deploy an `IPv6` cluster.
 
 
 == Deploy an IPv6 cluster with eksctl

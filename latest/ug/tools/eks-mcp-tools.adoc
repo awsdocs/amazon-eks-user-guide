@@ -279,7 +279,7 @@ Applies Kubernetes YAML manifests to an EKS cluster.
 Parameters:
 
 * *cluster_name* (required): Name of the EKS cluster where the resources will be created or updated.
-* *namespace* (required): Kubernetes namespace to apply resources to. Will be used for name-spaced resources that do not specify a namespace.
+* *namespace* (required): Kubernetes namespace to apply resources to. Will be used for namespaced resources that do not specify a namespace.
 * *yaml_content* (required): YAML content to apply to the cluster. Can contain multiple documents separated by '---'.
 * *force* (optional): Whether to update resources if they already exist (similar to kubectl apply). Set to false to only create new resources.
 

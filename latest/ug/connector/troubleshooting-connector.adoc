@@ -78,7 +78,7 @@ kubectl exec eks-connector-1 --container connector-agent -n eks-connector \
 
 The following commands are useful to retrieve information that you need to troubleshoot issues.
 
-* Use the following command to gather images that's used by Pods in Amazon EKS Connector.
+* Use the following command to gather images that are used by Pods in Amazon EKS Connector.
 // Not using subs="quotes" here with [.replaceable]`region-code` because the * characters get dropped.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -154,7 +154,7 @@ For instructions on how to configure the `ClusterRole` and `ClusterRoleBinding` 
 [#symp-rbac]
 == Console error: [...] is forbidden: User [...] cannot list resource [...] in API group at the cluster scope 
 
-Consider the following problem. The Amazon EKS Connector has successfully impersonated the requesting {aws-management-console} IAM principal in the target Kubernetes cluster. However, the impersonated principal  doesn't have RBAC permission for Kubernetes API operations.  
+Consider the following problem. The Amazon EKS Connector has successfully impersonated the requesting {aws-management-console} IAM principal in the target Kubernetes cluster. However, the impersonated principal doesn't have RBAC permission for Kubernetes API operations.  
 
 To resolve this issue, there are two methods to give permissions to additional users. If you previously installed eks-connector via helm chart, you can easily grant users access by running the following command. Replace the `userARN1` and `userARN2` with a list of the ARNs of the IAM roles to give access to view the Kubernetes resources:
 

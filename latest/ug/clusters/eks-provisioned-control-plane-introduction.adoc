@@ -17,7 +17,7 @@ administrators to select from a set of scaling tiers and
 designate their chosen tier for very high, predictable performance from the cluster's control plane. This enables cluster administrators to ensure that the control plane is always provisioned with the specified 
 capacity. 
 
-Amazon EKS offers two modes of operations for your cluster's control plane. By default, Amazon EKS clusters use *Standard mode*, where the control plane automatically scales up and down based on your workload demands. Standard mode dynamically allocates sufficient control plane capacity to meet your workload needs and is the recommended solution for most use cases. However, for specialized workloads that cannot tolerate any performance variability due to control plane scaling or those requiring very high amounts of control plane capacity, you can optionally use *Provisioned mode*. Provisioned mode allows you to pre-allocate  control plane capacity that is always ready to  handle demanding workload requirements. 
+Amazon EKS offers two modes of operations for your cluster's control plane. By default, Amazon EKS clusters use *Standard mode*, where the control plane automatically scales up and down based on your workload demands. Standard mode dynamically allocates sufficient control plane capacity to meet your workload needs and is the recommended solution for most use cases. However, for specialized workloads that cannot tolerate any performance variability due to control plane scaling or those requiring very high amounts of control plane capacity, you can optionally use *Provisioned mode*. Provisioned mode allows you to pre-allocate control plane capacity that is always ready to handle demanding workload requirements. 
 
 [NOTE]
 ====
@@ -97,7 +97,7 @@ Kubernetes control plane's API server can process concurrently, which is critica
 *Pod scheduling rate* indicates how quickly the default Kubernetes
 scheduler can schedule pods on nodes, measured in pods per second.
 
-*Cluster database size* indicates the  storage space allocated to etcd, the database that holds the cluster state/metadata.
+*Cluster database size* indicates the storage space allocated to etcd, the database that holds the cluster state/metadata.
 
 *SLA (Service Level Agreement)* indicates the monthly uptime commitment of the Kubernetes endpoint of the EKS cluster
 

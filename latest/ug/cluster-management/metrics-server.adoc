@@ -72,7 +72,7 @@ An example output is as follows.
 NAME             READY   UP-TO-DATE   AVAILABLE   AGE
 metrics-server   1/1     1            1           6m
 ----
-. Test the metrics server is working by displaying resource (CPU/memory) usage of nodes. 
+. Test that the metrics server is working by displaying resource (CPU/memory) usage of nodes. 
 +
 [source,bash,subs="verbatim,attributes"]
 ----

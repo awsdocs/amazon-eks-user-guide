@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#integration-backup]
-= Backup your EKS Clusters with {aws} Backup
+= Back up your EKS Clusters with {aws} Backup
 :info_titleabbrev: {aws} Backup 
 
 {aws} Backup supports backups of Amazon EKS clusters, including Kubernetes cluster state and persistent storage attached to the EKS cluster via a persistent volume claim (EBS volumes, EFS file systems, and S3 buckets). 

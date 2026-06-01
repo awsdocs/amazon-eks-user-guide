@@ -101,7 +101,7 @@ Amazon EKS managed node groups now support Amazon EC2 Auto Scaling warm pools. W
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
-Added `elasticloadbalancing:ModifyIpPools` and updated `elasticloadbalancing:RegisterTargets`  permission in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to support setting IPAM pool for ALB and support multi-cluster and custom targetgroupbindings respectively
+Added `elasticloadbalancing:ModifyIpPools` and updated `elasticloadbalancing:RegisterTargets` permission in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to support setting IPAM pool for ALB and support multi-cluster and custom targetgroupbindings respectively
 
 [.update,date="2026-02-03"]
 === {aws} managed policy updates
@@ -2132,7 +2132,7 @@ Added topic for deploying Prometheus to your Amazon EKS cluster.
 [.update-ulink]
 link:eks/latest/userguide/control-plane-logs.html[type="documentation"]
 
-With this update, you can get audit and diagnostic logs directly from the Amazon EKS control pane. You can use these CloudWatch logs in your account as reference for securing and running clusters.
+With this update, you can get audit and diagnostic logs directly from the Amazon EKS control plane. You can use these CloudWatch logs in your account as reference for securing and running clusters.
 
 
 [.update,date="2019-03-28"]

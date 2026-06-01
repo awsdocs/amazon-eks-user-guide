@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Learn how to configure the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts (IRSA) for Pod networking in Amazon EKS clusters.
 --
 
-The https://github.com/aws/amazon-vpc-cni-k8s[Amazon VPC CNI plugin for Kubernetes] is the networking plugin for Pod networking in Amazon EKS clusters. The plugin is responsible for allocating VPC IP addresses to Kubernetes pods and configuring the necessary networking for Pods on each node. 
+The https://github.com/aws/amazon-vpc-cni-k8s[Amazon VPC CNI plugin for Kubernetes] is the networking plugin for Pod networking in Amazon EKS clusters. The plugin is responsible for allocating VPC IP addresses to Kubernetes Pods and configuring the necessary networking for Pods on each node. 
 
 [NOTE]
 ====

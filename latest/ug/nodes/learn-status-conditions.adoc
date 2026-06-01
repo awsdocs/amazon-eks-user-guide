@@ -45,7 +45,7 @@ kubectl describe node [.replaceable]`node-name`
     type: NetworkingReady
 ----
 
-*Example condition of a unhealthy node with a networking problem:*
+*Example condition of an unhealthy node with a networking problem:*
 
 [source,yaml,subs="verbatim,attributes"]
 ----

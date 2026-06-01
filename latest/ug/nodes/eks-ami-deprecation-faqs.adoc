@@ -47,7 +47,7 @@ These distributions ship with kernel versions ≥5.8, which is the minimum requi
 === What do I do if I need Neuron in my custom AL2 AMI?
 
 You cannot run your full Neuron-powered applications natively on an AL2-based AMIs.
-To leverage {aws} Neuron on an AL2 AMI, you must containerize you applications using a Neuron-supported container with a non-AL2 Linux distribution (e.g., Ubuntu 22.04, Amazon Linux 2023, etc.) and then deploy those containers on an AL2-based AMI that has the Neuron Driver (`aws-neuronx-dkms`) installed.
+To leverage {aws} Neuron on an AL2 AMI, you must containerize your applications using a Neuron-supported container with a non-AL2 Linux distribution (e.g., Ubuntu 22.04, Amazon Linux 2023, etc.) and then deploy those containers on an AL2-based AMI that has the Neuron Driver (`aws-neuronx-dkms`) installed.
 
 === Should I switch to a bare Amazon Linux 2 base instance after the EKS AL2 AMI EOS date (November 26, 2025)? 
 

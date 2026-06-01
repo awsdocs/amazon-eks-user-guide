@@ -16,7 +16,7 @@ You can optimize Amazon FSx for Lustre performance by applying tuning parameters
 ====
 
 * For information on creating and deploying the FSx for Lustre CSI driver, see <<fsx-csi-create>>.
-For optimizing performance with EFA-enabled nodes, see <<fsx-csi-tuning-efa>>.
+* For optimizing performance with EFA-enabled nodes, see <<fsx-csi-tuning-efa>>.
 
 ====
 

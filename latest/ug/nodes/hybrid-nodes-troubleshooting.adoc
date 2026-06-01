@@ -345,7 +345,7 @@ If the Cilium operator is running and some of your Cilium agents are running but
 
 If you are using Cilium BGP Control Plane to advertise your pod or service addresses to your on-premises network, you can use the following Cilium CLI commands to check if BGP is advertising the routes to your resources. For steps to install the Cilium CLI, see https://docs.cilium.io/en/stable/gettingstarted/k8s-install-default/#install-the-cilium-cli[Install the Cilium CLI] in the Cilium documentation.
 
-If BGP is working correctly, you should your hybrid nodes with Session State `established` in the output. You might need to work with your networking team to identify the correct values for your environment's Local AS, Peer AS, and Peer Address.
+If BGP is working correctly, you should see your hybrid nodes with Session State `established` in the output. You might need to work with your networking team to identify the correct values for your environment's Local AS, Peer AS, and Peer Address.
 
 [source,bash,subs="verbatim,attributes"]
 ----

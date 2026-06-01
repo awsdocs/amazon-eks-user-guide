@@ -203,7 +203,7 @@ There might be some authorization issue with calling the `RunInstances` call fro
 
 [NOTE]
 ====
-You are charged for each analysis that is run the VPC Reachability Analyzer. For pricing details, see link:vpc/pricing/[Amazon VPC Pricing,type="marketing"].
+You are charged for each analysis that is run by the VPC Reachability Analyzer. For pricing details, see link:vpc/pricing/[Amazon VPC Pricing,type="marketing"].
 ====
 
 One reason that an instance didn't join the cluster is a network connectivity issue that prevents them from reaching the API server. To diagnose this issue, you can use the link:vpc/latest/reachability/what-is-reachability-analyzer.html[VPC Reachability Analyzer,type="documentation"] to perform an analysis of the connectivity between a node that is failing to join the cluster and the API server. You will need two pieces of information:

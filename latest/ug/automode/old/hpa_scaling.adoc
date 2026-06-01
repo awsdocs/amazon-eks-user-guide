@@ -91,7 +91,7 @@ spec:
 EOF
 ----
 
-Notice that the pods are intentional on how much CPU and memory they request:
+Notice that the pods are intentional about how much CPU and memory they request:
 
 ----
         resources:
@@ -122,7 +122,7 @@ You should see a Pi number as this endpoint estimates Pi using the Monte Carlo s
 
 == 3. Deploy HPA autoscaling rule
 
-Now that the application is running, and they're being intention on how much requests they need, it's time to configure an HPA rule to scale-out when the CPU usage goes above 70%. To do so, run this command:
+Now that the application is running, and they're being intentional about how many resources they need, it's time to configure an HPA rule to scale-out when the CPU usage goes above 70%. To do so, run this command:
 
 ----
 cat <<EOF | kubectl apply -f -

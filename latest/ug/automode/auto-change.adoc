@@ -88,7 +88,7 @@ DRA is not currently supported by EKS Auto Mode.
 
 == June 13, 2025
 
-*Feature:* Support for separate pod subnets in the `NodeClass`. This adds the optional keys ``podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` to set the subnets and security groups for the pods. For more information, see <<pod-subnet-selector>>.
+*Feature:* Support for separate pod subnets in the `NodeClass`. This adds the optional keys `podSubnetSelectorTerms` and `podSecurityGroupSelectorTerms` to set the subnets and security groups for the pods. For more information, see <<pod-subnet-selector>>.
 
 == April 30, 2025
 

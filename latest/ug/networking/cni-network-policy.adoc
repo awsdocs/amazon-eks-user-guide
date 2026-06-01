@@ -66,7 +66,7 @@ spec:
 The policy applies to pods with the label `role: webapp` in the `sun` namespace. 
 
 * Allowed traffic: Pods with the label `role: frontend` in the `moon` namespace on TCP port `8080`
-* Allowed traffic: Pods with the label role: frontend in the `stars` namespace on TCP port `8080`
+* Allowed traffic: Pods with the label `role: frontend` in the `stars` namespace on TCP port `8080`
 * Blocked traffic: All other outbound traffic from `webapp` pods is implicitly denied
 
 == Admin (or cluster) network policy

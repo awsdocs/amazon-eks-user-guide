@@ -51,7 +51,7 @@ If you need to restore your keys later, you can copy them back from the backup f
 
 . Run `ssh <alias>@git.amazon.com -v `
 . Review output
-. If you don't see a success message, sent the output to Geoffrey
+. If you don't see a success message, send the output to Geoffrey
 
 == Step 5: Configure VS Code
 
@@ -62,7 +62,7 @@ If you need to restore your keys later, you can copy them back from the backup f
 . Mouse over `SSH` and then press the plus icon
 . Insert the following value: `ssh <alias>@<cdd-hostname>`
 . Press enter and follow the prompts
-. If the VS Code Window shows your CDD hostname in blue in the botton left of the window, that VS Code Window is connected to your CDD
+. If the VS Code Window shows your CDD hostname in blue in the bottom left of the window, that VS Code Window is connected to your CDD
 . Once it is connect, use `ctrl-`` to open a terminal window. 
 
 == Step 6: Clone Package on Cloud Dev Desktop
@@ -93,6 +93,6 @@ Using this file, VS code will automatically configure itself for authoring ascii
 . Select the `eks-docs` workspace from recently opened workspaces, verify the hostname of your CDD is shown by the workspace name on the home screen
 . Alternatively, open the Remote Explorer panel in the left sidebar
 . Find your CDD and the eks-docs workspace under it, mouse over it
-. Use the right arrow icon to open the workspace in the curent window, or the plus icon to open in a new window 
+. Use the right arrow icon to open the workspace in the current window, or the plus icon to open in a new window
 
 

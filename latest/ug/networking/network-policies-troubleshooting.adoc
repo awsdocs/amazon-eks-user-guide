@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Learn how to troubleshoot and investigate network connections that use network policies.
 --
 
-This is the troubleshooting guide for network policy feature of the Amazon VPC CNI.
+This is the troubleshooting guide for the network policy feature of the Amazon VPC CNI.
 
 //Manual Table of Contents, b/c the ToC gets long if each issue gets an anchor
 This guide covers:

@@ -33,7 +33,7 @@ Complete the following before you create an add-on:
 
 
 * An existing Amazon EKS cluster. To deploy one, see <<getting-started>>.
-* Check if your add-on requires an IAM role. For more information, see 
+* Check if your add-on requires an IAM role. For more information, see <<retreive-iam-info>>.
 * Version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
 
 

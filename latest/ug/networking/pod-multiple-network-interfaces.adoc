@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Learn how to use VPC CNI to attach multiple network interfaces to a Pod in Amazon EKS for advanced networking scenarios with high bandwidth. You can configure a workload and the VPC CNI assigned IP addresses from every NIC on the EC2 instance to each pod. The application can make concurrent connections to use the bandwidth from each NIC. Every network interface is configured in the same subnet and security groups as the node.
 --
 
-By default, the Amazon VPC CNI plugin assigns one IP address to each pod. This IP address is attached to an  _elastic network interface_ that handles all incoming and outgoing traffic for the pod. To increase the bandwidth and packet per second rate performance, you can use the _Multi-NIC feature_ of the VPC CNI to configure a multi-homed pod. A multi-homed pod is a single Kubernetes pod that uses multiple network interfaces (and multiple IP addresses). By running a multi-homed pod, you can spread its application traffic across multiple network interfaces by using concurrent connections. This is especially useful for Artificial Intelligence (AI), Machine Learning (ML), and High Performance Computing (HPC) use cases.
+By default, the Amazon VPC CNI plugin assigns one IP address to each pod. This IP address is attached to an _elastic network interface_ that handles all incoming and outgoing traffic for the pod. To increase the bandwidth and packet per second rate performance, you can use the _Multi-NIC feature_ of the VPC CNI to configure a multi-homed pod. A multi-homed pod is a single Kubernetes pod that uses multiple network interfaces (and multiple IP addresses). By running a multi-homed pod, you can spread its application traffic across multiple network interfaces by using concurrent connections. This is especially useful for Artificial Intelligence (AI), Machine Learning (ML), and High Performance Computing (HPC) use cases.
 
 The following diagram shows a multi-homed pod running on a worker node with multiple network interface cards (NICs) in use.
 
@@ -47,7 +47,7 @@ include::iam_snippet:9b526100-356f-4a63-9d35-95318929846b[]
 [#pod-multi-NIC-usage]
 == Usage
 
-After the multi-NIC feature is enabled in the VPC CNI and the `aws-node` pods have restarted, you can configure each workload to be multi-homed. The following example of a YAML configuration with the required annotation:
+After the multi-NIC feature is enabled in the VPC CNI and the `aws-node` pods have restarted, you can configure each workload to be multi-homed. The following is an example of a YAML configuration with the required annotation:
 
 [source,yaml,subs="verbatim,attributes"]
 ----

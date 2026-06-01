@@ -30,7 +30,7 @@ This topic describes how you can launch Auto Scaling groups of Amazon Linux node
 
 You can create a self-managed Amazon Linux node group with `eksctl` or the {aws-management-console} (with an {aws} CloudFormation template). You can also use Terraform.
 
-You can create a self-managed node group for local cluster with the following tools described in this page:
+You can create a self-managed node group for a local cluster with the following tools described in this page:
 
 * <<eksctl_create_nodes_outpost>>
 * <<console_create_nodes_outpost>>

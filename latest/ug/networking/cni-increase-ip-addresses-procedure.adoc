@@ -80,7 +80,7 @@ kubectl set env ds aws-node -n kube-system MINIMUM_IP_TARGET=2
 ----
 . Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2023 instance type. For a list of Nitro instance types, see link:AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances[Instances built on the Nitro System,type="documentation"] in the Amazon EC2 User Guide. This capability is not supported on Windows. For the options that include [.replaceable]`110`, replace it with either the value from step 3 (recommended), or your own value. 
 +
-*** *Self-managed* – Deploy the node group using the instructions in <<launch-workers,Create self-managed Amazon Linux nodes>>. Before creating the CloudFormation stack, open the template file and adjust the `UserData` in the `NodeLaunchTemplate` to be like the following
+*** *Self-managed* – Deploy the node group using the instructions in <<launch-workers,Create self-managed Amazon Linux nodes>>. Before creating the CloudFormation stack, open the template file and adjust the `UserData` in the `NodeLaunchTemplate` to be like the following.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

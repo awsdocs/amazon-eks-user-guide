@@ -7,7 +7,7 @@ include::../attributes.txt[]
 [#kubecost-prereqs-dashboard]
 == Prerequisites
 
-. Make sure the kubecost related Pods' state are "Running".
+. Make sure the kubecost related Pods' states are "Running".
 
 [source,bash,subs="verbatim,attributes"]
 ----

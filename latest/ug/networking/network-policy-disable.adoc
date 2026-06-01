@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Learn how to disable Kubernetes network policies for Amazon EKS Pod network traffic.
 --
 
-Disable Kubernetes network policies to stop restricting Amazon EKS Pod network traffic
+Disable Kubernetes network policies to stop restricting Amazon EKS Pod network traffic.
 
 . List all Kubernetes network policies.
 +

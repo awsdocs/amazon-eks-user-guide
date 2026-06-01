@@ -22,7 +22,7 @@ You must complete the second step within 3 days of completing the first step, be
 [#connecting-cluster-considerations]
 == Considerations
 
-You can use YAML manifests when installing the agent. Alternatively, you can use Helm if you register the cluster with the {aws-management-console} or {aws} Command Line Interface. However, you cannot use Helm  to install the agent if you register the cluster with `eksctl`.
+You can use YAML manifests when installing the agent. Alternatively, you can use Helm if you register the cluster with the {aws-management-console} or {aws} Command Line Interface. However, you cannot use Helm to install the agent if you register the cluster with `eksctl`.
 
 [#connector-prereqs]
 == Prerequisites

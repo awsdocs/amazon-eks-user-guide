@@ -139,7 +139,7 @@ helm install gpu-operator nvidia/gpu-operator \
 
 As of NVIDIA GPU operator version `v25.3.4`, the NVIDIA DRA driver must be installed separately. It is recommended to track the NVIDIA GPU operator https://github.com/NVIDIA/gpu-operator/releases[release notes] as this may change in a future release.
 
-. Create a Helm values file named `dra-values.yaml` with the following configuration. Note the `nodeAffinity` and `tolerations` that configures the DRA driver to deploy only on nodes with an NVIDIA GPU.
+. Create a Helm values file named `dra-values.yaml` with the following configuration. Note the `nodeAffinity` and `tolerations` that configure the DRA driver to deploy only on nodes with an NVIDIA GPU.
 +
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -474,7 +474,7 @@ spec:
 kubectl apply -f nvbandwidth-test-job.yaml
 ----
 +
-. ComputeDomain creation, you can see the workload's ComputeDomain has two nodes:
+. After ComputeDomain creation, you can see the workload's ComputeDomain has two nodes:
 +
 [source,bash]
 ----

@@ -589,4 +589,4 @@ kubectl delete servicemonitor vllm-inference-app
 kubectl delete job model-download
 ----
 
-For instructions on removing infrastructure resources such as the cluster, NodePool, and S3 bucket, see <<cluster-setup-cli-cleanup,Cluster Setup Cleanup>>
+For instructions on removing infrastructure resources such as the cluster, NodePool, and S3 bucket, see <<cluster-setup-cli-cleanup,Cluster Setup Cleanup>>.

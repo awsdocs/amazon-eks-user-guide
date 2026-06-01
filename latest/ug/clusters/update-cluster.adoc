@@ -98,7 +98,7 @@ Use Amazon EKS upgrade insights to identify issues. For more information, see <<
 
 //Whenever you try to upgrade the Kubernetes version of your cluster's control plane, cluster insights will check for certain upgrade impacting issues. Cluster insights will proactively prevent you from upgrading your cluster if it detects any such issues. You will need to review and resolve the issues to continue with the cluster upgrade.
 
-//Once the upgrade impacting issues are resolved, you will be able to upgrade the Kubernetes version of your cluster. When needed, you can use the `--force` flag for update cluster version commands. Passing this flag will force the upgrade even if their are upgrade impacting issues detected by cluster insights.
+//Once the upgrade impacting issues are resolved, you will be able to upgrade the Kubernetes version of your cluster. When needed, you can use the `--force` flag for update cluster version commands. Passing this flag will force the upgrade even if there are upgrade impacting issues detected by cluster insights.
 
 [IMPORTANT]
 ====
@@ -232,4 +232,4 @@ kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/<vX.
 [#downgrade-cluster]
 == Downgrade the Kubernetes version for an Amazon EKS cluster
 
-You cannot downgrade the Kubernetes of an Amazon EKS cluster. Instead, create a new cluster on a previous Amazon EKS version and migrate the workloads.  
+You cannot downgrade the Kubernetes version of an Amazon EKS cluster. Instead, create a new cluster on a previous Amazon EKS version and migrate the workloads.  
