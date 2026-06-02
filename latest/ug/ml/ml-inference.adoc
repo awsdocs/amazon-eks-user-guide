@@ -12,7 +12,7 @@ Learn how to run inference workloads, including serving large language models (L
 
 [TIP]
 ====
-https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el&tag=generative%20ai[Register] for upcoming Amazon EKS AI/ML workshops.
+https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EKS AI/ML workshops.
 ====
 
 Inference is the process of running a trained AI model to generate predictions or outputs from input data. This includes serving large language models (LLMs) that produce text or code, diffusion models that generate images, speech models for voice synthesis and transcription, and video models for real-time analysis or generation. Amazon EKS provides a scalable, portable solution for deploying these inference workloads with NVIDIA GPUs or {aws} Trainium accelerators, dynamic scaling, and integration with the broader Kubernetes and {aws} landscape of tools and services.

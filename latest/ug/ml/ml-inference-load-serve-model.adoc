@@ -12,7 +12,7 @@ Deploy an AI model on Amazon EKS using vLLM, Run:ai Model Streamer, and NVIDIA G
 
 [TIP]
 ====
-https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el&tag=generative%20ai[Register] for upcoming Amazon EKS AI/ML workshops.
+https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EKS AI/ML workshops.
 ====
 
 The steps in this section deploy a large language model (LLM) on Amazon EKS, serve it with vLLM, and interact with the inference endpoint. 
