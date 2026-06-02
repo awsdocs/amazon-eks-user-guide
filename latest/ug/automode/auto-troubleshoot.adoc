@@ -254,7 +254,7 @@ subsets:
 
 With these two pieces of information, you can perform the analysis. First navigate to the VPC Reachability Analyzer in the {aws-management-console}.
 
-. Click "Create and Analyze Path"
+. Choose "Create and Analyze Path"
 . Provide a name for the analysis (e.g. "Node Join Failure")
 . For the "Source Type" select "Instances"
 . Enter the instance ID of the failing Node as the "Source"
@@ -263,7 +263,7 @@ With these two pieces of information, you can perform the analysis. First naviga
 . Expand the "Additional Packet Header Configuration Section"
 . Enter a "Destination Port" of 443
 . Select "Protocol" as TCP if it is not already selected
-. Click "Create and Analyze Path"
+. Choose "Create and Analyze Path"
 . The analysis might take a few minutes to complete. If the analysis results indicate failed reachability, it will indicate where the failure was in the network path so you can resolve the issue.
 
 [#auto-troubleshoot-share-pod-volumes]
