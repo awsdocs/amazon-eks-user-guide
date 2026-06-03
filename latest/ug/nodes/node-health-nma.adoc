@@ -157,16 +157,20 @@ The following table lists the well-known XID codes, their meanings, and the defa
 |Description
 |Repair Action
 
-|13
-|Graphics Engine Exception – A GPU graphics engine error occurred, typically caused by software issues or driver bugs.
-|Reboot
-
-|31
-|GPU memory page fault – An application attempted to access GPU memory that is not mapped or accessible.
+|46
+|GPU stopped processing – The GPU stopped processing due to an internal timeout and requires a GPU reset to recover.
 |Reboot
 
 |48
 |Double Bit ECC Error – An uncorrectable double-bit error occurred in GPU memory, indicating potential hardware degradation.
+|Reboot
+
+|54
+|Auxiliary power not connected – Auxiliary power is not connected to the GPU board, typically indicating that power connectors are not properly seated.
+|Reboot
+
+|62
+|Internal micro-controller halt – The GPU's internal micro-controller halted, indicating a firmware or hardware fault that requires a GPU reset.
 |Reboot
 
 |63
@@ -175,7 +179,7 @@ The following table lists the well-known XID codes, their meanings, and the defa
 
 |64
 |GPU memory remapping failure – The GPU was unable to remap defective memory, indicating hardware issues.
-|Reboot
+|Replace
 
 |74
 |NVLink Error – An error occurred on the high-speed NVLink interconnect between GPUs.
@@ -185,12 +189,16 @@ The following table lists the well-known XID codes, their meanings, and the defa
 |GPU has fallen off the bus – The GPU is no longer accessible via PCIe, typically indicating a hardware failure or power issue.
 |Replace
 
-|94
-|Contained memory error – A memory error occurred but was contained and did not affect other applications.
-|Reboot
-
 |95
 |Uncontained memory error – A memory error occurred that may have affected other applications or system memory.
+|Reboot
+
+|109
+|Context switch timeout – A GPU context switch did not complete in time, indicating the GPU is hung and requires a reset.
+|Reboot
+
+|110
+|Security fault error – A security fault was detected on the GPU, which requires a GPU reset and, if persistent, hardware investigation.
 |Reboot
 
 |119
@@ -201,13 +209,37 @@ The following table lists the well-known XID codes, their meanings, and the defa
 |GSP Error – An error occurred in the GPU System Processor.
 |Replace
 
-|121
-|C2C Error – An error occurred on the chip-to-chip interconnect (used in multi-die GPUs).
-|Replace
+|136
+|Link training failed – The GPU failed to establish a healthy NVLink connection during link training.
+|Reboot
 
 |140
 |ECC Unrecovered Error – An ECC error escaped containment and may have corrupted data.
+|Reboot
+
+|142
+|NVENC3 Error – The NVENC3 video encoder hardware failed with no automated recovery available. Applies to GB200.
 |Replace
+
+|143
+|GPU initialization error – The GPU failed to initialize correctly.
+|Reboot
+
+|151
+|Key rotation error – Confidential computing key rotation failed. Applies to H100, B100, and GB200.
+|Replace
+
+|155
+|NVLink software-defined error – A software-defined error was reported on NVLink.
+|Reboot
+
+|156
+|Resource retirement event – The GPU retired a hardware resource due to detected faults.
+|Reboot
+
+|158
+|GPU fatal timeout – A fatal timeout occurred on the GPU.
+|Reboot
 
 |===
 
