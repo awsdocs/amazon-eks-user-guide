@@ -29,6 +29,7 @@ The Amazon EC2 Instance Store CSI driver will erase all data on ephemeral disks 
 * Instance storage is ephemeral. Data is lost when the node terminates. Implement application-level replication or backups for critical data.
 * Volume expansion is not supported.
 * I/O throttling is enabled by default for all volumes to ensure fair bandwidth sharing across workloads. For more information, see <<lis-csi-throttling>>.
+* Newly launched instances have updated NVMe identify command responses compared to older instances of the same type. If your tooling depends on specific NVMe identify values, review your logic for compatibility. For more information, see <<lis-csi-nvme-namespace>>.
 
 [#lis-csi-prereqs]
 == Prerequisites
@@ -139,3 +140,57 @@ spec:
 * Consider isolating unthrottled workloads on dedicated nodes.
 * For RAID-0 volumes that span multiple controllers, throttling is applied to all member partitions.
 * Throttle state persists across node reboots.
+
+[#lis-csi-nvme-namespace]
+== NVMe namespace changes on newly launched instances
+
+Newly launched EC2 instances with local instance storage have updated NVMe Identify Controller and Identify Namespace command responses. These changes support NVMe namespace management on EC2 local instance storage. Existing running instances are not affected, and values remain stable throughout the lifecycle of any instance.
+
+=== Updated field values
+
+The following fields have changed on newly launched instances compared to older instances of the same type:
+
+*Identify Controller (`nvme id-ctrl`):*
+
+* Bit 3 of OACS: changed from 0 to 1
+* Bit 8 of OAES: changed from 0 to 1
+* NN: changed from 1 to a value \<= 256
+* TNVMCAP: changed from 0 to the actual size of the local storage
+
+*Identify Namespace (`nvme id-ns`):*
+
+* NVMCAP: changed from 0 to the actual size of the local storage
+* NGUID: changed from all zeros to a valid NGUID
+
+All updated values conform to the NVMe specification.
+
+=== Scope of changes
+
+These changes apply exclusively to EC2 local instance storage. Amazon EBS volumes are not affected. To distinguish between EBS volumes and local instance storage, run the following command:
+
+[source,bash,subs="verbatim,attributes"]
+----
+sudo nvme list
+----
+
+In the output:
+
+* `Amazon Elastic Block Store` = EBS volume
+* `Amazon EC2 NVMe Instance Storage` = local instance storage
+
+=== Retrieving NVMe identify values
+
+To query these values using `nvme-cli`:
+
+[source,bash,subs="verbatim,attributes"]
+----
+# Identify Controller
+sudo nvme id-ctrl /dev/nvme1
+
+# Identify Namespace
+sudo nvme id-ns /dev/nvme1n1
+----
+
+=== Action required
+
+No action is required. These changes are backward-compatible and follow the NVMe specification. However, if your application or tooling validates or depends on specific values from NVMe identify commands, review your logic to ensure compatibility with the updated values on newly launched instances.
