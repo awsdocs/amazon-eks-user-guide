@@ -1,4 +1,4 @@
-include::../attributes.txt[]
+include::../../attributes.txt[]
 
 [.topic]
 [#eks-outposts-local-cluster-overview]
@@ -14,7 +14,7 @@ You can use local clusters to run your entire Amazon EKS cluster locally on {aws
 
 
 
-image::images/outposts-local-cluster.png[Outpost local cluster,scaledwidth=100%]
+image::../images/outposts-local-cluster.png[Outpost local cluster,scaledwidth=100%]
 
 Local clusters are generally available for use with Outposts racks.
 
