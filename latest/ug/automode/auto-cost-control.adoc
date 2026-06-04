@@ -22,6 +22,47 @@ EKS Auto Mode reduces compute costs through the following mechanisms:
 
 These optimizations run continuously without manual intervention. However, certain pod annotations and NodePool configurations can prevent consolidation from taking effect.
 
+== Built-in node pools and cost guardrails
+
+The built-in `general-purpose` and `system` node pools already enforce several cost-protective defaults:
+
+* *Instance families restricted to C, M, and R* — No accelerated (P, G, Inf, Trn) or exotic instance types are permitted.
+* *On-demand capacity only* — No Spot instances, which avoids interruption-driven churn but also means no Spot savings.
+* *Generation 5 or newer* — Older, less cost-efficient instance generations are excluded.
+
+If you are using only the built-in node pools, you already benefit from these guardrails. The guidance in this topic on <<_exclude_instance_families_for_cost_control,excluding instance families>> and <<_constrain_instance_sizes,constraining instance sizes>> is most relevant when you create *custom NodePools*, which do not inherit these restrictions.
+
+However, even with built-in node pools, the following sections still apply to you:
+
+* <<_what_blocks_consolidation>> — The `do-not-disrupt` annotation and restrictive PDBs block consolidation regardless of which NodePool provisioned the node.
+* <<_use_nodepool_limits_as_a_cost_ceiling>> — The built-in node pools do not have resource `limits` configured. If your workloads can scale significantly, consider creating a custom NodePool with limits rather than relying on the unbounded built-in pools.
+* <<_node_lifecycle_and_cost>> — Node replacement overlap applies to all nodes, including those provisioned by built-in pools.
+
+[%header,cols="2,1,1"]
+|===
+|Guardrail |Built-in node pools |Custom NodePools
+
+|Accelerated instance exclusion
+|Enforced
+|You must configure
+
+|Instance size limits
+|Not set
+|You must configure
+
+|Resource `limits` (CPU/memory ceiling)
+|Not set
+|You must configure
+
+|On-demand only
+|Enforced
+|You choose (Spot/On-Demand)
+
+|Consolidation protection (`do-not-disrupt`/PDB)
+|Your responsibility
+|Your responsibility
+|===
+
 == What blocks consolidation
 
 Consolidation is blocked when EKS Auto Mode determines that disrupting a node would violate a workload's availability requirements. The following configurations prevent consolidation:
