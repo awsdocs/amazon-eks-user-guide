@@ -1,0 +1,66 @@
+include::../../attributes.txt[]
+
+[.topic]
+[#eks-outposts-is-local-cluster-addons]
+= Amazon EKS add-ons for local clusters on {aws} Outposts configured with EC2 instance store
+:info_titleabbrev: Amazon EKS add-ons (EC2 instance store)
+
+[abstract]
+--
+Learn about the validated Amazon EKS add-ons for local clusters on {aws} Outposts configured with EC2 instance store.
+--
+
+Local clusters on {aws} Outposts configured with EC2 instance store support Amazon EKS add-ons. The following add-ons have been validated for use with local clusters. Additional add-ons will be validated over time.
+
+[NOTE]
+====
+If your Outpost is configured with Amazon EBS instead of EC2 instance store, the architecture described in this topic isn't available for your Outpost. Outposts configured with EBS will continue to use the existing local clusters implementation, which doesn't support Amazon EKS add-ons.
+
+If you are interested in creating a local cluster on an EBS-backed Outpost using the updated local clusters architecture, contact your {aws} account team.
+====
+
+[#eks-outposts-is-local-cluster-addons-validated]
+== Validated add-ons
+
+[%header,cols="3"]
+|===
+|Add-on
+|Description
+|Automatically installed
+
+
+|<<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>
+|Provides native VPC networking for pods.
+|Yes
+
+|<<managing-kube-proxy,kube-proxy>>
+|Maintains network rules on nodes for Kubernetes Service communication.
+|Yes
+
+|<<managing-coredns,CoreDNS>>
+|Provides DNS resolution for Kubernetes Services.
+|Yes
+
+|<<pod-id-agent-setup,EKS Pod Identity Agent>>
+|Enables pods to use EKS Pod Identity to authenticate to {aws} services.
+|No
+|===
+
+The Amazon VPC CNI plugin, `kube-proxy`, and CoreDNS are automatically installed when you create a local cluster.
+
+[IMPORTANT]
+====
+EKS Pod Identity and IRSA depend on {aws} STS in the {aws} Region. During network disconnects, workloads that use these mechanisms cannot obtain new credentials. For more information, see <<eks-outposts-is-network-disconnects>>.
+====
+
+[#eks-outposts-is-local-cluster-addons-not-validated]
+== Add-ons not yet validated
+
+Add-ons not listed above have not been validated for use with local clusters. This includes the Amazon CloudWatch Observability agent, Amazon GuardDuty agent, and {aws} Node Monitoring Agent. Using unvalidated add-ons is not recommended.
+
+As additional add-ons are validated, this page will be updated.
+
+[#eks-outposts-is-local-cluster-addons-alternative-cni]
+== Alternative CNI plugins
+
+Amazon VPC CNI is the officially supported CNI for Amazon EKS deployments on Outposts. If you want to use an alternative CNI plugin, see <<alternate-cni-plugins>>.

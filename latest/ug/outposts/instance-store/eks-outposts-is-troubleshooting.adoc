@@ -1,0 +1,118 @@
+include::../../attributes.txt[]
+
+[.topic]
+[#eks-outposts-is-troubleshooting]
+= Troubleshoot local Amazon EKS clusters on {aws} Outposts configured with EC2 instance store
+:info_titleabbrev: Troubleshoot clusters (EC2 instance store)
+
+[abstract]
+--
+Learn how to troubleshoot common issues with Amazon EKS local clusters on {aws} Outposts configured with EC2 instance store, including cluster creation failures, node join problems, and `etcd` quorum loss.
+--
+
+This topic covers common errors that you might see while using local Amazon EKS clusters on {aws} Outposts configured with EC2 instance store and how to troubleshoot them.
+
+Local clusters are created through the Amazon EKS API in an asynchronous manner. Requests to the API return immediately, but the cluster creation might take time to complete. Local clusters don't transition to a `FAILED` status. Amazon EKS continuously attempts to reconcile the cluster state with your desired state. As a result, a local cluster might remain in the `CREATING` state for an extended period until the underlying issue is resolved.
+
+[#eks-outposts-is-troubleshooting-kubectl]
+.`kubectl` not working after configuring `kubeconfig`
+[%collapsible]
+====
+
+If you see the following error after running `aws eks update-kubeconfig`:
+
+[source,bash,subs="verbatim,attributes"]
+----
+Either parameter --cluster-name or --cluster-id must be specified.
+----
+
+Or:
+
+[source,bash,subs="verbatim,attributes"]
+----
+couldn't get current server API group list: getting credentials: exec: executable aws failed with exit code 1
+----
+
+Verify that your `kubeconfig` (`~/.kube/config`) specifies `--cluster-name` in the `exec` args, not `--cluster-id`:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+      args:
+        - --region
+        - region-code
+        - eks
+        - get-token
+        - --cluster-name
+        - my-cluster
+        - --output
+        - json
+      command: aws
+----
+====
+
+[#eks-outposts-is-troubleshooting-nodes-not-joining]
+.Nodes not joining the cluster
+[%collapsible]
+====
+
+If your nodes don't appear when you run `kubectl get nodes`:
+
+. *Check `kubelet` logs on the node.* Access the node with SSM or SSH and run:
++
+[source,bash,subs="verbatim,attributes"]
+----
+systemctl status kubelet -l
+----
+
+. *Check for unauthorized errors.* Unauthorized errors can indicate missing node role permissions or `aws-auth` ConfigMap issues. Verify that the node's instance role is correctly mapped in the `aws-auth` ConfigMap.
+
+. *Check CSR status.* Verify that the node's certificate signing request was approved:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get csr
+----
++
+If the CSR is in `Pending` state, approve it:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl certificate approve node-csr-EXAMPLE
+----
+====
+
+[#eks-outposts-is-troubleshooting-creating]
+.Cluster stuck in `CREATING` state
+[%collapsible]
+====
+
+If your cluster remains in the `CREATING` state for an extended period:
+
+* *Insufficient capacity:* Verify that your Outpost has sufficient virtualized capacity for 6 control plane instances (3 `etcd` + 3 API server) of the specified instance types. The instance types must be slotted on your Outpost.
+* *Spread topology can't be met:* If you specified a `spreadLevel` of `host`, verify that at least 3 hosts are configured with the chosen instance type. If you specified `rack`, verify that at least 3 racks have hosts with the chosen instance type.
+* *Subnet issues:* Verify that the subnets you specified are in the Availability Zone to which the Outpost is homed, and that each subnet has at least 3 available IP addresses. See <<eks-outposts-is-vpc-subnet-requirements>>.
+====
+
+[#eks-outposts-is-troubleshooting-updating]
+.Cluster stuck in `UPDATING` state
+[%collapsible]
+====
+
+If your cluster remains in the `UPDATING` state during a Kubernetes version or platform version update:
+
+* *Insufficient capacity:* During updates, control plane instances are deleted before re-instantiation. If the freed capacity is consumed by another workload before the replacement instance can be provisioned, the update stalls. Verify that your Outpost has available capacity for the control plane instance types.
+====
+
+[#eks-outposts-is-troubleshooting-etcd-quorum]
+.`etcd` quorum loss
+[%collapsible]
+====
+
+If you lose the ability to perform Kubernetes API operations and your Outpost is disconnected:
+
+* `etcd` may have lost quorum. This occurs if more than one `etcd` instance becomes unavailable during a disconnect.
+* Workloads that are already running continue to operate, but Kubernetes API operations are unavailable.
+* When connectivity is restored, Amazon EKS recovers your cluster state from the most recent `etcd` snapshot.
+
+If your Outpost is connected and you experience `etcd` quorum loss, contact link:support/home[{aws} Support Center,type="console"].
+====

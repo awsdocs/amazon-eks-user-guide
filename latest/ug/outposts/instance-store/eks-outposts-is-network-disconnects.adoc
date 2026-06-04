@@ -1,0 +1,212 @@
+include::../../attributes.txt[]
+
+[.topic]
+[#eks-outposts-is-network-disconnects]
+= Prepare local Amazon EKS clusters on {aws} Outposts configured with EC2 instance store for network disconnects
+:info_titleabbrev: Prepare for disconnects (EC2 instance store)
+
+[abstract]
+--
+Learn how to prepare your Amazon EKS local cluster on an {aws} Outpost configured with EC2 instance store for network disconnects, including authentication, DNS resolution, observability, and pod failover behavior.
+--
+
+If the {aws} Outposts service link connecting your local network to the {aws} Cloud has lost connectivity, you can continue to use your local Amazon EKS cluster on an Outpost. This topic covers how to prepare your local cluster for network disconnects and related considerations.
+
+* Local clusters enable stability and continued operations during temporary, unplanned network disconnects. {aws} Outposts remains a fully connected offering that acts as an extension of the {aws} Cloud in your data center. In the event of network disconnects between your Outpost and the {aws} Cloud, we recommend attempting to restore your connection. For instructions, see link:outposts/latest/userguide/network-troubleshoot.html[{aws} Outposts rack network troubleshooting checklist,type="documentation"] in the _{aws} Outposts User Guide_.
+* Outposts emit a `ConnectedStatus` metric that you can use to monitor the connectivity state of your Outpost. For more information, see link:outposts/latest/userguide/outposts-cloudwatch-metrics.html#outposts-metrics[Outposts Metrics,type="documentation"] in the _{aws} Outposts User Guide_.
+
+[#eks-outposts-is-network-disconnects-authentication]
+== Authentication during network disconnects
+
+Local clusters support multiple authentication mechanisms. Their availability during network disconnects varies:
+
+[%header,cols="2"]
+|===
+|Authentication mechanism
+|Available during disconnect?
+
+
+|{aws} IAM (access entries, `aws-auth` ConfigMap)
+|No. IAM requires connectivity to the {aws} Region.
+
+|OIDC (customer-provided provider)
+|Depends on provider location. If the OIDC provider is reachable from the Outpost's local network, authentication continues to work.
+
+|x.509 client certificates
+|Yes. Certificates are validated locally by the Kubernetes API server.
+
+|IRSA (IAM Roles for Service Accounts)
+|No. See <<eks-outposts-is-network-disconnects-irsa>>.
+
+|EKS Pod Identity
+|No. See <<eks-outposts-is-network-disconnects-irsa>>.
+|===
+
+[#eks-outposts-is-network-disconnects-x509]
+=== x.509 client certificates
+
+To maintain `kubectl` access during network disconnects, create a client x.509 certificate before the disconnect occurs.
+
+To create an admin certificate:
+
+. Generate a private key and certificate signing request (CSR):
++
+[source,bash,subs="verbatim,attributes"]
+----
+openssl req -new -newkey rsa:4096 -nodes \
+    -keyout admin.key -out admin.csr -subj "/CN=admin"
+----
+
+. Create a Kubernetes `CertificateSigningRequest` resource and approve it:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl certificate approve admin-csr
+----
+
+. Retrieve the signed certificate:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get csr admin-csr -o jsonpath='{.status.certificate}' | base64 --decode > admin.crt
+----
+
+. Create a `ClusterRoleBinding` to grant admin access:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl create clusterrolebinding admin --clusterrole=cluster-admin \
+    --user=admin --group=system:masters
+----
+
+. Build a `kubeconfig` that uses the certificate:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl config --kubeconfig admin.kubeconfig set-cluster my-cluster \
+    --certificate-authority=ca.crt --server $APISERVER_ENDPOINT --embed-certs
+kubectl config --kubeconfig admin.kubeconfig set-credentials admin \
+    --client-certificate=admin.crt --client-key=admin.key --embed-certs
+kubectl config --kubeconfig admin.kubeconfig set-context admin@my-cluster \
+    --cluster my-cluster --user admin
+kubectl config --kubeconfig admin.kubeconfig use-context admin@my-cluster
+----
+
+[#eks-outposts-is-network-disconnects-cluster-dns]
+=== Cluster endpoint DNS resolution during disconnects
+
+The Kubernetes API server endpoint for a local cluster is hosted in Amazon Route 53 and resolves to the private IP addresses of the cross-account elastic network interfaces (ENIs) that Amazon EKS creates in your subnets. These ENIs have static private IP addresses that don't change during normal cluster operation.
+
+During a network disconnect, the Outpost can't reach Route 53, so the cluster endpoint hostname doesn't resolve unless you've prepared a local resolution path. Three categories of clients need to reach the API server:
+
+* *Cluster administrators* running `kubectl`.
+* *Worker nodes* (`kubelet`) sending node heartbeats and pulling specs.
+* *`kube-proxy`* on each node, which sets up cluster Service IPs.
+
+==== Option 1: local DNS solution (recommended)
+
+{aws} recommends deploying a local DNS solution that caches the cluster endpoint records and serves them while the Outpost is disconnected. You can run your own DNS server in your on-premises environment that caches the cluster endpoint records.
+
+If you use a local DNS solution, we recommend pointing your `kubeconfig` and your worker-node AMIs at the cluster endpoint hostname (not at ENI IP addresses) so that resolution is consistent with the local DNS solution.
+
+==== Option 2: static IP-based access
+
+If you don't want to run a local DNS solution, you can use static IP-based access.
+
+* *Administrators:* Configure your `kubeconfig` to point directly to a cross-account ENI private IP address. Find the ENIs by searching for network interfaces with the description `Amazon EKS [.replaceable]``cluster-name``` in your {aws} account. Each ENI's IP address is stable for the lifetime of the cluster under normal operation.
+* *Worker nodes (Amazon EKS optimized AMIs):* When you launch worker nodes from an Amazon EKS optimized AMI, the bootstrap script adds the cluster endpoint to `/etc/hosts` with the ENI IP addresses. No additional configuration is needed.
+* *Worker nodes (custom AMIs):* Add the cluster endpoint hostname and ENI IP addresses to `/etc/hosts` in your custom bootstrap. Otherwise, `kubelet` and `kube-proxy` can't reach the API server during a disconnect.
+
+[IMPORTANT]
+====
+If a cross-account ENI is deleted or its IP address changes — for example, if you delete it or modify it in a way that prevents Amazon EKS from re-attaching it — every node and every administrator using static IP-based access must be updated manually. With a local DNS solution, no manual intervention is required.
+====
+
+[#eks-outposts-is-network-disconnects-pod-dns]
+=== Pod DNS resolution during disconnects
+
+To prevent DNS failures during disconnected operation, configure your worker node launch template to override `kubelet`'s `resolvConf` setting. In your userdata, create a custom `resolv.conf` file (for example, `/etc/kubernetes/resolv.conf`) containing only `nameserver 10.0.0.2` (without the VPC search domain), then set `spec.kubelet.config.resolvConf: /etc/kubernetes/resolv.conf` in your `NodeConfig`. This removes the `[.replaceable]``region-code``.compute.internal` search domain from pod DNS configuration, preventing queries from being forwarded to the unreachable VPC DNS resolver while disconnected.
+
+The following example shows worker node userdata:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="BOUNDARY"
+
+--BOUNDARY
+Content-Type: text/x-shellscript; charset="us-ascii"
+
+#!/bin/bash
+mkdir -p /etc/kubernetes
+echo "nameserver 10.0.0.2" > /etc/kubernetes/resolv.conf
+
+--BOUNDARY
+Content-Type: application/node.eks.aws
+
+---
+apiVersion: node.eks.aws/v1alpha1
+kind: NodeConfig
+spec:
+  cluster:
+    name: my-cluster
+    ...
+  kubelet:
+    config:
+      resolvConf: /etc/kubernetes/resolv.conf
+
+--BOUNDARY--
+----
+
+[#eks-outposts-is-network-disconnects-irsa]
+=== IRSA and Pod Identity during disconnects
+
+[IMPORTANT]
+====
+IRSA and EKS Pod Identity depend on {aws} STS, which runs in the {aws} Region. During a network disconnect, workloads that use IRSA or Pod Identity cannot obtain new credentials. Existing credentials expire after a period of time.
+====
+
+We do not recommend taking functional or operational dependencies on Region-based {aws} services for workloads that must remain available during network disconnects.
+
+[#eks-outposts-is-network-disconnects-etcd]
+== `etcd` behavior during disconnects
+
+During network disconnects, `etcd` snapshots cannot be backed up to Amazon S3. If more than one `etcd` instance becomes unavailable during a disconnect, `etcd` loses quorum and Kubernetes API operations are not available until your Outpost reconnects and `etcd` quorum is restored. Workloads that are already running continue to operate.
+
+[#eks-outposts-is-network-disconnects-cp-logs]
+== Control plane logging during disconnects
+
+During network disconnects, control plane logs are cached locally on the control plane instances. When connectivity is restored, the logs are sent to Amazon CloudWatch Logs in the parent {aws} Region. You do not need to install or maintain any logging agent on the control plane.
+
+[#eks-outposts-is-network-disconnects-local-observability]
+== Local observability
+
+You can monitor your cluster locally during disconnects by using https://prometheus.io/[Prometheus], https://grafana.com/[Grafana], or other third-party solutions to scrape the Kubernetes API server metrics endpoint.
+
+[#eks-outposts-is-network-disconnects-image-repo]
+== Local image repository
+
+To scale deployments with additional replicas or to recover from pod failures during disconnects, you must have a local container image repository (such as a Docker registry), or the images must be cached on the node before disconnection. Amazon ECR is not available during network disconnects.
+
+[#eks-outposts-is-network-disconnects-pod-failover]
+== Tune Kubernetes pod failover behavior
+
+During a network disconnect, the Kubernetes control plane cannot communicate with the {aws} Region. If a node becomes unreachable, the default Kubernetes behavior is to evict pods after a timeout period. You can tune this behavior using tolerations and `tolerationSeconds` on your pod specifications to control how quickly pods are rescheduled during partitions. For detailed guidance and examples, see https://docs.aws.amazon.com/eks/latest/best-practices/hybrid-nodes-network-disconnection-best-practices.html#_tune_kubernetes_pod_failover_behavior[Tune Kubernetes pod failover behavior] in the _Amazon EKS Best Practices Guide_.
+
+[#eks-outposts-is-network-disconnects-simulate]
+== Simulate a network disconnect
+
+Before you go into production with your local cluster, simulate a disconnect to verify that you can access your cluster when it's in a disconnected state.
+
+. Apply firewall rules on the networking devices that connect your Outpost to the {aws} Region. This disconnects the service link of the Outpost.
+. Test the connection to your local cluster using the x.509 certificate you created:
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl --kubeconfig admin.kubeconfig get nodes
+----
+
+[NOTE]
+====
+If you have services already in production on your Outpost, do not simulate a disconnect. Disconnecting the service link affects all services running on the Outpost.
+====

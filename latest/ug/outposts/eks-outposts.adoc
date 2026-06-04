@@ -28,121 +28,183 @@ image::images/outposts-deployment-options.png[Outpost deployment options ,scaled
 [#outposts-overview-when-deployment-options]
 == When to use each deployment option
 
-Both local and extended clusters are general-purpose deployment options and can be used for a range of applications.  
+Both local and extended clusters are general-purpose deployment options and can be used for a range of applications.
 
-With local clusters, you can run the entire Amazon EKS cluster locally on Outposts. This option can mitigate the risk of application downtime that might result from temporary network disconnects to the cloud. These network disconnects can be caused by fiber cuts or weather events. Because the entire Amazon EKS cluster runs locally on Outposts, applications remain available. You can perform cluster operations during network disconnects to the cloud. For more information, see <<eks-outposts-network-disconnects>>. If you're concerned about the quality of the network connection from your Outposts to the parent {aws} Region and require high availability through network disconnects, use the local cluster deployment option.
+With local clusters, you can run the entire Amazon EKS cluster locally on Outposts. This option can mitigate the risk of application downtime that might result from temporary network disconnects to the cloud. These network disconnects can be caused by fiber cuts or weather events. Because the entire Amazon EKS cluster runs locally on Outposts, applications remain available. You can perform cluster operations during network disconnects to the cloud. Choose local clusters if you require continued Kubernetes operations through network disconnects, or if you have data residency requirements.
 
 With extended clusters, you can conserve capacity on your Outpost because the Kubernetes control plane runs in the parent {aws} Region. This option is suitable if you can invest in reliable, redundant network connectivity from your Outpost to the {aws} Region. The quality of the network connection is critical for this option. The way that Kubernetes handles network disconnects between the Kubernetes control plane and nodes might lead to application downtime. For more information on the behavior of Kubernetes, see https://kubernetes.io/docs/concepts/scheduling-eviction/[Scheduling, Preemption, and Eviction] in the Kubernetes documentation.
+
+[#outposts-overview-two-local-cluster-implementations]
+== Two local cluster implementations
+
+Amazon EKS supports two local cluster implementations on Outposts racks. An Outpost is configured to use either Amazon EBS or Amazon EC2 instance store as the link:AWSEC2/latest/UserGuide/RootDeviceStorage.html[root volume,type="documentation"] type for the EC2 instances that run on it. The implementation Amazon EKS uses for your local cluster's control plane depends on this configuration:
+
+
+
+* *{aws} Outposts configured with Amazon EBS.* The Kubernetes control plane runs in your {aws} account on your Outpost, with stacked `etcd` on three Amazon EC2 instances backed by Amazon EBS. For more information, see <<eks-outposts-local-cluster-overview>>.
+* *{aws} Outposts configured with EC2 instance store.* Amazon EKS deploys an updated local clusters architecture. The Kubernetes control plane runs in an {aws}-managed service account on your Outpost, with external `etcd` on six Amazon EC2 instances. This implementation has greater parity with Amazon EKS in the cloud, follows the Amazon EKS Kubernetes version lifecycle, and supports Amazon EKS add-ons, IAM Roles for Service Accounts, EKS Pod Identity, OIDC, access entries, and Bottlerocket. It is available in all standard {aws} Regions where {aws} Outposts is available. For more information, see <<eks-outposts-is-local-cluster-overview>>.
+
+The features available on each implementation are summarized in the following table.
 
 [#outposts-overview-comparing-deployment-options]
 == Comparing the deployment options
 
-The following table compares the differences between the two options.
+The following table compares the differences between extended clusters and the two local cluster implementations.
 
-[%header,cols="3"]
+[%header,cols="4"]
 |===
 |Feature
 |Extended cluster
-|Local cluster
+|Local cluster on Amazon EBS Outposts
+|Local cluster on EC2 instance store Outposts
 
 
 |Kubernetes control plane location
 |{aws} Region
 |Outpost
+|Outpost
 
 |Kubernetes control plane account
 |{aws} account
-|Your account
+|Your {aws} account
+|{aws}-managed service account on your Outpost
+
+|Kubernetes control plane topology
+|Cloud-managed
+|3 Amazon EC2 instances, stacked `etcd`
+|6 Amazon EC2 instances (3 `etcd` + 3 API server), external `etcd`
+
+|Control plane storage
+|Cloud-managed
+|Amazon EBS
+|Amazon EC2 instance store; `etcd` backed up to Amazon S3 by Amazon EKS
 
 |Regional availability
-|see link:general/latest/gr/eks.html#eks_region[Service endpoints,type="documentation"]
+|See link:general/latest/gr/eks.html#eks_region[Service endpoints,type="documentation"]
 |US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Middle East (Bahrain), and South America (São Paulo)
+|All standard {aws} Regions where {aws} Outposts is available
 
 |Kubernetes minor versions
-|link:eks/latest/userguide/kubernetes-versions.html[Supported Amazon EKS versions,type="documentation"].
-|link:eks/latest/userguide/kubernetes-versions.html[Supported Amazon EKS versions,type="documentation"].
+|link:eks/latest/userguide/kubernetes-versions.html[Supported Amazon EKS versions,type="documentation"]
+|link:eks/latest/userguide/kubernetes-versions.html[Supported Amazon EKS versions,type="documentation"]
+|link:eks/latest/userguide/kubernetes-versions.html[Supported Amazon EKS versions,type="documentation"]
 
 |Platform versions
-|See link:eks/latest/userguide/platform-versions.html[EKS platform-versions,type="documentation"]
+|See link:eks/latest/userguide/platform-versions.html[Amazon EKS platform versions,type="documentation"]
 |See <<eks-outposts-platform-versions>>
+|See link:eks/latest/userguide/platform-versions.html[Amazon EKS platform versions,type="documentation"]
 
 |Outpost form factors
+|Outpost racks
 |Outpost racks
 |Outpost racks
 
 |User interfaces
 |{aws-management-console}, {aws} CLI, Amazon EKS API, `eksctl`, {aws} CloudFormation, and Terraform
 |{aws-management-console}, {aws} CLI, Amazon EKS API, `eksctl`, {aws} CloudFormation, and Terraform
+|{aws-management-console}, {aws} CLI, Amazon EKS API, `eksctl`, {aws} CloudFormation, and Terraform
 
 |Managed policies
 |<<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>> and <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
 |<<security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy,AmazonEKSLocalOutpostClusterPolicy>> and <<security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy>>
+|link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy,type="documentation"] and link:aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html[AmazonEKSServicePolicy,type="documentation"]
 
 |Cluster VPC and subnets
 |See <<network-reqs>>
 |See <<eks-outposts-vpc-subnet-requirements>>
+|See <<eks-outposts-is-vpc-subnet-requirements>>
 
 |Cluster endpoint access
 |Public or private or both
 |Private only
+|Public or private or both
 
 |Kubernetes API server authentication
-|{aws} Identity and Access Management (IAM) and OIDC
+|{aws} Identity and Access Management (IAM), OIDC, and access entries
 |IAM and `x.509` certificates
+|IAM, OIDC, access entries, `aws-auth` ConfigMap, and `x.509` certificates (for network disconnects)
 
 |Node types
+|Self-managed only
 |Self-managed only
 |Self-managed only
 
 |Node compute types
 |Amazon EC2 on-demand
 |Amazon EC2 on-demand
+|Amazon EC2 on-demand
 
 |Node storage types
+|Amazon EBS `gp2` and local NVMe SSD
 |Amazon EBS `gp2` and local NVMe SSD
 |Amazon EBS `gp2` and local NVMe SSD
 
 |Amazon EKS optimized AMIs
 |Amazon Linux, Windows, and Bottlerocket
-|Amazon Linux only
+|Amazon Linux
+|Amazon Linux and Bottlerocket
 
 |IP versions
+|`IPv4` only
 |`IPv4` only
 |`IPv4` only
 
 |Add-ons
 |Amazon EKS add-ons or self-managed add-ons
-|Self-managed add-ons only
+|Self-managed add-ons
+|Amazon EKS add-ons (<<eks-outposts-is-local-cluster-addons,validated list>>) or self-managed add-ons
 
 |Default Container Network Interface
+|Amazon VPC CNI plugin for Kubernetes
 |Amazon VPC CNI plugin for Kubernetes
 |Amazon VPC CNI plugin for Kubernetes
 
 |Kubernetes control plane logs
 |Amazon CloudWatch Logs
 |Amazon CloudWatch Logs
+|Amazon CloudWatch Logs
+
+|`etcd` backup
+|Cloud-managed
+|Customer-managed (`etcdctl` or Amazon EBS volume backups)
+|Managed by Amazon EKS (periodic backup to Amazon S3)
 
 |Load balancing
+|Use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to provision Application Load Balancers only (no Network Load Balancers)
 |Use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to provision Application Load Balancers only (no Network Load Balancers)
 |Use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to provision Application Load Balancers only (no Network Load Balancers)
 
 |Secrets envelope encryption
 |See <<enable-kms>>
 |Not supported
+|Not supported
 
-|IAM roles for service accounts
+|IAM Roles for Service Accounts (IRSA)
 |See <<iam-roles-for-service-accounts>>
 |Not supported
+|Supported (requires connectivity to the {aws} Region; not available during network disconnects)
+
+|EKS Pod Identity
+|See <<pod-identities>>
+|Not supported
+|Supported (requires connectivity to the {aws} Region; not available during network disconnects)
 
 |Troubleshooting
 |See <<troubleshooting>>
 |See <<eks-outposts-troubleshooting>>
+|See <<eks-outposts-is-troubleshooting>>
 |===
+
+[IMPORTANT]
+====
+On EC2 instance store Outposts, IRSA and EKS Pod Identity depend on {aws} STS in the {aws} Region. During network disconnects, workloads that use IRSA or Pod Identity cannot obtain new credentials. For more information, see <<eks-outposts-is-network-disconnects>>.
+====
 
 [.topiclist]
 [[Topic List]]
 
-include::eks-outposts-local-cluster-overview.adoc[leveloffset=+1]
+include::ebs/eks-outposts-local-cluster-overview.adoc[leveloffset=+1]
 
+include::instance-store/eks-outposts-is-local-cluster-overview.adoc[leveloffset=+1]
 
 include::eks-outposts-self-managed-nodes.adoc[leveloffset=+1]
