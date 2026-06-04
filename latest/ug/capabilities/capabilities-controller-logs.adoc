@@ -1,0 +1,118 @@
+include::../attributes.txt[]
+
+[.topic]
+[#capabilities-controller-logs]
+= Access EKS Capabilities controller logs
+:info_titleabbrev: Capabilities controller logs
+
+[abstract]
+--
+Monitor and troubleshoot EKS Capabilities by delivering managed controller logs to Amazon CloudWatch Logs, Amazon S3, or Amazon Data Firehose.
+--
+
+EKS Capabilities controllers for ACK, kro, and Argo CD run in {aws}-managed infrastructure outside your clusters.
+You can configure log delivery for these controllers using Amazon CloudWatch Vended Logs, giving you visibility into controller behavior for monitoring and troubleshooting.
+
+Logs are delivered in structured JSON format and include operational fields such as log level, message, controller name, and reconciliation identifiers.
+Internal {aws} metadata is filtered before delivery — you receive only the operational log content relevant to your capability controllers.
+
+== Supported log types
+
+Each capability has one or more log types that you can configure independently as CloudWatch Vended Logs delivery sources.
+
+*ACK*
+
+* *EKS_CAPABILITY_ACK_LOGS*
+
+*kro*
+
+* *EKS_CAPABILITY_KRO_LOGS*
+
+*Argo CD*
+
+* *EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS*
+* *EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS*
+* *EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS*
+* *EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS*
+* *EKS_CAPABILITY_ARGOCD_SERVER_LOGS*
+
+ACK uses a single log type covering all ACK service controllers.
+Log records include a `controllerGroup` field (for example, `s3.services.k8s.aws`, `rds.services.k8s.aws`) that identifies which ACK service controller generated the log.
+You can use this field to filter logs for a specific service controller in CloudWatch Logs Insights or other query tools.
+
+Argo CD has five separate log types, one per controller component.
+This lets you enable logging for only the controllers you need and route them to different destinations.
+
+== Setting up log delivery
+
+To configure capability controller log delivery, use the {aws-management-console} or the Amazon CloudWatch Logs API.
+For detailed setup instructions, see link:AmazonCloudWatch/latest/logs/AWS-vended-logs-permissions-V2.html[Enabling logging from {aws} services,type="documentation"] in the Amazon CloudWatch Logs User Guide.
+Each capability controller can be configured as an individual CloudWatch Vended Logs delivery source, so you can select which logs to receive.
+
+=== Console
+
+. Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters.
+. Select your cluster name.
+. Choose the *Capabilities* tab, then select your capability.
+. In the *Log delivery* section, choose *Add*.
+. Select the log type for your capability and choose a destination.
+. Choose *Add* to create the delivery.
+
+=== Using Amazon CloudWatch APIs
+
+Setting up logging requires three steps:
+
+. Create a delivery source for the capability using the CloudWatch `PutDeliverySource` API.
+Use the capability ARN as the `resourceArn` and specify the desired log type.
+. Create a delivery destination using `PutDeliveryDestination`.
+Specify the ARN of a CloudWatch log group, S3 bucket, or Amazon Data Firehose delivery stream.
+. Create a delivery to connect the source and destination using `CreateDelivery`.
+
+You can retrieve the capability ARN using the `describe-capability` command:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-capability \
+  --region [.replaceable]`region-code` \
+  --cluster-name [.replaceable]`my-cluster` \
+  --capability-name [.replaceable]`my-capability` \
+  --query 'capability.capabilityArn' --output text
+----
+
+You can configure a single capability (delivery source) to send logs to multiple destinations by creating multiple deliveries.
+You can also send logs from multiple capabilities to the same destination.
+
+=== IAM permissions
+
+Depending on the destination selected, you might need to configure IAM policies or roles for the CloudWatch log group, S3 bucket, or Data Firehose delivery stream to ensure successful log delivery.
+If you're sending logs across {aws} accounts, use the `PutDeliveryDestinationPolicy` API to configure an IAM policy that allows delivery to the destination.
+See the link:AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html#AWS-logs-infrastructure-V2-CloudWatchLogs[CloudWatch Vended Logs permissions documentation,type="documentation"] for additional information.
+
+== Example: Querying logs with CloudWatch Logs Insights
+
+To view error logs across all controllers:
+
+[source,sql]
+----
+fields @timestamp, controller, message, error
+| filter level = "error"
+| sort @timestamp desc
+| limit 50
+----
+
+For more query examples including filtering by service controller, tracking reconciliation cycles, and Argo CD application filtering, see <<capabilities-troubleshooting,Use controller logs for troubleshooting>>.
+
+== Viewing your logs
+
+After you configure log delivery, logs are delivered to your specified destination.
+The method for accessing logs depends on your chosen destination type:
+
+* *CloudWatch Logs* — View logs in the CloudWatch Logs console, use {aws} CLI commands, or query with CloudWatch Logs Insights.
+* *Amazon S3* — Access logs as objects in your S3 bucket through the S3 console, {aws} CLI, or analytics tools like Amazon Athena.
+* *Amazon Data Firehose* — Logs are streamed to your configured Firehose target (such as S3, OpenSearch Service, Redshift, etc).
+
+== Pricing
+
+CloudWatch Vended Logs charges apply for log delivery and storage based on your chosen delivery destination.
+CloudWatch Vended Logs enables reliable, secure log delivery with built-in {aws} authentication and authorization at a reduced price compared to standard CloudWatch Logs.
+See the link:cloudwatch/pricing/[Vended Logs section of the CloudWatch pricing page,type="marketing"] for more details.

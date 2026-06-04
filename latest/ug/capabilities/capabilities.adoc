@@ -178,6 +178,8 @@ Argo CD deploys these configurations to new accounts and regions automatically, 
 
 include::working-with-capabilities.adoc[leveloffset=+1]
 
+include::capabilities-controller-logs.adoc[leveloffset=+1]
+
 include::capability-kubernetes-resources.adoc[leveloffset=+1]
 
 include::capabilities-considerations.adoc[leveloffset=+1]
