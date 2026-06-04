@@ -12,6 +12,7 @@ This topic describes how to create an Argo CD capability using the {aws} CLI.
 * *{aws} CLI* – Version `{auto-cli-v2-version}` or later. To check your version, run `aws --version`. For more information, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] in the {aws} Command Line Interface User Guide.
 * *`kubectl`* – A command line tool for working with Kubernetes clusters. For more information, see <<install-kubectl>>.
 * *{aws} Identity Center configured* – Argo CD requires {aws} Identity Center for authentication. Local users are not supported. If you don't have {aws} Identity Center set up, see link:singlesignon/latest/userguide/getting-started.html[Getting started with {aws} Identity Center,type="documentation"] to create an Identity Center instance, and link:singlesignon/latest/userguide/addusers.html[Add users,type="documentation"] and link:singlesignon/latest/userguide/addgroups.html[Add groups,type="documentation"] to create users and groups for Argo CD access.
+* *At least one user or group in {aws} Identity Center* – You must have at least one user or group configured in your Identity Center instance to assign Argo CD RBAC role mappings and provide access to the Argo CD UI.
 
 == Step 1: Create an IAM Capability Role
 
@@ -53,6 +54,47 @@ If you plan to use the optional integrations with {aws} Secrets Manager or {aws}
 For IAM policy examples and configuration guidance, see <<integration-secrets-manager>> and <<integration-codeconnections>>.
 ====
 
+== (Optional) Configure a private endpoint
+
+By default, the Argo CD UI and API endpoint are publicly accessible over the internet. If you need to restrict access, you can configure a VPC endpoint.
+This is recommended for environments with strict network security requirements.
+
+=== Create a VPC endpoint for EKS Capabilities
+
+Create an interface VPC endpoint for the EKS Capabilities service in your VPC.
+Replace [.replaceable]`vpc-id`, [.replaceable]`subnet-id-1`, [.replaceable]`subnet-id-2`, [.replaceable]`sg-id`, and [.replaceable]`region-code` with your own values:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws ec2 create-vpc-endpoint \
+  --vpc-endpoint-type Interface \
+  --service-name com.amazonaws.[.replaceable]`region-code`.eks-capabilities \
+  --vpc-id [.replaceable]`vpc-xxxxxxxx` \
+  --subnet-ids [.replaceable]`subnet-xxxxxxxx` [.replaceable]`subnet-yyyyyyyy` \
+  --security-group-ids [.replaceable]`sg-xxxxxxxx` \
+  --region [.replaceable]`region-code`
+----
+
+[NOTE]
+====
+* The subnets should be in different Availability Zones for high availability.
+* The security group must allow inbound HTTPS (port 443) traffic from the networks that need to access the Argo CD UI and API.
+* Note the VPC endpoint ID returned by this command—you'll need it when creating the capability.
+====
+
+=== Verify the VPC endpoint is available
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws ec2 describe-vpc-endpoints \
+  --vpc-endpoint-ids [.replaceable]`vpce-xxxxxxxx` \
+  --query 'VpcEndpoints[0].State' \
+  --output text \
+  --region [.replaceable]`region-code`
+----
+
+Wait until the state shows `available` before proceeding.
+
 == Step 2: Create the Argo CD capability
 
 Create the Argo CD capability resource on your cluster.
@@ -85,6 +127,40 @@ aws eks create-capability \
   --type ARGOCD \
   --role-arn arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/ArgoCDCapabilityRole \
   --delete-propagation-policy RETAIN \
+  --configuration '{
+    "argoCd": {
+      "awsIdc": {
+        "idcInstanceArn": "'$IDC_INSTANCE_ARN'",
+        "idcRegion": "'[.replaceable]`idc-region-code`'"
+      },
+      "rbacRoleMappings": [{
+        "role": "ADMIN",
+        "identities": [{
+          "id": "'$IDC_USER_ID'",
+          "type": "SSO_USER"
+        }]
+      }]
+    }
+  }'
+----
+
+If you configured a VPC endpoint for private access, include the `network-configuration` parameter to create the capability with a private endpoint.
+Replace [.replaceable]`vpce-xxxxxxxx` with your VPC endpoint ID:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks create-capability \
+  --region [.replaceable]`region-code` \
+  --cluster-name [.replaceable]`my-cluster` \
+  --capability-name my-argocd \
+  --type ARGOCD \
+  --role-arn arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/ArgoCDCapabilityRole \
+  --delete-propagation-policy RETAIN \
+  --network-configuration '{
+    "elasticNetworkInterfaces": {
+      "vpcEndpointId": "'[.replaceable]`vpce-xxxxxxxx`'"
+    }
+  }' \
   --configuration '{
     "argoCd": {
       "awsIdc": {

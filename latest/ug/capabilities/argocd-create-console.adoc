@@ -10,6 +10,7 @@ This topic describes how to create an Argo CD capability using the {aws-manageme
 == Prerequisites
 
 * *{aws} Identity Center configured* – Argo CD requires {aws} Identity Center for authentication. Local users are not supported. If you don't have {aws} Identity Center set up, see link:singlesignon/latest/userguide/getting-started.html[Getting started with {aws} Identity Center,type="documentation"] to create an Identity Center instance, and link:singlesignon/latest/userguide/addusers.html[Add users,type="documentation"] and link:singlesignon/latest/userguide/addgroups.html[Add groups,type="documentation"] to create users and groups for Argo CD access.
+* *At least one user or group in {aws} Identity Center* – You must have at least one user or group configured in your Identity Center instance to assign Argo CD RBAC role mappings and provide access to the Argo CD UI.
 
 == Create the Argo CD capability
 
@@ -45,6 +46,25 @@ For IAM policy examples and configuration guidance, see <<integration-secrets-ma
 .. Select *Enable {aws} Identity Center integration*.
 .. Choose your Identity Center instance from the dropdown.
 .. Configure role mappings for RBAC by assigning users or groups to Argo CD roles (ADMIN, EDITOR, or VIEWER)
+
+. *(Optional) Configure private endpoint*:
++
+By default, the Argo CD UI and API endpoint are publicly accessible over the internet. If you need to restrict access, you can configure a VPC endpoint.
+This is recommended for environments with strict network security requirements.
++
+.. Before creating the capability, create an interface VPC endpoint for the `com.amazonaws.<region>.eks-capabilities` service in your VPC. The VPC endpoint should:
++
+*** Be associated with subnets in different Availability Zones for high availability
+*** Have a security group that allows inbound HTTPS (port 443) traffic from the networks that need to access the Argo CD UI and API
+*** For more details on creating and customizing VPC endpoints, see link:vpc/latest/privatelink/create-interface-endpoint.html[Create a VPC endpoint,type="documentation"] in the {aws} PrivateLink Guide.
++
+.. In the *Argo CD endpoint access - _optional_* section of the Argo CD capability creation page, select *Private*.
+.. Choose the VPC endpoint you created from the dropdown.
++
+[NOTE]
+====
+When private endpoint is enabled, the Argo CD UI and API are only accessible through the VPC endpoint. Users must be connected to the VPC (or a peered network) to access the Argo CD interface.
+====
 
 . Choose *Create*.
 

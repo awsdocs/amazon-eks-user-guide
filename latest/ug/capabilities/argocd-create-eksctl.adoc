@@ -13,6 +13,11 @@ The following steps require eksctl version `0.220.0` or later.
 To check your version, run `eksctl version`.
 ====
 
+== Prerequisites
+
+* *{aws} Identity Center configured* – Argo CD requires {aws} Identity Center for authentication. Local users are not supported. If you don't have {aws} Identity Center set up, see link:singlesignon/latest/userguide/getting-started.html[Getting started with {aws} Identity Center,type="documentation"] to create an Identity Center instance, and link:singlesignon/latest/userguide/addusers.html[Add users,type="documentation"] and link:singlesignon/latest/userguide/addgroups.html[Add groups,type="documentation"] to create users and groups for Argo CD access.
+* *At least one user or group in {aws} Identity Center* – You must have at least one user or group configured in your Identity Center instance to assign Argo CD RBAC role mappings and provide access to the Argo CD UI.
+
 == Step 1: Create an IAM Capability Role
 
 Create a trust policy file:
@@ -71,6 +76,47 @@ aws identitystore list-users \
 
 Note these values - you'll need them in the next step.
 
+== (Optional) Configure a private endpoint
+
+By default, the Argo CD UI and API endpoint are publicly accessible over the internet. If you need to restrict access, you can configure a VPC endpoint.
+This is recommended for environments with strict network security requirements.
+
+=== Create a VPC endpoint for EKS Capabilities
+
+Create an interface VPC endpoint for the EKS Capabilities service in your VPC.
+Replace [.replaceable]`vpc-id`, [.replaceable]`subnet-id-1`, [.replaceable]`subnet-id-2`, [.replaceable]`sg-id`, and [.replaceable]`region-code` with your own values:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws ec2 create-vpc-endpoint \
+  --vpc-endpoint-type Interface \
+  --service-name com.amazonaws.[.replaceable]`region-code`.eks-capabilities \
+  --vpc-id [.replaceable]`vpc-xxxxxxxx` \
+  --subnet-ids [.replaceable]`subnet-xxxxxxxx` [.replaceable]`subnet-yyyyyyyy` \
+  --security-group-ids [.replaceable]`sg-xxxxxxxx` \
+  --region [.replaceable]`region-code`
+----
+
+[NOTE]
+====
+* The subnets should be in different Availability Zones for high availability.
+* The security group must allow inbound HTTPS (port 443) traffic from the networks that need to access the Argo CD UI and API.
+* Note the VPC endpoint ID returned by this command—you'll need it when creating the capability.
+====
+
+=== Verify the VPC endpoint is available
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws ec2 describe-vpc-endpoints \
+  --vpc-endpoint-ids [.replaceable]`vpce-xxxxxxxx` \
+  --query 'VpcEndpoints[0].State' \
+  --output text \
+  --region [.replaceable]`region-code`
+----
+
+Wait until the state shows `available` before proceeding.
+
 == Step 3: Create an eksctl configuration file
 
 Create a file named `argocd-capability.yaml` with the following content.
@@ -107,6 +153,44 @@ capabilities:
 You can add multiple users or groups to the RBAC mappings.
 For groups, use `type: SSO_GROUP` and provide the group ID.
 Available roles are `ADMIN`, `EDITOR`, and `VIEWER`.
+====
+
+If you configured a VPC endpoint for private access, add the `networkConfiguration` section to the capability definition.
+Replace [.replaceable]`vpce-xxxxxxxx` with your VPC endpoint ID:
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: [.replaceable]`my-cluster`
+  region: [.replaceable]`cluster-region-code`
+  
+capabilities:
+  - name: my-argocd
+    type: ARGOCD
+    roleArn: arn:aws:iam::[.replaceable]`111122223333`:role/ArgoCDCapabilityRole
+    deletePropagationPolicy: RETAIN
+    networkConfiguration:
+      elasticNetworkInterfaces:
+        vpcEndpointId: [.replaceable]`vpce-xxxxxxxx`
+    configuration:
+      argocd:
+        awsIdc:
+          idcInstanceArn: [.replaceable]`arn:aws:sso:::instance/ssoins-123abc`
+          idcRegion: [.replaceable]`idc-region-code`
+        rbacRoleMappings:
+          - role: ADMIN
+            identities:
+              - id: [.replaceable]`38414300-1041-708a-01af-5422d6091e34`
+                type: SSO_USER
+----
+
+[NOTE]
+====
+When private endpoint is enabled, the Argo CD UI and API are only accessible through the VPC endpoint.
+Users must be connected to the VPC (or a peered network) to access the Argo CD interface.
 ====
 
 == Step 4: Create the Argo CD capability
