@@ -14,7 +14,7 @@ To receive notifications of all source file changes to this specific documentati
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
 ----
 
-== May 21, 2026
+== June 4, 2026
 
 **Documentation**: Added guidance on controlling compute costs in EKS Auto Mode, including how consolidation works, what blocks it, and recommended patterns for bursty workloads. For more information, see <<auto-cost-control,Cost optimization in EKS Auto Mode>>.
 
