@@ -30,6 +30,8 @@ include::disable-windows-support.adoc[leveloffset=+1]
 
 include::private-clusters.adoc[leveloffset=+1]
 
+include::control-plane-egress.adoc[leveloffset=+1]
+
 include::autoscaling.adoc[leveloffset=+1]
 
 include::zone-shift.adoc[leveloffset=+1]

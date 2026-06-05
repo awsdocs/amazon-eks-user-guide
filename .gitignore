@@ -81,3 +81,6 @@ vale/styles/AsciiDoc/
 vale/styles/RedHat/
 .amazonq/
 .kiro-project/
+
+.fusion-config/
+.fusion-deps/

@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-06-18"]
+=== Control plane egress routing
+[.update-ulink]
+link:eks/latest/userguide/control-plane-egress.html[type="documentation"]
+
+Added support for customer-routed control plane egress (`controlPlaneEgressMode=CUSTOMER_ROUTED`), letting you manage the network path from the cluster control plane to resources in your VPC.
+
 [.update,date="2026-06-02"]
 === Kubernetes version `1.36`
 [.update-ulink]

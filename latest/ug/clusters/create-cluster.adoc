@@ -173,6 +173,7 @@ The CIDR block must meet the following requirements:
 +
 You can only specify this option when using the `IPv4` address family and only at cluster creation. If you don't specify this, then Kubernetes assigns service IP addresses from either the `10.100.0.0/16` or `172.20.0.0/16` CIDR blocks.
 ** For *Cluster endpoint access*, select an option. After your cluster is created, you can change this option. Before selecting a non-default option, make sure to familiarize yourself with the options and their implications. For more information, see <<cluster-endpoint>>.
+** (Optional) For *Control plane egress*, choose how egress traffic from the control plane to your VPC is routed. The default is Amazon EKS managed. If you select customer routed, you become responsible for the network path from the control plane to your VPC resources. For more information, see <<control-plane-egress>>.
 +
 When you're done with this page, choose *Next*.
 . (Optional) On the *Configure observability* page, choose which *Metrics* and *Control plane logging* options to turn on. By default, each log type is turned off.
@@ -213,6 +214,7 @@ The subnets that you choose must meet the <<network-requirements-subnets,Amazon 
 ** If you don't want to specify a security group ID, remove `,securityGroupIds=sg-<ExampleID1>` from the command. If you want to specify one or more security group IDs, replace the values for `securityGroupIds` with your own. You can also add additional IDs.
 +
 Whether you choose any security groups or not, Amazon EKS creates a security group that enables communication between your cluster and your VPC. Amazon EKS associates this security group, and any that you choose, to the network interfaces that it creates. For more information about the cluster security group that Amazon EKS creates, see <<sec-group-reqs>>. You can modify the rules in the cluster security group that Amazon EKS creates.
+** (Optional) To manage the egress path from the control plane to your VPC yourself, add `controlPlaneEgressMode=CUSTOMER_ROUTED` to `--resources-vpc-config`. The default is `AWS_MANAGED`. You can also change this setting after cluster creation. For more information, see <<control-plane-egress>>.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

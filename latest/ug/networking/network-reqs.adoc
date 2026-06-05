@@ -43,6 +43,7 @@ To avoid CIDR conflicts, ensure your EKS service CIDR doesn't overlap with any c
 * If you want Kubernetes to assign `IPv6` addresses to Pods and services, associate an `IPv6` CIDR block with your VPC. For more information, see link:vpc/latest/userguide/working-with-vpcs.html#vpc-associate-ipv6-cidr[Associate an IPv6 CIDR block with your VPC,type="documentation"] in the Amazon VPC User Guide. You cannot use `IPv6` addresses with Pods and services running on hybrid nodes and you cannot use hybrid nodes with clusters configured with the `IPv6` IP address family.
 * The VPC must have `DNS` hostname and `DNS` resolution support. Otherwise, nodes can't register to your cluster. For more information, see link:vpc/latest/userguide/vpc-dns.html[DNS attributes for your VPC,type="documentation"] in the Amazon VPC User Guide.
 * The VPC might require VPC endpoints using {aws} PrivateLink. For more information, see <<network-requirements-subnets>>.
+* If the cluster uses customer-routed control plane egress (`controlPlaneEgressMode=CUSTOMER_ROUTED`), the subnets used by the cluster must be able to route to any endpoints the control plane calls, such as admission webhook servers and OIDC providers. This requires an egress path (for example, a NAT gateway, NAT instance, firewall, or transit gateway to a centralized egress VPC) plus route table, security group, and network ACL rules that allow the traffic. For more information, see <<control-plane-egress>>.
 
 If you created a cluster with Kubernetes `1.14` or earlier, Amazon EKS added the following tag to your VPC:
 
