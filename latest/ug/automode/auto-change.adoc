@@ -14,6 +14,10 @@ To receive notifications of all source file changes to this specific documentati
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
 ----
 
+== June 9, 2026
+
+**Feature**: Added instance status check monitoring to EKS Auto Mode. The compute controller now polls EC2 `DescribeInstanceStatus` to detect scheduled maintenance events and instance or system status check failures, automatically replacing unhealthy nodes.
+
 == June 4, 2026
 
 **Documentation**: Added guidance on controlling compute costs in EKS Auto Mode, including how consolidation works, what blocks it, and recommended patterns for bursty workloads. For more information, see <<auto-cost-control,Cost optimization in EKS Auto Mode>>.
