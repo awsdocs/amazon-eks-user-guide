@@ -1,7 +1,7 @@
 include::../../attributes.txt[]
 
 [.topic]
-[#eks-outposts-is-capacity-considerations]
+[#eks-outposts-instance-store-capacity-considerations]
 = Select instance types and placement for Amazon EKS local clusters on {aws} Outposts configured with EC2 instance store
 :info_titleabbrev: Capacity considerations (EC2 instance store)
 
@@ -19,19 +19,19 @@ If your Outpost is configured with Amazon EBS instead of EC2 instance store, the
 If you are interested in creating a local cluster on an EBS-backed Outpost using the updated local clusters architecture, contact your {aws} account team.
 ====
 
-[#eks-outposts-is-capacity-considerations-architecture]
+[#eks-outposts-instance-store-capacity-considerations-architecture]
 == Control plane architecture
 
 The local cluster Kubernetes control plane runs on *6 EC2 instances* on your Outpost:
 
-* *3 control plane instances* — host the Kubernetes API server, scheduler, and controller manager.
+* *3 control plane instances* — host the Kubernetes control plane components, including the Kubernetes API server, scheduler, and controller manager.
 * *3 `etcd` instances* — store Kubernetes cluster state in an https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/#external-etcd-topology[external etcd topology].
 
 These instances run in an {aws}-managed service account on your Outpost. They don't appear as EC2 instances in your {aws} account or in the Amazon EC2 console. The capacity consumed by the control plane is visible in the {aws} Outposts console.
 
 The control plane does not horizontally scale under load. If you need a different control plane instance size, you must create a new cluster.
 
-[#eks-outposts-is-capacity-considerations-instance-type]
+[#eks-outposts-instance-store-capacity-considerations-instance-type]
 == Instance type selection
 
 With the updated architecture for Amazon EKS local clusters on {aws} Outposts, the Kubernetes control plane uses a dedicated `etcd` topology: the API server and `etcd` run on separate instances. When you create a cluster, you specify two instance types: `controlPlaneInstanceType` for the API server and `etcdInstanceType` for `etcd`.
@@ -93,7 +93,7 @@ Make sure that your Outpost has capacity for 3 instances of `controlPlaneInstanc
 
 Use these tables as a guideline rather than a strict requirement. We recommend selecting an instance family and size that accommodate your anticipated growth, because `controlPlaneInstanceType` and `etcdInstanceType` can't be changed after cluster creation. To change either, you must create a new cluster.
 
-[#eks-outposts-is-capacity-considerations-placement]
+[#eks-outposts-instance-store-capacity-considerations-placement]
 == Control plane and `etcd` placement
 
 For high availability, we recommend spreading your control plane and `etcd` instances across multiple hardware failure domains. You can control this spread using the `spreadLevel` property on `controlPlanePlacement` and `etcdPlacement` in `outpostConfig`. When you set `spreadLevel`, Amazon EKS creates an EC2 placement group with the Spread strategy. You don't need to pre-create a placement group.
@@ -103,7 +103,7 @@ For high availability, we recommend spreading your control plane and `etcd` inst
 The `groupName` parameter in `controlPlanePlacement` is not used with Outposts that run instance store-based EC2 instances. If you previously used a placement group with a local cluster, you now use `spreadLevel` instead.
 ====
 
-[#eks-outposts-is-capacity-considerations-spread-levels]
+[#eks-outposts-instance-store-capacity-considerations-spread-levels]
 === Spread levels
 
 The `spreadLevel` property accepts two values:
@@ -111,7 +111,7 @@ The `spreadLevel` property accepts two values:
 * *`host`* — Spreads control plane instances across different physical hosts. Requires at least 3 hosts configured with the chosen instance type.
 * *`rack`* — Spreads control plane instances across different physical Outpost racks. Requires at least 3 racks with hosts configured with the chosen instance type.
 
-[#eks-outposts-is-capacity-considerations-capacity-planning]
+[#eks-outposts-instance-store-capacity-considerations-capacity-planning]
 == Capacity planning
 
 When planning Outpost capacity for local clusters, account for the following:
@@ -120,9 +120,9 @@ When planning Outpost capacity for local clusters, account for the following:
 * *Worker nodes:* The EC2 instances for your self-managed node groups.
 * *Virtualized hosts:* The control plane must run on virtualized hosts. Your Outpost must have virtualized hosts with sufficient capacity.
 
-[#eks-outposts-is-capacity-considerations-troubleshooting]
+[#eks-outposts-instance-store-capacity-considerations-troubleshooting]
 == Troubleshooting placement issues
 
 If your cluster remains in the `CREATING` or `UPDATING` state for an extended period after you specify a spread level, verify that your Outpost has sufficient hosts or racks with the chosen instance type to satisfy the spread topology.
 
-For more information about troubleshooting local clusters, see <<eks-outposts-is-troubleshooting>>.
+For more information about troubleshooting local clusters, see <<eks-outposts-instance-store-troubleshooting>>.

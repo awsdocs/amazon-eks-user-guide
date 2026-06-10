@@ -1,0 +1,63 @@
+include::../../attributes.txt[]
+
+[.topic]
+[#eks-outposts-instance-store-local-cluster-overview]
+= Overview of local Amazon EKS clusters on {aws} Outposts configured with EC2 instance store
+:info_titleabbrev: Run local clusters (EC2 instance store)
+
+[abstract]
+--
+Learn about local Amazon EKS clusters on {aws} Outposts configured with EC2 instance store.
+--
+
+You can use local clusters to run your entire Amazon EKS cluster locally on {aws} Outposts. This helps mitigate the risk of application downtime that might result from temporary network disconnects to the cloud and can help address data residency requirements. Because the entire Kubernetes cluster runs locally on Outposts, applications remain available, and you can perform cluster operations during network disconnects from the cloud.
+
+Local clusters are generally available for use with Outposts racks.
+
+[#eks-outposts-instance-store-local-cluster-overview-architecture]
+== Amazon EKS local clusters with EC2 instance store Outposts
+
+Amazon EKS local clusters supports {aws} Outposts configured with EC2 instance store. When you run local clusters on Outposts with EC2 instance store, Amazon EKS deploys an updated local clusters architecture that provides greater parity with Amazon EKS cloud clusters.
+
+The updated architecture used with EC2 instance store-backed Outposts adds the following:
+
+* *Managed control plane.* The Kubernetes control plane runs in an {aws}-managed service account on your Outpost. Amazon EKS manages the control plane lifecycle, including Amazon EKS platform version updates and `etcd` backups.
+* *Greater feature parity with Amazon EKS in the cloud.* Use <<eks-outposts-instance-store-local-cluster-addons,Amazon EKS add-ons>>, <<iam-roles-for-service-accounts,IAM Roles for Service Accounts>>, <<pod-identities,EKS Pod Identity>>, <<authenticate-oidc-identity-provider,OIDC authentication>>, and <<access-entries>>. Use https://aws.amazon.com/bottlerocket/[Bottlerocket] as the worker node operating system, in addition to Amazon Linux 2023-based worker nodes.
+* *Aligned with the Amazon EKS Kubernetes version lifecycle.* New Kubernetes versions and Amazon EKS platform versions become available for local clusters on the same cadence as Amazon EKS in the cloud. Extended support Kubernetes versions are available with the same pricing as cloud clusters.
+* *Available in all commercial {aws} Regions support {aws} Outposts racks.*
+
+[NOTE]
+====
+If your Outpost is configured with Amazon EBS instead of EC2 instance store, the architecture described in this topic isn't available for your Outpost. Outposts configured with EBS will continue to use the existing local clusters implementation. For more information, see <<eks-outposts-local-cluster-overview>>.
+
+If you are interested in creating a local cluster on an EBS-backed Outpost using the updated local clusters architecture, contact your {aws} account team.
+====
+
+For a feature-by-feature comparison of local clusters and extended clusters, see <<outposts-overview-comparing-deployment-options>>.
+
+[#eks-outposts-instance-store-local-cluster-overview-get-started]
+== Get started
+
+To create a local cluster on an Outpost configured with EC2 instance store, see <<eks-outposts-instance-store-local-cluster-create>>.
+
+Before you create a cluster, review:
+
+* <<eks-outposts-instance-store-vpc-subnet-requirements>> — VPC and subnet configuration for local clusters.
+* <<eks-outposts-instance-store-capacity-considerations>> — Control plane and `etcd` instance type selection and placement.
+* <<eks-outposts-instance-store-network-disconnects>> — Authentication, observability, and operational considerations during disconnects.
+* <<eks-outposts-instance-store-local-cluster-addons>> — The validated set of Amazon EKS add-ons for local clusters.
+
+[.topiclist]
+[[Topic List]]
+
+include::eks-outposts-instance-store-local-cluster-create.adoc[leveloffset=+1]
+
+include::eks-outposts-instance-store-vpc-subnet-requirements.adoc[leveloffset=+1]
+
+include::eks-outposts-instance-store-capacity-considerations.adoc[leveloffset=+1]
+
+include::eks-outposts-instance-store-network-disconnects.adoc[leveloffset=+1]
+
+include::eks-outposts-instance-store-local-cluster-addons.adoc[leveloffset=+1]
+
+include::eks-outposts-instance-store-troubleshooting.adoc[leveloffset=+1]

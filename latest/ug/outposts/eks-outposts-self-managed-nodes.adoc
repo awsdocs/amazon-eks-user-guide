@@ -17,6 +17,7 @@ Amazon EKS Local Clusters on Outposts only supports nodes created from the follo
 * Standard Amazon Linux 2023 (`amazon-linux-2023/x86_64/standard`)
 * Accelerated Nvidia Amazon Linux 2023 (`amazon-linux-2023/x86_64/nvidia`)
 * Accelerated Neuron Amazon Linux 2023 (`amazon-linux-2023/x86_64/neuron`)
+* Bottlerocket (only for Outposts backed by EC2 instance store)
 
 {aws} ended support for EKS AL2-optimized and AL2-accelerated AMIs, effective November 26, 2025. While you can continue using EKS AL2 AMIs after the end-of-support (EOS) date (November 26, 2025), EKS will no longer release any new Kubernetes versions or updates to AL2 AMIs, including minor releases, patches, and bug fixes after this date. See link:https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-deprecation-faqs.html[this] for more information on AL2 deprecation.
 ====

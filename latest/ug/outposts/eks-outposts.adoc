@@ -30,9 +30,10 @@ image::images/outposts-deployment-options.png[Outpost deployment options ,scaled
 
 Both local and extended clusters are general-purpose deployment options and can be used for a range of applications.
 
-With local clusters, you can run the entire Amazon EKS cluster locally on Outposts. This option can mitigate the risk of application downtime that might result from temporary network disconnects to the cloud. These network disconnects can be caused by fiber cuts or weather events. Because the entire Amazon EKS cluster runs locally on Outposts, applications remain available. You can perform cluster operations during network disconnects to the cloud. Choose local clusters if you require continued Kubernetes operations through network disconnects, or if you have data residency requirements.
+With extended clusters, you can conserve capacity on your Outpost because the Kubernetes control plane runs in the parent {aws} Region. This option is suitable if you have reliable network connectivity from your Outpost to the {aws} Region. It is recommended that you design your applications for static stability through network disconnects from the {aws} Region. The way that Kubernetes handles network disconnects between the Kubernetes control plane and nodes might lead to application downtime. For more information on the behavior of Kubernetes, see https://kubernetes.io/docs/concepts/scheduling-eviction/[Scheduling, Preemption, and Eviction] in the Kubernetes documentation.
 
-With extended clusters, you can conserve capacity on your Outpost because the Kubernetes control plane runs in the parent {aws} Region. This option is suitable if you can invest in reliable, redundant network connectivity from your Outpost to the {aws} Region. The quality of the network connection is critical for this option. The way that Kubernetes handles network disconnects between the Kubernetes control plane and nodes might lead to application downtime. For more information on the behavior of Kubernetes, see https://kubernetes.io/docs/concepts/scheduling-eviction/[Scheduling, Preemption, and Eviction] in the Kubernetes documentation.
+With local clusters, you can run the entire Amazon EKS cluster locally on Outposts. This option can mitigate the risk of application downtime that might result from temporary network disconnects to the cloud. These network disconnects can be caused by fiber cuts or weather events. Because the entire Amazon EKS cluster runs locally on Outposts, applications remain available. You can perform cluster operations during network disconnects to the cloud. Choose local clusters if you require continued Kubernetes operations through network disconnects, or if required by data residency mandates.
+
 
 [#outposts-overview-two-local-cluster-implementations]
 == Two local cluster implementations
@@ -42,7 +43,7 @@ Amazon EKS supports two local cluster implementations on Outposts racks. An Outp
 
 
 * *{aws} Outposts configured with Amazon EBS.* The Kubernetes control plane runs in your {aws} account on your Outpost, with stacked `etcd` on three Amazon EC2 instances backed by Amazon EBS. For more information, see <<eks-outposts-local-cluster-overview>>.
-* *{aws} Outposts configured with EC2 instance store.* Amazon EKS deploys an updated local clusters architecture. The Kubernetes control plane runs in an {aws}-managed service account on your Outpost, with external `etcd` on six Amazon EC2 instances. This implementation has greater parity with Amazon EKS in the cloud, follows the Amazon EKS Kubernetes version lifecycle, and supports Amazon EKS add-ons, IAM Roles for Service Accounts, EKS Pod Identity, OIDC, access entries, and Bottlerocket. It is available in all standard {aws} Regions where {aws} Outposts is available. For more information, see <<eks-outposts-is-local-cluster-overview>>.
+* *{aws} Outposts configured with EC2 instance store.* Amazon EKS deploys an updated local clusters architecture. The Kubernetes control plane runs on 6 Amazon EC2 instances in an {aws}-managed service account on your Outpost, with 3 instances dedicated to `etcd` and 3 instances for the other control plane components. The implementation has greater parity with Amazon EKS in the cloud, follows the Amazon EKS Kubernetes version lifecycle, and supports additional features like Amazon EKS add-ons and Bottlerocket-based worker nodes (in addition to AL2023). It is available in all standard {aws} Regions where {aws} Outposts is available. For more information, see <<eks-outposts-instance-store-local-cluster-overview>>.
 
 The features available on each implementation are summarized in the following table.
 
@@ -55,8 +56,8 @@ The following table compares the differences between extended clusters and the t
 |===
 |Feature
 |Extended cluster
-|Local cluster on Amazon EBS Outposts
-|Local cluster on EC2 instance store Outposts
+|Local cluster on Outposts with EBS
+|Local cluster on Outposts with EC2 instance store
 
 
 |Kubernetes control plane location
@@ -67,22 +68,22 @@ The following table compares the differences between extended clusters and the t
 |Kubernetes control plane account
 |{aws} account
 |Your {aws} account
-|{aws}-managed service account on your Outpost
+|{aws}-managed account
 
 |Kubernetes control plane topology
 |Cloud-managed
-|3 Amazon EC2 instances, stacked `etcd`
-|6 Amazon EC2 instances (3 `etcd` + 3 API server), external `etcd`
+|3 Amazon EC2 instances, https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/#stacked-etcd-topology[stacked etcd]
+|6 Amazon EC2 instances (3 `etcd` + 3 API server)
 
 |Control plane storage
 |Cloud-managed
 |Amazon EBS
-|Amazon EC2 instance store; `etcd` backed up to Amazon S3 by Amazon EKS
+|Amazon EC2 instance store
 
 |Regional availability
 |See link:general/latest/gr/eks.html#eks_region[Service endpoints,type="documentation"]
 |US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Middle East (Bahrain), and South America (São Paulo)
-|All standard {aws} Regions where {aws} Outposts is available
+|All commercial {aws} Regions where {aws} Outposts is available
 
 |Kubernetes minor versions
 |link:eks/latest/userguide/kubernetes-versions.html[Supported Amazon EKS versions,type="documentation"]
@@ -102,22 +103,22 @@ The following table compares the differences between extended clusters and the t
 |User interfaces
 |{aws-management-console}, {aws} CLI, Amazon EKS API, `eksctl`, {aws} CloudFormation, and Terraform
 |{aws-management-console}, {aws} CLI, Amazon EKS API, `eksctl`, {aws} CloudFormation, and Terraform
-|{aws-management-console}, {aws} CLI, Amazon EKS API, `eksctl`, {aws} CloudFormation, and Terraform
+|{aws-management-console}, {aws} CLI, Amazon EKS API, {aws} CloudFormation
 
 |Managed policies
 |<<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>> and <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
 |<<security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy,AmazonEKSLocalOutpostClusterPolicy>> and <<security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy>>
-|link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy,type="documentation"] and link:aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html[AmazonEKSServicePolicy,type="documentation"]
+|<<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>> and <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
 
 |Cluster VPC and subnets
 |See <<network-reqs>>
 |See <<eks-outposts-vpc-subnet-requirements>>
-|See <<eks-outposts-is-vpc-subnet-requirements>>
+|See <<eks-outposts-instance-store-vpc-subnet-requirements>>
 
 |Cluster endpoint access
 |Public or private or both
 |Private only
-|Public or private or both
+|Private or Public and Private
 
 |Kubernetes API server authentication
 |{aws} Identity and Access Management (IAM), OIDC, and access entries
@@ -137,7 +138,7 @@ The following table compares the differences between extended clusters and the t
 |Node storage types
 |Amazon EBS `gp2` and local NVMe SSD
 |Amazon EBS `gp2` and local NVMe SSD
-|Amazon EBS `gp2` and local NVMe SSD
+|Local NVMe SSD
 
 |Amazon EKS optimized AMIs
 |Amazon Linux, Windows, and Bottlerocket
@@ -152,7 +153,7 @@ The following table compares the differences between extended clusters and the t
 |Add-ons
 |Amazon EKS add-ons or self-managed add-ons
 |Self-managed add-ons
-|Amazon EKS add-ons (<<eks-outposts-is-local-cluster-addons,validated list>>) or self-managed add-ons
+|Amazon EKS add-ons (<<eks-outposts-instance-store-local-cluster-addons,validated list>>) or self-managed add-ons
 
 |Default Container Network Interface
 |Amazon VPC CNI plugin for Kubernetes
@@ -167,7 +168,7 @@ The following table compares the differences between extended clusters and the t
 |`etcd` backup
 |Cloud-managed
 |Customer-managed (`etcdctl` or Amazon EBS volume backups)
-|Managed by Amazon EKS (periodic backup to Amazon S3)
+|Managed by Amazon EKS
 
 |Load balancing
 |Use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to provision Application Load Balancers only (no Network Load Balancers)
@@ -175,29 +176,29 @@ The following table compares the differences between extended clusters and the t
 |Use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to provision Application Load Balancers only (no Network Load Balancers)
 
 |Secrets envelope encryption
-|See <<enable-kms>>
+|Supported, see <<enable-kms>>
 |Not supported
 |Not supported
 
 |IAM Roles for Service Accounts (IRSA)
-|See <<iam-roles-for-service-accounts>>
+|Supported, see <<iam-roles-for-service-accounts>>
 |Not supported
 |Supported (requires connectivity to the {aws} Region; not available during network disconnects)
 
 |EKS Pod Identity
-|See <<pod-identities>>
+|Supported, see <<pod-identities>>
 |Not supported
 |Supported (requires connectivity to the {aws} Region; not available during network disconnects)
 
 |Troubleshooting
 |See <<troubleshooting>>
 |See <<eks-outposts-troubleshooting>>
-|See <<eks-outposts-is-troubleshooting>>
+|See <<eks-outposts-instance-store-troubleshooting>>
 |===
 
 [IMPORTANT]
 ====
-On EC2 instance store Outposts, IRSA and EKS Pod Identity depend on {aws} STS in the {aws} Region. During network disconnects, workloads that use IRSA or Pod Identity cannot obtain new credentials. For more information, see <<eks-outposts-is-network-disconnects>>.
+On EC2 instance store Outposts, IRSA and EKS Pod Identity depend on {aws} STS in the {aws} Region. During network disconnects, workloads that use IRSA or Pod Identity cannot obtain new credentials. For more information, see <<eks-outposts-instance-store-network-disconnects>>.
 ====
 
 [.topiclist]
@@ -205,6 +206,6 @@ On EC2 instance store Outposts, IRSA and EKS Pod Identity depend on {aws} STS in
 
 include::ebs/eks-outposts-local-cluster-overview.adoc[leveloffset=+1]
 
-include::instance-store/eks-outposts-is-local-cluster-overview.adoc[leveloffset=+1]
+include::instance-store/eks-outposts-instance-store-local-cluster-overview.adoc[leveloffset=+1]
 
 include::eks-outposts-self-managed-nodes.adoc[leveloffset=+1]

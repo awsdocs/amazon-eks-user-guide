@@ -1,7 +1,7 @@
 include::../../attributes.txt[]
 
 [.topic]
-[#eks-outposts-is-network-disconnects]
+[#eks-outposts-instance-store-network-disconnects]
 = Prepare local Amazon EKS clusters on {aws} Outposts configured with EC2 instance store for network disconnects
 :info_titleabbrev: Prepare for disconnects (EC2 instance store)
 
@@ -15,7 +15,7 @@ If the {aws} Outposts service link connecting your local network to the {aws} Cl
 * Local clusters enable stability and continued operations during temporary, unplanned network disconnects. {aws} Outposts remains a fully connected offering that acts as an extension of the {aws} Cloud in your data center. In the event of network disconnects between your Outpost and the {aws} Cloud, we recommend attempting to restore your connection. For instructions, see link:outposts/latest/userguide/network-troubleshoot.html[{aws} Outposts rack network troubleshooting checklist,type="documentation"] in the _{aws} Outposts User Guide_.
 * Outposts emit a `ConnectedStatus` metric that you can use to monitor the connectivity state of your Outpost. For more information, see link:outposts/latest/userguide/outposts-cloudwatch-metrics.html#outposts-metrics[Outposts Metrics,type="documentation"] in the _{aws} Outposts User Guide_.
 
-[#eks-outposts-is-network-disconnects-authentication]
+[#eks-outposts-instance-store-network-disconnects-authentication]
 == Authentication during network disconnects
 
 Local clusters support multiple authentication mechanisms. Their availability during network disconnects varies:
@@ -36,13 +36,13 @@ Local clusters support multiple authentication mechanisms. Their availability du
 |Yes. Certificates are validated locally by the Kubernetes API server.
 
 |IRSA (IAM Roles for Service Accounts)
-|No. See <<eks-outposts-is-network-disconnects-irsa>>.
+|No. See <<eks-outposts-instance-store-network-disconnects-irsa>>.
 
 |EKS Pod Identity
-|No. See <<eks-outposts-is-network-disconnects-irsa>>.
+|No. See <<eks-outposts-instance-store-network-disconnects-irsa>>.
 |===
 
-[#eks-outposts-is-network-disconnects-x509]
+[#eks-outposts-instance-store-network-disconnects-x509]
 === x.509 client certificates
 
 To maintain `kubectl` access during network disconnects, create a client x.509 certificate before the disconnect occurs.
@@ -61,6 +61,25 @@ openssl req -new -newkey rsa:4096 -nodes \
 +
 [source,bash,subs="verbatim,attributes"]
 ----
+cat admin.csr | base64 | tr -d '\n' > admin.csr.b64
+----
++
+[source,bash,subs="verbatim,attributes"]
+----
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: admin-csr
+spec:
+  request: <base64-encoded-csr>
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+    - client auth
+----
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f admin-csr.yaml
 kubectl certificate approve admin-csr
 ----
 
@@ -92,7 +111,7 @@ kubectl config --kubeconfig admin.kubeconfig set-context admin@my-cluster \
 kubectl config --kubeconfig admin.kubeconfig use-context admin@my-cluster
 ----
 
-[#eks-outposts-is-network-disconnects-cluster-dns]
+[#eks-outposts-instance-store-network-disconnects-cluster-dns]
 === Cluster endpoint DNS resolution during disconnects
 
 The Kubernetes API server endpoint for a local cluster is hosted in Amazon Route 53 and resolves to the private IP addresses of the cross-account elastic network interfaces (ENIs) that Amazon EKS creates in your subnets. These ENIs have static private IP addresses that don't change during normal cluster operation.
@@ -122,7 +141,7 @@ If you don't want to run a local DNS solution, you can use static IP-based acces
 If a cross-account ENI is deleted or its IP address changes — for example, if you delete it or modify it in a way that prevents Amazon EKS from re-attaching it — every node and every administrator using static IP-based access must be updated manually. With a local DNS solution, no manual intervention is required.
 ====
 
-[#eks-outposts-is-network-disconnects-pod-dns]
+[#eks-outposts-instance-store-network-disconnects-pod-dns]
 === Pod DNS resolution during disconnects
 
 To prevent DNS failures during disconnected operation, configure your worker node launch template to override `kubelet`'s `resolvConf` setting. In your userdata, create a custom `resolv.conf` file (for example, `/etc/kubernetes/resolv.conf`) containing only `nameserver 10.0.0.2` (without the VPC search domain), then set `spec.kubelet.config.resolvConf: /etc/kubernetes/resolv.conf` in your `NodeConfig`. This removes the `[.replaceable]``region-code``.compute.internal` search domain from pod DNS configuration, preventing queries from being forwarded to the unreachable VPC DNS resolver while disconnected.
@@ -158,7 +177,7 @@ spec:
 --BOUNDARY--
 ----
 
-[#eks-outposts-is-network-disconnects-irsa]
+[#eks-outposts-instance-store-network-disconnects-irsa]
 === IRSA and Pod Identity during disconnects
 
 [IMPORTANT]
@@ -168,32 +187,32 @@ IRSA and EKS Pod Identity depend on {aws} STS, which runs in the {aws} Region. D
 
 We do not recommend taking functional or operational dependencies on Region-based {aws} services for workloads that must remain available during network disconnects.
 
-[#eks-outposts-is-network-disconnects-etcd]
+[#eks-outposts-instance-store-network-disconnects-etcd]
 == `etcd` behavior during disconnects
 
-During network disconnects, `etcd` snapshots cannot be backed up to Amazon S3. If more than one `etcd` instance becomes unavailable during a disconnect, `etcd` loses quorum and Kubernetes API operations are not available until your Outpost reconnects and `etcd` quorum is restored. Workloads that are already running continue to operate.
+During network disconnects, `etcd` snapshots cannot be backed up. If more than one `etcd` instance becomes unavailable during a disconnect, `etcd` loses quorum and Kubernetes API operations are not available until your Outpost reconnects and `etcd` quorum has been restored. Workloads that are already running continue to operate.
 
-[#eks-outposts-is-network-disconnects-cp-logs]
+[#eks-outposts-instance-store-network-disconnects-cp-logs]
 == Control plane logging during disconnects
 
 During network disconnects, control plane logs are cached locally on the control plane instances. When connectivity is restored, the logs are sent to Amazon CloudWatch Logs in the parent {aws} Region. You do not need to install or maintain any logging agent on the control plane.
 
-[#eks-outposts-is-network-disconnects-local-observability]
+[#eks-outposts-instance-store-network-disconnects-local-observability]
 == Local observability
 
 You can monitor your cluster locally during disconnects by using https://prometheus.io/[Prometheus], https://grafana.com/[Grafana], or other third-party solutions to scrape the Kubernetes API server metrics endpoint.
 
-[#eks-outposts-is-network-disconnects-image-repo]
+[#eks-outposts-instance-store-network-disconnects-image-repo]
 == Local image repository
 
 To scale deployments with additional replicas or to recover from pod failures during disconnects, you must have a local container image repository (such as a Docker registry), or the images must be cached on the node before disconnection. Amazon ECR is not available during network disconnects.
 
-[#eks-outposts-is-network-disconnects-pod-failover]
+[#eks-outposts-instance-store-network-disconnects-pod-failover]
 == Tune Kubernetes pod failover behavior
 
 During a network disconnect, the Kubernetes control plane cannot communicate with the {aws} Region. If a node becomes unreachable, the default Kubernetes behavior is to evict pods after a timeout period. You can tune this behavior using tolerations and `tolerationSeconds` on your pod specifications to control how quickly pods are rescheduled during partitions. For detailed guidance and examples, see https://docs.aws.amazon.com/eks/latest/best-practices/hybrid-nodes-network-disconnection-best-practices.html#_tune_kubernetes_pod_failover_behavior[Tune Kubernetes pod failover behavior] in the _Amazon EKS Best Practices Guide_.
 
-[#eks-outposts-is-network-disconnects-simulate]
+[#eks-outposts-instance-store-network-disconnects-simulate]
 == Simulate a network disconnect
 
 Before you go into production with your local cluster, simulate a disconnect to verify that you can access your cluster when it's in a disconnected state.

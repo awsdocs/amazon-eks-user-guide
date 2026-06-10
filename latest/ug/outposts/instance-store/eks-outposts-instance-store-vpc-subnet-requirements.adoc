@@ -1,7 +1,7 @@
 include::../../attributes.txt[]
 
 [.topic]
-[#eks-outposts-is-vpc-subnet-requirements]
+[#eks-outposts-instance-store-vpc-subnet-requirements]
 = Create a VPC and subnets for Amazon EKS local clusters on {aws} Outposts configured with EC2 instance store
 :info_titleabbrev: Create a VPC and subnets (EC2 instance store)
 
@@ -19,15 +19,15 @@ If your Outpost is configured with Amazon EBS instead of EC2 instance store, the
 If you are interested in creating a local cluster on an EBS-backed Outpost using the updated local clusters architecture, contact your {aws} account team.
 ====
 
-[#eks-outposts-is-vpc-requirements]
+[#eks-outposts-instance-store-vpc-requirements]
 == VPC requirements
 
-* The VPC must have enough IP addresses for the local cluster, any nodes, and other Kubernetes resources that you want to create. You can associate additional CIDR blocks with your VPC before or after you create your cluster. It can take up to 5 hours for a newly associated CIDR block to be recognized.
+* The VPC must have enough IP addresses for the local cluster, any nodes, and other Kubernetes resources that you want to create. You can associate additional CIDR blocks with your VPC before or after you create your cluster. It can take up to 30 minutes for a newly associated CIDR block to be recognized.
 * The VPC can't have assigned IP prefixes or `IPv6` CIDR blocks. Because of these constraints, the information that's covered in <<cni-increase-ip-addresses,Assign more IP addresses to Amazon EKS nodes with prefixes>> and <<cni-ipv6>> isn't applicable to your VPC.
 * The VPC must have DNS hostname and DNS resolution support. Otherwise, nodes can't register to your cluster. For more information, see link:vpc/latest/userguide/vpc-dns.html[DNS attributes for your VPC,type="documentation"] in the _Amazon VPC User Guide_.
 * To access your local cluster over your local network, the VPC must be associated with your Outpost's local gateway route table. For more information, see link:outposts/latest/userguide/outposts-local-gateways.html#vpc-associations[VPC associations,type="documentation"] in the _{aws} Outposts User Guide_.
 
-[#eks-outposts-is-subnet-requirements]
+[#eks-outposts-instance-store-subnet-requirements]
 == Subnet requirements
 
 When you create a local cluster, you specify at least one private subnet on your Outpost. Amazon EKS creates three cross-account elastic network interfaces in the subnets that you specify. These network interfaces enable communication between your cluster and your VPC.
@@ -62,7 +62,7 @@ The subnets that you specify must meet the following requirements:
 |`cac1-az3`
 |===
 
-[#eks-outposts-is-subnet-access]
+[#eks-outposts-instance-store-subnet-access]
 == Subnet access to {aws} services
 
-Local clusters need connectivity to the {aws} Region for cluster management operations, `etcd` backups, and control plane updates. In a disconnected state, the local cluster can continue to operate, but the cluster management operations that Amazon EKS can take are limited. For more information, see <<eks-outposts-is-network-disconnects>>.
+Local clusters need connectivity to the {aws} Region for cluster management operations, `etcd` backups, and control plane updates. In a disconnected state, the local cluster can continue to operate, but the cluster management operations that Amazon EKS can take are limited. For more information, see <<eks-outposts-instance-store-network-disconnects>>.

@@ -1,7 +1,7 @@
 include::../../attributes.txt[]
 
 [.topic]
-[#eks-outposts-is-local-cluster-create]
+[#eks-outposts-instance-store-local-cluster-create]
 = Deploy an Amazon EKS local cluster on {aws} Outposts configured with EC2 instance store
 :info_titleabbrev: Deploy a local cluster (EC2 instance store)
 
@@ -23,15 +23,15 @@ If you are interested in creating a local cluster on an EBS-backed Outpost using
 ====
 * Local clusters support Outpost racks only. A single local cluster can run across multiple physical Outpost racks that comprise a single logical Outpost. A single local cluster can't run across multiple logical Outposts.
 * The Kubernetes control plane runs in an {aws}-managed service account on your Outpost. You can't access the control plane instances, view them in the Amazon EC2 console, or run workloads on them.
-* The control plane runs on 6 EC2 instances (3 `etcd` + 3 API server) in an https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/#external-etcd-topology[external etcd topology]. For capacity requirements, see <<eks-outposts-is-capacity-considerations>>.
-* The <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, <<managing-kube-proxy,kube-proxy>>, and <<managing-coredns,CoreDNS>> are automatically installed on local clusters. For the full list of validated add-ons, see <<eks-outposts-is-local-cluster-addons>>.
-* Amazon EKS periodically backs up `etcd` state to an Amazon S3 bucket managed by Amazon EKS. If `etcd` loses quorum, Amazon EKS recovers your cluster state from the most recent snapshot.
+* The control plane runs on 6 EC2 instances (3 `etcd` + 3 API server) in an https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/#external-etcd-topology[external etcd topology]. For capacity requirements, see <<eks-outposts-instance-store-capacity-considerations>>.
+* The <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, <<managing-kube-proxy,kube-proxy>>, and <<managing-coredns,CoreDNS>> are automatically installed on local clusters. For the full list of validated add-ons, see <<eks-outposts-instance-store-local-cluster-addons>>.
+* Amazon EKS periodically backs up `etcd`. If `etcd` loses quorum, Amazon EKS recovers your cluster state from the most recent snapshot.
 ====
 
 *Prerequisites*
 
-* An existing Outpost rack configured with EC2 instance store, with sufficient virtualized capacity for the control plane instances. See <<eks-outposts-is-capacity-considerations>>.
-* A VPC and subnets that meet the requirements described in <<eks-outposts-is-vpc-subnet-requirements>>.
+* An existing Outpost rack configured with EC2 instance store, with sufficient virtualized capacity for the control plane instances. See <<eks-outposts-instance-store-capacity-considerations>>.
+* A VPC and subnets that meet the requirements described in <<eks-outposts-instance-store-vpc-subnet-requirements>>.
 * The `kubectl` command line tool is installed on your computer or {aws} CloudShell. The version can be the same as, or up to one minor version earlier or later than, the Kubernetes version of your cluster. To install or upgrade `kubectl`, see <<install-kubectl>>.
 * An IAM principal (user or role) with permissions to create and describe an Amazon EKS cluster. For more information, see <<policy-create-local-cluster>> and <<policy-example2>>.
 * An IAM role for the cluster with the following {aws} managed policies attached: link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy,type="documentation"] and link:aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html[AmazonEKSServicePolicy,type="documentation"]. The role trust policy must allow the `eks.amazonaws.com` service principal to assume the role.
@@ -41,16 +41,16 @@ If you are interested in creating a local cluster on an EBS-backed Outpost using
 When you create a local cluster, the link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] that creates the cluster is permanently added to the Kubernetes RBAC authorization table as an administrator with `system:masters` permissions. Make sure you never delete this principal.
 ====
 
-[#eks-outposts-is-local-cluster-create-cluster]
+[#eks-outposts-instance-store-local-cluster-create-cluster]
 == Create a local cluster
 
-You can create a local cluster using the {aws-management-console}, {aws} CLI, Amazon EKS API, `eksctl`, {aws} CloudFormation, or Terraform.
+You can create a local cluster using the {aws-management-console}, {aws} CLI, Amazon EKS API, or {aws} CloudFormation.
 
 When you create a local cluster, note the following:
 
 * You must pass subnets in the Availability Zone to which the Outpost is homed. The request fails if you pass subnets in multiple Availability Zones.
 * You must set `endpointPrivateAccess` to `true`. You can optionally also enable `endpointPublicAccess`.
-* You must pass values for `outpostConfig`, including `outpostArns`, `controlPlaneInstanceType`, and `etcdInstanceType`. Optionally, you can specify placement configuration. See <<eks-outposts-is-capacity-considerations>>.
+* You must pass values for `outpostConfig`, including `outpostArns`, `controlPlaneInstanceType`, and `etcdInstanceType`. Optionally, you can specify placement configuration. See <<eks-outposts-instance-store-capacity-considerations>>.
 
 === `eksctl` [[eksctl_is_create_cluster_outpost]]
 
@@ -162,14 +162,14 @@ aws eks create-cluster \
 }
 ----
 
-The `etcdInstanceType` parameter is required when you create a local cluster on Outposts configured with EC2 instance store. The `etcdPlacement` parameter is optional; if you don't specify it, `etcd` placement isn't enforced.
+The  `controlPlaneInstanceType` and `etcdInstanceType` parameters are required when you create a local cluster on Outposts configured with EC2 instance store. The `controlPlanePlacement` and `etcdPlacement` parameters are optional. If you don't specify them, no placement spread strategy is applied.
 
 [NOTE]
 ====
 `outpostConfig` is a create-only property. To change the control plane instance type, `etcd` instance type, placement, or Outpost, you must create a new cluster.
 ====
 
-[#eks-outposts-is-local-cluster-create-connect]
+[#eks-outposts-instance-store-local-cluster-create-connect]
 == Connect to your cluster
 
 Configure `kubectl` to communicate with your cluster:
@@ -185,7 +185,7 @@ The cluster's Kubernetes API server endpoint is hosted in Amazon Route 53. The e
 
 When you create a cluster, Amazon EKS creates 3 elastic network interfaces in the subnets that you specify. These network interfaces enable communication between your cluster and your VPC. Each network interface has the text `Amazon EKS [.replaceable]``cluster-name``` in its description.
 
-[#eks-outposts-is-local-cluster-create-nodes]
+[#eks-outposts-instance-store-local-cluster-create-nodes]
 == Deploy worker nodes
 
 Deploy worker nodes to your local cluster using <<launch-workers,self-managed node groups>>.
@@ -194,10 +194,9 @@ Deploy worker nodes to your local cluster using <<launch-workers,self-managed no
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2025-11-24/amazon-eks-outpost-nodegroup.yaml
 ----
 +
-In the bootstrap script, pass `--enable-local-outpost true --cluster-id [.replaceable]``my-cluster``` (set the cluster name for `--cluster-id`).
 
 . Grant the node instance role access to your cluster. Create an <<access-entries,access entry>> for the node's IAM role:
 +
@@ -211,20 +210,6 @@ aws eks create-access-entry \
 +
 Alternatively, if you are using the `aws-auth` ConfigMap for authentication, add the node instance role to the ConfigMap. See <<grant-k8s-access>>.
 
-. Find and approve the certificate signing requests (CSRs) generated by the nodes.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-kubectl get csr
-----
-+
-For each pending CSR:
-+
-[source,bash,subs="verbatim,attributes"]
-----
-kubectl certificate approve node-csr-EXAMPLE
-----
-
 . Verify that your nodes are in `Ready` state:
 +
 [source,bash,subs="verbatim,attributes"]
@@ -232,9 +217,9 @@ kubectl certificate approve node-csr-EXAMPLE
 kubectl get nodes
 ----
 
-[#eks-outposts-is-local-cluster-create-internal-resources]
+[#eks-outposts-instance-store-local-cluster-create-internal-resources]
 == Internal resources
 
-When you create a local cluster, Amazon EKS automatically installs the following add-ons in the `kube-system` namespace: `coredns`, `kube-proxy`, and `aws-node` (VPC CNI). You can manage these add-ons through the Amazon EKS add-ons API. For more information, see <<eks-outposts-is-local-cluster-addons>>.
+When you create a local cluster, Amazon EKS automatically installs the self-managed versions of the following add-ons in the `kube-system` namespace: `coredns`, `kube-proxy`, and `aws-node` (VPC CNI). You can optionally install the managed versions of these add-ons through the Amazon EKS add-ons API. For more information, see <<eks-outposts-instance-store-local-cluster-addons>>.
 
-Amazon EKS also creates cross-account elastic network interfaces in your subnets for cluster-VPC communication. Do not delete these network interfaces.
+Amazon EKS also creates cross-account elastic network interfaces (ENIs) in your subnets for cluster-VPC communication. Do not delete these network interfaces. If a cross-account ENI is deleted or its IP address changes, every node and every administrator using static IP-based access must be updated manually.
