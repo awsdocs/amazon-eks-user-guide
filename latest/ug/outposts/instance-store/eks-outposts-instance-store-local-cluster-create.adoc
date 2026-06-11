@@ -33,6 +33,7 @@ If you are interested in creating a local cluster on an EBS-backed Outpost using
 * An existing Outpost rack configured with EC2 instance store, with sufficient virtualized capacity for the control plane instances. See <<eks-outposts-instance-store-capacity-considerations>>.
 * A VPC and subnets that meet the requirements described in <<eks-outposts-instance-store-vpc-subnet-requirements>>.
 * The `kubectl` command line tool is installed on your computer or {aws} CloudShell. The version can be the same as, or up to one minor version earlier or later than, the Kubernetes version of your cluster. To install or upgrade `kubectl`, see <<install-kubectl>>.
+* The {aws} CLI version `_x.x.x_` or later installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version`. To install or upgrade, see link:cli/latest/userguide/getting-started-install.html[Installing the {aws} CLI,type="documentation"].
 * An IAM principal (user or role) with permissions to create and describe an Amazon EKS cluster. For more information, see <<policy-create-local-cluster>> and <<policy-example2>>.
 * An IAM role for the cluster with the following {aws} managed policies attached: link:aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html[AmazonEKSClusterPolicy,type="documentation"] and link:aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html[AmazonEKSServicePolicy,type="documentation"]. The role trust policy must allow the `eks.amazonaws.com` service principal to assume the role.
 
@@ -179,7 +180,10 @@ Configure `kubectl` to communicate with your cluster:
 aws eks update-kubeconfig --region region-code --name my-cluster
 ----
 
-Verify that your `kubeconfig` specifies `--cluster-name` (not `--cluster-id`) in the `exec` args.
+[NOTE]
+====
+If you created your cluster using {aws} CLI version `x.x.x` or lower, you must update your `kubeconfig` to specify `--cluster-name` (instead of `--cluster-id`) in the `exec` args
+====
 
 The cluster's Kubernetes API server endpoint is hosted in Amazon Route 53. The endpoint resolves to the private IP addresses of the cross-account elastic network interfaces (ENIs) that Amazon EKS creates in your subnets. These ENIs have fixed private IP addresses that don't change throughout the cluster lifecycle.
 

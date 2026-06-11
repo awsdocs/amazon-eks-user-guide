@@ -22,8 +22,7 @@ If you are interested in creating a local cluster on an EBS-backed Outpost using
 [#eks-outposts-instance-store-vpc-requirements]
 == VPC requirements
 
-* The VPC must have enough IP addresses for the local cluster, any nodes, and other Kubernetes resources that you want to create. You can associate additional CIDR blocks with your VPC before or after you create your cluster. It can take up to 30 minutes for a newly associated CIDR block to be recognized.
-* The VPC can't have assigned IP prefixes or `IPv6` CIDR blocks. Because of these constraints, the information that's covered in <<cni-increase-ip-addresses,Assign more IP addresses to Amazon EKS nodes with prefixes>> and <<cni-ipv6>> isn't applicable to your VPC.
+* The VPC must have enough IP addresses for the local cluster, any nodes, and other Kubernetes resources that you want to create. You can associate additional CIDR blocks with your VPC before or after you create your cluster. It can take up to 1 hour for a newly associated CIDR block to be recognized.
 * The VPC must have DNS hostname and DNS resolution support. Otherwise, nodes can't register to your cluster. For more information, see link:vpc/latest/userguide/vpc-dns.html[DNS attributes for your VPC,type="documentation"] in the _Amazon VPC User Guide_.
 * To access your local cluster over your local network, the VPC must be associated with your Outpost's local gateway route table. For more information, see link:outposts/latest/userguide/outposts-local-gateways.html#vpc-associations[VPC associations,type="documentation"] in the _{aws} Outposts User Guide_.
 

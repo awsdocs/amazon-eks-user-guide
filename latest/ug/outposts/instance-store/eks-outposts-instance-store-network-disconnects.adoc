@@ -158,7 +158,7 @@ Content-Type: text/x-shellscript; charset="us-ascii"
 
 #!/bin/bash
 mkdir -p /etc/kubernetes
-echo "nameserver 10.0.0.2" > /etc/kubernetes/resolv.conf
+echo "nameserver [.replaceable]``10.0.0.2``" > /etc/kubernetes/resolv.conf
 
 --BOUNDARY
 Content-Type: application/node.eks.aws

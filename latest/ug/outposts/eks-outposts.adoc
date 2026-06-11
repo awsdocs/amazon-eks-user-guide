@@ -87,7 +87,7 @@ The following table compares the differences between extended clusters and the t
 
 |Kubernetes minor versions
 |link:eks/latest/userguide/kubernetes-versions.html[Supported Amazon EKS versions,type="documentation"]
-|link:eks/latest/userguide/kubernetes-versions.html[Supported Amazon EKS versions,type="documentation"]
+|See <<eks-outposts-platform-versions>>
 |link:eks/latest/userguide/kubernetes-versions.html[Supported Amazon EKS versions,type="documentation"]
 
 |Platform versions
