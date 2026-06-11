@@ -85,7 +85,7 @@ For more information about options for configuring EKS Auto Mode, see <<settings
 == Shared responsibility model
 
 The {aws} Shared Responsibility Model defines security and compliance responsibilities between {aws} and customers. 
-The images and text below compare and contrast how customer and {aws} responsibilities differ between EKS Auto Mode and EKS standard mode.
+The following images and text compare and contrast how customer and {aws} responsibilities differ between EKS Auto Mode and EKS standard mode.
 
 image::images/eksautosrm.png[Shared responsibility model with EKS Auto Mode and standard mode]
 
