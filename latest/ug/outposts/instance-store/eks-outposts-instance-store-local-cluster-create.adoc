@@ -53,47 +53,6 @@ When you create a local cluster, note the following:
 * You must set `endpointPrivateAccess` to `true`. You can optionally also enable `endpointPublicAccess`.
 * You must pass values for `outpostConfig`, including `outpostArns`, `controlPlaneInstanceType`, and `etcdInstanceType`. Optionally, you can specify placement configuration. See <<eks-outposts-instance-store-capacity-considerations>>.
 
-=== `eksctl` [[eksctl_is_create_cluster_outpost]]
-
-Example `ClusterConfig`:
-
-[source,yaml,subs="verbatim,attributes"]
-----
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
-
-metadata:
-  name: my-cluster
-  region: region-code
-  version: "{k8s-n}"
-
-vpc:
-  clusterEndpoints:
-    privateAccess: true
-    publicAccess: true
-  id: "vpc-ExampleID1"
-  subnets:
-    private:
-      outpost-subnet-1:
-        id: "subnet-ExampleID1"
-
-outpost:
-  controlPlaneOutpostARN: {arn-aws}outposts:region-code:111122223333:outpost/op-uniqueid
-  controlPlaneInstanceType: m5.large
-  controlPlanePlacement:
-    spreadLevel: host
-  etcdInstanceType: m5.large
-  etcdPlacement:
-    spreadLevel: host
-----
-
-Create the cluster:
-
-[source,bash,subs="verbatim,attributes"]
-----
-eksctl create cluster -f outpost-control-plane.yaml
-----
-
 === {aws} CLI [[awscli_is_create_cluster_outpost]]
 
 [source,bash,subs="verbatim,attributes"]
