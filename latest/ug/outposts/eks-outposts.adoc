@@ -198,7 +198,8 @@ The following table compares the differences between extended clusters and the t
 
 [IMPORTANT]
 ====
-On EC2 instance store Outposts, IRSA and EKS Pod Identity depend on {aws} STS in the {aws} Region. During network disconnects, workloads that use IRSA or Pod Identity cannot obtain new credentials. For more information, see <<eks-outposts-instance-store-network-disconnects>>.
+-   Creating a local cluster on a RAM-shared Outpost places the cluster's control plane under the Outpost owner's physical access
+-   On EC2 instance store Outposts, IRSA and EKS Pod Identity depend on {aws} STS in the {aws} Region. During network disconnects, workloads that use IRSA or Pod Identity cannot obtain new credentials. For more information, see <<eks-outposts-instance-store-network-disconnects>>.
 ====
 
 [.topiclist]
