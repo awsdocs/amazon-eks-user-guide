@@ -33,6 +33,13 @@ link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
 Updated `AmazonEBSCSIDriverEKSClusterScopedPolicy` to authorize `ec2:AttachVolume` and `ec2:DetachVolume` on instances tagged with the `eks:eks-cluster-name` tag, in addition to the existing `eks:cluster-name` and `ebs.csi.aws.com/cluster-name` tags. This adds compatibility with controllers that follow the EKS controller tagging standard, including open source Karpenter and Amazon EKS Auto Mode.
 
+[.update,date="2026-05-18"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added permissions to `AmazonEKSComputePolicy` to allow Amazon EKS Auto Mode to launch instances from Interruptible Capacity Reservations in your account.
+
 [.update,date="2026-05-12"]
 === {aws} managed policy updates
 [.update-ulink]

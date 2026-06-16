@@ -140,6 +140,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
    - `ec2:CreateLaunchTemplate` - Allows creating EC2 launch templates for EKS cluster nodes.
    - The policy also includes conditions to restrict the use of these EC2 permissions to resources tagged with the EKS cluster name and other relevant tags.
    - `ec2:CreateTags` - Allows adding tags to EC2 resources created by the `CreateFleet`, `RunInstances`, and `CreateLaunchTemplate` actions.
+   - `ec2:DescribeCapacityReservations` - Allows creating EC2 instances from Interruptible Capacity Reservations
 
 * **`iam` Permissions**:
    - `iam:AddRoleToInstanceProfile` - Allows adding an IAM role to the EKS compute instance profile.
@@ -487,6 +488,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Added permissions to <<security-iam-awsmanpol-amazonebscsidrivereksclusterscopedpolicy,AmazonEBSCSIDriverEKSClusterScopedPolicy>>.
 |Authorized `ec2:AttachVolume` and `ec2:DetachVolume` on instances tagged with the `eks:eks-cluster-name` tag, adding compatibility with controllers that follow the EKS controller tagging standard, including open source Karpenter and Amazon EKS Auto Mode.
 |May 28, 2026
+
+|Added permission to <<security-iam-awsmanpol-AmazonEKSComputePolicy>>.
+|Added resource permissions to include the `ec2:DescribeCapacityReservations` action. This allows Amazon EKS Auto Mode to launch instances from Interruptible Capacity Reservations in your account.
+|May 18, 2026
 
 |Added permissions to <<security-iam-awsmanpol-amazonebscsidriverservicerolepolicy,AmazonEBSCSIDriverPolicy>>.
 |Added new API action `ec2:DescribeInstanceTypes` to enable the EBS CSI Driver to dynamically retrieve volume limit/card information at runtime.

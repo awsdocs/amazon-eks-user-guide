@@ -107,7 +107,7 @@ NOTE: EKS Auto Mode uses different labels than Karpenter. Labels related to EC2 
 
 |karpenter.sh/capacity-type
 |spot
-|Capacity types include `spot`, `on-demand`
+|Capacity types include `spot`, `on-demand`, `reserved`
 
 |eks.amazonaws.com/instance-hypervisor
 |nitro
@@ -176,6 +176,10 @@ NOTE: EKS Auto Mode uses different labels than Karpenter. Labels related to EC2 
 |eks.amazonaws.com/instance-local-nvme
 |900
 |Number of gibibytes of local nvme storage on the instance
+
+|eks.amazonaws.com/capacity-reservation-interruptible
+|true
+|Whether the capacity reservation is interruptible. Only present on nodes with `karpenter.sh/capacity-type: reserved`.
 
 |===
 

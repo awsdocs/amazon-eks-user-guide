@@ -22,6 +22,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/auto
 
 **Documentation**: Added guidance on controlling compute costs in EKS Auto Mode, including how consolidation works, what blocks it, and recommended patterns for bursty workloads. For more information, see <<auto-cost-control,Cost optimization in EKS Auto Mode>>.
 
+== June 3, 2026
+
+**Feature**: Added support for Interruptible Capacity Reservations in EKS Auto Mode. For more information, see <<auto-odcr>>.
+
 == May 5, 2026
 
 **Feature**: Added support for EC2 Placement Groups in EKS Auto Mode. For more information, see <<auto-node-class-spec>>.

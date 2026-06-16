@@ -5,7 +5,7 @@ include::../attributes.txt[]
 = Control deployment of workloads into Capacity Reservations with EKS Auto Mode
 :info_titleabbrev: Control Capacity Reservations
 
-You can control the deployment of workloads onto link:AWSEC2/latest/UserGuide/capacity-reservation-overview.html[Capacity Reservations,type="documentation"]. EKS Auto Mode supports EC2 On-Demand Capacity Reservations (ODCRs), and EC2 Capacity Blocks for ML. 
+You can control the deployment of workloads onto link:AWSEC2/latest/UserGuide/capacity-reservation-overview.html[Capacity Reservations,type="documentation"]. EKS Auto Mode supports EC2 On-Demand Capacity Reservations (ODCRs), EC2 Capacity Blocks for ML, and Interruptible Capacity Reservations (IODCRs).
 
 TIP: By default, EKS Auto Mode can launch into open ODCRs through open-matching, but does not prioritize them. Instances launched through open-matching are labeled `karpenter.sh/capacity-type: on-demand`, not `reserved`. To prioritize ODCR usage and have instances labeled `karpenter.sh/capacity-type: reserved`, configure `capacityReservationSelectorTerms` in the NodeClass definition. Capacity Blocks for ML always require `capacityReservationSelectorTerms` and are not used automatically.
 
@@ -39,6 +39,37 @@ spec:
 ----
 
 This example NodeClass demonstrates two approaches for selecting ODCRs. The first method directly references a specific ODCR by its ID (`cr-56fac701cc1951b03`). The second method uses tag-based selection, targeting ODCRs with the tag `Name: "targeted-odcr"`. You can also optionally filter by the {aws} account that owns the reservation, which is particularly useful in cross-account scenarios or when working with shared capacity reservations.
+
+== Scheduling labels for Capacity Reservations
+
+When you configure `capacityReservationSelectorTerms` on a NodeClass, nodes provisioned from capacity reservations are labeled with additional scheduling labels. You can use these labels as NodePool requirements or pod scheduling constraints (such as node affinity) to control workload placement.
+
+[cols="1,1,2", options="header"]
+|===
+|Label |Example |Description
+
+|`eks.amazonaws.com/capacity-reservation-id`
+|`cr-56fac701cc1951b03`
+|The capacity reservation's ID
+
+|`eks.amazonaws.com/capacity-reservation-type`
+|`default` or `capacity-block`
+|The type of capacity reservation
+
+|`eks.amazonaws.com/capacity-reservation-interruptible`
+|`true` or `false`
+|Whether the capacity reservation is interruptible
+|===
+
+These labels are only present on nodes with `karpenter.sh/capacity-type: reserved`.
+
+== Interruptible Capacity Reservations (IODCRs)
+
+link:AWSEC2/latest/UserGuide/interruptible-capacity-reservations.html[Interruptible Capacity Reservations,type="documentation"] allow you to share unused On-Demand Capacity Reservation capacity with other workloads within your organization. By repurposing unused capacity as interruptible ODCRs, workloads suitable for flexible, fault-tolerant operations, such as batch processing and data analysis, can benefit from temporarily available capacity. Reservation owners can reclaim their capacity at any time, while consumers of interruptible ODCRs will receive an interruption notice before termination to allow for graceful shutdown or checkpointing before the node is terminated.
+
+You select interruptible capacity reservations using `capacityReservationSelectorTerms` the same way you would a standard ODCR—by ID or by tags. To control whether workloads are scheduled on interruptible versus non-interruptible reserved capacity, use the `eks.amazonaws.com/capacity-reservation-interruptible` scheduling label.
+
+When capacity is reclaimed, running instances receive a 2-minute interruption warning through EventBridge events. After the notice period, running instances in the reclaimed capacity enter a shutting down state and are terminated. EKS Auto Mode will automatically begin draining nodes launched from interruptible capacity reservations when the 2-minute interruption warning is received, enabling your workloads to gracefully terminate before the node is reclaimed.
 
 == EC2 Capacity Blocks for ML
 
@@ -167,8 +198,9 @@ For more information, see https://kubernetes.io/docs/concepts/workloads/pods/[Po
 
 === Related Resources
 
-* link:AWSEC2/latest/UserGuide/ec2-capacity-blocks.html[Capacity Blocks for ML,type="documentation"] in the Amazon EC2 User Guide 
+* link:AWSEC2/latest/UserGuide/ec2-capacity-blocks.html[Capacity Blocks for ML,type="documentation"] in the Amazon EC2 User Guide
 * link:AWSEC2/latest/UserGuide/capacity-blocks-purchase.html[Find and purchase Capacity Blocks,type="documentation"] in the Amazon EC2 User Guide
-* link:eks/latest/userguide/ml-compute-management.html[Manage compute resources for AI/ML workloads on Amazon EKS,type="documentation"] 
+* link:AWSEC2/latest/UserGuide/interruptible-capacity-reservations.html[Interruptible Capacity Reservations,type="documentation"] in the Amazon EC2 User Guide
+* link:eks/latest/userguide/ml-compute-management.html[Manage compute resources for AI/ML workloads on Amazon EKS,type="documentation"]
 * link:eks/latest/best-practices/aiml-compute.html#_gpu_resource_optimization_and_cost_management[GPU Resource Optimization and Cost Management,type="documentation"] in the EKS Best Practices Guide
 
