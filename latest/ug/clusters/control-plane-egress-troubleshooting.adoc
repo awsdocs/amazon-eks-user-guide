@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#control-plane-egress-troubleshooting]
-= Troubleshoot control plane egress issues
+= Troubleshooting control plane egress issues
 :info_titleabbrev: Troubleshoot egress
 
 [abstract]
@@ -52,7 +52,7 @@ kubectl get events --all-namespaces --field-selector reason=FailedCreate
 
 *Cause:*
 
-The control plane network interface subnets don't have a working route to the endpoints the control plane needs to reach. Most commonly, the subnet route table is missing a default route to an egress device. Alternatively, that device is misconfigured. The egress device is usually a NAT gateway. However, it can also be a NAT instance, a firewall or proxy appliance, or a transit gateway to a centralized egress VPC.
+The control plane network interface subnets don't have a working route to the endpoints the control plane needs to reach. Most commonly, the subnet route table is missing a default route to an egress device. Alternatively, that device is misconfigured. The egress device is usually a NAT gateway. However, it can be a NAT instance, a firewall or proxy appliance, or a transit gateway to a centralized egress VPC.
 
 *Solution:*
 
@@ -199,7 +199,7 @@ If you have strict egress requirements and you know the IP ranges of your webhoo
 
 *Cause:*
 
-The VPC DHCP option set was changed. Alternatively, it doesn't include `AmazonProvidedDNS` in its domain name servers. It might also lack another resolver that can resolve the names the control plane needs. The control plane automatically detects DHCP option set changes and applies the new DNS settings, usually within one hour. The control plane can only do this when the cluster IAM role grants the required Amazon EC2 read permissions.
+The VPC DHCP option set was changed. Alternatively, it doesn't include `AmazonProvidedDNS` in its domain name servers. It might also lack another resolver that can resolve the names the control plane needs. The control plane automatically detects DHCP option set changes and applies the new DNS settings, usually within one hour. The control plane can do this only when the cluster IAM role grants the required Amazon EC2 read permissions.
 
 *Solution:*
 

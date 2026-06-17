@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#control-plane-egress]
-= Configure control plane egress routing
+= Configuring control plane egress routing
 :info_titleabbrev: Control plane egress
 
 [abstract]
@@ -10,10 +10,9 @@ include::../attributes.txt[]
 Learn how to configure the control plane egress routing for your Amazon EKS cluster. In `CUSTOMER_ROUTED` mode, you manage the network path from the control plane to resources in your VPC.
 --
 
-By default, Amazon EKS manages the egress networking from the Kubernetes control plane to resources in your VPC. With _control plane egress routing_, you can change this behavior so that you manage the network path yourself. This gives you full control over how traffic from the control plane elastic network interfaces (ENIs) reaches your VPC resources. You can route through your own NAT gateways, firewalls, or inspection appliances.
+By default, Amazon EKS manages the egress networking from the Kubernetes control plane to resources in your VPC. Use _control plane egress routing_ to change this behavior and manage the network path yourself. This gives you full control over how traffic from the control plane elastic network interfaces (ENIs) reaches your VPC resources. You can route through your own NAT gateways, firewalls, or inspection appliances.
 
-// TODO(diagram): add an architecture diagram here showing: kube-apiserver -> cross-account ENI in customer VPC subnet -> route table -> egress device (e.g. NAT gateway) -> internet -> webhook/OIDC endpoint. Source PNG to be created and committed to images/ per the team diagram workflow (WorkDocs source).
-image::images/control-plane-egress-overview.png[Control plane egress routing overview]
+image::images/control-plane-egress-overview.png[Architecture diagram showing the kube-apiserver sending traffic through a cross-account ENI in the customer VPC subnet to a route table and egress device such as a NAT gateway and then out to the internet to reach webhook and OIDC endpoints]
 
 [#control-plane-egress-modes]
 == Egress routing modes
@@ -35,7 +34,7 @@ a|You manage the egress path from the control plane in your VPC subnets. You are
 
 [IMPORTANT]
 ====
-When you use `CUSTOMER_ROUTED` mode, you are responsible for ensuring proper network connectivity from the control plane. Misconfigurations in your VPC networking can cause control plane operations to fail. These misconfigurations include a missing egress path, restrictive network ACLs, or incorrect security groups. Affected operations include admission webhook calls and OIDC authentication.
+In `CUSTOMER_ROUTED` mode, you're responsible for ensuring proper network connectivity from the control plane. Misconfigurations in your VPC networking can cause control plane operations to fail. These misconfigurations include a missing egress path, restrictive network ACLs, or incorrect security groups. Affected operations include admission webhook calls and OIDC authentication.
 ====
 
 [#control-plane-egress-prerequisites]
@@ -43,7 +42,7 @@ When you use `CUSTOMER_ROUTED` mode, you are responsible for ensuring proper net
 
 Your VPC and subnets must meet the standard Amazon EKS networking requirements. For more information, see <<network-reqs>>.
 
-In `CUSTOMER_ROUTED` mode, the Kubernetes API server sends customer-facing traffic outbound through the cross-account network interfaces. These interfaces are the ones that Amazon EKS already creates in your subnets for control plane to node communication. This traffic includes calls to admission webhooks and OIDC providers. Amazon EKS doesn't create separate egress network interfaces. This mode changes _how_ the existing interfaces are used. The subnets that hold these interfaces must meet the following requirements:
+In `CUSTOMER_ROUTED` mode, the Kubernetes API server sends customer-facing traffic outbound through the cross-account network interfaces. Amazon EKS already creates these interfaces in your subnets for control plane to node communication. This traffic includes calls to admission webhooks and OIDC providers. Amazon EKS doesn't create separate egress network interfaces. This mode changes _how_ the existing interfaces are used. The subnets that hold these interfaces must meet the following requirements:
 
 * The subnets must have a route to the endpoints the control plane needs to reach (such as webhook servers and OIDC providers). For endpoints outside your VPC, this usually means a default route to an egress device. The default route is `0.0.0.0/0` for IPv4, and `::/0` for IPv6. The egress device can be a NAT gateway, NAT instance, firewall, or a transit gateway to a centralized egress VPC. The choice of egress device is yours; Amazon EKS only requires that the path works.
 * Security groups on the cross-account network interfaces must allow outbound traffic on ports required by your workloads (for example, port 443 for webhooks and OIDC providers).
@@ -116,13 +115,13 @@ You can use `ipFamily=ipv6` for IPv6 clusters. When using IPv6 with `CUSTOMER_RO
 {aws-management-console}::
 +
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
-. Choose *Add cluster*, then *Create*.
+. Choose *Add cluster*, and then choose *Create*.
 . On the *Networking* page, for *Control plane egress*, select *Customer routed*.
 . Complete the remaining cluster configuration and choose *Create*.
 
 ====
 
-For {aws} CloudFormation, set `ControlPlaneEgressMode: CUSTOMER_ROUTED` in `ResourcesVpcConfig`. For Terraform, set `control_plane_egress_mode = "CUSTOMER_ROUTED"` in the `vpc_config` block.
+For {aws} CloudFormation, set `ControlPlaneEgressMode: CUSTOMER_ROUTED` in `ResourcesVpcConfig`. Terraform support for this field will be available in a future release of the link:https://registry.terraform.io/providers/hashicorp/aws/latest/docs[{aws} Provider].
 
 [NOTE]
 ====
@@ -185,7 +184,6 @@ Keep the following points in mind when you use customer-routed control plane egr
 * *EKS Auto Mode*: Control plane egress routing works the same way on both Standard and Auto Mode clusters because the control plane architecture is identical.
 * *EKS Capabilities*: EKS Capabilities (such as ArgoCD, ACK, and KRO) run in separate {aws} managed infrastructure. Traffic from EKS Capabilities controllers is not routed through your VPC by this feature.
 * *Observability*: If you enable VPC Flow Logs on your VPC or cluster subnets, you can observe egress traffic that routes through your VPC. This includes calls to webhook and OIDC endpoints. If VPC Flow Logs are not enabled, this traffic is not logged.
-// TODO(PMT): confirm and document the minimum Kubernetes version, the AWS Regions where CUSTOMER_ROUTED is available at launch
 
 [#control-plane-egress-iam-condition]
 == IAM condition key
@@ -197,23 +195,32 @@ The condition key applies to the following actions:
 * `eks:CreateCluster`
 * `eks:UpdateClusterConfig`
 
-For example, the following SCP denies cluster creation unless the caller specifies `CUSTOMER_ROUTED`:
+For example, the following SCP denies cluster creation and configuration updates unless the caller specifies `CUSTOMER_ROUTED`:
 
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Effect": "Deny",
-  "Action": "eks:CreateCluster",
-  "Resource": "*",
-  "Condition": {
-    "StringNotEquals": {
-      "eks:controlPlaneEgressMode": "CUSTOMER_ROUTED"
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "RequireCustomerRoutedControlPlane",
+      "Effect": "Deny",
+      "Action": [
+        "eks:CreateCluster",
+        "eks:UpdateClusterConfig"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "eks:controlPlaneEgressMode": "CUSTOMER_ROUTED"
+        }
+      }
     }
-  }
+  ]
 }
 ----
 
-Use this policy to enforce that all new clusters in your organization use the `CUSTOMER_ROUTED` egress mode.
+Use this policy to enforce that all new and updated clusters in your organization use the `CUSTOMER_ROUTED` egress mode.
 
 [#control-plane-egress-oidc]
 == OIDC provider configuration
