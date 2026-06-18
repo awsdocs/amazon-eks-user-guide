@@ -485,6 +485,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Description
 |Date
 
+|Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
+|Added `AmazonEKSPodIdentityPolicy` to the list of access policies that the service-linked role can associate and dissociate from cluster access entries. With this addition, Amazon EKS can manage pod identity credentials for workloads running on EKS clusters.
+|June 26, 2026
+
 |Updated permissions to <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>.
 |Added `elasticloadbalancing:SetRulePriorities`, `ec2:DescribeIpamPools` permissions in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to set priorities of the specified listiner rules for ALB and describe ipam pools respectively
 |June 15, 2026

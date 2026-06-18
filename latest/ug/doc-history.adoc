@@ -33,6 +33,13 @@ link:eks/latest/userguide/create-node-class.html#static-network-interfaces[type=
 
 Added support for configuring EFA network interfaces on EKS Auto Mode NodeClass resources. You can now statically define network interfaces at instance launch for high-performance distributed training and inference workloads.
 
+[.update,date="2026-06-26"]
+=== Service-linked role update
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `AmazonEKSPodIdentityPolicy` to the list of access policies in `AmazonEKSServiceRolePolicy` that the service-linked role can associate and dissociate from cluster access entries. With this addition, Amazon EKS can manage pod identity credentials for workloads running on EKS clusters.
+
 [.update,date="2026-06-18"]
 === Control plane egress routing
 [.update-ulink]
@@ -46,7 +53,7 @@ Added support for customer-routed control plane egress (`controlPlaneEgressMode=
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
  
 Added `elasticloadbalancing:SetRulePriorities` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to set priorities of the specified listener rules for ALB.
-Added `ec2:DescribeIpamPools` permission in `AmazonEKSLoadBalancingPolicy` to describe ipam pool 
+Added `ec2:DescribeIpamPools` permission in `AmazonEKSLoadBalancingPolicy` to describe ipam pool
 
 [.update,date="2026-06-02"]
 === Kubernetes version `1.36`
