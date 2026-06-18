@@ -14,6 +14,18 @@ To receive notifications of all source file changes to this specific documentati
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
 ----
 
+== April 10, 2026
+
+**New supported instance types**: p6-b200, p6-b300, p5e, p5en, trn2, hpc8a, x8aedz, x8i. For the full list of supported instances, see <<automode-learn-instances>>.
+
+== April 2, 2026
+
+**Chore**: NodeClass dry run validation will now use dynamically selected instance types based on linked NodePools.
+
+== February 2, 2026
+
+**Feature**: Added support to disable v4Egress traffic from IPv6 pods in EKS Auto Mode IPv6 clusters. For more information, see <<enableV4Egress>>.
+
 == December 19, 2025
 
 **Feature**: Added support for secondary IP mode that provisions secondary IP addresses instead of prefix to Auto nodes. The mode maintains a one secondary IP as MinimalIPTarget and save IP resources for customers who don't need to warm up more secondary IPs or prefixes. For more information, see <<auto-node-class-spec>> and <<secondary-IP-mode>>.

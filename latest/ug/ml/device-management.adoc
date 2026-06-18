@@ -1,0 +1,122 @@
+include::../attributes.txt[]
+
+[.topic]
+[#device-management]
+= Manage hardware devices on Amazon EKS
+:info_titleabbrev: Device management
+
+[abstract]
+--
+Learn how to manage specialized hardware devices such as NVIDIA GPUs and {aws} Trainium chips in Amazon EKS clusters using Dynamic Resource Allocation (DRA) and Kubernetes device plugins.
+--
+
+Amazon EKS supports two Kubernetes mechanisms for managing specialized hardware devices in EKS clusters: _Dynamic Resource Allocation (DRA)_ and _device plugins_. Both mechanisms enable workloads to access hardware accelerators such as NVIDIA GPUs and {aws} Trainium chips, and high-performance network devices such as Elastic Fabric Adapter (EFA). It's recommended to use DRA drivers for new deployments with Kubernetes versions 1.34 and later when using EKS managed node groups or self-managed nodes, as DRA provides richer device selection, topology-aware scheduling, and device sharing capabilities that are not possible with device plugins.
+
+Reference the Kubernetes documentation for link:https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/[Dynamic Resource Allocation] and link:https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/[device plugins] for general information about these two Kubernetes features.
+
+== Dynamic Resource Allocation vs device plugins 
+
+Kubernetes device plugins have been the primary mechanism for exposing specialized hardware to Kubernetes workloads. Device plugins advertise devices as extended resources (for example, `nvidia.com/gpu` or `aws.amazon.com/neuroncore`) that you request in container resource requests and limits. While device plugins are widely supported and used, they have limitations:
+
+* Devices are requested as opaque integer counts with no attribute-based filtering.
+* No support for device sharing between containers or Pods.
+* No expressive topology-aware allocation across device types.
+* Custom scheduler extensions are often required for intelligent placement.
+
+Dynamic Resource Allocation (DRA) is a Kubernetes feature made generally available in Kubernetes version 1.34 that addresses these limitations. With DRA, device drivers publish rich device attributes to the Kubernetes scheduler through `ResourceSlice` objects. You request devices using `ResourceClaim` and `ResourceClaimTemplate` objects that reference `DeviceClass` categories. 
+
+DRA enables:
+
+* Attribute-based device selection using https://kubernetes.io/docs/reference/using-api/cel/[Common Expression Language (CEL)] expressions.
+* Topology-aware allocation that ensures devices are co-located on the same PCIe switch or NUMA domain.
+* Device sharing between multiple containers or Pods through shared `ResourceClaim` references.
+* Constraint-based scheduling that aligns different device types
+
+== DRA drivers for Amazon EKS
+
+The following DRA drivers are commonly used for managing specialized hardware devices in Amazon EKS clusters.
+
+EFA DRA driver:: The EFA DRA driver (https://github.com/kubernetes-sigs/dranet[DRANET]) manages Elastic Fabric Adapter (EFA) device allocation with topology-aware scheduling that pairs EFA interfaces with their topologically-local GPUs or Neuron devices, and supports device sharing between Pods. For more information, see <<device-management-efa>>.
+
+Neuron DRA driver:: The Neuron DRA driver manages {aws} Trainium and {aws} Inferentia2 device allocation with topology-aware scheduling, connected device subset allocation, and Logical NeuronCore (LNC) configuration, without requiring custom scheduler extensions.
+
+NVIDIA DRA driver:: The https://github.com/kubernetes-sigs/nvidia-dra-driver-gpu[NVIDIA DRA driver for GPUs] enables flexible allocation and dynamic reconfiguration of NVIDIA GPUs, including support for `ComputeDomain` resources for Multi-Node NVLink (MNNVL) workloads on EC2 Grace-Blackwell instances. For more information on using `ComputeDomains` with EC2 Grace-Blackwell instances, see <<ml-eks-nvidia-ultraserver>>.
+
+== Device plugins for Amazon EKS
+
+The following device plugins are commonly used for managing specialized hardware devices in Amazon EKS clusters.
+
+EFA device plugin:: The EFA device plugin discovers all available EFA devices on each node and advertises EFA devices as `vpc.amazonaws.com/efa` extended resources.
+
+Neuron device plugin:: The https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/tutorials/k8s-setup.html[Neuron device plugin] exposes Neuron hardware as `aws.amazon.com/neuroncore` and `aws.amazon.com/neuron` extended resources. It discovers available Neuron devices on each node, advertises them as allocatable resources, and manages their lifecycle.
+
+NVIDIA device plugin:: The https://github.com/NVIDIA/k8s-device-plugin[NVIDIA device plugin] advertises NVIDIA GPUs as `nvidia.com/gpu` extended resources and tracks the health of GPUs.
+
+== Considerations
+
+Before using DRA drivers on Amazon EKS, review the following considerations:
+
+* DRA is available on Amazon EKS with Kubernetes version 1.33 and above, but it is recommended for Kubernetes versions 1.34 and later due to an upstream link:https://github.com/kubernetes/kubernetes/issues/133920[Kubernetes issue]. Your cluster control plane and nodes must be running a Kubernetes version that supports DRA.
+* DRA is not currently compatible with Karpenter or EKS Auto Mode provisioned compute. You must use EKS managed node groups or self-managed nodes with DRA drivers.
+* DRA drivers and device plugins for the same device type **must** not run simultaneously on the same node. Uninstall the device plugin before installing the corresponding DRA driver, or deploy them on separate nodes. See upstream Kubernetes link:https://github.com/kubernetes/enhancements/issues/5004[KEP-5004] for updates on DRA driver and device plugin compatibility.
+* DRA uses different Kubernetes API resources (`ResourceClaim`, `ResourceClaimTemplate`, `DeviceClass`) than device plugins (`resource.limits`, `resource.requests`). Migrating from device plugins to DRA requires updating your workload specifications.
+* Device plugins remain fully supported for all Kubernetes versions. If your cluster runs a Kubernetes version earlier than 1.34, or if you use Karpenter or EKS Auto Mode, continue using device plugins. The NVIDIA DRA driver is not supported on Bottlerocket; use the NVIDIA device plugin on Bottlerocket nodes. The EFA and Neuron DRA drivers are supported on Bottlerocket.
+
+== DRA ResourceClaim vs ResourceClaimTemplate
+
+When using DRA, you request devices through `ResourceClaim` or `ResourceClaimTemplate` objects. These two resource types serve different purposes and have different lifecycle behaviors.
+
+ResourceClaim:: A `ResourceClaim` is a named Kubernetes object that you create independently of any Pod. You reference it in a Pod specification by name using the `resourceClaimName` field. A `ResourceClaim` has the following characteristics:
++
+* It must exist in the cluster before any Pod that references it is created. If the claim does not exist, the Pod remains in a pending state.
+* It persists until you explicitly delete it, regardless of whether any Pods reference it.
+* Multiple Pods can reference the same `ResourceClaim`, which enables device sharing. All Pods that reference the same claim share access to the same allocated devices and are scheduled to the same node.
++
+Use a `ResourceClaim` when you need multiple Pods to share access to the same devices, or when you need a claim to exist beyond the lifetime of a single Pod.
+
+ResourceClaimTemplate:: A `ResourceClaimTemplate` defines a template that Kubernetes uses to automatically generate a unique `ResourceClaim` for each Pod. You reference it in a Pod specification using the `resourceClaimTemplateName` field. The `ResourceClaimTemplate` itself is not bound to any Pod — it is a reusable template that persists independently. A `ResourceClaimTemplate` has the following characteristics:
++
+* Kubernetes creates a new `ResourceClaim` for each Pod that references the template. Each Pod gets its own separate set of devices.
+* Each generated `ResourceClaim` is bound to the lifecycle of the Pod that triggered its creation. When the Pod is deleted, the associated generated `ResourceClaim` is also deleted. The `ResourceClaimTemplate` itself is not affected and continues to generate new claims for future Pods.
++
+Use a `ResourceClaimTemplate` when each Pod in a workload needs its own dedicated devices with similar configurations. For example, use a `ResourceClaimTemplate` for Pods in a Job that uses parallel execution where each Pod needs its own GPU or EFA devices.
+
+The following table summarizes the differences between `ResourceClaim` and `ResourceClaimTemplate`.
+
+[cols="1,1,1", options="header"]
+|===
+| Behavior
+| ResourceClaim
+| ResourceClaimTemplate
+
+| Creation
+| You create it manually before Pods reference it
+| Kubernetes generates a claim automatically per Pod
+
+| Lifecycle
+| Persists until you delete it
+| The template persists until you delete it. Each generated `ResourceClaim` is bound to the Pod that triggered its creation.
+
+| Device sharing across Pods
+| Supported. Multiple Pods can reference the same claim.
+| Not supported. Each Pod gets a separate claim.
+
+| Pod specification field
+| `resourceClaimName`
+| `resourceClaimTemplateName`
+|===
+
+For examples of using `ResourceClaim` objects to share EFA devices between Pods, see <<efa-dra-share>>. For examples of using `ResourceClaimTemplate` objects with topology-aware allocation, see <<efa-dra-topology-aware>>.
+
+== Topics
+
+* <<device-management-efa>>
+* <<device-management-neuron>>
+* <<device-management-nvidia>>
+
+
+include::device-management-efa.adoc[leveloffset=+1]
+
+include::device-management-neuron.adoc[leveloffset=+1]
+
+include::device-management-nvidia.adoc[leveloffset=+1]

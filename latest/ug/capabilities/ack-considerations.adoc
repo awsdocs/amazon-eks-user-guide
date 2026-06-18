@@ -138,16 +138,45 @@ Use Kubernetes namespaces to logically separate ACK resources by environment (pr
 
 === Resource tagging
 
-EKS automatically applies tags to {aws} resources managed by ACK, including the capability resource ARN.
-Add additional tags for cost allocation, ownership tracking, and organizational purposes.
+The EKS ACK capability automatically applies default tags to all {aws} resources it creates.
+These tags differ from self-managed ACK and provide enhanced traceability.
 
-*Recommended tags*:
+*Default tags applied by the capability*:
+
+[cols="1,2",options="header"]
+|===
+|Tag Key |Description
+
+|`eks:controller-version`
+|The version of the ACK controller
+
+|`eks:kubernetes-namespace`
+|The Kubernetes namespace of the ACK resource
+
+|`eks:kubernetes-resource-name`
+|The name of the Kubernetes resource
+
+|`eks:kubernetes-api-group`
+|The Kubernetes API group (for example, `s3.services.k8s.aws`)
+
+|`eks:eks-capability-arn`
+|The ARN of the EKS ACK capability
+|===
+
+[NOTE]
+====
+Self-managed ACK uses different default tags: `services.k8s.aws/controller-version` and `services.k8s.aws/namespace`.
+The capability's tags use the `eks:` prefix for consistency with other EKS features.
+====
+
+*Additional recommended tags*:
+
+Add custom tags for cost allocation, ownership tracking, and organizational purposes:
 
 * Environment (Production, Staging, Development)
 * Team or department ownership
 * Cost center for billing allocation
 * Application or service name
-* ManagedBy: ACK (to identify ACK-managed resources)
 
 
 == Migration from other Infrastructure-as-code tools

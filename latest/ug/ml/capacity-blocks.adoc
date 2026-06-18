@@ -48,7 +48,7 @@ The following is an excerpt of a CloudFormation template that creates a launch t
 [source,yaml,subs="verbatim,attributes"]
 ----
 NodeLaunchTemplate:
-  Type: "aws::EC2::LaunchTemplate"
+  Type: "{aws}::EC2::LaunchTemplate"
   Properties:
     LaunchTemplateData:
       InstanceMarketOptions:

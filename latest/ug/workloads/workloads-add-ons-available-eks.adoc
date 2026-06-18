@@ -38,7 +38,15 @@ You can use any of the following Amazon EKS add-ons.
 |<<add-ons-aws-ebs-csi-driver>>
 |EC2
 
+|Provide Amazon EC2 instance storage for your cluster
+|<<add-ons-aws-ec2-instance-store-csi-driver>>
+|EC2
+
 |Provide Amazon EFS storage for your cluster
+|<<add-ons-aws-efs-csi-driver>>
+|EC2, EKS Auto Mode
+
+|Provide Amazon S3 Files storage for your cluster
 |<<add-ons-aws-efs-csi-driver>>
 |EC2, EKS Auto Mode
 
@@ -68,6 +76,10 @@ You can use any of the following Amazon EKS add-ons.
 
 |Amazon SageMaker HyperPod training operator enables efficient distributed training on Amazon EKS clusters with advanced scheduling and resource management capabilities.
 |<<addons-hyperpod-training-operator>>
+|EC2, EKS Auto Mode
+
+|Amazon SageMaker HyperPod inference operator enables deployment and management of high-performance AI inference workloads with optimized resource utilization and cost efficiency.
+|<<addons-hyperpod-inference-operator>>
 |EC2, EKS Auto Mode
 
 |A Kubernetes agent that collects and reports network flow data to Amazon CloudWatch, enabling comprehensive monitoring of TCP connections across cluster nodes.
@@ -231,7 +243,9 @@ The Amazon EKS add-on name is `aws-ebs-csi-driver`.
 [#add-ons-aws-ebs-csi-driver-iam-permissions]
 === Required IAM permissions
 
-This add-on utilizes the IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. The permissions in the link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html[AmazonEBSCSIDriverPolicy,type="documentation"] {aws} managed policy are required. You can create an IAM role and attach the managed policy to it with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKS_EBS_CSI_DriverRole` with the name for your role. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool or you need to use a custom link:kms/[KMS key,type="marketing"] for encryption, see <<csi-iam-role>>.
+This add-on utilizes the IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. This add-on requires one of the following {aws} managed policies: link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicyV2.html[AmazonEBSCSIDriverPolicyV2,type="documentation"] for tag-based scoping, link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverEKSClusterScopedPolicy.html[AmazonEBSCSIDriverEKSClusterScopedPolicy,type="documentation"] for cluster-scoped isolation, or link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html[AmazonEBSCSIDriverPolicy,type="documentation"] if you don't want any tag-based restrictions. You can create an IAM role and attach the managed policy to it with the following command. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKS_EBS_CSI_DriverRole` with the name for your role. This command requires that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool or you need to use a custom link:kms/[KMS key,type="marketing"] for encryption, see <<csi-iam-role>>.
+
+If migrating from `AmazonEBSCSIDriverPolicy`, please see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/issues/2918[EBS CSI Driver policy migration].
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -241,7 +255,7 @@ eksctl create iamserviceaccount \
     --cluster my-cluster \
     --role-name AmazonEKS_EBS_CSI_DriverRole \
     --role-only \
-    --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+    --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEBSCSIDriverPolicyV2 \
     --approve
 ----
 
@@ -251,6 +265,28 @@ eksctl create iamserviceaccount \
 
 To learn more about the add-on, see <<ebs-csi>>.
 
+[#add-ons-aws-ec2-instance-store-csi-driver]
+== Amazon EC2 Instance Store CSI driver
+
+[abstract]
+--
+Learn about the Amazon EC2 Instance Store CSI driver Amazon EKS add-on.
+--
+
+The Amazon EC2 Instance Store CSI driver Amazon EKS add-on is a Kubernetes Container Storage Interface (CSI) plugin that provides Amazon EC2 instance store NVMe storage for your cluster.
+
+The Amazon EKS add-on name is `aws-ec2-local-instance-store-csi-driver`.
+
+[#add-ons-aws-ec2-instance-store-csi-driver-iam-permissions]
+=== Required IAM permissions
+
+This add-on doesn't require any permissions. The driver interacts with backend NVMe devices through local Linux operations and doesn't make {aws} API calls.
+
+[#add-ons-aws-ec2-instance-store-csi-driver-information]
+=== Additional information
+
+To learn more about the add-on, see <<lis-csi>>.
+
 [#add-ons-aws-efs-csi-driver]
 == Amazon EFS CSI driver
 
@@ -259,14 +295,22 @@ To learn more about the add-on, see <<ebs-csi>>.
 Learn about the Amazon EFS CSI driver Amazon EKS add-on.
 --
 
-The Amazon EFS CSI driver Amazon EKS add-on is a Kubernetes Container Storage Interface (CSI) plugin that provides Amazon EFS storage for your cluster.
+The Amazon EFS CSI driver Amazon EKS add-on is a Kubernetes Container Storage Interface (CSI) plugin that provides Amazon EFS and Amazon S3 Files storage for your cluster.
 
 The Amazon EKS add-on name is `aws-efs-csi-driver`.
 
 [#add-ons-aws-efs-csi-driver-iam-permissions]
 === Required IAM permissions
 
-*Required IAM permissions* – This add-on utilizes the IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. The permissions in the link:aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html[AmazonEFSCSIDriverPolicy,type="documentation"] {aws} managed policy are required. You can create an IAM role and attach the managed policy to it with the following commands. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKS_EFS_CSI_DriverRole` with the name for your role. These commands require that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool, see <<efs-create-iam-resources>>.
+This add-on utilizes the IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. 
+
+The specific {aws} managed policy you need depends on which file system type you want to use:
+
+* *For Amazon EFS file systems only*: Attach the link:aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html[AmazonEFSCSIDriverPolicy,type="documentation"] managed policy.
+* *For Amazon S3 file system only*: Attach the `AmazonS3FilesCSIDriverPolicy` managed policy.
+* *For both Amazon EFS and Amazon S3 file systems*: Attach both the `AmazonEFSCSIDriverPolicy` and `AmazonS3FilesCSIDriverPolicy` managed policies.
+
+You can create an IAM role and attach the managed policy to it with the following commands. Replace [.replaceable]`my-cluster` with the name of your cluster and [.replaceable]`AmazonEKS_EFS_CSI_DriverRole` with the name for your role. The following example attaches the `AmazonEFSCSIDriverPolicy` for Amazon EFS file systems. If you're using an Amazon S3 file system, replace the policy ARN with `{arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy`. If you're using both file system types, add an additional `--attach-policy-arn` flag with the second policy ARN. These commands require that you have https://eksctl.io[eksctl] installed on your device. If you need to use a different tool, see <<efs-create-iam-resources>> for Amazon EFS or <<s3files-create-iam-resources>> for Amazon S3 Files.
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -284,6 +328,11 @@ TRUST_POLICY=$(aws iam get-role --output json --role-name $role_name --query 'Ro
     sed -e 's/efs-csi-controller-sa/efs-csi-*/' -e 's/StringEquals/StringLike/')
 aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRUST_POLICY"
 ----
+
+[NOTE]
+====
+The above example only configures `efs-csi-controller-sa`. If you are using Amazon S3 file systems, you also need to configure `efs-csi-node-sa`. See <<s3files-create-iam-resources>> for the complete S3 Files IAM setup.
+====
 
 
 [#add-ons-aws-efs-csi-driver-information]
@@ -312,7 +361,7 @@ The Amazon EKS add-on name is `aws-fsx-csi-driver`.
 aws eks create-addon --addon-name aws-fsx-csi-driver --cluster-name my-cluster --resolve-conflicts OVERWRITE
 ----
 
-* The Amazon FSx CSI Driver EKS add-on requires the EKS Pod Identity agent for authentication. Without this component, the add-on will fail with the error `Amazon EKS Pod Identity agent is not installed in the cluster`, preventing volume operations. Install the Pod Identity agent before or after deploying the FSx CSI Driver add-on. For more information, see <<pod-id-agent-setup>>. 
+* The Amazon FSx CSI Driver EKS add-on supports authentication through either EKS Pod Identity or IAM Roles for Service Accounts (IRSA). To use EKS Pod Identity, install the Pod Identity agent before or after deploying the FSx CSI Driver add-on. For more information, see <<pod-id-agent-setup>>. To use IRSA instead, see <<enable-iam-roles-for-service-accounts>>.
 
 ====
 
@@ -470,6 +519,52 @@ For more information, see link:sagemaker/latest/dg/sagemaker-eks-operator-instal
 === Additional information
 
 To learn more about the add-on, see link:sagemaker/latest/dg/sagemaker-eks-operator.html["SageMaker HyperPod training operator",type="documentation"].
+
+[#addons-hyperpod-inference-operator]
+== Amazon SageMaker HyperPod inference operator
+
+Amazon SageMaker HyperPod offers an end-to-end experience supporting the full lifecycle of AI development from interactive experimentation and training to inference and post training workflows. It now provides a comprehensive inference platform that combines the flexibility of Kubernetes with the operational excellence of a managed experience. Deploy, scale, and optimize your GenAI models with enterprise-grade reliability using the same HyperPod compute throughout the entire model lifecycle.
+
+Amazon SageMaker HyperPod offers flexible deployment interfaces that allow you to deploy models through multiple methods including kubectl, Python SDK, Amazon SageMaker Studio UI, or HyperPod CLI. The capability provides advanced autoscaling capabilities with dynamic resource allocation that automatically adjusts based on demand. Additionally, it includes comprehensive observability and monitoring features that track critical metrics such as time-to-first-token, latency, and GPU utilization to help you optimize performance.
+
+The Amazon EKS add-on name is `amazon-sagemaker-hyperpod-inference`.
+
+=== Installation methods
+
+You can install this add-on using one of the following methods:
+
+* *SageMaker Console (Recommended)*: Provides a streamlined installation experience with guided configuration.
+* *EKS Add-ons Console or CLI*: Requires manual installation of dependency add-ons before installing the inference operator. See the prerequisites section below for required dependencies.
+
+=== Prerequisites
+
+Before installing the inference operator add-on via the EKS Add-ons Console or CLI, ensure the following dependencies are installed.
+
+Required EKS add-ons:
+
+* Amazon S3 Mountpoint CSI Driver (minimum version: v1.14.1-eksbuild.1)
+* Metrics Server (minimum version: v0.7.2-eksbuild.4)
+* Amazon FSx CSI Driver (minimum version: v1.6.0-eksbuild.1)
+* Cert Manager (minimum version: v1.18.2-eksbuild.2)
+
+For detailed installation instructions for each dependency, see link:sagemaker/latest/dg/sagemaker-hyperpod-model-deployment-setup.html[Installing the inference operator,type="documentation"].
+
+=== Required IAM permissions
+
+This add-on requires IAM permissions, and uses OIDC/IRSA.
+
+The following managed policies are recommended as they provide the minimum scoped permissions:
+
+* `AmazonSageMakerHyperPodInferenceAccess` - provides admin privileges required for setting up the inference operator
+* `AmazonSageMakerHyperPodGatedModelAccess` - provides SageMaker HyperPod access to gated models in SageMaker Jumpstart (e.g., Meta Llama, GPT-Neo)
+
+For more information, see link:sagemaker/latest/dg/sagemaker-hyperpod-model-deployment-setup.html[Installing the inference operator,type="documentation"].
+
+=== Additional information
+
+To learn more about the Amazon SageMaker HyperPod inference operator, see link:sagemaker/latest/dg/sagemaker-hyperpod-model-deployment.html[SageMaker HyperPod inference operator,type="documentation"].
+
+For troubleshooting information, see link:sagemaker/latest/dg/sagemaker-hyperpod-model-deployment-ts.html[Troubleshooting SageMaker HyperPod model deployment,type="documentation"].
 
 [#addons-network-flow]
 == {aws} Network Flow Monitor Agent

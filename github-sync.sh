@@ -2,6 +2,16 @@
 
 set -e  # Exit on any error
 
+# Parse options
+DRY_RUN=false
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --dry-run) DRY_RUN=true ;;
+        *) echo "Unknown option: $1"; exit 1 ;;
+    esac
+    shift
+done
+
 # Configuration
 GITHUB_SSH_URL="git@github.com:awsdocs/amazon-eks-user-guide.git"
 
@@ -64,6 +74,11 @@ fi
 print_status "Fetching from GitHub remote..."
 if ! git fetch github; then
     print_error "Failed to fetch from GitHub remote. Check your internet connection and repository permissions"
+fi
+
+if [ "$DRY_RUN" = true ]; then
+    print_status "Dry run complete. Stopping before merge."
+    exit 0
 fi
 
 print_status "Attempting to merge github/mainline..."

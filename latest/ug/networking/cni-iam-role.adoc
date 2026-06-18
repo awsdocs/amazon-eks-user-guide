@@ -193,7 +193,7 @@ AWS_STS_REGIONAL_ENDPOINTS=regional
 [#remove-cni-policy-node-iam-role]
 == Step 3: Remove the CNI policy from the node IAM role
 
-If your <<create-node-role,Amazon EKS node IAM role>> currently has the `AmazonEKS_CNI_Policy` IAM (`IPv4`) policyor an <<cni-iam-role-create-ipv6-policy,IPv6 policy>>attached to it, and you've created a separate IAM role, attached the policy to it instead, and assigned it to the `aws-node` Kubernetes service account, then we recommend that you remove the policy from your node role with the {aws} CLI command that matches the IP family of your cluster. Replace [.replaceable]`AmazonEKSNodeRole` with the name of your node role.
+If your <<create-node-role,Amazon EKS node IAM role>> currently has the `AmazonEKS_CNI_Policy` IAM (`IPv4`) policy or an <<cni-iam-role-create-ipv6-policy,IPv6 policy>> attached to it, and you've created a separate IAM role, attached the policy to it instead, and assigned it to the `aws-node` Kubernetes service account, then we recommend that you remove the policy from your node role with the {aws} CLI command that matches the IP family of your cluster. Replace [.replaceable]`AmazonEKSNodeRole` with the name of your node role.
 
 
 

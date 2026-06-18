@@ -1,0 +1,380 @@
+include::../attributes.txt[]
+
+[.topic]
+[#s3files-csi]
+= Use Amazon S3 file system storage with the Amazon EFS CSI driver
+:info_titleabbrev: Amazon S3 Files
+
+[abstract]
+--
+The Amazon EFS Container Storage Interface (CSI) driver allows Kubernetes clusters running on {aws} to mount Amazon S3 file systems as persistent volumes.
+--
+S3 Files is a shared file system that connects any {aws} compute directly with your data in Amazon S3. It provides fast, direct access to all of your S3 data as files with full file system semantics and low-latency performance, without your data ever leaving S3. That means file-based applications, agents, and teams can access and work with S3 data as a file system using the tools they already depend on. The https://github.com/kubernetes-sigs/aws-efs-csi-driver[Amazon EFS Container Storage Interface (CSI) driver] allows Kubernetes clusters running on {aws} to mount Amazon S3 file systems as persistent volumes starting from version https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-3.x.md#v300[3.0.0]. This topic shows you how to use the Amazon EFS CSI driver to manage Amazon S3 file system on your Amazon EKS cluster.
+
+[#s3files-csi-considerations]
+== Considerations
+
+* The Amazon EFS CSI driver isn't compatible with Windows-based container images.
+* EKS Fargate doesn't support S3 Files.
+* The Amazon EFS CSI driver isn't compatible with Amazon EKS Hybrid Nodes.
+* Amazon S3 Files support in Amazon EFS CSI driver starts from version https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-3.x.md#v300[3.0.0].
+
+[#s3files-csi-prereqs]
+== Prerequisites
+
+* The Amazon EFS CSI driver needs {aws} Identity and Access Management (IAM) permissions.
+** {aws} suggests using EKS Pod Identities. For more information, see <<pod-id-setup-overview>>.
+** For information about IAM roles for service accounts and setting up an IAM OpenID Connect (OIDC) provider for your cluster, see <<enable-iam-roles-for-service-accounts>>.
+* Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such as `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
+* The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
+
+[#s3files-create-iam-resources]
+== Step 1: Create IAM roles
+
+The Amazon EFS CSI driver requires IAM permissions to interact with your file system. The EFS CSI driver uses two service accounts with separate IAM roles:
+
+* `efs-csi-controller-sa` — used by the controller, requires `AmazonS3FilesCSIDriverPolicy`.
+* `efs-csi-node-sa` — used by the node daemonset, requires:
+** `AmazonS3ReadOnlyAccess` — enables streaming reads directly from your S3 bucket for higher throughput.
+** `AmazonElasticFileSystemsUtils` — enables publishing efs-utils logs to Amazon CloudWatch for visibility into mount operations and easier troubleshooting.
+
+[NOTE]
+====
+If you want to use both Amazon S3 file system and Amazon EFS storage, you must attach both the `AmazonS3FilesCSIDriverPolicy` and the `AmazonEFSCSIDriverPolicy` managed policies to the controller role. For more information about Amazon EFS storage, see <<efs-csi>>.
+====
+
+To implement this procedure, you can use one of these tools:
+
+* <<eksctl_s3files_store_app_data>>
+* <<console_s3files_store_app_data>>
+* <<awscli_s3files_store_app_data>>
+
+[NOTE]
+====
+
+The specific steps in this procedure are written for using the driver as an Amazon EKS add-on. For details on self-managed installations, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/install.md#set-up-driver-permission[Set up driver permission] on GitHub.
+
+====
+
+[#eksctl_s3files_store_app_data]
+=== `eksctl`
+
+[#s3files-eksctl-pod-identities]
+==== If using Pod Identities
+
+Run the following commands to create IAM roles and Pod Identity associations with `eksctl`. Replace [.replaceable]`my-cluster` with your value.
+
+[source,bash,subs="verbatim,attributes"]
+----
+export cluster_name=my-cluster
+
+# Create the controller role
+eksctl create podidentityassociation \
+    --service-account-name efs-csi-controller-sa \
+    --namespace kube-system \
+    --cluster $cluster_name \
+    --role-name AmazonEKS_EFS_CSI_ControllerRole \
+    --permission-policy-arns {arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy
+
+# Create the node role
+eksctl create podidentityassociation \
+    --service-account-name efs-csi-node-sa \
+    --namespace kube-system \
+    --cluster $cluster_name \
+    --role-name AmazonEKS_EFS_CSI_NodeRole \
+    --permission-policy-arns {arn-aws}iam::aws:policy/AmazonS3ReadOnlyAccess,{arn-aws}iam::aws:policy/AmazonElasticFileSystemsUtils
+----
+
+[#s3files-eksctl-irsa]
+==== If using IAM roles for service accounts
+
+Run the following commands to create IAM roles with `eksctl`. Replace [.replaceable]`my-cluster` with your cluster name and [.replaceable]`region-code` with your {aws} Region code.
+
+[source,bash,subs="verbatim,attributes"]
+----
+export cluster_name=my-cluster
+export region_code=region-code
+
+# Create the controller role
+export controller_role_name=AmazonEKS_EFS_CSI_ControllerRole
+eksctl create iamserviceaccount \
+    --name efs-csi-controller-sa \
+    --namespace kube-system \
+    --cluster $cluster_name \
+    --role-name $controller_role_name \
+    --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy \
+    --approve \
+    --region $region_code
+
+# Create the node role
+export node_role_name=AmazonEKS_EFS_CSI_NodeRole
+eksctl create iamserviceaccount \
+    --name efs-csi-node-sa \
+    --namespace kube-system \
+    --cluster $cluster_name \
+    --role-name $node_role_name \
+    --attach-policy-arn {arn-aws}iam::aws:policy/AmazonS3ReadOnlyAccess \
+    --attach-policy-arn {arn-aws}iam::aws:policy/AmazonElasticFileSystemsUtils \
+    --approve \
+    --region $region_code
+----
+
+[#console_s3files_store_app_data]
+=== {aws-management-console}
+Run the following to create an IAM role with {aws-management-console}.
+
+. Open the IAM console at https://console.aws.amazon.com/iam/.
+. In the left navigation pane, choose *Roles*.
+. On the *Roles* page, choose *Create role*.
+. On the *Select trusted entity* page, do the following:
+.. If using EKS Pod Identities:
+... In the *Trusted entity type* section, choose *{aws} service*.
+... In the *Service or use case* drop down, choose *EKS*.
+... In the *Use case* section, choose *EKS - Pod Identity*.
+... Choose *Next*.
+.. If using IAM roles for service accounts:
+... In the *Trusted entity type* section, choose *Web identity*.
+... For *Identity provider*, choose the *OpenID Connect provider URL* for your cluster (as shown under *Overview* in Amazon EKS).
+... For *Audience*, choose `sts.amazonaws.com`.
+... Choose *Next*.
+. On the *Add permissions* page, do the following:
+.. In the *Filter policies* box, enter `AmazonS3FilesCSIDriverPolicy`.
+.. Select the check box to the left of the policy returned in the search.
+.. Choose *Next*.
+. On the *Name, review, and create* page, do the following:
+.. For *Role name*, enter a unique name for your role, such as `AmazonEKS_EFS_CSI_ControllerRole`.
+.. Under *Add tags (Optional)*, add metadata to the role by attaching tags as key-value pairs. For more information about using tags in IAM, see link:IAM/latest/UserGuide/id_tags.html[Tagging IAM resources,type="documentation"] in the _IAM User Guide_.
+.. Choose *Create role*.
+. After the role is created:
+.. If using EKS Pod Identities:
+... Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
+... In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the EKS Pod Identity association for.
+... Choose the *Access* tab.
+... In *Pod Identity associations*, choose *Create*.
+... Choose the *IAM role* dropdown and select your newly created role.
+... Choose the *Kubernetes namespace* field and input `kube-system`.
+... Choose the *Kubernetes service account* field and input `efs-csi-controller-sa`.
+... Choose *Create*.
+... For more information on creating Pod Identity associations, see <<pod-id-association-create>>.
+... Repeat the above steps to create a second role for the node service account. On the *Add permissions* page, attach `AmazonS3ReadOnlyAccess` and `AmazonElasticFileSystemsUtils` instead. Then create a Pod Identity association with `efs-csi-node-sa` for the *Kubernetes service account* field.
+.. If using IAM roles for service accounts:
+... Choose the role to open it for editing.
+... Choose the *Trust relationships* tab, and then choose *Edit trust policy*.
+... Find the line that looks similar to the following line:
++
+[source,json,subs="verbatim,attributes"]
+----
+"oidc.eks.region-code.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>:aud": "sts.amazonaws.com"
+----
++
+Add the following line above the previous line. Replace `<region-code>` with the {aws} Region that your cluster is in. Replace `<EXAMPLED539D4633E53DE1B71EXAMPLE>` with your cluster's OIDC provider ID.
++
+[source,json,subs="verbatim,attributes"]
+----
+"oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa",
+----
+... Choose *Update policy* to finish.
+... Repeat the above steps to create a second role for the node service account. On the *Add permissions* page, attach `AmazonS3ReadOnlyAccess` and `AmazonElasticFileSystemsUtils` instead. In the trust policy, use `efs-csi-node-sa` for the `:sub` condition value.
+
+
+[#awscli_s3files_store_app_data]
+=== {aws} CLI
+Run the following commands to create IAM roles with {aws} CLI.
+
+[#s3files-cli-pod-identities]
+==== If using Pod Identities
+
+. Create the IAM role that grants the `AssumeRole` and `TagSession` actions to the `pods.eks.amazonaws.com` service.
++
+.. Copy the following contents to a file named `aws-efs-csi-driver-trust-policy-pod-identity.json`.
++
+[source,json,subs="verbatim,attributes"]
+----
+include::iam_snippet:f594a908-9316-4427-9fc5-eb97fb8984e1[]
+----
+.. Create the role. Replace [.replaceable]`my-cluster` with your cluster name.
++
+[source,bash,subs="verbatim,attributes"]
+----
+export cluster_name=my-cluster
+export controller_role_name=AmazonEKS_EFS_CSI_ControllerRole
+aws iam create-role \
+  --role-name $controller_role_name \
+  --assume-role-policy-document file://"aws-efs-csi-driver-trust-policy-pod-identity.json"
+----
+. Attach the required {aws} managed policy to the controller role.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy \
+  --role-name $controller_role_name
+----
+
+. Create the node IAM role using the same trust policy.
++
+[source,bash,subs="verbatim,attributes"]
+----
+export node_role_name=AmazonEKS_EFS_CSI_NodeRole
+aws iam create-role \
+  --role-name $node_role_name \
+  --assume-role-policy-document file://"aws-efs-csi-driver-trust-policy-pod-identity.json"
+----
+. Attach the required {aws} managed policies to the node role.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonS3ReadOnlyAccess \
+  --role-name $node_role_name
+
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonElasticFileSystemsUtils \
+  --role-name $node_role_name
+----
+
+. Run the following commands to create the Pod Identity associations. Replace `<111122223333>` with your account ID.
++
+----
+aws eks create-pod-identity-association --cluster-name $cluster_name --role-arn {arn-aws}iam::<111122223333>:role/$controller_role_name --namespace kube-system --service-account efs-csi-controller-sa
+aws eks create-pod-identity-association --cluster-name $cluster_name --role-arn {arn-aws}iam::<111122223333>:role/$node_role_name --namespace kube-system --service-account efs-csi-node-sa
+----
+. For more information on creating Pod Identity associations, see <<pod-id-association-create>>.
+
+[#s3files-cli-irsa]
+==== If using IAM roles for service accounts
+
+. View your cluster's OIDC provider URL. Replace [.replaceable]`my-cluster` with your cluster name.
++
+[source,bash,subs="verbatim,attributes"]
+----
+export cluster_name=my-cluster
+aws eks describe-cluster --name $cluster_name --query "cluster.identity.oidc.issuer" --output text
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+https://oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>
+----
++
+If the output from the command is `None`, review the *Prerequisites*.
+. Create the IAM role for the controller service account.
++
+.. Copy the following contents to a file named `controller-trust-policy.json`. Replace `<111122223333>` with your account ID. Replace `<EXAMPLED539D4633E53DE1B71EXAMPLE>` and `<region-code>` with the values returned in the previous step.
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "Version": "2012-10-17", {tcx5-2025-waiver}
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "{arn-aws}iam::<111122223333>:oidc-provider/oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>:aud": "sts.amazonaws.com",
+                    "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa"
+                }
+            }
+        }
+    ]
+}
+----
+.. Create the role.
++
+[source,bash,subs="verbatim,attributes"]
+----
+export controller_role_name=AmazonEKS_EFS_CSI_ControllerRole
+aws iam create-role \
+  --role-name $controller_role_name \
+  --assume-role-policy-document file://"controller-trust-policy.json"
+----
+. Attach the required {aws} managed policy to the controller role.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/service-role/AmazonS3FilesCSIDriverPolicy \
+  --role-name $controller_role_name
+----
+
+. Create the IAM role for the node service account.
++
+.. Copy the following contents to a file named `node-trust-policy.json`. Replace `<111122223333>` with your account ID. Replace `<EXAMPLED539D4633E53DE1B71EXAMPLE>` and `<region-code>` with the values returned in step 1.
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "Version": "2012-10-17", {tcx5-2025-waiver}
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "{arn-aws}iam::<111122223333>:oidc-provider/oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>:sub": "system:serviceaccount:kube-system:efs-csi-node-sa",
+                    "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B71EXAMPLE>:aud": "sts.amazonaws.com"
+                }
+            }
+        }
+    ]
+}
+----
+.. Create the role.
++
+[source,bash,subs="verbatim,attributes"]
+----
+export node_role_name=AmazonEKS_EFS_CSI_NodeRole
+aws iam create-role \
+  --role-name $node_role_name \
+  --assume-role-policy-document file://"node-trust-policy.json"
+----
+. Attach the required {aws} managed policies to the node role.
++
+[source,bash,subs="verbatim,attributes"]
+----
+
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonS3ReadOnlyAccess \
+  --role-name $node_role_name
+
+aws iam attach-role-policy \
+  --policy-arn {arn-aws}iam::aws:policy/AmazonElasticFileSystemsUtils \
+  --role-name $node_role_name
+----
+
+[NOTE]
+====
+The `AmazonS3ReadOnlyAccess` policy grants read access to all S3 buckets. To constrain access to specific buckets, you can detach it and replace it with a tag-based inline policy. See https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/iam-policy-create.md[Amazon EFS CSI driver IAM policy documentation] on GitHub for details.
+====
+
+
+[#s3files-install-driver]
+== Step 2: Get the Amazon EFS CSI driver
+
+We recommend that you install the Amazon EFS CSI driver through the Amazon EKS add-on. To add an Amazon EKS add-on to your cluster, see <<creating-an-add-on>>. For more information about add-ons, see <<eks-add-ons>>. If you're unable to use the Amazon EKS add-on, we encourage you to submit an issue about why you can't to the https://github.com/aws/containers-roadmap/issues[Containers roadmap GitHub repository].
+
+[IMPORTANT]
+====
+Before adding the Amazon EFS driver as an Amazon EKS add-on, confirm that you don't have a self-managed version of the driver installed on your cluster. If so, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/install.md#uninstalling-the-amazon-efs-csi-driver[Uninstalling the Amazon EFS CSI Driver] on GitHub.  
+====
+
+Alternatively, if you want a self-managed installation of the Amazon EFS CSI driver, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/install.md[Installation] on GitHub.
+
+[#s3files-create-filesystem]
+== Step 3: Create an Amazon S3 file system
+
+To create an Amazon S3 file system, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/s3files-create-filesystem.md[Create an Amazon S3 file system for Amazon EKS] on GitHub.
+
+[#s3files-sample-app]
+== Step 4: Deploy a sample application
+
+You can deploy a variety of sample apps and modify them as needed. For more information, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes[Examples] on GitHub.

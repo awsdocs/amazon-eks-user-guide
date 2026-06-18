@@ -36,7 +36,8 @@ Create a new NodePool for EKS Auto Mode with a taint. This ensures that existing
 
 Example node pool with taint: 
 
-```yaml
+[source,yaml]
+----
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
@@ -55,7 +56,7 @@ spec:
       taints:
         - key: "eks-auto-mode"
           effect: "NoSchedule"
-```
+----
 
 Update the requirements for the node pool to match the Karpenter configuration you are migrating from. You need at least one requirement. 
 
@@ -63,7 +64,8 @@ Update the requirements for the node pool to match the Karpenter configuration y
 
 Identify and update the workloads you want to migrate to EKS Auto Mode. Add both tolerations and node selectors to these workloads:
 
-```yaml
+[source,yaml]
+----
 apiVersion: apps/v1
 kind: Deployment
 spec:
@@ -74,7 +76,7 @@ spec:
         effect: "NoSchedule"
       nodeSelector:
         eks.amazonaws.com/compute-type: auto
-```
+----
 
 This change allows the workload to be scheduled on the new EKS Auto Mode nodes.
 
@@ -88,15 +90,16 @@ Repeat Step 3 for each workload you want to migrate. This allows you to move wor
 
 Once all workloads have been migrated, you can remove the original Karpenter NodePool:
 
-```
+----
 kubectl delete nodepool <original-nodepool-name>
-```
+----
 
 == Step 6: Remove taint from EKS Auto Mode NodePool (Optional)
 
 If you want EKS Auto Mode to become the default for new workloads, you can remove the taint from the EKS Auto Mode NodePool:
 
-```yaml
+[source,yaml]
+----
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
@@ -109,13 +112,14 @@ spec:
         kind: NodeClass
         name: default
       # Remove the taints section
-```
+----
 
 == Step 7: Remove node selectors from workloads (Optional)
 
 If you've removed the taint from the EKS Auto Mode NodePool, you can optionally remove the node selectors from your workloads, as EKS Auto Mode is now the default:
 
-```yaml
+[source,yaml]
+----
 apiVersion: apps/v1
 kind: Deployment
 spec:
@@ -125,7 +129,7 @@ spec:
       tolerations:
       - key: "eks-auto-mode"
         effect: "NoSchedule"
-```
+----
 
 == Step 8: Uninstall Karpenter from your cluster 
 

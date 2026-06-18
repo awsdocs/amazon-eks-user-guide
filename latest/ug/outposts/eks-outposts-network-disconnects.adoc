@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn how to prepare your Amazon EKS local cluster on {aws} Outposts for network disconnects, including x.509 certificate authentication, monitoring, scaling, and storage options.
+Learn how to prepare your Amazon EKS local cluster on {aws} Outposts for network disconnects, including x.509 certificate authentication, pod failover tuning, monitoring, scaling, and storage options.
 --
 
 If your local network has lost connectivity with the {aws} Cloud, you can continue to use your local Amazon EKS cluster on an Outpost. This topic covers how you can prepare your local cluster for network disconnects and related considerations.
@@ -26,6 +26,18 @@ If your local network has lost connectivity with the {aws} Cloud, you can contin
 * The Amazon EKS control plane logs are cached locally on the Kubernetes control plane instances during network disconnects. Upon reconnect, the logs are sent to CloudWatch Logs in the parent {aws} Region. You can use https://prometheus.io/[Prometheus], https://grafana.com/[Grafana], or Amazon EKS partner solutions to monitor the cluster locally using the Kubernetes API server's metrics endpoint or using Fluent Bit for logs.
 * If you're using the {aws} Load Balancer Controller on Outposts for application traffic, existing Pods fronted by the {aws} Load Balancer Controller continue to receive traffic during network disconnects. New Pods created during network disconnects don't receive traffic until the Outpost is reconnected to the {aws} Cloud. Consider setting the replica count for your applications while connected to the {aws} Cloud to accommodate your scaling needs during network disconnects.
 * The Amazon VPC CNI plugin for Kubernetes defaults to https://aws.github.io/aws-eks-best-practices/networking/vpc-cni/#overview[secondary IP mode]. It's configured with `WARM_ENI_TARGET`=``1``, which allows the plugin to keep "a full elastic network interface" of available IP addresses available. Consider changing `WARM_ENI_TARGET`, `WARM_IP_TARGET`, and `MINIMUM_IP_TARGET` values according to your scaling needs during a disconnected state. For more information, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md[readme] file for the plugin on GitHub. For a list of the maximum number of Pods that's supported by each instance type, see the https://github.com/aws/amazon-vpc-cni-k8s/blob/master/misc/eni-max-pods.txt[eni-max-pods.txt] file on GitHub.
+
+
+
+[#outposts-network-disconnects-pod-failover]
+== Tune Kubernetes pod failover behavior
+
+[abstract]
+--
+Learn how to tune pod failover behavior during network disconnects to prevent unnecessary pod evictions on {aws} Outposts.
+--
+
+During network disconnects, the Kubernetes node lifecycle controller marks unreachable nodes with the `node.kubernetes.io/unreachable` taint with `NoExecute` effect. By default, pods without a matching toleration are evicted after 300 seconds (5 minutes). You can tune this behavior using DaemonSets, configuring `tolerationSeconds` on application pods, or implementing a custom controller — allowing pods to remain on their nodes during temporary disconnects without unnecessary evictions. For detailed guidance and examples, see https://docs.aws.amazon.com/eks/latest/best-practices/hybrid-nodes-network-disconnection-best-practices.html#_tune_kubernetes_pod_failover_behavior[Tune Kubernetes pod failover behavior] in the _Amazon EKS Best Practices Guide_.
 
 
 [#outposts-network-disconnects-authentication]

@@ -77,29 +77,29 @@ EKS Auto Mode supports the following instance types:
 |===
 |Family |Instance Types
 
-|Compute Optimized (C )
-|c8g, c7a, c7g, c7gn, c7gd, c7i, c7i-flex, c6a, c6g, c6i, c6gn, c6id, c6in, c6gd, c5, c5a, c5d, c5ad, c5n, c4
+|Compute Optimized (C)
+|c8id, c8i, c8i-flex, c8gd, c8gn, c8g, c8a, c8gb, c7a, c7g, c7gn, c7gd, c7i, c7i-flex, c6a, c6g, c6i, c6gn, c6id, c6in, c6gd, c5, c5a, c5d, c5ad, c5n, c4
 
 |General Purpose (M)
-|m8g, m7i, m7a, m7g, m7gd, m7i-flex, m6a, m6i, m6in, m6g, m6idn, m6id, m6gd, m5, m5a, m5ad, m5n, m5dn, m5d, m5zn, m4
+|m8id, m8i, m8i-flex, m8a, m8azn, m8gn, m8gb, m8gd, m8g, m7i, m7a, m7g, m7gd, m7i-flex, m6a, m6i, m6in, m6g, m6idn, m6id, m6gd, m5, m5a, m5ad, m5n, m5dn, m5d, m5zn, m4
 
-|Memory Optimized (R )
-|r8g, r7a, r7iz, r7gd, r7i, r7g, r6a, r6i, r6id, r6in, r6idn, r6g, r6gd, r5, r5n, r5a, r5dn, r5b, r5ad, r5d, r4
+|Memory Optimized (R)
+|r8id, r8i, r8i-flex, r8gn, r8gb, r8gd, r8g, r8a, r7a, r7iz, r7gd, r7i, r7g, r6a, r6i, r6id, r6in, r6idn, r6g, r6gd, r5, r5n, r5a, r5dn, r5b, r5ad, r5d, r4
 
 |Burstable (T)
 |t4g, t3, t3a, t2
 
 |High Memory (Z/X)
-|z1d, x8g, x2gd
+|z1d, x8aedz, x8g, x8i, x2gd
 
 |Storage Optimized (I/D)
-|i8g, i7ie, i4g, i4i, i3, i3en, is4gen, d3, d3en, im4gn
+|i8ge, i7i, i8g, i7ie, i4g, i4i, i3, i3en, is4gen, d3, d3en, im4gn
 
 |Accelerated Computing (P/G/Inf/Trn)
-|p5, p4d, p4de, p3, p3dn, gr6, g6, g6e, g5g, g5, g4dn, inf2, inf1, trn1, trn1n
+|p6-b200, p6-b300, p5, p5e, p5en, p4d, p4de, p3, p3dn, g7e, g6, gr6, g6e, g5g, g5, g4dn, g4ad, inf2, inf1, trn1, trn1n, trn2
 
-|High Performance Computing (X2)
-|x2iezn, x2iedn, x2idn
+|High Performance Computing (HPC/X2)
+|hpc8a, x2iezn, x2iedn, x2idn
 |===
 
 Additionally, EKS Auto Mode will only create EC2 instances that meet the following requirements:

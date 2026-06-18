@@ -25,7 +25,7 @@ The https://github.com/kubernetes-sigs/aws-ebs-csi-driver/[Amazon Elastic Block 
 * You can't mount Amazon EBS volumes to Fargate Pods.
 * You can run the Amazon EBS CSI controller on Fargate nodes, but the Amazon EBS CSI node `DaemonSet` can only run on Amazon EC2 instances.
 * Amazon EBS volumes and the Amazon EBS CSI driver are not compatible with Amazon EKS Hybrid Nodes.
-* Support will be provided for the latest add-on version and one prior version. Bugs or vulnerabilities found in the latest version will be backported to the previous release in a new minor version.
+* Support will be provided for the latest add-on version and one prior version. Fixes for bugs or vulnerabilities found in the latest version will be backported to the previous release as a new minor version.
 * EKS Auto Mode requires storage classes to use `ebs.csi.eks.amazonaws.com` as the provisioner. The standard Amazon EBS CSI Driver (`ebs.csi.aws.com`) manages its own volumes separately. To use existing volumes with EKS Auto Mode, migrate them using volume snapshots to a storage class that uses the Auto Mode provisioner.
 
 [IMPORTANT]
@@ -66,7 +66,7 @@ The following procedure shows you how to create an IAM role and attach the {aws}
 * <<console_store_app_data>>
 * <<awscli_store_app_data>>
 
-NOTE: You can create a self-managed policy with scoped-down permissions. Review link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html[`AmazonEBSCSIDriverPolicy`,type="documentation"] and create a custom IAM Policy with reduced permissions. 
+NOTE: You can create a self-managed policy with further scoped-down permissions. Review link:aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicyV2.html[`AmazonEBSCSIDriverPolicyV2`,type="documentation"] and create a custom IAM Policy with reduced permissions. If migrating from `AmazonEBSCSIDriverPolicy`, please see https://github.com/kubernetes-sigs/aws-ebs-csi-driver/issues/2918[EBS CSI Driver policy migration].
 
 [NOTE]
 ====
@@ -86,7 +86,7 @@ eksctl create iamserviceaccount \
         --cluster my-cluster \
         --role-name AmazonEKS_EBS_CSI_DriverRole \
         --role-only \
-        --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+        --attach-policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEBSCSIDriverPolicyV2 \
         --approve
 ----
 . You can skip this step if you do not use a custom link:kms/[KMS key,type="marketing"]. If you use one for encryption on your Amazon EBS volumes, customize the IAM role as needed. For example, do the following:
@@ -126,8 +126,8 @@ aws iam attach-role-policy \
 .. Choose *Next*.
 . On the *Add permissions* page, do the following:
 +
-.. In the *Filter policies* box, enter `AmazonEBSCSIDriverPolicy`.
-.. Select the check box to the left of the `AmazonEBSCSIDriverPolicy` returned in the search.
+.. In the *Filter policies* box, enter `AmazonEBSCSIDriverPolicyV2`.
+.. Select the check box to the left of the `AmazonEBSCSIDriverPolicyV2` returned in the search.
 .. Choose *Next*.
 . On the *Name, review, and create* page, do the following:
 +
@@ -207,7 +207,7 @@ aws iam create-role \
 [source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
-      --policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+      --policy-arn {arn-aws}iam::aws:policy/service-role/AmazonEBSCSIDriverPolicyV2 \
       --role-name AmazonEKS_EBS_CSI_DriverRole
 ----
 . If you use a custom link:kms/[KMS key,type="marketing"] for encryption on your Amazon EBS volumes, customize the IAM role as needed. For example, do the following:

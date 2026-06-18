@@ -16,6 +16,7 @@ You can retrieve the image ID of the latest recommended Amazon EKS optimized Win
 
 * Replace [.replaceable]`release` with one of the following options.
 +
+** Use [.replaceable]`2025` for Windows Server 2025.
 ** Use [.replaceable]`2022` for Windows Server 2022.
 ** Use [.replaceable]`2019` for Windows Server 2019.
 * Replace [.replaceable]`installation-option` with one of the following options. For more information, see https://learn.microsoft.com/en-us/windows-server/administration/server-core/what-is-server-core[What is the Server Core installation option in Windows Server].

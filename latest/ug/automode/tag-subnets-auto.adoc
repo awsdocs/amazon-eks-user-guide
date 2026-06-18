@@ -54,14 +54,14 @@ Before you begin, identify which subnets are public (with Internet Gateway acces
 [#auto-tag-subnets-console]
 === {aws-management-console}
 
-. Open the Amazon VPC console and navigate to Subnets
-. Select the subnet to tag 
-. Choose the Tags tab and select Add tag
+. Open the Amazon VPC console and navigate to *Subnets*.
+. Select the subnet to tag.
+. Choose the *Tags* tab and select *Add tag*.
 . Add the appropriate tag:
 * For public subnets: Key=`kubernetes.io/role/elb`
 * For private subnets: Key=`kubernetes.io/role/internal-elb`
-. Set Value to `1` or leave empty
-. Save and repeat for remaining subnets
+. Set *Value* to `1` or leave empty.
+. Save and repeat for remaining subnets.
 
 === {aws} CLI
 

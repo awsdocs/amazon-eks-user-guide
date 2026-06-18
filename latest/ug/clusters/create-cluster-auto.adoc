@@ -135,19 +135,19 @@ include::iam_snippet:ec7fbb57-62f5-4aef-8c1f-f24b1fa7654d[]
 
 Use the trust policy to create the Cluster IAM Role:
 
-```
+----
 aws iam create-role \
     --role-name AmazonEKSAutoClusterRole \
     --assume-role-policy-document file://trust-policy.json
-```
+----
 
 ==== Step 3: Note the Role ARN
 
 Retrieve and save the ARN of the new role for use in subsequent steps:
 
-```
+----
 aws iam get-role --role-name AmazonEKSAutoClusterRole --query "Role.Arn" --output text
-```
+----
 
 ==== Step 4: Attach Required Policies
 
@@ -213,19 +213,19 @@ include::iam_snippet:f2d6ec6e-f3d9-46bb-930f-5ec41ae792ab[]
 
 Use the *node-trust-policy.json* file from the previous step to define which entities can assume the role. Run the following command to create the Node IAM Role:
 
-```
+----
 aws iam create-role \
     --role-name AmazonEKSAutoNodeRole \
     --assume-role-policy-document file://node-trust-policy.json
-```
+----
 
 ==== Step 3: Note the Role ARN
 
 After creating the role, retrieve and save the ARN of the Node IAM Role. You will need this ARN in subsequent steps. Use the following command to get the ARN:
 
-```
+----
 aws iam get-role --role-name AmazonEKSAutoNodeRole --query "Role.Arn" --output text
-```
+----
 
 ==== Step 4: Attach Required Policies
 

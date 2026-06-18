@@ -117,7 +117,7 @@ The following steps show one operation to retrieve the applicable group.
 .. Choose the *Networking* tab.
 .. Use the *Additional security groups* value as a reference when selecting from the *ClusterControlPlaneSecurityGroup* dropdown list.
 ** *ApiServerEndpoint*: Enter the API Server Endpoint for your EKS Cluster. This can be found in the Details section of the EKS Cluster Console
-** *CertificateAuthorityData*: Enter the base64 encoded Certificate Authority data which can also be found in the EKS Cluster Console's Deatils section.
+** *CertificateAuthorityData*: Enter the base64 encoded Certificate Authority data which can also be found in the EKS Cluster Console's Details section.
 ** *ServiceCidr*: Enter the CIDR range used for allocating IP addresses to Kubernetes services within the cluster. This is found within the networking tab of the EKS Cluster Console.
 ** *AuthenticationMode*: Select the Authentication Mode in use in the EKS Cluster by reviewing the access tab within the EKS Cluster Console.
 ** *NodeGroupName*: Enter a name for your node group. This name can be used later to identify the Auto Scaling node group that's created for your nodes. The node group name can't be longer than 63 characters. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters.
@@ -184,7 +184,7 @@ data:
 [...]
 ----
 .. Save the file and exit your text editor.
-. If you received an error stating "``Error from server (NotFound): configmaps "aws-auth" not found``, then apply the stock `ConfigMap`.
+. If you received an error stating "``Error from server (NotFound): configmaps "aws-auth" not found``, then apply the stack `ConfigMap`.
 +
 .. Download the configuration map.
 +

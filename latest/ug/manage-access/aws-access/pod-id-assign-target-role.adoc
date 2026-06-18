@@ -54,7 +54,7 @@ In this step, you will establish a secure trust chain by creating and configurin
 ----
 include::iam_snippet:b376e151-c50d-4924-a12f-839792777e7b[]
 ----
-The above policy policy lets the role `eks-pod-identeity-primary-role` from {aws} account 111122223333 with the relevant link:eks/latest/userguide/pod-id-abac.html["EKS Pod Identity Session Tags",type="documentation"] assume this role.
+The above policy lets the role `eks-pod-identity-primary-role` from {aws} account 111122223333 with the relevant link:eks/latest/userguide/pod-id-abac.html["EKS Pod Identity Session Tags",type="documentation"] assume this role.
 
 If you link:eks/latest/userguide/pod-id-abac.html#pod-id-abac-tags["Disabled Session Tags",type="documentation"] in your EKS Pod Identity, EKS Pod Identity also sets the `sts:ExternalId` with information about the cluster, namespace, and service account of a pod when assuming a target role.
 [source,json,subs="verbatim,attributes"]
@@ -92,4 +92,8 @@ In this step, you will create an association between the Target IAM role and the
 6. Choose the Target IAM role in *Target IAM role* that will be assumed by the link:eks/latest/userguide/pod-id-role.html["EKS Pod Identity role",type="documentation"].
 7. In the *Kubernetes namespace* field, enter the name of the namespace where you want to create the association (e.g., `my-app-namespace`). This defines where the service account resides.
 8. In the *Kubernetes service account* field, enter the name of the service account (e.g., `my-service-account`) that will use the IAM credentials. This links the IAM role to the service account.
-9. Choose *Create* to create the association.
+9. (Optional) Select *Disable session tags* to disable the default session tags that Pod Identity automatically adds when it assumes the role.
+10. (Optional) Toggle *Configure session policy* to configure an IAM policy to apply additional restrictions to this Pod Identity association beyond the permissions defined in the IAM policy attached to the *Target IAM role*.
++
+NOTE: 1. A session policy can only be applied when the *Disable session tags* setting is checked. 2. If you specify a session policy, then the policy restrictions apply to the *Target IAM role*'s permissions and not the *IAM role* associated with this Pod Identity association.
+11. Choose *Create* to create the association.

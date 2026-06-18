@@ -17,6 +17,37 @@ https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?t
 
 This topic gives important changes to be aware of for each Kubernetes version in standard support. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster.
 
+
+[#kubernetes-1-35]
+== Kubernetes 1.35
+
+Kubernetes `1.35` is now available in Amazon EKS. For more information about Kubernetes `1.35`, see the https://kubernetes.io/blog/2025/12/17/kubernetes-v1-35-release/[official release announcement].
+
+[IMPORTANT]
+====
+* Cgroup v1 Support Removed: Kubernetes 1.35 deprecates cgroup v1 support, meaning the kubelet will refuse to start by default on nodes using cgroup v1.
+** AL2023: AL2023 uses cgroup v2 by default and aligns with Kubernetes upstream behavior.
+*** Action required: Customers who manually configured AL2023 to use cgroup v1 must either https://kubernetes.io/docs/concepts/architecture/cgroups/[migrate to cgroups v2] or manually set `failCgroupV1: false` in kubelet configuration.
+** Bottlerocket: Bottlerocket 1.35 uses cgroup v2 by default, however sets `failCgroupV1: false` in the kubelet configuration, maintaining backward compatibility.
+** Fargate: Fargate continues to use cgroup v1.
+* Containerd 1.x End of Support: Kubernetes 1.35 is the last release supporting containerd 1.x. You must switch to containerd 2.0 or later before upgrading to the next Kubernetes version.
+* In March 2026, the upstream Kubernetes project will retire Ingress NGINX, a critical infrastructure component for many Kubernetes environments. 
+** Action required: EKS customers should evaluate whether they rely on Ingress NGINX and begin planning migration to alternatives such as Gateway API or third-party Ingress controllers, as there will be no further releases for bug fixes, security patches, or updates after retirement. Existing deployments will continue to work, but remaining with Ingress NGINX after retirement leaves your environment vulnerable to security risks, as none of the available alternatives are direct drop-in replacements and will require planning and engineering time. For more information about this Kubernetes announcement, see the official statement from the Kubernetes Steering and Security Response Committees https://kubernetes.io/blog/2026/01/29/ingress-nginx-statement/[Ingress NGINX retirement].
+====
+
+* *In-Place Pod Resource Updates (Stable):* In-Place Pod Resource Updates allows users to adjust CPU and memory resources without restarting Pods or containers. Previously, such modifications required recreating Pods, which could disrupt workloads, particularly for stateful or batch applications. The new in-place functionality allows for smoother, non-disruptive vertical scaling, improves efficiency, and can also simplify development.
+** For more information, see https://kubernetes.io/blog/2025/12/19/kubernetes-v1-35-in-place-pod-resize-ga/[Kubernetes 1.35: In-Place Pod Resize Graduates to Stable] on the _Kubernetes Blog_.
+* *PreferSameNode Traffic Distribution (Stable):* The `trafficDistribution` field for Services has been updated to provide more explicit control over traffic routing. A new option, `PreferSameNode`, has been introduced to allow services to strictly prioritize endpoints on the local node when available, falling back to remote endpoints otherwise. This change makes the API more explicit about preferring traffic within the current node.
+* *StatefulSet MaxUnavailable (Beta):* This feature enables parallel Pod updates by setting `maxUnavailable` (e.g., 3 or 10%), allowing stateful applications like database clusters to update up to 60% faster than sequential one-at-a-time updates, significantly reducing maintenance windows.
+* *Windows Server 2025 Support:* EKS 1.35 adds support for https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html[Windows Server 2025].
+* *Kubelet Flag Removal:* The `--pod-infra-container-image` flag has been removed from kubelet. Custom AMI users must remove this flag from kubelet configuration before upgrading to 1.35.
+* *Deprecation Notice - IPVS Mode:* IPVS mode in kube-proxy is deprecated and will be removed in Kubernetes 1.36.
+
+For the complete Kubernetes `1.35` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.35.md
+
+
+
+
 [#kubernetes-1-34]
 == Kubernetes 1.34
  
@@ -35,6 +66,9 @@ Kubernetes `1.34` is now available in Amazon EKS. For more information about Kub
 ** If you use the EBS CSI driver with {aws}-managed sidecar containers (from link:https://gallery.ecr.aws/csi-components[CSI Components] on the ECR Gallery), volume modification will continue to work seamlessly on EKS 1.31-1.33 clusters. {aws} will patch the sidecars to support beta VAC APIs until the end of EKS 1.33 standard support (July 29, 2026).
 ** If you self-manage your CSI sidecar containers, you may need to pin to older sidecar versions on pre-1.34 clusters to maintain VAC functionality.
 ** To use GA VolumeAttributesClass features (such as modification rollback), upgrade to EKS 1.34 or later.
+* External JWT Signer for Service Account Tokens is promoted to Beta. When using external signers, the --service-account-extend-token-expiration flag is no longer fully respected. The API server enforces the minimum expiration between the desired extension (1 year) and the external signer's limit (24 hours).
+** We recommend using link:https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-tokens[bound service account tokens], which are automatically mounted and rotated by Kubernetes.
+
 
 ====
 
@@ -77,46 +111,4 @@ Kubernetes `1.33` is now available in Amazon EKS. For more information about Kub
 
 For the complete Kubernetes `1.33` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.33.md
 
-[#kubernetes-1-32]
-== Kubernetes 1.32
-
-Kubernetes `1.32` is now available in Amazon EKS. For more information about Kubernetes `1.32`, see the https://kubernetes.io/blog/2024/12/11/kubernetes-v1-32-release/[official release announcement].
-
-[IMPORTANT]
-====
-* The `flowcontrol.apiserver.k8s.io/v1beta3` API version of FlowSchema and PriorityLevelConfiguration has been removed in version `1.32`. If you are using these APIs, you must update your configurations to use the latest supported version before upgrading.
-
-* ServiceAccount `metadata.annotations[kubernetes.io/enforce-mountable-secrets]` has been deprecated in version `1.32` and will be removed in a future Kubernetes minor version release. It is recommended to use separate namespaces to isolate access to mounted secrets.
-
-* Kubernetes version `1.32` is the last version for which Amazon EKS will release Amazon Linux 2 (AL2) AMIs. From version `1.33` onwards, Amazon EKS will continue to release Amazon Linux 2023 (AL2023) and Bottlerocket based AMIs. 
-
-====
-
-* The Memory Manager feature has graduated to Generally Available (GA) status in Kubernetes version `1.32`. This enhancement provides more efficient and predictable memory allocation for containerized applications, particularly beneficial for workloads with specific memory requirements.
-
-* PersistentVolumeClaims (PVCs) created by StatefulSets now include automatic cleanup functionality. When PVCs are no longer needed, they will be automatically deleted while maintaining data persistence during StatefulSet updates and node maintenance operations. This feature simplifies storage management and helps prevent orphaned PVCs in your cluster.
-
-* Custom Resource Field Selector functionality has been introduced, allowing developers to add field selectors to custom resources. This feature provides the same filtering capabilities available for built-in Kubernetes objects to custom resources, enabling more precise and efficient resource filtering and promoting better API design practices.
-
-For the complete Kubernetes `1.32` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.32.md
-
-=== Anonymous authentication changes
-
-Starting with Amazon EKS `1.32`, anonymous authentication is restricted to the following API server health check endpoints:
-
-* `/healthz`
-* `/livez`
-* `/readyz`
-
-Requests to any other endpoint using the `system:unauthenticated` user will receive a `401 Unauthorized` HTTP response. This security enhancement helps prevent unintended cluster access that could occur due to misconfigured RBAC policies.
-
-[NOTE]
-====
-The `public-info-viewer` RBAC role continues to apply for the health check endpoints listed above.
-====
-
-[#al2-ami-deprecation]
-=== Amazon Linux 2 AMI deprecation
-
-Kubernetes version `1.32` is the last version for which Amazon EKS released AL2 AMIs. From version `1.33` onwards, Amazon EKS will continue to release AL2023 and Bottlerocket based AMIs. For more information, see <<eks-ami-deprecation-faqs>>.
 

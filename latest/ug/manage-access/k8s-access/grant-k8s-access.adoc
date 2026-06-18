@@ -10,7 +10,7 @@ include::../../attributes.txt[]
 Learn how to grant access to Kubernetes APIs on Amazon EKS clusters using IAM roles, users, or OpenID Connect providers, and manage permissions with access entries or the aws-auth ConfigMap.
 --
 
-Your cluster has an Kubernetes API endpoint. Kubectl uses this API. You can authenticate to this API using two types of identities:  
+Your cluster has a Kubernetes API endpoint. Kubectl uses this API. You can authenticate to this API using two types of identities:  
 
 
 

@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-AL2023 is a new Linux-based operating system designed to provide a secure, stable, and high-performance environment for your cloud applications. 
+AL2023 is a new Linux-based operating system designed to provide a secure, stable, and high-performance environment for your cloud applications.
 --
 
 [WARNING]
@@ -78,3 +78,21 @@ For previously existing managed node groups, you can either perform an in-place 
 * If you're using managed node groups with either the standard launch template or with a custom launch template that doesn't specify the AMI ID, you're required to upgrade using a blue/green strategy. A blue/green upgrade is typically more complex and involves creating an entirely new node group where you would specify AL2023 as the AMI type. The new node group will need to then be carefully configured to ensure that all custom data from the AL2 node group is compatible with the new OS. Once the new node group has been tested and validated with your applications, Pods can be migrated from the old node group to the new node group. Once the migration is completed, you can delete the old node group.
 
 If you're using Karpenter and want to use AL2023, you'll need to modify the `EC2NodeClass` `amiFamily` field with AL2023. By default, Drift is enabled in Karpenter. This means that once the `amiFamily` field has been changed, Karpenter will automatically update your worker nodes to the latest AMI when available.
+
+== Additional Information About nodeadm
+When utilizing an EKS-optimized Amazon Linux 2023 AMI or building a Custom EKS Amazon Linux 2023 AMI via the Packer scripts provided in the official amazon-eks-ami GitHub repository, you should avoid explicitly running nodeadm init within EC2 User Data or as part of your custom AMI.
+
+If you want to generate dynamic NodeConfig in your user-data, you can write that configuration to a drop-in yaml or json file in `/etc/eks/nodeadm.d`. These configuration files will be merged and applied to your node when nodeadm init is automatically started later in the boot process. For example:
+
+```
+cat > /etc/eks/nodeadm.d/additional-node-labels.yaml << EOF
+apiVersion: node.eks.aws/v1alpha1
+kind: NodeConfig
+spec:
+  kubelet:
+    flags:
+      - --node-labels=foo=bar
+EOF
+```
+
+The EKS-optimized Amazon Linux 2023 AMIs automatically execute nodeadm init in two phases through separate systemd services: nodeadm-config runs before user data execution, while nodeadm-run executes afterward. The nodeadm-config service establishes baseline configurations for containerd and kubelet before user data runs. The nodeadm-run service runs select system daemons and completes any final configurations following user data execution. If the nodeadm init command is run an additional time, via user data or a custom AMI, it may break assumptions about execution ordering, leading to unexpected outcomes including misconfigured ENIs.

@@ -59,14 +59,14 @@ include::iam_snippet:6352e330-4f08-4077-ba62-101ab3e4580f[]
 == {aws} CLI
 
 === Prerequisites
-* The Cluster IAM Role of the existing EKS Cluster must include sufficent permissiosn for EKS Auto Mode, such as the following policies:
+* The Cluster IAM Role of the existing EKS Cluster must include sufficient permissions for EKS Auto Mode, such as the following policies:
 ** `AmazonEKSComputePolicy`
 ** `AmazonEKSBlockStoragePolicy`
 ** `AmazonEKSLoadBalancingPolicy`
 ** `AmazonEKSNetworkingPolicy`
 ** `AmazonEKSClusterPolicy`
 * The Cluster IAM Role must have an updated trust policy including the `sts:TagSession` action. For more information on creating a Cluster IAM Role, see <<automode-get-started-cli>>.
-* `aws` CLI installed, logged in, and a sufficent version. You must have permission to manage IAM, EKS, and EC2 resources. For more information, see <<setting-up>>.
+* `aws` CLI installed, logged in, and a sufficient version. You must have permission to manage IAM, EKS, and EC2 resources. For more information, see <<setting-up>>.
 
 === Procedure
 

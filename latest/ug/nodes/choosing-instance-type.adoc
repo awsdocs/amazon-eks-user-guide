@@ -36,9 +36,7 @@ Do you need x86 or Arm? Before deploying Arm instances, review <<arm-ami,Amazon 
 
 
 *Maximum number of Pods*::
-Since each Pod is assigned its own IP address, the number of IP addresses supported by an instance type is a factor in determining the number of Pods that can run on the instance. To manually determine how many Pods an instance type supports, see <<determine-max-pods>>.
-+
-NOTE: If you're using an Amazon EKS optimized Amazon Linux 2 AMI that's `v20220406` or newer, you can use a new instance type without upgrading to the latest AMI. For these AMIs, the AMI auto-calculates the necessary `max-pods` value if it isn't listed in the https://github.com/awslabs/amazon-eks-ami/blob/main/templates/shared/runtime/eni-max-pods.txt[eni-max-pods.txt] file. Instance types that are currently in preview may not be supported by Amazon EKS by default. Values for `max-pods` for such types still need to be added to `eni-max-pods.txt` in our AMI.
+Since each Pod is assigned its own IP address, the number of IP addresses supported by an instance type is a factor in determining the number of Pods that can run on the instance. To understand how the maximum number of Pods is determined for an instance type, see <<max-pods-precedence>>.
 +
 link:ec2/nitro/[{aws} Nitro System,type="marketing"] instance types optionally support significantly more IP addresses than non-Nitro System instance types. However, not all IP addresses assigned for an instance are available to Pods. To assign a significantly larger number of IP addresses to your instances, you must have version `1.9.0` or later of the Amazon VPC CNI add-on installed in your cluster and configured appropriately. For more information, see <<cni-increase-ip-addresses>>. To assign the largest number of IP addresses to your instances, you must have version `1.10.1` or later of the Amazon VPC CNI add-on installed in your cluster and deploy the cluster with the `IPv6` family.
 
@@ -59,50 +57,32 @@ Not all instance types are available in all {aws} Regions.
 If you're using security groups for Pods, only specific instance types are supported. For more information, see <<security-groups-for-pods>>.
 
 
-[#determine-max-pods]
-== Amazon EKS recommended maximum Pods for each Amazon EC2 instance type
+[#max-pods-precedence]
+== How maxPods is determined
 
-Since each Pod is assigned its own IP address, the number of IP addresses supported by an instance type is a factor in determining the number of Pods that can run on the instance. Amazon EKS provides a script that you can download and run to determine the Amazon EKS recommended maximum number of Pods to run on each instance type. The script uses hardware attributes of each instance, and configuration options, to determine the maximum Pods number.  You can use the number returned in these steps to enable capabilities such as <<cni-custom-network,assigning IP addresses to Pods from a different subnet than the instance's>> and <<cni-increase-ip-addresses,significantly increasing the number of IP addresses for your instance>>. If you're using a managed node group with multiple instance types, use a value that would work for all instance types.
+The final `maxPods` value applied to a node depends on several components that interact in a specific order of precedence. Understanding this order helps you avoid unexpected behavior when customizing `maxPods`.
 
-. Download a script that you can use to calculate the maximum number of Pods for each instance type.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-curl -O https://raw.githubusercontent.com/awslabs/amazon-eks-ami/master/templates/al2/runtime/max-pods-calculator.sh
-----
-. Mark the script as executable on your computer.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-chmod +x max-pods-calculator.sh
-----
-. Run the script, replacing [.replaceable]`m5.large` with the instance type that you plan to deploy and [.replaceable]`1.9.0-eksbuild.1` with your Amazon VPC CNI add-on version. To determine your add-on version, see the update procedures in <<managing-vpc-cni,Assign IPs to Pods with the Amazon VPC CNI>>.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-./max-pods-calculator.sh --instance-type m5.large --cni-version 1.9.0-eksbuild.1
-----
-+
-An example output is as follows.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-29
-----
-+
-You can add the following options to the script to see the maximum Pods supported when using optional capabilities.
-+
-** `--cni-custom-networking-enabled` – Use this option when you want to assign IP addresses from a different subnet than your instance's. For more information, see <<cni-custom-network>>. Adding this option to the previous script with the same example values yields `20`.
-** `--cni-prefix-delegation-enabled` – Use this option when you want to assign significantly more IP addresses to each elastic network interface. This capability requires an Amazon Linux instance that run on the Nitro System and version `1.9.0` or later of the Amazon VPC CNI add-on. For more information, see <<cni-increase-ip-addresses>>. Adding this option to the previous script with the same example values yields `110`.
+*Order of precedence (highest to lowest):*
 
-You can also run the script with the `--help` option to see all available options.
+. *Managed node group enforcement* – When you use a managed node group without a <<launch-template-custom-ami,custom AMI>>, Amazon EKS enforces a cap on `maxPods` in the node's user data. For instances with less than 30 vCPUs, the cap is `110`. For instances with greater than 30 vCPUs, the cap is `250`. This value takes precedence over any other `maxPods` configuration, including `maxPodsExpression`.
+. *kubelet `maxPods` configuration* – If you set `maxPods` directly in the kubelet configuration (for example, through a launch template with a custom AMI), this value takes precedence over `maxPodsExpression`.
+. *nodeadm `maxPodsExpression`* – If you use https://awslabs.github.io/amazon-eks-ami/nodeadm/doc/examples/#defining-a-max-pods-expression[`maxPodsExpression`] in your `NodeConfig`, nodeadm evaluates the expression to calculate `maxPods`. This is only effective when the value is not already set by a higher-precedence source.
+. *Default ENI-based calculation* – If no other value is set, the AMI calculates `maxPods` based on the number of elastic network interfaces and IP addresses supported by the instance type. This is equivalent to the formula `(number of ENIs × (IPs per ENI − 1)) + 2`. The `+ 2` accounts for the Amazon VPC CNI and `kube-proxy` running on every node, which don't consume a Pod IP address.
 
-[NOTE]
+[IMPORTANT]
+====
+If you use a managed node group and set `maxPodsExpression` in your `NodeConfig`, the managed node group's enforcement overrides your expression. To use a custom `maxPods` value with managed node groups, you must specify a custom AMI in your launch template and set `maxPods` directly. For more information, see <<launch-templates>>.
 ====
 
-The max Pods calculator script limits the return value to `110` based on https://github.com/kubernetes/community/blob/master/sig-scalability/configs-and-limits/thresholds.md[Kubernetes scalability thresholds] and recommended settings. If your instance type has greater than 30 vCPUs, this limit jumps to `250`, a number based on internal Amazon EKS scalability team testing. For more information, see the link:containers/amazon-vpc-cni-increases-pods-per-node-limits[Amazon VPC CNI plugin increases pods per node limits,type="blog"] blog post.
+*Managed node groups vs. self-managed nodes*
 
-====
+With managed node groups (without a custom AMI), Amazon EKS injects the `maxPods` value into the node's bootstrap user data. This means:
+
+* The `maxPods` value is always capped at `110` or `250` depending on instance size.
+* Any `maxPodsExpression` you configure is overridden by this injected value.
+* To use a different `maxPods` value, specify a custom AMI in your launch template and pass `--use-max-pods false` along with `--kubelet-extra-args '--max-pods=[.replaceable]``my-value``'` to the `bootstrap.sh` script. For examples, see <<launch-templates>>.
+
+With self-managed nodes, you have full control over the bootstrap process. You can use `maxPodsExpression` in your `NodeConfig` or pass `--max-pods` directly to `bootstrap.sh`.
 
 == Considerations for EKS Auto Mode
 

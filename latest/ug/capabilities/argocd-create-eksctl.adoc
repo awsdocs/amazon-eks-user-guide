@@ -84,7 +84,7 @@ kind: ClusterConfig
 metadata:
   name: [.replaceable]`my-cluster`
   region: [.replaceable]`cluster-region-code`
-
+  
 capabilities:
   - name: my-argocd
     type: ARGOCD

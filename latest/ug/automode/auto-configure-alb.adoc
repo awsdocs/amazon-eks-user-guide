@@ -41,7 +41,8 @@ To begin, create a workload that you want to expose to the internet. This can be
 
 This example uses a simple HTTP service called `service-2048` that listens on port `80`. Create this service and its deployment by applying the following manifest, `2048-deployment-service.yaml`:
 
-```yaml
+[source,yaml]
+----
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -76,41 +77,46 @@ spec:
   type: NodePort
   selector:
     app.kubernetes.io/name: app-2048
-```
+----
 
 Apply the configuration to your cluster:
-```bash
+[source,bash]
+----
 kubectl apply -f 2048-deployment-service.yaml
-```
+----
 
 The resources listed above will be created in the default namespace. You can verify this by running the following command:
-```bash
+[source,bash]
+----
 kubectl get all -n default
-```
+----
 
 == Step 2: Create IngressClassParams
 
 Create an `IngressClassParams` object to specify {aws} specific configuration options for the Application Load Balancer. In this example, we create an `IngressClassParams` resource named `alb` (which you will use in the next step) that specifies the load balancer scheme as `internet-facing` in a file called `alb-ingressclassparams.yaml`.
 
-```yaml
+[source,yaml]
+----
 apiVersion: eks.amazonaws.com/v1
 kind: IngressClassParams
 metadata:
   name: alb 
 spec:
   scheme: internet-facing
-```
+----
 Apply the configuration to your cluster:
-```bash
+[source,bash]
+----
 kubectl apply -f alb-ingressclassparams.yaml
-```
+----
 == Step 3: Create IngressClass
 
 Create an `IngressClass` that references the {aws} specific configuration values set in the `IngressClassParams` resource in a file named `alb-ingressclass.yaml`. Note the name of the `IngressClass`. In this example, both the `IngressClass` and `IngressClassParams` are named `alb`.
 
 Use the `is-default-class` annotation to control if `Ingress` resources should use this class by default. 
 
-```yaml
+[source,yaml]
+----
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
@@ -127,14 +133,15 @@ spec:
     kind: IngressClassParams
     # Use the name of the IngressClassParams set in the previous step
     name: alb 
-```
+----
 
 For more information on configuration options, see <<ingress-reference>>. 
 
 Apply the configuration to your cluster:
-```bash
+[source,bash]
+----
 kubectl apply -f alb-ingressclass.yaml
-```
+----
 
 == Step 4: Create Ingress
 
@@ -142,7 +149,8 @@ Create an `Ingress` resource in a file named `alb-ingress.yaml`. The purpose of 
 
 For more information about configuring this resource, see https://kubernetes.io/docs/concepts/services-networking/ingress/[Ingress] in the Kubernetes Documentation. 
 
-```yaml
+[source,yaml]
+----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -161,12 +169,13 @@ spec:
                 name: service-2048
                 port:
                   number: 80
-```
+----
 
 Apply the configuration to your cluster:
-```bash
+[source,bash]
+----
 kubectl apply -f alb-ingress.yaml
-```
+----
 
 == Step 5: Check Status
 
@@ -174,27 +183,30 @@ Use `kubectl` to find the status of the `Ingress`. It can take a few minutes for
 
 Use the name of the `Ingress` resource you set in the previous step. For example:
 
-```bash
+[source,bash]
+----
 kubectl get ingress 2048-ingress
-```
+----
 
 Once the resource is ready, retrieve the domain name of the load balancer.
 
-```bash
+[source,bash]
+----
 kubectl get ingress 2048-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
-```
+----
 
-To view the service in a web browser, review the port and path specified in the `Ingress` rescue. 
+To view the service in a web browser, review the port and path specified in the `Ingress` resource. 
 
 == Step 6: Cleanup
 
 To clean up the load balancer, use the following command:
 
-```bash
+[source,bash]
+----
 kubectl delete ingress 2048-ingress
 kubectl delete ingressclass alb
 kubectl delete ingressclassparams alb
-```
+----
 
 EKS Auto Mode will automatically delete the associated load balancer in your {aws} account. 
 
@@ -250,7 +262,7 @@ The table below is a quick reference for commonly used configuration options.
 
 == Considerations
 
-* You cannot use Annotations on an IngressClass to configure load balancers with EKS Auto Mode.
+* You cannot use Annotations on an IngressClass to configure load balancers with EKS Auto Mode. IngressClass configuration should be done through IngressClassParams. However, you can use annotations on individual Ingress resources to configure load balancer behavior (such as `alb.ingress.kubernetes.io/security-group-prefix-lists` or `alb.ingress.kubernetes.io/conditions.*`).
 * You cannot set link:elasticloadbalancing/latest/APIReference/API_ListenerAttribute.html["ListenerAttribute",type="documentation"] with EKS Auto Mode.
 * You must update the Cluster IAM Role to enable tag propagation from Kubernetes to {aws} Load Balancer resources. For more information, see <<tag-prop>>.
 * For information about associating resources with either EKS Auto Mode or the self-managed {aws} Load Balancer Controller, see <<migration-reference>>.

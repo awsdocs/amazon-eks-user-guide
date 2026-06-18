@@ -24,13 +24,14 @@ You can use the {aws} CLI to determine the type of an Amazon EKS Add-on.
 
 Use the following CLI command to retrieve information about an add-on. You can replace `metrics-server` with the name of any add-on. 
 
-```bash
+[source,bash]
+----
 aws eks describe-addon-versions --addon-name metrics-server
-```
+----
 
 Review the CLI output for the `owner` field.
 
-```
+----
 {
     "addons": [
         {
@@ -38,7 +39,7 @@ Review the CLI output for the `owner` field.
             "type": "observability",
             "owner": "community", 
             "addonVersions": [
-```
+----
 
 If the value of `owner` is `community`, then the add-on is a community add-on. {aws} only provides support for installing, updating, and removing the add-on. If you have questions about the functionality and operation of the add-on itself, use community resources like GitHub issues. 
 
@@ -228,7 +229,7 @@ External DNS permissions can be reduced to `route53:ChangeResourceRecordSets`, `
 [#fluent-bit]
 === Fluent Bit
 
-Fluent Bit is a lightweight and high-performance log processor and forwarder. It allows you to collect data/logs from different sources, unify them, and send them to multiple destinations including Amazon CloudWatch Logs, Amazon S3, and Amazon Kinesis Data Firehose. Fluent Bit is designed with performance and resource efficiency in mind, making it ideal for Kubernetes environments.
+Fluent Bit is a lightweight and high-performance log processor and forwarder. It allows you to collect data/logs from different sources, unify them, and send them to multiple destinations including Amazon CloudWatch Logs, Amazon S3, and Amazon Data Firehose. Fluent Bit is designed with performance and resource efficiency in mind, making it ideal for Kubernetes environments.
 
 This add-on does not require IAM permissions in the default configuration. However, you may need to grant this add-on IAM permissions if you configure an {aws} output location. For more information, see <<update-addon-role>>.
 

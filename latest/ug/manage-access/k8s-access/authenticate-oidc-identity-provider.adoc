@@ -93,8 +93,8 @@ eksctl associate identityprovider -f associate-identity-provider.yaml
 ** For *Groups claim*, enter the claim to use as the user's group.
 ** (Optional) Select *Advanced options*, enter or select the following information.
 +
-*** *Username prefix* – Enter a prefix to prepend to username claims. The prefix is prepended to username claims to prevent clashes with existing names. If you do not provide a value, and the username is a value other than `email`, the prefix defaults to the value for *Issuer URL*. You can use the value`` -`` to disable all prefixing. Don't specify `system:` or any portion of that string.
-*** *Groups prefix* – Enter a prefix to prepend to groups claims. The prefix is prepended to group claims to prevent clashes with existing names (such as`` system: groups``). For example, the value `oidc:` creates group names like `oidc:engineering` and `oidc:infra`. Don't specify `system:` or any portion of that string..
+*** *Username prefix* – Enter a prefix to prepend to username claims. The prefix is prepended to username claims to prevent clashes with existing names. If you do not provide a value, and the username is a value other than `email`, the prefix defaults to the value for *Issuer URL*. You can use the value `-` to disable all prefixing. Don't specify `system:` or any portion of that string.
+*** *Groups prefix* – Enter a prefix to prepend to groups claims. The prefix is prepended to group claims to prevent clashes with existing names (such as `system: groups`). For example, the value `oidc:` creates group names like `oidc:engineering` and `oidc:infra`. Don't specify `system:` or any portion of that string.
 *** *Required claims* – Select *Add claim* and enter one or more key value pairs that describe required claims in the client ID token. The pairs describe required claims in the ID Token. If set, each claim is verified to be present in the ID token with a matching value.
 .. To use `kubectl` to work with your cluster and OIDC identity provider, see https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-kubectl[Using kubectl] in the Kubernetes documentation.
 
@@ -109,7 +109,7 @@ If you want to prevent an OIDC identity provider from being associated with a cl
 include::iam_snippet:80073812-1626-4a47-bd2f-69242ecea039[]
 ----
 
-The following example policy allows OIDC identity provider association if the `clientID` is `kubernetes` and the `issuerUrl` is `https://cognito-idp.us-west-2amazonaws.com/*`.
+The following example policy allows OIDC identity provider association if the `clientID` is `kubernetes` and the `issuerUrl` is `https://cognito-idp.us-west-2.amazonaws.com/*`.
 
 [source,json,subs="verbatim,attributes"]
 ----

@@ -28,7 +28,8 @@ After creating your Local Zone subnet, you need to define a NodeClass that refer
 
 For more information, see <<create-node-class>>. 
 
-```yaml
+[source,yaml]
+----
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
@@ -36,7 +37,7 @@ metadata:
 spec:
   subnetSelectorTerms:
     - id: <local-subnet-id>
-```
+----
 
 == Step 3: Create NodePool with NodeClass and Taint
 
@@ -47,7 +48,8 @@ In the example below, we create a NodePool that references our "local-zone" Node
 For more information, see <<create-node-pool>>. 
 
 
-```yaml
+[source,yaml]
+----
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
@@ -74,7 +76,7 @@ spec:
         - key: "eks.amazonaws.com/instance-cpu"
           operator: In
           values: ["4", "8", "16", "32"]
-```
+----
 
 The taint with key `aws.amazon.com/local-zone` and effect `NoSchedule` ensures that pods without a matching toleration won't be scheduled on these nodes. This prevents regular workloads from accidentally running in the Local Zone, which could lead to unexpected costs.
 
@@ -87,7 +89,8 @@ For optimal control over workload placement on Local Zone nodes, use both taints
 
 Here's an example of a Deployment configured to run specifically on Local Zone nodes:
 
-```yaml
+[source,yaml]
+----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -126,7 +129,7 @@ spec:
           requests:
             cpu: "500m"
             memory: "512Mi"
-```
+----
 
 This Deployment has two key scheduling configurations:
 
@@ -141,15 +144,17 @@ After setting up your NodeClass, NodePool, and Deployments, you should verify th
 
 Additionally, you can check the Kubernetes node list using `kubectl get nodes -o wide` to confirm that the nodes are joining your cluster with the correct labels and taints:
 
-```bash
+[source,bash]
+----
 kubectl get nodes -o wide
 kubectl describe node <node-name> | grep -A 5 Taints
-```
+----
 
 You can also verify that your workload pods are scheduled on the Local Zone nodes:
 
-```bash
+[source,bash]
+----
 kubectl get pods -o wide
-```
+----
 
 This approach ensures that only workloads that specifically tolerate the Local Zone taint will be scheduled on these nodes, helping you control costs and make the most efficient use of your Local Zone resources.

@@ -101,6 +101,7 @@ a|
 * This is the default behavior for new Amazon EKS clusters.
 * Kubernetes API requests that originate from within your cluster's VPC (such as node to control plane communication) leave the VPC but not Amazon's network.
 * Your cluster API server is accessible from the internet. You can, optionally, use the list of _public access CIDRs_ to control access to the public endpoint by a list of CIDR blocks. If you limit access to specific CIDR blocks, then we recommend that you also enable the private endpoint, or ensure that the CIDR blocks that you specify include the addresses that nodes and Fargate Pods (if you use them) access the public endpoint from.
+* Standard {aws} data transfer charges apply for traffic between worker nodes and the control plane. Amazon EKS absorbs data transfer costs on the control plane side of the connection. For more information, see <<eks-pricing>>.
 
 
 |Enabled
@@ -173,6 +174,10 @@ When you configure `kubectl` for your bastion host, be sure to use {aws} credent
 {aws} Cloud9 is a cloud-based integrated development environment (IDE) that lets you write, run, and debug your code with just a browser. You can create an {aws} Cloud9 IDE in your cluster's VPC and use the IDE to communicate with your cluster. For more information, see link:cloud9/latest/user-guide/create-environment.html[Creating an environment in {aws} Cloud9,type="documentation"]. You must ensure that your Amazon EKS control plane security group contains rules to allow ingress traffic on port 443 from your IDE security group. For more information, see <<sec-group-reqs>>.
 +
 When you configure `kubectl` for your {aws} Cloud9 IDE, be sure to use {aws} credentials that are already mapped to your cluster's RBAC configuration, or add the IAM principal that your IDE will use to the RBAC configuration before you remove endpoint public access. For more information, see <<grant-k8s-access>> and <<unauthorized>>.
+
+
+*{aws} CloudShell*::
+Choose *Connect* on the cluster details page in the Amazon EKS console. For private clusters, CloudShell launches a VPC environment that can reach your cluster's private API server endpoint. For more information, see <<create-kubeconfig>>.
 
 
 📝 https://github.com/search?q=repo%3Aawsdocs%2Famazon-eks-user-guide+%5B%23cluster-endpoint%5D&type=code[Edit this page on GitHub]

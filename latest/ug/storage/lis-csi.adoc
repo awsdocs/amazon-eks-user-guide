@@ -1,0 +1,49 @@
+include::../attributes.txt[]
+
+[.topic]
+[#lis-csi]
+= Amazon EC2 instance store for Kubernetes volume storage
+:info_titleabbrev: Amazon EC2 instance store
+
+[abstract]
+--
+The Amazon EC2 Instance Store CSI driver manages the lifecycle of instance store NVMe storage volumes for Kubernetes. This topic explains how to install the driver as an Amazon EKS add-on and use it to provide instance storage for your containerized applications.
+--
+
+The Amazon EC2 Instance Store CSI driver is a Container Storage Interface (CSI) plugin that enables Kubernetes to use EC2 instance store volumes. Instance store volumes provide ephemeral block-level storage that is physically attached to the host computer. The driver manages the lifecycle of these NVMe storage volumes and makes them available as Kubernetes https://kubernetes.io/docs/concepts/storage/persistent-volumes/[persistent volumes].
+
+The Amazon EC2 Instance Store CSI driver interacts with backend NVMe devices through local Linux operations. No {aws} API calls are involved, so no IAM role is required.
+
+[#lis-csi-considerations]
+== Considerations
+
+* The Amazon EC2 Instance Store CSI driver doesn't work with EKS Auto Mode.
+* You can't mount Amazon EC2 instance store volumes to Fargate Pods.
+* The Amazon EC2 Instance Store CSI driver is not available for the following instance types: C1, C3, C4, C5d, C5ad, C6gd, D2, D3, D3en, DL1, E3, Edge1gd, F1, G2, G3, G4ad, G4dn, H1, HSM1, I2, I3, I3.metal, I3en, M1, M2, M3, M4, M5d, M5ad, M5dn, M6gd, P2, P3, P3dn, P4d, P4de, R3, R4, R5d, R5ad, R5dn, R6gd, T1, T2, X1, X1e, X2gd, and Z1d.
+* Support is provided for the latest add-on version and one prior version. Fixes for bugs or vulnerabilities found in the latest version will be backported to the previous release as a new minor version.
+* Instance storage is ephemeral. Data is lost when the node terminates. Implement application-level replication or backups for critical data.
+* Volume expansion is not supported.
+
+[#lis-csi-prereqs]
+== Prerequisites
+
+Before you begin, make sure you have the following:
+
+* An existing Amazon EKS cluster. To see all available versions of the add-on, run the following {aws} CLI command:
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks describe-addon-versions --addon-name aws-ec2-local-instance-store-csi-driver
+----
+
+[#managing-lis-csi]
+== Installing the Amazon EC2 Instance Store CSI driver
+
+The Amazon EC2 Instance Store CSI driver is available as an Amazon EKS add-on. Installing the driver enables your cluster to use instance store volumes for pod storage.
+
+To install the driver, add the Amazon EC2 Instance Store CSI driver add-on to your cluster. For instructions, see <<creating-an-add-on,Creating an Amazon EKS add-on>>. For more information about EKS add-ons, see <<eks-add-ons,Amazon EKS add-ons>>.
+
+[#lis-sample-app]
+== Deploying a sample application
+
+After installing the driver, you can deploy sample applications to verify that instance store volumes work correctly with your cluster. You can deploy a variety of sample apps and modify them as needed.

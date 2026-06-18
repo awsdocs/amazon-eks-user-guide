@@ -39,7 +39,7 @@ NOTE: If you get a message that `openssl` must first be installed, you can insta
 ----
 sudo yum install openssl
 ----
-. To pick up the new binary in your `PATH`, Close your current terminal window and open a new one.
+. To pick up the new binary in your `PATH`, close your current terminal window and open a new one.
 . See the version of Helm that you installed.
 +
 [source,bash,subs="verbatim,attributes"]

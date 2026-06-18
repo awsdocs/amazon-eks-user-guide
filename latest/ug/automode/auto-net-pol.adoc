@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 //add to ToC
 
-== Overview
+== Overview 
 
 As customers scale their application environments using EKS, network traffic isolation becomes increasingly fundamental for preventing unauthorized access to resources inside and outside the cluster. This is especially important in a multi-tenant environment with multiple unrelated workloads running side by side in the cluster. Kubernetes network policies enable you to enhance the network security posture for your Kubernetes workloads, and their integrations with cluster-external endpoints. EKS Auto Mode supports different types of network policies. 
 
@@ -50,7 +50,8 @@ To use network policies with EKS Auto Mode, you first need to enable the Network
 
 . Create a file named `enable-network-policy.yaml` with the following content:
 +
-```yaml
+[source,yaml]
+----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -58,55 +59,54 @@ metadata:
   namespace: kube-system
 data:
   enable-network-policy-controller: "true"
-```
+----
 . Apply the ConfigMap to your cluster:
 +
-```
+----
 kubectl apply -f enable-network-policy.yaml
-```
+----
 
-=== Step 2: Enable Network Policies in Node Class
+=== Step 2: Create and test network policies
 
-Before you can use network policies, you need to ensure that your Node Class is configured to support them. Follow these steps:
+Your EKS Auto Mode cluster is now configured to support Kubernetes network policies. You can test this with the <<network-policy-stars-demo>>. 
+
+=== Step 3: Adjust Network Policy Agent configuration in Node Class (Optional)
+
+You can optionally create a new Node Class to change the default behavior of the Network Policy Agent on the nodes or enable the logging of Network Policy events. To do this, follow these steps:
 
 . Create or edit a Node Class YAML file (e.g., `nodeclass-network-policy.yaml`) with the following content:
 +
-```yaml
+[source,yaml]
+----
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
-  name: network-policy-enabled
+  name: network-policy-config
 spec:
-  # Enables network policy support
+  # Optional: Changes default network policy behavior
   networkPolicy: DefaultAllow  
   # Optional: Enables logging for network policy events
   networkPolicyEventLogs: Enabled  
   # Include other Node Class configurations as needed
-```
+----
 . Apply the Node Class configuration to your cluster:
 +
-```
+----
 kubectl apply -f nodeclass-network-policy.yaml
-```
+----
 . Verify that the Node Class has been created:
 +
-```
-kubectl get nodeclass network-policy-enabled
-```
+----
+kubectl get nodeclass network-policy-config
+----
 . Update your Node Pool to use this Node Class. For more information, see <<create-node-pool>>.
-
-Once your nodes are using this Node Class, they will be able to enforce network policies. You can now proceed to create and apply network policies to control traffic within your cluster. For all the node class configuration options, see <<create-node-class>>. 
-
-=== Step 3: Create and test network policies
-
-Your EKS Auto Mode cluster is now configured to support Kubernetes network policies. You can test this with the <<network-policy-stars-demo>>. 
 
 == How does it work?
 
 === DNS-based network policy
 
 image::images/apply-dns-policy-1.png[Illustration of workflow when a DNS-based policy is applied in EKS Auto]
-image::images/apply-dns-policy-2.png[llustration of workflow when a DNS-based policy is applied in EKS Auto]
+image::images/apply-dns-policy-2.png[Illustration of workflow when a DNS-based policy is applied in EKS Auto]
 
 . The platform team applies a DNS-based policy to the EKS cluster. 
 . The Network Policy Controller is responsible for monitoring the creation of policies within the cluster and then reconciling policy endpoints. In this use case, the network policy controller instructs the node agent to filter DNS requests based on the allow-listed domains in the created policy. Domain names are allow-listed using the FQDN or a domain names that matches a pattern defined in the Kubernetes resource configuration. 
@@ -122,7 +122,18 @@ The `ApplicationNetworkPolicy` combines the capabilities of standard Kubernetes 
 . Defining restrictions at layers 3 and 4 of the network stack using IP blocks and port numbers. 
 . Defining rules that operate at layer 7 of the network stack and letting you filter traffic based on FQDNs. 
 
-*Important note*: DNS based rules defined using the `ApplicationNetworkPolicy` are only applicable to workloads running in EKS Auto Mode-launched EC2 instances. 
+[IMPORTANT]
+====
+DNS based rules defined using the `ApplicationNetworkPolicy` are only applicable to workloads running in EKS Auto Mode-launched EC2 instances. 
+`ApplicationNetworkPolicy` supports all fields of the standard Kubernetes `NetworkPolicy`, with an additional FQDN filter for egress rules. 
+====
+
+[WARNING]
+====
+Do not use the same name for an `ApplicationNetworkPolicy` and a `NetworkPolicy` within the same namespace. If the names collide, the resulting `PolicyEndpoints` objects may not reflect either policy correctly. Both resources are accepted without error, making this issue difficult to diagnose.
+
+To resolve a naming conflict, rename either the `ApplicationNetworkPolicy` or the `NetworkPolicy` so they are unique within the namespace, then verify that the corresponding `PolicyEndpoints` objects are updated correctly.
+====
 
 ==== Example
 
@@ -152,11 +163,11 @@ spec:
 
 At the Kubernetes network level, this would allow egress from any pods in the "galaxy" namespace labelled with `role: backend` to connect to the domain name *myapp.mydomain.com* on TCP port 8080. In addition, you would need to setup the network connectivity for egress traffic from your VPC to your corporate data center. 
 
-image::images/eks-auto-to-on-prem.png[llustration of workload in EKS Auto communicating with applications on prem]
+image::images/eks-auto-to-on-prem.png[Illustration of workload in EKS Auto communicating with applications on prem]
 
 === Admin (or cluster) network policy
 
-image::images/evaluation-order.png[llustration of the evaluation order for network policies in EKS]
+image::images/evaluation-order.png[Illustration of the evaluation order for network policies in EKS]
 
 ==== Using the Cluster Network Policy
 

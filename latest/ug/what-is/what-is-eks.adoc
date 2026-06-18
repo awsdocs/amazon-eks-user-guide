@@ -14,7 +14,7 @@ Learn to manage containerized applications with Amazon EKS
 https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Register] for upcoming Amazon EKS workshops.
 ====
 
-## Amazon EKS: Simplified Kubernetes Management
+== Amazon EKS: Simplified Kubernetes Management
 
 Amazon Elastic Kubernetes Service (EKS) provides a fully managed Kubernetes service that eliminates the complexity of operating Kubernetes clusters. With EKS, you can:
 
@@ -26,7 +26,7 @@ Amazon Elastic Kubernetes Service (EKS) provides a fully managed Kubernetes serv
 
 
 
-Amazon Elastic Kubernetes Service (Amazon EKS) is the premiere platform for running https://kubernetes.io/docs/concepts/overview/[Kubernetes] clusters, both in the Amazon Web Services ({aws}) cloud and in your own data centers (https://anywhere.eks.amazonaws.com/[EKS Anywhere] and <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>>).
+Amazon Elastic Kubernetes Service (Amazon EKS) is the premier platform for running https://kubernetes.io/docs/concepts/overview/[Kubernetes] clusters, both in the Amazon Web Services ({aws}) cloud and in your own data centers (https://anywhere.eks.amazonaws.com/[EKS Anywhere] and <<hybrid-nodes-overview,Amazon EKS Hybrid Nodes>>).
 
 Amazon EKS simplifies building, securing, and maintaining Kubernetes clusters. It can be more cost effective at providing enough resources to meet peak demand than maintaining your own data centers. Two of the main approaches to using Amazon EKS are as follows:
 
@@ -77,7 +77,7 @@ For <<eks-compute,compute resources>>, EKS allows the full range of Amazon EC2 i
 
 *Storage*::
 EKS Auto Mode automatically creates storage classes using <<create-storage-class,EBS volumes>>.
-Using Container Storage Interface (CSI) drivers, you can also use Amazon S3, Amazon EFS, Amazon FSX, and Amazon File Cache for your application storage needs. For more information, see <<storage>>.
+Using Container Storage Interface (CSI) drivers, you can also use Amazon S3, Amazon S3 Files, Amazon EFS, Amazon FSX, and Amazon File Cache for your application storage needs. For more information, see <<storage>>.
 
 *Security*::
 The shared responsibility model is employed as it relates to <<security,Security in Amazon EKS>>.
@@ -137,6 +137,8 @@ Assess EKS cluster resiliency with <<integration-resilience-hub,{aws} Resilience
 Amazon EKS has per cluster pricing based on Kubernetes cluster version support, pricing for Amazon EKS Auto Mode, and per vCPU pricing for Amazon EKS Hybrid Nodes.
 
 When using Amazon EKS, you pay separately for the {aws} resources you use to run your applications on Kubernetes worker nodes. For example, if you are running Kubernetes worker nodes as Amazon EC2 instances with Amazon EBS volumes and public IPv4 addresses, you are charged for the instance capacity through Amazon EC2, the volume capacity through Amazon EBS, and the IPv4 address through Amazon VPC.
+
+Communication between the Amazon EKS control plane and worker nodes in your cluster uses cross-account elastic network interfaces in your VPC. You are charged standard {aws} data transfer rates for traffic on the customer side of this connection — specifically, ingress to your worker nodes from the control plane and egress from your worker nodes to the control plane. Amazon EKS absorbs the data transfer costs on the control plane side of the connection. For more information about data transfer pricing, see link:ec2/pricing/on-demand/#Data-Transfer[Data Transfer pricing,type="marketing"].
 
 Visit the respective pricing pages of the {aws} services you are using with your Kubernetes applications for detailed pricing information.
 

@@ -79,14 +79,14 @@ Custom permissions aren't used with this add-on.
 Learn about the Calyptia Amazon EKS add-on.
 --
 
-The add-on name is `calyptia_fluent-bit` and the namespace is `calytia-fluentbit`. Calyptia publishes the add-on.
+The add-on name is `calyptia_fluent-bit` and the namespace is `calyptia-fluentbit`. Calyptia publishes the add-on.
 
-For information about the add-on, see https://docs.akuity.io/tutorials/eks-addon-agent-install/[Getting Started with Calyptia Core Agent] on the Calyptia documentation website.
+For information about the add-on, see https://docs.calyptia.com/docs/getting-started[Getting Started with Calyptia Core Agent] on the Calyptia documentation website.
 
 [#add-on-calyptia-service-account-name]
 === Service account name
 
-The service account name is  `clyptia-fluentbit`.
+The service account name is  `calyptia-fluentbit`.
 
 [#add-on-calyptia-managed-policy]
 === {aws} managed IAM policy
@@ -113,7 +113,7 @@ eksctl create iamserviceaccount --name service-account-name  --namespace calypti
 Learn about the Cisco Observability Collector Amazon EKS add-on.
 --
 
-The add-on name is `cisco_cisco-cloud-observability-collectors` and the namespace is `appdynamics`. Cisco pubishes the add-on.
+The add-on name is `cisco_cisco-cloud-observability-collectors` and the namespace is `appdynamics`. Cisco publishes the add-on.
 
 For information about the add-on, see https://docs.appdynamics.com/observability/cisco-cloud-observability/en/kubernetes-and-app-service-monitoring/install-kubernetes-and-app-service-monitoring-with-amazon-elastic-kubernetes-service/use-the-cisco-cloud-observability-aws-marketplace-add-ons[Use the Cisco Cloud Observability {aws} Marketplace Add-Ons] in the Cisco AppDynamics documentation.
 
@@ -250,7 +250,7 @@ Learn about the Datree Amazon EKS add-on.
 
 The add-on name is `datree_engine-pro` and the namespace is `datree`. Datree publishes the add-on.
 
-For information about the add-on, see https://hub.datree.io/integrations/eks-integration[Amazon EKS-intergration] in the Datree documentation.
+For information about the add-on, see https://hub.datree.io/integrations/eks-integration[Amazon EKS-integration] in the Datree documentation.
 
 [#add-on-datree-pro-service-account-name]
 === Service account name
@@ -406,7 +406,7 @@ Learn about the HA Proxy Amazon EKS add-on.
 
 The name is `haproxy-technologies_kubernetes-ingress-ee` and the namespace is `haproxy-controller`. HA Proxy publishes the add-on.
 
-For information about the add-on, see https://hub.datree.io/integrations/eks-integration[Amazon EKS-intergration] in the Datree documentation.
+For information about the add-on, see https://www.haproxy.com/documentation/kubernetes-ingress/community/installation/aws/[Installing on {aws}] in the HA Proxy documentation.
 
 [#add-on-ha-proxy-service-account-name]
 === Service account name

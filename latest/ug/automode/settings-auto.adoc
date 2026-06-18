@@ -101,6 +101,13 @@ a|
 - Control whether workloads automatically use open ODCRs
 |<<auto-odcr>>
 
+a|
+*Node advanced security*
+
+- Enable FIPS 140-2 validated cryptographic modules
+- Configure kernel lockdown security mode
+|<<auto-advanced-security>>
+
 |===
 
 
@@ -140,3 +147,5 @@ include::auto-controls.adoc[leveloffset=+1]
 include::auto-odcr.adoc[leveloffset=+1]
 
 include::auto-local-zone.adoc[leveloffset=+1]
+
+include::auto-advanced-security.adoc[leveloffset=+1]

@@ -23,7 +23,7 @@ The EKS MCP server can be easily integrated with any MCP compatible AI coding as
 
 The fully managed EKS MCP server is hosted in the {aws} cloud, eliminating the need for local installation and maintenance. It  provides enterprise-grade capabilities like automatic updates and patching, centralized security through {aws} IAM integration, comprehensive audit logging via {aws} CloudTrail, and the proven scalability, reliability, and support of {aws}. The fully managed EKS MCP server hosted in the {aws} cloud offers the following key benefits: 
 
-* *Eliminate installation and maintenance.* With the EKS MCP server being hosted in the {aws} cloud, you no longer need manage version updates, or troubleshoot local server issues. Simply configure your AI assistant to connect to the hosted EKS MCP server endpoint, and you're ready to start working with your EKS clusters.
+* *Eliminate installation and maintenance.* With the EKS MCP server being hosted in the {aws} cloud, you no longer need to manage version updates, or troubleshoot local server issues. Simply configure your AI assistant to connect to the hosted EKS MCP server endpoint, and you're ready to start working with your EKS clusters.
 * *Centralized access management.* The EKS MCP server integrates with link:https://aws.amazon.com/iam/[IAM], providing a centralized, secure way to control access to the server.  All requests are signed using link:https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html[{aws} SigV4] through a lightweight proxy, enabling seamless integration with your existing {aws} credentials and IAM policies.
 * *Enhanced monitoring and visibility.* {aws} CloudTrail integration captures initialization and full access tool calls made through the hosted service, enabling detailed audit trails and compliance reporting.
 * *Always up-to-date.* Receive new tools, features, and bug fixes automatically without needing to update local installations. The hosted service is continuously improved based on your feedback and {aws} best practices.
@@ -35,7 +35,7 @@ The EKS MCP Server provides several tools that you can use to:
 * *Manage your cluster* +
 Create, configure, and manage EKS clusters with automated best practices.
 * *Manage Kubernetes resources* +
-Deploy applications, manage Kuberentes resources, and inspect cluster state.
+Deploy applications, manage Kubernetes resources, and inspect cluster state.
 * *Troubleshoot your cluster* +
 Diagnose issues using integrated troubleshooting tools and knowledge base of runbooks
 * *Query documentation* +
@@ -84,4 +84,6 @@ To get started, see <<eks-mcp-getting-started>>.
 include::eks-mcp-getting-started.adoc[leveloffset=+1]
 
 include::eks-mcp-tool-configurations.adoc[leveloffset=+1]
+
+include::eks-mcp-tools.adoc[leveloffset=+1]
 

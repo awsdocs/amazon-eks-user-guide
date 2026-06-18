@@ -25,7 +25,7 @@ Monitoring is an important part of maintaining the reliability, availability, an
 [#logging-monitoring]
 == Monitoring and logging on Amazon EKS
 
-Amazon EKS provides built-in tools for monitoring and logging. For supported versions, the observability dashboard gives visibility into the performance of your cluster. It helps you to quickly detect, troubleshoot, and remediate issues.  In addition to monitoring features, it includes lists based on the control plane audit logs. The Kubernetes control plane exposes a number of metrics that that can also be scraped outside of the console.
+Amazon EKS provides built-in tools for monitoring and logging. For supported versions, the observability dashboard gives visibility into the performance of your cluster. It helps you to quickly detect, troubleshoot, and remediate issues.  In addition to monitoring features, it includes lists based on the control plane audit logs. The Kubernetes control plane exposes a number of metrics that can also be scraped outside of the console.
 
 Control plane logging records all API calls to your clusters, audit information capturing what users performed what actions to your clusters, and role-based information. For more information, see link:prescriptive-guidance/latest/implementing-logging-monitoring-cloudwatch/amazon-eks-logging-monitoring.html[Logging and monitoring on Amazon EKS,type="documentation"] in the _{aws} Prescriptive Guidance_.
 

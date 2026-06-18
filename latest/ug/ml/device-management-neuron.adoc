@@ -1,0 +1,350 @@
+include::../attributes.txt[]
+
+[.topic]
+[#device-management-neuron]
+= Manage Neuron devices on Amazon EKS
+:info_titleabbrev: Manage Neuron accelerators
+
+[abstract]
+--
+Learn how to manage {aws} Trainium and Inferentia devices on Amazon EKS using the Neuron DRA driver or device plugin for machine learning training and inference workloads.
+--
+
+{aws} Trainium and {aws} Inferentia are purpose-built machine learning chips designed by {aws}. Amazon EKS supports two mechanisms for managing Neuron devices in EKS clusters: the _Neuron DRA driver_ and the _Neuron Kubernetes device plugin_.
+
+It's recommended to use the Neuron DRA driver for new deployments on EKS clusters running Kubernetes version 1.34 or later with EKS managed node groups or self-managed node groups. The Neuron DRA driver provides topology-aware allocation, connected device subset scheduling, Logical NeuronCore (LNC) configuration, and UltraServer multi-node allocation without requiring custom scheduler extensions.
+
+The Neuron DRA driver is not supported with Karpenter or EKS Auto Mode. Use the <<neuron-device-plugin, Neuron device plugin>> with Karpenter and EKS Auto Mode. The Neuron device plugin also remains supported for EKS managed node groups and self-managed nodes.
+
+== Neuron DRA driver vs. Neuron device plugin
+
+[cols="1,1,1", options="header"]
+|===
+| Feature
+| Neuron DRA driver
+| Neuron device plugin
+
+| Minimum Kubernetes version
+| 1.34
+| All EKS-supported Kubernetes versions
+
+| EKS Compute
+| Managed node groups, self-managed nodes
+| EKS Auto Mode, Karpenter, managed node groups, self-managed nodes
+
+| EKS-optimized AMI support
+| AL2023 (Neuron), Bottlerocket
+| AL2023 (Neuron), Bottlerocket
+
+| Device advertisement
+| Rich attributes via `ResourceSlice` objects including device ID, instance type, topology, driver version, and EFA locality
+| Integer count of `aws.amazon.com/neuron` and `aws.amazon.com/neuroncore` extended resources
+
+| Connected device subsets
+| Allocate subsets of 1, 4, 8, or 16 connected Neuron devices using topology constraints
+| Requires the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/tutorials/k8s-neuron-scheduler.html[Neuron scheduler extension] for contiguous device allocation
+
+| LNC configuration
+| Per-workload Logical NeuronCore configuration (LNC=1 or LNC=2) through `ResourceClaimTemplate` parameters
+| Requires pre-configuration in EC2 launch templates
+
+| Attribute-based selection
+| Filter devices by instance type, driver version, and other attributes using CEL expressions
+| Not supported
+
+| Topology-aware EFA allocation
+| DRA-native topology-awareness
+| Automatic topology-awareness (EKS-optimized AL2023 AMIs only)
+
+|===
+
+[#neuron-dra-driver]
+== Install the Neuron DRA driver
+
+The Neuron DRA driver advertises Neuron devices as `ResourceSlice` objects with the `DeviceClass` name `neuron.aws.com`. The driver runs as a DaemonSet and automatically discovers Neuron devices and their topology attributes.
+
+Detailed information about the Neuron DRA driver is available in the link:https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/neuron-dra.html#neuron-dra-driver-attributes-reference[Neuron DRA documentation].
+
+=== Prerequisites
+
+* An Amazon EKS cluster running Kubernetes version 1.34 or later with EKS managed node groups or self-managed node groups.
+* Nodes with {aws} Trainium or Inferentia2 instance types.
+* Helm installed in your command-line environment, see the <<helm,Setup Helm instructions>> for more information.
+* `kubectl` configured to communicate with your cluster, see <<kubectl-install-update>> for more information.
+
+=== Procedure
+
+[IMPORTANT]
+====
+Do not install the Neuron DRA driver on nodes where the Neuron device plugin is running. The two mechanisms cannot coexist on the same node. See upstream Kubernetes link:https://github.com/kubernetes/enhancements/issues/5004[KEP-5004] for updates.
+====
+
+. Install the Neuron DRA driver using Helm.
++
+[source,bash,subs="verbatim,attributes"]
+----
+helm upgrade --install neuron-helm-chart oci://public.ecr.aws/neuron/neuron-helm-chart \
+    --namespace neuron-dra-driver \
+    --create-namespace \
+    --set "devicePlugin.enabled=false" \
+    --set "npd.enabled=false" \
+    --set "draDriver.enabled=true"
+----
++
+The driver is deployed as a DaemonSet in the `neuron-dra-driver` namespace by default with the `DeviceClass` `neuron.aws.com`.
++
+. Verify that the DRA driver DaemonSet is running.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get ds -n neuron-dra-driver neuron-dra-driver-kubelet-plugin
+----
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME                              DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+neuron-dra-driver-kubelet-plugin  1         1         1       1            1           <none>          60s
+----
++
+. Verify that the `DeviceClass` was created.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get deviceclass neuron.aws.com
+----
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME            AGE
+neuron.aws.com  60s
+----
++
+. Verify that `ResourceSlice` objects are advertised for your nodes.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get resourceslice
+----
+
+See the link:https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/neuron-dra.html#neuron-dra-driver-attributes-reference[Neuron DRA documentation] for information on the available `ResourceSlice` object attributes.
+
+=== Request Neuron devices in a Pod
+
+To request Neuron devices using the DRA driver, create a `ResourceClaimTemplate` that references the `neuron.aws.com` `DeviceClass` and reference it in your Pod specification.
+
+The following example requests all Neuron devices on a `trn2.48xlarge` instance:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: all-neurons
+spec:
+  spec:
+    devices:
+      requests:
+      - name: neurons
+        exactly:
+          deviceClassName: neuron.aws.com
+          selectors:
+          - cel:
+              expression: "device.attributes['neuron.aws.com'].instanceType == 'trn2.48xlarge'"
+          allocationMode: All
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: neuron-workload
+spec:
+  containers:
+  - name: app
+    ...
+    resources:
+      claims:
+      - name: neurons
+  resourceClaims:
+  - name: neurons
+    resourceClaimTemplateName: all-neurons
+----
+
+=== Allocate connected device subsets
+
+The Neuron DRA driver can allocate subsets of connected Neuron devices without requiring the link:https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/tutorials/k8s-neuron-scheduler.html[Neuron scheduler extension]. Supported subset sizes are 1, 4, 8, or 16 devices. Use the `matchAttribute` constraint with a topology group ID to ensure devices are connected.
+
+The following example requests 4 connected Neuron devices:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: 1x4-connected-neurons
+spec:
+  spec:
+    devices:
+      requests:
+      - name: neurons
+        exactly:
+          deviceClassName: neuron.aws.com
+          allocationMode: ExactCount
+          count: 4
+          selectors:
+          - cel:
+              expression: "device.attributes['neuron.aws.com'].instanceType == 'trn2.48xlarge'"
+      constraints:
+      - requests: ["neurons"]
+        matchAttribute: "resource.aws.com/devicegroup4_id"
+----
+
+The supported `matchAttribute` values for connected subsets are `resource.aws.com/devicegroup1_id`, `resource.aws.com/devicegroup4_id`, `resource.aws.com/devicegroup8_id`, and `resource.aws.com/devicegroup16_id`. The number in the `devicegroup` attribute name corresponds to the number of Neuron devices in the connected topology group. For example, `resource.aws.com/devicegroup1_id` identifies a single Neuron device, `resource.aws.com/devicegroup4_id` identifies a group of 4 connected devices, and `resource.aws.com/devicegroup8_id` and `resource.aws.com/devicegroup16_id` identify groups of 8 and 16 connected devices respectively. Choose the `matchAttribute` that matches the device `count` in your request so that the allocated devices belong to the same connected topology group. For more information on these attributes, see the link:https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/neuron-dra.html[Neuron DRA driver documentation].
+
+=== Configure Logical NeuronCores (LNC)
+
+The Neuron DRA driver allows per-workload Logical NeuronCore configuration through `ResourceClaimTemplate` parameters. This eliminates the need to pre-configure LNC in EC2 Launch Templates.
+
+The following example requests all Neuron devices with LNC set to 1:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: all-neurons-lnc-1
+spec:
+  spec:
+    devices:
+      requests:
+      - name: neurons
+        exactly:
+          deviceClassName: neuron.aws.com
+          selectors:
+          - cel:
+              expression: "device.attributes['neuron.aws.com'].instanceType == 'trn2.48xlarge'"
+          allocationMode: All
+      config:
+      - requests: ["neurons"]
+        opaque:
+          driver: neuron.aws.com
+          parameters:
+            apiVersion: neuron.aws.com/v1
+            kind: NeuronConfig
+            logicalNeuronCore: 1
+----
+
+=== Allocate Neuron devices with aligned EFA interfaces
+
+See <<efa-dra-topology-aware>>
+
+[#neuron-device-plugin]
+== Install the Neuron Kubernetes device plugin
+
+The Neuron Kubernetes device plugin advertises Neuron devices as `aws.amazon.com/neuron` and NeuronCores as `aws.amazon.com/neuroncore` extended resources. You request Neuron devices in container resource requests and limits.
+
+=== Prerequisites
+
+* An Amazon EKS cluster.
+* Nodes with host-level components installed for {aws} Trainium or {aws} Inferentia instances. These are included if using the EKS AL2023 accelerated AMIs or the EKS Bottlerocket AMIs.
+* Helm installed in your command-line environment, see the <<helm,Setup Helm instructions>> for more information.
+* `kubectl` configured to communicate with your cluster, see <<kubectl-install-update>> for more information.
+
+=== Procedure
+
+. Install the Neuron Kubernetes device plugin using Helm.
++
+[source,bash,subs="verbatim,attributes"]
+----
+helm upgrade --install neuron-helm-chart oci://public.ecr.aws/neuron/neuron-helm-chart \
+    --set "npd.enabled=false"
+----
++
+. Verify the Neuron device plugin DaemonSet is running.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get ds -n kube-system neuron-device-plugin
+----
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME                   DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+neuron-device-plugin   1         1         1       1            1           <none>          60s
+----
++
+. Verify that your nodes have allocatable Neuron devices.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get nodes "-o=custom-columns=NAME:.metadata.name,NeuronDevice:.status.allocatable.aws\.amazon\.com/neuron,NeuronCore:.status.allocatable.aws\.amazon\.com/neuroncore"
+----
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME                                           NeuronDevice   NeuronCore
+ip-192-168-47-173.us-west-2.compute.internal   1              2
+----
+
+=== Verify Neuron devices with a test Pod
+
+You can verify that Neuron devices are accessible by running the `neuron-ls` tool in a test Pod.
+
+. Create a file named `neuron-ls.yaml` with the following contents. This manifest launches an https://awsdocs-neuron.readthedocs-hosted.com/en/latest/tools/neuron-sys-tools/neuron-monitor-user-guide.html[Neuron Monitor] container that has the `neuron-ls` tool installed.
++
+[source,yaml]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: neuron-ls
+spec:
+  restartPolicy: Never
+  containers:
+  - name: neuron-container
+    image: public.ecr.aws/g4h4h0b5/neuron-monitor:1.0.0
+    command: ["/bin/sh"]
+    args: ["-c", "neuron-ls"]
+    resources:
+      limits:
+        aws.amazon.com/neuron: 1
+      requests:
+        aws.amazon.com/neuron: 1
+  tolerations:
+  - key: "aws.amazon.com/neuron"
+    operator: "Exists"
+    effect: "NoSchedule"
+----
++
+. Apply the manifest.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f neuron-ls.yaml
+----
++
+. After the Pod has finished running, view its logs.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl logs neuron-ls
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+instance-type: inf2.xlarge
+instance-id: ...
++--------+--------+--------+---------+
+| NEURON | NEURON | NEURON |   PCI   |
+| DEVICE | CORES  | MEMORY |   BDF   |
++--------+--------+--------+---------+
+| 0      | 2      | 32 GB  | 00:1f.0 |
++--------+--------+--------+---------+
+----
+
+[NOTE]
+====
+When using the Neuron device plugin, contiguous device allocation on instances with multiple Neuron devices (such as `trn2.48xlarge`) requires the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/tutorials/k8s-neuron-scheduler.html[Neuron Kubernetes scheduler extension]. The Neuron DRA driver handles this automatically through topology constraints.
+====
+
+For more information about using Neuron devices with Amazon EKS, see the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html[Neuron documentation for running on EKS].

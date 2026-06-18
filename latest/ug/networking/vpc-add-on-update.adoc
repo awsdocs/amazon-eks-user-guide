@@ -75,3 +75,10 @@ An example output is as follows.
     }
 }
 ----
+
+== Troubleshooting
+When upgrading the VPC CNI from a version older than v1.13.2, you must replace all nodes in the cluster after the update. Versions prior to v1.13.2 use the iptables-legacy backend to insert iptables rules necessary for proper functionality, such as source NAT (SNAT).
+
+Version v1.13.2 was a significant release that https://github.com/aws/amazon-vpc-cni-k8s/pull/2402[introduced iptables-wrapper], which automatically detects the appropriate iptables backend (iptables-legacy or iptables-nft) for inserting chains and rules. This change aligned with the upstream Kubernetes decision to move away from the legacy backend due to performance limitations.
+
+Replacing nodes following an upgrade from a version older than v1.13.2 of the VPC CNI is required because introducing rules into both the iptables-legacy and iptables-nft backends can lead to unexpected behavior for traffic originating from non-primary ENIs.

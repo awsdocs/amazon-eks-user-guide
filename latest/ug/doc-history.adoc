@@ -19,6 +19,111 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-04-27"]
+=== Service linked role update
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `elasticloadbalancing:DescribeLoadBalancers` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to describe LoadBalancer 
+
+[.update,date="2026-04-23"]
+=== Kubernetes version `1.32` for local clusters on {aws} Outposts
+[.update-ulink]
+link:eks/latest/userguide/eks-outposts-platform-versions.html[type="documentation"]
+
+Added Kubernetes version `1.32` support for local Amazon EKS clusters on {aws} Outposts.
+
+[.update,date="2026-04-20"]
+=== Service linked role update
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+ 
+Added `elasticloadbalancing:DescribeCapacityReservation` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to describe LoadBalancer capacity units
+
+[.update,date="2026-04-20"]
+=== Service linked role update
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+ 
+Added `ec2:DescribeInstanceStatus` and `iam:ListInstanceProfiles` permissions in `AmazonEKSServiceRolePolicy`. These permissions allow Amazon EKS Auto Mode to discover EC2 health events for managed instances and cleanup managed instance profiles
+
+[.update,date="2026-04-17"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added permissions to `AmazonEKSComputePolicy` to allow Amazon EKS Auto Mode to launch instances into the EC2 Placement Groups in your account.
+
+[.update,date="2026-04-16"]
+=== New {aws} managed policy
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+	 
+Introduced `AmazonEBSCSIDriverPolicyV2` and `AmazonEBSCSIDriverEKSClusterScopedPolicy` as more restrictive alternatives to `AmazonEBSCSIDriverPolicy`. `AmazonEBSCSIDriverPolicyV2` scopes the EBS CSI driver to volumes and snapshots tagged with `ebs.csi.aws.com/cluster` set to `true`. `AmazonEBSCSIDriverEKSClusterScopedPolicy` scopes the driver to volumes and snapshots belonging to a specific EKS cluster using the `ebs.csi.aws.com/cluster-name` tag.
+
+[.update,date="2026-04-15"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS Auto Mode to launch instances into the EC2 Placement Groups in your account.
+	 
+[.update,date="2026-04-14"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Updated `shield:CreateProtection` and `shield:DeleteProtection` permission in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to add shield protection.
+
+[.update,date="2026-04-07"]
+=== Warm pool support for managed node groups
+[.update-ulink]
+link:eks/latest/userguide/warm-pools-managed-node-groups.html[type="documentation"]
+
+Amazon EKS managed node groups now support Amazon EC2 Auto Scaling warm pools. Warm pools maintain a pool of pre-initialized EC2 instances that are ready to quickly join your cluster when scaling out, decreasing latency for applications with long boot times.
+
+[.update,date="2026-03-20"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `elasticloadbalancing:ModifyIpPools` and updated `elasticloadbalancing:RegisterTargets`  permission in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to support setting IPAM pool for ALB and support multi-cluster and custom targetgroupbindings respectively
+
+[.update,date="2026-02-03"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `ec2:ModifyNetworkInterfaceAttribute` permission in `AmazonEKSNetworkingPolicy`. This allows Amazon EKS Auto Mode Controller to modify network interface attributes related to EC2 instances
+
+[.update,date="2026-02-17"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `autoscaling:PutWarmPool`, `autoscaling:DeleteWarmPool`, and `autoscaling:DescribeWarmPool` permissions to `AWSServiceRoleForAmazonEKSNodegroup` policy. This allows Amazon EKS Managed Nodegroups to manage underlying ASG warm pool resources throughout the node group lifecycle.
+
+[.update,date="2026-02-02"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Removed the "eks" prefix requirement in the name of the target instance profile for the `iam:GetInstanceProfile` permission in `AmazonEKSServiceRolePolicy`. This allows Amazon EKS Auto Mode to validate and utilize custom instance profiles in NodeClasses without requiring the "eks" naming prefix.
+
+[.update,date="2026-01-27"]
+=== Kubernetes version `1.35`
+[.update-ulink]
+link:eks/latest/userguide/kubernetes-versions.html#kubernetes-1-35[type="documentation"]
+ 
+Added Kubernetes version `1.35` support for new clusters and version upgrades.
+
+[.update,date="2026-01-15"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `ec2:LockSnapshot` permission to `AmazonEBSCSIDriverPolicy` to allow the EBS CSI Driver to lock EBS Snapshots directly. 
+
 [.update,date="2025-11-30"]
 === Amazon EKS Capabilities
 [.update-ulink]
@@ -137,7 +242,7 @@ Expanded the troubleshooting page for Kubernetes _network policy_ in the VPC CNI
 [.update-ulink]
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
-This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform version.
+This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform versions.
 
 [.update,date="2025-06-26"]
 === {aws} managed policy updates
@@ -176,7 +281,7 @@ The `NodeClass` template for Auto Mode nodes added configuration for separate po
 [.update-ulink]
 link:eks/latest/userguide/platform-versions.html[type="documentation"]
 
-This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform version.
+This is a new platform version with security fixes and enhancements. There aren't any new patch versions of Kubernetes in these platform versions.
 
 [.update,date="2025-06-11"]
 === Target secondary and cross-account roles with EKS Pod Identities 
@@ -301,7 +406,7 @@ Added pages for concepts of EKS Hybrid Nodes. These cover the on-premises and cl
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
-Added permissions to `AmazonEKSClusterPolicy` to allow Amazon EKS to elastic network interfaces created by the VPC CNI. This is required so that EKS can clean up elastic network interfaces that are left behind if the VPC CNI quits unexpectedly.
+Added permissions to `AmazonEKSClusterPolicy` to allow Amazon EKS to clean up elastic network interfaces created by the VPC CNI. This is required so that EKS can clean up elastic network interfaces that are left behind if the VPC CNI quits unexpectedly.
 
 
 [.update,date="2025-04-14"]
@@ -367,7 +472,6 @@ Bottlerocket FIPS AMIs are now available in standard managed node groups.
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
 Added permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to terminate EC2 instances created by Auto Mode.
-Added permissions to `AmazonEKSServiceRolePolicy` to allow Amazon EKS to terminate EC2 instances created by Auto Mode. 
 
 
 [.update,date="2025-01-27"]
@@ -981,7 +1085,6 @@ You can modify the `PodDisruptionBudget` of the EKS add-on for CoreDNS in versio
 link:eks/latest/userguide/cni-network-policy.html[type="documentation"]
 
 You can use Kubernetes _network policy_ in existing clusters with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution.
-You can use Kubernetes _network policy_ in existing clusters with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution.
 
 
 [.update,date="2023-09-07"]
@@ -1005,7 +1108,6 @@ Added new link:eks/latest/userguide/common-use-cases.html[Common use cases,type=
 [.update-ulink]
 link:eks/latest/userguide/cni-network-policy.html[type="documentation"]
 
-You can use Kubernetes _network policy_ with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution.
 You can use Kubernetes _network policy_ with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution.
 
 
@@ -1484,7 +1586,6 @@ You can now add multiple network interfaces to a Pod using Multus.
 link:eks/latest/userguide/cni-increase-ip-addresses.html[type="documentation"]
 
 You can now add significantly more IP addresses to your Linux Amazon EC2 nodes. This means that you can run a higher density of Pods on each node.
-You can now add significantly more IP addresses to your Linux Amazon EC2 nodes. This means that you can run a higher density of Pods on each node.
 
 
 [.update,date="2021-07-19"]
@@ -1542,7 +1643,7 @@ You can now use the {aws} Load Balancer Controller to create Elastic Load Balanc
 [.update-ulink]
 link:eks/latest/userguide/node-taints-managed-node-groups.html[type="documentation"]
 
-Amazon EKS now supports adding note taints to managed node groups.
+Amazon EKS now supports adding node taints to managed node groups.
 
 
 [.update,date="2021-02-26"]

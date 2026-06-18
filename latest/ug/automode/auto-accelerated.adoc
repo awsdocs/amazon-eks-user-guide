@@ -20,7 +20,7 @@ NOTE: EKS Auto Mode includes the NVIDIA device plugin for Kubernetes. This plugi
 
 Additional networking support:
 
-* link:hpc/efa/[Elastic Fabric Adapter (EFA), type="marketing"]
+* link:hpc/efa/[Elastic Fabric Adapter (EFA), type="marketing"] — For information on managing EFA devices in your EKS cluster, see <<device-management-efa>>.
 
 Amazon EKS Auto Mode eliminates the toil of accelerator driver and device plugin management. 
 
@@ -208,7 +208,7 @@ The following NodePool defines:
 
 * Only launch instances of `g6e` and `g6` family
 * Consolidate nodes when empty for 1 hour
-** The 1 hour value for `consolodateAfter` supports spiky workloads and reduce node churn. You can tune `consolidateAfter` based on your workload requirements.
+** The 1 hour value for `consolidateAfter` supports spiky workloads and reduce node churn. You can tune `consolidateAfter` based on your workload requirements.
 
 *Example NodePool with GPU instance family and consolidation*
 

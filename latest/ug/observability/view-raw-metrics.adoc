@@ -99,6 +99,27 @@ scheduler_pod_scheduling_attempts_bucket{le="+Inf"} 81
 [...]
 ----
 
+Due to the potentially large amount of data returned, there is an additional `kube-scheduler` metrics endpoint for retrieving `kube_pod_resource_request` and `kube_pod_resource_limit` metrics. To retrieve these metrics, use the following command.
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get --raw "/apis/metrics.eks.amazonaws.com/v1/ksh/container/resourcemetrics"
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+# HELP kube_pod_resource_limit [STABLE] Resources limit for workloads on the cluster, broken down by pod. This shows the resource usage the scheduler and kubelet expect per pod for resources along with the unit for the resource if any.
+# TYPE kube_pod_resource_limit gauge
+kube_pod_resource_limit{namespace="kube-system",node="ip-192-168-87-3.us-west-2.compute.internal",pod="coredns-7bf648ff5d-dj4ss",priority="2000000000",resource="memory",scheduler="default-scheduler",unit="bytes"} 1.7825792e+08
+# HELP kube_pod_resource_request [STABLE] Resources requested by workloads on the cluster, broken down by pod. This shows the resource usage the scheduler and kubelet expect per pod for resources along with the unit for the resource if any.
+# TYPE kube_pod_resource_request gauge
+kube_pod_resource_request{namespace="kube-system",node="ip-192-168-87-3.us-west-2.compute.internal",pod="aws-node-x7znh",priority="2000001000",resource="cpu",scheduler="default-scheduler",unit="cores"} 0.05
+kube_pod_resource_request{namespace="kube-system",node="ip-192-168-87-3.us-west-2.compute.internal",pod="coredns-7bf648ff5d-dj4ss",priority="2000000000",resource="cpu",scheduler="default-scheduler",unit="cores"} 0.1
+[...]
+----
+
 [#fetch-metrics-controller]
 === Fetch `kube-controller-manager` metrics
 
@@ -169,6 +190,14 @@ The following table describes the scheduler and controller manager metrics that 
 |scheduler_pod_scheduling_sli_duration_seconds
 |scheduler
 |The end-to-end latency for a Pod being scheduled, from the time the Pod enters the scheduling queue. This might involve multiple scheduling attempts.
+
+|kube_pod_resource_limit
+|scheduler
+|Resources limit for workloads on the cluster, broken down by pod. This shows the resource usage the scheduler and kubelet expect per pod for resources along with the unit for the resource if any.
+
+|kube_pod_resource_request
+|scheduler
+|Resources requested by workloads on the cluster, broken down by pod. This shows the resource usage the scheduler and kubelet expect per pod for resources along with the unit for the resource if any.
 
 |cronjob_controller_job_creation_skew_duration_seconds
 |controller manager

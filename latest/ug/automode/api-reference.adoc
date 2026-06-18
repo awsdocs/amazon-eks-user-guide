@@ -1,5 +1,5 @@
 [.topic]
-= EKA Auto Mode API Reference WIP
+= EKS Auto Mode API Reference WIP
 
 :fmis: For more information, see 
 :in-guide: in the EKS User Guide

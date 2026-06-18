@@ -64,7 +64,7 @@ The following command returns all of the Amazon EKS created Kubernetes `ClusterR
 kubectl get clusterroles | grep eks
 ----
 
-In addition to the `ClusterRoles` returned in the output that are prefaced with, the following `ClusterRoles` exist.
+In addition to the `ClusterRoles` returned in the output that are prefaced with `eks:`, the following `ClusterRoles` exist.
 
 * *`aws-node`* – This `ClusterRole` supports the <<managing-vpc-cni,Amazon VPC CNI plugin for Kubernetes>>, which Amazon EKS installs on all clusters.
 * *`vpc-resource-controller-role`* – This `ClusterRole` supports the https://github.com/aws/amazon-vpc-resource-controller-k8s[Amazon VPC resource controller], which Amazon EKS installs on all clusters. 

@@ -41,7 +41,8 @@ In this section, you'll create a cluster using EKS Auto Mode for dynamic node pr
 Create a `cluster-config.yaml` file and paste the following contents into it.
 Replace `region-code` with a valid Region (e.g., `us-east-1`).
 
-```yaml
+[source,yaml]
+----
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
@@ -51,14 +52,15 @@ metadata:
 
 autoModeConfig:
   enabled: true
-```
+----
 Now, we're ready to create the cluster. 
 
-Create the EKS cluster using the `cluster-config.yaml``:
+Create the EKS cluster using the `cluster-config.yaml`:
 
-```bash
+[source,bash]
+----
 eksctl create cluster -f cluster-config.yaml
-```
+----
 
 [IMPORTANT]
 ====
@@ -75,7 +77,8 @@ When you create Ingress resources for your applications, EKS Auto Mode uses this
 
 Save the following yaml file as `ingressclass.yaml`:
 
-```yaml
+[source,yaml]
+----
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
@@ -84,13 +87,14 @@ metadata:
     ingressclass.kubernetes.io/is-default-class: "true" 
 spec:
   controller: eks.amazonaws.com/alb
-```
+----
 
 Apply the IngressClass to your cluster:
 
-```cli
+[source,cli]
+----
 kubectl apply -f ingressclass.yaml
-```
+----
 
 ==  Deploy the 2048 game sample application
 
@@ -276,6 +280,7 @@ To avoid incurring future charges, you need to delete the associated CloudFormat
 
 Delete the CloudFormation stack:
 
-```bash
+[source,bash]
+----
 eksctl delete cluster -f ./cluster-config.yaml
-```
+----

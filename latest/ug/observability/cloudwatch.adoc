@@ -33,7 +33,7 @@ https://kubernetes.io/docs/concepts/cluster-administration/flow-control/[feature
 
 *Units:* Count
 
-*Valid statistics:* Max
+*Valid statistics:* Sum
 
 |`scheduler_schedule_attempts_total`
 |The number of total attempts by the scheduler to schedule Pods in the cluster for a given period. This metric helps monitor the scheduler's workload and can indicate scheduling pressure or potential issues with Pod placement.
@@ -252,8 +252,15 @@ https://kubernetes.io/docs/concepts/cluster-administration/flow-control/[feature
 
 *Valid statistics:* Average
 
-|`apiserver_storage_size_bytes`
-|The physical size in bytes of the etcd storage database file used by the API servers in the cluster. This metric represents the actual disk space allocated for the storage.
+|`etcd_mvcc_db_total_size_in_bytes`
+|Total size of the underlying database physically allocated in bytes.  Note that this metric measures physical disk allocation and is not used for quota enforcement. (also known as apiserver_storage_size_bytes) 
+
+*Units:* Bytes
+
+*Valid statistics:* Maximum
+
+|`etcd_mvcc_db_total_size_in_use_in_bytes`
+|The actual data size of the etcd database, excluding free space waiting for defragmentation. This metric indicates the current database usage and determines whether the cluster will exceed the database size quota and enter read-only mode.
 
 *Units:* Bytes
 

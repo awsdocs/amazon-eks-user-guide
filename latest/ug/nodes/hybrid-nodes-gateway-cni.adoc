@@ -1,0 +1,115 @@
+include::../attributes.txt[]
+
+[.topic]
+[#hybrid-nodes-gateway-cni]
+= Configure CNI for the Hybrid Nodes gateway
+:info_titleabbrev: Configure CNI for gateway
+
+[abstract]
+--
+Learn how to configure Cilium CNI settings required for the Amazon EKS Hybrid Nodes gateway.
+--
+
+The Amazon EKS Hybrid Nodes gateway requires specific Cilium configuration to enable VXLAN-based connectivity between your VPC and hybrid nodes. You must enable Cilium VTEP (VXLAN Tunnel Endpoint) support and disable the L7 proxy.
+
+[#hybrid-nodes-gateway-cni-prereqs]
+== Prerequisites
+
+* Cilium is already installed on your hybrid nodes. For installation instructions, see <<hybrid-nodes-cni>>.
+
+[NOTE]
+====
+Cilium VTEP is only supported on the following minimum EKS Cilium versions:
+
+* Cilium 1.17.13-1 or later
+* Cilium 1.18.8-1 or later
+* Cilium 1.19.2-1 or later
+
+If you are running an older version, upgrade Cilium before enabling VTEP. For upgrade instructions, see <<hybrid-nodes-cni>>.
+====
+
+[#hybrid-nodes-gateway-cni-configure]
+== Enable VTEP and disable L7 proxy
+
+Set the Cilium version and run the `helm upgrade` command to enable VTEP and disable the L7 proxy on your existing Cilium installation. You can find the latest available patch version at link:https://gallery.ecr.aws/eks/cilium/cilium[Amazon ECR Public: eks/cilium/cilium].
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+
+helm upgrade cilium oci://public.ecr.aws/eks/cilium/cilium \
+  --version [.replaceable]`CILIUM_VERSION` \
+  --namespace kube-system \
+  --reuse-values \
+  --set vtep.enabled=true \
+  --set l7Proxy=false
+----
+
+After the upgrade completes, restart the Cilium DaemonSet to apply the new configuration:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl rollout restart daemonset/cilium -n kube-system
+kubectl rollout status daemonset/cilium -n kube-system
+----
+
+[#hybrid-nodes-gateway-cni-settings]
+== Required settings
+
+[%header,cols="1,1,3"]
+|===
+|Setting |Value |Description
+
+|`vtep.enabled`
+|`true`
+|Enables Cilium's VXLAN Tunnel Endpoint support. This allows Cilium agents on hybrid nodes to encapsulate VPC-bound traffic and send it to the gateway.
+
+|`l7Proxy`
+|`false`
+|Disables Cilium's L7 proxy. This is required for VTEP to function correctly. If L7 proxy is enabled, VTEP traffic may be intercepted and dropped.
+|===
+
+[#hybrid-nodes-gateway-cni-verify]
+== Verify the configuration
+
+After upgrading Cilium, verify that VTEP is enabled and the L7 proxy is disabled:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get configmap cilium-config -n kube-system -o yaml | grep -E "enable-vtep|enable-l7-proxy"
+----
+
+You should see output similar to:
+
+[source,subs="verbatim,attributes,quotes"]
+----
+enable-l7-proxy: "false"
+enable-vtep: "true"
+----
+
+[#hybrid-nodes-gateway-cni-vpc-cni]
+== Configure VPC CNI for hybrid pod traffic
+
+By default, the {aws} VPC CNI applies source NAT (SNAT) to all pod traffic leaving the node. To ensure that Kubernetes ClusterIP services with hybrid pod endpoints work correctly from cloud nodes, exclude the hybrid pod CIDRs from SNAT. This allows kube-proxy DNAT'd traffic to use VPC routing correctly.
+
+Set the `AWS_VPC_K8S_CNI_EXCLUDE_SNAT_CIDRS` environment variable on the `aws-node` DaemonSet to your hybrid pod CIDR(s):
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+
+kubectl set env daemonset aws-node -n kube-system \
+  AWS_VPC_K8S_CNI_EXCLUDE_SNAT_CIDRS=[.replaceable]`POD_CIDRS`
+----
+
+Replace the value with your actual hybrid pod CIDRs (comma-separated if multiple).
+
+This setting adds the hybrid pod CIDRs to the VPC CNI's ip rules so that traffic destined for hybrid pods is routed through the main routing table, which contains the VPC route to the gateway ENI.
+
+[NOTE]
+====
+This step is required for ClusterIP service traffic from cloud pods to hybrid pod endpoints. Direct pod-to-pod connectivity by IP address works without this setting.
+
+====
+[#hybrid-nodes-gateway-cni-next]
+== Next steps
+
+After configuring Cilium and VPC CNI, proceed to install the Hybrid Nodes gateway. See <<hybrid-nodes-gateway-getting-started>>.

@@ -244,7 +244,7 @@ kubectl describe clusterrolebinding eks:node-manager
 
 If present, compare the output to the previous `ClusterRoleBinding` example.
 
-If you've identified a missing or broken `ClusterRole` or `ClusterRoleBinding` as the cause of an `AcessDenied` error while requesting managed node group operations, you can restore them. Save the following contents to a file named [.replaceable]`eks-node-manager-role.yaml`.
+If you've identified a missing or broken `ClusterRole` or `ClusterRoleBinding` as the cause of an `AccessDenied` error while requesting managed node group operations, you can restore them. Save the following contents to a file named [.replaceable]`eks-node-manager-role.yaml`.
 
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -696,4 +696,9 @@ The first two columns are what are needed for API response values. The third fie
 |Grants for the {aws} KMS Key associated with your cluster are revoked. You must delete and recreate the cluster.
 |The KMS Key Arn
 |No
+
+|ETCD_DB_SIZE_EXCEEDED
+|Your Amazon EKS cluster has exceeded the etcd database size limit. etcd is a key-value data store that runs in the Kubernetes control plane and maintains your cluster's configuration and state. To prevent your cluster from entering a degraded state, please reduce the etcd database size by removing unnecessary Kubernetes objects. For guidance on identifying and cleaning up objects contributing to database size, see https://aws.amazon.com/blogs/containers/managing-etcd-database-size-on-amazon-eks-clusters/[Managing etcd database size on Amazon EKS clusters]. If you continue to experience issues after cleanup, please contact {aws} Support.
+|The Cluster ARN
+|Yes
 |===

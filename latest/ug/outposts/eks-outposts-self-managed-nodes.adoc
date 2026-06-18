@@ -95,7 +95,7 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2025-11-24/
 ----
 . Open the link:cloudformation/[{aws} CloudFormation console,type="console"].
 . Choose *Create stack* and then select *With new resources (standard)*.
-. For *Specify template*, select *Upload a template file* and then select *Choose file*. Select the `amazon-eks-nodegroup.yaml` file that you downloaded in a previous step and then select *Next*.
+. For *Specify template*, select *Upload a template file* and then select *Choose file*. Select the `amazon-eks-outpost-nodegroup.yaml` file that you downloaded in a previous step and then select *Next*.
 . On the *Specify stack details* page, enter the following parameters accordingly, and then choose *Next*:
 +
 ** *Stack name*: Choose a stack name for your {aws} CloudFormation stack. For example, you can call it [.replaceable]`al-nodes`. The name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
@@ -236,7 +236,7 @@ kubectl apply -f gp2-storage-class.yaml
 kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/deployments/static/nvidia-device-plugin.yml
 ----
 
-*Step3: Additional actions*
+*Step 3: Additional actions*
 
 . (Optional) Deploy a <<sample-deployment,sample application>> to test your cluster and Linux nodes.
 . If your cluster is deployed on an Outpost, then skip this step. If your cluster is deployed on the {aws} Cloud, the following information is optional. If the *AmazonEKS_CNI_Policy* managed IAM policy is attached to your <<create-node-role,Amazon EKS node IAM role>>, we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead. For more information, see <<cni-iam-role>>.

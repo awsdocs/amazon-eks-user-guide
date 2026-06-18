@@ -40,7 +40,7 @@ Starting with a basic understanding of Kubernetes and containers, the https://ww
 ** Autoscaling: This includes node autoscaling (with https://www.eksworkshop.com/docs/autoscaling/compute/cluster-autoscaler/[Cluster Autoscaler] or https://www.eksworkshop.com/docs/autoscaling/compute/karpenter/[Karpenter]) and workload autoscaling (with https://www.eksworkshop.com/docs/autoscaling/workloads/horizontal-pod-autoscaler/[Horizontal Pod Autoscaler] and https://www.eksworkshop.com/docs/autoscaling/workloads/cluster-proportional-autoscaler/[Cluster Proportional Autoscaler]).
 ** Observability: Learn about https://www.eksworkshop.com/docs/observability/logging/[Logging], https://www.eksworkshop.com/docs/observability/opensearch/[OpenSearch], https://www.eksworkshop.com/docs/observability/container-insights/[Container Insights on Amazon EKS], and https://www.eksworkshop.com/docs/observability/kubecost/[Cost Visibility with Kubecost] in a set of https://www.eksworkshop.com/docs/observability/[Observability labs].
 ** Security: This set of https://www.eksworkshop.com/docs/security/[Security labs] let you explore https://www.eksworkshop.com/docs/security/secrets-management/[Secrets Management], https://www.eksworkshop.com/docs/security/guardduty/[Amazon GuardDuty], https://www.eksworkshop.com/docs/security/pod-security-standards/[Pod Security Standards], and https://www.eksworkshop.com/docs/security/kyverno/[Kyverno policy management].
-** Networking: Learn networking features for Amazon EKS from https://www.eksworkshop.com/docs/networking/[Networking] labs that include https://www.eksworkshop.com/docs/networking/vpc-cni/[Amazon VPC CNI] (supporting network plugins) and https://www.eksworkshop.com/docs/networking/vpc-lattice/[Amazon VPC Lattice] (for configuring clusters across VC and user accounts).
+** Networking: Learn networking features for Amazon EKS from https://www.eksworkshop.com/docs/networking/[Networking] labs that include https://www.eksworkshop.com/docs/networking/vpc-cni/[Amazon VPC CNI] (supporting network plugins) and https://www.eksworkshop.com/docs/networking/vpc-lattice/[Amazon VPC Lattice] (for configuring clusters across VPC and user accounts).
 ** Automation: Labs on https://www.eksworkshop.com/docs/automation/[Automation] step you through https://www.eksworkshop.com/docs/automation/gitops/[GitOps] methods of managing your clusters and projects like https://www.eksworkshop.com/docs/automation/controlplanes/ack/[{aws} Controllers for Kubernetes] and https://www.eksworkshop.com/docs/automation/controlplanes/crossplane/[Crossplane] for managing Amazon EKS control planes.
 
 
@@ -95,7 +95,7 @@ The https://github.com/aws-samples/aws-eks-se-samples[Amazon EKS Samples] reposi
 
 * https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/eksctl/how-to-eks-fargate[Create an {aws} Amazon EKS Fargate cluster]
 * https://github.com/aws-samples/aws-eks-se-samples/blob/main/examples/eksctl/how-to-existing-iamrole/existing-role.yaml[Create a cluster with an existing IAM role]
-* https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/eksctl/how-to-ubuntu-nodegroups[Add and Ubuntu Managed Node Group to a cluster]
+* https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/eksctl/how-to-ubuntu-nodegroups[Add an Ubuntu Managed Node Group to a cluster]
 * https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/kubernetes/how-to-backup-restore-ebs-pvc[Backup and restore Pod storage with volume snapshots]
 * https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/kubernetes/how-to-dr-multi-account[Recover EBS volumes mounted as PVCs with multiple accounts]
 * https://github.com/aws-samples/aws-eks-se-samples/tree/main/examples/kubernetes/how-to-enable-proxy-procotcol-clb[Enable proxy protocol for NGINX Ingress Controller with Classic Load Balancers]
@@ -122,7 +122,7 @@ The link:tutorials[{aws} Tutorials,type="marketing"] site publishes a few Amazon
 [#developers-workshop]
 == Developers Workshop
 
-If you are a software developer, looking to create or refactor applications to run on Amazon EKS, the http://developers.eksworkshop.com[Amazon EKS Developers workshop]is a good place to start. The workshop not only helps you build containerized applications, but also helps you deploy those containers to a container registry (link:ecr/[ECR,type="marketing"]) and from there to an Amazon EKS cluster.
+If you are a software developer, looking to create or refactor applications to run on Amazon EKS, the https://developers.eksworkshop.com[Amazon EKS Developers workshop] is a good place to start. The workshop not only helps you build containerized applications, but also helps you deploy those containers to a container registry (link:ecr/[ECR,type="marketing"]) and from there to an Amazon EKS cluster.
 
 Start with the https://developers.eksworkshop.com/docs/python/[Amazon EKS Python Workshop] to go through the process of refactoring a python application, then set up your development environment to prepare for deploying the application. Step through sections on Containers, Kubernetes, and Amazon EKS to prepare to run your containerized applications in those environments.
 

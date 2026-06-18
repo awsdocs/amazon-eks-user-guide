@@ -12,7 +12,7 @@ The step-by-step approach outlined below enables you to run EKS Fargate and EKS 
 This dual-operation strategy helps ensure a smooth transition by allowing you to validate workload behavior on EKS Auto Mode before completely decommissioning EKS Fargate.
 You can migrate applications individually or in groups, providing flexibility to accommodate your specific operational requirements and risk tolerance.
 
-## Comparing Amazon EKS Auto Mode and EKS with {aws} Fargate
+== Comparing Amazon EKS Auto Mode and EKS with {aws} Fargate
 
 Amazon EKS with {aws} Fargate remains an option for customers who want to run EKS, but Amazon EKS Auto Mode is the recommended approach moving forward.
 EKS Auto Mode is fully Kubernetes conformant, supporting all upstream Kubernetes primitives and platform tools like Istio, which Fargate is unable to support.
@@ -22,7 +22,92 @@ These capabilities are not available when using EKS with Fargate.
 Furthermore, EKS Auto Mode allows customers to achieve the same isolation model as Fargate, using standard Kubernetes scheduling capabilities to ensure each EC2 instance runs a single application container.
 By adopting Amazon EKS Auto Mode, customers can unlock the full benefits of running Kubernetes on {aws} — a fully Kubernetes-conformant platform that provides the flexibility to leverage the entire breadth of EC2 and purchasing options while retaining the ease of use and abstraction from infrastructure management that Fargate provides.
 
-## Prerequisites
+=== Achieving Fargate-like isolation in EKS Auto Mode
+
+To replicate Fargate's pod isolation model where each pod runs on its own dedicated instance, you can use Kubernetes topology spread constraints. This is the recommended approach for controlling pod distribution across nodes:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: isolated-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: isolated-app
+  template:
+    metadata:
+      labels:
+        app: isolated-app
+      annotations:
+        eks.amazonaws.com/compute-type: ec2
+    spec:
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: isolated-app
+        minDomains: 1
+      containers:
+      - name: app
+        image: nginx
+        ports:
+        - containerPort: 80
+----
+
+In this configuration:
+
+* `maxSkew: 1` ensures that the difference in pod count between any two nodes is at most 1, effectively distributing one pod per node
+* `topologyKey: kubernetes.io/hostname` defines the node as the topology domain
+* `whenUnsatisfiable: DoNotSchedule` prevents scheduling if the constraint cannot be met
+* `minDomains: 1` ensures at least one domain (node) exists before scheduling
+
+EKS Auto Mode will automatically provision new EC2 instances as needed to satisfy this constraint, providing the same isolation model as Fargate while giving you access to the full range of EC2 instance types and purchasing options.
+
+Alternatively, you can use pod anti-affinity rules for stricter isolation:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: isolated-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: isolated-app
+  template:
+    metadata:
+      labels:
+        app: isolated-app
+      annotations:
+        eks.amazonaws.com/compute-type: ec2
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - isolated-app
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: app
+        image: nginx
+        ports:
+        - containerPort: 80
+----
+
+The `podAntiAffinity` rule with `requiredDuringSchedulingIgnoredDuringExecution` ensures that no two pods with the label `app: isolated-app` can be scheduled on the same node. This approach provides hard isolation guarantees similar to Fargate.
+
+== Prerequisites
 
 Before beginning the migration, ensure you have
 
@@ -30,7 +115,7 @@ Before beginning the migration, ensure you have
 
 * Installed and connected `kubectl` to your cluster. For more information, see <<setting-up>>.
 
-## Step 1: Check the Fargate cluster
+== Step 1: Check the Fargate cluster
 
 . Check if the EKS cluster with Fargate is running:
 +
@@ -129,7 +214,7 @@ fargate-ip-192-168-117-130.ec2.internal Ready   <none> 36s v1.30.8-eks-2d5f260 1
 fargate-ip-192-168-74-140.ec2.internal  Ready   <none> 36s v1.30.8-eks-2d5f260 192.168.74.140  <none>      Amazon Linux 2 5.10.234-225.910.amzn2.x86_64  containerd://1.7.25
 ----
 
-## Step 2: Enable EKS Auto Mode on the cluster
+== Step 2: Enable EKS Auto Mode on the cluster
 
 . Enable EKS Auto Mode on your existing cluster using the {aws} CLI or Management Console. For more information, see <<auto-enable-existing>>.
 . Check the nodepool:
@@ -146,7 +231,7 @@ general-purpose   default     1       True    6m58s
 system            default     0       True    3d14h
 ----
 
-## Step 3: Update workloads for migration
+== Step 3: Update workloads for migration
 
 Identify and update the workloads you want to migrate to EKS Auto Mode.
 
@@ -216,12 +301,12 @@ NAME                STATUS ROLES  AGE   VERSION             INTERNAL-IP     EXTE
 i-0845aafcb51630ffb Ready  <none> 3m30s v1.30.8-eks-3c20087 192.168.41.125  3.81.118.95 Bottlerocket (EKS Auto) 2025.3.14 (aws-k8s-1.30) 6.1.129        containerd://1.7.25+bottlerocket
 ----
 
-## Step 4: Gradually migrate workloads
+== Step 4: Gradually migrate workloads
 
 Repeat Step 3 for each workload you want to migrate.
 This allows you to move workloads individually or in groups, based on your requirements and risk tolerance.
 
-## Step 5: Remove the original fargate profile
+== Step 5: Remove the original fargate profile
 
 Once all workloads have been migrated, you can remove the original `fargate` profile.
 Replace [.replaceable]`<fargate profile name>` with the name of your Fargate profile:
@@ -231,11 +316,11 @@ Replace [.replaceable]`<fargate profile name>` with the name of your Fargate pro
 aws eks delete-fargate-profile --cluster-name eks-fargate-demo-cluster --fargate-profile-name <fargate profile name>
 ----
 
-## Step 6: Scale down CoreDNS
+== Step 6: Scale down CoreDNS
 
 Because EKS Auto mode handles CoreDNS, you scale the `coredns` deployment down to 0:
 
 [source,bash,subs="verbatim,attributes"]
 ----
-kubectl scale deployment coredns -n kube-system —-replicas=0
+kubectl scale deployment coredns -n kube-system --replicas=0
 ----

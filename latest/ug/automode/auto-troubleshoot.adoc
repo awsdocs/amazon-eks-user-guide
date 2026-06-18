@@ -10,6 +10,7 @@ With EKS Auto Mode, {aws} assumes more responsibility for EC2 Instances in your 
 You must use {aws} and Kubernetes APIs to troubleshoot nodes. You can:
 
 * Use a Kubernetes `NodeDiagnostic` resource to retrieve node logs by using the <<auto-node-monitoring-agent>>. For more steps, see <<auto-get-logs>>. 
+* Use a Kubernetes `NodeDiagnostic` resource to capture network traffic on a node. For more steps, see <<auto-get-tcpdump>>.
 * Use the {aws} EC2 CLI command `get-console-output` to retrieve console output from nodes. For more steps, see <<auto-node-console>>.
 * Use Kubernetes _debugging containers_ to retrieve node logs. For more steps, see <<auto-node-debug-logs>>.
 
@@ -232,7 +233,7 @@ subsets:
     protocol: TCP
 ----
 
-With these two pieces of information, you can perform the s analysis. First navigate to the VPC Reachability Analyzer in the {aws-management-console}.
+With these two pieces of information, you can perform the analysis. First navigate to the VPC Reachability Analyzer in the {aws-management-console}.
 
 . Click "Create and Analyze Path"
 . Provide a name for the analysis (e.g. "Node Join Failure")

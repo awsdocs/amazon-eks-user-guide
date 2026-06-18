@@ -158,7 +158,7 @@ Verify the selector's `namespaceSelector` matches your resource's namespace labe
 
 *Check Capability Role permissions*:
 
-The Capability Role needs `sts:AssumeRole` permission for the target account role:
+The Capability Role needs `sts:AssumeRole` and `sts:TagSession` permissions for the target account role:
 
 [source,json,subs="verbatim,attributes"]
 ----
@@ -167,7 +167,7 @@ The Capability Role needs `sts:AssumeRole` permission for the target account rol
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": "sts:AssumeRole",
+      "Action": ["sts:AssumeRole", "sts:TagSession"],
       "Resource": "arn:aws:iam::[.replaceable]`444455556666`:role/[.replaceable]`cross-account-ack-role`"
     }
   ]
