@@ -370,7 +370,7 @@ spec:
 EOF
 ----
 +
-This NodePool provisions G-family GPU instances with generation greater than 4 (https://aws.amazon.com/ec2/instance-types/g5/[G5], https://aws.amazon.com/ec2/instance-types/g6e/[G6e], https://aws.amazon.com/ec2/instance-types/g7e/[G7e], etc.). The `nvidia.com/gpu:NoSchedule` taint ensures only GPU-eligible Pods are scheduled on these nodes.
+This NodePool provisions G-family GPU instances with generation greater than 4 (https://aws.amazon.com/ec2/instance-types/g5/[G5], https://aws.amazon.com/ec2/instance-types/g6e/[G6e], https://aws.amazon.com/ec2/instance-types/g7e/[G7e], etc.).
 
 Self-managed Karpenter::
 +
@@ -487,6 +487,9 @@ spec:
         - key: karpenter.k8s.aws/instance-category
           operator: In
           values: ["g"]
+        - key: karpenter.k8s.aws/instance-family
+          operator: NotIn
+          values: ["g7"]
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["4"]
@@ -500,7 +503,7 @@ EOF
 ----
 ====
 +
-The `amiFamily: al2023` label on the node template is what the NVIDIA device plugin DaemonSet uses to select these nodes.
+The `amiFamily: al2023` label on the node template is what the NVIDIA device plugin DaemonSet uses to select these nodes.  The `g7` instance family is excluded because it requires you to build a custom EKS AMI with NVIDIA driver version 595. The `nvidia.com/gpu:NoSchedule` taint ensures only GPU-eligible Pods are scheduled on these nodes.
 
 Validate the NodePool was created:
 

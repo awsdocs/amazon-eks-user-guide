@@ -30,22 +30,21 @@ When building custom AMIs for GPU instances, it is recommended to build separate
 * https://developer.hashicorp.com/packer/downloads[Install HashiCorp Packer v1.9.4+]
 * https://www.gnu.org/software/make/[Install GNU Make]
 
-== Quickstart 
-
-This quickstart shows you the commands to create a custom AMI in your {aws} account. To learn more about the configurations available to customize your AMI, see the template variables on the https://awslabs.github.io/amazon-eks-ami/usage/al2023/[Amazon Linux 2023] page.
-
-=== Prerequisites
-
-Install the required https://developer.hashicorp.com/packer/integrations/hashicorp/amazon[Amazon plugin]. For example:
+Install the required https://developer.hashicorp.com/packer/integrations/hashicorp/amazon[Amazon plugin].
 
 [source,bash]
 ----
 packer plugins install github.com/hashicorp/amazon
 ----
 
-=== Step 1. Setup your environment
+Verify that Packer is installed.
 
-Clone or fork the official Amazon EKS AMI repository. For example:
+[source,bash]
+----
+packer --version
+----
+
+Clone or fork the official Amazon EKS AMI repository.
 
 [source,bash]
 ----
@@ -53,34 +52,51 @@ git clone https://github.com/awslabs/amazon-eks-ami.git
 cd amazon-eks-ami
 ----
 
-Verify that Packer is installed:
+To view default values and additional options, run the following command. To learn more about the configurations available to customize your AMI, see the template variables on the https://awslabs.github.io/amazon-eks-ami/usage/al2023/[Amazon Linux 2023] page.
 
 [source,bash]
 ----
-packer --version
+make help
 ----
 
-=== Step 2. Create a custom AMI
+== Create a custom AMI
 
 The following are example commands for various custom AMIs.
 
-*Basic NVIDIA AL2 AMI:*
+*EKS NVIDIA AL2 AMI*
 
 [source,bash]
 ----
-make k8s=1.31 os_distro=al2 \
+make k8s=1.32 os_distro=al2 \
   enable_accelerator=nvidia \
-  nvidia_driver_major_version=560 \
+  nvidia_driver_major_version=580 \
   enable_efa=true
 ----
 
-*Basic NVIDIA AL2023 AMI:* 
+*EKS NVIDIA AL2023 AMI* 
 
 [source,bash]
 ----
-make k8s=1.31 os_distro=al2023 \
+make k8s=1.36 os_distro=al2023 \
   enable_accelerator=nvidia \
-  nvidia_driver_major_version=560 \
+  nvidia_driver_major_version=580 \
+  enable_efa=true
+----
+
+*EKS NVIDIA AL2023 AMI with NVIDIA driver version 595*
+
+[IMPORTANT]
+====
+The G7 EC2 instance type requires NVIDIA driver version 595 or later. The EKS-optimized accelerated AMIs currently include NVIDIA driver version 580, which does not support G7 instances. You must build a custom AMI with NVIDIA driver version 595 to use G7 instances with Amazon EKS.
+
+If you are using Karpenter for node provisioning and auto-scaling, it is recommended to exclude the `g7` instance family from your NodePools that use automatic AMI selection. See link:https://karpenter.sh/docs/concepts/nodeclasses/#specamiselectorterms[`amiSelectorTerms`] in the Karpenter documentation for how to configure your Karpenter NodeClass to use your custom AMI for `g7` instances.
+====
+
+[source,bash]
+----
+make k8s=1.36 os_distro=al2023 \
+  enable_accelerator=nvidia \
+  nvidia_driver_major_version=595 \
   enable_efa=true
 ----
 
@@ -96,6 +112,7 @@ make k8s=1.31 os_distro=al2023 \
 ----
 
 After you run these commands, Packer will do the following:
+
 * Launch a temporary Amazon EC2 instance.
 * Install Kubernetes components, drivers, and configurations.
 * Create the AMI in your {aws} account. 
@@ -115,13 +132,4 @@ us-west-2: ami-0e139a4b1a7a9a3e9
 
 --> amazon-ebs: AMIs were created:
 us-west-2: ami-0e139a4b1a7a9a3e9
-----
-
-=== Step 3. View default values 
-
-To view default values and additional options, run the following command:
-
-[source,bash]
-----
-make help
 ----
