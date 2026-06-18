@@ -485,6 +485,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Description
 |Date
 
+|Updated permissions to <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>.
+|Added `elasticloadbalancing:SetRulePriorities`, `ec2:DescribeIpamPools` permissions in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to set priorities of the specified listiner rules for ALB and describe ipam pools respectively
+|June 15, 2026
+
 |Added permissions to <<security-iam-awsmanpol-amazonebscsidrivereksclusterscopedpolicy,AmazonEBSCSIDriverEKSClusterScopedPolicy>>.
 |Authorized `ec2:AttachVolume` and `ec2:DetachVolume` on instances tagged with the `eks:eks-cluster-name` tag, adding compatibility with controllers that follow the EKS controller tagging standard, including open source Karpenter and Amazon EKS Auto Mode.
 |May 28, 2026
@@ -497,11 +501,11 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Added new API action `ec2:DescribeInstanceTypes` to enable the EBS CSI Driver to dynamically retrieve volume limit/card information at runtime.
 |May 12, 2026
 
-|Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
+|Added permission to  <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>
 |Added `elasticloadbalancing:DescribeLoadBalancers` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to describe LoadBalancer 
 |April 27, 2026
 
-|Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
+|Added permission to  <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>
 |Added `elasticloadbalancing:DescribeCapacityReservation` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to describe LoadBalancer capacity units
 |April 20, 2026
 

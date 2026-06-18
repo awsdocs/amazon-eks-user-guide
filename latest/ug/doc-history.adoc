@@ -26,6 +26,14 @@ link:eks/latest/userguide/control-plane-egress.html[type="documentation"]
 
 Added support for customer-routed control plane egress (`controlPlaneEgressMode=CUSTOMER_ROUTED`), letting you manage the network path from the cluster control plane to resources in your VPC.
 
+[.update,date="2026-06-15"]
+=== Service linked role update
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+ 
+Added `elasticloadbalancing:SetRulePriorities` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to set priorities of the specified listener rules for ALB.
+Added `ec2:DescribeIpamPools` permission in `AmazonEKSLoadBalancingPolicy` to describe ipam pool 
+
 [.update,date="2026-06-02"]
 === Kubernetes version `1.36`
 [.update-ulink]
