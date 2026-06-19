@@ -118,7 +118,7 @@ The CIDR block must meet the following requirements:
 ** Have a minimum size of `/24` and a maximum size of `/12`.
 ** Not overlap with the range of the VPC for your Amazon EKS resources.
 +
-You can only specify this option when using the `IPv4` address family and only at cluster creation. If you don't specify this, then Kubernetes assigns service IP addresses from either the `10.100.0.0/16` or `172.20.0.0/16` CIDR blocks.
+You can only specify this option when using the `IPv4` address family and only at cluster creation. If you don't specify this, then Kubernetes assigns service IP addresses from either the `10.100.0.0/16` or `172.20.0.0/16` CIDR blocks. For clusters with <<hybrid-nodes-cluster-create,hybrid nodes>> enabled, Amazon EKS may select a different CIDR to avoid conflicts with the configured remote node and pod networks.
 * If you're creating a cluster and want the cluster to assign `IPv6` addresses to Pods and services instead of `IPv4` addresses, specify the https://eksctl.io/usage/schema/#kubernetesNetworkConfig-ipFamily[ipFamily] option.
 +
 Kubernetes assigns `IPv4` addresses to Pods and services, by default. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the <<network-requirements-vpc>>, <<network-requirements-subnets>>, <<sec-group-reqs>>, and <<cni-ipv6>> topics. If you choose the `IPv6` family, you can't specify an address range for Kubernetes to assign `IPv6` service addresses from like you can for the `IPv4` family. Kubernetes assigns service addresses from the unique local address range (`fc00::/7`).
@@ -171,7 +171,7 @@ The CIDR block must meet the following requirements:
 *** Not overlap with the range of the VPC for your Amazon EKS resources.
 
 +
-You can only specify this option when using the `IPv4` address family and only at cluster creation. If you don't specify this, then Kubernetes assigns service IP addresses from either the `10.100.0.0/16` or `172.20.0.0/16` CIDR blocks.
+You can only specify this option when using the `IPv4` address family and only at cluster creation. If you don't specify this, then Kubernetes assigns service IP addresses from either the `10.100.0.0/16` or `172.20.0.0/16` CIDR blocks. For clusters with <<hybrid-nodes-cluster-create,hybrid nodes>> enabled, Amazon EKS may select a different CIDR to avoid conflicts with the configured remote node and pod networks.
 ** For *Cluster endpoint access*, select an option. After your cluster is created, you can change this option. Before selecting a non-default option, make sure to familiarize yourself with the options and their implications. For more information, see <<cluster-endpoint>>.
 ** (Optional) For *Control plane egress*, choose how egress traffic from the control plane to your VPC is routed. The default is Amazon EKS managed. If you select customer routed, you become responsible for the network path from the control plane to your VPC resources. For more information, see <<control-plane-egress>>.
 +
@@ -243,7 +243,7 @@ The CIDR block must meet the following requirements:
 *** Not overlap with the range of the VPC for your Amazon EKS resources.
 
 +
-You can only specify this option when using the `IPv4` address family and only at cluster creation. If you don't specify this, then Kubernetes assigns service IP addresses from either the `10.100.0.0/16` or `172.20.0.0/16` CIDR blocks.
+You can only specify this option when using the `IPv4` address family and only at cluster creation. If you don't specify this, then Kubernetes assigns service IP addresses from either the `10.100.0.0/16` or `172.20.0.0/16` CIDR blocks. For clusters with <<hybrid-nodes-cluster-create,hybrid nodes>> enabled, Amazon EKS may select a different CIDR to avoid conflicts with the configured remote node and pod networks.
 ** If you're creating a cluster and want the cluster to assign `IPv6` addresses to Pods and services instead of `IPv4` addresses, add `--kubernetes-network-config ipFamily=ipv6` to the following command.
 +
 Kubernetes assigns `IPv4` addresses to Pods and services, by default. Before deciding to use the `IPv6` family, make sure that you're familiar with all of the considerations and requirements in the <<network-requirements-vpc,VPC requirements and considerations>>, <<network-requirements-subnets>>, <<sec-group-reqs>>, and <<cni-ipv6>> topics. If you choose the `IPv6` family, you can't specify an address range for Kubernetes to assign `IPv6` service addresses from like you can for the `IPv4` family. Kubernetes assigns service addresses from the unique local address range (`fc00::/7`).
