@@ -161,4 +161,6 @@
     <redirect from="^/eks/latest/userguide/ml-realtime-inference\.html" to="/eks/latest/userguide/ml-inference.html" flags="[L,R]" />
     <redirect from="^/eks/latest/userguide/ml-realtime-inference-cluster\.html" to="/eks/latest/userguide/ml-cluster-setup.html" flags="[L,R]" />
     <redirect from="^/eks/latest/userguide/ml-realtime-inference-llm-inference-vllm\.html" to="/eks/latest/userguide/ml-inference-load-serve-model.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/capacity-blocks-mng\.html" to="/eks/latest/userguide/ml-node-groups.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/capacity-blocks\.html" to="/eks/latest/userguide/ml-node-groups.html" flags="[L,R]" />
 </redirects>
