@@ -110,6 +110,8 @@ include::argocd-permissions.adoc[leveloffset=+1]
 
 include::working-with-argocd.adoc[leveloffset=+1]
 
+include::argocd-private-access.adoc[leveloffset=+1]
+
 include::argocd-considerations.adoc[leveloffset=+1]
 
 include::argocd-troubleshooting.adoc[leveloffset=+1]
