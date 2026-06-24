@@ -27,6 +27,9 @@ The Amazon VPC CNI plugin for Kubernetes provides networking for Pods. Use the f
 |Restrict network traffic to and from your Pods
 |<<cni-network-policy-configure>>
 
+|Configure subnet selection for Pod IP addresses
+|<<cni-subnet-selection>>
+
 |Customize the secondary network interface in nodes
 |<<cni-custom-network>>
 
@@ -45,6 +48,8 @@ include::cni-ipv6.adoc[leveloffset=+1]
 include::external-snat.adoc[leveloffset=+1]
 
 include::cni-network-policy.adoc[leveloffset=+1]
+
+include::cni-subnet-selection.adoc[leveloffset=+1]
 
 include::cni-custom-network.adoc[leveloffset=+1]
 
