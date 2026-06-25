@@ -6,7 +6,7 @@ include::../attributes.txt[]
 Amazon EKS cluster insights provide recommendations to help you follow Amazon EKS and Kubernetes best practices. Every Amazon EKS cluster undergoes automatic, recurring checks against an Amazon EKS curated list of insights. These __insight checks__ are fully managed by Amazon EKS and offer recommendations on how to address any findings.
 
 //In addition to insight checks for best practices, there are upgrade insights that check for issues before you upgrade your cluster to a new Kubernetes version.
-Amazon EKS provides two types of insights: *Configuration insights* and *Upgrade insights*. *Configuration insights* identify misconfigurations in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. *Upgrade insights* identify issues that could impact your ability to upgrade to new versions of Kubernetes.
+Amazon EKS provides three types of insights: *Configuration insights*, *Upgrade insights*, and *Rollback readiness insights*. *Configuration insights* identify misconfigurations in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. *Upgrade insights* identify issues that could impact your ability to upgrade to new versions of Kubernetes. *Rollback readiness insights* identify issues that could impact your ability to rollback to a previous Kubernetes version after an upgrade.
 
 To see the list of insight checks performed and any relevant issues that Amazon EKS has identified, you can use the {aws-management-console}, the {aws} CLI, {aws} SDKs, and Amazon EKS `ListInsights` API operation.
 
@@ -43,8 +43,7 @@ To see the list of insight checks performed and any relevant issues that Amazon 
 ** *Last transition time* – The time the status of this insight last changed.
 ** *Description* – Information from the insight check, which includes the alert and recommended actions for remediation.
 
-
-[#cluster-insights-cli]
+NOTE: Rollback readiness insights appear in the same tab after you perform an upgrade and remain visible during the 7-day rollback eligibility window.
 == View cluster insights ({aws} CLI)
 
 . To view the latest data, refresh the insights for a specified cluster. Make the following modifications to the command as needed and then run the modified command.
@@ -184,6 +183,48 @@ An example output is as follows.
                 "reason": "No deprecated API usage detected within the last 30 days.",
             },
         },
+        {
+            "id": "a1b2c3d4-5678-90ab-cdef-EXAMPLE44444",
+            "name": "Incompatible API usage",
+            "category": "ROLLBACK_READINESS",
+            "kubernetesVersion": "X.XX",
+            "lastRefreshTime": 1734557315.000,
+            "lastTransitionTime": 1734557309.000,
+            "description": "Checks for usage of APIs that are not compatible with the previous Kubernetes version. Rolling back your cluster before removing incompatible API usage could cause data loss or application impact.",
+            "insightStatus":
+            {
+                "status": "ERROR",
+                "reason": "Incompatible API usage detected.",
+            },
+        },
+        {
+            "id": "a1b2c3d4-5678-90ab-cdef-EXAMPLE55555",
+            "name": "Kubelet version rollback compatibility",
+            "category": "ROLLBACK_READINESS",
+            "kubernetesVersion": "X.XX",
+            "lastRefreshTime": 1734557309.000,
+            "lastTransitionTime": 1734557309.000,
+            "description": "Checks for kubelet versions of worker nodes in the cluster to see if rollback would cause non compliance with supported Kubernetes kubelet version skew policy.",
+            "insightStatus":
+            {
+                "status": "ERROR",
+                "reason": "At least one node kubelet version matches the cluster control plane version.",
+            },
+        },
+        {
+            "id": "a1b2c3d4-5678-90ab-cdef-EXAMPLE66666",
+            "name": "EKS add-on version rollback compatibility",
+            "category": "ROLLBACK_READINESS",
+            "kubernetesVersion": "X.XX",
+            "lastRefreshTime": 1734557314.000,
+            "lastTransitionTime": 1734557309.000,
+            "description": "Checks version of installed EKS add-ons to ensure they are compatible with the previous version of Kubernetes.",
+            "insightStatus":
+            {
+                "status": "PASSING",
+                "reason": "All installed EKS add-on versions are compatible with previous Kubernetes version.",
+            },
+        },
     ],
 "nextToken": null,
 }
@@ -230,3 +271,84 @@ An example output is as follows.
     },
 }
 ----
+
+The preceding output shows both `UPGRADE_READINESS` and `ROLLBACK_READINESS` insights. Rollback readiness insights are only present for clusters that have been upgraded within the last 7 days.
+
+[#filter-insights-by-category]
+=== Filter insights by category
+
+You can filter insights by category to view only a specific type:
+
+// TODO: Verify filter syntax with KCE team
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks list-insights \
+  --cluster-name [.replaceable]`my-cluster` \
+  --region [.replaceable]`region-code` \
+  --filter '{"categories": ["ROLLBACK_READINESS"]}'
+----
+
+You can also filter by status to see only blocking issues:
+
+// TODO: Verify combined filter syntax
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks list-insights \
+  --cluster-name [.replaceable]`my-cluster` \
+  --region [.replaceable]`region-code` \
+  --filter '{"categories": ["ROLLBACK_READINESS"], "statuses": ["ERROR"]}'
+----
+
+[#view-rollback-readiness-insight-details]
+=== View rollback readiness insight details
+
+For rollback readiness insights, the `describe-insight` command returns similar information about affected resources and remediation steps. For example:
+
+// TODO: Verify describe-insight response structure and field names with KCE team
+[source,json,subs="verbatim,attributes",role="nocopy"]
+----
+{
+    "insight": {
+        "id": "a1b2c3d4-5678-90ab-cdef-EXAMPLE44444",
+        "name": "Incompatible API usage",
+        "category": "ROLLBACK_READINESS",
+        "kubernetesVersion": "1.33",
+        "insightStatus": {
+            "status": "ERROR",
+            "reason": "Incompatible API usage detected."
+        },
+        "lastRefreshTime": 1734557315.000,
+        "lastTransitionTime": 1734557309.000,
+        "description": "Checks for usage of APIs that are not compatible with the previous Kubernetes version. Rolling back your cluster before removing incompatible API usage could cause data loss or application impact.",
+        "recommendation": "Remove usage of the incompatible API from the resources where the usage is detected.",
+        "additionalInfo": {},
+        "resources": [
+            {
+                "insightStatus": {
+                    "status": "ERROR",
+                    "reason": "Incompatible API usage detected."
+                },
+                "kubernetesResourceUri": "/apis/resource.k8s.io/v1/resourceclaims/gpu-claim"
+            }
+        ],
+        "categorySpecificSummary": {
+            "apiIncompatibilityDetails": [
+                {
+                    "usage": "/apis/resource.k8s.io/v1",
+                    "replaceWith": "/apis/resource.k8s.io/v1beta2",
+                    "minimumCompatibleVersion": "1.34",
+                    "clientStats": [
+                        {
+                            "userAgent": "kubectl",
+                            "numberOfRequestsLast30Days": 126,
+                            "lastRequestTime": 1734557315.000
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
+----
+
+If you find a rollback readiness insight with `"status": "ERROR"`, you must address the issue before performing the rollback, or use the `--force` flag to bypass insight checks. For more information about the rollback process, see <<rollback-cluster>>.

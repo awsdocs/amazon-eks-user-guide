@@ -125,3 +125,23 @@ IMPORTANT: When updating the node group configuration, modifying the link:eks/la
 Unlike the <<managed-node-update-behavior,update node group>> process (which drains nodes and respects PDBs during the upgrade phase), updating the scaling configuration causes nodes to be terminated immediately through an Auto Scaling Group (ASG) scale-down call. 
 This happens without considering PDBs, regardless of the target size you're scaling down to. 
 That means when you reduce the `desiredSize` of an Amazon EKS managed node group, Pods are evicted as soon as the nodes are terminated, without honoring any PDBs.
+
+[#mng-rollback]
+== Rollback a managed node group version
+
+If you need to rollback your cluster control plane to a previous Kubernetes version, you must first rollback your managed node groups to ensure compliance with the Kubernetes version skew policy. Worker nodes cannot run a version newer than the control plane.
+
+You can rollback a managed node group using the `UpdateNodegroupVersion` API with the previous Kubernetes version:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks update-nodegroup-version \
+  --cluster-name [.replaceable]`my-cluster` \
+  --nodegroup-name [.replaceable]`my-nodegroup` \
+  --kubernetes-version [.replaceable]`1.30` \
+  --region [.replaceable]`us-west-2`
+----
+
+The node group rollback respects your configured update settings (`maxUnavailable` or `maxUnavailablePercentage`) and update strategy (Rolling or Force), the same as an upgrade.
+
+For more information about the full cluster rollback process, see <<rollback-cluster>>.

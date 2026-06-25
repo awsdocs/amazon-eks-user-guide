@@ -20,7 +20,7 @@ When a new Kubernetes version is available in Amazon EKS, you can update your Am
 [IMPORTANT]
 ====
 
-Once you upgrade a cluster, you can't downgrade to a previous version. Before you update to a new Kubernetes version, we recommend that you review the information in link:eks/latest/userguide/kubernetes-versions.html[Understand the Kubernetes version lifecycle on EKS,type="documentation"] and the update steps in this topic.
+After upgrading, you can rollback to the previous version within 7 days if issues arise. For more information, see <<rollback-cluster>>. Before you update to a new Kubernetes version, we recommend that you review the information in link:eks/latest/userguide/kubernetes-versions.html[Understand the Kubernetes version lifecycle on EKS,type="documentation"] and the update steps in this topic.
 
 ====
 
@@ -38,6 +38,11 @@ NOTE: To learn more about what goes into a cluster update, see link:eks/latest/b
 
 * The compute capability of Amazon EKS Auto Mode controls the Kubernetes version of nodes. After you upgrade the control plane, EKS Auto Mode will begin incrementally updating managed nodes. EKS Auto Mode respects pod disruption budgets. 
 * You do not have to manually upgrade the capabilities of Amazon EKS Auto Mode, including the compute autoscaling, block storage, and load balancing capabilities. 
+
+[NOTE]
+====
+If you encounter issues after upgrading, you can initiate a rollback. For clusters running EKS Auto Mode, EKS automatically rolls back worker nodes before reverting the control plane. For more information, see <<rollback-cluster>>.
+====
 
 [#update-cluster-summary]
 == Summary
@@ -232,4 +237,4 @@ kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/<vX.
 [#downgrade-cluster]
 == Downgrade the Kubernetes version for an Amazon EKS cluster
 
-You cannot downgrade the Kubernetes version of an Amazon EKS cluster. Instead, create a new cluster on a previous Amazon EKS version and migrate the workloads.  
+You can rollback the Kubernetes version of an Amazon EKS cluster to the previous minor version within 7 days of upgrading. For more information, see <<rollback-cluster>>. After the 7-day window, you cannot downgrade. Instead, create a new cluster on a previous Amazon EKS version and migrate the workloads.
