@@ -1,9 +1,9 @@
 include::../attributes.txt[]
 
 [.topic]
-[#rollback-automode-nodes]
-= Rollback Auto Mode nodes
-:info_titleabbrev: Rollback Auto Mode nodes
+[#rollback-automode]
+= Rollback EKS Auto Mode clusters
+:info_titleabbrev: Rollback EKS Auto Mode clusters
 
 [abstract]
 --

@@ -19,7 +19,7 @@ During a rollback, Amazon EKS reverts the Kubernetes API server and control plan
 * Kubernetes API server version
 * Control plane components and their configurations
 * Platform version (reverts to the latest platform version for the previous Kubernetes version)
-* *EKS Auto Mode worker nodes*. For clusters running EKS Auto Mode, EKS automatically manages the rollback of Auto Mode worker nodes before reverting the control plane. For more information, see <<rollback-automode-nodes>>.
+* *EKS Auto Mode worker nodes*. For clusters running EKS Auto Mode, EKS automatically manages the rollback of Auto Mode worker nodes before reverting the control plane. For more information, see <<rollback-automode>>.
 
 == What does NOT get rolled back
 
@@ -77,7 +77,7 @@ The high-level summary of the Amazon EKS cluster rollback process is as follows:
 
 [IMPORTANT]
 ====
-For clusters running EKS Auto Mode, step 3 is handled automatically. When you initiate the rollback, EKS rolls back Auto Mode nodes before the control plane. For more information, see <<rollback-automode-nodes>>.
+For clusters running EKS Auto Mode, step 3 is handled automatically. When you initiate the rollback, EKS rolls back Auto Mode nodes before the control plane. For more information, see <<rollback-automode>>.
 ====
 
 '''
@@ -191,7 +191,7 @@ Before rolling back the control plane, ensure your worker nodes are compatible w
 
 === EKS Auto Mode
 
-No action required. When you initiate the rollback, EKS automatically rolls back Auto Mode nodes before the control plane. For more information, see <<rollback-automode-nodes>>.
+No action required. When you initiate the rollback, EKS automatically rolls back Auto Mode nodes before the control plane. For more information, see <<rollback-automode>>.
 
 === Managed Node Groups (MNG)
 
@@ -241,7 +241,7 @@ You can initiate a rollback using the {aws} Console, {aws} CLI, or the EKS API.
 . Review the rollback summary, including any insight warnings.
 . Choose *Rollback version*.
 
-The rollback takes several minutes to complete. For Auto Mode clusters, the node rollback phase might take longer. For more information, see <<rollback-automode-nodes>>.
+The rollback takes several minutes to complete. For Auto Mode clusters, the node rollback phase might take longer. For more information, see <<rollback-automode>>.
 
 === Rollback cluster using the {aws} CLI
 
@@ -318,7 +318,7 @@ InProgress → Successful
 InProgress → Failed
 ----
 
-For Auto Mode clusters, the cluster status remains `ACTIVE` while nodes are rolling back and changes to `UPDATING` only when the control plane rollback begins. Use `describe-update` to track the overall rollback progress. For more information, see <<rollback-automode-nodes>>.
+For Auto Mode clusters, the cluster status remains `ACTIVE` while nodes are rolling back and changes to `UPDATING` only when the control plane rollback begins. Use `describe-update` to track the overall rollback progress. For more information, see <<rollback-automode>>.
 
 When a `Successful` status is displayed, the rollback is complete.
 
@@ -387,7 +387,7 @@ NOTE: Rollback readiness insights only check EKS-managed add-on versions. For se
 [#rollback-related-resources]
 == Related resources
 
-* <<rollback-automode-nodes>>
+* <<rollback-automode>>
 * <<update-cluster>>
 * <<cluster-insights>>
 * link:eks/latest/userguide/kubernetes-versions.html[Understand the Kubernetes version lifecycle on EKS,type="documentation"]

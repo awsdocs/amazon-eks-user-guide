@@ -22,7 +22,7 @@ include::update-cluster.adoc[leveloffset=+1]
 
 include::rollback-cluster.adoc[leveloffset=+1]
 
-include::rollback-automode-nodes.adoc[leveloffset=+2]
+include::rollback-automode.adoc[leveloffset=+2]
 
 include::delete-cluster.adoc[leveloffset=+1]
 
