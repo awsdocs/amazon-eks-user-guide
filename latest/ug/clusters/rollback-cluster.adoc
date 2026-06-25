@@ -393,3 +393,5 @@ NOTE: Rollback readiness insights only check EKS-managed add-on versions. For se
 * link:eks/latest/userguide/kubernetes-versions.html[Understand the Kubernetes version lifecycle on EKS,type="documentation"]
 * link:eks/latest/userguide/update-managed-node-group.html[Update a managed node group,type="documentation"]
 * link:eks/latest/best-practices/cluster-upgrades.html[Best Practices for Cluster Upgrades,type="documentation"]
+
+include::rollback-automode.adoc[leveloffset=+1]
