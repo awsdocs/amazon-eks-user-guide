@@ -7,44 +7,39 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Configure private access to the Argo CD endpoint using VPC endpoints, keeping all traffic within the {aws} network.
+Use Amazon Virtual Private Cloud (Amazon VPC) endpoints to configure private access to the Argo CD endpoint and keep all traffic within the {aws} network.
 --
 
-By default, the Argo CD endpoint is accessible over the public internet.
-You can configure private endpoint access so that traffic between your VPC and the Argo CD endpoint stays within the {aws} network, without traversing the public internet.
+By default, you can access the Argo CD endpoint over the public internet.
+You can configure private endpoint access so that traffic between your VPC and the Argo CD endpoint stays within the {aws} network, without going through the public internet.
 
-When you enable private access, {aws} updates DNS so that the Argo CD endpoint hostname resolves to private IP addresses associated with your VPC endpoint.
-You must have network connectivity to these private IPs (through your VPC, VPN, or {aws} Direct Connect) to access the Argo CD endpoint.
+When you enable private access, {aws} updates the Domain Name System (DNS) so that the Argo CD endpoint hostname resolves to private IP addresses associated with your VPC endpoint.
+You must have network connectivity to these private IPs (through your VPC, a virtual private network (VPN) connection, or {aws} Direct Connect) to access the Argo CD endpoint.
 
 == How private access works
 
 When you configure private access for your Argo CD capability:
 
-. You create a VPC endpoint for the `com.amazonaws._region-code_.eks-capabilities` service in your VPC
-. You provide the VPC endpoint ID when creating or updating the Argo CD capability
-. {aws} configures DNS records that resolve your Argo CD endpoint hostname to private IP addresses associated with your VPC endpoint
-. Traffic from your VPC, VPN, or {aws} Direct Connect to the Argo CD UI and API routes privately through the VPC endpoint
-
-[NOTE]
-====
-VPC endpoint policies are not currently supported for the `eks-capabilities` service endpoint.
-====
+. You create a VPC endpoint for the `com.amazonaws._region-code_.eks-capabilities` service in your VPC.
+. You provide the VPC endpoint ID when creating or updating the Argo CD capability.
+. {aws} configures DNS records so that the Argo CD endpoint hostname resolves to private IP addresses associated with your VPC endpoint.
+. All traffic to the Argo CD endpoint flows privately through the VPC endpoint.
 
 == Prerequisites
 
-* An EKS cluster with an active Argo CD capability (see <<create-argocd-capability>>)
+* An Amazon Elastic Kubernetes Service (Amazon EKS) cluster with an active Argo CD capability (see <<create-argocd-capability>>)
+* Familiarity with Amazon VPC concepts, including subnets, security groups, and interface VPC endpoints
 * A VPC with subnets in the Availability Zones where you want private access
-* {aws} CLI version `{auto-cli-v2-version}` or later
+* {aws} Command Line Interface ({aws} CLI) version `{auto-cli-v2-version}` or later
 
 == Step 1: Create a VPC endpoint for eks-capabilities
 
 Create an interface VPC endpoint for the `com.amazonaws._region-code_.eks-capabilities` service.
 
-[tabs]
-====
+[role="tablist"]
 Console::
 +
-. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
+. Open the link:vpc/[Amazon VPC console,type="console"].
 . In the left navigation pane, choose *Endpoints*.
 . Choose *Create endpoint*.
 . For *Service category*, choose *{aws} services*.
@@ -57,7 +52,7 @@ Console::
 
 CLI::
 +
-Replace [.replaceable]`region-code` with your {aws} Region, [.replaceable]`vpc-id` with your VPC ID, [.replaceable]`subnet-id-1` and [.replaceable]`subnet-id-2` with subnet IDs in different Availability Zones, and [.replaceable]`sg-id` with a security group that allows HTTPS inbound traffic.
+Replace [.replaceable]`region-code` with your {aws} Region, [.replaceable]`vpc-id` with your VPC ID, [.replaceable]`subnet-id-1 subnet-id-2` with subnet IDs in different Availability Zones, and [.replaceable]`sg-id` with a security group that allows HTTPS inbound traffic.
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -66,16 +61,15 @@ aws ec2 create-vpc-endpoint \
   --vpc-endpoint-type Interface \
   --service-name com.amazonaws.[.replaceable]`region-code`.eks-capabilities \
   --vpc-id [.replaceable]`vpc-id` \
-  --subnet-ids [.replaceable]`subnet-id-1` [.replaceable]`subnet-id-2` \
+  --subnet-ids [.replaceable]`subnet-id-1 subnet-id-2` \
   --security-group-ids [.replaceable]`sg-id`
 ----
 +
 Note the `VpcEndpointId` in the response.
-====
 
 [IMPORTANT]
 ====
-Ensure the security group attached to the VPC endpoint allows inbound HTTPS (TCP port 443) traffic from the networks where your users or applications will access the Argo CD endpoint.
+Make sure the security group attached to the VPC endpoint allows inbound HTTPS (port 443) traffic. The traffic source must include all networks where your users or applications access the Argo CD endpoint.
 ====
 
 == Step 2: Configure private access on the Argo CD capability
@@ -97,18 +91,18 @@ aws eks create-capability \
   --configuration '{
     "argoCd": {
       "awsIdc": {
-        "idcInstanceArn": "[.replaceable]`arn:aws:sso:::instance/ssoins-1234567890abcdef`",
-        "idcRegion": "[.replaceable]`idc-region-code`"
+        "idcInstanceArn": "arn:aws:sso:::instance/ssoins-1234567890abcdef",
+        "idcRegion": "idc-region-code"
       },
       "rbacRoleMappings": [{
         "role": "ADMIN",
         "identities": [{
-          "id": "[.replaceable]`user-id`",
+          "id": "user-id",
           "type": "SSO_USER"
         }]
       }],
       "networkAccess": {
-        "vpceIds": ["[.replaceable]`vpce-0123456789abcdef0`"]
+        "vpceIds": ["vpce-0123456789abcdef0"]
       }
     }
   }'
@@ -127,7 +121,7 @@ aws eks update-capability \
   --configuration '{
     "argoCd": {
       "networkAccess": {
-        "vpceIds": ["[.replaceable]`vpce-0123456789abcdef0`"]
+        "vpceIds": ["vpce-0123456789abcdef0"]
       }
     }
   }'
@@ -149,26 +143,26 @@ The status returns to `ACTIVE` when the update is complete.
 
 == Step 3: Verify DNS resolution and connectivity
 
-After the capability is active with private access configured, verify that the Argo CD endpoint hostname resolves to private IP addresses.
+After the capability becomes active with private access configured, verify that the Argo CD endpoint hostname resolves to private IP addresses.
 
-Run the following command from any network:
+Run the following `nslookup` command from any network:
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
 nslookup [.replaceable]`your-argocd-endpoint.eks-capabilities.region-code.amazonaws.com`
 ----
 
-The response should show private IP addresses (for example, addresses in RFC 1918 ranges like `10.x.x.x` or `172.16.x.x`).
+The response should show private IP addresses (for example, addresses in RFC 1918 ranges such as `10.x.x.x` or `172.16.x.x`).
 
 If the endpoint does not resolve to private IPs, verify that:
 
-* The capability status is `ACTIVE` (DNS records are created after the capability becomes active)
+* The capability status is `ACTIVE` ({aws} creates DNS records after the capability becomes active)
 * The VPC endpoint is in the `available` state
 * The VPC endpoint ID in the capability configuration matches the endpoint you created
 
 [NOTE]
 ====
-When private access is configured, the Argo CD endpoint hostname resolves to private IP addresses. To connect, you must have network connectivity to those private IPs through your VPC, a VPN connection, or {aws} Direct Connect.
+After you configure private access, the Argo CD endpoint hostname resolves to private IP addresses. To connect, you must have network connectivity to those private IPs through your VPC, a VPN connection, or {aws} Direct Connect.
 ====
 
 == Disable private access
@@ -192,6 +186,6 @@ aws eks update-capability \
 
 == Considerations
 
-* When private access is enabled, the Argo CD endpoint is only reachable from within your VPC or networks connected to it (for example, through VPN or {aws} Direct Connect).
-* The VPC endpoint must remain in the `available` state for private access to function. If the VPC endpoint is deleted, access to the Argo CD endpoint is disrupted until a new endpoint is created and the capability is updated.
-* VPC endpoint policies are not currently supported for the `eks-capabilities` service endpoint.
+* After you enable private access, the Argo CD endpoint is only reachable from within your VPC or networks connected to it (for example, through VPN or {aws} Direct Connect).
+* The VPC endpoint must remain in the `available` state for private access to function. If you delete the VPC endpoint, you lose access to the Argo CD endpoint until you create a new endpoint and update the capability.
+* {aws} doesn't currently support VPC endpoint policies for the `eks-capabilities` service endpoint.
