@@ -31,7 +31,8 @@ If there is an AZ impairment in your environment, you can initiate a zonal shift
 After your Amazon EKS cluster has zonal shift enabled with ARC, you can start a zonal shift or enable zonal autoshift by using the ARC Console, the {aws} CLI, or the zonal shift and zonal autoshift APIs. 
 During an EKS zonal shift, the following is performed automatically:
 
-* All the nodes in the impacted AZ are cordoned. This prevents the Kubernetes Scheduler from scheduling new Pods onto nodes in the unhealthy AZ. 
+* All the nodes in the impacted AZ are cordoned. This prevents the Kubernetes Scheduler from scheduling new Pods onto nodes in the unhealthy AZ.
+* If you're using <<automode,EKS Auto Mode>>, EKS Auto Mode automatically stops provisioning new nodes in the impaired AZ. Voluntary disruption actions such as consolidation and drift that would affect the impaired AZ are also suspended. Pods with strict scheduling requirements that target the impaired AZ (such as persistent volume bindings, node affinity, or strict topology spread constraints) do not result in new node launch attempts to that AZ.
 * If you're using <<managed-node-groups,Managed Node Groups>>, link:autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage["_Availability Zone rebalancing_",type="documentation"] is suspended, and your Auto Scaling group is updated to ensure that new EKS data plane nodes are only launched in healthy AZs.
 * The nodes in the unhealthy AZ are not terminated, and Pods are not evicted from the nodes. This ensures that when a zonal shift expires or is canceled, your traffic can be safely returned to the AZ for full capacity.
 * The EndpointSlice controller finds all Pod endpoints in the impaired AZ, and removes them from the relevant EndpointSlices. This ensures that only Pod endpoints in healthy AZs are targeted to receive network traffic. When a zonal shift is canceled or expires, the EndpointSlice controller updates the EndpointSlices to include the endpoints in the restored AZ.
@@ -45,6 +46,11 @@ image::images/zs-traffic-flow-after-2.png[Illustration of network traffic]
 
 
 == EKS zonal shift requirements
+
+[IMPORTANT]
+====
+A zonal shift shifts all in-cluster traffic away from an Availability Zone. If your workloads are not spread across multiple AZs with sufficient replicas, starting a zonal shift can itself cause an availability impact to your applications because there are no healthy endpoints to receive traffic. You should validate that your cluster environment can operate with one fewer AZ before enabling zonal autoshift or starting a manual zonal shift.
+====
 
 For zonal shift to work successfully with EKS, you must set up your cluster environment ahead of time to be resilient to an AZ impairment. The following is a list of configuration options that help to ensure resilience.
 
@@ -229,7 +235,7 @@ By using ARC zonal shift or zonal autoshift in your EKS cluster, you can better 
 
 *How does this feature work with other {aws} services?*
 
-EKS integrates with ARC, which provides the primary interface for you to accomplish recovery operations in {aws}. To ensure that in-cluster traffic is appropriately routed away from an impaired AZ, EKS makes modifications to the list of network endpoints for Pods running in the Kubernetes data plane. If you're using Elastic Load Balancing to route external traffic into the cluster, you can register your load balancers with ARC and start a zonal shift on them to prevent traffic from flowing into the degraded AZ. Zonal shift also works with Amazon EC2 Auto Scaling groups that are created by EKS managed node groups. To prevent an impaired AZ from being used for new Kubernetes Pods or node launches, EKS removes the impaired AZ from the Auto Scaling groups. 
+EKS integrates with ARC, which provides the primary interface for you to accomplish recovery operations in {aws}. To ensure that in-cluster traffic is appropriately routed away from an impaired AZ, EKS makes modifications to the list of network endpoints for Pods running in the Kubernetes data plane. If you're using Elastic Load Balancing to route external traffic into the cluster, you can register your load balancers with ARC and start a zonal shift on them to prevent traffic from flowing into the degraded AZ. If you're using EKS Auto Mode, EKS Auto Mode automatically restricts node provisioning to healthy AZs. Zonal shift also works with Amazon EC2 Auto Scaling groups that are created by EKS managed node groups. To prevent an impaired AZ from being used for new Kubernetes Pods or node launches, EKS removes the impaired AZ from the Auto Scaling groups. 
 
 *How is this feature different from default Kubernetes protections?*
 
@@ -243,15 +249,21 @@ Yes, if you want a fully automated way of using ARC zonal shift, you can enable 
 
 If you are not pre-scaled and rely on provisioning additional nodes or Pods during a zonal shift, you risk a delayed recovery. The process of adding new nodes to the Kubernetes data plane takes some time, which can impact the real-time performance and availability of your applications, especially when there's a zonal impairment. Additionally, in the event of a zonal impairment, you may encounter a potential compute capacity constraint that could prevent newly required nodes from being added to the healthy AZs. 
 
+If you are using EKS Auto Mode, EKS Auto Mode automatically provisions new nodes in healthy AZs to meet unschedulable Pod demand. However, new nodes still take time to launch and become ready. For the fastest recovery, we recommend pre-scaling your workloads across multiple AZs.
+
 If your workloads are not pre-scaled and spread across all AZs in your cluster, a zonal impairment might impact the availability of an application that is only running on worker nodes in an impacted AZ. To mitigate the risk of a complete availability outage for your application, EKS has a fail safe for traffic to be sent to Pod endpoints in an impaired zone if that workload has all of its endpoints in the unhealthy AZ. However, we strongly recommend that you pre-scale and spread your applications across all AZs to maintain availability in the event of a zonal issue. 
 
 *How does this work if I'm running a stateful application?*
 
 If you are running a stateful application, you must assess its fault tolerance, based on your use case and architecture. If you have an active/standby architecture or pattern, there might be instances where the active is in an impaired AZ. At the application level, if the standby is not activated, you might run into issues with your application. You might also run into issues when new Kubernetes Pods are launched in healthy AZs, since they won't be able to attach to the persistent volumes bounded to the impaired AZ. 
 
-*Does this feature work with Karpenter?*
+*Does this feature work with EKS Auto Mode?*
 
-Karpenter support is available with ARC zonal shift and zonal autoshift in EKS with https://github.com/aws/karpenter-provider-aws[Karpenter version 1.12 or greater].
+Yes. When you enable zonal shift on an EKS Auto Mode cluster, EKS Auto Mode automatically responds to zonal shift events. During a zonal shift, EKS Auto Mode stops provisioning new nodes in the impaired AZ, suspends voluntary disruption actions (such as consolidation and drift) that would affect the impaired AZ, and avoids launching capacity for Pods with strict scheduling requirements that target the impaired AZ. You don't need any additional configuration beyond enabling zonal shift on the cluster.
+
+*Does this feature work with self-managed Karpenter?*
+
+Self-managed Karpenter support is available with ARC zonal shift and zonal autoshift in EKS with https://github.com/aws/karpenter-provider-aws[Karpenter version 1.12 or greater].
 
 *Does this feature work with EKS Fargate?*
 

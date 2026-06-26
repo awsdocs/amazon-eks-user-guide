@@ -30,7 +30,7 @@ EKS Auto Mode provides the following high-level features:
 
 *Streamline Kubernetes Cluster Management*: EKS Auto Mode streamlines EKS management by providing production-ready clusters with minimal operational overhead. With EKS Auto Mode, you can run demanding, dynamic workloads confidently, without requiring deep EKS expertise.
 
-*Application Availability*: EKS Auto Mode dynamically adds or removes nodes in your EKS cluster based on the demands of your Kubernetes applications. This minimizes the need for manual capacity planning and ensures application availability.
+*Application Availability*: EKS Auto Mode dynamically adds or removes nodes in your EKS cluster based on the demands of your Kubernetes applications. This minimizes the need for manual capacity planning and ensures application availability. EKS Auto Mode also integrates with <<zone-shift,Amazon Application Recovery Controller (ARC) zonal shift>> to automatically stop provisioning nodes in an impaired Availability Zone and suspend voluntary disruption during a zonal shift event.
 
 //what?
 *Efficiency*: EKS Auto Mode is designed to optimize compute costs while adhering to the flexibility defined by your NodePool and workload requirements. It also terminates unused instances and consolidates workloads onto other nodes to improve cost efficiency. For guidance on configuring your cluster for cost efficiency and avoiding configurations that block consolidation, see <<auto-cost-control,Cost optimization in EKS Auto Mode>>.
