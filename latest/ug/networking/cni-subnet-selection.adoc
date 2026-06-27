@@ -38,6 +38,11 @@ To disable this feature, set `ENABLE_SUBNET_DISCOVERY=false` on the `aws-node` D
 
 The `kubernetes.io/role/cni` tag controls how the VPC CNI treats subnets for ENI operations and Pod IP allocation. The tag has different effects depending on whether the VPC CNI is creating a new ENI or reconciling an existing one.
 
+[IMPORTANT]
+====
+The Cluster-scoped and exclusionary tagging mechanisms are only available starting in version `v1.22.2` of the VPC CNI. Before this version, only the standard opt-in behavior is available via the tag `kubernetes.io/role/cni=1`.
+====
+
 [#cni-subnet-selection-tag-values]
 === Tag values
 
