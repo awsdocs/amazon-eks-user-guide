@@ -20,7 +20,7 @@ EKS Auto Mode uses a Karpenter-based system to manage worker node infrastructure
 
 . Validates prerequisites and refreshes rollback readiness insights.
 . Drifts nodes towards the desired rollback version using a Karpenter-based system, honoring configured disruption controls.
-. Once all nodes are within the Kubernetes version skew policy for the desired rollback version, EKS re-checks insights and proceeds with the control plane rollback.
+. After all nodes are within the Kubernetes version skew policy for the desired rollback version, EKS re-checks insights and proceeds with the control plane rollback.
 
 The control plane remains on the current (newer) version and continues serving traffic normally while nodes are rolling back. The Kubernetes version skew policy allows nodes to run up to three minor versions older than the kube-apiserver, so this intermediate state is valid.
 
@@ -172,7 +172,7 @@ For more information about managing disruption controls, see https://repost.aws/
 '''
 
 [#automode-cancel-rollback]
-== Cancelling a rollback
+== Canceling a rollback
 
 A rollback is in a cancellable state only while nodes are rolling back. You can use CancelUpdate during this phase to stop the operation.
 

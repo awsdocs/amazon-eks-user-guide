@@ -109,8 +109,6 @@ include::iam_snippet:dbfd52f1-1fc5-4ab5-a4ac-7d2c5fcfa7c2[]
 [#policy-cancel-update]
 == Cancel a cluster update (rollback)
 
-// TODO: Verify IAM action name is exactly "eks:CancelUpdate" — could be eks:CancelClusterUpdate or similar. Verify tag-based conditions are supported for this action.
-
 To allow users to cancel in-progress rollback operations, grant the `eks:CancelUpdate` action. You can scope this using resource ARN or tag-based conditions.
 
 *Resource ARN-based:*

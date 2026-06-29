@@ -14,7 +14,7 @@ Amazon EKS supports Kubernetes versions longer than they are supported upstream,
 
 This topic gives important changes to be aware of for each [.noloc]`Kubernetes` version in extended support. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster.
 
-NOTE: If you rollback from a version under standard support to a version under extended support, extended support charges resume for that cluster.
+NOTE: If you roll back from a version under standard support to a version under extended support, extended support charges resume for that cluster.
 
 [#kubernetes-1-32]
 == Kubernetes 1.32

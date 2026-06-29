@@ -51,7 +51,7 @@ EKS cluster insights automatically scans Amazon EKS clusters with hybrid nodes t
 
 === Rollback readiness insights
 
-Rollback readiness insights are a specific type of insight checks within cluster insights. These checks return insights related to Kubernetes version rollback readiness. Amazon EKS runs rollback readiness insight checks on clusters that have been upgraded within the last 7 days. Rollback readiness insights are point-in-time checks — they reflect the cluster state at the time of evaluation, not continuously.
+Rollback readiness insights are a specific type of insight checks within cluster insights. These checks return insights related to Kubernetes version rollback readiness. Amazon EKS runs rollback readiness insight checks on clusters that have been upgraded within the last 7 days. Rollback readiness insights are point-in-time checks—they reflect the cluster state at the time of evaluation, not continuously.
 
 After upgrading your cluster Kubernetes version, you can use the *Upgrade insights* tab of the observability dashboard in the link:eks/home#/clusters[Amazon EKS console,type="console"] to review rollback readiness insights. If your cluster has identified issues, review them and make appropriate fixes. The issues include links to Amazon EKS and Kubernetes documentation. After fixing the issue, refresh cluster insights on-demand to fetch the latest insights. If all issues have been resolved, you can proceed with the rollback.
 
@@ -62,7 +62,7 @@ Amazon EKS returns insights related to Kubernetes version rollback readiness und
 Rollback readiness insights only check EKS-managed add-on versions. For self-managed add-ons, or if you have overridden the version of a managed add-on outside of the EKS add-on lifecycle, insights do not detect version incompatibilities. You are responsible for validating compatibility of those add-ons with the target version before rolling back.
 ====
 
-Insights with ERROR status block the rollback until the issue is resolved. You can use the `--force` flag to bypass insight checks if you choose to proceed at your own risk. Insights with WARNING status are advisory and do not prevent rollback. For more information, see <<rollback-cluster>>.
+Insights with ERROR or UNKNOWN status block the rollback until the issue is resolved. You can use the `--force` flag to bypass insight checks if you choose to proceed at your own risk. Insights with WARNING status are advisory and do not prevent rollback. For more information, see <<rollback-cluster>>.
 
 == Get started
 

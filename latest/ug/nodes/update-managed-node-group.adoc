@@ -129,9 +129,9 @@ That means when you reduce the `desiredSize` of an Amazon EKS managed node group
 [#mng-rollback]
 == Rollback a managed node group version
 
-If you need to rollback your cluster control plane to a previous Kubernetes version, you must first rollback your managed node groups to ensure compliance with the Kubernetes version skew policy. Worker nodes cannot run a version newer than the control plane.
+If you need to roll back your cluster control plane to a previous Kubernetes version, you must first roll back your managed node groups to ensure compliance with the Kubernetes version skew policy. Worker nodes cannot run a version newer than the control plane.
 
-You can rollback a managed node group using the `UpdateNodegroupVersion` API with the previous Kubernetes version:
+You can roll back a managed node group using the `UpdateNodegroupVersion` API with the previous Kubernetes version:
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----

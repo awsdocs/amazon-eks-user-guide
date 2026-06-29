@@ -156,7 +156,7 @@ NOTE: EKS automatically refreshes insights when you initiate a rollback to ensur
 
 | *UNKNOWN*
 | Unable to determine status
-| Rollback not allowed
+| Rollback blocked until resolved, or use `--force` to bypass
 |===
 
 Insights with *ERROR* or *UNKNOWN* status block the rollback. Insights with PASSING or WARNING status do not prevent you from rolling back.

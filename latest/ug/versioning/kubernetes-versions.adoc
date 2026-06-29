@@ -56,7 +56,7 @@ For important changes to be aware of for each version in extended support, see l
 [#version-rollback]
 == Version rollback
 
-Clusters upgraded through in-place upgrade can be rolled back to the previous minor version within 7 days of the upgrade completing. To rollback to a version in extended support, you must first change the cluster's upgrade policy to `EXTENDED`. Clusters that were automatically upgraded at the end of extended support cannot be rolled back. For more information, see <<rollback-cluster>>.
+Clusters upgraded through in-place upgrade can be rolled back to the previous minor version within 7 days of the upgrade completing. To roll back to a version in extended support, you must first change the cluster's upgrade policy to `EXTENDED`. Clusters that were automatically upgraded at the end of extended support cannot be rolled back. For more information, see <<rollback-cluster>>.
 
 [#kubernetes-release-calendar]
 == Amazon EKS Kubernetes release calendar
