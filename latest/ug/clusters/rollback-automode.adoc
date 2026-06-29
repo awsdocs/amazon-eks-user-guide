@@ -16,19 +16,17 @@ For general information about version rollback, including prerequisites, insight
 
 == How Auto Mode rollback works
 
-EKS Auto Mode uses the Karpenter controller to manage worker node infrastructure, including Kubernetes version upgrades and rollbacks. When you call `UpdateClusterVersion` with the previous (N-1) version on a cluster with Auto Mode enabled, EKS performs the following sequence:
+EKS Auto Mode uses a Karpenter-based system to manage worker node infrastructure, including Kubernetes version upgrades and rollbacks. When you call `UpdateClusterVersion` with the previous (N-1) version on a cluster with Auto Mode enabled, EKS performs the following sequence:
 
 . Validates prerequisites and refreshes rollback readiness insights.
-. Detects that Auto Mode is enabled on the cluster.
-. Begins rolling back Auto Mode nodes to the previous version. Existing nodes are replaced with new nodes running the previous version AMI.
-. Honors all configured disruption controls during node replacement.
-. Once all Auto Mode nodes are on the previous version and within the Kubernetes version skew policy, EKS re-checks insights and proceeds with the control plane rollback.
+. Drifts nodes towards the desired rollback version using a Karpenter-based system, honoring configured disruption controls.
+. Once all nodes are within the Kubernetes version skew policy for the desired rollback version, EKS re-checks insights and proceeds with the control plane rollback.
 
-The control plane remains on the current (newer) version and continues serving traffic normally while nodes are rolling back. The Kubernetes version skew policy allows nodes to run one version behind the control plane, so this intermediate state is valid.
+The control plane remains on the current (newer) version and continues serving traffic normally while nodes are rolling back. The Kubernetes version skew policy allows nodes to run up to three minor versions older than the kube-apiserver, so this intermediate state is valid.
 
 NOTE: You trigger the rollback using the same API and process described in <<rollback-cluster>>. There is no separate API for Auto Mode node rollback.
 
-NOTE: The node rollback phase (steps 3-4) can take anywhere from minutes to 7 days depending on your disruption controls. If the node rollback does not complete within the configured timeout, the update is marked as failed.
+NOTE: The node rollback phase (step 2) can take anywhere from minutes to 7 days depending on your disruption controls. If the node rollback does not complete within the configured timeout, the update is marked as failed.
 
 NOTE: While a rollback is in progress, other customer-triggered control plane updates are blocked. To perform a different update, cancel the rollback first using the CancelUpdate API.
 
@@ -52,7 +50,7 @@ NOTE: While a rollback is in progress, other customer-triggered control plane up
 | Cluster is fully on the previous version.
 |===
 
-The cluster status remains `ACTIVE` during the node rollback phase. This is consistent with the upgrade experience where cluster status does not remain `UPDATING` while nodes upgrade. Use `ListUpdates` or `DescribeUpdate` to determine if a rollback is in progress. In the Amazon EKS console, navigate to your cluster and open the *Update history* tab to view the status of the update ID associated with the rollback.
+The cluster status remains `ACTIVE` during the node rollback phase. Use `ListUpdates` or `DescribeUpdate` to determine if a rollback is in progress. In the Amazon EKS console, navigate to your cluster and open the *Update history* tab to view the status of the update ID associated with the rollback.
 
 To track individual node progress during rollback, check the Kubernetes version of your Auto Mode nodes:
 
@@ -176,7 +174,7 @@ For more information about managing disruption controls, see https://repost.aws/
 [#automode-cancel-rollback]
 == Cancelling a rollback
 
-The `CancelUpdate` API allows you to cancel an in-progress version rollback. This capability is only available for Auto Mode rollback, because the node rollback phase can be a long-running operation (up to 7 days with conservative disruption budgets). Standard clusters without Auto Mode complete rollback quickly and do not have a cancellable phase.
+A rollback is in a cancellable state only while nodes are rolling back. You can use CancelUpdate during this phase to stop the operation.
 
 // TODO: Verify cancel-update CLI syntax and parameters
 [source,bash,subs="verbatim,attributes"]
@@ -197,7 +195,7 @@ aws eks cancel-update \
 | Only while Auto Mode nodes are being rolled back (before control plane rollback starts)
 
 | Semantics
-| Best-effort stop. Signals the controller to stop rolling back nodes.
+| Best-effort stop. Stops the node rollback operation.
 
 | Mid-disruption nodes
 | If a node is mid-disruption at cancel time, it completes its current operation.
@@ -211,13 +209,13 @@ aws eks cancel-update \
 
 === After cancellation
 
-After cancelling a rollback, you can immediately:
+Upon successful cancellation, nodes drift towards the current cluster version as usual. The update transitions from `Cancelling` to `Cancelled`.
+
+After cancellation, you can immediately:
 
 * Retry the rollback (as long as you are still within the 7-day eligibility window).
 * Perform a different cluster update.
 * Leave the cluster as-is on the current version.
-
-There is no cooldown period after cancellation.
 
 === When cancel is not possible
 
@@ -245,7 +243,7 @@ aws eks update-cluster-version \
 If all nodes have not completed rollback within the specified timeout:
 
 . The rollback times out.
-. The Auto Mode controller begins reconciling nodes back to the current (latest) Kubernetes version.
+. Nodes begin drifting back to the current cluster version.
 . The control plane remains on the current version (it was never rolled back).
 . The update status transitions to `Failed`.
 
@@ -274,11 +272,9 @@ The only way to speed up node rollback is to adjust the disruption controls them
 [#automode-iac-timeout]
 == IaC timeout conflicts
 
-Infrastructure-as-Code tools have timeout limitations that might conflict with Auto Mode rollback duration. CloudFormation allows up to 36 hours per resource, after which it triggers a stack rollback (roll-forward) that can leave the cluster in an unexpected state requiring manual intervention. Terraform Enterprise/Cloud has an approximately 24-hour timeout, though client-side timeouts might vary depending on credential expiration and other factors.
+Infrastructure-as-Code tools have timeout limitations that might conflict with Auto Mode rollback duration. CloudFormation allows up to 36 hours per resource. If the operation times out, CloudFormation treats it as a no-op, which can leave the cluster in a drifted state where the template does not reflect the actual cluster version. Version rollback must be explicitly initiated. Terraform Enterprise/Cloud has an approximately 24-hour timeout, though client-side timeouts might vary depending on credential expiration and other factors.
 
 To align rollback duration with your IaC tool, use the `timeoutMinutes` parameter in `rollbackConfig` to set an appropriate timeout. If your IaC tool times out, use the CancelUpdate API directly to regain control. If you have restrictive disruption budgets, consider initiating rollback directly through CLI or API instead of IaC.
-
-NOTE: CloudFormation and Terraform do not directly support the CancelUpdate API. If you need to cancel a rollback initiated through IaC, you must call the API directly.
 
 '''
 
