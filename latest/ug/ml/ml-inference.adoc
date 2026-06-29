@@ -101,3 +101,5 @@ The <<ml-inference-load-serve-model,Load & Serve Model>> walkthrough guides you 
 The walkthrough uses the cluster infrastructure from the <<ml-cluster-setup>> section and works with both EKS Auto Mode and self-managed Karpenter paths.
 
 include::ml-inference-load-serve-model.adoc[leveloffset=+1]
+
+include::ml-inference-autoscaling.adoc[leveloffset=+1]

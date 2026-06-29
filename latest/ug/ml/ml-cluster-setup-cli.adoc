@@ -159,7 +159,7 @@ export KARPENTER_VERSION=1.12.0
 ----
 +
 [#cluster-setup-cli-step1-karpenter-cluster-yaml]
-.Cluster config YAML and `eksctl create cluster`
+.Cluster config YAML
 [%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
@@ -189,7 +189,7 @@ karpenter:
 
 managedNodeGroups:
   - name: system
-    instanceType: m6i.2xlarge
+    instanceTypes: ["m6i.2xlarge", "m5.2xlarge", "m6a.2xlarge", "m5a.2xlarge", "m7i.2xlarge"]
     desiredCapacity: 2
     minSize: 2
     maxSize: 3
@@ -202,10 +202,17 @@ addons:
   - name: eks-pod-identity-agent
   - name: eks-node-monitoring-agent
 EOF
-
-eksctl create cluster -f /tmp/cluster-karpenter.yaml
 ----
 ====
++
+The `system` managed node group lists several instance types of the same size (8 vCPU, 32 GiB) rather than a single type. If one type is temporarily unavailable in an Availability Zone, the node group's Auto Scaling group falls back to another type, which avoids `InsufficientInstanceCapacity` launch failures. For an On-Demand managed node group, all listed instance types must have the same vCPU and memory so the node size is uniform.
++
+Create the cluster with the config file:
++
+[source,bash]
+----
+eksctl create cluster -f /tmp/cluster-karpenter.yaml
+----
 +
 This command takes about 15 minutes. It creates an EKS cluster with a managed node group dedicated to hosting add-ons and the Karpenter controller. Karpenter is installed with the Spot interruption queue enabled so it can handle Spot interruption and rebalance recommendations. The `autoModeConfig.enabled: false` setting makes it explicit that this cluster does not use EKS Auto Mode, so the Karpenter components installed in this path are responsible for node management.
 +
@@ -405,42 +412,18 @@ spec:
     karpenter.sh/discovery: ${CLUSTER_NAME}
   instanceStorePolicy: RAID0
   userData: |
-    MIME-Version: 1.0
-    Content-Type: multipart/mixed; boundary="BOUNDARY"
-
-    --BOUNDARY
-    Content-Type: application/node.eks.aws
-
-    ---
     apiVersion: node.eks.aws/v1alpha1
     kind: NodeConfig
     spec:
       featureGates:
         FastImagePull: true
-      containerd:
-        config: |
-          [plugins."io.containerd.snapshotter.v1.soci"]
-            [plugins."io.containerd.snapshotter.v1.soci".blob]
-              max_concurrent_downloads_per_image = 20
-              concurrent_download_chunk_size = "16mb"
-              max_concurrent_unpacks_per_image = 12
-              discard_unpacked_layers = true
-
-    --BOUNDARY--
 EOF
 ----
 ====
 +
 `instanceStorePolicy: RAID0` assembles local NVMe disks into a RAID-0 array. The `al2023@latest` AMI alias resolves to the EKS-optimized AL2023 AMI. When Karpenter launches a GPU instance type, it automatically selects the AL2023_x86_64_NVIDIA accelerated variant, which includes the NVIDIA driver pre-installed.
 +
-The `FastImagePull` feature gate enables SOCI snapshotter parallel pull mode, which downloads and unpacks image layers concurrently. This matches the EKS Auto Mode behavior on G, P, and Trn instance families. The `containerd.config` block tunes the SOCI snapshotter for ECR-hosted images:
-+
---
-*  `max_concurrent_downloads_per_image: 20` allows up to 20 layer downloads in parallel per image. Default is 3 on Bottlerocket and 20 on AL2023. Recommended value for ECR.
-*  `concurrent_download_chunk_size: "16mb"` splits each layer into 16 MB chunks downloaded in parallel via HTTP range requests. Recommended for registries that support range GETs (ECR does).
-*  `max_concurrent_unpacks_per_image: 12` unpacks up to 12 layers at once. Default is 1 on Bottlerocket and 12 on AL2023.
-*  `discard_unpacked_layers: true` deletes compressed layer blobs after unpacking to save disk space.
---
+The `FastImagePull` feature gate enables SOCI snapshotter parallel pull mode, which downloads and unpacks image layers concurrently. This matches the EKS Auto Mode behavior on G, P, and Trn instance families.
 +
 For more SOCI tuning options (concurrent downloads per image, chunk size, etc.), see the https://github.com/aws-samples/karpenter-blueprints/tree/main/blueprints/soci-snapshotter[Karpenter SOCI blueprint].
 +
@@ -653,7 +636,7 @@ Spot instances launched by Karpenter will not appear in the EC2 Spot Requests co
 [#cluster-setup-cli-attach-odcr]
 == Step 4: Add reserved capacity to the NodePool (optional)
 
-To use reserved capacity first with Spot/On-Demand fallback, create an ODCR and attach it to your NodeClass, then update the dynamic NodePool from Step 2 to also allow `reserved` capacity. The reservation API call is the same for both paths; the NodeClass attachment differs because EKS Auto Mode and self-managed Karpenter use different NodeClass kinds.
+To use reserved capacity first with Spot/On-Demand fallback, create an On-Demand Capacity Reservation (ODCR) and attach it to your NodeClass, then update the dynamic NodePool from Step 2 to also allow `reserved` capacity. The reservation API call is the same for both paths; the NodeClass attachment differs because EKS Auto Mode and self-managed Karpenter use different NodeClass kinds.
 
 [WARNING]
 ====
@@ -808,28 +791,11 @@ spec:
   capacityReservationSelectorTerms:
     - id: "$CAPACITY_RESERVATION_ID"
   userData: |
-    MIME-Version: 1.0
-    Content-Type: multipart/mixed; boundary="BOUNDARY"
-
-    --BOUNDARY
-    Content-Type: application/node.eks.aws
-
-    ---
     apiVersion: node.eks.aws/v1alpha1
     kind: NodeConfig
     spec:
       featureGates:
         FastImagePull: true
-      containerd:
-        config: |
-          [plugins."io.containerd.snapshotter.v1.soci"]
-            [plugins."io.containerd.snapshotter.v1.soci".blob]
-              max_concurrent_downloads_per_image = 20
-              concurrent_download_chunk_size = "16mb"
-              max_concurrent_unpacks_per_image = 12
-              discard_unpacked_layers = true
-
-    --BOUNDARY--
 EOF
 ----
 ====
@@ -1098,12 +1064,30 @@ Create the values file:
 [source,yaml]
 ----
 cat << EOF > /tmp/kube-prometheus-values.yaml
+alertmanager:
+  enabled: false
+
+prometheus-adapter:
+  enabled: false
+
 prometheus:
   serviceAccount:
     create: false
     name: amp-iamproxy-ingest-service-account
   prometheusSpec:
     serviceAccountName: amp-iamproxy-ingest-service-account
+    enableRemoteWriteReceiver: true
+    retention: 2h
+    scrapeInterval: 30s
+    evaluationInterval: 30s
+    podMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1Gi
+      limits:
+        memory: 8Gi
     remoteWrite:
       - url: "${AMP_ENDPOINT}api/v1/remote_write"
         sigv4:
@@ -1112,20 +1096,46 @@ prometheus:
           maxSamplesPerSend: 1000
           maxShards: 200
           capacity: 2500
-    retention: 5h
-    scrapeInterval: 30s
-    evaluationInterval: 30s
-    podMonitorSelectorNilUsesHelmValues: false
-    serviceMonitorSelectorNilUsesHelmValues: false
+    nodeSelector:
+      node-role: system
 
-alertmanager:
-  enabled: false
+prometheusOperator:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      memory: 256Mi
+  nodeSelector:
+    node-role: system
+  admissionWebhooks:
+    patch:
+      nodeSelector:
+        node-role: system
+
+kube-state-metrics:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 512Mi
+  nodeSelector:
+    node-role: system
 
 grafana:
   enabled: true
   serviceAccount:
     create: false
     name: grafana-sa
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 1Gi
+  nodeSelector:
+    node-role: system
   grafana.ini:
     auth.sigv4:
       enabled: true
@@ -1171,8 +1181,20 @@ grafana:
         datasource:
           - name: DS_PROMETHEUS
             value: Amazon-Managed-Prometheus
+      vllm-load-analysis:
+        gnetId: 25494
+        revision: 1
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Amazon-Managed-Prometheus
 
 prometheus-node-exporter:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 128Mi
   tolerations:
     - operator: Exists
 EOF
@@ -1183,10 +1205,10 @@ Validate the variables were populated correctly:
 
 [source,bash]
 ----
-grep -E "url:|region:|tolerations:" /tmp/kube-prometheus-values.yaml
+grep -E "url:|region:" /tmp/kube-prometheus-values.yaml
 ----
 
-You should see the full AMP endpoint URL (starting with `https://aps-workspaces...`), your region, and the node-exporter `tolerations:` line. If anything is empty, re-export the variables and recreate the file.
+You should see the full AMP endpoint URL (starting with `https://aps-workspaces...`) and your region. If either is empty, re-export the variables and recreate the file.
 
 Install the chart:
 
@@ -1588,7 +1610,7 @@ kubectl delete deployment gpu-overflow-test --ignore-not-found
 .Cancel the Capacity Reservation
 [%collapsible, expand-section="_collapse_all_"]
 ====
-If you created an ODCR, cancel it first:
+If you created an ODCR, cancel it first. Look up the reservation ID:
 
 [source,bash]
 ----
@@ -1598,6 +1620,13 @@ CAPACITY_RESERVATION_ID=$(aws ec2 describe-capacity-reservations \
   --query 'CapacityReservations[0].CapacityReservationId' \
   --output text \
   --region ${AWS_REGION})
+echo "Capacity reservation ID: ${CAPACITY_RESERVATION_ID}"
+----
+
+Cancel the reservation:
+
+[source,bash]
+----
 aws ec2 cancel-capacity-reservation --capacity-reservation-id ${CAPACITY_RESERVATION_ID}
 ----
 

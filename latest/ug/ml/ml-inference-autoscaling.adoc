@@ -1,0 +1,107 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-inference-autoscaling]
+= Autoscale AI model inference on GPUs with Amazon EKS
+:info_titleabbrev: Autoscaling
+
+[abstract]
+--
+Autoscale AI/ML inference workloads on GPUs with Amazon EKS and Karpenter, Horizontal Pod Autoscaler (HPA), and KEDA.
+--
+
+[TIP]
+====
+https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EKS AI/ML workshops.
+====
+
+This section covers the concepts and procedures for autoscaling AI inference workloads on GPUs with Amazon EKS. 
+
+The single vLLM model replica you deployed in the previous <<ml-inference-load-serve-model,Load & Serve Models>> section can serve a limited number of concurrent requests before new requests start waiting, which increases latency and can cause request timeouts. To keep pace with traffic, you can automatically scale the deployment horizontally. Autoscaling adds workload replicas as demand rises and removes them as demand falls, so you can avoid over-provisioning GPU capacity.
+
+Inference autoscaling happens in two stages.
+
+* *Node scaling* — When the Kubernetes scheduler has no room to place new pods on the existing nodes, pods stay `Pending`. Karpenter responds to `Pending` pods by provisioning GPU nodes to fit them, and removes nodes when the workload replicas scale back down.
+* *Pod scaling* — The https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/[Horizontal Pod Autoscaler] (HPA) watches a configured metric. When that metric crosses a configured threshold, HPA increases the workload replica count and new vLLM pods are created.
+
+The node scaling stage provides the GPU capacity workload replicas need to run. The pod scaling stage adjusts the number of workload replicas to keep your chosen metric near its target.
+
+== GPU node provisioning with Karpenter
+
+Karpenter manages the node lifecycle, provisioning nodes when workloads need them and consolidating or removing nodes when they don't. It works with the Kubernetes scheduler rather than replacing it. The scheduler places pods on nodes. Karpenter provisions capacity for the pods the scheduler can't fit, then lets the scheduler bind them once the node is `Ready`. 
+
+Karpenter handles GPU nodes differently than a fleet of CPU nodes.
+
+*GPUs are requested as whole units*:: Unless you use a GPU sharing technique such as time-slicing or MIG, a pod gets one or more whole GPUs rather than a fraction the way it would with CPU or memory. Each GPU has its own dedicated memory, so replicas on the same node don't share GPU memory. How this maps to nodes depends on the instance type:
++
+* *Single-GPU instance* (such as `g6.xlarge`) — The node holds exactly one replica. Replicas, GPUs, and nodes scale one-to-one, and each replica is isolated on its own instance.
+* *Multi-GPU instance* (such as `g6.12xlarge`, which has 4 GPUs) — The device plugin advertises the full GPU count, so Karpenter can pack several replicas onto one node, one per GPU.
+* *Multi-GPU pod* — A pod can request more than one GPU. For example, set `nvidia.com/gpu: 2` to shard a large model across two GPUs, and Karpenter places the pod on a node with that many GPUs free.
+
+*Karpenter optimizes for GPU availability and cost*:: Karpenter balances landing scarce GPU capacity against running it cost-effectively:
++
+* *Instance selection* — Given a flexible NodePool, Karpenter selects the lowest-cost instance type that fits `Pending` pods. When a launch hits insufficient capacity, it automatically retries other instance types and Availability Zones, which improves the odds of landing GPU capacity.
+* *Consolidation* — When demand drops and replicas scale in, Karpenter reclaims the freed nodes. `WhenEmptyOrUnderutilized` removes empty nodes and repacks replicas onto fewer nodes, while `WhenEmpty` reclaims a node only after nothing is scheduled on it.
+* *Protecting in-flight pods* — To keep pods from being interrupted during consolidation, add the `karpenter.sh/do-not-disrupt` annotation, set a PodDisruptionBudget, or use the `consolidateAfter` setting to delay consolidation.
+
+Once Karpenter has GPU capacity in place, the pod scaling stage takes over: HPA adds and removes replicas based on the metric you configure. The rest of this section covers how to choose that scaling metric for inference workloads.
+
+== GPU vs CPU autoscaling
+
+In Kubernetes, traditional CPU-based workloads autoscale out-of-the-box, but GPU-based inference does not. There are three main differences:
+
+=== Metrics availability for autoscaling
+
+*Kubernetes provides CPU and memory metrics to HPA out-of-the-box*:: The kubelet on each node reports CPU and memory usage to the Kubernetes metrics API, so HPA can read those values directly and scale workloads without additional components.
+
+*Accelerated workloads require additional metrics setup, exporters, and adapters*:: The kubelet does not report GPU or inference metrics. To scale GPU-based inference, you must add exporters that publish the relevant signals, such as vLLM application metrics and GPU metrics from the DCGM exporter, and adapters that expose those metrics to HPA.
+
+=== Resource allocation and sharing
+
+*Traditional workloads share CPU and memory in fractions*:: Linux cgroups divide CPU and memory into fractional resources, allowing multiple pods to share the same node. A pod can request a portion of a node's capacity, such as 100 millicores of CPU or 512 MiB of memory.
+
+*Accelerated workloads allocate and share GPUs through a GPU allocation framework*:: GPUs are not shared through cgroups like CPU and memory. The most common Kubernetes setup today uses the NVIDIA device plugin, which allocates whole GPUs to pods (for example, `nvidia.com/gpu: 1`). https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/[Dynamic Resource Allocation] (DRA) is a newer Kubernetes API that allocates GPUs through resource claims, providing more flexible scheduling and resource management. Both the device plugin and DRA can support GPU sharing techniques. Time-slicing allows multiple pods to share a GPU by interleaving access over time, while Multi-Instance GPU (MIG) partitions supported GPUs, such as NVIDIA A100 and H100, into hardware-isolated GPU instances.
+
+=== Scaling signals
+
+*Traditional workloads typically scale on CPU and memory utilization*:: Utilization is the standard autoscaling signal for CPU and memory workloads. It is a lagging indicator because it rises only after the workload is already under load, but for many traditional applications it is sufficient to drive scaling decisions.
+
+*Accelerated workloads should scale on leading indicator metrics, not GPU utilization*:: GPU utilization (`DCGM_FI_DEV_GPU_UTIL`) shows whether the GPU is busy, not how busy it is. Because an inference server such as vLLM can stay near 100% across a wide range of incoming requests, utilization is an unreliable autoscaling signal. Scale instead on leading indicators that rise as demand approaches capacity, such as request queue depth, time to first token (TTFT), and request latency.
+
+Of these three differences covered above, carefully consider your scaling signals. Because GPU utilization isn't a high-confidence signal of remaining inference capacity, you need to identify and collect signals that track _actual_ demand on the model inference server. 
+
+The next section covers which signals to use as your scaling metrics and how they work together.
+
+== Choosing scaling metrics
+
+No single metric tells you when to scale your model inference replicas, so you scale on a combination of signals from the inference server. These signals work together, each building on the previous one to catch demand earlier and more reliably than any single metric:
+
+[cols="1,2,2", options="header"]
+|===
+|Signal |Metric |Role in scaling
+
+|Queue
+|*Request queue depth* (number of requests waiting to be processed)
+|A leading indicator and the best default trigger, because a queue forms the moment demand exceeds capacity.
+
+|Latency
+|*Request latency* (p95 latency or TTFT)
+|Triggers scaling when responses are slow even if the queue has not yet built up, keeping user-facing latency within target.
+
+|GPU Memory
+|*KV cache utilization* (how full the GPU's request memory is)
+|Safeguards against running out of GPU memory; as it approaches its limit, the server begins rejecting or queuing requests.
+|===
+
+Together they form layers of defense: request queue depth is the primary trigger that fires the moment demand outpaces capacity, request latency adds a check for slow responses before a queue forms, and KV cache utilization is the backstop that guards against running out of GPU memory.
+
+== Putting it all into practice
+
+The following subsections show how to put these signals to work with a specific autoscaler.
+
+* <<ml-inference-autoscaling-thresholds,Find scaling metric thresholds>>. Load test a single vLLM replica to find its capacity ceiling and the queue depth and latency thresholds to scale on. Start here.
+* <<ml-inference-autoscaling-hpa-keda,Scale with HPA and KEDA>>. Autoscale vLLM replicas with KEDA and the Horizontal Pod Autoscaler, using request queue depth and end-to-end latency as the scaling signals.
+
+include::ml-inference-autoscaling-thresholds.adoc[leveloffset=+1]
+
+include::ml-inference-autoscaling-hpa-keda.adoc[leveloffset=+1]

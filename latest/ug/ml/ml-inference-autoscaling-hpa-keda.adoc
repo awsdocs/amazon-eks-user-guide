@@ -1,0 +1,276 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-inference-autoscaling-hpa-keda]
+= Autoscale AI inference with HPA and KEDA
+:info_titleabbrev: HPA and KEDA
+
+[abstract]
+--
+Autoscale a vLLM inference deployment on Amazon EKS with Horizontal Pod Autoscaler (HPA) and KEDA, using request queue depth and end-to-end latency as scaling signals.
+--
+
+[TIP]
+====
+https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EKS AI/ML workshops.
+====
+
+This section shows how to scale the `vllm-inference-app` Deployment based on the thresholds established in the <<ml-inference-autoscaling-thresholds,Find scaling metric thresholds>> section.
+
+The walkthrough uses the following tools:
+
+* https://keda.sh/[KEDA] (Kubernetes Event-Driven Autoscaler) is a CNCF project that queries Prometheus directly and creates a standard Kubernetes Horizontal Pod Autoscaler (HPA). It scales the deployment on vLLM queue depth (the primary demand signal) and p95 end-to-end latency (an SLO guardrail), adding replicas when either threshold is breached. 
++
+KEDA provides three primary benefits for GPU inference autoscaling:
++
+** *Scale to zero* — KEDA can scale deployments down to zero replicas when idle and scale them back up when demand returns, helping reduce GPU costs.
+** *Activation thresholds* — KEDA separates the threshold that activates scaling from the target threshold used to determine replica count. This allows you to ignore transient spikes and avoid waking up GPUs for a few requests.
+** *Simpler setup* — For GPU inference workloads, KEDA is often the simplest autoscaling mechanism to set up, with built-in Prometheus integration and no separate metrics adapter to manage.
+
+== Prerequisites
+
+This subsection continues from <<ml-inference-autoscaling-thresholds,Find scaling metric thresholds>>. Make sure you have completed <<ml-inference-load-serve-model,Load & Serve Models>> and the <<cluster-setup-cli-monitoring,Monitoring>> setup, so the `vllm-inference-app` Deployment and Service are running in the `default` namespace and kube-prometheus-stack is scraping vLLM metrics.
+
+If you opened a new terminal, set the cluster name and region you used earlier:
+
+[source,bash]
+----
+export CLUSTER_NAME=ai-eks-docs
+export AWS_REGION=us-east-2
+----
+
+== Step 1: Install KEDA
+
+Install KEDA with Helm into its own namespace:
+
+[source,bash]
+----
+helm repo add kedacore https://kedacore.github.io/charts
+helm repo update
+
+helm install keda kedacore/keda --namespace keda --create-namespace
+----
+
+Verify the KEDA pods are running:
+
+[source,bash]
+----
+kubectl get pods -n keda
+----
+
+Expected output:
+
+[source,console]
+----
+NAME                                      READY   STATUS    RESTARTS   AGE
+keda-admission-webhooks-7d4d6c6f9-xxxxx   1/1     Running   0          40s
+keda-operator-6b8f9c5d7c-xxxxx            1/1     Running   0          40s
+keda-operator-metrics-apiserver-xxxxx     1/1     Running   0          40s
+----
+
+== Step 2: Create the KEDA ScaledObject
+
+A `ScaledObject` tells KEDA which Deployment to scale, the replica bounds, and the triggers. This configuration uses two triggers: queue depth as the primary demand signal and p95 end-to-end latency as an SLO guardrail. The `metricType: AverageValue` setting makes KEDA divide each metric across replicas, so the thresholds are interpreted per pod.
+
+This walkthrough uses the example thresholds from the <<ml-inference-autoscaling-thresholds,Find scaling metric thresholds>> section: scale up when average queue depth exceeds *25 waiting requests per pod* or when p95 end-to-end latency exceeds *5 seconds*. Substitute the values you measured for your own model, GPU, and request shapes.
+
+[source,yaml]
+----
+cat << EOF | kubectl apply -f -
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: vllm-inference-app
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: vllm-inference-app
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  advanced:
+    horizontalPodAutoscalerConfig:
+      name: vllm-inference-app
+      behavior:
+        scaleUp:
+          stabilizationWindowSeconds: 30
+          policies:
+            - type: Pods
+              value: 2
+              periodSeconds: 60
+          selectPolicy: Max
+        scaleDown:
+          stabilizationWindowSeconds: 300
+          policies:
+            - type: Pods
+              value: 1
+              periodSeconds: 120
+          selectPolicy: Min
+  triggers:
+    # Primary: queue depth (demand exceeds capacity)
+    - type: prometheus
+      metricType: AverageValue
+      metadata:
+        serverAddress: http://kube-prometheus-stack-prometheus.monitoring.svc:9090
+        query: sum(vllm:num_requests_waiting) or vector(0)
+        threshold: "25"
+        activationThreshold: "1"
+    # SLO guardrail: p95 end-to-end request latency (seconds)
+    - type: prometheus
+      metricType: AverageValue
+      metadata:
+        serverAddress: http://kube-prometheus-stack-prometheus.monitoring.svc:9090
+        query: histogram_quantile(0.95, sum(rate(vllm:e2e_request_latency_seconds_bucket[1m])) by (le)) or vector(0)
+        threshold: "5"
+EOF
+----
+
+The key settings:
+
+* *Queue depth trigger* — `query` returns the total number of waiting requests across all vLLM pods. The `or vector(0)` clause returns `0` instead of an empty result when no requests are waiting, which prevents the trigger from going inactive. `threshold: "25"` is the per-pod queue-depth target you established in <<ml-inference-autoscaling-thresholds,Find scaling metric thresholds>>, and `activationThreshold: "1"` keeps the deployment at `minReplicaCount` until at least one request is waiting, so it does not scale on an idle signal.
+* *Latency trigger* — `query` returns the p95 end-to-end request latency in seconds, computed from the vLLM latency histogram over a 1-minute window. `threshold: "5"` is the latency SLO guardrail from <<ml-inference-autoscaling-thresholds,Find scaling metric thresholds>>. When p95 latency exceeds it, KEDA scales up even if the queue has not yet built up.
+* *Trigger evaluation* — KEDA scales to satisfy whichever trigger demands the most replicas, so a breach of either signal triggers a scale-up.
+* *Scale-up and scale-down behavior* — Scale-up is responsive (30-second window, up to 2 pods per minute) because queuing or rising latency means users are already waiting. Scale-down is conservative (5-minute window, 1 pod every 2 minutes) because GPU pods are slow to start. This approach avoids removing capacity you may need again moments later.
+
+Verify the ScaledObject is ready:
+
+[source,bash]
+----
+kubectl get scaledobject vllm-inference-app
+----
+
+Expected output:
+
+[source,console]
+----
+NAME                 SCALETARGETKIND      SCALETARGETNAME      MIN   MAX   READY   ACTIVE
+vllm-inference-app   apps/v1.Deployment   vllm-inference-app   1     5     True    False
+----
+
+`READY: True` means the triggers are valid and KEDA is managing the deployment. `ACTIVE: False` is expected when no traffic is flowing, because neither trigger threshold has been breached yet.
+
+When you create the ScaledObject, KEDA automatically creates and manages a backing Horizontal Pod Autoscaler (HPA) with the same name. You do not create or edit this HPA yourself. Confirm it exists:
+
+[source,bash]
+----
+kubectl get hpa vllm-inference-app
+----
+
+Expected output:
+
+[source,console]
+----
+NAME                 REFERENCE                       TARGETS                MINPODS   MAXPODS   REPLICAS
+vllm-inference-app   Deployment/vllm-inference-app   0/25 (avg), 0/5 (avg)  1         5         1
+----
+
+The `TARGETS` column shows the current value of each metric against its threshold (queue depth and p95 latency). `MINPODS` and `MAXPODS` come from `minReplicaCount` and `maxReplicaCount` in the ScaledObject, and `REPLICAS` is the current number of vLLM pods.
+
+== Step 3: Generate load
+
+The load test reuses the `vllm-loadtest-script` ConfigMap that you created in <<ml-inference-autoscaling-thresholds,Find scaling metric thresholds>>. Confirm it still exists:
+
+[source,bash]
+----
+kubectl get configmap vllm-loadtest-script
+----
+
+If it is missing, recreate it from <<ml-inference-autoscaling-thresholds,Find scaling metric thresholds>>.
+
+Run a single load test at 60 requests per second for 10 minutes to drive scale-up. The Job reads the model bucket from the `MODEL_BUCKET` environment variable you set earlier and passes the rate and duration through the `TARGET_RPS` and `DURATION` variables that the load-test script reads.
+
+[source,yaml]
+----
+cat << EOF | kubectl apply -f -
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: vllm-loadtest-scaleup
+  labels:
+    app: vllm-loadtest-scaleup
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: k6
+          image: grafana/k6:latest
+          env:
+            - name: MODEL
+              value: "s3://${MODEL_BUCKET}/Ministral-3-8B-Instruct-2512/"
+            - name: TARGET_RPS
+              value: "60"
+            - name: DURATION
+              value: "10m"
+          args: ["run", "/scripts/script.js"]
+          volumeMounts:
+            - name: script
+              mountPath: /scripts
+      volumes:
+        - name: script
+          configMap:
+            name: vllm-loadtest-script
+EOF
+----
+
+The Job runs for 10 minutes. Move to the next step to watch the deployment scale out while the test runs.
+
+== Step 4: Watch the deployment scale up
+
+Watch the autoscaler respond to the load from the previous step. Run each of the following commands in a separate terminal.
+
+Watch the HPA. The `TARGETS` column climbs above the configured targets and `REPLICAS` increases:
+
+[source,bash]
+----
+kubectl get hpa vllm-inference-app -w
+----
+
+Watch the vLLM pods. New replicas appear and reach `Ready` once the model loads into GPU memory:
+
+[source,bash]
+----
+kubectl get pods -l app=vllm-inference-app -w
+----
+
+Confirm the ScaledObject is active. `ACTIVE` changes to `True` once a trigger threshold is breached:
+
+[source,bash]
+----
+kubectl get scaledobject vllm-inference-app
+----
+
+Expected behavior:
+
+* Within ~30 seconds the queue depth rises above its threshold (or p95 end-to-end latency crosses 5 seconds) and the HPA `TARGETS` column climbs above the configured targets.
+* KEDA scales the deployment up, and Karpenter provisions a new GPU node if none is available. New replicas reach `Ready` once the model loads into GPU memory.
+* As traffic distributes across replicas, the queue drains, latency recovers, and both metrics drop back below their thresholds.
+* After the load stops, the deployment holds the higher replica count through the 5-minute cooldown, then scales back down one pod at a time toward `minReplicaCount`.
+
+When the load test finishes, delete the load-test Job. Leave the `vllm-loadtest-script` ConfigMap in place, since it is shared with the thresholds section:
+
+[source,bash]
+----
+kubectl delete jobs -l app=vllm-loadtest-scaleup --ignore-not-found
+----
+
+== Clean up
+
+[NOTE]
+====
+If you plan to continue using autoscaling, skip this cleanup. Only run it when you are done.
+====
+
+To remove the autoscaling resources that you created in this section, delete the `ScaledObject` and uninstall KEDA:
+
+[source,bash]
+----
+kubectl delete scaledobject vllm-inference-app --ignore-not-found
+helm uninstall keda -n keda
+kubectl delete namespace keda
+----
+
+Deleting the `ScaledObject` also removes the HPA that KEDA created. Your vLLM Deployment returns to its static replica count.
+
+To remove the vLLM inference server and related workload resources, see <<ml-inference-load-serve-model,Load & Serve Models>>. For instructions on removing infrastructure resources such as the cluster, NodePool, and S3 bucket, see <<cluster-setup-cli-cleanup,Cluster Setup Cleanup>>.
