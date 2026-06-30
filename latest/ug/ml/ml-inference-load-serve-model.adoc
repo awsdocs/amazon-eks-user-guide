@@ -67,7 +67,6 @@ To download the model, apply the following Job manifest:
 
 [#ml-inference-step1-model-download-yaml]
 .Model download Job manifest
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
 ----
@@ -187,7 +186,6 @@ Apply the manifest:
 
 [#ml-inference-step2-vllm-deployment-yaml]
 .vLLM Deployment and Service YAML
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
 ----
@@ -473,7 +471,6 @@ To deploy the Open WebUI application, apply the following manifest:
 
 [#ml-inference-step5-open-webui-yaml]
 .Open WebUI Deployment and Service YAML
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
 ----

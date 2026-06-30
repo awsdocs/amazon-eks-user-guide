@@ -290,7 +290,6 @@ If you have either of the following requirements, then specify an AMI ID in the 
 
 [#mng-specify-eks-ami]
 .Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized Linux/Bottlerocket AMI
-[%collapsible]
 ====
 
 Bootstrapping is a term used to describe adding commands that can be run when an instance starts. For example, bootstrapping allows using extra https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet] arguments. You can pass arguments to the `bootstrap.sh` script by using `eksctl` without specifying a launch template. Or you can do so by specifying the information in the user data section of a launch template.
@@ -411,7 +410,6 @@ set -ex
 
 [#mng-specify-eks-ami-windows]
 .Provide user data to pass arguments to the `Start-EKSBootstrap.ps1` file included with an Amazon EKS optimized Windows AMI
-[%collapsible]
 ====
 
 Bootstrapping is a term used to describe adding commands that can be run when an instance starts. You can pass arguments to the `Start-EKSBootstrap.ps1` script by using `eksctl` without specifying a launch template. Or you can do so by specifying the information in the user data section of a launch template.
@@ -465,7 +463,6 @@ NOTE: If you're using custom service CIDR, then you need to specify it using the
 
 [#mng-specify-custom-ami]
 .Run a custom AMI due to specific security, compliance, or internal policy requirements
-[%collapsible]
 ====
 
 For more information, see link:AWSEC2/latest/UserGuide/AMIs.html[Amazon Machine Images (AMI),type="documentation"] in the _Amazon EC2 User Guide_. The Amazon EKS AMI build specification contains resources and configuration scripts for building a custom Amazon EKS AMI based on Amazon Linux. For more information, see https://github.com/awslabs/amazon-eks-ami/[Amazon EKS AMI Build Specification] on GitHub. To build custom AMIs installed with other operating systems, see https://github.com/aws-samples/amazon-eks-custom-amis[Amazon EKS Sample Custom AMIs] on GitHub.

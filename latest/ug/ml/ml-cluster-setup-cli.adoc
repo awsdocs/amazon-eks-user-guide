@@ -160,7 +160,6 @@ export KARPENTER_VERSION=1.12.0
 +
 [#cluster-setup-cli-step1-karpenter-cluster-yaml]
 .Cluster config YAML
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
 ----
@@ -387,7 +386,6 @@ Self-managed Karpenter does not include a default NodeClass. You first create an
 +
 [#cluster-setup-cli-step2-karpenter-ec2nodeclass-yaml]
 .EC2NodeClass YAML
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
 ----
@@ -440,7 +438,6 @@ Expected output: `READY True`. If `False`, run `kubectl describe ec2nodeclass gp
 +
 [#cluster-setup-cli-step2-karpenter-nodepool-yaml]
 .NodePool YAML
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
 ----
@@ -682,7 +679,6 @@ In EKS Auto Mode, the bundled `default` NodeClass is read-only, so create a cust
 +
 [#cluster-setup-cli-step4-automode-nodeclass-yaml]
 .Custom NodeClass YAML
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
 ----
@@ -764,7 +760,6 @@ For self-managed Karpenter, re-apply the `EC2NodeClass` you created in Step 2 wi
 +
 [#cluster-setup-cli-step4-karpenter-nodeclass-yaml]
 .Updated EC2NodeClass YAML
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
 ----
@@ -1059,7 +1054,6 @@ Create the values file:
 
 [#cluster-setup-cli-monitoring-kube-prometheus-values]
 .kube-prometheus-stack values file
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
 ----
@@ -1308,7 +1302,6 @@ Create the DCGM exporter values file:
 
 [#cluster-setup-cli-monitoring-dcgm-values]
 .dcgm-exporter values file
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
 ----

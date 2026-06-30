@@ -126,7 +126,6 @@ First, create the ConfigMap that holds the warm-up script (`warmup.js`). The scr
 
 [#ml-inference-autoscaling-thresholds-warmup-configmap]
 .k6 warm-up ConfigMap
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,bash]
 ----
@@ -158,7 +157,6 @@ Then run the warm-up Job. A single client sends 100 sequential requests:
 
 [#ml-inference-autoscaling-thresholds-warmup-job]
 .Warm-up Job
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,bash]
 ----
@@ -220,7 +218,6 @@ First, create the ConfigMap that holds the k6 load-test script (`script.js`). Th
 
 [#ml-inference-autoscaling-thresholds-loadtest-configmap]
 .k6 load test ConfigMap
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,bash]
 ----
@@ -274,7 +271,6 @@ Then run the load test at each request rate. The following loop submits a separa
 
 [#ml-inference-autoscaling-thresholds-rps-sweep]
 .Load test loop
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,bash]
 ----
