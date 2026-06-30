@@ -77,17 +77,8 @@ eksctl create capability \
   --region [.replaceable]`region-code` \
   --name ack \
   --type ACK \
-  --role-arn arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/ACKCapabilityRole \
-  --ack-service-controllers s3
+  --role-arn arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/ACKCapabilityRole
 ----
-
-[NOTE]
-====
-The `--ack-service-controllers` flag is optional.
-If omitted, ACK enables all available controllers.
-For better performance and security, consider enabling only the controllers you need.
-You can specify multiple controllers: `--ack-service-controllers s3,rds,dynamodb`
-====
 
 The command returns immediately, but the capability takes some time to become active.
 
