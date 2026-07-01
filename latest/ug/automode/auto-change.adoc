@@ -19,7 +19,6 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/auto
 
 From upstream v2.12.0:
 
-* IPv4 IPAM support for ALB — ALB subnets can now be allocated from Amazon VPC IPAM pools, enabling centralized IP address management for application load balancers
 * Listener rule priority management — The controller can now explicitly set and reorder listener rule priorities, resolving ordering conflicts when multiple Ingress rules target the same listener
 
 From upstream v2.11.0:
