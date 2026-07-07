@@ -712,7 +712,6 @@ Update the NodePool to use the ODCR-backed NodeClass and include `reserved` as a
 +
 [#cluster-setup-cli-step4-automode-nodepool-yaml]
 .Updated NodePool YAML
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
 ----
@@ -801,7 +800,6 @@ Update the NodePool to include `reserved` as a capacity type:
 +
 [#cluster-setup-cli-step4-karpenter-nodepool-yaml]
 .Updated NodePool YAML
-[%collapsible, expand-section="_collapse_all_"]
 ====
 [source,yaml]
 ----
