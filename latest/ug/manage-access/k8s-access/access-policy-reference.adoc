@@ -357,7 +357,7 @@ This access policy includes permissions that allow an IAM principal to view most
 
 == AmazonEKSPodIdentityPolicy
 
-This access policy includes permissions that allow an IAM principal to list https://kubernetes.io/docs/concepts/workloads/pods/[Kubernetes Pods.] This policy is used internally by the Amazon EKS service-linked role.
+This access policy includes permissions that allow an IAM principal to list https://kubernetes.io/docs/concepts/workloads/pods/[Kubernetes Pods]. This policy is used internally by the Amazon EKS service-linked role.
 
 [NOTE]
 ====
