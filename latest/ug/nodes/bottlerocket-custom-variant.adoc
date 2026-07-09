@@ -1,0 +1,422 @@
+include::../attributes.txt[]
+
+[.topic]
+[#bottlerocket-custom-variant]
+= Build a custom Bottlerocket variant with a specific NVIDIA driver
+:info_titleabbrev: Custom Bottlerocket builds
+
+[abstract]
+--
+Learn how to create and publish a Bottlerocket AMI with a specific NVIDIA driver version for GPU workloads on Amazon EKS.
+--
+
+When you run GPU workloads on Amazon EKS, you choose a Bottlerocket variant that matches your Kubernetes version and accelerator type. Bottlerocket ships validated variants for common configurations, but your organization might need something different: a newer NVIDIA driver branch, a pinned driver version for compliance, additional packages for monitoring, or a hardened baseline that your security team requires.
+
+Because Bottlerocket is fully open-source, you can create a custom variant that meets these needs. This topic shows how to clone an existing variant, swap the NVIDIA driver from the R580 branch to R595 (version 595.71.05), build the image, and register it as a private AMI. A https://github.com/tbuatois/bottlerocket[ready-to-build fork] with `aws-k8s-1.{33,34,35,36}-nvidia-595` variants is also available if you want to skip the creation steps and go straight to building.
+
+*Just need the R595 variant?*
+
+Clone the fork and jump directly to building:
+
+[source,bash]
+----
+git clone https://github.com/tbuatois/bottlerocket.git && cd bottlerocket
+git checkout nvidia-r595-variants
+----
+
+Follow Step 1 through Step 4 to set up your build host, then skip to <<bottlerocket-custom-variant-step10>>. Steps 5–9 are already done in the fork.
+
+[#bottlerocket-custom-variant-build-system]
+== How the build system works
+
+When you run `cargo make -e BUILDSYS_VARIANT=aws-k8s-1.36-nvidia`, three things happen:
+
+. *Fetch dependencies.* Twoliter (Bottlerocket's build orchestrator) reads `Twoliter.toml` and pulls three OCI artifacts from `public.ecr.aws/bottlerocket`:
++
+** *bottlerocket-sdk* — a container image with the full cross-compilation toolchain (GCC, Rust, Go, RPM macros).
+** *bottlerocket-kernel-kit* — pre-built RPMs for kernels, kernel modules (including NVIDIA kmod packages), and firmware.
+** *bottlerocket-core-kit* — pre-built RPMs for userspace: kubelet, containerd, the NVIDIA device plugin and container toolkit, settings plugins, and system services.
++
+Versions are pinned in `Twoliter.toml` and their digests are locked in `Twoliter.lock`. To change either, run `./tools/twoliter/twoliter update` to re-resolve.
+
+. *Build the variant.* Twoliter launches a Docker build inside the SDK container. It compiles your variant's settings-defaults crate, resolves the RPM dependency tree from the kits, and assembles everything into a disk image.
+
+. *Output.* The final `.img.lz4` file is written to `build/images/`. The build is deterministic: the same `Twoliter.toml` pins and variant `Cargo.toml` produce the same image regardless of host.
+
+[#bottlerocket-custom-variant-repo-layout]
+== Repository layout
+
+The directories that matter for variant work:
+
+[source]
+----
+bottlerocket/
+├── Cargo.toml                       # workspace: lists every variant
+├── Twoliter.toml                    # pins SDK + kit versions
+├── Twoliter.lock                    # locked digests for the above
+├── Licenses.toml                    # you create this (NVIDIA license acknowledgement)
+├── Infra.toml                       # you create this (AMI publish regions)
+│
+├── variants/
+│   ├── aws-k8s-1.36-nvidia/         # example variant you'll copy
+│   │   ├── Cargo.toml               #   package list + kernel params
+│   │   └── amispec.toml             #   symlink → ../shared/amispec-split.toml
+│   └── shared/                      # shared AMI spec templates
+│
+├── sources/
+│   ├── Cargo.toml                   # workspace: lists every settings-defaults crate
+│   ├── shared-defaults/             # the actual defaults (symlink targets)
+│   └── settings-defaults/
+│       └── aws-k8s-1.36-nvidia/
+│           ├── Cargo.toml
+│           └── defaults.d/          # 30+ symlinks into shared-defaults/
+│
+└── packages/
+    ├── settings-defaults/
+    │   └── settings-defaults.spec   # RPM: declares which variants exist
+    └── settings-plugins/
+        └── settings-plugins.spec    # RPM: maps variants to settings plugins
+----
+
+Key points:
+
+* A variant is mostly metadata. The kernel, drivers, and userspace all come from the external kits.
+* Settings-defaults files are symlinks, not copies. Use `cp -R` (not `cp -r` on macOS) to preserve them.
+* Adding a variant requires edits in five places: two workspace `Cargo.toml` files, two `.spec` files, and `README.md`.
+
+[#bottlerocket-custom-variant-prereqs]
+== Prerequisites
+
+To complete the walkthrough, you need:
+
+* An {aws} account with permissions to launch EC2 instances and register AMIs
+* An EC2 instance (or equivalent Linux x86_64 host) with at least 8 cores, 16 GiB RAM, and 150 GB disk
+* Ubuntu 24.04 LTS (or Fedora; macOS isn't supported as a build host)
+* Familiarity with Git, Rust's Cargo, and RPM packaging concepts
+
+[#bottlerocket-custom-variant-step1]
+== Step 1 — Prepare the build host
+
+Launch an EC2 instance. A `c7i.8xlarge` (32 vCPU, 64 GiB RAM) with a 150 GB gp3 root volume and the `AmazonSSMManagedInstanceCore` managed policy for SSM access works well.
+
+Connect via SSM:
+
+[source,bash]
+----
+aws ssm start-session --target <instance-id>
+cd ~
+----
+
+Install the OS packages:
+
+[source,bash]
+----
+apt-get update
+apt-get install -y build-essential openssl libssl-dev pkg-config lz4 \
+                   git ca-certificates curl gnupg
+----
+
+[NOTE]
+====
+The official `BUILDING.md` references `liblz4-tool`. On recent Ubuntu versions, the package is named `lz4`.
+====
+
+Install Docker:
+
+[source,bash]
+----
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+  -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] \
+  https://download.docker.com/linux/ubuntu noble stable" \
+  > /etc/apt/sources.list.d/docker.list
+apt-get update
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin
+systemctl enable --now docker
+----
+
+Install Rust and cargo-make:
+
+[source,bash]
+----
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+. "$HOME/.cargo/env"
+cargo install cargo-make
+----
+
+[#bottlerocket-custom-variant-step2]
+== Step 2 — Clone the repository
+
+[source,bash]
+----
+cd ~
+git clone https://github.com/bottlerocket-os/bottlerocket.git
+cd ~/bottlerocket
+----
+
+For a reproducible build, check out a tagged release (for example, `git checkout v1.62.1`). For the latest packages, stay on `develop`.
+
+[#bottlerocket-custom-variant-step3]
+== Step 3 — Verify the kit versions
+
+Open `Twoliter.toml` and confirm the kit versions. For R595 support, you need `bottlerocket-kernel-kit` version 6.2.2 or later:
+
+[source,toml]
+----
+[[kit]]
+name = "bottlerocket-kernel-kit"
+version = "6.2.2"
+vendor = "bottlerocket"
+----
+
+If the version is older, update it and regenerate the lock:
+
+[source,bash]
+----
+./tools/twoliter/twoliter update
+----
+
+[#bottlerocket-custom-variant-step4]
+== Step 4 — Work around the cargo-make path issue
+
+Twoliter sets `CARGO_HOME` to `~/bottlerocket/.cargo`, which prevents the inner Cargo process from finding your globally installed cargo-make. Create a symlink:
+
+[source,bash]
+----
+mkdir -p ~/bottlerocket/.cargo/bin
+ln -sf /root/.cargo/bin/cargo-make ~/bottlerocket/.cargo/bin/cargo-make
+----
+
+Without this step, the build fails with `error: no such command: make`.
+
+[#bottlerocket-custom-variant-step5]
+== Step 5 — Find available driver branches
+
+The NVIDIA kmod packages are shipped inside `bottlerocket-kernel-kit`. To see what's available, check the https://github.com/bottlerocket-os/bottlerocket-kernel-kit[kernel-kit packages directory] or the https://github.com/bottlerocket-os/bottlerocket-kernel-kit/releases[release notes].
+
+For kernel 6.18 (used by `aws-k8s-1.36` variants):
+
+[source]
+----
+kmod-6.18-nvidia-r580   ← driver 580.159.03 (current default)
+kmod-6.18-nvidia-r595   ← driver 595.71.05
+----
+
+For kernel 6.12 (used by `aws-k8s-1.33`, `1.34`, `1.35`):
+
+[source]
+----
+kmod-6.12-nvidia-r580
+kmod-6.12-nvidia-r595
+----
+
+[NOTE]
+====
+Each kmod package ships subpackages (`-tesla`, `-open-gpu`, `-grid`, `-fabricmanager`, `-imex`). The official Bottlerocket NVIDIA variants reference `-tesla`, which pulls in all required subpackages via RPM dependencies. At boot, ghostdog (an internal instance-type classifier) selects the appropriate driver flavor for the instance.
+====
+
+[#bottlerocket-custom-variant-step6]
+== Step 6 — Create the new variant
+
+Copy the existing variant. Use `cp -R` to preserve symlinks:
+
+[source,bash]
+----
+cp -R variants/aws-k8s-1.36-nvidia variants/aws-k8s-1.36-nvidia-595
+cp -R sources/settings-defaults/aws-k8s-1.36-nvidia \
+      sources/settings-defaults/aws-k8s-1.36-nvidia-595
+----
+
+Edit `variants/aws-k8s-1.36-nvidia-595/Cargo.toml`:
+
+[source,diff]
+----
+- name = "aws-k8s-1_36-nvidia"
++ name = "aws-k8s-1_36-nvidia-595"
+
+- "kmod-6.18-nvidia-r580-tesla",
++ "kmod-6.18-nvidia-r595-tesla",
+----
+
+Edit `sources/settings-defaults/aws-k8s-1.36-nvidia-595/Cargo.toml`:
+
+[source,diff]
+----
+- name = "settings-defaults-aws-k8s-1_36-nvidia"
++ name = "settings-defaults-aws-k8s-1_36-nvidia-595"
+----
+
+[#bottlerocket-custom-variant-step7]
+== Step 7 — Register the variant
+
+Register the new variant in five files:
+
+*1. `Cargo.toml`* — add the workspace member:
+
+[source,diff]
+----
+ "variants/aws-k8s-1.36-nvidia",
++    "variants/aws-k8s-1.36-nvidia-595",
+ "variants/aws-k8s-1.36-nvidia-fips",
+----
+
+*2. `sources/Cargo.toml`* — add the settings-defaults member:
+
+[source,diff]
+----
+ "settings-defaults/aws-k8s-1.36-nvidia",
++    "settings-defaults/aws-k8s-1.36-nvidia-595",
+----
+
+*3. `packages/settings-defaults/settings-defaults.spec`* — add a `%package` block, entries in both build loops, and a `%files` section:
+
+[source,spec]
+----
+%package aws-k8s-1.36-nvidia-595
+Summary: Settings defaults for the aws-k8s 1.36 nvidia-595 variant
+Requires: %{_cross_os}variant(aws-k8s-1.36-nvidia-595)
+Provides: %{_cross_os}settings-defaults(any)
+Provides: %{_cross_os}settings-defaults(aws-k8s-1.36-nvidia-595)
+Conflicts: %{_cross_os}settings-defaults(any)
+
+%description aws-k8s-1.36-nvidia-595
+%{summary}.
+----
+
+Add to both `for defaults in` loops:
+
+[source,diff]
+----
+    aws-k8s-1.36-nvidia \
++   aws-k8s-1.36-nvidia-595 \
+    metal-dev \
+----
+
+Add the `%files` section:
+
+[source,spec]
+----
+%files aws-k8s-1.36-nvidia-595
+%{_cross_defaultsdir}/aws-k8s-1.36-nvidia-595.toml
+%{_cross_tmpfilesdir}/storewolf-defaults-aws-k8s-1.36-nvidia-595.conf
+----
+
+*4. `packages/settings-plugins/settings-plugins.spec`* — add a `Provides:` line under `%package aws-k8s-nvidia`:
+
+[source,diff]
+----
+ Provides: %{_cross_os}settings-plugin(aws-k8s-1.36-nvidia)
++Provides: %{_cross_os}settings-plugin(aws-k8s-1.36-nvidia-595)
+ Conflicts: %{_cross_os}settings-plugin(any)
+----
+
+[#bottlerocket-custom-variant-step8]
+== Step 8 — Refresh the lockfile
+
+Adding a workspace member invalidates `sources/Cargo.lock`. Refresh it:
+
+[source,bash]
+----
+cd ~/bottlerocket/sources
+cargo update --workspace
+----
+
+[IMPORTANT]
+====
+Don't use `cargo generate-lockfile`. It rewrites the entire lockfile and bumps transitive dependencies, which causes `cargo-deny` duplicate-version errors.
+====
+
+[#bottlerocket-custom-variant-step9]
+== Step 9 — Create the NVIDIA license file
+
+NVIDIA driver sources aren't redistributable. The build requires an explicit license acknowledgement:
+
+[source,bash]
+----
+cat > ~/bottlerocket/Licenses.toml <<'EOF'
+[nvidia]
+spdx-id = "LicensesRef-NVIDIA-Customer-Use"
+licenses = [
+  { path = "LICENSE", license-url = "https://www.nvidia.com/en-us/drivers/nvidia-license/" }
+]
+EOF
+----
+
+[#bottlerocket-custom-variant-step10]
+== Step 10 — Build and publish the AMI
+
+Create an `Infra.toml` with your target regions:
+
+[source,bash]
+----
+cat > ~/bottlerocket/Infra.toml <<'EOF'
+[aws]
+regions = ["us-west-2", "us-east-1", "us-east-2"]
+EOF
+----
+
+Build the image:
+
+[source,bash]
+----
+cd ~/bottlerocket
+cargo make \
+  -e BUILDSYS_VARIANT=aws-k8s-1.36-nvidia-595 \
+  -e BUILDSYS_UPSTREAM_SOURCE_FALLBACK=true \
+  -e BUILDSYS_UPSTREAM_LICENSE_FETCH=true \
+  -e BUILDSYS_JOBS=32
+----
+
+The first build pulls the SDK and kit images (~2 GB total). Subsequent builds take 3–5 minutes on a 32-core host.
+
+Publish the AMI:
+
+[source,bash]
+----
+cargo make \
+  -e BUILDSYS_VARIANT=aws-k8s-1.36-nvidia-595 \
+  -e PUBLISH_REGIONS=us-west-2,us-east-1,us-east-2 \
+  ami
+----
+
+The AMI IDs are written to `build/images/x86_64-aws-k8s-1.36-nvidia-595/latest/*-amis.json`. Use these in your EKS managed node groups, Karpenter `EC2NodeClass`, or launch templates.
+
+[#bottlerocket-custom-variant-other-combinations]
+== Going further: other combinations you can build
+
+The walkthrough swaps the NVIDIA driver branch, but the same approach applies to any package available in the upstream kits. Here are examples of what you can assemble without forking a kit:
+
+[cols="1,1", options="header"]
+|===
+|What you want
+|What to change in the variant `Cargo.toml`
+
+|Different NVIDIA driver branch
+|`kmod-6.18-nvidia-r580-tesla` → `kmod-6.18-nvidia-r595-tesla`
+
+|Different kernel version
+|`kernel-6.18` → `kernel-6.12` (adjust kmod accordingly)
+
+|Remove NVIDIA entirely
+|Delete the three `nvidia-*` lines from `included-packages`
+
+|Add EFA support
+|Add `kmod-6.18-efa` to `included-packages`
+
+|Switch container runtime version
+|`containerd-2.2` → `containerd-2.1`
+|===
+
+To discover available packages, browse the https://github.com/bottlerocket-os/bottlerocket-kernel-kit[kernel-kit] and https://github.com/bottlerocket-os/bottlerocket-core-kit[core-kit] package directories.
+
+[IMPORTANT]
+====
+Bottlerocket's root filesystem is immutable. You can't install packages at runtime. Every package in the kits is cross-compiled specifically for Bottlerocket — standard upstream RPMs don't work. If you need software that isn't already in a kit, consider https://github.com/bottlerocket-os/bottlerocket#bootstrap-containers-settings[bootstrap containers] or https://github.com/bottlerocket-os/bottlerocket#host-containers[host containers] as a runtime alternative.
+====
+
+[#bottlerocket-custom-variant-cleanup]
+== Cleaning up
+
+If you no longer need the build host, terminate the EC2 instance to avoid ongoing charges. The AMIs persist independently in your account; deregister them with the EC2 console or CLI if you no longer need them.
