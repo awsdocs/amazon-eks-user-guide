@@ -20,6 +20,14 @@
             "Resource": [
                 "{arn-aws}ec2:*:*:network-interface/*"
             ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeSubnets",
+                "ec2:DescribeSecurityGroups"
+            ],
+            "Resource": "*"
         }
     ]
 }
