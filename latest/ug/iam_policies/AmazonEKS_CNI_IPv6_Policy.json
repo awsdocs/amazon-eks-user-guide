@@ -8,7 +8,9 @@
                 "ec2:DescribeInstances",
                 "ec2:DescribeTags",
                 "ec2:DescribeNetworkInterfaces",
-                "ec2:DescribeInstanceTypes"
+                "ec2:DescribeInstanceTypes",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeSecurityGroups"
             ],
             "Resource": "*"
         },
@@ -20,14 +22,6 @@
             "Resource": [
                 "{arn-aws}ec2:*:*:network-interface/*"
             ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:DescribeSubnets",
-                "ec2:DescribeSecurityGroups"
-            ],
-            "Resource": "*"
         }
     ]
 }
