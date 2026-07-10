@@ -2,12 +2,12 @@ include::../attributes.txt[]
 
 [.topic]
 [#bottlerocket-custom-variant]
-= Build a custom Bottlerocket variant with a specific NVIDIA driver
-:info_titleabbrev: Custom Bottlerocket builds
+= Build a custom Bottlerocket AMI variant for Amazon EKS
+:info_titleabbrev: Build a custom Bottlerocket AMI
 
 [abstract]
 --
-This topic explains how to build a custom Bottlerocket variant by swapping the NVIDIA driver branch. It also shows how to register the result as a private Amazon Machine Image (AMI) for Amazon Elastic Kubernetes Service (Amazon EKS) graphics processing unit (GPU) workloads.
+Learn how to build and publish a custom Bottlerocket AMI variant for Amazon EKS.
 --
 
 When you run GPU workloads on Amazon Elastic Kubernetes Service (Amazon EKS), you choose a Bottlerocket variant. The variant must match your Kubernetes version and accelerator type. Bottlerocket ships validated variants for common configurations. However, your organization might need a different variant for any of the following reasons:
@@ -17,25 +17,14 @@ When you run GPU workloads on Amazon Elastic Kubernetes Service (Amazon EKS), yo
 * Additional packages for monitoring
 * A hardened baseline required by your security team
 
-Because Bottlerocket is fully open-source, you can create a custom variant that meets these needs. This topic shows how to clone an existing variant and swap the NVIDIA driver from the R580 branch to R595 (version 595.71.05). You then build the image and register it as a private AMI.
+Because https://github.com/bottlerocket-os/bottlerocket[Bottlerocket] on the GitHub website is fully open-source, you can create a custom variant that meets these needs. This topic shows how to clone an existing variant and swap the NVIDIA driver from the R580 branch to R595 (version 595.71.05). You then build the image and register it as a private AMI.
 
-[#bottlerocket-custom-variant-quick-start]
-== (Optional) Use a pre-built community fork
-
-[NOTE]
+[IMPORTANT]
 ====
-The open-source community maintains forks of the Bottlerocket repository that include pre-built variant definitions for the R595 driver. We don't endorse or support these forks. If you use one, verify that it meets your security and compliance requirements before deploying.
+The G7 EC2 instance type requires NVIDIA driver version 595 or later. The EKS Bottlerocket NVIDIA AMIs currently include NVIDIA driver version 580, which does not support G7 instances.
+
+See the https://github.com/tbuatois/bottlerocket/tree/nvidia-r595-variants[community-contributed fork] on the GitHub website for a Bottlerocket branch that is ready to build with NVIDIA driver version 595. This fork is not officially supported by {aws} and we recommend that you confirm it conforms to your requirements.
 ====
-
-Clone the repository and check out the branch that contains the R595 variant definitions:
-
-[source,bash]
-----
-git clone https://github.com/bottlerocket-os/bottlerocket.git && cd bottlerocket
-git checkout nvidia-r595-variants
-----
-
-Follow <<bottlerocket-custom-variant-step1,Step 1>> through <<bottlerocket-custom-variant-step4,Step 4>> to set up your build host, then skip to <<bottlerocket-custom-variant-step10,Step 10>>. Steps 5–9 are already done in those forks.
 
 [#bottlerocket-custom-variant-build-system]
 == How the build system works
