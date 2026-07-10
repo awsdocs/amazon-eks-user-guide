@@ -30,7 +30,7 @@ git clone https://github.com/tbuatois/bottlerocket.git && cd bottlerocket
 git checkout nvidia-r595-variants
 ----
 
-Follow <<bottlerocket-custom-variant-step1,Step 1>> through <<bottlerocket-custom-variant-step4,Step 4>> to set up your build host, then skip to <<bottlerocket-custom-variant-step10>>. Steps 5–9 are already done in the fork.
+Follow <<bottlerocket-custom-variant-step1,Step 1>> through <<bottlerocket-custom-variant-step4,Step 4>> to set up your build host, then skip to <<bottlerocket-custom-variant-step10,Step 10>>. Steps 5–9 are already done in the fork.
 
 [#bottlerocket-custom-variant-build-system]
 == How the build system works
@@ -43,7 +43,7 @@ When you run `cargo make -e BUILDSYS_VARIANT=aws-k8s-1.36-nvidia`, three things 
 ** *bottlerocket-kernel-kit* — pre-built RPMs for kernels, kernel modules (including NVIDIA kmod packages), and firmware.
 ** *bottlerocket-core-kit* — pre-built RPMs for userspace: kubelet, containerd, the NVIDIA device plugin and container toolkit, settings plugins, and system services.
 +
-Versions are pinned in `Twoliter.toml` and their digests are locked in `Twoliter.lock`. To change either, run `./tools/twoliter/twoliter update` to re-resolve.
+`Twoliter.toml` pins the versions and `Twoliter.lock` locks their digests. To change either, run `./tools/twoliter/twoliter update` to re-resolve.
 
 . *Build the variant.* Twoliter launches a Docker build inside the SDK container. It compiles your variant's settings-defaults crate, resolves the RPM dependency tree from the kits, and assembles everything into a disk image.
 
@@ -105,7 +105,7 @@ To complete the walkthrough, you need:
 
 [NOTE]
 ====
-When you complete this walkthrough, terminate the EC2 instance and deregister any AMIs you no longer need to avoid ongoing charges. For instructions on cleaning up resources, see <<bottlerocket-custom-variant-cleanup>>.
+When you complete this walkthrough, terminate the EC2 instance and deregister any AMIs you no longer need to avoid ongoing charges. For instructions on cleaning up, see <<bottlerocket-custom-variant-cleanup>>.
 ====
 
 [#bottlerocket-custom-variant-step1]
@@ -208,7 +208,7 @@ Without this step, the build fails with `error: no such command: make`.
 [#bottlerocket-custom-variant-step5]
 == Step 5: Find available driver branches
 
-The NVIDIA kmod packages are shipped inside `bottlerocket-kernel-kit`. To see what's available, check the https://github.com/bottlerocket-os/bottlerocket-kernel-kit[kernel-kit packages directory on the GitHub website], or the https://github.com/bottlerocket-os/bottlerocket-kernel-kit/releases[release notes on the GitHub website].
+The NVIDIA kmod packages are shipped inside `bottlerocket-kernel-kit`. To see what's available, check the https://github.com/bottlerocket-os/bottlerocket-kernel-kit[kernel-kit packages directory] on the GitHub website, or the https://github.com/bottlerocket-os/bottlerocket-kernel-kit/releases[release notes] on the GitHub website.
 
 For kernel 6.18 (used by `aws-k8s-1.36` variants):
 
@@ -228,7 +228,7 @@ kmod-6.12-nvidia-r595
 
 [NOTE]
 ====
-Each kmod package ships subpackages (`-tesla`, `-open-gpu`, `-grid`, `-fabricmanager`, `-imex`). The official Bottlerocket NVIDIA variants reference `-tesla`, which pulls in all required subpackages via RPM dependencies. At boot, ghostdog (an internal instance-type classifier) selects the appropriate driver flavor for the instance.
+Each kmod package ships subpackages (`-tesla`, `-open-gpu`, `-grid`, `-fabricmanager`, `-imex`). The official Bottlerocket NVIDIA variants reference `-tesla`, which pulls in all required subpackages via RPM dependencies. At boot, the appropriate driver flavor is automatically selected based on the instance type.
 ====
 
 [#bottlerocket-custom-variant-step6]
@@ -395,7 +395,7 @@ cargo make \
   ami
 ----
 
-The AMI IDs are written to `build/images/x86_64-aws-k8s-1.36-nvidia-595/latest/*-amis.json`. Use these in your EKS managed node groups, Karpenter `EC2NodeClass`, or launch templates.
+The build writes AMI IDs to `build/images/x86_64-aws-k8s-1.36-nvidia-595/latest/*-amis.json`. Use these in your EKS managed node groups, Karpenter `EC2NodeClass`, or launch templates.
 
 [#bottlerocket-custom-variant-other-combinations]
 == Other combinations you can build
@@ -423,11 +423,11 @@ The walkthrough swaps the NVIDIA driver branch, but the same approach applies to
 |`containerd-2.2` → `containerd-2.1`
 |===
 
-For information about available packages, see the https://github.com/bottlerocket-os/bottlerocket-kernel-kit[kernel-kit on the GitHub website] and the https://github.com/bottlerocket-os/bottlerocket-core-kit[core-kit on the GitHub website].
+For information about available packages, see the https://github.com/bottlerocket-os/bottlerocket-kernel-kit[kernel-kit] and the https://github.com/bottlerocket-os/bottlerocket-core-kit[core-kit] on the GitHub website.
 
 [IMPORTANT]
 ====
-The Bottlerocket root filesystem is immutable. You can't install packages at runtime. Every package in the kits is cross-compiled specifically for Bottlerocket — standard upstream RPMs don't work. If you need software that isn't already in a kit, consider https://github.com/bottlerocket-os/bottlerocket#bootstrap-containers-settings[bootstrap containers on the GitHub website] or https://github.com/bottlerocket-os/bottlerocket#host-containers[host containers on the GitHub website] as a runtime alternative.
+The Bottlerocket root filesystem is immutable. You can't install packages at runtime. Every package in the kits is cross-compiled specifically for Bottlerocket — standard upstream RPMs don't work. If you need software that isn't already in a kit, consider https://github.com/bottlerocket-os/bottlerocket#bootstrap-containers-settings[bootstrap containers] or https://github.com/bottlerocket-os/bottlerocket#host-containers[host containers] on the GitHub website as a runtime alternative.
 ====
 
 [#bottlerocket-custom-variant-cleanup]
