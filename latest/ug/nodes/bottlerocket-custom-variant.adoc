@@ -27,7 +27,15 @@ Because Bottlerocket is fully open-source, you can create a custom variant that 
 The open-source community maintains forks of the Bottlerocket repository that include pre-built variant definitions for the R595 driver. We don't endorse or support these forks. If you use one, verify that it meets your security and compliance requirements before deploying.
 ====
 
-If you use a community fork that already contains the R595 variant definitions, follow <<bottlerocket-custom-variant-step1,Step 1>> through <<bottlerocket-custom-variant-step4,Step 4>> to set up your build host, then skip to <<bottlerocket-custom-variant-step10,Step 10>>. Steps 5–9 are already done in those forks.
+Clone the repository and check out the branch that contains the R595 variant definitions:
+
+[source,bash]
+----
+git clone https://github.com/bottlerocket-os/bottlerocket.git && cd bottlerocket
+git checkout nvidia-r595-variants
+----
+
+Follow <<bottlerocket-custom-variant-step1,Step 1>> through <<bottlerocket-custom-variant-step4,Step 4>> to set up your build host, then skip to <<bottlerocket-custom-variant-step10,Step 10>>. Steps 5–9 are already done in those forks.
 
 [#bottlerocket-custom-variant-build-system]
 == How the build system works
