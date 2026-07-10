@@ -23,7 +23,7 @@ Because https://github.com/bottlerocket-os/bottlerocket[Bottlerocket] on the Git
 ====
 The G7 EC2 instance type requires NVIDIA driver version 595 or later. The EKS Bottlerocket NVIDIA AMIs currently include NVIDIA driver version 580, which does not support G7 instances.
 
-See the https://github.com/tbuatois/bottlerocket/tree/nvidia-r595-variants[community-contributed fork] on the GitHub website for a Bottlerocket branch that is ready to build with NVIDIA driver version 595. This fork is not officially supported by {aws} and we recommend that you confirm it conforms to your requirements.
+See the https://github.com/bottlerocket-os/bottlerocket[Bottlerocket repository] on the GitHub website for instructions on building a variant with NVIDIA driver version 595. This topic walks through the complete process starting at <<bottlerocket-custom-variant-step1,Step 1>>.
 ====
 
 [#bottlerocket-custom-variant-build-system]
