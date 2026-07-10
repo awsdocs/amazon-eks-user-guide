@@ -17,7 +17,7 @@ When you run GPU workloads on Amazon Elastic Kubernetes Service (Amazon EKS), yo
 * Additional packages for monitoring
 * A hardened baseline required by your security team
 
-Because Bottlerocket is fully open-source, you can create a custom variant that meets these needs. This topic shows how to build a variant that uses the NVIDIA R595 driver (version 595.71.05). You then build the image and register it as a private AMI.
+Because Bottlerocket is fully open-source, you can create a custom variant that meets these needs. This topic shows how to clone an existing variant and swap the NVIDIA driver from the R580 branch to R595 (version 595.71.05). You then build the image and register it as a private AMI.
 
 [#bottlerocket-custom-variant-quick-start]
 == (Optional) Use a pre-built community fork
