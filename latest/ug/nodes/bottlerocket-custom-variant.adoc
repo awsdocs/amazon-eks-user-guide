@@ -225,7 +225,7 @@ kmod-6.12-nvidia-r595
 
 [NOTE]
 ====
-Each kmod package ships subpackages (`-tesla`, `-open-gpu`, `-grid`, `-fabricmanager`, `-imex`). The official Bottlerocket NVIDIA variants reference `-tesla`, which pulls in all required subpackages via RPM dependencies. At boot, the appropriate driver flavor is automatically selected based on the instance type.
+Each kmod package ships subpackages (`-tesla`, `-open-gpu`, `-grid`, `-fabricmanager`, `-imex`). The official Bottlerocket NVIDIA variants reference `-tesla`, which pulls in all required subpackages via RPM dependencies. At boot, Bottlerocket automatically selects the appropriate driver flavor based on the instance type.
 ====
 
 [#bottlerocket-custom-variant-step6]
