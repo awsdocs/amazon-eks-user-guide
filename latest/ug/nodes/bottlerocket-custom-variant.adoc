@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-This topic explains how to build a custom Bottlerocket variant by swapping the NVIDIA driver branch. It also shows how to register the result as a private AMI for Amazon EKS GPU workloads.
+This topic explains how to build a custom Bottlerocket variant by swapping the NVIDIA driver branch. It also shows how to register the result as a private Amazon Machine Image (AMI) for Amazon EKS graphics processing unit (GPU) workloads.
 --
 
 When you run GPU workloads on Amazon Elastic Kubernetes Service (Amazon EKS), you choose a Bottlerocket variant. The variant must match your Kubernetes version and accelerator type. Bottlerocket ships validated variants for common configurations. However, your organization might need a different variant for any of the following reasons:
@@ -22,22 +22,19 @@ Because Bottlerocket is fully open-source, you can create a custom variant that 
 [#bottlerocket-custom-variant-quick-start]
 == (Optional) Use a pre-built community fork
 
-If you want to skip steps 5–9, you can use a community-maintained fork that already contains the R595 variant definitions. This fork is not an official {aws} resource, and we don't support it.
+[NOTE]
+====
+The open-source community maintains forks of the Bottlerocket repository that include pre-built variant definitions for the R595 driver. We don't endorse or support these forks. If you use one, verify that it meets your security and compliance requirements before deploying.
+====
 
-[source,bash]
-----
-git clone https://github.com/tbuatois/bottlerocket.git && cd bottlerocket
-git checkout nvidia-r595-variants
-----
-
-Follow <<bottlerocket-custom-variant-step1,Step 1>> through <<bottlerocket-custom-variant-step4,Step 4>> to set up your build host, then skip to <<bottlerocket-custom-variant-step10,Step 10>>. Steps 5–9 are already done in the fork.
+If you use a community fork that already contains the R595 variant definitions, follow <<bottlerocket-custom-variant-step1,Step 1>> through <<bottlerocket-custom-variant-step4,Step 4>> to set up your build host, then skip to <<bottlerocket-custom-variant-step10,Step 10>>. Steps 5–9 are already done in those forks.
 
 [#bottlerocket-custom-variant-build-system]
 == How the build system works
 
 When you run `cargo make -e BUILDSYS_VARIANT=aws-k8s-1.36-nvidia`, three things happen:
 
-. *Fetch dependencies.* Twoliter (the Bottlerocket build orchestrator) reads `Twoliter.toml` and pulls three OCI artifacts from `public.ecr.aws/bottlerocket`:
+* *Fetch dependencies.* Twoliter (the Bottlerocket build orchestrator) reads `Twoliter.toml` and pulls three Open Container Initiative (OCI) artifacts from `public.ecr.aws/bottlerocket`:
 +
 ** *bottlerocket-sdk* — a container image with the full cross-compilation toolchain (GCC, Rust, Go, RPM macros).
 ** *bottlerocket-kernel-kit* — pre-built RPMs for kernels, kernel modules (including NVIDIA kmod packages), and firmware.
@@ -45,14 +42,14 @@ When you run `cargo make -e BUILDSYS_VARIANT=aws-k8s-1.36-nvidia`, three things 
 +
 `Twoliter.toml` pins the versions and `Twoliter.lock` locks their digests. To change either, run `./tools/twoliter/twoliter update` to re-resolve.
 
-. *Build the variant.* Twoliter launches a Docker build inside the SDK container. It compiles your variant's settings-defaults crate, resolves the RPM dependency tree from the kits, and assembles everything into a disk image.
+* *Build the variant.* Twoliter launches a Docker build inside the SDK container. It compiles your variant's settings-defaults crate, resolves the RPM dependency tree from the kits, and assembles everything into a disk image.
 
-. *Output.* Twoliter writes the final `.img.lz4` file to `build/images/`. The build produces deterministic output: the same `Twoliter.toml` pins and variant `Cargo.toml` always generate the same image, regardless of host.
+* *Output.* Twoliter writes the final `.img.lz4` file to `build/images/`. The build produces deterministic output: the same `Twoliter.toml` pins and variant `Cargo.toml` always generate the same image, regardless of host.
 
 [#bottlerocket-custom-variant-repo-layout]
 == Repository layout
 
-The directories that matter for variant work:
+The following directories are relevant to variant work:
 
 [source]
 ----
@@ -113,7 +110,7 @@ When you complete this walkthrough, terminate the EC2 instance and deregister an
 
 Launch an EC2 instance — for example, a `c7i.8xlarge` (32 vCPU, 64 GiB memory). Use a 150 GB gp3 root volume and attach the `AmazonSSMManagedInstanceCore` managed policy for SSM access.
 
-Connect via SSM:
+Connect to the instance using {aws} Systems Manager (SSM) Session Manager:
 
 [source,bash]
 ----
@@ -121,7 +118,7 @@ aws ssm start-session --target <instance-id>
 cd ~
 ----
 
-Install the OS packages:
+Install the required operating system packages:
 
 [source,bash]
 ----
@@ -135,7 +132,7 @@ apt-get install -y build-essential openssl libssl-dev pkg-config lz4 \
 The official `BUILDING.md` references `liblz4-tool`. On recent Ubuntu versions, the package is named `lz4`.
 ====
 
-Install Docker:
+Install Docker using the following commands:
 
 [source,bash]
 ----
@@ -151,7 +148,7 @@ apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin
 systemctl enable --now docker
 ----
 
-Install Rust and cargo-make:
+Install Rust and cargo-make using the following commands:
 
 [source,bash]
 ----
@@ -208,7 +205,7 @@ Without this step, the build fails with `error: no such command: make`.
 [#bottlerocket-custom-variant-step5]
 == Step 5: Find available driver branches
 
-The NVIDIA kmod packages are shipped inside `bottlerocket-kernel-kit`. To see what's available, check the https://github.com/bottlerocket-os/bottlerocket-kernel-kit[kernel-kit packages directory] on the GitHub website, or the https://github.com/bottlerocket-os/bottlerocket-kernel-kit/releases[release notes] on the GitHub website.
+The NVIDIA kmod packages are shipped inside `bottlerocket-kernel-kit`. For information about available driver packages, see the https://github.com/bottlerocket-os/bottlerocket-kernel-kit[kernel-kit packages directory] on the GitHub website, or the https://github.com/bottlerocket-os/bottlerocket-kernel-kit/releases[release notes] on the GitHub website.
 
 For kernel 6.18 (used by `aws-k8s-1.36` variants):
 
@@ -400,7 +397,7 @@ The build writes AMI IDs to `build/images/x86_64-aws-k8s-1.36-nvidia-595/latest/
 [#bottlerocket-custom-variant-other-combinations]
 == Other combinations you can build
 
-The walkthrough swaps the NVIDIA driver branch, but the same approach applies to any package available in the upstream kits. Here are examples of what you can assemble without forking a kit:
+This walkthrough swaps the NVIDIA driver branch, but you can use the same approach for any package available in the upstream kits. The following examples show what you can assemble without forking a kit:
 
 [cols="1,1", options="header"]
 |===
