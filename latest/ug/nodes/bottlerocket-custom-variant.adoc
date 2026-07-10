@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-This topic explains how to build a custom Bottlerocket variant by swapping the NVIDIA driver branch. It also shows how to register the result as a private Amazon Machine Image (AMI) for Amazon EKS graphics processing unit (GPU) workloads.
+This topic explains how to build a custom Bottlerocket variant by swapping the NVIDIA driver branch. It also shows how to register the result as a private Amazon Machine Image (AMI) for Amazon Elastic Kubernetes Service (Amazon EKS) graphics processing unit (GPU) workloads.
 --
 
 When you run GPU workloads on Amazon Elastic Kubernetes Service (Amazon EKS), you choose a Bottlerocket variant. The variant must match your Kubernetes version and accelerator type. Bottlerocket ships validated variants for common configurations. However, your organization might need a different variant for any of the following reasons:
@@ -420,11 +420,11 @@ This walkthrough swaps the NVIDIA driver branch, but you can use the same approa
 |`containerd-2.2` → `containerd-2.1`
 |===
 
-For information about available packages, see the https://github.com/bottlerocket-os/bottlerocket-kernel-kit[kernel-kit] and the https://github.com/bottlerocket-os/bottlerocket-core-kit[core-kit] on the GitHub website.
+For information about available packages, see the https://github.com/bottlerocket-os/bottlerocket-kernel-kit[kernel-kit] on the GitHub website and the https://github.com/bottlerocket-os/bottlerocket-core-kit[core-kit] on the GitHub website.
 
 [IMPORTANT]
 ====
-The Bottlerocket root filesystem is immutable. You can't install packages at runtime. Every package in the kits is cross-compiled specifically for Bottlerocket — standard upstream RPMs don't work. If you need software that isn't already in a kit, consider https://github.com/bottlerocket-os/bottlerocket#bootstrap-containers-settings[bootstrap containers] or https://github.com/bottlerocket-os/bottlerocket#host-containers[host containers] on the GitHub website as a runtime alternative.
+The Bottlerocket root filesystem is immutable. You can't install packages at runtime. Every package in the kits is cross-compiled specifically for Bottlerocket — standard upstream RPMs don't work. If you need software that isn't already in a kit, consider https://github.com/bottlerocket-os/bottlerocket#bootstrap-containers-settings[bootstrap containers] on the GitHub website or https://github.com/bottlerocket-os/bottlerocket#host-containers[host containers] on the GitHub website as a runtime alternative.
 ====
 
 [#bottlerocket-custom-variant-cleanup]
