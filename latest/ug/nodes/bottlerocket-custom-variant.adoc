@@ -10,19 +10,19 @@ include::../attributes.txt[]
 This topic explains how to build a custom Bottlerocket variant by swapping the NVIDIA driver branch. It also shows how to register the result as a private AMI for Amazon EKS GPU workloads.
 --
 
-When you run GPU workloads on Amazon Elastic Kubernetes Service (Amazon EKS), you choose a Bottlerocket variant that matches your Kubernetes version and accelerator type. Bottlerocket ships validated variants for common configurations. However, your organization might need a different variant for any of the following reasons:
+When you run GPU workloads on Amazon Elastic Kubernetes Service (Amazon EKS), you choose a Bottlerocket variant. The variant must match your Kubernetes version and accelerator type. Bottlerocket ships validated variants for common configurations. However, your organization might need a different variant for any of the following reasons:
 
 * A newer NVIDIA driver branch
 * A pinned driver version for regulatory compliance
 * Additional packages for monitoring
 * A hardened baseline required by your security team
 
-Because Bottlerocket is fully open-source, you can create a custom variant that meets these needs. This topic walks through building a variant that swaps the NVIDIA driver from the R580 branch to R595 (version 595.71.05). You build the image and register it as a private AMI.
+Because Bottlerocket is fully open-source, you can create a custom variant that meets these needs. This topic shows how to build a variant that uses the NVIDIA R595 driver (version 595.71.05). You then build the image and register it as a private AMI.
 
 [#bottlerocket-custom-variant-quick-start]
 == (Optional) Use a pre-built community fork
 
-If you want to skip steps 5–9, you can use a community-maintained fork that already contains the R595 variant definitions. This fork is not an official {aws} resource and is not supported by {aws}.
+If you want to skip steps 5–9, you can use a community-maintained fork that already contains the R595 variant definitions. This fork is not an official {aws} resource, and we don't support it.
 
 [source,bash]
 ----
@@ -37,7 +37,7 @@ Follow <<bottlerocket-custom-variant-step1,Step 1>> through <<bottlerocket-custo
 
 When you run `cargo make -e BUILDSYS_VARIANT=aws-k8s-1.36-nvidia`, three things happen:
 
-. *Fetch dependencies.* Twoliter (Bottlerocket's build orchestrator) reads `Twoliter.toml` and pulls three OCI artifacts from `public.ecr.aws/bottlerocket`:
+. *Fetch dependencies.* Twoliter (the Bottlerocket build orchestrator) reads `Twoliter.toml` and pulls three OCI artifacts from `public.ecr.aws/bottlerocket`:
 +
 ** *bottlerocket-sdk* — a container image with the full cross-compilation toolchain (GCC, Rust, Go, RPM macros).
 ** *bottlerocket-kernel-kit* — pre-built RPMs for kernels, kernel modules (including NVIDIA kmod packages), and firmware.
@@ -86,7 +86,7 @@ bottlerocket/
 
 Review the following notes about the repository structure:
 
-* A variant is mostly metadata. The kernel, drivers, and userspace all come from the external kits.
+* A variant is mostly metadata. The external kits supply the kernel, drivers, and userspace.
 * Settings-defaults files are symlinks, not copies. Use `cp -R` (not `cp -r` on macOS) to preserve them.
 * Adding a variant requires edits in five places: two workspace `Cargo.toml` files, two `.spec` files, and `README.md`.
 
@@ -109,9 +109,9 @@ When you complete this walkthrough, terminate the EC2 instance and deregister an
 ====
 
 [#bottlerocket-custom-variant-step1]
-== Step 1 — Prepare the build host
+== Step 1: Prepare the build host
 
-Launch an EC2 instance. A `c7i.8xlarge` (32 vCPU, 64 GiB RAM) with a 150 GB gp3 root volume and the `AmazonSSMManagedInstanceCore` managed policy for SSM access works well.
+Launch an EC2 instance — for example, a `c7i.8xlarge` (32 vCPU, 64 GiB memory). Use a 150 GB gp3 root volume and attach the `AmazonSSMManagedInstanceCore` managed policy for SSM access.
 
 Connect via SSM:
 
@@ -161,7 +161,7 @@ cargo install cargo-make
 ----
 
 [#bottlerocket-custom-variant-step2]
-== Step 2 — Clone the repository
+== Step 2: Clone the repository
 
 [source,bash]
 ----
@@ -173,7 +173,7 @@ cd ~/bottlerocket
 To create a reproducible build, check out a tagged release (for example, `git checkout v1.62.1`). To use the latest packages, stay on the `develop` branch.
 
 [#bottlerocket-custom-variant-step3]
-== Step 3 — Verify the kit versions
+== Step 3: Verify the kit versions
 
 Open `Twoliter.toml` and confirm the kit versions. For R595 support, you need `bottlerocket-kernel-kit` version 6.2.2 or later:
 
@@ -193,7 +193,7 @@ If the version is older, update it and regenerate the lock:
 ----
 
 [#bottlerocket-custom-variant-step4]
-== Step 4 — Work around the cargo-make path issue
+== Step 4: Work around the cargo-make path issue
 
 Twoliter sets `CARGO_HOME` to `~/bottlerocket/.cargo`, which prevents the inner Cargo process from finding your globally installed cargo-make. Create a symlink:
 
@@ -206,7 +206,7 @@ ln -sf /root/.cargo/bin/cargo-make ~/bottlerocket/.cargo/bin/cargo-make
 Without this step, the build fails with `error: no such command: make`.
 
 [#bottlerocket-custom-variant-step5]
-== Step 5 — Find available driver branches
+== Step 5: Find available driver branches
 
 The NVIDIA kmod packages are shipped inside `bottlerocket-kernel-kit`. To see what's available, check the https://github.com/bottlerocket-os/bottlerocket-kernel-kit[kernel-kit packages directory on the GitHub website], or the https://github.com/bottlerocket-os/bottlerocket-kernel-kit/releases[release notes on the GitHub website].
 
@@ -232,7 +232,7 @@ Each kmod package ships subpackages (`-tesla`, `-open-gpu`, `-grid`, `-fabricman
 ====
 
 [#bottlerocket-custom-variant-step6]
-== Step 6 — Create the new variant
+== Step 6: Create the new variant
 
 Copy the existing variant. Use `cp -R` to preserve symlinks:
 
@@ -263,7 +263,7 @@ Edit `sources/settings-defaults/aws-k8s-1.36-nvidia-595/Cargo.toml`:
 ----
 
 [#bottlerocket-custom-variant-step7]
-== Step 7 — Register the variant
+== Step 7: Register the variant
 
 Register the new variant in five files:
 
@@ -327,7 +327,7 @@ Add the `%files` section:
 ----
 
 [#bottlerocket-custom-variant-step8]
-== Step 8 — Refresh the lockfile
+== Step 8: Refresh the lockfile
 
 Adding a workspace member invalidates `sources/Cargo.lock`. Refresh it:
 
@@ -343,9 +343,9 @@ Don't use `cargo generate-lockfile`. It rewrites the entire lockfile and bumps t
 ====
 
 [#bottlerocket-custom-variant-step9]
-== Step 9 — Create the NVIDIA license file
+== Step 9: Create the NVIDIA license file
 
-NVIDIA driver sources aren't redistributable. You must add an explicit license acknowledgement before building:
+NVIDIA restricts redistribution of driver sources. You must add an explicit license acknowledgement before building:
 
 [source,bash]
 ----
@@ -359,7 +359,7 @@ EOF
 ----
 
 [#bottlerocket-custom-variant-step10]
-== Step 10 — Build and publish the AMI
+== Step 10: Build and publish the AMI
 
 Create an `Infra.toml` with your target regions:
 
@@ -427,7 +427,7 @@ For information about available packages, see the https://github.com/bottlerocke
 
 [IMPORTANT]
 ====
-Bottlerocket's root filesystem is immutable. You can't install packages at runtime. Every package in the kits is cross-compiled specifically for Bottlerocket — standard upstream RPMs don't work. If you need software that isn't already in a kit, consider https://github.com/bottlerocket-os/bottlerocket#bootstrap-containers-settings[bootstrap containers on the GitHub website] or https://github.com/bottlerocket-os/bottlerocket#host-containers[host containers on the GitHub website] as a runtime alternative.
+The Bottlerocket root filesystem is immutable. You can't install packages at runtime. Every package in the kits is cross-compiled specifically for Bottlerocket — standard upstream RPMs don't work. If you need software that isn't already in a kit, consider https://github.com/bottlerocket-os/bottlerocket#bootstrap-containers-settings[bootstrap containers on the GitHub website] or https://github.com/bottlerocket-os/bottlerocket#host-containers[host containers on the GitHub website] as a runtime alternative.
 ====
 
 [#bottlerocket-custom-variant-cleanup]
