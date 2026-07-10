@@ -157,10 +157,10 @@ cargo install cargo-make
 [#bottlerocket-custom-variant-step2]
 == Step 2: Clone the repository
 
+Clone the https://github.com/bottlerocket-os/bottlerocket[Bottlerocket repository] on the GitHub website and navigate into the directory:
+
 [source,bash]
 ----
-cd ~
-git clone https://github.com/bottlerocket-os/bottlerocket.git
 cd ~/bottlerocket
 ----
 
