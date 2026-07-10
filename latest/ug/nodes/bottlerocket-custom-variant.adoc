@@ -434,3 +434,8 @@ The Bottlerocket root filesystem is immutable. You can't install packages at run
 == Cleaning up
 
 If you no longer need the build host, terminate the EC2 instance to avoid ongoing charges. The AMIs persist independently in your account; deregister them with the EC2 console or CLI if you no longer need them.
+
+[#bottlerocket-custom-variant-summary]
+== Summary
+
+This topic showed how to create a custom Bottlerocket variant with a different NVIDIA driver branch. The process involves copying an existing variant, changing one package reference, registering the new variant in the workspace and RPM specs, and running the build. The same approach applies to any customization: swapping kernel versions, adding packages, or creating variants for new Kubernetes releases.
