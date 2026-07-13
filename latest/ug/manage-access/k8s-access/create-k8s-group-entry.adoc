@@ -46,7 +46,7 @@ Replace:
 
 * `<cluster-name>` with your EKS cluster name
 * `<iam-identity-arn>` with the ARN of the IAM user or role
-* `<groups>` with a comma-separated list of Kubernetes groups (e.g., "system:developers,system:readers")
+* `<groups>` with a comma-separated list of Kubernetes groups (e.g., "admin,developers")
 
 link:cli/latest/reference/eks/create-access-entry.html[View the CLI reference for all configuration options,type="documentation"].
 
