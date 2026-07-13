@@ -49,11 +49,13 @@ ARN                                                                             
 +
 [IMPORTANT]
 ====
-Access entries don't accept usernames or Kubernetes group names that start with `system:`, `amazon:`, `aws:`, `eks:`, or `iam:`. For `aws-auth` entries that use these reserved prefixes, use the following approach instead of specifying the same values directly:
+Access entries don't accept usernames or Kubernetes group names that start with `system:`, `amazon:`, `aws:`, `eks:`, or `iam:`.
 
-* *Node roles* (username starts with `system:node:`) — Create the access entry with type `EC2_LINUX` or `EC2_WINDOWS`. Amazon EKS automatically sets the username and Kubernetes groups.
+For `aws-auth` entries that use these reserved prefixes, use one of the following approaches:
 
-* *Cluster administrators* (group `system:masters`) — Create a `STANDARD` access entry and associate the `AmazonEKSClusterAdminPolicy` access policy. You can leave Kubernetes groups empty; the access policy grants cluster-wide admin permissions.
+* *Node roles* (username starts with `system:node:`) {ndash} Create the access entry with type `EC2_LINUX` or `EC2_WINDOWS`. Amazon Elastic Kubernetes Service (Amazon EKS) automatically sets the username and Kubernetes groups.
+
+* *Cluster administrators* (group `system:masters`) {ndash} Create a `STANDARD` access entry and associate the `AmazonEKSClusterAdminPolicy` access policy. Amazon EKS sets cluster-wide admin permissions automatically; you can leave Kubernetes groups empty.
 
 For more information, see <<creating-access-entries>> and <<access-policies>>.
 ====
