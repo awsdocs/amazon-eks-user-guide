@@ -127,7 +127,7 @@ Network policies in the Amazon VPC CNI plugin for Kubernetes are supported in th
 
 *Network Policies*
 
-* Network Policies are only applied to Pods that are part of a Deployment. Standalone Pods that don't have a `metadata.ownerReferences` set can't have network policies applied to them.
+* Amazon EKS optimizes network policy enforcement for Pods that have a `metadata.ownerReferences` field set. This includes Pods managed by controllers such as Deployments, StatefulSets, DaemonSets, Jobs, and CronJobs. Standalone Pods created directly without a controller don't have `metadata.ownerReferences` set, and network policy enforcement might not work reliably for these Pods.
 * You can apply multiple network policies to the same Pod. When two or more policies that select the same Pod are configured, all policies are applied to the Pod.
 * The maximum number of combinations of ports and protocols for a single IP address range (CIDR) is 24 across all of your network policies. Selectors such as `namespaceSelector` resolve to one or more CIDRs. If multiple selectors resolve to a single CIDR or you specify the same direct CIDR multiple times in the same or different network policies, these all count toward this limit.
 * For any of your Kubernetes services, the service port must be the same as the container port. If you're using named ports, use the same name in the service spec too.
