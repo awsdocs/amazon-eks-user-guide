@@ -240,6 +240,34 @@ Review these default values and features before creating the cluster:
 * `storageConfig.blockStorage.enabled`: Automates storage tasks, such as creating and deleting Amazon EBS volumes.
 * `accessConfig.authenticationMode`: Requires EKS access entries. Learn more about <<grant-k8s-access,EKS authentication modes>>.
 
+==== Set Environment Variables
+
+Before running the `create-cluster` command, set the following environment variables. Replace the placeholder values with your own:
+
+----
+export AWS_REGION=us-east-1
+export CLUSTER_NAME=my-auto-cluster
+export K8S_VERSION=1.35
+export CLUSTER_ROLE_ARN=arn:aws:iam::111122223333:role/AmazonEKSAutoClusterRole
+export NODE_ROLE_ARN=arn:aws:iam::111122223333:role/AmazonEKSAutoNodeRole
+export SUBNETS_JSON='["subnet-ExampleID1","subnet-ExampleID2","subnet-ExampleID3"]'
+----
+
+NOTE: Set the `SUBNETS_JSON` variable with the subnet IDs from the previous step. You must wrap the value in single quotes to prevent the shell from interpreting the brackets and quotes as special characters.
+
+==== Verify Variables (Optional)
+
+Confirm your variables are set correctly:
+
+----
+echo "Region: ${AWS_REGION}"
+echo "Cluster Name: ${CLUSTER_NAME}"
+echo "K8s Version: ${K8S_VERSION}"
+echo "Cluster Role ARN: ${CLUSTER_ROLE_ARN}"
+echo "Node Role ARN: ${NODE_ROLE_ARN}"
+echo "Subnets JSON: ${SUBNETS_JSON}"
+----
+
 ==== Run the Command
 
 Use the following command to create the cluster:
