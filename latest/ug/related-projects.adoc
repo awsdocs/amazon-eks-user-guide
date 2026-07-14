@@ -68,7 +68,7 @@ With {aws} Controllers for Kubernetes, you can create and manage {aws} resources
 
 Available in <<ack,EKS Capabilities>>.
 
-* https://aws-controllers-k8s.github.io/community/[Project URL]
+* https://aws-controllers-k8s.github.io/docs/[Project URL]
 * {aws} open source blog: link:opensource/aws-service-operator-kubernetes-available[{aws} service operator for Kubernetes now available,type="blog"]
 
 
