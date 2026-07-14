@@ -190,12 +190,12 @@ kind: ServiceAccount
 metadata:
   labels:
     app.kubernetes.io/name: aws-mountpoint-s3-csi-driver
-  name: mountpoint-s3-csi-controller-sa
+  name: s3-csi-driver-sa
   namespace: kube-system
   annotations:
     eks.amazonaws.com/role-arn: {arn-aws}iam::111122223333:role/AmazonEKS_S3_CSI_DriverRole
 ----
-.. Create the Kubernetes service account on your cluster. The Kubernetes service account (`mountpoint-s3-csi-controller-sa`) is annotated with the IAM role that you created named [.replaceable]`AmazonEKS_S3_CSI_DriverRole`.
+.. Create the Kubernetes service account on your cluster. The Kubernetes service account (`s3-csi-driver-sa`) is annotated with the IAM role that you created named [.replaceable]`AmazonEKS_S3_CSI_DriverRole`.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
