@@ -24,7 +24,7 @@ Certain Amazon EKS add-ons need IAM roles and permissions. Before you update an 
 ----
 aws eks update-addon --cluster-name <cluster-name> \
 --addon-name <addon-name> \
---pod-identity-associations 'serviceAccount=<service-account-name>,roleArn=<role-arn>'
+--pod-identity-associations '[{"serviceAccount": "<service-account-name>", "roleArn": "<role-arn>"}]'
 ----
 +
 For example:
@@ -33,7 +33,7 @@ For example:
 ----
 aws eks update-addon --cluster-name mycluster \
 --addon-name aws-ebs-csi-driver \
---pod-identity-associations 'serviceAccount=ebs-csi-controller-sa,roleArn={arn-aws}iam::123456789012:role/StorageDriver'
+--pod-identity-associations '[{"serviceAccount": "ebs-csi-controller-sa", "roleArn": "{arn-aws}iam::123456789012:role/StorageDriver"}]'
 ----
 . Validate the Pod Identity association was created:
 +
