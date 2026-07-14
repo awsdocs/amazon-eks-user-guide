@@ -1,0 +1,171 @@
+include::../attributes.txt[]
+
+[.topic]
+[#argocd-configure-settings]
+= Configure Argo CD settings
+:info_titleabbrev: Configure settings
+
+[abstract]
+--
+Configure supported Argo CD settings for the managed capability using the `argocd-cm` ConfigMap, including custom health checks for Custom Resources.
+--
+
+With the EKS Capability for Argo CD, you get a fully managed Argo CD experience.
+Upstream Argo CD provides many optional settings and features, and the EKS Capability for Argo CD supports a subset of them.
+For supported settings, you configure them the same way as upstream Argo CD, through the `argocd-cm` ConfigMap in your cluster.
+{aws} reads the supported fields from that ConfigMap and applies them to the managed Argo CD instance.
+
+The following sections describe how to configure the `argocd-cm` ConfigMap for supported settings.
+
+== Prerequisites
+
+Before you configure Argo CD settings, you must have:
+
+* An EKS cluster with the Argo CD capability created (see <<create-argocd-capability>>)
+* The namespace configured for Argo CD in the capability (by default, the `argocd` namespace)
+* The `kubectl` CLI configured to communicate with your cluster
+
+== Configure the argocd-cm ConfigMap
+
+To configure supported Argo CD settings, create a ConfigMap named `argocd-cm` in your cluster.
+The managed capability reads the supported fields from this ConfigMap and applies them to the managed Argo CD instance.
+The capability ignores any unsupported fields and features that you set. Review the list of supported fields to confirm that a setting takes effect.
+
+Create the ConfigMap with the following requirements:
+
+* Name the ConfigMap `argocd-cm`.
+* Create it in the namespace configured for Argo CD in the capability (the namespace you set in the Argo CD configuration when you created the capability).
+By default, this is the `argocd` namespace.
+* Apply the label `app.kubernetes.io/part-of: argocd`.
+This label is required, matching upstream Argo CD behavior.
+* Use the same field format and keys as upstream Argo CD.
+
+The following example shows the ConfigMap structure:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: argocd
+data:
+  # Supported settings go here (see the following sections)
+----
+
+[IMPORTANT]
+====
+A ConfigMap is not a secure store.
+Do not put secrets, credentials, or other sensitive information in the `argocd-cm` ConfigMap.
+====
+
+=== Supported settings
+
+The managed capability supports the following `argocd-cm` field:
+
+[cols="1,2",options="header"]
+|===
+|Field |Description
+
+|`resource.customizations.health.*`
+|Custom health check scripts for Custom Resources. See <<argocd-custom-health-checks>>.
+|===
+
+
+[#argocd-custom-health-checks]
+== Custom health checks
+
+Argo CD assesses the health of the resources it deploys.
+For standard Kubernetes resources such as Deployments and Services, Argo CD has built-in health logic.
+For Custom Resources that Argo CD does not recognize, it has no built-in health logic and reports no health status.
+
+When a Custom Resource has no health check, Argo CD reports no health for it and excludes it from the Application's overall health.
+As a result, an Application can report `Healthy` even when its resources are still provisioning or have failed.
+This also means that sync waves can advance before those resources are ready, because sync ordering depends on reported health.
+
+With custom health checks, you can define health logic for your Custom Resources, so Argo CD reports accurate health and sequences deployments correctly.
+You define custom health checks the same way you do in upstream Argo CD, using the same configuration keys.
+Existing upstream scripts and community examples work with the EKS Capability for Argo CD without modification.
+
+=== Built-in health checks for ACK and kro
+
+The EKS Capability for Argo CD includes built-in health checks for <<ack,{aws} Controllers for Kubernetes (ACK)>> and <<kro,kro (Kube Resource Orchestrator)>> resources.
+These resources report accurate health with no additional configuration.
+
+To change how the capability assesses the health of an ACK or kro resource, you can define a custom health check for that resource type.
+A custom health check that you define for a resource type overrides the built-in health check for that type.
+
+=== Write a custom health check
+
+Define a custom health check by adding a Lua script to the `argocd-cm` ConfigMap, using a key in the following format:
+
+----
+resource.customizations.health.<group>_<kind>
+----
+
+Replace [.replaceable]`<group>` with the API group of the Custom Resource and [.replaceable]`<kind>` with its kind.
+For example, the key for a Custom Resource with the API group `example.com` and the kind `Database` is `resource.customizations.health.example.com_Database`.
+
+The Lua script has access to the resource object through the global `obj` variable.
+The script must return a table with a `status` field set to one of `Healthy`, `Progressing`, `Degraded`, or `Suspended`.
+The script can also set an optional `message` field to provide a descriptive status message.
+
+The following example ConfigMap defines a health check for a `Database` Custom Resource.
+The script reports the resource as `Healthy` when its status phase is `Ready`, and as `Progressing` otherwise:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: argocd
+data:
+  resource.customizations.health.example.com_Database: |
+    hs = {}
+    hs.status = "Progressing"
+    hs.message = "Waiting for the resource to become ready"
+    if obj.status ~= nil then
+      if obj.status.phase == "Ready" then
+        hs.status = "Healthy"
+        hs.message = "Database is ready"
+      end
+    end
+    return hs
+----
+
+For more information about the health check script format, the list of built-in health checks, and community examples that you can adapt, see link:https://argo-cd.readthedocs.io/en/stable/operator-manual/health/[Resource Health^] on the Argo CD documentation website.
+
+=== Safety and limitations
+
+With the managed capability, your custom health check scripts run in isolated, fully managed compute.
+The execution environment is isolated per capability and has no access to your cluster's data or to {aws} APIs.
+You do not provision, patch, or operate any part of the execution environment.
+
+Note the following when you write custom health checks for use with the EKS Capability:
+
+* *Standard Lua libraries are not available.*
+The `useOpenLibs` option is always disabled, which is the default in upstream Argo CD.
+Scripts cannot access the operating system or file system.
+If you migrate a script from self-managed Argo CD that relies on standard Lua libraries, it might not run the same way in the capability.
+We recommend that you test your health check scripts in a development environment before you use them in production.
+
+If health evaluation is temporarily unavailable, the capability reports affected Custom Resources as `Progressing` rather than removing their health status.
+This keeps the affected resources visible in the Application's health until evaluation recovers.
+
+=== Verify a custom health check
+
+After you apply or update the `argocd-cm` ConfigMap, confirm that the health check is active:
+
+. In the Argo CD UI, choose an Application that includes a Custom Resource of a kind that you defined a health check for.
+Confirm that the resource reports the health status your script returns.
+Alternatively, run `argocd app get [.replaceable]``<application-name>``` and review the health status of the resource.
+. If the resource does not report the expected health, verify the following:
++
+* The ConfigMap is named `argocd-cm` and is in the namespace configured for Argo CD in the capability.
+* The ConfigMap has the required `app.kubernetes.io/part-of: argocd` label.
+* The health check key uses the correct `<group>_<kind>` for the resource type.
