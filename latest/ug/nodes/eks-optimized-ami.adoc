@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Select an Amazon EKS-optimized Amazon Linux AMI to provision your cluster nodes with support for standard, accelerated, and Arm-based architectures.
 --
 
-Amazon Elastic Kubernetes Service (Amazon EKS) provides specialized Amazon Machine Images (AMIs) optimized for running Kubernetes worker nodes. These EKS-optimized Amazon Linux (AL) AMIs are pre-configured with essential components—such as `kubelet`, the AWS IAM Authenticator, and `containerd`—to ensure seamless integration and security within your clusters. This guide details the available AMI versions and outlines specialized options for accelerated computing and Arm-based architectures.
+Amazon Elastic Kubernetes Service (Amazon EKS) provides specialized Amazon Machine Images (AMIs) optimized for running Kubernetes worker nodes. These EKS-optimized Amazon Linux (AL) AMIs are pre-configured with essential components—such as `kubelet`, `nodeadm`, and `containerd`—to ensure seamless integration and security within your clusters. This guide details the available AMI versions and outlines specialized options for accelerated computing and Arm-based architectures.
 
 [#ami-considerations]
 == Considerations
