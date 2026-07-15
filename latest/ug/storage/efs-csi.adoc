@@ -278,3 +278,5 @@ To create an Amazon EFS file system, see https://github.com/kubernetes-sigs/aws-
 == Step 4: Deploy a sample application
 
 You can deploy a variety of sample apps and modify them as needed. For more information, see https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes[Examples] on GitHub.
+
+These examples include the `StorageClass`, `PersistentVolume`, and `PersistentVolumeClaim` configurations for both https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/efs/dynamic_provisioning[dynamic provisioning] and https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/efs/static_provisioning[static provisioning]. For the full list of `StorageClass` parameters for dynamic provisioning (such as `provisioningMode`, `fileSystemId`, and `directoryPerms`), see the https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/parameters.md[driver parameters documentation].
