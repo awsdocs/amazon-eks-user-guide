@@ -86,7 +86,7 @@ With self-managed nodes, you have full control over the bootstrap process. You c
 
 == Considerations for EKS Auto Mode
 
-EKS Auto Mode limits the number of pods on nodes to the lower of: 
+EKS Auto Mode limits the number of pods on nodes to the lower of:
 
 * 110 pods hard cap
-* The result of the max pods calculation described above. 
+* `number of ENIs × (IPs per ENI − 1)`
