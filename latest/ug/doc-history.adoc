@@ -60,6 +60,13 @@ Added permissions to `AmazonEKSComputePolicy` to allow Amazon EKS Auto Mode to l
 [.update-ulink]
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
+Added a new {aws} managed policy: `AmazonEKSBlockStoragePolicyV2`
+
+[.update,date="2026-05-12"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
 Added new API action `ec2:DescribeInstanceTypes` to `AmazonEBSCSIDriverPolicy` to enable the EBS CSI Driver to dynamically retrieve volume limit/card information at runtime.
 
 [.update,date="2026-04-27"]

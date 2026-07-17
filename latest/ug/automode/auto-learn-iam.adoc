@@ -23,7 +23,7 @@ The Cluster IAM role is an {aws} Identity and Access Management (IAM) role used 
 * This role requires permissions for multiple {aws} services to manage resources including EBS volumes, Elastic Load Balancers, and EC2 instances. 
 * The suggested configuration for this role includes multiple {aws} managed IAM policies, related to the different capabilities of EKS Auto Mode.
 ** `AmazonEKSComputePolicy`
-** `AmazonEKSBlockStoragePolicy`
+** `AmazonEKSBlockStoragePolicyV2`
 ** `AmazonEKSLoadBalancingPolicy`
 ** `AmazonEKSNetworkingPolicy`
 ** `AmazonEKSClusterPolicy`

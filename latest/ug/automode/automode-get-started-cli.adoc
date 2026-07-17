@@ -64,7 +64,7 @@ Sample output:
 EKS Auto Mode requires a Cluster IAM Role to perform actions in your {aws} account, such as provisioning new EC2 instances. You must create this role to grant EKS the necessary permissions. {aws} recommends attaching the following {aws} managed policies to the Cluster IAM Role:
 
 * <<security-iam-awsmanpol-AmazonEKSComputePolicy,AmazonEKSComputePolicy>>
-* <<security-iam-awsmanpol-AmazonEKSBlockStoragePolicy,AmazonEKSBlockStoragePolicy>>
+* <<security-iam-awsmanpol-AmazonEKSBlockStoragePolicyV2,AmazonEKSBlockStoragePolicyV2>>
 * <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy,AmazonEKSLoadBalancingPolicy>>
 * <<security-iam-awsmanpol-AmazonEKSNetworkingPolicy,AmazonEKSNetworkingPolicy>>
 * <<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>>
@@ -137,13 +137,13 @@ aws iam attach-role-policy \
     --policy-arn {arn-aws}iam::aws:policy/AmazonEKSComputePolicy
 ----
 
-*AmazonEKSBlockStoragePolicy*:
+*AmazonEKSBlockStoragePolicyV2*:
 
 [source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
-    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSBlockStoragePolicy
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSBlockStoragePolicyV2
 ----
 
 *AmazonEKSLoadBalancingPolicy*:
