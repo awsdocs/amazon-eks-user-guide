@@ -107,7 +107,7 @@ NOTE: EKS Auto Mode uses different labels than Karpenter. Labels related to EC2 
 
 |karpenter.sh/capacity-type
 |spot
-|Capacity types include `spot`, `on-demand`, `reserved`
+|Capacity types include `spot`, `on-demand`, and `reserved`. If you do not specify a capacity type, Karpenter prioritizes `reserved`, then `spot`, then `on-demand`.
 
 |eks.amazonaws.com/instance-hypervisor
 |nitro
