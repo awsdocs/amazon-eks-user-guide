@@ -57,7 +57,7 @@ At a high level, deploying an inference workload on Amazon EKS involves the foll
 |Create a Kubernetes Deployment that runs a model server (such as vLLM) on GPU nodes. The model server streams weights from S3 into GPU memory and exposes an OpenAI-compatible API.
 
 |*Expose the inference endpoint*
-|Create a Kubernetes Service to provide a stable network endpoint. Use port-forwarding for testing or a load balancer such as {aws} Application Load Balancer (ALB) for production traffic.
+|Create a Kubernetes Service to provide a stable network endpoint. Use port-forwarding for testing or a load balancer such as {aws} Application Load Balancer (ALB) for production traffic. For step-by-step instructions, see <<ml-inference-load-serve-model-loadbalancer,Expose the inference endpoint with a load balancer>>.
 
 |*Monitor and scale*
 |Use Prometheus metrics (request rate, token throughput, latency, KV cache utilization) to monitor performance and configure autoscaling.

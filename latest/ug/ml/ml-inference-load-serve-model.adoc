@@ -349,6 +349,156 @@ server: uvicorn
 content-length: 0
 ----
 
+[#ml-inference-load-serve-model-loadbalancer]
+=== Expose the inference endpoint with a load balancer
+
+The port-forward approach shown previously is convenient for local testing, but it is not suitable for production or shared access. To expose `vllm-inference-svc` (a ClusterIP Service on port 8000 with selector `app=vllm-inference-app`) to external traffic, place an {aws} Application Load Balancer (ALB) in front of it by creating a Kubernetes Ingress.
+
+[role="tablist",sync-group-id="cluster-path"]
+EKS Auto Mode::
++
+EKS Auto Mode includes a built-in ALB controller. You do not need to install any additional components.
++
+.Prerequisites
+[NOTE]
+====
+Before creating the Ingress, verify the following:
+
+* Your VPC subnets are tagged for auto-discovery. If you created the cluster with `eksctl`, the tags are already applied. For details, see <<tag-subnets-auto>>.
+* The Cluster IAM Role has the required tag propagation permissions. This step is easy to miss. For details, see <<tag-prop>>.
+====
++
+Apply the following manifests to create an `IngressClassParams`, `IngressClass`, and `Ingress`:
++
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: IngressClassParams
+metadata:
+  name: alb-internet-facing
+spec:
+  scheme: internet-facing
+---
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: alb
+spec:
+  controller: eks.amazonaws.com/alb
+  parameters:
+    apiGroup: eks.amazonaws.com
+    kind: IngressClassParams
+    name: alb-internet-facing
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vllm-ingress
+  annotations:
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+spec:
+  ingressClassName: alb
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: vllm-inference-svc
+            port:
+              number: 8000
+----
++
+[NOTE]
+====
+The `alb.ingress.kubernetes.io/healthcheck-path` annotation points the load balancer's health checks at the vLLM `/health` endpoint. Without it, the ALB health checks default to `/`, which vLLM answers with `404`, causing the target group to report the endpoint as unhealthy.
+====
+
+Self-managed Karpenter::
++
+The cluster you created in the <<ml-cluster-setup>> section does not include the {aws} Load Balancer Controller. You must install it before creating an Ingress.
++
+[NOTE]
+====
+Install the {aws} Load Balancer Controller using IRSA and Helm by following the steps in <<lbc-helm,Install the {aws} Load Balancer Controller with Helm>>. Return here after the controller is running.
+====
++
+After the controller is running, apply the following Ingress:
++
+[source,yaml]
+----
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vllm-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+spec:
+  ingressClassName: alb
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: vllm-inference-svc
+            port:
+              number: 8000
+----
++
+For the full list of supported annotations, see <<alb-ingress>>.
+
+==== Verify the ALB
+
+After you apply the Ingress, the controller provisions an ALB. This process typically takes 2-3 minutes. Retrieve the ALB DNS hostname:
+
+[source,bash]
+----
+kubectl get ingress vllm-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+----
+
+After the hostname resolves, verify the endpoint is healthy:
+
+[source,bash]
+----
+ALB_DNS=$(kubectl get ingress vllm-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+curl -sI -X GET http://${ALB_DNS}/health
+----
+
+Expected output:
+
+[source,console]
+----
+HTTP/1.1 200 OK
+date: Fri, 18 May 2026 00:42:10 GMT
+server: uvicorn
+content-length: 0
+----
+
+==== Clean up the load balancer
+
+To remove the ALB and associated resources:
+
+[source,bash]
+----
+kubectl delete ingress vllm-ingress
+----
+
+For the EKS Auto Mode path, also delete the IngressClass and IngressClassParams:
+
+[source,bash]
+----
+kubectl delete ingressclass alb
+kubectl delete ingressclassparams alb-internet-facing
+----
+
+NOTE: Port-forwarding (`kubectl port-forward svc/vllm-inference-svc 8000:8000`) remains a valid option for quick local testing without provisioning a load balancer.
+
 [#ml-inference-load-serve-model-monitoring]
 == Step 4: Monitor vLLM
 

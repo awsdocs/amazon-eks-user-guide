@@ -1269,6 +1269,108 @@ image::images/ml-cluster-setup-cli-prometheus-metrics-validate.png["Grafana Dril
 
 If `up` shows results, the pipeline (cluster → Prometheus → AMP → Grafana) is working.
 
+[#cluster-setup-cli-grafana-loadbalancer]
+=== Access Grafana through a load balancer (optional)
+
+The port-forward approach is the default for this guide. If you need access from other machines in your VPC or through a VPN, you can expose Grafana behind an internal ALB.
+
+[IMPORTANT]
+====
+Grafana includes default admin credentials and provides full administrative access to your monitoring data. Do not expose Grafana with an internet-facing load balancer. The following instructions use an *internal* scheme, which makes the ALB reachable only from within your VPC or through a connected VPN.
+====
+
+[role="tablist",sync-group-id="cluster-path"]
+EKS Auto Mode::
++
+EKS Auto Mode includes a built-in ALB controller. Verify the prerequisites described in <<tag-subnets-auto>> and <<tag-prop>>, then apply:
++
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: IngressClassParams
+metadata:
+  name: alb-internal
+spec:
+  scheme: internal
+---
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: alb-internal
+spec:
+  controller: eks.amazonaws.com/alb
+  parameters:
+    apiGroup: eks.amazonaws.com
+    kind: IngressClassParams
+    name: alb-internal
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: monitoring
+  annotations:
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /api/health
+spec:
+  ingressClassName: alb-internal
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kube-prometheus-stack-grafana
+            port:
+              number: 80
+----
+
+Self-managed Karpenter::
++
+Install the {aws} Load Balancer Controller if you have not already done so. Follow the steps in <<lbc-helm,Install the {aws} Load Balancer Controller with Helm>>.
++
+After the controller is running, apply the following Ingress:
++
+[source,yaml]
+----
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: monitoring
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /api/health
+spec:
+  ingressClassName: alb
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kube-prometheus-stack-grafana
+            port:
+              number: 80
+----
+
+[NOTE]
+====
+The `alb.ingress.kubernetes.io/healthcheck-path` annotation points the load balancer's health checks at the Grafana `/api/health` endpoint, which returns `200`. Without it, the ALB health checks default to `/`, which Grafana answers with a `302` redirect to `/login`, causing the target group to report the endpoint as unhealthy.
+====
+
+Retrieve the internal ALB hostname:
+
+[source,bash]
+----
+kubectl get ingress grafana-ingress -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+----
+
+Open the hostname in a browser from within your VPC. Log in with the same credentials used in the port-forward steps.
+
 === Deploy the DCGM Exporter for GPU metrics
 
 The kube-prometheus-stack collects node-level CPU and memory metrics but not GPU metrics. The NVIDIA DCGM Exporter adds GPU utilization, memory usage, temperature, power draw, NVLink bandwidth, and tensor activity.
