@@ -22,7 +22,7 @@ If you're not familiar with Amazon EKS networking, see link:containers/de-mystif
 [#private-clusters-architecture]
 == Cluster architecture requirements
 
-* Your cluster must pull images from a container registry that's in your VPC. You can create an Amazon Elastic Container Registry in your VPC and copy container images to it for your nodes to pull from. For more information, see <<copy-image-to-repository>>.
+* Your cluster must pull images from a container registry that's in your VPC. Alternatively, you can create an interface VPC endpoint for Amazon Elastic Container Registry in your VPC and copy container images to the ECR repository for your nodes to pull from. For more information, see <<copy-image-to-repository>>.
 * Your cluster must have endpoint private access enabled. This is required for nodes to register with the cluster endpoint. Endpoint public access is optional. For more information, see <<cluster-endpoint>>.
 
 [#private-clusters-node]
