@@ -214,7 +214,7 @@ You may install the Mountpoint for Amazon S3 CSI driver through the Amazon EKS a
 * <<console_s3_add_store_app_data>>
 * <<awscli_s3_add_store_app_data>>
 
-Alternatively, you may install Mountpoint for Amazon S3 CSI driver as a self-managed installation. For instructions on doing a self-managed installation, see https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/docs/install.md#deploy-driver[Installation] on GitHub.
+Alternatively, you may install Mountpoint for Amazon S3 CSI driver as a self-managed installation. For instructions on doing a self-managed installation, see https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/docs/INSTALL.md#deploy-mountpoint-for-amazon-s3-csi-driver[Installation] on GitHub.
 
 Starting from `v1.8.0`, you can configure taints to tolerate for the CSI driver's Pods. To do this, either specify a custom set of taints to tolerate with `node.tolerations` or tolerate all taints with `node.tolerateAllTaints`. For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/[Taints and Tolerations] in the Kubernetes documentation.
 
