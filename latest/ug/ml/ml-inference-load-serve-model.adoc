@@ -352,7 +352,21 @@ content-length: 0
 [#ml-inference-load-serve-model-loadbalancer]
 === Expose the inference endpoint with a load balancer
 
-The port-forward approach shown previously is convenient for local testing, but it is not suitable for production or shared access. To expose `vllm-inference-svc` (a ClusterIP Service on port 8000 with selector `app=vllm-inference-app`) to external traffic, place an {aws} Application Load Balancer (ALB) in front of it by creating a Kubernetes Ingress.
+The port-forward approach shown previously is convenient for local testing, but it is not suitable for production or shared access. To expose `vllm-inference-svc` (a ClusterIP Service on port 8000 with selector `app=vllm-inference-app`) to external traffic, place an {aws} Application Load Balancer (ALB) in front of it by creating a Kubernetes Ingress. The load balancer is internet-facing and restricted to your own IP address with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation.
+
+[WARNING]
+====
+This exposes the vLLM inference endpoint on the public internet over plain text HTTP with no authentication. Anyone who can reach the endpoint can send inference requests and consume your cluster's GPU capacity, and public load balancers are scanned within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation, and treat source-IP allowlisting as a minimum safeguard, not a complete one. For a stronger posture, use an *internal* scheme (reachable only from within your VPC or a connected VPN) by setting the scheme to `internal`, add a TLS certificate, and put authentication in front of the endpoint.
+====
+
+Find your public IP address to use as the allowlist CIDR:
+
+[source,bash]
+----
+curl -s https://checkip.amazonaws.com
+----
+
+Use the result as a `/32` CIDR (for example, `203.0.113.4/32`). If your network assigns addresses dynamically, your IP address might change over time, so you would need to update the annotation or specify a broader range (for example, `203.0.113.0/24`). Replace `<your-cidr>` in the following manifests with this value.
 
 [role="tablist",sync-group-id="cluster-path"]
 EKS Auto Mode::
@@ -396,6 +410,7 @@ metadata:
   name: vllm-ingress
   annotations:
     alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/inbound-cidrs: <your-cidr>
     alb.ingress.kubernetes.io/healthcheck-path: /health
 spec:
   ingressClassName: alb
@@ -436,6 +451,7 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/inbound-cidrs: <your-cidr>
     alb.ingress.kubernetes.io/healthcheck-path: /health
 spec:
   ingressClassName: alb
