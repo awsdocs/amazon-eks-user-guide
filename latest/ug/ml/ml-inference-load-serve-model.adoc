@@ -592,14 +592,14 @@ The `vllm:prompt_tokens_total` and `vllm:generation_tokens_total` metrics are mo
 
 The kube-prometheus-stack values file from the <<cluster-setup-cli-monitoring,Monitoring>> section already provisions the community https://grafana.com/grafana/dashboards/25263-vllm-metrics/[vLLM dashboard (gnetId 25263)] under the *GPU Monitoring* folder, so no extra import is needed.
 
-To access Grafana, start a port-forward to the Grafana service:
+Access Grafana through the load balancer you set up in the <<cluster-setup-cli-grafana-loadbalancer,Access Grafana>> section. Retrieve its hostname:
 
 [source,bash]
 ----
-kubectl port-forward svc/kube-prometheus-stack-grafana 3000:80 -n monitoring
+kubectl get ingress grafana-ingress -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 ----
 
-Open http://localhost:3000[http://localhost:3000^] in your browser and log in with username `admin` and the password from the following command:
+Open the hostname in your browser and log in with username `admin` and the password from the following command:
 
 [source,bash]
 ----

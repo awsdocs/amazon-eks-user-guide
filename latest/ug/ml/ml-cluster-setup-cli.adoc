@@ -1240,44 +1240,24 @@ The stack deploys the following components:
 
 Alertmanager is disabled in this setup.
 
+[#cluster-setup-cli-grafana-loadbalancer]
 === Access Grafana
 
-Open a separate terminal and port-forward to access Grafana:
+Expose Grafana behind an {aws} Application Load Balancer (ALB) so you can reach it from your browser. The load balancer is internet-facing and restricted to your own IP address with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation.
+
+[WARNING]
+====
+Grafana includes default admin credentials and provides full administrative access to your monitoring data. An internet-facing load balancer places this interface on the public internet over plain text HTTP, and public load balancers are scanned within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation, and treat source-IP allowlisting as a minimum safeguard, not a complete one. Also change the default Grafana admin password. For a stronger posture, use an *internal* scheme (reachable only from within your VPC or a connected VPN) by setting the scheme to `internal`, and add a TLS certificate.
+====
+
+Find your public IP address to use as the allowlist CIDR:
 
 [source,bash]
 ----
-kubectl port-forward svc/kube-prometheus-stack-grafana 3000:80 -n monitoring
+curl -s https://checkip.amazonaws.com
 ----
 
-Open http://localhost:3000[http://localhost:3000^] in your browser. Log in with username `admin` and the password from the following command:
-
-[source,bash]
-----
-kubectl --namespace monitoring get secrets kube-prometheus-stack-grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
-----
-
-To verify the metrics pipeline is working end to end:
-
-. Navigate to *Connections > Data sources* and confirm `Amazon-Managed-Prometheus` is listed as the default datasource.
-+
-.Validate the AMP datasource in Grafana
-image::images/ml-cluster-setup-cli-prometheus-ds-validate.png["Grafana Connections page showing Amazon-Managed-Prometheus listed as the default data source",width=75%]
-. Navigate to *Drilldown > Metrics* and search for the `up` metric. You should see results from your cluster's scrape targets.
-+
-.Validate the `up` metric in Grafana
-image::images/ml-cluster-setup-cli-prometheus-metrics-validate.png["Grafana Drilldown Metrics page showing the up metric with green status bars indicating active scrape targets",width=75%]
-
-If `up` shows results, the pipeline (cluster → Prometheus → AMP → Grafana) is working.
-
-[#cluster-setup-cli-grafana-loadbalancer]
-=== Access Grafana through a load balancer (optional)
-
-The port-forward approach is the default for this guide. If you need access from other machines in your VPC or through a VPN, you can expose Grafana behind an internal ALB.
-
-[IMPORTANT]
-====
-Grafana includes default admin credentials and provides full administrative access to your monitoring data. Do not expose Grafana with an internet-facing load balancer. The following instructions use an *internal* scheme, which makes the ALB reachable only from within your VPC or through a connected VPN.
-====
+Use the result as a `/32` CIDR (for example, `203.0.113.4/32`). If your network assigns addresses dynamically, your IP address might change over time, so you would need to update the annotation or specify a broader range (for example, `203.0.113.0/24`). Replace `<your-cidr>` in the following manifests with this value.
 
 [role="tablist",sync-group-id="cluster-path"]
 EKS Auto Mode::
@@ -1289,20 +1269,20 @@ EKS Auto Mode includes a built-in ALB controller. Verify the prerequisites descr
 apiVersion: eks.amazonaws.com/v1
 kind: IngressClassParams
 metadata:
-  name: alb-internal
+  name: alb-external
 spec:
-  scheme: internal
+  scheme: internet-facing
 ---
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
-  name: alb-internal
+  name: alb-external
 spec:
   controller: eks.amazonaws.com/alb
   parameters:
     apiGroup: eks.amazonaws.com
     kind: IngressClassParams
-    name: alb-internal
+    name: alb-external
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -1311,9 +1291,10 @@ metadata:
   namespace: monitoring
   annotations:
     alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/inbound-cidrs: <your-cidr>
     alb.ingress.kubernetes.io/healthcheck-path: /api/health
 spec:
-  ingressClassName: alb-internal
+  ingressClassName: alb-external
   rules:
   - http:
       paths:
@@ -1340,8 +1321,9 @@ metadata:
   name: grafana-ingress
   namespace: monitoring
   annotations:
-    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/inbound-cidrs: <your-cidr>
     alb.ingress.kubernetes.io/healthcheck-path: /api/health
 spec:
   ingressClassName: alb
@@ -1362,14 +1344,32 @@ spec:
 The `alb.ingress.kubernetes.io/healthcheck-path` annotation points the load balancer's health checks at the Grafana `/api/health` endpoint, which returns `200`. Without it, the ALB health checks default to `/`, which Grafana answers with a `302` redirect to `/login`, causing the target group to report the endpoint as unhealthy.
 ====
 
-Retrieve the internal ALB hostname:
+Retrieve the ALB hostname. The load balancer is created asynchronously, so allow a minute or two:
 
 [source,bash]
 ----
 kubectl get ingress grafana-ingress -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 ----
 
-Open the hostname in a browser from within your VPC. Log in with the same credentials used in the port-forward steps.
+Open the hostname in your browser. Log in with username `admin` and the password from the following command:
+
+[source,bash]
+----
+kubectl --namespace monitoring get secrets kube-prometheus-stack-grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
+----
+
+To verify the metrics pipeline is working end to end:
+
+. Navigate to *Connections > Data sources* and confirm `Amazon-Managed-Prometheus` is listed as the default datasource.
++
+.Validate the AMP datasource in Grafana
+image::images/ml-cluster-setup-cli-prometheus-ds-validate.png["Grafana Connections page showing Amazon-Managed-Prometheus listed as the default data source",width=75%]
+. Navigate to *Drilldown > Metrics* and search for the `up` metric. You should see results from your cluster's scrape targets.
++
+.Validate the `up` metric in Grafana
+image::images/ml-cluster-setup-cli-prometheus-metrics-validate.png["Grafana Drilldown Metrics page showing the up metric with green status bars indicating active scrape targets",width=75%]
+
+If `up` shows results, the pipeline (cluster → Prometheus → AMP → Grafana) is working.
 
 === Deploy the DCGM Exporter for GPU metrics
 
