@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-07-28"]
+=== {aws} PrivateLink for the cluster OIDC endpoint
+[.update-ulink]
+link:eks/latest/userguide/vpc-interface-endpoints.html#oidc-vpc-interface-endpoints[type="documentation"]
+
+Amazon EKS now supports {aws} PrivateLink for the cluster OIDC discovery/JWKS endpoint (`com.amazonaws.region-code.oidc-eks`), letting you reach the endpoint used by IAM roles for service accounts (IRSA) privately from your VPC without internet egress.
+
 [.update,date="2026-07-21"]
 === EFA support for static capacity in EKS Auto Mode
 [.update-ulink]
