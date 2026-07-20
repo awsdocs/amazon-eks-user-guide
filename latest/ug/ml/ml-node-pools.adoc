@@ -69,7 +69,7 @@ Both approaches share the NodePool API, but they differ in operational ownership
 | Cluster, partition, spread
 
 | Network interface config
-| Not supported
+| Per interface configuration for type `interface` or `EFA-only`
 | Per interface configuration for type `interface` or `EFA-only`
 
 | Node repair

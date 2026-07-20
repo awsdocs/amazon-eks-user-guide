@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-07-21"]
+=== EFA support for static capacity in EKS Auto Mode
+[.update-ulink]
+link:eks/latest/userguide/automode/create-node-class.html#static-network-interfaces[type="documentation"]
+
+Added support for configuring EFA network interfaces on EKS Auto Mode NodeClass resources. You can now statically define network interfaces at instance launch for high-performance distributed training and inference workloads.
+
 [.update,date="2026-06-18"]
 === Control plane egress routing
 [.update-ulink]

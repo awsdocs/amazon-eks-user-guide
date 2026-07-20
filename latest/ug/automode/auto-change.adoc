@@ -13,6 +13,10 @@ To receive notifications of all source file changes to this specific documentati
 ----
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
 ----
+== July 21, 2026
+
+**Feature**: Added support for static network interface configuration on NodeClass. You can now configure Elastic Fabric Adapter (EFA) network interfaces using `advancedNetworking.networkInterfaces` for both dynamic and static capacity provisioning, enabling EFA-ready nodes for distributed training and inference workloads. For more information, see <<static-network-interfaces>>.
+
 == June 30, 2026
 
 **Feature**: The EKS Auto Mode load balancer controller now supports features from {aws} Load Balancer Controller v2.10, v2.11, and v2.12.
