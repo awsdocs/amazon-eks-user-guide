@@ -327,6 +327,118 @@ nvidia-device-plugin   0         0         0       0            0           amiF
 For both the EKS Auto Mode and self-managed Karpenter paths, automatic node repair behaves the same way for nodes provisioned by NodePools. Automatic node repair in EKS Auto Mode and Karpenter is a _forceful_ disruption method that bypasses PodDisruptionBudgets, the `karpenter.sh/do-not-disrupt` annotation, and `terminationGracePeriod`. Automatic node repair waits 10 minutes before replacing a node with the `AcceleratedHardwareReady` condition set to `False` and 30 minutes for https://docs.aws.amazon.com/eks/latest/userguide/node-repair.html[other repair conditions].
 ====
 
+[#cluster-setup-cli-loadbalancing]
+=== Set up load balancing
+
+Later steps in this guide expose Grafana (and, in the inference walkthrough, a model endpoint) through an {aws} Application Load Balancer (ALB). Set up the load balancing prerequisites now so those sections can create an `Ingress` without further setup.
+
+*Verify subnet tags.* The ALB is placed in your VPC subnets based on {aws} resource tags. Public subnets used for internet-facing load balancers must be tagged `kubernetes.io/role/elb` = `1`, and private subnets used for internal load balancers must be tagged `kubernetes.io/role/internal-elb` = `1`. Because you created this cluster with `eksctl`, these tags are already applied to the subnets `eksctl` created. If you bring your own VPC or imported subnets, tag them manually. For details, see <<tag-subnets-auto>>.
+
+The rest of the setup differs by path. EKS Auto Mode includes a built-in ALB controller, so you only create an `IngressClass`. Self-managed Karpenter has no load balancer controller, so you install the {aws} Load Balancer Controller first.
+
+[role="tablist",sync-group-id="cluster-path"]
+EKS Auto Mode::
++
+EKS Auto Mode includes a built-in ALB controller, so you do not install any additional components. Create an `IngressClass` named `alb` that points at the built-in controller. Each `Ingress` you create later references this class by name and sets its own scheme and other options through annotations.
++
+[source,yaml]
+----
+cat << EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: alb
+spec:
+  controller: eks.amazonaws.com/alb
+EOF
+----
+
+Self-managed Karpenter::
++
+The cluster you created in this path does not include a load balancer controller. Install the {aws} Load Balancer Controller with IRSA and Helm by following the steps in <<lbc-helm,Install the {aws} Load Balancer Controller with Helm>>, then return here.
++
+The controller install registers an `IngressClass` named `alb`. Verify it exists:
++
+[source,bash]
+----
+kubectl get ingressclass alb
+----
++
+If the class is not present, create it:
++
+[source,yaml]
+----
+cat << EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: alb
+spec:
+  controller: ingress.k8s.aws/alb
+EOF
+----
+
+Both paths now have an `alb` `IngressClass`. The Grafana and inference sections reference `ingressClassName: alb` and set the ALB scheme, source-IP allowlist, and other behavior through per-`Ingress` annotations.
+
+[#cluster-setup-cli-storage]
+=== Set up persistent storage
+
+GPU workloads often need persistent storage, for example to cache model weights on the node so they are not re-downloaded on every pod restart. Set up an Amazon EBS `StorageClass` so `PersistentVolumeClaim` requests are fulfilled automatically. Neither path creates a default `StorageClass` for you.
+
+[role="tablist",sync-group-id="cluster-path"]
+EKS Auto Mode::
++
+EKS Auto Mode includes a built-in block storage capability, so you do not install the Amazon EBS CSI driver. Create a `StorageClass` that references the Auto Mode provisioner `ebs.csi.eks.amazonaws.com`:
++
+[source,yaml]
+----
+cat << EOF | kubectl apply -f -
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gp3
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: ebs.csi.eks.amazonaws.com
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  type: gp3
+  encrypted: "true"
+EOF
+----
+
+Self-managed Karpenter::
++
+The cluster you created in this path does not include the Amazon EBS CSI driver. Install it as an Amazon EKS add-on, then create a `StorageClass`.
++
+The driver needs IAM permissions (the `AmazonEBSCSIDriverPolicy` managed policy) through EKS Pod Identity or IRSA. For the full setup, see <<ebs-csi,Store Kubernetes volumes with Amazon EBS>>. Install the add-on:
++
+[source,bash]
+----
+eksctl create addon --name aws-ebs-csi-driver --cluster $CLUSTER_NAME --force
+----
++
+After the driver pods are running, create a `StorageClass` that references the self-managed driver provisioner `ebs.csi.aws.com`:
++
+[source,yaml]
+----
+cat << EOF | kubectl apply -f -
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gp3
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  type: gp3
+  encrypted: "true"
+EOF
+----
+
+Both paths now have a default `gp3` `StorageClass`. A `PersistentVolumeClaim` that does not name a `storageClassName` uses it, and `volumeBindingMode: WaitForFirstConsumer` delays volume creation until a pod is scheduled, so the EBS volume lands in the same Availability Zone as the pod.
+
 [#cluster-setup-cli-create-gpu-nodepool]
 == Step 2: Create dynamic GPU NodePool
 
@@ -1036,6 +1148,7 @@ eksctl get podidentityassociation --cluster ${CLUSTER_NAME} --region ${AWS_REGIO
 
 Expected output should include both `amp-iamproxy-ingest-service-account` and `grafana-sa` in the `monitoring` namespace.
 
+[#cluster-setup-cli-install-kube-prometheus]
 === Install kube-prometheus-stack
 
 Add the Helm repo:
@@ -1047,6 +1160,23 @@ helm repo update
 ----
 
 This values file omits a nodeSelector for Prometheus, Grafana, and the operator: the GPU nodes' `nvidia.com/gpu:NoSchedule` taint keeps them off GPU nodes, so they land on the system or general-purpose pool by default. Node-exporter uses a wildcard toleration so it runs on every node — including GPU nodes — to collect metrics fleet-wide.
+
+The values file also configures a Grafana `Ingress` so the chart provisions an internet-facing ALB for browser access, using the `alb` `IngressClass` you created in <<cluster-setup-cli-loadbalancing,Set up load balancing>>. The `alb.ingress.kubernetes.io/inbound-cidrs` annotation restricts the load balancer to your own IP address, so set it before you install.
+
+[WARNING]
+====
+Grafana includes default admin credentials and provides full administrative access to your monitoring data. An internet-facing load balancer places this interface on the public internet over plain text HTTP, and public load balancers are scanned within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation, and treat source-IP allowlisting as a minimum safeguard, not a complete one. Also change the default Grafana admin password. For a stronger posture, use an *internal* scheme (reachable only from within your VPC or a connected VPN) by setting the scheme to `internal`, and add a TLS certificate.
+====
+
+Find your public IP address and store it as a `/32` CIDR. The values file reads this from the `MY_CIDR` environment variable:
+
+[source,bash]
+----
+export MY_CIDR="$(curl -s https://checkip.amazonaws.com)/32"
+echo $MY_CIDR
+----
+
+The result looks like `203.0.113.4/32`. If your network assigns addresses dynamically, your IP address might change over time, so you would need to update the allowlist later (see <<cluster-setup-cli-grafana-loadbalancer,Access Grafana>>) or set a broader range such as `203.0.113.0/24`.
 
 Create the values file:
 
@@ -1117,6 +1247,17 @@ kube-state-metrics:
 
 grafana:
   enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    labels:
+      guide: ai-eks-docs
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/inbound-cidrs: ${MY_CIDR}
+      alb.ingress.kubernetes.io/load-balancer-name: grafana-ai-eks-docs
+      alb.ingress.kubernetes.io/healthcheck-path: /api/health
   serviceAccount:
     create: false
     name: grafana-sa
@@ -1243,112 +1384,18 @@ Alertmanager is disabled in this setup.
 [#cluster-setup-cli-grafana-loadbalancer]
 === Access Grafana
 
-Expose Grafana behind an {aws} Application Load Balancer (ALB) so you can reach it from your browser. The load balancer is internet-facing and restricted to your own IP address with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation.
-
-[WARNING]
-====
-Grafana includes default admin credentials and provides full administrative access to your monitoring data. An internet-facing load balancer places this interface on the public internet over plain text HTTP, and public load balancers are scanned within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation, and treat source-IP allowlisting as a minimum safeguard, not a complete one. Also change the default Grafana admin password. For a stronger posture, use an *internal* scheme (reachable only from within your VPC or a connected VPN) by setting the scheme to `internal`, and add a TLS certificate.
-====
-
-Find your public IP address to use as the allowlist CIDR:
-
-[source,bash]
-----
-curl -s https://checkip.amazonaws.com
-----
-
-Use the result as a `/32` CIDR (for example, `203.0.113.4/32`). If your network assigns addresses dynamically, your IP address might change over time, so you would need to update the annotation or specify a broader range (for example, `203.0.113.0/24`). Replace `<your-cidr>` in the following manifests with this value.
-
-[role="tablist",sync-group-id="cluster-path"]
-EKS Auto Mode::
-+
-EKS Auto Mode includes a built-in ALB controller. Verify the prerequisites described in <<tag-subnets-auto>> and <<tag-prop>>, then apply:
-+
-[source,yaml]
-----
-apiVersion: eks.amazonaws.com/v1
-kind: IngressClassParams
-metadata:
-  name: alb-external
-spec:
-  scheme: internet-facing
----
-apiVersion: networking.k8s.io/v1
-kind: IngressClass
-metadata:
-  name: alb-external
-spec:
-  controller: eks.amazonaws.com/alb
-  parameters:
-    apiGroup: eks.amazonaws.com
-    kind: IngressClassParams
-    name: alb-external
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: grafana-ingress
-  namespace: monitoring
-  annotations:
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/inbound-cidrs: <your-cidr>
-    alb.ingress.kubernetes.io/healthcheck-path: /api/health
-spec:
-  ingressClassName: alb-external
-  rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: kube-prometheus-stack-grafana
-            port:
-              number: 80
-----
-
-Self-managed Karpenter::
-+
-Install the {aws} Load Balancer Controller if you have not already done so. Follow the steps in <<lbc-helm,Install the {aws} Load Balancer Controller with Helm>>.
-+
-After the controller is running, apply the following Ingress:
-+
-[source,yaml]
-----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: grafana-ingress
-  namespace: monitoring
-  annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/inbound-cidrs: <your-cidr>
-    alb.ingress.kubernetes.io/healthcheck-path: /api/health
-spec:
-  ingressClassName: alb
-  rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: kube-prometheus-stack-grafana
-            port:
-              number: 80
-----
+You access Grafana through an internet-facing {aws} Application Load Balancer (ALB). You do not create it here. The kube-prometheus-stack chart provisions it from the `grafana.ingress` configuration in the <<cluster-setup-cli-install-kube-prometheus,values file>>, using the `alb` `IngressClass` from <<cluster-setup-cli-loadbalancing,Set up load balancing>>. The Grafana Helm chart has built-in `Ingress` support, so no separate manifest is needed. The ALB is named `grafana-ai-eks-docs`, carries the label `guide: ai-eks-docs`, and is restricted to the IP address you set in `MY_CIDR` at install time.
 
 [NOTE]
 ====
-The `alb.ingress.kubernetes.io/healthcheck-path` annotation points the load balancer's health checks at the Grafana `/api/health` endpoint, which returns `200`. Without it, the ALB health checks default to `/`, which Grafana answers with a `302` redirect to `/login`, causing the target group to report the endpoint as unhealthy.
+The `alb.ingress.kubernetes.io/healthcheck-path` annotation in the values file points the load balancer's health checks at the Grafana `/api/health` endpoint, which returns `200`. Without it, the ALB health checks default to `/`, which Grafana answers with a `302` redirect to `/login`, causing the target group to report the endpoint as unhealthy.
 ====
 
 Retrieve the ALB hostname. The load balancer is created asynchronously, so allow a minute or two:
 
 [source,bash]
 ----
-kubectl get ingress grafana-ingress -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+kubectl get ingress kube-prometheus-stack-grafana -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 ----
 
 Open the hostname in your browser. Log in with username `admin` and the password from the following command:
@@ -1370,6 +1417,24 @@ image::images/ml-cluster-setup-cli-prometheus-ds-validate.png["Grafana Connectio
 image::images/ml-cluster-setup-cli-prometheus-metrics-validate.png["Grafana Drilldown Metrics page showing the up metric with green status bars indicating active scrape targets",width=75%]
 
 If `up` shows results, the pipeline (cluster → Prometheus → AMP → Grafana) is working.
+
+*Update the allowlisted IP address.* If your public IP address changes (for example, a new network or a rotated NAT gateway) and you can no longer reach the ALB, update the `inbound-cidrs` allowlist. The recommended way is to re-run the `helm upgrade` with a new `MY_CIDR`, which keeps the values file as the source of truth:
+
+[source,bash]
+----
+export MY_CIDR="$(curl -s https://checkip.amazonaws.com)/32"
+helm upgrade kube-prometheus-stack prometheus-community/kube-prometheus-stack \
+  --namespace monitoring \
+  -f /tmp/kube-prometheus-values.yaml
+----
+
+To change it quickly without a Helm upgrade, patch the `Ingress` annotation directly. This takes effect immediately but drifts from the values file until the next `helm upgrade`:
+
+[source,bash]
+----
+kubectl patch ingress kube-prometheus-stack-grafana -n monitoring --type merge \
+  -p "{\"metadata\":{\"annotations\":{\"alb.ingress.kubernetes.io/inbound-cidrs\":\"$MY_CIDR\"}}}"
+----
 
 === Deploy the DCGM Exporter for GPU metrics
 

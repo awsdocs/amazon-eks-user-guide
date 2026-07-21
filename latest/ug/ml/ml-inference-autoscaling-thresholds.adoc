@@ -89,7 +89,7 @@ If the Deployment is missing or not ready, complete <<ml-inference-load-serve-mo
 
 [source,bash]
 ----
-kubectl get ingress grafana-ingress -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+kubectl get ingress kube-prometheus-stack-grafana -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 ----
 
 Open the hostname in your browser and log in with username `admin` and the password from the following command:
