@@ -101,6 +101,44 @@ kubectl get nodeclass network-policy-config
 ----
 . Update your Node Pool to use this Node Class. For more information, see <<create-node-pool>>.
 
+[#using-defaultdeny-with-coredns]
+=== Using DefaultDeny with CoreDNS
+
+When you set `networkPolicy: DefaultDeny` in your NodeClass, the default behavior for pods with no network policy applied is to deny all traffic—including DNS queries to the CoreDNS service on port 53. In upstream Kubernetes, pods with no network policy applied allow all traffic by default. With `DefaultDeny` mode, you must explicitly create network policies to allow desired traffic, including DNS resolution.
+
+Create a `ClusterNetworkPolicy` to allow egress DNS traffic to the cluster DNS service:
+
+[source,yaml]
+----
+apiVersion: networking.k8s.aws/v1alpha1
+kind: ClusterNetworkPolicy
+metadata:
+  name: allow-dns-egress
+spec:
+  tier: Admin
+  priority: 1
+  subject:
+    namespaces:
+      matchLabels: {} # Apply to all namespaces
+  egress:
+    - action: Allow
+      to:
+      - networks:
+        - 10.100.0.0/16  # <1>
+      ports:
+      - protocol: UDP
+        port: 53
+      - protocol: TCP
+        port: 53
+      name: allow-dns
+----
+<1> Replace with your cluster's service CIDR range. You can find this value by running `aws eks describe-cluster --name my-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text`.
+
+[IMPORTANT]
+====
+You must apply this policy before or at the same time as setting `networkPolicy: DefaultDeny` in your NodeClass. Otherwise, existing workloads will immediately lose DNS resolution.
+====
+
 == How does it work?
 
 === DNS-based network policy
