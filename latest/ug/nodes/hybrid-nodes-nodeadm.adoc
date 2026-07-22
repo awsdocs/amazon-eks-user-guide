@@ -22,6 +22,20 @@ GitHub repository.
 You must run `nodeadm` with a user that has root/sudo privileges.
 ====
 
+.Required nodeadm version for SSM credential provider
+[IMPORTANT]
+====
+If you use {aws} Systems Manager (SSM) as your credential provider for hybrid nodes, you must use `nodeadm` version `1.0.19` or later for new installations and upgrades. Earlier versions of `nodeadm` contain an outdated SSM signing key and fail during `nodeadm install` and `nodeadm upgrade` with the following signature verification error:
+
+[source,bash,subs="verbatim,attributes"]
+----
+"msg":"Command failed","error":"failed to install ssm installer: validating ssm-setup-cli signature: Signature Verification Error: No matching signature"
+----
+
+To resolve this error, download the latest version of `nodeadm` before running `nodeadm install` or `nodeadm upgrade`.
+====
+
+[#hybrid-nodes-nodeadm-download]
 == Download `nodeadm`
 
 The hybrid nodes version of `nodeadm` is hosted in Amazon S3 fronted by Amazon CloudFront. To install `nodeadm` on each on-premises host, you can run the following command from your on-premises hosts.
