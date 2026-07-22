@@ -151,7 +151,7 @@ Expected output: `Login Succeeded`
 +
 *Create the EKS cluster with Karpenter*
 +
-Store your Karpenter version in an environment variable for later use. For the latest Karpenter versions, see the https://github.com/aws/karpenter-provider-aws/releases[Karpenter releases] on GitHub.
+Store your Karpenter version in an environment variable for later use. Choose a Karpenter version that supports your cluster's Kubernetes version. This guide creates a Kubernetes `1.35` cluster, which requires Karpenter `1.9` or later, so it uses `1.12.0` here. For the version compatibility matrix and the latest releases, see https://karpenter.sh/docs/upgrading/compatibility/[Compatibility] and the https://github.com/aws/karpenter-provider-aws/releases[Karpenter releases] on GitHub.
 +
 [source,bash]
 ----
@@ -321,6 +321,67 @@ Expected output:
 NAME                   DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR      AGE
 nvidia-device-plugin   0         0         0       0            0           amiFamily=al2023   2m5s
 ----
++
+*Create a general-purpose NodePool*
++
+The `system` managed node group runs the add-ons and controllers. Add a general-purpose Karpenter `NodePool` so non-GPU workloads can scale on demand without landing on the `system` nodes. The GPU `NodePool` is created later in <<cluster-setup-cli-create-gpu-nodepool,Step 2>>.
++
+[#cluster-setup-cli-step1-karpenter-general-nodepool-yaml]
+.General-purpose EC2NodeClass and NodePool YAML
+[%collapsible, expand-section="_collapse_all_"]
+====
+[source,yaml]
+----
+cat << EOF | kubectl apply -f -
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: general-purpose
+spec:
+  role: "eksctl-KarpenterNodeRole-${CLUSTER_NAME}"
+  amiSelectorTerms:
+    - alias: al2023@latest
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: ${CLUSTER_NAME}
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: ${CLUSTER_NAME}
+  tags:
+    karpenter.sh/discovery: ${CLUSTER_NAME}
+---
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: general-purpose
+spec:
+  template:
+    spec:
+      nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
+        name: general-purpose
+      requirements:
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values: ["on-demand"]
+        - key: karpenter.k8s.aws/instance-category
+          operator: In
+          values: ["c", "m", "r"]
+        - key: karpenter.k8s.aws/instance-generation
+          operator: Gt
+          values: ["4"]
+        - key: kubernetes.io/arch
+          operator: In
+          values: ["amd64"]
+  limits:
+    cpu: 1000
+    memory: 1000Gi
+EOF
+----
+====
++
+This NodePool has no taints, so any Pod that does not tolerate the GPU taint can schedule on it.
 
 [WARNING]
 ====
@@ -375,6 +436,21 @@ EOF
 Self-managed Karpenter::
 +
 The cluster you created in this path does not include a load balancer controller. Install the {aws} Load Balancer Controller with IRSA and Helm by following the steps in <<lbc-helm,Install the {aws} Load Balancer Controller with Helm>>, then return here.
++
+Verify the controller is installed and running before continuing. It should report two available replicas:
++
+[source,bash]
+----
+kubectl get deployment aws-load-balancer-controller -n kube-system
+----
++
+Confirm the controller is configured with the correct cluster name. The `--cluster-name` argument must match your cluster, not the `my-cluster` placeholder from the install command. A mismatch does not fail the install, but the controller cannot discover your subnets and no ALB is created:
++
+[source,bash]
+----
+kubectl get deployment aws-load-balancer-controller -n kube-system \
+  -o jsonpath='{.spec.template.spec.containers[0].args}'
+----
 +
 The controller install registers an `IngressClass` named `alb`. Verify it exists:
 +
@@ -552,7 +628,7 @@ EOF
 +
 `instanceStorePolicy: RAID0` assembles local NVMe disks into a RAID-0 array. The `al2023@latest` AMI alias resolves to the EKS-optimized AL2023 AMI. When Karpenter launches a GPU instance type, it automatically selects the AL2023_x86_64_NVIDIA accelerated variant, which includes the NVIDIA driver pre-installed.
 +
-The `FastImagePull` feature gate enables SOCI snapshotter parallel pull mode, which downloads and unpacks image layers concurrently. This matches the EKS Auto Mode behavior on G, P, and Trn instance families.
+The `FastImagePull` feature gate enables SOCI snapshotter parallel pull mode, which downloads and unpacks image layers concurrently. This matches the EKS Auto Mode behavior on G, P, and Trn instance families. This is an EKS node bootstrap feature gate set in the AL2023 `NodeConfig` (`node.eks.aws/v1alpha1`), and is independent of the Karpenter controller feature gates such as `NodeRepair` set in <<cluster-setup-cli-create-cluster,Step 1>>.
 +
 For more SOCI tuning options (concurrent downloads per image, chunk size, etc.), see the https://github.com/aws-samples/karpenter-blueprints/tree/main/blueprints/soci-snapshotter[Karpenter SOCI blueprint].
 +
