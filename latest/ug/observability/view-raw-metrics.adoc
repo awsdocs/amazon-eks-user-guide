@@ -10,7 +10,7 @@ include::../attributes.txt[]
 The Kubernetes control plane exposes a number of metrics that are represented in a Prometheus format.
 --
 
-The Kubernetes control plane exposes a number of metrics that are represented in a https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exposition_formats.md[Prometheus format]. These metrics are useful for monitoring and analysis. They are exposed internally through metrics endpoints, and can be accessed without fully deploying Prometheus. However, deploying Prometheus more easily allows analyzing metrics over time.
+The Kubernetes control plane exposes a number of metrics that are represented in a https://github.com/prometheus/docs/blob/main/docs/instrumenting/exposition_formats.md[Prometheus format]. These metrics are useful for monitoring and analysis. They are exposed internally through metrics endpoints, and can be accessed without fully deploying Prometheus. However, deploying Prometheus more easily allows analyzing metrics over time.
 
 To view the raw metrics output, replace `endpoint` and run the following command.
 [source,bash,subs="verbatim,attributes"]
