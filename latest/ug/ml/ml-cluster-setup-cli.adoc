@@ -1313,8 +1313,6 @@ prometheus:
           maxSamplesPerSend: 1000
           maxShards: 200
           capacity: 2500
-    nodeSelector:
-      node-role: system
 
 prometheusOperator:
   resources:
@@ -1323,12 +1321,6 @@ prometheusOperator:
       memory: 128Mi
     limits:
       memory: 256Mi
-  nodeSelector:
-    node-role: system
-  admissionWebhooks:
-    patch:
-      nodeSelector:
-        node-role: system
 
 kube-state-metrics:
   resources:
@@ -1337,8 +1329,6 @@ kube-state-metrics:
       memory: 128Mi
     limits:
       memory: 512Mi
-  nodeSelector:
-    node-role: system
 
 grafana:
   enabled: true
@@ -1362,8 +1352,6 @@ grafana:
       memory: 256Mi
     limits:
       memory: 1Gi
-  nodeSelector:
-    node-role: system
   grafana.ini:
     auth.sigv4:
       enabled: true
