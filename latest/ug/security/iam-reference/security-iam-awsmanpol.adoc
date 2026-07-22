@@ -650,7 +650,7 @@ Added the ability for the EBS CSI Driver to enable Fast Snapshot Restore (FSR) o
 |Added `ec2:DescribeInstanceTopology` permission to allow Amazon EKS to attach topology information to the node as labels.
 |November 1, 2024
 
-|Introduced <<security-iam-awsmanpol-AmazonEKSBlockStoragePolicy>>.
+|Introduced link:aws-managed-policy/latest/reference/AmazonEKSBlockStoragePolicy.html[AmazonEKSBlockStoragePolicy,type="documentation"].
 |{aws} introduced the `AmazonEKSBlockStoragePolicy`.
 |October 30, 2024
 
