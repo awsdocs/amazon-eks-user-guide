@@ -34,7 +34,7 @@ Before starting this tutorial, you must complete the following steps:
 
 * Create an Amazon EKS cluster. To create one, see <<getting-started>>.
 * Install the Gateway API CRDs on the Amazon EKS cluster.
-* Install https://helm.sh/docs/helm/helm_install/[Helm] on your local machine.
+* Install https://helm.sh/docs/intro/install/[Helm] on your local machine.
 * Make sure that your Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS add-ons are at the minimum versions listed in <<boundserviceaccounttoken-validated-add-on-versions,Service account tokens>>.
 * Learn about {aws} Elastic Load Balancing concepts. For more information, see the link:elasticloadbalancing/latest/userguide/[Elastic Load Balancing User Guide,type="documentation"].
 * Learn about Kubernetes https://kubernetes.io/docs/concepts/services-networking/service/[service] and https://kubernetes.io/docs/concepts/services-networking/ingress/[ingress] resources.
