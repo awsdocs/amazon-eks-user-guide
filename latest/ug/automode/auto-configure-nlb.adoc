@@ -115,6 +115,10 @@ All of the following annotations need to be prefixed with `service.beta.kubernet
 |Specifies whether the load balancer uses IPv4 or dual-stack (IPv4 + IPv6).
 |`ipv4` or `dualstack`
 
+|`aws-load-balancer-listener-attributes.${Protocol}-${Port}`
+|Specifies listener attributes to apply to the listener.
+|`tcp.idle_timeout.seconds=350`
+
 |===
 
 == Considerations
