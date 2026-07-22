@@ -334,6 +334,25 @@ Later steps in this guide expose Grafana (and, in the inference walkthrough, a m
 
 *Verify subnet tags.* The ALB is placed in your VPC subnets based on {aws} resource tags. Public subnets used for internet-facing load balancers must be tagged `kubernetes.io/role/elb` = `1`, and private subnets used for internal load balancers must be tagged `kubernetes.io/role/internal-elb` = `1`. Because you created this cluster with `eksctl`, these tags are already applied to the subnets `eksctl` created. If you bring your own VPC or imported subnets, tag them manually. For details, see <<tag-subnets-auto>>.
 
+Confirm the role tags are present on your cluster's subnets:
+
+[source,bash]
+----
+VPC_ID=$(aws eks describe-cluster \
+  --name ${CLUSTER_NAME} \
+  --region ${AWS_REGION} \
+  --query 'cluster.resourcesVpcConfig.vpcId' \
+  --output text)
+
+aws ec2 describe-subnets \
+  --region ${AWS_REGION} \
+  --filters "Name=vpc-id,Values=${VPC_ID}" \
+  --query "Subnets[].{Subnet:SubnetId,AZ:AvailabilityZone,Roles:Tags[?starts_with(Key,'kubernetes.io/role/')].Key}" \
+  --output table
+----
+
+Each public subnet should list `kubernetes.io/role/elb` and each private subnet should list `kubernetes.io/role/internal-elb`. If the `Roles` column is empty for a subnet, add the appropriate tag before continuing (see <<tag-subnets-auto>>).
+
 The rest of the setup differs by path. EKS Auto Mode includes a built-in ALB controller, so you only create an `IngressClass`. Self-managed Karpenter has no load balancer controller, so you install the {aws} Load Balancer Controller first.
 
 [role="tablist",sync-group-id="cluster-path"]
