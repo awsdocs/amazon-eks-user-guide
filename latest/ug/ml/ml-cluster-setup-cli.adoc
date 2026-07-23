@@ -322,9 +322,7 @@ NAME                   DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE
 nvidia-device-plugin   0         0         0       0            0           amiFamily=al2023   2m5s
 ----
 +
-*Create a general-purpose NodePool*
-+
-The `system` managed node group runs the add-ons and controllers. Add a general-purpose Karpenter `NodePool` so non-GPU workloads can scale on demand without landing on the `system` nodes. The GPU `NodePool` is created later in <<cluster-setup-cli-create-gpu-nodepool,Step 2>>.
+Next, create a general-purpose NodePool. The `system` managed node group runs the add-ons and controllers. Add a general-purpose Karpenter `NodePool` so non-GPU workloads can scale on demand without landing on the `system` nodes. The GPU `NodePool` is created later in <<cluster-setup-cli-create-gpu-nodepool,Step 2>>.
 +
 [#cluster-setup-cli-step1-karpenter-general-nodepool-yaml]
 .General-purpose EC2NodeClass and NodePool YAML
@@ -393,7 +391,9 @@ For both the EKS Auto Mode and self-managed Karpenter paths, automatic node repa
 
 Later steps in this guide expose Grafana (and, in the inference walkthrough, a model endpoint) through an {aws} Application Load Balancer (ALB). Set up the load balancing prerequisites now so those sections can create an `Ingress` without further setup.
 
-*Verify subnet tags.* The ALB is placed in your VPC subnets based on {aws} resource tags. Public subnets used for internet-facing load balancers must be tagged `kubernetes.io/role/elb` = `1`, and private subnets used for internal load balancers must be tagged `kubernetes.io/role/internal-elb` = `1`. Because you created this cluster with `eksctl`, these tags are already applied to the subnets `eksctl` created. If you bring your own VPC or imported subnets, tag them manually. For details, see <<tag-subnets-auto>>.
+==== Verify subnet tags
+
+The ALB is placed in your VPC subnets based on {aws} resource tags. Public subnets used for internet-facing load balancers must be tagged `kubernetes.io/role/elb` = `1`, and private subnets used for internal load balancers must be tagged `kubernetes.io/role/internal-elb` = `1`. Because you created this cluster with `eksctl`, these tags are already applied to the subnets `eksctl` created. If you bring your own VPC or imported subnets, tag them manually. For details, see <<tag-subnets-auto>>.
 
 Confirm the role tags are present on your cluster's subnets:
 
@@ -413,6 +413,8 @@ aws ec2 describe-subnets \
 ----
 
 Each public subnet should list `kubernetes.io/role/elb` and each private subnet should list `kubernetes.io/role/internal-elb`. If the `Roles` column is empty for a subnet, add the appropriate tag before continuing (see <<tag-subnets-auto>>).
+
+==== Create the load balancer IngressClass
 
 The rest of the setup differs by path. EKS Auto Mode includes a built-in ALB controller, so you only create an `IngressClass`. Self-managed Karpenter has no load balancer controller, so you install the {aws} Load Balancer Controller first.
 
@@ -478,7 +480,7 @@ Both paths now have an `alb` `IngressClass`. The Grafana and inference sections 
 [#cluster-setup-cli-storage]
 === Set up persistent storage
 
-GPU workloads often need persistent storage, for example to cache model weights on the node so they are not re-downloaded on every pod restart. Set up an Amazon EBS `StorageClass` so `PersistentVolumeClaim` requests are fulfilled automatically. Neither path creates a default `StorageClass` for you.
+GPU workloads often need persistent storage—for example, to cache model weights on the node so Kubernetes does not re-download them on every pod restart. Set up an Amazon EBS `StorageClass` so `PersistentVolumeClaim` requests are fulfilled automatically. Neither path creates a default `StorageClass` for you.
 
 [role="tablist",sync-group-id="cluster-path"]
 EKS Auto Mode::
@@ -1260,6 +1262,8 @@ The values file also configures a Grafana `Ingress` so the chart provisions an i
 
 [WARNING]
 ====
+*Grafana is publicly accessible over HTTP with default credentials*
+
 Grafana includes default admin credentials and provides full administrative access to your monitoring data. An internet-facing load balancer places this interface on the public internet over plain text HTTP. Automated scanners discover public load balancers within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation, and treat source-IP allowlisting as a minimum safeguard, not a complete one. Also change the default Grafana admin password. For a stronger posture, use an *internal* scheme (reachable only from within your VPC or a connected VPN) by setting the scheme to `internal`, and add a TLS certificate.
 ====
 
@@ -1471,6 +1475,8 @@ You access Grafana through an internet-facing {aws} Application Load Balancer (A
 
 [NOTE]
 ====
+*Health check path is required for the Grafana ALB target group*
+
 The `alb.ingress.kubernetes.io/healthcheck-path` annotation in the values file points the load balancer's health checks at the Grafana `/api/health` endpoint, which returns `200`. Without it, the ALB health checks default to `/`, which Grafana answers with a `302` redirect to `/login`, causing the target group to report the endpoint as unhealthy.
 ====
 
@@ -1501,7 +1507,9 @@ image::images/ml-cluster-setup-cli-prometheus-metrics-validate.png["Grafana Dril
 
 If `up` shows results, the pipeline (cluster → Prometheus → AMP → Grafana) is working.
 
-*Update the allowlisted IP address.* If your public IP address changes (for example, a new network or a rotated NAT gateway) and you can no longer reach the ALB, update the `inbound-cidrs` allowlist. The recommended way is to re-run the `helm upgrade` with a new `MY_CIDR`, which keeps the values file as the source of truth:
+==== Update the allowlisted IP address
+
+If your public IP address changes (for example, a new network or a rotated NAT gateway) and you can no longer reach the ALB, update the `inbound-cidrs` allowlist. The recommended way is to re-run the `helm upgrade` with a new `MY_CIDR`, which keeps the values file as the source of truth:
 
 [source,bash]
 ----

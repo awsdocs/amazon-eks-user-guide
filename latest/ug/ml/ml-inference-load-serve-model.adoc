@@ -356,6 +356,8 @@ The port-forward approach shown previously is convenient for local testing, but 
 
 [WARNING]
 ====
+*vLLM endpoint is publicly accessible with no authentication*
+
 This exposes the vLLM inference endpoint on the public internet over plain text HTTP with no authentication. Anyone who can reach the endpoint can send inference requests and consume your cluster's GPU capacity. Automated scanners discover public load balancers within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation, and treat source-IP allowlisting as a minimum safeguard, not a complete one. For a stronger posture, use an *internal* scheme (reachable only from within your VPC or a connected VPN) by setting the scheme to `internal`, add a TLS certificate, and put authentication in front of the endpoint.
 ====
 
@@ -399,6 +401,8 @@ spec:
 
 [NOTE]
 ====
+*Health check path prevents unhealthy target group status*
+
 The `alb.ingress.kubernetes.io/healthcheck-path` annotation points the load balancer's health checks at the vLLM `/health` endpoint. Without it, the ALB health checks default to `/`, which vLLM answers with `404`, causing the target group to report the endpoint as unhealthy.
 ====
 
@@ -442,7 +446,12 @@ kubectl delete ingress vllm-ingress
 
 Leave the `alb` `IngressClass` in place. It is shared cluster foundation from <<cluster-setup-cli-loadbalancing,Set up load balancing>> and is also used by Grafana.
 
-NOTE: Port-forwarding (`kubectl port-forward svc/vllm-inference-svc 8000:8000`) remains a valid option for quick local testing without provisioning a load balancer.
+[NOTE]
+====
+*Port-forwarding is an alternative for local testing*
+
+Port-forwarding (`kubectl port-forward svc/vllm-inference-svc 8000:8000`) remains a valid option for quick local testing without provisioning a load balancer.
+====
 
 [#ml-inference-load-serve-model-monitoring]
 == Step 4: Monitor vLLM
