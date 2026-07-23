@@ -1525,6 +1525,27 @@ kubectl patch ingress kube-prometheus-stack-grafana -n monitoring --type merge \
   -p "{\"metadata\":{\"annotations\":{\"alb.ingress.kubernetes.io/inbound-cidrs\":\"$MY_CIDR\"}}}"
 ----
 
+==== Clean up the Grafana load balancer
+
+The Helm chart provisions the ALB from the `Ingress` object it creates, so the ALB incurs hourly and LCU charges for as long as that `Ingress` exists. Deleting the cluster does not remove the ALB unless you delete the `Ingress` first. When you no longer need browser access to Grafana, delete the `Ingress` to deprovision the ALB:
+
+[source,bash]
+----
+kubectl delete ingress kube-prometheus-stack-grafana -n monitoring
+----
+
+The next `helm upgrade` recreates the `Ingress` (and the ALB) from the values file, so use this when you are done with the monitoring stack or before you tear down the cluster. Leave the `alb` `IngressClass` in place; it is shared cluster foundation from <<cluster-setup-cli-loadbalancing,Set up load balancing>>.
+
+Confirm the load balancer is gone before deleting the cluster to avoid orphaned resources:
+
+[source,bash]
+----
+aws elbv2 describe-load-balancers \
+  --region ${AWS_REGION} \
+  --query "LoadBalancers[?contains(LoadBalancerName, 'grafana-ai-eks-docs')].LoadBalancerName" \
+  --output text
+----
+
 === Deploy the DCGM Exporter for GPU metrics
 
 The kube-prometheus-stack collects node-level CPU and memory metrics but not GPU metrics. The NVIDIA DCGM Exporter adds GPU utilization, memory usage, temperature, power draw, NVLink bandwidth, and tensor activity.
