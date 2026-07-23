@@ -326,8 +326,6 @@ Next, create a general-purpose NodePool. The `system` managed node group runs th
 +
 [#cluster-setup-cli-step1-karpenter-general-nodepool-yaml]
 .General-purpose EC2NodeClass and NodePool YAML
-[%collapsible, expand-section="_collapse_all_"]
-====
 [source,yaml]
 ----
 cat << EOF | kubectl apply -f -
@@ -377,7 +375,6 @@ spec:
     memory: 1000Gi
 EOF
 ----
-====
 +
 This NodePool has no taints, so any Pod that does not tolerate the GPU taint can schedule on it.
 
