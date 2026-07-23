@@ -356,7 +356,7 @@ The port-forward approach shown previously is convenient for local testing, but 
 
 [WARNING]
 ====
-This exposes the vLLM inference endpoint on the public internet over plain text HTTP with no authentication. Anyone who can reach the endpoint can send inference requests and consume your cluster's GPU capacity, and public load balancers are scanned within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation, and treat source-IP allowlisting as a minimum safeguard, not a complete one. For a stronger posture, use an *internal* scheme (reachable only from within your VPC or a connected VPN) by setting the scheme to `internal`, add a TLS certificate, and put authentication in front of the endpoint.
+This exposes the vLLM inference endpoint on the public internet over plain text HTTP with no authentication. Anyone who can reach the endpoint can send inference requests and consume your cluster's GPU capacity. Automated scanners discover public load balancers within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation, and treat source-IP allowlisting as a minimum safeguard, not a complete one. For a stronger posture, use an *internal* scheme (reachable only from within your VPC or a connected VPN) by setting the scheme to `internal`, add a TLS certificate, and put authentication in front of the endpoint.
 ====
 
 Find your public IP address to use as the allowlist CIDR:
@@ -370,7 +370,7 @@ Use the result as a `/32` CIDR (for example, `203.0.113.4/32`). If your network 
 
 This walkthrough uses the `alb` `IngressClass` and load balancing prerequisites you set up in the <<cluster-setup-cli-loadbalancing,Set up load balancing>> section of the cluster setup (subnet tags, plus the built-in controller for EKS Auto Mode or the {aws} Load Balancer Controller for self-managed Karpenter). If you have not completed that section, do so before creating the Ingress.
 
-Apply the following `Ingress`. It is the same for both paths, because the ALB scheme and other behavior are set through annotations on the `Ingress` rather than the `IngressClass`:
+Apply the following `Ingress`. It is the same for both paths, because you set the ALB scheme and other behavior through annotations on the `Ingress` rather than the `IngressClass`:
 
 [source,yaml]
 ----

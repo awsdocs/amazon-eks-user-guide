@@ -1260,7 +1260,7 @@ The values file also configures a Grafana `Ingress` so the chart provisions an i
 
 [WARNING]
 ====
-Grafana includes default admin credentials and provides full administrative access to your monitoring data. An internet-facing load balancer places this interface on the public internet over plain text HTTP, and public load balancers are scanned within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation, and treat source-IP allowlisting as a minimum safeguard, not a complete one. Also change the default Grafana admin password. For a stronger posture, use an *internal* scheme (reachable only from within your VPC or a connected VPN) by setting the scheme to `internal`, and add a TLS certificate.
+Grafana includes default admin credentials and provides full administrative access to your monitoring data. An internet-facing load balancer places this interface on the public internet over plain text HTTP. Automated scanners discover public load balancers within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation, and treat source-IP allowlisting as a minimum safeguard, not a complete one. Also change the default Grafana admin password. For a stronger posture, use an *internal* scheme (reachable only from within your VPC or a connected VPN) by setting the scheme to `internal`, and add a TLS certificate.
 ====
 
 Find your public IP address and store it as a `/32` CIDR. The values file reads this from the `MY_CIDR` environment variable:
