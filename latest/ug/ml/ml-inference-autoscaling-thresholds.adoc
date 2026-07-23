@@ -49,7 +49,9 @@ MODEL_BUCKET=$(aws s3api list-buckets \
 echo "Model bucket: ${MODEL_BUCKET}"
 ----
 
-*Confirm the monitoring stack is running.* The kube-prometheus-stack from the <<cluster-setup-cli-monitoring,Monitoring>> setup runs in the `monitoring` namespace.
+=== Confirm the monitoring stack is running
+
+The kube-prometheus-stack from the <<cluster-setup-cli-monitoring,Monitoring>> setup runs in the `monitoring` namespace.
 
 [source,bash]
 ----
@@ -68,7 +70,9 @@ prometheus-kube-prometheus-stack-prometheus-0     2/2     Running   0          3
 
 If these are missing, complete the <<cluster-setup-cli-monitoring,Monitoring>> setup before continuing.
 
-*Confirm the vLLM model is running.* The `vllm-inference-app` Deployment and `vllm-inference-svc` Service from <<ml-inference-load-serve-model,Load & Serve Models>> run in the `default` namespace.
+=== Confirm the vLLM model is running
+
+The `vllm-inference-app` Deployment and `vllm-inference-svc` Service from <<ml-inference-load-serve-model,Load & Serve Models>> run in the `default` namespace.
 
 [source,bash]
 ----
@@ -85,7 +89,9 @@ vllm-inference-app   1/1     1            1           3h
 
 If the Deployment is missing or not ready, complete <<ml-inference-load-serve-model,Load & Serve Models>> before continuing.
 
-*Access Grafana.* You watch the load test in the pre-loaded vLLM dashboard, so make sure the Grafana load balancer you set up in the <<cluster-setup-cli-grafana-loadbalancer,Access Grafana>> section is reachable. Retrieve its hostname:
+=== Access Grafana
+
+You watch the load test in the pre-loaded vLLM dashboard, so make sure the Grafana load balancer you set up in the <<cluster-setup-cli-grafana-loadbalancer,Access Grafana>> section is reachable. Retrieve its hostname:
 
 [source,bash]
 ----
@@ -99,7 +105,9 @@ Open the hostname in your browser and log in with username `admin` and the passw
 kubectl --namespace monitoring get secrets kube-prometheus-stack-grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
 ----
 
-*Confirm the vLLM ServiceMonitor exists.* The `vllm-inference-app` ServiceMonitor, created in the <<ml-inference-load-serve-model-monitoring,Monitor vLLM>> step, runs in the `default` namespace and tells Prometheus where to scrape vLLM metrics.
+=== Confirm the vLLM ServiceMonitor exists
+
+The `vllm-inference-app` ServiceMonitor, created in the <<ml-inference-load-serve-model-monitoring,Monitor vLLM>> step, runs in the `default` namespace and tells Prometheus where to scrape vLLM metrics.
 
 [source,bash]
 ----

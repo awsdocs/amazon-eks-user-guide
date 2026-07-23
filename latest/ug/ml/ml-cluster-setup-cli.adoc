@@ -480,7 +480,7 @@ Both paths now have an `alb` `IngressClass`. The Grafana and inference sections 
 [#cluster-setup-cli-storage]
 === Set up persistent storage
 
-GPU workloads often need persistent storage—for example, to cache model weights on the node so Kubernetes does not re-download them on every pod restart. Set up an Amazon EBS `StorageClass` so `PersistentVolumeClaim` requests are fulfilled automatically. Neither path creates a default `StorageClass` for you.
+GPU workloads often need persistent storage—for example, to cache model weights on the node so Kubernetes does not re-download them on every pod restart. Set up an Amazon EBS `StorageClass` so Kubernetes can fulfill `PersistentVolumeClaim` requests automatically. Neither path creates a default `StorageClass` for you.
 
 [role="tablist",sync-group-id="cluster-path"]
 EKS Auto Mode::
@@ -534,7 +534,7 @@ parameters:
 EOF
 ----
 
-Both paths now have a default `gp3` `StorageClass`. A `PersistentVolumeClaim` that does not name a `storageClassName` uses it, and `volumeBindingMode: WaitForFirstConsumer` delays volume creation until a pod is scheduled, so the EBS volume lands in the same Availability Zone as the pod.
+Both paths now have a default `gp3` `StorageClass`. A `PersistentVolumeClaim` that does not name a `storageClassName` uses it, and `volumeBindingMode: WaitForFirstConsumer` delays volume creation until Kubernetes schedules a pod, so the EBS volume lands in the same Availability Zone as the pod.
 
 [#cluster-setup-cli-create-gpu-nodepool]
 == Step 2: Create dynamic GPU NodePool
