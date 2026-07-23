@@ -1261,9 +1261,8 @@ This values file omits a nodeSelector for Prometheus, Grafana, and the operator:
 The values file also configures a Grafana `Ingress` so the chart provisions an internet-facing ALB for browser access, using the `alb` `IngressClass` you created in <<cluster-setup-cli-loadbalancing,Set up load balancing>>. The `alb.ingress.kubernetes.io/inbound-cidrs` annotation restricts the load balancer to your own IP address, so set it before you install.
 
 [WARNING]
+.Grafana is publicly accessible over HTTP with default credentials
 ====
-*Grafana is publicly accessible over HTTP with default credentials*
-
 Grafana includes default admin credentials and provides full administrative access to your monitoring data. An internet-facing load balancer places this interface on the public internet over plain text HTTP. Automated scanners discover public load balancers within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation, and treat source-IP allowlisting as a minimum safeguard, not a complete one. Also change the default Grafana admin password. For a stronger posture, use an *internal* scheme (reachable only from within your VPC or a connected VPN) by setting the scheme to `internal`, and add a TLS certificate.
 ====
 
@@ -1474,9 +1473,8 @@ Alertmanager is disabled in this setup.
 You access Grafana through an internet-facing {aws} Application Load Balancer (ALB). You do not create it here. The kube-prometheus-stack chart provisions it from the `grafana.ingress` configuration in the <<cluster-setup-cli-install-kube-prometheus,values file>>, using the `alb` `IngressClass` from <<cluster-setup-cli-loadbalancing,Set up load balancing>>. The Grafana Helm chart has built-in `Ingress` support, so no separate manifest is needed. The ALB is named `grafana-ai-eks-docs`, carries the label `guide: ai-eks-docs`, and is restricted to the IP address you set in `MY_CIDR` at install time.
 
 [NOTE]
+.Health check path is required for the Grafana ALB target group
 ====
-*Health check path is required for the Grafana ALB target group*
-
 The `alb.ingress.kubernetes.io/healthcheck-path` annotation in the values file points the load balancer's health checks at the Grafana `/api/health` endpoint, which returns `200`. Without it, the ALB health checks default to `/`, which Grafana answers with a `302` redirect to `/login`, causing the target group to report the endpoint as unhealthy.
 ====
 
