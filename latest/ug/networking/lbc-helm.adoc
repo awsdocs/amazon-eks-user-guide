@@ -83,6 +83,21 @@ eksctl create iamserviceaccount \
     --region <aws-region-code> \
     --approve
 ----
+. *Alternative:* If you prefer to use EKS Pod Identity instead of IAM Roles for Service Accounts (IRSA), you can run the following command. This single command creates the IAM role, attaches the policy, creates the Kubernetes service account, and creates the pod identity association in one step.
++
+[source,shell,subs="verbatim,attributes"]
+----
+eksctl create podidentityassociation \
+    --cluster <cluster-name> \
+    --namespace kube-system \
+    --service-account-name aws-load-balancer-controller \
+    --permission-policy-arns={arn-aws}iam::<AWS_ACCOUNT_ID>:policy/AWSLoadBalancerControllerIAMPolicy \
+    --role-name AmazonEKSLoadBalancerControllerRole \
+    --create-service-account \
+    --region <aws-region-code>
+----
++
+NOTE: You must install the Amazon EKS Pod Identity Agent add-on on your cluster before using this command. For more information, see <<pod-id-agent-setup>>.
 
 
 [#lbc-helm-install]
